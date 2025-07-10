@@ -1,16 +1,13 @@
 #include "monfaction.h"
 
-#include <array>
 #include <list>
 #include <map>
-#include <new>
 #include <set>
 #include <utility>
 
 #include "debug.h"
 #include "debug_menu.h"
 #include "generic_factory.h"
-#include "json.h"
 
 // for legacy reasons "monfaction::id" is called "name" in json
 static generic_factory<monfaction> faction_factory( "MONSTER_FACTION", "name" );
@@ -182,7 +179,7 @@ void monfactions::finalize()
     }
 }
 
-void monfaction::load( const JsonObject &jo, const std::string_view )
+void monfaction::load( const JsonObject &jo, std::string_view )
 {
     optional( jo, was_loaded, "base_faction", base_faction, mfaction_str_id() );
     optional( jo, was_loaded, "by_mood", _att_by_mood, string_id_reader<monfaction>() );

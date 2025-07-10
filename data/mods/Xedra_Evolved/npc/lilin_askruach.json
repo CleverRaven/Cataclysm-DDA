@@ -1,0 +1,286 @@
+[
+  {
+    "id": [ "TALK_FRIEND" ],
+    "type": "talk_topic",
+    "insert_before_standard_exits": true,
+    "//": "I'm writting \"energy\" instead of \"life energy\" or \"life force\"  because it sounds way more bening, which helps when trying to convince others to give some to you.  It also explains why you don't have to explain to them what ruach is.",
+    "responses": [
+      {
+        "text": "Can I take a little bit of your energy?  I really need some of it.",
+        "topic": "TTALK_FRIEND_FOLLOWER_RUACH_DRAIN_YES",
+        "condition": {
+          "and": [
+            { "u_has_trait": "LILIN_TRAITS" },
+            { "not": { "npc_has_trait": "LILIN_TRAITS" } },
+            { "not": { "npc_has_trait": "BLOOD_OF_SAINTS" } },
+            { "not": { "u_has_trait": "TURN_INTO_OWL_TRAITS" } },
+            { "not": { "u_has_trait": "LILIN_WAR_OWL_FORM_TRAITS" } },
+            { "math": [ "n_npc_trust()", ">=", "10" ] },
+            { "math": [ "n_npc_value()", ">=", "10" ] }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_FRIEND" ],
+    "type": "talk_topic",
+    "insert_before_standard_exits": true,
+    "responses": [
+      {
+        "text": "Can I take a little bit of your energy?  I really need some of it.",
+        "topic": "TALK_FRIEND_FOLLOWER_RUACH_DRAIN_KINDA",
+        "condition": {
+          "and": [
+            { "u_has_trait": "LILIN_TRAITS" },
+            { "not": { "npc_has_trait": "LILIN_TRAITS" } },
+            { "not": { "npc_has_trait": "BLOOD_OF_SAINTS" } },
+            { "not": { "u_has_trait": "TURN_INTO_OWL_TRAITS" } },
+            { "not": { "u_has_trait": "LILIN_WAR_OWL_FORM_TRAITS" } },
+            {
+              "not": { "and": [ { "math": [ "n_npc_trust()", ">=", "10" ] }, { "math": [ "n_npc_value()", ">=", "10" ] } ] }
+            },
+            { "math": [ "n_npc_trust()", ">", "0" ] },
+            { "math": [ "n_npc_value()", ">", "0" ] }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_FRIEND" ],
+    "type": "talk_topic",
+    "insert_before_standard_exits": true,
+    "responses": [
+      {
+        "text": "Can I take a little bit of your energy?  I really need some of it.",
+        "topic": "TALK_FRIEND_FOLLOWER_RUACH_DRAIN_IMPOSSIBLE",
+        "condition": {
+          "and": [
+            { "u_has_trait": "LILIN_TRAITS" },
+            { "or": [ { "npc_has_trait": "LILIN_TRAITS" }, { "npc_has_trait": "BLOOD_OF_SAINTS" } ] },
+            { "not": { "u_has_trait": "TURN_INTO_OWL_TRAITS" } },
+            { "not": { "u_has_trait": "LILIN_WAR_OWL_FORM_TRAITS" } }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_FRIEND" ],
+    "type": "talk_topic",
+    "insert_before_standard_exits": true,
+    "responses": [
+      {
+        "text": "Can I take a little bit of your energy?  I really need some of it.",
+        "topic": "TALK_FRIEND_FOLLOWER_RUACH_DRAIN_NOPE",
+        "condition": {
+          "and": [
+            { "or": [ { "math": [ "n_npc_trust()", "<=", "0" ] }, { "math": [ "n_npc_value()", "<=", "0" ] } ] },
+            { "u_has_trait": "LILIN_TRAITS" },
+            { "not": { "npc_has_trait": "LILIN_TRAITS" } },
+            { "not": { "npc_has_trait": "BLOOD_OF_SAINTS" } },
+            { "not": { "u_has_trait": "TURN_INTO_OWL_TRAITS" } },
+            { "not": { "u_has_trait": "LILIN_WAR_OWL_FORM_TRAITS" } }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_FRIEND" ],
+    "type": "talk_topic",
+    "insert_before_standard_exits": true,
+    "responses": [
+      {
+        "text": "Can I take a little bit of your energy?  I really need some of it.",
+        "topic": "TALK_FRIEND_FOLLOWER_RUACH_DRAIN_OWL_FORM",
+        "condition": {
+          "and": [
+            { "u_has_trait": "LILIN_TRAITS" },
+            { "or": [ { "u_has_trait": "TURN_INTO_OWL_TRAITS" }, { "u_has_trait": "LILIN_WAR_OWL_FORM_TRAITS" } ] }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TTALK_FRIEND_FOLLOWER_RUACH_DRAIN_YES",
+    "//": "As long as you don't drain more than once every three days, NPCs tolerate it better than vampire bites.",
+    "//2": "All opinion loss is handled by the EOC.",
+    "//3": "Unlike vampires, lilin can drain as much as they want.  This is counterbalanced by the EOC reducing the NPC's opinion the more they do it in a short timespan, until the NPC refuses to let them drain more.",
+    "dynamic_line": {
+      "npc_has_effect": "effect_lilin_ruach_drain_side_effects",
+      "yes": "Already needing more?  I suppose that if you really need it, then you can take some more from me.",
+      "no": "Sure!  Anything to help you feel better."
+    },
+    "responses": [
+      {
+        "text": "[Take some ruach] Thank you.  Can we talk about something else?",
+        "topic": "TALK_FRIEND",
+        "effect": [ { "run_eocs": "EOC_LILIN_RUACH_DRAIN_DIALOGUE", "alpha_talker": "npc", "beta_talker": "avatar" } ]
+      },
+      {
+        "text": "[Take some ruach] Thank you.  See you later.",
+        "topic": "TALK_DONE",
+        "effect": [ { "run_eocs": "EOC_LILIN_RUACH_DRAIN_DIALOGUE", "alpha_talker": "npc", "beta_talker": "avatar" } ]
+      },
+      { "text": "I changed my mind.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FRIEND_FOLLOWER_RUACH_DRAIN_KINDA",
+    "dynamic_line": {
+      "npc_has_effect": "effect_lilin_ruach_drain_side_effects",
+      "yes": "This soon?  Fine, you can have some more.  But next time I'd prefer you ask someone else.",
+      "no": "Yeah, you can.  but you better not take any more than you need."
+    },
+    "responses": [
+      {
+        "text": "[Take some ruach] Thank you.  Can we talk about something else?",
+        "topic": "TALK_FRIEND",
+        "effect": [ { "run_eocs": "EOC_LILIN_RUACH_DRAIN_DIALOGUE", "alpha_talker": "npc", "beta_talker": "avatar" } ]
+      },
+      {
+        "text": "[Take some ruach] Thank you.  See you later.",
+        "topic": "TALK_DONE",
+        "effect": [ { "run_eocs": "EOC_LILIN_RUACH_DRAIN_DIALOGUE", "alpha_talker": "npc", "beta_talker": "avatar" } ]
+      },
+      { "text": "I changed my mind.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FRIEND_FOLLOWER_RUACH_DRAIN_NOPE",
+    "dynamic_line": "Nope.  I'm not giving you any of mine.  Find someone else if you want some.",
+    "responses": [
+      { "text": "Got it.  Can we talk about something else?", "topic": "TALK_FRIEND" },
+      { "text": "Got it.  See you later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FRIEND_FOLLOWER_RUACH_DRAIN_IMPOSSIBLE",
+    "dynamic_line": "(you sense that you won't be able to drain this person's ruach, so you decide to not ask your question)",
+    "responses": [
+      { "text": "(Ask them about something else)", "topic": "TALK_FRIEND" },
+      { "text": "(Go do something else)", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FRIEND_FOLLOWER_RUACH_DRAIN_OWL_FORM",
+    "//": "separate dialogue to include a more explicit message about why the follower cannot be drained.",
+    "dynamic_line": "(you sense that you won't be able to drain this person's ruach while you are maintaining your owl transformation, so you decide to not ask your question)",
+    "responses": [
+      { "text": "(Ask them about something else)", "topic": "TALK_FRIEND" },
+      { "text": "(Go do something else)", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_RUACH_DRAIN_DIALOGUE",
+    "//": "Another EOC is required so the game can check if the follower allowed without making all NPCs okay with being drained once every three days.",
+    "//2": "No check for asleep as you need to ask them for this EOC to happen.",
+    "effect": [
+      { "math": [ "n_vitamin('lilin_ruach_vitamin')", "+=", "rng(200,300)" ] },
+      { "npc_message": "You feel a rush of warmth as you absorb the ruach.", "type": "good" },
+      { "math": [ "u_lilin_ruach_drained_recently = 1" ] },
+      { "run_eocs": "EOC_LILIN_RUACH_DRAIN_SIDE_EFFECTS_DIALOGUE" },
+      {
+        "if": { "npc_has_trait": "LILIN_REDUCED_NEEDS_WITH_RUACH_AND_KCAL_DRAIN" },
+        "then": { "run_eocs": "EOC_LILIN_RUACH_DRAIN_SIDE_GAIN_SUSTENANCE" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_RUACH_DRAIN_SIDE_EFFECTS_DIALOGUE",
+    "effect": [
+      {
+        "u_add_effect": "effect_lilin_ruach_drain_side_effects",
+        "intensity": { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects') + 1" ] },
+        "duration": [ "72 h", "72 h" ]
+      },
+      {
+        "if": {
+          "and": [
+            { "u_has_effect": "effect_lilin_allowed_ruach_drain" },
+            { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects')", ">=", "1" ] }
+          ]
+        },
+        "then": { "math": [ "u_npc_fear()", "+=", "1 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)" ] }
+      },
+      {
+        "if": {
+          "and": [
+            { "math": [ "rand(1)", "==", "1" ] },
+            { "u_has_effect": "effect_lilin_allowed_ruach_drain" },
+            { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects')", ">=", "1" ] }
+          ]
+        },
+        "then": { "math": [ "u_npc_trust()", "-=", "1 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)" ] }
+      },
+      {
+        "if": {
+          "and": [
+            { "math": [ "rand(2)", "==", "2" ] },
+            { "u_has_effect": "effect_lilin_allowed_ruach_drain" },
+            { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects')", ">=", "2" ] }
+          ]
+        },
+        "then": { "math": [ "u_npc_value()", "-=", "1 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)" ] }
+      },
+      {
+        "u_deal_damage": "biological",
+        "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)- 3), 0 )" ] },
+        "bodypart": "head"
+      },
+      {
+        "u_deal_damage": "biological",
+        "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)- 3), 0 )" ] },
+        "bodypart": "arm_l"
+      },
+      {
+        "u_deal_damage": "biological",
+        "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)- 3), 0 )" ] },
+        "bodypart": "arm_r"
+      },
+      {
+        "u_deal_damage": "biological",
+        "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)- 3), 0 )" ] },
+        "bodypart": "torso"
+      },
+      {
+        "u_deal_damage": "biological",
+        "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)- 3), 0 )" ] },
+        "bodypart": "leg_r"
+      },
+      {
+        "u_deal_damage": "biological",
+        "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)- 3), 0 )" ] },
+        "bodypart": "leg_l"
+      },
+      {
+        "if": {
+          "and": [
+            { "math": [ "rand(1)", "==", "1" ] },
+            { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects')", ">=", "2" ] }
+          ]
+        },
+        "then": { "math": [ "u_val('sleepiness')", "+=", "2 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') * 1.5)" ] }
+      },
+      {
+        "if": { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects')", ">=", "4" ] },
+        "then": {
+          "u_add_effect": "staggered_character",
+          "intensity": 1,
+          "duration": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') - 3) * 2), 0 )" ] }
+        }
+      },
+      { "u_add_effect": "effect_lilin_allowed_ruach_drain", "duration": [ "72 h", "72 h" ] }
+    ]
+  }
+]

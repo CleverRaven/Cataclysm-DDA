@@ -1,0 +1,326 @@
+[
+  {
+    "//": "Extend with the danger widget",
+    "copy-from": "legacy_classic_sidebar",
+    "type": "widget",
+    "id": "legacy_classic_sidebar",
+    "extend": { "widgets": [ "shield_layout" ] }
+  },
+  {
+    "//": "Extend with the danger widget",
+    "copy-from": "legacy_compact_sidebar",
+    "type": "widget",
+    "id": "legacy_compact_sidebar",
+    "extend": { "widgets": [ "shield_layout" ] }
+  },
+  {
+    "//": "Extend with the danger widget",
+    "copy-from": "legacy_labels_narrow_sidebar",
+    "type": "widget",
+    "id": "legacy_labels_narrow_sidebar",
+    "extend": { "widgets": [ "shield_layout" ] }
+  },
+  {
+    "//": "Extend with the danger widget",
+    "copy-from": "legacy_labels_sidebar",
+    "type": "widget",
+    "id": "legacy_labels_sidebar",
+    "extend": { "widgets": [ "shield_layout" ] }
+  },
+  {
+    "//": "Extend with the danger widget",
+    "copy-from": "structured_sidebar",
+    "type": "widget",
+    "id": "structured_sidebar",
+    "extend": { "widgets": [ "shield_layout" ] }
+  },
+  {
+    "id": "shield_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "label": "SHIELD",
+    "label_align": "right",
+    "text_align": "right",
+    "widgets": [ "shield_layout_1", "shield_layout_2" ],
+    "flags": [ "W_NO_PADDING" ]
+  },
+  {
+    "id": "shield_layout_2",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "label": "SHIELD",
+    "widgets": [ "shield_empty", "shield_rad_warning" ]
+  },
+  {
+    "id": "shield_layout_1",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "label": "SHIELD",
+    "widgets": [ "shield_title", "shield_gauge", "shield_power_gauge" ]
+  },
+  {
+    "id": "shield_gauge",
+    "type": "widget",
+    "style": "text",
+    "label": "INTGR",
+    "width": 19,
+    "clauses": [
+      {
+        "id": "full30",
+        "text": { "str": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇</color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_shield_ratio", ">=", "96.67" ] }
+      },
+      {
+        "id": "full29",
+        "text": { "str": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▅</color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_shield_ratio", ">=", "93.33" ] }
+      },
+      {
+        "id": "full28",
+        "text": { "str": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▂</color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_shield_ratio", ">=", "90.00" ] }
+      },
+      {
+        "id": "full27",
+        "text": { "str": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇  </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_shield_ratio", ">=", "86.67" ] }
+      },
+      {
+        "id": "full26",
+        "text": { "str": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▅  </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_shield_ratio", ">=", "83.33" ] }
+      },
+      {
+        "id": "full25",
+        "text": { "str": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▂  </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_shield_ratio", ">=", "80.00" ] }
+      },
+      {
+        "id": "full24",
+        "text": { "str": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇    </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_shield_ratio", ">=", "76.67" ] }
+      },
+      {
+        "id": "full23",
+        "text": { "str": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▇ ▇ ▅    </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_shield_ratio", ">=", "73.33" ] }
+      },
+      {
+        "id": "full22",
+        "text": { "str": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▇ ▇ ▂    </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_shield_ratio", ">=", "70.00" ] }
+      },
+      {
+        "id": "full21",
+        "text": { "str": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▇ ▇      </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_shield_ratio", ">=", "66.67" ] }
+      },
+      {
+        "id": "full20",
+        "text": { "str": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▇ ▅      </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_shield_ratio", ">=", "63.33" ] }
+      },
+      {
+        "id": "full19",
+        "text": { "str": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▇ ▂      </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_shield_ratio", ">=", "60.00" ] }
+      },
+      {
+        "id": "full18",
+        "text": { "str": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▇        </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_shield_ratio", ">=", "56.67" ] }
+      },
+      {
+        "id": "full17",
+        "text": { "str": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▅        </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_shield_ratio", ">=", "53.33" ] }
+      },
+      {
+        "id": "full16",
+        "text": { "str": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▂        </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_shield_ratio", ">=", "50.00" ] }
+      },
+      {
+        "id": "full15",
+        "text": { "str": "<color_yellow>▇ ▇ ▇ ▇ ▇          </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_shield_ratio", ">=", "46.67" ] }
+      },
+      {
+        "id": "full14",
+        "text": { "str": "<color_yellow>▇ ▇ ▇ ▇ ▅          </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_shield_ratio", ">=", "43.33" ] }
+      },
+      {
+        "id": "full13",
+        "text": { "str": "<color_yellow>▇ ▇ ▇ ▇ ▂          </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_shield_ratio", ">=", "40.00" ] }
+      },
+      {
+        "id": "full12",
+        "text": { "str": "<color_yellow>▇ ▇ ▇ ▇            </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_shield_ratio", ">=", "36.67" ] }
+      },
+      {
+        "id": "full11",
+        "text": { "str": "<color_yellow>▇ ▇ ▇ ▅            </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_shield_ratio", ">=", "33.33" ] }
+      },
+      {
+        "id": "full10",
+        "text": { "str": "<color_yellow>▇ ▇ ▇ ▂            </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_shield_ratio", ">=", "30.00" ] }
+      },
+      {
+        "id": "full9",
+        "text": { "str": "<color_yellow>▇ ▇ ▇              </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_shield_ratio", ">=", "26.67" ] }
+      },
+      {
+        "id": "full8",
+        "text": { "str": "<color_light_red>▇ ▇ ▅              </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_shield_ratio", ">=", "23.33" ] }
+      },
+      {
+        "id": "full7",
+        "text": { "str": "<color_light_red>▇ ▇ ▂              </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_shield_ratio", ">=", "20.00" ] }
+      },
+      {
+        "id": "full6",
+        "text": { "str": "<color_light_red>▇ ▇                </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_shield_ratio", ">=", "16.67" ] }
+      },
+      {
+        "id": "full5",
+        "text": { "str": "<color_light_red>▇ ▅                </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_shield_ratio", ">=", "13.33" ] }
+      },
+      {
+        "id": "full4",
+        "text": { "str": "<color_light_red>▇ ▂                </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_shield_ratio", ">=", "10.00" ] }
+      },
+      {
+        "id": "full3",
+        "text": { "str": "<color_light_red>▇                  </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_shield_ratio", ">=", "6.67" ] }
+      },
+      {
+        "id": "full2",
+        "text": { "str": "<color_light_red>▅                  </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_shield_ratio", ">=", "3.33" ] }
+      },
+      {
+        "id": "full1",
+        "text": { "str": "<color_light_red>▂                  </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_shield_ratio", ">", "0.00" ] }
+      },
+      {
+        "id": "empty",
+        "text": "<color_red>      OFFLINE      </color>",
+        "condition": { "math": [ "u_shield_ratio", "<=", "0.00" ] }
+      }
+    ],
+    "flags": [ "W_NO_PADDING" ]
+  },
+  {
+    "id": "shield_power_gauge",
+    "type": "widget",
+    "style": "text",
+    "label": "POWER",
+    "width": 19,
+    "clauses": [
+      {
+        "id": "full10",
+        "text": { "str": "<color_red>▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇</color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_shield_power_ratio", ">=", "90" ] }
+      },
+      {
+        "id": "full9",
+        "text": { "str": "<color_red>▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇  </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_shield_power_ratio", ">=", "80" ] }
+      },
+      {
+        "id": "full8",
+        "text": { "str": "<color_red>▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇    </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_shield_power_ratio", ">=", "70" ] }
+      },
+      {
+        "id": "full7",
+        "text": { "str": "<color_red>▇ ▇ ▇ ▇ ▇ ▇ ▇      </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_shield_power_ratio", ">=", "60" ] }
+      },
+      {
+        "id": "full6",
+        "text": { "str": "<color_red>▇ ▇ ▇ ▇ ▇ ▇        </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_shield_power_ratio", ">=", "50" ] }
+      },
+      {
+        "id": "full5",
+        "text": { "str": "<color_red>▇ ▇ ▇ ▇ ▇          </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_shield_power_ratio", ">=", "40" ] }
+      },
+      {
+        "id": "full4",
+        "text": { "str": "<color_red>▇ ▇ ▇ ▇            </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_shield_power_ratio", ">=", "30" ] }
+      },
+      {
+        "id": "full3",
+        "text": { "str": "<color_red>▇ ▇ ▇              </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_shield_power_ratio", ">=", "20" ] }
+      },
+      {
+        "id": "full2",
+        "text": { "str": "<color_red>▇ ▇                </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_shield_power_ratio", ">=", "10" ] }
+      },
+      {
+        "id": "full1",
+        "text": { "str": "<color_red>▇                  </color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_shield_power_ratio", ">", "0" ] }
+      },
+      {
+        "id": "empty",
+        "text": "<color_red>      OFFLINE      </color>",
+        "condition": { "math": [ "u_shield_power_ratio", "<=", "0" ] }
+      }
+    ],
+    "flags": [ "W_NO_PADDING" ]
+  },
+  {
+    "id": "shield_rad_warning",
+    "type": "widget",
+    "width": 8,
+    "style": "text",
+    "clauses": [
+      {
+        "id": "danger",
+        "text": "  ☢DNGR☢",
+        "color": "red",
+        "condition": { "and": [ { "math": [ "u_shield_ratio", "<", "25" ] }, { "math": [ "u_shield_ratio", ">=", "0" ] } ] }
+      }
+    ],
+    "default_clause": { "text": "  ☢DNGR☢", "color": "dark_gray" },
+    "flags": [ "W_LABEL_NONE", "W_NO_PADDING" ]
+  },
+  {
+    "id": "shield_title",
+    "type": "widget",
+    "width": 8,
+    "style": "text",
+    "string": "SHIELDING:",
+    "flags": [ "W_LABEL_NONE", "W_NO_PADDING" ]
+  },
+  {
+    "id": "shield_empty",
+    "type": "widget",
+    "width": 8,
+    "style": "text",
+    "string": "",
+    "flags": [ "W_LABEL_NONE", "W_NO_PADDING" ]
+  }
+]

@@ -1,0 +1,41 @@
+[
+  {
+    "id": "avatar_moxie_kills",
+    "type": "event_transformation",
+    "event_transformation": "avatar_species_kills",
+    "value_constraints": { "species": { "equals": [ "species_id", "MOXIE" ] } }
+  },
+  {
+    "id": "num_avatar_moxie_kills",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_moxie_kills",
+    "description": { "str": "moxie killed", "str_pl": "moxies killed" }
+  },
+  {
+    "id": "avatar_uplift_kills",
+    "type": "event_transformation",
+    "event_transformation": "avatar_species_kills",
+    "value_constraints": { "species": { "equals": [ "species_id", "UPLIFT" ] } }
+  },
+  {
+    "id": "num_avatar_uplift_kills",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_uplift_kills",
+    "description": { "str": "uplift killed", "str_pl": "uplifts killed" }
+  },
+  {
+    "id": "avatar_biomachine_kills",
+    "type": "event_transformation",
+    "event_transformation": "avatar_species_kills",
+    "value_constraints": { "species": { "equals": [ "species_id", "BIOMACHINE" ] } }
+  },
+  {
+    "id": "num_avatar_biomachine_kills",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_biomachine_kills",
+    "description": { "str": "biomachine killed", "str_pl": "biomachines killed" }
+  }
+]

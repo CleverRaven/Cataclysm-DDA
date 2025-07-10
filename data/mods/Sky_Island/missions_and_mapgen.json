@@ -5,11 +5,7 @@
     "//": "Called on landing.  Adds the major earthside affects that are required to register the player as not at home, warpcloak invisibility, starts warpsickness ticking, and creates exits, slaughter missions, and target missions.",
     "condition": { "not": { "u_near_om_location": "sky_island_core", "range": 4 } },
     "effect": [
-      {
-        "u_add_effect": "warpcloak",
-        "intensity": 1,
-        "duration": { "global_val": "var", "var_name": "invistime", "default": "60 s" }
-      },
+      { "u_add_effect": "warpcloak", "intensity": 1, "duration": { "global_val": "invistime", "default": "60 s" } },
       {
         "u_message": "You're still materializing and not fully visible yet.  In about <global_val:invistime> seconds, the world will be able to see you, so if you were warped into danger, now's your chance to get to cover.",
         "popup": false
@@ -19,9 +15,9 @@
         "popup": true
       },
       { "u_add_trait": "awayfromhome" },
-      { "math": [ "timeawayfromhome", "=", "0 - bonuspulses" ] },
+      { "math": [ "timeawayfromhome = 0 - bonuspulses" ] },
       { "u_add_effect": "warpsickness", "intensity": 6, "duration": "PERMANENT" },
-      { "run_eocs": [ "EOC_create_slaughter" ] },
+      { "run_eocs": [ "EOC_create_slaughter", "EOC_SKY_ISLAND_CLIMATE_RESET" ] },
       {
         "switch": { "math": [ "bonusmissions" ] },
         "cases": [
@@ -42,8 +38,8 @@
         ]
       },
       {
-        "if": { "math": [ "goingtolabs", "==", "1" ] },
-        "then": [ { "u_consume_item": "warp_labs_catalyst", "count": 1 }, { "math": [ "goingtolabs", "=", "0" ] } ]
+        "if": { "math": [ "goingtolabs == 1" ] },
+        "then": [ { "u_consume_item": "warp_labs_catalyst", "count": 1 }, { "math": [ "goingtolabs = 0" ] } ]
       }
     ],
     "false_effect": [
@@ -61,8 +57,8 @@
       {
         "weighted_list_eocs": [
           [ "EOC_Location1e", 15 ],
-          [ "EOC_Location2e", { "global_val": "var", "var_name": "hardmissions", "default": 0 } ],
-          [ "EOC_Location3e", { "global_val": "var", "var_name": "hardermissions", "default": 0 } ]
+          [ "EOC_Location2e", { "global_val": "hardmissions", "default": 0 } ],
+          [ "EOC_Location3e", { "global_val": "hardermissions", "default": 0 } ]
         ]
       }
     ]
@@ -75,8 +71,8 @@
       {
         "weighted_list_eocs": [
           [ "EOC_Location1m", 15 ],
-          [ "EOC_Location2m", { "global_val": "var", "var_name": "hardmissions", "default": 0 } ],
-          [ "EOC_Location3m", { "global_val": "var", "var_name": "hardermissions", "default": 0 } ]
+          [ "EOC_Location2m", { "global_val": "hardmissions", "default": 0 } ],
+          [ "EOC_Location3m", { "global_val": "hardermissions", "default": 0 } ]
         ]
       }
     ]
@@ -98,15 +94,15 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_create_slaughter",
-    "condition": { "math": [ "slaughterunlocked", "==", "1" ] },
+    "condition": { "math": [ "slaughterunlocked == 1" ] },
     "effect": [
       {
         "weighted_list_eocs": [
           [ "EOC_slaughtermission1", 10 ],
           [ "EOC_slaughtermission2", 20 ],
-          [ "EOC_slaughtermission3", { "global_val": "var", "var_name": "hardermissions", "default": 0 } ],
-          [ "EOC_slaughtermission4", { "global_val": "var", "var_name": "hardermissions", "default": 0 } ],
-          [ "EOC_slaughtermission5", { "global_val": "var", "var_name": "hardmissions", "default": 0 } ],
+          [ "EOC_slaughtermission3", { "global_val": "hardermissions", "default": 0 } ],
+          [ "EOC_slaughtermission4", { "global_val": "hardermissions", "default": 0 } ],
+          [ "EOC_slaughtermission5", { "global_val": "hardmissions", "default": 0 } ],
           [ "EOC_slaughtermission6", 5 ],
           [ "EOC_slaughtermission7", 5 ]
         ]
@@ -131,17 +127,17 @@
           [ "EOC_bonusmission_3", 10 ],
           [ "EOC_bonusmission_4", 15 ],
           [ "EOC_bonusmission_5", 10 ],
-          [ "EOC_bonusmission_6", { "global_val": "var", "var_name": "hardmissions", "default": 0 } ],
-          [ "EOC_bonusmission_7", { "global_val": "var", "var_name": "hardermissions", "default": 0 } ],
-          [ "EOC_bonusmission_8", { "global_val": "var", "var_name": "hardermissions", "default": 0 } ],
-          [ "EOC_bonusmission_9", { "global_val": "var", "var_name": "hardestmissions", "default": 0 } ],
-          [ "EOC_bonusmission_12", { "global_val": "var", "var_name": "hardestmissions", "default": 0 } ],
-          [ "EOC_bonusmission_13", { "global_val": "var", "var_name": "hardestmissions", "default": 0 } ],
-          [ "EOC_bonusmission_10", { "global_val": "var", "var_name": "hardermissions", "default": 0 } ],
-          [ "EOC_bonusmission_11", { "global_val": "var", "var_name": "hardestmissions", "default": 0 } ],
-          [ "EOC_assassinmission1", { "global_val": "var", "var_name": "hardmissions", "default": 0 } ],
-          [ "EOC_assassinmission2", { "global_val": "var", "var_name": "hardermissions", "default": 0 } ],
-          [ "EOC_assassinmission3", { "global_val": "var", "var_name": "hardestmissions", "default": 0 } ]
+          [ "EOC_bonusmission_6", { "global_val": "hardmissions", "default": 0 } ],
+          [ "EOC_bonusmission_7", { "global_val": "hardermissions", "default": 0 } ],
+          [ "EOC_bonusmission_8", { "global_val": "hardermissions", "default": 0 } ],
+          [ "EOC_bonusmission_9", { "global_val": "hardestmissions", "default": 0 } ],
+          [ "EOC_bonusmission_12", { "global_val": "hardestmissions", "default": 0 } ],
+          [ "EOC_bonusmission_13", { "global_val": "hardestmissions", "default": 0 } ],
+          [ "EOC_bonusmission_10", { "global_val": "hardermissions", "default": 0 } ],
+          [ "EOC_bonusmission_11", { "global_val": "hardestmissions", "default": 0 } ],
+          [ "EOC_assassinmission1", { "global_val": "hardmissions", "default": 0 } ],
+          [ "EOC_assassinmission2", { "global_val": "hardermissions", "default": 0 } ],
+          [ "EOC_assassinmission3", { "global_val": "hardestmissions", "default": 0 } ]
         ]
       }
     ]
@@ -273,7 +269,7 @@
           "om_terrain_match_type": "CONTAINS",
           "search_range": 1200,
           "min_distance": 200,
-          "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancelanding", "default": 0 },
+          "reveal_radius": { "global_val": "scoutingdistancelanding", "default": 0 },
           "z": 0,
           "random": true
         }
@@ -292,7 +288,7 @@
           "om_terrain_match_type": "CONTAINS",
           "search_range": 1200,
           "min_distance": 200,
-          "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancelanding", "default": 0 },
+          "reveal_radius": { "global_val": "scoutingdistancelanding", "default": 0 },
           "z": 0,
           "random": true
         }
@@ -311,7 +307,7 @@
           "om_terrain_match_type": "CONTAINS",
           "search_range": 1200,
           "min_distance": 200,
-          "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancelanding", "default": 0 },
+          "reveal_radius": { "global_val": "scoutingdistancelanding", "default": 0 },
           "z": 0,
           "random": true
         }
@@ -328,9 +324,9 @@
         "target_params": {
           "om_terrain": "field",
           "om_terrain_match_type": "CONTAINS",
-          "search_range": { "global_val": "var", "var_name": "exfildistancemax", "default": 30 },
-          "min_distance": { "global_val": "var", "var_name": "exfildistancemin", "default": 5 },
-          "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancetargets", "default": 0 },
+          "search_range": { "global_val": "exfildistancemax", "default": 30 },
+          "min_distance": { "global_val": "exfildistancemin", "default": 5 },
+          "reveal_radius": { "global_val": "scoutingdistancetargets", "default": 0 },
           "z": 0,
           "random": true
         }
@@ -347,9 +343,9 @@
         "target_params": {
           "om_terrain": "forest",
           "om_terrain_match_type": "CONTAINS",
-          "search_range": { "global_val": "var", "var_name": "exfildistancemax", "default": 30 },
-          "min_distance": { "global_val": "var", "var_name": "exfildistancemin", "default": 5 },
-          "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancetargets", "default": 0 },
+          "search_range": { "global_val": "exfildistancemax", "default": 30 },
+          "min_distance": { "global_val": "exfildistancemin", "default": 5 },
+          "reveal_radius": { "global_val": "scoutingdistancetargets", "default": 0 },
           "z": 0,
           "random": true
         }
@@ -366,9 +362,9 @@
         "target_params": {
           "om_terrain": "house",
           "om_terrain_match_type": "CONTAINS",
-          "search_range": { "global_val": "var", "var_name": "exfildistancemax", "default": 30 },
-          "min_distance": { "global_val": "var", "var_name": "exfildistancemin", "default": 5 },
-          "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancetargets", "default": 0 },
+          "search_range": { "global_val": "exfildistancemax", "default": 30 },
+          "min_distance": { "global_val": "exfildistancemin", "default": 5 },
+          "reveal_radius": { "global_val": "scoutingdistancetargets", "default": 0 },
           "z": 0,
           "random": true
         }
@@ -385,14 +381,14 @@
         "target_params": {
           "om_terrain": "field",
           "om_terrain_match_type": "CONTAINS",
-          "search_range": { "global_val": "var", "var_name": "missiondistancemax", "default": 30 },
-          "min_distance": { "global_val": "var", "var_name": "missiondistancemin", "default": 5 },
-          "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancetargets", "default": 0 },
+          "search_range": { "global_val": "missiondistancemax", "default": 30 },
+          "min_distance": { "global_val": "missiondistancemin", "default": 5 },
+          "reveal_radius": { "global_val": "scoutingdistancetargets", "default": 0 },
           "z": 0,
           "random": true
         }
       },
-      { "math": [ "total_difficulty_bonus", "=", "lengthofthisraid" ] }
+      { "math": [ "total_difficulty_bonus = lengthofthisraid" ] }
     ]
   },
   {
@@ -405,14 +401,14 @@
         "target_params": {
           "om_terrain": "forest",
           "om_terrain_match_type": "CONTAINS",
-          "search_range": { "global_val": "var", "var_name": "missiondistancemax", "default": 30 },
-          "min_distance": { "global_val": "var", "var_name": "missiondistancemin", "default": 5 },
-          "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancetargets", "default": 0 },
+          "search_range": { "global_val": "missiondistancemax", "default": 30 },
+          "min_distance": { "global_val": "missiondistancemin", "default": 5 },
+          "reveal_radius": { "global_val": "scoutingdistancetargets", "default": 0 },
           "z": 0,
           "random": true
         }
       },
-      { "math": [ "total_difficulty_bonus", "=", "lengthofthisraid" ] }
+      { "math": [ "total_difficulty_bonus = lengthofthisraid" ] }
     ]
   },
   {
@@ -425,14 +421,14 @@
         "target_params": {
           "om_terrain": "house",
           "om_terrain_match_type": "CONTAINS",
-          "search_range": { "global_val": "var", "var_name": "missiondistancemax", "default": 30 },
-          "min_distance": { "global_val": "var", "var_name": "missiondistancemin", "default": 5 },
-          "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancetargets", "default": 0 },
+          "search_range": { "global_val": "missiondistancemax", "default": 30 },
+          "min_distance": { "global_val": "missiondistancemin", "default": 5 },
+          "reveal_radius": { "global_val": "scoutingdistancetargets", "default": 0 },
           "z": 0,
           "random": true
         }
       },
-      { "math": [ "total_difficulty_bonus", "=", "lengthofthisraid + 1" ] }
+      { "math": [ "total_difficulty_bonus = lengthofthisraid + 1" ] }
     ]
   },
   {
@@ -460,7 +456,7 @@
       "assign_mission_target": { "var": { "global_val": "OM_missionspot" } },
       "update_mapgen": { "place_nested": [ { "chunks": [ "mx_treasuregoal" ], "x": [ 0, 13 ], "y": [ 0, 13 ] } ] }
     },
-    "end": { "effect": [ { "run_eocs": "EOC_bonuspulse" }, { "math": [ "u_missionswon", "++" ] } ] }
+    "end": { "effect": [ { "run_eocs": "EOC_bonuspulse" }, { "math": [ "u_missionswon++" ] } ] }
   },
   {
     "id": "MISSION_BONUS_KILL_LIGHT",
@@ -480,14 +476,14 @@
     },
     "end": {
       "effect": [
-        { "math": [ "u_missionswon", "++" ] },
-        { "math": [ "totalbonus", "=", "3 + total_difficulty_bonus" ] },
+        { "math": [ "u_missionswon++" ] },
+        { "math": [ "totalbonus = 3 + total_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
         },
         { "run_eocs": "EOC_bonuspulse" },
-        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+        { "u_spawn_item": "warptoken", "count": { "global_val": "totalbonus", "default": 1 } }
       ]
     }
   },
@@ -509,14 +505,14 @@
     },
     "end": {
       "effect": [
-        { "math": [ "u_missionswon", "++" ] },
-        { "math": [ "totalbonus", "=", "4 + total_difficulty_bonus" ] },
+        { "math": [ "u_missionswon++" ] },
+        { "math": [ "totalbonus = 4 + total_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
         },
         { "run_eocs": "EOC_bonuspulse" },
-        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+        { "u_spawn_item": "warptoken", "count": { "global_val": "totalbonus", "default": 1 } }
       ]
     }
   },
@@ -546,14 +542,14 @@
     },
     "end": {
       "effect": [
-        { "math": [ "u_missionswon", "++" ] },
-        { "math": [ "totalbonus", "=", "4 + total_difficulty_bonus" ] },
+        { "math": [ "u_missionswon++" ] },
+        { "math": [ "totalbonus = 4 + total_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
         },
         { "run_eocs": "EOC_bonuspulse" },
-        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+        { "u_spawn_item": "warptoken", "count": { "global_val": "totalbonus", "default": 1 } }
       ]
     }
   },
@@ -583,14 +579,14 @@
     },
     "end": {
       "effect": [
-        { "math": [ "u_missionswon", "++" ] },
-        { "math": [ "totalbonus", "=", "5 + total_difficulty_bonus" ] },
+        { "math": [ "u_missionswon++" ] },
+        { "math": [ "totalbonus = 5 + total_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
         },
         { "run_eocs": "EOC_bonuspulse" },
-        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+        { "u_spawn_item": "warptoken", "count": { "global_val": "totalbonus", "default": 1 } }
       ]
     }
   },
@@ -628,14 +624,14 @@
     },
     "end": {
       "effect": [
-        { "math": [ "u_missionswon", "++" ] },
-        { "math": [ "totalbonus", "=", "5 + total_difficulty_bonus" ] },
+        { "math": [ "u_missionswon++" ] },
+        { "math": [ "totalbonus = 5 + total_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
         },
         { "run_eocs": "EOC_bonuspulse" },
-        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+        { "u_spawn_item": "warptoken", "count": { "global_val": "totalbonus", "default": 1 } }
       ]
     }
   },
@@ -673,14 +669,14 @@
     },
     "end": {
       "effect": [
-        { "math": [ "u_missionswon", "++" ] },
-        { "math": [ "totalbonus", "=", "8 + total_difficulty_bonus" ] },
+        { "math": [ "u_missionswon++" ] },
+        { "math": [ "totalbonus = 8 + total_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
         },
         { "run_eocs": "EOC_bonuspulse" },
-        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+        { "u_spawn_item": "warptoken", "count": { "global_val": "totalbonus", "default": 1 } }
       ]
     }
   },
@@ -700,14 +696,14 @@
     },
     "end": {
       "effect": [
-        { "math": [ "u_missionswon", "++" ] },
-        { "math": [ "totalbonus", "=", "10 + total_difficulty_bonus" ] },
+        { "math": [ "u_missionswon++" ] },
+        { "math": [ "totalbonus = 10 + total_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
         },
         { "run_eocs": "EOC_bonuspulse" },
-        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+        { "u_spawn_item": "warptoken", "count": { "global_val": "totalbonus", "default": 1 } }
       ]
     }
   },
@@ -729,14 +725,14 @@
     },
     "end": {
       "effect": [
-        { "math": [ "u_missionswon", "++" ] },
-        { "math": [ "totalbonus", "=", "10 + total_difficulty_bonus" ] },
+        { "math": [ "u_missionswon++" ] },
+        { "math": [ "totalbonus = 10 + total_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
         },
         { "run_eocs": "EOC_bonuspulse" },
-        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+        { "u_spawn_item": "warptoken", "count": { "global_val": "totalbonus", "default": 1 } }
       ]
     }
   },
@@ -766,14 +762,14 @@
     },
     "end": {
       "effect": [
-        { "math": [ "u_missionswon", "++" ] },
-        { "math": [ "totalbonus", "=", "12 + total_difficulty_bonus" ] },
+        { "math": [ "u_missionswon++" ] },
+        { "math": [ "totalbonus = 12 + total_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
         },
         { "run_eocs": "EOC_bonuspulse" },
-        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+        { "u_spawn_item": "warptoken", "count": { "global_val": "totalbonus", "default": 1 } }
       ]
     }
   },
@@ -803,14 +799,14 @@
     },
     "end": {
       "effect": [
-        { "math": [ "u_missionswon", "++" ] },
-        { "math": [ "totalbonus", "=", "12 + total_difficulty_bonus" ] },
+        { "math": [ "u_missionswon++" ] },
+        { "math": [ "totalbonus = 12 + total_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
         },
         { "run_eocs": "EOC_bonuspulse" },
-        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+        { "u_spawn_item": "warptoken", "count": { "global_val": "totalbonus", "default": 1 } }
       ]
     }
   },
@@ -830,14 +826,14 @@
     },
     "end": {
       "effect": [
-        { "math": [ "u_missionswon", "++" ] },
-        { "math": [ "totalbonus", "=", "9 + total_difficulty_bonus" ] },
+        { "math": [ "u_missionswon++" ] },
+        { "math": [ "totalbonus = 9 + total_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
         },
         { "run_eocs": "EOC_bonuspulse" },
-        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+        { "u_spawn_item": "warptoken", "count": { "global_val": "totalbonus", "default": 1 } }
       ]
     }
   },
@@ -860,14 +856,14 @@
     },
     "end": {
       "effect": [
-        { "math": [ "u_missionswon", "++" ] },
-        { "math": [ "totalbonus", "=", "12 + total_difficulty_bonus" ] },
+        { "math": [ "u_missionswon++" ] },
+        { "math": [ "totalbonus = 12 + total_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
         },
         { "run_eocs": "EOC_bonuspulse" },
-        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+        { "u_spawn_item": "warptoken", "count": { "global_val": "totalbonus", "default": 1 } }
       ]
     }
   },
@@ -885,14 +881,14 @@
     },
     "end": {
       "effect": [
-        { "math": [ "u_missionswon", "++" ] },
-        { "math": [ "totalbonus", "=", "9 + total_difficulty_bonus" ] },
+        { "math": [ "u_missionswon++" ] },
+        { "math": [ "totalbonus = 9 + total_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
         },
         { "run_eocs": "EOC_bonuspulse" },
-        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+        { "u_spawn_item": "warptoken", "count": { "global_val": "totalbonus", "default": 1 } }
       ]
     }
   },
@@ -910,14 +906,14 @@
     },
     "end": {
       "effect": [
-        { "math": [ "u_missionswon", "++" ] },
-        { "math": [ "totalbonus", "=", "6 + total_difficulty_bonus" ] },
+        { "math": [ "u_missionswon++" ] },
+        { "math": [ "totalbonus = 6 + total_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
         },
         { "run_eocs": "EOC_bonuspulse" },
-        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+        { "u_spawn_item": "warptoken", "count": { "global_val": "totalbonus", "default": 1 } }
       ]
     }
   },
@@ -941,14 +937,14 @@
     },
     "end": {
       "effect": [
-        { "math": [ "u_missionswon", "++" ] },
-        { "math": [ "totalbonus", "=", "12 + total_difficulty_bonus" ] },
+        { "math": [ "u_missionswon++" ] },
+        { "math": [ "totalbonus = 12 + total_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
         },
         { "run_eocs": "EOC_bonuspulse" },
-        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+        { "u_spawn_item": "warptoken", "count": { "global_val": "totalbonus", "default": 1 } }
       ]
     }
   },
@@ -962,7 +958,7 @@
     "monster_kill_goal": 10,
     "difficulty": 0,
     "value": 0,
-    "end": { "effect": [ { "math": [ "slaughterswon", "++" ] }, { "u_spawn_item": "warptoken", "count": 1 } ] }
+    "end": { "effect": [ { "math": [ "slaughterswon++" ] }, { "u_spawn_item": "warptoken", "count": 1 } ] }
   },
   {
     "id": "MISSION_BONUS_SLAUGHTER_ZED2",
@@ -974,7 +970,7 @@
     "monster_kill_goal": 50,
     "difficulty": 0,
     "value": 0,
-    "end": { "effect": [ { "math": [ "slaughterswon", "++" ] }, { "u_spawn_item": "warptoken", "count": 3 } ] }
+    "end": { "effect": [ { "math": [ "slaughterswon++" ] }, { "u_spawn_item": "warptoken", "count": 3 } ] }
   },
   {
     "id": "MISSION_BONUS_SLAUGHTER_ZED3",
@@ -986,7 +982,7 @@
     "monster_kill_goal": 100,
     "difficulty": 0,
     "value": 0,
-    "end": { "effect": [ { "math": [ "slaughterswon", "++" ] }, { "u_spawn_item": "warptoken", "count": 5 } ] }
+    "end": { "effect": [ { "math": [ "slaughterswon++" ] }, { "u_spawn_item": "warptoken", "count": 5 } ] }
   },
   {
     "id": "MISSION_BONUS_SLAUGHTER_MIGO",
@@ -998,7 +994,7 @@
     "monster_kill_goal": 1,
     "difficulty": 0,
     "value": 0,
-    "end": { "effect": [ { "math": [ "slaughterswon", "++" ] }, { "u_spawn_item": "warptoken", "count": 3 } ] }
+    "end": { "effect": [ { "math": [ "slaughterswon++" ] }, { "u_spawn_item": "warptoken", "count": 3 } ] }
   },
   {
     "id": "MISSION_BONUS_SLAUGHTER_NETHER",
@@ -1010,7 +1006,7 @@
     "monster_kill_goal": 3,
     "difficulty": 0,
     "value": 0,
-    "end": { "effect": [ { "math": [ "slaughterswon", "++" ] }, { "u_spawn_item": "warptoken", "count": 4 } ] }
+    "end": { "effect": [ { "math": [ "slaughterswon++" ] }, { "u_spawn_item": "warptoken", "count": 4 } ] }
   },
   {
     "id": "MISSION_BONUS_SLAUGHTER_BIRD",
@@ -1022,7 +1018,7 @@
     "monster_kill_goal": 5,
     "difficulty": 0,
     "value": 0,
-    "end": { "effect": [ { "math": [ "slaughterswon", "++" ] }, { "u_spawn_item": "warptoken", "count": 1 } ] }
+    "end": { "effect": [ { "math": [ "slaughterswon++" ] }, { "u_spawn_item": "warptoken", "count": 1 } ] }
   },
   {
     "id": "MISSION_BONUS_SLAUGHTER_MAMMAL",
@@ -1034,11 +1030,10 @@
     "monster_kill_goal": 5,
     "difficulty": 0,
     "value": 0,
-    "end": { "effect": [ { "math": [ "slaughterswon", "++" ] }, { "u_spawn_item": "warptoken", "count": 1 } ] }
+    "end": { "effect": [ { "math": [ "slaughterswon++" ] }, { "u_spawn_item": "warptoken", "count": 1 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_exitroom",
     "object": {
       "mapgensize": [ 11, 11 ],
@@ -1063,7 +1058,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_treasuregoal",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -1082,7 +1076,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mapgen_dummyplace",
     "//": "This is a stopgap.  If revert_location is called without a mapgen update, the game crashes.  So this is a blank map update that does nothing but still prevents the crash.  To be removed if the bug gets patched.",
     "object": {  }

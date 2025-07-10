@@ -1,7 +1,6 @@
 #include "diary.h"
 
 #include <algorithm>
-#include <filesystem>
 #include <fstream>
 #include <string>
 #include <utility>
@@ -13,18 +12,16 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
+#include "enum_conversions.h"
 #include "filesystem.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "game.h"
 #include "json.h"
-#include "json_error.h"
 #include "kill_tracker.h"
 #include "magic.h"
 #include "mission.h"
 #include "mtype.h"
 #include "mutation.h"
-#include "npc.h"
 #include "output.h"
 #include "path_info.h"
 #include "pimpl.h"
@@ -673,9 +670,10 @@ void diary::delete_page()
 void diary::export_to_txt( bool lastexport )
 {
     std::ofstream myfile;
-    std::string path = lastexport ? PATH_INFO::memorialdir() : PATH_INFO::world_base_save_path();
-    path += "/" + owner + "s_diary.txt";
-    myfile.open( fs::u8path( path ) );
+    cata_path path = lastexport ? PATH_INFO::memorialdir_path() :
+                     PATH_INFO::world_base_save_path();
+    path = path / ( owner + "s_diary.txt" );
+    myfile.open( path.get_unrelative_path() );
 
     for( int i = 0; i < static_cast<int>( pages.size() ); i++ ) {
         set_opened_page( i );
@@ -696,7 +694,7 @@ void diary::export_to_txt( bool lastexport )
 bool diary::store()
 {
     std::string name = base64_encode( get_avatar().get_save_id() + "_diary" );
-    std::string path = PATH_INFO::world_base_save_path() +  "/" + name + ".json";
+    cata_path path = PATH_INFO::world_base_save_path() / ( name + ".json" );
     const bool iswriten = write_to_file( path, [&]( std::ostream & fout ) {
         serialize( fout );
     }, _( "diary data" ) );
@@ -747,7 +745,7 @@ void diary::serialize( JsonOut &jsout )
 void diary::load()
 {
     std::string name = base64_encode( get_avatar().get_save_id() + "_diary" );
-    cata_path path = PATH_INFO::world_base_save_path_path() / ( name + ".json" );
+    cata_path path = PATH_INFO::world_base_save_path() / ( name + ".json" );
     if( file_exist( path ) ) {
         read_from_file_json( path, [&]( const JsonValue & jv ) {
             deserialize( jv );

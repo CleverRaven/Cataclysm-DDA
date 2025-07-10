@@ -1,0 +1,140 @@
+[
+  {
+    "id": "ACT_BLOODTHORNE_DRUID_COMMUNION",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "communing with nature",
+    "based_on": "time",
+    "completion_eoc": "EOC_XE_BLOODTHORN_DRUID_RESEARCH_END"
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "heartvine communion",
+    "id": "xe_bloodthorn_druid_upgrade_recipe",
+    "description": "Your heartvine has drunk up enough vampire blood that it is ready to grant you a new gift.  Seek out the wild places to allow it to grow.",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_RESEARCH",
+    "skill_used": "deduction",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_XE_BLOODTHORNE_DRUID_RESEARCH_BEGIN",
+        "condition": { "u_has_effect": "effect_bloodthorn_druid_upgrade_ready" },
+        "effect": [
+          {
+            "if": {
+              "and": [
+                { "not": { "u_near_om_location": "road", "range": 2 } },
+                {
+                  "or": [
+                    { "u_at_om_location": "forest_thick" },
+                    { "u_near_om_location": "great_tree_z0_nw", "range": 2 },
+                    { "u_near_om_location": "great_tree_z0_se", "range": 2 },
+                    { "u_near_om_location": "great_tree_z1_nw", "range": 2 },
+                    { "u_near_om_location": "great_tree_z1_se", "range": 2 },
+                    { "u_near_om_location": "great_tree_z2_nw", "range": 2 },
+                    { "u_near_om_location": "great_tree_z2_se", "range": 2 },
+                    { "u_near_om_location": "great_tree_z3_06", "range": 2 },
+                    { "u_near_om_location": "great_tree_z3_11", "range": 2 },
+                    { "u_near_om_location": "great_tree_z4_06", "range": 2 },
+                    { "u_near_om_location": "great_tree_z4_11", "range": 2 },
+                    { "u_near_om_location": "great_tree_z5_06", "range": 2 },
+                    { "u_near_om_location": "great_tree_z5_11", "range": 2 },
+                    { "u_near_om_location": "great_tree_z6_nw", "range": 2 },
+                    { "u_near_om_location": "great_tree_z6_se", "range": 2 },
+                    { "u_near_om_location": "great_tree_z6_n2", "range": 2 },
+                    { "u_near_om_location": "great_tree_z6_se", "range": 2 },
+                    { "u_near_om_location": "great_tree_z7_nw", "range": 2 },
+                    { "u_near_om_location": "great_tree_z7_se", "range": 2 },
+                    { "u_near_om_location": "great_tree_crown_06", "range": 2 },
+                    { "u_near_om_location": "great_tree_crown_11", "range": 2 },
+                    { "u_near_om_location": "great_tree_crown_top_01", "range": 2 },
+                    { "u_near_om_location": "great_tree_crown_top_04", "range": 2 },
+                    { "u_near_om_location": "great_tree_roots", "range": 2 },
+                    { "u_near_om_location": "great_tree_roots_se", "range": 2 },
+                    { "u_near_om_location": "great_tree_roots_nw", "range": 2 }
+                  ]
+                }
+              ]
+            },
+            "then": [
+              { "u_add_effect": "effect_bloodthorn_druid_upgrade_active", "duration": "8 hours" },
+              { "u_assign_activity": "ACT_BLOODTHORNE_DRUID_COMMUNION", "duration": "8 hours" }
+            ],
+            "else": {
+              "u_message": "You must commune with nature in the wild places.  Seek the depths of the sylvan wilderness.",
+              "type": "mixed"
+            }
+          }
+        ],
+        "false_effect": [ { "u_message": "Your heartvine is not ready to grow.  You must water it with vampire blood.", "type": "bad" } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_BLOODTHORNE_DRUID_RESEARCH_INTERRUPTED_CHECK",
+    "eoc_type": "EVENT",
+    "required_event": "character_finished_activity",
+    "condition": {
+      "and": [
+        { "compare_string": [ "ACT_BLOODTHORNE_DRUID_COMMUNION", { "context_val": "activity" } ] },
+        { "math": [ "_canceled == true" ] }
+      ]
+    },
+    "effect": [ { "u_lose_effect": "effect_bloodthorn_druid_upgrade_active" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_BLOODTHORN_DRUID_RESEARCH_END",
+    "condition": { "u_has_trait": "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP" },
+    "effect": [
+      {
+        "u_roll_remainder": [
+          "BLOODTHORNE_DRUID_REGAIN_BLOOD",
+          "BLOODTHORNE_DRUID_BONUS_MANA_REGEN",
+          "BLOODTHORNE_DRUID_STOP_BLEEDING",
+          "BLOODTHORNE_DRUID_REDUCED_PAIN_PENALTIES",
+          "BLOODTHORNE_DRUID_WHIP_TARGETS_IN_NATURE"
+        ],
+        "type": "mutation",
+        "true_eocs": [
+          {
+            "id": "EOC_XE_BLOODTHORN_DRUID_RESEARCH_SUCCESS",
+            "effect": [
+              { "math": [ "u_bloodthorn_druid_vampires_killed_to_upgrade", "+=", "2" ] },
+              { "math": [ "u_bloodthorn_druid_required_arvore_traits ++" ] },
+              { "math": [ "u_bloodthorn_druid_vampire_heartwhip_kills = 0" ] },
+              { "u_lose_effect": "effect_bloodthorn_druid_upgrade_ready" },
+              {
+                "u_message": "The twitching of your heartvines subsides.  You have unlocked new gifts of nature.",
+                "type": "good"
+              }
+            ]
+          }
+        ],
+        "false_eocs": [ "EOC_XE_BLOODTHORN_DRUID_RESEARCH_ADVANCE_TO_TIER_2" ]
+      }
+    ],
+    "false_effect": [
+      { "u_add_trait": "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP" },
+      {
+        "u_message": "You feel the Heartvine extending itself into your arms, coiling and lurking near your wrists.  With a moment's concentration, you could extend part of it into a whip and scourge the blood-drinkers with it, and in doing so, feed your Heartvine.  Call it forth and rid the world of the vampiric scourge.\n\nKills with the Heartwhip will empower your Heartvine; enough kills and further gifts will be revealed to you.",
+        "type": "good"
+      },
+      { "math": [ "u_bloodthorn_druid_vampires_killed_to_upgrade = 5" ] },
+      { "math": [ "u_bloodthorn_druid_required_arvore_traits = 4" ] },
+      { "u_add_effect": "formication", "duration": [ "30 minutes", "120 minutes" ], "target_part": "arm_l" },
+      { "u_add_effect": "formication", "duration": [ "30 minutes", "120 minutes" ], "target_part": "arm_r" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_BLOODTHORN_DRUID_RESEARCH_ADVANCE_TO_TIER_2",
+    "effect": [ { "run_eocs": "EOC_XE_BLOODTHORN_DRUID_RESEARCH_SUCCESS" } ]
+  }
+]

@@ -23,7 +23,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_firestation1_0",
-    "method": "json",
     "object": {
       "set": [
         { "point": "terrain", "id": "t_floor", "x": 6, "y": 12 },
@@ -33,7 +32,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_firestation1_kitchen1",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -51,7 +49,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_firestation1_kitchen1_cleared",
-    "method": "json",
     "object": {
       "place_nested": [ { "chunks": [ "fbmc_firestation1_kitchen1" ], "x": 1, "y": 9 } ],
       "place_loot": [
@@ -63,34 +60,37 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_firestation1_fireplace",
-    "method": "json",
     "object": {
-      "set": [ { "point": "furniture", "id": "f_fireplace", "x": 1, "y": 12 } ],
-      "place_loot": [ { "item": "pot", "x": 1, "y": 13, "chance": 100 } ]
+      "set": [
+        { "point": "furniture", "id": "f_fireplace", "x": 1, "y": 12, "z": 0 },
+        { "point": "furniture", "id": "f_chimney", "x": 1, "y": 12, "z": 1 }
+      ],
+      "place_loot": [ { "item": "pot", "x": 1, "y": 13, "z": 0, "chance": 100 } ]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_firestation1_brazier",
-    "method": "json",
     "object": { "set": [ { "point": "furniture", "id": "f_brazier", "x": 1, "y": 12 } ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_firestation1_stove",
-    "method": "json",
-    "object": { "set": [ { "point": "furniture", "id": "f_woodstove", "x": 1, "y": 12 } ] }
+    "object": {
+      "set": [
+        { "point": "furniture", "id": "f_woodstove", "x": 1, "y": 12, "z": 0 },
+        { "point": "furniture", "id": "f_vent_pipe", "x": 1, "y": 12, "z": 1 }
+      ]
+    }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_firestation1_well",
-    "method": "json",
     "object": { "set": [ { "point": "terrain", "id": "t_water_pump", "x": 5, "y": 9 } ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_firestation1_radio_console",
-    "method": "json",
     "object": {
       "set": [
         { "point": "terrain", "id": "t_radio_tower", "x": 5, "y": 1 },
@@ -100,7 +100,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_firestation1_kitchen2",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -117,7 +116,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_firestation1_kitchen3",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -136,7 +134,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_firestation1_kitchen2_storage",
-    "method": "json",
     "object": {
       "place_nested": [
         { "chunks": [ "fbmc_firestation1_kitchen3" ], "x": 1, "y": 2 },
@@ -149,7 +146,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_firestation1_smoking_kiln",
-    "method": "json",
     "object": {
       "set": [
         { "point": "furniture", "id": "f_smoking_rack", "x": 1, "y": 0 },
@@ -161,19 +157,17 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_firestation1_butchery_rack",
-    "method": "json",
     "object": {
       "set": [
         { "point": "furniture", "id": "f_butcher_rack", "x": 1, "y": 5 },
         { "point": "furniture", "id": "f_table", "x": 1, "y": 4 }
       ],
-      "place_loot": [ { "item": "knife_butcher", "x": 1, "y": 4, "chance": 100 } ]
+      "place_loot": [ { "item": "knife_huge", "variant": "knife_butcher", "x": 1, "y": 4, "chance": 100 } ]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_firestation1_fermenting_vat",
-    "method": "json",
     "object": {
       "set": [
         { "point": "furniture", "id": "f_fvat_empty", "x": 1, "y": 2 },
@@ -184,7 +178,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_firestation1_garage_area",
-    "method": "json",
     "object": {
       "place_loot": [
         { "item": "wrench", "x": 8, "y": 21, "chance": 100 },
@@ -199,16 +192,17 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_firestation1_forge",
-    "method": "json",
     "object": {
-      "set": [ { "point": "furniture", "id": "f_forge_rock", "x": 6, "y": 17 } ],
+      "set": [
+        { "point": "furniture", "id": "f_forge_rock", "x": 6, "y": 17, "z": 0 },
+        { "point": "furniture", "id": "f_chimney", "x": 6, "y": 17, "z": 1 }
+      ],
       "place_loot": [ { "item": "hammer", "x": 8, "y": 21, "chance": 100 } ]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_firestation1_forge2",
-    "method": "json",
     "object": {
       "set": [ { "point": "furniture", "id": "f_anvil", "x": 8, "y": 17 } ],
       "place_loot": [ { "item": "crucible", "x": 7, "y": 17, "chance": 100 } ]
@@ -217,7 +211,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_firestation1_forge3",
-    "method": "json",
     "object": {
       "set": [ { "point": "furniture", "id": "f_clay_kiln", "x": 6, "y": 19 } ],
       "place_loot": [
@@ -231,7 +224,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_firestation1_forge4",
-    "method": "json",
     "object": {
       "place_loot": [
         { "item": "tongs", "x": 8, "y": 21, "chance": 100 },
@@ -243,7 +235,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_firestation1_workbench",
-    "method": "json",
     "object": {
       "set": [
         { "point": "furniture", "id": "f_workbench", "x": 8, "y": 18 },
@@ -254,7 +245,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_firestation1_bellows",
-    "method": "json",
     "object": {
       "set": [ { "point": "furniture", "id": "f_bellows", "x": 6, "y": 18 } ],
       "place_loot": [
@@ -267,7 +257,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_firestation1_drophammer",
-    "method": "json",
     "object": {
       "set": [ { "point": "furniture", "id": "f_drophammer", "x": 7, "y": 21 } ],
       "place_loot": [ { "item": "wrench", "x": 8, "y": 21, "chance": 100 }, { "item": "pliers", "x": 8, "y": 21, "chance": 100 } ]
@@ -275,7 +264,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_firestation1_farm_land",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -294,7 +282,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_firestation1_farm",
-    "method": "json",
     "object": {
       "place_nested": [ { "chunks": [ "fbmc_firestation1_farm_land" ], "x": 7, "y": 0 } ],
       "place_loot": [ { "item": "pickaxe", "x": 8, "y": 21, "chance": 100 } ]
@@ -302,7 +289,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_firestation1_living_quarters_SW",
     "object": {
       "parameters": {
@@ -324,12 +310,10 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_firestation1_bedroom_sw",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmc_firestation1_living_quarters_SW" ], "x": 14, "y": 19 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_firestation1_living_quarters_NW",
     "object": {
       "parameters": {
@@ -351,12 +335,10 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_firestation1_bedroom_nw",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmc_firestation1_living_quarters_NW" ], "x": 14, "y": 15 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_firestation1_living_quarters_NE",
     "object": {
       "parameters": {
@@ -378,12 +360,10 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_firestation1_bedroom_ne",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmc_firestation1_living_quarters_NE" ], "x": 20, "y": 15 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_firestation1_living_quarters_SE",
     "object": {
       "parameters": {
@@ -405,12 +385,10 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_firestation1_bedroom_se",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmc_firestation1_living_quarters_SE" ], "x": 20, "y": 19 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_firestation1_garden_fence",
     "object": {
       "mapgensize": [ 10, 10 ],
@@ -432,12 +410,10 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_firestation1_garden_fence1",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmc_firestation1_garden_fence" ], "x": 5, "y": 1 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_firestation1_quarters_common_room",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -456,7 +432,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_firestation1_quarters_common",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmc_firestation1_quarters_common_room" ], "x": 16, "y": 9 } ] }
   }
 ]

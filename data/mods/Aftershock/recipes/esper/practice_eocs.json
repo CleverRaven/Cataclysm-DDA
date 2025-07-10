@@ -1,0 +1,97 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_ESPER_STUDYING_POWER",
+    "condition": { "u_has_effect": "effect_afs_esper_studying_power" },
+    "effect": [
+      { "math": [ "u_afs_esper_studying_tick_experience_counter", "+=", "contemplation_factor(1)" ] },
+      {
+        "if": { "math": [ "u_afs_esper_studying_tick_experience_counter >= 1" ] },
+        "then": [
+          { "math": [ "u_spell_exp(u_latest_studied_power_name)", "+=", "1" ] },
+          { "math": [ "u_afs_esper_studying_tick_experience_counter", "-=", "1" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_ESPER_STUDYING_POWER_BEGIN",
+    "condition": { "not": { "u_has_any_effect": [ "weary_5", "weary_6", "weary_7", "weary_8" ] } },
+    "effect": [
+      { "u_message": "You spend some time meditating and developing your powers.", "type": "good" },
+      { "math": [ "u_afs_esper_studying_tick_experience_counter = 0" ] },
+      { "u_add_effect": "effect_afs_esper_studying_power", "duration": "24 hours" },
+      { "u_assign_activity": "ACT_AFS_ESPER_STUDYING_POWER", "duration": "24 hours" },
+      { "run_eocs": "EOC_AFS_ESPER_STUDYING_POWER_METAPHYSICS_GAIN", "time_in_future": [ "30 seconds", "5 minutes" ] }
+    ],
+    "false_effect": [ { "u_message": "You are too exhausted to develop your powers.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_ESPER_STUDYING_POWER_METAPHYSICS_GAIN",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_afs_esper_studying_power" },
+        { "math": [ "u_latest_studied_power_difficulty > u_skill('metaphysics')" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_skill_exp('metaphysics', 'format': 'raw')", "+=", "(35 * u_latest_studied_power_difficulty)" ] },
+      { "run_eocs": "EOC_AFS_ESPER_STUDYING_POWER_METAPHYSICS_GAIN", "time_in_future": [ "30 seconds", "5 minutes" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_ESPER_STUDYING_POWER_SIDE_EFFECTS",
+    "effect": [ { "run_eocs": "EOC_AFS_ESPER_STUDYING_POWER_FOCUS_REDUCTION", "time_in_future": [ "1 minutes", "1 minutes" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_ESPER_STUDYING_POWER_FOCUS_REDUCTION",
+    "condition": { "u_has_effect": "effect_afs_esper_studying_power" },
+    "effect": [
+      { "if": { "math": [ "u_val('focus') >= 25" ] }, "then": { "math": [ "u_val('focus')", "-=", "rand(1)" ] } },
+      { "run_eocs": "EOC_AFS_ESPER_STUDYING_POWER_FOCUS_REDUCTION", "time_in_future": [ "1 minutes", "1 minutes" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_ESPER_CANCELLING_ACTIVITY_CANCELS_RESEARCH",
+    "eoc_type": "EVENT",
+    "required_event": "character_finished_activity",
+    "condition": {
+      "and": [
+        { "compare_string": [ "ACT_AFS_ESPER_STUDYING_POWER", { "context_val": "activity" } ] },
+        { "u_has_effect": "effect_afs_esper_studying_power" }
+      ]
+    },
+    "effect": [ { "u_lose_effect": "effect_afs_esper_studying_power" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_ESPER_TOO_TIRED_TO_STUDY",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "compare_string": [ "weary_5", { "context_val": "effect" } ] },
+            { "compare_string": [ "weary_6", { "context_val": "effect" } ] },
+            { "compare_string": [ "weary_7", { "context_val": "effect" } ] },
+            { "compare_string": [ "weary_8", { "context_val": "effect" } ] }
+          ]
+        },
+        { "u_has_effect": "effect_afs_esper_studying_power" }
+      ]
+    },
+    "effect": [
+      { "u_lose_effect": "effect_afs_esper_studying_power" },
+      {
+        "u_message": "You're so exhausted you can barely think straight, and certainly can't concentrate on studying your powers.",
+        "popup": true
+      }
+    ]
+  }
+]

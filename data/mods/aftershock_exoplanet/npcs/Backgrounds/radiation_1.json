@@ -1,0 +1,32 @@
+[
+  {
+    "id": "BGSS_RADIATION_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "When the government gave up on saving the depths of the city someone decided to use tactical nukes and buy time for the retreat.",
+    "responses": [
+      { "text": "Where are you from?", "topic": "BGSS_RADIATION_1_STORY2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_RADIATION_1_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "It blew an opening in the horde roaming the city and allowed me to escape.",
+    "responses": [
+      { "text": "Tell me more?", "topic": "BGSS_RADIATION_1_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_RADIATION_1_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "Every choice has consequences though.  But every consequence is probably worth it, if it's the only way to survive.",
+    "responses": [
+      { "text": "How did it end?", "topic": "BGSS_RADIATION_1_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  }
+]

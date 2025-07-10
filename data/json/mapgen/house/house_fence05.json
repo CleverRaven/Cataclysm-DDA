@@ -2,8 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": "house_fence05_basement",
-    "weight": 250,
-    "method": "json",
     "object": {
       "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
       "fill_ter": "t_thconc_floor",
@@ -15,19 +13,19 @@
         "^^^^^^^^^^^^^^^^^^^^^^^^",
         "^^^^^^^^^^^^^^^^^^^^^^^^",
         "^^^^^^#############^^^^^",
-        "^^^^^^#   hhhh g !#^^^^^",
-        "^^^^^^#           #^^^^^",
-        "^^^^^^#           #^^^^^",
-        "^^^^^^#z #   UU# Y#^^^^^",
-        "^^^^^^#z         q#^^^^^",
-        "^^^^^^#z         q#^^^^^",
-        "^^^^^^#z        AN#^^^^^",
-        "^^^^^^#b         N#^^^^^",
-        "^^^^^^#  &&   z  T#^^^^^",
-        "^^^^^^#  #&    #  #^^^^^",
-        "^^^^^^#           #^^^^^",
-        "^^^^^^#           #^^^^^",
-        "^^^^^^#%  $ ZW   <#^^^^^",
+        "^^^^^^#...hhhh.g.!#^^^^^",
+        "^^^^^^#...........#^^^^^",
+        "^^^^^^#...........#^^^^^",
+        "^^^^^^#z.#...UU#.Y#^^^^^",
+        "^^^^^^#z.........q#^^^^^",
+        "^^^^^^#z.........q#^^^^^",
+        "^^^^^^#z........AN#^^^^^",
+        "^^^^^^#b.........N#^^^^^",
+        "^^^^^^#..&&...z..T#^^^^^",
+        "^^^^^^#..#&....#..#^^^^^",
+        "^^^^^^#...........#^^^^^",
+        "^^^^^^#...........#^^^^^",
+        "^^^^^^#%..$.ZW...<#^^^^^",
         "^^^^^^#############^^^^^",
         "^^^^^^^^^^^^^^^^^^^^^^^^",
         "^^^^^^^^^^^^^^^^^^^^^^^^",
@@ -39,14 +37,13 @@
   {
     "type": "mapgen",
     "om_terrain": "house_fence05_1",
-    "weight": 250,
-    "method": "json",
     "object": {
       "palettes": [
         "standard_domestic_palette",
         "standard_domestic_lino_kitchen",
         "standard_domestic_lino_bathroom",
-        "standard_domestic_landscaping_palette"
+        "standard_domestic_landscaping_palette",
+        "parametrized_carpets_palette"
       ],
       "fill_ter": "t_floor",
       "rows": [
@@ -83,7 +80,7 @@
         "U": "t_concrete",
         "&": "t_dirtmound",
         "0": "t_shrub_lilac",
-        "=": "t_carpet_yellow",
+        "=": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         "₸": "t_region_groundcover_urban",
         "K": "t_region_groundcover_urban",
         "Q": "t_null",
@@ -98,8 +95,6 @@
   {
     "type": "mapgen",
     "om_terrain": "house_fence05_2",
-    "weight": 250,
-    "method": "json",
     "object": {
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "fill_ter": "t_floor",
@@ -141,8 +136,6 @@
   {
     "type": "mapgen",
     "om_terrain": "house_fence05_roof",
-    "weight": 250,
-    "method": "json",
     "object": {
       "palettes": [ "roof_palette" ],
       "fill_ter": "t_shingle_flat_roof",
@@ -158,8 +151,8 @@
         "                        ",
         "      ---------------   ",
         "      -.............-   ",
-        "      -.bbb........~-   ",
-        "      -.bbb.........-   ",
+        "      -.1..........~-   ",
+        "      -.............-   ",
         "      -.............-   ",
         "      -...X.........-   ",
         "      -.............5   ",
@@ -172,7 +165,6 @@
         "                        ",
         "                        "
       ],
-      "furniture": { "b": "f_solar_unit" },
       "terrain": { ".": "t_shingle_flat_roof" }
     }
   }

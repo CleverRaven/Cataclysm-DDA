@@ -1,0 +1,48 @@
+[
+  {
+    "result": "afs_electroshock_grenade_1",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "autolearn": true,
+    "time": "5 m",
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "components": [ [ [ "afs_energy_storage_2", 1 ] ], [ [ "afs_material_1", 3 ] ] ]
+  },
+  {
+    "result": "grenade_cryo",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "electronics",
+    "difficulty": 7,
+    "autolearn": true,
+    "time": "5 m",
+    "qualities": [ { "id": "DIAMONDPRESS", "level": 1 } ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "components": [ [ [ "afs_energy_storage_3", 1 ] ], [ [ "afs_material_1", 3 ] ], [ [ "afs_energy_storage_2", 2 ] ] ]
+  },
+  {
+    "result": "afs_oxygen_bomb",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "chemistry",
+    "difficulty": 4,
+    "skills_required": [ "fabrication", 2 ],
+    "autolearn": true,
+    "time": "10 m",
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [
+      [ [ "afs_oxygen_candle", 1 ] ],
+      [ [ "duct_tape", 10 ], [ "medical_tape", 20 ] ],
+      [ [ "afs_heat_2", 1 ], [ "motor_oil", 1 ] ]
+    ]
+  }
+]

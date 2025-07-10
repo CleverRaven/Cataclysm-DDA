@@ -1,0 +1,52 @@
+[
+  {
+    "id": "BGSS_Sadie_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        {
+          "at_safe_space": true,
+          "no": "This might not be a very private place.",
+          "yes": "This feels like a good place to relax.  Want to play doctor with real scalpels?"
+        },
+        "  ",
+        {
+          "npc_at_om_location": "field",
+          "no": "",
+          "yes": "This place is so boring.  We should take people and kill some drugs."
+        },
+        {
+          "npc_at_om_location": "water",
+          "no": "",
+          "yes": "Water water everywhere.  Let's go skinny dipping.  I bet you'll attract some leeches.  I need them for something I want to do to you.  It'll be so weird."
+        },
+        {
+          "npc_at_om_location": "subterranean",
+          "no": "",
+          "yes": "I like it down here.  This reminds me of that time I was down in a place like this and someone creeped up behind me and hit me in the back of the head with a shovel.  *shiver*  It still gives me goosebumps."
+        },
+        {
+          "npc_at_om_location": "forest",
+          "no": "",
+          "yes": "I love nature.  It smells so good out here, like living things growing and multiplying and dying and returning from the dead with horrifying new powers and trying to slowly rip us apart and eat us.  It brings back really happy memories for me."
+        },
+        {
+          "npc_at_om_location": "swamp",
+          "no": "",
+          "yes": "I love swampy places like this.  The smell of the pussy willows, the sound of the crickets, the giant mutant mosquitoes hungry for our blood.  It's like we're in a sexy vampire romance novel."
+        },
+        {
+          "npc_at_om_location": "Lab",
+          "no": "",
+          "yes": "What a beautiful facility.  I bet they have all kinds of lovely toys to play with.  We should kill everyone here and do some creative self-experimentation."
+        },
+        {
+          "npc_at_om_location": "Mansion_Road_1",
+          "no": "",
+          "yes": "Ooh, it's like a murder mystery here.  Are we the murderers, the murdered, or the mystery?"
+        }
+      ]
+    },
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  }
+]

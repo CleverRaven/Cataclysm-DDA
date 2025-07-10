@@ -1,0 +1,52 @@
+[
+  {
+    "id": "60mm_shell_m720a1",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "name": { "str": "high-explosive mortar shell" },
+    "description": "High-explosive mortar cartridge, designed to be used against troops, light vehicles, light bunkers or similar targets.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "60mm_shell_m720",
+        "name": { "str": "M720A1 60 mm mortar shell (HE)", "str_pl": "M720A1 60 mm mortar shells (HE)" },
+        "description": "High-explosive mortar cartridge, designed to be used against troops, light vehicles, light bunkers or similar targets."
+      }
+    ],
+    "weight": "1700 g",
+    "//": "190 g of comp-b, so explosion power should be 250; let's pretend case mass is third of the rest of the weight, so 500 g",
+    "volume": "680 ml",
+    "longest_side": "376 mm",
+    "price": "400 USD",
+    "price_postapoc": "10 USD",
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "material": [ { "type": "steel", "portion": 80 }, { "type": "powder", "portion": 20 } ],
+    "symbol": "=",
+    "color": "dark_gray",
+    "count": 1,
+    "stack_size": 1,
+    "ammo_type": "mortar_60mm",
+    "effects": [ "SPECIAL_COOKOFF", "NEVER_MISFIRES", "EXPLOSIVE_60mmHE" ]
+  },
+  {
+    "id": "60mm_shell_m768",
+    "copy-from": "60mm_shell_m720a1",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "name": { "str": "high-explosive mortar shell" },
+    "description": "High-explosive mortar cartridge, designed to be used against troops, light vehicles, light bunkers or similar targets.  This one is more modern version, both more safe and more powerful.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "60mm_shell_m768",
+        "name": { "str": "M768 60 mm mortar shell (HE)", "str_pl": "M768 60 mm mortar shells (HE)" },
+        "description": "High-explosive mortar cartridge, designed to be used against troops, light vehicles, light bunkers or similar targets.  This one is more modern version, more safe and more powerful, but uses more simple impact fuze."
+      }
+    ],
+    "weight": "1655 g",
+    "//": "358 g of pax-21, which is replacement for comp b - weaker (~1.0 tnt equivalent), but safer, so explosion power should be 358; let's pretend case mass is third of the rest of the weight, so 430 g",
+    "price": "600 USD",
+    "extend": { "effects": [ "EXPLOSIVE_60mmHE2" ] },
+    "delete": { "effects": [ "EXPLOSIVE_60mmHE" ] }
+  }
+]

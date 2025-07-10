@@ -1,5 +1,7 @@
 #include "cellular_automata.h"
 
+#include <algorithm>
+
 #include "point.h"
 #include "rng.h"
 

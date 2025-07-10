@@ -1,9 +1,10 @@
 #include <cstddef>
 #include <functional>
-#include <list>
+#include <map>
 #include <memory>
 #include <set>
 #include <sstream>
+#include <string>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -12,7 +13,6 @@
 #include "cata_catch.h"
 #include "inventory.h"
 #include "item.h"
-#include "iuse.h"
 #include "mutation.h"
 #include "pimpl.h"
 #include "player_helpers.h"
@@ -172,7 +172,6 @@ TEST_CASE( "starting_items", "[slow]" )
                     const int num_items_pre_migration = get_item_count( items_visited );
                     items_visited.clear();
 
-                    player_character.migrate_items_to_storage( true );
                     player_character.visit_items( visitable_counter );
                     const int num_items_post_migration = get_item_count( items_visited );
                     items_visited.clear();

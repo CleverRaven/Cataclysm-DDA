@@ -2,14 +2,16 @@
 #ifndef CATA_SRC_SCENARIO_H
 #define CATA_SRC_SCENARIO_H
 
-#include <iosfwd>
+#include <optional>
 #include <set>
 #include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 #include "calendar.h"
-#include "effect_on_condition.h"
-#include "translations.h"
+#include "ret_val.h"
+#include "translation.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -60,6 +62,7 @@ class scenario
         std::optional<achievement_id> _requirement;
 
         bool reveal_locale = true;
+        int distance_initial_visibility = 0;
 
         time_point _default_start_of_cataclysm;
         time_point _default_start_of_game;
@@ -104,6 +107,7 @@ class scenario
         std::optional<achievement_id> get_requirement() const;
 
         bool get_reveal_locale() const;
+        bool get_distance_initial_visibility() const;
 
         void normalize_calendar() const;
         void reset_calendar() const;

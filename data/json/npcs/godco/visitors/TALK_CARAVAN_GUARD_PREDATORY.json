@@ -10,14 +10,14 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_INVESTIGATE_TRADER" },
-            { "not": { "npc_has_var": "general_trade_u_talked_about_records", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_trade_u_talked_about_records" } ] } }
           ]
         },
         "topic": "TALK_CARAVAN_GUARD_PREDATORY_PICKUP"
       },
       {
         "text": "I'm back for the records, and I have the money.",
-        "condition": { "npc_has_var": "general_trade_u_owe_20", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "npc_val": "general_trade_u_owe_20" } ] },
         "effect": {
           "u_buy_item": "godcotrader_accounting_records_dirty",
           "cost": 2000,
@@ -28,7 +28,7 @@
       },
       {
         "text": "I'm back for the records, and I have the money.",
-        "condition": { "npc_has_var": "general_trade_u_owe_50", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "npc_val": "general_trade_u_owe_50" } ] },
         "effect": {
           "u_buy_item": "godcotrader_accounting_records_dirty",
           "cost": 5000,
@@ -39,7 +39,7 @@
       },
       {
         "text": "I'm back for the records, and I have the money.",
-        "condition": { "npc_has_var": "general_trade_u_owe_150", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "npc_val": "general_trade_u_owe_150" } ] },
         "effect": {
           "u_buy_item": "godcotrader_accounting_records_dirty",
           "cost": 15000,
@@ -50,7 +50,7 @@
       },
       {
         "text": "I'm back for your records.",
-        "condition": { "math": [ "time_since(n_timer_trade_fixing_records)", ">=", "time('2 d')" ] },
+        "condition": { "math": [ "time_since(n_timer_trade_fixing_records) >= time('2 d')" ] },
         "effect": [ { "u_spawn_item": "godcotrader_accounting_records_clean" }, { "npc_lose_var": "timer_trade_fixing_records" } ],
         "topic": "TALK_DONE"
       }
@@ -109,7 +109,7 @@
       {
         "text": "Alright, I'll be back then.",
         "effect": [
-          { "math": [ "n_timer_trade_fixing_records", "=", "time('now')" ] },
+          { "math": [ "n_timer_trade_fixing_records = time('now')" ] },
           { "npc_add_var": "general_trade_u_talked_about_records", "value": "yes" }
         ],
         "topic": "TALK_DONE"

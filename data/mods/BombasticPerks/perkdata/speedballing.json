@@ -1,0 +1,9 @@
+[
+  {
+    "type": "jmath_function",
+    "id": "speedball_counter",
+    "//": "Intended to contain all recreative drugs and all drugs able to make someone fight better.",
+    "num_args": 0,
+    "return": "(u_effect_intensity('jetinjector') > 0 ? 3 : 0) + (u_effect_intensity('stimpack') > 0 ? 3 : 0) + (u_effect_intensity('adrenaline') > 0 ? 3 : 0) + (u_effect_intensity('meth') > 0 ? 3 : 0) +  (u_effect_intensity('cig') > 0 ? 3 : 0) + (u_effect_intensity('high') > 0 ? 3 : 0) + (u_effect_intensity('weed_high') > 0 ? 3 : 0) + (u_effect_intensity('drunk') > 0 ? 3 : 0) + (u_effect_intensity('betablock') > 0 ? 3 : 0) + (u_effect_intensity('stim') > 0 ? 3 : 0) + (u_effect_intensity('stim_overdose') > 0 ? 3 : 0) + (u_effect_intensity('datura') > 0 ? 3 : 0)"
+  }
+]

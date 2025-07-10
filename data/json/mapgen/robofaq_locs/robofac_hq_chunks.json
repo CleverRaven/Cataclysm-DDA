@@ -1,7 +1,32 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
+    "nested_mapgen_id": "robofac_hq_surface_freemerchant_camp_roof",
+    "object": {
+      "faction_owner": [ { "id": "free_merchants", "x": [ 0, 14 ], "y": [ 0, 14 ] } ],
+      "mapgensize": [ 15, 15 ],
+      "rows": [
+        "               ",
+        " rrrrrr        ",
+        " rrrrrr        ",
+        " rrrrrr        ",
+        " rrrrrr        ",
+        " rrrrrr        ",
+        " rrrrr         ",
+        " rrrrr         ",
+        "       rrr rrr ",
+        "       rrr rrr ",
+        "       rrr rrr ",
+        "               ",
+        "               ",
+        "               ",
+        "               "
+      ],
+      "terrain": { "r": "t_canvas_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
     "nested_mapgen_id": "robofac_hq_surface_freemerchant_camp",
     "object": {
       "faction_owner": [ { "id": "free_merchants", "x": [ 0, 14 ], "y": [ 0, 14 ] } ],
@@ -63,12 +88,12 @@
         }
       ],
       "//": "migration from older saved games - remove older shop stocks",
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_nested": [ { "chunks": [ "robofac_hq_surface_freemerchant_camp_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "robofac_hq_surface_merc_1",
     "object": {
       "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 4 ], "y": [ 0, 4 ] } ],
@@ -78,13 +103,11 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "robofachqy_window_sand_wall",
     "object": { "mapgensize": [ 8, 8 ], "set": [ { "line": "furniture", "id": "f_sandbag_wall", "x": 0, "y": 0, "x2": 7, "y2": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "robofachq_window_sand_wall_l",
     "object": {
       "mapgensize": [ 11, 11 ],
@@ -93,7 +116,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "window_sandbags_meteorology1",
     "object": {
       "place_nested": [
@@ -106,7 +128,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "window_sandbags_meteorology2",
     "object": {
       "place_nested": [
@@ -118,13 +139,11 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "window_sandbags_surface_road2",
     "object": { "place_nested": [ { "chunks": [ "robofachq_window_sand_wall_l" ], "x": 13, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "robofachq_ancilla_fortress_basic",
     "object": {
       "rows": [
@@ -165,7 +184,7 @@
         "S": "t_secretdoor_concrete_o",
         "Y": "t_strconc_floor_olight"
       },
-      "furniture": { "7": "f_filing_cabinet", "A": "f_sandbag_wall", "W": "f_sandbag_wall", ":": "f_small_satelitte_dish" },
+      "furniture": { "7": "f_filing_cabinet", "A": "f_sandbag_wall", "W": "f_sandbag_wall", ":": "f_small_satellite_dish" },
       "items": {
         "l": [
           { "item": "NC_ANCILLA_GRUNT_worn", "chance": 50 },
@@ -178,7 +197,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "robofachq_ancilla_bar_basic",
     "object": {
       "rows": [
@@ -223,9 +241,8 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "nest_ancilla_bar_place_BEMs",
-    "//": "remove the null chunks once theres enough BEM npcs.",
+    "//": "remove the null chunks once there's enough BEM npcs.",
     "object": {
       "rows": [
         "                        ",
@@ -263,7 +280,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "robofachq_ancilla_bar_autodoc",
     "//": "Spawns by itself at the moment, spawning should be triggered by missions later on.",
     "object": {
@@ -307,7 +323,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "BEM_hireable",
     "object": {
       "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
@@ -317,7 +332,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "BEM_human_sample",
     "object": {
       "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
@@ -327,7 +341,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "BEM_anchor_seller",
     "object": {
       "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
@@ -337,7 +350,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "BEM_keycard_seller",
     "object": {
       "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
@@ -347,7 +359,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "BEM_template_seller",
     "object": {
       "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
@@ -357,7 +368,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "BEM_gunrunner",
     "object": {
       "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
@@ -367,7 +377,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "BEM_chatting_veterans",
     "object": {
       "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
@@ -377,7 +386,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "BEM_drugrunner",
     "object": {
       "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
@@ -387,7 +395,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "BEM_jabberwock",
     "object": {
       "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
@@ -397,7 +404,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "nest_ancilla_bar_remove_BEMs",
     "object": {
       "remove_npcs": [

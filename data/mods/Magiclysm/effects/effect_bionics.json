@@ -1,0 +1,9 @@
+[
+  {
+    "id": "effect_bio_mana_to_bionic_power",
+    "type": "effect_type",
+    "//": "Empty effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ]
+  }
+]

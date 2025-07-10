@@ -1,0 +1,55 @@
+[
+  {
+    "type": "mutation_type",
+    "id": "ESPER"
+  },
+  {
+    "type": "mutation",
+    "id": "ESPER",
+    "name": "Esper",
+    "points": 0,
+    "description": "You are an esper, capable of accessing the hidden powers of the human mind.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "AFS_ELECTROKINETIC",
+    "name": "Electrokinetic",
+    "points": 0,
+    "description": "The ability to control electricity with your mind.",
+    "types": [ "ESPER" ],
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "spells_learned": [ [ "afs_classless_toggleable_concentration_end", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "AFS_TELEKINETIC",
+    "name": "Telekinetic",
+    "points": 0,
+    "description": "The ability to move objects without touching them.",
+    "types": [ "ESPER" ],
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "spells_learned": [ [ "afs_classless_toggleable_concentration_end", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "AFS_TELEPATH",
+    "name": "Telepath",
+    "points": 0,
+    "description": "The ability to read thoughts and influence others' minds.",
+    "types": [ "ESPER" ],
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "spells_learned": [ [ "afs_classless_toggleable_concentration_end", 1 ] ]
+  }
+]

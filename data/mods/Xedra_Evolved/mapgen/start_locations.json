@@ -34,5 +34,12 @@
     "id": "sloc_homullus",
     "name": "Homullus",
     "terrain": [ "homullus_genius_loci_NW", "homullus_genius_loci_NE", "homullus_genius_loci_SW", "homullus_genius_loci_SE" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_xedra_chronomancer",
+    "name": "Monochrome Meadow",
+    "terrain": [ "xedra_monochrome_meadow" ],
+    "flags": [ "ALLOW_OUTSIDE" ]
   }
 ]

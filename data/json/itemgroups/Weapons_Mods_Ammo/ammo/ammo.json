@@ -1,0 +1,464 @@
+[
+  {
+    "type": "item_group",
+    "id": "ammo_common_boxed",
+    "//": "Ammo that spawns inside of boxes, with no loose ammo with it.  Meant mainly for gunstores.",
+    "//1": "Weighted very weirdly as it accounts for the average round count, as some ammo like .22 LR more commonly comes in larger boxes than something like 556",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "boxed_9mm", "prob": 5730 },
+      { "group": "boxed_22lr", "prob": 1487 },
+      { "group": "boxed_223", "prob": 969 },
+      { "group": "boxed_45", "prob": 2282 },
+      { "group": "boxed_380", "prob": 1428 },
+      { "group": "boxed_40", "prob": 1338 },
+      { "group": "boxed_762", "prob": 390 },
+      { "group": "boxed_357", "prob": 1719 },
+      { "group": "boxed_12", "prob": 4065 },
+      { "group": "boxed_308", "prob": 742 },
+      { "group": "boxed_38", "prob": 647 },
+      { "group": "boxed_44", "prob": 993 },
+      { "group": "boxed_3006", "prob": 378 },
+      { "group": "boxed_45colt", "prob": 340 },
+      { "group": "boxed_762R", "prob": 175 },
+      { "group": "boxed_270", "prob": 167 },
+      { "group": "boxed_410", "prob": 678 },
+      { "group": "boxed_10mm", "prob": 31 },
+      { "group": "boxed_300", "prob": 72 },
+      { "group": "boxed_303", "prob": 72 },
+      { "group": "boxed_30carbine", "prob": 31 },
+      { "group": "boxed_32", "prob": 113 },
+      { "group": "boxed_338", "prob": 64 },
+      { "group": "boxed_357sig", "prob": 105 },
+      { "group": "boxed_38super", "prob": 35 },
+      { "group": "boxed_450", "prob": 15 },
+      { "group": "boxed_454", "prob": 125 },
+      { "group": "boxed_4570", "prob": 84 },
+      { "group": "boxed_460", "prob": 137 },
+      { "group": "boxed_500", "prob": 137 },
+      { "group": "boxed_545", "prob": 122 },
+      { "group": "boxed_57", "prob": 22 },
+      { "group": "boxed_762x25", "prob": 13 },
+      { "group": "boxed_300blk", "prob": 197 },
+      { "group": "boxed_9x18", "prob": 77 },
+      { "group": "boxed_50beowulf", "prob": 14 },
+      { "group": "boxed_77x58", "prob": 11 },
+      { "group": "boxed_50AE", "prob": 10 },
+      { "group": "boxed_458", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_common_boxed_used",
+    "//": "Ammo that spawns inside of boxes, with either some extra loose ammo with it, or lacking some ammo.  Meant mainly for civilian ammo ownership, or lightly looted places.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "boxed_9mm_used", "prob": 5730 },
+      { "group": "boxed_22lr_used", "prob": 1487 },
+      { "group": "boxed_223_used", "prob": 969 },
+      { "group": "boxed_45_used", "prob": 2282 },
+      { "group": "boxed_380_used", "prob": 1428 },
+      { "group": "boxed_40_used", "prob": 1338 },
+      { "group": "boxed_762_used", "prob": 390 },
+      { "group": "boxed_357_used", "prob": 1719 },
+      { "group": "boxed_12_used", "prob": 4065 },
+      { "group": "boxed_308_used", "prob": 742 },
+      { "group": "boxed_38_used", "prob": 647 },
+      { "group": "boxed_44_used", "prob": 993 },
+      { "group": "boxed_3006_used", "prob": 378 },
+      { "group": "boxed_45colt_used", "prob": 340 },
+      { "group": "boxed_762R_used", "prob": 175 },
+      { "group": "boxed_270_used", "prob": 167 },
+      { "group": "boxed_410_used", "prob": 678 },
+      { "group": "boxed_10mm_used", "prob": 31 },
+      { "group": "boxed_300_used", "prob": 72 },
+      { "group": "boxed_303_used", "prob": 72 },
+      { "group": "boxed_30carbine_used", "prob": 31 },
+      { "group": "boxed_32_used", "prob": 113 },
+      { "group": "boxed_338_used", "prob": 64 },
+      { "group": "boxed_357sig_used", "prob": 105 },
+      { "group": "boxed_38super_used", "prob": 35 },
+      { "group": "boxed_450_used", "prob": 15 },
+      { "group": "boxed_454_used", "prob": 125 },
+      { "group": "boxed_4570_used", "prob": 84 },
+      { "group": "boxed_460_used", "prob": 137 },
+      { "group": "boxed_500_used", "prob": 137 },
+      { "group": "boxed_545_used", "prob": 122 },
+      { "group": "boxed_57_used", "prob": 22 },
+      { "group": "boxed_762x25_used", "prob": 13 },
+      { "group": "boxed_300blk_used", "prob": 197 },
+      { "group": "boxed_9x18_used", "prob": 77 },
+      { "group": "boxed_50beowulf_used", "prob": 14 },
+      { "group": "boxed_77x58_used", "prob": 11 },
+      { "group": "boxed_50AE_used", "prob": 10 },
+      { "group": "boxed_458_used", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_common_boxed_looted",
+    "//": "Ammo that spawns inside of boxes that are very low in number. Meant for civilian ammo ownership, and looted locations.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "boxed_9mm_looted", "prob": 5730 },
+      { "group": "boxed_22lr_looted", "prob": 1487 },
+      { "group": "boxed_223_looted", "prob": 969 },
+      { "group": "boxed_45_looted", "prob": 2282 },
+      { "group": "boxed_380_looted", "prob": 1428 },
+      { "group": "boxed_40_looted", "prob": 1338 },
+      { "group": "boxed_762_looted", "prob": 390 },
+      { "group": "boxed_357_looted", "prob": 1719 },
+      { "group": "boxed_12_looted", "prob": 4065 },
+      { "group": "boxed_308_looted", "prob": 742 },
+      { "group": "boxed_38_looted", "prob": 647 },
+      { "group": "boxed_44_looted", "prob": 993 },
+      { "group": "boxed_3006_looted", "prob": 378 },
+      { "group": "boxed_45colt_looted", "prob": 340 },
+      { "group": "boxed_762R_looted", "prob": 175 },
+      { "group": "boxed_270_looted", "prob": 167 },
+      { "group": "boxed_410_looted", "prob": 678 },
+      { "group": "boxed_10mm_looted", "prob": 31 },
+      { "group": "boxed_300_looted", "prob": 72 },
+      { "group": "boxed_303_looted", "prob": 72 },
+      { "group": "boxed_30carbine_looted", "prob": 31 },
+      { "group": "boxed_32_looted", "prob": 113 },
+      { "group": "boxed_338_looted", "prob": 64 },
+      { "group": "boxed_357sig_looted", "prob": 105 },
+      { "group": "boxed_38super_looted", "prob": 35 },
+      { "group": "boxed_450_looted", "prob": 15 },
+      { "group": "boxed_454_looted", "prob": 125 },
+      { "group": "boxed_4570_looted", "prob": 84 },
+      { "group": "boxed_460_looted", "prob": 137 },
+      { "group": "boxed_500_looted", "prob": 137 },
+      { "group": "boxed_545_looted", "prob": 122 },
+      { "group": "boxed_57_looted", "prob": 22 },
+      { "group": "boxed_762x25_looted", "prob": 13 },
+      { "group": "boxed_300blk_looted", "prob": 197 },
+      { "group": "boxed_9x18_looted", "prob": 77 },
+      { "group": "boxed_50beowulf_looted", "prob": 14 },
+      { "group": "boxed_77x58_looted", "prob": 11 },
+      { "group": "boxed_50AE_looted", "prob": 10 },
+      { "group": "boxed_458_looted", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_common_loose",
+    "//": "Loose rounds of ammunition, stuff you'd expect on the floors of looted gunstores.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "9mm_loose", "prob": 209 },
+      { "item": "22_lr", "charges": [ 1, 20 ], "prob": 204 },
+      { "group": "223_loose", "prob": 125 },
+      { "group": "45_loose", "prob": 49 },
+      { "group": "380_loose", "prob": 48 },
+      { "group": "40_loose", "prob": 40 },
+      { "group": "762_loose", "prob": 34 },
+      { "group": "357_loose", "prob": 34 },
+      { "group": "12_loose", "prob": 26 },
+      { "group": "308_loose", "prob": 25 },
+      { "group": "38_loose", "prob": 19 },
+      { "group": "44_loose", "prob": 15 },
+      { "group": "3006_loose", "prob": 8 },
+      { "group": "45colt_loose", "prob": 8 },
+      { "item": "762_54R", "charges": [ 1, 10 ], "prob": 4 },
+      { "item": "270win_jsp", "charges": [ 1, 10 ], "prob": 3 },
+      { "group": "410_loose", "prob": 3 },
+      { "group": "10mm_loose", "prob": 1 },
+      { "item": "300_winmag", "charges": [ 1, 10 ], "prob": 1 },
+      { "group": "303_loose", "prob": 1 },
+      { "group": "30carbine_loose", "prob": 1 },
+      { "group": "32_loose", "prob": 1 },
+      { "item": "338lapua_hpbt", "charges": [ 1, 10 ], "prob": 1 },
+      { "group": "357sig_loose", "prob": 1 },
+      { "group": "38super_loose", "prob": 1 },
+      { "item": "450_ftx", "charges": [ 1, 10 ], "prob": 1 },
+      { "item": "454_Casull", "charges": [ 1, 10 ], "prob": 1 },
+      { "group": "4570_loose", "prob": 1 },
+      { "item": "500_Magnum", "charges": [ 1, 10 ], "prob": 1 },
+      { "item": "545", "charges": [ 1, 10 ], "prob": 1 },
+      { "item": "57mm_lf", "charges": [ 1, 10 ], "prob": 1 },
+      { "item": "762_25", "charges": [ 1, 10 ], "prob": 1 },
+      { "item": "300blk", "charges": [ 1, 10 ], "prob": 1 },
+      { "item": "9x18mm", "charges": [ 1, 10 ], "prob": 1 },
+      { "group": "50beowulf_loose", "prob": 1 },
+      { "item": "77mm_arisaka_jsp", "charges": [ 1, 10 ], "prob": 1 },
+      { "group": "50AE_loose", "prob": 1 },
+      { "item": "458wm", "charges": [ 1, 10 ], "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_hunting",
+    "//": "Ammo for hunting purposes.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "boxed_22lr", "prob": 1487 },
+      { "group": "boxed_223", "prob": 969 },
+      { "group": "boxed_762", "prob": 390 },
+      { "group": "boxed_357", "prob": 1719 },
+      { "group": "boxed_12", "prob": 4065 },
+      { "group": "boxed_308", "prob": 742 },
+      { "group": "boxed_44", "prob": 993 },
+      { "group": "boxed_3006", "prob": 378 },
+      { "group": "boxed_762R", "prob": 175 },
+      { "group": "boxed_270", "prob": 167 },
+      { "group": "boxed_410", "prob": 678 },
+      { "group": "boxed_10mm", "prob": 31 },
+      { "group": "boxed_300", "prob": 72 },
+      { "group": "boxed_303", "prob": 72 },
+      { "group": "boxed_338", "prob": 64 },
+      { "group": "boxed_450", "prob": 15 },
+      { "group": "boxed_454", "prob": 125 },
+      { "group": "boxed_4570", "prob": 84 },
+      { "group": "boxed_500", "prob": 137 },
+      { "group": "boxed_50beowulf", "prob": 14 },
+      { "group": "boxed_77x58", "prob": 11 },
+      { "group": "boxed_50AE", "prob": 10 },
+      { "group": "boxed_458", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_pistol_milspec",
+    "//": "Military specification pistol ammo found at military sites.",
+    "subtype": "distribution",
+    "entries": [ { "item": "46mm", "prob": 70 }, { "item": "9mmfmj", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_smg_milspec",
+    "//": "Military specification SMG ammo found at military sites.",
+    "subtype": "distribution",
+    "entries": [ { "group": "ammo_pistol_milspec", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_rifle_milspec",
+    "//": "Military specification rifle ammo found at military sites.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "50_incendiary", "prob": 10 },
+      { "item": "50bmg", "prob": 30 },
+      { "item": "50match", "prob": 30 },
+      { "item": "50ss", "prob": 10 },
+      { "item": "50_mk211", "prob": 1 },
+      { "item": "556_incendiary", "prob": 15 },
+      { "item": "556_mk262", "prob": 3 },
+      { "item": "556_mk318", "prob": 1 },
+      { "item": "556", "prob": 79 },
+      { "item": "556_m855a1", "prob": 2 },
+      { "item": "556_m995", "prob": 2 },
+      { "item": "762_51_incendiary", "prob": 10 },
+      { "item": "762_51", "prob": 40 },
+      { "item": "762_51_m993", "prob": 20 },
+      { "item": "300blk", "prob": 15 },
+      { "item": "300blk_ss", "prob": 10 },
+      { "item": "338lapua_fmjbt", "prob": 15 },
+      { "item": "338lapua_api", "prob": 15 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_shotgun_rare_collection",
+    "//": "Less common shotgun ammo including that only used by police/paramilitary forces.",
+    "subtype": "collection",
+    "entries": [ { "item": "shot_dragon", "prob": 20 }, { "item": "shot_beanbag", "prob": 40 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_shotgun_milspec",
+    "//": "Military specification shotgun ammo found at military sites.",
+    "subtype": "distribution",
+    "entries": [ { "item": "shot_he", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_shotgun_reloaded",
+    "//": "Reloaded shotgun ammo balanced according to rarity.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "reloaded_shot_00", "prob": 200 },
+      { "item": "reloaded_shot_bird", "prob": 30 },
+      { "item": "reloaded_shot_dragon", "prob": 20 },
+      { "item": "reloaded_shot_flechette", "prob": 5 },
+      { "item": "reloaded_shot_slug", "prob": 30 },
+      { "item": "shot_scrap", "prob": 80 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_launcher_grenade",
+    "//": "Factory specification grenade launcher ammo intended for military use",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "40x53mm_m1001", "prob": 10 },
+      { "item": "40x46mm_m433", "prob": 120 },
+      { "item": "40x53mm_m430a1", "prob": 75 },
+      { "item": "40x46mm_m576", "prob": 15 },
+      { "item": "40x46mm_m651", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_launcher_grenade_adapter",
+    "//": "Adapters for firing multiples of civilian legal ammo from a greneade launcher",
+    "subtype": "distribution",
+    "entries": [ { "item": "40x46mm_hornets_nest_22lr", "prob": 50 }, { "item": "40x46mm_hornets_nest_410", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_milspec",
+    "//": "Military specification ammo found at military sites.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "ammo_pistol_milspec", "prob": 50 },
+      { "group": "ammo_rifle_milspec", "prob": 200 },
+      { "group": "ammo_shotgun_milspec", "prob": 30 },
+      { "group": "ammo_launcher_grenade", "prob": 30 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_parts",
+    "//": "Raw materials for assembling ammo excluding casings.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "gunpowder_shotgun", "prob": 20, "charges": [ 200, 4540 ], "container-item": "bottle_plastic" },
+      { "item": "gunpowder_pistol", "prob": 105, "charges": [ 200, 4540 ], "container-item": "bottle_plastic" },
+      { "item": "gunpowder_magnum_pistol", "prob": 60, "charges": [ 200, 4540 ], "container-item": "bottle_plastic" },
+      { "item": "gunpowder_rifle", "prob": 85, "charges": [ 200, 4540 ], "container-item": "bottle_plastic" },
+      { "item": "gunpowder_large_rifle", "prob": 40, "charges": [ 200, 4540 ], "container-item": "bottle_plastic" },
+      { "item": "gunpowder_artillery", "prob": 5, "charges": [ 200, 4540 ], "container-item": "bottle_plastic" },
+      { "item": "incendiary", "prob": 20 },
+      { "item": "copper", "prob": 160 },
+      { "item": "lead", "prob": 160 },
+      { "item": "shotgun_primer", "prob": 80 },
+      { "item": "smpistol_primer", "prob": 80 },
+      { "item": "smrifle_primer", "prob": 80 },
+      { "item": "lgpistol_primer", "prob": 40 },
+      { "item": "lgrifle_primer", "prob": 40 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_cop",
+    "//": "Ammo for police issue firearms.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "223", "prob": 30, "charges": [ 1, 30 ] },
+      { "item": "3006", "prob": 10, "charges": [ 1, 20 ] },
+      { "item": "40sw", "prob": 50, "charges": [ 1, 40 ] },
+      { "item": "45_acp", "prob": 20, "charges": [ 1, 30 ] },
+      { "item": "57mm", "prob": 80, "charges": [ 1, 40 ] },
+      { "item": "57mm_ss", "prob": 25, "charges": [ 1, 40 ] },
+      { "item": "9mm", "prob": 100, "charges": [ 1, 50 ] },
+      { "item": "shot_00", "prob": 40, "charges": [ 1, 20 ] },
+      { "item": "shot_beanbag", "prob": 40, "charges": [ 1, 10 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_swat",
+    "//": "Ammo issued to paramilitary forces in addition to standard police issue.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "ammo_cop", "prob": 100 },
+      { "item": "300_winmag", "prob": 5, "charges": [ 1, 10 ] },
+      { "item": "3006fmj", "prob": 2, "charges": [ 1, 20 ] },
+      { "item": "40x46mm_m433", "prob": 5, "charges": [ 1, 6 ] },
+      { "item": "40x46mm_m651", "prob": 20, "charges": [ 1, 6 ] },
+      { "item": "556", "prob": 10, "charges": [ 1, 30 ] },
+      { "item": "shot_slug", "prob": 20, "charges": [ 1, 20 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_light_batteries",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "light_battery_cell", "prob": 25, "charges": [ 0, 100 ] },
+      { "item": "light_minus_battery_cell", "prob": 12, "charges": [ 0, 50 ] },
+      { "item": "light_battery_cell", "prob": 9, "charges": [ 0, 150 ] },
+      { "item": "light_battery_cell", "prob": 50, "charges": [ 0, 300 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_light_batteries_full",
+    "items": [
+      { "item": "light_battery_cell", "prob": 25, "charges": 100 },
+      { "item": "light_minus_battery_cell", "prob": 12, "charges": 50 },
+      { "item": "light_battery_cell", "prob": 9, "charges": 150 },
+      { "item": "light_battery_cell", "prob": 50, "charges": 300 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_medium_batteries",
+    "subtype": "distribution",
+    "entries": [ { "item": "medium_battery_cell", "prob": 40, "charges": [ 0, 500 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_medium_batteries_full",
+    "subtype": "distribution",
+    "entries": [ { "item": "medium_battery_cell", "prob": 40, "charges": 500 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_heavy_batteries",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "heavy_battery_cell", "prob": 40, "charges": [ 0, 1000 ] },
+      { "item": "heavy_plus_battery_cell", "prob": 80, "charges": [ 0, -1 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_heavy_batteries_full",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "heavy_battery_cell", "prob": 40, "charges": 1000 },
+      { "item": "heavy_plus_battery_cell", "prob": 80, "charges": 2500 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_any_batteries_full",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "ammo_light_batteries_full", "prob": 5 },
+      { "group": "ammo_medium_batteries_full", "prob": 5 },
+      { "group": "ammo_heavy_batteries_full", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_any_batteries",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "ammo_light_batteries", "prob": 5 },
+      { "group": "ammo_medium_batteries", "prob": 5 },
+      { "group": "ammo_heavy_batteries", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_pocket_batteries",
+    "subtype": "distribution",
+    "entries": [ { "group": "ammo_light_batteries", "prob": 10 }, { "group": "ammo_medium_batteries", "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_pocket_batteries_full",
+    "subtype": "distribution",
+    "entries": [ { "group": "ammo_light_batteries_full", "prob": 5 }, { "group": "ammo_medium_batteries_full", "prob": 5 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_cannon",
+    "subtype": "distribution",
+    "entries": [ { "item": "cannon_shot", "prob": 100 } ]
+  }
+]

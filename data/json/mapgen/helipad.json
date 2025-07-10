@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": [ [ "helipad_nw", "helipad_ne" ], [ "helipad_sw", "helipad_se" ] ],
     "type": "mapgen",
     "weight": 500,
@@ -33,32 +32,32 @@
         ".F..W-cttc---1WW--+-W|_____M___IUUUUUUUI___|..F.",
         ".F..W-cttc-z-2W<--WhW|lllll|___IUUUUUUUI%__|..F.",
         ".F..WWwwwWwwwWWW++WWW||||||||m|MMMMMMMMM||||..F.",
-        ".F.......3P.....oo...........o.=========6666..F.",
+        ".F.......3P.....oo.$.......$.o.=========6666..F.",
         ".F..========================================..F.",
         ".F..========================================..F.",
         ".F..========================================..F.",
-        ".F..========================================..F.",
-        ".F...o,,,,,o..o,,,,,,,,,,,,,,,,,,o..o,,,,,o...F.",
-        ".F...o=====o..o==================o..o=====o...F.",
-        ".F..$=========o$==,,========,,===o$=========..F.",
-        ".F..==========o===,,========,,===o==========..F.",
-        ".F..=,=====,==o===,,========,,===o=,=====,==..F.",
-        ".F..=,=====,==o===,,========,,===o=,=====,==..F.",
-        ".F..=,=====,==o===,,,,,,,,,,,,===o=,=====,==..F.",
-        ".F..=,,,,,,,==o===,,,,,,,,,,,,===o=,,,,,,,==..F.",
-        ".F..=,,,,,,,==o===,,========,,===o=,,,,,,,==..F.",
-        ".F..=,=====,==o===,,========,,===o=,=====,==..F.",
-        ".F..=,=====,==o===,,========,,===o=,=====,==..F.",
-        ".F..=,=====,==o===,,========,,===o=,=====,==..F.",
-        ".F..==========o==================o==========..F.",
-        ".F..==========o==================o==========..F.",
+        ".F........o,,,,,o.............o,,,,,o.........F.",
+        ".F.....oooo=====oooo.......oooo=====oooo......F.",
+        ".F.....o===========o.......o===========o......F.",
+        ".F.....o===========o.......o===========o......F.",
+        ".F.....o===,===,===o.......o===,===,===o......F.",
+        ".F.....o===,===,===o.......o===,===,===o......F.",
+        ".F.....o===,===,===o.......o===,===,===o......F.",
+        ".F.....o===,,,,,===o.......o===,,,,,===o......F.",
+        ".F.....o===,===,===o.......o===,===,===o......F.",
+        ".F.....o===,===,===o.......o===,===,===o......F.",
+        ".F.....o===,===,===o.......o===,===,===o......F.",
+        ".F.....o===========o.......o===========o......F.",
+        ".F.....o===========o.......o===========o......F.",
+        ".F.....ooooooooooooo.......ooooooooooooo......F.",
+        ".F............................................F.",
         "FFG..........................................GFF",
         "FTFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFTF",
         "FFF..........................................FFF"
       ],
       "palettes": [ "helipad_palette" ],
       "toilets": { "&": {  } },
-      "gaspumps": { "$": { "fuel": "jp8", "amount": [ 200000, 1000000 ] } },
+      "gaspumps": { "$": { "fuel": "jp8", "amount": [ 2000, 10000 ] } },
       "items": {
         "B": {
           "item": {
@@ -128,14 +127,12 @@
         { "vehicle": "forklift_vehicles", "x": 29, "y": 6, "chance": 95, "rotation": 180, "status": -1 },
         { "vehicle": "military_vehicles", "x": 8, "y": 9, "chance": 35, "rotation": 0, "status": -1 },
         { "vehicle": "military_vehicles", "x": 16, "y": 8, "chance": 65, "rotation": 270, "status": -1 },
-        { "vehicle": "mil_helicopters_small", "x": 10, "y": 40, "chance": 15, "rotation": 90 },
-        { "vehicle": "mil_helicopters_small", "x": 31, "y": 40, "chance": 15, "rotation": 90, "status": -1 },
-        { "vehicle": "crashed_helicopters_small", "x": 39, "y": 40, "chance": 65, "rotation": 90, "status": 1 }
+        { "vehicle": "mil_helicopters_small", "x": 14, "y": 39, "chance": 30, "rotation": 90 },
+        { "vehicle": "mil_helicopters_small", "x": 34, "y": 39, "chance": 65, "rotation": 90, "status": 1 }
       ]
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "helipad2f_nw", "helipad2f_ne" ], [ "helipad2f_sw", "helipad2f_se" ] ],
     "type": "mapgen",
     "object": {
@@ -198,7 +195,7 @@
         "h": { "item": "SUS_bathroom_sink", "chance": 50 },
         "S": { "item": "SUS_bathroom_sink", "chance": 90 },
         "L": { "item": "army_personal_locker", "repeat": [ 0, 4 ], "chance": 50 },
-        "=": { "item": "roof_trash", "chance": 2 },
+        "=": { "item": "SUS_trash_roof", "chance": 2 },
         "&": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_monster": [
@@ -221,10 +218,8 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "helipad_roof_nw", "helipad_roof_ne" ], [ "helipad_roof_sw", "helipad_roof_se" ] ],
     "type": "mapgen",
-    "weight": 500,
     "object": {
       "fill_ter": "t_open_air",
       "rows": [

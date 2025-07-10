@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <climits>
-#include <iosfwd>
 #include <limits>
 #include <map>
 #include <memory>
@@ -13,26 +12,28 @@
 #include "active_item_cache.h"
 #include "bionics.h"
 #include "character.h"
+#include "character_attire.h"
 #include "colony.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "flag.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
 #include "item_pocket.h"
+#include "itype.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_selector.h"
-#include "memory_fast.h"
-#include "monster.h"
-#include "mtype.h"
+#include "mapdata.h"
 #include "mutation.h"
 #include "pimpl.h"
+#include "pocket_type.h"
 #include "point.h"
+#include "stomach.h"
 #include "submap.h"
 #include "temp_crafting_inventory.h"
 #include "units.h"
-#include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
@@ -127,7 +128,7 @@ static int has_quality_from_vpart( const vehicle &veh, int part, const quality_i
 {
     int qty = 0;
 
-    point pos = veh.part( part ).mount;
+    point_rel_ms pos = veh.part( part ).mount;
     for( const int n : veh.parts_at_relative( pos, true ) ) {
         const vehicle_part &vp = veh.part( n );
         // only unbroken parts can provide tool qualities
@@ -241,7 +242,7 @@ static int max_quality_from_vpart( const vehicle &veh, int part, const quality_i
 {
     int res = INT_MIN;
 
-    point pos = veh.part( part ).mount;
+    point_rel_ms pos = veh.part( part ).mount;
     for( const int &n : veh.parts_at_relative( pos, true ) ) {
         const vehicle_part &vp = veh.part( n );
 
@@ -274,7 +275,7 @@ int Character::max_quality( const quality_id &qual ) const
     }
 
     if( qual == qual_BUTCHER ) {
-        for( const trait_id &mut : get_mutations() ) {
+        for( const trait_id &mut : get_functioning_mutations() ) {
             res = std::max( res, mut->butchering_quality );
         }
     }
@@ -288,7 +289,7 @@ int Character::max_quality( const quality_id &qual, int radius ) const
 
     if( radius > 0 ) {
         res = std::max( res,
-                        crafting_inventory( tripoint_zero, radius, true )
+                        crafting_inventory( tripoint_bub_ms::zero, radius, true )
                         .max_quality( qual ) );
     }
 
@@ -353,7 +354,7 @@ static VisitResponse visit_internal( const std::function<VisitResponse( item *, 
             if( m_node->visit_contents( func, m_node ) == VisitResponse::ABORT ) {
                 return VisitResponse::ABORT;
             }
-        /* intentional fallthrough */
+            [[fallthrough]];
 
         case VisitResponse::SKIP:
             return VisitResponse::NEXT;
@@ -467,16 +468,12 @@ const
     return inv->visit_items( func );
 }
 
-/** @relates visitable */
-VisitResponse map_cursor::visit_items(
-    const std::function<VisitResponse( item *, item * )> &func ) const
+static VisitResponse visit_items_internal( map *here,
+        const tripoint_bub_ms p, const std::function<VisitResponse( item *, item * )> &func )
 {
-    map &here = get_map();
-    tripoint p = pos();
-
     // check furniture pseudo items
-    if( here.furn( p ) != furn_str_id::NULL_ID() ) {
-        itype_id it_id = here.furn( p )->crafting_pseudo_item;
+    if( here->furn( p ) != furn_str_id::NULL_ID() ) {
+        itype_id it_id = here->furn( p )->crafting_pseudo_item;
         if( it_id.is_valid() ) {
             item it( it_id );
             if( visit_internal( func, &it ) == VisitResponse::ABORT ) {
@@ -486,17 +483,35 @@ VisitResponse map_cursor::visit_items(
     }
 
     // skip inaccessible items
-    if( here.has_flag( ter_furn_flag::TFLAG_SEALED, p ) &&
-        !here.has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, p ) ) {
+    if( here->has_flag( ter_furn_flag::TFLAG_SEALED, p ) &&
+        !here->has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, p ) ) {
         return VisitResponse::NEXT;
     }
 
-    for( item &e : here.i_at( p ) ) {
+    for( item &e : here->i_at( p ) ) {
         if( visit_internal( func, &e ) == VisitResponse::ABORT ) {
             return VisitResponse::ABORT;
         }
     }
     return VisitResponse::NEXT;
+}
+
+/** @relates visitable */
+VisitResponse map_cursor::visit_items(
+    const std::function<VisitResponse( item *, item * )> &func ) const
+{
+    if( get_map().inbounds( pos_bub() ) ) {
+        return visit_items_internal( &get_map(), pos_bub(), func );
+    } else {
+        tinymap here; // Tinymap is sufficient. Only looking at single location, so no Z level need.
+        // pos returns the pos_bub location of the target relative to the reality bubble
+        // even though the location isn't actually inside of it. Thus, we're loading a map
+        // around that location to do our work.
+        const tripoint_abs_ms abs_pos = pos_abs();
+        here.load( project_to<coords::omt>( abs_pos ), false );
+        tripoint_omt_ms p = here.get_omt( abs_pos );
+        return visit_items_internal( here.cast_to_map(), rebase_bub( p ), func );
+    }
 }
 
 /** @relates visitable */
@@ -570,6 +585,10 @@ std::list<item> item::remove_items_with( const std::function<bool( const item &e
     // updating pockets is only necessary when removing mods,
     // but no way to determine where something got removed here
     update_modified_pockets();
+
+    if( !res.empty() ) {
+        on_contents_changed();
+    }
 
     return res;
 }
@@ -691,14 +710,14 @@ std::list<item> map_cursor::remove_items_with( const
     }
 
     map &here = get_map();
-    if( !here.inbounds( pos() ) ) {
+    if( !here.inbounds( pos_bub() ) ) {
         debugmsg( "cannot remove items from map: cursor out-of-bounds" );
         return res;
     }
 
     // fetch the appropriate item stack
-    point offset;
-    submap *sub = here.get_submap_at( pos(), offset );
+    point_sm_ms offset;
+    submap *sub = here.get_submap_at( pos_bub(), offset );
     cata::colony<item> &stack = sub->get_items( offset );
 
     for( auto iter = stack.begin(); iter != stack.end(); ) {
@@ -801,6 +820,8 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
                                 const std::function<bool( const item & )> &filter,
                                 const std::function<void( int )> &visitor, bool in_tools )
 {
+    map &here = get_map();
+
     int qty = 0;
 
     bool found_tool_with_UPS = false;
@@ -814,7 +835,7 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
                 if( e->count_by_charges() ) {
                     qty = sum_no_wrap( qty, e->charges );
                 } else {
-                    qty = sum_no_wrap( qty, e->ammo_remaining( nullptr, true ) );
+                    qty = sum_no_wrap( qty, e->ammo_remaining_linked( here, nullptr ) );
                 }
                 if( e->has_flag( STATIC( flag_id( "USE_UPS" ) ) ) ) {
                     found_tool_with_UPS = true;
@@ -822,7 +843,7 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
                     found_bionic_tool = true;
                 }
             } else if( id == itype_UPS && e->has_flag( flag_IS_UPS ) ) {
-                qty = sum_no_wrap( qty, e->ammo_remaining( nullptr, true ) );
+                qty = sum_no_wrap( qty, e->ammo_remaining_linked( here, nullptr ) );
             }
         }
         if( qty >= limit ) {

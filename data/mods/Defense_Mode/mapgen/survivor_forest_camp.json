@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "dm_survivor_forest_camp" ],
     "object": {
       "fallback_predecessor_mapgen": "forest_thick",

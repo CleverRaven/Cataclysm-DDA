@@ -18,7 +18,7 @@
   {
     "id": "BGSS_EVACUEE_5_BEES",
     "type": "talk_topic",
-    "dynamic_line": "Yeah, I'm sure you've seen them, they're everywhere.  Like something out of a scary story.  Some of the others in the cave got stung, it was no joke.  I didn't stick around to see what the lasting effect was though.  I'm not ashamed to admit I ran like a <swear> chicken.",
+    "dynamic_line": "Yeah, I'm sure you've seen them, they're everywhere.  Like something out of a scary story.  Some of the others in the cave got stung, it was no joke.  I didn't stick around to see what the lasting effect was though.  I'm not ashamed to admit I ran like a <freaking> chicken.",
     "responses": [
       {
         "text": "But bees aren't usually aggressive… do you mean wasps?",

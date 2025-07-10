@@ -23,6 +23,12 @@ struct ammo_effect;
 using ammo_effect_id = int_id<ammo_effect>;
 using ammo_effect_str_id = string_id<ammo_effect>;
 
+class anatomy;
+using anatomy_id = string_id<anatomy>;
+
+struct attack_vector;
+using attack_vector_id = string_id<attack_vector>;
+
 struct bionic_data;
 using bionic_id = string_id<bionic_data>;
 
@@ -55,6 +61,9 @@ using construction_group_str_id = string_id<construction_group>;
 struct clothing_mod;
 using clothing_mod_id = string_id<clothing_mod>;
 
+struct crafting_category;
+using crafting_category_id = string_id<crafting_category>;
+
 struct effect_on_condition;
 using effect_on_condition_id = string_id<effect_on_condition>;
 
@@ -82,6 +91,9 @@ using emit_id = string_id<emit>;
 class enchantment;
 using enchantment_id = string_id<enchantment>;
 
+struct end_screen;
+using end_screen_id = string_id<end_screen>;
+
 class event_statistic;
 using event_statistic_id = string_id<event_statistic>;
 
@@ -90,6 +102,9 @@ using fault_id = string_id<fault>;
 
 class fault_fix;
 using fault_fix_id = string_id<fault_fix>;
+
+class fault_group;
+using fault_group_id = string_id<fault_group>;
 
 struct field_type;
 using field_type_id = int_id<field_type>;
@@ -192,6 +207,9 @@ struct oter_type_t;
 using oter_type_id = int_id<oter_type_t>;
 using oter_type_str_id = string_id<oter_type_t>;
 
+class oter_vision;
+using oter_vision_id = string_id<oter_vision>;
+
 class overmap_connection;
 using overmap_connection_id = string_id<overmap_connection>;
 
@@ -240,6 +258,9 @@ using speed_description_id = string_id<speed_description>;
 class mood_face;
 using mood_face_id = string_id<mood_face>;
 
+class magic_type;
+using magic_type_id = string_id<magic_type>;
+
 class spell_type;
 using spell_id = string_id<spell_type>;
 
@@ -257,6 +278,9 @@ using proficiency_category_id = string_id<proficiency_category>;
 
 class proficiency;
 using proficiency_id = string_id<proficiency>;
+
+class relic_procgen_data;
+using relic_procgen_id = string_id<relic_procgen_data>;
 
 struct ter_t;
 using ter_id = int_id<ter_t>;

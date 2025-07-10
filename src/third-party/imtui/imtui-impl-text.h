@@ -13,4 +13,4 @@ struct TScreen;
 bool ImTui_ImplText_Init();
 void ImTui_ImplText_Shutdown();
 void ImTui_ImplText_NewFrame();
-void ImTui_ImplText_RenderDrawData(ImDrawData * drawData, ImTui::TScreen * screen);
+void ImTui_ImplText_RenderDrawData(ImDrawData * drawData);

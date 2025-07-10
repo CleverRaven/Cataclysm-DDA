@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "bracken_eye",
     "name": { "str": "brackenwight eye" },
     "description": "A fist-sized lump of plant matter taken from a brackenwight.  It still glows a very faint green.",
@@ -11,7 +11,8 @@
     "flags": [ "TRADER_AVOID", "LIGHT_3" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "mossling_fur",
     "copy-from": "grass",
     "name": { "str": "tuft of mossling fur", "str_pl": "tufts of mossling fur" },
@@ -22,14 +23,14 @@
     "flags": [ "TRADER_AVOID", "INEDIBLE" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "dryad_bark",
     "copy-from": "alder_bark",
     "name": { "str": "dryad bark", "str_pl": "chunks of dryad bark" },
     "description": "A strip of bark taken from a fallen dryad.  It's still slightly supple, as though it were attached to a living tree."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "gnome_eye",
     "copy-from": "garnet",
     "name": { "str": "gnome eye" },

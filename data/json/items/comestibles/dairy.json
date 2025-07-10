@@ -1,6 +1,7 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "milk",
     "name": { "str_sp": "milk" },
     "weight": "258 g",
@@ -9,7 +10,7 @@
     "container": "jug_plastic",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 25,
+    "quench": 70,
     "calories": 132,
     "description": "Baby cow food, appropriated for human consumption.  Spoils rapidly.",
     "price": "38 cent",
@@ -20,11 +21,12 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 25 ] ],
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 25 ], [ "milk_allergen", 1 ] ],
     "fun": 1
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "milk_choc",
     "name": { "str_sp": "chocolate milk" },
     "copy-from": "milk",
@@ -34,14 +36,16 @@
     "fun": 6
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "milk_reconstituted",
     "name": { "str_sp": "reconstituted milk" },
     "copy-from": "milk",
     "description": "Baby cow food, appropriated for adult humans.  This milk has been reconstituted from powder.  Spoils rapidly."
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "milk_raw",
     "name": { "str_sp": "raw milk" },
     "copy-from": "milk",
@@ -52,7 +56,8 @@
     "description": "This is raw, unhomogenized and unpasteurized milk from a cow.  It couldn't be any fresher unless you drank it straight from the cow, which might upset it.  Depending on your dietary sensibilities, you might want to pasteurize or even boil this before drinking."
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "milk_UHT",
     "name": { "str_sp": "shelf stable milk" },
     "copy-from": "milk",
@@ -63,7 +68,8 @@
     "price_postapoc": "1 USD 50 cent"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "milk_evap",
     "name": { "str_sp": "evaporated milk" },
     "copy-from": "milk",
@@ -76,10 +82,12 @@
     "price_postapoc": "2 USD",
     "material": [ "milk" ],
     "volume": "500 ml",
-    "charges": 2
+    "charges": 2,
+    "vitamins": [ [ "milk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "buttermilk",
     "name": { "str_sp": "buttermilk" },
     "copy-from": "milk",
@@ -93,13 +101,14 @@
     "vitamins": [ [ "vitC", 1 ], [ "calcium", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "yoghurt",
     "name": { "str_sp": "yogurt" },
     "weight": "257 g",
     "color": "magenta",
     "spoils_in": "20 hours",
-    "container": "cup_plastic",
+    "container": "cup_plastic_yoghurt",
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 150,
@@ -112,10 +121,11 @@
     "phase": "liquid",
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": 15,
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 33 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 33 ], [ "iron", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "butter",
     "name": { "str_sp": "butter" },
     "weight": "14180 mg",
@@ -132,10 +142,12 @@
     "material": [ "milk" ],
     "volume": "15 ml",
     "flags": [ "NO_AUTO_CONSUME" ],
-    "fun": -1
+    "fun": -1,
+    "vitamins": [ [ "milk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "raw_butter",
     "name": { "str_sp": "raw butter" },
     "copy-from": "butter",
@@ -151,7 +163,8 @@
     "volume": "15 ml"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "ghee",
     "name": { "str_sp": "ghee" },
     "copy-from": "butter",
@@ -168,7 +181,8 @@
     "flags": "ANIMAL_PRODUCT"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "pudding",
     "name": { "str": "pudding" },
     "weight": "232 g",
@@ -187,10 +201,11 @@
     "phase": "liquid",
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": 20,
-    "vitamins": [ [ "calcium", 8 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "calcium", 8 ], [ "iron", 1 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "milk_curdled",
     "name": { "str_sp": "curdled milk" },
     "weight": "236 g",
@@ -199,7 +214,7 @@
     "container": "waterskin",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 8,
+    "quench": 70,
     "calories": 35,
     "description": "Milk that has been curdled with vinegar and rennet.  It still needs to be salted and drained of whey.",
     "price": "10 cent",
@@ -208,10 +223,12 @@
     "volume": "250 ml",
     "charges": 1,
     "phase": "liquid",
-    "fun": -12
+    "fun": -12,
+    "vitamins": [ [ "milk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cheese_hard",
     "name": { "str_sp": "hard cheese" },
     "copy-from": "cheese",
@@ -223,18 +240,19 @@
     "description": "Hard, dry cheese made to last, unlike modern processed cheese.  Will make you thirsty though.",
     "price": "3 USD 85 cent",
     "price_postapoc": "1 USD 50 cent",
-    "vitamins": [ [ "calcium", 32 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "calcium", 32 ], [ "iron", 2 ], [ "milk_allergen", 0 ] ],
     "fun": 5,
     "flags": [ "NUTRIENT_OVERRIDE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cheese",
     "name": { "str_sp": "cheese" },
     "weight": "30 g",
     "color": "yellow",
     "spoils_in": "28 days",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 120,
@@ -245,10 +263,11 @@
     "primary_material": "cheese",
     "volume": "31 ml",
     "fun": 7,
-    "vitamins": [ [ "calcium", 16 ] ]
+    "vitamins": [ [ "calcium", 16 ], [ "milk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cottage_cheese",
     "name": { "str_sp": "cottage cheese" },
     "color": "yellow",
@@ -264,11 +283,12 @@
     "description": "Unaged curdled milk and whey, made by draining cheese rather than pressing like cheese curds.  The retained whey keeps the curds loose and soft, giving a somewhat soupy texture to this lower calorie variety of cheese.",
     "price": "3 USD 85 cent",
     "price_postapoc": "1 USD 50 cent",
-    "vitamins": [ [ "calcium", 32 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "calcium", 32 ], [ "iron", 2 ], [ "milk_allergen", 1 ] ],
     "fun": 1
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cottage_cheese_with_fruit",
     "name": { "str_sp": "cottage cheese with fruit" },
     "copy-from": "cottage_cheese",
@@ -279,25 +299,27 @@
     "fun": 3
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cottage_cheese_with_savory_veg",
     "name": { "str_sp": "cottage cheese with savory vegetables" },
     "copy-from": "cottage_cheese",
     "description": "Unaged curdled milk and whey, made by draining cheese rather than pressing like cheese curds.  The retained whey keeps the curds loose and soft, giving a somewhat soupy texture to this lower calorie variety of cheese.  By adding savory vegetables to it you've made what might be a full meal.",
     "price": "4 USD 85 cent",
     "price_postapoc": "1 USD 75 cent",
-    "calories": 475,
-    "vitamins": [ [ "calcium", 32 ], [ "iron", 8 ] ],
+    "calories": 332,
+    "vitamins": [ [ "calcium", 32 ], [ "vitC", 13 ] ],
     "fun": 2
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "mozzarella_cheese",
     "name": { "str_sp": "mozzarella cheese" },
     "weight": "30 g",
     "color": "white",
     "spoils_in": "12 days",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 85,
@@ -308,16 +330,17 @@
     "primary_material": "cheese",
     "volume": "250 ml",
     "fun": 1,
-    "vitamins": [ [ "calcium", 13 ] ]
+    "vitamins": [ [ "calcium", 13 ], [ "milk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "fried_mozzarella_sticks",
     "name": { "str_sp": "fried mozzarella sticks" },
     "weight": "30 g",
     "color": "white",
     "spoils_in": "2 days",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 100,
@@ -328,10 +351,11 @@
     "primary_material": "cheese",
     "volume": "62 ml",
     "fun": 5,
-    "vitamins": [ [ "calcium", 13 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "calcium", 13 ], [ "iron", 3 ], [ "milk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cheese_powder",
     "name": { "str_sp": "powdered cheese" },
     "weight": "23 g",
@@ -348,17 +372,18 @@
     "primary_material": "powder",
     "volume": "25 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 16 ] ],
+    "vitamins": [ [ "calcium", 16 ], [ "milk_allergen", 1 ] ],
     "fun": -1,
     "freezing_point": -459
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cheese_rehydrated",
     "name": { "str_sp": "rehydrated cheese" },
     "weight": "64 g",
     "color": "yellow",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -1,
@@ -369,11 +394,12 @@
     "price_postapoc": "1 USD",
     "material": [ "milk" ],
     "volume": "62 ml",
-    "vitamins": [ [ "calcium", 16 ] ],
+    "vitamins": [ [ "calcium", 16 ], [ "milk_allergen", 1 ] ],
     "fun": 4
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "quesadilla_cheese",
     "name": { "str": "quesadilla" },
     "weight": "58 g",
@@ -391,15 +417,16 @@
     "volume": "125 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "calcium", 19 ], [ "iron", 5 ] ]
+    "vitamins": [ [ "calcium", 19 ], [ "iron", 5 ], [ "milk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "milk_powder",
     "name": { "str_sp": "powdered milk" },
     "weight": "30 g",
     "color": "white",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -1,
@@ -410,14 +437,14 @@
     "material": [ "powder", "milk" ],
     "primary_material": "powder",
     "volume": "62 ml",
-    "cooks_like": "milk",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "vitC", 1 ], [ "calcium", 7 ] ],
+    "vitamins": [ [ "vitC", 1 ], [ "calcium", 7 ], [ "milk_allergen", 1 ] ],
     "fun": -5,
     "freezing_point": -459
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "con_milk",
     "name": { "str_sp": "condensed milk" },
     "weight": "32 g",
@@ -426,7 +453,7 @@
     "container": "can_medium",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 12,
+    "quench": 1,
     "calories": 103,
     "description": "Cow's milk that has been partly dehydrated and sweetened.  A key ingredient in many sweets.",
     "price": "70 cent",
@@ -436,11 +463,12 @@
     "volume": "500 ml",
     "phase": "liquid",
     "charges": 20,
-    "vitamins": [ [ "vitC", 1 ], [ "calcium", 7 ] ],
+    "vitamins": [ [ "vitC", 1 ], [ "calcium", 7 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ],
     "fun": 3
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "milk_cream_whipped",
     "name": { "str_sp": "whipped cream" },
     "copy-from": "milk_cream",
@@ -452,7 +480,8 @@
     "fun": 4
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "milk_cream",
     "name": { "str_sp": "heavy cream" },
     "weight": "254 g",
@@ -470,12 +499,13 @@
     "volume": "250 ml",
     "charges": 1,
     "phase": "liquid",
-    "vitamins": [ [ "calcium", 7 ] ],
+    "vitamins": [ [ "calcium", 7 ], [ "milk_allergen", 1 ] ],
     "flags": [ "NUTRIENT_OVERRIDE" ],
     "fun": 1
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "tiramisu",
     "name": { "str_sp": "tiramisù" },
     "weight": "236 g",
@@ -494,11 +524,12 @@
     "primary_material": "milk",
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 15 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "calcium", 15 ], [ "iron", 2 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ],
     "fun": 8
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "mascarpone",
     "name": { "str_sp": "mascarpone" },
     "weight": "64 g",
@@ -516,10 +547,11 @@
     "phase": "solid",
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": -1,
-    "vitamins": [ [ "calcium", 9 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "calcium", 9 ], [ "iron", 2 ], [ "milk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "pecorino_cheese",
     "name": { "str_sp": "pecorino" },
     "weight": "64 g",

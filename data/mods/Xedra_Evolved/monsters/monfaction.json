@@ -17,6 +17,13 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "vampire_anathema",
+    "copy-from": "vampire",
+    "//": "Like the mentors, they are human enough to be attacked by zombies.  Luring them into other hostiles is a valid strategy.",
+    "extend": { "hate": [ "changeling", "nether", "nightmares", "vampire", "zombie" ] }
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "arvore",
     "base_faction": "changeling",
     "neutral": [ "small_animal", "fish" ],
@@ -27,8 +34,9 @@
     "type": "MONSTER_FACTION",
     "name": "ierde",
     "base_faction": "changeling",
+    "friendly": [ "worm" ],
     "neutral": [ "small_animal", "fish" ],
-    "by_mood": [ "nether", "nightmares", "ierde", "arvore", "undine", "salamander" ],
+    "by_mood": [ "nether", "nightmares", "homullus", "arvore", "undine", "salamander" ],
     "hate": [ "zombie", "sylph" ]
   },
   {
@@ -71,6 +79,12 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "worm",
+    "copy-from": "worm",
+    "extend": { "neutral": [ "ierde" ] }
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "small_animal",
     "copy-from": "small_animal",
     "extend": { "neutral": [ "changeling", "nightmares", "vampire" ] }
@@ -85,7 +99,7 @@
     "type": "MONSTER_FACTION",
     "name": "zombie",
     "copy-from": "zombie",
-    "extend": { "hate": [ "changeling" ], "neutral": [ "vampire" ] }
+    "extend": { "hate": [ "changeling", "vampire_anathema" ], "neutral": [ "vampire" ] }
   },
   {
     "type": "MONSTER_FACTION",
@@ -103,18 +117,18 @@
     "type": "MONSTER_FACTION",
     "name": "exodii",
     "copy-from": "exodii",
-    "extend": { "hate": [ "changeling", "vampire" ] }
+    "extend": { "hate": [ "changeling", "vampire", "vampire_anathema" ] }
   },
   {
     "type": "MONSTER_FACTION",
     "name": "isolated_artisans",
     "copy-from": "isolated_artisans",
-    "extend": { "hate": [ "changeling", "vampire" ] }
+    "extend": { "hate": [ "changeling", "vampire", "nightmares", "vampire_anathema" ] }
   },
   {
     "type": "MONSTER_FACTION",
     "name": "nightmares",
-    "base_faction": "nether",
+    "base_faction": "nether_hate_humans",
     "neutral": [ "fish", "small_animal", "slime" ],
     "by_mood": [ "nether", "changeling", "vampire" ]
   }

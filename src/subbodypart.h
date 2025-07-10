@@ -2,28 +2,20 @@
 #ifndef CATA_SRC_SUBBODYPART_H
 #define CATA_SRC_SUBBODYPART_H
 
-#include <array>
-#include <cstddef>
-#include <initializer_list>
-#include <iosfwd>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
-#include "enums.h"
-#include "flat_set.h"
-#include "int_id.h"
-#include "string_id.h"
-#include "translations.h"
+#include "damage.h"
+#include "translation.h"
 #include "type_id.h"
 
 class JsonObject;
-class JsonOut;
-class JsonValue;
-struct sub_body_part_type;
 struct body_part_type;
+struct sub_body_part_type;
+template <typename T> struct enum_traits;
 
-using sub_bodypart_str_id = string_id<sub_body_part_type>;
 using sub_bodypart_id = int_id<sub_body_part_type>;
 
 enum class side : int {
@@ -75,6 +67,8 @@ struct sub_body_part_type {
     // These subparts act like this limb for armor coverage
     // TODO: Coverage/Encumbrance multiplier
     std::vector<sub_bodypart_str_id> similar_bodyparts;
+    // Unarmed damage when this subpart is our contact area
+    damage_instance unarmed_damage;
 
     static void load_bp( const JsonObject &jo, const std::string &src );
 

@@ -34,11 +34,11 @@
       "<": "t_stairs_up"
     },
     "furniture": { "?": "f_null" },
+    "items": { ";": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { ";": {  } }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "microlab_distorted_chunk",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -62,7 +62,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "microlab_distorted_chunk",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -86,7 +85,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "microlab_distorted_chunk",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -110,7 +108,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "microlab_distorted_chunk",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -134,7 +131,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "microlab_distorted_hallway_chunk",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -158,7 +154,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "microlab_distorted_hallway_chunk",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -182,7 +177,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "microlab_distorted_hallway_chunk",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -206,7 +200,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "microlab_distorted_hallway_chunk",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -230,7 +223,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "hallway_shrapnel",
     "object": {
       "mapgensize": [ 6, 6 ],

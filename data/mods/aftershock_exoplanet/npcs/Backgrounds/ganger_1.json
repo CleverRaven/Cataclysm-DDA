@@ -1,0 +1,28 @@
+[
+  {
+    "id": "BGSS_GANGER_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "I was born at the bottom of the habitat.  No silver spoon in my mouth.",
+    "responses": [
+      { "text": "That must have been rough.", "topic": "BGSS_GANGER_1_STORY2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_GANGER_1_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "I saw my best friend die in front of me by the time I was eight.",
+    "responses": [
+      { "text": "Where is that?", "topic": "BGSS_GANGER_1_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_GANGEER_1_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "I guess it prepared me for everyone dying yesterday.",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  }
+]

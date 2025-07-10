@@ -1,6 +1,6 @@
 [
   {
-    "name": "CAMPERS",
+    "id": "CAMPERS",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_null", "weight": 500 },
@@ -12,7 +12,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "campsite" ],
     "weight": 500,
     "object": {
@@ -73,7 +72,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "campsite" ],
     "weight": 20,
     "object": {
@@ -134,9 +132,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "campsite_cabin_incomplete" ],
-    "weight": 500,
     "object": {
       "predecessor_mapgen": "forest",
       "rows": [
@@ -197,9 +193,40 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
+    "om_terrain": [ "campsite_cabin_incomplete_roof" ],
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "               ------   ",
+        "               .....-   ",
+        "                 ...-   ",
+        "                  ..-   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
     "om_terrain": [ "campsite_field_biker" ],
-    "weight": 500,
     "object": {
       "predecessor_mapgen": "field",
       "rows": [
@@ -253,9 +280,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "campsite_field_biker_destroyed" ],
-    "weight": 500,
     "object": {
       "predecessor_mapgen": "field",
       "rows": [
@@ -323,9 +348,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "campsite_a" ],
-    "weight": 500,
     "object": {
       "predecessor_mapgen": "forest",
       "rows": [

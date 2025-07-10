@@ -386,7 +386,7 @@
     "effect": "attack",
     "message": "",
     "shape": "blast",
-    "field_id": "fd_reality_tear",
+    "field_id": "fd_fatigue",
     "field_chance": 1,
     "min_field_intensity": 2,
     "max_field_intensity": 2,

@@ -2,6 +2,7 @@
   {
     "type": "vehicle_placement",
     "id": "road_wreck_t",
+    "//": "Legacy mechanic, remove after #68496 merges",
     "locations": [ { "x": [ 8, 11 ], "y": [ 10, 14 ], "facing": [ 90, 270 ] } ]
   },
   {

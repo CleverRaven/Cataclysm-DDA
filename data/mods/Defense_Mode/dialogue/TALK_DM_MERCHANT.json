@@ -7,7 +7,7 @@
       {
         "text": "I'll buy something.",
         "topic": "TALK_DM_MERCHANT_2",
-        "condition": { "math": [ "trading_allowed", "==", "0" ] },
+        "condition": { "math": [ "trading_allowed == 0" ] },
         "effect": [ { "run_eocs": "defense_mode_money_add_npc" }, "start_trade" ]
       },
       { "text": "What'll it cost me to get some help around here?", "topic": "TALK_DM_MERCHANT_HIRE_COST" },
@@ -30,7 +30,7 @@
       {
         "text": "I'll buy something.",
         "topic": "TALK_DM_MERCHANT_2",
-        "condition": { "math": [ "trading_allowed", "==", "0" ] },
+        "condition": { "math": [ "trading_allowed == 0" ] },
         "effect": [ { "run_eocs": "defense_mode_money_add_npc" }, "start_trade" ]
       },
       {
@@ -52,7 +52,7 @@
       {
         "text": "I'll buy something.",
         "topic": "TALK_DM_MERCHANT_2",
-        "condition": { "math": [ "trading_allowed", "==", "0" ] },
+        "condition": { "math": [ "trading_allowed == 0" ] },
         "effect": [ { "run_eocs": "defense_mode_money_add_npc" }, "start_trade" ]
       },
       { "text": "What'll it cost me to get some help around here?", "topic": "TALK_DM_MERCHANT_HIRE_COST" },

@@ -11,6 +11,19 @@
   },
   {
     "type": "overmap_special",
+    "id": "texopapalotl_dead_crew_cabin",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "mom_texopapalotl_crew_shed_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "mom_texopapalotl_crew_shed_roof_north" }
+    ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 20, -1 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 1, 100 ],
+    "flags": [ "GLOBALLY_UNIQUE", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "phavian_surface_lab",
     "overmaps": [
       { "point": [ 0, 0, -1 ], "overmap": "special_earth" },
@@ -21,7 +34,7 @@
       { "point": [ 0, 1, -1 ], "overmap": "special_earth" },
       { "point": [ 1, 1, -1 ], "overmap": "special_earth" },
       { "point": [ 2, 1, -1 ], "overmap": "special_earth" },
-      { "point": [ 3, 1, -1 ], "overmap": "psi_phavian_lab_basementD1_hidden_lab_stairs_north" },
+      { "point": [ 3, 1, -1 ], "overmap": "psi_phavian_lab_basementD1_hidden_psi_lab_stairs_north" },
       { "point": [ 4, 1, -1 ], "overmap": "psi_phavian_lab_basementE1_north" },
       { "point": [ 0, 2, -1 ], "overmap": "special_earth" },
       { "point": [ 1, 2, -1 ], "overmap": "special_earth" },
@@ -169,7 +182,7 @@
     "city_distance": [ 10, 120 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 30, 100 ],
-    "flags": [ "UNIQUE", "LAB", "MAN_MADE" ]
+    "flags": [ "OVERMAP_UNIQUE", "LAB", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",

@@ -16,18 +16,18 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "vending_mutagens",
-    "entries": [ { "item": "syringe", "count-min": 1, "count-max": 10 }, { "group": "mutagen_kits", "prob": 100 } ]
+    "entries": [ { "item": "syringe", "count": [ 1, 10 ] }, { "group": "mutagen_kits", "prob": 100 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "vending_bionics",
     "entries": [
-      { "item": "anesthetic_kit", "count-min": 1, "count-max": 2 },
-      { "item": "scalpel", "count-min": 1, "count-max": 4 },
-      { "group": "bionics_common", "prob": 33, "count-min": 1, "count-max": 10 },
-      { "group": "bionics_mil", "prob": 20, "count-min": 1, "count-max": 8 },
-      { "group": "bionics", "prob": 15, "count-min": 1, "count-max": 6 }
+      { "item": "anesthetic_kit", "count": [ 1, 2 ] },
+      { "item": "scalpel", "count": [ 1, 4 ] },
+      { "group": "bionics_common", "prob": 33, "count": [ 1, 10 ] },
+      { "group": "bionics_mil", "prob": 20, "count": [ 1, 8 ] },
+      { "group": "bionics", "prob": 15, "count": [ 1, 6 ] }
     ]
   },
   {
@@ -42,6 +42,12 @@
         { "item": "motor_oil", "container-item": "bottle_plastic", "prob": 5 }
       ]
     }
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "almond_water_sealed",
+    "entries": [ { "item": "almond_water", "container-item": "bottle_almond_water", "count": 1, "prob": 1 } ]
   },
   {
     "id": "backrooms_crate",
@@ -100,18 +106,9 @@
       { "group": "bionics", "prob": 20 },
       { "group": "bionics_mil", "prob": 10 },
       { "group": "robots", "prob": 50 },
-      { "group": "ammo_pistol_common", "prob": 100 },
-      { "group": "ammo_pistol_reloaded", "prob": 150 },
-      { "group": "ammo_rifle_common", "prob": 75 },
-      { "group": "ammo_rifle_reloaded", "prob": 100 },
-      { "group": "ammo_shotgun_common", "prob": 75 },
-      { "group": "ammo_shotgun_reloaded", "prob": 100 },
-      { "group": "mags_pistol_common", "prob": 50 },
-      { "group": "mags_smg_common", "prob": 35 },
-      { "group": "mags_rifle_common", "prob": 35 },
-      { "group": "guns_pistol_common", "prob": 10 },
-      { "group": "guns_pistol_improvised", "prob": 20 },
-      { "group": "guns_smg_common", "prob": 5 },
+      { "group": "ammo_common_boxed", "prob": 300 },
+      { "group": "mags_common", "prob": 130 },
+      { "group": "guns_pistol_common", "prob": 35 },
       { "group": "guns_smg_improvised", "prob": 10 },
       { "group": "guns_rifle_common", "prob": 5 },
       { "group": "guns_rifle_improvised", "prob": 10 },
@@ -151,10 +148,9 @@
       { "group": "alcohol", "prob": 25 },
       { "item": "water_clean", "prob": 100 },
       { "group": "misc_smoking", "prob": 20 },
-      { "group": "office_supplies", "prob": 5 },
+      { "group": "SUS_office_supplies", "prob": 15 },
       { "group": "car_misc", "prob": 5 },
-      { "group": "file_room", "prob": 15 },
-      { "group": "office_mess", "prob": 15 },
+      { "group": "SUS_office_filing_cabinet", "prob": 15 },
       { "group": "chem_home", "prob": 20 },
       { "group": "supplies_electronics", "prob": 25 },
       { "group": "dollar_food", "prob": 100 },
@@ -170,24 +166,11 @@
     "magazine": 100,
     "subtype": "distribution",
     "entries": [
-      { "group": "ammo_pistol_common", "prob": 200 },
-      { "group": "ammo_rifle_common", "prob": 175 },
-      { "group": "ammo_shotgun_common", "prob": 200 },
-      { "group": "guns_pistol_common", "prob": 60 },
-      { "group": "guns_pistol_rare", "prob": 25 },
-      { "group": "guns_smg_common", "prob": 50 },
-      { "group": "guns_smg_rare", "prob": 20 },
-      { "group": "guns_rifle_common", "prob": 40 },
-      { "group": "guns_rifle_rare", "prob": 15 },
-      { "group": "guns_shotgun_common", "prob": 60 },
-      { "group": "guns_shotgun_rare", "prob": 25 },
-      { "group": "guns_launcher_improvised", "prob": 5 },
-      { "group": "mags_pistol_common", "prob": 75 },
-      { "group": "mags_pistol_rare", "prob": 50 },
-      { "group": "mags_smg_common", "prob": 50 },
-      { "group": "mags_smg_rare", "prob": 50 },
-      { "group": "mags_rifle_common", "prob": 60 },
-      { "group": "mags_rifle_rare", "prob": 50 },
+      { "group": "ammo_common_boxed", "prob": 300 },
+      { "group": "guns_pistol_common", "prob": 120 },
+      { "group": "guns_rifle_common", "prob": 100 },
+      { "group": "guns_shotgun_common", "prob": 85 },
+      { "group": "mags_common", "prob": 435 },
       { "group": "mags_milspec", "prob": 100 },
       { "group": "ammo_launcher_grenade", "prob": 20 },
       { "group": "archery", "prob": 25 }
@@ -201,15 +184,8 @@
     "magazine": 100,
     "subtype": "distribution",
     "entries": [
-      { "group": "ammo_pistol_common", "prob": 100 },
-      { "group": "ammo_pistol_reloaded", "prob": 150 },
-      { "group": "ammo_rifle_common", "prob": 75 },
-      { "group": "ammo_rifle_reloaded", "prob": 100 },
-      { "group": "ammo_shotgun_common", "prob": 90 },
-      { "group": "ammo_shotgun_reloaded", "prob": 125 },
-      { "group": "guns_pistol_common", "prob": 25 },
-      { "group": "guns_pistol_improvised", "prob": 50 },
-      { "group": "guns_smg_common", "prob": 15 },
+      { "group": "ammo_common_boxed", "prob": 300 },
+      { "group": "guns_pistol_common", "prob": 90 },
       { "group": "guns_smg_improvised", "prob": 30 },
       { "group": "guns_rifle_common", "prob": 15 },
       { "group": "guns_rifle_improvised", "prob": 25 },
@@ -219,9 +195,7 @@
       { "group": "grenades", "prob": 5 },
       { "group": "swat_gear", "prob": 5 },
       { "group": "ammo_parts", "prob": 60 },
-      { "group": "mags_pistol_common", "prob": 50 },
-      { "group": "mags_smg_common", "prob": 25 },
-      { "group": "mags_rifle_common", "prob": 25 },
+      { "group": "mags_common", "prob": 100 },
       { "group": "archery", "prob": 5 },
       { "group": "antique_ammo", "prob": 15 },
       { "group": "archery_ammo", "prob": 10 }
@@ -278,7 +252,6 @@
       { "group": "bionics", "prob": 50 },
       { "group": "mutagenic_field_kit", "prob": 25 },
       { "group": "guns_energy", "prob": 15 },
-      { "group": "military", "prob": 75 },
       { "group": "guns_launcher_milspec", "prob": 25 },
       { "group": "vault", "prob": 75 }
     ]
@@ -291,9 +264,7 @@
     "magazine": 100,
     "subtype": "distribution",
     "entries": [
-      { "group": "ammo_pistol_common", "prob": 100 },
-      { "group": "ammo_rifle_common", "prob": 100 },
-      { "group": "ammo_shotgun_common", "prob": 100 },
+      { "group": "ammo_common_boxed", "prob": 300 },
       { "group": "guns_pistol_milspec", "prob": 25 },
       { "group": "guns_smg_milspec", "prob": 15 },
       { "group": "guns_rifle_milspec", "prob": 20 },
@@ -303,7 +274,6 @@
       { "group": "mutagenic_field_kit", "prob": 10 },
       { "group": "mutagen_kits", "prob": 1 },
       { "group": "guns_energy", "prob": 5 },
-      { "group": "military", "prob": 50 },
       { "group": "science", "prob": 100 },
       { "group": "guns_launcher_milspec", "prob": 5 },
       { "group": "vault", "prob": 50 },
@@ -510,7 +480,8 @@
       { "group": "SUS_pantry", "prob": 25 },
       { "group": "SUS_breakfast_cupboard", "prob": 20 },
       { "group": "baked_goods", "count": [ 1, 3 ], "prob": 10 },
-      { "group": "groce_condiment", "count": [ 1, 3 ], "prob": 50 }
+      { "group": "groce_condiment", "count": [ 1, 3 ], "prob": 50 },
+      { "item": "almond_water", "prob": 1 }
     ]
   },
   {
@@ -633,10 +604,8 @@
     "subtype": "distribution",
     "entries": [
       { "group": "cubical_office", "count": [ 1, 6 ], "prob": 100 },
-      { "group": "office", "count": [ 1, 5 ], "prob": 100 },
-      { "group": "office_mess", "count": [ 1, 6 ], "prob": 35 },
-      { "group": "office_paper", "prob": 50 },
-      { "group": "office_supplies", "count": [ 2, 6 ], "prob": 50 }
+      { "group": "SUS_office_desk", "prob": 100 },
+      { "group": "SUS_office_mess", "count": [ 1, 2 ], "prob": 35 }
     ]
   },
   {
@@ -648,8 +617,6 @@
       { "group": "cubical_office", "count": [ 1, 6 ], "prob": 250 },
       { "group": "SUS_office_desk", "prob": 250 },
       { "group": "bedroom", "count": [ 1, 3 ], "prob": 25 },
-      { "group": "office_mess", "count": [ 1, 6 ], "prob": 125 },
-      { "group": "office_supplies", "count": [ 2, 6 ], "prob": 250 },
       { "group": "npc_hacker", "prob": 50 },
       { "group": "school", "count": [ 1, 4 ], "prob": 100 },
       { "group": "backrooms_artifacts", "prob": 1 }
@@ -661,8 +628,8 @@
     "//": "Any generic trashcan. For trash.",
     "subtype": "distribution",
     "entries": [
-      { "group": "trash", "count": [ 1, 5 ], "prob": 1000 },
-      { "group": "trash_forest", "count": [ 1, 4 ], "prob": 100 },
+      { "group": "SUS_trash_trashcan", "count": [ 1, 5 ], "prob": 1000 },
+      { "group": "SUS_trash_forest_manmade", "count": [ 1, 4 ], "prob": 100 },
       { "group": "backrooms_artifacts", "prob": 1 }
     ]
   },
@@ -673,10 +640,7 @@
     "subtype": "distribution",
     "entries": [
       { "group": "SUS_office_filing_cabinet", "prob": 100 },
-      { "group": "office_paper", "prob": 50 },
-      { "group": "file_room", "count": [ 2, 10 ], "prob": 25 },
-      { "group": "office_mess", "count": [ 2, 8 ], "prob": 10 },
-      { "group": "office_supplies", "count": [ 1, 2 ], "prob": 10 },
+      { "group": "SUS_office_supplies", "count": [ 2, 10 ], "prob": 25 },
       { "group": "stash_drugs", "count": [ 1, 3 ], "prob": 5 }
     ]
   },
@@ -694,22 +658,15 @@
     "subtype": "distribution",
     "entries": [
       { "group": "forage_broad", "count": [ 1, 2 ], "prob": 100 },
-      { "group": "trash_junkyard", "count": [ 1, 3 ], "prob": 50 },
-      { "group": "wreckage", "count": [ 1, 3 ], "prob": 25 }
+      { "group": "SUS_trash_metal", "count": [ 1, 3 ], "prob": 50 },
+      { "group": "SUS_trash_hardware", "count": [ 1, 3 ], "prob": 10 }
     ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "vending_ammo",
-    "entries": [
-      { "group": "ammo_pistol_common", "count-min": 3, "count-max": 8 },
-      { "group": "ammo_rifle_common", "prob": 50, "count-min": 2, "count-max": 6 },
-      { "group": "ammo_shotgun_common", "prob": 50, "count-min": 2, "count-max": 6 },
-      { "group": "ammo_pistol_rare", "prob": 20, "count-min": 1, "count-max": 2 },
-      { "group": "ammo_rifle_rare", "prob": 20, "count-min": 1, "count-max": 2 },
-      { "group": "ammo_shotgun_rare", "prob": 20, "count-min": 1, "count-max": 2 }
-    ]
+    "entries": [ { "group": "ammo_common_boxed", "count": [ 1, 10 ] } ]
   },
   {
     "type": "item_group",

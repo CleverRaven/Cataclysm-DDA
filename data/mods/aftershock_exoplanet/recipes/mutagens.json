@@ -1,0 +1,67 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "mutagen_mastodon",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_MUTAGEN",
+    "skill_used": "chemistry",
+    "skills_required": [ "firstaid", 6 ],
+    "difficulty": 10,
+    "time": "20 m",
+    "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
+    "book_learn": [ [ "recipe_uplift", 9 ] ],
+    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "components": [ [ [ "mutagen", 1 ] ], [ [ "afs_biomaterial_3", 3 ] ], [ [ "slime_scrap", 5 ], [ "afs_biomaterial_5", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "iv_mutagen_mastodon",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_MUTAGEN",
+    "skill_used": "chemistry",
+    "skills_required": [ "firstaid", 6 ],
+    "difficulty": 10,
+    "time": "20 m",
+    "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
+    "book_learn": [ [ "recipe_uplift", 9 ] ],
+    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "components": [
+      [ [ "mutagen", 3 ] ],
+      [ [ "afs_biomaterial_3", 3 ] ],
+      [ [ "mutagen_medical", 1 ], [ "afs_biomaterial_5", 1 ] ],
+      [ [ "syringe", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "mutagen_migo",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_MUTAGEN",
+    "skill_used": "chemistry",
+    "skills_required": [ "firstaid", 6 ],
+    "difficulty": 10,
+    "time": "20 m",
+    "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
+    "book_learn": [ [ "millyficents_diary", 9 ] ],
+    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "components": [ [ [ "mutagen", 1 ] ], [ [ "afs_biomaterial_3", 3 ] ], [ [ "resin_chunk", 5 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "iv_mutagen_migo",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_MUTAGEN",
+    "skill_used": "chemistry",
+    "skills_required": [ "firstaid", 6 ],
+    "difficulty": 10,
+    "time": "20 m",
+    "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
+    "book_learn": [ [ "millyficents_diary", 9 ] ],
+    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "components": [ [ [ "mutagen_migo", 2 ] ], [ [ "afs_biomaterial_1", 4 ] ], [ [ "syringe", 1 ] ] ]
+  }
+]

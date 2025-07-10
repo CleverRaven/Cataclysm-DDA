@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmh_2_tent_room_1",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -13,18 +12,38 @@
         " w...w",
         " wwwww"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "fbmh_2_tent_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "fbmh_2_tent_room_1_roof",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        " rrrrr",
+        " rrrrr",
+        " rrrrr",
+        " rrrrr",
+        " rrrrr",
+        " rrrrr"
+      ],
       "palettes": [ "fbmh_2_tent_palette" ]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_2_tent_room_NE",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmh_2_tent_room_1" ], "x": 18, "y": 0 } ] }
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbmh_2_tent_room_1" ], "x": 18, "y": 0, "z": 0 },
+        { "chunks": [ "fbmh_2_tent_room_1_roof" ], "x": 18, "y": 0, "z": 1 }
+      ]
+    }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmh_2_tent_room_2",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -35,18 +54,37 @@
         "w...w",
         "wwwww"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "fbmh_2_tent_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "fbmh_2_tent_room_2_8_roof",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "rrrrr",
+        "rrrrr",
+        "rrrrr",
+        "rrrrr",
+        "rrrrr"
+      ],
       "palettes": [ "fbmh_2_tent_palette" ]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_2_tent_room_ENE",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmh_2_tent_room_2" ], "x": 19, "y": 6 } ] }
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbmh_2_tent_room_2" ], "x": 19, "y": 6, "z": 0 },
+        { "chunks": [ "fbmh_2_tent_room_2_8_roof" ], "x": 19, "y": 6, "z": 1 }
+      ]
+    }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmh_2_tent_room_3",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -57,18 +95,22 @@
         "w...w",
         "wwwww"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "fbmh_2_tent_palette" ]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_2_tent_room_ESE",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmh_2_tent_room_3" ], "x": 19, "y": 14 } ] }
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbmh_2_tent_room_3" ], "x": 19, "y": 14, "z": 0 },
+        { "chunks": [ "fbmh_2_tent_room_2_8_roof" ], "x": 19, "y": 14, "z": 1 }
+      ]
+    }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmh_2_tent_room_4",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -79,18 +121,22 @@
         "w...w",
         "wwwww"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "fbmh_2_tent_palette" ]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_2_tent_room_SE",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmh_2_tent_room_4" ], "x": 19, "y": 19 } ] }
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbmh_2_tent_room_4" ], "x": 19, "y": 19, "z": 0 },
+        { "chunks": [ "fbmh_2_tent_room_2_8_roof" ], "x": 19, "y": 19, "z": 1 }
+      ]
+    }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmh_2_tent_room_5",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -101,18 +147,22 @@
         "w...w",
         "wwwww"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "fbmh_2_tent_palette" ]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_2_tent_room_SW",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmh_2_tent_room_5" ], "x": 0, "y": 19 } ] }
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbmh_2_tent_room_5" ], "x": 0, "y": 19, "z": 0 },
+        { "chunks": [ "fbmh_2_tent_room_2_8_roof" ], "x": 0, "y": 19, "z": 1 }
+      ]
+    }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmh_2_tent_room_6",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -123,18 +173,22 @@
         "w...w",
         "wwwww"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "fbmh_2_tent_palette" ]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_2_tent_room_WSW",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmh_2_tent_room_6" ], "x": 0, "y": 14 } ] }
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbmh_2_tent_room_6" ], "x": 0, "y": 14, "z": 0 },
+        { "chunks": [ "fbmh_2_tent_room_2_8_roof" ], "x": 0, "y": 14, "z": 1 }
+      ]
+    }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmh_2_tent_room_7",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -145,18 +199,22 @@
         "w...+",
         "w... "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "fbmh_2_tent_palette" ]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_2_tent_room_WNW",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmh_2_tent_room_7" ], "x": 0, "y": 5 } ] }
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbmh_2_tent_room_7" ], "x": 0, "y": 5, "z": 0 },
+        { "chunks": [ "fbmh_2_tent_room_2_8_roof" ], "x": 0, "y": 5, "z": 1 }
+      ]
+    }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmh_2_tent_room_8",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -167,13 +225,18 @@
         "w...v",
         "w...w"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "fbmh_2_tent_palette" ]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_2_tent_room_NW",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmh_2_tent_room_8" ], "x": 0, "y": 0 } ] }
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbmh_2_tent_room_8" ], "x": 0, "y": 0, "z": 0 },
+        { "chunks": [ "fbmh_2_tent_room_2_8_roof" ], "x": 0, "y": 0, "z": 1 }
+      ]
+    }
   }
 ]

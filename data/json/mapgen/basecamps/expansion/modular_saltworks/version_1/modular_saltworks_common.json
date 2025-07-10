@@ -1,26 +1,16 @@
 [
   {
-    "type": "palette",
-    "id": "fbmsw_common_palette",
-    "terrain": { ".": "t_dirt" },
-    "//": "Didn't like an empty terrain section, so a dummy entry has been added",
-    "furniture": { "r": "f_rack", "t": "f_table", "#": "f_stool", "H": "f_wood_keg", "^": "f_still", "s": "f_woodstove" }
-  },
-  {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmsw_0",
     "object": { "mapgensize": [ 6, 6 ], "palettes": [ "fbmsw_common_palette" ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmsw_0",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmsw_0" ], "x": 15, "y": 3 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmsw_brewery1_still",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -38,13 +28,33 @@
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "fbmsw_brewery1_southwest",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmsw_brewery1_still" ], "x": 3, "y": 14 } ] }
+    "nested_mapgen_id": "fbmsw_brewery1_still_roof",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "       ",
+        "       ",
+        "       ",
+        "       ",
+        "       ",
+        "  C    ",
+        "       "
+      ],
+      "palettes": [ "fbmsw_common_palette" ]
+    }
   },
   {
     "type": "mapgen",
-    "method": "json",
+    "update_mapgen_id": "fbmsw_brewery1_southwest",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbmsw_brewery1_still" ], "x": 3, "y": 14, "z": 0 },
+        { "chunks": [ "fbmsw_brewery1_still_roof" ], "x": 3, "y": 14, "z": 1 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
     "nested_mapgen_id": "fbmsw_brewery2_kegs",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -63,7 +73,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmsw_brewery2_southwest",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmsw_brewery2_kegs" ], "x": 3, "y": 14 } ] }
   }
 ]

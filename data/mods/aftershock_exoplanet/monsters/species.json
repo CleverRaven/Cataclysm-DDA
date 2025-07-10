@@ -1,0 +1,33 @@
+[
+  {
+    "type": "SPECIES",
+    "id": "UPLIFT",
+    "description": "an intelligent animal created by man before the Cataclysm",
+    "fear_triggers": [ "HURT", "FIRE", "FRIEND_DIED" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "ALIEN_ARTHROPOD",
+    "description": "an alien arthropod",
+    "footsteps": "chittering."
+  },
+  {
+    "type": "SPECIES",
+    "id": "ALIEN_FLOATER",
+    "description": "a floating alien",
+    "bleeds": "fd_blood"
+  },
+  {
+    "type": "SPECIES",
+    "id": "MOXIE",
+    "description": "a humanoid monster",
+    "footsteps": "shuffling."
+  },
+  {
+    "type": "SPECIES",
+    "id": "BIOMACHINE",
+    "description": "an unusual creature",
+    "fear_triggers": [ "HURT", "FIRE", "FRIEND_DIED" ],
+    "footsteps": "shuffling."
+  }
+]

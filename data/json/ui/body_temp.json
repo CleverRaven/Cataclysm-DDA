@@ -4,47 +4,42 @@
     "type": "widget",
     "style": "clause",
     "clauses": [
-      {
-        "id": "scorching",
-        "text": "Scorching!",
-        "color": "red",
-        "condition": { "math": [ "u_val('body_temp')", ">", "9500" ] }
-      },
+      { "id": "scorching", "text": "Scorching!", "color": "red", "condition": { "math": [ "u_val('body_temp') > 9500" ] } },
       {
         "id": "very_hot",
         "text": "Very hot!",
         "color": "light_red",
-        "condition": { "and": [ { "math": [ "u_val('body_temp')", "<=", "9500" ] }, { "math": [ "u_val('body_temp')", ">", "8000" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('body_temp') <= 9500" ] }, { "math": [ "u_val('body_temp') > 8000" ] } ] }
       },
       {
         "id": "warm",
         "text": "Warm",
         "color": "yellow",
-        "condition": { "and": [ { "math": [ "u_val('body_temp')", "<=", "8000" ] }, { "math": [ "u_val('body_temp')", ">", "6500" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('body_temp') <= 8000" ] }, { "math": [ "u_val('body_temp') > 6500" ] } ] }
       },
       {
         "id": "comfortable",
         "text": "Comfortable",
         "color": "green",
-        "condition": { "and": [ { "math": [ "u_val('body_temp')", "<=", "6500" ] }, { "math": [ "u_val('body_temp')", ">", "3500" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('body_temp') <= 6500" ] }, { "math": [ "u_val('body_temp') > 3500" ] } ] }
       },
       {
         "id": "chilly",
         "text": "Chilly",
         "color": "light_blue",
-        "condition": { "and": [ { "math": [ "u_val('body_temp')", "<=", "3500" ] }, { "math": [ "u_val('body_temp')", ">", "2000" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('body_temp') <= 3500" ] }, { "math": [ "u_val('body_temp') > 2000" ] } ] }
       },
       {
         "id": "very_cold",
         "text": "Very cold!",
         "color": "cyan",
-        "condition": { "and": [ { "math": [ "u_val('body_temp')", "<=", "2000" ] }, { "math": [ "u_val('body_temp')", ">", "500" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('body_temp') <= 2000" ] }, { "math": [ "u_val('body_temp') > 500" ] } ] }
       },
       {
         "id": "freezing",
         "text": "Freezing!",
         "color": "blue",
-        "condition": { "math": [ "u_val('body_temp')", "<=", "500" ] }
+        "condition": { "math": [ "u_val('body_temp') <= 500" ] }
       }
     ]
   },
@@ -59,50 +54,42 @@
         "text": "(Rising!!)",
         "sym": "↑↑↑",
         "color": "red",
-        "condition": { "math": [ "u_val('body_temp_delta')", ">", "4500" ] }
+        "condition": { "math": [ "u_val('body_temp_delta') > 4500" ] }
       },
       {
         "id": "rising2",
         "text": "(Rising!)",
         "sym": "↑↑",
         "color": "light_red",
-        "condition": {
-          "and": [ { "math": [ "u_val('body_temp_delta')", "<=", "4500" ] }, { "math": [ "u_val('body_temp_delta')", ">", "3000" ] } ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('body_temp_delta') <= 4500" ] }, { "math": [ "u_val('body_temp_delta') > 3000" ] } ] }
       },
       {
         "id": "rising1",
         "text": "(Rising)",
         "sym": "↑",
         "color": "yellow",
-        "condition": {
-          "and": [ { "math": [ "u_val('body_temp_delta')", "<=", "3000" ] }, { "math": [ "u_val('body_temp_delta')", ">", "1500" ] } ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('body_temp_delta') <= 3000" ] }, { "math": [ "u_val('body_temp_delta') > 1500" ] } ] }
       },
       {
         "id": "falling1",
         "text": "(Falling)",
         "sym": "↓",
         "color": "light_blue",
-        "condition": {
-          "and": [ { "math": [ "u_val('body_temp_delta')", "<", "-1500" ] }, { "math": [ "u_val('body_temp_delta')", ">=", "-3000" ] } ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('body_temp_delta') < -1500" ] }, { "math": [ "u_val('body_temp_delta') >= -3000" ] } ] }
       },
       {
         "id": "falling2",
         "text": "(Falling!)",
         "sym": "↓↓",
         "color": "cyan",
-        "condition": {
-          "and": [ { "math": [ "u_val('body_temp_delta')", "<", "-3000" ] }, { "math": [ "u_val('body_temp_delta')", ">=", "-4500" ] } ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('body_temp_delta') < -3000" ] }, { "math": [ "u_val('body_temp_delta') >= -4500" ] } ] }
       },
       {
         "id": "falling3",
         "text": "(Falling!!)",
         "sym": "↓↓↓",
         "color": "blue",
-        "condition": { "math": [ "u_val('body_temp_delta')", "<", "-4500" ] }
+        "condition": { "math": [ "u_val('body_temp_delta') < -4500" ] }
       }
     ]
   },

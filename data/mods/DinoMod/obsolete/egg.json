@@ -1,9 +1,8 @@
 [
   {
-    "type": "COMESTIBLE",
     "id": "egg_mosasaurus",
-    "name": "mosasaurus egg",
-    "copy-from": "egg_dino_large",
-    "rot_spawn": "GROUP_EGG_mosasaurus"
+    "type": "MIGRATION",
+    "replace": "egg_tyrannosaurus",
+    "//": "Remove post 0.I"
   }
 ]

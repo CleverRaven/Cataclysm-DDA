@@ -70,7 +70,149 @@
   <provides>
     <binary>cataclysm-tiles</binary>
   </provides>
+
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/CleverRaven/Cataclysm-DDA/c0eed669da247c8e9be9a5176aaf3cbd922e48a7/data/screenshots/menu.png</image>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/CleverRaven/Cataclysm-DDA/c0eed669da247c8e9be9a5176aaf3cbd922e48a7/data/screenshots/game.png</image>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/CleverRaven/Cataclysm-DDA/c0eed669da247c8e9be9a5176aaf3cbd922e48a7/data/screenshots/credits.png</image>
+    </screenshot>
+  </screenshots>
+
+  <developer id="org.cataclysmdda">
+    <name>Kevin Granade and Contributors</name>
+  </developer>
   <releases>
+    <release version="0.H" date="2024-07-22">
+      <description>
+        <p>
+          I'm proud to announce that the Cataclysm: Dark Days Ahead 0.H "Herbert" release is here!
+          With an 11 month Gestation (before forking) and a 10 month delivery (after forking),
+          we once again utterly failed to limit the scope of work with a release, the 0.H
+          development process has been the longest in many releases, packing in thousands of new
+          pieces of content, massive performance improvements, and IMO more polish than we've ever
+          seen in a DDA release. A huge group of about 450 people contributed to this release,
+          about 200 for the first time this release. All together we changed about 12 million
+          lines of code and data across about 5,500 files, adding about 5,000 game entities in the
+          core game and another 5,000 in mods. This time around we handled the release process
+          differently, following a more traditional process where we called 0.H "feature complete"
+          all the way back in January of 2024 and moved it to a dedicated fork for bugfixing.
+          Since then we've created new infrastructure to manage the stabilization process,
+          fixed many many bugs, and backported a limited number of key features from the
+          experimental branch. Whether this new approach really hits its stride is yet to be seen,
+          but I'm hopeful next cycle can be shorter now that the infrastructure is in place.
+        </p>
+        <p>
+          Feature wise, we've seen the addition of biomes, where traveling East now leads to larger
+          cities to a point, then the lands ends in an ocean. Travelling West leads to sparser human
+          settlements and more wilderness. Portal storms now spawn and move around on the map, you
+          can either hunker down or move to avoid them (or chase them if you're so inclined), and an
+          unprecedented amount of new and interesting content has been added to their chaotic mix.
+          After years of hard work, 3D vision has improved greatly, bugs are few and far between,
+          and thanks to this feature we can see a lot more interactivity between Z levels. It still
+          defaults off, but you don't need to be afraid of it. Our accidental bespoke scripting
+          framework, the EOC system, has been greatly expanded and many, many features have been
+          overhauled to take advantage of it. This allows an enormous flexibility of events in both
+          mainline and mods without ever touching a compiler. Multiple new boss-tier encounters have
+          been added for late game challenge, though I don't want to spoil them here. Now you will
+          know why you fear the night. The number of proficiencies has increased greatly for this
+          version, roughly doubling the number of proficiencies you can learn, with unique effects.
+          We've seen an expansion of the proficiency framework in some of the directions desired
+          initially, allowing proficiencies to confer more than just crafting bonuses. Practice
+          actions have also filled out, providing a smooth path for skill gain instead of grinding
+          crafting or other activities. This version should see an end to repeatedly crafting and
+          uncrafting a simple object to grind skills, allowing you to streamline the process to
+          represent your character studying and practicing, spending character time but not so much
+          player time. You'll also notice other savings in player time, we've found a number of
+          places to speed up key code and drastically reduce waiting times, making for a much more
+          responsive experience.
+        </p>
+	<p>
+          Try it out. It's the best DDA yet.
+	</p>
+      </description>
+      <url type="details">
+        https://github.com/CleverRaven/Cataclysm-DDA/tree/0.H-branch/data/changelog.txt</url>
+    </release>
+    <release version="0.G Gaiman" date="2023-03-01">
+      <description>
+        <p>
+          We are proud to announce that 0.G “Gaiman” stable release has arrived! Two years have
+          passed since the release of the stable version 0.F “Frank”, two years of unprecedented
+          turmoil in the real world that delayed our planned release of the next stable. These two
+          years have seen many IRL job changes among the dev team, new contributors to CleverRaven,
+          and a couple of babies joining members' families. The 0.G release is more than double the
+          size of the 0.F release, a distinction that we keep trying and failing to avoid. Even more
+          than previous stable versions, this release features a massive range of bugfixes, code and
+          content additions, and new features. 10,293 new game entities were added, 11,643,312 lines
+          of source code were inserted, and 5,022,361 lines were deleted. This included several new
+          language translations, multiple new tilesets; including some isometric tileset demos, and
+          multiple new mods in addition to base game content and features.
+        </p>
+        <p>
+          This cycle was started, tilting at our perennial windmill of a six to nine month release
+          cycle. Shortly thereafter, Covid locked down the world but not contributions to DDA! There
+          are many incredible changes that have entered the game and several ancient issues that
+          have been closed. The skill system has been greatly expanded with many new proficiencies
+          and many new ways to learn them, as well as the groundwork for practice-based skill
+          improvement, including a skill rust system that doesn't suck because it caps effective
+          skill loss and regenerates faster than regular skill gain. Appliance based stationary
+          power grids now exist. Turning vehicles now present complete walls that block out
+          monsters, fields and more from crossing from the outside to the inside of the vehicle. Map
+          memory is now unlimited, so you will no longer forget places you haven't been to recently.
+          Cardio has finally been modeled so that your endurance will increase if you spend your
+          days running and working hard or exercising. Perspiration is now modeled, your character
+          running around the middle of summer in full plate mail won't immediately overheat. Now
+          your character will perspire and thirst will increase until you are dehydrated at which
+          point overheating will begin. Hydrate yourselves accordingly!
+        </p>
+        <p>
+          In addition to the above issue/request resolving features above, there are a number of new
+          features that haven't necessarily been on the roadmap for a long time but came to fruition
+          during this experimental cycle. The amount of UI based contributions has gone through the
+          roof this cycle and created tons of options around how your fully customizable sidebar
+          looks, the color theme for your UI is also fully customizable with multiple shipped
+          options, along with updates and improvements to action explanations, tutorials and the
+          github process itself, which while not visible to people who only play the game makes a
+          huge difference in the quality and amount of contributions added to Cataclysm: Dark Days
+          Ahead. You can now passively purify water by boiling it by placing it in a fireproof
+          container on a fire or near an extreme heat source. A new hobby tab in character creation
+          allows you to choose traits and skills that go together that represent how you spent your
+          time before the end of the world. Monster weak points now exist, allowing your strikes to
+          critically hit. You can learn proficiencies that will increase your likelihood to
+          critically hit these weak points by researching and dissecting monsters. Speaking of
+          monsters, we've adjusted the aggression system so that some more intelligent monsters will
+          recognize whether they were attacked by another monster or the player and will remain
+          passive or gain hostility depending on who harmed them. A lone zombie will no longer turn
+          a pack of wild dogs permanently hostile to you. Finally, Effect on Condition brings a
+          scripting pseudo language to Cataclysm. Some of its key uses in 0.G have been the
+          introduction of portal storms, NPC faction development over time, the ability to take over
+          a follower after pc death, and random encounters in already explored maps.
+        </p>
+        <p>
+          During this time modders have added a half dozen new in repo mods: Innawoods for the
+          survival from scratch you crave, Backrooms which takes place in the neverending backrooms
+          dimension, Massachusetts mod for people who desire geographic accuracy, Xedra Evolved a
+          science fantasy mod with weird magic and vampirism, Tropicataclysm for your Cataclysm at a
+          warmer latitude, and the Megafauna mod which targets an ancient epoch with creatures that
+          outsize our modern equivalents, similar to Dinomod. In addition to this Magiclysm,
+          Dinomod, and Aftershock have received dozens of new PRs each to a scale that would be
+          equal to or larger than paid DLC for a AAA game.
+        </p>
+        <p>
+          We, the DDA team, have had a great time creating new content and worlds to explore and we
+          hope that you enjoy them and if a mood takes you, that you join us in creating more in the
+          future.
+        </p>
+      </description>
+      <url type="details">
+        https://github.com/CleverRaven/Cataclysm-DDA/tree/0.G-branch/data/changelog.txt</url>
+    </release>
+
     <release version="0.F Frank" date="2021-07-02">
       <description>
         <p>

@@ -18,7 +18,9 @@
         { "item": "2x4", "count": [ 0, 2 ] },
         { "item": "nail", "charges": [ 0, 5 ] },
         { "item": "splinter", "count": [ 2, 8 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "deconstruct": {
       "ter_set": "t_open_air_rooved",
@@ -49,7 +51,9 @@
         { "item": "2x4", "count": [ 0, 5 ] },
         { "item": "nail", "charges": [ 0, 5 ] },
         { "item": "splinter", "count": [ 5, 10 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -72,14 +76,16 @@
         { "item": "wood_panel", "count": [ 0, 1 ] },
         { "item": "nail", "charges": [ 0, 5 ] },
         { "item": "splinter", "count": [ 2, 8 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
     "type": "terrain",
     "id": "t_wood_stairs_up",
     "name": "wooden stairs",
-    "description": "A wooden staircase leading up",
+    "description": "A wooden staircase leading up.",
     "symbol": "<",
     "color": "light_red",
     "move_cost": 2,
@@ -104,7 +110,9 @@
         { "item": "wood_panel", "count": [ 0, 2 ] },
         { "item": "nail", "charges": [ 1, 5 ] },
         { "item": "splinter", "count": [ 1, 4 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -116,6 +124,7 @@
     "color": "yellow",
     "move_cost": 2,
     "roof": "t_flat_roof",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "GOES_DOWN", "INDOORS", "PLACE_ITEM", "SUPPORTS_ROOF" ]
   },
   {
@@ -137,6 +146,7 @@
     "symbol": "<",
     "color": "yellow",
     "move_cost": 2,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "GOES_UP", "INDOORS", "PLACE_ITEM" ]
   },
   {
@@ -147,7 +157,9 @@
     "symbol": ">",
     "color": "dark_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM" ]
+    "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM" ],
+    "connect_groups": "PAVEMENT",
+    "connects_to": "PAVEMENT"
   },
   {
     "type": "terrain",
@@ -164,7 +176,9 @@
       "prying_data": { "difficulty": 4, "prying_level": 1, "failure": "You pry, but can't lift the manhole cover." },
       "byproducts": [ { "item": "manhole_cover", "count": 1 } ]
     },
-    "flags": [ "TRANSPARENT" ]
+    "flags": [ "TRANSPARENT" ],
+    "connect_groups": "PAVEMENT",
+    "connects_to": "PAVEMENT"
   },
   {
     "type": "terrain",
@@ -182,7 +196,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_floor",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 6 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
+      "items": [ { "item": "mc_steel_chunk", "count": [ 1, 6 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
     }
   },
   {
@@ -201,7 +215,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_open_air_rooved",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 6 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
+      "items": [ { "item": "mc_steel_chunk", "count": [ 1, 6 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
     }
   },
   {
@@ -219,7 +233,70 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_ladder_down",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 6 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
+      "items": [ { "item": "mc_steel_chunk", "count": [ 1, 6 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_scaffolding_pipe_up",
+    "name": "scaffolding up",
+    "description": "Scaffolding leading up.",
+    "symbol": "<",
+    "looks_like": "t_ladder_up",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "roof": "t_scaffolding_pipe_down",
+    "flags": [ "TRANSPARENT", "GOES_UP", "PLACE_ITEM", "DIFFICULT_Z", "SUPPORTS_ROOF", "SINGLE_SUPPORT" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "pipe", "count": [ 10, 46 ] },
+        { "item": "pipe_fittings", "count": [ 10, 55 ] },
+        { "item": "2x4", "count": [ 1, 4 ] },
+        { "item": "stick", "count": [ 0, 2 ] },
+        { "item": "rope_30", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_scaffolding_pipe_down",
+    "name": "scaffolding down",
+    "description": "Scaffolding leading down.",
+    "symbol": ">",
+    "looks_like": "t_ladder_down",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM", "DIFFICULT_Z", "SINGLE_SUPPORT" ],
+    "bash": { "str_min": 20, "str_max": 150, "sound": "metal screeching!", "sound_fail": "clang!", "ter_set": "t_open_air" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_scaffolding_pipe_updown",
+    "name": "scaffolding up/down",
+    "description": "Scaffolding leading up and down.",
+    "looks_like": "t_ladder_up_down",
+    "symbol": "H",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "GOES_UP", "GOES_DOWN", "PLACE_ITEM", "DIFFICULT_Z", "SUPPORTS_ROOF", "SINGLE_SUPPORT" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_scaffolding_pipe_down",
+      "items": [
+        { "item": "pipe", "count": [ 10, 46 ] },
+        { "item": "pipe_fittings", "count": [ 10, 55 ] },
+        { "item": "2x4", "count": [ 1, 4 ] },
+        { "item": "stick", "count": [ 0, 2 ] },
+        { "item": "rope_30", "count": [ 0, 2 ] }
+      ]
     }
   },
   {
@@ -413,7 +490,9 @@
         { "item": "2x4", "count": [ 0, 3 ] },
         { "item": "nail", "charges": [ 1, 5 ] },
         { "item": "splinter", "count": [ 1, 4 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -435,7 +514,9 @@
         { "item": "2x4", "count": [ 0, 3 ] },
         { "item": "nail", "charges": [ 1, 5 ] },
         { "item": "splinter", "count": [ 1, 4 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {

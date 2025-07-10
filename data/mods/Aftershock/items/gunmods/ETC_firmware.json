@@ -1,0 +1,47 @@
+[
+  {
+    "id": "firmware_overpressure",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
+    "looks_like": "electrolaser_conversion",
+    "name": { "str_sp": "ETC firmware (overpressure)" },
+    "description": "Custom firmware for the electrical ignition system of caseless firearms.  Tweaks the ignition timing to maximize pressure in the chamber, increasing muzzle velocity and armor penetration at the cost of increased wear on the weapon.",
+    "damage_modifier": { "damage_type": "bullet", "amount": 10 },
+    "range_multiplier": 1.2,
+    "weight": "12 g",
+    "volume": "50 ml",
+    "longest_side": "1 cm",
+    "integral_longest_side": "0 cm",
+    "price_postapoc": "10 USD",
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "dark_gray",
+    "location": "ETCfirmware",
+    "mod_targets": [ "rifle", "pistol", "smg" ],
+    "install_time": "15 m",
+    "ammo_effects": [ "MATCHHEAD" ]
+  },
+  {
+    "id": "firmware_subsonic",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
+    "copy-from": "firmware_overpressure",
+    "name": { "str_sp": "ETC firmware (subsonic)" },
+    "description": "Custom firmware for the electrical ignition system of caseless firearms.  Tweaks the ignition timing to ensure that fired bullets remain subsonic, reducing noise at the cost of range and armor penetration.",
+    "damage_modifier": { "damage_type": "bullet", "amount": -6 },
+    "loudness_modifier": -40,
+    "range_multiplier": 0.6
+  },
+  {
+    "id": "firmware_incendiary",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
+    "copy-from": "firmware_overpressure",
+    "name": { "str_sp": "ETC firmware (incendiary)" },
+    "description": "Custom firmware for the electrical ignition system of caseless firearms.  Increases the potency of the heat ignition system, causing bullets to melt and be subsequently fired as globules of superheated metal.  The projectiles will set targets on fire, at the cost of direct damage, range, and weapon durability.",
+    "damage_modifier": [ { "damage_type": "bullet", "amount": -16 }, { "damage_type": "heat", "amount": 5 } ],
+    "ammo_effects": [ "MATCHHEAD", "IGNITE" ],
+    "dispersion_modifier": 60,
+    "range_multiplier": 0.6
+  }
+]

@@ -2,7 +2,7 @@
   {
     "id": "BGSS_EVACUEE_1_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "I made it to one of those <swear> caves, but it was almost worse than what I left behind.  Escaped from there, been on the run since.",
+    "dynamic_line": "I made it to one of those <freaking> caves, but it was almost worse than what I left behind.  Escaped from there, been on the run since.",
     "responses": [
       {
         "text": "How did you survive on the run?",

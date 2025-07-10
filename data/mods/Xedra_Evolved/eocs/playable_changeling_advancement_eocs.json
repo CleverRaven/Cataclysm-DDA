@@ -1,0 +1,192 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_CHANGELING_GRANT_POWER_VITAMIN_RECURRING",
+    "recurrence": [ "5 days", "7 days" ],
+    "condition": {
+      "and": [
+        {
+          "u_has_any_trait": [
+            "UNKNOWING_CHANGELING_NOBLE",
+            "UNKNOWING_CHANGELING_COMMONER_BROWNIE",
+            "UNKNOWING_CHANGELING_COMMONER_POOKA",
+            "UNKNOWING_CHANGELING_COMMONER_SELKIE",
+            "UNKNOWING_CHANGELING_COMMONER_TROW"
+          ]
+        }
+      ]
+    },
+    "effect": { "math": [ "u_changeling_advancement_dreams_counter++" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLAYABLE_CHANGELING_COMMONER_CHOOSE_HERITAGE",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": { "test_eoc": "EOC_TEST_CHANGELING_COMMONER_INITIAL_CONDITIONS" },
+    "effect": [
+      {
+        "u_message": "That night, you dream of your parents and the unknown place of your birth.  Who were they?",
+        "type": "info"
+      },
+      {
+        "run_eoc_selector": [
+          "EOC_PLAYABLE_CHANGELING_COMMONER_CHOOSE_HERITAGE_BROWNIE",
+          "EOC_PLAYABLE_CHANGELING_COMMONER_CHOOSE_HERITAGE_POOKA",
+          "EOC_PLAYABLE_CHANGELING_COMMONER_CHOOSE_HERITAGE_SELKIE",
+          "EOC_PLAYABLE_CHANGELING_COMMONER_CHOOSE_HERITAGE_TROW"
+        ],
+        "names": [ "Brownie", "Pooka", "Selkie", "Trow" ],
+        "title": "What is your heritage?",
+        "descriptions": [
+          "Your parents were brownies, the simple, down-to-earth crafters of the fae.",
+          "Your parents were pookas, shapechangers that can take animal forms.",
+          "Your parents were selkies, who spend part of the time upon land and part of the time as a seal in the sea",
+          "Your parents were trow, tough as stone, who dwell beneath the earth."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLAYABLE_CHANGELING_COMMONER_CHOOSE_HERITAGE_BROWNIE",
+    "condition": { "test_eoc": "EOC_TEST_CHANGELING_COMMONER_INITIAL_CONDITIONS" },
+    "effect": [
+      { "u_add_trait": "UNKNOWING_CHANGELING_COMMONER_BROWNIE" },
+      { "u_lose_trait": "FAIR_FOLK_COMMONER_SELECTOR" },
+      { "u_message": "XE_CHANGELING_COMMONER_BROWNIE", "type": "neutral", "snippet": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLAYABLE_CHANGELING_COMMONER_CHOOSE_HERITAGE_POOKA",
+    "condition": { "test_eoc": "EOC_TEST_CHANGELING_COMMONER_INITIAL_CONDITIONS" },
+    "effect": [
+      { "u_add_trait": "UNKNOWING_CHANGELING_COMMONER_POOKA" },
+      { "u_lose_trait": "FAIR_FOLK_COMMONER_SELECTOR" },
+      { "u_message": "XE_CHANGELING_COMMONER_POOKA", "type": "neutral", "snippet": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLAYABLE_CHANGELING_COMMONER_CHOOSE_HERITAGE_SELKIE",
+    "condition": { "test_eoc": "EOC_TEST_CHANGELING_COMMONER_INITIAL_CONDITIONS" },
+    "effect": [
+      { "u_add_trait": "UNKNOWING_CHANGELING_COMMONER_SELKIE" },
+      { "u_lose_trait": "FAIR_FOLK_COMMONER_SELECTOR" },
+      { "u_message": "XE_CHANGELING_COMMONER_SELKIE", "type": "neutral", "snippet": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLAYABLE_CHANGELING_COMMONER_CHOOSE_HERITAGE_TROW",
+    "condition": { "test_eoc": "EOC_TEST_CHANGELING_COMMONER_INITIAL_CONDITIONS" },
+    "effect": [
+      { "u_add_trait": "UNKNOWING_CHANGELING_COMMONER_TROW" },
+      { "u_lose_trait": "FAIR_FOLK_COMMONER_SELECTOR" },
+      { "u_message": "XE_CHANGELING_COMMONER_TROW", "type": "neutral", "snippet": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLAYABLE_CHANGELING_NOBLE_NEW_POWERS",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": {
+      "and": [ { "u_has_trait": "UNKNOWING_CHANGELING_NOBLE" }, { "math": [ "u_changeling_advancement_dreams_counter >= 1" ] } ]
+    },
+    "effect": [
+      { "u_message": "XE_CHANGELING_NOBLE", "type": "neutral", "snippet": true },
+      { "math": [ "u_vitamin('mutagen_fair_folk_noble')", "+=", "2500" ] },
+      { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
+      { "u_mutate": 0 },
+      { "math": [ "u_vitamin('mutagen_fair_folk_noble')", "-=", "2500" ] },
+      { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] },
+      { "math": [ "u_changeling_advancement_dreams_counter--" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLAYABLE_CHANGELING_BROWNIE_NEW_POWERS",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": {
+      "and": [
+        { "u_has_trait": "UNKNOWING_CHANGELING_COMMONER_BROWNIE" },
+        { "math": [ "u_changeling_advancement_dreams_counter >= 1" ] }
+      ]
+    },
+    "effect": [
+      { "u_message": "XE_CHANGELING_COMMONER_BROWNIE", "type": "neutral", "snippet": true },
+      { "math": [ "u_vitamin('mutagen_fair_folk_commoner_brownie')", "+=", "2500" ] },
+      { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
+      { "u_mutate": 0 },
+      { "math": [ "u_vitamin('mutagen_fair_folk_commoner_brownie')", "-=", "2500" ] },
+      { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] },
+      { "math": [ "u_changeling_advancement_dreams_counter--" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLAYABLE_CHANGELING_POOKA_NEW_POWERS",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": {
+      "and": [
+        { "u_has_trait": "UNKNOWING_CHANGELING_COMMONER_POOKA" },
+        { "math": [ "u_changeling_advancement_dreams_counter >= 1" ] }
+      ]
+    },
+    "effect": [
+      { "u_message": "XE_CHANGELING_COMMONER_POOKA", "type": "neutral", "snippet": true },
+      { "math": [ "u_vitamin('mutagen_fair_folk_commoner_pooka')", "+=", "2500" ] },
+      { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
+      { "u_mutate": 0 },
+      { "math": [ "u_vitamin('mutagen_fair_folk_commoner_pooka')", "-=", "2500" ] },
+      { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] },
+      { "math": [ "u_changeling_advancement_dreams_counter--" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLAYABLE_CHANGELING_SELKIE_NEW_POWERS",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": {
+      "and": [
+        { "u_has_trait": "UNKNOWING_CHANGELING_COMMONER_SELKIE" },
+        { "math": [ "u_changeling_advancement_dreams_counter >= 1" ] }
+      ]
+    },
+    "effect": [
+      { "u_message": "XE_CHANGELING_COMMONER_SELKIE", "type": "neutral", "snippet": true },
+      { "math": [ "u_vitamin('mutagen_fair_folk_commoner_selkie')", "+=", "2500" ] },
+      { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
+      { "u_mutate": 0 },
+      { "math": [ "u_vitamin('mutagen_fair_folk_commoner_selkie')", "-=", "2500" ] },
+      { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] },
+      { "math": [ "u_changeling_advancement_dreams_counter--" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLAYABLE_CHANGELING_TROW_NEW_POWERS",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": {
+      "and": [
+        { "u_has_trait": "UNKNOWING_CHANGELING_COMMONER_TROW" },
+        { "math": [ "u_changeling_advancement_dreams_counter >= 1" ] }
+      ]
+    },
+    "effect": [
+      { "u_message": "XE_CHANGELING_COMMONER_TROW", "type": "neutral", "snippet": true },
+      { "math": [ "u_vitamin('mutagen_fair_folk_commoner_trow')", "+=", "2500" ] },
+      { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
+      { "u_mutate": 0 },
+      { "math": [ "u_vitamin('mutagen_fair_folk_commoner_trow')", "-=", "2500" ] },
+      { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] },
+      { "math": [ "u_changeling_advancement_dreams_counter--" ] }
+    ]
+  }
+]

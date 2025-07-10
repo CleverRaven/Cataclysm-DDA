@@ -1,9 +1,7 @@
 [
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": [ [ "TreeFarm_1a", "TreeFarm_1b" ] ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -49,17 +47,51 @@
       "place_item": [ { "item": "chainsaw_off", "chance": 70, "x": 3, "y": 10 }, { "item": "saw", "chance": 70, "x": 3, "y": 10 } ],
       "place_items": [
         { "chance": 30, "item": "tools_common", "x": 4, "y": 11 },
-        { "chance": 20, "repeat": [ 1, 4 ], "item": "trash", "x": 4, "y": 3 },
+        { "chance": 20, "item": "SUS_trash_trashcan", "x": 4, "y": 3 },
         { "chance": 30, "item": "tools_earthworking", "x": 3, "y": 11 },
         { "chance": 30, "item": "tools_earthworking", "x": 3, "y": 9 },
         { "chance": 30, "item": "tools_earthworking", "x": 4, "y": 9 },
-        { "chance": 20, "repeat": [ 1, 2 ], "item": "office", "x": 3, "y": 5 },
+        { "chance": 40, "item": "SUS_office_desk", "x": 3, "y": 5 },
         { "item": "cash_register_random", "x": 5, "y": [ 3, 5 ], "chance": 100 }
       ],
       "place_signs": [
         { "signage": "<given_name>'s Tree Farm, call us at 555-8758!", "x": 4, "y": 1 },
         { "signage": "Christmas trees available early winter!", "x": 5, "y": 1 }
       ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "TreeFarm_1a_roof" ],
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "  ----                  ",
+        "  -..-                  ",
+        "  -..-                  ",
+        "  -..-                  ",
+        "  ----                  ",
+        "                        ",
+        "  ----                  ",
+        "  -..-                  ",
+        "  -..-                  ",
+        "  -..-                  ",
+        "  ----                  ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
     }
   }
 ]

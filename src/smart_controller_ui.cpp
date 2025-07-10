@@ -1,6 +1,7 @@
 #include "smart_controller_ui.h"
 
 #include <algorithm>
+#include <functional>
 #include <optional>
 #include <string>
 #include <vector>
@@ -12,7 +13,9 @@
 #include "point.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
+#include "translation.h"
 #include "translations.h"
+#include "uilist.h"
 #include "ui_manager.h"
 
 static catacurses::window init_window()
@@ -48,7 +51,7 @@ void smart_controller_ui::refresh()
     // header
     const std::string title =  _( "Smart Engine Controller ® Interface" );
     mvwprintz( win, point( ( WIDTH - title.length() ) / 2, 1 ), white, title );
-    mvwhline( win, point( 1, 2 ), LINE_OXOX, WIDTH - 2 );
+    mvwhline( win, point( 1, 2 ), BORDER_COLOR, LINE_OXOX, WIDTH - 2 );
 
     // for menu items, y points to the center of the menu item vertical space
     int y = 3 + MENU_ITEM_HEIGHT / 2;

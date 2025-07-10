@@ -13,7 +13,7 @@
 #include "cata_utility.h"
 #include "flexbuffer_cache.h"
 #include "json.h"
-#include "json_error.h"
+#include "json_error.h" // IWYU pragma: export
 #include "int_id.h"
 #include "memory_fast.h"
 #include "string_id.h"
@@ -626,6 +626,7 @@ class JsonObject : JsonWithPath
                                             std::vector<int> get_int_array( std::string_view name ) const;
                                             std::vector<std::string> get_string_array( std::string_view name ) const;
                                             std::vector<std::string> get_as_string_array( const std::string &name ) const;
+                                            std::set<std::string> get_as_string_set( const std::string &name ) const;
 
                                             bool has_member( std::string_view key ) const;
                                             bool has_null( std::string_view key ) const;

@@ -1,0 +1,8 @@
+[
+  {
+    "type": "attack_vector",
+    "id": "vector_wing_slap",
+    "limbs": [ "arm_wing_bird_l", "arm_wing_bird_r" ],
+    "contact_area": [ "arm_wing_bird_lower_r", "arm_wing_bird_lower_l" ]
+  }
+]

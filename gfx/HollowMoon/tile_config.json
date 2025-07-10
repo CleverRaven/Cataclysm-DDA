@@ -980,7 +980,6 @@
             "shot_flechette_season_spring",
             "reloaded_shot_00_season_spring",
             "reloaded_shot_slug_season_spring",
-            "shot_slug_season_spring",
             "bp_shot_00_season_spring"
           ],
           "fg": 214,
@@ -1005,7 +1004,6 @@
             "shot_flechette_season_autumn",
             "reloaded_shot_00_season_autumn",
             "reloaded_shot_slug_season_autumn",
-            "shot_slug_season_autumn",
             "bp_shot_00_season_autumn"
           ],
           "fg": 213,
@@ -1030,7 +1028,6 @@
             "shot_flechette_season_winter",
             "reloaded_shot_00_season_winter",
             "reloaded_shot_slug_season_winter",
-            "shot_slug_season_winter",
             "bp_shot_00_season_winter"
           ],
           "fg": 216,
@@ -1055,7 +1052,6 @@
             "shot_flechette_season_summer",
             "reloaded_shot_00_season_summer",
             "reloaded_shot_slug_season_summer",
-            "shot_slug_season_summer",
             "bp_shot_00_season_summer"
           ],
           "fg": 215,
@@ -1868,34 +1864,19 @@
         { "id": [ "boiled_egg_season_autumn", "pickled_egg_season_autumn" ], "fg": 1954, "rotates": false },
         { "id": [ "boiled_egg_season_winter", "pickled_egg_season_winter" ], "fg": 1956, "rotates": false },
         { "id": [ "boiled_egg_season_summer", "pickled_egg_season_summer" ], "fg": 1955, "rotates": false },
-        { "id": [ "bread", "sourdough_bread", "wastebread", "Dana_sourdough_bread" ], "fg": 1965, "rotates": false },
+        { "id": [ "bread", "sourdough_bread", "Dana_sourdough_bread" ], "fg": 1965, "rotates": false },
         {
-          "id": [
-            "bread_season_autumn",
-            "sourdough_bread_season_autumn",
-            "wastebread_season_autumn",
-            "Dana_sourdough_bread_season_autumn"
-          ],
+          "id": [ "bread_season_autumn", "sourdough_bread_season_autumn", "Dana_sourdough_bread_season_autumn" ],
           "fg": 1966,
           "rotates": false
         },
         {
-          "id": [
-            "bread_season_winter",
-            "sourdough_bread_season_winter",
-            "wastebread_season_winter",
-            "Dana_sourdough_bread_season_winter"
-          ],
+          "id": [ "bread_season_winter", "sourdough_bread_season_winter", "Dana_sourdough_bread_season_winter" ],
           "fg": 1968,
           "rotates": false
         },
         {
-          "id": [
-            "bread_season_summer",
-            "sourdough_bread_season_summer",
-            "wastebread_season_summer",
-            "Dana_sourdough_bread_season_summer"
-          ],
+          "id": [ "bread_season_summer", "sourdough_bread_season_summer", "Dana_sourdough_bread_season_summer" ],
           "fg": 1967,
           "rotates": false
         },
@@ -1955,7 +1936,6 @@
           "id": [
             "dahlia_root_season_spring",
             "salsify_raw_season_spring",
-            "hickory_root_season_spring",
             "horseradish_root_season_spring",
             "wild_sarsaparilla_root_season_spring"
           ],
@@ -1966,7 +1946,6 @@
           "id": [
             "dahlia_root_season_autumn",
             "salsify_raw_season_autumn",
-            "hickory_root_season_autumn",
             "horseradish_root_season_autumn",
             "wild_sarsaparilla_root_season_autumn"
           ],
@@ -1977,7 +1956,6 @@
           "id": [
             "dahlia_root_season_winter",
             "salsify_raw_season_winter",
-            "hickory_root_season_winter",
             "horseradish_root_season_winter",
             "wild_sarsaparilla_root_season_winter"
           ],
@@ -1988,7 +1966,6 @@
           "id": [
             "dahlia_root_season_summer",
             "salsify_raw_season_summer",
-            "hickory_root_season_summer",
             "horseradish_root_season_summer",
             "wild_sarsaparilla_root_season_summer"
           ],
@@ -3815,7 +3792,6 @@
           "id": [
             "chem_aluminium_powder_season_spring",
             "cathod_mix_season_spring",
-            "chem_aluminium_sulphate_season_spring",
             "chem_ammonium_nitrate_season_spring",
             "chem_antimony_trichloride_season_spring",
             "chem_baking_soda_season_spring",
@@ -3867,7 +3843,6 @@
           "id": [
             "chem_aluminium_powder_season_summer",
             "cathod_mix_season_summer",
-            "chem_aluminium_sulphate_season_summer",
             "chem_ammonium_nitrate_season_summer",
             "chem_antimony_trichloride_season_summer",
             "chem_baking_soda_season_summer",
@@ -3919,7 +3894,6 @@
           "id": [
             "chem_aluminium_powder_season_autumn",
             "cathod_mix_season_autumn",
-            "chem_aluminium_sulphate_season_autumn",
             "chem_ammonium_nitrate_season_autumn",
             "chem_antimony_trichloride_season_autumn",
             "chem_baking_soda_season_autumn",
@@ -3971,7 +3945,6 @@
           "id": [
             "chem_aluminium_powder_season_winter",
             "cathod_mix_season_winter",
-            "chem_aluminium_sulphate_season_winter",
             "chem_ammonium_nitrate_season_winter",
             "chem_antimony_trichloride_season_winter",
             "chem_baking_soda_season_winter",
@@ -5900,7 +5873,6 @@
             "touristmap_season_spring",
             "restaurantmap_season_spring",
             "trailmap_season_spring",
-            "flyer_season_spring",
             "necropolis_leaflet_season_spring"
           ],
           "fg": 6418
@@ -5910,7 +5882,6 @@
             "touristmap_season_summer",
             "restaurantmap_season_summer",
             "trailmap_season_summer",
-            "flyer_season_summer",
             "necropolis_leaflet_season_summer"
           ],
           "fg": 6419
@@ -5920,7 +5891,6 @@
             "touristmap_season_autumn",
             "restaurantmap_season_autumn",
             "trailmap_season_autumn",
-            "flyer_season_autumn",
             "necropolis_leaflet_season_autumn"
           ],
           "fg": 6417
@@ -5930,7 +5900,6 @@
             "touristmap_season_winter",
             "restaurantmap_season_winter",
             "trailmap_season_winter",
-            "flyer_season_winter",
             "necropolis_leaflet_season_winter"
           ],
           "fg": 6420
@@ -13812,6 +13781,10 @@
         { "id": "shot_casing_season_spring", "fg": 218 },
         { "id": "shot_casing_season_summer", "fg": 219 },
         { "id": "shot_casing_season_winter", "fg": 220 },
+        { "id": "shot_slug_season_autumn", "fg": 221 },
+        { "id": "shot_slug_season_spring", "fg": 222 },
+        { "id": "shot_slug_season_summer", "fg": 223 },
+        { "id": "shot_slug_season_winter", "fg": 224 },
         { "id": "shotbelt_20_season_autumn", "fg": 225 },
         { "id": "shotbelt_20_season_spring", "fg": 226 },
         { "id": "shotbelt_20_season_summer", "fg": 227 },
@@ -15572,6 +15545,10 @@
         { "id": "haggis_season_spring", "fg": 2246 },
         { "id": "haggis_season_summer", "fg": 2247 },
         { "id": "haggis_season_winter", "fg": 2248 },
+        { "id": "hickory_root_season_autumn", "fg": 2249 },
+        { "id": "hickory_root_season_spring", "fg": 2250 },
+        { "id": "hickory_root_season_summer", "fg": 2251 },
+        { "id": "hickory_root_season_winter", "fg": 2252 },
         { "id": "honey_glassed_season_autumn", "fg": 2253 },
         { "id": "honey_glassed_season_spring", "fg": 2254 },
         { "id": "honey_glassed_season_summer", "fg": 2255 },
@@ -15856,7 +15833,10 @@
         { "id": "veggy_wild_season_spring", "fg": 2606 },
         { "id": "veggy_wild_season_summer", "fg": 2607 },
         { "id": "veggy_wild_season_winter", "fg": 2608 },
+        { "id": "wastebread_season_autumn", "fg": 2613 },
         { "id": "wastebread_season_spring", "fg": 2614 },
+        { "id": "wastebread_season_summer", "fg": 2615 },
+        { "id": "wastebread_season_winter", "fg": 2616 },
         { "id": "watermelon_season_autumn", "fg": 2621 },
         { "id": "watermelon_season_spring", "fg": 2622 },
         { "id": "watermelon_season_summer", "fg": 2623 },
@@ -17157,6 +17137,10 @@
         { "id": "charcoal_season_spring", "fg": 4406 },
         { "id": "charcoal_season_summer", "fg": 4407 },
         { "id": "charcoal_season_winter", "fg": 4408 },
+        { "id": "chem_aluminium_sulphate_season_autumn", "fg": 4417 },
+        { "id": "chem_aluminium_sulphate_season_spring", "fg": 4418 },
+        { "id": "chem_aluminium_sulphate_season_summer", "fg": 4419 },
+        { "id": "chem_aluminium_sulphate_season_winter", "fg": 4420 },
         { "id": "choke_season_autumn", "fg": 4421 },
         { "id": "choke_season_spring", "fg": 4422 },
         { "id": "choke_season_summer", "fg": 4423 },
@@ -17445,6 +17429,10 @@
         { "id": "flashlight_on_season_spring", "fg": 4730 },
         { "id": "flashlight_on_season_summer", "fg": 4731 },
         { "id": "flashlight_on_season_winter", "fg": 4732 },
+        { "id": "flyer_season_autumn", "fg": 4733 },
+        { "id": "flyer_season_spring", "fg": 4734 },
+        { "id": "flyer_season_summer", "fg": 4735 },
+        { "id": "flyer_season_winter", "fg": 4736 },
         { "id": "fog_machine_season_autumn", "fg": 4737 },
         { "id": "fog_machine_season_spring", "fg": 4738 },
         { "id": "fog_machine_season_summer", "fg": 4739 },
@@ -21229,22 +21217,22 @@
         { "id": "khopesh_season_spring", "fg": 10932 },
         { "id": "khopesh_season_summer", "fg": 10933 },
         { "id": "khopesh_season_winter", "fg": 10934 },
-        { "id": "knife_butcher_season_autumn", "fg": 10935 },
-        { "id": "knife_butcher_season_spring", "fg": 10936 },
-        { "id": "knife_butcher_season_summer", "fg": 10937 },
-        { "id": "knife_butcher_season_winter", "fg": 10938 },
-        { "id": "knife_chef_season_autumn", "fg": 10939 },
-        { "id": "knife_chef_season_spring", "fg": 10940 },
-        { "id": "knife_chef_season_summer", "fg": 10941 },
-        { "id": "knife_chef_season_winter", "fg": 10942 },
+        { "id": "knife_huge_var_knife_butcher_season_autumn", "fg": 10935 },
+        { "id": "knife_huge_var_knife_butcher_season_spring", "fg": 10936 },
+        { "id": "knife_huge_var_knife_butcher_season_summer", "fg": 10937 },
+        { "id": "knife_huge_var_knife_butcher_season_winter", "fg": 10938 },
+        { "id": "knife_large_var_knife_chef_season_autumn", "fg": 10939 },
+        { "id": "knife_large_var_knife_chef_season_spring", "fg": 10940 },
+        { "id": "knife_large_var_knife_chef_season_summer", "fg": 10941 },
+        { "id": "knife_large_var_knife_chef_season_winter", "fg": 10942 },
         { "id": "knife_folding_season_autumn", "fg": 10947 },
         { "id": "knife_folding_season_spring", "fg": 10948 },
         { "id": "knife_folding_season_summer", "fg": 10949 },
         { "id": "knife_folding_season_winter", "fg": 10950 },
-        { "id": "knife_meat_cleaver_season_autumn", "fg": 10951 },
-        { "id": "knife_meat_cleaver_season_spring", "fg": 10952 },
-        { "id": "knife_meat_cleaver_season_summer", "fg": 10953 },
-        { "id": "knife_meat_cleaver_season_winter", "fg": 10954 },
+        { "id": "knife_cleaver_var_knife_meat_cleaver_season_autumn", "fg": 10951 },
+        { "id": "knife_cleaver_var_knife_meat_cleaver_season_spring", "fg": 10952 },
+        { "id": "knife_cleaver_var_knife_meat_cleaver_season_summer", "fg": 10953 },
+        { "id": "knife_cleaver_var_knife_meat_cleaver_season_winter", "fg": 10954 },
         { "id": "knife_swissarmy_season_autumn", "fg": 10955 },
         { "id": "knife_swissarmy_season_spring", "fg": 10956 },
         { "id": "knife_swissarmy_season_summer", "fg": 10957 },

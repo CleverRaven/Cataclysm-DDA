@@ -16,7 +16,6 @@
 #include "enum_conversions.h"
 #include "enum_traits.h"
 #include "flag.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "inventory.h"
@@ -113,10 +112,9 @@ template void comp_selection<item_comp>::serialize( JsonOut &jsout ) const;
 template void comp_selection<tool_comp>::deserialize( const JsonObject &data );
 template void comp_selection<item_comp>::deserialize( const JsonObject &data );
 
-void craft_command::execute( const std::optional<tripoint> &new_loc )
+void craft_command::execute( const std::optional<tripoint_bub_ms> &new_loc )
 {
     loc = new_loc;
-
     execute();
 }
 
@@ -128,7 +126,7 @@ void craft_command::execute( bool only_cache_comps )
 
     bool need_selections = true;
     inventory map_inv;
-    map_inv.form_from_map( crafter->pos(), PICKUP_RANGE, crafter );
+    map_inv.form_from_map( crafter->pos_bub(), PICKUP_RANGE, crafter );
 
     if( has_cached_selections() ) {
         std::vector<comp_selection<item_comp>> missing_items = check_item_components_missing( map_inv );
@@ -278,7 +276,7 @@ bool craft_command::continue_prompt_liquids( const std::function<bool( const ite
         };
 
         const char *liq_cont_msg = _( "%1$s is not empty.  Continue anyway?" );
-        std::vector<std::pair<const tripoint, item>> map_items;
+        std::vector<std::pair<const tripoint_bub_ms, item>> map_items;
         std::vector<std::pair<const vpart_reference, item>> veh_items;
         std::vector<item> inv_items;
 
@@ -290,16 +288,16 @@ bool craft_command::continue_prompt_liquids( const std::function<bool( const ite
                 crafter->i_add_or_drop( iit );
             }
             for( auto &vit : veh_items ) {
-                vit.first.vehicle().add_item( vit.first.part(), vit.second );
+                vit.first.vehicle().add_item( m, vit.first.part(), vit.second );
             }
         };
 
         int real_count = ( it.comp.count > 0 ) ? it.comp.count * batch_size : std::abs( it.comp.count );
         for( int i = 0; i < 2 && real_count > 0; i++ ) {
             if( it.use_from & usage_from::map ) {
-                const tripoint &loc = crafter->pos();
+                const tripoint_bub_ms &loc = crafter->pos_bub();
                 for( int radius = 0; radius <= PICKUP_RANGE && real_count > 0; radius++ ) {
-                    for( const tripoint &p : m.points_in_radius( loc, radius ) ) {
+                    for( const tripoint_bub_ms &p : m.points_in_radius( loc, radius ) ) {
                         if( rl_dist( loc, p ) >= radius ) {
                             // "Simulate" consuming items and put them back
                             // not very efficient but should be rare enough not to matter
@@ -374,9 +372,9 @@ static std::list<item> sane_consume_items( const comp_selection<item_comp> &it, 
     std::list<item> ret;
     for( int i = 0; i < 2 && real_count > 0; i++ ) {
         if( it.use_from & usage_from::map ) {
-            const tripoint &loc = crafter->pos();
+            const tripoint_bub_ms &loc = crafter->pos_bub();
             for( int radius = 0; radius <= PICKUP_RANGE && real_count > 0; radius++ ) {
-                for( const tripoint &p : m.points_in_radius( loc, radius ) ) {
+                for( const tripoint_bub_ms &p : m.points_in_radius( loc, radius ) ) {
                     if( rl_dist( loc, p ) >= radius ) {
                         std::list<item> tmp = m.use_amount_square( p, it.comp.type, real_count,
                                               i == 0 ? empty_filter : filter );
@@ -440,7 +438,7 @@ item craft_command::create_in_progress_craft()
     }
 
     inventory map_inv;
-    map_inv.form_from_map( crafter->pos(), PICKUP_RANGE, crafter );
+    map_inv.form_from_map( crafter->pos_bub(), PICKUP_RANGE, crafter );
 
     if( !check_item_components_missing( map_inv ).empty() ) {
         debugmsg( "Aborting crafting: couldn't find cached components" );
@@ -492,6 +490,7 @@ item craft_command::create_in_progress_craft()
     // Pass true to indicate that we are starting the craft and the remainder should be consumed as well
     crafter->craft_consume_tools( new_craft, 1, true );
     new_craft.set_next_failure_point( *crafter );
+    new_craft.set_owner( *crafter );
 
     return new_craft;
 }

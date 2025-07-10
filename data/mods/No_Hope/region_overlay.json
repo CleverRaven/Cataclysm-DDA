@@ -1,0 +1,66 @@
+[
+  {
+    "type": "region_overlay",
+    "regions": [ "all" ],
+    "map_extras": {
+      "forest": {
+        "extras": {
+          "mx_science": 20,
+          "mx_crater": 10,
+          "mx_supplydrop": 8,
+          "mx_military": 8,
+          "mx_bandits_ambush": 5,
+          "mx_bandits_grave": 2,
+          "mx_bandits_outpost": 2
+        }
+      },
+      "forest_thick": {
+        "extras": {
+          "mx_science": 20,
+          "mx_collegekids": 25,
+          "mx_crater": 10,
+          "mx_supplydrop": 5,
+          "mx_bandits_ambush": 5,
+          "mx_bandits_grave": 2,
+          "mx_bandits_outpost": 2
+        }
+      },
+      "forest_water": {
+        "extras": {
+          "mx_science": 50,
+          "mx_military": 25,
+          "mx_supplydrop": 25,
+          "mx_crater": 20,
+          "mx_bandits_ambush": 5,
+          "mx_bandits_grave": 2,
+          "mx_bandits_outpost": 2
+        }
+      },
+      "field": {
+        "extras": {
+          "mx_crater": 150,
+          "mx_supplydrop": 40,
+          "mx_bandits_ambush": 10,
+          "mx_bandits_campsite": 10,
+          "mx_bandits_grave": 10,
+          "mx_bandits_outpost": 10
+        }
+      },
+      "road": {
+        "extras": {
+          "mx_helicopter": 10,
+          "mx_military": 50,
+          "mx_science": 400,
+          "mx_bandits_block": 800,
+          "mx_drugdeal": 300,
+          "mx_supplydrop": 100,
+          "mx_crater": 100,
+          "mx_bandits_ambush": 100
+        }
+      },
+      "build": { "extras": { "mx_bugout": 20, "mx_science": 12, "mx_crater": 60, "mx_bandits_ambush": 10, "mx_bandits_hideout": 10 } },
+      "subway": { "extras": { "mx_casings": 10, "mx_bandits_ambush": 5 } }
+    },
+    "weather": { "base_humidity": 90.0 }
+  }
+]

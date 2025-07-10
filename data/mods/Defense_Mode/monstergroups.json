@@ -1,18 +1,18 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_TRIFFID_DM",
+    "id": "GROUP_TRIFFID_DM",
     "default": "mon_triffid",
     "monsters": [
       { "monster": "mon_triffid", "weight": 205 },
       { "monster": "mon_triffid", "weight": 300, "cost_multiplier": 2, "pack_size": [ 2, 3 ] },
       { "monster": "mon_fungal_fighter", "weight": 160, "cost_multiplier": 0 },
-      { "monster": "mon_vinebeast", "weight": 160, "cost_multiplier": 10, "starts": "240 hours" }
+      { "monster": "mon_vinebeast", "weight": 160, "cost_multiplier": 10, "starts": "40 days" }
     ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SPIDER_DM",
+    "id": "GROUP_SPIDER_DM",
     "default": "mon_spider_web_dm",
     "monsters": [
       { "monster": "mon_spider_cellar_giant_dm", "weight": 205 },
@@ -23,7 +23,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_ROBOT_DM",
+    "id": "GROUP_ROBOT_DM",
     "monsters": [
       { "monster": "mon_manhack", "weight": 515, "cost_multiplier": 0 },
       { "monster": "mon_skitterbot", "weight": 220, "cost_multiplier": 0 },
@@ -32,7 +32,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_NETHER_DM",
+    "id": "GROUP_NETHER_DM",
     "default": "mon_blank",
     "monsters": [
       { "monster": "mon_blank", "weight": 135, "cost_multiplier": 0 },
@@ -44,14 +44,14 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_NEMESIS",
+    "id": "GROUP_NEMESIS",
     "default": "mon_zombie_nemesis",
     "//": "nemesis squad, exists here to remove them from Defense Mode",
     "monsters": [ { "monster": "mon_zombie", "weight": 1000, "cost_multiplier": 0 } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_ZOMBIE",
+    "id": "GROUP_ZOMBIE",
     "monsters": [
       { "monster": "mon_zombie", "weight": 10, "cost_multiplier": 7, "pack_size": [ 5, 20 ] },
       { "monster": "mon_zombie", "weight": 10, "cost_multiplier": 13, "pack_size": [ 15, 40 ] },
@@ -78,8 +78,8 @@
       { "monster": "mon_zombie_swimmer_base", "weight": 100, "cost_multiplier": 5 },
       { "monster": "mon_zombie_static", "weight": 100, "cost_multiplier": 5 },
       { "monster": "mon_zombie_paramilitary", "weight": 10, "cost_multiplier": 25 },
-      { "monster": "mon_zombie_survivor", "weight": 10, "cost_multiplier": 25, "starts": "30 days" },
-      { "monster": "mon_zombie_survivor_elite", "weight": 10, "cost_multiplier": 25, "starts": "40 days" },
+      { "monster": "mon_zombie_survivor", "weight": 10, "cost_multiplier": 25, "starts": "120 days" },
+      { "monster": "mon_zombie_survivor_elite", "weight": 10, "cost_multiplier": 25, "starts": "160 days" },
       { "group": "GROUP_FERAL", "weight": 13 },
       { "monster": "mon_beekeeper", "weight": 10, "cost_multiplier": 5 },
       { "monster": "mon_zombie_technician", "weight": 10, "cost_multiplier": 12 },

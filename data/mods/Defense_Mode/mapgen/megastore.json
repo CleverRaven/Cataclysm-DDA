@@ -15,7 +15,7 @@
     "sym": "M",
     "color": "blue",
     "extras": "build",
-    "see_cost": 2
+    "see_cost": "full_high"
   },
   {
     "type": "overmap_terrain",
@@ -24,10 +24,10 @@
     "sym": "+",
     "color": "light_blue",
     "extras": "build",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [
       "SIDEWALK",
-      "RISK_HIGH",
+      "RISK_EXTREME",
       "SOURCE_FOOD",
       "SOURCE_DRINK",
       "SOURCE_GUN",
@@ -61,7 +61,7 @@
     "sym": "M",
     "color": "blue",
     "extras": "build",
-    "see_cost": 5
+    "see_cost": "full_high"
   },
   {
     "type": "overmap_terrain",
@@ -79,7 +79,7 @@
     "sym": "M",
     "color": "blue",
     "extras": "build",
-    "see_cost": 5
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",

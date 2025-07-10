@@ -1,0 +1,32 @@
+[
+  {
+    "id": "BGRS_Bonesinger_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "I heard the song before the aliens captured me.  I did what I could to help the other Bonesingers.",
+    "responses": [
+      { "text": "Where are you from?", "topic": "BGRS_Bonesinger_STORY2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGRS_Bonesinger_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "One day I was being chased by some aliens and suddenly I was ambushed by another one that shot me with some kind of pain ray.",
+    "responses": [
+      { "text": "Tell me more?", "topic": "BGRS_Bonesinger_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGRS_Bonesinger_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "Eventually they took the bones from my body.  It's strange though, I still hear the song calling to me, even in this new body.",
+    "responses": [
+      { "text": "How did it end?", "topic": "BGSS_CRIMINAL_EXPERIMENT_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  }
+]

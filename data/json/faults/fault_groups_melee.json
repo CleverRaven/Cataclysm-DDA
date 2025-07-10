@@ -1,0 +1,84 @@
+[
+  {
+    "type": "fault_group",
+    "id": "handle_short",
+    "//": "Mechanical damage of a short handle (60 cm or less)",
+    "group": [
+      { "fault": "fault_handle_chipping", "weight": 100 },
+      { "fault": "fault_handle_cracked", "weight": 50 },
+      { "fault": "fault_handle_broken", "weight": 5 },
+      { "fault": "fault_handle_off", "weight": 5 }
+    ]
+  },
+  {
+    "type": "fault_group",
+    "id": "handle_long",
+    "//": "Mechanical damage of a long shaft (60+ cm)",
+    "group": [
+      { "fault": "fault_handle_long_chipping", "weight": 100 },
+      { "fault": "fault_handle_long_cracked", "weight": 50 },
+      { "fault": "fault_handle_long_broken_half", "weight": 25 },
+      { "fault": "fault_handle_long_broken", "weight": 5 },
+      { "fault": "fault_handle_long_off", "weight": 5 }
+    ]
+  },
+  {
+    "type": "fault_group",
+    "id": "blade_general",
+    "//": "Mechanical damage of any blade, from a sword to a knife",
+    "group": [
+      { "fault": "fault_blade_rolled_edge", "weight": 100 },
+      { "fault": "fault_blade_chipped", "weight": 100 },
+      { "fault": "fault_blade_cracked", "weight": 100 },
+      { "fault": "fault_blade_broken", "weight": 3 },
+      { "fault": "fault_blade_broken_half", "weight": 8 },
+      { "fault": "fault_blade_broken_tip", "weight": 50 },
+      { "fault": "fault_blade_bent_tip", "weight": 80 }
+    ]
+  },
+  {
+    "type": "fault_group",
+    "id": "blade_general_no_tip",
+    "//": "Mechanical damage of a blade that do not have a tip, like cleaver",
+    "group": [
+      { "fault": "fault_blade_rolled_edge", "weight": 100 },
+      { "fault": "fault_blade_chipped", "weight": 100 },
+      { "fault": "fault_blade_cracked", "weight": 100 },
+      { "fault": "fault_blade_broken", "weight": 3 },
+      { "fault": "fault_blade_broken_half", "weight": 8 }
+    ]
+  },
+  {
+    "type": "fault_group",
+    "id": "spearhead",
+    "//": "Mechanical damage of a bespoke spearhead or something that replaces it, but generally deal damage by thrust, like pitchfork",
+    "group": [
+      { "fault": "fault_spearhead_fracture", "weight": 100 },
+      { "fault": "fault_spearhead_warped", "weight": 100 },
+      { "fault": "fault_spearhead_chipping", "weight": 100 },
+      { "fault": "fault_spearhead_bent_socket", "weight": 100 },
+      { "fault": "fault_spearhead_broken", "weight": 2 }
+    ]
+  },
+  {
+    "type": "fault_group",
+    "id": "staff_short",
+    "//": "Mechanical damage of a short wooden staff (120 cm or smaller)",
+    "group": [
+      { "fault": "fault_staff_short_chipping", "weight": 100 },
+      { "fault": "fault_staff_short_cracked", "weight": 50 },
+      { "fault": "fault_staff_short_broken", "weight": 5 }
+    ]
+  },
+  {
+    "type": "fault_group",
+    "id": "staff_long",
+    "//": "Mechanical damage of a long staff (120+ cm)",
+    "group": [
+      { "fault": "fault_staff_long_chipping", "weight": 100 },
+      { "fault": "fault_staff_long_cracked", "weight": 50 },
+      { "fault": "fault_staff_long_broken_half", "weight": 25 },
+      { "fault": "fault_staff_long_broken", "weight": 5 }
+    ]
+  }
+]

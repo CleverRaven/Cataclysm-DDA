@@ -77,49 +77,49 @@
     "id": "zenfs_om_divider_l1",
     "type": "widget",
     "style": "text",
-    "string": "<color_dark_gray>╽</color>",
+    "string": { "str": "<color_dark_gray>╽</color>", "//~": "NO_I18N" },
     "flags": [ "W_LABEL_NONE" ]
   },
   {
     "id": "zenfs_om_divider_l2",
     "type": "widget",
     "style": "text",
-    "string": "<color_dark_gray>┇</color>",
+    "string": { "str": "<color_dark_gray>┇</color>", "//~": "NO_I18N" },
     "flags": [ "W_LABEL_NONE" ]
   },
   {
     "id": "zenfs_om_divider_l3",
     "type": "widget",
     "style": "text",
-    "string": "<color_dark_gray>┃</color>",
+    "string": { "str": "<color_dark_gray>┃</color>", "//~": "NO_I18N" },
     "flags": [ "W_LABEL_NONE" ]
   },
   {
     "id": "zenfs_om_divider_l4",
     "type": "widget",
     "style": "text",
-    "string": "<color_dark_gray>┇</color>",
+    "string": { "str": "<color_dark_gray>┇</color>", "//~": "NO_I18N" },
     "flags": [ "W_LABEL_NONE" ]
   },
   {
     "id": "zenfs_om_divider_l5",
     "type": "widget",
     "style": "text",
-    "string": "<color_dark_gray>┃</color>",
+    "string": { "str": "<color_dark_gray>┃</color>", "//~": "NO_I18N" },
     "flags": [ "W_LABEL_NONE" ]
   },
   {
     "id": "zenfs_om_divider_l6",
     "type": "widget",
     "style": "text",
-    "string": "<color_dark_gray>┇</color>",
+    "string": { "str": "<color_dark_gray>┇</color>", "//~": "NO_I18N" },
     "flags": [ "W_LABEL_NONE" ]
   },
   {
     "id": "zenfs_om_divider_l7",
     "type": "widget",
     "style": "text",
-    "string": "<color_dark_gray>╿</color>",
+    "string": { "str": "<color_dark_gray>╿</color>", "//~": "NO_I18N" },
     "flags": [ "W_LABEL_NONE" ]
   }
 ]

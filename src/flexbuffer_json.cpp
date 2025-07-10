@@ -91,11 +91,17 @@ void Json::throw_error( const JsonPath &path, int offset, const std::string &mes
         }
         return root_->get_source_path().u8string();
     }();
-    TextJsonIn jsin( *original_json, source_path );
+    if( original_json ) {
+        TextJsonIn jsin( *original_json, source_path );
 
-    advance_jsin( &jsin, flexbuffer_root_from_storage( root_->get_storage() ), path );
+        advance_jsin( &jsin, flexbuffer_root_from_storage( root_->get_storage() ), path );
 
-    jsin.error( offset, message );
+        jsin.error( offset, message );
+    } else {
+        std::ifstream fake_stream;
+        TextJsonIn jsin( fake_stream, source_path );
+        jsin.error( offset, message );
+    }
 }
 
 void Json::throw_error_after( const JsonPath &path, const std::string &message ) const
@@ -143,7 +149,7 @@ std::string Json::str() const
 bool JsonValue::read( bool &b, bool throw_on_error ) const
 {
     if( !test_bool() ) {
-        return error_or_false( throw_on_error, "Expected bool" );
+        return error_or_false( throw_on_error, "Syntax error.  Expected bool" );
     }
     b = get_bool();
     return true;
@@ -151,7 +157,7 @@ bool JsonValue::read( bool &b, bool throw_on_error ) const
 bool JsonValue::read( char &c, bool throw_on_error ) const
 {
     if( !test_number() ) {
-        return error_or_false( throw_on_error, "Expected number" );
+        return error_or_false( throw_on_error, "Syntax error.  Expected number" );
     }
     c = get_int();
     return true;
@@ -159,7 +165,7 @@ bool JsonValue::read( char &c, bool throw_on_error ) const
 bool JsonValue::read( signed char &c, bool throw_on_error ) const
 {
     if( !test_number() ) {
-        return error_or_false( throw_on_error, "Expected number" );
+        return error_or_false( throw_on_error, "Syntax error.  Expected number" );
     }
     // TODO: test for overflow
     c = get_int();
@@ -168,7 +174,7 @@ bool JsonValue::read( signed char &c, bool throw_on_error ) const
 bool JsonValue::read( unsigned char &c, bool throw_on_error ) const
 {
     if( !test_number() ) {
-        return error_or_false( throw_on_error, "Expected number" );
+        return error_or_false( throw_on_error, "Syntax error.  Expected number" );
     }
     // TODO: test for overflow
     c = get_int();
@@ -177,7 +183,7 @@ bool JsonValue::read( unsigned char &c, bool throw_on_error ) const
 bool JsonValue::read( short unsigned int &s, bool throw_on_error ) const
 {
     if( !test_number() ) {
-        return error_or_false( throw_on_error, "Expected number" );
+        return error_or_false( throw_on_error, "Syntax error.  Expected number" );
     }
     // TODO: test for overflow
     s = get_int();
@@ -186,7 +192,7 @@ bool JsonValue::read( short unsigned int &s, bool throw_on_error ) const
 bool JsonValue::read( short int &s, bool throw_on_error ) const
 {
     if( !test_number() ) {
-        return error_or_false( throw_on_error, "Expected number" );
+        return error_or_false( throw_on_error, "Syntax error.  Expected number" );
     }
     // TODO: test for overflow
     s = get_int();
@@ -195,7 +201,7 @@ bool JsonValue::read( short int &s, bool throw_on_error ) const
 bool JsonValue::read( int &i, bool throw_on_error ) const
 {
     if( !test_number() ) {
-        return error_or_false( throw_on_error, "Expected number" );
+        return error_or_false( throw_on_error, "Syntax error.  Expected number" );
     }
     i = get_int();
     return true;
@@ -203,7 +209,7 @@ bool JsonValue::read( int &i, bool throw_on_error ) const
 bool JsonValue::read( int64_t &i, bool throw_on_error ) const
 {
     if( !test_number() ) {
-        return error_or_false( throw_on_error, "Expected number" );
+        return error_or_false( throw_on_error, "Syntax error.  Expected number" );
     }
     i = get_int64();
     return true;
@@ -211,7 +217,7 @@ bool JsonValue::read( int64_t &i, bool throw_on_error ) const
 bool JsonValue::read( uint64_t &i, bool throw_on_error ) const
 {
     if( !test_number() ) {
-        return error_or_false( throw_on_error, "Expected number" );
+        return error_or_false( throw_on_error, "Syntax error.  Expected number" );
     }
     i = get_uint64();
     return true;
@@ -219,7 +225,7 @@ bool JsonValue::read( uint64_t &i, bool throw_on_error ) const
 bool JsonValue::read( unsigned int &u, bool throw_on_error ) const
 {
     if( !test_number() ) {
-        return error_or_false( throw_on_error, "Expected number" );
+        return error_or_false( throw_on_error, "Syntax error.  Expected number" );
     }
     u = get_uint();
     return true;
@@ -227,7 +233,7 @@ bool JsonValue::read( unsigned int &u, bool throw_on_error ) const
 bool JsonValue::read( float &f, bool throw_on_error ) const
 {
     if( !test_number() ) {
-        return error_or_false( throw_on_error, "Expected number" );
+        return error_or_false( throw_on_error, "Syntax error.  Expected number" );
     }
     f = get_float();
     return true;
@@ -235,7 +241,7 @@ bool JsonValue::read( float &f, bool throw_on_error ) const
 bool JsonValue::read( double &d, bool throw_on_error ) const
 {
     if( !test_number() ) {
-        return error_or_false( throw_on_error, "Expected number" );
+        return error_or_false( throw_on_error, "Syntax error.  Expected number" );
     }
     d = get_float();
     return true;
@@ -243,7 +249,7 @@ bool JsonValue::read( double &d, bool throw_on_error ) const
 bool JsonValue::read( std::string &s, bool throw_on_error ) const
 {
     if( !test_string() ) {
-        return error_or_false( throw_on_error, "Expected string" );
+        return error_or_false( throw_on_error, "Syntax error.  Expected string" );
     }
     s = get_string();
     return true;
@@ -294,7 +300,7 @@ void JsonObject::report_unvisited() const
 #endif
 }
 
-void JsonObject::error_no_member( const std::string_view member ) const
+void JsonObject::error_no_member( std::string_view member ) const
 {
     std::unique_ptr<std::istream> original_json = root_->get_source_stream();
     std::string source_path = [&] {
@@ -340,7 +346,7 @@ void JsonObject::error_skipped_members( const std::vector<size_t> &skipped_membe
                     "\"//~\" should be within a text object and contain comments for translators." );
             } else {
                 jo.throw_error_at( name.c_str(),
-                                   string_format( "Invalid or misplaced field name \"%s\" in JSON data",
+                                   string_format( "Unread data.  Invalid or misplaced field name \"%s\" in JSON data",
                                                   name.c_str() ) );
             }
         } catch( const JsonError &e ) {
@@ -355,7 +361,7 @@ void JsonObject::throw_error( const std::string &err ) const
     Json::throw_error( path_, 0, err );
 }
 
-void JsonObject::throw_error_at( const std::string_view member, const std::string &err ) const
+void JsonObject::throw_error_at( std::string_view member, const std::string &err ) const
 {
     std::optional<JsonValue> member_opt = get_member_opt( member );
     if( member_opt.has_value() ) {

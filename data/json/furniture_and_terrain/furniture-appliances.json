@@ -14,7 +14,7 @@
       "items": [
         { "item": "pipe", "count": 1 },
         { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
         { "item": "sheet_metal", "count": [ 2, 6 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "cu_pipe", "count": [ 2, 5 ] },
@@ -32,7 +32,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal", "count": [ 2, 6 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "hose", "count": [ 0, 2 ] },
@@ -56,13 +56,12 @@
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "sheet_metal", "count": [ 2, 4 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "hose", "count": [ 3, 6 ] },
-        { "item": "motor_small", "count": 1 },
-        { "item": "solder_wire", "charges": [ 1, 15 ] }
+        { "item": "motor_small", "count": 1 }
       ]
     },
     "bash": {
@@ -72,7 +71,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
@@ -96,25 +95,8 @@
     "max_volume": "120 L",
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "household_dishwasher" },
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE", "EASY_DECONSTRUCT", "NO_SELF_CONNECT" ],
-    "deconstruct": { "items": [ { "item": "household_dishwasher", "count": 1 } ] },
-    "bash": {
-      "str_min": 18,
-      "str_max": 50,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
-        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
-        { "item": "sheet_metal", "count": [ 1, 2 ] },
-        { "item": "cotton_patchwork", "count": [ 5, 10 ] },
-        { "item": "pipe_fittings", "count": [ 1, 3 ] },
-        { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "hose", "count": [ 0, 1 ] },
-        { "item": "cu_pipe", "count": [ 1, 4 ] },
-        { "item": "scrap_copper", "count": [ 0, 2 ] }
-      ]
-    }
+    "item": "household_dishwasher",
+    "bash": { "str_min": 18, "str_max": 50, "sound": "metal screeching!", "sound_fail": "clang!" }
   },
   {
     "type": "furniture",
@@ -131,7 +113,7 @@
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "sheet_metal", "count": [ 2, 6 ] },
         { "item": "element", "count": [ 2, 3 ] },
@@ -149,80 +131,13 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 0, 6 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 4 ] },
         { "item": "pipe_fittings", "count": [ 1, 3 ] },
         { "item": "element", "count": [ 1, 3 ] },
         { "item": "cable", "charges": [ 1, 15 ] }
       ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_fridge",
-    "name": "refrigerator",
-    "symbol": "{",
-    "description": "A standard household refrigerator.  If powered, it will cool its contents to extend the time before they spoil.  Deconstruct it if you want to connect it to the grid.",
-    "color": "light_cyan",
-    "move_cost_mod": -1,
-    "coverage": 90,
-    "required_str": 10,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "NO_SELF_CONNECT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
-    "deconstruct": { "items": [ { "item": "fridge", "count": 1 }, { "item": "apartment_freezer", "count": 1 } ] },
-    "max_volume": "433 L",
-    "bash": {
-      "str_min": 18,
-      "str_max": 50,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [ { "group": "apartment_fridge_destroyed" }, { "group": "apartment_freezer_destroyed" } ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_glass_fridge",
-    "name": "glass door fridge",
-    "looks_like": "f_fridge",
-    "symbol": "{",
-    "color": "light_cyan",
-    "description": "A modern refrigerator with a thick sheet of glass in the door, often specially treated to be more insulative.  If powered, it will cool its contents to extend the time before they spoil.",
-    "move_cost_mod": -1,
-    "coverage": 90,
-    "required_str": 10,
-    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "glass_fridge" },
-    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "NO_SELF_CONNECT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
-    "deconstruct": { "items": [ { "item": "glass_fridge", "count": 1 } ] },
-    "max_volume": "347 L",
-    "bash": {
-      "str_min": 12,
-      "str_max": 50,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [ { "group": "glass_fridge_destroyed" } ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_freezer",
-    "name": "freezer",
-    "looks_like": "f_fridge",
-    "symbol": "{",
-    "description": "A chest freezer.  If powered, it could freeze and preserve its contents.",
-    "color": "blue",
-    "move_cost_mod": -1,
-    "coverage": 60,
-    "required_str": 10,
-    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "chest_freezer" },
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "NO_SELF_CONNECT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
-    "deconstruct": { "items": [ { "item": "freezer", "count": 1 } ] },
-    "max_volume": "350 L",
-    "bash": {
-      "str_min": 18,
-      "str_max": 50,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [ { "group": "chest_freezer_destroyed" } ]
     }
   },
   {
@@ -242,7 +157,7 @@
       "items": [
         { "item": "pipe", "count": 1 },
         { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
         { "item": "sheet_metal", "count": [ 2, 6 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "cu_pipe", "count": [ 2, 5 ] },
@@ -258,7 +173,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal", "count": [ 2, 6 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "hose", "count": [ 0, 2 ] },
@@ -280,24 +195,8 @@
     "max_volume": "135 L",
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "household_washing_machine" },
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
-    "deconstruct": { "items": [ { "item": "household_washing_machine", "count": 1 } ] },
-    "bash": {
-      "str_min": 18,
-      "str_max": 50,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
-        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
-        { "item": "sheet_metal", "count": [ 1, 4 ] },
-        { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "hose", "count": [ 0, 2 ] },
-        { "item": "pipe_fittings", "count": [ 1, 3 ] },
-        { "item": "cu_pipe", "count": [ 1, 4 ] },
-        { "item": "scrap_copper", "count": [ 0, 2 ] }
-      ]
-    }
+    "item": "household_washing_machine",
+    "bash": { "str_min": 18, "str_max": 50, "sound": "metal screeching!", "sound_fail": "clang!" }
   },
   {
     "type": "furniture",
@@ -322,22 +221,9 @@
       "SMALL_HIDE",
       "NO_SELF_CONNECT"
     ],
-    "deconstruct": { "items": [ { "item": "oven", "count": 1 } ] },
+    "item": "oven",
     "max_volume": "120 L",
-    "bash": {
-      "str_min": 8,
-      "str_max": 30,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "sheet_metal", "count": [ 1, 4 ] },
-        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
-        { "item": "scrap", "count": [ 0, 6 ] },
-        { "item": "element", "count": [ 1, 3 ] },
-        { "item": "cable", "charges": [ 1, 3 ] }
-      ]
-    },
+    "bash": { "str_min": 8, "str_max": 30, "sound": "metal screeching!", "sound_fail": "clang!" },
     "crafting_pseudo_item": "oven"
   },
   {
@@ -356,7 +242,7 @@
       "items": [
         { "item": "sheet_metal", "count": 4 },
         { "item": "sheet_metal_small", "count": [ 10, 12 ] },
-        { "item": "steel_chunk", "count": [ 2, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 2, 3 ] },
         { "item": "scrap", "count": [ 4, 6 ] },
         { "item": "cable", "charges": 3 },
         { "item": "pilot_light", "count": 1 }
@@ -371,7 +257,7 @@
       "items": [
         { "item": "sheet_metal", "count": [ 1, 4 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "scrap", "count": [ 0, 6 ] },
         { "item": "cable", "charges": [ 1, 3 ] },
         { "item": "pilot_light", "count": 1 }
@@ -405,7 +291,7 @@
       "items": [
         { "item": "sheet_metal", "count": [ 1, 4 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "scrap", "count": [ 0, 6 ] },
         { "item": "cable", "charges": [ 1, 3 ] },
         { "item": "pilot_light", "count": 1 },
@@ -430,7 +316,7 @@
         { "item": "tanned_hide", "count": [ 1, 2 ] },
         { "item": "2x4", "count": [ 2, 4 ] },
         { "item": "spring", "count": [ 1, 2 ] },
-        { "item": "wire", "count": [ 1, 4 ] }
+        { "item": "lc_wire", "count": [ 1, 4 ] }
       ]
     },
     "max_volume": "40 L",
@@ -443,7 +329,7 @@
         { "item": "leather", "count": [ 1, 4 ] },
         { "item": "2x4", "count": [ 1, 2 ] },
         { "item": "scrap", "count": [ 0, 6 ] },
-        { "item": "wire", "count": [ 1, 3 ] }
+        { "item": "lc_wire", "count": [ 1, 3 ] }
       ]
     }
   },
@@ -499,15 +385,14 @@
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
-        { "item": "steel_lump", "count": [ 1, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
+        { "item": "mc_steel_lump", "count": [ 1, 3 ] },
         { "item": "plastic_chunk", "count": [ 1, 3 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "sheet_metal", "count": [ 2, 4 ] },
         { "item": "pipe", "count": [ 1, 4 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "motor_tiny", "count": 1 },
-        { "item": "solder_wire", "charges": [ 1, 15 ] }
+        { "item": "motor_tiny", "count": 1 }
       ]
     },
     "bash": {
@@ -517,7 +402,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
         { "item": "pipe", "count": [ 1, 2 ] },
@@ -575,6 +460,7 @@
     "move_cost_mod": -1,
     "coverage": 50,
     "required_str": -1,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "SHORT", "PERMEABLE" ],
     "bash": {
       "str_min": 16,
@@ -609,8 +495,8 @@
         { "item": "pipe", "count": [ 6, 12 ] },
         { "item": "rebar", "count": [ 6, 12 ] },
         { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
-        { "item": "steel_lump", "count": [ 4, 6 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
+        { "item": "mc_steel_lump", "count": [ 4, 6 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "sheet_metal", "count": [ 8, 10 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
@@ -627,8 +513,8 @@
         { "item": "pipe", "count": [ 1, 10 ] },
         { "item": "rebar", "count": [ 1, 10 ] },
         { "item": "scrap", "count": [ 6, 16 ] },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "steel_lump", "count": [ 0, 6 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 4 ] },
+        { "item": "mc_steel_lump", "count": [ 0, 6 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
@@ -639,31 +525,28 @@
   {
     "type": "furniture",
     "id": "f_solar_unit",
-    "name": "mounted solar panel",
-    "description": "A set of photovoltaic power generators, which turns solar radiation into useable electricity.  While useful before the Cataclysm, they have become priceless tools, invaluable to any survivor.",
+    "name": "mounted polycrystalline solar panel",
+    "description": "A set of photovoltaic power generators, which turns solar radiation into useable electricity.  While useful before the Cataclysm, they have become priceless tools, invaluable to any survivor.  This one uses less efficient polycrystalline solar panels.",
     "symbol": "#",
     "color": "yellow",
     "move_cost_mod": 2,
     "required_str": -1,
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "ground_solar_panel" },
     "flags": [ "TRANSPARENT" ],
-    "deconstruct": { "items": [ { "item": "ground_solar_panel", "count": 1 } ] },
-    "bash": {
-      "str_min": 10,
-      "str_max": 20,
-      "sound": "whack!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "solar_cell", "count": [ 4, 20 ] },
-        { "item": "scrap", "count": [ 12, 24 ] },
-        { "item": "amplifier", "count": [ 0, 2 ] },
-        { "item": "cable", "charges": [ 40, 60 ] },
-        { "item": "power_supply", "count": [ 0, 2 ] },
-        { "item": "scrap", "count": [ 16, 24 ] },
-        { "item": "plastic_chunk", "count": [ 4, 8 ] },
-        { "item": "steel_chunk", "count": 12 }
-      ]
-    }
+    "item": "ground_solar_panel",
+    "bash": { "str_min": 10, "str_max": 20, "sound": "whack!", "sound_fail": "clang!" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_solar_unit_v2",
+    "copy-from": "f_solar_unit",
+    "name": "mounted monocrystalline solar panel",
+    "description": "A set of photovoltaic power generators, which turns solar radiation into useable electricity.  While useful before the Cataclysm, they have become priceless tools, invaluable to any survivor.  This one uses more efficient monocrystalline solar panels.",
+    "symbol": "#",
+    "color": "light_blue",
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "ground_solar_panel_v2" },
+    "item": "ground_solar_panel_v2",
+    "bash": { "str_min": 10, "str_max": 20, "sound": "whack!", "sound_fail": "clang!" }
   },
   {
     "type": "furniture",
@@ -676,22 +559,8 @@
     "required_str": 12,
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "oxygen_concentrator" },
     "flags": [ "OBSTACLE" ],
-    "deconstruct": { "items": [ { "item": "oxygen_concentrator", "count": 1 } ] },
-    "bash": {
-      "str_min": 35,
-      "str_max": 140,
-      "sound": "crunch!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "plastic_chunk", "count": [ 4, 7 ] },
-        { "item": "steel_chunk", "count": [ 3, 6 ] },
-        { "item": "sheet_metal_small", "count": [ 4, 8 ] },
-        { "item": "scrap", "count": [ 4, 7 ] },
-        { "item": "element", "count": [ 0, 2 ] },
-        { "item": "glass_shard", "prob": 50 },
-        { "item": "motor_small", "prob": 25 }
-      ]
-    }
+    "item": "oxygen_concentrator",
+    "bash": { "str_min": 35, "str_max": 140, "sound": "crunch!", "sound_fail": "clang!" }
   },
   {
     "type": "furniture",
@@ -704,18 +573,7 @@
     "required_str": 16,
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "hd_compressor_unit" },
     "flags": [ "OBSTACLE" ],
-    "deconstruct": { "items": [ { "item": "hd_compressor_unit", "count": 1 } ] },
-    "bash": {
-      "str_min": 45,
-      "str_max": 180,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "plastic_chunk", "count": [ 1, 2 ] },
-        { "item": "scrap", "count": [ 6, 12 ] },
-        { "item": "steel_chunk", "count": [ 8, 16 ] },
-        { "item": "sheet_metal_small", "count": [ 1, 4 ] }
-      ]
-    }
+    "item": "hd_compressor_unit",
+    "bash": { "str_min": 45, "str_max": 180, "sound": "metal screeching!", "sound_fail": "clang!" }
   }
 ]

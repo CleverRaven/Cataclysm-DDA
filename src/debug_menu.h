@@ -8,8 +8,11 @@
 #include <string>
 #include <string_view>
 
+#include "coordinates.h"  // IWYU pragma: keep
+
 class Character;
-struct tripoint;
+class Creature;
+struct mongroup;
 template <typename E> struct enum_traits;
 
 namespace debug_menu
@@ -17,10 +20,11 @@ namespace debug_menu
 
 enum class debug_menu_index : int {
     WISH,
+    SPAWN_ITEM_GROUP,
     SHORT_TELEPORT,
     LONG_TELEPORT,
-    REVEAL_MAP,
     SPAWN_NPC,
+    SPAWN_NAMED_NPC,
     SPAWN_OM_NPC,
     SPAWN_MON,
     GAME_STATE,
@@ -33,12 +37,16 @@ enum class debug_menu_index : int {
     LEARN_MA,
     UNLOCK_RECIPES,
     FORGET_ALL_RECIPES,
+    FORGET_ALL_ITEMS,
     UNLOCK_ALL,
     EDIT_PLAYER,
+    EDIT_MONSTER,
     CONTROL_NPC,
     SPAWN_ARTIFACT,
     SPAWN_CLAIRVOYANCE,
+    SPAWN_HORDE,
     MAP_EDITOR,
+    PALETTE_VIEWER,
     CHANGE_WEATHER,
     WIND_DIRECTION,
     WIND_SPEED,
@@ -60,6 +68,7 @@ enum class debug_menu_index : int {
     OM_TELEPORT,
     OM_TELEPORT_COORDINATES,
     OM_TELEPORT_CITY,
+    PRINT_OVERMAPS,
     TRAIT_GROUP,
     ENABLE_ACHIEVEMENTS,
     SHOW_MSG,
@@ -105,13 +114,20 @@ enum class debug_menu_index : int {
     SIX_MILLION_DOLLAR_SURVIVOR,
     EDIT_FACTION,
     WRITE_CITY_LIST,
+    TALK_TOPIC,
+    IMGUI_DEMO,
+    VEHICLE_EFFECTS,
     last
 };
 
-void wisheffect( Character &p );
+void wisheffect( Creature &p );
 void wishitem( Character *you = nullptr );
-void wishitem( Character *you, const tripoint & );
-void wishmonster( const std::optional<tripoint> &p );
+void wishitem( Character *you, const tripoint_bub_ms & );
+// Shows a menu to debug item groups. Spawns items if test is false, otherwise displays would be spawned items.
+void wishitemgroup( bool test );
+void wishmonster( const std::optional<tripoint_bub_ms> &p );
+void wishmonstergroup( tripoint_abs_omt &loc );
+void wishmonstergroup_mon_selection( mongroup &group );
 void wishmutate( Character *you );
 void wishbionics( Character *you );
 /*
@@ -125,6 +141,8 @@ void wishskill( Character *you, bool change_theory = false );
 void wishproficiency( Character *you );
 
 void debug();
+
+void do_debug_quick_setup();
 
 /* Splits a string by @param delimiter and push_back's the elements into _Container */
 template<typename Container>
@@ -146,6 +164,10 @@ Container string_to_iterable( const std::string_view str, const std::string_view
 
     return res;
 }
+
+bool is_debug_character();
+void prompt_map_reveal( const std::optional<tripoint_abs_omt> &p = std::nullopt );
+void map_reveal( int reveal_level_int, const std::optional<tripoint_abs_omt> &p = std::nullopt );
 
 /* Merges iterable elements into std::string with
  * @param delimiter between them

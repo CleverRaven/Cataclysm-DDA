@@ -7,6 +7,7 @@
     "symbol": "6",
     "color": "cyan_red",
     "move_cost": 0,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE" ],
     "examine_action": "controls_gate",
     "bash": {
@@ -15,7 +16,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_floor",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+      "items": [ { "item": "mc_steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
     }
   },
   {
@@ -26,6 +27,7 @@
     "symbol": "6",
     "color": "cyan_red",
     "move_cost": 0,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE" ],
     "examine_action": "controls_gate",
     "bash": {
@@ -34,7 +36,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_thconc_floor",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+      "items": [ { "item": "mc_steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
     }
   },
   {
@@ -45,6 +47,7 @@
     "symbol": "6",
     "color": "cyan_red",
     "move_cost": 0,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE" ],
     "examine_action": "controls_gate",
     "bash": {
@@ -53,7 +56,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_rock_floor",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+      "items": [ { "item": "mc_steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
     }
   },
   {
@@ -64,6 +67,7 @@
     "symbol": "6",
     "color": "cyan_red",
     "move_cost": 0,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE" ],
     "examine_action": "controls_gate",
     "bash": {
@@ -72,8 +76,15 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_thconc_floor",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+      "items": [ { "item": "mc_steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_gates_boom_barrier",
+    "copy-from": "t_gates_control_concrete",
+    "name": "boom barrier controls",
+    "description": "Controls for a boom barrier.  If they were functioning, it could have been used to raise or lower a nearby boom barrier."
   },
   {
     "type": "terrain",
@@ -83,6 +94,7 @@
     "symbol": "6",
     "color": "cyan_red",
     "move_cost": 0,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE" ],
     "examine_action": "controls_gate",
     "bash": {
@@ -91,7 +103,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_rock_floor",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+      "items": [ { "item": "mc_steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
     }
   },
   {
@@ -102,6 +114,7 @@
     "symbol": "6",
     "color": "cyan_red",
     "move_cost": 0,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE" ],
     "examine_action": "controls_gate",
     "bash": {
@@ -110,7 +123,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_thconc_floor",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+      "items": [ { "item": "mc_steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
     }
   },
   {
@@ -129,7 +142,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_rock_floor",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+      "items": [ { "item": "mc_steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
     }
   },
   {
@@ -148,7 +161,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_thconc_floor",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+      "items": [ { "item": "mc_steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
     }
   },
   {
@@ -159,6 +172,7 @@
     "symbol": "|",
     "color": "brown",
     "move_cost": 0,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE" ],
     "examine_action": "controls_gate",
     "bash": {
@@ -173,7 +187,9 @@
         { "item": "splinter", "count": [ 2, 4 ] },
         { "item": "nuts_bolts", "charges": [ 2, 3 ] },
         { "item": "block_and_tackle", "count": [ 0, 1 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "deconstruct": {
       "ter_set": "t_dirtfloor",
@@ -205,7 +221,9 @@
         { "item": "rope_makeshift_6", "count": [ 3, 4 ] },
         { "item": "2x4", "count": [ 1, 4 ] },
         { "item": "splinter", "count": [ 2, 4 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "deconstruct": {
       "ter_set": "t_dirt",
@@ -237,7 +255,9 @@
         { "item": "rope_makeshift_6", "count": [ 3, 4 ] },
         { "item": "2x4", "count": [ 1, 4 ] },
         { "item": "splinter", "count": [ 2, 4 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "deconstruct": {
       "ter_set": "t_dirt",
@@ -256,7 +276,9 @@
     "symbol": "=",
     "color": "light_gray",
     "move_cost": 0,
-    "flags": [ "NOITEM", "CONNECT_WITH_WALL" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM" ],
     "//": "For the player to chat with an NPC through the intercom, the npc must have 'name_unique': 'the_intercom' and must be within 10 tiles of the intercom.",
     "examine_action": "intercom",
     "bash": {
@@ -265,6 +287,28 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_concrete_wall",
+      "items": [ { "item": "plastic_chunk", "count": [ 0, 2 ] }, { "item": "scrap", "prob": 50 } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_intercom_balthazar",
+    "name": "intercom",
+    "description": "A rudimentary intercom panel.  This one looks to be set up in a hurry with the microphone and speaker just dangling.",
+    "symbol": "=",
+    "color": "light_gray",
+    "move_cost": 0,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "FREE_TO_EXAMINE" ],
+    "//": "For the player to chat with an NPC through the intercom, the npc must have NC_BALTHAZAR and must be within 10 tiles of the intercom.",
+    "examine_action": "intercom_balthazar",
+    "bash": {
+      "str_min": 18,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_strconc_wall",
       "items": [ { "item": "plastic_chunk", "count": [ 0, 2 ] }, { "item": "scrap", "prob": 50 } ]
     }
   },
@@ -279,7 +323,9 @@
     "color": "pink",
     "move_cost": 0,
     "roof": "t_metal_roof",
-    "flags": [ "NOITEM", "CONNECT_WITH_WALL" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM" ],
     "examine_action": "cardreader_robofac",
     "bash": {
       "str_min": 18,
@@ -300,7 +346,9 @@
     "color": "pink",
     "move_cost": 0,
     "roof": "t_metal_roof",
-    "flags": [ "NOITEM", "CONNECT_WITH_WALL" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM" ],
     "examine_action": {
       "type": "cardreader",
       "flags": [ "SCIENCE_CARD" ],
@@ -328,7 +376,9 @@
     "color": "pink",
     "move_cost": 0,
     "roof": "t_metal_roof",
-    "flags": [ "NOITEM", "CONNECT_WITH_WALL" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM" ],
     "examine_action": {
       "type": "cardreader",
       "flags": [ "MILITARY_CARD" ],
@@ -357,7 +407,9 @@
     "symbol": "6",
     "color": "pink",
     "move_cost": 0,
-    "flags": [ "NOITEM", "CONNECT_WITH_WALL" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM" ],
     "examine_action": {
       "type": "cardreader",
       "flags": [ "INDUSTRIAL_CARD" ],
@@ -386,7 +438,9 @@
     "symbol": "6",
     "color": "pink",
     "move_cost": 0,
-    "flags": [ "NOITEM", "CONNECT_WITH_WALL" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM" ],
     "examine_action": "cardreader_fp",
     "bash": {
       "str_min": 18,
@@ -432,7 +486,9 @@
     "color": "pink",
     "move_cost": 0,
     "roof": "t_metal_roof",
-    "flags": [ "NOITEM", "CONNECT_WITH_WALL" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM" ],
     "examine_action": {
       "type": "cardreader",
       "flags": [ "COOP_CARD" ],
@@ -601,7 +657,7 @@
     "description": "A smartcard reader.  It sports the stylized symbol of an atom and a rifle on a black background.  You could swipe a security employee badge near it to unlock the gates.",
     "//": "Tier 3 card for a lab.  High security access.",
     "symbol": "6",
-    "color": "black",
+    "color": "dark_gray",
     "copy-from": "t_card_science",
     "looks_like": "t_card_science",
     "examine_action": {
@@ -747,7 +803,9 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_metal_roof",
-    "flags": [ "NOITEM", "CONNECT_WITH_WALL", "MINEABLE" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "MINEABLE" ],
     "bash": {
       "str_min": 200,
       "str_max": 600,
@@ -776,6 +834,7 @@
     "move_cost": 0,
     "coverage": 50,
     "roof": "t_flat_roof",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "NOITEM", "INDOORS" ],
     "examine_action": "elevator",
     "bash": {
@@ -817,6 +876,7 @@
     "move_cost": 0,
     "coverage": 50,
     "roof": "t_flat_roof",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "NOITEM", "INDOORS" ],
     "examine_action": {
       "type": "effect_on_condition",
@@ -866,6 +926,7 @@
     "move_cost": 0,
     "coverage": 50,
     "roof": "t_flat_roof",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "NOITEM", "INDOORS" ],
     "examine_action": {
       "type": "effect_on_condition",
@@ -915,6 +976,7 @@
     "move_cost": 0,
     "coverage": 50,
     "roof": "t_flat_roof",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "NOITEM", "INDOORS" ],
     "bash": {
       "str_min": 40,

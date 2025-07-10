@@ -3,7 +3,19 @@
     "type": "overlay_order",
     "overlay_ordering": [
       { "id": [ "DRAGON_WINGS_BLACK" ], "order": 500 },
-      { "id": [ "DRAGON_SCALES_BLACK", "DEMON_SKIN" ], "order": 1500 },
+      {
+        "id": [
+          "DRAGON_SCALES_BLACK",
+          "DEMON_SKIN",
+          "SKIN_BLUE",
+          "SKIN_GREEN",
+          "SKIN_GRAY",
+          "SKIN_MIDNIGHT",
+          "SKIN_OPAL",
+          "SKIN_RED"
+        ],
+        "order": 1500
+      },
       { "id": [ "DRAGON_TAIL_STUB", "DRAGON_TAIL_SCALED", "DRAGON_TAIL" ], "order": 400 },
       { "id": [ "HORNS_DRAGON" ], "order": 6000 },
       { "id": [ "MUZZLE_DRAGON", "DRAGON_MAW_BLACK" ], "order": 7000 },

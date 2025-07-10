@@ -64,8 +64,8 @@
     "damage_modifier": 80,
     "//": "weld repairs would involve patching up holes, for a medium tank assume 10 cm squares (40 cm weld total)",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 1, 2 ] },
-      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "lc_steel_lump", "count": [ 1, 2 ] },
+      { "item": "lc_steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
     "requirements": {
@@ -93,8 +93,8 @@
     "categories": [ "movement" ],
     "damage_modifier": 80,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 2, 2 ] },
-      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "lc_steel_lump", "count": [ 2, 2 ] },
+      { "item": "lc_steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 5 ] }
     ],
     "//": "weld repairs would involve patching up holes, for a medium tank assume 10 cm squares (40 cm weld total)",
@@ -124,8 +124,8 @@
     "damage_modifier": 80,
     "epower": "-40 W",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 2, 2 ] },
-      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "lc_steel_lump", "count": [ 2, 2 ] },
+      { "item": "lc_steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 5 ] }
     ],
     "//": "weld repairs would involve patching up holes, for a medium tank assume 10 cm squares (40 cm weld total)",
@@ -155,8 +155,8 @@
     "damage_modifier": 80,
     "epower": "-80 W",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 2, 2 ] },
-      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "lc_steel_lump", "count": [ 2, 2 ] },
+      { "item": "lc_steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 5 ] }
     ],
     "//": "weld repairs would involve patching up holes, for a medium tank assume 10 cm squares (40 cm weld total)",
@@ -272,8 +272,8 @@
     "durability": 160,
     "description": "A storage space for holding liquids, mounted inside the cargo or passenger space.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 2, 2 ] },
-      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "lc_steel_lump", "count": [ 2, 2 ] },
+      { "item": "lc_steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 5 ] }
     ],
     "//": "50 cm weld install. weld repairs would involve patching up holes, for a medium-large tank assume 10 cm squares (40 cm weld total)",
@@ -297,8 +297,8 @@
     "name": { "str": "steel drum (200 L)" },
     "item": "55gal_drum",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 4 ] },
-      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "lc_steel_lump", "count": [ 4, 4 ] },
+      { "item": "lc_steel_chunk", "count": [ 2, 4 ] },
       { "item": "scrap", "count": [ 2, 10 ] }
     ],
     "flags": [ "FLUIDTANK", "OBSTACLE", "AIRCRAFT_REPAIRABLE_NOPROF" ],
@@ -318,8 +318,8 @@
     "description": "A bin for holding solid fuel.",
     "damage_modifier": 80,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 2, 2 ] },
-      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "lc_steel_lump", "count": [ 2, 2 ] },
+      { "item": "lc_steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 5 ] }
     ],
     "//": "80 cm weld install. weld repairs would involve patching up holes, for a medium tank assume 10 cm squares (40 cm weld total)",
@@ -349,8 +349,38 @@
     "categories": [ "movement" ],
     "damage_modifier": 80,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 2, 2 ] },
-      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "ch_steel_lump", "count": [ 2, 2 ] },
+      { "item": "ch_steel_chunk", "count": [ 1, 2 ] },
+      { "item": "scrap", "count": [ 1, 5 ] }
+    ],
+    "requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "90 m",
+        "using": [ [ "vehicle_wrench_2", 1 ], [ "drilling_standard", 50 ] ]
+      },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "4 m", "using": [ [ "repair_welding_standard", 2 ] ] }
+    },
+    "flags": [ "GASTANK" ],
+    "damage_reduction": { "all": 28, "stab": 12 },
+    "variants": [ { "symbols": "O", "symbols_broken": "#" } ]
+  },
+  {
+    "id": "medium_pressure_tank",
+    "type": "vehicle_part",
+    "name": { "str": "medium pressurized tank" },
+    "//": "10 gallon tank.",
+    "item": "medium_propane_tank",
+    "location": "fuel_source",
+    "broken_color": "red",
+    "durability": 150,
+    "description": "A medium tank for pressurized gasses.",
+    "categories": [ "movement" ],
+    "damage_modifier": 80,
+    "breaks_into": [
+      { "item": "ch_steel_lump", "count": [ 2, 2 ] },
+      { "item": "ch_steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 5 ] }
     ],
     "requirements": {
@@ -379,8 +409,8 @@
     "categories": [ "movement" ],
     "damage_modifier": 80,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 2, 2 ] },
-      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "ch_steel_lump", "count": [ 2, 2 ] },
+      { "item": "ch_steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 5 ] }
     ],
     "requirements": {
@@ -409,8 +439,8 @@
     "categories": [ "movement" ],
     "damage_modifier": 80,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 2, 2 ] },
-      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "ch_steel_lump", "count": [ 2, 2 ] },
+      { "item": "ch_steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 5 ] }
     ],
     "requirements": {
@@ -447,7 +477,7 @@
     "item": "30gal_drum_aluminum",
     "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 13 ] } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_alloys", 50 ] ] },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_alloys", 50 ], [ "drilling_standard", 50 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "8 m", "using": [ [ "repair_welding_alloys", 4 ] ] }
     }

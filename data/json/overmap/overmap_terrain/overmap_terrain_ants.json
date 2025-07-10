@@ -3,27 +3,30 @@
     "type": "overmap_terrain",
     "id": "anthill",
     "name": "anthill",
+    "vision_levels": "natural_outcropping",
     "sym": "%",
     "color": "brown",
-    "see_cost": 2,
-    "flags": [ "KNOWN_DOWN", "RISK_HIGH", "REQUIRES_PREDECESSOR" ]
+    "see_cost": "none",
+    "flags": [ "KNOWN_DOWN", "RISK_EXTREME", "REQUIRES_PREDECESSOR" ]
   },
   {
     "type": "overmap_terrain",
     "id": "ants_food",
+    "vision_levels": "underground_dirt",
     "name": "ant food storage",
     "sym": "O",
     "color": "green",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "spawns": { "group": "GROUP_ANT", "population": [ 6, 10 ], "chance": 100 }
   },
   {
     "type": "overmap_terrain",
     "id": "acid_ants_food",
+    "vision_levels": "underground_dirt",
     "name": "ant food storage",
     "sym": "O",
     "color": "green",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "spawns": { "group": "GROUP_ACID_ANT", "population": [ 6, 10 ], "chance": 100 }
   },
   {
@@ -71,18 +74,20 @@
   {
     "type": "overmap_terrain",
     "id": "ants",
+    "vision_levels": "underground_dirt",
     "name": "ant tunnel",
     "color": "brown",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "spawns": { "group": "GROUP_ANT", "population": [ 4, 6 ], "chance": 100 },
     "flags": [ "LINEAR" ]
   },
   {
     "type": "overmap_terrain",
     "id": "acid_ants",
+    "vision_levels": "underground_dirt",
     "name": "ant tunnel",
     "color": "brown",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "spawns": { "group": "GROUP_ACID_ANT", "population": [ 4, 6 ], "chance": 100 },
     "flags": [ "LINEAR" ]
   }

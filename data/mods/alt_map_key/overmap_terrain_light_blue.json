@@ -1,0 +1,671 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "apartment_complex_garage_corner_gate_L",
+      "apartment_complex_garage_corner_gate_R",
+      "apartment_complex_garage_corner",
+      "apartment_complex_garage_straight",
+      "apartment_complex_garage_straight_wall",
+      "apartment_complex_garage_straight_wallALT",
+      "apartment_complex_garage_straight_gate_wallALT",
+      "apartment_complex_garage_corner_inner_wall",
+      "apartment_complex_garage_corner_inner_wallALT"
+    ],
+    "copy-from": "apartment_complex_garage_corner_gate_L",
+    "name": "parking garage",
+    "sym": "P",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_67",
+    "copy-from": "ranch_camp_67",
+    "name": "garage",
+    "sym": "G",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_67_roof",
+    "copy-from": "ranch_camp_67_roof",
+    "name": "garage roof",
+    "sym": "G",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_76",
+    "copy-from": "ranch_camp_76",
+    "name": "parking lot",
+    "sym": "P",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "boat_rental", "boat_rental_1", "boat_rental_2", "boat_rental_roof", "boat_rental_1_roof", "boat_rental_2_roof" ],
+    "copy-from": "boat_rental",
+    "name": "boat rental",
+    "sym": "B",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "bandit_garage_1", "bandit_garage_2", "bandit_garage_1_roof", "bandit_garage_2_roof" ],
+    "copy-from": "bandit_garage_1",
+    "name": "garage",
+    "sym": "G",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "hotel_tower_1_1", "hotel_tower_1_2", "hotel_tower_1_3", "hotel_tower_1_4", "hotel_tower_1_6" ],
+    "copy-from": "hotel_tower_1_1",
+    "name": "hotel parking",
+    "sym": "P",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "parking_garage_down_0",
+      "parking_garage_down_1",
+      "parking_garage_1_0",
+      "parking_garage_1_1",
+      "parking_garage2x2_down_0",
+      "parking_garage2x2_down_1",
+      "parking_garage2x2_down_2",
+      "parking_garage2x2_down_3",
+      "parking_garage2x2_1_0",
+      "parking_garage2x2_1_1",
+      "parking_garage2x2_1_2",
+      "parking_garage2x2_1_3",
+      "parking_garage2x2_2_0",
+      "parking_garage2x2_2_1",
+      "parking_garage2x2_2_2",
+      "parking_garage2x2_2_3",
+      "parking_garage2x2_3_0",
+      "parking_garage2x2_3_1",
+      "parking_garage2x2_3_2",
+      "parking_garage2x2_3_3",
+      "parking_garage2x2_4_2",
+      "parking_garage2x2_4_3",
+      "parking_garage_2_0",
+      "parking_garage_2_1",
+      "parking_garage_roof_0",
+      "parking_garage_roof_1",
+      "parking_garage_roof_top"
+    ],
+    "copy-from": "parking_garage_down_0",
+    "name": "parking garage",
+    "sym": "P",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "parking_garage_0_0",
+      "parking_garage_0_1",
+      "parking_garage2x2_0_0",
+      "parking_garage2x2_0_1",
+      "parking_garage2x2_0_2",
+      "parking_garage2x2_0_3"
+    ],
+    "copy-from": "parking_garage_0_0",
+    "name": "parking garage",
+    "sym": "P",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "trailer_caravan_00", "trailer_caravan_10", "trailer_caravan_01", "trailer_caravan_11" ],
+    "copy-from": "trailer_caravan_00",
+    "name": "caravan parking",
+    "sym": "P",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "s_lot",
+      "parking_2x1_0",
+      "parking_2x1_1",
+      "parking_2x2_0_0",
+      "parking_2x2_0_1",
+      "parking_2x2_1_0",
+      "parking_2x2_1_1",
+      "parking_3x1_0",
+      "parking_3x1_1",
+      "parking_3x1_2"
+    ],
+    "copy-from": "s_lot",
+    "name": "parking lot",
+    "sym": "P",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "fema_bus",
+    "copy-from": "fema_bus",
+    "name": "FEMA camp bus stop",
+    "sym": "P",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "nursing_home_sh9", "nursing_home_sh10", "nursing_home_sh11" ],
+    "copy-from": "nursing_home_sh9",
+    "name": "parking lot",
+    "sym": "P",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "nursing_home_9", "nursing_home_10", "nursing_home_11" ],
+    "copy-from": "nursing_home_9",
+    "name": "parking lot",
+    "sym": "P",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "mil_base_5a",
+      "mil_base_6a",
+      "mil_base_7a",
+      "mil_base_6h",
+      "mil_base_7h",
+      "mil_base_8h",
+      "mil_base_8f",
+      "mil_base_6g",
+      "mil_base_7g"
+    ],
+    "copy-from": "mil_base_5a",
+    "name": "military base",
+    "sym": "P",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_lot_no_sidewalk", "trailer_hub_00" ],
+    "copy-from": "s_lot_no_sidewalk",
+    "name": "parking lot",
+    "sym": "P",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_gas_1" ],
+    "copy-from": "s_gas_1",
+    "name": "gas station",
+    "sym": "G",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_gas_0_0", "s_gas_1_0", "s_gas_0_1", "s_gas_1_1", "s_gas_g1" ],
+    "copy-from": "s_gas_0_0",
+    "name": "gas station",
+    "sym": "G",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_gas_0_0_roof", "s_gas_1_0_roof", "s_gas_0_1_roof", "s_gas_1_1_roof", "s_gas_roof_1", "s_gas_g1_roof" ],
+    "copy-from": "s_gas_0_0_roof",
+    "name": "gas station roof",
+    "sym": "G",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "strip_mall_5",
+    "copy-from": "strip_mall_5",
+    "name": "parking lot",
+    "sym": "P",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_garage", "s_garage_1", "s_garage_2" ],
+    "copy-from": "s_garage",
+    "name": "garage",
+    "sym": "G",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_garage_roof", "s_garage_roof_1", "s_garage_roof_2", "s_garage_upper_roof_2" ],
+    "copy-from": "s_garage_roof",
+    "name": "garage roof",
+    "sym": "G",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gas_rural",
+    "copy-from": "s_gas_rural",
+    "name": "gas station",
+    "sym": "G",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_gas_rural_roof" ],
+    "copy-from": "s_gas_rural_roof",
+    "name": "gas station roof",
+    "sym": "G",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_7",
+    "copy-from": "mall_a_7",
+    "name": "parking lot",
+    "sym": "P",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_8",
+    "copy-from": "mall_a_8",
+    "name": "parking lot",
+    "sym": "P",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_9",
+    "copy-from": "mall_a_9",
+    "name": "parking lot",
+    "sym": "P",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "garage_gas_1",
+    "copy-from": "garage_gas_1",
+    "name": "garage - gas station",
+    "sym": "G",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "garage_gas_2", "garage_gas_3" ],
+    "copy-from": "garage_gas_2",
+    "name": "garage",
+    "sym": "G",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "garage_gas_roof_1", "garage_gas_roof_2", "garage_gas_roof_3" ],
+    "copy-from": "garage_gas_roof_1",
+    "name": "garage roof",
+    "sym": "G",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_30",
+    "copy-from": "golfcourse_30",
+    "name": "golf course parking",
+    "sym": "P",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_bike_shop", "s_bike_shop_1" ],
+    "copy-from": "s_bike_shop",
+    "name": "bike shop",
+    "color": "light_blue",
+    "sym": "B"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_bike_shop_roof", "s_bike_shop_roof_1", "s_bike_shop_roof_1_shack_roof" ],
+    "copy-from": "s_bike_shop_roof",
+    "name": "bike shop roof",
+    "color": "light_blue",
+    "sym": "B"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cs_car_showroom",
+    "copy-from": "cs_car_showroom",
+    "name": "car showroom",
+    "sym": "C",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cs_car_showroom_2ndfloor",
+    "copy-from": "cs_car_showroom_2ndfloor",
+    "name": "car showroom 2nd floor",
+    "sym": "C",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cs_car_showroom_roof",
+    "copy-from": "cs_car_showroom_roof",
+    "name": "car showroom roof",
+    "sym": "C",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "cs_car_dealership", "s_cardealer" ],
+    "copy-from": "cs_car_dealership",
+    "name": "car dealership",
+    "sym": "C",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "cs_car_dealership_roof", "s_cardealer_roof" ],
+    "copy-from": "cs_car_dealership_roof",
+    "name": "car dealership",
+    "sym": "C",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_restparking_1", "s_restparking_2" ],
+    "copy-from": "s_restparking_1",
+    "name": "rest area parking",
+    "sym": "P",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cs_tire_shop",
+    "copy-from": "cs_tire_shop",
+    "name": "tire shop",
+    "sym": "T",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cs_tire_shop_roof",
+    "copy-from": "cs_tire_shop_roof",
+    "name": "tire shop roof",
+    "sym": "T",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "roadstop", "roadstop_roof" ],
+    "copy-from": "roadstop",
+    "name": "roadstop",
+    "sym": "R",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "roadstop_a", "roadstop_a_roof" ],
+    "copy-from": "roadstop_a",
+    "name": "public washroom",
+    "sym": "P",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_reststop_1", "s_reststop_2" ],
+    "copy-from": "s_reststop_1",
+    "name": "rest area",
+    "sym": "R",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_reststop_1_roof", "s_reststop_2_roof" ],
+    "copy-from": "s_reststop_1_roof",
+    "name": "rest area roof",
+    "sym": "R",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "bus_stat_0", "bus_stat_1" ],
+    "copy-from": "bus_stat_0",
+    "name": "bus station",
+    "sym": "B",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "bus_stat_0_roof", "bus_stat_1_roof" ],
+    "copy-from": "bus_stat_0_roof",
+    "name": "bus station roof",
+    "sym": "B",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "fuel_station",
+    "copy-from": "fuel_station",
+    "name": "fuel station",
+    "sym": "F",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "fuel_station_roof",
+    "copy-from": "fuel_station_roof",
+    "name": "fuel station roof",
+    "sym": "F",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "airport_lot_0", "airport_lot_1", "s_air_parking" ],
+    "copy-from": "airport_lot_0",
+    "name": "parking lot",
+    "sym": "P",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "hangar", "s_air_hangars" ],
+    "copy-from": "hangar",
+    "name": "small hangar",
+    "sym": "S",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "hangar_roof", "s_air_hangars_roof" ],
+    "copy-from": "hangar_roof",
+    "name": "small hangar roof",
+    "sym": "S",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_air_helicopter_pad",
+    "copy-from": "s_air_helicopter_pad",
+    "name": "helicopter pad",
+    "sym": "H",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_shoppingplaza_a1", "s_shoppingplaza_a2", "s_shoppingplaza_a3", "s_shoppingplaza_a4", "s_shoppingplaza_a5" ],
+    "copy-from": "s_shoppingplaza_a1",
+    "name": "parking lot",
+    "sym": "P",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lake_dock_small",
+    "copy-from": "lake_dock_small",
+    "name": "dock",
+    "sym": "D",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lake_shore_dock_small",
+    "copy-from": "lake_shore_dock_small",
+    "name": "dock",
+    "sym": "D",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "marina_11",
+      "marina_12",
+      "marina_13",
+      "marina_14",
+      "marina_15",
+      "marina_11_roof",
+      "marina_12_roof",
+      "marina_15_roof"
+    ],
+    "copy-from": "marina_11",
+    "name": "marina",
+    "sym": "M",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "marina_16", "marina_17", "marina_18", "marina_19", "marina_20" ],
+    "copy-from": "marina_16",
+    "name": "marina parking",
+    "sym": "P",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "car_theater_0_0",
+      "car_theater_1_0",
+      "car_theater_2_0",
+      "car_theater_0_1",
+      "car_theater_1_1",
+      "car_theater_2_1",
+      "car_theater_0_2",
+      "car_theater_1_2",
+      "car_theater_1_2_1",
+      "car_theater_1_2_2",
+      "car_theater_2_2",
+      "car_theater_0_0_1",
+      "car_theater_1_0_1",
+      "car_theater_2_0_1",
+      "car_theater_0_0_2",
+      "car_theater_1_0_2",
+      "car_theater_2_0_2"
+    ],
+    "copy-from": "car_theater_0_0",
+    "name": "drive-in theater",
+    "sym": "D",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "car_theater_3_1", "car_theater_3_2", "car_theater_3_1_1", "car_theater_3_2_1", "car_theater_4_1", "car_theater_4_2" ],
+    "copy-from": "car_theater_3_1",
+    "name": "drive-in theater entrance",
+    "sym": "D",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "stadium_football_8_1",
+      "stadium_football_8_2",
+      "stadium_football_8_3",
+      "stadium_1_0",
+      "stadium_2_0",
+      "stadium_0_0",
+      "stadium_3_0"
+    ],
+    "copy-from": "stadium_football_8_1",
+    "name": "stadium parking",
+    "sym": "P",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "robofachq_surface_parking",
+    "copy-from": "robofachq_surface_parking",
+    "name": "hub 01 parking space",
+    "sym": "P",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "retirement_community_8", "retirement_community_14", "retirement_community_27", "retirement_community_33" ],
+    "copy-from": "retirement_community_8",
+    "name": "parking lot",
+    "sym": "P",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "speedway_1_6",
+      "speedway_2_6",
+      "speedway_3_6",
+      "speedway_4_6",
+      "speedway_5_6",
+      "speedway_1_6_1",
+      "speedway_2_6_1",
+      "speedway_3_6_1",
+      "speedway_4_6_1",
+      "speedway_5_6_1"
+    ],
+    "copy-from": "speedway_1_6",
+    "name": "bleachers",
+    "sym": "B",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "speedway_1_7",
+      "speedway_2_7",
+      "speedway_3_7",
+      "speedway_4_7",
+      "speedway_1_8",
+      "speedway_2_8",
+      "speedway_3_8",
+      "speedway_4_8",
+      "speedway_1_9",
+      "speedway_2_9",
+      "speedway_3_9",
+      "speedway_4_9"
+    ],
+    "copy-from": "speedway_1_7",
+    "name": "parking lot",
+    "sym": "P",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "speedway_9_3", "speedway_9_4", "speedway_9_5", "speedway_9_3_1", "speedway_9_4_1", "speedway_9_5_1" ],
+    "copy-from": "speedway_9_3",
+    "name": "garage",
+    "sym": "G",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "speedway_6_7_1", "speedway_6_7_2", "speedway_6_7_3" ],
+    "copy-from": "speedway_6_7_1",
+    "name": "announcer station",
+    "sym": "A",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "zoo_0_0", "zoo_1_0" ],
+    "copy-from": "zoo_0_0",
+    "name": "zoo parking",
+    "sym": "P",
+    "color": "light_blue"
+  }
+]

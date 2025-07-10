@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [
         "lab_surface_brick_block3A0",
@@ -164,8 +163,8 @@
         "........................................................................................................................"
       ],
       "items": {
-        "&": [ { "item": "tools_science", "chance": 5 }, { "item": "trash", "chance": 50, "repeat": [ 1, 2 ] } ],
-        "f": [ { "item": "SUS_fridge_breakroom", "chance": 60 }, { "item": "fridgesnacks", "chance": 60, "repeat": [ 2, 10 ] } ],
+        "&": [ { "item": "tools_science", "chance": 5 }, { "item": "SUS_trash_floor", "chance": 50, "repeat": [ 1, 2 ] } ],
+        "f": [ { "item": "SUS_fridge_breakroom", "chance": 60 }, { "item": "SUS_fridge_snacks", "chance": 60, "repeat": [ 2, 4 ] } ],
         "l": [
           { "item": "lab_shoes", "chance": 70, "repeat": 2 },
           { "item": "lab_pants", "chance": 70, "repeat": 2 },

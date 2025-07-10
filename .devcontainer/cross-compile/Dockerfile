@@ -31,7 +31,7 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 RUN apt-get -y install qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools
 
 # [Optional] comment out this section unless you want to cross-compile from Linux to Windows
-# This section should align with doc/COMPILING/COMPILING.md#cross-compile-to-windows-from-linux
+# This section should align with doc/c++/COMPILING.md#cross-compile-to-windows-from-linux
 # With the exception of the installation of packages that are already installed earlier in the Dockerfile
 # Like: astyle, cmake
 RUN apt-get -y install autoconf automake autopoint bash bison bzip2 flex gettext git g++ \

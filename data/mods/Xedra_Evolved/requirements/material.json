@@ -1,0 +1,8 @@
+[
+  {
+    "id": "rock_flaking_any",
+    "type": "requirement",
+    "//": "Rocks that can be used for knapping.",
+    "extend": { "components": [ [ [ "obsidian_rock", 1 ] ] ] }
+  }
+]

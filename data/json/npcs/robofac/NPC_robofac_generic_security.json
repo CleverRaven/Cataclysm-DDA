@@ -38,7 +38,7 @@
       { "item": "under_armor" },
       { "item": "under_armor_shorts" },
       { "item": "socks" },
-      { "item": "robofac_jumpsuit" },
+      { "item": "jumpsuit", "variant": "robofac" },
       { "item": "tac_helmet" },
       { "group": "military_ballistic_vest_pristine" },
       { "group": "clothing_watch" },

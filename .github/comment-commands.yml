@@ -10,12 +10,13 @@ users:
     - casswedson
     # curator
     - Maleclypse
-    # voluntiers
+    # volunteers
     - Termineitor244
     - Faalagorn
     - Ilysen
     - Aerin-of-the-Toast
     - anoobindisguise
+    - DukePaulAtreid3s
     - PatrikLundell
     - alef
     - TheShadowFerret
@@ -46,6 +47,18 @@ users:
     - Karol1223
     - Bobtron
     - DPavonis
+    - Amnestasia
+    - TealcOneill
+    - Holli-Git
+    - l29ah
+    - Milopetilo
+    - Standing-Storm
+    - terribleperson
+    - moxian
+    - Kray4000
+    - czyjanek
+    - SariusSkelrets
+    - SittingDucken
 
 keywords:
   - name: confirm-bug
@@ -62,6 +75,5 @@ keywords:
     value: '\/(G|g)ood[\s-]*(F|f)irst[\s-]*(I|i)ssue.*'
 
   - name: help-wanted
-    # - only works in PRs
     # example: /help-wanted
     value: '\/(H|h)elp[\s-]*(W|w)anted.*'

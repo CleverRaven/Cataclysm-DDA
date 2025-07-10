@@ -1,0 +1,52 @@
+[
+  {
+    "type": "item_group",
+    "id": "afs_crate_civ_rand",
+    "//": "General civilian goods weighted for rarity",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "afs_crate_food", "prob": 4 },
+      { "group": "afs_crate_clothing", "prob": 2 },
+      { "group": "afs_crate_medical", "prob": 1 },
+      { "group": "afs_civilian_armory", "prob": 1, "count": [ 2, 5 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_crate_food",
+    "subtype": "collection",
+    "//": "Preserved food shipped in from off world.",
+    "entries": [
+      { "group": "afs_stored_meals", "prob": 50, "count": [ 3, 8 ] },
+      { "group": "afs_dry_goods", "prob": 100, "count": [ 3, 5 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_crate_clothing",
+    "subtype": "collection",
+    "//": "Multiple sets of clothing goods. Increased likelihood of a bag due the difficulty of getting into a crate in the first place.",
+    "entries": [
+      { "group": "afs_colonist_outfit", "prob": 100, "count": [ 3, 6 ] },
+      { "group": "afs_colonist_bags", "prob": 80, "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_crate_medical",
+    "subtype": "collection",
+    "//": "Civilian Grade Medical supplies with a low chance of rare medical goods.",
+    "entries": [
+      { "group": "drugs_pharmacy", "prob": 100, "count": [ 3, 6 ] },
+      { "item": "afs_synth_blood", "prob": 30, "count": [ 1, 3 ] },
+      { "item": "afs_medigel", "prob": 60, "count": [ 1, 3 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_crate_robotics",
+    "subtype": "collection",
+    "//": "Robotics scrap with a much higher quantity due to the challenge of getting into the crate.",
+    "entries": [ { "group": "afs_robotics_scrapgroup", "prob": 100, "count": [ 5, 12 ] } ]
+  }
+]

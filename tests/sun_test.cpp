@@ -1,17 +1,22 @@
-#include "cata_catch.h"
 #include "calendar.h" // IWYU pragma: associated
 
+#include <array>
+#include <cstdio>
+#include <functional>
 #include <iomanip>
 #include <optional>
+#include <sstream>
 #include <string>
+#include <tuple>
 #include <unordered_set>
 
+#include "cata_catch.h"
 #include "cata_scope_helpers.h"
+#include "cata_utility.h"
 #include "hash_utils.h"
 #include "line.h"
 #include "options_helpers.h"
-#include "output.h"
-#include "stringmaker.h"
+#include "units.h"
 #include "units_utility.h"
 
 // SUN TESTS

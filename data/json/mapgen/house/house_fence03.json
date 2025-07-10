@@ -2,9 +2,13 @@
   {
     "type": "mapgen",
     "om_terrain": "house_fence03_basement",
-    "method": "json",
     "object": {
-      "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [
+        "standard_domestic_palette",
+        "standard_domestic_basement_palette",
+        "standard_domestic_lino_bathroom",
+        "parametrized_carpets_palette"
+      ],
       "fill_ter": "t_floor",
       "rows": [
         "^^^^^^^^^^^^^^^^^^^^^^^^",
@@ -15,17 +19,17 @@
         "^^^^||||||||||||||||^^^^",
         "^^^^|qq|<|BBSt|d,,?|^^^^",
         "^^^^|++|+|____|,,,¤|^^^^",
-        "^^^^|    |_w88|,~,d|^^^^",
-        "^^^^|    |+||||+||||^^^^",
-        "^^^^|R     iii  |zz|^^^^",
-        "^^^^|R          + z|^^^^",
-        "^^^^|R  T       |zz|^^^^",
+        "^^^^|....|_w88|,~,d|^^^^",
+        "^^^^|....|+||||+||||^^^^",
+        "^^^^|R.....iii..|zz|^^^^",
+        "^^^^|R..........+.z|^^^^",
+        "^^^^|R..T.......|zz|^^^^",
         "^^^^||+|||+||+||||||^^^^",
-        "^^^^#$==|R P| sHHHs|^^^^",
-        "^^^^#===|R P| }}}}}|^^^^",
-        "^^^^#%=&|  r| }}}}}|^^^^",
-        "^^^^#Z==| hr| }}}}}|^^^^",
-        "^^^^#W=g|  r|T xxx |^^^^",
+        "^^^^#$==|R.P|.sHHHs|^^^^",
+        "^^^^#===|R.P|.}}}}}|^^^^",
+        "^^^^#%=&|..r|.}}}}}|^^^^",
+        "^^^^#Z==|.hr|.}}}}}|^^^^",
+        "^^^^#W=g|..r|T.xxx.|^^^^",
         "^^^^####||||||||||||^^^^",
         "^^^^^^^^^^^^^^^^^^^^^^^^",
         "^^^^^^^^^^^^^^^^^^^^^^^^",
@@ -33,12 +37,12 @@
         "^^^^^^^^^^^^^^^^^^^^^^^^"
       ],
       "terrain": {
-        ",": "t_carpet_green",
-        "?": "t_carpet_green",
-        "}": "t_carpet_purple",
-        "d": "t_carpet_green",
-        "¤": "t_carpet_green",
-        "~": "t_carpet_green",
+        ",": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "}": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "d": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "¤": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "~": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "=": "t_thconc_floor",
         "W": "t_thconc_floor",
         "Z": "t_thconc_floor",
@@ -56,9 +60,13 @@
   {
     "type": "mapgen",
     "om_terrain": "house_fence03",
-    "method": "json",
     "object": {
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
+      "palettes": [
+        "standard_domestic_palette",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette",
+        "parametrized_carpets_palette"
+      ],
       "fill_ter": "t_floor",
       "rows": [
         "...........---.p........",
@@ -86,7 +94,12 @@
         "{......................{",
         "{{{{{{{{{{{{{{{{{{{{{{{{"
       ],
-      "terrain": { "{": "t_chainfence", ")": "t_chaingate_c", "=": "t_carpet_purple", "`": "t_carpet_yellow" },
+      "terrain": {
+        "{": "t_chainfence",
+        ")": "t_chaingate_c",
+        "=": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "`": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" }
+      },
       "furniture": { "(": "f_rack", "$": "f_table" },
       "items": { "$": { "item": "table_foyer", "chance": 50 }, "(": { "item": "clothing_outdoor_shoes", "chance": 50 } },
       "place_loot": [ { "item": "television", "x": 14, "y": 6 } ]
@@ -95,7 +108,6 @@
   {
     "type": "mapgen",
     "om_terrain": "house_fence03_roof",
-    "method": "json",
     "object": {
       "palettes": [ "roof_palette" ],
       "fill_ter": "t_shingle_flat_roof",
@@ -110,7 +122,7 @@
         "    ----........-       ",
         "    -...........-       ",
         "    -...........----    ",
-        "    -..............-    ",
+        "    -...1..........-    ",
         "    -..............-    ",
         "    -..............-    ",
         "    -..............-    ",

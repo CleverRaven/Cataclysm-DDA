@@ -1,0 +1,61 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_spaceship_kitchenette",
+    "name": "habitat kitchenette",
+    "symbol": "#",
+    "looks_like": "f_oven",
+    "description": "A tiny cooking surface only big enough to fit an induction top, placed above and below many integrated storage units.  The minimal space in which you could technically cook.",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 55,
+    "required_str": -1,
+    "flags": [ "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "FLAT_SURF", "NO_SELF_CONNECT" ],
+    "connect_groups": "COUNTER",
+    "connects_to": "COUNTER",
+    "deconstruct": {
+      "items": [
+        { "item": "plastic_chunk", "count": 3 },
+        { "item": "rigid_plastic_sheet", "count": 1 },
+        { "item": "polycarbonate_sheet", "count": [ 2, 8 ] }
+      ]
+    },
+    "crafting_pseudo_item": "fire"
+  },
+  {
+    "type": "furniture",
+    "id": "f_spaceship_fridge",
+    "name": "fridge",
+    "description": "A compact refrigerator and freezer unit.  Its plugged into a ship's power supply, so it should be expected to work for a very long time.",
+    "looks_like": "f_fridge",
+    "move_cost_mod": -1,
+    "required_str": -1,
+    "flags": [ "FLAMMABLE_ASH", "CONTAINER", "SUPPORTS_ROOF", "PLACE_ITEM", "NO_SPOIL" ],
+    "symbol": "O",
+    "color": "white"
+  },
+  {
+    "type": "furniture",
+    "id": "f_landing_hydraulic",
+    "name": "hydraulic cylinder",
+    "description": "A large cylindrical actuator that extends and retracts the landing gear of the ship.",
+    "symbol": "I",
+    "looks_like": "t_sewage_pipe",
+    "color": "yellow",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "THIN_OBSTACLE" ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_landing_skid",
+    "name": "landing skid",
+    "description": "Retractable landing gear for a spaceship, hydraulically actuated and designed to absorb the impact of landing.",
+    "symbol": "f",
+    "color": "light_cyan",
+    "move_cost_mod": 10,
+    "coverage": 80,
+    "required_str": -1,
+    "looks_like": "t_column"
+  }
+]

@@ -14,7 +14,7 @@
       "run_eocs": [
         {
           "id": "EOC_nether_glass_no_map",
-          "effect": { "place_override": { "global_val": "place_name", "default_str": "lost level" }, "length": "10 seconds" }
+          "effect": { "place_override": { "global_val": "place_name", "default": "lost level" }, "length": "10 seconds" }
         },
         {
           "id": "EOC_nether_glass_lost_tp",
@@ -22,7 +22,7 @@
           "effect": [
             {
               "u_location_variable": { "global_val": "glass_place" },
-              "target_params": { "om_terrain": "nether_glass_deep", "search_range": 20, "min_distance": 3, "z": -10 }
+              "target_params": { "om_terrain": "nether_glass_deep", "min_distance": 3, "z": -10 }
             },
             {
               "u_teleport": { "global_val": "glass_place" },

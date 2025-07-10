@@ -2,7 +2,8 @@
   {
     "id": "m3_carlgustav",
     "looks_like": "m79",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "green",
@@ -30,7 +31,8 @@
   },
   {
     "id": "m4_carlgustav",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "m3_carlgustav",
     "name": { "str": "M3E1 recoilless rifle" },
     "description": "The Carl Gustaf M3E1 is a breech-loading 84 millimeter man-portable, reusable, multi-role recoilless rifle.  This is a shorter, lighter, and more advanced development of the M3.  Under normal circumstances, users should refrain from shooting more than 6 rounds per day to prevent undue risk of brain injury…",
@@ -45,7 +47,8 @@
   },
   {
     "id": "AT4",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "m3_carlgustav",
     "name": { "str": "AT4" },
     "description": "A milspec recoilless rifle - an 84mm unguided, portable, single-shot recoilless smoothbore weapon used primarily by the US military.",

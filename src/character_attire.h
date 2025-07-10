@@ -38,9 +38,6 @@ class player_morale;
 struct bodygraph_info;
 struct damage_unit;
 
-using drop_location = std::pair<item_location, int>;
-using drop_locations = std::list<drop_location>;
-
 struct item_penalties {
     std::vector<bodypart_id> body_parts_with_stacking_penalty;
     std::vector<bodypart_id> body_parts_with_out_of_order_penalty;
@@ -102,7 +99,7 @@ class outfit
         // will someone get shocked by zapback
         bool hands_conductive() const;
         bool can_pickVolume( const item &it, bool ignore_pkt_settings = true,
-                             bool is_pick_up_inv = false ) const;
+                             bool ignore_non_container_pocket = false ) const;
         side is_wearing_shoes( const bodypart_id &bp ) const;
         bool is_barefoot() const;
         item item_worn_with_flag( const flag_id &f, const bodypart_id &bp ) const;
@@ -112,7 +109,7 @@ class outfit
         // get the best blocking value with the flag that allows worn.
         item *best_shield();
         // find the best clothing weapon when unarmed modifies
-        item *current_unarmed_weapon( const std::string &attack_vector );
+        item *current_unarmed_weapon( const sub_bodypart_str_id &contact_area );
         item_location first_item_covering_bp( Character &guy, bodypart_id bp );
         void inv_dump( std::vector<item *> &ret );
         void inv_dump( std::vector<const item *> &ret ) const;
@@ -122,7 +119,7 @@ class outfit
          */
         void item_encumb( std::map<bodypart_id, encumbrance_data> &vals, const item &new_item,
                           const Character &guy ) const;
-        std::list<item> get_visible_worn_items( const Character &guy ) const;
+        std::list<item_location> get_visible_worn_items( const Character &guy );
         int swim_modifier( int swim_skill ) const;
         bool natural_attack_restricted_on( const bodypart_id &bp ) const;
         bool natural_attack_restricted_on( const sub_bodypart_id &bp ) const;
@@ -184,6 +181,10 @@ class outfit
         void add_dependent_item( std::list<item *> &dependent, const item &it );
         std::list<item> remove_worn_items_with( const std::function<bool( item & )> &filter,
                                                 Character &guy );
+        // takeoff item from character
+        // return true mean takeoff item successfully
+        // Due to eoc event character_takeoff_item trigger here, item that be takeoff successfully may be deleted by eoc.
+        // If the above situation does not happen, when res is not empty, the removed item will be put into res, otherwise it will be put into guy.
         bool takeoff( item_location loc, std::list<item> *res, Character &guy );
         std::list<item> use_amount(
             const itype_id &it, int quantity, std::list<item> &used,
@@ -263,7 +264,6 @@ class outfit
 };
 
 units::mass get_selected_stack_weight( const item *i, const std::map<const item *, int> &without );
-void post_absorbed_damage_enchantment_adjust( Character &guy, damage_unit &du );
 void destroyed_armor_msg( Character &who, const std::string &pre_damage_name );
 
 #endif // CATA_SRC_CHARACTER_ATTIRE_H

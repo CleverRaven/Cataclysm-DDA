@@ -1,7 +1,7 @@
 #include "cata_generators.h"
 
-#include <algorithm>
 #include <memory>
+#include <random>
 
 #include "point.h"
 #include "rng.h"

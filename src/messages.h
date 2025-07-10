@@ -3,11 +3,11 @@
 #define CATA_SRC_MESSAGES_H
 
 #include <cstddef>
-#include <iosfwd>
-#include <type_traits>
+#include <string>
 #include <utility>
 #include <vector>
 
+#include "coords_fwd.h"
 #include "debug.h"
 #include "enums.h"
 #include "string_formatter.h"
@@ -16,7 +16,6 @@ class Creature;
 class JsonObject;
 class JsonOut;
 class translation;
-struct tripoint;
 
 namespace catacurses
 {
@@ -77,10 +76,10 @@ inline void add_msg( const game_message_params &params, const char *const msg, A
     return add_msg( params, string_format( msg, std::forward<Args>( args )... ) );
 }
 
-void add_msg_if_player_sees( const tripoint &target, std::string msg );
+void add_msg_if_player_sees( const tripoint_bub_ms &target, std::string msg );
 void add_msg_if_player_sees( const Creature &target, std::string msg );
 template<typename ...Args>
-inline void add_msg_if_player_sees( const tripoint &target, const std::string &msg,
+inline void add_msg_if_player_sees( const tripoint_bub_ms &target, const std::string &msg,
                                     Args &&... args )
 {
     return add_msg_if_player_sees( target, string_format( msg, std::forward<Args>( args )... ) );
@@ -92,7 +91,8 @@ inline void add_msg_if_player_sees( const Creature &target, const std::string &m
     return add_msg_if_player_sees( target, string_format( msg, std::forward<Args>( args )... ) );
 }
 template<typename ...Args>
-inline void add_msg_if_player_sees( const tripoint &target, const char *const msg, Args &&... args )
+inline void add_msg_if_player_sees( const tripoint_bub_ms &target, const char *const msg,
+                                    Args &&... args )
 {
     return add_msg_if_player_sees( target, string_format( msg, std::forward<Args>( args )... ) );
 }
@@ -102,7 +102,7 @@ inline void add_msg_if_player_sees( const Creature &target, const char *const ms
     return add_msg_if_player_sees( target, string_format( msg, std::forward<Args>( args )... ) );
 }
 template<typename ...Args>
-inline void add_msg_if_player_sees( const tripoint &target, const translation &msg,
+inline void add_msg_if_player_sees( const tripoint_bub_ms &target, const translation &msg,
                                     Args &&... args )
 {
     return add_msg_if_player_sees( target, string_format( msg, std::forward<Args>( args )... ) );
@@ -114,12 +114,13 @@ inline void add_msg_if_player_sees( const Creature &target, const translation &m
     return add_msg_if_player_sees( target, string_format( msg, std::forward<Args>( args )... ) );
 }
 
-void add_msg_if_player_sees( const tripoint &target, const game_message_params &params,
+void add_msg_if_player_sees( const tripoint_bub_ms &target, const game_message_params &params,
                              std::string msg );
 void add_msg_if_player_sees( const Creature &target, const game_message_params &params,
                              std::string msg );
 template<typename ...Args>
-inline void add_msg_if_player_sees( const tripoint &target, const game_message_params &params,
+inline void add_msg_if_player_sees( const tripoint_bub_ms &target,
+                                    const game_message_params &params,
                                     const std::string &msg, Args &&... args )
 {
     if( params.type == m_debug && !debug_mode ) {
@@ -139,7 +140,8 @@ inline void add_msg_if_player_sees( const Creature &target, const game_message_p
                                    std::forward<Args>( args )... ) );
 }
 template<typename ...Args>
-inline void add_msg_if_player_sees( const tripoint &target, const game_message_params &params,
+inline void add_msg_if_player_sees( const tripoint_bub_ms &target,
+                                    const game_message_params &params,
                                     const char *const msg, Args &&... args )
 {
     if( params.type == m_debug && !debug_mode ) {

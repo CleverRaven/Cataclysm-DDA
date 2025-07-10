@@ -5,7 +5,7 @@
     "items": {
       "T": { "item": "restaur_table", "chance": 10 },
       "F": { "item": "restaur_fridge", "chance": 80, "repeat": [ 1, 4 ] },
-      "#": { "item": "restaur_kitchen", "chance": 75, "repeat": [ 1, 4 ] }
+      "c": { "item": "restaur_kitchen", "chance": 75, "repeat": [ 1, 4 ] }
     }
   },
   {
@@ -14,14 +14,8 @@
     "items": {
       "T": { "item": "sea_restaur_table", "chance": 10 },
       "F": { "item": "sea_restaur_fridge", "chance": 80, "repeat": [ 1, 4 ] },
-      "#": { "item": "sea_restaur_kitchen", "chance": 75, "repeat": [ 1, 4 ] }
+      "c": { "item": "sea_restaur_kitchen", "chance": 75, "repeat": [ 1, 4 ] }
     }
-  },
-  {
-    "type": "palette",
-    "id": "restaurant_wall_type",
-    "parameters": { "wall_type": { "type": "ter_str_id", "default": { "distribution": [ "t_wall_r", "t_wall_p" ] } } },
-    "terrain": { "|": { "param": "wall_type", "fallback": "t_wall_r" } }
   },
   {
     "type": "palette",
@@ -33,7 +27,7 @@
       },
       "wall_type": { "type": "ter_str_id", "default": { "distribution": [ "t_wall_r", "t_wall_p" ] } }
     },
-    "palettes": [ { "param": "food_type" }, "restaurant_wall_type" ],
+    "palettes": [ { "param": "food_type" }, "parametrized_walls_palette" ],
     "terrain": {
       "+": "t_door_c",
       ",": "t_pavement_y",
@@ -59,11 +53,12 @@
       "y": "f_indoor_plant",
       "T": "f_table",
       "$": "f_table",
-      "F": "f_fridge",
+      "F": "f_heavy_duty_fridge",
+      "(": "f_heavy_duty_freezer",
       "S": "f_sink",
       "&": "f_trashcan",
       "d": "f_dumpster",
-      "#": "f_counter",
+      "c": "f_counter",
       "{": "f_rack"
     },
     "toilets": { "P": {  } },
@@ -71,14 +66,14 @@
       "{": { "item": "restaur_rack", "chance": 75, "repeat": [ 1, 3 ] },
       "$": { "item": "cash_register_random", "chance": 100 },
       "~": { "item": "restaur_bath", "chance": 20 },
+      "P": { "item": "SUS_toilet", "chance": 50 },
       "S": { "item": "restaur_sink", "chance": 90 },
-      "&": { "item": "restaur_trash", "chance": 65, "repeat": [ 0, 2 ] },
-      "d": [ { "item": "restaur_trash", "chance": 50, "repeat": [ 0, 4 ] }, { "item": "trash", "chance": 50, "repeat": [ 0, 4 ] } ]
+      "&": { "item": "SUS_trash_trashcan_public", "chance": 65 },
+      "d": { "item": "SUS_trash_dumpster", "chance": 50 }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "foodperson_break_room",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -88,14 +83,13 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "3x3_foodplace_stairwell",
     "object": {
       "mapgensize": [ 3, 3 ],
       "rows": [
-        "|@+",
-        "|< ",
-        "|||"
+        "#@+",
+        "#< ",
+        "###"
       ],
       "palettes": [ "restaurant_palette" ],
       "terrain": { "<": "t_stairs_up", "+": "t_door_metal_locked", "@": "t_card_fp", " ": "t_null" },
@@ -104,7 +98,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_chef_survivor",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -129,13 +122,13 @@
         "                      N ",
         "       Nx          T    ",
         "                   R    ",
-        "        X        FFR    ",
+        "        X        (FR    ",
         "                  W  X  ",
         "                    X   ",
         "                        "
       ],
       "terrain": { "W": "t_window_boarded" },
-      "furniture": { "R": "f_rack", "F": "f_fridge", "x": "f_trashcan", "T": "f_table" },
+      "furniture": { "R": "f_rack", "F": "f_heavy_duty_fridge", "(": "f_heavy_duty_freezer", "x": "f_trashcan", "T": "f_table" },
       "remove_all": { "N": {  } },
       "place_npcs": [ { "class": "survivor_chef", "x": 12, "y": 19 } ],
       "place_zones": [ { "type": "NPC_INVESTIGATE_ONLY", "faction": "no_faction", "x": [ 7, 19 ], "y": [ 18, 20 ] } ],
@@ -163,7 +156,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_angry_diners",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -198,7 +190,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "13x13_checkered_floor",
     "object": {
       "mapgensize": [ 13, 13 ],
@@ -223,13 +214,11 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_GROUP_GROCERY",
     "object": { "mapgensize": [ 1, 1 ], "place_monster": [ { "group": "GROUP_GROCERY", "x": 0, "y": 0, "chance": 100 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_kitchen_roach_infestation",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -241,7 +230,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_restaurant",
     "object": {
       "fill_ter": "t_linoleum_gray",
@@ -250,26 +238,26 @@
         "____,____,____,____,____",
         "____,____,____,____,____",
         "____,____,____,____,____",
-        "||GGGGGG|||++|||GGGGGG||",
-        "|                      |",
+        "##GGGGGG###++###GGGGGG##",
+        "#                      #",
         "C  BB   BB    BB   BB  C",
         "W  TT   TT    TT   TT  W",
         "W  TT   TT    TT   TT  W",
         "C  BB   BB    BB   BB  C",
-        "|y                    y|",
+        "#y                    y#",
         "C  BB   BB    BB   BB  C",
         "W  TT   TT    TT   TT  W",
         "W  TT   TT    TT   TT  W",
         "C  BB   BB    BB   BB  C",
-        "||||                   |",
-        "|S~|                   |",
-        "|P~+  ||||||||||||||| $|",
-        "||||  |FF#SS##OO##{{|  |",
-        "|P~+  |.............+  |",
-        "|S~|  |&&###RR###...|  |",
-        "||||||||||||||||||C||D||",
-        "*******4dd**********D ^|",
-        "********************||||"
+        "#|||                   #",
+        "#S~|                   #",
+        "#P~+  ||||||||||||||| $#",
+        "#|||  |(FcSSccOOcc{{|  #",
+        "#P~+  |.............+  #",
+        "#S~|  |&&cccRRccc...|  #",
+        "##################C##D|#",
+        "*******4dd**********D ^#",
+        "********************####"
       ],
       "palettes": [ "restaurant_palette" ],
       "place_nested": [
@@ -293,12 +281,11 @@
           "neighbors": { "above": "s_restaurant_foodplace_roof" }
         }
       ],
-      "place_items": [ { "item": "trash", "x": [ 0, 17 ], "y": [ 22, 23 ], "chance": 20, "repeat": [ 1, 2 ] } ]
+      "place_items": [ { "item": "SUS_trash_floor", "x": [ 0, 17 ], "y": [ 22, 23 ], "chance": 20, "repeat": [ 1, 2 ] } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_restaurant_roof" ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -329,7 +316,7 @@
         "                    ----"
       ],
       "palettes": [ "roof_palette" ],
-      "place_items": [ { "item": "roof_trash", "x": [ 4, 16 ], "y": [ 6, 19 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 4, 16 ], "y": [ 6, 19 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         { "chunks": [ [ "roof_2x2_golf", 10 ], [ "null", 10 ], [ "roof_3x3_wine", 10 ] ], "x": [ 4, 16 ], "y": 5 },
         {
@@ -349,7 +336,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "foodperson_break_room",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -359,7 +345,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "foodperson_barred_bathroom",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -381,7 +366,7 @@
     "type": "item_group",
     "subtype": "collection",
     "container-item": "foodperson_mask",
-    "entries": [ { "item": "medium_disposable_cell" } ]
+    "entries": [ { "item": "medium_battery_cell" } ]
   },
   {
     "id": "foodperson_outfit",
@@ -406,7 +391,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_restaurant_foodplace_roof" ],
     "object": {
       "fill_ter": "t_floor",
@@ -421,26 +405,26 @@
         "-......................-",
         "-......................-",
         "-......................-",
-        "-............|||w||||w||",
-        "-............|h''i|h''i|",
-        "-............|T'''|T'''|",
-        "-............|||+||||+||",
-        "-............|L__b|L__b|",
-        "-...........^|L__b|L__b|",
-        "|||ww||||ww|||||+||||+||",
-        "|yssssxFueSccq;___M@___|",
-        "w_____________________aw",
-        "w______________________w",
-        "|_yEEy___YttY__DBBy_H__|",
-        "|||ww|||ww||ww|||||||__|",
-        "       4            |>_|",
-        "                    ||||"
+        "-............###O####O##",
+        "-............#h''i|h''i#",
+        "-............#T'''|T'''#",
+        "-............#||+||||+|#",
+        "-............#L__b|L__b#",
+        "-...........^#L__b|L__b#",
+        "###OO####OO###||+||||+|#",
+        "#yssssxFueSccq;___M@___#",
+        "O_____________________aO",
+        "O______________________O",
+        "#_yEEy___YttY__DBBy_H__#",
+        "###OO###OO##OO#######__#",
+        "       4            #>_#",
+        "                    ####"
       ],
-      "palettes": [ "roof_palette", "restaurant_wall_type" ],
+      "palettes": [ "roof_palette", "parametrized_walls_palette" ],
       "terrain": {
         "+": "t_door_c",
         "^": "t_ladder_up",
-        "w": "t_window_domestic",
+        "O": "t_window_domestic",
         "h": "t_linoleum_white",
         "T": "t_linoleum_white",
         "i": "t_linoleum_white",
@@ -460,15 +444,15 @@
         "E": "f_entertainment_center",
         "H": "f_rack_coat"
       },
-      "item": { "L": { "item": "medium_disposable_cell", "chance": 100, "repeat": [ 1, 2 ] } },
+      "item": { "L": { "item": "medium_battery_cell", "chance": 100, "repeat": [ 1, 2 ] } },
       "items": {
         "F": { "item": "SUS_fridge_breakroom", "chance": 100 },
-        "x": { "item": "trash", "chance": 100, "repeat": [ 2, 4 ] },
+        "x": { "item": "SUS_trash_trashcan", "chance": 100 },
         "B": { "item": "magazines", "chance": 50, "repeat": [ 3, 5 ] },
         "H": { "item": "coat_rack", "chance": 100, "repeat": [ 1, 4 ] },
         "S": { "item": "cleaning", "chance": 100, "repeat": [ 1, 3 ] },
         "s": { "item": "bed", "chance": 50 },
-        "e": { "item": "oven", "chance": 100, "repeat": [ 1, 2 ] },
+        "e": { "item": "SUS_oven", "chance": 100, "repeat": [ 1, 2 ] },
         "@": { "item": "foodperson_outfit", "chance": 100 },
         "L": [ { "item": "allclothes", "chance": 100, "repeat": [ 1, 2 ] }, { "item": "stash_drugs", "chance": 30 } ],
         "E": { "item": "livingroom", "chance": 50, "repeat": [ 1, 2 ] },
@@ -487,7 +471,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_restaurant_foodplace_upper_roof" ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -518,7 +501,7 @@
         "                    ----"
       ],
       "palettes": [ "roof_palette" ],
-      "place_items": [ { "item": "roof_trash", "x": [ 3, 16 ], "y": [ 17, 19 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 3, 16 ], "y": [ 17, 19 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         {
           "chunks": [
@@ -541,47 +524,47 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_restaurant_1" ],
     "object": {
-      "fill_ter": "t_carpet_green",
+      "fill_ter": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
       "rows": [
         "ssssssssssssssssssssssss",
         "ssssssssssssssssssssssss",
-        "ssss|-------------|sssss",
-        "____|&wlwF|.......|sssss",
+        "ssss###############sssss",
+        "____#&wlw(|.......#sssss",
         "____DwlwlF|A...22^gsssss",
-        "____|lwlw#|.......+sssss",
-        "____|#lwlS|A......+sssss",
-        "___d|#wlwS|......^gsssss",
-        "___d|Rlwl#|A......|sssss",
-        "____|Rwlw#|......BCss ss",
-        "____|#lwlO|A.....T's 6 s",
-        "____|#wlwO|......BCss ss",
-        "____|#lwl#|A......|ss ss",
-        "____|{wlw{|.......|ss ss",
-        "____|wlwlw|A.....BCs 6 s",
-        "_|--|--+--|......T'ss ss",
-        "_|Sl+............BCss ss",
-        "_|ll|.............|ss ss",
-        "_|Pl|.............|s 6 s",
-        "_|--|BTB..BTB..BTB|ss ss",
-        "___4|C'C--C'C--C'C|sssss",
+        "____#lwlwc|.......+sssss",
+        "____#clwlS|A......+sssss",
+        "___d#cwlwS|......^gsssss",
+        "___d#Rlwlc|A......#sssss",
+        "____#Rwlwc|......BCss ss",
+        "____#clwlO|A.....T's 6 s",
+        "____#cwlwO|......BCss ss",
+        "____#clwlc|A......#ss ss",
+        "____#{wlw{|.......#ss ss",
+        "____#wlwlw|A.....BCs 6 s",
+        "_####||+|||......T'ss ss",
+        "_#Sl+............BCss ss",
+        "_#ll|.............#ss ss",
+        "_#Pl|.............#s 6 s",
+        "_####BTB..BTB..BTB#ss ss",
+        "___4#C'C##C'C##C'C#sssss",
         "sssbbbbbbbbbbbbbbbbsssss",
         "ssssssssssssssssssssssss",
         "ssssssssssssssssssssssss"
       ],
+      "palettes": [ "parametrized_carpets_palette", "parametrized_walls_palette" ],
       "terrain": {
-        "#": "t_linoleum_white",
+        "c": "t_linoleum_white",
         "&": "t_linoleum_white",
         "'": "t_window",
         "+": "t_door_c",
         ",": "t_pavement_y",
-        "-": "t_wall_y",
-        ".": "t_carpet_green",
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "C": "t_curtains",
         "D": "t_door_locked",
         "F": "t_linoleum_white",
+        "(": "t_linoleum_white",
         "G": "t_wall_glass",
         "O": "t_linoleum_white",
         "P": "t_linoleum_gray",
@@ -599,16 +582,16 @@
         "{": "t_linoleum_white",
         "4": "t_gutter_downspout",
         "6": "t_region_tree_shade",
-        " ": "t_region_groundcover_urban",
-        "|": "t_wall_y"
+        " ": "t_region_groundcover_urban"
       },
       "furniture": {
-        "#": "f_counter",
+        "c": "f_counter",
         "2": "f_counter",
         "&": "f_trashcan",
         "A": "f_statue",
         "B": "f_bench",
-        "F": "f_fridge",
+        "F": "f_heavy_duty_fridge",
+        "(": "f_heavy_duty_freezer",
         "O": "f_oven",
         "R": "f_woodstove",
         "S": "f_sink",
@@ -618,6 +601,7 @@
         " ": "f_flower_tulip",
         "{": "f_rack"
       },
+      "items": { "P": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "P": {  } },
       "place_items": [
         { "item": "restaur_table", "x": 17, "y": 10, "chance": 30, "repeat": [ 1, 2 ] },
@@ -626,7 +610,7 @@
         { "item": "restaur_table", "x": 11, "y": 19, "chance": 30, "repeat": [ 1, 2 ] },
         { "item": "restaur_table", "x": 16, "y": 19, "chance": 30, "repeat": [ 1, 2 ] },
         { "item": "restaur_bath", "x": [ 2, 3 ], "y": [ 3, 18 ], "chance": 25 },
-        { "item": "restaur_trash", "x": 5, "y": 3, "chance": 75, "repeat": [ 1, 3 ] },
+        { "item": "SUS_trash_trashcan", "x": 5, "y": 3, "chance": 75 },
         { "item": "restaur_fridge", "x": 9, "y": [ 3, 4 ], "chance": 80, "repeat": [ 2, 8 ] },
         { "item": "restaur_sink", "x": 9, "y": [ 6, 7 ], "chance": 75, "repeat": [ 2, 3 ] },
         { "item": "restaur_kitchen", "x": 9, "y": 5, "chance": 75, "repeat": [ 1, 8 ] },
@@ -636,9 +620,9 @@
         { "item": "restaur_kitchen", "x": 5, "y": [ 10, 12 ], "chance": 75, "repeat": [ 1, 8 ] },
         { "item": "restaur_rack", "x": 5, "y": 13, "chance": 75 },
         { "item": "restaur_rack", "x": 9, "y": 13, "chance": 75 },
-        { "item": "restaur_trash", "x": 3, "y": [ 7, 8 ], "chance": 50, "repeat": [ 1, 2 ] },
-        { "item": "trash", "x": 3, "y": [ 7, 8 ], "chance": 50, "repeat": [ 1, 2 ] },
-        { "item": "trash", "x": [ 0, 2 ], "y": [ 3, 13 ], "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "SUS_trash_trashcan", "x": 3, "y": [ 7, 8 ], "chance": 50 },
+        { "item": "SUS_trash_floor", "x": 3, "y": [ 7, 8 ], "chance": 50, "repeat": [ 1, 2 ] },
+        { "item": "SUS_trash_floor", "x": [ 0, 2 ], "y": [ 3, 13 ], "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "cash_register_random", "x": [ 15, 16 ], "y": 4, "chance": 100 }
       ],
       "place_monsters": [
@@ -646,13 +630,12 @@
         { "monster": "GROUP_PLAGUE_ROACH", "x": [ 7, 19 ], "y": 19, "chance": 20 },
         { "monster": "GROUP_ROACH", "x": [ 7, 19 ], "y": 19, "chance": 20 }
       ],
-      "place_nested": [ { "chunks": [ [ "NPC_pizzaiolo_spawn", 5 ], [ "null", 50 ] ], "x": 7, "y": 5 } ],
+      "place_nested": [ { "chunks": [ [ "NPC_pizzaiolo_spawn", 5 ], [ "null", 85 ] ], "x": 7, "y": 5 } ],
       "place_zones": [ { "type": "NPC_INVESTIGATE_ONLY", "faction": "no_faction", "x": [ 5, 9 ], "y": [ 3, 14 ] } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_restaurant_roof_1" ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -683,7 +666,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "place_items": [ { "item": "roof_trash", "x": [ 9, 14 ], "y": [ 6, 13 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 9, 14 ], "y": [ 6, 13 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         {
           "chunks": [
@@ -702,7 +685,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_restaurant_2" ],
     "//": "Buffet or family-style restaurant with a soup and salad bar.",
     "object": {
@@ -713,31 +695,31 @@
         "____,____,____,____,____",
         "____,____,____,____,____",
         "========================",
-        "=|OO---OO---OO---OO+OO|=",
+        "=#OO###OO###OO###OO+OO#=",
         "=OHtHHtHHtHHtHHtHY   YO=",
         "=OHtHHtHHtHHtHHtH     O=",
-        "=|                    |=",
-        "=|                  HH|=",
-        "=|HH   ##########   tt|=",
+        "=#                    #=",
+        "=#                  HH#=",
+        "=#HH   cccccccccc   tt#=",
         "=Ott                HHO=",
         "=OHH                HHO=",
-        "=|         HtHHtH   tt|=",
-        "=|         HtHHtH   HH|=",
-        "=|-+-----  -----------|=",
-        "=|S T|< |  ###ffff|xxx|=",
-        "=|r -|L +         c  7|=",
-        "=|S T|L |r ##GGGxx|xxx|=",
-        "=|--------+-----------|=",
+        "=#         HtHHtH   tt#=",
+        "=#         HtHHtH   HH#=",
+        "=#|+|||||  |||||||||||#=",
+        "=#S T|< |  cccfff(|xxx#=",
+        "=#r ||L +         C  7#=",
+        "=#S T|L |r ccGGGxx|xxx#=",
+        "=#########+############=",
         "==4=====================",
         "........................",
         "........................",
         "........................"
       ],
+      "palettes": [ "parametrized_walls_palette" ],
       "terrain": {
-        "#": "t_linoleum_gray",
+        "c": "t_linoleum_gray",
         "+": "t_door_c",
         ",": "t_pavement_y",
-        "-": "t_wall_w",
         ".": "t_region_groundcover_urban",
         "=": "t_sidewalk",
         "G": "t_linoleum_white",
@@ -748,31 +730,32 @@
         " ": "t_linoleum_white",
         "T": "t_linoleum_white",
         "7": "t_linoleum_white",
-        "c": "t_rdoor_b",
+        "C": "t_rdoor_b",
         "x": "t_linoleum_white",
         "_": "t_pavement",
         "f": "t_linoleum_white",
+        "(": "t_linoleum_white",
         "t": "t_linoleum_white",
         "4": "t_gutter_downspout",
         "<": "t_stairs_up",
         "L": "t_linoleum_white",
-        "r": "t_linoleum_white",
-        "|": "t_wall_w"
+        "r": "t_linoleum_white"
       },
       "furniture": {
-        "#": "f_counter",
+        "c": "f_counter",
         "G": "f_oven",
         "x": "f_rack",
         "H": "f_sofa",
         "S": "f_sink",
         "Y": "f_rack_coat",
-        "f": "f_fridge",
+        "f": "f_heavy_duty_fridge",
+        "(": "f_heavy_duty_freezer",
         "L": "f_locker",
         "r": "f_trashcan",
         "t": "f_table"
       },
       "toilets": { "T": {  } },
-      "items": { "Y": { "item": "coat_rack", "chance": 35 } },
+      "items": { "Y": { "item": "coat_rack", "chance": 35 }, "T": { "item": "SUS_toilet", "chance": 50 } },
       "monster": { "7": { "monster": "mon_zombie" } },
       "place_loot": [
         { "item": "ceramic_bowl", "x": 7, "y": 10, "chance": 100, "repeat": [ 1, 2 ] },
@@ -803,7 +786,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_restaurant_roof_2" ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -835,7 +817,7 @@
       ],
       "palettes": [ "roof_palette" ],
       "terrain": { "+": "t_door_green_c", "#": "t_wall", "_": "t_strconc_floor" },
-      "place_items": [ { "item": "roof_trash", "x": [ 3, 16 ], "y": [ 9, 15 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 3, 16 ], "y": [ 9, 15 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         {
           "chunks": [
@@ -854,6 +836,40 @@
           "y": 9
         }
       ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "s_restaurant_upper_roof_2" ],
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "     -----              ",
+        "     -...-              ",
+        "     -----              ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
     }
   }
 ]

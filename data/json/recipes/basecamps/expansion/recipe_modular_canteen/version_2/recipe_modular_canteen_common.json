@@ -250,7 +250,7 @@
     "blueprint_requires": [ { "id": "fbmk_2_smoking" } ],
     "blueprint_provides": [ { "id": "fbmk_2_butchery" }, { "id": "fbmk_2_recipes_3" }, { "id": "trapping" }, { "id": "hunting" } ],
     "blueprint_excludes": [ { "id": "fbmk_2_butchery" } ],
-    "components": [ [ [ "knife_butcher", 1 ], [ "knife_steak", 1 ], [ "knife_chef", 1 ], [ "knife_carving", 1 ] ] ],
+    "components": [ [ [ "knife_huge", 1 ], [ "knife_small", 1 ], [ "knife_large", 2 ] ] ],
     "flags": [
       "MAP_MIRROR_HORIZONTAL_IF_N",
       "MAP_ROTATE_90_IF_NE",

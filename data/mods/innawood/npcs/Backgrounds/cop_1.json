@@ -12,7 +12,7 @@
   {
     "id": "BGSS_COP_1_STORY2",
     "type": "talk_topic",
-    "dynamic_line": "A big-ass hole opened up right in the middle of everything, and a <monster> crawled out.  We shot at it, but bullets just bounced off.  Got a lot of people in the crossfire.  It started just devouring people like pemmican into a gullet that looked like a rotting asshole with teeth, and… well, I lost my nerve.  I ran.  I think I might have been the only person to escape.  I haven't been able to even look at my face since then.",
+    "dynamic_line": "A big-ass hole opened up right in the middle of everything, and a nightmarish demon crawled out.  We shot at it, but bullets just bounced off.  Got a lot of people in the crossfire.  It started just devouring people like pemmican into a gullet that looked like a rotting asshole with teeth, and… well, I lost my nerve.  I ran.  I think I might have been the only person to escape.  I haven't been able to even look at my face since then.",
     "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
   }
 ]

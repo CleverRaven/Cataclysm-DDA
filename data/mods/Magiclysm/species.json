@@ -12,6 +12,12 @@
   },
   {
     "type": "SPECIES",
+    "id": "DEMON_SPIDER",
+    "description": "a huge spider",
+    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ]
+  },
+  {
+    "type": "SPECIES",
     "id": "LIZARDFOLK",
     "description": "a lizard-like humanoid",
     "anger_triggers": [ "FRIEND_ATTACKED" ],
@@ -28,6 +34,13 @@
     "id": "GOBLIN_FORGE",
     "description": "a short and entrepreneurial humanoid",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "WARG",
+    "description": "a gigantic lupine beast",
+    "fear_triggers": [ "HURT", "FIRE", "FRIEND_DIED" ],
+    "bleeds": "fd_blood"
   },
   {
     "type": "SPECIES",
@@ -52,6 +65,26 @@
     "id": "RAVENFOLK",
     "description": "a corvid-like humanoid",
     "anger_triggers": [ "FRIEND_ATTACKED" ],
+    "fear_triggers": [ "FIRE" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "DWARF",
+    "description": "a short and stocky humanoid",
+    "anger_triggers": [ "FRIEND_ATTACKED" ],
+    "fear_triggers": [ "FIRE" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "ELF",
+    "description": "a tall and slender humanoid",
+    "anger_triggers": [ "FRIEND_ATTACKED" ],
+    "fear_triggers": [ "FIRE" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "FEY",
+    "description": "a small, magical humanoid",
     "fear_triggers": [ "FIRE" ]
   },
   {

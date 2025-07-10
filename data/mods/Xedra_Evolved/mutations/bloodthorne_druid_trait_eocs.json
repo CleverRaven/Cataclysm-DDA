@@ -1,0 +1,154 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BLOODTHORNE_DRUID_UPGRADE_GAIN_HEARTWHIP",
+    "eoc_type": "EVENT",
+    "required_event": "character_kills_monster",
+    "condition": {
+      "and": [
+        { "u_has_trait": "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT" },
+        { "not": { "u_has_trait": "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP" } },
+        { "npc_has_species": "VAMPIRE" },
+        { "not": { "u_has_wielded_with_skill": "pistol" } },
+        { "not": { "u_has_wielded_with_skill": "rifle" } },
+        { "not": { "u_has_wielded_with_skill": "shotgun" } },
+        { "not": { "u_has_wielded_with_skill": "smg" } },
+        { "not": { "u_has_wielded_with_skill": "launcher" } },
+        { "not": { "u_has_wielded_with_skill": "gun" } }
+      ]
+    },
+    "effect": [
+      { "u_add_effect": "effect_bloodthorn_druid_upgrade_ready", "duration": "7 days" },
+      {
+        "run_eocs": "EOC_BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_UPGRADE_FORMICATION",
+        "time_in_future": [ "5 minutes", "10 hours" ]
+      },
+      { "u_learn_recipe": "xe_bloodthorn_druid_upgrade_recipe" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BLOODTHORNE_DRUID_UPGRADE_GAIN_PROGRESSION",
+    "eoc_type": "EVENT",
+    "required_event": "character_kills_monster",
+    "//": "Partial credit for kills without your heartwhip, to handle killing vampires using magick",
+    "condition": {
+      "and": [
+        { "u_has_trait": "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP" },
+        { "not": { "u_has_wielded_with_skill": "pistol" } },
+        { "not": { "u_has_wielded_with_skill": "rifle" } },
+        { "not": { "u_has_wielded_with_skill": "shotgun" } },
+        { "not": { "u_has_wielded_with_skill": "smg" } },
+        { "not": { "u_has_wielded_with_skill": "launcher" } },
+        { "not": { "u_has_wielded_with_skill": "gun" } },
+        { "npc_has_species": "VAMPIRE" }
+      ]
+    },
+    "effect": [
+      {
+        "if": { "and": [ { "u_has_wielded_with_flag": "MAGIC_FOCUS" }, { "u_has_wielded_with_flag": "REACH3" } ] },
+        "then": { "math": [ "u_bloodthorn_druid_vampire_heartwhip_kills ++" ] },
+        "else": { "math": [ "u_bloodthorn_druid_vampire_heartwhip_kills", "+=", "0.3334" ] }
+      },
+      {
+        "if": {
+          "and": [
+            { "math": [ "u_bloodthorn_druid_vampire_heartwhip_kills >= u_bloodthorn_druid_vampires_killed_to_upgrade" ] },
+            {
+              "math": [ "u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') >= u_bloodthorn_druid_required_arvore_traits" ]
+            },
+            { "not": { "u_has_effect": "effect_bloodthorn_druid_upgrade_ready" } }
+          ]
+        },
+        "then": [
+          { "u_add_effect": "effect_bloodthorn_druid_upgrade_ready", "duration": "7 days" },
+          {
+            "run_eocs": "EOC_BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_UPGRADE_FORMICATION",
+            "time_in_future": [ "5 minutes", "10 hours" ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP_SUMMON",
+    "condition": { "not": "u_has_weapon" },
+    "effect": [
+      { "u_cast_spell": { "id": "bloodthorne_druid_summon_whip", "hit_self": true } },
+      { "u_add_effect": "bleed", "intensity": 1, "target_part": "arm_r", "duration": "5 minutes" },
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "wielded_only": true } ],
+        "true_eocs": {
+          "id": "EOC_BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP_APPLY_UNWIELD",
+          "condition": { "not": { "npc_has_flag": "NO_UNWIELD" } },
+          "effect": [ { "npc_set_flag": "NO_UNWIELD" } ]
+        }
+      },
+      { "run_eocs": "EOC_BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP_SUMMON_REMOVE_BLOOD", "time_in_future": "10 seconds" }
+    ],
+    "false_effect": [ { "u_message": "Your hands need to be free to summon the heartwhip.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP_UNSUMMON",
+    "condition": { "and": [ { "u_has_wielded_with_flag": "MAGIC_FOCUS" }, { "u_has_wielded_with_flag": "REACH3" } ] },
+    "effect": [
+      { "u_message": "The heartwhip retracts, slithering through your grip and back within your body.", "type": "neutral" },
+      { "u_remove_item_with": "heartvine_whip" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP_SUMMON_REMOVE_BLOOD",
+    "effect": [ { "u_lose_effect": "bleed", "target_part": "arm_r" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_UPGRADE_FORMICATION",
+    "condition": { "u_has_effect": "effect_bloodthorn_druid_upgrade_ready" },
+    "effect": [
+      { "u_add_effect": "formication", "duration": "10 minutes", "target_part": "RANDOM" },
+      { "u_add_effect": "formication", "duration": "10 minutes", "target_part": "RANDOM" },
+      {
+        "run_eocs": "EOC_BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_UPGRADE_FORMICATION",
+        "time_in_future": [ "5 minutes", "10 hours" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BLOODTHORNE_DRUID_PURGE_VAMPIRISM",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": { "and": [ { "u_has_effect": "vampire_virus" }, { "u_has_trait": "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT" } ] },
+    "effect": [
+      {
+        "if": {
+          "or": [
+            { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" },
+            { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_FOREST" }
+          ]
+        },
+        "then": [
+          {
+            "u_message": "You dream of chalices of flowing blood and endless night, of the moon filling half the sky, of red eyes in the dark, when your dream is interrupted with the sensation of dozens of thorns pricking you from the inside.  You wake with a start, in terrible pain…but free of your curse.",
+            "popup": true
+          },
+          { "math": [ "u_pain()", "+=", "30 + rand(30)" ] },
+          { "u_lose_effect": "vampire_virus" },
+          { "u_add_morale": "morale_nightmare", "bonus": [ -15, -30 ], "max_bonus": -30 }
+        ],
+        "else": [
+          {
+            "u_message": "You have terrible dreams of blood and darkness, interrupted by the sensation of prickling thorns.  You need to sleep out in the wild places if you want your curse to be purged",
+            "type": "mixed"
+          },
+          { "math": [ "u_pain()", "+=", "10 + rand(10)" ] },
+          { "u_add_morale": "morale_nightmare", "bonus": [ -15, -30 ], "max_bonus": -30 }
+        ]
+      }
+    ]
+  }
+]

@@ -7,11 +7,11 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_level_up",
-    "condition": { "math": [ "u_available_exp", ">", "u_exp_to_perk" ] },
+    "condition": { "math": [ "u_available_exp > u_exp_to_perk" ] },
     "effect": [
       { "run_eocs": "EOC_give_perk_point" },
       { "math": [ "u_used_exp", "+=", "u_exp_to_perk" ] },
-      { "math": [ "u_available_exp", "=", "u_val('exp') - u_used_exp" ] },
+      { "math": [ "u_available_exp = u_val('exp') - u_used_exp" ] },
       { "math": [ "u_exp_to_perk", "+=", "u_exp_per_level" ] },
       { "math": [ "u_current_level", "+=", "1" ] },
       { "run_eocs": "EOC_level_up_notification" }
@@ -20,7 +20,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_level_up_notification",
-    "condition": { "math": [ "u_no_notifications", "!=", "1" ] },
+    "condition": { "math": [ "u_no_notifications != 1" ] },
     "effect": [ { "open_dialogue": { "topic": "TALK_PERK_MENU_MAIN" } } ]
   },
   {
@@ -28,7 +28,7 @@
     "id": "EOC_on_kill_check_exp",
     "eoc_type": "EVENT",
     "required_event": "character_kills_monster",
-    "effect": [ { "math": [ "u_available_exp", "=", "u_val('exp') - u_used_exp" ] }, { "run_eocs": "EOC_level_up" } ]
+    "effect": [ { "math": [ "u_available_exp = u_val('exp') - u_used_exp" ] }, { "run_eocs": "EOC_level_up" } ]
   },
   {
     "type": "effect_on_condition",
@@ -49,7 +49,7 @@
     "condition": { "and": [ { "not": { "u_has_trait": "perk_perk_menu" } } ] },
     "effect": [
       { "open_dialogue": { "topic": "TALK_PERK_MENU_WELCOME" } },
-      { "queue_eocs": "EOC_bombastic_perks_try_configure", "time_in_future": "30 seconds" },
+      { "run_eocs": "EOC_bombastic_perks_try_configure", "time_in_future": "30 seconds" },
       {
         "u_message": "Configuration menu closed, if Bombastic Perks was not properly configured menu will open again in 30 seconds."
       }
@@ -60,20 +60,20 @@
     "id": "EOC_give_perk_menu",
     "condition": { "and": [ { "not": { "u_has_trait": "perk_perk_menu" } } ] },
     "effect": [
-      { "math": [ "u_num_perks", "=", "0" ] },
-      { "math": [ "u_exp_to_perk", "=", "100" ] },
-      { "math": [ "u_exp_per_level", "=", "300" ] },
-      { "math": [ "u_available_exp", "=", "0" ] },
-      { "math": [ "u_current_level", "=", "0" ] },
-      { "math": [ "u_no_playstyle", "=", "0" ] },
-      { "math": [ "u_playstyle_cost", "=", "3" ] },
-      { "math": [ "u_no_prerecs", "=", "0" ] },
+      { "math": [ "u_num_perks = 0" ] },
+      { "math": [ "u_exp_to_perk = 100" ] },
+      { "math": [ "u_exp_per_level = 300" ] },
+      { "math": [ "u_available_exp = 0" ] },
+      { "math": [ "u_current_level = 0" ] },
+      { "math": [ "u_no_playstyle = 0" ] },
+      { "math": [ "u_playstyle_cost = 3" ] },
+      { "math": [ "u_no_prerecs = 0" ] },
       { "u_add_trait": "perk_perk_menu" }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_give_perk_point",
-    "effect": [ { "math": [ "u_num_perks", "++" ] } ]
+    "effect": [ { "math": [ "u_num_perks++" ] } ]
   }
 ]

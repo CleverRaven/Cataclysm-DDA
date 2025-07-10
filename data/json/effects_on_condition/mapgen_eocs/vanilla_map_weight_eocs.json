@@ -5,14 +5,14 @@
     "id": "EOC_VANILLA_BRIDGE_WEIGHT",
     "eoc_type": "EVENT",
     "required_event": "game_begin",
-    "effect": [ { "math": [ "vanilla_bridge_weight", "=", "1000" ] } ]
+    "effect": [ { "math": [ "vanilla_bridge_weight = 1000" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_VANILLA_ROAD_WEIGHT",
     "eoc_type": "EVENT",
     "required_event": "game_begin",
-    "effect": [ { "math": [ "vanilla_road_weight", "=", "1000" ] } ]
+    "effect": [ { "math": [ "vanilla_road_weight = 1000" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -20,6 +20,6 @@
     "//": "Doesn't affect lake_shore",
     "eoc_type": "EVENT",
     "required_event": "game_begin",
-    "effect": [ { "math": [ "vanilla_lake_weight", "=", "1000" ] } ]
+    "effect": [ { "math": [ "vanilla_lake_weight = 1000" ] } ]
   }
 ]

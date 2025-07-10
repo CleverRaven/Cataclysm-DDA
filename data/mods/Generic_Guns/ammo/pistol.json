@@ -1,7 +1,8 @@
 [
   {
     "id": "pistol_ball",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "40fmj",
     "name": { "str_sp": "pistol ammo, ball" },
     "ammo_type": "ammo_pistol",
@@ -10,7 +11,8 @@
   },
   {
     "id": "pistol_jhp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "pistol_ball",
     "name": { "str_sp": "pistol ammo, JHP" },
     "description": "Modern ubiquitous medium pistol ammo, popularized by usage in two wars and almost a century of post-war defensive and duty usage.  Jacketed Hollow Points are defensive/duty projectiles that are more destructive to tissue than plain ball ammunition, and slightly reduce overpenetration concerns.",
@@ -18,7 +20,8 @@
   },
   {
     "id": "reloaded_pistol_ball",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "pistol_ball",
     "name": { "str_sp": "pistol ammo, ball (reloaded)" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
@@ -26,7 +29,8 @@
   },
   {
     "id": "reloaded_pistol_jhp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "pistol_jhp",
     "name": { "str_sp": "pistol ammo, JHP (reloaded)" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
@@ -35,7 +39,8 @@
   {
     "id": "bp_pistol_ball",
     "copy-from": "pistol_ball",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "pistol ammo, ball (black powder)" },
     "proportional": {
       "price": 0.3,
@@ -49,7 +54,8 @@
   {
     "id": "bp_pistol_jhp",
     "copy-from": "pistol_jhp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "pistol ammo, JHP (black powder)" },
     "proportional": {
       "price": 0.3,
@@ -63,7 +69,8 @@
   {
     "id": "matchhead_pistol_ball",
     "copy-from": "bp_pistol_ball",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "pistol ammo, ball (matchhead powder)" },
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
     "extend": { "effects": [ "MATCHHEAD" ] }
@@ -71,7 +78,8 @@
   {
     "id": "matchhead_pistol_jhp",
     "copy-from": "bp_pistol_jhp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "pistol ammo, JHP (matchhead powder)" },
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
     "extend": { "effects": [ "MATCHHEAD" ] }

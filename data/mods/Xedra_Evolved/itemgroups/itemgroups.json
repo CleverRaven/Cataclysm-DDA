@@ -41,6 +41,7 @@
       { "item": "textbook_computer", "prob": 8 },
       { "item": "computer_science", "prob": 8 },
       { "item": "howto_computer", "prob": 6 },
+      { "group": "xed_books_crafting", "prob": 3 },
       { "item": "matches", "prob": 60, "charges": [ 1, 20 ] },
       { "item": "ref_matches", "prob": 60, "charges": [ 1, 32 ] },
       { "item": "extinguisher", "prob": 20, "charges": 100 },
@@ -52,7 +53,7 @@
       { "group": "toy_engine_kit", "prob": 1 },
       { "item": "instant_coffee", "prob": 15 },
       { "item": "strange_coffee", "prob": 5 },
-      { "item": "usb_drive", "prob": 5 },
+      { "item": "usb_drive", "prob": 15 },
       { "item": "coat_rain", "prob": 50 },
       { "item": "hood_rain", "prob": 10 },
       { "item": "poncho", "prob": 15 },
@@ -62,7 +63,7 @@
       { "item": "matches", "prob": 60, "charges": [ 0, 20 ] },
       { "item": "ref_matches", "prob": 60, "charges": [ 0, 32 ] },
       { "item": "extinguisher", "prob": 20, "charges": 100 },
-      { "item": "mp3", "prob": 18, "charges": [ 0, 100 ] },
+      { "item": "mp3", "prob": 6, "charges": [ 0, 100 ] },
       { "item": "portable_game", "prob": 8, "charges": [ 0, 100 ] },
       { "item": "game_watch", "prob": 2, "charges": [ 0, 50 ] },
       { "item": "umbrella", "prob": 5 },
@@ -160,14 +161,37 @@
     "type": "item_group",
     "subtype": "distribution",
     "copy-from": "homebooks",
-    "extend": { "entries": [ { "item": "manual_deduction", "prob": 1 }, { "item": "mag_deduction", "prob": 10 } ] }
+    "extend": {
+      "entries": [
+        { "item": "book_deduction_out_of_place", "prob": 1 },
+        { "item": "manual_deduction", "prob": 1 },
+        { "item": "mag_deduction", "prob": 10 },
+        { "item": "mag_deduction_tabloid", "prob": 40 }
+      ]
+    }
+  },
+  {
+    "id": "book_mag_gen",
+    "type": "item_group",
+    "subtype": "distribution",
+    "copy-from": "book_mag_gen",
+    "extend": { "entries": [ { "item": "mag_deduction_tabloid", "prob": 40 } ] }
+  },
+  {
+    "id": "newspaper",
+    "type": "item_group",
+    "subtype": "distribution",
+    "copy-from": "newspaper",
+    "extend": { "entries": [ { "item": "mag_deduction_tabloid", "prob": 40 } ] }
   },
   {
     "id": "religious_books",
     "type": "item_group",
     "subtype": "distribution",
     "copy-from": "religious_books",
-    "extend": { "entries": [ { "item": "book_deduction_black_iron_prison", "prob": 1 } ] }
+    "extend": {
+      "entries": [ { "item": "book_deduction_black_iron_prison", "prob": 1 }, { "item": "book_deduction_out_of_place", "prob": 1 } ]
+    }
   },
   {
     "type": "item_group",
@@ -188,6 +212,13 @@
       { "item": "agent_postit_gray", "prob": 50 },
       { "item": "agent_postit_migo", "prob": 20 }
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "xed_books_crafting",
+    "//": "Itemgroup for crafting recipes in Xedra Offices and Labs.",
+    "entries": [ { "item": "book_moons_tears_ingot", "prob": 10 } ]
   },
   {
     "type": "item_group",
@@ -229,6 +260,24 @@
   },
   {
     "type": "item_group",
+    "id": "bannerman_weapons",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "mirror_march_estoc", "prob": 20 },
+      { "item": "moons_tears_mace", "prob": 20 },
+      { "item": "moons_tears_scimitar", "prob": 20 },
+      { "item": "moons_tears_broadsword", "prob": 20 },
+      { "item": "moons_tears_arming_sword", "prob": 20 },
+      { "item": "moons_tears_estoc", "prob": 20 },
+      { "item": "moons_tears_spear", "prob": 30 },
+      { "item": "moons_tears_battleaxe", "prob": 20 },
+      { "item": "moons_tears_katana", "prob": 20 },
+      { "item": "treesung_spear", "prob": 3 },
+      { "item": "treesung_pike", "prob": 3 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "banner_group",
     "subtype": "distribution",
     "entries": [
@@ -237,6 +286,19 @@
       { "item": "banner_angry_darkness", "prob": 20 },
       { "item": "banner_starry_wisdom", "prob": 20 },
       { "item": "banner_thunderous_rush", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "bannerlord_armor",
+    "subtype": "collection",
+    "entries": [
+      { "item": "mt_chainmail_arms", "prob": 45 },
+      { "item": "mt_chainmail_hood", "prob": 45 },
+      { "item": "mt_chainmail_hands", "prob": 45 },
+      { "item": "mt_chainmail_legs", "prob": 45 },
+      { "item": "mt_chainmail_vest", "prob": 45 },
+      { "item": "mt_chainmail_feet", "prob": 45 }
     ]
   },
   {
@@ -253,6 +315,20 @@
       { "item": "xl_boots_glimmer_fur", "prob": 20 },
       { "item": "xl_coat_glimmer_fur", "prob": 20 },
       { "item": "xl_duster_glimmer_fur", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "redcap_weapons",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "redcap_club", "prob": 20 },
+      { "item": "moons_tears_mace", "prob": 20 },
+      { "item": "moons_tears_scimitar", "prob": 20 },
+      { "item": "moons_tears_spear", "prob": 20 },
+      { "item": "moons_tears_battleaxe", "prob": 20 },
+      { "item": "treesung_mace", "prob": 3 },
+      { "item": "treesung_warhammer", "prob": 3 }
     ]
   },
   {
@@ -306,6 +382,20 @@
       { "item": "xs_boots_glimmer_fur", "prob": 20 },
       { "item": "xs_coat_glimmer_fur", "prob": 20 },
       { "item": "xs_duster_glimmer_fur", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "pooka_weapons",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "pooka_gladius", "prob": 20 },
+      { "item": "moons_tears_scimitar", "prob": 20 },
+      { "item": "moons_tears_broadsword", "prob": 20 },
+      { "item": "moons_tears_arming_sword", "prob": 20 },
+      { "item": "moons_tears_estoc", "prob": 20 },
+      { "item": "moons_tears_katana", "prob": 20 },
+      { "item": "treesung_mace", "prob": 3 }
     ]
   },
   {
@@ -397,11 +487,15 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "spellbook_hedge_farm", "prob": 1 },
+      { "item": "spellbook_hedge_farm", "prob": 4 },
       { "item": "spellbook_hedge_ward_demons", "prob": 1 },
-      { "item": "spellbook_hedge_doctor_book", "prob": 1 },
-      { "item": "spellbook_hedge_blood_book", "prob": 1 },
-      { "item": "spellbook_hedge_ward_dreams", "prob": 1 }
+      { "item": "spellbook_hedge_doctor_book", "prob": 3 },
+      { "item": "spellbook_hedge_blood_book", "prob": 2 },
+      { "item": "spellbook_hedge_ward_dreams", "prob": 3 },
+      { "item": "spellbook_hedge_psychic_defense", "prob": 3 },
+      { "item": "spellbook_hedge_snare_changelings", "prob": 1 },
+      { "item": "spellbook_hedge_bathhouse_midnight", "prob": 1 },
+      { "item": "spellbook_hedge_abramelin_the_mage", "prob": 1 }
     ]
   },
   {

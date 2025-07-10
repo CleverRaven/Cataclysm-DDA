@@ -1,0 +1,33 @@
+[
+  {
+    "type": "SCENARIO_BLACKLIST",
+    "subtype": "whitelist",
+    "scenarios": [
+      "evacuee",
+      "cave_lonesome",
+      "medieval",
+      "migo_prisoner",
+      "mutant",
+      "wilderness",
+      "strong_portal_storm",
+      "portal_dependent",
+      "heli_crash",
+      "infected",
+      "hunted_start",
+      "fungal_start",
+      "bad_day",
+      "bordered",
+      "ambushed",
+      "summer_advanced_start",
+      "car_crash",
+      "paraclesian_birth",
+      "paraclesian_birth_naked_afraid",
+      "werewolf_native",
+      "werewolf_native_naked_unafraid",
+      "xe_lilin_scenario",
+      "xe_lilin_scenario_naked_afraid",
+      "once_bitten",
+      "once_bitten_naked_and_afraid"
+    ]
+  }
+]

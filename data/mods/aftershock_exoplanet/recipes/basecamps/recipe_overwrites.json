@@ -1,0 +1,48 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "faction_base_modular_firestation1_workbench",
+    "description": "Let's get a nice workbench built to improve our work.  Place it next to the anvil.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "fabrication",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_firestation1_workbench",
+    "blueprint_name": "build a workbench",
+    "blueprint_requires": [ { "id": "fbmc_firestation1_tools" } ],
+    "blueprint_provides": [ { "id": "fbmc_firestation1_workbench" }, { "id": "blacksmith_recipes_5" } ],
+    "blueprint_excludes": [ { "id": "fbmc_firestation1_workbench" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "faction_base_modular_shelter_craftspot",
+    "description": "Let's build a work bench.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_shelter_craftspot",
+    "blueprint_name": "build a work bench",
+    "blueprint_requires": [ { "id": "fbmc_shelter_fire" } ],
+    "blueprint_provides": [ { "id": "fbmc_shelter_craftspot" }, { "id": "tool_storage" } ],
+    "blueprint_excludes": [ { "id": "fbmc_shelter_craftspot" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "faction_base_modular_shelter_1_craftspot",
+    "description": "Let's build a work bench.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_shelter_1_craftspot",
+    "blueprint_name": "build a work bench",
+    "blueprint_requires": [ { "id": "fbmc_shelter_1_fire" } ],
+    "blueprint_provides": [ { "id": "fbmc_shelter_1_craftspot" }, { "id": "tool_storage" } ],
+    "blueprint_excludes": [ { "id": "fbmc_shelter_1_craftspot" } ]
+  }
+]

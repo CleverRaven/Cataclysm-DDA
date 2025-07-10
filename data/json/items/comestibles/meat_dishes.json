@@ -1,6 +1,7 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sausage_raw",
     "name": { "str": "raw sausage" },
     "conditional_names": [
@@ -23,11 +24,12 @@
     "volume": "250 ml",
     "flags": [ "SMOKABLE" ],
     "smoking_result": "sausage",
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ], [ "meat_allergen", 1 ] ],
     "fun": -10
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sausage",
     "name": { "str": "smoked sausage" },
     "conditional_names": [
@@ -44,7 +46,8 @@
     "fun": 5
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sausage_cooked",
     "name": { "str": "cooked sausage" },
     "conditional_names": [
@@ -61,7 +64,8 @@
     "flags": [ "EATEN_HOT" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "confit_meat",
     "looks_like": "meat_cooked",
     "name": { "str_sp": "meat confit" },
@@ -83,12 +87,13 @@
     "price_postapoc": "3 USD 50 cent",
     "material": [ "flesh" ],
     "volume": "250 ml",
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 20 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 20 ], [ "meat_allergen", 1 ] ],
     "fun": 1,
     "flags": [ "EATEN_HOT" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sweet_sausage",
     "name": { "str": "sweet sausage" },
     "conditional_names": [ { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "sinister %s" } } ],
@@ -103,12 +108,13 @@
     "material": [ "flesh" ],
     "volume": "250 ml",
     "price_postapoc": "2 USD 50 cent",
-    "vitamins": [ [ "vitC", 4 ], [ "iron", 22 ] ],
+    "vitamins": [ [ "vitC", 4 ], [ "iron", 22 ], [ "meat_allergen", 1 ] ],
     "flags": [ "EATEN_HOT" ],
     "fun": 8
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "blutwurst_sausage",
     "name": { "str": "blutwurst" },
     "conditional_names": [
@@ -130,10 +136,12 @@
     "//": "volume and weight for a roughly 25cm length, 2.5cm diameter link, estimated",
     "material": [ "flesh" ],
     "flags": [ "EATEN_HOT" ],
-    "fun": 2
+    "fun": 2,
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "bratwurst_sausage",
     "name": { "str": "bratwurst" },
     "conditional_names": [
@@ -155,10 +163,12 @@
     "//": "volume and weight for a roughly 25cm length, 2.5cm diameter link, estimated",
     "material": [ "flesh" ],
     "flags": [ "EATEN_HOT" ],
-    "fun": 5
+    "fun": 5,
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "royal_beef",
     "name": { "str_sp": "royal beef" },
     "weight": "446 g",
@@ -173,16 +183,17 @@
     "material": [ "flesh" ],
     "volume": "500 ml",
     "fun": 7,
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 6 ], [ "iron", 69 ] ]
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 6 ], [ "iron", 69 ], [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "bacon",
     "name": { "str": "bacon", "str_pl": "pieces of bacon" },
     "weight": "85 g",
     "color": "pink",
-    "spoils_in": "24 days",
-    "container": "bag_plastic",
+    "spoils_in": "42 days",
+    "container": "bag_plastic_small",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -2,
@@ -194,13 +205,14 @@
     "price_postapoc": "250 cent",
     "material": [ "flesh" ],
     "flags": [ "EATEN_HOT", "SMOKED" ],
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 6 ] ],
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 6 ], [ "meat_allergen", 1 ] ],
     "fun": 5
   },
   {
     "id": "sausage_wasteland",
     "copy-from": "sausage",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "wasteland sausage" },
     "description": "Lean sausage made from heavily salt-cured offal, with natural gut casing.  Waste not, want not.",
     "quench": -7,
@@ -210,7 +222,8 @@
   {
     "id": "sausage_wasteland_raw",
     "copy-from": "sausage_raw",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "raw wasteland sausage" },
     "description": "Lean raw sausage made from heavily salt-cured offal, ready to be smoked.",
     "quench": -7,
@@ -218,13 +231,14 @@
     "smoking_result": "sausage_wasteland"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cracklins",
     "name": { "str_sp": "cracklins" },
     "weight": "42 g",
     "color": "brown",
     "spoils_in": "7 days",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -2,
@@ -235,42 +249,49 @@
     "price_postapoc": "125 cent",
     "material": [ "flesh" ],
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 3 ], [ "meat_allergen", 1 ] ],
     "fun": 4
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "human_cracklins",
     "name": { "str_sp": "cracklins" },
     "copy-from": "cracklins",
-    "material": [ "hflesh" ]
+    "material": [ "hflesh" ],
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "mutant_cracklins",
     "name": { "str_sp": "cracklins" },
     "copy-from": "cracklins",
     "material": [ "flesh" ],
-    "vitamins": [ [ "mutant_toxin", 52 ] ]
+    "vitamins": [ [ "mutant_toxin", 52 ], [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "mutant_human_cracklins",
     "name": { "str_sp": "cracklins" },
     "copy-from": "cracklins",
     "material": [ "hflesh" ],
-    "vitamins": [ [ "mutant_toxin", 52 ] ]
+    "vitamins": [ [ "mutant_toxin", 52 ], [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "demihuman_cracklins",
     "name": { "str_sp": "cracklins" },
     "copy-from": "cracklins",
     "material": [ "flesh" ],
-    "flags": [ "STRICT_HUMANITARIANISM" ]
+    "flags": [ "STRICT_HUMANITARIANISM" ],
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "glazed_tenderloin",
     "name": { "str_sp": "glazed tenderloins" },
     "conditional_names": [ { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "grisly %s" } } ],
@@ -289,10 +310,11 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 18,
-    "vitamins": [ [ "vitC", 17 ], [ "calcium", 8 ], [ "iron", 32 ] ]
+    "vitamins": [ [ "vitC", 17 ], [ "calcium", 8 ], [ "iron", 32 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "lobster_platter",
     "name": { "str_sp": "lobster platter" },
     "weight": "205 g",
@@ -310,10 +332,11 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 18,
-    "vitamins": [ [ "vitC", 17 ], [ "calcium", 8 ], [ "iron", 32 ] ]
+    "vitamins": [ [ "vitC", 17 ], [ "calcium", 8 ], [ "iron", 32 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "currywurst",
     "name": { "str": "currywurst" },
     "conditional_names": [
@@ -336,10 +359,11 @@
     "volume": "125 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ [ "calcium", 20 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "calcium", 20 ], [ "iron", 10 ], [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "meat_aspic",
     "name": { "str_sp": "aspic" },
     "conditional_names": [
@@ -359,11 +383,12 @@
     "price_postapoc": "1 USD 50 cent",
     "material": [ "flesh" ],
     "volume": "250 ml",
-    "vitamins": [ [ "vitC", 15 ], [ "calcium", 2 ], [ "iron", 8 ] ],
+    "vitamins": [ [ "vitC", 15 ], [ "calcium", 2 ], [ "iron", 8 ], [ "meat_allergen", 1 ] ],
     "flags": [ "EATEN_COLD", "FREEZERBURN" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "dry_fish",
     "name": { "str_sp": "dehydrated fish" },
     "copy-from": "fish_cooked",
@@ -379,7 +404,8 @@
     "flags": [ "EDIBLE_FROZEN" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "rehydrated_fish",
     "name": { "str_sp": "rehydrated fish" },
     "copy-from": "fish_cooked",
@@ -389,7 +415,8 @@
     "fun": 2
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "dry_lobster",
     "name": { "str_sp": "dehydrated lobster" },
     "copy-from": "lobster_cooked",
@@ -405,7 +432,8 @@
     "flags": [ "EDIBLE_FROZEN" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "rehydrated_lobster",
     "name": { "str_sp": "rehydrated lobster" },
     "copy-from": "lobster_cooked",
@@ -415,7 +443,8 @@
     "fun": 4
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "dry_mollusk",
     "name": { "str_sp": "dehydrated mollusk" },
     "copy-from": "mollusk_cooked",
@@ -431,7 +460,8 @@
     "flags": [ "EDIBLE_FROZEN" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "rehydrated_mollusk",
     "name": { "str_sp": "rehydrated mollusk" },
     "copy-from": "mollusk_cooked",
@@ -441,7 +471,8 @@
     "fun": 4
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "fish_pickled",
     "name": { "str_sp": "pickled fish" },
     "copy-from": "fish_cooked",
@@ -451,10 +482,12 @@
     "quench": -1,
     "description": "A serving of crisply brined and canned fish.  Tasty and nutritious.",
     "material": [ "flesh" ],
-    "fun": 7
+    "fun": 7,
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "fish_canned",
     "name": { "str_sp": "canned fish" },
     "copy-from": "fish_cooked",
@@ -468,7 +501,8 @@
     "fun": 2
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "lobster_canned",
     "name": { "str_sp": "canned lobster" },
     "copy-from": "lobster_cooked",
@@ -482,7 +516,8 @@
     "fun": 4
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "fried_froglegs",
     "name": { "str": "pair of fried frog legs", "str_pl": "pairs of fried frog legs" },
     "weight": "120 g",
@@ -499,10 +534,11 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 8,
-    "vitamins": [ [ "calcium", 16 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "calcium", 16 ], [ "iron", 10 ], [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "fish_fried",
     "name": { "str_sp": "batter fried fish" },
     "weight": "201 g",
@@ -519,10 +555,11 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 5 ] ]
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 5 ], [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "crab_cakes",
     "name": { "str": "crab cake" },
     "copy-from": "fish_fried",
@@ -535,7 +572,8 @@
     "fun": 13
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "lobster_cakes",
     "name": { "str": "lobster cake" },
     "copy-from": "fish_fried",
@@ -547,9 +585,10 @@
     "fun": 13
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "stuffed_clams",
-    "name": { "str_sp": "stuffed clam" },
+    "name": { "str_sp": "stuffed clams" },
     "copy-from": "fish_fried",
     "weight": "150 g",
     "calories": 115,
@@ -560,14 +599,15 @@
     "vitamins": [ [ "calcium", 2 ], [ "iron", 5 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "lunchmeat",
     "name": { "str_sp": "lunch meat" },
     "conditional_names": [ { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "loathsome %s" } } ],
     "weight": "56 g",
     "color": "red",
     "spoils_in": "2 days 12 hours",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 180,
@@ -577,10 +617,11 @@
     "//": "*Looking for ~$6 per pound here.",
     "material": [ "flesh" ],
     "volume": "75 ml",
-    "vitamins": [ [ "iron", 2 ] ]
+    "vitamins": [ [ "iron", 2 ], [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "bologna",
     "name": { "str_sp": "bologna" },
     "conditional_names": [
@@ -592,7 +633,7 @@
     "//": "Rebalanced: the recipe looks to easily make two pounds.",
     "color": "red",
     "spoils_in": "23 days 8 hours",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 26,
@@ -601,16 +642,17 @@
     "price_postapoc": "25 cent",
     "material": [ "flesh" ],
     "volume": "75 ml",
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 6 ], [ "iron", 5 ] ]
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 6 ], [ "iron", 5 ], [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "lutefisk",
     "name": { "str_sp": "lutefisk" },
     "weight": "175 g",
     "color": "light_gray",
     "spoils_in": "360 days",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -2,
@@ -623,10 +665,11 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": -15,
-    "vitamins": [ [ "iron", 3 ] ]
+    "vitamins": [ [ "iron", 3 ], [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "can_spam",
     "name": { "str_sp": "SPAM" },
     "//": "SPAM comes in cans of six 2 oz slices.  Each charge is one slice.",
@@ -645,10 +688,11 @@
     "volume": "83 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": -8,
-    "vitamins": [ [ "iron", 3 ] ]
+    "vitamins": [ [ "iron", 3 ], [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "debug_nutrition",
     "copy-from": "can_spam",
     "name": { "str_sp": "holy SPAM of debugging" },
@@ -658,7 +702,8 @@
     "vitamins": [ [ "vitC", 100 ], [ "calcium", 100 ], [ "iron", 100 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "can_sardine",
     "name": { "str_sp": "canned sardine" },
     "weight": "200 g",
@@ -676,10 +721,11 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 1,
-    "vitamins": [ [ "calcium", 40 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "calcium", 40 ], [ "iron", 12 ], [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sausagegravy",
     "name": { "str_sp": "sausage gravy" },
     "conditional_names": [
@@ -701,10 +747,12 @@
     "material": [ "flesh", "wheat", "mushroom" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
-    "fun": 9
+    "fun": 9,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "pemmican",
     "name": { "str_sp": "pemmican" },
     "conditional_names": [
@@ -715,7 +763,7 @@
     "weight": "106 g",
     "color": "brown",
     "spoils_in": "360 days",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -2,
@@ -725,11 +773,12 @@
     "price_postapoc": "3 USD 50 cent",
     "material": [ "flesh", "fruit" ],
     "volume": "120 ml",
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 5 ], [ "iron", 21 ] ],
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 5 ], [ "iron", 21 ], [ "meat_allergen", 1 ], [ "fruit_allergen", 1 ] ],
     "fun": 3
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "pemmican_veggy",
     "name": { "str_sp": "pemmican" },
     "conditional_names": [
@@ -740,7 +789,7 @@
     "weight": "106 g",
     "color": "brown",
     "spoils_in": "360 days",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -2,
@@ -750,11 +799,12 @@
     "price_postapoc": "3 USD 50 cent",
     "material": [ "flesh", "veggy" ],
     "volume": "120 ml",
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 5 ], [ "iron", 21 ] ],
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 5 ], [ "iron", 21 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ],
     "fun": 3
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "pemmican_meat",
     "name": { "str_sp": "pemmican (meat only)" },
     "conditional_names": [
@@ -765,7 +815,7 @@
     "weight": "100 g",
     "color": "brown",
     "spoils_in": "360 days",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -3,
@@ -775,11 +825,12 @@
     "price_postapoc": "3 USD",
     "material": [ "flesh" ],
     "volume": "110 ml",
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 20 ] ],
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 20 ], [ "meat_allergen", 1 ] ],
     "fun": 1
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "macaroni_helper",
     "name": { "str_sp": "hamburger helper" },
     "conditional_names": [
@@ -802,10 +853,18 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 5,
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 32 ], [ "iron", 20 ] ]
+    "vitamins": [
+      [ "vitC", 4 ],
+      [ "calcium", 32 ],
+      [ "iron", 20 ],
+      [ "meat_allergen", 1 ],
+      [ "wheat_allergen", 1 ],
+      [ "milk_allergen", 1 ]
+    ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "ravioli",
     "name": { "str_sp": "ravioli" },
     "weight": "170 g",
@@ -821,10 +880,11 @@
     "material": [ "flesh", "wheat" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 27 ] ]
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 27 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "chili",
     "name": { "str_sp": "chili con carne" },
     "conditional_names": [
@@ -846,10 +906,11 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 5,
-    "vitamins": [ [ "vitC", 7 ], [ "calcium", 7 ], [ "iron", 27 ] ]
+    "vitamins": [ [ "vitC", 7 ], [ "calcium", 7 ], [ "iron", 27 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "pork_beans",
     "name": { "str_sp": "pork and beans" },
     "weight": "267 g",
@@ -867,10 +928,11 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 5,
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 14 ], [ "iron", 32 ] ]
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 14 ], [ "iron", 32 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "can_tuna",
     "name": { "str_sp": "canned tuna fish" },
     "weight": "154 g",
@@ -886,10 +948,11 @@
     "material": [ "flesh" ],
     "volume": "250 ml",
     "fun": 2,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ], [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "can_salmon",
     "name": { "str_sp": "canned salmon" },
     "weight": "200 g",
@@ -905,10 +968,11 @@
     "material": [ "flesh" ],
     "volume": "250 ml",
     "fun": 1,
-    "vitamins": [ [ "calcium", 57 ], [ "iron", 9 ] ]
+    "vitamins": [ [ "calcium", 57 ], [ "iron", 9 ], [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "can_chicken",
     "name": { "str_sp": "canned chicken" },
     "weight": "217 g",
@@ -924,10 +988,11 @@
     "material": [ "flesh" ],
     "volume": "250 ml",
     "fun": 1,
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 18 ] ]
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 18 ], [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "can_herring",
     "name": { "str_sp": "pickled herring" },
     "weight": "232 g",
@@ -943,10 +1008,11 @@
     "material": [ "flesh" ],
     "volume": "250 ml",
     "fun": 3,
-    "vitamins": [ [ "calcium", 34 ], [ "iron", 34 ] ]
+    "vitamins": [ [ "calcium", 34 ], [ "iron", 34 ], [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "can_clams",
     "name": { "str_sp": "canned clam" },
     "weight": "169 g",
@@ -963,10 +1029,11 @@
     "material": [ "flesh" ],
     "volume": "250 ml",
     "fun": 2,
-    "vitamins": [ [ "calcium", 11 ], [ "iron", 25 ] ]
+    "vitamins": [ [ "calcium", 11 ], [ "iron", 25 ], [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "can_chowder",
     "name": { "str_sp": "clam chowder" },
     "conditional_names": [
@@ -988,10 +1055,11 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "vitC", 14 ], [ "calcium", 7 ], [ "iron", 16 ] ]
+    "vitamins": [ [ "vitC", 14 ], [ "calcium", 7 ], [ "iron", 16 ], [ "meat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "deluxe_beans",
     "name": { "str_sp": "baked beans" },
     "conditional_names": [ { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "ork and beans" } } ],
@@ -1009,10 +1077,11 @@
     "//": "One beans + one protein = 2 servings",
     "flags": [ "EATEN_HOT" ],
     "fun": 4,
-    "vitamins": [ [ "vitC", 10 ], [ "calcium", 6 ], [ "iron", 51 ] ]
+    "vitamins": [ [ "vitC", 10 ], [ "calcium", 6 ], [ "iron", 51 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "deluxe_rice",
     "name": { "str_sp": "meat fried rice" },
     "conditional_names": [ { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "mutant fried rice" } } ],
@@ -1030,10 +1099,11 @@
     "//": "One rice + one protein/veg = 2 servings",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 5,
-    "vitamins": [ [ "vitC", 8 ], [ "calcium", 1 ], [ "iron", 40 ] ]
+    "vitamins": [ [ "vitC", 8 ], [ "calcium", 1 ], [ "iron", 40 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "deluxe_beansnrice",
     "name": { "str_sp": "deluxe beans and rice" },
     "conditional_names": [ { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "\"deluxe\" beans and rice" } } ],
@@ -1050,10 +1120,11 @@
     "volume": "187 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 4,
-    "vitamins": [ [ "vitC", 5 ], [ "calcium", 4 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "vitC", 5 ], [ "calcium", 4 ], [ "iron", 10 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "pie_meat",
     "name": { "str": "meat pie" },
     "conditional_names": [
@@ -1076,10 +1147,11 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 14 ] ]
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 14 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "pizza_meat",
     "name": { "str": "meat pizza" },
     "conditional_names": [
@@ -1101,10 +1173,11 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 44 ], [ "iron", 36 ] ]
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 44 ], [ "iron", 36 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "pizza_supreme",
     "name": { "str": "supreme pizza" },
     "copy-from": "pizza_meat",
@@ -1116,10 +1189,19 @@
     "price_postapoc": "15 USD",
     "material": [ "wheat", "flesh", "veggy", "milk" ],
     "fun": 11,
-    "vitamins": [ [ "vitC", 20 ], [ "calcium", 32 ], [ "iron", 28 ] ]
+    "vitamins": [
+      [ "vitC", 20 ],
+      [ "calcium", 32 ],
+      [ "iron", 28 ],
+      [ "meat_allergen", 1 ],
+      [ "veggy_allergen", 1 ],
+      [ "wheat_allergen", 1 ],
+      [ "milk_allergen", 1 ]
+    ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "deluxe_eggs",
     "name": { "str_sp": "deluxe scrambled eggs" },
     "conditional_names": [
@@ -1140,10 +1222,11 @@
     "volume": "83 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 4,
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 4 ], [ "iron", 39 ] ]
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 4 ], [ "iron", 39 ], [ "meat_allergen", 1 ], [ "egg_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "meat_canned",
     "name": { "str_sp": "canned meat" },
     "conditional_names": [
@@ -1163,7 +1246,8 @@
     "fun": 2
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "meat_salted",
     "name": { "str_sp": "salted meat slice" },
     "conditional_names": [
@@ -1173,7 +1257,7 @@
     ],
     "copy-from": "meat_cooked",
     "color": "red",
-    "spoils_in": "24 days",
+    "spoils_in": "42 days",
     "container": "plastic_bag_vac",
     "quench": -5,
     "description": "Meat slices cured in brine.  Salty but tasty in a pinch.",
@@ -1182,10 +1266,12 @@
     "material": [ "flesh" ],
     "delete": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "primary_material": "cured_meat",
-    "fun": 2
+    "fun": 2,
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "spaghetti_bolognese",
     "name": { "str_sp": "spaghetti bolognese" },
     "conditional_names": [
@@ -1206,10 +1292,11 @@
     "volume": "218 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 4,
-    "vitamins": [ [ "vitC", 5 ], [ "calcium", 3 ], [ "iron", 9 ] ]
+    "vitamins": [ [ "vitC", 5 ], [ "calcium", 3 ], [ "iron", 9 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "lasagne",
     "name": { "str_sp": "lasagne" },
     "conditional_names": [
@@ -1219,7 +1306,7 @@
     ],
     "weight": "255 g",
     "color": "red",
-    "spoils_in": 64,
+    "spoils_in": "2 days 16 hours",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 5,
@@ -1232,10 +1319,18 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 15,
-    "vitamins": [ [ "vitC", 6 ], [ "calcium", 22 ], [ "iron", 17 ] ]
+    "vitamins": [
+      [ "vitC", 6 ],
+      [ "calcium", 22 ],
+      [ "iron", 17 ],
+      [ "meat_allergen", 1 ],
+      [ "wheat_allergen", 1 ],
+      [ "milk_allergen", 1 ]
+    ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "fried_spam",
     "name": { "str_sp": "fried SPAM" },
     "copy-from": "can_spam",
@@ -1245,10 +1340,12 @@
     "price": "5 USD",
     "material": [ "flesh" ],
     "flags": [ "EATEN_HOT" ],
-    "fun": 8
+    "fun": 8,
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cheeseburger",
     "name": { "str": "cheeseburger" },
     "conditional_names": [
@@ -1272,37 +1369,18 @@
     "volume": "300 ml",
     "flags": [ "EATEN_HOT", "ALLERGEN_MILK" ],
     "fun": 5,
-    "vitamins": [ [ "vitC", 1 ], [ "calcium", 57 ], [ "iron", 65 ] ]
+    "vitamins": [
+      [ "vitC", 1 ],
+      [ "calcium", 57 ],
+      [ "iron", 65 ],
+      [ "meat_allergen", 1 ],
+      [ "wheat_allergen", 1 ],
+      [ "milk_allergen", 1 ]
+    ]
   },
   {
-    "type": "COMESTIBLE",
-    "id": "cheeseburger_wheat_free",
-    "name": { "str": "wheat-free cheeseburger" },
-    "conditional_names": [
-      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "chump %s" } },
-      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "elf %s" } },
-      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "chilling %s" } },
-      { "type": "COMPONENT_ID_SUBSTRING", "condition": "egg", "name": { "str": "wheat-free breakfast cheeseburger" } }
-    ],
-    "weight": "333 g",
-    "color": "brown",
-    "spoils_in": "1 day 12 hours",
-    "container": "wrapper",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "calories": 380,
-    "description": "A wheat-free sandwich of minced meat and cheese with condiments.  A simple favorite of the people before the Cataclysm.",
-    "price": "10 USD",
-    "price_postapoc": "2 USD 50 cent",
-    "material": [ "flesh", "veggy", "milk" ],
-    "primary_material": "processed_food",
-    "volume": "300 ml",
-    "flags": [ "EATEN_HOT", "ALLERGEN_MILK" ],
-    "fun": 5,
-    "vitamins": [ [ "vitC", 1 ], [ "calcium", 57 ], [ "iron", 65 ] ]
-  },
-  {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "deluxe_cheeseburger",
     "copy-from": "cheeseburger",
     "name": { "str": "deluxe cheeseburger" },
@@ -1314,25 +1392,19 @@
     "primary_material": "processed_food",
     "volume": "350 ml",
     "fun": 7,
-    "vitamins": [ [ "vitC", 30 ], [ "calcium", 60 ], [ "iron", 65 ] ]
+    "vitamins": [
+      [ "vitC", 30 ],
+      [ "calcium", 60 ],
+      [ "iron", 65 ],
+      [ "meat_allergen", 1 ],
+      [ "veggy_allergen", 1 ],
+      [ "wheat_allergen", 1 ],
+      [ "milk_allergen", 1 ]
+    ]
   },
   {
-    "type": "COMESTIBLE",
-    "id": "deluxe_cheeseburger_wheat_free",
-    "copy-from": "cheeseburger_wheat_free",
-    "name": { "str": "deluxe wheat-free cheeseburger" },
-    "weight": "380 g",
-    "calories": 500,
-    "description": "A wheat-free cheeseburger with more vegetables and condiments.  This is the apex of pre-Cataclysm culinary achievement.",
-    "price_postapoc": "3 USD",
-    "material": [ "flesh", "milk", "veggy", "tomato" ],
-    "primary_material": "processed_food",
-    "volume": "350 ml",
-    "fun": 7,
-    "vitamins": [ [ "vitC", 30 ], [ "calcium", 60 ], [ "iron", 65 ] ]
-  },
-  {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "hamburger",
     "name": { "str": "hamburger" },
     "conditional_names": [
@@ -1355,40 +1427,15 @@
     "volume": "300 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 4,
-    "vitamins": [ [ "vitC", 1 ], [ "calcium", 57 ], [ "iron", 65 ] ]
+    "vitamins": [ [ "vitC", 1 ], [ "calcium", 57 ], [ "iron", 65 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
-    "id": "hamburger_wheat_free",
-    "name": { "str": "wheat-free hamburger" },
-    "conditional_names": [
-      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str": "wheat-free bobburger" } },
-      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str": "wheat-free Moreauburger" } },
-      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "horrible %s" } },
-      { "type": "COMPONENT_ID_SUBSTRING", "condition": "egg", "name": { "str": "wheat-free breakfast burger" } }
-    ],
-    "weight": "300 g",
-    "color": "brown",
-    "spoils_in": "1 day 12 hours",
-    "container": "wrapper",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "calories": 258,
-    "description": "A wheat-free sandwich of minced meat with condiments.",
-    "price": "9 USD",
-    "price_postapoc": "2 USD",
-    "material": [ "flesh", "veggy" ],
-    "volume": "300 ml",
-    "flags": [ "EATEN_HOT" ],
-    "fun": 4,
-    "vitamins": [ [ "vitC", 1 ], [ "calcium", 57 ], [ "iron", 65 ] ]
-  },
-  {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sloppyjoe",
     "name": { "str": "sloppy joe" },
     "conditional_names": [
-      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str": "manwich", "str_pl": "manwiches" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str": "sloppy Joseph" } },
       {
         "type": "FLAG",
         "condition": "STRICT_HUMANITARIANISM",
@@ -1410,43 +1457,18 @@
     "volume": "300 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 4,
-    "vitamins": [ [ "vitC", 5 ], [ "calcium", 4 ], [ "iron", 5 ] ]
+    "vitamins": [
+      [ "vitC", 5 ],
+      [ "calcium", 4 ],
+      [ "iron", 5 ],
+      [ "meat_allergen", 1 ],
+      [ "veggy_allergen", 1 ],
+      [ "wheat_allergen", 1 ]
+    ]
   },
   {
-    "type": "COMESTIBLE",
-    "id": "sloppyjoe_wheat_free",
-    "name": { "str": "wheat-free sloppy joe" },
-    "conditional_names": [
-      {
-        "type": "VITAMIN",
-        "condition": "human_flesh_vitamin",
-        "name": { "str": "wheat-free manwich", "str_pl": "wheat-free manwiches" }
-      },
-      {
-        "type": "FLAG",
-        "condition": "STRICT_HUMANITARIANISM",
-        "name": { "str": "wheat-free manfriendwich", "str_pl": "wheat-free manfriendwiches" }
-      },
-      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "suspicious %s" } }
-    ],
-    "weight": "313 g",
-    "color": "brown",
-    "spoils_in": "1 day 12 hours",
-    "container": "wrapper",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "calories": 391,
-    "description": "A sandwich consisting of ground meat and tomato sauce served on wheat-free bread.",
-    "price": "9 USD",
-    "price_postapoc": "2 USD 50 cent",
-    "material": [ "flesh", "tomato", "veggy" ],
-    "volume": "300 ml",
-    "flags": [ "EATEN_HOT" ],
-    "fun": 4,
-    "vitamins": [ [ "vitC", 5 ], [ "calcium", 4 ], [ "iron", 5 ] ]
-  },
-  {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "taco",
     "name": { "str": "taco" },
     "conditional_names": [
@@ -1468,10 +1490,11 @@
     "material": [ "flesh" ],
     "volume": "250 ml",
     "fun": 8,
-    "vitamins": [ [ "vitC", 1 ], [ "calcium", 8 ], [ "iron", 15 ] ]
+    "vitamins": [ [ "vitC", 1 ], [ "calcium", 8 ], [ "iron", 15 ], [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "ndn_taco",
     "name": { "str": "Indian taco" },
     "conditional_names": [
@@ -1493,10 +1516,11 @@
     "material": [ "flesh" ],
     "volume": "250 ml",
     "fun": 8,
-    "vitamins": [ [ "vitC", 1 ], [ "calcium", 8 ], [ "iron", 15 ] ]
+    "vitamins": [ [ "vitC", 1 ], [ "calcium", 8 ], [ "iron", 15 ], [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "meat_pickled",
     "name": { "str_sp": "pickled meat" },
     "conditional_names": [
@@ -1515,7 +1539,8 @@
     "fun": 6
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "dry_meat",
     "name": { "str_sp": "dehydrated meat" },
     "conditional_names": [
@@ -1534,10 +1559,12 @@
     "material": [ "flesh" ],
     "primary_material": "cured_meat",
     "volume": "125 ml",
-    "flags": [ "EDIBLE_FROZEN" ]
+    "flags": [ "EDIBLE_FROZEN" ],
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "dry_froglegs",
     "name": { "str": "pair of dehydrated frog legs", "str_pl": "pairs of dehydrated frog legs" },
     "copy-from": "froglegs_cooked",
@@ -1552,10 +1579,22 @@
     "material": [ "flesh" ],
     "primary_material": "cured_meat",
     "volume": "25 ml",
-    "flags": [ "EDIBLE_FROZEN" ]
+    "flags": [ "EDIBLE_FROZEN" ],
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "dry_poultry",
+    "name": { "str_sp": "dehydrated chicken" },
+    "copy-from": "dry_meat",
+    "color": "white",
+    "description": "Dehydrated flakes of bird meat.  With proper storage, this dried food will remain edible for an incredibly long time.",
+    "calories": 220
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "rehydrated_froglegs",
     "name": { "str": "rehydrated frog leg" },
     "copy-from": "froglegs_cooked",
@@ -1566,7 +1605,20 @@
     "fun": 2
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "rehydrated_poultry",
+    "name": { "str_sp": "rehydrated chicken" },
+    "copy-from": "poultry_cooked",
+    "color": "light_red",
+    "description": "Reconstituted bird meat, which are much more enjoyable to eat now that they have been rehydrated.",
+    "price": "6 USD",
+    "price_postapoc": "3 USD",
+    "fun": 2
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "rehydrated_meat",
     "name": { "str_sp": "rehydrated meat" },
     "conditional_names": [
@@ -1583,7 +1635,8 @@
     "fun": 2
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "haggis",
     "name": { "str": "haggis", "str_pl": "haggises" },
     "conditional_names": [
@@ -1605,10 +1658,11 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 2,
-    "vitamins": [ [ "vitC", 21 ], [ "calcium", 1 ], [ "iron", 29 ] ]
+    "vitamins": [ [ "vitC", 21 ], [ "calcium", 1 ], [ "iron", 29 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sushi_fishroll",
     "name": { "str_sp": "fish makizushi" },
     "weight": "159 g",
@@ -1623,10 +1677,11 @@
     "material": [ "veggy", "flesh" ],
     "volume": "250 ml",
     "fun": 14,
-    "vitamins": [ [ "vitC", 23 ], [ "calcium", 3 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "vitC", 23 ], [ "calcium", 3 ], [ "iron", 3 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sushi_meatroll",
     "name": { "str_sp": "meat temaki" },
     "conditional_names": [ { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "troubling %s" } } ],
@@ -1642,10 +1697,11 @@
     "material": [ "veggy", "flesh" ],
     "volume": "500 ml",
     "fun": 13,
-    "vitamins": [ [ "vitC", 36 ], [ "calcium", 4 ], [ "iron", 37 ] ]
+    "vitamins": [ [ "vitC", 36 ], [ "calcium", 4 ], [ "iron", 37 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sashimi",
     "name": { "str_sp": "sashimi" },
     "copy-from": "fish_cooked",
@@ -1656,10 +1712,12 @@
     "price": "6 USD",
     "price_postapoc": "3 USD",
     "material": [ "veggy", "flesh" ],
-    "fun": 7
+    "fun": 7,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "dry_meat_tainted",
     "name": { "str_sp": "dehydrated tainted meat" },
     "copy-from": "meat_tainted",
@@ -1674,10 +1732,12 @@
     "material": [ "flesh" ],
     "volume": "125 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "fun": -7
+    "fun": -7,
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "pelmeni",
     "name": { "str_sp": "pelmeni" },
     "conditional_names": [ { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "perilous %s" } } ],
@@ -1695,10 +1755,11 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 2 ], [ "iron", 15 ] ]
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 2 ], [ "iron", 15 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "homemade_burrito",
     "name": { "str": "homemade burrito" },
     "conditional_names": [
@@ -1719,10 +1780,11 @@
     "volume": "83 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 7,
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 19 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 19 ], [ "iron", 12 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "meatball_raw",
     "name": { "str": "raw meatball" },
     "conditional_names": [
@@ -1742,11 +1804,12 @@
     "price_postapoc": "2 USD",
     "material": [ "flesh" ],
     "volume": "85 ml",
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 8 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 8 ], [ "iron", 4 ], [ "meat_allergen", 1 ] ],
     "fun": -10
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "meatball",
     "name": { "str": "meatball" },
     "conditional_names": [
@@ -1763,7 +1826,8 @@
     "fun": 6
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "paella_valenciana",
     "name": { "str_sp": "Valencian paella" },
     "conditional_names": [ { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "\"deluxe\" beans and rice" } } ],
@@ -1780,10 +1844,11 @@
     "volume": "110 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 4,
-    "vitamins": [ [ "vitC", 8 ], [ "calcium", 5 ], [ "iron", 11 ] ]
+    "vitamins": [ [ "vitC", 8 ], [ "calcium", 5 ], [ "iron", 11 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "escargot",
     "name": { "str_sp": "escargot" },
     "weight": "20 g",
@@ -1800,10 +1865,18 @@
     "volume": "20 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 4,
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 18 ], [ "iron", 6 ] ]
+    "vitamins": [
+      [ "vitC", 3 ],
+      [ "calcium", 18 ],
+      [ "iron", 6 ],
+      [ "meat_allergen", 1 ],
+      [ "veggy_allergen", 1 ],
+      [ "milk_allergen", 1 ]
+    ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "kiymali_pide",
     "name": { "str_sp": "kiymali pide" },
     "weight": "160 g",
@@ -1818,10 +1891,12 @@
     "material": [ "bread", "flesh" ],
     "volume": "300 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
-    "fun": 4
+    "fun": 4,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "bread_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "lahmacun",
     "name": { "str": "lahmacun" },
     "weight": "50 g",
@@ -1836,10 +1911,12 @@
     "material": [ "bread", "flesh" ],
     "volume": "120 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
-    "fun": 4
+    "fun": 4,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "bread_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "iskender",
     "name": { "str_sp": "iskender kebab" },
     "weight": "250 g",
@@ -1854,10 +1931,12 @@
     "material": [ "bread", "flesh" ],
     "volume": "450 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
-    "fun": 4
+    "fun": 4,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "bread_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "manti",
     "name": { "str_sp": "manti" },
     "weight": "160 g",
@@ -1872,10 +1951,12 @@
     "material": [ "bread", "flesh" ],
     "volume": "300 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
-    "fun": 4
+    "fun": 4,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "bread_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sarma",
     "name": { "str_sp": "sarma" },
     "weight": "250 g",
@@ -1890,6 +1971,130 @@
     "material": [ "veggy", "flesh" ],
     "volume": "240 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
-    "fun": 4
+    "fun": 4,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "chicken_fried",
+    "name": { "str_sp": "fried chicken" },
+    "weight": "181 g",
+    "volume": "250 ml",
+    "price": "3 USD",
+    "spoils_in": "4 days",
+    "container": "box_small",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 440,
+    "description": "A delicious golden-brown serving of crispy fried chicken.",
+    "fun": 14,
+    "vitamins": [ [ "calcium", "24 mg" ], [ "iron", "2 mg" ] ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "chicken_fried_buttermilk",
+    "name": { "str_sp": "buttermilk fried chicken" },
+    "weight": "181 g",
+    "volume": "250 ml",
+    "price": "4 USD",
+    "spoils_in": "4 days",
+    "container": "box_small",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 500,
+    "description": "Brined in buttermilk, seasoned and breaded to perfection, and fried until crispy and golden.  This fried chicken is so good you can almost forget about the end of the world.  Vinegar leg is on the right!",
+    "fun": 25,
+    "vitamins": [ [ "calcium", "24 mg" ], [ "iron", "2 mg" ] ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "chicken_tandoori",
+    "name": { "str": "tandoori chicken" },
+    "weight": "200 g",
+    "color": "brown",
+    "spoils_in": "4 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 400,
+    "description": "Originating from Punjabi cuisine, this deep-red and spicy baked chicken is marinated with a yogurt-based sauce and is traditionally baked directly on the walls of a wood-fired clay oven.",
+    "price": "10 USD",
+    "price_postapoc": "3 USD 40 cent",
+    "material": [ "flesh", "milk" ],
+    "primary_material": "flesh",
+    "volume": "250 ml",
+    "flags": [ "EATEN_HOT", "ALLERGEN_MILK" ],
+    "fun": 18,
+    "vitamins": [ [ "calcium", "105 mg" ], [ "iron", "1 mg" ], [ "meat_allergen", 1 ], [ "milk_allergen", 1 ] ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "chicken_rice_hianese",
+    "name": { "str_sp": "Hinanese chicken rice" },
+    "weight": "195 g",
+    "color": "brown",
+    "spoils_in": "2 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 403,
+    "description": "This delicious serving of poached chicken with rice is one of the national dishes of Singapore.",
+    "price": "10 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "material": [ "flesh", "veggy" ],
+    "volume": "250 ml",
+    "flags": [ "EATEN_HOT" ],
+    "fun": 18,
+    "vitamins": [ [ "calcium", "108 mg" ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "chicken_parm",
+    "name": { "str_sp": "chicken parmesan" },
+    "weight": "250 g",
+    "color": "brown",
+    "spoils_in": "1 day",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 620,
+    "description": "A classic Italian-American dish of breaded and fried chicken atop a bed of pasta, enrobed with tomato sauce and cheese.",
+    "price": "10 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "material": [ "flesh", "wheat", "veggy" ],
+    "volume": "250 ml",
+    "flags": [ "EATEN_HOT" ],
+    "fun": 18,
+    "vitamins": [
+      [ "calcium", "423 mg" ],
+      [ "iron", "8 mg" ],
+      [ "meat_allergen", 1 ],
+      [ "veggy_allergen", 1 ],
+      [ "wheat_allergen", 1 ]
+    ]
+  },
+  {
+    "id": "scrapple",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "comestible_type": "FOOD",
+    "name": { "str_sp": "scrapple" },
+    "symbol": "%",
+    "looks_like": "offal_cooked",
+    "description": "A dry mush of meat scraps and grain, sliced and pan-fried; better than it sounds and looks.  A staple food of the Mid-Atlantic United States.",
+    "price_postapoc": "40 cent",
+    "material": [ "flesh", "wheat" ],
+    "primary_material": "flesh",
+    "color": "brown",
+    "weight": "58 g",
+    "volume": "56 ml",
+    "spoils_in": "5 days",
+    "calories": 127,
+    "fun": 1,
+    "quench": -8,
+    "flags": [ "EATEN_HOT" ],
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 8 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   }
 ]

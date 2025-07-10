@@ -1,0 +1,30 @@
+[
+  {
+    "type": "mood_face",
+    "id": "THRESH_YUGGOTH_HORIZONTAL",
+    "values": [
+      { "value": 200, "face": "<color_green>*~*</color>" },
+      { "value": 100, "face": "<color_green>O~O</color>" },
+      { "value": 50, "face": "<color_green>o~o</color>" },
+      { "value": 10, "face": "<color_green>^~^</color>" },
+      { "value": -10, "face": "<color_white>-~-</color>" },
+      { "value": -50, "face": "<color_red>.~.</color>" },
+      { "value": -100, "face": "<color_red>T~T</color>" },
+      { "value": -200, "face": "<color_red>X~X</color>" }
+    ]
+  },
+  {
+    "type": "mood_face",
+    "id": "THRESH_MASTODON_HORIZONTAL",
+    "values": [
+      { "value": 200, "face": "<color_green>*J*</color>" },
+      { "value": 100, "face": "<color_green>OJO</color>" },
+      { "value": 50, "face": "<color_green>oJo</color>" },
+      { "value": 10, "face": "<color_green>^J^</color>" },
+      { "value": -10, "face": "<color_white>-J-</color>" },
+      { "value": -50, "face": "<color_red>.J.</color>" },
+      { "value": -100, "face": "<color_red>TJT</color>" },
+      { "value": -200, "face": "<color_red>XJX</color>" }
+    ]
+  }
+]

@@ -1,5 +1,4 @@
 #include <algorithm>
-#include <bitset>
 #include <climits>
 #include <functional>
 #include <iterator>
@@ -16,9 +15,11 @@
 
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
+#include "cached_options.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_attire.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "enums.h"
 #include "flag.h"
@@ -30,19 +31,17 @@
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
-#include "line.h"
 #include "map.h"
 #include "map_selector.h"
 #include "options.h"
 #include "pimpl.h"
 #include "pocket_type.h"
-#include "point.h"
 #include "ret_val.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui.h"
-#include "units_fwd.h"
+#include "uilist.h"
+#include "units.h"
 #include "vehicle.h"
 #include "visitable.h"
 #include "vpart_position.h"
@@ -147,12 +146,12 @@ void Character::handle_contents_changed( const std::vector<item_location> &conta
             add_msg_player_or_npc(
                 _( "To avoid spilling its contents, you set your %1$s on the %2$s." ),
                 _( "To avoid spilling its contents, <npcname> sets their %1$s on the %2$s." ),
-                loc->display_name(), m.name( pos() )
+                loc->display_name(), m.name( pos_bub() )
             );
             item it_copy( *loc );
             loc.remove_item();
             // target item of `loc` is invalidated and should not be used from now on
-            m.add_item_or_charges( pos(), it_copy );
+            m.add_item_or_charges( pos_bub(), it_copy );
         }
     }
 }
@@ -161,7 +160,7 @@ int Character::count_softwares( const itype_id &id )
 {
     int count = 0;
     for( const item_location &it_loc : all_items_loc() ) {
-        if( it_loc->is_software_storage() ) {
+        if( it_loc->is_estorage() ) {
             for( const item *soft : it_loc->softwares() ) {
                 if( soft->typeId() == id ) {
                     count++;
@@ -214,9 +213,11 @@ item_location Character::try_add( item it, const item *avoid, const item *origin
     }
     std::pair<item_location, item_pocket *> pocket = best_pocket( it, avoid, ignore_pkt_settings );
     item_location ret = item_location::nowhere;
+    bool wielded = false;
     if( pocket.second == nullptr ) {
         if( !has_weapon() && allow_wield && wield( it ) ) {
             ret = item_location( *this, &weapon );
+            wielded = true;
         } else {
             return ret;
         }
@@ -235,7 +236,9 @@ item_location Character::try_add( item it, const item *avoid, const item *origin
     if( keep_invlet ) {
         ret->invlet = it.invlet;
     }
-    ret->on_pickup( *this );
+    if( !wielded ) {
+        ret->on_pickup( *this );
+    }
     cached_info.erase( "reloadables" );
     return ret;
 }
@@ -334,7 +337,8 @@ item_location Character::i_add( item it, bool /* should_stack */, const item *av
     if( added == item_location::nowhere ) {
         if( !allow_wield || !wield( it ) ) {
             if( allow_drop ) {
-                return item_location( map_cursor( pos() ), &get_map().add_item_or_charges( pos(), it ) );
+                return item_location( map_cursor( pos_abs() ), &get_map().add_item_or_charges( pos_bub(),
+                                      it ) );
             } else {
                 return added;
             }
@@ -368,7 +372,7 @@ item_location Character::i_add( item it, int &copies_remaining,
         }
         if( allow_drop && copies_remaining > 0 ) {
             item map_added = get_map().add_item_or_charges( pos_bub(), it, copies_remaining );
-            added = added ? added : item_location( map_cursor( pos() ), &map_added );
+            added = added ? added : item_location( map_cursor( pos_abs() ), &map_added );
         }
     }
     return added;
@@ -394,7 +398,8 @@ ret_val<item_location> Character::i_add_or_fill( item &it, bool should_stack, co
         if( new_charge >= 1 ) {
             if( !allow_wield || !wield( it ) ) {
                 if( allow_drop ) {
-                    loc = item_location( map_cursor( pos() ), &get_map().add_item_or_charges( pos(), it ) );
+                    loc = item_location( map_cursor( pos_abs() ), &get_map().add_item_or_charges( pos_bub(),
+                                         it ) );
                 }
             } else {
                 loc = item_location( *this, &weapon );
@@ -445,7 +450,7 @@ item Character::i_rem( const item *it )
 
 void Character::i_rem_keep_contents( const item *const it )
 {
-    i_rem( it ).spill_contents( pos() );
+    i_rem( it ).spill_contents( pos_bub() );
 }
 
 bool Character::i_add_or_drop( item &it, int qty, const item *avoid,
@@ -459,10 +464,17 @@ bool Character::i_add_or_drop( item &it, int qty, const item *avoid,
     for( int i = 0; i < qty; ++i ) {
         drop |= !can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) || !can_pickVolume( it );
         if( drop ) {
-            retval &= !here.add_item_or_charges( pos(), it ).is_null();
+            retval &= !here.add_item_or_charges( pos_bub(), it ).is_null();
+            if( !retval ) {
+                // No need to loop now, we already knew that there isn't enough room for the item.
+                break;
+            }
         } else if( add ) {
             i_add( it, true, avoid,
                    original_inventory_item, /*allow_drop=*/true, /*allow_wield=*/!has_wield_conflicts( it ) );
+        } else {
+            retval = false;
+            break;
         }
     }
 
@@ -474,7 +486,7 @@ bool Character::i_drop_at( item &it, int qty )
     bool retval = true;
     map &here = get_map();
     for( int i = 0; i < qty; ++i ) {
-        retval &= !here.add_item_or_charges( pos(), it ).is_null();
+        retval &= !here.add_item_or_charges( pos_bub(), it ).is_null();
     }
 
     return retval;
@@ -516,6 +528,7 @@ std::vector<item_location> Character::all_items_loc()
 std::vector<item_location> outfit::top_items_loc( Character &guy )
 {
     std::vector<item_location> ret;
+    ret.reserve( worn.size() );
     for( item &worn_it : worn ) {
         item_location worn_loc( guy, &worn_it );
         ret.push_back( worn_loc );
@@ -567,28 +580,30 @@ int Character::get_item_position( const item *it ) const
     return inv->position_by_item( it );
 }
 
-void Character::drop( item_location loc, const tripoint &where )
+void Character::drop( item_location loc, const tripoint_bub_ms &where )
 {
     drop( { std::make_pair( loc, loc->count() ) }, where );
     invalidate_inventory_validity_cache();
 }
 
-void Character::drop( const drop_locations &what, const tripoint &target,
+void Character::drop( const drop_locations &what, const tripoint_bub_ms &target,
                       bool stash )
 {
+    map &here = get_map();
+
     if( what.empty() ) {
         return;
     }
     invalidate_leak_level_cache();
-    const std::optional<vpart_reference> vp = get_map().veh_at( target ).cargo();
-    if( rl_dist( pos(), target ) > 1 || !( stash || get_map().can_put_items( target ) )
+    const std::optional<vpart_reference> vp = here.veh_at( target ).cargo();
+    if( rl_dist( pos_bub(), target ) > 1 || !( stash || here.can_put_items( target ) )
         || ( vp.has_value() && vp->part().is_cleaner_on() ) ) {
         add_msg_player_or_npc( m_info, _( "You can't place items here!" ),
                                _( "<npcname> can't place items here!" ) );
         return;
     }
 
-    const tripoint placement = target - pos();
+    const tripoint_rel_ms placement = target - pos_bub();
     std::vector<drop_or_stash_item_info> items;
     for( drop_location item_pair : what ) {
         if( is_avatar() && vp.has_value() && item_pair.first->is_bucket_nonempty() &&
@@ -616,12 +631,15 @@ void Character::pick_up( const drop_locations &what )
     //todo: refactor pickup_activity_actor to just use drop_locations, also rename drop_locations
     std::vector<item_location> items;
     std::vector<int> quantities;
+    items.reserve( what.size() );
+    quantities.reserve( what.size() );
     for( const drop_location &dl : what ) {
         items.emplace_back( dl.first );
         quantities.emplace_back( dl.second );
     }
 
-    assign_activity( pickup_activity_actor( items, quantities, pos(), false ) );
+    last_item = item( *items.back() ).typeId();
+    assign_activity( pickup_activity_actor( items, quantities, pos_bub(), false ) );
 }
 
 invlets_bitset Character::allocated_invlets() const
@@ -655,6 +673,8 @@ ret_val<void> Character::can_drop( const item &it ) const
 
 void Character::drop_invalid_inventory()
 {
+    map &here = get_map();
+
     if( cache_inventory_is_valid ) {
         return;
     }
@@ -663,7 +683,7 @@ void Character::drop_invalid_inventory()
         const item &it = stack->front();
         if( it.made_of( phase_id::LIQUID ) ) {
             dropped_liquid = true;
-            get_map().add_item_or_charges( pos(), it );
+            here.add_item_or_charges( pos_bub( here ), it );
             // must be last
             i_rem( &it );
         }
@@ -674,7 +694,7 @@ void Character::drop_invalid_inventory()
 
     item_location weap = get_wielded_item();
     if( weap ) {
-        weap.overflow();
+        weap.overflow( here );
     }
     worn.overflow( *this );
     cache_inventory_is_valid = true;
@@ -729,6 +749,10 @@ void outfit::holster_opts( std::vector<dispose_option> &opts, item_location obj,
 
 bool Character::dispose_item( item_location &&obj, const std::string &prompt )
 {
+    if( test_mode ) {
+        return false;
+    }
+
     uilist menu;
     menu.text = prompt.empty() ? string_format( _( "Dispose of %s" ), obj->tname() ) : prompt;
     std::vector<dispose_option> opts;

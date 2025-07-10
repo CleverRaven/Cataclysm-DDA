@@ -1,29 +1,29 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "bee_sting",
     "name": { "str": "bee stinger" },
-    "description": "A six-inch stinger from a giant bee.  Makes a mediocre melee weapon.",
+    "description": "A six-inch stinger from a giant bee.  Makes a poor melee weapon.",
     "weight": "540 g",
-    "to_hit": -1,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "point", "balance": "neutral" },
     "color": "white",
     "symbol": ",",
     "material": [ "flesh" ],
     "volume": "250 ml",
-    "flags": [ "SPEAR", "ALLOWS_BODY_BLOCK" ],
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "SHIVS" ],
     "price": "30 USD",
     "price_postapoc": "0 cent",
-    "melee_damage": { "stab": 10 }
+    "melee_damage": { "stab": 8 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broom",
     "name": { "str": "broom" },
     "description": "A long-handled broom.  Makes a terrible weapon unless you're chasing cats.",
     "weight": "929 g",
     "longest_side": "140 cm",
-    "to_hit": 1,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "neutral" },
     "color": "yellow",
     "symbol": "/",
     "material": [ "wood" ],
@@ -35,7 +35,7 @@
     "melee_damage": { "bash": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "ceramic_shard",
     "symbol": "*",
     "color": "white",
@@ -52,17 +52,17 @@
     "weapon_category": [ "SHIVS" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "fighter_sting",
     "name": { "str": "fungal fighter stinger" },
     "description": "A short dart from a fungal fighter.  Makes a poor melee weapon.",
     "weight": "270 g",
-    "to_hit": -1,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "point", "balance": "neutral" },
     "color": "green",
     "symbol": ",",
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "flags": [ "SPEAR", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "SHIVS" ],
     "price": "5 USD",
     "price_postapoc": "0 cent",
@@ -70,7 +70,8 @@
   },
   {
     "id": "incendiary",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "chems",
     "name": { "str_sp": "incendiary" },
     "description": "Material from an incendiary round, useful in constructing incendiary ammunition.",
@@ -88,7 +89,7 @@
   },
   {
     "id": "mattress",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "mattress", "str_pl": "mattresses" },
     "description": "A single, or twin, sized mattress.",
@@ -97,6 +98,7 @@
     "longest_side": "190 cm",
     "price": "10 USD",
     "price_postapoc": "5 USD",
+    "fall_damage_reduction": 20,
     "material": [ "cotton", "steel" ],
     "symbol": "0",
     "color": "white",
@@ -112,7 +114,7 @@
   },
   {
     "id": "down_mattress",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "down mattress", "str_pl": "down mattresses" },
     "description": "A single, or twin, sized down-filled mattress.",
@@ -121,6 +123,7 @@
     "longest_side": "190 cm",
     "price": "10 USD",
     "price_postapoc": "7 USD 50 cent",
+    "fall_damage_reduction": 15,
     "material": [ "cotton" ],
     "symbol": "0",
     "color": "white",
@@ -136,7 +139,8 @@
   },
   {
     "id": "fuse",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str_sp": "fuse" },
     "description": "A piece of fuse, long enough to give you enough time to get away from most explosions.",
@@ -153,7 +157,7 @@
     "effects": [ "COOKOFF" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "sharp_rock",
     "symbol": "*",
     "color": "light_gray",
@@ -163,7 +167,7 @@
     "weight": "500 g",
     "volume": "250 ml",
     "longest_side": "8 cm",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "neutral" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -50 ] ],
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "melee_damage": { "bash": 5, "cut": 3 },
@@ -171,7 +175,8 @@
   },
   {
     "id": "sole_rubber",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "rubber sole" },
     "description": "A sole made from rubber, usually found on the bottoms of boots.  Can be used for making actual boots.",
@@ -186,7 +191,7 @@
   },
   {
     "id": "rubber_tire_chunk",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "thick rubber chunk" },
     "description": "A chunk of thick, semi-rigid rubber, similar to what tires are made from.",
@@ -201,7 +206,7 @@
   },
   {
     "id": "rubber_tire_strip",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "rubber tire strip" },
     "description": "A long, curled strip of thick, semi-rigid rubber cut from a tire.",
@@ -216,7 +221,7 @@
   },
   {
     "id": "ugl_buttstock",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": ",",
     "color": "dark_gray",
     "name": { "str": "grenade launcher buttstock" },
@@ -226,28 +231,27 @@
     "price_postapoc": "2 USD 50 cent",
     "material": [ "plastic", "steel" ],
     "weight": "600 g",
-    "volume": "250 ml",
-    "to_hit": 1
+    "volume": "250 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "wasp_sting",
     "name": { "str": "wasp stinger" },
     "description": "A six-inch stinger from a giant wasp.  Makes a poor melee weapon.",
     "weight": "540 g",
-    "to_hit": -1,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "point", "balance": "neutral" },
     "color": "dark_gray",
     "symbol": ",",
     "material": [ "flesh" ],
     "volume": "250 ml",
-    "flags": [ "SPEAR", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "SHIVS" ],
     "price": "10 USD",
     "price_postapoc": "0 cent",
     "melee_damage": { "stab": 8 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "cannonball_4lb",
     "symbol": "o",
     "color": "dark_gray",
@@ -256,13 +260,13 @@
     "material": [ "steel" ],
     "weight": "1814 g",
     "volume": "200 ml",
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "flags": [ "TRADER_AVOID" ],
     "melee_damage": { "bash": 15 }
   },
   {
     "id": "radio_car_wheel",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "RC car wheel set" },
     "description": "A small set of wheels for a radio-controlled car.  Could be improvised with caster wheels if given rubber treads for grip.",
@@ -276,7 +280,7 @@
   },
   {
     "id": "armor_star_samurai_helmet_destroyed",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str_sp": "destroyed ryūsei kabuto" },
     "description": "A conical shaped massive slab of inscrutable rock now in two pieces, strange metallic tubes visibly on display.  Something seems to have cracked it from the inside out.",
@@ -289,7 +293,7 @@
     "color": "dark_gray"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "wax_paraffin",
     "name": { "str": "chunk of paraffin wax", "str_pl": "chunks of paraffin wax" },
     "category": "spare_parts",

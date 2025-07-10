@@ -29,10 +29,14 @@
       "f": [
         { "item": "groce_condiment", "chance": 10, "repeat": [ 1, 2 ] },
         { "item": "dining", "chance": 10 },
-        { "item": "cannedfood", "chance": 20, "repeat": [ 1, 2 ] }
+        { "item": "cannedfood", "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "survivor_matrix_crystal_recipes", "chance": 5 }
       ],
-      "m": { "item": "SUS_fridge_survivor", "chance": 48 },
-      "F": { "item": "SUS_fridge_survivor", "chance": 60 },
+      "m": [ { "item": "SUS_fridge_survivor", "chance": 48 }, { "item": "concentrated_matrix_elixirs", "chance": 3 } ],
+      "F": [
+        { "item": "SUS_fridge_survivor", "chance": 60 },
+        { "item": "concentrated_matrix_elixirs", "chance": 4, "repeat": [ 1, 2 ] }
+      ],
       "J": [ { "item": "cannedfood", "chance": 50, "repeat": [ 1, 2 ] } ],
       "6": [
         { "item": "SUS_pantry", "chance": 12 },

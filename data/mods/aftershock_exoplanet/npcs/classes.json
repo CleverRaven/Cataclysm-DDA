@@ -1,0 +1,279 @@
+[
+  {
+    "type": "npc",
+    "id": "prepnet_gardener",
+    "name_suffix": "Gardener",
+    "class": "afs_prepnet_gardener",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_PrepNet_gardener_1",
+    "mission_offered": "MISSION_PrepNet_gardener_FUR_1",
+    "faction": "Prepnet_Phyle"
+  },
+  {
+    "type": "npc_class",
+    "id": "afs_prepnet_gardener",
+    "name": { "str": "Gardener" },
+    "job_description": "When the end came, we were ready.  Now I grow food for my phyle.",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 4, 2 ] }, { "rng": [ -4, -1 ] } ] } ] } },
+      { "skill": "survival", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "fabrication", "bonus": { "rng": [ 1, 3 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 3, 6 ] } }
+    ],
+    "common": false,
+    "worn_override": "afs_gardener_worn",
+    "carry_override": "afs_gardener_carried",
+    "weapon_override": "afs_gardener_wield",
+    "shopkeeper_item_group": "afs_gardener_misc",
+    "bionics": [
+      { "id": "bio_carbon", "chance": 100 },
+      { "id": "bio_claws", "chance": 100 },
+      { "id": "bio_dex_enhancer", "chance": 100 },
+      { "id": "bio_laser", "chance": 100 },
+      { "id": "bio_membrane", "chance": 100 },
+      { "id": "bio_power_storage_mkII", "chance": 100 },
+      { "id": "bio_purifier", "chance": 100 },
+      { "id": "bio_radscrubber", "chance": 100 },
+      { "id": "bio_sunglasses", "chance": 100 },
+      { "id": "bio_tools", "chance": 100 },
+      { "id": "bio_torsionratchet", "chance": 100 }
+    ]
+  },
+  {
+    "type": "npc",
+    "id": "millyficent_whately",
+    "name_unique": "Millyficent Whately",
+    "name_suffix": "Xenobiologist, madwoman",
+    "class": "afs_xenobiologist_madwoman",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_Millyficent_1",
+    "mission_offered": "MISSION_migo_biology_1",
+    "faction": "whately_family",
+    "gender": "female"
+  },
+  {
+    "type": "npc_class",
+    "id": "afs_xenobiologist_madwoman",
+    "name": "mi-go enthusiast",
+    "job_description": "I've been studying the mi-go for years…",
+    "common": false,
+    "traits": [
+      { "trait": "hair_long", "variant": "red" },
+      { "trait": "natural_hair_color_red" },
+      { "trait": "SKIN_LIGHT" },
+      { "trait": "WARM_NATURED" },
+      { "trait": "INT_UP_3" },
+      { "trait": "DEX_UP_2" },
+      { "trait": "STR_UP" }
+    ],
+    "bonus_dex": { "rng": [ -1, 0 ] },
+    "bonus_int": { "rng": [ 2, 5 ] },
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -4 } ] } ] } },
+      { "skill": "computer", "bonus": { "rng": [ 1, 5 ] } },
+      { "skill": "electronics", "bonus": { "rng": [ 1, 5 ] } },
+      { "skill": "firstaid", "bonus": { "rng": [ 1, 4 ] } },
+      { "skill": "cooking", "bonus": { "rng": [ 6, 8 ] } }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "whately_cousin",
+    "name": "Whately Cousin",
+    "common": false,
+    "job_description": "Our family has been through hard times before.  We know how to survive.",
+    "skills": [
+      { "skill": "dodge", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 3, 6 ] } }
+    ],
+    "bonus_str": 2,
+    "bonus_dex": 2,
+    "traits": [
+      { "group": "trait_mutant_npc_common" },
+      { "group": "trait_group_migo" },
+      { "distribution": [ { "group": "trait_group_migo_nonthres" }, { "group": "trait_group_migo_postthres" } ] },
+      [ "BGSS_Whately", 100 ]
+    ]
+  },
+  {
+    "type": "npc",
+    "id": "cyrus_whately",
+    "name_unique": "Cyrus Whately",
+    "name_suffix": "Patriarch, doomseer",
+    "class": "afs_whately_patriarch",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_CYRUS_1",
+    "mission_offered": "MISSION_FRANKENSTEIN_1",
+    "faction": "whately_family",
+    "gender": "male"
+  },
+  {
+    "type": "npc_class",
+    "id": "afs_whately_patriarch",
+    "name": "Aspiring Frankenstein",
+    "job_description": "Friend to outsiders…",
+    "common": false,
+    "traits": [
+      [ "SKIN_LIGHT", 100 ],
+      [ "MIGO_HEAT_RESIST", 100 ],
+      [ "ALIEN_INT", 100 ],
+      [ "THRESH_YUGGOTH", 100 ],
+      [ "OTHERWORLDLY_GRACE", 100 ],
+      [ "MIGO_BREATHE", 100 ]
+    ],
+    "bonus_dex": { "rng": [ -1, 0 ] },
+    "bonus_int": { "rng": [ 2, 5 ] },
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -4 } ] } ] } },
+      { "skill": "computer", "bonus": { "rng": [ 1, 5 ] } },
+      { "skill": "electronics", "bonus": { "rng": [ 1, 5 ] } },
+      { "skill": "firstaid", "bonus": { "rng": [ 1, 4 ] } },
+      { "skill": "chemistry", "bonus": { "rng": [ 6, 8 ] } }
+    ]
+  },
+  {
+    "type": "npc",
+    "id": "wilhemina_whately",
+    "name_unique": "Wilhemina Whately",
+    "name_suffix": "Shopkeeper",
+    "class": "whately_cousin",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_WHATELY_1",
+    "faction": "whately_family",
+    "gender": "female"
+  },
+  {
+    "type": "npc",
+    "id": "nicodemus_whately",
+    "name_unique": "Nicodemus Whately",
+    "name_suffix": "Whately, Hatchetman",
+    "class": "whately_cousin",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_WHATELY_1",
+    "faction": "whately_family",
+    "gender": "male"
+  },
+  {
+    "type": "npc",
+    "id": "cryo_hacker",
+    "name_suffix": "thawed hacker",
+    "class": "CRYO_HACKER",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_THAWED_1",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc",
+    "id": "cryo_doctor",
+    "name_suffix": "thawed doctor",
+    "class": "CRYO_DOCTOR",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_THAWED_1",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc",
+    "id": "cryo_scientist",
+    "name_suffix": "thawed scientist",
+    "class": "CRYO_SCIENTIST",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_THAWED_1",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc",
+    "id": "sadie",
+    "name_unique": "Sadie",
+    "name_suffix": "forgotten experiment",
+    "class": "afs_forgotten_experiment",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_Sadie_1",
+    "mission_offered": "MISSION_sadie_heart",
+    "faction": "no_faction",
+    "gender": "female"
+  },
+  {
+    "type": "npc_class",
+    "id": "afs_forgotten_experiment",
+    "name": "forgotten experiment",
+    "job_description": "What a magical world to explore…",
+    "common": false,
+    "bonus_str": { "rng": [ 3, 7 ] },
+    "bonus_dex": { "rng": [ 3, 5 ] },
+    "bonus_int": { "rng": [ 3, 5 ] },
+    "bonus_per": { "rng": [ 3, 5 ] },
+    "worn_override": "NC_CYBORG_worn",
+    "carry_override": "NC_DOCTOR_misc",
+    "weapon_override": "EMPTY_GROUP",
+    "traits": [
+      [ "PRETTY", 100 ],
+      [ "OPTIMISTIC", 100 ],
+      [ "FORGETFUL", 100 ],
+      [ "STR_UP_3", 100 ],
+      [ "THRESH_MEDICAL", 100 ],
+      [ "CENOBITE", 100 ],
+      { "group": "trait_group_medical" },
+      {
+        "distribution": [ { "group": "trait_group_medical_nonthres" }, { "group": "trait_group_medical_postthres" } ]
+      },
+      [ "BGSS_Sadie", 100 ]
+    ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -4 } ] } ] } },
+      { "skill": "firstaid", "bonus": { "rng": [ 6, 8 ] } }
+    ],
+    "bionics": [
+      { "id": "bio_ankles", "chance": 5 },
+      { "id": "bio_batteries", "chance": 20 },
+      { "id": "bio_carbon", "chance": 30 },
+      { "id": "bio_claws", "chance": 10 },
+      { "id": "bio_noise", "chance": 10 },
+      { "id": "bio_power_weakness", "chance": 5 },
+      { "id": "bio_itchy", "chance": 15 },
+      { "id": "bio_laser", "chance": 10 },
+      { "id": "bio_thumbs", "chance": 10 },
+      { "id": "bio_spasm", "chance": 10 },
+      { "id": "bio_shakes", "chance": 10 },
+      { "id": "bio_dex_enhancer", "chance": 20 },
+      { "id": "bio_sleepy", "chance": 5 },
+      { "id": "bio_heat_absorb", "chance": 20 },
+      { "id": "bio_eye_enhancer", "chance": 20 },
+      { "id": "bio_recycler", "chance": 100 },
+      { "id": "bio_digestion", "chance": 100 },
+      { "id": "bio_pokedeye", "chance": 10 },
+      { "id": "bio_hydraulics", "chance": 10 },
+      { "id": "bio_painkiller", "chance": 15 },
+      { "id": "bio_shock", "chance": 10 },
+      { "id": "bio_speed", "chance": 10 },
+      { "id": "bio_str_enhancer", "chance": 100 },
+      { "id": "bio_armor_head", "chance": 3 },
+      { "id": "bio_armor_torso", "chance": 15 },
+      { "id": "bio_armor_arms", "chance": 30 },
+      { "id": "bio_armor_legs", "chance": 25 },
+      { "id": "bio_razors", "chance": 15 },
+      { "id": "bio_nanobots", "chance": 20 },
+      { "id": "bio_sunglasses", "chance": 50 },
+      { "id": "bio_weight", "chance": 50 },
+      { "id": "bio_power_storage", "chance": 100 },
+      { "id": "bio_power_storage_mkII", "chance": 70 },
+      { "id": "bio_microgen", "chance": 100 },
+      { "id": "bio_microgen", "chance": 75 },
+      { "id": "bio_microgen", "chance": 50 },
+      { "id": "bio_microgen", "chance": 25 },
+      { "id": "bio_microgen", "chance": 10 },
+      { "id": "bio_torsionratchet", "chance": 20 }
+    ]
+  }
+]

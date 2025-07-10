@@ -2,7 +2,7 @@
   {
     "type": "MONSTER",
     "id": "mon_spinosaurus_bio_op",
-    "name": { "str_sp": "spinosaurus bio-operator" },
+    "name": { "str": "spinosaurus bio-operator" },
     "copy-from": "mon_spinosaurus",
     "diff": 5,
     "proportional": { "hp": 1.2, "speed": 1.15 },
@@ -44,6 +44,7 @@
         "targeting_timeout_extend": -1,
         "targeting_sound": "\"TARGET ACQUIRED.\"",
         "targeting_volume": 70,
+        "ammo_type": "battery",
         "no_ammo_sound": "TARGET ACQUIRED.  *beeeeeeeeep*.  OUT OF AMMO."
       }
     ],
@@ -55,7 +56,7 @@
   {
     "type": "MONSTER",
     "id": "mon_tyrannosaurus_bio_op",
-    "name": { "str_sp": "tyrannosaurus bio-operator" },
+    "name": { "str": "tyrannosaurus bio-operator" },
     "copy-from": "mon_tyrannosaurus",
     "diff": 5,
     "proportional": { "hp": 1.2, "speed": 1.15 },
@@ -86,7 +87,7 @@
   {
     "type": "MONSTER",
     "id": "mon_compsognathus_bio_op",
-    "name": { "str_sp": "compsognathus bio-operator" },
+    "name": { "str": "compsognathus bio-operator" },
     "copy-from": "mon_compsognathus",
     "diff": 5,
     "proportional": { "hp": 1.2, "speed": 1.15 },
@@ -109,8 +110,33 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_nedcolbertia_bio_op",
+    "name": { "str": "nedcolbertia bio-operator" },
+    "copy-from": "mon_nedcolbertia",
+    "diff": 5,
+    "proportional": { "hp": 1.2, "speed": 1.15 },
+    "relative": {
+      "morale": 50,
+      "aggression": 50,
+      "melee_skill": 2,
+      "melee_dice": 1,
+      "dodge": 2,
+      "armor": { "bash": 3, "cut": 3, "bullet": 3 }
+    },
+    "extend": { "flags": [ "ACIDPROOF", "ELECTRIC" ] },
+    "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
+    "vision_day": 100,
+    "luminance": 4,
+    "special_attacks": [ { "id": "bio_op_takedown", "cooldown": 20 } ],
+    "zombify_into": "mon_zedcolbertia_bio_op",
+    "description": "A fast-moving feathered bipedal dinosaur dotted with crackling bionics.  Its curved claws glow menacingly.",
+    "special_when_hit": [ "ZAPBACK", 75 ],
+    "dissect": "dissect_CBM_DINO"
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_gallimimus_bio_op",
-    "name": { "str_sp": "gallimimus bio-operator" },
+    "name": { "str": "gallimimus bio-operator" },
     "copy-from": "mon_gallimimus",
     "diff": 5,
     "proportional": { "hp": 1.2, "speed": 1.15 },
@@ -134,8 +160,58 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_struthiomimus_bio_op",
+    "name": { "str": "struthiomimus bio-operator" },
+    "copy-from": "mon_struthiomimus",
+    "diff": 5,
+    "proportional": { "hp": 1.2, "speed": 1.15 },
+    "relative": {
+      "morale": 50,
+      "aggression": 50,
+      "melee_skill": 2,
+      "melee_dice": 1,
+      "dodge": 2,
+      "armor": { "bash": 3, "cut": 3, "bullet": 3 }
+    },
+    "extend": { "flags": [ "ACIDPROOF", "ELECTRIC" ] },
+    "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
+    "vision_day": 100,
+    "luminance": 4,
+    "special_attacks": [ { "id": "bio_op_takedown", "cooldown": 20 } ],
+    "zombify_into": "mon_ztruthiomimus_bio_op",
+    "description": "A fast-moving feathered bipedal dinosaur dotted with crackling bionics.  Its curved claws glow menacingly.",
+    "special_when_hit": [ "ZAPBACK", 75 ],
+    "dissect": "dissect_CBM_DINO"
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_ornithomimus_bio_op",
+    "name": { "str": "ornithomimus bio-operator" },
+    "copy-from": "mon_ornithomimus",
+    "diff": 5,
+    "proportional": { "hp": 1.2, "speed": 1.15 },
+    "relative": {
+      "morale": 50,
+      "aggression": 50,
+      "melee_skill": 2,
+      "melee_dice": 1,
+      "dodge": 2,
+      "armor": { "bash": 3, "cut": 3, "bullet": 3 }
+    },
+    "extend": { "flags": [ "ACIDPROOF", "ELECTRIC" ] },
+    "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
+    "vision_day": 100,
+    "luminance": 4,
+    "special_attacks": [ { "id": "bio_op_takedown", "cooldown": 20 } ],
+    "zombify_into": "mon_zornithomimus_bio_op",
+    "description": "A fast-moving feathered bipedal dinosaur dotted with crackling bionics.  Its curved claws glow menacingly.",
+    "special_when_hit": [ "ZAPBACK", 75 ],
+    "dissect": "dissect_CBM_DINO"
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_albertonykus_bio_op",
-    "name": { "str_sp": "albertonykus bio-operator" },
+    "name": { "str": "albertonykus bio-operator" },
     "copy-from": "mon_albertonykus",
     "diff": 5,
     "proportional": { "hp": 1.2, "speed": 1.15 },
@@ -160,7 +236,7 @@
   {
     "type": "MONSTER",
     "id": "mon_saurornitholestes_bio_op",
-    "name": { "str_sp": "saurornitholestes bio-operator" },
+    "name": { "str": "saurornitholestes bio-operator" },
     "copy-from": "mon_saurornitholestes",
     "diff": 5,
     "proportional": { "hp": 1.2, "speed": 1.15 },
@@ -187,7 +263,7 @@
   {
     "type": "MONSTER",
     "id": "mon_velociraptor_bio_op",
-    "name": { "str_sp": "velociraptor bio-operator" },
+    "name": { "str": "velociraptor bio-operator" },
     "copy-from": "mon_velociraptor",
     "diff": 5,
     "proportional": { "hp": 1.2, "speed": 1.15 },
@@ -214,7 +290,7 @@
   {
     "type": "MONSTER",
     "id": "mon_deino_bio_op",
-    "name": { "str_sp": "deinonychus bio-operator" },
+    "name": { "str": "deinonychus bio-operator" },
     "copy-from": "mon_deinonychus",
     "diff": 5,
     "proportional": { "hp": 1.2, "speed": 1.15 },
@@ -242,7 +318,7 @@
   {
     "type": "MONSTER",
     "id": "mon_dromaeosaurus_bio_op",
-    "name": { "str_sp": "dromaeosaurus bio-operator" },
+    "name": { "str": "dromaeosaurus bio-operator" },
     "copy-from": "mon_dromaeosaurus",
     "diff": 5,
     "proportional": { "hp": 1.2, "speed": 1.15 },
@@ -269,7 +345,7 @@
   {
     "type": "MONSTER",
     "id": "mon_stenonychosaurus_bio_op",
-    "name": { "str_sp": "stenonychosaurus bio-operator" },
+    "name": { "str": "stenonychosaurus bio-operator" },
     "copy-from": "mon_stenonychosaurus",
     "diff": 5,
     "proportional": { "hp": 1.2, "speed": 1.15 },
@@ -296,7 +372,7 @@
   {
     "type": "MONSTER",
     "id": "mon_eoraptor_bio_op",
-    "name": { "str_sp": "eoraptor bio-operator" },
+    "name": { "str": "eoraptor bio-operator" },
     "copy-from": "mon_eoraptor",
     "diff": 5,
     "proportional": { "hp": 1.2, "speed": 1.15 },
@@ -320,7 +396,7 @@
   {
     "type": "MONSTER",
     "id": "mon_amargasaurus_bio_op",
-    "name": { "str_sp": "amargasaurus bio-operator" },
+    "name": { "str": "amargasaurus bio-operator" },
     "copy-from": "mon_amargasaurus",
     "diff": 5,
     "proportional": { "hp": 1.2, "speed": 1.15 },
@@ -350,7 +426,7 @@
   {
     "type": "MONSTER",
     "id": "mon_dryosaurus_bio_op",
-    "name": { "str_sp": "dryosaurus bio-operator" },
+    "name": { "str": "dryosaurus bio-operator" },
     "copy-from": "mon_dryosaurus",
     "diff": 5,
     "proportional": { "hp": 1.2, "speed": 1.15 },
@@ -374,7 +450,7 @@
   {
     "type": "MONSTER",
     "id": "mon_stegoceras_bio_op",
-    "name": { "str_sp": "stegoceras bio-operator" },
+    "name": { "str": "stegoceras bio-operator" },
     "copy-from": "mon_stegoceras",
     "diff": 5,
     "proportional": { "hp": 1.2, "speed": 1.15 },
@@ -398,7 +474,7 @@
   {
     "type": "MONSTER",
     "id": "mon_pachycephalosaurus_bio_op",
-    "name": { "str_sp": "pachycephalosaurus bio-operator" },
+    "name": { "str": "pachycephalosaurus bio-operator" },
     "copy-from": "mon_pachycephalosaurus",
     "diff": 5,
     "proportional": { "hp": 1.2, "speed": 1.15 },
@@ -423,7 +499,7 @@
   {
     "type": "MONSTER",
     "id": "mon_aquilops_bio_op",
-    "name": { "str_sp": "aquilops bio-operator" },
+    "name": { "str": "aquilops bio-operator" },
     "copy-from": "mon_aquilops",
     "diff": 5,
     "proportional": { "hp": 1.2, "speed": 1.15 },
@@ -448,7 +524,7 @@
   {
     "type": "MONSTER",
     "id": "mon_trice_bio_op",
-    "name": { "str_sp": "triceratops bio-operator" },
+    "name": { "str": "triceratops bio-operator" },
     "copy-from": "mon_triceratops",
     "diff": 5,
     "proportional": { "hp": 1.2, "speed": 1.15 },
@@ -473,7 +549,7 @@
   {
     "type": "MONSTER",
     "id": "mon_nanosaurus_bio_op",
-    "name": { "str_sp": "nanosaurus bio-operator" },
+    "name": { "str": "nanosaurus bio-operator" },
     "copy-from": "mon_nanosaurus",
     "diff": 5,
     "proportional": { "hp": 1.2, "speed": 1.15 },
@@ -497,7 +573,7 @@
   {
     "type": "MONSTER",
     "id": "mon_oryctodromeus_bio_op",
-    "name": { "str_sp": "oryctodromeus bio-operator" },
+    "name": { "str": "oryctodromeus bio-operator" },
     "copy-from": "mon_oryctodromeus",
     "diff": 5,
     "proportional": { "hp": 1.2, "speed": 1.15 },
@@ -521,7 +597,7 @@
   {
     "type": "MONSTER",
     "id": "mon_dimorphodon_bio_op",
-    "name": { "str_sp": "dimorphodon bio-operator" },
+    "name": { "str": "dimorphodon bio-operator" },
     "copy-from": "mon_dimorphodon",
     "diff": 5,
     "proportional": { "hp": 1.2, "speed": 1.15 },

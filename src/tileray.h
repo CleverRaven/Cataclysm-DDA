@@ -2,9 +2,9 @@
 #ifndef CATA_SRC_TILERAY_H
 #define CATA_SRC_TILERAY_H
 
-#include <iosfwd>
+#include <string>
 
-#include "point.h"
+#include "coordinates.h"
 #include "units.h"
 
 // Class for calculating tile coordinates
@@ -24,23 +24,28 @@
 // note to future developers: tilerays can't be cached at the tileray level,
 // because tileray values depend on leftover, and thus tileray.advance(1)
 // changes depending on previous calls to advance.
-
+//
+// This class is used with bubble and relative coordinates. Fundamentally the
+// difference is whether the point it's relative to is the reality map corner
+// or something else, so both usages are supported.
 class tileray
 {
     private:
-        point delta;            // ray delta
+        point_rel_ms delta;            // ray delta
         int leftover = 0;       // counter to shift coordinates
-        point abs_d;            // absolute value of delta
+        point_rel_ms abs_d;            // absolute value of delta
         units::angle direction = 0_degrees; // ray direction
-        point last_d;           // delta of last advance
+        point_rel_ms last_d;           // delta of last advance
         int steps = 0;          // how many steps we advanced so far
         bool infinite = false;  // ray is infinite (end will always return true)
     public:
         tileray();
-        explicit tileray( const point &ad );
+        explicit tileray( const point_rel_ms &ad );
+        explicit tileray( const point_bub_ms &ad );
         explicit tileray( units::angle adir );
 
-        void init( const point &ad );   // init ray with ad
+        void init( const point_rel_ms &ad );   // init ray with ad
+        void init( const point_bub_ms &ad ); // init ray with ad
         void init( const units::angle &adir ); // init ray with direction
 
         int dx() const;       // return dx of last advance (-1 to 1)

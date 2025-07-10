@@ -1,7 +1,8 @@
 [
   {
     "id": "2lcanteen",
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "clothing",
     "name": { "str": "2.5 L canteen" },
     "looks_like": "bottle_plastic",
@@ -11,7 +12,6 @@
     "volume": "2625 ml",
     "price": "10 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -1,
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "dark_gray",
@@ -25,23 +25,20 @@
         "max_contains_weight": "5 kg"
       }
     ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ],
-          "encumbrance": 4,
-          "coverage": 10,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_hanging_front" ]
-        }
-      ]
-    },
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "COLLAPSE_CONTENTS" ],
-    "melee_damage": { "bash": 1 }
+    "armor": [
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "encumbrance": 4,
+        "coverage": 10,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_front" ]
+      }
+    ]
   },
   {
     "id": "30gal_barrel",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "30 gallon plastic barrel" },
     "looks_like": "55gal_drum",
@@ -72,7 +69,7 @@
   },
   {
     "id": "30gal_drum",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "looks_like": "30gal_barrel",
     "name": { "str": "steel drum (100 L)", "str_pl": "steel drums (100 L)" },
@@ -82,7 +79,7 @@
     "volume": "105 L",
     "price": "80 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": "0",
     "color": "dark_gray",
@@ -96,12 +93,13 @@
       }
     ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "flags": [ "COLLAPSE_CONTENTS" ],
     "melee_damage": { "bash": 8 }
   },
   {
     "id": "55gal_drum",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "looks_like": "30gal_drum",
     "name": { "str": "steel drum (200 L)", "str_pl": "steel drums (200 L)" },
@@ -111,7 +109,7 @@
     "volume": "210 L",
     "price": "100 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": "0",
     "color": "dark_gray",
@@ -125,30 +123,50 @@
       }
     ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "flags": [ "COLLAPSE_CONTENTS" ],
     "melee_damage": { "bash": 8 }
   },
   {
     "id": "bag_durasack",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "reusable plastic sack" },
     "looks_like": "bag_plastic",
     "description": "A large and sturdy sack, made out of some plastic material.  Popular choice to store sand, gravel, cement, or stop some local flood.",
     "//": "durasack woven polypropylene bags",
     "weight": "750 g",
-    "volume": "750 ml",
+    "volume": "1250 ml",
     "price": "85 cent",
     "price_postapoc": "5 cent",
     "material": [ "plastic" ],
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "18 L", "max_contains_weight": "22 kg", "moves": 500 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "magazine_well": "750 ml",
+        "max_contains_volume": "18 L",
+        "max_contains_weight": "22 kg",
+        "moves": 500
+      }
+    ],
     "symbol": ")",
-    "color": "white",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "color": "white"
+  },
+  {
+    "id": "bag_durasack_cement",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "durable plastic sack, cement" },
+    "looks_like": "bag_plastic",
+    "description": "A large and sturdy sack, made out plastic material.  Stores cement and has instructions on how to use it to make mortar.",
+    "//": "book data is used so item can work as book and provide recipes",
+    "copy-from": "bag_durasack",
+    "max_level": 0,
+    "read_skill": "fabrication"
   },
   {
     "id": "bag_canvas",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "canvas sack" },
     "looks_like": "bag_plastic",
@@ -158,72 +176,141 @@
     "volume": "1 L",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "to_hit": -5,
     "material": [ "canvas" ],
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "15 L", "max_contains_weight": "15 kg", "moves": 400 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "magazine_well": "750 ml",
+        "max_contains_volume": "15 L",
+        "max_contains_weight": "15 kg",
+        "moves": 400
+      }
+    ],
     "symbol": ")",
-    "color": "brown",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "color": "brown"
   },
   {
     "id": "bag_canvas_small",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "canvas bag" },
     "looks_like": "bag_canvas",
     "description": "A small bag made of canvas.  Looks fine to store dried herbs in.",
     "ascii_picture": "bag_canvas_small",
     "weight": "20 g",
-    "volume": "14 ml",
+    "volume": "60 ml",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "to_hit": -5,
     "material": [ "canvas" ],
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 400 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "magazine_well": "45 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "3 kg",
+        "moves": 400
+      }
+    ],
     "symbol": ")",
-    "color": "brown",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "color": "brown"
   },
   {
     "id": "bag_plastic",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "plastic bag" },
     "looks_like": "bag_canvas",
-    "description": "A small, open plastic bag.  Essentially trash.",
-    "ascii_picture": "bag_plastic",
+    "description": "An open plastic bag.  Essentially trash.",
     "weight": "5 g",
     "volume": "10 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "6 L", "max_contains_weight": "10 kg", "moves": 400 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "transparent": true,
+        "magazine_well": "8 ml",
+        "max_contains_volume": "6 L",
+        "max_contains_weight": "10 kg",
+        "moves": 400
+      }
+    ],
     "material": [ "plastic" ],
     "symbol": ")",
+    "color": "light_gray"
+  },
+  {
+    "id": "bag_plastic_small",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "small plastic bag" },
+    "looks_like": "bag_plastic",
+    "description": "A small, open plastic bag.  Essentially trash.",
+    "weight": "1 g",
+    "volume": "5 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "plastic" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "transparent": true,
+        "magazine_well": "4 ml",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1250 g",
+        "moves": 400
+      }
+    ],
+    "symbol": ")",
+    "color": "light_gray"
+  },
+  {
+    "id": "blister_pack",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "blister pack" },
+    "looks_like": "bag_plastic",
+    "description": "A blister pack is a sort of packaging that has a thick plastic case attached to a sheet of cardboard, allowing easy viewing of a product while keeping it protected.  Known for being an absolute pain to open.",
+    "weight": "200 g",
+    "volume": "200 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "plastic", "cardboard" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "transparent": true,
+        "max_contains_volume": "10 L",
+        "max_contains_weight": "10 kg",
+        "max_item_length": "100 cm",
+        "moves": 400
+      }
+    ],
+    "symbol": ")",
     "color": "light_gray",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "flags": [ "COLLAPSE_CONTENTS", "NO_RELOAD" ]
   },
   {
     "id": "bag_garbage",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "garbage bag" },
     "looks_like": "bag_canvas",
-    "description": "A hefty plastic bag, made to carry lots of trash.  It's sturdy and waterproof, and could easily be repurposed.",
+    "description": "A hefty plastic bag, made to carry lots of trash.  It's sturdy and water-resistant; this could easily be repurposed.",
     "ascii_picture": "bag_garbage",
     "weight": "40 g",
     "volume": "42 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "110 L", "max_contains_weight": "10 kg", "moves": 400 } ],
     "material": [ "plastic" ],
     "symbol": ")",
-    "color": "black"
+    "color": "dark_gray"
   },
   {
     "id": "nylon_bag",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "nylon bag" },
     "looks_like": "bag_canvas",
@@ -233,10 +320,10 @@
     "volume": "2 L",
     "price": "4 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -1,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "magazine_well": "1 L",
         "max_contains_volume": "3 L",
         "max_contains_weight": "3 kg",
         "max_item_length": "22 cm",
@@ -245,36 +332,43 @@
     ],
     "material": [ "nylon" ],
     "symbol": "u",
-    "color": "black"
+    "color": "dark_gray"
   },
   {
     "id": "bag_garbage_reinforced",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "reinforced garbage bag" },
     "copy-from": "bag_garbage",
     "description": "Ten garbage bags layered within each other to carry a heavier load.",
     "ascii_picture": "bag_garbage_reinforced",
     "weight": "400 g",
     "volume": "500 ml",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "98 L", "max_contains_weight": "46 kg", "moves": 400 } ]
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "98 L",
+        "watertight": true,
+        "max_contains_weight": "46 kg",
+        "moves": 400
+      }
+    ]
   },
   {
     "id": "bag_paper_powder",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "small powder paper bag" },
     "looks_like": "bag_plastic",
     "description": "A small but sturdy paper bag.  Rock solid when packed full with powder.",
     "ascii_picture": "bag_paper_powder",
     "weight": "5 g",
-    "volume": "10 ml",
+    "volume": "20 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "watertight": false,
+        "magazine_well": "15 ml",
         "max_contains_volume": "2500 ml",
         "max_contains_weight": "2 kg",
         "moves": 200
@@ -282,19 +376,43 @@
     ],
     "material": [ "paper" ],
     "symbol": ")",
-    "color": "white",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "color": "white"
+  },
+  {
+    "id": "bag_paper_powder_bulk",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "large powder paper bag" },
+    "looks_like": "bag_plastic",
+    "description": "A large paper bag, for bulk storage and transport of powdered goods.",
+    "ascii_picture": "bag_paper_powder",
+    "weight": "20 g",
+    "volume": "60 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "magazine_well": "45 ml",
+        "max_contains_volume": "10000 ml",
+        "max_contains_weight": "15 kg",
+        "moves": 200
+      }
+    ],
+    "material": [ "paper" ],
+    "symbol": ")",
+    "color": "white"
   },
   {
     "id": "bag_zipper",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "zipper bag" },
     "looks_like": "bag_plastic",
     "description": "A resealable, watertight transparent plastic bag roomy enough to hold a sandwich.  Known generically as a Ziploc bag, it can be sealed and opened with a press-together mechanism similar to a zipper.",
     "ascii_picture": "bag_zipper",
     "weight": "2 g",
-    "volume": "10 ml",
+    "volume": "20 ml",
     "price": "0 cent",
     "price_postapoc": "10 cent",
     "material": [ "plastic" ],
@@ -302,20 +420,22 @@
       {
         "pocket_type": "CONTAINER",
         "watertight": true,
-        "max_contains_volume": "250 ml",
+        "transparent": true,
+        "magazine_well": "10 ml",
+        "max_contains_volume": "500 ml",
         "max_contains_weight": "750 g",
+        "max_item_length": "14 cm",
         "spoil_multiplier": 0.8,
         "moves": 400
       }
     ],
     "symbol": ")",
-    "color": "light_gray",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "color": "light_gray"
   },
   {
     "id": "bag_zipper_gallon",
     "copy-from": "bag_zipper",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "gallon-sized zipper bag" },
     "description": "A resealable, watertight transparent plastic bag, extra-large size.  Known generically as a Ziploc bag, it can be sealed and opened with a press-together mechanism similarly to a zipper.",
     "ascii_picture": "bag_zipper_gallon",
@@ -326,6 +446,8 @@
       {
         "pocket_type": "CONTAINER",
         "watertight": true,
+        "transparent": true,
+        "magazine_well": "50 ml",
         "max_contains_volume": "4500 ml",
         "max_contains_weight": "3000 g",
         "max_item_length": "29 cm",
@@ -336,43 +458,46 @@
   },
   {
     "id": "dry_bag_large",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
-    "//": "For reference was used Extrawheel Dry bag Sailor 80L",
+    "//1": "For reference was used Extrawheel Dry bag Sailor 80L",
     "name": { "str": "large dry bag" },
     "looks_like": "bag_canvas",
     "description": "A huge watertight bag made of strong plastic.  Commonly used in activities with high risk of wetting the equipment, such as kayaking.",
     "ascii_picture": "dry_bag_large",
     "weight": "1500 g",
-    "volume": "1500 ml",
+    "volume": "7500 ml",
     "longest_side": "35 cm",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
+    "//2": "Assumption that you're wrapping it around your hand to use it as a weapon. The weight might do something to make it more damaging I guess?",
     "material": [ "plastic" ],
     "symbol": ")",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "watertight": true,
+        "magazine_well": "6 L",
         "max_contains_volume": "80 L",
         "max_contains_weight": "100 kg",
         "max_item_length": "100 cm",
         "moves": 800
       }
     ],
-    "color": "blue"
+    "color": "blue",
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "bag_body_bag",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "body bag" },
     "looks_like": "bag_canvas",
     "description": "A human-sized rectangular bag made of strong plastic, with a zipper in the middle.  Intended to hold a dead body.",
     "ascii_picture": "bag_body_bag",
     "weight": "1061 g",
-    "volume": "5500 ml",
+    "volume": "15 L",
     "//1": "This is ~85% of the package volume from the amazon listing, with the assumption that the player would be squishing it harder to condense the volume.",
     "price": "30 USD",
     "price_postapoc": "10 cent",
@@ -382,6 +507,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "magazine_well": "10 L",
         "max_contains_volume": "100 L",
         "max_contains_weight": "100 kg",
         "max_item_length": "200 cm",
@@ -394,34 +520,37 @@
   },
   {
     "id": "heavy_punching_bag_sack",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "heavy punching bag sack" },
     "looks_like": "bag_canvas",
     "description": "A five-foot-long cylindrical leather sack, a foot in diameter, with attachment points at the top.  With some bags of sand, some chains, and a bunch of blankets, you could hang it from the ceiling as a heavy punching bag.",
     "ascii_picture": "heavy_punching_bag_sack",
     "weight": "2400g",
-    "volume": "2260 ml",
+    "volume": "12260 ml",
     "longest_side": "150 cm",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
+    "//": "Assumption that you're wrapping it around your hand to use it as a weapon. The weight might do something to make it more damaging I guess?",
     "material": [ "leather" ],
     "symbol": ")",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "magazine_well": "10 L",
         "max_contains_volume": "110 L",
         "max_contains_weight": "100 kg",
         "max_item_length": "150 cm",
         "moves": 400
       }
     ],
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "bag_iv",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "IV bag" },
     "description": "A small, sealed plastic bag for liquids used in intravenous therapy.",
@@ -431,7 +560,6 @@
     "volume": "50 ml",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "to_hit": -1,
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_gray",
@@ -439,6 +567,8 @@
       {
         "pocket_type": "CONTAINER",
         "watertight": true,
+        "transparent": true,
+        "magazine_well": "25 ml",
         "max_contains_volume": "500 ml",
         "max_contains_weight": "3 kg",
         "moves": 400
@@ -448,7 +578,7 @@
   },
   {
     "id": "bottle_glass",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "glass bottle" },
     "looks_like": "bottle_plastic",
@@ -469,6 +599,7 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "750 ml",
         "max_item_volume": "17 ml",
         "max_contains_weight": "3 kg",
@@ -476,13 +607,14 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ] ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "flags": [ "COLLAPSE_CONTENTS" ],
     "melee_damage": { "bash": 2 },
     "//2": "Based on https://www.amazon.com/dp/B09K2VQLZV"
   },
   {
     "id": "bottle_plastic",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "plastic bottle" },
     "description": "A watertight plastic bottle, holds 500 mL of liquid.  Some may be factory-sealed to increase shelf life.",
@@ -493,9 +625,9 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "airtight": true,
         "watertight": true,
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "500 ml",
         "max_item_volume": "17 ml",
         "max_contains_weight": "1250 g",
@@ -505,7 +637,6 @@
     ],
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "to_hit": 1,
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -513,7 +644,7 @@
   },
   {
     "id": "condiment_bottle_sealed",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "condiment bottle" },
     "looks_like": "bottle_plastic",
@@ -527,6 +658,7 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "500 ml",
         "max_item_volume": "17 ml",
         "max_contains_weight": "1 kg",
@@ -537,7 +669,6 @@
     ],
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": 1,
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "brown",
@@ -545,7 +676,7 @@
   },
   {
     "id": "bottle_plastic_small",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "small plastic bottle" },
     "looks_like": "bottle_plastic",
@@ -559,6 +690,7 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "250 ml",
         "max_item_volume": "17 ml",
         "max_contains_weight": "1 kg",
@@ -567,15 +699,103 @@
     ],
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": 1,
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "white",
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
+    "id": "bottle_plastic_tiny",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "tiny plastic bottle" },
+    "looks_like": "bottle_plastic",
+    "description": "A watertight plastic bottle, holds 30 mL of liquid.",
+    "ascii_picture": "bottle_plastic_small",
+    "weight": "2 g",
+    "volume": "35 ml",
+    "longest_side": "4 cm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "transparent": true,
+        "max_contains_volume": "30 ml",
+        "max_item_volume": "1 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 400
+      }
+    ],
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "color": "white",
+    "flags": [ "COLLAPSE_CONTENTS" ]
+  },
+  {
+    "id": "bottle_plastic_tiny_glue",
+    "type": "ITEM",
+    "copy-from": "bottle_plastic_tiny",
+    "name": { "str": "tiny plastic glue bottle" },
+    "description": "A watertight plastic bottle, holds 30 mL of liquid.  Due to the design of the tip, it cannot be refilled.",
+    "longest_side": "120 mm",
+    "extend": { "flags": [ "NO_RELOAD", "NO_UNLOAD" ] },
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "bottle_plastic_tiny_superglue",
+        "name": { "str": "large superglue bottle" },
+        "description": "This one reads \"Super Glue - All Purpose!\", with directions and cautions below.",
+        "weight": 1,
+        "append": true
+      }
+    ]
+  },
+  {
+    "id": "small_squeeze_tube",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "small squeeze tube" },
+    "description": "A small squeeze tube, holds 4 mL of liquid.  It cannot be refilled after it's empty.",
+    "ascii_picture": "bottle_plastic_small",
+    "weight": "2 g",
+    "volume": "11 ml",
+    "longest_side": "3 cm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "4 ml",
+        "max_item_volume": "4 ml",
+        "max_contains_weight": "50 g",
+        "moves": 400
+      }
+    ],
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "color": "white",
+    "flags": [ "NO_RELOAD", "NO_UNLOAD" ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "small_squeeze_tube_superglue",
+        "name": { "str": "superglue tube" },
+        "description": "This one reads \"Super Glue - All Purpose!\", with directions and cautions below.",
+        "weight": 1,
+        "append": true
+      }
+    ]
+  },
+  {
     "id": "bottle_plastic_pill_prescription",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "plastic prescription bottle" },
     "looks_like": "antibiotics",
@@ -588,6 +808,7 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "250 ml",
         "max_item_volume": "17 ml",
         "max_contains_weight": "1 kg",
@@ -596,15 +817,13 @@
     ],
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": 1,
     "material": [ "plastic" ],
     "symbol": ")",
-    "color": "brown",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "color": "brown"
   },
   {
     "id": "bottle_plastic_pill_painkiller",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "bottle_plastic_pill_prescription",
     "name": { "str": "plastic painkiller bottle" },
     "looks_like": "aspirin",
@@ -614,7 +833,7 @@
   },
   {
     "id": "bottle_plastic_pill_supplement",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "bottle_plastic_pill_prescription",
     "name": { "str": "plastic supplement bottle" },
     "looks_like": "vitamins",
@@ -623,8 +842,130 @@
     "color": "green"
   },
   {
+    "id": "bottle_plastic_seasoning",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "plastic seasoning bottle" },
+    "looks_like": "bottle_plastic",
+    "description": "A 500 mL plastic bottle, for storing large amounts of powder seasoning.",
+    "ascii_picture": "bottle_plastic_seasoning",
+    "weight": "13 g",
+    "volume": "510 ml",
+    "longest_side": "18 cm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "transparent": true,
+        "max_contains_volume": "500 ml",
+        "max_item_volume": "64 ml",
+        "max_contains_weight": "1250 g",
+        "sealed_data": { "spoil_multiplier": 0.5 },
+        "moves": 200
+      }
+    ],
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "color": "light_cyan"
+  },
+  {
+    "id": "bottle_plastic_seasoning_small",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "small plastic seasoning bottle" },
+    "looks_like": "bottle_plastic",
+    "description": "A small plastic bottle, the kind seasoning comes in.",
+    "ascii_picture": "bottle_plastic_seasoning",
+    "weight": "7 g",
+    "volume": "255 ml",
+    "longest_side": "14 cm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "transparent": true,
+        "max_contains_volume": "250 ml",
+        "max_item_volume": "32 ml",
+        "max_contains_weight": "1 kg",
+        "sealed_data": { "spoil_multiplier": 0.5 },
+        "moves": 200
+      }
+    ],
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "color": "white"
+  },
+  {
+    "id": "bottle_glass_seasoning",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "glass seasoning bottle" },
+    "looks_like": "bottle_plastic",
+    "description": "A 500 mL glass bottle, for storing large amounts of powder seasoning.",
+    "weight": "450 g",
+    "volume": "510 ml",
+    "longest_side": "18 cm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "transparent": true,
+        "max_contains_volume": "500 ml",
+        "max_item_volume": "64 ml",
+        "max_contains_weight": "1250 g",
+        "sealed_data": { "spoil_multiplier": 0.5 },
+        "moves": 400
+      }
+    ],
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
+    "material": [ "glass" ],
+    "symbol": ")",
+    "color": "light_cyan",
+    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
+    "melee_damage": { "bash": 2 }
+  },
+  {
+    "id": "bottle_glass_seasoning_small",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "small glass seasoning bottle" },
+    "looks_like": "bottle_plastic",
+    "description": "A small glass bottle, the kind seasoning comes in.",
+    "weight": "150 g",
+    "volume": "251 ml",
+    "longest_side": "72 mm",
+    "price": "5 USD",
+    "price_postapoc": "10 cent",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
+    "material": [ "glass" ],
+    "symbol": ")",
+    "color": "light_cyan",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "transparent": true,
+        "max_contains_volume": "250 ml",
+        "max_item_volume": "32 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 200
+      }
+    ],
+    "melee_damage": { "bash": 1 }
+  },
+  {
     "id": "bottle_twoliter",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "large plastic bottle" },
     "looks_like": "bottle_plastic",
@@ -643,6 +984,7 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "2 L",
         "max_item_volume": "17 ml",
         "max_contains_weight": "3 kg",
@@ -653,7 +995,7 @@
   },
   {
     "id": "bowl_clay",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "clay bowl" },
     "looks_like": "bowl_plastic",
@@ -663,7 +1005,6 @@
     "volume": "295 ml",
     "price": "1 USD",
     "price_postapoc": "10 cent",
-    "to_hit": -1,
     "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
@@ -676,11 +1017,12 @@
         "max_contains_weight": "3 kg"
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "bowl_wood",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "wooden bowl" },
     "looks_like": "bowl_plastic",
@@ -707,7 +1049,7 @@
   },
   {
     "id": "bowl_wood_large",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "large wooden bowl" },
     "looks_like": "bowl_plastic",
@@ -734,7 +1076,7 @@
   },
   {
     "id": "bowl_coconut",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "coconut bowl" },
     "looks_like": "bowl_wood",
@@ -761,7 +1103,7 @@
   },
   {
     "id": "bowl_skull",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "skull bowl" },
     "looks_like": "bowl_plastic",
@@ -788,7 +1130,7 @@
   },
   {
     "id": "box_cigarette",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "cigarette pack" },
     "looks_like": "box_small",
@@ -801,12 +1143,11 @@
     "material": [ "paper" ],
     "symbol": ")",
     "color": "white",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "90 ml", "max_contains_weight": "3 kg" } ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "90 ml", "max_contains_weight": "3 kg" } ]
   },
   {
     "id": "case_cigar",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "cigar case" },
     "looks_like": "box_small",
@@ -831,7 +1172,7 @@
   },
   {
     "id": "box_snack",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "snack cardboard box", "str_pl": "snack cardboard boxes" },
     "description": "A small cardboard box for housing snacks.  Sized so you can take it on the go.",
@@ -844,7 +1185,7 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "max_contains_volume": "540 ml",
-        "max_contains_weight": "500 g",
+        "max_contains_weight": "800 g",
         "max_item_length": "11 cm"
       }
     ],
@@ -852,12 +1193,11 @@
     "price_postapoc": "0 cent",
     "material": [ "cardboard" ],
     "symbol": ")",
-    "color": "brown",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "color": "brown"
   },
   {
     "id": "box_small",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "small cardboard box", "str_pl": "small cardboard boxes" },
     "description": "A small cardboard box.  No bigger than a foot in dimension.  Can be folded.",
@@ -888,11 +1228,19 @@
       "moves": 500,
       "need_empty": true
     },
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "223_ammo_box_500",
+        "name": { "str": ".223/5.56 ammo box", "str_pl": ".223/5.56 ammo boxes" },
+        "description": "This box is pretty hefty, holding 500 rounds of .223 or 5.56 ammo.  It's made of a thick cardboard plastered with text about the ammo, and the manufacturer's logo.",
+        "weight": 0
+      }
+    ]
   },
   {
     "id": "box_small_folded",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "small folded cardboard box", "str_pl": "small folded cardboard boxes" },
     "description": "A small folded cardboard box.  No bigger than a foot in dimension.  Can be assembled.",
@@ -909,7 +1257,7 @@
   },
   {
     "id": "box_medium",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "cardboard box", "str_pl": "cardboard boxes" },
     "looks_like": "box_small",
@@ -944,7 +1292,7 @@
   },
   {
     "id": "box_medium_folded",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "folded cardboard box", "str_pl": "folded cardboard boxes" },
     "description": "A sturdy folded cardboard box.  Great for packing.  Can be assembled.",
@@ -961,7 +1309,7 @@
   },
   {
     "id": "box_large",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "large cardboard box", "str_pl": "large cardboard boxes" },
     "looks_like": "box_medium",
@@ -999,7 +1347,7 @@
   },
   {
     "id": "box_large_folded",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "large folded cardboard box", "str_pl": "large folded cardboard boxes" },
     "description": "A very large folded cardboard box, the sort children would have loved to hide in, when there were still children.  Can be assembled.",
@@ -1016,7 +1364,7 @@
   },
   {
     "id": "box_large_reinforced",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "reinforced large cardboard box", "str_pl": "reinforced large cardboard boxes" },
     "looks_like": "box_large",
@@ -1044,7 +1392,7 @@
   },
   {
     "id": "box_oversize",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "oversize cardboard box", "str_pl": "oversize cardboard boxes" },
     "looks_like": "box_small",
@@ -1079,7 +1427,7 @@
   },
   {
     "id": "box_oversize_folded",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "oversize folded cardboard box", "str_pl": "oversize folded cardboard boxes" },
     "description": "An oversize cardboard box, big enough to fit some longer items.  Great for storage.  Can be assembled.",
@@ -1095,8 +1443,111 @@
     "color": "brown"
   },
   {
+    "id": "box_oversize_reinforced",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "reinforced oversize cardboard box", "str_pl": "reinforced oversize cardboard boxes" },
+    "looks_like": "box_small",
+    "description": "An oversize cardboard box, doubled up with a second layer of cardboard and lots of duct tape.  It can't be folded anymore.",
+    "ascii_picture": "box_oversize",
+    "weight": "4002 g",
+    "volume": "205000 ml",
+    "longest_side": "201 cm",
+    "//": "(200x50x20)",
+    "price": "10 USD",
+    "price_postapoc": "20 cent",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "200000 ml",
+        "max_contains_weight": "100 kg",
+        "max_item_length": "200 cm"
+      }
+    ],
+    "material": [ "cardboard" ],
+    "symbol": ")",
+    "color": "brown"
+  },
+  {
+    "id": "box_longarm",
+    "type": "ITEM",
+    "category": "container",
+    "//": "Roughly based on https://www.amazon.ca/Boxes-Fast-BF14442FOL-Corrugated-Cardboard/dp/B077BZHDYF",
+    "name": { "str": "longarm cardboard box", "str_pl": "longarm cardboard cardboard boxes" },
+    "looks_like": "box_small",
+    "description": "An elongated cardboard box, meant to contain a longarm such as a shotgun or rifle.",
+    "ascii_picture": "box_oversize",
+    "weight": "600 g",
+    "volume": "40 L",
+    "longest_side": "135 cm",
+    "price": "10 USD",
+    "price_postapoc": "20 cent",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "38 L",
+        "max_contains_weight": "30 kg",
+        "max_item_length": "130 cm"
+      }
+    ],
+    "material": [ "cardboard" ],
+    "symbol": ")",
+    "color": "brown",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "box_longarm_rifle",
+        "name": { "str": "rifle box", "str_pl": "rifle boxes" },
+        "description": "Judging by the print on the packaging, this one is meant for a rifle.",
+        "append": true
+      },
+      {
+        "id": "box_longarm_shotgun",
+        "name": { "str": "shotgun box", "str_pl": "shotgun boxes" },
+        "description": "Judging by the print on the packaging, this one is meant for a shotgun.",
+        "append": true
+      },
+      {
+        "id": "box_longarm_handgun",
+        "name": { "str": "large handgun box", "str_pl": "large handgun boxes" },
+        "description": "Despite the size of the box, this one seems to be intended for an oversized handgun.",
+        "append": true
+      }
+    ]
+  },
+  {
+    "id": "box_pistol",
+    "type": "ITEM",
+    "name": { "str": "handgun case" },
+    "//": "Based on https://www.pelican.com/ca/en/product/cases/medium-pistol-case/vault/v200/",
+    "description": "A hard plastic case with a foam interior, meant to store handguns along with any extra accessories.",
+    "weight": "2300 g",
+    "volume": "15750 ml",
+    "longest_side": "516 mm",
+    "price": "100 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "briefcase",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "13 L",
+        "max_contains_weight": "30 kg",
+        "max_item_length": "437 mm",
+        "moves": 200
+      }
+    ],
+    "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 5 }
+  },
+  {
     "id": "box_compact_wood",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "tiny wooden box", "str_pl": "tiny wooden boxes" },
     "copy-from": "box_small_wood",
     "description": "A small wooden box with a cap and two small handles.",
@@ -1108,7 +1559,7 @@
   },
   {
     "id": "box_small_wood",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "small wooden box", "str_pl": "small wooden boxes" },
     "description": "A small wooden box.  Beautifully made, perhaps it could hold something precious.",
@@ -1134,7 +1585,7 @@
   },
   {
     "id": "box_medium_wood",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "wooden box", "str_pl": "wooden boxes" },
     "looks_like": "box_small_wood",
@@ -1161,7 +1612,7 @@
   },
   {
     "id": "box_large_wood",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "large wooden box", "str_pl": "large wooden boxes" },
     "looks_like": "box_small_wood",
@@ -1188,7 +1639,7 @@
   },
   {
     "id": "box_oversize_wood",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "oversize wooden box", "str_pl": "oversize wooden boxes" },
     "looks_like": "box_small_wood",
@@ -1215,7 +1666,7 @@
   },
   {
     "id": "box_small_metal",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "small metal box", "str_pl": "small metal boxes" },
     "description": "A small metal box.  It could hold even the densest of items.",
@@ -1241,7 +1692,7 @@
   },
   {
     "id": "box_medium_metal",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "metal box", "str_pl": "metal boxes" },
     "looks_like": "box_small_metal",
@@ -1268,7 +1719,7 @@
   },
   {
     "id": "box_large_metal",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "large metal box", "str_pl": "large metal boxes" },
     "looks_like": "box_small_metal",
@@ -1295,7 +1746,7 @@
   },
   {
     "id": "box_oversize_metal",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "oversize metal box", "str_pl": "oversize metal boxes" },
     "looks_like": "box_small_metal",
@@ -1322,7 +1773,7 @@
   },
   {
     "id": "bucket",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "bucket" },
     "description": "A galvanized bucket for peanuts, chilled wine, iced beer, lobster, crab legs, French fries, animal feed, farm use, tailgating, crafts, planting flowers, holding gift baskets, containing a fruit basket and herbs, loose item storage, or as an ice bucket.",
@@ -1345,11 +1796,12 @@
         "max_contains_weight": "20 kg"
       }
     ],
+    "use_action": [ "HEAT_ALL_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "bucket_5gal",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "large plastic bucket" },
     "description": "A bright orange plastic bucket about the size of your torso.",
@@ -1376,7 +1828,7 @@
   },
   {
     "id": "bucket_wood",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "wooden bucket" },
     "description": "A wooden bucket.  Carefully chiseled out of a hardwood log section, almost like a dugout canoe.  Holds 5 liters of water and has a wooden carrying handle.",
@@ -1402,49 +1854,46 @@
   },
   {
     "id": "camelbak",
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "container",
     "name": { "str": "hydration pack" },
     "looks_like": "runner_bag",
     "description": "A slim and lightweight insulated plastic bladder worn on the back or within a hydration pouch in a backpack.  It has a large pocket and a capped mouth for filling with liquid, with a hose that allows the wearer to drink hands-free.",
     "ascii_picture": "camelbak",
     "weight": "286 g",
-    "volume": "3001 ml",
+    "volume": "250 ml",
     "price": "100 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -1,
     "material": [ "cotton", "plastic" ],
     "symbol": ")",
     "color": "dark_gray",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "rigid": true,
         "watertight": true,
+        "transparent": true,
         "max_contains_volume": "3000 ml",
         "max_item_volume": "32 ml",
         "max_contains_weight": "20 kg"
       }
     ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 }
-          ],
-          "coverage": 30,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_hanging_back" ]
-        }
-      ]
-    },
     "flags": [ "BELTED", "COLLAPSE_CONTENTS" ],
-    "melee_damage": { "bash": 1 }
+    "armor": [
+      {
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "coverage": 30,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ]
   },
   {
     "id": "can_drink",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "aluminum can" },
     "description": "An aluminum can, like what soda comes in.",
@@ -1453,7 +1902,6 @@
     "volume": "262 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -3,
     "material": [ "aluminum" ],
     "symbol": ")",
     "color": "light_blue",
@@ -1470,12 +1918,11 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ],
-    "melee_damage": { "bash": 2 }
+    "use_action": [ "HEAT_LIQUID_ITEMS" ]
   },
   {
     "id": "carton_sealed",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "paper carton" },
     "looks_like": "box_small",
@@ -1486,7 +1933,6 @@
     "longest_side": "32 cm",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": 1,
     "material": [ "plastic", "aluminum", "paper" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -1505,7 +1951,7 @@
   },
   {
     "id": "carton_milk",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "milk carton" },
     "looks_like": "box_small",
@@ -1515,7 +1961,6 @@
     "volume": "2003 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": 1,
     "material": [ "paper" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -1528,12 +1973,11 @@
         "max_contains_weight": "5 kg",
         "sealed_data": { "spoil_multiplier": 0.5 }
       }
-    ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    ]
   },
   {
     "id": "carton_egg",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "egg carton" },
     "looks_like": "box_small",
@@ -1544,7 +1988,6 @@
     "longest_side": "29 cm",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": 1,
     "material": [ "cardboard" ],
     "symbol": ")",
     "color": "brown",
@@ -1552,17 +1995,15 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
-        "watertight": false,
         "max_contains_volume": "600 ml",
         "max_contains_weight": "1 kg",
         "max_item_length": "45 mm"
       }
-    ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    ]
   },
   {
     "id": "plastic_bag_vac",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "vacuum-packed bag" },
     "looks_like": "bag_plastic",
@@ -1578,18 +2019,17 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "open_container": true,
         "watertight": true,
+        "magazine_well": "9 ml",
         "max_contains_volume": "500 ml",
         "max_contains_weight": "1 kg",
         "sealed_data": { "spoil_multiplier": 0.5 }
       }
-    ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    ]
   },
   {
     "id": "can_food",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "small tin can" },
     "looks_like": "can_drink",
@@ -1616,12 +2056,12 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "use_action": [ "HEAT_LIQUID_ITEMS" ]
   },
   {
     "id": "can_medium",
     "copy-from": "can_food",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "medium tin can" },
     "description": "A medium tin can, like what soup comes in.",
     "ascii_picture": "can_medium",
@@ -1641,12 +2081,13 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ] ],
-    "volume": "525 ml",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
+    "volume": "525 ml"
   },
   {
     "id": "canteen",
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "clothing",
     "name": { "str": "plastic canteen" },
     "looks_like": "2lcanteen",
@@ -1657,7 +2098,6 @@
     "longest_side": "20 cm",
     "price": "8 USD",
     "price_postapoc": "50 cent",
-    "to_hit": 1,
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "green",
@@ -1671,23 +2111,21 @@
         "max_contains_weight": "3 kg"
       }
     ],
-    "armor_data": {
-      "sided": true,
-      "armor": [
-        {
-          "encumbrance": 2,
-          "coverage": 5,
-          "covers": [ "leg_l", "leg_r" ],
-          "specifically_covers": [ "leg_hip_r", "leg_hip_l" ],
-          "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ]
-        }
-      ]
-    },
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "COLLAPSE_CONTENTS" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "COLLAPSE_CONTENTS" ],
+    "sided": true,
+    "armor": [
+      {
+        "encumbrance": 2,
+        "coverage": 5,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_r", "leg_hip_l" ],
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ]
+      }
+    ]
   },
   {
     "id": "thermos",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "thermos", "str_pl": "thermoses" },
     "looks_like": "bottle_plastic",
@@ -1715,17 +2153,17 @@
   },
   {
     "id": "clay_canister",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "clay canister" },
     "looks_like": "bowl_clay",
-    "description": "A fragile clay vessel.  It can be used to make crude impact grenades or to store liquid.",
+    "description": "A fragile clay vessel with a waterproofed hide lid.  It can be used to make crude impact grenades or to store liquid.",
     "ascii_picture": "clay_canister",
     "weight": "268 g",
     "volume": "295 ml",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "to_hit": 1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "clay" ],
     "symbol": "*",
     "color": "brown",
@@ -1738,21 +2176,50 @@
         "max_contains_weight": "1 kg"
       }
     ],
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "flags": [ "FRAGILE_MELEE" ],
+    "melee_damage": { "bash": 2 }
+  },
+  {
+    "type": "ITEM",
+    "category": "container",
+    "id": "clay_cup",
+    "name": { "str": "clay cup" },
+    "symbol": "u",
+    "description": "A simple clay cup used for holding liquid.",
+    "weight": "318 g",
+    "//1": "Weight calculated proportionally from the coffee mug as I couldn't find detailed weight information for the product.",
+    "volume": "475 ml",
+    "longest_side": "12 cm",
+    "price": "5 USD",
+    "material": [ "clay" ],
+    "pocket_data": [
+      {
+        "max_contains_volume": "330 ml",
+        "max_contains_weight": "1 kg",
+        "watertight": true,
+        "open_container": true,
+        "rigid": true
+      }
+    ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "//3": "Based on https://woolandclay.co/products/copy-of-clay-rose-ceramic-cup?variant=44312937103577&currency=USD&utm_medium=product_sync&utm_source=google&utm_content=sag_organic&utm_campaign=sag_organic&srsltid=AfmBOooF-nJhokvYE4XmLVMLYkPNM71TgbC7qana3ZQRLCV2Q7qviZy_tHU&com_cvv=8fb3d522dc163aeadb66e08cd7450cbbdddc64c6cf2e8891f6d48747c6d56d2c"
   },
   {
     "id": "clay_hydria",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "clay hydria" },
     "looks_like": "bowl_clay",
-    "description": "A 15-liter clay pot with three handles for carrying and pouring.",
+    "description": "A 15-liter clay pot with three handles for carrying and pouring.  It also has a waterproofed hide lid.",
     "ascii_picture": "clay_hydria",
     "weight": "1955 g",
     "volume": "17700 ml",
     "price": "20 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
@@ -1765,12 +2232,14 @@
         "max_contains_weight": "25 kg"
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "melee_damage": { "bash": 1 }
+    "flags": [ "FRAGILE_MELEE" ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "clay_watercont",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "large clay pot" },
     "looks_like": "bowl_clay",
@@ -1780,7 +2249,7 @@
     "volume": "44250 ml",
     "price": "100 USD",
     "price_postapoc": "10 cent",
-    "to_hit": -2,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
@@ -1793,11 +2262,31 @@
         "max_contains_weight": "50 kg"
       }
     ],
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "flags": [ "FRAGILE_MELEE" ],
+    "melee_damage": { "bash": 10 }
+  },
+  {
+    "id": "clay_watercont_no_lid",
+    "type": "ITEM",
+    "name": { "str": "large clay pot (no lid)", "str_pl": "large clay pots (no lid)" },
+    "description": "A bulky and heavy clay pot, meant to store water, but can carry other liquids in a pinch.",
+    "copy-from": "clay_watercont",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "open_container": true,
+        "watertight": true,
+        "max_contains_volume": "37500 ml",
+        "max_contains_weight": "50 kg"
+      }
+    ]
   },
   {
     "id": "cup_plastic",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "plastic cup" },
     "description": "A small, vacuum-formed cup.",
@@ -1806,7 +2295,6 @@
     "volume": "262 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": 1,
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -1820,12 +2308,31 @@
         "max_contains_volume": "250 ml",
         "max_contains_weight": "1 kg"
       }
-    ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    ]
+  },
+  {
+    "id": "cup_plastic_yoghurt",
+    "//": "This is necessary because cup_plastic is also used for shelf-stable puddings",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "plastic cup" },
+    "copy-from": "cup_plastic",
+    "looks_like": "cup_plastic",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": true,
+        "sealed_data": { "spoil_multiplier": 0.1 },
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "1 kg"
+      }
+    ]
   },
   {
     "id": "cup_foil",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "foil cup" },
     "description": "An improvised foldable cup made from aluminum foil.  It can contain liquid and is usable for boiling water.",
@@ -1847,11 +2354,12 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "SOFT", "NO_REPAIR", "COLLAPSE_CONTENTS" ]
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
+    "flags": [ "SOFT", "NO_REPAIR" ]
   },
   {
     "id": "flask_glass",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "glass flask" },
     "looks_like": "bottle_glass",
@@ -1862,7 +2370,6 @@
     "longest_side": "132 mm",
     "price": "4 USD",
     "price_postapoc": "10 cent",
-    "to_hit": 1,
     "material": [ "glass", "rubber" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -1871,17 +2378,17 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
+        "transparent": true,
         "max_contains_volume": "250 ml",
         "max_contains_weight": "1250 g"
       }
     ],
     "qualities": [ [ "BOIL", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ],
-    "melee_damage": { "bash": 3 }
+    "use_action": [ "HEAT_LIQUID_ITEMS" ]
   },
   {
     "id": "test_tube",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "test tube" },
     "looks_like": "flask_glass",
@@ -1892,7 +2399,6 @@
     "longest_side": "100 mm",
     "price": "3 USD",
     "price_postapoc": "10 cent",
-    "to_hit": -1,
     "material": [ { "type": "glass", "portion": 90 }, { "type": "rubber", "portion": 10 } ],
     "symbol": ")",
     "color": "light_cyan",
@@ -1901,17 +2407,18 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
+        "transparent": true,
         "max_contains_volume": "10 ml",
         "max_contains_weight": "50 g"
       }
     ],
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ],
-    "melee_damage": { "bash": 1 }
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "beaker",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "beaker" },
     "looks_like": "flask_glass",
@@ -1922,7 +2429,7 @@
     "longest_side": "72 mm",
     "price": "5 USD",
     "price_postapoc": "10 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -1937,11 +2444,13 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "gradcylinder",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "graduated cylinder" },
     "looks_like": "flask_glass",
@@ -1952,7 +2461,7 @@
     "longest_side": "25 cm",
     "price": "5 USD",
     "price_postapoc": "10 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "glass" ],
     "symbol": "|",
     "color": "light_cyan",
@@ -1969,11 +2478,13 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "test_tube_micro",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "microcentrifuge tube" },
     "looks_like": "test_tube",
@@ -1983,7 +2494,6 @@
     "volume": "2ml",
     "price": "10 cent",
     "price_postapoc": "5 cent",
-    "to_hit": -1,
     "material": [ "plastic" ],
     "symbol": "v",
     "color": "light_cyan",
@@ -1992,16 +2502,47 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
+        "transparent": true,
         "max_contains_volume": "1 ml",
         "max_contains_weight": "5 g"
       }
     ],
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
+    "id": "petri_dish",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "Petri dish", "str_pl": "Petri dishes" },
+    "description": "A 90 mm Petri dish, commonly used in labs dealing with microorganisms or tissue samples.",
+    "weight": "25 g",
+    "volume": "145 ml",
+    "longest_side": "96 mm",
+    "price": "4 USD",
+    "price_postapoc": "2 cent",
+    "material": [ "glass" ],
+    "symbol": "u",
+    "color": "light_cyan",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "93 ml",
+        "max_contains_weight": "450 g"
+      }
+    ],
+    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
+    "//": "Based on https://www.amazon.com/dp/B074Y6GD2R"
+  },
+  {
     "id": "flask_hip",
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "clothing",
     "name": { "str": "hip flask" },
     "looks_like": "2lcanteen",
@@ -2012,7 +2553,7 @@
     "longest_side": "13 cm",
     "price": "40 USD",
     "price_postapoc": "10 cent",
-    "to_hit": 1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "steel" ],
     "symbol": ")",
     "color": "light_gray",
@@ -2026,24 +2567,23 @@
         "max_contains_weight": "1 kg"
       }
     ],
-    "armor_data": {
-      "sided": true,
-      "armor": [
-        {
-          "material": [ { "type": "iron", "covered_by_mat": 100, "thickness": 1.0 } ],
-          "coverage": 2,
-          "covers": [ "leg_l", "leg_r" ],
-          "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
-        }
-      ]
-    },
     "qualities": [ [ "BOIL", 1 ] ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "COLLAPSE_CONTENTS" ],
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "sided": true,
+    "armor": [
+      {
+        "material": [ { "type": "iron", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "coverage": 2,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
+      }
+    ]
   },
   {
     "id": "jar_3l_glass_sealed",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "3 L glass jar" },
     "looks_like": "jar_glass_sealed",
@@ -2063,6 +2603,7 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
+        "transparent": true,
         "max_contains_volume": "3 L",
         "max_contains_weight": "6 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
@@ -2070,12 +2611,12 @@
     ],
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ],
     "flags": [ "COLLAPSE_CONTENTS" ],
-    "melee_damage": { "bash": 5 },
+    "melee_damage": { "bash": 4 },
     "//": "Based on https://www.amazon.com/dp/B0936RC7M1"
   },
   {
     "id": "jar_glass_sealed",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "0.5 L glass jar" },
     "description": "A half-liter glass jar with a metal screw top lid, used for canning.  Preserves its contents from rot until opened (assuming it was sterile before sealing).",
@@ -2094,6 +2635,7 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
+        "transparent": true,
         "max_contains_volume": "500 ml",
         "max_contains_weight": "1 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
@@ -2102,12 +2644,12 @@
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ],
     "flags": [ "COLLAPSE_CONTENTS" ],
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
-    "melee_damage": { "bash": 4 },
+    "melee_damage": { "bash": 2 },
     "//2": "Based on https://www.kilnerjar.co.uk/0025400-preserve-jar-05-litre/"
   },
   {
     "id": "jerrycan",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "plastic jerrycan" },
     "description": "A bulky plastic jerrycan, meant to carry fuel, but can carry other liquids in a pinch.",
@@ -2117,7 +2659,7 @@
     "longest_side": "33 cm",
     "price": "12 USD 50 cent",
     "price_postapoc": "50 cent",
-    "to_hit": -2,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "uneven" },
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "green",
@@ -2126,16 +2668,18 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
+        "transparent": true,
         "max_contains_volume": "10 L",
         "max_item_volume": "32 ml",
         "max_contains_weight": "15 kg"
       }
     ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "jerrycan_big",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "steel jerrycan" },
     "looks_like": "jerrycan",
@@ -2146,7 +2690,7 @@
     "longest_side": "47 cm",
     "price": "50 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": ")",
     "color": "green",
@@ -2161,21 +2705,23 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ] ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "flags": [ "COLLAPSE_CONTENTS" ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "jug_clay",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "clay jug" },
     "looks_like": "bowl_clay",
-    "description": "A clay container with a lid, used to hold and pour liquids.",
+    "description": "A clay container with a waterproofed hide lid, used to hold and pour liquids.",
     "ascii_picture": "jug_clay",
     "weight": "400 g",
     "volume": "1180 ml",
     "price": "1 USD",
     "price_postapoc": "10 cent",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
@@ -2188,12 +2734,13 @@
         "max_contains_weight": "2 kg"
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "jug_plastic",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "gallon jug" },
     "looks_like": "bottle_plastic",
@@ -2205,7 +2752,6 @@
     "longest_side": "28 cm",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -2214,6 +2760,7 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
+        "transparent": true,
         "max_contains_volume": "3750 ml",
         "max_item_volume": "32 ml",
         "max_contains_weight": "8 kg",
@@ -2225,7 +2772,7 @@
   },
   {
     "id": "fuel_tin",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "gallon can" },
     "looks_like": "jerrycan_big",
@@ -2236,7 +2783,7 @@
     "price": "12 USD",
     "//1": "Price calculated from https://www.uline.com/Product/Detail/S-22157/Hazardous-Materials-Packaging/Metal-F-Style-Can-with-Cap-1-Gallon",
     "price_postapoc": "4 USD",
-    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "neutral" },
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "steel" ],
     "longest_side": "24 cm",
     "symbol": ")",
@@ -2252,11 +2799,12 @@
       }
     ],
     "flags": [ "COLLAPSE_CONTENTS" ],
-    "//2": "Based on https://www.pipelinepackaging.com/1-gallon-f-style-can-unlined-42-mm-rel-610x907-un-rated-bulk-pallet"
+    "//2": "Based on https://www.pipelinepackaging.com/1-gallon-f-style-can-unlined-42-mm-rel-610x907-un-rated-bulk-pallet",
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "keg",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "aluminum keg" },
     "looks_like": "30l_barrel",
@@ -2266,7 +2814,7 @@
     "volume": "50050 ml",
     "price": "100 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "aluminum" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -2280,13 +2828,14 @@
         "max_contains_weight": "100 kg"
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "flags": [ "COLLAPSE_CONTENTS" ],
     "melee_damage": { "bash": 10 }
   },
   {
     "id": "keg_steel",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "steel keg" },
     "looks_like": "keg",
@@ -2296,7 +2845,7 @@
     "volume": "52500 ml",
     "price": "80 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -2310,13 +2859,14 @@
         "max_contains_weight": "120 kg"
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "flags": [ "COLLAPSE_CONTENTS" ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 14 }
   },
   {
     "id": "large_stomach_sealed",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "large sealed stomach" },
     "description": "The stomach of a large creature, cleaned and sealed with strings.  It can hold 3 liters of water.",
@@ -2325,7 +2875,6 @@
     "volume": "500 ml",
     "price": "40 USD",
     "price_postapoc": "10 cent",
-    "to_hit": -1,
     "material": [ "gutskin" ],
     "symbol": ")",
     "color": "brown",
@@ -2333,16 +2882,16 @@
       {
         "pocket_type": "CONTAINER",
         "watertight": true,
+        "magazine_well": "250 ml",
         "max_contains_volume": "3 L",
         "max_item_volume": "17 ml",
         "max_contains_weight": "6 kg"
       }
-    ],
-    "melee_damage": { "bash": 1 }
+    ]
   },
   {
     "id": "metal_tank",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "looks_like": "keg",
     "name": { "str": "metal tank (60 L)", "str_pl": "metal tanks (60 L)" },
@@ -2352,7 +2901,7 @@
     "volume": "60050 ml",
     "price": "100 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -4,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": "}",
     "color": "light_cyan",
@@ -2365,13 +2914,14 @@
         "max_contains_weight": "120 kg"
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "flags": [ "COLLAPSE_CONTENTS" ],
     "melee_damage": { "bash": 6 }
   },
   {
     "id": "metal_tank_little",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "looks_like": "keg",
     "name": { "str": "metal tank (2 L)", "str_pl": "metal tanks (2 L)" },
@@ -2383,7 +2933,7 @@
     "//": "230 x 116 mm cylinder, 2.5mm thickness with some additional weight for attachments",
     "price": "10 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -4,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "steel" ],
     "symbol": "}",
     "color": "light_cyan",
@@ -2396,13 +2946,15 @@
         "max_contains_weight": "4 kg"
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "flags": [ "COLLAPSE_CONTENTS" ],
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "canteen_wood",
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "clothing",
     "name": { "str": "wooden canteen" },
     "looks_like": "canteen",
@@ -2412,7 +2964,6 @@
     "volume": "1750 ml",
     "price": "8 USD",
     "price_postapoc": "10 cent",
-    "to_hit": 1,
     "material": [ "wood" ],
     "symbol": ")",
     "color": "brown",
@@ -2426,22 +2977,20 @@
         "max_contains_weight": "3 kg"
       }
     ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 2.0 } ],
-          "encumbrance": 5,
-          "coverage": 5,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_hanging_front" ]
-        }
-      ]
-    },
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "encumbrance": 5,
+        "coverage": 5,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_front" ]
+      }
+    ]
   },
   {
     "id": "stomach_sealed",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "sealed stomach" },
     "description": "The stomach of a creature, cleaned and sealed with a string.  It can hold 1.5 liters of water.",
@@ -2450,7 +2999,6 @@
     "volume": "250 ml",
     "price": "20 USD",
     "price_postapoc": "10 cent",
-    "to_hit": -1,
     "material": [ "gutskin" ],
     "symbol": ")",
     "color": "brown",
@@ -2462,12 +3010,11 @@
         "max_item_volume": "17 ml",
         "max_contains_weight": "3 kg"
       }
-    ],
-    "melee_damage": { "bash": 1 }
+    ]
   },
   {
     "id": "waterproof_smart_phone_case",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "waterproof smartphone case" },
     "looks_like": "smart_phone",
@@ -2483,12 +3030,6 @@
     "color": "light_gray",
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "tardis_case",
-        "name": { "str": "police call box smartphone case" },
-        "description": "This waterproof smartphone case has a drawing on it that makes it look like an old English police call box.",
-        "ascii_picture": "tardis_case"
-      },
       {
         "id": "black_smart_phone_case",
         "name": { "str": "black smartphone case" },
@@ -2651,447 +3192,29 @@
         "weight": 5
       },
       {
-        "id": "nightmare_case",
-        "name": { "str": "Nightmare on Elm Street smartphone case" },
-        "description": "This design is inspired by a famous, classic horror movie about a dream demon who hunts teenagers in their dreams.  This case features a distorted stripe pattern, creating a kind of 3D effect, combined with the graphic of a glove with blades on the fingers against a dark, spooky, and cloudy sky.",
-        "ascii_picture": "nightmare_case",
-        "weight": 5
-      },
-      {
-        "id": "jason_case",
-        "name": { "str": "Friday the 13th smartphone case" },
-        "description": "This design is inspired by the iconic hockey mask killer.  This case features a hockey mask silhouette combined with the subtle texture of crystal-clear water and a design of a boat and trees to represent Crystal Lake.",
-        "ascii_picture": "jason_case",
-        "weight": 5
-      },
-      {
-        "id": "ghostface_case",
-        "name": { "str": "Scream smartphone case" },
-        "description": "The design on this case is inspired by the scream mask worn by the killers from the Scream movie series.  The case features the classic ghostly white mask together with the classic knife they wield, both designed in a gradient graphic with the case's background color and dark, smoky design lines to add an air of mystery and suspense.",
-        "ascii_picture": "ghostface_case",
-        "weight": 5
-      },
-      {
-        "id": "pennywise_case",
-        "name": { "str": "It the Clown smartphone case" },
-        "description": "This design is inspired by Pennywise, the killer clown, and his iconic red balloon.  This case features Pennywise's face in a black and white gradient color combination, with an image of his red balloon incorporated within the case's design.",
-        "ascii_picture": "pennywise_case",
-        "weight": 5
-      },
-      {
-        "id": "candyman_case",
-        "name": { "str": "Candyman smartphone case" },
-        "description": "This design is inspired by Candyman from the 'Candyman' horror movie series.  With his bee-themed terror, this case features a honeycomb pattern background in a dark yellowish-brownish hue, complemented with bees in a similar color scheme.  The Candyman's face is, alongside his hook, in black and blue tones, complementing the honeycomb pattern.",
-        "ascii_picture": "candyman_case",
-        "weight": 5
-      },
-      {
-        "id": "saw_case",
-        "name": { "str": "Saw smartphone case" },
-        "description": "This design is inspired by the infamous 'reverse bear trap' from Saw.  This case features an in-your-face graphic of the trap with a rusted metallic texture.  A blood spattering effect nearby is also included, probably to add extra horror detail.",
-        "ascii_picture": "saw_case",
-        "weight": 5
-      },
-      {
-        "id": "tallman_case",
-        "name": { "str": "Phantasm smartphone case" },
-        "description": "This design is inspired by the iconic ball-shaped weapon used by the Tallman, the main villain from the 'Phantasm' movie series.  This case features the ball image with a chrome-like metallic surface.  Inside the ball, there are graphics of the Phantasm movie scenes to further communicate the theme.",
-        "ascii_picture": "tallman_case",
-        "weight": 5
-      },
-      {
-        "id": "leatherface_case",
-        "name": { "str": "Texas Chainsaw Massacre smartphone case" },
-        "description": "This design is inspired by the iconic chainsaw used by Leatherface in the 'Texas Chainsaw Massacre' movie series.  This case presents an image of a volume meter with a chainsaw graphic etched vertically.  The blade of the chainsaw is designed with a sharp metallic accent against a bleak backdrop, symbolizing the haunting atmosphere of the film.",
-        "ascii_picture": "leatherface_case",
-        "weight": 5
-      },
-      {
-        "id": "chucky_case",
-        "name": { "str": "Child's Play smartphone case" },
-        "description": "The design of this waterproof smartphone case is inspired by the terrifying mission of the red-haired killer doll.  This case features Chucky's graphic, with vibrant highlights of blood-red and white, symbolizing his hair.  The background is plain black with a stitched-like design to make it look like a piece of fabric.",
-        "weight": 5
-      },
-      {
-        "id": "pinhead_case",
-        "name": { "str": "Hellraiser smartphone case" },
-        "description": "The design of this case is inspired by the gruesome Cenobite creatures from the 'Hellraiser' horror movie series.  It features a graphic of the infamous puzzle box with a bloody-grey, aged texture and small comic-like graphic symbols that are seen in the movie scenes.  The design layout also presents a reflection of the Cenobites and their leader, Pinhead, in the background, giving it a truly creepy vibe.",
-        "weight": 5
-      },
-      {
-        "id": "matt_case",
-        "name": { "str": "Maniac Cop smartphone case" },
-        "description": "The design of this waterproof smartphone case is inspired by the iconic police uniform of the maniac cop.  The case features the police badge, symbolizing authority, with the maniac's glove-clad hand over it in a steel-like color against a dark blue background.  It also includes a bloody police baton graphic to further emphasize the theme.",
-        "weight": 5
-      },
-      {
-        "id": "herbet_case",
-        "name": { "str": "Re-Animator smartphone case" },
-        "description": "Inspired by Dr. Herbert West's reanimation serum and the undead creatures it creates from the 'Re-Animator' horror movie series, this case features a medical syringe graphic with a glowing, green liquid radiating outward, symbolizing the serum substance, against a plain black background.  Eh, ironic.",
-        "weight": 5
-      },
-      {
-        "id": "ash_case",
-        "name": { "str": "Evil Dead smartphone case" },
-        "description": "This design is inspired by the Necronomicon and the demonic beings it awakens, as well as the hero from the 'Evil Dead' horror-comedy series.  The case features the book's cover design in brown with raised lettering.  The lettering represents the ancient text of the book; however, the iconical silhouette of Ash Williams can be seen in the center, with text saying 'Hail to the King, baby'.",
-        "weight": 5
-      },
-      {
-        "id": "pumpkinhead_case",
-        "name": { "str": "Pumpkinhead smartphone case" },
-        "description": "This design is inspired by the demonic creature that seeks vengeance.  This case features the graphic of Pumpkinhead, the demon of vengeance, with a fiery red and orange color combination against a black background.  Distorted, slimy tentacles are near the bottom to emphasize the monster's theme.",
-        "weight": 5
-      },
-      {
-        "id": "michael_case",
-        "name": { "str": "Halloween smartphone case" },
-        "description": "This design is inspired by the iconic slasher movie.  This case features the white, plain mask's silhouette against a dark, blood-red background.  It has the movie's tagline from a distance, with subtle illustrations of Michael Myers holding a knife to further reinforce the theme of Halloween.",
-        "weight": 5
-      },
-      {
-        "id": "coffinjoe_case",
-        "name": { "str": "Coffin Joe smartphone case" },
-        "description": "This design is inspired by the Brazilian horror icon, Coffin Joe (Zé do Caixo).  It has the silhouette of him wearing his classic top hat and suit, along with the symbolic scythe, against a purple backdrop in the background.",
-        "weight": 5
-      },
-      {
-        "id": "xenomorph_case",
-        "name": { "str": "Alien smartphone case" },
-        "description": "This design is inspired by the Xenomorphs' threat and the spaceship's doomed crew.  This case features a graphic of Ripley with the Alien Queen's tail coiling around the phone case, with a striking color combination of dark blues and greens to create an eerie mood.",
-        "weight": 5
-      },
-      {
-        "id": "yautja_case",
-        "name": { "str": "The Predator smartphone case" },
-        "description": "The design of this waterproof smartphone case is inspired by the Predator's advanced technology and their hunting tools presented in the action-horror series in which the creatures were presented.  This case features a graphic of the Predator's mask in red, silver, and black, with futuristic lines that create a mechanical texture, and a background of the jungle where the first movie was based.",
-        "weight": 5
-      },
-      {
-        "id": "feast_case",
-        "name": { "str": "Feast smartphone case" },
-        "description": "This design is inspired by the main monster species from the comedy-horror trash trilogy 'Feast', and also the filthiness of the environment.  This features a graphic of the monster in a dirty-feeling yellow and gray combination, with the monster's gross tongue hanging out.",
-        "weight": 5
-      },
-      {
-        "id": "collector_case",
-        "name": { "str": "The Collector smartphone case" },
-        "description": "The design of this waterproof smartphone case is inspired by the Collector's Trap's pattern and the horror-thriller feeling from the movie of the same name.  This case features a graphic of the box trap with a blend of green, orange, and purple colors against a plain black background, with a top-down style to show the intricate layout of the trap.",
-        "weight": 5
-      },
-      {
-        "id": "stenio_case",
-        "name": { "str": "The Nightshifter smartphone case" },
-        "description": "The design of this waterproof smartphone case is inspired by the mortuary where the protagonist from the Brazilian horror movie 'The Nightshifter' (Morto no Fala) works and the supernatural events that happen there.  This case features the image of the mortuary in a sepia hue, with an overlay of a ghostly hand coming out of a coffin, and the protagonist, Stenio, appearing in the background with a serious expression.",
-        "weight": 5
-      },
-      {
-        "id": "threefinger_case",
-        "name": { "str": "Wrong Turn smartphone case" },
-        "description": "Inspired by the deformed and cannibalistic mountain people that are the main antagonists of the horror movie series 'Wrong Turn', this case features a graphic of a silhouette of the monsters' faces, arranged in a circular pattern with blood-red highlights, against a misty mountain landscape.",
-        "weight": 5
-      },
-      {
-        "id": "babyface_case",
-        "name": { "str": "The Hills Runs Red smartphone case" },
-        "description": "The design of this waterproof smartphone case is inspired by the main antagonist of the horror film 'The Hills Run Red', Babyface.  This case features a graphic of the mask that Babyface wears, portrayed in a scratched and dirty metal-like texture, with a design of the film's title using a blood-dripping font above it.",
-        "weight": 5
-      },
-      {
-        "id": "you'renext_case",
-        "name": { "str": "You're Next smartphone case" },
-        "description": "The design of this waterproof smartphone case is inspired by the masked assailants who terrorize the family in the movie 'You're Next'.  This case features a graphic of an animal mask with a sharp graphic design printed onto the case, with a bloody-red background to create a sense of urgency and horror.",
-        "weight": 5
-      },
-      {
-        "id": "babadook_case",
-        "name": { "str": "The Babadook smartphone case" },
-        "description": "This design is inspired by the movie's titular character, a monster from a storybook.  This case features a graphic of the Babadook's silhouette in a dark blue-black color against a grayish textured background with the typography and illustrations as seen in the book.  The book is incorporated into the design as well.",
-        "weight": 5
-      },
-      {
-        "id": "leprechaun_case",
-        "name": { "str": "Leprechaun smartphone case" },
-        "description": "The design of this waterproof smartphone case features a vibrant green color and a graphic of the Leprechaun's face with his signature top hat on the back of the case.  The case also features an etched graphic of the pot of gold at the end of the rainbow on the sides.",
-        "weight": 5
-      },
-      {
-        "id": "smiley_case",
-        "name": { "str": "Smiley Face Killers smartphone case" },
-        "description": "This waterproof smartphone case features a graphic of Smiley's chilling grin printed in black on a deep blue background.  This case also features a subtle graphic of the infamous yellow smiley face with blood dripping from it.",
-        "weight": 5
-      },
-      {
-        "id": "samara_case",
-        "name": { "str": "The Ring smartphone case" },
-        "description": "The design of this waterproof smartphone case features a graphic of the Ring Girl on a black background, with her hair covering her face and creating eerie flowing lines.  This case also features the iconic videotape from the movie with the cursed Alaskan landscape printed on the borders.",
-        "weight": 5
-      },
-      {
-        "id": "descent_case",
-        "name": { "str": "The Descent smartphone case" },
-        "description": "The design of this waterproof smartphone case features the shadows of the deformed humanoid creatures lurking in the cave that the characters must navigate, with corresponding blood dripping from them against a black background.",
-        "weight": 5
-      },
-      {
-        "id": "grudge_case",
-        "name": { "str": "The Grudge smartphone case" },
-        "description": "This waterproof smartphone case features the haunting Grudge ghost's white face on a black background, with her multiple horror contortions through the movie sparsely hinted at in a subtle way around her face.",
-        "weight": 5
-      },
-      {
-        "id": "rec_case",
-        "name": { "str": "[R E C] smartphone case" },
-        "description": "This waterproof smartphone case features the recognizable branding of said movie's original poster, which depicts a graphic of a person with a blood-splattered face, looking upwards, on an orange-colored background.  It also features the film's title, 'R E C' printed in bold white letters at the bottom.",
-        "weight": 5
-      },
-      {
-        "id": "pa_case",
-        "name": { "str": "Paranormal Activity smartphone case" },
-        "description": "This waterproof smartphone case features a graphic of the Ouija board, with the film's title at the bottom, and a spooky blue-grey color throughout, symbolizing the film's eeriness and supernatural horror.",
-        "weight": 5
-      },
-      {
-        "id": "cloverfield_case",
-        "name": { "str": "Cloverfield Monster smartphone case" },
-        "description": "The design of this waterproof smartphone case features the Cloverfield monster's claw marks on an eroded statue-like surface against a grey-green background, with a scratchy film reel aesthetic found throughout the case.",
-        "weight": 5
-      },
-      {
-        "id": "hatchet_case",
-        "name": { "str": "Hatchet smartphone case" },
-        "description": "This waterproof smartphone case features a graphic of an eerie swamp environment with a silhouette resembling one of the main villains from said movie series.  The case also includes a splash effect on the sides to represent the swamp water and leaves.",
-        "weight": 5
-      },
-      {
-        "id": "jaws_case",
-        "name": { "str": "Jaws smartphone case" },
-        "description": "This design features a graphic of a shark fin coming out of the water with the text 'Stay Out of the Water' written in bold letters over it.  It also uses an intense blue gradient color to represent the ocean horizon.",
-        "weight": 5
-      },
-      {
-        "id": "piranha_case",
-        "name": { "str": "Piranha smartphone case" },
-        "description": "The design of this waterproof smartphone case features a graphic of a group of red piranhas swimming with sharp white waves against a blue background.  The graphic of bloody water hints at the piranhas' violent nature.",
-        "weight": 5
-      },
-      {
-        "id": "anaconda_case",
-        "name": { "str": "Anaconda smartphone case" },
-        "description": "The design of this waterproof smartphone case features a graphic of a python's skin texture and a subtle shadow of the anaconda's head.  The background emulates dense jungle foliage, and the case sides feature coiled snake graphical elements.",
-        "weight": 5
-      },
-      {
-        "id": "spiders_case",
-        "name": { "str": "Eight-Legged Freaks smartphone case" },
-        "description": "The design of this waterproof smartphone case features a graphic of spider web outlines with intermittent sewn lines surrounding a four-eyed spider in the middle.  The web's 3D-looking white strands create a striking contrast with the dark background color palette.",
-        "weight": 5
-      },
-      {
-        "id": "bigaspider_case",
-        "name": { "str": "Big Ass Spider smartphone case" },
-        "description": "This waterproof smartphone case features a black spider leg on a bright red backdrop, with its shadow seen underneath.  The case's side texture presents red web-like patterns with black spider legs.",
-        "weight": 5
-      },
-      {
-        "id": "lagoon_case",
-        "name": { "str": "The Creature from the Black Lagoon smartphone case" },
-        "description": "The design of this waterproof smartphone case features an underwater scene of the lagoon with the Creature's shadow lurking beneath the water's surface.  The color scheme features blue and green tones to mimic the lagoon's color palette.",
-        "weight": 5
-      },
-      {
-        "id": "frank_case",
-        "name": { "str": "Frankenstein smartphone case" },
-        "description": "This waterproof smartphone case features multiple graphic stitches in a sloppy, Frankensteinian style wrapped around the phone case in green and metallic colors, symbolic of the animated monster's character.",
-        "weight": 5
-      },
-      {
-        "id": "day_case",
-        "name": { "str": "Day of the Dead smartphone case" },
-        "description": "This waterproof smartphone case features an underground military bunker setting and a graphic of a zombie breaking through a chain-link fence, alongside a recognizable smart zombie behind it.  The sides include a dark, military-colored camo pattern and texture.",
-        "weight": 5
-      },
-      {
-        "id": "dawn_case",
-        "name": { "str": "Dawn of the Dead smartphone case" },
-        "description": "This waterproof smartphone case features a graphic of a blood-stained shopping mall's facade with the letters 'D.O.T.D.' floating ominously behind it.  The side grip of the case gives a nod to the mall floor with its scattered products.",
-        "weight": 5
-      },
-      {
-        "id": "night_case",
-        "name": { "str": "Night of the Living Dead smartphone case" },
-        "description": "This waterproof smartphone case features a graphic of zombie silhouettes in black and white with a swarm of 'dead' creeping from city buildings, giving a nod to the movie's historical legacy in the genre.",
-        "weight": 5
-      },
-      {
-        "id": "creeper_case",
-        "name": { "str": "Jeepers Creepers smartphone case" },
-        "description": "This waterproof smartphone case features a graphic of a winged creature identical to the movie's villain.  The ground beneath the creature's feet is cracked with dark textures, and it is looking directly at the viewer, giving off an eerie vibe.",
-        "weight": 5
-      },
-      {
-        "id": "art_case",
-        "name": { "str": "Terrifier smartphone case" },
-        "description": "This waterproof smartphone case features a joker-like face painting on the case's back with a graphic crimson star and stripes accent.  On the side, the case features red and black vertical stripes to evoke an image of the movie's main antagonist's clown costume.",
-        "weight": 5
-      },
-      {
-        "id": "miner_case",
-        "name": { "str": "My Bloody Valentine smartphone case" },
-        "description": "This waterproof smartphone case features a graphic of a black-colored miner's helmet and gas mask with a blood splatter effect, alongside a bloody pickaxe, giving attention to the movie's important crime scene element.  The case's sides resemble cave walls with rock-like textures.",
-        "weight": 5
-      },
-      {
-        "id": "hostel_case",
-        "name": { "str": "Hostel smartphone case" },
-        "description": "This waterproof smartphone case features a dark design with a graphic of fingers taped up and blood dripping from them.  The case's sidewalls double as barbed wire or chains, adding contextual depth.",
-        "weight": 5
-      },
-      {
-        "id": "spacespiders_case",
-        "name": { "str": "Giant Spider Invasion smartphone case" },
-        "description": "This waterproof smartphone case features a graphic of a giant spider with its legs extended and positioned as though wrapping around the case.  The background texture mimics space, giving an extraterrestrial theme to the case.",
-        "weight": 5
-      },
-      {
-        "id": "nosferatu_case",
-        "name": { "str": "Nosferatu smartphone case" },
-        "description": "This waterproof smartphone case features subtle elements from the movie, including a graphic of castle spires against a blood-red sky.  A shadowy figure can be seen lurking under the castle.  The sides of the case feature bats, fangs, and other gothic motifs in silver.",
-        "weight": 5
-      },
-      {
-        "id": "mars_case",
-        "name": { "str": "Mars Attacks smartphone case" },
-        "description": "This waterproof smartphone case features an image of a menacing alien spaceship hovering over a cityscape at night.  The case's sides have neon green and magenta stripes to give a nod to the movie's color palette and a small graphic of a Martian soldier from the movie.",
-        "weight": 5
-      },
-      {
-        "id": "dayafter_case",
-        "name": { "str": "The Day After Tomorrow smartphone case" },
-        "description": "This waterproof smartphone case features a graphic of icebergs floating in the ocean with a cracked blue texture, giving a hint to the movie's overall environment.  The sidewalls include weather-related graphics, such as lightning and clouds.",
-        "weight": 5
-      },
-      {
-        "id": "2012_case",
-        "name": { "str": "2012 smartphone case" },
-        "description": "This waterproof smartphone case features a graphic of modern high-rise buildings sinking in floodwater with a dark and gloomy blue and green color palette.  The sidewalls evoke the same colors in a pattern resembling the water's flow.",
-        "weight": 5
-      },
-      {
-        "id": "earth_case",
-        "name": { "str": "The Day Earth Stood Still smartphone case" },
-        "description": "This waterproof smartphone case features an image of an extraterrestrial spacecraft hovering over a city at night with intricate details resembling the craft from the movie.  The sidewalls include graphics of the solar system and other space motifs.",
-        "weight": 5
-      },
-      {
-        "id": "galaxy_case",
-        "name": { "str": "Galaxy of Terror smartphone case" },
-        "description": "This waterproof smartphone case features a graphic of a galaxy with stars, planets, and a dark looming force in its center, giving an ode to the movie's intriguing cosmic horror.  The sidewalls incorporate a similar starry design with abstract waves.",
-        "weight": 5
-      },
-      {
-        "id": "thing_case",
-        "name": { "str": "The Thing smartphone case" },
-        "description": "This waterproof smartphone case features an icy blue background with a graphic of the Thing's iconic 'hooded' features in the center.  The case's sides resemble the rugged and icy Antarctic terrain where the film takes place.",
-        "weight": 5
-      },
-      {
-        "id": "blob_case",
-        "name": { "str": "The Blob smartphone case" },
-        "description": "This waterproof smartphone case features a graphic of a metallic surface with red and silver colors and subtle tendrils interwoven around it, giving a nod to the movie's titular villain.  The sidewalls resemble veins through a similar design.",
-        "weight": 5
-      },
-      {
-        "id": "planeterror_case",
-        "name": { "str": "Planet Terror smartphone case" },
-        "description": "This waterproof smartphone case features an image of a toxic green zombie hand with a graphic resembling the weapon attached to Cherry's stump in the movie.  The sidewalls are deep red, with blood-effect splatters on top of them.",
-        "weight": 5
-      },
-      {
-        "id": "shaun_case",
-        "name": { "str": "Shaun of the Dead smartphone case" },
-        "description": "This waterproof smartphone case features a graphic of zombie silhouettes in a comic-style format on a black background.  The sidewalls include a subtle 'blood effect' graphic, along with design elements of basic, mundane everyday objects recently used as weapons.",
-        "weight": 5
-      },
-      {
-        "id": "triffids_case",
-        "name": { "str": "Day of the Triffids smartphone case" },
-        "description": "This waterproof smartphone case features a graphic of a giant plant with monster-like tendrils wrapped in gritty textures and faded imagery in the background.  The sidewalls resemble the stems of a giant plant with somewhat abstract foliage.",
-        "weight": 5
-      },
-      {
-        "id": "bird_case",
-        "name": { "str": "Bird Box smartphone case" },
-        "description": "This waterproof smartphone case features a graphic of a blindfolded face on a black background with subtle patterns in the wallpaper.  The sidewalls have a broken, abstract hue with some light elements and waves.",
-        "weight": 5
-      },
-      {
-        "id": "dracula_case",
-        "name": { "str": "Dracula smartphone case" },
-        "description": "This waterproof smartphone case features an image of a classic gothic castle with a sinister font in tones of blood red, deep black, and gothic elements.  The sidewalls resemble the stone-walled interiors of the same castle, with colors matching the dominant colors of the case.",
-        "weight": 5
-      },
-      {
-        "id": "darkness_case",
-        "name": { "str": "Darkness Falls smartphone case" },
-        "description": "This waterproof smartphone case features an image of a creepy tooth fairy with sharp, acidic white accents on a dark black background.  The sidewalls include personal toothbrush elements.",
-        "weight": 5
-      },
-      {
-        "id": "mist_case",
-        "name": { "str": "The Mist smartphone case" },
-        "description": "This waterproof smartphone case features a graphic of a white, ominous cloud over a suburban environment at night with tree branches and lightning in the background.  The sidewalls include misty abstract elements and tree graphics.",
-        "weight": 5
-      },
-      {
-        "id": "pyramidhead_case",
-        "name": { "str": "Silent Hill smartphone case" },
-        "description": "This waterproof smartphone case features a graphic of a sinister fog with an iconic pyramid-headed silhouette in a dark world.  The sidewalls evoke an intermittent window pattern with the world's colors moving over it.",
-        "weight": 5
-      },
-      {
-        "id": "slender_case",
-        "name": { "str": "Slenderman smartphone case" },
-        "description": "This waterproof smartphone case features a graphic of black and white mixed with static running through a dark background with fog and trees.  You can see the mysterious figure of the pale, faceless stalker among those trees.  The sidewalls resemble trees, with the same static running through them.",
-        "weight": 5
-      },
-      {
-        "id": "bates_case",
-        "name": { "str": "Bates Motel smartphone case" },
-        "description": "This waterproof smartphone case features a graphic of a creepy motel sign that can become warm and soothing with a touch of nostalgia for the old times.  The sidewalls feature floral patterns serenading the hotel's name.",
-        "weight": 5
-      },
-      {
-        "id": "bspace_case",
-        "name": { "str": "Black Universe smartphone case" },
-        "description": "This black waterproof smartphone case is made with high-quality, state-of-the-art materials.  The printing on the material looks exactly like the background of outer space you used to see in movies."
-      },
-      {
-        "id": "wspace_case",
-        "name": { "str": "White Universe smartphone case" },
-        "description": "This white waterproof smartphone case is made with high-quality, state-of-the-art materials.  The printing on the material looks exactly like the background of outer space you used to see in movies; however, instead of a black background, celestial bodies, and white dots, it presents you with a white background of outer space, celestial bodies, and black dots."
-      },
-      {
         "id": "zombie_case",
         "name": { "str": "zombie smartphone case" },
-        "description": "This waterproof smartphone case has a green zombie on its reverse side.  Would using this be in poor taste now?"
+        "description": "This waterproof smartphone case has a green zombie on its reverse side.  Would using this be in poor taste now?",
+        "weight": 1
       }
     ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "100 ml",
-        "max_contains_weight": "230 g",
+        "max_contains_volume": "111 ml",
+        "max_contains_weight": "233 g",
         "max_item_length": "15 cm",
         "moves": 100,
         "watertight": true,
         "rigid": true,
-        "item_restriction": [ "smart_phone", "smart_phone_flashlight", "smartphone_music" ]
+        "transparent": true,
+        "item_restriction": [ "smart_phone", "smart_phone_flashlight", "smartphone_music", "smart_phone_locked", "smart_phone_locked_flashlight" ]
       }
     ]
   },
   {
     "id": "waterproof_camera_case",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "waterproof camera case" },
     "looks_like": "camera",
@@ -3112,13 +3235,15 @@
         "moves": 100,
         "watertight": true,
         "rigid": true,
+        "transparent": true,
         "item_restriction": [ "camera" ]
       }
     ]
   },
   {
     "id": "waterskin",
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "clothing",
     "name": { "str": "small waterskin" },
     "looks_like": "canvas_bag",
@@ -3128,7 +3253,6 @@
     "volume": "250 ml",
     "price": "20 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -1,
     "material": [ "leather" ],
     "symbol": ")",
     "color": "brown",
@@ -3141,23 +3265,21 @@
         "max_contains_weight": "3 kg"
       }
     ],
-    "armor_data": {
-      "sided": true,
-      "armor": [
-        {
-          "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 } ],
-          "coverage": 5,
-          "covers": [ "leg_l", "leg_r" ],
-          "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
-        }
-      ]
-    },
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
-    "melee_damage": { "bash": 1 }
+    "sided": true,
+    "armor": [
+      {
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "coverage": 5,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
+      }
+    ]
   },
   {
     "id": "waterskin2",
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "clothing",
     "name": { "str": "waterskin" },
     "looks_like": "waterskin",
@@ -3167,7 +3289,6 @@
     "volume": "500 ml",
     "price": "40 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -1,
     "material": [ "leather" ],
     "symbol": ")",
     "color": "brown",
@@ -3180,22 +3301,20 @@
         "max_contains_weight": "6 kg"
       }
     ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 } ],
-          "coverage": 10,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_hanging_front" ]
-        }
-      ]
-    },
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
-    "melee_damage": { "bash": 2 }
+    "armor": [
+      {
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "coverage": 10,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_front" ]
+      }
+    ]
   },
   {
     "id": "waterskin3",
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "clothing",
     "name": { "str": "large waterskin" },
     "looks_like": "waterskin2",
@@ -3205,7 +3324,6 @@
     "volume": "750 ml",
     "price": "60 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -1,
     "material": [ "leather" ],
     "symbol": ")",
     "color": "brown",
@@ -3218,22 +3336,19 @@
         "max_contains_weight": "10 kg"
       }
     ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 } ],
-          "coverage": 40,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_hanging_front" ]
-        }
-      ]
-    },
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
-    "melee_damage": { "bash": 3 }
+    "armor": [
+      {
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "coverage": 40,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_front" ]
+      }
+    ]
   },
   {
     "id": "wooden_barrel",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "wooden barrel" },
     "looks_like": "30l_barrel",
@@ -3243,7 +3358,7 @@
     "volume": "110 L",
     "price": "120 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "wood", "steel" ],
     "symbol": ")",
     "color": "brown",
@@ -3262,25 +3377,31 @@
   },
   {
     "id": "wrapper",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "paper wrapper" },
     "description": "Just a piece of butcher's paper.  Good for starting fires.",
     "ascii_picture": "wrapper",
     "weight": "3 g",
-    "volume": "5 ml",
+    "volume": "50 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -2,
     "material": [ "paper" ],
     "symbol": ",",
     "color": "light_gray",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "6 kg" } ],
-    "flags": [ "COLLAPSE_CONTENTS", "TINDER" ]
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "magazine_well": "45 ml",
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "6 kg"
+      }
+    ],
+    "flags": [ "TINDER" ]
   },
   {
     "id": "wrapper_foil",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "foil wrapper" },
     "description": "A piece of aluminum foil, large enough to wrap around something.  You could also cook food in it.",
@@ -3293,14 +3414,15 @@
     "material": [ "aluminum" ],
     "symbol": ",",
     "color": "light_gray",
-    "//2": "mathematically perfect sprehe out of sheet is 2110 ml, but we are less than perfect",
+    "//2": "mathematically perfect sphere out of sheet is 2110 ml, but we are less than perfect",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "6 kg" } ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "SOFT", "NO_REPAIR", "COLLAPSE_CONTENTS" ]
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
+    "flags": [ "SOFT", "NO_REPAIR" ]
   },
   {
     "id": "wrapper_foil_roll",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "aluminum foil roll" },
     "description": "Long tube of cardboard, used to conveniently store long sheets of foil.",
@@ -3316,30 +3438,39 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "1 L",
+        "max_contains_volume": "480 ml",
         "max_contains_weight": "1 kg",
         "item_restriction": [ "wrapper_foil" ],
-        "volume_multiplier": 0.75
+        "volume_multiplier": 0.25
       }
     ],
-    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "NO_RELOAD" ]
+  },
+  {
+    "id": "wrapper_bar",
+    "type": "ITEM",
+    "name": { "str": "wrapper" },
+    "description": "A wrapper for some kind of snack bar.",
+    "copy-from": "wrapper",
+    "weight": "1 g",
+    "volume": "5 ml",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "magazine_well": "4 ml", "max_contains_volume": "175 ml", "max_contains_weight": "1 kg" }
+    ]
   },
   {
     "id": "wrapper_pr",
-    "type": "GENERIC",
-    "name": { "str": "wrapper" },
+    "type": "ITEM",
+    "copy-from": "wrapper_bar",
+    "ascii_picture": "wrapper_pr",
     "description": {
       "//~": "Daizu is Japanese for soy, hence DaiZoom",
       "str": "\"DaiZoom Protein Bar, brought to you by SoyPelusa\" is emblazoned proudly upon this greaseproof wrapper."
-    },
-    "ascii_picture": "wrapper_pr",
-    "copy-from": "wrapper",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "225 ml", "max_contains_weight": "1 kg" } ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    }
   },
   {
     "id": "styrofoam_cup",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "styrofoam cup" },
     "looks_like": "cup_plastic",
@@ -3365,12 +3496,12 @@
   },
   {
     "id": "plastic_bucket",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "plastic tub" },
     "description": "A big, square plastic bucket usually used for carrying ice cream.",
     "ascii_picture": "plastic_bucket",
-    "weight": "1360 g",
+    "weight": "260 g",
     "volume": "4500 ml",
     "price": "10 cent",
     "price_postapoc": "10 cent",
@@ -3382,7 +3513,6 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
-        "open_container": true,
         "max_contains_volume": "4250 ml",
         "max_contains_weight": "9 kg"
       }
@@ -3391,7 +3521,7 @@
   },
   {
     "id": "condom",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "condom" },
     "description": "A gentleman's balloon.  A single-use life preventer.  A thumbless latex mitten.  This could be used as a makeshift water container, but otherwise it's anyone's guess what it's for.",
@@ -3400,7 +3530,6 @@
     "volume": "15 ml",
     "price": "0 cent",
     "price_postapoc": "25 cent",
-    "to_hit": -5,
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "white",
@@ -3493,27 +3622,13 @@
         "ascii_picture": "condom_flavored_orange",
         "weight": 40,
         "append": true
-      },
-      {
-        "id": "condom_flavored_foodplace",
-        "name": { "str": "food™ flavored condom" },
-        "description": "A condom with Foodplace's delicious food™ flavored lube, in purple packaging to match.",
-        "ascii_picture": "condom_flavored_foodplace",
-        "weight": 2,
-        "append": true
-      },
-      {
-        "id": "condom_flavored_jalapeno",
-        "name": { "str": "jalapeno flavored condom" },
-        "description": "For those who need to spice up their sex life, are masochistic, or just hate themselves, this condom is flavored after jalapeños.",
-        "ascii_picture": "condom_flavored_jalapeno",
-        "append": true
       }
     ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "watertight": true,
+        "transparent": true,
         "max_contains_volume": "3750 ml",
         "max_contains_weight": "7 kg",
         "max_item_length": "26 cm"
@@ -3523,8 +3638,25 @@
     "properties": { "burst_when_filled": "75" }
   },
   {
+    "id": "condom_sealed",
+    "type": "ITEM",
+    "looks_like": "condom",
+    "name": { "str": "sealed condom" },
+    "description": "A sealed condom wrapper, activate to open it.",
+    "ascii_picture": "condom_sealed",
+    "weight": "5 g",
+    "volume": "15 ml",
+    "price": "0 cent",
+    "price_postapoc": "25 cent",
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "color": "white",
+    "use_action": { "menu_text": "open", "type": "transform", "target": "condom", "msg": "You rip open the wrapped condom." },
+    "flags": [ "BANK_NOTE_SHAPED" ]
+  },
+  {
     "id": "balloon",
-    "type": "GENERIC",
+    "type": "ITEM",
     "looks_like": "condom",
     "name": { "str": "balloon" },
     "description": "A deflated balloon.  This could be used as a makeshift water container.",
@@ -3533,7 +3665,7 @@
   },
   {
     "id": "can_food_big",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "large tin can" },
     "looks_like": "can_food",
@@ -3543,6 +3675,7 @@
     "volume": "3003 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "steel" ],
     "symbol": ")",
     "color": "blue",
@@ -3558,11 +3691,12 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "survival_kit_box",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "survival kit box", "str_pl": "survival kit boxes" },
     "looks_like": "box_small",
@@ -3572,6 +3706,7 @@
     "volume": "2300 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "aluminum" ],
     "symbol": "!",
     "color": "light_cyan",
@@ -3584,11 +3719,13 @@
         "max_contains_weight": "4000 g"
       }
     ],
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "large_survival_kit_box",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "survival kit box", "str_pl": "survival kit boxes" },
     "looks_like": "box_small",
@@ -3605,7 +3742,7 @@
   },
   {
     "id": "box_tea",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "small cardboard box of tea bags", "str_pl": "small cardboard boxes of tea bags" },
     "looks_like": "box_small",
@@ -3622,10 +3759,10 @@
   },
   {
     "id": "stand_flyer",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
-    "name": { "str": "flyer stand" },
-    "description": "A small stand made to show off various flyers.",
+    "name": { "str": "flier stand" },
+    "description": "A small stand made to show off various fliers.",
     "ascii_picture": "stand_flyer",
     "weight": "326 g",
     "volume": "5962 ml",
@@ -3660,7 +3797,7 @@
   },
   {
     "id": "1st_aid_box",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "first aid kit box", "str_pl": "first aid kit boxes" },
     "looks_like": "ifak_pouch",
@@ -3670,7 +3807,6 @@
     "volume": "2900 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -2,
     "material": [ "plastic" ],
     "flags": [ "COLLAPSE_CONTENTS" ],
     "pocket_data": [
@@ -3680,6 +3816,7 @@
         "max_contains_weight": "3 kg",
         "max_item_length": "20 cm",
         "rigid": true,
+        "transparent": true,
         "moves": 100
       }
     ],
@@ -3688,7 +3825,7 @@
   },
   {
     "id": "ifak_pouch",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "IFAK pouch", "str_pl": "IFAK pouches" },
     "looks_like": "1st_aid_box",
@@ -3699,7 +3836,6 @@
     "volume": "1250 ml",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "to_hit": -2,
     "material": [ "cotton", "neoprene" ],
     "flags": [ "COLLAPSE_CONTENTS", "PALS_MEDIUM" ],
     "pocket_data": [
@@ -3710,7 +3846,6 @@
         "max_contains_weight": "4000 g",
         "max_item_length": "20 cm",
         "moves": 100,
-        "rigid": false,
         "volume_encumber_modifier": 0.3
       }
     ],
@@ -3719,7 +3854,7 @@
   },
   {
     "id": "rc_car_box",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "radio car box", "str_pl": "radio car boxes" },
     "description": "A small box with an image of a toy car printed on the front.  The text written on the side says it comes with a remote control and batteries included.",
@@ -3728,7 +3863,6 @@
     "volume": "3200 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
     "material": [ "cardboard" ],
     "pocket_data": [
       {
@@ -3744,7 +3878,7 @@
   },
   {
     "id": "stirling_kit_box",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "STEM kit box", "str_pl": "STEM kit boxes" },
     "description": "A small box with an image of children building things.",
@@ -3753,7 +3887,6 @@
     "volume": "3200 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
     "material": [ "cardboard" ],
     "pocket_data": [
       {
@@ -3769,16 +3902,15 @@
   },
   {
     "id": "maker_kit_box",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "maker kit box", "str_pl": "maker kit boxes" },
-    "description": "A small box with an image of children building things.  It's labelled 'Makerspace Learner Kit'.",
+    "description": "A small box with an image of children building things.  It's labeled 'Makerspace Learner Kit'.",
     "ascii_picture": "maker_kit_box",
     "weight": "400 g",
     "volume": "3200 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
     "material": [ "cardboard" ],
     "pocket_data": [
       {
@@ -3794,7 +3926,7 @@
   },
   {
     "id": "robot_kit_box",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "robot kit box", "str_pl": "robot kit boxes" },
     "description": "A small box with an image of children building robots.",
@@ -3803,7 +3935,6 @@
     "volume": "3200 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
     "material": [ "cardboard" ],
     "pocket_data": [
       {
@@ -3819,7 +3950,7 @@
   },
   {
     "id": "mre_bag_small",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "small MRE bag" },
     "looks_like": "mre_beef_box",
@@ -3829,13 +3960,11 @@
     "volume": "100 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "250 ml",
         "max_contains_weight": "1500 g",
-        "airtight": true,
         "moves": 50,
         "sealed_data": { "spoil_multiplier": 0.0 },
         "watertight": true
@@ -3847,7 +3976,7 @@
   },
   {
     "id": "mre_bag",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "MRE bag" },
     "looks_like": "mre_beef_box",
@@ -3857,13 +3986,11 @@
     "volume": "250 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "510 ml",
         "max_contains_weight": "3 kg",
-        "airtight": true,
         "moves": 50,
         "sealed_data": { "spoil_multiplier": 0.0 },
         "watertight": true
@@ -3875,7 +4002,7 @@
   },
   {
     "id": "mre_package",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "MRE package" },
     "looks_like": "mre_beef_box",
@@ -3885,13 +4012,11 @@
     "volume": "450 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "1625 ml",
         "max_contains_weight": "4 kg",
-        "airtight": true,
         "moves": 50,
         "sealed_data": { "spoil_multiplier": 0.0 },
         "watertight": true
@@ -3904,7 +4029,7 @@
   },
   {
     "id": "mre_bag_dessert",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "MRE dessert bag" },
     "looks_like": "mre_beef_box",
@@ -3914,13 +4039,11 @@
     "volume": "50 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "125 ml",
         "max_contains_weight": "750 g",
-        "airtight": true,
         "moves": 50,
         "sealed_data": { "spoil_multiplier": 0.0 },
         "watertight": true
@@ -3932,7 +4055,7 @@
   },
   {
     "id": "mre_bag_spread",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "MRE spread bag" },
     "looks_like": "mre_beef_box",
@@ -3942,13 +4065,11 @@
     "volume": "12 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "31 ml",
         "max_contains_weight": "180 g",
-        "airtight": true,
         "moves": 50,
         "sealed_data": { "spoil_multiplier": 0.0 },
         "watertight": true
@@ -3960,7 +4081,7 @@
   },
   {
     "id": "mre_bag_jam",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "MRE jam bag" },
     "looks_like": "mre_beef_box",
@@ -3970,13 +4091,11 @@
     "volume": "12 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "32 ml",
         "max_contains_weight": "180 g",
-        "airtight": true,
         "moves": 50,
         "sealed_data": { "spoil_multiplier": 0.0 },
         "watertight": true
@@ -3988,7 +4107,7 @@
   },
   {
     "id": "ipok",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "individual patrol officer kit" },
     "//": "https://www.narescue.com/individual-patrol-officer-kit.html",
@@ -3999,13 +4118,12 @@
     "volume": "50 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "2000 ml",
         "max_contains_weight": "1500 g",
-        "airtight": true,
+        "transparent": true,
         "moves": 50,
         "sealed_data": { "spoil_multiplier": 0.0 },
         "watertight": true
@@ -4018,7 +4136,7 @@
   },
   {
     "id": "aquarium_medium",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "50 gallon aquarium" },
     "description": "A 50-gallon glass aquarium, used for safely storing small animals for use as pets or food.",
@@ -4028,6 +4146,7 @@
     "longest_side": "91 cm",
     "price": "100 USD",
     "price_postapoc": "15 USD",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -4042,11 +4161,11 @@
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "aquarium_medium_drying",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "50 gallon aquarium (drying)", "str_pl": "50 gallon aquariums (drying)" },
     "description": "A 50-gallon glass aquarium, used for safely storing small animals for use as pets or food.  This one has been freshly made and requires time for the silicone to dry.",
@@ -4056,6 +4175,7 @@
     "longest_side": "91 cm",
     "price": "50 USD",
     "price_postapoc": "7 USD 50 cent",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -4079,11 +4199,11 @@
       "not_ready_msg": "The silicone hasn't dried quite yet.",
       "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
     },
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "aquarium_small",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "30 gallon aquarium" },
     "description": "A 30-gallon glass aquarium, used for safely storing small animals for use as pets or food.",
@@ -4093,6 +4213,7 @@
     "longest_side": "91 cm",
     "price": "50 USD",
     "price_postapoc": "10 USD",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -4108,11 +4229,11 @@
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "aquarium_small_drying",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "30 gallon aquarium (drying)", "str_pl": "30 gallon aquariums (drying)" },
     "description": "A 30-gallon glass aquarium, used for safely storing small animals for use as pets or food.  This one has been freshly made and requires time for the silicone to dry.",
@@ -4122,6 +4243,7 @@
     "longest_side": "91 cm",
     "price": "15 USD",
     "price_postapoc": "3 USD 50 cent",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -4146,11 +4268,11 @@
       "not_ready_msg": "The silicone hasn't dried quite yet.",
       "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
     },
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "aquarium_large",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "100 gallon aquarium" },
     "description": "A 100-gallon glass aquarium, used for safely storing small animals for use as pets or food.",
@@ -4160,6 +4282,7 @@
     "longest_side": "183 cm",
     "price": "500 USD",
     "price_postapoc": "25 USD",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -4175,11 +4298,11 @@
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 20 }
   },
   {
     "id": "aquarium_large_drying",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "100 gallon aquarium (drying)", "str_pl": "100 gallon aquariums (drying)" },
     "description": "A 100-gallon glass aquarium, used for safely storing small animals for use as pets or food.  This one has been freshly made and requires time for the silicone to dry.",
@@ -4189,6 +4312,7 @@
     "longest_side": "183 cm",
     "price": "200 USD",
     "price_postapoc": "10 USD",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -4213,11 +4337,41 @@
       "not_ready_msg": "The silicone hasn't dried quite yet.",
       "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
     },
+    "melee_damage": { "bash": 20 }
+  },
+  {
+    "id": "pressurized_canister",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "category": "tool_magazine",
+    "name": { "str": "pressurized canister" },
+    "description": "A small tank for containing pressurized gases.",
+    "weight": "25 g",
+    "volume": "350 ml",
+    "longest_side": "12 cm",
+    "price": "20 USD",
+    "price_postapoc": "5 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "airtight": true,
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "50 g"
+      }
+    ],
+    "flags": [ "COLLAPSE_CONTENTS", "NO_SALVAGE" ],
     "melee_damage": { "bash": 1 }
   },
   {
     "id": "small_propane_tank",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tool_magazine",
     "name": { "str": "small propane tank" },
     "description": "A small tank of propane, commonly used for camping stoves and torches.",
@@ -4229,7 +4383,7 @@
     "longest_side": "30 cm",
     "price": "20 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -4,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "green",
@@ -4243,12 +4397,13 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS", "NO_SALVAGE" ],
-    "melee_damage": { "bash": 5 }
+    "flags": [ "GAS_TANK", "NO_SALVAGE" ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "medium_propane_tank",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tool_magazine",
     "name": { "str": "medium propane tank" },
     "description": "A medium-sized tank of propane, commonly used for barbeques.",
@@ -4260,7 +4415,7 @@
     "longest_side": "50 cm",
     "price": "20 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -4,
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "green",
@@ -4274,12 +4429,13 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS", "NO_SALVAGE" ],
-    "melee_damage": { "bash": 5 }
+    "flags": [ "GAS_TANK", "NO_SALVAGE" ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "large_propane_tank",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tool_magazine",
     "name": { "str": "large propane tank" },
     "description": "A large tank of propane, commonly used for heating.",
@@ -4291,7 +4447,7 @@
     "longest_side": "117 cm",
     "price": "60 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -4,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -4305,12 +4461,13 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS", "NO_SALVAGE" ],
-    "melee_damage": { "bash": 10 }
+    "flags": [ "GAS_TANK", "NO_SALVAGE" ],
+    "melee_damage": { "bash": 11 }
   },
   {
     "id": "xl_propane_tank",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tool_magazine",
     "name": { "str": "extra large propane tank" },
     "description": "A massive tank of propane, commonly used for heating a home or vehicle.",
@@ -4322,7 +4479,7 @@
     "longest_side": "122 cm",
     "price": "60 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -4,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -4336,12 +4493,13 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS", "NO_SALVAGE" ],
-    "melee_damage": { "bash": 10 }
+    "flags": [ "GAS_TANK", "NO_SALVAGE" ],
+    "melee_damage": { "bash": 15 }
   },
   {
     "id": "small_biogas_tank",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "container",
     "name": { "str": "small biogas tank" },
     "description": "A small tank of biogas, commonly used for camping stoves and torches.",
@@ -4359,7 +4517,8 @@
   },
   {
     "id": "medium_biogas_tank",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "container",
     "name": { "str": "medium biogas tank" },
     "description": "A medium-sized tank of biogas, commonly used for barbeques.",
@@ -4377,7 +4536,8 @@
   },
   {
     "id": "large_biogas_tank",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "container",
     "name": { "str": "large biogas tank" },
     "description": "A large tank of biogas, commonly used for heating.",
@@ -4395,7 +4555,8 @@
   },
   {
     "id": "xl_biogas_tank",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "container",
     "name": { "str": "extra large biogas tank" },
     "description": "A massive tank of biogas, commonly used for heating a home or vehicle.",
@@ -4413,7 +4574,7 @@
   },
   {
     "id": "shot_glass",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "shot glass", "str_pl": "shot glasses" },
     "description": "A standard 1.5 ounce shot glass.",
@@ -4441,7 +4602,7 @@
   },
   {
     "id": "30gal_drum_aluminum",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "looks_like": "30gal_barrel",
     "name": { "str": "aluminum tank (100 L)", "str_pl": "aluminum tanks (100 L)" },
@@ -4451,7 +4612,7 @@
     "volume": "130 L",
     "price": "80 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "aluminum" ],
     "symbol": "0",
     "color": "light_gray",
@@ -4464,13 +4625,13 @@
         "max_contains_weight": "250 kg"
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ],
     "melee_damage": { "bash": 8 }
   },
   {
     "id": "55gal_drum_aluminum",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "looks_like": "30gal_drum",
     "name": { "str": "aluminum tank (200 L)", "str_pl": "aluminum tanks (200 L)" },
@@ -4480,7 +4641,7 @@
     "volume": "230 L",
     "price": "100 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "aluminum" ],
     "symbol": "0",
     "color": "light_gray",
@@ -4493,13 +4654,14 @@
         "max_contains_weight": "500 kg"
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "flags": [ "COLLAPSE_CONTENTS" ],
     "melee_damage": { "bash": 8 }
   },
   {
     "id": "squeeze_tube",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "10.1 ounce squeeze tube" },
     "description": "A 10.1 ounce squeeze tube, used for storing the likes of silicone caulk, paint, or food dressing.",
@@ -4508,27 +4670,24 @@
     "volume": "221 ml",
     "price": "1 USD",
     "price_postapoc": "10 cent",
-    "to_hit": -2,
     "material": [ "plastic" ],
     "symbol": "t",
     "color": "light_cyan",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "rigid": false,
         "watertight": true,
-        "open_container": false,
+        "transparent": true,
         "max_contains_volume": "299 ml",
         "max_contains_weight": "2500 g"
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ],
     "melee_damage": { "bash": 1 }
   },
   {
     "id": "squeeze_tube_small",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "2.8 ounce squeeze tube" },
     "description": "A 2.8 ounce squeeze tube, used for storing the likes of silicone caulk, paint, or food dressing.",
@@ -4537,7 +4696,6 @@
     "volume": "95 ml",
     "price": "50 cent",
     "price_postapoc": "5 cent",
-    "to_hit": -2,
     "material": [ "plastic" ],
     "symbol": "t",
     "color": "light_cyan",
@@ -4545,9 +4703,8 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "rigid": false,
         "watertight": true,
-        "open_container": false,
+        "transparent": true,
         "max_contains_volume": "82 ml",
         "max_contains_weight": "500 g"
       }
@@ -4558,7 +4715,8 @@
   },
   {
     "id": "bottle_gourd",
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "clothing",
     "name": { "str": "bottle gourd" },
     "looks_like": "clay_canister",
@@ -4568,7 +4726,6 @@
     "volume": "2500 ml",
     "price": "3 USD",
     "price_postapoc": "60 cent",
-    "to_hit": 1,
     "material": [ "wood" ],
     "symbol": "6",
     "color": "brown",
@@ -4583,22 +4740,20 @@
         "sealed_data": { "spoil_multiplier": 0.9 }
       }
     ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 2.0 } ],
-          "encumbrance": 3,
-          "coverage": 8,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_hanging_front" ]
-        }
-      ]
-    },
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "encumbrance": 3,
+        "coverage": 8,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_front" ]
+      }
+    ]
   },
   {
     "id": "paint_can_steel",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "metal paint can" },
     "description": "A metal paint can, able to hold a gallon of liquid.",
@@ -4621,11 +4776,12 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "paint_can_plastic",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "plastic paint can" },
     "description": "A plastic paint can, able to hold a gallon of liquid.",
@@ -4643,6 +4799,7 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "3785 ml",
         "max_contains_weight": "10 kg"
       }
@@ -4652,7 +4809,7 @@
   },
   {
     "id": "lunchbox",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "lunchbox", "str_pl": "lunchboxes" },
     "description": "A plastic box, commonly used to store lunch and utensils to eat it with.",
@@ -4665,22 +4822,13 @@
     "material": [ "plastic" ],
     "symbol": "l",
     "color": "green",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "watertight": false,
-        "open_container": false,
-        "max_contains_volume": "1100 ml",
-        "max_contains_weight": "2 kg"
-      }
-    ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "1100 ml", "max_contains_weight": "2 kg" } ],
     "qualities": [ [ "CONTAIN", 1 ] ],
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "pencil_case",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "pencil case" },
     "description": "A small fabric container with a zipper.  Commonly used by children to store school supplies.",
@@ -4695,9 +4843,6 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "rigid": false,
-        "watertight": false,
-        "open_container": false,
         "max_contains_volume": "1000 ml",
         "max_contains_weight": "2 kg",
         "max_item_length": "20 cm"
@@ -4707,7 +4852,7 @@
   },
   {
     "id": "cardboard_roll",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "cardboard roll" },
     "description": "A small cardboard roll used to conveniently store materials such as tape or toilet paper.",
@@ -4724,7 +4869,7 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "1 L",
         "max_contains_weight": "1 kg",
-        "item_restriction": [ "duct_tape", "medical_tape", "toilet_paper" ],
+        "item_restriction": [ "duct_tape", "medical_tape" ],
         "volume_multiplier": 0.75
       }
     ],
@@ -4732,7 +4877,7 @@
   },
   {
     "id": "tankard_wooden",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "wooden tankard" },
     "//1": "https://www.amazon.com/Handmade-Wooden-Coffee-Unique-Glasses/dp/B07GWB6R3P/",
@@ -4743,7 +4888,6 @@
     "longest_side": "10 cm",
     "price": "15 USD",
     "price_postapoc": "50 cent",
-    "to_hit": 1,
     "material": [ "wood" ],
     "looks_like": "clay_canister",
     "symbol": ")",
@@ -4753,6 +4897,7 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
+        "open_container": true,
         "max_contains_volume": "341 ml",
         "max_item_volume": "250 ml",
         "max_contains_weight": "1150 g",
@@ -4762,8 +4907,41 @@
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
+    "id": "tankard_metal",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "steel tankard" },
+    "//1": "https://www.kultofathena.com/product/stainless-steel-tankard/",
+    "description": "While not as historic as one may think, it's considered a finer luxury in these trying times.  Drink responsibly.",
+    "weight": "181 g",
+    "volume": "724 ml",
+    "longest_side": "10 cm",
+    "price": "30 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "steel" ],
+    "looks_like": "clay_canister",
+    "symbol": ")",
+    "color": "light_cyan",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "open_container": true,
+        "max_contains_volume": "341 ml",
+        "max_item_volume": "250 ml",
+        "max_contains_weight": "1150 g",
+        "moves": 400
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
+    "melee_damage": { "bash": 1 },
+    "flags": [ "COLLAPSE_CONTENTS" ]
+  },
+  {
     "id": "pillbox",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "pillbox", "str_pl": "pillboxes" },
     "description": "A simple plastic pill organizer with a small compartment for each day of the week.",
@@ -4780,6 +4958,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "20 ml",
         "max_contains_weight": "40 g",
         "moves": 150
@@ -4787,6 +4966,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "20 ml",
         "max_contains_weight": "40 g",
         "moves": 150
@@ -4794,6 +4974,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "20 ml",
         "max_contains_weight": "40 g",
         "moves": 150
@@ -4801,6 +4982,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "20 ml",
         "max_contains_weight": "40 g",
         "moves": 150
@@ -4808,6 +4990,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "20 ml",
         "max_contains_weight": "40 g",
         "moves": 150
@@ -4815,6 +4998,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "20 ml",
         "max_contains_weight": "40 g",
         "moves": 150
@@ -4822,6 +5006,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "20 ml",
         "max_contains_weight": "40 g",
         "moves": 150
@@ -4830,7 +5015,7 @@
   },
   {
     "id": "pillbox_large",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "pillbox",
     "name": { "str": "large pillbox", "str_pl": "large pillboxes" },
     "description": "A large plastic pill organizer with compartments for two weeks of daily medication.",
@@ -4843,6 +5028,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -4850,6 +5036,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -4857,6 +5044,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -4864,6 +5052,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -4871,6 +5060,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -4878,6 +5068,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -4885,6 +5076,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -4892,6 +5084,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -4899,6 +5092,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -4906,6 +5100,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -4913,6 +5108,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -4920,6 +5116,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -4927,6 +5124,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -4934,10 +5132,28 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
       }
     ]
+  },
+  {
+    "id": "nic_pouch_can",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "nicotine pouch can" },
+    "looks_like": "box_small",
+    "description": "TYNN 15 NICOTINE POUCHES WARNING: This product contains an addictive chemical, nicotine.",
+    "ascii_picture": "nic_pouch_can",
+    "weight": "17 g",
+    "volume": "90 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "plastic" ],
+    "symbol": "o",
+    "color": "white",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "45 ml", "max_contains_weight": "30 g" } ]
   }
 ]

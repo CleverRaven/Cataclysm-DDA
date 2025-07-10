@@ -1,0 +1,32 @@
+[
+  {
+    "id": "BGSS_VATGROWN_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "I'm a vatgrown, an almost man, a MacDuff.  I was a product in the Old World.",
+    "responses": [
+      { "text": "Where are you from?", "topic": "BGSS_VATGROWN_1_STORY2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_VATGROWN_1_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "Now there are too few people left to differentiate.  Other than those morons afraid of mutants.",
+    "responses": [
+      { "text": "Tell me more?", "topic": "BGSS_VATGROWN_1_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_VATGROWN_1_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "Now I choose the cause I'll die for.",
+    "responses": [
+      { "text": "How did it end?", "topic": "BGSS_VATGROWN_1_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  }
+]

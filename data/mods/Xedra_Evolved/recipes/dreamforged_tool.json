@@ -74,5 +74,19 @@
     "copy-from": "dreamforged_hacksaw",
     "components": [ [ [ "forged_dreamstuff_ingot", 9 ] ] ],
     "time": "4 h"
+  },
+  {
+    "type": "recipe",
+    "result": "xedra_dreamsmith_time_trap",
+    "copy-from": "dreamforged_hacksaw",
+    "components": [ [ [ "forged_dreamstuff_ingot", 2 ] ] ],
+    "time": "4 h"
+  },
+  {
+    "type": "recipe",
+    "result": "xedra_dreamsmith_time_watch",
+    "copy-from": "dreamforged_hacksaw",
+    "components": [ [ [ "forged_dreamstuff_ingot", 24 ] ] ],
+    "time": "24 h"
   }
 ]

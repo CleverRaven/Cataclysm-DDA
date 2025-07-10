@@ -1,0 +1,30 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "cave_innawood",
+    "copy-from": "cave_innawood",
+    "sym": "C",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cave_underground_innawood",
+    "copy-from": "cave_underground_innawood",
+    "sym": "C",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cave_rat_underground_innawood",
+    "copy-from": "cave_rat_underground_innawood",
+    "sym": "C",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cave_rat_innawood",
+    "copy-from": "cave_rat_innawood",
+    "sym": "C",
+    "color": "brown"
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "type": "mutation",
+    "id": "AFS_PHYSICAL_CAPABILITY_GENEMOD",
+    "name": { "str": "Genemod: Improved Physical Capability" },
+    "points": 3,
+    "description": "Your strength, coordination, and sensory acuity have been increased through genemod treatments.",
+    "cancels": [ "MYOPIC", "HYPEROPIC", "BADHEARING" ],
+    "enchantments": [
+      {
+        "values": [ { "value": "STRENGTH", "add": 2 }, { "value": "DEXTERITY", "add": 2 }, { "value": "PERCEPTION", "add": 2 } ]
+      }
+    ],
+    "flags": [ "IMMUNE_HEARING_DAMAGE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "AFS_MENTAL_CAPABILITY_GENEMOD",
+    "name": { "str": "Genemod: Improved Mental Flexibility" },
+    "points": 3,
+    "cancels": [ "FORGETFUL" ],
+    "description": "Your concentration and memorization abilities have been increased through genemod treatments.",
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 2 }, { "value": "LEARNING_FOCUS", "add": 10 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "AFS_HEALTH_CAPABILITY_GENEMOD",
+    "name": { "str": "Genemod: Improved Health" },
+    "points": 3,
+    "description": "Your resistance to disease and infection, as well as your ability to recover from injuries, have been improved through genemod treatments.",
+    "enchantments": [ { "mutations": [ "DISRESISTANT", "FASTHEALER", "INFRESIST" ] } ],
+    "cancels": [ "SLOWHEALER", "SLOWHEALER2", "SLOWHEALER3" ],
+    "flags": [ "MEND_ALL" ]
+  },
+  {
+    "type": "mutation",
+    "id": "AFS_RECOVERY_CAPABILITY_GENEMOD",
+    "name": { "str": "Genemod: Efficient System" },
+    "points": 3,
+    "description": "The efficiency of your metabolic processes, from the length of your sleep cycle to losing fatigue after exercise, have been improved through genemod treatments.",
+    "cancels": [ "SLEEPY", "SLEEPY2" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "CARDIO_MULTIPLIER", "multiply": 0.2 },
+          { "value": "REGEN_STAMINA", "multiply": 0.2 },
+          { "value": "SLEEPINESS_REGEN", "multiply": 0.2 },
+          { "value": "SLEEPINESS", "multiply": -0.2 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "AFS_BEAUTY_GENEMOD",
+    "name": { "str": "Genemod: Beauty" },
+    "points": 3,
+    "description": "Your physical appearance has been improved through genemod treatments.",
+    "enchantments": [ { "mutations": [ "BEAUTIFUL" ] } ],
+    "cancels": [ "UGLY", "DEFORMED", "DEFORMED2" ]
+  }
+]

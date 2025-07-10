@@ -1,0 +1,2702 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_9mm",
+    "items": [
+      { "group": "boxed_9mm_20", "prob": 51 },
+      { "group": "boxed_9mm_50", "prob": 49 },
+      { "group": "boxed_9mm_100", "prob": 16 },
+      { "group": "boxed_9mm_250", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_9mm_20",
+    "container-item": "9mm_ammo_box_20",
+    "items": [
+      { "item": "9mmfmj", "charges": 20, "prob": 1 },
+      { "item": "9mm", "charges": 20, "prob": 351 },
+      { "item": "9mmP", "charges": 20, "prob": 60 },
+      { "item": "9mmP2", "charges": 20, "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_9mm_50",
+    "container-item": "9mm_ammo_box_50",
+    "items": [
+      { "item": "9mmfmj", "charges": 50, "prob": 168 },
+      { "item": "9mm", "charges": 50, "prob": 182 },
+      { "item": "9mmP", "charges": 50, "prob": 37 },
+      { "item": "9mmP2", "charges": 50, "prob": 12 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_9mm_100",
+    "container-item": "9mm_ammo_box_100",
+    "items": [
+      { "item": "9mmfmj", "charges": 100, "prob": 99 },
+      { "item": "9mm", "charges": 100, "prob": 27 },
+      { "item": "9mmP", "charges": 100, "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_9mm_250",
+    "container-item": "9mm_ammo_box_250",
+    "items": [
+      { "item": "9mmfmj", "charges": 250, "prob": 55 },
+      { "item": "9mm", "charges": 250, "prob": 11 },
+      { "item": "9mmP", "charges": 250, "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_22lr",
+    "items": [
+      { "group": "boxed_22lr_50", "prob": 55 },
+      { "group": "boxed_22lr_100", "prob": 150 },
+      { "group": "boxed_22lr_500", "prob": 62 },
+      { "group": "boxed_22lr_1000", "prob": 16 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "22lr_tray_full",
+    "container-item": "22lr_ammo_tray",
+    "items": [ { "item": "22_lr", "charges": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_22lr_50",
+    "container-item": { "item": "9mm_ammo_box_20", "variant": "22lr_ammo_box_50" },
+    "items": [ { "group": "22lr_tray_full" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_22lr_100",
+    "container-item": "22lr_ammo_box_100",
+    "items": [ { "group": "22lr_tray_full", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_22lr_500",
+    "container-item": "22lr_ammo_box_500",
+    "items": [ { "group": "22lr_tray_full", "count": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_22lr_1000",
+    "container-item": "22lr_ammo_box_1000",
+    "items": [ { "group": "boxed_22lr_500", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_223",
+    "items": [
+      { "group": "boxed_223_20", "prob": 44 },
+      { "group": "boxed_223_50", "prob": 14 },
+      { "group": "boxed_223_200", "prob": 10 },
+      { "group": "boxed_223_500", "prob": 9 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_223_20",
+    "container-item": "223_ammo_box_20",
+    "items": [ { "item": "223", "charges": 20, "prob": 4 }, { "item": "556", "charges": 20, "prob": 3 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_223_50",
+    "container-item": "223_ammo_box_50",
+    "items": [ { "item": "223", "charges": 50, "prob": 11 }, { "item": "556", "charges": 50, "prob": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_223_200",
+    "container-item": "223_ammo_box_200",
+    "items": [ { "item": "223", "charges": 200, "prob": 42 }, { "item": "556", "charges": 200, "prob": 25 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_223_500",
+    "container-item": { "item": "box_small", "variant": "223_ammo_box_500" },
+    "items": [ { "item": "223", "charges": 500, "prob": 10 }, { "item": "556", "charges": 500, "prob": 9 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_45",
+    "items": [
+      { "group": "boxed_45_20", "prob": 17 },
+      { "group": "boxed_45_50", "prob": 13 },
+      { "group": "boxed_45_200", "prob": 3 },
+      { "group": "boxed_45_500", "prob": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_45_20",
+    "container-item": "45_ammo_box_20",
+    "items": [ { "item": "45_jhp", "charges": 20, "prob": 34 }, { "item": "45_super", "charges": 20, "prob": 13 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_45_50",
+    "container-item": "45_ammo_box_50",
+    "items": [
+      { "item": "45_jhp", "charges": 50, "prob": 35 },
+      { "item": "45_super", "charges": 50, "prob": 5 },
+      { "item": "45_acp", "charges": 50, "prob": 42 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_45_200",
+    "container-item": "45_ammo_box_200",
+    "items": [
+      { "item": "45_jhp", "charges": 200, "prob": 18 },
+      { "item": "45_super", "charges": 200, "prob": 13 },
+      { "item": "45_acp", "charges": 200, "prob": 44 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_45_500",
+    "container-item": "45_ammo_box_500",
+    "items": [
+      { "item": "45_jhp", "charges": 500, "prob": 27 },
+      { "item": "45_super", "charges": 500, "prob": 8 },
+      { "item": "45_acp", "charges": 500, "prob": 14 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_380",
+    "items": [
+      { "group": "boxed_380_20", "prob": 62 },
+      { "group": "boxed_380_50", "prob": 24 },
+      { "group": "boxed_380_500", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_380_20",
+    "container-item": "380_ammo_box_20",
+    "items": [ { "item": "380_JHP", "charges": 20, "prob": 92 }, { "item": "380_p", "charges": 20, "prob": 17 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_380_50",
+    "container-item": { "item": "22lr_ammo_box_100", "variant": "380_ammo_box_50" },
+    "items": [
+      { "item": "380_JHP", "charges": 50, "prob": 37 },
+      { "item": "380_p", "charges": 50, "prob": 1 },
+      { "item": "380_FMJ", "charges": 50, "prob": 41 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_380_500",
+    "container-item": "380_ammo_box_500",
+    "items": [
+      { "item": "380_JHP", "charges": 500, "prob": 47 },
+      { "item": "380_p", "charges": 500, "prob": 5 },
+      { "item": "380_FMJ", "charges": 500, "prob": 78 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_40",
+    "items": [
+      { "group": "boxed_40_20", "prob": 10 },
+      { "group": "boxed_40_50", "prob": 37 },
+      { "group": "boxed_40_500", "prob": 4 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_40_20",
+    "container-item": "40_ammo_box_20",
+    "items": [ { "item": "40sw", "charges": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_40_50",
+    "container-item": "40_ammo_box_50",
+    "items": [ { "item": "40sw", "charges": 50, "prob": 5 }, { "item": "40fmj", "charges": 50, "prob": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_40_500",
+    "container-item": "40_ammo_box_500",
+    "items": [ { "item": "40sw", "charges": 500 }, { "item": "40fmj", "charges": 500 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_762",
+    "items": [
+      { "group": "boxed_762_20", "prob": 91 },
+      { "group": "boxed_762_50", "prob": 17 },
+      { "group": "boxed_762_500", "prob": 11 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_762_20",
+    "container-item": "762_ammo_box_20",
+    "items": [ { "item": "762_m87", "charges": 20, "prob": 91 }, { "item": "762_jhp", "charges": 20, "prob": 11 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_762_50",
+    "container-item": "762_ammo_box_50",
+    "items": [ { "item": "762_m87", "charges": 50, "prob": 85 }, { "item": "762_jhp", "charges": 50, "prob": 23 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_762_500",
+    "container-item": "762_ammo_box_500",
+    "items": [ { "item": "762_m87", "charges": 500 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_357",
+    "items": [
+      { "group": "boxed_357_20", "prob": 91 },
+      { "group": "boxed_357_50", "prob": 18 },
+      { "group": "boxed_357_200", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_357_20",
+    "container-item": "357_ammo_box_20",
+    "items": [ { "item": "357mag_jhp", "charges": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_357_50",
+    "container-item": "357_ammo_box_50",
+    "items": [ { "item": "357mag_jhp", "charges": 50, "prob": 73 }, { "item": "357mag_fmj", "charges": 50, "prob": 57 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_357_200",
+    "container-item": "357_ammo_box_200",
+    "items": [ { "item": "357mag_jhp", "charges": 200 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_12",
+    "items": [
+      { "group": "boxed_12_5", "prob": 14 },
+      { "group": "boxed_12_10", "prob": 12 },
+      { "group": "boxed_12_25", "prob": 50 },
+      { "group": "boxed_12_100", "prob": 3 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_12_5",
+    "container-item": "12_ammo_box_5",
+    "items": [
+      { "item": "shot_slug", "charges": 5, "prob": 24 },
+      { "item": "shot_00", "charges": 5, "prob": 25 },
+      { "item": "shot_bird", "charges": 5, "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_12_10",
+    "container-item": "12_ammo_box_10",
+    "items": [
+      { "item": "shot_slug", "charges": 10, "prob": 7 },
+      { "item": "shot_00", "charges": 10, "prob": 15 },
+      { "item": "shot_bird", "charges": 10, "prob": 3 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_12_25",
+    "container-item": "12_ammo_box_25",
+    "items": [
+      { "item": "shot_slug", "charges": 25, "prob": 1 },
+      { "item": "shot_00", "charges": 25, "prob": 3 },
+      { "item": "shot_bird", "charges": 25, "prob": 48 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_12_100",
+    "container-item": "12_ammo_box_100",
+    "items": [
+      { "item": "shot_slug", "charges": 100, "prob": 1 },
+      { "item": "shot_00", "charges": 100, "prob": 4 },
+      { "item": "shot_bird", "charges": 100, "prob": 13 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_308",
+    "items": [
+      { "group": "boxed_308_20", "prob": 59 },
+      { "group": "boxed_308_100", "prob": 2 },
+      { "group": "boxed_308_200", "prob": 6 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_308_20",
+    "container-item": "308_ammo_box_20",
+    "items": [ { "item": "308", "charges": 20, "prob": 83 }, { "item": "762_51", "charges": 20, "prob": 24 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_308_100",
+    "container-item": "308_ammo_box_100",
+    "items": [ { "item": "308", "charges": 100, "prob": 7 }, { "item": "762_51", "charges": 100, "prob": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_308_200",
+    "container-item": "ammunition_can_30",
+    "items": [ { "item": "308", "charges": 200, "prob": 22 }, { "item": "762_51", "charges": 200, "prob": 7 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_38",
+    "items": [
+      { "group": "boxed_38_20", "prob": 126 },
+      { "group": "boxed_38_50", "prob": 77 },
+      { "group": "boxed_38_200", "prob": 10 },
+      { "group": "boxed_38_500", "prob": 13 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_38_20",
+    "container-item": "38_ammo_box_20",
+    "items": [ { "item": "38_special", "charges": 20, "prob": 19 }, { "item": "38_special_p", "charges": 20, "prob": 47 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_38_50",
+    "container-item": "38_ammo_box_50",
+    "items": [
+      { "item": "38_special", "charges": 50, "prob": 61 },
+      { "item": "38_special_p", "charges": 50, "prob": 11 },
+      { "item": "38_fmj", "charges": 50, "prob": 26 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_38_200",
+    "container-item": "38_ammo_box_200",
+    "items": [ { "item": "38_special", "charges": 200, "prob": 11 }, { "item": "38_special_p", "charges": 200, "prob": 12 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_38_500",
+    "container-item": "38_ammo_box_500",
+    "items": [
+      { "item": "38_special", "charges": 500, "prob": 17 },
+      { "item": "38_special_p", "charges": 500, "prob": 6 },
+      { "item": "38_fmj", "charges": 500, "prob": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_44",
+    "items": [
+      { "group": "boxed_44_20", "prob": 189 },
+      { "group": "boxed_44_100", "prob": 8 },
+      { "group": "boxed_44_200", "prob": 13 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_44_20",
+    "container-item": "44_ammo_box_20",
+    "items": [ { "item": "44magnum", "charges": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_44_100",
+    "container-item": "44_ammo_box_100",
+    "items": [ { "item": "44magnum", "charges": 100, "prob": 12 }, { "item": "44fmj", "charges": 100, "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_44_200",
+    "container-item": "44_ammo_box_200",
+    "items": [ { "item": "44magnum", "charges": 200, "prob": 17 }, { "item": "44fmj", "charges": 200, "prob": 3 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_3006",
+    "items": [
+      { "group": "boxed_3006_20", "prob": 51 },
+      { "group": "boxed_3006_100", "prob": 3 },
+      { "group": "boxed_3006_200", "prob": 4 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_3006_20",
+    "container-item": "3006_ammo_box_20",
+    "items": [ { "item": "3006", "charges": 20, "prob": 1 }, { "item": "3006_jsp", "charges": 20, "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_3006_100",
+    "container-item": "3006_ammo_box_100",
+    "items": [ { "item": "3006", "charges": 100, "prob": 1 }, { "item": "3006_jsp", "charges": 100, "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_3006_200",
+    "container-item": "3006_ammo_box_200",
+    "items": [ { "item": "3006", "charges": 200 }, { "item": "3006_jsp", "charges": 200 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_45colt",
+    "//": "Due to lack of factory JHP and FMJ .45 Colt in game, they're not weighted",
+    "items": [ { "group": "boxed_45colt_20", "prob": 3 }, { "group": "boxed_45colt_50", "prob": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_45colt_20",
+    "container-item": "45colt_ammo_box_20",
+    "items": [ { "item": "45colt_jhp", "charges": 20 }, { "item": "45colt_cowboy", "charges": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_45colt_50",
+    "container-item": "45colt_ammo_box_50",
+    "items": [ { "item": "45colt_jhp", "charges": 50 }, { "item": "45colt_cowboy", "charges": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_762R",
+    "items": [ { "group": "boxed_762R_20", "prob": 9 }, { "group": "boxed_762R_200", "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_762R_20",
+    "container-item": { "item": "3006_ammo_box_20", "variant": "762R_ammo_box_20" },
+    "items": [ { "item": "762_54R", "charges": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_762R_200",
+    "container-item": { "item": "762_ammo_box_500", "variant": "762R_ammo_box_200" },
+    "items": [ { "group": "boxed_762R_20", "count": 5 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_270",
+    "items": [
+      { "group": "boxed_270_20", "prob": 214 },
+      { "group": "boxed_270_100", "prob": 5 },
+      { "group": "boxed_270_200", "prob": 13 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_270_20",
+    "container-item": { "item": "3006_ammo_box_20", "variant": "270_ammo_box_20" },
+    "items": [ { "item": "270win_jsp", "charges": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_270_100",
+    "container-item": { "item": "3006_ammo_box_100", "variant": "270_ammo_box_100" },
+    "items": [ { "item": "270win_jsp", "charges": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_270_200",
+    "container-item": { "item": "3006_ammo_box_200", "variant": "270_ammo_box_200" },
+    "items": [ { "item": "270win_jsp", "charges": 200 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_410",
+    "items": [
+      { "group": "boxed_410_5", "prob": 214 },
+      { "group": "boxed_410_10", "prob": 5 },
+      { "group": "boxed_410_25", "prob": 13 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_410_5",
+    "container-item": "410_ammo_box_5",
+    "items": [
+      { "item": "410shot_slug", "charges": 5, "prob": 21 },
+      { "item": "410shot_000", "charges": 5, "prob": 6 },
+      { "item": "410shot_bird", "charges": 5, "prob": 8 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_410_10",
+    "container-item": { "item": "44_ammo_box_20", "variant": "410_ammo_box_10" },
+    "items": [
+      { "item": "410shot_slug", "charges": 10, "prob": 3 },
+      { "item": "410shot_000", "charges": 10, "prob": 5 },
+      { "item": "410shot_bird", "charges": 10, "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_410_25",
+    "container-item": "410_ammo_box_25",
+    "items": [
+      { "item": "410shot_slug", "charges": 25, "prob": 17 },
+      { "item": "410shot_000", "charges": 25, "prob": 4 },
+      { "item": "410shot_bird", "charges": 25, "prob": 35 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_10mm",
+    "items": [
+      { "group": "boxed_10mm_20", "prob": 174 },
+      { "group": "boxed_10mm_50", "prob": 51 },
+      { "group": "boxed_10mm_500", "prob": 11 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_10mm_20",
+    "//": "+P 10mm doesn't seem to actually exist as a factory spec, so it's excluded from these groups",
+    "container-item": "10mm_ammo_box_20",
+    "items": [ { "item": "10mm_fmj", "charges": 20, "prob": 1 }, { "item": "10mm_jhp", "charges": 20, "prob": 6 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_10mm_50",
+    "container-item": "10mm_ammo_box_50",
+    "items": [ { "item": "10mm_fmj", "charges": 50, "prob": 17 }, { "item": "10mm_jhp", "charges": 50, "prob": 22 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_10mm_500",
+    "container-item": "10mm_ammo_box_500",
+    "items": [ { "item": "10mm_fmj", "charges": 500, "prob": 7 }, { "item": "10mm_jhp", "charges": 500, "prob": 12 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_300",
+    "items": [ { "group": "boxed_300_20", "prob": 15 }, { "group": "boxed_300_200", "prob": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_300_20",
+    "container-item": "300_ammo_box_20",
+    "items": [ { "item": "300_winmag", "charges": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_300_200",
+    "container-item": "ammunition_can_30",
+    "items": [ { "group": "boxed_300_20", "count": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_303",
+    "container-item": "303_ammo_box_20",
+    "items": [
+      { "item": "303_sp", "charges": 20, "prob": 152 },
+      { "item": "303_fmjbt", "charges": 20, "prob": 50 },
+      { "item": "303_bthp", "charges": 20, "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_30carbine",
+    "container-item": "30carbine_ammo_box_50",
+    "items": [ { "item": "30carbine_jsp", "charges": 50, "prob": 21 }, { "item": "30carbine", "charges": 50, "prob": 79 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_32",
+    "container-item": "32_ammo_box_50",
+    "items": [ { "item": "32_acp", "charges": 50, "prob": 4 }, { "item": "32_acp_jhp", "charges": 50, "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_338",
+    "container-item": "338_ammo_box_20",
+    "items": [ { "item": "338lapua_hpbt", "charges": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_357sig",
+    "container-item": "357sig_ammo_box_50",
+    "items": [ { "item": "357sig_jhp", "charges": 50, "prob": 13 }, { "item": "357sig_fmj", "charges": 50, "prob": 71 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_38super",
+    "container-item": "38super_ammo_box_50",
+    "items": [ { "item": "38_super", "charges": 50, "prob": 11 }, { "item": "38super_fmj", "charges": 50, "prob": 26 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_450",
+    "container-item": "450_ammo_box_20",
+    "items": [ { "item": "450_ftx", "charges": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_454",
+    "container-item": "454_ammo_box_20",
+    "items": [ { "item": "454_Casull", "charges": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_4570",
+    "container-item": "4570_ammo_box_20",
+    "items": [
+      { "item": "4570_sp", "charges": 20, "prob": 27 },
+      { "item": "4570_low", "charges": 20, "prob": 6 },
+      { "item": "4570_pen", "charges": 20, "prob": 6 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_500",
+    "container-item": { "item": "4570_ammo_box_20", "variant": "500_ammo_box_20" },
+    "items": [ { "item": "500_Magnum", "charges": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_460",
+    "container-item": "460_ammo_box_20",
+    "items": [ { "item": "460sw", "charges": 20, "prob": 7 }, { "item": "460sw_jhp", "charges": 20, "prob": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_545",
+    "container-item": { "item": "44_ammo_box_20", "variant": "545_ammo_box_20" },
+    "items": [ { "item": "545", "charges": 20, "prob": 38 }, { "item": "545_ap", "charges": 20, "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_57",
+    "container-item": "57_ammo_box_50",
+    "items": [ { "item": "57mm_lf", "charges": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_762x25",
+    "container-item": { "item": "357sig_ammo_box_50", "variant": "762x25_ammo_box_50" },
+    "items": [ { "item": "762_25", "charges": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_300blk",
+    "container-item": { "item": "223_ammo_box_20", "variant": "300blk_ammo_box_20" },
+    "items": [ { "item": "300blk", "charges": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_9x18",
+    "container-item": { "item": "45colt_ammo_box_20", "variant": "9x18_ammo_box_50" },
+    "items": [ { "item": "9x18mm", "charges": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_50beowulf",
+    "container-item": { "item": "45colt_ammo_box_50", "variant": "50beowulf_ammo_box_20" },
+    "items": [ { "item": "50beowulf_xtp", "charges": 20, "prob": 11 }, { "item": "50beowulf_penetrator", "charges": 20, "prob": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_50AE",
+    "container-item": { "item": "57_ammo_box_50", "variant": "50AE_ammo_box_20" },
+    "items": [ { "item": "50ae_fmj", "charges": 20, "prob": 5 }, { "item": "50ae_jhp", "charges": 20, "prob": 21 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_77x58",
+    "container-item": { "item": "45_ammo_box_50", "variant": "77x58_ammo_box_20" },
+    "items": [ { "item": "77mm_arisaka_jsp", "charges": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_458",
+    "container-item": { "item": "300_ammo_box_20", "variant": "458_ammo_box_20" },
+    "items": [ { "item": "458wm", "charges": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_9mm_used",
+    "items": [
+      { "group": "boxed_9mm_20_used", "prob": 51 },
+      { "group": "boxed_9mm_50_used", "prob": 49 },
+      { "group": "boxed_9mm_100_used", "prob": 16 },
+      { "group": "boxed_9mm_250_used", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_9mm_20_used",
+    "on_overflow": "spill",
+    "//": "Charges are set to 1 to avoid spawning all the rounds outside of the box, instead of some inside and some outside",
+    "container-item": "9mm_ammo_box_20",
+    "items": [
+      { "item": "9mmfmj", "charges": 1, "count": [ 10, 30 ], "prob": 1 },
+      { "item": "9mm", "charges": 1, "count": [ 10, 30 ], "prob": 351 },
+      { "item": "9mmP", "charges": 1, "count": [ 10, 30 ], "prob": 60 },
+      { "item": "9mmP2", "charges": 1, "count": [ 10, 30 ], "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_9mm_50_used",
+    "on_overflow": "spill",
+    "container-item": "9mm_ammo_box_50",
+    "items": [
+      { "item": "9mmfmj", "charges": 1, "count": [ 35, 65 ], "prob": 168 },
+      { "item": "9mm", "charges": 1, "count": [ 35, 65 ], "prob": 182 },
+      { "item": "9mmP", "charges": 1, "count": [ 35, 65 ], "prob": 37 },
+      { "item": "9mmP2", "charges": 1, "count": [ 35, 65 ], "prob": 12 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_9mm_100_used",
+    "on_overflow": "spill",
+    "container-item": "9mm_ammo_box_100",
+    "items": [
+      { "item": "9mmfmj", "charges": 1, "count": [ 50, 150 ], "prob": 99 },
+      { "item": "9mm", "charges": 1, "count": [ 50, 150 ], "prob": 27 },
+      { "item": "9mmP", "charges": 1, "count": [ 50, 150 ], "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_9mm_250_used",
+    "on_overflow": "spill",
+    "container-item": "9mm_ammo_box_250",
+    "items": [
+      { "item": "9mmfmj", "charges": 1, "count": [ 125, 300 ], "prob": 55 },
+      { "item": "9mm", "charges": 1, "count": [ 125, 300 ], "prob": 11 },
+      { "item": "9mmP", "charges": 1, "count": [ 125, 300 ], "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_22lr_used",
+    "items": [
+      { "group": "boxed_22lr_50_used", "prob": 55 },
+      { "group": "boxed_22lr_100_used", "prob": 150 },
+      { "group": "boxed_22lr_500_used", "prob": 62 },
+      { "group": "boxed_22lr_1000_used", "prob": 16 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "22lr_tray_used",
+    "on_overflow": "spill",
+    "container-item": "22lr_ammo_tray",
+    "items": [ { "item": "22_lr", "charges": 1, "count": [ 25, 60 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_22lr_50_used",
+    "on_overflow": "spill",
+    "container-item": { "item": "9mm_ammo_box_20", "variant": "22lr_ammo_box_50" },
+    "items": [ { "group": "22lr_tray_used" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_22lr_100_used",
+    "on_overflow": "spill",
+    "container-item": "22lr_ammo_box_100",
+    "items": [ { "group": "22lr_tray_used", "count": 1 }, { "group": "22lr_tray_full", "count": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_22lr_500_used",
+    "on_overflow": "spill",
+    "container-item": "22lr_ammo_box_500",
+    "items": [ { "group": "22lr_tray_used", "count": [ 1, 6 ] }, { "group": "22lr_tray_full", "count": [ 0, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_22lr_1000_used",
+    "on_overflow": "spill",
+    "container-item": "22lr_ammo_box_1000",
+    "items": [ { "group": "boxed_22lr_500_used", "count": 1 }, { "group": "boxed_22lr_500", "count": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_223_used",
+    "items": [
+      { "group": "boxed_223_20_used", "prob": 44 },
+      { "group": "boxed_223_50_used", "prob": 14 },
+      { "group": "boxed_223_200_used", "prob": 10 },
+      { "group": "boxed_223_500_used", "prob": 9 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_223_20_used",
+    "on_overflow": "spill",
+    "container-item": "223_ammo_box_20",
+    "items": [
+      { "item": "223", "charges": 1, "count": [ 10, 30 ], "prob": 4 },
+      { "item": "556", "charges": 1, "count": [ 10, 30 ], "prob": 3 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_223_50_used",
+    "on_overflow": "spill",
+    "container-item": "223_ammo_box_50",
+    "items": [
+      { "item": "223", "charges": 1, "count": [ 25, 75 ], "prob": 11 },
+      { "item": "556", "charges": 1, "count": [ 25, 75 ], "prob": 8 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_223_200_used",
+    "on_overflow": "spill",
+    "container-item": "223_ammo_box_200",
+    "items": [
+      { "item": "223", "charges": 1, "count": [ 150, 250 ], "prob": 42 },
+      { "item": "556", "charges": 1, "count": [ 150, 250 ], "prob": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_223_500_used",
+    "on_overflow": "spill",
+    "container-item": { "item": "box_small", "variant": "223_ammo_box_500" },
+    "items": [
+      { "item": "223", "charges": 1, "count": [ 200, 600 ], "prob": 10 },
+      { "item": "556", "charges": 1, "count": [ 200, 600 ], "prob": 9 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_45_used",
+    "items": [
+      { "group": "boxed_45_20_used", "prob": 17 },
+      { "group": "boxed_45_50_used", "prob": 13 },
+      { "group": "boxed_45_200_used", "prob": 3 },
+      { "group": "boxed_45_500_used", "prob": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_45_20_used",
+    "on_overflow": "spill",
+    "container-item": "45_ammo_box_20",
+    "items": [
+      { "item": "45_jhp", "charges": 1, "count": [ 10, 30 ], "prob": 34 },
+      { "item": "45_super", "charges": 1, "count": [ 10, 30 ], "prob": 13 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_45_50_used",
+    "on_overflow": "spill",
+    "container-item": "45_ammo_box_50",
+    "items": [
+      { "item": "45_jhp", "charges": 1, "count": [ 35, 65 ], "prob": 35 },
+      { "item": "45_super", "charges": 1, "count": [ 35, 65 ], "prob": 5 },
+      { "item": "45_acp", "charges": 1, "count": [ 35, 65 ], "prob": 42 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_45_200_used",
+    "on_overflow": "spill",
+    "container-item": "45_ammo_box_200",
+    "items": [
+      { "item": "45_jhp", "charges": 1, "count": [ 150, 250 ], "prob": 18 },
+      { "item": "45_super", "charges": 1, "count": [ 150, 250 ], "prob": 13 },
+      { "item": "45_acp", "charges": 1, "count": [ 150, 250 ], "prob": 44 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_45_500_used",
+    "on_overflow": "spill",
+    "container-item": "45_ammo_box_500",
+    "items": [
+      { "item": "45_jhp", "charges": 1, "count": [ 200, 600 ], "prob": 27 },
+      { "item": "45_super", "charges": 1, "count": [ 200, 600 ], "prob": 8 },
+      { "item": "45_acp", "charges": 1, "count": [ 200, 600 ], "prob": 14 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_380_used",
+    "items": [
+      { "group": "boxed_380_20_used", "prob": 62 },
+      { "group": "boxed_380_50_used", "prob": 24 },
+      { "group": "boxed_380_500_used", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_380_20_used",
+    "on_overflow": "spill",
+    "container-item": "380_ammo_box_20",
+    "items": [
+      { "item": "380_JHP", "charges": 1, "count": [ 10, 30 ], "prob": 92 },
+      { "item": "380_p", "charges": 1, "count": [ 10, 30 ], "prob": 17 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_380_50_used",
+    "on_overflow": "spill",
+    "container-item": { "item": "22lr_ammo_box_100", "variant": "380_ammo_box_50" },
+    "items": [
+      { "item": "380_JHP", "charges": 1, "count": [ 35, 65 ], "prob": 37 },
+      { "item": "380_p", "charges": 1, "count": [ 35, 65 ], "prob": 1 },
+      { "item": "380_FMJ", "charges": 1, "count": [ 35, 65 ], "prob": 41 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_380_500_used",
+    "on_overflow": "spill",
+    "container-item": "380_ammo_box_500",
+    "items": [
+      { "item": "380_JHP", "charges": 1, "count": [ 200, 600 ], "prob": 47 },
+      { "item": "380_p", "charges": 1, "count": [ 200, 600 ], "prob": 5 },
+      { "item": "380_FMJ", "charges": 1, "count": [ 200, 600 ], "prob": 78 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_40_used",
+    "items": [
+      { "group": "boxed_40_20_used", "prob": 10 },
+      { "group": "boxed_40_50_used", "prob": 37 },
+      { "group": "boxed_40_500_used", "prob": 4 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_40_20_used",
+    "on_overflow": "spill",
+    "container-item": "40_ammo_box_20",
+    "items": [ { "item": "40sw", "charges": 1, "count": [ 10, 30 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_40_50_used",
+    "on_overflow": "spill",
+    "container-item": "40_ammo_box_50",
+    "items": [
+      { "item": "40sw", "charges": 1, "count": [ 35, 65 ], "prob": 5 },
+      { "item": "40fmj", "charges": 1, "count": [ 35, 65 ], "prob": 8 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_40_500_used",
+    "on_overflow": "spill",
+    "container-item": "40_ammo_box_500",
+    "items": [ { "item": "40sw", "charges": 1, "count": [ 200, 600 ] }, { "item": "40fmj", "charges": 1, "count": [ 200, 600 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_762_used",
+    "items": [
+      { "group": "boxed_762_20_used", "prob": 91 },
+      { "group": "boxed_762_50_used", "prob": 17 },
+      { "group": "boxed_762_500_used", "prob": 11 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_762_20_used",
+    "on_overflow": "spill",
+    "container-item": "762_ammo_box_20",
+    "items": [
+      { "item": "762_m87", "charges": 1, "count": [ 10, 30 ], "prob": 91 },
+      { "item": "762_jhp", "charges": 1, "count": [ 10, 30 ], "prob": 11 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_762_50_used",
+    "on_overflow": "spill",
+    "container-item": "762_ammo_box_50",
+    "items": [
+      { "item": "762_m87", "charges": 1, "count": [ 35, 65 ], "prob": 85 },
+      { "item": "762_jhp", "charges": 1, "count": [ 35, 65 ], "prob": 23 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_762_500_used",
+    "on_overflow": "spill",
+    "container-item": "762_ammo_box_500",
+    "items": [ { "item": "762_m87", "charges": 1, "count": [ 200, 600 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_357_used",
+    "items": [
+      { "group": "boxed_357_20_used", "prob": 91 },
+      { "group": "boxed_357_50_used", "prob": 18 },
+      { "group": "boxed_357_200_used", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_357_20_used",
+    "on_overflow": "spill",
+    "container-item": "357_ammo_box_20",
+    "items": [ { "item": "357mag_jhp", "charges": 1, "count": [ 10, 30 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_357_50_used",
+    "on_overflow": "spill",
+    "container-item": "357_ammo_box_50",
+    "items": [
+      { "item": "357mag_jhp", "charges": 1, "count": [ 35, 65 ], "prob": 73 },
+      { "item": "357mag_fmj", "charges": 1, "count": [ 35, 65 ], "prob": 57 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_357_200_used",
+    "on_overflow": "spill",
+    "container-item": "357_ammo_box_200",
+    "items": [ { "item": "357mag_jhp", "charges": 1, "count": [ 150, 250 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_12_used",
+    "items": [
+      { "group": "boxed_12_5_used", "prob": 14 },
+      { "group": "boxed_12_10_used", "prob": 12 },
+      { "group": "boxed_12_25_used", "prob": 50 },
+      { "group": "boxed_12_100_used", "prob": 3 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_12_5_used",
+    "on_overflow": "spill",
+    "container-item": "12_ammo_box_5",
+    "items": [
+      { "item": "shot_slug", "charges": 1, "count": [ 3, 7 ], "prob": 24 },
+      { "item": "shot_00", "charges": 1, "count": [ 3, 7 ], "prob": 25 },
+      { "item": "shot_bird", "charges": 1, "count": [ 3, 7 ], "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_12_10_used",
+    "on_overflow": "spill",
+    "container-item": "12_ammo_box_10",
+    "items": [
+      { "item": "shot_slug", "charges": 1, "count": [ 5, 15 ], "prob": 7 },
+      { "item": "shot_00", "charges": 1, "count": [ 5, 15 ], "prob": 15 },
+      { "item": "shot_bird", "charges": 1, "count": [ 5, 15 ], "prob": 3 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_12_25_used",
+    "on_overflow": "spill",
+    "container-item": "12_ammo_box_25",
+    "items": [
+      { "item": "shot_slug", "charges": 1, "count": [ 15, 30 ], "prob": 1 },
+      { "item": "shot_00", "charges": 1, "count": [ 15, 30 ], "prob": 3 },
+      { "item": "shot_bird", "charges": 1, "count": [ 15, 30 ], "prob": 48 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_12_100_used",
+    "on_overflow": "spill",
+    "container-item": "12_ammo_box_100",
+    "items": [
+      { "item": "shot_slug", "charges": 1, "count": [ 50, 150 ], "prob": 1 },
+      { "item": "shot_00", "charges": 1, "count": [ 50, 150 ], "prob": 4 },
+      { "item": "shot_bird", "charges": 1, "count": [ 50, 150 ], "prob": 13 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_308_used",
+    "items": [
+      { "group": "boxed_308_20_used", "prob": 59 },
+      { "group": "boxed_308_100_used", "prob": 2 },
+      { "group": "boxed_308_200_used", "prob": 6 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_308_20_used",
+    "on_overflow": "spill",
+    "container-item": "308_ammo_box_20",
+    "items": [
+      { "item": "308", "charges": 1, "count": [ 10, 30 ], "prob": 83 },
+      { "item": "762_51", "charges": 1, "count": [ 10, 30 ], "prob": 24 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_308_100_used",
+    "on_overflow": "spill",
+    "container-item": "308_ammo_box_100",
+    "items": [
+      { "item": "308", "charges": 1, "count": [ 50, 150 ], "prob": 7 },
+      { "item": "762_51", "charges": 1, "count": [ 50, 150 ], "prob": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_308_200_used",
+    "on_overflow": "spill",
+    "container-item": "ammunition_can_30",
+    "items": [
+      { "item": "308", "charges": 1, "count": [ 150, 250 ], "prob": 22 },
+      { "item": "762_51", "charges": 1, "count": [ 150, 250 ], "prob": 7 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_38_used",
+    "items": [
+      { "group": "boxed_38_20_used", "prob": 126 },
+      { "group": "boxed_38_50_used", "prob": 77 },
+      { "group": "boxed_38_200_used", "prob": 10 },
+      { "group": "boxed_38_500_used", "prob": 13 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_38_20_used",
+    "on_overflow": "spill",
+    "container-item": "38_ammo_box_20",
+    "items": [
+      { "item": "38_special", "charges": 1, "count": [ 10, 30 ], "prob": 19 },
+      { "item": "38_special_p", "charges": 1, "count": [ 10, 30 ], "prob": 47 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_38_50_used",
+    "on_overflow": "spill",
+    "container-item": "38_ammo_box_50",
+    "items": [
+      { "item": "38_special", "charges": 1, "count": [ 35, 65 ], "prob": 61 },
+      { "item": "38_special_p", "charges": 1, "count": [ 35, 65 ], "prob": 11 },
+      { "item": "38_fmj", "charges": 1, "count": [ 35, 65 ], "prob": 26 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_38_200_used",
+    "on_overflow": "spill",
+    "container-item": "38_ammo_box_200",
+    "items": [
+      { "item": "38_special", "charges": 1, "count": [ 150, 250 ], "prob": 11 },
+      { "item": "38_special_p", "charges": 1, "count": [ 150, 250 ], "prob": 12 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_38_500_used",
+    "on_overflow": "spill",
+    "container-item": "38_ammo_box_500",
+    "items": [
+      { "item": "38_special", "charges": 1, "count": [ 150, 250 ], "prob": 17 },
+      { "item": "38_special_p", "charges": 1, "count": [ 150, 250 ], "prob": 6 },
+      { "item": "38_fmj", "charges": 1, "count": [ 150, 250 ], "prob": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_44_used",
+    "items": [
+      { "group": "boxed_44_20_used", "prob": 189 },
+      { "group": "boxed_44_100_used", "prob": 8 },
+      { "group": "boxed_44_200_used", "prob": 13 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_44_20_used",
+    "on_overflow": "spill",
+    "container-item": "44_ammo_box_20",
+    "items": [ { "item": "44magnum", "charges": 1, "count": [ 10, 30 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_44_100_used",
+    "on_overflow": "spill",
+    "container-item": "44_ammo_box_100",
+    "items": [
+      { "item": "44magnum", "charges": 1, "count": [ 50, 150 ], "prob": 12 },
+      { "item": "44fmj", "charges": 1, "count": [ 50, 150 ], "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_44_200_used",
+    "on_overflow": "spill",
+    "container-item": "44_ammo_box_200",
+    "items": [
+      { "item": "44magnum", "charges": 1, "count": [ 150, 250 ], "prob": 17 },
+      { "item": "44fmj", "charges": 1, "count": [ 150, 250 ], "prob": 3 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_3006_used",
+    "items": [
+      { "group": "boxed_3006_20_used", "prob": 51 },
+      { "group": "boxed_3006_100_used", "prob": 3 },
+      { "group": "boxed_3006_200_used", "prob": 4 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_3006_20_used",
+    "on_overflow": "spill",
+    "container-item": "3006_ammo_box_20",
+    "items": [
+      { "item": "3006", "charges": 1, "count": [ 10, 30 ], "prob": 1 },
+      { "item": "3006_jsp", "charges": 1, "count": [ 10, 30 ], "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_3006_100_used",
+    "on_overflow": "spill",
+    "container-item": "3006_ammo_box_100",
+    "items": [
+      { "item": "3006", "charges": 1, "count": [ 50, 150 ], "prob": 1 },
+      { "item": "3006_jsp", "charges": 1, "count": [ 50, 150 ], "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_3006_200_used",
+    "on_overflow": "spill",
+    "container-item": "3006_ammo_box_200",
+    "items": [ { "item": "3006", "charges": 1, "count": [ 150, 250 ] }, { "item": "3006_jsp", "charges": 1, "count": [ 150, 250 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_45colt_used",
+    "//": "Due to lack of factory JHP and FMJ .45 Colt in game, they're not weighted",
+    "items": [ { "group": "boxed_45colt_20_used", "prob": 3 }, { "group": "boxed_45colt_50_used", "prob": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_45colt_20_used",
+    "on_overflow": "spill",
+    "container-item": "45colt_ammo_box_20",
+    "items": [
+      { "item": "45colt_jhp", "charges": 1, "count": [ 15, 25 ] },
+      { "item": "45colt_cowboy", "charges": 1, "count": [ 15, 25 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_45colt_50_used",
+    "on_overflow": "spill",
+    "container-item": "45colt_ammo_box_50",
+    "items": [
+      { "item": "45colt_jhp", "charges": 1, "count": [ 35, 65 ] },
+      { "item": "45colt_cowboy", "charges": 1, "count": [ 35, 65 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_762R_used",
+    "items": [ { "group": "boxed_762R_20_used", "prob": 9 }, { "group": "boxed_762R_200_used", "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_762R_20_used",
+    "on_overflow": "spill",
+    "container-item": { "item": "3006_ammo_box_20", "variant": "762R_ammo_box_20" },
+    "items": [ { "item": "762_54R", "charges": 1, "count": [ 10, 30 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_762R_200_used",
+    "on_overflow": "spill",
+    "container-item": { "item": "762_ammo_box_500", "variant": "762R_ammo_box_200" },
+    "items": [ { "group": "boxed_762R_20_used", "count": [ 1, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_270_used",
+    "items": [
+      { "group": "boxed_270_20_used", "prob": 214 },
+      { "group": "boxed_270_100_used", "prob": 5 },
+      { "group": "boxed_270_200_used", "prob": 13 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_270_20_used",
+    "on_overflow": "spill",
+    "container-item": { "item": "3006_ammo_box_20", "variant": "270_ammo_box_20" },
+    "items": [ { "item": "270win_jsp", "charges": 1, "count": [ 15, 30 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_270_100_used",
+    "on_overflow": "spill",
+    "container-item": { "item": "3006_ammo_box_100", "variant": "270_ammo_box_100" },
+    "items": [ { "item": "270win_jsp", "charges": 1, "count": [ 50, 150 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_270_200_used",
+    "on_overflow": "spill",
+    "container-item": { "item": "3006_ammo_box_200", "variant": "270_ammo_box_200" },
+    "items": [ { "item": "270win_jsp", "charges": 1, "count": [ 150, 250 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_410_used",
+    "items": [
+      { "group": "boxed_410_5_used", "prob": 214 },
+      { "group": "boxed_410_10_used", "prob": 5 },
+      { "group": "boxed_410_25_used", "prob": 13 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_410_5_used",
+    "on_overflow": "spill",
+    "container-item": "410_ammo_box_5",
+    "items": [
+      { "item": "410shot_slug", "charges": 1, "count": [ 3, 7 ], "prob": 21 },
+      { "item": "410shot_000", "charges": 1, "count": [ 3, 7 ], "prob": 6 },
+      { "item": "410shot_bird", "charges": 1, "count": [ 3, 7 ], "prob": 8 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_410_10_used",
+    "on_overflow": "spill",
+    "container-item": { "item": "44_ammo_box_20", "variant": "410_ammo_box_10" },
+    "items": [
+      { "item": "410shot_slug", "charges": 1, "count": [ 5, 15 ], "prob": 3 },
+      { "item": "410shot_000", "charges": 1, "count": [ 5, 15 ], "prob": 5 },
+      { "item": "410shot_bird", "charges": 1, "count": [ 5, 15 ], "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_410_25_used",
+    "on_overflow": "spill",
+    "container-item": "410_ammo_box_25",
+    "items": [
+      { "item": "410shot_slug", "charges": 1, "count": [ 15, 35 ], "prob": 17 },
+      { "item": "410shot_000", "charges": 1, "count": [ 15, 35 ], "prob": 4 },
+      { "item": "410shot_bird", "charges": 1, "count": [ 15, 35 ], "prob": 35 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_10mm_used",
+    "items": [
+      { "group": "boxed_10mm_20_used", "prob": 174 },
+      { "group": "boxed_10mm_50_used", "prob": 51 },
+      { "group": "boxed_10mm_500_used", "prob": 11 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_10mm_20_used",
+    "on_overflow": "spill",
+    "//": "+P 10mm doesn't seem to actually exist as a factory spec, so it's excluded from these groups",
+    "container-item": "10mm_ammo_box_20",
+    "items": [
+      { "item": "10mm_fmj", "charges": 1, "count": [ 10, 30 ], "prob": 1 },
+      { "item": "10mm_jhp", "charges": 1, "count": [ 10, 30 ], "prob": 6 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_10mm_50_used",
+    "on_overflow": "spill",
+    "container-item": "10mm_ammo_box_50",
+    "items": [
+      { "item": "10mm_fmj", "charges": 1, "count": [ 25, 75 ], "prob": 17 },
+      { "item": "10mm_jhp", "charges": 1, "count": [ 25, 75 ], "prob": 22 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_10mm_500_used",
+    "on_overflow": "spill",
+    "container-item": "10mm_ammo_box_500",
+    "items": [
+      { "item": "10mm_fmj", "charges": 1, "count": [ 200, 600 ], "prob": 7 },
+      { "item": "10mm_jhp", "charges": 1, "count": [ 200, 600 ], "prob": 12 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_300_used",
+    "items": [ { "group": "boxed_300_20_used", "prob": 15 }, { "group": "boxed_300_200_used", "prob": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_300_20_used",
+    "on_overflow": "spill",
+    "container-item": "300_ammo_box_20",
+    "items": [ { "item": "300_winmag", "charges": 1, "count": [ 10, 30 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_300_200_used",
+    "container-item": "ammunition_can_30",
+    "items": [ { "group": "boxed_300_20", "count": [ 0, 1 ] }, { "group": "boxed_300_20_used", "count": [ 0, 3 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_303_used",
+    "on_overflow": "spill",
+    "container-item": "303_ammo_box_20",
+    "items": [
+      { "item": "303_sp", "charges": 1, "count": [ 10, 30 ], "prob": 152 },
+      { "item": "303_fmjbt", "charges": 1, "count": [ 10, 30 ], "prob": 50 },
+      { "item": "303_bthp", "charges": 1, "count": [ 10, 30 ], "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_30carbine_used",
+    "on_overflow": "spill",
+    "container-item": "30carbine_ammo_box_50",
+    "items": [
+      { "item": "30carbine_jsp", "charges": 1, "count": [ 25, 75 ], "prob": 21 },
+      { "item": "30carbine", "charges": 1, "count": [ 25, 75 ], "prob": 79 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_32_used",
+    "on_overflow": "spill",
+    "container-item": "32_ammo_box_50",
+    "items": [
+      { "item": "32_acp", "charges": 1, "count": [ 25, 75 ], "prob": 4 },
+      { "item": "32_acp_jhp", "charges": 1, "count": [ 25, 75 ], "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_338_used",
+    "on_overflow": "spill",
+    "container-item": "338_ammo_box_20",
+    "items": [ { "item": "338lapua_hpbt", "charges": 1, "count": [ 10, 30 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_357sig_used",
+    "on_overflow": "spill",
+    "container-item": "357sig_ammo_box_50",
+    "items": [
+      { "item": "357sig_jhp", "charges": 1, "count": [ 25, 75 ], "prob": 13 },
+      { "item": "357sig_fmj", "charges": 1, "count": [ 25, 75 ], "prob": 71 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_38super_used",
+    "on_overflow": "spill",
+    "container-item": "38super_ammo_box_50",
+    "items": [
+      { "item": "38_super", "charges": 1, "count": [ 25, 75 ], "prob": 11 },
+      { "item": "38super_fmj", "charges": 1, "count": [ 25, 75 ], "prob": 26 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_450_used",
+    "on_overflow": "spill",
+    "container-item": "450_ammo_box_20",
+    "items": [ { "item": "450_ftx", "charges": 1, "count": [ 10, 30 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_454_used",
+    "on_overflow": "spill",
+    "container-item": "454_ammo_box_20",
+    "items": [ { "item": "454_Casull", "charges": 1, "count": [ 10, 30 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_4570_used",
+    "on_overflow": "spill",
+    "container-item": "4570_ammo_box_20",
+    "items": [
+      { "item": "4570_sp", "charges": 1, "count": [ 10, 30 ], "prob": 27 },
+      { "item": "4570_low", "charges": 1, "count": [ 10, 30 ], "prob": 6 },
+      { "item": "4570_pen", "charges": 1, "count": [ 10, 30 ], "prob": 6 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_500_used",
+    "on_overflow": "spill",
+    "container-item": { "item": "4570_ammo_box_20", "variant": "500_ammo_box_20" },
+    "items": [ { "item": "500_Magnum", "charges": 1, "count": [ 10, 30 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_460_used",
+    "on_overflow": "spill",
+    "container-item": "460_ammo_box_20",
+    "items": [
+      { "item": "460sw", "charges": 1, "count": [ 10, 30 ], "prob": 7 },
+      { "item": "460sw_jhp", "charges": 1, "count": [ 10, 30 ], "prob": 8 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_545_used",
+    "on_overflow": "spill",
+    "container-item": { "item": "44_ammo_box_20", "variant": "545_ammo_box_20" },
+    "items": [
+      { "item": "545", "charges": 1, "count": [ 10, 30 ], "prob": 38 },
+      { "item": "545_ap", "charges": 1, "count": [ 10, 30 ], "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_57_used",
+    "on_overflow": "spill",
+    "container-item": "57_ammo_box_50",
+    "items": [ { "item": "57mm_lf", "charges": 1, "count": [ 25, 75 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_762x25_used",
+    "on_overflow": "spill",
+    "container-item": { "item": "357sig_ammo_box_50", "variant": "762x25_ammo_box_50" },
+    "items": [ { "item": "762_25", "charges": 1, "count": [ 25, 75 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_300blk_used",
+    "on_overflow": "spill",
+    "container-item": { "item": "223_ammo_box_20", "variant": "300blk_ammo_box_20" },
+    "items": [ { "item": "300blk", "charges": 1, "count": [ 10, 30 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_9x18_used",
+    "on_overflow": "spill",
+    "container-item": { "item": "45colt_ammo_box_20", "variant": "9x18_ammo_box_50" },
+    "items": [ { "item": "9x18mm", "charges": 1, "count": [ 25, 75 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_50beowulf_used",
+    "on_overflow": "spill",
+    "container-item": { "item": "45colt_ammo_box_50", "variant": "50beowulf_ammo_box_20" },
+    "items": [
+      { "item": "50beowulf_xtp", "charges": 1, "count": [ 10, 30 ], "prob": 11 },
+      { "item": "50beowulf_penetrator", "charges": 1, "count": [ 10, 30 ], "prob": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_50AE_used",
+    "on_overflow": "spill",
+    "container-item": { "item": "57_ammo_box_50", "variant": "50AE_ammo_box_20" },
+    "items": [
+      { "item": "50ae_fmj", "charges": 1, "count": [ 10, 30 ], "prob": 5 },
+      { "item": "50ae_jhp", "charges": 1, "count": [ 10, 30 ], "prob": 21 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_77x58_used",
+    "on_overflow": "spill",
+    "container-item": { "item": "45_ammo_box_50", "variant": "77x58_ammo_box_20" },
+    "items": [ { "item": "77mm_arisaka_jsp", "charges": 1, "count": [ 10, 30 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_458_used",
+    "on_overflow": "spill",
+    "container-item": { "item": "300_ammo_box_20", "variant": "458_ammo_box_20" },
+    "items": [ { "item": "458wm", "charges": 1, "count": [ 10, 30 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_9mm_looted",
+    "items": [
+      { "group": "boxed_9mm_20_looted", "prob": 51 },
+      { "group": "boxed_9mm_50_looted", "prob": 49 },
+      { "group": "boxed_9mm_100_looted", "prob": 16 },
+      { "group": "boxed_9mm_250_looted", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_9mm_20_looted",
+    "container-item": "9mm_ammo_box_20",
+    "items": [
+      { "item": "9mmfmj", "charges": [ 0, 4 ], "prob": 1 },
+      { "item": "9mm", "charges": [ 0, 4 ], "prob": 351 },
+      { "item": "9mmP", "charges": [ 0, 4 ], "prob": 60 },
+      { "item": "9mmP2", "charges": [ 0, 4 ], "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_9mm_50_looted",
+    "container-item": "9mm_ammo_box_50",
+    "items": [
+      { "item": "9mmfmj", "charges": [ 0, 10 ], "prob": 168 },
+      { "item": "9mm", "charges": [ 0, 10 ], "prob": 182 },
+      { "item": "9mmP", "charges": [ 0, 10 ], "prob": 37 },
+      { "item": "9mmP2", "charges": [ 0, 10 ], "prob": 12 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_9mm_100_looted",
+    "container-item": "9mm_ammo_box_100",
+    "items": [
+      { "item": "9mmfmj", "charges": [ 0, 10 ], "prob": 99 },
+      { "item": "9mm", "charges": [ 0, 10 ], "prob": 27 },
+      { "item": "9mmP", "charges": [ 0, 10 ], "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_9mm_250_looted",
+    "container-item": "9mm_ammo_box_250",
+    "items": [
+      { "item": "9mmfmj", "charges": [ 0, 25 ], "prob": 55 },
+      { "item": "9mm", "charges": [ 0, 25 ], "prob": 11 },
+      { "item": "9mmP", "charges": [ 0, 25 ], "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_22lr_looted",
+    "items": [
+      { "group": "boxed_22lr_50_looted", "prob": 55 },
+      { "group": "boxed_22lr_100_looted", "prob": 150 },
+      { "group": "boxed_22lr_500_looted", "prob": 62 },
+      { "group": "boxed_22lr_1000_looted", "prob": 16 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "22lr_tray_looted",
+    "container-item": "22lr_ammo_tray",
+    "items": [ { "item": "22_lr", "charges": [ 0, 24 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_22lr_50_looted",
+    "container-item": { "item": "9mm_ammo_box_20", "variant": "22lr_ammo_box_50" },
+    "items": [ { "group": "22lr_tray_looted", "prob": 80 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_22lr_100_looted",
+    "container-item": "22lr_ammo_box_100",
+    "items": [ { "group": "22lr_tray_looted", "count": [ 0, 1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_22lr_500_looted",
+    "container-item": "22lr_ammo_box_500",
+    "items": [ { "group": "22lr_tray_looted", "count": [ 0, 2 ] }, { "group": "22lr_tray_full", "count": [ 0, 1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_22lr_1000_looted",
+    "container-item": "22lr_ammo_box_1000",
+    "items": [ { "group": "boxed_22lr_500_looted", "count": [ 0, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_223_looted",
+    "items": [
+      { "group": "boxed_223_20_looted", "prob": 44 },
+      { "group": "boxed_223_50_looted", "prob": 14 },
+      { "group": "boxed_223_200_looted", "prob": 10 },
+      { "group": "boxed_223_500_looted", "prob": 9 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_223_20_looted",
+    "container-item": "223_ammo_box_20",
+    "items": [ { "item": "223", "charges": [ 0, 4 ], "prob": 4 }, { "item": "556", "charges": [ 0, 4 ], "prob": 3 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_223_50_looted",
+    "container-item": "223_ammo_box_50",
+    "items": [ { "item": "223", "charges": [ 0, 10 ], "prob": 11 }, { "item": "556", "charges": [ 0, 10 ], "prob": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_223_200_looted",
+    "container-item": "223_ammo_box_200",
+    "items": [ { "item": "223", "charges": [ 0, 10 ], "prob": 42 }, { "item": "556", "charges": [ 0, 10 ], "prob": 25 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_223_500_looted",
+    "container-item": { "item": "box_small", "variant": "223_ammo_box_500" },
+    "items": [ { "item": "223", "charges": [ 0, 15 ], "prob": 10 }, { "item": "556", "charges": [ 0, 15 ], "prob": 9 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_45_looted",
+    "items": [
+      { "group": "boxed_45_20_looted", "prob": 17 },
+      { "group": "boxed_45_50_looted", "prob": 13 },
+      { "group": "boxed_45_200_looted", "prob": 3 },
+      { "group": "boxed_45_500_looted", "prob": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_45_20_looted",
+    "container-item": "45_ammo_box_20",
+    "items": [ { "item": "45_jhp", "charges": [ 0, 4 ], "prob": 34 }, { "item": "45_super", "charges": [ 0, 4 ], "prob": 13 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_45_50_looted",
+    "container-item": "45_ammo_box_50",
+    "items": [
+      { "item": "45_jhp", "charges": [ 0, 10 ], "prob": 35 },
+      { "item": "45_super", "charges": [ 0, 10 ], "prob": 5 },
+      { "item": "45_acp", "charges": [ 0, 10 ], "prob": 42 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_45_200_looted",
+    "container-item": "45_ammo_box_200",
+    "items": [
+      { "item": "45_jhp", "charges": [ 0, 15 ], "prob": 18 },
+      { "item": "45_super", "charges": [ 0, 15 ], "prob": 13 },
+      { "item": "45_acp", "charges": [ 0, 15 ], "prob": 44 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_45_500_looted",
+    "container-item": "45_ammo_box_500",
+    "items": [
+      { "item": "45_jhp", "charges": [ 0, 20 ], "prob": 27 },
+      { "item": "45_super", "charges": [ 0, 20 ], "prob": 8 },
+      { "item": "45_acp", "charges": [ 0, 20 ], "prob": 14 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_380_looted",
+    "items": [
+      { "group": "boxed_380_20_looted", "prob": 62 },
+      { "group": "boxed_380_50_looted", "prob": 24 },
+      { "group": "boxed_380_500_looted", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_380_20_looted",
+    "container-item": "380_ammo_box_20",
+    "items": [ { "item": "380_JHP", "charges": [ 0, 4 ], "prob": 92 }, { "item": "380_p", "charges": [ 0, 4 ], "prob": 17 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_380_50_looted",
+    "container-item": { "item": "22lr_ammo_box_100", "variant": "380_ammo_box_50" },
+    "items": [
+      { "item": "380_JHP", "charges": [ 0, 10 ], "prob": 37 },
+      { "item": "380_p", "charges": [ 0, 10 ], "prob": 1 },
+      { "item": "380_FMJ", "charges": [ 0, 10 ], "prob": 41 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_380_500_looted",
+    "container-item": "380_ammo_box_500",
+    "items": [
+      { "item": "380_JHP", "charges": [ 0, 25 ], "prob": 47 },
+      { "item": "380_p", "charges": [ 0, 25 ], "prob": 5 },
+      { "item": "380_FMJ", "charges": [ 0, 25 ], "prob": 78 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_40_looted",
+    "items": [
+      { "group": "boxed_40_20_looted", "prob": 10 },
+      { "group": "boxed_40_50_looted", "prob": 37 },
+      { "group": "boxed_40_500_looted", "prob": 4 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_40_20_looted",
+    "container-item": "40_ammo_box_20",
+    "items": [ { "item": "40sw", "charges": [ 0, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_40_50_looted",
+    "container-item": "40_ammo_box_50",
+    "items": [ { "item": "40sw", "charges": [ 0, 10 ], "prob": 5 }, { "item": "40fmj", "charges": [ 0, 10 ], "prob": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_40_500_looted",
+    "container-item": "40_ammo_box_500",
+    "items": [ { "item": "40sw", "charges": [ 0, 25 ] }, { "item": "40fmj", "charges": [ 0, 25 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_762_looted",
+    "items": [
+      { "group": "boxed_762_20_looted", "prob": 91 },
+      { "group": "boxed_762_50_looted", "prob": 17 },
+      { "group": "boxed_762_500_looted", "prob": 11 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_762_20_looted",
+    "container-item": "762_ammo_box_20",
+    "items": [ { "item": "762_m87", "charges": [ 0, 4 ], "prob": 91 }, { "item": "762_jhp", "charges": [ 0, 4 ], "prob": 11 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_762_50_looted",
+    "container-item": "762_ammo_box_50",
+    "items": [ { "item": "762_m87", "charges": [ 0, 10 ], "prob": 85 }, { "item": "762_jhp", "charges": [ 0, 10 ], "prob": 23 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_762_500_looted",
+    "container-item": "762_ammo_box_500",
+    "items": [ { "item": "762_m87", "charges": [ 0, 25 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_357_looted",
+    "items": [
+      { "group": "boxed_357_20_looted", "prob": 91 },
+      { "group": "boxed_357_50_looted", "prob": 18 },
+      { "group": "boxed_357_200_looted", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_357_20_looted",
+    "container-item": "357_ammo_box_20",
+    "items": [ { "item": "357mag_jhp", "charges": [ 0, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_357_50_looted",
+    "container-item": "357_ammo_box_50",
+    "items": [
+      { "item": "357mag_jhp", "charges": [ 0, 10 ], "prob": 73 },
+      { "item": "357mag_fmj", "charges": [ 0, 10 ], "prob": 57 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_357_200_looted",
+    "container-item": "357_ammo_box_200",
+    "items": [ { "item": "357mag_jhp", "charges": [ 0, 25 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_12_looted",
+    "items": [
+      { "group": "boxed_12_5_looted", "prob": 14 },
+      { "group": "boxed_12_10_looted", "prob": 12 },
+      { "group": "boxed_12_25_looted", "prob": 50 },
+      { "group": "boxed_12_100_looted", "prob": 3 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_12_5_looted",
+    "container-item": "12_ammo_box_5",
+    "items": [
+      { "item": "shot_slug", "charges": [ 0, 2 ], "prob": 24 },
+      { "item": "shot_00", "charges": [ 0, 2 ], "prob": 25 },
+      { "item": "shot_bird", "charges": [ 0, 2 ], "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_12_10_looted",
+    "container-item": "12_ammo_box_10",
+    "items": [
+      { "item": "shot_slug", "charges": [ 0, 4 ], "prob": 7 },
+      { "item": "shot_00", "charges": [ 0, 4 ], "prob": 15 },
+      { "item": "shot_bird", "charges": [ 0, 4 ], "prob": 3 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_12_25_looted",
+    "container-item": "12_ammo_box_25",
+    "items": [
+      { "item": "shot_slug", "charges": [ 0, 6 ], "prob": 1 },
+      { "item": "shot_00", "charges": [ 0, 6 ], "prob": 3 },
+      { "item": "shot_bird", "charges": [ 0, 6 ], "prob": 48 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_12_100_looted",
+    "container-item": "12_ammo_box_100",
+    "items": [
+      { "item": "shot_slug", "charges": [ 0, 10 ], "prob": 1 },
+      { "item": "shot_00", "charges": [ 0, 10 ], "prob": 4 },
+      { "item": "shot_bird", "charges": [ 0, 10 ], "prob": 13 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_308_looted",
+    "items": [
+      { "group": "boxed_308_20_looted", "prob": 59 },
+      { "group": "boxed_308_100_looted", "prob": 2 },
+      { "group": "boxed_308_200_looted", "prob": 6 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_308_20_looted",
+    "container-item": "308_ammo_box_20",
+    "items": [ { "item": "308", "charges": [ 0, 4 ], "prob": 83 }, { "item": "762_51", "charges": [ 0, 4 ], "prob": 24 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_308_100_looted",
+    "container-item": "308_ammo_box_100",
+    "items": [ { "item": "308", "charges": [ 0, 10 ], "prob": 7 }, { "item": "762_51", "charges": [ 0, 10 ], "prob": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_308_200_looted",
+    "container-item": "ammunition_can_30",
+    "items": [ { "item": "308", "charges": [ 0, 20 ], "prob": 22 }, { "item": "762_51", "charges": [ 0, 20 ], "prob": 7 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_38_looted",
+    "items": [
+      { "group": "boxed_38_20_looted", "prob": 126 },
+      { "group": "boxed_38_50_looted", "prob": 77 },
+      { "group": "boxed_38_200_looted", "prob": 10 },
+      { "group": "boxed_38_500_looted", "prob": 13 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_38_20_looted",
+    "container-item": "38_ammo_box_20",
+    "items": [
+      { "item": "38_special", "charges": [ 0, 4 ], "prob": 19 },
+      { "item": "38_special_p", "charges": [ 0, 4 ], "prob": 47 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_38_50_looted",
+    "container-item": "38_ammo_box_50",
+    "items": [
+      { "item": "38_special", "charges": [ 0, 10 ], "prob": 61 },
+      { "item": "38_special_p", "charges": [ 0, 10 ], "prob": 11 },
+      { "item": "38_fmj", "charges": [ 0, 10 ], "prob": 26 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_38_200_looted",
+    "container-item": "38_ammo_box_200",
+    "items": [
+      { "item": "38_special", "charges": [ 0, 20 ], "prob": 11 },
+      { "item": "38_special_p", "charges": [ 0, 20 ], "prob": 12 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_38_500_looted",
+    "container-item": "38_ammo_box_500",
+    "items": [
+      { "item": "38_special", "charges": [ 0, 25 ], "prob": 17 },
+      { "item": "38_special_p", "charges": [ 0, 25 ], "prob": 6 },
+      { "item": "38_fmj", "charges": [ 0, 25 ], "prob": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_44_looted",
+    "items": [
+      { "group": "boxed_44_20_looted", "prob": 189 },
+      { "group": "boxed_44_100_looted", "prob": 8 },
+      { "group": "boxed_44_200_looted", "prob": 13 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_44_20_looted",
+    "container-item": "44_ammo_box_20",
+    "items": [ { "item": "44magnum", "charges": [ 0, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_44_100_looted",
+    "container-item": "44_ammo_box_100",
+    "items": [ { "item": "44magnum", "charges": [ 0, 10 ], "prob": 12 }, { "item": "44fmj", "charges": [ 0, 10 ], "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_44_200_looted",
+    "container-item": "44_ammo_box_200",
+    "items": [ { "item": "44magnum", "charges": [ 0, 15 ], "prob": 17 }, { "item": "44fmj", "charges": [ 0, 15 ], "prob": 3 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_3006_looted",
+    "items": [
+      { "group": "boxed_3006_20_looted", "prob": 51 },
+      { "group": "boxed_3006_100_looted", "prob": 3 },
+      { "group": "boxed_3006_200_looted", "prob": 4 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_3006_20_looted",
+    "container-item": "3006_ammo_box_20",
+    "items": [ { "item": "3006", "charges": [ 0, 4 ], "prob": 1 }, { "item": "3006_jsp", "charges": [ 0, 4 ], "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_3006_100_looted",
+    "container-item": "3006_ammo_box_100",
+    "items": [ { "item": "3006", "charges": [ 0, 10 ], "prob": 1 }, { "item": "3006_jsp", "charges": [ 0, 10 ], "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_3006_200_looted",
+    "container-item": "3006_ammo_box_200",
+    "items": [ { "item": "3006", "charges": [ 0, 10 ] }, { "item": "3006_jsp", "charges": [ 0, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_45colt_looted",
+    "//": "Due to lack of factory JHP and FMJ .45 Colt in game, they're not weighted",
+    "items": [ { "group": "boxed_45colt_20_looted", "prob": 3 }, { "group": "boxed_45colt_50_looted", "prob": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_45colt_20_looted",
+    "container-item": "45colt_ammo_box_20",
+    "items": [ { "item": "45colt_jhp", "charges": [ 0, 4 ] }, { "item": "45colt_cowboy", "charges": [ 0, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_45colt_50_looted",
+    "container-item": "45colt_ammo_box_50",
+    "items": [ { "item": "45colt_jhp", "charges": [ 0, 10 ] }, { "item": "45colt_cowboy", "charges": [ 0, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_762R_looted",
+    "items": [ { "group": "boxed_762R_20_looted", "prob": 9 }, { "group": "boxed_762R_200_looted", "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_762R_20_looted",
+    "container-item": { "item": "3006_ammo_box_20", "variant": "762R_ammo_box_20" },
+    "items": [ { "item": "762_54R", "charges": [ 0, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_762R_200_looted",
+    "container-item": { "item": "762_ammo_box_500", "variant": "762R_ammo_box_200" },
+    "items": [ { "group": "boxed_762R_20_looted", "count": [ 0, 1 ] }, { "item": "762_54R", "charges": [ 0, 12 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_270_looted",
+    "items": [
+      { "group": "boxed_270_20_looted", "prob": 214 },
+      { "group": "boxed_270_100_looted", "prob": 5 },
+      { "group": "boxed_270_200_looted", "prob": 13 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_270_20_looted",
+    "container-item": { "item": "3006_ammo_box_20", "variant": "270_ammo_box_20" },
+    "items": [ { "item": "270win_jsp", "charges": [ 0, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_270_100_looted",
+    "container-item": { "item": "3006_ammo_box_100", "variant": "270_ammo_box_100" },
+    "items": [ { "item": "270win_jsp", "charges": [ 0, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_270_200_looted",
+    "container-item": { "item": "3006_ammo_box_200", "variant": "270_ammo_box_200" },
+    "items": [ { "item": "270win_jsp", "charges": [ 0, 20 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_410_looted",
+    "items": [
+      { "group": "boxed_410_5_looted", "prob": 214 },
+      { "group": "boxed_410_10_looted", "prob": 5 },
+      { "group": "boxed_410_25_looted", "prob": 13 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_410_5_looted",
+    "container-item": "410_ammo_box_5",
+    "items": [
+      { "item": "410shot_slug", "charges": [ 0, 2 ], "prob": 21 },
+      { "item": "410shot_000", "charges": [ 0, 2 ], "prob": 6 },
+      { "item": "410shot_bird", "charges": [ 0, 2 ], "prob": 8 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_410_10_looted",
+    "container-item": { "item": "44_ammo_box_20", "variant": "410_ammo_box_10" },
+    "items": [
+      { "item": "410shot_slug", "charges": [ 0, 4 ], "prob": 3 },
+      { "item": "410shot_000", "charges": [ 0, 4 ], "prob": 5 },
+      { "item": "410shot_bird", "charges": [ 0, 4 ], "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_410_25_looted",
+    "container-item": "410_ammo_box_25",
+    "items": [
+      { "item": "410shot_slug", "charges": [ 0, 6 ], "prob": 17 },
+      { "item": "410shot_000", "charges": [ 0, 6 ], "prob": 4 },
+      { "item": "410shot_bird", "charges": [ 0, 6 ], "prob": 35 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_10mm_looted",
+    "items": [
+      { "group": "boxed_10mm_20_looted", "prob": 174 },
+      { "group": "boxed_10mm_50_looted", "prob": 51 },
+      { "group": "boxed_10mm_500_looted", "prob": 11 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_10mm_20_looted",
+    "//": "+P 10mm doesn't seem to actually exist as a factory spec, so it's excluded from these groups",
+    "container-item": "10mm_ammo_box_20",
+    "items": [ { "item": "10mm_fmj", "charges": [ 0, 4 ], "prob": 1 }, { "item": "10mm_jhp", "charges": [ 0, 4 ], "prob": 6 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_10mm_50_looted",
+    "container-item": "10mm_ammo_box_50",
+    "items": [ { "item": "10mm_fmj", "charges": [ 0, 10 ], "prob": 17 }, { "item": "10mm_jhp", "charges": [ 0, 10 ], "prob": 22 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_10mm_500_looted",
+    "container-item": "10mm_ammo_box_500",
+    "items": [ { "item": "10mm_fmj", "charges": [ 0, 20 ], "prob": 7 }, { "item": "10mm_jhp", "charges": [ 0, 20 ], "prob": 12 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_300_looted",
+    "items": [ { "group": "boxed_300_20_looted", "prob": 15 }, { "group": "boxed_300_200_looted", "prob": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_300_20_looted",
+    "container-item": "300_ammo_box_20",
+    "items": [ { "item": "300_winmag", "charges": [ 0, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_300_200_looted",
+    "container-item": "ammunition_can_30",
+    "items": [ { "group": "boxed_300_20_looted", "count": [ 0, 2 ] }, { "item": "300_winmag", "charges": [ 0, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_303_looted",
+    "container-item": "303_ammo_box_20",
+    "items": [
+      { "item": "303_sp", "charges": [ 0, 4 ], "prob": 152 },
+      { "item": "303_fmjbt", "charges": [ 0, 4 ], "prob": 50 },
+      { "item": "303_bthp", "charges": [ 0, 4 ], "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_30carbine_looted",
+    "container-item": "30carbine_ammo_box_50",
+    "items": [
+      { "item": "30carbine_jsp", "charges": [ 0, 10 ], "prob": 21 },
+      { "item": "30carbine", "charges": [ 0, 10 ], "prob": 79 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_32_looted",
+    "container-item": "32_ammo_box_50",
+    "items": [ { "item": "32_acp", "charges": [ 0, 10 ], "prob": 4 }, { "item": "32_acp_jhp", "charges": [ 0, 10 ], "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_338_looted",
+    "container-item": "338_ammo_box_20",
+    "items": [ { "item": "338lapua_hpbt", "charges": [ 0, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_357sig_looted",
+    "container-item": "357sig_ammo_box_50",
+    "items": [
+      { "item": "357sig_jhp", "charges": [ 0, 10 ], "prob": 13 },
+      { "item": "357sig_fmj", "charges": [ 0, 10 ], "prob": 71 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_38super_looted",
+    "container-item": "38super_ammo_box_50",
+    "items": [
+      { "item": "38_super", "charges": [ 0, 10 ], "prob": 11 },
+      { "item": "38super_fmj", "charges": [ 0, 10 ], "prob": 26 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_450_looted",
+    "container-item": "450_ammo_box_20",
+    "items": [ { "item": "450_ftx", "charges": [ 0, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_454_looted",
+    "container-item": "454_ammo_box_20",
+    "items": [ { "item": "454_Casull", "charges": [ 0, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_4570_looted",
+    "container-item": "4570_ammo_box_20",
+    "items": [
+      { "item": "4570_sp", "charges": [ 0, 4 ], "prob": 27 },
+      { "item": "4570_low", "charges": [ 0, 4 ], "prob": 6 },
+      { "item": "4570_pen", "charges": [ 0, 4 ], "prob": 6 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_500_looted",
+    "container-item": { "item": "4570_ammo_box_20", "variant": "500_ammo_box_20" },
+    "items": [ { "item": "500_Magnum", "charges": [ 0, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_460_looted",
+    "container-item": "460_ammo_box_20",
+    "items": [ { "item": "460sw", "charges": [ 0, 4 ], "prob": 7 }, { "item": "460sw_jhp", "charges": [ 0, 4 ], "prob": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_545_looted",
+    "container-item": { "item": "44_ammo_box_20", "variant": "545_ammo_box_20" },
+    "items": [ { "item": "545", "charges": [ 0, 4 ], "prob": 38 }, { "item": "545_ap", "charges": [ 0, 4 ], "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_57_looted",
+    "container-item": "57_ammo_box_50",
+    "items": [ { "item": "57mm_lf", "charges": [ 0, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_762x25_looted",
+    "container-item": { "item": "357sig_ammo_box_50", "variant": "762x25_ammo_box_50" },
+    "items": [ { "item": "762_25", "charges": [ 0, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_300blk_looted",
+    "container-item": { "item": "223_ammo_box_20", "variant": "300blk_ammo_box_20" },
+    "items": [ { "item": "300blk", "charges": [ 0, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_9x18_looted",
+    "container-item": { "item": "45colt_ammo_box_20", "variant": "9x18_ammo_box_50" },
+    "items": [ { "item": "9x18mm", "charges": [ 0, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_50beowulf_looted",
+    "container-item": { "item": "45colt_ammo_box_50", "variant": "50beowulf_ammo_box_20" },
+    "items": [
+      { "item": "50beowulf_xtp", "charges": [ 0, 4 ], "prob": 11 },
+      { "item": "50beowulf_penetrator", "charges": [ 0, 4 ], "prob": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_50AE_looted",
+    "container-item": { "item": "57_ammo_box_50", "variant": "50AE_ammo_box_20" },
+    "items": [ { "item": "50ae_fmj", "charges": [ 0, 4 ], "prob": 5 }, { "item": "50ae_jhp", "charges": [ 0, 4 ], "prob": 21 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_77x58_looted",
+    "container-item": { "item": "45_ammo_box_50", "variant": "77x58_ammo_box_20" },
+    "items": [ { "item": "77mm_arisaka_jsp", "charges": [ 0, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_458_looted",
+    "container-item": { "item": "300_ammo_box_20", "variant": "458_ammo_box_20" },
+    "items": [ { "item": "458wm", "charges": [ 0, 4 ] } ]
+  }
+]

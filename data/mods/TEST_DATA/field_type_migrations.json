@@ -1,0 +1,7 @@
+[
+  {
+    "type": "field_type_migration",
+    "from_field": "test_fd_migration_old_id",
+    "to_field": "test_fd_migration_new_id"
+  }
+]

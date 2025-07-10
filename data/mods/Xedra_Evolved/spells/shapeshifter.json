@@ -1,0 +1,16 @@
+[
+  {
+    "id": "shapeshifter_remove_pain_spell",
+    "type": "SPELL",
+    "name": { "str": "Shapeshifter reduce pain spell", "//~": "NO_I18N" },
+    "description": { "str": "This reduces pain for shapeshifters as their wounds regenerate.  You should never see it.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "effect": "recover_energy",
+    "effect_str": "PAIN",
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "flags": [ "SILENT", "PAIN_NORESIST" ]
+  }
+]

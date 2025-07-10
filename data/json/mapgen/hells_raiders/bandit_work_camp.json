@@ -1,14 +1,12 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "bandit_farm_3", "bandit_farm_2", "bandit_farm_1" ],
       [ "bandit_farm_6", "bandit_farm_5", "bandit_farm_4" ],
       [ "bandit_farm_9", "bandit_farm_8", "bandit_farm_7" ]
     ],
-    "//": "Supposed to be ramshackle, made-from-scratch.  Recently consturucted.",
-    "weight": 250,
+    "//": "Supposed to be ramshackle, made-from-scratch.  Recently constructed.",
     "object": {
       "fill_ter": "t_dirtfloor",
       "faction_owner": [
@@ -34,15 +32,15 @@
         "||#_________________#          É                    DDDDDDDDDDDDDDDD  ||",
         "||W_________________W           ///      É                            ||",
         "||#_____________6__5#           ///       ///       DDDDDDDDDDDDDDDD  ||",
-        "||#_____________64_5#    Á      ///       ///                         ||",
+        "||#_____________6a_5#    Á      ///       ///                         ||",
         "||#____yyy______6__5#     ///             ///       DDDDDDDDDDDDDDDD  ||",
         "||Wb_b_yyy_________5#     ///                                         ||",
         "||#b_b_yyy__________#     ///    Á                  DDDDDDDDDDDDDDDD  ||",
-        "||#____________44___#             ///                                 ||",
-        "||Wb_b_b______4884_FW             ///               DDDDDDDDDDDDDDDD  ||",
-        "||#b_b_b______4884_F#             ///                                 ||",
-        "||#___________4884_F#                               DDDDDDDDDDDDDDDD  ||",
-        "||Wb_b_b_______44__FW                                                 ||",
+        "||#____________aa___#             ///                                 ||",
+        "||Wb_b_b______a88a_FW             ///               DDDDDDDDDDDDDDDD  ||",
+        "||#b_b_b______a88a_F#             ///                                 ||",
+        "||#___________a88a_F#                               DDDDDDDDDDDDDDDD  ||",
+        "||Wb_b_b_______aa__FW                                                 ||",
         "||#b_b_b________O___#                               DDDDDDDDDDDDDDDD  ||",
         "||##W##MMMMMMMMM^#W##                                                 ||",
         "||              O                                   DDDDDDDDDDDDDDDD  ||",
@@ -97,13 +95,20 @@
         "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
       ],
       "palettes": [ "farm" ],
-      "terrain": { "|": "t_hole", "^": "t_palisade", "W": "t_embrasure_wood", "M": "t_palisade_gate", "O": "t_palisade_pulley" },
+      "terrain": {
+        "|": "t_pit_spiked",
+        "^": "t_palisade",
+        "F": "t_dirtfloor",
+        "W": "t_embrasure_wood",
+        "M": "t_palisade_gate",
+        "O": "t_palisade_pulley"
+      },
       "furniture": {
         "5": "f_utility_shelf",
         "*": "f_utility_shelf",
         "6": "f_table",
         "8": "f_table",
-        "4": "f_chair",
+        "a": "f_chair",
         "b": "f_bed",
         "F": "f_woodstove"
       },
@@ -146,6 +151,44 @@
       ],
       "nested": { "Á": { "chunks": [ "tent_5x5_N" ] }, "É": { "chunks": [ "tent_5x5_S" ] } },
       "sealed_item": { "D": { "item": { "item": "seed_weed" }, "furniture": "f_plant_seedling", "chance": 90 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "bandit_farm_3_roof", "bandit_farm_2_roof" ] ],
+    "object": {
+      "fill_ter": "t_open_air",
+      "faction_owner": [
+        { "id": "hells_raiders", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "id": "hells_raiders", "x": [ 24, 47 ], "y": [ 0, 23 ] }
+      ],
+      "rows": [
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "  ###################                           ",
+        "  ###################                           ",
+        "  ###################                           ",
+        "  ###################                           ",
+        "  ###################                           ",
+        "  ###################                           ",
+        "  ###################                           ",
+        "  ###################                           ",
+        "  ###################                           ",
+        "  ###################                           ",
+        "  ###################                           ",
+        "  ###################                           ",
+        "  ###################                           ",
+        "  ###################                           ",
+        "  ###################                           ",
+        "  ###################                           ",
+        "  ###################                           ",
+        "  ###################                           ",
+        "                                                ",
+        "                                                "
+      ],
+      "terrain": { "#": "t_tar_flat_roof" }
     }
   }
 ]

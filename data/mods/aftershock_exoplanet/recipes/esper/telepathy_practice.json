@@ -1,0 +1,140 @@
+[
+  {
+    "id": "afs_telepathy_practice",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_PSI",
+    "name": "[Ψ]practice: telepathy",
+    "description": "Recipes related to practicing telepathy.",
+    "skill_used": "metaphysics",
+    "nested_category_data": [
+      "practice_afs_telepathic_shield",
+      "practice_afs_telepathic_mind_sense",
+      "practice_afs_telepathic_suggestion",
+      "practice_afs_telepathic_confusion",
+      "practice_afs_telepathic_blast"
+    ],
+    "difficulty": 1
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "[Ψ]telepathic shield",
+    "id": "practice_afs_telepathic_shield",
+    "description": "Contemplate your powers and improve the resilience of your mind.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 1,
+    "time": "0 s",
+    "autolearn": false,
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_AFS_TELEPATH_SHIELD",
+        "effect": [
+          { "set_string_var": "afs_telepathic_shield", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "math": [ "u_latest_studied_power_difficulty = 2" ] },
+          { "run_eocs": [ "EOC_AFS_ESPER_STUDYING_POWER_BEGIN", "EOC_AFS_ESPER_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "[Ψ]mind sense",
+    "id": "practice_afs_telepathic_mind_sense",
+    "description": "Contemplate your powers and improve your ability to detect other minds.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 2,
+    "time": "0 s",
+    "autolearn": false,
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_AFS_TELEPATH_MIND_SENSE",
+        "effect": [
+          { "set_string_var": "afs_telepathic_mind_sense", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "math": [ "u_latest_studied_power_difficulty = 3" ] },
+          { "run_eocs": [ "EOC_AFS_ESPER_STUDYING_POWER_BEGIN", "EOC_AFS_ESPER_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "[Ψ]telepathic suggestion",
+    "id": "practice_afs_telepathic_suggestion",
+    "description": "Contemplate your powers and improve your ability to persuade others.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 3,
+    "time": "0 s",
+    "autolearn": false,
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_AFS_TELEPATH_SUGGESTION",
+        "effect": [
+          { "set_string_var": "afs_telepathic_suggestion", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "math": [ "u_latest_studied_power_difficulty = 4" ] },
+          { "run_eocs": [ "EOC_AFS_ESPER_STUDYING_POWER_BEGIN", "EOC_AFS_ESPER_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "[Ψ]sensory deprivation",
+    "id": "practice_afs_telepathic_confusion",
+    "description": "Contemplate your powers and improve your ability to confound your enemies's senses.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 4,
+    "time": "30 m",
+    "autolearn": false,
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_AFS_TELEPATH_CONFUSION",
+        "effect": [
+          { "set_string_var": "afs_telepathic_confusion", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "math": [ "u_latest_studied_power_difficulty = 5" ] },
+          { "run_eocs": [ "EOC_AFS_ESPER_STUDYING_POWER_BEGIN", "EOC_AFS_ESPER_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "[Ψ]synaptic overload",
+    "id": "practice_afs_telepathic_blast",
+    "description": "Contemplate your powers and improve your mental strength to telepathically assault your enemies.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 6,
+    "time": "30 m",
+    "autolearn": false,
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_AFS_TELEPATHIC_BLAST",
+        "effect": [
+          { "set_string_var": "afs_telepathic_blast", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "math": [ "u_latest_studied_power_difficulty = 7" ] },
+          { "run_eocs": [ "EOC_AFS_ESPER_STUDYING_POWER_BEGIN", "EOC_AFS_ESPER_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ]
+      }
+    ]
+  }
+]

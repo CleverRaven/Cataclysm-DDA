@@ -17,47 +17,7 @@
     "components": [ [ [ "rock", 24 ] ] ]
   },
   {
-    "result": "heavy_dry_cell",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "5 m",
-    "qualities": [ { "id": "PRY", "level": 1 } ],
-    "components": [ [ [ "heavy_battery_shell", 1 ] ] ]
-  },
-  {
-    "result": "medium_dry_cell",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "5 m",
-    "qualities": [ { "id": "PRY", "level": 1 } ],
-    "components": [ [ [ "medium_battery_shell", 1 ] ] ]
-  },
-  {
-    "result": "light_dry_cell",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "5 m",
-    "qualities": [ { "id": "PRY", "level": 1 } ],
-    "components": [ [ [ "light_battery_shell", 1 ] ] ]
-  },
-  {
-    "result": "heavy_disposable_cell",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "5 m",
-    "qualities": [ { "id": "PRY", "level": 1 } ],
-    "components": [ [ [ "heavy_battery_shell", 1 ] ] ]
-  },
-  {
-    "result": "medium_disposable_cell",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "5 m",
-    "qualities": [ { "id": "PRY", "level": 1 } ],
-    "components": [ [ [ "medium_battery_shell", 1 ] ] ]
-  },
-  {
-    "result": "light_disposable_cell",
+    "result": "light_battery_cell",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "5 m",

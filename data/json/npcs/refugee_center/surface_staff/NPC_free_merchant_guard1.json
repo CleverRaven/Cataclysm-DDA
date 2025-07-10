@@ -118,6 +118,7 @@
     "item": "cig",
     "count": 100,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "Come on man, I just need a smoke.",
       "offer": "With all that's been going on, it's been more and more difficult to find a smoke.  My stash has been running low for a while now.  Think you could help me out here?  A few packs is all I need.",

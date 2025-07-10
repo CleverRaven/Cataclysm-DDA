@@ -6,12 +6,14 @@
 #include <functional>
 #include <memory>
 #include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 #include "color.h"
 #include "input_enums.h"
+#include "point.h"
 
-class ui_adaptor;
 class query_popup_impl;
 
 /**
@@ -231,11 +233,6 @@ class query_popup
         mutable std::vector<std::string> folded_msg;
         mutable std::vector<button> buttons;
 
-        static std::vector<std::vector<std::string>> fold_query(
-                    const std::string &category,
-                    keyboard_mode pref_kbd_mode,
-                    const std::vector<query_option> &options,
-                    int max_width, int horz_padding );
         void invalidate_ui() const;
 
         template <typename ...Args>

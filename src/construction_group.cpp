@@ -1,12 +1,6 @@
 #include "construction_group.h"
 
-#include <set>
-
-#include "flexbuffer_json-inl.h"
-#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "init.h"
-#include "json_error.h"
 
 namespace
 {
@@ -53,7 +47,7 @@ const string_id<construction_group> &int_id<construction_group>::id() const
     return all_construction_groups.convert( *this );
 }
 
-void construction_group::load( const JsonObject &jo, const std::string_view )
+void construction_group::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "name", _name );
 }

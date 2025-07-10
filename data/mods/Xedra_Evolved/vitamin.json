@@ -14,15 +14,36 @@
     "id": "human_blood_vitamin",
     "type": "vitamin",
     "//": "Only Vampires have the ability to process this vitamin so if other characters gain any amount of this it will stick around forever and potentially give them the excess disease.",
+    "//2": "Regular vampires have a maximum of 5600 blood vitamin.  Only Vampire Anathema can obtain the capacity increase mutations.",
     "vit_type": "counter",
     "name": { "str": "Stolen Blood" },
     "excess": "blood_quenched",
     "deficiency": "withering",
-    "min": -12000,
-    "max": 5600,
+    "min": -1502,
+    "max": 32600,
     "rate": "0 m",
-    "disease": [ [ -4800, -5600 ], [ -5601, -6400 ], [ -6401, -11998 ], [ -11999, -12000 ] ],
+    "disease": [ [ -1, -300 ], [ -301, -750 ], [ -751, -1500 ], [ -1501, -1502 ] ],
     "disease_excess": [ [ 1800, 2400 ], [ 2401, 4400 ], [ 4401, 5600 ] ]
+  },
+  {
+    "id": "vampire_blood_vitamin",
+    "type": "vitamin",
+    "//": "Only Vampire Anathema can gain this vitamin.  It is used to give them their mutations in a way that won't interact with the mutation system as they still can mutate the regular way, despite being locked from thresholds.",
+    "vit_type": "counter",
+    "name": { "str": "Stolen Vampire Blood" },
+    "min": 0,
+    "max": 100000,
+    "rate": "0 m"
+  },
+  {
+    "id": "lilin_ruach_vitamin",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Ruach" },
+    "min": 0,
+    "max": 6720,
+    "//": "Maximum amount is one lunar month's worth at 10 spent per hour.",
+    "rate": "0 m"
   },
   {
     "id": "cheval",
@@ -36,6 +57,17 @@
     "rate": "1 m",
     "disease": [ [ 1, 400 ] ],
     "disease_excess": [ [ 401, 1000 ], [ 1001, 1300 ], [ 1301, 1600 ], [ 1601, 2000 ] ]
+  },
+  {
+    "id": "drank_fae_blood",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Hallucinating on Fae blood" },
+    "excess": "drank_fae_blood_hallucination",
+    "min": 0,
+    "max": 200,
+    "rate": "10 m",
+    "disease_excess": [ [ 1, 5 ], [ 6, 18 ], [ 19, 30 ], [ 31, 200 ] ]
   },
   {
     "id": "creative_spark_research",
@@ -72,6 +104,26 @@
     "disease_excess": [ [ 1, 200 ], [ 201, 400 ], [ 401, 600 ], [ 601, 800 ], [ 801, 1000 ] ]
   },
   {
+    "id": "xedra_chronomancer_insight",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Insight into Time" },
+    "//": "Counts how much insight a chronomancer has obtained.  They automatically obtain 1 per day and may obtain much more by killing particular monsters or other activities.",
+    "min": 0,
+    "max": 10000,
+    "rate": "0 m"
+  },
+  {
+    "id": "xedra_knowing_lies",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Knowledge of the Lies" },
+    "//": "This vitamin scales everything the player gains and suffers from reading this book.",
+    "min": 0,
+    "max": 99999,
+    "rate": "1 m"
+  },
+  {
     "id": "mutagen_earthkin",
     "type": "vitamin",
     "vit_type": "counter",
@@ -88,6 +140,17 @@
     "vit_type": "counter",
     "name": { "str": "Arvore Mutagen" },
     "excess": "mutagen_plantkin",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_alchemical_plantkin",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Arvore Alchemical Mutagen" },
+    "excess": "mutagen_alchemical_plantkin",
     "min": 0,
     "max": 2500,
     "rate": "1 h",
@@ -132,6 +195,72 @@
     "vit_type": "counter",
     "name": { "str": "Sylph Mutagen" },
     "excess": "mutagen_airkin",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_fair_folk_noble",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Noble Fair Folk Mutagen" },
+    "excess": "mutagen_fair_folk_noble",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_fair_folk_commoner_brownie",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Brownie Mutagen" },
+    "excess": "mutagen_fair_folk_commoner_brownie",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_fair_folk_commoner_pooka",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Pooka Mutagen" },
+    "excess": "mutagen_fair_folk_commoner_pooka",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_fair_folk_commoner_selkie",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Selkie Mutagen" },
+    "excess": "mutagen_fair_folk_commoner_selkie",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_fair_folk_commoner_trow",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Trow Mutagen" },
+    "excess": "mutagen_fair_folk_commoner_trow",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_lilin",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Lilin Mutagen" },
+    "excess": "mutagen_lilin",
     "min": 0,
     "max": 2500,
     "rate": "1 h",

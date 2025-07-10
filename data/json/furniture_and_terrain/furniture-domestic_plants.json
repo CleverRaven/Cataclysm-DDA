@@ -175,6 +175,8 @@
     "required_str": 10,
     "looks_like": "t_dirtmound",
     "flags": [ "TRANSPARENT", "PLANTABLE", "FLAT", "MOUNTABLE" ],
+    "connect_groups": "PLANTER",
+    "connects_to": "PLANTER",
     "deconstruct": {
       "items": [
         { "item": "2x4", "count": [ 11, 12 ] },
@@ -220,6 +222,8 @@
       "GROWTH_OVERGROWN",
       "SMALL_HIDE"
     ],
+    "connect_groups": "PLANTER",
+    "connects_to": "PLANTER",
     "deconstruct": {
       "items": [
         { "item": "2x4", "count": [ 11, 12 ] },
@@ -260,6 +264,8 @@
       "GROWTH_HARVEST",
       "SMALL_HIDE"
     ],
+    "connect_groups": "PLANTER",
+    "connects_to": "PLANTER",
     "examine_action": "harvest_plant_ex",
     "deconstruct": {
       "items": [
@@ -295,6 +301,8 @@
     "move_cost_mod": 0,
     "required_str": -1,
     "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_MATURE", "SMALL_HIDE" ],
+    "connect_groups": "PLANTER",
+    "connects_to": "PLANTER",
     "examine_action": "aggie_plant",
     "deconstruct": {
       "items": [
@@ -330,6 +338,8 @@
     "move_cost_mod": 1,
     "required_str": -1,
     "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN" ],
+    "connect_groups": "PLANTER",
+    "connects_to": "PLANTER",
     "examine_action": "aggie_plant",
     "deconstruct": {
       "items": [
@@ -361,6 +371,8 @@
     "move_cost_mod": 1,
     "required_str": -1,
     "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_SEEDLING" ],
+    "connect_groups": "PLANTER",
+    "connects_to": "PLANTER",
     "examine_action": "aggie_plant",
     "deconstruct": {
       "items": [

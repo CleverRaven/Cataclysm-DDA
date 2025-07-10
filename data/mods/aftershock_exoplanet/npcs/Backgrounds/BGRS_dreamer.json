@@ -1,0 +1,28 @@
+[
+  {
+    "id": "BGRS_Dreamer_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "I just spent what felt like weeks in a dream that I was acting as a targeting computer for some kind of alien turret.",
+    "responses": [
+      { "text": "Where are you from then?", "topic": "BGRS_Dreamer_STORY2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGRS_Dreamer_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "Now I'm in some kind of Mary Shelley nightmare?  I mean at least I have mobility.",
+    "responses": [
+      { "text": "What does that have to do with anything?", "topic": "BGRS_Dreamer_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGRS_Dreamer_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "I'm going to keep going with this dream, hopefully soon I'll get to one where I can fly.",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  }
+]

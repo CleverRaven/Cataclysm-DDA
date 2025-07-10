@@ -5,7 +5,7 @@
     "//volume_of_saline": "Amount of saline the bag has. Converts to 'blood' as 250 ml (2500 units of vitamin) of blood volume for each liter of saline.",
     "condition": { "expects_vars": [ "volume_of_saline" ] },
     "effect": [
-      { "math": [ "u_amount_of_saline_infused", "=", "_volume_of_saline" ] },
+      { "math": [ "u_amount_of_saline_infused = _volume_of_saline" ] },
       { "u_assign_activity": "ACT_SALINE_INFUSE", "duration": { "math": [ "_volume_of_saline / 0.55555556" ] } },
       { "u_consume_item": { "context_val": "id" } },
       {

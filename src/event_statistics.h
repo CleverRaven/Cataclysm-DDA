@@ -13,17 +13,13 @@
 #include "translation.h"
 #include "type_id.h"
 
-class cata_variant;
-
-enum class cata_variant_type : int;
-class event_multiset;
-
-enum class event_type : int;
 class JsonObject;
-
-enum class monotonically : int;
+class cata_variant;
+class event_multiset;
 class stats_tracker;
 class stats_tracker_state;
+enum class cata_variant_type : int;
+enum class monotonically : int;
 
 using event_fields_type = std::unordered_map<std::string, cata_variant_type>;
 

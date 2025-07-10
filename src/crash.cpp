@@ -4,6 +4,7 @@
 
 #if defined(BACKTRACE)
 
+#include <cerrno>
 #include <csignal>
 #include <cstdio>
 #include <cstdlib>
@@ -14,6 +15,10 @@
 #include <sstream>
 #include <string>
 #include <typeinfo>
+
+#if !(defined(WIN32) || defined(TILES) || defined(CYGWIN))
+#include <curses.h>
+#endif
 
 #if defined(TILES)
 #include "sdl_wrappers.h"
@@ -135,6 +140,9 @@ extern "C" {
             default:
                 return;
         }
+#if !(defined(WIN32) || defined(TILES)) && !defined(CYGWIN)
+        endwin();
+#endif
         if( !isDebuggerActive() ) {
             log_crash( "Signal", msg );
         }

@@ -1,11 +1,13 @@
 #include "mutation.h" // IWYU pragma: associated
 
+#include <algorithm>
 #include <cstdlib>
 #include <map>
 #include <memory>
 #include <set>
 #include <stdexcept>
 #include <type_traits>
+#include <unordered_map>
 #include <vector>
 
 #include "assign.h"
@@ -15,14 +17,19 @@
 #include "effect_on_condition.h"
 #include "enum_conversions.h"
 #include "enums.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "localized_comparator.h"
+#include "magic_enchantment.h"
 #include "make_static.h"
 #include "memory_fast.h"
+#include "npc.h"
 #include "string_formatter.h"
 #include "trait_group.h"
 #include "translations.h"
+#include "uilist.h"
+#include "weighted_list.h"
 
 static const mutation_category_id mutation_category_ANY( "ANY" );
 
@@ -151,19 +158,8 @@ static mut_attack load_mutation_attack( const JsonObject &jo )
 
     jo.read( "chance", ret.chance );
 
-    if( jo.has_array( "base_damage" ) ) {
-        ret.base_damage = load_damage_instance( jo.get_array( "base_damage" ) );
-    } else if( jo.has_object( "base_damage" ) ) {
-        JsonObject jo_dam = jo.get_object( "base_damage" );
-        ret.base_damage = load_damage_instance( jo_dam );
-    }
-
-    if( jo.has_array( "strength_damage" ) ) {
-        ret.strength_damage = load_damage_instance( jo.get_array( "strength_damage" ) );
-    } else if( jo.has_object( "strength_damage" ) ) {
-        JsonObject jo_dam = jo.get_object( "strength_damage" );
-        ret.strength_damage = load_damage_instance( jo_dam );
-    }
+    optional( jo, false, "base_damage", ret.base_damage );
+    optional( jo, false, "strength_damage", ret.strength_damage );
 
     if( ret.attack_text_u.empty() || ret.attack_text_npc.empty() ) {
         jo.throw_error( "Attack message unset" );
@@ -198,7 +194,7 @@ void mutation_branch::load_trait( const JsonObject &jo, const std::string &src )
 
 mut_transform::mut_transform() = default;
 
-bool mut_transform::load( const JsonObject &jsobj, const std::string_view member )
+bool mut_transform::load( const JsonObject &jsobj, std::string_view member )
 {
     JsonObject j = jsobj.get_object( member );
 
@@ -213,18 +209,18 @@ bool mut_transform::load( const JsonObject &jsobj, const std::string_view member
 
 mut_personality_score::mut_personality_score() = default;
 
-bool mut_personality_score::load( const JsonObject &jsobj, const std::string_view member )
+bool mut_personality_score::load( const JsonObject &jsobj, std::string_view member )
 {
     JsonObject j = jsobj.get_object( member );
 
-    optional( j, false, "min_aggression", min_aggression, -10 );
-    optional( j, false, "max_aggression", max_aggression, 10 );
-    optional( j, false, "min_bravery", min_bravery, -10 );
-    optional( j, false, "max_bravery", max_bravery, 10 );
-    optional( j, false, "min_collector", min_collector, -10 );
-    optional( j, false, "max_collector", max_collector, 10 );
-    optional( j, false, "min_altruism", min_altruism, -10 );
-    optional( j, false, "max_altruism", max_altruism, 10 );
+    optional( j, false, "min_aggression", min_aggression, NPC_PERSONALITY_MIN );
+    optional( j, false, "max_aggression", max_aggression, NPC_PERSONALITY_MAX );
+    optional( j, false, "min_bravery", min_bravery, NPC_PERSONALITY_MIN );
+    optional( j, false, "max_bravery", max_bravery, NPC_PERSONALITY_MAX );
+    optional( j, false, "min_collector", min_collector, NPC_PERSONALITY_MIN );
+    optional( j, false, "max_collector", max_collector, NPC_PERSONALITY_MAX );
+    optional( j, false, "min_altruism", min_altruism, NPC_PERSONALITY_MIN );
+    optional( j, false, "max_altruism", max_altruism, NPC_PERSONALITY_MAX );
 
     return true;
 }
@@ -299,7 +295,7 @@ void mutation_variant::deserialize( const JsonObject &jo )
     load( jo );
 }
 
-void mutation_branch::load( const JsonObject &jo, const std::string &src )
+void mutation_branch::load( const JsonObject &jo, std::string_view src )
 {
     mandatory( jo, was_loaded, "name", raw_name );
     mandatory( jo, was_loaded, "description", raw_desc );
@@ -309,6 +305,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "visibility", visibility, 0 );
     optional( jo, was_loaded, "ugliness", ugliness, 0 );
     optional( jo, was_loaded, "starting_trait", startingtrait, false );
+    optional( jo, was_loaded, "random_at_chargen", random_at_chargen, true );
     optional( jo, was_loaded, "mixed_effect", mixed_effect, false );
     optional( jo, was_loaded, "active", activated, false );
     optional( jo, was_loaded, "starts_active", starts_active, false );
@@ -319,6 +316,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "kcal", hunger, false );
     optional( jo, was_loaded, "thirst", thirst, false );
     optional( jo, was_loaded, "sleepiness", sleepiness, false );
+    optional( jo, was_loaded, "mana", mana, false );
     optional( jo, was_loaded, "valid", valid, true );
     optional( jo, was_loaded, "purifiable", purifiable, true );
 
@@ -393,9 +391,13 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "scent_intensity", scent_intensity, std::nullopt );
     optional( jo, was_loaded, "scent_type", scent_typeid, std::nullopt );
     optional( jo, was_loaded, "ignored_by", ignored_by );
+    optional( jo, was_loaded, "empathize_with", empathize_with );
+    optional( jo, was_loaded, "no_empathize_with", no_empathize_with );
     optional( jo, was_loaded, "can_only_eat", can_only_eat );
     optional( jo, was_loaded, "can_only_heal_with", can_only_heal_with );
     optional( jo, was_loaded, "can_heal_with", can_heal_with );
+    optional( jo, was_loaded, "activation_msg", activation_msg,
+              to_translation( "You activate your %s." ) );
 
     optional( jo, was_loaded, "butchering_quality", butchering_quality, 0 );
 
@@ -440,6 +442,8 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
         std::string enchant_name = "INLINE_ENCH_" + id.str() + "_" + std::to_string( enchant_num++ );
         enchantments.push_back( enchantment::load_inline_enchantment( jv, src, enchant_name ) );
     }
+
+    optional( jo, was_loaded, "comfort", comfort );
 
     for( const std::string s : jo.get_array( "no_cbm_on_bp" ) ) {
         no_cbm_on_bp.emplace( s );
@@ -641,7 +645,8 @@ static void check_consistency( const std::vector<trait_id> &mvec, const trait_id
             debugmsg( "mutation %s refers to undefined %s %s", mid.c_str(), what.c_str(), m.c_str() );
         }
 
-        if( m == mid ) {
+        // TODO: The context check here is gross but this is throwing false positives on #81278 that I don't know how to check for in a better way and I can't repro a crash even if the mutation doesn't cancel cancelling itself it just makes the UI a bit unintuitive
+        if( m == mid && what != "cancels" ) {
             debugmsg( "mutation %s refers to itself in %s context.  The program will crash if the player gains this mutation.",
                       mid.c_str(), what.c_str() );
         }
@@ -672,7 +677,7 @@ void mutation_branch::check_consistency()
                 debugmsg( "mutation %s transform uses undefined target %s", mid.c_str(), tid.c_str() );
             }
         }
-        for( const std::pair<species_id, int> elem : an_id ) {
+        for( const std::pair<const species_id, int> &elem : an_id ) {
             if( !elem.first.is_valid() ) {
                 debugmsg( "mutation %s refers to undefined species id %s", mid.c_str(), elem.first.c_str() );
             }
@@ -882,7 +887,7 @@ void dream::load( const JsonObject &jsobj )
     dreams.push_back( newdream );
 }
 
-bool trait_display_sort( const trait_and_var &a, const trait_and_var &b ) noexcept
+bool trait_var_display_sort( const trait_and_var &a, const trait_and_var &b ) noexcept
 {
     auto trait_sort_key = []( const trait_and_var & t ) {
         return std::make_pair( -t.trait->get_display_color().to_int(), t.name() );
@@ -891,9 +896,23 @@ bool trait_display_sort( const trait_and_var &a, const trait_and_var &b ) noexce
     return localized_compare( trait_sort_key( a ), trait_sort_key( b ) );
 }
 
-bool trait_display_nocolor_sort( const trait_and_var &a, const trait_and_var &b ) noexcept
+bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept
+{
+    auto trait_sort_key = []( const trait_id & t ) {
+        return std::make_pair( -t->get_display_color().to_int(), t->name() );
+    };
+
+    return localized_compare( trait_sort_key( a ), trait_sort_key( b ) );
+}
+
+bool trait_var_display_nocolor_sort( const trait_and_var &a, const trait_and_var &b ) noexcept
 {
     return localized_compare( a.name(), b.name() );
+}
+
+bool trait_display_nocolor_sort( const trait_id &a, const trait_id &b ) noexcept
+{
+    return localized_compare( a->name(), b->name() );
 }
 
 void mutation_branch::load_trait_blacklist( const JsonObject &jsobj )
@@ -1129,6 +1148,7 @@ shared_ptr_fast<Trait_group> mutation_branch::get_group( const
 std::vector<trait_group::Trait_group_tag> mutation_branch::get_all_group_names()
 {
     std::vector<trait_group::Trait_group_tag> rval;
+    rval.reserve( trait_groups.size() );
     for( auto &group : trait_groups ) {
         rval.push_back( group.first );
     }

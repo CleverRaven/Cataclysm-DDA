@@ -1,34 +1,44 @@
 #include "messages.h"
 
+#include <algorithm>
+#include <array>
+#include <cmath>
+#include <deque>
+#include <iterator>
+#include <memory>
+#include <string>
+#include <type_traits>
+#include <unordered_set>
+
 #include "cached_options.h"
 #include "calendar.h"
 #include "catacharset.h"
+#include "character.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "enums.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "input_context.h"
 #include "json.h"
+#include "map.h"
+#include "options.h"
 #include "output.h"
 #include "panels.h"
 #include "point.h"
+#include "rng.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "translation.h"
 #include "translations.h"
+#include "type_id.h"
 #include "ui_manager.h"
 #include "viewer.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
 #endif
-#include <algorithm>
-#include <deque>
-#include <iterator>
-#include <memory>
-#include <string>
-
-#include "options.h"
 
 static const efftype_id effect_weed_high( "weed_high" );
 
@@ -720,14 +730,11 @@ void Messages::dialog::show()
             // Print line brackets to mark ranges of time
             if( printing_range ) {
                 const size_t last_line = log_from_top ? line - 1 : line + 1;
-                wattron( w, bracket_color );
-                mvwaddch( w, point( border_width + time_width - 1, border_width + last_line ), LINE_XOXO );
-                wattroff( w, bracket_color );
+                mvwputch( w, point( border_width + time_width - 1, border_width + last_line ), bracket_color,
+                          LINE_XOXO );
             }
-            wattron( w, bracket_color );
-            mvwaddch( w, point( border_width + time_width - 1, border_width + line ),
+            mvwputch( w, point( border_width + time_width - 1, border_width + line ), bracket_color,
                       log_from_top ? LINE_XXOO : LINE_OXXO );
-            wattroff( w, bracket_color );
             printing_range = true;
         }
 
@@ -1004,24 +1011,30 @@ void add_msg( const game_message_params &params, std::string msg )
     Messages::add_msg( params, std::move( msg ) );
 }
 
-void add_msg_if_player_sees( const tripoint &target, std::string msg )
+void add_msg_if_player_sees( const tripoint_bub_ms &target, std::string msg )
 {
-    if( get_player_view().sees( target ) ) {
+    const map &here = get_map();
+
+    if( get_player_view().sees( here, target ) ) {
         Messages::add_msg( std::move( msg ) );
     }
 }
 
 void add_msg_if_player_sees( const Creature &target, std::string msg )
 {
-    if( get_player_view().sees( target ) ) {
+    const map &here = get_map();
+
+    if( get_player_view().sees( here, target ) ) {
         Messages::add_msg( std::move( msg ) );
     }
 }
 
-void add_msg_if_player_sees( const tripoint &target, const game_message_params &params,
+void add_msg_if_player_sees( const tripoint_bub_ms &target, const game_message_params &params,
                              std::string msg )
 {
-    if( get_player_view().sees( target ) ) {
+    const map &here = get_map();
+
+    if( get_player_view().sees( here, target ) ) {
         Messages::add_msg( params, std::move( msg ) );
     }
 }
@@ -1029,7 +1042,9 @@ void add_msg_if_player_sees( const tripoint &target, const game_message_params &
 void add_msg_if_player_sees( const Creature &target, const game_message_params &params,
                              std::string msg )
 {
-    if( get_player_view().sees( target ) ) {
+    const map &here = get_map();
+
+    if( get_player_view().sees( here, target ) ) {
         Messages::add_msg( params, std::move( msg ) );
     }
 }

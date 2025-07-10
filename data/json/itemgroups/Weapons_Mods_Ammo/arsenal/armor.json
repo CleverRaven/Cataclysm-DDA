@@ -23,6 +23,7 @@
       { "item": "helmet_army", "prob": 100, "count": [ 1, 4 ] },
       { "item": "tac_fullhelmet", "prob": 60, "count": [ 1, 2 ] },
       { "item": "glasses_bal", "prob": 60, "count": [ 1, 2 ] },
+      { "item": "mask_bal", "prob": 30, "count": [ 1, 2 ] },
       { "item": "powered_earmuffs", "prob": 60, "count": [ 1, 2 ] }
     ]
   },

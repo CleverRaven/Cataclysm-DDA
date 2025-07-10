@@ -1,0 +1,34 @@
+[
+  {
+    "type": "help",
+    "order": 0,
+    "name": "No Hope: Features",
+    "messages": [
+      "Alters domestic mapgen palettes to increase damage and messiness.",
+      "Adds item difficulty settings that reduce the spawn rates for common item categories without reducing rare items.  See EoCs.md for category breakdowns and customisation or EoCs.json for exact numbers used for each difficulty.",
+      "Most vehicles spawn damaged and without fuel.  Intact cars now are much, much harder to find, though not impossible (Originally the \"Cars to Wrecks\" mod).",
+      "Removed all turrets from military vehicles.",
+      "More miserable weather, expect long spells of rain and fog.",
+      "Greatly ups bandit presence (Originally the \"Extra Bandit\" mod).",
+      "Most LMOE shelters now have a rather high chance to spawn bandits inside.  Empty LMOEs now has a lower chance (1 for every 3 occupied) to spawn.",
+      "Reduced chance to drop military gear from zombie soldiers.",
+      "Gave all mechas ability to protect their operators from melee and ranged damage.",
+      "Makes wooden walls hard to set on fire.  Fire is a very powerful out in alot of situations, this tries to make it slightly less abusable.",
+      "Returned CBM loot in most places it was removed from (electronic stores, toxic dumps, sewage treatment plants etc).",
+      "Returned some cut vanilla content, including, but not limited to: laser turret (rewrote description to mention it's working not on the solar panels, but rather on compact yet powerful storage batteries; updated drop list to reflect that), chickenbot, tankbot and tripod and made it spawn in some military locations, moose's legendary aggression and flaming eye's ray of destruction.  Removed flaming eye's STARE attack.  Added almost identical monster - staring eye with STARE attack.",
+      "Adds mutant random NPCs (Originally the \"Mutant NPCs\" mod)."
+    ]
+  },
+  {
+    "type": "help",
+    "order": 1,
+    "name": "No Hope: Difficulty Options",
+    "messages": [
+      "No Hope adds 3 difficulties that allow you to pick between increasingly more harsh multipliers to spawn rates split by item category intended to make basic survival less trivial and progression slower and in turn require more exploration leading to greater risk while less powerful without decreasing the spawn rates of items such as mutagens and bionics that are intended as rewards for exploring more dangerous locations and are already rare and as such shouldn't be punished.",
+      "The difficulty options can be used alongside the regular item spawn rate setting if desired with expected results.",
+      "For exact numerical breakdowns of the options see difficulty_options.json along with DIFFICULTY_OPTIONS.md for a barebones breakdown of which categories are affected and why.",
+      "If you wish to alter the difficulty settings past the 3 options you might prefer to use a personal mod to add a 4th option so that you don't need to keep editing files on update and can instead just copy paste the personal mod across, see https://github.com/Procyonae/CDDAMiniMods/tree/main/data/mods/No_Hope_Custom_Difficulty (shortcut in mod folder) for a template of such a mod that just needs the numbers tweaking to your liking.",
+      "If you wish to change the selected option on an existing save you can do so by binding the debug menu then navigating to debug menu -> Game -> Activate EOC -> EOC_NH_set_difficulty.  This notably won't change already generated item spawns anywhere that your reality bubble has touched."
+    ]
+  }
+]

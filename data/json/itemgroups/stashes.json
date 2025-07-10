@@ -2,36 +2,22 @@
   {
     "type": "item_group",
     "id": "stash_food",
+    "subtype": "collection",
+    "//": "This itemgroup is intended to represent a stash of long-lasting food and water supplies that a survivor may have scavenged",
     "items": [
-      [ "water_clean", 90 ],
-      [ "water_mineral", 5 ],
-      { "group": "softdrinks_canned", "prob": 380 },
-      { "group": "salty_snacks", "prob": 135 },
-      { "item": "cola", "prob": 25, "container-item": "bottle_glass" },
-      { "item": "creamsoda", "prob": 25, "container-item": "bottle_glass" },
-      { "item": "lemonlime", "prob": 25, "container-item": "bottle_glass" },
-      { "item": "orangesoda", "prob": 25, "container-item": "bottle_glass" },
-      { "item": "colamdew", "prob": 25, "container-item": "bottle_glass" },
-      [ "salted_fish", 35 ],
-      [ "ravioli", 25 ],
-      [ "cheese_hard", 15 ],
-      [ "can_beans", 40 ],
-      [ "pork_beans", 40 ],
-      [ "can_corn", 35 ],
-      [ "cooked_pumpkin", 20 ],
-      [ "can_spam", 30 ],
-      { "prob": 10, "group": "salt_bag_plastic_100" },
-      { "prob": 5, "group": "seasoning_salt_bag_plastic_100" },
-      [ "vinegar", 10 ],
-      { "prob": 30, "group": "veggy_pickled_jar_glass_sealed_2" },
-      { "prob": 20, "group": "sauerkraut_jar_glass_sealed_2" },
-      [ "con_milk", 10 ],
-      [ "milk_evap", 10 ],
-      [ "instant_coffee", 25 ],
-      { "prob": 26, "group": "fish_pickled_jar_glass_sealed_2" },
-      [ "lutefisk", 1 ],
-      [ "pemmican", 10 ],
-      { "prob": 20, "group": "meat_pickled_jar_glass_sealed_2" }
+      { "group": "pantry_liquids", "prob": 30, "count": [ 1, 3 ] },
+      { "group": "pasta", "prob": 50, "count": [ 1, 5 ] },
+      { "group": "cannedfood", "prob": 50, "count": [ 1, 6 ] },
+      { "group": "big_canned_food", "prob": 25, "count": [ 1, 3 ] },
+      { "group": "dry_goods", "prob": 30, "count": [ 1, 4 ] },
+      { "group": "preserved_food", "prob": 30, "count": [ 1, 5 ] },
+      { "item": "water_clean", "prob": 75, "count": [ 4, 12 ] },
+      { "item": "water_mineral", "prob": 10, "count": [ 1, 4 ] },
+      { "group": "softdrinks_canned", "prob": 5, "count": [ 1, 4 ] },
+      { "prob": 10, "group": "salt_various" },
+      { "prob": 5, "group": "seasoning_salt_various" },
+      { "item": "instant_coffee", "prob": 25, "count": [ 1, 12 ] },
+      { "item": "pemmican", "prob": 10, "count": [ 1, 7 ] }
     ]
   },
   {
@@ -76,8 +62,31 @@
       { "prob": 1, "group": "heroin_bag_zipper_1_4" },
       { "prob": 4, "group": "crack_bag_zipper_1_4" },
       [ "crackpipe", 7 ],
+      [ "pipe_water", 5 ],
       { "prob": 1, "group": "antifungal_bottle_plastic_pill_prescription_1_5" },
       { "prob": 2, "group": "antiparasitic_bottle_plastic_pill_prescription_1_10" },
+      { "prob": 1, "group": "diazepam_bottle_plastic_pill_prescription_1_10" },
+      { "item": "lsd", "prob": 6, "count": [ 1, 5 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "stash_drugs_illegals",
+    "items": [
+      { "prob": 4, "group": "oxycodone_bottle_plastic_pill_prescription_1_10" },
+      { "item": "morphine", "prob": 4, "count": [ 1, 4 ] },
+      { "prob": 10, "group": "xanax_bottle_plastic_pill_prescription_1_10" },
+      { "prob": 10, "group": "adderall_bottle_plastic_pill_prescription_1_10" },
+      [ "pipe_tobacco", 2 ],
+      { "prob": 2, "group": "tobacco_bag_plastic_1_20" },
+      [ "seed_tobacco", 15 ],
+      [ "rolling_paper", 9 ],
+      [ "pipe_glass", 17 ],
+      { "prob": 8, "group": "coke_bag_zipper_1_8" },
+      { "prob": 2, "group": "meth_bag_zipper_1_6" },
+      { "prob": 1, "group": "heroin_bag_zipper_1_4" },
+      { "prob": 4, "group": "crack_bag_zipper_1_4" },
+      [ "crackpipe", 7 ],
       { "prob": 1, "group": "diazepam_bottle_plastic_pill_prescription_1_10" },
       { "item": "lsd", "prob": 6, "count": [ 1, 5 ] }
     ]
@@ -131,7 +140,7 @@
     "subtype": "collection",
     "entries": [
       { "group": "bugout_first_aid", "prob": 50 },
-      { "group": "bugout_small_gun", "prob": 45 },
+      { "group": "guns_pistol_common", "prob": 45 },
       { "group": "bugout_food", "prob": 50 },
       { "group": "bugout_water", "prob": 50 },
       { "group": "bugout_bad_pack", "prob": 100 }
@@ -162,7 +171,7 @@
     "on_overflow": "spill",
     "entries": [
       { "group": "bugout_first_aid", "count": 1, "prob": 90 },
-      { "group": "bugout_small_gun", "prob": 70 },
+      { "group": "guns_pistol_common", "prob": 70 },
       { "group": "bugout_long_gun", "prob": 20 },
       { "group": "bugout_food", "prob": 50, "count": [ 1, 3 ] },
       { "group": "bugout_water", "prob": 50, "count": [ 1, 3 ] },
@@ -187,31 +196,17 @@
   },
   {
     "type": "item_group",
-    "id": "bugout_small_gun",
-    "subtype": "distribution",
-    "//": "a handgun of some kind.",
-    "entries": [ { "group": "guns_pistol_common", "prob": 100 }, { "group": "guns_pistol_rare", "prob": 10 } ]
-  },
-  {
-    "type": "item_group",
     "id": "bugout_long_gun",
     "subtype": "distribution",
     "//": "a long weapon of some kind.",
-    "entries": [
-      { "group": "guns_smg_common", "prob": 10 },
-      { "group": "guns_smg_rare", "prob": 2 },
-      { "group": "guns_rifle_common", "prob": 100 },
-      { "group": "guns_rifle_rare", "prob": 20 },
-      { "group": "guns_shotgun_common", "prob": 2 },
-      { "group": "guns_shotgun_rare", "prob": 1 }
-    ]
+    "entries": [ { "group": "guns_rifle_common", "prob": 120 }, { "group": "guns_shotgun_common", "prob": 3 } ]
   },
   {
     "type": "item_group",
     "id": "bugout_gun",
     "subtype": "distribution",
     "//": "a gun or two of some kind.",
-    "entries": [ { "group": "bugout_small_gun", "prob": 100 }, { "group": "bugout_long_gun", "prob": 20 } ]
+    "entries": [ { "group": "guns_pistol_common", "prob": 100 }, { "group": "bugout_long_gun", "prob": 20 } ]
   },
   {
     "type": "item_group",
@@ -328,13 +323,15 @@
       [ "spiral_stone", 5 ],
       [ "petrified_eye", 5 ],
       [ "talking_doll", 40 ],
-      [ "bondage_mask", 20 ]
+      [ "bondage_mask", 20 ],
+      [ "gold_anklet", 25 ],
+      [ "silver_anklet", 25 ]
     ]
   },
   {
     "id": "child_bugout_bag_1",
     "type": "item_group",
-    "container-item": "backpack",
+    "container-item": "backpack_small",
     "on_overflow": "spill",
     "items": [ { "group": "child_bugout" } ]
   },
@@ -431,7 +428,7 @@
     "id": "tobacco_bag_plastic_1_20",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
+    "container-item": "bag_plastic_small",
     "entries": [ { "item": "tobacco", "container-item": "null", "count": [ 1, 20 ] } ]
   },
   {

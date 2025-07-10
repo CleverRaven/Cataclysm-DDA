@@ -11,7 +11,7 @@
 #include <utility>
 #include <vector>
 
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "game_constants.h"
 #include "item.h"
 #include "translation.h"
@@ -31,7 +31,7 @@ class nc_color;
 
 struct partial_con {
     int counter = 0;
-    std::list<item> components = {};
+    std::list<item> components;
     construction_id id = construction_id( -1 );
 };
 
@@ -47,8 +47,8 @@ struct construction {
         construction_group_str_id group;
         // Additional note displayed along with construction requirements.
         translation pre_note;
-        // Beginning terrain for construction
-        std::string pre_terrain;
+        // Beginning terrain(s) for construction
+        std::set<std::string> pre_terrain;
         // Final terrain after construction
         std::string post_terrain;
 
@@ -133,5 +133,7 @@ std::vector<construction *> constructions_by_filter( std::function<bool( constru
         const &filter );
 void check_constructions();
 void finalize_constructions();
-
+std::vector<construction_id> find_build_sequence( const std::string &target_id,
+        std::function<bool( construction const & )> const &filter,
+        std::function<bool( construction const & )> const &can_build );
 #endif // CATA_SRC_CONSTRUCTION_H

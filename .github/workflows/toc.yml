@@ -3,7 +3,7 @@ on:
     branches:
     - master
     paths:
-    - 'doc/JSON_INFO.md'
+    - 'doc/JSON/JSON_INFO.md'
 name: TOC Generator
 permissions:
   contents: read
@@ -15,17 +15,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: npx doctoc doc/JSON_INFO.md --github
+      - run: npx doctoc doc/JSON/JSON_INFO.md --github
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
           commit-message: Update the table of contents
           branch: update-toc
           token: ${{ secrets.TX_PR_CREATOR }}
-          title: Update the table of contents in doc/JSON_INFO.md
+          title: Update the table of contents in doc/JSON/JSON_INFO.md
           body: |
             ```sh
             #### Summary
             None
-            npx doctoc doc/JSON_INFO.md --github
+            npx doctoc doc/JSON/JSON_INFO.md --github
             ```

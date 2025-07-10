@@ -2,11 +2,11 @@
 #ifndef CATA_SRC_HANDLE_LIQUID_H
 #define CATA_SRC_HANDLE_LIQUID_H
 
+#include "coordinates.h"
 #include "item_location.h"
-#include "item_stack.h"
-#include "map.h"
 #include "point.h"
 
+class Character;
 class item;
 class monster;
 class vehicle;
@@ -22,7 +22,7 @@ enum liquid_dest : int {
 
 struct liquid_dest_opt {
     liquid_dest dest_opt = LD_NULL;
-    tripoint pos;
+    tripoint_bub_ms pos;
     item_location item_loc;
     vehicle *veh = nullptr;
 };
@@ -45,6 +45,14 @@ namespace liquid_handler
 void handle_all_liquid( item liquid, int radius, const item *avoid = nullptr );
 
 /**
+ * Store any liquids produced during an NPC activity (e.g. crafting or disassembly) into
+ * nearby containers. Will spill on the ground if no suitable containers are found.
+ * Does not consume moves (the move cost is presumed to be covered by the activity that
+ * produced the liquid).
+ */
+void handle_npc_liquid( item liquid, Character &who );
+
+/**
  * Consume / handle as much of the liquid as possible in varying ways. This function can
  * be used when the action can be canceled, which implies the liquid can be put back
  * to wherever it came from and is *not* lost if the player cancels the action.
@@ -57,35 +65,14 @@ void handle_all_liquid( item liquid, int radius, const item *avoid = nullptr );
 bool consume_liquid( item &liquid, int radius = 0, const item *avoid = nullptr );
 
 /**
- * Handle finite liquid from ground. The function also handles consuming move points.
- * This may start a player activity.
- * @param on_ground Iterator to the item on the ground. Must be valid and point to an
- * item in the stack at `m.i_at(pos)`
- * @param pos The position of the item on the map.
+ * Handle liquids from inside a container item. The function also handles consuming move points.
+  * @param container Container of the liquid
  * @param radius around position to handle liquid for
  * @return Whether the item has been removed (which implies it was handled completely).
  * The iterator is invalidated in that case. Otherwise the item remains but may have
  * fewer charges.
  */
-bool handle_liquid_from_ground( const map_stack::iterator &on_ground, const tripoint &pos,
-                                int radius = 0 );
-
-/**
- * Handle liquid from inside a container item. The function also handles consuming move points.
- * @param in_container Iterator to the liquid. Must be valid and point to an
- * item in the @ref item::contents of the container.
- * @param container Container of the liquid
- * @param radius around position to handle liquid for
- * @return Whether the item has been removed (which implies it was handled completely).
- * The iterator is invalidated in that case. Otherwise the item remains but may have
- * fewer charges.
- */
-bool handle_liquid_from_container( item *in_container, item &container,
-                                   int radius = 0 );
-/**
- * Shortcut to the above: handles the first item in the container.
- */
-bool handle_liquid_from_container( item &container, int radius = 0 );
+bool handle_all_liquids_from_container( item_location &container, int radius = 0 );
 
 bool can_handle_liquid( const item &liquid );
 
@@ -97,6 +84,7 @@ bool can_handle_liquid( const item &liquid );
  * into that "container". If no source parameter is given, the liquid must not be in a
  * container at all (e.g. freshly crafted, or already removed from the container).
  * @param liquid The actual liquid
+ * @param liquid_target is the destination, with LD_NULL indicating it should be fetched.
  * @param source The container that currently contains the liquid.
  * @param radius Radius to look for liquid around pos
  * @param source_pos The source of the liquid when it's from the map.
@@ -108,15 +96,22 @@ bool can_handle_liquid( const item &liquid );
  * Basically `false` indicates the user does not *want* to handle the liquid, `true`
  * indicates they want to handle it.
  */
-bool handle_liquid( item &liquid, const item *source = nullptr, int radius = 0,
-                    const tripoint *source_pos = nullptr,
+bool handle_liquid( item &liquid, liquid_dest_opt &liquid_target, const item *source = nullptr,
+                    int radius = 0,
+                    const tripoint_bub_ms *source_pos = nullptr,
                     const vehicle *source_veh = nullptr, int part_num = -1,
-                    const monster *source_mon = nullptr );
+                    const monster *source_mon = nullptr, bool silent = true );
+bool handle_liquid( item_location &liquid, const item *source = nullptr, int radius = 0 );
 
 /* Not to be used directly. Use liquid_handler::handle_liquid instead. */
-bool perform_liquid_transfer( item &liquid, const tripoint *source_pos,
+bool perform_liquid_transfer( item &liquid, const tripoint_bub_ms *source_pos,
                               const vehicle *source_veh, int part_num,
-                              const monster * /*source_mon*/, liquid_dest_opt &target );
+                              const monster * /*source_mon*/, liquid_dest_opt &target, bool silent );
+bool perform_liquid_transfer( item_location &liquid, liquid_dest_opt &target );
+
+// Select destination to use, but don't actually do anything with it. Does not allow for spilling.
+liquid_dest_opt select_liquid_target( item &liquid, int radius );
+
 } // namespace liquid_handler
 
 #endif // CATA_SRC_HANDLE_LIQUID_H

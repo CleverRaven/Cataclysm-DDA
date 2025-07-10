@@ -1,4 +1,5 @@
 [
+    { ref: "cpp-17.stdlib.imp" },
     { ref: "gcc.stdlib.imp" },
     { ref: "vs.stdlib.imp" },
     { ref: "sdl.imp" },

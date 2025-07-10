@@ -4,8 +4,8 @@
     "type": "talk_topic",
     "dynamic_line": "I'm my own person, but I'm mostly willing to follow your lead.  I can do a lot of things for you: I can fight, I can train you or you can train me, I can carry stuff, I can bandage your wounds, I can build faction camps, I can do some other activities, I can ride horses, I can go places, I can guard things, I can use some bionics, I can even chit-chat with you or give you tips or talk about my background.  You can give me instructions in conversation or by radio or shout commands at me.\n  What do you want to know more about?",
     "responses": [
-      { "text": "Forget I asked.", "topic": "TALK_FRIEND" },
-      { "text": "Skip it, let's get going.", "topic": "TALK_DONE" },
+      { "text": "<end_talking_nevermind>", "topic": "TALK_FRIEND" },
+      { "text": "Skip it.  <lets_go>", "topic": "TALK_DONE" },
       {
         "text": "Any hints about the world we now live in?",
         "trial": {
@@ -242,7 +242,7 @@
     "responses": [
       { "text": "Thanks for the explanation.  I wanted to know more about something else.", "topic": "TALK_ALLY_TUTORIAL" },
       { "text": "Thanks.  I have some things for you to do.", "topic": "TALK_FRIEND" },
-      { "text": "Skip it, let's get going.", "topic": "TALK_DONE" }
+      { "text": "Skip it.  <lets_go>", "topic": "TALK_DONE" }
     ]
   }
 ]

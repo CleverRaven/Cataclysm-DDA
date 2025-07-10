@@ -1,0 +1,173 @@
+[
+  {
+    "om_terrain": [ "hw_fb_crossroad", "hw_fb_tee" ],
+    "type": "mapgen",
+    "object": {
+      "fallback_predecessor_mapgen": "field",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "       |||||||||||||||||",
+        "       |................",
+        "       |................",
+        "       |................",
+        "       |................",
+        "       |................",
+        "       |................",
+        "       |................",
+        "       |................",
+        "       |................",
+        "       |................",
+        "       |................",
+        "       |................",
+        "       |................",
+        "       |................",
+        "       |................",
+        "       |................"
+      ],
+      "palettes": [ "highway_palette" ],
+      "place_nested": [
+        {
+          "chunks": [ "24x24_highway_fallback_intersection_grass" ],
+          "x": 0,
+          "y": 0,
+          "check_z": [ 0 ],
+          "flags_any": { "north": [ "HIGHWAY" ], "west": [ "HIGHWAY" ] }
+        },
+        {
+          "chunks": [ "24x24_highway_fallback_intersection_north" ],
+          "x": 0,
+          "y": 0,
+          "flags": { "north": [ "HIGHWAY" ] }
+        },
+        {
+          "chunks": [ "24x24_highway_fallback_intersection_west" ],
+          "x": 0,
+          "y": 0,
+          "flags": { "west": [ "HIGHWAY" ] }
+        }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "nested_mapgen_id": "24x24_highway_fallback_intersection_grass",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "        gggggggggggggggg",
+        "       ggggggggggggggggg",
+        "      gggggggggggggggggg",
+        "     ggggggggggggggggggg",
+        "    gggggggggggggggggggg",
+        "   ggggggggggggggggggggg",
+        "  gggggggggggggggggggggg",
+        " gggggg                 ",
+        "ggggggg                 ",
+        "ggggggg                 ",
+        "ggggggg                 ",
+        "ggggggg                 ",
+        "ggggggg                 ",
+        "ggggggg                 ",
+        "ggggggg                 ",
+        "ggggggg                 ",
+        "ggggggg                 ",
+        "ggggggg                 ",
+        "ggggggg                 ",
+        "ggggggg                 ",
+        "ggggggg                 ",
+        "ggggggg                 ",
+        "ggggggg                 ",
+        "ggggggg                 "
+      ],
+      "palettes": [ "highway_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "nested_mapgen_id": "24x24_highway_fallback_intersection_north",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "       |...............|",
+        "       |...............|",
+        "       |.......*.......|",
+        "       |.......*.......|",
+        "       |...............|",
+        "       |.......*.......|",
+        "       |.......*.......|",
+        "       |***************|",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "highway_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "nested_mapgen_id": "24x24_highway_fallback_intersection_west",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "||||||||                ",
+        "........                ",
+        "........                ",
+        "........                ",
+        "........                ",
+        "........                ",
+        "........                ",
+        "........                ",
+        "**..**..                ",
+        "........                ",
+        "........                ",
+        "........                ",
+        "........                ",
+        "........                ",
+        "........                ",
+        "........                ",
+        "||||||||                "
+      ],
+      "palettes": [ "highway_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "om_terrain": "hw_fb_supports",
+    "type": "mapgen",
+    "//": "dummy OMT that places hw_supports special in C++",
+    "object": {
+      "fallback_predecessor_mapgen": "open_air",
+      "palettes": [ "highway_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  }
+]

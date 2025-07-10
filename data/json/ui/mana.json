@@ -87,7 +87,7 @@
     "id": "custom_mana_separator",
     "type": "widget",
     "style": "text",
-    "string": "/",
+    "string": { "str": "/", "//~": "NO_I18N" },
     "padding": 1,
     "colors": [ "c_white" ]
   },
@@ -95,7 +95,7 @@
     "id": "custom_mana_padding",
     "type": "widget",
     "style": "text",
-    "string": "      ",
+    "string": { "str": "      ", "//~": "NO_I18N" },
     "padding": 1,
     "colors": [ "c_white" ]
   },

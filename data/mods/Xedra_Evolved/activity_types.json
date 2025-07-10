@@ -1,0 +1,49 @@
+[
+  {
+    "type": "activity_type",
+    "id": "ACT_CHANGELING_DREAMDROSS_TO_DREAMSPARKS",
+    "activity_level": "NO_EXERCISE",
+    "verb": "extracting dreams",
+    "based_on": "time"
+  },
+  {
+    "id": "ACT_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "daydreaming",
+    "based_on": "time",
+    "completion_eoc": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_FINALIZE"
+  },
+  {
+    "id": "ACT_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "daydreaming",
+    "based_on": "time",
+    "completion_eoc": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_FINALIZE"
+  },
+  {
+    "id": "ACT_CHANGELING_RESEARCH_SEASONAL_MAGIC_AUTUMN",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "daydreaming",
+    "based_on": "time",
+    "completion_eoc": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_AUTUMN_FINALIZE"
+  },
+  {
+    "id": "ACT_CHANGELING_RESEARCH_SEASONAL_MAGIC_WINTER",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "daydreaming",
+    "based_on": "time",
+    "completion_eoc": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_WINTER_FINALIZE"
+  },
+  {
+    "type": "activity_type",
+    "id": "ACT_VAMPIRE_DRINKING_BLOOD",
+    "activity_level": "NO_EXERCISE",
+    "verb": "drinking blood",
+    "based_on": "time",
+    "can_resume": false
+  }
+]

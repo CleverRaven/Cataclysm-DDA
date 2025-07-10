@@ -1,14 +1,20 @@
-#include <iosfwd>
 #include <memory>
+#include <optional>
 #include <string>
 
 #include "avatar.h"
 #include "cata_catch.h"
+#include "coordinates.h"
+#include "creature.h"
 #include "creature_tracker.h"
+#include "dialogue_helpers.h"
 #include "game.h"
 #include "magic.h"
+#include "magic_type.h"
+#include "map.h"
 #include "map_helpers.h"
 #include "monster.h"
+#include "npc.h"
 #include "pimpl.h"
 #include "player_helpers.h"
 #include "point.h"
@@ -23,7 +29,7 @@ static const spell_id spell_test_spell_tp_mummy( "test_spell_tp_mummy" );
 //
 // Each test case relates to some spell feature, in terms of:
 //
-// - JSON spell content, from data/json/*.json, as documented in doc/MAGIC.md
+// - JSON spell content, from data/json/*.json, as documented in doc/JSON/MAGIC.md
 // - C++ spell functions, defined in src/magic.cpp and src/magic_spell_effect.cpp
 //
 // To run all tests in this file:
@@ -103,6 +109,163 @@ TEST_CASE( "spell_level", "[magic][spell][level]" )
                 AND_THEN( "it cannot level up beyond max_level" ) {
                     pew_spell.set_level( guy, pew_type.max_level.min.dbl_val.value() + 1 );
                     CHECK( pew_spell.get_level() == pew_type.max_level.min.dbl_val.value() );
+                }
+            }
+        }
+    }
+}
+
+static int char_to_invlet( char c )
+{
+    return static_cast<int>( static_cast<unsigned char>( c ) );
+}
+
+// Spell invlet assignment/removal/swap
+// -----------
+//
+// Functions:
+// known_magic::get_invlet
+// known_magic::set_invlet
+// known_magic::rem_invlet
+// known_magic::swap_invlet
+TEST_CASE( "spell_invlet", "[magic][invlet]" )
+{
+    spell_id spell_1( "test_spell_pew" );
+    spell_id spell_2( "test_spell_lava" );
+    spell_id spell_3( "test_spell_kiss" );
+
+    SECTION( "get_invlet" ) {
+        GIVEN( "empty npc" ) {
+            npc guy;
+            WHEN( "getting spell invlet without setting it" ) {
+                int invlet = guy.magic->get_invlet( spell_1 );
+                THEN( "spell assigned to 'a'" ) {
+                    CHECK( invlet == char_to_invlet( 'a' ) );
+                    CHECK( guy.magic->get_invlet( spell_1 ) == invlet );
+                }
+            }
+        }
+        GIVEN( "empty npc" ) {
+            npc guy;
+            WHEN( "getting two spell invlets without setting them" ) {
+                int spell_1_invlet = guy.magic->get_invlet( spell_1 );
+                int spell_2_invlet = guy.magic->get_invlet( spell_2 );
+                THEN( "spells assigned to 'a' and 'b'" ) {
+                    CHECK( spell_1_invlet == char_to_invlet( 'a' ) );
+                    CHECK( spell_2_invlet == char_to_invlet( 'b' ) );
+                    CHECK( guy.magic->get_invlet( spell_1 ) == spell_1_invlet );
+                    CHECK( guy.magic->get_invlet( spell_2 ) == spell_2_invlet );
+                }
+            }
+        }
+        GIVEN( "NPC with 'a' and 'c' assigned" ) {
+            npc guy;
+            guy.magic->set_invlet( spell_1, char_to_invlet( 'a' ) );
+            guy.magic->set_invlet( spell_2, char_to_invlet( 'c' ) );
+            WHEN( "getting invlet of a new spell" ) {
+                int spell_3_invlet = guy.magic->get_invlet( spell_3 );
+                THEN( "spell assigned to 'b'" ) {
+                    CHECK( spell_3_invlet == char_to_invlet( 'b' ) );
+                    CHECK( guy.magic->get_invlet( spell_3 ) == spell_3_invlet );
+                }
+            }
+        }
+    }
+    SECTION( "set_invlet" ) {
+        GIVEN( "empty npc" ) {
+            npc guy;
+            WHEN( "set_invlet to 'c'" ) {
+                CHECK( guy.magic->set_invlet( spell_1, char_to_invlet( 'c' ) ) );
+                THEN( "spell assigned to 'c'" ) {
+                    CHECK( guy.magic->get_invlet( spell_1 ) == char_to_invlet( 'c' ) );
+                }
+            }
+        }
+        GIVEN( "npc with 'a' assigned" ) {
+            npc guy;
+            CHECK( guy.magic->set_invlet( spell_1, char_to_invlet( 'a' ) ) );
+            WHEN( "another spell set to 'a'" ) {
+                bool success = guy.magic->set_invlet( spell_2, char_to_invlet( 'a' ) );
+                THEN( "assignment fails" ) {
+                    CHECK( !success );
+                }
+            }
+        }
+    }
+    SECTION( "rem_invlet" ) {
+        GIVEN( "npc with 'a' assigned" ) {
+            npc guy;
+            CHECK( guy.magic->set_invlet( spell_1, char_to_invlet( 'a' ) ) );
+            WHEN( "spell removed" ) {
+                guy.magic->rem_invlet( spell_1 );
+                THEN( "another spell assigns to 'a'" ) {
+                    CHECK( guy.magic->set_invlet( spell_1, char_to_invlet( 'a' ) ) );
+                }
+            }
+        }
+        GIVEN( "empty npc" ) {
+            npc guy;
+            WHEN( "non-set spell removed" ) {
+                guy.magic->rem_invlet( spell_1 );
+                THEN( "nothing crashes" ) {}
+            }
+        }
+    }
+    SECTION( "swap_invlet" ) {
+        GIVEN( "npc with 'a' and 'b' assigned" ) {
+            npc guy;
+            CHECK( guy.magic->set_invlet( spell_1, char_to_invlet( 'a' ) ) );
+            CHECK( guy.magic->set_invlet( spell_2, char_to_invlet( 'b' ) ) );
+            WHEN( "spell_2 swapped to 'a'" ) {
+                guy.magic->swap_invlet( spell_2, char_to_invlet( 'a' ) );
+                THEN( "spells are swapped" ) {
+                    CHECK( guy.magic->get_invlet( spell_1 ) == char_to_invlet( 'b' ) );
+                    CHECK( guy.magic->get_invlet( spell_2 ) == char_to_invlet( 'a' ) );
+                }
+            }
+        }
+        GIVEN( "npc with 'a' and 'b' assigned" ) {
+            npc guy;
+            CHECK( guy.magic->set_invlet( spell_1, char_to_invlet( 'a' ) ) );
+            CHECK( guy.magic->set_invlet( spell_2, char_to_invlet( 'b' ) ) );
+            WHEN( "unassigned spell_3 swapped to 'a'" ) {
+                guy.magic->swap_invlet( spell_3, char_to_invlet( 'a' ) );
+                THEN( "spell_1 unassigned, spell_3 set to 'a'" ) {
+                    CHECK( guy.magic->get_invlet( spell_3 ) == char_to_invlet( 'a' ) );
+                    // Assigned by get_invlet to next available letter.
+                    CHECK( guy.magic->get_invlet( spell_1 ) == char_to_invlet( 'c' ) );
+                }
+            }
+        }
+        GIVEN( "npc with 'a' and 'b' assigned" ) {
+            npc guy;
+            CHECK( guy.magic->set_invlet( spell_1, char_to_invlet( 'a' ) ) );
+            CHECK( guy.magic->set_invlet( spell_2, char_to_invlet( 'b' ) ) );
+            WHEN( "spell_1 is swapped with itself" ) {
+                guy.magic->swap_invlet( spell_1, char_to_invlet( 'a' ) );
+                THEN( "nothing changes" ) {
+                    CHECK( guy.magic->get_invlet( spell_1 ) == char_to_invlet( 'a' ) );
+                    CHECK( guy.magic->get_invlet( spell_2 ) == char_to_invlet( 'b' ) );
+                }
+            }
+        }
+        GIVEN( "npc with 'a' assigned" ) {
+            npc guy;
+            CHECK( guy.magic->set_invlet( spell_1, char_to_invlet( 'a' ) ) );
+            WHEN( "spell_1 is swapped to 'b'" ) {
+                guy.magic->swap_invlet( spell_1, char_to_invlet( 'b' ) );
+                THEN( "another spell will be assigned to 'a'" ) {
+                    CHECK( guy.magic->get_invlet( spell_1 ) == char_to_invlet( 'b' ) );
+                    CHECK( guy.magic->get_invlet( spell_2 ) == char_to_invlet( 'a' ) );
+                }
+            }
+        }
+        GIVEN( "empty npc" ) {
+            npc guy;
+            WHEN( "spell_1 is swapped with unassigned letter" ) {
+                guy.magic->swap_invlet( spell_1, char_to_invlet( 'b' ) );
+                THEN( "spell_1 assigned" ) {
+                    CHECK( guy.magic->get_invlet( spell_1 ) == char_to_invlet( 'b' ) );
                 }
             }
         }
@@ -528,11 +691,12 @@ TEST_CASE( "spell_area_of_effect", "[magic][spell][aoe]" )
 TEST_CASE( "spell_effect_-_target_attack", "[magic][spell][effect][target_attack]" )
 {
     // World setup
+    map &here = get_map();
     clear_map();
 
     // Locations for avatar and monster
-    const tripoint dummy_loc = { 60, 60, 0 };
-    const tripoint mummy_loc = { 62, 60, 0 };
+    const tripoint_bub_ms dummy_loc = { 60, 60, 0 };
+    const tripoint_bub_ms mummy_loc = { 62, 60, 0 };
 
     // For tracking spell damage
     int before_hp = 0;
@@ -542,14 +706,14 @@ TEST_CASE( "spell_effect_-_target_attack", "[magic][spell][effect][target_attack
     // Avatar/spellcaster
     avatar &dummy = get_avatar();
     clear_character( dummy );
-    dummy.setpos( dummy_loc );
-    REQUIRE( dummy.pos() == dummy_loc );
+    dummy.setpos( here, dummy_loc );
+    REQUIRE( dummy.pos_bub() == dummy_loc );
     REQUIRE( creatures.creature_at( dummy_loc ) );
     REQUIRE( g->num_creatures() == 1 );
 
     // Monster/defender
     monster &mummy = spawn_test_monster( "mon_zombie", mummy_loc );
-    REQUIRE( mummy.pos() == mummy_loc );
+    REQUIRE( mummy.pos_bub() == mummy_loc );
     REQUIRE( creatures.creature_at( mummy_loc ) );
     REQUIRE( g->num_creatures() == 2 );
 
@@ -583,17 +747,19 @@ TEST_CASE( "spell_effect_-_target_attack", "[magic][spell][effect][target_attack
 // spell_effect::spawn_summoned_monster
 TEST_CASE( "spell_effect_-_summon", "[magic][spell][effect][summon]" )
 {
+    map &here = get_map();
+
     clear_map();
 
     // Avatar/spellcaster and summoned mummy locations
-    const tripoint dummy_loc = { 60, 60, 0 };
-    const tripoint mummy_loc = { 61, 60, 0 };
+    const tripoint_bub_ms dummy_loc = { 60, 60, 0 };
+    const tripoint_bub_ms mummy_loc = { 61, 60, 0 };
 
     avatar &dummy = get_avatar();
     creature_tracker &creatures = get_creature_tracker();
     clear_character( dummy );
-    dummy.setpos( dummy_loc );
-    REQUIRE( dummy.pos() == dummy_loc );
+    dummy.setpos( here, dummy_loc );
+    REQUIRE( dummy.pos_bub() == dummy_loc );
     REQUIRE( creatures.creature_at( dummy_loc ) );
     REQUIRE( g->num_creatures() == 1 );
 
@@ -607,7 +773,7 @@ TEST_CASE( "spell_effect_-_summon", "[magic][spell][effect][summon]" )
     CHECK( g->num_creatures() == 2 );
 
     //kill the ghost
-    creatures.creature_at( mummy_loc )->die( nullptr );
+    creatures.creature_at( mummy_loc )->die( &here, nullptr );
     g->cleanup_dead();
 
     //a corpse was not created
@@ -625,7 +791,7 @@ TEST_CASE( "spell_effect_-_summon", "[magic][spell][effect][summon]" )
     CHECK( g->num_creatures() == 2 );
 
     //kill the mummy
-    creatures.creature_at( mummy_loc )->die( nullptr );
+    creatures.creature_at( mummy_loc )->die( &here, nullptr );
     g->cleanup_dead();
 
     //a corpse was created
@@ -666,7 +832,7 @@ TEST_CASE( "spell_effect_-_recover_energy", "[magic][spell][effect][recover_ener
         REQUIRE( montage_type.effect_str == "STAMINA" );
         // at the cost of a substantial amount of mana
         REQUIRE( montage_type.base_energy_cost.min.dbl_val.value() == 800 );
-        REQUIRE( montage_type.energy_source == magic_energy_type::mana );
+        REQUIRE( montage_type.get_energy_source() == magic_energy_type::mana );
 
         // At level 0, recovers 1000 stamina (10% of maximum)
         REQUIRE( montage_type.min_damage.min.dbl_val.value() == 1000 );
@@ -680,7 +846,7 @@ TEST_CASE( "spell_effect_-_recover_energy", "[magic][spell][effect][recover_ener
 
         // Cast montage spell on avatar
         spell montage_spell( montage_id );
-        montage_spell.cast_spell_effect( dummy, dummy.pos() );
+        montage_spell.cast_spell_effect( dummy, dummy.pos_bub() );
 
         // Get stamina back equal to min_damage (at level 0)
         CHECK( dummy.get_stamina() == start_stamina + montage_type.min_damage.min.dbl_val.value() );
@@ -702,13 +868,13 @@ TEST_CASE( "spell_effect_-_recover_energy", "[magic][spell][effect][recover_ener
         dummy.set_pain( 5 );
         REQUIRE( dummy.get_pain() == 5 );
 
-        kiss_spell.cast_spell_effect( dummy, dummy.pos() );
+        kiss_spell.cast_spell_effect( dummy, dummy.pos_bub() );
         CHECK( dummy.get_pain() == 4 );
 
-        kiss_spell.cast_spell_effect( dummy, dummy.pos() );
+        kiss_spell.cast_spell_effect( dummy, dummy.pos_bub() );
         CHECK( dummy.get_pain() == 3 );
 
-        kiss_spell.cast_spell_effect( dummy, dummy.pos() );
+        kiss_spell.cast_spell_effect( dummy, dummy.pos_bub() );
         CHECK( dummy.get_pain() == 2 );
     }
 }

@@ -41,10 +41,10 @@ std::vector<Point> point_flood_fill_4_connected( const Point &starting_point,
 
         if( predicate( current_point ) ) {
             filled_points.emplace_back( current_point );
-            to_check.push( current_point + point_south );
-            to_check.push( current_point + point_north );
-            to_check.push( current_point + point_east );
-            to_check.push( current_point + point_west );
+            to_check.push( current_point + point::south );
+            to_check.push( current_point + point::north );
+            to_check.push( current_point + point::east );
+            to_check.push( current_point + point::west );
         }
     }
 

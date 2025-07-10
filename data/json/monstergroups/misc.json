@@ -1,13 +1,13 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_NULL",
+    "id": "GROUP_NULL",
     "is_safe": true,
     "monsters": [ { "monster": "mon_null" } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_BLACK_ROAD",
+    "id": "GROUP_BLACK_ROAD",
     "monsters": [
       { "monster": "mon_zombie", "weight": 407 },
       { "monster": "mon_zombie", "weight": 1, "cost_multiplier": 7, "pack_size": [ 5, 20 ] },
@@ -36,13 +36,13 @@
         "monster": "mon_feral_swimmer_kickboard",
         "weight": 1,
         "cost_multiplier": 5,
-        "ends": "165 days",
+        "ends": "660 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       { "monster": "mon_zombie_static", "weight": 10, "cost_multiplier": 5 },
       { "monster": "mon_zombie_paramilitary", "weight": 1, "cost_multiplier": 25 },
       { "monster": "mon_zombie_survivor", "weight": 1, "cost_multiplier": 25 },
-      { "monster": "mon_zombie_survivor_elite", "weight": 1, "cost_multiplier": 25, "starts": "60 days" },
+      { "monster": "mon_zombie_survivor_elite", "weight": 1, "cost_multiplier": 25, "starts": "240 days" },
       { "monster": "mon_beekeeper", "weight": 1, "cost_multiplier": 5 },
       { "monster": "mon_zombie_technician", "weight": 1, "cost_multiplier": 12 },
       { "monster": "mon_feral_human_tool", "weight": 1, "cost_multiplier": 6 },
@@ -55,31 +55,38 @@
         "weight": 1,
         "cost_multiplier": 25,
         "pack_size": [ 1, 3 ],
-        "starts": "60 days"
+        "starts": "240 days"
       },
       { "monster": "mon_zombie_brainless", "weight": 65 }
     ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_MANSION_START",
+    "id": "GROUP_MANSION_START",
     "//": "Nonsense ferals for the mansion escape challenge scenario, shouldn't be used for general spawns",
     "monsters": [
-      { "monster": "mon_feral_maid_broom", "weight": 400 },
-      { "monster": "mon_feral_maid_candlestick", "weight": 400 },
-      { "monster": "mon_feral_maid_knife", "weight": 400 },
-      { "monster": "mon_feral_fancy_rapier", "weight": 300 },
+      { "group": "GROUP_MANSION_PURSUERS", "weight": 1600 },
+      { "monster": "mon_feral_fancy_rapier", "weight": 200 },
       { "monster": "mon_feral_fancy_rapier_fake", "weight": 300 }
     ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_MANSION_ARMORED",
+    "id": "GROUP_MANSION_PURSUERS",
+    "monsters": [
+      { "monster": "mon_feral_maid_broom", "weight": 600 },
+      { "monster": "mon_feral_maid_candlestick", "weight": 600 },
+      { "monster": "mon_feral_maid_knife", "weight": 400 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_MANSION_ARMORED",
     "monsters": [ { "monster": "mon_feral_armored_mace", "weight": 100 }, { "monster": "mon_feral_armored_battleaxe", "weight": 100 } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_CHUD",
+    "id": "GROUP_CHUD",
     "monsters": [
       { "monster": "mon_chud", "weight": 875, "cost_multiplier": 0 },
       { "monster": "mon_crawler", "weight": 35, "cost_multiplier": 0 }
@@ -87,50 +94,40 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SUBWAY",
+    "id": "GROUP_SUBWAY",
     "//": "Z-2 subways, some lost nether things but otherwise mostly normal mobs",
-    "default": "mon_spider_jumping_small",
+    "default": "mon_silverfish_small",
     "monsters": [
-      { "monster": "mon_woodlouse", "weight": 300, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_slug_small", "weight": 180, "ends": "180 hours" },
-      { "monster": "mon_slug_giant", "weight": 180, "starts": "180 hours" },
-      { "monster": "mon_spider_cellar_small", "weight": 300, "pack_size": [ 1, 3 ], "ends": "14 days" },
-      { "group": "GROUP_SPIDER_CELLAR", "weight": 300, "pack_size": [ 2, 5 ], "starts": "14 days", "ends": "28 days" },
-      {
-        "group": "GROUP_SPIDER_CELLAR_GIANT",
-        "weight": 300,
-        "cost_multiplier": 0,
-        "pack_size": [ 2, 4 ],
-        "starts": "28 days"
-      },
+      { "group": "GROUP_NETHER_UNVIABLE", "weight": 300, "cost_multiplier": 0 },
+      { "group": "GROUP_BUGS_SUBTERRANEAN", "weight": 750 },
       {
         "monster": "mon_mutant_experimental",
         "weight": 50,
         "cost_multiplier": 2,
         "pack_size": [ 1, 3 ],
-        "ends": "14 days"
+        "ends": "56 days"
       },
       {
         "monster": "mon_mutant_experimental",
         "weight": 50,
         "cost_multiplier": 2,
         "pack_size": [ 2, 5 ],
-        "starts": "14 days"
+        "starts": "56 days"
       },
       { "monster": "mon_sludge_crawler", "weight": 50 },
-      { "monster": "mon_unseen_hunter", "weight": 50, "cost_multiplier": 2, "starts": "42 hours" },
+      { "monster": "mon_unseen_hunter", "weight": 50, "cost_multiplier": 2, "starts": "7 days" },
       { "monster": "mon_dog_thing", "weight": 20, "cost_multiplier": 2 },
       { "group": "GROUP_STRAY_DOGS", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_blank", "weight": 20, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
       { "monster": "mon_kreck", "weight": 20, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
       { "monster": "mon_gracke", "weight": 20, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
       { "monster": "mon_hunting_horror", "weight": 20, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 10, "cost_multiplier": 3, "starts": "42 hours" }
+      { "monster": "mon_shoggoth", "weight": 10, "cost_multiplier": 3, "starts": "7 days" }
     ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SUBWAY_CITY",
+    "id": "GROUP_SUBWAY_CITY",
     "//": "Normal subway, extra spawns underneath a city",
     "default": "mon_chud",
     "monsters": [
@@ -141,14 +138,14 @@
         "weight": 100,
         "cost_multiplier": 3,
         "pack_size": [ 1, 3 ],
-        "starts": "42 hours"
+        "starts": "7 days"
       },
       {
         "monster": "mon_zombie_survivor_elite",
         "weight": 100,
         "cost_multiplier": 4,
         "pack_size": [ 1, 3 ],
-        "starts": "180 hours"
+        "starts": "30 days"
       },
       { "monster": "mon_zombie_technician", "weight": 100, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zombie_shady", "weight": 200, "cost_multiplier": 2, "pack_size": [ 1, 3 ] }
@@ -156,31 +153,32 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SUBWAY_LAB",
+    "id": "GROUP_SUBWAY_LAB",
     "//": "Lower subway with eldritch nasties and lab escapees",
     "default": "mon_kreck",
     "//2": "1W 42, 1M 180, 1,5M 270, 2M 360, 3M 540, sum 930",
     "monsters": [
+      { "group": "GROUP_BUGS_SUBTERRANEAN", "weight": 75 },
       { "monster": "mon_kreck", "weight": 200 },
-      { "monster": "mon_unseen_hunter", "weight": 200, "starts": "6 hours", "ends": "15 days" },
-      { "monster": "mon_unseen_hunter", "weight": 200, "pack_size": [ 1, 2 ], "starts": "15 days" },
-      { "monster": "mon_mutant_experimental", "weight": 250, "pack_size": [ 1, 3 ], "ends": "7 days" },
+      { "monster": "mon_unseen_hunter", "weight": 200, "starts": "24 hours", "ends": "60 days" },
+      { "monster": "mon_unseen_hunter", "weight": 200, "pack_size": [ 1, 2 ], "starts": "60 days" },
+      { "monster": "mon_mutant_experimental", "weight": 250, "pack_size": [ 1, 3 ], "ends": "28 days" },
       {
         "monster": "mon_mutant_experimental",
         "weight": 250,
         "pack_size": [ 2, 5 ],
-        "starts": "7 days",
-        "ends": "28 days"
+        "starts": "28 days",
+        "ends": "112 days"
       },
-      { "monster": "mon_mutant_experimental", "weight": 300, "pack_size": [ 3, 6 ], "starts": "28 days" },
-      { "monster": "mon_mi_go", "weight": 100, "pack_size": [ 1, 4 ], "ends": "15 days" },
-      { "monster": "mon_mi_go_scout", "weight": 100, "cost_multiplier": 2, "starts": "15 days" },
+      { "monster": "mon_mutant_experimental", "weight": 300, "pack_size": [ 3, 6 ], "starts": "112 days" },
+      { "monster": "mon_mi_go", "weight": 100, "pack_size": [ 1, 4 ], "ends": "60 days" },
+      { "monster": "mon_mi_go_scout", "weight": 100, "cost_multiplier": 2, "starts": "60 days" },
       {
         "monster": "mon_mi_go_myrmidon",
         "weight": 70,
         "cost_multiplier": 2,
         "pack_size": [ 1, 2 ],
-        "starts": "540 hours"
+        "starts": "90 days"
       },
       { "monster": "mon_sludge_crawler", "weight": 50 },
       { "monster": "mon_dog_thing", "weight": 50 },
@@ -189,14 +187,13 @@
       { "monster": "mon_hunting_horror", "weight": 50, "pack_size": [ 1, 2 ] },
       { "monster": "mon_gozu", "weight": 50 },
       { "monster": "mon_shoggoth", "weight": 30, "cost_multiplier": 2 },
-      { "monster": "mon_nuckalavee", "weight": 30, "cost_multiplier": 2 },
       { "monster": "mon_albino_penguin", "weight": 20, "pack_size": [ 2, 4 ] },
       { "monster": "mon_darkman", "weight": 10, "cost_multiplier": 2 }
     ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_DOMESTIC",
+    "id": "GROUP_DOMESTIC",
     "default": "mon_dog",
     "is_animal": true,
     "monsters": [
@@ -213,22 +210,33 @@
       { "monster": "mon_dog_dachshund", "weight": 2, "cost_multiplier": 25, "pack_size": [ 1, 3 ] },
       { "monster": "mon_dog_gshepherd", "weight": 3, "cost_multiplier": 25, "pack_size": [ 1, 3 ] },
       { "monster": "mon_dog_samoyed", "weight": 1, "cost_multiplier": 25, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_chicken", "weight": 50, "cost_multiplier": 10, "pack_size": [ 1, 16 ] },
+      { "group": "GROUP_BIRD_DOMESTIC", "weight": 50, "cost_multiplier": 5, "pack_size": [ 1, 12 ] },
       { "group": "GROUP_COWS", "weight": 50, "cost_multiplier": 25, "pack_size": [ 1, 8 ] },
       { "group": "GROUP_HORSES", "weight": 50, "cost_multiplier": 25, "pack_size": [ 1, 4 ] },
       { "group": "GROUP_PIGS", "weight": 10, "cost_multiplier": 25, "pack_size": [ 1, 6 ] },
-      { "group": "GROUP_PIGS", "weight": 10, "cost_multiplier": 25, "ends": "3 days", "pack_size": [ 1, 6 ] },
-      { "group": "GROUP_PIGS", "weight": 10, "cost_multiplier": 25, "ends": "7 days", "pack_size": [ 1, 6 ] },
+      { "group": "GROUP_PIGS", "weight": 10, "cost_multiplier": 25, "ends": "12 days", "pack_size": [ 1, 6 ] },
       { "group": "GROUP_PIGS", "weight": 10, "cost_multiplier": 25, "ends": "28 days", "pack_size": [ 1, 6 ] },
-      { "group": "GROUP_PIGS", "weight": 10, "cost_multiplier": 25, "ends": "90 days", "pack_size": [ 1, 6 ] },
+      { "group": "GROUP_PIGS", "weight": 10, "cost_multiplier": 25, "ends": "112 days", "pack_size": [ 1, 6 ] },
+      { "group": "GROUP_PIGS", "weight": 10, "cost_multiplier": 25, "ends": "360 days", "pack_size": [ 1, 6 ] },
       { "group": "GROUP_SHEEPS", "weight": 50, "cost_multiplier": 25, "pack_size": [ 1, 12 ] },
       { "monster": "mon_goat", "weight": 25, "cost_multiplier": 25, "pack_size": [ 1, 12 ] },
-      { "monster": "mon_goose", "weight": 10, "cost_multiplier": 25, "pack_size": [ 1, 6 ] },
       { "monster": "mon_llama", "weight": 50, "cost_multiplier": 25, "pack_size": [ 1, 8 ] },
-      { "monster": "mon_zombie_pig", "weight": 10, "cost_multiplier": 25, "starts": "3 days", "pack_size": [ 1, 5 ] },
-      { "monster": "mon_zombie_pig", "weight": 10, "cost_multiplier": 25, "starts": "7 days", "pack_size": [ 1, 5 ] },
+      { "monster": "mon_zombie_pig", "weight": 10, "cost_multiplier": 25, "starts": "12 days", "pack_size": [ 1, 5 ] },
       { "monster": "mon_zombie_pig", "weight": 10, "cost_multiplier": 25, "starts": "28 days", "pack_size": [ 1, 5 ] },
-      { "monster": "mon_zombie_pig", "weight": 10, "cost_multiplier": 25, "starts": "90 days", "pack_size": [ 1, 5 ] },
+      {
+        "monster": "mon_zombie_pig",
+        "weight": 10,
+        "cost_multiplier": 25,
+        "starts": "112 days",
+        "pack_size": [ 1, 5 ]
+      },
+      {
+        "monster": "mon_zombie_pig",
+        "weight": 10,
+        "cost_multiplier": 25,
+        "starts": "360 days",
+        "pack_size": [ 1, 5 ]
+      },
       { "monster": "mon_giant_cockroach", "weight": 10, "pack_size": [ 1, 2 ] },
       { "monster": "mon_pregnant_giant_cockroach", "weight": 1, "cost_multiplier": 3 },
       { "monster": "mon_giant_cockroach_nymph", "weight": 5 },
@@ -239,14 +247,37 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SAFE",
+    "id": "GROUP_BIRD_DOMESTIC",
+    "default": "mon_chicken",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_chicken", "weight": 14, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_duck_domestic", "weight": 6, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_goose", "weight": 3, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_turkey_domestic", "weight": 1, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_guinea_fowl", "weight": 1, "pack_size": [ 1, 3 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_BIRD_DOMESTIC_WATERFOWL",
+    "default": "mon_duck_domestic",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_duck_domestic", "weight": 2, "pack_size": [ 1, 6 ] },
+      { "monster": "mon_goose", "weight": 1, "pack_size": [ 1, 3 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_SAFE",
     "is_safe": true,
     "is_animal": true,
     "monsters": [
       { "monster": "mon_null", "weight": 679 },
       { "monster": "mon_bat", "weight": 10 },
       { "monster": "mon_bobcat", "weight": 10 },
-      { "monster": "mon_chicken", "weight": 10 },
+      { "group": "GROUP_BIRD_DOMESTIC", "weight": 20 },
       { "monster": "mon_chipmunk", "weight": 10 },
       { "monster": "mon_crow", "weight": 10 },
       { "monster": "mon_raven", "weight": 10 },
@@ -273,15 +304,12 @@
       { "monster": "mon_opossum", "weight": 10 },
       { "monster": "mon_sewer_rat", "weight": 10 },
       { "monster": "mon_black_rat", "weight": 10 },
-      { "monster": "mon_rattlesnake", "weight": 10 },
       { "group": "GROUP_COWS", "weight": 10 },
       { "group": "GROUP_HORSES", "weight": 10 },
       { "group": "GROUP_PIGS", "weight": 10 },
       { "group": "GROUP_SHEEPS", "weight": 10 },
       { "monster": "mon_goat", "weight": 10 },
       { "monster": "mon_lemming", "weight": 10 },
-      { "monster": "mon_goose", "weight": 10 },
-      { "monster": "mon_goose_golden", "weight": 1 },
       { "monster": "mon_llama", "weight": 10 },
       { "monster": "mon_woodlouse", "weight": 10 },
       { "monster": "mon_cicada_nymph", "weight": 10 },
@@ -290,20 +318,29 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_BASEMENT_HOUSE",
-    "//": "60-30-10% chance of zombies/roaches/cellar spiders, no mixing enemies in the same spawn",
+    "id": "GROUP_BASEMENT_HOUSE",
+    "//": "50-50% chance of zombies/bugs, no mixing enemies in the same spawn",
     "monsters": [
-      { "group": "GROUP_HOUSE", "weight": 6, "pack_size": [ 2, 6 ] },
-      { "group": "GROUP_ROACH", "weight": 3, "pack_size": [ 3, 10 ] },
-      { "group": "GROUP_SPIDER_BASEMENT", "weight": 1, "pack_size": [ 1, 5 ] }
+      { "group": "GROUP_HOUSE", "weight": 55, "pack_size": [ 2, 6 ] },
+      { "group": "GROUP_FLY", "weight": 10, "pack_size": [ 1, 5 ] },
+      { "group": "GROUP_ROACH", "weight": 5, "pack_size": [ 1, 5 ] },
+      { "group": "GROUP_MOTH_FLY", "weight": 5, "pack_size": [ 1, 3 ] },
+      { "group": "GROUP_SILVERFISH", "weight": 10, "pack_size": [ 1, 4 ] },
+      { "group": "GROUP_SPIDER_BASEMENT", "weight": 5, "pack_size": [ 1, 3 ] },
+      { "group": "GROUP_CENTIPEDE_HOUSE", "weight": 5, "pack_size": [ 1, 4 ] },
+      { "group": "GROUP_MOTH", "weight": 5, "pack_size": [ 1, 2 ] },
+      { "group": "GROUP_SLUG", "weight": 5, "pack_size": [ 1, 4 ] },
+      { "group": "GROUP_CENTIPEDE", "weight": 5, "pack_size": [ 1, 3 ] }
     ]
   },
   {
     "type": "monstergroup",
-    "name": "DUMP_ANIMALS",
+    "id": "DUMP_ANIMALS",
     "monsters": [
       { "monster": "mon_null", "weight": 378 },
-      { "monster": "mon_fly", "weight": 100 },
+      { "group": "GROUP_FLY", "weight": 100 },
+      { "group": "GROUP_ROACH", "weight": 50 },
+      { "group": "GROUP_MOTH_FLY", "weight": 50 },
       { "monster": "mon_crow", "weight": 75 },
       { "monster": "mon_raven", "weight": 75 },
       {
@@ -318,16 +355,13 @@
       { "monster": "mon_black_rat", "weight": 100 },
       { "monster": "mon_opossum", "weight": 15 },
       { "monster": "mon_raccoon", "weight": 15 },
-      { "monster": "mon_rattlesnake", "weight": 10 },
-      { "monster": "mon_rattlesnake_giant", "weight": 5, "cost_multiplier": 2 },
-      { "monster": "mon_worm", "weight": 20 },
+      { "group": "GROUP_WORM", "weight": 20 },
       { "monster": "mon_wasp_small", "weight": 10 }
     ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_PEST",
-    "is_animal": true,
+    "id": "GROUP_PEST",
     "monsters": [
       { "monster": "mon_crow", "weight": 760 },
       {
@@ -337,8 +371,10 @@
         "pack_size": [ 6, 12 ],
         "conditions": [ "DAWN", "DUSK", "NIGHT", "SPRING", "SUMMER", "AUTUMN" ]
       },
-      { "monster": "mon_spider_widow_giant", "weight": 30, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_giant_cockroach", "weight": 50, "pack_size": [ 1, 3 ] },
+      { "group": "GROUP_SPIDER_WIDOW", "weight": 30, "pack_size": [ 2, 4 ] },
+      { "group": "GROUP_ROACH", "weight": 50, "pack_size": [ 1, 3 ] },
+      { "group": "GROUP_FLY", "weight": 50, "pack_size": [ 1, 3 ] },
+      { "group": "GROUP_MOTH_FLY", "weight": 35, "pack_size": [ 1, 3 ] },
       { "monster": "mon_black_rat", "weight": 30, "pack_size": [ 4, 8 ] },
       { "monster": "mon_wasp_small", "weight": 50, "pack_size": [ 2, 4 ] },
       { "monster": "mon_zombie_child", "weight": 20, "pack_size": [ 2, 6 ] },
@@ -350,15 +386,14 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SEWER",
+    "id": "GROUP_SEWER",
     "monsters": [
       { "monster": "mon_null", "weight": 370, "cost_multiplier": 0 },
       { "monster": "mon_zombie_crawler", "weight": 75, "cost_multiplier": 0 },
       { "monster": "mon_raccoon", "weight": 100, "cost_multiplier": 0 },
-      { "monster": "mon_fly", "weight": 100 },
+      { "group": "GROUP_BUGS_SUBTERRANEAN", "weight": 175 },
       { "monster": "mon_blob_sewer", "weight": 100 },
       { "monster": "mon_sewer_rat", "weight": 100, "cost_multiplier": 0, "pack_size": [ 3, 12 ] },
-      { "group": "GROUP_ROACH", "weight": 75 },
       { "group": "GROUP_STRAY_CATS", "weight": 20 },
       { "group": "GROUP_TADPOLES_SEWER", "weight": 5 },
       { "group": "GROUP_FROGS_SEWER", "weight": 5 },
@@ -366,7 +401,7 @@
     ]
   },
   {
-    "name": "GROUP_VETS",
+    "id": "GROUP_VETS",
     "type": "monstergroup",
     "//": "for veterinarian",
     "monsters": [
@@ -380,21 +415,20 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_BUNKER",
+    "id": "GROUP_BUNKER",
     "monsters": [
       { "monster": "mon_zombie_armored", "weight": 25, "cost_multiplier": 20, "pack_size": [ 2, 6 ] },
-      { "monster": "mon_zombie_bio_op", "weight": 150, "cost_multiplier": 10 },
       { "monster": "mon_zombie_soldier", "weight": 600, "cost_multiplier": 3 }
     ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SCI",
+    "id": "GROUP_SCI",
     "monsters": [ { "monster": "mon_zombie_scientist", "cost_multiplier": 0 } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_INFESTED_SPAWN",
+    "id": "GROUP_INFESTED_SPAWN",
     "//": "For Compromised Shelter scenario.",
     "monsters": [
       { "monster": "mon_zombie", "weight": 250, "pack_size": [ 2, 3 ], "cost_multiplier": 2 },
@@ -402,12 +436,12 @@
       { "monster": "mon_zombie_fat", "weight": 200 },
       { "monster": "mon_zombie_child", "weight": 200, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zombie_paramilitary", "weight": 100, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_survivor", "weight": 200, "cost_multiplier": 2, "starts": "30 days" }
+      { "monster": "mon_zombie_survivor", "weight": 200, "cost_multiplier": 2, "starts": "120 days" }
     ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_YOUR_FEARS",
+    "id": "GROUP_YOUR_FEARS",
     "//": "For monsters, spawned by hallucinator effects.  Must represent the awful monsters the player want never see.  Put here every asshole you want.",
     "monsters": [
       { "monster": "mon_wasp_small" },
@@ -427,7 +461,6 @@
       { "monster": "mon_mi_go_scout" },
       { "monster": "mon_shrapnel_swarm" },
       { "monster": "mon_flaming_eye" },
-      { "monster": "mon_nuckalavee" },
       { "monster": "mon_flying_polyp" },
       { "monster": "mon_unseen_hunter" },
       { "monster": "mon_hound_tindalos" },
@@ -439,7 +472,6 @@
       { "monster": "mon_zombear_skeleton" },
       { "monster": "mon_zoose_brute" },
       { "monster": "mon_zombie_nullfield" },
-      { "monster": "mon_gas_zombie" },
       { "monster": "mon_zombie_urchin" },
       { "monster": "mon_devourer" },
       { "monster": "mon_zombie_hulk" },
@@ -449,7 +481,6 @@
       { "monster": "mon_skeleton_hulk" },
       { "monster": "mon_zombie_kevlar_2" },
       { "monster": "mon_zombie_soldier_blackops_1" },
-      { "monster": "mon_zombie_bio_op" },
       { "monster": "mon_zombie_survivor_elite" },
       { "monster": "mon_zombear" },
       { "monster": "mon_zoose" },
@@ -462,47 +493,23 @@
     ]
   },
   {
-    "name": "GROUP_MUTATION_SNAIL",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_null", "weight": 85 }, { "monster": "mon_snail_forest", "weight": 15 } ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_NUCLEAR_PLANT_BEASTS",
-    "is_animal": true,
-    "monsters": [
-      { "monster": "mon_bat", "weight": 600, "cost_multiplier": 5, "pack_size": [ 6, 32 ] },
-      { "monster": "mon_mole_cricket", "weight": 60, "cost_multiplier": 3 },
-      { "monster": "mon_woodlouse", "weight": 60, "cost_multiplier": 3, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_stag_beetle_larva", "weight": 40, "cost_multiplier": 5 },
-      { "monster": "mon_centipede_giant", "weight": 200 },
-      { "monster": "mon_sewer_snake", "weight": 100, "cost_multiplier": 0 },
-      { "monster": "mon_sewer_rat", "weight": 50, "cost_multiplier": 0, "pack_size": [ 3, 12 ] },
-      { "monster": "mon_gator", "weight": 25, "cost_multiplier": 2 },
-      { "monster": "mon_slug_small", "weight": 50, "ends": "180 hours" },
-      { "monster": "mon_sludge_crawler", "weight": 25 },
-      { "monster": "mon_zombie_mancroc", "weight": 100, "starts": "180 hours" },
-      { "monster": "mon_gastro_bufo", "weight": 5, "cost_multiplier": 3, "starts": "15 days" },
-      { "group": "GROUP_MUTAFROGS_SEWER", "weight": 100 }
-    ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_BEEKEEPER",
+    "id": "GROUP_BEEKEEPER",
     "monsters": [ { "monster": "mon_beekeeper", "cost_multiplier": 0 } ]
   },
   {
+    "id": "GROUP_RATTLESNAKE",
     "type": "monstergroup",
-    "name": "GROUP_JABBERWOCK",
-    "monsters": [ { "monster": "mon_jabberwock" } ]
+    "monsters": [ { "monster": "mon_rattlesnake", "weight": 19 }, { "monster": "mon_rattlesnake_big", "weight": 1 } ],
+    "//": "Normally for the time until mutants start spawning we take the growth time of a mutant baby with default evolution rates. But because rattlesnakes follow the mutation logic of invertebrates, we assume there were some mildly oversized variations at the start of the Cataclysm already."
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_CAMP_HUNTING",
+    "id": "GROUP_CAMP_HUNTING",
     "//": "Special group with hardcoded reference in basecamp::hunting_results. Does not actually spawn anywhere, used solely to determine returns from camp hunting mission.",
     "//2": "This group always has a chance of being the result, regardless of mission type.",
     "monsters": [
-      { "monster": "mon_beaver", "weight": 10 },
+      { "group": "GROUP_BEAVER", "weight": 10 },
       { "monster": "mon_fox_red", "weight": 10 },
       { "monster": "mon_fox_gray", "weight": 10 },
       { "monster": "mon_mink", "weight": 5 },
@@ -513,7 +520,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_CAMP_TRAPPING",
+    "id": "GROUP_CAMP_TRAPPING",
     "//": "Special group with hardcoded reference in basecamp::hunting_results. Does not actually spawn anywhere, used solely to determine returns from camp hunting mission.",
     "//2": "This group can only be picked from when the trapping mission is used, in addition to GROUP_CAMP_HUNTING.",
     "monsters": [
@@ -525,7 +532,6 @@
       { "monster": "mon_opossum", "weight": 10 },
       { "monster": "mon_squirrel", "weight": 20 },
       { "monster": "mon_weasel", "weight": 20 },
-      { "monster": "mon_chicken", "weight": 10 },
       { "monster": "mon_grouse", "weight": 10 },
       { "monster": "mon_pheasant", "weight": 10 },
       { "monster": "mon_turkey", "weight": 20 }
@@ -533,11 +539,10 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_CAMP_HUNTING_LARGE",
+    "id": "GROUP_CAMP_HUNTING_LARGE",
     "//": "Special group with hardcoded reference in basecamp::hunting_results. Does not actually spawn anywhere, used solely to determine returns from camp hunting mission.",
     "//2": "This group can only be picked from when the hunt large animals mission is used, in addition to GROUP_CAMP_HUNTING.",
     "monsters": [
-      { "monster": "mon_chicken", "weight": 20 },
       { "monster": "mon_grouse", "weight": 2 },
       { "monster": "mon_pheasant", "weight": 2 },
       { "monster": "mon_turkey", "weight": 10 },
@@ -547,8 +552,13 @@
       { "monster": "mon_coyote", "weight": 15 },
       { "monster": "mon_deer", "weight": 2 },
       { "monster": "mon_moose", "weight": 1 },
-      { "monster": "mon_pig", "weight": 1 },
-      { "monster": "mon_wolf", "weight": 10 }
+      { "monster": "mon_pig", "weight": 1 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_DEBUG_EXACTLY_ONE",
+    "//": "Hardcoded reference in debug() (debug_menu.cpp). Used for debugging, duh.",
+    "monsters": [ { "monster": "mon_zombie", "weight": 1, "cost_multiplier": 1, "pack_size": [ 1, 1 ] } ]
   }
 ]

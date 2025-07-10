@@ -125,20 +125,20 @@
       "phavian_lab_interior": {
         "chance": 2,
         "extras": {
-          "mx_jabberwock": 1,
-          "mx_military": 5,
-          "mx_portal": 75,
-          "mx_crater": 300,
-          "mx_portal_in": 40,
-          "mx_point_burned_ground": 125,
-          "mx_casings": 30,
-          "mx_glass_and_crystal": 50,
-          "mx_alien_grass": 25,
-          "mx_alien_grass_2": 25,
-          "mx_alien_grass_3": 25,
-          "mx_alien_grass_4": 25,
-          "mx_alien_grass_5": 25,
-          "mx_nether_pond": 50
+          "mx_crater": 15000,
+          "mx_point_burned_ground": 6250,
+          "mx_portal": 3750,
+          "mx_glass_and_crystal": 2500,
+          "mx_nether_pond": 2500,
+          "mx_portal_in": 2000,
+          "mx_casings": 1500,
+          "mx_alien_grass": 1250,
+          "mx_alien_grass_2": 1250,
+          "mx_alien_grass_3": 1250,
+          "mx_alien_grass_4": 1250,
+          "mx_alien_grass_5": 1250,
+          "mx_military": 250,
+          "mx_jabberwock": 1
         }
       }
     }

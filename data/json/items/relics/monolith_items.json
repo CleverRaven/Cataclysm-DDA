@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "monolith_disc",
     "category": "artifacts",
     "symbol": ".",
@@ -13,7 +13,7 @@
     "longest_side": "11 cm"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "monolith_brick",
     "category": "artifacts",
     "symbol": ",",

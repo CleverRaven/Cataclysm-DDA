@@ -1,10 +1,8 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_clothes" ],
     "//": "All clothing",
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -33,8 +31,12 @@
         "..####################..",
         "....................4..."
       ],
-      "palettes": [ "standard_building_general_and_variant_palette", "clothes_store_palette" ],
-      "terrain": { "t": "t_linoleum_white", "S": "t_linoleum_white", "_": "t_linoleum_white" },
+      "palettes": [ "parametrized_linoleum_palette", "standard_building_general_and_variant_palette", "clothes_store_palette" ],
+      "terrain": {
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "S": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "_": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
+      },
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 0, 0 ], "y": [ 23, 23 ], "chance": 2, "repeat": [ 2, 3 ] } ],
       "vehicles": { " ": { "vehicle": "shopping_cart", "chance": 1, "status": 0 } },
       "place_loot": [ { "group": "cash_register_random", "x": 16, "y": [ 5, 7 ] } ]
@@ -42,7 +44,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_clothes_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -73,7 +74,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "place_items": [ { "item": "roof_trash", "x": [ 3, 19 ], "y": [ 3, 19 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 3, 19 ], "y": [ 3, 19 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         {
           "chunks": [
@@ -93,10 +94,8 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_clothes_1" ],
     "//": "Suit Tailor",
-    "weight": 300,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -125,14 +124,17 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "standard_building_general_and_variant_palette", "tailor_palette" ],
-      "terrain": { "t": "t_linoleum_white", "S": "t_linoleum_white", "_": "t_linoleum_white" },
+      "palettes": [ "parametrized_linoleum_palette", "standard_building_general_and_variant_palette", "tailor_palette" ],
+      "terrain": {
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "S": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "_": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
+      },
       "place_loot": [ { "group": "cash_register_random", "x": 18, "y": [ 6, 9 ] } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_clothes_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -181,10 +183,8 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_clothes_2" ],
     "//": "Fancy Furs",
-    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -213,14 +213,17 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "standard_building_general_and_variant_palette", "furs_palette" ],
-      "terrain": { "t": "t_linoleum_white", "S": "t_linoleum_white", "_": "t_linoleum_white" },
+      "palettes": [ "parametrized_linoleum_palette", "standard_building_general_and_variant_palette", "furs_palette" ],
+      "terrain": {
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "S": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "_": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
+      },
       "place_loot": [ { "group": "cash_register_random", "x": 7, "y": 7 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_clothes_roof_2",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -251,7 +254,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "place_items": [ { "item": "roof_trash", "x": [ 7, 13 ], "y": [ 5, 15 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 7, 13 ], "y": [ 5, 15 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         {
           "chunks": [
@@ -270,59 +273,56 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_clothes_3" ],
     "//": "Shoes & Hats",
-    "weight": 200,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
         "~~~~~~~~~~~~~~~~~~~~~~~~",
         "~~~~~~~~~~~~~~~~~~~~~~~~",
         "~~~~11~~~~1111~~~11~~~~~",
-        "***|===::----==::==|****",
-        "***|]....#.|##...#@|****",
-        "***|]....#.|.......|****",
-        "***|]......|##.....|****",
-        "***|]..]..]|.#....U|****",
-        "***|]..]..]|&#....U|****",
-        "***|]..]..]|.......|****",
-        "***|]..]..]|].....#|****",
-        "***|]..]..]|]..@..#|****",
-        "***|]..]..]|]..T..#|****",
-        "***|].....]|].....#|****",
-        "***|--|--i-|-i-|---|****",
-        "***|dd|o.......+..]|****",
-        "***|.h|o..TTh.F|---|****",
-        "***O..|o..hh..}|ust|****",
-        "***|..+........+___O****",
-        "***|--|--O-+---|---|****",
+        "***#===::####==::==#****",
+        "***#]....-.|--...-@#****",
+        "***#]....-.|.......#****",
+        "***#]......|--.....#****",
+        "***#]..]..]|.-....U#****",
+        "***#]..]..]|&-....U#****",
+        "***#]..]..]|.......#****",
+        "***#]..]..]|].....-#****",
+        "***#]..]..]|]..@..-#****",
+        "***#]..]..]|]..T..-#****",
+        "***#].....]|].....-#****",
+        "***#|||||i|||i|||||#****",
+        "***#dd|o.......+..]#****",
+        "***#.h|o..TTh.F||||#****",
+        "***O..|o..hh..}|ust#****",
+        "***#..+........+___O****",
+        "***######O#+########****",
         "******4***~~~***********",
         "**********~~~***********",
         "**********~~~***********",
         "**********~~~***********"
       ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         "*": "t_region_groundcover_urban",
         "+": "t_door_c",
-        "-": "t_wall_w",
         ".": "t_floor",
-        "u": "t_linoleum_white",
-        "s": "t_linoleum_white",
-        "t": "t_linoleum_white",
-        "_": "t_linoleum_white",
+        "u": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "s": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "_": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         ":": "t_door_glass_c",
         "=": "t_wall_glass",
         "O": "t_window",
         "i": "t_door_locked_interior",
-        "|": "t_wall_w",
         "~": "t_sidewalk",
         "1": "t_sidewalk",
         "4": "t_gutter_downspout"
       },
       "sealed_item": { "1": { "item": { "item": "seed_rose" }, "furniture": "f_planter_harvest" } },
       "furniture": {
-        "#": "f_counter",
+        "-": "f_counter",
         "&": "f_counter_gate_c",
         "@": "f_mannequin",
         "F": "f_fridge",
@@ -336,6 +336,7 @@
         "u": "f_trashcan",
         "}": "f_locker"
       },
+      "items": { "t": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "t": {  } },
       "place_items": [
         { "item": "shoestore_shoes", "x": 4, "y": [ 7, 13 ], "chance": 80, "repeat": [ 1, 8 ] },
@@ -349,9 +350,9 @@
         { "item": "hatstore_accessories", "x": 12, "y": [ 10, 13 ], "chance": 70, "repeat": [ 1, 8 ] },
         { "item": "SUS_fridge_breakroom", "x": 14, "y": 16, "chance": 30 },
         { "item": "livingroom", "x": 14, "y": 17, "chance": 30 },
-        { "item": "office", "x": [ 4, 5 ], "y": 15, "chance": 50 },
+        { "item": "SUS_office_desk", "x": [ 4, 5 ], "y": 15, "chance": 80 },
         { "item": "cleaning", "x": 18, "y": 15, "chance": 50 },
-        { "item": "trash", "x": 16, "y": 17, "chance": 75 },
+        { "item": "SUS_trash_trashcan_public", "x": 16, "y": 17, "chance": 75 },
         { "item": "cash_register_random", "x": 9, "y": [ 4, 5 ], "chance": 100 },
         { "item": "cash_register_random", "x": 13, "y": [ 6, 8 ], "chance": 100 }
       ]
@@ -359,7 +360,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_clothes_roof_3",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -390,7 +390,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "place_items": [ { "item": "roof_trash", "x": [ 7, 15 ], "y": [ 4, 15 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 7, 15 ], "y": [ 4, 15 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         {
           "chunks": [
@@ -409,10 +409,8 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_clothes_4" ],
     "//": "Dress Tailor",
-    "weight": 300,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -441,14 +439,17 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "standard_building_general_and_variant_palette", "tailor_palette" ],
-      "terrain": { "t": "t_linoleum_white", "S": "t_linoleum_white", "_": "t_linoleum_white" },
+      "palettes": [ "parametrized_linoleum_palette", "standard_building_general_and_variant_palette", "tailor_palette" ],
+      "terrain": {
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "S": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "_": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
+      },
       "place_loot": [ { "group": "cash_register_random", "repeat": 2, "x": [ 10, 13 ], "y": 7 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_clothes_roof_4",
     "object": {
       "fill_ter": "t_floor",
@@ -478,8 +479,8 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
-      "terrain": { "#": "t_wall_b", "H": "t_wall_glass", "+": "t_door_c", "&": "t_flat_roof" },
+      "palettes": [ "roof_palette", "parametrized_walls_palette" ],
+      "terrain": { "H": "t_wall_glass", "+": "t_door_c", "&": "t_flat_roof" },
       "furniture": { "z": "f_cardboard_box", "d": "f_mannequin" },
       "items": {
         "z": [
@@ -507,7 +508,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_clothes_upper_roof_4",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -542,10 +542,8 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_clothes_5" ],
     "//": "Wedding Tailor",
-    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -554,36 +552,36 @@
         "*****rzr**~~~**rzr******",
         "*****rzr**~~~**rzr******",
         "*~~~~~~~~~~~~~~~~~~~~~~*",
-        "*|---===--:::--===|---|*",
-        "*|[..f@.........@y|ddd|*",
-        "*|[..........@....|h.h|*",
-        "*|[...............+...|*",
-        "*|--+|-+|..@...@..|d..O*",
-        "*|h..|u_|.........|dh.|*",
-        "*|...|s_|..@...@..|]..|*",
-        "*|U..|t_|........y|]..|*",
-        "*|-O-|--|::-|.----|--.|*",
-        "*zrzrzrzr~~r|.[[[[[[[.|*",
-        "*********~~z|.........|4",
-        "*******&*~~r|.........|*",
-        "R********~~z|-+--|--+-|*",
-        "******~~~~~r|....|...h|*",
-        "******~~~~~z|h..U|U...|*",
-        "***********r|-O--|--O-|*",
+        "*####===##:::##===#####*",
+        "*#[..f@.........@y|ddd#*",
+        "*#[..........@....|h.h#*",
+        "*#[...............+...#*",
+        "*#||+||+|..@...@..|d..O*",
+        "*#h..|u_|.........|dh.#*",
+        "*#...|s_|..@...@..|]..#*",
+        "*#U..|t_|........y|]..#*",
+        "*##O#####::##.|||||||.#*",
+        "*zrzrzrzr~~r#.[[[[[[[.#*",
+        "*********~~z#.........#4",
+        "*******&*~~r#.........#*",
+        "R********~~z#|+|||||+|#*",
+        "******~~~~~r#....|...h#*",
+        "******~~~~~z#h..U|U...#*",
+        "***********r##O#####O##*",
         "************************",
         "*******^****************",
         "************************"
       ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         "*": "t_region_groundcover_urban",
         "&": "t_region_groundcover_urban",
         "+": "t_door_c",
-        "-": "t_brick_wall",
         ".": "t_floor",
-        "_": "t_linoleum_gray",
-        "u": "t_linoleum_gray",
-        "s": "t_linoleum_gray",
-        "t": "t_linoleum_gray",
+        "_": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "u": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "s": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "0": "t_window_alarm",
         ":": "t_door_glass_c",
         ";": "t_door_locked",
@@ -594,14 +592,13 @@
         "^": "t_region_tree_fruit",
         "r": "t_region_groundcover_urban",
         "z": "t_region_shrub_decorative",
-        "|": "t_brick_wall",
         "~": "t_sidewalk",
         "R": "t_region_groundcover_urban",
         "4": "t_gutter_downspout"
       },
       "furniture": {
         "%": "f_console_broken",
-        "#": "f_counter",
+        "-": "f_counter",
         "@": "f_mannequin",
         "H": "f_chair",
         "T": "f_table",
@@ -617,6 +614,7 @@
         "u": "f_trashcan",
         "y": "f_indoor_plant_y"
       },
+      "items": { "t": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "t": {  } },
       "place_items": [
         { "item": "wedding_suits", "x": 2, "y": [ 6, 8 ], "chance": 70, "repeat": [ 2, 4 ] },
@@ -646,7 +644,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_clothes_roof_5",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -695,10 +692,8 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_clothes_6" ],
     "//": "All clothing",
-    "weight": 500,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -727,14 +722,18 @@
         "...........-............",
         "...........-............"
       ],
-      "palettes": [ "standard_building_general_and_variant_palette", "clothes_store_palette" ],
-      "terrain": { "t": "t_linoleum_white", "S": "t_linoleum_white", "_": "t_linoleum_white", "D": "t_linoleum_white" },
+      "palettes": [ "parametrized_linoleum_palette", "standard_building_general_and_variant_palette", "clothes_store_palette" ],
+      "terrain": {
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "S": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "_": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "D": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
+      },
       "place_loot": [ { "group": "cash_register_random", "x": [ 10, 13 ], "y": 7 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_clothes_roof_6",
     "object": {
       "fill_ter": "t_flat_roof",

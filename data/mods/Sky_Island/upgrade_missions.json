@@ -21,7 +21,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "scoutingdistancetargets", "=", "1" ] },
+        { "math": [ "scoutingdistancetargets = 1" ] },
         { "u_forget_recipe": "upgradekey_scouting1" },
         {
           "u_message": "Your vision expands.  Future missions and exits will be scouted just a little better.",
@@ -32,7 +32,7 @@
   },
   {
     "id": "upgradekey_scouting1",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Scouting Lens", "str_pl": "Scouting Lenses" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Scouting 1",
@@ -56,14 +56,7 @@
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-      [
-        [ "glasses_eye", 1 ],
-        [ "glasses_bifocal", 1 ],
-        [ "glasses_reading", 1 ],
-        [ "fancy_glasses_eye", 1 ],
-        [ "fancy_glasses_bifocal", 1 ],
-        [ "fancy_glasses_reading", 1 ]
-      ],
+      [ [ "glasses_eye", 1 ], [ "glasses_bifocal", 1 ], [ "glasses_reading", 1 ] ],
       [ [ "pipe", 1 ] ],
       [ [ "wire", 5 ] ],
       [ [ "tinder", 5 ] ],
@@ -92,7 +85,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "scoutingdistancetargets", "=", "2" ] },
+        { "math": [ "scoutingdistancetargets = 2" ] },
         { "u_forget_recipe": "upgradekey_scouting2" },
         {
           "u_message": "Your vision expands.  Future missions and exits will provide better map scouting.",
@@ -103,7 +96,7 @@
   },
   {
     "id": "upgradekey_scouting2",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Scouting Scope" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Scouting 2",
@@ -131,7 +124,7 @@
       [ [ "warptoken", 2 ] ],
       [ [ "cu_pipe", 5 ] ],
       [ [ "duct_tape", 20 ] ],
-      [ [ "light_plus_battery_cell", 5 ], [ "light_battery_cell", 10 ], [ "light_disposable_cell", 15 ] ],
+      [ [ "light_battery_cell", 5 ], [ "light_battery_cell", 10 ], [ "light_battery_cell", 15 ] ],
       [ [ "cordage", 1, "LIST" ] ]
     ]
   },
@@ -157,7 +150,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "scoutingdistancetargets", "=", "4" ] },
+        { "math": [ "scoutingdistancetargets = 4" ] },
         { "u_forget_recipe": "upgradekey_scouting3" },
         {
           "u_message": "Your vision expands.  Future missions and exits will provide even better scouting on your map.",
@@ -168,7 +161,7 @@
   },
   {
     "id": "upgradekey_scouting3",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Vision Amplifier" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Scouting 3",
@@ -195,8 +188,8 @@
       [ [ "camera", 1 ], [ "camera_pro", 1 ], [ "wearable_camera", 1 ], [ "wearable_camera_pro", 1 ], [ "omnicamera", 1 ] ],
       [ [ "warptoken", 5 ] ],
       [ [ "scrap_aluminum", 12 ] ],
-      [ [ "superglue", 1 ], [ "bone_glue", 1 ] ],
-      [ [ "medium_battery_cell", 2 ], [ "medium_plus_battery_cell", 4 ], [ "medium_disposable_cell", 6 ] ],
+      [ [ "super_glue", 10 ], [ "bone_glue", 1 ] ],
+      [ [ "medium_battery_cell", 6 ] ],
       [ [ "extension_cable", 1 ], [ "long_extension_cable", 1 ], [ "jumper_cable", 1 ] ]
     ]
   },
@@ -222,7 +215,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "scoutingdistancetargets", "=", "6" ] },
+        { "math": [ "scoutingdistancetargets = 6" ] },
         { "u_forget_recipe": "upgradekey_scouting4" },
         {
           "u_message": "Your vision expands.  Future missions and exits will be provide exceptional scouting.",
@@ -233,7 +226,7 @@
   },
   {
     "id": "upgradekey_scouting4",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Third Eye Charm" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Scouting 4",
@@ -262,7 +255,7 @@
       [ [ "microscope", 1 ] ],
       [ [ "silver_small", 20 ] ],
       [ [ "brazing_rod_bronze", 5 ], [ "brazing_rod_alloy", 5 ] ],
-      [ [ "heavy_plus_battery_cell", 1 ], [ "heavy_battery_cell", 2 ], [ "heavy_disposable_cell", 4 ] ],
+      [ [ "heavy_plus_battery_cell", 1 ], [ "heavy_battery_cell", 2 ] ],
       [ [ "rope_30", 1 ] ]
     ]
   },
@@ -288,7 +281,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "scoutingdistancetargets", "=", "10" ] },
+        { "math": [ "scoutingdistancetargets = 10" ] },
         { "u_forget_recipe": "upgradekey_scouting5" },
         {
           "u_message": "Your vision expands.  Future missions and exits will provide a huge scouting radius.",
@@ -299,7 +292,7 @@
   },
   {
     "id": "upgradekey_scouting5",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Eye of the Island" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Scouting 5",
@@ -333,6 +326,349 @@
     ]
   },
   {
+    "id": "SKYISLAND_UPGRADE_scouting6",
+    "type": "mission_definition",
+    "name": "Upgrade: Scouting 6",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft a warpforged telescope from sensors and telescopes.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Reveals a huge amount of the map around exit points and mission targets.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_scouting6",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_scouting6" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveals a huge amount of the map around exit points and mission targets.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "scoutingdistancetargets = 14" ] },
+        { "u_forget_recipe": "upgradekey_scouting6" },
+        {
+          "u_message": "Your vision expands.  Future missions and exits will provide a huge scouting radius.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_scouting6",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str_sp": "Warpforged Telescope" },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Scouting 6",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_scouting6",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "tele_sight", 1 ] ],
+      [ [ "cantilever_small", 1 ] ],
+      [ [ "survivor_scope", 3 ] ],
+      [ [ "warptoken", 16 ] ],
+      [ [ "plastic_chunk", 20 ] ],
+      [ [ "beeper", 1 ], [ "stereo", 1 ], [ "chimes", 1 ] ],
+      [ [ "radio", 1 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_scouting7",
+    "type": "mission_definition",
+    "name": "Upgrade: Scouting 7",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft an Agglomerated Oculus from ocular enhancements and petrified eyes.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Reveals a huge amount of the map around exit points and mission targets.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_scouting7",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_scouting7" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveals a huge amount of the map around exit points and mission targets.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "scoutingdistancetargets = 18" ] },
+        { "u_forget_recipe": "upgradekey_scouting7" },
+        {
+          "u_message": "Your vision expands.  Future missions and exits will provide a huge scouting radius.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_scouting7",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str_sp": "Agglomerated Oculus" },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Scouting 5",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_scouting7",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "//": "The components below allow all CBMs that enhances eyes or vision.",
+    "//2": "Two petrified eyes in a sky island run is a daunting task, so the other components are easier to find to compensate.",
+    "components": [
+      [
+        [ "bio_eye_optic", 1 ],
+        [ "bio_armor_eyes", 1 ],
+        [ "bio_ar", 1 ],
+        [ "bio_eye_enhancer", 1 ],
+        [ "bio_infrared", 1 ],
+        [ "bio_night_vision", 1 ]
+      ],
+      [ [ "steroid_eyedrops", 50 ], [ "eyedrops", 50 ] ],
+      [ [ "warptoken", 20 ] ],
+      [ [ "petrified_eye", 2 ] ],
+      [ [ "magic_8_ball", 3 ] ],
+      [ [ "steel_lump", 10 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_scouting8",
+    "type": "mission_definition",
+    "name": "Upgrade: Scouting 8",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the Other Eye of the Island from outworldly sensors and esoteric notes.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Reveals a huge amount of the map around exit points and mission targets.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_scouting8",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_scouting8" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveals a huge amount of the map around exit points and mission targets.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "scoutingdistancetargets = 22" ] },
+        { "u_forget_recipe": "upgradekey_scouting8" },
+        {
+          "u_message": "Your vision expands.  Future missions and exits will provide a huge scouting radius.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_scouting8",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Other Eye of the Island" },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Scouting 8",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_scouting8",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "//": "Yrax sensors are very hard to find, so the other components are few to compensate.",
+    "components": [
+      [ [ "exodii_sensor", 3 ] ],
+      [ [ "self_monitoring_module", 2 ] ],
+      [ [ "yrax_sensor", 1 ] ],
+      [ [ "warptoken", 24 ] ],
+      [ [ "book_newage_witchcraftadv", 1 ] ],
+      [ [ "gold_small", 100 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_scoutingclairvoyance1",
+    "type": "mission_definition",
+    "name": "Upgrade: Scouting Clairvoyance 1",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the Higher Viewpoint from notes on the psychic and things that belong to the dead.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: See everything near you for a short time when beginning a mission.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_scoutingclairvoyance1",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_scoutingclairvoyance1" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: See everything near you for a short time when beginning a mission.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "scoutingclairvoyancetime = 20" ] },
+        { "u_forget_recipe": "upgradekey_scoutingclairvoyance1" },
+        {
+          "u_message": "Your vision expands.  You will see everything near you for a short time when beginning a mission.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_scoutingclairvoyance1",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Higher Viewpoint" },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Scouting Clairvoyance 1",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_scoutingclairvoyance1",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "//": "The clay urn is craftable, the porcelain urn is 100% likely to be found in retirement centers and a crystal urn can be found in one mansion out of two.",
+    "components": [
+      [ [ "book_newage_inpsychic", 1 ], [ "book_newage_beyondveil", 1 ] ],
+      [ [ "clay_urn", 1 ] ],
+      [ [ "porcelain_urn", 1 ] ],
+      [ [ "crystal_urn", 1 ] ],
+      [ [ "warptoken", 16 ] ],
+      [ [ "corpse_ash", 3000 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_scoutingclairvoyance2",
+    "type": "mission_definition",
+    "name": "Upgrade: Scouting Clairvoyance 2",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the All-Seeing Effigy from the remains of the observers and detection tools.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: See everything near you at the start of a mission of a longer time.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_scoutingclairvoyance2",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_scoutingclairvoyance2" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: See everything near you at the start of a mission of a longer time.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "scoutingclairvoyancetime = 60" ] },
+        { "u_forget_recipe": "upgradekey_scoutingclairvoyance2" },
+        {
+          "u_message": "Your vision expands.  You will see everything near you for a longer time at the beginning of a mission.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_scoutingclairvoyance2",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str_sp": "All-Seeing Effigy" },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Scouting Clairvoyance 2",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_scoutingclairvoyance2",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [
+        [ "broken_lab_security_drone_BM", 5 ],
+        [ "broken_lab_security_drone_YM", 5 ],
+        [ "broken_lab_security_drone_GR", 5 ],
+        [ "broken_lab_security_drone_GM", 5 ],
+        [ "broken_lab_security_drone_BM2", 5 ]
+      ],
+      [ [ "pathfinding_module", 5 ] ],
+      [ [ "warptoken", 22 ] ],
+      [ [ "light_detector", 5 ] ],
+      [ [ "emf_detector", 1 ] ],
+      [ [ "geiger_off", 1 ] ]
+    ]
+  },
+  {
     "id": "SKYISLAND_UPGRADE_landing1",
     "type": "mission_definition",
     "name": "Upgrade: Landing 1",
@@ -354,8 +690,8 @@
     },
     "end": {
       "effect": [
-        { "math": [ "scoutingdistancelanding", "=", "4" ] },
-        { "math": [ "invistime", "=", "70" ] },
+        { "math": [ "scoutingdistancelanding = 4" ] },
+        { "math": [ "invistime = 70" ] },
         { "u_forget_recipe": "upgradekey_landing1" },
         {
           "u_message": "Your focus tightens.  Landing points will reveal more of the map, and your warpcloak will last 70 seconds at the beginning of every expedition.",
@@ -366,7 +702,7 @@
   },
   {
     "id": "upgradekey_landing1",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Landing Pad" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Landing 1",
@@ -419,8 +755,8 @@
     },
     "end": {
       "effect": [
-        { "math": [ "scoutingdistancelanding", "=", "8" ] },
-        { "math": [ "invistime", "=", "80" ] },
+        { "math": [ "scoutingdistancelanding = 8" ] },
+        { "math": [ "invistime = 80" ] },
         { "u_forget_recipe": "upgradekey_landing2" },
         {
           "u_message": "Your focus tightens.  Landing points will reveal more of the map, and your warpcloak will last 80 seconds at the beginning of every expedition.",
@@ -431,7 +767,7 @@
   },
   {
     "id": "upgradekey_landing2",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Safety Net" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Landing 2",
@@ -486,8 +822,8 @@
     },
     "end": {
       "effect": [
-        { "math": [ "scoutingdistancelanding", "=", "12" ] },
-        { "math": [ "invistime", "=", "90" ] },
+        { "math": [ "scoutingdistancelanding = 12" ] },
+        { "math": [ "invistime = 90" ] },
         { "u_forget_recipe": "upgradekey_landing3" },
         {
           "u_message": "Your focus tightens.  Landing points will reveal more of the map, and your warpcloak will last 90 seconds at the beginning of every expedition.",
@@ -498,7 +834,7 @@
   },
   {
     "id": "upgradekey_landing3",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Warped Parachute" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Landing 3",
@@ -552,8 +888,8 @@
     },
     "end": {
       "effect": [
-        { "math": [ "scoutingdistancelanding", "=", "16" ] },
-        { "math": [ "invistime", "=", "100" ] },
+        { "math": [ "scoutingdistancelanding = 16" ] },
+        { "math": [ "invistime = 100" ] },
         { "u_forget_recipe": "upgradekey_landing4" },
         {
           "u_message": "Your focus tightens.  Landing points will reveal more of the map, and your warpcloak will last 100 seconds at the beginning of every expedition.",
@@ -564,7 +900,7 @@
   },
   {
     "id": "upgradekey_landing4",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Ethereal Cushion" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Landing 4",
@@ -619,8 +955,8 @@
     },
     "end": {
       "effect": [
-        { "math": [ "scoutingdistancelanding", "=", "24" ] },
-        { "math": [ "invistime", "=", "120" ] },
+        { "math": [ "scoutingdistancelanding = 24" ] },
+        { "math": [ "invistime = 120" ] },
         { "u_forget_recipe": "upgradekey_landing5" },
         {
           "u_message": "Your focus tightens.  Landing points will reveal more of the map, and your warpcloak will last 120 seconds at the beginning of every expedition.",
@@ -631,7 +967,7 @@
   },
   {
     "id": "upgradekey_landing5",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Grace of the Island" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Landing 5",
@@ -655,13 +991,412 @@
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-      [ [ "chainmail_suit_faraday", 1 ], [ "sharksuit", 1 ], [ "armor_samurai", 1 ], [ "armor_junk_plate", 1 ] ],
+      [ [ "chainmail_suit_faraday", 1 ], [ "fursuit", 1 ], [ "armor_samurai", 1 ], [ "armor_junk_plate", 1 ] ],
       [ [ "warptoken", 12 ] ],
       [ [ "book_fict_soft_ya_myeyes", 1 ] ],
       [ [ "fur", 40 ] ],
       [ [ "glasses_monocle", 1 ] ],
       [ [ "heroin", 1 ] ],
       [ [ "coke", 20 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_landing6",
+    "type": "mission_definition",
+    "name": "Upgrade: Landing 6",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the Familiarity Gemstone from maps and flags.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Reveal a huge section of the map around your landing point, and increase the warpcloak invisibility grace period at the start of each expedition to 130 seconds.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_landing6",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_landing6" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveal a huge section of the map around your landing point, and increase the warpcloak invisibility grace period at the start of each expedition to 130 seconds.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "scoutingdistancelanding = 32" ] },
+        { "math": [ "invistime = 130" ] },
+        { "u_forget_recipe": "upgradekey_landing6" },
+        {
+          "u_message": "Your focus tightens.  Landing points will reveal more of the map, and your warpcloak will last 130 seconds at the beginning of every expedition.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_landing6",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Familiarity Gemstone" },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Landing 6",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_landing6",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "pride_flag", 6 ], [ "national_flag", 6 ], [ "american_flag", 6 ], [ "state_flag", 6 ] ],
+      [ [ "warptoken", 16 ] ],
+      [
+        [ "roadmap", 6 ],
+        [ "subwaystationmap", 6 ],
+        [ "survivormap", 6 ],
+        [ "trailmap", 6 ],
+        [ "touristmap", 6 ],
+        [ "restaurantmap", 6 ]
+      ],
+      [ [ "labmap", 5 ], [ "id_science_visitor_1", 5 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_landing7",
+    "type": "mission_definition",
+    "name": "Upgrade: Landing 7",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the Warm Welcome from painkillers and winter clothes.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Reveal a huge section of the map around your landing point, and increase the warpcloak invisibility grace period at the start of each expedition to 140 seconds.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_landing7",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_landing7" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveal a huge section of the map around your landing point, and increase the warpcloak invisibility grace period at the start of each expedition to 140 seconds.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "scoutingdistancelanding = 40" ] },
+        { "math": [ "invistime = 140" ] },
+        { "u_forget_recipe": "upgradekey_landing7" },
+        {
+          "u_message": "Your focus tightens.  Landing points will reveal more of the map, and your warpcloak will last 140 seconds at the beginning of every expedition.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_landing7",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Warm Welcome" },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Landing 7",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_landing7",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "oxycodone", 200 ], [ "tramadol", 200 ] ],
+      [ [ "poppy_pain", 20 ], [ "morphine", 10 ] ],
+      [ [ "warptoken", 20 ] ],
+      [ [ "thermal_suit", 5 ] ],
+      [ [ "coat_winter", 5 ] ],
+      [ [ "plastic_jack_o_lantern", 1 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_landing8",
+    "type": "mission_definition",
+    "name": "Upgrade: Landing 8",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the Emissary's Herald from insignias and proofs of authority.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Reveal a huge section of the map around your landing point, and increase the warpcloak invisibility grace period at the start of each expedition to 150 seconds.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_landing8",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_landing8" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveal a huge section of the map around your landing point, and increase the warpcloak invisibility grace period at the start of each expedition to 150 seconds.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "scoutingdistancelanding = 48" ] },
+        { "math": [ "invistime = 150" ] },
+        { "u_forget_recipe": "upgradekey_landing8" },
+        {
+          "u_message": "Your focus tightens.  Landing points will reveal more of the map, and your warpcloak will last 150 seconds at the beginning of every expedition.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_landing8",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Emissary's Herald" },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Landing 8",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_landing8",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "any_badge", 3, "LIST" ] ],
+      [ [ "warptoken", 24 ] ],
+      [ [ "jade_brooch", 3 ] ],
+      [ [ "any_tiara", 6, "LIST" ] ],
+      [ [ "bronze_medal", 1 ], [ "silver_medal", 1 ], [ "gold_medal", 1 ], [ "service_medal", 1 ] ],
+      [ [ "suit", 1 ] ],
+      [ [ "ring_signet", 3 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_landing_water_walking",
+    "type": "mission_definition",
+    "name": "Upgrade: Landing Boost: Waterwalking",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft a Cloaking Buoyancy from things from water and things that float.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: While under the effect of the warpcloak, you can walk on water.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_landing_waterwalking",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_landing_waterwalking" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: While under the effect of the warpcloak, you can walk on water.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "landing_waterwalk = 1" ] },
+        { "u_forget_recipe": "upgradekey_landing_waterwalking" },
+        {
+          "u_message": "You feel the warp ripple around you.  While under the effect of the warpcloak, you can walk on water.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_landing_waterwalking",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str_sp": "Cloaking Buoyancy" },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Landing Boost: Waterwalking.",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_landing_waterwalking",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "flotation_vest_ms", 1 ], [ "flotation_vest", 1 ], [ "armor_samurai", 1 ], [ "armor_junk_plate", 1 ] ],
+      [ [ "warp_waterwalking_stone", 5 ] ],
+      [ [ "folded_inflatable_boat", 1 ] ],
+      [ [ "stationary_water_purifier", 1 ] ],
+      [ [ "soup_fish", 10 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_landing_flight",
+    "type": "mission_definition",
+    "name": "Upgrade: Landing Boost: Flight",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft an Inverted Gravity Bubble from things that used to fly and things that could make someone fly.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: While under the effect of the warpcloak, you can fly.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_landing_flight",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_landing_flight" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: While under the effect of the warpcloak, you can fly.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "landing_flight = 1" ] },
+        { "u_forget_recipe": "upgradekey_landing_flight" },
+        {
+          "u_message": "You feel the warp ripple around you.  While under the effect of the warpcloak, you can fly.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_landing_flight",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Inverted Gravity Bubble" },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Landing Boost: Flight.",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_landing_flight",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "mutant_bug_hydrogen_sacs", 300 ] ],
+      [ [ "warptoken", 16 ] ],
+      [ [ "book_fict_soft_ya_hilo", 1 ] ],
+      [ [ "iv_mutagen_bird", 2 ] ],
+      [ [ "feather", 100 ], [ "down_feather", 100 ] ],
+      [ [ "meth", 10 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_landing_phase",
+    "type": "mission_definition",
+    "name": "Upgrade: Landing Boost: Phasing",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the Universal Access Pass from different tools granting access to restricted areas.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: While under the effect of the warpcloak, you can pass through non-thick walls.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_landing_phase",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_landing_phase" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: While under the effect of the warpcloak, you can pass through non-thick walls.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "landing_phase = 1" ] },
+        { "u_forget_recipe": "upgradekey_landing_phase" },
+        {
+          "u_message": "You feel the warp ripple around you.  While under the effect of the warpcloak, you can pass through non-thick walls.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_landing_phase",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str_sp": "Universal Access Pass" },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Landing Boost: Phasing.",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_landing_phase",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "altered_keyring", 1 ], [ "bio_probability_travel", 1 ], [ "bio_teleport", 1 ], [ "teleporter", 3 ] ],
+      [ [ "phase_immersion_suit", 1 ] ],
+      [ [ "warptoken", 22 ] ],
+      [ [ "book_lockpick", 1 ] ],
+      [ [ "crude_picklock", 25 ] ],
+      [ [ "picklocks", 1 ] ],
+      [ [ "colander_steel", 5 ] ]
     ]
   },
   {
@@ -686,7 +1421,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "bonuspulses", "=", "1" ] },
+        { "math": [ "bonuspulses = 1" ] },
         { "u_forget_recipe": "upgradekey_stability1" },
         {
           "u_message": "Your resistance to the chaos of the warpstream increases.  In every future expedition, you will be able to endure an additional warp pulse and stay earthside longer.",
@@ -697,7 +1432,7 @@
   },
   {
     "id": "upgradekey_stability1",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Warped Tincture" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Stability 1",
@@ -752,7 +1487,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "bonuspulses", "=", "2" ] },
+        { "math": [ "bonuspulses = 2" ] },
         { "u_forget_recipe": "upgradekey_stability2" },
         {
           "u_message": "Your resistance to the chaos of the warpstream increases.  In every future expedition, you will be able to endure an additional warp pulse and stay earthside longer.",
@@ -763,7 +1498,7 @@
   },
   {
     "id": "upgradekey_stability2",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Surreal Shield" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Stability 2",
@@ -820,7 +1555,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "bonuspulses", "=", "3" ] },
+        { "math": [ "bonuspulses = 3" ] },
         { "u_forget_recipe": "upgradekey_stability3" },
         {
           "u_message": "Your resistance to the chaos of the warpstream increases.  In every future expedition, you will be able to endure an additional warp pulse and stay earthside longer.",
@@ -831,7 +1566,7 @@
   },
   {
     "id": "upgradekey_stability3",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Warpstream Plating" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Stability 3",
@@ -896,7 +1631,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "bonuspulses", "=", "4" ] },
+        { "math": [ "bonuspulses = 4" ] },
         { "u_forget_recipe": "upgradekey_stability4" },
         {
           "u_message": "Your resistance to the chaos of the warpstream increases.  In every future expedition, you will be able to endure an additional warp pulse and stay earthside longer.",
@@ -907,7 +1642,7 @@
   },
   {
     "id": "upgradekey_stability4",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Fortitude of the Island" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Stability 4",
@@ -940,6 +1675,202 @@
     ]
   },
   {
+    "id": "SKYISLAND_UPGRADE_stability5",
+    "type": "mission_definition",
+    "name": "Upgrade: Stability 5",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the Explorer's Ward from things helping to withstand harsh conditions.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: You will begin every expedition with the ability to withstand 13 pulses instead of the default 8, allowing you to stay out 62.5% longer before warpsickness takes over.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_stability4",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_stability5" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: You will begin every expedition with the ability to withstand 13 pulses instead of the default 8, allowing you to stay out 62.5% longer before warpsickness takes over.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "bonuspulses = 5" ] },
+        { "u_forget_recipe": "upgradekey_stability5" },
+        {
+          "u_message": "Your resistance to the chaos of the warpstream increases.  In every future expedition, you will be able to endure an additional warp pulse and stay earthside longer.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_stability5",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Explorer's Ward" },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Stability 5",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_stability5",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "ballistic_vest_heavy", 2 ] ],
+      [ [ "warptoken", 30 ] ],
+      [ [ "alien_pod_resin", 5 ] ],
+      [ [ "oxygen_tank", 5 ], [ "scuba_tank", 5 ] ],
+      [ [ "iv_mutagen_medical", 1 ] ],
+      [ [ "caviar_egg_sandwich", 1 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_stability6",
+    "type": "mission_definition",
+    "name": "Upgrade: Stability 6",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft an Island-Bound Armor from various armors from this world and from others.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: You will begin every expedition with the ability to withstand 14 pulses instead of the default 8, allowing you to stay out 75% longer before warpsickness takes over.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_stability6",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_stability6" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: You will begin every expedition with the ability to withstand 14 pulses instead of the default 8, allowing you to stay out 75% longer before warpsickness takes over.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "bonuspulses = 6" ] },
+        { "u_forget_recipe": "upgradekey_stability6" },
+        {
+          "u_message": "Your resistance to the chaos of the warpstream increases.  In every future expedition, you will be able to endure an additional warp pulse and stay earthside longer.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_stability6",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Island-Bound Armor" },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Stability 6",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_stability6",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "warptoken", 35 ] ],
+      [ [ "helmet_acidchitin", 1 ], [ "helmet_bronze", 1 ] ],
+      [ [ "armor_acidchitin", 1 ], [ "cuirass_bronze", 1 ] ],
+      [ [ "armguard_acidchitin", 1 ], [ "armguard_bronze", 1 ] ],
+      [ [ "legguard_acidchitin", 1 ], [ "legguard_bronze", 1 ] ],
+      [ [ "hard_steel_armor", 1 ], [ "migo_plate", 1 ], [ "migo_sideplate", 1 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_stability7",
+    "type": "mission_definition",
+    "name": "Upgrade: Stability 7",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the Triune Anchor from the corpse of a yugg and rare ressources.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: You will begin every expedition with the ability to withstand 15 pulses instead of the default 8, allowing you to stay out 87.5% longer before warpsickness takes over.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_stability7",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_stability7" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: You will begin every expedition with the ability to withstand 15 pulses instead of the default 8, allowing you to stay out 87.5% longer before warpsickness takes over.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "bonuspulses = 7" ] },
+        { "u_forget_recipe": "upgradekey_stability7" },
+        {
+          "u_message": "Your resistance to the chaos of the warpstream increases.  In every future expedition, you will be able to endure an additional warp pulse and stay earthside longer.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_stability7",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Triune Anchor" },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Stability 7",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_stability7",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "corpse_yugg_jade", 1 ], [ "corpse_yugg_rubber", 1 ], [ "corpse_yugg_mutflesh", 1 ] ],
+      [ [ "warptoken", 40 ] ],
+      [ [ "wine_marloss", 1 ] ],
+      [ [ "resonance_measurement_device", 1 ], [ "nre_recorder", 1 ] ],
+      [ [ "pure_meth", 6 ] ],
+      [ [ "friday", 1 ], [ "spirit_island", 1 ] ],
+      [ [ "violin_golden", 1 ] ]
+    ]
+  },
+  {
     "id": "SKYISLAND_UPGRADE_slaughter",
     "type": "mission_definition",
     "name": "Unlock: Slaughter Missions",
@@ -961,7 +1892,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "slaughterunlocked", "=", "1" ] },
+        { "math": [ "slaughterunlocked = 1" ] },
         { "u_forget_recipe": "upgradekey_slaughter" },
         {
           "u_message": "Bloodthirst surges through you like electricity.  The clarity of the world and its natural flow pierces your mind.\nIn every future expedition, you will be tasked to find and extinguish living entities that have absorbed warp.  Do this and you will be rewarded.",
@@ -972,7 +1903,7 @@
   },
   {
     "id": "upgradekey_slaughter",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Vengeance of the Island" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Slaughter Missions",
@@ -1019,7 +1950,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "bonusexits", "=", "1" ] },
+        { "math": [ "bonusexits = 1" ] },
         { "u_forget_recipe": "upgradekey_exit1" },
         {
           "u_message": "You close your eyes and through the flow of turbulent warpstream, an invisible maze manifests.  A thousand potential passages brush smooth stone across your consciousness, and the meaning of this reality glimmers faintly, a dancing splinter of light in the distance.  You've been here before, you are here now, and you will be here again.\nWhen you open your eyes, you're back where you began.  You haven't moved, but it feels as though the world has.\n\nIn every future expedition, you will now be able to find two different locations you can exit from.",
@@ -1030,7 +1961,7 @@
   },
   {
     "id": "upgradekey_exit1",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Escape Charm" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Two Exits per Expedition",
@@ -1088,7 +2019,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "bonusexits", "=", "2" ] },
+        { "math": [ "bonusexits = 2" ] },
         { "u_forget_recipe": "upgradekey_exit2" },
         {
           "u_message": "Again you see in blindness, and before you stretches a vast invisible labyrinth beneath an empty sky.  You race forward, tracing paths spoken to you in dreams, and an origami spiderweb crumples and breathes out underfoot.  At last, at the seashell's center, lies the cornucopia's smallest door.\nWhen at last you open your eyes, you find yourself where you began, unmoved, yet changed.\n\nIn every future expedition, you will now be able to find three different locations you can exit from.",
@@ -1099,7 +2030,7 @@
   },
   {
     "id": "upgradekey_exit2",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Blindfold of Egress", "str_pl": "Blindfolds of Egress" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Three Exits per Expedition",
@@ -1131,6 +2062,134 @@
     ]
   },
   {
+    "id": "SKYISLAND_UPGRADE_exit3",
+    "type": "mission_definition",
+    "name": "Unlock: Four Exits per Expedition",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft a Thrice-Sided Door from locks and doormats.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Every expedition will now have four different locations you can exit from.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_exit3",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_exit3" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Every expedition will now have four different locations you can exit from.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "bonusexits = 3" ] },
+        { "u_forget_recipe": "upgradekey_exit3" },
+        {
+          "u_message": "Again you see in blindness, and before you stretches a vast invisible labyrinth beneath an empty sky.  You race forward, tracing paths spoken to you in dreams, and an origami spiderweb crumples and breathes out underfoot.  At last, at the seashell's center, lies the cornucopia's smallest door.\nWhen at last you open your eyes, you find yourself where you began, unmoved, yet changed.\n\nIn every future expedition, you will now be able to find four different locations you can exit from.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_exit3",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Thrice-Sided Door" },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Four Exits per Expedition",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_exit3",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "doormat", 5 ] ],
+      [ [ "warptoken", 3 ] ],
+      [ [ "oven_door", 2 ], [ "door_lock", 5 ] ],
+      [ [ "vehicle_dashboard", 1 ], [ "vehicle_controls", 1 ] ],
+      [ [ "indoor_volleyball", 1 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_exit4",
+    "type": "mission_definition",
+    "name": "Unlock: Five Exits per Expedition",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft an Intangible Door Stopper from door hinges and breaching tools.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Every expedition will now have four different locations you can exit from.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_exit4",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_exit4" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Every expedition will now have four different locations you can exit from.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "bonusexits = 4" ] },
+        { "u_forget_recipe": "upgradekey_exit4" },
+        {
+          "u_message": "Again you see in blindness, and before you stretches a vast invisible labyrinth beneath an empty sky.  You race forward, tracing paths spoken to you in dreams, and an origami spiderweb crumples and breathes out underfoot.  At last, at the seashell's center, lies the cornucopia's smallest door.\nWhen at last you open your eyes, you find yourself where you began, unmoved, yet changed.\n\nIn every future expedition, you will now be able to find five different locations you can exit from.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_exit4",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Intangible Door Stopper" },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Five Exits per Expedition",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_exit4",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "bite_suit", 1 ] ],
+      [ [ "warptoken", 5 ] ],
+      [ [ "carpentry_book", 1 ], [ "textbook_carpentry", 1 ] ],
+      [ [ "hinge", 20 ] ],
+      [ [ "remington_870_breacher", 1 ], [ "shotgun_d", 3 ] ]
+    ]
+  },
+  {
     "id": "SKYISLAND_UPGRADE_bonusmissions1",
     "type": "mission_definition",
     "name": "Unlock: Expedition Missions",
@@ -1152,7 +2211,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "bonusmissions", "=", "1" ] },
+        { "math": [ "bonusmissions = 1" ] },
         { "u_forget_recipe": "upgradekey_bonusmissions1" },
         {
           "u_message": "The island speaks in your head using words you cannot translate yet already understand.  Its wishes are your commands.\nIn every future expedition, you will now be given a randomly generated mission, from which you can earn valuable warp shards.",
@@ -1163,7 +2222,7 @@
   },
   {
     "id": "upgradekey_bonusmissions1",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Warped Decree" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Expedition Missions",
@@ -1220,7 +2279,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "bonusmissions", "=", "2" ] },
+        { "math": [ "bonusmissions = 2" ] },
         { "u_forget_recipe": "upgradekey_bonusmissions2" },
         {
           "u_message": "Those who disturb the warpstream must be put down.  There is no cruelty in this.  It is the order of the Island, and it will be kept.\nIn every future expedition, you will now be given 2 random missions.",
@@ -1231,7 +2290,7 @@
   },
   {
     "id": "upgradekey_bonusmissions2",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Order's Blade" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Two Missions per Expedition",
@@ -1264,7 +2323,7 @@
       [ [ "cufflinks_intricate", 1 ] ],
       [ [ "ring_signet", 1 ] ],
       [ [ "platinum_locket", 1 ] ],
-      [ [ "onyx_silver_earring", 1 ] ]
+      [ [ "tieclip", 1 ] ]
     ]
   },
   {
@@ -1289,7 +2348,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "bonusmissions", "=", "3" ] },
+        { "math": [ "bonusmissions = 3" ] },
         { "u_forget_recipe": "upgradekey_bonusmissions3" },
         {
           "u_message": "Your strength is an extension of the island's will.  Let order be maintained.\nIn every future expedition, you will now be given 3 random missions.",
@@ -1300,7 +2359,7 @@
   },
   {
     "id": "upgradekey_bonusmissions3",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Hand of the Island" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Three Missions per Expedition",
@@ -1346,6 +2405,138 @@
     ]
   },
   {
+    "id": "SKYISLAND_UPGRADE_bonusmissions4",
+    "type": "mission_definition",
+    "name": "Unlock: Four Missions per Expedition",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft a Petrified Duty's Call from old money and a spiral stone.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Every expedition will now have 4 different randomly assigned missions, increasing the possibility for earning warp shards.  Completing a mission also extends the time left on current expedition by 1 warp pulse.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_bonusmissions4",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_bonusmissions4" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Every expedition will now have 4 different randomly assigned missions, increasing the possibility for earning warp shards.  Completing a mission also extends the time left on current expedition by 1 warp pulse.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "bonusmissions = 4" ] },
+        { "u_forget_recipe": "upgradekey_bonusmissions4" },
+        {
+          "u_message": "Some disrupt the warpstream by their very existence, a problem you will solve through violence.\nIn every future expedition, you will now be given 4 random missions.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_bonusmissions4",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Petrified Duty's Call" },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Four Missions per Expedition",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_bonusmissions4",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "warptoken", 8 ] ],
+      [ [ "money_bundle_one", 2 ] ],
+      [ [ "money_bundle_two", 2 ] ],
+      [ [ "money_bundle_five", 2 ] ],
+      [ [ "money_bundle_ten", 2 ] ],
+      [ [ "money_bundle_twenty", 2 ] ],
+      [ [ "money_bundle_fifty", 2 ] ],
+      [ [ "money_bundle_hundred", 2 ] ],
+      [ [ "spiral_stone", 1 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_bonusmissions5",
+    "type": "mission_definition",
+    "name": "Unlock: Five Missions per Expedition",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the Oath of the Island's Enforcer from massive amounts of ink.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Every expedition will now have 53 different randomly assigned missions, increasing the possibility for earning warp shards.  Completing a mission also extends the time left on current expedition by 1 warp pulse.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_bonusmissions5",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_bonusmissions5" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Every expedition will now have 5 different randomly assigned missions, increasing the possibility for earning warp shards.  Completing a mission also extends the time left on current expedition by 1 warp pulse.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "bonusmissions = 5" ] },
+        { "u_forget_recipe": "upgradekey_bonusmissions5" },
+        {
+          "u_message": "Your mmind fills with many transgressors that the Island has marked or will mark for death.  Carrying the Island's sentences is your responsibility, a duty you've accepted in full.\nIn every future expedition, you will now be given 5 random missions.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_bonusmissions5",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Oath of the Island's Enforcer" },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Five Missions per Expedition",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_bonusmissions5",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [
+      [ [ "fakeitem_statue", -1 ] ],
+      [ [ "black_pen", 5000 ] ],
+      [ [ "blue_pen", 5000 ] ],
+      [ [ "red_pen", 5000 ] ],
+      [ [ "green_pen", 5000 ] ]
+    ],
+    "components": [ [ [ "warptoken", 10 ] ], [ [ "paper", 1 ] ] ]
+  },
+  {
     "id": "SKYISLAND_UPGRADE_hardmissions1",
     "type": "mission_definition",
     "name": "Unlock: Harder Missions",
@@ -1367,8 +2558,8 @@
     },
     "end": {
       "effect": [
-        { "math": [ "hardmissions", "=", "10" ] },
-        { "math": [ "hardermissions", "=", "5" ] },
+        { "math": [ "hardmissions = 10" ] },
+        { "math": [ "hardermissions = 5" ] },
         { "u_forget_recipe": "upgradekey_hardmissions1" },
         {
           "u_message": "Greater trespasses against the flow of the warpstream reveal themselves to you.  This interference cannot go unpunished.\nThe missions you are randomly assigned in each expedition are more varied, and can now pull from harder and more rewarding challenges.",
@@ -1379,7 +2570,7 @@
   },
   {
     "id": "upgradekey_hardmissions1",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Ordinator's Sigil" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Harder Missions",
@@ -1433,9 +2624,9 @@
     },
     "end": {
       "effect": [
-        { "math": [ "hardmissions", "=", "15" ] },
-        { "math": [ "hardermissions", "=", "15" ] },
-        { "math": [ "hardestmissions", "=", "10" ] },
+        { "math": [ "hardmissions = 15" ] },
+        { "math": [ "hardermissions = 15" ] },
+        { "math": [ "hardestmissions = 10" ] },
         { "u_forget_recipe": "upgradekey_hardmissions2" },
         {
           "u_message": "The greatest trespasses against the island now glimmer in the dark, guiding your hand as a tool of order.  Return these chaotic energies to the tranquility of the warpstream.\nThe missions you are randomly assigned in each expedition are even more varied, and can now pull from the hardest and most rewarding challenges.",
@@ -1446,7 +2637,7 @@
   },
   {
     "id": "upgradekey_hardmissions2",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Will of the Island" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Hardest Missions",
@@ -1501,12 +2692,14 @@
     },
     "end": {
       "effect": [
-        { "math": [ "islandrank", "=", "2" ] },
+        { "math": [ "islandrank = 2" ] },
         { "u_forget_recipe": "upgradekey_rankup1" },
         { "u_learn_recipe": "warp_carrier" },
         { "u_learn_recipe": "recipe_craft_random_artifact" },
         { "u_learn_recipe": "warp_vortex_token" },
+        { "u_learn_recipe": "warp_healing_salve" },
         { "u_learn_recipe": "warphaulbag" },
+        { "u_learn_recipe": "sky_island_warped_pond" },
         {
           "u_message": "You have proved your ability to survive to the island, to the warpstream, and to yourself.\nMore unlockable upgrades will be available as you progress, and you may experience exits and targets in new locations.",
           "type": "mixed"
@@ -1520,9 +2713,9 @@
   },
   {
     "id": "upgradekey_rankup1",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
-    "name": { "str": "Proof of Determination" },
+    "name": { "str": "Proof of Determination", "str_pl": "Proofs of Determination" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Island Rank Up 1",
     "volume": "25000 ml",
     "weight": "15000 g",
@@ -1577,7 +2770,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "islandrank", "=", "4" ] },
+        { "math": [ "islandrank = 4" ] },
         { "u_forget_recipe": "upgradekey_rankup2" },
         { "u_learn_recipe": "warphome" },
         { "u_learn_recipe": "warp_autodoc_inert" },
@@ -1594,7 +2787,7 @@
   },
   {
     "id": "upgradekey_rankup2",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Proof of Mastery", "str_pl": "Proofs of Mastery" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Island Rank Up 2",
@@ -1651,7 +2844,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "longerraids", "=", "1" ] },
+        { "math": [ "longerraids = 1" ] },
         { "u_forget_recipe": "upgradekey_raidlength1" },
         {
           "u_message": "You are ready for a longer haul.\nLarge Expeditions are now available at the warp obelisk.  Exits and missions will be farther away, but you will have twice as long to spend earthside.  Use this time wisely, and set your sights on bigger targets.  What will you do with your newfound time?",
@@ -1662,7 +2855,7 @@
   },
   {
     "id": "upgradekey_raidlength1",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Warped Hourglass", "str_pl": "Warped Hourglasses" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Large Expeditions",
@@ -1715,7 +2908,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "longerraids", "=", "2" ] },
+        { "math": [ "longerraids = 2" ] },
         { "u_forget_recipe": "upgradekey_raidlength2" },
         {
           "u_message": "You're in it to win it, and are prepared to take a long time exploring the world below.\nExtended Expeditions are now available at the warp obelisk.  Exits and missions will be much farther away, but you will have three times as long to spend earthside.  Pack supplies for a day trip and be sure to bring plenty of storage space.  Where will you go with your newfound time?",
@@ -1726,7 +2919,7 @@
   },
   {
     "id": "upgradekey_raidlength2",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Watch of Flowing Time" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Extended Expeditions",
@@ -1779,7 +2972,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "basementsunlocked", "=", "1" ] },
+        { "math": [ "basementsunlocked = 1" ] },
         { "u_forget_recipe": "upgradekey_basementsunlock" },
         {
           "u_message": "When leaving from the warp obelisk, you can now guarantee you will begin your expedition in a basement.  Not glamorous, but at least it ensures you won't be stranded out in some desolate field.",
@@ -1790,7 +2983,7 @@
   },
   {
     "id": "upgradekey_basementsunlock",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Basement Locator" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Unlock Start Location: Basements",
@@ -1814,15 +3007,7 @@
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-      [
-        [ "wolfsuit", 1 ],
-        [ "dragonsuit", 1 ],
-        [ "felinesuit", 1 ],
-        [ "dinosuit", 1 ],
-        [ "sharksuit", 1 ],
-        [ "wolfsuit", 1 ],
-        [ "wolfsuit", 1 ]
-      ],
+      [ [ "fursuit", 1 ] ],
       [ [ "bodypillow", 2 ] ],
       [ [ "catan", 1 ] ],
       [ [ "dnd", 1 ] ],
@@ -1853,7 +3038,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "roofsunlocked", "=", "1" ] },
+        { "math": [ "roofsunlocked = 1" ] },
         { "u_forget_recipe": "upgradekey_roofsunlock" },
         {
           "u_message": "When leaving from the warp obelisk, you can now guarantee you will begin your expedition on some rooftop.  Dangerous, perhaps, but it ensures proximity to points of interest, and besides, there are all kinds of buildings this might land you on.",
@@ -1864,7 +3049,7 @@
   },
   {
     "id": "upgradekey_roofsunlock",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Rooftop Locator" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Unlock Start Location: Roofs",
@@ -1920,7 +3105,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "labsunlocked", "=", "1" ] },
+        { "math": [ "labsunlocked = 1" ] },
         { "u_forget_recipe": "upgradekey_labsunlock" },
         { "u_learn_recipe": "warp_labs_catalyst" },
         {
@@ -1932,7 +3117,7 @@
   },
   {
     "id": "upgradekey_labsunlock",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Laboratory Locator" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Unlock Start Location: Labs",
@@ -1986,7 +3171,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_build_base", "=", "1" ] },
+        { "math": [ "skyisland_build_base = 1" ] },
         { "u_forget_recipe": "buildkey_base1" },
         { "run_eocs": "EOC_skyisland_build_base1" },
         {
@@ -1998,7 +3183,7 @@
   },
   {
     "id": "buildkey_base1",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Mouth of the Island" },
     "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: Bunker Entrance",
@@ -2052,7 +3237,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_build_bigroom", "=", "1" ] },
+        { "math": [ "skyisland_build_bigroom = 1" ] },
         { "u_forget_recipe": "buildkey_bigroom1" },
         { "run_eocs": "EOC_skyisland_build_bigroom1" },
         {
@@ -2064,7 +3249,7 @@
   },
   {
     "id": "buildkey_bigroom1",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Miner's Cameo" },
     "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: Main Room 1",
@@ -2093,7 +3278,7 @@
       [ [ "hinge", 5 ] ],
       [ [ "nail", 20 ] ],
       [ [ "nuts_bolts", 15 ] ],
-      [ [ "box_medium", 4 ], [ "box_large", 2 ], [ "box_oversize", 1 ] ],
+      [ [ "box_medium", 4 ], [ "box_large", 1 ], [ "box_oversize", 2 ] ],
       [ [ "cordage", 5, "LIST" ] ]
     ]
   },
@@ -2119,7 +3304,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_build_bigroom", "=", "2" ] },
+        { "math": [ "skyisland_build_bigroom = 2" ] },
         { "u_forget_recipe": "buildkey_bigroom2" },
         { "run_eocs": "EOC_skyisland_build_bigroom2" },
         { "u_message": "Construction complete.  The central room has grown.", "popup": true }
@@ -2128,7 +3313,7 @@
   },
   {
     "id": "buildkey_bigroom2",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Hollow Carver" },
     "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: Main Room 2",
@@ -2181,7 +3366,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_build_bigroom", "=", "3" ] },
+        { "math": [ "skyisland_build_bigroom = 3" ] },
         { "u_forget_recipe": "buildkey_bigroom3" },
         { "run_eocs": "EOC_skyisland_build_bigroom3" },
         { "u_message": "Construction complete.  The central room has grown even further.", "popup": true }
@@ -2190,7 +3375,7 @@
   },
   {
     "id": "buildkey_bigroom3",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Warped Reinforcement" },
     "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: Main Room 3",
@@ -2246,7 +3431,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_build_bigroom", "=", "4" ] },
+        { "math": [ "skyisland_build_bigroom = 4" ] },
         { "u_forget_recipe": "buildkey_bigroom4" },
         { "run_eocs": "EOC_skyisland_build_bigroom4" },
         { "u_message": "Construction complete.  The central room is now at its maximum size.", "popup": true }
@@ -2255,7 +3440,7 @@
   },
   {
     "id": "buildkey_bigroom4",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Cavernous Soul" },
     "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: Main Room 4",
@@ -2296,6 +3481,263 @@
     ]
   },
   {
+    "id": "SKYISLAND_BUILD_centralskylight2",
+    "type": "mission_definition",
+    "name": "Construct: Central Skylight 2",
+    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Glass Figurine from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: Central Skylight 2.  A larger skylight above your main room, allowing more light to enter in.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_centralskylight2",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_centralskylight2" },
+        {
+          "u_message": "Now that you have a bunker under the island, you have a place to live.  But the small glass roof doesn't let in a lot of light; a larger skylight would be ideal.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Structure: Central Skylight 2.  A larger skylight over the main room.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_build_centralskylight = 1" ] },
+        { "u_forget_recipe": "buildkey_centralskylight2" },
+        { "run_eocs": "EOC_skyisland_build_centralskylight2" },
+        { "u_message": "Construction complete.  The skylight above the central room has expanded.", "popup": true }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_centralskylight2",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Glass Figurine" },
+    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: Central Skylight 2",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_centralskylight2",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [ { "id": "DIG", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "2x4", 4 ] ],
+      [ [ "glass_shard", 150 ] ],
+      [ [ "chunk_rubber", 5 ] ],
+      [ [ "super_glue", 20 ] ],
+      [ [ "cordage", 5, "LIST" ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_BUILD_centralskylight3",
+    "type": "mission_definition",
+    "name": "Construct: Central Skylight 3",
+    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Crystalline Mirror from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: Central Skylight 3.  Expand the central room's skylight to allow even more light.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_centralskylight3",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_centralskylight3" },
+        {
+          "u_message": "The central room could use even more natural light.  Time to get to work.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Structure: Central Skylight 3.  Expand the skylight over the central room.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_build_centralskylight = 2" ] },
+        { "u_forget_recipe": "buildkey_centralskylight3" },
+        { "run_eocs": "EOC_skyisland_build_centralskylight3" },
+        { "u_message": "Construction complete.  The skylight over the central room has grown.", "popup": true }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_centralskylight3",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Crystalline Mirror" },
+    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: Central Skylight 3",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_centralskylight3",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "DRILL", "level": 1 } ],
+    "components": [
+      [ [ "aquamarine", 4 ], [ "citrine", 4 ], [ "garnet", 4 ], [ "peridot", 4 ], [ "tourmaline", 4 ], [ "blue_topaz", 4 ] ],
+      [ [ "glass_sheet", 3 ] ],
+      [ [ "mirror", 1 ] ],
+      [ [ "super_glue", 40 ] ],
+      [ [ "frame_wood", 2 ] ],
+      [ [ "cordage", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_BUILD_centralskylight4",
+    "type": "mission_definition",
+    "name": "Construct: Central Skylight 4",
+    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Transparent Cube from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: Central Skylight 4.  Expand the central skylight to very generous dimensions.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_centralskylight4",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_centralskylight4" },
+        {
+          "u_message": "The central skylight should be enormous to allow in as much light as possible.  Time to get to work.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Structure: Central Skaylight 4.  Expand the central skylight to very generous dimensions.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_build_centralskylight = 3" ] },
+        { "u_forget_recipe": "buildkey_centralskylight4" },
+        { "run_eocs": "EOC_skyisland_build_centralskylight4" },
+        { "u_message": "Construction complete.  The central skylight has grown even further.", "popup": true }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_centralskylight4",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Transparent Cube" },
+    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: Central Skylight 4",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_centralskylight4",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "DRILL", "level": 1 } ],
+    "components": [
+      [ [ "bigmirror", 1 ] ],
+      [ [ "tempered_glass_sheet", 4 ] ],
+      [ [ "frame", 4 ] ],
+      [ [ "rubber_cement", 8 ] ],
+      [ [ "diamond", 8 ], [ "ruby", 8 ], [ "emerald", 8 ], [ "sapphire", 8 ] ],
+      [ [ "cordage", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_bunker_temperature_adaptation",
+    "type": "mission_definition",
+    "name": "Construct: Climate Control",
+    "description": "Completing this mission will instantly enhance the bunker on your home island.\n\nCraft a Lukewarm Sphere from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Infrastructure: Climate Control.  Control the climate within the bunker so it's not too warm in the summer or too cold in the winter.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_climatecontrol",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_climatecontrol" },
+        {
+          "u_message": "The bunker is expansive, but it's too hot in summer and much too cold in winter.  A climate control system would make it a more comfortable place to rest when not on raids.  Time to get to work.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Infrastructure: Climate Control.  Control the climate within the bunker so it's not too warm in the summer or too cold in the winter.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_bunker_temperature_adaptation = 1" ] },
+        { "u_forget_recipe": "buildkey_climatecontrol" },
+        { "run_eocs": "EOC_skyisland_build_climatecontrol" },
+        { "u_message": "Construction complete.  The bunker's temperature is now controlled.", "popup": true }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_climatecontrol",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Lukewarm Sphere" },
+    "description": "This strange metaphysical artifact is used to build infrastructure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: Climate Control",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_climatecontrol",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [ { "id": "SEW", "level": 3 }, { "id": "FABRIC_CUT", "level": 2 }, { "id": "BLOW_HOT_AIR", "level": 1 } ],
+    "components": [
+      [ [ "coat_winter", 1 ] ],
+      [ [ "down_blanket", 1 ] ],
+      [ [ "mask_ski", 1 ] ],
+      [ [ "umbrella", 1 ], [ "teleumbrella", 1 ] ],
+      [ [ "flag_swimsuit", 1 ], [ "trunks", 1 ], [ "bikini_bottom_short", 1 ], [ "bikini_bottom", 1 ] ],
+      [ [ "tshirt_cropped", 1 ] ],
+      [ [ "large_space_heater", 1 ] ],
+      [ [ "mountable_cooler", 1 ] ]
+    ]
+  },
+  {
     "id": "SKYISLAND_BUILD_westroom1",
     "type": "mission_definition",
     "name": "Construct: West Room 1",
@@ -2317,7 +3759,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_build_westroom", "=", "1" ] },
+        { "math": [ "skyisland_build_westroom = 1" ] },
         { "u_forget_recipe": "buildkey_westroom1" },
         { "run_eocs": "EOC_skyisland_build_westroom1" },
         {
@@ -2329,7 +3771,7 @@
   },
   {
     "id": "buildkey_westroom1",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str_sp": "Miner's Cameo (West)" },
     "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: West Room 1",
@@ -2358,7 +3800,7 @@
       [ [ "hinge", 5 ] ],
       [ [ "nail", 20 ] ],
       [ [ "nuts_bolts", 15 ] ],
-      [ [ "box_medium", 4 ], [ "box_large", 2 ], [ "box_oversize", 1 ] ],
+      [ [ "box_medium", 4 ], [ "box_large", 1 ], [ "box_oversize", 2 ] ],
       [ [ "cordage", 5, "LIST" ] ]
     ]
   },
@@ -2384,7 +3826,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_build_westroom", "=", "2" ] },
+        { "math": [ "skyisland_build_westroom = 2" ] },
         { "u_forget_recipe": "buildkey_westroom2" },
         { "run_eocs": "EOC_skyisland_build_westroom2" },
         { "u_message": "Construction complete.  The western room has grown.", "popup": true }
@@ -2393,7 +3835,7 @@
   },
   {
     "id": "buildkey_westroom2",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str_sp": "Hollow Carver (West)" },
     "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: West Room 2",
@@ -2446,7 +3888,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_build_westroom", "=", "3" ] },
+        { "math": [ "skyisland_build_westroom = 3" ] },
         { "u_forget_recipe": "buildkey_westroom3" },
         { "run_eocs": "EOC_skyisland_build_westroom3" },
         { "u_message": "Construction complete.  The western room has grown even further.", "popup": true }
@@ -2455,7 +3897,7 @@
   },
   {
     "id": "buildkey_westroom3",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str_sp": "Warped Reinforcement (West)" },
     "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: West Room 3",
@@ -2511,7 +3953,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_build_westroom", "=", "4" ] },
+        { "math": [ "skyisland_build_westroom = 4" ] },
         { "u_forget_recipe": "buildkey_westroom4" },
         { "run_eocs": "EOC_skyisland_build_westroom4" },
         { "u_message": "Construction complete.  The western room has now has a viewing gallery.", "popup": true }
@@ -2520,7 +3962,7 @@
   },
   {
     "id": "buildkey_westroom4",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str_sp": "Crystalline Glass (West)" },
     "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: West Room Gallery",
@@ -2558,6 +4000,87 @@
     ]
   },
   {
+    "id": "SKYISLAND_BUILD_west_side_rooms",
+    "type": "mission_definition",
+    "name": "Construct: West Side Rooms",
+    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft an Inverted Cube from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: West Side Rooms.  Add two rooms on either side of the corridor leading to the western room.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_west_side_rooms",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_west_side_rooms" },
+        {
+          "u_message": "The western room is a nice size, but it's just one room.  You could use a bit of separation between activities, and maybe a place to store some materials that you won't use as often.  Time to get to work.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Structure: West Side Rooms.  Add two side rooms in the west for additional storage.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_build_west_side_rooms = 1" ] },
+        { "u_forget_recipe": "buildkey_west_side_rooms" },
+        { "run_eocs": "EOC_skyisland_build_west_side_rooms" },
+        {
+          "u_message": "Construction complete.  The west now has two side rooms for additional storage.",
+          "popup": true
+        }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_west_side_rooms",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str_sp": "Inverted Cube (West)" },
+    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: West Side Rooms",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_west_side_rooms",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [
+      { "id": "WRENCH", "level": 2 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "DRILL", "level": 1 },
+      { "id": "HAMMER_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "block_and_tackle", 1 ], [ "block_and_tackle_wood", 1 ] ],
+      [ [ "wood_beam", 8 ] ],
+      [ [ "sheet_metal", 24 ] ],
+      [ [ "box_medium_wood", 3 ], [ "box_medium_metal", 2 ] ],
+      [
+        [ "backpack", 3 ],
+        [ "net_backpack", 5 ],
+        [ "backpack_denim", 3 ],
+        [ "backpack_hiking", 3 ],
+        [ "backpack_leather", 3 ]
+      ],
+      [ [ "golf_bag", 1 ] ],
+      [ [ "bag_body_bag", 2 ] ],
+      [ [ "bag_canvas", 2 ] ],
+      [ [ "bag_garbage_reinforced", 1 ] ]
+    ]
+  },
+  {
     "id": "SKYISLAND_BUILD_eastroom1",
     "type": "mission_definition",
     "name": "Construct: East Room 1",
@@ -2579,7 +4102,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_build_eastroom", "=", "1" ] },
+        { "math": [ "skyisland_build_eastroom = 1" ] },
         { "u_forget_recipe": "buildkey_eastroom1" },
         { "run_eocs": "EOC_skyisland_build_eastroom1" },
         {
@@ -2591,7 +4114,7 @@
   },
   {
     "id": "buildkey_eastroom1",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str_sp": "Miner's Cameo (East)" },
     "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: East Room 1",
@@ -2620,7 +4143,7 @@
       [ [ "hinge", 5 ] ],
       [ [ "nail", 20 ] ],
       [ [ "nuts_bolts", 15 ] ],
-      [ [ "box_medium", 4 ], [ "box_large", 2 ], [ "box_oversize", 1 ] ],
+      [ [ "box_medium", 4 ], [ "box_large", 1 ], [ "box_oversize", 2 ] ],
       [ [ "cordage", 5, "LIST" ] ]
     ]
   },
@@ -2646,7 +4169,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_build_eastroom", "=", "2" ] },
+        { "math": [ "skyisland_build_eastroom = 2" ] },
         { "u_forget_recipe": "buildkey_eastroom2" },
         { "run_eocs": "EOC_skyisland_build_eastroom2" },
         { "u_message": "Construction complete.  The eastern room has grown.", "popup": true }
@@ -2655,7 +4178,7 @@
   },
   {
     "id": "buildkey_eastroom2",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str_sp": "Hollow Carver (East)" },
     "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: East Room 2",
@@ -2708,7 +4231,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_build_eastroom", "=", "3" ] },
+        { "math": [ "skyisland_build_eastroom = 3" ] },
         { "u_forget_recipe": "buildkey_eastroom3" },
         { "run_eocs": "EOC_skyisland_build_eastroom3" },
         { "u_message": "Construction complete.  The eastern room has grown even further.", "popup": true }
@@ -2717,7 +4240,7 @@
   },
   {
     "id": "buildkey_eastroom3",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str_sp": "Warped Reinforcement (East)" },
     "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: east Room 3",
@@ -2773,7 +4296,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_build_eastroom", "=", "4" ] },
+        { "math": [ "skyisland_build_eastroom = 4" ] },
         { "u_forget_recipe": "buildkey_eastroom4" },
         { "run_eocs": "EOC_skyisland_build_eastroom4" },
         { "u_message": "Construction complete.  The eastern room has now has a viewing gallery.", "popup": true }
@@ -2782,7 +4305,7 @@
   },
   {
     "id": "buildkey_eastroom4",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str_sp": "Crystalline Glass (East)" },
     "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: East Room Gallery",
@@ -2820,10 +4343,91 @@
     ]
   },
   {
+    "id": "SKYISLAND_BUILD_east_side_rooms",
+    "type": "mission_definition",
+    "name": "Construct: East Side Rooms",
+    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft an Inverted Cube from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: East Side Rooms.  Add two rooms on either side of the corridor leading to the eastern room.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_east_side_rooms",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_east_side_rooms" },
+        {
+          "u_message": "The eastern room is a nice size, but it's just one room.  You could use a bit of separation between activities, and maybe a place to store some materials that you won't use as often.  Time to get to work.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Structure: East Side Rooms.  Add two side rooms in the east for additional storage.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_build_east_side_rooms = 1" ] },
+        { "u_forget_recipe": "buildkey_east_side_rooms" },
+        { "run_eocs": "EOC_skyisland_build_east_side_rooms" },
+        {
+          "u_message": "Construction complete.  The east now has two side rooms for additional storage.",
+          "popup": true
+        }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_east_side_rooms",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str_sp": "Inverted Cube (East)" },
+    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: East Side Rooms",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_east_side_rooms",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [
+      { "id": "WRENCH", "level": 2 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "DRILL", "level": 1 },
+      { "id": "HAMMER_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "block_and_tackle", 1 ], [ "block_and_tackle_wood", 1 ] ],
+      [ [ "wood_beam", 8 ] ],
+      [ [ "sheet_metal", 24 ] ],
+      [ [ "box_medium_wood", 3 ], [ "box_medium_metal", 2 ] ],
+      [
+        [ "backpack", 3 ],
+        [ "net_backpack", 5 ],
+        [ "backpack_denim", 3 ],
+        [ "backpack_hiking", 3 ],
+        [ "backpack_leather", 3 ]
+      ],
+      [ [ "golf_bag", 1 ] ],
+      [ [ "bag_body_bag", 2 ] ],
+      [ [ "bag_canvas", 2 ] ],
+      [ [ "bag_garbage_reinforced", 1 ] ]
+    ]
+  },
+  {
     "id": "SKYISLAND_BUILD_northroom1",
     "type": "mission_definition",
     "name": "Construct: North Room 1",
-    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Miner's Cameo from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: north Room 1.  A hollow chamber north of the island's center to serve as a multipurpose space, with tons of room to expand.",
+    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Miner's Cameo from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: North Room 1.  A hollow chamber north of the island's center to serve as a multipurpose space, with tons of room to expand.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "buildkey_northroom1",
     "count": 1,
@@ -2841,7 +4445,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_build_northroom", "=", "1" ] },
+        { "math": [ "skyisland_build_northroom = 1" ] },
         { "u_forget_recipe": "buildkey_northroom1" },
         { "run_eocs": "EOC_skyisland_build_northroom1" },
         {
@@ -2853,10 +4457,10 @@
   },
   {
     "id": "buildkey_northroom1",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str_sp": "Miner's Cameo (North)" },
-    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: north Room 1",
+    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: North Room 1",
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
@@ -2913,7 +4517,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_build_northroom", "=", "2" ] },
+        { "math": [ "skyisland_build_northroom = 2" ] },
         { "u_forget_recipe": "buildkey_northroom2" },
         { "run_eocs": "EOC_skyisland_build_northroom2" },
         { "u_message": "Construction complete.  The northern room has grown.", "popup": true }
@@ -2922,7 +4526,7 @@
   },
   {
     "id": "buildkey_northroom2",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str_sp": "Hollow Carver (North)" },
     "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: North Room 2",
@@ -2981,7 +4585,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_build_northroom", "=", "3" ] },
+        { "math": [ "skyisland_build_northroom = 3" ] },
         { "u_forget_recipe": "buildkey_northroom3" },
         { "run_eocs": "EOC_skyisland_build_northroom3" },
         { "u_message": "Construction complete.  The northern room has grown even further.", "popup": true }
@@ -2990,7 +4594,7 @@
   },
   {
     "id": "buildkey_northroom3",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str_sp": "Warped Reinforcement (north)" },
     "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: North Room 3",
@@ -3031,7 +4635,7 @@
   {
     "id": "SKYISLAND_BUILD_northroom4",
     "type": "mission_definition",
-    "name": "Construct: north Room Gallery",
+    "name": "Construct: North Room Gallery",
     "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Cavernous Soul from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: North Room Gallery.  Add an enclosed gallery to the northern room to allow viewing off the side of the island.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "buildkey_northroom4",
@@ -3050,7 +4654,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_build_northroom", "=", "4" ] },
+        { "math": [ "skyisland_build_northroom = 4" ] },
         { "u_forget_recipe": "buildkey_northroom4" },
         { "run_eocs": "EOC_skyisland_build_northroom4" },
         { "u_message": "Construction complete.  The northern room is now larger.", "popup": true }
@@ -3059,7 +4663,7 @@
   },
   {
     "id": "buildkey_northroom4",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str_sp": "Cavernous Soul (North)" },
     "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: North Room 4",
@@ -3099,6 +4703,87 @@
     ]
   },
   {
+    "id": "SKYISLAND_BUILD_north_side_rooms",
+    "type": "mission_definition",
+    "name": "Construct: North Side Rooms",
+    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft an Inverted Cube from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: North Side Rooms.  Add two rooms on either side of the corridor leading to the northern room.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_north_side_rooms",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_north_side_rooms" },
+        {
+          "u_message": "The northern room is a nice size, but it's just one room.  You could use a bit of separation between activities, and maybe a place to store some materials that you won't use as often.  Time to get to work.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Structure: North Side Rooms.  Add two side rooms in the north for additional storage.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_build_north_side_rooms = 1" ] },
+        { "u_forget_recipe": "buildkey_north_side_rooms" },
+        { "run_eocs": "EOC_skyisland_build_north_side_rooms" },
+        {
+          "u_message": "Construction complete.  The north now has two side rooms for additional storage.",
+          "popup": true
+        }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_north_side_rooms",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str_sp": "Inverted Cube (North)" },
+    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: North Side Rooms",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_north_side_rooms",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [
+      { "id": "WRENCH", "level": 2 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "DRILL", "level": 1 },
+      { "id": "HAMMER_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "block_and_tackle", 1 ], [ "block_and_tackle_wood", 1 ] ],
+      [ [ "wood_beam", 8 ] ],
+      [ [ "sheet_metal", 24 ] ],
+      [ [ "box_medium_wood", 3 ], [ "box_medium_metal", 2 ] ],
+      [
+        [ "backpack", 3 ],
+        [ "net_backpack", 5 ],
+        [ "backpack_denim", 3 ],
+        [ "backpack_hiking", 3 ],
+        [ "backpack_leather", 3 ]
+      ],
+      [ [ "golf_bag", 1 ] ],
+      [ [ "bag_body_bag", 2 ] ],
+      [ [ "bag_canvas", 2 ] ],
+      [ [ "bag_garbage_reinforced", 1 ] ]
+    ]
+  },
+  {
     "id": "SKYISLAND_UPGRADE_security1",
     "type": "mission_definition",
     "name": "Upgrade: Security Alpha",
@@ -3120,7 +4805,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "securitylevel", "=", "1" ] },
+        { "math": [ "securitylevel = 1" ] },
         { "u_forget_recipe": "secure_container_1" },
         { "u_add_trait": "mut_secure_container_1" },
         {
@@ -3148,7 +4833,7 @@
     "id": "SKYISLAND_UPGRADE_security2",
     "type": "mission_definition",
     "name": "Upgrade: Security Beta",
-    "description": "With the supplied recipe, you will be able to expand the capacity of your secure container.\n\nEMPTY YOUR SECURE CONTAINER FIRST!  Anything left inside when upgrading will be lost forever!",
+    "description": "With the supplied recipe, you will be able to expand the capacity of your secure container.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "secure_container_2",
     "count": 1,
@@ -3159,15 +4844,16 @@
       "effect": [
         { "u_learn_recipe": "secure_container_2" },
         {
-          "u_message": "With the supplied recipe, you will be able to expand the capacity of your secure container.\n\nEMPTY YOUR SECURE CONTAINER FIRST!  Anything left inside when upgrading will be lost forever!",
+          "u_message": "With the supplied recipe, you will be able to expand the capacity of your secure container.",
           "popup": true
         }
       ]
     },
     "end": {
       "effect": [
-        { "math": [ "securitylevel", "=", "2" ] },
+        { "math": [ "securitylevel = 2" ] },
         { "u_forget_recipe": "secure_container_2" },
+        { "u_lose_trait": "mut_secure_container_1" },
         { "u_add_trait": "mut_secure_container_2" },
         {
           "u_message": "The strange metaphysical container churns inward with violent force, grinding loudly before suddenly expanding.  Your secure container can now carry more.",
@@ -3194,7 +4880,7 @@
     "id": "SKYISLAND_UPGRADE_security3",
     "type": "mission_definition",
     "name": "Upgrade: Security Gamma",
-    "description": "With the supplied recipe, you will be able to expand the capacity of your secure container.\n\nEMPTY YOUR SECURE CONTAINER FIRST!  Anything left inside when upgrading will be lost forever!",
+    "description": "With the supplied recipe, you will be able to expand the capacity of your secure container.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "secure_container_3",
     "count": 1,
@@ -3205,15 +4891,16 @@
       "effect": [
         { "u_learn_recipe": "secure_container_3" },
         {
-          "u_message": "With the supplied recipe, you will be able to expand the capacity of your secure container.\n\nEMPTY YOUR SECURE CONTAINER FIRST!  Anything left inside when upgrading will be lost forever!",
+          "u_message": "With the supplied recipe, you will be able to expand the capacity of your secure container.",
           "popup": true
         }
       ]
     },
     "end": {
       "effect": [
-        { "math": [ "securitylevel", "=", "3" ] },
+        { "math": [ "securitylevel = 3" ] },
         { "u_forget_recipe": "secure_container_3" },
+        { "u_lose_trait": "mut_secure_container_2" },
         { "u_add_trait": "mut_secure_container_3" },
         {
           "u_message": "The strange metaphysical container churns inward with violent force, grinding loudly before suddenly expanding.  Your secure container can now carry more.",
@@ -3240,7 +4927,7 @@
     "id": "SKYISLAND_UPGRADE_security4",
     "type": "mission_definition",
     "name": "Upgrade: Security Epsilon",
-    "description": "With the supplied recipe, you will be able to expand the capacity of your secure container.\n\nEMPTY YOUR SECURE CONTAINER FIRST!  Anything left inside when upgrading will be lost forever!",
+    "description": "With the supplied recipe, you will be able to expand the capacity of your secure container.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "secure_container_4",
     "count": 1,
@@ -3251,15 +4938,16 @@
       "effect": [
         { "u_learn_recipe": "secure_container_4" },
         {
-          "u_message": "With the supplied recipe, you will be able to expand the capacity of your secure container.\n\nEMPTY YOUR SECURE CONTAINER FIRST!  Anything left inside when upgrading will be lost forever!",
+          "u_message": "With the supplied recipe, you will be able to expand the capacity of your secure container.",
           "popup": true
         }
       ]
     },
     "end": {
       "effect": [
-        { "math": [ "securitylevel", "=", "4" ] },
+        { "math": [ "securitylevel = 4" ] },
         { "u_forget_recipe": "secure_container_4" },
+        { "u_lose_trait": "mut_secure_container_3" },
         { "u_add_trait": "mut_secure_container_4" },
         {
           "u_message": "The strange metaphysical container churns inward with violent force, grinding loudly before suddenly expanding.  Your secure container can now carry more.",
@@ -3286,7 +4974,7 @@
     "id": "SKYISLAND_UPGRADE_security5",
     "type": "mission_definition",
     "name": "Upgrade: Security Kappa",
-    "description": "With the supplied recipe, you will be able to expand the capacity of your secure container to its maximum size.\n\nEMPTY YOUR SECURE CONTAINER FIRST!  Anything left inside when upgrading will be lost forever!",
+    "description": "With the supplied recipe, you will be able to expand the capacity of your secure container to its maximum size.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "secure_container_5",
     "count": 1,
@@ -3297,15 +4985,16 @@
       "effect": [
         { "u_learn_recipe": "secure_container_5" },
         {
-          "u_message": "With the supplied recipe, you will be able to expand the capacity of your secure container to its maximum size.\n\nEMPTY YOUR SECURE CONTAINER FIRST!  Anything left inside when upgrading will be lost forever!",
+          "u_message": "With the supplied recipe, you will be able to expand the capacity of your secure container to its maximum size.",
           "popup": true
         }
       ]
     },
     "end": {
       "effect": [
-        { "math": [ "securitylevel", "=", "5" ] },
+        { "math": [ "securitylevel = 5" ] },
         { "u_forget_recipe": "secure_container_5" },
+        { "u_lose_trait": "mut_secure_container_4" },
         { "u_add_trait": "mut_secure_container_5" },
         {
           "u_message": "The strange metaphysical container churns inward with violent force, grinding loudly before suddenly expanding.  Your secure container can now carry more.",
@@ -3327,5 +5016,220 @@
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [ [ [ "warptoken", 5 ] ] ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_sunblock",
+    "type": "mission_definition",
+    "name": "Upgrade: Personal sunblock",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft a Solar Refractor from sunglasses, glass and miscellaneous parts.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: The sun's rays cannot affect you while on the island.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_sunblock",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_sunblock" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: The sun's rays cannot affect you while on the island.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "u_add_trait": "mut_skyisland_sunblock" },
+        { "u_forget_recipe": "upgradekey_sunblock" },
+        {
+          "u_message": "The sun's rays shift a little.  As long as you are on the island, any harm they could do to you will be negated.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_sunblock",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Solar Refractor" },
+    "description": "This strange metaphysical artifact will make the island protect your skin from the sun while you are not earthside.  If your skin doesn't burn as the sun shines on it, this artifact will not do much to help but still won't hinder.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: personal sunblock.",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_sunblock",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "//": "Intended to be a very early-game craft, as the bunker and constructing on the surface makes it mostly obsolete.",
+    "//2": "The amount of glass shards is equal to the amount disassembling a standing mirror would give.",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [
+        [ "sunglasses", 1 ],
+        [ "sunglasses_eye", 1 ],
+        [ "sunglasses_bifocal", 1 ],
+        [ "sunglasses_reading", 1 ],
+        [ "fitover_sunglasses", 1 ]
+      ],
+      [
+        [ "sunglasses", 1 ],
+        [ "sunglasses_eye", 1 ],
+        [ "sunglasses_bifocal", 1 ],
+        [ "sunglasses_reading", 1 ],
+        [ "fitover_sunglasses", 1 ]
+      ],
+      [ [ "umbrella", 1 ], [ "teleumbrella", 1 ] ],
+      [ [ "sundress", 1 ] ],
+      [ [ "glass_shard", 176 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_windblock",
+    "type": "mission_definition",
+    "name": "Upgrade: Personal windblock",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft a Wind Redirector from wind-blocking clothes and creams.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: The winds cannot affect you while on the island.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_windblock",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_windblock" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: The winds cannot affect you while on the island.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "u_add_trait": "mut_skyisland_windblock" },
+        { "u_forget_recipe": "upgradekey_windblock" },
+        { "math": [ "windblock = 1" ] },
+        {
+          "u_message": "The winds shift a little.  As long as you are on the island, they will not touch you.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_windblock",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Wind Redirector" },
+    "description": "This strange metaphysical artifact will make the island protect you from the winds while you are not earthside.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: personal windblock.",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_windblock",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "//": "Intended to be a midgame craft, as the winds are a good motivator to drive early exploration.",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "jacket_windbreaker", 3 ] ],
+      [ [ "survival_book", 1 ] ],
+      [ [ "milk_cream", 5 ], [ "moisturizer", 5 ], [ "bristol_sherry", 5 ] ],
+      [ [ "any_tallow", 24, "LIST" ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_personal_temperature_adaptation",
+    "type": "mission_definition",
+    "name": "Upgrade: Personal temperature adjustement",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft a Climate Self-Injector from temperature-controlling devices and various parts.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Temperature cannot affect you while on the island.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_windblock",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_temperature_control" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Temperature cannot affect you while on the island.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "u_add_trait": "mut_skyisland_personal_temperature_adaptation" },
+        { "u_forget_recipe": "upgradekey_temperature_control" },
+        { "math": [ "skyisland_personal_temperature_adaptation = 1" ] },
+        {
+          "u_message": "Your skin shimmer for a second.  As long as you are on the island, you won't be affected by temperature.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_temperature_control",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Climate Self-Injector" },
+    "description": "This strange metaphysical artifact will make the island protect you from temperature while you are not earthside.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: personal temperature adaptation.",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_temperature_control",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "//": "Intended to be a lategame craft, something the player focuses on as winter draws near.",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [
+        [ "thermal_outfit", 20 ],
+        [ "thermal_suit", 20 ],
+        [ "bio_climate", 1 ],
+        [ "bio_heatsink", 1 ],
+        [ "exodii_ac_kit", 3 ]
+      ],
+      [ [ "mountable_cooler", 3 ], [ "condensor_coil", 30 ], [ "evaporator_coil", 30 ] ],
+      [ [ "mountable_heater", 3 ], [ "element", 30 ] ],
+      [ [ "air_compressor", 1 ], [ "1l_gold", 1 ] ],
+      [ [ "railroad_track_item", 1 ] ]
+    ]
   }
 ]

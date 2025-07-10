@@ -18,5 +18,65 @@
     "id": "ARVORE_POLLEN_IMMUNE",
     "type": "json_flag",
     "info": "This character cannot be affected by Arvore pollens."
+  },
+  {
+    "id": "SKINCHANGED",
+    "type": "json_flag",
+    "info": "This gear will transform you into animal form, and may have some side effects."
+  },
+  {
+    "id": "HEDGE_ENCHANTED",
+    "type": "json_flag",
+    "info": "This item has a <good>charm</good> on it."
+  },
+  {
+    "id": "BLESSED_WEAPON",
+    "type": "json_flag",
+    "info": "This weapon does <good>extra damage</good> against creatures of the <info>Nether</info>."
+  },
+  {
+    "id": "EVIL_EYE_IMMUNE",
+    "type": "json_flag",
+    "info": "You are immune to the evil eye."
+  },
+  {
+    "id": "WARDING_SYMBOL",
+    "type": "json_flag",
+    "info": "Wearing this is <good>comforting</good>."
+  },
+  {
+    "id": "EVIL_EYE_IMMUNE_MONSTER",
+    "type": "monster_flag"
+  },
+  {
+    "id": "STABILIZED_TIMELINE",
+    "type": "json_flag",
+    "info": "You are immune to adverse affects on your timeline."
+  },
+  {
+    "id": "STABILIZED_TIMELINE",
+    "type": "monster_flag"
+  },
+  {
+    "id": "NO_FEY_MAGIC",
+    "type": "json_flag"
+  },
+  {
+    "id": "NO_HEDGE_MAGICK",
+    "type": "json_flag"
+  },
+  {
+    "id": "NO_VAMPIRE_BLOOD_POWERS",
+    "type": "json_flag"
+  },
+  {
+    "id": "MAGIC_USER",
+    "type": "monster_flag",
+    "//": "A monster that uses a lot of magic, for detection magic purposes."
+  },
+  {
+    "id": "MAGICAL_MIND_PROTECTION",
+    "type": "json_flag",
+    "//": "Your mind is protected from attack due to magic.  The same as the Magiclysm flag for compatibility"
   }
 ]

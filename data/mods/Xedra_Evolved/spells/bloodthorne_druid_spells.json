@@ -1,0 +1,149 @@
+[
+  {
+    "//": "Bloodthorne druid spells should deal with blood, thorns, the wilderness, and fighting vampires.  Their spells do not always have to affect vampires in some way, but they should generally be oriented toward combat against them--they can use Arvore magic as more generalist nature magic.",
+    "id": "xedra_bloodthorne_sorcery",
+    "type": "magic_type",
+    "energy_source": "MANA",
+    "cannot_cast_flags": [ "NO_SPELLCASTING" ],
+    "cannot_cast_message": "Your thornwitchery will not come to your call!",
+    "failure_cost_percent": 0.75,
+    "max_book_level": 0,
+    "failure_chance_formula_id": "xe_bloodthorne_sorcery_failure_chance"
+  },
+  {
+    "id": "bloodthorne_druid_summon_whip",
+    "type": "SPELL",
+    "name": { "str": "Summon Heartvine Whip", "//~": "NO_I18N" },
+    "description": { "str": "Needed to summon the heartwhip and wield it.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_LEGS" ],
+    "effect": "spawn_item",
+    "effect_str": "heartvine_whip",
+    "shape": "blast",
+    "max_level": 0,
+    "min_damage": 1,
+    "max_damage": 1,
+    "difficulty": 0,
+    "spell_class": "NONE",
+    "min_duration": 10000000,
+    "max_duration": 10000000
+  },
+  {
+    "id": "bloodthorne_druid_regain_blood_spell",
+    "type": "SPELL",
+    "name": "Woodblood Restoration",
+    "description": "While in a forest or on natural foliage, restore your lost blood or that of an ally.",
+    "message": "",
+    "valid_targets": [ "self", "ally" ],
+    "flags": [ "SOMATIC", "NO_LEGS" ],
+    "magic_type": "xedra_bloodthorne_sorcery",
+    "skill": "deduction",
+    "spell_class": "BLOODTHORNE_SORCERY",
+    "condition": {
+      "or": [
+        { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" },
+        { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_FOREST" }
+      ]
+    },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BLOODTHORNE_DRUID_REGAIN_BLOOD",
+    "shape": "blast",
+    "min_range": 1,
+    "base_casting_time": 150,
+    "base_energy_cost": { "math": [ "max( ( 200 - (bloodthorn_druid_traits_sum() * 5) ), 50)" ] }
+  },
+  {
+    "id": "bloodthorne_druid_stop_bleeding_spell",
+    "type": "SPELL",
+    "name": "Thorn-sealed Wounds",
+    "description": "When bleeding, your heartvines can pull the wound closed and stop it.  This is painful, but will prevent further bleeding.  If there are any vampires or their servants nearby, the heartvines will also lash out at them as they pull the wound closed.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS" ],
+    "magic_type": "xedra_bloodthorne_sorcery",
+    "skill": "deduction",
+    "spell_class": "BLOODTHORNE_SORCERY",
+    "condition": {
+      "or": [
+        { "u_has_effect": "bleed", "bodypart": "head" },
+        { "u_has_effect": "bleed", "bodypart": "torso" },
+        { "u_has_effect": "bleed", "bodypart": "arm_r" },
+        { "u_has_effect": "bleed", "bodypart": "arm_l" },
+        { "u_has_effect": "bleed", "bodypart": "leg_r" },
+        { "u_has_effect": "bleed", "bodypart": "leg_l" }
+      ]
+    },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BLOODTHORNE_DRUID_STOP_BLEEDING",
+    "extra_effects": [ { "id": "bloodthorne_druid_stop_bleeding_spell_thornlash" } ],
+    "shape": "blast",
+    "base_casting_time": 75,
+    "base_energy_cost": { "math": [ "max( ( 150 - (bloodthorn_druid_traits_sum() * 4) ), 50)" ] }
+  },
+  {
+    "id": "bloodthorne_druid_stop_bleeding_spell_thornlash",
+    "type": "SPELL",
+    "name": { "str": "Thorn-sealed Wound Vampire Lash", "//~": "NO_I18N" },
+    "description": {
+      "str": "Hits nearby vampires and their servants when you close your wounds.  You shouldn't see this.",
+      "//~": "NO_I18N"
+    },
+    "message": "",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT", "RANDOM_DAMAGE" ],
+    "magic_type": "xedra_bloodthorne_sorcery",
+    "skill": "deduction",
+    "spell_class": "BLOODTHORNE_SORCERY",
+    "effect": "attack",
+    "effect_str": "bleed",
+    "shape": "blast",
+    "damage_type": "cut",
+    "min_damage": 5,
+    "max_damage": 25,
+    "min_duration": 6000,
+    "max_duration": 36000,
+    "min_aoe": 1,
+    "targeted_monster_species": [ "VAMPIRE", "RENFIELD" ]
+  },
+  {
+    "id": "bloodthorne_druid_whip_targets_in_nature_spell",
+    "type": "SPELL",
+    "name": "Verdant Scourge",
+    "description": "You can bring the fury of nature to bear on your enemies.  When a target is in thick grass, shrubbery, or other foliage, or is affected by Hungry Thirsty Roots, you can cause the plants to grow long thorns and pierce them.",
+    "message": "",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "VERBAL", "NO_LEGS", "RANDOM_DAMAGE", "SILENT" ],
+    "magic_type": "xedra_bloodthorne_sorcery",
+    "skill": "deduction",
+    "spell_class": "BLOODTHORNE_SORCERY",
+    "condition": {
+      "or": [
+        { "npc_has_effect": "effect_hungry_roots" },
+        { "npc_is_on_terrain": "t_grass_long" },
+        { "npc_is_on_terrain": "t_grass_tall" },
+        { "npc_is_on_terrain_with_flag": "YOUNG" },
+        { "npc_is_on_terrain_with_flag": "SHRUB" }
+      ]
+    },
+    "effect": "attack",
+    "effect_str": "",
+    "shape": "blast",
+    "damage_type": "stab",
+    "min_damage": {
+      "math": [ "5 + (2 * bloodthorn_druid_traits_sum() ) + (0.8 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') )" ]
+    },
+    "max_damage": {
+      "math": [ "20 + (3.5 * bloodthorn_druid_traits_sum() ) + (1.8 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') )" ]
+    },
+    "min_range": 15,
+    "max_range": 15,
+    "min_aoe": {
+      "math": [ "0 + (0.2 * bloodthorn_druid_traits_sum() ) + (0.05 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') )" ]
+    },
+    "max_aoe": {
+      "math": [ "0 + (0.2 * bloodthorn_druid_traits_sum() ) + (0.05 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') )" ]
+    },
+    "base_casting_time": 175,
+    "base_energy_cost": { "math": [ "max( ( 350 - (bloodthorn_druid_traits_sum() * 6) ), 150)" ] }
+  }
+]

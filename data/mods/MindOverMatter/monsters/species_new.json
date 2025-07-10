@@ -15,5 +15,13 @@
     "type": "SPECIES",
     "id": "YRAX_CONSTRUCT",
     "description": "a robot, maybe, but one far more advanced than anything Earth could dream of producing"
+  },
+  {
+    "type": "SPECIES",
+    "id": "PLANT_INFLAMMABLE",
+    "description": "a plant with no fear of fire",
+    "fear_triggers": [ "HURT" ],
+    "bleeds": "fd_blood_veggy",
+    "flags": [ "DRACULIN_IMMUNE" ]
   }
 ]

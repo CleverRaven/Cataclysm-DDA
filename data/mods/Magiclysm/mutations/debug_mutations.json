@@ -2,21 +2,28 @@
   {
     "type": "mutation",
     "id": "VAULT_DEFENDER",
-    "name": { "str": "Vault Defender" },
+    "name": { "str": "Vault Defender", "//~": "NO_I18N" },
     "points": 99,
     "valid": false,
     "player_display": false,
-    "description": "To cast bug killing spells.",
+    "description": { "str": "To cast bug killing spells.", "//~": "NO_I18N" },
     "debug": false,
     "enchantments": [
-      { "condition": "ALWAYS", "values": [ { "value": "ARMOR_BULLET", "add": -100 }, { "value": "PERCEPTION", "add": 15 } ] }
+      {
+        "condition": "ALWAYS",
+        "incoming_damage_mod": [ { "type": "bullet", "add": -100 } ],
+        "values": [ { "value": "PERCEPTION", "add": 15 } ]
+      }
     ]
   },
   {
     "id": "librarian_blinding",
     "type": "SPELL",
-    "name": "Soul Pressure",
-    "description": "This is a spell that represents the Soulfire putting a burning pressure on nearby opponents.  If you are seeing this spell, you have debugged it in.",
+    "name": { "str": "Soul Pressure", "//~": "NO_I18N" },
+    "description": {
+      "str": "This is a spell that represents the Soulfire putting a burning pressure on nearby opponents.  If you are seeing this spell, you have debugged it in.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT", "NO_PROJECTILE" ],
     "effect": "attack",
@@ -34,11 +41,11 @@
   {
     "type": "mutation",
     "id": "LIBRARY_DEFENDER",
-    "name": { "str": "library defender" },
+    "name": { "str": "library defender", "//~": "NO_I18N" },
     "points": 99,
     "valid": false,
     "player_display": false,
-    "description": "To cast bug killing spells.",
+    "description": { "str": "To cast bug killing spells.", "//~": "NO_I18N" },
     "debug": false,
     "enchantments": [
       {

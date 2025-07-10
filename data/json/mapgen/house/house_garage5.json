@@ -1,9 +1,7 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "house_garage5" ],
-    "weight": 200,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -15,7 +13,7 @@
         "..```````#R   ||||||+|#.",
         "..```````#R   +>U|vQQQ#.",
         "`````````#Y   ||||||||#.",
-        "`!```````#    |6664321#.",
+        "`!```````#    |é664321#.",
         "`!```````*    |      5o.",
         "`[%%%%%%%#   AJ  A   Oo.",
         "`##ooooo##   AJ     7F#.",
@@ -32,7 +30,7 @@
         "..$$$$$$$$$######oo####.",
         ".............^.........."
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ],
+      "palettes": [ "domestic_general_construction_and_variant_palette" ],
       "terrain": {
         "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
         "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
@@ -49,7 +47,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_garage5_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -72,7 +69,7 @@
         " -....................- ",
         " -....................- ",
         " -............&.......- ",
-        " --...................- ",
+        " --....1..............- ",
         "  -...................- ",
         "  -...................- ",
         "  -...................- ",
@@ -85,20 +82,19 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_garage5_basement",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
         "                        ",
         "         |||||||||||||| ",
-        "         |g.F.........| ",
+        "         |g.â.........| ",
         "         |............| ",
         "         |............| ",
-        "         |W...%%......| ",
-        "         |J..A%<......| ",
-        "         |Z..U%.......| ",
-        "         |J...%%......| ",
+        "         |W...||......| ",
+        "         |J..A|<......| ",
+        "         |Z..U|.......| ",
+        "         |J...||......| ",
         "         |J...........| ",
         " |||||||||............| ",
         " |.1..................| ",
@@ -115,7 +111,7 @@
         "  ||||||||||||||||||||| ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "nested": {
         "1": {
           "chunks": [ [ "null", 70 ], [ "11x11_gym_open", 10 ], [ "11x11_recroom_open", 30 ], [ "room_11x11_apartment_E", 10 ] ]

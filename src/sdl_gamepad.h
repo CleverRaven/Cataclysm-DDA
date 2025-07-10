@@ -2,12 +2,12 @@
 #ifndef CATA_SRC_SDL_GAMEPAD_H
 #define CATA_SRC_SDL_GAMEPAD_H
 #if defined(TILES)
-
-#include "input.h"
+#include "input_enums.h"
 #include "sdl_wrappers.h"
 
 #define SDL_GAMEPAD_SCHEDULER (SDL_USEREVENT+1)
 
+// IWYU pragma: no_forward_declare input_event  // Is valid, but looks silly
 extern input_event last_input;
 
 namespace gamepad

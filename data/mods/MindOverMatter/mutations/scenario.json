@@ -1,0 +1,23 @@
+[
+  {
+    "type": "mutation",
+    "id": "SCEN_HEART_OF_FIRE",
+    "name": { "str": "Heart of Fire" },
+    "points": 0,
+    "description": "The fire in your soul rises and falls, but never truly goes out.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "mixed_effect": true,
+    "enchantments": [
+      {
+        "condition": { "not": { "u_has_effect": "sleep" } },
+        "ench_effects": [ { "effect": "effect_scenario_heart_of_fire_awake_attunement_gain", "intensity": 1 } ]
+      },
+      {
+        "condition": { "u_has_effect": "sleep" },
+        "ench_effects": [ { "effect": "effect_scenario_heart_of_fire_asleep_attunement_gain", "intensity": 1 } ]
+      }
+    ]
+  }
+]

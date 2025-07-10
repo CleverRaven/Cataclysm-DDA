@@ -1,7 +1,8 @@
 [
   {
     "id": "mag_pistol",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Tactical Handgun Digest", "str_pl": "issues of Tactical Handgun Digest" },
     "description": "A glossy magazine all about handguns and shooting.  There is a good article about proper sighting near the middle.",
@@ -52,15 +53,16 @@
     "looks_like": "mag_glam",
     "symbol": "?",
     "color": "pink",
-    "skill": "pistol",
     "max_level": 1,
     "intelligence": 5,
     "time": "8 m",
-    "fun": 1
+    "read_skill": "pistol",
+    "read_fun": 1
   },
   {
     "id": "manual_pistol",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Tao of the Handgun", "str_pl": "copies of The Tao of the Handgun" },
     "description": "This introspective volume covers proper usage of handguns, from safety and stance, to maintenance and proper sighting technique.",
@@ -139,9 +141,9 @@
     "looks_like": "book_archery",
     "symbol": "?",
     "color": "green",
-    "skill": "pistol",
     "max_level": 3,
     "intelligence": 3,
-    "time": "15 m"
+    "time": "15 m",
+    "read_skill": "pistol"
   }
 ]

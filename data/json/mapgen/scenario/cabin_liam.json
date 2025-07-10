@@ -1,9 +1,7 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cabin_liam" ],
-    "weight": 500,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -58,7 +56,7 @@
         "Ɣ": "t_region_groundcover_barren",
         "~": [ [ "t_region_groundcover_barren", 3 ], [ "t_region_groundcover", 2 ] ]
       },
-      "vehicles": { "Ɣ": { "vehicle": "car_hatch", "chance": 100, "fuel": 20, "rotation": 90, "status": 0 } }
+      "vehicles": { "Ɣ": { "vehicle": "car_hatch", "fuel": 20, "rotation": 90, "status": 0 } }
     }
   },
   {

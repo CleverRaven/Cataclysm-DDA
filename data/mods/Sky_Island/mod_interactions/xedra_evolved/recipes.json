@@ -1,0 +1,135 @@
+[
+  {
+    "id": "upgradekey_vampire4",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Vampiric Amplificator" },
+    "description": "This strange metaphysical artifact will push your vampirism beyond the point of no return when you will use it.\n\nUnlike most things you can craft out of warp shards, this item won't be used automatically after you made it, so you can create it then take your time to decide if you really want to do this.",
+    "volume": "250 ml",
+    "weight": "150 g",
+    "longest_side": "9 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Empower your vampirism.",
+      "effect_on_conditions": [ "EOC_SKY_ISLAND_VAMPIRE_TIER_4" ]
+    }
+  },
+  {
+    "result": "upgradekey_vampire4",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "//": "Yes, this recipe is intended to ask for one red and one black sinister cloak, even if they can turn into each other.",
+    "//2": "This recipe isn't too costly, as it comes with the cost of being stuck as a vampire forever.",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "warptoken", 25 ] ],
+      [ [ "blood", 10 ], [ "demihuman_blood", 10 ], [ "mutant_human_blood", 10 ], [ "fae_blood", 10 ] ],
+      [ [ "vacutainer", 5 ] ],
+      [ [ "sinister_gown", 1 ] ],
+      [ [ "sinister_cane", 1 ] ],
+      [ [ "sinister_dress", 1 ] ],
+      [ [ "sinister_dress_short", 1 ] ],
+      [ [ "cloak_vampire_red", 1 ] ],
+      [ [ "cloak_vampire", 1 ] ]
+    ]
+  },
+  {
+    "id": "upgradekey_vampire5",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Superior Vampiric Amplificator" },
+    "description": "This strange metaphysical artifact will push your vampirism to its absolute limit.\n\nAs per the previous vampiric amplificator, you have to decide to use the crafted item for its effect to apply.",
+    "volume": "250 ml",
+    "weight": "150 g",
+    "longest_side": "9 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Empower your vampirism.",
+      "effect_on_conditions": [ "EOC_SKY_ISLAND_VAMPIRE_TIER_5" ]
+    }
+  },
+  {
+    "result": "upgradekey_vampire5",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "//": "It might seem a little, but the multiple short-lived components and the rare loot make it a difficult craft.",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "warptoken", 50 ] ],
+      [ [ "blood", 10 ] ],
+      [ [ "demihuman_blood", 10 ] ],
+      [ [ "mutant_human_blood", 10 ] ],
+      [ [ "fae_blood", 10 ] ],
+      [ [ "vampire_fangs", 1 ] ],
+      [ [ "ruby_silver_ring", 1 ] ],
+      [ [ "ruby_silver_tiara", 1 ] ],
+      [ [ "ruby_silver_earring", 1 ] ],
+      [ [ "ruby_silver_bracelet", 1 ] ],
+      [ [ "ruby_silver_pendant_necklace", 1 ] ],
+      [ [ "ruby_silver_cufflinks", 1 ] ]
+    ]
+  },
+  {
+    "id": "upgradekey_bloodgift_research",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Key of Vampiric Knowledge" },
+    "description": "This strange metaphysical artifact will allow you to spend your blood to obtain new blood gifts.\n\nAs per the previous vampiric amplificator, you have to decide to use the crafted item for its effect to apply.",
+    "volume": "250 ml",
+    "weight": "150 g",
+    "longest_side": "9 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Empower your vampirism.",
+      "effect_on_conditions": [ "EOC_SKY_ISLAND_VAMPIRE_GIFT_RESEARCH" ]
+    }
+  },
+  {
+    "result": "upgradekey_bloodgift_research",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "//": "Books about blood and things made from blood.",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "warptoken", 20 ] ],
+      [ [ "blood", 10 ], [ "demihuman_blood", 10 ], [ "mutant_human_blood", 10 ], [ "fae_blood", 10 ] ],
+      [ [ "paperback_romance_diodes", 1 ] ],
+      [ [ "cookbook_bloodforgood", 1 ] ],
+      [ [ "blood_pancakes", 1 ] ],
+      [ [ "blood_rice_pudding", 1 ] ],
+      [ [ "blutwurst_sausage", 1 ] ],
+      [ [ "drink_bloody_mary_blood", 1 ] ],
+      [ [ "soup_blood", 1 ] ]
+    ]
+  }
+]

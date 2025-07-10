@@ -11,18 +11,18 @@
         { "not": { "u_near_om_location": "evac_center_13", "range": 2 } },
         "is_day",
         { "one_in_chance": 10 },
-        { "u_has_var": "mission_flag_FMShopkeep_Mission1", "value": "yes" },
-        { "math": [ "time_since(u_timer_RC_Shoppers_RandEnc)", ">=", "time('1 d')" ] }
+        { "compare_string": [ "yes", { "u_val": "mission_flag_FMShopkeep_Mission1" } ] },
+        { "math": [ "time_since(u_timer_RC_Shoppers_RandEnc) >= time('1 d')" ] }
       ]
     },
     "effect": [
       { "mapgen_update": "nest_RandEnc_RC_Shoppers_add", "om_terrain": "evac_center_13" },
-      { "math": [ "u_timer_RC_Shoppers_RandEnc", "=", "time('now')" ] },
+      { "math": [ "u_timer_RC_Shoppers_RandEnc = time('now')" ] },
       {
         "u_location_variable": { "global_val": "randenc_shoppers_loc" },
         "target_params": { "om_terrain": "evac_center_13" }
       },
-      { "math": [ "RC_Shoppers_visiting", "=", "1" ] }
+      { "math": [ "RC_Shoppers_visiting = 1" ] }
     ]
   },
   {
@@ -32,8 +32,8 @@
     "global": true,
     "condition": {
       "and": [
-        { "or": [ { "math": [ "time_since(u_timer_RC_Shoppers_RandEnc)", ">", "time('6 h')" ] }, "is_night" ] },
-        { "math": [ "RC_Shoppers_visiting", "==", "1" ] },
+        { "or": [ { "math": [ "time_since(u_timer_RC_Shoppers_RandEnc) > time('6 h')" ] }, "is_night" ] },
+        { "math": [ "RC_Shoppers_visiting == 1" ] },
         { "not": { "u_near_om_location": "evac_center_13", "range": 2 } }
       ]
     },
@@ -43,7 +43,7 @@
         "om_terrain": "evac_center_13",
         "target_var": { "global_val": "randenc_shoppers_loc" }
       },
-      { "math": [ "RC_Shoppers_visiting", "=", "0" ] }
+      { "math": [ "RC_Shoppers_visiting = 0" ] }
     ]
   },
   {
@@ -58,18 +58,18 @@
         { "not": { "u_near_om_location": "evac_center_13", "range": 2 } },
         "is_day",
         { "one_in_chance": 15 },
-        { "u_has_var": "mission_flag_FMShopkeep_Mission1", "value": "yes" },
-        { "math": [ "time_since(u_timer_JohnBailey_RandEnc)", ">=", "time('3 d')" ] }
+        { "compare_string": [ "yes", { "u_val": "mission_flag_FMShopkeep_Mission1" } ] },
+        { "math": [ "time_since(u_timer_JohnBailey_RandEnc) >= time('3 d')" ] }
       ]
     },
     "effect": [
       { "mapgen_update": "nest_RandEnc_RC_JohnBailey_add", "om_terrain": "evac_center_13" },
-      { "math": [ "u_timer_JohnBailey_RandEnc", "=", "time('now')" ] },
+      { "math": [ "u_timer_JohnBailey_RandEnc = time('now')" ] },
       {
         "u_location_variable": { "global_val": "randenc_johnbailey_loc" },
         "target_params": { "om_terrain": "evac_center_13" }
       },
-      { "math": [ "RC_JohnBailey_visiting", "=", "1" ] }
+      { "math": [ "RC_JohnBailey_visiting = 1" ] }
     ]
   },
   {
@@ -79,8 +79,8 @@
     "global": true,
     "condition": {
       "and": [
-        { "or": [ { "math": [ "time_since(u_timer_JohnBailey_RandEnc)", ">", "time('6 h')" ] }, "is_night" ] },
-        { "math": [ "RC_JohnBailey_visiting", "==", "1" ] },
+        { "or": [ { "math": [ "time_since(u_timer_JohnBailey_RandEnc) > time('6 h')" ] }, "is_night" ] },
+        { "math": [ "RC_JohnBailey_visiting == 1" ] },
         { "not": { "u_near_om_location": "evac_center_13", "range": 2 } }
       ]
     },
@@ -90,33 +90,29 @@
         "om_terrain": "evac_center_13",
         "target_var": { "global_val": "randenc_johnbailey_loc" }
       },
-      { "math": [ "RC_JohnBailey_visiting", "=", "0" ] }
+      { "math": [ "RC_JohnBailey_visiting = 0" ] }
     ]
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "nest_RandEnc_RC_Shoppers_add",
     "//": "Adds a random NPC to the refugee center, placed somewhere it won't intersect with beggars or other random NPCs.",
     "object": { "place_npcs": [ { "class": "RC_survivor_visiting", "x": 20, "y": 23 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "nest_RandEnc_RC_Shoppers_remove",
     "//": "Adds a random NPC to the refugee center, placed somewhere it won't intersect with beggars or other random NPCs.",
     "object": { "remove_npcs": [ { "class": "RC_survivor_visiting", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "nest_RandEnc_RC_JohnBailey_add",
     "//": "Adds a random NPC to the refugee center, placed somewhere it won't intersect with beggars or other random NPCs.",
     "object": { "place_npcs": [ { "class": "RC_John_Bailey_visiting", "x": 19, "y": 21, "unique_id": "John_Bailey" } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "nest_RandEnc_RC_JohnBailey_remove",
     "//": "Adds a random NPC to the refugee center, placed somewhere it won't intersect with beggars or other random NPCs.",
     "object": { "remove_npcs": [ { "class": "RC_John_Bailey_visiting", "x": 0, "y": 0, "unique_id": "John_Bailey" } ] }

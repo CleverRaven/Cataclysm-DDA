@@ -3,22 +3,23 @@
 #define CATA_SRC_MATERIAL_H
 
 #include <cstddef>
-#include <iosfwd>
 #include <map>
-#include <new>
 #include <optional>
 #include <set>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
 #include "damage.h"
 #include "fire.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
+#include "units.h"
 
-class material_type;
 class JsonObject;
+class material_type;
+template <typename T> struct enum_traits;
 
 using mat_burn_products = std::vector<std::pair<itype_id, float>>;
 using material_list = std::vector<material_type>;
@@ -90,7 +91,6 @@ class material_type
         float _specific_heat_solid = 2.108f;
         float _latent_heat = 334.0f;
         float _freeze_point = 0; // Celsius
-        bool _edible = false;
         bool _rotting = false;
         bool _soft = false;
         bool _uncomfortable = false;
@@ -156,7 +156,6 @@ class material_type
         static int breathability_to_rating( breathability_rating breathability );
         int breathability() const;
         std::optional<int> wind_resist() const;
-        bool edible() const;
         bool rotting() const;
         bool soft() const;
         bool uncomfortable() const;

@@ -31,7 +31,7 @@
       "clear_whitelist": false,
       "whitelist": [ "ISO_MAP" ]
     },
-    "river_scale": 0,
+    "overmap_river_settings": { "river_scale": 0.0 },
     "overmap_lake_settings": {
       "noise_threshold_lake": 10.0,
       "lake_size_min": 20,

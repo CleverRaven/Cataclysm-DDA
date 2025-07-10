@@ -4,12 +4,11 @@
 
 #include <algorithm>
 #include <functional>
-#include <iosfwd>
 #include <map>
+#include <string>
 #include <vector>
 
 #include "calendar.h"
-#include "morale_types.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -67,7 +66,7 @@ class player_morale
         void on_worn_item_transform( const item &old_it, const item &new_it );
         void on_worn_item_washed( const item &it );
         void on_effect_int_change( const efftype_id &eid, int intensity,
-                                   const bodypart_id &bp = bodypart_id( "bp_null" ) );
+                                   const bodypart_id &bp = bodypart_str_id::NULL_ID().id() );
 
         void store( JsonOut &jsout ) const;
         void load( const JsonObject &jsin );
@@ -78,7 +77,7 @@ class player_morale
         {
             public:
                 explicit morale_point(
-                    const morale_type &type = MORALE_NULL,
+                    const morale_type &type = morale_type::NULL_ID(),
                     const itype *item_type = nullptr,
                     int bonus = 0,
                     int max_bonus = 0,
@@ -141,7 +140,6 @@ class player_morale
 
         void set_prozac( bool new_took_prozac );
         void set_prozac_bad( bool new_took_prozac_bad );
-        void set_stylish( bool new_stylish );
         void set_worn( const item &it, bool worn );
         void set_mutation( const trait_id &mid, bool active );
         bool has_mutation( const trait_id &mid );
@@ -151,7 +149,6 @@ class player_morale
         void remove_expired();
         void invalidate();
 
-        void update_stylish_bonus();
         void update_squeamish_penalty();
         void update_masochist_bonus();
         void update_radiophile_bonus();
@@ -163,14 +160,12 @@ class player_morale
 
         struct body_part_data {
             unsigned int covered;
-            unsigned int fancy;
             unsigned int filthy;
             int hot;
             int cold;
 
             body_part_data() :
                 covered( 0 ),
-                fancy( 0 ),
                 filthy( 0 ),
                 hot( 0 ),
                 cold( 0 ) {}
@@ -198,15 +193,12 @@ class player_morale
         };
         std::map<trait_id, mutation_data> mutations;
 
-        std::map<itype_id, int> super_fancy_items;
-
         // Mutability is required for lazy initialization
         mutable int level;
         mutable bool level_is_valid;
 
         bool took_prozac;
         bool took_prozac_bad;
-        bool stylish;
         int perceived_pain;
         int radiation;
 };

@@ -52,7 +52,7 @@
   {
     "id": "HARDTOSHOOT",
     "type": "monster_flag",
-    "//": "It's one size smaller for ranged attacks, no less then creature_size::tiny"
+    "//": "It's one size smaller for ranged attacks, no less than creature_size::tiny"
   },
   {
     "id": "GRABS",
@@ -310,11 +310,6 @@
     "//": "Monster dies quietly and doesn't display a message."
   },
   {
-    "id": "VERMIN",
-    "type": "monster_flag",
-    "//": "Obsolete flag labeling \"nuisance\" or \"scenery\" monsters, now used to prevent loading the same"
-  },
-  {
     "id": "NOGIB",
     "type": "monster_flag",
     "//": "Creature won't leave gibs / meat chunks when killed with huge damage"
@@ -405,14 +400,9 @@
     "//": "This monster can't be revived by necros.  It will still rise on its own."
   },
   {
-    "id": "PATH_AVOID_DANGER_1",
+    "id": "PATH_AVOID_DANGER",
     "type": "monster_flag",
     "//": "This monster will path around some dangers instead of through them"
-  },
-  {
-    "id": "PATH_AVOID_DANGER_2",
-    "type": "monster_flag",
-    "//": "This monster will path around most dangers instead of through them"
   },
   {
     "id": "PATH_AVOID_FIRE",
@@ -575,6 +565,16 @@
     "//": "This monster can inflict the vampire_virus effect"
   },
   {
+    "id": "COPY_SUMMONER_LOOK",
+    "type": "monster_flag",
+    "//": "If was summoned by someone, copies the texture of it's summoner."
+  },
+  {
+    "id": "COPY_AVATAR_LOOK",
+    "type": "monster_flag",
+    "//": "Always looks like an avatar (character you play right now)."
+  },
+  {
     "id": "ALWAYS_VISIBLE",
     "type": "monster_flag",
     "//": "This monster can always be seen regardless of los or light or anything"
@@ -588,6 +588,11 @@
     "id": "ALL_SEEING",
     "type": "monster_flag",
     "//": "This monster can see everything within its vision range regardless of light or obstacles"
+  },
+  {
+    "id": "MIND_SEEING",
+    "type": "monster_flag",
+    "//": "This monster can see everything within 5 squares + its vision bonuses regardless of light or obstacles, unless that thing is undetectable to telepathy"
   },
   {
     "id": "NEVER_WANDER",
@@ -643,5 +648,16 @@
     "id": "DRACULIN_IMMUNE",
     "type": "monster_flag",
     "//": "Immune to Chiropteran saliva. Use for any creature with nonstandard blood (ie mi-go, insects, but probably not zombies or fungalized animals, unless they have acid blood or something)."
+  },
+  {
+    "id": "TEEP_IMMUNE",
+    "type": "monster_flag",
+    "//": "Immune to telepathic damage/detection"
+  },
+  {
+    "id": "PULP_PRYING",
+    "type": "monster_flag",
+    "//": "This monster has significant armor, and it is much harder to pulp it without a proper tool",
+    "//2": "Rule of thumb: if monster has something like a spine character wants to break, and it is covered by any armor, use this flag"
   }
 ]

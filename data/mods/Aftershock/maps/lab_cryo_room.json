@@ -2,7 +2,6 @@
   {
     "//": "Aftershock - cryo pod room",
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lab_1side" ],
     "weight": 120,
     "object": {
@@ -76,7 +75,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "cryo_pod_open",
-    "method": "json",
     "object": {
       "place_nested": [
         {
@@ -155,6 +153,7 @@
       "C": "t_thconc_floor",
       "P": "t_thconc_floor"
     },
+    "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "T": {  } }
   },
   {
@@ -181,12 +180,12 @@
           { "item": "softdrugs", "chance": 5 }
         ]
       },
-      "d": { "items": [ { "item": "office", "chance": 20 }, { "item": "science", "chance": 5 } ] },
+      "d": { "items": [ { "item": "SUS_office_desk", "chance": 20 }, { "item": "science", "chance": 5 } ] },
       "h": { "item": [ { "item": "coat_lab", "chance": 5 } ] },
       "]": { "items": [ { "item": "manuals", "chance": 10 }, { "item": "textbooks", "chance": 10 } ] },
       "l": {
         "items": [
-          { "item": "office", "chance": 10 },
+          { "item": "SUS_office_desk", "chance": 10 },
           { "item": "science", "chance": 10 },
           { "item": "harddrugs", "chance": 3 },
           { "item": "softdrugs", "chance": 3 },

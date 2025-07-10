@@ -3,24 +3,24 @@
     "type": "item_group",
     "id": "fuel_jp8",
     "items": [
-      { "item": "jp8", "prob": 70, "charges-min": 950, "charges-max": 8000, "container-item": "jerrycan" },
-      { "item": "jp8", "prob": 30, "charges-min": 3850, "charges-max": 20000, "container-item": "jerrycan_big" }
+      { "item": "jp8", "prob": 70, "charges": [ 950, 8000 ], "container-item": "jerrycan" },
+      { "item": "jp8", "prob": 30, "charges": [ 3850, 20000 ], "container-item": "jerrycan_big" }
     ]
   },
   {
     "type": "item_group",
     "id": "fuel_diesel",
     "items": [
-      { "item": "diesel", "prob": 70, "charges-min": 950, "charges-max": 8000, "container-item": "jerrycan" },
-      { "item": "diesel", "prob": 30, "charges-min": 3850, "charges-max": 20000, "container-item": "jerrycan_big" }
+      { "item": "diesel", "prob": 70, "charges": [ 950, 8000 ], "container-item": "jerrycan" },
+      { "item": "diesel", "prob": 30, "charges": [ 3850, 20000 ], "container-item": "jerrycan_big" }
     ]
   },
   {
     "type": "item_group",
     "id": "fuel_gasoline",
     "items": [
-      { "item": "gasoline", "prob": 80, "charges-min": 450, "charges-max": 8000, "container-item": "jerrycan" },
-      { "item": "gasoline", "prob": 20, "charges-min": 2650, "charges-max": 20000, "container-item": "jerrycan_big" }
+      { "item": "gasoline", "prob": 80, "charges": [ 450, 8000 ], "container-item": "jerrycan" },
+      { "item": "gasoline", "prob": 20, "charges": [ 2650, 20000 ], "container-item": "jerrycan_big" }
     ]
   },
   {
@@ -84,8 +84,8 @@
         ],
         "prob": 80
       },
-      { "item": "duct_tape", "charges": [ 20, 200 ], "prob": 30 },
-      { "item": "superglue", "prob": 20 },
+      { "group": "duct_tape_roll_part", "prob": 30 },
+      { "group": "superglue", "prob": 20 },
       { "distribution": [ { "item": "pockknife" }, { "item": "boxcutter" } ], "prob": 60 },
       { "item": "glowstick", "count": [ 0, 2 ], "charges": 1400, "prob": 30 },
       {
@@ -157,26 +157,29 @@
         "distribution": [ { "item": "gasdiscount_silver" }, { "item": "gasdiscount_gold" }, { "item": "gasdiscount_platinum" } ],
         "prob": 10
       },
-      { "group": "snacks_fancy", "count": [ 1, 2 ] },
+      { "group": "snacks_fancy", "prob": 20, "count": [ 1, 2 ] },
       { "group": "wallets", "prob": 10 },
-      [ "sunglasses", 20 ],
-      [ "knife_swissarmy", 10 ],
-      [ "eclipse_glasses", 1 ],
-      [ "folding_solar_panel_v2", 2 ],
-      [ "thermos", 20 ]
+      { "item": "sunglasses", "prob": 20 },
+      { "item": "knife_swissarmy", "prob": 10 },
+      { "item": "folding_solar_panel_v2", "prob": 2 },
+      { "item": "thermos", "prob": 20 },
+      { "group": "clothing_outdoor_set", "prob": 10 },
+      { "group": "entertainment_center_loot", "prob": 40 },
+      { "group": "SUS_science_personal_effects", "prob": 10 },
+      { "group": "SUS_pantry", "prob": 20 }
     ]
   },
   {
     "type": "item_group",
     "id": "gas_charging_rack",
     "items": [
-      { "item": "storage_battery", "prob": 15, "charges-min": 40000, "charges-max": 40000 },
-      { "item": "storage_battery", "prob": 40, "charges-min": 4000, "charges-max": 10000 },
-      { "item": "storage_battery", "prob": 60, "charges-min": 0, "charges-max": 2000 },
-      { "item": "small_storage_battery", "prob": 15, "charges-min": 500, "charges-max": 500 },
-      { "item": "small_storage_battery", "prob": 40, "charges-min": 0, "charges-max": 200 },
-      { "item": "medium_storage_battery", "prob": 15, "charges-min": 7000, "charges-max": 7000 },
-      { "item": "medium_storage_battery", "prob": 40, "charges-min": 0, "charges-max": 2000 },
+      { "item": "storage_battery", "prob": 15, "charges": 40000 },
+      { "item": "storage_battery", "prob": 40, "charges": [ 4000, 10000 ] },
+      { "item": "storage_battery", "prob": 60, "charges": [ 0, 2000 ] },
+      { "item": "small_storage_battery", "prob": 15, "charges": 500 },
+      { "item": "small_storage_battery", "prob": 40, "charges": [ 0, 200 ] },
+      { "item": "medium_storage_battery", "prob": 15, "charges": 7000 },
+      { "item": "medium_storage_battery", "prob": 40, "charges": [ 0, 2000 ] },
       [ "it_battery_mount", 90 ],
       [ "it_battery_mount", 50 ],
       [ "it_battery_mount", 40 ],

@@ -1,12 +1,6 @@
 [
   {
     "type": "ammunition_type",
-    "id": "NULL",
-    "name": "none",
-    "default": "null"
-  },
-  {
-    "type": "ammunition_type",
     "id": "458wm",
     "name": ".458 Winchester Magnum",
     "default": "458wm"
@@ -50,7 +44,7 @@
   {
     "type": "ammunition_type",
     "id": "77mm_arisaka",
-    "name": "7.7x58mm Japanese",
+    "name": "7.7x58mm Arisaka",
     "default": "77mm_arisaka_jsp"
   },
   {
@@ -70,6 +64,18 @@
     "id": "barb",
     "name": "barb",
     "default": "barb_paralysis"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "gene_sting",
+    "name": "yugg stinger",
+    "default": "gene_sting_barb"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "nether_huntsman_javelin_ammo",
+    "name": "alien outgrowth",
+    "default": "nether_huntsman_javelin"
   },
   {
     "type": "ammunition_type",
@@ -122,13 +128,13 @@
   {
     "type": "ammunition_type",
     "id": "shot",
-    "name": "shot",
+    "name": "12 gauge",
     "default": "shot_00"
   },
   {
     "type": "ammunition_type",
     "id": "410shot",
-    "name": ".410 shot",
+    "name": ".410",
     "default": "410shot_000"
   },
   {
@@ -140,7 +146,7 @@
   {
     "type": "ammunition_type",
     "id": "22",
-    "name": ".22",
+    "name": ".22 LR",
     "default": "22_lr"
   },
   {
@@ -182,7 +188,7 @@
   {
     "type": "ammunition_type",
     "id": "38",
-    "name": ".38",
+    "name": ".38 Special",
     "default": "38_special"
   },
   {
@@ -194,7 +200,7 @@
   {
     "type": "ammunition_type",
     "id": "40",
-    "name": ".40",
+    "name": ".40 S&W",
     "default": "40sw"
   },
   {
@@ -206,26 +212,26 @@
   {
     "type": "ammunition_type",
     "id": "44",
-    "name": ".44",
+    "name": ".44 Magnum",
     "default": "44magnum"
   },
   {
     "type": "ammunition_type",
     "id": "45",
-    "name": ".45",
+    "name": ".45 ACP",
     "default": "45_acp"
   },
   {
     "type": "ammunition_type",
-    "id": "460",
-    "name": ".460",
-    "default": "460_rowland"
+    "id": "454",
+    "name": ".454 Casull",
+    "default": "454_Casull"
   },
   {
     "type": "ammunition_type",
-    "id": "454",
-    "name": ".454",
-    "default": "454_Casull"
+    "id": "460sw",
+    "name": ".460 S&W Magnum",
+    "default": "460sw"
   },
   {
     "type": "ammunition_type",
@@ -236,7 +242,7 @@
   {
     "type": "ammunition_type",
     "id": "500",
-    "name": ".500",
+    "name": ".500 Magnum",
     "default": "500_Magnum"
   },
   {
@@ -334,6 +340,12 @@
     "id": "m235",
     "name": "M235 66mm Incendiary TPA",
     "default": "m235tpa"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "mortar_60mm",
+    "name": "60 mm mortar cartridge",
+    "default": "60mm_shell_m720a1"
   },
   {
     "type": "ammunition_type",
@@ -445,6 +457,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "crude_oil",
+    "name": "crude oil",
+    "default": "crude_oil"
+  },
+  {
+    "type": "ammunition_type",
     "id": "thread",
     "name": "thread",
     "default": "thread"
@@ -466,6 +484,12 @@
     "id": "tape",
     "name": "duct tape",
     "default": "duct_tape"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "superglue",
+    "name": "super glue",
+    "default": "super_glue"
   },
   {
     "type": "ammunition_type",
@@ -552,6 +576,7 @@
     "default": "8mm_caseless"
   },
   {
+    "//": "To-do: Remove when 20x66 is fully obsoleted",
     "type": "ammunition_type",
     "id": "20x66mm",
     "name": "20x66mm caseless shotgun",
@@ -638,13 +663,13 @@
   {
     "type": "ammunition_type",
     "id": "300",
-    "name": ".300",
+    "name": ".300 Winchester Magnum",
     "default": "300_winmag"
   },
   {
     "type": "ammunition_type",
     "id": "32",
-    "name": ".32",
+    "name": ".32 ACP",
     "default": "32_acp"
   },
   {
@@ -674,7 +699,7 @@
   {
     "type": "ammunition_type",
     "id": "762R",
-    "name": "7.62x54mm",
+    "name": "7.62x54mmR",
     "default": "762_54R"
   },
   {
@@ -782,7 +807,7 @@
   {
     "type": "ammunition_type",
     "id": "123ln",
-    "name": "12.3ln cartridge",
+    "name": "12.3ln",
     "default": "123ln"
   },
   {
@@ -805,6 +830,42 @@
   },
   {
     "type": "ammunition_type",
+    "id": "33naval",
+    "name": "3.3 naval cartridge",
+    "default": "33naval_ball"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "caotel_cell",
+    "name": "Caotel cell",
+    "default": "caotel_cell"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "khuunaofaai_payload",
+    "name": "Khuunäöfaai firework payload",
+    "default": "khuunaofaai_ammo_firework"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "khuunaofaai_payload_fire",
+    "name": "Khuunäöfaai incendiary payload",
+    "default": "khuunaofaai_ammo_incendiary"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "khuunaofaai_payload_acid",
+    "name": "Khuunäöfaai corrosive payload",
+    "default": "khuunaofaai_ammo_corrosive"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "khuunaofaai_payload_glue",
+    "name": "Khuunäöfaai adhesive payload",
+    "default": "khuunaofaai_ammo_foam"
+  },
+  {
+    "type": "ammunition_type",
     "id": "glowstick_juice",
     "name": "glowstick juice",
     "default": "glowstick_juice"
@@ -812,7 +873,7 @@
   {
     "type": "ammunition_type",
     "id": "cannon",
-    "name": "cannon",
+    "name": "cannon ball",
     "default": "cannon_shot"
   },
   {
@@ -820,6 +881,12 @@
     "id": "graphite",
     "name": "graphite",
     "default": "graphite"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "quill_ink",
+    "name": "quill ink",
+    "default": "quill_ink"
   },
   {
     "type": "ammunition_type",

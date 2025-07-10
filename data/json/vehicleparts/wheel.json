@@ -82,7 +82,7 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "6 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
     "flags": [ "WHEEL_MOUNT_MEDIUM", "NEEDS_JACKING" ],
-    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] }, { "item": "steel_chunk", "count": [ 2, 5 ] } ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] }, { "item": "mc_steel_chunk", "count": [ 2, 5 ] } ],
     "damage_reduction": { "all": 30 },
     "variants": [ { "symbols": "-", "symbols_broken": "X" } ]
   },
@@ -118,7 +118,7 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "8 m", "using": [ [ "repair_welding_standard", 4 ] ] }
     },
     "flags": [ "WHEEL_MOUNT_HEAVY", "NEEDS_JACKING" ],
-    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] }, { "item": "steel_chunk", "count": [ 3, 7 ] } ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] }, { "item": "mc_steel_chunk", "count": [ 3, 7 ] } ],
     "damage_reduction": { "all": 40 },
     "variants": [ { "symbols": "-", "symbols_broken": "X" } ]
   },
@@ -138,7 +138,7 @@
     "durability": 7000,
     "description": "A strong metal wheel.  A flange helps keep it on a rail, but makes it perform terribly when not on a rail.",
     "damage_modifier": 70,
-    "breaks_into": [ { "item": "scrap", "count": [ 4, 6 ] }, { "item": "steel_chunk", "count": [ 2, 3 ] } ],
+    "breaks_into": [ { "item": "scrap", "count": [ 4, 6 ] }, { "item": "ch_steel_chunk", "count": [ 2, 3 ] } ],
     "rolling_resistance": 0.25,
     "wheel_offroad_rating": 0.05,
     "wheel_terrain_modifiers": { "RAIL": [ 2, 8 ] },
@@ -168,7 +168,7 @@
     "copy-from": "rail_wheel",
     "description": "A pair of small rail wheels.  It performs well when riding on a pair of small rails.  It performs terribly when not on a rail.  Moreover, you can't steer it.",
     "damage_modifier": 50,
-    "breaks_into": [ { "item": "scrap", "count": [ 2, 3 ] }, { "item": "steel_chunk", "count": [ 1, 2 ] } ],
+    "breaks_into": [ { "item": "scrap", "count": [ 2, 3 ] }, { "item": "ch_steel_chunk", "count": [ 1, 2 ] } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -189,8 +189,8 @@
     "description": "A strong metal wheel.",
     "damage_modifier": 500,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 25, 75 ] },
-      { "item": "steel_chunk", "count": [ 30, 90 ] },
+      { "item": "mc_steel_lump", "count": [ 25, 75 ] },
+      { "item": "mc_steel_chunk", "count": [ 30, 90 ] },
       { "item": "scrap", "count": [ 50, 150 ] }
     ],
     "rolling_resistance": 0.125,
@@ -219,9 +219,12 @@
     "description": "A wheel.",
     "damage_modifier": 50,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 1, 2 ] },
-      { "item": "steel_chunk", "count": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 1, 2 ] }
+      { "item": "mc_steel_lump", "count": [ 1, 2 ] },
+      { "item": "mc_steel_chunk", "count": [ 1, 2 ] },
+      { "item": "scrap", "count": [ 1, 2 ] },
+      { "item": "rubber_tire_chunk", "count": [ 0, 1 ] },
+      { "item": "chunk_rubber", "count": [ 8, 19 ] },
+      { "item": "shredded_rubber", "charges": [ 8, 20 ] }
     ],
     "wheel_terrain_modifiers": { "FLAT": [ 0, 4 ], "ROAD": [ 0, 2 ] },
     "contact_area": 153,
@@ -258,8 +261,8 @@
     "description": "A very strong, armored metal wheel.",
     "damage_modifier": 50,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 2, 3 ] },
-      { "item": "steel_chunk", "count": [ 2, 3 ] },
+      { "item": "mc_steel_lump", "count": [ 2, 3 ] },
+      { "item": "mc_steel_chunk", "count": [ 2, 3 ] },
       { "item": "scrap", "count": [ 2, 3 ] }
     ],
     "rolling_resistance": 0.6,
@@ -287,7 +290,13 @@
     "description": "A small wheel.",
     "damage_modifier": 50,
     "folded_volume": "2250 ml",
-    "breaks_into": [ { "item": "steel_lump" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
+    "breaks_into": [
+      { "item": "mc_steel_lump" },
+      { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
+      { "item": "scrap", "count": [ 1, 3 ] },
+      { "item": "chunk_rubber", "count": [ 4, 15 ] },
+      { "item": "shredded_rubber", "charges": [ 4, 10 ] }
+    ],
     "rolling_resistance": 1.62,
     "wheel_offroad_rating": 0.7,
     "wheel_terrain_modifiers": { "FLAT": [ 0, 3 ], "ROAD": [ 0, 1 ] },
@@ -314,9 +323,12 @@
     "damage_modifier": 50,
     "folded_volume": "3500 ml",
     "breaks_into": [
-      { "item": "steel_lump", "prob": 50 },
-      { "item": "steel_chunk", "count": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 1, 2 ] }
+      { "item": "mc_steel_lump", "prob": 50 },
+      { "item": "mc_steel_chunk", "count": [ 1, 2 ] },
+      { "item": "scrap", "count": [ 1, 2 ] },
+      { "item": "rubber_tire_chunk", "count": [ 0, 1 ] },
+      { "item": "chunk_rubber", "count": [ 4, 13 ] },
+      { "item": "shredded_rubber", "charges": [ 5, 12 ] }
     ],
     "rolling_resistance": 0.45,
     "wheel_terrain_modifiers": { "FLAT": [ 0, 4 ], "ROAD": [ 0, 2 ] },
@@ -346,18 +358,18 @@
   {
     "id": "wheel_caster",
     "type": "vehicle_part",
-    "name": { "str": "casters" },
+    "name": { "str": "small casters" },
     "item": "wheel_caster",
     "location": "under",
     "categories": [ "movement" ],
     "color": "dark_gray",
     "durability": 70,
-    "description": "A set of small wheels, mounted on pivots, like the ones on a rolling office chair.",
+    "description": "A set of small wheels mounted on pivots, like you'd find on a rolling office chair.",
     "damage_modifier": 50,
     "folded_volume": "1250 ml",
     "breaks_into": [
-      { "item": "steel_lump", "prob": 50 },
-      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "mc_steel_lump", "prob": 50 },
+      { "item": "mc_steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
     "rolling_resistance": 29.0,
@@ -369,24 +381,24 @@
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_1", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "soldering_standard", 15 ] ] }
     },
-    "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "STEERABLE" ],
+    "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE" ],
     "variants": [ { "symbols": "o", "symbols_broken": "x" } ]
   },
   {
     "id": "wheel_caster_large",
     "type": "vehicle_part",
-    "name": { "str": "large casters" },
+    "name": { "str": "medium casters" },
     "item": "wheel_caster_large",
     "location": "under",
     "categories": [ "movement" ],
     "color": "dark_gray",
-    "description": "A set of wheels, mounted on pivots, like the ones on a grocery cart.",
+    "description": "A set of medium wheels mounted on pivots, like you'd find on a shopping cart.",
     "durability": 70,
     "damage_modifier": 50,
     "folded_volume": "3150 ml",
     "breaks_into": [
-      { "item": "steel_lump", "prob": 50 },
-      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "mc_steel_lump", "prob": 50 },
+      { "item": "mc_steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
     "rolling_resistance": 14.0,
@@ -398,7 +410,39 @@
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_1", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "soldering_standard", 15 ] ] }
     },
-    "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "STEERABLE" ],
+    "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE" ],
+    "variants": [ { "symbols": "o", "symbols_broken": "x" } ]
+  },
+  {
+    "id": "wheel_10",
+    "type": "vehicle_part",
+    "name": { "str": "large casters" },
+    "item": "wheel_10",
+    "location": "under",
+    "categories": [ "movement" ],
+    "color": "dark_gray",
+    "durability": 120,
+    "description": "A set of large rubber wheels mounted on pivots, like you'd find on small industrial equipment.",
+    "folded_volume": "4000 ml",
+    "breaks_into": [
+      { "item": "mc_steel_lump", "prob": 50 },
+      { "item": "mc_steel_chunk", "count": [ 1, 5 ] },
+      { "item": "scrap", "count": [ 1, 5 ] },
+      { "item": "plastic_chunk", "count": [ 1, 5 ] },
+      { "item": "rubber_tire_chunk", "count": [ 0, 1 ] },
+      { "item": "chunk_rubber", "count": [ 3, 12 ] },
+      { "item": "shredded_rubber", "charges": [ 12, 30 ] }
+    ],
+    "rolling_resistance": 29.0,
+    "wheel_offroad_rating": 0.7,
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 3 ], "ROAD": [ 0, 1 ] },
+    "contact_area": 4,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "adhesive_rubber", 1 ], [ "tire_rubber", 1 ] ] }
+    },
+    "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE" ],
     "variants": [ { "symbols": "o", "symbols_broken": "x" } ]
   },
   {
@@ -457,35 +501,6 @@
     "variants": [ { "symbols": "-", "symbols_broken": "X" } ]
   },
   {
-    "id": "wheel_10",
-    "type": "vehicle_part",
-    "name": { "str": "wheels" },
-    "item": "wheel_10",
-    "location": "under",
-    "categories": [ "movement" ],
-    "color": "dark_gray",
-    "durability": 120,
-    "description": "A set of 10\" wheels with tough rubber tires.",
-    "folded_volume": "2500 ml",
-    "breaks_into": [
-      { "item": "steel_lump", "prob": 50 },
-      { "item": "steel_chunk", "count": [ 1, 5 ] },
-      { "item": "scrap", "count": [ 1, 5 ] },
-      { "item": "plastic_chunk", "count": [ 1, 5 ] }
-    ],
-    "rolling_resistance": 29.0,
-    "wheel_offroad_rating": 0.7,
-    "wheel_terrain_modifiers": { "FLAT": [ 0, 3 ], "ROAD": [ 0, 1 ] },
-    "contact_area": 4,
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "adhesive_rubber", 1 ], [ "tire_rubber", 1 ] ] }
-    },
-    "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "STEERABLE" ],
-    "variants": [ { "symbols": "o", "symbols_broken": "x" } ]
-  },
-  {
     "id": "wheel_motorbike",
     "type": "vehicle_part",
     "name": { "str": "motorbike wheel" },
@@ -498,9 +513,12 @@
     "description": "A small wheel from a motorcycle.",
     "damage_modifier": 50,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 1, 3 ] },
-      { "item": "steel_chunk", "count": [ 1, 3 ] },
-      { "item": "scrap", "count": [ 1, 3 ] }
+      { "item": "mc_steel_lump", "count": [ 1, 3 ] },
+      { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
+      { "item": "scrap", "count": [ 1, 3 ] },
+      { "item": "rubber_tire_chunk", "count": [ 0, 1 ] },
+      { "item": "chunk_rubber", "count": [ 8, 19 ] },
+      { "item": "shredded_rubber", "charges": [ 8, 20 ] }
     ],
     "rolling_resistance": 1.9,
     "wheel_terrain_modifiers": { "FLAT": [ 0, 4 ], "ROAD": [ 0, 2 ] },
@@ -524,6 +542,14 @@
     "name": { "str": "off-road motorbike wheel" },
     "item": "wheel_motorbike_or",
     "contact_area": 60,
+    "breaks_into": [
+      { "item": "mc_steel_lump", "count": [ 1, 3 ] },
+      { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
+      { "item": "scrap", "count": [ 1, 3 ] },
+      { "item": "rubber_tire_chunk", "count": [ 0, 1 ] },
+      { "item": "chunk_rubber", "count": [ 9, 25 ] },
+      { "item": "shredded_rubber", "charges": [ 8, 20 ] }
+    ],
     "wheel_offroad_rating": 0.7,
     "wheel_terrain_modifiers": { "FLAT": [ 0, 3 ], "ROAD": [ 0, 1 ] },
     "damage_reduction": { "bash": 10, "cut": 8, "stab": 4 }
@@ -541,7 +567,14 @@
     "description": "A small wheel.",
     "damage_modifier": 50,
     "folded_volume": "2250 ml",
-    "breaks_into": [ { "item": "steel_lump" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
+    "breaks_into": [
+      { "item": "mc_steel_lump" },
+      { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
+      { "item": "scrap", "count": [ 1, 3 ] },
+      { "item": "rubber_tire_chunk", "count": [ 0, 1 ] },
+      { "item": "chunk_rubber", "count": [ 2, 12 ] },
+      { "item": "shredded_rubber", "charges": [ 5, 15 ] }
+    ],
     "rolling_resistance": 1.5,
     "wheel_offroad_rating": 0.3,
     "wheel_terrain_modifiers": { "FLAT": [ 0, 5 ], "ROAD": [ 0, 2 ] },
@@ -596,9 +629,12 @@
     "damage_modifier": 50,
     "folded_volume": "3500 ml",
     "breaks_into": [
-      { "item": "steel_lump", "prob": 50 },
-      { "item": "steel_chunk", "count": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 1, 2 ] }
+      { "item": "mc_steel_lump", "prob": 50 },
+      { "item": "mc_steel_chunk", "count": [ 1, 2 ] },
+      { "item": "scrap", "count": [ 1, 2 ] },
+      { "item": "rubber_tire_chunk", "count": [ 0, 1 ] },
+      { "item": "chunk_rubber", "count": [ 4, 13 ] },
+      { "item": "shredded_rubber", "charges": [ 5, 12 ] }
     ],
     "rolling_resistance": 0.45,
     "wheel_terrain_modifiers": { "FLAT": [ 0, 4 ], "ROAD": [ 0, 2 ] },
@@ -626,9 +662,12 @@
     "damage_modifier": 50,
     "folded_volume": "6250 ml",
     "breaks_into": [
-      { "item": "steel_lump", "prob": 50 },
-      { "item": "steel_chunk", "count": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 1, 2 ] }
+      { "item": "mc_steel_lump", "prob": 50 },
+      { "item": "mc_steel_chunk", "count": [ 1, 2 ] },
+      { "item": "scrap", "count": [ 1, 2 ] },
+      { "item": "rubber_tire_chunk", "count": [ 0, 1 ] },
+      { "item": "chunk_rubber", "count": [ 6, 20 ] },
+      { "item": "shredded_rubber", "charges": [ 10, 24 ] }
     ],
     "rolling_resistance": 1.95,
     "wheel_offroad_rating": 0.3,
@@ -656,9 +695,12 @@
     "description": "A wide wheel that provides more traction and better off-road performance.",
     "damage_modifier": 50,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 2, 3 ] },
-      { "item": "steel_chunk", "count": [ 2, 3 ] },
-      { "item": "scrap", "count": [ 2, 3 ] }
+      { "item": "mc_steel_lump", "count": [ 2, 3 ] },
+      { "item": "mc_steel_chunk", "count": [ 2, 3 ] },
+      { "item": "scrap", "count": [ 2, 3 ] },
+      { "item": "rubber_tire_chunk", "count": [ 1, 3 ] },
+      { "item": "chunk_rubber", "count": [ 8, 24 ] },
+      { "item": "shredded_rubber", "charges": [ 8, 20 ] }
     ],
     "rolling_resistance": 0.575,
     "wheel_terrain_modifiers": { "FLAT": [ 0, 4 ], "ROAD": [ 0, 2 ] },
@@ -753,7 +795,7 @@
     "description": "A small wheel.",
     "damage_modifier": 50,
     "folded_volume": "5500 ml",
-    "breaks_into": [ { "item": "steel_lump" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 6 ] } ],
+    "breaks_into": [ { "item": "mc_steel_lump" }, { "item": "mc_steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 6 ] } ],
     "rolling_resistance": 1.5,
     "wheel_offroad_rating": 0.3,
     "wheel_terrain_modifiers": { "FLAT": [ 0, 5 ], "ROAD": [ 0, 2 ] },

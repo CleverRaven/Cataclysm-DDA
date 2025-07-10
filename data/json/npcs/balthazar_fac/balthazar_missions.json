@@ -1,0 +1,38 @@
+[
+  {
+    "id": "MISSION_GET_SOLAR_PANELS_BALTHAZAR",
+    "type": "mission_definition",
+    "name": "Gather solar panels for Balthazar",
+    "description": "Balthazar needs some solar panels to stabilize the power to their bunker.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "math": [ "balthazar_power < 50" ] },
+    "difficulty": 1,
+    "value": 1000,
+    "end": { "effect": [ { "run_eocs": "EOC_BALTHAZAR_SET_UP_SOLAR" } ] },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "The power in my bunker is failing and I need 12 solar panels to stabilize them.",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "Most commercial buildings have some solar panels or, if we're lucky, you might find a solar farm.",
+      "inquire": "Power is holding for now but I need those panels soon.",
+      "success": "…",
+      "success_lie": "Where are the panels??",
+      "failure": "You shouldn't fail me, human."
+    }
+  },
+  {
+    "id": "MISSION_FIND_BALTHAZAR_BUNKER",
+    "type": "mission_definition",
+    "name": { "str": "Reach source of mysterious transmission" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 1,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "balthazar_bunker_00", "om_special": "balthazar_bunker", "reveal_radius": 1, "random": false }
+    },
+    "origins": [ "ORIGIN_COMPUTER" ],
+    "destination": "balthazar_bunker_00"
+  }
+]

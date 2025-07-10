@@ -1,9 +1,7 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_thrift" ],
-    "weight": 500,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -16,35 +14,34 @@
         "yyyyyyyyyyyyyyyyyyyyy222",
         "222222222222222222222222",
         "222222222222222222222222",
-        ".----11111111----gg-|222",
-        ".|HH           1 ooV|2<2",
-        ".|HH  A  A  A  1 ooW|+-|",
-        ".|HH  A  A  A  --gg-| L|",
-        ".|HH  A  A  A    oo |+-|",
-        ".|HH  A  A  A    oo | J|",
-        ".|HH  A  A  A   CCCC|FJ|",
-        ".|HH            C F + K|",
-        ".|HH  HH            ---|",
-        ".|    HH AAAAAAAAA   a|.",
-        ".|+--                a|.",
-        ".| B|AAAAAAAAAAAAA   a|.",
-        ".|-----------------+--|.",
+        ".####11111111####gg##222",
+        ".#HH           1 ooV#2<2",
+        ".#HH  A  A  A  1 ooW#+##",
+        ".#HH  A  A  A  ||gg|| L#",
+        ".#HH  A  A  A    oo |+|#",
+        ".#HH  A  A  A    oo | J#",
+        ".#HH  A  A  A   CCCC|FJ#",
+        ".#HH            C F + K#",
+        ".#HH  HH            ||##",
+        ".#    HH AAAAAAAAA   a#.",
+        ".#+||                a#.",
+        ".# B|AAAAAAAAAAAAA   a#.",
+        ".##################+###.",
         "...Z...........2UU22U...",
         "........................"
       ],
+      "palettes": [ "parametrized_concrete_carpets_palette", "parametrized_walls_palette" ],
       "terrain": {
         " ": "t_thconc_floor",
         "+": "t_door_locked",
-        "-": "t_wall_w",
         ".": "t_region_groundcover_urban",
         "1": "t_window",
         "2": "t_concrete",
         "U": "t_concrete",
         "g": "t_door_glass_c",
-        "o": "t_carpet_concrete_purple",
+        "o": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_purple" },
         "r": "t_pavement",
         "y": "t_pavement_y",
-        "|": "t_wall_w",
         "Z": "t_gutter_downspout",
         "<": "t_ladder_up"
       },
@@ -79,10 +76,11 @@
       "vendingmachines": { "W": { "item_group": "vending_drink", "lootable": true }, "V": { "item_group": "vending_food", "lootable": true } },
       "toilets": { "B": {  } },
       "items": {
-        "J": { "item": "office", "chance": 30, "repeat": [ 3, 4 ] },
+        "J": { "item": "SUS_office_filing_cabinet", "chance": 80 },
         "A": { "item": "thrift_misc", "chance": 60, "repeat": [ 1, 6 ] },
+        "B": { "item": "SUS_toilet", "chance": 50 },
         "a": { "item": "thrift_books", "chance": 60, "repeat": [ 1, 6 ] },
-        "K": { "item": "office_paper", "chance": 30 },
+        "K": { "item": "SUS_office_filing_cabinet", "chance": 30 },
         "L": { "item": "cleaning", "chance": 20, "repeat": [ 2, 4 ] }
       },
       "place_items": [ { "item": "cash_register_random", "x": [ 16, 19 ], "y": 15, "chance": 100 } ]
@@ -90,7 +88,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_thrift_roof",
     "object": {
       "fill_ter": "t_flat_roof",

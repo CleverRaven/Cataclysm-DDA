@@ -1,4 +1,5 @@
 #if (defined(__GNUC__) || defined(__clang__)) && !defined(_MSC_VER)
+#    include <cstdlib>  // for free
 #    include <cxxabi.h>
 #endif
 

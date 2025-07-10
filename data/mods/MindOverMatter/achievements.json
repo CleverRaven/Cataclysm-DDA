@@ -1,10 +1,272 @@
 [
   {
+    "id": "achievement_level_4_metaphysics",
+    "type": "achievement",
+    "name": { "str": "Calm Mind" },
+    "description": "While you still have a few stray thoughts, you have an easy time slipping into the mindframe to use psionic powers.",
+    "requirements": [ { "event_statistic": "num_gains_metaphysics_level_4", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "num_gains_metaphysics_level_4",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_metaphysics_level_4",
+    "description": { "str_sp": "Metaphysics skill level 4 gained" }
+  },
+  {
+    "id": "avatar_gains_metaphysics_level_4",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": [ "skill_id", "metaphysics" ] },
+      "new_level": { "equals": [ "int", "4" ] }
+    },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "achievement_level_7_metaphysics",
+    "type": "achievement",
+    "name": { "str": "No-Mind" },
+    "description": "With a moment's concentration you can slip into the mind-state necessary to channel Netherum energies.",
+    "requirements": [ { "event_statistic": "num_gains_metaphysics_level_7", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "num_gains_metaphysics_level_7",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_metaphysics_level_7",
+    "description": { "str_sp": "Metaphysics skill level 7 gained" }
+  },
+  {
+    "id": "avatar_gains_metaphysics_level_7",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": [ "skill_id", "metaphysics" ] },
+      "new_level": { "equals": [ "int", "7" ] }
+    },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "achievement_level_10_metaphysics",
+    "type": "achievement",
+    "name": { "str": "Galaxy Brain" },
+    "description": "You are one with the Nether and the Nether is with you.  Even powerful psionic manipulations are like child's play.",
+    "requirements": [ { "event_statistic": "num_gains_metaphysics_level_10", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "num_gains_metaphysics_level_10",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_metaphysics_level_10",
+    "description": { "str_sp": "Metaphysics skill level 10 gained" }
+  },
+  {
+    "id": "avatar_gains_metaphysics_level_10",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": [ "skill_id", "metaphysics" ] },
+      "new_level": { "equals": [ "int", "10" ] }
+    },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "mom_psi_awakening_biokinesis",
+    "type": "achievement",
+    "name": "Better, Faster, Stronger.",
+    "description": "Awaken as a biokinetic.",
+    "manually_given": true,
+    "requirements": [  ]
+  },
+  {
+    "id": "mom_psi_awakening_clairsentience",
+    "type": "achievement",
+    "name": "Sight Beyond Sight.",
+    "description": "Awaken as a clairsentient.",
+    "manually_given": true,
+    "requirements": [  ]
+  },
+  {
+    "id": "mom_psi_awakening_electrokinesis",
+    "type": "achievement",
+    "name": "1.21 Jigawatts",
+    "description": "Awaken as an electrokinetic.",
+    "manually_given": true,
+    "requirements": [  ]
+  },
+  {
+    "id": "mom_psi_awakening_photokinesis",
+    "type": "achievement",
+    "name": "Let There Be Light",
+    "description": "Awaken as a photokinetic.",
+    "manually_given": true,
+    "requirements": [  ]
+  },
+  {
+    "id": "mom_psi_awakening_pyrokinesis",
+    "type": "achievement",
+    "name": "Firestarter",
+    "description": "Awaken as a pyrokinetic.",
+    "manually_given": true,
+    "requirements": [  ]
+  },
+  {
+    "id": "mom_psi_awakening_telekinesis",
+    "type": "achievement",
+    "name": "Unequal and Opposite Reaction",
+    "description": "Awaken as a telekinetic.",
+    "manually_given": true,
+    "requirements": [  ]
+  },
+  {
+    "id": "mom_psi_awakening_telepathy",
+    "type": "achievement",
+    "name": "Free Your Mind",
+    "description": "Awaken as a telepath.",
+    "manually_given": true,
+    "requirements": [  ]
+  },
+  {
+    "id": "mom_psi_awakening_teleportation",
+    "type": "achievement",
+    "name": "Wherever You Go, There You Are",
+    "description": "Awaken as a teleporter.",
+    "manually_given": true,
+    "requirements": [  ]
+  },
+  {
+    "id": "mom_psi_awakening_vitakinesis",
+    "type": "achievement",
+    "name": "First, Do No Harm",
+    "description": "Awaken as a vitakinetic.",
+    "manually_given": true,
+    "requirements": [  ]
+  },
+  {
+    "id": "mom_gain_any_nether_attunement",
+    "type": "achievement",
+    "name": "I Feel A Tingling",
+    "description": "Gained any level of Nether Attunement.",
+    "manually_given": true,
+    "requirements": [  ]
+  },
+  {
+    "id": "mom_gain_rank_four_nether_attunement",
+    "type": "achievement",
+    "name": "It's Starting to Affect Me",
+    "description": "Gained four levels of Nether Attunement.",
+    "manually_given": true,
+    "requirements": [  ],
+    "hidden_by": [ "mom_gain_any_nether_attunement" ]
+  },
+  {
+    "id": "mom_gain_rank_eight_nether_attunement",
+    "type": "achievement",
+    "name": "I Can Feel It Flowing Through Me",
+    "description": "Gained eight levels of Nether Attunement.",
+    "manually_given": true,
+    "requirements": [  ],
+    "hidden_by": [ "mom_gain_rank_four_nether_attunement" ]
+  },
+  {
+    "id": "mom_gain_maximum_nether_attunement",
+    "type": "achievement",
+    "name": "Power Overwhelming",
+    "description": "Gained maximum possible level of Nether Attunement.",
+    "manually_given": true,
+    "requirements": [  ],
+    "hidden_by": [ "mom_gain_rank_eight_nether_attunement" ]
+  },
+  {
+    "id": "mom_learn_extended_channeling",
+    "type": "achievement",
+    "name": "Haste Makes Waste",
+    "description": "Learned the methods of extended channeling, enabling a safer way to draw on the Nether.",
+    "manually_given": true,
+    "requirements": [  ]
+  },
+  {
+    "id": "mom_learn_torrential_channeling",
+    "type": "achievement",
+    "name": "Rider on the Storm",
+    "description": "Learned the methods of torrential channeling, enabling greater power at correspondingly greater risk.",
+    "manually_given": true,
+    "requirements": [  ]
+  },
+  {
+    "id": "mom_learn_verdant_hand_protocols",
+    "type": "achievement",
+    "name": "One-Punch Man",
+    "description": "Mastered the VERDANT HAND Combat Protocols.",
+    "manually_given": true,
+    "requirements": [  ],
+    "hidden_by": [ "mom_learn_verdant_hand_protocols" ]
+  },
+  {
+    "id": "mom_learn_flicker_flash_stance",
+    "type": "achievement",
+    "name": { "str": "Bamf", "//~": "This is a reference to the sound that the X-man Nightcrawler makes when teleporting" },
+    "description": "Mastered the TURQUOISE KEYSTONE protocols and learned the Flickerflash Stance power.",
+    "manually_given": true,
+    "requirements": [  ],
+    "hidden_by": [ "mom_learn_flicker_flash_stance" ]
+  },
+  {
+    "id": "mom_get_the_hounds_on_your_trail",
+    "type": "achievement",
+    "name": "They Are Lean and Athirst!",
+    "description": "\"In an awful light that was not light, in a silence that shrieked, I saw them.\"\n\nUse of your powers attracted the attention of the Hounds.  Run.",
+    "manually_given": true,
+    "requirements": [  ],
+    "hidden_by": [ "mom_get_the_hounds_on_your_trail" ]
+  },
+  {
+    "id": "mom_use_telepathy_to_steal",
+    "type": "achievement",
+    "name": "These Aren't The Droids You're Looking For",
+    "description": "Used telepathy to get away with theft.",
+    "manually_given": true,
+    "requirements": [  ],
+    "hidden_by": [ "mom_use_telepathy_to_steal" ]
+  },
+  {
+    "id": "mom_oublietted_refugee_center_traitor",
+    "type": "achievement",
+    "name": "Jaunt",
+    "description": "It's longer than you think, pal!  Longer than you think!\n\nSent the refugee center traitor on a very, very long trip.",
+    "manually_given": true,
+    "requirements": [  ],
+    "hidden_by": [ "mom_oublietted_refugee_center_traitor" ]
+  },
+  {
     "id": "teleported_offworld",
     "type": "achievement",
     "name": "Quantum Leapt",
-    "description": "There's so many worlds out there.  Why stick with just one?",
+    "description": "There's so many worlds out there.  Why stick with just one?\n\nUsed your powers to teleport offworld during a raging portal storm.",
     "manually_given": true,
-    "requirements": [  ]
+    "requirements": [  ],
+    "hidden_by": [ "teleported_offworld" ]
+  },
+  {
+    "id": "mom_read_rubiks_mind",
+    "type": "achievement",
+    "name": "By the Rivers of Babylon",
+    "description": "\"Not once, in a dozen or a hundred or you know not how many worlds, was there anything left to save.\"\n\nLearned Rubik's history through telepathy.",
+    "manually_given": true,
+    "requirements": [  ],
+    "hidden_by": [ "mom_read_rubiks_mind" ]
+  },
+  {
+    "id": "mom_find_dead_fifth_sun_ocelopilli_trooper",
+    "type": "achievement",
+    "name": "In ie Tlecujlixquac, in ie Tlamamatlac",
+    "description": "\"Already at the edge of the fire, already at the stairway.\"\n\nFound the body of the ocēlōpilli soldier.",
+    "manually_given": true,
+    "requirements": [  ],
+    "hidden_by": [ "mom_find_dead_fifth_sun_ocelopilli_trooper" ]
   }
 ]

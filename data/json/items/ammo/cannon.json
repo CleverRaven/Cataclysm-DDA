@@ -1,7 +1,8 @@
 [
   {
     "id": "cannon_shot",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "cannon round shot" },
     "description": "A bundle of wadding, black gunpowder, and a cannonball, ready to be loaded into a cannon.",
     "ascii_picture": "cannon_shot",

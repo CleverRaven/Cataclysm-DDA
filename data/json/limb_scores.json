@@ -79,6 +79,20 @@
   },
   {
     "type": "limb_score",
+    "id": "consume_solid",
+    "name": "Consume (Solid)",
+    "affected_by_encumb": false,
+    "affected_by_wounds": true
+  },
+  {
+    "type": "limb_score",
+    "id": "consume_liquid",
+    "name": "Consume (Liquid)",
+    "affected_by_encumb": false,
+    "affected_by_wounds": true
+  },
+  {
+    "type": "limb_score",
     "id": "swim",
     "name": "Swimming",
     "affected_by_wounds": true,

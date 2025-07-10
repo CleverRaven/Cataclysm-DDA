@@ -3,5 +3,15 @@
     "id": "alien_tree_harv",
     "type": "harvest",
     "entries": [ { "drop": "alien_tree_1_fruit", "base_num": [ 1, 4 ], "scale_num": [ 0, 0.5 ] } ]
+  },
+  {
+    "id": "shrub_alien_meadow_shrub_2_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "alien_meadow_bush_2_fruit", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
+  },
+  {
+    "id": "tree_alien_meadow_tree_3_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "alien_meadow_tree_3_fruit", "base_num": [ 1, 4 ], "scale_num": [ 1, 1 ] } ]
   }
 ]

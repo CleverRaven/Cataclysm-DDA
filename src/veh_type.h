@@ -2,33 +2,34 @@
 #ifndef CATA_SRC_VEH_TYPE_H
 #define CATA_SRC_VEH_TYPE_H
 
-#include <algorithm>
 #include <array>
 #include <bitset>
-#include <iosfwd>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <set>
 #include <string>
+#include <string_view>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
 #include "calendar.h"
 #include "color.h"
-#include "compatibility.h"
-#include "damage.h"
+#include "coordinates.h"
+#include "memory_fast.h"
 #include "point.h"
 #include "requirements.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 #include "units.h"
 
-class JsonObject;
 class Character;
+class JsonObject;
+class JsonOut;
 class vehicle;
-
+class vpart_info;
+struct vehicle_prototype;
 template <typename T> class generic_factory;
 
 namespace vehicles
@@ -162,11 +163,12 @@ struct vpslot_toolkit {
 
 struct vpslot_terrain_transform {
     std::set<std::string> pre_flags;
-    std::string post_terrain;
-    std::string post_furniture;
-    std::string post_field;
-    int post_field_intensity = 0;
-    time_duration post_field_age = 0_turns;
+    std::optional<ter_str_id> post_terrain;
+    std::optional<furn_str_id> post_furniture;
+    std::optional<field_type_str_id> post_field;
+    //Both only defined if(post_field)
+    int post_field_intensity;
+    time_duration post_field_age;
 };
 
 struct vp_control_req {
@@ -297,6 +299,8 @@ class vpart_info
         std::optional<vpslot_wheel> wheel_info;
         std::optional<vpslot_rotor> rotor_info;
         std::optional<vpslot_terrain_transform> transform_terrain_info;
+        //Enchantments
+        std::vector<enchantment_id> enchantments;
 
         std::set<std::pair<itype_id, int>> get_pseudo_tools() const;
 
@@ -358,7 +362,7 @@ class vpart_info
         item_group_id breaks_into_group = item_group_id( "EMPTY_GROUP" );
 
         /** Flat decrease of damage of a given type. */
-        std::unordered_map<damage_type_id, float> damage_reduction = {};
+        std::unordered_map<damage_type_id, float> damage_reduction;
 
         /** Tool qualities this vehicle part can provide when installed */
         std::map<quality_id, int> qualities;
@@ -464,7 +468,7 @@ class vpart_info
 };
 
 struct vehicle_item_spawn {
-    point pos;
+    point_rel_ms pos;
     int chance = 0;
     /** Chance [0-100%] for items to spawn with ammo (plus default magazine if necessary) */
     int with_ammo = 0;
@@ -483,7 +487,7 @@ struct vehicle_item_spawn {
 struct vehicle_prototype {
     public:
         struct part_def {
-            point pos;
+            point_rel_ms pos;
             vpart_id part;
             std::string variant;
             int with_ammo = 0;
@@ -497,7 +501,7 @@ struct vehicle_prototype {
             zone_type_id zone_type;
             std::string name;
             std::string filter;
-            point pt;
+            point_rel_ms pt;
         };
 
         vproto_id id;
@@ -505,6 +509,7 @@ struct vehicle_prototype {
         std::vector<part_def> parts;
         std::vector<vehicle_item_spawn> item_spawns;
         std::vector<zone_def> zone_defs;
+        std::vector<std::pair<vproto_id, mod_id>> src;
 
         shared_ptr_fast<vehicle> blueprint;
 
@@ -512,7 +517,6 @@ struct vehicle_prototype {
         static void save_vehicle_as_prototype( const vehicle &veh, JsonOut &json );
     private:
         bool was_loaded = false; // used by generic_factory
-        std::vector<std::pair<vproto_id, mod_id>> src;
         friend class generic_factory<vehicle_prototype>;
         friend struct mod_tracker;
 };
