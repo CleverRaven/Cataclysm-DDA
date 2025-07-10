@@ -33,7 +33,7 @@
     "id": "afs_ship_ids",
     "copy-from": "afs_thi_deed",
     "type": "ITEM",
-    "name": { "str": "forged ident codes" },
+    "name": { "str_sp": "forged ident codes" },
     "description": "Identity codes for Nyssia, Aztlan, Luzhan, and many other polities in the spinward frontier, all forgeries.  You fathom most of them would still work."
   }
 ]
