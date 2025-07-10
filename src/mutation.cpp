@@ -583,7 +583,7 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
 
     for( const itype_id &armor : branch.integrated_armor ) {
         item tmparmor( armor );
-        wear_item( tmparmor, false );
+        wear_item( tmparmor, false, true, true, true );
     }
 
     remove_worn_items_with( [&]( item & armor ) {

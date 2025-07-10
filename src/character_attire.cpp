@@ -434,7 +434,7 @@ void outfit::recalc_ablative_blocking( const Character *guy )
 }
 
 std::optional<std::list<item>::iterator> Character::wear_item( const item &to_wear,
-        bool interactive, bool do_calc_encumbrance )
+        bool interactive, bool do_calc_encumbrance, bool do_sort_items, bool quiet )
 {
     invalidate_inventory_validity_cache();
     invalidate_leak_level_cache();
@@ -446,7 +446,7 @@ std::optional<std::list<item>::iterator> Character::wear_item( const item &to_we
         return std::nullopt;
     }
 
-    return worn.wear_item( *this, to_wear, interactive, do_calc_encumbrance );
+    return worn.wear_item( *this, to_wear, interactive, do_calc_encumbrance, do_sort_items, quiet );
 }
 
 int Character::amount_worn( const itype_id &id ) const
