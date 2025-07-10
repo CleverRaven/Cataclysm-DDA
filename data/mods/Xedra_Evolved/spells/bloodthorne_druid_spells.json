@@ -265,5 +265,31 @@
     "max_aoe": 1,
     "base_casting_time": 500,
     "base_energy_cost": { "math": [ "max( ( 700 - (bloodthorn_druid_traits_sum() * 20) ), 300)" ] }
+  },
+  {
+    "id": "bloodthorne_druid_create_thorn_prison_spell",
+    "type": "SPELL",
+    "name": "Henge of Iron Thorns",
+    "description": "When one of the blood-drinkers of their servants is on verdant ground, you can cause a massive tangle of thorns to grow and imprison them.\n\nThis spell still works on other targets, but simply causes bleeding and creates a tangle of thorns, it <color_red>will not</color> restrain them.",
+    "message": "",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "VERBAL", "SOMATIC" ],
+    "magic_type": "xedra_bloodthorne_sorcery",
+    "skill": "deduction",
+    "spell_class": "BLOODTHORNE_SORCERY",
+    "condition": {
+      "or": [
+        { "npc_is_on_terrain_with_flag": "DIGGABLE" },
+        { "npc_is_on_terrain_with_flag": "YOUNG" },
+        { "npc_is_on_terrain_with_flag": "SHRUB" }
+      ]
+    },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BLOODTHORNE_DRUID_CREATE_THORN_PRISON",
+    "shape": "blast",
+    "min_range": 20,
+    "max_range": 20,
+    "base_casting_time": 250,
+    "base_energy_cost": 800
   }
 ]

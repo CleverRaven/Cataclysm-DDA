@@ -236,5 +236,15 @@
     "purifiable": false,
     "valid": false,
     "flags": [ "BLEEDSLOW" ]
+  },
+  {
+    "type": "mutation",
+    "id": "BLOODTHORNE_DRUID_CREATE_THORN_PRISON",
+    "name": { "str": "Henge of Iron Thorns" },
+    "points": 6,
+    "description": "When one of the blood-drinkers of their servants is on verdant ground, you can cause a massive tangle of thorns to grow and imprison them.",
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "bloodthorne_druid_create_thorn_prison_spell", 1 ] ]
   }
 ]

@@ -41,7 +41,9 @@
         { "not": { "u_has_wielded_with_skill": "smg" } },
         { "not": { "u_has_wielded_with_skill": "launcher" } },
         { "not": { "u_has_wielded_with_skill": "gun" } },
-        { "npc_has_species": "VAMPIRE" }
+        {
+          "or": [ { "npc_has_species": "VAMPIRE" }, { "npc_has_species": "VAMPIRE_ANATHEMA" }, { "npc_has_trait": "VAMPIRE" } ]
+        }
       ]
     },
     "effect": [
@@ -64,17 +66,20 @@
         },
         "then": [
           {
-            "if": { "math": [ "u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') >= u_bloodthorn_druid_required_arvore_traits" ] },
-            "then": [
-              { "u_add_effect": "effect_bloodthorn_druid_upgrade_ready", "duration": "7 days" },
-              {
-                "run_eocs": "EOC_BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_UPGRADE_FORMICATION",
-                "time_in_future": [ "5 minutes", "10 hours" ]
+            "if": { "not": { "u_has_trait": "BLOODTHORNE_DRUID_CREATE_THORN_PRISON" } },
+            "then": {
+              "if": { "math": [ "u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') >= u_bloodthorn_druid_required_arvore_traits" ] },
+              "then": [
+                { "u_add_effect": "effect_bloodthorn_druid_upgrade_ready", "duration": "7 days" },
+                {
+                  "run_eocs": "EOC_BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_UPGRADE_FORMICATION",
+                  "time_in_future": [ "5 minutes", "10 hours" ]
+                }
+              ],
+              "else": {
+                "u_message": "Your heartvines twitch as the vampire dies, but soon grow quiescent.  They need more elemental power in order to catalyze the vampire blood into new thornwitchery.",
+                "type": "mixed"
               }
-            ],
-            "else": {
-              "u_message": "Your heartvines twitch as the vampire dies, but soon grow quiescent.  They need more elemental power in order to catalyze the vampire blood into new thornwitchery.",
-              "type": "mixed"
             }
           }
         ]

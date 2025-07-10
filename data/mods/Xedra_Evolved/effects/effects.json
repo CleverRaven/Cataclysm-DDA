@@ -3871,5 +3871,15 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_bloodthorne_druid_thorn_prison",
+    "//": "Hidden effect to make sure you're actually researching",
+    "name": [ "Henge of Iron Thorns" ],
+    "desc": [ "You are imprisoned in a thick tangle of thorns." ],
+    "show_in_info": true,
+    "max_intensity": 300,
+    "flags": [ "EFFECT_IMPEDING" ]
   }
 ]

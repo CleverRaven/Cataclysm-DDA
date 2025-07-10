@@ -149,7 +149,20 @@
           "BLOODTHORNE_DRUID_SLOWER_BLEEDING"
         ],
         "type": "mutation",
-        "true_eocs": [ "EOC_XE_BLOODTHORN_DRUID_RESEARCH_SUCCESS" ]
+        "true_eocs": [ "EOC_XE_BLOODTHORN_DRUID_RESEARCH_SUCCESS" ],
+        "false_eocs": [
+          {
+            "id": "EOC_XE_BLOODTHORN_DRUID_RESEARCH_FINALIZE",
+            "condition": { "not": { "u_has_trait": "BLOODTHORNE_DRUID_CREATE_THORN_PRISON" } },
+            "effect": [
+              { "u_add_trait": "BLOODTHORNE_DRUID_CREATE_THORN_PRISON" },
+              {
+                "u_message": "You've reached the pinnacle of druidic powers.  Now the blood-drinkers will tremble.",
+                "type": "good"
+              }
+            ]
+          }
+        ]
       }
     ],
     "false_effect": [ { "u_add_trait": "BLOODTHORNE_DRUID_AURA_OF_VINES" }, { "run_eocs": "EOC_XE_BLOODTHORN_DRUID_RESEARCH_SUCCESS" } ]
