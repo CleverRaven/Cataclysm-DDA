@@ -793,7 +793,7 @@
     "type": "overmap_terrain",
     "id": [ "farm_dairy_twd_3_roof", "farm_dairy_twd_4_roof" ],
     "copy-from": "farm_dairy_twd_1",
-    "travel_cost_type": "roof",
+    "travel_cost_type": "roof"
   },
   {
     "type": "overmap_terrain",
