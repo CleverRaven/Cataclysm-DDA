@@ -225,18 +225,12 @@
     "comfort": 1,
     "floor_bedding_warmth": 200,
     "required_str": 3,
-    "deconstruct": { "items": [ { "item": "box_large", "count": 1 } ] },
+    "item": "box_large",
     "max_volume": "324 L",
     "deployed_item": "box_large",
     "examine_action": "deployed_furniture",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "EASY_DECONSTRUCT", "HIDE_PLACE", "NO_SIGHT", "CONTAINER" ],
-    "bash": {
-      "str_min": 2,
-      "str_max": 15,
-      "sound": "crumple!",
-      "sound_fail": "thud.",
-      "items": [ { "item": "cardboard", "count": [ 150, 180 ] } ]
-    }
+    "bash": { "str_min": 2, "str_max": 15, "sound": "crumple!", "sound_fail": "thud." }
   },
   {
     "type": "furniture",
@@ -251,18 +245,12 @@
     "comfort": 1,
     "floor_bedding_warmth": 200,
     "required_str": 3,
-    "deconstruct": { "items": [ { "item": "box_large_reinforced", "count": 1 } ] },
+    "item": "box_large_reinforced",
     "max_volume": "324 L",
     "deployed_item": "box_large_reinforced",
     "examine_action": "deployed_furniture",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "EASY_DECONSTRUCT", "HIDE_PLACE", "NO_SIGHT", "CONTAINER" ],
-    "bash": {
-      "str_min": 3,
-      "str_max": 16,
-      "sound": "crumple!",
-      "sound_fail": "thud.",
-      "items": [ { "item": "cardboard", "count": [ 300, 360 ] } ]
-    }
+    "bash": { "str_min": 3, "str_max": 16, "sound": "crumple!", "sound_fail": "thud." }
   },
   {
     "type": "furniture",
@@ -803,14 +791,8 @@
     "required_str": 5,
     "max_volume": "40 L",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT", "SMALL_HIDE", "EASY_DECONSTRUCT" ],
-    "bash": {
-      "str_min": 1,
-      "str_max": 1,
-      "sound": "smash!",
-      "sound_fail": "whump.",
-      "items": [ { "item": "trashcan", "count": 1, "damage": [ 2, 4 ] } ]
-    },
-    "deconstruct": { "items": [ { "item": "trashcan", "count": 1 } ] }
+    "bash": { "str_min": 1, "str_max": 1, "sound": "smash!", "sound_fail": "whump." },
+    "item": "trashcan"
   },
   {
     "type": "furniture",
@@ -1472,20 +1454,12 @@
     "flags": [ "NOITEM", "SEALED", "ALLOW_FIELD_EFFECT", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "LIQUIDCONT", "EASY_DECONSTRUCT" ],
     "examine_action": "keg",
     "keg_capacity": "11250 ml",
-    "deconstruct": { "items": [ { "item": "churn", "count": 1 } ] },
+    "item": "churn",
     "bash": {
       "str_min": 12,
       "str_max": 50,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [
-        { "item": "2x4", "count": [ 6, 12 ] },
-        { "item": "nail", "charges": [ 4, 8 ] },
-        { "item": "water_faucet", "prob": 50 },
-        { "item": "sheet_metal_small", "count": [ 6, 12 ] },
-        { "item": "scrap", "count": [ 10, 20 ] },
-        { "item": "splinter", "count": [ 1, 20 ] }
-      ],
       "hit_field": [ "fd_dust", 2 ],
       "destroyed_field": [ "fd_splinters", 1 ]
     }
@@ -1614,20 +1588,8 @@
     "deployed_item": "foot_locker",
     "examine_action": "deployed_furniture",
     "max_volume": "68208 ml",
-    "deconstruct": { "items": [ { "item": "foot_locker", "count": 1 } ] },
-    "bash": {
-      "str_min": 12,
-      "str_max": 40,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "sheet_metal_small", "count": [ 3, 8 ] },
-        { "item": "lock", "count": [ 0, 1 ] },
-        { "item": "scrap", "charges": [ 3, 15 ] },
-        { "item": "hinge", "count": [ 0, 2 ] },
-        { "item": "nuts_bolts", "charges": [ 2, 8 ] }
-      ]
-    }
+    "item": "foot_locker",
+    "bash": { "str_min": 12, "str_max": 40, "sound": "metal screeching!", "sound_fail": "clang!" }
   },
   {
     "type": "furniture",
@@ -1644,20 +1606,8 @@
     "deployed_item": "foot_locker_aluminum",
     "examine_action": "deployed_furniture",
     "max_volume": "67669 ml",
-    "deconstruct": { "items": [ { "item": "foot_locker_aluminum", "count": 1 } ] },
-    "bash": {
-      "str_min": 12,
-      "str_max": 40,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "material_aluminium_ingot", "count": [ 3, 8 ] },
-        { "item": "lock", "count": [ 0, 1 ] },
-        { "item": "scrap_aluminum", "count": [ 3, 15 ] },
-        { "item": "hinge", "count": [ 0, 2 ] },
-        { "item": "nuts_bolts", "charges": [ 2, 8 ] }
-      ]
-    }
+    "item": "foot_locker_aluminum",
+    "bash": { "str_min": 12, "str_max": 40, "sound": "metal screeching!", "sound_fail": "clang!" }
   },
   {
     "type": "furniture",
@@ -1673,18 +1623,8 @@
     "flags": [ "CONTAINER", "PLACE_ITEM", "LIQUIDCONT", "NOITEM", "SEALED", "EASY_DECONSTRUCT" ],
     "examine_action": "keg",
     "keg_capacity": "1635 L",
-    "deconstruct": { "items": [ { "item": "432gal_drum_rubber", "count": 1 } ] },
-    "bash": {
-      "str_min": 90,
-      "str_max": 150,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "rubber_tire_chunk", "count": [ 40, 60 ] },
-        { "item": "scrap", "count": [ 50, 80 ] },
-        { "item": "water_faucet", "count": [ 0, 2 ] }
-      ]
-    }
+    "item": "432gal_drum_rubber",
+    "bash": { "str_min": 90, "str_max": 150, "sound": "metal screeching!", "sound_fail": "clang!" }
   },
   {
     "type": "furniture",
@@ -1761,6 +1701,6 @@
     "coverage": 1000,
     "required_str": 10,
     "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM" ],
-    "deconstruct": { "items": [ { "item": "exodii_kiln", "count": 1 } ] }
+    "item": "exodii_kiln"
   }
 ]

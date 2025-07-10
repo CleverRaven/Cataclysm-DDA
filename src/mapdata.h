@@ -19,6 +19,7 @@
 #include "enum_bitset.h"
 #include "game_constants.h"
 #include "iexamine.h"
+#include "requirements.h"
 #include "translation.h"
 #include "type_id.h"
 #include "units.h"
@@ -492,7 +493,7 @@ struct map_data_common_t {
 
     public:
         virtual ~map_data_common_t() = default;
-
+        virtual std::optional<map_common_bash_info> bash_info() const = 0;
     protected:
         friend furn_t null_furniture_t();
         friend ter_t null_terrain_t();
@@ -571,6 +572,10 @@ struct map_data_common_t {
             }
         };
 
+        // underlying item of this furniture. Underlying item of a freezer is freezer
+        // todo: use it as substitute as crafting pseudo item
+        itype_id base_item = itype_id::NULL_ID();
+
         bool transparent = false;
 
         const std::set<std::string> &get_flags() const {
@@ -606,6 +611,9 @@ struct map_data_common_t {
         // Set target group to rotate towards
         void set_rotates_to( const std::vector<std::string> &connect_groups_vec );
         void unset_rotates_to( const std::vector<std::string> &connect_groups_vec );
+
+        // grabs an item and return a default components from uncraft of this item
+        std::vector<item_comp> get_uncraft_components() const;
 
         // Set groups helper function
         void set_groups( std::bitset<NUM_TERCONN> &bits, const std::vector<std::string> &connect_groups_vec,
@@ -674,6 +682,10 @@ struct ter_t : map_data_common_t {
 
     ter_t();
 
+    std::optional<map_common_bash_info> bash_info() const override {
+        return bash;
+    }
+
     static size_t count();
 
     bool is_null() const;
@@ -729,6 +741,10 @@ struct furn_t : map_data_common_t {
     std::vector<const itype *> crafting_ammo_item_types() const;
 
     furn_t();
+
+    std::optional<map_common_bash_info> bash_info() const override {
+        return bash;
+    }
 
     static size_t count();
 

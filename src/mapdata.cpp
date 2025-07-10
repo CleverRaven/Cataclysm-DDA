@@ -899,6 +899,11 @@ void map_data_common_t::unset_rotates_to( const std::vector<std::string> &connec
     set_groups( rotate_to_groups, connect_groups_vec, true );
 }
 
+std::vector<item_comp> map_data_common_t::get_uncraft_components() const
+{
+    return item( base_item ).get_uncraft_components();
+}
+
 void map_data_common_t::set_groups( std::bitset<NUM_TERCONN> &bits,
                                     const std::vector<std::string> &connect_groups_vec, bool unset )
 {
@@ -1128,6 +1133,7 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
         shoot->load( jo, "shoot", was_loaded );
     }
 
+    optional( jo, was_loaded, "item", base_item, itype_id::NULL_ID() );
 }
 
 bool ter_t::is_null() const
@@ -1273,6 +1279,20 @@ void ter_t::check() const
         deconstruct->check( id.c_str() );
     }
 
+    if( !base_item.is_null() && bash.has_value() &&
+        bash.value().drop_group != Item_spawn_data_EMPTY_GROUP ) {
+        // in the future, maybe, if base_item would be used more widely,
+        // there would be a reason to not error about it or make some boolean to permit it
+        // but right now let's treat it as a bug
+        debugmsg( R"(terrain %s defines "bash"->"items", but "item" is presented, which is unnecessary - bash result would be picked from %s uncrafting recipe.)",
+                  id.c_str(), base_item.c_str() );
+    }
+
+    if( !base_item.is_null() && deconstruct.has_value() && !deconstruct.value().drop_group.is_null() ) {
+        debugmsg( R"(terrain %s defines "deconstruct"->"items", but "item" is presented, which is unnecessary - deconstruction would be set as %s.)",
+                  id.c_str(), base_item.c_str() );
+    }
+
     if( !transforms_into.is_valid() ) {
         debugmsg( "invalid transforms_into %s for %s", transforms_into.c_str(), id.c_str() );
     }
@@ -1415,6 +1435,17 @@ void furn_t::check() const
     }
     if( deconstruct ) {
         deconstruct->check( id.c_str() );
+    }
+
+    if( !base_item.is_null() && bash.has_value() &&
+        bash.value().drop_group != Item_spawn_data_EMPTY_GROUP ) {
+        debugmsg( R"(furniture %s defines "bash"->"items", but "item" is presented, which is unnecessary - bash result would be picked from %s uncrafting recipe.)",
+                  id.c_str(), base_item.c_str() );
+    }
+
+    if( !base_item.is_null() && deconstruct.has_value() && !deconstruct.value().drop_group.is_null() ) {
+        debugmsg( R"(furniture %s defines "deconstruct"->"items", but "item" is presented, which is unnecessary - deconstruction would be set as %s.)",
+                  id.c_str(), base_item.c_str() );
     }
 
     if( !open.is_valid() ) {
