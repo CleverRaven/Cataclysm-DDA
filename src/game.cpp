@@ -1165,7 +1165,7 @@ bool game::start_game()
 
     get_event_bus().send<event_type::game_start>( getVersionString() );
     get_event_bus().send<event_type::game_avatar_new>( /*is_new_game=*/true, /*is_debug=*/false,
-            u.getID(), u.name, u.male, u.prof->ident(), u.custom_profession );
+            u.getID(), u.name, u.custom_profession );
     time_played_at_last_load = std::chrono::seconds( 0 );
     time_of_last_load = std::chrono::steady_clock::now();
     tripoint_abs_omt abs_omt = u.pos_abs_omt();
@@ -3048,8 +3048,7 @@ void end_screen_data::draw_end_screen_ui()
     }
     avatar &u = get_avatar();
     const bool is_suicide = g->uquit == QUIT_SUICIDE;
-    get_event_bus().send<event_type::game_avatar_death>( u.getID(), u.name, u.male, is_suicide,
-            p_impl.text );
+    get_event_bus().send<event_type::game_avatar_death>( u.getID(), u.name, is_suicide, p_impl.text );
 }
 
 void end_screen_ui_impl::draw_controls()
