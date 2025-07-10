@@ -37,6 +37,7 @@ const int NUM_TERCONN = 256;
 connect_group get_connect_group( const std::string &name );
 
 template <typename E> struct enum_traits;
+struct map_data_common_t;
 
 struct map_common_bash_info { //TODO: Half of this shouldn't be common
         // min str(*) required to bash
@@ -64,7 +65,8 @@ struct map_common_bash_info { //TODO: Half of this shouldn't be common
         std::pair<field_type_str_id, int> destroyed_field; // field spawned on successful bash
         void load( const JsonObject &jo, bool was_loaded, const std::string &context );
         void check( const std::string &id ) const;
-        std::string potential_bash_items( const std::string &ter_furn_name ) const;
+        // todo: move it to map_data_common_t
+        std::string potential_bash_items( const map_data_common_t &ter_furn ) const;
     public:
         virtual ~map_common_bash_info() = default;
 };
@@ -106,7 +108,8 @@ struct map_common_deconstruct_info {
         virtual void check( const std::string &id ) const;
     public:
         virtual ~map_common_deconstruct_info() = default;
-        std::string potential_deconstruct_items( const std::string &ter_furn_name ) const;
+        // todo: move it to map_data_common_t
+        std::string potential_deconstruct_items( const map_data_common_t &ter_furn ) const;
 };
 struct map_ter_deconstruct_info : map_common_deconstruct_info {
     ter_str_id ter_set = ter_str_id::NULL_ID();

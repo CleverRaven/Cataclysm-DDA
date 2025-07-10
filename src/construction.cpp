@@ -2109,13 +2109,13 @@ void construct::do_turn_deconstruct( const tripoint_bub_ms &p, Character &who )
         std::string tname;
         if( here.has_furn( p ) ) {
             const furn_t &f = here.furn( p ).obj();
-            if( f.deconstruct ) {
-                deconstruct_query( f.deconstruct->potential_deconstruct_items( f.name() ) );
+            if( f.deconstruct || !f.base_item.is_null() ) {
+                deconstruct_query( f.deconstruct->potential_deconstruct_items( f ) );
             }
         } else {
             const ter_t &t = here.ter( p ).obj();
-            if( t.deconstruct ) {
-                deconstruct_query( t.deconstruct->potential_deconstruct_items( t.name() ) );
+            if( t.deconstruct || !t.base_item.is_null() ) {
+                deconstruct_query( t.deconstruct->potential_deconstruct_items( t ) );
             }
         }
         if( cancel_construction ) {
