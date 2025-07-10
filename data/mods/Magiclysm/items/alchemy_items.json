@@ -234,7 +234,9 @@
     "weight": "1 g",
     "volume": "1 ml",
     "phase": "liquid",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID" ],
+    "ammo_type": "components",
+    "count": 10
   },
   {
     "type": "ITEM",
