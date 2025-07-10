@@ -43,7 +43,7 @@
       [ [ "vinegar", 1 ] ],
       [ [ "saline", 1 ], [ "salt", 2 ] ],
       [ [ "jar_glass_sealed", 1 ] ],
-      [ [ "any_gherkin_cucumber", 1, "LIST" ] ]
+      [ [ "any_gherkin_cucumber", 8, "LIST" ] ]
     ]
   },
   {
