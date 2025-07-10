@@ -359,6 +359,7 @@ enum class ter_furn_flag : int {
     TFLAG_HARVEST_REQ_CUT1,
     TFLAG_NATURAL_UNDERGROUND,
     TFLAG_WIRED_WALL,
+    TFLAG_MON_AVOID_STRICT,
 
     NUM_TFLAG_FLAGS
 };
