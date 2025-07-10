@@ -104,13 +104,17 @@ TEST_CASE( "liquid_projectiles_applies_effect", "[projectile]" )
     npc &dummy = spawn_npc( next_to.xy(), "thug" );
 
     //Fire on naked NPC and check that it got the effect
-    player.fire_gun( here, dummy.pos_bub(), 10, *player.get_wielded_item() );
-    CHECK( dummy.has_effect( efftype_bile_stink ) );
+    SECTION( "Naked NPC gets the effect" ) {
+        player.fire_gun( here, dummy.pos_bub(), 10, *player.get_wielded_item() );
+        CHECK( dummy.has_effect( efftype_bile_stink ) );
+    }
 
     dummy.clear_effects();
 
     //Fire on NPC with hazmat suit and check that it didn't get the effect
-    dummy.wear_item( hazmat );
-    player.fire_gun( here, dummy.pos_bub(), 10, *player.get_wielded_item() );
-    CHECK( !dummy.has_effect( efftype_bile_stink ) );
+    SECTION( "Hazmat NPC doesn't get the effect" ) {
+        dummy.wear_item( hazmat );
+        player.fire_gun( here, dummy.pos_bub(), 10, *player.get_wielded_item() );
+        CHECK( !dummy.has_effect( efftype_bile_stink ) );
+    }
 }
