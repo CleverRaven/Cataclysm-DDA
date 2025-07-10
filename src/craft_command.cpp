@@ -157,11 +157,9 @@ void craft_command::execute( bool only_cache_comps )
                 add_msg( "%s %s", comp.type.c_str(), comp.craftable ? "craftable" : "-" );
             }
         }
-
-
-
-
+        add_msg_debug( debugmode::DF_CRAFTING, "can_make():" );
         if( !crafter->can_make( to_make.rec, to_make.batch ) ) {
+            add_msg_debug( debugmode::DF_CRAFTING, "can_start_craft():" );
             if( crafter->can_start_craft( to_make.rec, recipe_filter_flags::none, to_make.batch ) ) {
                 if( !query_yn( _( "You don't have enough charges to complete the %s.\n"
                                   "Start crafting anyway?" ), to_make.rec->result_name() ) ) {
@@ -177,7 +175,7 @@ void craft_command::execute( bool only_cache_comps )
         }
 
         flags = recipe_filter_flags::no_rotten;
-
+        add_msg_debug( debugmode::DF_CRAFTING, "can_start_craft() no_rotten:" );
         if( !crafter->can_start_craft( to_make.rec, flags, to_make.batch ) ) {
             if( !query_yn( _( "This craft will use rotten components.\n"
                               "Start crafting anyway?" ) ) ) {
@@ -187,6 +185,7 @@ void craft_command::execute( bool only_cache_comps )
         }
 
         flags |= recipe_filter_flags::no_favorite;
+        add_msg_debug( debugmode::DF_CRAFTING, "can_start_craft() no_favorite:" );
         if( !crafter->can_start_craft( to_make.rec, flags, to_make.batch ) ) {
             if( !query_yn( _( "This craft will use favorited components.\n"
                               "Start crafting anyway?" ) ) ) {
@@ -200,7 +199,7 @@ void craft_command::execute( bool only_cache_comps )
         const auto filter = to_make.rec->get_component_filter( flags );
 
         if( craft_queue.empty() ) {
-            // FIXME:
+            add_msg_debug( debugmode::DF_CRAFTING, "recursive_comp_crafts():" );
             if( !to_make.rec->recursive_comp_crafts( craft_queue, map_inv, to_make.batch, crafter ).success() ||
                 craft_queue.empty() ) {
                 debugmsg( "failed to find craftable components for %s, aborting craft.",

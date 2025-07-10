@@ -925,6 +925,10 @@ bool requirement_data::can_make_with_inventory( const read_only_visitable &craft
     if( get_player_character().has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
+
+    // for some reason has_comps<item_comp> sometimes (for inlined LIST components) thinks components are not craftable when they are.
+    // pre-caching helps.
+    // TODO: cache filter/flags dependent?
     if( craftable_comps_.empty() && !learned_recipes.empty() ) {
         cache_craftable_comps( crafting_inv, filter, batch, learned_recipes );
     }
