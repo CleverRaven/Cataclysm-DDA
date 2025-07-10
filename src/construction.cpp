@@ -3,10 +3,12 @@
 #include <algorithm>
 #include <array>
 #include <cstddef>
-#include <initializer_list>
 #include <iterator>
 #include <memory>
 #include <numeric>
+#include <queue>
+#include <unordered_map>
+#include <unordered_set>
 #include <utility>
 
 #include "action.h"
@@ -86,7 +88,6 @@ static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" 
 static const construction_category_id construction_category_ALL( "ALL" );
 static const construction_category_id construction_category_APPLIANCE( "APPLIANCE" );
 static const construction_category_id construction_category_DECONSTRUCT( "DECONSTRUCT" );
-static const construction_category_id construction_category_DECORATE( "DECORATE" );
 static const construction_category_id construction_category_FILTER( "FILTER" );
 static const construction_category_id construction_category_REPAIR( "REPAIR" );
 
@@ -2548,6 +2549,84 @@ void finalize_constructions()
     finalized = true;
 }
 
+// Using BFS to find the shortest route to create target terrain from empty or base terrain,
+std::vector<construction_id> find_build_sequence( const std::string &target_id,
+        std::function<bool( construction const & )> const &filter,
+        std::function<bool( construction const & )> const &can_build )
+{
+    // make a post_terrain->construction multimap for speedy search
+    std::unordered_multimap<std::string, const construction *> construction_map;
+    for( construction const &cons : constructions ) {
+        if( !filter( cons ) ) {
+            continue;
+        }
+        construction_map.insert( { cons.post_terrain, &cons } );
+    }
+
+    std::queue<std::string> terrain_queue;
+    std::unordered_map<std::string, std::pair<const construction *, std::string>>
+            parent; // pre, cons , post
+    std::unordered_set<std::string> visited;
+
+    terrain_queue.push( target_id );
+    visited.insert( target_id );
+    std::string base_terrain; // Does this route require base_ter as pre_terrain or not
+    bool found = false;
+    while( !terrain_queue.empty() && !found ) {
+        std::string cur_terrain = terrain_queue.front();
+        terrain_queue.pop();
+
+        // find all constructions whose post_terrain == cur_terrain
+        const auto &range = construction_map.equal_range( cur_terrain );
+        const auto &it = parent.find( cur_terrain );
+        if( it != parent.end() ) {
+            const auto& [cons_ptr, next_terrain] = it->second;
+            if( can_build( *cons_ptr ) ) {
+                base_terrain = cur_terrain;
+                break;
+            }
+        }
+
+        for( auto it = range.first; it != range.second; ++it ) {
+            const construction *cons = it->second;
+            // Does this construction require a pre_terrain or not
+            std::string pre_terrain = cons->pre_terrain.empty() ? "" : *cons->pre_terrain.begin();
+
+            // skip visited terrain
+            if( visited.find( pre_terrain ) != visited.end() ) {
+                continue;
+            }
+            // keep record that this pre_terrain turns into cur_terrain through cons
+            visited.insert( pre_terrain );
+            parent[pre_terrain] = std::make_pair( cons, cur_terrain );
+            terrain_queue.push( pre_terrain );
+
+            // success
+            if( can_build( *cons ) ) {
+                found = true;
+                base_terrain = pre_terrain;
+                break;
+            }
+        }
+    }
+    // reconstruct the route from base_ter or empty string
+    std::string current_terrain = base_terrain;
+    // count == 0 means we cannot find a valid route to construct this terrain from the ground up
+    // thus skip it.
+    if( !found ) {
+        return {};
+    }
+    std::vector<construction_id> ret;
+    // go through the parent chain until we find target_terrain
+    while( current_terrain != target_id ) {
+        auto it = parent.find( current_terrain );
+        const auto& [cons_ptr, next_terrain] = it->second;
+        ret.push_back( cons_ptr->id );
+        current_terrain = next_terrain;
+    }
+    return ret;
+}
+
 build_reqs get_build_reqs_for_furn_ter_ids(
     const std::pair<std::map<ter_id, int>, std::map<furn_id, int>> &changed_ids )
 {
@@ -2560,107 +2639,40 @@ build_reqs get_build_reqs_for_furn_ter_ids(
     }
     std::map<construction_id, int> total_builds;
 
-    // iteratively recurse through the pre-terrains until the pre-terrain is empty, adding
-    // the constructions to the total_builds map
-    const auto add_builds = [&total_builds, &base_ter]( const construction & build, int count ) {
-        if( total_builds.find( build.id ) == total_builds.end() ) {
-            total_builds[build.id] = 0;
-        }
-        total_builds[build.id] += count;
-        if( build.pre_terrain.size() > 1 ) {
-            debugmsg( "get_build_reqs_for_furn_ter_ids tried to get reqs for %s which has multiple pre_terrain",
-                      build.str_id.str() );
+    // find the shortest route to create target terrain from empty or base terrain,
+    // adding the constructions to the total_builds map
+    const auto add_builds = [&total_builds, &base_ter]( const std::string & target_id, int count ) {
+
+        std::vector<construction_id> construction_chain = find_build_sequence( target_id, [](
+        construction const & cons ) {
+            return !( cons.post_terrain.empty() || cons.pre_terrain.size() > 1 ||
+                      cons.category == construction_category_REPAIR ||
+                      cons.category == construction_category_DECONSTRUCT );
+        }, [&base_ter]( construction const & cons ) {
+            return cons.pre_terrain.empty() || *cons.pre_terrain.begin() == base_ter.id().str();
+        } );
+
+        // count == 0 means we cannot find a valid route to construct this terrain from the ground up
+        // thus skip it.
+        if( construction_chain.empty() ) {
             return;
         }
-        std::string build_pre_ter = build.pre_terrain.empty() ? "" : *build.pre_terrain.begin();
-        while( !build_pre_ter.empty() ) {
-            bool found_pre = false;
-            // only consider DECORATE constructions if there's no other way to build the target
-            // this will allow painting walls, but will skip un-painting walls as a way to make a wall
-            for( bool allow_decorate : {
-                     false, true
-                 } ) {
-                for( const construction &pre_build : constructions ) {
-                    if( ( pre_build.category == construction_category_DECORATE ) != allow_decorate ) {
-                        continue;
-                    }
-                    if( pre_build.category == construction_category_REPAIR ||
-                        pre_build.category == construction_category_DECONSTRUCT ) {
-                        continue;
-                    }
-                    std::string pre_build_pre_terrain = pre_build.pre_terrain.empty() ? "" : *
-                                                        pre_build.pre_terrain.begin();
-                    if( ( pre_build.post_terrain.empty() ||
-                          ( !pre_build.post_is_furniture &&
-                            ter_id( pre_build.post_terrain ) != base_ter ) ) &&
-                        ( pre_build.pre_terrain.empty() ||
-                          ( pre_build.post_is_furniture &&
-                            ter_id( pre_build_pre_terrain ) == base_ter ) ) &&
-                        pre_build.post_terrain == build_pre_ter &&
-                        pre_build_pre_terrain != build.post_terrain ) {
-                        if( pre_build.pre_terrain.size() > 1 ) {
-                            debugmsg( "get_build_reqs_for_furn_ter_ids tried to recurse into %s which has multiple pre_terrain",
-                                      pre_build.str_id.str() );
-                            return;
-                        }
-                        if( total_builds.find( pre_build.id ) == total_builds.end() ) {
-                            total_builds[pre_build.id] = 0;
-                        }
-                        total_builds[pre_build.id] += count;
-                        build_pre_ter = pre_build_pre_terrain;
-                        found_pre = true;
-                        break;
-                    }
-                }
-                if( found_pre ) {
-                    break;
-                }
+        for( const construction_id con_id : construction_chain ) {
+            if( total_builds.find( con_id ) == total_builds.end() ) {
+                total_builds[con_id] = 0;
             }
-            if( !found_pre ) {
-                break;
-            }
+            total_builds[con_id] += count;
         }
     };
 
     // go through the list of terrains and add their constructions and any pre-constructions
     // to the map of total builds
     for( const auto &ter_data : changed_ids.first ) {
-        bool found = false;
-        // only consider DECORATE constructions if there's no other way to build the target
-        // this will allow painting walls, but will skip un-painting walls as a way to make a wall
-        for( bool allow_decorate : {
-                 false, true
-             } ) {
-            for( const construction &build : constructions ) {
-                if( build.post_terrain.empty() || build.post_is_furniture ||
-                    build.category == construction_category_REPAIR ||
-                    build.category == construction_category_DECONSTRUCT ||
-                    ( build.category == construction_category_DECORATE ) != allow_decorate ) {
-                    continue;
-                }
-                if( ter_id( build.post_terrain ) == ter_data.first ) {
-                    add_builds( build, ter_data.second );
-                    found = true;
-                    break;
-                }
-            }
-            if( found ) {
-                break;
-            }
-        }
+        add_builds( ter_data.first.id().str(), ter_data.second );
     }
     // same, but for furniture
     for( const auto &furn_data : changed_ids.second ) {
-        for( const construction &build : constructions ) {
-            if( build.post_terrain.empty() || !build.post_is_furniture ||
-                build.category == construction_category_REPAIR ) {
-                continue;
-            }
-            if( furn_id( build.post_terrain ) == furn_data.first ) {
-                add_builds( build, furn_data.second );
-                break;
-            }
-        }
+        add_builds( furn_data.first.id().str(), furn_data.second );
     }
 
     for( const auto &build_data : total_builds ) {
