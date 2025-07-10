@@ -645,6 +645,26 @@ bool is_ocean( const oter_id &ter )
     return ter->is_ocean() || ter->is_ocean_shore();
 }
 
+bool is_road( const oter_id &ter )
+{
+    return ter->is_road();
+}
+
+bool is_highway( const oter_id &ter )
+{
+    return ter->is_highway();
+}
+
+bool is_highway_reserved( const oter_id &ter )
+{
+    return ter->is_highway_reserved();
+}
+
+bool is_highway_special( const oter_id &ter )
+{
+    return ter->is_highway_special();
+}
+
 bool is_ot_match( const std::string &name, const oter_id &oter,
                   const ot_match_type match_type )
 {
@@ -1400,6 +1420,7 @@ struct overmap_special_data {
     virtual void finalize_mapgen_parameters(
         mapgen_parameters &, const std::string &context ) const = 0;
     virtual void check( const std::string &context ) const = 0;
+    virtual std::vector<overmap_special_terrain> get_terrains() const = 0;
     virtual std::vector<overmap_special_terrain> preview_terrains() const = 0;
     virtual std::vector<overmap_special_locations> required_locations() const = 0;
     virtual int score_rotation_at( const overmap &om, const tripoint_om_omt &p,
@@ -1590,6 +1611,10 @@ struct fixed_overmap_special_data : overmap_special_data {
             return null_terrain;
         }
         return *iter;
+    }
+
+    std::vector<overmap_special_terrain> get_terrains() const override {
+        return terrains;
     }
 
     std::vector<overmap_special_terrain> preview_terrains() const override {
@@ -2731,6 +2756,12 @@ struct mutable_overmap_special_data : overmap_special_data {
         return { tripoint_rel_omt::zero, root_om.terrain, root_om.locations, {} };
     }
 
+
+    std::vector<overmap_special_terrain> get_terrains() const override {
+        debugmsg( "currently not supported" );
+        return std::vector<overmap_special_terrain> { root_as_overmap_special_terrain() };
+    }
+
     std::vector<overmap_special_terrain> preview_terrains() const override {
         return std::vector<overmap_special_terrain> { root_as_overmap_special_terrain() };
     }
@@ -2956,6 +2987,11 @@ int overmap_special::longest_side() const
     return std::max( width, height ) + 1;
 }
 
+std::vector<overmap_special_terrain> overmap_special::get_terrains() const
+{
+    return data_->get_terrains();
+}
+
 std::vector<overmap_special_terrain> overmap_special::preview_terrains() const
 {
     return data_->preview_terrains();
@@ -3105,15 +3141,7 @@ void overmap_special::check() const
 // *** BEGIN overmap FUNCTIONS ***
 overmap::overmap( const point_abs_om &p ) : loc( p )
 {
-    const std::string rsettings_id = get_option<std::string>( "DEFAULT_REGION" );
-    t_regional_settings_map_citr rsit = region_settings_map.find( rsettings_id );
-
-    if( rsit == region_settings_map.end() ) {
-        debugmsg( "overmap%s: can't find region '%s'", p.to_string(),
-                  rsettings_id.c_str() ); // gonna die now =[
-    }
-    settings = &rsit->second;
-
+    settings = &overmap_buffer.get_default_settings( p );
     init_layers();
 }
 
@@ -3695,6 +3723,8 @@ void overmap::generate( const std::vector<const overmap *> &neighbor_overmaps,
             }
         }
     }
+
+    std::vector<Highway_path> highway_paths;
     calculate_urbanity();
     calculate_forestosity();
     if( get_option<bool>( "OVERMAP_POPULATE_OUTSIDE_CONNECTIONS_FROM_NEIGHBORS" ) ) {
@@ -3717,6 +3747,13 @@ void overmap::generate( const std::vector<const overmap *> &neighbor_overmaps,
     }
     if( get_option<bool>( "OVERMAP_PLACE_RAVINES" ) ) {
         place_ravines();
+    }
+    if( get_option<bool>( "OVERMAP_PLACE_RIVERS" ) ) {
+        // Polish rivers now so highways get the correct predecessors rather than river_center
+        polish_river( neighbor_overmaps );
+    }
+    if( get_option<bool>( "OVERMAP_PLACE_HIGHWAYS" ) ) {
+        highway_paths = place_highways( neighbor_overmaps );
     }
     if( get_option<bool>( "OVERMAP_PLACE_CITIES" ) ) {
         place_cities();
@@ -3742,11 +3779,15 @@ void overmap::generate( const std::vector<const overmap *> &neighbor_overmaps,
     if( get_option<bool>( "OVERMAP_PLACE_SPECIALS" ) ) {
         place_specials( enabled_specials );
     }
+    if( get_option<bool>( "OVERMAP_PLACE_HIGHWAYS" ) ) {
+        finalize_highways( highway_paths );
+    }
     if( get_option<bool>( "OVERMAP_PLACE_FOREST_TRAILHEADS" ) ) {
         place_forest_trailheads();
     }
-
-    polish_river( neighbor_overmaps );
+    if( get_option<bool>( "OVERMAP_PLACE_RIVERS" ) ) {
+        polish_river( neighbor_overmaps ); // Polish again for placed specials
+    }
 
     // TODO: there is no reason we can't generate the sublevels in one pass
     //       for that matter there is no reason we can't as we add the entrance ways either
@@ -4167,6 +4208,12 @@ const city &overmap::get_nearest_city( const tripoint_om_omt &p ) const
     if( res != nullptr ) {
         return *res;
     }
+    static city invalid_city;
+    return invalid_city;
+}
+
+const city &overmap::get_invalid_city() const
+{
     static city invalid_city;
     return invalid_city;
 }
@@ -5025,18 +5072,45 @@ void overmap::place_forests()
     }
 }
 
+bool overmap::omt_lake_noise_threshold( const point_abs_omt &origin, const point_om_omt &offset,
+                                        const double noise_threshold )
+{
+    const om_noise::om_noise_layer_lake noise_func( origin, g->get_seed() );
+    // credit to ehughsbaird for thinking up this inbounds solution to infinite flood fill lag.
+    bool inbounds = offset.x() > -5 && offset.y() > -5 && offset.x() < OMAPX + 5 &&
+                    offset.y() < OMAPY + 5;
+    if( !inbounds ) {
+        return false;
+    }
+    return noise_func.noise_at( offset ) > noise_threshold;
+}
+
+bool overmap::guess_has_lake( const point_abs_om &p, const double noise_threshold,
+                              int max_tile_count )
+{
+    const point_abs_omt origin = project_to<coords::omt>( p );
+    const om_noise::om_noise_layer_lake noise_func( origin, g->get_seed() );
+
+    int lake_tiles = 0;
+    for( int i = 0; i < OMAPX; i++ ) {
+        for( int j = 0; j < OMAPY; j++ ) {
+            const point_om_omt seed_point( i, j );
+            if( omt_lake_noise_threshold( origin, seed_point, noise_threshold ) ) {
+                lake_tiles++;
+            }
+        }
+    }
+    return lake_tiles >= max_tile_count;
+}
 
 void overmap::place_lakes( const std::vector<const overmap *> &neighbor_overmaps )
 {
-    const om_noise::om_noise_layer_lake f( global_base_point(), g->get_seed() );
+    const point_abs_omt origin = global_base_point();
+    const om_noise::om_noise_layer_lake noise_func( origin, g->get_seed() );
+    double noise_threshold = settings->overmap_lake.noise_threshold_lake;
 
     const auto is_lake = [&]( const point_om_omt & p ) {
-        // credit to ehughsbaird for thinking up this inbounds solution to infinite flood fill lag.
-        bool inbounds = p.x() > -5 && p.y() > -5 && p.x() < OMAPX + 5 && p.y() < OMAPY + 5;
-        if( !inbounds ) {
-            return false;
-        }
-        return f.noise_at( p ) > settings->overmap_lake.noise_threshold_lake;
+        return omt_lake_noise_threshold( origin, p, noise_threshold );
     };
 
     const oter_id lake_surface( "lake_surface" );
@@ -5055,7 +5129,7 @@ void overmap::place_lakes( const std::vector<const overmap *> &neighbor_overmaps
             }
 
             // It's a lake if it exceeds the noise threshold defined in the region settings.
-            if( !is_lake( seed_point ) ) {
+            if( !omt_lake_noise_threshold( origin, seed_point, noise_threshold ) ) {
                 continue;
             }
 
@@ -6239,7 +6313,6 @@ void overmap::build_city_street(
         debugmsg( "Invalid road direction." );
         return;
     }
-
     const pf::directed_path<point_om_omt> street_path = lay_out_street( connection, p, dir, cs + 1 );
 
     if( street_path.nodes.size() <= 1 ) {
@@ -6627,35 +6700,19 @@ static pf::directed_path<point_om_omt> straight_path( const point_om_omt &source
 pf::directed_path<point_om_omt> overmap::lay_out_street( const overmap_connection &connection,
         const point_om_omt &source, om_direction::type dir, size_t len )
 {
-    const tripoint_om_omt from( source, 0 );
-    // See if we need to make another one "step" further.
-    const tripoint_om_omt en_pos = from + om_direction::displace( dir, len + 1 );
-    if( inbounds( en_pos, 1 ) && connection.has( ter( en_pos ) ) ) {
-        ++len;
-    }
-
-    size_t actual_len = 0;
-
-    while( actual_len < len ) {
-        const tripoint_om_omt pos = from + om_direction::displace( dir, actual_len );
-
+    auto valid_placement = [this]( const overmap_connection & connection, const tripoint_om_omt pos,
+    om_direction::type dir ) {
         if( !inbounds( pos, 1 ) ) {
-            break;  // Don't approach overmap bounds.
+            return false;  // Don't approach overmap bounds.
         }
-
         const oter_id &ter_id = ter( pos );
-
+        // TODO: Make it so the city picks a bridge direction ( ns or ew ) and allows bridging over rivers in that direction with the same logic as highways
         if( ter_id->is_river() || ter_id->is_ravine() || ter_id->is_ravine_edge() ||
-            !connection.pick_subtype_for( ter_id ) ) {
-            break;
+            ter_id->is_highway() || ter_id->is_highway_reserved() || !connection.pick_subtype_for( ter_id ) ) {
+            return false;
         }
-
-        bool collided = false;
         int collisions = 0;
         for( int i = -1; i <= 1; i++ ) {
-            if( collided ) {
-                break;
-            }
             for( int j = -1; j <= 1; j++ ) {
                 const tripoint_om_omt checkp = pos + tripoint( i, j, 0 );
 
@@ -6663,29 +6720,59 @@ pf::directed_path<point_om_omt> overmap::lay_out_street( const overmap_connectio
                     checkp != pos + om_direction::displace( om_direction::opposite( dir ), 1 ) &&
                     checkp != pos ) {
                     if( ter( checkp )->get_type_id() == oter_type_road ) {
+                        //Stop roads from running right next to each other
+                        if( collisions >= 2 ) {
+                            return false;
+                        }
                         collisions++;
                     }
                 }
             }
-
-            //Stop roads from running right next to each other
-            if( collisions >= 3 ) {
-                collided = true;
-                break;
-            }
         }
-        if( collided ) {
+        return true;
+    };
+
+    const tripoint_om_omt from( source, 0 );
+    // See if we need to make another one "step" further.
+    const tripoint_om_omt en_pos = from + om_direction::displace( dir, len + 1 );
+    if( inbounds( en_pos, 1 ) && connection.has( ter( en_pos ) ) ) {
+        ++len;
+    }
+    size_t actual_len = 0;
+    bool checked_highway = false;
+
+    while( actual_len < len ) {
+        const tripoint_om_omt pos = from + om_direction::displace( dir, actual_len );
+        if( !valid_placement( connection, pos, dir ) ) {
             break;
+        }
+        const oter_id &ter_id = ter( pos );
+        if( ter_id->is_highway_reserved() ) {
+            if( !checked_highway ) {
+                // Break if parallel to the highway direction
+                if( are_parallel( dir, ter_id.obj().get_dir() ) ) {
+                    break;
+                }
+                const int &highway_width = settings->overmap_highway.width_of_segments;
+                const tripoint_om_omt pos_after_highway = pos + om_direction::displace( dir, highway_width );
+                // Ensure we can pass fully through
+                if( !valid_placement( connection, pos_after_highway, dir ) ) {
+                    break;
+                }
+                checked_highway = true;
+            }
+            // Prevent stopping under highway
+            if( actual_len == len - 1 ) {
+                ++len;
+            }
         }
 
         city_tiles.insert( pos.xy() );
         ++actual_len;
-
         if( actual_len > 1 && connection.has( ter_id ) ) {
             break;  // Stop here.
         }
     }
-
     return straight_path( source, dir, actual_len );
 }
 
@@ -6926,6 +7013,7 @@ void overmap::build_river_shores( const std::vector<const overmap *> &neighbor_o
                                   const tripoint_om_omt &p )
 {
     const int neighbor_overmap_size = neighbor_overmaps.size();
+    // TODO: Change this to the flag (or an else that sets a different bool?) and add handling for bridge maps to get overwritten by the correct tile then replaced
     if( !is_ot_match( "river", ter( p ), ot_match_type::prefix ) ) {
         return;
     }
