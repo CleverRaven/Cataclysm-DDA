@@ -277,6 +277,16 @@
   },
   {
     "type": "material",
+    "id": "cyber_bone",
+    "name": "Bone-like material",
+    "copy-from": "bone",
+    "//": "A netherum copy of bone that has been confused with metal or military ceramic, and is something in between",
+    "density": 5,
+    "resist": { "bash": 8, "cut": 11, "acid": 7, "heat": 2, "bullet": 8 },
+    "repair_difficulty": 9
+  },
+  {
+    "type": "material",
     "id": "brass",
     "name": "Brass",
     "//": "Density value assumes median bronze alloy weight",

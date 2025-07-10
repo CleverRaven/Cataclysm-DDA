@@ -240,6 +240,7 @@ std::string filter_name( debug_filter value )
         case DF_EXPLOSION: return "DF_EXPLOSION";
         case DF_FOOD: return "DF_FOOD";
         case DF_GAME: return "DF_GAME";
+        case DF_HIGHWAY: return "DF_HIGHWAY";
         case DF_IEXAMINE: return "DF_IEXAMINE";
         case DF_IUSE: return "DF_IUSE";
         case DF_MAP: return "DF_MAP";

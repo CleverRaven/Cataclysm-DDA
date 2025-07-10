@@ -1808,7 +1808,7 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
     // TODO: Make this the argument
     if( here.has_furn( p ) ) {
         const furn_t &f = here.furn( p ).obj();
-        if( !f.deconstruct ) {
+        if( !f.deconstruct && f.base_item.is_null() ) {
             add_msg( m_info, _( "That %s can not be disassembled!" ), f.name() );
             return;
         }
@@ -1819,8 +1819,13 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
         }
         add_msg( _( "The %s is disassembled." ), f.name() );
         item &item_here = here.i_at( p ).size() != 1 ? null_item_reference() : here.i_at( p ).only_item();
-        const std::vector<item *> drop = here.spawn_items( p,
-                                         item_group::items_from( f.deconstruct->drop_group, calendar::turn ) );
+        std::vector<item *> drop;
+        if( !f.base_item.is_null() ) {
+            here.spawn_item( p, f.base_item );
+        } else {
+            drop = here.spawn_items( p, item_group::items_from( f.deconstruct->drop_group, calendar::turn ) );
+        }
+
         if( f.deconstruct->skill.has_value() ) {
             deconstruction_practice_skill( f.deconstruct->skill.value() );
         }
@@ -1859,7 +1864,13 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
         }
         here.ter_set( p, t.deconstruct->ter_set );
         add_msg( _( "The %s is disassembled." ), t.name() );
-        here.spawn_items( p, item_group::items_from( t.deconstruct->drop_group, calendar::turn ) );
+
+        if( !t.base_item.is_null() ) {
+            here.spawn_item( p, t.base_item );
+        } else {
+            here.spawn_items( p, item_group::items_from( t.deconstruct->drop_group, calendar::turn ) );
+        }
+
         if( t.deconstruct->skill.has_value() ) {
             deconstruction_practice_skill( t.deconstruct->skill.value() );
         }

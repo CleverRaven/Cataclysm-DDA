@@ -116,9 +116,9 @@
     "required_str": 2,
     "deployed_item": "xedra_antenna",
     "examine_action": "deployed_furniture",
+    "item": "xedra_antenna",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "MOUNTABLE", "CAN_SIT" ],
-    "max_volume": "600 L",
-    "deconstruct": { "items": [ { "item": "xedra_antenna", "count": 1 } ] }
+    "max_volume": "600 L"
   },
   {
     "type": "furniture",

@@ -97,23 +97,13 @@
     "required_str": 16,
     "looks_like": "f_washer",
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "autoclave", "count": 1 } ] },
+    "item": "autoclave",
     "examine_action": "autoclave_empty",
     "bash": {
       "str_min": 40,
       "str_max": 80,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [
-        { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
-        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
-        { "item": "sheet_metal", "count": [ 1, 4 ] },
-        { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "hose", "count": [ 0, 2 ] },
-        { "item": "cu_pipe", "count": [ 1, 4 ] },
-        { "item": "scrap_copper", "count": [ 0, 2 ] }
-      ],
       "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
