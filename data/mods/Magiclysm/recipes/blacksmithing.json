@@ -56,7 +56,11 @@
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 }, { "id": "COOK", "level": 3 }, { "id": "DISTILL", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 1.5, "skill_penalty": 0.5 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "charcoal", 50 ] ], [ [ "crystallized_mana", 1 ] ], [ [ "any_strong_acid", 4, "LIST" ], [ "demon_chitin_piece", 1 ] ] ]
+    "components": [
+      [ [ "charcoal", 50 ] ],
+      [ [ "crystallized_mana", 1 ] ],
+      [ [ "any_strong_acid", 4, "LIST" ], [ "demon_chitin_piece", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
