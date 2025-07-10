@@ -161,7 +161,8 @@
       { "item": "kimono", "prob": 5 },
       { "item": "yukata", "prob": 5 },
       { "item": "dress", "variant": "gown", "prob": 5 },
-      { "item": "dress_wedding", "prob": 5 }
+      { "item": "dress_wedding", "prob": 5 },
+      { "item": "cheongsam", "prob": 10 }
     ]
   },
   {
@@ -259,7 +260,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "santa_beard", "prob": 20 },
-      { "item": "mask_guy_fawkes", "prob": 10 },
+      { "item": "mask_skull", "variant": "guy_fawkes", "prob": 10 },
       { "item": "mask_hockey", "prob": 20 },
       { "item": "bondage_mask", "prob": 5 },
       { "item": "blindfold", "prob": 5 },

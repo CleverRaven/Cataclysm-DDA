@@ -1503,7 +1503,7 @@
       { "group": "pie_meat_box_small_8", "prob": 10 },
       { "group": "pie_maple_box_small_8", "prob": 10 },
       { "group": "bologna_bag_plastic_10", "prob": 15 },
-      { "group": "fruit_leather_bag_plastic_5", "prob": 15 },
+      { "group": "fruit_leather_bag_plastic_full", "prob": 15 },
       { "group": "frozen_dinner_box_small_2", "prob": 25 },
       { "group": "pizza_veggy_box_small_4", "prob": 5 },
       { "group": "pizza_cheese_box_small_4", "prob": 5 },

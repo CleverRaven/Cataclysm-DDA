@@ -1,0 +1,191 @@
+[
+  {
+    "type": "npc",
+    "id": "balthazar_intercom",
+    "name_unique": "balthazar",
+    "class": "NC_BALTHAZAR_INTERCOM",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_BALTHAZAR_INTERCOM",
+    "faction": "balthazar_fac",
+    "mission_offered": "MISSION_GET_SOLAR_PANELS_BALTHAZAR"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_BALTHAZAR_INTERCOM",
+    "name": { "str": "bunker voice" },
+    "job_description": "Locked in a bunker.",
+    "common": false,
+    "carry_override": "EMPTY_GROUP",
+    "worn_override": "EMPTY_GROUP",
+    "weapon_override": "EMPTY_GROUP",
+    "//": "trading will be implemented later",
+    "sells_belongings": false
+  },
+  {
+    "id": "TALK_BALTHAZAR_INTERCOM",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "u_val": "dialogue_balthazar_u_discovered_balthazar_fac" } ],
+      "yes": [
+        "As soon as you walk up to the intercom it turns on",
+        "Once you get close enough, the intercom crackles on",
+        "The wiring on this intercom is out for anyone to see",
+        "You hear some static come through the tinny speaker"
+      ],
+      "no": "After some brief static you hear a voice coming through with a crackle and a pop \"..llo?  Hello?  Is someone there?\""
+    },
+    "responses": [
+      {
+        "text": "Hello?",
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_balthazar_u_discovered_balthazar_fac" } ] },
+        "topic": "TALK_BALTHAZAR_INTERCOM_MAIN"
+      },
+      {
+        "text": "[Clear your throat.]",
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_balthazar_u_discovered_balthazar_fac" } ] },
+        "topic": "TALK_BALTHAZAR_INTERCOM_MAIN"
+      },
+      {
+        "text": "I'm here.",
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_balthazar_u_discovered_balthazar_fac" } ] } },
+        "trial": { "type": "CONDITION", "condition": { "math": [ "balthazar_power < 50" ] } },
+        "success": { "topic": "TALK_BALTHAZAR_MEET_WEAK" },
+        "failure": { "topic": "TALK_BALTHAZAR_MEET_STRONG" }
+      },
+      {
+        "text": "Who is this?",
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_balthazar_u_discovered_balthazar_fac" } ] } },
+        "trial": { "type": "CONDITION", "condition": { "math": [ "balthazar_power < 50" ] } },
+        "success": { "topic": "TALK_BALTHAZAR_MEET_WEAK" },
+        "failure": { "topic": "TALK_BALTHAZAR_MEET_STRONG" }
+      },
+      { "text": "Walk away.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_BALTHAZAR_INTERCOM_MAIN",
+    "//": "Main dialogue that everything loops back to",
+    "type": "talk_topic",
+    "dynamic_line": [ "Yes?", "Hmm?", "What is it?" ],
+    "responses": [
+      { "text": "Can we trade?", "topic": "TALK_BALTHAZAR_NO_TRADE_YET" },
+      {
+        "text": "Tell me your story.",
+        "trial": { "type": "CONDITION", "condition": { "math": [ "balthazar_power < 50" ] } },
+        "success": { "topic": "TALK_BALTHAZAR_SELF_WEAK" },
+        "failure": { "topic": "TALK_BALTHAZAR_SELF_STRONG" }
+      },
+      {
+        "text": "Why don't these robots attack me?",
+        "trial": { "type": "CONDITION", "condition": { "math": [ "balthazar_power < 50" ] } },
+        "success": { "topic": "TALK_BALTHAZAR_ROBOTS_WEAK" },
+        "failure": { "topic": "TALK_BALTHAZAR_ROBOTS_STRONG" }
+      },
+      {
+        "text": "Here are the solar panels.",
+        "topic": "TALK_BALTHAZAR_SOLAR_PANEL",
+        "condition": { "u_has_mission": "MISSION_GET_SOLAR_PANELS_BALTHAZAR" }
+      },
+      { "text": "Walk away.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_BALTHAZAR_SOLAR_PANEL",
+    "type": "talk_topic",
+    "dynamic_line": "You brought solar panels?!",
+    "responses": [
+      {
+        "text": "Here you go.",
+        "condition": {
+          "and": [
+            { "u_has_items_sum": [ { "item": "ground_solar_panel", "amount": 12 } ] },
+            { "math": [ "u_negotiated_balthazar_solar < 1" ] }
+          ]
+        },
+        "switch": true,
+        "topic": "TALK_BALTHAZAR_SOLAR_PANEL_REWARD_SMALL"
+      },
+      {
+        "text": "Here you go.",
+        "condition": {
+          "and": [
+            { "u_has_items_sum": [ { "item": "ground_solar_panel", "amount": 12 } ] },
+            { "math": [ "u_negotiated_balthazar_solar <= 1" ] }
+          ]
+        },
+        "switch": true,
+        "topic": "TALK_BALTHAZAR_SOLAR_PANEL_REWARD_MEDIUM"
+      },
+      {
+        "text": "Here you go.",
+        "condition": {
+          "and": [
+            { "u_has_items_sum": [ { "item": "ground_solar_panel", "amount": 12 } ] },
+            { "math": [ "u_negotiated_balthazar_solar == 3" ] }
+          ]
+        },
+        "switch": true,
+        "topic": "TALK_BALTHAZAR_SOLAR_PANEL_REWARD_BIG"
+      },
+      { "text": "On second thought, I need a bit longer.", "topic": "TALK_BALTHAZAR_INTERCOM_MAIN" },
+      { "text": "Walk away.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_BALTHAZAR_SOLAR_PANEL_REWARD_SMALL",
+    "//": "Small reward means player is slightly more cost efficient (useful) than someone who wants bigger rewards",
+    "type": "talk_topic",
+    "dynamic_line": "Thank you so much, I'll send some bullets and a gun over.",
+    "speaker_effect": {
+      "effect": [
+        { "math": [ "u_balthazar_small_rewards += 1" ] },
+        { "finish_mission": "MISSION_GET_SOLAR_PANELS_BALTHAZAR", "success": true },
+        { "u_spawn_item": "nested_m4_carbine", "use_item_group": true },
+        { "u_consume_item_sum": [ { "item": "ground_solar_panel", "amount": 12 } ] }
+      ]
+    },
+    "responses": [ { "text": "Thanks.", "topic": "TALK_BALTHAZAR_INTERCOM_MAIN" } ]
+  },
+  {
+    "id": "TALK_BALTHAZAR_SOLAR_PANEL_REWARD_MEDIUM",
+    "//": "Medium rewards is what Balthazar expects to give to someone",
+    "type": "talk_topic",
+    "dynamic_line": "Thank you so much, I'll give you all I have to give right now.",
+    "speaker_effect": {
+      "effect": [
+        { "math": [ "u_balthazar_medium_rewards += 1" ] },
+        { "finish_mission": "MISSION_GET_SOLAR_PANELS_BALTHAZAR", "success": true },
+        { "u_spawn_item": "guns_rifle_milspec", "count": 2, "use_item_group": true },
+        { "u_spawn_item": "stanag30", "count": 2 },
+        { "u_spawn_item": "MRE", "count": 5, "use_item_group": true },
+        { "u_consume_item_sum": [ { "item": "ground_solar_panel", "amount": 12 } ] }
+      ]
+    },
+    "responses": [ { "text": "Thanks.", "topic": "TALK_BALTHAZAR_INTERCOM_MAIN" } ]
+  },
+  {
+    "id": "TALK_BALTHAZAR_SOLAR_PANEL_REWARD_BIG",
+    "//": "Balthazar dislikes giving out big rewards as they are a waste of resources.",
+    "type": "talk_topic",
+    "dynamic_line": "Thank you so much.  As promised, all I can spare and a bot.",
+    "speaker_effect": {
+      "effect": [
+        { "math": [ "u_balthazar_big_rewards += 1" ] },
+        { "finish_mission": "MISSION_GET_SOLAR_PANELS_BALTHAZAR", "success": true },
+        { "u_spawn_item": "guns_rifle_milspec", "count": 2, "use_item_group": true },
+        { "u_spawn_item": "stanag30", "count": 2 },
+        { "u_spawn_item": "MRE", "count": 5, "use_item_group": true },
+        { "u_spawn_item": "bot_manhack" },
+        { "u_consume_item_sum": [ { "item": "ground_solar_panel", "amount": 12 } ] }
+      ]
+    },
+    "responses": [ { "text": "Thanks.", "topic": "TALK_BALTHAZAR_INTERCOM_MAIN" } ]
+  },
+  {
+    "id": "TALK_BALTHAZAR_NO_TRADE_YET",
+    "type": "talk_topic",
+    "dynamic_line": "I'll first need to gather up some supplies before I can even consider trading.",
+    "responses": [ { "text": "Alright then.", "topic": "TALK_BALTHAZAR_INTERCOM_MAIN" } ]
+  }
+]

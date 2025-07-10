@@ -280,6 +280,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_FLOATS_IN_AIR: return "FLOATS_IN_AIR";
         case ter_furn_flag::TFLAG_HARVEST_REQ_CUT1: return "HARVEST_REQ_CUT1";
         case ter_furn_flag::TFLAG_NATURAL_UNDERGROUND: return "NATURAL_UNDERGROUND";
+        case ter_furn_flag::TFLAG_WIRED_WALL: return "WIRED_WALL";
 
         // *INDENT-ON*
         case ter_furn_flag::NUM_TFLAG_FLAGS:
@@ -353,6 +354,11 @@ void map_common_bash_info::load( const JsonObject &jo, const bool was_loaded,
 
     optional( jo, was_loaded, "sound", sound, to_translation( "smash!" ) );
     optional( jo, was_loaded, "sound_fail", sound_fail, to_translation( "thump!" ) );
+
+    optional( jo, was_loaded, "hit_field", hit_field,
+              std::make_pair( field_type_str_id::NULL_ID(), 0 ) );
+    optional( jo, was_loaded, "destroyed_field", destroyed_field,
+              std::make_pair( field_type_str_id::NULL_ID(), 0 ) );
 
     if( jo.has_member( "items" ) ) {
         drop_group = item_group::load_item_group( jo.get_member( "items" ), "collection",
@@ -636,6 +642,12 @@ nc_color map_data_common_t::color() const
     return color_[season_of_year( calendar::turn )];
 }
 
+static bool has_any_harvest( const std::array<harvest_id, NUM_SEASONS> &harvest_by_season )
+{
+    static const std::array<harvest_id, NUM_SEASONS> null_harvest_by_season = {{harvest_id::NULL_ID(), harvest_id::NULL_ID(), harvest_id::NULL_ID(), harvest_id::NULL_ID()}};
+    return harvest_by_season != null_harvest_by_season;
+}
+
 const harvest_id &map_data_common_t::get_harvest() const
 {
     return harvest_by_season[season_of_year( calendar::turn )];
@@ -716,12 +728,8 @@ std::vector<std::string> map_data_common_t::extended_description() const
 
     tmp.emplace_back( string_format( _( "<header>That is a %s.</header>" ), name() ) );
     tmp.emplace_back( description.translated() );
-    bool has_any_harvest = std::any_of( harvest_by_season.begin(), harvest_by_season.end(),
-    []( const harvest_id & hv ) {
-        return !hv.obj().empty();
-    } );
 
-    if( has_any_harvest ) {
+    if( has_any_harvest( harvest_by_season ) ) {
         tmp.emplace_back( "--" );
         int player_skill = get_player_character().get_greater_skill_or_knowledge_level( skill_survival );
         tmp.emplace_back( _( "You could harvest the following things from it:" ) );
@@ -1021,6 +1029,27 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "curtain_transform", curtain_transform );
     optional( jo, was_loaded, "emissions", emissions );
 
+    if( jo.has_array( "harvest_by_season" ) ) {
+        for( JsonObject harvest_jo : jo.get_array( "harvest_by_season" ) ) {
+            auto season_strings = harvest_jo.get_tags( "seasons" );
+            std::set<season_type> seasons;
+            std::transform( season_strings.begin(), season_strings.end(), std::inserter( seasons,
+                            seasons.begin() ), io::string_to_enum<season_type> );
+
+            harvest_id hl;
+            harvest_jo.read( "id", hl );
+
+            for( season_type s : seasons ) {
+                harvest_by_season[ s ] = hl;
+            }
+        }
+    } else if( was_loaded && has_any_harvest( harvest_by_season ) ) {
+        // Explicitly don't inherit harvest_by_season so _harvested versions don't need to override it
+        harvest_by_season.fill( harvest_id::NULL_ID() );
+        examine_actor = nullptr;
+        examine_func = iexamine_functions_from_string( "none" );
+    }
+
     if( jo.has_string( "examine_action" ) ) {
         examine_actor = nullptr;
         examine_func = iexamine_functions_from_string( jo.get_string( "examine_action" ) );
@@ -1068,22 +1097,6 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
         }
         if( jod.has_member( "rotates_to" ) ) {
             unset_connect_groups( jod.get_as_string_array( "rotates_to" ) );
-        }
-    }
-
-    if( jo.has_array( "harvest_by_season" ) ) {
-        for( JsonObject harvest_jo : jo.get_array( "harvest_by_season" ) ) {
-            auto season_strings = harvest_jo.get_tags( "seasons" );
-            std::set<season_type> seasons;
-            std::transform( season_strings.begin(), season_strings.end(), std::inserter( seasons,
-                            seasons.begin() ), io::string_to_enum<season_type> );
-
-            harvest_id hl;
-            harvest_jo.read( "id", hl );
-
-            for( season_type s : seasons ) {
-                harvest_by_season[ s ] = hl;
-            }
         }
     }
 
@@ -1135,9 +1148,11 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "allowed_template_ids", allowed_template_id );
 
-    optional( jo, was_loaded, "open", open, ter_str_id::NULL_ID() );
-    optional( jo, was_loaded, "close", close, ter_str_id::NULL_ID() );
-    optional( jo, was_loaded, "transforms_into", transforms_into, ter_str_id::NULL_ID() );
+    // Doesn't make any sense to inherit
+    optional( jo, false, "open", open, ter_str_id::NULL_ID() );
+    optional( jo, false, "close", close, ter_str_id::NULL_ID() );
+    optional( jo, false, "transforms_into", transforms_into, ter_str_id::NULL_ID() );
+
     optional( jo, was_loaded, "roof", roof, ter_str_id::NULL_ID() );
 
     optional( jo, was_loaded, "lockpick_result", lockpick_result, ter_str_id::NULL_ID() );
@@ -1163,18 +1178,19 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_object( "bash" ) ) {
-        if( !bash ) {
+        bool bash_loaded = !!bash;
+        if( !bash_loaded ) {
             bash.emplace();
         }
-        bash->load( jo.get_object( "bash" ), was_loaded,
-                    "terrain " +
-                    id.str() ); //TODO: Make overwriting these with "bash": { } works while still allowing overwriting single values ie for "ter_set"
+        //TODO: Make overwriting these with "bash": { } works while still allowing overwriting single values ie for "ter_set"
+        bash->load( jo.get_object( "bash" ), bash_loaded, "terrain " + id.str() );
     }
     if( jo.has_object( "deconstruct" ) ) {
-        if( !deconstruct ) {
+        bool deconstruct_loaded = !!deconstruct;
+        if( !deconstruct_loaded ) {
             deconstruct.emplace();
         }
-        deconstruct->load( jo.get_object( "deconstruct" ), was_loaded, "terrain " + id.str() );
+        deconstruct->load( jo.get_object( "deconstruct" ), deconstruct_loaded, "terrain " + id.str() );
     }
 }
 
@@ -1184,6 +1200,12 @@ void map_common_bash_info::check( const std::string &id ) const
         if( !item_group::group_is_defined( drop_group ) ) {
             debugmsg( "%s: bash result item group %s does not exist", id, drop_group.c_str() );
         }
+    }
+    if( !hit_field.first.is_null() && !hit_field.first.is_valid() ) {
+        debugmsg( "%s: invalid hit_field '%s'", id, hit_field.first.str() );
+    }
+    if( !destroyed_field.first.is_null() && !destroyed_field.first.is_valid() ) {
+        debugmsg( "%s: invalid destroyed_field '%s'", id, destroyed_field.first.str() );
     }
 }
 void map_ter_bash_info::check( const std::string &id ) const
@@ -1314,6 +1336,7 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     map_data_common_t::load( jo, src );
     mandatory( jo, was_loaded, "move_cost_mod", movecost );
     mandatory( jo, was_loaded, "required_str", move_str_req );
+    optional( jo, was_loaded, "mass", mass, 1000_kilogram );
     optional( jo, was_loaded, "fall_damage_reduction", fall_damage_reduction, 0 );
     int legacy_bonus_fire_warmth_feet = units::to_legacy_bodypart_temp_delta( bonus_fire_warmth_feet );
     optional( jo, was_loaded, "bonus_fire_warmth_feet", legacy_bonus_fire_warmth_feet, 300 );
@@ -1351,16 +1374,18 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_object( "bash" ) ) {
-        if( !bash ) {
+        bool bash_loaded = !!bash;
+        if( !bash_loaded ) {
             bash.emplace();
         }
-        bash->load( jo.get_object( "bash" ), was_loaded, "furniture " + id.str() );
+        bash->load( jo.get_object( "bash" ), bash_loaded, "furniture " + id.str() );
     }
     if( jo.has_object( "deconstruct" ) ) {
-        if( !deconstruct ) {
+        bool deconstruct_loaded = !!deconstruct;
+        if( !deconstruct_loaded ) {
             deconstruct.emplace();
         }
-        deconstruct->load( jo.get_object( "deconstruct" ), was_loaded, "furniture " + id.str() );
+        deconstruct->load( jo.get_object( "deconstruct" ), deconstruct_loaded, "furniture " + id.str() );
     }
 
     if( jo.has_object( "workbench" ) ) {

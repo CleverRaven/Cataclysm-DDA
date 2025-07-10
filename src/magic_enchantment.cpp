@@ -27,6 +27,7 @@
 #include "skill.h"
 #include "talker.h"
 #include "units.h"
+#include "vehicle.h"
 
 namespace io
 {
@@ -172,6 +173,9 @@ namespace io
             case enchant_vals::mod::WEAKPOINT_ACCURACY: return "WEAKPOINT_ACCURACY";
             case enchant_vals::mod::WEIGHT: return "WEIGHT";
             case enchant_vals::mod::MOTION_ALARM: return "MOTION_ALARM";
+            case enchant_vals::mod::TOTAL_WEIGHT: return "TOTAL_WEIGHT";
+            case enchant_vals::mod::FUEL_USAGE: return "FUEL_USAGE";
+            case enchant_vals::mod::TURNING_DIFFICULTY: return "TURNING_DIFFICULTY";
             case enchant_vals::mod::NUM_MOD: break;
         }
         cata_fatal( "Invalid enchant_vals::mod" );
@@ -337,6 +341,28 @@ bool enchantment::is_active( const monster &mon ) const
     return false;
 }
 
+bool enchantment::is_active( const vehicle &veh, const bool active ) const
+{
+    if( active_conditions.second == condition::ALWAYS ) {
+        return true;
+    }
+
+    if( active_conditions.second == condition::ACTIVE ) {
+        return active;
+    }
+
+    if( active_conditions.second == condition::INACTIVE ) {
+        return !active;
+    }
+
+    if( active_conditions.second == condition::DIALOG_CONDITION ) {
+        const_dialogue d( get_talker_for( veh ), nullptr );
+        return dialog_condition( d );
+    }
+
+    return false;
+}
+
 // Returns true if this enchantment is relevant to monsters. Enchantments that are not relevant to monsters are not processed by monsters.
 bool enchantment::is_monster_relevant() const
 {
@@ -347,7 +373,8 @@ bool enchantment::is_monster_relevant() const
             pair_values.first == enchant_vals::mod::REGEN_HP ||
             pair_values.first == enchant_vals::mod::VISION_RANGE ||
             pair_values.first == enchant_vals::mod::SPEED ||
-            pair_values.first == enchant_vals::mod::LUMINATION ) {
+            pair_values.first == enchant_vals::mod::LUMINATION ||
+            pair_values.first == enchant_vals::mod::TOTAL_WEIGHT ) {
             return true;
         }
     }
@@ -359,7 +386,8 @@ bool enchantment::is_monster_relevant() const
             pair_values.first == enchant_vals::mod::REGEN_HP ||
             pair_values.first == enchant_vals::mod::VISION_RANGE ||
             pair_values.first == enchant_vals::mod::SPEED ||
-            pair_values.first == enchant_vals::mod::LUMINATION ) {
+            pair_values.first == enchant_vals::mod::LUMINATION ||
+            pair_values.first == enchant_vals::mod::TOTAL_WEIGHT ) {
             return true;
         }
     }
@@ -372,6 +400,32 @@ bool enchantment::is_monster_relevant() const
     if( !damage_values_add.empty() || !damage_values_multiply.empty() ||
         !armor_values_add.empty() || !armor_values_multiply.empty() ) {
         return true;
+    }
+
+    return false;
+}
+
+// Returns true if this enchantment is relevant to vehicles. Enchantments that are not relevant to vehicles are not processed by vehicles.
+bool enchantment::is_vehicle_relevant() const
+{
+    // Check add values.
+    for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values :
+         values_add ) {
+        if( pair_values.first == enchant_vals::mod::TOTAL_WEIGHT ||
+            pair_values.first == enchant_vals::mod::FUEL_USAGE ||
+            pair_values.first == enchant_vals::mod::TURNING_DIFFICULTY ) {
+            return true;
+        }
+    }
+
+    // Check mult values.
+    for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values :
+         values_multiply ) {
+        if( pair_values.first == enchant_vals::mod::TOTAL_WEIGHT ||
+            pair_values.first == enchant_vals::mod::FUEL_USAGE ||
+            pair_values.first == enchant_vals::mod::TURNING_DIFFICULTY ) {
+            return true;
+        }
     }
 
     return false;
@@ -819,7 +873,6 @@ void enchant_cache::force_add_mutation( const enchantment &rhs )
     }
 }
 
-
 void enchant_cache::force_add( const enchant_cache &rhs )
 {
     for( const std::pair<const enchant_vals::mod, double> &pair_values :
@@ -924,6 +977,12 @@ void enchant_cache::force_add( const enchantment &rhs, const Character &guy )
 void enchant_cache::force_add( const enchantment &rhs, const monster &mon )
 {
     const_dialogue d( get_const_talker_for( mon ), nullptr );
+    force_add_with_dialogue( rhs, d );
+}
+
+void enchant_cache::force_add( const enchantment &rhs, const vehicle &veh )
+{
+    const_dialogue d( get_talker_for( veh ), nullptr );
     force_add_with_dialogue( rhs, d );
 }
 
@@ -1367,6 +1426,14 @@ units::volume enchant_cache::modify_value( const enchant_vals::mod mod_val,
         units::volume value ) const
 {
     value += units::from_milliliter<double>( get_value_add( mod_val ) );
+    value *= 1.0 + get_value_multiply( mod_val );
+    return value;
+}
+
+units::power enchant_cache::modify_value( const enchant_vals::mod mod_val,
+        units::power value ) const
+{
+    value += units::from_milliwatt<double>( get_value_add( mod_val ) );
     value *= 1.0 + get_value_multiply( mod_val );
     return value;
 }

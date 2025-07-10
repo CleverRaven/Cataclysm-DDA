@@ -68,6 +68,19 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
     return info;
 }
 
+bool mod_ui::confirm_mod_compatibility( const mod_id &checked_mod,
+                                        const std::vector<mod_id> &active_list )
+{
+    for( mod_id some_active_mod : active_list ) {
+        for( mod_id conflict_mod_id : some_active_mod->conflicts ) {
+            if( conflict_mod_id == checked_mod ) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
 void mod_ui::try_add( const mod_id &mod_to_add,
                       std::vector<mod_id> &active_list )
 {
@@ -79,6 +92,12 @@ void mod_ui::try_add( const mod_id &mod_to_add,
         debugmsg( "Unable to load mod \"%s\".", mod_to_add.c_str() );
         return;
     }
+    if( !confirm_mod_compatibility( mod_to_add, active_list ) ) {
+        popup( _( "Unable to add %s.  It is incompatible with a currently active mod." ),
+               mod_to_add->name() );
+        return;
+    }
+
     const MOD_INFORMATION &mod = *mod_to_add;
     bool errs;
     try {

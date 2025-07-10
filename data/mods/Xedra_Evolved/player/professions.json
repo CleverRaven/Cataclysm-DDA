@@ -906,5 +906,50 @@
     "subtype": "collection",
     "id": "sevenoclock_map",
     "entries": [ { "item": "sevenoclock_map" }, { "item": "sevenoclock_note" } ]
+  },
+  {
+    "type": "profession",
+    "id": "xedra_bloodthorne_druid_profession",
+    "name": "Bloodthorne Druid",
+    "description": "You had just been inducted into the order and gone on a few vampire hunts when the Cataclysm happened, though you had never personally killed a vampire yourself.  As the sky broke and reality twisted you ran, and you survived, but you know that some of the vampires did too.  Your oaths still hold; the blood-drinkers must be destroyed.",
+    "points": 0,
+    "skills": [
+      { "level": 3, "name": "deduction" },
+      { "level": 3, "name": "survival" },
+      { "level": 1, "name": "dodge" },
+      { "level": 2, "name": "melee" }
+    ],
+    "traits": [
+      "BLOODTHORNE_SORCERY",
+      "BLOODTHORNE_DRUID",
+      "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT",
+      "JAUNDICE_ARVORE_ALCHEMY",
+      "ARVORE_BLOOD",
+      "ARVORE_SUMMON_BRIARS",
+      "ARVORE_SUMMON_GRASS_FIELD",
+      "FALSE_ARVORE_HATRED"
+    ],
+    "recipes": [ "plant_imbuement" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "jeans" },
+          { "item": "longshirt" },
+          { "item": "sweatshirt" },
+          { "item": "socks" },
+          { "item": "boots_combat" },
+          { "item": "mbag" },
+          { "item": "pockknife" },
+          { "item": "water_clean" },
+          { "item": "wristwatch" },
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
+          { "item": "knife_combat", "container-item": "sheath" }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    },
+    "flags": [ "SCEN_ONLY" ]
   }
 ]

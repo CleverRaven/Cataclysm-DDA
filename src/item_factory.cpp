@@ -322,8 +322,7 @@ void Item_factory::finalize_pre( itype &obj )
     }
 
     if( obj.thrown_damage.empty() ) {
-        obj.thrown_damage.add_damage( damage_bash,
-                                      obj.melee.damage_map[damage_bash] + obj.weight / 1.0_kilogram );
+        obj.thrown_damage.add_damage( damage_bash, obj.melee.damage_map[damage_bash] * 0.75 );
     }
 
     if( obj.has_flag( flag_STAB ) ) {
@@ -4642,6 +4641,15 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj,
         use_modifier = true;
     }
 
+    if( obj.has_object( "faults" ) ) {
+        JsonObject jo = obj.get_object( "faults" );
+        int chance = jo.get_int( "chance", 100 );
+        for( std::string ids : jo.get_array( "id" ) ) {
+            modifier.faults.emplace_back( fault_id( ids ), chance );
+        }
+        use_modifier = true;
+    }
+
     if( use_modifier ) {
         sptr->modifier.emplace( std::move( modifier ) );
     }
@@ -4679,15 +4687,23 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const item_group_id
     if( context.empty() ) {
         context = group_id.str();
     }
+    // Check if the copy-from target exists BEFORE we get a reference to it!
+    // std::map's [] operator inserts a reference if one isn't found!
+    const bool already_exists = m_template_groups.find( group_id ) != m_template_groups.end();
     std::unique_ptr<Item_spawn_data> &isd = m_template_groups[group_id];
     // If we copy-from, do copy-from
     // Otherwise, unconditionally overwrite
     if( jsobj.has_member( "copy-from" ) ) {
+        const std::string target_grp_str = jsobj.get_string( "copy-from" );
         // We can only copy-from a group with the same id (for now)
-        if( jsobj.get_string( "copy-from" ) != group_id.str() ) {
+        if( target_grp_str != group_id.str() ) {
             debugmsg( "Item group '%s' tries to copy from different group '%s'", group_id.str(),
-                      jsobj.get_string( "copy-from" ) );
+                      target_grp_str );
             return;
+        }
+        if( !already_exists ) {
+            debugmsg( "%1$s was unable to find item group %2$s to copy-from during loading.  Context: %3$s",
+                      group_id.str(), target_grp_str, context );
         }
     } else {
         isd.reset();

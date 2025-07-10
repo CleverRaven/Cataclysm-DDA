@@ -437,7 +437,6 @@
     "material": [ "powder", "milk" ],
     "primary_material": "powder",
     "volume": "62 ml",
-    "cooks_like": "milk",
     "flags": [ "EDIBLE_FROZEN" ],
     "vitamins": [ [ "vitC", 1 ], [ "calcium", 7 ], [ "milk_allergen", 1 ] ],
     "fun": -5,

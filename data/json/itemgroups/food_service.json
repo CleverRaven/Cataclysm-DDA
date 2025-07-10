@@ -698,8 +698,8 @@
       { "item": "hot_sauce", "prob": 25 },
       { "prob": 60, "group": "sugar_various_full" },
       { "prob": 15, "group": "artificial_sweetener_box_small_71" },
-      { "prob": 65, "group": "dry_rice_bag_plastic_3" },
-      { "prob": 5, "group": "dry_wild_rice_bag_plastic_3" },
+      { "prob": 65, "group": "dry_rice_bag_plastic_full" },
+      { "prob": 5, "group": "dry_wild_rice_bag_plastic_full" },
       { "prob": 5, "group": "chem_citric_acid_bottle_glass_50" }
     ]
   },
@@ -1354,7 +1354,7 @@
         ],
         "prob": 60
       },
-      { "prob": 30, "group": "nachos_bowl_plastic_3" },
+      { "prob": 30, "group": "nachos_bowl_plastic_full" },
       { "item": "hot_sauce", "prob": 40 }
     ]
   },
@@ -1420,16 +1420,16 @@
     "subtype": "collection",
     "entries": [
       { "group": "pantry_liquids", "prob": 30 },
-      { "prob": 50, "count": [ 1, 3 ], "group": "tortilla_corn_bag_plastic_12" },
-      { "prob": 50, "count": [ 1, 3 ], "group": "tortilla_flour_bag_plastic_12" },
+      { "prob": 50, "count": [ 1, 3 ], "group": "tortilla_corn_bag_plastic_full" },
+      { "prob": 50, "count": [ 1, 3 ], "group": "tortilla_flour_bag_plastic_full" },
       { "item": "sauce_red", "prob": 30 },
-      { "prob": 60, "count": [ 1, 3 ], "group": "nachos_bag_plastic_3" },
+      { "prob": 60, "count": [ 1, 3 ], "group": "nachos_bag_plastic_full" },
       { "prob": 40, "group": "cheese_hard_wrapper_8" },
       { "prob": 20, "count": [ 1, 3 ], "group": "can_beans_can_medium_2" },
-      { "prob": 60, "count": [ 1, 3 ], "group": "dry_beans_bag_plastic_6" },
+      { "prob": 60, "count": [ 1, 3 ], "group": "dry_beans_bag_plastic_full" },
       { "item": "dry_mushroom", "prob": 40, "count": [ 1, 3 ] },
-      { "prob": 20, "count": [ 3, 9 ], "group": "flatbread_bag_plastic_2" },
-      { "prob": 60, "count": [ 1, 3 ], "group": "dry_rice_bag_plastic_3" },
+      { "prob": 20, "count": [ 3, 9 ], "group": "flatbread_bag_plastic_full" },
+      { "prob": 60, "count": [ 1, 3 ], "group": "dry_rice_bag_plastic_full" },
       { "group": "SUS_spice_collection", "prob": 70 },
       { "group": "big_canned_food", "prob": 20, "count": [ 1, 2 ] },
       { "group": "dry_goods", "prob": 30 }
@@ -2454,19 +2454,17 @@
   },
   {
     "type": "item_group",
-    "id": "dry_rice_bag_plastic_3",
+    "id": "dry_rice_bag_plastic_full",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_plastic_small",
-    "entries": [ { "item": "dry_rice", "container-item": "null", "count": 3 } ]
+    "entries": [ { "item": "dry_rice", "container-item": "null", "count": 6 } ]
   },
   {
     "type": "item_group",
-    "id": "dry_wild_rice_bag_plastic_3",
+    "id": "dry_wild_rice_bag_plastic_full",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_plastic_small",
-    "entries": [ { "item": "dry_wild_rice", "container-item": "null", "count": 3 } ]
+    "entries": [ { "item": "dry_wild_rice", "container-item": "null", "count": 6 } ]
   },
   {
     "type": "item_group",
@@ -2799,50 +2797,44 @@
   },
   {
     "type": "item_group",
-    "id": "nachos_bowl_plastic_3",
+    "id": "nachos_bowl_plastic_full",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bowl_plastic",
-    "entries": [ { "item": "nachos", "container-item": "null", "count": 3 } ]
+    "entries": [ { "item": "nachos", "container-item": "null", "count": 9 } ]
   },
   {
     "type": "item_group",
-    "id": "tortilla_corn_bag_plastic_12",
+    "id": "tortilla_corn_bag_plastic_full",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_plastic_small",
-    "entries": [ { "item": "tortilla_corn", "container-item": "null", "count": 12 } ]
+    "entries": [ { "item": "tortilla_corn", "container-item": "null", "count": 25 } ]
   },
   {
     "type": "item_group",
-    "id": "tortilla_flour_bag_plastic_12",
+    "id": "tortilla_flour_bag_plastic_full",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_plastic_small",
-    "entries": [ { "item": "tortilla_flour", "container-item": "null", "count": 12 } ]
+    "entries": [ { "item": "tortilla_flour", "container-item": "null", "count": 25 } ]
   },
   {
     "type": "item_group",
-    "id": "nachos_bag_plastic_3",
+    "id": "nachos_bag_plastic_full",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_plastic_small",
-    "entries": [ { "item": "nachos", "container-item": "null", "count": 3 } ]
+    "entries": [ { "item": "nachos", "container-item": "null", "count": 6 } ]
   },
   {
     "type": "item_group",
-    "id": "dry_beans_bag_plastic_6",
+    "id": "dry_beans_bag_plastic_full",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_plastic_small",
-    "entries": [ { "item": "dry_beans", "container-item": "null", "count": 6 } ]
+    "entries": [ { "item": "dry_beans", "container-item": "null", "count": 12 } ]
   },
   {
     "type": "item_group",
-    "id": "flatbread_bag_plastic_2",
+    "id": "flatbread_bag_plastic_full",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_plastic_small",
-    "entries": [ { "item": "flatbread", "container-item": "null", "count": 2 } ]
+    "entries": [ { "item": "flatbread", "container-item": "null", "count": 8 } ]
   }
 ]

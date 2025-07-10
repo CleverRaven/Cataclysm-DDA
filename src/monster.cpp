@@ -284,7 +284,6 @@ monster::monster( const mtype_id &id ) : monster()
     }
     anger = type->agro;
     morale = type->morale;
-    stomach_size = type->stomach_size;
     faction = type->default_faction;
     upgrades = type->upgrades && ( type->half_life || type->age_grow );
     reproduces = type->reproduces && type->baby_timer && !monster::has_flag( mon_flag_NO_BREED );
@@ -697,10 +696,10 @@ int monster::get_amount_eaten() const
 
 int monster::get_stomach_fullness_percent() const
 {
-    if( stomach_size == 0 ) {
+    if( type->stomach_size == 0 ) {
         return 100; // no div-by-zero
     }
-    return get_amount_eaten() / stomach_size;
+    return get_amount_eaten() / type->stomach_size;
 }
 
 bool monster::has_eaten_enough() const
@@ -712,7 +711,7 @@ bool monster::has_eaten_enough() const
 
 bool monster::has_fully_eaten() const
 {
-    return amount_eaten >= stomach_size;
+    return amount_eaten >= type->stomach_size;
 }
 
 void monster::digest_food()
@@ -1034,6 +1033,13 @@ void monster::print_info_imgui() const
     ImGui::SameLine();
     ImGui::TextColored( symbol_color, "%s %s", name().c_str(),
                         get_effect_status().c_str() );
+
+    if( debug_mode ) {
+        dialogue d( get_talker_for( const_cast<monster *>( this ) ), get_talker_for( get_avatar() ) );
+        for( const std::pair<const std::string, mtype_special_attack> &attack : type->special_attacks ) {
+            ImGui::Text( "%s: %g", attack.first.c_str(), attack.second->cooldown.evaluate( d ) );
+        }
+    }
 
     Character &pc = get_player_character();
     bool sees_player = sees( here, pc );
@@ -3741,7 +3747,8 @@ creature_size monster::get_size() const
 
 units::mass monster::get_weight() const
 {
-    return units::operator*( type->weight, get_size() / type->size );
+    return enchantment_cache->modify_value( enchant_vals::mod::TOTAL_WEIGHT,
+                                            units::operator*( type->weight, get_size() / type->size ) );
 }
 
 units::mass monster::weight_capacity() const

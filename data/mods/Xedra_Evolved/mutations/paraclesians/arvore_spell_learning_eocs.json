@@ -3,10 +3,11 @@
     "type": "effect_on_condition",
     "id": "EOC_ARVORE_SPELL_EXPERIENCE_INCREASER",
     "//": "Must in the wilds--in a forest not near a road, mostly outside but in the living structures they build themselves is okay as well",
+    "//2": "Bloodthorne druids can benefit from this, people who merely steal Arvore power with alchemy cannot",
     "recurrence": [ "6 h", "36 h" ],
     "condition": {
       "and": [
-        { "u_has_trait": "ARVORE" },
+        { "u_has_any_trait": [ "ARVORE", "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT" ] },
         {
           "u_has_any_trait": [
             "ARVORE_NURTURING_THE_GREEN",

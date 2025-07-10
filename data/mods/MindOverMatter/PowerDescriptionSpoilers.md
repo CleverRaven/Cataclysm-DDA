@@ -261,7 +261,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 12 minutes to 23 minutes 20 seconds, plus 6 minutes 12 seconds to 13 minutes 30 seconds minutes per level<br />
 *Stamina Cost*: 3500, minus 75 per level to a minimum of 2000<br />
 *Channeling Time*: 50 moves, minus 2 moves per level to a minimum of 20<br />
-*Effects*: Allows the psion to see in the dark.  This increases the psion's night vision by 2 squares plus 1.5 squares per power level.<br />
+*Effects*: Allows the psion to "see" in the dark--this is technically not sight but functions that way for game purposes.  This increases the psion's night vision by 2 squares plus 1.5 squares per power level.  If the psions also has Heightened Senses level 8 or higher (counting Intelligence and Nether Attunement scaling) active, they can craft in darkness as well.<br />
 *Prerequisites*: Heightened Senses 8<br />
 </details>
 <details>

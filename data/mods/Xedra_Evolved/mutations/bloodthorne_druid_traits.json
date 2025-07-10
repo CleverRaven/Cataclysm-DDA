@@ -1,0 +1,154 @@
+[
+  {
+    "type": "mutation",
+    "id": "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT",
+    "name": { "str": "Heartvines" },
+    "points": 0,
+    "description": "After being infused with the power of nature, part of the ritual of the Bloodthorne Druids was the implantation of a symbiotic plant.  You aren't sure where it came from or what its natural habitat is, but now it's a part of you.  You require slightly more food and water than normal to feed it, but have the power to fight back against the blood-drinkers.\n\nVampire blood taken from their dying hearts and stolen power from the wood-elemental fey will both fuel your Heartvines.  Enough of both will allow you to unlock new gifts.",
+    "purifiable": false,
+    "valid": false,
+    "visibility": 2,
+    "ugliness": 1,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "METABOLISM", "multiply": 0.1 },
+          { "value": "THIRST", "multiply": 0.1 },
+          {
+            "value": "MAX_MANA",
+            "add": { "math": [ "(50 * bloodthorn_druid_traits_sum() ) + (25 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') )" ] }
+          }
+        ]
+      }
+    ],
+    "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+    "flags": [ "ATTUNEMENT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "BLOODTHORNE_SORCERY",
+    "name": "Thornwitchery",
+    "points": 0,
+    "description": "This is the school trait for Bloodthorne Druids.  You shouldn't see it directly.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false
+  },
+  {
+    "type": "mutation",
+    "id": "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP",
+    "name": { "str": "Heartwhip" },
+    "points": 2,
+    "description": "You can cause a sudden outgrowth of your Heartvine into a living whip-like weapon, ready to scourge the undead.",
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_eocs": [ "EOC_BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP_SUMMON" ],
+    "deactivated_eocs": [ "EOC_BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP_UNSUMMON" ],
+    "activation_msg": "A vine erupts from your arm and wraps around your wrist before snugly fitting itself into your hand.",
+    "activated_is_setup": true,
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "values": [ { "value": "METABOLISM", "multiply": 0.2 }, { "value": "THIRST", "multiply": 0.2 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "BLOODTHORNE_DRUID_REGAIN_BLOOD",
+    "name": { "str": "Woodblood Restoration" },
+    "points": 2,
+    "description": "The first principle of defeating the blood-drinkers is to avoid losing your blood.  While standing on natural foliage, you can use this spell to replenish any lost blood.",
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "bloodthorne_druid_regain_blood_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "BLOODTHORNE_DRUID_STOP_BLEEDING",
+    "name": { "str": "Thorn-sealed Wounds" },
+    "points": 2,
+    "description": "When bleeding, your heartvines can pull the wound closed and stop it.  This is painful, but will prevent further bleeding.  If there are any vampires or their servants nearby, the heartvines will also lash out at them as they pull the wound closed.",
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "bloodthorne_druid_stop_bleeding_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "BLOODTHORNE_DRUID_WHIP_TARGETS_IN_NATURE",
+    "name": { "str": "Verdant Scourge" },
+    "points": 2,
+    "description": "You can bring the fury of nature to bear on your enemies.  When a target is in thick foliage, you can cause the plants to grow long thorns and pierce them.",
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "bloodthorne_druid_whip_targets_in_nature_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "BLOODTHORNE_DRUID_REDUCED_PAIN_PENALTIES",
+    "name": { "str": "Balm of Nature" },
+    "points": 3,
+    "description": "Your heartvines frequently cause you pain on their own, to say nothing of the wounds you suffer fighting the vampires, but now it doesn't seem to affect you as much.  Your strength, dexterity, and speed are penalized less by the pain you feel.",
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "PAIN_PENALTY_MOD_STR",
+            "multiply": {
+              "math": [
+                "max( ( -0.15 + (-0.02 * bloodthorn_druid_traits_sum() ) + (-0.01 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') ) ), -0.6)"
+              ]
+            }
+          },
+          {
+            "value": "PAIN_PENALTY_MOD_DEX",
+            "multiply": {
+              "math": [
+                "max( ( -0.15 + (-0.02 * bloodthorn_druid_traits_sum() ) + (-0.01 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') ) ), -0.6)"
+              ]
+            }
+          },
+          {
+            "value": "PAIN_PENALTY_MOD_SPEED",
+            "multiply": {
+              "math": [
+                "max( ( -0.15 + (-0.02 * bloodthorn_druid_traits_sum() ) + (-0.01 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') ) ), -0.6)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "BLOODTHORNE_DRUID_BONUS_MANA_REGEN",
+    "name": { "str": "In Tune with the Wild" },
+    "points": 2,
+    "description": "Thornwitchery draws its power from the wild places, and while there you grow stronger.  Your mana recovery is increased when in the wilderness away from civilization.",
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [
+      {
+        "condition": {
+          "or": [
+            { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" },
+            { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_FOREST" }
+          ]
+        },
+        "values": [
+          {
+            "value": "REGEN_MANA",
+            "multiply": {
+              "math": [ "(0.02 * bloodthorn_druid_traits_sum() ) + (0.01 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') )" ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

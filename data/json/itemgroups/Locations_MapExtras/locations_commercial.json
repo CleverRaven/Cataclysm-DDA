@@ -342,7 +342,7 @@
       [ "hat_chef", 5 ],
       [ "jacket_chef", 5 ],
       { "item": "smart_lamp", "prob": 5, "charges": [ 0, 100 ] },
-      [ "mask_guy_fawkes", 5 ],
+      { "item": "mask_skull", "variant": "guy_fawkes", "prob": 5 },
       { "item": "camera", "prob": 10, "charges": [ 0, 150 ] },
       { "item": "geiger_off", "prob": 8, "charges": [ 0, 100 ] },
       { "item": "rad_monitor", "prob": 1, "charges": [ 0, 50 ] },
@@ -619,7 +619,8 @@
       [ "flower_anklet", 1 ],
       [ "woven_anklet", 1 ],
       { "group": "tinware", "prob": 10 },
-      { "group": "costume_all_clothing", "prob": 10 }
+      { "group": "costume_all_clothing", "prob": 10 },
+      [ "cheongsam", 5 ]
     ]
   },
   {
@@ -665,7 +666,7 @@
       [ "molle_medium_rucksack", 40 ],
       [ "molle_large_rucksack", 25 ],
       [ "duffelbag", 10 ],
-      [ "long_duffelbag", 10 ],
+      { "group": "large_duffelbags", "prob": 10 },
       [ "backpack_tactical_large", 10 ],
       [ "binoculars", 20 ],
       { "group": "crossbow_bolts", "prob": 7 },
@@ -1949,6 +1950,7 @@
     "id": "gym",
     "type": "item_group",
     "items": [
+      { "group": "gym_bags", "prob": 20 },
       [ "water_clean", 12 ],
       [ "lemonade", 12 ],
       [ "sports_drink", 12 ],

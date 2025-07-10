@@ -574,7 +574,8 @@
     "recovery_chance": 99,
     "effects": [ "NEVER_MISFIRES", "NON_FOULING", "ALLOWS_BODY_BLOCK" ],
     "qualities": [ [ "HAMMER", 1 ] ],
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 7 },
+    "thrown_damage": { "damage_type": "bash", "amount": 7 }
   },
   {
     "type": "ITEM",

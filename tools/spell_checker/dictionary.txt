@@ -705,6 +705,7 @@ bloodhunting
 bloodletter
 bloodlust
 bloodthirst
+Bloodthorne
 bloomeries
 blowback
 BLR
@@ -1074,6 +1075,8 @@ Chelmsford
 Chelsea
 chemtrails
 Chen
+cheongsam
+cheongsams
 Cherokee
 Cheshire
 Chester
@@ -2054,6 +2057,8 @@ FLDSMDFR
 flechette
 flechettes
 flensing
+fleshborg
+fleshborgs
 Fleshmender
 fleshmonger
 fleshwarp
@@ -2559,6 +2564,9 @@ Heartfires
 heartlike
 Heartseed
 Heartseeds
+heartvine
+heartvines
+heartwhip
 Heathrow
 heatsink
 heatsinks
@@ -3071,6 +3079,7 @@ Justo
 Justus
 Kabura
 kabuto
+kabutos
 Kaczynski
 Kadambawa
 Kafka
@@ -4483,6 +4492,7 @@ Orleans
 Orley
 ornithomimid
 ornithomimus
+ouroboros
 Orpheus
 Orphic
 Orson
@@ -4939,6 +4949,7 @@ Qatari
 QDSS
 qiang
 qianzhousaurus
+qipao
 QOL
 Qolastā
 QR
@@ -5888,6 +5899,8 @@ Steyr
 STI
 Stig
 Stillwater
+stiltwalker
+stiltwalkers
 stim
 stimpack
 stims
@@ -6375,6 +6388,7 @@ travelpack
 travelpacks
 Travers
 travois
+treaded
 treecutting
 treefrog
 treefrogs

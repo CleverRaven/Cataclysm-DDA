@@ -21,7 +21,6 @@
 #include "debug.h"
 #include "effect_on_condition.h"
 #include "enum_traits.h"
-#include "enums.h"
 #include "flag.h"
 #include "flexbuffer_json.h"
 #include "game_constants.h"
@@ -200,6 +199,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                 id = recipe_id( jo.get_string( "id" ) );
             }
         } else {
+            optional( jo, false, "name", name_ );
             id = recipe_id( result_.str() );
         }
     }
@@ -661,6 +661,11 @@ void recipe::finalize()
         if( skill_used ) {
             autolearn_requirements[ skill_used ] = difficulty;
         }
+    }
+
+    // ensure result name is always in front of the name for searching in crafting menu
+    if( !name_.empty() && !is_practice() && !is_nested() && result_ ) {
+        name_ = translation::to_translation( string_format( name_, result_->nname( makes_amount() ) ) );
     }
 }
 
@@ -1328,18 +1333,8 @@ std::function<bool( const item & )> recipe::get_component_filter(
     };
 }
 
-bool recipe::npc_can_craft( std::string &reason ) const
+bool recipe::npc_can_craft( std::string & ) const
 {
-    if( result()->phase != phase_id::SOLID ) {
-        reason = _( "Ordering NPC to craft non-solid item is currently only implemented for camps." );
-        return false;
-    }
-    for( const auto& [bp, _] : get_byproducts() ) {
-        if( bp->phase != phase_id::SOLID ) {
-            reason = _( "Ordering NPC to craft non-solid item is currently only implemented for camps." );
-            return false;
-        }
-    }
     return true;
 }
 

@@ -1,0 +1,98 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BLOODTHORNE_DRUID_REGAIN_BLOOD",
+    "effect": [
+      {
+        "math": [
+          "_blood_bonus",
+          "+=",
+          "(50 * bloodthorn_druid_traits_sum_as_npc() ) + (25 * n_sum_traits_of_category_char_has('ARVORE_ALCHEMY') )"
+        ]
+      },
+      { "math": [ "u_vitamin('blood')", "+=", "_blood_bonus" ] },
+      { "math": [ "u_vitamin('redcells')", "+=", "_blood_bonus" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BLOODTHORNE_DRUID_STOP_BLEEDING",
+    "effect": {
+      "switch": { "math": [ "( (2 * bloodthorn_druid_traits_sum() ) + u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') )" ] },
+      "cases": [
+        {
+          "case": 0,
+          "effect": [
+            { "u_spawn_item": "bloodthorne_druid_bandage_01", "suppress_message": true },
+            {
+              "run_eocs": [
+                {
+                  "id": "EOC_BLOODTHORNE_DRUID_STOP_BLEEDING_CASE_1",
+                  "effect": [
+                    {
+                      "u_run_inv_eocs": "random",
+                      "search_data": [ { "id": "bloodthorne_druid_bandage_01" } ],
+                      "true_eocs": [ { "id": "EOC_BLOODTHORNE_DRUID_STOP_BLEEDING_CASE_1_ACTIVATE", "effect": { "u_activate": "heal" } } ]
+                    }
+                  ]
+                }
+              ]
+            },
+            { "run_eocs": "EOC_BLOODTHORNE_DRUID_STOP_BLEEDING_CLEANUP", "time_in_future": 1 }
+          ]
+        },
+        {
+          "case": 20,
+          "effect": [
+            { "u_spawn_item": "bloodthorne_druid_bandage_02", "suppress_message": true },
+            {
+              "run_eocs": [
+                {
+                  "id": "EOC_BLOODTHORNE_DRUID_STOP_BLEEDING_CASE_2",
+                  "effect": [
+                    {
+                      "u_run_inv_eocs": "random",
+                      "search_data": [ { "id": "bloodthorne_druid_bandage_02" } ],
+                      "true_eocs": [ { "id": "EOC_BLOODTHORNE_DRUID_STOP_BLEEDING_CASE_2_ACTIVATE", "effect": { "u_activate": "heal" } } ]
+                    }
+                  ]
+                }
+              ]
+            },
+            { "run_eocs": "EOC_BLOODTHORNE_DRUID_STOP_BLEEDING_CLEANUP", "time_in_future": 1 }
+          ]
+        },
+        {
+          "case": 40,
+          "effect": [
+            { "u_spawn_item": "bloodthorne_druid_bandage_03", "suppress_message": true },
+            {
+              "run_eocs": [
+                {
+                  "id": "EOC_BLOODTHORNE_DRUID_STOP_BLEEDING_CASE_3",
+                  "effect": [
+                    {
+                      "u_run_inv_eocs": "random",
+                      "search_data": [ { "id": "bloodthorne_druid_bandage_03" } ],
+                      "true_eocs": [ { "id": "EOC_BLOODTHORNE_DRUID_STOP_BLEEDING_CASE_3_ACTIVATE", "effect": { "u_activate": "heal" } } ]
+                    }
+                  ]
+                }
+              ]
+            },
+            { "run_eocs": "EOC_BLOODTHORNE_DRUID_STOP_BLEEDING_CLEANUP", "time_in_future": 1 }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BLOODTHORNE_DRUID_STOP_BLEEDING_CLEANUP",
+    "effect": [
+      { "u_remove_item_with": "bloodthorne_druid_bandage_01" },
+      { "u_remove_item_with": "bloodthorne_druid_bandage_02" },
+      { "u_remove_item_with": "bloodthorne_druid_bandage_03" }
+    ]
+  }
+]

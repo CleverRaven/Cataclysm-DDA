@@ -61,7 +61,7 @@
     "harvest": "demihuman",
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
-    "special_attacks": [ { "type": "spell", "spell_data": { "id": "fear_paralyze" }, "monster_message": "" } ],
+    "special_attacks": [ { "type": "spell", "cooldown": 0, "spell_data": { "id": "fear_paralyze" }, "monster_message": "" } ],
     "death_function": { "eoc": "EOC_last_amigara_death" },
     "dissect": "dissect_human_sample_single",
     "flags": [ "SMELLS", "HEARS", "SEES", "STUMBLES", "HARDTOSHOOT" ],
@@ -118,7 +118,7 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "harvest": "zombie_humanoid",
     "special_attacks": [
-      { "type": "spell", "spell_data": { "id": "fear_paralyze" }, "monster_message": "" },
+      { "type": "spell", "cooldown": 0, "spell_data": { "id": "fear_paralyze" }, "monster_message": "" },
       { "type": "bite", "cooldown": 5 }
     ],
     "death_function": { "effect": { "id": "death_guilt", "min_level": 6 } },
@@ -2020,6 +2020,7 @@
     "special_attacks": [
       {
         "type": "spell",
+        "cooldown": 0,
         "spell_data": { "id": "hallucinator_touch" },
         "monster_message": "You feel something was destroyed inside you."
       }
@@ -2384,7 +2385,7 @@
     "color": "pink",
     "bodytype": "insect",
     "harvest": "arachnid_beetle",
-    "special_attacks": [ { "type": "bite", "attack_upper": false } ],
+    "special_attacks": [ { "id": "bite_humanoid", "attack_upper": false } ],
     "zombify_into": "mon_meat_cocoon_tiny",
     "flags": [ "SEES", "HEARS" ]
   },
@@ -2414,5 +2415,54 @@
     "harvest": "mutant_tiny",
     "zombify_into": "mon_meat_cocoon_tiny",
     "flags": [ "WARM", "HEARS", "GRABS", "IMMOBILE" ]
+  },
+  {
+    "id": "mon_nether_cucumber",
+    "type": "MONSTER",
+    "name": { "str": "waterbed skulker" },
+    "description": "Pink and translucent, with all of its otherworldly organs visible through its skin, this meter-high conical creature creeps along the seabed with its stubby, furry legs.  It contracts some kind of retracted barbed filaments into an orifice at its rear as it aims it at potential prey.",
+    "species": "NETHER",
+    "hp": 100,
+    "diff": 15,
+    "weight": "75 kg",
+    "volume": "70 L",
+    "symbol": "s",
+    "color": "pink",
+    "default_faction": "nether",
+    "speed": 100,
+    "move_skills": { "swim": 2 },
+    "melee_damage": [ { "damage_type": "bash", "amount": 0 } ],
+    "special_attacks": [
+      { "id": "nether_cucumber_pull" },
+      { "id": "nether_cucumber_lash" },
+      { "id": "nether_cucumber_grab" },
+      { "id": "nether_cucumber_grab_followup" }
+    ],
+    "grab_strength": 40,
+    "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
+    "aggression": 20,
+    "morale": 30,
+    "bodytype": "snake",
+    "harvest": "mutant_mollusk",
+    "zombify_into": "mon_meat_cocoon_tiny",
+    "flags": [ "AQUATIC", "SMELLS", "SEES", "HEARS", "GRABS" ],
+    "weakpoints": [
+      {
+        "name": "filaments",
+        "coverage": 25,
+        "effects": [
+          {
+            "effect": "sectioned_filaments",
+            "effect_on_conditions": [ "EOC_MORALE_SUBTRACT_100" ],
+            "chance": 50,
+            "duration": [ 5, 25 ],
+            "message": "The %s's filaments are cut off!",
+            "damage_required": [ 25, 100 ]
+          }
+        ],
+        "damage_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 }
+      },
+      { "name": "vital organs", "coverage": 10, "damage_mult": { "bullet": 2, "cut": 2, "stab": 2, "bash": 0.5 } }
+    ]
   }
 ]

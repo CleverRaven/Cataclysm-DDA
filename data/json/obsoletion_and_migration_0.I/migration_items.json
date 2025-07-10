@@ -2558,6 +2558,12 @@
   },
   {
     "type": "MIGRATION",
+    "id": "mask_guy_fawkes",
+    "replace": "mask_skull",
+    "variant": "guy_fawkes"
+  },
+  {
+    "type": "MIGRATION",
     "id": "robofac_head_rig_ir",
     "replace": "robofac_head_rig_nv"
   },
@@ -2580,5 +2586,35 @@
     "type": "MIGRATION",
     "id": "spear_forked",
     "replace": "spear_spike"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "draco",
+    "replace": "aksemi"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "draco_mini",
+    "replace": "aksemi"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "draco_micro",
+    "replace": "aksemi"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "draco_9mm",
+    "replace": "rugerpcc"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ruger_charger",
+    "replace": "ruger_1022"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ruger_charger_auto",
+    "replace": "ruger_1022_auto"
   }
 ]

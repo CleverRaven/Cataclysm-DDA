@@ -1573,7 +1573,6 @@ void activity_handlers::toolmod_add_finish( player_activity *act, Character *you
     item &mod = *act->targets[1];
     you->add_msg_if_player( m_good, _( "You successfully attached the %1$s to your %2$s." ),
                             mod.tname(), tool.tname() );
-    mod.set_flag( flag_IRREMOVABLE );
     tool.put_in( mod, pocket_type::MOD );
     tool.on_contents_changed();
     act->targets[1].remove_item();
@@ -2619,6 +2618,8 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
                         spell_being_cast.gain_level( *you );
                         you->add_msg_if_player( m_good,
                                                 _( "Something about how this spell works just clicked!  You gained a level!" ) );
+                    } else {
+                        spell_being_cast.gain_exp( *you, exp_gained );
                     }
                     if( spell_being_cast.get_level() != old_level ) {
                         // Level 0-1 message is printed above - notify player when leveling up further

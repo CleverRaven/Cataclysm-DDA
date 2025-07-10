@@ -332,6 +332,7 @@
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_redsmithing_adv" },
       { "proficiency": "prof_carving", "skill_penalty": 0 }
     ],
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
@@ -356,6 +357,7 @@
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_redsmithing_adv" },
       { "proficiency": "prof_carving", "skill_penalty": 0 }
     ],
     "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
@@ -377,6 +379,7 @@
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_redsmithing_adv" },
       { "proficiency": "prof_carving", "skill_penalty": 0 }
     ],
     "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
@@ -397,6 +400,7 @@
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_redsmithing_adv" },
       { "proficiency": "prof_bladesmith" },
       { "proficiency": "prof_carving", "skill_penalty": 0 }
     ],
@@ -576,7 +580,11 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_redsmithing_adv" }
+    ],
     "components": [
       [
         [ "cotton_patchwork", 1 ],
@@ -598,7 +606,12 @@
     "difficulty": 4,
     "time": "6 h 30 m",
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" }, { "proficiency": "prof_bladesmith" } ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_redsmithing_adv" },
+      { "proficiency": "prof_bladesmith" }
+    ],
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ], [ [ "casting_mold", -1 ] ] ],
@@ -860,8 +873,8 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "javelin",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_PIERCING",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "skills_required": [ [ "throw", 2 ] ],
     "difficulty": 3,
@@ -876,8 +889,8 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "javelin_iron",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_PIERCING",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "skills_required": [ "throw", 2 ],
     "difficulty": 2,

@@ -516,5 +516,31 @@
     "ammo_type": [ "22" ],
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 10 } } ]
+  },
+  {
+    "id": "mp1522_mag",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
+    "name": { "str": ".22 10-round modern varmint rifle magazine" },
+    "description": "A black, 10-round polymer magazine for the modern varmint rifle.  It unfortunately is not compatible with AR-15 .22 conversion magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mp1522_mag",
+        "name": { "str": "M&P 15-22 magazine" },
+        "description": "A black, 10-round polymer magazine for the M&P 15-22 rifle.  It unfortunately is not compatible with AR-15 .22 conversion magazines."
+      }
+    ],
+    "weight": "130 g",
+    "volume": "187 ml",
+    "longest_side": "110 mm",
+    "price": "22 USD 99 cent",
+    "price_postapoc": "50 cent",
+    "material": [ "plastic" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "22" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 10 } } ]
   }
 ]
