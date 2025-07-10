@@ -4869,7 +4869,7 @@ talk_effect_fun_t::func f_revert_location( const JsonObject &jo, std::string_vie
         key.str_val = "";
     }
     var_info target_var = read_var_info( jo.get_object( member ) );
-    return [target_var, dov_time_in_future, key]( dialogue & d ) {
+    return[target_var, dov_time_in_future, key]( dialogue & d ) {
         const tripoint_abs_ms abs_ms = read_var_value( target_var, d ).tripoint();
         tripoint_abs_omt omt_pos = project_to<coords::omt>( abs_ms );
         time_point tif = calendar::turn + dov_time_in_future.evaluate( d ) + 1_seconds;
@@ -4895,6 +4895,51 @@ talk_effect_fun_t::func f_revert_location( const JsonObject &jo, std::string_vie
         }
 
         reality_bubble().invalidate_map_cache( omt_pos.z() );
+    };
+}
+
+talk_effect_fun_t::func f_copy_location( const JsonObject &jo, std::string_view member,
+        std::string_view )
+{
+    duration_or_var dov_time_in_future = get_duration_or_var( jo, "time_in_future", true );
+    str_or_var key;
+    if( jo.has_member( "key" ) ) {
+        key = get_str_or_var( jo.get_member( "key" ), "key", false, "" );
+    } else {
+        key.str_val = "";
+    }
+    var_info new_loc = read_var_info( jo.get_object( "new_loc" ) );
+    var_info target_var = read_var_info( jo.get_object( member ) );
+    return[target_var, new_loc, dov_time_in_future, key]( dialogue & d ) {
+        const tripoint_abs_ms abs_ms = read_var_value( target_var, d ).tripoint();
+        const tripoint_abs_ms abs_ms_new = read_var_value( new_loc, d ).tripoint();
+        tripoint_abs_omt omt_pos = project_to<coords::omt>( abs_ms );
+        tripoint_abs_omt omt_pos_new = project_to<coords::omt>( abs_ms_new );
+
+        time_point tif = calendar::turn + dov_time_in_future.evaluate( d ) + 1_seconds;
+        // Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
+        // maptile is 4 submaps so queue up 4 submap reverts
+        const tripoint_abs_sm revert_sm_base = project_to<coords::sm>( omt_pos );
+        const tripoint_abs_sm new_sm_base = project_to<coords::sm>( omt_pos_new );
+        if( !MAPBUFFER.submap_exists( new_sm_base ) ) {
+            tinymap tm;
+            // This creates the submaps if they didn't already exist.
+            // Note that all four submaps are loaded/created by this
+            // call, so the submap lookup can fail at most once.
+            tm.load( omt_pos_new, true );
+        }
+        for( int x = 0; x < 2; x++ ) {
+            for( int y = 0; y < 2; y++ ) {
+                const tripoint_abs_sm new_sm = new_sm_base + point( x, y );
+
+                const tripoint_abs_sm revert_sm = revert_sm_base + point( x, y );
+                submap *sm = MAPBUFFER.lookup_submap( revert_sm );
+                get_timed_events().add( timed_event_type::REVERT_SUBMAP, tif, -1,
+                                        project_to<coords::ms>( new_sm ), 0, "",
+                                        sm->get_revert_submap(), key.evaluate( d ) );
+            }
+        }
+        reality_bubble().invalidate_map_cache( omt_pos_new.z() );
     };
 }
 
@@ -7923,6 +7968,7 @@ parsers = {
     { "mapgen_update", jarg::member, &talk_effect_fun::f_mapgen_update },
     { "alter_timed_events", jarg::member, &talk_effect_fun::f_alter_timed_events },
     { "revert_location", jarg::member, &talk_effect_fun::f_revert_location },
+    { "copy_location", jarg::member, &talk_effect_fun::f_copy_location },
     { "place_override", jarg::member, &talk_effect_fun::f_place_override },
     { "transform_line", jarg::member, &talk_effect_fun::f_transform_line },
     { "location_variable_adjust", jarg::member, &talk_effect_fun::f_location_variable_adjust },
