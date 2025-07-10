@@ -407,10 +407,9 @@
         [ "tobacco_raw", 50 ],
         [ "nicotine_liquid", 50 ]
       ],
-      [ [ "soap", 1 ], [ "soap_flakes", 15 ], [ "detergent", 1 ], [ "liquid_soap", 1 ], [ "soapy_water", 1 ] ],
+      [ [ "kerosene", 1 ], [ "chem_sulphuric_acid", 1 ] ],
       [ [ "water_clean", 1 ], [ "water", 1 ] ]
-    ],
-    "result_mult": 8
+    ]
   },
   {
     "type": "recipe",
