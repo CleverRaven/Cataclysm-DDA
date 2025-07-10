@@ -1249,6 +1249,7 @@
         "condition": "ALWAYS",
         "values": [
           { "value": "SPEED", "multiply": 0.1 },
+          { "value": "MAX_HP", "multiply": -0.85 },
           { "value": "MELEE_DAMAGE", "multiply": -0.95 },
           { "value": "NIGHT_VIS", "add": 6 },
           { "value": "DEXTERITY", "add": 8 },
