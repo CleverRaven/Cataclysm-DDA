@@ -450,7 +450,7 @@
     "blood_analysis_description": "Unknown RNA virus is rewriting sampled blood cells.",
     "base_mods": { "speed_mod": [ -5 ] },
     "scaling_mods": { "speed_mod": [ 15 ], "str_mod": [ 1.5 ], "dodge_mod": [ 1.5 ] },
-    "flags": [ "HEMOVORE" ]
+    "flags": [ "HEMOVORE", "NO_THORNWITCHERY" ]
   },
   {
     "type": "effect_type",

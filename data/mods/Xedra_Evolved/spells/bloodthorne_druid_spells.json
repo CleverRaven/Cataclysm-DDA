@@ -4,7 +4,7 @@
     "id": "xedra_bloodthorne_sorcery",
     "type": "magic_type",
     "energy_source": "MANA",
-    "cannot_cast_flags": [ "NO_SPELLCASTING" ],
+    "cannot_cast_flags": [ "NO_THORNWITCHERY", "NO_SPELLCASTING" ],
     "cannot_cast_message": "Your thornwitchery will not come to your call!",
     "failure_cost_percent": 0.75,
     "max_book_level": 0,
