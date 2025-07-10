@@ -193,7 +193,6 @@ Highway_path overmap::place_highway_reserved_path( const tripoint_om_omt &p1,
     bool north_south = direction1 == om_direction::type::north ||
                        direction1 == om_direction::type::south;
 
-    //if either point is invalid, fallback to onramp for valid points only
     bool p1_invalid = p1.is_invalid();
     bool p2_invalid = p2.is_invalid();
     if( !p1_invalid ) {
@@ -207,20 +206,30 @@ Highway_path overmap::place_highway_reserved_path( const tripoint_om_omt &p1,
         }
     }
 
-    if( p1_invalid || p2_invalid ) {
-        if( !p1_invalid ) {
-            tripoint_om_omt p1_rotated = p1;
-            highway_segment_offset( p1_rotated, direction1 );
-            place_special_forced( fallback_onramp, p1_rotated, direction1 );
+    //bools are separate from points for falling back to onramps even for valid points
+    auto handle_invalid_points = [this, &fallback_onramp, &p1, &p2, &direction1, &direction2](
+    const bool p1_invalid, const bool p2_invalid ) {
+        if( p1_invalid || p2_invalid ) {
+            if( !p1_invalid ) {
+                tripoint_om_omt p1_rotated = p1;
+                highway_segment_offset( p1_rotated, direction1 );
+                place_special_forced( fallback_onramp, p1_rotated, direction1 );
+            }
+            if( !p2_invalid ) {
+                tripoint_om_omt p2_rotated = p2;
+                highway_segment_offset( p2_rotated, direction2 );
+                place_special_forced( fallback_onramp, p2_rotated, direction2 );
+            }
+            add_msg_debug( debugmode::DF_HIGHWAY,
+                           "overmap (%s) took invalid points and is falling back to onramp.",
+                           loc.to_string_writable() );
+            return true;
         }
-        if( !p2_invalid ) {
-            tripoint_om_omt p2_rotated = p2;
-            highway_segment_offset( p2_rotated, direction2 );
-            place_special_forced( fallback_onramp, p2_rotated, direction2 );
-        }
-        add_msg_debug( debugmode::DF_HIGHWAY,
-                       "overmap (%s) took invalid points and is falling back to onramp.",
-                       loc.to_string_writable() );
+        return false;
+    };
+
+    //if either point is invalid, fallback to onramp for valid points only
+    if( handle_invalid_points( p1_invalid, p2_invalid ) ) {
         return highway_path;
     }
 
@@ -235,12 +244,18 @@ Highway_path overmap::place_highway_reserved_path( const tripoint_om_omt &p1,
         //we need to draw two bends
         if( parallel ) {
             bool two_bends = false;
+            const tripoint_rel_omt diff = tripoint_rel_omt( p1 - p2 ).abs();
             if( north_south ) { // N/S
-                two_bends |= ( abs( p1.x() - p2.x() ) > HIGHWAY_MAX_DEVIANCE );
+                two_bends |= diff.x() >= HIGHWAY_MAX_DEVIANCE;
             } else { // E/W
-                two_bends |= ( abs( p1.y() - p2.y() ) > HIGHWAY_MAX_DEVIANCE );
+                two_bends |= diff.y() >= HIGHWAY_MAX_DEVIANCE;
             }
             if( two_bends ) {
+                //invalid two-bend configuration
+                if( diff.x() < HIGHWAY_MAX_DEVIANCE || diff.y() < HIGHWAY_MAX_DEVIANCE ) {
+                    handle_invalid_points( true, true );
+                    return highway_path;
+                }
                 tripoint_om_omt bend_midpoint = midpoint( p1, p2 );
                 bend_points.emplace_back( closest_corner_in_direction( p1, bend_midpoint, direction1 ) );
                 bend_points.emplace_back( closest_corner_in_direction( bend_midpoint, p2,
