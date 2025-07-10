@@ -405,7 +405,7 @@
         [ "cig_butt", 100 ],
         [ "cigar", 10 ],
         [ "tobacco_raw", 50 ],
-        [ "nicotine_liquid", 50 ]
+        [ "nicotine_liquid", 70 ]
       ],
       [ [ "lamp_oil", 1 ], [ "chem_sulphuric_acid", 1 ] ],
       [ [ "water_clean", 1 ], [ "water", 1 ] ]
