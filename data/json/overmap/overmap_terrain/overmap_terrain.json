@@ -196,7 +196,7 @@
     "id": "cabin_isherwood",
     "name": "cabin",
     "vision_levels": "isolated_building",
-    "travel_cost_type": "building",
+    "travel_cost_type": "structure",
     "sym": "C",
     "color": "i_green",
     "see_cost": "high"
