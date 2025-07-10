@@ -58,6 +58,14 @@ int_id<ammo_effect>::int_id( const ammo_effect_str_id &id ) : _id( id.id() )
 {
 }
 
+void on_hit_effect::deserialize( const JsonObject &jo )
+{
+    optional( jo, false, "need_touch_skin", need_touch_skin, false );
+    mandatory( jo, false, "duration", duration );
+    mandatory( jo, false, "effect", effect );
+    mandatory( jo, false, "intensity", intensity );
+}
+
 void ammo_effect::load( const JsonObject &jo, std::string_view )
 {
     optional( jo, was_loaded, "trigger_chance", trigger_chance, 1 );
@@ -82,17 +90,7 @@ void ammo_effect::load( const JsonObject &jo, std::string_view )
         optional( joa, was_loaded, "intensity_max", trail_intensity_max, 0 );
         optional( joa, was_loaded, "chance", trail_chance, 100 );
     }
-    if( jo.has_member( "on_hit_effects" ) ) {
-        JsonArray json_arr = jo.get_array( "on_hit_effects" );
-        for( JsonObject joe : json_arr ) {
-            on_hit_effect new_effect;
-            optional( joe, was_loaded, "need_touch_skin", new_effect.need_touch_skin, false );
-            mandatory( joe, was_loaded, "duration", new_effect.duration );
-            mandatory( joe, was_loaded, "effect", new_effect.effect );
-            mandatory( joe, was_loaded, "intensity", new_effect.intensity );
-            on_hit_effects.push_back( new_effect );
-        }
-    }
+    optional( jo, was_loaded, "on_hit_effects", on_hit_effects );
     optional( jo, was_loaded, "explosion", aoe_explosion_data );
     optional( jo, was_loaded, "do_flashbang", do_flashbang, false );
     optional( jo, was_loaded, "do_emp_blast", do_emp_blast, false );

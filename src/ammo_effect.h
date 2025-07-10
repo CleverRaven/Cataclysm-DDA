@@ -25,6 +25,8 @@ struct on_hit_effect {
     efftype_id effect;
     time_duration duration;
     int intensity;
+
+    void deserialize( const JsonObject &jo );
 };
 
 struct ammo_effect {
