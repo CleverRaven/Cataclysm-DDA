@@ -4,7 +4,7 @@ name: Text Changes Analyzer
 on:
   pull_request:
     branches:
-      - master
+      - 0.I-branch
     paths:
       - '.github/workflows/text-changes-analyzer.yml'
       - 'tools/pot_diff.py'

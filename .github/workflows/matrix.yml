@@ -3,10 +3,10 @@ name: General build matrix
 on:
   push:
     branches:
-    - master
+    - 0.I-branch
   pull_request:
     branches:
-    - master
+    - 0.I-branch
     types: [opened, reopened, synchronize, ready_for_review]
 
 # We only care about the latest revision of a PR, so cancel all previous instances.
@@ -89,9 +89,9 @@ jobs:
     steps:
       - id: matrix_vars
         run: |
-          echo "fail_fast=$([ "$GITHUB_REF_NAME" = "master" -o "$GITHUB_REPOSITORY_OWNER" != "CleverRaven" ] && echo false || echo true)" >> $GITHUB_OUTPUT
-          echo "skip_tests=$([ "$GITHUB_REF_NAME" = "master" ] && echo true || echo false)" >> $GITHUB_OUTPUT
-          echo "max_parallel=$([ "$GITHUB_REF_NAME" = "master" -o "$GITHUB_REPOSITORY_OWNER" != "CleverRaven" ] && echo 20 || echo 1)" >> $GITHUB_OUTPUT
+          echo "fail_fast=$([ "$GITHUB_REF_NAME" = "0.I-branch" -o "$GITHUB_REPOSITORY_OWNER" != "CleverRaven" ] && echo false || echo true)" >> $GITHUB_OUTPUT
+          echo "skip_tests=$([ "$GITHUB_REF_NAME" = "0.I-branch" ] && echo true || echo false)" >> $GITHUB_OUTPUT
+          echo "max_parallel=$([ "$GITHUB_REF_NAME" = "0.I-branch" -o "$GITHUB_REPOSITORY_OWNER" != "CleverRaven" ] && echo 20 || echo 1)" >> $GITHUB_OUTPUT
   varied_builds:
     needs: [ skip-duplicates-code, skip-duplicates-data, matrix-variables ]
     strategy:
@@ -289,7 +289,7 @@ jobs:
         # double-dash after compiler is not a typo, it is to disambiguate between g++-<date> and g++-11-<date> for restore key prefix matching
         key: ccache-${{ github.ref_name }}-${{ matrix.ccache_key }}--${{ steps.get-vars.outputs.datetime }}
         restore-keys: |
-          ccache-master-${{ matrix.ccache_key }}--
+          ccache-0.I-${{ matrix.ccache_key }}--
     - uses: ammaraskar/gcc-problem-matcher@master
 
     - name: Set up JDK 8 (android)
@@ -313,7 +313,7 @@ jobs:
         ccache -c
         ccache --show-stats --verbose
     - name: clear ccache on PRs
-      if: ${{ github.ref_name != 'master' && env.SKIP == 'false' && !failure() && (runner.os == 'Linux' || runner.os == 'macOS') }}
+      if: ${{ github.ref_name != '0.I-branch' && env.SKIP == 'false' && !failure() && (runner.os == 'Linux' || runner.os == 'macOS') }}
       run: |
         ccache -C
     # TODO: post ccache here, however actions/cache@v2 does not support manual upload step
