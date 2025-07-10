@@ -98,7 +98,7 @@
           "BLOODTHORNE_DRUID_REGAIN_BLOOD",
           "BLOODTHORNE_DRUID_BONUS_MANA_REGEN",
           "BLOODTHORNE_DRUID_STOP_BLEEDING",
-          "BLOODTHORNE_DRUID_REDUCED_PAIN_PENALTIES",
+          "BLOODTHORNE_DRUID_GAIN_STRENGTH_DEXTERITY_BUFF",
           "BLOODTHORNE_DRUID_WHIP_TARGETS_IN_NATURE"
         ],
         "type": "mutation",
@@ -127,7 +127,7 @@
     "false_effect": [
       { "u_add_trait": "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP" },
       {
-        "u_message": "You feel the Heartvine extending itself into your arms, coiling and lurking near your wrists.  With a moment's concentration, you could extend part of it into a whip and scourge the blood-drinkers with it, and in doing so, feed your Heartvine.  Call it forth and rid the world of the vampiric scourge.\n\nKills with the Heartwhip will empower your Heartvine; enough kills and further gifts will be revealed to you.",
+        "u_message": "You feel the heartvines extending themselves into your arms, coiling and lurking near your wrists.  With a moment's concentration, you could extend part of them into a whip and scourge the blood-drinkers with it, and in doing so, feed your heartvines.  Call them forth and rid the world of the vampiric scourge.\n\nKills with the heartwhip will empower your heartvines; enough kills and further gifts will be revealed to you.",
         "type": "good"
       },
       { "math": [ "u_bloodthorn_druid_vampires_killed_to_upgrade = 5" ] },
@@ -142,7 +142,12 @@
     "condition": { "u_has_trait": "BLOODTHORNE_DRUID_AURA_OF_VINES" },
     "effect": [
       {
-        "u_roll_remainder": [ "BLOODTHORNE_DRUID_HEAL_FROM_SPILLED_BLOOD", "BLOODTHORNE_DRUID_GAIN_STRENGTH_DEXTERITY_BUFF" ],
+        "u_roll_remainder": [
+          "BLOODTHORNE_DRUID_HEAL_FROM_SPILLED_BLOOD",
+          "BLOODTHORNE_DRUID_REDUCED_PAIN_PENALTIES",
+          "BLOODTHORNE_DRUID_SUMMON_THORNHOUND",
+          "BLOODTHORNE_DRUID_SLOWER_BLEEDING"
+        ],
         "type": "mutation",
         "true_eocs": [ "EOC_XE_BLOODTHORN_DRUID_RESEARCH_SUCCESS" ]
       }

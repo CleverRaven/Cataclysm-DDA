@@ -46,7 +46,12 @@
     },
     "effect": [
       {
-        "if": { "and": [ { "u_has_wielded_with_flag": "MAGIC_FOCUS" }, { "u_has_wielded_with_flag": "REACH3" } ] },
+        "if": {
+          "or": [
+            { "not": "u_has_weapon" },
+            { "and": [ { "u_has_wielded_with_flag": "MAGIC_FOCUS" }, { "u_has_wielded_with_flag": "REACH3" } ] }
+          ]
+        },
         "then": { "math": [ "u_bloodthorn_druid_vampire_heartwhip_kills ++" ] },
         "else": { "math": [ "u_bloodthorn_druid_vampire_heartwhip_kills", "+=", "0.3334" ] }
       },
@@ -69,7 +74,7 @@
             ],
             "else": {
               "u_message": "Your heartvines twitch as the vampire dies, but soon grow quiescent.  They need more elemental power in order to catalyze the vampire blood into new thornwitchery.",
-              "typed": "mixed"
+              "type": "mixed"
             }
           }
         ]

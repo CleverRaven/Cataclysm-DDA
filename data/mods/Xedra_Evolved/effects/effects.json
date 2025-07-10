@@ -3848,7 +3848,7 @@
             "value": "STRENGTH",
             "add": {
               "math": [
-                "min( ( (1 + (0.3 * bloodthorn_druid_traits_sum() ) + (0.1 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') ) ) * (u_arvore_is_in_wilderness == 1 ? 1.25 : 1) ), 10)"
+                "min( ( (1 + (0.3 * bloodthorn_druid_traits_sum() ) + (0.1 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') ) ) * (u_arvore_is_in_wilderness == 1 ? 1.5 : 1) ), 10)"
               ]
             }
           },
@@ -3856,7 +3856,7 @@
             "value": "DEXTERITY",
             "add": {
               "math": [
-                "min( ( (1 + (0.3 * bloodthorn_druid_traits_sum() ) + (0.1 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') ) ) * (u_arvore_is_in_wilderness == 1 ? 1.25 : 1) ), 10)"
+                "min( ( (1 + (0.3 * bloodthorn_druid_traits_sum() ) + (0.1 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') ) ) * (u_arvore_is_in_wilderness == 1 ? 1.5 : 1) ), 10)"
               ]
             }
           },
@@ -3864,7 +3864,7 @@
             "value": "MAX_HP",
             "multiply": {
               "math": [
-                "min( ( (0.1 + (0.02 * bloodthorn_druid_traits_sum() ) + (0.005 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') ) ) * (u_arvore_is_in_wilderness == 1 ? 1.25 : 1) ), 0.6)"
+                "min( ( (0.1 + (0.02 * bloodthorn_druid_traits_sum() ) + (0.005 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') ) ) * (u_arvore_is_in_wilderness == 1 ? 1.5 : 1) ), 0.6)"
               ]
             }
           }

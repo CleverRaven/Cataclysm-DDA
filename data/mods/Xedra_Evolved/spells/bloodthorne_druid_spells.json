@@ -194,7 +194,7 @@
       "math": [ "1 + (0.2 * bloodthorn_druid_traits_sum() ) + (0.05 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') )" ]
     },
     "base_casting_time": 350,
-    "base_energy_cost": { "math": [ "max( ( 550 - (bloodthorn_druid_traits_sum() * 10) ), 350)" ] }
+    "base_energy_cost": { "math": [ "max( ( 600 - (bloodthorn_druid_traits_sum() * 10) ), 350)" ] }
   },
   {
     "id": "bloodthorne_druid_gain_strength_dexterity_buff_spell",
@@ -228,6 +228,42 @@
       ]
     },
     "base_casting_time": 3000,
-    "base_energy_cost": { "math": [ "max( ( 450 - (bloodthorn_druid_traits_sum() * 3) ), 300)" ] }
+    "base_energy_cost": { "math": [ "max( ( 450 - (bloodthorn_druid_traits_sum() * 10) ), 300)" ] }
+  },
+  {
+    "id": "bloodthorne_druid_summon_thornwight_spell",
+    "type": "SPELL",
+    "name": "Thornhound's Beacon",
+    "description": "The forest spirits will not answer your call, but your heartvines will.  When standing on verdant ground, you may animate a twisted mass of thorns to attack your enemies.  When the thornhound dies, it creates a profusion of thick brambles around the location of its demise.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "flags": [ "VERBAL", "SOMATIC" ],
+    "magic_type": "xedra_bloodthorne_sorcery",
+    "skill": "deduction",
+    "spell_class": "BLOODTHORNE_SORCERY",
+    "condition": {
+      "or": [
+        { "u_is_on_terrain_with_flag": "DIGGABLE" },
+        { "u_is_on_terrain_with_flag": "YOUNG" },
+        { "u_is_on_terrain_with_flag": "SHRUB" }
+      ]
+    },
+    "effect": "summon",
+    "effect_str": "mon_thornhound",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "23571 + (1905 * bloodthorn_druid_traits_sum() ) + (851 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') ) + (u_skill('deduction') * 1315) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "79552 + (6812 * bloodthorn_druid_traits_sum() ) + (2904 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') ) + (u_skill('deduction') * 3795) )"
+      ]
+    },
+    "min_aoe": 1,
+    "max_aoe": 1,
+    "base_casting_time": 500,
+    "base_energy_cost": { "math": [ "max( ( 700 - (bloodthorn_druid_traits_sum() * 20) ), 300)" ] }
   }
 ]

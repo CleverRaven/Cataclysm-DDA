@@ -87,6 +87,16 @@
   },
   {
     "type": "mutation",
+    "id": "BLOODTHORNE_DRUID_GAIN_STRENGTH_DEXTERITY_BUFF",
+    "name": { "str": "Verdurous Prowess" },
+    "points": 2,
+    "description": "The forest spirits gain constant power through their connection to the wild, and while the bloodthorne druids do not have that level of connection they can borrow it for a time.  You may increase your strength, dexterity, and hit points.  This bonus is <color_green>increased in the wilderness</color>.",
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "bloodthorne_druid_gain_strength_dexterity_buff_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "BLOODTHORNE_DRUID_REDUCED_PAIN_PENALTIES",
     "name": { "str": "Balm of Nature" },
     "points": 3,
@@ -209,12 +219,22 @@
   },
   {
     "type": "mutation",
-    "id": "BLOODTHORNE_DRUID_GAIN_STRENGTH_DEXTERITY_BUFF",
-    "name": { "str": "Verdurous Prowess" },
-    "points": 2,
-    "description": "The forest spirits gain constant power through their connection to the wild, and while the bloodthorne druids do not have that level of connection they can borrow it for a time.  You may increase your strength, dexterity, and hit points.  This bonus is <color_green>increased in the wilderness</color>.",
+    "id": "BLOODTHORNE_DRUID_SUMMON_THORNHOUND",
+    "name": { "str": "Thornhound's Beacon" },
+    "points": 5,
+    "description": "The forest spirits will not answer your call but your heartvine will.  When standing on verdant ground, you may animate a twisted mass of thorns to attack your enemies.",
     "purifiable": false,
     "valid": false,
-    "spells_learned": [ [ "bloodthorne_druid_gain_strength_dexterity_buff_spell", 1 ] ]
+    "spells_learned": [ [ "bloodthorne_druid_summon_thornwight_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "BLOODTHORNE_DRUID_SLOWER_BLEEDING",
+    "name": { "str": "Bramble Ichor" },
+    "points": 3,
+    "description": "The sap that flows through your veins has thickened, and your heartvines do their keep to keep it in your body.  You bleed more slowly.",
+    "purifiable": false,
+    "valid": false,
+    "flags": [ "BLEEDSLOW" ]
   }
 ]
