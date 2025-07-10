@@ -22,7 +22,7 @@
     "moppable": true,
     "percent_spread": 20,
     "phase": "gas",
-    "looks_like": "t_open_air"
+    "looks_like": "fd_smoke"
   },
   {
     "type": "field_type",
