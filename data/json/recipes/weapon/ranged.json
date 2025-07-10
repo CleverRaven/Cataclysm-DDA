@@ -1314,6 +1314,7 @@
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_redsmithing_adv" },
       { "proficiency": "prof_fletching" },
       { "proficiency": "prof_carving" }
     ],

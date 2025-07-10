@@ -221,7 +221,7 @@
     "replace": "pistol_smg"
   },
   {
-    "id": [ "ruger_1022", "ruger_1022_auto", "ruger_charger_auto", "rossi_gallery", "marlin60", "mp_15_22" ],
+    "id": [ "ruger_1022", "ruger_1022_auto", "ruger_charger_auto", "rossi_gallery", "marlin60", "mp_15_22", "savage_rascal" ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_rifle"
   },
@@ -229,6 +229,7 @@
     "id": [
       "marlin_9a",
       "kp32",
+      "lws32",
       "ruger_lcr_22",
       "sig_mosquito",
       "walther_p22",
@@ -303,6 +304,7 @@
   {
     "id": [
       "survivor_special_700",
+      "remington_700_308",
       "m110a1",
       "mosin44_ebr",
       "mosin91_30_ebr",

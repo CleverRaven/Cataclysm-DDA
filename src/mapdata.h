@@ -59,6 +59,8 @@ struct map_common_bash_info { //TODO: Half of this shouldn't be common
         translation sound;      // sound made on success ('You hear a "smash!"')
         translation sound_fail; // sound made on fail
         std::vector<furn_str_id> tent_centers;
+        std::pair<field_type_str_id, int> hit_field; // field spawned on any hit
+        std::pair<field_type_str_id, int> destroyed_field; // field spawned on successful bash
         void load( const JsonObject &jo, bool was_loaded, const std::string &context );
         void check( const std::string &id ) const;
         std::string potential_bash_items( const std::string &ter_furn_name ) const;

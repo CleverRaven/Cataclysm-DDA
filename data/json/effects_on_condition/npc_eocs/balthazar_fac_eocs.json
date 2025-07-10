@@ -1,0 +1,69 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_START_BALTHAZAR_COUNTERS",
+    "//": "Initialize counters for balthazar at start of game",
+    "eoc_type": "EVENT",
+    "required_event": "game_start",
+    "global": true,
+    "effect": [
+      { "math": [ "balthazar_power = 10" ] },
+      { "math": [ "balthazar_daily_power_gain = rand(2) - 1" ] },
+      { "run_eocs": "EOC_DAILY_BALTHAZAR_POWER" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DAILY_BALTHAZAR_POWER",
+    "//": "Balthazar gains power daily",
+    "recurrence": "1d",
+    "global": true,
+    "effect": [ { "math": [ "balthazar_power += balthazar_daily_power_gain" ] }, { "run_eocs": "EOC_BALTHAZAR_CHECK_PROGRESS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BALTHAZAR_CHECK_PROGRESS",
+    "global": true,
+    "effect": [
+      { "if": { "math": [ "balthazar_power <= 0" ] }, "then": { "run_eocs": "EOC_BALTHAZAR_GONE" } },
+      {
+        "if": { "and": [ { "math": [ "balthazar_solar_power != 1" ] }, { "math": [ "balthazar_power >= 50" ] } ] },
+        "then": { "run_eocs": "EOC_BALTHAZAR_SET_UP_SOLAR" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BALTHAZAR_SET_UP_SOLAR",
+    "global": true,
+    "effect": [
+      { "mapgen_update": "balthazar_bunker_solar_panel_row_l", "om_terrain": "balthazar_bunker_02" },
+      { "mapgen_update": "balthazar_bunker_solar_panel_row_r", "om_terrain": "balthazar_bunker_03" },
+      { "math": [ "balthazar_power += 20" ] },
+      { "math": [ "balthazar_daily_power_gain += 1" ] },
+      { "math": [ "balthazar_solar_power = 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BALTHAZAR_GONE",
+    "global": true,
+    "effect": [
+      { "mapgen_update": "remove_balthazar_intercom", "om_terrain": "balthazar_bunker_01" },
+      { "math": [ "balthazar_power = 0" ] },
+      { "math": [ "balthazar_daily_power_gain = 0" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BALTHAZAR_SECUBOT_DEATH",
+    "global": true,
+    "effect": [ { "math": [ "balthazar_power -= 5" ] }, { "run_eocs": "EOC_BALTHAZAR_CHECK_PROGRESS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BALTHAZAR_TURRET_DEATH",
+    "global": true,
+    "effect": [ { "math": [ "balthazar_power -= 2" ] }, { "run_eocs": "EOC_BALTHAZAR_CHECK_PROGRESS" } ]
+  }
+]

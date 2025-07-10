@@ -29,7 +29,7 @@
     "qualities": [ { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "components": [ [ [ "water", 3 ], [ "water_clean", 3 ] ], [ [ "malted_grain", 2 ] ], [ [ "sugar", 50 ] ], [ [ "yeast", 1 ] ] ],
-    "charges": 3
+    "charges": 21
   },
   {
     "type": "recipe",
@@ -49,7 +49,7 @@
       [ [ "corn", 3 ], [ "popcorn_cob", 3 ], [ "cornmeal", 3 ], [ "barley", 3 ], [ "buckwheat", 3 ], [ "oats", 3 ] ],
       [ [ "juniper", 10 ] ]
     ],
-    "charges": 3
+    "charges": 21
   },
   {
     "type": "recipe",
@@ -65,7 +65,7 @@
     "qualities": [ { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "components": [ [ [ "water", 3 ], [ "water_clean", 3 ] ], [ [ "molasses", 2 ], [ "sugar_beet", 5 ] ], [ [ "yeast", 1 ] ] ],
-    "charges": 3
+    "charges": 21
   },
   {
     "type": "recipe",
@@ -86,7 +86,7 @@
       [ [ "sugar", 100 ] ],
       [ [ "yeast", 2 ] ]
     ],
-    "charges": 15
+    "charges": 105
   },
   {
     "type": "recipe",
@@ -130,7 +130,7 @@
     "qualities": [ { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
     "components": [ [ [ "water", 15 ], [ "water_clean", 15 ] ], [ [ "pumpkin", 12 ] ], [ [ "sugar", 50 ] ], [ [ "yeast", 2 ] ] ],
-    "charges": 15
+    "charges": 105
   },
   {
     "type": "recipe",
@@ -152,7 +152,7 @@
       [ [ "sugar", 100 ] ],
       [ [ "yeast", 2 ] ]
     ],
-    "charges": 15
+    "charges": 105
   },
   {
     "type": "recipe",
@@ -167,7 +167,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "components": [ [ [ "juice", 2 ] ], [ [ "yeast", 1 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ],
-    "charges": 3
+    "charges": 21
   },
   {
     "type": "recipe",
@@ -202,7 +202,7 @@
       [ [ "honey_bottled", 12 ], [ "honeycomb", 2 ], [ "honey_glassed", 4 ] ],
       [ [ "yeast", 1 ] ]
     ],
-    "charges": 3
+    "charges": 21
   },
   {
     "type": "recipe",
@@ -222,7 +222,7 @@
       [ [ "sugar_standard", 2, "LIST" ], [ "honeycomb", 1 ] ],
       [ [ "yeast", 1 ] ]
     ],
-    "charges": 3
+    "charges": 21
   },
   {
     "type": "recipe",
@@ -243,7 +243,7 @@
       [ [ "sugar_standard", 2, "LIST" ], [ "honeycomb", 1 ] ],
       [ [ "yeast", 1 ] ]
     ],
-    "charges": 3
+    "charges": 21
   },
   {
     "type": "recipe",
@@ -264,7 +264,7 @@
       [ [ "sugar_standard", 2, "LIST" ], [ "honeycomb", 1 ] ],
       [ [ "yeast", 1 ] ]
     ],
-    "charges": 3
+    "charges": 21
   },
   {
     "type": "recipe",
@@ -322,6 +322,6 @@
         [ "wild_herbs", 40 ]
       ]
     ],
-    "charges": 1
+    "charges": 32
   }
 ]

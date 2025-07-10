@@ -903,7 +903,7 @@
     "type": "item_group",
     "id": "guns_rifle_common_boxed_22",
     "items": [
-      { "group": "boxed_internal_magazine_22", "prob": 60 },
+      { "group": "boxed_internal_magazine_22", "prob": 64 },
       { "group": "boxed_ruger_1022", "prob": 100 },
       { "group": "boxed_ar15_22", "prob": 2 },
       { "group": "boxed_mp_15_22", "prob": 45 }
@@ -922,7 +922,8 @@
           { "item": "rossi_gallery", "prob": 11 },
           { "item": "rio_bravo", "prob": 15 },
           { "item": "henry_golden_boy", "prob": 31 },
-          { "item": "marlin60", "prob": 20 }
+          { "item": "marlin60", "prob": 20 },
+          { "item": "savage_rascal", "prob": 4 }
         ]
       }
     ]

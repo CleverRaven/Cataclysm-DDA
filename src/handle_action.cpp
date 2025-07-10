@@ -1020,6 +1020,9 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
                            "field" );
             here.remove_field( smashp, fd_to_smsh.first );
             here.spawn_items( smashp, item_group::items_from( bash_info->drop_group, calendar::turn ) );
+            if( !bash_info->destroyed_field.first.is_null() ) {
+                here.add_field( smashp, bash_info->destroyed_field.first, bash_info->destroyed_field.second );
+            }
             mod_moves( - bash_info->fd_bash_move_cost );
             add_msg( m_info, bash_info->field_bash_msg_success.translated() );
             ret.did_smash = true;
@@ -1033,6 +1036,9 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
             ret.resistance = bash_info->str_min;
             ret.did_smash = true;
             return ret;
+        }
+        if( ret.did_smash && !bash_info->hit_field.first.is_null() ) {
+            here.add_field( smashp, bash_info->hit_field.first, bash_info->hit_field.second );
         }
     }
 

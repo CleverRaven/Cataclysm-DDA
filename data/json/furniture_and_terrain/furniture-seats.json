@@ -26,7 +26,9 @@
         { "item": "nuts_bolts", "charges": [ 2, 6 ] },
         { "item": "splinter", "count": [ 1, 6 ] },
         { "item": "scrap", "charges": [ 10, 25 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -64,7 +66,9 @@
         { "item": "splinter", "count": [ 5, 35 ] },
         { "item": "sheet_cotton", "count": [ 6, 10 ] },
         { "item": "cotton_patchwork", "count": [ 2, 7 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -132,7 +136,9 @@
         { "item": "wooden_post_short", "count": 1 },
         { "item": "nuts_bolts", "charges": [ 2, 10 ] },
         { "item": "splinter", "count": [ 1, 10 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -170,7 +176,9 @@
         { "item": "scrap", "charges": [ 0, 6 ] },
         { "item": "sheet_cotton", "count": [ 5, 8 ] },
         { "item": "cotton_patchwork", "count": [ 1, 6 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -194,7 +202,9 @@
       "str_max": 20,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "nuts_bolts", "charges": [ 1, 5 ] }, { "item": "splinter", "count": [ 3, 10 ] } ]
+      "items": [ { "item": "nuts_bolts", "charges": [ 1, 5 ] }, { "item": "splinter", "count": [ 3, 10 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -251,7 +261,9 @@
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "splinter", "count": [ 2, 30 ] } ]
+      "items": [ { "item": "splinter", "count": [ 2, 30 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -282,7 +294,9 @@
         { "item": "splinter", "count": [ 2, 10 ] },
         { "item": "nuts_bolts", "charges": [ 1, 6 ] },
         { "item": "sheet_cotton", "count": 1 }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -342,7 +356,9 @@
       "str_max": 25,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "2x4", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 4, 28 ] } ]
+      "items": [ { "item": "2x4", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 4, 28 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -374,7 +390,9 @@
         { "item": "nuts_bolts", "charges": [ 4, 12 ] },
         { "item": "splinter", "count": [ 2, 16 ] },
         { "item": "scrap", "charges": [ 15, 40 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -453,7 +471,9 @@
       "str_max": 25,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "splinter", "count": [ 1, 10 ] }, { "item": "scrap", "charges": [ 10, 30 ] } ]
+      "items": [ { "item": "splinter", "count": [ 1, 10 ] }, { "item": "scrap", "charges": [ 10, 30 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -481,7 +501,9 @@
         { "item": "wooden_post_short", "count": 1 },
         { "item": "nuts_bolts", "charges": [ 2, 10 ] },
         { "item": "splinter", "count": [ 1, 10 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -509,7 +531,9 @@
         { "item": "wooden_post_short", "count": 1 },
         { "item": "nuts_bolts", "charges": [ 2, 10 ] },
         { "item": "splinter", "count": [ 1, 10 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
