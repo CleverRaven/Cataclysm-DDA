@@ -173,6 +173,21 @@
     ]
   },
   {
+    "id": "afs_your_ship_armory",
+    "type": "item_group",
+    "subtype": "collection",
+    "ammo": 100,
+    "magazine": 100,
+    "items": [
+      { "item": "afs_gibrifle", "count": 2 },
+      { "item": "afs_shotgun", "count": 1 },
+      { "item": "shot_00", "count": 10 },
+      { "item": "afs_UICASTA30", "count": 4 },
+      { "item": "afs_cartridge", "count": 3 },
+      { "item": "afs_7.50mm_caseless", "count": [ 4, 5 ] }
+    ]
+  },
+  {
     "id": "afs_uica_armor_locker",
     "type": "item_group",
     "subtype": "collection",

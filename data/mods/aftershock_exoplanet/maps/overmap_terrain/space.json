@@ -1,0 +1,20 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": [ "outer_space" ],
+    "name": "outer space",
+    "sym": " ",
+    "color": "black",
+    "see_cost": "all_clear",
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "high_orbit_salus_4", "high_orbit_salus_4tp" ],
+    "name": "high orbit over Salus IV",
+    "sym": " ",
+    "color": "black",
+    "see_cost": "all_clear",
+    "flags": [ "NO_ROTATE" ]
+  }
+]

@@ -1,6 +1,33 @@
 [
   {
     "type": "profession",
+    "id": "afs_han",
+    "name": "Smuggler",
+    "description": "The captain of the Vanishing Arc, a centuries-old smuggling ship, you have been running contraband for decades.  You are yet to encounter a problem you couldn't talk or shoot your way out of, and you have no intention of finding it here.  With some luck, you'll find good paying work on this planet, even as you lie low.",
+    "points": 0,
+    "starting_cash": 9320000,
+    "skills": [
+      { "level": 4, "name": "speech" },
+      { "level": 2, "name": "mechanics" },
+      { "level": 5, "name": "gun" },
+      { "level": 5, "name": "pistol" }
+    ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "longshirt" },
+          { "item": "afs_leather_jacket" },
+          { "item": "copper_necklace" },
+          { "item": "afs_combat_cryo" },
+          { "item": "pants", "variant": "pants_blue" },
+          { "item": "afs_cartridge", "ammo-item": "battery", "charges": 1500, "container-item": "afs_graf337" },
+          { "item": "XL_holster" }
+        ]
+      }
+    }
+  },
+  {
+    "type": "profession",
     "id": "afs_radio_technician",
     "name": "Deck Engineer",
     "description": "A skilled ship technician, turned to independent salvage work.",
