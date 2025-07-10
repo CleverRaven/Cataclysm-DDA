@@ -407,7 +407,7 @@
         [ "tobacco_raw", 50 ],
         [ "nicotine_liquid", 50 ]
       ],
-      [ [ "kerosene", 1 ], [ "chem_sulphuric_acid", 1 ] ],
+      [ [ "lamp_oil", 1 ], [ "chem_sulphuric_acid", 1 ] ],
       [ [ "water_clean", 1 ], [ "water", 1 ] ]
     ]
   },
