@@ -1,5 +1,5 @@
 [
- {
+  {
     "type": "npc",
     "id": "personality_reconstruction_template",
     "//": "EOC-specific, should not spawn outside of trigger events.",
