@@ -756,7 +756,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_CABIN_CHEMIST_SET_TRADE_ROUTE" },
-            { "not": { "u_has_var": "general_meeting_u_met_Gavin", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Gavin" } ] } }
           ]
         }
       },
@@ -766,7 +766,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_CABIN_CHEMIST_SET_TRADE_ROUTE" },
-            { "u_has_var": "general_meeting_u_met_Gavin", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Gavin" } ] }
           ]
         }
       },
@@ -1868,13 +1868,13 @@
   {
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_CABIN_CHEMIST_SET_TRADE_ROUTE_has_met_smokes",
-    "dynamic_line": "Well, you know what Smokes is gonna say.  No room at the refugee center, not even for a skilled chemist.  I bet they'll be willing to set up a trade route or something, though.",
+    "dynamic_line": "Well, you know what Smokes is gonna say.  'No room at the refugee center, not even for a skilled chemist.'  I bet they'll be willing to set up a trade route or something, though.",
     "responses": [ { "text": "We'll see soon enough.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_directions_chef",
-    "dynamic_line": "*rubs his chin.  \"Mmmaaaybe?  What kind of chef?  I worked as a dishwasher in a fancy place for a couple months.  If they're a line chef, then yes.  Sous-chef or above?  Leave 'em for the zombies.  I hated that job.\"",
+    "dynamic_line": "*rubs his chin.  \"Mmmaaaybe?  What kind of chef?  I worked as a dishwasher in a fancy place for a couple months.  If they're a line chef, then yes.  Sous-chef or above?  Leave 'em for the zombies.\"  He pauses, staring into space for a moment.  \"I hated that job.\"",
     "responses": [ { "text": "Duly noted.  I'd like your opinion on something else, though.", "topic": "TALK_Liam_Opinions" } ]
   },
   {
