@@ -49,7 +49,7 @@
           "x": 2,
           "y": 17
         },
-        { "chunks": [ "bloodthorne_druid_10x10_basement_stairs" ], "x": 5, "y": 8 },
+        { "chunks": [ "bloodthorne_druid_11x11_basement_stairs" ], "x": 5, "y": 7 },
         { "chunks": [ "bloodthorne_druid_safehouse_bathroom_roof" ], "x": 15, "y": 4 }
       ],
       "place_monster": [

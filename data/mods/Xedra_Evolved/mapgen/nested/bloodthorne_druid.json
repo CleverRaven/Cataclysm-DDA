@@ -61,43 +61,45 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "bloodthorne_druid_10x10_basement_stairs",
+    "nested_mapgen_id": "bloodthorne_druid_11x11_basement_stairs",
     "object": {
-      "mapgensize": [ 10, 10 ],
+      "mapgensize": [ 11, 11 ],
       "rotation": [ 0, 0 ],
       "rows": [
-        "          ",
-        "          ",
-        "          ",
-        "          ",
-        "          ",
-        "          ",
-        "          ",
-        "          ",
-        "        T ",
-        "          "
+        "           ",
+        "           ",
+        "           ",
+        "           ",
+        "           ",
+        "           ",
+        "           ",
+        "           ",
+        "           ",
+        "        T  ",
+        "           "
       ],
       "terrain": { "T": "t_wood_stairs_down" },
-      "place_nested": [ { "chunks": [ "bloodthorne_druid_10x10_basement" ], "x": 0, "y": 0, "z": -1 } ]
+      "place_nested": [ { "chunks": [ "bloodthorne_druid_11x11_basement" ], "x": 0, "y": 0, "z": -1 } ]
     }
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "bloodthorne_druid_10x10_basement",
+    "nested_mapgen_id": "bloodthorne_druid_11x11_basement",
     "object": {
-      "mapgensize": [ 10, 10 ],
+      "mapgensize": [ 11, 11 ],
       "rotation": [ 0, 0 ],
       "rows": [
-        "#---------",
-        "#-   |-tt-",
-        "#-||+|-ct-",
-        "#-    - t-",
-        "#---d--  -",
-        "#-R      -",
-        "#-R      -",
-        "#-RRR    -",
-        "#-------T-",
-        "#######---"
+        "#---------#",
+        "#-   |-tt-#",
+        "#-||+|-ct-#",
+        "#-    - t-#",
+        "#---d--  -#",
+        "#-R      -#",
+        "#-R      -#",
+        "#-RRR    -#",
+        "#------- -#",
+        "#######-T-#",
+        "#######---#"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": {
