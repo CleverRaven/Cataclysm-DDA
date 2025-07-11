@@ -149,7 +149,7 @@
           {
             "id": "EOC_CLAIR_EXAMINE_ITEM_DETECTION",
             "effect": [
-              { "math": [ "_artifact_resonance = n_artifact_resonance()" ] },
+              { "math": [ "_artifact_resonance = n_enchantment('ARTIFACT_RESONANCE')" ] },
               {
                 "math": [ "_resonance_modifier = min( (u_spell_level('clair_examine_item') + u_spell_level('clair_examine_item_knack')),10)" ]
               },

@@ -124,11 +124,6 @@ units::temperature talker_character_const::get_cur_part_temp( const bodypart_id 
     return me_chr_const->get_part_temp_conv( bp );
 }
 
-int talker_character_const::get_artifact_resonance() const
-{
-    return me_chr_const->enchantment_cache->get_value_add( enchant_vals::mod::ARTIFACT_RESONANCE );
-}
-
 int talker_character_const::str_cur() const
 {
     return me_chr_const->str_cur;
@@ -398,6 +393,14 @@ int talker_character_const::num_bionics() const
 bool talker_character_const::has_max_power() const
 {
     return me_chr_const->has_max_power();
+}
+
+double talker_character_const::enchantment_value( const enchant_vals::mod mod ) const
+{
+    double value;
+    value = me_chr_const->enchantment_cache->get_value_add( mod );
+    value *= 1.0 + me_chr_const->enchantment_cache->get_value_multiply( mod );
+    return value;
 }
 
 void talker_character::set_power_cur( units::energy value )

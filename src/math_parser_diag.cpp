@@ -55,6 +55,11 @@
 #include "weather_type.h"
 #include "worldfactory.h"
 
+namespace enchant_vals
+{
+enum class mod : int;
+} // namespace enchant_vals
+
 /*
 General guidelines for writing dialogue functions
 
@@ -198,13 +203,6 @@ double distance_eval( const_dialogue const &d, char /* scope */,
         return dv.tripoint( d );
     };
     return rl_dist( get_pos( params[0] ), get_pos( params[1] ) );
-}
-
-double artifact_resonance_eval( const_dialogue const &d, char scope,
-                                std::vector<diag_value> const & /* params */,
-                                diag_kwargs const & /* kwargs */ )
-{
-    return d.const_actor( is_beta( scope ) )->get_artifact_resonance();
 }
 
 double damage_level_eval( const_dialogue const &d, char scope,
@@ -1294,6 +1292,18 @@ double proficiency_eval( const_dialogue const &d, char scope, std::vector<diag_v
     }
 }
 
+double enchantment_eval( const_dialogue const &d, char scope, std::vector<diag_value> const &params,
+                         diag_kwargs const &/* kwargs */ )
+{
+    const std::optional<enchant_vals::mod> mod_val = io::string_to_enum_optional<enchant_vals::mod>
+            ( params[0].str( d ) );
+    if( mod_val.has_value() ) {
+        return d.const_actor( is_beta( scope ) )->enchantment_value( mod_val.value() );
+    } else {
+        throw math::runtime_error( "Incorrect enchantment value id '%s'", params[0].str( d ) );
+    }
+}
+
 void proficiency_ass( double val, dialogue &d, char scope, std::vector<diag_value> const &params,
                       diag_kwargs const &kwargs )
 {
@@ -1664,7 +1674,6 @@ std::map<std::string_view, dialogue_func> const dialogue_funcs{
     { "addiction_intensity", { "un", 1, addiction_intensity_eval } },
     { "addiction_turns", { "un", 1, addiction_turns_eval, addiction_turns_ass } },
     { "armor", { "un", 2, armor_eval } },
-    { "artifact_resonance", { "un", 0, artifact_resonance_eval } },
     { "attack_speed", { "un", 0, attack_speed_eval } },
     { "speed", { "un", 0, move_speed_eval } },
     { "characters_nearby", { "ung", 0, characters_nearby_eval, {}, { "radius", "attitude", "location" } } },
@@ -1706,6 +1715,7 @@ std::map<std::string_view, dialogue_func> const dialogue_funcs{
     { "moon_phase", { "g", 0, moon_phase_eval } },
     { "num_input", { "g", 2, num_input_eval } },
     { "pain", { "un", 0, pain_eval, pain_ass, { "type" } } },
+    { "enchantment", { "un", 1, enchantment_eval } },
     { "school_level", { "un", 1, school_level_eval } },
     { "school_level_adjustment", { "un", 1, school_level_adjustment_eval, school_level_adjustment_ass } },
     { "spellcasting_adjustment", { "u", 1, {}, spellcasting_adjustment_ass, { "mod", "school", "spell", "flag_whitelist", "flag_blacklist" } } },

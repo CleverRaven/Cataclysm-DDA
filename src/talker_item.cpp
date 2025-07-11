@@ -107,11 +107,11 @@ units::energy talker_item_const::power_max() const
     return 1_mJ * me_it_const->get_item()->ammo_capacity( ammo_battery );
 }
 
-int talker_item_const::get_artifact_resonance() const
+double talker_item_const::enchantment_value( const enchant_vals::mod mod ) const
 {
     int ret = 0;
     for( enchant_cache &this_ench : me_it_const->get_item()->get_proc_enchantments() ) {
-        ret += this_ench.get_value_add( enchant_vals::mod::ARTIFACT_RESONANCE );
+        ret = this_ench.modify_value( mod, ret );
     }
     return ret;
 }

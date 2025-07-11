@@ -152,9 +152,6 @@ class const_talker
             return false;
         }
         // stats, skills, traits, bionics, and magic
-        virtual int get_artifact_resonance() const {
-            return 0;
-        }
         virtual int str_cur() const {
             return 0;
         }
@@ -263,6 +260,9 @@ class const_talker
         }
         virtual bool knows_spell( const spell_id & ) const {
             return false;
+        }
+        virtual double enchantment_value( const enchant_vals::mod ) const {
+            return 0.0;
         }
         virtual bool knows_proficiency( const proficiency_id & ) const {
             return false;
