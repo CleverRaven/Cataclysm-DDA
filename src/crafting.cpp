@@ -661,7 +661,7 @@ const inventory &Character::crafting_inventory( map *here, const tripoint_bub_ms
     crafting_cache.crafting_inventory->clear();
     if( radius >= 0 ) {
         crafting_cache.crafting_inventory->form_from_map( here, inv_pos, radius, this, false, clear_path );
-	}
+    }
 
     std::map<itype_id, int> tmp_liq_list;
     // TODO: Add a const overload of all_items_loc() that returns something like
