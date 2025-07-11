@@ -36,6 +36,6 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "30 m",
     "qualities": [ { "id": "WRENCH_FINE", "level": 1 }, { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "plastic_chunk", 10 ] ], [ [ "motor_small", 1 ] ], [ [ "scrap", 20 ] ], [ [ "power_cord", 1 ] ] ]
+    "components": [ [ [ "plastic_chunk", 10 ] ], [ [ "motor_tiny", 1 ] ], [ [ "scrap", 20 ] ], [ [ "cable", 12 ] ] ]
   }
 ]
