@@ -61,49 +61,53 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "bloodthorne_druid_9x9_basement_stairs",
+    "nested_mapgen_id": "bloodthorne_druid_10x10_basement_stairs",
     "object": {
-      "mapgensize": [ 9, 9 ],
+      "mapgensize": [ 10, 10 ],
       "rotation": [ 0, 0 ],
       "rows": [
-        "         ",
-        "         ",
-        "         ",
-        "         ",
-        "         ",
-        "         ",
-        "         ",
-        "       T ",
-        "         "
+        "          ",
+        "          ",
+        "          ",
+        "          ",
+        "          ",
+        "          ",
+        "          ",
+        "          ",
+        "        T ",
+        "          "
       ],
       "terrain": { "T": "t_wood_stairs_down" },
-      "place_nested": [ { "chunks": [ "bloodthorne_druid_9x9_basement" ], "x": 0, "y": 0, "z": -1 } ]
+      "place_nested": [ { "chunks": [ "bloodthorne_druid_10x10_basement" ], "x": 0, "y": 0, "z": -1 } ]
     }
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "bloodthorne_druid_9x9_basement",
+    "nested_mapgen_id": "bloodthorne_druid_10x10_basement",
     "object": {
-      "mapgensize": [ 9, 9 ],
+      "mapgensize": [ 10, 10 ],
       "rotation": [ 0, 0 ],
       "rows": [
-        "---------",
-        "-   | tt-",
-        "-||+| ct-",
-        "-      t-",
-        "-   -   -",
-        "-R      -",
-        "-R      -",
-        "-RRR   T-",
-        "---------"
+        "#---------",
+        "#-   |-tt-",
+        "#-||+|-ct-",
+        "#-    - t-",
+        "#---d--  -",
+        "#-R      -",
+        "#-R      -",
+        "#-RRR    -",
+        "#-------T-",
+        "#######---"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": {
+        "#": "t_soil",
         "T": "t_wood_stairs_up",
         "-": "t_wall_wood",
         " ": "t_dirtfloor",
         "|": "t_bars",
         "+": "t_door_bar_locked",
+        "d": "t_door_c",
         "R": "t_dirtfloor",
         "t": "t_dirtfloor",
         "c": "t_dirtfloor"
