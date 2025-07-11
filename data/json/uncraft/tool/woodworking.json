@@ -12,7 +12,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "30 m",
     "qualities": [ { "id": "WRENCH_FINE", "level": 1 }, { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "plastic_chunk", 10 ] ], [ [ "1cyl_combustion", 1 ] ], [ [ "scrap", 20 ] ] ]
+    "components": [ [ [ "plastic_chunk", 10 ] ], [ [ "1cyl_combustion_small", 1 ] ], [ [ "scrap", 20 ] ] ]
   },
   {
     "result": "polesaw_off",
