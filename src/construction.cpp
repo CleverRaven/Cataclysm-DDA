@@ -1578,10 +1578,10 @@ bool construct::check_deconstruct( const tripoint_bub_ms &p )
         if( here.has_flag_furn( ter_furn_flag::TFLAG_EASY_DECONSTRUCT, p ) ) {
             return false;
         }
-        return !!here.furn( p ).obj().deconstruct;
+        return !!here.furn( p ).obj().deconstruct || !here.furn( p ).obj().base_item.is_null();
     }
     // terrain can only be deconstructed when there is no furniture in the way
-    return !!here.ter( p ).obj().deconstruct;
+    return !!here.ter( p ).obj().deconstruct || !here.furn( p ).obj().base_item.is_null();
 }
 
 bool construct::check_up_OK( const tripoint_bub_ms & )
@@ -1808,11 +1808,11 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
     // TODO: Make this the argument
     if( here.has_furn( p ) ) {
         const furn_t &f = here.furn( p ).obj();
-        if( !f.deconstruct && f.base_item.is_null() ) {
+        if( !f.has_disassembly() ) {
             add_msg( m_info, _( "That %s can not be disassembled!" ), f.name() );
             return;
         }
-        if( f.deconstruct->furn_set.str().empty() ) {
+        if( !f.deconstruct || f.deconstruct->furn_set.str().empty() ) {
             here.furn_set( p, furn_str_id::NULL_ID() );
         } else {
             here.furn_set( p, f.deconstruct->furn_set );
