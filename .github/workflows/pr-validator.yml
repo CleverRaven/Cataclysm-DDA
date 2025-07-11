@@ -2,7 +2,7 @@ name: PR Validator
 on:
   pull_request:
     branches:
-    - master
+    - 0.I-branch
     types: [opened, edited, synchronize]
 jobs:
   validate:
