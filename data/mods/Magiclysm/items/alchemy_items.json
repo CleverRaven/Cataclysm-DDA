@@ -233,10 +233,8 @@
     "material": [ "demon_chitin" ],
     "weight": "1 g",
     "volume": "1 ml",
-    "phase": "liquid",
+    "phase": "solid",
     "flags": [ "TRADER_AVOID" ],
-    "ammo_type": "components",
-    "count": 10
   },
   {
     "type": "ITEM",
