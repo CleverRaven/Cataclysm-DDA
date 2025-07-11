@@ -13,7 +13,7 @@
     "speed": 185,
     "symbol": "T",
     "color": "green",
-    "aggression": 5,
+    "aggression": 15,
     "morale": 200,
     "aggro_character": false,
     "melee_skill": 6,

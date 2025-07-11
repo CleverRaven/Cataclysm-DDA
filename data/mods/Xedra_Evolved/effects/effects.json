@@ -3875,11 +3875,11 @@
   {
     "type": "effect_type",
     "id": "effect_bloodthorne_druid_thorn_prison",
-    "//": "Hidden effect to make sure you're actually researching",
     "name": [ "Henge of Iron Thorns" ],
     "desc": [ "You are imprisoned in a thick tangle of thorns." ],
+    "//": "Ideally there would be some way to require a roll before the vampire can break out but that's currently impossible so it's just duration-based for now.",
     "show_in_info": true,
     "max_intensity": 300,
-    "flags": [ "EFFECT_IMPEDING" ]
+    "flags": [ "CANNOT_MOVE" ]
   }
 ]

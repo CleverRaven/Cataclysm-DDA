@@ -214,17 +214,17 @@
         { "u_is_on_terrain_with_flag": "SHRUB" }
       ]
     },
-    "effect": "effect_on_condition",
+    "effect": "attack",
     "effect_str": "effect_bloodthorne_druid_gain_strength_dexterity_buff",
     "shape": "blast",
     "min_duration": {
       "math": [
-        "51657 + (3651 * bloodthorn_druid_traits_sum() ) + (2015 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') ) + (u_skill('deduction') * 1285) )"
+        "51657 + (3651 * bloodthorn_druid_traits_sum() ) + (2015 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') ) + (u_skill('deduction') * 1285)"
       ]
     },
     "max_duration": {
       "math": [
-        "109395 + (9815 * bloodthorn_druid_traits_sum() ) + (4851 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') ) + (u_skill('deduction') * 2795) )"
+        "109395 + (9815 * bloodthorn_druid_traits_sum() ) + (4851 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') ) + (u_skill('deduction') * 2795)"
       ]
     },
     "base_casting_time": 3000,
@@ -236,7 +236,7 @@
     "name": "Thornhound's Beacon",
     "description": "The forest spirits will not answer your call, but your heartvines will.  When standing on verdant ground, you may animate a twisted mass of thorns to attack your enemies.  When the thornhound dies, it creates a profusion of thick brambles around the location of its demise.",
     "message": "",
-    "valid_targets": [ "self" ],
+    "valid_targets": [ "ground" ],
     "flags": [ "VERBAL", "SOMATIC" ],
     "magic_type": "xedra_bloodthorne_sorcery",
     "skill": "deduction",
@@ -251,18 +251,20 @@
     "effect": "summon",
     "effect_str": "mon_thornhound",
     "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 2,
     "min_duration": {
       "math": [
-        "23571 + (1905 * bloodthorn_druid_traits_sum() ) + (851 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') ) + (u_skill('deduction') * 1315) )"
+        "23571 + (1905 * bloodthorn_druid_traits_sum() ) + (851 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') ) + (u_skill('deduction') * 1315)"
       ]
     },
     "max_duration": {
       "math": [
-        "79552 + (6812 * bloodthorn_druid_traits_sum() ) + (2904 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') ) + (u_skill('deduction') * 3795) )"
+        "79552 + (6812 * bloodthorn_druid_traits_sum() ) + (2904 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') ) + (u_skill('deduction') * 3795)"
       ]
     },
-    "min_aoe": 1,
-    "max_aoe": 1,
+    "min_aoe": 2,
+    "max_aoe": 2,
     "base_casting_time": 500,
     "base_energy_cost": { "math": [ "max( ( 700 - (bloodthorn_druid_traits_sum() * 20) ), 300)" ] }
   },

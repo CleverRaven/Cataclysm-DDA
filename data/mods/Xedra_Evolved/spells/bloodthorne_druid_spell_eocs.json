@@ -195,7 +195,7 @@
     "type": "effect_on_condition",
     "id": "EOC_BLOODTHORNE_DRUID_CREATE_THORN_PRISON",
     "effect": [
-      { "u_transform_radius": 1, "ter_furn_transform": "ter_arvore_summoned_brambles" },
+      { "u_transform_radius": 2, "ter_furn_transform": "ter_arvore_summoned_brambles" },
       {
         "if": "u_is_character",
         "then": [
@@ -212,7 +212,7 @@
         "if": { "or": [ { "u_has_trait": "VAMPIRE" }, { "u_has_species": "VAMPIRE" }, { "u_has_species": "VAMPIRE_ANATHEMA" } ] },
         "then": {
           "u_add_effect": "effect_bloodthorne_druid_thorn_prison",
-          "intensity": { "math": [ "100 + (2 * n_sum_traits_of_category_char_has('ARVORE_ALCHEMY') )" ] }
+          "duration": { "math": [ "10 + (n_sum_traits_of_category_char_has('ARVORE_ALCHEMY') / 3)" ] }
         }
       }
     ]

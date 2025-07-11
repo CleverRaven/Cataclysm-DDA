@@ -122,6 +122,13 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_BLOODTHORNE_DRUID_AURA_OF_VINES",
+    "condition": { "not": { "u_has_trait": "BLOODTHORNE_DRUID_AURA_OF_VINES_TRAIT" } },
+    "effect": [ { "u_add_trait": "BLOODTHORNE_DRUID_AURA_OF_VINES_TRAIT" } ],
+    "false_effect": [ { "u_lose_trait": "BLOODTHORNE_DRUID_AURA_OF_VINES_TRAIT" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_UPGRADE_FORMICATION",
     "condition": { "u_has_effect": "effect_bloodthorn_druid_upgrade_ready" },
     "effect": [

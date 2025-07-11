@@ -170,11 +170,13 @@
     "purifiable": false,
     "valid": false,
     "active": true,
+    "activated_is_setup": true,
     "mana": true,
     "cost": 1,
     "time": 3,
     "activation_msg": "A multitude of vines burst from your flesh!",
-    "enchantments": [ { "condition": "ACTIVE", "mutations": [ "BLOODTHORNE_DRUID_AURA_OF_VINES_TRAIT" ] } ]
+    "activated_eocs": [ "EOC_BLOODTHORNE_DRUID_AURA_OF_VINES" ],
+    "deactivated_eocs": [ "EOC_BLOODTHORNE_DRUID_AURA_OF_VINES" ]
   },
   {
     "type": "mutation",
