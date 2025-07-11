@@ -1826,5 +1826,22 @@
     "stack_size": 200,
     "loudness": 9,
     "effects": [ "NOGIB", "NEVER_MISFIRES", "NON_FOULING" ]
+  },
+  {
+    "id": "home_insecticide",
+    "type": "AMMO",
+    "name": { "str_sp": "home insecticide" },
+    "description": "A volume of sprayable insecticide for at-home use.",
+    "weight": "3 g",
+    "volume": "250 ml",
+    "price": "5 USD",
+    "price_postapoc": "5 USD",
+    "material": [ "water" ],
+    "symbol": "=",
+    "color": "yellow",
+    "container": "bottle_plastic",
+    "sealed": false,
+    "phase": "liquid",
+    "ammo_type": "home_insecticide"
   }
 ]
