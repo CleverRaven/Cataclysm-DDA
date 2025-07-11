@@ -1,0 +1,50 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Mission_Bury_Chris_1_describe",
+    "dynamic_line": "We've got to do something about… about the body.  We can't just leave Chris on the floor like that.  We need to… we need some shovels.  Can you help me?  Please?",
+    "responses": [
+      { "text": "Of course.  What do you need?", "topic": "TALK_Liam_Mission_Bury_Chris_1_assign" },
+      { "text": "There's other stuff to do.  Let's talk about this later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Mission_Bury_Chris_1_assign",
+    "dynamic_line": "Okay.  Okay.  There are some shovels in the back room behind the kitchen.  Let's grab those, unless you've got some different shovels kicking around.",
+    "responses": [
+      {
+        "text": "All right.  Let's go.",
+        "effect": [ { "add_mission": "MISSION_Liam_Bury_Chris_1" }, { "math": [ "Chris_bury_progress = 11" ] } ],
+        "topic": "TALK_Liam_Mission_Bury_Chris_1_assign"
+      },
+      { "text": "Wait.  I wanted to talk about something else first.", "topic": "TALK_FRIEND_Liam" }
+    ]
+  },
+  {
+    "id": "MISSION_Liam_Bury_Chris_1",
+    "type": "mission_definition",
+    "name": { "str": "Get some shovels for Liam.  There's dirty work to be done." },
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 0,
+    "value": 0,
+    "item": "shovel",
+    "start": {
+      "assign_mission_target": { "om_terrain": "cabin_liam", "reveal_radius": 1, "random": true, "search_range": 800 },
+      "effect": { "u_add_var": "MISSION_Liam_Bury_Chris_1", "value": "in_progress" }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "We're going to need some shovels… got an unpleasant job to do.",
+      "offer": "We're going to need some shovels… got an unpleasant job to do.",
+      "accepted": "We're going to need some shovels… got an unpleasant job to do.",
+      "rejected": "We're going to need some shovels… got an unpleasant job to do.",
+      "advice": "We're going to need some shovels… got an unpleasant job to do.",
+      "inquire": "We're going to need some shovels… got an unpleasant job to do.",
+      "success": "We're going to need some shovels… got an unpleasant job to do.",
+      "success_lie": "We're going to need some shovels… got an unpleasant job to do.",
+      "failure": "We're going to need some shovels… got an unpleasant job to do."
+    }
+  }
+]

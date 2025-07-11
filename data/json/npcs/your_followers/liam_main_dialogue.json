@@ -1,20 +1,32 @@
 [
   {
-    "id": [ "TALK_FRIEND_Liam", "TALK_FRIEND_Liam_Abilities", "TALK_Liam_Callsigns" ],
+    "id": [ "TALK_FRIEND_Liam", "TALK_FRIEND_Liam_Abilities", "TALK_Liam_Callsigns", "TALK_FRIEND_Liam_Mission_0" ],
     "type": "talk_topic",
-    "dynamic_line": {
-      "is_by_radio": " *pshhhttt* This is big turtle, I read you loud and clear, red burrito.",
-      "no": { "has_reason": { "use_reason": true }, "no": "So, here we are.  What's up?" }
-    },
+    "//": "general table of contents",
     "responses": [
-      { "text": "[rules] Let's talk about how we'll work together.", "topic": "TALK_DONE", "effect": "npc_rules_menu" },
+      { "text": "[RULES] Let's talk about how we'll work together.", "topic": "TALK_DONE", "effect": "npc_rules_menu" },
+      {
+        "text": "[MISSION] What do you need, Liam?",
+        "topic": "TALK_Liam_Mission_Bury_Chris_1_describe",
+        "condition": { "math": [ "Chris_bury_progress < 11" ] }
+      },
+      {
+        "text": "[MISSION] I've got the shovels.",
+        "topic": "TALK_Liam_Mission_Bury_Chris_1_return",
+        "condition": { "u_has_assigned_mission": "MISSION_Liam_Bury_Chris_1" }
+      },
       {
         "text": "I'd like to know a bit more about your abilities.",
         "topic": "TALK_FRIEND_Liam_Abilities",
         "effect": "reveal_stats"
       },
-      { "text": "Please go to this location.", "topic": "TALK_GOTO_LOCATION", "effect": "goto_location" },
-      { "text": "There's something I want you to do.", "topic": "TALK_Liam_ORDERS" },
+      {
+        "text": "Please go to this location.",
+        "topic": "TALK_GOTO_LOCATION",
+        "effect": "goto_location",
+        "condition": { "compare_string": [ "yes", { "u_val": "done_burying_chris" } ] }
+      },
+      { "text": "I've got some orders for you.", "topic": "TALK_Liam_ORDERS" },
       { "text": "I'd like your opinion on a job we're doing.", "topic": "TALK_Liam_Opinions" },
       {
         "text": "I just wanted to talk for a bit.",
@@ -31,6 +43,22 @@
       { "text": "I'm going to go my own way for a while.", "topic": "TALK_LEAVE" },
       { "text": "<lets_go>", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "id": [ "TALK_FRIEND_Liam", "TALK_FRIEND_Liam_Abilities" ],
+    "type": "talk_topic",
+    "//": "Greeting when Liam is stressed about first mission",
+    "dynamic_line": {
+      "is_by_radio": " *pshhhttt* This is big turtle, I read you loud and clear, red burrito.",
+      "no": {
+        "has_reason": { "use_reason": true },
+        "no": {
+          "math": [ "Chris_bury_progress < 11" ],
+          "yes": "I really need to ask your help with something, friend.",
+          "no": { "math": [ "Chris_bury_progress == 11" ], "yes": "Got those shovels yet?", "no": "So, here we are.  What's up?" }
+        }
+      }
+    }
   },
   {
     "id": "TALK_FRIEND_GUARD_Liam",
@@ -129,7 +157,7 @@
       },
       {
         "text": "Guard this position.",
-        "condition": { "not": "is_by_radio" },
+        "condition": { "and": [ { "not": "is_by_radio" }, { "compare_string": [ "yes", { "u_val": "done_burying_chris" } ] } ] },
         "topic": "TALK_FRIEND_GUARD_Liam",
         "effect": "assign_guard"
       },

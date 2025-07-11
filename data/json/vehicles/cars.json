@@ -922,6 +922,55 @@
     ]
   },
   {
+    "id": "car_hatch_liam",
+    "type": "vehicle",
+    "copy-from": "car_hatch_abstract",
+    "name": "Rusty Duck",
+    "//": "Specific to the Friends to the End scenario, Liam's old hatchback doesn't have a security system nor a working heater.",
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "frame#cross", "seat#windshield_front", "seatbelt", "controls", "stereo" ] },
+      { "x": 0, "y": 0, "parts": [ "dashboard", "horn_car" ] },
+      { "x": 0, "y": 0, "parts": [ "roof" ] },
+      { "x": 0, "y": -1, "parts": [ "frame#vertical_left", "door#nw" ] },
+      { "x": 0, "y": 1, "parts": [ "frame#cross", "seat#windshield_front", "seatbelt", "roof" ] },
+      { "x": 0, "y": 2, "parts": [ "frame#vertical_right", "door#ne" ] },
+      { "x": 1, "y": -1, "parts": [ "frame#vertical_T_left", "windshield#wheel_left" ] },
+      { "x": 1, "y": -1, "parts": [ "wheel_mount_medium_steerable", "wheel" ] },
+      { "x": 1, "y": 0, "parts": [ "frame#horizontal_2", "windshield#cover_left" ] },
+      { "x": 1, "y": 1, "parts": [ "frame#horizontal_2", "windshield#cover_right" ] },
+      { "x": 1, "y": 2, "parts": [ "frame#vertical_T_right", "windshield#wheel_right" ] },
+      { "x": 1, "y": 2, "parts": [ "wheel_mount_medium_steerable", "wheel" ] },
+      { "x": 2, "y": -1, "parts": [ "frame#nw", "halfboard#nw", "headlight" ] },
+      {
+        "x": 2,
+        "y": 0,
+        "parts": [ "frame#horizontal_front", "halfboard#cover_left", "engine_inline4", "alternator_car" ]
+      },
+      { "x": 2, "y": 0, "parts": [ "battery_car" ] },
+      { "x": 2, "y": 1, "parts": [ "frame#horizontal_front", "halfboard#cover_right" ] },
+      { "x": 2, "y": 2, "parts": [ "frame#ne", "halfboard#ne", "headlight" ] },
+      { "x": -1, "y": -1, "parts": [ "frame#vertical_left", "door#sw" ] },
+      { "x": -1, "y": 0, "parts": [ "frame#cross", "seat_back#left", "seatbelt", "roof" ] },
+      { "x": -1, "y": 1, "parts": [ "frame#cross", "seat_back#right", "seatbelt", "roof" ] },
+      { "x": -1, "y": 2, "parts": [ "frame#vertical_right", "door#se" ] },
+      {
+        "x": -2,
+        "y": -1,
+        "parts": [ "frame#sw", "wheel_mount_medium", "wheel", { "part": "tank_medium", "fuel": "gasoline" } ]
+      },
+      { "x": -2, "y": -1, "parts": [ "halfboard#hatch_wheel_left" ] },
+      { "x": -2, "y": 0, "parts": [ "frame#horizontal_rear", "hatch", "muffler" ] },
+      { "x": -2, "y": 1, "parts": [ "frame#horizontal_rear", "hatch" ] },
+      { "x": -2, "y": 2, "parts": [ "frame#se", "wheel_mount_medium", "wheel" ] },
+      { "x": -2, "y": 2, "parts": [ "halfboard#hatch_wheel_right", { "part": "tank_medium", "fuel": "gasoline" } ] }
+    ],
+    "items": [
+      { "x": 0, "y": 0, "chance": 100, "item_groups": [ "snacks" ] },
+      { "x": 0, "y": 1, "chance": 100, "item_groups": [ "fast_food" ] },
+      { "x": -2, "y": 1, "chance": 100, "item_groups": [ "used_1st_aid", "tools_car_kit" ] }
+    ]
+  },
+  {
     "id": "car_hatch_diesel",
     "type": "vehicle",
     "copy-from": "car_hatch_abstract",

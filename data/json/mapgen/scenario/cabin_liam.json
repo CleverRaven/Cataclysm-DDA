@@ -11,7 +11,7 @@
         "**######w##++#########**",
         "**#R  d#sT#  #A DBBD #**",
         "**#R  c#  #  #A  BB  w**",
-        "**wR   #  =  =       w**",
+        "**wR  §#  =  =       w**",
         "**wR   #  #  #########**",
         "**#R   ####  =  DBBD #**",
         "**#Ŗ   L##A  #A  BB  w**",
@@ -35,7 +35,8 @@
         "7": { "item": "shotgun_d" },
         "8": { "item": "shot_hull" },
         "9": { "item": "quilt" },
-        "Ŗ": [ { "item": "compbow" }, { "item": "arrow_cf", "amount": 12 }, { "item": "quiver" } ]
+        "Ŗ": [ { "item": "compbow" }, { "item": "arrow_cf", "amount": 12 }, { "item": "quiver" } ],
+        "§": { "item": "shovel", "amount": 2 }
       },
       "items": {
         "6": { "item": "chris_body", "chance": 100 },
@@ -56,7 +57,7 @@
         "Ɣ": "t_region_groundcover_barren",
         "~": [ [ "t_region_groundcover_barren", 3 ], [ "t_region_groundcover", 2 ] ]
       },
-      "vehicles": { "Ɣ": { "vehicle": "car_hatch", "fuel": 20, "rotation": 90, "status": 0 } }
+      "vehicles": { "Ɣ": { "vehicle": "car_hatch_liam", "fuel": 20, "rotation": 90, "status": 2 } }
     }
   },
   {
