@@ -10,6 +10,7 @@
     "extras": "build",
     "mondensity": 2,
     "vision_levels": "city_building",
+    "travel_cost_type": "structure",
     "flags": [ "SIDEWALK" ]
   },
   {
@@ -22,6 +23,7 @@
     "see_cost": "high",
     "extras": "build",
     "vision_levels": "city_building",
+    "travel_cost_type": "roof",
     "mondensity": 2
   },
   {
@@ -34,6 +36,7 @@
     "see_cost": "none",
     "extras": "build",
     "vision_levels": "roof_or_air",
+    "travel_cost_type": "roof",
     "mondensity": 2
   },
   {
@@ -45,6 +48,7 @@
     "see_cost": "high",
     "extras": "build",
     "vision_levels": "blends_till_details",
+    "travel_cost_type": "structure",
     "mondensity": 2
   },
   {
@@ -56,6 +60,7 @@
     "see_cost": "none",
     "extras": "build",
     "vision_levels": "blends_till_outlines",
+    "travel_cost_type": "roof",
     "mondensity": 2
   },
   {
@@ -66,6 +71,7 @@
     "color": "light_gray",
     "looks_like": "spider_pit",
     "vision_levels": "unusual_structure",
+    "travel_cost_type": "structure",
     "see_cost": "spaced_high"
   },
   {
@@ -79,6 +85,7 @@
     "extras": "build",
     "mondensity": 1,
     "vision_levels": "city_building",
+    "travel_cost_type": "structure",
     "flags": [ "SIDEWALK" ]
   },
   {
@@ -91,6 +98,7 @@
     "see_cost": "none",
     "extras": "build",
     "vision_levels": "city_building",
+    "travel_cost_type": "roof",
     "mondensity": 1
   },
   {
@@ -123,6 +131,7 @@
     "color": "dark_gray",
     "see_cost": "spaced_high",
     "vision_levels": "forested_swampy",
+    "travel_cost_type": "swamp",
     "flags": [ "SOURCE_FORAGE", "RISK_EXTREME" ]
   },
   {
@@ -148,6 +157,7 @@
     "color": "brown",
     "looks_like": "solid_earth",
     "vision_levels": "underground_dirt",
+    "travel_cost_type": "basement",
     "see_cost": "full_high"
   },
   {
@@ -173,6 +183,7 @@
     "color": "dark_gray",
     "looks_like": "empty_rock",
     "vision_levels": "underground_stone",
+    "travel_cost_type": "basement",
     "see_cost": "full_high"
   },
   {
@@ -198,7 +209,8 @@
     "color": "dark_gray",
     "looks_like": "deep_rock",
     "see_cost": "full_high",
-    "vision_levels": "underground_stone"
+    "vision_levels": "underground_stone",
+    "travel_cost_type": "basement"
   },
   {
     "type": "overmap_terrain",
@@ -223,7 +235,8 @@
     "color": "dark_gray",
     "looks_like": "deep_rock",
     "see_cost": "full_high",
-    "vision_levels": "underground_stone"
+    "vision_levels": "underground_stone",
+    "travel_cost_type": "basement"
   },
   {
     "type": "overmap_terrain",
@@ -248,7 +261,8 @@
     "color": "dark_gray",
     "looks_like": "forest_water",
     "see_cost": "high",
-    "vision_levels": "forested_swampy"
+    "vision_levels": "forested_swampy",
+    "travel_cost_type": "structure"
   },
   {
     "type": "overmap_terrain",
@@ -257,7 +271,8 @@
     "sym": "O",
     "color": "dark_gray",
     "see_cost": "none",
-    "vision_levels": "forested_swampy"
+    "vision_levels": "forested_swampy",
+    "travel_cost_type": "roof"
   },
   {
     "type": "overmap_terrain",
@@ -267,7 +282,8 @@
     "color": "c_light_green",
     "looks_like": "forest",
     "see_cost": "high",
-    "vision_levels": "isolated_tower"
+    "vision_levels": "isolated_tower",
+    "travel_cost_type": "structure"
   },
   {
     "type": "overmap_terrain",
@@ -277,7 +293,8 @@
     "color": "blue",
     "looks_like": "open_air",
     "see_cost": "all_clear",
-    "vision_levels": "isolated_tower"
+    "vision_levels": "isolated_tower",
+    "travel_cost_type": "roof"
   },
   {
     "type": "overmap_terrain",
@@ -287,7 +304,8 @@
     "color": "blue",
     "looks_like": "open_air",
     "see_cost": "all_clear",
-    "vision_levels": "isolated_tower"
+    "vision_levels": "isolated_tower",
+    "travel_cost_type": "roof"
   },
   {
     "type": "overmap_terrain",
@@ -297,7 +315,8 @@
     "color": "blue",
     "looks_like": "open_air",
     "see_cost": "all_clear",
-    "vision_levels": "isolated_tower"
+    "vision_levels": "isolated_tower",
+    "travel_cost_type": "roof"
   },
   {
     "type": "overmap_terrain",
@@ -307,7 +326,8 @@
     "color": "blue",
     "looks_like": "open_air",
     "see_cost": "all_clear",
-    "vision_levels": "roof_or_air"
+    "vision_levels": "roof_or_air",
+    "travel_cost_type": "roof"
   },
   {
     "type": "overmap_terrain",
@@ -317,7 +337,8 @@
     "color": "light_blue",
     "looks_like": "lake_shore",
     "see_cost": "none",
-    "vision_levels": "isolated_building"
+    "vision_levels": "isolated_building",
+    "travel_cost_type": "structure"
   },
   {
     "type": "overmap_terrain",
@@ -327,7 +348,8 @@
     "color": "blue",
     "looks_like": "open_air",
     "see_cost": "none",
-    "vision_levels": "roof_or_air"
+    "vision_levels": "roof_or_air",
+    "travel_cost_type": "roof"
   },
   {
     "type": "overmap_terrain",
@@ -400,17 +422,20 @@
     "sym": "F",
     "color": "brown",
     "looks_like": "cemetery_small",
-    "see_cost": "spaced_high"
+    "see_cost": "spaced_high",
+    "travel_cost_type": "structure"
   },
   {
     "type": "overmap_terrain",
     "id": "forest_tomb_roof",
-    "copy-from": "forest_tomb"
+    "copy-from": "forest_tomb",
+    "travel_cost_type": "roof"
   },
   {
     "type": "overmap_terrain",
     "id": "forest_tomb_bottom",
-    "copy-from": "forest_tomb"
+    "copy-from": "forest_tomb",
+    "travel_cost_type": "basement"
   },
   {
     "type": "overmap_terrain",
@@ -422,7 +447,8 @@
     "see_cost": "high",
     "mondensity": 2,
     "flags": [ "SIDEWALK" ],
-    "vision_levels": "isolated_tower"
+    "vision_levels": "isolated_tower",
+    "travel_cost_type": "structure"
   },
   {
     "type": "overmap_terrain",
@@ -433,7 +459,8 @@
     "looks_like": "campus_lecture_0_0_1",
     "mondensity": 2,
     "see_cost": "high",
-    "vision_levels": "isolated_tower"
+    "vision_levels": "isolated_tower",
+    "travel_cost_type": "roof"
   },
   {
     "type": "overmap_terrain",
@@ -469,7 +496,8 @@
     "type": "overmap_terrain",
     "id": "magic_academy_basement",
     "copy-from": "magic_academy_2nd",
-    "vision_levels": "underground_dirt"
+    "vision_levels": "underground_dirt",
+    "travel_cost_type": "basement"
   },
   {
     "type": "overmap_terrain",
@@ -479,7 +507,8 @@
     "color": "light_blue",
     "looks_like": "campus_lecture_0_0_3",
     "see_cost": "none",
-    "vision_levels": "roof_or_air"
+    "vision_levels": "roof_or_air",
+    "travel_cost_type": "roof"
   },
   {
     "type": "overmap_terrain",
@@ -499,7 +528,8 @@
     "looks_like": "standing_stones",
     "see_cost": "high",
     "mondensity": 2,
-    "vision_levels": "unusual_structure"
+    "vision_levels": "unusual_structure",
+    "travel_cost_type": "structure"
   },
   {
     "type": "overmap_terrain",
@@ -523,7 +553,8 @@
     "sym": "O",
     "color": "dark_gray",
     "see_cost": "high",
-    "flags": [ "KNOWN_UP" ]
+    "flags": [ "KNOWN_UP" ],
+    "travel_cost_type": "tunnel"
   },
   {
     "type": "overmap_terrain",
@@ -533,6 +564,7 @@
     "color": "blue",
     "flags": [ "NO_ROTATE" ],
     "vision_levels": "blends_till_outlines",
+    "travel_cost_type": "forest",
     "see_cost": "low"
   },
   {
@@ -543,6 +575,7 @@
     "color": "blue",
     "flags": [ "NO_ROTATE" ],
     "vision_levels": "blends_till_details",
+    "travel_cost_type": "forest",
     "see_cost": "low"
   },
   {
@@ -553,6 +586,7 @@
     "color": "dark_gray",
     "flags": [ "NO_ROTATE", "REQUIRES_PREDECESSOR" ],
     "vision_levels": "blends_till_outlines",
+    "travel_cost_type": "forest",
     "see_cost": "medium"
   },
   {
@@ -562,7 +596,8 @@
     "sym": "F",
     "color": "green",
     "see_cost": "high",
-    "vision_levels": "unusual_structure"
+    "vision_levels": "unusual_structure",
+    "travel_cost_type": "structure"
   },
   {
     "type": "overmap_terrain",
@@ -581,7 +616,8 @@
     "sym": "F",
     "color": "green",
     "see_cost": "high",
-    "vision_levels": "unusual_structure"
+    "vision_levels": "unusual_structure",
+    "travel_cost_type": "roof"
   },
   {
     "type": "overmap_terrain",
@@ -676,6 +712,7 @@
     "sym": "$",
     "color": "red",
     "entry_eoc": "EOC_ENTER_FORGE",
-    "see_cost": "full_high"
+    "see_cost": "full_high",
+    "travel_cost_type": "structure"
   }
 ]
