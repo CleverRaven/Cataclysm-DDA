@@ -1,0 +1,61 @@
+[
+  {
+    "om_terrain": "cabin_6",
+    "weight": 250,
+    "type": "mapgen",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "*£££££*££££.~.£££££££*££",
+        "££***£££***.~.******££££",
+        "£*********..~..*******££",
+        "£*******....~....******£",
+        "££******.#w#+#w####****£",
+        "*£******.wb    + T#***££",
+        "*£***....#b  ct# 5#.***£",
+        "££***.##w###=###+##.***£",
+        "£**...#15SFR &#  D#.***£",
+        "£**...w2     R# BBw.**££",
+        "£*....w3 CC   + BB#.**£*",
+        "££....#y ll   #####%**£*",
+        "£~~~~~+       +  D#.**££",
+        "£.....#cttc#+## BBw.***£",
+        "£**...#cttc# R# BB#.***£",
+        "£***..##ww##+###w##.**££",
+        "££**................**££",
+        "£*......**********.****£",
+        "£*......*********...***£",
+        "£*......*********.W.**££",
+        "£*......*********...**££",
+        "£*......**************£*",
+        "££......**£££****££££££*",
+        "*££££££££££*££££££**££**"
+      ],
+      "palettes": [ "cabin_palette" ],
+      "terrain": {
+        "*": [
+          [ "t_region_tree", 1 ],
+          [ "t_region_tree_evergreen", 1 ],
+          [ "t_region_shrub", 5 ],
+          [ "t_region_groundcover_forest", 10 ],
+          [ "t_region_groundcover", 25 ]
+        ],
+        "W": "t_wooden_well"
+      },
+      "furniture": { "£": "f_magic_brambles" },
+      "place_nested": [
+        {
+          "chunks": [ [ "roof_6x6_garden_3", 25 ], [ "roof_6x6_greenhouse_bloodthorne", 25 ], [ "roof_6x6_garden_2", 25 ] ],
+          "x": 2,
+          "y": 17
+        },
+        { "chunks": [ "bloodthorne_druid_9x9_basement_stairs" ], "x": 6, "y": 9 }
+      ],
+      "place_monster": [
+        { "monster": "mon_thornhound", "x": 3, "y": 3, "chance": 50 },
+        { "monster": "mon_thornhound", "x": 19, "y": 3, "chance": 50 },
+        { "monster": "mon_thornhound", "x": 18, "y": 19, "chance": 50 }
+      ]
+    }
+  }
+]

@@ -1,0 +1,71 @@
+[
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "roof_6x6_greenhouse_bloodthorne",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "%#++#%",
+        "%1__1%",
+        "#1__1#",
+        "#1__1#",
+        "%1__1%",
+        "%####%"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "_": "t_railroad_rubble",
+        "#": "t_reinforced_glass_shutter_open",
+        "+": "t_reinforced_door_glass_c",
+        "%": "t_reinforced_glass_shutter",
+        "$": "t_wall_glass"
+      },
+      "furniture": { "S": "f_statue" },
+      "sealed_item": { "1": { "item": { "item": "seed_rose" }, "furniture": "f_planter_mature" } },
+      "place_nested": [ { "chunks": [ "roof_6x6_greenhouse_roof" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "bloodthorne_druid_9x9_basement_stairs",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "         ",
+        "         ",
+        "         ",
+        "         ",
+        "         ",
+        "         ",
+        "         ",
+        "       T ",
+        "         "
+      ],
+      "terrain": { "T": "t_wood_stairs_down" },
+      "place_nested": [ { "chunks": [ "bloodthorne_druid_9x9_basement" ], "x": 0, "y": 0, "z": -1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "bloodthorne_druid_9x9_basement",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "---------",
+        "-       -",
+        "-       -",
+        "-       -",
+        "-       -",
+        "-       -",
+        "-       -",
+        "-      T-",
+        "---------"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "T": "t_wood_stairs_up", "-": "t_wall_wood", " ": "t_dirtfloor" }
+    }
+  }
+]
