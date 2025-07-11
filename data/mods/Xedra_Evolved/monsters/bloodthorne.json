@@ -5,7 +5,7 @@
     "name": { "str_sp": "Thornhound" },
     "description": "An animated tangle of thorns in the rough shape of a large dog, with several vines waving in the air like an anemone's tentacles.  Three glowing green spots are visible on what might be the head.",
     "default_faction": "factionless",
-    "species": [ "PLANT" ],
+    "species": [ "PLANT", "THORNBEAST" ],
     "volume": "62500 ml",
     "weight": "81500 g",
     "bodytype": "dog",
