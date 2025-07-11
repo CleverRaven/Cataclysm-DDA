@@ -22,7 +22,7 @@
       }
     ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-    "flags": [ "ATTUNEMENT" ]
+    "flags": [ "ATTUNEMENT", "TREE_COMMUNION_PLUS" ]
   },
   {
     "type": "mutation",
@@ -84,6 +84,16 @@
     "purifiable": false,
     "valid": false,
     "spells_learned": [ [ "bloodthorne_druid_whip_targets_in_nature_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "BLOODTHORNE_DRUID_GAIN_STRENGTH_DEXTERITY_BUFF",
+    "name": { "str": "Verdurous Prowess" },
+    "points": 2,
+    "description": "The forest spirits gain constant power through their connection to the wild, and while the bloodthorne druids do not have that level of connection they can borrow it for a time.  You may increase your strength, dexterity, and hit points.  This bonus is <color_green>increased in the wilderness</color>.",
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "bloodthorne_druid_gain_strength_dexterity_buff_spell", 1 ] ]
   },
   {
     "type": "mutation",
@@ -150,5 +160,93 @@
         ]
       }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "BLOODTHORNE_DRUID_AURA_OF_VINES",
+    "name": { "str": "Entanglement of Vines" },
+    "points": 2,
+    "description": "Your heartvines have grown enough that you can extend numerous vines around you.  These vines will retaliate against attackers, defend you, assist you in casting magicks if your hands are full, allow you to descend buildings by grasping handholds, and alert you to nearby dangers.",
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "mana": true,
+    "cost": 1,
+    "time": 3,
+    "activation_msg": "A multitude of vines burst from your flesh!",
+    "activated_eocs": [ "EOC_BLOODTHORNE_DRUID_AURA_OF_VINES" ],
+    "deactivated_eocs": [ "EOC_BLOODTHORNE_DRUID_AURA_OF_VINES" ]
+  },
+  {
+    "type": "mutation",
+    "id": "BLOODTHORNE_DRUID_AURA_OF_VINES_TRAIT",
+    "name": { "str": "Entanglement of Vines", "//~": "NO_I18N" },
+    "points": 2,
+    "visibility": 10,
+    "ugliness": 6,
+    "description": { "str": "The active trait for Entanglement of Vines.  You shouldn't see this.", "//~": "NO_I18N" },
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "METABOLISM", "multiply": 0.25 },
+          { "value": "THIRST", "multiply": 0.25 },
+          { "value": "BONUS_BLOCK", "add": 2 },
+          { "value": "MOTION_ALARM", "add": 6 }
+        ],
+        "hit_me_effect": [
+          {
+            "id": "bloodthorne_druid_aura_of_vines_retaliate",
+            "once_in": 3,
+            "message": "Your vines whip out at your attacker.",
+            "npc_message": "%1$s's vines whip out at their attacker."
+          }
+        ]
+      }
+    ],
+    "flags": [ "SUBTLE_SPELL", "VINE_RAPPEL" ]
+  },
+  {
+    "type": "mutation",
+    "id": "BLOODTHORNE_DRUID_HEAL_FROM_SPILLED_BLOOD",
+    "name": { "str": "Drinking Crimson Rain" },
+    "points": 4,
+    "description": "Vampires are known for drinking blood, but plants will drink anything that sinks into the soil.  This spell draws all blood spilled onto the earth in the area around you through the roots to be absorbed by your heartvines, healing you.",
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "bloodthorne_druid_heal_from_spilled_blood_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "BLOODTHORNE_DRUID_SUMMON_THORNHOUND",
+    "name": { "str": "Thornhound's Beacon" },
+    "points": 5,
+    "description": "The forest spirits will not answer your call but your heartvine will.  When standing on verdant ground, you may animate a twisted mass of thorns to attack your enemies.",
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "bloodthorne_druid_summon_thornwight_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "BLOODTHORNE_DRUID_SLOWER_BLEEDING",
+    "name": { "str": "Bramble Ichor" },
+    "points": 3,
+    "description": "The sap that flows through your veins has thickened, and your heartvines do their keep to keep it in your body.  You bleed more slowly.",
+    "purifiable": false,
+    "valid": false,
+    "flags": [ "BLEEDSLOW" ]
+  },
+  {
+    "type": "mutation",
+    "id": "BLOODTHORNE_DRUID_CREATE_THORN_PRISON",
+    "name": { "str": "Henge of Iron Thorns" },
+    "points": 6,
+    "description": "When one of the blood-drinkers of their servants is on verdant ground, you can cause a massive tangle of thorns to grow and imprison them.",
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "bloodthorne_druid_create_thorn_prison_spell", 1 ] ]
   }
 ]

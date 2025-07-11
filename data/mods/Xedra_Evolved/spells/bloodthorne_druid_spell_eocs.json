@@ -94,5 +94,127 @@
       { "u_remove_item_with": "bloodthorne_druid_bandage_02" },
       { "u_remove_item_with": "bloodthorne_druid_bandage_03" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BLOODTHORNE_DRUID_HEAL_FROM_SPILLED_BLOOD",
+    "effect": [
+      {
+        "u_map_run_eocs": [
+          {
+            "id": "EOC_BLOODTHORNE_DRUID_HEAL_FROM_SPILLED_BLOOD_COUNT",
+            "effect": [
+              { "math": [ "u_blood_total_healing += 2" ] },
+              {
+                "u_transform_radius": 0,
+                "target_var": { "context_val": "bloody_terrain" },
+                "ter_furn_transform": "ter_bloodthorne_druid_heal_from_spilled_blood"
+              }
+            ]
+          }
+        ],
+        "range": {
+          "math": [ "2 + (0.2 * bloodthorn_druid_traits_sum() ) + (0.05 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') )" ]
+        },
+        "store_coordinates_in": { "context_val": "bloody_terrain" },
+        "stop_at_first": false,
+        "condition": {
+          "and": [
+            { "map_field_id": "fd_blood", "loc": { "context_val": "bloody_terrain" } },
+            {
+              "or": [
+                { "map_terrain_with_flag": "PLOWABLE", "loc": { "context_val": "bloody_terrain" } },
+                { "map_terrain_with_flag": "SHRUB", "loc": { "context_val": "bloody_terrain" } },
+                { "map_terrain_with_flag": "YOUNG", "loc": { "context_val": "bloody_terrain" } }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "u_message": "There are <u_val:blood_total_healing> points worth of healing in nearby blood.",
+        "type": "debug"
+      },
+      {
+        "if": { "math": [ "u_blood_total_healing > 0" ] },
+        "then": [
+          { "if": { "math": [ "u_hp('arm_r') < u_hp_max('arm_r')" ] }, "then": { "math": [ "_bodyparts_needing_healing ++" ] } },
+          {
+            "if": { "math": [ "u_hp('arm_l') < u_hp_max('arm_l')" ] },
+            "then": { "math": [ "_bodyparts_needing_healing ++" ] }
+          },
+          {
+            "if": { "math": [ "u_hp('leg_r') < u_hp_max('leg_r')" ] },
+            "then": { "math": [ "_bodyparts_needing_healing ++" ] }
+          },
+          {
+            "if": { "math": [ "u_hp('leg_l') < u_hp_max('leg_l')" ] },
+            "then": { "math": [ "_bodyparts_needing_healing ++" ] }
+          },
+          {
+            "if": { "math": [ "u_hp('torso') < u_hp_max('torso')" ] },
+            "then": { "math": [ "_bodyparts_needing_healing ++" ] }
+          },
+          {
+            "if": { "math": [ "u_hp('head') < u_hp_max('head')" ] },
+            "then": { "math": [ "_bodyparts_needing_healing ++" ] }
+          },
+          { "math": [ "_total_healing_per_part = (u_blood_total_healing / _bodyparts_needing_healing)" ] },
+          { "math": [ "u_blood_total_healing = 0" ] },
+          {
+            "if": { "and": [ { "math": [ "u_hp('arm_r') < u_hp_max('arm_r')" ] }, { "math": [ "_bodyparts_needing_healing > 0" ] } ] },
+            "then": [ { "math": [ "u_hp('arm_r') += _total_healing_per_part" ] }, { "math": [ "_bodyparts_needing_healing --" ] } ]
+          },
+          {
+            "if": { "and": [ { "math": [ "u_hp('arm_l') < u_hp_max('arm_l')" ] }, { "math": [ "_bodyparts_needing_healing > 0" ] } ] },
+            "then": [ { "math": [ "u_hp('arm_l') += _total_healing_per_part" ] }, { "math": [ "_bodyparts_needing_healing --" ] } ]
+          },
+          {
+            "if": { "and": [ { "math": [ "u_hp('leg_r') < u_hp_max('leg_r')" ] }, { "math": [ "_bodyparts_needing_healing > 0" ] } ] },
+            "then": [ { "math": [ "u_hp('leg_r') += _total_healing_per_part" ] }, { "math": [ "_bodyparts_needing_healing --" ] } ]
+          },
+          {
+            "if": { "and": [ { "math": [ "u_hp('leg_l') < u_hp_max('leg_l')" ] }, { "math": [ "_bodyparts_needing_healing > 0" ] } ] },
+            "then": [ { "math": [ "u_hp('leg_l') += _total_healing_per_part" ] }, { "math": [ "_bodyparts_needing_healing --" ] } ]
+          },
+          {
+            "if": { "and": [ { "math": [ "u_hp('torso') < u_hp_max('torso')" ] }, { "math": [ "_bodyparts_needing_healing > 0" ] } ] },
+            "then": [ { "math": [ "u_hp('torso') += _total_healing_per_part" ] }, { "math": [ "_bodyparts_needing_healing --" ] } ]
+          },
+          {
+            "if": { "and": [ { "math": [ "u_hp('head') < u_hp_max('head')" ] }, { "math": [ "_bodyparts_needing_healing > 0" ] } ] },
+            "then": [ { "math": [ "u_hp('head') += _total_healing_per_part" ] }, { "math": [ "_bodyparts_needing_healing --" ] } ]
+          },
+          { "u_message": "You draw on spilled blood and your wounds are healed.", "type": "good" }
+        ],
+        "else": [ { "u_message": "You finish the spell but there is no spilled blood for you to draw on.", "type": "bad" } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BLOODTHORNE_DRUID_CREATE_THORN_PRISON",
+    "effect": [
+      { "u_transform_radius": 2, "ter_furn_transform": "ter_arvore_summoned_brambles" },
+      {
+        "if": "u_is_character",
+        "then": [
+          { "u_add_effect": "bleed", "intensity": 5, "duration": "5 minutes", "target_part": "torso" },
+          { "u_add_effect": "bleed", "intensity": 5, "duration": "5 minutes", "target_part": "head" },
+          { "u_add_effect": "bleed", "intensity": 5, "duration": "5 minutes", "target_part": "arm_l" },
+          { "u_add_effect": "bleed", "intensity": 5, "duration": "5 minutes", "target_part": "arm_r" },
+          { "u_add_effect": "bleed", "intensity": 5, "duration": "5 minutes", "target_part": "leg_l" },
+          { "u_add_effect": "bleed", "intensity": 5, "duration": "5 minutes", "target_part": "leg_r" }
+        ],
+        "else": { "u_add_effect": "bleed", "intensity": 10, "duration": "5 minutes" }
+      },
+      {
+        "if": { "or": [ { "u_has_trait": "VAMPIRE" }, { "u_has_species": "VAMPIRE" }, { "u_has_species": "VAMPIRE_ANATHEMA" } ] },
+        "then": {
+          "u_add_effect": "effect_bloodthorne_druid_thorn_prison",
+          "duration": { "math": [ "10 + (n_sum_traits_of_category_char_has('ARVORE_ALCHEMY') / 3)" ] }
+        }
+      }
+    ]
   }
 ]

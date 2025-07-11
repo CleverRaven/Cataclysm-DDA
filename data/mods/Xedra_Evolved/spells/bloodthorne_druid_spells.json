@@ -4,7 +4,7 @@
     "id": "xedra_bloodthorne_sorcery",
     "type": "magic_type",
     "energy_source": "MANA",
-    "cannot_cast_flags": [ "NO_SPELLCASTING" ],
+    "cannot_cast_flags": [ "NO_THORNWITCHERY", "NO_SPELLCASTING" ],
     "cannot_cast_message": "Your thornwitchery will not come to your call!",
     "failure_cost_percent": 0.75,
     "max_book_level": 0,
@@ -16,7 +16,7 @@
     "name": { "str": "Summon Heartvine Whip", "//~": "NO_I18N" },
     "description": { "str": "Needed to summon the heartwhip and wield it.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
-    "flags": [ "SILENT", "NO_LEGS" ],
+    "flags": [ "SILENT" ],
     "effect": "spawn_item",
     "effect_str": "heartvine_whip",
     "shape": "blast",
@@ -35,7 +35,7 @@
     "description": "While in a forest or on natural foliage, restore your lost blood or that of an ally.",
     "message": "",
     "valid_targets": [ "self", "ally" ],
-    "flags": [ "SOMATIC", "NO_LEGS" ],
+    "flags": [ "VERBAL", "SOMATIC", "NO_LEGS" ],
     "magic_type": "xedra_bloodthorne_sorcery",
     "skill": "deduction",
     "spell_class": "BLOODTHORNE_SORCERY",
@@ -59,7 +59,7 @@
     "description": "When bleeding, your heartvines can pull the wound closed and stop it.  This is painful, but will prevent further bleeding.  If there are any vampires or their servants nearby, the heartvines will also lash out at them as they pull the wound closed.",
     "message": "",
     "valid_targets": [ "self" ],
-    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS" ],
+    "flags": [ "SILENT", "NO_HANDS" ],
     "magic_type": "xedra_bloodthorne_sorcery",
     "skill": "deduction",
     "spell_class": "BLOODTHORNE_SORCERY",
@@ -112,7 +112,7 @@
     "description": "You can bring the fury of nature to bear on your enemies.  When a target is in thick grass, shrubbery, or other foliage, or is affected by Hungry Thirsty Roots, you can cause the plants to grow long thorns and pierce them.",
     "message": "",
     "valid_targets": [ "hostile" ],
-    "flags": [ "VERBAL", "NO_LEGS", "RANDOM_DAMAGE", "SILENT" ],
+    "flags": [ "VERBAL", "RANDOM_DAMAGE", "SILENT" ],
     "magic_type": "xedra_bloodthorne_sorcery",
     "skill": "deduction",
     "spell_class": "BLOODTHORNE_SORCERY",
@@ -145,5 +145,153 @@
     },
     "base_casting_time": 175,
     "base_energy_cost": { "math": [ "max( ( 350 - (bloodthorn_druid_traits_sum() * 6) ), 150)" ] }
+  },
+  {
+    "id": "bloodthorne_druid_aura_of_vines_retaliate",
+    "type": "SPELL",
+    "name": { "str": "Entanglement of Vines Retaliation", "//~": "NO_I18N" },
+    "description": { "str": "Hits targets when you have Entanglement of Vines active.  You shouldn't see this.", "//~": "NO_I18N" },
+    "message": "",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT", "RANDOM_DAMAGE" ],
+    "magic_type": "xedra_bloodthorne_sorcery",
+    "skill": "deduction",
+    "spell_class": "BLOODTHORNE_SORCERY",
+    "effect": "attack",
+    "effect_str": "bleed",
+    "shape": "blast",
+    "damage_type": "cut",
+    "min_damage": 5,
+    "max_damage": 25,
+    "min_range": 2,
+    "max_range": 2
+  },
+  {
+    "id": "bloodthorne_druid_heal_from_spilled_blood_spell",
+    "type": "SPELL",
+    "name": "Drinking Crimson Rain",
+    "description": "Vampires are known for drinking blood but plants will drink anything that sinks into the soil.  This spell draws all blood spilled onto the earth in the area around you through the roots to be absorbed by your heartvines, healing you.  Only blood spilled on verdant ground will be affected.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "flags": [ "SOMATIC", "NO_LEGS" ],
+    "magic_type": "xedra_bloodthorne_sorcery",
+    "skill": "deduction",
+    "spell_class": "BLOODTHORNE_SORCERY",
+    "condition": {
+      "or": [
+        { "u_is_on_terrain_with_flag": "PLOWABLE" },
+        { "u_is_on_terrain_with_flag": "SHRUB" },
+        { "u_is_on_terrain_with_flag": "YOUNG" }
+      ]
+    },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BLOODTHORNE_DRUID_HEAL_FROM_SPILLED_BLOOD",
+    "shape": "blast",
+    "min_aoe": {
+      "math": [ "1 + (0.2 * bloodthorn_druid_traits_sum() ) + (0.05 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') )" ]
+    },
+    "max_aoe": {
+      "math": [ "1 + (0.2 * bloodthorn_druid_traits_sum() ) + (0.05 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') )" ]
+    },
+    "base_casting_time": 350,
+    "base_energy_cost": { "math": [ "max( ( 600 - (bloodthorn_druid_traits_sum() * 10) ), 350)" ] }
+  },
+  {
+    "id": "bloodthorne_druid_gain_strength_dexterity_buff_spell",
+    "type": "SPELL",
+    "name": "Verdurous Prowess",
+    "description": "The forest spirits gain constant power through their connection to the wild, and while the bloodthorne druids do not have that level of connection they can borrow it for a time.  You may increase your strength, dexterity, and hit points.  This bonus is <color_green>increased in the wilderness</color>.\n\nYou must be standing on natural vegetation to cast this spell.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "flags": [ "VERBAL", "SOMATIC" ],
+    "magic_type": "xedra_bloodthorne_sorcery",
+    "skill": "deduction",
+    "spell_class": "BLOODTHORNE_SORCERY",
+    "condition": {
+      "or": [
+        { "u_is_on_terrain_with_flag": "DIGGABLE" },
+        { "u_is_on_terrain_with_flag": "YOUNG" },
+        { "u_is_on_terrain_with_flag": "SHRUB" }
+      ]
+    },
+    "effect": "attack",
+    "effect_str": "effect_bloodthorne_druid_gain_strength_dexterity_buff",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "51657 + (3651 * bloodthorn_druid_traits_sum() ) + (2015 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') ) + (u_skill('deduction') * 1285)"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "109395 + (9815 * bloodthorn_druid_traits_sum() ) + (4851 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') ) + (u_skill('deduction') * 2795)"
+      ]
+    },
+    "base_casting_time": 3000,
+    "base_energy_cost": { "math": [ "max( ( 450 - (bloodthorn_druid_traits_sum() * 10) ), 300)" ] }
+  },
+  {
+    "id": "bloodthorne_druid_summon_thornwight_spell",
+    "type": "SPELL",
+    "name": "Thornhound's Beacon",
+    "description": "The forest spirits will not answer your call, but your heartvines will.  When standing on verdant ground, you may animate a twisted mass of thorns to attack your enemies.  When the thornhound dies, it creates a profusion of thick brambles around the location of its demise.",
+    "message": "",
+    "valid_targets": [ "ground" ],
+    "flags": [ "VERBAL", "SOMATIC" ],
+    "magic_type": "xedra_bloodthorne_sorcery",
+    "skill": "deduction",
+    "spell_class": "BLOODTHORNE_SORCERY",
+    "condition": {
+      "or": [
+        { "u_is_on_terrain_with_flag": "DIGGABLE" },
+        { "u_is_on_terrain_with_flag": "YOUNG" },
+        { "u_is_on_terrain_with_flag": "SHRUB" }
+      ]
+    },
+    "effect": "summon",
+    "effect_str": "mon_thornhound",
+    "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 2,
+    "min_duration": {
+      "math": [
+        "23571 + (1905 * bloodthorn_druid_traits_sum() ) + (851 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') ) + (u_skill('deduction') * 1315)"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "79552 + (6812 * bloodthorn_druid_traits_sum() ) + (2904 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') ) + (u_skill('deduction') * 3795)"
+      ]
+    },
+    "min_aoe": 2,
+    "max_aoe": 2,
+    "base_casting_time": 500,
+    "base_energy_cost": { "math": [ "max( ( 700 - (bloodthorn_druid_traits_sum() * 20) ), 300)" ] }
+  },
+  {
+    "id": "bloodthorne_druid_create_thorn_prison_spell",
+    "type": "SPELL",
+    "name": "Henge of Iron Thorns",
+    "description": "When one of the blood-drinkers of their servants is on verdant ground, you can cause a massive tangle of thorns to grow and imprison them.\n\nThis spell still works on other targets, but simply causes bleeding and creates a tangle of thorns, it <color_red>will not</color> restrain them.",
+    "message": "",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "VERBAL", "SOMATIC" ],
+    "magic_type": "xedra_bloodthorne_sorcery",
+    "skill": "deduction",
+    "spell_class": "BLOODTHORNE_SORCERY",
+    "condition": {
+      "or": [
+        { "npc_is_on_terrain_with_flag": "DIGGABLE" },
+        { "npc_is_on_terrain_with_flag": "YOUNG" },
+        { "npc_is_on_terrain_with_flag": "SHRUB" }
+      ]
+    },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BLOODTHORNE_DRUID_CREATE_THORN_PRISON",
+    "shape": "blast",
+    "min_range": 20,
+    "max_range": 20,
+    "base_casting_time": 250,
+    "base_energy_cost": 800
   }
 ]

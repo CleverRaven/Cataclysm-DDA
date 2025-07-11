@@ -1,0 +1,84 @@
+[
+  {
+    "id": "mon_thornhound",
+    "type": "MONSTER",
+    "name": { "str_sp": "Thornhound" },
+    "description": "An animated tangle of thorns in the rough shape of a large dog, with several vines waving in the air like an anemone's tentacles.  Three glowing green spots are visible on what might be the head.",
+    "default_faction": "factionless",
+    "species": [ "PLANT" ],
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "bodytype": "dog",
+    "hp": 145,
+    "speed": 185,
+    "symbol": "T",
+    "color": "green",
+    "aggression": 15,
+    "morale": 200,
+    "aggro_character": false,
+    "melee_skill": 6,
+    "melee_dice": 2,
+    "melee_dice_sides": 4,
+    "dodge": 3,
+    "vision_day": 35,
+    "vision_night": 6,
+    "material": [ "veggy" ],
+    "grab_strength": 30,
+    "special_attacks": [
+      {
+        "id": "ranged_pull",
+        "cooldown": 10,
+        "range": 3,
+        "grab": true,
+        "no_dmg_msg_u": "",
+        "no_dmg_msg_npc": "",
+        "miss_msg_u": "%s's thorned vines whip out at you, but you dodge!",
+        "miss_msg_npc": "%s's thorned vines whip out at <npcname>, but they dodge!"
+      },
+      {
+        "type": "bite",
+        "cooldown": 3,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 12, "armor_penetration": 8 } ],
+        "min_mul": 0.8,
+        "max_mul": 1.1,
+        "infection_chance": 3
+      },
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "thorned_vine",
+        "cooldown": 5,
+        "move_cost": 100,
+        "range": 3,
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 12 } ],
+        "hit_dmg_u": "%1$s snaps its thorned vine at your %2$s!",
+        "hit_dmg_npc": "%1$s snaps its thorned vine at <npcname>!",
+        "no_dmg_msg_u": "%1$s's thorned vine lashes out at you without doing any damage.",
+        "no_dmg_msg_npc": "%1$s's thorned vine lashes out at <npcname> without doing any damage.",
+        "miss_msg_u": "%s's thorned vine snaps at you, but you dodge!",
+        "miss_msg_npc": "%s's thorned vine snaps at <npcname>, but they dodge!"
+      }
+    ],
+    "//": "Lack of weakpoints is deliberate.  It's an animinated tangle of thorns, it has no weakpoints.  Set it on fire.",
+    "anger_triggers": [ "FRIEND_DIED", "PLAYER_CLOSE", "FRIEND_ATTACKED", "HURT", "FIRE" ],
+    "biosignature": { "biosig_item": "withered", "biosig_timer": 25 },
+    "death_function": { "eoc": "EOC_THORNHOUND_DEATH", "corpse_type": "NO_CORPSE", "message": "The %s explodes into tangle of brambles." },
+    "armor": { "bash": 10, "cut": 3, "stab": 18, "bullet": 25, "heat": -20 },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "GOODHEARING",
+      "DESTROYS",
+      "ATTACKMON",
+      "NO_BREATHE",
+      "SLUDGEPROOF",
+      "STUN_IMMUNE",
+      "PATH_AVOID_FIRE"
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_THORNHOUND_DEATH",
+    "effect": [ { "npc_transform_radius": 2, "ter_furn_transform": "ter_arvore_summoned_brambles" } ]
+  }
+]
