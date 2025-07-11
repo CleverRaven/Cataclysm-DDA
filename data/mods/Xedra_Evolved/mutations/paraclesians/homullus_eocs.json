@@ -433,7 +433,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_HOMULLUS_REBUILD_MIND_HANDLING",
-    "condition": { "and": [ { "not": { "u_has_flag": "NIGHTMARE" } }, { "not": { "u_has_flag": "IRONWROUGHT" } }, { "not": { "u_has_effect": "effect_homullus_rebuilt_mind" } } ] },
+    "condition": {
+      "and": [
+        { "not": { "u_has_flag": "NIGHTMARE" } },
+        { "not": { "u_has_flag": "IRONWROUGHT" } },
+        { "not": { "u_has_effect": "effect_homullus_rebuilt_mind" } }
+      ]
+    },
     "effect": [ { "run_eocs": "EOC_HOMULLUS_REBUILD_MIND_HANDLING_2" } ],
     "false_effect": [
       { "npc_message": "Your target twitches uncontrollably for less than a second, then turns to you with renewed anger." }
