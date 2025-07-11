@@ -6,7 +6,7 @@
     "job_description": "I feel so empty but I'm alive.",
     "common": false,
     "worn_override": "default_zombie_death_drops",
-    "traits": [ { "group": "BG_survival_story_RECONSTRUCTED" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" }, { "DREAMLESS" }, { "EMPTY_DREAMS" } ],
+    "traits": [ { "group": "BG_survival_story_RECONSTRUCTED" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" }, [ "DREAMLESS", 100 ], [ "EMPTY_DREAMS", 100 ] ],
     "skills": [
       { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } }
     ]
