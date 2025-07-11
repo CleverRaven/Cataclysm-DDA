@@ -1,7 +1,7 @@
 [
   {
     "om_terrain": "cabin_6",
-    "weight": 250,
+    "weight": 450,
     "type": "mapgen",
     "object": {
       "fill_ter": "t_floor",
@@ -17,7 +17,7 @@
         "£**...#15SFR &#  D#.***£",
         "£**...w2     R# BBw.**££",
         "£*....w3 CC   + BB#.**£*",
-        "££....#y ll   #####%**£*",
+        "££...€#y ll  A#####%**£*",
         "£~~~~~+       +  D#.**££",
         "£.....#cttc#+## BBw.***£",
         "£**...#cttc# R# BB#.***£",
@@ -42,19 +42,20 @@
         ],
         "W": "t_wooden_well"
       },
-      "furniture": { "£": "f_magic_brambles" },
+      "furniture": { "£": "f_magic_brambles", "€": [ [ "f_diesel_generator", 2 ], [ "f_null", 1 ] ] },
       "place_nested": [
         {
           "chunks": [ [ "roof_6x6_garden_3", 25 ], [ "roof_6x6_greenhouse_bloodthorne", 25 ], [ "roof_6x6_garden_2", 25 ] ],
           "x": 2,
           "y": 17
         },
-        { "chunks": [ "bloodthorne_druid_9x9_basement_stairs" ], "x": 6, "y": 9 }
+        { "chunks": [ "bloodthorne_druid_9x9_basement_stairs" ], "x": 6, "y": 9 },
+        { "chunks": [ "bloodthorne_druid_safehouse_bathroom_roof" ], "x": 15, "y": 4 }
       ],
       "place_monster": [
         { "monster": "mon_thornhound", "x": 3, "y": 3, "chance": 50 },
         { "monster": "mon_thornhound", "x": 19, "y": 3, "chance": 50 },
-        { "monster": "mon_thornhound", "x": 18, "y": 19, "chance": 50 }
+        { "monster": "mon_thornhound", "x": 18, "y": 17, "chance": 50 }
       ]
     }
   }
