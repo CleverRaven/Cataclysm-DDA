@@ -140,6 +140,21 @@ static point_rel_omt truncate_segment( om_direction::type dir, int last_bend_len
                           bend_offset_base.y() * current_direction.y() - bend_length_vector.y() );
 }
 
+bool overmap::check_intersection_inbounds( const overmap_special_id &special,
+        const tripoint_om_omt &center, int border ) const
+{
+    const half_open_rectangle<point_om_omt> bounds( point_om_omt( border, border ),
+            point_om_omt( OMAPX - border, OMAPY - border ) );
+
+    const int intersection_radius = special->longest_side();
+    for( const point &p : four_adjacent_offsets ) {
+        if( !bounds.contains( center.xy() + point_rel_omt( p ) * intersection_radius ) ) {
+            return false;
+        }
+    }
+    return true;
+}
+
 tripoint_om_omt overmap::find_highway_intersection_point( const overmap_special_id &special,
         const tripoint_om_omt &center, const om_direction::type &dir, int border ) const
 {
@@ -646,6 +661,8 @@ bool overmap::highway_select_end_points( const std::vector<const overmap *> &nei
 
     const overmap_highway_settings &highway_settings = settings->overmap_highway;
     const int HIGHWAY_MAX_DEVIANCE = highway_settings.HIGHWAY_MAX_DEVIANCE;
+    //used until intersections can be safely placed at corners of the overmap with two-bend pathing
+    const int SAFE_DEVIANCE = HIGHWAY_MAX_DEVIANCE * 2;
 
     bool any_ocean_adjacent = ocean_neighbors.any();
     add_msg_debug( debugmode::DF_HIGHWAY,
@@ -688,7 +705,7 @@ bool overmap::highway_select_end_points( const std::vector<const overmap *> &nei
         if( new_end_point[i] ) {
             tripoint_om_omt to_wrap = end_points[( i + 2 ) % HIGHWAY_MAX_CONNECTIONS];
             tripoint_om_omt fallback_random_point = random_entry(
-                    get_border( point_rel_om( four_adjacent_offsets[i] ), base_z, HIGHWAY_MAX_DEVIANCE ) );
+                    get_border( point_rel_om( four_adjacent_offsets[i] ), base_z, SAFE_DEVIANCE ) );
             if( to_wrap.is_invalid() ) {
                 end_points[i] = fallback_random_point;
             } else {
@@ -696,11 +713,11 @@ bool overmap::highway_select_end_points( const std::vector<const overmap *> &nei
                 if( !x_in_y( highway_settings.straightness_chance, 1.0 ) ) {
                     tripoint_om_omt wrapped_point = wrap_point( to_wrap );
                     std::vector<tripoint_om_omt> border_points = get_border( point_rel_om( four_adjacent_offsets[i] ),
-                            base_z, HIGHWAY_MAX_DEVIANCE );
+                            base_z, SAFE_DEVIANCE );
                     std::vector<tripoint_om_omt> border_points_in_radius;
                     for( const tripoint_om_omt &p : border_points ) {
                         if( rl_dist( p, wrapped_point ) < HIGHWAY_MAX_DEVIANCE &&
-                            point_outside_overmap_corner( p, HIGHWAY_MAX_DEVIANCE ) ) {
+                            point_outside_overmap_corner( p, SAFE_DEVIANCE ) ) {
                             border_points_in_radius.emplace_back( p );
                         }
                     }
@@ -817,7 +834,9 @@ std::vector<Highway_path> overmap::place_highways(
         }
         case 4: {
             // first, check pairs of corners -- we can't draw a pair of bends to a center intersection if there's no room!
-            tripoint_om_omt four_point( OMAPX / 2, OMAPY / 2, 0 );
+            const int center_variance = 10;
+            tripoint_om_omt four_point( OMAPX / 2 + rng( -center_variance, center_variance ),
+                                        OMAPY / 2 + rng( -center_variance, center_variance ), 0 );
             const double corner_threshold = OMAPX / 3.0;
             std::bitset<HIGHWAY_MAX_CONNECTIONS> corners_close; //starting at NE
             for( int i = 0; i < HIGHWAY_MAX_CONNECTIONS; i++ ) {
@@ -870,16 +889,19 @@ std::vector<Highway_path> overmap::place_highways(
             }
 
             special = settings->overmap_highway.four_way_intersections.pick();
+            bool fallback = !check_intersection_inbounds( special, four_point, HIGHWAY_MAX_DEVIANCE );
+            if( fallback ) {
+                special = settings->overmap_highway.fallback_four_way_intersection;
+            }
             om_direction::type intersection_dir = om_direction::type::north;
             four_point = find_highway_intersection_point( special, four_point, intersection_dir,
                          HIGHWAY_MAX_DEVIANCE );
 
-            //draw end-to-end from ends points to 4-way intersection
+            //draw end-to-end from end points to 4-way intersection
             for( int i = 0; i < HIGHWAY_MAX_CONNECTIONS; i++ ) {
                 paths.emplace_back( place_highway_reserved_path( end_points[i], four_point, i, ( i + 2 ) % 4,
                                     base_z ) );
             }
-            fallback_special = settings->overmap_highway.fallback_four_way_intersection;
             place_highway_supported_special( special, four_point, om_direction::type::north );
             break;
         }
@@ -949,7 +971,7 @@ std::optional<std::bitset<HIGHWAY_MAX_CONNECTIONS>> overmap::is_highway_overmap(
 
     // first, get the offset for every interhighway_node bounding this overmap
     // generate points if needed
-    std::vector<point_abs_om> bounds = overmap_buffer.find_highway_intersection_bounds( pos );
+    const std::vector<point_abs_om> bounds = overmap_buffer.find_highway_intersection_bounds( pos );
 
     // if we're on one of those intersection OMs, return immediately with all cardinal connection points
     for( int i = 0; i < HIGHWAY_MAX_CONNECTIONS; i++ ) {

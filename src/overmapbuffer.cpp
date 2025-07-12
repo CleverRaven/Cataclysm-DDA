@@ -1734,9 +1734,8 @@ overmapbuffer::find_highway_adjacent_intersections( const point_abs_om &generate
         overmap_buffer.get_overmap_highway_intersection_point( generated_om_pos );
     const int adjacencies = four_adjacent_offsets.size();
     for( int i = 0; i < adjacencies; i++ ) {
-        point_abs_om &new_intersection = this_intersection.adjacent_intersections[i];
-        if( new_intersection.is_invalid() ) {
-            new_intersection = adjacent_intersections[i].grid_pos;
+        if( this_intersection.adjacent_intersections[i].is_invalid() ) {
+            this_intersection.adjacent_intersections[i] = adjacent_intersections[i].grid_pos;
         }
     }
     overmap_buffer.set_overmap_highway_intersection_point( generated_om_pos, this_intersection );
@@ -1773,15 +1772,23 @@ std::vector<point_abs_om> overmapbuffer::find_highway_intersection_bounds( const
     const int c_seperation = highway_settings.grid_column_seperation;
     const int r_seperation = highway_settings.grid_row_seperation;
 
-    point_abs_om center = overmap_buffer.highway_global_offset;
-    point_rel_om diff = generated_om_pos - center;
-    int colsign = std::copysign( 1.0, diff.x() / static_cast<double>( c_seperation ) );
-    int rowsign = std::copysign( 1.0, diff.y() / static_cast<double>( r_seperation ) );
-    // these are returned in clockwise order AND so the furthest from the highway origin is last
-    std::vector<point_abs_om> bounds = { point_abs_om( center.x(), center.y() + rowsign * r_seperation ),
-                                         point_abs_om( center.x(), center.y() ),
-                                         point_abs_om( center.x() + colsign * c_seperation, center.y() ),
-                                         point_abs_om( center.x() + colsign * c_seperation, center.y() + rowsign * r_seperation )
+    const point_abs_om center = overmap_buffer.highway_global_offset;
+    const point_rel_om diff = generated_om_pos - center;
+
+    const double col_diff = diff.x() / static_cast<double>( c_seperation );
+    const double row_diff = diff.y() / static_cast<double>( r_seperation );
+    const int colsign = std::copysign( 1.0, col_diff );
+    const int rowsign = std::copysign( 1.0, row_diff );
+    const bool col_aligned = diff.x() % c_seperation == 0;
+    const bool row_aligned = diff.y() % r_seperation == 0;
+    const int col = static_cast<int>( col_diff ) + ( colsign == -1 && !col_aligned ? -1 : 0 );
+    const int row = static_cast<int>( row_diff ) + ( rowsign == -1 && !row_aligned ? -1 : 0 );
+
+    point_abs_om top_left( center.x() + col * c_seperation, center.y() + row * r_seperation );
+    std::vector<point_abs_om> bounds = { top_left + point_rel_om( c_seperation, r_seperation ),
+                                         top_left + point_rel_om( 0, r_seperation ),
+                                         top_left + point_rel_om( c_seperation, 0 ),
+                                         top_left
                                        };
     for( const point_abs_om &p : bounds ) {
         if( !highway_intersection_exists( p ) ) {

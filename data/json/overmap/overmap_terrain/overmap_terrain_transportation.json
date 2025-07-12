@@ -695,7 +695,11 @@
       "hw_trumpet_bridge_1_1",
       "hw_bend_3_0",
       "hw_bend_4_0",
-      "hw_bend_4_1"
+      "hw_bend_4_1",
+      "hw_fallback_four_way_0_0_1",
+      "hw_fallback_four_way_1_0_1",
+      "hw_fallback_four_way_0_1_1",
+      "hw_fallback_four_way_1_1_1"
     ],
     "copy-from": "generic_highway_road_r",
     "extend": { "flags": [ "HIGHWAY_SPECIAL", "REQUIRES_PREDECESSOR" ] }
@@ -797,7 +801,11 @@
       "hw_three_lane_merge_w",
       "hw_merge_to_road_w",
       "hw_merge_to_road_e",
-      "hw_bend_0_3"
+      "hw_bend_0_3",
+      "hw_fallback_four_way_0_0_0",
+      "hw_fallback_four_way_1_0_0",
+      "hw_fallback_four_way_0_1_0",
+      "hw_fallback_four_way_1_1_0"
     ],
     "copy-from": "generic_highway_road",
     "extend": { "flags": [ "HIGHWAY_SPECIAL", "REQUIRES_PREDECESSOR" ] }
