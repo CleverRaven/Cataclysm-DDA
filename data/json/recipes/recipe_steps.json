@@ -1,0 +1,70 @@
+[
+  {
+    "type": "ITEM",
+    "id": "yeast_dough",
+    "//": "for now copied from soy_wheat_dough minus transform",
+    "looks_like": "flour",
+    "name": { "str_sp": "yeast dough" },
+    "description": "yeast dough made from cooked and mashed soybeans and wheat flour, wrapped in wet paper.  If left to dry for some time, it'll grow koji mold, as necessary for making soy sauce.",
+    "weight": "550 g",
+    "color": "white",
+    "flags": [ "TRADER_AVOID" ],
+    "symbol": "%",
+    "price": "0 cent",
+    "volume": "500 ml"
+  },
+  {
+    "type": "ITEM",
+    "id": "yeast_dough_rested",
+    "name": { "str_sp": "rested yeast dough" },
+    "description": "yeast dough well rested and ready for baking.",
+    "copy-from": "yeast_dough",
+    "volume": "1 L"
+  },
+  {
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "components": [
+      [ [ "flour", 22 ], [ "bread_flour", 5, "CRAFTABLE" ] ],
+      [ [ "yeast", 1 ] ],
+      [ [ "water_clean", 2 ] ],
+      [ [ "sugar", 4 ] ]
+    ],
+    "result": "yeast_dough",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "cooking",
+    "batch_time_factors": [ 50, 4 ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
+    "difficulty": 2,
+    "time": "20 minutes"
+  },
+  {
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "components": [ [ [ "yeast_dough", 1, "CRAFTABLE" ] ] ],
+    "result": "yeast_dough_rested",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "cooking",
+    "batch_time_factors": [ 100, 1 ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
+    "difficulty": 2,
+    "time": "20 minutes"
+  },
+  {
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "bread",
+    "batch_time_factors": [ 50, 4 ],
+    "qualities": [ { "id": "OVEN", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 22, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" }, { "proficiency": "prof_baking_bread" } ],
+    "difficulty": 2,
+    "time": "30 minutes",
+    "components": [ [ [ "yeast_dough_rested", 1, "CRAFTABLE" ] ] ]
+  }
+]

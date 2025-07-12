@@ -2,11 +2,16 @@
 
 #include <algorithm>
 #include <cmath>
+#include <exception>
+#include <iostream>
 #include <memory>
 #include <numeric>
 #include <optional>
 #include <sstream>
+#include <stdexcept>
 #include <unordered_map>
+#include <utility>
+#include <vector>
 
 #include "assign.h"
 #include "cached_options.h"
@@ -37,9 +42,12 @@
 #include "mapgen_parameter.h"
 #include "mapgendata.h"
 #include "math_defines.h"
+#include "messages.h"
 #include "output.h"
 #include "proficiency.h"
 #include "recipe_dictionary.h"
+#include "requirements.h"
+#include "ret_val.h"
 #include "skill.h"
 #include "string_formatter.h"
 #include "string_id_utils.h"
@@ -74,6 +82,68 @@ int recipe::get_skill_cap() const
     } else {
         return difficulty * 1.25;
     }
+}
+
+ret_val<void> recipe::recursive_comp_crafts( std::vector<craft_step_data> &queue,
+        const read_only_visitable
+        &crafting_inv, int batch, Character *crafter ) const
+{
+
+    static auto any_has_status = []( const std::vector<item_comp> &comps,
+    available_status status = available_status::a_true ) {
+        for( const auto &comp : comps ) {
+            if( comp.available == status ) {
+                return true;
+            }
+        }
+        return false;
+    };
+
+    const requirement_data *reqs = deduped_requirements().select_alternative( *crafter,
+                                   get_component_filter( ), batch, craft_flags::start_only );
+    queue.emplace_back( this, batch, reqs );
+    if( queue.size() > 10 ) {
+        return ret_val<void>::make_failure( "too many recursive component crafts required" );
+    }
+    // requirement_data reqs = simple_requirements();
+
+    // std::map<const item_comp, std::vector<const recipe *>> craftables = reqs->craftable_comps();
+
+
+    for( const std::vector<item_comp> &comps : reqs->get_components() ) {
+        // filter out components that have available alternatives
+        if( any_has_status( comps ) ) {
+            continue;
+        }
+        std::vector<std::pair<const recipe *, item_comp>> craft;
+        const recipe_subset learned_recipes = crafter->get_learned_recipes();
+        // if multiple alternative components are craftable, get which one to craft
+        for( item_comp it : comps ) {
+            // add_msg( "%i of %s in inv", crafting_inv.amount_of( it.type ), it.type.c_str() );
+            for( const recipe *rec : reqs->craftable_recs_for_comp( it, crafting_inv,
+                    get_component_filter(), learned_recipes, batch ) ) {
+                craft.emplace_back( rec, it );
+            }
+        }
+
+
+        if( craft.empty() ) {
+            return ret_val<void>::make_failure( "No craftables found for %s in recipe::to_craft",
+                                                ident().c_str() );
+        }
+
+        craft_selection sel = crafter->select_component_to_craft( this, craft, batch,
+                              get_component_filter() );
+        if( sel.cancled ) {
+            return ret_val<void>::make_failure();
+        }
+
+        if( !sel.rec->recursive_comp_crafts( queue, crafting_inv, batch, crafter ).success() ) {
+            return ret_val<void>::make_failure();
+        }
+    }
+
+    return ret_val<void>::make_success();
 }
 
 time_duration recipe::batch_duration( const Character &guy, int batch, float multiplier,
@@ -143,9 +213,7 @@ int64_t recipe::batch_time( const Character &guy, int batch, float multiplier,
     } else if( assistants >= 2 ) {
         total_time = total_time * .60;
     }
-    if( total_time < local_time ) {
-        total_time = local_time;
-    }
+    total_time = std::max( total_time, local_time );
 
     return static_cast<int64_t>( total_time );
 }
@@ -586,6 +654,19 @@ static cata::value_ptr<parameterized_build_reqs> calculate_all_blueprint_reqs(
     return result;
 }
 
+// static void print_requirement_data( requirement_data &data )
+// {
+//     std::cout << "[\n";
+//     for( std::vector<item_comp> &comps : data.get_components() ) {
+//         std::cout << "\t[\n";
+//         for( item_comp comp : comps ) {
+//             std::cout << "\t\t\"" << comp.type.c_str() << "\",\n";
+//         }
+//         std::cout << "\t],\n";
+//     }
+//     std::cout << "],\n";
+// }
+
 void recipe::finalize()
 {
     if( bp_autocalc ) {
@@ -606,6 +687,19 @@ void recipe::finalize()
 
         deduped_requirements_ = deduped_requirement_data( requirements_, ident() );
     }
+
+    // if( deduped_requirements_.alternatives().size() > 5 &&
+    //     deduped_requirements_.alternatives().size() < 10 ) {
+    //     std::cout << id.c_str() << ":\n";
+    //     for( requirement_data data : deduped_requirements_.alternatives() ) {
+    //         print_requirement_data( data );
+    //     }
+    //     std::cout << "reqs:\n";
+    //     print_requirement_data( requirements_ );
+    // }
+    // if( deduped_requirements_.alternatives().size() > 20 ) {
+    //     std::cout << id.str() << ": " << deduped_requirements_.alternatives().size();
+    // }
 
     if( contained && container.is_null() ) {
         container = item::find_type( result_ )->default_container.value_or( itype_id::NULL_ID() );

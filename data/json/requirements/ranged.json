@@ -5,11 +5,11 @@
     "//": "Any crossbow for use in practice.",
     "tools": [
       [
-        [ "bullet_crossbow", -1 ],
-        [ "crossbow", -1 ],
-        [ "compositecrossbow", -1 ],
-        [ "compcrossbow", -1 ],
-        [ "huge_crossbow", -1 ]
+        [ "bullet_crossbow", -1, "CRAFTABLE" ],
+        [ "crossbow", -1, "CRAFTABLE" ],
+        [ "compositecrossbow", -1, "CRAFTABLE" ],
+        [ "compcrossbow", -1, "CRAFTABLE" ],
+        [ "huge_crossbow", -1, "CRAFTABLE" ]
       ]
     ]
   }

@@ -909,6 +909,13 @@ void recipe_subset::remove( const recipe *r )
     recipes.erase( r );
 }
 
+bool recipe_subset::contains( const recipe *r ) const
+{
+    return std::any_of( recipes.begin(), recipes.end(), [r]( const recipe * elem ) {
+        return elem->ident() == r->ident();
+    } );
+}
+
 void recipe_subset::include( const recipe_subset &subset )
 {
     for( const recipe * const &elem : subset ) {

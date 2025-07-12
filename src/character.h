@@ -3621,6 +3621,7 @@ class Character : public Creature, public visitable
         std::vector<const item *> get_eligible_containers_for_crafting() const;
         bool check_eligible_containers_for_crafting( const recipe &rec, int batch_size = 1 ) const;
         bool can_make( const recipe *r, int batch_size = 1 ) const;  // have components?
+        inventory get_crafting_inv();
         /**
          * Returns true if the player can start crafting the recipe with the given batch size
          * The player is not required to have enough tool charges to finish crafting, only to
@@ -3643,7 +3644,8 @@ class Character : public Creature, public visitable
                          const std::optional<tripoint_bub_ms> &loc = std::nullopt );
         void make_all_craft( const recipe_id &id, int batch_size,
                              const std::optional<tripoint_bub_ms> &loc );
-        /** consume components and create an active, in progress craft containing them */
+        /** consume components and create an active, in progress craft containing them
+         */
         void start_craft( craft_command &command, const std::optional<tripoint_bub_ms> &loc );
 
         struct craft_roll_data {
@@ -3725,6 +3727,14 @@ class Character : public Creature, public visitable
                                int batch, read_only_visitable &map_inv, bool can_cancel = false,
                                const std::function<bool( const item & )> &filter = return_true<item>, bool player_inv = true,
                                bool npc_query = false, const recipe *rec = nullptr );
+        craft_selection select_component_to_craft(
+            const recipe *result,
+            std::vector<std::pair<const recipe *, item_comp>>
+            &components,
+            int batch,
+            const std::function<bool( const item & )> &filter = return_true<item>,
+            bool npc_query = false ) const;
+
         std::list<item> consume_items( const comp_selection<item_comp> &is, int batch,
                                        const std::function<bool( const item & )> &filter = return_true<item>, bool select_ind = false );
         std::list<item> consume_items( map &m, const comp_selection<item_comp> &is, int batch,
