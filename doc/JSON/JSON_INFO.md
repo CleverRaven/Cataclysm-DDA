@@ -199,6 +199,7 @@ Use the `Home` key to return to the top.
   - [`whitelist_hobbies`](#whitelist_hobbies-1)
   - [`map_special`](#map_special)
   - [`requirement`](#requirement)
+  - [`hard_requirement`](#hard_requirement)
   - [`reveal_locale`](#reveal_locale)
   - [`distance_initial_visibility`](#distance_initial_visibility)
   - [`eoc`](#eoc)
