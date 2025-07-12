@@ -2027,7 +2027,8 @@ class Character : public Creature, public visitable
          * If do_calc_encumbrance is false, don't recalculate encumbrance, caller must call it eventually.
          */
         std::optional<std::list<item>::iterator>
-        wear_item( const item &to_wear, bool interactive = true, bool do_calc_encumbrance = true );
+        wear_item( const item &to_wear, bool interactive = true, bool do_calc_encumbrance = true,
+                   bool do_sort_items = true, bool quiet = false );
 
         /** Returns the amount of item `type' that is currently worn */
         int  amount_worn( const itype_id &id ) const;
