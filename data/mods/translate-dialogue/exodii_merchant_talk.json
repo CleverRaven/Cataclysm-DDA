@@ -68,9 +68,9 @@
     "type": "talk_topic",
     "dynamic_line": {
       "concatenate": [
-        "HEH, ye c'nnae get enough o' ol' Rubik's merchandise, eh?  Sure as 'ell, come back in <interval>.",
+        "HEH, ye c'nnae get enough o' ol' Rubik's merchandise, eh?  Sure as 'ell, come back on <restock_time_point>.",
         "\"\n\n[TRANSLATE:] \"",
-        "HEH, you can't get enough of old Rubik's merchandise, eh?  Sure as hell, come back in <interval>."
+        "HEH, you can't get enough of old Rubik's merchandise, eh?  Sure as hell, come back on <restock_time_point>."
       ]
     }
   },
