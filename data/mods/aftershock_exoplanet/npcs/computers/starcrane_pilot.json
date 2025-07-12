@@ -45,7 +45,7 @@
     "dynamic_line": {
       "math": [ "your_ship_ramp_up == 1" ],
       "yes": [ "BAY RAMP STATUS: GREEN", "The console shows a camera feed of the closing ramp." ],
-      "no": "** WARNING: OBSTRUCTION IN RAMP AREA.  MANUAL INTERVENTION REQUIRED. ERROR. **"
+      "no": "**WARNING: OBSTRUCTION IN RAMP AREA.  MANUAL INTERVENTION REQUIRED.  ERROR.**"
     }
   },
   {
