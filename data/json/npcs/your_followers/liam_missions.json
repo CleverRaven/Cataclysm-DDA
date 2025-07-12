@@ -22,6 +22,49 @@
     ]
   },
   {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Mission_Bury_Chris_2_describe",
+    "dynamic_line": "*inhales slowly, grasping the handle of the shovel tight.  \"I've thought about this.  Behind the cabin, there's a big old elm tree.  Chris came out here one summer when we were thirteen, we put a tire swing up in there.  There's a patch of ground out there that still doesn't have much grass on it.  Dad took the tire down a few years ago though.  That's as good a spot as any, right?  I hope Chris looks back on that summer like I do.\"  He wipes his nose with his sleeve, looking at you self-consciously.",
+    "responses": [
+      { "text": "I'll help you with the digging.", "topic": "TALK_Liam_Mission_Bury_Chris_2_assign" },
+      { "text": "There's other stuff to do.  Let's talk about this later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Mission_Bury_Chris_2_assign",
+    "dynamic_line": "*nods.  \"Do you need me to give you any tips?  I've dug a few holes in my day.\"",
+    "responses": [
+      {
+        "text": "I know how to dig a hole, Liam.",
+        "effect": [ { "add_mission": "MISSION_Liam_Bury_Chris_1" }, { "math": [ "Chris_bury_progress = 11" ] } ],
+        "topic": "TALK_Liam_Mission_Bury_Chris_1_assign"
+      },
+      {
+        "text": "[TUTORIAL] Sure, give me some pointers.",
+        "topic": "TALK_Liam_Tutorial_Construction"
+      },
+      { "text": "Wait.  I wanted to talk about something else first.", "topic": "TALK_FRIEND_Liam" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Tutorial_Construction",
+    "dynamic_line": "You're going to want to head North to the backyard of my cabin, and look for a single patch of dirt just south of an elm tree.  You can identify the type of tree by <color=yellow>moving your mouse over it</color> or <color=yellow>pressing <press_examine></color> to examine it, but there's only one tree out there.  Once you've identified the spot, stand next to it and press <press_construct> to open the construction menu.  Choose 'dig a shallow pit', and select the dirt.  I'll help dig of course.  When we're done, go back to the construction menu and select 'dig a pit', and select our shallow pit.  That should get us a deep enough pit.",
+    "responses": [
+      {
+        "text": "I know how to dig a hole, Liam.",
+        "effect": [ { "add_mission": "MISSION_Liam_Bury_Chris_1" }, { "math": [ "Chris_bury_progress = 11" ] } ],
+        "topic": "TALK_Liam_Mission_Bury_Chris_1_assign"
+      },
+      {
+        "text": "[TUTORIAL] Sure, give me some pointers.",
+        "topic": "TALK_Liam_Tutorial_Construction"
+      },
+      { "text": "Wait.  I wanted to talk about something else first.", "topic": "TALK_FRIEND_Liam" }
+    ]
+  },
+  {
     "id": "MISSION_Liam_Bury_Chris_1",
     "type": "mission_definition",
     "name": { "str": "Get some shovels for Liam.  There's dirty work to be done." },
@@ -29,22 +72,46 @@
     "difficulty": 0,
     "value": 0,
     "item": "shovel",
-    "start": {
-      "assign_mission_target": { "om_terrain": "cabin_liam", "reveal_radius": 1, "random": true, "search_range": 800 },
-      "effect": { "u_add_var": "MISSION_Liam_Bury_Chris_1", "value": "in_progress" }
-    },
+	"end": {
+		"effect": { "math": [ "Chris_bury_progress = 12" ] }
+	},
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "We're going to need some shovels… got an unpleasant job to do.",
       "offer": "We're going to need some shovels… got an unpleasant job to do.",
-      "accepted": "We're going to need some shovels… got an unpleasant job to do.",
-      "rejected": "We're going to need some shovels… got an unpleasant job to do.",
-      "advice": "We're going to need some shovels… got an unpleasant job to do.",
-      "inquire": "We're going to need some shovels… got an unpleasant job to do.",
-      "success": "We're going to need some shovels… got an unpleasant job to do.",
-      "success_lie": "We're going to need some shovels… got an unpleasant job to do.",
-      "failure": "We're going to need some shovels… got an unpleasant job to do."
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_Liam_Bury_Chris_2",
+    "type": "mission_definition",
+    "name": { "str": "Dig a pit in the bare patch of dirt under the elm tree in Liam's back yard." },
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 0,
+    "value": 0,
+    "item": "shovel",
+	"end": {
+		"effect": { "math": [ "Chris_bury_progress = 12" ] }
+	},
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "We're going to need some shovels… got an unpleasant job to do.",
+      "offer": "We're going to need some shovels… got an unpleasant job to do.",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
     }
   }
 ]
