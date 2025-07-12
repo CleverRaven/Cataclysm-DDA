@@ -497,6 +497,7 @@ struct map_data_common_t {
     public:
         virtual ~map_data_common_t() = default;
         virtual std::optional<map_common_bash_info> bash_info() const = 0;
+        virtual std::optional<map_common_deconstruct_info> deconstruct_info() const = 0;
     protected:
         friend furn_t null_furniture_t();
         friend ter_t null_terrain_t();
@@ -519,6 +520,8 @@ struct map_data_common_t {
         bool has_curtains() const {
             return !( curtain_transform.is_empty() || curtain_transform.is_null() );
         }
+
+        bool has_disassembly() const;
 
         std::string name() const;
 
@@ -688,6 +691,9 @@ struct ter_t : map_data_common_t {
     std::optional<map_common_bash_info> bash_info() const override {
         return bash;
     }
+    std::optional<map_common_deconstruct_info> deconstruct_info() const override {
+        return deconstruct;
+    }
 
     static size_t count();
 
@@ -748,7 +754,9 @@ struct furn_t : map_data_common_t {
     std::optional<map_common_bash_info> bash_info() const override {
         return bash;
     }
-
+    std::optional<map_common_deconstruct_info> deconstruct_info() const override {
+        return deconstruct;
+    }
     static size_t count();
 
     bool is_movable() const;
