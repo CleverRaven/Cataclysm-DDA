@@ -1271,6 +1271,7 @@ class effect_on_conditions_actor : public iuse_actor
         explicit effect_on_conditions_actor( const std::string &type = "effect_on_conditions" ) :
             iuse_actor(
                 type ) {}
+        bool consume;
 
         ~effect_on_conditions_actor() override = default;
         void load( const JsonObject &obj, const std::string &src ) override;
