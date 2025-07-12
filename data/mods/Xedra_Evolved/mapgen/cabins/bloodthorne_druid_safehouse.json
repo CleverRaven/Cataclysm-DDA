@@ -43,6 +43,7 @@
         "W": "t_wooden_well"
       },
       "furniture": { "£": "f_magic_brambles", "€": [ [ "f_diesel_generator", 2 ], [ "f_null", 1 ] ] },
+      "place_item": [ { "item": "plant_imbuement", "x": 10, "y": 8, "chance": 65 } ],
       "place_nested": [
         {
           "chunks": [ [ "roof_6x6_garden_3", 25 ], [ "roof_6x6_greenhouse_bloodthorne", 25 ], [ "roof_6x6_garden_2", 25 ] ],
