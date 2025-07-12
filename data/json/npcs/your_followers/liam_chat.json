@@ -1777,13 +1777,13 @@
     "responses": [
       {
         "text": "Do you think you know enough to handle the technical side?",
-        "condition": { "or": [ { "math": [ "npc_skill('mechanics')", ">=", "5" ] }, { "math": [ "npc_skill('electronics')", ">=", "5" ] } ] },
+        "condition": { "or": [ { "math": [ "npc_skill('mechanics') >= 5" ] }, { "math": [ "npc_skill('electronics') >= 5" ] } ] },
         "topic": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_Skills_hasskills"
       },
       {
         "text": "Do you think you know enough to handle the technical side?",
         "condition": {
-          "not": { "or": [ { "math": [ "npc_skill('mechanics')", ">=", "5" ] }, { "math": [ "npc_skill('electronics')", ">=", "5" ] } ] }
+          "not": { "or": [ { "math": [ "npc_skill('mechanics') >= 5" ] }, { "math": [ "npc_skill('electronics') >= 5" ] } ] }
         },
         "topic": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_Skills_noskills"
       },
