@@ -566,6 +566,7 @@
     "use_action": [
       {
         "type": "effect_on_conditions",
+        "consume": true,
         "menu_text": "Apply contact lenses",
         "description": "You can use this to mitigate your nearsightedness.",
         "effect_on_conditions": [
@@ -593,6 +594,7 @@
     "use_action": [
       {
         "type": "effect_on_conditions",
+        "consume": true,
         "menu_text": "Apply contact lenses",
         "description": "You can use this to mitigate your nearsightedness.",
         "effect_on_conditions": [
@@ -618,6 +620,7 @@
     "use_action": [
       {
         "type": "effect_on_conditions",
+        "consume": true,
         "menu_text": "Apply contact lenses",
         "description": "You can use this to mitigate your nearsightedness.",
         "effect_on_conditions": [
@@ -643,6 +646,7 @@
     "use_action": [
       {
         "type": "effect_on_conditions",
+        "consume": true,
         "menu_text": "Apply contact lenses",
         "description": "You can use this to mitigate your nearsightedness.",
         "effect_on_conditions": [
@@ -668,6 +672,7 @@
     "use_action": [
       {
         "type": "effect_on_conditions",
+        "consume": true,
         "menu_text": "Apply contact lenses",
         "description": "You can use this to mitigate your farsightedness.",
         "effect_on_conditions": [
@@ -690,6 +695,7 @@
     "use_action": [
       {
         "type": "effect_on_conditions",
+        "consume": true,
         "menu_text": "Apply contact lenses",
         "description": "You can use this to mitigate your farsightedness.",
         "effect_on_conditions": [
@@ -712,6 +718,7 @@
     "use_action": [
       {
         "type": "effect_on_conditions",
+        "consume": true,
         "menu_text": "Apply contact lenses",
         "description": "You can use this to mitigate your farsightedness.",
         "effect_on_conditions": [
@@ -734,6 +741,7 @@
     "use_action": [
       {
         "type": "effect_on_conditions",
+        "consume": true,
         "menu_text": "Apply contact lenses",
         "description": "You can use this to mitigate your farsightedness.",
         "effect_on_conditions": [
@@ -756,6 +764,7 @@
     "use_action": [
       {
         "type": "effect_on_conditions",
+        "consume": true,
         "menu_text": "Apply contact lenses",
         "description": "You can use this to mitigate your nearsightedness or farsightedness.",
         "effect_on_conditions": [
@@ -781,6 +790,7 @@
     "use_action": [
       {
         "type": "effect_on_conditions",
+        "consume": true,
         "menu_text": "Apply contact lenses",
         "description": "You can use this to mitigate your nearsightedness or farsightedness.",
         "effect_on_conditions": [
@@ -812,6 +822,7 @@
     "use_action": [
       {
         "type": "effect_on_conditions",
+        "consume": true,
         "menu_text": "Apply contact lenses",
         "description": "You can use this to mitigate your nearsightedness or farsightedness.",
         "effect_on_conditions": [
@@ -837,6 +848,7 @@
     "use_action": [
       {
         "type": "effect_on_conditions",
+        "consume": true,
         "menu_text": "Apply contact lenses",
         "description": "You can use this to mitigate your nearsightedness or farsightedness.",
         "effect_on_conditions": [
@@ -868,6 +880,7 @@
     "use_action": [
       {
         "type": "effect_on_conditions",
+        "consume": true,
         "menu_text": "Apply contact lenses",
         "description": "You can use this to mitigate your the bright light discomfort.",
         "effect_on_conditions": [
@@ -890,6 +903,7 @@
     "use_action": [
       {
         "type": "effect_on_conditions",
+        "consume": true,
         "menu_text": "Apply contact lenses",
         "description": "You can use this to mitigate the bright light discomfort.",
         "effect_on_conditions": [

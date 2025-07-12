@@ -312,6 +312,7 @@
     "extend": { "flags": [ "HEDGE_ENCHANTED" ] },
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "description": "Activate the charm using the magic square.",
       "effect_on_conditions": [
         {
@@ -334,6 +335,7 @@
     "extend": { "flags": [ "HEDGE_ENCHANTED" ] },
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "description": "Activate the charm using the magic square.",
       "effect_on_conditions": [
         {
@@ -359,6 +361,7 @@
     "extend": { "flags": [ "HEDGE_ENCHANTED" ] },
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "description": "Activate the charm using the magic square.",
       "effect_on_conditions": [
         {
@@ -381,6 +384,7 @@
     "extend": { "flags": [ "HEDGE_ENCHANTED" ] },
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "description": "Activate the charm using the magic square.",
       "effect_on_conditions": [
         {
@@ -415,6 +419,7 @@
     "extend": { "flags": [ "HEDGE_ENCHANTED" ] },
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "description": "Activate the charm using the magic square.",
       "effect_on_conditions": [
         {
@@ -437,6 +442,7 @@
     "extend": { "flags": [ "HEDGE_ENCHANTED" ] },
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "description": "Activate the charm using the magic square.",
       "effect_on_conditions": [
         {
