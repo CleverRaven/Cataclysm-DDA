@@ -1,0 +1,66 @@
+[
+  {
+    "id": "EOC_THI_CONTROL",
+    "type": "effect_on_condition",
+    "effect": { "open_dialogue": { "topic": "THI_CONTROL_START" } }
+  },
+  {
+    "type": "talk_topic",
+    "id": [ "THI_CONTROL_START", "THI_CONTROL_BAY_RAMP_STATUS" ],
+    "dynamic_line": "&●◐ Tristar Heavy Industries\nTHI-14 StarCrane\n\n**Welcome Captain.**\n",
+    "responses": [
+      {
+        "condition": { "math": [ "your_ship_ramp_up == 1" ] },
+        "text": "> Plot a course to a known destination.",
+        "topic": "THI_CONTROL_PLOT_KNOWN",
+        "show_always": true,
+        "show_reason": "Bay ramp must be closed before takeoff."
+      },
+      {
+        "condition": { "math": [ "your_ship_ramp_up == 1" ] },
+        "text": "> Plot a manual course.",
+        "topic": "THI_CONTROL_MANUAL_READY",
+        "show_always": true,
+        "show_reason": "Bay ramp must be closed before takeoff.",
+        "effect": { "run_eocs": "EOC_SHIP_THI_MANUAL_CONTROL" }
+      },
+      {
+        "condition": { "math": [ "your_ship_ramp_up != 1" ] },
+        "text": "> Close bay ramp.",
+        "topic": "THI_CONTROL_BAY_RAMP_STATUS",
+        "effect": { "run_eocs": "EOC_SHIP_RAMP" }
+      },
+      { "text": "Shut down.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": [ "THI_CONTROL_MANUAL_READY" ],
+    "dynamic_line": "&************************************************\n\nINTEGRITY CHK : ███████████████ 100% (COMPLETE)\nNAV TRANSFER :  ███████████████ 100% (COMPLETE)\n\n************************************************\n*  Operation Successful                         *\n************************************************",
+    "responses": [ { "text": "Pilot the ship.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": [ "THI_CONTROL_BAY_RAMP_STATUS" ],
+    "dynamic_line": {
+      "math": [ "your_ship_ramp_up == 1" ],
+      "yes": [ "BAY RAMP STATUS: GREEN", "The console shows a camera feed of the closing ramp." ],
+      "no": "**WARNING: OBSTRUCTION IN RAMP AREA.  MANUAL INTERVENTION REQUIRED.  ERROR.**"
+    }
+  },
+  {
+    "type": "talk_topic",
+    "id": [ "THI_CONTROL_PLOT_KNOWN" ],
+    "dynamic_line": "**Listing known local waypoints: **",
+    "responses": [
+      { "text": "High orbit over Salus IV", "effect": { "run_eocs": "EOC_SHIP_THI_TO_SALUS_ORBIT" }, "topic": "TALK_DONE" },
+      { "text": "Salus IV Spaceport", "effect": { "run_eocs": "EOC_SHIP_THI_TO_SPACEPORT" }, "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": [ "THI_CONTROL_CONTROL_READY" ],
+    "dynamic_line": "&************************************************\n\nINTEGRITY CHK : ███████████████ 100% (COMPLETE)\nNAV TRANSFER :  ███████████████ 100% (COMPLETE)\n\n************************************************\n*  Operation Successful                         *\n************************************************",
+    "responses": [ { "text": "Pilot the ship.", "topic": "TALK_DONE" } ]
+  }
+]

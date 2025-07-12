@@ -1046,6 +1046,31 @@ conditional_t::func f_at_om_location( const JsonObject &jo, std::string_view mem
     };
 }
 
+conditional_t::func f_overmap_at_point( const JsonObject &jo, std::string_view member )
+{
+
+    str_or_var location = get_str_or_var( jo.get_member( member ), member, true );
+
+    std::optional<var_info> loc_var;
+    if( jo.has_object( "point" ) ) {
+        loc_var = read_var_info( jo.get_object( "point" ) );
+    }
+
+    return [loc_var, location]( const_dialogue const & d ) {
+        tripoint_abs_ms target_location;
+        if( loc_var.has_value() ) {
+            target_location = read_var_value( *loc_var, d ).tripoint();
+        } else {
+            target_location = d.const_actor( false )->pos_abs();
+        }
+        tripoint_abs_omt omt_pos = project_to<coords::omt>( target_location );
+        const oter_id &omt_ter = overmap_buffer.ter( omt_pos );
+        std::string location_value = location.evaluate( d );
+
+        return oter_no_dir_or_connections( omt_ter ) == location_value;
+    };
+}
+
 conditional_t::func f_near_om_location( const JsonObject &jo, std::string_view member,
                                         bool is_npc )
 {
@@ -2573,6 +2598,7 @@ parsers = {
     {"mod_is_loaded", jarg::member, &conditional_fun::f_mod_is_loaded },
     {"u_has_faction_trust", jarg::member | jarg::array, &conditional_fun::f_has_faction_trust },
     {"math", jarg::member, &conditional_fun::f_math },
+    {"overmap_at_point", jarg::member, &conditional_fun::f_overmap_at_point },
     {"compare_string", jarg::member, &conditional_fun::f_compare_string },
     {"compare_string_match_all", jarg::member, &conditional_fun::f_compare_string_match_all },
     {"get_condition", jarg::member, &conditional_fun::f_get_condition },

@@ -34,6 +34,14 @@
     "flags": [ "SOURCE_FOOD", "SOURCE_GUN", "SOURCE_AMMO" ]
   },
   {
+    "type": "overmap_terrain",
+    "name": "old landing pad",
+    "id": [ "afs_shuttlepad_salvors_old_pad" ],
+    "sym": "0",
+    "color": "red",
+    "see_cost": "high"
+  },
+  {
     "id": "afs_landed_shuttle",
     "type": "overmap_terrain",
     "name": "drone shuttle landing site",
@@ -328,6 +336,15 @@
     "see_cost": "spaced_high",
     "spawns": { "group": "AFS_GROUP_FAUNA_TUNNELS", "population": [ 4, 10 ], "chance": 30 },
     "flags": [ "LINEAR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "afs_player_ship" ],
+    "name": "Vanishing Arc",
+    "sym": "+",
+    "color": "red",
+    "see_cost": "low",
+    "flags": [ "SOURCE_PEOPLE", "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
