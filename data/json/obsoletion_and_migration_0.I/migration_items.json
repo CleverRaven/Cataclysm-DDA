@@ -2616,5 +2616,10 @@
     "type": "MIGRATION",
     "id": "ruger_charger_auto",
     "replace": "ruger_1022_auto"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "shot_he",
+    "replace": "shot_dragon"
   }
 ]
