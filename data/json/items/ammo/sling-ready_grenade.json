@@ -21,7 +21,7 @@
       "msg": "You light the Molotov cocktail!",
       "target_charges": 1,
       "active": true,
-      "moves": 75,
+      "moves": 1200,
       "need_fire": 1,
       "menu_text": "Light rag",
       "type": "transform"

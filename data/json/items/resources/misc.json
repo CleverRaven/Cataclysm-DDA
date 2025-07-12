@@ -132,7 +132,7 @@
       "type": "place_trap",
       "allow_under_player": true,
       "trap": "tr_down_mattress",
-      "moves": 100,
+      "moves": 1000,
       "practice": 0,
       "done_message": "You lay the down mattress flat on the ground."
     }
