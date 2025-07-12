@@ -218,7 +218,7 @@
     "color": "i_light_gray",
     "see_cost": "high",
     "mondensity": 2,
-    "flags": [ "SIDEWALK", "PP_GENERATE_RIOT_DAMAGE" ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -229,7 +229,7 @@
     "color": "light_gray",
     "see_cost": "high",
     "mondensity": 2,
-    "flags": [ "SIDEWALK", "PP_GENERATE_RIOT_DAMAGE" ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -240,7 +240,7 @@
     "color": "light_gray",
     "see_cost": "high",
     "mondensity": 2,
-    "flags": [ "SIDEWALK", "PP_GENERATE_RIOT_DAMAGE" ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
