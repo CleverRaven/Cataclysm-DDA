@@ -540,5 +540,16 @@
     "//": "This group was created automatically and may contain errors.",
     "container-item": "wrapper_wyld",
     "entries": [ { "item": "wyld_candy", "container-item": "null", "count": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "portable_non_flashlight_light_sources",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "candle", "prob": 3, "charges": [ 5, 50 ] },
+      { "item": "gasoline_lantern", "prob": 5, "charges": [ 0, -1 ] },
+      { "item": "electric_lantern", "prob": 8, "charges": [ 0, 100 ] },
+      { "item": "oil_lamp", "prob": 5, "charges": [ 0, -1 ] }
+    ]
   }
 ]
