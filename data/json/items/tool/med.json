@@ -441,6 +441,7 @@
     "use_action": [
       {
         "type": "effect_on_conditions",
+        "consume": true,
         "menu_text": "Infuse saline",
         "description": "You can use it to mitigate the consequences of blood loss.  Require health care 3 and some disinfectant.",
         "effect_on_conditions": [
@@ -469,6 +470,7 @@
     "use_action": [
       {
         "type": "effect_on_conditions",
+        "consume": true,
         "menu_text": "Infuse saline",
         "description": "You can use it to mitigate the consequences of blood loss.  Require health care 4.",
         "effect_on_conditions": [
@@ -497,6 +499,7 @@
     "use_action": [
       {
         "type": "effect_on_conditions",
+        "consume": true,
         "menu_text": "Infuse saline",
         "description": "You can use it to mitigate the consequences of blood loss.  Require health care 4.",
         "effect_on_conditions": [
@@ -525,6 +528,7 @@
     "use_action": [
       {
         "type": "effect_on_conditions",
+        "consume": true,
         "menu_text": "Infuse saline",
         "description": "You can use it to mitigate the consequences of blood loss.  Require health care 4.",
         "effect_on_conditions": [
