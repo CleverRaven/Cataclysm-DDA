@@ -393,12 +393,20 @@ void map_fd_bash_info::load( const JsonObject &jo, const bool was_loaded,
     optional( jo, was_loaded, "msg_success", field_bash_msg_success );
 }
 
-std::string map_common_bash_info::potential_bash_items( const std::string
-        &ter_furn_name ) const
+std::string map_common_bash_info::potential_bash_items( const map_data_common_t &ter_furn ) const
 {
     //TODO: Add a descriptive indicator of vaguely how hard it is to bash?
-    return string_format( _( "Bashing the %s would yield:\n%s" ),
-                          ter_furn_name, item_group::potential_items( drop_group ) );
+    if( !ter_furn.base_item.is_null() && drop_group == Item_spawn_data_EMPTY_GROUP ) {
+        std::string ret;
+        for( const item_comp &comp : ter_furn.get_uncraft_components() ) {
+            ret += string_format( "- <color_cyan>%d %s</color>\n", comp.count, item::nname( comp.type ) );
+        }
+        return string_format( _( "Bashing the %s may yield:\n%s" ),
+                              ter_furn.name(), ret );
+    } else {
+        return string_format( _( "Bashing the %s would yield:\n%s" ),
+                              ter_furn.name(), item_group::potential_items( drop_group ) );
+    }
 }
 
 void map_common_deconstruct_info::load( const JsonObject &jo, const bool was_loaded,
@@ -430,20 +438,28 @@ void map_furn_deconstruct_info::load( const JsonObject &jo, const bool was_loade
     map_common_deconstruct_info::load( jo, was_loaded, context );
 }
 
-std::string map_common_deconstruct_info::potential_deconstruct_items( const std::string
-        &ter_furn_name ) const
+std::string map_common_deconstruct_info::potential_deconstruct_items( const map_data_common_t
+        &ter_furn ) const
 {
     Character &who = get_avatar();
+    std::string ret;
     bool will_practice_skill = !!skill && who.get_skill_level( skill->id ) >= skill->min &&
                                who.get_skill_level( skill->id ) < skill->max;
-    if( will_practice_skill ) {
-        return string_format(
-                   _( "Deconstructing the %s would yield:\n%s\nYou feel you might also learn something about <color_cyan>%s</color>." ),
-                   ter_furn_name, item_group::potential_items( drop_group ), skill->id.obj().name() );
+
+    if( !ter_furn.base_item.is_null() && drop_group.is_empty() ) {
+        ret += string_format( _( "Deconstructing the %s would yield:\n- <color_cyan>1 %s</color>\n" ),
+                              ter_furn.name(), item::nname( ter_furn.base_item ) );
     } else {
-        return string_format( _( "Deconstructing the %s would yield:\n%s" ),
-                              ter_furn_name, item_group::potential_items( drop_group ) );
+        ret += string_format( _( "Deconstructing the %s would yield:\n%s" ),
+                              ter_furn.name(), item_group::potential_items( drop_group ) );
     }
+
+    if( will_practice_skill ) {
+        ret += string_format(
+                   _( "\nYou feel you might also learn something about <color_cyan>%s</color>." ),
+                   skill->id.obj().name() );
+    }
+    return ret;
 }
 
 bool map_shoot_info::load( const JsonObject &jsobj, std::string_view member, bool was_loaded )
@@ -670,14 +686,14 @@ std::vector<std::string> ter_t::extended_description() const
     std::vector<std::string> tmp = map_data_common_t::extended_description();
     ret.insert( ret.end(), tmp.begin(), tmp.end() );
 
-    if( deconstruct ) {
+    if( deconstruct || !base_item.is_null() ) {
         ret.emplace_back( "--" );
-        ret.emplace_back( deconstruct->potential_deconstruct_items( name() ) );
+        ret.emplace_back( deconstruct->potential_deconstruct_items( *this ) );
     }
 
     if( is_smashable() ) {
         ret.emplace_back( "--" );
-        ret.emplace_back( bash->potential_bash_items( name() ) );
+        ret.emplace_back( bash->potential_bash_items( *this ) );
     }
 
     return ret;
@@ -710,14 +726,14 @@ std::vector<std::string> furn_t::extended_description() const
         }
     }
 
-    if( deconstruct ) {
+    if( deconstruct || !base_item.is_null() ) {
         ret.emplace_back( "--" );
-        ret.emplace_back( deconstruct->potential_deconstruct_items( name() ) );
+        ret.emplace_back( deconstruct->potential_deconstruct_items( *this ) );
     }
 
     if( is_smashable() ) {
         ret.emplace_back( "--" );
-        ret.emplace_back( bash->potential_bash_items( name() ) );
+        ret.emplace_back( bash->potential_bash_items( *this ) );
     }
 
     return ret;
