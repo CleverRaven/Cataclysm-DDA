@@ -1782,9 +1782,7 @@
       },
       {
         "text": "Do you think you know enough to handle the technical side?",
-        "condition": {
-          "not": { "or": [ { "math": [ "npc_skill('mechanics') >= 5" ] }, { "math": [ "npc_skill('electronics') >= 5" ] } ] }
-        },
+        "condition": { "not": { "or": [ { "math": [ "npc_skill('mechanics') >= 5" ] }, { "math": [ "npc_skill('electronics') >= 5" ] } ] } },
         "topic": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_Skills_noskills"
       },
       { "text": "Yeah.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" }
