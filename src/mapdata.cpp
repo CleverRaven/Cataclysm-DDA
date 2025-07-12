@@ -586,6 +586,12 @@ void load_season_array( const JsonObject &jo, const std::string &key, const std:
     }
 }
 
+bool map_data_common_t::has_disassembly() const
+{
+    return !base_item.is_null() || ( deconstruct_info().has_value() &&
+                                     deconstruct_info().value().drop_group != Item_spawn_data_EMPTY_GROUP );
+}
+
 std::string map_data_common_t::name() const
 {
     return name_.translated();
