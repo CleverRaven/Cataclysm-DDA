@@ -594,8 +594,8 @@
         "  X                                 X            ss|..jjj|...|JJ.JJ.|e....|{ss{Xss    ,,, b ,, x",
         "  X  sssssssssssssssssssssssssssss  X            ss|6....|...|......|..77.|{sssXss     ,, b ,, x",
         "  X  sssssssssssssssssssssssssssss  X            ss|6....d...d......d..77.|{ss{Xss    ,,, b ,, x",
-        "  X  ss/////////////////////////ss  X sssssssssssss|6...u|...|u.pp.u|u.77.|{ss{Xsss   ,,, b ,, x",
-        "  X  ss/C.C]u.u]u.u]u.u]u.u]u.u/ss  X ssssssssssss~|u...u|...|l.pp.u|u....|{ss{Xsss   ,,, b,,, x",
+        "  X  ss/////////////////////////ss  X sssssssssssss|6...u|...|u....u|u.77.|{ss{Xsss   ,,, b ,, x",
+        "  X  ss/C.C]u.u]u.u]u.u]u.u]u.u/ss  X ssssssssssss~|u...u|...|l.p..u|u....|{ss{Xsss   ,,, b,,, x",
         "  X  ss/C.C]u.u]u.u]u.u]u.u]u.u/ss  X ss--w---w---w------|...|-------------------ss    ,,,b,,,,x",
         "  X  ss/C.C]u.u]u.u]u.u]u.u]u.u/ss  X ss|$.OOt##t..`O|uuu|...|S...+T|c.??..??..?|ss   ,,,,b ,, x",
         "  X  ss/C.C]u.u]u.u]u.u]u.u]u.u/ss  X ss|$...h##h...O|u..z...|c...|-|c.??..??..?|ss    ,, b,,,,x",
@@ -660,6 +660,7 @@
         "ssss{{ssssssssssssssssssssssss  _____________1112111__________________________________ ,,;b,,, x"
       ],
       "palettes": [ "mil_base_palette" ],
+      "furniture": { "p": "f_compact_ASRG_containment" },
       "items": {
         "M": [ { "item": "mil_base_bed_hospital", "chance": 50, "repeat": [ 1, 2 ] } ],
         "B": [ { "item": "mil_base_table_hospital", "chance": 25, "repeat": [ 1, 3 ] } ],
