@@ -17,7 +17,7 @@
       { "prob": 10, "group": "salt_various" },
       { "prob": 5, "group": "seasoning_salt_various" },
       { "item": "instant_coffee", "prob": 25, "count": [ 1, 12 ] },
-      { "item": "pemmican", "prob": 10, "count": [ 1, 7 ] }
+      { "group": "pemmican_bag_small", "prob": 10, "count": [ 1, 7 ] }
     ]
   },
   {
