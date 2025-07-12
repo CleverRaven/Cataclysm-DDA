@@ -1272,6 +1272,9 @@ std::set<tripoint_bub_ms> map::get_moving_vehicle_targets( const Creature &z, in
         if( !v.v->is_moving() ) {
             continue;
         }
+        if( z.attitude_to( *v.v->get_driver( *this ) ) != Creature::Attitude::HOSTILE ) {
+            continue;
+        }
         if( std::abs( v.pos.z() - zpos.z() ) > fov_3d_z_range ) {
             continue;
         }
