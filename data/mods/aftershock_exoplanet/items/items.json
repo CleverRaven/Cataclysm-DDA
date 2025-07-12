@@ -16,6 +16,16 @@
   },
   {
     "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "id": "nanomaterial",
+    "copy-from": "nanomaterial",
+    "price": "2750 USD",
+    "price_postapoc": "2750 USD",
+    "name": { "str": "nanomaterial canister" },
+    "description": "A steel canister containing carbon, iron, titanium, copper, and other elements in specifically engineered atomic-scale configurations.  Feedstock for most modern industrial processes, a nanofabricator can assemble them into usable items."
+  },
+  {
+    "type": "ITEM",
     "id": "afs_radiobeacon",
     "name": { "str": "broken distress beacon" },
     "description": "Truly putting the 'distress' in 'distress beacon,' this one has a huge hole in the front.  It will not be alerting anyone today.  Perhaps you could disassemble it for scrap.",
