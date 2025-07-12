@@ -608,9 +608,9 @@ Check if two variables are `yes`
 "compare_string": [ "yes", { "context_val": "some_context_should_be_yes" }, { "context_val": "some_another_context_also_should_be_yes" } ]
 ```
 
-### `u_profession`
+### `u_has_profession`, `npc_has_profession`
 - type: string or [variable object](#variable-object)
-- Return true if player character has the given profession id or its "hobby" subtype
+- Return true if alpha / beta talker has the given profession id or its "hobby" subtype
 
 #### Valid talkers:
 
@@ -619,14 +619,21 @@ Check if two variables are `yes`
 | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 #### Examples
-True if the character has selected Heist Driver profession at the character creation
+True if the talker has the Heist Driver profession
 ```jsonc
-{ "u_profession": "heist_driver" }
+{ "u_has_profession": "heist_driver" }
 ```
 
-True if the character has selected Fishing background at the character creation
+Print a message if the character selected Fisher profession or the Fishing background at character creation
 ```jsonc
-{ "u_profession": "fishing" }
+{
+  "type": "effect_on_condition",
+  "id": "EOC_MSG_IF_FISHER",
+  "eoc_type": "EVENT",
+  "required_event": "game_start",
+  "condition": { "or": [ { "u_has_profession": "fisher" }, { "u_has_profession": "fishing" } ] },
+  "effect": { "u_message": "Good morning. Nice day for fishing ain't it?" }
+}
 ```
 
 ### `u_has_strength`, `npc_has_strength`, `u_has_dexterity`, `npc_has_dexterity`, `u_has_intelligence`, `npc_has_intelligence`, `u_has_perception`, `npc_has_perception`
@@ -1705,7 +1712,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | gains_proficiency | | { "character", `character_id` },<br/> { "proficiency", `proficiency_id` }, | character / NONE |
 | gains_skill_level | | { "character", `character_id` },<br/> { "skill", `skill_id` },<br/> { "new_level", `int` }, | character / NONE |
 | game_avatar_death | Triggers during bury screen with ASCII grave art is displayed (when avatar dies, obviously) | { "avatar_id", `character_id` },<br/> { "avatar_name", `string` },<br/> { "avatar_is_male", `bool` },<br/> { "is_suicide", `bool` },<br/> { "last_words", `string` }, | avatar / NONE |
-| game_avatar_new | Triggers when new character is controlled and during new game character initialization  | { "is_new_game", `bool` },<br/> { "is_debug", `bool` },<br/> { "avatar_id", `character_id` },<br/> { "avatar_name", `string` },<br/> { "avatar_is_male", `bool` },<br/> { "avatar_profession", `profession_id` },<br/> { "avatar_custom_profession", `string` }, | avatar / NONE |
+| game_avatar_new | Triggers when new character is controlled and during new game character initialization  | { "is_new_game", `bool` },<br/> { "is_debug", `bool` },<br/> { "avatar_id", `character_id` },<br/> { "avatar_name", `string` },<br/> { "avatar_is_male", `bool` },<br/> { "avatar_custom_profession", `string` }, | avatar / NONE |
 | game_load | Triggers only when loading a saved game (not a new game!) | { "cdda_version", `string` }, | avatar / NONE |
 | game_begin | Triggered during game load and new game start | { "cdda_version", `string` }, | avatar / NONE |
 | game_over | Triggers after fully accepting death, epilogues etc. have played (probably not useable for eoc purposes?) | { "total_time_played", `chrono_seconds` }, | avatar / NONE |
