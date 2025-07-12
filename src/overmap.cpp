@@ -850,6 +850,10 @@ std::string enum_to_string<oter_travel_cost_type>( oter_travel_cost_type data )
         case oter_travel_cost_type::swamp: return "swamp";
         case oter_travel_cost_type::water: return "water";
         case oter_travel_cost_type::air: return "air";
+        case oter_travel_cost_type::structure: return "structure";
+        case oter_travel_cost_type::roof: return "roof";
+        case oter_travel_cost_type::basement: return "basement";
+        case oter_travel_cost_type::tunnel: return "tunnel";
         case oter_travel_cost_type::impassable: return "impassable";
         // *INDENT-ON*
         case oter_travel_cost_type::last:
