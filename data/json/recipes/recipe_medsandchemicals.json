@@ -397,7 +397,7 @@
       { "proficiency": "prof_inorganic_chemistry" },
       { "proficiency": "prof_intro_chem_synth" }
     ],
-    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "STRAIN", "level": 1 } ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CONCENTRATE", "level": 1 } ],
     "components": [
       [
         [ "tobacco", 50 ],
@@ -405,12 +405,11 @@
         [ "cig_butt", 100 ],
         [ "cigar", 10 ],
         [ "tobacco_raw", 50 ],
-        [ "nicotine_liquid", 50 ]
+        [ "nicotine_liquid", 70 ]
       ],
-      [ [ "soap", 1 ], [ "soap_flakes", 15 ], [ "detergent", 1 ], [ "liquid_soap", 1 ], [ "soapy_water", 1 ] ],
+      [ [ "lamp_oil", 1 ], [ "chem_sulphuric_acid", 1 ] ],
       [ [ "water_clean", 1 ], [ "water", 1 ] ]
-    ],
-    "result_mult": 8
+    ]
   },
   {
     "type": "recipe",
