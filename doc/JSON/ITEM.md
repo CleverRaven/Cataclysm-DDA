@@ -272,6 +272,14 @@ ammo_effects define what effect the projectile, that you shoot, would have. List
       "drop": "null"         // Which item to drop at landing point
     }
   },
+  "on_hit_effects": [        // This effects will be applied if body part is hit
+    {
+      "effect": "bile_stink",// id of an effect, mandatory
+      "duration": "5 m",     // duration, mandatory
+      "intensity": 1,        // intensity, mandatory 
+      "need_touch_skin": true// if true, and projectile is liquid, the target need to be soaked through for effect to be applied
+    }
+  ],
   "do_flashbang": false,     // Creates a one tile radius EMP explosion at the hit location; default false
   "do_emp_blast": false,     // Creates a hardcoded flashbang explosion; default false
   "foamcrete_build": false,  // Creates foamcrete fields and walls on the hit location, used in aftershock; default false
