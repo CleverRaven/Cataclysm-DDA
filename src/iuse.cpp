@@ -5655,18 +5655,6 @@ void item::extended_photo_def::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::optional<int> iuse::epic_music( Character *p, item *it, const tripoint_bub_ms &pos )
-{
-    if( !it->get_var( "EIPC_MUSIC_ON" ).empty() &&
-        it->ammo_sufficient( p ) ) {
-
-        //the more varied music, the better max mood.
-        const int songs = it->get_var( "EIPC_MUSIC", 0 );
-        play_music( p, pos, 8, std::min( 25, songs ) );
-    }
-    return std::nullopt;
-}
-
 std::optional<int> iuse::efiledevice( Character *p, item *it, const tripoint_bub_ms & )
 {
     //restrictions

@@ -540,7 +540,6 @@
       "menu_text": "Turn off",
       "type": "transform"
     },
-    "tick_action": [ "EPIC_MUSIC" ],
     "flags": [ "WATCH", "LIGHT_10", "TRADER_AVOID" ]
   },
   {
@@ -630,7 +629,6 @@
       "type": "transform"
     },
     "flags": [ "WATCH", "TRADER_AVOID" ],
-    "tick_action": [ "EPIC_MUSIC" ],
     "passive_effects": [
       {
         "has": "WORN",
