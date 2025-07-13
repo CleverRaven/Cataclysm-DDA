@@ -7,7 +7,6 @@
 #include "debug.h"
 #include "enums.h"
 #include "filesystem.h" // IWYU pragma: keep
-#include "make_static.h"
 #include "options.h"
 #include "rng.h"
 #include "system_locale.h"

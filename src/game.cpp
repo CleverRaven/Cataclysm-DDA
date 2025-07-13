@@ -139,7 +139,6 @@
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "main_menu.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_item_stack.h"
 #include "map_iterator.h"

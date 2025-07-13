@@ -16,7 +16,6 @@
 #include "harvest.h"
 #include "item.h"
 #include "itype.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mattack_actors.h"

@@ -84,7 +84,6 @@
 #include "lru_cache.h"
 #include "magic.h"
 #include "magic_teleporter_list.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_memory.h"
 #include "mapdata.h"

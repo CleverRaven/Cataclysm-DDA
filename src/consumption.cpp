@@ -45,7 +45,6 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "magic_enchantment.h"
-#include "make_static.h"
 #include "map.h"
 #include "math_parser_diag_value.h"
 #include "messages.h"

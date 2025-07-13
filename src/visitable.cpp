@@ -22,7 +22,6 @@
 #include "item_contents.h"
 #include "item_pocket.h"
 #include "itype.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_selector.h"
 #include "mapdata.h"

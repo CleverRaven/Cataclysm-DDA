@@ -9,7 +9,6 @@
 #include "character.h"
 #include "item.h"
 #include "itype.h"
-#include "make_static.h"
 #include "ret_val.h"
 #include "type_id.h"
 #include "units.h"

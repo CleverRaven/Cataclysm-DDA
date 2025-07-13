@@ -21,7 +21,6 @@
 #include "game_constants.h"
 #include "itype.h" // IWYU pragma: keep
 #include "line.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "messages.h"

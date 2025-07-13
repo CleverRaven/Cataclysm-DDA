@@ -29,7 +29,6 @@
 #include "item.h"
 #include "item_location.h"
 #include "localized_comparator.h"
-#include "make_static.h"
 #include "map.h"
 #include "options.h"
 #include "output.h"

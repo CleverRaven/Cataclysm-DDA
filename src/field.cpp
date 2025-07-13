@@ -6,7 +6,6 @@
 #include <utility>
 
 #include "calendar.h"
-#include "make_static.h"
 #include "rng.h"
 
 static const field_type_str_id field_fd_fire( "fd_fire" );

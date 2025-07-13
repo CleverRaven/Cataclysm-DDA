@@ -54,7 +54,6 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "magic.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"

@@ -21,7 +21,6 @@
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
-#include "make_static.h"
 #include "memory_fast.h"
 #include "messages.h"
 #include "mission.h"

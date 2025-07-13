@@ -55,7 +55,6 @@
 #include "itype.h"
 #include "json.h"
 #include "magic_enchantment.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"

@@ -11,7 +11,6 @@
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "item.h"
-#include "make_static.h"
 
 static const damage_type_id damage_heat( "heat" );
 

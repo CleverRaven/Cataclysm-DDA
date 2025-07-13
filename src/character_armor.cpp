@@ -19,7 +19,6 @@
 #include "itype.h"
 #include "line.h"
 #include "magic_enchantment.h"
-#include "make_static.h"
 #include "map.h"
 #include "material.h"
 #include "memorial_logger.h"

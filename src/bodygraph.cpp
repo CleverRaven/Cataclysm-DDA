@@ -20,7 +20,6 @@
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "input_context.h"
-#include "make_static.h"
 #include "memory_fast.h"
 #include "output.h"
 #include "point.h"

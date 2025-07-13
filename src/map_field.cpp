@@ -37,7 +37,6 @@
 #include "item.h"
 #include "itype.h"
 #include "level_cache.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_field.h"
 #include "map_iterator.h"

@@ -28,7 +28,6 @@
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "math_parser_diag_value.h"
-#include "make_static.h"
 #include "map.h"
 #include "mapdata.h"
 #include "messages.h"

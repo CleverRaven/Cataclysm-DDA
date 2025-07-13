@@ -33,7 +33,6 @@
 #include "itype.h"
 #include "json.h"
 #include "line.h"
-#include "make_static.h"
 #include "map.h"
 #include "melee.h"
 #include "messages.h"

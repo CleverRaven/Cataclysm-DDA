@@ -17,7 +17,6 @@
 #include "item_category.h"
 #include "item_factory.h"
 #include "itype.h"
-#include "make_static.h"
 #include "material.h"
 #include "math_parser_type.h"
 #include "requirements.h"

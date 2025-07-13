@@ -21,7 +21,6 @@
 #include "generic_factory.h"
 #include "item.h"
 #include "magic_enchantment.h"
-#include "make_static.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"

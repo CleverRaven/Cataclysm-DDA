@@ -24,7 +24,6 @@
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
-#include "make_static.h"
 #include "options.h"
 #include "pocket_type.h"
 #include "relic.h"

@@ -33,7 +33,6 @@
 #include "itype.h"
 #include "json.h"
 #include "localized_comparator.h"
-#include "make_static.h"
 #include "output.h"
 #include "pocket_type.h"
 #include "string_formatter.h"

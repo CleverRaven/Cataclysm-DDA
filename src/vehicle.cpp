@@ -52,7 +52,6 @@
 #include "itype.h"
 #include "json.h"
 #include "json_loader.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"

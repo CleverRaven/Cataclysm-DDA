@@ -44,7 +44,6 @@
 #include "item_pocket.h"
 #include "itype.h"
 #include "iuse_actor.h"
-#include "make_static.h"
 #include "mapdata.h"
 #include "material.h"
 #include "math_parser_diag_value.h"

@@ -23,7 +23,6 @@
 #include "item.h"
 #include "itype.h"
 #include "line.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_scale_constants.h"
 #include "mapdata.h"

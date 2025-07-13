@@ -21,7 +21,6 @@
 #include "faction.h"
 #include "game.h"
 #include "game_constants.h"
-#include "make_static.h"
 #include "map.h"
 #include "mood_face.h"
 #include "move_mode.h"

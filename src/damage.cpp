@@ -17,7 +17,6 @@
 #include "generic_factory.h"
 #include "item.h"
 #include "json.h"
-#include "make_static.h"
 #include "monster.h"
 #include "mtype.h"
 #include "subbodypart.h"

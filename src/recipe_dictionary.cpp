@@ -27,7 +27,6 @@
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
-#include "make_static.h"
 #include "mapgen.h"
 #include "math_parser_type.h"
 #include "mod_tracker.h"

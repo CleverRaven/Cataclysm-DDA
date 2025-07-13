@@ -11,7 +11,6 @@
 #include "debug.h"
 #include "generic_factory.h"
 #include "item.h"
-#include "make_static.h"
 #include "map.h"
 #include "material.h"
 #include "recipe.h"

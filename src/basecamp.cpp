@@ -27,7 +27,6 @@
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"

@@ -30,7 +30,6 @@
 #include "input.h"
 #include "item.h"
 #include "item_location.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
