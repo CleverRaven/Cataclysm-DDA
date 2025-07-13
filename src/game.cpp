@@ -11053,7 +11053,7 @@ static void autopulp_or_butcher( avatar &u )
     for( const tripoint_bub_ms &pos : target ) {
         for( item &it : here.i_at( pos ) ) {
             // skip not corpses or corpses that are already pulped
-            if( !it.is_corpse() || it.damage() >= it.max_damage() ) {
+            if( !it.can_revive() ) {
                 continue;
             }
             if( who == AUTO_WHO::ZOMBIES && !it.get_mtype()->has_flag( mon_flag_REVIVES ) ) {
@@ -14269,8 +14269,8 @@ pulp_data game::calculate_character_ability_to_pulp( const Character &you )
     }
 
     add_msg_debug( debugmode::DF_ACTIVITY,
-                   "you: %s, bash weapon: %s, final pulp_power_bash: %s, pulp_power_stomps: %s",
-                   you.name.c_str(), pair_bash.second.display_name().c_str(), pair_bash.first, pulp_power_bash,
+                   "you: %s\nbash weapon: %s\nfinal pulp_power_bash: %s\npulp_power_stomps: %s\n",
+                   you.name.c_str(), pair_bash.second.type->id.c_str(), pair_bash.first, pulp_power_bash,
                    pulp_power_stomps, bash_factor );
 
     bash_factor = std::pow( bash_factor, 1.8f );
@@ -14331,10 +14331,11 @@ pulp_data game::calculate_pulpability( const Character &you, const mtype &corpse
 
     float corpse_volume = units::to_liter( corpse_mtype.volume );
     // in seconds
-    int time_to_pulp = ( std::pow( corpse_volume, pow_factor ) * 1000 ) / pd.nominal_pulp_power;
+    int time_to_pulp = std::max( 1.0, ( std::pow( corpse_volume,
+                                        pow_factor ) * 1000 ) / pd.nominal_pulp_power );
     // in seconds also
     // 30 seconds for human body volume of 62.5L, scale from this
-    int min_time_to_pulp = 30 * corpse_volume / 62.5;
+    int min_time_to_pulp = std::max( 1.0, 30 * corpse_volume / 62.5 );
 
     // you have a hard time pulling armor to reach important parts of this monster
     if( corpse_mtype.has_flag( mon_flag_PULP_PRYING ) ) {
