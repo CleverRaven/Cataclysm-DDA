@@ -113,7 +113,7 @@
     "connect_groups": "WALL",
     "connects_to": "WALL",
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "FUNGUS", "WALL", "REDUCE_SCENT", "MINEABLE" ],
-     "bash": {
+    "bash": {
       "str_min": 30,
       "str_max": 180,
       "sound": "crunch!",
