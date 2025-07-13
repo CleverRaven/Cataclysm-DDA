@@ -273,6 +273,11 @@
                 {
                   "or": [
                     { "math": [ "u_spell_level('clair_danger_sense') >= 10" ] },
+                    { "math": [ "u_spell_level('clair_sense_hostile_creatures') >= 10" ] }
+                  ]
+                },
+                {
+                  "or": [
                     { "math": [ "u_spell_level('clair_speed_reading') >= 10" ] },
                     { "math": [ "u_spell_level('clair_spot_weakness') >= 6" ] }
                   ]
