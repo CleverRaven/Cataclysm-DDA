@@ -18,7 +18,7 @@
           { "item": "longshirt" },
           { "item": "afs_leather_jacket" },
           { "item": "copper_necklace" },
-          { "item": "afs_combat_cryo" },
+          { "item": "afs_combat_cryo", "ammo-item": "afs_heavy_suit_battery_cell", "charges": 1000 },
           { "item": "pants", "variant": "pants_blue" },
           { "item": "afs_cartridge", "ammo-item": "battery", "charges": 1500, "container-item": "afs_graf337" },
           { "item": "XL_holster" }
@@ -171,7 +171,7 @@
         "entries": [
           { "item": "xlboots_combat" },
           { "item": "xlgloves_tactical" },
-          { "item": "afs_combat_cryo_xl" },
+          { "item": "afs_combat_cryo_xl", "ammo-item": "afs_heavy_suit_battery_cell", "charges": 1000 },
           { "item": "wristwatch" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "sheath", "contents-item": "kukri" },
@@ -198,7 +198,9 @@
     "points": 2,
     "starting_cash": 1120000,
     "traits": [ "AFS_CRYOADAPTATION" ],
-    "items": { "both": { "entries": [ { "item": "afs_cryopod_bodyglove", "ammo-item": "medium_battery_cell", "charges": 5000 } ] } }
+    "items": {
+      "both": { "entries": [ { "item": "afs_cryopod_bodyglove", "ammo-item": "afs_heavy_suit_battery_cell", "charges": 1000 } ] }
+    }
   },
   {
     "type": "profession",
