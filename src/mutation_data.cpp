@@ -31,6 +31,9 @@
 #include "uilist.h"
 #include "weighted_list.h"
 
+static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
+static const json_character_flag json_flag_HERITAGE( "HERITAGE" );
+
 static const mutation_category_id mutation_category_ANY( "ANY" );
 
 static const trait_group::Trait_group_tag Trait_group_EMPTY_GROUP( "EMPTY_GROUP" );
@@ -787,10 +790,10 @@ void mutation_branch::check_consistency()
 
 nc_color mutation_branch::get_display_color() const
 {
-    if( flags.count( STATIC( json_character_flag( "ATTUNEMENT" ) ) ) ) {
+    if( flags.count( json_character_flag( "ATTUNEMENT" ) ) ) {
         return c_green;
-    } else if( flags.count( STATIC( json_character_flag( "HERITAGE" ) ) ) ) {
-        return c_light_cyan;
+    } else if( flags.count( json_character_flag( "HERITAGE" ) ) ) {
+        return c_light_cyan; 
     } else if( threshold || profession ) {
         return c_white;
     } else if( debug ) {
