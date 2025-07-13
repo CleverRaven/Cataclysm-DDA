@@ -923,7 +923,7 @@
     "id": "t_spaceship_sink",
     "name": "sink",
     "looks_like": "f_sink",
-    "description": "A deep well, collecting groundwater.  An installed pump allows you to draw water from it.",
+    "description": "A stainless steel kitchen sink.  Its connected to the ships water supply.",
     "symbol": "&",
     "color": "light_gray",
     "move_cost": 6,
