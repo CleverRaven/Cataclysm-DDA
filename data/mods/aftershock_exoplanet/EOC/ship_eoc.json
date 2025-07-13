@@ -240,7 +240,6 @@
       { "mapgen_update": "your_ship_ramp_deployed", "target_var": { "global_val": "ship_new" } },
       { "math": [ "ship_new.z = 1" ] },
       { "mapgen_update": "your_ship", "target_var": { "global_val": "ship_new" } },
-      { "u_teleport": { "global_val": "ship_new" } },
       { "math": [ "your_ship_stairs_up = 0" ] },
       { "math": [ "your_ship_ramp_up = 0" ] },
       { "assign_mission": "MISSION_thi_location" },
