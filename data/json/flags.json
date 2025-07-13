@@ -206,6 +206,10 @@
     "conflicts": [ "PARTIAL_DEAF" ]
   },
   {
+    "id": "DESTROY_ON_CHARGE_USE",
+    "type": "json_flag"
+  },
+  {
     "id": "OVERHEATS",
     "type": "json_flag",
     "info": "Continuously firing this weapon will cause it to <bad>overheat</bad> and <info>can potentially damage it</info>."
