@@ -34,7 +34,6 @@
     "bleed_rate": 0,
     "vision_day": 5,
     "vision_night": 85,
-    "melee_training_cap": 0,
     "path_settings": {
       "max_dist": 45,
       "allow_open_doors": true,
