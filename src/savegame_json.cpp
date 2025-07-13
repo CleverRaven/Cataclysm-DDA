@@ -130,19 +130,19 @@ struct oter_type_t;
 static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
 static const activity_id ACT_MIGRATION_CANCEL( "ACT_MIGRATION_CANCEL" );
 
-static const addiction_id addiction_alcohol( "alcohol" ) );
-static const addiction_id addiction_amphetamine( "amphetamine" ) );
-static const addiction_id addiction_caffeine( "caffeine" ) );
-static const addiction_id addiction_cocaine( "cocaine" ) );
-static const addiction_id addiction_crack( "crack" ) );
-static const addiction_id addiction_diazepam( "diazepam" ) );
-static const addiction_id addiction_marloss_b( "marloss_b" ) );
-static const addiction_id addiction_marloss_r( "marloss_r" ) );
-static const addiction_id addiction_marloss_y( "marloss_y" ) );
-static const addiction_id addiction_mutagen( "mutagen" ) );
-static const addiction_id addiction_nicotine( "nicotine" ) );
-static const addiction_id addiction_opiate( "opiate" ) );
-static const addiction_id addiction_sleeping_pill( "sleeping pill" )
+static const addiction_id addiction_alcohol( "alcohol" );
+static const addiction_id addiction_amphetamine( "amphetamine" );
+static const addiction_id addiction_caffeine( "caffeine" );
+static const addiction_id addiction_cocaine( "cocaine" );
+static const addiction_id addiction_crack( "crack" );
+static const addiction_id addiction_diazepam( "diazepam" );
+static const addiction_id addiction_marloss_b( "marloss_b" );
+static const addiction_id addiction_marloss_r( "marloss_r" );
+static const addiction_id addiction_marloss_y( "marloss_y" );
+static const addiction_id addiction_mutagen( "mutagen" );
+static const addiction_id addiction_nicotine( "nicotine" );
+static const addiction_id addiction_opiate( "opiate" );
+static const addiction_id addiction_sleeping_pill( "sleeping pill" );
 
 static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
 

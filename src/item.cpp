@@ -1232,7 +1232,7 @@ side item::get_side() const
 {
     // MSVC complains if directly cast double to enum
     return static_cast<side>( static_cast<int>( get_var( var_lateral ),
-                              static_cast<int>( side::BOTH ) ) ) );
+                              static_cast<int>( side::BOTH ) ) );
 }
 
 bool item::set_side( side s )

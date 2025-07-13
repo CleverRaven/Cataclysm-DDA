@@ -1021,7 +1021,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             proj.speed  = 50;
             proj.impact = damage_instance();
             // FIXME: Hardcoded damage type
-            proj.impact.add_damage( damage_bash ), pr.first.weight() / 250_gram );
+            proj.impact.add_damage( damage_bash, pr.first.weight() / 250_gram );
             // make the projectile stop one tile short to prevent hitting the player
             proj.range = rl_dist( pr.second, pos_bub() ) - 1;
             proj.proj_effects = {{ ammo_effect_NO_ITEM_DAMAGE, ammo_effect_DRAW_AS_LINE, ammo_effect_NO_DAMAGE_SCALING, ammo_effect_JET }};

@@ -338,7 +338,7 @@ static void eff_fun_bleed( Character &u, effect &it )
     const int intense = it.get_intensity();
     // tourniquet reduces effective bleeding by 2/3 but doesn't modify the effect's intensity
     // proficiency improves that factor to 3/4 and 4/5 respectively
-    bool tourniquet = u.worn_with_flag( json_flag_TOURNIQUET ),  it.get_bp() );
+    bool tourniquet = u.worn_with_flag( json_flag_TOURNIQUET, it.get_bp() );
     int prof_bonus = 3;
     prof_bonus = u.has_proficiency( proficiency_prof_wound_care ) ? prof_bonus + 1 : prof_bonus;
     prof_bonus = u.has_proficiency( proficiency_prof_wound_care_expert ) ? prof_bonus + 1 : prof_bonus;
