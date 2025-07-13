@@ -112,11 +112,6 @@
   },
   {
     "type": "overmap_location",
-    "id": "highway_ramp",
-    "terrains": [ "hw_reserved_ramp" ]
-  },
-  {
-    "type": "overmap_location",
     "id": "forest_trail",
     "terrains": [ "forest_trail" ]
   },
