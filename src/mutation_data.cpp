@@ -789,9 +789,9 @@ void mutation_branch::check_consistency()
 
 nc_color mutation_branch::get_display_color() const
 {
-    if( flags.count( json_character_flag( "ATTUNEMENT" ) ) ) {
+    if( flags.count( json_flag_ATTUNEMENT ) ) {
         return c_green;
-    } else if( flags.count( json_character_flag( "HERITAGE" ) ) ) {
+    } else if( flags.count( json_flag_HERITAGE ) ) {
         return c_light_cyan; 
     } else if( threshold || profession ) {
         return c_white;
