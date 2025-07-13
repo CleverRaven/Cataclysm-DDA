@@ -9,6 +9,7 @@
     "purifiable": false,
     "valid": false,
     "cancels": [ "PSYCHIC_KNACK" ],
+    "flags": [ "ATTUNEMENT" ],
     "spells_learned": [
       [ "biokin_physical_enhance", 2 ],
       [ "biokin_overcome_pain", 2 ],
@@ -26,6 +27,7 @@
     "purifiable": false,
     "valid": false,
     "cancels": [ "PSYCHIC_KNACK" ],
+    "flags": [ "ATTUNEMENT" ],
     "spells_learned": [
       [ "clair_better_senses", 2 ],
       [ "clair_speed_reading", 2 ],
@@ -48,7 +50,8 @@
       [ "electrokinetic_shock_touch", 2 ],
       [ "classless_toggleable_concentration_end", 1 ],
       [ "classless_specific_concentration_end", 1 ]
-    ]
+    ],
+    "flags": [ "ATTUNEMENT" ]
   },
   {
     "type": "mutation",
@@ -60,7 +63,7 @@
     "purifiable": false,
     "valid": false,
     "cancels": [ "PSYCHIC_KNACK" ],
-    "flags": [ "PHOTOKINETIC" ],
+    "flags": [ "PHOTOKINETIC", "ATTUNEMENT" ],
     "spells_learned": [
       [ "photokinetic_create_light", 2 ],
       [ "photokinetic_light_local", 2 ],
@@ -78,6 +81,7 @@
     "purifiable": false,
     "valid": false,
     "cancels": [ "PSYCHIC_KNACK" ],
+    "flags": [ "ATTUNEMENT" ],
     "spells_learned": [
       [ "pyrokinetic_eruption", 2 ],
       [ "pyrokinetic_flash", 2 ],
@@ -95,6 +99,7 @@
     "purifiable": false,
     "valid": false,
     "cancels": [ "PSYCHIC_KNACK" ],
+    "flags": [ "ATTUNEMENT" ],
     "spells_learned": [
       [ "telepathic_concentration", 2 ],
       [ "telepathic_mind_sense", 2 ],
@@ -112,6 +117,7 @@
     "purifiable": false,
     "valid": false,
     "cancels": [ "PSYCHIC_KNACK" ],
+    "flags": [ "ATTUNEMENT" ],
     "spells_learned": [
       [ "telekinetic_pull", 2 ],
       [ "telekinetic_push", 2 ],
@@ -129,6 +135,7 @@
     "purifiable": false,
     "valid": false,
     "cancels": [ "PSYCHIC_KNACK" ],
+    "flags": [ "ATTUNEMENT" ],
     "spells_learned": [
       [ "teleport_blink", 2 ],
       [ "teleport_slow", 2 ],
@@ -146,6 +153,7 @@
     "purifiable": false,
     "valid": false,
     "cancels": [ "PSYCHIC_KNACK" ],
+    "flags": [ "ATTUNEMENT" ],
     "spells_learned": [
       [ "vita_slow_bleeding", 2 ],
       [ "vita_health_power", 2 ],
