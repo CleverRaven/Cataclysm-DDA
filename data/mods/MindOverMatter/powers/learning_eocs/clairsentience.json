@@ -26,7 +26,7 @@
       { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_clair_danger_sense" },
       {
-        "u_message": "Use of your powers has led to an insight.  You could expand your senses into the esoteric, gaining a sense of , if you can figure out the proper technique.",
+        "u_message": "Use of your powers has led to an insight.  You could expand your senses into the esoteric, gaining a feel for nearby movement and the overall danger of a situation, if you can figure out the proper technique.",
         "popup": true
       }
     ]
