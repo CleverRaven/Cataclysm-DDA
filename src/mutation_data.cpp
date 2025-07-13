@@ -22,7 +22,6 @@
 #include "json.h"
 #include "localized_comparator.h"
 #include "magic_enchantment.h"
-#include "make_static.h"
 #include "memory_fast.h"
 #include "npc.h"
 #include "string_formatter.h"
