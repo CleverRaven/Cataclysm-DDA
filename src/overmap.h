@@ -368,9 +368,15 @@ class overmap
     private:
         void set_passable( const tripoint_abs_omt &p, std::shared_ptr<map_data_summary> new_passable );
         void set_passable( const tripoint_abs_omt &p, string_id<map_data_summary> new_passable );
+        std::optional<tripoint_om_ms> find_open_space_in_submap( const tripoint_om_ms &submap_origin,
+                point_rel_ms &cursor );
     public:
         // Spawn a monter at overmap scale.
         horde_entity &spawn_monster( const tripoint_abs_ms &p, mtype_id id );
+        // Spawn a vector of monsters at overmap scale on a specified submap.
+        void spawn_monsters( const tripoint_om_sm &p, std::vector<monster> &monsters );
+        // Spawn monsters from a mongroup on a specified submap.
+        void spawn_mongroup( const tripoint_om_sm &p, const mongroup_id &type, int count );
         /**
          * Getter for overmap scents.
          * @returns a reference to a scent_trace from the requested location.

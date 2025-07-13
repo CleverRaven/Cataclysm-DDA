@@ -407,7 +407,16 @@ void overmap::load_monster_groups( const JsonArray &jsin )
             if( reset_target ) { // Remove after 0.I
                 new_group.set_target( new_group.abs_pos.xy() );
             }
-            add_mon_group( new_group );
+            if( new_group.horde ) {
+                // Migrate "horde" type monster groups to new horde map.
+                if( !new_group.monsters.empty() ) {
+                    spawn_monsters( temp, new_group.monsters );
+                } else {
+                    spawn_mongroup( temp, new_group.type, new_group.population );
+                }
+            } else {
+                add_mon_group( new_group );
+            }
         }
 
         if( mongroup_with_tripoints.has_more() ) {
@@ -631,8 +640,7 @@ void overmap::unserialize( const JsonObject &jsobj )
                 monster new_monster;
                 monster_location.deserialize( monster_map_json.next_value() );
                 new_monster.deserialize( monster_map_json.next_object(), project_combine( loc, monster_location ) );
-                monster_map[monster_location].insert( std::make_pair( new_monster.pos_abs(),
-                                                      std::move( horde_entity( new_monster ) ) ) );
+                monster_map[monster_location].emplace( new_monster.pos_abs(), new_monster );
             }
         } else if( name == "horde_map" ) {
             JsonArray monster_map_json = om_member;
