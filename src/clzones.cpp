@@ -46,6 +46,8 @@
 
 static const faction_id faction_your_followers( "your_followers" );
 
+static const flag_id json_flag_FIREWOOD( "FIREWOOD" );
+
 static const item_category_id item_category_food( "food" );
 
 static const itype_id itype_disassembly( "disassembly" );
@@ -1250,7 +1252,7 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
             return zone_type_LOOT_ITEM_GROUP;
         }
     }
-    if( it.has_flag( STATIC( flag_id( "FIREWOOD" ) ) ) ) {
+    if( it.has_flag( json_flag_FIREWOOD ) ) {
         if( has_near( zone_type_LOOT_WOOD, where, range, fac ) ) {
             return zone_type_LOOT_WOOD;
         }

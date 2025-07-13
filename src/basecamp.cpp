@@ -46,6 +46,8 @@
 #include "translations.h"
 #include "type_id.h"
 
+static const flag_id json_flag_PSEUDO( "PSEUDO" );
+
 static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 
 const std::map<point_rel_omt, base_camps::direction_data> base_camps::all_directions = {
@@ -801,7 +803,7 @@ void basecamp::form_crafting_inventory( map &target_map )
     for( basecamp_resource &bcp_r : resources ) {
         bcp_r.consumed = 0;
         item camp_item( bcp_r.fake_id, calendar::turn_zero );
-        camp_item.set_flag( STATIC( flag_id( "PSEUDO" ) ) );
+        camp_item.set_flag( json_flag_PSEUDO );
         if( !bcp_r.ammo_id.is_null() ) {
             for( basecamp_fuel &bcp_f : fuels ) {
                 if( bcp_f.ammo_id == bcp_r.ammo_id ) {

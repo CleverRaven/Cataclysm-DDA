@@ -33,6 +33,8 @@ class item_category;
 #   include <SDL_keyboard.h>
 #endif
 
+static const json_flag_HIDDEN_ITEM( "HIDDEN_ITEM" );
+
 void advanced_inventory_pane::set_area( const advanced_inv_area &square, bool in_vehicle_cargo )
 {
     prev_area = area;
@@ -95,7 +97,7 @@ bool advanced_inventory_pane::is_filtered( const advanced_inv_listitem &it ) con
 
 bool advanced_inventory_pane::is_filtered( const item &it ) const
 {
-    if( it.has_flag( STATIC( flag_id( "HIDDEN_ITEM" ) ) ) ) {
+    if( it.has_flag( json_flag_HIDDEN_ITEM ) ) {
         return true;
     }
     if( filter.empty() ) {

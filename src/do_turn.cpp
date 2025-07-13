@@ -92,6 +92,8 @@ static const efftype_id effect_sleep( "sleep" );
 
 static const event_statistic_id event_statistic_last_words( "last_words" );
 
+static const json_character_flag json_flag_NO_SCENT( "NO_SCENT" );
+
 static const trait_id trait_HAS_NEMESIS( "HAS_NEMESIS" );
 
 #if defined(__ANDROID__)
@@ -642,7 +644,7 @@ bool do_turn()
 
     scent_map &scent = get_scent();
     // No-scent debug mutation has to be processed here or else it takes time to start working
-    if( !u.has_flag( STATIC( json_character_flag( "NO_SCENT" ) ) ) ) {
+    if( !u.has_flag( json_flag_NO_SCENT ) ) {
         scent.set( u.pos_bub(), u.scent, u.get_type_of_scent() );
         overmap_buffer.set_scent( u.pos_abs_omt(),  u.scent );
     }

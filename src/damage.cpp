@@ -24,6 +24,10 @@
 #include "talker.h"
 #include "units.h"
 
+static const damage_type_id damage_all( "all" );
+static const damage_type_id damage_non_physical( "non_physical" );
+static const damage_type_id damage_physical( "physical" );
+
 static std::map<damage_info_order::info_type, std::vector<damage_info_order>> sorted_order_lists;
 
 namespace
@@ -805,9 +809,9 @@ void finalize_damage_map( std::unordered_map<damage_type_id, float> &damage_map,
         return val;
     };
 
-    const float all = get_and_erase( STATIC( damage_type_id( "all" ) ), default_value );
-    const float physical = get_and_erase( STATIC( damage_type_id( "physical" ) ), all );
-    const float non_phys = get_and_erase( STATIC( damage_type_id( "non_physical" ) ), all );
+    const float all = get_and_erase( damage_all, default_value );
+    const float physical = get_and_erase( damage_physical, all );
+    const float non_phys = get_and_erase( damage_non_physical, all );
 
     std::vector<damage_type_id> to_derive;
     for( const damage_type &dam : dams ) {

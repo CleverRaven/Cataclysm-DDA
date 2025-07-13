@@ -9,6 +9,8 @@
 #include "make_static.h"
 #include "rng.h"
 
+static const field_type_str_id field_fd_fire( "fd_fire" );
+
 std::string field_entry::symbol() const
 {
     return get_field_type()->get_symbol( get_field_intensity() - 1 );
@@ -95,7 +97,7 @@ void field_entry::do_decay()
     age += 1_turns;
     if( type.obj().half_life > 0_turns && get_field_age() > 0_turns ) {
         // Legacy handling for fire because it's weird and complicated.
-        if( type == STATIC( field_type_str_id( "fd_fire" ) ) ) {
+        if( type == field_fd_fire ) {
             if( to_turns<int>( type->half_life ) < dice( 2, to_turns<int>( age ) ) ) {
                 set_field_age( 0_turns );
                 set_field_intensity( get_field_intensity() - 1 );

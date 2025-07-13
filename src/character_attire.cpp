@@ -49,6 +49,8 @@
 #include "value_ptr.h"
 #include "viewer.h"
 
+static const damage_type_id damage_heat( "heat" );
+
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_heating_bionic( "heating_bionic" );
 static const efftype_id effect_incorporeal( "incorporeal" );
@@ -1918,7 +1920,7 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
         // Heat damage can set armor on fire
         // Even though it doesn't cause direct physical damage to it
         // FIXME: Hardcoded damage type
-        if( outermost && elem.type == STATIC( damage_type_id( "heat" ) ) && elem.amount >= 1.0f ) {
+        if( outermost && elem.type == damage_heat && elem.amount >= 1.0f ) {
             // TODO: Different fire intensity values based on damage
             fire_data frd{ 2 };
             destroy = !armor.has_flag( flag_INTEGRATED ) && armor.burn( frd );
