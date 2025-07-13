@@ -37,6 +37,8 @@
 static const fault_id fault_gun_dirt( "fault_gun_dirt" );
 static const fault_id fault_gun_unlubricated( "fault_gun_unlubricated" );
 
+static const flag_id json_flag_MISSION_ITEM( "MISSION_ITEM" );
+
 std::size_t Item_spawn_data::create( ItemList &list,
                                      const time_point &birthday, spawn_flags flags ) const
 {
@@ -286,7 +288,7 @@ std::size_t Single_item_creator::create( ItemList &list,
     for( ; cnt > 0; cnt-- ) {
         if( type == S_ITEM ) {
             item itm = create_single_without_container( birthday, rec );
-            if( flags & spawn_flags::use_spawn_rate && !itm.has_flag( STATIC( flag_id( "MISSION_ITEM" ) ) ) &&
+            if( flags & spawn_flags::use_spawn_rate && !itm.has_flag( json_flag_MISSION_ITEM ) &&
                 rng_float( 0, 1 ) > spawn_rate ) {
                 continue;
             }

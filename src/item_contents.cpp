@@ -43,6 +43,8 @@
 #include "units.h"
 
 static const flag_id json_flag_CASING( "CASING" );
+static const flag_id json_flag_MAG_DESTROY( "MAG_DESTROY" );
+static const flag_id json_flag_MAG_EJECT( "MAG_EJECT" );
 
 class pocket_favorite_callback : public uilist_callback
 {
@@ -1283,9 +1285,9 @@ int item_contents::ammo_consume( int qty, map *here, const tripoint_bub_ms &pos,
             item &mag = pocket.front();
             const int res = mag.ammo_consume( qty, *here, pos, nullptr );
             if( res && mag.ammo_remaining( ) == 0 ) {
-                if( mag.has_flag( STATIC( flag_id( "MAG_DESTROY" ) ) ) ) {
+                if( mag.has_flag( json_flag_MAG_DESTROY ) ) {
                     pocket.remove_item( mag );
-                } else if( mag.has_flag( STATIC( flag_id( "MAG_EJECT" ) ) ) ) {
+                } else if( mag.has_flag( json_flag_MAG_EJECT ) ) {
                     here->add_item( pos, mag );
                     pocket.remove_item( mag );
                 }
@@ -1988,10 +1990,7 @@ std::vector<const item *> item_contents::cables() const
     for( const item_pocket &pocket : contents ) {
         if( pocket.is_type( pocket_type::CABLE ) ) {
             for( const item *it : pocket.all_items_top() ) {
-                // TODO: remove flag check after 0.H
-                if( it->has_flag( STATIC( flag_id( "CABLE_SPOOL" ) ) ) ) {
-                    cables.emplace_back( it );
-                }
+                cables.emplace_back( it );
             }
         }
     }

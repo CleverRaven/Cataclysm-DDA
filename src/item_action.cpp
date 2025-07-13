@@ -45,6 +45,10 @@ class map;
 
 static const std::string errstring( "ERROR" );
 
+static const flag_id json_flag_IRREMOVABLE( "IRREMOVABLE" );
+
+static const item_action_id item_action_TOOLMOD_ATTACH( "TOOLMOD_ATTACH" );
+
 static item_action nullaction;
 
 static std::optional<input_event> key_bound_to( const input_context &ctxt,
@@ -165,8 +169,8 @@ item_action_map item_action_generator::map_actions_to_items( Character &you,
             }
 
             // Don't try to remove 'irremovable' toolmods
-            if( actual_item->is_toolmod() && use == STATIC( item_action_id( "TOOLMOD_ATTACH" ) ) &&
-                actual_item->has_flag( STATIC( flag_id( "IRREMOVABLE" ) ) ) ) {
+            if( actual_item->is_toolmod() && use == item_action_TOOLMOD_ATTACH &&
+                actual_item->has_flag( json_flag_IRREMOVABLE ) ) {
                 continue;
             }
 

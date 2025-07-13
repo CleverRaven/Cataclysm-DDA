@@ -129,6 +129,7 @@
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CLOTHING_MOD_VAR_PREFIX( "clothing_mod_" );
+static const std::string var_lateral( "lateral" );
 
 static const ammo_effect_str_id ammo_effect_BLACKPOWDER( "BLACKPOWDER" );
 static const ammo_effect_str_id ammo_effect_IGNITE( "IGNITE" );
@@ -1231,7 +1232,7 @@ bool item::is_sided() const
 side item::get_side() const
 {
     // MSVC complains if directly cast double to enum
-    return static_cast<side>( static_cast<int>( get_var( STATIC( std::string{ "lateral" } ),
+    return static_cast<side>( static_cast<int>( get_var( var_lateral ),
                               static_cast<int>( side::BOTH ) ) ) );
 }
 
@@ -1242,9 +1243,9 @@ bool item::set_side( side s )
     }
 
     if( s == side::BOTH ) {
-        erase_var( "lateral" );
+        erase_var( var_lateral );
     } else {
-        set_var( "lateral", static_cast<int>( s ) );
+        set_var( var_lateral, static_cast<int>( s ) );
     }
 
     return true;
