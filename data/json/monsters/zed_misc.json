@@ -147,7 +147,10 @@
     },
     "delete": { "flags": [ "STUMBLES" ] },
     "revive_forms": [
-      { "condition": { "map_terrain_with_flag": "FUNGUS", "loc": { "context_val": "loc" } }, "monster": "mon_fungal_mound_large" }
+      {
+        "condition": { "map_terrain_with_flag": "FUNGUS", "loc": { "context_val": "loc" } },
+        "monster": "mon_fungal_mound_large"
+      }
     ]
   },
   {
@@ -427,7 +430,10 @@
     },
     "delete": { "flags": [ "STUMBLES" ] },
     "revive_forms": [
-      { "condition": { "map_terrain_with_flag": "FUNGUS", "loc": { "context_val": "loc" } }, "monster": "mon_fungal_mound_massive" }
+      {
+        "condition": { "map_terrain_with_flag": "FUNGUS", "loc": { "context_val": "loc" } },
+        "monster": "mon_fungal_mound_massive"
+      }
     ]
   },
   {
