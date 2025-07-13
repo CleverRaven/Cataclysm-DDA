@@ -266,6 +266,7 @@
       { "group": "freeze_dried_meal_box_8", "count": 4 },
       { "group": "pemmican_ziploc_gallon", "count": 2 },
       { "group": "pemmican_ziploc_gallon_irradiated", "count": 2 },
+      { "group": "hardtack_ziploc_gallon", "count": 2 },
       { "group": "can_beans_can_food_big_12", "count": 3 },
       { "group": "protein_bar_box_small", "count": 4 }
     ]
@@ -485,6 +486,13 @@
     "subtype": "collection",
     "container-item": "bag_zipper_gallon",
     "entries": [ { "item": "pemmican", "container-item": "null", "count": 37, "custom-flags": [ "IRRADIATED" ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "hardtack_ziploc_gallon",
+    "subtype": "collection",
+    "container-item": "bag_zipper_gallon",
+    "entries": [ { "item": "hardtack", "count": 64 } ]
   },
   {
     "type": "item_group",
