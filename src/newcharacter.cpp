@@ -88,6 +88,7 @@ static const std::string flag_SKIP_DEFAULT_BACKGROUND( "SKIP_DEFAULT_BACKGROUND"
 
 static const flag_id json_flag_auto_wield( "auto_wield" );
 static const flag_id json_flag_no_auto_equip( "no_auto_equip" );
+static const flag_id json_flag_WET( "WET" );
 
 static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 
@@ -629,7 +630,7 @@ void Character::add_profession_items()
 
     auto attempt_add_items = [this]( std::list<item> &prof_items, std::list<item> &failed_to_add ) {
         for( item &it : prof_items ) {
-            if( it.has_flag( STATIC( flag_id( "WET" ) ) ) ) {
+            if( it.has_flag( json_flag_WET ) ) {
                 it.active = true;
                 it.item_counter = 450; // Give it some time to dry off
             }

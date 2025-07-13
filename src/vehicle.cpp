@@ -147,9 +147,10 @@ static const vproto_id vehicle_prototype_none( "none" );
 
 static const zone_type_id zone_type_VEHICLE_PATROL( "VEHICLE_PATROL" );
 
-static const std::string flag_E_COMBUSTION( "E_COMBUSTION" );
 
 static const std::string flag_APPLIANCE( "APPLIANCE" );
+static const std::string flag_E_COMBUSTION( "E_COMBUSTION" );
+static const std::string flag_PERPETUAL( "PERPETUAL" );
 static const std::string flag_WIRING( "WIRING" );
 
 //~ Name for an array of electronic power grid appliances, like batteries and solar panels
@@ -5535,7 +5536,7 @@ units::power vehicle::active_reactor_epower( map &here ) const
     for( const int p : reactors ) {
         const vehicle_part &vp = parts[p];
         if( vp.enabled && vp.is_available() &&
-            ( vp.info().has_flag( STATIC( std::string( "PERPETUAL" ) ) ) || vp.ammo_remaining( ) ) ) {
+            ( vp.info().has_flag( flag_PERPETUAL ) || vp.ammo_remaining( ) ) ) {
             reactors_flow += part_epower( vp );
         }
     }
@@ -5635,7 +5636,7 @@ void vehicle::power_parts( map &here )
                 const int gen_energy_bat = power_to_energy_bat( part_epower( vp ), 1_turns );
                 if( vp.is_unavailable() ) {
                     continue;
-                } else if( vp.info().has_flag( STATIC( std::string( "PERPETUAL" ) ) ) ) {
+                } else if( vp.info().has_flag( flag_PERPETUAL ) ) {
                     reactor_working = true;
                     delta_energy_bat += std::min( storage_deficit_bat, gen_energy_bat );
                 } else if( vp.ammo_remaining( ) > 0 ) {

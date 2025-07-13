@@ -382,6 +382,7 @@ void add_type::check_add_types()
 
 std::string add_type_legacy_conv( std::string const &v )
 {
+    //BEFOREMERGE: Ew
     if( v == "CAFFEINE" ) {
         return "caffeine";
     } else if( v == "ALCOHOL" ) {

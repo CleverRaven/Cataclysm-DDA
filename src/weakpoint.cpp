@@ -31,6 +31,10 @@
 #include "talker.h"
 #include "translations.h"
 
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_cut( "cut" );
+static const damage_type_id damage_stab( "stab" );
+
 static const limb_score_id limb_score_reaction( "reaction" );
 static const limb_score_id limb_score_vision( "vision" );
 
@@ -359,11 +363,11 @@ weakpoint_attack::type_of_melee_attack( const damage_instance &damage )
         }
     }
     // FIXME: Hardcoded damage types
-    if( primary == STATIC( damage_type_id( "bash" ) ) ) {
+    if( primary == damage_bash ) {
         return attack_type::MELEE_BASH;
-    } else if( primary == STATIC( damage_type_id( "cut" ) ) ) {
+    } else if( primary == damage_cut ) {
         return attack_type::MELEE_CUT;
-    } else if( primary == STATIC( damage_type_id( "stab" ) ) ) {
+    } else if( primary == damage_stab ) {
         return attack_type::MELEE_STAB;
     }
     return attack_type::NONE;
