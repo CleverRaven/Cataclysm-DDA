@@ -28,7 +28,8 @@
       "afs_mental_stat_genemod",
       "afs_health_genemod",
       "afs_efficiency_genemod",
-      "afs_beauty_genemod"
+      "afs_beauty_genemod",
+      "afs_esper_inheritance"
     ],
     "flags": [ "LONE_START" ],
     "start_name": "Port Augustmoon"
@@ -69,7 +70,8 @@
       "afs_mental_stat_genemod",
       "afs_health_genemod",
       "afs_efficiency_genemod",
-      "afs_beauty_genemod"
+      "afs_beauty_genemod",
+      "afs_esper_inheritance"
     ],
     "surround_groups": [ [ "GROUP_PIRATE__BOT_AMBUSH", 70.0 ] ],
     "flags": [ "LONE_START" ]
@@ -158,7 +160,7 @@
     "flags": [ "LONE_START", "HELI_CRASH" ],
     "start_name": "Crashing Ship",
     "whitelist_hobbies": true,
-    "hobbies": [ "afs_speed_freak", "afs_armament_license", "afs_spacer", "afs_leadership", "afs_earthling" ],
+    "hobbies": [ "afs_speed_freak", "afs_armament_license", "afs_spacer", "afs_leadership", "afs_earthling", "afs_esper_inheritance" ],
     "eoc": [ "EOC_CRASHING_SHIP_SETUP" ]
   },
   {
@@ -174,17 +176,7 @@
     "start_name": "Lost on the Surface",
     "reveal_locale": false,
     "whitelist_hobbies": true,
-    "hobbies": [
-      "afs_armament_license",
-      "afs_spacer",
-      "afs_leadership",
-      "afs_earthling",
-      "afs_physical_stat_genemod",
-      "afs_mental_stat_genemod",
-      "afs_health_genemod",
-      "afs_efficiency_genemod",
-      "afs_beauty_genemod"
-    ],
+    "hobbies": [ "afs_armament_license", "afs_spacer", "afs_leadership", "afs_earthling" ],
     "eoc": [ "EOC_ESPER_SCENARIO_SETUP" ]
   },
   {
@@ -206,7 +198,8 @@
       "afs_mental_stat_genemod",
       "afs_health_genemod",
       "afs_efficiency_genemod",
-      "afs_beauty_genemod"
+      "afs_beauty_genemod",
+      "afs_esper_inheritance"
     ],
     "flags": [ "LONE_START" ],
     "start_name": "Escape Pod"

@@ -96,7 +96,7 @@
     "subtype": "hobby",
     "id": "afs_esper_inheritance",
     "name": "Esper Legacy",
-    "description": "Some long-distant member of your family received psi treatments during the Hyperspace Era and somehow it stuck in their DNA.  Always unpredictable, skipping multiple generations at a time, that inheritance has been passed down to you…but the powers have not.",
+    "description": "Some long-distant member of your family received psi treatments during the Hyperspace Era and somehow it stuck in their DNA.  Always unpredictable, skipping multiple generations at a time, that inheritance has been passed down to you…but the powers have not.  Despite that, you were raised with the knowledge that it was always a possibility and to avoid receiving any genetech treatments that could damage your family's esper powers.",
     "points": 2,
     "traits": [ "ESPER_ADVANCEMENT_OKAY" ]
   },
