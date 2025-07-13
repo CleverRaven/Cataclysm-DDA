@@ -619,7 +619,7 @@ void overmap::highway_handle_ramps( Highway_path &path, int base_z )
     for( int i = 0; i < range; i++ ) {
         if( path[i].is_ramp ) {
             om_direction::type ramp_dir = path[i].path_node.dir;
-            tripoint_om_omt ramp_offset = path[i].path_node.pos;
+            tripoint_om_omt ramp_offset( path[i].path_node.pos.xy(), base_z );
             if( path[i].ramp_down ) {
                 ramp_dir = om_direction::opposite( ramp_dir );
             }
@@ -956,9 +956,19 @@ void overmap::finalize_highways( std::vector<Highway_path> &paths )
         handle_road_bridges( path );
 
         for( const intrahighway_node &node : path ) {
-            if( !is_highway_special( ter( node.path_node.pos ) ) && node.is_segment && !node.is_ramp ) {
+            om_direction::type effective_dir = node.get_effective_dir();
+            std::vector<overmap_special_locations> locs = node.placed_special->required_locations();
+            bool is_special = false;
+            for( overmap_special_locations &loc : locs ) {
+                if( is_highway_special( ter( node.path_node.pos + om_direction::rotate( loc.p,
+                                             effective_dir ) ) ) ) {
+                    is_special = true;
+                    break;
+                }
+            }
+            if( !is_special && node.is_segment && !node.is_ramp ) {
                 place_highway_supported_special( node.placed_special,
-                                                 node.path_node.pos, node.get_effective_dir() );
+                                                 node.path_node.pos, effective_dir );
             }
         }
     }
