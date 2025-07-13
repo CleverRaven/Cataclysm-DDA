@@ -144,7 +144,8 @@
     "//": "a light bugout, stuff people would have on hand, not super full",
     "subtype": "collection",
     "entries": [
-      { "group": "bugout_first_aid", "prob": 50 },
+      { "group": "bugout_meds_easy", "prob": 90 },
+      { "group": "bugout_first_aid", "prob": 20 },
       { "group": "guns_pistol_common", "prob": 45 },
       { "group": "bugout_tools", "prob": 50 },
       { "group": "bugout_food_easy", "prob": 50 },
@@ -190,6 +191,16 @@
       { "group": "bugout_extras", "prob": 100, "count": [ 2, 6 ] },
       { "group": "civilian_armor", "count": 2, "prob": 35 },
       { "group": "bugout_large_extras", "prob": 40 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "bugout_meds_easy",
+    "subtype": "collection",
+    "//": "Everything vaguely medical on hand quickly shoved into the bag.",
+    "entries": [
+      { "group": "adhesive_bandages_box_used", "count": [ 1, 2 ], "prob": 95 },
+      { "group": "SUS_bathroom_medicine", "prob": 80 }
     ]
   },
   {
