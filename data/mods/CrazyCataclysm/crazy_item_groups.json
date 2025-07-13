@@ -186,7 +186,7 @@
       { "group": "on_hand_762" }
     ]
   },
- {
+  {
     "type": "item_group",
     "id": "SUS_junk_drawer",
     "copy-from": "SUS_junk_drawer",
