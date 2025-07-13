@@ -31,8 +31,6 @@
 #include "uilist.h"
 #include "weighted_list.h"
 
-static const json_character_flag json_flag_HERITAGE( "HERITAGE" );
-
 static const mutation_category_id mutation_category_ANY( "ANY" );
 
 static const trait_group::Trait_group_tag Trait_group_EMPTY_GROUP( "EMPTY_GROUP" );
