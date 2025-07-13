@@ -1,9 +1,9 @@
 name: "Experimental Release"
-concurrency: release
+concurrency: release-candidate
 on:
   push:
     branches:
-      - master
+      - 0.I-branch
     paths:
       - '.github/workflows/release.yml'
       - 'android/**'
@@ -40,7 +40,7 @@ jobs:
         id: generate_env_vars
         run: |
           echo "tag_name=cdda-0.I-${{ steps.get-timestamp.outputs.time }}" >> $GITHUB_OUTPUT
-          echo "release_name=Cataclysm-DDA 0.I release candidate build ${{ steps.get-timestamp.outputs.time }}" >> $GITHUB_OUTPUT
+          echo "release_name=Cataclysm-DDA 0.I release candidate ${{ steps.get-timestamp.outputs.time }}" >> $GITHUB_OUTPUT
       - uses: actions/checkout@v4
       - name: Generate Release Notes
         id: generate-release-notes
