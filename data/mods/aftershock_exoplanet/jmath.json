@@ -13,9 +13,21 @@
   },
   {
     "type": "jmath_function",
-    "id": "maintenance_exp_factor",
+    "id": "psionic_power_experience_formula_channeling",
+    "num_args": 0,
+    "return": "(u_val('focus_effective') / 100 ) * 80 * ( ( u_val('intelligence') + 10) / 20 ) * min( ( 0.5 + ( u_skill('metaphysics') / 20) ), 1)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "psionic_power_experience_formula_maintenance",
+    "num_args": 0,
+    "return": "(u_val('focus_effective') / 100) * 80 * ( ( u_val('intelligence') + 10) / 20 ) * min( ( 0.5 + ( u_skill('metaphysics') / 20) ), 1)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "psionics_weariness_calculations",
     "num_args": 1,
-    "return": "(_0 / 100) * 75 * ( ( u_val('intelligence') + 10) / 20 ) * min( ( 0.5 + ( u_skill('metaphysics') / 20) ), 1)"
+    "return": "(15 * _0) * rng( 0.3, 1.7)"
   },
   {
     "type": "jmath_function",

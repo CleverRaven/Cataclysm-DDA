@@ -87,6 +87,26 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_AFS_PSI_MAKES_YOU_WEARY",
+    "required_event": "spellcasting_finish",
+    "condition": { "test_eoc": "EOC_CONDITION_ESPER_TRAIT_AND_SCHOOL_LIST" },
+    "effect": [
+      { "math": [ "_channeling_weariness = psionics_weariness_calculations(_difficulty)" ] },
+      { "math": [ "u_calories()", "-=", "_channeling_weariness" ] },
+      { "math": [ "u_calories('dont_affect_weariness': true)", "+=", "_channeling_weariness" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PSI_MAINTENANCE_MAKES_YOU_WEARY",
+    "effect": [
+      { "math": [ "_channeling_weariness = psionics_weariness_calculations(_difficulty)" ] },
+      { "math": [ "u_calories()", "-=", "_channeling_weariness" ] },
+      { "math": [ "u_calories('dont_affect_weariness': true)", "+=", "_channeling_weariness" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_AFS_ESPER_CONSEQUENCES_VALUE_INCREASER",
     "eoc_type": "EVENT",
     "required_event": "spellcasting_finish",

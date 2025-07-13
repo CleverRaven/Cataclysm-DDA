@@ -11,7 +11,29 @@
     "description": "You are an esper, capable of accessing the hidden powers of the human mind.",
     "starting_trait": false,
     "purifiable": false,
+    "valid": false,
+    "flags": [ "ATTUNEMENT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ESPER_ADVANCEMENT_OKAY",
+    "name": "Esper Legacy",
+    "points": 2,
+    "description": "One of your ancestors received noetic treatments during the Hyperspace Era .",
+    "starting_trait": false,
+    "purifiable": false,
     "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "ESPER_STARTER_ADVANCEMENT_OKAY",
+    "name": "Esper Advancement",
+    "points": 2,
+    "description": "This is the trait for the Esper scenario that lets them advance.  It exists to have a different description than Esper Legacy and is not visible during gameplay.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false
   },
   {
     "type": "mutation",

@@ -237,11 +237,15 @@
     "flags": [ "PSIONIC", "CONCENTRATE", "WONDER", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "attack",
-    "extra_effects": [ { "id": "afs_telekinetic_wavepush", "hit_self": true } ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_AFS_TELEKIN_WAVE_TARGETS",
     "shape": "blast",
-    "min_damage": 12,
-    "max_damage": 12,
+    "min_aoe": {
+      "math": [ "min( ( ( (u_spell_level('afs_telekinetic_wave') * 0.2) + 1) * scaling_factor(u_val('intelligence') ) ), 4)" ]
+    },
+    "max_aoe": {
+      "math": [ "min( ( ( (u_spell_level('afs_telekinetic_wave') * 0.2) + 1) * scaling_factor(u_val('intelligence') ) ), 4)" ]
+    },
     "magic_type": "aftershock_psionics",
     "base_energy_cost": 5500,
     "final_energy_cost": 2500,
