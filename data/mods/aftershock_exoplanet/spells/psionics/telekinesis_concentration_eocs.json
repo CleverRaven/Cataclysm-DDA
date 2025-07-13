@@ -34,14 +34,7 @@
       {
         "math": [ "u_spell_exp('afs_telekinetic_momentum')", "+=", "psionic_power_experience_formula_maintenance()" ]
       },
-      {
-        "run_eocs": [
-          "EOC_AFS_CONCENTRATION_SUCCESS_PROFICIENCY",
-          "EOC_AFS_PSI_SKILL_INCREASE_ON_USE_FINALIZE",
-          "EOC_AFS_CONCENTRATION_COSTS_FOCUS",
-          "EOC_AFS_PSI_MAINTENANCE_MAKES_YOU_WEARY"
-        ]
-      },
+      { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_AFS_TELEKIN_MOMENTUM_MAINTENANCE",
         "time_in_future": [
