@@ -401,7 +401,16 @@ void overmap::load_monster_groups( const JsonArray &jsin )
             if( reset_target ) { // Remove after 0.I
                 new_group.set_target( new_group.abs_pos.xy() );
             }
-            add_mon_group( new_group );
+            if( new_group.horde ) {
+                // Migrate "horde" type monster groups to new horde map.
+                if( !new_group.monsters.empty() ) {
+                    spawn_monsters( temp, new_group.monsters );
+                } else {
+                    spawn_mongroup( temp, new_group.type, new_group.population );
+                }
+            } else {
+                add_mon_group( new_group );
+            }
         }
 
         if( mongroup_with_tripoints.has_more() ) {
