@@ -1505,21 +1505,21 @@
     "id": "box_cereal",
     "subtype": "collection",
     "container-item": "box_small",
-    "entries": [ { "item": "cereal", "container-item": "null", "count": 34 } ]
+    "entries": [ { "item": "cereal", "container-item": "null", "count": -1 } ]
   },
   {
     "type": "item_group",
     "id": "box_cereal2",
     "subtype": "collection",
     "container-item": "box_small",
-    "entries": [ { "item": "cereal2", "container-item": "null", "count": 34 } ]
+    "entries": [ { "item": "cereal2", "container-item": "null", "count": -1 } ]
   },
   {
     "type": "item_group",
     "id": "box_cereal3",
     "subtype": "collection",
     "container-item": "box_small",
-    "entries": [ { "item": "cereal3", "container-item": "null", "count": 34 } ]
+    "entries": [ { "item": "cereal3", "container-item": "null", "count": -1 } ]
   },
   {
     "type": "item_group",
