@@ -671,11 +671,32 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "spaghetti_raw", "prob": 60 },
-      { "item": "lasagne_raw", "prob": 50 },
-      { "item": "macaroni_raw", "prob": 60 },
-      { "item": "noodles_fast", "prob": 50 }
+      { "group": "box_spaghetti_1lb", "prob": 60 },
+      { "group": "box_lasagne_1lb", "prob": 50 },
+      { "group": "box_macaroni_1lb", "prob": 60 },
+      { "item": "noodles_fast", "count": [ 1, 4 ], "prob": 50 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "box_spaghetti_1lb",
+    "subtype": "collection",
+    "container-item": "box_snack",
+    "entries": [ { "item": "spaghetti_raw", "container-item": "null", "count": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "box_lasagne_1lb",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "lasagne_raw", "container-item": "null", "count": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "box_macaroni_1lb",
+    "subtype": "collection",
+    "container-item": "box_snack",
+    "entries": [ { "item": "macaroni_raw", "container-item": "null", "count": 8 } ]
   },
   {
     "id": "groce_ingredient",
