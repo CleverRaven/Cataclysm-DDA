@@ -104,7 +104,7 @@
         "sym": "%",
         "color": "light_gray",
         "transparent": true,
-        "dangerous": false,
+        "dangerous": true,
         "concentration": 1,
         "effects": [
           {
@@ -145,23 +145,8 @@
         "sym": "%",
         "color": "light_gray",
         "transparent": true,
-        "dangerous": false,
-        "concentration": 1,
-        "effects": [
-          {
-            "effect_id": "spores",
-            "min_duration": "1 minutes",
-            "max_duration": "10 minutes",
-            "intensity": 1,
-            "message": "You're covered in spores!",
-            "message_npc": "<npcname> is covered in spores!",
-            "message_type": "bad",
-            "immunity_data": {
-              "flags": [ "mycus" ],
-              "body_part_env_resistance": [ [ "head", 15 ], [ "torso", 15 ], [ "arm", 15 ], [ "hand", 15 ], [ "leg", 15 ], [ "foot", 15 ] ]
-            }
-          }
-        ]
+        "dangerous": true,
+        "concentration": 1
       }
     ],
     "priority": 2,
