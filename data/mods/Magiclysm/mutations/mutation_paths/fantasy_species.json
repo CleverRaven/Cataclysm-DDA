@@ -1,5 +1,9 @@
 [
   {
+    "type": "mutation_type",
+    "id": "HERITAGE"
+  },
+  {
     "type": "mutation_category",
     "id": "SPECIES_DWARF",
     "name": "Dwarf",
@@ -157,16 +161,15 @@
   {
     "type": "mutation",
     "id": "DWARVEN_BUILD",
-    "name": { "str": "Dwarven Build" },
+    "name": { "str": "Dwarf" },
     "//": "Slightly better version of STOCKY_TROGLO since dwarves are born this way",
-    "types": [ "SIZE" ],
+    "types": [ "HERITAGE" ],
     "purifiable": false,
     "mixed_effect": true,
     "points": 1,
     "visibility": 3,
     "ugliness": 0,
     "description": "Dwarves are smaller than humans, the better to deal with confined spaces underground, but as solid as the mountains (+2 STR, -1 DEX).",
-    "flags": [ "SMALL" ],
     "category": [ "SPECIES_DWARF" ],
     "enchantments": [
       {
@@ -177,7 +180,8 @@
           { "value": "WEIGHT", "multiply": 0.2 }
         ]
       }
-    ]
+    ],
+    "flags": [ "HERITAGE", "SMALL" ]
   },
   {
     "type": "mutation",
@@ -301,9 +305,9 @@
   {
     "type": "mutation",
     "id": "ELVEN_BUILD",
-    "name": { "str": "Elven Build" },
+    "name": { "str": "Elf" },
     "//": "Opposite of Dwarven Build!",
-    "types": [ "SIZE" ],
+    "types": [ "HERITAGE" ],
     "purifiable": false,
     "mixed_effect": true,
     "points": 1,
@@ -322,7 +326,8 @@
           { "value": "WEIGHT", "multiply": -0.15 }
         ]
       }
-    ]
+    ],
+    "flags": [ "HERITAGE" ]
   },
   {
     "type": "mutation",
@@ -492,8 +497,8 @@
   {
     "type": "mutation",
     "id": "GOBLIN_BUILD",
-    "name": { "str": "Goblin Build" },
-    "types": [ "SIZE" ],
+    "name": { "str": "Goblin" },
+    "types": [ "HERITAGE" ],
     "purifiable": false,
     "mixed_effect": true,
     "points": 1,
@@ -501,7 +506,6 @@
     "ugliness": 5,
     "description": "Goblins are much smaller than humans, often no more than half the height.  You have a harder time carrying things and can't eat as much, but you're better at dodging and make very little noise when you move.",
     "category": [ "SPECIES_GOBLIN" ],
-    "flags": [ "TINY" ],
     "anger_relations": [ [ "WARG", -90 ] ],
     "spells_learned": [ [ "goblin_tame_warg_spell", 1 ] ],
     "enchantments": [
@@ -516,7 +520,8 @@
           { "value": "CARRY_WEIGHT", "multiply": 0.7 }
         ]
       }
-    ]
+    ],
+    "flags": [ "HERITAGE", "TINY" ]
   },
   {
     "type": "mutation",
@@ -595,8 +600,8 @@
   {
     "type": "mutation",
     "id": "LIZARDFOLK_BUILD",
-    "name": { "str": "Lizardfolk Build" },
-    "types": [ "SIZE" ],
+    "name": { "str": "Lizardfolk" },
+    "types": [ "HERITAGE" ],
     "purifiable": false,
     "mixed_effect": true,
     "points": 1,
@@ -604,7 +609,6 @@
     "ugliness": 0,
     "description": "Lizardfolk are taller and stronger than humans but not much thicker and are surprisingly fast for their size (+1 STR, +1 DEX).",
     "category": [ "SPECIES_LIZARDFOLK" ],
-    "flags": [ "LARGE" ],
     "enchantments": [
       {
         "values": [
@@ -615,7 +619,8 @@
           { "value": "CARRY_WEIGHT", "multiply": 0.05 }
         ]
       }
-    ]
+    ],
+    "flags": [ "HERITAGE", "LARGE" ]
   },
   {
     "type": "mutation",
@@ -727,8 +732,8 @@
   {
     "type": "mutation",
     "id": "RAVENFOLK_BUILD",
-    "name": { "str": "Ravenfolk Build" },
-    "types": [ "SIZE" ],
+    "name": { "str": "Ravenfolk" },
+    "types": [ "HERITAGE" ],
     "purifiable": false,
     "mixed_effect": true,
     "points": 1,
@@ -736,7 +741,8 @@
     "ugliness": 1,
     "description": "Ravenfolk are about the same size as humans, though their feathers and wings obviously set them apart.",
     "category": [ "SPECIES_RAVENFOLK" ],
-    "enchantments": [ { "values": [ { "value": "WEIGHT", "multiply": -0.25 } ] } ]
+    "enchantments": [ { "values": [ { "value": "WEIGHT", "multiply": -0.25 } ] } ],
+    "flags": [ "HERITAGE" ]
   },
   {
     "type": "mutation",
