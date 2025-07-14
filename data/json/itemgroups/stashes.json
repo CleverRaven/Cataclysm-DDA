@@ -262,6 +262,7 @@
     "entries": [
       { "item": "freeze_dried_meal", "count": 4 },
       { "group": "MRE", "count": 1 },
+      { "group": "jerky_ziploc", "count": 2 },
       { "group": "pemmican_ziploc", "count": 2 },
       { "group": "canned_staples_1l" },
       { "item": "protein_bar_evac", "count": 6 }
@@ -275,6 +276,7 @@
     "entries": [
       { "group": "MRE", "count": 4 },
       { "group": "freeze_dried_meal_box_8", "count": 4 },
+      { "group": "jerky_ziploc_gallon_irradiated", "count": 2 },
       { "group": "pemmican_ziploc_gallon", "count": 2 },
       { "group": "pemmican_ziploc_gallon_irradiated", "count": 2 },
       { "group": "hardtack_ziploc_gallon", "count": 2 },
@@ -476,6 +478,20 @@
       { "group": "can_spam_can_medium_6", "count": 2 },
       { "item": "can_tuna", "count": 4 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "jerky_ziploc",
+    "subtype": "collection",
+    "container-item": "bag_zipper",
+    "entries": [ { "item": "jerky", "container-item": "null", "count": -1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "jerky_ziploc_gallon_irradiated",
+    "subtype": "collection",
+    "container-item": "bag_zipper_gallon",
+    "entries": [ { "item": "jerky", "container-item": "null", "count": -1, "custom-flags": [ "IRRADIATED" ] } ]
   },
   {
     "type": "item_group",
