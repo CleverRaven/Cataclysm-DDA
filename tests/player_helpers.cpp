@@ -36,10 +36,10 @@
 #include "type_id.h"
 #include "value_ptr.h"
 
-static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
-
 static const itype_id itype_debug_backpack( "debug_backpack" );
 static const itype_id itype_debug_nutrition( "debug_nutrition" );
+
+static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 
 static const move_mode_id move_mode_walk( "walk" );
 
