@@ -145,7 +145,13 @@
       "weakpoint_sets": [ "wps_humanoid_head_small" ],
       "special_attacks": [ { "id": "smash", "throw_strength": 72, "cooldown": 30 } ]
     },
-    "delete": { "flags": [ "STUMBLES" ] }
+    "delete": { "flags": [ "STUMBLES" ] },
+    "revive_forms": [
+      {
+        "condition": { "map_terrain_with_flag": "FUNGUS", "loc": { "context_val": "loc" } },
+        "monster": "mon_fungal_mound_large"
+      }
+    ]
   },
   {
     "id": "mon_zombie_brute_grappler",
@@ -422,7 +428,13 @@
       "weakpoint_sets": [ "wps_humanoid_head_small" ],
       "families": [ "prof_wp_hulk" ]
     },
-    "delete": { "flags": [ "STUMBLES" ] }
+    "delete": { "flags": [ "STUMBLES" ] },
+    "revive_forms": [
+      {
+        "condition": { "map_terrain_with_flag": "FUNGUS", "loc": { "context_val": "loc" } },
+        "monster": "mon_fungal_mound_massive"
+      }
+    ]
   },
   {
     "id": "mon_zombie_hunter",
