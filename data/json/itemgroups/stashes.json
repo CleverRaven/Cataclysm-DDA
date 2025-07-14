@@ -266,6 +266,8 @@
       { "group": "jerky_ziploc", "count": 2 },
       { "group": "pemmican_ziploc", "count": 2 },
       { "group": "canned_staples_1l" },
+      { "group": "dry_lentils_bag_plastic_full", "count": 2 },
+      { "group": "dry_rice_bag_plastic_full", "count": 2 },
       { "item": "protein_bar_evac", "count": 6 }
     ]
   },
