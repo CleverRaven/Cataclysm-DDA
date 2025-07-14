@@ -6,7 +6,7 @@
     "//": "This itemgroup is intended to represent a stash of long-lasting food and water supplies that a survivor may have scavenged",
     "items": [
       { "group": "pantry_liquids", "prob": 30, "count": [ 1, 3 ] },
-      { "group": "pasta", "prob": 50, "count": [ 1, 5 ] },
+      { "group": "groce_pasta", "prob": 50, "count": [ 1, 5 ] },
       { "group": "cannedfood", "prob": 50, "count": [ 1, 6 ] },
       { "group": "big_canned_food", "prob": 25, "count": [ 1, 3 ] },
       { "group": "dry_goods", "prob": 30, "count": [ 1, 4 ] },
@@ -98,7 +98,12 @@
     "//": "randomized assortment of possible bugout bags people would have as the apocalypse ramped up",
     "entries": [
       {
-        "distribution": [ { "group": "small_bugout_bag_1" }, { "group": "small_bugout_bag_2" }, { "group": "small_bugout_bag_3" } ],
+        "distribution": [
+          { "group": "small_bugout_bag_1" },
+          { "group": "small_bugout_bag_2" },
+          { "group": "small_bugout_bag_3" },
+          { "group": "small_bugout_bag_4" }
+        ],
         "prob": 50
       },
       { "group": "medium_bugout", "prob": 40 },
@@ -139,9 +144,11 @@
     "//": "a light bugout, stuff people would have on hand, not super full",
     "subtype": "collection",
     "entries": [
-      { "group": "bugout_first_aid", "prob": 50 },
+      { "group": "bugout_meds_easy", "prob": 90 },
+      { "group": "bugout_first_aid", "prob": 20 },
       { "group": "guns_pistol_common", "prob": 45 },
-      { "group": "bugout_food", "prob": 50 },
+      { "group": "bugout_tools", "prob": 50 },
+      { "group": "bugout_food_easy", "prob": 50 },
       { "group": "bugout_water", "prob": 50 },
       { "group": "bugout_bad_pack", "prob": 100 }
     ]
@@ -149,14 +156,17 @@
   {
     "id": "medium_bugout",
     "type": "item_group",
-    "//": "a medium bugout, stuff people would have had if preppers, or they had forsight",
+    "//": "a medium bugout, stuff people would have had if preppers, or they had foresight",
     "container-item": "backpack_hiking",
     "subtype": "collection",
     "on_overflow": "spill",
     "entries": [
       { "group": "bugout_first_aid", "prob": 90 },
       { "group": "bugout_gun", "prob": 50 },
-      { "group": "bugout_food", "prob": 50, "count": [ 1, 2 ] },
+      { "group": "bugout_tools", "prob": 60 },
+      { "group": "bugout_food_easy", "prob": 25, "count": [ 1, 4 ] },
+      { "group": "bugout_food_1l", "prob": 75, "count": [ 2, 6 ] },
+      { "group": "bugout_food_9l", "prob": 15, "count": [ 1, 2 ] },
       { "group": "bugout_water", "prob": 50, "count": [ 1, 2 ] },
       { "group": "bugout_extras", "prob": 100, "count": [ 1, 4 ] },
       { "group": "civilian_armor", "prob": 35 }
@@ -173,11 +183,24 @@
       { "group": "bugout_first_aid", "count": 1, "prob": 90 },
       { "group": "guns_pistol_common", "prob": 70 },
       { "group": "bugout_long_gun", "prob": 20 },
-      { "group": "bugout_food", "prob": 50, "count": [ 1, 3 ] },
-      { "group": "bugout_water", "prob": 50, "count": [ 1, 3 ] },
+      { "group": "bugout_tools", "prob": 80 },
+      { "group": "bugout_food_easy", "prob": 25, "count": [ 1, 2 ] },
+      { "group": "bugout_food_1l", "prob": 50, "count": [ 2, 4 ] },
+      { "group": "bugout_food_9l", "prob": 90, "count": [ 2, 4 ] },
+      { "group": "bugout_water", "prob": 90, "count": [ 1, 3 ] },
       { "group": "bugout_extras", "prob": 100, "count": [ 2, 6 ] },
       { "group": "civilian_armor", "count": 2, "prob": 35 },
       { "group": "bugout_large_extras", "prob": 40 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "bugout_meds_easy",
+    "subtype": "collection",
+    "//": "Everything vaguely medical on hand quickly shoved into the bag.",
+    "entries": [
+      { "group": "adhesive_bandages_box_used", "count": [ 1, 2 ], "prob": 95 },
+      { "group": "SUS_bathroom_medicine", "prob": 80 }
     ]
   },
   {
@@ -210,14 +233,58 @@
   },
   {
     "type": "item_group",
-    "id": "bugout_food",
-    "subtype": "distribution",
-    "//": "food of some kind.",
+    "id": "bugout_tools",
+    "subtype": "collection",
     "entries": [
-      { "group": "MRE", "count": 2, "prob": 100 },
-      { "group": "bugout_cans", "prob": 100 },
-      { "item": "protein_bar_evac", "count": 1, "prob": 100 },
+      { "item": "fork", "count": [ 1, 2 ], "prob": 95 },
+      { "item": "knife_butter", "count": [ 1, 2 ], "prob": 90 },
+      { "item": "spoon", "count": [ 1, 2 ], "prob": 90 },
+      { "item": "can_opener", "prob": 80 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "bugout_food_easy",
+    "subtype": "distribution",
+    "//": "food easily found in a hurry.",
+    "entries": [
+      { "group": "canned_staples_1l", "count": [ 2, 6 ], "prob": 100 },
+      { "group": "groce_pasta", "count": [ 2, 6 ], "prob": 100 },
+      { "group": "dollar_food", "count": [ 2, 6 ], "prob": 100 },
       { "group": "snacks", "count": 4, "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "bugout_food_1l",
+    "subtype": "distribution",
+    "//": "about 1L worth of food with long shelf life",
+    "entries": [
+      { "item": "freeze_dried_meal", "count": 4 },
+      { "group": "MRE", "count": 1 },
+      { "group": "peanuts_ziploc", "count": 2 },
+      { "group": "jerky_ziploc", "count": 2 },
+      { "group": "pemmican_ziploc", "count": 2 },
+      { "group": "canned_staples_1l" },
+      { "group": "dry_lentils_bag_plastic_full", "count": 2 },
+      { "group": "dry_rice_bag_plastic_full", "count": 2 },
+      { "item": "protein_bar_evac", "count": 6 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "bugout_food_9l",
+    "subtype": "distribution",
+    "//": "about 9L/2 gallons worth of food with long shelf life",
+    "entries": [
+      { "group": "MRE", "count": 4 },
+      { "group": "freeze_dried_meal_box_8", "count": 4 },
+      { "group": "jerky_ziploc_gallon_irradiated", "count": 2 },
+      { "group": "pemmican_ziploc_gallon", "count": 2 },
+      { "group": "pemmican_ziploc_gallon_irradiated", "count": 2 },
+      { "group": "hardtack_ziploc_gallon", "count": 2 },
+      { "group": "can_beans_can_food_big_12", "count": 3 },
+      { "group": "protein_bar_box_small", "count": 4 }
     ]
   },
   {
@@ -239,13 +306,6 @@
       { "item": "rehydration_drink", "count": 1, "prob": 50 },
       { "item": "sports_drink", "count": 1, "prob": 50 }
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "bugout_cans",
-    "subtype": "collection",
-    "//": "cans and a can opener.",
-    "entries": [ { "group": "big_canned_food", "count": 2, "prob": 100 }, { "item": "can_opener", "prob": 100 } ]
   },
   {
     "type": "item_group",
@@ -358,7 +418,8 @@
       { "group": "bugout_toys", "prob": 50 },
       { "group": "bugout_child_snacks", "prob": 100 },
       { "group": "bugout_water", "prob": 75 },
-      { "group": "bugout_cans", "prob": 33 },
+      { "group": "bugout_tools", "prob": 40 },
+      { "group": "bugout_food_easy", "prob": 33 },
       { "item": "toothbrush_plain", "prob": 10 },
       { "item": "childnote", "prob": 33 }
     ]
@@ -398,6 +459,77 @@
       { "prob": 30, "group": "cookies_box_snack_1_4" },
       { "group": "toastems", "prob": 15 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "freeze_dried_meal_box_8",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "freeze_dried_meal", "count": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "canned_staples_1l",
+    "subtype": "distribution",
+    "//": "1L of calorie dense canned food, not things like tomatoes or pineapples",
+    "entries": [
+      { "group": "can_beans_can_medium_2", "count": 2 },
+      { "group": "pork_beans_can_medium_2", "count": 2 },
+      { "group": "can_chicken_can_medium_2", "count": 2 },
+      { "group": "chili_can_medium_2", "count": 2 },
+      { "group": "ravioli_can_medium_2", "count": 2 },
+      { "group": "can_spam_can_medium_6", "count": 2 },
+      { "item": "can_tuna", "count": 4 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "peanuts_ziploc",
+    "subtype": "collection",
+    "container-item": "bag_zipper",
+    "entries": [ { "item": "peanut_shelled", "container-item": "null", "count": -1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "jerky_ziploc",
+    "subtype": "collection",
+    "container-item": "bag_zipper",
+    "entries": [ { "item": "jerky", "container-item": "null", "count": -1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "jerky_ziploc_gallon_irradiated",
+    "subtype": "collection",
+    "container-item": "bag_zipper_gallon",
+    "entries": [ { "item": "jerky", "container-item": "null", "count": -1, "custom-flags": [ "IRRADIATED" ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pemmican_ziploc",
+    "subtype": "collection",
+    "container-item": "bag_zipper",
+    "entries": [ { "item": "pemmican", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pemmican_ziploc_gallon",
+    "subtype": "collection",
+    "container-item": "bag_zipper_gallon",
+    "entries": [ { "item": "pemmican", "container-item": "null", "count": 37 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pemmican_ziploc_gallon_irradiated",
+    "subtype": "collection",
+    "container-item": "bag_zipper_gallon",
+    "entries": [ { "item": "pemmican", "container-item": "null", "count": 37, "custom-flags": [ "IRRADIATED" ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "hardtack_ziploc_gallon",
+    "subtype": "collection",
+    "container-item": "bag_zipper_gallon",
+    "entries": [ { "item": "hardtack", "count": 64 } ]
   },
   {
     "type": "item_group",
