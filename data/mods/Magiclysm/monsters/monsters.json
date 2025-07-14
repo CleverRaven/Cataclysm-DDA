@@ -265,6 +265,7 @@
     "species": [ "MAGICAL_BEAST" ],
     "volume": "1500 ml",
     "weight": "136 g",
+    "diff": 5,
     "hp": 20,
     "speed": 160,
     "luminance": 16,
@@ -296,7 +297,6 @@
         "monster_message": "%1$s glitters in an eerie pattern."
       }
     ],
-    "armor": { "bullet": 9999 },
     "flags": [
       "SEES",
       "HEARS",
@@ -304,6 +304,7 @@
       "KEEP_DISTANCE",
       "PATH_AVOID_DANGER",
       "ELECTRIC",
+      "BULLETPROOF",
       "BIOLOGICALPROOF",
       "HARDTOSHOOT",
       "PLASTIC",
