@@ -686,7 +686,8 @@ bool vehicle::start_engine( map &here, vehicle_part &vp )
     const time_duration start_time = engine_start_time( here, vp );
     const tripoint_bub_ms pos = bub_part_pos( here, vp );
 
-    if( ( 1 - dmg ) < vpi.engine_info->backfire_threshold &&
+    if( !is_engine_type( vp, fuel_type_battery ) &&
+        ( 1 - dmg ) < vpi.engine_info->backfire_threshold &&
         one_in( vpi.engine_info->backfire_freq ) ) {
         backfire( &here, vp );
     } else {

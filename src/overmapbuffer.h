@@ -587,7 +587,7 @@ class overmapbuffer
         void generate_highway_intersection_point( const point_abs_om &generated_om_pos );
         /**
         * given an overmap point, finds and generates the highway intersection points boxing it in,
-        * ordered from closest to the center to furthest from the center
+        * aligning to the top-left-most point; this point is always last in the returned list
         * NOTE: this function can be generalized if necessary
         */
         std::vector<point_abs_om> find_highway_intersection_bounds( const point_abs_om

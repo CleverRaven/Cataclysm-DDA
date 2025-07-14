@@ -71,5 +71,95 @@
     "phase": "liquid",
     "display_field": true,
     "looks_like": "water"
+  },
+  {
+    "type": "field_type",
+    "id": "fd_spores",
+    "intensity_levels": [
+      {
+        "name": "spore dust",
+        "sym": "%",
+        "color": "light_gray",
+        "transparent": true,
+        "dangerous": false,
+        "concentration": 1,
+        "effects": [
+          {
+            "effect_id": "spores",
+            "min_duration": "1 minutes",
+            "max_duration": "10 minutes",
+            "intensity": 1,
+            "message": "You're covered in spores!",
+            "message_npc": "<npcname> is covered in spores!",
+            "message_type": "bad",
+            "immunity_data": {
+              "flags": [ "mycus" ],
+              "body_part_env_resistance": [ [ "head", 15 ], [ "torso", 15 ], [ "arm", 15 ], [ "hand", 15 ], [ "leg", 15 ], [ "foot", 15 ] ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "spore dust and grime",
+        "sym": "%",
+        "color": "light_gray",
+        "transparent": true,
+        "dangerous": true,
+        "concentration": 1,
+        "effects": [
+          {
+            "effect_id": "spores",
+            "min_duration": "1 minutes",
+            "max_duration": "10 minutes",
+            "intensity": 1,
+            "message": "You're covered in spores!",
+            "message_npc": "<npcname> is covered in spores!",
+            "message_type": "bad",
+            "immunity_data": {
+              "flags": [ "mycus" ],
+              "body_part_env_resistance": [ [ "head", 15 ], [ "torso", 15 ], [ "arm", 15 ], [ "hand", 15 ], [ "leg", 15 ], [ "foot", 15 ] ]
+            }
+          }
+        ]
+      }
+    ],
+    "priority": 1,
+    "dirty_transparency_cache": false,
+    "display_items": true,
+    "display_field": true,
+    "description_affix": "covered_in",
+    "mopsafe": true,
+    "moppable": true,
+    "percent_spread": 75,
+    "half_life": "6 hours",
+    "phase": "gas",
+    "has_fume": true,
+    "looks_like": "t_open_air"
+  },
+  {
+    "type": "field_type",
+    "id": "fd_fungal_splinters",
+    "intensity_levels": [
+      {
+        "name": "fungal debris",
+        "sym": "%",
+        "color": "light_gray",
+        "transparent": true,
+        "dangerous": true,
+        "concentration": 1
+      }
+    ],
+    "priority": 2,
+    "dirty_transparency_cache": false,
+    "display_items": true,
+    "display_field": true,
+    "description_affix": "covered_in",
+    "mopsafe": true,
+    "moppable": true,
+    "percent_spread": 50,
+    "half_life": "6 hours",
+    "phase": "gas",
+    "has_fume": true,
+    "looks_like": "fd_dust"
   }
 ]
