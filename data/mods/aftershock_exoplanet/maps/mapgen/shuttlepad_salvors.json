@@ -553,6 +553,7 @@
         "                        "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": 3, "y": 10 } ],
       "terrain": {
         "R": "t_bay_rap_up",
         "+": "t_afs_space_ship_hatch_c",

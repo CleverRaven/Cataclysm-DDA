@@ -94,6 +94,7 @@ void game::serialize_json( std::ostream &fout )
     // basic game state information.
     json.member( "savegame_loading_version", savegame_version );
     json.member( "turn", calendar::turn );
+    json.member( "debug_mode", debug_mode );
     json.member( "calendar_start", calendar::start_of_cataclysm );
     json.member( "game_start", calendar::start_of_game );
     json.member( "initial_season", static_cast<int>( calendar::initial_season ) );
@@ -239,6 +240,7 @@ void game::unserialize_impl( const JsonObject &data )
     point_abs_om com;
 
     data.read( "turn", tmpturn );
+    data.read( "debug_mode", debug_mode );
     data.read( "calendar_start", tmpcalstart );
     calendar::initial_season = static_cast<season_type>( data.get_int( "initial_season",
                                static_cast<int>( SPRING ) ) );

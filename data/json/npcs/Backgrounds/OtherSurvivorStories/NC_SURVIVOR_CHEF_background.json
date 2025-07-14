@@ -27,7 +27,7 @@
   {
     "id": "BOSS_NC_SURVIVOR_CHEF_Story2",
     "type": "talk_topic",
-    "dynamic_line": "*shows you on your map where to find it.  \"This looks right to me.",
+    "dynamic_line": "*shows you on your map where to find it.  \"This looks right to me.\"",
     "responses": [ { "text": "Thanks for the directions.  I'll check it out.", "topic": "TALK_DONE" } ]
   },
   {

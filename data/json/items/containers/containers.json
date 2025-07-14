@@ -449,7 +449,7 @@
         "transparent": true,
         "magazine_well": "50 ml",
         "max_contains_volume": "4500 ml",
-        "max_contains_weight": "3000 g",
+        "max_contains_weight": "5000 g",
         "max_item_length": "29 cm",
         "spoil_multiplier": 0.8,
         "moves": 600

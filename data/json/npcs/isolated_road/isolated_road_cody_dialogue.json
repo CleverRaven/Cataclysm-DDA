@@ -204,7 +204,7 @@
   {
     "id": "TALK_BLACKSMITH_RESTOCK",
     "type": "talk_topic",
-    "dynamic_line": "With how the things are goin'? <interval>.",
+    "dynamic_line": "With how the things are goin'?  <interval>.",
     "responses": [ { "text": "I'll leave you to your work then.  <end_talking_bye>", "topic": "TALK_DONE" } ]
   },
   {
@@ -259,7 +259,7 @@
     "speaker_effect": { "effect": [ { "u_add_var": "dialogue_artisans_blacksmith_heard_the_deal", "value": "yes" } ] },
     "responses": [
       {
-        "text": "[INT 8] Still this is a lot of equipment.  Wouldn't it have been easier to buy this stuff from a manufacturer?",
+        "text": "Still this is a lot of equipment.  Wouldn't it have been easier to buy this stuff from a manufacturer?",
         "topic": "TALK_BLACKSMITH_SHOP_ABOUT_STUPID_QUESTION"
       },
       { "text": "Can anyone use the workshop?", "topic": "TALK_BLACKSMITH_COOP_ABOUT" },
@@ -322,7 +322,7 @@
     "type": "talk_topic",
     "dynamic_line": [ "Money is part of what got us into this mess in the first place." ],
     "responses": [
-      { "text": "[PER 8] Is that why you don't carry any cash?", "topic": "TALK_BLACKSMITH_MONEY_NO_CASH" },
+      { "text": "Is that why you don't carry any cash?", "topic": "TALK_BLACKSMITH_MONEY_NO_CASH" },
       { "text": "…", "topic": "TALK_BLACKSMITH_SERVICES" }
     ]
   },

@@ -651,9 +651,9 @@
     "subtype": "distribution",
     "entries": [
       { "prob": 50, "group": "oatmeal_box_small_4" },
-      { "prob": 25, "group": "cereal_box_small_4" },
-      { "prob": 55, "group": "cereal2_box_small_4" },
-      { "prob": 55, "group": "cereal3_box_small_4" },
+      { "prob": 25, "group": "box_cereal" },
+      { "prob": 55, "group": "box_cereal2" },
+      { "prob": 55, "group": "box_cereal3" },
       { "prob": 50, "group": "cereal_fp1_box_small_6" },
       { "prob": 50, "group": "cereal_fp2_box_small_6" },
       { "prob": 50, "group": "cereal_fp3_box_small_6" },
@@ -671,11 +671,32 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "spaghetti_raw", "prob": 60 },
-      { "item": "lasagne_raw", "prob": 50 },
-      { "item": "macaroni_raw", "prob": 60 },
-      { "item": "noodles_fast", "prob": 50 }
+      { "group": "box_spaghetti_1lb", "prob": 60 },
+      { "group": "box_lasagne_1lb", "prob": 50 },
+      { "group": "box_macaroni_1lb", "prob": 60 },
+      { "item": "noodles_fast", "count": [ 1, 4 ], "prob": 50 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "box_spaghetti_1lb",
+    "subtype": "collection",
+    "container-item": "box_snack",
+    "entries": [ { "item": "spaghetti_raw", "container-item": "null", "count": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "box_lasagne_1lb",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "lasagne_raw", "container-item": "null", "count": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "box_macaroni_1lb",
+    "subtype": "collection",
+    "container-item": "box_snack",
+    "entries": [ { "item": "macaroni_raw", "container-item": "null", "count": 8 } ]
   },
   {
     "id": "groce_ingredient",
@@ -760,7 +781,8 @@
       { "prob": 20, "group": "sprinkles_bottle_plastic_small_62" },
       { "item": "honey_bottled", "prob": 35 },
       { "prob": 35, "group": "honey_glassed_jar_glass_sealed_5" },
-      { "item": "peanutbutter", "prob": 60 },
+      { "group": "peanutbutter_jar_sealed", "prob": 60 },
+      { "group": "jam_fruit_jar_sealed", "prob": 60 },
       { "item": "marshmallow_fluff", "prob": 35 },
       { "prob": 40, "group": "pickle_jar_glass_sealed_2" },
       { "item": "coffee_syrup", "prob": 35 },
@@ -978,7 +1000,7 @@
     "type": "item_group",
     "items": [
       [ "vinegar", 20 ],
-      [ "jam_fruit", 5 ],
+      { "prob": 5, "group": "jam_fruit_jar_sealed" },
       { "prob": 17, "group": "bread_bag_plastic_14" },
       { "item": "confit_meat", "prob": 14 },
       [ "meat", 20 ],
@@ -1499,6 +1521,27 @@
     "id": "milk_full_gallon",
     "subtype": "distribution",
     "entries": [ { "item": "milk", "container-item": "jug_plastic" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "box_cereal",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "cereal", "container-item": "null", "count": -1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "box_cereal2",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "cereal2", "container-item": "null", "count": -1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "box_cereal3",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "cereal3", "container-item": "null", "count": -1 } ]
   },
   {
     "type": "item_group",
@@ -2836,5 +2879,19 @@
     "subtype": "collection",
     "container-item": "bag_plastic_small",
     "entries": [ { "item": "flatbread", "container-item": "null", "count": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "peanutbutter_jar_sealed",
+    "subtype": "collection",
+    "container-item": "jar_glass_sealed",
+    "entries": [ { "item": "peanutbutter", "container-item": "null", "count": -1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "jam_fruit_jar_sealed",
+    "subtype": "collection",
+    "container-item": "jar_glass_sealed",
+    "entries": [ { "item": "jam_fruit", "container-item": "null", "count": -1 } ]
   }
 ]

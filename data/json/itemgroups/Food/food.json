@@ -550,7 +550,7 @@
       { "item": "foodplace_snack_bar", "prob": 5 },
       { "item": "foodplace_zero_drink", "prob": 5, "container-item": "bottle_plastic" },
       { "item": "foodplace_zero_drink", "prob": 5 },
-      { "item": "pemmican", "prob": 5 },
+      { "group": "pemmican_bag_small", "prob": 5 },
       { "prob": 10, "group": "granola_bag_plastic_4" },
       { "prob": 80, "group": "cookies_box_snack_4" },
       { "prob": 10, "group": "tea_raw_bag_plastic_33" },
@@ -1078,6 +1078,13 @@
       { "group": "protein_bar_peanut_box_12_opened", "prob": 40 },
       { "group": "protein_bar_zero_box_12_opened", "prob": 20 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "pemmican_bag_small",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "pemmican", "container-item": "null", "count": 4 } ]
   },
   {
     "type": "item_group",

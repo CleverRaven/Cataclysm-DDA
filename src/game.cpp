@@ -795,7 +795,7 @@ void game::setup()
 
         load_core_data();
     }
-    world_generator->get_mod_manager().load_mods_list( world_generator->active_world );
+    world_generator->get_mod_manager().check_mods_list( world_generator->active_world );
     load_world_modfiles();
     // Panel manager needs JSON data to be loaded before init
     panel_manager::get_manager().init();
@@ -1165,7 +1165,7 @@ bool game::start_game()
 
     get_event_bus().send<event_type::game_start>( getVersionString() );
     get_event_bus().send<event_type::game_avatar_new>( /*is_new_game=*/true, /*is_debug=*/false,
-            u.getID(), u.name, u.male, u.prof->ident(), u.custom_profession );
+            u.getID(), u.name, u.custom_profession );
     time_played_at_last_load = std::chrono::seconds( 0 );
     time_of_last_load = std::chrono::steady_clock::now();
     tripoint_abs_omt abs_omt = u.pos_abs_omt();
@@ -3048,8 +3048,7 @@ void end_screen_data::draw_end_screen_ui()
     }
     avatar &u = get_avatar();
     const bool is_suicide = g->uquit == QUIT_SUICIDE;
-    get_event_bus().send<event_type::game_avatar_death>( u.getID(), u.name, u.male, is_suicide,
-            p_impl.text );
+    get_event_bus().send<event_type::game_avatar_death>( u.getID(), u.name, is_suicide, p_impl.text );
 }
 
 void end_screen_ui_impl::draw_controls()
@@ -6000,7 +5999,7 @@ void game::control_vehicle()
                     return;
                 }
             } else {
-                add_msg( _( "No vehicle there." ) );
+                add_msg( _( "There's no vehicle there." ) );
                 return;
             }
         }

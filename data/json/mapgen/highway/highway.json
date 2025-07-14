@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "hw_reserved", "hw_reserved_water", "hw_reserved_ramp" ],
+    "om_terrain": [ "hw_reserved", "hw_reserved_water" ],
     "object": { "fallback_predecessor_mapgen": "open_air" }
   },
   {

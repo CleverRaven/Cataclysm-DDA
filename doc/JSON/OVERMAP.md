@@ -249,7 +249,7 @@ rotation for the referenced overmap terrains (e.g. the `_north` version for all)
 | `vision_levels`   | Id of a `oter_vision` that describes how this overmap terrain will be displayed when there is not full vision of the tile.
 | `connect_group`   | Specify that this overmap terrain might be graphically connected to its neighbours, should a tileset wish to.  It will connect to any other `overmap_terrain` with the same `connect_group`. |
 | `see_cost`        | Affects player vision on overmap.  See table below for possible values.                          |
-| `travel_cost_type` | How to treat this location when planning a route using autotravel on the overmap. Valid values are `road`,`field`,`dirt_road`,`trail`,`forest`,`shore`,`swamp`,`water`,`air`,`impassable`,`other`. Some types are harder to travel through with different types of vehicles, or on foot. |
+| `travel_cost_type` | How to treat this location when planning a route using autotravel on the overmap. Valid values are `road`,`field`,`dirt_road`,`trail`,`forest`,`shore`,`swamp`,`water`,`air`,`structure`,`roof`,`basement`,`tunnel`,`impassable`,`other`. Some types are harder to travel through with different types of vehicles, or on foot. |
 | `extras`          | Reference to a named `map_extras` in region_settings, defines which map extras can be applied.   |
 | `mondensity`      | Summed with values for adjacent overmap terrains to influence density of monsters spawned here.  |
 | `spawns`          | Spawns added once at mapgen. Monster group, % chance, population range (min/max).                |

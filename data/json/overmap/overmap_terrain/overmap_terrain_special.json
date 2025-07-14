@@ -191,12 +191,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "hw_reserved_ramp",
-    "//": "for placing adjacent to bridgeheads for z = 1 ramp detection",
-    "copy-from": "hw_reserved"
-  },
-  {
-    "type": "overmap_terrain",
     "abstract": "generic_road",
     "copy-from": "road_abstract"
   },

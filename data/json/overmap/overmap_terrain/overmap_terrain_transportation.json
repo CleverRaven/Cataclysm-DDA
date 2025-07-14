@@ -490,6 +490,7 @@
     ],
     "copy-from": "generic_city_building",
     "vision_levels": "large_pavement",
+    "travel_cost_type": "road",
     "name": "parking lot",
     "sym": "O",
     "color": "dark_gray",

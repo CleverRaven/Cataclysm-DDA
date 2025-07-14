@@ -99,7 +99,7 @@
       [ "shot_flechette", 20 ],
       [ "3x35dart", 10 ],
       [ "3x35toxic", 2 ],
-      [ "shot_he", 20 ],
+      [ "afs_shot_he", 20 ],
       [ "afs_4g_plasma", 20 ],
       [ "afs_20g_plasma", 10 ],
       [ "afs_cartridge", 10 ]
