@@ -1442,6 +1442,14 @@ std::optional<basecamp *> overmapbuffer::find_camp( const point_abs_omt &p )
     return std::nullopt;
 }
 
+void overmapbuffer::clear_camps( const point_abs_omt &p )
+{
+    const overmap_with_local_coords om_loc = get_existing_om_global( p );
+    if( !!om_loc.om ) {
+        om_loc.om->clear_camps();
+    }
+}
+
 void overmapbuffer::insert_npc( const shared_ptr_fast<npc> &who )
 {
     cata_assert( who );
