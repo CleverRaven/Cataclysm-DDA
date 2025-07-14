@@ -351,6 +351,7 @@
     "id": "t_tree_crabapple",
     "copy-from": "t_tree_fruit_abstract",
     "name": "crabapple tree",
+    "looks_like": "t_tree_hickory",
     "description": "This tree is a member of the 'Malus' genus, though unlike popular cultivars, its fruits are small and sour.  If you examined the branches more closely, you could probably find a few mature ones in autumn.",
     "transforms_into": "t_tree_crabapple_harvested",
     "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "crabapple_harv" } ]
