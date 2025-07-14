@@ -783,24 +783,10 @@
     "entries": [
       {
         "collection": [
-          { "item": "sports_drink", "container-item": "bottle_plastic", "charges": 1, "prob": 50, "sealed": false },
-          { "item": "sports_drink", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
-        ],
-        "prob": 30
-      },
-      {
-        "collection": [
           { "item": "cola", "container-item": "bottle_plastic", "charges": 1, "prob": 50, "sealed": false },
           { "item": "cola", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
         ],
         "prob": 70
-      },
-      {
-        "collection": [
-          { "item": "choc_drink", "container-item": "bottle_plastic", "charges": 1, "prob": 50, "sealed": false },
-          { "item": "choc_drink", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
-        ],
-        "prob": 30
       },
       {
         "collection": [
@@ -815,6 +801,20 @@
           { "item": "tonic_water", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
         ],
         "prob": 20
+      },
+      {
+        "collection": [
+          { "item": "sports_drink", "container-item": "bottle_plastic", "charges": 1, "prob": 50, "sealed": false },
+          { "item": "sports_drink", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
+        ],
+        "prob": 30
+      },
+      {
+        "collection": [
+          { "item": "choc_drink", "container-item": "bottle_plastic", "charges": 1, "prob": 50, "sealed": false },
+          { "item": "choc_drink", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
+        ],
+        "prob": 30
       },
       {
         "collection": [
@@ -934,9 +934,9 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "tonic_water", "count": [ 1, 6 ], "prob": 20 },
       { "item": "cola", "count": [ 1, 6 ], "prob": 70 },
       { "item": "rootbeer", "count": [ 1, 6 ], "prob": 65 },
+      { "item": "tonic_water", "count": [ 1, 6 ], "prob": 20 },
       { "item": "sports_drink", "count": [ 1, 6 ], "prob": 30 },
       { "item": "choc_drink", "count": [ 1, 6 ], "prob": 30 },
       { "item": "horchata", "count": [ 1, 6 ], "prob": 15 },
