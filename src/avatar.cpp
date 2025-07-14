@@ -60,7 +60,6 @@
 #include "pathfinding.h"
 #include "pimpl.h"
 #include "point.h"
-#include "profession.h"
 #include "ranged.h"
 #include "recipe.h"
 #include "ret_val.h"
