@@ -23,7 +23,7 @@
     "type": "mutation",
     "id": "BIOKIN_NEEDS",
     "name": { "str": "Efficient System" },
-    "points": 0,
+    "points": 1,
     "description": "Thanks to your powers, you need less food and drink than the average person and are more efficient at processing it.",
     "player_display": true,
     "valid": false,
@@ -66,14 +66,13 @@
           }
         ]
       }
-    ],
-    "flags": [ "ATTUNEMENT" ]
+    ]
   },
   {
     "type": "mutation",
     "id": "CLAIR_SENSES",
     "name": { "str": "Psionic Senses" },
-    "points": 0,
+    "points": 1,
     "description": "Your powers protect you from some sensory disruption and allow you to detect creatures from beyond.",
     "player_display": true,
     "valid": false,
@@ -99,14 +98,13 @@
         "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "ench_effects": [ { "effect": "effect_clair_passive_sense_protection", "intensity": 1 } ]
       }
-    ],
-    "flags": [ "ATTUNEMENT" ]
+    ]
   },
   {
     "type": "mutation",
     "id": "ELECTRO_SHIELD",
     "name": { "str": "Galvanic Armor" },
-    "points": 0,
+    "points": 1,
     "description": "Your powers help protect you from electrical damage and slightly reduce the intensity of pain you feel.",
     "player_display": true,
     "valid": false,
@@ -117,16 +115,15 @@
         "incoming_damage_mod": [ { "type": "electric", "add": { "math": [ "u_spell_level_sum('school': 'ELECTROKINETIC') / -0.2" ] } } ],
         "values": [ { "value": "PAIN", "multiply": { "math": [ "u_spell_level_sum('school': 'ELECTROKINETIC') * -0.00035" ] } } ]
       }
-    ],
-    "flags": [ "ATTUNEMENT" ]
+    ]
   },
   {
     "type": "mutation",
     "id": "PHOTO_EYES",
     "name": { "str": "Photon Regulation" },
-    "points": 0,
+    "points": 1,
     "description": "Your powers passively filter the amount of photons your eyes receive.",
-    "flags": [ "FLASH_PROTECTION", "SEESLEEP", "GLARE_RESIST", "ATTUNEMENT" ],
+    "flags": [ "FLASH_PROTECTION", "SEESLEEP", "GLARE_RESIST" ],
     "integrated_armor": [ "integrated_photo_eyes" ],
     "player_display": true,
     "valid": false,
@@ -136,7 +133,7 @@
     "type": "mutation",
     "id": "PYROKIN_ADAPTATION",
     "name": { "str": "Internal Fire" },
-    "points": 0,
+    "points": 1,
     "description": "You naturally heat the air around you slightly, making it more comfortable in the cold.  It also helps prevent you from getting too wet.",
     "bodytemp_modifiers": [ 250, 750 ],
     "enchantments": [
@@ -159,14 +156,13 @@
     ],
     "player_display": true,
     "valid": false,
-    "purifiable": false,
-    "flags": [ "ATTUNEMENT" ]
+    "purifiable": false
   },
   {
     "type": "mutation",
     "id": "TELEKINETIC_GRAB_POCKETS",
     "name": { "str": "Grasping Hand" },
-    "points": 0,
+    "points": 1,
     "description": "Thanks to a minor application of telekinesis, the items you want to grab are always quick to hand.",
     "player_display": true,
     "valid": false,
@@ -181,14 +177,13 @@
           }
         ]
       }
-    ],
-    "flags": [ "ATTUNEMENT" ]
+    ]
   },
   {
     "type": "mutation",
     "id": "TELEPATHIC_SUGGESTION",
     "name": { "str": "Telepathic Suggestion" },
-    "points": 0,
+    "points": 1,
     "description": "You are subtly influencing the minds of the people you speak to.",
     "valid": false,
     "player_display": true,
@@ -205,14 +200,13 @@
           }
         ]
       }
-    ],
-    "flags": [ "ATTUNEMENT" ]
+    ]
   },
   {
     "type": "mutation",
     "id": "TELEPORTER_PROTECT",
     "name": { "str": "Spacial Recalibration" },
-    "points": 0,
+    "points": 1,
     "description": "You can keep otherworldly eyes off you to some extent, and you will sometimes instinctively teleport to avoid danger.",
     "valid": false,
     "player_display": true,
@@ -223,13 +217,13 @@
         "values": [ { "value": "EVASION", "add": { "math": [ "(0.01 + (0.00025 * u_spell_level_sum('school': 'TELEPORTER')))" ] } } ]
       }
     ],
-    "flags": [ "ATTUNEMENT", "TELESTOP" ]
+    "flags": [ "TELESTOP" ]
   },
   {
     "type": "mutation",
     "id": "VITAKINETIC_HEALTH",
     "name": { "str": "Bloom of Vitality" },
-    "points": 0,
+    "points": 1,
     "description": "Your psionic powers speed your healing slightly and increase your overall resilience, and any broken limbs you have mend straight and true.",
     "vitamin_rates": [ [ "mutant_toxin", 180 ] ],
     "valid": false,
@@ -247,6 +241,6 @@
         ]
       }
     ],
-    "flags": [ "ATTUNEMENT", "MEND_ALL" ]
+    "flags": [ "MEND_ALL" ]
   }
 ]
