@@ -35,6 +35,20 @@
   },
   {
     "type": "scenario",
+    "id": "ship",
+    "name": "Smuggler's Hideout",
+    "points": 1,
+    "description": "After a disastrous smuggling run, you thought to fly your ship, The Vanishing Arc, to the most remote and backwater system you could find.  You estimate you have at least six months before the Nyssian cartels catch up with you, and you need to make the most of it.",
+    "allowed_locs": [ "your_ship" ],
+    "professions": [ "afs_han" ],
+    "whitelist_hobbies": true,
+    "hobbies": [ "afs_armament_license", "afs_spacer", "afs_leadership" ],
+    "flags": [ "LONE_START" ],
+    "eoc": [ "EOC_SHIP_VANISHING_ARC_START" ],
+    "start_name": "The Vanishing Arc"
+  },
+  {
+    "type": "scenario",
     "id": "last_dance",
     "name": "One Last Dance on the Ice",
     "points": 1,
