@@ -299,7 +299,7 @@
       "concatenate": [
         "*becomes distant for a moment.  \"Ah.  Home.  It were a long time gone, kennit.  Your'n be not too far.  This'n… I don't think I want to talk 'bout it.  Too much metal atwixt now an' then.\"",
         "\"\n\n[TRANSLATE:] \"",
-        "Ah.  Home.  That's a long time gone, you know?  Yours isn't too different.  I… don't think I want to talk about it.  I've changed too much between then and now.\""
+        "Ah.  Home.  That's a long time gone, you know?  Yours isn't too different.  I… don't think I want to talk about it.  I've changed too much between then and now."
       ]
     }
   },
@@ -319,7 +319,7 @@
     "type": "talk_topic",
     "dynamic_line": {
       "concatenate": [
-        "Robot?  What assert is f'r it?  Ahold…\"  Rubik stops for a moment, as if thinking.  \"Ah, an automate?  No, this'n be flesh 'n blood as ye be, encased in a shell o' metal an' wire.  Not so much flesh as there were.  The wire is amixed an' afloat with the flesh, all as one, kennit.\"",
+        "Robot?  What assert is f'r it?  Ahold…\"  Rubik stops for a moment, as if thinking.  \"Ah, an automate?  No, this'n be flesh 'n blood as ye be, encased in a shell o' metal an' wire.  Not so much flesh as there were.  The wire is amixed an' afloat with the flesh, all as one, kennit.",
         "\"\n\n[TRANSLATE:] \"",
         "Robot?  What does that word mean?  Hang on.  …Ah, an automate?  No, I'm as flesh and blood as you are, encased in a shell of metal and wire.  Not as much flesh as there used to be.  The wire is mixed and woven into the flesh, all as one, you see."
       ]
@@ -409,7 +409,7 @@
       "concatenate": [
         "*sounds thoughtful.  \"This'n can't make a call o' the quarter.  The stompers be a king's necklace, and the manufactory don't run on dreams.  Mayhap when us'n be more on the solid, but for the tick and tumble, no.\"",
         "\"\n\n[TRANSLATE:] \"",
-        "I don't know about that.  Each one we make is very important to our operations here, and they're extremely expensive.  I might be able to sell you one later, but not right now.\""
+        "I don't know about that.  Each one we make is very important to our operations here, and they're extremely expensive.  I might be able to sell you one later, but not right now."
       ]
     }
   },
@@ -572,9 +572,9 @@
     "type": "talk_topic",
     "dynamic_line": {
       "concatenate": [
-        "*seems to become wistful for a moment.  \"Harks this'n yonder, right so.  'Tis a bit o' t'ol' King's Landing right there, kennit, yarkin' from back when Rubik were nigh smaller than a kelpie.  It…\"  Rubik's gravelly voice falters.  \"Ah, 'tis mightily tassed to hearken back yonder.  Mayhap another time.",
+        "*seems to become wistful for a moment.  \"Harks this'n yonder, right so.  'Tis a bit o' t'ol' King's Landing right there, kennit, yarkin' from back when Rubik were nigh smaller than a kelpie.  It…\"  Rubik's gravelly voice falters.  \"Ah, 'tis mightily tassed to hearken back yonder.  Mayhap another time.\"",
         "\"\n\n[TRANSLATE:] \"",
-        "That takes me way back.  That's a bit of the old King's Landing right there, you know, calling back from when I was just little.  It… ah, it's really hard for me to think about those old days.  Maybe another time.\""
+        "That takes me way back.  That's a bit of the old King's Landing right there, you know, calling back from when I was just little.  It… ah, it's really hard for me to think about those old days.  Maybe another time."
       ]
     }
   },

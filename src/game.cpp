@@ -6000,7 +6000,7 @@ void game::control_vehicle()
                     return;
                 }
             } else {
-                add_msg( _( "No vehicle there." ) );
+                add_msg( _( "There's no vehicle there." ) );
                 return;
             }
         }

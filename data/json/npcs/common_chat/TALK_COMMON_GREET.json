@@ -21,14 +21,14 @@
     "type": "talk_topic",
     "responses": [
       {
-        "text": "Put away weapon.",
+        "text": "[Put away weapon.]",
         "topic": "TALK_STRANGER_NEUTRAL",
         "effect": "player_weapon_away",
         "opinion": { "trust": 2, "fear": -2 },
         "condition": "u_can_stow_weapon"
       },
       {
-        "text": "Drop weapon.",
+        "text": "[Drop weapon.]",
         "topic": "TALK_STRANGER_NEUTRAL",
         "effect": "player_weapon_drop",
         "opinion": { "trust": 4, "fear": -3 },
@@ -98,7 +98,7 @@
     "dynamic_line": { "u_has_weapon": "<drop_it>", "no": "This is my territory, <name_b>." },
     "responses": [
       {
-        "text": "Drop weapon.",
+        "text": "[Drop weapon.]",
         "topic": "TALK_DEMAND_LEAVE",
         "condition": "u_can_drop_weapon",
         "effect": "player_weapon_drop"
@@ -151,13 +151,13 @@
         "failure": { "topic": "TALK_DONE", "effect": "hostile" }
       },
       {
-        "text": "Drop weapon.",
+        "text": "[Drop weapon.]",
         "topic": "TALK_MUG",
         "condition": "u_can_drop_weapon",
         "effect": "player_weapon_drop"
       },
       {
-        "text": "Put hands up.",
+        "text": "[Put hands up.]",
         "topic": "TALK_DONE",
         "condition": { "not": "u_has_weapon" },
         "effect": "start_mugging"
@@ -170,7 +170,7 @@
     "dynamic_line": { "npc_male": "*drops his weapon.", "no": "*drops her weapon." },
     "responses": [
       {
-        "text": "Now get out of here",
+        "text": "Now get out of here.",
         "topic": "TALK_DONE",
         "effect": "flee",
         "opinion": { "trust": -1, "fear": -2, "anger": -2 }
