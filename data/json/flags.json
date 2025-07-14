@@ -2500,6 +2500,11 @@
     "info": "You can ascend straight up even with no physical surface to climb on."
   },
   {
+    "id": "HERITAGE",
+    "type": "json_flag",
+    "info": "You have nonhuman ancestry or are not human"
+  },
+  {
     "id": "TREE_COMMUNION_PLUS",
     "type": "json_flag",
     "info": "You gain greatly enhanced effects from the Mycorrhizal Communion mutation"

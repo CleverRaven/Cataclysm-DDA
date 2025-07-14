@@ -208,7 +208,7 @@
       { "condition": "ALWAYS", "ench_effects": [ { "effect": "effect_lilin_vampire_immune", "intensity": 1 } ] }
     ],
     "//": "Dhampirs not getting Cannibal is deliberate.  The struggle over their own humanity is a core part of the dhampir theme.",
-    "flags": [ "HEMOVORE" ],
+    "flags": [ "HEMOVORE", "HERITAGE" ],
     "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ]
   },
   {
