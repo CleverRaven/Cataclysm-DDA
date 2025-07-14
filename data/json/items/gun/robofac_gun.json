@@ -656,7 +656,7 @@
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
     "name": { "str": "HWP 40-round .22lr magazine" },
-    "description": "A high-capacity 40-round box magazine for use with the Hub 01 Hybrid Weapons Platform. looks just like the 5.56 mag.",
+    "description": "A high-capacity 40-round box magazine for use with the Hub 01 Hybrid Weapons Platform. Looks just like the 5.56 mag.",
     "weight": "265 g",
     "volume": "390 ml",
     "longest_side": "236 mm",
