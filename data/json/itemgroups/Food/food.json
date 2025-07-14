@@ -140,7 +140,7 @@
       { "item": "spread_peanutbutter", "charges": [ 1, -1 ], "prob": 10 },
       { "item": "marshmallow_fluff", "charges": [ 1, -1 ], "prob": 10 },
       { "item": "honey_bottled", "charges": [ 1, -1 ], "prob": 35 },
-      { "prob": 35, "item": "honey_glassed", "charges": [ 1, -1 ] },
+      { "prob": 35, "item": "honey_glassed", "count": [ 1, -1 ] },
       { "prob": 15, "group": "oyster_crackers_plastic_bag_vac_8" },
       { "group": "instant_gravy", "prob": 10 }
     ]
@@ -388,7 +388,7 @@
       { "item": "cooking_oil", "charges": [ 1, -1 ], "prob": 40 },
       { "item": "cooking_oil2", "charges": [ 1, -1 ], "prob": 40 },
       { "item": "honey_bottled", "charges": [ 1, -1 ], "prob": 15 },
-      { "prob": 5, "item": "honey_glassed", "charges": [ 1, -1 ] },
+      { "prob": 5, "item": "honey_glassed", "count": [ 1, -1 ] },
       { "item": "jar_glass_sealed", "prob": 20 },
       { "item": "jar_3l_glass_sealed", "prob": 30 },
       { "item": "vinegar", "charges": [ 1, -1 ], "prob": 15 }
@@ -1005,9 +1005,9 @@
     "entries": [
       { "group": "honey_mustard_sealed_rng", "prob": 15 },
       { "item": "honey_bottled", "charges": -1, "prob": 20 },
-      { "item": "honey_glassed", "charges": -1, "prob": 20 },
+      { "item": "honey_glassed", "count": -1, "prob": 20 },
       { "item": "honeycomb", "count": [ 2, 4 ], "prob": 10 },
-      { "item": "honey_glassed", "charges": -1, "prob": 10 }
+      { "item": "honey_glassed", "count": -1, "prob": 10 }
     ]
   },
   {

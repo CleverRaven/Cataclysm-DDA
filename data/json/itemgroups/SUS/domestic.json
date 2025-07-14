@@ -618,7 +618,7 @@
       },
       {
         "distribution": [
-          { "item": "honey_glassed", "charges": [ 1, -1 ], "prob": 20 },
+          { "item": "honey_glassed", "count": [ 1, -1 ], "prob": 20 },
           { "item": "honey_bottled", "charges": [ 1, -1 ], "prob": 80 }
         ],
         "prob": 60
