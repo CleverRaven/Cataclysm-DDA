@@ -651,9 +651,9 @@
     "subtype": "distribution",
     "entries": [
       { "prob": 50, "group": "oatmeal_box_small_4" },
-      { "prob": 25, "group": "cereal_box_small_4" },
-      { "prob": 55, "group": "cereal2_box_small_4" },
-      { "prob": 55, "group": "cereal3_box_small_4" },
+      { "prob": 25, "group": "box_cereal" },
+      { "prob": 55, "group": "box_cereal2" },
+      { "prob": 55, "group": "box_cereal3" },
       { "prob": 50, "group": "cereal_fp1_box_small_6" },
       { "prob": 50, "group": "cereal_fp2_box_small_6" },
       { "prob": 50, "group": "cereal_fp3_box_small_6" },
@@ -1499,6 +1499,27 @@
     "id": "milk_full_gallon",
     "subtype": "distribution",
     "entries": [ { "item": "milk", "container-item": "jug_plastic" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "box_cereal",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "cereal", "container-item": "null", "count": -1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "box_cereal2",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "cereal2", "container-item": "null", "count": -1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "box_cereal3",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "cereal3", "container-item": "null", "count": -1 } ]
   },
   {
     "type": "item_group",

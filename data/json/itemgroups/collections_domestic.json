@@ -674,9 +674,7 @@
       { "group": "snacks", "prob": 370 },
       { "item": "aluminum_foil", "prob": 25 },
       { "item": "rolling_pin", "prob": 25 },
-      { "prob": 50, "group": "cereal_box_small_4" },
-      { "prob": 60, "group": "cereal2_box_small_4" },
-      { "prob": 45, "group": "cereal3_box_small_4" },
+      { "prob": 60, "group": "box_cereal_any_opened" },
       { "group": "kitchen_appliances", "prob": 253 },
       { "item": "apron_cotton", "prob": 25 },
       { "item": "waist_apron_long", "prob": 7 },
@@ -1528,27 +1526,30 @@
   },
   {
     "type": "item_group",
-    "id": "cereal_box_small_4",
+    "id": "box_cereal_opened",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "box_small",
-    "entries": [ { "item": "cereal", "container-item": "null", "count": 4 } ]
+    "entries": [ { "item": "cereal", "container-item": "null", "count": [ 4, -1 ] } ]
   },
   {
     "type": "item_group",
-    "id": "cereal2_box_small_4",
+    "id": "box_cereal2_opened",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "box_small",
-    "entries": [ { "item": "cereal2", "container-item": "null", "count": 4 } ]
+    "entries": [ { "item": "cereal2", "container-item": "null", "count": [ 4, -1 ] } ]
   },
   {
     "type": "item_group",
-    "id": "cereal3_box_small_4",
+    "id": "box_cereal3_opened",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "box_small",
-    "entries": [ { "item": "cereal3", "container-item": "null", "count": 4 } ]
+    "entries": [ { "item": "cereal3", "container-item": "null", "count": [ 4, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "box_cereal_any_opened",
+    "subtype": "distribution",
+    "entries": [ { "group": "box_cereal_opened" }, { "group": "box_cereal2_opened" }, { "group": "box_cereal3_opened" } ]
   },
   {
     "type": "item_group",
