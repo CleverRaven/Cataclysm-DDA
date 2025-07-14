@@ -699,6 +699,16 @@
     "entries": [ { "item": "macaroni_raw", "container-item": "null", "count": 8 } ]
   },
   {
+    "type": "item_group",
+    "id": "box_macncheese",
+    "subtype": "collection",
+    "container-item": "box_snack",
+    "entries": [
+      { "item": "macaroni_raw", "container-item": "null", "count": 6 },
+      { "item": "cheese_powder", "container-item": "null", "count": 6 }
+    ]
+  },
+  {
     "id": "groce_ingredient",
     "type": "item_group",
     "subtype": "distribution",
