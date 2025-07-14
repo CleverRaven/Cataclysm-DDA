@@ -307,7 +307,7 @@
     "price_postapoc": "75 cent",
     "material": [ "fruit" ],
     "sealed": true,
-    "volume": "250 ml",
+    "volume": "125 ml",
     "phase": "liquid",
     "charges": 8,
     "fun": 10,

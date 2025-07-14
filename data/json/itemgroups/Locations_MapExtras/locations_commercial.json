@@ -154,6 +154,8 @@
       [ "can_pineapple", 20 ],
       [ "can_tuna", 20 ],
       [ "can_cheese", 20 ],
+      { "group": "peanutbutter_jar_sealed", "prob": 20 },
+      { "group": "jam_fruit_jar_sealed", "prob": 20 },
       [ "dry_rice", 20 ],
       [ "dry_beans", 20 ],
       [ "dry_lentils", 50 ],
