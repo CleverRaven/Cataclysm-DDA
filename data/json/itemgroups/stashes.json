@@ -262,6 +262,7 @@
     "entries": [
       { "item": "freeze_dried_meal", "count": 4 },
       { "group": "MRE", "count": 1 },
+      { "group": "peanuts_ziploc", "count": 2 },
       { "group": "jerky_ziploc", "count": 2 },
       { "group": "pemmican_ziploc", "count": 2 },
       { "group": "canned_staples_1l" },
@@ -478,6 +479,13 @@
       { "group": "can_spam_can_medium_6", "count": 2 },
       { "item": "can_tuna", "count": 4 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "peanuts_ziploc",
+    "subtype": "collection",
+    "container-item": "bag_zipper",
+    "entries": [ { "item": "peanut_shelled", "container-item": "null", "count": -1 } ]
   },
   {
     "type": "item_group",
