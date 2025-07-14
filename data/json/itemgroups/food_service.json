@@ -1039,9 +1039,9 @@
       { "prob": 15, "group": "chilly-p_various" },
       { "prob": 15, "group": "curry_powder_various" },
       { "prob": 15, "item": "cheese_powder", "count": -1 },
-      [ "spaghetti_raw", 20 ],
-      [ "lasagne_raw", 20 ],
-      [ "macaroni_raw", 20 ],
+      { "item": "macaroni_raw", "count": [ 4, -1 ], "container-item": "bag_plastic", "prob": 20 },
+      { "item": "spaghetti_raw", "count": [ 4, -1 ], "container-item": "bag_plastic", "prob": 20 },
+      { "item": "lasagne_raw", "count": [ 4, -1 ], "prob": 20 },
       [ "foodplace_food", 5 ],
       { "item": "knife_huge", "variant": "knife_butcher", "prob": 10 }
     ]
