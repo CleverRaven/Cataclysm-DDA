@@ -348,7 +348,8 @@
       { "item": "cell_phone", "prob": 10, "charges": [ 0, 150 ] },
       [ "file", 40 ],
       [ "mag_mechanics", 20 ],
-      [ "manual_mechanics", 10 ]
+      [ "manual_mechanics", 10 ],
+      [ "manual_driving", 10 ]
     ]
   },
   {
@@ -2010,6 +2011,7 @@
       [ "baseball", 20 ],
       [ "shuttlecock", 5 ],
       [ "manual_mechanics", 35 ],
+      [ "manual_driving", 5 ],
       [ "manual_speech", 50 ],
       [ "manual_business", 40 ],
       [ "manual_first_aid", 40 ],
@@ -2167,6 +2169,7 @@
       [ "fun_survival", 5 ],
       [ "howto_traps", 10 ],
       [ "decoy_anarch", 8 ],
+      [ "manual_driving", 5 ],
       [ "recipe_augs", 8 ],
       { "prob": 85, "group": "bottle_otc_painkiller_1_20" },
       [ "junk_burrito", 25 ],
@@ -2227,6 +2230,7 @@
       { "item": "fun_survival", "prob": 10 },
       { "item": "recipe_augs", "prob": 1 },
       { "item": "decoy_anarch", "prob": 10 },
+      { "item": "manual_driving", "prob": 5 },
       { "prob": 85, "group": "bottle_otc_painkiller_1_20" },
       { "prob": 30, "group": "maltballs_box_snack_4" },
       { "group": "cigar_box_opened", "prob": 20 },
