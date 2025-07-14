@@ -1220,7 +1220,7 @@
   {
     "id": "SKIP_HEALTH",
     "type": "json_flag",
-    "//": "Skip modification of health stats."
+    "//": "If food gives any health bonus or penalty, having this flag would prevent you from receiving such."
   },
   {
     "id": "HIDDEN_HALLU",
