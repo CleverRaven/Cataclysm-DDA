@@ -129,7 +129,7 @@
     "subtype": "distribution",
     "items": [
       { "item": "honey_bottled", "prob": 20 },
-      { "prob": 20, "group": "honey_glassed_jar_glass_sealed_5" },
+      { "prob": 20, "item": "honey_glassed", "charges": -1 },
       { "item": "con_milk", "prob": 10 },
       { "prob": 20, "group": "bee_balm_jar_3l_glass_sealed_1_12" },
       { "item": "jar_3l_glass_sealed", "prob": 40, "contents-group": "teashop_bulk_teas_no_stackable" },
@@ -219,15 +219,15 @@
     "entries": [
       { "item": "water_clean", "prob": 50 },
       { "item": "water_mineral", "prob": 20 },
-      { "item": "grenadine_syrup", "prob": 40 },
-      { "item": "syrup_simple", "prob": 60 },
-      { "item": "oj", "prob": 40 },
-      { "item": "pineapple_juice", "prob": 35 },
-      { "item": "juice", "prob": 35 },
-      { "item": "tomato_juice", "prob": 25 },
-      { "item": "cranberry_juice", "prob": 35 },
+      { "item": "grenadine_syrup", "charges": [ 2, -1 ], "prob": 40 },
+      { "item": "syrup_simple", "charges": [ 2, -1 ], "prob": 60 },
+      { "item": "oj", "charges": [ 2, -1 ], "prob": 40 },
+      { "item": "pineapple_juice", "charges": [ 2, -1 ], "prob": 35 },
+      { "item": "juice", "charges": [ 2, -1 ], "prob": 35 },
+      { "item": "tomato_juice", "charges": [ 2, -1 ], "prob": 25 },
+      { "item": "cranberry_juice", "charges": [ 2, -1 ], "prob": 35 },
       { "group": "softdrinks_canned", "prob": 95 },
-      { "item": "V8", "prob": 15 },
+      { "item": "V8", "charges": [ 2, -1 ], "prob": 15 },
       { "item": "fries", "prob": 7 },
       { "item": "cheese_fries", "prob": 5 },
       { "item": "onion_rings", "prob": 7 },
@@ -317,12 +317,20 @@
   {
     "id": "pizza_beer",
     "type": "item_group",
-    "items": [ { "group": "beer", "prob": 10 }, [ "wine_chardonnay", 1 ], [ "wine_cabernet", 1 ] ]
+    "items": [
+      { "group": "beer", "prob": 10 },
+      { "item": "wine_chardonnay", "charges": -1, "prob": 1 },
+      { "item": "wine_cabernet", "charges": -1, "prob": 1 }
+    ]
   },
   {
     "id": "pizza_soda",
     "type": "item_group",
-    "items": [ { "group": "softdrinks_canned", "prob": 70 }, [ "energy_drink", 5 ], [ "lemonade", 8 ] ]
+    "items": [
+      { "group": "softdrinks_canned", "prob": 70 },
+      [ "energy_drink", 5 ],
+      { "item": "lemonade", "charges": -1, "prob": 8 }
+    ]
   },
   {
     "id": "pizza_table",
@@ -400,8 +408,8 @@
     "entries": [
       { "item": "bag_plastic", "prob": 25 },
       { "item": "box_small", "prob": 30 },
-      { "item": "honey_bottled", "prob": 10 },
-      { "prob": 10, "group": "honey_glassed_jar_glass_sealed_5" },
+      { "item": "honey_bottled", "charges": -1, "prob": 10 },
+      { "prob": 10, "item": "honey_glassed", "charges": -1 },
       { "item": "milk", "prob": 10 },
       { "prob": 65, "group": "milk_powder_various" },
       { "prob": 15, "group": "salt_various" },
@@ -449,7 +457,7 @@
       { "item": "atomic_coffeepot", "prob": 1 },
       { "item": "bottle_glass", "prob": 15 },
       { "prob": 25, "group": "coffee_raw_bag_plastic_20" },
-      { "item": "coffee_syrup", "prob": 25 },
+      { "item": "coffee_syrup", "charges": [ 1, -1 ], "prob": 25 },
       { "item": "cup_plastic", "prob": 35 },
       { "item": "jug_plastic", "prob": 15 }
     ]
@@ -488,7 +496,7 @@
       { "item": "broom", "prob": 8 },
       { "item": "bleach", "prob": 8, "charges": [ 1, -1 ] },
       { "item": "hotplate", "prob": 1 },
-      { "item": "vinegar", "prob": 3 }
+      { "item": "vinegar", "charges": [ 1, -1 ], "prob": 3 }
     ]
   },
   {
@@ -597,7 +605,7 @@
       { "item": "detergent", "prob": 30, "charges": [ 1, 20 ] },
       { "item": "cotton_patchwork", "prob": 30 },
       { "item": "bleach", "prob": 30, "charges": [ 1, -1 ] },
-      { "item": "vinegar", "prob": 30 },
+      { "item": "vinegar", "prob": 30, "charges": [ 1, -1 ] },
       { "item": "backpack", "prob": 5 }
     ]
   },
@@ -729,41 +737,41 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "lemonade", "prob": 30 },
-      { "item": "sports_drink", "prob": 40 },
+      { "item": "lemonade", "charges": -1, "prob": 30 },
+      { "item": "sports_drink", "charges": -1, "prob": 40 },
       { "item": "energy_drink", "prob": 40 },
       { "item": "energy_drink_atomic", "prob": 5 },
       { "group": "softdrinks_canned", "prob": 290 },
       { "item": "spezi", "prob": 10 },
-      { "item": "cola", "prob": 30, "container-item": "bottle_plastic", "sealed": false },
-      { "item": "creamsoda", "prob": 20, "container-item": "bottle_plastic", "sealed": false },
-      { "item": "lemonlime", "prob": 20, "container-item": "bottle_plastic", "sealed": false },
-      { "item": "orangesoda", "prob": 15, "container-item": "bottle_plastic", "sealed": false },
-      { "item": "colamdew", "prob": 10, "container-item": "bottle_plastic", "sealed": false },
-      { "item": "zerocola", "prob": 10, "container-item": "bottle_plastic", "sealed": false },
-      { "item": "zeroorange", "prob": 10, "container-item": "bottle_plastic", "sealed": false },
-      { "item": "zerotropical", "prob": 10, "container-item": "bottle_plastic", "sealed": false },
-      { "item": "zeromdew", "prob": 10, "container-item": "bottle_plastic", "sealed": false },
-      { "item": "foodplace_zero_drink", "prob": 3, "container-item": "bottle_plastic", "sealed": false },
-      { "item": "rootbeer", "prob": 20, "container-item": "bottle_plastic", "sealed": false },
-      { "item": "tonic_water", "prob": 5, "container-item": "bottle_plastic", "sealed": false },
-      { "item": "sparkling", "prob": 7, "container-item": "bottle_plastic", "sealed": false },
-      { "item": "sparkling_peach", "prob": 7, "container-item": "bottle_plastic", "sealed": false },
-      { "item": "sparkling_pomegranate", "prob": 7, "container-item": "bottle_plastic", "sealed": false },
-      { "item": "cola", "prob": 20, "container-item": "bottle_twoliter" },
-      { "item": "creamsoda", "prob": 10, "container-item": "bottle_twoliter" },
-      { "item": "lemonlime", "prob": 15, "container-item": "bottle_twoliter" },
-      { "item": "orangesoda", "prob": 15, "container-item": "bottle_twoliter" },
-      { "item": "colamdew", "prob": 10, "container-item": "bottle_twoliter" },
-      { "item": "zerocola", "prob": 10, "container-item": "bottle_twoliter" },
-      { "item": "zeroorange", "prob": 10, "container-item": "bottle_twoliter" },
-      { "item": "zerotropical", "prob": 10, "container-item": "bottle_twoliter" },
-      { "item": "zeromdew", "prob": 10, "container-item": "bottle_twoliter" },
-      { "item": "sparkling", "prob": 7, "container-item": "bottle_twoliter" },
-      { "item": "sparkling_peach", "prob": 7, "container-item": "bottle_twoliter" },
-      { "item": "sparkling_pomegranate", "prob": 7, "container-item": "bottle_twoliter" },
-      { "item": "tonic_water", "prob": 2, "container-item": "bottle_twoliter" },
-      { "item": "rootbeer", "prob": 15, "container-item": "bottle_twoliter" }
+      { "item": "cola", "prob": 30, "container-item": "bottle_plastic", "charges": -1 },
+      { "item": "creamsoda", "prob": 20, "container-item": "bottle_plastic", "charges": -1 },
+      { "item": "lemonlime", "prob": 20, "container-item": "bottle_plastic", "charges": -1 },
+      { "item": "orangesoda", "prob": 15, "container-item": "bottle_plastic", "charges": -1 },
+      { "item": "colamdew", "prob": 10, "container-item": "bottle_plastic", "charges": -1 },
+      { "item": "zerocola", "prob": 10, "container-item": "bottle_plastic", "charges": -1 },
+      { "item": "zeroorange", "prob": 10, "container-item": "bottle_plastic", "charges": -1 },
+      { "item": "zerotropical", "prob": 10, "container-item": "bottle_plastic", "charges": -1 },
+      { "item": "zeromdew", "prob": 10, "container-item": "bottle_plastic", "charges": -1 },
+      { "item": "foodplace_zero_drink", "prob": 3, "container-item": "bottle_plastic", "charges": -1 },
+      { "item": "rootbeer", "prob": 20, "container-item": "bottle_plastic", "charges": -1 },
+      { "item": "tonic_water", "prob": 5, "container-item": "bottle_plastic", "charges": -1 },
+      { "item": "sparkling", "prob": 7, "container-item": "bottle_plastic", "charges": -1 },
+      { "item": "sparkling_peach", "prob": 7, "container-item": "bottle_plastic", "charges": -1 },
+      { "item": "sparkling_pomegranate", "prob": 7, "container-item": "bottle_plastic", "charges": -1 },
+      { "item": "cola", "prob": 20, "container-item": "bottle_twoliter", "charges": -1 },
+      { "item": "creamsoda", "prob": 10, "container-item": "bottle_twoliter", "charges": -1 },
+      { "item": "lemonlime", "prob": 15, "container-item": "bottle_twoliter", "charges": -1 },
+      { "item": "orangesoda", "prob": 15, "container-item": "bottle_twoliter", "charges": -1 },
+      { "item": "colamdew", "prob": 10, "container-item": "bottle_twoliter", "charges": -1 },
+      { "item": "zerocola", "prob": 10, "container-item": "bottle_twoliter", "charges": -1 },
+      { "item": "zeroorange", "prob": 10, "container-item": "bottle_twoliter", "charges": -1 },
+      { "item": "zerotropical", "prob": 10, "container-item": "bottle_twoliter", "charges": -1 },
+      { "item": "zeromdew", "prob": 10, "container-item": "bottle_twoliter", "charges": -1 },
+      { "item": "sparkling", "prob": 7, "container-item": "bottle_twoliter", "charges": -1 },
+      { "item": "sparkling_peach", "prob": 7, "container-item": "bottle_twoliter", "charges": -1 },
+      { "item": "sparkling_pomegranate", "prob": 7, "container-item": "bottle_twoliter", "charges": -1 },
+      { "item": "tonic_water", "prob": 2, "container-item": "bottle_twoliter", "charges": -1 },
+      { "item": "rootbeer", "prob": 15, "container-item": "bottle_twoliter", "charges": -1 }
     ]
   },
   {
@@ -780,7 +788,7 @@
       { "item": "horseradish", "prob": 10 },
       { "prob": 20, "group": "sprinkles_bottle_plastic_small_62" },
       { "item": "honey_bottled", "prob": 35 },
-      { "prob": 35, "group": "honey_glassed_jar_glass_sealed_5" },
+      { "prob": 35, "item": "honey_glassed", "charges": -1 },
       { "group": "peanutbutter_jar_sealed", "prob": 60 },
       { "group": "jam_fruit_jar_sealed", "prob": 60 },
       { "item": "marshmallow_fluff", "prob": 35 },
@@ -1221,15 +1229,15 @@
     "subtype": "distribution",
     "items": [
       [ "keg", 100 ],
-      { "item": "beer", "prob": 40, "container-item": "keg" },
-      { "item": "drink_hard_seltzer", "prob": 40, "container-item": "keg" },
-      { "item": "belgian_ale", "prob": 30, "container-item": "keg" },
-      { "item": "european_pilsner", "prob": 20, "container-item": "keg" },
-      { "item": "wine_barley", "prob": 17, "container-item": "keg" },
-      { "item": "india_pale_ale", "prob": 20, "container-item": "keg" },
-      { "item": "pale_ale", "prob": 20, "container-item": "keg" },
-      { "item": "stout", "prob": 10, "container-item": "keg" },
-      { "item": "imperial_stout", "prob": 5, "container-item": "keg" }
+      { "item": "beer", "prob": 40, "container-item": "keg", "charges": -1 },
+      { "item": "drink_hard_seltzer", "prob": 40, "container-item": "keg", "charges": -1 },
+      { "item": "belgian_ale", "prob": 30, "container-item": "keg", "charges": -1 },
+      { "item": "european_pilsner", "prob": 20, "container-item": "keg", "charges": -1 },
+      { "item": "wine_barley", "prob": 17, "container-item": "keg", "charges": -1 },
+      { "item": "india_pale_ale", "prob": 20, "container-item": "keg", "charges": -1 },
+      { "item": "pale_ale", "prob": 20, "container-item": "keg", "charges": -1 },
+      { "item": "stout", "prob": 10, "container-item": "keg", "charges": -1 },
+      { "item": "imperial_stout", "prob": 5, "container-item": "keg", "charges": -1 }
     ]
   },
   {
@@ -1566,14 +1574,6 @@
     "//": "100 g of tea",
     "container-item": "bag_plastic_small",
     "entries": [ { "item": "tea_green_raw", "container-item": "null", "count": [ 2, 33 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "honey_glassed_jar_glass_sealed_5",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "jar_glass_sealed",
-    "entries": [ { "item": "honey_glassed", "container-item": "null", "count": 5 } ]
   },
   {
     "type": "item_group",
