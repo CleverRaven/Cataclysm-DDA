@@ -22,7 +22,6 @@
 #include "item_location.h"
 #include "itype.h"
 #include "magic.h"
-#include "make_static.h"
 #include "map.h"
 #include "npc.h"
 #include "pimpl.h"
@@ -36,6 +35,8 @@
 #include "stomach.h"
 #include "type_id.h"
 #include "value_ptr.h"
+
+static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 
 static const itype_id itype_debug_backpack( "debug_backpack" );
 static const itype_id itype_debug_nutrition( "debug_nutrition" );
@@ -285,7 +286,7 @@ void give_and_activate_bionic( Character &you, bionic_id const &bioid )
     REQUIRE( bio.id == bioid );
 
     // turn on if possible
-    if( bio.id->has_flag( STATIC( json_character_flag( "BIONIC_TOGGLED" ) ) ) && !bio.powered ) {
+    if( bio.id->has_flag( json_flag_BIONIC_TOGGLED ) && !bio.powered ) {
         const std::vector<material_id> fuel_opts = bio.info().fuel_opts;
         if( !fuel_opts.empty() ) {
             you.set_value( fuel_opts.front().str(), "2" );
