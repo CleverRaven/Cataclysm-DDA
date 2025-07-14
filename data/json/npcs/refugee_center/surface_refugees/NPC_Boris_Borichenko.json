@@ -235,7 +235,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_3",
     "//": "This option is Boris' start point after you've finished his first mission and got to know him a bit.",
-    "dynamic_line": "*forces a bit of a smile through his bushy beard, though it doesn't reach his eyes.  \"It is good to see you too.  I would not say things are looking 'up' yet, but they are not so much looking down perhaps.  I am keeping a bit busier.",
+    "dynamic_line": "*forces a bit of a smile through his bushy beard, though it doesn't reach his eyes.  \"It is good to see you too.  I would not say things are looking 'up' yet, but they are not so much looking down perhaps.  I am keeping a bit busier.\"",
     "responses": [
       { "text": "Want to talk about it a little?", "topic": "TALK_REFUGEE_Boris_Son" },
       { "text": "<end_talking_leave>", "topic": "TALK_DONE" }

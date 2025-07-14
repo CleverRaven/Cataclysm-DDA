@@ -146,7 +146,7 @@
   {
     "type": "talk_topic",
     "id": "LIXA_personal_success_1",
-    "dynamic_line": "&<LIXA_personal_snip_1>",
+    "dynamic_line": { "//~": "NO_I18N", "str": "&<LIXA_personal_snip_1>" },
     "responses": [
       {
         "text": "Attempt to open a file.",
@@ -160,7 +160,7 @@
   {
     "type": "talk_topic",
     "id": "LIXA_personal_success_2",
-    "dynamic_line": "&<LIXA_personal_snip_2>",
+    "dynamic_line": { "//~": "NO_I18N", "str": "&<LIXA_personal_snip_2>" },
     "responses": [
       {
         "text": "Attempt to open a file.",
@@ -174,7 +174,7 @@
   {
     "type": "talk_topic",
     "id": "LIXA_personal_success_3",
-    "dynamic_line": "&<LIXA_personal_snip_3>",
+    "dynamic_line": { "//~": "NO_I18N", "str": "&<LIXA_personal_snip_3>" },
     "responses": [
       {
         "text": "Attempt to open a file.",
@@ -188,7 +188,7 @@
   {
     "type": "talk_topic",
     "id": "LIXA_personal_success_4",
-    "dynamic_line": "&<LIXA_personal_snip_4>",
+    "dynamic_line": { "//~": "NO_I18N", "str": "&<LIXA_personal_snip_4>" },
     "responses": [
       {
         "text": "Attempt to open a file.",
