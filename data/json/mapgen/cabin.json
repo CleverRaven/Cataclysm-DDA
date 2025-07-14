@@ -922,5 +922,40 @@
       ],
       "set": [ { "point": "trap", "id": "tr_beartrap", "x": 3, "y": 7 }, { "point": "trap", "id": "tr_shotgun_1", "x": 18, "y": 8 } ]
     }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "cabin_cellar" ],
+    "//": "Used to clear out space to allow cellars to spawn without problems.",
+    "object": {
+      "fill_ter": "t_soil",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { " ": "t_soil" }
+    }
   }
 ]
