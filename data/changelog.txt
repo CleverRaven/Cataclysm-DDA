@@ -851,6 +851,7 @@ Magiclysm - Implement Enchanted Druid Items
 Aftershock: Create cryosuit UI elements and power warnings
 Aftershock: Add a scenario where you control a functional Starship.
 Mods can have 'hard' requirements for meta progression
+[Xedra Evolved] Add Bloodthorne druids
 
 
 ## Balance:
