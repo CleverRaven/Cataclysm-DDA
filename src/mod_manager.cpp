@@ -443,39 +443,48 @@ void mod_manager::load_mods_list( WORLD *world ) const
     }
     std::vector<mod_id> &amo = world->active_mod_order;
     amo.clear();
-    bool changed = false;
     read_from_file_optional_json( get_mods_list_file( world ), [&]( const JsonArray & jsin ) {
         for( const std::string line : jsin ) {
             const mod_id mod( line );
             if( std::find( amo.begin(), amo.end(), mod ) != amo.end() ) {
                 continue;
             }
-            if( mod.is_valid() ) {
-                amo.push_back( mod );
-            } else {
-                if( const auto it = migrated_mods.find( mod ); it != migrated_mods.end() &&
-                    std::find( amo.begin(), amo.end(), it->second ) == amo.end() ) {
-                    amo.push_back( it->second );
+            amo.push_back( mod );
+        }
+    } );
+}
+
+void mod_manager::check_mods_list( WORLD *world ) const
+{
+    if( world == nullptr ) {
+        return;
+    }
+    std::vector<mod_id> &amo = world->active_mod_order;
+    bool changed = false;
+
+    for( auto check_it = amo.begin(); check_it != amo.end(); check_it++ ) {
+        if( !check_it->is_valid() ) {
+            if( const auto replace_it = migrated_mods.find( *check_it ); replace_it != migrated_mods.end() &&
+                std::find( amo.begin(), amo.end(), replace_it->second ) == amo.end() ) {
+                amo.insert( check_it, replace_it->second );
+                amo.erase( check_it );
+                changed = true;
+            } else if( const auto it = removed_mods.find( *check_it ); it != removed_mods.end() ) {
+                if( query_yn(
+                        _( "Mod %s has been removed with reason: %s\nRemove it from this world's active mods?" ),
+                        check_it->c_str(), it->second.translated() ) ) {
+                    amo.erase( check_it-- );
                     changed = true;
-                } else if( const auto it = removed_mods.find( mod ); it != removed_mods.end() ) {
-                    if( !query_yn(
-                            _( "Mod %s has been removed with reason: %s\nRemove it from this world's active mods?" ),
-                            mod.c_str(), it->second.translated() ) ) {
-                        amo.push_back( mod );
-                    } else {
-                        changed = true;
-                    }
-                } else {
-                    if( !query_yn( _( "Mod %s not found in mods folder, remove it from this world's active mods?" ),
-                                   mod.c_str() ) ) {
-                        amo.push_back( mod );
-                    } else {
-                        changed = true;
-                    }
+                }
+            } else {
+                if( query_yn( _( "Mod %s not found in mods folder, remove it from this world's active mods?" ),
+                              check_it->c_str() ) ) {
+                    amo.erase( check_it-- );
+                    changed = true;
                 }
             }
         }
-    } );
+    }
     // If we migrated or the player chose to remove a mod, overwrite the mod list.
     if( changed ) {
         save_mods_list( world );
