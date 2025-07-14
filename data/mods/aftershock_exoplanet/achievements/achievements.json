@@ -3,9 +3,9 @@
     "id": "afs_alien_dawn",
     "type": "achievement",
     "name": "Alien Dawn",
-    "description": "At night, both water and carbon dioxide freeze in the upper atmosphere, such that every dawn is accompanied by a procession of colorful haloes over the horizon.\n<color_c_dark_gray>  - Salus IV rediscovery report 02.11.2428, submitted by Cpt. Jean McAllister.",
+    "description": "At night, both water and carbon dioxide freeze in the upper atmosphere, such that every dawn is accompanied by a procession of colorful haloes over the horizon.\n<color_c_dark_gray>  - Salus IV rediscovery report 02.11.2428, submitted by Cpt.  Jean McAllister.",
     "time_constraint": { "since": "game_start", "is": ">=", "target": "1 day" },
-    "requirements": [ { "event_statistic": "num_avatar_wake_ups", "is": "anything", "description": "Wake up after a night on Salus IV" } ]
+    "requirements": [ { "event_statistic": "num_avatar_wake_ups", "is": "anything", "description": "Wake up after a night on Salus IV." } ]
   },
   {
     "id": "afs_achievement_discontinuity_weapon",
@@ -25,7 +25,7 @@
     "id": "afs_achievement_plasma_weapon",
     "type": "achievement",
     "name": { "str": "Sunfire" },
-    "description": "Now just watch this! [STATIC]\n<color_c_dark_gray>  - unattributed comms chatter from raid on UFS Golden Sunray.",
+    "description": "Now just watch this!  [STATIC]\n<color_c_dark_gray>  - unattributed comms chatter from raid on UFS Golden Sunray.",
     "requirements": [
       { "event_statistic": "num_avatar_wields_plasma_gun", "is": ">=", "target": 1, "description": "Obtain a plasma weapon" }
     ]
@@ -40,7 +40,7 @@
         "event_statistic": "num_avatar_enters_crashed_ship",
         "is": ">=",
         "target": 1,
-        "description": "Visit a crashed spaceship"
+        "description": "Visit a crashed spaceship."
       }
     ]
   },
@@ -68,7 +68,7 @@
         "event_statistic": "avatar_max_damage",
         "is": ">=",
         "target": 2500,
-        "description": "Recieve 2500 damage in a single attack and survive (optional)"
+        "description": "Recieve 2500 damage in a single attack and survive (optional)."
       }
     ]
   },
@@ -83,6 +83,21 @@
         "is": ">=",
         "target": 1,
         "description": "Cross a threshold using genetech templates."
+      }
+    ]
+  },
+  {
+    "id": "achievement_psion",
+    "type": "achievement",
+    "name": { "str": "The New Sun" },
+    "description": "There were among our men those who asked whether it was all not a dream.  How else could one explain the glimpse of things never heard of, never seen, and never even conceived of before.\n<color_c_dark_gray>  - recovered from the log of ESS Firebird.",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_gains_mutation",
+        "is": "==",
+        "target": [ "trait_id", "ESPER" ],
+        "description": "Gain psionic powers.",
+        "visible": "when_achievement_completed"
       }
     ]
   },
