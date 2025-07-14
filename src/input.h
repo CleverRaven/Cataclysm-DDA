@@ -284,6 +284,9 @@ class input_manager
 
         static keyboard_mode actual_keyboard_mode( keyboard_mode preferred_keyboard_mode );
 
+        // Checks if a category and bind are present in action_contexts and debugmsg if not
+        void check_keybind( const std::string &category, const std::string &keybind,
+                            const std::string &context ) const;
     private:
         friend class input_context;
 
