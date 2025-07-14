@@ -394,6 +394,7 @@ void worldfactory::init()
         for( auto &world_sav_file : world_sav_files ) {
             all_worlds[worldname]->world_saves.push_back( save_t::from_base_path( world_sav_file ) );
         }
+        mman->load_mods_list( all_worlds[worldname].get() );
 
         // load options into the world
         if( !all_worlds[worldname]->load_options() ) {
