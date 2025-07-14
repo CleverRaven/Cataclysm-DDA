@@ -9,7 +9,6 @@
 #include <unordered_map>
 #include <utility>
 
-#include "active_item_cache.h"
 #include "bionics.h"
 #include "character.h"
 #include "character_attire.h"
@@ -44,8 +43,8 @@ static const flag_id json_flag_PSEUDO( "PSEUDO" );
 static const flag_id json_flag_USES_BIONIC_POWER( "USES_BIONIC_POWER" );
 static const flag_id json_flag_USE_UPS( "USE_UPS" );
 
-static const itype_id itype_any( "any" );
 static const itype_id itype_UPS( "UPS" );
+static const itype_id itype_any( "any" );
 static const itype_id itype_apparatus( "apparatus" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );

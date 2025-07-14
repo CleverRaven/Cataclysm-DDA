@@ -15,7 +15,7 @@
 #include "stomach.h"
 #include "string_formatter.h"
 
-static const efftype_id( "sleep" );
+static const efftype_id effect_sleep( "sleep" );
 
 static const itype_id itype_atomic_lamp( "atomic_lamp" );
 static const itype_id itype_duffelbag( "duffelbag" );

@@ -277,9 +277,9 @@ static const efftype_id effect_winded( "winded" );
 
 static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
 
-static const flag_id json_flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
-
 static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
+
+static const flag_id json_flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
 
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id fuel_type_muscle( "muscle" );

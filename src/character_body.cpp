@@ -51,7 +51,7 @@
 
 class item;
 
-static const addiction_id addition_nicotine( "nicotine" );
+static const addiction_id addiction_nicotine( "nicotine" );
 
 static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
 
@@ -1401,7 +1401,7 @@ void Character::update_heartrate_index()
     if( get_effect_dur( effect_cig ) > 0_turns ) {
         //Nicotine-induced tachycardia
         if( get_effect_dur( effect_cig ) >
-            10_minutes * ( addiction_level( addition_nicotine ) + 1 ) ) {
+            10_minutes * ( addiction_level( addiction_nicotine ) + 1 ) ) {
             hr_nicotine_mod = 0.2f;
         } else {
             hr_nicotine_mod = 0.1f;

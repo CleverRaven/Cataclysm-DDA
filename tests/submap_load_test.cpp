@@ -42,6 +42,7 @@ static const furn_str_id furn_f_bookcase( "f_bookcase" );
 static const furn_str_id furn_f_coffin_c( "f_coffin_c" );
 static const furn_str_id furn_f_crate_o( "f_crate_o" );
 static const furn_str_id furn_f_dresser( "f_dresser" );
+static const furn_str_id furn_f_gas_tank( "f_gas_tank" );
 static const furn_str_id furn_test_f_migration_new_id( "test_f_migration_new_id" );
 
 static const itype_id itype_bat_nerf( "bat_nerf" );
@@ -1061,7 +1062,7 @@ TEST_CASE( "submap_furniture_load", "[submap][load]" )
     REQUIRE( furn_ne == furn_f_bookcase );
     REQUIRE( furn_sw == furn_f_dresser );
     REQUIRE( furn_se == furn_f_crate_o );
-    REQUIRE( furn_ra == STATIC( furn_str_id( "f_gas_tank" ) ) );
+    REQUIRE( furn_ra == furn_f_gas_tank );
 
     // Also, check we have no other furniture
     for( int x = 0; x < SEEX; ++x ) {

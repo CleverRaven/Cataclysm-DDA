@@ -77,8 +77,8 @@
 #include <unordered_map>
 #include <vector>
 
-static const flag_id json_flag_SHREDDED( "SHREDDED" );
 static const flag_id json_flag_NO_UNLOAD( "NO_UNLOAD" );
+static const flag_id json_flag_SHREDDED( "SHREDDED" );
 
 static const item_category_id item_category_BIONIC_FUEL_SOURCE( "BIONIC_FUEL_SOURCE" );
 static const item_category_id item_category_INTEGRATED( "INTEGRATED" );

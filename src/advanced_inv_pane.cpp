@@ -20,7 +20,6 @@
 #include "map_selector.h"
 #include "options.h"
 #include "pocket_type.h"
-#include "type_id.h"
 #include "uistate.h"
 #include "units.h"
 #include "vehicle.h"
