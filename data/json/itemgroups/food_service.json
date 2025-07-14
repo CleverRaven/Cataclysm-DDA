@@ -146,7 +146,7 @@
   {
     "id": "teashop_fridge",
     "type": "item_group",
-    "items": [ [ "milk", 70 ] ]
+    "items": [ { "item": "milk", "container-item": "carton_milk", "charges": [ 1, -1 ], "prob": 70 } ]
   },
   {
     "id": "teashop_kitchen_counter",
@@ -410,7 +410,7 @@
       { "item": "box_small", "prob": 30 },
       { "item": "honey_bottled", "charges": -1, "prob": 10 },
       { "prob": 10, "item": "honey_glassed", "charges": -1 },
-      { "item": "milk", "prob": 10 },
+      { "item": "milk", "container-item": "carton_milk", "charges": [ 1, -1 ], "prob": 10 },
       { "prob": 65, "group": "milk_powder_various" },
       { "prob": 15, "group": "salt_various" },
       { "prob": 70, "group": "sugar_bulk" },
@@ -718,7 +718,7 @@
       { "prob": 10, "group": "yogurt_starter_culture_bag_plastic_4" },
       { "prob": 2, "group": "koji_bag_plastic_25" },
       { "prob": 55, "group": "powder_eggs_bottle_plastic_small_16" },
-      { "item": "milk_UHT", "prob": 15 },
+      { "item": "milk_UHT", "charges": -1, "prob": 15 },
       { "item": "milk_evap", "prob": 25 },
       { "item": "con_milk", "prob": 25 },
       { "prob": 45, "group": "milk_powder_various_full" },
@@ -848,9 +848,9 @@
     "subtype": "distribution",
     "entries": [
       { "prob": 65, "group": "egg_bird_unfert_carton_egg_6_12" },
-      { "item": "milk", "prob": 80 },
-      { "item": "milk_raw", "prob": 5 },
-      { "item": "milk_raw", "prob": 5 },
+      { "item": "milk", "charges": -1, "prob": 80 },
+      { "item": "milk_raw", "charges": -1, "prob": 5 },
+      { "group": "groce_dairyfake", "prob": 40 },
       { "prob": 35, "group": "butter_wrapper_8" },
       { "item": "buttermilk", "prob": 15 },
       { "prob": 60, "group": "cheese_bag_plastic" },
@@ -860,6 +860,18 @@
       { "item": "icecream", "prob": 30 },
       { "item": "icecream_artificial", "prob": 15 },
       { "item": "sundae_cup", "prob": 30 }
+    ]
+  },
+  {
+    "id": "groce_dairyfake",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "soy_milk", "charges": -1, "prob": 60 },
+      { "item": "almond_milk", "charges": -1, "prob": 20 },
+      { "item": "hazelnut_milk", "charges": -1, "prob": 10 },
+      { "item": "oat_milk", "charges": -1, "prob": 15 },
+      { "item": "walnut_milk", "charges": -1, "prob": 5 }
     ]
   },
   {
@@ -916,7 +928,7 @@
     "items": [
       [ "water_clean", 10 ],
       [ "water_mineral", 10 ],
-      [ "milk", 20 ],
+      { "item": "milk", "charges": [ 2, -1 ], "prob": 20 },
       { "prob": 35, "group": "butter_wrapper_8_64" },
       { "item": "ghee", "prob": 5, "charges": [ 1, 64 ], "container-item": "jar_glass_sealed", "sealed": false },
       [ "yoghurt", 10 ],
@@ -965,7 +977,7 @@
     "items": [
       [ "water_clean", 10 ],
       [ "water_mineral", 10 ],
-      [ "milk", 20 ],
+      { "item": "milk", "charges": [ 2, -1 ], "prob": 20 },
       [ "egg_bird_unfert", 20 ],
       { "prob": 35, "group": "butter_wrapper_8_64" },
       { "item": "ghee", "prob": 5, "charges": [ 1, 64 ], "container-item": "jar_glass_sealed", "sealed": false },
@@ -1395,7 +1407,7 @@
     "items": [
       [ "water_clean", 10 ],
       [ "water_mineral", 10 ],
-      [ "milk", 20 ],
+      { "item": "milk", "charges": [ 2, -1 ], "prob": 20 },
       { "prob": 35, "group": "butter_wrapper_8_64" },
       { "item": "ghee", "prob": 5, "charges": [ 1, 64 ], "container-item": "jar_glass_sealed", "sealed": false },
       [ "cactus_pad", 20 ],
@@ -1528,7 +1540,7 @@
     "type": "item_group",
     "id": "milk_full_gallon",
     "subtype": "distribution",
-    "entries": [ { "item": "milk", "container-item": "jug_plastic" } ]
+    "entries": [ { "item": "milk", "charges": -1, "container-item": "jug_plastic" } ]
   },
   {
     "type": "item_group",
