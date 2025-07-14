@@ -460,30 +460,26 @@ void mod_manager::check_mods_list( WORLD *world ) const
         return;
     }
     std::vector<mod_id> &amo = world->active_mod_order;
-    std::vector<mod_id> amo_changed;
     bool changed = false;
 
-    for( const mod_id &mod : amo ) {
-        if( mod.is_valid() ) {
-            amo_changed.push_back( mod );
-        } else {
-            if( const auto it = migrated_mods.find( mod ); it != migrated_mods.end() &&
-                std::find( amo.begin(), amo.end(), it->second ) == amo.end() ) {
-                amo_changed.push_back( it->second );
+    for( auto check_it = amo.begin(); check_it != amo.end(); check_it++ ) {
+        if( !check_it->is_valid() ) {
+            if( const auto replace_it = migrated_mods.find( *check_it ); replace_it != migrated_mods.end() &&
+                std::find( amo.begin(), amo.end(), replace_it->second ) == amo.end() ) {
+                amo.insert( check_it, replace_it->second );
+                amo.erase( check_it );
                 changed = true;
-            } else if( const auto it = removed_mods.find( mod ); it != removed_mods.end() ) {
-                if( !query_yn(
+            } else if( const auto it = removed_mods.find( *check_it ); it != removed_mods.end() ) {
+                if( query_yn(
                         _( "Mod %s has been removed with reason: %s\nRemove it from this world's active mods?" ),
-                        mod.c_str(), it->second.translated() ) ) {
-                    amo_changed.push_back( mod );
-                } else {
+                        check_it->c_str(), it->second.translated() ) ) {
+                    amo.erase( check_it-- );
                     changed = true;
                 }
             } else {
-                if( !query_yn( _( "Mod %s not found in mods folder, remove it from this world's active mods?" ),
-                               mod.c_str() ) ) {
-                    amo_changed.push_back( mod );
-                } else {
+                if( query_yn( _( "Mod %s not found in mods folder, remove it from this world's active mods?" ),
+                              check_it->c_str() ) ) {
+                    amo.erase( check_it-- );
                     changed = true;
                 }
             }
@@ -491,7 +487,6 @@ void mod_manager::check_mods_list( WORLD *world ) const
     }
     // If we migrated or the player chose to remove a mod, overwrite the mod list.
     if( changed ) {
-        amo = amo_changed;
         save_mods_list( world );
     }
 }
