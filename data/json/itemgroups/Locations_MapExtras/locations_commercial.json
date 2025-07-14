@@ -148,7 +148,7 @@
       [ "soup_tomato", 25 ],
       [ "soup_chicken", 25 ],
       [ "lasagne_raw", 25 ],
-      [ "macaroni_raw", 25 ],
+      { "group": "box_macncheese", "prob": 25 },
       [ "can_beans", 20 ],
       [ "can_spam", 20 ],
       [ "can_pineapple", 20 ],

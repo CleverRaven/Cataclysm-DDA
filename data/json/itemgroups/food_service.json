@@ -674,6 +674,7 @@
       { "group": "box_spaghetti_1lb", "prob": 60 },
       { "group": "box_lasagne_1lb", "prob": 50 },
       { "group": "box_macaroni_1lb", "prob": 60 },
+      { "group": "box_macncheese", "prob": 50 },
       { "item": "noodles_fast", "count": [ 1, 4 ], "prob": 50 }
     ]
   },
@@ -1037,6 +1038,7 @@
       { "item": "knife_small", "variant": "knife_steak", "prob": 15 },
       { "prob": 15, "group": "chilly-p_various" },
       { "prob": 15, "group": "curry_powder_various" },
+      { "prob": 15, "item": "cheese_powder", "count": -1 },
       [ "spaghetti_raw", 20 ],
       [ "lasagne_raw", 20 ],
       [ "macaroni_raw", 20 ],
