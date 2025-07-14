@@ -51,7 +51,28 @@
     "type": "talk_topic",
     "dynamic_line": "&The Mercurial store is attended by a massive clerk, sleek scales adorn their massive forearms and slightly pointed ears.  They greet you with a voice that is both deep and melodious, \"Welcome to Mercurial Genetech, where we can help you unlock your potential.\"",
     "responses": [
-      { "text": "I'm looking into augments", "topic": "TALK_DONE", "effect": "start_trade" },
+      {
+        "text": "I'm looking into augments",
+        "topic": "TALK_DONE",
+        "effect": "start_trade",
+        "condition": { "not": { "u_has_any_trait": [ "ESPER_ADVANCEMENT_OKAY", "ESPER_STARTER_ADVANCEMENT_OKAY" ] } }
+      },
+      {
+        "text": "I'm looking into augments.  I know the risks.",
+        "topic": "TALK_DONE",
+        "effect": "start_trade",
+        "condition": { "math": [ "has_var(n_dialogue_gave_you_the_esper_genetech_warning)" ] }
+      },
+      {
+        "text": "I'm looking into augments.",
+        "topic": "TALK_AUGUSTMOON_GENETECH_ESPER_WARNING",
+        "condition": {
+          "and": [
+            { "u_has_any_trait": [ "ESPER_ADVANCEMENT_OKAY", "ESPER_STARTER_ADVANCEMENT_OKAY" ] },
+            { "not": { "math": [ "has_var(n_dialogue_gave_you_the_esper_genetech_warning)" ] } }
+          ]
+        }
+      },
       { "text": "How does this Genetech stuff works?", "topic": "TALK_AUGUSTMOON_GENETECH_WORKS" },
       { "text": "Maybe later.", "topic": "TALK_DONE" }
     ]
@@ -60,5 +81,17 @@
     "id": [ "TALK_AUGUSTMOON_GENETECH_WORKS" ],
     "type": "talk_topic",
     "dynamic_line": "&The clerk smiles, \"Our Genetech is a marvel of modern science, capable of rewriting your very DNA.  We offer a wide range of treatments, from the mundanely medical to the exotic.  You need only select one of our templates and visit one of our editing machines in both ends of this store.  If you ever have doubts, remember that all our treatments are reversible.\""
+  },
+  {
+    "id": [ "TALK_AUGUSTMOON_GENETECH_ESPER_WARNING" ],
+    "type": "talk_topic",
+    "dynamic_line": "&The clerk picks up a small device, \"Alright, I just need to do a preliminary scan.  If you please.\"  They gesture to your arm and you allow them to place the device against your skin.  There is a moment while the clerk watches the screen and then their eyebrows shoot up.  \"Whoa, esper heritage?  They told me to keep an eye out but I've never seen that before.  Where did I put that disclaimer they gave me…\"  The clerk turns and consults their console for a a short while before they begin reciting, \"While we can guarantee that all Mercurial Genetch products have been tested in a wide variety of conditions and on a wide variety of subjects, Hyperspace Era noetic treatments are notoriously prone to degradation when further genetic modifications are applied.  Mercurial is not responsible for any reduction of esper potential or capability that may or may not occur as a result of our Genetech treatments.  If you have any concerns about your esper potential, we urge you to consult a licensed physician with a specialty in esper families.\"  They pause.  \"And no, before you ask, there isn't one in the system.  It's up to you if you think it's worth the risk.\"",
+    "responses": [
+      {
+        "text": "Huh.  Well, I better give it some thought.",
+        "topic": "TALK_DONE",
+        "effect": { "math": [ "n_dialogue_gave_you_the_esper_genetech_warning = 1" ] }
+      }
+    ]
   }
 ]
