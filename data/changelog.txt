@@ -147,6 +147,8 @@ Allow pushing/pulling furniture directly onto and off of vehicles that can load 
 NPCs can handle liquids from crafting
 Bashed furniture and terrain produce dust fields
 Highways, JSON portion
+Highways, C++ portion
+Adds lingering fields of spores after fungal terrain is destroyed.
 
 
 ## Content:
@@ -330,6 +332,12 @@ Build sturdy wooden shutters for your windows
 Add a sunken helicopter location
 Nuclear Power Plant upgrade
 Add 3 new guns (308 Model 700, .22 Savage Rascal, .32 LWS)
+Added a new faction
+Remove pair of and pairs of wording from the boot clothing
+Add practice recipes for learning how to be a proper blacksmith
+Add snack protein bars
+Add a cheongsam dress
+Electric vehicles do not backfire
 
 
 ## Interface:
@@ -447,6 +455,7 @@ Create a terminal-like default theme for Imgui
 Add NPC faction and NPC omt location to mission entries
 Describe stat level in new character window
 Severe hypovolemic shock message now mentions saline infusion instead of transfusion
+Add minimum for `You feel thirstier than before you consumed that!` message to display
 
 
 ## Mods:
@@ -847,6 +856,14 @@ Create a loading screen for Aftershock
 [Extra Mutation Scenarios] Add start only mutation glands that gradually permanently mutate you towards a selected category
 Magiclysm - Implement Enchanted Druid Items
 Aftershock: Create cryosuit UI elements and power warnings
+[Xedra Evolved] Custom magic_type for Arvore magick
+[Xedra Evolved] Add Bloodthorne druids
+Aftershock: Add a scenario where you control a functional Starship.
+Remove all hope from no hope
+[Xedra Evolved] Massively reduce HP while in bat form (and add Echolocation)
+[Xedra Evolved] Add Bloodthorne druids part 2
+Aftershock: Port Augustmoon sells nanomaterial
+Mods can have 'hard' requirements for meta progression
 
 
 ## Balance:
@@ -947,6 +964,9 @@ Some recipes have 'hard' proficiency requirements
 Expanded spawns for some proper melee weapons
 Adjust Precise Strike melee tech so it also cant stun what other stun-causing techs cant stun.
 Adds cuvettes to analysis kit crafting recipe, increase analysis kit weight.
+spawn full bags of food
+Nerf day vision of some zombies, remove STUMBLES flag from some zombies, as well as fix some other stuff
+Add BULLETPROOF flag for monsters immune to ballistic damage, apply to Magiclysm's will o' wisps
 
 
 ## Bugfixes:
@@ -1312,6 +1332,16 @@ Fix special attacks overwriting cooldown values to zero
 Scenario still had adult hobbies applied
 Fix drawing items under fields without tiles
 Limit the range of water channels
+[MoM] Fix Phase/Farstep volume calculations
+conservation of Pickle mass and fill the jar
+Fix molotovs processing too many times
+Fix camp blueprint autocalc
+Aftershock: All cryosuits update the UI not only the Magellan.
+Making Chainsaws Disassemble-able 
+Monsters only target vehicles driven by hostiles
+highway bugfixes and improvements
+fix software crafting for mods
+Restore looks_like to Crabapple tree
 
 
 ## Performance:
@@ -1482,6 +1512,8 @@ bulk overmap testing debug tools
 Adds a vertical stack of omt scope for mapgen parameters
 Monsters can be forced to flee through an EoC
 Improve mod migration
+Pass spell_id to spell experience jmath
+Allow serializing/deserializing std::maps with tripoint keys
 
 
 ## Build:
@@ -1508,6 +1540,7 @@ Improve ccache performance with age based eviction instead of coarse size limits
 Fix CMake Linux VCPKG build
 Initial support for GNU Make for Windows
 Move Android bundle generation to manually triggered workflow
+Update version strings to 0.J to make it clear saves won't be compatible with 0.I stable when it releases
 
 
 ## I18N and A11Y:
