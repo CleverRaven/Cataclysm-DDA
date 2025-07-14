@@ -47,7 +47,8 @@
           "robofac60",
           "robofacmultimag",
           "robofac30",
-          "robofac60_123ln"
+          "robofac60_123ln",
+          "robofac40.22"
         ]
       }
     ],
@@ -294,6 +295,39 @@
     "flags": [ "CHOKE" ],
     "overwrite_min_cycle_recoil": 1250,
     "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a long barrel with \"00 CQC\" stamped into the metal and an integrated choke."
+  },
+  {
+    "id": "robofac_gun_trainer",
+    "looks_like": "retool_ar15_300blk",
+    "//": "based off attributes of a the 556 conversion",
+    "weight": "750 g",
+    "volume": "500 ml",
+    "integral_volume": "250 ml",
+    "integral_weight": "750 g",
+    "integral_longest_side": "20 cm",
+    "longest_side": "45 cm",
+    "barrel_length": "443 mm",
+    "price": "500 USD",
+    "price_postapoc": "30 USD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "green",
+    "location": "bore",
+    "mod_targets": [ "robofac_gun" ],
+    "name": { "str_sp": "HWP personnel training configuration" },
+    "mode_modifier": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "burst", 4 ] ],
+    "install_time": "1 m",
+    "ammo_modifier": [ "22" ],
+    "min_skills": [ [ "weapon", 1 ] ],
+    "handling_modifier": 2,
+    "loudness_modifier": -35,
+    "//2": "this gives similar attributes to other .22 rifles",
+    "damage_modifier": { "damage_type": "bullet", "amount": 6 },
+    "range_modifier": 20,
+    "overwrite_min_cycle_recoil": 140,
+    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a short barrel with \".22LR training conversion\" stamped into the metal and an integrated silencer."
   },
   {
     "id": "robofac_gun_shotgun_breach",
@@ -616,6 +650,24 @@
     "ammo_type": [ "123ln" ],
     "flags": [ "MAG_BULKY" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "123ln": 60 } } ]
+  },
+  {
+    "id": "robofac40.22",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
+    "name": { "str": "HWP 40-round .22lr magazine" },
+    "description": "A high-capacity 40-round box magazine for use with the Hub 01 Hybrid Weapons Platform. looks just like the 5.56 mag.",
+    "weight": "265 g",
+    "volume": "390 ml",
+    "longest_side": "236 mm",
+    "price": "85 USD",
+    "price_postapoc": "10 USD",
+    "material": [ "plastic", "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "22" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 40 } } ]
   },
   {
     "id": "robofac_gun_40mm_3rd",
