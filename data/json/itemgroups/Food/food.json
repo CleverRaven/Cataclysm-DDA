@@ -137,7 +137,7 @@
       { "item": "soysauce", "charges": [ 1, -1 ], "prob": 25 },
       { "item": "hot_sauce", "charges": [ 1, -1 ], "prob": 25 },
       { "item": "horseradish", "charges": [ 1, -1 ], "prob": 15 },
-      { "item": "spread_peanutbutter", "charges": [ 1, -1 ], "prob": 10 },
+      { "item": "spread_peanutbutter", "count": [ 1, -1 ], "prob": 10 },
       { "item": "marshmallow_fluff", "charges": [ 1, -1 ], "prob": 10 },
       { "item": "honey_bottled", "charges": [ 1, -1 ], "prob": 35 },
       { "prob": 35, "item": "honey_glassed", "count": [ 1, -1 ] },
