@@ -13,7 +13,7 @@
     "base_faction": "zombie",
     "neutral": [ "zombie" ],
     "by_mood": [ "nether", "nightmares" ],
-    "hate": [ "changeling" ]
+    "hate": [ "changeling", "thornbeast" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -28,7 +28,7 @@
     "base_faction": "changeling",
     "neutral": [ "small_animal", "fish" ],
     "by_mood": [ "nether", "nightmares", "ierde", "undine", "sylph", "salamander" ],
-    "hate": [ "zombie", "homullus" ]
+    "hate": [ "zombie", "homullus", "thornbeast" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -70,6 +70,12 @@
     "neutral": [ "small_animal", "fish" ],
     "by_mood": [ "nether", "nightmares", "homullus", "arvore", "undine", "salamander" ],
     "hate": [ "zombie", "ierde" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "thornbeast",
+    "by_mood": [ "zombie", "nether", "nightmares" ],
+    "hate": [ "arvore", "vampire" ]
   },
   {
     "type": "MONSTER_FACTION",

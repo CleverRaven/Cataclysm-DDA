@@ -166,7 +166,7 @@
   {
     "type": "talk_topic",
     "id": "BGSS_Liam_Expertise",
-    "dynamic_line": "It doesn't feel that way, but I guess so.  I don't know if I ever told you, but my dad was quite the weirdo prepper.  He built the cabin and when I was a kid we'd head out and do drills for the end of the world.  It's part of why I was kinda wacked out on apocalypse stuff when you and I first met, back when we made the plan for where to meet up and all.  He taught me archery and some survival skills but I never really took to it, partly because my ol' man was a real piece of work.\"  He stares off for a minute.  \"To be honest, though, now that we're in the middle of a real-ass apocalypse, I can see a lot of what he taught me was just crap anyway.\"",
+    "dynamic_line": "It doesn't feel that way, but I guess so.  I don't know if I ever told you, but my dad was quite the weirdo prepper.  He built the cabin and when I was a kid we'd head out and do drills for the end of the world.  It's part of why I was kinda wacked out on apocalypse stuff when you and I first met, back when we made the plan for where to meet up and all.  He taught me archery and some survival skills but I never really took to it, partly because my ol' man was a real piece of work.\"  He stares off for a minute.  \"To be honest, though, now that we're in the middle of a real-ass apocalypse, I can see a lot of what he taught me was just crap anyway.",
     "responses": [
       { "text": "What happened to your father?  You never talked about him much.", "topic": "BGSS_Liam_Father" },
       { "text": "<done_conversation_section>", "topic": "TALK_Liam_SOCIAL" },
@@ -934,8 +934,8 @@
         "&He grins.  \"I'm gonna level with you, this sounds incredibly *cool*.\"  He laughs at his own joke.  \"Seriously though, it's probably going to be a really tricky one",
         {
           "u_has_trait": "CBM_Interface",
-          "yes": ".  It'd be good to maybe try cybernetics to help us with the cold, they won't be as bulky and confining to fight in as winter gear.",
-          "no": ".  We'll need to bundle up extra toasty, that'll make fighting tough."
+          "yes": ".  It'd be good to maybe try cybernetics to help us with the cold, they won't be as bulky and confining to fight in as winter gear.\"",
+          "no": ".  We'll need to bundle up extra toasty, that'll make fighting tough.\""
         }
       ]
     },
@@ -1360,7 +1360,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_pizzaiolo_3",
-    "dynamic_line": "*shrugs.  \"My thoughts on Murder Mario haven't changed much, but he hasn't killed us yet.  I don't love the idea of just killing some other survivors for him.  Foodperson doesn't count.\"  He shudders and takes a quick breath.  \"I have a funny feeling they won't let us talk them out of there, though.",
+    "dynamic_line": "*shrugs.  \"My thoughts on Murder Mario haven't changed much, but he hasn't killed us yet.  I don't love the idea of just killing some other survivors for him.  Foodperson doesn't count.\"  He shudders and takes a quick breath.  \"I have a funny feeling they won't let us talk them out of there, though.\"",
     "responses": [ { "text": "Thanks man.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
   },
   {

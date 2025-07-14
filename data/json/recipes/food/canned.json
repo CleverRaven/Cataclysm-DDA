@@ -1279,7 +1279,7 @@
     "byproducts": [ [ "water_clean", 12 ] ],
     "container": "jar_glass_sealed",
     "time": "30 m",
-    "charges": 16,
+    "charges": 32,
     "book_learn": [ [ "manual_canning", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 80, 4 ],
@@ -1288,8 +1288,8 @@
     "//1": "waterbath canning is measured in 0.5 liter quantities, so 1u of canning_low_heat.",
     "components": [
       [ [ "water_clean", 1 ] ],
-      [ [ "sweet_fruit", 2, "LIST" ] ],
-      [ [ "sugar", 20 ] ],
+      [ [ "sweet_fruit", 4, "LIST" ] ],
+      [ [ "sugar_standard", 4, "LIST" ] ],
       [ [ "jar_glass_sealed", 1 ] ],
       [ [ "canning_acid_small", 1, "LIST" ] ]
     ]
@@ -1306,7 +1306,7 @@
     "byproducts": [ [ "water_clean", 12 ] ],
     "container": "jar_3l_glass_sealed",
     "time": "30 m",
-    "charges": 96,
+    "charges": 192,
     "book_learn": [ [ "manual_canning", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 80, 4 ],
@@ -1315,8 +1315,8 @@
     "//1": "waterbath canning is measured in 0.5 liter quantities, so 6u of canning_low_heat.",
     "components": [
       [ [ "water_clean", 6 ] ],
-      [ [ "sweet_fruit", 12, "LIST" ] ],
-      [ [ "sugar", 120 ] ],
+      [ [ "sweet_fruit", 24, "LIST" ] ],
+      [ [ "sugar_standard", 24, "LIST" ] ],
       [ [ "jar_3l_glass_sealed", 1 ] ],
       [ [ "canning_acid_large", 1, "LIST" ] ]
     ]

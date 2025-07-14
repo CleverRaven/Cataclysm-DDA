@@ -1087,11 +1087,29 @@ void overmap_lake_settings::finalize()
 
 void overmap_highway_settings::finalize()
 {
+    //finds longest special in a building collection
+    auto find_longest_special = []( const building_bin & b ) {
+        int longest_length = 0;
+        for( const auto &weighted_pair : b.get_all_buildings() ) {
+            const overmap_special_id &special = weighted_pair.obj;
+            int spec_length = special.obj().longest_side();
+            if( spec_length > longest_length ) {
+                longest_length = spec_length;
+            }
+        }
+        return longest_length;
+    };
+
     if( needs_finalize ) {
         four_way_intersections.finalize();
         three_way_intersections.finalize();
         bends.finalize();
         road_connections.finalize();
+
+        longest_bend_length = find_longest_special( bends );
+        longest_slant_length = std::max( clockwise_slant->longest_side(),
+                                         counterclockwise_slant->longest_side() );
+        HIGHWAY_MAX_DEVIANCE = ( longest_bend_length + 1 ) * 2;
     }
 }
 

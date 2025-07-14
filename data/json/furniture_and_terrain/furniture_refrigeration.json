@@ -34,14 +34,13 @@
     "required_str": 10,
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "minifridge" },
     "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "NO_SELF_CONNECT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
-    "deconstruct": { "items": [ { "item": "minifridge", "count": 1 } ] },
+    "item": "minifridge",
     "max_volume": "96 L",
     "bash": {
       "str_min": 12,
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "group": "minifridge_destroyed" } ],
       "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
@@ -58,14 +57,13 @@
     "required_str": 10,
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "glass_fridge" },
     "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "NO_SELF_CONNECT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
-    "deconstruct": { "items": [ { "item": "glass_fridge", "count": 1 } ] },
+    "item": "glass_fridge",
     "max_volume": "347 L",
     "bash": {
       "str_min": 12,
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "group": "glass_fridge_destroyed" } ],
       "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
@@ -82,14 +80,13 @@
     "required_str": 10,
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "glass_fridge_double" },
     "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "NO_SELF_CONNECT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
-    "deconstruct": { "items": [ { "item": "glass_fridge_double", "count": 1 } ] },
+    "item": "glass_fridge_double",
     "max_volume": "991 L",
     "bash": {
       "str_min": 12,
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "group": "glass_fridge_double_destroyed" } ],
       "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
@@ -106,14 +103,13 @@
     "required_str": 10,
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "heavy_duty_fridge" },
     "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "NO_SELF_CONNECT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
-    "deconstruct": { "items": [ { "item": "heavy_duty_fridge", "count": 1 } ] },
+    "item": "heavy_duty_fridge",
     "max_volume": "700 L",
     "bash": {
       "str_min": 12,
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "group": "heavy_duty_fridge_destroyed" } ],
       "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
@@ -130,14 +126,13 @@
     "required_str": 10,
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "display_fridge" },
     "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "NO_SELF_CONNECT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
-    "deconstruct": { "items": [ { "item": "display_fridge", "count": 1 } ] },
+    "item": "display_fridge",
     "max_volume": "600 L",
     "bash": {
       "str_min": 12,
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "group": "display_fridge_destroyed" } ],
       "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
@@ -154,14 +149,13 @@
     "required_str": 10,
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "minifreezer" },
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "NO_SELF_CONNECT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
-    "deconstruct": { "items": [ { "item": "minifreezer", "count": 1 } ] },
+    "item": "minifreezer",
     "max_volume": "90 L",
     "bash": {
       "str_min": 18,
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "group": "minifreezer_destroyed" } ],
       "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
@@ -178,14 +172,13 @@
     "required_str": 10,
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "chest_minifreezer" },
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "NO_SELF_CONNECT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
-    "deconstruct": { "items": [ { "item": "chest_minifreezer", "count": 1 } ] },
+    "item": "chest_minifreezer",
     "max_volume": "99 L",
     "bash": {
       "str_min": 18,
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "group": "chest_minifreezer_destroyed" } ],
       "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
@@ -202,14 +195,13 @@
     "required_str": 10,
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "chest_freezer" },
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "NO_SELF_CONNECT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
-    "deconstruct": { "items": [ { "item": "chest_freezer", "count": 1 } ] },
+    "item": "chest_freezer",
     "max_volume": "350 L",
     "bash": {
       "str_min": 18,
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "group": "chest_freezer_destroyed" } ],
       "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
@@ -226,14 +218,13 @@
     "required_str": 10,
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "heavy_duty_freezer" },
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "NO_SELF_CONNECT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
-    "deconstruct": { "items": [ { "item": "heavy_duty_freezer", "count": 1 } ] },
+    "item": "heavy_duty_freezer",
     "max_volume": "745 L",
     "bash": {
       "str_min": 18,
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "group": "heavy_duty_freezer_destroyed" } ],
       "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
@@ -250,14 +241,13 @@
     "required_str": 10,
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "glass_freezer" },
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "NO_SELF_CONNECT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
-    "deconstruct": { "items": [ { "item": "glass_freezer", "count": 1 } ] },
+    "item": "glass_freezer",
     "max_volume": "400 L",
     "bash": {
       "str_min": 18,
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "group": "glass_freezer_destroyed" } ],
       "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
@@ -274,14 +264,13 @@
     "required_str": 10,
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "display_freezer" },
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "NO_SELF_CONNECT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
-    "deconstruct": { "items": [ { "item": "display_freezer", "count": 1 } ] },
+    "item": "display_freezer",
     "max_volume": "320 L",
     "bash": {
       "str_min": 18,
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "group": "display_freezer_destroyed" } ],
       "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   }

@@ -1415,7 +1415,8 @@
       [ "stockings", 50 ],
       [ "garter_belt", 25 ],
       [ "leggings", 20 ],
-      [ "tights", 50 ]
+      [ "tights", 50 ],
+      [ "cheongsam", 1 ]
     ]
   },
   {
@@ -1722,7 +1723,8 @@
       [ "bodysuit_lycra", 5 ],
       { "group": "independence_all_clothing", "prob": 100, "event": "independence_day" },
       { "group": "christmas_all_clothing", "prob": 100, "event": "christmas" },
-      { "group": "costume_all_clothing", "prob": 100, "event": "halloween" }
+      { "group": "costume_all_clothing", "prob": 100, "event": "halloween" },
+      [ "cheongsam", 1 ]
     ]
   },
   {
@@ -1789,7 +1791,8 @@
       { "group": "costume_pants_skirts", "prob": 1 },
       { "item": "pants", "variant": "pants_flag", "prob": 100, "event": "independence_day" },
       { "group": "christmas_pants_male", "prob": 100, "event": "christmas" },
-      { "group": "costume_pants_skirts", "prob": 100, "event": "halloween" }
+      { "group": "costume_pants_skirts", "prob": 100, "event": "halloween" },
+      [ "cheongsam", 1 ]
     ]
   },
   {
@@ -2174,6 +2177,7 @@
     "items": [
       [ "dress", 65 ],
       [ "sundress", 43 ],
+      [ "cheongsam", 4 ],
       [ "dress_wedding", 2 ],
       { "group": "costume_dresses", "prob": 1 },
       { "group": "costume_dresses", "prob": 15, "event": "halloween" },
@@ -2513,7 +2517,8 @@
       { "item": "jumpsuit_skeleton", "prob": 1 },
       { "item": "mummy_jumpsuit", "prob": 1 },
       { "item": "bodysuit_lycra", "prob": 5 },
-      { "item": "flag_swimsuit", "prob": 10 }
+      { "item": "flag_swimsuit", "prob": 10 },
+      { "item": "cheongsam", "prob": 1 }
     ]
   },
   {
@@ -3682,7 +3687,8 @@
       [ "jumpsuit_skeleton", 1 ],
       [ "mummy_jumpsuit", 1 ],
       [ "bodysuit_lycra", 3 ],
-      [ "flag_swimsuit", 2 ]
+      [ "flag_swimsuit", 2 ],
+      [ "cheongsam", 1 ]
     ]
   },
   {
@@ -4204,6 +4210,7 @@
     "entries": [
       { "item": "dress", "prob": 14 },
       { "item": "sundress", "prob": 10 },
+      { "item": "cheongsam", "prob": 4 },
       { "item": "dress_wedding", "prob": 2 },
       { "group": "costume_dresses", "prob": 1 },
       { "group": "costume_dresses", "prob": 15, "event": "halloween" },
@@ -4253,6 +4260,7 @@
     "items": [
       { "item": "dress_wedding", "prob": 5 },
       { "item": "sundress", "prob": 60 },
+      { "item": "cheongsam", "prob": 10 },
       { "item": "dress", "prob": 80 },
       { "item": "veil_wedding", "prob": 5 },
       { "item": "santa_dress_long", "prob": 1 },

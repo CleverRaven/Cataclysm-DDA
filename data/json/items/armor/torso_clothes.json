@@ -2443,5 +2443,31 @@
     ],
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
+  },
+  {
+    "id": "cheongsam",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "cheongsam" },
+    "description": "Also called qipao, it's a long, figure-fitting traditional chinese dress that covers the shoulders and features a standing collar, an asymmetric, left-over-right opening and two side slits.",
+    "weight": "500 g",
+    "volume": "3 L",
+    "price": "100 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "cotton" ],
+    "symbol": "Y",
+    "looks_like": "dress",
+    "color": "light_red",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 100 },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 80 },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
+        "coverage": 100
+      }
+    ],
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE", "SKINTIGHT" ]
   }
 ]

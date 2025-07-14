@@ -42,8 +42,8 @@
       "corpse_type": "NO_CORPSE"
     },
     "armor": { "bash": 5, "cut": 5, "bullet": 4, "electric": 3 },
-    "delete": { "special_attacks": [ "BOOMER" ] },
-    "extend": { "special_attacks": [ [ "BOOMER_GLOW", 20 ] ] }
+    "extend": { "special_attacks": [ [ "BOOMER_GLOW", 20 ] ] },
+    "delete": { "special_attacks": [ "BOOMER" ] }
   },
   {
     "id": "mon_zombie_gasbag",
@@ -59,7 +59,7 @@
     "death_function": { "message": "The %s explodes!", "effect": { "id": "death_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
     "fungalize_into": "mon_gasbag_dusted",
     "armor": { "electric": 1 },
-    "delete": { "flags": [ "BILE_BLOOD", "BASHES", "GROUP_BASH" ], "special_attacks": [ "BOOMER" ] }
+    "delete": { "flags": [ "BILE_BLOOD", "BASHES", "GROUP_BASH", "GRABS", "PUSH_MON" ], "special_attacks": [ "BOOMER" ] }
   },
   {
     "id": "mon_zombie_relax_gasbag",
@@ -102,6 +102,8 @@
     "speed": 75,
     "color": "pink",
     "melee_skill": 4,
+    "melee_dice": 0,
+    "melee_dice_sides": 0,
     "vision_night": 5,
     "emit_fields": [ { "emit_id": "emit_sludge_puddle", "delay": "1 s" } ],
     "grab_strength": 30,
@@ -147,7 +149,7 @@
         "monster_message": "A bombardier boomer explodes!"
       }
     ],
-    "delete": { "flags": [ "BILE_BLOOD" ] },
+    "delete": { "flags": [ "BILE_BLOOD", "GRABS", "GROUP_BASH", "PUSH_MON" ] },
     "armor": { "bash": 10, "cut": 5, "bullet": 5, "electric": 2 }
   }
 ]

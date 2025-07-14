@@ -2276,8 +2276,14 @@ static std::string assemble_profession_details( const avatar &u, const input_con
 
     if( sorted_profs[cur_id]->get_requirement().has_value() ) {
         assembled += "\n" + colorize( _( "Profession requirements:" ), COL_HEADER ) + "\n";
-        assembled += string_format( _( "Complete \"%s\"\n" ),
-                                    sorted_profs[cur_id]->get_requirement().value()->name() );
+        ret_val<void> can_pick_prof = sorted_profs[cur_id]->can_pick();
+        if( can_pick_prof.success() ) {
+            assembled += colorize( string_format( _( "Completed \"%s\"\n" ),
+                                                  sorted_profs[cur_id]->get_requirement().value()->name() ),
+                                   c_green ) + "\n";
+        } else { // fail, can't pick so display ret_val's reason
+            assembled += colorize( can_pick_prof.str(), c_red ) + "\n";
+        }
     }
     //Profession story
     assembled += "\n" + colorize( _( "Profession story:" ), COL_HEADER ) + "\n";
@@ -3506,12 +3512,13 @@ static std::string assemble_scenario_details( const avatar &u, const input_conte
             assembled += colorize( scenUnavailable, c_red ) + "\n";
         }
         if( scenRequirement.has_value() ) {
-            nc_color requirement_color = c_red;
-            if( current_scenario->can_pick().success() ) {
-                requirement_color = c_green;
+            ret_val<void> can_pick_scenario = current_scenario->can_pick();
+            if( can_pick_scenario.success() ) {
+                assembled += colorize( string_format( _( "Completed \"%s\"" ), scenRequirement.value()->name() ),
+                                       c_green ) + "\n";
+            } else { // fail, can't pick so display ret_val's reason
+                assembled += colorize( can_pick_scenario.str(), c_red ) + "\n";
             }
-            assembled += colorize( string_format( _( "Complete \"%s\"" ), scenRequirement.value()->name() ),
-                                   requirement_color ) + "\n";
         }
     }
 
@@ -4929,15 +4936,17 @@ void Character::empty_skills()
 
 void Character::add_traits()
 {
-    // TODO: get rid of using get_avatar() here, use `this` instead
-    for( const trait_and_var &tr : get_avatar().prof->get_locked_traits() ) {
-        if( !has_trait( tr.trait ) ) {
-            toggle_trait_deps( tr.trait );
+    //TODO: NPCs already get profession stuff assigned at least twice elsewhere causing issues and it all wants unifying (if not here this should be made an avatar::add_traits()
+    if( !is_npc() ) {
+        for( const trait_and_var &tr : prof->get_locked_traits() ) {
+            if( !has_trait( tr.trait ) ) {
+                toggle_trait_deps( tr.trait );
+            }
         }
-    }
-    for( const trait_id &tr : get_scenario()->get_locked_traits() ) {
-        if( !has_trait( tr ) ) {
-            toggle_trait_deps( tr );
+        for( const trait_id &tr : get_scenario()->get_locked_traits() ) {
+            if( !has_trait( tr ) ) {
+                toggle_trait_deps( tr );
+            }
         }
     }
 }

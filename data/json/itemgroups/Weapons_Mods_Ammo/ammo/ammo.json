@@ -270,7 +270,7 @@
     "id": "ammo_shotgun_milspec",
     "//": "Military specification shotgun ammo found at military sites.",
     "subtype": "distribution",
-    "entries": [ { "item": "shot_he", "prob": 10 } ]
+    "entries": [ { "group": "ammo_can_shot_full", "prob": 10 }, { "group": "ammo_can_slug_full", "prob": 2 } ]
   },
   {
     "type": "item_group",
