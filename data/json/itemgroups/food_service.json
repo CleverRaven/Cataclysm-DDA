@@ -781,7 +781,8 @@
       { "prob": 20, "group": "sprinkles_bottle_plastic_small_62" },
       { "item": "honey_bottled", "prob": 35 },
       { "prob": 35, "group": "honey_glassed_jar_glass_sealed_5" },
-      { "item": "peanutbutter", "prob": 60 },
+      { "group": "peanutbutter_jar_sealed", "prob": 60 },
+      { "group": "jam_fruit_jar_sealed", "prob": 60 },
       { "item": "marshmallow_fluff", "prob": 35 },
       { "prob": 40, "group": "pickle_jar_glass_sealed_2" },
       { "item": "coffee_syrup", "prob": 35 },
@@ -999,7 +1000,7 @@
     "type": "item_group",
     "items": [
       [ "vinegar", 20 ],
-      [ "jam_fruit", 5 ],
+      { "prob": 5, "group": "jam_fruit_jar_sealed" },
       { "prob": 17, "group": "bread_bag_plastic_14" },
       { "item": "confit_meat", "prob": 14 },
       [ "meat", 20 ],
@@ -2878,5 +2879,19 @@
     "subtype": "collection",
     "container-item": "bag_plastic_small",
     "entries": [ { "item": "flatbread", "container-item": "null", "count": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "peanutbutter_jar_sealed",
+    "subtype": "collection",
+    "container-item": "jar_glass_sealed",
+    "entries": [ { "item": "peanutbutter", "container-item": "null", "count": -1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "jam_fruit_jar_sealed",
+    "subtype": "collection",
+    "container-item": "jar_glass_sealed",
+    "entries": [ { "item": "jam_fruit", "container-item": "null", "count": -1 } ]
   }
 ]
