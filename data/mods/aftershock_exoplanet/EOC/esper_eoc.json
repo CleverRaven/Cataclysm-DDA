@@ -165,12 +165,18 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_AFS_POWER_MAINTENANCE_PLUS_ONE",
-    "effect": [ { "math": [ "u_vitamin('vitamin_afs_maintained_powers')", "+=", "1" ] } ]
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_afs_maintained_powers')", "+=", "1" ] },
+      { "run_eocs": "EOC_AFS_CONCENTRATION_VS_LIMIT_CALCULATIONS" }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_AFS_POWER_MAINTENANCE_MINUS_ONE",
-    "effect": [ { "math": [ "u_vitamin('vitamin_afs_maintained_powers')", "-=", "1" ] } ]
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_afs_maintained_powers')", "-=", "1" ] },
+      { "run_eocs": "EOC_AFS_CONCENTRATION_VS_LIMIT_CALCULATIONS" }
+    ]
   },
   {
     "type": "effect_on_condition",
