@@ -3743,7 +3743,6 @@ std::optional<int> iuse::tazer( Character *p, item *it, const tripoint_bub_ms &p
     p->mod_moves( -to_moves<int>( 1_seconds ) );
 
     const bool tazer_was_dodged = target->dodge_check( p->hit_roll() );
-    //BEFOREMERGE: Lots of int_id<body_part_type> that want to be static, not sure whether to use the string id instead yet
     const bool tazer_was_armored = hit_roll < target->get_armor_type( damage_bash,
                                    bodypart_id( "torso" ) );
     if( tazer_was_dodged ) {

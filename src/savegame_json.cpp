@@ -4253,7 +4253,6 @@ void addiction::deserialize( const JsonObject &jo )
             MARLOSS_Y,
             NUM_ADD_TYPES
         };
-        //BEFOREMERGE: Should use enum_to_string?
         switch( static_cast<add_type_legacy>( jo.get_int( "type_enum" ) ) ) {
             case add_type_legacy::CAFFEINE:
                 type = addiction_caffeine;
