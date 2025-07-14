@@ -765,7 +765,7 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "copy-from": "m9",
-    "name": { "str": "Kitchen Gun™" },
+    "name": { "str": "Kitchen Gun™", "str_pl": "Kitchen Guns™" },
     "description": "Say goodbye to daily stains and dirty surfaces with new Kitchen Gun!  Just aim at the dust, blood, or splinters, and then shoot it a bunch of times to clean it.  Blast the filth away with Kitchen Gun™!",
     "ammo_effects": [ "CLEAN_DUST", "CLEAN_SPLINTERS", "CLEAN_BLOOD" ]
   }
