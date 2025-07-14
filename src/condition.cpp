@@ -597,16 +597,40 @@ conditional_t::func f_is_trait_purifiable( const JsonObject &jo, std::string_vie
 conditional_t::func f_has_visible_trait( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
-    str_or_var trait_to_check = get_str_or_var( jo.get_member( member ), member, true );
-    return [trait_to_check, is_npc]( const_dialogue const & d ) {
+    str_or_var trait_to_check_var = get_str_or_var( jo.get_member( member ), member, true );
+    return [trait_to_check_var, is_npc]( const_dialogue const & d ) {
         const_talker const *observer = d.const_actor( !is_npc );
         const_talker const *observed = d.const_actor( is_npc );
         int visibility_cap = observer->get_const_character()->get_mutation_visibility_cap(
                                  observed->get_const_character() );
-        bool observed_has = observed->has_trait( trait_id( trait_to_check.evaluate( d ) ) );
-        const mutation_branch &mut_branch = trait_id( trait_to_check.evaluate( d ) ).obj();
+        const trait_id trait_to_check( trait_to_check_var.evaluate( d ) );
+        bool observed_has = observed->has_trait( trait_to_check );
+        const mutation_branch &mut_branch = trait_to_check.obj();
         bool is_visible = mut_branch.visibility > 0 && mut_branch.visibility >= visibility_cap;
         return observed_has && is_visible;
+    };
+}
+
+conditional_t::func f_has_profession( const JsonObject &jo, std::string_view member, bool is_npc )
+{
+    str_or_var prof_to_check_var = get_str_or_var( jo.get_member( member ), member, true );
+    return [prof_to_check_var, is_npc ]( const_dialogue const & d ) {
+        const Character *ch = d.const_actor( is_npc )->get_const_character();
+        const profession *prof_present = ch->prof;
+        const profession_id prof_to_check( prof_to_check_var.evaluate( d ) );
+        if( !!prof_present ) {
+            if( prof_present->get_profession_id() == prof_to_check ) {
+                return true;
+            }
+        }
+        if( prof_to_check->is_hobby() ) {
+            for( const profession *hob : ch->get_hobbies() ) {
+                if( hob->get_profession_id() == prof_to_check ) {
+                    return true;
+                }
+            }
+        }
+        return false;
     };
 }
 
@@ -740,28 +764,6 @@ conditional_t::func f_u_safe_mode_trigger( const JsonObject &jo, std::string_vie
         const int card_dir = static_cast<int>( io::string_to_enum<cardinal_direction>( dir.evaluate(
                 d ) ) );
         return get_avatar().get_mon_visible().dangerous[card_dir];
-    };
-}
-
-conditional_t::func f_u_profession( const JsonObject &jo, std::string_view member )
-{
-    str_or_var u_profession = get_str_or_var( jo.get_member( member ), member, true );
-    return [u_profession]( const_dialogue const & d ) {
-        const profession *prof = get_player_character().get_profession();
-        std::set<const profession *> hobbies = get_player_character().get_hobbies();
-        if( prof->get_profession_id() == profession_id( u_profession.evaluate( d ) ) ) {
-            return true;
-        } else if( profession_id( u_profession.evaluate( d ) )->is_hobby() ) {
-            for( const profession *hob : hobbies ) {
-                if( hob->get_profession_id() == profession_id( u_profession.evaluate( d ) ) ) {
-                    return true;
-                }
-                break;
-            }
-            return false;
-        } else {
-            return false;
-        }
     };
 }
 
@@ -2524,6 +2526,7 @@ parsers = {
     {"u_has_trait", "npc_has_trait", jarg::member, &conditional_fun::f_has_trait },
     { "u_is_trait_purifiable", "npc_is_trait_purifiable", jarg::member, &conditional_fun::f_is_trait_purifiable},
     {"u_has_visible_trait", "npc_has_visible_trait", jarg::member, &conditional_fun::f_has_visible_trait },
+    {"u_has_profession", "npc_has_profession", jarg::string, &conditional_fun::f_has_profession },
     {"u_has_martial_art", "npc_has_martial_art", jarg::member, &conditional_fun::f_has_martial_art },
     {"u_using_martial_art", "npc_using_martial_art", jarg::member, &conditional_fun::f_using_martial_art },
     {"u_has_proficiency", "npc_has_proficiency", jarg::member, &conditional_fun::f_has_proficiency },
@@ -2536,7 +2539,6 @@ parsers = {
     {"u_has_mission", jarg::string, &conditional_fun::f_u_has_mission },
     {"u_monsters_in_direction", jarg::string, &conditional_fun::f_u_monsters_in_direction },
     {"u_safe_mode_trigger", jarg::member, &conditional_fun::f_u_safe_mode_trigger },
-    {"u_profession", jarg::string, &conditional_fun::f_u_profession },
     {"u_has_strength", "npc_has_strength", jarg::member | jarg::array, &conditional_fun::f_has_strength },
     {"u_has_dexterity", "npc_has_dexterity", jarg::member | jarg::array, &conditional_fun::f_has_dexterity },
     {"u_has_intelligence", "npc_has_intelligence", jarg::member | jarg::array, &conditional_fun::f_has_intelligence },

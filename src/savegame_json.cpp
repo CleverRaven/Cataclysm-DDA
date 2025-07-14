@@ -4683,17 +4683,15 @@ void stats_tracker::deserialize( const JsonObject &jo )
                 // retroactively insert current avatar, if different from starting avatar
                 // we don't know when they took over, so just use current time point
                 if( u.getID() != gs_data["avatar_id"].get<cata_variant_type::character_id>() ) {
-                    profession_id prof_id = u.prof ? u.prof->ident() : profession::generic()->ident();
                     get_event_bus().send( cata::event::make<event_type::game_avatar_new>( false, false,
-                                          u.getID(), u.name, u.male, prof_id, u.custom_profession ) );
+                                          u.getID(), u.name, u.custom_profession ) );
                 }
             } else {
                 // last ditch effort for really old saves that don't even have event_type::game_start
                 // treat current avatar as the starting avatar; abuse is_new_game=false to flag such cases
-                profession_id prof_id = u.prof ? u.prof->ident() : profession::generic()->ident();
                 std::swap( calendar::turn, calendar::start_of_game );
                 get_event_bus().send( cata::event::make<event_type::game_avatar_new>( false, false,
-                                      u.getID(), u.name, u.male, prof_id, u.custom_profession ) );
+                                      u.getID(), u.name, u.custom_profession ) );
                 std::swap( calendar::turn, calendar::start_of_game );
             }
         }
