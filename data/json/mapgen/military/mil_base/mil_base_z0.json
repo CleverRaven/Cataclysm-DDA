@@ -799,7 +799,7 @@
         { "item": "shot_00", "x": 22, "y": 10, "chance": 75, "repeat": 10 },
         { "item": "shot_slug", "x": 22, "y": 10, "chance": 75, "repeat": 5 },
         { "item": "shot_beanbag", "x": 22, "y": 10, "chance": 75, "repeat": 3 },
-        { "item": "shot_he", "x": 22, "y": 10, "chance": 75, "repeat": 5 },
+        { "group": "ammo_shotgun_milspec", "x": 22, "y": 10, "chance": 75, "repeat": 5 },
         { "item": "shot_flechette", "x": 22, "y": 10, "chance": 75, "repeat": 5 },
         { "item": "762_51_incendiary", "x": 22, "y": 11, "chance": 75, "repeat": 5 },
         { "item": "762_51", "x": 22, "y": [ 11, 12 ], "chance": 75, "repeat": 30 },
