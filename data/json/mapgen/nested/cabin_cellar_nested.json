@@ -306,8 +306,20 @@
         "      "
       ],
       "palettes": [ "cabin_cellar" ],
+      "ter_furn_transforms": { " ": { "transform": "fungalize" } },
       "place_fields": [ { "field": "fd_fungal_haze", "x": [ 0, 5 ], "y": [ 0, 5 ], "repeat": [ 10, 20 ] } ],
       "place_monster": [ { "monster": "mon_zombie_fungus", "x": [ 0, 5 ], "y": [ 0, 5 ], "chance": 85 } ]
     }
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "fungalize",
+    "terrain": [ { "result": [ [ "t_fungus", 2 ], [ "t_fungus_floor_sup", 1 ] ], "valid_flags": [ "FLAT" ] } ],
+    "furniture": [
+      {
+        "result": [ [ "f_fungal_mass", 1 ], [ "f_fungal_tangle", 1 ], [ "f_fungal_clump", 1 ] ],
+        "valid_flags": [ "ORGANIC" ]
+      }
+    ]
   }
 ]
