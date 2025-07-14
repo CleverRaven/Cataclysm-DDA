@@ -52,7 +52,7 @@
   {
     "type": "mutation",
     "id": "AFS_ELECTROKINETIC",
-    "name": "Electrokinetic",
+    "name": "Electrokinesis",
     "points": 0,
     "description": "The ability to control electricity with your mind.",
     "types": [ "ESPER" ],
@@ -65,7 +65,7 @@
   {
     "type": "mutation",
     "id": "AFS_TELEKINETIC",
-    "name": "Telekinetic",
+    "name": "Telekinesis",
     "points": 0,
     "description": "The ability to move objects without touching them.",
     "types": [ "ESPER" ],
@@ -78,7 +78,7 @@
   {
     "type": "mutation",
     "id": "AFS_TELEPATH",
-    "name": "Telepath",
+    "name": "Telepathy",
     "points": 0,
     "description": "The ability to read thoughts and influence others' minds.",
     "types": [ "ESPER" ],
