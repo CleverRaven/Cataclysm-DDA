@@ -9,7 +9,6 @@
 #include <unordered_map>
 #include <utility>
 
-#include "active_item_cache.h"
 #include "bionics.h"
 #include "character.h"
 #include "character_attire.h"
