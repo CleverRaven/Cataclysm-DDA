@@ -130,17 +130,6 @@
     ]
   },
   {
-    "id": "on_hand_46",
-    "type": "item_group",
-    "//": "a collection of ammo that would be found with a loaded gun.",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "46mm", "prob": 100, "charges": [ 1, 40 ] },
-      { "item": "46mm", "prob": 75, "charges": [ 44, 80 ] },
-      { "item": "46mm", "prob": 30, "charges": [ 88, 160 ] }
-    ]
-  },
-  {
     "id": "on_hand_8x40",
     "type": "item_group",
     "//": "a collection of ammo that would be found with a loaded gun.",

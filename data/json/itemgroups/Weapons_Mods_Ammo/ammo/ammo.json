@@ -223,7 +223,7 @@
     "id": "ammo_pistol_milspec",
     "//": "Military specification pistol ammo found at military sites.",
     "subtype": "distribution",
-    "entries": [ { "item": "46mm", "prob": 70 }, { "item": "9mmfmj", "prob": 100 } ]
+    "entries": [ { "item": "9mmfmj", "prob": 100 } ]
   },
   {
     "type": "item_group",
