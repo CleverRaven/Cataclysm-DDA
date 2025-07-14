@@ -217,8 +217,8 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "water_clean", "prob": 50 },
-      { "item": "water_mineral", "prob": 20 },
+      { "item": "water_clean", "charges": -1, "prob": 50 },
+      { "item": "water_mineral", "charges": -1, "prob": 20 },
       { "item": "grenadine_syrup", "charges": [ 2, -1 ], "prob": 40 },
       { "item": "syrup_simple", "charges": [ 2, -1 ], "prob": 60 },
       { "item": "oj", "charges": [ 2, -1 ], "prob": 40 },
@@ -926,8 +926,8 @@
     "id": "restaur_fridge",
     "type": "item_group",
     "items": [
-      [ "water_clean", 10 ],
-      [ "water_mineral", 10 ],
+      { "item": "water_clean", "charges": -1, "prob": 10 },
+      { "item": "water_mineral", "charges": -1, "prob": 10 },
       { "item": "milk", "charges": [ 2, -1 ], "prob": 20 },
       { "prob": 35, "group": "butter_wrapper_8_64" },
       { "item": "ghee", "prob": 5, "charges": [ 1, 64 ], "container-item": "jar_glass_sealed", "sealed": false },
@@ -975,8 +975,8 @@
     "id": "sea_restaur_fridge",
     "type": "item_group",
     "items": [
-      [ "water_clean", 10 ],
-      [ "water_mineral", 10 ],
+      { "item": "water_clean", "charges": -1, "prob": 10 },
+      { "item": "water_mineral", "charges": -1, "prob": 10 },
       { "item": "milk", "charges": [ 2, -1 ], "prob": 20 },
       [ "egg_bird_unfert", 20 ],
       { "prob": 35, "group": "butter_wrapper_8_64" },
@@ -1405,8 +1405,8 @@
     "type": "item_group",
     "subtype": "collection",
     "items": [
-      [ "water_clean", 10 ],
-      [ "water_mineral", 10 ],
+      { "item": "water_clean", "charges": -1, "prob": 10 },
+      { "item": "water_mineral", "charges": -1, "prob": 10 },
       { "item": "milk", "charges": [ 2, -1 ], "prob": 20 },
       { "prob": 35, "group": "butter_wrapper_8_64" },
       { "item": "ghee", "prob": 5, "charges": [ 1, 64 ], "container-item": "jar_glass_sealed", "sealed": false },
