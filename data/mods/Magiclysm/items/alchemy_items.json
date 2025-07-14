@@ -231,7 +231,7 @@
     "description": "Demon chitin turned into a paste like substance referred to as flux.  Used to create new; and fill in, repairing existing demon chitin items.",
     "price": "10 USD",
     "material": [ "demon_chitin" ],
-    "weight": "1 g",
+    "weight": "500 mg",
     "volume": "1 ml",
     "phase": "solid",
     "flags": [ "TRADER_AVOID" ]
