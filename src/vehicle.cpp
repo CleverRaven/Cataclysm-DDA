@@ -6780,7 +6780,7 @@ void vehicle::refresh( const bool remove_fakes )
         if( vpi.has_flag( VPFLAG_CABLE_PORTS ) || vpi.has_flag( VPFLAG_APPLIANCE ) ) {
             cable_ports.push_back( p );
         }
-        if( vpi.has_control_req() ) {
+        if( vpi.has_control_req( vpi.control_air ) && vpi.has_control_req( vpi.control_land ) ) {
             control_req_parts.push_back( p );
         }
     }

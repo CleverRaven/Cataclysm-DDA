@@ -314,7 +314,7 @@ class vpart_info
         time_duration get_unfolding_time() const;
 
         /** Returns whether or not the vehicle this part installed requires something to control */
-        bool has_control_req() const;
+        bool has_control_req( vp_control_req control ) const;
 
     private:
         std::set<std::string> flags;
