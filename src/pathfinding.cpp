@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <functional>
 #include <memory>
+#include <numeric>
 #include <optional>
 #include <queue>
 #include <utility>
@@ -14,6 +15,7 @@
 #include "cata_utility.h"
 #include "coordinates.h"
 #include "creature.h"
+#include "damage.h"
 #include "debug.h"
 #include "game.h"
 #include "line.h"
@@ -27,8 +29,6 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-
-static const damage_type_id damage_bash( "bash" );
 
 class field;
 
@@ -229,7 +229,7 @@ int map::cost_to_pass( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
         return PF_IMPASSABLE;
     }
 
-    const int bash = settings.bash_strength;
+    const std::map<damage_type_id, int> &bash = settings.bash_strength;
     const bool allow_open_doors = settings.allow_open_doors;
     const bool allow_unlock_doors = settings.allow_unlock_doors;
     const int climb_cost = settings.climb_cost;
@@ -264,19 +264,23 @@ int map::cost_to_pass( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
                 return 10; // One turn to open, 4 to move there
             } else if( allow_unlock_doors && veh->next_part_to_unlock( part, is_outside_veh ) != -1 ) {
                 return 12; // 2 turns to open, 4 to move there
-            } else if( bash > 0 ) {
+            } else if( !bash.empty() ) {
+                int damage = std::accumulate( bash.begin(), bash.end(), 0, []( int so_far,
+                const std::pair<damage_type_id, int> &pr ) {
+                    return so_far + ( pr.second * pr.first->bash_conversion_factor );
+                } );
                 // Car obstacle that isn't a door
                 // TODO: Account for armor
                 int hp = veh->part( part ).hp();
-                if( hp / 20 > bash ) {
+                if( hp / 20 > damage ) {
                     // Threshold damage thing means we just can't bash this down
                     return PF_IMPASSABLE;
-                } else if( hp / 10 > bash ) {
+                } else if( hp / 10 > damage ) {
                     // Threshold damage thing means we will fail to deal damage pretty often
                     hp *= 2;
                 }
 
-                return 2 * hp / bash + 8 + 4;
+                return 2 * hp / damage + 8 + 4;
             } else {
                 const vehicle_part &vp = veh->part( part );
                 if( allow_open_doors && vp.info().has_flag( VPFLAG_OPENABLE ) ) {
@@ -319,9 +323,8 @@ int map::cost_to_pass( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
     }
 
     // Otherwise, if we can bash, we'll consider that.
-    if( bash > 0 ) {
-        const int rating = bash_rating_internal( {{{damage_bash, bash}}}, furniture, terrain, false, veh,
-        part );
+    if( !bash.empty() ) {
+        const int rating = bash_rating_internal( bash, furniture, terrain, false, veh, part );
 
         if( rating > 1 ) {
             // Expected number of turns to bash it down, 1 turn to move there
