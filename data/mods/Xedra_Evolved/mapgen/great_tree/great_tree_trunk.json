@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "great_tree_z0_nw", "great_tree_z0_ne" ], [ "great_tree_z0_sw", "great_tree_z0_se" ] ],
     "object": {
       "predecessor_mapgen": "forest_thick",
@@ -68,7 +67,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "great_tree_z1_nw", "great_tree_z1_ne" ], [ "great_tree_z1_sw", "great_tree_z1_se" ] ],
     "object": {
       "fill_ter": "t_barkfloor",
@@ -128,7 +126,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "great_tree_z2_nw", "great_tree_z2_ne" ], [ "great_tree_z2_sw", "great_tree_z2_se" ] ],
     "object": {
       "fill_ter": "t_barkfloor",
@@ -188,7 +185,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "great_tree_z3_01", "great_tree_z3_02", "great_tree_z3_03", "great_tree_z3_04" ],
       [ "great_tree_z3_05", "great_tree_z3_06", "great_tree_z3_07", "great_tree_z3_08" ],
@@ -301,7 +297,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "great_tree_z4_01", "great_tree_z4_02", "great_tree_z4_03", "great_tree_z4_04" ],
       [ "great_tree_z4_05", "great_tree_z4_06", "great_tree_z4_07", "great_tree_z4_08" ],
@@ -414,7 +409,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "great_tree_z5_01", "great_tree_z5_02", "great_tree_z5_03", "great_tree_z5_04" ],
       [ "great_tree_z5_05", "great_tree_z5_06", "great_tree_z5_07", "great_tree_z5_08" ],
@@ -527,7 +521,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "great_tree_z6_nw", "great_tree_z6_ne" ], [ "great_tree_z6_sw", "great_tree_z6_se" ] ],
     "object": {
       "fill_ter": "t_barkfloor",
@@ -587,7 +580,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "great_tree_z7_nw", "great_tree_z7_ne" ], [ "great_tree_z7_sw", "great_tree_z7_se" ] ],
     "object": {
       "fill_ter": "t_barkfloor",

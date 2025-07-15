@@ -11,6 +11,7 @@
 #include "character.h"
 #include "character_attire.h"
 #include "clzones.h"
+#include "creature_tracker.h"
 #include "coordinates.h"
 #include "field.h"
 #include "game.h"
@@ -182,10 +183,14 @@ monster &spawn_test_monster( const mtype_id &monster_type, const tripoint_bub_ms
                              const bool death_drops, bool allow_evolution )
 {
     REQUIRE( monster_type.is_valid() );
+    REQUIRE( !monster_type.is_null() );
+    REQUIRE( get_creature_tracker().creature_at( start ) == nullptr );
     shared_ptr_fast<monster> mon = make_shared_fast<monster>( monster_type );
     if( !allow_evolution ) {
         mon->upgrades_override_disable();
     }
+    REQUIRE( mon->will_move_to( start ) );
+    REQUIRE( mon->know_danger_at( start ) );
     monster *const test_monster_ptr = g->place_critter_at( mon, start );
     REQUIRE( test_monster_ptr );
     test_monster_ptr->death_drops = death_drops;

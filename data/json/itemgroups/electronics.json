@@ -23,7 +23,8 @@
       [ "mask_dust", 65 ],
       [ "glasses_safety", 40 ],
       [ "goggles_welding", 70 ],
-      { "group": "ammo_any_batteries_full", "prob": 50 },
+      { "group": "box_of_batteries_random", "prob": 30 },
+      { "group": "ammo_heavy_batteries_full", "prob": 20 },
       [ "manual_electronics", 20 ],
       [ "textbook_electronics", 6 ],
       [ "radio_book", 16 ],
@@ -71,7 +72,7 @@
       [ "amplifier", 8 ],
       [ "mag_electronics", 15 ],
       [ "antenna", 18 ],
-      { "group": "ammo_any_batteries_full", "prob": 50 },
+      { "group": "box_of_batteries_random", "prob": 50 },
       [ "breadboard", 50 ],
       { "item": "voltmeter", "prob": 10 },
       { "item": "multimeter", "prob": 10, "charges": [ 0, 100 ] },
@@ -282,7 +283,22 @@
     ]
   },
   {
-    "id": "batteries",
+    "id": "box_of_batteries_unopened",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "box_paper_small",
+    "items": [
+      { "item": "light_minus_battery_cell", "charges": 1000, "prob": 3, "count": 8 },
+      { "item": "light_minus_disposable_cell", "charges": 1000, "prob": 30, "count": 8 },
+      { "item": "light_battery_cell", "charges": 1000, "prob": 160, "count": 8 },
+      { "item": "light_battery_cell", "charges": 1000, "prob": 16, "count": 16 },
+      { "item": "light_cell_rechargeable", "charges": 1000, "prob": 16, "count": 8 },
+      { "item": "light_cell_rechargeable", "charges": 1000, "prob": 1, "count": 12 },
+      { "item": "medium_battery_cell", "charges": 1000, "prob": 15, "count": 4 }
+    ]
+  },
+  {
+    "id": "box_of_batteries_random",
     "type": "item_group",
     "subtype": "distribution",
     "container-item": "box_paper_small",
@@ -295,5 +311,11 @@
       { "item": "light_cell_rechargeable", "charges": 1000, "prob": 1, "count": [ 0, 12 ] },
       { "item": "medium_battery_cell", "charges": 1000, "prob": 15, "count": [ 0, 4 ] }
     ]
+  },
+  {
+    "id": "batteries",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "group": "box_of_batteries_random", "count": [ 1, 3 ] } ]
   }
 ]

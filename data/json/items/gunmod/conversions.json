@@ -5,7 +5,7 @@
     "type": "ITEM",
     "subtypes": [ "GUNMOD" ],
     "name": { "str": "rifle .223 upper receiver" },
-    "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that, given the right knowledge, is installable upon an AR-15-style rifle's lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit providing a weapon with a 20-inch barrel chambered for .223 Remington ammunition, commonly installed on full-length M16 rifles.",
+    "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that is installable upon an AR-15-style rifle's lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit providing a weapon with a 20-inch barrel chambered for .223 Remington ammunition, commonly installed on full-length M16 rifles.",
     "weight": "2408 g",
     "volume": "1860 ml",
     "longest_side": "584 mm",
@@ -19,7 +19,7 @@
     "type": "ITEM",
     "subtypes": [ "GUNMOD" ],
     "name": { "str": "mid-length .223 upper receiver" },
-    "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that, given the right knowledge, is installable upon an AR-15-style rifle's lower frame.  Swappable uppers allow compatible firearms to be retooled for different cartridges and barrel lengths, with this kit furnishing a weapon with a standard 16-inch barrel chambered for .223 Remington ammunition.",
+    "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that is installable upon an AR-15-style rifle's lower frame.  Swappable uppers allow compatible firearms to be retooled for different cartridges and barrel lengths, with this kit furnishing a weapon with a standard 16-inch barrel chambered for .223 Remington ammunition.",
     "weight": "2268 g",
     "volume": "1550 ml",
     "longest_side": "480 mm",
@@ -101,7 +101,7 @@
         ]
       }
     ],
-    "min_skills": [ [ "weapon", 2 ] ],
+    "min_skills": [ [ "weapon", 0 ] ],
     "add_mod": [ [ "brass catcher", 1 ], [ "bayonet lug", 1 ], [ "rail", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "muzzle", 1 ] ]
   },
   {
@@ -110,7 +110,7 @@
     "type": "ITEM",
     "subtypes": [ "GUNMOD" ],
     "name": { "str": "carbine .223 upper receiver" },
-    "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that, given the right knowledge, is installable upon an AR-15-style rifle's lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit providing a weapon with a 14.5-inch barrel chambered for .223 Remington ammunition, commonly installed on standard-issue M4 carbines.",
+    "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that is installable upon an AR-15-style rifle's lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit providing a weapon with a 14.5-inch barrel chambered for .223 Remington ammunition, commonly installed on standard-issue M4 carbines.",
     "weight": "2036 g",
     "volume": "1395 ml",
     "longest_side": "445 mm",
@@ -125,7 +125,7 @@
     "type": "ITEM",
     "subtypes": [ "GUNMOD" ],
     "name": { "str": "CQB .223 upper receiver" },
-    "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that, given the right knowledge, is installable upon an AR-15-style rifle's lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit providing a weapon with a 10.3-inch barrel chambered for .223 Remington ammunition, commonly installed on special-purpose carbines, including those used by US SOCOM forces.",
+    "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that is installable upon an AR-15-style rifle's lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit providing a weapon with a 10.3-inch barrel chambered for .223 Remington ammunition, commonly installed on special-purpose carbines, including those used by US SOCOM forces.",
     "weight": "1819 g",
     "volume": "1295 ml",
     "longest_side": "337 mm",
@@ -143,7 +143,7 @@
     "type": "ITEM",
     "subtypes": [ "GUNMOD" ],
     "name": { "str": "pistol .223 upper receiver" },
-    "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that, given the right knowledge, is installable upon an AR-15-style rifle's lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit providing a weapon with a 7.5-inch barrel chambered for .223 Remington ammunition.  These are most often found on stockless AR pistol lowers, to comply with legal restrictions on short barrels on rifles.  No such laws exist now, or at least people that can enforce them.",
+    "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that is installable upon an AR-15-style rifle's lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit providing a weapon with a 7.5-inch barrel chambered for .223 Remington ammunition.  These are most often found on stockless AR pistol lowers, to comply with legal restrictions on short barrels on rifles.  No such laws exist now, or at least people that can enforce them.",
     "weight": "1134 g",
     "volume": "718 ml",
     "longest_side": "435 mm",
@@ -159,7 +159,7 @@
     "type": "ITEM",
     "subtypes": [ "GUNMOD" ],
     "name": { "str": "mid-length .300BLK upper receiver" },
-    "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that, given the right knowledge, is installable upon an AR-15-style rifle's lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit furnishing a weapon with a specialized 16-inch barrel chambered for .300 AAC Blackout ammunition.  Fortunately, standard STANAG magazines are still compatible.",
+    "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that is installable upon an AR-15-style rifle's lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit furnishing a weapon with a specialized 16-inch barrel chambered for .300 AAC Blackout ammunition.  Fortunately, standard STANAG magazines are still compatible.",
     "weight": "2308 g",
     "volume": "1550 ml",
     "longest_side": "480 mm",
@@ -241,7 +241,7 @@
         ]
       }
     ],
-    "min_skills": [ [ "weapon", 2 ] ],
+    "min_skills": [ [ "weapon", 0 ] ],
     "add_mod": [ [ "brass catcher", 1 ], [ "bayonet lug", 1 ], [ "rail", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "muzzle", 1 ] ]
   },
   {
@@ -250,7 +250,7 @@
     "type": "ITEM",
     "subtypes": [ "GUNMOD" ],
     "name": { "str": "CQB .300BLK upper receiver" },
-    "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that, given the right knowledge, is installable upon an AR-15-style rifle's lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit furnishing a weapon with a specialized 10.5-inch barrel chambered for .300 AAC Blackout ammunition.  Fortunately, standard STANAG magazines are still compatible.",
+    "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that is installable upon an AR-15-style rifle's lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit furnishing a weapon with a specialized 10.5-inch barrel chambered for .300 AAC Blackout ammunition.  Fortunately, standard STANAG magazines are still compatible.",
     "weight": "1814 g",
     "volume": "1295 ml",
     "longest_side": "342 mm",
@@ -265,7 +265,7 @@
     "type": "ITEM",
     "subtypes": [ "GUNMOD" ],
     "name": { "str": "SBR .300BLK upper receiver" },
-    "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that, given the right knowledge, is installable upon an AR-15-style rifle's lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit furnishing a weapon with a specialized 7.5-inch barrel chambered for .300 AAC Blackout ammunition.  Fortunately, standard STANAG magazines are still compatible.",
+    "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that is installable upon an AR-15-style rifle's lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit furnishing a weapon with a specialized 7.5-inch barrel chambered for .300 AAC Blackout ammunition.  Fortunately, standard STANAG magazines are still compatible.",
     "weight": "1590 g",
     "longest_side": "240 mm",
     "integral_weight": "1590 g",
@@ -278,7 +278,7 @@
     "type": "ITEM",
     "subtypes": [ "GUNMOD" ],
     "name": { "str": "rifle 12.7x42mm upper receiver" },
-    "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that, given the right knowledge, is installable upon an AR-15-style rifle's lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit furnishing a weapon with a big-bore 18-inch barrel chambered for .50 Beowulf rounds.  Specialized or modified STANAG-style magazines are required to properly feed the much larger cartridges.",
+    "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that is installable upon an AR-15-style rifle's lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit furnishing a weapon with a big-bore 18-inch barrel chambered for .50 Beowulf rounds.  Specialized or modified STANAG-style magazines are required to properly feed the much larger cartridges.",
     "weight": "2495 g",
     "volume": "1760 ml",
     "longest_side": "533 mm",
@@ -321,7 +321,7 @@
         "item_restriction": [ "stanag20_beowulf", "stanag20ranger_beowulf", "stanag30_beowulf", "stanag30ranger_beowulf", "50beowulf_ar15mag" ]
       }
     ],
-    "min_skills": [ [ "weapon", 2 ] ],
+    "min_skills": [ [ "weapon", 0 ] ],
     "add_mod": [ [ "brass catcher", 1 ], [ "bayonet lug", 1 ], [ "rail", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "muzzle", 1 ] ]
   },
   {
@@ -330,7 +330,7 @@
     "type": "ITEM",
     "subtypes": [ "GUNMOD" ],
     "name": { "str": "mid-length 12.7x42mm upper receiver" },
-    "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that, given the right knowledge, is installable upon an AR-15-style rifle's lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit furnishing a weapon with a big-bore 16-inch barrel chambered for .50 Beowulf rounds.  Specialized or modified STANAG-style magazines are required to properly feed the much larger cartridges.",
+    "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that is installable upon an AR-15-style rifle's lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit furnishing a weapon with a big-bore 16-inch barrel chambered for .50 Beowulf rounds.  Specialized or modified STANAG-style magazines are required to properly feed the much larger cartridges.",
     "weight": "2341 g",
     "volume": "1550 ml",
     "longest_side": "480 mm",
@@ -346,7 +346,7 @@
     "type": "ITEM",
     "subtypes": [ "GUNMOD" ],
     "name": { "str": "SBR 12.7x42mm upper receiver" },
-    "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that, given the right knowledge, is installable upon an AR-15-style rifle's lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit furnishing a weapon with a big-bore 7.5-inch barrel chambered for .50 Beowulf rounds.  Specialized or modified STANAG-style magazines are required to properly feed the much larger cartridges.",
+    "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that is installable upon an AR-15-style rifle's lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit furnishing a weapon with a big-bore 7.5-inch barrel chambered for .50 Beowulf rounds.  Specialized or modified STANAG-style magazines are required to properly feed the much larger cartridges.",
     "weight": "1615 g",
     "volume": "850 ml",
     "longest_side": "240 mm",
@@ -362,7 +362,7 @@
     "type": "ITEM",
     "subtypes": [ "GUNMOD" ],
     "name": { "str": "rifle .450 upper receiver" },
-    "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that, given the right knowledge, is installable upon an AR-15-style rifle's lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit furnishing a weapon with a high-caliber 18-inch barrel chambered for .450 Bushmaster cartridges.  Special-purpose low-capacity magazines are required to feed the large rounds, but the upper turns any AR-15 into a short-range powerhouse.",
+    "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that is installable upon an AR-15-style rifle's lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit furnishing a weapon with a high-caliber 18-inch barrel chambered for .450 Bushmaster cartridges.  Special-purpose low-capacity magazines are required to feed the large rounds, but the upper turns any AR-15 into a short-range powerhouse.",
     "weight": "2722 g",
     "volume": "1760 ml",
     "longest_side": "533 mm",
@@ -389,7 +389,7 @@
     "ammo_modifier": [ "450" ],
     "magazine_adaptor": [ [ "450", [ "450_ar15mag" ] ] ],
     "pocket_mods": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "450_ar15mag" ] } ],
-    "min_skills": [ [ "weapon", 2 ] ],
+    "min_skills": [ [ "weapon", 0 ] ],
     "add_mod": [ [ "brass catcher", 1 ], [ "bayonet lug", 1 ], [ "rail", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "muzzle", 1 ] ]
   },
   {
@@ -461,7 +461,7 @@
         "item_restriction": [ "762_ar15mag_5rd", "762_ar15mag_10rd", "762_ar15mag_20rd", "762_ar15mag_30rd" ]
       }
     ],
-    "min_skills": [ [ "weapon", 2 ] ],
+    "min_skills": [ [ "weapon", 0 ] ],
     "add_mod": [ [ "brass catcher", 1 ], [ "bayonet lug", 1 ], [ "rail", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "muzzle", 1 ] ]
   },
   {
@@ -500,7 +500,7 @@
     "ammo_modifier": [ "22" ],
     "magazine_adaptor": [ [ "22", [ "22_ar15mag_10", "22_ar15mag_28" ] ] ],
     "pocket_mods": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "22_ar15mag_10", "22_ar15mag_28" ] } ],
-    "min_skills": [ [ "weapon", 2 ] ],
+    "min_skills": [ [ "weapon", 0 ] ],
     "damage_modifier": { "damage_type": "bullet", "amount": 2 },
     "add_mod": [ [ "brass catcher", 1 ], [ "bayonet lug", 1 ], [ "rail", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "muzzle", 1 ] ]
   },

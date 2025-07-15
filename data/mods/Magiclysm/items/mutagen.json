@@ -33,7 +33,7 @@
     "copy-from": "mutagen_flavor",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
-    "color": "black",
+    "color": "dark_gray",
     "description": "An alchemic concoction made from the remains of a slain black dragon and a bit of potion base.  Ancient and Academic texts talk of profound changes from consuming this.",
     "name": { "str_sp": "black dragon mutagen" },
     "use_action": {
@@ -49,7 +49,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "black dragon mutagenic primer" },
     "description": "A super-concentrated mutagen that seems to swirl with the anger of a black dragon.  Do you dare leave your humanity behind and inject it?",
-    "color": "black",
+    "color": "dark_gray",
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You inject the %s.",

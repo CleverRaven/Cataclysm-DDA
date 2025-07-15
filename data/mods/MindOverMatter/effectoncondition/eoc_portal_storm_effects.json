@@ -1,0 +1,57 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_EFFECTS_ACTIVE",
+    "//2": "Overwrite of data/json/effects_on_condition/nether_eocs/portal_storm_effects_on_condition.json",
+    "//": "More dangerous portal effects, should cost IRE to do.",
+    "recurrence": [ "20 seconds", "50 seconds" ],
+    "global": true,
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "and": [ { "is_weather": "distant_portal_storm" }, { "x_in_y_chance": { "x": 5, "y": 10 } } ] },
+            { "and": [ { "is_weather": "near_portal_storm" }, { "x_in_y_chance": { "x": 7, "y": 10 } } ] },
+            { "is_weather": "portal_storm" }
+          ]
+        },
+        { "math": [ "portal_dungeon_level == 0" ] },
+        { "math": [ "u_ire > 0" ] }
+      ]
+    },
+    "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
+    "effect": [
+      { "run_eocs": "EOC_PORTAL_MESSAGE" },
+      {
+        "weighted_list_eocs": [
+          [ "EOC_PORTAL_TELEPORT_STUCK_START", 2 ],
+          [ "EOC_PORTAL_PAIN", 2 ],
+          [ "EOC_PORTAL_HALLUCINATOR", 2 ],
+          [ "EOC_PORTAL_SMOKE", 2 ],
+          [ "EOC_PORTAL_YRAX_ATTENTION", 1 ],
+          [ "EOC_PORTAL_SWARM_STRUCTURE", 2 ],
+          [ "EOC_PORTAL_TAUNT", 1 ],
+          [ "EOC_PORTAL_SHIFTING_MASS", 1 ],
+          [ "EOC_PORTAL_ARTIFACT_WEAK", 1 ],
+          [ "EOC_PORTAL_TEMPORARY_TEARS_IN_REALITY", 1 ]
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_TEMPORARY_TEARS_IN_REALITY",
+    "condition": { "one_in_chance": 10 },
+    "effect": [
+      { "u_location_variable": { "context_val": "loc" }, "min_radius": 2, "max_radius": 8 },
+      {
+        "u_set_field": "fd_tear_in_reality_temporary",
+        "radius": 0,
+        "intensity": 3,
+        "target_var": { "context_val": "loc" }
+      },
+      { "message": "The nearby air cracks.", "type": "bad" },
+      { "math": [ "u_ire", "-=", "5" ] }
+    ]
+  }
+]

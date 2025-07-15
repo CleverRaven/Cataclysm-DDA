@@ -1619,5 +1619,43 @@
         "append": true
       }
     ]
+  },
+  {
+    "id": "hijab",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": "hijab",
+    "description": "A headscarf worn by Muslim women which covers most of the head, leaving the face visible.",
+    "weight": "100 g",
+    "volume": "200 ml",
+    "price": "10 USD",
+    "price_postapoc": "50 cent",
+    "symbol": "o",
+    "color": "dark_gray",
+    "material": [ "cotton" ],
+    "material_thickness": 0.2,
+    "warmth": 5,
+    "flags": [ "VARSIZE", "SKINTIGHT" ],
+    "armor": [
+      { "covers": [ "head" ], "coverage": 80, "encumbrance_modifiers": [ "NONE" ] },
+      { "covers": [ "arm_l" ], "specifically_covers": [ "arm_shoulder_l" ], "coverage": 25 },
+      { "covers": [ "arm_r" ], "specifically_covers": [ "arm_shoulder_r" ], "coverage": 25 }
+    ]
+  },
+  {
+    "copy-from": "hijab",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "id": "niqab",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": "niqab",
+    "description": "A veil worn by Muslim women which covers the face, leaving the eyes visible.",
+    "flags": [ "VARSIZE", "SKINTIGHT" ],
+    "armor": [
+      { "covers": [ "head" ], "coverage": 90, "encumbrance_modifiers": [ "NONE" ] },
+      { "covers": [ "mouth" ], "coverage": 100 },
+      { "covers": [ "arm_l" ], "coverage": 25, "specifically_covers": [ "arm_shoulder_l" ] },
+      { "covers": [ "arm_r" ], "coverage": 25, "specifically_covers": [ "arm_shoulder_r" ] }
+    ]
   }
 ]

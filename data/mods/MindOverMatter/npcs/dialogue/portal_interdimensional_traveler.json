@@ -6,7 +6,7 @@
       {
         "text": "[Telepath] *Read the strange person's mind*",
         "topic": "TALK_PORTAL_TRAVELER_telepathy",
-        "condition": { "u_has_trait": "TELEPATH" }
+        "condition": { "or": [ { "u_has_trait": "TELEPATH" }, { "math": [ "jmath_telepathy_knacks_combined_level() > 10" ] } ] }
       }
     ]
   },

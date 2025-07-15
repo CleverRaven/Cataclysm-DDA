@@ -185,6 +185,11 @@ obj_type_name = { { "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER
     }
 };
 
+static const std::string TIED_DOWN_FURNITURE = "tied_down_furniture";
+
+static std::unordered_map<ter_str_id, std::pair<ter_str_id, furn_str_id>> ter_migrations;
+static std::unordered_map<furn_str_id, std::pair<ter_str_id, furn_str_id>> furn_migrations;
+
 // TODO: investigate serializing other members of the Creature class hierarchy
 static void serialize( const weak_ptr_fast<monster> &obj, JsonOut &jsout )
 {
@@ -472,7 +477,6 @@ void SkillLevel::serialize( JsonOut &json ) const
     json.start_object();
     json.member( "level", _level );
     json.member( "exercise", _exercise );
-    json.member( "istraining", _isTraining );
     json.member( "lastpracticed", _lastPracticed );
     json.member( "knowledgeLevel", _knowledgeLevel );
     json.member( "knowledgeExperience", _knowledgeExperience );
@@ -492,7 +496,6 @@ void SkillLevel::deserialize( const JsonObject &data )
     if( _exercise < 0 ) {
         _exercise = 0;
     }
-    data.read( "istraining", _isTraining );
     data.read( "rustaccumulator", _rustAccumulator );
     if( !data.read( "lastpracticed", _lastPracticed ) ) {
         _lastPracticed = calendar::start_of_game;
@@ -2893,6 +2896,14 @@ void item::io( Archive &archive )
             }
         }
     }
+
+    if( auto var = item_vars.find( TIED_DOWN_FURNITURE ); var != item_vars.end() ) {
+        const furn_str_id furnstr( var->second.str() );
+        if( auto it = furn_migrations.find( furnstr ); it != furn_migrations.end() ) {
+            set_var( TIED_DOWN_FURNITURE, it->second.second.str() );
+        }
+    }
+
     // TODO: change default to empty string
     archive.io( "name", corpse_name, std::string() );
     archive.io( "owner", owner, faction_id::NULL_ID() );
@@ -3500,6 +3511,7 @@ void vehicle::deserialize( const JsonObject &data )
     data.read( "labels", labels );
     data.read( "fuel_remainder", fuel_remainder );
     data.read( "fuel_used_last_turn", fuel_used_last_turn );
+    data.read( "effects", effects );
 
     refresh( );
 
@@ -3526,6 +3538,7 @@ void vehicle::deserialize( const JsonObject &data )
     // that can't be used as it currently stands because it would also
     // make it instantly fire all its turrets upon load.
     of_turn = 0;
+    recalculate_enchantment_cache();
 }
 
 void vehicle::deserialize_parts( const JsonArray &data )
@@ -3614,6 +3627,7 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "magic", magic );
     json.member( "smart_controller", smart_controller_cfg );
     json.member( "vehicle_noise", vehicle_noise );
+    json.member( "effects", effects );
 
     json.end_object();
 }
@@ -3743,11 +3757,17 @@ void faction::deserialize( const JsonObject &jo )
     jo.read( "size", size );
     jo.read( "power", power );
     if( jo.has_int( "food_supply" ) ) {
+        int calories;
         // Legacy kcal value found, migrate to calories
-        jo.read( "food_supply", food_supply.calories );
-        food_supply.calories *= 1000;
+        jo.read( "food_supply", calories );
+        calories *= 1000;
+        add_kcal( calories, calendar::turn_zero );
+    } else if( jo.has_object( "fac_food_supply" ) ) {
+        std::map<time_point, nutrients> legacy_food;
+        jo.read( "fac_food_supply", legacy_food[calendar::turn_zero] );
+        add_to_food_supply( legacy_food );
     } else {
-        jo.read( "fac_food_supply", food_supply );
+        jo.read( "fac_food_supply", _food_supply );
     }
     if( !jo.read( "wealth", wealth ) ) {
         wealth = 100;
@@ -3770,7 +3790,16 @@ void faction::serialize( JsonOut &json ) const
     json.member( "known_by_u", known_by_u );
     json.member( "size", size );
     json.member( "power", power );
-    json.member( "fac_food_supply", food_supply );
+    // pruned version of the food supply
+    cata::list<std::pair<time_point, nutrients>> pruned_food_supply = _food_supply;
+    for( auto it = pruned_food_supply.begin(); it != pruned_food_supply.end(); ) {
+        if( it->first != calendar::turn_zero && it->first < calendar::turn ) {
+            it = pruned_food_supply.erase( it );
+        } else {
+            ++it;
+        }
+    }
+    json.member( "fac_food_supply", pruned_food_supply );
     json.member( "wealth", wealth );
     json.member( "opinion_of", opinion_of );
     json.member( "relations" );
@@ -4654,17 +4683,15 @@ void stats_tracker::deserialize( const JsonObject &jo )
                 // retroactively insert current avatar, if different from starting avatar
                 // we don't know when they took over, so just use current time point
                 if( u.getID() != gs_data["avatar_id"].get<cata_variant_type::character_id>() ) {
-                    profession_id prof_id = u.prof ? u.prof->ident() : profession::generic()->ident();
                     get_event_bus().send( cata::event::make<event_type::game_avatar_new>( false, false,
-                                          u.getID(), u.name, u.male, prof_id, u.custom_profession ) );
+                                          u.getID(), u.name, u.custom_profession ) );
                 }
             } else {
                 // last ditch effort for really old saves that don't even have event_type::game_start
                 // treat current avatar as the starting avatar; abuse is_new_game=false to flag such cases
-                profession_id prof_id = u.prof ? u.prof->ident() : profession::generic()->ident();
                 std::swap( calendar::turn, calendar::start_of_game );
                 get_event_bus().send( cata::event::make<event_type::game_avatar_new>( false, false,
-                                      u.getID(), u.name, u.male, prof_id, u.custom_profession ) );
+                                      u.getID(), u.name, u.custom_profession ) );
                 std::swap( calendar::turn, calendar::start_of_game );
             }
         }
@@ -4683,9 +4710,6 @@ void _write_rle_terrain( JsonOut &jsout, std::string_view ter, int num )
 }
 
 } // namespace
-
-static std::unordered_map<ter_str_id, std::pair<ter_str_id, furn_str_id>> ter_migrations;
-static std::unordered_map<furn_str_id, std::pair<ter_str_id, furn_str_id>> furn_migrations;
 
 void ter_furn_migrations::load( const JsonObject &jo )
 {

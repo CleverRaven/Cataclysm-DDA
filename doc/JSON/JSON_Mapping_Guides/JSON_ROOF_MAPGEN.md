@@ -41,7 +41,6 @@ Sample roof entry:
 ```jsonc
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "abstorefront_roof",
     "object": {
       "fill_ter": "t_flat_roof",

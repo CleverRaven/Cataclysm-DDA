@@ -176,13 +176,11 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_skyisland_solidstoneoverride",
     "object": { "flags": [ "NO_UNDERLYING_ROTATE", "ALLOW_TERRAIN_UNDER_OTHER_DATA" ], "terrain": { " ": "t_warprock" } }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_skyisland_surface_entrance",
     "object": {
       "rows": [
@@ -217,7 +215,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_skyisland_base1",
     "object": {
       "rows": [
@@ -252,7 +249,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_skyisland_skylight",
     "object": {
       "rows": [
@@ -287,7 +283,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_skyisland_skylight2",
     "object": {
       "rows": [
@@ -322,7 +317,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_skyisland_skylight3",
     "object": {
       "rows": [
@@ -357,7 +351,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_skyisland_skylight4",
     "object": {
       "rows": [
@@ -392,7 +385,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_skyisland_a1",
     "object": {
       "rows": [
@@ -427,7 +419,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_skyisland_a2",
     "object": {
       "rows": [
@@ -462,7 +453,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_skyisland_a3",
     "object": {
       "rows": [
@@ -497,7 +487,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_skyisland_a4",
     "object": {
       "rows": [
@@ -555,7 +544,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_skyisland_w1",
     "object": {
       "rows": [
@@ -590,7 +578,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_skyisland_w2",
     "object": {
       "rows": [
@@ -625,7 +612,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_skyisland_w3",
     "object": {
       "rows": [
@@ -660,7 +646,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_skyisland_w4",
     "object": {
       "rows": [
@@ -695,7 +680,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_skyisland_w_sides",
     "object": {
       "rows": [
@@ -730,7 +714,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_skyisland_e1",
     "object": {
       "rows": [
@@ -765,7 +748,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_skyisland_e2",
     "object": {
       "rows": [
@@ -800,7 +782,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_skyisland_e3",
     "object": {
       "rows": [
@@ -835,7 +816,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_skyisland_e4",
     "object": {
       "rows": [
@@ -870,7 +850,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_skyisland_e_sides",
     "object": {
       "rows": [
@@ -905,7 +884,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_skyisland_n1",
     "object": {
       "rows": [
@@ -940,7 +918,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_skyisland_n2",
     "object": {
       "rows": [
@@ -975,7 +952,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_skyisland_n3",
     "object": {
       "rows": [
@@ -1010,7 +986,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_skyisland_n4",
     "object": {
       "rows": [
@@ -1045,7 +1020,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_skyisland_n_sides",
     "object": {
       "rows": [
@@ -1080,7 +1054,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_skyisland_pond",
     "object": {
       "rows": [

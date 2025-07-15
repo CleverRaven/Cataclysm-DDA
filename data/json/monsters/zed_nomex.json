@@ -27,9 +27,10 @@
     "upgrades": false,
     "death_drops": "mon_zombie_fireman_death_drops",
     "extend": {
+      "move_skills": { "climb": 6 },
       "weakpoint_sets": [ "wps_humanoid_turnout_gear", "wps_humanoid_full_helmet" ],
       "families": [ "prof_wp_syn_armored", "prof_wp_nat_armored" ],
-      "flags": [ "ACIDPROOF", "FIREPROOF", "CLIMBS" ]
+      "flags": [ "ACIDPROOF", "FIREPROOF" ]
     },
     "delete": { "special_attacks": [ "bite_humanoid" ] }
   },

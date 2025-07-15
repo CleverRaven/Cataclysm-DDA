@@ -47,12 +47,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_spell_level('electrokinetic_pain_immune') * 8) + 60) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('electrokinetic_pain_immune') + u_spell_level('electrokinetic_pain_immune_knack') ) * 8) + 60) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('electrokinetic_pain_immune') * 13) + 150) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('electrokinetic_pain_immune') + u_spell_level('electrokinetic_pain_immune_knack') ) * 13) + 150) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]

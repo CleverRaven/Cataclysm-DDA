@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": "safe_house",
     "//": "used by safe_house_basement",
     "type": "mapgen",
@@ -62,7 +61,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "safe_house_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -112,7 +110,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "safe_house_basement" ],
     "//": "Spy safehouse basement",
     "object": {

@@ -43,7 +43,7 @@ Principles of Hedge Magick:
 - Hedge magick has no levels and does not fail. If you have the ingredients and appropriate conditions it succeeds, and if you don't it can't be attempted at all.
 - Hedge magick requires either components, particular conditions like a time of day or location, extensive periods of time to enact, and occasionally all three.
 - Hedge magick requires extensive study to learn. Most hedge magick the survivor is likely to find developed from first principles by recluses and weirdos, and the survivor has to interpret those notes into a decipherable magickal formula.
-- Existing hedge magick was often developed by looking at real-world occultism, but this is less importan than keeping hedge magick's power level low--real-world occultists make some absolutely wild claims of their power.
+- Existing hedge magick was often developed by looking at real-world occultism, but this is less important than keeping hedge magick's power level low--real-world occultists make some absolutely wild claims of their power.
 
 Alchemy: TBD
 
@@ -59,7 +59,7 @@ Vampires gain new powers with time, intended to mimic the progression of a disea
 
 ### Blood Arts
 
-Blood Arts is the term for vampires' special abilities. With them, vampires can become stronger, faster, more resilient, have better senses, hypnotize or charm their prey, and eventually turn into wolf, bat, or mist.  More powerful vampires can also control darkness and shadows. The balance point for Blood Arts is intentionally set so that a vampires who uses several of them will either have to feed soon after to avoid the `withering` (the status penalties that come from being low on blood), or will have to gorge beforehand and become `blood_quenched` in order to have enough blood to use all the Blood Arts they want during combat.
+Blood Arts is the term for vampires' special abilities. With them, vampires can become stronger, faster, more resilient, have better senses, hypnotize or charm their prey, and eventually turn into wolf, bat, or mist.  More powerful vampires can also control darkness and shadows. The balance point for Blood Arts is intentionally set so that a vampire who uses several of them will either have to feed soon after to avoid the `withering` (the status penalties that come from being low on blood), or will have to gorge beforehand and become `blood_quenched` in order to have enough blood to use all the Blood Arts they want during combat.
 
 Principles of Blood Arts:
 - Blood Arts cost blood. Any secondary costs (mana, stamina, sleepiness, etc) are unnecessary. Use of their powers should require vampires to drink more blood.
@@ -90,7 +90,7 @@ If a power amplifies a base vampire trait, said trait is a prerequisite.  Gainin
 
 Drawbacks guidelines:
 -The high blood drain is an integral part of being an Anathema.  Amplifying vampirism also amplifies the thirst for blood and drives them to kill and drain as many as they can as their self-devouring vampire blood causes heightened depletion.  
--Player Anathema that has yet to reach the Anathema threshold have a total of six vampiric weaknesses.  A post-threshold player Anathema has a total of nine.  They can use the mentors' recipe to reshuffle them, but they cannot reduce how many weaknesses they have.
+-Player Anathema that have yet to reach the Anathema threshold have a total of six vampiric weaknesses.  A post-threshold player Anathema has a total of nine.  They can use the mentors' recipe to reshuffle them, but they cannot reduce how many weaknesses they have.
 -Gaining this threshold also grants one and only one of the Anathema-exclusive weaknesses.  If adding new ones, it is important that their gameplay impact is similar.  This weakness is permanent and cannot be reshuffled, so there mustn't be a weakness that is overall better or worse than the others.
 
 This path is incompatible with regular mutation thresholds.  The player cannot gain access to the anathema mutations if they already have a threshold, and the trait granting this access prevents gaining any other threshold.  Mutating is still possible, but the player will have to pick between regular thresholds and boosting their vampirism through this method.
@@ -99,7 +99,7 @@ This path is incompatible with regular mutation thresholds.  The player cannot g
 
 Dhampirs are the children of a lower-tier vampire, one who has not yet made the awful choice to become an undead monster, and a mortal (or, rarely, another lower-tier vampire). They inherit a portion of vampire power but also some vampiric weaknesses. Dhampirs are innately capable of sensing both vampires and renfields, and will sometimes become vampire hunters because they cannot help but be aware of the threat.
 
-Dhampirs naturally regenerate the blood vitamin uses to power their Blood Arts, but intentionally do so very slowly. The dhampir gameplay loop is designed to always tempt to them drink blood for power, to facilitate the "am I a man, or a monster?" question that often plagues fictional dhampirs, but also punish them in turn if they do. Dhampirs gain two weaknesses from a set of thematically-appropriate ones, but if they've ever drunk blood--even once--this list is expanded and they become eligible for more total weaknesses.
+Dhampirs naturally regenerate the blood vitamin used to power their Blood Arts, but intentionally do so very slowly. The dhampir gameplay loop is designed to always tempt to them drink blood for power, to facilitate the "am I a man, or a monster?" question that often plagues fictional dhampirs, but also punish them in turn if they do. Dhampirs gain two weaknesses from a set of thematically-appropriate ones, but if they've ever drunk blood--even once--this list is expanded and they become eligible for more total weaknesses.
 
 Dhampirs can use tier 1, 2, and 3 Blood Arts, though they should not have any shapeshifting or Blood Arts that rely on the vampire being undead (such as falling off a ten-story building and taking no damage). 
 
@@ -124,7 +124,7 @@ Principles of Werewolf powers:
 - Werewolf powers have a chance to fail based entirely on the pain the werewolf is suffering from. Since werewolves regenerate, this means that while they can be in a very difficult situation if they're at high pain, they merely need to wait a few minutes to return to 0 chance to fail. 
 - Werewolf powers revolve around changing form and hunting prey. They generally cannot bring their metaphysical might to bear in situations that require stealth or diplomacy, though some exceptions exist. 
 
-Werewolves gain new powers by killing enemies in barehand combat. The wolf must hunt.
+Werewolves gain new powers by killing enemies in barehanded combat. The wolf must hunt.
 
 ## The Fair Folk
 
@@ -170,11 +170,11 @@ The following types of changelings exist or are planned:
 - Selkies: Based on the seal-folk of Northern Europe. They can control the weather and exist without penalty in water, and are beguiling to mortals.
 - Trow: Based on coblyns and knockers. Their abilities relate to the earth and mining.
 
-Currently, changelings gain their powers in a stready drip of 1 per 5-7 days. It is intended that they accomplish various deeds to gain their powers, but it is currently unimplemeneted.
+Currently, changelings gain their powers in a steady drip of 1 per 5-7 days. It is intended that they accomplish various deeds to gain their powers, but it is currently unimplemeneted.
 
 #### Seasonal Magick
 
-Changeling magic is based on the seasons. Each changeling (except nobles) can pick one path, with their initial choice determined by their court (Spring or summer for the Summer Court, fall or autumn for the Winter Court). Nobles can pick a second season after their first, and this second season does not have to respect their court choice. Each season has its own themes for its glamours:
+Changeling magic is based on the seasons. Each changeling (except nobles) can pick one path, with their initial choice determined by their court (Spring or summer for the Summer Court, autumn or winter for the Winter Court). Nobles can pick a second season after their first, and this second season does not have to respect their court choice. Each season has its own themes for its glamours:
 
 - Autumn: Fear, decay, the harvest, preservation, fog, colors, home and the hearth
 - Spring: Plants, growth, healing, rain, creativity, and love
@@ -204,7 +204,7 @@ Principles of lilin powers:
 - Lilin powers should, where possible, have their names taken from passages from the Hebrew Bible or related literature (The Book of Enoch, The Book of Tobit, etc)
 - Lilin should not have any powers that make them physically tougher. Their strengths are in stealth and evasion. 
 - Lilin should not have any damaging power with big up-front damage. Like a disease, they rely on enervating their targets until they're so weak they are easy to kill. However, they can increase the severity of existing diseases. 
-- Lilin can use their ruach to weave beautiful illusions around themselves (at night), they need to use their own words to persuade.
+- Lilin can use their ruach to weave beautiful illusions around themselves (at night), but they need to use their own words to persuade.
 - Like Blood Arts, lilin powers that turn on and remain on until turned off should be implemented as activatable mutations, and powers which create an instant or temporary effect should be implemented as spells in the Supernatural Powers menu.
 
 Lilin gain new powers by dedicating some ruach to power reseach. They can only possibly gain new powers when outside under the moonlight (currently implemented as just outside at night), where periodic power-gaining rolls are made. 

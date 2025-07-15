@@ -144,7 +144,8 @@
           { "item": "brogyeki", "prob": 20, "count": [ 1, 2 ] },
           { "item": "brogyaga", "prob": 5, "count": [ 1, 2 ] },
           { "item": "pamd68", "prob": 60, "count": [ 1, 2 ] },
-          { "item": "pamd71z", "prob": 10, "count": [ 1, 2 ] }
+          { "item": "pamd71z", "prob": 10, "count": [ 1, 2 ] },
+          { "item": "knife_combat_army", "variant": "exodiibayonet", "prob": 50, "count": [ 1, 2 ] }
         ]
       },
       {
@@ -170,7 +171,9 @@
       { "distribution": [ { "item": "exodiisapramag5", "prob": 10, "charges": 0, "count": [ 1, 2 ] } ] },
       { "item": "273x110canister", "container-item": "box_small", "prob": 25, "count": [ 2, 4 ], "sealed": true },
       { "item": "273x44HE", "container-item": "box_small_wood", "prob": 5, "count": [ 1, 3 ], "sealed": true },
-      { "item": "exodiiBRmag_153", "prob": 25, "charges": 0, "count": 1 }
+      { "item": "exodiiBRmag_153", "prob": 25, "charges": 0, "count": 1 },
+      { "item": "exodii_prybar", "prob": 40, "count": [ 1, 2 ] },
+      { "item": "exodii_digger", "prob": 35, "count": [ 1, 2 ] }
     ]
   },
   {

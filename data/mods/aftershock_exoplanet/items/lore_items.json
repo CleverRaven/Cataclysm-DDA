@@ -13,5 +13,33 @@
     "material": [ "paper" ],
     "weight": "3 g",
     "volume": "5 ml"
+  },
+  {
+    "type": "ITEM",
+    "id": "afs_thi_deed",
+    "category": "books",
+    "symbol": ",",
+    "name": { "str": "ancient spaceship deed" },
+    "description": "An ancient document from before the Discontinuity, detailing the purchase of the Vanishing Arc by your great-great-grandfather, signed and validated by a long nonexistent Earth polity.\n\nA simple legal curiosity of no real value, true ownership of this ship is guaranteed by the self-destruct mechanism you have programmed into its main reactor.",
+    "color": "red",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "paper" ],
+    "weight": "3 g",
+    "volume": "5 ml"
+  },
+  {
+    "id": "afs_old_ship_medal",
+    "copy-from": "silver_medal",
+    "type": "ITEM",
+    "name": { "str": "ancient medal" },
+    "description": "An ancient medal given for exemplary service in Van Maneen's Exploratory Navy.  You have no idea what the Van Maanen Navy was, or how this thing ended up in the display case, but getting rid of it would make you uncomfortable."
+  },
+  {
+    "id": "afs_ship_ids",
+    "copy-from": "afs_thi_deed",
+    "type": "ITEM",
+    "name": { "str_sp": "forged ident codes" },
+    "description": "Identity codes for Nyssia, Aztlan, Luzhan, and many other polities in the spinward frontier, all forgeries.  You fathom most of them would still work."
   }
 ]

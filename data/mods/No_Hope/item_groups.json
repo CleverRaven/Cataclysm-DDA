@@ -85,7 +85,11 @@
       { "distribution": [ { "item": "socks", "prob": 10 }, { "item": "socks_wool", "prob": 90 } ] },
       { "item": "boots_combat", "prob": 70 },
       {
-        "collection": [ { "distribution": [ { "item": "balclava", "prob": 90 }, { "item": "balaclava_cut_resistant", "prob": 10 } ] } ],
+        "collection": [
+          {
+            "distribution": [ { "item": "balclava", "variant": "black", "prob": 90 }, { "item": "balaclava_cut_resistant", "prob": 10 } ]
+          }
+        ],
         "prob": 25
       },
       {
@@ -150,13 +154,6 @@
       [ "alloy_plate", 10 ],
       [ "robot_controls", 3 ]
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "rare",
-    "subtype": "distribution",
-    "copy-from": "rare",
-    "extend": { "entries": [ { "item": "bio_blade", "prob": 10 }, { "item": "bio_speed", "prob": 10 } ] }
   },
   {
     "type": "item_group",
@@ -303,13 +300,6 @@
     "ammo": 50,
     "magazine": 100,
     "entries": [ { "item": "flamethrower", "charges": [ 0, 500 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "bunker_basement_loot",
-    "subtype": "distribution",
-    "copy-from": "bunker_basement_loot",
-    "extend": { "entries": [ { "group": "bionics_mil", "prob": 1 } ] }
   },
   {
     "id": "necropolis_visitors",

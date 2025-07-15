@@ -261,6 +261,139 @@
     "base_casting_time": 100
   },
   {
+    "id": "changeling_summer_lightning_bolt_from_storm_spell",
+    "type": "SPELL",
+    "name": "Fist of Taranis",
+    "description": "Summon a massive lightning bolt onto a target location.  This glamour may only be used outside during a storm.",
+    "message": "You call down a bolt of thunder!",
+    "valid_targets": [ "hostile", "ground", "ally" ],
+    "condition": {
+      "and": [
+        "u_is_outside",
+        {
+          "or": [
+            { "is_weather": "lightning" },
+            { "is_weather": "thunder" },
+            { "is_weather": "rainstorm" },
+            { "is_weather": "magic_weather_lightning" },
+            { "is_weather": "magic_weather_thunder" },
+            { "is_weather": "magic_weather_rainstorm" }
+          ]
+        }
+      ]
+    },
+    "flags": [ "LOUD", "RANDOM_DAMAGE", "RANDOM_DURATION" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 5,
+    "effect": "attack",
+    "effect_str": "downed",
+    "extra_effects": [
+      { "id": "changeling_summer_lightning_bolt_from_storm_spell_ter_transform", "hit_self": false },
+      { "id": "changeling_summer_lightning_bolt_from_storm_spell_ter_transform_center", "hit_self": false },
+      { "id": "changeling_summer_lightning_bolt_from_storm_spell_push_enemies", "hit_self": false },
+      { "id": "changeling_summer_lightning_bolt_from_storm_spell_push_enemies", "hit_self": false },
+      { "id": "changeling_summer_lightning_bolt_from_storm_spell_push_enemies", "hit_self": false }
+    ],
+    "damage_type": "electric",
+    "min_damage": {
+      "math": [ "( ( 40 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 2) + (u_skill('deduction') * 4.5) ) )" ]
+    },
+    "max_damage": {
+      "math": [ "( ( 85 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 4.5) + (u_skill('deduction') * 8) ) )" ]
+    },
+    "min_range": 25,
+    "max_range": 25,
+    "min_aoe": 2,
+    "max_aoe": 2,
+    "min_duration": 100,
+    "max_duration": 300,
+    "base_energy_cost": {
+      "math": [
+        "max( ( 800 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 8) - (u_skill('deduction') * 15) ), 400)"
+      ]
+    },
+    "base_casting_time": 200,
+    "field_id": "fd_electricity",
+    "min_field_intensity": 3,
+    "max_field_intensity": 7,
+    "field_chance": 1
+  },
+  {
+    "id": "changeling_summer_lightning_bolt_from_storm_spell_ter_transform",
+    "type": "SPELL",
+    "name": { "str": "Fist of Taranis Ter Transform 1", "//~": "NO_I18N" },
+    "description": {
+      "str": "The actual spell that casts the Fist of Taranis crater.  It's a bug if you have it directly.",
+      "//~": "NO_I18N"
+    },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground" ],
+    "flags": [ "LOUD" ],
+    "effect": "ter_transform",
+    "effect_str": "ter_sylph_massive_lightning",
+    "shape": "blast",
+    "min_range": 25,
+    "max_range": 25,
+    "min_aoe": 1,
+    "max_aoe": 1
+  },
+  {
+    "id": "changeling_summer_lightning_bolt_from_storm_spell_ter_transform_center",
+    "type": "SPELL",
+    "name": { "str": "Fist of Taranis Ter Transform 2", "//~": "NO_I18N" },
+    "description": {
+      "str": "The actual spell that casts the Fist of Taranis crater.  It's a bug if you have it directly.",
+      "//~": "NO_I18N"
+    },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground" ],
+    "flags": [ "LOUD" ],
+    "effect": "ter_transform",
+    "effect_str": "ter_sylph_massive_lightning",
+    "shape": "blast",
+    "min_range": 25,
+    "max_range": 25
+  },
+  {
+    "id": "changeling_summer_lightning_bolt_from_storm_spell_start_fire",
+    "type": "SPELL",
+    "name": { "str": "Fist of Taranis Monster Start Fire", "//~": "NO_I18N" },
+    "description": { "str": "The actual spell that Starts a fire at the impact point.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground" ],
+    "flags": [ "NO_EXPLOSION_SFX" ],
+    "effect": "area_pull",
+    "shape": "blast",
+    "min_range": 25,
+    "max_range": 25,
+    "field_id": "fd_fire",
+    "min_field_intensity": 3,
+    "max_field_intensity": 3,
+    "field_chance": 1
+  },
+  {
+    "id": "changeling_summer_lightning_bolt_from_storm_spell_push_enemies",
+    "type": "SPELL",
+    "name": { "str": "Fist of Taranis Monster Push", "//~": "NO_I18N" },
+    "description": { "str": "The actual spell that casts the Fist of Heaven's Fury shove.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "flags": [ "NO_EXPLOSION_SFX", "RANDOM_AOE" ],
+    "effect": "area_push",
+    "shape": "blast",
+    "min_range": 25,
+    "max_range": 25,
+    "min_aoe": 1,
+    "max_aoe": 4
+  },
+  {
     "id": "changeling_summer_bonus_stamina_near_enemies_spell",
     "type": "SPELL",
     "name": "A Fire in the Blood",
@@ -330,6 +463,75 @@
         "max( ( 30000 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 50) - (u_skill('deduction') * 750)), 6000)"
       ]
     }
+  },
+  {
+    "id": "changeling_summer_ring_of_flames_spell",
+    "type": "SPELL",
+    "name": "Ring of Champions",
+    "description": "Summon up a circle of flames around yourself and a nearby enemy, allowing you to fight undisturbed.  You will be immune to the heat of the flames while they last, though stepping into them will end this protection.  The death of the chosen enemy will end the glamour.  You must be <color_yellow>outdoors</color> for this glamour to have any effect.  In the summer, the flames are <color_green>even hotter</color>.  Reweave the glamour to dispel it.",
+    "message": "",
+    "flags": [ "VERBAL", "NO_LEGS" ],
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SUMMER",
+    "magic_type": "xe_fey_seasonal_magick_summer",
+    "valid_targets": [ "hostile" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 8,
+    "components": "spell_components_changeling_dreamsparks_3",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_SUMMER_RING_OF_FLAMES_INITIATE",
+    "min_range": 3,
+    "max_range": 3,
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_changeling_summer_ring_of_flames') > -1 ? 0 : max( ( 750 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 4) - (u_skill('deduction') * 10) ), 500)"
+      ]
+    },
+    "base_casting_time": 50
+  },
+  {
+    "id": "changeling_summer_ring_of_flames_actual_flames_summer_spell",
+    "type": "SPELL",
+    "name": { "str": "Ring of Champions Summer Flames", "//~": "NO_I18N" },
+    "description": { "str": "The spell that creates the actual flames in summer", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "hostile", "ground", "ally" ],
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SUMMER",
+    "magic_type": "xe_fey_seasonal_magick_summer",
+    "skill": "deduction",
+    "flags": [ "SILENT" ],
+    "effect": "attack",
+    "shape": "blast",
+    "min_aoe": 6,
+    "max_aoe": 6,
+    "field_id": "fd_fire",
+    "min_field_intensity": 3,
+    "max_field_intensity": 3,
+    "field_chance": 1
+  },
+  {
+    "id": "changeling_summer_ring_of_flames_actual_flames_non_summer_spell",
+    "type": "SPELL",
+    "name": { "str": "Ring of Champions Non_Summer Flames", "//~": "NO_I18N" },
+    "description": { "str": "The spell that creates the actual flames not in summer", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "hostile", "ground", "ally" ],
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SUMMER",
+    "magic_type": "xe_fey_seasonal_magick_summer",
+    "skill": "deduction",
+    "flags": [ "SILENT" ],
+    "effect": "attack",
+    "shape": "blast",
+    "min_aoe": 6,
+    "max_aoe": 6,
+    "field_id": "fd_fire",
+    "min_field_intensity": 2,
+    "max_field_intensity": 2,
+    "field_chance": 1
   },
   {
     "id": "changeling_summer_powerful_sunlight_spell",

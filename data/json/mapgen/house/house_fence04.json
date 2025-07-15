@@ -4,7 +4,6 @@
     "type": "mapgen",
     "om_terrain": "house_fence04",
     "weight": 25,
-    "method": "json",
     "object": {
       "palettes": [
         "standard_domestic_palette",
@@ -65,7 +64,6 @@
     "type": "mapgen",
     "om_terrain": "house_fence04",
     "weight": 15,
-    "method": "json",
     "object": {
       "palettes": [
         "standard_domestic_palette",
@@ -141,7 +139,6 @@
     "type": "mapgen",
     "om_terrain": "house_fence04",
     "weight": 25,
-    "method": "json",
     "object": {
       "palettes": [
         "standard_domestic_palette",
@@ -208,7 +205,6 @@
   {
     "type": "mapgen",
     "om_terrain": "house_fence04_roof",
-    "method": "json",
     "object": {
       "palettes": [ "roof_palette" ],
       "fill_ter": "t_shingle_flat_roof",

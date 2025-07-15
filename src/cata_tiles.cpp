@@ -2908,8 +2908,10 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
         case TILE_CATEGORY::TRAP:
         case TILE_CATEGORY::BULLET:
         case TILE_CATEGORY::HIT_ENTITY:
-        case TILE_CATEGORY::WEATHER:
             // TODO: come up with ways to make random sprites consistent for these types
+            break;
+        case TILE_CATEGORY::WEATHER:
+            seed = rng_bits(); // Doesn't need to be deterministic
             break;
         case TILE_CATEGORY::MONSTER:
             // FIXME: add persistent id to Creature type, instead of using monster pointer address
@@ -3976,6 +3978,11 @@ bool cata_tiles::draw_vpart( const tripoint_bub_ms &p, lit_level ll, int &height
                 // Do not increment height_3d for roof vparts
                 if( !roof ) {
                     height_3d = height_3d_temp;
+                }
+                if( ret && !vd.carried_furn.empty() ) {
+                    draw_from_id_string( vd.carried_furn,
+                                         TILE_CATEGORY::FURNITURE, empty_string, p, 0, angle_to_dir4( 0_degrees ), ll, nv_goggles_activated,
+                                         height_3d );
                 }
                 return ret;
             }

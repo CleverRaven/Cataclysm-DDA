@@ -334,79 +334,6 @@
     ]
   },
   {
-    "id": "ruger_charger",
-    "looks_like": "modular_ar_pistol",
-    "type": "ITEM",
-    "subtypes": [ "GUN" ],
-    "//": "Stats are from https://ruger.com/products/22Charger/specSheets/4923.html",
-    "copy-from": "gun_base_22_semi_pistol",
-    "name": { "str": "varmint pistol" },
-    "description": "Essentially a varmint rifle with no stock and a shorter barrel, this gun loses out on a bit of energy with its shorter barrel and is a bit more uncomfortable to hold, but a fair bit lighter.  Includes a bipod.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "ruger_charger",
-        "name": { "str": "Ruger 22 Charger" },
-        "description": "This gun is essentially a shortened 10/22, feeding from the same magazines.  While it does feature a shorter barrel and a lack of a stock, it is a fair bit lighter, and comes included with a bipod to more steadily plink away at the undead."
-      }
-    ],
-    "ascii_picture": "ruger1022",
-    "weight": "1418 g",
-    "volume": "1358 ml",
-    "longest_side": "509 mm",
-    "barrel_length": "254 mm",
-    "price": "399 USD",
-    "material": [ "steel", "plastic" ],
-    "range": 3,
-    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
-    "dispersion": 140,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "default_mods": [ "bipod" ],
-    "pocket_data": [
-      {
-        "magazine_well": "34 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [
-          "ruger1022mag",
-          "ruger1022mag_15",
-          "ruger1022bigmag",
-          "ruger1022mag_30",
-          "ruger1022mag_32",
-          "ruger1022mag_55",
-          "ruger1022mag_70",
-          "ruger1022mag_110"
-        ]
-      }
-    ]
-  },
-  {
-    "id": "ruger_charger_auto",
-    "copy-from": "ruger_charger",
-    "type": "ITEM",
-    "subtypes": [ "GUN" ],
-    "name": "full-auto varmint pistol",
-    "description": "A lightweight varmint pistol, modified to fire both semi, and full auto.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "ruger_charger_auto",
-        "name": { "str": "full-auto Ruger 22 Charger" },
-        "description": "A Ruger 22 Charger modified post-Cataclysm to selective fire.  While the .22 round isn't very powerful, full auto makes it a lot more effective, and still easily controllable in full auto even with the lack of a stock."
-      }
-    ],
-    "price_postapoc": "15 USD",
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ]
-  },
-  {
     "id": "rossi_gallery",
     "looks_like": "ar15",
     "copy-from": "gun_base_rifle_manual",
@@ -733,5 +660,84 @@
     "dispersion": 580,
     "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [ { "magazine_well": "40 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glock44_mag" ] } ]
+  },
+  {
+    "id": "savage_rascal",
+    "copy-from": "gun_base_rifle_manual",
+    "looks_like": "marlin_9a",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "small game single shot rifle" },
+    "description": "A .22 Long Rifle rifle that chambers just one shot.  Its main use is for the youth, and not much else.  God help you if you hope to use this thing to a meaningful effect.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "savage_rascal",
+        "name": { "str": "Savage Rascal" },
+        "description": "A .22 Long Rifle rifle that chambers just one shot.  Its main use is for the youth, and not much else.  God help you if you hope to use this thing to a meaningful effect."
+      }
+    ],
+    "//": "Stats from https://savagearms.com/firearms/sku/13775",
+    "weight": "1230 g",
+    "volume": "1284 ml",
+    "longest_side": "783 mm",
+    "barrel_length": "410 mm",
+    "price": "169 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "steel", "plastic" ],
+    "melee_damage": { "bash": 7 },
+    "range": 4,
+    "ammo": [ "22" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": 3 },
+    "dispersion": 100,
+    "clip_size": 1,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "mechanism", 2 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 1 } } ]
+  },
+  {
+    "id": "mp_15_22",
+    "looks_like": "ar15",
+    "copy-from": "gun_base_22_semi_rifle",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "modern varmint rifle" },
+    "//": "Based on https://www.smith-wesson.com/product/performance-center-m-p-15-22-sport-compliant",
+    "description": "Resembling a military rifle, this firearm is made from polymer.  Despite its looks, it only shoots .22 LR in a semi-automatic fashion.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mp_15_22",
+        "name": { "str": "M&P 15-22" },
+        "description": "A .22 LR version of the M&P-15, this rifle resembles an AR-15 in form and function, but does not have the ability for compatible uppers or lowers."
+      }
+    ],
+    "weight": "2540 g",
+    "volume": "3318 ml",
+    "longest_side": "942 mm",
+    "barrel_length": "406 mm",
+    "price": "779 USD",
+    "material": [ "steel", "plastic" ],
+    "dispersion": 110,
+    "barrel_volume": "500 ml",
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "mechanism", 2 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [ { "magazine_well": "34 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mp1522_mag" ] } ]
   }
 ]

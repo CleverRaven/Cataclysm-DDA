@@ -277,6 +277,30 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_summer_ring_of_flames",
+    "name": [ "Summer Champion" ],
+    "desc": [ "You stand in the ring of flames, facing your foe.  Woe to the vanquished." ],
+    "rating": "good",
+    "enchantments": [ { "values": [ { "value": "KNOCKBACK_RESIST", "add": 100 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 } ] } ],
+    "blocks_effects": [ "blisters" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_summer_ring_of_flames_limiter",
+    "//": "Limiter so the avatar_moves EoC for Ring of Champions doesn't immediately break due to removal of fields taking 1 round to occur",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_summer_ring_of_flames_enemy",
+    "name": [ "Enemy Champion" ],
+    "desc": [ "You are the target of Ring of Champions.  Your death will end the glamour." ],
+    "rating": "good",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_summer_powerful_sunlight",
     "name": [ "Helios's Wrath" ],
     "desc": [ "You blaze with the pure light of the summer sun." ],
@@ -464,7 +488,7 @@
     "remove_message": "Life returns to your limbs.",
     "show_in_info": true,
     "max_duration": "6 hours",
-    "enchantments": [ { "mutations": [ "WINTER_FEIGN_DEATH_TRAITS" ] } ],
+    "enchantments": [ { "mutations": [ "WINTER_FEIGN_DEATH_TRAITS" ], "ench_effects": [ { "effect": "downed", "intensity": 1 } ] } ],
     "limb_score_mods": [
       { "limb_score": "lift", "modifier": 0.2 },
       { "limb_score": "block", "modifier": 0.0 },
@@ -532,5 +556,15 @@
     "name": [ "" ],
     "desc": [ "" ],
     "flags": [ "CRAFT_IN_DARKNESS", "READ_IN_DARKNESS" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_winter_cut_off_fey_nature",
+    "name": [ "The Soul of Iron" ],
+    "desc": [ "Your fey powers are cut off, like they're trapped behind a wall of glass." ],
+    "remove_message": "The glass wall cutting off your fey powers shatters into dust.",
+    "rating": "mixed",
+    "removes_effects": [ "effect_changeling_wearing_iron", "effect_changeling_wearing_steel" ],
+    "flags": [ "NO_FEY_MAGIC" ]
   }
 ]

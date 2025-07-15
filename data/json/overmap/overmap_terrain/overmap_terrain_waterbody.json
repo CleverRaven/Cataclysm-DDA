@@ -20,7 +20,7 @@
     "extend": { "flags": [ "LAKE_SHORE", "IGNORE_ROTATION_FOR_ADJACENCY" ] },
     "extras": "lake_shore",
     "travel_cost_type": "shore",
-    "mapgen": [ { "method": "builtin", "name": "lake_shore" } ]
+    "mapgen": [ { "builtin": "lake_shore" } ]
   },
   {
     "type": "overmap_terrain",
@@ -63,7 +63,7 @@
     "extend": { "flags": [ "OCEAN_SHORE", "IGNORE_ROTATION_FOR_ADJACENCY" ] },
     "extras": "ocean_shore",
     "travel_cost_type": "shore",
-    "mapgen": [ { "method": "builtin", "name": "ocean_shore" } ]
+    "mapgen": [ { "builtin": "ocean_shore" } ]
   },
   {
     "type": "overmap_terrain",

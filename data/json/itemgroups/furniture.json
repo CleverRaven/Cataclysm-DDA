@@ -13,22 +13,6 @@
   },
   {
     "type": "item_group",
-    "id": "oven",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "pan", "prob": 80 },
-      { "item": "rolling_pin", "prob": 25 },
-      { "item": "waffleiron", "prob": 25 },
-      { "item": "teapot", "prob": 25 },
-      { "item": "pot", "prob": 80 },
-      { "item": "pot_copper", "prob": 20 },
-      { "item": "pot_canning", "prob": 15 },
-      { "item": "pressure_cooker", "prob": 5 },
-      { "item": "dutch_oven", "prob": 5 }
-    ]
-  },
-  {
-    "type": "item_group",
     "id": "bed",
     "subtype": "distribution",
     "entries": [

@@ -46,7 +46,7 @@
       "O": { "item": "clothing_hunting", "chance": 50 },
       "o": { "item": "tools_hunting", "chance": 50 },
       "r": { "item": "clothing_hunting", "chance": 50 },
-      "f": { "item": "fridgesnacks", "chance": 80, "repeat": [ 2, 3 ] },
+      "f": { "item": "SUS_fridge_breakroom", "chance": 80, "repeat": [ 2, 3 ] },
       "L": { "item": "jackets", "chance": 50 },
       "F": { "item": "SUS_office_filing_cabinet", "chance": 80, "repeat": [ 2, 4 ] },
       "X": { "item": "ammo_hunting", "chance": 80, "repeat": [ 4, 6 ] },

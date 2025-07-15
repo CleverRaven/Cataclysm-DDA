@@ -33,7 +33,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "shelter",
     "object": {
       "fill_ter": "t_floor",
@@ -69,7 +68,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "shelter_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -105,7 +103,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "shelter_1", "shelter_1b" ],
     "object": {
       "fill_ter": "t_floor",
@@ -141,7 +138,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "shelter_roof_1", "shelter_roof_1b" ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -177,7 +173,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "shelter_2",
     "object": {
       "fill_ter": "t_floor",
@@ -213,7 +208,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "shelter_roof_2" ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -249,7 +243,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "shelter_vandal",
     "object": {
       "fill_ter": "t_floor",
@@ -285,7 +278,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "shelter_1_vandal", "shelter_1b_vandal" ],
     "object": {
       "fill_ter": "t_floor",
@@ -321,7 +313,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "shelter_2_vandal",
     "object": {
       "fill_ter": "t_floor",
@@ -357,7 +348,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "shelter_survivor" ],
     "object": {
       "fill_ter": "t_floor",
@@ -393,7 +383,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "shelter_1_survivor", "shelter_1b_survivor" ],
     "object": {
       "fill_ter": "t_floor",
@@ -429,7 +418,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "shelter_2_survivor" ],
     "object": {
       "fill_ter": "t_floor",
@@ -465,7 +453,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Unfinished before the Cataclysm.",
     "om_terrain": "shelter_unfinished",
     "object": {
@@ -502,7 +489,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Unfinished before the Cataclysm.",
     "om_terrain": [ "shelter_1_unfinished", "shelter_1b_unfinished" ],
     "object": {
@@ -539,7 +525,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Unfinished before the Cataclysm.",
     "om_terrain": [ "shelter_2_unfinished" ],
     "object": {
@@ -576,7 +561,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Infested spawn for Compromised Shelter scenario.",
     "om_terrain": [ "shelter_infested" ],
     "object": {
@@ -614,7 +598,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Infested spawn for Compromised Shelter scenario.",
     "om_terrain": [ "shelter_1_infested", "shelter_1b_infested" ],
     "object": {
@@ -652,7 +635,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "Infested spawn for Compromised Shelter scenario.",
     "om_terrain": [ "shelter_2_infested" ],
     "object": {
@@ -690,7 +672,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "shelter_under",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -725,7 +706,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "shelter_under_vandal",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -761,7 +741,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "shelter_under_unfinished",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -796,7 +775,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "shelter_under_infested",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -831,7 +809,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "shelter_under_1b",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -866,7 +843,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "shelter_under_1b_vandal",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -902,7 +878,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "shelter_under_1b_unfinished",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -937,7 +912,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "shelter_under_1b_infested",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -972,7 +946,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "shelter_under_2",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -1007,7 +980,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "shelter_under_2_vandal",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -1043,7 +1015,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "shelter_under_2_unfinished",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -1078,7 +1049,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "shelter_under_2_infested",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -1113,7 +1083,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "shelter_under_1",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -1148,7 +1117,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "shelter_under_1_vandal",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -1184,7 +1152,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "shelter_under_1_unfinished",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -1219,7 +1186,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "shelter_under_1_infested",
     "object": {
       "fill_ter": "t_linoleum_white",

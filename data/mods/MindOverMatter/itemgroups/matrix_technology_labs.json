@@ -259,6 +259,7 @@
     "subtype": "distribution",
     "items": [
       { "item": "cards_zener", "prob": 30 },
+      { "item": "phavian_noetic_resonance_detector_instructions", "prob": 8 },
       { "item": "file", "prob": 50 },
       { "item": "deck_of_cards", "prob": 30 },
       { "item": "pen", "prob": 30 },

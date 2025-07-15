@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [
         "stadium_football_1_0",
@@ -95,7 +94,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "stadium_football_0_0", "stadium_football_8_0" ],
       [ "stadium_football_0_1", "stadium_football_8_1" ],
@@ -190,7 +188,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "stadium_football_0_3", "stadium_football_8_3" ],
       [ "stadium_football_0_4", "stadium_football_8_4" ],
@@ -312,7 +309,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [
         "stadium_football_1_1",
@@ -600,7 +596,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [
         "stadium_football_1_1_1",
@@ -695,7 +690,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "stadium_football_1_2_1", "stadium_football_7_2_1" ],
       [ "stadium_football_1_3_1", "stadium_football_7_3_1" ],
@@ -791,7 +785,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "stadium_football_2_3_1", "stadium_football_6_3_1" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -826,7 +819,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [
         "stadium_football_1_1_2",
@@ -921,7 +913,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "stadium_football_1_2_2", "stadium_football_7_2_2" ],
       [ "stadium_football_1_3_2", "stadium_football_7_3_2" ],
@@ -1017,7 +1008,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [
         "stadium_football_1_1_3",
@@ -1112,7 +1102,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "stadium_football_1_2_3", "stadium_football_7_2_3" ],
       [ "stadium_football_1_3_3", "stadium_football_7_3_3" ],
@@ -1208,7 +1197,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [
         "stadium_football_2_1_4",
@@ -1295,7 +1283,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [
         "stadium_football_2_1_5",

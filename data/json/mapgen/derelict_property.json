@@ -153,7 +153,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "derelict_property",
     "object": {
       "fallback_predecessor_mapgen": "forest",
@@ -163,7 +162,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "derelict_property_roof",
     "object": {
       "fill_ter": "t_open_air",
@@ -192,7 +190,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "derelict_property_1",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -228,7 +225,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "derelict_property_1_roof",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -264,7 +260,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "derelict_property_2",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -300,7 +295,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "derelict_property_2_roof",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -336,7 +330,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "derelict_property_3",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -372,7 +365,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "derelict_property_3_roof",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -408,7 +400,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "derelict_property_4",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -445,7 +436,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "derelict_property_4_roof",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -481,7 +471,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "derelict_property_5",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -517,7 +506,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "derelict_property_5_roof",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -553,7 +541,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "derelict_property_6",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -589,7 +576,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "derelict_property_6_roof",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -625,7 +611,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "derelict_property_7",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -663,7 +648,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "derelict_property_7_roof",
     "object": {
       "mapgensize": [ 24, 24 ],

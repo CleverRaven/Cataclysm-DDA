@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "afs_modular_habitat_center_farm",
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
@@ -10,7 +9,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "afs_modular_habitat_greenhouse",
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
@@ -19,7 +17,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "afs_modular_habitat_greenhouse_control_room_1s",
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
@@ -29,7 +26,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "afs_modular_habitat_center_farm",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -83,7 +79,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "afs_modular_habitat_greenhouse",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -130,7 +125,6 @@
   {
     "type": "mapgen",
     "om_terrain": "afs_modular_habitat_greenhouse_roof",
-    "method": "json",
     "object": {
       "rows": [
         "........................",
@@ -172,7 +166,6 @@
   {
     "type": "mapgen",
     "om_terrain": "afs_modular_habitat_greenhouse_roof2",
-    "method": "json",
     "object": {
       "rows": [
         "........................",
@@ -208,7 +201,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "afs_modular_habitat_greenhouse_control_room_1s",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -263,7 +255,6 @@
   {
     "type": "mapgen",
     "om_terrain": "afs_modular_habitat_greenhouse_control_room_1s_roof",
-    "method": "json",
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
       "rows": [

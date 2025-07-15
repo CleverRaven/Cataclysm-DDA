@@ -51,7 +51,7 @@
     "reversible": { "time": "5 s" },
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "40_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "chem_black_powder", 3 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "unprimed_40_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "chem_black_powder", 3 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "bp_40sw",
@@ -69,7 +69,7 @@
     "reversible": { "time": "5 s" },
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "40_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "chem_black_powder", 6 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "unprimed_40_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "chem_black_powder", 6 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "bp_32_acp",
@@ -177,7 +177,7 @@
     "reversible": { "time": "5 s" },
     "using": [ [ "bullet_forming", 5 ], [ "ammo_bullet", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "44_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "chem_black_powder", 7 ] ], [ [ "copper", 2 ] ] ]
+    "components": [ [ [ "unprimed_44_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "chem_black_powder", 7 ] ], [ [ "copper", 2 ] ] ]
   },
   {
     "result": "bp_45_acp",
@@ -195,7 +195,7 @@
     "reversible": { "time": "5 s" },
     "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "45_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "chem_black_powder", 3 ] ], [ [ "copper", 2 ] ] ]
+    "components": [ [ [ "unprimed_45_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "chem_black_powder", 3 ] ], [ [ "copper", 2 ] ] ]
   },
   {
     "result": "bp_45_jhp",
@@ -213,7 +213,7 @@
     "reversible": { "time": "5 s" },
     "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "45_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "chem_black_powder", 5 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "unprimed_45_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "chem_black_powder", 5 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "bp_46mm",
@@ -231,7 +231,7 @@
     "reversible": { "time": "5 s" },
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "46mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "chem_black_powder", 4 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "unprimed_46mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "chem_black_powder", 4 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "bp_500_Magnum",
@@ -249,7 +249,7 @@
     "reversible": { "time": "5 s" },
     "using": [ [ "bullet_forming", 6 ], [ "ammo_bullet", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "500_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 19 ] ], [ [ "copper", 5 ] ] ]
+    "components": [ [ [ "unprimed_500_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 19 ] ], [ [ "copper", 5 ] ] ]
   },
   {
     "result": "bp_50ae_jhp",
@@ -267,7 +267,12 @@
     "reversible": { "time": "5 s" },
     "using": [ [ "bullet_forming", 6 ], [ "ammo_bullet", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "50ae_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "chem_black_powder", 16 ] ], [ [ "copper", 5 ] ] ]
+    "components": [
+      [ [ "unprimed_50ae_casing", 1 ] ],
+      [ [ "lgpistol_primer", 1 ] ],
+      [ [ "chem_black_powder", 16 ] ],
+      [ [ "copper", 5 ] ]
+    ]
   },
   {
     "result": "bp_50ae_fmj",
@@ -285,7 +290,12 @@
     "reversible": { "time": "5 s" },
     "using": [ [ "bullet_forming", 6 ], [ "ammo_bullet", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "50ae_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "chem_black_powder", 16 ] ], [ [ "copper", 6 ] ] ]
+    "components": [
+      [ [ "unprimed_50ae_casing", 1 ] ],
+      [ [ "lgpistol_primer", 1 ] ],
+      [ [ "chem_black_powder", 16 ] ],
+      [ [ "copper", 6 ] ]
+    ]
   },
   {
     "result": "bp_762_25",
@@ -321,7 +331,12 @@
     "reversible": { "time": "5 s" },
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "9x18mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "chem_black_powder", 4 ] ], [ [ "copper", 1 ] ] ]
+    "components": [
+      [ [ "unprimed_9x18mm_casing", 1 ] ],
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "chem_black_powder", 4 ] ],
+      [ [ "copper", 1 ] ]
+    ]
   },
   {
     "result": "bp_9x18mmfmj",
@@ -339,7 +354,12 @@
     "reversible": { "time": "5 s" },
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "9x18mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "chem_black_powder", 4 ] ], [ [ "copper", 1 ] ] ]
+    "components": [
+      [ [ "unprimed_9x18mm_casing", 1 ] ],
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "chem_black_powder", 4 ] ],
+      [ [ "copper", 1 ] ]
+    ]
   },
   {
     "result": "bp_380_JHP",
@@ -712,7 +732,7 @@
     "//": "320 mg gunpowder rounded to 3 100 mg 'pieces'",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
-      [ [ "40_casing", 1 ] ],
+      [ [ "unprimed_40_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
       [ [ "gunpowder_pistol", 3 ], [ "gunpowder_shotgun", 3 ] ],
       [ [ "copper", 1 ] ]
@@ -736,7 +756,7 @@
     "//": "576 mg gunpowder rounded to 6 100 mg 'pieces'",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
-      [ [ "40_casing", 1 ] ],
+      [ [ "unprimed_40_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
       [ [ "gunpowder_pistol", 6 ], [ "gunpowder_shotgun", 6 ] ],
       [ [ "copper", 1 ] ]
@@ -853,7 +873,7 @@
     "//": "660 mg gunpowder rounded to 7 100 mg 'pieces'",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
-      [ [ "44_casing", 1 ] ],
+      [ [ "unprimed_44_casing", 1 ] ],
       [ [ "lgpistol_primer", 1 ] ],
       [ [ "gunpowder_rifle", 7 ], [ "gunpowder_magnum_pistol", 7 ] ],
       [ [ "copper", 2 ] ]
@@ -877,7 +897,7 @@
     "//": "660 mg gunpowder rounded to 7 100 mg 'pieces'",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
-      [ [ "44_casing", 1 ] ],
+      [ [ "unprimed_44_casing", 1 ] ],
       [ [ "lgpistol_primer", 1 ] ],
       [ [ "gunpowder_rifle", 7 ], [ "gunpowder_magnum_pistol", 7 ] ],
       [ [ "copper", 2 ] ]
@@ -899,7 +919,7 @@
     "reversible": { "time": "5 s" },
     "using": [ [ "bullet_forming", 5 ], [ "ammo_bullet", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "44_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "chem_black_powder", 7 ] ], [ [ "copper", 2 ] ] ]
+    "components": [ [ [ "unprimed_44_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "chem_black_powder", 7 ] ], [ [ "copper", 2 ] ] ]
   },
   {
     "result": "reloaded_45_acp",
@@ -919,7 +939,7 @@
     "//": "330 mg gunpowder rounded to 3 100 mg 'pieces'",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
-      [ [ "45_casing", 1 ] ],
+      [ [ "unprimed_45_casing", 1 ] ],
       [ [ "lgpistol_primer", 1 ] ],
       [ [ "gunpowder_pistol", 3 ], [ "gunpowder_shotgun", 3 ] ],
       [ [ "copper", 2 ] ]
@@ -943,7 +963,7 @@
     "//": "466 mg gunpowder rounded to 5 100 mg 'pieces'",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
-      [ [ "45_casing", 1 ] ],
+      [ [ "unprimed_45_casing", 1 ] ],
       [ [ "lgpistol_primer", 1 ] ],
       [ [ "gunpowder_pistol", 5 ], [ "gunpowder_shotgun", 5 ] ],
       [ [ "copper", 1 ] ]
@@ -966,7 +986,7 @@
     "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 4 ] ],
     "//": "513 mg gunpowder rounded to 5 100 mg 'pieces'",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "45_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "gunpowder_pistol", 5 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "unprimed_45_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "gunpowder_pistol", 5 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "reloaded_454_Casull",
@@ -986,7 +1006,7 @@
     "//": "1574 mg gunpowder rounded to 16 100 mg 'pieces'",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
-      [ [ "454_casing", 1 ] ],
+      [ [ "unprimed_454_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
       [ [ "gunpowder_rifle", 16 ], [ "gunpowder_magnum_pistol", 16 ] ],
       [ [ "copper", 2 ] ]
@@ -1008,7 +1028,7 @@
     "reversible": { "time": "5 s" },
     "using": [ [ "bullet_forming", 5 ], [ "ammo_bullet", 6 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "454_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "chem_black_powder", 16 ] ], [ [ "copper", 2 ] ] ]
+    "components": [ [ [ "unprimed_454_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "chem_black_powder", 16 ] ], [ [ "copper", 2 ] ] ]
   },
   {
     "result": "reloaded_45colt_jhp",
@@ -1138,7 +1158,7 @@
     "//": "Unable to find load data, used 5.7 data as cartridges are similar. 388 mg gunpowder rounded to 4 100 mg 'pieces'",
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "46mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder_pistol", 4 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "unprimed_46mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder_pistol", 4 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "reloaded_500_Magnum",
@@ -1158,7 +1178,7 @@
     "//": "1943 mg gunpowder rounded to 19 100 mg 'pieces'",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
-      [ [ "500_casing", 1 ] ],
+      [ [ "unprimed_500_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder_rifle", 19 ], [ "gunpowder_magnum_pistol", 19 ] ],
       [ [ "copper", 5 ] ]
@@ -1182,7 +1202,7 @@
     "//": "1619 mg gunpowder rounded to 16 100 mg 'pieces'",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
-      [ [ "50ae_casing", 1 ] ],
+      [ [ "unprimed_50ae_casing", 1 ] ],
       [ [ "lgpistol_primer", 1 ] ],
       [ [ "gunpowder_rifle", 16 ], [ "gunpowder_magnum_pistol", 16 ] ],
       [ [ "copper", 5 ] ]
@@ -1206,7 +1226,7 @@
     "//": "1619 mg gunpowder rounded to 16 100 mg 'pieces'",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
-      [ [ "50ae_casing", 1 ] ],
+      [ [ "unprimed_50ae_casing", 1 ] ],
       [ [ "lgpistol_primer", 1 ] ],
       [ [ "gunpowder_rifle", 16 ], [ "gunpowder_magnum_pistol", 16 ] ],
       [ [ "copper", 6 ] ]
@@ -1229,7 +1249,7 @@
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 1 ] ],
     "//": "388 mg gunpowder rounded to 4 100 mg 'pieces'",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "57mm_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "gunpowder_pistol", 4 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "unprimed_57mm_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "gunpowder_pistol", 4 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "reloaded_762_25",
@@ -1344,7 +1364,7 @@
     "//": "401 mg gunpowder rounded to 4 100 mg 'pieces'",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
-      [ [ "9x18mm_casing", 1 ] ],
+      [ [ "unprimed_9x18mm_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
       [ [ "gunpowder_pistol", 4 ], [ "gunpowder_shotgun", 4 ] ],
       [ [ "copper", 1 ] ]
@@ -1368,7 +1388,7 @@
     "//": "401 mg gunpowder rounded to 4 100 mg 'pieces'",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
-      [ [ "9x18mm_casing", 1 ] ],
+      [ [ "unprimed_9x18mm_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
       [ [ "gunpowder_pistol", 4 ], [ "gunpowder_shotgun", 4 ] ],
       [ [ "copper", 1 ] ]
@@ -1392,7 +1412,7 @@
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "//": "Arbitrary powder amount as +p+ is not a real standard but an informal one which has about 20% higher pressure than standard 9mm, while +p is a standard that has 10% higher pressure. 481 mg gunpowder rounded to 5 100 mg 'pieces'",
     "components": [
-      [ [ "9x18mm_casing", 1 ] ],
+      [ [ "unprimed_9x18mm_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
       [ [ "gunpowder_pistol", 5 ], [ "gunpowder_shotgun", 5 ] ],
       [ [ "copper", 1 ] ]
@@ -1583,7 +1603,12 @@
     "reversible": { "time": "5 s" },
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "40_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "red_phosphorous_small", 3 ] ], [ [ "copper", 1 ] ] ]
+    "components": [
+      [ [ "unprimed_40_casing", 1 ] ],
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "red_phosphorous_small", 3 ] ],
+      [ [ "copper", 1 ] ]
+    ]
   },
   {
     "result": "matchhead_40sw",
@@ -1601,7 +1626,12 @@
     "reversible": { "time": "5 s" },
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "40_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "red_phosphorous_small", 6 ] ], [ [ "copper", 1 ] ] ]
+    "components": [
+      [ [ "unprimed_40_casing", 1 ] ],
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "red_phosphorous_small", 6 ] ],
+      [ [ "copper", 1 ] ]
+    ]
   },
   {
     "result": "matchhead_32_acp",
@@ -1727,7 +1757,12 @@
     "reversible": { "time": "5 s" },
     "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "45_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "red_phosphorous_small", 3 ] ], [ [ "copper", 2 ] ] ]
+    "components": [
+      [ [ "unprimed_45_casing", 1 ] ],
+      [ [ "lgpistol_primer", 1 ] ],
+      [ [ "red_phosphorous_small", 3 ] ],
+      [ [ "copper", 2 ] ]
+    ]
   },
   {
     "result": "matchhead_45_jhp",
@@ -1745,7 +1780,12 @@
     "reversible": { "time": "5 s" },
     "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "45_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "red_phosphorous_small", 5 ] ], [ [ "copper", 1 ] ] ]
+    "components": [
+      [ [ "unprimed_45_casing", 1 ] ],
+      [ [ "lgpistol_primer", 1 ] ],
+      [ [ "red_phosphorous_small", 5 ] ],
+      [ [ "copper", 1 ] ]
+    ]
   },
   {
     "result": "matchhead_762_25",
@@ -1781,7 +1821,12 @@
     "reversible": { "time": "5 s" },
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "9x18mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "red_phosphorous_small", 4 ] ], [ [ "copper", 1 ] ] ]
+    "components": [
+      [ [ "unprimed_9x18mm_casing", 1 ] ],
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "red_phosphorous_small", 4 ] ],
+      [ [ "copper", 1 ] ]
+    ]
   },
   {
     "result": "matchhead_9x18mmfmj",
@@ -1799,7 +1844,12 @@
     "reversible": { "time": "5 s" },
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "9x18mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "red_phosphorous_small", 4 ] ], [ [ "copper", 1 ] ] ]
+    "components": [
+      [ [ "unprimed_9x18mm_casing", 1 ] ],
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "red_phosphorous_small", 4 ] ],
+      [ [ "copper", 1 ] ]
+    ]
   },
   {
     "result": "matchhead_380_JHP",
@@ -2015,7 +2065,12 @@
     "reversible": { "time": "5 s" },
     "using": [ [ "bullet_forming", 6 ], [ "ammo_bullet", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "50ae_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "red_phosphorous_small", 16 ] ], [ [ "copper", 5 ] ] ]
+    "components": [
+      [ [ "unprimed_50ae_casing", 1 ] ],
+      [ [ "lgpistol_primer", 1 ] ],
+      [ [ "red_phosphorous_small", 16 ] ],
+      [ [ "copper", 5 ] ]
+    ]
   },
   {
     "result": "matchhead_50ae_fmj",
@@ -2033,6 +2088,11 @@
     "reversible": { "time": "5 s" },
     "using": [ [ "bullet_forming", 6 ], [ "ammo_bullet", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "50ae_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "red_phosphorous_small", 16 ] ], [ [ "copper", 6 ] ] ]
+    "components": [
+      [ [ "unprimed_50ae_casing", 1 ] ],
+      [ [ "lgpistol_primer", 1 ] ],
+      [ [ "red_phosphorous_small", 16 ] ],
+      [ [ "copper", 6 ] ]
+    ]
   }
 ]

@@ -425,5 +425,22 @@
     "effect_str": "EOC_VAMPIRE_INVISIBLE_IN_DARK",
     "shape": "blast",
     "difficulty": 5
+  },
+  {
+    "id": "mentor_vanish",
+    "type": "SPELL",
+    "name": { "str": "Vanish in mist.", "//~": "NO_I18N" },
+    "description": { "str": "Vanish in mist and stay away until things are better.  This will likely be forever.", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "magic_type": "xe_vampire_blood_powers",
+    "valid_targets": [ "self" ],
+    "skill": "deduction",
+    "spell_class": "VAMPIRE_BLOOD_ARTS",
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_MENTOR_VANISH",
+    "shape": "blast",
+    "difficulty": 0
   }
 ]

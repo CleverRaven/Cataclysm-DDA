@@ -447,7 +447,7 @@
     "//1": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given spot.",
     "//2": "This group is for dumpsters, contained within multiple garbage bags",
     "items": [
-      { "group": "SUS_trash_trashcan_full", "count": [ 0, 12 ] },
+      { "group": "SUS_trash_trashcan_full", "count": [ 0, 8 ] },
       { "item": "box_small", "prob": 20, "count": [ 0, 5 ] },
       { "item": "box_medium", "prob": 10, "count": [ 0, 4 ] },
       { "item": "box_large", "prob": 15, "count": [ 0, 4 ] },

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "drive_through_0_0", "drive_through_1_0", "drive_through_2_0" ],
       [ "drive_through_0_1", "drive_through_1_1", "drive_through_2_1" ]
@@ -83,7 +82,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "drive_through_roof_0_0", "drive_through_roof_1_0", "drive_through_roof_2_0" ],
       [ "drive_through_roof_0_1", "drive_through_roof_1_1", "drive_through_roof_2_1" ]

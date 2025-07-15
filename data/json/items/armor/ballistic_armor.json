@@ -1534,7 +1534,7 @@
           { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
         ],
         "encumbrance": 0,
-        "coverage": 30,
+        "coverage": 90,
         "covers": [ "head" ],
         "specifically_covers": [ "head_throat", "head_nape" ],
         "volume_encumber_modifier": 0

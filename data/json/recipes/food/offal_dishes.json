@@ -345,7 +345,7 @@
     "charges": 9,
     "book_learn": [ [ "cookbook", 3 ], [ "family_cookbook", 3 ], [ "cookbook_liverforkids", 1 ] ],
     "qualities": [ { "id": "COOK", "level": 3 }, { "id": "CUT", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 52, "LIST" ] ], [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "food_processor", 20 ] ] ],
+    "tools": [ [ [ "surface_heat", 52, "LIST" ] ], [ [ "rock_quern", -1 ], [ "food_processor", 20 ] ] ],
     "//": "https://www.fabfood4all.co.uk/leverpostej-danish-liver-pate/ 472g of meat: 20u, ~300g fat = 20u, eggs = 6u, flour = 2u, milk = 2u, onion = 2u",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [

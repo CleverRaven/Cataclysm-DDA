@@ -383,11 +383,6 @@ void Character::pick_name( bool bUseDefault )
     }
 }
 
-static std::string wrap60( const std::string &text )
-{
-    return string_join( foldstring( text, 60 ), "\n" );
-}
-
 static matype_id choose_ma_style( const character_type type, const std::vector<matype_id> &styles,
                                   const avatar &u )
 {
@@ -808,8 +803,7 @@ bool avatar::create( character_type type, const std::string &tempname )
             tabs.position.last();
             break;
     }
-
-    // Don't apply the default backgrounds on a template
+    // Don't apply the default backgrounds on a template or scenario with SKIP_DEFAULT_BACKGROUND
     if( type != character_type::TEMPLATE &&
         !get_scenario()->has_flag( flag_SKIP_DEFAULT_BACKGROUND ) ) {
         add_default_background();
@@ -1457,6 +1451,42 @@ static std::string assemble_stat_help( const input_context &ctxt )
                ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "PREV_TAB" ) );
 }
 
+static std::string stat_level_description( int stat_value )
+{
+    // Breakpoint values are largely borrowed from GAME_BALANCE.md.
+    std::string description;
+    if( stat_value >= 20 ) {
+        //~Description of a character's main stats. Should not exceed 18 characters of width.
+        description = _( "inhuman" );
+    } else if( stat_value > 14 ) {
+        //~Description of a character's main stats. Should not exceed 18 characters of width.
+        description = _( "extraordinary" );
+    } else if( stat_value > 12 ) {
+        //~Description of a character's main stats. Should not exceed 18 characters of width.
+        description = _( "top 1%" );
+    } else if( stat_value > 10 ) {
+        //~Description of a character's main stats. Should not exceed 18 characters of width.
+        description = _( "top 10%" );
+    } else if( stat_value > 8 ) {
+        //~Description of a character's main stats. Should not exceed 18 characters of width.
+        description = _( "above average" );
+    } else if( stat_value == 8 ) { // special handling
+        //~Description of a character's main stats. Should not exceed 18 characters of width.
+        description = _( "average human" );
+    } else if( stat_value > 6 ) {
+        //~Description of a character's main stats. Should not exceed 18 characters of width.
+        description = _( "below average" );
+    } else if( stat_value > 4 ) {
+        //~Description of a character's main stats. Should not exceed 18 characters of width.
+        description = _( "impaired" );
+    } else if( stat_value >= 0 ) {
+        //~Description of a character's main stats. Should not exceed 18 characters of width.
+        description = _( "incapacitated" );
+    }
+
+    return description;
+}
+
 /** Handle the stats tab of the character generation menu */
 void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
 {
@@ -1526,6 +1556,8 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
                 mvwprintz( w, point( 2, i + iHeaderHeight ), i == sel ? COL_SELECT : c_light_gray, "%s:",
                            stat_labels[i].translated() );
                 mvwprintz( w, point( 16, i + iHeaderHeight ), c_light_gray, "%2d", *stats[i] );
+                mvwprintz( w, point( 19, i + iHeaderHeight ), c_light_gray, "(%s)",
+                           stat_level_description( *stats[i] ) );
             }
         }
 
@@ -2244,8 +2276,14 @@ static std::string assemble_profession_details( const avatar &u, const input_con
 
     if( sorted_profs[cur_id]->get_requirement().has_value() ) {
         assembled += "\n" + colorize( _( "Profession requirements:" ), COL_HEADER ) + "\n";
-        assembled += string_format( _( "Complete \"%s\"\n" ),
-                                    sorted_profs[cur_id]->get_requirement().value()->name() );
+        ret_val<void> can_pick_prof = sorted_profs[cur_id]->can_pick();
+        if( can_pick_prof.success() ) {
+            assembled += colorize( string_format( _( "Completed \"%s\"\n" ),
+                                                  sorted_profs[cur_id]->get_requirement().value()->name() ),
+                                   c_green ) + "\n";
+        } else { // fail, can't pick so display ret_val's reason
+            assembled += colorize( can_pick_prof.str(), c_red ) + "\n";
+        }
     }
     //Profession story
     assembled += "\n" + colorize( _( "Profession story:" ), COL_HEADER ) + "\n";
@@ -3474,12 +3512,13 @@ static std::string assemble_scenario_details( const avatar &u, const input_conte
             assembled += colorize( scenUnavailable, c_red ) + "\n";
         }
         if( scenRequirement.has_value() ) {
-            nc_color requirement_color = c_red;
-            if( current_scenario->can_pick().success() ) {
-                requirement_color = c_green;
+            ret_val<void> can_pick_scenario = current_scenario->can_pick();
+            if( can_pick_scenario.success() ) {
+                assembled += colorize( string_format( _( "Completed \"%s\"" ), scenRequirement.value()->name() ),
+                                       c_green ) + "\n";
+            } else { // fail, can't pick so display ret_val's reason
+                assembled += colorize( can_pick_scenario.str(), c_red ) + "\n";
             }
-            assembled += colorize( string_format( _( "Complete \"%s\"" ), scenRequirement.value()->name() ),
-                                   requirement_color ) + "\n";
         }
     }
 
@@ -4897,15 +4936,17 @@ void Character::empty_skills()
 
 void Character::add_traits()
 {
-    // TODO: get rid of using get_avatar() here, use `this` instead
-    for( const trait_and_var &tr : get_avatar().prof->get_locked_traits() ) {
-        if( !has_trait( tr.trait ) ) {
-            toggle_trait_deps( tr.trait );
+    //TODO: NPCs already get profession stuff assigned at least twice elsewhere causing issues and it all wants unifying (if not here this should be made an avatar::add_traits()
+    if( !is_npc() ) {
+        for( const trait_and_var &tr : prof->get_locked_traits() ) {
+            if( !has_trait( tr.trait ) ) {
+                toggle_trait_deps( tr.trait );
+            }
         }
-    }
-    for( const trait_id &tr : get_scenario()->get_locked_traits() ) {
-        if( !has_trait( tr ) ) {
-            toggle_trait_deps( tr );
+        for( const trait_id &tr : get_scenario()->get_locked_traits() ) {
+            if( !has_trait( tr ) ) {
+                toggle_trait_deps( tr );
+            }
         }
     }
 }
@@ -5092,7 +5133,9 @@ void reset_scenario( avatar &u, const scenario *scen )
     u.prof = &default_prof.obj();
 
     u.hobbies.clear();
-    u.add_default_background();
+    if( !scen->has_flag( flag_SKIP_DEFAULT_BACKGROUND ) ) {
+        u.add_default_background();
+    };
     u.clear_mutations();
     u.recalc_hp();
     u.empty_skills();

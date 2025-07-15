@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": "afs_modular_habitat_center_maintenance_tiny",
-    "method": "json",
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
       "rows": [
@@ -46,7 +45,6 @@
   {
     "type": "mapgen",
     "om_terrain": "afs_modular_habitat_center_small_ground_level_above",
-    "method": "json",
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
       "rows": [
@@ -83,7 +81,6 @@
   {
     "type": "mapgen",
     "om_terrain": "afs_modular_habitat_center_small_ground_level",
-    "method": "json",
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
       "rows": [

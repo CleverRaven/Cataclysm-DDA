@@ -31,7 +31,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "smokes_take_down_back_bay_barricade",
-    "method": "json",
     "object": {
       "set": [
         { "square": "furniture", "id": "f_clear", "x": 6, "y": 3, "x2": 17, "y2": 3 },

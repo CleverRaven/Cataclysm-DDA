@@ -1,13 +1,11 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_shia",
     "object": { "place_monster": [ { "monster": "mon_shia", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 100 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_jackson",
     "object": { "place_monster": [ { "monster": "mon_zombie_jackson", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 100 } ] }
   },

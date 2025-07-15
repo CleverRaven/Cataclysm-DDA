@@ -341,6 +341,10 @@ cata_path PATH_INFO::jsondir()
 {
     return datadir_path_value / "core";
 }
+cata_path PATH_INFO::compression_folder_path()
+{
+    return datadir_path_value / "raw" / "compression";
+}
 cata_path PATH_INFO::moddir()
 {
     return datadir_path_value / "mods";
@@ -424,10 +428,6 @@ std::string PATH_INFO::crash()
 std::string PATH_INFO::tileset_conf()
 {
     return "tileset.txt";
-}
-cata_path PATH_INFO::mods_replacements()
-{
-    return datadir_path_value / "mods" / "replacements.json";
 }
 cata_path PATH_INFO::mods_dev_default()
 {

@@ -70,7 +70,7 @@
     "copy-from": "mon_bird_flying_base",
     "default_faction": "bird_small_waterfowl",
     "speed": 85,
-    "extend": { "flags": [ "SWIMS" ] }
+    "extend": { "move_skills": { "swim": 4 } }
   },
   {
     "abstract": "mon_generic_chick",
@@ -134,7 +134,7 @@
     "default_faction": "bird_tiny_waterfowl",
     "upgrades": { "age_grow": 14, "into": "mon_duck" },
     "//": "Grows up into a duck as a fallback",
-    "extend": { "flags": [ "SWIMS" ] }
+    "extend": { "move_skills": { "swim": 4 } }
   },
   {
     "id": "mon_chicken",

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "ws_giant_sinkhole_1" ],
     "object": {
       "fallback_predecessor_mapgen": "field",
@@ -37,7 +36,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "ws_giant_sinkhole_2" ],
     "object": {
       "fallback_predecessor_mapgen": "solid_earth",

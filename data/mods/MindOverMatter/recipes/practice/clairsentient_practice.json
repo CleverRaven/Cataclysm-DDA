@@ -17,6 +17,7 @@
       "practice_clair_sense_rads",
       "practice_clair_spot_weakness",
       "practice_clair_ranged_enhance",
+      "practice_clair_sense_hostile_creatures",
       "practice_clair_voyance",
       "practice_clair_dodge_power",
       "practice_clair_craft_bonus",
@@ -409,6 +410,64 @@
     "condition": {
       "and": [
         { "compare_string": [ "clair_ranged_enhance", { "u_val": "latest_studied_power_name" } ] },
+        { "test_eoc": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
+      ]
+    },
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: sense hostility",
+    "id": "practice_clair_sense_hostile_creatures",
+    "description": "Contemplate your powers and improve your ability to determine nearby creatures' hostility even if you can't see them with your physical senses.\n\nPower Difficulty: 5",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_clairsentience", "required": false } ],
+    "tools": [
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_clairsentience", -1 ]
+      ]
+    ],
+    "components": [ [ [ "matrix_crystal_clair_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_CLAIR_SENSE_HOSTILE_CREATURES",
+        "condition": { "u_has_trait": "CLAIRSENTIENT" },
+        "effect": [
+          { "set_string_var": "clair_sense_hostile_creatures", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "run_eocs": "EOC_PSI_STUDYING_CLAIR_POWER_SETUP" },
+          {
+            "if": { "math": [ "u_spell_level('clair_sense_hostile_creatures') >= 1" ] },
+            "then": { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] },
+            "else": [
+              { "run_eocs": [ "EOC_PSI_STUDYING_POWER_INITIAL_SETUP", "EOC_PSI_PRACTICE_FOCUS_MOD" ] },
+              {
+                "run_eocs": "EOC_PRACTICE_CLAIR_SENSE_HOSTILE_CREATURES_LEARNING",
+                "time_in_future": [
+                  { "math": [ "learn_new_power_lower_time_bound(u_latest_studied_power_difficulty)" ] },
+                  { "math": [ "learn_new_power_upper_time_bound(u_latest_studied_power_difficulty)" ] }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_CLAIR_SENSE_HOSTILE_CREATURES_LEARNING",
+    "condition": {
+      "and": [
+        { "compare_string": [ "clair_sense_hostile_creatures", { "u_val": "latest_studied_power_name" } ] },
         { "test_eoc": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
       ]
     },

@@ -319,7 +319,7 @@
       }
     ],
     "symbol": "0",
-    "color": "black",
+    "color": "dark_gray",
     "variant_type": "gun",
     "variants": [
       {
@@ -347,7 +347,7 @@
     "material": [ { "type": "cardboard" } ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "550 ml", "max_contains_weight": "5000 g" } ],
     "symbol": "0",
-    "color": "black",
+    "color": "dark_gray",
     "variant_type": "gun",
     "variants": [
       {
@@ -387,7 +387,7 @@
     ],
     "material": [ "steel" ],
     "symbol": "8",
-    "color": "black",
+    "color": "dark_gray",
     "variant_type": "gun",
     "variants": [
       {
@@ -425,7 +425,7 @@
     ],
     "material": [ "steel" ],
     "symbol": "#",
-    "color": "black",
+    "color": "dark_gray",
     "variant_type": "gun",
     "variants": [
       {

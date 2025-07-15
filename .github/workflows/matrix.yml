@@ -181,6 +181,7 @@ jobs:
             sound: 1
             localize: 0
             native: linux64
+            sanitize: undefined
             pch: 1
             title: GCC 9, Ubuntu, Tiles, Sound, CMake
             ccache_limit: 1G
@@ -219,7 +220,7 @@ jobs:
         CCACHE_NOCOMPRESS: true
         SKIP: >-
           ${{
-          ( github.event.pull_request.draft == true && matrix.title != 'Basic Build and Test (Clang 13, Ubuntu, Curses)' ) ||
+          ( github.event.pull_request.draft == true && matrix.title != 'Basic Build and Test (Clang oldest supported, Ubuntu, Curses)' ) ||
           ( matrix.dont_skip_data_only_changes == 0 && needs.skip-duplicates.outputs.should_skip_code == 'true' ) ||
           ( matrix.dont_skip_data_only_changes != 0 && needs.skip-duplicates-mods.outputs.should_skip_data == 'true' )
           }}
@@ -265,8 +266,10 @@ jobs:
     - name: install macports (mac)
       if: ${{ env.SKIP == 'false' && runner.os == 'macOS' && matrix.tiles == 1 }}
       uses: melusina-org/setup-macports@v1
-      with:
-        parameters: '.github/macports/macports.yml'
+    - name: install macports packages (mac)
+      if: ${{ env.SKIP == 'false' && runner.os == 'macOS' && matrix.tiles == 1 }}
+      run: |
+        sudo port install freetype +universal pkgconfig +universal
     - name: prepare
       if: ${{ env.SKIP == 'false' }}
       run: bash ./build-scripts/requirements.sh

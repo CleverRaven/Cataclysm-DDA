@@ -177,6 +177,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_trait": "DHAMPIR_WEAKNESS_SLOWER_BLOOD_GAIN" } },
+            { "not": { "u_has_effect": "effect_dhampir_the_blood_is_the_life" } },
             { "math": [ "u_vitamin('human_blood_vitamin')", "<", "1799" ] }
           ]
         },
@@ -186,6 +187,7 @@
         "condition": {
           "and": [
             { "u_has_trait": "DHAMPIR_WEAKNESS_SLOWER_BLOOD_GAIN" },
+            { "not": { "u_has_effect": "effect_dhampir_the_blood_is_the_life" } },
             { "math": [ "u_vitamin('human_blood_vitamin')", "<", "1799" ] }
           ]
         },
@@ -206,7 +208,7 @@
       { "condition": "ALWAYS", "ench_effects": [ { "effect": "effect_lilin_vampire_immune", "intensity": 1 } ] }
     ],
     "//": "Dhampirs not getting Cannibal is deliberate.  The struggle over their own humanity is a core part of the dhampir theme.",
-    "flags": [ "HEMOVORE" ],
+    "flags": [ "HEMOVORE", "HERITAGE" ],
     "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ]
   },
   {
@@ -270,16 +272,6 @@
     "purifiable": false,
     "valid": false,
     "player_display": false,
-    "attacks": [
-      {
-        "attack_text_u": "You sink your fangs into %s!",
-        "attack_text_npc": "%1$s sinks their fangs into %2$s!",
-        "blocker_mutations": [ "MUZZLE", "MUZZLE_LONG", "MUZZLE_RAT" ],
-        "body_part": "mouth",
-        "chance": 20,
-        "base_damage": { "damage_type": "stab", "amount": 7 }
-      }
-    ],
     "spells_learned": [ [ "vampire_drink_blood_with_fangs_spell", 1 ] ]
   },
   {
@@ -322,7 +314,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "While unable to ignore gravity like a true vampire, it has less of a hold on you.  You take greatly-reduced fall damage as long as you have empowered blood in your body.",
+    "description": "While unable to ignore gravity like a true vampire, it has less of a hold on you.  You can fall one story without ill effect and take greatly-reduced fall damage as long as you have empowered blood in your body.",
     "enchantments": [
       {
         "condition": { "u_has_effect": "effect_dhampir_empowered_blood_indicator" },
@@ -372,10 +364,38 @@
   },
   {
     "type": "mutation",
+    "id": "DHAMPIR_AVOID_EAT_SLEEP_DRINK",
+    "name": { "str": "The Blood is the Life" },
+    "points": 5,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "description": "While you must normally eat, sleep, and drink as a mortal must, in times of need you can put that off.  Activate this trait to reduce your need for food, water, and sleep to zero.  While active, the Blood is the Life will continually expend the power in your blood, and when it wears off, you will become exhausted in proportion to how long the trait was active.  You spend <color_yellow>much more blood</color> if outdoors in the sunlight.\n\n<color_light_red>Initial Blood Cost:</color> 1 ml (<u_val:blood_amount_for_graph> ml current)\n<color_light_red>Periodic Blood Cost:</color> 1 ml per minute",
+    "active": true,
+    "activated_is_setup": true,
+    "activation_msg": "You draw on the power in your blood to stave off mortal needs.",
+    "activated_eocs": [ "EOC_DHAMPIR_AVOID_EAT_SLEEP_DRINK_activated" ],
+    "processed_eocs": [ "EOC_DHAMPIR_AVOID_EAT_SLEEP_DRINK_periodic" ],
+    "deactivated_eocs": [ "EOC_DHAMPIR_AVOID_EAT_SLEEP_DRINK_deactivated" ],
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "values": [
+          { "value": "HUNGER", "multiply": -1 },
+          { "value": "METABOLISM", "multiply": -1 },
+          { "value": "THIRST", "multiply": -1 },
+          { "value": "SLEEPINESS", "multiply": -1 }
+        ],
+        "ench_effects": [ { "effect": "effect_dhampir_the_blood_is_the_life", "intensity": 1 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "DHAMPIR_WEAKNESS_SUN_SENSITIVITY",
     "name": { "str": "Weakness: Sun Sensitivity" },
     "points": -2,
-    "description": "While you won't burn in the sunlight like a true vampire, it's not comfortable.  You suffer a -1 penalty to all stats when outdoors during the daytime, and -2 if it's sunny.",
+    "description": "While you won't burn in the sunlight like a true vampire, it's not comfortable.  You suffer a -1 penalty to all stats when outdoors during the daytime, and an additional -2 if it's sunny or clear.",
     "purifiable": false,
     "valid": false,
     "enchantments": [
@@ -389,7 +409,7 @@
         ]
       },
       {
-        "condition": { "and": [ "is_day", "u_is_outside", { "is_weather": "sunny" } ] },
+        "condition": { "and": [ "is_day", "u_is_outside", { "or": [ { "is_weather": "sunny" }, { "is_weather": "clear" } ] } ] },
         "values": [
           { "value": "STRENGTH", "add": -2 },
           { "value": "DEXTERITY", "add": -2 },
@@ -512,7 +532,7 @@
     "id": "DHAMPIR_WEAKNESS_LOWER_KCAL_FROM_FOOD",
     "name": { "str": "Weakness: Thirst of the Damned" },
     "points": -2,
-    "description": "Fresh blood has an energy that mortal food simply cannot compare to.  You gain 33% reduced kcal and vitamins from the food you eat, but additional calories and vitamins from drinking blood.",
+    "description": "Fresh blood has an energy that mortal food simply cannot compare to.  You gain 33% reduced kcal from the food you eat, but additional calories from drinking blood.",
     "purifiable": false,
     "valid": false,
     "enchantments": [ { "values": [ { "value": "KCAL", "multiply": -0.33 } ] } ]
@@ -535,7 +555,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "vitamin_rates": [ [ "human_blood_vitamin", 720 ] ],
+    "vitamin_rates": [ [ "human_blood_vitamin", 720 ], [ "mutagen", 300 ] ],
     "no_empathize_with": [ "HUMAN" ],
     "flags": [ "CANNIBAL", "HEMOVORE" ],
     "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ]
@@ -756,7 +776,7 @@
     "description": "You can sense the presence of nearby predatory night creatures.",
     "active": true,
     "activated_is_setup": true,
-    "activation_msg": "You open your sense to the children of the night.",
+    "activation_msg": "You open your senses to the children of the night.",
     "enchantments": [
       {
         "condition": "ACTIVE",
@@ -788,18 +808,8 @@
     "purifiable": false,
     "types": [ "TEETH" ],
     "valid": false,
-    "vitamin_rates": [ [ "human_blood_vitamin", 720 ] ],
+    "vitamin_rates": [ [ "human_blood_vitamin", 720 ], [ "mutagen", 300 ], [ "mutagenic_slurry", 1 ] ],
     "flags": [ "CANNIBAL", "ALBINO", "HEMOVORE" ],
-    "attacks": [
-      {
-        "attack_text_u": "You sink your fangs into %s!",
-        "attack_text_npc": "%1$s sinks their fangs into %2$s!",
-        "blocker_mutations": [ "MUZZLE", "MUZZLE_LONG", "MUZZLE_RAT" ],
-        "body_part": "mouth",
-        "chance": 20,
-        "base_damage": { "damage_type": "stab", "amount": 20 }
-      }
-    ],
     "spells_learned": [ [ "vampire_drink_blood_with_fangs_spell", 1 ] ]
   },
   {
@@ -972,7 +982,7 @@
     "purifiable": false,
     "valid": false,
     "vitamins_absorb_multi": [ [ "all", [ [ "human_blood_vitamin", 1.25 ] ] ] ],
-    "vitamin_rates": [ [ "human_blood_vitamin", 720 ] ],
+    "vitamin_rates": [ [ "human_blood_vitamin", 720 ], [ "mutagen", 300 ] ],
     "flags": [ "CANNIBAL", "ALBINO", "DAYFEAR", "HEMOVORE" ],
     "enchantments": [
       { "condition": { "not": "is_day" }, "values": [ { "value": "OVERMAP_SIGHT", "add": 1 } ] },
@@ -1076,7 +1086,7 @@
     "id": "VAMPIRE_BONUS_HP",
     "name": { "str": "Fortitude of the Damned" },
     "points": 0,
-    "description": "Your senses are so fine they can alert you to danger even while you slumber.  Activate to cause yourself to wake up if danger approaches while you sleep.",
+    "description": "Your flesh is more resilient and you can suffer much more damage than a mortal before expiring.  Your hit points are increased.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -1239,11 +1249,13 @@
         "condition": "ALWAYS",
         "values": [
           { "value": "SPEED", "multiply": 0.1 },
+          { "value": "MAX_HP", "multiply": -0.85 },
           { "value": "MELEE_DAMAGE", "multiply": -0.95 },
           { "value": "NIGHT_VIS", "add": 6 },
           { "value": "DEXTERITY", "add": 8 },
           { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 }
         ],
+        "mutations": [ "ECHOLOCATION" ],
         "ench_effects": [ { "effect": "effect_vampire_bat_form_levitation", "intensity": 1 } ],
         "skills": [ { "value": "dodge", "add": 8 } ]
       },
@@ -1481,23 +1493,42 @@
     "id": "MENTOR_PEACE",
     "name": { "str": "Mentor's peace", "//~": "NO_I18N" },
     "points": 0,
-    "description": { "str": "Intended to be hidden.  Prevent the mentor from being killed by vampires and renfields.", "//~": "NO_I18N" },
+    "description": {
+      "str": "Intended to be hidden.  Prevent the mentor from being killed by vampires and renfields and makes them react to attacks by vanishing in mist.",
+      "//~": "NO_I18N"
+    },
+    "//": "Until NPC_DEATH can work, I'm using a forcefield so they can't perma-die before vanishing forever.  I tried to use an evasion effect so the message would be more fitting but it interfered with the hit_me.",
+    "//2": "<npcname> and %1$s both failed to work for dialogue-based vanishing, so until it is fixed these messages will refer to the mentor's title.",
     "starting_trait": false,
     "player_display": false,
     "purifiable": false,
     "valid": false,
-    "anger_relations": [ [ "VAMPIRE", -150 ], [ "RENFIELD", -150 ] ]
+    "anger_relations": [ [ "VAMPIRE", -150 ], [ "RENFIELD", -150 ] ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "FORCEFIELD", "add": 1 } ],
+        "hit_me_effect": [
+          {
+            "id": "mentor_vanish",
+            "hit_self": true,
+            "message": "You're not supposed to see this.  Open a bug report on Github about having the Mentor's Peace trait.",
+            "npc_message": "%1$s vanishes in a fine mist."
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
     "id": "VAMPIRE_WEAKNESS_MORE_BLOOD",
     "name": { "str": "Vampiric weakness: blood drain" },
     "points": -1,
-    "description": "You thirst for blood is more intense than usual.  You now need twice as much blood to prevent blood starvation.",
+    "description": "You thirst for blood is more intense than usual.  You now need much more blood to prevent blood starvation.",
     "starting_trait": false,
     "valid": false,
     "purifiable": false,
-    "vitamin_rates": [ [ "human_blood_vitamin", 60 ] ]
+    "vitamin_rates": [ [ "human_blood_vitamin", 120 ] ]
   },
   {
     "type": "mutation",
@@ -1624,6 +1655,16 @@
     "name": { "str": "Vampiric weakness: blood cravings" },
     "points": -1,
     "description": "Your thirst for blood will occasionally magnify, causing painful cravings.  You can calm these cravings as or before they happen by consuming blood.",
+    "starting_trait": false,
+    "valid": false,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_WEAKNESS_NO_FUN",
+    "name": { "str": "Vampiric weakness: barred from mortal joys" },
+    "points": -1,
+    "description": "Blood is the only thing that can bring a smile to your lips.  Nothing else gives you any lasting joy or pleasure.  It is impossible for you to be truly happy unless you recently consumed blood.",
     "starting_trait": false,
     "valid": false,
     "purifiable": false
@@ -2008,7 +2049,8 @@
     "description": "The arvore can sense the stolen power within you and they will not react well to it.",
     "purifiable": false,
     "valid": false,
-    "anger_relations": [ [ "ARVORE", 100 ] ]
+    "anger_relations": [ [ "ARVORE", 100 ] ],
+    "category": [ "ARVORE_ALCHEMY" ]
   },
   {
     "type": "mutation",
@@ -2047,5 +2089,16 @@
       { "hit_me_effect": [ { "id": "boann_retaliation_mark", "hit_self": false } ] },
       { "hit_me_effect": [ { "id": "boann_retaliation", "hit_self": true } ] }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "BLOODTHORNE_DRUID",
+    "name": { "str": "Bloodthorne Druid" },
+    "points": 0,
+    "description": "You are a oath-sworn member of the ancient order of Bloodthorne Druids, dedicated to defending humanity against the vampires that lurk in the shadows.",
+    "purifiable": false,
+    "valid": false,
+    "profession": true,
+    "types": [ "HERITAGE" ]
   }
 ]

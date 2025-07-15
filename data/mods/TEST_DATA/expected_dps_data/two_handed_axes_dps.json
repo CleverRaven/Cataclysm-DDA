@@ -3,9 +3,9 @@
     "type": "test_data",
     "//": "typical value around 29",
     "expected_dps": {
-      "battleaxe": 29.0,
+      "battleaxe": 28.47,
       "battleaxe_fake": 12.0,
-      "battleaxe_inferior": 19.25,
+      "battleaxe_inferior": 18.69,
       "fire_ax": 21.2,
       "ax": 20.25,
       "copper_ax": 13.75,

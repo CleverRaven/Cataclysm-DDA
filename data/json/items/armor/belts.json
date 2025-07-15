@@ -548,7 +548,7 @@
     "repairs_like": "scarf",
     "symbol": "#",
     "looks_like": "leather_belt",
-    "color": "black",
+    "color": "dark_gray",
     "material_thickness": 1.5,
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
     "armor": [ { "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]

@@ -1380,10 +1380,7 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                           crafter ) - crafting_group.begin();
 
     // Get everyone's recipes
-    // WTF? If called with dummy npc, we have to do this. Why? Why doesn't Character::get_group_available_recipes()
-    // already include get_learned_recipes()?
-    const recipe_subset &available_recipes = camp_crafting ? crafter->get_learned_recipes() :
-            crafter->get_group_available_recipes();
+    const recipe_subset &available_recipes = crafter->get_group_available_recipes( inventory_override );
     std::map<character_id, std::map<const recipe *, availability>> guy_availability_cache;
     // next line also inserts empty cache for crafter->getID()
     std::map<const recipe *, availability> *availability_cache =

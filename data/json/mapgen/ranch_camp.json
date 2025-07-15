@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "object": {
       "fill_ter": "t_dirt",
       "rows": [
@@ -59,7 +58,6 @@
     "type": "mapgen"
   },
   {
-    "method": "json",
     "object": {
       "fill_ter": "t_dirt",
       "rows": [
@@ -118,7 +116,6 @@
     "type": "mapgen"
   },
   {
-    "method": "json",
     "object": {
       "fill_ter": "t_dirt",
       "rows": [
@@ -177,7 +174,6 @@
     "type": "mapgen"
   },
   {
-    "method": "json",
     "object": {
       "fill_ter": "t_dirt",
       "rows": [
@@ -237,7 +233,6 @@
     "type": "mapgen"
   },
   {
-    "method": "json",
     "object": {
       "fill_ter": "t_dirt",
       "rows": [
@@ -296,7 +291,6 @@
     "type": "mapgen"
   },
   {
-    "method": "json",
     "object": {
       "fill_ter": "t_dirt",
       "rows": [
@@ -355,7 +349,6 @@
     "type": "mapgen"
   },
   {
-    "method": "json",
     "object": {
       "fill_ter": "t_dirt",
       "rows": [
@@ -414,7 +407,6 @@
     "type": "mapgen"
   },
   {
-    "method": "json",
     "object": {
       "fill_ter": "t_dirt",
       "rows": [
@@ -474,7 +466,6 @@
     "type": "mapgen"
   },
   {
-    "method": "json",
     "object": {
       "fill_ter": "t_dirt",
       "rows": [
@@ -533,7 +524,6 @@
     "type": "mapgen"
   },
   {
-    "method": "json",
     "object": {
       "faction_owner": [
         { "id": "tacoma_commune", "x": [ 48, 71 ], "y": [ 0, 23 ] },
@@ -628,7 +618,6 @@
     "type": "mapgen"
   },
   {
-    "method": "json",
     "object": {
       "faction_owner": [
         { "id": "tacoma_commune", "x": [ 0, 23 ], "y": [ 24, 47 ] },
@@ -733,7 +722,6 @@
     "type": "mapgen"
   },
   {
-    "method": "json",
     "object": {
       "fill_ter": "t_dirt",
       "rows": [
@@ -792,7 +780,6 @@
     "type": "mapgen"
   },
   {
-    "method": "json",
     "object": {
       "fill_ter": "t_dirt",
       "rows": [
@@ -827,7 +814,6 @@
     "type": "mapgen"
   },
   {
-    "method": "json",
     "object": {
       "fill_ter": "t_dirt",
       "rows": [
@@ -862,7 +848,6 @@
     "type": "mapgen"
   },
   {
-    "method": "json",
     "object": {
       "fill_ter": "t_dirt",
       "rows": [
@@ -898,7 +883,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "ranch_camp_57_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -934,7 +918,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "ranch_camp_57_silo",
     "object": {
       "fill_ter": "t_open_air",
@@ -970,7 +953,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "ranch_camp_57_silocap",
     "object": {
       "fill_ter": "t_open_air",
@@ -1006,7 +988,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "ranch_camp_67_roof", "ranch_camp_68_roof" ] ],
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -1042,7 +1023,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "ranch_camp_68_basement",
     "object": {
       "faction_owner": [ { "id": "tacoma_commune", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
@@ -1101,7 +1081,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "ranch_camp_65_roof", "ranch_camp_66_roof" ], [ "ranch_camp_74_roof", "ranch_camp_75_roof" ] ],
     "object": {
       "fill_ter": "t_shingle_flat_roof",

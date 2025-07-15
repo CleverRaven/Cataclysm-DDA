@@ -4,7 +4,6 @@
     "nested_mapgen_id": "microlab_generic_tile",
     "//": "XEDRA magical research location",
     "weight": 750,
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [

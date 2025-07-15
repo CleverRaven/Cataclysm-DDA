@@ -116,6 +116,11 @@
     "info": "This item can be activated or reloaded from an adjacent tile without picking it up."
   },
   {
+    "id": "CAN_USE_IN_DARK",
+    "type": "json_flag",
+    "info": "This item can use all of its features in darkness."
+  },
+  {
     "id": "ALWAYS_AIMED",
     "type": "json_flag",
     "info": "This gun is <good>always fully aimed</good>."
@@ -2122,7 +2127,7 @@
   {
     "id": "SCIENCE_CARD_SECURITY_BLACK",
     "type": "json_flag",
-    "info": "You could probably use this to get into a secured  area."
+    "info": "You could probably use this to get into a secured law enforcement area."
   },
   {
     "id": "SCIENCE_CARD_MUTAGEN_GREEN",
@@ -2495,6 +2500,11 @@
     "info": "You can ascend straight up even with no physical surface to climb on."
   },
   {
+    "id": "HERITAGE",
+    "type": "json_flag",
+    "info": "You have nonhuman ancestry or are not human"
+  },
+  {
     "id": "TREE_COMMUNION_PLUS",
     "type": "json_flag",
     "info": "You gain greatly enhanced effects from the Mycorrhizal Communion mutation"
@@ -2691,5 +2701,10 @@
     "id": "INSTANT_BLEED",
     "type": "json_flag",
     "//": "Having this flag makes the player bleed corpses in 1 second each.  Used for a XE vampire power."
+  },
+  {
+    "id": "ONE_STORY_FALL",
+    "type": "json_flag",
+    "//": "When the character falls, the height is reduced by 1 Z level before calculating damage."
   }
 ]

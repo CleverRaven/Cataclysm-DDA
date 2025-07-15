@@ -332,6 +332,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```ACID_IMMUNE``` You are immune to acid damage.
 - ```ALARMCLOCK``` You always can set alarms.
 - ```ALBINO``` Cause you to have painful sunburns.
+- ```ATTUNEMENT``` Turns a mutation with this flag green on the list.  Currently used in mods for mutations that grant spellcasting or other supernatural powers.
 - ```BARKY``` Makes you considered to be made of bark for the purposes of making blistering harder.
 - ```BASH_IMMUNE``` You are immune to bashing damage.
 - ```BG_OTHER_SURVIVORS_STORY``` Given to NPC when it has other survival story.
@@ -379,6 +380,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```HARDTOHIT``` Whenever something attacks you, RNG gets rolled twice, and you get the better result.
 - ```HEATSINK``` You are resistant to extreme heat.
 - ```HEAT_IMMUNE``` Immune to very hot temperatures.
+- ```HERITAGE``` Turns a mutation with this flag light cyan on the list.  Currently used in mods for mutations that indicate non-human ancestry.
 - ```HUGE``` Changes your size to `creature_size::huge`.  Checked last of the size category flags, if no size flags are found your size defaults to `creature_size::medium`.
 - ```HYPEROPIC``` You are far-sighted: close combat is hampered and reading is impossible without glasses.
 - ```IMMUNE_HEARING_DAMAGE``` Immune to hearing damage from loud sounds.
@@ -405,6 +407,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```NO_THIRST``` Your thirst is not modified by food or drinks.
 - ```NUMB``` Changes character's moral behaviour in some situations.
 - ```NYCTOPHOBIA``` Apply some negative effects when the ambient light is too low.
+- ```ONE_STORY_FALL``` You can slow your fall, effectively reducing the height of it by 1 level.
 - ```PAIN_IMMUNE``` Character don't feel pain.
 - ```PARAIMMUNE``` You are immune to parasites.
 - ```PLANTBLOOD``` Your body drip veggy blood if wounded.
@@ -447,7 +450,6 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```WEBBED_HANDS``` You have webbings on your hands, supporting your swimming speed.
 - ```WEB_RAPPEL``` You can rappel down staircases and sheer drops of any height.
 - ```WEB_WALKER``` Removes the movement speed demerit while walking through webs.
-- ```WINGS_1``` You can slow your fall, effectively reducing the height of it by 1 level.
 - ```WINGS_2``` You can slow your fall, effectively reducing the height of falls by 2 levels, and ignore pit-like traps.
 - ```WING_ARMS``` Two instances of this flag enable you to glide and ignore pit traps if not above 50% carryweight or 4 lift strength.
 - ```WINGGLIDE``` You can glide using some part of your body and strenuous physical effort.
@@ -1019,7 +1021,6 @@ See [Mapgen flags](MAPGEN.md#mapgen-flags).
 - ```mx_mass_grave``` Mass grave with zombies and everyday loot.
 - ```mx_mayhem``` Several types of road mayhem (firefights, crashed cars etc).
 - ```mx_military``` Corpses and some military items.
-- ```mx_minefield``` A military roadblock at the entry of the bridges with landmines scattered in the front of it.
 - ```mx_nest_dermatik``` Dermatik nest.
 - ```mx_nest_wasp``` Wasp nest.
 - ```mx_null``` No special at all.
@@ -1101,12 +1102,13 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```BILE_BLOOD``` Makes monster bleed bile.
 - ```BIOLOGICALPROOF``` Immune to biological damage.
 - ```BORES``` Tunnels through just about anything (15x bash multiplier e.g. dark wyrms' bash skill 12 -> 180).
+- ```BULLETPROOF``` Immune to ballistic damage.
 - ```CAMOUFLAGE``` Stays invisible up to (current Perception, + base Perception if the character has the Spotting proficiency) tiles away, even in broad daylight.  Monsters see it from the lower of `vision_day` and `vision_night` ranges.
 - ```CANPLAY``` This creature can be played with if it's a pet.
 - ```CAN_BE_CULLED``` This animal can be culled if it's a pet.
 - ```CAN_DIG``` Will dig on any diggable terrain the same way `DIGS` does, however, will walk normally over non-diggable terrain.
 - ```CAN_OPEN_DOORS``` Can open doors on its path.
-- ```CLIMBS``` Can climb over fences or similar obstacles quickly.
+- ```CLIMBS``` (depricated in favor of [moveskills](MONSTERS.md#move_skills)) Can climb over fences or similar obstacles quickly.
 - ```COLDPROOF``` Immune to cold damage.
 - ```COMBAT_MOUNT```  This mount has better chance to ignore hostile monster fear.
 - ```CONSOLE_DESPAWN``` Despawns when a nearby console is properly hacked.
@@ -1204,7 +1206,7 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```STUN_IMMUNE``` This monster is immune to stun.
 - ```SUNDEATH``` Dies in full sunlight.
 - ```SWARMS``` Groups together and forms loose packs.
-- ```SWIMS``` Treats water as 50 movement point terrain.
+- ```SWIMS``` (depricated in favor of [moveskills](MONSTERS.md#move_skills)) Treats water as 50 movement point terrain.
 - ```VAMP_VIRUS``` This monster can inflict the `vampire_virus` effect.  Used by Xedra Evolved mod.
 - ```VENOM``` Attack may poison the player.
 - ```WARM``` Warm blooded.
@@ -1286,6 +1288,7 @@ See [Character](#character)
 ### Overmap connections
 
 - ```ORTHOGONAL``` The connection generally prefers straight lines, avoids turning wherever possible.
+- ```PERPENDICULAR_CROSSING``` The connection will never turn while crossing the given location AND may not cross the location in a parallel direction.
 
 ### Overmap specials
 

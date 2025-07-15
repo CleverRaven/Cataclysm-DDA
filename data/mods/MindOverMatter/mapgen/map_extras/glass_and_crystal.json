@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_glass_and_crystal",
     "object": {
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
@@ -11,7 +10,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "glass_and_crystal_chunk",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -34,7 +32,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "glass_and_crystal_chunk_center",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -46,7 +43,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "glass_and_crystal_chunk_center",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -58,7 +54,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "glass_and_crystal_chunk_center",
     "object": {
       "mapgensize": [ 1, 1 ],

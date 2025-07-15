@@ -84,5 +84,37 @@
     "vision_day": 5,
     "tracking_distance": 8,
     "extend": { "flags": [ "MIND_SEEING", "KEEP_DISTANCE" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_amalgamation_vitakinetic_debuffer",
+    "copy-from": "mon_amalgamation_abstract_small",
+    "symbol": "ä",
+    "name": { "str": "enervating amalgamation" },
+    "description": "An elongated body moving irregularly on five legs, with two flexible tentacles waving in the air as it moves.  It seems to have no head, with a ring of black spots on top that might be sensory organs.  Its skin is perfectly smooth and greyish-white, without a single spot or blemish.",
+    "speed": 95,
+    "regenerates": 3,
+    "special_attacks": [
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "mon_amalgamation_vitakinetic_debuff",
+        "cooldown": { "math": [ "7 + rand(14)" ] },
+        "accuracy": 6,
+        "move_cost": 60,
+        "damage_max_instance": [ { "damage_type": "biological", "amount": 1 } ],
+        "dodgeable": true,
+        "blockable": true,
+        "eoc": [ "EOC_FERAL_VITAKIN2_ENERVATING_TOUCH" ],
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+        "hit_dmg_u": "%1$s touches you and you feel weaker!",
+        "hit_dmg_npc": "%1$s touches <npcname> and they flinch!",
+        "miss_msg_u": "%1$s tries to touch you, but you dodge!",
+        "miss_msg_npc": "%1$s tries to touch <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%1$s touches you and you feel weaker!",
+        "no_dmg_msg_npc": "%1$s touches <npcname> and they flinch!"
+      }
+    ],
+    "extend": { "flags": [ "HIT_AND_RUN" ] }
   }
 ]

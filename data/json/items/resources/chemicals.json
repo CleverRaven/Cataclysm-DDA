@@ -214,7 +214,7 @@
     "name": { "str_sp": "black hair dye" },
     "description": "Some black hair dye.",
     "copy-from": "abstract_hair_dye",
-    "color": "black"
+    "color": "dark_gray"
   },
   {
     "type": "ITEM",

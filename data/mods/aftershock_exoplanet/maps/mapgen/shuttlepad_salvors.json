@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "afs_shuttlepad_salvors_a1_1", "afs_shuttlepad_salvors_a2_1" ],
       [ "afs_shuttlepad_salvors_b1_1", "afs_shuttlepad_salvors_b2_1" ]
@@ -274,7 +273,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "afs_shuttlepad_salvors_a1_2", "afs_shuttlepad_salvors_a2_2" ],
       [ "afs_shuttlepad_salvors_b1_2", "afs_shuttlepad_salvors_b2_2" ]
@@ -368,7 +366,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "afs_shuttlepad_salvors_a1_3", "afs_shuttlepad_salvors_a2_3" ],
       [ "afs_shuttlepad_salvors_b1_3", "afs_shuttlepad_salvors_b2_3" ]
@@ -441,7 +438,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "afs_shuttlepad_salvors_a1_4", "afs_shuttlepad_salvors_a2_4" ],
       [ "afs_shuttlepad_salvors_b1_4", "afs_shuttlepad_salvors_b2_4" ]
@@ -512,7 +508,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "afs_shuttlepad_salvors_garage_open",
-    "method": "json",
     "object": {
       "set": [
         { "point": "terrain", "id": "t_grate", "x": 1, "y": 3 },
@@ -524,6 +519,51 @@
         { "point": "terrain", "id": "t_door_metal_c", "x": 10, "y": 8 },
         { "point": "terrain", "id": "t_door_metal_c", "x": 9, "y": 10 }
       ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "afs_shuttlepad_salvors_old_pad",
+    "object": {
+      "fill_ter": "t_region_groundcover_urban",
+      "rows": [
+        "                        ",
+        "          ...           ",
+        "   ...    ... ......    ",
+        "  .  ...........  ...   ",
+        "  .  ..     .     ....  ",
+        "  .....     .  . .. ..  ",
+        "   ...      ... .. .    ",
+        "   .            .. .    ",
+        "  ..        ...  ... .  ",
+        "  .   .     .      . .  ",
+        "  .  ..   .        ...  ",
+        "  ...     ..     ....   ",
+        "  .       ....   .. ..  ",
+        "  . ...    ..        .  ",
+        "  ..   .    .       ..  ",
+        "  .         ..      .   ",
+        "  . .               .   ",
+        "  . ... ...  .   ... .  ",
+        "   .. .    ...  .....   ",
+        "  .. ...     ... ...    ",
+        "   ..     ...      ..   ",
+        "   . ..... .. .   ..    ",
+        "          ...           ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": 3, "y": 10 } ],
+      "terrain": {
+        "R": "t_bay_rap_up",
+        "+": "t_afs_space_ship_hatch_c",
+        "|": "t_afs_gun_ship_hull_wall",
+        ".": "t_metal_floor",
+        ",": "t_dirt",
+        "<": "t_ship_stairs_up",
+        "#": "t_dirtmound"
+      },
+      "furniture": { "9": "f_landing_skid", "3": "f_landing_hydraulic" }
     }
   }
 ]

@@ -307,7 +307,7 @@ class target_ui
         // List of available weapon aim types
         std::vector<aim_type> aim_types;
         // Currently selected aim mode
-        std::vector<aim_type>::iterator aim_mode;
+        std::vector<aim_type>::iterator aim_mode{ aim_types.begin() };
         // 'Recoil' value the player will reach if they
         // start aiming at cursor position. Equals player's
         // 'recoil' while they are actively spending moves to aim,
@@ -796,7 +796,8 @@ bool Character::handle_gun_damage( item &it )
         return false;
 
         // Chance for the weapon to suffer a failure, caused by the magazine size, quality, or condition
-    } else if( x_in_y( jam_chance, 1 ) && !it.has_var( "u_know_round_in_chamber" ) ) {
+    } else if( x_in_y( jam_chance, 1 ) && !it.has_flag( flag_NEVER_JAMS ) &&
+               !it.has_var( "u_know_round_in_chamber" ) ) {
         add_msg_player_or_npc( m_bad, _( "Your %s malfunctions!" ),
                                _( "<npcname>'s %s malfunctions!" ),
                                it.tname() );
@@ -3926,7 +3927,7 @@ void target_ui::draw_ui_window()
 
 aim_type target_ui::get_selected_aim_type() const
 {
-    return this->aim_mode != this->aim_types.cend() ? *( this->aim_mode ) : get_default_aim_type();
+    return this->aim_mode != this->aim_types.end() ? *( this->aim_mode ) : get_default_aim_type();
 }
 
 int target_ui::get_sight_dispersion() const

@@ -54,6 +54,32 @@
   },
   {
     "type": "terrain",
+    "id": "t_metal_toxic_floor",
+    "name": "metal floor",
+    "description": "Prefab steel flooring for habitats in hazardous environments.  Its covered with a heavy layer of highly toxic industrial precipitate.",
+    "symbol": ".",
+    "color": "light_red",
+    "connect_groups": [ "INDOORFLOOR", "METALFLOOR" ],
+    "connects_to": "METALFLOOR",
+    "move_cost": 2,
+    "roof": "t_metal_roof",
+    "flags": [ "TRANSPARENT", "INDOORS", "SUPPORTS_ROOF", "FLAT", "ROAD" ],
+    "emissions": [ "weak_toxic_dust" ],
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_null",
+      "str_min": 200,
+      "str_max": 500,
+      "str_min_supported": 200,
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 4 ] },
+        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "scrap", "count": [ 9, 36 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_clearcrete_roof",
     "name": "clearcrete skylight",
     "description": "A roof made from transparent fiber-reinforced concrete, allowing light to pass through.  Often used to build greenhouses in unfavorable environments.",

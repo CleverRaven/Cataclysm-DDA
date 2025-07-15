@@ -7,7 +7,6 @@
     "//0": "required to construct a salt water pipe from a swamp to an expansion. These",
     "//1": "blueprints can be used for any expansion, while the recipes have to be tailored",
     "//2": "to their specific expansions.",
-    "method": "json",
     "object": {
       "set": [
         { "line": "terrain", "id": "t_dirt", "x": 12, "x2": 12, "y": 0, "y2": 2 },
@@ -21,7 +20,6 @@
     "type": "mapgen",
     "update_mapgen_id": "faction_expansion_salt_water_pipe_swamp_NE",
     "//": "The corresponding blueprint for the 4 diagonal orientations.",
-    "method": "json",
     "object": {
       "set": [
         { "point": "terrain", "id": "t_dirt", "x": 23, "y": 0 },
@@ -42,7 +40,6 @@
     "//0": "is rotated and/or mirrored by code to fit any of the 4 cardinal directions. It",
     "//1": "is used to actually change the terrain after pretending to have dug pits, put",
     "//2": "a pipe down into them, and then filled up the pits again.",
-    "method": "json",
     "object": {
       "set": [
         { "line": "terrain", "id": "t_dirt", "x": 12, "x2": 12, "y": 0, "y2": 11 },
@@ -54,7 +51,6 @@
     "type": "mapgen",
     "update_mapgen_id": "faction_expansion_salt_water_pipe_NE",
     "//": "The corresponding blueprint for the 4 diagonal orientations.",
-    "method": "json",
     "object": {
       "set": [
         { "point": "terrain", "id": "t_dirt", "x": 23, "y": 0 },

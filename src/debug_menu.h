@@ -68,6 +68,7 @@ enum class debug_menu_index : int {
     OM_TELEPORT,
     OM_TELEPORT_COORDINATES,
     OM_TELEPORT_CITY,
+    PRINT_OVERMAPS,
     TRAIT_GROUP,
     ENABLE_ACHIEVEMENTS,
     SHOW_MSG,
@@ -115,6 +116,7 @@ enum class debug_menu_index : int {
     WRITE_CITY_LIST,
     TALK_TOPIC,
     IMGUI_DEMO,
+    VEHICLE_EFFECTS,
     last
 };
 

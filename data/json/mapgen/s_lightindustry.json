@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "s_lightindustry_10", "s_lightindustry_11" ],
       [ "s_lightindustry_road_0", "s_lightindustry_road_1" ],
@@ -184,9 +183,9 @@
       "toilets": { "j": {  } },
       "vendingmachines": { "z": { "item_group": "vending_drink", "lootable": true }, "X": { "item_group": "vending_food", "lootable": true } },
       "items": {
-        "y": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 2, 3 ] },
-        "B": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 2, 3 ] },
-        "Y": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 2, 3 ] },
+        "y": { "item": "SUS_trash_trashcan", "chance": 30 },
+        "B": { "item": "SUS_trash_trashcan", "chance": 30 },
+        "Y": { "item": "SUS_trash_trashcan", "chance": 30 },
         "j": { "item": "SUS_toilet", "chance": 50 },
         "v": { "item": "vault", "chance": 30, "repeat": [ 2, 3 ] },
         "r": { "item": "SUS_office_desk", "chance": 30 },
@@ -202,7 +201,7 @@
         "u": { "item": "textbooks", "chance": 30, "repeat": [ 1, 2 ] },
         "L": { "item": "textbooks", "chance": 30, "repeat": [ 1, 2 ] },
         "C": { "item": "tools_construction", "chance": 50, "repeat": [ 2, 3 ] },
-        " ": { "item": "office_mess", "chance": 5 },
+        " ": { "item": "SUS_office_mess", "chance": 5 },
         "~": { "item": "vehicle_scrapped", "chance": 3 }
       },
       "place_loot": [
@@ -237,7 +236,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "s_lightindustry_10_roof", "s_lightindustry_11_roof" ] ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -272,7 +270,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "s_lightindustry_00_roof", "s_lightindustry_01_roof" ] ],
     "object": {
       "fill_ter": "t_flat_roof",

@@ -192,7 +192,11 @@
     "dissect": "dissect_spider_sample_large",
     "emit_fields": [ { "emit_id": "emit_web_small", "delay": "5 s" } ],
     "death_drops": "mon_mutant_evolved_death_drops",
-    "extend": { "flags": [ "CLIMBS", "SMELLS", "KEENNOSE", "WEBWALK" ], "anger_triggers": [ "PLAYER_WEAK", "HURT" ] },
+    "extend": {
+      "flags": [ "SMELLS", "KEENNOSE", "WEBWALK" ],
+      "anger_triggers": [ "PLAYER_WEAK", "HURT" ],
+      "move_skills": { "climb": 6 }
+    },
     "delete": { "flags": [ "HIT_AND_RUN", "WARM" ] },
     "armor": { "electric": 2, "bash": 11, "cut": 18, "stab": 12, "bullet": 12 }
   },
@@ -230,7 +234,7 @@
     "vision_night": 15,
     "harvest": "mutant_human",
     "dissect": "dissect_chimera_sample_large",
-    "extend": { "flags": [ "CAMOUFLAGE", "CLIMBS", "SMELLS", "KEENNOSE", "HARDTOSHOOT" ] },
+    "extend": { "flags": [ "CAMOUFLAGE", "SMELLS", "KEENNOSE", "HARDTOSHOOT" ], "move_skills": { "climb": 6 } },
     "delete": { "flags": [ "HAS_MIND" ] },
     "armor": { "bash": 10, "cut": 11, "stab": 8, "bullet": 5, "electric": 1 }
   },

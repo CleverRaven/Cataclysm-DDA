@@ -423,7 +423,7 @@
     "material": [ "black_dragon_hide" ],
     "symbol": "[",
     "looks_like": "backpack",
-    "color": "black",
+    "color": "dark_gray",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",

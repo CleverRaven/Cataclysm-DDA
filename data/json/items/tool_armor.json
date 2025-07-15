@@ -552,7 +552,7 @@
     "etransfer_rate": "30 MB",
     "e_port": "phone",
     "e_ports_banned": [ "USB-A", "memory card", "camera" ],
-    "extend": { "flags": [ "WATER_FRIENDLY", "THERMOMETER", "HYGROMETER", "BAROMETER" ] },
+    "extend": { "flags": [ "WATER_FRIENDLY", "THERMOMETER", "HYGROMETER", "BAROMETER", "CAN_USE_IN_DARK" ] },
     "delete": { "flags": [ "WATER_BREAK", "FRAGILE" ] },
     "use_action": [
       "E_FILE_DEVICE",
@@ -1245,7 +1245,8 @@
       "THERMOMETER",
       "WATER_BREAK",
       "PADDED",
-      "ELECTRONIC"
+      "ELECTRONIC",
+      "CAN_USE_IN_DARK"
     ],
     "faults": [ { "fault_group": "electronic_general" } ],
     "tool_ammo": "battery"
@@ -1986,7 +1987,7 @@
     "price_postapoc": "7 USD 50 cent",
     "material": [ { "type": "butyl_rubber", "portion": 3 }, { "type": "plastic", "portion": 2 } ],
     "symbol": "[",
-    "color": "black",
+    "color": "dark_gray",
     "armor": [
       {
         "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 0.2 } ],

@@ -14,7 +14,8 @@
             "TELEKINETIC",
             "TELEPATH",
             "TELEPORTER",
-            "VITAKINETIC"
+            "VITAKINETIC",
+            "PSYCHIC_KNACK"
           ]
         },
         {
@@ -27,7 +28,8 @@
             { "compare_string": [ "TELEKINETIC", { "context_val": "school" } ] },
             { "compare_string": [ "TELEPATH", { "context_val": "school" } ] },
             { "compare_string": [ "TELEPORTER", { "context_val": "school" } ] },
-            { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] }
+            { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "PSYCHIC_KNACK", { "context_val": "school" } ] }
           ]
         }
       ]
@@ -197,7 +199,7 @@
               { "u_has_effect": "effect_telepathic_psi_armor" },
               {
                 "math": [
-                  "u_spell_level('telepathic_shield')",
+                  "u_spell_level('telepathic_shield') + u_spell_level('telepathic_shield_knack')",
                   ">=",
                   "(u_vitamin('vitamin_psionic_drain') / 10) + (max(u_school_level('BIOKINETIC'), u_school_level('CLAIRSENTIENT'), u_school_level('ELECTROKINETIC'), u_school_level('PHOTOKINETIC'), u_school_level('PYROKINETIC'), u_school_level('TELEPATH'), u_school_level('TELEKINETIC'), u_school_level('TELEPORTER'), u_school_level('VITAKINETIC')) / 3) + (u_awakening_countup / 3)"
                 ]

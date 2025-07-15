@@ -297,7 +297,7 @@
     "id": "matrix_crystal_drained",
     "name": { "str_sp": "strange crystal, black" },
     "description": "A strange-looking, surprisingly-heavy crystal.  In total darkness, there is a faint light visible in its depths.",
-    "color": "black",
+    "color": "dark_gray",
     "symbol": "+",
     "volume": "10 ml",
     "weight": "150 g",
@@ -316,7 +316,7 @@
     "name": { "str_sp": "crystalline dust, black" },
     "copy-from": "matrix_crystal_biokin_dust",
     "description": "A bit of crystalline dust that seems to absorb light.",
-    "color": "black"
+    "color": "dark_gray"
   },
   {
     "type": "ITEM",
@@ -324,7 +324,7 @@
     "name": { "str_sp": "refined matrix crystal powder, black" },
     "description": "Concentrated matrix crystal dust.  It seems to completely absorb any light that falls on it.",
     "copy-from": "matrix_crystal_biokin_dust_refined",
-    "color": "black"
+    "color": "dark_gray"
   },
   {
     "type": "ITEM",

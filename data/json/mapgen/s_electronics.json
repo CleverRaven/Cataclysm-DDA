@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_electronics" ],
     "weight": 150,
     "//": "It's not as valuable as the gunsmithing shops are, but it's based on the same model and should be a figurative silver mine, if not a gold mine.",
@@ -28,8 +27,8 @@
         " 8r..xxxxxx..I.......E8 ",
         " #..........^|.--llll^# ",
         " #D|||D#######L####55## ",
-        "4#.S|S.#d<dsssssss      ",
-        " #T-|-T#sddsssssss      ",
+        "4#.S|S.#s<dddsssss      ",
+        " #T-|-T#ssdddsssss      ",
         " #######ssssssssss      ",
         "                        "
       ],
@@ -63,7 +62,7 @@
         "S": "f_sink",
         "^": [ "f_indoor_plant_y", "f_indoor_plant" ],
         "c": "f_chair",
-        "d": [ "f_dumpster", "f_recycle_bin" ],
+        "d": "f_dumpster",
         "l": "f_locker",
         "q": "f_stool",
         "r": "f_rack",
@@ -81,7 +80,7 @@
       "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "T": {  } },
       "place_items": [
-        { "item": "fridgesnacks", "x": 21, "y": 15, "chance": 80, "repeat": [ 1, 12 ] },
+        { "item": "SUS_fridge_breakroom", "x": 21, "y": 15, "chance": 80, "repeat": [ 1, 3 ] },
         { "item": "elecsto_cameras", "x": [ 3, 6 ], "y": 8, "chance": 80, "repeat": [ 1, 2 ] },
         { "item": "elecsto_lights", "x": 2, "y": [ 9, 12 ], "chance": 80, "repeat": [ 2, 6 ] },
         { "item": "elecsto_pcs", "x": [ 5, 8 ], "y": 10, "chance": 85, "repeat": [ 1, 4 ] },
@@ -98,8 +97,8 @@
         { "item": "electronics", "x": [ 14, 17 ], "y": 14, "chance": 85, "repeat": [ 1, 4 ] },
         { "item": "snacks", "x": 16, "y": 9, "chance": 85 },
         { "item": "magazines", "x": 16, "y": 9, "chance": 60, "repeat": [ 1, 8 ] },
-        { "item": "SUS_trash_trashcan", "x": 18, "y": 15, "chance": 65 },
-        { "item": "SUS_trash_trashcan", "x": [ 15, 17 ], "y": [ 20, 21 ], "chance": 80 },
+        { "item": "SUS_trash_trashcan_public", "x": 18, "y": 15, "chance": 65 },
+        { "item": "SUS_trash_dumpster", "x": [ 10, 12 ], "y": [ 20, 21 ], "chance": 80 },
         { "item": "cash_register_random", "x": 17, "y": [ 11, 13 ], "chance": 100 }
       ],
       "place_item": [
@@ -111,7 +110,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_electronics_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -161,7 +159,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_electronics_1" ],
     "weight": 1000,
     "object": {
@@ -238,9 +235,9 @@
       },
       "toilets": { "&": {  } },
       "items": {
-        "I": { "item": "office", "chance": 30 },
-        "F": { "item": "SUS_office_filing_cabinet", "chance": 30 },
-        "Y": { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 1, 2 ] },
+        "I": { "item": "SUS_office_desk", "chance": 60 },
+        "F": { "item": "SUS_office_filing_cabinet", "chance": 60 },
+        "Y": { "item": "SUS_trash_trashcan_public", "chance": 20 },
         "M": { "item": "consumer_electronics", "chance": 70, "repeat": [ 1, 4 ] },
         "-": { "item": "consumer_electronics", "chance": 75, "repeat": [ 1, 4 ] },
         "{": { "item": "consumer_electronics", "chance": 75, "repeat": [ 1, 4 ] },
@@ -248,7 +245,7 @@
         "G": { "item": "elecsto_diy", "chance": 75, "repeat": [ 1, 4 ] },
         "t": { "item": "elecsto_homapl", "chance": 75, "repeat": [ 1, 4 ] },
         "L": [ { "item": "jackets", "chance": 10 }, { "item": "bags", "chance": 10 } ],
-        "U": { "item": "SUS_trash_dumpster", "chance": 25, "repeat": [ 1, 4 ] },
+        "U": { "item": "SUS_trash_dumpster", "chance": 45 },
         "&": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_monsters": [ { "monster": "GROUP_ELECTRO", "x": [ 0, 0 ], "y": [ 23, 23 ], "chance": 2, "repeat": [ 2, 3 ] } ],
@@ -257,7 +254,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_electronics_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",

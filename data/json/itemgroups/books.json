@@ -487,6 +487,7 @@
       { "item": "manual_launcher", "prob": 1 },
       { "item": "text_gunsmith", "prob": 1 },
       { "item": "recipe_bullets", "prob": 2 },
+      { "item": "recipe_melee", "prob": 2 },
       { "item": "howto_traps", "prob": 10 },
       { "item": "preserving_juice", "prob": 10 },
       { "item": "manual_traps", "prob": 12 },
@@ -734,6 +735,7 @@
       { "item": "textbook_armeast", "prob": 15 },
       { "item": "textbook_armschina", "prob": 15 },
       { "item": "textbook_mesoam", "prob": 15 },
+      { "item": "recipe_melee", "prob": 5 },
       { "item": "textbook_gaswarfare", "prob": 15 },
       { "item": "text_gunsmith", "prob": 10 },
       { "item": "glassblowing_book", "prob": 12 },
@@ -777,6 +779,7 @@
       { "item": "mag_unarmed", "prob": 20 },
       { "item": "manual_brawl", "prob": 10 },
       { "item": "mag_cutting", "prob": 5 },
+      { "item": "recipe_melee", "prob": 1 },
       { "item": "textbook_weapeast", "prob": 1 }
     ]
   },

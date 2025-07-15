@@ -836,19 +836,27 @@ void talk_function::morale_chat_activity( npc &p )
     }
     add_msg( m_good, _( "That was a pleasant conversation with %s." ), p.disp_name() );
     // 50% chance of increasing 1 npc opinion value each social chat after 6hr
-    if( !p.has_effect( effect_socialized_recently ) ) {
+    if( !p.has_effect( effect_socialized_recently ) && p.opinion_values_raised <= 10 ) {
+        int value_change = 0;
         switch( rng( 1, 3 ) ) {
             case 1:
-                p.op_of_u.trust += rng( 0, 1 );
+                value_change = rng( 0, 1 );
+                p.op_of_u.trust += value_change;
                 break;
             case 2:
-                p.op_of_u.value += rng( 0, 1 );
+                value_change = rng( 0, 1 );
+                p.op_of_u.value += value_change;
                 break;
             case 3:
                 if( p.op_of_u.anger > 0 ) {
-                    p.op_of_u.anger += rng( 0, -1 );
+                    value_change = rng( -1, 0 );
+                    p.op_of_u.anger += value_change;
                 }
                 break;
+        }
+        // we need to check for any non-zero value, e.g. anger change might be negative
+        if( value_change != 0 ) {
+            p.opinion_values_raised++;
         }
         p.add_effect( effect_socialized_recently, 6_hours );
     }

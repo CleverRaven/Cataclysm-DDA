@@ -60,6 +60,8 @@ class scenario
 
         // does this scenario require a specific achiement to unlock
         std::optional<achievement_id> _requirement;
+        // does this scenario require the requirement even when metaprogression is disabled?
+        bool hard_requirement = false;
 
         bool reveal_locale = true;
         int distance_initial_visibility = 0;
@@ -106,6 +108,7 @@ class scenario
 
         std::optional<achievement_id> get_requirement() const;
 
+        bool has_hard_requirement() const;
         bool get_reveal_locale() const;
         bool get_distance_initial_visibility() const;
 

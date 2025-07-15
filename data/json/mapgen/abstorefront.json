@@ -64,7 +64,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "abstorefront",
     "object": {
       "fill_ter": "t_floor",
@@ -100,7 +99,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "abstorefront_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -143,7 +141,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "abstorefront_1",
     "object": {
       "fill_ter": "t_floor",
@@ -180,7 +177,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "abstorefront_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -228,7 +224,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "abstorefront_2",
     "object": {
       "fill_ter": "t_floor",
@@ -269,7 +264,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "abstorefront_roof_2",
     "object": {
       "fill_ter": "t_flat_roof",

@@ -7,7 +7,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "abyssal_hunger_roof",
     "object": {
       "set": [ { "square": "terrain", "id": "t_abyssal_flesh_roof", "x": 0, "y": 0, "x2": 23, "y2": 23 } ],
@@ -16,7 +15,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "abyssal_hunger_dungeon",
     "object": {
       "rows": [
@@ -56,7 +54,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "abyssal_hunger_brain",
     "object": {
       "rows": [
@@ -95,7 +92,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "abyssal_hunger_cleanup",
     "object": {
       "set": [
@@ -119,7 +115,10 @@
     "type": "SPELL",
     "id": "abyssal_hunger_next_level",
     "name": "abyssal hunger next level",
-    "copy-from": "trap_base",
+    "description": "abyssal hunger next level",
+    "shape": "blast",
+    "valid_targets": [ "hostile", "ground", "self", "ally" ],
+    "effect": "effect_on_condition",
     "effect_str": "EOC_ENTER_ABYSSAL_HUNGER_NEXT_LEVEL"
   }
 ]

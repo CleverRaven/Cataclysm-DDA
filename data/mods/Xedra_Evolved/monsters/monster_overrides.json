@@ -121,6 +121,18 @@
     "species": [ "MAMMAL", "NIGHT_CREATURE" ]
   },
   {
+    "id": "mon_fox_red",
+    "type": "MONSTER",
+    "copy-from": "mon_fox_red",
+    "species": [ "MAMMAL", "NIGHT_CREATURE" ]
+  },
+  {
+    "id": "mon_fox_gray",
+    "type": "MONSTER",
+    "copy-from": "mon_fox_gray",
+    "species": [ "MAMMAL", "NIGHT_CREATURE" ]
+  },
+  {
     "id": "mon_boar_wild_piglet",
     "type": "MONSTER",
     "copy-from": "mon_boar_wild_piglet",

@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "//": "level -2",
     "om_terrain": [ [ "lab_CORE_2x1_1UP", "lab_CORE_2x1_2UP" ] ],
     "type": "mapgen",
@@ -42,7 +41,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "lab_CORE_2x1_1DN",
     "//": "level -3",
     "type": "mapgen",
@@ -103,7 +101,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "lab_CORE_2x1_2DN",
     "//": "level -3",
     "type": "mapgen",
@@ -166,7 +163,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "level -4",
     "om_terrain": [ "underground_lab_cargo_stationA" ],
     "object": {
@@ -210,7 +206,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "underground_lab_cargo_stationB" ],
     "//": "level -4",
     "object": {
@@ -268,7 +263,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "underground_lab_central_-5W" ],
     "//": "level -5",
     "object": {
@@ -327,7 +321,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "lab_security_corridor_a",
-    "method": "json",
     "object": {
       "place_terrain": [
         { "ter": "t_metal_floor", "x": 18, "y": 3 },
@@ -354,7 +347,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "lab_security_corridor_b",
-    "method": "json",
     "object": {
       "place_terrain": [
         { "ter": "t_metal_floor", "x": 5, "y": 3 },
@@ -367,7 +359,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "underground_lab_central_-5E" ],
     "//": "level -5",
     "object": {
@@ -411,7 +402,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "underground_lab_central_-6W" ],
     "//": "level -6",
     "object": {
@@ -455,7 +445,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "underground_lab_central_-6E" ],
     "//": "level -6",
     "object": {
@@ -498,7 +487,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "underground_lab_central_-7W" ],
     "//": "level -6",
     "object": {
@@ -534,7 +522,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "underground_lab_central_-7E" ],
     "//": "level -6",
     "object": {

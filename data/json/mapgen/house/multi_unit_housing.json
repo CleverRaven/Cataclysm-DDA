@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "multi_unit_first_floor" ],
     "object": {
       "fill_ter": "t_floor",
@@ -44,7 +43,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "multi_unit_second_floor_of_three" ],
     "object": {
       "fill_ter": "t_floor",
@@ -81,7 +79,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "multi_unit_top_floor" ],
     "object": {
       "fill_ter": "t_floor",
@@ -118,7 +115,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "multi_unit_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -154,7 +150,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "multi_unit_basement",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -193,7 +188,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "multi_unit_home",
     "weight": 100,
     "object": {
@@ -227,7 +221,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "multi_unit_home",
     "weight": 100,
     "object": {
@@ -261,7 +254,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "multi_unit_home",
     "weight": 100,
     "object": {
@@ -298,7 +290,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "multi_unit_home",
     "weight": 100,
     "object": {
@@ -332,7 +323,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "multi_unit_home",
     "weight": 100,
     "object": {
@@ -366,7 +356,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "multi_unit_home",
     "weight": 100,
     "object": {
