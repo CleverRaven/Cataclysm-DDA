@@ -89,8 +89,8 @@ struct bash_test_loadout {
 struct single_bash_test {
     std::string id;
     bash_test_loadout loadout;
-    std::map<furn_id, std::pair<int, int>> furn_tries;
-    std::map<ter_id, std::pair<int, int>> ter_tries;
+    std::map<furn_id, int> furn_tries;
+    std::map<ter_id, int> ter_tries;
 
     void deserialize( const JsonObject &jo );
 };

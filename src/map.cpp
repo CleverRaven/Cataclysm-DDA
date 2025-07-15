@@ -4056,16 +4056,13 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params, bool rep
         int damage = get_map_damage( tripoint_bub_ms( p ) );
         int damage_dealt = bash->damage_to( params.strength, supported, blocked );
         add_msg_debug( debugmode::DF_MAP,
-                       "Smash: damage is (%d * %g) + %d, hp: %d)",
-                       damage_dealt, params.roll, damage, bash->hp( supported, blocked ) );
-        if( ( damage_dealt * params.roll ) + damage >= bash->hp( supported, blocked ) ) {
+                       "Smash: damage is %d + %d, hp: %d)",
+                       damage_dealt, damage, bash->hp( supported, blocked ) );
+        if( damage_dealt + damage >= bash->hp( supported, blocked ) ) {
             damage = 0;
             success = true;
         } else if( damage_dealt > 0 ) {
-            // Add at least one damage per unsuccessful bash will ensure that if we exceed str_min,
-            // we will destroy it in str_max - str_min bashes. As the amount we exceed it by increases,
-            // we'll take less time to destroy it
-            damage += std::max( damage_dealt * params.roll, 1.f );
+            damage += damage_dealt;
             params.can_bash = true;
         }
         set_map_damage( p, damage );
