@@ -723,7 +723,7 @@ void bash_activity_actor::do_turn( player_activity &, Character &who )
             who.cancel_activity();
             return;
         }
-        if( res.resistance < 0 || res.skill < res.resistance ) {
+        if( !res.can_smash ) {
             add_msg( m_info, _( "You're no longer able to make progress smashing here." ) );
             who.cancel_activity();
             return;

@@ -4051,6 +4051,7 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params, bool rep
             // we will destroy it in str_max - str_min bashes. As the amount we exceed it by increases,
             // we'll take less time to destroy it
             damage += std::max( ( params.strength - smin ) * params.roll, 1.f );
+            params.can_bash = true;
         }
         set_map_damage( p, damage );
     }
