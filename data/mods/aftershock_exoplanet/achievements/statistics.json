@@ -72,7 +72,7 @@
     "event_transformation": "avatar_wields_item",
     "value_constraints": {
       "itype": {
-        "equals_any": [ "itype_id", [ "afs_magnadrive_230k", "afs_pam-41", "afs_plasma_torch_gun", "afs_makeshift_fusion_guns" ] ]
+        "equals_any": [ "itype_id", [ "afs_magnadrive_230k", "afs_pam-41", "afs_plasma_torch_gun", "afs_makeshift_fusion_gun" ] ]
       }
     },
     "drop_fields": [ "itype" ]
