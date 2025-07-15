@@ -1368,12 +1368,11 @@ conditional_t::func f_player_see( bool is_npc )
     const map &here = get_map();
 
     return [is_npc, &here]( const_dialogue const & d ) {
-        const Creature *c = d.const_actor( is_npc )->get_const_creature();
-        if( c ) {
+        if( d.has_actor( is_npc ) ) {
+            const Creature *c = d.const_actor( is_npc )->get_const_creature();
             return get_player_view().sees( here, *c );
-        } else {
-            return get_player_view().sees( here,  d.const_actor( is_npc )->pos_bub( here ) );
         }
+        return false;
     };
 }
 
