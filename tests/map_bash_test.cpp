@@ -98,8 +98,7 @@ static void test_bash_set( const bash_test_set &set )
             if( it == test.furn_tries.end() ) {
                 CHECK( tries == max_tries );
             } else {
-                CHECK( tries >= it->second.first );
-                CHECK( tries <= it->second.second );
+                CHECK( tries == it->second );
             }
         }
         for( const ter_id &ter : set.tested_ter ) {
@@ -115,8 +114,7 @@ static void test_bash_set( const bash_test_set &set )
             if( it == test.ter_tries.end() ) {
                 CHECK( tries == max_tries );
             } else {
-                CHECK( tries >= it->second.first );
-                CHECK( tries <= it->second.second );
+                CHECK( tries == it->second );
             }
         }
     }
