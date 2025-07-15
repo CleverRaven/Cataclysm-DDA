@@ -1,6 +1,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <numeric>
 #include <optional>
 #include <set>
 #include <sstream>
@@ -15,6 +16,7 @@
 #include "common_types.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
+#include "damage.h"
 #include "faction.h"
 #include "field.h"
 #include "field_type.h"
@@ -419,7 +421,11 @@ TEST_CASE( "npc-board-player-vehicle" )
                     UNSCOPED_INFO( "target tile: " << p.to_string() << " - vehicle part : " << part_name );
 
                     int hp = vp.hp();
-                    int bash = companion->path_settings->bash_strength;
+                    int bash = std::accumulate( companion->path_settings->bash_strength.begin(),
+                                                companion->path_settings->bash_strength.end(), 0,
+                    []( int so_far, const std::pair<damage_type_id, int> &dam ) {
+                        return so_far + ( dam.second * dam.first->bash_conversion_factor );
+                    } );
                     UNSCOPED_INFO( "part hp: " << hp << " - bash strength: " << bash );
 
                     const auto vpobst = vpart_position( const_cast<vehicle &>( *veh ), part ).obstacle_at_part();
