@@ -358,6 +358,7 @@ class item : public visitable
         /** Above, along with checks for power, browsed, use action */
         bool is_estorage_usable( const Character &who ) const;
         bool is_estorable() const;
+        bool is_estorable_exclusive() const;
         bool is_browsed() const;
         void set_browsed( bool browsed );
         /** @return if item can be copied as an e-file */
