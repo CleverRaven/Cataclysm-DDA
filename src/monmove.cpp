@@ -1237,7 +1237,7 @@ void monster::move()
                 if( !provocative_sound && is_wandering() && destination == here.get_bub( wander_pos ) ) {
                     continue;
                 }
-                const int estimate = here.bash_rating( bash_estimate(), candidate );
+                const int estimate = here.bash_rating( {{{damage_bash, bash_estimate()}}}, candidate );
                 if( estimate <= 0 ) {
                     continue;
                 }
@@ -1537,7 +1537,7 @@ tripoint_bub_ms monster::scent_move()
         for( const tripoint_bub_ms &dest : here.points_in_radius( direction, 1 ) ) {
             if( here.valid_move( pos_bub(), dest, can_bash, true ) &&
                 ( can_move_to( dest ) || ( dest == player_character.pos_bub() ) ||
-                  ( can_bash && here.bash_rating( bash_estimate(), dest ) > 0 ) ) ) {
+            ( can_bash && here.bash_rating( {{{damage_bash, bash_estimate()}}}, dest ) > 0 ) ) ) {
                 smoves.push_back( dest );
             }
         }

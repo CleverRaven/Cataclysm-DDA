@@ -2659,11 +2659,11 @@ void npc::npc_dismount()
     mod_moves( -get_speed() );
 }
 
-int npc::smash_ability() const
+std::map<damage_type_id, int> npc::smash_ability() const
 {
     if( is_hallucination() || ( is_player_ally() && !rules.has_flag( ally_rule::allow_bash ) ) ) {
         // Not allowed to bash
-        return 0;
+        return {};
     }
 
     return Character::smash_ability();
@@ -3460,7 +3460,9 @@ const pathfinding_settings &npc::get_pathfinding_settings() const
 
 const pathfinding_settings &npc::get_pathfinding_settings( bool no_bashing ) const
 {
-    path_settings->bash_strength = no_bashing ? 0 : smash_ability();
+    const std::map<damage_type_id, int> &smash_damage = smash_ability();
+    path_settings->bash_strength = no_bashing ? 0 : std::accumulate( smash_damage.begin(),
+                                   smash_damage.end(), 0, accumulate_to_bash_damage );
     if( has_trait( trait_NO_BASH ) ) {
         path_settings->bash_strength = 0;
     }

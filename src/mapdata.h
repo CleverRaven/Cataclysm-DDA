@@ -5,6 +5,7 @@
 #include <array>
 #include <bitset>
 #include <cstddef>
+#include <map>
 #include <optional>
 #include <set>
 #include <string>
@@ -71,7 +72,8 @@ struct map_common_bash_info { //TODO: Half of this shouldn't be common
         // todo: move it to map_data_common_t
         std::string potential_bash_items( const map_data_common_t &ter_furn ) const;
 
-        int damage_to( int str, bool supported = false, bool blocked = false ) const;
+        int damage_to( const std::map<damage_type_id, int> &str,
+                       bool supported = false, bool blocked = false ) const;
         int hp( bool supported = false, bool blocked = false ) const;
     public:
         virtual ~map_common_bash_info() = default;

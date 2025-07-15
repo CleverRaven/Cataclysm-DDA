@@ -1372,6 +1372,7 @@ When adding a new bionic, if it's not included with another one, you must also a
 | `edged`             | _(optional)_ Identifies this damage type as originating from a sharp or pointy weapon or implement. (defaults to false)
 | `environmental`     | _(optional)_ This damage type corresponds to environmental sources. Currently influences whether an item or piece of armor includes environmental resistance against this damage type. (defaults to false)
 | `material_required` | _(optional)_ Determines whether materials must defined a resistance for this damage type. (defaults to false)
+| `bash_conversion_factor` | _(optional)_ The rate at which damage of this type will be converted into damage to objects on the map (terrain/furniture/fields). Defaults to 0.
 | `mon_difficulty`    | _(optional)_ Determines whether this damage type should contribute to a monster's difficulty rating. (defaults to false)
 | `no_resist`         | _(optional)_ Identifies this damage type as being impossible to resist against (ie. "pure" damage). (defaults to false)
 | `immune_flags`      | _(optional)_ An object with two optional fields: `"character"` and `"monster"`. Both inner fields list an array of character flags and monster flags, respectively, that would make the character or monster immune to this damage type.
@@ -1389,6 +1390,7 @@ When adding a new bionic, if it's not included with another one, you must also a
     "physical": true,
     "edged": true,
     "magic_color": "light_red",
+    "bash_conversion_factor": 0.1,
     "name": "pierce",
     "skill": "stabbing",
     "//2": "derived from cut only for monster defs",

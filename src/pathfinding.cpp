@@ -28,6 +28,8 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
+static const damage_type_id damage_bash( "bash" );
+
 class field;
 
 // Turns two indexed to a 2D array into an index to equivalent 1D array
@@ -318,7 +320,8 @@ int map::cost_to_pass( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
 
     // Otherwise, if we can bash, we'll consider that.
     if( bash > 0 ) {
-        const int rating = bash_rating_internal( bash, furniture, terrain, false, veh, part );
+        const int rating = bash_rating_internal( {{{damage_bash, bash}}}, furniture, terrain, false, veh,
+        part );
 
         if( rating > 1 ) {
             // Expected number of turns to bash it down, 1 turn to move there

@@ -196,7 +196,7 @@ static void test_bash_fields( const std::function<void( map &, const tripoint_bu
 
     // destroying hit
     {
-        here.bash( pt_3, bash_limits().second + 1 );
+        here.bash( pt_3, bash_limits().second * 2 );
 
         CHECK_FALSE( present( here, pt_3 ) );
         const field &fields = here.field_at( pt_3 );
