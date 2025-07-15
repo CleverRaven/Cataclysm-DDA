@@ -2656,5 +2656,15 @@
     "type": "MIGRATION",
     "id": "robofac_gun_46",
     "replace": "robofac_gun_57"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "unprimed_46mm_casing",
+    "replace": "unprimed_57mm_casing"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "46mm_casing",
+    "replace": "57mm_casing"
   }
 ]
