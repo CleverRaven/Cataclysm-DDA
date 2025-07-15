@@ -163,6 +163,7 @@ void clear_map( int zmin, int zmax )
     }
     here.process_items();
     clear_basecamps();
+    calendar::turn = calendar::turn_zero; // Prevent immediate evolution for spawned monsters
 }
 
 void clear_map_and_put_player_underground()
