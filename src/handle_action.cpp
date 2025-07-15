@@ -1013,7 +1013,6 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
         if( ( smashskill < bash_info->str_min && one_in( 10 ) ) || fd_to_smsh.first->indestructible ) {
             add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), fd_to_smsh.first->get_name() );
             ret.did_smash = true;
-            return ret;
         } else if( smashskill >= rng( bash_info->str_min, bash_info->str_max ) ) {
             sounds::sound( smashp, bash_info->sound_vol, sounds::sound_t::combat, bash_info->sound, true,
                            "smash",
@@ -1027,7 +1026,6 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
             add_msg( m_info, bash_info->field_bash_msg_success.translated() );
             ret.did_smash = true;
             ret.success = true;
-            return ret;
         } else {
             sounds::sound( smashp, bash_info->sound_fail_vol, sounds::sound_t::combat, bash_info->sound_fail,
                            true, "smash",
@@ -1035,11 +1033,11 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
 
             ret.resistance = bash_info->str_min;
             ret.did_smash = true;
-            return ret;
         }
         if( ret.did_smash && !bash_info->hit_field.first.is_null() ) {
             here.add_field( smashp, bash_info->hit_field.first, bash_info->hit_field.second );
         }
+        return ret;
     }
 
     bool should_pulp = false;
