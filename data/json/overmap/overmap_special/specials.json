@@ -676,7 +676,11 @@
   {
     "type": "overmap_special",
     "id": "Cabin_3",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "cabin_3_north" }, { "point": [ 0, 0, 1 ], "overmap": "cabin_roof_3_north" } ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "cabin_3_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "cabin_roof_3_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "cabin_cellar_north" }
+    ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "forest_trail", "connection": "forest_trail" } ],
     "locations": [ "forest" ],
     "city_distance": [ 25, -1 ],
@@ -687,7 +691,11 @@
   {
     "type": "overmap_special",
     "id": "Cabin_4",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "cabin_4_north" }, { "point": [ 0, 0, 1 ], "overmap": "cabin_roof_4_north" } ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "cabin_4_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "cabin_roof_4_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "cabin_cellar_north" }
+    ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "forest_trail", "connection": "forest_trail" } ],
     "locations": [ "forest" ],
     "city_distance": [ 25, -1 ],
@@ -698,7 +706,11 @@
   {
     "type": "overmap_special",
     "id": "Cabin_5",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "cabin_5_north" }, { "point": [ 0, 0, 1 ], "overmap": "cabin_roof_5_north" } ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "cabin_5_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "cabin_roof_5_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "cabin_cellar_north" }
+    ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "forest_trail", "connection": "forest_trail" } ],
     "locations": [ "forest" ],
     "city_distance": [ 25, -1 ],
@@ -709,7 +721,11 @@
   {
     "type": "overmap_special",
     "id": "Cabin_6",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "cabin_6_north" }, { "point": [ 0, 0, 1 ], "overmap": "cabin_roof_6_north" } ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "cabin_6_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "cabin_roof_6_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "cabin_cellar_north" }
+    ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "forest_trail", "connection": "forest_trail" } ],
     "locations": [ "forest" ],
     "city_distance": [ 25, -1 ],

@@ -161,5 +161,29 @@
       "T": { "item": "SUS_toilet", "chance": 50 }
     },
     "toilets": { "T": {  } }
+  },
+  {
+    "type": "palette",
+    "id": "cabin_cellar",
+    "parameters": {
+      "floor_types": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [ [ "t_dirtfloor", 500 ], [ "t_floor", 100 ], [ "t_concrete", 100 ], [ "t_water_sh_underground", 1 ] ]
+        }
+      },
+      "wall_types": { "type": "ter_str_id", "default": { "distribution": [ [ "t_wall_wood", 10 ], [ "t_sconc_wall", 1 ] ] } }
+    },
+    "terrain": {
+      ">": "t_wood_stairs_down",
+      "<": "t_wood_stairs_up",
+      "#": "t_soil",
+      "-": { "param": "wall_types", "fallback": "t_wall_wood" },
+      ".": { "param": "floor_types", "fallback": "t_dirtfloor" },
+      "N": { "param": "floor_types", "fallback": "t_dirtfloor" },
+      "R": { "param": "floor_types", "fallback": "t_dirtfloor" },
+      "c": { "param": "floor_types", "fallback": "t_dirtfloor" }
+    },
+    "furniture": { "R": "f_rack_wood", "t": "f_table", "c": "f_chair" }
   }
 ]
