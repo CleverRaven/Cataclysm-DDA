@@ -1,0 +1,23 @@
+[
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "cabin_6x6_cellar_nested_spiders",
+    "weight": 250,
+    "//": "A cellar overlay for XE goblin spiders.  Won't you come out to play?",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "cabin_cellar" ],
+      "place_fields": [ { "field": "fd_web", "x": [ 0, 5 ], "y": [ 0, 5 ], "repeat": [ 10, 20 ] } ],
+      "place_monster": [ { "group": "GROUP_GOBLIN_SPIDER", "x": [ 0, 5 ], "y": [ 0, 5 ], "chance": 100, "repeat": [ 3, 4 ] } ]
+    }
+  }
+]
