@@ -132,14 +132,14 @@ jobs:
             artifact: android-x32
             ext: apk
             content: application/apk 
-          - name: WebAssembly Bundle
-            os: ubuntu-latest
-            mxe: none
-            artifact: wasm
-            ext: zip
-            content: application/zip
-            sound: 0
-            wasm: true
+          #- name: WebAssembly Bundle
+          #  os: ubuntu-latest
+          #  mxe: none
+          #  artifact: wasm
+          #  ext: zip
+          #  content: application/zip
+          #  sound: 0
+          #  wasm: true
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
     permissions: write-all
