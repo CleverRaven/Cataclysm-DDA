@@ -1020,7 +1020,7 @@
     "type": "item_group",
     "items": [
       [ "vinegar", 20 ],
-      { "prob": 5, "group": "jam_fruit_jar_sealed" },
+      { "prob": 5, "item": "jam_fruit", "container-item": "jar_3l_glass_sealed" },
       { "prob": 17, "group": "bread_bag_plastic_14" },
       { "item": "confit_meat", "prob": 14 },
       [ "meat", 20 ],
