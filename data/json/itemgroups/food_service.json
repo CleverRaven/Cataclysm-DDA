@@ -682,6 +682,7 @@
       { "group": "box_spaghetti_1lb", "prob": 60 },
       { "group": "box_lasagne_1lb", "prob": 50 },
       { "group": "box_macaroni_1lb", "prob": 60 },
+      { "group": "box_macncheese", "prob": 50 },
       { "item": "noodles_fast", "count": [ 1, 4 ], "prob": 50 }
     ]
   },
@@ -705,6 +706,16 @@
     "subtype": "collection",
     "container-item": "box_snack",
     "entries": [ { "item": "macaroni_raw", "container-item": "null", "count": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "box_macncheese",
+    "subtype": "collection",
+    "container-item": "box_snack",
+    "entries": [
+      { "item": "macaroni_raw", "container-item": "null", "count": 6 },
+      { "item": "cheese_powder", "container-item": "null", "count": 6 }
+    ]
   },
   {
     "id": "groce_ingredient",
@@ -1047,9 +1058,10 @@
       { "item": "knife_small", "variant": "knife_steak", "prob": 15 },
       { "prob": 15, "group": "chilly-p_various" },
       { "prob": 15, "group": "curry_powder_various" },
-      [ "spaghetti_raw", 20 ],
-      [ "lasagne_raw", 20 ],
-      [ "macaroni_raw", 20 ],
+      { "prob": 15, "item": "cheese_powder", "count": -1 },
+      { "item": "macaroni_raw", "count": [ 4, -1 ], "container-item": "bag_plastic", "prob": 20 },
+      { "item": "spaghetti_raw", "count": [ 4, -1 ], "container-item": "bag_plastic", "prob": 20 },
+      { "item": "lasagne_raw", "count": [ 4, -1 ], "prob": 20 },
       [ "foodplace_food", 5 ],
       { "item": "knife_huge", "variant": "knife_butcher", "prob": 10 }
     ]
