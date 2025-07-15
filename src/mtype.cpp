@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <initializer_list>
 #include <unordered_map>
 
 #include "behavior_strategy.h"
@@ -337,7 +338,7 @@ mtype::mtype()
     harvest = harvest_list_human;
     decay = harvest_id::NULL_ID();
     luminance = 0;
-    bash_skill = 0;
+    bash_skill = {};
 
     aggro_character = true;
 
