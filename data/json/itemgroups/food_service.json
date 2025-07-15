@@ -411,6 +411,7 @@
       { "item": "honey_bottled", "charges": -1, "prob": 10 },
       { "prob": 10, "item": "honey_glassed", "count": -1 },
       { "item": "milk", "container-item": "carton_milk", "charges": [ 1, -1 ], "prob": 10 },
+      { "item": "oat_milk", "charges": [ 1, -1 ], "prob": 8 },
       { "prob": 65, "group": "milk_powder_various" },
       { "prob": 15, "group": "salt_various" },
       { "prob": 70, "group": "sugar_bulk" },

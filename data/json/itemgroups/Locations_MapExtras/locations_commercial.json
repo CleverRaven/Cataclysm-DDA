@@ -176,8 +176,9 @@
       [ "coffee_raw", 70 ],
       [ "water_clean", 90 ],
       [ "water_mineral", 10 ],
-      [ "almond_milk", 30 ],
-      [ "soy_milk", 30 ],
+      [ "almond_milk", 20 ],
+      [ "oat_milk", 20 ],
+      [ "soy_milk", 20 ],
       [ "juice", 20 ],
       [ "sandwich_t", 30 ],
       [ "sandwich_pb", 30 ],
@@ -777,14 +778,16 @@
       [ "water_clean", 30 ],
       [ "water_mineral", 15 ],
       { "group": "softdrinks_canned", "prob": 121 },
-      { "item": "milk_UHT", "prob": 10, "charges": [ 1, 6 ], "sealed": false },
+      { "item": "milk_UHT", "prob": 20, "charges": [ 1, 6 ], "sealed": false },
+      [ "almond_milk", 10 ],
+      [ "oat_milk", 20 ],
+      [ "soy_milk", 10 ],
       [ "juice", 31 ],
       [ "pie", 40 ],
       [ "pie_meat", 28 ],
       [ "pie_veggy", 15 ],
       [ "pie_maple", 7 ],
-      [ "yoghurt", 30 ],
-      [ "soy_milk", 20 ]
+      [ "yoghurt", 30 ]
     ]
   },
   {
