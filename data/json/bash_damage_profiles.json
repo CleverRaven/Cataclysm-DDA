@@ -1,0 +1,7 @@
+[
+  {
+    "type": "bash_damage_profile",
+    "id": "default",
+    "profile": { "bash": 1.0 }
+  }
+]

@@ -4410,8 +4410,9 @@ Fields can exist on top of terrain/furniture, and support different intensity le
     "decrease_intensity_on_contact": true, // Decrease the field intensity by one each time a character walk on it.
     "mopsafe": false, // field is safe to use in a mopping zone
     "bash": {
-      "str_min": 1, // lower bracket of bashing damage required to bash
-      "str_max": 3, // higher bracket
+      "str_min": 1, // minimum damage required to bash - e.g. 2 damage is required here
+      "str_max": 3, // defines "bash hp", minus str_min - how many minimum damage hits must be dealt to destroy
+      "profile": "wooden_door", // describes how different damage types will be applied as bash damage
       "sound_vol": 2, // noise made when successfully bashing the field
       "sound_fail_vol": 2, // noise made when failing to bash the field
       "sound": "shwip", // sound on success

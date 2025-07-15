@@ -60,6 +60,7 @@ struct map_common_bash_info { //TODO: Half of this shouldn't be common
         bool destroy_only = false;   // Only used for destroying, not normally bashable
         // This terrain is the roof of the tile below it, try to destroy that too
         bool bash_below = false;
+        bash_damage_profile_id damage_profile;
         item_group_id drop_group; // item group of items that are dropped when the object is bashed
         translation sound;      // sound made on success ('You hear a "smash!"')
         translation sound_fail; // sound made on fail
