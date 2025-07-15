@@ -3019,7 +3019,7 @@
           { "item": "badge_deputy" },
           { "item": "wristwatch" },
           { "item": "tacvest" },
-          { "group": "charged_two_way_radio", "contents-item": "novel_crime_midnight" },
+          { "group": "charged_two_way_radio" },
           { "group": "starter_wallet_full" },
           { "item": "glasses_bal", "custom-flags": [ "no_auto_equip" ] },
           { "group": "charged_powered_earmuffs" },
