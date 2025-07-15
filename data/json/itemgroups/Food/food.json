@@ -21,6 +21,8 @@
       { "prob": 40, "group": "can_tomato_jar_3l_glass_sealed_24" },
       { "prob": 10, "group": "meat_pickled_jar_3l_glass_sealed_12" },
       { "prob": 20, "group": "veggy_pickled_jar_3l_glass_sealed_12" },
+      { "item": "jam_fruit", "prob": 50, "charges": -1 },
+      { "item": "jam_fruit", "prob": 20, "charges": -1, "container-item": "jar_3l_glass_sealed" },
       { "item": "brandied_fruit", "prob": 10, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "prob": 40, "group": "fish_pickled_jar_3l_glass_sealed_12" },
       { "item": "sauce_red", "prob": 60, "charges": 48, "container-item": "jar_3l_glass_sealed" },
