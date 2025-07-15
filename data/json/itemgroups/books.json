@@ -726,6 +726,7 @@
     "//": "These are books that are hard to find or esoteric, mostly.",
     "subtype": "distribution",
     "entries": [
+      { "group": "esoteric_books", "prob": 40 },
       { "group": "book_martial_rare", "prob": 44 },
       { "group": "book_martial_common", "prob": 7 },
       { "item": "textbook_weapwest", "prob": 15 },
@@ -763,8 +764,26 @@
       { "item": "textbook_botany", "prob": 5 },
       { "item": "book_lockpick", "prob": 1 },
       { "item": "scots_tailor", "prob": 30 },
-      { "item": "necronomicon", "prob": 1 },
       { "item": "ballista_book", "prob": 6 }
+    ]
+  },
+  {
+    "id": "esoteric_books",
+    "type": "item_group",
+    "//": "Magic, esoteric, new age and mystic books for your average superstitious or believer of all magical.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "SUS_book_nonf_pulp_newage", "prob": 54 },
+      { "item": "holybook_wicca", "prob": 5 },
+      { "item": "holybook_wicca1", "prob": 5 },
+      { "item": "holybook_wicca2", "prob": 5 },
+      { "item": "holybook_satanic", "prob": 5 },
+      { "item": "holybook_egypt", "prob": 5 },
+      { "item": "holybook_egypt1", "prob": 5 },
+      { "item": "holybook_egypt2", "prob": 5 },
+      { "item": "holybook_maya", "prob": 5 },
+      { "item": "holybook_corpus", "prob": 5 },
+      { "item": "necronomicon", "prob": 1 }
     ]
   },
   {
