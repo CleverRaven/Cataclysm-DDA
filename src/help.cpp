@@ -10,6 +10,7 @@
 #include "action.h"
 #include "cata_imgui.h"
 #include "cata_path.h"
+#include "character.h"
 #include "color.h"
 #include "debug.h"
 #include "flexbuffer_json.h"
@@ -17,6 +18,7 @@
 #include "input_context.h"
 #include "input_enums.h"
 #include "output.h"
+#include "npc.h"
 #include "path_info.h"
 #include "string_formatter.h"
 #include "text.h"
@@ -319,30 +321,6 @@ void help_window::draw_category()
     }
 }
 
-// Would ideally share parse_tags() code for keybinds
-void help_window::parse_keybind_tags()
-{
-    for( std::pair<std::string, int> &translated_paragraph : translated_paragraphs ) {
-        std::string &text = translated_paragraph.first;
-        size_t pos = text.find( "<press_", 0, 7 );
-        while( pos != std::string::npos ) {
-            size_t pos2 = text.find( ">", pos, 1 );
-
-            std::string action = text.substr( pos + 7, pos2 - pos - 7 );
-            std::string replace = "<color_light_blue>" +
-                                  press_x( look_up_action( action ), "", "" ) + "</color>";
-
-            if( replace.empty() ) {
-                debugmsg( "Help json: Unknown action: %s", action );
-            } else {
-                text = string_replace( text, "<press_" + std::move( action ) + ">", replace );
-            }
-
-            pos = text.find( "<press_", pos2, 7 );
-        }
-    }
-}
-
 cataimgui::bounds help_window::get_bounds()
 {
     return {0, 0, 1.0, 1.0};
@@ -413,9 +391,10 @@ void help_window::swap_translated_paragraphs()
     translated_paragraphs.clear();
     const help_category &cat = data.help_categories[loaded_option];
     for( const std::pair<translation, int> &paragraph : cat.paragraphs ) {
-        translated_paragraphs.emplace_back( paragraph.first.translated(), paragraph.second );
+        auto &translated_paragraph = translated_paragraphs.emplace_back(
+                                         paragraph.first.translated(), paragraph.second );
+        parse_tags( translated_paragraph.first, get_player_character(), get_player_character() );
     }
-    parse_keybind_tags();
 }
 
 std::string get_hint()
