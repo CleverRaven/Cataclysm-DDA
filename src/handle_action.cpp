@@ -60,7 +60,6 @@
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "magic_type.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -147,6 +146,7 @@ static const itype_id fuel_type_animal( "animal" );
 static const itype_id itype_radiocontrol( "radiocontrol" );
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
+static const json_character_flag json_flag_BIONIC_SLEEP_FRIENDLY( "BIONIC_SLEEP_FRIENDLY" );
 static const json_character_flag json_flag_CANNOT_ATTACK( "CANNOT_ATTACK" );
 static const json_character_flag json_flag_LEVITATION( "LEVITATION" );
 static const json_character_flag json_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
@@ -1378,7 +1378,7 @@ static void sleep()
 
         // some bionics
         // bio_alarm is useful for waking up during sleeping
-        if( bio.info().has_flag( STATIC( json_character_flag( "BIONIC_SLEEP_FRIENDLY" ) ) ) ) {
+        if( bio.info().has_flag( json_flag_BIONIC_SLEEP_FRIENDLY ) ) {
             continue;
         }
 

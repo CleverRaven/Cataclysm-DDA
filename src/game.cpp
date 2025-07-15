@@ -139,7 +139,6 @@
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "main_menu.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_item_stack.h"
 #include "map_iterator.h"
@@ -304,6 +303,7 @@ static const itype_id itype_towel_wet( "towel_wet" );
 static const json_character_flag json_flag_ALL_TERRAIN_NAVIGATION( "ALL_TERRAIN_NAVIGATION" );
 static const json_character_flag json_flag_CLIMB_FLYING( "CLIMB_FLYING" );
 static const json_character_flag json_flag_CLIMB_NO_LADDER( "CLIMB_NO_LADDER" );
+static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 static const json_character_flag json_flag_GRAB( "GRAB" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 static const json_character_flag json_flag_INFECTION_IMMUNE( "INFECTION_IMMUNE" );
@@ -5143,7 +5143,7 @@ void game::use_computer( const tripoint_bub_ms &p )
     }
     if( u.has_flag( json_flag_HYPEROPIC ) && !u.worn_with_flag( flag_FIX_FARSIGHT ) &&
         !u.has_effect( effect_contacts ) && !u.has_effect( effect_transition_contacts ) &&
-        !u.has_flag( STATIC( json_character_flag( "ENHANCED_VISION" ) ) ) ) {
+        !u.has_flag( json_flag_ENHANCED_VISION ) ) {
         add_msg( m_info, _( "You'll need to put on reading glasses before you can see the screen." ) );
         return;
     }

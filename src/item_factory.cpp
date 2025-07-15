@@ -44,7 +44,6 @@
 #include "item_pocket.h"
 #include "itype.h"
 #include "iuse_actor.h"
-#include "make_static.h"
 #include "mapdata.h"
 #include "material.h"
 #include "math_parser_diag_value.h"
@@ -104,6 +103,8 @@ static const item_category_id item_category_veh_parts( "veh_parts" );
 static const item_category_id item_category_weapons( "weapons" );
 
 static const item_group_id Item_spawn_data_EMPTY_GROUP( "EMPTY_GROUP" );
+
+static const itype_id itype_debug_backpack( "debug_backpack" );
 
 static const material_id material_bean( "bean" );
 static const material_id material_blood( "blood" );
@@ -4921,9 +4922,7 @@ Item_factory::get_armor_containers( units::volume min_volume ) const
         using item_volumes = std::tuple<item, units::volume>;
         std::vector<item_volumes> vols;
         for( const itype *ity : all() ) {
-            if( item_is_blacklisted( ity->get_id() )
-                || ity->get_id() == STATIC( itype_id( "debug_backpack" ) )
-              ) {
+            if( item_is_blacklisted( ity->get_id() ) || ity->get_id() == itype_debug_backpack ) {
                 continue;
             }
             item itm = item( ity );

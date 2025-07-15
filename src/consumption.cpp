@@ -45,7 +45,6 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "magic_enchantment.h"
-#include "make_static.h"
 #include "map.h"
 #include "math_parser_diag_value.h"
 #include "messages.h"
@@ -73,6 +72,11 @@
 
 static const std::string comesttype_DRINK( "DRINK" );
 static const std::string comesttype_FOOD( "FOOD" );
+
+static const addiction_id addiction_amphetamine( "amphetamine" );
+static const addiction_id addiction_caffeine( "caffeine" );
+static const addiction_id addiction_cocaine( "cocaine" );
+static const addiction_id addiction_crack( "crack" );
 
 static const bionic_id bio_faulty_grossfood( "bio_faulty_grossfood" );
 static const bionic_id bio_syringe( "bio_syringe" );
@@ -1291,10 +1295,10 @@ void Character::modify_stimulation( const islot_comestible &comest )
                 -1 ) );
     }
     if( has_trait( trait_STIMBOOST ) && ( current_stim > 30 ) &&
-        ( comest.addictions.count( STATIC( addiction_id( "caffeine" ) ) ) ||
-          comest.addictions.count( STATIC( addiction_id( "amphetamine" ) ) ) ||
-          comest.addictions.count( STATIC( addiction_id( "cocaine" ) ) ) ||
-          comest.addictions.count( STATIC( addiction_id( "crack" ) ) ) ) ) {
+        ( comest.addictions.count( addiction_caffeine ) ||
+          comest.addictions.count( addiction_amphetamine ) ||
+          comest.addictions.count( addiction_cocaine ) ||
+          comest.addictions.count( addiction_crack ) ) ) {
         int hallu_duration = ( current_stim - comest.stim < 30 ) ? current_stim - 30 : comest.stim;
         add_effect( effect_visuals, hallu_duration * 30_minutes );
         add_msg_if_player( m_bad, SNIPPET.random_from_category( "comest_stimulant" ).value_or(

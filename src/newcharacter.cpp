@@ -43,7 +43,6 @@
 #include "localized_comparator.h"
 #include "magic.h"
 #include "magic_enchantment.h"
-#include "make_static.h"
 #include "mapsharing.h"
 #include "martialarts.h"
 #include "mission.h"
@@ -86,6 +85,7 @@ static const std::string flag_CITY_START( "CITY_START" );
 static const std::string flag_SECRET( "SECRET" );
 static const std::string flag_SKIP_DEFAULT_BACKGROUND( "SKIP_DEFAULT_BACKGROUND" );
 
+static const flag_id json_flag_WET( "WET" );
 static const flag_id json_flag_auto_wield( "auto_wield" );
 static const flag_id json_flag_no_auto_equip( "no_auto_equip" );
 
@@ -629,7 +629,7 @@ void Character::add_profession_items()
 
     auto attempt_add_items = [this]( std::list<item> &prof_items, std::list<item> &failed_to_add ) {
         for( item &it : prof_items ) {
-            if( it.has_flag( STATIC( flag_id( "WET" ) ) ) ) {
+            if( it.has_flag( json_flag_WET ) ) {
                 it.active = true;
                 it.item_counter = 450; // Give it some time to dry off
             }

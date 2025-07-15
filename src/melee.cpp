@@ -49,7 +49,6 @@
 #include "itype.h"
 #include "line.h"
 #include "magic_enchantment.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -98,7 +97,10 @@ static const character_modifier_id
 character_modifier_melee_thrown_move_lift_mod( "melee_thrown_move_lift_mod" );
 
 static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_cold( "cold" );
 static const damage_type_id damage_cut( "cut" );
+static const damage_type_id damage_electric( "electric" );
+static const damage_type_id damage_heat( "heat" );
 static const damage_type_id damage_stab( "stab" );
 
 static const efftype_id effect_amigara( "amigara" );
@@ -2134,7 +2136,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
             // electrical damage deals full damage if unarmed OR wielding a conductive weapon
             // non-electrical "elemental" damage types do their full damage if unarmed,
             // but severely mitigated damage if not
-            bool can_block = elem.type == STATIC( damage_type_id( "electric" ) ) ? !conductive_shield : true;
+            bool can_block = elem.type == damage_electric ? !conductive_shield : true;
             // Unarmed weapons won't block those
             if( item_blocking && can_block ) {
                 float previous_amount = elem.amount;
@@ -2239,7 +2241,7 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
     if( has_active_bionic( bio_shock ) && get_power_level() >= bio_shock->power_trigger &&
         ( weap.is_null() || weap.conductive() || weapon.conductive() ) ) {
         mod_power_level( -bio_shock->power_trigger );
-        d.add_damage( STATIC( damage_type_id( "electric" ) ), rng( 2, 10 ) );
+        d.add_damage( damage_electric, rng( 2, 10 ) );
 
         if( is_avatar() ) {
             dump += string_format( _( "You shock %s." ), target ) + "\n";
@@ -2250,7 +2252,7 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
 
     if( has_active_bionic( bio_heat_absorb ) && weap.is_null() && t.is_warm() ) {
         mod_power_level( bio_heat_absorb->power_trigger );
-        d.add_damage( STATIC( damage_type_id( "cold" ) ), 3 );
+        d.add_damage( damage_cold, 3 );
         if( is_avatar() ) {
             dump += string_format( _( "You drain %s's body heat." ), target ) + "\n";
         } else {
@@ -2259,7 +2261,7 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
     }
 
     if( weap.has_flag( flag_FLAMING ) ) {
-        d.add_damage( STATIC( damage_type_id( "heat" ) ), rng( 1, 8 ) );
+        d.add_damage( damage_heat, rng( 1, 8 ) );
 
         if( is_avatar() ) {
             dump += string_format( _( "You burn %s." ), target ) + "\n";

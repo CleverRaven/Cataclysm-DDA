@@ -75,7 +75,6 @@
 #include "json_loader.h"
 #include "line.h"
 #include "magic_enchantment.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
@@ -162,6 +161,9 @@ static const construction_str_id construction_constr_pit_shallow( "constr_pit_sh
 static const construction_str_id construction_constr_water_channel( "constr_water_channel" );
 
 static const crafting_category_id crafting_category_CC_FOOD( "CC_FOOD" );
+
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_cut( "cut" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_antibiotic( "antibiotic" );
@@ -284,6 +286,7 @@ static const itype_id itype_fire( "fire" );
 static const itype_id itype_firecracker_act( "firecracker_act" );
 static const itype_id itype_firecracker_pack_act( "firecracker_pack_act" );
 static const itype_id itype_geiger_on( "geiger_on" );
+static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_handrolled_cig( "handrolled_cig" );
 static const itype_id itype_heatpack_used( "heatpack_used" );
 static const itype_id itype_hotplate( "hotplate" );
@@ -411,6 +414,7 @@ static const trait_id trait_MARLOSS_YELLOW( "MARLOSS_YELLOW" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
+static const trait_id trait_THRESH_LUPINE( "THRESH_LUPINE" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
@@ -1621,8 +1625,7 @@ std::optional<int> iuse::petfood( Character *p, item *it, const tripoint_bub_ms 
 
         if( mon->type->id == mon_dog_thing ) {
             if( !halluc ) {
-                p->deal_damage( mon, bodypart_id( "hand_r" ), damage_instance( STATIC( damage_type_id( "cut" ) ),
-                                rng( 1, 10 ) ) );
+                p->deal_damage( mon, bodypart_id( "hand_r" ), damage_instance( damage_cut, rng( 1, 10 ) ) );
             }
             p->add_msg_if_player( m_bad, _( "You want to feed it the dog food, but it bites your fingers!" ) );
             if( one_in( 5 ) ) {
@@ -2867,7 +2870,7 @@ std::optional<int> iuse::crowbar( Character *p, item *it, const tripoint_bub_ms 
 
     if( !f( pnt ) ) {
         if( pnt == p->pos_bub() ) {
-            if( it->typeId() == STATIC( itype_id( "hammer" ) ) ) {
+            if( it->typeId() == itype_hammer ) {
                 p->add_msg_if_player( m_info, _( "You try to hit yourself with the hammer." ) );
                 p->add_msg_if_player( m_info, _( "But you can't touch this." ) );
             } else {
@@ -3740,8 +3743,8 @@ std::optional<int> iuse::tazer( Character *p, item *it, const tripoint_bub_ms &p
     p->mod_moves( -to_moves<int>( 1_seconds ) );
 
     const bool tazer_was_dodged = target->dodge_check( p->hit_roll() );
-    const bool tazer_was_armored = hit_roll < target->get_armor_type( STATIC(
-                                       damage_type_id( "bash" ) ), bodypart_id( "torso" ) );
+    const bool tazer_was_armored = hit_roll < target->get_armor_type( damage_bash,
+                                   bodypart_id( "torso" ) );
     if( tazer_was_dodged ) {
         p->add_msg_player_or_npc( _( "You attempt to shock %s, but miss." ),
                                   _( "<npcname> attempts to shock %s, but misses." ),
@@ -4484,7 +4487,7 @@ std::optional<int> iuse::dog_whistle( Character *p, item *, const tripoint_bub_m
     // Can the Character hear the dog whistle?
     auto hearing_check = [p, &here]( const Character & who ) -> bool {
         return !who.is_deaf() && p->sees( here, who ) &&
-        who.has_trait( STATIC( trait_id( "THRESH_LUPINE" ) ) );
+        who.has_trait( trait_THRESH_LUPINE );
     };
 
     for( const npc &subject : g->all_npcs() ) {

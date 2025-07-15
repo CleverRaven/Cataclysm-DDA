@@ -30,7 +30,6 @@
 #include "input.h"
 #include "item.h"
 #include "item_location.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -57,6 +56,8 @@
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 
 static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
+
+static const damage_type_id damage_heat( "heat" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_alarm_clock( "alarm_clock" );
@@ -112,6 +113,8 @@ static const efftype_id effect_visuals( "visuals" );
 static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 static const efftype_id effect_winded( "winded" );
 
+static const flag_id json_flag_TOURNIQUET( "TOURNIQUET" );
+
 static const furn_str_id furn_f_rubble_rock( "f_rubble_rock" );
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
@@ -151,8 +154,7 @@ static const vitamin_id vitamin_redcells( "redcells" );
 static void eff_fun_onfire( Character &u, effect &it )
 {
     const int intense = it.get_intensity();
-    u.deal_damage( nullptr, it.get_bp(), damage_instance( STATIC( damage_type_id( "heat" ) ),
-                   rng( intense, intense * 2 ) ) );
+    u.deal_damage( nullptr, it.get_bp(), damage_instance( damage_heat, rng( intense, intense * 2 ) ) );
 }
 static void eff_fun_spores( Character &u, effect &it )
 {
@@ -336,7 +338,7 @@ static void eff_fun_bleed( Character &u, effect &it )
     const int intense = it.get_intensity();
     // tourniquet reduces effective bleeding by 2/3 but doesn't modify the effect's intensity
     // proficiency improves that factor to 3/4 and 4/5 respectively
-    bool tourniquet = u.worn_with_flag( STATIC( flag_id( "TOURNIQUET" ) ),  it.get_bp() );
+    bool tourniquet = u.worn_with_flag( json_flag_TOURNIQUET, it.get_bp() );
     int prof_bonus = 3;
     prof_bonus = u.has_proficiency( proficiency_prof_wound_care ) ? prof_bonus + 1 : prof_bonus;
     prof_bonus = u.has_proficiency( proficiency_prof_wound_care_expert ) ? prof_bonus + 1 : prof_bonus;

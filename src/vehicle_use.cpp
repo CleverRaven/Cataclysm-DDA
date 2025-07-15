@@ -29,7 +29,6 @@
 #include "item.h"
 #include "itype.h"
 #include "iuse.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
@@ -72,7 +71,11 @@ static const efftype_id effect_tied( "tied" );
 
 static const fault_id fault_engine_starter( "fault_engine_starter" );
 
+static const flag_id json_flag_DETERGENT( "DETERGENT" );
 static const flag_id json_flag_FILTHY( "FILTHY" );
+static const flag_id json_flag_IRREMOVABLE( "IRREMOVABLE" );
+static const flag_id json_flag_NO_PACKED( "NO_PACKED" );
+static const flag_id json_flag_PSEUDO( "PSEUDO" );
 
 static const furn_str_id furn_f_plant_harvest( "f_plant_harvest" );
 static const furn_str_id furn_f_plant_seed( "f_plant_seed" );
@@ -1396,7 +1399,7 @@ void vehicle::use_autoclave( map &here, int p )
     } );
 
     bool unpacked_items = std::any_of( items.begin(), items.end(), []( const item & i ) {
-        return i.has_flag( STATIC( flag_id( "NO_PACKED" ) ) );
+        return i.has_flag( json_flag_NO_PACKED );
     } );
 
     bool cbms = std::all_of( items.begin(), items.end(), []( const item & i ) {
@@ -1443,7 +1446,7 @@ void vehicle::use_washing_machine( map &here, int p )
     // Get all the items that can be used as detergent
     const inventory &inv = player_character.crafting_inventory();
     std::vector<const item *> detergents = inv.items_with( [inv]( const item & it ) {
-        return it.has_flag( STATIC( flag_id( "DETERGENT" ) ) ) && inv.has_charges( it.typeId(), 5 );
+        return it.has_flag( json_flag_DETERGENT ) && inv.has_charges( it.typeId(), 5 );
     } );
 
     vehicle_stack items = get_items( vp );
@@ -1883,14 +1886,14 @@ std::pair<const itype_id &, int> vehicle::tool_ammo_available( map &here,
 
 int vehicle::prepare_tool( map &here, item &tool ) const
 {
-    tool.set_flag( STATIC( flag_id( "PSEUDO" ) ) );
+    tool.set_flag( json_flag_PSEUDO );
 
     const auto &[ammo_itype_id, ammo_amount] = tool_ammo_available( here, tool.typeId() );
     if( ammo_itype_id.is_null() ) {
         return 0; // likely tool needs no ammo
     }
     item mag_mod( itype_pseudo_magazine_mod );
-    mag_mod.set_flag( STATIC( flag_id( "IRREMOVABLE" ) ) );
+    mag_mod.set_flag( json_flag_IRREMOVABLE );
     if( !tool.put_in( mag_mod, pocket_type::MOD ).success() ) {
         debugmsg( "tool %s has no space for a %s, this is likely a bug",
                   tool.typeId().str(), mag_mod.type->nname( 1 ) );
