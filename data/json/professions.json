@@ -4389,15 +4389,10 @@
           { "item": "mbag" },
           { "item": "mag_animecon" },
           { "item": "cheeseburger" },
-          { "group": "charged_smart_phone", "contents-item": "mag_comic" },
+          { "group": "charged_smart_watch_adv", "contents-item": "mag_comic" },
+          { "group": "charged_smart_phone", "contents-item": "novel_fantasy" },
           { "group": "starter_wallet_full" },
-          { "item": "eink_tablet_pc", "charges": 150, "contents-item": "novel_fantasy" },
-          {
-            "item": "light_minus_battery_cell",
-            "ammo-item": "battery",
-            "charges": 50,
-            "container-item": "game_watch"
-          }
+          { "item": "eink_tablet_pc", "charges": 150, "contents-item": "tailor_japanese" }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },
