@@ -87,6 +87,55 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_AFS_REPEATED_CHANNELING_VALUE_INCREASER",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": { "test_eoc": "EOC_CONDITION_ESPER_TRAIT_AND_SCHOOL_LIST" },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_AFS_REPEATED_CHANNELING_VALUE_INCREASER_2",
+            "condition": { "math": [ "u_afs_psi_repeated_channeling_value < 25" ] },
+            "effect": [ { "math": [ "u_afs_psi_repeated_channeling_value", "+=", "rng(1,2.4)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_REPEATED_CHANNELING_VALUE_DECREASER",
+    "recurrence": [ "3 seconds", "15 seconds" ],
+    "global": true,
+    "run_for_npcs": true,
+    "condition": { "math": [ "u_afs_psi_repeated_channeling_value > 0" ] },
+    "effect": [ { "math": [ "u_afs_psi_repeated_channeling_value", "-=", "1" ] } ],
+    "false_effect": [ { "math": [ "u_afs_psi_repeated_channeling_value = 0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PSI_MAKES_YOU_WEARY",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": { "test_eoc": "EOC_CONDITION_ESPER_TRAIT_AND_SCHOOL_LIST" },
+    "effect": [
+      { "math": [ "_channeling_weariness = psionics_weariness_calculations(_difficulty)" ] },
+      { "math": [ "u_calories()", "-=", "_channeling_weariness" ] },
+      { "math": [ "u_calories('dont_affect_weariness': true)", "+=", "_channeling_weariness" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PSI_MAINTENANCE_MAKES_YOU_WEARY",
+    "effect": [
+      { "math": [ "_channeling_weariness = psionics_weariness_calculations(_difficulty)" ] },
+      { "math": [ "u_calories()", "-=", "_channeling_weariness" ] },
+      { "math": [ "u_calories('dont_affect_weariness': true)", "+=", "_channeling_weariness" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_AFS_ESPER_CONSEQUENCES_VALUE_INCREASER",
     "eoc_type": "EVENT",
     "required_event": "spellcasting_finish",
@@ -116,12 +165,18 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_AFS_POWER_MAINTENANCE_PLUS_ONE",
-    "effect": [ { "math": [ "u_vitamin('vitamin_afs_maintained_powers')", "+=", "1" ] } ]
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_afs_maintained_powers')", "+=", "1" ] },
+      { "run_eocs": "EOC_AFS_CONCENTRATION_VS_LIMIT_CALCULATIONS" }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_AFS_POWER_MAINTENANCE_MINUS_ONE",
-    "effect": [ { "math": [ "u_vitamin('vitamin_afs_maintained_powers')", "-=", "1" ] } ]
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_afs_maintained_powers')", "-=", "1" ] },
+      { "run_eocs": "EOC_AFS_CONCENTRATION_VS_LIMIT_CALCULATIONS" }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -180,6 +235,65 @@
         }
       ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_POWER_MAINTENANCE_CONCENTRATION_CHECK",
+    "//": "x-in_y event prevents divide-by-0 but makes concentration breaking much more likely the more negative your concentration limit is",
+    "condition": {
+      "and": [
+        { "math": [ "u_vitamin('vitamin_afs_maintained_powers') >= concentration_calculations()" ] },
+        {
+          "x_in_y_chance": {
+            "x": {
+              "math": [
+                "((u_vitamin('vitamin_afs_maintained_powers') / max(concentration_calculations(),1)) * 5) + (clamp(concentration_calculations(), -20, 0) * -10)"
+              ]
+            },
+            "y": 100
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "u_message": "Your concentration breaks!", "type": "bad" },
+      { "run_eocs": [ "EOC_AFS_END_PSI_POWERS_MAINTAINED" ] },
+      {
+        "math": [ "u_skill_exp('metaphysics', 'format': 'raw')", "+=", "(35 * u_latest_channeled_power_difficulty)" ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          "EOC_AFS_CONCENTRATION_SUCCESS_PROFICIENCY",
+          "EOC_AFS_PSI_SKILL_INCREASE_ON_USE_FINALIZE",
+          "EOC_AFS_CONCENTRATION_COSTS_FOCUS",
+          "EOC_AFS_PSI_MAINTENANCE_MAKES_YOU_WEARY",
+          "EOC_AFS_CONCENTRATION_VS_LIMIT_CALCULATIONS"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_CONCENTRATION_VS_LIMIT_CALCULATIONS",
+    "condition": { "math": [ "u_vitamin('vitamin_afs_maintained_powers') > concentration_calculations()" ] },
+    "effect": [
+      {
+        "u_message": "It's taking you a lot of concentration to maintain your powers.  You're not sure you'll be able to do it for very long.",
+        "type": "bad"
+      },
+      { "u_add_effect": "effect_afs_psi_intense_concentration", "duration": "PERMANENT" }
+    ],
+    "false_effect": [
+      {
+        "if": { "u_has_effect": "effect_afs_psi_intense_concentration" },
+        "then": [
+          { "u_message": "As you stop concentrating, your mind clears a bit.  It's easier to think now.", "type": "good" },
+          { "u_lose_effect": "effect_afs_psi_intense_concentration" }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
