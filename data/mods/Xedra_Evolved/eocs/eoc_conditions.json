@@ -26,5 +26,19 @@
     "id": "EOC_CONDITIONS_VAMPIRE_DRINK_BLOOD_WITH_FANGS_MOM",
     "condition": { "math": [ "0 == 1" ] },
     "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITIONS_YOU_ARE_A_PLAYABLE_CHANGELING",
+    "condition": {
+      "u_has_any_trait": [
+        "UNKNOWING_CHANGELING_NOBLE",
+        "UNKNOWING_CHANGELING_COMMONER_BROWNIE",
+        "UNKNOWING_CHANGELING_COMMONER_POOKA",
+        "UNKNOWING_CHANGELING_COMMONER_SELKIE",
+        "UNKNOWING_CHANGELING_COMMONER_TROW"
+      ]
+    },
+    "effect": [  ]
   }
 ]

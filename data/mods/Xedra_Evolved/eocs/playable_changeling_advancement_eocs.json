@@ -2,20 +2,16 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_XE_CHANGELING_GRANT_POWER_VITAMIN_RECURRING",
-    "recurrence": [ "5 days", "7 days" ],
-    "condition": {
-      "and": [
-        {
-          "u_has_any_trait": [
-            "UNKNOWING_CHANGELING_NOBLE",
-            "UNKNOWING_CHANGELING_COMMONER_BROWNIE",
-            "UNKNOWING_CHANGELING_COMMONER_POOKA",
-            "UNKNOWING_CHANGELING_COMMONER_SELKIE",
-            "UNKNOWING_CHANGELING_COMMONER_TROW"
-          ]
-        }
-      ]
-    },
+    "recurrence": [ "7 days", "10 days" ],
+    "condition": { "test_eoc": "EOC_CONDITIONS_YOU_ARE_A_PLAYABLE_CHANGELING" },
+    "effect": { "math": [ "u_changeling_advancement_dreams_counter++" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLAYABLE_CHANGELING_NOBLE_ADD_POWER_QUEUE_ON_GAME_START",
+    "eoc_type": "EVENT",
+    "required_event": "game_start",
+    "condition": { "u_has_trait": "UNKNOWING_CHANGELING_NOBLE" },
     "effect": { "math": [ "u_changeling_advancement_dreams_counter++" ] }
   },
   {
@@ -54,7 +50,8 @@
     "effect": [
       { "u_add_trait": "UNKNOWING_CHANGELING_COMMONER_BROWNIE" },
       { "u_lose_trait": "FAIR_FOLK_COMMONER_SELECTOR" },
-      { "u_message": "XE_CHANGELING_COMMONER_BROWNIE", "type": "neutral", "snippet": true }
+      { "u_message": "XE_CHANGELING_COMMONER_BROWNIE", "type": "neutral", "snippet": true },
+      { "run_eocs": "EOC_PLAYABLE_CHANGELING_BROWNIE_GAIN_NEW_TRAIT" }
     ]
   },
   {
@@ -64,7 +61,8 @@
     "effect": [
       { "u_add_trait": "UNKNOWING_CHANGELING_COMMONER_POOKA" },
       { "u_lose_trait": "FAIR_FOLK_COMMONER_SELECTOR" },
-      { "u_message": "XE_CHANGELING_COMMONER_POOKA", "type": "neutral", "snippet": true }
+      { "u_message": "XE_CHANGELING_COMMONER_POOKA", "type": "neutral", "snippet": true },
+      { "run_eocs": "EOC_PLAYABLE_CHANGELING_POOKA_GAIN_NEW_TRAIT" }
     ]
   },
   {
@@ -74,7 +72,8 @@
     "effect": [
       { "u_add_trait": "UNKNOWING_CHANGELING_COMMONER_SELKIE" },
       { "u_lose_trait": "FAIR_FOLK_COMMONER_SELECTOR" },
-      { "u_message": "XE_CHANGELING_COMMONER_SELKIE", "type": "neutral", "snippet": true }
+      { "u_message": "XE_CHANGELING_COMMONER_SELKIE", "type": "neutral", "snippet": true },
+      { "run_eocs": "EOC_PLAYABLE_CHANGELING_SELKIE_GAIN_NEW_TRAIT" }
     ]
   },
   {
@@ -84,7 +83,8 @@
     "effect": [
       { "u_add_trait": "UNKNOWING_CHANGELING_COMMONER_TROW" },
       { "u_lose_trait": "FAIR_FOLK_COMMONER_SELECTOR" },
-      { "u_message": "XE_CHANGELING_COMMONER_TROW", "type": "neutral", "snippet": true }
+      { "u_message": "XE_CHANGELING_COMMONER_TROW", "type": "neutral", "snippet": true },
+      { "run_eocs": "EOC_PLAYABLE_CHANGELING_TROW_GAIN_NEW_TRAIT" }
     ]
   },
   {
@@ -96,13 +96,22 @@
       "and": [ { "u_has_trait": "UNKNOWING_CHANGELING_NOBLE" }, { "math": [ "u_changeling_advancement_dreams_counter >= 1" ] } ]
     },
     "effect": [
-      { "u_message": "XE_CHANGELING_NOBLE", "type": "neutral", "snippet": true },
-      { "math": [ "u_vitamin('mutagen_fair_folk_noble')", "+=", "2500" ] },
-      { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
-      { "u_mutate": 0 },
-      { "math": [ "u_vitamin('mutagen_fair_folk_noble')", "-=", "2500" ] },
-      { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] },
-      { "math": [ "u_changeling_advancement_dreams_counter--" ] }
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PLAYABLE_CHANGELING_NOBLE_GAIN_NEW_TRAIT",
+            "effects": [
+              { "u_message": "XE_CHANGELING_NOBLE", "type": "neutral", "snippet": true },
+              { "math": [ "u_vitamin('mutagen_fair_folk_noble')", "+=", "2500" ] },
+              { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
+              { "u_mutate": 0 },
+              { "math": [ "u_vitamin('mutagen_fair_folk_noble')", "-=", "2500" ] },
+              { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] },
+              { "math": [ "u_changeling_advancement_dreams_counter--" ] }
+            ]
+          }
+        ]
+      }
     ]
   },
   {
@@ -117,13 +126,22 @@
       ]
     },
     "effect": [
-      { "u_message": "XE_CHANGELING_COMMONER_BROWNIE", "type": "neutral", "snippet": true },
-      { "math": [ "u_vitamin('mutagen_fair_folk_commoner_brownie')", "+=", "2500" ] },
-      { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
-      { "u_mutate": 0 },
-      { "math": [ "u_vitamin('mutagen_fair_folk_commoner_brownie')", "-=", "2500" ] },
-      { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] },
-      { "math": [ "u_changeling_advancement_dreams_counter--" ] }
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PLAYABLE_CHANGELING_BROWNIE_GAIN_NEW_TRAIT",
+            "effects": [
+              { "u_message": "XE_CHANGELING_COMMONER_BROWNIE", "type": "neutral", "snippet": true },
+              { "math": [ "u_vitamin('mutagen_fair_folk_commoner_brownie')", "+=", "2500" ] },
+              { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
+              { "u_mutate": 0 },
+              { "math": [ "u_vitamin('mutagen_fair_folk_commoner_brownie')", "-=", "2500" ] },
+              { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] },
+              { "math": [ "u_changeling_advancement_dreams_counter--" ] }
+            ]
+          }
+        ]
+      }
     ]
   },
   {
@@ -138,13 +156,22 @@
       ]
     },
     "effect": [
-      { "u_message": "XE_CHANGELING_COMMONER_POOKA", "type": "neutral", "snippet": true },
-      { "math": [ "u_vitamin('mutagen_fair_folk_commoner_pooka')", "+=", "2500" ] },
-      { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
-      { "u_mutate": 0 },
-      { "math": [ "u_vitamin('mutagen_fair_folk_commoner_pooka')", "-=", "2500" ] },
-      { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] },
-      { "math": [ "u_changeling_advancement_dreams_counter--" ] }
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PLAYABLE_CHANGELING_POOKA_GAIN_NEW_TRAIT",
+            "effects": [
+              { "u_message": "XE_CHANGELING_COMMONER_POOKA", "type": "neutral", "snippet": true },
+              { "math": [ "u_vitamin('mutagen_fair_folk_commoner_pooka')", "+=", "2500" ] },
+              { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
+              { "u_mutate": 0 },
+              { "math": [ "u_vitamin('mutagen_fair_folk_commoner_pooka')", "-=", "2500" ] },
+              { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] },
+              { "math": [ "u_changeling_advancement_dreams_counter--" ] }
+            ]
+          }
+        ]
+      }
     ]
   },
   {
@@ -159,13 +186,22 @@
       ]
     },
     "effect": [
-      { "u_message": "XE_CHANGELING_COMMONER_SELKIE", "type": "neutral", "snippet": true },
-      { "math": [ "u_vitamin('mutagen_fair_folk_commoner_selkie')", "+=", "2500" ] },
-      { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
-      { "u_mutate": 0 },
-      { "math": [ "u_vitamin('mutagen_fair_folk_commoner_selkie')", "-=", "2500" ] },
-      { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] },
-      { "math": [ "u_changeling_advancement_dreams_counter--" ] }
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PLAYABLE_CHANGELING_SELKIE_GAIN_NEW_TRAIT",
+            "effects": [
+              { "u_message": "XE_CHANGELING_COMMONER_SELKIE", "type": "neutral", "snippet": true },
+              { "math": [ "u_vitamin('mutagen_fair_folk_commoner_selkie')", "+=", "2500" ] },
+              { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
+              { "u_mutate": 0 },
+              { "math": [ "u_vitamin('mutagen_fair_folk_commoner_selkie')", "-=", "2500" ] },
+              { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] },
+              { "math": [ "u_changeling_advancement_dreams_counter--" ] }
+            ]
+          }
+        ]
+      }
     ]
   },
   {
@@ -180,13 +216,112 @@
       ]
     },
     "effect": [
-      { "u_message": "XE_CHANGELING_COMMONER_TROW", "type": "neutral", "snippet": true },
-      { "math": [ "u_vitamin('mutagen_fair_folk_commoner_trow')", "+=", "2500" ] },
-      { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
-      { "u_mutate": 0 },
-      { "math": [ "u_vitamin('mutagen_fair_folk_commoner_trow')", "-=", "2500" ] },
-      { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] },
-      { "math": [ "u_changeling_advancement_dreams_counter--" ] }
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PLAYABLE_CHANGELING_TROW_GAIN_NEW_TRAIT",
+            "effects": [
+              { "u_message": "XE_CHANGELING_COMMONER_TROW", "type": "neutral", "snippet": true },
+              { "math": [ "u_vitamin('mutagen_fair_folk_commoner_trow')", "+=", "2500" ] },
+              { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
+              { "u_mutate": 0 },
+              { "math": [ "u_vitamin('mutagen_fair_folk_commoner_trow')", "-=", "2500" ] },
+              { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] },
+              { "math": [ "u_changeling_advancement_dreams_counter--" ] }
+            ]
+          }
+        ]
+      }
     ]
+  },
+  {
+    "//": "Advancement conditions that apply to all changelings should go here",
+    "type": "effect_on_condition",
+    "id": "EOC_PLAYABLE_CHANGELING_ADVANCEMENT_KILL_MARCH_LORD",
+    "eoc_type": "EVENT",
+    "required_event": "character_kills_monster",
+    "condition": {
+      "and": [
+        { "test_eoc": "EOC_CONDITIONS_YOU_ARE_A_PLAYABLE_CHANGELING" },
+        { "compare_string": [ { "context_val": "victim_type" }, "mon_march_lord" ] },
+        { "math": [ "u_changeling_advancement_condition_killed_march_lord != 1" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_changeling_advancement_dreams_counter++" ] },
+      { "math": [ "u_changeling_advancement_condition_killed_march_lord = 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLAYABLE_CHANGELING_ADVANCEMENT_FOUND_BOANNS_ISLAND",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_enters_omt",
+    "condition": {
+      "and": [
+        { "test_eoc": "EOC_CONDITIONS_YOU_ARE_A_PLAYABLE_CHANGELING" },
+        { "u_at_om_location": "boann_sidhe_island" },
+        { "math": [ "u_changeling_advancement_condition_found_boanns_island != 1" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_changeling_advancement_dreams_counter++" ] },
+      { "math": [ "u_changeling_advancement_condition_found_boanns_island = 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLAYABLE_CHANGELING_ADVANCEMENT_CAST_DIFFICULTY_5_OR_HIGHER_GLAMOUR",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "test_eoc": "EOC_CONDITIONS_YOU_ARE_A_PLAYABLE_CHANGELING" },
+        { "math": [ "_difficulty >= 5" ] },
+        { "math": [ "_success != false" ] },
+        { "math": [ "u_changeling_advancement_condition_cast_difficulty_5_or_higher_glamour != 1" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_changeling_advancement_dreams_counter++" ] },
+      { "math": [ "u_changeling_advancement_condition_cast_difficulty_5_or_higher_glamour = 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLAYABLE_CHANGELING_ADVANCEMENT_CLEAR_ABYSSAL_HUNGER",
+    "condition": { "test_eoc": "EOC_CONDITIONS_YOU_ARE_A_PLAYABLE_CHANGELING" },
+    "effect": [ { "math": [ "u_changeling_advancement_dreams_counter++" ] } ]
+  },
+  {
+    "//": "Advancement conditions that apply to noble changelings only should go here",
+    "type": "effect_on_condition",
+    "id": "EOC_PLAYABLE_CHANGELING_ADVANCEMENT_NOBLE_CAST_DIFFICULTY_8_OR_HIGHER_GLAMOUR",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "u_has_trait": "UNKNOWING_CHANGELING_NOBLE" },
+        { "math": [ "_difficulty >= 8" ] },
+        { "math": [ "_success != false" ] },
+        { "math": [ "u_changeling_advancement_noble_condition_cast_difficulty_8_or_higher_glamour != 1" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_changeling_advancement_dreams_counter++" ] },
+      { "math": [ "u_changeling_advancement_noble_condition_cast_difficulty_8_or_higher_glamour = 1" ] }
+    ]
+  },
+  {
+     "//": "Advancement conditions that apply to noble changelings only should go here",
+    "type": "effect_on_condition",
+    "id": "EOC_PLAYABLE_CHANGELING_ADVANCEMENT_NOBLE_YOU_HAVE_ONE_FOLLOWER",
+     "condition": {
+      "and": [
+        { "u_has_trait": "UNKNOWING_CHANGELING_NOBLE" },
+
+        { "math": [ "u_changeling_advancement_noble_condition_you_have_one_follower != 1" ] }
+      ]
+    },
   }
 ]
