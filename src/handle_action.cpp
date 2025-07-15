@@ -983,7 +983,6 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
     const int move_cost = !is_armed() ? 80 :
                           get_wielded_item()->attack_time( *this ) * 0.8;
     bool mech_smash = false;
-    int smashskill = smash_ability();
     if( is_mounted() ) {
         mech_smash = true;
     }
@@ -1007,12 +1006,13 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
             crit->use_mech_power( 3_kJ );
         }
     }
+    std::map<damage_type_id, int> smash_damage = smash_ability();
     for( std::pair<const field_type_id, field_entry> &fd_to_smsh : here.field_at( smashp ) ) {
         const std::optional<map_fd_bash_info> &bash_info = fd_to_smsh.first->bash_info;
         if( !bash_info ) {
             continue;
         }
-        int damage = bash_info->damage_to( smashskill );
+        int damage = bash_info->damage_to( smash_damage );
         if( ( damage <= 0 && one_in( 10 ) ) || fd_to_smsh.first->indestructible ) {
             add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), fd_to_smsh.first->get_name() );
             ret.did_smash = true;
@@ -1034,7 +1034,7 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
                            true, "smash",
                            "field" );
 
-            ret.can_smash = bash_info->damage_to( smashskill ) > 0;
+            ret.can_smash = bash_info->damage_to( smash_damage ) > 0;
             ret.did_smash = true;
         }
         if( ret.did_smash && !bash_info->hit_field.first.is_null() ) {
@@ -1081,7 +1081,7 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
         }
     }
 
-    const bash_params bash_result = here.bash( smashp, smashskill, false, false, smash_floor );
+    const bash_params bash_result = here.bash( smashp, smash_damage, false, false, smash_floor );
     ret.can_smash = bash_result.can_bash;
     // Weariness scaling
     float weary_mult = 1.0f;

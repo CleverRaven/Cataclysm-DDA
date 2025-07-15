@@ -3117,7 +3117,8 @@ bool map::has_flag_ter_or_furn( const ter_furn_flag flag, const tripoint_bub_ms 
 // End of 3D flags
 
 // returns 0 if not damageable
-int map_common_bash_info::damage_to( int str, bool supported, bool blocked ) const
+int map_common_bash_info::damage_to( const std::map<damage_type_id, int> &str,
+                                     bool supported, bool blocked ) const
 {
     int min = str_min;
     if( supported && str_min_supported != -1 ) {
@@ -3126,7 +3127,8 @@ int map_common_bash_info::damage_to( int str, bool supported, bool blocked ) con
     if( blocked && str_min_blocked != -1 ) {
         min = str_min_blocked;
     }
-    return str - min;
+    const int damage = std::accumulate( str.begin(), str.end(), 0, accumulate_to_bash_damage );
+    return damage - min;
 }
 
 int map_common_bash_info::hp( bool supported, bool blocked ) const
@@ -3142,9 +3144,9 @@ int map_common_bash_info::hp( bool supported, bool blocked ) const
 
 // Bashable - common function
 
-int map::bash_rating_internal( const int str, const furn_t &furniture,
-                               const ter_t &terrain, const bool allow_floor,
-                               const vehicle *veh, const int part ) const
+int map::bash_rating_internal( const std::map<damage_type_id, int> &str,
+                               const furn_t &furniture, const ter_t &terrain,
+                               const bool allow_floor, const vehicle *veh, const int part ) const
 {
     bool furn_smash = false;
     bool ter_smash = false;
@@ -3244,7 +3246,8 @@ int map::bash_resistance( const tripoint_bub_ms &p, const bool allow_floor ) con
     return -1;
 }
 
-int map::bash_rating( const int str, const tripoint_bub_ms &p, const bool allow_floor ) const
+int map::bash_rating( const std::map<damage_type_id, int> &str, const tripoint_bub_ms &p,
+                      const bool allow_floor ) const
 {
     if( !inbounds( p ) ) {
         DebugLog( D_WARNING, D_MAP ) << "Looking for out-of-bounds is_bashable at "
@@ -3252,7 +3255,7 @@ int map::bash_rating( const int str, const tripoint_bub_ms &p, const bool allow_
         return -1;
     }
 
-    if( str <= 0 ) {
+    if( str.empty() ) {
         return -1;
     }
 
@@ -4053,8 +4056,8 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params, bool rep
         int damage = get_map_damage( tripoint_bub_ms( p ) );
         int damage_dealt = bash->damage_to( params.strength, supported, blocked );
         add_msg_debug( debugmode::DF_MAP,
-                       "Smash: damage is (%d * %g) + %d, str: %d, hp: %d)",
-                       damage_dealt, params.roll, damage, params.strength, bash->hp( supported, blocked ) );
+                       "Smash: damage is (%d * %g) + %d, hp: %d)",
+                       damage_dealt, params.roll, damage, bash->hp( supported, blocked ) );
         if( ( damage_dealt * params.roll ) + damage >= bash->hp( supported, blocked ) ) {
             damage = 0;
             success = true;
@@ -4269,6 +4272,13 @@ bash_params map::bash( const tripoint_bub_ms &p, const int str,
                        bool silent, bool destroy, bool bash_floor,
                        const vehicle *bashing_vehicle, bool repair_missing_ground )
 {
+    return bash( p, {{{damage_bash, str}}}, silent, destroy, bash_floor, bashing_vehicle,
+    repair_missing_ground );
+}
+bash_params map::bash( const tripoint_bub_ms &p, const std::map<damage_type_id, int> &str,
+                       bool silent, bool destroy, bool bash_floor,
+                       const vehicle *bashing_vehicle, bool repair_missing_ground )
+{
     bash_params bsh{
         str, silent, destroy, bash_floor, static_cast<float>( rng_float( 0, 1.0f ) ), false, false, false, false
     };
@@ -4340,7 +4350,9 @@ void map::bash_vehicle( const tripoint_bub_ms &p, bash_params &params )
 {
     // Smash vehicle if present
     if( const optional_vpart_position vp = veh_at( p ) ) {
-        vp->vehicle().damage( *this, vp->part_index(), params.strength, damage_bash );
+        for( const std::pair<const damage_type_id, int> &dam : params.strength ) {
+            vp->vehicle().damage( *this, vp->part_index(), dam.second, dam.first );
+        }
         if( !params.silent ) {
             sounds::sound( p, 18, sounds::sound_t::combat, _( "crash!" ), false,
                            "smash_success", "hit_vehicle" );
@@ -4486,7 +4498,7 @@ void map::destroy_vehicle( const tripoint_bub_ms &p, const bool silent )
     // Example: A bashes to B, B bashes to A leads to A->B->A->...
     int count = 0;
     bash_params bsh{
-        999, silent, true, false, static_cast<float>( rng_float( 0, 1.0f ) ), false, false, false, false
+        {{{damage_bash, 999}}}, silent, true, false, static_cast<float>( rng_float( 0, 1.0f ) ), false, false, false, false
     };
     while( count <= 25 && veh_at( p ) ) {
         bash_vehicle( p, bsh );
@@ -4616,7 +4628,7 @@ double map::shoot( const tripoint_bub_ms &p, projectile &proj, const bool hit_it
                     const int max_damage = shoot.destroy_dmg_max - shoot.destroy_dmg_min;
                     if( x_in_y( min_damage, max_damage ) ) {
                         // don't need to duplicate all the destruction logic here
-                        bash_params bsh{ 0, false, true, false, 0.0, false, false, false, false };
+                        bash_params bsh{ {}, false, true, false, 0.0, false, false, false, false };
                         bash_ter_furn( p, bsh );
                         destroyed = true;
                     }
@@ -5311,7 +5323,7 @@ std::pair<item *, tripoint_bub_ms> map::_add_item_or_charges( const tripoint_bub
         const int max_dist = 2;
         std::vector<tripoint_bub_ms> tiles = closest_points_first( pos, 1, max_dist );
         const int max_path_length = 4 * max_dist;
-        const pathfinding_settings setting( 0, max_dist, max_path_length, 0, false, false, true, false,
+        const pathfinding_settings setting( {}, max_dist, max_path_length, 0, false, false, true, false,
                                             false, false );
         for( const tripoint_bub_ms &e : tiles ) {
             if( copies_remaining <= 0 ) {
