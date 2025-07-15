@@ -154,8 +154,6 @@
           { "item": "robofac_gun_kit", "prob": 100, "count": 1 },
           { "item": "robofac_gun_trainer", "prob": 100, "count": 1 },
           { "item": "robofac_gun_40mm", "prob": 100, "count": 1 }
-
-          
         ],
         "prob": 25
       }
