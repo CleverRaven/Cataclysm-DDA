@@ -204,8 +204,8 @@
       },
       {
         "distribution": [
-          { "group": "sixpack_drinks_opened", "prob": 70 },
-          { "group": "sixpack_drinks_unopened", "prob": 15 },
+          { "group": "sixpack_bottles_random", "prob": 70 },
+          { "group": "sixpack_cans_random", "prob": 15 },
           { "group": "twoliter_bottle_random", "prob": 15 }
         ],
         "prob": 90
@@ -331,8 +331,8 @@
       { "prob": 3, "group": "stuffed_clams_box_small_1_inf" },
       {
         "distribution": [
-          { "group": "sixpack_drinks_unhealthy_opened", "prob": 70 },
-          { "group": "sixpack_drinks_unhealthy_unopened", "prob": 15 },
+          { "group": "sixpack_bottles_random_unhealthy", "prob": 70 },
+          { "group": "sixpack_cans_random_unhealthy", "prob": 15 },
           { "group": "twoliter_bottle_random", "prob": 15 }
         ],
         "prob": 70
@@ -664,8 +664,8 @@
       },
       {
         "distribution": [
-          { "group": "sixpack_drinks_opened", "prob": 70 },
-          { "group": "sixpack_drinks_unopened", "prob": 15 },
+          { "group": "sixpack_bottles_random", "prob": 70 },
+          { "group": "sixpack_cans_random", "prob": 15 },
           { "group": "twoliter_bottle_random", "prob": 15 }
         ],
         "prob": 20
@@ -723,7 +723,7 @@
     ]
   },
   {
-    "id": "sixpack_drinks_opened",
+    "id": "sixpack_bottles_random",
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
@@ -776,11 +776,11 @@
         ],
         "prob": 50
       },
-      { "group": "sixpack_drinks_unhealthy_opened", "prob": 525 }
+      { "group": "sixpack_bottles_random_unhealthy", "prob": 525 }
     ]
   },
   {
-    "id": "sixpack_drinks_unhealthy_opened",
+    "id": "sixpack_bottles_random_unhealthy",
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
@@ -920,7 +920,7 @@
     ]
   },
   {
-    "id": "sixpack_drinks_unopened",
+    "id": "sixpack_cans_random",
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
@@ -929,11 +929,11 @@
       { "item": "cranberry_juice", "count": [ 1, 6 ], "prob": 50 },
       { "item": "juice", "count": [ 1, 6 ], "prob": 50 },
       { "item": "lemonade", "count": [ 1, 6 ], "prob": 50 },
-      { "group": "sixpack_drinks_unhealthy_unopened", "prob": 540 }
+      { "group": "sixpack_cans_random_unhealthy", "prob": 540 }
     ]
   },
   {
-    "id": "sixpack_drinks_unhealthy_unopened",
+    "id": "sixpack_cans_random_unhealthy",
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
