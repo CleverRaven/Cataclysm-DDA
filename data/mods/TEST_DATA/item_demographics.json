@@ -619,7 +619,6 @@
             "reloaded_4570_sp": 1
           }
         },
-        { "type": "46", "weight": 1, "items": { "46mm": 1, "bp_46mm": 1, "reloaded_46mm": 1 } },
         { "type": "500", "weight": 1, "items": { "500_Magnum": 1, "bp_500_Magnum": 1, "reloaded_500_Magnum": 1 } },
         {
           "type": "545x39",
@@ -949,7 +948,6 @@
             "1895sbl": 1,
             "bfr": 1,
             "sharps": 1,
-            "hk_mp7": 1,
             "m107a1": 1,
             "m2browning": 1,
             "as50": 1,
@@ -1200,7 +1198,6 @@
             "hk_mp5": 1,
             "hk_mp5k": 1,
             "hk_mp5sd": 1,
-            "hk_mp7": 1,
             "hk_ump45": 1,
             "mac_10": 1,
             "mac_11": 1,
