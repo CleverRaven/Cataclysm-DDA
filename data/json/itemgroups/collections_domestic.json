@@ -951,6 +951,7 @@
       { "group": "novels", "prob": 95 },
       { "item": "ZSG", "prob": 5 },
       { "item": "manual_mechanics", "prob": 35 },
+      { "item": "manual_driving", "prob": 5 },
       { "item": "manual_fabrication", "prob": 12 },
       { "item": "manual_speech", "prob": 50 },
       { "item": "manual_business", "prob": 40 },
