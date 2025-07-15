@@ -78,7 +78,7 @@ struct npc_boarding_test_data {
 // TODO: Support mounts
 struct bash_test_loadout {
     int strength;
-    int expected_smash_ability;
+    std::map<damage_type_id, int> expected_smash_ability;
     std::vector<itype_id> worn;
     std::optional<itype_id> wielded;
 
