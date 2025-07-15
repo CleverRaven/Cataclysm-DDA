@@ -617,7 +617,10 @@
         "prob": 30
       },
       {
-        "distribution": [ { "item": "honey_glassed", "prob": 20 }, { "item": "honey_bottled", "prob": 80 } ],
+        "distribution": [
+          { "item": "honey_glassed", "count": [ 1, -1 ], "prob": 20 },
+          { "item": "honey_bottled", "charges": [ 1, -1 ], "prob": 80 }
+        ],
         "prob": 60
       },
       { "item": "spoon", "count": [ 1, 6 ] },
@@ -671,10 +674,10 @@
         ],
         "prob": 80
       },
-      { "item": "jam_fruit", "prob": 80 },
-      { "item": "peanutbutter", "prob": 80 },
-      { "item": "marshmallow_fluff", "prob": 80 },
-      { "item": "syrup", "prob": 50 },
+      { "item": "jam_fruit", "charges": -1, "prob": 80 },
+      { "item": "peanutbutter", "charges": [ 1, -1 ], "prob": 80 },
+      { "item": "marshmallow_fluff", "charges": [ 1, -1 ], "prob": 80 },
+      { "item": "syrup", "charges": [ 1, -1 ], "prob": 50 },
       { "group": "box_cereal_any_opened" },
       { "group": "box_cereal_any_opened", "prob": 75 },
       {
