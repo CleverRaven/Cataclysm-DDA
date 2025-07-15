@@ -62,6 +62,7 @@
 #include "lightmap.h"
 #include "line.h"
 #include "magic_ter_furn_transform.h"
+#include "map_accessories.h"
 #include "map_iterator.h"
 #include "map_memory.h"
 #include "map_selector.h"
@@ -3114,8 +3115,7 @@ int map_common_bash_info::damage_to( const std::map<damage_type_id, int> &str,
                                      bool supported, bool blocked ) const
 {
     const int min = supported ? str_min_supported : blocked ? str_min_blocked : str_min;
-    const int damage = std::accumulate( str.begin(), str.end(), 0, accumulate_to_bash_damage );
-    return damage - min;
+    return damage_profile->damage_from( str, min );
 }
 
 int map_common_bash_info::hp( bool supported, bool blocked ) const
