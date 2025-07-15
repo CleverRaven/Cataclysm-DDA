@@ -17,13 +17,13 @@
           "id": "boots",
           "loadout": { "strength": 8, "expected_ability": { "bash": 12 }, "worn": [ "boots_rubber" ] },
           "furn_tries": { "f_trashcan": 1, "f_chair": 5, "f_toilet": 8 },
-          "ter_tries": { "t_window": 1, "t_gutter": 2, "t_door_c": 20 }
+          "ter_tries": { "t_window": 1, "t_gutter": 2, "t_door_c": 27 }
         },
         {
           "id": "plank",
           "loadout": { "strength": 8, "expected_ability": { "bash": 24 }, "wielded": "2x4" },
           "furn_tries": { "f_trashcan": 1, "f_chair": 2, "f_toilet": 2, "f_bathtub": 5, "f_bed": 4, "f_water_heater": 9 },
-          "ter_tries": { "t_window": 1, "t_gutter": 1, "t_door_c": 5, "t_wall_wood": 13 }
+          "ter_tries": { "t_window": 1, "t_gutter": 1, "t_door_c": 6, "t_wall_wood": 13 }
         },
         {
           "id": "crowbar",
@@ -34,8 +34,8 @@
         {
           "id": "fireaxe",
           "loadout": { "strength": 8, "expected_ability": { "bash": 26, "cut": 37 }, "wielded": "fire_ax" },
-          "furn_tries": { "f_trashcan": 1, "f_chair": 1, "f_toilet": 2, "f_bathtub": 3, "f_bed": 2, "f_water_heater": 4 },
-          "ter_tries": { "t_window": 1, "t_gutter": 1, "t_door_c": 4, "t_wall_wood": 10 }
+          "furn_tries": { "f_trashcan": 1, "f_chair": 2, "f_toilet": 2, "f_bathtub": 4, "f_bed": 3, "f_water_heater": 7 },
+          "ter_tries": { "t_window": 1, "t_gutter": 1, "t_door_c": 2, "t_wall_wood": 11 }
         },
         {
           "id": "mace",
@@ -50,7 +50,7 @@
             "f_workbench": 7,
             "f_safe_l": 25
           },
-          "ter_tries": { "t_window": 1, "t_gutter": 1, "t_door_c": 2, "t_wall_wood": 5, "t_wall": 12 }
+          "ter_tries": { "t_window": 1, "t_gutter": 1, "t_door_c": 3, "t_wall_wood": 5, "t_wall": 12 }
         },
         {
           "id": "sledgehammer",
@@ -65,7 +65,7 @@
             "f_workbench": 2,
             "f_safe_l": 5
           },
-          "ter_tries": { "t_window": 1, "t_gutter": 1, "t_door_c": 1, "t_wall_wood": 2, "t_wall": 4, "t_wall_log": 7, "t_door_metal_c": 32 }
+          "ter_tries": { "t_window": 1, "t_gutter": 1, "t_door_c": 2, "t_wall_wood": 2, "t_wall": 4, "t_wall_log": 7, "t_door_metal_c": 32 }
         }
       ]
     }
