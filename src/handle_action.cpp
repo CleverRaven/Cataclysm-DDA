@@ -1012,10 +1012,11 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
         if( !bash_info ) {
             continue;
         }
-        if( ( smashskill < bash_info->str_min && one_in( 10 ) ) || fd_to_smsh.first->indestructible ) {
+        int damage = bash_info->damage_to( smashskill );
+        if( ( damage <= 0 && one_in( 10 ) ) || fd_to_smsh.first->indestructible ) {
             add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), fd_to_smsh.first->get_name() );
             ret.did_smash = true;
-        } else if( smashskill >= rng( bash_info->str_min, bash_info->str_max ) ) {
+        } else if( damage > 0 && x_in_y( damage, bash_info->hp() ) ) {
             sounds::sound( smashp, bash_info->sound_vol, sounds::sound_t::combat, bash_info->sound, true,
                            "smash",
                            "field" );
@@ -1033,7 +1034,7 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
                            true, "smash",
                            "field" );
 
-            ret.can_smash = smashskill > bash_info->str_min;
+            ret.can_smash = bash_info->damage_to( smashskill ) > 0;
             ret.did_smash = true;
         }
         if( ret.did_smash && !bash_info->hit_field.first.is_null() ) {

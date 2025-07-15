@@ -3116,6 +3116,30 @@ bool map::has_flag_ter_or_furn( const ter_furn_flag flag, const tripoint_bub_ms 
 
 // End of 3D flags
 
+// returns 0 if not damageable
+int map_common_bash_info::damage_to( int str, bool supported, bool blocked ) const
+{
+    int min = str_min;
+    if( supported && str_min_supported != -1 ) {
+        min = str_min_supported;
+    }
+    if( blocked && str_min_blocked != -1 ) {
+        min = str_min_blocked;
+    }
+    return str - min;
+}
+
+int map_common_bash_info::hp( bool supported, bool blocked ) const
+{
+    if( supported  && str_max_supported != -1 ) {
+        return str_max_supported;
+    }
+    if( blocked && str_max_blocked != -1 ) {
+        return str_max_blocked;
+    }
+    return str_max;
+}
+
 // Bashable - common function
 
 int map::bash_rating_internal( const int str, const furn_t &furniture,
@@ -3137,26 +3161,26 @@ int map::bash_rating_internal( const int str, const furn_t &furniture,
         return 2; // Should probably be a function of part hp (+armor on tile)
     }
 
-    int bash_min = 0;
-    int bash_max = 0;
+    int damage = 0;
+    int hp = 0;
     if( furn_smash ) {
-        bash_min = furniture.bash->str_min;
-        bash_max = furniture.bash->str_max;
+        damage = furniture.bash->damage_to( str );
+        hp = furniture.bash->hp();
     } else if( ter_smash ) {
-        bash_min = terrain.bash->str_min;
-        bash_max = terrain.bash->str_max;
+        damage = terrain.bash->damage_to( str );
+        hp = terrain.bash->hp();
     } else {
         return -1;
     }
 
     ///\EFFECT_STR increases smashing damage
-    if( str < bash_min ) {
+    if( damage <= 0 ) {
         return 0;
-    } else if( str >= bash_max ) {
+    } else if( damage > hp ) {
         return 10;
     }
 
-    int ret = ( 10 * ( str - bash_min ) ) / ( bash_max - bash_min );
+    int ret = ( 10 * damage ) / hp;
     // Round up to 1, so that desperate NPCs can try to bash down walls
     return std::max( ret, 1 );
 }
@@ -4010,47 +4034,35 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params, bool rep
         return;
     }
 
-    int smin = bash->str_min;
-    int smax = bash->str_max;
+    bool blocked = false;
+    bool supported = false;
     int sound_vol = bash->sound_vol;
     int sound_fail_vol = bash->sound_fail_vol;
     if( !params.destroy ) {
-        if( bash->str_min_blocked != -1 || bash->str_max_blocked != -1 ) {
-            if( furn_is_supported( *this, p ) ) {
-                if( bash->str_min_blocked != -1 ) {
-                    smin = bash->str_min_blocked;
-                }
-                if( bash->str_max_blocked != -1 ) {
-                    smax = bash->str_max_blocked;
-                }
-            }
-        }
+        blocked = ( bash->str_min_blocked != -1 || bash->str_max_blocked != -1 ) &&
+                  furn_is_supported( *this, p );
 
         if( bash->str_min_supported != -1 || bash->str_max_supported != -1 ) {
             tripoint_bub_ms below = p + tripoint_rel_ms::below;
             if( !zlevels || has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, below ) ) {
-                if( bash->str_min_supported != -1 ) {
-                    smin = bash->str_min_supported;
-                }
-                if( bash->str_max_supported != -1 ) {
-                    smax = bash->str_max_supported;
-                }
+                supported = true;
             }
         }
         // Semi-persistant map damage. Increment by one for each bash over smin
         // Gradually makes hard bashes easier
         int damage = get_map_damage( tripoint_bub_ms( p ) );
+        int damage_dealt = bash->damage_to( params.strength, supported, blocked );
         add_msg_debug( debugmode::DF_MAP,
-                       "Bashing difficulty %d, threshold is %d. Strength is %d + %d, added damage %f", smax, smin,
-                       params.strength, damage, std::max( ( params.strength - smin ) * params.roll, 0.f ) );
-        if( params.strength + damage >= smax ) {
+                       "Smash: damage is (%d * %g) + %d, str: %d, hp: %d)",
+                       damage_dealt, params.roll, damage, params.strength, bash->hp( supported, blocked ) );
+        if( ( damage_dealt * params.roll ) + damage >= bash->hp( supported, blocked ) ) {
             damage = 0;
             success = true;
-        } else if( params.strength >= smin ) {
+        } else if( damage_dealt > 0 ) {
             // Add at least one damage per unsuccessful bash will ensure that if we exceed str_min,
             // we will destroy it in str_max - str_min bashes. As the amount we exceed it by increases,
             // we'll take less time to destroy it
-            damage += std::max( ( params.strength - smin ) * params.roll, 1.f );
+            damage += std::max( damage_dealt * params.roll, 1.f );
             params.can_bash = true;
         }
         set_map_damage( p, damage );
@@ -4095,10 +4107,10 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params, bool rep
     }
 
     if( params.destroy ) {
-        sound_volume = smin * 2;
+        sound_volume = bash->str_min * 2;
     } else {
         if( sound_vol == -1 ) {
-            sound_volume = std::min( static_cast<int>( smin * 1.5 ), smax );
+            sound_volume = std::min<int>( bash->str_min * 1.5, bash->str_max );
         } else {
             sound_volume = sound_vol;
         }

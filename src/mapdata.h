@@ -65,10 +65,14 @@ struct map_common_bash_info { //TODO: Half of this shouldn't be common
         std::vector<furn_str_id> tent_centers;
         std::pair<field_type_str_id, int> hit_field; // field spawned on any hit
         std::pair<field_type_str_id, int> destroyed_field; // field spawned on successful bash
+
         void load( const JsonObject &jo, bool was_loaded, const std::string &context );
         void check( const std::string &id ) const;
         // todo: move it to map_data_common_t
         std::string potential_bash_items( const map_data_common_t &ter_furn ) const;
+
+        int damage_to( int str, bool supported = false, bool blocked = false ) const;
+        int hp( bool supported = false, bool blocked = false ) const;
     public:
         virtual ~map_common_bash_info() = default;
 };
