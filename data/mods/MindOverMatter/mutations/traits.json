@@ -243,10 +243,10 @@
     "id": "FIFTH_SUN_PEOPLE",
     "name": { "str": "Fifth Sun People" },
     "points": 0,
-    "description": "You aren't from this universe and hopefully someday you can go home.  This is a hidden trait, used for dialogue.",
+    "description": "You were born in the Ēxcān Tlahtōlōyān, maybe on Tlalticpactli, perhaps even in Anáhuac, or maybe on one of the colony worlds like Demeter or Yathrib or Tài Suì.  You enlisted in the Imperial Navy for your own reasons.  Perhaps you are a scion of the Huey Calpulli following in your ancestors' footsteps, or perhaps you are one of the mācēhualtin seeking the social benefits of a completed tour of military service.  Regardless, now you are here, in the ashes of a dying world, and have to find a way to survive.",
     "valid": false,
-    "player_display": false,
-    "purifiable": false
+    "purifiable": false,
+    "flags": [ "HERITAGE" ]
   },
   {
     "type": "mutation",
