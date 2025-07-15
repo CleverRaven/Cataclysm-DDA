@@ -326,6 +326,7 @@ void fault_fix::finalize()
     for( const fault_id &fid : faults_removed ) {
         const_cast<fault &>( *fid ).fixes.emplace( id );
     }
+    requirements->finalize();
 }
 
 void fault_fix::check() const
