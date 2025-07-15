@@ -64,7 +64,6 @@ class help_window : public cataimgui::window
 
         void swap_translated_paragraphs();
         std::vector<std::pair<std::string, int>> translated_paragraphs;
-        void parse_keybind_tags();
 
         void draw_category();
         cataimgui::scroll s;
