@@ -7855,7 +7855,7 @@ void item::set_random_fault_of_type( const std::string &fault_type, bool force, 
 
     weighted_int_list<fault_id> faults_by_type;
     for( const weighted_object<int, fault_id> &f : type->faults ) {
-        if( can_have_fault( f.obj ) ) {
+        if( f.obj.obj().type() == fault_type && can_have_fault( f.obj ) ) {
             faults_by_type.add( f.obj, f.weight );
         }
 
