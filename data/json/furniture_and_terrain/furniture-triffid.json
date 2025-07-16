@@ -15,7 +15,9 @@
       "str_max": 30,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "splinter", "count": [ 3, 5 ] } ]
+      "items": [ { "item": "splinter", "count": [ 3, 5 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -34,7 +36,9 @@
       "str_max": 60,
       "sound": "smash",
       "sound_fail": "whump.",
-      "items": [ { "item": "splinter", "count": [ 10, 15 ] } ]
+      "items": [ { "item": "splinter", "count": [ 10, 15 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {

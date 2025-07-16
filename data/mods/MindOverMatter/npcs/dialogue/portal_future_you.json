@@ -4,7 +4,7 @@
     "type": "talk_topic",
     "responses": [
       {
-        "text": "[Premonition] *Determine if the voice is a threat*",
+        "text": "[Premonition] *Check for anything amiss*",
         "topic": "TALK_PORTAL_STORM_DANGER_SENSE_FAIL",
         "condition": {
           "or": [
@@ -24,7 +24,7 @@
         }
       },
       {
-        "text": "[Premonition 8+] *Determine if the voice is a threat*",
+        "text": "[Premonition 8+] *Check for anything amiss*",
         "topic": "TALK_PORTAL_STORM_DANGER_SENSE_SUCCEED",
         "condition": {
           "or": [
@@ -32,6 +32,11 @@
             { "math": [ "u_spell_level('clair_danger_sense') > 11" ] }
           ]
         }
+      },
+      {
+        "text": "[Sense Hostility] *Determine if the voice is a threat*",
+        "topic": "TALK_PORTAL_STORM_DANGER_sense_hostility",
+        "condition": { "math": [ "u_spell_level('clair_sense_hostile_creatures') >= 4" ] }
       }
     ]
   },
@@ -67,7 +72,13 @@
   {
     "id": [ "TALK_PORTAL_STORM_DANGER_SENSE_SUCCEED" ],
     "type": "talk_topic",
-    "dynamic_line": "&You extend your senses, alert for danger.  Shutting out the ever-present danger of the post-Cataclysmic world and the portal storm, you focus on the voice.  There is danger there, but not directly.  Whatever the outcome of its offer, it is not meant as a trap.",
+    "dynamic_line": "&You extend your senses, alert for danger.  Shutting out the ever-present danger of the post-Cataclysmic world and the portal storm, you focus on your immediate surroundings.  There is danger there, but not directly.  Whatever the outcome of its offer, it is not meant as a trap.",
+    "responses": [ { "text": "*Close your inner eye*", "topic": "TALK_PORTAL_STORM_CONVERSATION" } ]
+  },
+  {
+    "id": [ "TALK_PORTAL_STORM_DANGER_sense_hostility" ],
+    "type": "talk_topic",
+    "dynamic_line": "&You focus on the voice, trying to determine its intentions, and are surprised.  The voice, at least, does not mean you any harm.\n\nAs you withdraw your senses, however, you can't help but realize that in these circumstances, that doesn't necessarily mean you won't come to any harm.",
     "responses": [ { "text": "*Close your inner eye*", "topic": "TALK_PORTAL_STORM_CONVERSATION" } ]
   },
   {

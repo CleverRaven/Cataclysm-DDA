@@ -15,6 +15,7 @@
     "color": "yellow",
     "qualities": [ [ "LEATHER_AWL", 1 ] ],
     "flags": [ "BELT_CLIP", "FRAGILE_MELEE" ],
+    "weapon_category": [ "SHIVS" ],
     "melee_damage": { "bash": 2, "stab": 5 }
   },
   {
@@ -30,7 +31,7 @@
     "price_postapoc": "1 USD",
     "material": [ "steel", "wood" ],
     "qualities": [ [ "LEATHER_AWL", 2 ] ],
-    "melee_damage": { "bash": 2, "cut": 10 }
+    "melee_damage": { "bash": 2, "stab": 10 }
   },
   {
     "id": "knitting_needles",

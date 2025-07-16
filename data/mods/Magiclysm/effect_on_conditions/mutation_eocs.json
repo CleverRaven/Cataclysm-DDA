@@ -241,5 +241,147 @@
         }
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MANA_LUM_EXTERNAL_RANDOM_TRIGGER",
+    "recurrence": [ "1 hours", "12 hours" ],
+    "condition": { "u_has_trait": "MANA_LUM_EXTERNAL" },
+    "deactivate_condition": { "not": { "u_has_trait": "MANA_LUM_EXTERNAL" } },
+    "effect": [
+      {
+        "if": { "x_in_y_chance": { "x": { "math": [ "u_val('mana')" ] }, "y": { "math": [ "u_val('mana_max') * 0.75" ] } } },
+        "then": [
+          { "u_add_effect": "effect_manatouched_external_mana_luminance", "duration": [ "5 minutes", "15 minutes" ] },
+          { "u_message": "The air around you suddenly shimmers with a lambent glow.", "type": "mixed" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MANA_FLASH_SPELLCASTING_FINISH",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "compare_string": [ "NONE", { "context_val": "school" } ] },
+            { "compare_string": [ "ANIMIST", { "context_val": "school" } ] },
+            { "compare_string": [ "BIOMANCER", { "context_val": "school" } ] },
+            { "compare_string": [ "DRUID", { "context_val": "school" } ] },
+            { "compare_string": [ "EARTHSHAPER", { "context_val": "school" } ] },
+            { "compare_string": [ "KELVINIST", { "context_val": "school" } ] },
+            { "compare_string": [ "MAGUS", { "context_val": "school" } ] },
+            { "compare_string": [ "STORMSHAPER", { "context_val": "school" } ] },
+            { "compare_string": [ "TECHNOMANCER", { "context_val": "school" } ] },
+            { "compare_string": [ "ALCHEMIST", { "context_val": "school" } ] },
+            { "compare_string": [ "ARTIFICER", { "context_val": "school" } ] },
+            { "compare_string": [ "BIOTEK", { "context_val": "school" } ] },
+            { "compare_string": [ "BLOOD_MAGE", { "context_val": "school" } ] },
+            { "compare_string": [ "BOREAL_MAGE", { "context_val": "school" } ] },
+            { "compare_string": [ "CLEANSING_FLAME", { "context_val": "school" } ] },
+            { "compare_string": [ "CRUSADER", { "context_val": "school" } ] },
+            { "compare_string": [ "EARTH_ELEMENTAL", { "context_val": "school" } ] },
+            { "compare_string": [ "FIRE_ELEMENTAL", { "context_val": "school" } ] },
+            { "compare_string": [ "FORCE_MAGE", { "context_val": "school" } ] },
+            { "compare_string": [ "GAIAS_CHOSEN", { "context_val": "school" } ] },
+            { "compare_string": [ "GOLEMANCER", { "context_val": "school" } ] },
+            { "compare_string": [ "GLACIER_MAGE", { "context_val": "school" } ] },
+            { "compare_string": [ "GRAVITY_MAGE", { "context_val": "school" } ] },
+            { "compare_string": [ "ICE_ELEMENTAL", { "context_val": "school" } ] },
+            { "compare_string": [ "ILLUSIONIST", { "context_val": "school" } ] },
+            { "compare_string": [ "MAGNETISM_MAGE", { "context_val": "school" } ] },
+            { "compare_string": [ "OVERCLOCKER", { "context_val": "school" } ] },
+            { "compare_string": [ "PERMAFROST_MAGE", { "context_val": "school" } ] },
+            { "compare_string": [ "RADIATION_MAGE", { "context_val": "school" } ] },
+            { "compare_string": [ "SHAMAN", { "context_val": "school" } ] },
+            { "compare_string": [ "SHAPESHIFTER", { "context_val": "school" } ] },
+            { "compare_string": [ "SOULFIRE", { "context_val": "school" } ] },
+            { "compare_string": [ "STORM_ELEMENTAL", { "context_val": "school" } ] },
+            { "compare_string": [ "STORMCALLER", { "context_val": "school" } ] },
+            { "compare_string": [ "SUN_MAGE", { "context_val": "school" } ] },
+            { "compare_string": [ "TUNDRA_MAGE", { "context_val": "school" } ] },
+            { "compare_string": [ "VOID_MAGE", { "context_val": "school" } ] },
+            { "compare_string": [ "VULCANIST", { "context_val": "school" } ] },
+            { "compare_string": [ "WITHER_MAGE", { "context_val": "school" } ] }
+          ]
+        },
+        { "u_has_trait": "MANA_LUM_FLASH" }
+      ]
+    },
+    "effect": [
+      {
+        "if": { "x_in_y_chance": { "x": 1, "y": 100 } },
+        "then": [
+          { "u_add_effect": "effect_manatouched_mana_flash_active", "duration": { "math": [ "5 * _difficulty * rng(0.5,2)" ] } },
+          { "u_message": "Your ley lines flare up!", "type": "mixed" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MANA_LUM_EXTERNAL_SPELLCASTING_FINISH",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "compare_string": [ "NONE", { "context_val": "school" } ] },
+            { "compare_string": [ "ANIMIST", { "context_val": "school" } ] },
+            { "compare_string": [ "BIOMANCER", { "context_val": "school" } ] },
+            { "compare_string": [ "DRUID", { "context_val": "school" } ] },
+            { "compare_string": [ "EARTHSHAPER", { "context_val": "school" } ] },
+            { "compare_string": [ "KELVINIST", { "context_val": "school" } ] },
+            { "compare_string": [ "MAGUS", { "context_val": "school" } ] },
+            { "compare_string": [ "STORMSHAPER", { "context_val": "school" } ] },
+            { "compare_string": [ "TECHNOMANCER", { "context_val": "school" } ] },
+            { "compare_string": [ "ALCHEMIST", { "context_val": "school" } ] },
+            { "compare_string": [ "ARTIFICER", { "context_val": "school" } ] },
+            { "compare_string": [ "BIOTEK", { "context_val": "school" } ] },
+            { "compare_string": [ "BLOOD_MAGE", { "context_val": "school" } ] },
+            { "compare_string": [ "BOREAL_MAGE", { "context_val": "school" } ] },
+            { "compare_string": [ "CLEANSING_FLAME", { "context_val": "school" } ] },
+            { "compare_string": [ "CRUSADER", { "context_val": "school" } ] },
+            { "compare_string": [ "EARTH_ELEMENTAL", { "context_val": "school" } ] },
+            { "compare_string": [ "FIRE_ELEMENTAL", { "context_val": "school" } ] },
+            { "compare_string": [ "FORCE_MAGE", { "context_val": "school" } ] },
+            { "compare_string": [ "GAIAS_CHOSEN", { "context_val": "school" } ] },
+            { "compare_string": [ "GOLEMANCER", { "context_val": "school" } ] },
+            { "compare_string": [ "GLACIER_MAGE", { "context_val": "school" } ] },
+            { "compare_string": [ "GRAVITY_MAGE", { "context_val": "school" } ] },
+            { "compare_string": [ "ICE_ELEMENTAL", { "context_val": "school" } ] },
+            { "compare_string": [ "ILLUSIONIST", { "context_val": "school" } ] },
+            { "compare_string": [ "MAGNETISM_MAGE", { "context_val": "school" } ] },
+            { "compare_string": [ "OVERCLOCKER", { "context_val": "school" } ] },
+            { "compare_string": [ "PERMAFROST_MAGE", { "context_val": "school" } ] },
+            { "compare_string": [ "RADIATION_MAGE", { "context_val": "school" } ] },
+            { "compare_string": [ "SHAMAN", { "context_val": "school" } ] },
+            { "compare_string": [ "SHAPESHIFTER", { "context_val": "school" } ] },
+            { "compare_string": [ "SOULFIRE", { "context_val": "school" } ] },
+            { "compare_string": [ "STORM_ELEMENTAL", { "context_val": "school" } ] },
+            { "compare_string": [ "STORMCALLER", { "context_val": "school" } ] },
+            { "compare_string": [ "SUN_MAGE", { "context_val": "school" } ] },
+            { "compare_string": [ "TUNDRA_MAGE", { "context_val": "school" } ] },
+            { "compare_string": [ "VOID_MAGE", { "context_val": "school" } ] },
+            { "compare_string": [ "VULCANIST", { "context_val": "school" } ] },
+            { "compare_string": [ "WITHER_MAGE", { "context_val": "school" } ] }
+          ]
+        },
+        { "u_has_trait": "MANA_LUM_EXTERNAL" }
+      ]
+    },
+    "effect": [
+      {
+        "if": { "x_in_y_chance": { "x": { "math": [ "u_val('mana')" ] }, "y": { "math": [ "u_val('mana_max') * 15" ] } } },
+        "then": [
+          { "u_add_effect": "effect_manatouched_external_mana_luminance", "duration": [ "5 minutes", "15 minutes" ] },
+          { "u_message": "The air around you suddenly shimmers with a lambent glow.", "type": "mixed" }
+        ]
+      }
+    ]
   }
 ]

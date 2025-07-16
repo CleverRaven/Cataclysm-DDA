@@ -134,7 +134,7 @@
       "items": {
         "X": { "item": "grave_memories", "chance": 1 },
         "b": { "item": "church", "chance": 20 },
-        "&": { "item": "SUS_trash_trashcan_public", "chance": 66, "repeat": [ 1, 3 ] },
+        "&": { "item": "SUS_trash_trashcan_public", "chance": 66 },
         "Y": { "item": "jackets", "chance": 33, "repeat": [ 1, 3 ] }
       },
       "vehicles": { "Á": { "vehicle": "FUNERAL", "chance": 20, "rotation": 90 } }

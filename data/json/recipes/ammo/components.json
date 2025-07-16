@@ -46,16 +46,14 @@
     "skill_used": "fabrication",
     "skills_required": [ "gun", 3 ],
     "difficulty": 4,
-    "time": "45 m",
+    "time": "1 m",
     "book_learn": [ [ "manual_pistol", 3 ], [ "recipe_bullets", 2 ] ],
     "//": "Basic knowledge of chemicals handling is in order.",
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
-    "qualities": [ { "id": "HAMMER", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [
-      [ [ "can_drink", 2 ], [ "can_food", 2 ], [ "canister_empty", 2 ], [ "scrap", 4 ] ],
-      [ [ "chem_mercury_fulminate", 2 ], [ "chem_lead_azide", 2 ] ]
-    ]
+    "charges": 1,
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 1 } ],
+    "tools": [ [ [ "punch_nail", -1 ] ], [ [ "soapy_water", -1 ] ] ],
+    "components": [ [ [ "spent_smpistol_primer", 1 ] ], [ [ "chem_mercury_fulminate", 1 ], [ "chem_lead_azide", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -66,15 +64,13 @@
     "skill_used": "fabrication",
     "skills_required": [ "gun", 3 ],
     "difficulty": 4,
-    "time": "45 m",
+    "time": "1 m",
     "book_learn": [ [ "manual_pistol", 3 ], [ "recipe_bullets", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
-    "qualities": [ { "id": "HAMMER", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [
-      [ [ "can_drink", 2 ], [ "can_food", 2 ], [ "canister_empty", 2 ], [ "scrap", 4 ] ],
-      [ [ "chem_mercury_fulminate", 2 ], [ "chem_lead_azide", 2 ] ]
-    ]
+    "charges": 1,
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 1 } ],
+    "tools": [ [ [ "punch_nail", -1 ] ], [ [ "soapy_water", -1 ] ] ],
+    "components": [ [ [ "spent_lgpistol_primer", 1 ] ], [ [ "chem_mercury_fulminate", 1 ], [ "chem_lead_azide", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -85,15 +81,13 @@
     "skill_used": "fabrication",
     "skills_required": [ "gun", 3 ],
     "difficulty": 4,
-    "time": "45 m",
+    "time": "1 m",
     "book_learn": [ [ "mag_rifle", 3 ], [ "recipe_bullets", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
-    "qualities": [ { "id": "HAMMER", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [
-      [ [ "can_drink", 2 ], [ "can_food", 2 ], [ "canister_empty", 2 ], [ "scrap", 4 ] ],
-      [ [ "chem_mercury_fulminate", 2 ], [ "chem_lead_azide", 2 ] ]
-    ]
+    "charges": 1,
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 1 } ],
+    "tools": [ [ [ "punch_nail", -1 ] ], [ [ "soapy_water", -1 ] ] ],
+    "components": [ [ [ "spent_smrifle_primer", 1 ] ], [ [ "chem_mercury_fulminate", 1 ], [ "chem_lead_azide", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -104,15 +98,13 @@
     "skill_used": "fabrication",
     "skills_required": [ "gun", 3 ],
     "difficulty": 4,
-    "time": "45 m",
+    "time": "1 m",
     "book_learn": [ [ "mag_rifle", 3 ], [ "recipe_bullets", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
-    "qualities": [ { "id": "HAMMER", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [
-      [ [ "can_drink", 2 ], [ "can_food", 2 ], [ "canister_empty", 2 ], [ "scrap", 4 ] ],
-      [ [ "chem_mercury_fulminate", 2 ], [ "chem_lead_azide", 2 ] ]
-    ]
+    "charges": 1,
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 1 } ],
+    "tools": [ [ [ "punch_nail", -1 ] ], [ [ "soapy_water", -1 ] ] ],
+    "components": [ [ [ "spent_lgrifle_primer", 1 ] ], [ [ "chem_mercury_fulminate", 1 ], [ "chem_lead_azide", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -123,20 +115,18 @@
     "skill_used": "fabrication",
     "skills_required": [ "gun", 3 ],
     "difficulty": 4,
-    "time": "45 m",
+    "time": "1 m",
     "book_learn": [ [ "manual_shotgun", 3 ], [ "recipe_bullets", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
-    "qualities": [ { "id": "HAMMER", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [
-      [ [ "can_drink", 2 ], [ "can_food", 2 ], [ "canister_empty", 2 ], [ "scrap", 4 ] ],
-      [ [ "chem_mercury_fulminate", 2 ], [ "chem_lead_azide", 2 ] ]
-    ]
+    "charges": 1,
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 1 } ],
+    "tools": [ [ [ "punch_nail", -1 ] ], [ [ "soapy_water", -1 ] ] ],
+    "components": [ [ [ "spent_shotgun_primer", 1 ] ], [ [ "chem_mercury_fulminate", 1 ], [ "chem_lead_azide", 1 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "38_casing",
+    "result": "unprimed_38_casing",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -148,12 +138,12 @@
     "book_learn": [ [ "manual_pistol", 5 ], [ "recipe_bullets", 3 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 2 } ],
     "tools": [ [ [ "press", -1 ] ], [ [ "cordless_drill", 2 ] ] ],
-    "components": [ [ [ "357mag_casing", 1 ] ] ]
+    "components": [ [ [ "unprimed_357mag_casing", 1 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "380_casing",
+    "result": "unprimed_380_casing",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -165,12 +155,12 @@
     "book_learn": [ [ "manual_pistol", 5 ], [ "recipe_bullets", 3 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 2 } ],
     "tools": [ [ [ "press", -1 ] ], [ [ "cordless_drill", 2 ], [ "corded_powerdrill", 2 ] ] ],
-    "components": [ [ [ "223_casing", 1 ], [ "300blk_casing", 1 ] ] ]
+    "components": [ [ [ "unprimed_223_casing", 1 ], [ "unprimed_300blk_casing", 1 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "300blk_casing",
+    "result": "unprimed_300blk_casing",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -182,12 +172,12 @@
     "book_learn": [ [ "manual_rifle", 5 ], [ "recipe_bullets", 3 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "tools": [ [ [ "press", -1 ] ], [ [ "cordless_drill", 2 ], [ "corded_powerdrill", 2 ] ] ],
-    "components": [ [ [ "223_casing", 1 ] ] ]
+    "components": [ [ [ "unprimed_223_casing", 1 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "270win_casing",
+    "result": "unprimed_270win_casing",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -199,12 +189,12 @@
     "book_learn": [ [ "manual_rifle", 5 ], [ "recipe_bullets", 3 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "tools": [ [ [ "press", -1 ] ], [ [ "cordless_drill", 2 ], [ "corded_powerdrill", 2 ] ] ],
-    "components": [ [ [ "3006_casing", 1 ] ] ]
+    "components": [ [ [ "unprimed_3006_casing", 1 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "123ln_casing",
+    "result": "unprimed_123ln_casing",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -215,13 +205,17 @@
     "batch_time_factors": [ 40, 5 ],
     "book_learn": [ [ "manual_rifle", 6 ], [ "recipe_bullets", 5 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 2 } ],
-    "tools": [ [ [ "123ln_casing", -1 ] ], [ [ "press", -1 ] ], [ [ "cordless_drill", 2 ], [ "corded_powerdrill", 2 ] ] ],
-    "components": [ [ [ "303_casing", 1 ] ] ]
+    "tools": [
+      [ [ "123ln_casing", -1 ], [ "unprimed_123ln_casing", -1 ] ],
+      [ [ "press", -1 ] ],
+      [ [ "cordless_drill", 2 ], [ "corded_powerdrill", 2 ] ]
+    ],
+    "components": [ [ [ "unprimed_303_casing", 1 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "357sig_casing",
+    "result": "unprimed_357sig_casing",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -233,12 +227,12 @@
     "book_learn": [ [ "manual_pistol", 5 ], [ "recipe_bullets", 3 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "tools": [ [ [ "press", -1 ] ], [ [ "cordless_drill", 2 ], [ "corded_powerdrill", 2 ] ] ],
-    "components": [ [ [ "40_casing", 1 ], [ "10mm_casing", 1 ] ] ]
+    "components": [ [ [ "unprimed_40_casing", 1 ], [ "unprimed_10mm_casing", 1 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "40_casing",
+    "result": "unprimed_40_casing",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -250,12 +244,12 @@
     "book_learn": [ [ "manual_pistol", 5 ], [ "recipe_bullets", 3 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "tools": [ [ [ "press", -1 ] ], [ [ "cordless_drill", 2 ], [ "corded_powerdrill", 2 ] ] ],
-    "components": [ [ [ "10mm_casing", 1 ] ] ]
+    "components": [ [ [ "unprimed_10mm_casing", 1 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "45colt_casing",
+    "result": "unprimed_45colt_casing",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -267,12 +261,12 @@
     "book_learn": [ [ "manual_pistol", 5 ], [ "recipe_bullets", 3 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "tools": [ [ [ "press", -1 ] ], [ [ "cordless_drill", 2 ], [ "corded_powerdrill", 2 ] ] ],
-    "components": [ [ [ "454_casing", 1 ] ] ]
+    "components": [ [ [ "unprimed_454_casing", 1 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "45_casing",
+    "result": "unprimed_45_casing",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -284,12 +278,12 @@
     "book_learn": [ [ "manual_pistol", 5 ], [ "recipe_bullets", 3 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 2 } ],
     "tools": [ [ [ "press", -1 ] ], [ [ "cordless_drill", 2 ], [ "corded_powerdrill", 2 ] ] ],
-    "components": [ [ [ "762_51_casing", 1 ], [ "308_casing", 1 ], [ "3006_casing", 1 ] ] ]
+    "components": [ [ [ "unprimed_762_51_casing", 1 ], [ "unprimed_308_casing", 1 ], [ "unprimed_3006_casing", 1 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "50ae_casing",
+    "result": "unprimed_50ae_casing",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -301,6 +295,6 @@
     "book_learn": [ [ "manual_pistol", 5 ], [ "recipe_bullets", 3 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 2 } ],
     "tools": [ [ [ "press", -1 ] ], [ [ "cordless_drill", 2 ], [ "corded_powerdrill", 2 ] ] ],
-    "components": [ [ [ "50beowulf_casing", 1 ] ] ]
+    "components": [ [ [ "unprimed_50beowulf_casing", 1 ] ] ]
   }
 ]

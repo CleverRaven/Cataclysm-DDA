@@ -168,6 +168,13 @@
     "bindings": [ { "input_method": "keyboard_char", "key": "G" }, { "input_method": "keyboard_code", "key": "g", "mod": [ "shift" ] } ]
   },
   {
+    "id": "USE_TIEDOWN_FURNITURE_VEH",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Tie down or remove a furniture",
+    "bindings": [ { "input_method": "keyboard_char", "key": "F" }, { "input_method": "keyboard_code", "key": "f", "mod": [ "shift" ] } ]
+  },
+  {
     "id": "USE_ANIMAL_CTRL",
     "type": "keybinding",
     "category": "VEHICLE",

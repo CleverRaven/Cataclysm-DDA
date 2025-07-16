@@ -41,7 +41,8 @@ void auto_note_settings::clear()
 
 bool auto_note_settings::save( bool bCharacter )
 {
-    if( bCharacter && !file_exist( PATH_INFO::player_base_save_path() + ".sav" ) ) {
+    if( bCharacter && ( !file_exist( PATH_INFO::player_base_save_path() + ".sav" ) &&
+                        !file_exist( PATH_INFO::player_base_save_path() + ".sav.zzip" ) ) ) {
         return true;
     }
     cata_path sGlobalFile = PATH_INFO::autonote();

@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <cstddef>
 #include <functional>
+#include <map>
 #include <optional>
 #include <string>
 #include <utility>
@@ -8,11 +9,13 @@
 
 #include "activity_actor_definitions.h"
 #include "avatar.h"
+#include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
 #include "character_attire.h"
 #include "coordinates.h"
 #include "debug.h"
+#include "effect_source.h"
 #include "enums.h"
 #include "item.h"
 #include "itype.h"
@@ -35,6 +38,8 @@ class activity_actor;
 
 static const damage_type_id damage_pure( "pure" );
 
+static const efftype_id effect_grabbed( "grabbed" );
+
 static const itype_id itype_debug_backpack( "debug_backpack" );
 static const itype_id itype_folded_bicycle( "folded_bicycle" );
 static const itype_id itype_folded_inflatable_boat( "folded_inflatable_boat" );
@@ -49,6 +54,7 @@ static const itype_id itype_test_standing_lamp( "test_standing_lamp" );
 static const vpart_id vpart_ap_test_standing_lamp( "ap_test_standing_lamp" );
 static const vpart_id vpart_bike_rack( "bike_rack" );
 static const vpart_id vpart_programmable_autopilot( "programmable_autopilot" );
+static const vpart_id vpart_test_enchant( "test_enchant" );
 
 static const vproto_id vehicle_prototype_bicycle( "bicycle" );
 static const vproto_id vehicle_prototype_car( "car" );
@@ -804,4 +810,75 @@ TEST_CASE( "autopilot_tests", "[vehicle][autopilot]" )
     // checks if it moves, most of the test is a cutout from vehicle_efficiency_test.cpp
     CHECK( test_autopilot_moving( vehicle_prototype_car, vpart_id::NULL_ID() ) == 0 );
     CHECK( test_autopilot_moving( vehicle_prototype_car, vpart_programmable_autopilot ) == 9 );
+}
+
+TEST_CASE( "vehicle_enchantments", "[vehicle][enchantments]" )
+{
+    clear_avatar();
+    clear_map();
+    map &here = get_map();
+    Character &player_character = get_player_character();
+    // Move player somewhere safe
+    REQUIRE_FALSE( player_character.in_vehicle );
+    player_character.setpos( here, tripoint_bub_ms::zero );
+
+    const tripoint_bub_ms map_starting_point( 60, 60, 0 );
+    vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_car, map_starting_point, -90_degrees, 100, 0,
+                                         false );
+
+    REQUIRE( veh_ptr != nullptr );
+    int weight = veh_ptr->total_mass( here ).value();
+    int fuel_usage = veh_ptr->fuel_usage().begin()->second.value();
+    int turning_dif = veh_ptr->handling_difficulty( here );
+
+    vehicle &veh = *veh_ptr;
+    vehicle_part vp( vpart_test_enchant, item( vpart_test_enchant->base_item ) );
+    const int part_index = veh.install_part( here, point_rel_ms::zero, std::move( vp ) );
+    REQUIRE( part_index >= 0 );
+
+    veh.refresh( );
+    int ending_weight = veh_ptr->total_mass( here ).value();
+    CHECK( int( weight * 0.9 ) == ending_weight );
+
+    int ending_fuel_usage = veh_ptr->fuel_usage().begin()->second.value();
+    CHECK( fuel_usage * 0.5 == ending_fuel_usage );
+
+    int ending_turning_dif = veh_ptr->handling_difficulty( here );
+    CHECK( turning_dif + 1 == ending_turning_dif );
+}
+
+
+TEST_CASE( "vehicle_effects", "[vehicle][effects]" )
+{
+    clear_avatar();
+    clear_map();
+    map &here = get_map();
+    Character &player_character = get_player_character();
+    // Move player somewhere safe
+    REQUIRE_FALSE( player_character.in_vehicle );
+    player_character.setpos( here, tripoint_bub_ms::zero );
+
+    const tripoint_bub_ms map_starting_point( 60, 60, 0 );
+    vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_car, map_starting_point, -90_degrees, 100, 0,
+                                         false );
+
+    REQUIRE( veh_ptr != nullptr );
+    REQUIRE( !veh_ptr->has_effect( effect_grabbed ) );
+
+    veh_ptr->add_effect( effect_source::empty(), effect_grabbed, time_duration::from_seconds( 2 ),
+                         false,
+                         0 );
+
+    REQUIRE( veh_ptr->has_effect( effect_grabbed ) );
+
+    calendar::turn += 1_turns;
+    veh_ptr->process_effects();
+
+    REQUIRE( veh_ptr->has_effect( effect_grabbed ) );
+
+    calendar::turn += 2_turns;
+    veh_ptr->process_effects();
+    veh_ptr->process_effects();
+
+    REQUIRE( !veh_ptr->has_effect( effect_grabbed ) );
 }

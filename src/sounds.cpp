@@ -21,7 +21,6 @@
 #include "game_constants.h"
 #include "itype.h" // IWYU pragma: keep
 #include "line.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "messages.h"
@@ -91,6 +90,7 @@ static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_wind( "wind" );
 static const itype_id itype_weapon_fire_suppressed( "weapon_fire_suppressed" );
 
+static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 static const json_character_flag json_flag_HEARING_PROTECTION( "HEARING_PROTECTION" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 
@@ -689,7 +689,7 @@ void sounds::process_sound_markers( Character *you )
         }
 
         if( !you->has_effect( effect_sleep ) && you->has_effect( effect_alarm_clock ) &&
-            !you->has_flag( STATIC( json_character_flag( "ALARMCLOCK" ) ) ) ) {
+            !you->has_flag( json_flag_ALARMCLOCK ) ) {
             // if we don't have effect_sleep but we're in_sleep_state, either
             // we were trying to fall asleep for so long our alarm is now going
             // off or something disturbed us while trying to sleep
@@ -991,14 +991,16 @@ void sfx::do_vehicle_engine_sfx()
         current_gear = previous_gear;
     }
 
-    if( current_gear > previous_gear ) {
-        play_variant_sound( "vehicle", "gear_shift", seas_str, indoors, night,
-                            get_heard_volume( player_character.pos_bub() ), 0_degrees, 0.8, 0.8 );
-        add_msg_debug( debugmode::DF_SOUND, "GEAR UP" );
-    } else if( current_gear < previous_gear ) {
-        play_variant_sound( "vehicle", "gear_shift", seas_str, indoors, night,
-                            get_heard_volume( player_character.pos_bub() ), 0_degrees, 1.2, 1.2 );
-        add_msg_debug( debugmode::DF_SOUND, "GEAR DOWN" );
+    if( !veh->is_autodriving ) {
+        if( current_gear > previous_gear ) {
+            play_variant_sound( "vehicle", "gear_shift", seas_str, indoors, night,
+                                get_heard_volume( player_character.pos_bub() ), 0_degrees, 0.8, 0.8 );
+            add_msg_debug( debugmode::DF_SOUND, "GEAR UP" );
+        } else if( current_gear < previous_gear ) {
+            play_variant_sound( "vehicle", "gear_shift", seas_str, indoors, night,
+                                get_heard_volume( player_character.pos_bub() ), 0_degrees, 1.2, 1.2 );
+            add_msg_debug( debugmode::DF_SOUND, "GEAR DOWN" );
+        }
     }
     double pitch = 1.0;
     if( current_gear != 0 ) {
@@ -1010,7 +1012,7 @@ void sfx::do_vehicle_engine_sfx()
         }
     }
 
-    if( current_speed != previous_speed ) {
+    if( !veh->is_autodriving && current_speed != previous_speed ) {
         Mix_HaltChannel( static_cast<int>( ch ) );
         add_msg_debug( debugmode::DF_SOUND, "STOP speed %d =/= %d", current_speed, previous_speed );
         play_ambient_variant_sound( id_and_variant.first, id_and_variant.second,

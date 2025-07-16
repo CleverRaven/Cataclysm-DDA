@@ -114,7 +114,9 @@
         { "item": "pipe", "count": 1 },
         { "item": "cable", "charges": [ 1, 3 ] },
         { "item": "cu_pipe", "count": 1 }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "examine_action": "workbench",
     "workbench": { "multiplier": 1.15, "mass": 300000, "volume": "100L" }
@@ -234,7 +236,7 @@
     "coverage": 40,
     "looks_like": "t_pedestal_temple",
     "required_str": 30,
-    "examine_action": "attunement_altar",
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_CHECK_ATTUNEMENTS" ] },
     "description": "An ancient stone plinth covered in symbols that appear to be combinations and variations of the eight magic classes.  Eight depressions are on the top with the original symbols of the classes, each look as though they can hold an item.",
     "bash": {
       "str_min": 30,
@@ -302,7 +304,9 @@
       "sound": "SMASH!",
       "str_min": 20,
       "str_max": 40,
-      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -413,7 +417,9 @@
         { "item": "scrap", "count": [ 3, 10 ] },
         { "item": "nuts_bolts", "charges": [ 5, 20 ] },
         { "item": "mtorch_everburning", "count": [ 1, 4 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -541,7 +547,9 @@
       "str_max": 80,
       "sound": "smash",
       "sound_fail": "whump.",
-      "items": [ { "item": "splinter", "count": [ 10, 15 ] } ]
+      "items": [ { "item": "splinter", "count": [ 10, 15 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {

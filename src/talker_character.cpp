@@ -463,9 +463,10 @@ int talker_character_const::get_spell_exp( const spell_id &spell_name ) const
     return me_chr_const->magic->get_spell( spell_name ).xp();
 }
 
-int talker_character_const::get_spell_difficulty( const spell_id &spell_name ) const
+int talker_character_const::get_spell_difficulty( const spell_id &spell_name,
+        bool ignore_modifiers = false ) const
 {
-    if( !me_chr_const->magic->knows_spell( spell_name ) ) {
+    if( ignore_modifiers || !me_chr_const->magic->knows_spell( spell_name ) ) {
         return spell_name->get_difficulty( *me_chr_const );
     }
     return me_chr_const->magic->get_spell( spell_name ).get_difficulty( *me_chr_const );

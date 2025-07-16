@@ -983,7 +983,7 @@
     "effect": [
       {
         "u_run_inv_eocs": "manual",
-        "search_data": [ { "category": "tools" }, { "category": "tool_armor" } ],
+        "search_data": [ { "uses_energy": true, "excluded_flags": [ "USES_BIONIC_POWER", "USE_UPS", "IS_UPS" ] } ],
         "true_eocs": [ { "id": "EOC_TECHNOMANCER_POWER_LINKAGE_ITEM", "effect": [ { "npc_set_flag": "USE_UPS" } ] } ]
       }
     ]

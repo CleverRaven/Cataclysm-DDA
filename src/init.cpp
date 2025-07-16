@@ -73,6 +73,7 @@
 #include "material.h"
 #include "math_parser_jmath.h"
 #include "mission.h"
+#include "mod_manager.h"
 #include "mod_tileset.h"
 #include "monfaction.h"
 #include "mongroup.h"
@@ -462,6 +463,7 @@ void DynamicDataLoader::initialize()
     add( "weakpoint_set", &weakpoints::load_weakpoint_sets );
     add( "damage_type", &damage_type::load_damage_types );
     add( "damage_info_order", &damage_info_order::load_damage_info_orders );
+    add( "mod_migration", &mod_migrations::load );
 #if defined(TILES)
     add( "mod_tileset", &load_mod_tileset );
 #else
@@ -641,6 +643,7 @@ void DynamicDataLoader::unload_data()
     mapgen_palette::reset();
     materials::reset();
     mission_type::reset();
+    mod_migrations::reset();
     move_mode::reset();
     monfactions::reset();
     mon_flag::reset();
@@ -866,6 +869,7 @@ void DynamicDataLoader::check_consistency()
             { _( "Climbing aid" ), &climbing_aid::check_consistency },
             { _( "Mutations" ), &mutation_branch::check_consistency },
             { _( "Mutation categories" ), &mutation_category_trait::check_consistency },
+            { _( "Mod migrations" ), &mod_migrations::check },
             { _( "Region settings" ), check_region_settings },
             { _( "Overmap land use codes" ), &overmap_land_use_codes::check_consistency },
             { _( "Overmap connections" ), &overmap_connections::check_consistency },

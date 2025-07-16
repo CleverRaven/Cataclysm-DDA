@@ -83,6 +83,7 @@
       "radius": 90,
       "terrain": [
         { "om_terrain": "road", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "hw", "om_terrain_match_type": "PREFIX" },
         { "om_terrain": "s_gas", "om_terrain_match_type": "TYPE" },
         { "om_terrain": "s_gas_rural", "om_terrain_match_type": "TYPE" },
         "roadstop",

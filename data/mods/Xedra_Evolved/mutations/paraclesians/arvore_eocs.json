@@ -4,7 +4,7 @@
     "id": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD_ON_OMT_ENTER",
     "eoc_type": "EVENT",
     "required_event": "avatar_enters_omt",
-    "condition": { "u_has_any_trait": [ "ARVORE", "FALSE_ARVORE_HATRED", "FAE_ENMITY" ] },
+    "condition": { "u_has_any_trait": [ "ARVORE", "FALSE_ARVORE_HATRED", "FAE_ENMITY", "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT" ] },
     "effect": [
       {
         "run_eocs": [
@@ -23,7 +23,7 @@
     "id": "EOC_CONDITION_CHECK_ARVORE_IS_IN_FOREST_ON_OMT_ENTER",
     "eoc_type": "EVENT",
     "required_event": "avatar_enters_omt",
-    "condition": { "u_has_any_trait": [ "ARVORE", "FALSE_ARVORE_HATRED", "FAE_ENMITY" ] },
+    "condition": { "u_has_any_trait": [ "ARVORE", "FALSE_ARVORE_HATRED", "FAE_ENMITY", "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT" ] },
     "effect": [
       {
         "run_eocs": [

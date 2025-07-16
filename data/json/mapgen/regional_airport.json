@@ -339,7 +339,7 @@
       "o": { "item": "SUS_oven", "chance": 70 },
       "y": { "item": "SUS_janitors_closet", "chance": 100 },
       "Y": { "item": "unisex_coat_rack", "chance": 33, "repeat": [ 1, 4 ] },
-      "a": { "item": "SUS_trash_trashcan_public", "chance": 70, "repeat": [ 2, 5 ] },
+      "a": { "item": "SUS_trash_trashcan_public", "chance": 70 },
       "t": { "item": "dining", "chance": 40, "repeat": [ 1, 2 ] },
       "F": { "item": "SUS_office_filing_cabinet", "chance": 50 },
       "l": { "item": "clothing_work_set", "chance": 70 },

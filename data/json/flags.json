@@ -116,6 +116,11 @@
     "info": "This item can be activated or reloaded from an adjacent tile without picking it up."
   },
   {
+    "id": "CAN_USE_IN_DARK",
+    "type": "json_flag",
+    "info": "This item can use all of its features in darkness."
+  },
+  {
     "id": "ALWAYS_AIMED",
     "type": "json_flag",
     "info": "This gun is <good>always fully aimed</good>."
@@ -199,6 +204,10 @@
     "type": "json_flag",
     "info": "This gear <bad>prevents</bad> you from <info>hearing any sounds</info>.",
     "conflicts": [ "PARTIAL_DEAF" ]
+  },
+  {
+    "id": "DESTROY_ON_CHARGE_USE",
+    "type": "json_flag"
   },
   {
     "id": "OVERHEATS",
@@ -2122,7 +2131,7 @@
   {
     "id": "SCIENCE_CARD_SECURITY_BLACK",
     "type": "json_flag",
-    "info": "You could probably use this to get into a secured  area."
+    "info": "You could probably use this to get into a secured law enforcement area."
   },
   {
     "id": "SCIENCE_CARD_MUTAGEN_GREEN",
@@ -2493,6 +2502,11 @@
     "id": "CLIMB_FLYING",
     "type": "json_flag",
     "info": "You can ascend straight up even with no physical surface to climb on."
+  },
+  {
+    "id": "HERITAGE",
+    "type": "json_flag",
+    "info": "You have nonhuman ancestry or are not human"
   },
   {
     "id": "TREE_COMMUNION_PLUS",

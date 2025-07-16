@@ -33,15 +33,19 @@
       { "group": "afs_tools_portable_power", "count": [ 1, 2 ] },
       { "group": "afs_tools_structural_repair", "count": [ 1, 3 ] },
       { "group": "afs_tools_programing", "count": [ 1, 1 ] },
+      { "item": "nanomaterial", "prob": 66, "count": [ 2, 3 ] },
       { "group": "afs_tools_scavenging", "count": [ 6, 12 ] },
       { "group": "afs_tools_pocket", "count": [ 5, 10 ] },
       { "item": "afs_thermos", "count": [ 2, 3 ] },
-      { "item": "multi_cooker", "count": [ 1, 1 ] },
+      { "item": "multi_cooker", "count": 1 },
+      { "item": "water_purifier", "count": 1 },
       { "item": "afs_40g_plasma_civ", "count": [ 2, 5 ] },
       { "item": "afs_heavy_suit_battery_cell", "count": [ 2, 5 ] },
       { "group": "afs_tools_welding_consumable", "count": [ 6, 8 ] },
+      { "group": "pur_tablets_bottle_plastic_small_50", "count": [ 1, 2 ] },
       { "group": "afs_augustmoon_batteries_disposable", "count": [ 5, 10 ] },
       { "group": "afs_augustmoon_batteries_rechargeable", "count": [ 2, 3 ], "prob": 20 },
+      { "item": "ammonia_liquid", "count": [ 2, 4 ] },
       { "group": "augustmoon_shop_money" }
     ]
   },
@@ -85,6 +89,7 @@
     "ammo": 100,
     "magazine": 100,
     "items": [
+      { "item": "nanomaterial", "prob": 66, "count": [ 2, 3 ] },
       [ "electrohack", 20 ],
       [ "control_laptop", 20 ],
       [ "folding_solar_panel_v2", 20 ],

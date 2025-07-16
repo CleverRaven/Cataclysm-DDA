@@ -266,31 +266,34 @@
   {
     "id": "EOC_QUADRAPHRACT_HURT",
     "type": "effect_on_condition",
+    "global": true,
     "effect": [
-      { "math": [ "_quad_uid = u_quad_id" ] },
+      { "math": [ "_uid = n_quad_id" ] },
       {
         "u_run_monster_eocs": [
           {
             "id": "quadraphract_leg_hurt",
-            "condition": { "math": [ "u_quad_uid == _quad_uid" ] },
-            "effect": [ { "npc_cast_spell": { "id": "quadraphract_hurt_self" } } ]
+            "condition": { "math": [ "u_quad_uid == _uid" ] },
+            "effect": [ { "u_cast_spell": { "id": "quadraphract_hurt_self" } } ]
           }
         ],
-        "monster_range": 60
+        "monster_range": 60,
+        "mtype_ids": [ "mon_yrax_quadraphract" ]
       }
     ]
   },
   {
     "id": "EOC_QUADRAPHRACT_DIES",
     "type": "effect_on_condition",
+    "global": true,
     "effect": [
-      { "math": [ "_quad_uid = u_quad_uid" ] },
+      { "math": [ "_uid = n_quad_uid" ] },
       {
         "u_run_monster_eocs": [
           {
             "id": "quadraphract_leg_dies",
-            "condition": { "math": [ "u_quad_id == _quad_uid" ] },
-            "effect": [ { "npc_cast_spell": { "id": "quadraphract_hurt_self" } } ]
+            "condition": { "math": [ "u_quad_id == _uid" ] },
+            "effect": [ { "u_cast_spell": { "id": "quadraphract_hurt_self" } } ]
           }
         ],
         "monster_range": 20,

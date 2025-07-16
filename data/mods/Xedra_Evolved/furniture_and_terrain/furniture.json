@@ -105,7 +105,9 @@
       "str_max": 20,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "splinter", "count": [ 15, 30 ] } ]
+      "items": [ { "item": "splinter", "count": [ 15, 30 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -198,7 +200,9 @@
       "str_min": 50,
       "str_max": 400,
       "str_min_supported": 100,
-      "items": [ { "item": "splinter", "count": [ 2, 8 ] } ]
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {

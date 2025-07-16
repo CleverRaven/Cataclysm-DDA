@@ -28,7 +28,6 @@
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "math_parser_diag_value.h"
-#include "make_static.h"
 #include "map.h"
 #include "mapdata.h"
 #include "messages.h"
@@ -52,10 +51,14 @@
 
 class item;
 
+static const addiction_id addiction_nicotine( "nicotine" );
+
 static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
 
 static const character_modifier_id
 character_modifier_stamina_recovery_breathing_mod( "stamina_recovery_breathing_mod" );
+
+static const damage_type_id damage_heat( "heat" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_bandaged( "bandaged" );
@@ -602,7 +605,7 @@ void Character::update_bodytemp()
             blister_count -= 20;
         }
         if( fire_armor_per_bp.empty() && blister_count > 0 ) {
-            fire_armor_per_bp = get_all_armor_type( STATIC( damage_type_id( "heat" ) ), clothing_map );
+            fire_armor_per_bp = get_all_armor_type( damage_heat, clothing_map );
         }
         if( blister_count - fire_armor_per_bp[bp] > 0 ) {
             add_effect( effect_blisters, 1_turns, bp );
@@ -1398,7 +1401,7 @@ void Character::update_heartrate_index()
     if( get_effect_dur( effect_cig ) > 0_turns ) {
         //Nicotine-induced tachycardia
         if( get_effect_dur( effect_cig ) >
-            10_minutes * ( addiction_level( STATIC( addiction_id( "nicotine" ) ) ) + 1 ) ) {
+            10_minutes * ( addiction_level( addiction_nicotine ) + 1 ) ) {
             hr_nicotine_mod = 0.2f;
         } else {
             hr_nicotine_mod = 0.1f;

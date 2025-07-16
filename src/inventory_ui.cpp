@@ -38,7 +38,6 @@
 #include "json.h"
 #include "line.h"
 #include "localized_comparator.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_selector.h"
 #include "memory_fast.h"
@@ -84,6 +83,9 @@
 #include <type_traits>
 #include <unordered_map>
 #include <vector>
+
+static const flag_id json_flag_NO_UNLOAD( "NO_UNLOAD" );
+static const flag_id json_flag_SHREDDED( "SHREDDED" );
 
 static const item_category_id item_category_BIONIC_FUEL_SOURCE( "BIONIC_FUEL_SOURCE" );
 static const item_category_id item_category_INTEGRATED( "INTEGRATED" );
@@ -2050,7 +2052,7 @@ bool inventory_selector::add_contained_items( item_location &container, inventor
         const item_category *const custom_category, item_location const &topmost_parent, int indent,
         bool add_efiles )
 {
-    if( container->has_flag( STATIC( flag_id( "NO_UNLOAD" ) ) ) ) {
+    if( container->has_flag( json_flag_NO_UNLOAD ) ) {
         return false;
     }
 
@@ -3968,7 +3970,7 @@ void inventory_multiselector::deselect_contained_items()
         []( const inventory_entry & entry ) {
         return entry.is_item() && entry.chosen_count > 0 && entry.locations.front()->is_frozen_liquid() &&
                    //Frozen liquids can be selected if it have the SHREDDED flag.
-                   !entry.locations.front()->has_flag( STATIC( flag_id( "SHREDDED" ) ) ) &&
+                   !entry.locations.front()->has_flag( json_flag_SHREDDED ) &&
                    (
                        ( //Frozen liquids on the map are not selectable if they can't be crushed.
                            entry.locations.front().where() == item_location::type::map &&

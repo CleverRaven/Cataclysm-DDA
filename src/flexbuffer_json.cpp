@@ -91,11 +91,17 @@ void Json::throw_error( const JsonPath &path, int offset, const std::string &mes
         }
         return root_->get_source_path().u8string();
     }();
-    TextJsonIn jsin( *original_json, source_path );
+    if( original_json ) {
+        TextJsonIn jsin( *original_json, source_path );
 
-    advance_jsin( &jsin, flexbuffer_root_from_storage( root_->get_storage() ), path );
+        advance_jsin( &jsin, flexbuffer_root_from_storage( root_->get_storage() ), path );
 
-    jsin.error( offset, message );
+        jsin.error( offset, message );
+    } else {
+        std::ifstream fake_stream;
+        TextJsonIn jsin( fake_stream, source_path );
+        jsin.error( offset, message );
+    }
 }
 
 void Json::throw_error_after( const JsonPath &path, const std::string &message ) const

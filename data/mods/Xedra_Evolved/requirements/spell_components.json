@@ -20,7 +20,7 @@
     "components": [ [ [ "changeling_dreamspark", 4 ] ] ]
   },
   {
-    "id": "spell_components_changeling_dreamspark_5",
+    "id": "spell_components_changeling_dreamsparks_5",
     "type": "requirement",
     "components": [ [ [ "changeling_dreamspark", 5 ] ] ]
   },

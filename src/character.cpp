@@ -72,7 +72,6 @@
 #include "localized_comparator.h"
 #include "magic.h"
 #include "magic_enchantment.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
@@ -280,6 +279,8 @@ static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
 
 static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
 
+static const flag_id json_flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
+
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id itype_UPS( "UPS" );
@@ -299,8 +300,12 @@ static const itype_id itype_snare_trigger( "snare_trigger" );
 static const json_character_flag json_flag_ACIDBLOOD( "ACIDBLOOD" );
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 static const json_character_flag json_flag_ALWAYS_HEAL( "ALWAYS_HEAL" );
+static const json_character_flag json_flag_BIONIC_FAULTY( "BIONIC_FAULTY" );
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
+static const json_character_flag json_flag_BIONIC_SHOCKPROOF( "BIONIC_SHOCKPROOF" );
+static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 static const json_character_flag json_flag_BLIND( "BLIND" );
+static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_CANNOT_CHANGE_TEMPERATURE( "CANNOT_CHANGE_TEMPERATURE" );
 static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const json_character_flag json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMAGE" );
@@ -491,6 +496,7 @@ static const vitamin_id vitamin_iron( "iron" );
 
 static const std::set<material_id> ferric = { material_iron, material_steel, material_budget_steel, material_ch_steel, material_hc_steel, material_lc_steel, material_mc_steel, material_qt_steel };
 
+static const std::string player_base_stamina_burn_rate( "PLAYER_BASE_STAMINA_BURN_RATE" );
 static const std::string type_hair_color( "hair_color" );
 static const std::string type_hair_style( "hair_style" );
 static const std::string type_skin_tone( "skin_tone" );
@@ -2042,7 +2048,7 @@ void Character::on_try_dodge()
     // Each attempt consumes an available dodge
     consume_dodge_attempts();
 
-    const int base_burn_rate = get_option<int>( STATIC( "PLAYER_BASE_STAMINA_BURN_RATE" ) );
+    const int base_burn_rate = get_option<int>( player_base_stamina_burn_rate );
     const float dodge_skill_modifier = ( 20.0f - get_skill_level( skill_dodge ) ) / 20.0f;
     burn_energy_legs( - std::floor( static_cast<float>( base_burn_rate ) * 6.0f *
                                     dodge_skill_modifier ) );
@@ -2853,6 +2859,7 @@ bool Character::practice( const skill_id &id, int amount, int cap, bool suppress
         }
     }
     bool level_up = false;
+    // NOTE: Normally always training, this training toggle is just retained for tests
     if( amount > 0 && level.isTraining() ) {
         int old_practical_level = static_cast<int>( get_skill_level( id ) );
         int old_theoretical_level = get_knowledge_level( id );
@@ -2881,7 +2888,8 @@ bool Character::practice( const skill_id &id, int amount, int cap, bool suppress
 
         // Apex Predators don't think about much other than killing.
         // They don't lose Focus when practicing combat skills.
-        if( !( has_flag( json_flag_PRED4 ) && skill.is_combat_skill() ) ) {
+        const bool predator_training_combat = has_flag( json_flag_PRED4 ) && skill.is_combat_skill();
+        if( skill.training_consumes_focus() && !predator_training_combat ) {
             // Base reduction on the larger of 1% of total, or practice amount.
             // The latter kicks in when long actions like crafting
             // apply many turns of gains at once.
@@ -4043,7 +4051,7 @@ units::mass Character::get_weight() const
     ret += wornWeight;             // Weight of worn items
     ret += weapon.weight();        // Weight of wielded item
     ret += bionics_weight();       // Weight of installed bionics
-    return ret;
+    return enchantment_cache->modify_value( enchant_vals::mod::TOTAL_WEIGHT, ret );
 }
 
 std::pair<int, int> Character::climate_control_strength() const
@@ -4865,8 +4873,8 @@ void Character::on_damage_of_type( const effect_source &source, int adjusted_dam
                 continue;
             }
             const bionic_data &info = i.info();
-            if( info.has_flag( STATIC( json_character_flag( "BIONIC_SHOCKPROOF" ) ) ) ||
-                info.has_flag( STATIC( json_character_flag( "BIONIC_FAULTY" ) ) ) ) {
+            if( info.has_flag( json_flag_BIONIC_SHOCKPROOF ) ||
+                info.has_flag( json_flag_BIONIC_FAULTY ) ) {
                 continue;
             }
             const std::map<bodypart_str_id, size_t> &bodyparts = info.occupied_bodyparts;
@@ -5665,11 +5673,13 @@ void Character::toolmod_add( item_location tool, item_location mod )
         return;
     }
 
-    if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ),
-                   colorize( mod->tname(), mod->color_in_inventory() ),
-                   colorize( tool->tname(), tool->color_in_inventory() ) ) ) {
-        add_msg_if_player( _( "Never mind." ) );
-        return; // player canceled installation
+    if( mod->is_irremovable() ) {
+        if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ),
+                       colorize( mod->tname(), mod->color_in_inventory() ),
+                       colorize( tool->tname(), tool->color_in_inventory() ) ) ) {
+            add_msg_if_player( _( "Never mind." ) );
+            return; // player canceled installation
+        }
     }
 
     assign_activity( ACT_TOOLMOD_ADD, 1, -1 );
@@ -6359,7 +6369,8 @@ bool Character::has_calorie_deficit() const
 
 units::mass Character::bodyweight() const
 {
-    return bodyweight_fat() + bodyweight_lean();
+    return std::max( 1_gram, enchantment_cache->modify_value( enchant_vals::mod::WEIGHT,
+                     bodyweight_fat() + bodyweight_lean() ) );
 }
 
 units::mass Character::bodyweight_fat() const
@@ -7218,8 +7229,7 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
 
     actually_used->activation_consume( charges_used.value(), pt, this );
 
-    if( actually_used->has_flag( flag_SINGLE_USE ) || actually_used->is_bionic() ||
-        actually_used->is_deployable() ) {
+    if( actually_used->has_flag( flag_SINGLE_USE ) || actually_used->is_bionic() ) {
         i_rem( actually_used );
         return true;
     }
@@ -7512,9 +7522,10 @@ void Character::signal_nemesis()
 
 void Character::vomit()
 {
+    const units::volume stomach_contents_before_vomit = stomach.contains();
     get_event_bus().send<event_type::throws_up>( getID() );
 
-    if( stomach.contains() != 0_ml ) {
+    if( stomach_contents_before_vomit != 0_ml ) {
         get_map().add_field( adjacent_tile(), fd_bile, 1 );
         add_msg_player_or_npc( m_bad, _( "You throw up heavily!" ), _( "<npcname> throws up heavily!" ) );
     }
@@ -7546,7 +7557,7 @@ void Character::vomit()
     remove_effect( effect_pkill2 );
     remove_effect( effect_pkill3 );
     // Don't wake up when just retching
-    if( stomach.contains() > 0_ml ) {
+    if( stomach_contents_before_vomit > 0_ml ) {
         wake_up();
     }
 }
@@ -7762,7 +7773,7 @@ void Character::recalculate_enchantment_cache()
         for( const enchantment_id &ench_id : bid->enchantments ) {
             const enchantment &ench = ench_id.obj();
             if( ench.is_active( *this, bio.powered &&
-                                bid->has_flag( STATIC( json_character_flag( "BIONIC_TOGGLED" ) ) ) ) ) {
+                                bid->has_flag( json_flag_BIONIC_TOGGLED ) ) ) {
                 enchantment_cache->force_add( ench, *this );
             }
         }
@@ -12096,7 +12107,7 @@ int Character::count_flag( const json_character_flag &flag ) const
 
 bool Character::empathizes_with_species( const species_id &species ) const
 {
-    if( has_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) || has_flag( json_flag_PSYCHOPATH ) ||
+    if( has_flag( json_flag_CANNIBAL ) || has_flag( json_flag_PSYCHOPATH ) ||
         has_flag( json_flag_SAPIOVORE ) ) {
         return false;
     }
@@ -12129,7 +12140,7 @@ bool Character::empathizes_with_species( const species_id &species ) const
 
 bool Character::empathizes_with_monster( const mtype_id &monster ) const
 {
-    if( has_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) || has_flag( json_flag_PSYCHOPATH ) ||
+    if( has_flag( json_flag_CANNIBAL ) || has_flag( json_flag_PSYCHOPATH ) ||
         has_flag( json_flag_SAPIOVORE ) ) {
         return false;
     }
@@ -12275,13 +12286,13 @@ read_condition_result Character::check_read_condition( const item &book ) const
             result |= read_condition_result::ILLITERATE;
         }
         if( has_flag( json_flag_HYPEROPIC ) &&
-            !worn_with_flag( STATIC( flag_id( "FIX_FARSIGHT" ) ) ) &&
+            !worn_with_flag( json_flag_FIX_FARSIGHT ) &&
             !has_effect( effect_contacts ) &&
             !has_effect( effect_transition_contacts ) &&
-            !has_flag( STATIC( json_character_flag( "ENHANCED_VISION" ) ) ) ) {
+            !has_flag( json_flag_ENHANCED_VISION ) ) {
             result |= read_condition_result::NEED_GLASSES;
         }
-        if( fine_detail_vision_mod() > 4 ) {
+        if( fine_detail_vision_mod() > 4 && !book.has_flag( flag_CAN_USE_IN_DARK ) ) {
             result |= read_condition_result::TOO_DARK;
         }
         if( is_blind() ) {
@@ -12339,7 +12350,7 @@ const Character *Character::get_book_reader( const item &book,
         reasons.emplace_back( is_avatar() ? _( "Your eyes won't focus without reading glasses." ) :
                               string_format( _( "%s's eyes won't focus without reading glasses." ), disp_name() ) );
     } else if( condition & read_condition_result::TOO_DARK &&
-               !has_flag( json_flag_READ_IN_DARKNESS ) ) {
+               !has_flag( json_flag_READ_IN_DARKNESS ) && !book.has_flag( flag_CAN_USE_IN_DARK ) ) {
         // Too dark to read only applies if the player can read to himself
         reasons.emplace_back( _( "It's too dark to read!" ) );
         return nullptr;
@@ -13245,6 +13256,11 @@ bool Character::wield( item_location loc, bool remove_old )
     }
 
     if( remove_old && loc ) {
+        // Remove DROPPED_FAVORITES autonote if exists.
+        if( overmap_buffer.note( pos_abs_omt() ) == loc.get_item()->display_name() ) {
+            overmap_buffer.delete_note( pos_abs_omt() );
+        }
+
         loc.remove_item();
     }
     return true;
@@ -13674,11 +13690,6 @@ bool Character::can_lift( vehicle &veh, map &here ) const
     }
     const int npc_str = get_lift_assist();
     return str + npc_str >= veh.lift_strength( here );
-}
-
-static std::string wrap60( const std::string &text )
-{
-    return string_join( foldstring( text, 60 ), "\n" );
 }
 
 bool character_martial_arts::pick_style( const Character &you ) // Style selection menu

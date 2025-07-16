@@ -41,7 +41,7 @@
       ]
     },
     "items": {
-      "&": { "item": "SUS_trash_trashcan", "chance": 60, "repeat": [ 1, 3 ] },
+      "&": { "item": "SUS_trash_trashcan", "chance": 60 },
       "r": [
         { "chance": 55, "item": "swimmer_head", "repeat": [ 1, 3 ] },
         { "chance": 55, "item": "swimmer_glasses", "repeat": [ 1, 3 ] },

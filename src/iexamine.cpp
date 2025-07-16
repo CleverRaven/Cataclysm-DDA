@@ -56,7 +56,6 @@
 #include "iuse_actor.h"
 #include "magic.h"
 #include "magic_teleporter_list.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
@@ -108,6 +107,8 @@ static const activity_id ACT_HARVEST( "ACT_HARVEST" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
 
+static const addiction_id addiction_opiate( "opiate" );
+
 static const ammotype ammo_money( "money" );
 
 static const bionic_id bio_lighter( "bio_lighter" );
@@ -117,6 +118,8 @@ static const bionic_id bio_painkiller( "bio_painkiller" );
 static const character_modifier_id character_modifier_obstacle_climb_mod( "obstacle_climb_mod" );
 
 static const climbing_aid_id climbing_aid_furn_CLIMBABLE( "furn_CLIMBABLE" );
+
+static const damage_type_id damage_bash( "bash" );
 
 static const efftype_id effect_antibiotic( "antibiotic" );
 static const efftype_id effect_bite( "bite" );
@@ -234,6 +237,7 @@ static const mtype_id mon_prototype_cyborg( "mon_prototype_cyborg" );
 
 static const mutation_category_id mutation_category_CHIMERA( "CHIMERA" );
 
+static const npc_class_id NC_BALTHAZAR_INTERCOM( "NC_BALTHAZAR_INTERCOM" );
 static const npc_class_id NC_ROBOFAC_INTERCOM( "NC_ROBOFAC_INTERCOM" );
 
 static const proficiency_id proficiency_prof_disarming( "prof_disarming" );
@@ -1726,6 +1730,19 @@ void iexamine::cardreader_foodplace( Character &you, const tripoint_bub_ms &exam
     }
 }
 
+void iexamine::intercom_balthazar( Character &you, const tripoint_bub_ms &examp )
+{
+    const std::vector<npc *> intercom_npcs = g->get_npcs_if( [examp]( const npc & guy ) {
+        return guy.myclass == NC_BALTHAZAR_INTERCOM && rl_dist( guy.pos_bub(), examp ) < 10;
+    } );
+    if( intercom_npcs.empty() ) {
+        you.add_msg_if_player( m_info, _( "No one responds." ) );
+    } else {
+        // TODO: This needs to be converted a talker_console or something
+        get_avatar().talk_to( get_talker_for( *intercom_npcs.front() ), false );
+    }
+}
+
 void iexamine::intercom( Character &you, const tripoint_bub_ms &examp )
 {
     const std::vector<npc *> intercom_npcs = g->get_npcs_if( [examp]( const npc & guy ) {
@@ -2547,7 +2564,7 @@ void iexamine::flower_poppy( Character &you, const tripoint_bub_ms &examp )
         you.add_effect( effect_pkill2, 7_minutes );
         // Please drink poppy nectar responsibly.
         if( one_in( 20 ) ) {
-            you.add_addiction( STATIC( addiction_id( "opiate" ) ), 1 );
+            you.add_addiction( addiction_opiate, 1 );
         }
     }
     if( !query_yn( _( "Pick %s?" ), here.furnname( examp ) ) ) {
@@ -3776,7 +3793,7 @@ void iexamine::fireplace( Character &you, const tripoint_bub_ms &examp )
         return it.has_flag( flag_FIRESTARTER ) || it.has_flag( flag_FIRE );
     };
     auto is_firequencher = []( const item & it ) {
-        return it.damage_melee( STATIC( damage_type_id( "bash" ) ) );
+        return it.damage_melee( damage_bash );
     };
 
     std::multimap<int, item *> firestarters;
@@ -7742,6 +7759,7 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
             { "cardreader_robofac", &iexamine::cardreader_robofac },
             { "cardreader_fp", &iexamine::cardreader_foodplace },
             { "intercom", &iexamine::intercom },
+            { "intercom_balthazar", &iexamine::intercom_balthazar },
             { "rubble", &iexamine::rubble },
             { "chainfence", &iexamine::chainfence },
             { "bars", &iexamine::bars },

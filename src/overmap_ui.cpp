@@ -590,7 +590,7 @@ static void draw_ascii( const catacurses::window &w, overmap_draw_data_t &data )
     oter_display_lru lru_cache;
     oter_display_options oter_opts( orig, sight_points );
     oter_opts.show_weather = ( uistate.overmap_debug_weather || uistate.overmap_visible_weather ) &&
-                             cursor_pos.z() == 10;
+                             cursor_pos.z() == OVERMAP_HEIGHT;
     oter_opts.show_pc = true;
     oter_opts.debug_scent = data.debug_scent;
     oter_opts.show_map_revealed = uistate.overmap_show_revealed_omts;
@@ -603,11 +603,14 @@ static void draw_ascii( const catacurses::window &w, overmap_draw_data_t &data )
 
     oter_opts.mission_target = target;
 
+    std::vector<std::pair<nc_color, std::string>> corner_text;
+
     if( data.fast_traveling ) {
         tripoint_abs_omt &next_path = player_character.omt_path.back();
         data.cursor_pos = next_path;
         oter_opts.center = next_path;
         blink = true;
+        corner_text.emplace_back( c_yellow, _( "FAST TRAVELING" ) );
     }
     oter_opts.blink = blink;
 
@@ -667,6 +670,12 @@ static void draw_ascii( const catacurses::window &w, overmap_draw_data_t &data )
         // get seen NPCs
         for( const auto &np : npcs_near_player ) {
             if( np->posz() != cursor_pos.z() ) {
+                continue;
+            }
+
+            // Since most hostiles are "bandits", including *ambushes*, being able to see them in advance makes them largely impotent.
+            // This can be revisited when/if we get NPC overmap behavior to act in a more directed hostile fashion.
+            if( np->guaranteed_hostile() ) {
                 continue;
             }
 
@@ -870,10 +879,12 @@ static void draw_ascii( const catacurses::window &w, overmap_draw_data_t &data )
         mvwputch( w, marker.raw(), c_red, marker_sym );
     }
 
-    std::vector<std::pair<nc_color, std::string>> corner_text;
-
     if( !data.message.empty() ) {
         corner_text.emplace_back( c_white, data.message );
+    }
+
+    if( oter_opts.show_weather ) {
+        corner_text.emplace_back( c_yellow, _( "WEATHER MODE" ) );
     }
 
     if( uistate.overmap_show_map_notes ) {
@@ -893,7 +904,7 @@ static void draw_ascii( const catacurses::window &w, overmap_draw_data_t &data )
 
     if( has_debug_vision || overmap_buffer.seen_more_than( cursor_pos, om_vision_level::details ) ) {
         for( const auto &npc : npcs_near_player ) {
-            if( !npc->marked_for_death && npc->pos_abs_omt() == cursor_pos ) {
+            if( !npc->marked_for_death && npc->pos_abs_omt() == cursor_pos && !npc->guaranteed_hostile() ) {
                 corner_text.emplace_back( npc->basic_symbol_color(), npc->get_name() );
             }
         }
@@ -1097,15 +1108,24 @@ static void draw_om_sidebar( ui_adaptor &ui,
                 mvwprintw( wbar, point( 1, ++lines ), "- %s", pred->id().str() );
             }
         }
+
+        auto print_arguments = [&]( std::unordered_map<std::string, cata_variant> &map ) {
+            for( const std::pair<const std::string, cata_variant> &arg : map ) {
+                mvwprintw( wbar, point( 1, ++lines ), "%s = %s", arg.first, arg.second.get_string() );
+            }
+        };
         std::optional<mapgen_arguments> *args = overmap_buffer.mapgen_args( cursor_pos );
         if( args ) {
             if( *args ) {
-                for( const std::pair<const std::string, cata_variant> &arg : ( **args ).map ) {
-                    mvwprintw( wbar, point( 1, ++lines ), "%s = %s", arg.first, arg.second.get_string() );
-                }
+                print_arguments( ( **args ).map );
             } else {
-                mvwprintw( wbar, point( 1, ++lines ), "args not yet set" );
+                mvwprintw( wbar, point( 1, ++lines ), "Special scoped parameter values not set yet" );
             }
+        }
+        std::optional<mapgen_arguments> args_omt_stack =
+            overmap_buffer.get_existing_omt_stack_arguments( cursor_pos.xy() );
+        if( args_omt_stack ) {
+            print_arguments( args_omt_stack->map );
         }
 
         for( cube_direction dir : all_enum_values<cube_direction>() ) {
@@ -2521,7 +2541,7 @@ void ui::omap::display_weather()
 {
     g->overmap_data = overmap_ui::overmap_draw_data_t();
     tripoint_abs_omt pos = get_player_character().pos_abs_omt();
-    pos.z() = 10;
+    pos.z() = OVERMAP_HEIGHT;
     g->overmap_data.origin_pos = pos;
     uistate.overmap_debug_weather = true;
     overmap_ui::display();
@@ -2532,7 +2552,7 @@ void ui::omap::display_visible_weather()
 {
     g->overmap_data = overmap_ui::overmap_draw_data_t();
     tripoint_abs_omt pos = get_player_character().pos_abs_omt();
-    pos.z() = 10;
+    pos.z() = OVERMAP_HEIGHT;
     g->overmap_data.origin_pos = pos;
     uistate.overmap_visible_weather = true;
     overmap_ui::display();

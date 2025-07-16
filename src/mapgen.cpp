@@ -100,6 +100,7 @@
 #include "vehicle_group.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+#include "weighted_dbl_or_var_list.h"
 #include "weighted_list.h"
 
 static const field_type_str_id field_fd_blood( "fd_blood" );
@@ -220,6 +221,7 @@ static const ter_str_id ter_t_marloss( "t_marloss" );
 static const ter_str_id ter_t_radio_tower( "t_radio_tower" );
 static const ter_str_id ter_t_reinforced_door_glass_c( "t_reinforced_door_glass_c" );
 static const ter_str_id ter_t_reinforced_glass( "t_reinforced_glass" );
+static const ter_str_id ter_t_reinforced_glass_lab( "t_reinforced_glass_lab" );
 static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
 static const ter_str_id ter_t_sewage( "t_sewage" );
 static const ter_str_id ter_t_stairs_down( "t_stairs_down" );
@@ -2179,6 +2181,7 @@ std::string enum_to_string<mapgen_parameter_scope>( mapgen_parameter_scope v )
     switch( v ) {
         // *INDENT-OFF*
         case mapgen_parameter_scope::overmap_special: return "overmap_special";
+        case mapgen_parameter_scope::omt_stack: return "omt_stack";
         case mapgen_parameter_scope::omt: return "omt";
         case mapgen_parameter_scope::nest: return "nest";
         // *INDENT-ON*
@@ -2287,6 +2290,18 @@ mapgen_arguments mapgen_parameters::get_args(
         if( param.scope() == scope ) {
             cata_variant value = md.get_arg_or( param_name, param.get( md ) );
             result.emplace( param_name, value );
+        }
+        if( param.scope() == mapgen_parameter_scope::omt_stack && scope == mapgen_parameter_scope::omt ) {
+            const point_abs_omt &p_scope = md.pos().xy();
+            overmap *om = overmap_buffer.get_existing_om_global( p_scope ).om;
+            std::optional<cata_variant> v = om->get_existing_omt_stack_argument( p_scope, param_name );
+            if( !!v ) {
+                result.emplace( param_name, *v );
+            } else {
+                cata_variant value = md.get_arg_or( param_name, param.get( md ) );
+                om->add_omt_stack_argument( p_scope, param_name, value );
+                result.emplace( param_name, value );
+            }
         }
     }
     return mapgen_arguments{ result };
@@ -3568,7 +3583,7 @@ class jmapgen_terrain : public jmapgen_piece_with_has_vehicle_collision
                             } else {
                                 dat.m.furn_set( p, furn_bash->furn_set );
                             }
-                            dat.m.spawn_items( p, item_group::items_from( furn_bash->drop_group, calendar::turn ) );
+                            dat.m.drop_bash_results( f, p );
                         } else {
                             break;
                         }
@@ -4290,8 +4305,8 @@ class jmapgen_nested : public jmapgen_piece
         };
 
     public:
-        weighted_int_list<mapgen_value<nested_mapgen_id>> entries;
-        weighted_int_list<mapgen_value<nested_mapgen_id>> else_entries;
+        weighted_dbl_or_var_list<mapgen_value<nested_mapgen_id>> entries;
+        weighted_dbl_or_var_list<mapgen_value<nested_mapgen_id>> else_entries;
         neighbor_oter_check neighbor_oters;
         neighbor_join_check neighbor_joins;
         neighbor_flag_check neighbor_flags;
@@ -4306,10 +4321,10 @@ class jmapgen_nested : public jmapgen_piece
             , predecessors( jsi.get_array( "predecessors" ) )
             , correct_z_level( jsi.get_array( "check_z" ) ) {
             if( jsi.has_member( "chunks" ) ) {
-                load_weighted_list( jsi.get_member( "chunks" ), entries, 100 );
+                entries.load( jsi.get_member( "chunks" ), 100 );
             }
             if( jsi.has_member( "else_chunks" ) ) {
-                load_weighted_list( jsi.get_member( "else_chunks" ), else_entries, 100 );
+                else_entries.load( jsi.get_member( "else_chunks" ), 100 );
             }
         }
         mapgen_phase phase() const override {
@@ -4333,14 +4348,14 @@ class jmapgen_nested : public jmapgen_piece
                     }
                 }
             };
-            for( const weighted_object<int, mapgen_value<nested_mapgen_id>> &name : entries ) {
+            for( const weighted_object<dbl_or_var, mapgen_value<nested_mapgen_id>> &name : entries ) {
                 merge_from( name.obj );
             }
-            for( const weighted_object<int, mapgen_value<nested_mapgen_id>> &name : else_entries ) {
+            for( const weighted_object<dbl_or_var, mapgen_value<nested_mapgen_id>> &name : else_entries ) {
                 merge_from( name.obj );
             }
         }
-        const weighted_int_list<mapgen_value<nested_mapgen_id>> &get_entries(
+        const weighted_dbl_or_var_list<mapgen_value<nested_mapgen_id>> &get_entries(
         const mapgendata &dat ) const {
             if( neighbor_oters.test( dat ) && neighbor_joins.test( dat ) && neighbor_flags.test( dat ) &&
                 neighbor_flags_any.test( dat ) && predecessors.test( dat ) && correct_z_level.test( dat ) ) {
@@ -4379,10 +4394,10 @@ class jmapgen_nested : public jmapgen_piece
         void check( const std::string &oter_name, const mapgen_parameters &parameters,
                     const jmapgen_int &x, const jmapgen_int &y, const jmapgen_int &z
                   ) const override {
-            for( const weighted_object<int, mapgen_value<nested_mapgen_id>> &p : entries ) {
+            for( const weighted_object<dbl_or_var, mapgen_value<nested_mapgen_id>> &p : entries ) {
                 p.obj.check( oter_name, parameters );
             }
-            for( const weighted_object<int, mapgen_value<nested_mapgen_id>> &p : else_entries ) {
+            for( const weighted_object<dbl_or_var, mapgen_value<nested_mapgen_id>> &p : entries ) {
                 p.obj.check( oter_name, parameters );
             }
             neighbor_joins.check( oter_name, parameters );
@@ -4401,10 +4416,10 @@ class jmapgen_nested : public jmapgen_piece
                     }
                 }
             };
-            for( const weighted_object<int, mapgen_value<nested_mapgen_id>> &p : entries ) {
+            for( const weighted_object<dbl_or_var, mapgen_value<nested_mapgen_id>> &p : entries ) {
                 add_coords_from( p.obj );
             }
-            for( const weighted_object<int, mapgen_value<nested_mapgen_id>> &p : else_entries ) {
+            for( const weighted_object<dbl_or_var, mapgen_value<nested_mapgen_id>> &p : else_entries ) {
                 add_coords_from( p.obj );
             }
 
@@ -4449,7 +4464,7 @@ class jmapgen_nested : public jmapgen_piece
         }
         ret_val<void> has_vehicle_collision( const mapgendata &dat,
                                              const tripoint_rel_ms &p ) const override {
-            const weighted_int_list<mapgen_value<nested_mapgen_id>> &selected_entries =
+            const weighted_dbl_or_var_list<mapgen_value<nested_mapgen_id>> &selected_entries =
                         get_entries( dat );
             if( selected_entries.empty() ) {
                 return ret_val<void>::make_success();
@@ -8084,7 +8099,7 @@ void science_room( map *m, const point_bub_ms &p1, const point_bub_ms &p2, int z
                                             "---\n"
                                             "|c|\n"
                                             "-=-\n",
-                                            mapf::ter_bind( "- | =", ter_t_concrete_wall, ter_t_concrete_wall, ter_t_reinforced_glass ),
+                                            mapf::ter_bind( "- | =", ter_t_concrete_wall, ter_t_concrete_wall, ter_t_reinforced_glass_lab ),
                                             mapf::furn_bind( "c", furn_f_counter ) );
                 m->place_items( Item_spawn_data_bionics_common, 70, bio,
                                 bio, z, false, calendar::start_of_cataclysm );
@@ -8103,7 +8118,7 @@ void science_room( map *m, const point_bub_ms &p1, const point_bub_ms &p2, int z
                                             "-=-\n"
                                             "|c|\n"
                                             "---\n",
-                                            mapf::ter_bind( "- | =", ter_t_concrete_wall, ter_t_concrete_wall, ter_t_reinforced_glass ),
+                                            mapf::ter_bind( "- | =", ter_t_concrete_wall, ter_t_concrete_wall, ter_t_reinforced_glass_lab ),
                                             mapf::furn_bind( "c", furn_f_counter ) );
                 m->place_items( Item_spawn_data_bionics_common, 70, bio,
                                 bio, z, false, calendar::start_of_cataclysm );
@@ -8123,7 +8138,7 @@ void science_room( map *m, const point_bub_ms &p1, const point_bub_ms &p2, int z
                                             "|-|\n"
                                             "|c=\n"
                                             "|-|\n",
-                                            mapf::ter_bind( "- | =", ter_t_concrete_wall, ter_t_concrete_wall, ter_t_reinforced_glass ),
+                                            mapf::ter_bind( "- | =", ter_t_concrete_wall, ter_t_concrete_wall, ter_t_reinforced_glass_lab ),
                                             mapf::furn_bind( "c", furn_f_counter ) );
                 m->place_items( Item_spawn_data_bionics_common, 70, point_bub_ms( biox, bioy ),
                                 point_bub_ms( biox, bioy ), z, false, calendar::start_of_cataclysm );
@@ -8142,7 +8157,7 @@ void science_room( map *m, const point_bub_ms &p1, const point_bub_ms &p2, int z
                                             "|-|\n"
                                             "=c|\n"
                                             "|-|\n",
-                                            mapf::ter_bind( "- | =", ter_t_concrete_wall, ter_t_concrete_wall, ter_t_reinforced_glass ),
+                                            mapf::ter_bind( "- | =", ter_t_concrete_wall, ter_t_concrete_wall, ter_t_reinforced_glass_lab ),
                                             mapf::furn_bind( "c", furn_f_counter ) );
                 m->place_items( Item_spawn_data_bionics_common, 70, point_bub_ms( biox, bioy ),
                                 point_bub_ms( biox, bioy ), z, false, calendar::turn_zero );

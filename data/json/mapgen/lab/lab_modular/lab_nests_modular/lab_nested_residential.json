@@ -213,10 +213,7 @@
         "A     "
       ],
       "palettes": [ "lab_common_palette", "lab_residential_palette" ],
-      "items": {
-        "s": { "item": "wetbar_stack", "chance": 30 },
-        "Y": { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 2, 4 ] }
-      }
+      "items": { "s": { "item": "wetbar_stack", "chance": 30 }, "Y": { "item": "SUS_trash_trashcan", "chance": 20 } }
     }
   },
   {

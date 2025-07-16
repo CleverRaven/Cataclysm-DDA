@@ -28,7 +28,6 @@
 #include "itype.h"
 #include "magic.h"
 #include "magic_enchantment.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -57,7 +56,9 @@ static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 
 static const efftype_id effect_mutation_internal_damage( "mutation_internal_damage" );
 
+static const flag_id json_flag_CANT_HEAL_EVERYONE( "CANT_HEAL_EVERYONE" );
 static const flag_id json_flag_INTEGRATED( "INTEGRATED" );
+static const flag_id json_flag_OVERSIZE( "OVERSIZE" );
 
 static const itype_id itype_fake_burrowing( "fake_burrowing" );
 
@@ -100,6 +101,11 @@ static const trait_id trait_SNAIL_TRAIL( "SNAIL_TRAIL" );
 static const trait_id trait_TREE_COMMUNION( "TREE_COMMUNION" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
+
+static const std::string trait_type_eye_color( "eye_color" );
+static const std::string trait_type_facial_hair( "facial_hair" );
+static const std::string trait_type_hair_style( "hair_style" );
+static const std::string trait_type_skin_tone( "skin_tone" );
 
 namespace io
 {
@@ -583,15 +589,15 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
 
     for( const itype_id &armor : branch.integrated_armor ) {
         item tmparmor( armor );
-        wear_item( tmparmor, false );
+        wear_item( tmparmor, false, true, true, true );
     }
 
     remove_worn_items_with( [&]( item & armor ) {
         // Check for exceptions first
-        if( armor.has_flag( STATIC( flag_id( "OVERSIZE" ) ) ) ) {
+        if( armor.has_flag( json_flag_OVERSIZE ) ) {
             return false;
         }
-        if( armor.has_flag( STATIC( flag_id( "INTEGRATED" ) ) ) ) {
+        if( armor.has_flag( json_flag_INTEGRATED ) ) {
             return false;
         }
         // initial check for rigid items to pull off, doesn't matter what else the item has you can only wear one rigid item
@@ -781,7 +787,7 @@ bool Character::can_use_heal_item( const item &med ) const
         }
     }
     if( !got_restriction ) {
-        can_use = !med.has_flag( STATIC( flag_id( "CANT_HEAL_EVERYONE" ) ) );
+        can_use = !med.has_flag( json_flag_CANT_HEAL_EVERYONE );
     }
 
     if( !can_use ) {
@@ -1169,7 +1175,7 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
         try_opposite = false;
     } else if( cat_list.get_weight() > 0 ) {
         cat = *cat_list.pick();
-        cat_list.add_or_replace( cat, 0 );
+        cat_list.remove( cat );
         add_msg_debug( debugmode::DF_MUTATION, "Picked category %s", cat.c_str() );
         // Only decide if it's good or bad after we pick the category.
         if( roll_bad_mutation( cat ) ) {
@@ -1326,7 +1332,7 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
                 cat = *cat_list.pick();
                 add_msg_debug( debugmode::DF_MUTATION, "No valid traits in category found, new category %s",
                                cat.c_str() );
-                cat_list.add_or_replace( cat, 0 );
+                cat_list.remove( cat );
             } else {
                 // every option we have vitamins for is invalid
                 add_msg_if_player( m_bad,
@@ -2628,22 +2634,22 @@ void Character::customize_appearance( customize_appearance_choice choice )
     switch( choice ) {
         case customize_appearance_choice::EYES:
             amenu.text = _( "Choose a new eye color" );
-            traits = get_mutations_in_type( STATIC( "eye_color" ) );
+            traits = get_mutations_in_type( trait_type_eye_color );
             end_message = _( "Maybe things will be better by seeing it with new eyes." );
             break;
         case customize_appearance_choice::HAIR:
             amenu.text = _( "Choose a new hairstyle" );
-            traits = get_mutations_in_type( STATIC( "hair_style" ) );
+            traits = get_mutations_in_type( trait_type_hair_style );
             end_message = _( "A change in hairstyle will freshen up the mood." );
             break;
         case customize_appearance_choice::HAIR_F:
             amenu.text = _( "Choose a new facial hairstyle" );
-            traits = get_mutations_in_type( STATIC( "facial_hair" ) );
+            traits = get_mutations_in_type( trait_type_facial_hair );
             end_message = _( "Surviving the end with style." );
             break;
         case customize_appearance_choice::SKIN:
             amenu.text = _( "Choose a new skin color" );
-            traits = get_mutations_in_type( STATIC( "skin_tone" ) );
+            traits = get_mutations_in_type( trait_type_skin_tone );
             end_message = _( "Life in the Cataclysm seems to have changed you." );
             break;
     }

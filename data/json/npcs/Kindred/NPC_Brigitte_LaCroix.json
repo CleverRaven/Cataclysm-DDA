@@ -188,7 +188,7 @@
     "dynamic_line": "When it all happened, the Cataclysm, something… changed.  You can see it in all creatures, most of all in their bones.  They break, morph, rise again, over and over - a never-ending cycle.  The dead walk again, horrors rip and tear each other apart.  And within each one… the quiet hum of raw strength.  Only by taking the bones does the cycle end - their story, their song, their strength; they become yours to use.",
     "speaker_effect": { "effect": { "u_add_var": "dialogue_song_asked_about_song", "value": "yes" } },
     "responses": [
-      { "text": "So what do you actually do with the bones?", "topic": "TALK_BONE_SEER_BONES" },
+      { "text": "What do you actually do with the bones?", "topic": "TALK_BONE_SEER_BONES" },
       { "text": "I'm still not sure what you mean.", "topic": "TALK_BONE_SEER_SONG3" },
       { "text": "Does anyone else, uh, believe this?", "topic": "TALK_BONE_SEER_OTHERS" }
     ]
@@ -327,9 +327,8 @@
   {
     "id": "MISSION_SEER_GATHER_BONE",
     "type": "mission_definition",
-    "name": {
-      "str": "Brigitte LaCroix asked you to collect clean, untainted bones in order to better understand her beliefs.  8 bones should be sufficient."
-    },
+    "name": "Find 8 bones",
+    "description": "Brigitte LaCroix asked you to collect clean, untainted bones in order to better understand her beliefs.  8 bones should be sufficient.",
     "difficulty": 1,
     "value": 10000,
     "goal": "MGOAL_FIND_ITEM",

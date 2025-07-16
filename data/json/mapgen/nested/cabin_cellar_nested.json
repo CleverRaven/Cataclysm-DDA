@@ -1,0 +1,325 @@
+[
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "cabin_cellar_stairs",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "          ",
+        "          ",
+        "          ",
+        "          ",
+        "          ",
+        "          ",
+        "          ",
+        "          ",
+        "       >  ",
+        "          "
+      ],
+      "palettes": [ "cabin_cellar" ],
+      "place_nested": [ { "chunks": [ "cabin_cellar" ], "x": 0, "y": 0, "z": -1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "cabin_cellar",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "#--------#",
+        "#-......-#",
+        "#-......-#",
+        "#-......-#",
+        "#-......-#",
+        "#-......-#",
+        "#-......-#",
+        "#------.-#",
+        "######-<-#",
+        "######---#"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "cabin_cellar" ],
+      "place_nested": [
+        { "chunks": [ "cabin_6x6_cellar_nested" ], "x": 2, "y": 1 },
+        {
+          "chunks": [
+            [ "null", 90 ],
+            [ "cabin_6x6_cellar_nested_zombies", 15 ],
+            [ "cabin_6x6_cellar_nested_spiders", 5 ],
+            [ "cabin_6x6_cellar_nested_mycus", 1 ]
+          ],
+          "x": 2,
+          "y": 1
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "cabin_6x6_cellar_nested",
+    "//": "A cellar filled with various bits of hobby equipment for hiking, hunting, or camping",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "NNNNNN",
+        "Nnnnn ",
+        "Nn    ",
+        "Nn nn ",
+        "Nn nn ",
+        "N     "
+      ],
+      "palettes": [ "cabin_cellar" ],
+      "nested": {
+        "N": { "chunks": [ [ "cabin_cellar_1x1_junk_box", 20 ], [ "null", 5 ] ] },
+        "n": { "chunks": [ [ "cabin_cellar_1x1_junk_box", 1 ], [ "null", 1 ] ] }
+      },
+      "place_fields": [ { "field": "fd_dust", "x": [ 0, 5 ], "y": [ 0, 5 ], "repeat": [ 10, 20 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "cabin_cellar_1x1_junk_box",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 0 ],
+      "rows": [ " " ],
+      "place_items": [ { "item": "cabin_nested_cellar_boxed_junk", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "cabin_6x6_cellar_nested",
+    "//": "A cellar filled with preserved food",
+    "weight": 900,
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "      ",
+        " R  R ",
+        " R  R ",
+        " R  R ",
+        " R  R ",
+        "      "
+      ],
+      "palettes": [ "cabin_cellar" ],
+      "items": { "R": { "item": "preserved_food", "chance": 80, "repeat": [ 1, 4 ] } },
+      "place_fields": [ { "field": "fd_dust", "x": [ 0, 5 ], "y": [ 0, 5 ], "repeat": [ 10, 20 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "cabin_6x6_cellar_nested",
+    "//": "A cellar that's totally empty",
+    "weight": 600,
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "cabin_cellar" ],
+      "place_fields": [ { "field": "fd_dust", "x": [ 0, 5 ], "y": [ 0, 5 ], "repeat": [ 10, 20 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "cabin_6x6_cellar_nested",
+    "//": "A cellar with booze.  Drink up!",
+    "weight": 500,
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "R     ",
+        "R   c ",
+        "R ctt ",
+        "R ctt ",
+        "   c  ",
+        "      "
+      ],
+      "palettes": [ "cabin_cellar" ],
+      "items": { "R": { "item": "liquor_and_spirits", "chance": 80, "repeat": [ 1, 4 ] } },
+      "place_item": [
+        { "item": "bottle_glass", "x": 3, "y": 2, "chance": 80 },
+        { "item": "bottle_glass", "x": 3, "y": 3, "chance": 80 },
+        { "item": "bottle_glass", "x": 4, "y": 2, "chance": 80 },
+        { "item": "bottle_glass", "x": 4, "y": 3, "chance": 80 },
+        { "item": "deck_of_cards", "x": 4, "y": 3, "chance": 50 }
+      ],
+      "place_nested": [ { "chunks": [ [ "null", 2 ], [ "cabin_cellar_2x2_moonshine_still", 1 ] ], "x": 1, "y": 0 } ],
+      "place_fields": [ { "field": "fd_dust", "x": [ 0, 5 ], "y": [ 0, 5 ], "repeat": [ 10, 20 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "cabin_6x6_cellar_nested",
+    "//": "A cellar with stored furniture",
+    "weight": 450,
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "ttttcc",
+        "ttcccc",
+        "      ",
+        "      ",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "cabin_cellar" ],
+      "place_item": [
+        { "item": "tourist_table", "x": 0, "y": 2, "chance": 50 },
+        { "item": "tourist_table", "x": 1, "y": 2, "chance": 50 },
+        { "item": "box_large_wood", "x": 0, "y": 3, "chance": 50 },
+        { "item": "box_large_wood", "x": 0, "y": 4, "chance": 50 },
+        { "item": "box_large_wood", "x": 0, "y": 5, "chance": 50 },
+        { "item": "box_large_wood", "x": 1, "y": 3, "chance": 50 },
+        { "item": "box_large_wood", "x": 1, "y": 4, "chance": 50 },
+        { "item": "box_large_wood", "x": 1, "y": 5, "chance": 50 }
+      ],
+      "place_fields": [ { "field": "fd_dust", "x": [ 0, 5 ], "y": [ 0, 5 ], "repeat": [ 10, 20 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "cabin_cellar_2x2_moonshine_still",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "SV",
+        "  "
+      ],
+      "furniture": { "S": "f_still", "V": "f_fvat_empty" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "cabin_6x6_cellar_nested",
+    "//": "A cellar that's totally empty and also has no dust.  Mysterious!",
+    "weight": 50,
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "cabin_cellar" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "cabin_6x6_cellar_nested",
+    "//": "A cellar with bones on a table and candles on the floor around it.  What happened here?",
+    "weight": 25,
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "      ",
+        "      ",
+        "  tt  ",
+        "  tt  ",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "cabin_cellar" ],
+      "place_item": [
+        { "item": "bone", "x": 2, "y": 2, "repeat": [ 1, 2 ] },
+        { "item": "bone", "x": 3, "y": 2, "repeat": [ 1, 2 ] },
+        { "item": "bone", "x": 2, "y": 3, "repeat": [ 1, 2 ] },
+        { "item": "bone", "x": 3, "y": 3, "repeat": [ 1, 2 ] },
+        { "item": "candle", "x": 1, "y": 1, "chance": 95 },
+        { "item": "candle", "x": 4, "y": 1, "chance": 95 },
+        { "item": "candle", "x": 1, "y": 4, "chance": 95 },
+        { "item": "candle", "x": 4, "y": 4, "chance": 95 }
+      ],
+      "place_fields": [ { "field": "fd_dust", "x": [ 0, 5 ], "y": [ 0, 5 ], "repeat": [ 10, 20 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "cabin_6x6_cellar_nested_zombies",
+    "//": "A cellar overlay for zombies.  It is the zombie apocalypse, after all.",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "cabin_cellar" ],
+      "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 0, 5 ], "y": [ 0, 5 ], "chance": 100, "repeat": [ 1, 6 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "cabin_6x6_cellar_nested_spiders",
+    "//": "A cellar overlay for spiders.  Spiders!!",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "cabin_cellar" ],
+      "place_fields": [ { "field": "fd_web", "x": [ 0, 5 ], "y": [ 0, 5 ], "repeat": [ 10, 20 ] } ],
+      "place_monster": [ { "group": "GROUP_SPIDER_BASEMENT", "x": [ 0, 5 ], "y": [ 0, 5 ], "chance": 100, "repeat": [ 3, 4 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "cabin_6x6_cellar_nested_mycus",
+    "//": "A cellar overlay with a mycus infestation.  Pouf!",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "cabin_cellar" ],
+      "ter_furn_transforms": { " ": { "transform": "fungalize" } },
+      "place_fields": [ { "field": "fd_fungal_haze", "x": [ 0, 5 ], "y": [ 0, 5 ], "repeat": [ 10, 20 ] } ],
+      "place_monster": [ { "monster": "mon_zombie_fungus", "x": [ 0, 5 ], "y": [ 0, 5 ], "chance": 85 } ]
+    }
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "fungalize",
+    "terrain": [ { "result": [ [ "t_fungus", 2 ], [ "t_fungus_floor_sup", 1 ] ], "valid_flags": [ "FLAT" ] } ],
+    "furniture": [
+      {
+        "result": [ [ "f_fungal_mass", 1 ], [ "f_fungal_tangle", 1 ], [ "f_fungal_clump", 1 ] ],
+        "valid_flags": [ "ORGANIC" ]
+      }
+    ]
+  }
+]

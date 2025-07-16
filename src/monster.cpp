@@ -46,7 +46,6 @@
 #include "itype.h"
 #include "magic.h"
 #include "magic_enchantment.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
@@ -78,7 +77,6 @@
 #include "speed_description.h"
 #include "string_formatter.h"
 #include "talker.h"
-#include "text_snippets.h"
 #include "translation.h"
 #include "translations.h"
 #include "trap.h"
@@ -157,6 +155,7 @@ static const emit_id emit_emit_shock_cloud_big( "emit_shock_cloud_big" );
 static const flag_id json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const flag_id json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMAGE" );
 static const flag_id json_flag_DISABLE_FLIGHT( "DISABLE_FLIGHT" );
+static const flag_id json_flag_FILTHY( "FILTHY" );
 static const flag_id json_flag_GRAB( "GRAB" );
 static const flag_id json_flag_GRAB_FILTER( "GRAB_FILTER" );
 
@@ -187,9 +186,6 @@ static const mfaction_str_id monfaction_bee( "bee" );
 static const mfaction_str_id monfaction_nether_player_hate( "nether_player_hate" );
 static const mfaction_str_id monfaction_wasp( "wasp" );
 
-static const morale_type morale_killer_has_killed( "morale_killer_has_killed" );
-static const morale_type morale_killer_need_to_kill( "morale_killer_need_to_kill" );
-
 static const species_id species_AMPHIBIAN( "AMPHIBIAN" );
 static const species_id species_CYBORG( "CYBORG" );
 static const species_id species_FISH( "FISH" );
@@ -212,7 +208,6 @@ static const ter_str_id ter_t_gas_pump_a( "t_gas_pump_a" );
 static const trait_id trait_BEE( "BEE" );
 static const trait_id trait_FLOWERS( "FLOWERS" );
 static const trait_id trait_INATTENTIVE( "INATTENTIVE" );
-static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_MYCUS_FRIEND( "MYCUS_FRIEND" );
 static const trait_id trait_PHEROMONE_AMPHIBIAN( "PHEROMONE_AMPHIBIAN" );
 static const trait_id trait_PHEROMONE_INSECT( "PHEROMONE_INSECT" );
@@ -289,7 +284,6 @@ monster::monster( const mtype_id &id ) : monster()
     }
     anger = type->agro;
     morale = type->morale;
-    stomach_size = type->stomach_size;
     faction = type->default_faction;
     upgrades = type->upgrades && ( type->half_life || type->age_grow );
     reproduces = type->reproduces && type->baby_timer && !monster::has_flag( mon_flag_NO_BREED );
@@ -702,10 +696,10 @@ int monster::get_amount_eaten() const
 
 int monster::get_stomach_fullness_percent() const
 {
-    if( stomach_size == 0 ) {
+    if( type->stomach_size == 0 ) {
         return 100; // no div-by-zero
     }
-    return get_amount_eaten() / stomach_size;
+    return get_amount_eaten() / type->stomach_size;
 }
 
 bool monster::has_eaten_enough() const
@@ -717,7 +711,7 @@ bool monster::has_eaten_enough() const
 
 bool monster::has_fully_eaten() const
 {
-    return amount_eaten >= stomach_size;
+    return amount_eaten >= type->stomach_size;
 }
 
 void monster::digest_food()
@@ -1039,6 +1033,13 @@ void monster::print_info_imgui() const
     ImGui::SameLine();
     ImGui::TextColored( symbol_color, "%s %s", name().c_str(),
                         get_effect_status().c_str() );
+
+    if( debug_mode ) {
+        dialogue d( get_talker_for( const_cast<monster *>( this ) ), get_talker_for( get_avatar() ) );
+        for( const std::pair<const std::string, mtype_special_attack> &attack : type->special_attacks ) {
+            ImGui::Text( "%s: %g", attack.first.c_str(), attack.second->cooldown.evaluate( d ) );
+        }
+    }
 
     Character &pc = get_player_character();
     bool sees_player = sees( here, pc );
@@ -3066,14 +3067,6 @@ void monster::die( map *here, Creature *nkiller )
             cata::event e = cata::event::make<event_type::character_kills_monster>( ch->getID(), type->id,
                             compute_kill_xp( type->id ) );
             get_event_bus().send_with_talker( ch, this, e );
-            if( ch->is_avatar() && ch->has_trait( trait_KILLER ) ) {
-                if( one_in( 4 ) ) {
-                    const translation snip = SNIPPET.random_from_category( "killer_on_kill" ).value_or( translation() );
-                    ch->add_msg_if_player( m_good, "%s", snip );
-                }
-                ch->add_morale( morale_killer_has_killed, 5, 10, 6_hours, 4_hours );
-                ch->rem_morale( morale_killer_need_to_kill );
-            }
         }
     }
     creature_tracker &creatures = get_creature_tracker();
@@ -3316,7 +3309,7 @@ void monster::generate_inventory( bool disableDrops )
         if( has_flag( mon_flag_FILTHY ) ) {
             if( ( it.is_armor() || it.is_pet_armor() ) && !it.is_gun() ) {
                 // handle wearable guns as a special case
-                it.set_flag( STATIC( flag_id( "FILTHY" ) ) );
+                it.set_flag( json_flag_FILTHY );
             }
         }
         inv.push_back( it );
@@ -3354,7 +3347,7 @@ void monster::drop_items_on_death( map *here, item *corpse )
         if( has_flag( mon_flag_FILTHY ) ) {
             if( ( it.is_armor() || it.is_pet_armor() ) && !it.is_gun() ) {
                 // handle wearable guns as a special case
-                it.set_flag( STATIC( flag_id( "FILTHY" ) ) );
+                it.set_flag( json_flag_FILTHY );
             }
         }
 
@@ -3754,7 +3747,8 @@ creature_size monster::get_size() const
 
 units::mass monster::get_weight() const
 {
-    return units::operator*( type->weight, get_size() / type->size );
+    return enchantment_cache->modify_value( enchant_vals::mod::TOTAL_WEIGHT,
+                                            units::operator*( type->weight, get_size() / type->size ) );
 }
 
 units::mass monster::weight_capacity() const
@@ -3862,7 +3856,7 @@ void monster::init_from_item( item &itm )
         upgrade_time = itm.get_var( "upgrade_time", 0 );
         for( item *it : itm.all_items_top( pocket_type::CONTAINER ) ) {
             if( it->is_armor() ) {
-                it->set_flag( STATIC( flag_id( "FILTHY" ) ) );
+                it->set_flag( json_flag_FILTHY );
             }
             inv.push_back( *it );
             itm.remove_item( *it );

@@ -286,7 +286,8 @@
     "items": [
       { "group": "tools_common_small", "prob": 100 },
       [ "wrench", 200 ],
-      [ "wrench_large", 20 ],
+      [ "wrench_large", 50 ],
+      [ "wrench_48", 50 ],
       [ "big_pliers", 10 ],
       [ "claw_bar", 2 ],
       [ "crowbar", 10 ],
@@ -558,8 +559,7 @@
       [ "stethoscope", 50 ],
       [ "syringe", 50 ],
       [ "thermometer", 50 ],
-      [ "vacutainer", 50 ],
-      [ "bag_body_bag", 10 ]
+      [ "vacutainer", 50 ]
     ]
   },
   {
@@ -777,7 +777,8 @@
       [ "xacto", 4 ],
       { "group": "cotton_ball_bag_used", "prob": 4 },
       { "group": "cotton_ball_bag_full", "prob": 2 },
-      { "group": "ammo_any_batteries_full", "prob": 50 },
+      { "group": "box_of_batteries_random", "prob": 25 },
+      { "group": "ammo_heavy_batteries_full", "prob": 25 },
       [ "acetylene_machine", 1 ],
       { "group": "writing_utensils", "prob": 5 }
     ]

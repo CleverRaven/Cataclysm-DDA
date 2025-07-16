@@ -71,7 +71,7 @@ static const itype_id itype_gloves_wraps_fur( "gloves_wraps_fur" );
 static const itype_id itype_hk_mp5( "hk_mp5" );
 static const itype_id itype_holo_sight( "holo_sight" );
 static const itype_id itype_m14ebr( "m14ebr" );
-static const itype_id itype_mask_guy_fawkes( "mask_guy_fawkes" );
+static const itype_id itype_mask_skull( "mask_skull" );
 static const itype_id itype_mossberg_590( "mossberg_590" );
 static const itype_id itype_mossberg_930( "mossberg_930" );
 static const itype_id itype_mp40semi( "mp40semi" );
@@ -294,7 +294,7 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance] [slow]" )
     standard_npc shooter( "Shooter", shooter_pos, {}, 0, 8, 8, 8, 7 );
     shooter.set_body();
     shooter.worn.wear_item( shooter, item( itype_backpack ), false, false );
-    equip_shooter( shooter, { itype_bastsandals, itype_armguard_hard, itype_armguard_soft, itype_test_armor_chitin, itype_beekeeping_gloves, itype_mask_guy_fawkes, itype_cowboy_hat } );
+    equip_shooter( shooter, { itype_bastsandals, itype_armguard_hard, itype_armguard_soft, itype_test_armor_chitin, itype_beekeeping_gloves, itype_mask_skull, itype_cowboy_hat } );
     assert_encumbrance( shooter, 10 );
 
     SECTION( "an unskilled shooter with a common pistol" ) {

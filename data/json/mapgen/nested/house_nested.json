@@ -1842,7 +1842,8 @@
       ],
       "palettes": [ "domestic_garden_nest_palette" ],
       "terrain": { "%": "t_sandbox" },
-      "furniture": { "%": "f_sand_castle" }
+      "furniture": { "%": "f_sand_castle" },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
   {
@@ -2084,10 +2085,9 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rotation": [ 0, 3 ],
-      "rows": [ "." ],
-      "palettes": [ "standard_domestic_palette" ],
-      "furniture": { ".": "f_freezer" },
-      "items": { ".": [ { "item": "SUS_freezer" } ] }
+      "furniture": { " ": "f_freezer" },
+      "items": { " ": [ { "item": "SUS_freezer" } ] },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   }
 ]

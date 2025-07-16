@@ -127,7 +127,7 @@ class recipe
         std::string subcategory;
 
         translation description;
-        // overrides the result name; used by practice recipes
+        // overrides the result name;
         translation name_;
 
         int difficulty = 0;

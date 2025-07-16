@@ -82,21 +82,33 @@
     "type": "talk_topic",
     "responses": [
       {
-        "text": "[Premonition] *Determine if <npc_name> is a threat*",
+        "text": "[Premonition] *Check for anything amiss*",
         "topic": "TALK_EXODII_MERCHANT_danger_sense",
         "condition": {
           "or": [
             { "math": [ "u_spell_level('clair_danger_sense') >= 2" ] },
-            { "math": [ "u_spell_level('knack_clair_danger_sense') >= 8" ] }
+            { "math": [ "u_spell_level('clair_danger_sense_knack') >= 8" ] }
           ]
         }
+      },
+      {
+        "text": "[Sense Hostility] *Determine if <npc_name> is a threat*",
+        "topic": "TALK_EXODII_MERCHANT_sense_hostility",
+        "condition": { "math": [ "u_spell_level('clair_sense_hostile_creatures') >= 1" ] }
       }
     ]
   },
   {
     "id": [ "TALK_EXODII_MERCHANT_danger_sense" ],
     "type": "talk_topic",
-    "dynamic_line": "&You extend your senses, alert for danger, and are surprised that at the result.  There is danger here, but it's muted, and certainly Rubik doesn't bear you any malice.  If any place is safe in the hell that the Earth has become, this is it.",
+    "dynamic_line": "&You extend your senses, alert for danger, and are surprised at the result.  There is danger here, but it's muted, and certainly Rubik doesn't seem to bear you any malice.  If any place is safe in the hell that the Earth has become, this is it.",
+    "responses": [ { "text": "…", "topic": "TALK_EXODII_MERCHANT_Talk" } ]
+  },
+  {
+    "id": [ "TALK_EXODII_MERCHANT_sense_hostility" ],
+    "type": "talk_topic",
+    "//": "TODO: Change this depending on how much Rubik trusts the PC.",
+    "dynamic_line": "&You extend your senses, probing at Rubik's attitude, and come away with a sense of relief.  Rubik certainly doesn't plan any violent action at this moment.",
     "responses": [ { "text": "…", "topic": "TALK_EXODII_MERCHANT_Talk" } ]
   },
   {
@@ -136,7 +148,13 @@
     "id": [ "TALK_EXODII_MERCHANT_deep_scan" ],
     "type": "talk_topic",
     "dynamic_line": "&Your awareness of the outside world fades as you fall into Rubik's mind.\n\nYou see a child in a thriving metropolis, doing odd jobs for spare coins, playing in the alleys with friends, coming home at dusk for supper.  You see a young adult running from a group of zombies.  You see this castle, or near enough--some towers are missing, some missing towers are there, but obviously the same--and its denizens fending off an attack from a group of winged things.  You see a conversation in a language you've never heard before among a group of Exodii, before everyone files into rooms, secures themselves with restraints, and there's a brief moment of searing pain and then darkness, filled with static and bursts of light half-glimpsed in your peripheral vision.\n\nYou see worlds.  World after world, in a procession over…decades?  Centuries?  You can't tell; you have no sense of time during the vision.  Most worlds were less advanced than the Earth, and the few survivors fought the dead with human wave tactics and trench warfare, or lines of musketeers, or archers from behind the trees.  Sometimes, doughty warriors clad in iron or bronze hurled themselves at the enemy with sword and shield in hand, until they fell and their corpses rose again.  In one world, the survivors fought with powered armor and particle-beam weapons.  But on every world, slowly, inexorably, the dead or the fungus or the walking trees or things you have no name for ground down the defenders until humanity was on the brink of extinction and, with a few survivors in tow, the Exodii powered up their jump devices and continued the Long Retreat.\n\nIn the end, not once, in a dozen or a hundred or you know not how many worlds, was there anything left to save.",
-    "responses": [ { "text": "*Withdraw from Rubik's mind*.", "topic": "TALK_EXODII_MERCHANT_Post_Scan" } ]
+    "responses": [
+      {
+        "text": "*Withdraw from Rubik's mind*.",
+        "topic": "TALK_EXODII_MERCHANT_Post_Scan",
+        "effect": { "give_achievement": "mom_read_rubiks_mind" }
+      }
+    ]
   },
   {
     "id": [ "TALK_EXODII_MERCHANT_Post_Scan" ],

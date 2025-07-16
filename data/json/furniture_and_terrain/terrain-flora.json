@@ -1,198 +1,16 @@
 [
   {
     "type": "terrain",
-    "id": "t_tree_walnut",
-    "name": "walnut tree",
-    "description": "A massive tree belonging to the 'Juglans' genus.  If you look closely, you can see some unharvested walnuts.",
-    "symbol": "7",
-    "color": [ "green", "green", "yellow_yellow", "brown" ],
-    "move_cost": 0,
-    "coverage": 80,
-    "roof": "t_treetop",
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "BROWSABLE", "CLIMB_ADJACENT" ],
-    "transforms_into": "t_tree_walnut_harvested",
-    "examine_action": "harvest_ter",
-    "looks_like": "t_tree_hickory",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "walnut_harv" } ],
-    "bash": {
-      "str_min": 80,
-      "str_max": 180,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_tree_walnut_harvested",
-    "name": "walnut tree",
-    "description": "A massive tree belonging to the 'Juglans' genus.",
-    "symbol": "7",
-    "color": [ "green", "green", "green", "brown" ],
-    "move_cost": 0,
-    "coverage": 80,
-    "roof": "t_treetop",
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMB_ADJACENT" ],
-    "transforms_into": "t_tree_walnut",
-    "looks_like": "t_tree_hickory_harvested",
-    "bash": {
-      "str_min": 80,
-      "str_max": 180,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "stick_long", "count": [ 3, 10 ] },
-        { "item": "splinter", "count": [ 10, 25 ] },
-        { "item": "leaves", "count": [ 50, 150 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_tree_butternut",
-    "name": "butternut tree",
-    "description": "A massive tree belonging to the 'Juglans' genus, but with lighter bark and more elongated fruits than the more common black walnut.  If you look closely, you can see some unharvested butternuts.",
-    "symbol": "7",
-    "color": [ "green", "green", "yellow_yellow", "brown" ],
-    "move_cost": 0,
-    "coverage": 80,
-    "roof": "t_treetop",
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "BROWSABLE", "CLIMB_ADJACENT" ],
-    "transforms_into": "t_tree_walnut_harvested",
-    "examine_action": "harvest_ter",
-    "looks_like": "t_tree_blackjack",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "butternut_harv" } ],
-    "bash": {
-      "str_min": 80,
-      "str_max": 180,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_tree_butternut_harvested",
-    "name": "butternut tree",
-    "description": "A massive tree belonging to the 'Juglans' genus, but with lighter bark and more elongated fruits than the more common black walnut.",
-    "symbol": "7",
-    "color": [ "green", "green", "green", "brown" ],
-    "move_cost": 0,
-    "coverage": 80,
-    "roof": "t_treetop",
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMB_ADJACENT" ],
-    "transforms_into": "t_tree_butternut",
-    "looks_like": "t_tree_blackjack_harvested",
-    "bash": {
-      "str_min": 80,
-      "str_max": 180,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "stick_long", "count": [ 3, 10 ] },
-        { "item": "splinter", "count": [ 10, 25 ] },
-        { "item": "leaves", "count": [ 50, 150 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_tree_blackjack",
-    "name": "blackjack oak",
+    "id": "t_tree_abstract",
     "looks_like": "t_tree",
-    "description": "A deciduous tree of the genus 'Quercus', with bark cracked into rectangular black plates split by narrow orange fissures.  You could peel off the bark sections if you examined the tree more closely.",
+    "name": "oak tree",
+    "description": "A massive deciduous tree belonging to the 'Quercus' genus, commonly found throughout the New England region.  If you look closely, you can see some acorns the squirrels haven't gotten yet.",
     "symbol": "7",
-    "color": "yellow",
+    "color": [ "green", "green", "brown_green", "brown" ],
     "move_cost": 0,
     "coverage": 80,
-    "roof": "t_treetop",
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMB_ADJACENT" ],
-    "transforms_into": "t_tree_blackjack_harvested",
     "examine_action": "harvest_ter",
-    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn", "winter" ], "id": "blackjack_harv" } ],
-    "bash": {
-      "str_min": 80,
-      "str_max": 180,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "stick_long", "count": [ 3, 10 ] },
-        { "item": "splinter", "count": [ 10, 25 ] },
-        { "item": "leaves", "count": [ 50, 150 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_tree_blackjack_harvested",
-    "looks_like": "t_tree_dead",
-    "description": "A deciduous tree of the genus 'Quercus', with bark cracked into rectangular black plates split by narrow orange fissures.  All the usable bark has been stripped off.",
-    "name": "blackjack oak",
-    "symbol": "7",
-    "color": "brown",
-    "move_cost": 0,
-    "coverage": 80,
-    "roof": "t_treetop",
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMB_ADJACENT" ],
-    "transforms_into": "t_tree_blackjack",
-    "bash": {
-      "str_min": 80,
-      "str_max": 180,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "stick_long", "count": [ 3, 10 ] },
-        { "item": "splinter", "count": [ 10, 25 ] },
-        { "item": "leaves", "count": [ 50, 150 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_tree_alder",
-    "name": "alder tree",
-    "description": "A deciduous flowering tree with serrated, scalloped, round-obovate leaves, commonly forming dense groves alongside water.",
-    "symbol": "7",
-    "color": [ "green", "green", "yellow_yellow", "brown" ],
-    "move_cost": 0,
-    "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMB_ADJACENT" ],
-    "transforms_into": "t_tree_alder_harvested",
-    "examine_action": "harvest_ter",
-    "looks_like": "t_tree_hickory",
-    "roof": "t_treetop",
-    "harvest_by_season": [ { "seasons": [ "spring", "autumn" ], "id": "alder_harv" } ],
-    "bash": {
-      "str_min": 80,
-      "str_max": 180,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "stick_long", "count": [ 3, 10 ] },
-        { "item": "splinter", "count": [ 10, 25 ] },
-        { "item": "leaves", "count": [ 50, 150 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_tree_alder_harvested",
-    "name": "alder tree",
-    "description": "A deciduous flowering tree with serrated, scalloped, round-obovate leaves, commonly forming dense groves alongside water.",
-    "symbol": "7",
-    "color": [ "green", "green", "green", "brown" ],
-    "move_cost": 0,
-    "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMB_ADJACENT" ],
-    "transforms_into": "t_tree_alder",
-    "looks_like": "t_tree_hickory_harvested",
     "roof": "t_treetop",
     "bash": {
       "str_min": 80,
@@ -204,415 +22,250 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_tree_chestnut",
-    "name": "chestnut tree",
-    "description": "A massive tree belonging to the 'Castanea' genus.  If you look closely, you can see some unharvested chestnuts.",
-    "symbol": "7",
-    "color": [ "green", "green", "green_yellow", "brown" ],
-    "move_cost": 0,
-    "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "BROWSABLE", "CLIMB_ADJACENT" ],
-    "transforms_into": "t_tree_chestnut_harvested",
-    "examine_action": "harvest_ter",
-    "looks_like": "t_tree_hickory",
-    "roof": "t_treetop",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "chestnut_harv" } ],
-    "bash": {
-      "str_min": 80,
-      "str_max": 180,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "stick_long", "count": [ 3, 10 ] },
-        { "item": "splinter", "count": [ 10, 25 ] },
-        { "item": "leaves", "count": [ 50, 150 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_tree_chestnut_harvested",
-    "name": "chestnut tree",
-    "description": "A massive tree belonging to the 'Castanea' genus.",
-    "symbol": "7",
-    "color": [ "green", "green", "green", "brown" ],
-    "move_cost": 0,
-    "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMB_ADJACENT" ],
-    "transforms_into": "t_tree_chestnut",
-    "roof": "t_treetop",
-    "looks_like": "t_tree_hickory_harvested",
-    "bash": {
-      "str_min": 80,
-      "str_max": 180,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "stick_long", "count": [ 3, 10 ] },
-        { "item": "splinter", "count": [ 10, 25 ] },
-        { "item": "leaves", "count": [ 50, 150 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_tree_beech",
-    "name": "beech tree",
-    "description": "A massive tree belonging to the 'Fagus' genus.  If you look closely, you can see some unharvested beech nuts.",
-    "symbol": "7",
-    "color": [ "green", "green", "black_green", "brown" ],
-    "move_cost": 0,
-    "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "BROWSABLE", "CLIMB_ADJACENT" ],
-    "transforms_into": "t_tree_beech_harvested",
-    "examine_action": "harvest_ter",
-    "looks_like": "t_tree_hickory",
-    "roof": "t_treetop",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "beech_harv" } ],
-    "bash": {
-      "str_min": 80,
-      "str_max": 180,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "stick_long", "count": [ 3, 10 ] },
-        { "item": "splinter", "count": [ 10, 25 ] },
-        { "item": "leaves", "count": [ 50, 150 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_tree_beech_harvested",
-    "name": "beech tree",
-    "description": "A massive tree belonging to the 'Fagus' genus.",
-    "symbol": "7",
-    "color": [ "green", "green", "green", "brown" ],
-    "move_cost": 0,
-    "coverage": 80,
-    "roof": "t_treetop",
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMB_ADJACENT" ],
-    "transforms_into": "t_tree_beech",
-    "looks_like": "t_tree_hickory_harvested",
-    "bash": {
-      "str_min": 80,
-      "str_max": 180,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "stick_long", "count": [ 3, 10 ] },
-        { "item": "splinter", "count": [ 10, 25 ] },
-        { "item": "leaves", "count": [ 50, 150 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_tree_hazelnut",
-    "name": "hazelnut tree",
-    "description": "A stubby tree belonging to the 'Corylus' genus.  If you look closely, you can see some unharvested hazelnuts.",
-    "symbol": "7",
-    "color": [ "green", "green", "light_green_yellow", "brown" ],
-    "move_cost": 0,
-    "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "BROWSABLE", "CLIMB_ADJACENT" ],
-    "transforms_into": "t_tree_hazelnut_harvested",
-    "examine_action": "harvest_ter",
-    "looks_like": "t_tree_hickory",
-    "roof": "t_treetop",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "hazelnut_harv" } ],
-    "bash": {
-      "str_min": 80,
-      "str_max": 180,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "stick_long", "count": [ 3, 10 ] },
-        { "item": "splinter", "count": [ 10, 25 ] },
-        { "item": "leaves", "count": [ 50, 150 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_tree_hazelnut_harvested",
-    "name": "hazelnut tree",
-    "description": "A stubby tree belonging to the 'Corylus' genus.",
-    "symbol": "7",
-    "color": [ "green", "green", "green", "brown" ],
-    "move_cost": 0,
-    "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMB_ADJACENT" ],
-    "transforms_into": "t_tree_hazelnut",
-    "roof": "t_treetop",
-    "looks_like": "t_tree_hickory_harvested",
-    "bash": {
-      "str_min": 80,
-      "str_max": 180,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "stick_long", "count": [ 3, 10 ] },
-        { "item": "splinter", "count": [ 10, 25 ] },
-        { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
     "type": "terrain",
     "id": "t_tree",
-    "name": "oak tree",
-    "description": "A massive deciduous tree belonging to the 'Quercus' genus, commonly found throughout the New England region.  If you look closely, you can see some acorns the squirrels haven't gotten yet.",
-    "symbol": "7",
-    "color": [ "green", "green", "brown_green", "brown" ],
-    "//": "barren in winter",
-    "move_cost": 0,
-    "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "BROWSABLE", "CLIMB_ADJACENT" ],
+    "copy-from": "t_tree_abstract",
     "transforms_into": "t_tree_harvested",
-    "examine_action": "harvest_ter",
-    "roof": "t_treetop",
     "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "oak_harv" } ],
-    "bash": {
-      "str_min": 80,
-      "str_max": 180,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "stick_long", "count": [ 3, 10 ] },
-        { "item": "splinter", "count": [ 10, 25 ] },
-        { "item": "leaves", "count": [ 50, 150 ] }
-      ]
-    }
+    "extend": { "flags": [ "BROWSABLE" ] }
   },
   {
     "type": "terrain",
     "id": "t_tree_harvested",
-    "name": "oak tree",
+    "copy-from": "t_tree",
     "looks_like": "t_tree_dead",
     "description": "A massive deciduous tree belonging to the 'Quercus' genus, commonly found throughout the New England region.",
-    "symbol": "7",
-    "color": [ "green", "green", "green", "brown" ],
-    "move_cost": 0,
-    "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMB_ADJACENT" ],
-    "transforms_into": "t_tree",
-    "roof": "t_treetop",
-    "bash": {
-      "str_min": 80,
-      "str_max": 180,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "stick_long", "count": [ 3, 10 ] },
-        { "item": "splinter", "count": [ 10, 25 ] },
-        { "item": "leaves", "count": [ 50, 150 ] }
-      ]
-    }
+    "delete": { "flags": [ "BROWSABLE" ] },
+    "transforms_into": "t_tree"
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_walnut",
+    "copy-from": "t_tree_abstract",
+    "name": "walnut tree",
+    "description": "A massive tree belonging to the 'Juglans' genus.  If you look closely, you can see some unharvested walnuts.",
+    "extend": { "flags": [ "BROWSABLE" ] },
+    "color": [ "green", "green", "yellow_yellow", "brown" ],
+    "transforms_into": "t_tree_walnut_harvested",
+    "looks_like": "t_tree_hickory",
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "walnut_harv" } ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_walnut_harvested",
+    "copy-from": "t_tree_walnut",
+    "description": "A massive tree belonging to the 'Juglans' genus.",
+    "transforms_into": "t_tree_walnut",
+    "delete": { "flags": [ "BROWSABLE" ] },
+    "looks_like": "t_tree_hickory_harvested"
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_butternut",
+    "copy-from": "t_tree_abstract",
+    "name": "butternut tree",
+    "description": "A massive tree belonging to the 'Juglans' genus, but with lighter bark and more elongated fruits than the more common black walnut.  If you look closely, you can see some unharvested butternuts.",
+    "color": [ "green", "green", "yellow_yellow", "brown" ],
+    "extend": { "flags": [ "BROWSABLE" ] },
+    "transforms_into": "t_tree_butternut_harvested",
+    "looks_like": "t_tree_blackjack",
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "butternut_harv" } ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_butternut_harvested",
+    "copy-from": "t_tree_butternut",
+    "description": "A massive tree belonging to the 'Juglans' genus, but with lighter bark and more elongated fruits than the more common black walnut.",
+    "delete": { "flags": [ "BROWSABLE" ] },
+    "transforms_into": "t_tree_butternut",
+    "looks_like": "t_tree_blackjack_harvested"
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_blackjack",
+    "copy-from": "t_tree_abstract",
+    "name": "blackjack oak",
+    "description": "A deciduous tree of the genus 'Quercus', with bark cracked into rectangular black plates split by narrow orange fissures.  You could peel off the bark sections if you examined the tree more closely.",
+    "transforms_into": "t_tree_blackjack_harvested",
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn", "winter" ], "id": "blackjack_harv" } ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_blackjack_harvested",
+    "copy-from": "t_tree_blackjack",
+    "looks_like": "t_tree_dead",
+    "description": "A deciduous tree of the genus 'Quercus', with bark cracked into rectangular black plates split by narrow orange fissures.  All the usable bark has been stripped off.",
+    "transforms_into": "t_tree_blackjack"
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_alder",
+    "copy-from": "t_tree_abstract",
+    "name": "alder tree",
+    "description": "A deciduous flowering tree with serrated, scalloped, round-obovate leaves, commonly forming dense groves alongside water.",
+    "color": [ "green", "green", "yellow_yellow", "brown" ],
+    "transforms_into": "t_tree_alder_harvested",
+    "looks_like": "t_tree_hickory",
+    "harvest_by_season": [ { "seasons": [ "spring", "autumn" ], "id": "alder_harv" } ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_alder_harvested",
+    "copy-from": "t_tree_alder",
+    "transforms_into": "t_tree_alder",
+    "looks_like": "t_tree_hickory_harvested"
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_chestnut",
+    "copy-from": "t_tree_abstract",
+    "name": "chestnut tree",
+    "description": "A massive tree belonging to the 'Castanea' genus.  If you look closely, you can see some unharvested chestnuts.",
+    "transforms_into": "t_tree_chestnut_harvested",
+    "looks_like": "t_tree_hickory",
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "chestnut_harv" } ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_chestnut_harvested",
+    "copy-from": "t_tree_chestnut",
+    "description": "A massive tree belonging to the 'Castanea' genus.",
+    "transforms_into": "t_tree_chestnut",
+    "looks_like": "t_tree_hickory_harvested"
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_beech",
+    "copy-from": "t_tree_abstract",
+    "name": "beech tree",
+    "description": "A massive tree belonging to the 'Fagus' genus.  If you look closely, you can see some unharvested beech nuts.",
+    "transforms_into": "t_tree_beech_harvested",
+    "looks_like": "t_tree_hickory",
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "beech_harv" } ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_beech_harvested",
+    "copy-from": "t_tree_beech",
+    "description": "A massive tree belonging to the 'Fagus' genus.",
+    "transforms_into": "t_tree_beech",
+    "looks_like": "t_tree_hickory_harvested"
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_hazelnut",
+    "copy-from": "t_tree_abstract",
+    "name": "hazelnut tree",
+    "description": "A stubby tree belonging to the 'Corylus' genus.  If you look closely, you can see some unharvested hazelnuts.",
+    "color": [ "green", "green", "light_green_yellow", "brown" ],
+    "extend": { "flags": [ "BROWSABLE" ] },
+    "transforms_into": "t_tree_hazelnut_harvested",
+    "looks_like": "t_tree_hickory",
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "hazelnut_harv" } ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_hazelnut_harvested",
+    "copy-from": "t_tree_hazelnut",
+    "name": "hazelnut tree",
+    "description": "A stubby tree belonging to the 'Corylus' genus.",
+    "delete": { "flags": [ "BROWSABLE" ] },
+    "transforms_into": "t_tree_hazelnut",
+    "looks_like": "t_tree_hickory_harvested"
   },
   {
     "type": "terrain",
     "id": "t_tree_basswood",
+    "copy-from": "t_tree_abstract",
     "name": "basswood tree",
-    "looks_like": "t_tree",
     "description": "The American linden.  It has pretty and sweet-smelling flowers in the summer, and you might be able to eat its young leaves in the spring.",
-    "symbol": "7",
-    "color": [ "green", "green", "green", "brown" ],
-    "move_cost": 0,
-    "coverage": 80,
-    "roof": "t_treetop",
     "examine_action": "harvest_ter_nectar",
     "transforms_into": "t_tree_basswood_harvested",
-    "harvest_by_season": [ { "seasons": [ "spring" ], "id": "young_leaves_harv" } ],
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "BROWSABLE", "CLIMB_ADJACENT" ],
-    "bash": {
-      "str_min": 80,
-      "str_max": 180,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "stick_long", "count": [ 3, 10 ] },
-        { "item": "splinter", "count": [ 10, 25 ] },
-        { "item": "leaves", "count": [ 50, 150 ] }
-      ]
-    }
+    "harvest_by_season": [ { "seasons": [ "spring" ], "id": "young_leaves_harv" } ]
   },
   {
     "type": "terrain",
     "id": "t_tree_basswood_harvested",
-    "name": "basswood tree",
-    "looks_like": "t_tree",
+    "copy-from": "t_tree_basswood",
     "description": "The American linden.  It has pretty and sweet-smelling flowers in the summer, and its edible young leaves have already been harvested.",
-    "symbol": "7",
-    "color": [ "green", "green", "green", "brown" ],
-    "move_cost": 0,
-    "coverage": 80,
-    "roof": "t_treetop",
-    "transforms_into": "t_tree_basswood",
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMB_ADJACENT" ],
-    "bash": {
-      "str_min": 80,
-      "str_max": 180,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "stick_long", "count": [ 3, 10 ] },
-        { "item": "splinter", "count": [ 10, 25 ] },
-        { "item": "leaves", "count": [ 50, 150 ] }
-      ]
-    }
+    "transforms_into": "t_tree_basswood"
   },
   {
     "type": "terrain",
     "id": "t_tree_cottonwood",
+    "copy-from": "t_tree_abstract",
     "name": "cottonwood tree",
-    "looks_like": "t_tree",
     "description": "A large tree belonging to the 'Populus' genus, commonly found throughout the New England region.  You see some cottonwood tree bolls that can be harvested.",
-    "symbol": "7",
-    "color": [ "green", "green", "green", "brown" ],
     "//": "Do something cool with this and have it spread cotton around the area or something.",
-    "move_cost": 0,
-    "coverage": 80,
-    "roof": "t_treetop",
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMB_ADJACENT" ],
     "transforms_into": "t_tree_cottonwood_harvested",
-    "examine_action": "harvest_ter",
-    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "cottonwood_harv" } ],
-    "bash": {
-      "str_min": 80,
-      "str_max": 180,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "stick_long", "count": [ 3, 10 ] },
-        { "item": "splinter", "count": [ 10, 25 ] },
-        { "item": "leaves", "count": [ 50, 150 ] }
-      ]
-    }
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "cottonwood_harv" } ]
   },
   {
     "type": "terrain",
     "id": "t_tree_cottonwood_harvested",
+    "copy-from": "t_tree_cottonwood",
     "name": "cottonwood tree",
-    "looks_like": "t_tree",
     "description": "A large tree belonging to the 'Populus' genus, commonly found throughout the New England region.  All the cottonwood tree bolls have been harvested.",
-    "symbol": "7",
-    "color": [ "green", "green", "green", "brown" ],
-    "//": "Do something cool with this and have it spread cotton around the area or something.",
-    "move_cost": 0,
-    "coverage": 80,
-    "roof": "t_treetop",
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMB_ADJACENT" ],
-    "transforms_into": "t_tree_cottonwood",
-    "bash": {
-      "str_min": 80,
-      "str_max": 180,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "stick_long", "count": [ 3, 10 ] },
-        { "item": "splinter", "count": [ 10, 25 ] },
-        { "item": "leaves", "count": [ 50, 150 ] }
-      ]
-    }
+    "transforms_into": "t_tree_cottonwood"
   },
   {
     "type": "terrain",
     "id": "t_tree_elm",
+    "copy-from": "t_tree_abstract",
     "name": "elm tree",
     "looks_like": "t_tree_cottonwood",
-    "description": "A large tree belonging to the 'Ulmus' genus, commonly found throughout the New England region.",
-    "symbol": "7",
-    "color": [ "green", "green", "green", "brown" ],
-    "move_cost": 0,
-    "coverage": 80,
-    "roof": "t_treetop",
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMB_ADJACENT" ],
-    "bash": {
-      "str_min": 80,
-      "str_max": 180,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "stick_long", "count": [ 3, 10 ] },
-        { "item": "splinter", "count": [ 10, 25 ] },
-        { "item": "leaves", "count": [ 50, 150 ] }
-      ]
-    }
+    "description": "A large tree belonging to the 'Ulmus' genus, commonly found throughout the New England region."
   },
   {
     "type": "terrain",
     "id": "t_tree_dead",
+    "copy-from": "t_tree_abstract",
     "name": "dead tree",
-    "looks_like": "t_tree",
     "description": "An indiscernible tree that has withered away due to weather, fire, or otherworldly causes.",
-    "symbol": "7",
     "color": "brown",
-    "move_cost": 0,
-    "coverage": 80,
     "roof": "t_treetop_dead",
-    "examine_action": "harvest_ter",
     "//": "gives a maximum of ~15L and ~8.5kg of wood between sticks and twigs",
     "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn", "winter" ], "id": "tree_dead_harv" } ],
     "transforms_into": "t_tree_very_dead",
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMB_ADJACENT" ],
     "bash": {
       "str_min": 70,
       "str_max": 140,
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 15, 30 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 15, 30 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
     "type": "terrain",
     "id": "t_tree_very_dead",
-    "//": "we must avoid copy-from here so that the dead tree cannot regrow and be harvested again",
+    "copy-from": "t_tree_dead",
     "name": "dead tree",
-    "looks_like": "t_tree_dead",
-    "roof": "t_treetop_dead",
     "description": "An indiscernible tree that has withered away due to weather, fire, or otherworldly causes.  Someone or something has broken most of its dead branches, leaving little but its gnarled trunk.",
-    "symbol": "7",
-    "color": "brown",
-    "move_cost": 0,
-    "coverage": 80,
-    "examine_action": "harvested_plant",
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMB_ADJACENT" ],
     "bash": {
       "str_min": 70,
       "str_max": 140,
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 2, 6 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 2, 6 ] }, { "item": "splinter", "count": [ 10, 20 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
     "type": "terrain",
     "id": "t_tree_dead_warped",
     "copy-from": "t_tree_dead",
-    "looks_like": "t_tree_dead",
     "symbol": "G",
-    "color": "brown",
     "name": "warped dead tree",
     "description": "This deciduous tree's branches are warped into a spiral.  This appears to have killed it."
   },
@@ -638,7 +291,9 @@
         { "item": "splinter", "count": [ 0, 4 ] },
         { "item": "twig", "count": [ 2, 7 ] },
         { "item": "leaves", "count": [ 5, 20 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -664,231 +319,99 @@
   },
   {
     "type": "terrain",
-    "id": "t_tree_apple",
-    "name": "apple tree",
-    "looks_like": "t_tree",
-    "roof": "t_treetop",
-    "description": "This tree is a member of the 'Malus' genus, producing fruit commonly known as apples.  If you examined the branches more closely, you could probably find a few mature ones in autumn.",
-    "symbol": "7",
+    "abstract": "t_tree_fruit_abstract",
+    "copy-from": "t_tree_abstract",
+    "looks_like": "t_tree_apple",
     "color": [ "light_green", "light_green", "red_green", "brown" ],
-    "//": "barren in winter, fruits in autumn",
-    "move_cost": 0,
-    "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "BROWSABLE", "CLIMB_ADJACENT" ],
+    "extend": { "flags": [ "BROWSABLE" ] }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_apple",
+    "copy-from": "t_tree_fruit_abstract",
+    "name": "apple tree",
+    "description": "This tree is a member of the 'Malus' genus, producing fruit commonly known as apples.  If you examined the branches more closely, you could probably find a few mature ones in autumn.",
     "transforms_into": "t_tree_apple_harvested",
-    "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "apple_harv" } ],
-    "bash": {
-      "str_min": 80,
-      "str_max": 180,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "stick_long", "count": [ 3, 10 ] },
-        { "item": "splinter", "count": [ 10, 25 ] },
-        { "item": "leaves", "count": [ 50, 150 ] }
-      ]
-    }
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "apple_harv" } ]
   },
   {
     "type": "terrain",
     "id": "t_tree_apple_harvested",
-    "name": "apple tree",
+    "copy-from": "t_tree_apple",
     "looks_like": "t_tree_dead",
-    "roof": "t_treetop",
     "description": "This tree is a member of the 'Malus' genus, producing fruit commonly known as apples.  There do not appear to be any ripe apples now.",
-    "symbol": "7",
     "color": [ "light_green", "light_green", "light_green", "brown" ],
-    "//": "barren in winter, no fruits anymore",
-    "move_cost": 0,
-    "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED", "CLIMB_ADJACENT" ],
+    "extend": { "flags": [ "HARVESTED" ] },
+    "delete": { "flags": [ "BROWSABLE" ] },
     "examine_action": "harvested_plant",
-    "transforms_into": "t_tree_apple",
-    "bash": {
-      "str_min": 80,
-      "str_max": 180,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "stick_long", "count": [ 3, 10 ] },
-        { "item": "splinter", "count": [ 10, 25 ] },
-        { "item": "leaves", "count": [ 50, 150 ] }
-      ]
-    }
+    "transforms_into": "t_tree_apple"
   },
   {
     "type": "terrain",
     "id": "t_tree_crabapple",
+    "copy-from": "t_tree_fruit_abstract",
     "name": "crabapple tree",
-    "looks_like": "t_tree_apple",
-    "roof": "t_treetop",
+    "looks_like": "t_tree_hickory",
     "description": "This tree is a member of the 'Malus' genus, though unlike popular cultivars, its fruits are small and sour.  If you examined the branches more closely, you could probably find a few mature ones in autumn.",
-    "symbol": "7",
-    "color": [ "light_green", "light_green", "red_green", "brown" ],
-    "//": "barren in winter, fruits in autumn",
-    "move_cost": 0,
-    "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "BROWSABLE", "CLIMB_ADJACENT" ],
     "transforms_into": "t_tree_crabapple_harvested",
-    "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "crabapple_harv" } ],
-    "bash": {
-      "str_min": 80,
-      "str_max": 180,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "stick_long", "count": [ 3, 10 ] },
-        { "item": "splinter", "count": [ 10, 25 ] },
-        { "item": "leaves", "count": [ 50, 150 ] }
-      ]
-    }
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "crabapple_harv" } ]
   },
   {
     "type": "terrain",
     "id": "t_tree_crabapple_harvested",
-    "name": "crabapple tree",
+    "copy-from": "t_tree_crabapple",
     "looks_like": "t_tree_dead",
-    "roof": "t_treetop",
     "description": "This tree is a member of the 'Malus' genus, though unlike popular cultivars, its fruits are small and sour.  There do not appear to be any ripe crabapples now.",
-    "symbol": "7",
     "color": [ "light_green", "light_green", "light_green", "brown" ],
-    "//": "barren in winter, no fruits anymore",
-    "move_cost": 0,
-    "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED", "CLIMB_ADJACENT" ],
+    "extend": { "flags": [ "HARVESTED" ] },
+    "delete": { "flags": [ "BROWSABLE" ] },
     "examine_action": "harvested_plant",
-    "transforms_into": "t_tree_crabapple",
-    "bash": {
-      "str_min": 80,
-      "str_max": 180,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "stick_long", "count": [ 3, 10 ] },
-        { "item": "splinter", "count": [ 10, 25 ] },
-        { "item": "leaves", "count": [ 50, 150 ] }
-      ]
-    }
+    "transforms_into": "t_tree_crabapple"
   },
   {
     "type": "terrain",
     "id": "t_tree_pear",
+    "copy-from": "t_tree_fruit_abstract",
     "name": "pear tree",
-    "looks_like": "t_tree_apple",
-    "roof": "t_treetop",
     "description": "This is 'Pyrus communis', or the common pear tree, which produces fruit in the fall.  If you examined the branches more closely, you could probably find a few mature ones.",
-    "symbol": "7",
     "color": [ "light_green", "light_green", "light_green_green", "brown" ],
-    "//": "barren in winter, fruits in autumn",
-    "move_cost": 0,
-    "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "BROWSABLE", "CLIMB_ADJACENT" ],
     "transforms_into": "t_tree_pear_harvested",
-    "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "pear_harv" } ],
-    "bash": {
-      "str_min": 80,
-      "str_max": 180,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "stick_long", "count": [ 3, 10 ] },
-        { "item": "splinter", "count": [ 10, 25 ] },
-        { "item": "leaves", "count": [ 50, 150 ] }
-      ]
-    }
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "pear_harv" } ]
   },
   {
     "type": "terrain",
     "id": "t_tree_pear_harvested",
+    "copy-from": "t_tree_pear",
     "name": "pear tree",
     "looks_like": "t_tree_apple_harvested",
-    "roof": "t_treetop",
     "description": "This is 'Pyrus communis', or the common pear tree, which produces fruit in the fall.  Looks like all the ripe pears have been picked.",
-    "symbol": "7",
     "color": [ "light_green", "light_green", "light_green", "brown" ],
-    "//": "barren in winter, no fruits anymore",
-    "move_cost": 0,
-    "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED", "CLIMB_ADJACENT" ],
+    "extend": { "flags": [ "HARVESTED" ] },
+    "delete": { "flags": [ "BROWSABLE" ] },
     "examine_action": "harvested_plant",
-    "transforms_into": "t_tree_pear",
-    "bash": {
-      "str_min": 80,
-      "str_max": 180,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "stick_long", "count": [ 3, 10 ] },
-        { "item": "splinter", "count": [ 10, 25 ] },
-        { "item": "leaves", "count": [ 50, 150 ] }
-      ]
-    }
+    "transforms_into": "t_tree_pear"
   },
   {
     "type": "terrain",
     "id": "t_tree_coffee",
+    "copy-from": "t_tree_abstract",
     "name": "coffee tree",
     "description": "This is 'Gymnocladus dioicus', or the Kentucky coffee tree, which produces roastable coffee pods and brewable leaves in the fall.  If you examined the branches more closely, you could probably find a few mature ones.",
-    "symbol": "7",
     "color": [ "light_green", "light_green", "light_green_green", "brown" ],
-    "//": "barren in winter, fruits in autumn",
-    "move_cost": 0,
-    "coverage": 80,
-    "roof": "t_treetop",
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMB_ADJACENT" ],
     "transforms_into": "t_tree_coffee_harvested",
     "looks_like": "t_tree_plum",
-    "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "coffee_harv" } ],
-    "bash": {
-      "str_min": 80,
-      "str_max": 180,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "stick_long", "count": [ 3, 10 ] },
-        { "item": "splinter", "count": [ 10, 25 ] },
-        { "item": "leaves", "count": [ 50, 150 ] }
-      ]
-    }
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "coffee_harv" } ]
   },
   {
     "type": "terrain",
     "id": "t_tree_coffee_harvested",
-    "name": "coffee tree",
+    "copy-from": "t_tree_coffee",
     "description": "This is 'Gymnocladus dioicus', or the Kentucky coffee tree, which produces roastable coffee pods and brewable leaves in the fall.  Looks like all the ripe pods have been picked.",
-    "symbol": "7",
     "color": [ "light_green", "light_green", "light_green", "brown" ],
-    "//": "barren in winter, no fruits anymore",
-    "move_cost": 0,
-    "coverage": 80,
-    "roof": "t_treetop",
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED", "CLIMB_ADJACENT" ],
+    "extend": { "flags": [ "HARVESTED" ] },
     "examine_action": "harvested_plant",
     "transforms_into": "t_tree_coffee",
-    "looks_like": "t_tree_plum_harvested",
-    "bash": {
-      "str_min": 80,
-      "str_max": 180,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "stick_long", "count": [ 3, 10 ] },
-        { "item": "splinter", "count": [ 10, 25 ] },
-        { "item": "leaves", "count": [ 50, 150 ] }
-      ]
-    }
+    "looks_like": "t_tree_plum_harvested"
   },
   {
     "type": "terrain",
@@ -916,7 +439,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -944,7 +469,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -969,7 +496,9 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -993,7 +522,9 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1022,7 +553,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1050,7 +583,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1079,7 +614,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1107,7 +644,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1136,7 +675,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1164,7 +705,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1193,7 +736,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1221,7 +766,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1249,7 +796,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1276,7 +825,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1303,7 +854,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1329,7 +882,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1358,7 +913,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1386,7 +943,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1410,7 +969,9 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1444,7 +1005,9 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1483,7 +1046,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1509,7 +1074,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1538,7 +1105,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1564,7 +1133,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1590,7 +1161,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1616,7 +1189,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1645,7 +1220,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1673,7 +1250,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1702,7 +1281,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1729,7 +1310,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1758,7 +1341,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1785,7 +1370,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1814,7 +1401,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1841,7 +1430,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1863,7 +1454,9 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1891,7 +1484,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1919,7 +1514,9 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 25 ] },
         { "item": "leaves", "count": [ 50, 150 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -2155,14 +1752,25 @@
   },
   {
     "type": "terrain",
-    "id": "t_shrub",
+    "id": "t_shrub_abstract",
+    "looks_like": "t_shrub",
     "name": "shrub",
     "description": "A small shrub.",
     "symbol": "#",
     "color": "green",
     "move_cost": 8,
     "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB", "SHORT", "SMALL_HIDE" ],
+    "flags": [
+      "TRANSPARENT",
+      "CONTAINER",
+      "FLAMMABLE_ASH",
+      "THIN_OBSTACLE",
+      "PLACE_ITEM",
+      "SHRUB",
+      "SHORT",
+      "SMALL_HIDE",
+      "BROWSABLE"
+    ],
     "bash": {
       "str_min": 4,
       "str_max": 30,
@@ -2178,745 +1786,325 @@
   },
   {
     "type": "terrain",
+    "id": "t_shrub",
+    "copy-from": "t_shrub_abstract",
+    "delete": { "flags": [ "BROWSABLE" ] }
+  },
+  {
+    "type": "terrain",
     "id": "t_shrub_peanut",
+    "copy-from": "t_shrub_abstract",
     "name": "peanut bush",
-    "looks_like": "t_shrub",
     "description": "A small bush of crunchy peanuts.",
     "//": "Peanut bushes are not a local native so this is for use in specific locations like farms and gardens.",
-    "symbol": "#",
     "color": "brown_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE", "BROWSABLE" ],
     "transforms_into": "t_shrub_peanut_harvested",
     "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "shrub_peanut_harv" } ],
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "shrub_peanut_harv" } ]
   },
   {
     "type": "terrain",
     "id": "t_shrub_peanut_harvested",
-    "name": "peanut bush",
-    "looks_like": "t_shrub",
+    "copy-from": "t_shrub_peanut",
     "description": "A small peanut bush that's fruitless.",
-    "symbol": "#",
     "color": "light_gray_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED", "SMALL_HIDE" ],
+    "extend": { "flags": [ "HARVESTED" ] },
     "transforms_into": "t_shrub_peanut",
-    "examine_action": "harvested_plant",
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "examine_action": "harvested_plant"
   },
   {
     "type": "terrain",
     "id": "t_shrub_autumn_olive",
+    "copy-from": "t_shrub_abstract",
     "name": "autumn olive",
     "looks_like": "t_shrub_raspberry",
     "description": "An invasive species from Japan which is also called silverberry.  Widely planted in the 1940s to combat erosion, it spread far and wide, often even displacing native plants.  As it name says, it bears fruits in autumn, which are quite unlike olives.",
-    "symbol": "#",
     "color": "light_blue_green",
     "move_cost": 9,
     "coverage": 60,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE", "BROWSABLE" ],
     "transforms_into": "t_shrub_autumn_olive_harvested",
     "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "shrub_autumn_olive_harv" } ],
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "shrub_autumn_olive_harv" } ]
   },
   {
     "type": "terrain",
     "id": "t_shrub_autumn_olive_harvested",
-    "name": "autumn olive",
-    "looks_like": "t_shrub",
+    "copy-from": "t_shrub_autumn_olive",
     "description": "An invasive species from Japan which is also called silverberry.  Widely planted in the 1940s to combat erosion, it spread far and wide, often even displacing native plants.  As it name says, it bears fruits in autumn, which are quite unlike olives, but this particular plant has been harvested already.",
-    "symbol": "#",
     "color": "blue_green",
-    "move_cost": 9,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED", "SMALL_HIDE" ],
+    "extend": { "flags": [ "HARVESTED" ] },
     "transforms_into": "t_shrub_autumn_olive",
-    "examine_action": "harvested_plant",
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "examine_action": "harvested_plant"
   },
   {
     "type": "terrain",
     "id": "t_shrub_hobblebush",
+    "copy-from": "t_shrub_abstract",
     "name": "hobblebush",
     "looks_like": "t_shrub_blueberry",
     "description": "Called hobblebush because it may hinder and trip, hobbles, unwary hikers with its branches bending over and taking root.  It also bears surprisingly sweet berries in autumn.",
-    "symbol": "#",
     "color": "light_blue_green",
     "move_cost": 9,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE", "BROWSABLE" ],
     "transforms_into": "t_shrub_hobblebush_harvested",
     "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "shrub_hobblebush_harv" } ],
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "shrub_hobblebush_harv" } ]
   },
   {
     "type": "terrain",
     "id": "t_shrub_hobblebush_harvested",
-    "name": "hobblebush",
-    "looks_like": "t_shrub",
+    "copy-from": "t_shrub_hobblebush",
     "description": "Called hobblebush because it may hinder and trip, hobbles, unwary hikers with its branches bending over and taking root.  It also bears surprisingly sweet berries in autumn, if it hadn't been picked clean already.",
-    "symbol": "#",
     "color": "blue_green",
-    "move_cost": 9,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED", "SMALL_HIDE" ],
+    "extend": { "flags": [ "HARVESTED" ] },
     "transforms_into": "t_shrub_hobblebush",
-    "examine_action": "harvested_plant",
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "examine_action": "harvested_plant"
   },
   {
     "type": "terrain",
     "id": "t_shrub_blueberry",
+    "copy-from": "t_shrub_abstract",
     "name": "blueberry bush",
-    "looks_like": "t_shrub",
     "description": "A small bush of sweet blueberries.",
-    "symbol": "#",
     "color": "light_blue_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE", "BROWSABLE" ],
     "transforms_into": "t_shrub_blueberry_harvested",
     "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "shrub_blueberry_harv" } ],
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "shrub_blueberry_harv" } ]
   },
   {
     "type": "terrain",
     "id": "t_shrub_blueberry_harvested",
-    "name": "blueberry bush",
-    "looks_like": "t_shrub",
+    "copy-from": "t_shrub_blueberry",
     "description": "A small blueberry bush that's fruitless.",
-    "symbol": "#",
     "color": "blue_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED", "SMALL_HIDE" ],
+    "extend": { "flags": [ "HARVESTED" ] },
     "transforms_into": "t_shrub_blueberry",
-    "examine_action": "harvested_plant",
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "examine_action": "harvested_plant"
   },
   {
     "type": "terrain",
     "id": "t_shrub_strawberry",
+    "copy-from": "t_shrub_abstract",
     "name": "strawberry bush",
-    "looks_like": "t_shrub",
     "description": "A small bush of juicy strawberries.",
-    "symbol": "#",
     "color": "light_red_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "BROWSABLE" ],
     "transforms_into": "t_shrub_strawberry_harvested",
     "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "shrub_strawberry_harv" } ],
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "shrub_strawberry_harv" } ]
   },
   {
     "type": "terrain",
     "id": "t_shrub_strawberry_harvested",
-    "name": "strawberry bush",
-    "looks_like": "t_shrub",
+    "copy-from": "t_shrub_strawberry",
     "description": "A small strawberry bush that's fruitless.",
-    "symbol": "#",
     "color": "red_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED", "SMALL_HIDE" ],
+    "extend": { "flags": [ "HARVESTED" ] },
     "transforms_into": "t_shrub_strawberry",
-    "examine_action": "harvested_plant",
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "examine_action": "harvested_plant"
   },
   {
     "type": "terrain",
     "id": "t_shrub_blackberry",
+    "copy-from": "t_shrub_abstract",
     "name": "blackberry bush",
     "description": "A small bush of delicious blackberries.  Watch out for its thorns!",
-    "symbol": "#",
     "color": "black_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SHARP", "BROWSABLE" ],
+    "extend": { "flags": [ "SHARP" ] },
     "transforms_into": "t_shrub_blackberry_harvested",
     "examine_action": "harvest_ter_nectar",
     "looks_like": "t_shrub_blueberry",
-    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "shrub_blackberry_harv" } ],
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "shrub_blackberry_harv" } ]
   },
   {
     "type": "terrain",
     "id": "t_shrub_blackberry_harvested",
-    "name": "blackberry bush",
+    "copy-from": "t_shrub_blackberry",
     "description": "A small blackberry bush that's fruitless.  Watch out for its thorns!",
-    "symbol": "#",
     "color": "white_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SHARP", "HARVESTED" ],
+    "extend": { "flags": [ "HARVESTED" ] },
     "transforms_into": "t_shrub_blackberry",
     "examine_action": "harvested_plant",
-    "looks_like": "t_shrub_blueberry_harvested",
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "looks_like": "t_shrub_blueberry_harvested"
   },
   {
     "type": "terrain",
     "id": "t_shrub_huckleberry",
+    "copy-from": "t_shrub_abstract",
     "name": "huckleberry bush",
     "description": "A small bush of huckleberries, often mistaken for blueberries.",
-    "symbol": "#",
     "color": "light_blue_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE", "BROWSABLE" ],
     "transforms_into": "t_shrub_huckleberry_harvested",
     "examine_action": "harvest_ter_nectar",
     "looks_like": "t_shrub_blueberry",
-    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "shrub_huckleberry_harv" } ],
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "shrub_huckleberry_harv" } ]
   },
   {
     "type": "terrain",
     "id": "t_shrub_huckleberry_harvested",
-    "name": "huckleberry bush",
+    "copy-from": "t_shrub_huckleberry",
     "description": "A small huckleberry bush that's fruitless.",
-    "symbol": "#",
     "color": "blue_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED", "SMALL_HIDE" ],
+    "extend": { "flags": [ "HARVESTED" ] },
     "transforms_into": "t_shrub_huckleberry",
     "examine_action": "harvested_plant",
-    "looks_like": "t_shrub_blueberry_harvested",
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "looks_like": "t_shrub_blueberry_harvested"
   },
   {
     "type": "terrain",
     "id": "t_shrub_raspberry",
+    "copy-from": "t_shrub_abstract",
     "name": "raspberry bush",
     "description": "A small bush of delicious raspberries.  Watch out for its thorns!",
-    "symbol": "#",
     "color": "light_red_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SHARP", "BROWSABLE" ],
+    "extend": { "flags": [ "SHARP" ] },
     "transforms_into": "t_shrub_raspberry_harvested",
     "examine_action": "harvest_ter_nectar",
     "looks_like": "t_shrub_strawberry",
-    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "shrub_raspberry_harv" } ],
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "shrub_raspberry_harv" } ]
   },
   {
     "type": "terrain",
     "id": "t_shrub_raspberry_harvested",
-    "name": "raspberry bush",
+    "copy-from": "t_shrub_raspberry",
     "description": "A small raspberry bush that's fruitless.  Watch out for its thorns!",
-    "symbol": "#",
     "color": "red_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SHARP", "HARVESTED" ],
+    "extend": { "flags": [ "HARVESTED" ] },
     "transforms_into": "t_shrub_raspberry",
     "examine_action": "harvested_plant",
-    "looks_like": "t_shrub_strawberry_harvested",
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "looks_like": "t_shrub_strawberry_harvested"
   },
   {
     "type": "terrain",
     "id": "t_shrub_grape",
+    "copy-from": "t_shrub_abstract",
     "name": "grape bush",
     "description": "A bush of a different species invaded by grape vines.",
-    "symbol": "#",
     "color": "light_green_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE", "BROWSABLE" ],
     "transforms_into": "t_shrub_grape_harvested",
     "examine_action": "harvest_ter_nectar",
     "looks_like": "t_shrub_blueberry",
-    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "shrub_grape_harv" } ],
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "shrub_grape_harv" } ]
   },
   {
     "type": "terrain",
     "id": "t_shrub_grape_harvested",
-    "name": "grape bush",
+    "copy-from": "t_shrub_grape",
     "description": "A bush of a different species invaded by grape vines, but they're fruitless.",
-    "symbol": "#",
     "color": "green_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED", "SMALL_HIDE" ],
+    "extend": { "flags": [ "HARVESTED" ] },
     "transforms_into": "t_shrub_grape",
     "examine_action": "harvested_plant",
-    "looks_like": "t_shrub_blueberry_harvested",
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "looks_like": "t_shrub_blueberry_harvested"
   },
   {
     "type": "terrain",
     "id": "t_shrub_spicebush",
+    "copy-from": "t_shrub_abstract",
     "name": "spicebush",
     "description": "A bush that features small, red berries.",
-    "symbol": "#",
     "color": "light_green_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE", "BROWSABLE" ],
     "transforms_into": "t_shrub_spicebush_harvested",
     "examine_action": "harvest_ter_nectar",
-    "looks_like": "t_shrub_blueberry",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "shrub_spicebush_harv" } ],
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "looks_like": "t_shrub_raspberry",
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "shrub_spicebush_harv" } ]
   },
   {
     "type": "terrain",
     "id": "t_shrub_spicebush_harvested",
-    "name": "spicebush",
+    "copy-from": "t_shrub_spicebush",
     "description": "A bush that usually features small, red berries but it was picked clean.",
-    "symbol": "#",
     "color": "green_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED", "SMALL_HIDE" ],
+    "extend": { "flags": [ "HARVESTED" ] },
     "transforms_into": "t_shrub_spicebush",
     "examine_action": "harvested_plant",
-    "looks_like": "t_shrub_blueberry_harvested",
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "looks_like": "t_shrub_blueberry_harvested"
   },
   {
     "type": "terrain",
     "id": "t_shrub_chokeberry",
+    "copy-from": "t_shrub_abstract",
     "name": "black chokeberry bush",
     "description": "Drooping black berries adorn the shrub during autumn.  These have a distinctive star-shaped fold and look quite juicy.",
-    "symbol": "#",
     "color": "light_green_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE", "BROWSABLE" ],
     "transforms_into": "t_shrub_chokeberry_harvested",
     "examine_action": "harvest_ter_nectar",
     "looks_like": "t_shrub_blueberry",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "shrub_chokeberry_harv" } ],
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "shrub_chokeberry_harv" } ]
   },
   {
     "type": "terrain",
     "id": "t_shrub_chokeberry_harvested",
-    "name": "black chokeberry bush",
+    "copy-from": "t_shrub_chokeberry",
     "description": "Drooping black berries adorned this shrub, but the shrub was picked clean.",
-    "symbol": "#",
     "color": "green_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED", "SMALL_HIDE" ],
+    "extend": { "flags": [ "HARVESTED" ] },
     "transforms_into": "t_shrub_chokeberry",
     "examine_action": "harvested_plant",
-    "looks_like": "t_shrub_blueberry_harvested",
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "looks_like": "t_shrub_blueberry_harvested"
   },
   {
     "type": "terrain",
     "id": "t_shrub_rose",
+    "copy-from": "t_shrub_abstract",
     "name": "rose bush",
     "description": "A fat bush of beautiful red roses, if only you could get a date!  Watch out for its thorns!",
-    "symbol": "#",
     "color": "light_red_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SHARP", "BROWSABLE" ],
+    "extend": { "flags": [ "SHARP" ] },
     "transforms_into": "t_shrub_rose_harvested",
     "examine_action": "harvest_ter_nectar",
-    "looks_like": "t_shrub_strawberry",
     "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "shrub_rose_harv" } ],
-    "//": "Insert rose (flower) harvest in summer once flowers have a use (same for other generic flowers).",
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "//": "Insert rose (flower) harvest in summer once flowers have a use (same for other generic flowers)."
   },
   {
     "type": "terrain",
     "id": "t_shrub_rose_harvested",
-    "name": "rose bush",
+    "copy-from": "t_shrub_rose",
     "description": "A fat rose bush that currently has no blooms.  Watch out for its thorns!",
-    "symbol": "#",
     "color": "red_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SHARP", "HARVESTED" ],
+    "extend": { "flags": [ "HARVESTED" ] },
     "transforms_into": "t_shrub_rose",
-    "examine_action": "harvested_plant",
-    "looks_like": "t_shrub_strawberry_harvested",
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "examine_action": "harvested_plant"
   },
   {
     "type": "terrain",
     "id": "t_shrub_hydrangea",
+    "copy-from": "t_shrub_abstract",
     "name": "hydrangea bush",
     "description": "A dense bush of fragrant blue hydrangeas.",
-    "symbol": "#",
     "color": "light_blue",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE" ],
+    "delete": { "flags": [ "BROWSABLE" ] },
     "transforms_into": "t_shrub_hydrangea_harvested",
-    "examine_action": "harvest_ter_nectar",
-    "looks_like": "t_shrub",
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "examine_action": "harvest_ter_nectar"
   },
   {
     "type": "terrain",
     "id": "t_shrub_hydrangea_harvested",
-    "name": "hydrangea bush",
+    "copy-from": "t_shrub_hydrangea",
     "description": "A fat hydrangea bush that currently has no blooms.",
-    "symbol": "#",
     "color": "blue_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED", "SMALL_HIDE" ],
+    "extend": { "flags": [ "HARVESTED" ] },
     "transforms_into": "t_shrub_hydrangea",
-    "examine_action": "harvested_plant",
-    "looks_like": "t_shrub",
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "examine_action": "harvested_plant"
   },
   {
     "type": "terrain",
     "id": "t_shrub_lilac",
+    "copy-from": "t_shrub_abstract",
     "name": "lilac bush",
     "description": "A wide bush of bright pinkish-purple lilacs.",
-    "symbol": "#",
     "color": "magenta",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE" ],
+    "delete": { "flags": [ "BROWSABLE" ] },
     "transforms_into": "t_shrub_lilac_harvested",
-    "examine_action": "harvest_ter_nectar",
-    "looks_like": "t_shrub",
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "examine_action": "harvest_ter_nectar"
   },
   {
     "type": "terrain",
     "id": "t_shrub_lilac_harvested",
-    "name": "lilac bush",
+    "copy-from": "t_shrub_lilac",
     "description": "A wide lilac bush that currently has no blooms.",
-    "symbol": "#",
     "color": "magenta_green",
-    "move_cost": 8,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED", "SMALL_HIDE" ],
+    "extend": { "flags": [ "HARVESTED" ] },
     "transforms_into": "t_shrub_lilac",
-    "examine_action": "harvested_plant",
-    "looks_like": "t_shrub",
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [
-        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
-        { "item": "leaves", "count": [ 1, 10 ] },
-        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
-      ]
-    }
+    "examine_action": "harvested_plant"
   },
   {
     "type": "terrain",
@@ -2934,7 +2122,9 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "splinter", "count": [ 5, 15 ] } ]
+      "items": [ { "item": "splinter", "count": [ 5, 15 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -2955,7 +2145,9 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "//": "Tree trunks sometimes may have shoots growing on them (coppicing)",
-      "items": [ { "item": "splinter", "count": [ 5, 15 ] }, { "item": "twig", "prob": 40, "count": [ 1, 2 ] } ]
+      "items": [ { "item": "splinter", "count": [ 5, 15 ] }, { "item": "twig", "prob": 40, "count": [ 1, 2 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -2985,78 +2177,60 @@
   {
     "type": "terrain",
     "id": "t_grass",
+    "copy-from": "t_natural_floor_abstract",
     "name": "grass",
     "description": "An area of hardy Kentucky bluegrass about ankle high.  Cutting the grass short enough would destroy the root system, causing this area to turn into a patch of dirt.",
-    "symbol": ".",
     "color": "green",
-    "move_cost": 2,
     "transforms_into": "t_grass_grazed",
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE", "GRAZABLE" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+    "extend": { "flags": [ "PLOWABLE", "GRAZABLE" ] }
   },
   {
     "type": "terrain",
     "id": "t_grass_white",
+    "copy-from": "t_grass",
     "name": "white grass",
-    "looks_like": "t_grass",
     "description": "An area of Kentucky bluegrass covered in white latex-based paint, with neat lines designed for recreational sports.",
-    "symbol": ".",
     "color": "white",
-    "move_cost": 2,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+    "delete": { "flags": [ "GRAZABLE" ] }
   },
   {
     "type": "terrain",
     "id": "t_grass_long",
+    "copy-from": "t_grass",
     "name": "long grass",
     "description": "An area of long, shaggy grass about shin high.",
-    "looks_like": "t_grass",
     "transforms_into": "t_grass",
     "symbol": ",",
-    "color": "green",
     "move_cost": 3,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE", "SMALL_HIDE", "GRAZABLE" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+    "extend": { "flags": [ "SMALL_HIDE" ] }
   },
   {
     "type": "terrain",
     "id": "t_grass_tall",
+    "copy-from": "t_grass_long",
     "name": "tall grass",
     "description": "An area of tall grass about head high.",
     "looks_like": "t_shrub",
     "transforms_into": "t_grass_long",
     "symbol": "'",
-    "color": "green",
     "move_cost": 5,
-    "coverage": 50,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "PLOWABLE", "SMALL_HIDE", "GRAZABLE" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+    "coverage": 50
   },
   {
     "type": "terrain",
     "id": "t_grass_dead",
+    "copy-from": "t_dirt",
     "name": "dead grass",
-    "description": "An area of long, shaggy grass that hasn't been cut recently.",
-    "looks_like": "t_dirt",
-    "symbol": ".",
-    "color": "brown",
-    "move_cost": 2,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
-    "bash": { "ter_set": "t_null", "str_min": 50, "str_max": 400, "str_min_supported": 100, "bash_below": true }
+    "description": "An area of long, shaggy grass that hasn't been cut recently."
   },
   {
     "type": "terrain",
     "id": "t_grass_grazed",
+    "copy-from": "t_grass_dead",
     "name": "grazed grass",
     "description": "An area of extremely short green stubble protruding from the dirt.  Something has been clearly grazing here.",
-    "looks_like": "t_grass_dead",
-    "symbol": ".",
-    "color": "brown",
-    "move_cost": 2,
     "transforms_into": "t_grass",
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE", "HARVESTED" ],
-    "bash": { "ter_set": "t_null", "str_min": 50, "str_max": 400, "str_min_supported": 100, "bash_below": true }
+    "extend": { "flags": [ "HARVESTED" ] }
   },
   {
     "type": "terrain",

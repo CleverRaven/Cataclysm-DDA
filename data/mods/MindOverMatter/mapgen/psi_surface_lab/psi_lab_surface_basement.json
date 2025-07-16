@@ -56,7 +56,7 @@
         "x": "f_console_broken"
       },
       "items": {
-        "d": { "item": "office", "chance": 60, "repeat": [ 2, 6 ] },
+        "d": { "item": "SUS_office_desk", "chance": 60 },
         "f": [
           { "item": "snacks", "chance": 60, "repeat": [ 2, 10 ] },
           { "item": "SUS_fridge_breakroom", "chance": 60, "repeat": [ 2, 10 ] }

@@ -11,6 +11,19 @@
   },
   {
     "type": "overmap_special",
+    "id": "texopapalotl_dead_crew_cabin",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "mom_texopapalotl_crew_shed_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "mom_texopapalotl_crew_shed_roof_north" }
+    ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 20, -1 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 1, 100 ],
+    "flags": [ "GLOBALLY_UNIQUE", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "phavian_surface_lab",
     "overmaps": [
       { "point": [ 0, 0, -1 ], "overmap": "special_earth" },

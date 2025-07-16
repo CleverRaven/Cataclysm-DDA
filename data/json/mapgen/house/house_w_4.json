@@ -15,24 +15,37 @@
         "...#      |ç    o%......",
         "...#      |     #.......",
         ".#o#||||||||| |##.......",
-        ".#§    |é2F3y 3#........",
-        "%o            Ooù.......",
-        "%o        AAA 5où.......",
-        "%o     |T 412  #........",
+        ".#§    |é2F3Y,3#........",
+        "%o      ,,,,,,Ooù.......",
+        "%o      ,,AAA,5où.......",
+        "%o     |T,412,,#........",
         ".#     ||+||||+#........",
         ".#o#|+||y RR|6 #........",
         "..^#W Z|>  R|66#........",
         "...#||||||  |||####.....",
-        ".[.#&    +  +é    #.....",
+        ".[.#&    +  +?    #.....",
         "...o     ||+|     o.....",
-        "...#     |t |     #.....",
-        ".[.#     |B |     o.....",
+        "...#     |t_|     #.....",
+        ".[.#     |B_|     o.....",
         "...#     |BS|     #.....",
         "[..####o###o##o####....."
       ],
-      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_landscaping_palette" ],
-      "terrain": { "ù": "t_region_groundcover_urban" },
-      "furniture": { "ù": "f_region_weed" },
+      "palettes": [
+        "domestic_general_and_variant_palette",
+        "standard_domestic_lino_kitchen",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette"
+      ],
+      "terrain": {
+        "ù": "t_region_groundcover_urban",
+        "_": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+        ",": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
+        "é": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
+        "T": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
+        "A": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
+        "Y": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" }
+      },
+      "furniture": { "ù": "f_region_weed", "Y": "f_indoor_plant_y" },
       "nested": {
         "&": {
           "chunks": [
@@ -43,7 +56,7 @@
             [ "bedroom_5x5_adult_W_2", 50 ]
           ]
         },
-        "é": {
+        "?": {
           "chunks": [
             [ "bedroom_5x5_adult_N_1", 50 ],
             [ "bedroom_5x5_adult_S_1", 50 ],

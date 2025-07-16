@@ -249,7 +249,7 @@
     "id": "mon_blob_sewer",
     "type": "MONSTER",
     "name": { "str": "sewer slime" },
-    "description": "This moving, black glob emits a foul stench.  It has incorporated the both the liquid and solid contents of the sewer water.",
+    "description": "This moving, black glob emits a foul stench.  It has incorporated both the liquid and solid contents of the sewer water.",
     "copy-from": "mon_blob",
     "hp": 60,
     "color": "green",

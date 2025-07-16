@@ -299,6 +299,8 @@ class vpart_info
         std::optional<vpslot_wheel> wheel_info;
         std::optional<vpslot_rotor> rotor_info;
         std::optional<vpslot_terrain_transform> transform_terrain_info;
+        //Enchantments
+        std::vector<enchantment_id> enchantments;
 
         std::set<std::pair<itype_id, int>> get_pseudo_tools() const;
 

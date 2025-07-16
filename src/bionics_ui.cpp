@@ -29,7 +29,6 @@
 #include "item.h"
 #include "item_location.h"
 #include "localized_comparator.h"
-#include "make_static.h"
 #include "map.h"
 #include "options.h"
 #include "output.h"
@@ -48,6 +47,8 @@
 static const itype_id itype_battery( "battery" );
 
 static const json_character_flag json_flag_BIONIC_GUN( "BIONIC_GUN" );
+static const json_character_flag json_flag_BIONIC_POWER_SOURCE( "BIONIC_POWER_SOURCE" );
+static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 
 // '!', '-' and '=' are uses as default bindings in the menu
 static const invlet_wrapper
@@ -337,7 +338,7 @@ static std::string build_bionic_poweronly_string( const bionic &bio, avatar *p )
                               : string_format( _( "%s/%d turns" ), units::display( bio_data.power_over_time ),
                                                to_turns<int>( bio_data.charge_time ) ) );
     }
-    if( bio_data.has_flag( STATIC( json_character_flag( "BIONIC_TOGGLED" ) ) ) ) {
+    if( bio_data.has_flag( json_flag_BIONIC_TOGGLED ) ) {
         properties.emplace_back( bio.powered ? _( "ON" ) : _( "OFF" ) );
     }
     if( bio.incapacitated_time > 0_turns ) {
@@ -531,7 +532,7 @@ static void draw_connectors( const catacurses::window &win, const point &start,
 static nc_color get_bionic_text_color( const bionic &bio, const bool isHighlightedBionic )
 {
     nc_color type = c_white;
-    bool is_power_source = bio.id->has_flag( STATIC( json_character_flag( "BIONIC_POWER_SOURCE" ) ) );
+    bool is_power_source = bio.id->has_flag( json_flag_BIONIC_POWER_SOURCE );
     if( bio.id->activated ) {
         if( isHighlightedBionic ) {
             if( bio.powered && !is_power_source ) {

@@ -100,7 +100,9 @@
         { "item": "nail", "charges": [ 4, 12 ] },
         { "item": "splinter", "count": 1 },
         { "item": "felt_patch", "count": [ 0, 2 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -152,22 +154,14 @@
     "required_str": 12,
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "arcade_machine" },
     "flags": [ "BLOCKSDOOR", "TRANSPARENT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
-    "deconstruct": { "items": [ { "item": "arcade_machine", "count": 1 } ] },
+    "item": "arcade_machine",
     "bash": {
       "str_min": 6,
       "str_max": 35,
       "sound": "smash!",
       "sound_fail": "whump!",
-      "items": [
-        { "item": "splinter", "count": [ 0, 6 ] },
-        { "item": "television", "prob": 50 },
-        { "item": "2x4", "count": [ 2, 6 ] },
-        { "item": "nail", "charges": [ 4, 10 ] },
-        { "item": "cable", "charges": [ 4, 10 ] },
-        { "item": "circuit", "count": [ 0, 4 ] },
-        { "item": "power_supply", "prob": 50 },
-        { "item": "RAM", "count": [ 0, 2 ] }
-      ]
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -215,7 +209,9 @@
         { "item": "glass_shard", "count": [ 33, 67 ] },
         { "item": "plastic_chunk", "count": [ 1, 3 ] },
         { "item": "bearing", "charges": [ 0, 16 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -427,19 +423,14 @@
     "//": "While heavy, most large pianos have casters for relatively easy movement.",
     "flags": [ "FLAMMABLE", "ORGANIC", "BLOCKSDOOR", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
     "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_PLAY_PIANO" ] },
-    "deconstruct": { "items": [ { "item": "piano", "count": 1 } ] },
+    "item": "piano",
     "bash": {
       "str_min": 12,
       "str_max": 40,
       "sound": "a suffering piano!",
       "sound_fail": "kerchang.",
-      "items": [
-        { "item": "2x4", "count": [ 4, 8 ] },
-        { "item": "qt_wire", "count": [ 0, 5 ] },
-        { "item": "nail", "charges": [ 6, 12 ] },
-        { "item": "splinter", "count": 1 },
-        { "item": "plastic_chunk", "count": [ 1, 5 ] }
-      ]
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -478,7 +469,9 @@
         { "item": "cable", "charges": [ 1, 3 ] },
         { "item": "e_scrap", "prob": 25 },
         { "item": "plastic_chunk", "count": [ 0, 1 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -538,7 +531,9 @@
         { "item": "splinter", "count": 1 },
         { "item": "felt_patch", "count": [ 0, 2 ] },
         { "item": "scrap", "count": [ 0, 1 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -579,7 +574,9 @@
         { "item": "plastic_chunk", "count": [ 1, 6 ] },
         { "item": "lc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "cable", "count": [ 1, 3 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -593,17 +590,14 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "EASY_DECONSTRUCT" ],
     "crafting_pseudo_item": "pseudo_training_dummy_light",
-    "deconstruct": { "items": [ { "item": "training_dummy_light", "count": 1 } ] },
+    "item": "training_dummy_light",
     "bash": {
       "str_min": 25,
       "str_max": 75,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [
-        { "item": "2x4", "count": [ 2, 4 ] },
-        { "item": "nail", "charges": [ 5, 18 ] },
-        { "item": "splinter", "count": [ 5, 17 ] }
-      ]
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -617,18 +611,14 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "EASY_DECONSTRUCT" ],
     "crafting_pseudo_item": "pseudo_training_dummy_heavy",
-    "deconstruct": { "items": [ { "item": "training_dummy_heavy", "count": 1 } ] },
+    "item": "training_dummy_heavy",
     "bash": {
       "str_min": 75,
       "str_max": 150,
       "sound": "smash!",
       "sound_fail": "thump!",
-      "items": [
-        { "item": "2x4", "count": [ 2, 4 ] },
-        { "item": "nail", "charges": [ 5, 18 ] },
-        { "item": "splinter", "count": [ 5, 17 ] },
-        { "item": "scrap", "count": [ 15, 60 ] }
-      ]
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -642,18 +632,8 @@
     "required_str": 5,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "EASY_DECONSTRUCT" ],
     "crafting_pseudo_item": "pseudo_archery_target_box",
-    "deconstruct": { "items": [ { "item": "archery_target_box", "count": 1 } ] },
-    "bash": {
-      "str_min": 4,
-      "str_max": 12,
-      "sound": "whish!",
-      "sound_fail": "whish.",
-      "items": [
-        { "item": "cardboard", "count": [ 20, 80 ] },
-        { "item": "sheet_cotton", "count": [ 6, 21 ] },
-        { "item": "cotton_patchwork", "count": [ 2, 7 ] }
-      ]
-    }
+    "item": "archery_target_box",
+    "bash": { "str_min": 4, "str_max": 12, "sound": "whish!", "sound_fail": "whish." }
   },
   {
     "type": "furniture",
