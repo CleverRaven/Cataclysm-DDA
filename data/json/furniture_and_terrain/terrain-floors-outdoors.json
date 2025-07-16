@@ -212,6 +212,18 @@
   },
   {
     "type": "terrain",
+    "id": "t_grave_earth",
+    "name": "grave",
+    "looks_like": "t_dirtmound",
+    "description": "A fresh grave of mounded earth.",
+    "symbol": "#",
+    "color": "brown",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "MOUNTABLE", "NOCOLLIDE", "CONTAINER", "SEALED" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
+  },
+  {
+    "type": "terrain",
     "id": "t_rock_floor_no_roof",
     "name": "rock floor",
     "description": "A relatively flat area of rock and stone.  Looks stable enough to be mined with the proper mining gear.",
