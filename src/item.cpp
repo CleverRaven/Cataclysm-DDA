@@ -14831,9 +14831,6 @@ bool item::process_tool( Character *carrier, const tripoint_bub_ms &pos )
     // allow some items to opt into requesting destruction
     const int charges_used = type->tick( carrier, *this, pos );
     const bool destroy = has_flag( flag_DESTROY_ON_CHARGE_USE );
-    if( !destroy && charges_used > 0 ) {
-        debugmsg( "Item %s consumes charges via tick_action, but should not", tname() );
-    }
     return destroy && charges_used > 0;
 }
 
