@@ -84,6 +84,7 @@ const flag_id flag_CUT_IMMUNE( "CUT_IMMUNE" );
 const flag_id flag_DANGEROUS( "DANGEROUS" );
 const flag_id flag_DEAF( "DEAF" );
 const flag_id flag_DECAYS_IN_AIR( "DECAYS_IN_AIR" );
+const flag_id flag_DESTROY_ON_CHARGE_USE( "DESTROY_ON_CHARGE_USE" );
 const flag_id flag_DIAMOND( "DIAMOND" );
 const flag_id flag_DIG_TOOL( "DIG_TOOL" );
 const flag_id flag_DIMENSIONAL_ANCHOR( "DIMENSIONAL_ANCHOR" );

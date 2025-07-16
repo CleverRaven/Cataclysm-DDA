@@ -14826,8 +14826,12 @@ bool item::process_tool( Character *carrier, const tripoint_bub_ms &pos )
         }
     }
 
-    type->tick( carrier, *this, pos );
-    return false;
+    // FIXME: some iuse functions return 1+ expecting to be destroyed (molotovs), others
+    // to use charges, and others just because?
+    // allow some items to opt into requesting destruction
+    const int charges_used = type->tick( carrier, *this, pos );
+    const bool destroy = has_flag( flag_DESTROY_ON_CHARGE_USE );
+    return destroy && charges_used > 0;
 }
 
 bool item::process_blackpowder_fouling( Character *carrier )
