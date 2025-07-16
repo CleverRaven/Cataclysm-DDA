@@ -307,16 +307,6 @@
     "material": [ "cardboard", "plastic" ],
     "symbol": ")",
     "color": "brown",
-    "use_action": { "type": "effect_on_conditions", "description": "Dye your hair", "effect_on_conditions": [ "use_hair_dye_kit" ] },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "volume": "550ml",
-        "max_contains_weight": "2kg",
-        "rigid": true,
-        "watertight": false,
-        "item_restriction": [ "abstract_hair_dye" ]
-      }
-    ]
+    "use_action": { "type": "effect_on_conditions", "description": "Dye your hair", "effect_on_conditions": [ "use_hair_dye_kit" ] }
   }
 ]

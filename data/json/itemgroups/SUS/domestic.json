@@ -1041,7 +1041,7 @@
       },
       { "item": "toilet_paper", "prob": 80 },
       { "item": "towel", "count": [ 1, 2 ], "prob": 75 },
-      { "group": "hair_dye_display", "prob": 60 }
+      { "group": "bathroom_hair_dye_kit", "prob": 35 }
     ]
   },
   {
