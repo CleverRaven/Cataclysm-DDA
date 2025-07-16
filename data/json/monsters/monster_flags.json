@@ -225,6 +225,11 @@
     "//": "Burns stuff and is immune to fire"
   },
   {
+    "id": "FLASHBANGPROOF",
+    "type": "monster_flag",
+    "//": "Cannot be flashbanged"
+  },
+  {
     "id": "QUEEN",
     "type": "monster_flag",
     "//": "When it dies, local populations start to die off too"

@@ -385,6 +385,21 @@
     "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
+    "id": "photokinetic_flashbang_monster",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Flashbang Monster", "//~": "NO_I18N" },
+    "description": { "str": "Unleash a burst of light and static.", "//~": "NO_I18N" },
+    "valid_targets": [ "hostile", "ally" ],
+    "flags": [ "CONCENTRATE", "NO_PROJECTILE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "effect": "flashbang",
+    "shape": "blast",
+    "max_level": 20,
+    "min_range": 4,
+    "max_range": 25,
+    "range_increment": 1,
+    "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
     "id": "photokinetic_radiation_attack_monster",
     "type": "SPELL",
     "name": { "str": "[Ψ]Radiation Attack Monster", "//~": "NO_I18N" },
