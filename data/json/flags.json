@@ -2367,6 +2367,11 @@
     "//": "Any item that can be an electronic file"
   },
   {
+    "id": "E_STORABLE_EXCLUSIVE",
+    "type": "json_flag",
+    "//": "Any item that can ONLY be an electronic file"
+  },
+  {
     "id": "E_COPIABLE",
     "type": "json_flag",
     "//": "Any item that can be electronically copied and scanned"
