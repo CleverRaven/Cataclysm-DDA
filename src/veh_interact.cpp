@@ -1143,7 +1143,7 @@ void veh_interact::do_repair( map &here )
                 msg = _( "You can't repair stuff while driving." );
                 return false;
             case task_reason::INVALID_TARGET:
-                msg = _( "There are no damaged parts on this vehicle." );
+                msg = _( "There are no parts which can be repaired on this vehicle." );
                 return false;
             default:
                 break;
