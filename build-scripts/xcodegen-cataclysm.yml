@@ -47,6 +47,9 @@ targets:
           - "**/swift/*.swift"
           - "**/third-party/imgui/*.cpp"
           - "**/third-party/imgui/*.h"
+          - "**/third-party/zstd/common/*.c"
+          - "**/third-party/zstd/compress/*.c"
+          - "**/third-party/zstd/decompress/*.c"
           - "*.cpp"
           - "*.h"
         excludes:
@@ -101,6 +104,8 @@ targets:
           - TILES 
           - BACKTRACE 
           - SDL_SOUND
+          - ZSTD_STATIC_LINKING_ONLY
+          - ZSTD_DISABLE_ASM
           - $(inherited)
         OTHER_CPLUSPLUSFLAGS: 
           #- "-Werror"
