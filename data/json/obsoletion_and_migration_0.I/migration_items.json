@@ -2666,5 +2666,25 @@
     "type": "MIGRATION",
     "id": "46mm_casing",
     "replace": "57mm_casing"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "combatsaw_off",
+    "replace": "chainsaw_off"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "combatsaw_on",
+    "replace": "chainsaw_on"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "e_combatsaw_off",
+    "replace": "elec_chainsaw_off"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "e_combatsaw_on",
+    "replace": "elec_chainsaw_on"
   }
 ]

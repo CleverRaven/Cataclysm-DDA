@@ -430,6 +430,6 @@
     },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -60 ] ],
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
-    "melee_damage": { "bash": 4, "cut": 40 }
+    "melee_damage": { "bash": 4, "cut": 5 }
   }
 ]
