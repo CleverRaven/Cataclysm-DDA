@@ -21,7 +21,6 @@
 #include "game_constants.h"
 #include "itype.h" // IWYU pragma: keep
 #include "line.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "messages.h"
@@ -91,6 +90,7 @@ static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_wind( "wind" );
 static const itype_id itype_weapon_fire_suppressed( "weapon_fire_suppressed" );
 
+static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 static const json_character_flag json_flag_HEARING_PROTECTION( "HEARING_PROTECTION" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 
@@ -689,7 +689,7 @@ void sounds::process_sound_markers( Character *you )
         }
 
         if( !you->has_effect( effect_sleep ) && you->has_effect( effect_alarm_clock ) &&
-            !you->has_flag( STATIC( json_character_flag( "ALARMCLOCK" ) ) ) ) {
+            !you->has_flag( json_flag_ALARMCLOCK ) ) {
             // if we don't have effect_sleep but we're in_sleep_state, either
             // we were trying to fall asleep for so long our alarm is now going
             // off or something disturbed us while trying to sleep

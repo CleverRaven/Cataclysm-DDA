@@ -38,7 +38,6 @@
 #include "item_location.h"
 #include "itype.h"
 #include "line.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
@@ -77,6 +76,10 @@ static const efftype_id effect_teleglow( "teleglow" );
 
 static const fault_id fault_emp_reboot( "fault_emp_reboot" );
 
+static const flag_id json_flag_BLIND( "BLIND" );
+static const flag_id json_flag_FLASH_PROTECTION( "FLASH_PROTECTION" );
+static const flag_id json_flag_NO_UNWIELD( "NO_UNWIELD" );
+
 static const furn_str_id furn_f_machinery_electronic( "f_machinery_electronic" );
 
 static const itype_id fuel_type_none( "null" );
@@ -86,6 +89,7 @@ static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 static const json_character_flag json_flag_EMP_ENERGYDRAIN_IMMUNE( "EMP_ENERGYDRAIN_IMMUNE" );
 static const json_character_flag json_flag_EMP_IMMUNE( "EMP_IMMUNE" );
 static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
+static const json_character_flag json_flag_IMMUNE_HEARING_DAMAGE( "IMMUNE_HEARING_DAMAGE" );
 
 static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 
@@ -611,7 +615,7 @@ void flashbang( const tripoint_bub_ms &p, bool player_immune )
     int dist = rl_dist( player_character.pos_bub(), p );
     map &here = get_map();
     if( dist <= 8 && !player_immune ) {
-        if( !player_character.has_flag( STATIC( json_character_flag( "IMMUNE_HEARING_DAMAGE" ) ) ) &&
+        if( !player_character.has_flag( json_flag_IMMUNE_HEARING_DAMAGE ) &&
             !player_character.is_wearing( itype_rm13_armor_on ) ) {
             player_character.add_effect( effect_deaf, time_duration::from_turns( 40 - dist * 4 ) );
         }
@@ -626,8 +630,8 @@ void flashbang( const tripoint_bub_ms &p, bool player_immune )
             } else if( player_character.has_flag( json_flag_GLARE_RESIST ) ||
                        player_character.is_wearing( itype_rm13_armor_on ) ) {
                 flash_mod = 6;
-            } else if( player_character.worn_with_flag( STATIC( flag_id( "BLIND" ) ) ) ||
-                       player_character.worn_with_flag( STATIC( flag_id( "FLASH_PROTECTION" ) ) ) ) {
+            } else if( player_character.worn_with_flag( json_flag_BLIND ) ||
+                       player_character.worn_with_flag( json_flag_FLASH_PROTECTION ) ) {
                 flash_mod = 3; // Not really proper flash protection, but better than nothing
             }
             player_character.add_env_effect( effect_blind, bodypart_id( "eyes" ), ( 12 - flash_mod - dist ) / 2,
@@ -818,7 +822,7 @@ void emp_blast( const tripoint_bub_ms &p )
         //e-handcuffs effects
         item_location weapon = player_character.get_wielded_item();
         if( weapon && weapon->typeId() == itype_e_handcuffs && weapon->charges > 0 ) {
-            weapon->unset_flag( STATIC( flag_id( "NO_UNWIELD" ) ) );
+            weapon->unset_flag( json_flag_NO_UNWIELD );
             weapon->charges = 0;
             weapon->active = false;
             add_msg( m_good, _( "The %s on your wrists spark briefly, then release your hands!" ),

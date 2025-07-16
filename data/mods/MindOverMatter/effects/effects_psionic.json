@@ -1051,29 +1051,23 @@
   {
     "type": "effect_type",
     "id": "effect_clair_premonition",
-    "name": [ "Sensing Danger" ],
-    "desc": [ "You know there's something out there." ],
+    "name": [ "Premonition" ],
+    "desc": [ "You are preternaturally aware of nearby movement and possible dangers." ],
     "apply_message": "",
-    "remove_message": "The sense of danger fades away, but you know the danger remains.",
+    "remove_message": "Your preternatural awareness fades.",
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 58,
     "enchantments": [
       {
-        "special_vision": [
+        "values": [
           {
-            "condition": {
-              "or": [
-                { "and": [ { "not": "npc_is_character" }, { "math": [ "n_val('anger') >= 10" ] } ] },
-                { "and": [ "npc_is_character", "npc_hostile" ] }
-              ]
-            },
-            "distance": {
+            "value": "MOTION_ALARM",
+            "add": {
               "math": [
-                "( ( ( u_spell_level('clair_danger_sense') + u_spell_level('clair_danger_sense_knack') ) * 2) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+                "max( ( ( 3 + ( ( u_spell_level('clair_danger_sense') + u_spell_level('clair_danger_sense_knack') ) * 0.5  ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 25)"
               ]
-            },
-            "descriptions": [ { "id": "moving_creature", "symbol": "?", "color": "c_white", "text": "You sense a danger here." } ]
+            }
           }
         ]
       }
@@ -1201,6 +1195,36 @@
     "dur_add_perc": 10,
     "int_dur_factor": "109 s",
     "enchantments": [ "enchant_clair_sense_rads" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_sense_hostile_creatures",
+    "name": [ "Sense Hostility" ],
+    "desc": [ "You will know when there's something out there that means you harm." ],
+    "apply_message": "",
+    "remove_message": "The sense of dangerous creatures fades away, but you know the danger remains.",
+    "rating": "good",
+    "max_duration": "7 days",
+    "enchantments": [
+      {
+        "special_vision": [
+          {
+            "condition": {
+              "or": [
+                { "and": [ { "not": "npc_is_character" }, { "math": [ "n_val('anger') >= 10" ] } ] },
+                { "and": [ "npc_is_character", "npc_hostile" ] }
+              ]
+            },
+            "distance": {
+              "math": [
+                "( ( u_spell_level('clair_sense_hostile_creatures') * 2) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              ]
+            },
+            "descriptions": [ { "id": "moving_creature", "symbol": "?", "color": "c_white", "text": "You sense a danger here." } ]
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",

@@ -62,12 +62,6 @@
   {
     "type": "item_group",
     "subtype": "collection",
-    "id": "army_mags_mp7",
-    "entries": [ { "item": "hk46mag", "ammo-item": "46mm", "charges": 20 }, { "item": "hk46mag", "ammo-item": "46mm", "charges": 20 } ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
     "id": "holster_supp_57",
     "entries": [ { "item": "fn57", "ammo-item": "57mm", "charges": 20 } ]
   },
@@ -6810,17 +6804,15 @@
           { "item": "diving_watch" },
           { "item": "molle_pack" },
           { "item": "multitool" },
-          { "item": "single_sling" },
           { "group": "charged_two_way_radio" },
           { "group": "starter_wallet_full" },
           { "group": "us_ballistic_vest_pristine" },
-          { "group": "army_mags_mp7" },
           { "item": "water_clean", "container-item": "canteen" },
-          { "item": "hk_mp7", "ammo-item": "46mm", "charges": 20, "contents-item": [ "holo_sight", "suppressor" ] },
+          { "item": "m17", "ammo-item": "9mm", "container-item": "holster", "charges": 17 },
+          { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mm", "charges": 17 },
+          { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mm", "charges": 17 },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "knife_combat_marine", "container-item": "sheath" },
-          { "item": "XL_holster", "contents-group": "holster_supp_MEU" },
-          { "item": "legpouch_large", "contents-group": "army_mags_1911" }
+          { "item": "knife_combat_marine", "container-item": "sheath" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },

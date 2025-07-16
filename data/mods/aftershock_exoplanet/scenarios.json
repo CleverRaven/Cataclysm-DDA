@@ -28,7 +28,8 @@
       "afs_mental_stat_genemod",
       "afs_health_genemod",
       "afs_efficiency_genemod",
-      "afs_beauty_genemod"
+      "afs_beauty_genemod",
+      "afs_esper_inheritance"
     ],
     "flags": [ "LONE_START" ],
     "start_name": "Port Augustmoon"
@@ -69,7 +70,8 @@
       "afs_mental_stat_genemod",
       "afs_health_genemod",
       "afs_efficiency_genemod",
-      "afs_beauty_genemod"
+      "afs_beauty_genemod",
+      "afs_esper_inheritance"
     ],
     "surround_groups": [ [ "GROUP_PIRATE__BOT_AMBUSH", 70.0 ] ],
     "flags": [ "LONE_START" ]
@@ -158,7 +160,7 @@
     "flags": [ "LONE_START", "HELI_CRASH" ],
     "start_name": "Crashing Ship",
     "whitelist_hobbies": true,
-    "hobbies": [ "afs_speed_freak", "afs_armament_license", "afs_spacer", "afs_leadership", "afs_earthling" ],
+    "hobbies": [ "afs_speed_freak", "afs_armament_license", "afs_spacer", "afs_leadership", "afs_earthling", "afs_esper_inheritance" ],
     "eoc": [ "EOC_CRASHING_SHIP_SETUP" ]
   },
   {
@@ -166,25 +168,15 @@
     "id": "afs_esper_start",
     "name": "Esper",
     "points": 1,
-    "description": "There are stories that before the Discontinuity, scientists had developed secret treatments unlock the powers of the human mind.  To read thoughts, move objects at a distance, control computers by the power of will alone, were just a few of the rumored abilities that laid dormant and at the edge of human potential.  But all knowledge of these treatments was lost when the Discontinuity shattered interstellar civilization.\n\nOr so you thought, until you had heard some tantalizing rumors about espers, centered on a backwater planet on the edge of known civilization.  You remember buying passage to the Salus system, arriving at Port Augustmoon, buying supplies, and descending to the surface, but after that things get hazy…  You're not entirely sure where you are, and you've clearly been through it, but somehow you've rediscovered that lost secret.  Now you just need to make it back alive.",
-    "forced_traits": [ "ESPER" ],
+    "description": "There are stories that before the Discontinuity, scientists had developed secret treatments to unlock the powers of the human mind.  To read thoughts, move objects at a distance, control computers by the power of will alone, were just a few of the rumored abilities that laid dormant and at the edge of human potential.  But all knowledge of these treatments was lost when the Discontinuity shattered interstellar civilization.\n\nOr so you thought, until you had heard some tantalizing rumors about espers, centered on a backwater planet on the edge of known civilization.  You remember buying passage to the Salus system, arriving at Port Augustmoon, buying supplies, and descending to the surface, but after that things get hazy…  You're not entirely sure where you are, and you've clearly been through it, but somehow you've rediscovered that lost secret.  Now you just need to make it back alive.",
+    "forced_traits": [ "ESPER", "ESPER_STARTER_ADVANCEMENT_OKAY" ],
     "allowed_locs": [ "sloc_afs_glacial_tunnels" ],
     "professions": [ "afs_esper_electrokinetic", "afs_esper_telepath", "afs_esper_telekinetic" ],
     "flags": [ "LONE_START" ],
     "start_name": "Lost on the Surface",
     "reveal_locale": false,
     "whitelist_hobbies": true,
-    "hobbies": [
-      "afs_armament_license",
-      "afs_spacer",
-      "afs_leadership",
-      "afs_earthling",
-      "afs_physical_stat_genemod",
-      "afs_mental_stat_genemod",
-      "afs_health_genemod",
-      "afs_efficiency_genemod",
-      "afs_beauty_genemod"
-    ],
+    "hobbies": [ "afs_armament_license", "afs_spacer", "afs_leadership", "afs_earthling" ],
     "eoc": [ "EOC_ESPER_SCENARIO_SETUP" ]
   },
   {
@@ -206,7 +198,8 @@
       "afs_mental_stat_genemod",
       "afs_health_genemod",
       "afs_efficiency_genemod",
-      "afs_beauty_genemod"
+      "afs_beauty_genemod",
+      "afs_esper_inheritance"
     ],
     "flags": [ "LONE_START" ],
     "start_name": "Escape Pod"

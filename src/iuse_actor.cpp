@@ -2366,7 +2366,7 @@ std::optional<int> fireweapon_on_actor::use( Character *p, item &it,
         p->add_msg_if_player( "%s", noise_message );
     }
 
-    return 1;
+    return 0;
 }
 
 void manualnoise_actor::load( const JsonObject &obj, const std::string & )
@@ -6083,6 +6083,7 @@ std::unique_ptr<iuse_actor> effect_on_conditions_actor::clone() const
 
 void effect_on_conditions_actor::load( const JsonObject &obj, const std::string &src )
 {
+    optional( obj, false, "consume", consume, false );
     obj.read( "description", description );
     obj.read( "menu_text", menu_text );
     need_worn = obj.get_bool( "need_worn", false );
@@ -6154,8 +6155,11 @@ std::optional<int> effect_on_conditions_actor::use( Character *p, item &it,
     // it will not properly decrement any item of type `comestible` if consumed via the `E` `Consume item` menu.
     // Therefore, it is not advised to use items of type `comestible` with a `use_action` of type
     // `effect_on_conditions` until/unless this section is properly updated to actually consume said item.
-    if( p && !p->has_item( it ) ) {
-        return 0;
+    if( consume ) {
+        if( p && !p->has_item( it ) ) {
+            return 0;
+        }
+        return 1;
     }
-    return 1;
+    return 0;
 }

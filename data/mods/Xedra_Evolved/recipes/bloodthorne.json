@@ -98,7 +98,7 @@
           "BLOODTHORNE_DRUID_REGAIN_BLOOD",
           "BLOODTHORNE_DRUID_BONUS_MANA_REGEN",
           "BLOODTHORNE_DRUID_STOP_BLEEDING",
-          "BLOODTHORNE_DRUID_REDUCED_PAIN_PENALTIES",
+          "BLOODTHORNE_DRUID_GAIN_STRENGTH_DEXTERITY_BUFF",
           "BLOODTHORNE_DRUID_WHIP_TARGETS_IN_NATURE"
         ],
         "type": "mutation",
@@ -106,7 +106,11 @@
           {
             "id": "EOC_XE_BLOODTHORN_DRUID_RESEARCH_SUCCESS",
             "effect": [
-              { "math": [ "u_bloodthorn_druid_vampires_killed_to_upgrade", "+=", "2" ] },
+              {
+                "if": { "math": [ "u_bloodthorn_druid_vampires_killed_to_upgrade", "<", "16" ] },
+                "then": { "math": [ "u_bloodthorn_druid_vampires_killed_to_upgrade", "+=", "2" ] },
+                "else": { "math": [ "u_bloodthorn_druid_vampires_killed_to_upgrade", "=", "16" ] }
+              },
               { "math": [ "u_bloodthorn_druid_required_arvore_traits ++" ] },
               { "math": [ "u_bloodthorn_druid_vampire_heartwhip_kills = 0" ] },
               { "u_lose_effect": "effect_bloodthorn_druid_upgrade_ready" },
@@ -123,7 +127,7 @@
     "false_effect": [
       { "u_add_trait": "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP" },
       {
-        "u_message": "You feel the Heartvine extending itself into your arms, coiling and lurking near your wrists.  With a moment's concentration, you could extend part of it into a whip and scourge the blood-drinkers with it, and in doing so, feed your Heartvine.  Call it forth and rid the world of the vampiric scourge.\n\nKills with the Heartwhip will empower your Heartvine; enough kills and further gifts will be revealed to you.",
+        "u_message": "You feel the heartvines extending themselves into your arms, coiling and lurking near your wrists.  With a moment's concentration, you could extend part of them into a whip and scourge the blood-drinkers with it, and in doing so, feed your heartvines.  Call them forth and rid the world of the vampiric scourge.\n\nKills with the heartwhip will empower your heartvines; enough kills and further gifts will be revealed to you.",
         "type": "good"
       },
       { "math": [ "u_bloodthorn_druid_vampires_killed_to_upgrade = 5" ] },
@@ -135,6 +139,32 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_XE_BLOODTHORN_DRUID_RESEARCH_ADVANCE_TO_TIER_2",
-    "effect": [ { "run_eocs": "EOC_XE_BLOODTHORN_DRUID_RESEARCH_SUCCESS" } ]
+    "condition": { "u_has_trait": "BLOODTHORNE_DRUID_AURA_OF_VINES" },
+    "effect": [
+      {
+        "u_roll_remainder": [
+          "BLOODTHORNE_DRUID_HEAL_FROM_SPILLED_BLOOD",
+          "BLOODTHORNE_DRUID_REDUCED_PAIN_PENALTIES",
+          "BLOODTHORNE_DRUID_SUMMON_THORNHOUND",
+          "BLOODTHORNE_DRUID_SLOWER_BLEEDING"
+        ],
+        "type": "mutation",
+        "true_eocs": [ "EOC_XE_BLOODTHORN_DRUID_RESEARCH_SUCCESS" ],
+        "false_eocs": [
+          {
+            "id": "EOC_XE_BLOODTHORN_DRUID_RESEARCH_FINALIZE",
+            "condition": { "not": { "u_has_trait": "BLOODTHORNE_DRUID_CREATE_THORN_PRISON" } },
+            "effect": [
+              { "u_add_trait": "BLOODTHORNE_DRUID_CREATE_THORN_PRISON" },
+              {
+                "u_message": "You've reached the pinnacle of druidic powers.  Now the blood-drinkers will tremble.",
+                "type": "good"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "u_add_trait": "BLOODTHORNE_DRUID_AURA_OF_VINES" }, { "run_eocs": "EOC_XE_BLOODTHORN_DRUID_RESEARCH_SUCCESS" } ]
   }
 ]

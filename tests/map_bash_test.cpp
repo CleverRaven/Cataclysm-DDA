@@ -360,7 +360,6 @@ TEST_CASE( "map_bash_ephemeral_persistence", "[map][bash]" )
         CHECK( here.get_map_damage( test_pt ) > 0 );
         // Bash it again to destroy it
         here.bash( test_pt, 999 );
-        CHECK( here.furn( test_pt ) != furn_test_f_bash_persist );
         // Then, it is gone and there is no map damage
         CHECK( here.furn( test_pt ) != furn_test_f_bash_persist );
         CHECK( here.get_map_damage( test_pt ) == 0 );
@@ -378,7 +377,6 @@ TEST_CASE( "map_bash_ephemeral_persistence", "[map][bash]" )
         CHECK( here.get_map_damage( test_pt ) > 0 );
         // Bash it again to destroy it
         here.bash( test_pt, 999 );
-        CHECK( here.ter( test_pt ) != ter_test_t_bash_persist );
         // Then, it is gone and there is no map damage
         CHECK( here.ter( test_pt ) != ter_test_t_bash_persist );
         CHECK( here.get_map_damage( test_pt ) == 0 );

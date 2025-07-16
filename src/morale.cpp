@@ -20,7 +20,6 @@
 #include "input_context.h"
 #include "item.h"
 #include "localized_comparator.h"
-#include "make_static.h"
 #include "morale_types.h"
 #include "output.h"
 #include "point.h"
@@ -32,6 +31,11 @@ static const efftype_id effect_cold( "cold" );
 static const efftype_id effect_hot( "hot" );
 static const efftype_id effect_took_prozac( "took_prozac" );
 static const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
+
+static const flag_id json_flag_FILTHY( "FILTHY" );
+static const flag_id json_flag_INTEGRATED( "INTEGRATED" );
+
+static const json_character_flag json_flag_HEAT_IMMUNE( "HEAT_IMMUNE" );
 
 static const morale_type morale_cold( "morale_cold" );
 static const morale_type morale_hot( "morale_hot" );
@@ -974,8 +978,8 @@ void player_morale::on_effect_int_change( const efftype_id &eid, int intensity,
 
 void player_morale::set_worn( const item &it, bool worn )
 {
-    const bool filthy_gear = it.has_flag( STATIC( flag_id( "FILTHY" ) ) );
-    const bool integrated = it.has_flag( STATIC( flag_id( "INTEGRATED" ) ) );
+    const bool filthy_gear = it.has_flag( json_flag_FILTHY );
+    const bool integrated = it.has_flag( json_flag_INTEGRATED );
     const int sign = worn ? 1 : -1;
 
     const auto update_body_part = [&]( body_part_data & bp_data ) {
@@ -1069,7 +1073,7 @@ void player_morale::update_bodytemp_penalty( const time_duration &ticks )
         add( morale_cold, -2 * to_turns<int>( ticks ), -std::abs( max_cold_penalty ), 1_minutes, 30_seconds,
              true );
     }
-    if( max_hot_penalty != 0 && !has_flag( STATIC( json_character_flag( "HEAT_IMMUNE" ) ) ) ) {
+    if( max_hot_penalty != 0 && !has_flag( json_flag_HEAT_IMMUNE ) ) {
         add( morale_hot, -2 * to_turns<int>( ticks ), -std::abs( max_hot_penalty ), 1_minutes, 30_seconds,
              true );
     }

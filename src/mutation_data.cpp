@@ -22,7 +22,6 @@
 #include "json.h"
 #include "localized_comparator.h"
 #include "magic_enchantment.h"
-#include "make_static.h"
 #include "memory_fast.h"
 #include "npc.h"
 #include "string_formatter.h"
@@ -30,6 +29,9 @@
 #include "translations.h"
 #include "uilist.h"
 #include "weighted_list.h"
+
+static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
+static const json_character_flag json_flag_HERITAGE( "HERITAGE" );
 
 static const mutation_category_id mutation_category_ANY( "ANY" );
 
@@ -787,12 +789,12 @@ void mutation_branch::check_consistency()
 
 nc_color mutation_branch::get_display_color() const
 {
-    if( flags.count( STATIC( json_character_flag( "ATTUNEMENT" ) ) ) ) {
+    if( flags.count( json_flag_ATTUNEMENT ) ) {
         return c_green;
+    } else if( flags.count( json_flag_HERITAGE ) || debug ) {
+        return c_light_cyan;
     } else if( threshold || profession ) {
         return c_white;
-    } else if( debug ) {
-        return c_light_cyan;
     } else if( mixed_effect ) {
         return c_pink;
     } else if( points > 0 ) {

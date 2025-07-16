@@ -51,7 +51,10 @@
       "PUSH_MON",
       "FILTHY"
     ],
-    "armor": { "electric": 1 }
+    "armor": { "electric": 1 },
+    "revive_forms": [
+      { "condition": { "map_terrain_with_flag": "FUNGUS", "loc": { "context_val": "loc" } }, "monster": "mon_fungal_mound" }
+    ]
   },
   {
     "id": "mon_beekeeper",

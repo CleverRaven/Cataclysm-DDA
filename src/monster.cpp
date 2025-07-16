@@ -46,7 +46,6 @@
 #include "itype.h"
 #include "magic.h"
 #include "magic_enchantment.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
@@ -156,6 +155,7 @@ static const emit_id emit_emit_shock_cloud_big( "emit_shock_cloud_big" );
 static const flag_id json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const flag_id json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMAGE" );
 static const flag_id json_flag_DISABLE_FLIGHT( "DISABLE_FLIGHT" );
+static const flag_id json_flag_FILTHY( "FILTHY" );
 static const flag_id json_flag_GRAB( "GRAB" );
 static const flag_id json_flag_GRAB_FILTER( "GRAB_FILTER" );
 
@@ -3309,7 +3309,7 @@ void monster::generate_inventory( bool disableDrops )
         if( has_flag( mon_flag_FILTHY ) ) {
             if( ( it.is_armor() || it.is_pet_armor() ) && !it.is_gun() ) {
                 // handle wearable guns as a special case
-                it.set_flag( STATIC( flag_id( "FILTHY" ) ) );
+                it.set_flag( json_flag_FILTHY );
             }
         }
         inv.push_back( it );
@@ -3347,7 +3347,7 @@ void monster::drop_items_on_death( map *here, item *corpse )
         if( has_flag( mon_flag_FILTHY ) ) {
             if( ( it.is_armor() || it.is_pet_armor() ) && !it.is_gun() ) {
                 // handle wearable guns as a special case
-                it.set_flag( STATIC( flag_id( "FILTHY" ) ) );
+                it.set_flag( json_flag_FILTHY );
             }
         }
 
@@ -3856,7 +3856,7 @@ void monster::init_from_item( item &itm )
         upgrade_time = itm.get_var( "upgrade_time", 0 );
         for( item *it : itm.all_items_top( pocket_type::CONTAINER ) ) {
             if( it->is_armor() ) {
-                it->set_flag( STATIC( flag_id( "FILTHY" ) ) );
+                it->set_flag( json_flag_FILTHY );
             }
             inv.push_back( *it );
             itm.remove_item( *it );

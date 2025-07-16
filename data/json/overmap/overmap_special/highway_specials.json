@@ -136,6 +136,24 @@
   },
   {
     "type": "overmap_special",
+    "id": "Highway Fallback Four-Way Intersection",
+    "//": "Placed by C++, can add more or replace in region settings without needing to compile",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "hw_fallback_four_way_0_0_0_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "hw_fallback_four_way_1_0_0_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "hw_fallback_four_way_0_1_0_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "hw_fallback_four_way_1_1_0_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "hw_fallback_four_way_0_0_1_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "hw_fallback_four_way_1_0_1_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "hw_fallback_four_way_0_1_1_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "hw_fallback_four_way_1_1_1_north" }
+    ],
+    "locations": [ "highway", "highway_water" ],
+    "occurrences": [ 0, 0 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "Highway Fallback Tee",
     "//": "Placed by C++, can add more or replace in region settings without needing to compile",
     "overmaps": [

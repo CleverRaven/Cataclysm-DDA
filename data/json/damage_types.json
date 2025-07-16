@@ -83,7 +83,7 @@
     "mon_difficulty": true,
     "name": "ballistic",
     "material_required": true,
-    "immune_flags": { "character": [ "BULLET_IMMUNE" ] }
+    "immune_flags": { "character": [ "BULLET_IMMUNE" ], "monster": [ "BULLETPROOF" ] }
   },
   {
     "id": "bullet",

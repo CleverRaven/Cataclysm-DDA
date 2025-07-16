@@ -75,7 +75,6 @@
 #include "localized_comparator.h"
 #include "magic.h"
 #include "magic_enchantment.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_scale_constants.h"
 #include "mapdata.h"
@@ -129,6 +128,7 @@
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CLOTHING_MOD_VAR_PREFIX( "clothing_mod_" );
+static const std::string var_lateral( "lateral" );
 
 static const ammo_effect_str_id ammo_effect_BLACKPOWDER( "BLACKPOWDER" );
 static const ammo_effect_str_id ammo_effect_IGNITE( "IGNITE" );
@@ -1231,8 +1231,11 @@ bool item::is_sided() const
 side item::get_side() const
 {
     // MSVC complains if directly cast double to enum
-    return static_cast<side>( static_cast<int>( get_var( STATIC( std::string{ "lateral" } ),
-                              static_cast<int>( side::BOTH ) ) ) );
+    return static_cast<side>(
+               static_cast<int>(
+                   get_var( var_lateral, static_cast<int>( side::BOTH ) )
+               )
+           );
 }
 
 bool item::set_side( side s )
@@ -1242,9 +1245,9 @@ bool item::set_side( side s )
     }
 
     if( s == side::BOTH ) {
-        erase_var( "lateral" );
+        erase_var( var_lateral );
     } else {
-        set_var( "lateral", static_cast<int>( s ) );
+        set_var( var_lateral, static_cast<int>( s ) );
     }
 
     return true;
@@ -1308,7 +1311,7 @@ item item::in_container( const itype_id &cont, int qty, bool sealed,
     if( !variant.empty() ) {
         container.set_itype_variant( variant );
     }
-    if( container.is_container() ) {
+    if( container.is_container() || container.is_estorage() ) {
         container.fill_with( *this, qty );
         container.invlet = invlet;
         if( sealed ) {
@@ -7852,7 +7855,7 @@ void item::set_random_fault_of_type( const std::string &fault_type, bool force, 
 
     weighted_int_list<fault_id> faults_by_type;
     for( const weighted_object<int, fault_id> &f : type->faults ) {
-        if( can_have_fault( f.obj ) ) {
+        if( f.obj.obj().type() == fault_type && can_have_fault( f.obj ) ) {
             faults_by_type.add( f.obj, f.weight );
         }
 
@@ -8939,7 +8942,12 @@ bool item::is_estorage_usable( const Character &who ) const
 
 bool item::is_estorable() const
 {
-    return has_flag( flag_E_STORABLE ) || is_book();
+    return has_flag( flag_E_STORABLE ) || has_flag( flag_E_STORABLE_EXCLUSIVE ) || is_book();
+}
+
+bool item::is_estorable_exclusive() const
+{
+    return has_flag( flag_E_STORABLE_EXCLUSIVE );
 }
 
 bool item::is_browsed() const
@@ -14826,12 +14834,15 @@ bool item::process_tool( Character *carrier, const tripoint_bub_ms &pos )
         }
     }
 
-    // Complicated safety net in case an item with charges slipped through.
-    const int num_to_destroy = type->tick( carrier, *this, pos );
-    if( num_to_destroy < 0 || num_to_destroy > 1 ) {
+    // FIXME: some iuse functions return 1+ expecting to be destroyed (molotovs), others
+    // to use charges, and others just because?
+    // allow some items to opt into requesting destruction
+    const int charges_used = type->tick( carrier, *this, pos );
+    const bool destroy = has_flag( flag_DESTROY_ON_CHARGE_USE );
+    if( !destroy && charges_used > 0 ) {
         debugmsg( "Item %s consumes charges via tick_action, but should not", tname() );
     }
-    return num_to_destroy; // Implicit conversion to bool!
+    return destroy && charges_used > 0;
 }
 
 bool item::process_blackpowder_fouling( Character *carrier )

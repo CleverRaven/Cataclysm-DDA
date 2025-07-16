@@ -632,6 +632,9 @@ class overmap
         */
         tripoint_om_omt find_highway_intersection_point( const overmap_special_id &special,
                 const tripoint_om_omt &center, const om_direction::type &dir, int border ) const;
+        /* @return whether the intersection is far enough away (using border) to the edge of the map */
+        bool check_intersection_inbounds( const overmap_special_id &special,
+                                          const tripoint_om_omt &center, int border ) const;
         //segments adjacent to specials must have the special's z-value for correct ramp handling
         void highway_handle_special_z( Highway_path &highway_path, int base_z );
         // determine which overmaps have adjacent oceans (if applicable)

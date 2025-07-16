@@ -60,7 +60,6 @@
 #include "pathfinding.h"
 #include "pimpl.h"
 #include "point.h"
-#include "profession.h"
 #include "ranged.h"
 #include "recipe.h"
 #include "ret_val.h"
@@ -183,9 +182,8 @@ void avatar::control_npc( npc &np, const bool debug )
     g->update_map( *this, z_level_changed );
     character_mood_face( true );
 
-    profession_id prof_id = prof ? prof->ident() : profession::generic()->ident();
-    get_event_bus().send<event_type::game_avatar_new>( /*is_new_game=*/false, debug,
-            getID(), name, male, prof_id, custom_profession );
+    get_event_bus().send<event_type::game_avatar_new>( /*is_new_game=*/false, debug, getID(), name,
+            custom_profession );
 }
 
 void avatar::control_npc_menu( const bool debug )

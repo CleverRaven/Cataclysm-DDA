@@ -2,7 +2,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_AFS_ESPER_STUDYING_POWER",
-    "condition": { "u_has_effect": "effect_afs_esper_studying_power" },
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_afs_esper_studying_power" },
+        { "u_has_any_trait": [ "ESPER_ADVANCEMENT_OKAY", "ESPER_STARTER_ADVANCEMENT_OKAY" ] }
+      ]
+    },
     "effect": [
       { "math": [ "u_afs_esper_studying_tick_experience_counter", "+=", "contemplation_factor(1)" ] },
       {
@@ -19,7 +24,11 @@
     "id": "EOC_AFS_ESPER_STUDYING_POWER_BEGIN",
     "condition": { "not": { "u_has_any_effect": [ "weary_5", "weary_6", "weary_7", "weary_8" ] } },
     "effect": [
-      { "u_message": "You spend some time meditating and developing your powers.", "type": "good" },
+      {
+        "if": { "u_has_any_trait": [ "ESPER_ADVANCEMENT_OKAY", "ESPER_STARTER_ADVANCEMENT_OKAY" ] },
+        "then": { "u_message": "You spend some time meditating and developing your powers.", "type": "good" },
+        "else": { "u_message": "You spend some time meditating but something seems missing.", "type": "good" }
+      },
       { "math": [ "u_afs_esper_studying_tick_experience_counter = 0" ] },
       { "u_add_effect": "effect_afs_esper_studying_power", "duration": "24 hours" },
       { "u_assign_activity": "ACT_AFS_ESPER_STUDYING_POWER", "duration": "24 hours" },

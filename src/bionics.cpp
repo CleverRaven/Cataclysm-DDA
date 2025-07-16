@@ -55,7 +55,6 @@
 #include "itype.h"
 #include "json.h"
 #include "magic_enchantment.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -121,6 +120,8 @@ static const bionic_id bio_teleport( "bio_teleport" );
 static const bionic_id bio_torsionratchet( "bio_torsionratchet" );
 static const bionic_id bio_water_extractor( "bio_water_extractor" );
 
+static const damage_type_id damage_bash( "bash" );
+
 static const efftype_id effect_assisted( "assisted" );
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_bleed( "bleed" );
@@ -138,6 +139,8 @@ static const itype_id itype_radiocontrol( "radiocontrol" );
 static const itype_id itype_remotevehcontrol( "remotevehcontrol" );
 static const itype_id itype_water_clean( "water_clean" );
 
+static const json_character_flag json_flag_BIONIC_ARMOR_INTERFACE( "BIONIC_ARMOR_INTERFACE" );
+static const json_character_flag json_flag_BIONIC_FAULTY( "BIONIC_FAULTY" );
 static const json_character_flag json_flag_BIONIC_GUN( "BIONIC_GUN" );
 static const json_character_flag json_flag_BIONIC_NPC_USABLE( "BIONIC_NPC_USABLE" );
 static const json_character_flag json_flag_BIONIC_POWER_SOURCE( "BIONIC_POWER_SOURCE" );
@@ -417,13 +420,13 @@ void bionic_data::load( const JsonObject &jsobj, std::string_view src )
         social_mods = load_bionic_social_mods( sm );
     }
 
-    activated = has_flag( STATIC( json_character_flag( json_flag_BIONIC_TOGGLED ) ) ) ||
+    activated = has_flag( json_flag_BIONIC_TOGGLED ) ||
                 has_flag( json_flag_BIONIC_GUN ) ||
                 power_activate > 0_kJ ||
                 spell_on_activate ||
                 charge_time > 0_turns;
 
-    if( has_flag( STATIC( json_character_flag( "BIONIC_FAULTY" ) ) ) ) {
+    if( has_flag( json_flag_BIONIC_FAULTY ) ) {
         faulty_bionics.push_back( id );
     }
 
@@ -1018,7 +1021,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             proj.speed  = 50;
             proj.impact = damage_instance();
             // FIXME: Hardcoded damage type
-            proj.impact.add_damage( STATIC( damage_type_id( "bash" ) ), pr.first.weight() / 250_gram );
+            proj.impact.add_damage( damage_bash, pr.first.weight() / 250_gram );
             // make the projectile stop one tile short to prevent hitting the player
             proj.range = rl_dist( pr.second, pos_bub() ) - 1;
             proj.proj_effects = {{ ammo_effect_NO_ITEM_DAMAGE, ammo_effect_DRAW_AS_LINE, ammo_effect_NO_DAMAGE_SCALING, ammo_effect_JET }};
@@ -1544,7 +1547,7 @@ static bool attempt_recharge( Character &p, bionic &bio, units::energy &amount )
     bool recharged = false;
 
     if( power_cost > 0_kJ ) {
-        if( info.has_flag( STATIC( json_character_flag( "BIONIC_ARMOR_INTERFACE" ) ) ) ) {
+        if( info.has_flag( json_flag_BIONIC_ARMOR_INTERFACE ) ) {
             // Don't spend any power on armor interfacing unless we're wearing active powered armor.
             if( !p.worn.is_wearing_active_power_armor() ) {
                 const units::energy armor_power_cost = 1_kJ;

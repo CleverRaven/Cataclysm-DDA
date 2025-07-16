@@ -128,6 +128,7 @@
     "description": "When you were younger, you were suddenly and violently inducted into the truth that the world had things in it more terrible than any human predator, immortal monsters who viewed humans as nothing but cattle.  But you survived, and soon afterwards you were approached by a representative of a group dedicated to fighting the blood-drinkers.  They called themselves the \"Bloodthorne Druids\", and used the power of nature to defends themselves and root out the vampires wherever they could be found.  You joined them and after a period of training, went through the initiation rites and fused your soul with the wilds.  Soon after, the world ended.\n\nThe Cataclysm has shattered the druidic order, but some of its members survived.  And now, when there are so few humans left, they need even more protection from the darkness.",
     "start_name": "The wilds",
     "allowed_locs": [ "sloc_hermit_shack", "sloc_cabin", "sloc_forest", "sloc_field" ],
-    "professions": [ "xedra_bloodthorne_druid_profession" ]
+    "professions": [ "xedra_bloodthorne_druid_profession" ],
+    "flags": [ "LONE_START" ]
   }
 ]
