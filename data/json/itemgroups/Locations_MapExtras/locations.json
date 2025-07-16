@@ -1666,6 +1666,7 @@
     "subtype": "distribution",
     "entries": [
       { "group": "tools_medical", "prob": 100 },
+      { "item": "bag_body_bag", "prob": 5 },
       { "group": "drugs_emergency", "prob": 50 },
       { "prob": 10, "group": "quikclot_bag_plastic_1_6" },
       { "item": "badge_doctor", "prob": 2 }
