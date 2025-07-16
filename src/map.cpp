@@ -4357,15 +4357,28 @@ void map::drop_bash_results( const map_data_common_t &ter_furn, const tripoint_b
         for( const item_comp &comp : ter_furn.get_uncraft_components() ) {
             const std::vector<item_comp> sub_uncraft_components = item( comp.type ).get_uncraft_components();
             if( sub_uncraft_components.empty() ) {
-                // if no subcomponents, just straight drop 90% - 100% of item count
-                here.spawn_item( p, comp.type, rng( comp.count * 0.9f, comp.count ) );
+                // if no subcomponents, just straight drop 100% of item count
+                if( comp.type->count_by_charges() ) {
+                    here.spawn_item( p, comp.type, 1, comp.count );
+                } else {
+                    here.spawn_item( p, comp.type, comp.count );
+                }
             } else {
                 // if subcomponents, drop a bit of subcomponents and a bit of components
                 const float broken_qty = rng_float( 0.1f, 0.4f );
                 for( const item_comp &sub_comp : sub_uncraft_components ) {
-                    here.spawn_item( p, sub_comp.type, sub_comp.count * broken_qty );
+                    if( sub_comp.type->count_by_charges() ) {
+                        here.spawn_item( p, sub_comp.type, 1, sub_comp.count * broken_qty );
+                    } else {
+                        here.spawn_item( p, sub_comp.type, sub_comp.count * broken_qty );
+                    }
+
                 }
-                here.spawn_item( p, comp.type, comp.count * ( 1 - broken_qty ) );
+                if( comp.type->count_by_charges() ) {
+                    here.spawn_item( p, comp.type, 1, comp.count * ( 1 - broken_qty ) );
+                } else {
+                    here.spawn_item( p, comp.type, comp.count * ( 1 - broken_qty ) );
+                }
             }
         }
     } else {
