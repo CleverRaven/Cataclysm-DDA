@@ -394,9 +394,15 @@
     "effect": "flashbang",
     "shape": "blast",
     "max_level": 20,
+    "min_damage": 10,
+    "max_damage": 200,
+    "damage_increment": 5,
     "min_range": 4,
     "max_range": 25,
     "range_increment": 1,
+    "min_aoe": 0,
+    "max_aoe": 10,
+    "aoe_increment": 0.25,
     "ignored_monster_species": [ "PSI_NULL" ]
   },
   {

@@ -20,9 +20,9 @@
         "attack_upper": false
       },
       {
-        "id": "psi_amalgamation_telekinetic_flashbang",
+        "id": "psi_amalgamation_photokinetic_flashbang",
         "type": "spell",
-        "spell_data": { "id": "photokinetic_flashbang_monster", "min_level": 10 },
+        "spell_data": { "id": "photokinetic_flashbang_monster", "min_level": 5 },
         "cooldown": { "math": [ "9 + rand(18)" ] },
         "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "The air erupts into an eye-searing flash!"
