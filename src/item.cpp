@@ -14829,12 +14829,15 @@ bool item::process_tool( Character *carrier, const tripoint_bub_ms &pos )
         }
     }
 
-    // Complicated safety net in case an item with charges slipped through.
-    const int num_to_destroy = type->tick( carrier, *this, pos );
-    if( num_to_destroy < 0 || num_to_destroy > 1 ) {
+    // FIXME: some iuse functions return 1+ expecting to be destroyed (molotovs), others
+    // to use charges, and others just because?
+    // allow some items to opt into requesting destruction
+    const int charges_used = type->tick( carrier, *this, pos );
+    const bool destroy = has_flag( flag_DESTROY_ON_CHARGE_USE );
+    if( !destroy && charges_used > 0 ) {
         debugmsg( "Item %s consumes charges via tick_action, but should not", tname() );
     }
-    return num_to_destroy; // Implicit conversion to bool!
+    return destroy && charges_used > 0;
 }
 
 bool item::process_blackpowder_fouling( Character *carrier )
