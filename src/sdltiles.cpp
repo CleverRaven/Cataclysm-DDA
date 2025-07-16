@@ -3024,7 +3024,6 @@ static void CheckMessages()
 
     std::optional<point> resize_dims;
     bool render_target_reset = false;
-    int numfingers;
     using cata::options::mouse;
 
     while( SDL_PollEvent( &ev ) ) {
@@ -3389,9 +3388,8 @@ static void CheckMessages()
                 dbg( D_INFO ) << "Fingermotion triggered.";
                 dbg( D_INFO ) << "ev.tfinger.fingerId: " << ev.tfinger.fingerId;
                 dbg( D_INFO ) << "ev.tfinger.touchId: " << ev.tfinger.touchId;
-                numfingers = SDL_GetNumTouchFingers( ev.tfinger.touchId );
-                dbg( D_INFO ) << "numfingers: " << numfingers;
-                if( numfingers == 1 && static_cast<int>(ev.tfinger.fingerId) > 0 ) {
+                dbg( D_INFO ) << "numfingers: " << SDL_GetNumTouchFingers( ev.tfinger.touchId );
+                if( static_cast<int>(ev.tfinger.fingerId) > 0 && SDL_GetNumTouchFingers( ev.tfinger.touchId ) == 1 ) {
                     if( !is_quick_shortcut_touch ) {
                         dbg( D_INFO ) << "Not quick shortcut touch";
                         update_finger_repeat_delay();
@@ -3415,10 +3413,10 @@ static void CheckMessages()
                             finger_down_y += delta_y * delta_ratio;
                         }
                     }
-                } else if( numfingers == 2 && static_cast<int>(ev.tfinger.fingerId) > 0 ) {
+                } else if( static_cast<int>(ev.tfinger.fingerId) > 0 && SDL_GetNumTouchFingers( ev.tfinger.touchId ) == 2 ) {
                     second_finger_curr_x = ev.tfinger.x * WindowWidth;
                     second_finger_curr_y = ev.tfinger.y * WindowHeight;
-                } else if( numfingers == 3 && static_cast<int>(ev.tfinger.fingerId) > 0 ) {
+                } else if( static_cast<int>(ev.tfinger.fingerId) > 0 && SDL_GetNumTouchFingers( ev.tfinger.touchId ) == 3 ) {
                     third_finger_curr_x = ev.tfinger.x * WindowWidth;
                     third_finger_curr_y = ev.tfinger.y * WindowHeight;
                 }
@@ -3426,9 +3424,8 @@ static void CheckMessages()
             case SDL_FINGERDOWN:
                 dbg( D_INFO ) << "Fingerdown triggered.";
                 dbg( D_INFO ) << "ev.tfinger.fingerId: " << ev.tfinger.fingerId;
-                numfingers = SDL_GetNumTouchFingers( ev.tfinger.touchId );
-                dbg( D_INFO ) << "numfingers: " << numfingers;
-                if( numfingers == 1 && static_cast<int>(ev.tfinger.fingerId) > 0 ) {
+                dbg( D_INFO ) << "numfingers: " << SDL_GetNumTouchFingers( ev.tfinger.touchId );
+                if( static_cast<int>(ev.tfinger.fingerId) > 0 && SDL_GetNumTouchFingers( ev.tfinger.touchId ) == 1 ) {
                     finger_down_x = finger_curr_x = ev.tfinger.x * WindowWidth;
                     finger_down_y = finger_curr_y = ev.tfinger.y * WindowHeight;
                     finger_down_time = ticks;
@@ -3442,25 +3439,28 @@ static void CheckMessages()
                     }
                     ui_manager::redraw_invalidated();
                     needupdate = true; // ensure virtual joystick and quick shortcuts redraw as we interact
-                } else if( numfingers == 2 && static_cast<int>(ev.tfinger.fingerId) > 0 && !is_quick_shortcut_touch ) {
-                    second_finger_down_x = second_finger_curr_x = ev.tfinger.x * WindowWidth;
-                    second_finger_down_y = second_finger_curr_y = ev.tfinger.y * WindowHeight;
-                    DebugLog( D_INFO, DC_ALL ) << "second_finger_curr_x: " << finger_down_x;
-                    DebugLog( D_INFO, DC_ALL ) << "second_finger_curr_y: " << second_finger_curr_y;
-                    is_two_finger_touch = true;
-                } else if( numfingers == 3 && static_cast<int>(ev.tfinger.fingerId) > 0 && !is_quick_shortcut_touch ) {
-                    third_finger_down_x = third_finger_curr_x = ev.tfinger.x * WindowWidth;
-                    third_finger_down_y = third_finger_curr_y = ev.tfinger.y * WindowHeight;
-                    is_three_finger_touch = true;
-                    is_two_finger_touch = false;
+                } else if( static_cast<int>(ev.tfinger.fingerId) > 0 && SDL_GetNumTouchFingers( ev.tfinger.touchId ) == 2 ) {
+                    if ( !is_quick_shortcut_touch ){
+                        second_finger_down_x = second_finger_curr_x = ev.tfinger.x * WindowWidth;
+                        second_finger_down_y = second_finger_curr_y = ev.tfinger.y * WindowHeight;
+                        DebugLog( D_INFO, DC_ALL ) << "second_finger_curr_x: " << finger_down_x;
+                        DebugLog( D_INFO, DC_ALL ) << "second_finger_curr_y: " << second_finger_curr_y;
+                        is_two_finger_touch = true;
+                    }
+                } else if( static_cast<int>(ev.tfinger.fingerId) > 0 && SDL_GetNumTouchFingers( ev.tfinger.touchId ) == 3 ) {
+                    if ( !is_quick_shortcut_touch ){
+                        third_finger_down_x = third_finger_curr_x = ev.tfinger.x * WindowWidth;
+                        third_finger_down_y = third_finger_curr_y = ev.tfinger.y * WindowHeight;
+                        is_three_finger_touch = true;
+                        is_two_finger_touch = false;
+                    }
                 }
                 break;
             case SDL_FINGERUP:
                 dbg( D_INFO ) << "Fingerup triggered.";
                 dbg( D_INFO ) << "ev.tfinger.fingerId: " << ev.tfinger.fingerId;
-                numfingers = SDL_GetNumTouchFingers( ev.tfinger.touchId );
-                dbg( D_INFO ) << "numfingers: " << numfingers;
-                if( numfingers == 1 && static_cast<int>(ev.tfinger.fingerId) > 0 ) {
+                dbg( D_INFO ) << "numfingers: " << SDL_GetNumTouchFingers( ev.tfinger.touchId );
+                if( static_cast<int>(ev.tfinger.fingerId) > 0 && SDL_GetNumTouchFingers( ev.tfinger.touchId ) == 1 ) {
                     finger_curr_x = ev.tfinger.x * WindowWidth;
                     finger_curr_y = ev.tfinger.y * WindowHeight;
                     DebugLog( D_INFO, DC_ALL ) << "finger_curr_x: " << finger_curr_x;
@@ -3633,14 +3633,14 @@ static void CheckMessages()
                     needupdate = true; // ensure virtual joystick and quick shortcuts are updated properly
                     ui_manager::redraw_invalidated();
                     refresh_display(); // as above, but actually redraw it now as well
-                } else if( numfingers == 2 && static_cast<int>(ev.tfinger.fingerId) > 0) {
+                } else if( static_cast<int>(ev.tfinger.fingerId) > 0 && SDL_GetNumTouchFingers( ev.tfinger.touchId ) == 2 ) {
                     if( is_two_finger_touch  ) {
                         // on second finger release, just remember the x/y position so we can calculate delta once first finger is done
                         // is_two_finger_touch will be reset when first finger lifts (see above)
                         second_finger_curr_x = ev.tfinger.x * WindowWidth;
                         second_finger_curr_y = ev.tfinger.y * WindowHeight;
                     }
-                } else if( numfingers == 3 && static_cast<int>(ev.tfinger.fingerId) > 0 ) {
+                } else if( static_cast<int>(ev.tfinger.fingerId) > 0 && SDL_GetNumTouchFingers( ev.tfinger.touchId ) == 3 ) {
                     if( is_three_finger_touch ) {
                         // on third finger release, just remember the x/y position so we can calculate delta once first finger is done
                         // is_three_finger_touch will be reset when first finger lifts (see above)
