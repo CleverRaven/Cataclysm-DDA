@@ -414,6 +414,19 @@ float Character::hit_roll() const
         hit -= 2.0f;
     }
 
+    // Greatly impaired accuracy when in a vehicle.
+    // TODO: mitigating factors like "standing on top of a vehicle" instead of "in a vehicle".
+    map &here = get_map();
+    const optional_vpart_position vp_there = here.veh_at( pos_abs() );
+    if( vp_there ) {
+        hit -= 10;
+        vehicle &boarded_vehicle = vp_there->vehicle();
+        if( boarded_vehicle.player_in_control( here, *this ) ) {
+            hit -= 10;
+        }
+        hit -= std::abs( boarded_vehicle.forward_velocity() );
+    }
+
     hit *= get_modifier( character_modifier_melee_attack_roll_mod );
 
     return melee::melee_hit_range( hit );
