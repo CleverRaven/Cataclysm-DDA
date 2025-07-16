@@ -25,7 +25,7 @@
         "spell_data": { "id": "photokinetic_flashbang_monster", "min_level": 5 },
         "cooldown": { "math": [ "9 + rand(18)" ] },
         "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
-        "monster_message": "The air erupts into an eye-searing flash!"
+        "monster_message": "The air erupts into an eye-searing flash and a loud screech of static!"
       }
     ],
     "extend": { "flags": [ "PHOTOKIN_MONSTER_IMMUNE", "FLASHBANGPROOF" ] }
