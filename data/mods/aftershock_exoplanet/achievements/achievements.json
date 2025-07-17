@@ -34,7 +34,7 @@
     "id": "afs_achievement_crashed_spaceship",
     "type": "achievement",
     "name": { "str": "Falling Star" },
-    "description": "Planet crosses into a giant scrapfield every few months, some old battlefield from when the discontinuity happened.  Locals make a great show of it, marks the start of the start of the great hunt.\n<color_c_dark_gray>  -\"The Highlands of Aztlan\" holodoc",
+    "description": "Planet crosses into a giant scrapfield every few months, some old battlefield from when the discontinuity happened.  Locals make a great show of it, marks the start of the great hunt.\n<color_c_dark_gray>  -\"The Highlands of Aztlan\" holodoc",
     "requirements": [
       {
         "event_statistic": "num_avatar_enters_crashed_ship",
