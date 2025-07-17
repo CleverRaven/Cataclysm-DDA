@@ -623,6 +623,7 @@ float npc::evaluate_self( bool my_gun )
     float armour = estimate_armour( dynamic_cast<const Character &>( *this ) );
     float speed = std::max( 0.5f, get_speed() / 100.0f );
     if( my_gun ) {
+        // Your speed is less important if you can shoot people.  Pew pew.
         speed = std::max( speed, 0.75f );
     }
     if( has_effect( effect_bleed ) ) {
@@ -640,7 +641,8 @@ float npc::evaluate_self( bool my_gun )
             mem_combat.panic += 1;
         }
     }
-
+    
+    float personality_factor = ( personality.bravery + personality.aggression ) / 10.0f;
 
     threat += get_dodge();
     threat += armour;
@@ -653,10 +655,15 @@ float npc::evaluate_self( bool my_gun )
                    "<color_light_gray>%s assesses own weapon value as %1.2f.",
                    name, my_weap_val );
 
-    threat += static_cast<float>( personality.bravery + personality.aggression );
+    if ( personality_factor > 0 ) {
+        threat *= personality_factor;
+    } else {
+        threat /= abs( personality_factor );
+    }
+    
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                   "<color_light_gray>%s updates own threat by %i based on personality.",
-                   name, personality.bravery + personality.aggression );
+                   "<color_light_gray>%s updates own threat to %1.2f based on personality factor %i.",
+                   name, threat, ( personality.bravery + personality.aggression ) / 10 );
 
     threat *= speed;
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
