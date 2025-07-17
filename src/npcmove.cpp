@@ -1066,7 +1066,9 @@ void npc::assess_danger()
                            "<color_light_gray>%s identified player as a </color><color_green>friend</color><color_light_gray> of threat level %1.2f (ily babe)",
                            name, player_diff );
             if( dist <= 3 ) {
-                player_diff = player_diff * ( 4 - dist ) / 2;
+				mem_combat.turns_next_to_leader += 1;
+				int player_time_factor = std::max( 5 - mem_combat.turns_next_to_leader, 2 );
+                player_diff = player_diff * ( 4 - dist ) / std::max( 5-turns_next_to_leader, 2 );
                 mem_combat.swarm_count /= ( 4 - dist );
                 mem_combat.assess_ally += player_diff;
                 add_msg_debug( debugmode::DF_NPC_COMBATAI,
@@ -1083,6 +1085,7 @@ void npc::assess_danger()
                                "<color_light_gray>%s sees friendly player,</color> <color_light_green>adding %1.2f</color><color_light_gray> to ally strength.</color>",
                                name, player_diff * 0.5f );
                 mem_combat.assess_ally += player_diff * 0.5f;
+				mem_combat.turns_next_to_leader = 0;
             }
             ai_cache.friends.emplace_back( g->shared_from( player_character ) );
         }
