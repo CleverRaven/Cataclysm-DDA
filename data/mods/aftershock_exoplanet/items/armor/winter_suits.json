@@ -208,7 +208,7 @@
         "encumbrance": 2,
         "coverage": 100,
         "cover_vitals": 100,
-        "covers": [ "foot_l", "foot_r", "head", "torso", "eyes", "mouth", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r" ]
+        "covers": [ "head", "torso", "eyes", "mouth", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r" ]
       },
       {
         "material": [
@@ -334,7 +334,7 @@
         "encumbrance": 2,
         "coverage": 100,
         "cover_vitals": 100,
-        "covers": [ "foot_l", "foot_r", "head", "torso", "eyes", "mouth", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r" ]
+        "covers": [ "head", "torso", "eyes", "mouth", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r" ]
       },
       {
         "material": [
