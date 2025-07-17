@@ -148,5 +148,5 @@
   "clip_size": 1,
   "reload": 50,
   "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pebble": 1 }, "open_container": true } ]
-  },
+  }
 ]
