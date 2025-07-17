@@ -122,6 +122,7 @@
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pebble": 1 }, "open_container": true } ]
   }
+  ,
   {
   "id": "long_shepherd's_sling",
   "looks_like": "slingshot",
