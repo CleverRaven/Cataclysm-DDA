@@ -1253,7 +1253,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "8 g",
-    "volume": "19 ml",
+    "volume": "19 ml"
     "phase": "liquid",
     "use_action": {
       "type": "delayed_transform",
