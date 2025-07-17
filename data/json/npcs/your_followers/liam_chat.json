@@ -686,6 +686,91 @@
         "condition": { "u_has_mission": "MISSION_ISHERWOOD_BARRY_1" }
       },
       {
+        "text": "You know anything about how to troubleshoot a radio tower, Liam?",
+        "topic": "TALK_Liam_Opinions_MISSION_ROBOFAC_MERC_1_RADIO",
+        "condition": { "u_has_mission": "MISSION_ROBOFAC_MERC_1_RADIO" }
+      },
+      {
+        "text": "How do we explain what we saw out at the radio tower to the guys back at the Hub?",
+        "topic": "TALK_Liam_Opinions_MISSION_ROBOFAC_MERC_1_RETURN_TO_HUB",
+        "condition": { "u_has_mission": "MISSION_ROBOFAC_MERC_1_RETURN_TO_HUB" }
+      },
+      {
+        "text": "These guys seriously want us to try to take down a robot with EMP grenades.  How you feeling?",
+        "topic": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_1",
+        "condition": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_1" }
+      },
+      {
+        "text": "Think this will be an easy find and retrieve job, looking for the hard case?",
+        "topic": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_2",
+        "condition": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_2" }
+      },
+      {
+        "text": "This collapsed tower business sounds pretty risky.  Are you still in?",
+        "topic": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_3",
+        "condition": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_3" }
+      },
+      {
+        "text": "This robot interception stuff sounds pretty heavy, don't you think?",
+        "topic": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1",
+        "condition": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1" }
+      },
+      {
+        "text": "What are your thoughts on standing outside during a portal storm?  Seems like a good way to spend an evening right?",
+        "topic": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1",
+        "condition": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1" }
+      },
+      {
+        "text": "Liam, the guys in the secret lab want us to break into a secret lab.",
+        "topic": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_LIXA_SM_1",
+        "condition": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1" }
+      },
+      {
+        "text": "Looks like we're on a monster hunt, my friend.",
+        "topic": "TALK_Liam_Opinions_BEM_jabberwock_mission",
+        "condition": { "u_has_mission": "BEM_jabberwock_mission" }
+      },
+      {
+        "text": "Does this 'human sample' business seem a little off to you?",
+        "topic": "TALK_Liam_Opinions_BEM_human_sample_mission",
+        "condition": { "u_has_mission": "BEM_human_sample_mission" }
+      },
+      {
+        "text": "Where should we look for one of those chemistry sets?",
+        "topic": "TALK_Liam_Opinions_MISSION_CABIN_CHEMIST_GET_analytical_set_basic",
+        "condition": { "u_has_mission": "MISSION_CABIN_CHEMIST_GET_analytical_set_basic" }
+      },
+      {
+        "text": "Fifteen liters of hydrochloric acid seems like a lot to me, don't you think?",
+        "topic": "TALK_Liam_Opinions_MISSION_CABIN_CHEMIST_GET_60_chem_muriatic_acid",
+        "condition": { "u_has_mission": "MISSION_CABIN_CHEMIST_GET_60_chem_muriatic_acid" }
+      },
+      {
+        "text": "What do you think is the best way to get a hundred liters of gas for this guy's generator?",
+        "topic": "TALK_Liam_Opinions_MISSION_CABIN_CHEMIST_GET_500_GAS",
+        "condition": { "u_has_mission": "MISSION_CABIN_CHEMIST_GET_500_GAS" }
+      },
+      {
+        "text": "Any thoughts about tracking down that refugee center?",
+        "topic": "TALK_Liam_Opinions_MISSION_CABIN_CHEMIST_SET_TRADE_ROUTE_not_met_smokes",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_CABIN_CHEMIST_SET_TRADE_ROUTE" },
+            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Gavin" } ] } }
+          ]
+        }
+      },
+      {
+        "text": "What do you think about connecting that chemist to the Free Merchants?",
+        "topic": "TALK_Liam_Opinions_MISSION_CABIN_CHEMIST_SET_TRADE_ROUTE_has_met_smokes",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_CABIN_CHEMIST_SET_TRADE_ROUTE" },
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Gavin" } ] }
+          ]
+        }
+      },
+      {
         "text": "Liam!  There's a chef, trapped in a restaurant!  Want to help save them?",
         "topic": "TALK_Liam_Opinions_directions_chef",
         "condition": { "u_has_mission": "directions_chef" }
@@ -1645,8 +1730,149 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_ROBOFAC_MERC_1_RADIO",
+    "dynamic_line": "&He laughs.  \"Heck yeah, my friend, I picked that up here and there running deliveries for Amazon, during my famously long breaks.\"  He grins.  \"Seriously though, I hope it's something obvious, like a big disconnected dish.  Even if we can't figure it out, I'm looking forward to climbing up there, I love that shit.  Seems like a nice fun one.\"",
+    "responses": [ { "text": "Cool.  I'd like your opinion on something else, though.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_ROBOFAC_MERC_1_RETURN_TO_HUB",
+    "dynamic_line": "*stares at you.  \"I'm leaving that one to you.  I can't believe I was excited for that mission, that critter was *weird*.  I guess it did make it easy to figure out what was going on though, so that's cool right?\"",
+    "responses": [ { "text": "Yeah, 'cool'.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_1",
+    "dynamic_line": "How do you think I'm feeling?  *Amazing* of course.  Can I hold the EMP grenades?  Please?\"  He lightens up his grin, just a little.  \"Hope Dr. Prado is OK though.",
+    "responses": [
+      { "text": "We'll see about the grenades, but I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_2",
+    "dynamic_line": "I want to say… yes?\"  He rubs his chin.  \"Yes.  This is going to be an easy find-and-fetch job and nothing could possibly go wrong.\"  He grins.  \"There, now you have it from the source.",
+    "responses": [
+      {
+        "text": "Great, thanks for predicting that.  I'd like your opinion on something else.",
+        "topic": "TALK_Liam_Opinions"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_3",
+    "dynamic_line": "&He cocks his head at you.  \"My friend, I'm in.  It sounds risky as hell, I'm not letting you go in there alone!  Let's get as geared up as possible though.  Hazard suits.  Heavy armor.  Big guns.  Can I have some EMP grenades?  Please?\"",
+    "responses": [
+      {
+        "text": "What is it with you and EMP grenades?  Anyway, I'd like your opinion on something else.",
+        "topic": "TALK_Liam_Opinions"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1",
+    "dynamic_line": "Yeah.  It sounds like we're gonna need some serious mechanical or electrical know-how if we're gonna take it down.  Big responsibility.  If we can pull it off, though, it'll be *so cool*.",
+    "responses": [
+      {
+        "text": "Do you think you know enough to handle the technical side?",
+        "condition": { "or": [ { "math": [ "n_skill('mechanics') >= 5" ] }, { "math": [ "n_skill('electronics') >= 5" ] } ] },
+        "topic": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_Skills_hasskills"
+      },
+      {
+        "text": "Do you think you know enough to handle the technical side?",
+        "condition": { "not": { "or": [ { "math": [ "n_skill('mechanics') >= 5" ] }, { "math": [ "n_skill('electronics') >= 5" ] } ] } },
+        "topic": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_Skills_noskills"
+      },
+      { "text": "Yeah.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_Skills_hasskills",
+    "dynamic_line": "Maybe?  It's hard to say without seeing the machine, but I know my way around enough to at least try.",
+    "responses": [ { "text": "Gotcha.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_Skills_noskills",
+    "dynamic_line": "What?  Me?  Dismantle a *robot*?  I love that you've got this kind of faith in me, my friend, but my contribution here is going to be a lot more smashy-smashy, less thinky-thinky.",
+    "responses": [ { "text": "Gotcha.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1",
+    "dynamic_line": "*stares at you for a moment.  \"Remember when we were kids, and that huge storm hit?  I thought it was a hurricane, and we ran outside, and that tree fell down like just down the road, and smashed that guy's car?\"  He grins.  \"That was awesome.  Let's do that again!\"",
+    "responses": [
+      {
+        "text": "Let's hope it's not *our* car getting smashed this time.  I'd like your opinion on something else.",
+        "topic": "TALK_Liam_Opinions"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_LIXA_SM_1",
+    "dynamic_line": "Yo dawg, we heard you like science labs.\"  He grins.  \"My guess is there's gonna be some serious defenses in there.  We should stick together, and make sure we've got our best gear.",
+    "responses": [
+      {
+        "text": "Agreed.  Don't go running around a corner and eating turret fire.  I'd like your opinion on something else.",
+        "topic": "TALK_Liam_Opinions"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_BEM_jabberwock_mission",
+    "dynamic_line": "I'm always a fan of a good monster hunt.  Anything that could shake up a merc like that is gonna be pretty serious business, though.  We better pack some heat.  Probably something we can use to take it on at range, I'm not keen to go toe-to-toe with something like that.",
+    "responses": [
+      {
+        "text": "That's your advice for everything.  I'd like your opinion on something else.",
+        "topic": "TALK_Liam_Opinions"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_BEM_human_sample_mission",
+    "dynamic_line": "Yes, it does,\" he admits.  \"I'm not the one that took the job though.  Let's maybe get it from a feral though, right?  Not some hapless dork?",
+    "responses": [ { "text": "Right… Right.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_CABIN_CHEMIST_GET_analytical_set_basic",
+    "dynamic_line": "There were a lot of private research centers in this part of the world.  I bet we could raid one of them.  It seems like the kind of thing that might be in a hospital, too.",
+    "responses": [ { "text": "I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_CABIN_CHEMIST_GET_60_chem_muriatic_acid",
+    "dynamic_line": "I guess, but the chemisty seemed to know about it.  Maybe it's easier to find it big bottles in some place they keep chemistry supplies.  Come to think of it, were there some back where we got the chemisty set?",
+    "responses": [ { "text": "I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_CABIN_CHEMIST_GET_500_GAS",
+    "dynamic_line": "I think the biggest trick is just storing it.  That's 25 gallons, right?  I'm pretty sure we can get that much by siphoning from a bunch of cars, no big problem there, but it's a lot to carry around.  Maybe we could clean out a couple dozen milk jugs?",
+    "responses": [ { "text": "We'll think of something.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_CABIN_CHEMIST_SET_TRADE_ROUTE_not_met_smokes",
+    "dynamic_line": "It sounds like a hell of a road trip, getting to a place like that, but I think it's a great idea to check it out.  If all the evac shelters point to it, there could be some more survivors there.",
+    "responses": [ { "text": "We'll see soon enough.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_CABIN_CHEMIST_SET_TRADE_ROUTE_has_met_smokes",
+    "dynamic_line": "Well, you know what Smokes is gonna say.  'No room at the refugee center, not even for a skilled chemist.'  I bet they'll be willing to set up a trade route or something, though.",
+    "responses": [ { "text": "We'll see soon enough.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_Liam_Opinions_directions_chef",
-    "dynamic_line": "*rubs his chin.  \"Mmmaaaybe?  What kind of chef?  I worked as a dishwasher in a fancy place for a couple months.  If they're a line chef, then yes.  Sous-chef or above?  Leave 'em for the zombies.  I hated that job.\"",
+    "dynamic_line": "*rubs his chin.  \"Mmmaaaybe?  What kind of chef?  I worked as a dishwasher in a fancy place for a couple months.  If they're a line chef, then yes.  Sous-chef or above?  Leave 'em for the zombies.\"  He pauses, staring into space for a moment.  \"I hated that job.\"",
     "responses": [ { "text": "Duly noted.  I'd like your opinion on something else, though.", "topic": "TALK_Liam_Opinions" } ]
   },
   {
@@ -1787,6 +2013,22 @@
       "TALK_Liam_Opinions_MISSION_ISHERWOOD_BARRY_1-help1",
       "TALK_Liam_Opinions_MISSION_ISHERWOOD_BARRY_1-help2",
       "TALK_Liam_Opinions_MISSION_ISHERWOOD_BARRY_1-toughlove",
+      "TALK_Liam_Opinions_MISSION_ROBOFAC_MERC_1_RADIO",
+      "TALK_Liam_Opinions_MISSION_ROBOFAC_MERC_1_RETURN_TO_HUB",
+      "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_1",
+      "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_2",
+      "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_3",
+      "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1",
+      "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_Skills",
+      "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1",
+      "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_LIXA_SM_1",
+      "TALK_Liam_Opinions_BEM_jabberwock_mission",
+      "TALK_Liam_Opinions_BEM_human_sample_mission",
+      "TALK_Liam_Opinions_MISSION_CABIN_CHEMIST_GET_analytical_set_basic",
+      "TALK_Liam_Opinions_MISSION_CABIN_CHEMIST_GET_60_chem_muriatic_acid",
+      "TALK_Liam_Opinions_MISSION_CABIN_CHEMIST_GET_500_GAS",
+      "TALK_Liam_Opinions_MISSION_CABIN_CHEMIST_SET_TRADE_ROUTE_not_met_smokes",
+      "TALK_Liam_Opinions_MISSION_CABIN_CHEMIST_SET_TRADE_ROUTE_has_met_smokes",
       "TALK_Liam_Opinions_directions_chef",
       "TALK_Liam_Opinions_directions_farmer",
       "TALK_Liam_Opinions_directions_hospital_2_CABIN",
