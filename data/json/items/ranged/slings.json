@@ -1,6 +1,6 @@
 [
   {
-    "id": "sling",
+    "id": "shepherd's_sling",
     "looks_like": "slingshot",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -122,4 +122,31 @@
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pebble": 1 }, "open_container": true } ]
   }
+  {
+  "id": "long_shepherd's_sling",
+  "looks_like": "slingshot",
+  "type": "ITEM",
+  "subtypes": [ "GUN" ],
+  "symbol": "(",
+  "color": "brown",
+  "name": { "ctxt": "weapon", "str": "sling" },
+  "description": "A longer sling, still easy to use and accurate.  It uses pebbles as ammunition. It also packs a bigger punch",
+  "price": "1 USD 50 cent",
+  "//": "It's little more than a piece of slightly shaped leather",
+  "material": [ "leather" ],
+  "flags": [ "RELOAD_AND_SHOOT", "NEVER_JAMS", "PRIMITIVE_RANGED_WEAPON", "BELT_CLIP", "WATERPROOF_GUN" ],
+  "ammo_effects": [ "NEVER_MISFIRES", "NO_PENETRATE_OBSTACLES" ],
+  "skill": "throw",
+  "ammo": [ "pebble" ],
+  "weight": "105 g",
+  "volume": "90 ml",
+  "price_postapoc": "2 USD 50 cent",
+  "ranged_damage": { "damage_type": "bullet", "amount": 4 },
+  "range": 16,
+  "dispersion": 150,
+  "durability": 6,
+  "clip_size": 1,
+  "reload": 50,
+  "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pebble": 1 }, "open_container": true } ]
+  },
 ]
