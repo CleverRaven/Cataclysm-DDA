@@ -940,7 +940,13 @@
   {
     "id": "hair_dye_display",
     "type": "item_group",
-    "subtype": "distribution",
-    "entries": [ { "item": "hair_dye_kit", "prob": 100 }, { "group": "hair_dye", "prob": 90 } ]
+    "subtype": "collection",
+    "entries": [ { "item": "hair_dye_kit", "prob": 100 }, { "group": "hair_dye", "prob": 90, "count": [ 1, 4 ] } ]
+  },
+  {
+    "id": "bathroom_hair_dye_kit",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "hair_dye", "prob": 70 }, { "item": "hair_dye_kit", "prob": 75 } ]
   }
 ]
