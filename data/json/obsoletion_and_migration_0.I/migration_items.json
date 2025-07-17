@@ -2666,5 +2666,15 @@
     "type": "MIGRATION",
     "id": "46mm_casing",
     "replace": "57mm_casing"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "solarpack",
+    "replace": "folding_solar_panel_v2"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "solarpack_on",
+    "replace":"folding_solar_panel_v2"
   }
 ]
