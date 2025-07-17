@@ -547,7 +547,7 @@
     "proficiencies": [ { "proficiency": "prof_fibers", "skill_penalty": 0 } ],
     "using": [ [ "cordage", 3 ] ]
   },
-   {
+  {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "sling_long",
