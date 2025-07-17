@@ -656,9 +656,9 @@ float npc::evaluate_self( bool my_gun )
                    name, my_weap_val );
 
     if ( personality_factor > 0 ) {
-        threat *= personality_factor;
+        threat *= 1 + personality_factor;
     } else {
-        threat /= abs( personality_factor );
+        threat /= 1 + abs( personality_factor );
     }
     
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
