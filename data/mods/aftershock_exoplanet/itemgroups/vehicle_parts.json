@@ -7,7 +7,6 @@
       { "group": "afs_vehicle_wheels", "prob": 5 },
       { "group": "afs_vehicle_utilities", "prob": 5 },
       { "group": "afs_vehicle_seating", "prob": 5 },
-      { "group": "afs_vehicle_plating", "prob": 5 },
       { "group": "afs_vehicle_motors", "prob": 5 },
       { "group": "afs_vehicle_lights", "prob": 5 },
       { "group": "afs_vehicle_frames", "prob": 5 },
