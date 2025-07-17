@@ -64,7 +64,7 @@
     "type": "jmath_function",
     "id": "xedra_dream_casting_xp_formula",
     "num_args": 0,
-    "return": "100"
+    "return": "100 * (u_has_trait('VAMPIRE') ? 0 : 1)"
   },
   {
     "type": "jmath_function",
