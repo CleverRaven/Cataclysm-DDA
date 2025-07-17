@@ -11,7 +11,7 @@
     "upgrades": { "age_grow": 1, "into": "mon_zombie_fungalize" },
     "proportional": { "speed": 0.6 },
     "relative": { "melee_skill": -1, "melee_dice": -1 },
-    "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ] },
+    "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ] }
   },
   {
     "id": "mon_zombie_fungalize",
