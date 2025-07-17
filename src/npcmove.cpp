@@ -753,11 +753,16 @@ void npc::assess_danger()
     // Radius we can attack without moving
     int max_range = *confident_range_cache;
     // Radius in which enemy threats are multiplied to avoid surrounding
-    int preferred_medium_range = std::max( max_range, 8 );
-    preferred_medium_range = std::min( preferred_medium_range, 15 );
+    int preferred_medium_range = 6;
     // Radius in which enemy threats are hugely multiplied to encourage repositioning
-    int preferred_close_range = std::max( max_range, 1 );
-    preferred_close_range = std::min( preferred_close_range, preferred_medium_range / 2 );
+    int preferred_close_range = 3;
+	if( npc_ranged  { 
+	    // ranged NPCs will always be a little more squirrely about crowds
+	    preferred_medium_range = std::max( max_range, 8 );
+        preferred_medium_range = std::min( preferred_medium_range, 15 );
+		preferred_close_range = std::max( max_range, 3 );
+        preferred_close_range = std::min( preferred_close_range, preferred_medium_range / 2 );
+	}
 
     Character &player_character = get_player_character();
     bool sees_player = sees( here, player_character.pos_bub( here ) );
