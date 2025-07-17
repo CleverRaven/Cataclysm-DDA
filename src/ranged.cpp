@@ -2258,7 +2258,7 @@ static projectile make_gun_projectile( const item &gun )
     proj.range = gun.gun_range();
     proj.proj_effects = gun.ammo_effects();
 
-    if( gun.ammo_data()->phase == phase_id::LIQUID ) {
+    if( gun.has_ammo_data() && gun.ammo_data()->phase == phase_id::LIQUID ) {
         proj.proj_effects.insert( ammo_effect_LIQUID );
     }
 
