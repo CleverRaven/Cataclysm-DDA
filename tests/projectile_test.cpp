@@ -1,5 +1,6 @@
 #include <memory>
 #include <set>
+#include <string>
 #include <vector>
 
 #include "ballistics.h"
@@ -10,6 +11,7 @@
 #include "damage.h"
 #include "dispersion.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
@@ -22,7 +24,7 @@
 #include "type_id.h"
 #include "value_ptr.h"
 
-static const efftype_id efftype_bile_stink( "bile_stink" );
+static const efftype_id effect_bile_stink( "bile_stink" );
 
 static const itype_id itype_308( "308" );
 static const itype_id itype_boomer_head( "boomer_head" );
@@ -106,7 +108,7 @@ TEST_CASE( "liquid_projectiles_applies_effect", "[projectile]" )
     //Fire on naked NPC and check that it got the effect
     SECTION( "Naked NPC gets the effect" ) {
         player.fire_gun( here, dummy.pos_bub(), 10, *player.get_wielded_item() );
-        CHECK( dummy.has_effect( efftype_bile_stink ) );
+        CHECK( dummy.has_effect( effect_bile_stink ) );
     }
 
     dummy.clear_effects();
@@ -115,6 +117,6 @@ TEST_CASE( "liquid_projectiles_applies_effect", "[projectile]" )
     SECTION( "Hazmat NPC doesn't get the effect" ) {
         dummy.wear_item( hazmat );
         player.fire_gun( here, dummy.pos_bub(), 10, *player.get_wielded_item() );
-        CHECK( !dummy.has_effect( efftype_bile_stink ) );
+        CHECK( !dummy.has_effect( effect_bile_stink ) );
     }
 }
