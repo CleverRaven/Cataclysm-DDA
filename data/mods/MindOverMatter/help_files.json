@@ -14,18 +14,36 @@
   },
   {
     "type": "help",
-    "order": 1,
+    "order": 2,
+    "name": "Mind Over Matter: Types of Psionics",
+    "messages": [
+      "There are nine paths of psionics in Mind over Matter, as follows:",
+      "1) Biokinesis: Control over physical bodily processes such as respiration, metabolism, skin elasticity, or pain response.  Master biokinetics can be stronger or faster than any human can hope to be, cross short distances in the blink of an eye, turn bolts or pull up nails using only their hands, hold their breath for tens of minutes, and surpass the human pinnacle in every realm of unarmed combat.",
+      "2) Clairsentience: Enhanced perception and use of senses beyond the physical and short-term precognition, such as hearing high or low frequencies or seeing through walls or to distant places.  Master clairsentients can predict opponents' movements in combat, account for all possible effects on their ranged weapons to make the perfect shot, have visions of nearby places, and sense danger and those who try to harm them.",
+      "3) Electrokinesis: Control over electricity and some electrochemical processes, including the function of neurons and computers.  Master electrokinetics can shock opponents by touch, recharge electronics on their person, stun or shut down robots, paralyze beings with a nervous system, speed up their own neural processes or those of others, and unleash blasts of lightning.",
+      "4) Photokinesis: Control over light, radiation, and radio waves.  Master photokinetics can cause the nearby air to glow, create illusions around thsemvles to hide their position or even disappear, change their appearance, unleash laser blasts, listen to radio broadcasts, and glow as brightly as the noonday sun.",
+      "5) Pyrokinesis: Control over heat and fire.  Master pyrokinetics can wear a light t-shirt in a blizzard, light wood with just a thought, unleash blasts of flame on their enemies, surround themselves with a curtain of flame, and heat up a location hot enough to metal steel.",
+      "6) Telekinesis: Moving objects without touching them.  Master telekinetics can throw objects or people through the air, walk on water, create a barrier that inhibits fast-moving attacks, carry an object next to them without touching it, fly, or even cause small earthquakes.",
+      "7) Telepathy: Perception and manipulation of others' thoughts.  Master telepaths can read minds, influence others' moods to calm them down, tame even normally-untameable animals, stun and damage enemies with mental feedback, erase their perceptions from their targets' minds, and even take control of their enemies and make them fight for the psion.",
+      "8) Teleportation: Movement without crossing the intervening distance. Master teleporters can increase the relative distances around their enemies to slow their movements, reduce the relative distances around themselves to make melee attacks from several meters away, teleport through walls or from the first floor to the roof, walk through walls, travel long distances to places they have previously been, and open temporary rifts into the Nether.",
+      "9) Vitakinesis: Control of health and vitality, such as bloodflow, susceptibility to disease, healing speed, and need for sleep.  Master vitakinesis can slow or staunch bloodflow, increase the recovery rate of either a particular location or of their whole body, meditate instead of sleep, purge themselves of toxins or diseases, disrupt the bodily functions of their enemies, and heal grievous wounds in minutes."
+    ]
+  },
+  {
+    "type": "help",
+    "order": 3,
     "name": "Mind Over Matter: Gaining Psionic Powers",
     "messages": [
       "There are three main ways to gain psionic powers: start the game with them, find and use a matrix crystal, or exposure yourself to the raging energies of a portal storm.",
       "The first and most obvious is start the game with them.  There are professions for each psionic path, such as \"Doomseer\" for clairsentience or \"Itzcuauhtli Corps Liaison, Yohualli Ehēcatl Division\" for teleportation, and each path also has a series of three backgrounds entitled Newly-Awakened, Arising, and Ascended.  Newly-Awakened starts you with the absolute minimum possible, only a couple powers.  Arising starts you with a good amount of powers, equivalent to a mid-game character.  Ascended starts you with a very powerful suite of psionics best suited for games where monster difficulty has been significantly increased or other challenges are at play.",
+      "You can also choose psychic knacks; see its own help topic for a full explanation.",
       "The second is to find one of the strange colored crystals now found in the world, and the third is to stand out in a portal storm unprotected.  Using a matrix crystal works immediately and standing in a portal storm is a small chance each moment, but the effect is the same.  If you succeed, you gain a power path appropriate to the type of crystal, or randomly in the case of a portal storm.  If you fail, you suffer from negative effects related to your failure.  A failed biokinetic awakening will leave you physically weakened, for example, and a failed telekinetic awakening causes unseen forces to press down and inhibit your movement.",
       "Unlike learning spells, psionics are not guaranteed.  Each newly-created character has only a chance to gain powers.  This chance is variable per character, set when your character is created, and can range from 50% to as little as 1%.  Furthermore, every path you learn decreases your odds to learn future paths, though it never becomes impossible.  You may take the Latent Psion trait at character creation to ensure that your first attempt to awaken psionic powers is always successful, but this does affect the diminishing returns of attempting to awaken additional paths.  You do not need to take this straight if you start the game with any type of psionic powers; starting psions are assumed to have been latent."
     ]
   },
   {
     "type": "help",
-    "order": 2,
+    "order": 4,
     "name": "Mind Over Matter: Improving and Learning New Powers",
     "messages": [
       "Psionics come from within and cannot be studied by rote repetition from a book.  Furthermore, since they only recently appeared with the Cataclysm, there are no established teaching methods or pre-existing courses.  That means that each psion must figure out how to use their powers themselves.",
@@ -38,7 +56,7 @@
   },
   {
     "type": "help",
-    "order": 3,
+    "order": 5,
     "name": "Mind Over Matter: Concentration",
     "messages": [
       "One major difference in Mind Over Matter compared to other mods containing supernatural effects is the concentration system.  By default, psionic powers have no inherent duration; you cannot channel Physical Enhancement and then have it sustain itself the way you could a Bless spell.  You must concentrate on it to maintain it.",
@@ -49,7 +67,7 @@
   },
   {
     "type": "help",
-    "order": 4,
+    "order": 6,
     "name": "Mind Over Matter: Nether Attunement",
     "messages": [
       "Stamina and concentration are not the only limitations on your powers.  Another is Nether Attunement, though it is both a limitation and a path to power.",
@@ -58,6 +76,17 @@
       "However, Nether Attunement also carries risks.  The stronger your connection to the Nether, the more likely that a single stray thought or momentary lapse in concentration causes a disruption in your powers.  This is reflected in a chance of backlash starting at Nether Attunement level 1.  At low levels of Nether Attunement, backlashes are rare and minor: a headache, a nosebleed, or a chill in the air.  They get more serious as your Nether Attunement rises, including muscle weakness, temporarily losing access to your powers, or uncontrollably-increasing Nether Attunement, finally reaching catastrophes like eldritch monstrosities hunting you, an explosion of unearthly lightning, or permanent psychological damage.",
       "Nether Attunement is thus a balance between raising it to increase the effectiveness of your powers and not wanting it to go too high to avoid a backlash at an inopportune or dangerous moment.",
       "Nether Attunement naturally lowers with time, and other methods exist of lowering it as well."
+    ]
+  },
+  {
+    "type": "help",
+    "order": 7,
+    "name": "Mind Over Matter: Psychic Knacks",
+    "messages": [
+      "Psychic knacks are another way of starting the game with psionic powers, but in a different way than awakenings.  Awakenings are artificial, induced by matrix crystals or portal storms, but knacks are innate.  Someone with a knack was born with their powers, though they probably didn't fully gain them until later in life.",
+      "Psychic knacks are meant to represent the kind of psychics that often show up in horror literature, who are born with a certain set of powers and might get better at them but rarely laterally branch out.  They are meant to represent characters with one or a small number of tricks they can use to their advantage.",
+      "Each knack is self contained.  A knack for Chameleoflage allows the psychic to blend into their surroundings, and a knack for Mind Sense allows the psychic to locate nearby minds, and *that's it*.  They are not a full photokinetic or telepath and they will not gain any new powers.  What's more, something about knacks seems to interfere with matrix and portal awakenings.  The more knacks a character has, the harder awakening as a psion will be.  However, if you do awaken, any appropriate knacks are converted over into powers in your path (if applicable) and you become eligible for learning new powers.",
+      "Not every path has knacks available, and not every power can be taken as a knack.  Knacks can only be taken during character creation."
     ]
   }
 ]
