@@ -649,6 +649,24 @@
     "color": "brown"
   },
   {
+    "id": "bundle_cardboard",
+    "type": "ITEM",
+    "category": "other",
+    "name": { "str": "bundle of cardboard", "str_pl": "bundles of cardboard" },
+    "description": "One hundred pieces of cardboard securely tied together for easier transport.  Disassemble to untie them.",
+    "//1": "total volume is equal to 100 cardboard, assuming uniformity and tight stacking",
+    "volume": "2.5 L",
+    "weight": "1 kg",
+    "//2": "10g is 20x20cm of 250 GSM (grams per square meter) cardboard",
+    "longest_side": "20 cm",
+    "//3": "Most cardboard items are worthless. A few have minimal value.",
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
+    "material": [ "cardboard" ],
+    "symbol": "`",
+    "color": "brown"
+  },
+  {
     "type": "ITEM",
     "id": "sample_t_substrate",
     "category": "spare_parts",

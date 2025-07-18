@@ -2783,6 +2783,19 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "bundle_cardboard",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "time": "1 m",
+    "autolearn": true,
+    "reversible": true,
+    "components": [ [ [ "cardboard", 100 ] ], [ [ "rope_any_short", 2, "LIST" ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "metal_butcher_rack",
