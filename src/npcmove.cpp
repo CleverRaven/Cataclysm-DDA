@@ -675,7 +675,8 @@ float npc::evaluate_self( bool my_gun )
                    name,
                    mem_combat.my_health * 100.0f, pain_factor, threat );
     add_msg_debug( debugmode::DF_NPC, "%s assesses own threat as %1.2f", name, threat );
-    return std::min( threat, NPC_CHARACTER_DANGER_MAX );
+	mem_combat.last_self_assess = std::min( threat, NPC_CHARACTER_DANGER_MAX );
+    return mem_combat.last_self_assess;
 }
 
 float npc::estimate_armour( const Character &candidate ) const
@@ -756,7 +757,7 @@ void npc::assess_danger()
     int preferred_medium_range = 6;
     // Radius in which enemy threats are hugely multiplied to encourage repositioning
     int preferred_close_range = 3;
-	if( npc_ranged  { 
+	if( npc_ranged  ) { 
 	    // ranged NPCs will always be a little more squirrely about crowds
 	    preferred_medium_range = std::max( max_range, 8 );
         preferred_medium_range = std::min( preferred_medium_range, 15 );
@@ -902,17 +903,22 @@ void npc::assess_danger()
             if( critter_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
                 warn_about( "monster", 10_minutes, critter.type->nname(), dist, critter.pos_bub() );
             }
-            if( dist < preferred_medium_range ) {
+            if( dist < preferred_medium_range && critter_threat > mem_combat.last_self_assess / 10.0f ) {
                 hostile_count += 1;
                 add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                               "<color_light_gray>%s added %s to nearby hostile count.  Total: %i</color>", name,
-                               critter.type->nname(), hostile_count );
+                               "<color_light_gray>%s added %s to midrange hostile count.  Threat %1.1f > %1.1f.  Total: %i</color>", name,
+                               critter.type->nname(), critter_threat, mem_combat.last_self_assess / 10.0f, hostile_count );
             }
-            if( dist <= preferred_close_range ) {
+            if( dist <= preferred_close_range && critter_threat > mem_combat.last_self_assess / 15.0f ) {
                 mem_combat.swarm_count += 1;
                 add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                               "<color_light_gray>%s added %s to swarm count.  Total: %i</color>",
-                               name, critter.type->nname(), mem_combat.swarm_count );
+                               "<color_light_gray>%s added %s to swarm count.   Threat %1.1f > %1.1f.  Total: %i</color>",
+                               name, critter.type->nname(), critter_threat, mem_combat.last_self_assess / 15.0f,  mem_combat.swarm_count );
+            } else if( dist <= 1 && critter_threat > mem_combat.last_self_assess / 25.0f ) {
+                mem_combat.swarm_count += 1;
+                add_msg_debug( debugmode::DF_NPC_COMBATAI,
+                               "<color_light_gray>%s added %s to urgent swarm count.  Threat %1.1f > %1.1f.  Total: %i</color>",
+                               name, critter.type->nname(), critter_threat, mem_combat.last_self_assess / 25.0f,  mem_combat.swarm_count );
             }
         }
         if( must_retreat || no_fighting ) {
@@ -1067,8 +1073,7 @@ void npc::assess_danger()
                            name, player_diff );
             if( dist <= 3 ) {
 				mem_combat.turns_next_to_leader += 1;
-				int player_time_factor = std::max( 5 - mem_combat.turns_next_to_leader, 2 );
-                player_diff = player_diff * ( 4 - dist ) / std::max( 5-turns_next_to_leader, 2 );
+                player_diff = player_diff * ( 4 - dist ) / std::max( 5 - mem_combat.turns_next_to_leader, 2 );
                 mem_combat.swarm_count /= ( 4 - dist );
                 mem_combat.assess_ally += player_diff;
                 add_msg_debug( debugmode::DF_NPC_COMBATAI,
