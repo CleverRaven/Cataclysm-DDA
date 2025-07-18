@@ -284,6 +284,42 @@
     ]
   },
   {
+    "id": "afs_vehicle_bay_rack",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "group": "vehicle_bay_tools", "prob": 50 }, { "group": "vehicle_bay_mats", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "vehicle_bay_tools",
+    "//": "Mechanic's tools, still mostly mundane.",
+    "subtype": "collection",
+    "items": [
+      { "group": "tools_toolbox", "prob": 5 },
+      { "group": "afs_hard_hat", "prob": 5 },
+      { "group": "afs_tools_welding", "prob": 5 },
+      { "group": "afs_tools_welding_consumable", "prob": 10 },
+      { "group": "tools_common_small", "prob": 20, "count": [ 2, 4 ] },
+      { "item": "screwdriver_set", "prob": 20 },
+      { "item": "pliers", "prob": 5 },
+      { "item": "multitool", "prob": 5 },
+      { "item": "gloves_work", "prob": 5 },
+      { "item": "glasses_safety", "prob": 5 },
+      { "item": "goggles_welding", "prob": 5 },
+      { "item": "polisher", "prob": 20 },
+      { "item": "angle_grinder", "prob": 20 },
+      [ "thread_cutting_set", 5 ],
+      [ "hand_pump", 5 ],
+      [ "jumper_cable", 10 ],
+      [ "extension_cable", 15 ],
+      [ "hd_tow_cable", 5 ],
+      [ "clamp", 5 ],
+      [ "clamp", 5 ],
+      [ "metal_file", 10 ],
+      [ "hacksaw", 5 ]
+    ]
+  },
+  {
     "type": "item_group",
     "id": "afs_tools_scavenging",
     "//": "lightweight tools used for finding and getting into places where you don't belong.",

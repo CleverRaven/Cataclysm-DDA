@@ -268,7 +268,7 @@
     "id": "afs_mon_sentinel_lx",
     "type": "MONSTER",
     "name": { "str": "Wraitheon Sentinel-lx", "str_pl": "Wraitheon Sentinels-lx" },
-    "description": "Its exterior plates are sable and gold, this luxurious variant of a Wraitheon drone was once kept as a bodyguard by society's wealthiest.  Still with its wrist sword extended, it resembles an ancient knight, standing an eternal watch.",
+    "description": "Clad in sable and gold armor, this luxurious combat humaniform is intended to serve as a bodyguard to society's wealthiest.  Still with its wrist sword extended, it resembles an ancient knight, standing an eternal watch.",
     "default_faction": "WraitheonRobotics",
     "species": [ "ROBOT" ],
     "diff": 10,
@@ -276,6 +276,7 @@
     "weight": "81500 g",
     "hp": 200,
     "speed": 100,
+    "bleed_rate": 0,
     "material": [ "steel" ],
     "symbol": "R",
     "color": "light_gray",
@@ -285,20 +286,22 @@
     "melee_dice": 4,
     "melee_dice_sides": 5,
     "melee_dice_ap": 4,
-    "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
+    "melee_damage": [ { "damage_type": "cut", "amount": 10 } ],
     "dodge": 8,
     "vision_day": 6,
     "vision_night": 6,
     "path_settings": { "max_dist": 6, "avoid_traps": true, "avoid_sharp": true },
     "revert_to_itype": "bot_sentinel_lx",
     "special_attacks": [
+      { "id": "android_crush", "cooldown": 1 },
+      { "id": "android_crush_monster", "cooldown": 1 },
+      { "id": "android_drop", "cooldown": 2 },
       [ "SMASH", 20 ],
-      [ "TAZER", 5 ],
       {
         "type": "gun",
         "cooldown": 15,
         "gun_type": "afs_sentinel_laser_mon",
-        "ranges": [ [ 0, 12, "DEFAULT" ] ],
+        "ranges": [ [ 3, 12, "DEFAULT" ] ],
         "targeting_sound": "\"Dispatching hostile with lethal force.\"",
         "require_targeting_npc": true,
         "require_targeting_monster": true,
@@ -316,8 +319,7 @@
       "NO_BREATHE",
       "PRIORITIZE_TARGETS",
       "GOODHEARING",
-      "PATH_AVOID_DANGER",
-      "HIT_AND_RUN"
+      "PATH_AVOID_DANGER"
     ],
     "//": "Much lower armor than usual since this is a player allied robot only.",
     "armor": { "bash": 8, "cut": 10, "bullet": 15 }
@@ -690,6 +692,7 @@
     "melee_dice": 4,
     "melee_dice_sides": 5,
     "melee_dice_ap": 4,
+    "bleed_rate": 0,
     "starting_ammo": { "afs_7.50mm_caseless": 90 },
     "vision_day": 50,
     "vision_night": 50,
@@ -716,15 +719,15 @@
         "targeting_sound": "\"Hostile Detected.\"",
         "targeting_volume": 10
       },
-      { "id": "grab", "cooldown": 7 },
       {
         "id": "smash",
         "throw_strength": 48,
         "cooldown": 30,
         "condition": { "not": { "u_has_effect": "afs_android_crawling" } }
       },
-      { "id": "android_crush", "cooldown": 3 },
-      { "id": "leg_sweep", "cooldown": 2 }
+      { "id": "android_crush", "cooldown": 1 },
+      { "id": "android_crush_monster", "cooldown": 1 },
+      { "id": "android_drop", "cooldown": 2 }
     ],
     "extend": { "flags": [ "DROPS_AMMO" ] },
     "broken_itype": "broken_imaginifer",

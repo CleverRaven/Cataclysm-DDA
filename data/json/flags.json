@@ -1222,6 +1222,11 @@
     "//": "Applies robust genetic bonus - mutations give only 1 unit of instability for all traits instead of 1 unit for your current tree, and 2 for any outer tree."
   },
   {
+    "id": "SKIP_HEALTH",
+    "type": "json_flag",
+    "//": "If food gives any health bonus or penalty, having this flag would prevent you from receiving such."
+  },
+  {
     "id": "HIDDEN_HALLU",
     "type": "json_flag",
     "craft_inherit": true,

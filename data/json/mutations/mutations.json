@@ -1827,6 +1827,7 @@
     "vitamin_cost": 160,
     "description": "You *adore* the taste of junk food, and find it preferable to everything else!",
     "purifiable": false,
+    "flags": [ "SKIP_HEALTH" ],
     "prereqs": [ "PROJUNK" ],
     "cancels": [ "ANTIJUNK" ],
     "threshreq": [ "THRESH_MOUSE" ],
