@@ -906,7 +906,7 @@ void npc::assess_danger()
             if( critter_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
                 warn_about( "monster", 10_minutes, critter.type->nname(), dist, critter.pos_bub() );
             }
-            if( preferred_close_range < dist <= preferred_medium_range &&
+            if( preferred_close_range < dist && dist <= preferred_medium_range &&
                 critter_threat > mem_combat.my_defence_assess / 5.0f ) {
                 hostile_count += 1;
                 add_msg_debug( debugmode::DF_NPC_COMBATAI,
@@ -914,7 +914,7 @@ void npc::assess_danger()
                                name,
                                critter.type->nname(), critter_threat, mem_combat.my_defence_assess / 5.0f, hostile_count );
             }
-            if( 1 < dist <= preferred_close_range && critter_threat > mem_combat.my_defence_assess / 7.0f ) {
+            if( 1 < dist && dist <= preferred_close_range && critter_threat > mem_combat.my_defence_assess / 7.0f ) {
                 hostile_count += 1;
                 mem_combat.swarm_count += 1;
                 add_msg_debug( debugmode::DF_NPC_COMBATAI,
@@ -1093,7 +1093,7 @@ void npc::assess_danger()
                                dist,  mem_combat.turns_next_to_leader, name,
                                player_diff );
                 // don't try to fall back with your ranged weapon if you're in formation with the player for a while.
-                if( mem_combat.turns_next_to_leader > mem_combat.panic > 0 && one_in( dist ) ) {
+                if( mem_combat.turns_next_to_leader > mem_combat.panic && mem_combat.panic > 0 && one_in( dist ) ) {
                     mem_combat.panic -= 1;
                 }
                 friendly_count += 4 - dist; // when close to the player, weight enemy groups less.
