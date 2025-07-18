@@ -914,7 +914,8 @@ void npc::assess_danger()
                                name,
                                critter.type->nname(), critter_threat, mem_combat.my_defence_assess / 5.0f, hostile_count );
             }
-            if( 1 < dist && dist <= preferred_close_range && critter_threat > mem_combat.my_defence_assess / 7.0f ) {
+            if( 1 < dist && dist <= preferred_close_range &&
+                critter_threat > mem_combat.my_defence_assess / 7.0f ) {
                 hostile_count += 1;
                 mem_combat.swarm_count += 1;
                 add_msg_debug( debugmode::DF_NPC_COMBATAI,
@@ -3948,7 +3949,7 @@ bool npc::would_take_that( const item &it, const tripoint_bub_ms &p )
             npc *npc_to_add = npc_to_get.get();
             followers.push_back( npc_to_add );
         }
-        for( npc*&elem : followers ) {
+        for( npc *&elem : followers ) {
             if( elem->sees( here, this->pos_bub( here ) ) || elem->sees( here,  p ) ) {
                 return false;
             }
