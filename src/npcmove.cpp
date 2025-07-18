@@ -322,7 +322,7 @@ tripoint_bub_ms npc::good_escape_direction( bool include_pos )
         const tripoint_abs_ms abs_pos = pos_abs();
         const zone_manager &mgr = zone_manager::get_manager();
         std::optional<tripoint_abs_ms> retreat_target = mgr.get_nearest( retreat_zone, abs_pos,
-            MAX_VIEW_DISTANCE, fac_id );
+                MAX_VIEW_DISTANCE, fac_id );
         // if there is a retreat zone in range, go there
 
 
@@ -1171,7 +1171,7 @@ void npc::act_on_danger_assessment()
                                            mem_combat.assessment_before_repos + rng( 0, 5 ) <= mem_combat.assess_enemy;
         const bool range_reposition_fail = npc_ranged &&
                                            mem_combat.assessment_before_repos * mem_combat.swarm_count + rng( 0,
-                                               5 ) <= mem_combat.assess_enemy * mem_combat.swarm_count;
+                                                   5 ) <= mem_combat.assess_enemy * mem_combat.swarm_count;
         if( melee_reposition_fail || range_reposition_fail ) {
             add_msg_debug( debugmode::DF_NPC_COMBATAI,
                            "<color_light_red>%s tried to reposition last turn, and the situation has not improved.</color>",
@@ -3252,7 +3252,7 @@ void npc::move_to_next()
 
     if( path.empty() ) {
         add_msg_debug( debugmode::DF_NPC, "npc::move_to_next() called with an empty path or path "
-                                          "containing only current position" );
+                       "containing only current position" );
         move_pause();
         return;
     }
@@ -3757,7 +3757,7 @@ void npc::pick_up_item()
 
     map &here = get_map();
     const std::optional<vpart_reference> vp = here.veh_at( wanted_item_pos ).part_with_feature(
-            VPFLAG_CARGO, false );
+                VPFLAG_CARGO, false );
     const bool has_cargo = vp && !vp->has_feature( "LOCKED" );
 
     if( ( !here.has_items( wanted_item_pos ) && !has_cargo &&
@@ -3948,7 +3948,7 @@ bool npc::would_take_that( const item &it, const tripoint_bub_ms &p )
             npc *npc_to_add = npc_to_get.get();
             followers.push_back( npc_to_add );
         }
-        for( npc * &elem : followers ) {
+        for( npc*&elem : followers ) {
             if( elem->sees( here, this->pos_bub( here ) ) || elem->sees( here,  p ) ) {
                 return false;
             }
@@ -3996,7 +3996,8 @@ bool npc::find_corpse_to_pulp()
     // Pathing with overdraw can get expensive, limit it
     int path_counter = 4;
     const auto check_tile = [this, &path_counter, &here]( const tripoint_bub_ms & p ) -> const item * {
-        if( !here.sees_some_items( p, *this ) || !sees( here, p ) ) {
+        if( !here.sees_some_items( p, *this ) || !sees( here, p ) )
+        {
             return nullptr;
         }
 
@@ -4475,7 +4476,8 @@ void npc::heal_self()
         std::string iusage = "INHALER";
 
         const auto filter_use = [this]( const std::string & filter ) -> std::vector<item *> {
-            std::vector<item *> inv_filtered = items_with( [&filter]( const item & itm ) {
+            std::vector<item *> inv_filtered = items_with( [&filter]( const item & itm )
+            {
                 return ( itm.type->get_use( filter ) != nullptr ) && itm.ammo_sufficient( nullptr );
             } );
             return inv_filtered;
@@ -4895,7 +4897,7 @@ void npc::reach_omt_destination()
                 if( player_character.cache_has_item_with_flag( flag_TWO_WAY_RADIO, true ) &&
                     cache_has_item_with_flag( flag_TWO_WAY_RADIO, true ) ) {
                     add_msg_if_player_sees( pos_bub(), m_info, _( "From your two-way radio you hear %s reporting in, "
-                                                                  "'I've arrived, boss!'" ), disp_name() );
+                                            "'I've arrived, boss!'" ), disp_name() );
                 }
             }
         } else {
@@ -5027,9 +5029,9 @@ void npc::set_omt_destination()
     }
 
     DebugLog( D_INFO, DC_ALL ) << "npc::set_omt_destination - new goal for NPC [" << get_name() <<
-                                  "] with [" << get_need_str_id( needs.front() ) <<
-                                  "] is [" << dest_type <<
-                                  "] in " << goal.to_string() << ".";
+                               "] with [" << get_need_str_id( needs.front() ) <<
+                               "] is [" << dest_type <<
+                               "] in " << goal.to_string() << ".";
 }
 
 void npc::go_to_omt_destination()
@@ -5280,8 +5282,8 @@ void npc::warn_about( const std::string &type, const time_duration &d, const std
     } else {
         const std::string range_str = range < 1 ? "<punc>" :
                                       string_format( _( " %s, %s" ),
-                                          direction_name( direction_from( pos_bub(), danger_pos ) ),
-                                          distance_string( range ) );
+                                              direction_name( direction_from( pos_bub(), danger_pos ) ),
+                                              distance_string( range ) );
         const std::string speech = string_format( _( "%s %s%s" ), snip, _( name ), range_str );
         complain_about( warning_name, d, speech, is_enemy(), spriority );
     }
