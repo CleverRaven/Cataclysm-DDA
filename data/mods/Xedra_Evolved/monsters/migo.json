@@ -50,7 +50,7 @@
     "id": "mon_mi_go_humanoid",
     "type": "MONSTER",
     "name": { "str": "humaniform mi-go" },
-    "description": "A pink alien that used to be a mi-go before turning into this facsimile of a human person.  Whatever compromises they went with to create this form has made them lighter and no taller than an average man's waist, they 'wear' clothes made out of waxy thin pink flesh, and the only mi-go parts left intact are their lobster-like claws and their useless pair of ribbed, membranous wings.  Whether they used the form for diplomacy with the humans or just the general curiousity of the humanoid shape, they still pack a punch despite the diminutive form.",
+    "description": "A pink alien that used to be a mi-go before turning into this facsimile of a human person.  Whatever compromises they went with to create this form has made them lighter and no taller than an average man's waist, they 'wear' clothes made out of waxy thin pink flesh, and the only mi-go parts left intact are their lobster-like claws and their useless pair of ribbed, membranous wings.  Whether they used the form for diplomacy with the humans or just the general curiosity of the humanoid shape, they still pack a punch despite the diminutive form.",
     "default_faction": "mi-go",
     "bodytype": "human",
     "species": [ "MIGO" ],
