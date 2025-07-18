@@ -216,9 +216,9 @@ double player_difficulty::calc_dps_value( const Character &u )
     double baseline = std::max( u.weapon_value( early_piercing ),
                                 u.weapon_value( early_cutting ) );
     baseline = std::max( baseline, u.weapon_value( early_bashing ) );
-    baseline = std::max( baseline, u.weapon_value( standard_rifle, 10 ) );
-    baseline = std::max( baseline, u.weapon_value( standard_handgun, 10 ) );
     baseline = std::max( baseline, u.weapon_value( standard_launcher, 3 ) );
+    baseline = std::max( baseline, u.weapon_value( standard_rifle, 30 ) );
+    baseline = std::max( baseline, u.weapon_value( standard_handgun, 30 ) );
 
     // check any other items the character has on them
     if( u.prof ) {
