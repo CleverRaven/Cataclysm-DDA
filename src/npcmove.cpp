@@ -649,6 +649,7 @@ float npc::evaluate_self( bool my_gun )
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
                    "<color_light_green>evaluate_self </color><color_light_gray>%s assesses own defense value as %1.2f.</color>",
                    name, threat );
+	mem_combat.my_defence_assess = threat * mem_combat.my_health;
 
     threat += my_weap_val;
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
@@ -675,8 +676,7 @@ float npc::evaluate_self( bool my_gun )
                    name,
                    mem_combat.my_health * 100.0f, pain_factor, threat );
     add_msg_debug( debugmode::DF_NPC, "%s assesses own threat as %1.2f", name, threat );
-	mem_combat.last_self_assess = std::min( threat, NPC_CHARACTER_DANGER_MAX );
-    return mem_combat.last_self_assess;
+    return std::min( threat, NPC_CHARACTER_DANGER_MAX );
 }
 
 float npc::estimate_armour( const Character &candidate ) const
@@ -897,28 +897,33 @@ void npc::assess_danger()
             }
             continue;
         }
+		
+		// Create a tally of how many worthwhile hostiles are in the area,
+		// ignoring them if your defense is much higher than their total threat.
 
         if( is_enemy() || !critter.friendly ) {
             mem_combat.assess_enemy += critter_threat;
             if( critter_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
                 warn_about( "monster", 10_minutes, critter.type->nname(), dist, critter.pos_bub() );
             }
-            if( dist < preferred_medium_range && critter_threat > mem_combat.last_self_assess / 10.0f ) {
+            if( preferred_close_range < dist <= preferred_medium_range && critter_threat > mem_combat.my_defence_assess / 5.0f ) {
                 hostile_count += 1;
                 add_msg_debug( debugmode::DF_NPC_COMBATAI,
                                "<color_light_gray>%s added %s to midrange hostile count.  Threat %1.1f > %1.1f.  Total: %i</color>", name,
-                               critter.type->nname(), critter_threat, mem_combat.last_self_assess / 10.0f, hostile_count );
+                               critter.type->nname(), critter_threat, mem_combat.my_defence_assess / 5.0f, hostile_count );
             }
-            if( dist <= preferred_close_range && critter_threat > mem_combat.last_self_assess / 15.0f ) {
+            if( 1 < dist <= preferred_close_range && critter_threat > mem_combat.my_defence_assess / 7.0f ) {
+				hostile_count += 1;
                 mem_combat.swarm_count += 1;
                 add_msg_debug( debugmode::DF_NPC_COMBATAI,
                                "<color_light_gray>%s added %s to swarm count.   Threat %1.1f > %1.1f.  Total: %i</color>",
-                               name, critter.type->nname(), critter_threat, mem_combat.last_self_assess / 15.0f,  mem_combat.swarm_count );
-            } else if( dist <= 1 && critter_threat > mem_combat.last_self_assess / 25.0f ) {
+                               name, critter.type->nname(), critter_threat, mem_combat.my_defence_assess / 7.0f,  mem_combat.swarm_count );
+            } else if( dist <= 1 && critter_threat > mem_combat.my_defence_assess / 10.0f ) {
+				hostile_count += 1;
                 mem_combat.swarm_count += 1;
                 add_msg_debug( debugmode::DF_NPC_COMBATAI,
                                "<color_light_gray>%s added %s to urgent swarm count.  Threat %1.1f > %1.1f.  Total: %i</color>",
-                               name, critter.type->nname(), critter_threat, mem_combat.last_self_assess / 25.0f,  mem_combat.swarm_count );
+                               name, critter.type->nname(), critter_threat, mem_combat.my_defence_assess / 10.0f,  mem_combat.swarm_count );
             }
         }
         if( must_retreat || no_fighting ) {
@@ -1073,15 +1078,17 @@ void npc::assess_danger()
                            name, player_diff );
             if( dist <= 3 ) {
 				mem_combat.turns_next_to_leader += 1;
-                player_diff = player_diff * ( 4 - dist ) / std::max( 5 - mem_combat.turns_next_to_leader, 2 );
-                mem_combat.swarm_count /= ( 4 - dist );
+                player_diff = ( player_diff + op_of_u.trust ) * ( 4 - dist ) / std::max( 5 - mem_combat.turns_next_to_leader, 2 );
+				if( mem_combat.turns_next_to_leader >= dist ){
+                    mem_combat.swarm_count = std::max( mem_combat.swarm_count - ( 4 - dist ), 0 );
+				}
                 mem_combat.assess_ally += player_diff;
                 add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                               "<color_green>Player is %i tiles from %s.</color><color_light_gray>  Adding </color><color_light_green>%1.2f to ally strength</color><color_light_gray> and bolstering morale.</color>",
-                               dist, name,
+                               "<color_green>Player is %i tiles from %s for %i turns.</color><color_light_gray>  Adding </color><color_light_green>%1.2f to ally strength</color><color_light_gray> and bolstering morale.</color>",
+                               dist,  mem_combat.turns_next_to_leader, name,
                                player_diff );
-                // don't try to fall back with your ranged weapon if you're in formation with the player.
-                if( mem_combat.panic > 0 && one_in( dist ) ) {
+                // don't try to fall back with your ranged weapon if you're in formation with the player for a while.
+                if( mem_combat.turns_next_to_leader > mem_combat.panic > 0 && one_in( dist ) ) {
                     mem_combat.panic -= 1;
                 }
                 friendly_count += 4 - dist; // when close to the player, weight enemy groups less.
@@ -1216,7 +1223,7 @@ void npc::act_on_danger_assessment()
                 }
             }
         } else if( failed_reposition ||
-                   ( mem_combat.assess_ally < mem_combat.assess_enemy * mem_combat.swarm_count ) ) {
+                   ( mem_combat.assess_ally / 3.0f + mem_combat.my_defence_assess < mem_combat.assess_enemy * mem_combat.swarm_count ) ) {
             add_msg_debug( debugmode::DF_NPC_COMBATAI,
                            "<color_light_gray>%s considers </color>repositioning<color_light_gray> from swarming enemies.</color>",
                            name );

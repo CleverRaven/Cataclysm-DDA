@@ -567,7 +567,7 @@ struct npc_short_term_cache {
 struct npc_combat_memory_cache {
     float assess_ally = 0.0f;
     float assess_enemy = 0.0f;
-    float last_self_assess = 0.0f; //cached because this can be expensive
+    float my_defence_assess = 0.0f;
     int panic = 0;
     int swarm_count = 0; //so you can tell if you're getting away over multiple turns
     int failing_to_reposition = 0; // Inc. when tries to flee/move and doesn't change assess
