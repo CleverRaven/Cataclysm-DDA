@@ -322,7 +322,7 @@ tripoint_bub_ms npc::good_escape_direction( bool include_pos )
         const tripoint_abs_ms abs_pos = pos_abs();
         const zone_manager &mgr = zone_manager::get_manager();
         std::optional<tripoint_abs_ms> retreat_target = mgr.get_nearest( retreat_zone, abs_pos,
-                MAX_VIEW_DISTANCE, fac_id );
+            MAX_VIEW_DISTANCE, fac_id );
         // if there is a retreat zone in range, go there
 
 
@@ -641,7 +641,7 @@ float npc::evaluate_self( bool my_gun )
             mem_combat.panic += 1;
         }
     }
-    
+
     float personality_factor = ( personality.bravery + personality.aggression ) / 10.0f;
 
     threat += get_dodge();
@@ -649,19 +649,19 @@ float npc::evaluate_self( bool my_gun )
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
                    "<color_light_green>evaluate_self </color><color_light_gray>%s assesses own defense value as %1.2f.</color>",
                    name, threat );
-	mem_combat.my_defence_assess = threat * mem_combat.my_health;
+    mem_combat.my_defence_assess = threat * mem_combat.my_health;
 
     threat += my_weap_val;
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
                    "<color_light_gray>%s assesses own weapon value as %1.2f.",
                    name, my_weap_val );
 
-    if ( personality_factor > 0 ) {
+    if( personality_factor > 0 ) {
         threat *= 1 + personality_factor;
     } else {
         threat /= 1 + abs( personality_factor );
     }
-    
+
     add_msg_debug( debugmode::DF_NPC_COMBATAI,
                    "<color_light_gray>%s updates own threat to %1.2f based on personality factor %i.",
                    name, threat, ( personality.bravery + personality.aggression ) / 10 );
@@ -757,13 +757,13 @@ void npc::assess_danger()
     int preferred_medium_range = 6;
     // Radius in which enemy threats are hugely multiplied to encourage repositioning
     int preferred_close_range = 3;
-	if( npc_ranged  ) { 
-	    // ranged NPCs will always be a little more squirrely about crowds
-	    preferred_medium_range = std::max( max_range, 8 );
+    if( npc_ranged ) {
+        // ranged NPCs will always be a little more squirrely about crowds
+        preferred_medium_range = std::max( max_range, 8 );
         preferred_medium_range = std::min( preferred_medium_range, 15 );
-		preferred_close_range = std::max( max_range, 3 );
+        preferred_close_range = std::max( max_range, 3 );
         preferred_close_range = std::min( preferred_close_range, preferred_medium_range / 2 );
-	}
+    }
 
     Character &player_character = get_player_character();
     bool sees_player = sees( here, player_character.pos_bub( here ) );
@@ -897,33 +897,37 @@ void npc::assess_danger()
             }
             continue;
         }
-		
-		// Create a tally of how many worthwhile hostiles are in the area,
-		// ignoring them if your defense is much higher than their total threat.
+
+        // Create a tally of how many worthwhile hostiles are in the area,
+        // ignoring them if your defense is much higher than their total threat.
 
         if( is_enemy() || !critter.friendly ) {
             mem_combat.assess_enemy += critter_threat;
             if( critter_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
                 warn_about( "monster", 10_minutes, critter.type->nname(), dist, critter.pos_bub() );
             }
-            if( preferred_close_range < dist <= preferred_medium_range && critter_threat > mem_combat.my_defence_assess / 5.0f ) {
+            if( preferred_close_range < dist <= preferred_medium_range &&
+                critter_threat > mem_combat.my_defence_assess / 5.0f ) {
                 hostile_count += 1;
                 add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                               "<color_light_gray>%s added %s to midrange hostile count.  Threat %1.1f > %1.1f.  Total: %i</color>", name,
+                               "<color_light_gray>%s added %s to midrange hostile count.  Threat %1.1f > %1.1f.  Total: %i</color>",
+                               name,
                                critter.type->nname(), critter_threat, mem_combat.my_defence_assess / 5.0f, hostile_count );
             }
             if( 1 < dist <= preferred_close_range && critter_threat > mem_combat.my_defence_assess / 7.0f ) {
-				hostile_count += 1;
+                hostile_count += 1;
                 mem_combat.swarm_count += 1;
                 add_msg_debug( debugmode::DF_NPC_COMBATAI,
                                "<color_light_gray>%s added %s to swarm count.   Threat %1.1f > %1.1f.  Total: %i</color>",
-                               name, critter.type->nname(), critter_threat, mem_combat.my_defence_assess / 7.0f,  mem_combat.swarm_count );
+                               name, critter.type->nname(), critter_threat, mem_combat.my_defence_assess / 7.0f,
+                               mem_combat.swarm_count );
             } else if( dist <= 1 && critter_threat > mem_combat.my_defence_assess / 10.0f ) {
-				hostile_count += 1;
+                hostile_count += 1;
                 mem_combat.swarm_count += 1;
                 add_msg_debug( debugmode::DF_NPC_COMBATAI,
                                "<color_light_gray>%s added %s to urgent swarm count.  Threat %1.1f > %1.1f.  Total: %i</color>",
-                               name, critter.type->nname(), critter_threat, mem_combat.my_defence_assess / 10.0f,  mem_combat.swarm_count );
+                               name, critter.type->nname(), critter_threat, mem_combat.my_defence_assess / 10.0f,
+                               mem_combat.swarm_count );
             }
         }
         if( must_retreat || no_fighting ) {
@@ -1077,11 +1081,12 @@ void npc::assess_danger()
                            "<color_light_gray>%s identified player as a </color><color_green>friend</color><color_light_gray> of threat level %1.2f (ily babe)",
                            name, player_diff );
             if( dist <= 3 ) {
-				mem_combat.turns_next_to_leader += 1;
-                player_diff = ( player_diff + op_of_u.trust ) * ( 4 - dist ) / std::max( 5 - mem_combat.turns_next_to_leader, 2 );
-				if( mem_combat.turns_next_to_leader >= dist ){
+                mem_combat.turns_next_to_leader += 1;
+                player_diff = ( player_diff + op_of_u.trust ) * ( 4 - dist ) / std::max(
+                                  5 - mem_combat.turns_next_to_leader, 2 );
+                if( mem_combat.turns_next_to_leader >= dist ) {
                     mem_combat.swarm_count = std::max( mem_combat.swarm_count - ( 4 - dist ), 0 );
-				}
+                }
                 mem_combat.assess_ally += player_diff;
                 add_msg_debug( debugmode::DF_NPC_COMBATAI,
                                "<color_green>Player is %i tiles from %s for %i turns.</color><color_light_gray>  Adding </color><color_light_green>%1.2f to ally strength</color><color_light_gray> and bolstering morale.</color>",
@@ -1097,7 +1102,7 @@ void npc::assess_danger()
                                "<color_light_gray>%s sees friendly player,</color> <color_light_green>adding %1.2f</color><color_light_gray> to ally strength.</color>",
                                name, player_diff * 0.5f );
                 mem_combat.assess_ally += player_diff * 0.5f;
-				mem_combat.turns_next_to_leader = 0;
+                mem_combat.turns_next_to_leader = 0;
             }
             ai_cache.friends.emplace_back( g->shared_from( player_character ) );
         }
@@ -1166,7 +1171,7 @@ void npc::act_on_danger_assessment()
                                            mem_combat.assessment_before_repos + rng( 0, 5 ) <= mem_combat.assess_enemy;
         const bool range_reposition_fail = npc_ranged &&
                                            mem_combat.assessment_before_repos * mem_combat.swarm_count + rng( 0,
-                                                   5 ) <= mem_combat.assess_enemy * mem_combat.swarm_count;
+                                               5 ) <= mem_combat.assess_enemy * mem_combat.swarm_count;
         if( melee_reposition_fail || range_reposition_fail ) {
             add_msg_debug( debugmode::DF_NPC_COMBATAI,
                            "<color_light_red>%s tried to reposition last turn, and the situation has not improved.</color>",
@@ -1223,7 +1228,8 @@ void npc::act_on_danger_assessment()
                 }
             }
         } else if( failed_reposition ||
-                   ( mem_combat.assess_ally / 3.0f + mem_combat.my_defence_assess < mem_combat.assess_enemy * mem_combat.swarm_count ) ) {
+                   ( mem_combat.assess_ally / 3.0f + mem_combat.my_defence_assess < mem_combat.assess_enemy *
+                     mem_combat.swarm_count ) ) {
             add_msg_debug( debugmode::DF_NPC_COMBATAI,
                            "<color_light_gray>%s considers </color>repositioning<color_light_gray> from swarming enemies.</color>",
                            name );
@@ -3246,7 +3252,7 @@ void npc::move_to_next()
 
     if( path.empty() ) {
         add_msg_debug( debugmode::DF_NPC, "npc::move_to_next() called with an empty path or path "
-                       "containing only current position" );
+                                          "containing only current position" );
         move_pause();
         return;
     }
@@ -3751,7 +3757,7 @@ void npc::pick_up_item()
 
     map &here = get_map();
     const std::optional<vpart_reference> vp = here.veh_at( wanted_item_pos ).part_with_feature(
-                VPFLAG_CARGO, false );
+            VPFLAG_CARGO, false );
     const bool has_cargo = vp && !vp->has_feature( "LOCKED" );
 
     if( ( !here.has_items( wanted_item_pos ) && !has_cargo &&
@@ -3942,7 +3948,7 @@ bool npc::would_take_that( const item &it, const tripoint_bub_ms &p )
             npc *npc_to_add = npc_to_get.get();
             followers.push_back( npc_to_add );
         }
-        for( npc *&elem : followers ) {
+        for( npc * &elem : followers ) {
             if( elem->sees( here, this->pos_bub( here ) ) || elem->sees( here,  p ) ) {
                 return false;
             }
@@ -3990,8 +3996,7 @@ bool npc::find_corpse_to_pulp()
     // Pathing with overdraw can get expensive, limit it
     int path_counter = 4;
     const auto check_tile = [this, &path_counter, &here]( const tripoint_bub_ms & p ) -> const item * {
-        if( !here.sees_some_items( p, *this ) || !sees( here, p ) )
-        {
+        if( !here.sees_some_items( p, *this ) || !sees( here, p ) ) {
             return nullptr;
         }
 
@@ -4470,8 +4475,7 @@ void npc::heal_self()
         std::string iusage = "INHALER";
 
         const auto filter_use = [this]( const std::string & filter ) -> std::vector<item *> {
-            std::vector<item *> inv_filtered = items_with( [&filter]( const item & itm )
-            {
+            std::vector<item *> inv_filtered = items_with( [&filter]( const item & itm ) {
                 return ( itm.type->get_use( filter ) != nullptr ) && itm.ammo_sufficient( nullptr );
             } );
             return inv_filtered;
@@ -4891,7 +4895,7 @@ void npc::reach_omt_destination()
                 if( player_character.cache_has_item_with_flag( flag_TWO_WAY_RADIO, true ) &&
                     cache_has_item_with_flag( flag_TWO_WAY_RADIO, true ) ) {
                     add_msg_if_player_sees( pos_bub(), m_info, _( "From your two-way radio you hear %s reporting in, "
-                                            "'I've arrived, boss!'" ), disp_name() );
+                                                                  "'I've arrived, boss!'" ), disp_name() );
                 }
             }
         } else {
@@ -5023,9 +5027,9 @@ void npc::set_omt_destination()
     }
 
     DebugLog( D_INFO, DC_ALL ) << "npc::set_omt_destination - new goal for NPC [" << get_name() <<
-                               "] with [" << get_need_str_id( needs.front() ) <<
-                               "] is [" << dest_type <<
-                               "] in " << goal.to_string() << ".";
+                                  "] with [" << get_need_str_id( needs.front() ) <<
+                                  "] is [" << dest_type <<
+                                  "] in " << goal.to_string() << ".";
 }
 
 void npc::go_to_omt_destination()
@@ -5276,8 +5280,8 @@ void npc::warn_about( const std::string &type, const time_duration &d, const std
     } else {
         const std::string range_str = range < 1 ? "<punc>" :
                                       string_format( _( " %s, %s" ),
-                                              direction_name( direction_from( pos_bub(), danger_pos ) ),
-                                              distance_string( range ) );
+                                          direction_name( direction_from( pos_bub(), danger_pos ) ),
+                                          distance_string( range ) );
         const std::string speech = string_format( _( "%s %s%s" ), snip, _( name ), range_str );
         complain_about( warning_name, d, speech, is_enemy(), spriority );
     }
