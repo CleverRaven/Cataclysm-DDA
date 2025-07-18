@@ -2686,5 +2686,10 @@
     "type": "MIGRATION",
     "id": "e_combatsaw_on",
     "replace": "elec_chainsaw_on"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "long_duffelbag",
+    "replace": "duffelbag"
   }
 ]

@@ -19,7 +19,7 @@
 static const itype_id itype_ammo_pouch( "ammo_pouch" );
 static const itype_id itype_arrow_wood( "arrow_wood" );
 static const itype_id itype_backpack( "backpack" );
-static const itype_id itype_long_duffelbag( "long_duffelbag" );
+static const itype_id itype_backpack_giant( "backpack_giant" );
 static const itype_id itype_longbow( "longbow" );
 static const itype_id itype_pants( "pants" );
 static const itype_id itype_pebble( "pebble" );
@@ -112,8 +112,8 @@ TEST_CASE( "reload_from_inventory_times", "[reload],[inventory],[balance]" )
         }
     }
     SECTION( "reloading a bow" ) {
-        SECTION( "from a duffel bag" ) {
-            check_reload_time( itype_longbow, itype_arrow_wood, itype_long_duffelbag, 410 );
+        SECTION( "from a giant novelty backpack" ) {
+            check_reload_time( itype_longbow, itype_arrow_wood, itype_backpack_giant, 410 );
         }
         SECTION( "from a quiver" ) {
             check_reload_time( itype_longbow, itype_arrow_wood, itype_quiver, 130 );
