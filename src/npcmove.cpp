@@ -919,7 +919,7 @@ void npc::assess_danger()
                 hostile_count += 1;
                 mem_combat.swarm_count += 1;
                 add_msg_debug( debugmode::DF_NPC_COMBATAI,
-                               "<color_light_gray>%s added %s to swarm count.   Threat %1.1f > %1.1f.  Total: %i</color>",
+                               "<color_light_gray>%s added %s to swarm count.  Threat %1.1f > %1.1f.  Total: %i</color>",
                                name, critter.type->nname(), critter_threat, mem_combat.my_defence_assess / 7.0f,
                                mem_combat.swarm_count );
             } else if( dist <= 1 && critter_threat > mem_combat.my_defence_assess / 10.0f ) {
