@@ -1,0 +1,83 @@
+[
+  {
+    "topic": "talk_topic",
+    "tags": [ "INTRO" ],
+    "id": "Intro",
+    "dynamic_line": "Hey there, stranger! I'm Nautilus, leader of this little caravan we have here. We've got quite a few supplies to deliver, and it looks like you could use some help. Why don't you join us?",
+    "responses": [
+      { "topic": "ResponsePrompTest", "text": "What's it going to cost me?" },
+      { "topic": "DynamicLineTest", "text": "What's your story?" },
+      { "topic": "TrialTest", "text": "Trial talk example" },
+      { "topic": "ListResponseTest", "text": "List some responses" }
+    ]
+  },
+  {
+    "topic": "talk_topic",
+    "tags": [ "LANDING", "EXIT" ],
+    "id": "Landing",
+    "dynamic_line": "Have some more questions? Ask away, and I'll do my best to shed some light.",
+    "responses": [
+      { "topic": "ResponsePrompTest", "text": "What's it going to cost me?" },
+      { "topic": "DynamicLineTest", "text": "What's your backstory?" },
+      { "topic": "TALK_DONE", "text": "Let's go" },
+      { "topic": "Intro", "text": "Take me back" }
+    ]
+  },
+  {
+    "topic": "talk_topic",
+    "id": "ResponsePrompTest",
+    "dynamic_line": "Welp, joining the caravan isn't exactly cheap, but I promise it'll be worth every single coin. We've got a lot of mouths to feed and supplies to buy, so we need people who are willing to chip in and help us out.\n\nBut don't worry, I won't ask for everything you have right away.",
+    "responses": [
+      {
+        "topic": "Landing",
+        "text": "Here's some cash.",
+        "effect": { "u_add_var": "dialogue_survivor_cop_talked_to_survivor_cop", "value": "yes" },
+        "condition": "something"
+      },
+      { "topic": "Landing", "text": "Okay, that sounds good.", "condition": { "u_has_item": "money_twenty" } }
+    ]
+  },
+  {
+    "topic": "talk_topic",
+    "id": "DynamicLineTest",
+    "dynamic_line": {
+      "u_is_wearing": "foodperson_mask",
+      "gendered_line": "I was just a regular person. Until some American <name_b>s ruined my business!",
+      "relevant_genders": "[ npc ]"
+    },
+    "responses": [ { "topic": "Landing", "text": "Very interesting, thanks." } ]
+  },
+  {
+    "topic": "talk_topic",
+    "id": "TrialTest",
+    "dynamic_line": {
+      "compare_string": "yes",
+      "yes": "It's nice to see you again <u_name>.  What can I do for you?",
+      "no": {
+        "gendered_line": "It's nice to see a new face around here. I'm <npc_name>, it's a pleasure meeting you.",
+        "relevant_genders": "[\"npc\"]"
+      }
+    },
+    "responses": [
+      {
+        "topic": "Landing",
+        "text": "Nice to meet you too, I'm <u_name>",
+        "condition": { "not": { "compare_string": "yes" } }
+      },
+      {
+        "topic": "Landing",
+        "text": "Hands up! Hand over everything you've got, and nobody gets hurt!",
+        "condition": { "not": "yes" },
+        "trial": { "type": "Intimidate", "difficulty": "30" },
+        "success": "change_topic_logic",
+        "failure": "change_topic_logic"
+      }
+    ]
+  },
+  {
+    "topic": "talk_topic",
+    "id": "ListResponseTest",
+    "dynamic_line": "[Can I define an empty object name and still get an object?, If so, that makes it simple, Here's some random text, Can't define that way, I think it may be best to match the string and then save as array]",
+    "responses": [ { "topic": "Landing", "text": "Cool" } ]
+  }
+]
