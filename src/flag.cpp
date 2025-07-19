@@ -119,6 +119,7 @@ const flag_id flag_EXO_UNDERLAYER( "EXO_UNDERLAYER" );
 const flag_id flag_E_COPIABLE( "E_COPIABLE" );
 const flag_id flag_E_FILE_COLLECTION( "E_FILE_COLLECTION" );
 const flag_id flag_E_STORABLE( "E_STORABLE" );
+const flag_id flag_E_STORABLE_EXCLUSIVE( "E_STORABLE_EXCLUSIVE" );
 const flag_id flag_FAKE_MILL( "FAKE_MILL" );
 const flag_id flag_FAKE_SMOKE( "FAKE_SMOKE" );
 const flag_id flag_FELINE( "FELINE" );
