@@ -435,6 +435,11 @@ Vision range in full daylight and in total darkness.
 
 Amount of light passively output by monster. Ranges from 0 to 10.
 
+## "bash_skill"
+(object `{ damage_type_id: int }`, optional)
+
+Damage done bashing, of each type. If not specified, or specified as empty, it is autocalculated based on melee damage (and is only bash).
+
 ## "hp"
 (integer, required)
 
