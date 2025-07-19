@@ -123,8 +123,8 @@ TEST_CASE( "Rate_of_temperature_change", "[temperature]" )
         meat1.process_temperature_rot( 1, tripoint_bub_ms::zero, here, nullptr );
         meat2.process_temperature_rot( 1, tripoint_bub_ms::zero, here, nullptr );
 
-        // about 34.6 C
-        CHECK( units::to_kelvin( meat1.temperature ) == Approx( 307.78338 ) );
+        // about 31.8 C
+        CHECK( units::to_kelvin( meat1.temperature ) == Approx( 304.94220 ) );
         CHECK( !meat1.has_own_flag( flag_HOT ) );
 
         calendar::turn += 11_minutes;
@@ -174,10 +174,10 @@ TEST_CASE( "Rate_of_temperature_change", "[temperature]" )
         meat1.process_temperature_rot( 1, tripoint_bub_ms::zero, here, nullptr );
         meat2.process_temperature_rot( 1, tripoint_bub_ms::zero, here, nullptr );
 
-        // about -5.2 C
+        // about -17.6 C
         // frozen
         // same temp as meat 2
-        CHECK( units::to_kelvin( meat1.temperature ) == Approx( 267.98050 ) );
+        CHECK( units::to_kelvin( meat1.temperature ) == Approx( 255.52351 ) );
         CHECK( meat1.has_own_flag( flag_FROZEN ) );
         CHECK( units::to_kelvin( meat1.temperature ) == Approx( units::to_kelvin( meat2.temperature ) ) );
     }
@@ -209,8 +209,8 @@ TEST_CASE( "Rate_of_temperature_change", "[temperature]" )
 
         calendar::turn += 11_minutes;
         meat1.process_temperature_rot( 1, tripoint_bub_ms::zero, here, nullptr );
-        // about -9.3 C
-        CHECK( units::to_kelvin( meat1.temperature ) == Approx( 263.89390 ) );
+        // about -7.3 C
+        CHECK( units::to_kelvin( meat1.temperature ) == Approx( 265.80075 ) );
 
         calendar::turn += 11_minutes;
         meat1.process_temperature_rot( 1, tripoint_bub_ms::zero, here, nullptr );
@@ -257,8 +257,8 @@ TEST_CASE( "Rate_of_temperature_change", "[temperature]" )
         meat1.process_temperature_rot( 1, tripoint_bub_ms::zero, here, nullptr );
         meat2.process_temperature_rot( 1, tripoint_bub_ms::zero, here, nullptr );
 
-        // about 2.2 C
-        CHECK( units::to_kelvin( meat1.temperature ) == Approx( 275.32468 ) );
+        // about 12.5 C
+        CHECK( units::to_kelvin( meat1.temperature ) == Approx( 285.67203 ) );
         CHECK( units::to_kelvin( meat1.temperature ) == Approx( units::to_kelvin( meat2.temperature ) ) );
     }
 }
