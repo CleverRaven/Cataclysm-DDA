@@ -897,7 +897,6 @@
     "weight": "249 g",
     "color": "brown",
     "addiction_type": "alcohol",
-    "use_action": [ "ALCOHOL" ],
     "stim": -1,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
@@ -913,7 +912,7 @@
     "volume": "250 ml",
     "charges": 1,
     "phase": "liquid",
-    "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
+    "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME", "ALCOHOL" ],
     "freezing_point": -30,
     "fun": 4,
     "vitamins": [ [ "junk_allergen", 1 ] ]
