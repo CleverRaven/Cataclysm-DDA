@@ -1636,7 +1636,7 @@ Fault fixes are methods to fix faults, the fixes can optionally add other faults
   "requirements": [ [ "gun_cleaning", 1 ] ], // requirements array, see below
   "mod_damage": 1000, // damage to modify on item when fix is applied, can be negative to repair
   "mod_degradation": 50, // degradation to modify on item when fix is applied, can be negative to reduce degradation
-  "time_save_profs": { "prof_gun_cleaning": 0.5 }, // this prof change how fast you fix the item
+  "time_save_profs": { "prof_gun_cleaning": 0.5, "prof_welding": 0.5, }, // those proficiencies change how fast you fix the item
   "time_save_flags": { "EASY_CLEAN": 0.5 } // This flag on the item change how fast you fix this item
 }
 ```
