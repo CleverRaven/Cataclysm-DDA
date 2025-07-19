@@ -277,16 +277,12 @@
   },
   {
     "id": "pepperhuman",
-    "copy-from": "human_flesh",
+    "copy-from": "human_cooked",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "peppered person" },
     "description": "A cooked slice of some person, seasoned with black pepper and salt.  Probably has better taste than they did when alive.",
-    "relative": { "weight": "-50 g", "volume": "-50 ml" },
-    "proportional": { "price": 1.5 },
-    "parasites": 0,
-    "fun": 2,
-    "flags": [ "EATEN_HOT" ]
+    "relative": { "fun": 2 }
   },
   {
     "id": "meat",
@@ -536,16 +532,12 @@
   },
   {
     "id": "peppermutant_human",
-    "copy-from": "mutant_human_flesh",
-    "calories": 402,
+    "copy-from": "mutant_human_cooked",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "cooked pepper cretin" },
     "description": "Cooked meat from a heavily mutated humanoid.  Now that the worst bits have been picked out, it's probably digestible.  It has also been properly seasoned with black pepper and salt, giving it a better taste.  Still, it is somewhat gross, but hey, it's food!",
-    "proportional": { "price": 1.5 },
-    "parasites": 0,
-    "fun": 1,
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "BAD_TASTE" ]
+    "relative": { "fun": 1 }
   },
   {
     "type": "ITEM",
@@ -694,16 +686,12 @@
   },
   {
     "id": "pepperscrap",
-    "copy-from": "meat_scrap",
+    "copy-from": "meat_scrap_cooked",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "cooked pepper scrap of meat", "str_pl": "cooked pepper scraps of meat" },
     "description": "A cooked scrap of meat that has been properly seasoned with pepper and salt.  Small, yet has a good taste.",
-    "proportional": { "weight": 0.8, "volume": 0.8 },
-    "parasites": 0,
-    "fun": 1,
-    "flags": [ "NUTRIENT_OVERRIDE" ],
-    "calories": 51
+    "relative": { "fun": 1 }
   },
   {
     "id": "mutant_meat_cooked",
@@ -724,16 +712,11 @@
     "id": "peppermutant",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
-    "copy-from": "mutant_meat",
+    "copy-from": "mutant_meat_cooked",
     "name": { "str_sp": "cooked pepper mutant meat" },
     "snippet_category": "cooked_mutant_meat_desc",
     "description": "A cooked chunk of meat from a mutated animal which has been properly seasoned with black pepper and salt, will keep your hunger away, but even seasoned, it has a weird taste.",
-    "looks_like": "meat_cooked",
-    "relative": { "weight": "-50 g", "volume": "-50 ml" },
-    "proportional": { "price": 1.5 },
-    "parasites": 0,
-    "fun": 0,
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "BAD_TASTE" ]
+    "relative": { "fun": 1 }
   },
   {
     "id": "mutant_meat_scrap_cooked",
@@ -753,15 +736,10 @@
     "id": "pepperscrap_mutant",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
-    "copy-from": "mutant_meat_scrap",
+    "copy-from": "mutant_meat_scrap_cooked",
     "name": { "str": "cooked pepper scrap of mutant meat", "str_pl": "cooked pepper scraps of mutant meat" },
     "description": "A tiny scrap of cooked mutant meat properly seasoned with black pepper and salt.  It is small, and even though it has been seasoned, it has a weird taste.",
-    "looks_like": "meat_scrap_cooked",
-    "proportional": { "weight": 0.8, "volume": 0.8 },
-    "parasites": 0,
-    "calories": 25,
-    "fun": 1,
-    "flags": [ "NUTRIENT_OVERRIDE" ]
+    "relative": { "fun": 1 }
   },
   {
     "id": "cooked_marrow",
