@@ -139,7 +139,6 @@ static const itype_id itype_remotevehcontrol( "remotevehcontrol" );
 static const itype_id itype_water_clean( "water_clean" );
 
 static const json_character_flag json_flag_BIONIC_GUN( "BIONIC_GUN" );
-static const json_character_flag json_flag_BIONIC_NPC_USABLE( "BIONIC_NPC_USABLE" );
 static const json_character_flag json_flag_BIONIC_POWER_SOURCE( "BIONIC_POWER_SOURCE" );
 static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 static const json_character_flag json_flag_BIONIC_WEAPON( "BIONIC_WEAPON" );
@@ -2334,8 +2333,6 @@ ret_val<void> Character::is_installable( const item *it, const bool by_autodoc )
     return has_bionic( b );
     } ) ) {
         return ret_val<void>::make_failure( _( "Superior version installed." ) );
-    } else if( is_npc() && !bid->has_flag( json_flag_BIONIC_NPC_USABLE ) ) {
-        return ret_val<void>::make_failure( _( "CBM not compatible with patient." ) );
     }
 
     return ret_val<void>::make_success( std::string() );
