@@ -902,7 +902,7 @@
     "description": "A spicy stew containing chili peppers, meat, tomatoes and beans.",
     "price": "145 cent",
     "price_postapoc": "250 cent",
-    "phase": "liquid",
+    "phase": "liquid"
     "charges": 1,
     "material": [ "flesh", "veggy", "bean", "tomato" ],
     "volume": "250 ml",
