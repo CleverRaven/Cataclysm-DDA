@@ -1,11 +1,9 @@
 #include "map_helpers.h"
 
 #include <memory>
-#include <optional>
 #include <vector>
 
 #include "avatar.h"
-#include "basecamp.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
@@ -130,14 +128,7 @@ void clear_zones()
 
 void clear_basecamps()
 {
-    std::optional<basecamp *> camp;
-    do {
-        const tripoint_abs_omt &avatar_pos = get_avatar().pos_abs_omt();
-        camp = overmap_buffer.find_camp( avatar_pos.xy() );
-        if( camp && *camp != nullptr ) {
-            ( **camp ).remove_camp( avatar_pos );
-        }
-    } while( camp );
+    overmap_buffer.clear_camps( get_avatar().pos_abs_omt().xy() );
 }
 
 void clear_map( int zmin, int zmax )

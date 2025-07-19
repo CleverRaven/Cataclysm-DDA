@@ -133,6 +133,7 @@ basecamp_map &basecamp_map::operator=( const basecamp_map & )
 basecamp::basecamp( const std::string &name_, const tripoint_abs_omt &omt_pos_ ): name( name_ ),
     omt_pos( omt_pos_ )
 {
+    parse_tags( name, get_player_character(), get_player_character() );
 }
 
 basecamp::basecamp( const std::string &name_, const tripoint_abs_ms &bb_pos_,
@@ -140,6 +141,7 @@ basecamp::basecamp( const std::string &name_, const tripoint_abs_ms &bb_pos_,
                     const std::map<point_rel_omt, expansion_data> &expansions_ )
     : directions( directions_ ), name( name_ ), bb_pos( bb_pos_ ), expansions( expansions_ )
 {
+    parse_tags( name, get_player_character(), get_player_character() );
 }
 
 std::string basecamp::board_name() const
@@ -690,6 +692,7 @@ void basecamp::query_new_name( bool force )
 void basecamp::set_name( const std::string &new_name )
 {
     name = new_name;
+    parse_tags( name, get_player_character(), get_player_character() );
 }
 
 /*
@@ -906,7 +909,7 @@ void basecamp::handle_takeover_by( faction_id new_owner, bool violent_takeover )
         if( checked_camp->get_owner() == get_owner() ) {
             add_msg_debug( debugmode::DF_CAMPS,
                            "Camp %s at %s is owned by %s, adding it to plunder calculations.",
-                           checked_camp->name, checked_camp->camp_omt_pos().to_string_writable(), get_owner()->name );
+                           checked_camp->camp_name(), checked_camp->camp_omt_pos().to_string_writable(), get_owner()->name );
             num_of_owned_camps++;
         }
     }
