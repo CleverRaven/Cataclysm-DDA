@@ -233,8 +233,6 @@ class surroundings_menu : public cataimgui::window
         const std::string item_maybe_new_str = pgettext( "surroundings menu", "hides contents" );
         const nc_color item_new_col = c_light_green;
         const nc_color item_maybe_new_col = c_light_gray;
-        const int item_new_str_width = str_width_to_pixels( utf8_width( item_new_str ) );
-        const int item_maybe_new_str_width = str_width_to_pixels( utf8_width( item_maybe_new_str ) );
 
         avatar &you;
         std::optional<tripoint_bub_ms> &path_end;
