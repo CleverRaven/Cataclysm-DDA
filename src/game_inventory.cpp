@@ -798,8 +798,8 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return  loc->is_comestible() && you.can_consume_as_is( *loc ) && ( !loc->type->has_use() ||
-                    loc->type->can_use( "PETFOOD" ) );
+            return  loc->is_comestible() && you.can_consume_as_is( *loc ) && ( ( !loc->is_medical_tool() &&
+                    !loc->is_medication() ) );
         }
 
         std::string get_denial( const item_location &loc ) const override {
