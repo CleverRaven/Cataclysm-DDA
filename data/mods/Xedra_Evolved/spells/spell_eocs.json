@@ -384,7 +384,7 @@
       {
         "u_message": "You feed your blood and will into this once docile horse transforming it into a familiar worthy of a hunter of monsters and men.",
         "type": "info"
-      },
+      }
     ],
     "false_effect": [ { "run_eocs": [ "EOC_ATTEMPT_HORSE_FAMILIAR_FAIL_MESSAGE" ] } ]
   },
