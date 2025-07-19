@@ -8,7 +8,8 @@
     "entries": [
       { "item": "jar_glass_sealed", "prob": 10 },
       { "item": "jar_3l_glass_sealed", "prob": 10 },
-      { "prob": 5, "group": "cheese_hard_wrapper_8" },
+      { "prob": 15, "group": "cheese_hard_wrapper_8" },
+      { "prob": 20, "item": "cheese_hard", "count": -1 },
       { "prob": 50, "group": "veggy_pickled_jar_glass_sealed_2" },
       { "prob": 5, "group": "sauerkraut_jar_glass_sealed_2" },
       { "prob": 20, "group": "meat_pickled_jar_glass_sealed_2" },

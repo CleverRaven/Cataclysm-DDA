@@ -234,7 +234,7 @@
     "copy-from": "cheese",
     "weight": "34 g",
     "spoils_in": "180 days",
-    "container": "wrapper",
+    "container": "cheese_wheel_wax",
     "quench": -5,
     "calories": 135,
     "description": "Hard, dry cheese made to last, unlike modern processed cheese.  Will make you thirsty though.",
