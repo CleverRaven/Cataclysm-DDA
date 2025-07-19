@@ -1313,7 +1313,11 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
     } else {
         // Use up the components
         for( const std::vector<item_comp> &it : con.requirements->get_components() ) {
-            std::list<item> tmp = player_character.consume_items( it, 1, is_crafting_component );
+            std::list<item> tmp = player_character.consume_items( it, 1, is_crafting_component,
+                                  return_false<itype_id>, true );
+            if( tmp.empty() ) {
+                return;
+            }
             used.splice( used.end(), tmp );
         }
     }

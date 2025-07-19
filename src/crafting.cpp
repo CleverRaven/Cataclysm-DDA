@@ -2192,11 +2192,13 @@ In that case, consider using select_item_component with 1 pre-created map invent
 to consume_items */
 std::list<item> Character::consume_items( const std::vector<item_comp> &components, int batch,
         const std::function<bool( const item & )> &filter,
-        const std::function<bool( const itype_id & )> &select_ind )
+        const std::function<bool( const itype_id & )> &select_ind,
+        const bool can_cancel )
 {
     inventory map_inv;
     map_inv.form_from_map( pos_bub(), PICKUP_RANGE, this );
-    comp_selection<item_comp> sel = select_item_component( components, batch, map_inv, false, filter );
+    comp_selection<item_comp> sel = select_item_component( components, batch, map_inv, can_cancel,
+                                    filter );
     return consume_items( sel, batch, filter, select_ind( sel.comp.type ) );
 }
 
