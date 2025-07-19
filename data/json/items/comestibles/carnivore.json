@@ -615,6 +615,7 @@
     "name": { "str_sp": "cooked meat" },
     "description": "A chunk of cooked meat.  It's filling and nutritious, but unseasoned and a bit bland.",
     "parasites": 0,
+    "fun": 0,
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
   },
   {
