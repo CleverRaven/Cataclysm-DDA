@@ -519,7 +519,6 @@
   {
     "id": "mutant_human_cooked",
     "copy-from": "mutant_human_flesh",
-    "calories": 402,
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "cooked cretin" },
