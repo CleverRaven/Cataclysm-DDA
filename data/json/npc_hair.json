@@ -1,0 +1,630 @@
+[
+  {
+    "id": "hair_growth_paste_buzzcut",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "Hair Growth Paste (Buzzcut)" },
+    "description": "Restores hair and applies a buzzcut.",
+    "weight": "150 g",
+    "volume": "250 ml",
+    "price": "13 cent",
+    "price_postapoc": "33 cent",
+    "symbol": ".",
+    "color": "white",
+    "consumption_effect_on_conditions": [
+      { "id": "ECO_REMOVE_BALD" },
+      { "id": "ECO_BUZZCUT" }
+    ]
+  },
+  {
+    "id": "hair_growth_paste_crewcut",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "Hair Growth Paste (Crewcut)" },
+    "description": "Restores hair and applies a crewcut.",
+    "weight": "150 g",
+    "volume": "250 ml",
+    "price": "13 cent",
+    "price_postapoc": "33 cent",
+    "symbol": ".",
+    "color": "white",
+    "consumption_effect_on_conditions": [
+      { "id": "ECO_REMOVE_BALD" },
+      { "id": "ECO_CREWCUT" }
+    ]
+  },
+  {
+    "id": "hair_growth_paste_short",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "Hair Growth Paste (Short)" },
+    "description": "Restores hair and applies a short hairstyle.",
+    "weight": "150 g",
+    "volume": "250 ml",
+    "price": "13 cent",
+    "price_postapoc": "33 cent",
+    "symbol": ".",
+    "color": "white",
+    "consumption_effect_on_conditions": [
+      { "id": "ECO_REMOVE_BALD" },
+      { "id": "ECO_SHORT" }
+    ]
+  },
+  {
+    "id": "hair_growth_paste_short_no_fringe",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "Hair Growth Paste (Short No Fringe)" },
+    "description": "Restores hair and applies a short style without fringe.",
+    "weight": "150 g",
+    "volume": "250 ml",
+    "price": "13 cent",
+    "price_postapoc": "33 cent",
+    "symbol": ".",
+    "color": "white",
+    "consumption_effect_on_conditions": [
+      { "id": "ECO_REMOVE_BALD" },
+      { "id": "ECO_SHORT_NO_FRINGE" }
+    ]
+  },
+  {
+    "id": "hair_growth_paste_short_over_eye",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "Hair Growth Paste (Short Over Eye)" },
+    "description": "Restores hair and applies a short style that hangs over the eye.",
+    "weight": "150 g",
+    "volume": "250 ml",
+    "price": "13 cent",
+    "price_postapoc": "33 cent",
+    "symbol": ".",
+    "color": "white",
+    "consumption_effect_on_conditions": [
+      { "id": "ECO_REMOVE_BALD" },
+      { "id": "ECO_SHORT_OVER_EYE" }
+    ]
+  },
+  {
+    "id": "hair_growth_paste_medium",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "Hair Growth Paste (Medium)" },
+    "description": "Restores hair and applies a medium length style.",
+    "weight": "150 g",
+    "volume": "250 ml",
+    "price": "13 cent",
+    "price_postapoc": "33 cent",
+    "symbol": ".",
+    "color": "white",
+    "consumption_effect_on_conditions": [
+      { "id": "ECO_REMOVE_BALD" },
+      { "id": "ECO_MEDIUM" }
+    ]
+  },
+  {
+    "id": "hair_growth_paste_mohawk",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "Hair Growth Paste (Mohawk)" },
+    "description": "Restores hair and applies a mohawk.",
+    "weight": "150 g",
+    "volume": "250 ml",
+    "price": "13 cent",
+    "price_postapoc": "33 cent",
+    "symbol": ".",
+    "color": "white",
+    "consumption_effect_on_conditions": [
+      { "id": "ECO_REMOVE_BALD" },
+      { "id": "ECO_MOHAWK" }
+    ]
+  },
+  {
+    "id": "hair_growth_paste_long",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "Hair Growth Paste (Long)" },
+    "description": "Restores hair and applies a long hairstyle.",
+    "weight": "150 g",
+    "volume": "250 ml",
+    "price": "13 cent",
+    "price_postapoc": "33 cent",
+    "symbol": ".",
+    "color": "white",
+    "consumption_effect_on_conditions": [
+      { "id": "ECO_REMOVE_BALD" },
+      { "id": "ECO_LONG" }
+    ]
+  },
+  {
+    "id": "hair_growth_paste_long_mohawk",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "Hair Growth Paste (Long Mohawk)" },
+    "description": "Restores hair and applies a long mohawk.",
+    "weight": "150 g",
+    "volume": "250 ml",
+    "price": "13 cent",
+    "price_postapoc": "33 cent",
+    "symbol": ".",
+    "color": "white",
+    "consumption_effect_on_conditions": [
+      { "id": "ECO_REMOVE_BALD" },
+      { "id": "ECO_LONG_MOHAWK" }
+    ]
+  },
+  {
+    "id": "hair_growth_paste_mullet",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "Hair Growth Paste (Mullet)" },
+    "description": "Restores hair and applies a mullet.",
+    "weight": "150 g",
+    "volume": "250 ml",
+    "price": "13 cent",
+    "price_postapoc": "33 cent",
+    "symbol": ".",
+    "color": "white",
+    "consumption_effect_on_conditions": [
+      { "id": "ECO_REMOVE_BALD" },
+      { "id": "ECO_MULLET" }
+    ]
+  },
+  {
+    "id": "hair_growth_paste_long_over_eye",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "Hair Growth Paste (Long Over Eye)" },
+    "description": "Restores hair and applies a long style that falls over one eye.",
+    "weight": "150 g",
+    "volume": "250 ml",
+    "price": "13 cent",
+    "price_postapoc": "33 cent",
+    "symbol": ".",
+    "color": "white",
+    "consumption_effect_on_conditions": [
+      { "id": "ECO_REMOVE_BALD" },
+      { "id": "ECO_LONG_OVER_EYE" }
+    ]
+  },
+  {
+    "id": "hair_growth_paste_messy",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "Hair Growth Paste (Messy)" },
+    "description": "Restores hair and applies a messy hairstyle.",
+    "weight": "150 g",
+    "volume": "250 ml",
+    "price": "13 cent",
+    "price_postapoc": "33 cent",
+    "symbol": ".",
+    "color": "white",
+    "consumption_effect_on_conditions": [
+      { "id": "ECO_REMOVE_BALD" },
+      { "id": "ECO_MESSY" }
+    ]
+  },
+  {
+    "id": "hair_growth_paste_very_long",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "Hair Growth Paste (Very Long)" },
+    "description": "Restores hair and applies a very long hairstyle.",
+    "weight": "150 g",
+    "volume": "250 ml",
+    "price": "13 cent",
+    "price_postapoc": "33 cent",
+    "symbol": ".",
+    "color": "white",
+    "consumption_effect_on_conditions": [
+      { "id": "ECO_REMOVE_BALD" },
+      { "id": "ECO_VERY_LONG" }
+    ]
+  },
+  {
+    "id": "hair_growth_paste_extremely_long",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "Hair Growth Paste (Extremely Long)" },
+    "description": "Restores hair and applies an extremely long hairstyle.",
+    "weight": "150 g",
+    "volume": "250 ml",
+    "price": "13 cent",
+    "price_postapoc": "33 cent",
+    "symbol": ".",
+    "color": "white",
+    "consumption_effect_on_conditions": [
+      { "id": "ECO_REMOVE_BALD" },
+      { "id": "ECO_EXTREMELY_LONG" }
+    ]
+  },
+  {
+    "id": "hair_growth_paste_body_length",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "Hair Growth Paste (Body Length)" },
+    "description": "Restores hair and applies a body-length hairstyle.",
+    "weight": "150 g",
+    "volume": "250 ml",
+    "price": "13 cent",
+    "price_postapoc": "33 cent",
+    "symbol": ".",
+    "color": "white",
+    "consumption_effect_on_conditions": [
+      { "id": "ECO_REMOVE_BALD" },
+      { "id": "ECO_BODY_LENGTH" }
+    ]
+  },
+  {
+    "id": "hair_growth_paste_modern",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "Hair Growth Paste (Modern)" },
+    "description": "Restores hair and applies a modern cut.",
+    "weight": "150 g",
+    "volume": "250 ml",
+    "price": "13 cent",
+    "price_postapoc": "33 cent",
+    "symbol": ".",
+    "color": "white",
+    "consumption_effect_on_conditions": [
+      { "id": "ECO_REMOVE_BALD" },
+      { "id": "ECO_MODERN" }
+    ]
+  },
+  {
+    "id": "hair_growth_paste_puff",  
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "Hair Growth Paste (Puff)" },
+    "description": "Restores hair and applies a puff style.",
+    "weight": "150 g",
+    "volume": "250 ml",
+    "price": "13 cent",
+    "price_postapoc": "33 cent",
+    "symbol": ".",
+    "color": "white",
+    "consumption_effect_on_conditions": [
+      { "id": "ECO_REMOVE_BALD" },
+      { "id": "ECO_PUFF" }
+    ]
+  },
+  {
+    "id": "hair_growth_paste_beaded",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "Hair Growth Paste (Beaded)" },
+    "description": "Restores hair and applies a beaded hairstyle.",
+    "weight": "150 g",
+    "volume": "250 ml",
+    "price": "13 cent",
+    "price_postapoc": "33 cent",
+    "symbol": ".",
+    "color": "white",
+    "consumption_effect_on_conditions": [
+      { "id": "ECO_REMOVE_BALD" },
+      { "id": "ECO_BEADED" }
+    ]
+  },
+  {
+    "id": "hair_growth_paste_curls",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "Hair Growth Paste (Curls)" },
+    "description": "Restores hair and applies a curly hairstyle.",
+    "weight": "150 g",
+    "volume": "250 ml",
+    "price": "13 cent",
+    "price_postapoc": "33 cent",
+    "symbol": ".",
+    "color": "white",
+    "consumption_effect_on_conditions": [
+      { "id": "ECO_REMOVE_BALD" },
+      { "id": "ECO_CURLS" }
+    ]
+  },
+  {
+    "id": "hair_growth_paste_bun",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "Hair Growth Paste (Bun)" },
+    "description": "Restores hair and applies a bun.",
+    "weight": "150 g",
+    "volume": "250 ml",
+    "price": "13 cent",
+    "price_postapoc": "33 cent",
+    "symbol": ".",
+    "color": "white",
+    "consumption_effect_on_conditions": [
+      { "id": "ECO_REMOVE_BALD" },
+      { "id": "ECO_BUN" }
+    ]
+  },
+  {
+    "id": "hair_growth_paste_punk_long",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "Hair Growth Paste (Punk Long)" },
+    "description": "Restores hair and applies a long punk style.",
+    "weight": "150 g",
+    "volume": "250 ml",
+    "price": "13 cent",
+    "price_postapoc": "33 cent",
+    "symbol": ".",
+    "color": "white",
+    "consumption_effect_on_conditions": [
+      { "id": "ECO_REMOVE_BALD" },
+      { "id": "ECO_PUNK_LONG" }
+    ]
+  },
+  {
+    "id": "hair_growth_paste_braid",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "Hair Growth Paste (Braid)" },
+    "description": "Restores hair and applies a braid.",
+    "weight": "150 g",
+    "volume": "250 ml",
+    "price": "13 cent",
+    "price_postapoc": "33 cent",
+    "symbol": ".",
+    "color": "white",
+    "consumption_effect_on_conditions": [
+      { "id": "ECO_REMOVE_BALD" },
+      { "id": "ECO_BRAID" }
+    ]
+  },
+  {
+    "id": "hair_growth_paste_detective",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "Hair Growth Paste (Detective)" },
+    "description": "Restores hair and applies a detective cut.",
+    "weight": "150 g",
+    "volume": "250 ml",
+    "price": "13 cent",
+    "price_postapoc": "33 cent",
+    "symbol": ".",
+    "color": "white",
+    "consumption_effect_on_conditions": [
+      { "id": "ECO_REMOVE_BALD" },
+      { "id": "ECO_DETECTIVE" }
+    ]
+  },
+  {
+    "id": "hair_growth_paste_super_princess",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "Hair Growth Paste (Super Princess)" },
+    "description": "Restores hair and applies a super princess style.",
+    "weight": "150 g",
+    "volume": "250 ml",
+    "price": "13 cent",
+    "price_postapoc": "33 cent",
+    "symbol": ".",
+    "color": "white",
+    "consumption_effect_on_conditions": [
+      { "id": "ECO_REMOVE_BALD" },
+      { "id": "ECO_SUPER_PRINCESS" }
+    ]
+  },
+  {
+    "id": "hair_growth_paste_twintails",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "Hair Growth Paste (Twintails)" },
+    "description": "Restores hair and applies twintails.",
+    "weight": "150 g",
+    "volume": "250 ml",
+    "price": "13 cent",
+    "price_postapoc": "33 cent",
+    "symbol": ".",
+    "color": "white",
+    "consumption_effect_on_conditions": [
+      { "id": "ECO_REMOVE_BALD" },
+      { "id": "ECO_TWINTAILS" }
+    ]
+  },
+  {
+    "id": "hair_growth_paste_afro",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "Hair Growth Paste (Afro)" },
+    "description": "Restores hair and applies an afro.",
+    "weight": "150 g",
+    "volume": "250 ml",
+    "price": "13 cent",
+    "price_postapoc": "33 cent",
+    "symbol": ".",
+    "color": "white",
+    "consumption_effect_on_conditions": [
+      { "id": "ECO_REMOVE_BALD" },
+      { "id": "ECO_AFRO" }
+    ]
+  },
+  {
+    "id": "hair_growth_paste_ponytail",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "Hair Growth Paste (Ponytail)" },
+    "description": "Restores hair and applies a ponytail.",
+    "weight": "150 g",
+    "volume": "250 ml",
+    "price": "13 cent",
+    "price_postapoc": "33 cent",
+    "symbol": ".",
+    "color": "white",
+    "consumption_effect_on_conditions": [
+      { "id": "ECO_REMOVE_BALD" },
+      { "id": "ECO_PONYTAIL" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "ECO_REMOVE_BALD",
+    "effect": [
+      { "u_lose_trait": "hair_buzzcut" },
+      { "u_lose_trait": "hair_crewcut" },
+      { "u_lose_trait": "hair_short" },
+      { "u_lose_trait": "hair_short_no_fringe" },
+      { "u_lose_trait": "hair_short_over_eye" },
+      { "u_lose_trait": "hair_medium" },
+      { "u_lose_trait": "hair_mohawk" },
+      { "u_lose_trait": "hair_long" },
+      { "u_lose_trait": "hair_long_mohawk" },
+      { "u_lose_trait": "hair_mullet" },
+      { "u_lose_trait": "hair_long_over_eye" },
+      { "u_lose_trait": "hair_messy" },
+      { "u_lose_trait": "hair_very_long" },
+      { "u_lose_trait": "hair_extremely_long" },
+      { "u_lose_trait": "hair_body_length" },
+      { "u_lose_trait": "hair_modern" },
+      { "u_lose_trait": "hair_puff" },
+      { "u_lose_trait": "hair_beaded" },
+      { "u_lose_trait": "hair_curls" },
+      { "u_lose_trait": "hair_bun" },
+      { "u_lose_trait": "hair_punk_long" },
+      { "u_lose_trait": "hair_braid" },
+      { "u_lose_trait": "hair_detective" },
+      { "u_lose_trait": "hair_super_princess" },
+      { "u_lose_trait": "hair_twintails" },
+      { "u_lose_trait": "hair_bald" },
+      { "u_lose_trait": "hair_fro" },
+      { "u_lose_trait": "hair_ponytail" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "ECO_BUZZCUT",
+    "effect": [{ "u_add_trait": "hair_buzzcut" }]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "ECO_CREWCUT",
+    "effect": [{ "u_add_trait": "hair_crewcut" }]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "ECO_SHORT",
+    "effect": [{ "u_add_trait": "hair_short" }]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "ECO_SHORT_NO_FRINGE",
+    "effect": [{ "u_add_trait": "hair_short_no_fringe" }]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "ECO_SHORT_OVER_EYE",
+    "effect": [{ "u_add_trait": "hair_short_over_eye" }]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "ECO_MEDIUM",
+    "effect": [{ "u_add_trait": "hair_medium" }]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "ECO_MOHAWK",
+    "effect": [{ "u_add_trait": "hair_mohawk" }]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "ECO_LONG",
+    "effect": [{ "u_add_trait": "hair_long" }]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "ECO_LONG_MOHAWK",
+    "effect": [{ "u_add_trait": "hair_long_mohawk" }]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "ECO_MULLET",
+    "effect": [{ "u_add_trait": "hair_mullet" }]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "ECO_LONG_OVER_EYE",
+    "effect": [{ "u_add_trait": "hair_long_over_eye" }]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "ECO_MESSY",
+    "effect": [{ "u_add_trait": "hair_messy" }]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "ECO_VERY_LONG",
+    "effect": [{ "u_add_trait": "hair_very_long" }]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "ECO_EXTREMELY_LONG",
+    "effect": [{ "u_add_trait": "hair_extremely_long" }]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "ECO_BODY_LENGTH",
+    "effect": [{ "u_add_trait": "hair_body_length" }]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "ECO_MODERN",
+    "effect": [{ "u_add_trait": "hair_modern" }]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "ECO_PUFF",
+    "effect": [{ "u_add_trait": "hair_puff" }]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "ECO_BEADED",
+    "effect": [{ "u_add_trait": "hair_beaded" }]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "ECO_CURLS",
+    "effect": [{ "u_add_trait": "hair_curls" }]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "ECO_BUN",
+    "effect": [{ "u_add_trait": "hair_bun" }]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "ECO_PUNK_LONG",
+    "effect": [{ "u_add_trait": "hair_punk_long" }]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "ECO_BRAID",
+    "effect": [{ "u_add_trait": "hair_braid" }]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "ECO_DETECTIVE",
+    "effect": [{ "u_add_trait": "hair_detective" }]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "ECO_SUPER_PRINCESS",
+    "effect": [{ "u_add_trait": "hair_super_princess" }]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "ECO_TWINTAILS",
+    "effect": [{ "u_add_trait": "hair_twintails" }]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "ECO_AFRO",
+    "effect": [{ "u_add_trait": "hair_fro" }]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "ECO_PONYTAIL",
+    "effect": [{ "u_add_trait": "hair_ponytail" }]
+  }
+]
