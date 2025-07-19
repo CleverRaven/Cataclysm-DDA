@@ -620,21 +620,12 @@
   },
   {
     "id": "peppermeat",
-    "copy-from": "flesh",
-    "weight": "275 g",
-    "volume": "250 ml",
-    "spoils_in": "1 day",
+    "copy-from": "meat_cooked",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "cooked pepper meat" },
     "description": "A piece of cooked meat, properly seasoned with black pepper and salt.  It's nutritious, yet basic seasoning adds a welcoming taste to this simple dish.",
-    "price": "8 USD",
-    "price_postapoc": "1 USD 50 cent",
-    "fun": 2,
-    "parasites": 0,
-    "calories": 402,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ], [ "meat_allergen", 1 ] ],
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
+    "relative": { "fun": 2, "price": "50 cent", "price_postapoc": "50 cent" }
   },
   {
     "id": "meat_fatty_cooked",
