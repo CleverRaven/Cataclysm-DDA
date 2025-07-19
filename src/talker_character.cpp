@@ -394,6 +394,14 @@ bool talker_character_const::has_max_power() const
     return me_chr_const->has_max_power();
 }
 
+double talker_character_const::enchantment_value( const enchant_vals::mod mod ) const
+{
+    double value;
+    value = me_chr_const->enchantment_cache->get_value_add( mod );
+    value *= 1.0 + me_chr_const->enchantment_cache->get_value_multiply( mod );
+    return value;
+}
+
 void talker_character::set_power_cur( units::energy value )
 {
     me_chr->set_power_level( value );
