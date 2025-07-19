@@ -232,6 +232,6 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_zipper",
-    "entries": [ { "item": "crack", "container-item": "null", "count": 4 } ]
+    "entries": [ { "item": "crack", "container-item": "null", "count": 50 } ]
   }
 ]
