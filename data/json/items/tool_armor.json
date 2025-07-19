@@ -1444,7 +1444,6 @@
       "ALARMCLOCK",
       "SWIM_GOGGLES",
       "SUN_GLASSES",
-      "IRRITANT_IMMUNE",
       "RAD_PROOF",
       "GAS_PROOF",
       "ELECTRIC_IMMUNE",
@@ -1625,7 +1624,6 @@
     "environmental_protection": 10,
     "material_thickness": 3,
     "flags": [
-      "IRRITANT_IMMUNE",
       "RAD_PROOF",
       "PORTAL_PROOF",
       "STURDY",
@@ -1738,7 +1736,6 @@
     },
     "environmental_protection": 80,
     "flags": [
-      "IRRITANT_IMMUNE",
       "RAD_PROOF",
       "PORTAL_PROOF",
       "STURDY",
