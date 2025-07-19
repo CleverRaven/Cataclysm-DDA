@@ -6,10 +6,7 @@
     "required_event": "character_wakes_up",
     "condition": { "math": [ "n_monsters_nearby('mon_beneficial_polymorph_arion') < 0" ] },
     "effect": [
-      {
-        "u_message": "It's time to feed the beast that was your horse before it goes feral with hunger.",
-        "popup": true
-      },
+      { "u_message": "It's time to feed the beast that was your horse before it goes feral with hunger.", "popup": true },
       { "u_add_effect": "effect_feed_the_black_horse", "duration": "3 days" },
       { "run_eoc": "EOC_CHECKING_THE_BLACK_HORSE", "time_in_future": "4 days" }
     ]
@@ -19,9 +16,7 @@
     "id": "EOC_CHECKING_THE_BLACK_HORSE",
     "eoc_type": "EVENT",
     "required_event": "character_wakes_up",
-    "condition": {
-      "not": { "u_has_effect": "effect_fed_the_black_horse" }
-    },
+    "condition": { "not": { "u_has_effect": "effect_fed_the_black_horse" } },
     "effect": [
       {
         "u_message": "You didn't feed your horse and now the world with pay the price.  And maybe you will as well.",

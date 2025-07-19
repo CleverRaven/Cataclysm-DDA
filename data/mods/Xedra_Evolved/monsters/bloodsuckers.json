@@ -1040,7 +1040,18 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_ungulate" ],
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 2 },
     "special_attacks": [ [ "EAT_CROP", 100 ], [ "GRAZE", 50 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER", "WARM", "EATS", "COMBAT_MOUNT" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PET_WONT_FOLLOW",
+      "PET_MOUNTABLE",
+      "PATH_AVOID_DANGER",
+      "WARM",
+      "EATS",
+      "COMBAT_MOUNT"
+    ],
     "armor": { "bash": 8, "electric": 5, "cut": 7, "ballistic": 14, "cold": 15 }
   },
   {
