@@ -2630,54 +2630,6 @@ void replace_city_tag( std::string &input, const std::string &name )
     replace_substring( input, "<city>", name, true );
 }
 
-// Legacy, moved to parse_tags
-void replace_keybind_tag( std::string &input )
-{
-    std::string keybind_tag_start = "<keybind:";
-    size_t keybind_length = keybind_tag_start.length();
-    std::string keybind_tag_end = ">";
-
-    size_t pos = input.find( keybind_tag_start );
-    while( pos != std::string::npos ) {
-        size_t pos_end = input.find( keybind_tag_end, pos );
-        if( pos_end == std::string::npos ) {
-            debugmsg( "Mismatched keybind tag in string: '%s'", input );
-            break;
-        }
-        size_t pos_keybind = pos + keybind_length;
-        std::string keybind_full = input.substr( pos_keybind, pos_end - pos_keybind );
-        std::string keybind = keybind_full;
-
-        size_t pos_category_split = keybind_full.find( ':' );
-
-        std::string category = "DEFAULTMODE";
-        if( pos_category_split != std::string::npos ) {
-            category = keybind_full.substr( 0, pos_category_split );
-            keybind = keybind_full.substr( pos_category_split + 1 );
-        }
-        input_context ctxt( category );
-
-        std::string keybind_desc;
-        std::vector<input_event> keys = ctxt.keys_bound_to( keybind, -1, false, false );
-        if( keys.empty() ) { // Display description for unbound keys
-            keybind_desc = colorize( '<' + ctxt.get_desc( keybind ) + '>', c_red );
-
-            if( !ctxt.is_registered_action( keybind ) ) {
-                debugmsg( "Invalid/Missing <keybind>: '%s'", keybind_full );
-            }
-        } else {
-            keybind_desc = enumerate_as_string( keys.begin(), keys.end(), []( const input_event & k ) {
-                return colorize( '\'' + k.long_description() + '\'', c_yellow );
-            }, enumeration_conjunction::or_ );
-        }
-        std::string to_replace = string_format( "%s%s%s", keybind_tag_start, keybind_full,
-                                                keybind_tag_end );
-        replace_substring( input, to_replace, keybind_desc, true );
-
-        pos = input.find( keybind_tag_start );
-    }
-}
-
 void replace_substring( std::string &input, const std::string &substring,
                         const std::string &replacement, bool all )
 {
