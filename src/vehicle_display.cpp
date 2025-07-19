@@ -293,6 +293,12 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
                                            vp.carried_name() );
             new_lines += 1;
         }
+        if( vp.degradation() > 0 && vp.damage() == vp.degradation() ) {
+            possible_msg += string_format(
+                                _( "  <color_c_red>Degraded and cannot be repaired further.</color>\n" ),
+                                vp.name() );
+            new_lines += 1;
+        }
 
         possible_msg += "</color>\n";
         if( lines + new_lines <= max_y ) {
