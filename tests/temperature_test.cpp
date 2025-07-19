@@ -12,7 +12,7 @@
 #include "units.h"
 #include "weather.h"
 
-static const itype_id itype_meat_cooked( "meat_cooked" );
+static const itype_id itype_meat( "meat" );
 static const itype_id itype_water( "water" );
 
 static void set_map_temperature( units::temperature new_temperature )
@@ -23,7 +23,7 @@ static void set_map_temperature( units::temperature new_temperature )
 
 TEST_CASE( "Item_spawns_with_right_thermal_attributes", "[temperature]" )
 {
-    item D( itype_meat_cooked );
+    item D( itype_meat );
 
     CHECK( D.get_specific_heat_liquid() == 3.7f );
     CHECK( D.get_specific_heat_solid() == 2.15f );
@@ -105,8 +105,8 @@ TEST_CASE( "Rate_of_temperature_change", "[temperature]" )
         // 4) Wait two hours then Meat 1 and 2 at 0 C frozen
         // 5) Wait a bit over hour then Meat 1 and 2 at about -5.2 C
 
-        item meat1( itype_meat_cooked );
-        item meat2( itype_meat_cooked );
+        item meat1( itype_meat );
+        item meat2( itype_meat );
 
         set_map_temperature( units::from_fahrenheit( 122 ) ); //50 C
 
@@ -193,8 +193,8 @@ TEST_CASE( "Rate_of_temperature_change", "[temperature]" )
         // Process 100 min in different steps
         // Both meats at about 2.2 C
 
-        item meat1( itype_meat_cooked );
-        item meat2( itype_meat_cooked );
+        item meat1( itype_meat );
+        item meat2( itype_meat );
 
         set_map_temperature( units::from_fahrenheit( -4 ) ); // -20 C
 
