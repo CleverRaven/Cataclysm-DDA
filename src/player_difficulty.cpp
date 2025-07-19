@@ -30,6 +30,9 @@ static const damage_type_id damage_bash( "bash" );
 static const itype_id itype_bat( "bat" );
 static const itype_id itype_knife_combat( "knife_combat" );
 static const itype_id itype_machete( "machete" );
+static const itype_id itype_m4_carbine( "modular_m4_carbine" );
+static const itype_id itype_glock_19( "glock_19" );
+static const itype_id itype_m203( "m203" );
 
 static const profession_id profession_unemployed( "unemployed" );
 
@@ -205,9 +208,17 @@ double player_difficulty::calc_dps_value( const Character &u )
     item early_cutting = item( itype_machete );
     item early_bashing = item( itype_bat );
 
+    // idk some standard ranged weapons i guess
+    item standard_rifle = item( itype_m4_carbine );
+    item standard_handgun = item( itype_glock_19 );
+    item standard_launcher = item( itype_m203 );
+
     double baseline = std::max( u.weapon_value( early_piercing ),
                                 u.weapon_value( early_cutting ) );
     baseline = std::max( baseline, u.weapon_value( early_bashing ) );
+    baseline = std::max( baseline, u.weapon_value( standard_launcher, 3 ) );
+    baseline = std::max( baseline, u.weapon_value( standard_rifle, 30 ) );
+    baseline = std::max( baseline, u.weapon_value( standard_handgun, 30 ) );
 
     // check any other items the character has on them
     if( u.prof ) {
