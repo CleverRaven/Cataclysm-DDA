@@ -116,6 +116,11 @@
     "info": "This item can be activated or reloaded from an adjacent tile without picking it up."
   },
   {
+    "id": "CAN_USE_IN_DARK",
+    "type": "json_flag",
+    "info": "This item can use all of its features in darkness."
+  },
+  {
     "id": "ALWAYS_AIMED",
     "type": "json_flag",
     "info": "This gun is <good>always fully aimed</good>."
@@ -199,6 +204,10 @@
     "type": "json_flag",
     "info": "This gear <bad>prevents</bad> you from <info>hearing any sounds</info>.",
     "conflicts": [ "PARTIAL_DEAF" ]
+  },
+  {
+    "id": "DESTROY_ON_CHARGE_USE",
+    "type": "json_flag"
   },
   {
     "id": "OVERHEATS",
@@ -1213,6 +1222,11 @@
     "//": "Applies robust genetic bonus - mutations give only 1 unit of instability for all traits instead of 1 unit for your current tree, and 2 for any outer tree."
   },
   {
+    "id": "SKIP_HEALTH",
+    "type": "json_flag",
+    "//": "If food gives any health bonus or penalty, having this flag would prevent you from receiving such."
+  },
+  {
     "id": "HIDDEN_HALLU",
     "type": "json_flag",
     "craft_inherit": true,
@@ -2122,7 +2136,7 @@
   {
     "id": "SCIENCE_CARD_SECURITY_BLACK",
     "type": "json_flag",
-    "info": "You could probably use this to get into a secured  area."
+    "info": "You could probably use this to get into a secured law enforcement area."
   },
   {
     "id": "SCIENCE_CARD_MUTAGEN_GREEN",
@@ -2358,6 +2372,11 @@
     "//": "Any item that can be an electronic file"
   },
   {
+    "id": "E_STORABLE_EXCLUSIVE",
+    "type": "json_flag",
+    "//": "Any item that can ONLY be an electronic file"
+  },
+  {
     "id": "E_COPIABLE",
     "type": "json_flag",
     "//": "Any item that can be electronically copied and scanned"
@@ -2493,6 +2512,11 @@
     "id": "CLIMB_FLYING",
     "type": "json_flag",
     "info": "You can ascend straight up even with no physical surface to climb on."
+  },
+  {
+    "id": "HERITAGE",
+    "type": "json_flag",
+    "info": "You have nonhuman ancestry or are not human"
   },
   {
     "id": "TREE_COMMUNION_PLUS",

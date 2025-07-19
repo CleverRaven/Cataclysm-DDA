@@ -2,6 +2,64 @@
   {
     "type": "item_group",
     "subtype": "distribution",
+    "id": "hedge_magick_materials",
+    "items": [
+      { "item": "mortar_pestle", "prob": 40 },
+      {
+        "item": "corpse_ash",
+        "prob": 15,
+        "container-item": "null",
+        "entry-wrapper": "jug_plastic",
+        "count": [ 5, 10 ]
+      },
+      { "item": "ash", "prob": 15, "container-item": "null", "entry-wrapper": "jug_plastic", "count": [ 10, 20 ] },
+      {
+        "item": "wild_herbs",
+        "prob": 75,
+        "container-item": "null",
+        "entry-wrapper": "bag_zipper",
+        "count": [ 20, 80 ]
+      },
+      {
+        "distribution": [
+          { "item": "alder_bark", "prob": 1, "count": [ 2, 5 ] },
+          { "item": "tanbark", "prob": 1, "count": [ 2, 5 ] },
+          { "item": "birchbark", "prob": 1, "count": [ 2, 5 ] },
+          { "item": "willowbark", "prob": 1, "count": [ 2, 5 ] }
+        ],
+        "prob": 40
+      },
+      {
+        "distribution": [
+          { "item": "leaves", "prob": 1, "count": [ 5, 10 ] },
+          { "item": "grape_leaves", "prob": 1, "count": [ 5, 10 ] },
+          { "item": "young_leaves", "prob": 1, "count": [ 5, 10 ] },
+          { "item": "chicory_leaves", "prob": 1, "count": [ 5, 10 ] },
+          { "item": "wintergreen_leaves", "prob": 1, "count": [ 5, 10 ] }
+        ],
+        "prob": 40
+      },
+      {
+        "distribution": [
+          { "item": "leather", "prob": 2, "count": [ 1, 5 ] },
+          { "item": "thread", "prob": 5, "count": [ 5, 50 ] },
+          { "item": "sinew", "prob": 1, "count": [ 2, 20 ] },
+          { "item": "plant_fibre", "prob": 1, "count": [ 3, 30 ] },
+          { "item": "yarn", "prob": 5, "count": [ 5, 50 ] },
+          { "item": "plant_fibre", "prob": 1, "count": [ 5, 50 ] },
+          { "item": "yarn", "prob": 5, "count": [ 5, 50 ] }
+        ],
+        "prob": 25
+      },
+      { "item": "salt", "count": [ 10, 50 ], "prob": 15, "entry-wrapper": "bag_zipper", "container-item": "null" },
+      { "item": "candle", "prob": 75, "charges": [ 10, -1 ] },
+      { "item": "copper", "prob": 15, "count": [ 5, 10 ] },
+      { "item": "scrap_dreamdross", "prob": 10, "count": [ 5, 10 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
     "id": "alchemical_materials",
     "items": [
       { "item": "chemistry_set", "prob": 25 },
@@ -153,6 +211,31 @@
     "items": [
       { "group": "corpses", "prob": 1, "count": [ 1, 3 ] },
       { "group": "default_zombie_death_drops", "prob": 1, "count": [ 1, 3 ] }
+    ]
+  },
+  {
+    "id": "book_lies_dead_body",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "The body is too damaged to count as a corpse.  This group spawns severely damaged human parts to represent that.",
+    "entries": [
+      { "item": "book_deduction_lies" },
+      { "item": "skull_human", "damage": [ 3, 4 ] },
+      { "item": "human_flesh", "damage": [ 3, 4 ], "count": [ 23, 28 ] },
+      { "item": "human_meat_scrap", "damage": [ 3, 4 ], "count": [ 11, 15 ] },
+      { "item": "hstomach", "damage": [ 3, 4 ] },
+      { "item": "human_liver", "damage": [ 3, 4 ], "count": [ 11, 15 ] },
+      { "item": "human_heart", "damage": [ 3, 4 ], "count": [ 8, 12 ] },
+      { "item": "human_lung", "damage": [ 3, 4 ], "count": [ 2, 4 ] },
+      { "item": "human_brain", "damage": [ 3, 4 ], "count": [ 3, 5 ] },
+      { "item": "human_sweetbread", "damage": [ 3, 4 ], "count": [ 1, 3 ] },
+      { "item": "human_kidney", "damage": [ 3, 4 ], "count": [ 2, 4 ] },
+      { "item": "human_fat", "damage": [ 3, 4 ], "count": [ 14, 18 ] },
+      { "item": "bone_human", "damage": [ 3, 4 ], "count": [ 24, 28 ] },
+      { "item": "human_marrow", "damage": [ 3, 4 ], "count": [ 5, 7 ] },
+      { "item": "raw_hleather", "damage": [ 3, 4 ], "count": [ 1, 3 ] },
+      { "item": "ruined_chunks", "damage": [ 3, 4 ], "count": [ 120, 130 ] },
+      { "group": "default_zombie_death_drops", "damage": [ 3, 4 ] }
     ]
   }
 ]

@@ -3,6 +3,7 @@
     "type": "npc",
     "id": "xe_vampire_mentor",
     "//": "Maybe there will be non-mentor vampire NPCs someday.  For now, there's only the mentors.",
+    "//2": "When vampires will gain random weaknesses, no mentor will ever have the Barred from Mortal Joys weakness.",
     "name_suffix": "vampire",
     "class": "NC_NPC_XE_VAMPIRE_MENTOR",
     "attitude": 0,
@@ -14,7 +15,7 @@
     "type": "npc_class",
     "id": "NC_NPC_XE_VAMPIRE_MENTOR",
     "name": "Vampire Mentor",
-    "job_description": "An ancient vampire, willing to assist those who want to further their curse",
+    "job_description": "An ancient vampire, willing to assist those who want to further their curse.",
     "common": false,
     "sells_belongings": false,
     "skills": [
@@ -31,6 +32,7 @@
     "bonus_per": { "rng": [ 2, 4 ] },
     "bonus_str": { "rng": [ 2, 4 ] },
     "bonus_dex": { "rng": [ 2, 4 ] },
+    "weapon_override": "EMPTY_GROUP",
     "traits": [
       { "group": "Appearance_demographics" },
       { "group": "BG_survival_story_UNIVERSAL" },
@@ -42,40 +44,55 @@
   {
     "id": "TALK_VAMPIRE_MENTOR",
     "type": "talk_topic",
+    "//": "When dialogue conditions will be possible to chain, there needs to be a 1% chance of a dialogue where the mentor gets mad at the fact that there is now another Anathema.  Around 1% of mentors knew about it.",
+    "//2": "Their response focuses on not panicking, for that tends to provoke hostiles into attacking.  However, they will refuse to stay near the Anathema even for a second.",
     "dynamic_line": {
-      "compare_string": [ "yes", { "u_val": "general_meeting_u_met_mentor" } ],
-      "yes": [ "Welcome back.", "Hello again." ],
-      "no": "Welcome.  What do you seek here?  Fortune?  Safety?  A friend?  A mentor?  What brought you here?"
+      "u_has_trait": "VAMPIRE_ANATHEMA",
+      "yes": "Sorry I must go.  Bye!",
+      "no": {
+        "compare_string": [ "yes", { "u_val": "general_meeting_u_met_mentor" } ],
+        "yes": [ "Welcome back.", "Hello again." ],
+        "no": "Welcome.  What do you seek here?  Fortune?  Safety?  A friend?  A mentor?  What brought you here?"
+      }
     },
     "responses": [
       {
         "text": "I want to talk.",
         "topic": "TALK_VAMPIRE_MENTOR_TALK",
+        "condition": { "not": { "u_has_trait": "VAMPIRE_ANATHEMA" } },
         "effect": { "u_add_var": "general_meeting_u_met_mentor", "value": "yes" }
       },
       {
         "text": "I want a mentor.",
         "topic": "TALK_VAMPIRE_MENTOR_MENTORING",
+        "condition": { "not": { "u_has_trait": "VAMPIRE_ANATHEMA" } },
         "effect": { "u_add_var": "general_meeting_u_met_mentor", "value": "yes" }
       },
       {
         "text": "I want to kill vampires.",
         "topic": "TALK_VAMPIRE_MENTOR_KILLING",
+        "condition": { "not": { "u_has_trait": "VAMPIRE_ANATHEMA" } },
         "effect": { "u_add_var": "general_meeting_u_met_mentor", "value": "yes" }
       },
       {
         "text": "I've done it.  I am now a true vampire.",
         "topic": "TALK_VAMPIRE_MENTOR_TRUEVAMP",
         "condition": {
-          "and": [ { "u_has_trait": "VAMPIRE4" }, { "not": { "compare_string": [ "yes", { "u_val": "told_about_trueness" } ] } } ]
+          "and": [
+            { "u_has_trait": "VAMPIRE4" },
+            { "not": { "compare_string": [ "yes", { "u_val": "told_about_trueness" } ] } },
+            { "not": { "u_has_trait": "VAMPIRE_ANATHEMA" } }
+          ]
         },
         "effect": { "u_add_var": "told_about_trueness", "value": "yes" }
       },
       {
         "text": "Before, you said there was more that I needed to learn?",
         "topic": "TALK_VAMPIRE_MENTOR_BLOOD_GIFT_RESEARCH",
+        "//": "Anathema who haven't obtained these recipes need not to worry, for one of their powers will give them the remaining gifts and they will have almost all the weaknesses anyway.",
         "condition": {
           "and": [
+            { "not": { "u_has_trait": "VAMPIRE_ANATHEMA" } },
             { "not": { "u_know_recipe": "xe_vampire_blood_gift_research" } },
             { "compare_string": [ "yes", { "u_val": "told_about_trueness" } ] }
           ]
@@ -87,7 +104,8 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "u_val": "received_mentor_book" } ] },
-            { "not": { "u_has_item": "vampire_mentor_book" } }
+            { "not": { "u_has_item": "vampire_mentor_book" } },
+            { "not": { "u_has_trait": "VAMPIRE_ANATHEMA" } }
           ]
         }
       },
@@ -113,8 +131,33 @@
         ]
       },
       {
+        "text": "…",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_trait": "VAMPIRE_ANATHEMA" },
+        "effect": [
+          { "npc_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } },
+          { "u_message": "The mentor vanishes in a fine mist." }
+        ]
+      },
+      {
+        "text": "Do you want to chat for a bit?",
+        "topic": "TALK_MENTOR_NO_CHAT",
+        "condition": { "and": [ { "not": { "u_has_trait": "VAMPIRE_ANATHEMA" } }, { "npc_has_trait": "PSYCHOPATH" } ] },
+        "effect": { "u_add_var": "general_meeting_u_met_mentor", "value": "yes" }
+      },
+      {
+        "text": "Do you want to chat for a bit?",
+        "topic": "TALK_MENTOR_CHAT",
+        "//": "Non-uncaring mentors enjoy a good chat, both for fun and purpose.",
+        "//2": "If you're a vampire, it keeps them on your good side and cement that you made the right choice.",
+        "//3": "If you're not a vampire, it builds trust so you're more receptive when they will offer you to become a vampire.",
+        "condition": { "and": [ { "not": { "u_has_trait": "VAMPIRE_ANATHEMA" } }, { "not": { "npc_has_trait": "PSYCHOPATH" } } ] },
+        "effect": { "u_add_var": "general_meeting_u_met_mentor", "value": "yes" }
+      },
+      {
         "text": "Just passing through, don't mind me.",
         "topic": "TALK_DONE",
+        "condition": { "not": { "u_has_trait": "VAMPIRE_ANATHEMA" } },
         "effect": { "u_add_var": "general_meeting_u_met_mentor", "value": "yes" }
       }
     ]
@@ -174,7 +217,15 @@
     "type": "talk_topic",
     "dynamic_line": { "str": "There are many vampires in this place.  Feel free to kill the others, I am not affiliated with them." },
     "responses": [
-      { "text": "I'm here to kill all vampires, no exceptions.  Prepare to die.", "topic": "TALK_DONE", "effect": "hostile" },
+      {
+        "text": "I'm here to kill all vampires, no exceptions.  Prepare to die.",
+        "topic": "TALK_DONE",
+        "effect": [
+          "hostile",
+          { "npc_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } },
+          { "u_message": "The mentor vanishes in a fine mist." }
+        ]
+      },
       {
         "text": "You seem more reasonable than the rest.  Would you like to be cured of your curse?",
         "topic": "TALK_VAMPIRE_MENTOR_CURE"
@@ -373,9 +424,9 @@
         "topic": "TALK_VAMPIRE_MENTOR_SACRIFICE_2"
       },
       {
-        "text": "[Killer or Uncaring] Make someone love me and then kill them in return for immortality and power?  What's the downside?",
+        "text": "[Uncaring] Make someone love me and then kill them in return for immortality and power?  What's the downside?",
         "topic": "TALK_VAMPIRE_MENTOR_SACRIFICE_1",
-        "condition": { "or": [ { "u_has_trait": "KILLER" }, { "u_has_trait": "PSYCHOPATH" } ] },
+        "condition": { "u_has_trait": "PSYCHOPATH" },
         "effect": { "assign_mission": "KILL_YOUR_BEST_FRIEND" }
       },
       {
@@ -495,7 +546,15 @@
     "type": "talk_topic",
     "dynamic_line": { "str": "No.  I've long passed the point of no return.  Either your cure won't do anything, or it'll kill me." },
     "responses": [
-      { "text": "Then you must die.", "topic": "TALK_DONE", "effect": "hostile" },
+      {
+        "text": "Then you must die.",
+        "topic": "TALK_DONE",
+        "effect": [
+          "hostile",
+          { "npc_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } },
+          { "u_message": "The mentor vanishes in a fine mist." }
+        ]
+      },
       { "text": "I understand.  Can we talk?", "topic": "TALK_VAMPIRE_MENTOR_TALK" },
       { "text": "I just wanted to look around.  See you.", "topic": "TALK_DONE" }
     ]
@@ -518,8 +577,59 @@
     },
     "responses": [
       { "text": "I want your help, mentor.", "topic": "TALK_VAMPIRE_MENTOR_MENTORING" },
-      { "text": "Then you must die.", "topic": "TALK_DONE", "effect": "hostile" },
+      {
+        "text": "Then you must die.",
+        "topic": "TALK_DONE",
+        "effect": [
+          "hostile",
+          { "npc_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } },
+          { "u_message": "The mentor vanishes in a fine mist." }
+        ]
+      },
       { "text": "Got it.  See you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_MENTOR_NO_CHAT" ],
+    "type": "talk_topic",
+    "dynamic_line": "I do not care for such frivolous things.",
+    "responses": [
+      { "text": "Alright.  What were we talking about before?", "topic": "TALK_NONE" },
+      { "text": "See you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_MENTOR_CHAT",
+    "//": "Mostly the same as TALK_FRIEND_CHAT, but without the things vampires don't care for.",
+    "type": "talk_topic",
+    "dynamic_line": [
+      { "npc_has_intelligence": 8, "yes": "<insightfulchitchat>", "no": "<thoughtfulchitchat>" },
+      { "npc_has_perception": 8, "yes": "<insightfulchitchat>", "no": "<thoughtfulchitchat>" }
+    ],
+    "responses": [
+      {
+        "text": "<chitchat_player_responses>",
+        "topic": "TALK_DONE",
+        "switch": true,
+        "condition": { "not": { "u_has_trait": "PSYCHOPATH" } },
+        "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ]
+      },
+      {
+        "text": "<chitchat_player_responses>",
+        "topic": "TALK_DONE",
+        "switch": true,
+        "condition": { "u_has_trait": "PSYCHOPATH" },
+        "effect": [
+          {
+            "u_add_morale": "morale_chat_uncaring",
+            "bonus": -10,
+            "max_bonus": -20,
+            "duration": "120 minutes",
+            "decay_start": "60 minutes"
+          },
+          { "npc_add_effect": "asked_to_socialize", "duration": 7000 }
+        ]
+      }
     ]
   },
   {

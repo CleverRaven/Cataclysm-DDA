@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "afs_tunnel_end",
     "object": {
       "fill_ter": "t_rock_floor",
@@ -15,7 +14,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "afs_tunnel_straight",
     "object": {
       "fill_ter": "t_rock_floor",
@@ -30,7 +28,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "afs_tunnel_curved",
     "object": {
       "fill_ter": "t_rock_floor",
@@ -45,7 +42,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "afs_tunnel_tee",
     "object": {
       "fill_ter": "t_rock_floor",
@@ -60,7 +56,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "afs_tunnel_four_way",
     "object": {
       "fill_ter": "t_rock_floor",
@@ -76,7 +71,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "afs_tunnel_straight_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -113,7 +107,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "afs_tunnel_straight_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -150,7 +143,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "afs_tunnel_straight_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -187,7 +179,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "afs_tunnel_straight_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -224,7 +215,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "afs_tunnel_straight_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -260,7 +250,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "afs_tunnel_straight_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -296,7 +285,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "afs_tunnel_straight_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -332,7 +320,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "afs_tunnel_end_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -368,7 +355,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "afs_tunnel_curved_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -404,7 +390,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "afs_tunnel_tee_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -440,7 +425,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "afs_tunnel_four_way_tile",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -475,7 +459,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "cave_chunk_l",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -499,7 +482,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "cave_chunk_l",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -523,7 +505,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "cave_chunk_l",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -547,7 +528,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "cave_chunk_l",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -571,7 +551,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "cave_chunk_l",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -595,7 +574,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "cave_chunk_l",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -619,7 +597,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "cave_chunk_l",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -643,7 +620,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "cave_chunk_r",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -667,7 +643,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "cave_chunk_r",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -691,7 +666,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "cave_chunk_r",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -715,7 +689,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "cave_chunk_r",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -739,7 +712,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "cave_chunk_r",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -763,7 +735,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "cave_chunk_r",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -787,7 +758,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "cave_chunk_r",
     "object": {
       "mapgensize": [ 12, 12 ],

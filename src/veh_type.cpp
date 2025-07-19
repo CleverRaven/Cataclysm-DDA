@@ -32,6 +32,7 @@
 #include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "output.h"
 #include "pocket_type.h"
@@ -301,6 +302,12 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     int legacy_bonus_fire_warmth_feet = units::to_legacy_bodypart_temp_delta( bonus_fire_warmth_feet );
     assign( jo, "bonus_fire_warmth_feet", legacy_bonus_fire_warmth_feet, strict );
     bonus_fire_warmth_feet = units::from_legacy_bodypart_temp_delta( legacy_bonus_fire_warmth_feet );
+
+    int enchant_num = 0;
+    for( JsonValue jv : jo.get_array( "enchantments" ) ) {
+        std::string enchant_name = "INLINE_ENCH_" + name_ + "_" + std::to_string( enchant_num++ );
+        enchantments.push_back( enchantment::load_inline_enchantment( jv, src, enchant_name ) );
+    }
 
     if( jo.has_array( "variants" ) ) {
         variants.clear();

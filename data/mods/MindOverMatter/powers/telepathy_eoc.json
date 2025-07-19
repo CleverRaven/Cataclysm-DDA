@@ -9,7 +9,11 @@
           "not": {
             "and": [
               { "u_has_flag": "TEEPSHIELD" },
-              { "math": [ "u_spell_level('telepathic_shield') >= n_spell_level('telepathic_mesmerize')" ] }
+              {
+                "math": [
+                  "(u_spell_level('telepathic_shield') + u_spell_level('telepathic_shield_knack') ) >= ( n_spell_level('telepathic_mesmerize') + n_spell_level('telepathic_mesmerize_knack') )"
+                ]
+              }
             ]
           }
         },
@@ -18,13 +22,17 @@
     },
     "effect": [
       { "math": [ "u_telepathy_intelligence = ( ( n_val('intelligence') + 10) / 20 )" ] },
-      { "math": [ "u_telepathy_mesmer_power_level = n_spell_level('telepathic_mesmerize')" ] },
+      {
+        "math": [
+          "u_telepathy_mesmer_power_level = ( n_spell_level('telepathic_mesmerize') + n_spell_level('telepathic_mesmerize_knack') )"
+        ]
+      },
       { "math": [ "u_nether_attunement_telepathy_scaling = n_nether_attunement_power_scaling" ] },
       {
         "math": [
           "u_telepath_mesmerism_duration",
           "=",
-          "rng((( (u_telepathy_mesmer_power_level * 2) + 8) * u_telepathy_intelligence * u_nether_attunement_telepathy_scaling),(( (u_telepathy_mesmer_power_level * 5) + 20) * u_telepathy_intelligence * u_nether_attunement_telepathy_scaling))"
+          "rng( ( ( (u_telepathy_mesmer_power_level * 2) + 8) * u_telepathy_intelligence * u_nether_attunement_telepathy_scaling),( ( (u_telepathy_mesmer_power_level * 5) + 20) * u_telepathy_intelligence * u_nether_attunement_telepathy_scaling))"
         ]
       },
       {
@@ -139,7 +147,9 @@
             "condition": "u_is_npc",
             "effect": [
               { "math": [ "u_telepathy_intelligence = ( ( n_val('intelligence') + 10) / 20 )" ] },
-              { "math": [ "u_telepathy_power_level = n_spell_level('telepathic_morale')" ] },
+              {
+                "math": [ "u_telepathy_power_level = (n_spell_level('telepathic_morale') + n_spell_level('telepathic_morale_knack') )" ]
+              },
               { "math": [ "u_nether_attunement_telepathy_scaling = n_nether_attunement_power_scaling" ] },
               {
                 "math": [
@@ -152,7 +162,9 @@
             ],
             "false_effect": [
               { "math": [ "u_telepathy_intelligence = ( ( n_val('intelligence') + 10) / 20 )" ] },
-              { "math": [ "u_telepathy_power_level = n_spell_level('telepathic_morale')" ] },
+              {
+                "math": [ "u_telepathy_power_level = (n_spell_level('telepathic_morale') + n_spell_level('telepathic_morale_knack') )" ]
+              },
               { "math": [ "u_nether_attunement_telepathy_scaling = n_nether_attunement_power_scaling" ] },
               {
                 "math": [
@@ -257,7 +269,11 @@
           "not": {
             "and": [
               { "u_has_flag": "TEEPSHIELD" },
-              { "math": [ "u_spell_level('telepathic_shield') >= n_spell_level('telepathic_fear')" ] }
+              {
+                "math": [
+                  "(u_spell_level('telepathic_shield') + u_spell_level('telepathic_shield_knack') ) >= n_spell_level('telepathic_fear')"
+                ]
+              }
             ]
           }
         },

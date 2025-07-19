@@ -33,7 +33,7 @@
 #endif
 
 #if defined(TILES) && !defined(__ANDROID__)
-#include <SDL2/SDL_mouse.h>
+#include "sdl_wrappers.h"
 #endif
 
 class uilist_impl : cataimgui::window

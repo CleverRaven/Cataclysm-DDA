@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "//": "This is the 'base' airdrop, and doesn't actually contain anything. Variants are generated via the place_nested field.",
     "update_mapgen_id": "mx_airdrop",
     "object": {
@@ -16,7 +15,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_airdrop_humanitarian_full",
     "//": "untouched version of drop, rare",
     "object": {
@@ -34,7 +32,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "supply_humanitarian",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -46,7 +43,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "supply_water_bottles_full",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -62,7 +58,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "supply_generatos",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -74,7 +69,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_airdrop_humanitarian_looted",
     "//": "versions with a few tents here and there, and some occupants",
     "object": {
@@ -99,7 +93,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "supply_humanitarian_used",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -110,7 +103,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "supply_water_bottles_open",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -121,7 +113,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "supply_trash",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -131,7 +122,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "supply_generator_active",
     "object": {
       "mapgensize": [ 1, 1 ],

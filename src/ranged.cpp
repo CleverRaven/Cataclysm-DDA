@@ -99,6 +99,7 @@ static const ammo_effect_str_id ammo_effect_HEAVY_HIT( "HEAVY_HIT" );
 static const ammo_effect_str_id ammo_effect_IGNITE( "IGNITE" );
 static const ammo_effect_str_id ammo_effect_LASER( "LASER" );
 static const ammo_effect_str_id ammo_effect_LIGHTNING( "LIGHTNING" );
+static const ammo_effect_str_id ammo_effect_LIQUID( "LIQUID" );
 static const ammo_effect_str_id ammo_effect_MATCHHEAD( "MATCHHEAD" );
 static const ammo_effect_str_id ammo_effect_NON_FOULING( "NON_FOULING" );
 static const ammo_effect_str_id ammo_effect_NO_EMBED( "NO_EMBED" );
@@ -307,7 +308,7 @@ class target_ui
         // List of available weapon aim types
         std::vector<aim_type> aim_types;
         // Currently selected aim mode
-        std::vector<aim_type>::iterator aim_mode;
+        std::vector<aim_type>::iterator aim_mode{ aim_types.begin() };
         // 'Recoil' value the player will reach if they
         // start aiming at cursor position. Equals player's
         // 'recoil' while they are actively spending moves to aim,
@@ -796,7 +797,8 @@ bool Character::handle_gun_damage( item &it )
         return false;
 
         // Chance for the weapon to suffer a failure, caused by the magazine size, quality, or condition
-    } else if( x_in_y( jam_chance, 1 ) && !it.has_var( "u_know_round_in_chamber" ) ) {
+    } else if( x_in_y( jam_chance, 1 ) && !it.has_flag( flag_NEVER_JAMS ) &&
+               !it.has_var( "u_know_round_in_chamber" ) ) {
         add_msg_player_or_npc( m_bad, _( "Your %s malfunctions!" ),
                                _( "<npcname>'s %s malfunctions!" ),
                                it.tname() );
@@ -2256,6 +2258,10 @@ static projectile make_gun_projectile( const item &gun )
     proj.range = gun.gun_range();
     proj.proj_effects = gun.ammo_effects();
 
+    if( gun.has_ammo_data() && gun.ammo_data()->phase == phase_id::LIQUID ) {
+        proj.proj_effects.insert( ammo_effect_LIQUID );
+    }
+
     auto &fx = proj.proj_effects;
 
     if( ( gun.has_ammo_data() && gun.ammo_data()->phase == phase_id::LIQUID ) ||
@@ -2457,6 +2463,9 @@ item::sound_data item::gun_noise( const bool burst ) const
 
     } else if( fx.count( ammo_effect_WHIP ) ) {
         return { noise, _( "Crack!" ) };
+
+    } else if( fx.count( ammo_effect_LIQUID ) ) {
+        return { noise, _( "Splash!" ) };
 
     } else if( noise > 0 ) {
         if( noise < 10 ) {
@@ -3926,7 +3935,7 @@ void target_ui::draw_ui_window()
 
 aim_type target_ui::get_selected_aim_type() const
 {
-    return this->aim_mode != this->aim_types.cend() ? *( this->aim_mode ) : get_default_aim_type();
+    return this->aim_mode != this->aim_types.end() ? *( this->aim_mode ) : get_default_aim_type();
 }
 
 int target_ui::get_sight_dispersion() const

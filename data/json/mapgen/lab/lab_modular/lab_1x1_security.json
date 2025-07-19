@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": "lab_security_z0N",
     "type": "mapgen",
     "object": {
@@ -70,7 +69,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "lab_security_z0",
     "type": "mapgen",
     "object": {
@@ -136,7 +134,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "lab_security_z0S",
     "type": "mapgen",
     "object": {
@@ -201,7 +198,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "lab_security_z-1",
     "type": "mapgen",
     "object": {
@@ -260,7 +256,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "lab_security_z-2",
     "type": "mapgen",
     "object": {
@@ -301,7 +296,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "lab_security_z-3",
     "type": "mapgen",
     "object": {
@@ -366,7 +360,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "lab_security_z-4",
     "type": "mapgen",
     "//": "TODO: possible mechanics area for trains.",
@@ -415,7 +408,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "lab_security_z-5",
     "type": "mapgen",
     "object": {
@@ -476,7 +468,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "lab_security_z-6_final_flr",
     "//": "variant for a 6 floor lab (removed stairs down)",
     "type": "mapgen",

@@ -1108,7 +1108,6 @@
           "robofac_gun_ar",
           "robofac_gun_smg",
           "robofac_gun_57",
-          "robofac_gun_46",
           "robofac_gun_dmr",
           "robofac_gun_shotgun",
           "robofac_gun_shotgun_breach",
@@ -1626,6 +1625,28 @@
     "melee_damage": { "bash": 12 }
   },
   {
+    "id": "wrench_48",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "heavy-duty pipe wrench", "str_pl": "heavy-duty pipe wrenches" },
+    "//": "Based on 48in 'Rigid' brand pipe wrench, assumed 7.2/ml iron density with some margin for mechanism and other empty space.",
+    "description": "A 48in pipe wrench, normally used in oil fields and in the maintenance of public utilities.  It's much larger and heavier than you have any practical use for.",
+    "looks_like": "wrench",
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "neutral" },
+    "flags": [ "DURABLE_MELEE", "ALWAYS_TWOHAND" ],
+    "weapon_category": [ "GREAT_HAMMERS" ],
+    "techniques": [ "WBLOCK_1", "BRUTAL" ],
+    "weight": "14 kg",
+    "volume": "1945 ml",
+    "longest_side": "120 cm",
+    "price": "507 USD",
+    "price_postapoc": "2 USD",
+    "material": [ "iron" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "melee_damage": { "bash": 50 }
+  },
+  {
     "id": "makeshift_hose",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
@@ -1813,5 +1834,22 @@
     "color": "light_gray",
     "qualities": [ [ "VISE", 3 ], [ "ANVIL", 1 ] ],
     "melee_damage": { "bash": 14 }
+  },
+  {
+    "id": "exodii_kiln",
+    "type": "ITEM",
+    "name": { "str": "Exodii kiln" },
+    "description": "An electric kiln, powered by your electric grid.  A bit larger than a refridgerator, this Exodii-manufactured kiln is large enough to repair the sheets of ceramic they use for armor.  It is designed for firing sheets of the Exodii's ceramic, but you could use it to fire anything made of clay.  A large and power-hungry appliance.",
+    "weight": "175 kg",
+    "volume": "1000 L",
+    "price": "5000 USD",
+    "price_postapoc": "5000 USD",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
+    "material": [ "lc_steel", "exodii_ceramic", "copper" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "2500 W" } ],
+    "melee_damage": { "bash": 20 }
   }
 ]

@@ -1918,7 +1918,13 @@ class weapon_inventory_preset: public inventory_selector_preset
                                                 );
                         }
                     }
-                    const int ammo_damage = damage.total_damage();
+
+                    int ammo_damage;
+                    if( loc->barrel_length().value() > 0 ) {
+                        ammo_damage = damage.di_considering_length( loc->barrel_length() ).total_damage();
+                    } else {
+                        ammo_damage = damage.total_damage();
+                    }
 
                     return string_format( "%s<color_light_gray>+</color>%s <color_light_gray>=</color> %s",
                                           get_damage_string( basic_damage, true ),
@@ -1942,7 +1948,7 @@ class weapon_inventory_preset: public inventory_selector_preset
 
             append_cell( [ this ]( const item_location & loc ) {
                 if( deals_melee_damage( *loc ) ) {
-                    return good_bad_none( loc->type->m_to_hit );
+                    return good_bad_none( loc->get_to_hit() );
                 }
                 return std::string();
             }, _( "MELEE" ) );

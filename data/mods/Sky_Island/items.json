@@ -271,7 +271,12 @@
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "homeward mote" },
-    "use_action": { "type": "effect_on_conditions", "description": "A hasty escape.", "effect_on_conditions": [ "EOC_homewardmote" ] },
+    "use_action": {
+      "type": "effect_on_conditions",
+      "consume": true,
+      "description": "A hasty escape.",
+      "effect_on_conditions": [ "EOC_homewardmote" ]
+    },
     "description": "Though visibly little more than a glowing dustbunny, this strange ethereal mote of warp essence reveals, on closer inspection, something more.  A tiny, twisting, half-visible thread of shimmering bluish-purple trails away into the sky and far out of sight, unimpeded by any obstacles.\n\nTaking this rare and valuable artifact with you on an expedition is essentially buying life insurance.  If you die with this mote in your inventory, you will instead be restored to full health and brought home, WITH all items and equipment carried.  But this effect will only last for a single expedition.  Even if you extract safely, any and all motes carried on your person when you return home will be DESTROYED.",
     "weight": "15 g",
     "volume": "5 ml",
@@ -454,6 +459,7 @@
     "ammo_type": "components",
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "description": "Return to the sky.",
       "effect_on_conditions": [ "EOC_WARPED_ENEMY_CHECK_RETURN" ]
     }
@@ -493,6 +499,7 @@
     "ammo_type": "components",
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "description": "Cross the waters.",
       "effect_on_conditions": [ "EOC_WARPED_WATERWALKING" ]
     }
@@ -608,6 +615,36 @@
       "UNBREAKABLE",
       "RAIN_PROTECT",
       "SUN_GLASSES",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "max_worn": 1,
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
+  },
+  {
+    "id": "sky_island_windblock",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "Personal Windblock" },
+    "description": "The island is protecting you against the winds as long as you are on it.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "o",
+    "color": "blue",
+    "material": [ "alien_resin_windblock" ],
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
       "ALLOWS_NATURAL_ATTACKS"
     ],
     "max_worn": 1,

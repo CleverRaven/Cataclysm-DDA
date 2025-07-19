@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "oil_platform_1a_5", "oil_platform_1b_5", "oil_platform_1c_5" ],
       [ "oil_platform_2a_5", "oil_platform_2b_5", "oil_platform_2c_5" ],

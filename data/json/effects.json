@@ -2274,14 +2274,13 @@
     "desc": [ "Your vision is obscured by a disgusting splatter of bile." ],
     "apply_message": "You're covered in bile!",
     "rating": "bad",
-    "base_mods": { "per_mod": [ -3 ] },
     "max_duration": "30 s",
     "limb_score_mods": [
       { "limb_score": "vision", "modifier": 0.1 },
       { "limb_score": "night_vis", "modifier": 0.0 },
       { "limb_score": "reaction", "modifier": 0.2 }
     ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD_LOCAL" ],
     "show_in_info": true
   },
   {
@@ -4282,6 +4281,29 @@
   },
   {
     "type": "effect_type",
+    "id": "opiate_eff",
+    "//": "Gives Status warnings of danger levels only.  Significant chance that death occurs well before or after this scale suggests.  As Pkill is vitaminized move opiates to this scale for effects.",
+    "name": [
+      "Mild Opiate Euphoria",
+      "Moderate Opiate Euphoria",
+      "Significant Opiate Euphoria",
+      "Opiate Intoxication",
+      "Opiate Debilitation",
+      "Death"
+    ],
+    "desc": [
+      "Mild euphoric feelings from the Opiates you've taken.",
+      "Moderate euphoria, likely sedative effects.",
+      "Significant euphoria, heavy sedative effects.",
+      "Some incapacitation, sedation, nausea, numbness.",
+      "Significant chance of death, incapable of many tasks, narcolepsy.",
+      "Terminal Dosage achieved."
+    ],
+    "blood_analysis_description": "Sample contains opiate based painkillers.",
+    "max_intensity": 6
+  },
+  {
+    "type": "effect_type",
     "id": "bad_food_ennui",
     "name": [ "Gross Food", "Demoralizing Food", "Depressing Food" ],
     "desc": [
@@ -4301,7 +4323,7 @@
       "You've lost some blood and look somewhat pale.",
       "You've lost a large amount of blood, and you're not feeling well.",
       "You've lost an awful lot of blood, and your condition is severe.  Seek medical attention.",
-      "You've lost tremendous amount of blood, and you're standing on death's door.  Transfusion might save you."
+      "You've lost tremendous amount of blood, and you're standing on death's door.  Saline infusion might save you."
     ],
     "apply_message": "You have lost a lot of blood, and your condition worsens.",
     "remove_message": "You are no longer in shock.",

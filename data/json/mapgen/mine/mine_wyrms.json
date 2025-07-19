@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "mine_wyrms_west", "mine_wyrms_central", "mine_wyrms_east" ] ],
     "object": {
       "fill_ter": "t_rock_floor",
@@ -71,7 +70,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mine_wyrms_finale",
     "object": {
       "fill_ter": "t_rock_floor",

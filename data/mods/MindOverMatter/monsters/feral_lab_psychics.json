@@ -55,7 +55,7 @@
           "id": "smash",
           "move_cost": 80,
           "cooldown": { "math": [ "4 + rand(8)" ] },
-          "damage_max_instance": [ { "damage_type": "psi_telekinetic_damage", "amount": 20, "armor_penetration": 10 } ],
+          "damage_max_instance": [ { "damage_type": "psi_telekinetic_damage", "amount": 0 } ],
           "hitsize_min": 12,
           "accuracy": 7,
           "range": 8,

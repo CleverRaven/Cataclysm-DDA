@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "campus_health_0_0_0" ], [ "campus_health_0_1_0" ], [ "campus_health_0_2_0" ] ],
     "object": {
       "fill_ter": "t_floor",

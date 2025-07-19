@@ -1,0 +1,24 @@
+[
+  {
+    "type": "overmap_terrain",
+    "name": "solid rock",
+    "//": "should be indistinguishable from deep_rock.  Not supposed to be able to see it.",
+    "id": "labyrinth_hall",
+    "sym": "%",
+    "color": "dark_gray",
+    "see_cost": "high",
+    "travel_cost_type": "impassable",
+    "flags": [ "LINEAR", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "solid rock",
+    "//": "should be indistinguishable from deep_rock.  Not supposed to be able to see it.",
+    "id": "labyrinth_entrance",
+    "sym": "%",
+    "color": "dark_gray",
+    "see_cost": "high",
+    "travel_cost_type": "impassable",
+    "flags": [ "SHOULD_NOT_SPAWN" ]
+  }
+]

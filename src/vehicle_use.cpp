@@ -29,7 +29,6 @@
 #include "item.h"
 #include "itype.h"
 #include "iuse.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
@@ -72,7 +71,11 @@ static const efftype_id effect_tied( "tied" );
 
 static const fault_id fault_engine_starter( "fault_engine_starter" );
 
+static const flag_id json_flag_DETERGENT( "DETERGENT" );
 static const flag_id json_flag_FILTHY( "FILTHY" );
+static const flag_id json_flag_IRREMOVABLE( "IRREMOVABLE" );
+static const flag_id json_flag_NO_PACKED( "NO_PACKED" );
+static const flag_id json_flag_PSEUDO( "PSEUDO" );
 
 static const furn_str_id furn_f_plant_harvest( "f_plant_harvest" );
 static const furn_str_id furn_f_plant_seed( "f_plant_seed" );
@@ -556,6 +559,18 @@ void vehicle::toggle_tracking()
     }
 }
 
+void vehicle::display_effects()
+{
+    std::string effect_message;
+    for( auto &elem : effects ) {
+        if( elem.first->is_show_in_info() ) {
+            effect_message += elem.second.disp_name() + ": " + elem.second.disp_desc();
+            effect_message += '\n';
+        }
+    }
+    add_msg( effect_message );
+}
+
 void vehicle::connect( map *here, const tripoint_bub_ms &source_pos,
                        const tripoint_bub_ms &target_pos )
 {
@@ -674,7 +689,8 @@ bool vehicle::start_engine( map &here, vehicle_part &vp )
     const time_duration start_time = engine_start_time( here, vp );
     const tripoint_bub_ms pos = bub_part_pos( here, vp );
 
-    if( ( 1 - dmg ) < vpi.engine_info->backfire_threshold &&
+    if( !is_engine_type( vp, fuel_type_battery ) &&
+        ( 1 - dmg ) < vpi.engine_info->backfire_threshold &&
         one_in( vpi.engine_info->backfire_freq ) ) {
         backfire( &here, vp );
     } else {
@@ -1383,7 +1399,7 @@ void vehicle::use_autoclave( map &here, int p )
     } );
 
     bool unpacked_items = std::any_of( items.begin(), items.end(), []( const item & i ) {
-        return i.has_flag( STATIC( flag_id( "NO_PACKED" ) ) );
+        return i.has_flag( json_flag_NO_PACKED );
     } );
 
     bool cbms = std::all_of( items.begin(), items.end(), []( const item & i ) {
@@ -1430,7 +1446,7 @@ void vehicle::use_washing_machine( map &here, int p )
     // Get all the items that can be used as detergent
     const inventory &inv = player_character.crafting_inventory();
     std::vector<const item *> detergents = inv.items_with( [inv]( const item & it ) {
-        return it.has_flag( STATIC( flag_id( "DETERGENT" ) ) ) && inv.has_charges( it.typeId(), 5 );
+        return it.has_flag( json_flag_DETERGENT ) && inv.has_charges( it.typeId(), 5 );
     } );
 
     vehicle_stack items = get_items( vp );
@@ -1579,6 +1595,112 @@ void vehicle::use_monster_capture( int part, map */*here*/, const tripoint_bub_m
         parts[part].remove_flag( vp_flag::animal_flag );
     }
     parts[part].set_base( std::move( base ) );
+    invalidate_mass();
+}
+
+static void place_carried_furniture( map &here, vehicle_part &part )
+{
+    static const std::string item_var_string = "tied_down_furniture";
+    furn_str_id tied_down_furniture( part.get_base().get_var( item_var_string ) );
+    if( !tied_down_furniture.is_valid() ) {
+        debugmsg( "Invalid stored furniture %s", tied_down_furniture.str() );
+        item base_copy( part.get_base() );
+        base_copy.erase_var( item_var_string ); // to prevent bricking the item
+        part.set_base( std::move( base_copy ) );
+        return;
+    }
+
+    const std::function<bool( const tripoint_bub_ms & )> tile_without_furniture_obstruction =
+    [&here]( const tripoint_bub_ms & target ) {
+        // target does not have furniture or any vehicle part
+        // TODO: Where else can't we place a new furniture? There must be a common function for this
+        if( !here.has_furn( target ) && !here.veh_at( target ) ) {
+            return true;
+        }
+        return false;
+    };
+
+    // doesn't actually display for choose_adjacent_highlight since we don't allow auto selection
+    std::string fail_msg =
+        _( "Can't put furniture there.  There is a vehicle or another furniture in the way." );
+
+    std::optional<tripoint_bub_ms> selected_tile = choose_adjacent_highlight( here,
+            string_format( _( "Select where to place the %s." ), tied_down_furniture->name() ),
+            fail_msg,
+            tile_without_furniture_obstruction, false, false );
+
+    if( selected_tile ) {
+        part.unload_furniture( here, *selected_tile );
+    } else {
+        add_msg( fail_msg ); // user cancelled or picked invalid tile
+    }
+}
+
+static void pickup_furniture_for_carry( map &here, vehicle_part &part )
+{
+    const std::function<bool( const tripoint_bub_ms & )> tile_with_furniture =
+    [&here]( const tripoint_bub_ms & target ) {
+        return here.has_furn( target );
+    };
+
+    std::optional<tripoint_bub_ms> selected_tile = choose_adjacent_highlight( here,
+            _( "Select a furniture to load into the vehicle." ),
+            _( "No adjacent furniture." ),
+            tile_with_furniture, false, true );
+
+    if( !selected_tile ) {
+        return; // no adjacent furniture (they got msg) or they cancelled on purpose, so just return
+    }
+
+    const furn_str_id picked_up_furn = here.furn( *selected_tile )->id;
+
+    const Character &you = get_player_character();
+    const int lifting_str_available = you.get_lift_str() + you.get_lift_assist();
+
+    if( picked_up_furn->move_str_req < 0 ) {
+        add_msg( _( "That furniture can't be moved." ) );
+        return;
+    } else if( picked_up_furn->move_str_req > lifting_str_available ) {
+        if( you.get_lift_assist() > 0 ) {
+            add_msg( string_format( _( "Even working together, you are unable to lift the %s." ),
+                                    picked_up_furn->name() ) );
+        } else {
+            add_msg( string_format( _( "You aren't able to lift the %s on your own." ),
+                                    picked_up_furn->name() ) );
+        }
+        return;
+    }
+
+    part.load_furniture( here, *selected_tile );
+}
+
+void vehicle::use_tiedown_furniture( int part, map *here, const tripoint_bub_ms & )
+{
+    if( !here ) {
+        // should never happen!
+        debugmsg( "vehicle::use_tiedown_furniture() called without a map pointer, please report this error" );
+        return;
+    }
+
+    if( parts[part].is_broken() || parts[part].removed ) {
+        add_msg( _( "The %s is broken and cannot be used." ), parts[part].name() );
+        return;
+    }
+
+
+    const bool will_unload_furniture = parts[part].get_base().has_var( "tied_down_furniture" );
+
+    if( !get_items( parts[part] ).empty() && !will_unload_furniture ) {
+        add_msg( m_warning, _( "Can't store furniture while there are items in the way." ) );
+        return;
+    }
+
+    if( will_unload_furniture ) {
+        place_carried_furniture( *here, parts[part] );
+    } else {
+        pickup_furniture_for_carry( *here, parts[part] );
+    }
+
     invalidate_mass();
 }
 
@@ -1764,14 +1886,14 @@ std::pair<const itype_id &, int> vehicle::tool_ammo_available( map &here,
 
 int vehicle::prepare_tool( map &here, item &tool ) const
 {
-    tool.set_flag( STATIC( flag_id( "PSEUDO" ) ) );
+    tool.set_flag( json_flag_PSEUDO );
 
     const auto &[ammo_itype_id, ammo_amount] = tool_ammo_available( here, tool.typeId() );
     if( ammo_itype_id.is_null() ) {
         return 0; // likely tool needs no ammo
     }
     item mag_mod( itype_pseudo_magazine_mod );
-    mag_mod.set_flag( STATIC( flag_id( "IRREMOVABLE" ) ) );
+    mag_mod.set_flag( json_flag_IRREMOVABLE );
     if( !tool.put_in( mag_mod, pocket_type::MOD ).success() ) {
         debugmsg( "tool %s has no space for a %s, this is likely a bug",
                   tool.typeId().str(), mag_mod.type->nname( 1 ) );
@@ -1904,6 +2026,13 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
         .keep_menu_open()
         .hotkey( "TOGGLE_TRACKING" )
         .on_submit( [this] { toggle_tracking(); } );
+    }
+
+    if( has_visible_effect() ) {
+        menu.add( _( "Examine vehicle effects" ) )
+        .skip_theft_check()
+        .skip_locked_check()
+        .on_submit( [this] { display_effects(); } );
     }
 
     if( is_locked && controls_here ) {
@@ -2329,6 +2458,15 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
         menu.add( _( "Capture or release a creature" ) )
         .hotkey( "USE_CAPTURE_MONSTER_VEH" )
         .on_submit( [this, mc_idx, vppos, here] { use_monster_capture( mc_idx, here, vppos ); } );
+    }
+
+    const std::optional<vpart_reference> vp_furniture_tiedown =
+        vp.avail_part_with_feature( "FURNITURE_TIEDOWN" );
+    if( vp_furniture_tiedown ) {
+        const size_t mc_idx = vp_furniture_tiedown->part_index();
+        menu.add( _( "Tie down or remove a furniture" ) )
+        .hotkey( "USE_TIEDOWN_FURNITURE_VEH" )
+        .on_submit( [this, mc_idx, vppos, here] { use_tiedown_furniture( mc_idx, here, vppos ); } );
     }
 
     const std::optional<vpart_reference> vp_bike_rack = vp.avail_part_with_feature( "BIKE_RACK_VEH" );

@@ -36,7 +36,7 @@ static const itype_id
 itype_test_watertight_open_sealed_container_250ml( "test_watertight_open_sealed_container_250ml" );
 static const itype_id itype_test_wine( "test_wine" );
 
-static const vproto_id vehicle_prototype_shopping_cart( "shopping_cart" );
+static const vproto_id vehicle_prototype_test_shopping_cart( "test_shopping_cart" );
 
 static const zone_type_id zone_type_LOOT_DRINK( "LOOT_DRINK" );
 static const zone_type_id zone_type_LOOT_FOOD( "LOOT_FOOD" );
@@ -90,11 +90,12 @@ TEST_CASE( "zone_unloading_ammo_belts", "[zones][items][ammo_belt][activities][u
 
     tripoint_abs_ms const start = here.get_abs( tripoint_bub_ms::zero + tripoint::east );
     bool const move_act = GENERATE( true, false );
+    CAPTURE( move_act );
     dummy.set_pos_abs_only( start );
 
     if( in_vehicle ) {
-        REQUIRE( here.add_vehicle( vehicle_prototype_shopping_cart, tripoint_bub_ms::zero + tripoint::east,
-                                   0_degrees, 0, 0 ) );
+        REQUIRE( here.add_vehicle( vehicle_prototype_test_shopping_cart,
+                                   tripoint_bub_ms::zero + tripoint::east, 0_degrees, 0, 0 ) );
         vp = here.veh_at( start ).cargo();
         REQUIRE( vp );
         vp->vehicle().set_owner( dummy );

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "sealab_small_surface",
     "object": {
       "fill_ter": "t_metal_pontoon_dp",
@@ -57,7 +56,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "sealab_small_roof",
     "object": {
       "fill_ter": "t_metal_flat_roof",
@@ -93,7 +91,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "sealab_small_-1",
     "object": {
       "fill_ter": "t_bulkhead_floor",
@@ -128,7 +125,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "sealab_small_-2",
     "object": {
       "fill_ter": "t_bulkhead_floor",
@@ -163,7 +159,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "sealab_small_-3",
     "object": {
       "fill_ter": "t_bulkhead_floor",
@@ -231,7 +226,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "sealab_small_-4",
     "object": {
       "fill_ter": "t_bulkhead_floor",
@@ -285,7 +279,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "sealab_small_-5",
     "object": {
       "fill_ter": "t_metal_floor",

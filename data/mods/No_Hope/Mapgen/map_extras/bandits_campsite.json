@@ -1,14 +1,12 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "bandits_campsite",
     "//": "TODO: Add more variations",
     "object": { "place_nested": [ { "chunks": [ "bandits_campsite" ], "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "bandits_campsite",
     "object": {
       "mapgensize": [ 24, 24 ],

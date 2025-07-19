@@ -4,7 +4,6 @@
 #include <functional>
 #include <string>
 
-#include "activity_handlers.h"
 #include "creature.h"
 #include "debug.h"
 #include "enum_conversions.h"
@@ -12,6 +11,7 @@
 #include "generic_factory.h"
 #include "item.h"
 #include "requirements.h"
+#include "butchery.h"
 
 namespace
 {

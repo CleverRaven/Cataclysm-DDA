@@ -3354,7 +3354,7 @@
     "price_postapoc": "10 cent",
     "material": [ "steel" ],
     "symbol": "#",
-    "color": "black",
+    "color": "dark_gray",
     "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 8 }
   },
@@ -3370,7 +3370,7 @@
     "price_postapoc": "10 cent",
     "material": [ "steel" ],
     "symbol": "#",
-    "color": "black",
+    "color": "dark_gray",
     "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 8 }
   },
@@ -3527,6 +3527,11 @@
   },
   {
     "type": "ITEM",
+    "id": "broken_turret_rifle_balthazar",
+    "copy-from": "broken_turret_rifle"
+  },
+  {
+    "type": "ITEM",
     "id": "broken_crows_m240",
     "symbol": ",",
     "color": "green",
@@ -3568,6 +3573,11 @@
     "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "clumsy" },
     "flags": [ "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE" ],
     "melee_damage": { "bash": 4, "cut": 4 }
+  },
+  {
+    "type": "ITEM",
+    "id": "broken_secubot_balthazar",
+    "copy-from": "broken_secubot"
   },
   {
     "type": "ITEM",
@@ -3965,7 +3975,7 @@
     "id": "pallet",
     "type": "ITEM",
     "name": { "str": "wooden pallet" },
-    "description": "This is a heavy and bulky 40x48 inch palette.",
+    "description": "This is a heavy and bulky 40x48 inch pallet.",
     "weight": "28 kg",
     "volume": "194400 ml",
     "material": [ "wood" ],

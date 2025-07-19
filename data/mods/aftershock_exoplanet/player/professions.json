@@ -1,6 +1,33 @@
 [
   {
     "type": "profession",
+    "id": "afs_han",
+    "name": "Smuggler",
+    "description": "The captain of the Vanishing Arc, a centuries-old smuggling ship, you have been running contraband for decades.  You are yet to encounter a problem you couldn't talk or shoot your way out of, and you have no intention of finding it here.  With some luck, you'll find good paying work on this planet, even as you lie low.",
+    "points": 0,
+    "starting_cash": 9320000,
+    "skills": [
+      { "level": 4, "name": "speech" },
+      { "level": 2, "name": "mechanics" },
+      { "level": 5, "name": "gun" },
+      { "level": 5, "name": "pistol" }
+    ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "longshirt" },
+          { "item": "afs_leather_jacket" },
+          { "item": "copper_necklace" },
+          { "item": "afs_combat_cryo", "ammo-item": "afs_heavy_suit_battery_cell", "charges": 1000 },
+          { "item": "pants", "variant": "pants_blue" },
+          { "item": "afs_cartridge", "ammo-item": "battery", "charges": 1500, "container-item": "afs_graf337" },
+          { "item": "XL_holster" }
+        ]
+      }
+    }
+  },
+  {
+    "type": "profession",
     "id": "afs_radio_technician",
     "name": "Deck Engineer",
     "description": "A skilled ship technician, turned to independent salvage work.",
@@ -144,7 +171,7 @@
         "entries": [
           { "item": "xlboots_combat" },
           { "item": "xlgloves_tactical" },
-          { "item": "afs_combat_cryo_xl" },
+          { "item": "afs_combat_cryo_xl", "ammo-item": "afs_heavy_suit_battery_cell", "charges": 1000 },
           { "item": "wristwatch" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "sheath", "contents-item": "kukri" },
@@ -171,7 +198,9 @@
     "points": 2,
     "starting_cash": 1120000,
     "traits": [ "AFS_CRYOADAPTATION" ],
-    "items": { "both": { "entries": [ { "item": "afs_cryopod_bodyglove", "ammo-item": "medium_battery_cell", "charges": 5000 } ] } }
+    "items": {
+      "both": { "entries": [ { "item": "afs_cryopod_bodyglove", "ammo-item": "afs_heavy_suit_battery_cell", "charges": 1000 } ] }
+    }
   },
   {
     "type": "profession",
@@ -667,7 +696,7 @@
     "description": "You are a telepath, able to sense minds and influence thoughts.  You aren't entirely sure how you got your powers, but you seem to have an instinctive sense of how to use them.  That's not sinister at all, right?",
     "points": 7,
     "starting_cash": 1120000,
-    "traits": [ "AFS_TELEPATH" ],
+    "traits": [ "AFS_TELEPATH", "ESPER_STARTER_ADVANCEMENT_OKAY" ],
     "flags": [ "SCEN_ONLY" ],
     "skills": [ { "level": 4, "name": "metaphysics" } ],
     "spells": [
@@ -704,7 +733,7 @@
     "description": "You are an electrokinetic, able to control electricity with your mind.  You aren't entirely sure how you got your powers, but you seem to have an instinctive sense of how to use them.  That's not sinister at all, right?",
     "points": 7,
     "starting_cash": 1120000,
-    "traits": [ "AFS_ELECTROKINETIC" ],
+    "traits": [ "AFS_ELECTROKINETIC", "ESPER_STARTER_ADVANCEMENT_OKAY" ],
     "flags": [ "SCEN_ONLY" ],
     "skills": [ { "level": 4, "name": "metaphysics" } ],
     "spells": [
@@ -741,7 +770,7 @@
     "description": "You are a telekinetic, able to move objects without touching them.  You aren't entirely sure how you got your powers, but you seem to have an instinctive sense of how to use them.  That's not sinister at all, right?",
     "points": 7,
     "starting_cash": 1120000,
-    "traits": [ "AFS_TELEKINETIC" ],
+    "traits": [ "AFS_TELEKINETIC", "ESPER_STARTER_ADVANCEMENT_OKAY" ],
     "flags": [ "SCEN_ONLY" ],
     "skills": [ { "level": 4, "name": "metaphysics" } ],
     "spells": [

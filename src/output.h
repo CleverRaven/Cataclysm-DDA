@@ -400,6 +400,8 @@ inline void wprintz( const catacurses::window &w, const nc_color &FG, std::strin
     wprintz( w, FG, string_format( mes, std::forward<Args>( args )... ) );
 }
 
+std::string wrap60( const std::string &text );
+
 void draw_custom_border(
     const catacurses::window &w, catacurses::chtype ls = 1, catacurses::chtype rs = 1,
     catacurses::chtype ts = 1, catacurses::chtype bs = 1, catacurses::chtype tl = 1,

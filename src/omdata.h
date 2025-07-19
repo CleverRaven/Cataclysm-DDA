@@ -238,6 +238,7 @@ struct enum_traits<oter_flags> {
 enum class oter_travel_cost_type : int {
     other,
     impassable,
+    highway,
     road,
     field,
     dirt_road,
@@ -247,6 +248,10 @@ enum class oter_travel_cost_type : int {
     swamp,
     water,
     air,
+    structure,
+    roof,
+    basement,
+    tunnel,
     last
 };
 
@@ -543,6 +548,22 @@ struct oter_t {
             return type->uniform_terrain;
         }
 
+        bool is_road() const {
+            return type->has_flag( oter_flags::road );
+        }
+
+        bool is_highway() const {
+            return type->has_flag( oter_flags::highway );
+        }
+
+        bool is_highway_reserved() const {
+            return type->has_flag( oter_flags::highway_reserved );
+        }
+
+        bool is_highway_special() const {
+            return type->has_flag( oter_flags::highway_special );
+        }
+
     private:
         om_direction::type dir = om_direction::type::none;
         uint32_t symbol;
@@ -678,6 +699,8 @@ class overmap_special
             return priority_;
         }
         int longest_side() const;
+        //NOTE: only useful for fixed overmap special
+        std::vector<overmap_special_terrain> get_terrains() const;
         std::vector<overmap_special_terrain> preview_terrains() const;
         std::vector<overmap_special_locations> required_locations() const;
         int score_rotation_at( const overmap &om, const tripoint_om_omt &p,

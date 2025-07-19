@@ -181,6 +181,7 @@ jobs:
             sound: 1
             localize: 0
             native: linux64
+            sanitize: undefined
             pch: 1
             title: GCC 9, Ubuntu, Tiles, Sound, CMake
             ccache_limit: 1G
@@ -219,7 +220,7 @@ jobs:
         CCACHE_NOCOMPRESS: true
         SKIP: >-
           ${{
-          ( github.event.pull_request.draft == true && matrix.title != 'Basic Build and Test (Clang 13, Ubuntu, Curses)' ) ||
+          ( github.event.pull_request.draft == true && matrix.title != 'Basic Build and Test (Clang oldest supported, Ubuntu, Curses)' ) ||
           ( matrix.dont_skip_data_only_changes == 0 && needs.skip-duplicates.outputs.should_skip_code == 'true' ) ||
           ( matrix.dont_skip_data_only_changes != 0 && needs.skip-duplicates-mods.outputs.should_skip_data == 'true' )
           }}
@@ -345,8 +346,8 @@ jobs:
         path: tests/cata_test*
         if-no-files-found: ignore
         retention-days: 9
-  emscripten:
-    needs: [ skip-duplicates-code, varied_builds ]
-    uses: ./.github/workflows/emscripten.yml
-    if: ${{ needs.skip-duplicates.outputs.should_skip_code != 'true' && success() && github.event.pull_request.draft == false }}
-    secrets: inherit
+  #emscripten:
+  #  needs: [ skip-duplicates-code, varied_builds ]
+  #  uses: ./.github/workflows/emscripten.yml
+  #  if: ${{ needs.skip-duplicates.outputs.should_skip_code != 'true' && success() && github.event.pull_request.draft == false }}
+  #  secrets: inherit

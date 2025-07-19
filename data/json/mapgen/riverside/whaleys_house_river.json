@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "riverside_dwelling",
     "object": {
       "predecessor_mapgen": "forest",
@@ -42,7 +41,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "riverside_dwelling_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -77,7 +75,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "riverside_dwelling1",
     "object": {
       "predecessor_mapgen": "forest",
@@ -133,7 +130,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "riverside_dwelling1_roof",
     "object": {
       "rows": [
@@ -167,7 +163,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "riverside_dwelling2",
     "object": {
       "predecessor_mapgen": "forest",
@@ -208,7 +203,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "riverside_dwelling2_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -244,7 +238,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "riverside_dwelling3",
     "object": {
       "predecessor_mapgen": "forest",
@@ -290,7 +283,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "riverside_dwelling3_roof",
     "object": {
       "fill_ter": "t_flat_roof",

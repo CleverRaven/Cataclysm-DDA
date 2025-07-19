@@ -500,7 +500,7 @@
     "name": { "str_sp": "unidentifiable alien organs" },
     "volume": "166 ml",
     "weight": "250 g",
-    "color": "black",
+    "color": "dark_gray",
     "looks_like": "feces_manure",
     "description": "An unidentifiable pile of organs; you have no idea how you'd prepare them.",
     "snippet_category": "alien_organ",

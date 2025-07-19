@@ -203,6 +203,7 @@ struct field_type {
         bool has_acid = false;
         bool has_elec = false;
         bool has_fume = false;
+        bool moppable = false;
         description_affix desc_affix = description_affix::DESCRIPTION_AFFIX_NUM;
         std::optional<map_fd_bash_info> bash_info;
 

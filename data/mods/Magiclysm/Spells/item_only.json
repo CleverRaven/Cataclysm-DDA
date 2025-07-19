@@ -878,5 +878,123 @@
     "effect_str": "EOC_MANA_LEECH_UNLOCK",
     "shape": "blast",
     "base_casting_time": 30000
+  },
+  {
+    "id": "mag_open_beetle_ball_large",
+    "type": "SPELL",
+    "name": "Call Stag Beetles",
+    "description": "Call upon stag beetles for various tasks.",
+    "valid_targets": [ "self" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_STAG_BEETLE_SELECTOR",
+    "shape": "blast",
+    "flags": [ "SOMATIC", "VERBAL" ],
+    "base_casting_time": 0,
+    "base_energy_cost": 0
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_STAG_BEETLE_SELECTOR",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_CALL_STAG_BEETLE", "EOC_CALL_FORAGING_BEETLES" ],
+        "names": [ "Call stag beetle for riding", "Call beetles for foraging" ],
+        "keys": [ "1", "2" ],
+        "descriptions": [
+          "Call a stag beetle for riding.  Will respond if you haven't called for one in awhile.",
+          "Call local beetles to forage hidden areas around you."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CALL_STAG_BEETLE",
+    "effect": [
+      { "u_add_trait": "MAG_STAG_BEETLE_BOND" },
+      { "u_activate_trait": "MAG_STAG_BEETLE_BOND" },
+      {
+        "u_message": "The wildwood beetle makes its call.  You feel something large coming, and it is coming fast.",
+        "type": "good"
+      },
+      { "run_eocs": "EOC_SUMMON_STAG_BEETLE", "time_in_future": [ "5 seconds", "50 seconds" ] },
+      { "run_eocs": "EOC_LOSE_STAG_BEETLE_BOND", "time_in_future": "8 hours" }
+    ],
+    "false_effect": [
+      { "run_eocs": "EOC_SUMMON_MUSHROOMS", "time_in_future": [ "25 seconds", "50 seconds" ] },
+      {
+        "u_message": "The wildwood beetle makes its call, but only some small beetles respond.  They'll bring you a small gift.",
+        "type": "good"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SUMMON_STAG_BEETLE",
+    "//": "Targetted to prevent failure due to monster placement",
+    "effect": [
+      { "u_cast_spell": { "id": "mag_call_stag_beetle_real", "min_level": 1 }, "targeted": true },
+      {
+        "u_message": "The stag beetle arrives, it is massive and powerful.  It can be used to carry you and your belongings so long as you have a wildwood rune and the skill to ride it.",
+        "type": "good"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CALL_FORAGING_BEETLES",
+    "//": "Consider changing this into a periodic for foraging in the area with randomized returns",
+    "effect": [
+      { "u_cast_spell": { "id": "mag_summon_mushrooms", "min_level": 5 }, "targeted": false },
+      { "u_message": "The beetles come swiftly, bearing some mushrooms.", "type": "good" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LOSE_STAG_BEETLE_BOND",
+    "effect": [
+      { "u_lose_trait": "MAG_STAG_BEETLE_BOND" },
+      { "u_message": "Your bond with the stag beetle fades.  Another can answer the call now.", "type": "good" }
+    ]
+  },
+  {
+    "id": "mag_summon_mushrooms",
+    "type": "SPELL",
+    "name": { "str": "Summon mushrooms", "//~": "NO_I18N" },
+    "description": { "str": "Summons some mushrooms, extra effect summons some morels", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "flags": [ "PERMANENT", "NO_LEGS", "NO_EXPLOSION_SFX", "NO_PROJECTILE", "SPAWN_GROUP", "RANDOM_DAMAGE" ],
+    "difficulty": 0,
+    "min_damage": { "math": [ "(u_spell_level('mag_summon_mushrooms')) + 3" ] },
+    "max_damage": { "math": [ "(u_spell_level('mag_summon_mushrooms')) + 8" ] },
+    "effect": "spawn_item",
+    "effect_str": "mushroom_collection",
+    "shape": "blast",
+    "base_energy_cost": 0,
+    "final_energy_cost": 0,
+    "base_casting_time": 0,
+    "final_casting_time": 0
+  },
+  {
+    "id": "mag_call_stag_beetle_real",
+    "type": "SPELL",
+    "name": "Call Stag Beetle",
+    "description": "A stag beetle responds to the call, arriving in the location you are in.  It can be used to carry you and your belongings so long as you have a wildwood rune and the skill to ride it.",
+    "valid_targets": [ "ground" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_range": 1,
+    "max_range": 5,
+    "base_casting_time": 0,
+    "magic_type": "magiclysm_generic_magic",
+    "max_level": 5,
+    "difficulty": 1,
+    "min_duration": 700000,
+    "max_duration": 2200000,
+    "duration_increment": 750000,
+    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_CORPSE_QUIET" ],
+    "shape": "blast",
+    "effect": "summon",
+    "effect_str": "mon_mag_stag_beetle"
   }
 ]

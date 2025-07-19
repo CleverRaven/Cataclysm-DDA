@@ -1,12 +1,6 @@
 [
   {
     "type": "ammunition_type",
-    "id": "NULL",
-    "name": "none",
-    "default": "null"
-  },
-  {
-    "type": "ammunition_type",
     "id": "458wm",
     "name": ".458 Winchester Magnum",
     "default": "458wm"
@@ -256,12 +250,6 @@
     "id": "57",
     "name": "5.7mm",
     "default": "57mm"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "46",
-    "name": "4.6mm",
-    "default": "46mm"
   },
   {
     "type": "ammunition_type",

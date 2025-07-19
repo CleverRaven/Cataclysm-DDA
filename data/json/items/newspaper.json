@@ -566,7 +566,7 @@
         "id": "adventure",
         "name": { "str": "The Black Freighter movie poster" },
         "description": "A poster promoting the animated movie \"The Black Freighter\", an adaptation of the novel of the same name.  The print is in the same style as the source material.",
-        "color": "black"
+        "color": "dark_gray"
       },
       {
         "id": "comedy",

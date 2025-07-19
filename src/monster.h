@@ -556,7 +556,6 @@ class monster : public Creature
         int anger = 0;
         int morale = 0;
     private:
-        int stomach_size = 0;
         int amount_eaten = 0;
         void recheck_fed_status();
     public:
@@ -656,9 +655,6 @@ class monster : public Creature
         monster_horde_attraction horde_attraction = MHA_NULL;
         /** Found path. Note: Not used by monsters that don't pathfind! **/
         std::vector<tripoint_bub_ms> path;
-
-        // 10 means max movecost of 500 * terrain-difficulty with 0 skill
-        static const int max_obstacle_penalty = 10;
 
         // Exponential backoff for stuck monsters. Massively reduces pathfinding CPU.
         time_point pathfinding_cd = calendar::turn;

@@ -12,7 +12,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "corpse_blood_gibs_fae_3x3",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -22,7 +21,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_golden_monolith",
     "object": {
       "rows": [
@@ -64,7 +62,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "golden_monolith_nest",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -109,7 +106,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_trees_map_salamander",
     "object": {
       "rows": [
@@ -156,7 +152,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_trees_map_sylph",
     "object": {
       "rows": [
@@ -203,7 +198,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_trees_map_ierde",
     "object": {
       "rows": [
@@ -250,7 +244,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_homelesscamp_homullus",
     "object": {
       "rows": [
@@ -318,7 +311,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_forest_pond_avore",
     "object": {
       "rows": [
@@ -390,7 +382,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_forest_pond_salamander_avore",
     "object": {
       "rows": [
@@ -463,7 +454,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_pond_forest_undine",
     "object": {
       "rows": [
@@ -536,7 +526,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_pond_forest_undine_ierde",
     "object": {
       "rows": [
@@ -610,7 +599,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_goblin_fruits",
     "object": {
       "rows": [
@@ -645,7 +633,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "goblin_fruit_plants",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -686,7 +673,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_ring_of_mushrooms",
     "object": {
       "rows": [
@@ -721,7 +707,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mushroom_ring_chunk",
     "weight": 1000,
     "object": {
@@ -739,7 +724,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mushroom_ring_chunk",
     "weight": 600,
     "object": {
@@ -758,7 +742,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mushroom_ring_chunk",
     "weight": 750,
     "object": {
@@ -781,7 +764,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mushroom_ring_chunk",
     "weight": 400,
     "object": {
@@ -805,7 +787,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mushroom_ring_chunk",
     "weight": 500,
     "object": {
@@ -833,7 +814,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mushroom_ring_chunk",
     "weight": 200,
     "object": {
@@ -862,7 +842,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "dreamwound_shadow",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -879,7 +858,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "dreamwound_shadow_from_dreams",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -896,7 +874,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_dreamwound_shadow",
     "object": {
       "place_nested": [ { "chunks": [ "dreamwound_shadow" ], "x": [ 2, 17 ], "y": [ 2, 17 ] } ],

@@ -83,13 +83,18 @@
     "eoc_type": "EVENT",
     "required_event": "character_wears_item",
     "condition": {
-      "u_has_any_trait": [
-        "UNKNOWING_CHANGELING_NOBLE",
-        "FAIR_FOLK_COMMONER_SELECTOR",
-        "UNKNOWING_CHANGELING_COMMONER_BROWNIE",
-        "UNKNOWING_CHANGELING_COMMONER_POOKA",
-        "UNKNOWING_CHANGELING_COMMONER_SELKIE",
-        "UNKNOWING_CHANGELING_COMMONER_TROW"
+      "and": [
+        {
+          "u_has_any_trait": [
+            "UNKNOWING_CHANGELING_NOBLE",
+            "FAIR_FOLK_COMMONER_SELECTOR",
+            "UNKNOWING_CHANGELING_COMMONER_BROWNIE",
+            "UNKNOWING_CHANGELING_COMMONER_POOKA",
+            "UNKNOWING_CHANGELING_COMMONER_SELKIE",
+            "UNKNOWING_CHANGELING_COMMONER_TROW"
+          ]
+        },
+        { "not": { "u_has_effect": "effect_changeling_winter_cut_off_fey_nature" } }
       ]
     },
     "effect": [
@@ -124,13 +129,18 @@
     "eoc_type": "EVENT",
     "required_event": "character_wields_item",
     "condition": {
-      "u_has_any_trait": [
-        "UNKNOWING_CHANGELING_NOBLE",
-        "FAIR_FOLK_COMMONER_SELECTOR",
-        "UNKNOWING_CHANGELING_COMMONER_BROWNIE",
-        "UNKNOWING_CHANGELING_COMMONER_POOKA",
-        "UNKNOWING_CHANGELING_COMMONER_SELKIE",
-        "UNKNOWING_CHANGELING_COMMONER_TROW"
+      "and": [
+        {
+          "u_has_any_trait": [
+            "UNKNOWING_CHANGELING_NOBLE",
+            "FAIR_FOLK_COMMONER_SELECTOR",
+            "UNKNOWING_CHANGELING_COMMONER_BROWNIE",
+            "UNKNOWING_CHANGELING_COMMONER_POOKA",
+            "UNKNOWING_CHANGELING_COMMONER_SELKIE",
+            "UNKNOWING_CHANGELING_COMMONER_TROW"
+          ]
+        },
+        { "not": { "u_has_effect": "effect_changeling_winter_cut_off_fey_nature" } }
       ]
     },
     "effect": [

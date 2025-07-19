@@ -23,10 +23,12 @@
 #include "game_inventory.h"
 #include "iexamine.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_selector.h"
 #include "messages.h"
 #include "monster.h"
 #include "player_activity.h"
@@ -119,6 +121,107 @@ void handle_all_liquid( item liquid, const int radius, const item *const avoid )
         liquid_dest_opt liquid_target;
         handle_liquid( liquid, liquid_target, avoid, radius );
     }
+}
+
+void handle_npc_liquid( item liquid, Character &who )
+{
+    if( !liquid.count_by_charges() ) {
+        debugmsg( "Attempted to run handle_npc_liquid on an item that doesn't have count_by_charges: %s",
+                  liquid.type_name() );
+        return;
+    }
+    if( liquid.charges <= 0 ) {
+        return;
+    }
+
+    std::vector<item_location> container_locs;
+    std::vector<int> capacities;
+    std::vector<int> priorities;
+
+    map &here = get_map();
+    const tripoint_bub_ms char_pos = who.pos_bub();
+    // Look for containers in adjacent tiles or in the character's inventory
+    for( const tripoint_bub_ms &pos : closest_points_first( char_pos, 1 ) ) {
+        for( item &it : here.i_at( pos ) ) {
+            if( it.is_watertight_container() ) {
+                container_locs.emplace_back( map_cursor( pos ), &it );
+            }
+        }
+        const std::optional<vpart_reference> ovp = here.veh_at( pos ).cargo();
+        if( ovp ) {
+            for( item &it : ovp->items() ) {
+                if( it.is_watertight_container() ) {
+                    container_locs.emplace_back( vehicle_cursor( ovp->vehicle(), ovp->part_index() ), &it );
+                }
+            }
+        }
+    }
+    for( item_location &item_loc : who.all_items_loc() ) {
+        if( item_loc->is_watertight_container() ) {
+            container_locs.push_back( item_loc );
+        }
+    }
+    for( item_location &container_loc : container_locs ) {
+        const bool is_carried = container_loc.carrier() != nullptr;
+        const bool allow_buckets = container_loc.where() == item_location::type::map;
+        // The amount of liquid that can fit into the container
+        const int capacity = container_loc->get_remaining_capacity_for_liquid( liquid, allow_buckets );
+        capacities.push_back( capacity );
+        int priority = 0;
+        if( capacity > 0 ) {
+            // Adding to a partially filled container is ideal
+            if( !container_loc->empty() ) {
+                priority += 40;
+            }
+            // Prefer containers that are not being carried
+            if( !is_carried ) {
+                priority += 20;
+            }
+            // Prefer containers that don't spill
+            if( !container_loc->will_spill() ) {
+                priority += 10;
+            }
+        }
+        priorities.push_back( priority );
+    }
+    const int num_containers = container_locs.size();
+    while( liquid.charges > 0 ) {
+        int best_idx = -1;
+        for( int idx = 0; idx < num_containers; idx++ ) {
+            if( capacities[idx] <= 0 ) {
+                continue;
+            }
+            if( best_idx < 0 ) {
+                // This is the first valid container we have seen so far
+                best_idx = idx;
+            } else if( priorities[idx] != priorities[best_idx] ) {
+                // Prefer containers with higher priority
+                if( priorities[idx] > priorities[best_idx] ) {
+                    best_idx = idx;
+                }
+            } else if( capacities[idx] != capacities[best_idx] ) {
+                // Within the same priority, prefer containers that can fit more
+                if( capacities[idx] > capacities[best_idx] ) {
+                    best_idx = idx;
+                }
+            } else if( container_locs[idx]->base_volume() != container_locs[best_idx]->base_volume() ) {
+                // For the same [remaining] capacity, prefer the smallest container
+                if( container_locs[idx]->base_volume() < container_locs[best_idx]->base_volume() ) {
+                    best_idx = idx;
+                }
+            }
+        }
+        if( best_idx < 0 ) {
+            // No suitable container, spill on the ground
+            here.add_item_or_charges( char_pos, liquid );
+            liquid.charges = 0;
+            break;
+        }
+        const int amount = std::min( liquid.charges, capacities[best_idx] );
+        liquid.charges -= container_locs[best_idx]->fill_with( liquid, amount );
+        capacities[best_idx] = 0;
+    }
+    who.invalidate_weight_carried_cache();
 }
 
 bool consume_liquid( item &liquid, const int radius, const item *const avoid )

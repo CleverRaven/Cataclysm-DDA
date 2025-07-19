@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": "house_fence03_basement",
-    "method": "json",
     "object": {
       "palettes": [
         "standard_domestic_palette",
@@ -61,7 +60,6 @@
   {
     "type": "mapgen",
     "om_terrain": "house_fence03",
-    "method": "json",
     "object": {
       "palettes": [
         "standard_domestic_palette",
@@ -110,7 +108,6 @@
   {
     "type": "mapgen",
     "om_terrain": "house_fence03_roof",
-    "method": "json",
     "object": {
       "palettes": [ "roof_palette" ],
       "fill_ter": "t_shingle_flat_roof",

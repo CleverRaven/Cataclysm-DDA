@@ -200,7 +200,7 @@ class const_talker
         virtual int get_spell_level( const spell_id & ) const {
             return 0;
         }
-        virtual int get_spell_difficulty( const spell_id & ) const {
+        virtual int get_spell_difficulty( const spell_id &, bool ) const {
             return 0;
         }
         virtual int get_spell_exp( const spell_id & ) const {

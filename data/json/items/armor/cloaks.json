@@ -2046,7 +2046,7 @@
     "subtypes": [ "ARMOR" ],
     "category": "clothing",
     "symbol": "[",
-    "color": "black",
+    "color": "dark_gray",
     "name": { "str": "makeshift poncho" },
     "description": "A large plastic trash bag with holes cut out for the head and arms.",
     "price": "0 cent",

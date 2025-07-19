@@ -145,5 +145,13 @@
       { "math": [ "global_tier_three_power_learning_time_low = 345600" ] },
       { "math": [ "global_tier_three_power_learning_time_high = 604800" ] }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ADD_KNACK_RATING_TO_COUNTUP",
+    "eoc_type": "EVENT",
+    "required_event": "game_start",
+    "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+    "effect": [ { "math": [ "u_awakening_countup += (u_spell_count('school': 'PSYCHIC_KNACK') / 2)" ] } ]
   }
 ]

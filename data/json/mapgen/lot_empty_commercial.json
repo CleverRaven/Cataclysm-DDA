@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "emptycommerciallot",
     "weight": 100,
     "object": {
@@ -54,7 +53,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "emptycommerciallot",
     "weight": 100,
     "object": {
@@ -104,7 +102,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "emptycommerciallot",
     "weight": 100,
     "object": {
@@ -154,7 +151,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "emptycommerciallot",
     "weight": 100,
     "object": {
@@ -192,7 +188,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "emptycommerciallot",
     "weight": 100,
     "object": {
@@ -233,7 +228,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "emptycommerciallot",
     "weight": 100,
     "object": {
@@ -277,7 +271,7 @@
           { "item": "road", "chance": 2 },
           { "item": "allclothes_damaged", "chance": 2 },
           { "item": "stoner", "chance": 1 },
-          { "item": "oven", "chance": 1 },
+          { "item": "SUS_oven", "chance": 1 },
           { "item": "garden_shed", "chance": 1 },
           { "item": "homebooks", "chance": 1 },
           { "item": "electronics", "chance": 1 },
@@ -294,7 +288,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "emptycommerciallot",
     "weight": 100,
     "object": {
@@ -344,7 +337,7 @@
           { "item": "road", "chance": 1 },
           { "item": "allclothes_damaged", "chance": 1 },
           { "item": "stoner", "chance": 1 },
-          { "item": "oven", "chance": 1 },
+          { "item": "SUS_oven", "chance": 1 },
           { "item": "garden_shed", "chance": 1 },
           { "item": "homebooks", "chance": 1 },
           { "item": "electronics", "chance": 1 },
@@ -362,7 +355,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "emptycommerciallot",
     "weight": 100,
     "object": {
@@ -412,7 +404,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "emptycommerciallot",
     "weight": 100,
     "object": {
@@ -461,7 +452,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "emptycommerciallot",
     "weight": 100,
     "object": {

@@ -1,13 +1,11 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "augustmoon_outer_space",
     "object": { "fill_ter": "t_hard_vacuum" }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "augustmoon_main_concourse1" ], [ "augustmoon_main_concourse2" ] ],
     "object": {
       "fill_ter": "t_metal_floor_heated",
@@ -151,7 +149,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "augustmoon_corpo_quarter1", "augustmoon_corpo_quarter2" ],
       [ "augustmoon_corpo_quarter3", "augustmoon_corpo_quarter4" ]
@@ -228,7 +225,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "augustmoon_solar_array1" ], [ "augustmoon_solar_array2" ] ],
     "object": {
       "fill_ter": "t_hard_vacuum",
@@ -289,7 +285,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "augustmoon_bar" ],
     "object": {
       "fill_ter": "t_metal_floor_heated",
@@ -336,7 +331,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "augustmoon_docking_arm" ],
     "object": {
       "fill_ter": "t_metal_floor_heated",
@@ -383,7 +377,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "augustmoon_concourse_vending2",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -424,7 +417,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "augustmoon_concourse_vending1",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -466,13 +458,11 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "augustmoon_concourse_vending1",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "augustmoon_concourse_vending1" ], "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "augustmoon_concourse_vending2",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "augustmoon_concourse_vending2" ], "x": 0, "y": 0 } ] }
   }
 ]

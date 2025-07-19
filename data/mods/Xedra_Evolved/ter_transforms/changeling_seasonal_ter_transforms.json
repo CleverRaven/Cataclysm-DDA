@@ -110,6 +110,11 @@
   },
   {
     "type": "ter_furn_transform",
+    "id": "ter_changeling_summer_remove_ring_fire",
+    "field": [ { "result": "fd_null", "valid_field": [ "fd_fire" ], "message": "" } ]
+  },
+  {
+    "type": "ter_furn_transform",
     "id": "ter_changeling_autumn_plant_harvest",
     "furniture": [
       {

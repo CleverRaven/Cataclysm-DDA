@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mortuary_2story" ],
     "object": {
       "faction_owner": [ { "id": "whately_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
@@ -91,7 +90,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mortuary_basement" ],
     "object": {
       "faction_owner": [ { "id": "whately_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
@@ -197,7 +195,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mortuary_2story_second" ],
     "object": {
       "faction_owner": [ { "id": "whately_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
@@ -299,7 +296,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mortuary_2story_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -348,13 +344,11 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "whately_cousin_update",
     "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "whately_cousin", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "whately_bioturret_update",
     "object": { "mapgensize": [ 1, 1 ], "place_monster": [ { "monster": "mon_migoturret_whately", "x": 0, "y": 0 } ] }
   }

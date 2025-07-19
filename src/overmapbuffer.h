@@ -155,7 +155,7 @@ class overmapbuffer
 
         bool externally_set_args = false;
 
-        static cata_path terrain_filename( const point_abs_om & );
+        static std::string terrain_filename( const point_abs_om & );
         static cata_path player_filename( const point_abs_om & );
 
         /**
@@ -222,6 +222,7 @@ class overmapbuffer
         std::string get_vehicle_ter_sym( const tripoint_abs_omt &omt );
         std::string get_vehicle_tile_id( const tripoint_abs_omt &omt );
         const regional_settings &get_settings( const tripoint_abs_omt &p );
+        const regional_settings &get_default_settings( const point_abs_om &p );
         /**
          * Accessors for horde introspection into overmaps.
          * Probably also useful for NPC overmap-scale navigation.
@@ -391,6 +392,8 @@ class overmapbuffer
             const tripoint_abs_omt &origin, const std::string &type, int radius, bool must_be_seen,
             ot_match_type match_type = ot_match_type::type, bool existing_overmaps_only = false,
             const std::optional<overmap_special_id> &om_special = std::nullopt );
+        tripoint_abs_omt find_existing_globally_unique( const tripoint_abs_omt &origin,
+                const omt_find_params &params );
 
         /* These functions return the overmap that contains the given
          * overmap terrain coordinate, and the local coordinates of that point
@@ -559,6 +562,37 @@ class overmapbuffer
             return overmap_count;
         }
 
+        int get_major_river_count() const {
+            return major_river_count;
+        }
+
+        void inc_major_river_count() {
+            major_river_count++;
+        }
+        // most central overmap highway intersection
+        point_abs_om highway_global_offset = point_abs_om::invalid;
+        // all highway intersections
+        std::map<std::string, interhighway_node> highway_intersections;
+        interhighway_node get_overmap_highway_intersection_point( const point_abs_om &p );
+        void set_overmap_highway_intersection_point( const point_abs_om &p,
+                const interhighway_node &intersection );
+        void set_highway_global_offset();
+        point_abs_om get_highway_global_offset() const;
+        /*
+        * given an overmap point, finds and generates cardinal-adjacent highway intersection points
+        */
+        std::vector<interhighway_node>
+        find_highway_adjacent_intersections( const point_abs_om &generated_om_pos );
+        bool highway_intersection_exists( const point_abs_om &intersection_om ) const;
+        void generate_highway_intersection_point( const point_abs_om &generated_om_pos );
+        /**
+        * given an overmap point, finds and generates the highway intersection points boxing it in,
+        * aligning to the top-left-most point; this point is always last in the returned list
+        * NOTE: this function can be generalized if necessary
+        */
+        std::vector<point_abs_om> find_highway_intersection_bounds( const point_abs_om
+                & generated_om_pos );
+
     private:
         /**
          * Common function used by the find_closest/all/random to determine if the location is
@@ -578,11 +612,13 @@ class overmapbuffer
         overmap mutable *last_requested_overmap;
         // Set of globally unique overmap specials that have already been placed
         std::unordered_set<overmap_special_id> placed_unique_specials;
-        // This tracks the unique specials we have placed. It is used to
+        // This tracks the overmap unique specials we have placed. It is used to
         // Adjust weights of special spawns to correct for things like failure to spawn.
         std::unordered_map<overmap_special_id, int> unique_special_count;
         // Global count of number of overmaps generated for this world.
         int overmap_count = 0;
+        // Global count of major rivers generated for this world
+        int major_river_count = 0;
 
         /**
          * Get a list of notes in the (loaded) overmaps.
@@ -608,6 +644,7 @@ class overmapbuffer
                        const tripoint_abs_omt &p );
         bool check_overmap_special_type( const overmap_special_id &id, const tripoint_abs_omt &loc );
         std::optional<overmap_special_id> overmap_special_at( const tripoint_abs_omt & );
+        std::optional<mapgen_arguments> get_existing_omt_stack_arguments( const point_abs_omt &p );
 
         /**
         * These versions of the check_* methods will only check existing overmaps, and
@@ -623,7 +660,7 @@ class overmapbuffer
          */
         void add_unique_special( const overmap_special_id &id );
         /**
-         * Logs the placement of the given unique overmap special.
+         * Logs the placement of the given unique overmap special
          */
         void log_unique_special( const overmap_special_id &id ) {
             unique_special_count[id]++;

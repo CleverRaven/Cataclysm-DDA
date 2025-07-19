@@ -29,7 +29,6 @@
 #include "itype.h"
 #include "json.h"
 #include "localized_comparator.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "memory_fast.h"
@@ -45,6 +44,8 @@
 #include "vpart_position.h"
 
 static const faction_id faction_your_followers( "your_followers" );
+
+static const flag_id json_flag_FIREWOOD( "FIREWOOD" );
 
 static const item_category_id item_category_food( "food" );
 
@@ -576,11 +577,6 @@ std::optional<std::string> zone_manager::query_name( const std::string &default_
     } else {
         return popup.text();
     }
-}
-
-static std::string wrap60( const std::string &text )
-{
-    return string_join( foldstring( text, 60 ), "\n" );
 }
 
 std::optional<zone_type_id> zone_manager::query_type( bool personal ) const
@@ -1255,7 +1251,7 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
             return zone_type_LOOT_ITEM_GROUP;
         }
     }
-    if( it.has_flag( STATIC( flag_id( "FIREWOOD" ) ) ) ) {
+    if( it.has_flag( json_flag_FIREWOOD ) ) {
         if( has_near( zone_type_LOOT_WOOD, where, range, fac ) ) {
             return zone_type_LOOT_WOOD;
         }

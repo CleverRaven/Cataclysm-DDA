@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mil_surplus" ],
     "//": "Intact variant",
     "weight": 100,
@@ -40,7 +39,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mil_surplus" ],
     "//": "Looted variant",
     "weight": 1000,
@@ -79,7 +77,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mil_surplus" ],
     "//": "Boarded up variant",
     "weight": 500,
@@ -118,7 +115,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mil_surplus_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -178,7 +174,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mil_surplus_1" ],
     "//": "Intact variant",
     "weight": 100,
@@ -216,7 +211,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mil_surplus_1" ],
     "//": "Looted variant",
     "weight": 1000,
@@ -254,7 +248,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mil_surplus_1" ],
     "//": "Boarded up variant",
     "weight": 500,
@@ -292,7 +285,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mil_surplus_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -349,7 +341,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "mil_surplus_2",
     "//": "Intact variant",
     "type": "mapgen",
@@ -387,7 +378,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "mil_surplus_2",
     "//": "Looted variant",
     "type": "mapgen",
@@ -425,7 +415,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "mil_surplus_2",
     "//": "Boarded up variant",
     "type": "mapgen",
@@ -464,7 +453,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "mil_surplus_roof_2",
     "object": {
       "fill_ter": "t_flat_roof",

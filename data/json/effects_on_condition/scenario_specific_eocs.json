@@ -242,7 +242,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "SCENARIO_BLOOD",
-    "method": "json",
     "object": { "place_fields": [ { "field": "fd_blood", "x": [ 5, 20 ], "y": [ 5, 20 ], "intensity": [ 1, 3 ], "repeat": 10 } ] }
   },
   {
@@ -253,7 +252,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "SCENARIO_FIRE",
-    "method": "json",
     "object": { "place_fields": [ { "field": "fd_fire", "x": [ 3, 20 ], "y": [ 3, 20 ], "intensity": [ 1, 3 ], "repeat": 15 } ] }
   },
   {
@@ -264,7 +262,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "SCENARIO_SMOKE",
-    "method": "json",
     "object": { "place_fields": [ { "field": "fd_smoke", "x": [ 3, 20 ], "y": [ 3, 20 ], "intensity": [ 1, 3 ], "repeat": 60 } ] }
   },
   {

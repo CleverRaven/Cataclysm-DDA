@@ -10,7 +10,7 @@
     "spell_class": "PHOTOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 1,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -48,7 +48,7 @@
     "spell_class": "PHOTOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -70,7 +70,7 @@
     "teachable": false,
     "valid_targets": [ "self", "ground", "ally", "hostile" ],
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
@@ -101,7 +101,7 @@
     "teachable": false,
     "valid_targets": [ "self", "ground", "ally", "hostile" ],
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
@@ -132,7 +132,7 @@
     "teachable": false,
     "valid_targets": [ "self", "ground", "ally", "hostile" ],
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
@@ -165,7 +165,7 @@
     "spell_class": "PHOTOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -205,7 +205,7 @@
     "spell_class": "PHOTOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
@@ -244,7 +244,7 @@
     "spell_class": "PHOTOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -282,7 +282,7 @@
     "spell_class": "PHOTOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "SILENT", "RANDOM_DAMAGE" ],
+    "flags": [ "PSIONIC", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "SILENT", "RANDOM_DAMAGE" ],
     "effect": "attack",
     "difficulty": 3,
     "shape": "line",
@@ -326,7 +326,7 @@
     "spell_class": "PHOTOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 3,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -334,22 +334,22 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_spell_level('photokinetic_camouflage') * 4800) + 69000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('photokinetic_camouflage') + u_spell_level('photokinetic_camouflage_knack') ) * 4800) + 69000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('photokinetic_camouflage') * 11300) + 143000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('photokinetic_camouflage') + u_spell_level('photokinetic_camouflage_knack') ) * 11300) + 143000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_photokin_camouflage') > -1 ? 0 : max((3500 - (u_spell_level('photokinetic_camouflage') * 75)), 1500)"
+        "u_effect_intensity('effect_photokin_camouflage') > -1 ? 0 : max((3500 - ( (u_spell_level('photokinetic_camouflage') + u_spell_level('photokinetic_camouflage_knack') ) * 75)), 1500)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_photokin_camouflage') > -1 ? 10 : max((150 -(u_spell_level('photokinetic_camouflage') * 8)), 75)"
+        "u_effect_intensity('effect_photokin_camouflage') > -1 ? 10 : max((150 -( (u_spell_level('photokinetic_camouflage') + u_spell_level('photokinetic_camouflage_knack') ) * 8)), 75)"
       ]
     }
   },
@@ -364,7 +364,7 @@
     "spell_class": "PHOTOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 3,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -402,7 +402,7 @@
     "spell_class": "PHOTOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
@@ -436,7 +436,7 @@
     "spell_class": "PHOTOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -444,22 +444,22 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_spell_level('photokinetic_hide_ugly') * 2250) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('photokinetic_hide_ugly') + u_spell_level('photokinetic_hide_ugly_knack') ) * 2250) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('photokinetic_hide_ugly') * 5500) + 89000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('photokinetic_hide_ugly') + u_spell_level('photokinetic_hide_ugly_knack') ) * 5500) + 89000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_photokin_hide_ugly') > -1 ? 0 : max((6500 - (u_spell_level('photokinetic_hide_ugly') * 150)), 2000)"
+        "u_effect_intensity('effect_photokin_hide_ugly') > -1 ? 0 : max( (6500 - ( (u_spell_level('photokinetic_hide_ugly') + u_spell_level('photokinetic_hide_ugly_knack') ) * 150) ), 2000)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_photokin_hide_ugly') > -1 ? 10 : max((1500 -(u_spell_level('photokinetic_hide_ugly') * 75)), 150)"
+        "u_effect_intensity('effect_photokin_hide_ugly') > -1 ? 10 : max( (1500 - ( (u_spell_level('photokinetic_hide_ugly') + u_spell_level('photokinetic_hide_ugly_knack') ) * 75) ), 150)"
       ]
     }
   },
@@ -474,7 +474,7 @@
     "spell_class": "PHOTOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION", "RANDOM_DAMAGE" ],
+    "flags": [ "PSIONIC", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION", "RANDOM_DAMAGE" ],
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "summon",
@@ -522,7 +522,7 @@
     "spell_class": "PHOTOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -530,22 +530,22 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_spell_level('photokinetic_radio') * 12600) + 145600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('photokinetic_radio') + u_spell_level('photokinetic_radio_knack') ) * 12600) + 145600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('photokinetic_radio') * 77200) + 522000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('photokinetic_radio') + u_spell_level('photokinetic_radio_knack') ) * 77200) + 522000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_photokinetic_radio') > -1 ? 0 : max((5000 - (u_spell_level('photokinetic_radio') * 100)), 2250)"
+        "u_effect_intensity('effect_photokinetic_radio') > -1 ? 0 : max( (5000 - ( (u_spell_level('photokinetic_radio') + u_spell_level('photokinetic_radio_knack') ) * 100) ), 2250)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_photokinetic_radio') > -1 ? 10 : max((250 -(u_spell_level('photokinetic_radio') * 10)), 75)"
+        "u_effect_intensity('effect_photokinetic_radio') > -1 ? 10 : max( (250 - ( (u_spell_level('photokinetic_radio') + u_spell_level('photokinetic_radio_knack') ) * 10) ), 75)"
       ]
     }
   },
@@ -560,7 +560,7 @@
     "spell_class": "PHOTOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "SILENT", "RANDOM_DAMAGE" ],
+    "flags": [ "PSIONIC", "NO_HANDS", "NO_LEGS", "SILENT", "RANDOM_DAMAGE" ],
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -582,7 +582,7 @@
     "spell_class": "PHOTOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "SILENT", "RANDOM_DAMAGE" ],
+    "flags": [ "PSIONIC", "NO_HANDS", "NO_LEGS", "SILENT", "RANDOM_DAMAGE" ],
     "difficulty": 6,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
@@ -633,7 +633,7 @@
     "spell_class": "PHOTOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 6,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -671,7 +671,7 @@
     "spell_class": "PHOTOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "SILENT", "RANDOM_DAMAGE" ],
+    "flags": [ "PSIONIC", "NO_HANDS", "NO_LEGS", "SILENT", "RANDOM_DAMAGE" ],
     "difficulty": 6,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
@@ -721,7 +721,7 @@
     "spell_class": "PHOTOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 7,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -759,7 +759,7 @@
     "spell_class": "PHOTOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "SILENT", "RANDOM_DAMAGE" ],
+    "flags": [ "PSIONIC", "NO_HANDS", "NO_LEGS", "SILENT", "RANDOM_DAMAGE" ],
     "difficulty": 8,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
@@ -799,7 +799,7 @@
     "spell_class": "PHOTOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 9,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",

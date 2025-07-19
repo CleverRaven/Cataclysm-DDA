@@ -22,6 +22,7 @@
       { "item": "katana_fake", "prob": 1 },
       { "item": "longsword_fake", "prob": 1 },
       { "item": "clownshoes", "prob": 15 },
+      { "group": "esoteric_books", "prob": 2 },
       { "group": "costume_weapons", "prob": 5 }
     ]
   },
@@ -161,7 +162,8 @@
       { "item": "kimono", "prob": 5 },
       { "item": "yukata", "prob": 5 },
       { "item": "dress", "variant": "gown", "prob": 5 },
-      { "item": "dress_wedding", "prob": 5 }
+      { "item": "dress_wedding", "prob": 5 },
+      { "item": "cheongsam", "prob": 10 }
     ]
   },
   {
@@ -259,11 +261,11 @@
     "subtype": "distribution",
     "entries": [
       { "item": "santa_beard", "prob": 20 },
-      { "item": "mask_guy_fawkes", "prob": 10 },
+      { "item": "mask_skull", "variant": "guy_fawkes", "prob": 10 },
       { "item": "mask_hockey", "prob": 20 },
       { "item": "bondage_mask", "prob": 5 },
       { "item": "blindfold", "prob": 5 },
-      { "item": "balaclava_skull", "prob": 25 },
+      { "item": "balclava", "variant": "skull", "prob": 25 },
       { "item": "mask_skull", "prob": 20 },
       { "item": "scarf_long", "prob": 10 },
       { "item": "mask_dust", "variant": "skull_mask_dust", "prob": 20 },
@@ -343,13 +345,13 @@
       { "item": "tux", "prob": 10 },
       { "item": "fursuit", "prob": 15 },
       { "item": "clown_suit", "prob": 10 },
-      { "item": "dragonsuit", "prob": 10 },
-      { "item": "felinesuit", "prob": 10 },
+      { "item": "fursuit", "variant": "dragonsuit", "prob": 10 },
+      { "item": "fursuit", "variant": "felinesuit", "prob": 10 },
+      { "item": "fursuit", "variant": "dinosuit", "prob": 10 },
+      { "item": "fursuit", "variant": "sharksuit", "prob": 10 },
       { "item": "bondage_suit", "prob": 15 },
       { "item": "wool_suit_devil", "prob": 15 },
       { "item": "bunny_suit_playboy", "prob": 25 },
-      { "item": "dinosuit", "prob": 10 },
-      { "item": "sharksuit", "prob": 10 },
       { "item": "beekeeping_suit", "prob": 5 },
       { "item": "zentai", "prob": 5 },
       { "item": "jumpsuit_pocketless", "variant": "orange" }

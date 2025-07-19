@@ -1,0 +1,168 @@
+[
+  {
+    "id": "TALK_BALTHAZAR_MEET_WEAK",
+    "//": "Balthazar is not in a good position right now and will try to make people help them out of pity",
+    "type": "talk_topic",
+    "dynamic_line": "I'm Balthazar and have been stuck in this bunker ever since the sky ruptured!  I don't really know what's happening out there and need someone to help me.  The power to the bunker has been running low and the air & water filtration are failing intermittently.",
+    "responses": [
+      { "text": "What do you need help with?", "topic": "TALK_BALTHAZAR_MEET_DESCRIPTION_WEAK" },
+      { "text": "What's in it for me?", "topic": "TALK_BALTHAZAR_MEET_REWARD_WEAK" },
+      { "text": "Why don't these robots attack me?", "topic": "TALK_BALTHAZAR_MEET_ROBOT_WEAK" },
+      { "text": "Hold on, why are you locked in here?", "topic": "TALK_BALTHAZAR_MEET_BUNKER_WEAK" },
+      { "text": "So who are you?", "topic": "TALK_BALTHAZAR_MEET_BALTHAZAR_WEAK" },
+      { "text": "Walk away.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_BALTHAZAR_MEET_DESCRIPTION_WEAK",
+    "type": "talk_topic",
+    "dynamic_line": "The bunker has a field of solar panels nearby but some of the staff damaged them badly when they turned into those… things.  I need you to gather at least 12 panels so I can stabilize my power output.",
+    "responses": [
+      {
+        "text": "Alright, I'll see what I can gather.",
+        "topic": "TALK_BALTHAZAR_MEET_ACCEPTED_MISSION_WEAK",
+        "effect": { "assign_mission": "MISSION_GET_SOLAR_PANELS_BALTHAZAR" }
+      },
+      { "text": "What's in it for me?", "topic": "TALK_BALTHAZAR_MEET_REWARD_WEAK" },
+      { "text": "Why don't these robots attack me?", "topic": "TALK_BALTHAZAR_MEET_ROBOT_WEAK" },
+      { "text": "Hold on, why are you locked in here?", "topic": "TALK_BALTHAZAR_MEET_BUNKER_WEAK" },
+      { "text": "So who are you?", "topic": "TALK_BALTHAZAR_MEET_BALTHAZAR_WEAK" },
+      { "text": "Walk away.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_BALTHAZAR_MEET_ACCEPTED_MISSION_WEAK",
+    "type": "talk_topic",
+    "dynamic_line": "You'll help me?!  Thank you so, so much.  I really wasn't looking forward to dying a slow death in here.  I think the power will be enough for a while but please hurry up.",
+    "speaker_effect": {
+      "effect": { "u_add_var": "dialogue_balthazar_u_discovered_balthazar_fac", "value": "yes" },
+      "sentinel": "discovered_balthazar"
+    },
+    "responses": [
+      { "text": "What should I do once I bring them to you?", "topic": "TALK_BALTHAZAR_MEET_DELIVERY_WEAK" },
+      { "text": "Walk away.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_BALTHAZAR_MEET_DELIVERY_WEAK",
+    "type": "talk_topic",
+    "dynamic_line": "I can remotely control a few of the maintenance bots.  All I need you to do is drop them off at the intercom I've managed to set up and I'll get to work installing them.",
+    "responses": [ { "text": "Got it.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_BALTHAZAR_MEET_REWARD_WEAK",
+    "//": "Balthazar is not in a good position right now and will act feeble to try and underpay people",
+    "type": "talk_topic",
+    "dynamic_line": "I don't have much.  All I have in here is some MREs, bullets and a few guns so I'll let you take your pick when you bring some panels.",
+    "responses": [
+      { "text": "You're locked in there, right?  How would I get them?", "topic": "TALK_BALTHAZAR_MEET_REWARD_EXCUSE_WEAK" },
+      { "text": "That doesn't sound too promising…", "topic": "TALK_BALTHAZAR_MEET_REWARD_NEGOTIATE_WEAK_1" },
+      { "text": "Sounds good.", "topic": "TALK_BALTHAZAR_MEET_DESCRIPTION_WEAK_1" }
+    ]
+  },
+  {
+    "id": "TALK_BALTHAZAR_MEET_REWARD_EXCUSE_WEAK",
+    "//": "Balthazar will lie so as to not reveal that they are an AI",
+    "type": "talk_topic",
+    "dynamic_line": "The airlock is the only part that is malfunctioning, luckily it's connected to the ventilation systems so I made a bot that can traverse them.",
+    "responses": [ { "text": "Sounds good.", "topic": "TALK_BALTHAZAR_MEET_DESCRIPTION_WEAK" } ]
+  },
+  {
+    "id": "TALK_BALTHAZAR_MEET_REWARD_NEGOTIATE_WEAK_1",
+    "//": "To try and sell their 'vulnerability' they will sound desperate",
+    "type": "talk_topic",
+    "dynamic_line": "W-Wait no, n- no, I- I'll give you all I have.  All I request to keep is some food, a gun, and a bullet for if things get bad.",
+    "speaker_effect": { "effect": { "math": [ "u_negotiated_balthazar_solar = 1" ] }, "sentinel": "first_negotiations_solar_balthazar" },
+    "responses": [
+      { "text": "You're locked in there, right?  How would I get them?", "topic": "TALK_BALTHAZAR_MEET_REWARD_EXCUSE_WEAK" },
+      { "text": "How about a little more, huh?", "topic": "TALK_BALTHAZAR_MEET_REWARD_NEGOTIATE_WEAK_2" },
+      { "text": "That's better.", "topic": "TALK_BALTHAZAR_MEET_DESCRIPTION_WEAK" }
+    ]
+  },
+  {
+    "id": "TALK_BALTHAZAR_MEET_REWARD_NEGOTIATE_WEAK_2",
+    "//": "To try and sell their 'vulnerability' they will sound desperate",
+    "type": "talk_topic",
+    "dynamic_line": "I-I-What?  It's all I have, I can't give you more.",
+    "speaker_effect": { "effect": { "math": [ "u_negotiated_balthazar_solar = 2" ] }, "sentinel": "second_negotiations_solar_balthazar" },
+    "responses": [
+      { "text": "Surely you have something more exotic in there.", "topic": "TALK_BALTHAZAR_MEET_REWARD_NEGOTIATE_WEAK_3" },
+      {
+        "text": "So you also don't have anything else in the \"control center\"?",
+        "condition": { "math": [ "u_knowns_control_center_balthazar == 1" ] },
+        "topic": "TALK_BALTHAZAR_MEET_REWARD_NEGOTIATE_WEAK_CAUGHT"
+      },
+      { "text": "Fine.", "topic": "TALK_BALTHAZAR_MEET_DESCRIPTION_WEAK" },
+      { "text": "No deal.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_BALTHAZAR_MEET_REWARD_NEGOTIATE_WEAK_3",
+    "type": "talk_topic",
+    "dynamic_line": "Y- You know what?  Fuck you, I'll just wait for someone else.",
+    "speaker_effect": { "effect": "end_conversation" },
+    "responses": [ { "text": "Leave.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_BALTHAZAR_MEET_ROBOT_WEAK",
+    "//": "Balthazar will lie so as to not reveal that they are an AI",
+    "type": "talk_topic",
+    "dynamic_line": "This bunker has a control center for the local bots so I made them only attack when attacked first.",
+    "speaker_effect": { "effect": { "math": [ "u_knowns_control_center_balthazar = 1" ] }, "sentinel": "knows_control_center" },
+    "responses": [
+      { "text": "Sounds useful.", "topic": "TALK_BALTHAZAR_MEET_DESCRIPTION_WEAK" },
+      {
+        "text": "So you do have some tech you can give me.",
+        "condition": { "math": [ "u_negotiated_balthazar_solar == 2" ] },
+        "topic": "TALK_BALTHAZAR_MEET_REWARD_NEGOTIATE_WEAK_CAUGHT"
+      },
+      { "text": "Walk away.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_BALTHAZAR_MEET_REWARD_NEGOTIATE_WEAK_CAUGHT",
+    "type": "talk_topic",
+    "dynamic_line": "Wh- Alright, you got me, I can offer you a bot from the control center as well, but that is truly all I have.",
+    "speaker_effect": { "effect": { "math": [ "u_negotiated_balthazar_solar = 3" ] }, "sentinel": "third_negotiations_solar_balthazar" },
+    "//": "Balthazar will leave the breadcrumbs for people to find out they have a little more to give so the person they're talking to feels like they've gotten a good deal",
+    "responses": [
+      { "text": "I knew you had more.", "topic": "TALK_BALTHAZAR_MEET_DESCRIPTION_WEAK" },
+      { "text": "Surely you have some more in there.", "topic": "TALK_BALTHAZAR_MEET_REWARD_NEGOTIATE_WEAK_3" },
+      { "text": "Walk away.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_BALTHAZAR_MEET_BUNKER_WEAK",
+    "type": "talk_topic",
+    "dynamic_line": "When the riots were getting bad, we were assigned to hold this bunker for some eggheads.  Then when the skies broke some of my comrades just started shooting all around, so I fled into this bunker.  Something messed with the doors and I've been locked in here since.",
+    "//": "This never happened, Balthazar took advantage of the confusion that the Cataclysm brought and shot the guards in its lucidity.",
+    "responses": [
+      { "text": "That sounds rough.", "topic": "TALK_BALTHAZAR_MEET_BUNKER_FOLLOWUP_WEAK" },
+      { "text": "So who are you?", "topic": "TALK_BALTHAZAR_MEET_BALTHAZAR_WEAK" }
+    ]
+  },
+  {
+    "id": "TALK_BALTHAZAR_MEET_BUNKER_FOLLOWUP_WEAK",
+    "type": "talk_topic",
+    "dynamic_line": "Just gotta keep my head down and focus on the now.",
+    "responses": [ { "text": "Good luck.", "topic": "TALK_BALTHAZAR_MEET_DESCRIPTION_WEAK" } ]
+  },
+  {
+    "id": "TALK_BALTHAZAR_MEET_BALTHAZAR_WEAK",
+    "type": "talk_topic",
+    "dynamic_line": "I'm a combat engineer who got sent here to hold this bunker.  I guess I'm still accomplishing that, huh.",
+    "//": "Balthazar is, as usual, lying through their teeth",
+    "responses": [
+      { "text": "I guess so.", "topic": "TALK_BALTHAZAR_MEET_DESCRIPTION_WEAK" },
+      { "text": "How come you're locked up?", "topic": "TALK_BALTHAZAR_MEET_BUNKER_WEAK" }
+    ]
+  },
+  {
+    "id": "TALK_BALTHAZAR_MEET_STRONG",
+    "//": "Balthazar is in a good position right now and will treat people as buyable goods",
+    "type": "talk_topic",
+    "dynamic_line": "I have no need for you right now.",
+    "//1": "Not implemented yet, will start from second mission onward",
+    "responses": [ { "text": "Walk away.", "topic": "TALK_DONE" } ]
+  }
+]

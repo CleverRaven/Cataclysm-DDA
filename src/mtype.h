@@ -131,6 +131,7 @@ extern mon_flag_id mon_flag_ACIDPROOF,
        mon_flag_FIREPROOF,
        mon_flag_FIREY,
        mon_flag_FISHABLE,
+       mon_flag_FLASHBANGPROOF,
        mon_flag_FLIES,
        mon_flag_GOODHEARING,
        mon_flag_GRABS,
@@ -248,6 +249,8 @@ struct pet_food_data {
 
 /** movement data */
 struct move_skills_data {
+    // 10 means max movecost of 500 * terrain-difficulty with 0 skill
+    const static int max_movemod_penalty = 10;
     std::optional<int> climb;
     std::optional<int> dig;
     std::optional<int> swim;

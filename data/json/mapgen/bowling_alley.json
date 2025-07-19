@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "bowling_alley" ],
     "object": {
       "fill_ter": "t_floor",
@@ -101,7 +100,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "bowling_alley_roof",
     "object": {
       "fill_ter": "t_flat_roof",

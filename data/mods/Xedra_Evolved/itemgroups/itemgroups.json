@@ -163,6 +163,7 @@
     "copy-from": "homebooks",
     "extend": {
       "entries": [
+        { "item": "book_deduction_out_of_place", "prob": 1 },
         { "item": "manual_deduction", "prob": 1 },
         { "item": "mag_deduction", "prob": 10 },
         { "item": "mag_deduction_tabloid", "prob": 40 }
@@ -188,7 +189,9 @@
     "type": "item_group",
     "subtype": "distribution",
     "copy-from": "religious_books",
-    "extend": { "entries": [ { "item": "book_deduction_black_iron_prison", "prob": 1 } ] }
+    "extend": {
+      "entries": [ { "item": "book_deduction_black_iron_prison", "prob": 1 }, { "item": "book_deduction_out_of_place", "prob": 1 } ]
+    }
   },
   {
     "type": "item_group",
@@ -480,6 +483,13 @@
     }
   },
   {
+    "id": "esoteric_books",
+    "type": "item_group",
+    "copy-from": "esoteric_books",
+    "subtype": "distribution",
+    "extend": { "entries": [ { "group": "hedge_magic_books", "prob": 1 } ] }
+  },
+  {
     "id": "hedge_magic_books",
     "type": "item_group",
     "subtype": "distribution",
@@ -537,5 +547,16 @@
     "//": "This group was created automatically and may contain errors.",
     "container-item": "wrapper_wyld",
     "entries": [ { "item": "wyld_candy", "container-item": "null", "count": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "portable_non_flashlight_light_sources",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "candle", "prob": 3, "charges": [ 5, 50 ] },
+      { "item": "gasoline_lantern", "prob": 5, "charges": [ 0, -1 ] },
+      { "item": "electric_lantern", "prob": 8, "charges": [ 0, 100 ] },
+      { "item": "oil_lamp", "prob": 5, "charges": [ 0, -1 ] }
+    ]
   }
 ]

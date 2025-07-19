@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ "cs_public_space" ],
-    "method": "json",
     "object": {
       "fill_ter": "t_sidewalk",
       "rows": [

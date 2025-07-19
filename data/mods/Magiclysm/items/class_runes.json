@@ -108,7 +108,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "symbol": "=",
-    "color": "black",
+    "color": "dark_gray",
     "name": { "str": "alchemist rune" },
     "description": "This magical pebble has an insignia of alchemy and potions on it.  While versatile in use, the lack of attunement to any school prevents creation of more advanced recipes.",
     "volume": "5ml",

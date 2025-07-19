@@ -40,7 +40,6 @@
     "valid": false,
     "starting_trait": false,
     "purifiable": false,
-    "profession": true,
     "points": 2,
     "description": "A traveler from another dimension.  A dimension of shadows with few bright lights.  Once your species matures, they gain the ability to create new alterations to their body from ingredients harvested from their kills, shadowstuff and magickal essence.",
     "types": [ "HERITAGE" ],
@@ -48,6 +47,7 @@
     "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ],
     "empathize_with": [ "GRACKEN" ],
     "no_empathize_with": [ "HUMAN" ],
+    "flags": [ "HERITAGE" ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
   },
   {

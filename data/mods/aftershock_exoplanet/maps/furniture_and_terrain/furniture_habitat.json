@@ -886,5 +886,94 @@
       "sound_fail": "whump.",
       "items": [ { "item": "plastic_chunk", "count": [ 9, 12 ] } ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_ancient_atomic_backup",
+    "name": "atomic backup generator",
+    "description": "Backup analog dials remain functional, and some latent heat is still present in its aged core.  It will not be long until the cold snuffs it out completely.",
+    "looks_like": "t_nuclear_reactor",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost_mod": -6,
+    "coverage": 50,
+    "required_str": 10,
+    "flags": [ "TRANSPARENT", "PERMEABLE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "frame", "count": 1 },
+        { "item": "sheet_metal_small", "count": [ 3, 4 ] },
+        { "item": "lead", "charges": [ 10, 20 ] },
+        { "item": "afs_circuitry_2", "count": [ 1, 2 ], "prob": 40 },
+        { "item": "afs_energy_storage_1", "count": [ 1, 2 ], "prob": 50 },
+        { "item": "afs_energy_storage_2", "count": [ 1, 2 ], "prob": 50 },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 3 ], "prob": 12 },
+        { "item": "e_scrap", "count": [ 2, 16 ] },
+        { "item": "power_supply", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "sheet_metal_small", "count": [ 6, 9 ] },
+        { "item": "lead", "charges": [ 10, 20 ] },
+        { "item": "afs_energy_storage_1", "count": [ 1, 2 ], "prob": 50 },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 3 ], "prob": 12 },
+        { "item": "e_scrap", "count": [ 2, 16 ] },
+        { "item": "power_supply", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_ancient_controller",
+    "name": "ancient controller",
+    "description": "Some of its components remain viable, but most has decayed into useless scrap.",
+    "looks_like": "f_server",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost_mod": -6,
+    "coverage": 50,
+    "required_str": 10,
+    "flags": [ "TRANSPARENT", "PERMEABLE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "frame", "count": 1 },
+        { "item": "sheet_metal_small", "count": [ 3, 4 ] },
+        { "item": "cable", "charges": [ 10, 20 ] },
+        { "item": "afs_circuitry_2", "count": [ 0, 15 ], "prob": 40 },
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ], "prob": 1 },
+        { "item": "afs_energy_storage_1", "count": [ 0, 1 ], "prob": 50 },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 3 ], "prob": 12 },
+        { "item": "e_scrap", "count": [ 2, 16 ] },
+        { "item": "circuit", "count": [ 0, 3 ] },
+        { "item": "processor", "count": [ 0, 2 ] },
+        { "item": "RAM", "count": [ 0, 3 ] },
+        { "item": "power_supply", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "frame", "count": 1 },
+        { "item": "sheet_metal_small", "count": [ 3, 4 ] },
+        { "item": "cable", "charges": [ 10, 20 ] },
+        { "item": "afs_circuitry_2", "count": [ 0, 15 ], "prob": 40 },
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ], "prob": 1 },
+        { "item": "afs_energy_storage_1", "count": [ 0, 1 ], "prob": 50 },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 3 ], "prob": 12 },
+        { "item": "e_scrap", "count": [ 2, 16 ] },
+        { "item": "circuit", "count": [ 0, 3 ] },
+        { "item": "processor", "count": [ 0, 2 ] },
+        { "item": "RAM", "count": [ 0, 3 ] },
+        { "item": "power_supply", "count": 1 }
+      ]
+    }
   }
 ]

@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": [ [ "lab_res_8_SWD_ground", "lab_res_8_SED_ground" ] ],
     "type": "mapgen",
     "object": {
@@ -56,7 +55,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "lab_res_8_SWU_ground", "lab_res_8_SEU_ground" ] ],
     "type": "mapgen",
     "object": {
@@ -114,7 +112,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "lab_CORE_2x1_SED_ground", "lab_CORE_2x1_SWD_ground" ] ],
     "type": "mapgen",
     "object": {
@@ -179,7 +176,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "lab_CORE_2x1_NED_ground", "lab_CORE_2x1_NWD_ground" ] ],
     "type": "mapgen",
     "object": {
@@ -240,7 +236,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "lab_CORE_2x1_WC_ground", "lab_CORE_2x1_EC_ground" ] ],
     "type": "mapgen",
     "object": {
@@ -336,7 +331,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "lab_2x1_CORE_-1W", "lab_2x1_CORE_-1E" ] ],
     "//": "level -1 for cargo ramps. TODO: complete this level for maintenance expansion.",
     "type": "mapgen",

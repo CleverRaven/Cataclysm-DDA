@@ -332,6 +332,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```ACID_IMMUNE``` You are immune to acid damage.
 - ```ALARMCLOCK``` You always can set alarms.
 - ```ALBINO``` Cause you to have painful sunburns.
+- ```ATTUNEMENT``` Turns a mutation with this flag green on the list.  Currently used in mods for mutations that grant spellcasting or other supernatural powers.
 - ```BARKY``` Makes you considered to be made of bark for the purposes of making blistering harder.
 - ```BASH_IMMUNE``` You are immune to bashing damage.
 - ```BG_OTHER_SURVIVORS_STORY``` Given to NPC when it has other survival story.
@@ -379,6 +380,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```HARDTOHIT``` Whenever something attacks you, RNG gets rolled twice, and you get the better result.
 - ```HEATSINK``` You are resistant to extreme heat.
 - ```HEAT_IMMUNE``` Immune to very hot temperatures.
+- ```HERITAGE``` Turns a mutation with this flag light cyan on the list.  Currently used in mods for mutations that indicate non-human ancestry.
 - ```HUGE``` Changes your size to `creature_size::huge`.  Checked last of the size category flags, if no size flags are found your size defaults to `creature_size::medium`.
 - ```HYPEROPIC``` You are far-sighted: close combat is hampered and reading is impossible without glasses.
 - ```IMMUNE_HEARING_DAMAGE``` Immune to hearing damage from loud sounds.
@@ -791,7 +793,8 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```DURABLE_MELEE``` Item is made to hit stuff and it does it well, so it's considered to be a lot tougher than other weapons made of the same materials.
 - ```E_COPIABLE``` This item can be scanned onto an electronic device and can be electronically copied.
 - ```E_FILE_COLLECTION``` This item represents a combinable collection of files. Does not imply E_COPIABLE.
-- ```E_STORABLE``` This item can be stored on an electronic device.
+- ```E_STORABLE``` This item can be stored on an in-game electronic device.
+- ```E_STORABLE_EXCLUSIVE``` This item can ONLY be stored on an in-game electronic device; it may only be handled electronically.
 - ```ELECTRONIC``` This item contain sensitive electronics which can be fried by nearby EMP blast.
 - ```FAKE_MILL``` Item is a fake item, to denote a partially milled product by @ref Item::process_fake_mill, where conditions for its removal are set.
 - ```FAKE_SMOKE``` Item is a fake item generating smoke, recognizable by @ref item::process_fake_smoke, where conditions for its removal are set.
@@ -1019,7 +1022,6 @@ See [Mapgen flags](MAPGEN.md#mapgen-flags).
 - ```mx_mass_grave``` Mass grave with zombies and everyday loot.
 - ```mx_mayhem``` Several types of road mayhem (firefights, crashed cars etc).
 - ```mx_military``` Corpses and some military items.
-- ```mx_minefield``` A military roadblock at the entry of the bridges with landmines scattered in the front of it.
 - ```mx_nest_dermatik``` Dermatik nest.
 - ```mx_nest_wasp``` Wasp nest.
 - ```mx_null``` No special at all.
@@ -1101,12 +1103,13 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```BILE_BLOOD``` Makes monster bleed bile.
 - ```BIOLOGICALPROOF``` Immune to biological damage.
 - ```BORES``` Tunnels through just about anything (15x bash multiplier e.g. dark wyrms' bash skill 12 -> 180).
+- ```BULLETPROOF``` Immune to ballistic damage.
 - ```CAMOUFLAGE``` Stays invisible up to (current Perception, + base Perception if the character has the Spotting proficiency) tiles away, even in broad daylight.  Monsters see it from the lower of `vision_day` and `vision_night` ranges.
 - ```CANPLAY``` This creature can be played with if it's a pet.
 - ```CAN_BE_CULLED``` This animal can be culled if it's a pet.
 - ```CAN_DIG``` Will dig on any diggable terrain the same way `DIGS` does, however, will walk normally over non-diggable terrain.
 - ```CAN_OPEN_DOORS``` Can open doors on its path.
-- ```CLIMBS``` Can climb over fences or similar obstacles quickly.
+- ```CLIMBS``` (depricated in favor of [moveskills](MONSTERS.md#move_skills)) Can climb over fences or similar obstacles quickly.
 - ```COLDPROOF``` Immune to cold damage.
 - ```COMBAT_MOUNT```  This mount has better chance to ignore hostile monster fear.
 - ```CONSOLE_DESPAWN``` Despawns when a nearby console is properly hacked.
@@ -1131,6 +1134,7 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```FIREY``` Burns stuff and is immune to fire.
 - ```FISHABLE``` This monster can be fished.
 - ```FLAMMABLE``` Monster catches fire, burns, and spreads fire to nearby objects.
+- ```FLASHBANGPROOF``` Monster is unaffected by flashbangs.
 - ```FLIES``` Can fly over open air without dropping z-level, over water, etc.
 - ```GOODHEARING``` Pursues sounds more than most monsters.
 - ```GRABS``` Its attacks may grab you!
@@ -1204,7 +1208,7 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```STUN_IMMUNE``` This monster is immune to stun.
 - ```SUNDEATH``` Dies in full sunlight.
 - ```SWARMS``` Groups together and forms loose packs.
-- ```SWIMS``` Treats water as 50 movement point terrain.
+- ```SWIMS``` (depricated in favor of [moveskills](MONSTERS.md#move_skills)) Treats water as 50 movement point terrain.
 - ```VAMP_VIRUS``` This monster can inflict the `vampire_virus` effect.  Used by Xedra Evolved mod.
 - ```VENOM``` Attack may poison the player.
 - ```WARM``` Warm blooded.
@@ -1286,6 +1290,7 @@ See [Character](#character)
 ### Overmap connections
 
 - ```ORTHOGONAL``` The connection generally prefers straight lines, avoids turning wherever possible.
+- ```PERPENDICULAR_CROSSING``` The connection will never turn while crossing the given location AND may not cross the location in a parallel direction.
 
 ### Overmap specials
 

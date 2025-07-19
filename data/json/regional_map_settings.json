@@ -314,7 +314,13 @@
         }
       }
     },
-    "river_scale": 1.0,
+    "overmap_river_settings": {
+      "river_scale": 1.0,
+      "river_frequency": 1.5,
+      "river_branch_chance": 64.0,
+      "river_branch_remerge_chance": 2.0,
+      "river_branch_scale_decrease": 1.0
+    },
     "overmap_lake_settings": {
       "noise_threshold_lake": 0.25,
       "lake_size_min": 20,
@@ -336,6 +342,32 @@
       "ocean_start_west": 1000,
       "ocean_start_south": 0,
       "sandy_beach_width": 6
+    },
+    "overmap_highway_settings": {
+      "grid_column_seperation": 10,
+      "grid_row_seperation": 8,
+      "width_of_segments": 2,
+      "straightness_chance": 0.6,
+      "intersection_max_radius": 2,
+      "reserved_terrain_id": "hw_reserved",
+      "reserved_terrain_water_id": "hw_reserved_water",
+      "segment_ramp_special": "highway_segment_ramp",
+      "fallback_onramp_special": "Highway Fallback Onramp",
+      "four_way_intersections": { "Highway Clover Leaf": 1 },
+      "fallback_four_way_intersection_special": "Highway Fallback Four-Way Intersection",
+      "three_way_intersections": { "Highway Trumpet Interchange": 1 },
+      "fallback_three_way_intersection_special": "Highway Fallback Tee",
+      "bends": { "Highway Bend": 1 },
+      "fallback_bend_special": "Highway Bend",
+      "fallback_supports": "hw_fb_supports",
+      "clockwise_slant_special": "Highway Slant Minor Clockwise",
+      "counterclockwise_slant_special": "Highway Slant Minor Counterclockwise",
+      "road_connections": { "Highway Diamond Interchange": 2, "Highway Rest Area Parking": 1 },
+      "segment_flat_special": "highway_segment_flat",
+      "segment_road_bridge_special": "highway_segment_road_bridge",
+      "segment_bridge_special": "highway_segment_bridge",
+      "segment_bridge_supports_special": "highway_support_mutable",
+      "segment_overpass_special": "highway_segment_overpass"
     },
     "overmap_ravine_settings": { "num_ravines": 0, "ravine_width": 3, "ravine_range": 45, "ravine_depth": -3 },
     "overmap_forest_settings": {
@@ -704,7 +736,6 @@
           "mx_exocrash_2": 5
         }
       },
-      "bridgehead_ground": { "chance": 5, "extras": { "mx_minefield": 100 } },
       "park": { "chance": 60, "extras": { "mx_fungal_zone": 100 } },
       "road_nesw_manhole": { "chance": 20, "extras": { "mx_city_trap": 1, "mx_laststand": 1 } },
       "build": {
@@ -740,7 +771,6 @@
           "mx_portal": 200,
           "mx_crater": 180,
           "mx_portal_in": 30,
-          "mx_point_burned_ground": 100,
           "mx_casings": 30,
           "mx_exocrash_1": 1,
           "mx_exocrash_2": 1
@@ -751,7 +781,6 @@
         "extras": {
           "mx_crater": 15000,
           "mx_portal": 5000,
-          "mx_point_burned_ground": 6250,
           "mx_portal_in": 2000,
           "mx_casings": 1500,
           "mx_military": 250,
@@ -881,6 +910,7 @@
         "house_29": 50,
         "house_30": 50,
         "house_31": 50,
+        "basement_hidden_lab_entrance": 50,
         "house_32": 50,
         "house_33": 50,
         "house_34": 50,

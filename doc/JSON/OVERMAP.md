@@ -249,7 +249,7 @@ rotation for the referenced overmap terrains (e.g. the `_north` version for all)
 | `vision_levels`   | Id of a `oter_vision` that describes how this overmap terrain will be displayed when there is not full vision of the tile.
 | `connect_group`   | Specify that this overmap terrain might be graphically connected to its neighbours, should a tileset wish to.  It will connect to any other `overmap_terrain` with the same `connect_group`. |
 | `see_cost`        | Affects player vision on overmap.  See table below for possible values.                          |
-| `travel_cost_type` | How to treat this location when planning a route using autotravel on the overmap. Valid values are `road`,`field`,`dirt_road`,`trail`,`forest`,`shore`,`swamp`,`water`,`air`,`impassable`,`other`. Some types are harder to travel through with different types of vehicles, or on foot. |
+| `travel_cost_type` | How to treat this location when planning a route using autotravel on the overmap. Valid values are `road`,`field`,`dirt_road`,`trail`,`forest`,`shore`,`swamp`,`water`,`air`,`structure`,`roof`,`basement`,`tunnel`,`impassable`,`other`. Some types are harder to travel through with different types of vehicles, or on foot. |
 | `extras`          | Reference to a named `map_extras` in region_settings, defines which map extras can be applied.   |
 | `mondensity`      | Summed with values for adjacent overmap terrains to influence density of monsters spawned here.  |
 | `spawns`          | Spawns added once at mapgen. Monster group, % chance, population range (min/max).                |
@@ -300,12 +300,12 @@ an exhaustive example...
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
     "flags": [ "NO_ROTATE" ],
     "uniform_terrain": "t_grass",
-    "mapgen": [ { "method": "builtin", "name": "bridge" } ],
-    "mapgen_straight": [ { "method": "builtin", "name": "road_straight" } ],
-    "mapgen_curved": [ { "method": "builtin", "name": "road_curved" } ],
-    "mapgen_end": [ { "method": "builtin", "name": "road_end" } ],
-    "mapgen_tee": [ { "method": "builtin", "name": "road_tee" } ],
-    "mapgen_four_way": [ { "method": "builtin", "name": "road_four_way" } ],
+    "mapgen": [ { "builtin": "bridge" } ],
+    "mapgen_straight": [ { "builtin": "road_straight" } ],
+    "mapgen_curved": [ { "builtin": "road_curved" } ],
+    "mapgen_end": [ { "builtin": "road_end" } ],
+    "mapgen_tee": [ { "builtin": "road_tee" } ],
+    "mapgen_four_way": [ { "builtin": "road_four_way" } ],
     "eoc": {
       "id": "EOC_REFUGEE_CENTER_GENERATE", 
       "condition": { "math": [ "refugee_centers < 1" ] }, 

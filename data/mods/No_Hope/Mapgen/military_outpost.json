@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "outpost" ],
     "weight": 100,
     "object": {
@@ -74,7 +73,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "outpost_roof",
     "object": {
       "fill_ter": "t_flat_roof",

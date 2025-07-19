@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lmoe_under_empty" ],
     "//": "Empty LMOE shelter built for a wizard.",
     "weight": 40,
@@ -114,7 +113,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lmoe3_storage_mage_11x11",
     "//": "This is done in a nested map to make the flooring under the furniture look right, nothing much else.",
     "object": {
@@ -138,7 +136,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lmoe_dead_mage",
     "//": "lore: a dead mage.  Maybe killed in some kind of magical ritual that the portal storms messed up, maybe they went feral and their defense golems killed them, maybe they tried to summon a star vampire and it went out of control.",
     "object": {
@@ -160,7 +157,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lmoe3_tankroom_mage_11x11",
     "//": "This is done in a nested map to make the flooring under the furniture look right, nothing much else.",
     "object": {
@@ -184,7 +180,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lmoe3_tankroom_mage_11x11",
     "weight": 650,
     "//": "Translocator gate variant.",

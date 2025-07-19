@@ -80,8 +80,8 @@
   },
   {
     "type": "item_group",
-    "id": "textbooks_school",
-    "copy-from": "textbooks_school",
+    "id": "manuals_school",
+    "copy-from": "manuals_school",
     "extend": {
       "items": [
         { "item": "manual_meditation", "variant": "manual_meditation_1", "prob": 5 },
@@ -94,5 +94,13 @@
     "subtype": "distribution",
     "id": "dist_maps",
     "items": [ [ "satellitemap", 3 ], [ "roadmap", 2 ], [ "subwaystationmap", 1 ], [ "militarymap", 2 ], [ "sewermap", 1 ] ]
+  },
+  {
+    "id": "esoteric_books",
+    "copy-from": "esoteric_books",
+    "type": "item_group",
+    "extend": {
+      "items": [ { "group": "dist_meditation_books_begin", "prob": 25 }, { "group": "dist_meditation_books_int", "prob": 10 } ]
+    }
   }
 ]

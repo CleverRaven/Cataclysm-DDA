@@ -233,7 +233,7 @@
     "container": "bottle_plastic",
     "sealed": false,
     "symbol": "=",
-    "color": "black",
+    "color": "dark_gray",
     "material": [ "crude_oil" ],
     "ammo_type": "crude_oil",
     "range": 3,

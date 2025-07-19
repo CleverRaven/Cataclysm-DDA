@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "house_suicide" ],
     "//": "uses house_10 basement",
     "object": {
@@ -60,7 +59,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "bathroom_suicide",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -70,7 +68,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "bathroom_suicide",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -84,7 +81,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "bathroom_suicide",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -100,7 +96,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "bathroom_suicide",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -123,7 +118,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_suicide_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",

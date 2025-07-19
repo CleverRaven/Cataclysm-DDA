@@ -1615,12 +1615,6 @@
   },
   {
     "type": "MONSTER",
-    "id": "mon_gas_zombie",
-    "copy-from": "mon_gas_zombie",
-    "extend": { "armor": { "poison": 14 } }
-  },
-  {
-    "type": "MONSTER",
     "id": "mon_zombie_gasbag",
     "copy-from": "mon_zombie_gasbag",
     "extend": { "armor": { "poison": 14 } }

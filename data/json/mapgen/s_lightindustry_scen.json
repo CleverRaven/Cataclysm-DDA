@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "s_lightindustry_scen_10", "s_lightindustry_scen_11" ],
       [ "s_lightindustry_scen_road_0", "s_lightindustry_scen_road_1" ],
@@ -183,9 +182,9 @@
       "vendingmachines": { "z": { "item_group": "vending_drink", "lootable": true }, "X": { "item_group": "vending_food", "lootable": true } },
       "toilets": { "j": {  } },
       "items": {
-        "y": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 2, 3 ] },
-        "B": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 2, 3 ] },
-        "Y": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 2, 3 ] },
+        "y": { "item": "SUS_trash_trashcan", "chance": 30 },
+        "B": { "item": "SUS_trash_trashcan", "chance": 30 },
+        "Y": { "item": "SUS_trash_trashcan", "chance": 30 },
         "v": { "item": "vault", "chance": 30, "repeat": [ 2, 3 ] },
         "j": { "item": "SUS_toilet", "chance": 50 },
         "r": { "item": "SUS_office_desk", "chance": 30 },
@@ -226,7 +225,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "s_lightindustry_scen_10_roof", "s_lightindustry_scen_11_roof" ] ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -261,7 +259,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "s_lightindustry_scen_00_roof", "s_lightindustry_scen_01_roof" ] ],
     "object": {
       "fill_ter": "t_flat_roof",

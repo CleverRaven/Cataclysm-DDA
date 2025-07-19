@@ -752,7 +752,11 @@ static item_location set_item_inventory( Character &p, item &newit )
 {
     item_location ret_val = item_location::nowhere;
     if( newit.made_of( phase_id::LIQUID ) ) {
-        liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
+        if( p.is_avatar() ) {
+            liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
+        } else {
+            liquid_handler::handle_npc_liquid( newit, p );
+        }
     } else {
         p.inv->assign_empty_invlet( newit, p );
         // We might not have space for the item
@@ -1541,7 +1545,11 @@ static void spawn_items( Character &guy, std::vector<item> &results,
 
         newit.set_owner( guy.get_faction()->id );
         if( newit.made_of( phase_id::LIQUID ) ) {
-            liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
+            if( guy.is_avatar() ) {
+                liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
+            } else {
+                liquid_handler::handle_npc_liquid( newit, guy );
+            }
         } else if( !loc && allow_wield && !guy.has_wield_conflicts( newit ) &&
                    guy.can_wield( newit ).success() ) {
             wield_craft( guy, newit );
@@ -3020,9 +3028,12 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
                 act_item = removed.value();
             }
 
-            //NPCs are too dumb to be able to handle liquid (for now)
-            if( act_item.made_of( phase_id::LIQUID ) && !is_npc() ) {
-                liquid_handler::handle_all_liquid( act_item, PICKUP_RANGE );
+            if( act_item.made_of( phase_id::LIQUID ) ) {
+                if( is_avatar() ) {
+                    liquid_handler::handle_all_liquid( act_item, PICKUP_RANGE );
+                } else {
+                    liquid_handler::handle_npc_liquid( act_item, *this );
+                }
             } else {
                 drop_items.push_back( act_item );
             }
@@ -3089,8 +3100,12 @@ void remove_ammo( std::list<item> &dis_items, Character &p )
 
 void drop_or_handle( const item &newit, Character &p )
 {
-    if( newit.made_of( phase_id::LIQUID ) && p.is_avatar() ) { // TODO: what about NPCs?
-        liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
+    if( newit.made_of( phase_id::LIQUID ) ) {
+        if( p.is_avatar() ) {
+            liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
+        } else {
+            liquid_handler::handle_npc_liquid( newit, p );
+        }
     } else {
         item tmp( newit );
         p.i_add_or_drop( tmp );

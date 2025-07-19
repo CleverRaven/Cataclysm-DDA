@@ -89,7 +89,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "mnm_more_density",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "place_monster": [ { "group": "GROUP_MICROLAB", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 3, 7 ] } ]
@@ -98,7 +97,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "mnm_acid_zombies",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "place_monster": [ { "group": "GROUP_MLAB_ACID_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 3, 7 ] } ]
@@ -107,7 +105,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "mnm_hunter_zombies",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "place_monster": [ { "group": "GROUP_MLAB_HUNTER_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 3, 7 ] } ]
@@ -116,7 +113,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "mnm_rust_zombies",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "place_monster": [ { "group": "GROUP_MLAB_RUST_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 3, 7 ] } ]
@@ -125,7 +121,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "mnm_phase_zombies",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "place_monster": [ { "group": "GROUP_MLAB_PHASE_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 3, 7 ] } ]
@@ -134,7 +129,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "mnm_raptor_zombies",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "place_monster": [ { "group": "GROUP_MLAB_RAPTOR_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 3, 7 ] } ]
@@ -143,7 +137,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "mnm_robots",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "place_monster": [ { "group": "GROUP_MLAB_ROBOT", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 2, 5 ] } ]
@@ -152,7 +145,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "mnm_mutants",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "place_monster": [ { "group": "GROUP_MLAB_MUTANTS", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 2, 5 ] } ]
@@ -161,7 +153,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "mnm_wasps",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "place_nested": [
@@ -181,7 +172,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "3x3_leech_pod",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -197,7 +187,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "mnm_leech_plants",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "place_nested": [
@@ -212,7 +201,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "mnm_slimes",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "place_monster": [ { "group": "GROUP_SLIME", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 3 ] } ]
@@ -221,7 +209,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "mnm_shadows",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "place_monster": [ { "monster": "mon_darkman", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 12 } ]
@@ -230,7 +217,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "mnm_vampire",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "place_monster": [ { "monster": "mon_star_vampire_coiling", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25 } ]
@@ -239,7 +225,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "mnm_triffids",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
@@ -276,7 +261,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "mnm_fungaloids",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "place_monster": [ { "group": "GROUP_FUNGI", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 6, 12 ] } ]
@@ -285,7 +269,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "mnm_migo",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "place_monster": [ { "group": "GROUP_MI-GO_CAMP_OM", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 3 ] } ]
@@ -294,7 +277,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "mnm_tindalos",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "place_monster": [
@@ -306,7 +288,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "mnm_yrax",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "place_monster": [ { "group": "GROUP_MLAB_YRAX", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 3 ] } ]

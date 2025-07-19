@@ -1,9 +1,13 @@
 #include <cmath>
+#include <map>
+#include <utility>
 #include <vector>
 
 #include "avatar.h"
 #include "character.h"
 #include "coordinates.h"
+#include "effect.h"
+#include "effect_source.h"
 #include "map.h"
 #include "math_parser_diag_value.h"
 #include "talker_vehicle.h"
@@ -64,6 +68,17 @@ void talker_vehicle::set_value( const std::string &var_name, diag_value const &v
 void talker_vehicle::remove_value( const std::string &var_name )
 {
     me_veh->remove_value( var_name );
+}
+
+void talker_vehicle::add_effect( const efftype_id &eff_id, const time_duration &dur,
+                                 const std::string &, bool permanent, bool, int intensity )
+{
+    me_veh->add_effect( effect_source::empty(), eff_id, dur, permanent, intensity );
+}
+
+void talker_vehicle::remove_effect( const efftype_id &eff_id, const std::string & )
+{
+    me_veh->remove_effect( eff_id );
 }
 
 std::vector<std::string> talker_vehicle_const::get_topics( bool ) const
@@ -165,4 +180,18 @@ bool talker_vehicle_const::is_remote_controlled() const
 bool talker_vehicle_const::is_passenger( Character &you ) const
 {
     return me_veh_const->is_passenger( you );
+}
+
+bool talker_vehicle_const::has_effect( const efftype_id &eff_id, const bodypart_id & ) const
+{
+    return me_veh_const->has_effect( eff_id );
+}
+
+effect talker_vehicle_const::get_effect( const efftype_id &eff_id, const bodypart_id & ) const
+{
+    auto effect = me_veh_const->effects.find( eff_id );
+    if( effect != me_veh_const->effects.end() ) {
+        return effect->second;
+    }
+    return effect::null_effect;
 }

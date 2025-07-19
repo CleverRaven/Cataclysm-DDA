@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": "bungalow02_1",
-    "method": "json",
     "object": {
       "palettes": [
         "domestic_general_construction_and_variant_palette",
@@ -56,6 +55,7 @@
         "W": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "Z": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "z": "t_thconc_floor",
+        "=": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
         "/": "t_dirtmound"
       },
       "furniture": { "$": "f_rack", "&": "f_treadmill", "?": "f_exercise", "/": "f_region_flower", "¤": "f_table" },
@@ -68,7 +68,6 @@
   {
     "type": "mapgen",
     "om_terrain": "bungalow02_roof",
-    "method": "json",
     "object": {
       "palettes": [ "roof_palette" ],
       "fill_ter": "t_shingle_flat_roof",

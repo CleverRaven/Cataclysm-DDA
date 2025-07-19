@@ -19,6 +19,7 @@
 #include "enum_bitset.h"
 #include "game_constants.h"
 #include "iexamine.h"
+#include "requirements.h"
 #include "translation.h"
 #include "type_id.h"
 #include "units.h"
@@ -36,6 +37,7 @@ const int NUM_TERCONN = 256;
 connect_group get_connect_group( const std::string &name );
 
 template <typename E> struct enum_traits;
+struct map_data_common_t;
 
 struct map_common_bash_info { //TODO: Half of this shouldn't be common
         // min str(*) required to bash
@@ -59,9 +61,12 @@ struct map_common_bash_info { //TODO: Half of this shouldn't be common
         translation sound;      // sound made on success ('You hear a "smash!"')
         translation sound_fail; // sound made on fail
         std::vector<furn_str_id> tent_centers;
+        std::pair<field_type_str_id, int> hit_field; // field spawned on any hit
+        std::pair<field_type_str_id, int> destroyed_field; // field spawned on successful bash
         void load( const JsonObject &jo, bool was_loaded, const std::string &context );
         void check( const std::string &id ) const;
-        std::string potential_bash_items( const std::string &ter_furn_name ) const;
+        // todo: move it to map_data_common_t
+        std::string potential_bash_items( const map_data_common_t &ter_furn ) const;
     public:
         virtual ~map_common_bash_info() = default;
 };
@@ -103,7 +108,8 @@ struct map_common_deconstruct_info {
         virtual void check( const std::string &id ) const;
     public:
         virtual ~map_common_deconstruct_info() = default;
-        std::string potential_deconstruct_items( const std::string &ter_furn_name ) const;
+        // todo: move it to map_data_common_t
+        std::string potential_deconstruct_items( const map_data_common_t &ter_furn ) const;
 };
 struct map_ter_deconstruct_info : map_common_deconstruct_info {
     ter_str_id ter_set = ter_str_id::NULL_ID();
@@ -356,6 +362,8 @@ enum class ter_furn_flag : int {
     TFLAG_FLOATS_IN_AIR,
     TFLAG_HARVEST_REQ_CUT1,
     TFLAG_NATURAL_UNDERGROUND,
+    TFLAG_WIRED_WALL,
+    TFLAG_MON_AVOID_STRICT,
 
     NUM_TFLAG_FLAGS
 };
@@ -488,7 +496,8 @@ struct map_data_common_t {
 
     public:
         virtual ~map_data_common_t() = default;
-
+        virtual std::optional<map_common_bash_info> bash_info() const = 0;
+        virtual std::optional<map_common_deconstruct_info> deconstruct_info() const = 0;
     protected:
         friend furn_t null_furniture_t();
         friend ter_t null_terrain_t();
@@ -511,6 +520,8 @@ struct map_data_common_t {
         bool has_curtains() const {
             return !( curtain_transform.is_empty() || curtain_transform.is_null() );
         }
+
+        bool has_disassembly() const;
 
         std::string name() const;
 
@@ -567,6 +578,10 @@ struct map_data_common_t {
             }
         };
 
+        // underlying item of this furniture. Underlying item of a freezer is freezer
+        // todo: use it as substitute as crafting pseudo item
+        itype_id base_item = itype_id::NULL_ID();
+
         bool transparent = false;
 
         const std::set<std::string> &get_flags() const {
@@ -602,6 +617,9 @@ struct map_data_common_t {
         // Set target group to rotate towards
         void set_rotates_to( const std::vector<std::string> &connect_groups_vec );
         void unset_rotates_to( const std::vector<std::string> &connect_groups_vec );
+
+        // grabs an item and return a default components from uncraft of this item
+        std::vector<item_comp> get_uncraft_components() const;
 
         // Set groups helper function
         void set_groups( std::bitset<NUM_TERCONN> &bits, const std::vector<std::string> &connect_groups_vec,
@@ -670,6 +688,13 @@ struct ter_t : map_data_common_t {
 
     ter_t();
 
+    std::optional<map_common_bash_info> bash_info() const override {
+        return bash;
+    }
+    std::optional<map_common_deconstruct_info> deconstruct_info() const override {
+        return deconstruct;
+    }
+
     static size_t count();
 
     bool is_null() const;
@@ -706,6 +731,7 @@ struct furn_t : map_data_common_t {
     itype_id deployed_item; // item id string used to create furniture
 
     int move_str_req = 0; //The amount of strength required to move through this furniture easily.
+    units::mass mass = 0_gram;
 
     cata::value_ptr<activity_data_furn> boltcut; // Bolt cutting action data
     cata::value_ptr<activity_data_furn> hacksaw; // Hacksaw action data
@@ -725,6 +751,12 @@ struct furn_t : map_data_common_t {
 
     furn_t();
 
+    std::optional<map_common_bash_info> bash_info() const override {
+        return bash;
+    }
+    std::optional<map_common_deconstruct_info> deconstruct_info() const override {
+        return deconstruct;
+    }
     static size_t count();
 
     bool is_movable() const;

@@ -154,7 +154,7 @@
   {
     "id": "TALK_EXODII_MERCHANT_mission_1_intro2_translate",
     "type": "talk_topic",
-    "dynamic_line": "*pauses for a moment, and lets out a slow sigh, speaking hesitantly as they catch themselves in idioms.  \"Make no contact.  We ken… we think the abroad o'… the outside o' the bunker be safe an'… be safe to explore, for one such as ye, who harks as from this'n land.  A wander in and escolt… a look around we ken as no… no risk.  If ye think ye been spotted, wave along and make no mention of ol' Rubik and the Exodii.  Not afore we be razzed some more o' this rattlin'… this bunker.",
+    "dynamic_line": "*pauses for a moment, and lets out a slow sigh, speaking hesitantly as they catch themselves in idioms.  \"Make no contact.  We ken… we think the abroad o'… the outside o' the bunker be safe an'… be safe to explore, for one such as ye, who harks as from this'n land.  A wander in and escolt… a look around we ken as no… no risk.  If ye think ye been spotted, wave along and make no mention of ol' Rubik and the Exodii.  Not afore we be razzed some more o' this rattlin'… this bunker.\"",
     "responses": [
       {
         "text": "How can you know that it's safe?  What if I'm shot on sight?",
@@ -469,7 +469,7 @@
   {
     "id": "TALK_EXODII_MERCHANT_mission_2_complete_pay",
     "type": "talk_topic",
-    "dynamic_line": "Ol' Rubik's gone down into the stores an' slicked up a handful o' some dandies for ye.\"  They reach below the counter and take out three clear plastic bags, each containing a different cybernetic module.  \"Us'n can only spare one o', though.  Which'll it be?  We can slip an' crank 'em in as y'like.\"",
+    "dynamic_line": "Ol' Rubik's gone down into the stores an' slicked up a handful o' some dandies for ye.\"  They reach below the counter and take out three clear plastic bags, each containing a different cybernetic module.  \"Us'n can only spare one o', though.  Which'll it be?  We can slip an' crank 'em in as y'like.",
     "//": "This dialogue should change if you're not exodized, allowing them to offer you exodization along with the new CBM.",
     "responses": [
       {

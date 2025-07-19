@@ -191,7 +191,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "afs_map_lights_on",
     "object": {
       "mapgensize": [ 24, 24 ],

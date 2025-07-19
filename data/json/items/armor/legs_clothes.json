@@ -632,7 +632,7 @@
         "id": "leggings_black",
         "name": { "str": "black leggings", "str_pl": "pairs of black leggings" },
         "description": "This pair is black.",
-        "color": "black",
+        "color": "dark_gray",
         "append": true,
         "weight": 50
       },
@@ -837,7 +837,7 @@
         "id": "pants_black",
         "name": { "str": "black pants", "str_pl": "pairs of black pants" },
         "description": "A snappy set of black, neatly pressed trousers, perfect for formal events or looking professional.",
-        "color": "black",
+        "color": "dark_gray",
         "weight": 10
       },
       {
@@ -977,7 +977,7 @@
         "id": "pants_black_camo",
         "name": { "str": "black-camo pants", "str_pl": "pairs of black-camo pants" },
         "description": "Dyed a deep hue of urban black, this pair of hardwearing pants is designed to assist a wearer in concealing themselves within nighttime environments and low-light conditions.  While they're simple civilian trousers given a stealth-black paint job and don't hold a candle to their more marshal brothers, they still look cool and are great at making you feel like you're Spetsnaz.",
-        "color": "black",
+        "color": "dark_gray",
         "weight": 6
       },
       {
@@ -1871,7 +1871,7 @@
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "kilt",
-    "color": "black",
+    "color": "dark_gray",
     "warmth": 10,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE" ],
@@ -2330,7 +2330,7 @@
         "id": "tactical_pants_black",
         "name": { "str": "black-camo tactical pants", "str_pl": "pairs of black-camo tactical pants" },
         "description": "This worn and smoke-hued pair is completely dyed black.",
-        "color": "black",
+        "color": "dark_gray",
         "weight": 10,
         "append": true
       },
