@@ -752,6 +752,7 @@
       [ "toaster", 30 ],
       [ "stethoscope", 2 ],
       { "item": "spray_can", "prob": 45, "charges": [ 1, 3 ] },
+      { "item": "insecticide_spray_can", "prob": 40, "charges": [ 0, 2 ] },
       { "item": "aluminum_foil", "prob": 40, "charges": [ 1, 10 ] },
       [ "wrapper_foil", 20 ],
       [ "cup_foil", 1 ],

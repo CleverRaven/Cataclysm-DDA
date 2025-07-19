@@ -196,6 +196,7 @@
       [ "lug_wrench", 20 ],
       [ "jerrycan", 10 ],
       [ "jerrycan_big", 10 ],
+      { "item": "insecticide_spray_can", "prob": 20 },
       { "item": "char_smoker", "prob": 5, "charges": [ 0, 300 ] },
       { "item": "dehydrator", "prob": 5 },
       [ "tourist_table", 1 ],
