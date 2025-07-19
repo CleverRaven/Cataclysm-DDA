@@ -1174,10 +1174,9 @@ time_duration vpart_info::get_unfolding_time() const
     return unfolding_time;
 }
 
-bool vpart_info::has_control_req() const
+bool vpart_info::has_control_req( vp_control_req control ) const
 {
-    return !control_air.proficiencies.empty() || !control_air.skills.empty() ||
-           !control_land.proficiencies.empty() || !control_land.skills.empty();
+    return !control.proficiencies.empty() || !control.skills.empty();
 }
 
 std::string vpart_variant::get_label() const
