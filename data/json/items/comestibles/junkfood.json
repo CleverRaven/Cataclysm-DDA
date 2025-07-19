@@ -1558,7 +1558,14 @@
     "material": [ "wheat", "milk", "flesh", "egg", "junk" ],
     "volume": "500ml",
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "calcium", 30 ], [ "iron", 15 ], [ "meat_allergen", 1 ], [ "egg_allergen", 1 ], [ "junk_allergen", 1 ] ],
+    "vitamins": [
+      [ "calcium", 30 ],
+      [ "iron", 15 ],
+      [ "meat_allergen", 1 ],
+      [ "egg_allergen", 1 ],
+      [ "milk_allergen", 1 ],
+      [ "junk_allergen", 1 ]
+    ],
     "fun": 4
   },
   {
