@@ -591,23 +591,38 @@ void surroundings_menu::draw_item_tab()
                     ImGui::SameLine( 0, 0 );
                     ImGui::PopID();
                     nc_color color = prio_plus ? c_yellow : prio_minus ? c_red : itm->color_in_inventory();
-                    cataimgui::draw_colored_text( it->get_selected_name(), color );
-
+                    std::string newness_str;
+                    nc_color newness_color;
                     if( highlight_new ) {
                         switch( check_items_newness( itm ) ) {
                             case content_newness::NEW:
-                                ImGui::SameLine( name_col_width - item_new_str_width, -1.0f );
-                                cataimgui::draw_colored_text( item_new_str, item_new_col );
+                                newness_str = item_new_str;
+                                newness_color = item_new_col;
                                 break;
                             case content_newness::MIGHT_BE_HIDDEN:
-                                ImGui::SameLine( name_col_width - item_maybe_new_str_width, -1.0f );
-                                cataimgui::draw_colored_text( item_maybe_new_str, item_maybe_new_col );
-                                break;
-                            case content_newness::SEEN:
+                                newness_str = item_maybe_new_str;
+                                newness_color = item_maybe_new_col;
                                 break;
                             default:
                                 break;
                         }
+                    }
+
+                    // FIXME: these width calculations somehow work for variable-width but not for fixed-width fonts
+                    ImFont *font = ImGui::GetFont();
+                    float newness_str_width = font->CalcTextSizeA( font->FontSize, FLT_MAX, 0.f,
+                                              newness_str.c_str() ).x + ImGui::GetStyle().ItemSpacing.x;
+                    float wrap_width_subtrahend = ImGui::GetStyle().ItemSpacing.x;
+                    if( highlight_new && !newness_str.empty() ) {
+                        wrap_width_subtrahend += newness_str_width;
+                    }
+
+                    cataimgui::TextColoredTrimmed( it->get_selected_name(), color,
+                                                   name_col_width - wrap_width_subtrahend );
+
+                    if( highlight_new && !newness_str.empty() ) {
+                        ImGui::SameLine( name_col_width - newness_str_width, -1.0f );
+                        cataimgui::draw_colored_text( newness_str, newness_color );
                     }
 
                     ImGui::TableNextColumn();
