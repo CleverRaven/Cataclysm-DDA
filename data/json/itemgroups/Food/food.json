@@ -27,7 +27,7 @@
       { "prob": 40, "group": "fish_pickled_jar_3l_glass_sealed_12" },
       { "item": "sauce_red", "prob": 60, "charges": 48, "container-item": "jar_3l_glass_sealed" },
       { "item": "kompot", "prob": 10, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "freeze_dried_meal", "prob": 10 }
+      { "group": "freeze_dried_meal_box_any", "prob": 10 }
     ]
   },
   {
@@ -55,7 +55,7 @@
       { "prob": 40, "group": "dry_beans_bag_plastic_full" },
       { "prob": 30, "group": "dry_lentils_bag_plastic_full" },
       { "prob": 40, "group": "dry_rice_bag_plastic_full" },
-      { "item": "freeze_dried_meal", "prob": 10 },
+      { "prob": 10, "group": "freeze_dried_meal_box_any" },
       { "prob": 40, "group": "gelatin_powder_bag_plastic_full" },
       { "prob": 15, "group": "chem_agar_bottle_plastic_small_50" },
       { "item": "gelatin_dessert_powder", "prob": 40 },
@@ -1500,6 +1500,17 @@
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_paper_powder",
     "entries": [ { "item": "soup_instant_vegetable_powder", "container-item": "null", "count": [ 1, 1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "freeze_dried_meal_box_any",
+    "subtype": "distribution",
+    "container-item": "box_small",
+    "entries": [
+      { "prob": 40, "item": "freeze_dried_meal", "count": -1 },
+      { "prob": 40, "item": "freeze_dried_stroganoff", "count": -1 },
+      { "prob": 20, "item": "freeze_dried_veggypasta", "count": -1 }
+    ]
   },
   {
     "type": "item_group",
