@@ -94,8 +94,6 @@ These special attacks are mostly hardcoded in C++ and are generally not configur
 - ```BIO_OP_IMPALE``` Stabbing attack, deals heavy damage and has a chance to cause bleeding.
 - ```BIO_OP_TAKEDOWN``` Takedown attack, bashes either the target's head or torso and inflicts `downed`.
 - ```BLOW_WHISTLE``` Blow a whistle creating a sound of volume 40 from the position of the monster.
-- ```BOOMER_GLOW``` Spits glowing bile.
-- ```BOOMER``` Spits bile.
 - ```BRANDISH``` Brandishes a knife at the player.
 - ```BROWSE``` The monster will eat harvestable foods from BROWSABLE trees and plants when they're in season.
 - ```BREATHE``` Spawns a `breather`.  Note: `breather hub` only!
