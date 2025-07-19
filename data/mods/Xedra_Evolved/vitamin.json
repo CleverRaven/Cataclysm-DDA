@@ -20,7 +20,7 @@
     "excess": "blood_quenched",
     "deficiency": "withering",
     "min": -1502,
-    "max": 32600,
+    "max": 5600,
     "rate": "0 m",
     "disease": [ [ -1, -300 ], [ -301, -750 ], [ -751, -1500 ], [ -1501, -1502 ] ],
     "disease_excess": [ [ 1800, 2400 ], [ 2401, 4400 ], [ 4401, 5600 ] ]
