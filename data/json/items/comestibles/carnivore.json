@@ -813,6 +813,7 @@
     "copy-from": "offal",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
+    "weight": "275 g",
     "name": { "str_sp": "cooked offal" },
     "description": "A selection of cooked organs and entrails.  Filled with essential vitamins, but pretty unappetizing in this form.",
     "parasites": 0,
@@ -866,6 +867,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "pickled offal" },
     "description": "A mass of entrails and organ meat, preserved in brine.  Packed with essential vitamins, and although it looks like a lab specimen, it actually tastes pretty palatable.",
+    "weight": "275 g",
     "volume": "250 ml",
     "price_postapoc": "150 cent",
     "parasites": 0,
@@ -882,6 +884,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "canned offal" },
     "description": "Cooked organ meat and entrails, preserved by canning.  Unappetizing, but filled with essential vitamins.",
+    "weight": "275 g",
     "volume": "250 ml",
     "price_postapoc": "150 cent",
     "parasites": 0,
@@ -2268,7 +2271,6 @@
     "price_postapoc": "2 USD",
     "quench": -1,
     "fun": 6,
-    "weight": "298 g",
     "flags": [ "EATEN_HOT" ]
   },
   {
