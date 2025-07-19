@@ -1,7 +1,6 @@
 #include <cstdlib>
 #include <list>
 #include <map>
-#include <memory>
 #include <set>
 #include <string>
 #include <tuple>
@@ -15,7 +14,6 @@
 #include "coordinates.h"
 #include "creature.h"
 #include "enums.h"
-#include "game.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "mongroup.h"
@@ -300,23 +298,24 @@ static void test_multi_spawn( const mtype_id &old_mon, int range, int min, int m
     for( int i = 0; i < upgrade_attempts; i++ ) {
         clear_map();
         map &m = get_map();
-        calendar::turn = start;
+        calendar::turn = calendar::turn_zero; // Prevent immediate upgrading
         const tripoint_bub_ms ground_zero = get_player_character().pos_bub() - tripoint( 5, 5, 0 );
 
-        monster *orig = g->place_critter_at( old_mon, ground_zero );
-        REQUIRE( orig );
-        REQUIRE( orig->type->id == old_mon );
-        REQUIRE( orig->pos_bub() == ground_zero );
-        REQUIRE( orig->can_upgrade() );
 
-        // monster::next_upgrade_time has a ~3% chance to outright fail
-        // so keep trying until we succeed
-        orig->try_upgrade( false );
-        if( orig->type->id == old_mon ) {
+        monster &orig = spawn_test_monster( old_mon, ground_zero, true, true );
+        REQUIRE( orig.type->id == old_mon );
+        REQUIRE( orig.pos_bub() == ground_zero );
+        REQUIRE( orig.can_upgrade() );
+
+        calendar::turn = start; // Now let it upgrade
+
+        orig.try_upgrade();
+        // If it hasn't upgraded skip
+        if( orig.type->id == old_mon ) {
             continue;
         }
 
-        REQUIRE( new_mons.count( orig->type->id ) > 0 );
+        REQUIRE( new_mons.count( orig.type->id ) > 0 );
         int total_spawns = 0;
         for( const Creature *c : m.get_creatures_in_radius( ground_zero, 10 ) ) {
             if( !c->is_monster() || new_mons.count( c->as_monster()->type->id ) == 0 ) {
