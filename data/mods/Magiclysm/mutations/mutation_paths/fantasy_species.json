@@ -4,6 +4,18 @@
     "id": "HERITAGE"
   },
   {
+    "type": "mutation",
+    "id": "HUMAN_BUILD",
+    "name": { "str": "Human" },
+    "types": [ "HERITAGE" ],
+    "purifiable": false,
+    "mixed_effect": false,
+    "points": 1,
+    "visibility": 2,
+    "description": "Elves might say you are short-lived, and goblins might say you are strong, but the one thing humans really are is tenacious.  Hopefully that will serve you well after the Cataclysm.",
+    "flags": [ "HERITAGE" ]
+  },
+  {
     "type": "mutation_category",
     "id": "SPECIES_DWARF",
     "name": "Dwarf",

@@ -13,6 +13,7 @@
 #include <tuple>
 #include <unordered_map>
 
+#include "ammo_effect.h"
 #include "anatomy.h"
 #include "body_part_set.h"
 #include "calendar.h"
@@ -82,6 +83,7 @@ static const ammo_effect_str_id ammo_effect_FOAMCRETE( "FOAMCRETE" );
 static const ammo_effect_str_id ammo_effect_IGNITE( "IGNITE" );
 static const ammo_effect_str_id ammo_effect_INCENDIARY( "INCENDIARY" );
 static const ammo_effect_str_id ammo_effect_LARGE_BEANBAG( "LARGE_BEANBAG" );
+static const ammo_effect_str_id ammo_effect_LIQUID( "LIQUID" );
 static const ammo_effect_str_id ammo_effect_MAGIC( "MAGIC" );
 static const ammo_effect_str_id ammo_effect_NOGIB( "NOGIB" );
 static const ammo_effect_str_id ammo_effect_NO_DAMAGE_SCALING( "NO_DAMAGE_SCALING" );
@@ -982,6 +984,21 @@ double Creature::accuracy_projectile_attack( const int &speed, const double &mis
     return missed_by + std::max( 0.0, std::min( 1.0, dodge_rescaled ) );
 }
 
+void projectile::apply_effects_nodamage( Creature &target, const bodypart_id &bp_hit,
+        bool soaked_through ) const
+{
+    bool is_liquid = proj_effects.count( ammo_effect_LIQUID );
+    for( const ammo_effect_str_id &proj_effect : proj_effects ) {
+        for( const on_hit_effect &on_hit_eff : proj_effect->on_hit_effects ) {
+            if( on_hit_eff.need_touch_skin && is_liquid && !soaked_through ) {
+                continue;
+            }
+            target.add_effect( on_hit_eff.effect, on_hit_eff.duration, bp_hit, false,
+                               on_hit_eff.intensity );
+        }
+    }
+}
+
 void projectile::apply_effects_damage( Creature &target, Creature *source,
                                        const dealt_damage_instance &dealt_dam, bool critical ) const
 {
@@ -1383,6 +1400,20 @@ void Creature::deal_projectile_attack( map *here, Creature *source, dealt_projec
         }
     }
 
+    bool soaked_through = false;
+    if( attack.proj.proj_effects.count( ammo_effect_LIQUID ) > 0 ) {
+        if( Character *char_target = as_character() ) {
+            // clothing_wetness_mult returns the effective permeability of the armor on bp_hit
+            // as a float between 0 and 1
+            // 0 permeability means no liquid touches the skin and the damage is negated
+            // 1 permeability means all liquid touches the skin and no damage is negated
+            float permeability = char_target->worn.clothing_wetness_mult( hit_selection.bp_hit, true );
+            permeability = std::clamp( permeability, 0.0f, 1.0f );
+            soaked_through = permeability > 0;
+            impact.mult_damage( permeability );
+        }
+    }
+
     dealt_dam = deal_damage( source, hit_selection.bp_hit, impact, wp_attack_copy, *hit_selection.wp );
     // Force damage instance to match the selected body point
     dealt_dam.bp_hit = hit_selection.bp_hit;
@@ -1390,6 +1421,8 @@ void Creature::deal_projectile_attack( map *here, Creature *source, dealt_projec
     hit_selection.wp_hit = dealt_dam.wp_hit;
 
     proj.apply_effects_damage( *this, source, dealt_dam, goodhit < accuracy_critical );
+
+    proj.apply_effects_nodamage( *this, dealt_dam.bp_hit, soaked_through );
 
     int total_dam = dealt_dam.total_damage();
 

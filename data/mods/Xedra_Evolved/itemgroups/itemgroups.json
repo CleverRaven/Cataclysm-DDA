@@ -483,6 +483,13 @@
     }
   },
   {
+    "id": "esoteric_books",
+    "type": "item_group",
+    "copy-from": "esoteric_books",
+    "subtype": "distribution",
+    "extend": { "entries": [ { "group": "hedge_magic_books", "prob": 1 } ] }
+  },
+  {
     "id": "hedge_magic_books",
     "type": "item_group",
     "subtype": "distribution",

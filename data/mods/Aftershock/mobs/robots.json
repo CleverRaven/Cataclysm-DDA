@@ -305,8 +305,7 @@
       "NO_BREATHE",
       "PRIORITIZE_TARGETS",
       "GOODHEARING",
-      "PATH_AVOID_DANGER",
-      "HIT_AND_RUN"
+      "PATH_AVOID_DANGER"
     ],
     "//": "Much lower armor than usual since this is a player allied robot only.",
     "armor": { "bash": 8, "cut": 10, "bullet": 15 }

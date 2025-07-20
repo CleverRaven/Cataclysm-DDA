@@ -7779,7 +7779,7 @@ talk_effect_fun_t::func f_trigger_event( const JsonObject &jo, std::string_view 
         args_str.reserve( args.size() );
         std::transform( args.cbegin(), args.cend(),
         std::back_inserter( args_str ), [&d]( str_or_var const & sov ) {
-            return sov.evaluate( d );
+            return sov.evaluate( d, true );
         } );
         get_event_bus().send( cata::event::make_dyn( type, args_str ) );
     };
