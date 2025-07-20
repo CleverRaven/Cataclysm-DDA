@@ -1091,7 +1091,7 @@ void npc::assess_danger()
                 mem_combat.assess_ally += player_diff;
                 add_msg_debug( debugmode::DF_NPC_COMBATAI,
                                "<color_green>Player is %i tiles from %s for %i turns.</color><color_light_gray>  Adding </color><color_light_green>%1.2f to ally strength</color><color_light_gray> and bolstering morale.</color>",
-                               dist,  mem_combat.turns_next_to_leader, name,
+                               dist, name, mem_combat.turns_next_to_leader,
                                player_diff );
                 // don't try to fall back with your ranged weapon if you're in formation with the player for a while.
                 if( mem_combat.turns_next_to_leader > mem_combat.panic && mem_combat.panic > 0 && one_in( dist ) ) {
