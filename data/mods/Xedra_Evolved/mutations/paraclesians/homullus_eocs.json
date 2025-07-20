@@ -461,7 +461,7 @@
         "math": [
           "u_mental_repair",
           "=",
-          "rng(((15 + (n_spell_level('homullus_spell_rebuild_mind') * 15)) * ( ( n_val('intelligence') + 10) / 20 ) * u_sum_traits_of_category_char_has('HOMULLUS')),((350 + (n_spell_level('homullus_spell_rebuild_mind') * 35)) * ( ( n_val('intelligence') + 10) / 20 ) * u_sum_traits_of_category_char_has('HOMULLUS'))"
+          "rng((15 + (n_spell_level('homullus_spell_rebuild_mind') * 15)) * ( ( n_val('intelligence') + 10) / 20 ) * u_sum_traits_of_category_char_has('HOMULLUS')),((350 + (n_spell_level('homullus_spell_rebuild_mind') * 35)) * ( ( n_val('intelligence') + 10) / 20 ) * u_sum_traits_of_category_char_has('HOMULLUS'))"
         ]
       },
       { "math": [ "u_health_comparison = u_hp('ALL')" ] },
