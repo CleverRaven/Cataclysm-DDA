@@ -35,7 +35,6 @@
 #include "effect_on_condition.h"
 #include "enum_traits.h"
 #include "enums.h"
-#include "explosion.h"
 #include "faction.h"
 #include "flag.h"
 #include "flat_set.h" // IWYU pragma: keep
@@ -121,7 +120,6 @@ static const trait_id trait_INT_ALPHA( "INT_ALPHA" );
 static const std::string flag_AFFECTED_BY_PAIN( "AFFECTED_BY_PAIN" );
 static const std::string flag_BLIND_EASY( "BLIND_EASY" );
 static const std::string flag_BLIND_HARD( "BLIND_HARD" );
-static const std::string flag_EXPLOSIVE( "EXPLOSIVE" );
 static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
 static const std::string flag_NO_BENCH( "NO_BENCH" );
 static const std::string flag_NO_ENCHANTMENT( "NO_ENCHANTMENT" );
@@ -1412,9 +1410,6 @@ static void destroy_random_component( item &craft, const Character &crafter )
     crafter.add_msg_player_or_npc( game_message_params( game_message_type::m_bad ),
                                    _( "You mess up and destroy the %s." ),
                                    _( "<npcname> messes up and destroys the %s" ), destroyed.tname() );
-
-    // Explosive failure chance reduced by proficiency ratio
-    if( craft.has_flag( flag_EXPLOSIVE ) ) {
         const recipe &rec = craft.get_making();
         const std::vector<recipe_proficiency> &profs = rec.proficiencies;
         int num_required = 0;
