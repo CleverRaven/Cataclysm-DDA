@@ -830,6 +830,41 @@
     ]
   },
   {
+    "id": "inflatable_suit_off",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "inflatable costume (off)" },
+    "description": "An inflatable costume.  It is turned off.",
+    "weight": "300 g",
+    "volume": "1 L",
+    "price": "50 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "lycra" ],
+    "symbol": "[",
+    "color": "brown",
+    "armor": [ { "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 8 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT" ],
+        "default_magazine": "light_battery_cell"
+      }
+    ],
+    "warmth": 8,
+    "material_thickness": 1,
+    "flags": [ "OUTER", "ELECTRONIC" ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "sumo_suit_off",
+        "name": { "str": "inflatable sumo suit (off)" },
+        "description": "A cartoonish inflatable sumo suit. It's turned off and hangs limp.",
+        "weight": 100
+      }
+    ]
+  },
+  {
     "id": "wool_suit",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
