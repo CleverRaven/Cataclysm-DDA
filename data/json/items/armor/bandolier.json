@@ -458,7 +458,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "large grenade bandolier" },
-    "description": "A homemade nylon bandolier covering the upper chest while supported by straps on both shoulders.  While fairly hefty and cumbersome when full, it does allow the wearer to carry larger grenades such as pipebombs or molotovs.",
+    "description": "A homemade nylon bandolier covering the upper chest while supported by straps on both shoulders.  While fairly hefty and cumbersome when full, it does allow the wearer to carry larger grenades such as pipebombs or Molotovs.",
     "weight": "830 g",
     "volume": "250 ml",
     "price": "19 USD",
