@@ -2099,6 +2099,7 @@
     "purifiable": false,
     "valid": false,
     "profession": true,
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ],
     "types": [ "HERITAGE" ]
   }
 ]

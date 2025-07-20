@@ -49,5 +49,29 @@
     "type": "effect_on_condition",
     "id": "EOC_DRUID_SHIFTER_GIVE_FORM_RAVEN",
     "effect": [ { "u_add_trait": "DRUID_SHIFTER_RAVEN_FORM" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MAGICLYSM_GAME_START_HUMANS_ARE_HUMAN",
+    "recurrence": 1,
+    "condition": {
+      "and": [
+        {
+          "not": { "u_has_any_trait": [ "ELVEN_BUILD", "DWARVEN_BUILD", "GOBLIN_BUILD", "RAVENFOLK_BUILD", "LIZARDFOLK_BUILD" ] }
+        },
+        { "not": { "test_eoc": "EOC_MAGICLYSM_GAME_START_HUMANS_ARE_HUMAN_MOM_CONDITIONS" } },
+        { "not": { "test_eoc": "EOC_MAGICLYSM_GAME_START_HUMANS_ARE_HUMAN_XE_CONDITIONS" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [
+        {
+          "u_has_any_trait": [ "HUMAN_BUILD", "ELVEN_BUILD", "DWARVEN_BUILD", "GOBLIN_BUILD", "RAVENFOLK_BUILD", "LIZARDFOLK_BUILD" ]
+        },
+        { "test_eoc": "EOC_MAGICLYSM_GAME_START_HUMANS_ARE_HUMAN_MOM_CONDITIONS" },
+        { "test_eoc": "EOC_MAGICLYSM_GAME_START_HUMANS_ARE_HUMAN_XE_CONDITIONS" }
+      ]
+    },
+    "effect": [ { "u_add_trait": "HUMAN_BUILD" } ]
   }
 ]

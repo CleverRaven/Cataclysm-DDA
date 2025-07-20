@@ -91,6 +91,7 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_FIREPROOF,
             mon_flag_FIREY,
             mon_flag_FISHABLE,
+            mon_flag_FLASHBANGPROOF,
             mon_flag_FLIES,
             mon_flag_GOODHEARING,
             mon_flag_GRABS,
@@ -220,6 +221,7 @@ void set_mon_flag_ids()
     mon_flag_FIREPROOF = mon_flag_id( "FIREPROOF" );
     mon_flag_FIREY = mon_flag_id( "FIREY" );
     mon_flag_FISHABLE = mon_flag_id( "FISHABLE" );
+    mon_flag_FLASHBANGPROOF = mon_flag_id( "FLASHBANGPROOF" );
     mon_flag_FLIES = mon_flag_id( "FLIES" );
     mon_flag_GOODHEARING = mon_flag_id( "GOODHEARING" );
     mon_flag_GRABS = mon_flag_id( "GRABS" );

@@ -206,6 +206,10 @@
     "conflicts": [ "PARTIAL_DEAF" ]
   },
   {
+    "id": "DESTROY_ON_CHARGE_USE",
+    "type": "json_flag"
+  },
+  {
     "id": "OVERHEATS",
     "type": "json_flag",
     "info": "Continuously firing this weapon will cause it to <bad>overheat</bad> and <info>can potentially damage it</info>."
@@ -1216,6 +1220,11 @@
     "id": "ROBUST_GENETIC",
     "type": "json_flag",
     "//": "Applies robust genetic bonus - mutations give only 1 unit of instability for all traits instead of 1 unit for your current tree, and 2 for any outer tree."
+  },
+  {
+    "id": "SKIP_HEALTH",
+    "type": "json_flag",
+    "//": "If food gives any health bonus or penalty, having this flag would prevent you from receiving such."
   },
   {
     "id": "HIDDEN_HALLU",
@@ -2361,6 +2370,11 @@
     "id": "E_STORABLE",
     "type": "json_flag",
     "//": "Any item that can be an electronic file"
+  },
+  {
+    "id": "E_STORABLE_EXCLUSIVE",
+    "type": "json_flag",
+    "//": "Any item that can ONLY be an electronic file"
   },
   {
     "id": "E_COPIABLE",
