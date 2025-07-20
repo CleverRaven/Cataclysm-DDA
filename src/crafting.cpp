@@ -1363,18 +1363,7 @@ static void destroy_random_component( item &craft, const Character &crafter )
     crafter.add_msg_player_or_npc( game_message_params( game_message_type::m_bad ),
                                    _( "You mess up and destroy the %s." ),
                                    _( "<npcname> messes up and destroys the %s" ), destroyed.tname() );
-            const double fragment_mass = 0.1;
-
-            explosion_data exp;
-            exp.power = explosion_power;
-            exp.shrapnel = cata::make_value<explosion_shrapnel_data>();
-            exp.shrapnel->casing_mass = casing_mass;
             exp.shrapnel->fragment_mass = fragment_mass;
-
-            crafter.add_msg_player_or_npc( m_bad,
-                _( "The explosive craft explodes violently!" ),
-                _( "The explosive craft explodes violently near <npcname>!" )
-            );
             explosion( crafter.pos(), exp );
         }
     }
