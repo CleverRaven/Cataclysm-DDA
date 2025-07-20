@@ -683,6 +683,13 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
     const int skill_training_cap = t.is_monster() ? t.as_monster()->type->melee_training_cap :
                                    MAX_SKILL;
+    // Practice melee and relevant weapon skill (if any) except when using CQB bionic, if the creature is a hallucination, if the creature cannot move,
+    // if the creature cannot take damage, or if the monster has already trained someone an excessive number of times.
+    const bool can_train_melee = !has_active_bionic( bio_cqb ) &&
+                                 !t.is_hallucination() &&
+                                 !t.has_flag( json_flag_CANNOT_MOVE ) &&
+                                 !t.has_flag( json_flag_CANNOT_TAKE_DAMAGE ) &&
+                                 t.times_combatted_player <= 100;
     Character &player_character = get_player_character();
     if( !hits ) {
         int stumble_pen = stumble( *this, cur_weapon );
@@ -720,10 +727,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             }
         }
 
-        // Practice melee and relevant weapon skill (if any) except when using CQB bionic, if the creature is a hallucination, or if the creature cannot move and take damage.
-        if( !has_active_bionic( bio_cqb ) && !t.is_hallucination() &&
-            !( t.has_flag( json_flag_CANNOT_MOVE ) &&
-               t.has_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) ) {
+        if( can_train_melee ) {
+            t.times_combatted_player++;
             melee_train( *this, 2, std::min( 5, skill_training_cap ), cur_weap, attack_vector_id::NULL_ID() );
         }
 
@@ -902,10 +907,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             int dam = dealt_dam.total_damage();
             melee::melee_stats.damage_amount += dam;
 
-            // Practice melee and relevant weapon skill (if any) except when using CQB bionic, if the creature is a hallucination, or if the creature cannot move and take damage.
-            if( !has_active_bionic( bio_cqb ) && !t.is_hallucination() &&
-                !( t.has_flag( json_flag_CANNOT_MOVE ) &&
-                   t.has_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) ) {
+            if( can_train_melee ) {
+                t.times_combatted_player++;
                 melee_train( *this, 5, std::min( 10, skill_training_cap ), cur_weap, vector_id );
             }
 
