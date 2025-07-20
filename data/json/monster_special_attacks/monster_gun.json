@@ -351,5 +351,24 @@
     "range": 100,
     "dispersion": 1000,
     "ranged_damage": { "damage_type": "stab", "amount": 30 }
+  },
+  {
+    "id": "boomer_head",
+    "copy-from": "fake_item",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "reload_noise": "slosh.",
+    "name": { "str": "boomer head", "//~": "NO_I18N" },
+    "description": { "str": "The head of a boomer, if you see this item it's a bug.", "//~": "NO_I18N" },
+    "material": [ "flesh" ],
+    "flags": [ "NEVER_JAMS", "NON_FOULING" ],
+    "ammo_effects": [ "NEVER_MISFIRES", "NO_PENETRATE_OBSTACLES", "LIQUID" ],
+    "ammo": [ "bile" ],
+    "skill": "rifle",
+    "dispersion": 300,
+    "durability": 10,
+    "range": 10,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bile": 1000 }, "watertight": true } ],
+    "melee_damage": { "bash": 9 }
   }
 ]
