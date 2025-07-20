@@ -35,7 +35,7 @@
         "gun_type": "feral_human_thrown_rock",
         "ammo_type": "bone_dart",
         "fake_skills": [ [ "throw", 4 ] ],
-        "fake_str": 10,
+        "fake_str": 14,
         "condition": { "not": { "u_has_effect": "maimed_arm" } },
         "require_targeting_player": false,
         "ranges": [ [ 2, 5, "DEFAULT" ] ],
@@ -44,11 +44,11 @@
     ],
     "death_drops": { "subtype": "collection", "groups": [ [ "robots", 80 ] ] },
     "weakpoint_sets": [ "wps_cyborg_body" ],
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_cyborg" ],
+    "families": [ "prof_wp_netherium_abomination", "prof_wp_cyborg" ],
     "harvest": "mon_zomborg",
     "dissect": "dissect_mon_zomborg",
     "armor": { "bash": 6, "cut": 28, "bullet": 16 },
-    "path_settings": { "max_dist": 30, "avoid_dangerous_fields": true },
+    "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_dangerous_fields": true },
     "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "PUSH_MON" ]
   },
   {
@@ -70,7 +70,7 @@
         "gun_type": "feral_human_thrown_rock",
         "ammo_type": "bone_dart",
         "fake_skills": [ [ "throw", 4 ] ],
-        "fake_str": 12,
+        "fake_str": 16,
         "condition": { "not": { "u_has_effect": "maimed_arm" } },
         "require_targeting_player": false,
         "ranges": [ [ 4, 7, "DEFAULT" ] ],
@@ -99,6 +99,7 @@
     "vision_day": 20,
     "vision_night": 20,
     "weakpoint_sets": [ "wps_turret" ],
+    "families": [ "prof_wp_netherium_abomination" ],
     "luminance": 1,
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "bleed_rate": 25,
@@ -111,9 +112,9 @@
         "gun_type": "feral_human_thrown_rock",
         "ammo_type": "bone_dart",
         "fake_skills": [ [ "throw", 5 ] ],
-        "fake_str": 12,
+        "fake_str": 20,
         "require_targeting_player": false,
-        "ranges": [ [ 7, 12, "DEFAULT" ] ],
+        "ranges": [ [ 0, 12, "DEFAULT" ] ],
         "description": "The turret launches a bony dart at you!"
       }
     ],
@@ -139,7 +140,7 @@
     "symbol": "W",
     "aggression": 100,
     "morale": 100,
-    "hp": 130,
+    "hp": 50,
     "color": "light_gray",
     "melee_skill": 10,
     "melee_dice": 3,
@@ -149,10 +150,12 @@
     "vision_night": 20,
     "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true, "avoid_dangerous_fields": true },
     "revert_to_itype": "e_scrap",
+    "weakpoint_sets": [ "wps_stiltwalker" ],
+    "families": [ "prof_wp_netherium_abomination" ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_drops": { "subtype": "collection", "groups": [ [ "robots", 80 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
     "flags": [ "SEES", "HEARS", "GOODHEARING", "PRIORITIZE_TARGETS" ],
-    "armor": { "bash": 32, "cut": 28, "acid": 12, "heat": 8, "bullet": 35 }
+    "armor": { "bash": 32, "cut": 28, "acid": 0, "heat": 0, "bullet": 35 }
   }
 ]

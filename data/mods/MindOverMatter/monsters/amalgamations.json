@@ -1,6 +1,37 @@
 [
   {
     "type": "MONSTER",
+    "id": "mon_amalgamation_photokinetic_flashbanger",
+    "copy-from": "mon_amalgamation_abstract_small",
+    "symbol": "ä",
+    "name": { "str": "radiant amalgamation" },
+    "description": "A four-legged creature with bulbous body and a small head with a fanged maw, with three multi-jointed limbs waving above it in the air.  The limbs emit a soft glow, occasionally brightening into a eye-searing flare.",
+    "luminance": 5,
+    "special_attacks": [
+      {
+        "type": "bite",
+        "cooldown": 3,
+        "move_cost": 150,
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_penetration": 5 } ],
+        "hitsize_min": 4,
+        "min_mul": 0.5,
+        "max_mul": 1.2,
+        "infection_chance": 10,
+        "attack_upper": false
+      },
+      {
+        "id": "psi_amalgamation_photokinetic_flashbang",
+        "type": "spell",
+        "spell_data": { "id": "photokinetic_flashbang_monster", "min_level": 5 },
+        "cooldown": { "math": [ "9 + rand(18)" ] },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+        "monster_message": "The air erupts into an eye-searing flash and a loud screech of static!"
+      }
+    ],
+    "extend": { "flags": [ "PHOTOKIN_MONSTER_IMMUNE", "FLASHBANGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_amalgamation_telekinetic_shielder",
     "copy-from": "mon_amalgamation_abstract_small",
     "symbol": "ä",

@@ -40,18 +40,7 @@
     "replace": "pistol_levergun"
   },
   {
-    "id": [
-      "skorpion_61",
-      "mac_11",
-      "mac_10",
-      "hk_mp7",
-      "needlepistol",
-      "hk_mp5k",
-      "briefcase_smg",
-      "skorpion_82",
-      "tec9",
-      "glock_18c"
-    ],
+    "id": [ "skorpion_61", "mac_11", "mac_10", "needlepistol", "hk_mp5k", "briefcase_smg", "skorpion_82", "tec9", "glock_18c" ],
     "type": "MIGRATION",
     "replace": "pistol_machine"
   },

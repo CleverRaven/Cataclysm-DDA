@@ -637,6 +637,7 @@
       { "item": "oxygen_tank", "prob": 2, "charges": [ 0, 12 ] },
       { "item": "smoxygen_tank", "prob": 1, "charges": [ 0, 24 ] },
       { "group": "religious_books", "prob": 38 },
+      { "group": "SUS_book_nonf_pulp_newage", "prob": 5 },
       { "item": "leathersandals", "prob": 25 },
       { "item": "espadrilles", "prob": 15 },
       { "item": "phonebook", "prob": 5 },
@@ -674,9 +675,7 @@
       { "group": "snacks", "prob": 370 },
       { "item": "aluminum_foil", "prob": 25 },
       { "item": "rolling_pin", "prob": 25 },
-      { "prob": 50, "group": "cereal_box_small_4" },
-      { "prob": 60, "group": "cereal2_box_small_4" },
-      { "prob": 45, "group": "cereal3_box_small_4" },
+      { "prob": 60, "group": "box_cereal_any_opened" },
       { "group": "kitchen_appliances", "prob": 253 },
       { "item": "apron_cotton", "prob": 25 },
       { "item": "waist_apron_long", "prob": 7 },
@@ -952,6 +951,7 @@
       { "group": "novels", "prob": 95 },
       { "item": "ZSG", "prob": 5 },
       { "item": "manual_mechanics", "prob": 35 },
+      { "item": "manual_driving", "prob": 5 },
       { "item": "manual_fabrication", "prob": 12 },
       { "item": "manual_speech", "prob": 50 },
       { "item": "manual_business", "prob": 40 },
@@ -1004,6 +1004,7 @@
       { "item": "talking_doll", "prob": 65, "charges": [ 0, 100 ] },
       { "item": "marble", "prob": 65 },
       { "item": "creepy_doll", "prob": 1, "charges": [ 0, 100 ] },
+      { "group": "esoteric_books", "prob": 1 },
       { "item": "straw_doll", "prob": 1 },
       { "item": "money_strap_five", "prob": 30 },
       { "item": "wristwatch", "prob": 15 },
@@ -1027,6 +1028,7 @@
       { "item": "vibrator", "prob": 5, "charges": [ 0, 100 ] },
       { "item": "tux", "prob": 1 },
       { "item": "dress", "variant": "gown", "prob": 1 },
+      { "item": "cheongsam", "prob": 1 },
       { "item": "long_glove_white", "prob": 1 },
       { "item": "veil_wedding", "prob": 1 },
       { "item": "dress_wedding", "prob": 1 },
@@ -1189,6 +1191,7 @@
       [ "binoculars", 50 ],
       [ "crossbow", 20 ],
       [ "compcrossbow", 20 ],
+      { "group": "esoteric_books", "prob": 5 },
       { "group": "mansion_exotic_weapons", "prob": 1 },
       [ "rapier_fake", 10 ],
       [ "cavalry_sabre_fake", 20 ],
@@ -1527,27 +1530,30 @@
   },
   {
     "type": "item_group",
-    "id": "cereal_box_small_4",
+    "id": "box_cereal_opened",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "box_small",
-    "entries": [ { "item": "cereal", "container-item": "null", "count": 4 } ]
+    "entries": [ { "item": "cereal", "container-item": "null", "count": [ 4, -1 ] } ]
   },
   {
     "type": "item_group",
-    "id": "cereal2_box_small_4",
+    "id": "box_cereal2_opened",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "box_small",
-    "entries": [ { "item": "cereal2", "container-item": "null", "count": 4 } ]
+    "entries": [ { "item": "cereal2", "container-item": "null", "count": [ 4, -1 ] } ]
   },
   {
     "type": "item_group",
-    "id": "cereal3_box_small_4",
+    "id": "box_cereal3_opened",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "box_small",
-    "entries": [ { "item": "cereal3", "container-item": "null", "count": 4 } ]
+    "entries": [ { "item": "cereal3", "container-item": "null", "count": [ 4, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "box_cereal_any_opened",
+    "subtype": "distribution",
+    "entries": [ { "group": "box_cereal_opened" }, { "group": "box_cereal2_opened" }, { "group": "box_cereal3_opened" } ]
   },
   {
     "type": "item_group",

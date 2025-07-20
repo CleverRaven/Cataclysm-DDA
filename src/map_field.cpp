@@ -37,7 +37,6 @@
 #include "item.h"
 #include "itype.h"
 #include "level_cache.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_field.h"
 #include "map_iterator.h"
@@ -83,6 +82,7 @@ static const efftype_id effect_quadruped_half( "quadruped_half" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_teargas( "teargas" );
 
+static const flag_id json_flag_GAS_PROOF( "GAS_PROOF" );
 static const flag_id json_flag_NO_UNLOAD( "NO_UNLOAD" );
 
 static const furn_str_id furn_f_ash( "f_ash" );
@@ -1722,7 +1722,7 @@ void map::player_in_field( Character &you )
             // The gas won't harm you inside a vehicle.
             if( !inside ) {
                 // Full body suits protect you from the effects of the gas.
-                if( !( you.worn_with_flag( STATIC( flag_id( "GAS_PROOF" ) ) ) &&
+                if( !( you.worn_with_flag( json_flag_GAS_PROOF ) &&
                        you.get_env_resist( bodypart_id( "mouth" ) ) >= 15 &&
                        you.get_env_resist( bodypart_id( "eyes" ) ) >= 15 ) ) {
                     const int intensity = cur.get_field_intensity();

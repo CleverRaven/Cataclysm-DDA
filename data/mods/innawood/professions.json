@@ -342,7 +342,7 @@
     "description": "You ran into trouble coming out from your forge, but despite the havoc you've managed to keep some of your equipment along with your latest project.",
     "points": 3,
     "skills": [ { "level": 3, "name": "fabrication" }, { "level": 1, "name": "swimming" } ],
-    "proficiencies": [ "prof_metalworking", "prof_redsmithing" ],
+    "proficiencies": [ "prof_metalworking", "prof_redsmithing", "prof_redsmithing_adv" ],
     "items": {
       "both": {
         "entries": [

@@ -1472,7 +1472,6 @@
     "flags": [
       "TRANSPARENT",
       "CONTAINER",
-      "FLAMMABLE_ASH",
       "THIN_OBSTACLE",
       "REDUCE_SCENT",
       "INDOORS",
@@ -1506,6 +1505,7 @@
     "flags": [
       "TRANSPARENT",
       "CONTAINER",
+      "FLAMMABLE_ASH",
       "THIN_OBSTACLE",
       "REDUCE_SCENT",
       "INDOORS",

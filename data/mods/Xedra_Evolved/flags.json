@@ -70,6 +70,10 @@
     "type": "json_flag"
   },
   {
+    "id": "NO_THORNWITCHERY",
+    "type": "json_flag"
+  },
+  {
     "id": "MAGIC_USER",
     "type": "monster_flag",
     "//": "A monster that uses a lot of magic, for detection magic purposes."

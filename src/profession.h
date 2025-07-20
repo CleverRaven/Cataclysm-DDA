@@ -67,6 +67,8 @@ class profession
 
         // does this profession require a specific achiement to unlock
         std::optional<achievement_id> _requirement;
+        // does this profession require the requirement even when metaprogression is disabled?
+        bool hard_requirement = false;
 
         std::vector<addiction> _starting_addictions;
         std::vector<bionic_id> _starting_CBMs;
@@ -144,6 +146,7 @@ class profession
         std::vector<effect_on_condition_id> get_eocs() const;
         //returns the profession id
         profession_id get_profession_id() const;
+        bool has_hard_requirement() const;
 
         /**
          * Check if this type of profession has a certain flag set.

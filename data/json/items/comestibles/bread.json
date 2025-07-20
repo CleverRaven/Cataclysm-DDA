@@ -151,7 +151,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 175,
-    "description": "Delicious fried flatbread.  While it's not pre-contact food, it's a popular treat in many Native American households, especially as ingredient for Indian tacos at Powwows or for Thanksgiving.",
+    "description": "Delicious fried flatbread.  While it's not pre-contact food, it's a popular treat in many Native American households, especially as an ingredient for Indian tacos at Powwows or for Thanksgiving.",
     "price": "3 cent",
     "price_postapoc": "16 cent",
     "material": [ "wheat" ],

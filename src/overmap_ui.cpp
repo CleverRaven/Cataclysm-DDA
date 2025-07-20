@@ -603,11 +603,14 @@ static void draw_ascii( const catacurses::window &w, overmap_draw_data_t &data )
 
     oter_opts.mission_target = target;
 
+    std::vector<std::pair<nc_color, std::string>> corner_text;
+
     if( data.fast_traveling ) {
         tripoint_abs_omt &next_path = player_character.omt_path.back();
         data.cursor_pos = next_path;
         oter_opts.center = next_path;
         blink = true;
+        corner_text.emplace_back( c_yellow, _( "FAST TRAVELING" ) );
     }
     oter_opts.blink = blink;
 
@@ -875,8 +878,6 @@ static void draw_ascii( const catacurses::window &w, overmap_draw_data_t &data )
         }
         mvwputch( w, marker.raw(), c_red, marker_sym );
     }
-
-    std::vector<std::pair<nc_color, std::string>> corner_text;
 
     if( !data.message.empty() ) {
         corner_text.emplace_back( c_white, data.message );

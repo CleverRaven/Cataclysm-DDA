@@ -119,6 +119,7 @@ class test_data
         // TODO: remove when all known bad items got fixed
         static std::set<itype_id> known_bad;
         static std::set<itype_id> known_bad_calorie;
+        static std::set<itype_id> known_bad_uncraft;
         static std::vector<pulp_test_data> pulp_test;
         static std::vector<std::regex> overmap_terrain_coverage_whitelist;
         static std::map<vproto_id, std::vector<double>> drag_data;

@@ -19,7 +19,6 @@
 #include "itype.h"
 #include "line.h"
 #include "magic_enchantment.h"
-#include "make_static.h"
 #include "map.h"
 #include "material.h"
 #include "memorial_logger.h"
@@ -36,13 +35,19 @@
 
 static const bionic_id bio_ads( "bio_ads" );
 
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_bullet( "bullet" );
+static const damage_type_id damage_cut( "cut" );
+static const damage_type_id damage_stab( "stab" );
+
+static const json_character_flag json_flag_BIONIC_ARMOR_INTERFACE( "BIONIC_ARMOR_INTERFACE" );
 static const json_character_flag json_flag_SEESLEEP( "SEESLEEP" );
 
 bool Character::can_interface_armor() const
 {
     bool okay = std::any_of( my_bionics->begin(), my_bionics->end(),
     []( const bionic & b ) {
-        return b.powered && b.info().has_flag( STATIC( json_character_flag( "BIONIC_ARMOR_INTERFACE" ) ) );
+        return b.powered && b.info().has_flag( json_flag_BIONIC_ARMOR_INTERFACE );
     } );
     return okay;
 }
@@ -165,14 +170,13 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
         if( has_active_bionic( bio_ads ) ) {
             bool absorbed = false;
             if( elem.amount > 0 && get_power_level() > bio_ads->power_trigger ) {
-                if( elem.type == STATIC( damage_type_id( "bash" ) ) ) {
+                if( elem.type == damage_bash ) {
                     elem.amount -= rng( 1, 4 );
                     absorbed = true;
-                } else if( elem.type == STATIC( damage_type_id( "cut" ) ) ) {
+                } else if( elem.type == damage_cut ) {
                     elem.amount -= rng( 2, 8 );
                     absorbed = true;
-                } else if( elem.type == STATIC( damage_type_id( "stab" ) ) ||
-                           STATIC( damage_type_id( "bullet" ) ) ) {
+                } else if( elem.type == damage_stab || elem.type == damage_bullet ) {
                     elem.amount -= rng( 4, 16 );
                     absorbed = true;
                 }
@@ -386,7 +390,7 @@ void Character::describe_damage( damage_unit &du, item &armor ) const
 
     const material_type &material = armor.get_random_material();
     // FIXME: Hardcoded damage types
-    std::string damage_verb = ( du.type == STATIC( damage_type_id( "bash" ) ) ) ?
+    std::string damage_verb = du.type == damage_bash ?
                               material.bash_dmg_verb() : material.cut_dmg_verb();
 
     const std::string pre_damage_name = armor.tname();

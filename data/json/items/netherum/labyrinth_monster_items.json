@@ -8,7 +8,7 @@
     "color": "white",
     "name": { "str": "bone dart" },
     "description": "A naturally fletched projectile made of bone and cartilage.  It feels denser than you'd expect.",
-    "material": [ "bone" ],
+    "material": [ "cyber_bone" ],
     "weight": "250 g"
   },
   {
