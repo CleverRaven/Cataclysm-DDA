@@ -1085,7 +1085,7 @@ static constexpr time_duration alc_strength( const int strength, const time_dura
     return strength == 0 ? weak : strength == 1 ? medium : strong;
 }
 
-static int alcohol( Character &p, const item &it, const int strength )
+static int apply_alcohol_effects( Character &p, const item &it, const int strength )
 {
     // Weaker characters are cheap drunks
     /** @EFFECT_STR_MAX reduces drunkenness duration */
@@ -1126,11 +1126,11 @@ static bool eat( item &food, Character &you, bool force )
     // No coming back from here
 
     if( food.has_flag( json_flag_ALCOHOL_WEAK ) ) {
-        alcohol( you, food, 0 );
+        apply_alcohol_effects( you, food, 0 );
     } else if( food.has_flag( json_flag_ALCOHOL ) ) {
-        alcohol( you, food, 1 );
+        apply_alcohol_effects( you, food, 1 );
     } else if( food.has_flag( json_flag_ALCOHOL_STRONG ) ) {
-        alcohol( you, food, 2 );
+        apply_alcohol_effects( you, food, 2 );
     }
 
     if( food.is_container() ) {
