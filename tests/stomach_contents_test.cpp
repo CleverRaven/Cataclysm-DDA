@@ -436,8 +436,8 @@ TEST_CASE( "hunger" )
         print_stomach_contents( dummy, print_tests );
         printf( "eat 2 beansnrice\n" );
     }
-    CHECK( hunger_time <= 270 );
-    CHECK( hunger_time >= 240 );
+    CHECK( hunger_time <= 240 );
+    CHECK( hunger_time >= 210 );
     f = item( itype_beansnrice );
     dummy.consume( f );
     f = item( itype_beansnrice );

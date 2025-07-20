@@ -12,7 +12,7 @@
 #include "units.h"
 #include "weather.h"
 
-static const itype_id itype_meat( "meat" );
+static const itype_id itype_meat_cooked( "meat_cooked" );
 static const itype_id itype_water( "water" );
 
 static void set_map_temperature( units::temperature new_temperature )
@@ -23,7 +23,7 @@ static void set_map_temperature( units::temperature new_temperature )
 
 TEST_CASE( "Item_spawns_with_right_thermal_attributes", "[temperature]" )
 {
-    item D( itype_meat );
+    item D( itype_meat_cooked );
 
     CHECK( D.get_specific_heat_liquid() == 3.7f );
     CHECK( D.get_specific_heat_solid() == 2.15f );
@@ -105,8 +105,8 @@ TEST_CASE( "Rate_of_temperature_change", "[temperature]" )
         // 4) Wait two hours then Meat 1 and 2 at 0 C frozen
         // 5) Wait a bit over hour then Meat 1 and 2 at about -5.2 C
 
-        item meat1( itype_meat );
-        item meat2( itype_meat );
+        item meat1( itype_meat_cooked );
+        item meat2( itype_meat_cooked );
 
         set_map_temperature( units::from_fahrenheit( 122 ) ); //50 C
 
@@ -123,8 +123,8 @@ TEST_CASE( "Rate_of_temperature_change", "[temperature]" )
         meat1.process_temperature_rot( 1, tripoint_bub_ms::zero, here, nullptr );
         meat2.process_temperature_rot( 1, tripoint_bub_ms::zero, here, nullptr );
 
-        // about 31.8 C
-        CHECK( units::to_kelvin( meat1.temperature ) == Approx( 304.94220 ) );
+        // about 34.6 C
+        CHECK( units::to_kelvin( meat1.temperature ) == Approx( 307.78338 ) );
         CHECK( !meat1.has_own_flag( flag_HOT ) );
 
         calendar::turn += 11_minutes;
@@ -174,10 +174,10 @@ TEST_CASE( "Rate_of_temperature_change", "[temperature]" )
         meat1.process_temperature_rot( 1, tripoint_bub_ms::zero, here, nullptr );
         meat2.process_temperature_rot( 1, tripoint_bub_ms::zero, here, nullptr );
 
-        // about -17.6 C
+        // about -5.2 C
         // frozen
         // same temp as meat 2
-        CHECK( units::to_kelvin( meat1.temperature ) == Approx( 255.52351 ) );
+        CHECK( units::to_kelvin( meat1.temperature ) == Approx( 267.98050 ) );
         CHECK( meat1.has_own_flag( flag_FROZEN ) );
         CHECK( units::to_kelvin( meat1.temperature ) == Approx( units::to_kelvin( meat2.temperature ) ) );
     }
@@ -193,8 +193,8 @@ TEST_CASE( "Rate_of_temperature_change", "[temperature]" )
         // Process 100 min in different steps
         // Both meats at about 2.2 C
 
-        item meat1( itype_meat );
-        item meat2( itype_meat );
+        item meat1( itype_meat_cooked );
+        item meat2( itype_meat_cooked );
 
         set_map_temperature( units::from_fahrenheit( -4 ) ); // -20 C
 
@@ -209,8 +209,8 @@ TEST_CASE( "Rate_of_temperature_change", "[temperature]" )
 
         calendar::turn += 11_minutes;
         meat1.process_temperature_rot( 1, tripoint_bub_ms::zero, here, nullptr );
-        // about -7.3 C
-        CHECK( units::to_kelvin( meat1.temperature ) == Approx( 265.80075 ) );
+        // about -9.3 C
+        CHECK( units::to_kelvin( meat1.temperature ) == Approx( 263.89390 ) );
 
         calendar::turn += 11_minutes;
         meat1.process_temperature_rot( 1, tripoint_bub_ms::zero, here, nullptr );
@@ -257,8 +257,8 @@ TEST_CASE( "Rate_of_temperature_change", "[temperature]" )
         meat1.process_temperature_rot( 1, tripoint_bub_ms::zero, here, nullptr );
         meat2.process_temperature_rot( 1, tripoint_bub_ms::zero, here, nullptr );
 
-        // about 12.5 C
-        CHECK( units::to_kelvin( meat1.temperature ) == Approx( 285.67203 ) );
+        // about 2.2 C
+        CHECK( units::to_kelvin( meat1.temperature ) == Approx( 275.32468 ) );
         CHECK( units::to_kelvin( meat1.temperature ) == Approx( units::to_kelvin( meat2.temperature ) ) );
     }
 }
