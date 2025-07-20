@@ -1479,7 +1479,7 @@
       { "prob": 50, "count": [ 1, 3 ], "group": "tortilla_flour_bag_plastic_full" },
       { "item": "sauce_red", "prob": 30 },
       { "prob": 60, "count": [ 1, 3 ], "group": "nachos_bag_plastic_full" },
-      { "prob": 40, "group": "cheese_hard_wrapper_8" },
+      { "prob": 40, "item": "cheese_hard", "count": [ 4, -1 ] },
       { "prob": 20, "count": [ 1, 3 ], "group": "can_beans_can_medium_2" },
       { "prob": 60, "count": [ 1, 3 ], "group": "dry_beans_bag_plastic_full" },
       { "item": "dry_mushroom", "prob": 40, "count": [ 1, 3 ] },
