@@ -107,43 +107,43 @@
     "id": "adhesive_bandages_box_full",
     "type": "item_group",
     "subtype": "collection",
-    "container-item": "box_small",
+    "container-item": "box_paper_small",
     "items": [ { "item": "adhesive_bandages", "prob": 100, "count": 20 } ]
   },
   {
     "id": "adhesive_bandages_box_used",
     "type": "item_group",
     "subtype": "collection",
-    "container-item": "box_small",
+    "container-item": "box_paper_small",
     "items": [ { "item": "adhesive_bandages", "prob": 100, "count": [ 1, 20 ] } ]
   },
   {
     "id": "alcohol_wipes_box_full",
     "type": "item_group",
     "subtype": "collection",
-    "container-item": "box_small",
+    "container-item": "box_paper_small",
     "items": [ { "item": "alcohol_wipes", "prob": 100, "count": 40 } ]
   },
   {
     "id": "alcohol_wipes_box_used",
     "type": "item_group",
     "subtype": "collection",
-    "container-item": "box_small",
+    "container-item": "box_paper_small",
     "items": [ { "item": "alcohol_wipes", "prob": 100, "count": [ 1, 40 ] } ]
   },
   {
     "id": "cotton_ball_bag_full",
     "type": "item_group",
     "subtype": "collection",
-    "container-item": "bag_plastic",
-    "items": [ { "item": "cotton_ball", "prob": 100, "count": 10 } ]
+    "container-item": "bag_plastic_small",
+    "items": [ { "item": "cotton_ball", "count": 20 } ]
   },
   {
     "id": "cotton_ball_bag_used",
     "type": "item_group",
     "subtype": "collection",
-    "container-item": "bag_plastic",
-    "items": [ { "item": "cotton_ball", "prob": 100, "count": [ 1, 10 ] } ]
+    "container-item": "bag_plastic_small",
+    "items": [ { "item": "cotton_ball", "count": [ 1, -1 ] } ]
   },
   {
     "id": "tampon_box_full",

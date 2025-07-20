@@ -793,7 +793,8 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```DURABLE_MELEE``` Item is made to hit stuff and it does it well, so it's considered to be a lot tougher than other weapons made of the same materials.
 - ```E_COPIABLE``` This item can be scanned onto an electronic device and can be electronically copied.
 - ```E_FILE_COLLECTION``` This item represents a combinable collection of files. Does not imply E_COPIABLE.
-- ```E_STORABLE``` This item can be stored on an electronic device.
+- ```E_STORABLE``` This item can be stored on an in-game electronic device.
+- ```E_STORABLE_EXCLUSIVE``` This item can ONLY be stored on an in-game electronic device; it may only be handled electronically.
 - ```ELECTRONIC``` This item contain sensitive electronics which can be fried by nearby EMP blast.
 - ```FAKE_MILL``` Item is a fake item, to denote a partially milled product by @ref Item::process_fake_mill, where conditions for its removal are set.
 - ```FAKE_SMOKE``` Item is a fake item generating smoke, recognizable by @ref item::process_fake_smoke, where conditions for its removal are set.
@@ -1133,6 +1134,7 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```FIREY``` Burns stuff and is immune to fire.
 - ```FISHABLE``` This monster can be fished.
 - ```FLAMMABLE``` Monster catches fire, burns, and spreads fire to nearby objects.
+- ```FLASHBANGPROOF``` Monster is unaffected by flashbangs.
 - ```FLIES``` Can fly over open air without dropping z-level, over water, etc.
 - ```GOODHEARING``` Pursues sounds more than most monsters.
 - ```GRABS``` Its attacks may grab you!

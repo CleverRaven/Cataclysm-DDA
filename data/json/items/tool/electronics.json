@@ -295,7 +295,6 @@
       },
       { "type": "link_up", "cable_length": 4, "charge_rate": "10 W" }
     ],
-    "tick_action": [ "EPIC_MUSIC" ],
     "//": "LIGHT_10 is the bare minimum for reading without penalties",
     "faults": [ { "fault_group": "electronic_general" } ],
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATCH", "WATER_BREAK", "ELECTRONIC", "LIGHT_10", "TRADER_AVOID" ]
@@ -650,7 +649,6 @@
       },
       { "type": "link_up", "cable_length": 5, "charge_rate": "140 W" }
     ],
-    "tick_action": [ "EPIC_MUSIC" ],
     "faults": [ { "fault_group": "electronic_general" } ],
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATCH", "LIGHT_10", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE" ]
   },
