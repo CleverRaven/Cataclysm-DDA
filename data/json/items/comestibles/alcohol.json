@@ -1702,7 +1702,7 @@
     "quench": 25,
     "addiction_potential": 4,
     "calories": 61,
-    "description": "This cocktail dates from the Prohibition era.  Gin, honey and lemon in a delightful mix.",
+    "description": "This cocktail dates from the Prohibition era.  Gin, honey, and lemon in a delightful mix.",
     "price": "8 USD 50 cent",
     "price_postapoc": "2 USD 50 cent",
     "material": [ "alcohol", "honey" ],

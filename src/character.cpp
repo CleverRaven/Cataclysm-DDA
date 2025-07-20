@@ -72,7 +72,6 @@
 #include "localized_comparator.h"
 #include "magic.h"
 #include "magic_enchantment.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
@@ -280,6 +279,8 @@ static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
 
 static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
 
+static const flag_id json_flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
+
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id itype_UPS( "UPS" );
@@ -299,8 +300,12 @@ static const itype_id itype_snare_trigger( "snare_trigger" );
 static const json_character_flag json_flag_ACIDBLOOD( "ACIDBLOOD" );
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 static const json_character_flag json_flag_ALWAYS_HEAL( "ALWAYS_HEAL" );
+static const json_character_flag json_flag_BIONIC_FAULTY( "BIONIC_FAULTY" );
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
+static const json_character_flag json_flag_BIONIC_SHOCKPROOF( "BIONIC_SHOCKPROOF" );
+static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 static const json_character_flag json_flag_BLIND( "BLIND" );
+static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_CANNOT_CHANGE_TEMPERATURE( "CANNOT_CHANGE_TEMPERATURE" );
 static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const json_character_flag json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMAGE" );
@@ -491,6 +496,7 @@ static const vitamin_id vitamin_iron( "iron" );
 
 static const std::set<material_id> ferric = { material_iron, material_steel, material_budget_steel, material_ch_steel, material_hc_steel, material_lc_steel, material_mc_steel, material_qt_steel };
 
+static const std::string player_base_stamina_burn_rate( "PLAYER_BASE_STAMINA_BURN_RATE" );
 static const std::string type_hair_color( "hair_color" );
 static const std::string type_hair_style( "hair_style" );
 static const std::string type_skin_tone( "skin_tone" );
@@ -2042,7 +2048,7 @@ void Character::on_try_dodge()
     // Each attempt consumes an available dodge
     consume_dodge_attempts();
 
-    const int base_burn_rate = get_option<int>( STATIC( "PLAYER_BASE_STAMINA_BURN_RATE" ) );
+    const int base_burn_rate = get_option<int>( player_base_stamina_burn_rate );
     const float dodge_skill_modifier = ( 20.0f - get_skill_level( skill_dodge ) ) / 20.0f;
     burn_energy_legs( - std::floor( static_cast<float>( base_burn_rate ) * 6.0f *
                                     dodge_skill_modifier ) );
@@ -4867,8 +4873,8 @@ void Character::on_damage_of_type( const effect_source &source, int adjusted_dam
                 continue;
             }
             const bionic_data &info = i.info();
-            if( info.has_flag( STATIC( json_character_flag( "BIONIC_SHOCKPROOF" ) ) ) ||
-                info.has_flag( STATIC( json_character_flag( "BIONIC_FAULTY" ) ) ) ) {
+            if( info.has_flag( json_flag_BIONIC_SHOCKPROOF ) ||
+                info.has_flag( json_flag_BIONIC_FAULTY ) ) {
                 continue;
             }
             const std::map<bodypart_str_id, size_t> &bodyparts = info.occupied_bodyparts;
@@ -7767,7 +7773,7 @@ void Character::recalculate_enchantment_cache()
         for( const enchantment_id &ench_id : bid->enchantments ) {
             const enchantment &ench = ench_id.obj();
             if( ench.is_active( *this, bio.powered &&
-                                bid->has_flag( STATIC( json_character_flag( "BIONIC_TOGGLED" ) ) ) ) ) {
+                                bid->has_flag( json_flag_BIONIC_TOGGLED ) ) ) {
                 enchantment_cache->force_add( ench, *this );
             }
         }
@@ -12101,7 +12107,7 @@ int Character::count_flag( const json_character_flag &flag ) const
 
 bool Character::empathizes_with_species( const species_id &species ) const
 {
-    if( has_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) || has_flag( json_flag_PSYCHOPATH ) ||
+    if( has_flag( json_flag_CANNIBAL ) || has_flag( json_flag_PSYCHOPATH ) ||
         has_flag( json_flag_SAPIOVORE ) ) {
         return false;
     }
@@ -12134,7 +12140,7 @@ bool Character::empathizes_with_species( const species_id &species ) const
 
 bool Character::empathizes_with_monster( const mtype_id &monster ) const
 {
-    if( has_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) || has_flag( json_flag_PSYCHOPATH ) ||
+    if( has_flag( json_flag_CANNIBAL ) || has_flag( json_flag_PSYCHOPATH ) ||
         has_flag( json_flag_SAPIOVORE ) ) {
         return false;
     }
@@ -12280,10 +12286,10 @@ read_condition_result Character::check_read_condition( const item &book ) const
             result |= read_condition_result::ILLITERATE;
         }
         if( has_flag( json_flag_HYPEROPIC ) &&
-            !worn_with_flag( STATIC( flag_id( "FIX_FARSIGHT" ) ) ) &&
+            !worn_with_flag( json_flag_FIX_FARSIGHT ) &&
             !has_effect( effect_contacts ) &&
             !has_effect( effect_transition_contacts ) &&
-            !has_flag( STATIC( json_character_flag( "ENHANCED_VISION" ) ) ) ) {
+            !has_flag( json_flag_ENHANCED_VISION ) ) {
             result |= read_condition_result::NEED_GLASSES;
         }
         if( fine_detail_vision_mod() > 4 && !book.has_flag( flag_CAN_USE_IN_DARK ) ) {

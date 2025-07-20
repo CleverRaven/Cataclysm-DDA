@@ -1215,7 +1215,6 @@
     "color": "light_gray",
     "charges_per_use": 1,
     "use_action": [ "CAMERA", "PORTABLE_GAME", "EBOOKSAVE", "E_FILE_DEVICE" ],
-    "tick_action": [ "EPIC_MUSIC" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

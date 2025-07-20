@@ -346,8 +346,8 @@ jobs:
         path: tests/cata_test*
         if-no-files-found: ignore
         retention-days: 9
-  emscripten:
-    needs: [ skip-duplicates-code, varied_builds ]
-    uses: ./.github/workflows/emscripten.yml
-    if: ${{ needs.skip-duplicates.outputs.should_skip_code != 'true' && success() && github.event.pull_request.draft == false }}
-    secrets: inherit
+  #emscripten:
+  #  needs: [ skip-duplicates-code, varied_builds ]
+  #  uses: ./.github/workflows/emscripten.yml
+  #  if: ${{ needs.skip-duplicates.outputs.should_skip_code != 'true' && success() && github.event.pull_request.draft == false }}
+  #  secrets: inherit

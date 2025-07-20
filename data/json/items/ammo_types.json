@@ -253,12 +253,6 @@
   },
   {
     "type": "ammunition_type",
-    "id": "46",
-    "name": "4.6mm",
-    "default": "46mm"
-  },
-  {
-    "type": "ammunition_type",
     "id": "762",
     "name": "7.62x39mm",
     "default": "762_m87"

@@ -21,7 +21,6 @@
 #include "faction.h"
 #include "game.h"
 #include "game_constants.h"
-#include "make_static.h"
 #include "map.h"
 #include "mood_face.h"
 #include "move_mode.h"
@@ -142,7 +141,7 @@ std::string display::get_temp( const Character &u )
 {
     std::string temp;
     if( u.cache_has_item_with( json_flag_THERMOMETER ) ||
-        u.has_flag( STATIC( json_character_flag( "THERMOMETER" ) ) ) ) {
+        u.has_flag( json_flag_THERMOMETER ) ) {
         temp = print_temperature( get_weather().get_temperature( u.pos_bub() ) );
     }
     if( temp.empty() ) {

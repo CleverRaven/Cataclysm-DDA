@@ -1004,7 +1004,7 @@
         ".": { "item": "SUS_trash_floor", "chance": 5 },
         "m": { "item": "bed", "chance": 75 },
         "w": { "item": "stash_wood", "chance": 100, "repeat": [ 2, 3 ] },
-        "T": [ { "item": "bugout_food", "chance": 25 }, { "item": "guns_pistol_common", "chance": 25 } ],
+        "T": [ { "item": "bugout_food_9l", "chance": 25 }, { "item": "guns_pistol_common", "chance": 25 } ],
         "b": [
           { "item": "small_bugout", "chance": 30 },
           { "item": "medium_bugout", "chance": 20 },

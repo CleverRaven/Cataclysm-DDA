@@ -204,8 +204,8 @@ TEST_CASE( "stats_tracker_event_time_bounds", "[stats]" )
 static void send_game_start( event_bus &b, const character_id &u_id )
 {
     b.send<event_type::game_start>( "VERION_STRING" );
-    b.send<event_type::game_avatar_new>( /*is_new_game=*/true, /*is_debug=*/false, u_id,
-            "Avatar name", /*is_male=*/false, profession_id::NULL_ID(), "CUSTOM_PROFESSION" );
+    b.send<event_type::game_avatar_new>( /*is_new_game=*/true, /*is_debug=*/false, u_id, "Avatar name",
+            "CUSTOM_PROFESSION" );
 }
 
 TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )

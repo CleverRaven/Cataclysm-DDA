@@ -37,7 +37,7 @@
       "u_has_mission": "BEM_human_sample_mission",
       "yes": "Not in the mood for a talk, sorry.",
       "no": {
-        "gendered_line": "&The mercenary stares at the window, and speaks in a quiet and terse manner.  \"I have a client looking for a medical-grade human biopsy sample, no questions asked.  Are you the right one for the job?",
+        "gendered_line": "&The mercenary stares at the window, and speaks in a quiet and terse manner.  \"I have a client looking for a medical-grade human biopsy sample, no questions asked.  Are you the right one for the job?\"",
         "relevant_genders": [ "npc" ]
       }
     },
@@ -91,7 +91,7 @@
     "id": "BEM_HUMAN_SAMPLE_BUY",
     "type": "talk_topic",
     "dynamic_line": {
-      "gendered_line": "&The mercenary gives you a quick appraisal.  \"Five coins for three, special price just for you.  Pay in advance, and I'll arrange a drop in the subway rails here for you to pick within two days.  Deal or not?",
+      "gendered_line": "&The mercenary gives you a quick appraisal.  \"Five coins for three, special price just for you.  Pay in advance, and I'll arrange a drop in the subway rails here for you to pick within two days.  Deal or not?\"",
       "relevant_genders": [ "npc" ]
     },
     "responses": [

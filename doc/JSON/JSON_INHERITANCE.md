@@ -1,57 +1,70 @@
 # JSON Inheritance
 
-To reduce duplication in the JSON data, it is *possible* for some JSON `type`s to inherit from existing objects.  Some restraint should be used, see [Guidelines](#guidelines) section below.
-
-Additionally, there is more than a single implementation of inheritance for different `type`s.  See the [Behavior](#behavior) section for further details.
+To reduce duplication in the JSON data, it is possible for _some_ JSON `type`s to inherit from existing objects.  Some restraint should be used, see [Guidelines](#guidelines) section.  It is important to note that inheritance is not always completely standard between `type`s.  See the [Behavior](#behavior) section for further details.
 
 ## Examples
 
-In the following condensed example, `556` ammo is derived from `223` ammo via `copy-from`:
+Items are one of the most common JSON types, so the "subtypes" field splits data into optional chunks. See [the item docs](ITEM.md#subtypes) for an explanation of how it works.
+
+In the following example, `556` ammo is derived from `223` ammo via `copy-from`:
 
 ```jsonc
   {
     "id": "223",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".223 Remington" },
-    "description": ".223 Remington ammunition with...",
+    "description": ".223 Remington ammunition with a 55gr FMJ-BT bullet, patterned after the M193 loading.  The .223 round has been very popular with civilian shooters for almost a century, finding use in a wide variety of weapons.  The combination of high velocity with a thinly-jacketed, cannelured projectile led to unexpected yaw and fragmentation in soft tissue, increasing this round's performance.",
+    "ascii_picture": "223",
     "weight": "12 g",
     "volume": "194 ml",
+    "longest_side": "57 mm",
     "price": "2 USD 80 cent",
     "price_postapoc": "9 USD",
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "material": [ "brass", "lead", "powder" ],
+    "//": "`symbol` through `range` omitted for brevity",
     "damage": {
       "damage_type": "bullet",
       "amount": 39,
       "armor_penetration": 2,
       "barrels": [
-        { "barrel_length": "28 mm", "amount": 13 }
+        "... omitted for brevity"
       ]
     },
-    "recoil": 1500
+    "dispersion": 30,
+    "dispersion_modifier": [ { "barrel_length": "337 mm", "dispersion": 30 }, { "barrel_length": "533 mm", "dispersion": 0 } ],
+    "recoil": 1500,
+    "effects": [ "COOKOFF" ]
   },
   {
     "id": "556",
     "copy-from": "223",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "5.56 NATO M855" },
-    "description": "5.56x45mm ammunition with a 62gr FMJ bullet...",
+    "material": [ "steel", "brass", "lead", "powder" ],
+    "description": "5.56x45mm ammunition with a 62gr FMJ bullet containing a steel penetrator.  Originally designed for the M249 FN Minimi, M855 was designed to penetrate steel helmets and light cover at range, sacrificing terminal performance and accuracy in the process.  The limited yaw and fragmentation is worsened with shorter-barreled carbines shooting this round, and optimization of barrel twist for stabilization of the tracer variant of M855 has resulted in lackluster accuracy overall.",
+    "ascii_picture": "556",
     "price": "2 USD 90 cent",
-    "relative": {
-      "damage": { "damage_type": "bullet", "amount": -3, "armor_penetration": 10 },
-      "dispersion": 20
+    "price_postapoc": "9 USD",
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "relative": { 
+      "damage": { "damage_type": "bullet", "amount": -3, "armor_penetration": 10 }, 
+      "dispersion": 20 
     },
+    "dispersion_modifier": [ { "barrel_length": "337 mm", "dispersion": 120 }, { "barrel_length": "533 mm", "dispersion": 0 } ],
     "proportional": { "recoil": 1.1 },
     "extend": { "effects": [ "NEVER_MISFIRES" ] }
   },
 ```
 
-For `"type": "AMMO"`, the following rules apply:
+For `"type": "ITEM"`, the following rules apply:
 
 * Missing fields, such as `weight`, `volume`, `material` and so on have the same value as the parent.
 * Fields explicitly specified replace those of the parent type.  The above example replaces `name`, `description` and `price`.
-* Numeric values may be specified `relative` to the parent.  For example `556` has less `damage` but more `pierce` than `223` and will maintain this relationship if the definition for `223` is changed.
-  * Note the syntax for fields that supports objects: either the whole or parts are defined inside, with missing fields having the same value as the parent.
+* Numeric values may be specified `relative` to the parent.  For example `556` has less `damage` but more `armor_penetration` than `223` and will maintain this relationship if the definition for `223` is changed.
+  * Note the syntax for fields that support objects: `damage` is still defined as an object for `relative`, with missing fields having the same value as the parent.
 * Flags can be added via `extend`.  For example `556` is military ammo and gains the `NEVER_MISFIRES` ammo effect.  Any existing flags specified from `223` are preserved.
 * The entry you copied from must be of the same `type` as the item you added or changed.  Not all `type`s are supported, and not all are supported in the same way.  See [Support](#support) and [Behavior](#behavior) below).
 
@@ -62,9 +75,14 @@ Another example.  Reloaded ammo is derived from the factory equivalent but with 
   {
     "id": "reloaded_556",
     "copy-from": "556",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "5.56 NATO, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { 
+      "price": 0.7, 
+      "damage": { "damage_type": "bullet", "amount": 0.9 }, 
+      "dispersion": 1.1 
+    },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -75,51 +93,48 @@ Another example.  Reloaded ammo is derived from the factory equivalent but with 
 * Flags can be deleted via `delete`.  It is not an error if the deleted flag does not exist in the parent.
 
 
-Not all `type`s work the same.  For `"type": "MONSTER"`, `relative` would look slightly different and can be defined in two ways:
+Not all `type`s work the same.  For `"type": "MONSTER"`, `relative` uses different fields than `"type": "ITEM"`:
 
 ```jsonc
-    "//": "base monster",
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_damage": 2 },
-
-    "//2": "first case",
-    "relative": { "melee_damage": [ { "damage_type": "cut", "amount": 2 } ] }
-    "//3": "second case",
-    "relative": { "melee_damage": 2 },
+    "//": "MONSTER uses the same melee_damage field that ITEM does, but also has "melee_dice" and "melee_dice_sides",
+    "relative": { 
+      "melee_dice": 1, 
+      "melee_dice_sides": 5, 
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ] 
+	  },
 ```
 
 Same as above, now with `proportional`:
 
 ```jsonc
-    "//": "base monster",
-    "proportional": { "hp": 1.5, "speed": 1.5, "attack_cost": 1.5, "melee_damage": 0.8 },
-
-    "//2": "first case, applies to cut damage",
-    "proportional": { "melee_damage": [ { "damage_type": "cut", "amount": 0.8 } ] },
-    "//3": "second case, applies to *all* melee damage",
-    "proportional": { "melee_damage": 0.8 },
+    "proportional": { "hp": 1.5, "speed": 1.5, "attack_cost": 1.5, "melee_damage": [ { "damage_type": "cut", "amount": 0.8 } ] },
 ```
 
 
-It is possible to define an `abstract` ID that exists only for other `type`s to inherit from and cannot itself be used in game.  This is done to facilitate maintenance and reduce line count.  In the following condensed example `magazine_belt` provides values common to all implemented ammo belts:
+It is possible to define an `abstract` ID that exists only for other `type`s to inherit from and cannot itself be used in game.  This is done to facilitate maintenance and reduce line count.  In the following condensed example, `magazine_belt` provides values common to all implemented ammo belts:
 
 ```jsonc
-  {
+{
     "abstract": "magazine_belt",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "MAGAZINE" ],
     "name": { "str": "ammo belt" },
     "description": "An ammo belt consisting of metal linkages which disintegrate upon firing.",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 0.1 } ],
-          "encumbrance": 10,
-          "coverage": 10,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_upper" ]
-        }
-      ]
-    },
-    "flags": [ "MAG_BELT", "MAG_DESTROY", "BELTED", "OVERSIZE", "WATER_FRIENDLY", "ZERO_WEIGHT" ]
+    "volume": "0 ml",
+    "price": "0 cent",
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "flags": [ "MAG_BELT", "MAG_DESTROY", "BELTED", "OVERSIZE", "WATER_FRIENDLY", "ZERO_WEIGHT" ],
+    "armor": [
+      {
+        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 0.1 } ],
+        "encumbrance": 10,
+        "coverage": 10,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ]
+      }
+    ]
   }
 ```
 
@@ -134,19 +149,11 @@ The following additional rules apply:
 The following `type`s currently support inheritance (non-exhaustive list):
 
 ```
-GENERIC
-AMMO
-ARMOR
-BOOK
-COMESTIBLE
 effect_on_condition
-ENGINE
 furniture
-GUN
-GUNMOD
 harvest
+ITEM
 item_group
-MAGAZINE
 material
 MONSTER
 MONSTER_FACTION
@@ -157,8 +164,6 @@ recipe
 scenario
 SPELL
 terrain
-TOOL
-TOOL_ARMOR
 uncraft
 vehicle_part
 ```
@@ -176,9 +181,9 @@ To find out if a type supports `copy-from`, you need to know if it has implement
 
 ## Behavior
 
-A common misconception is that every `type` that supports `copy-from` will also support `extend`, `delete`, `proportional` and `relative`, in the same way as one's most commonly seen object: `GENERIC`.  As explained above, this is not the case, and the function has to be manually implemented each time.  Furthermore, given different `type`s are handled differently by the game, it may not be possible for it to be the case.
+A common misconception is that every `type` that supports `copy-from` will also support `extend`, `delete`, `proportional` and `relative`, in the same way as one's most commonly seen object: `ITEM`.  As explained above, this is not the case; some types handle these fields manually (which is undesired), others use generic_factory.  `extend` and `delete` only apply to JSON members that have containers as their underlying C++ types, and `proportional`/`relative` handling must be implemented with corresponding C++ functions.  
 
-Therefore, there is no "default" JSON inheritance, only shared degrees of support.  For example, a given `type` could support copying, but not extending, or support extending but not deleting.  Of note are the following cases (non-exhaustive list):
+In summary, there is no "default" JSON inheritance, only shared degrees of support; check the relevant C++ if `copy-from` behavior is uncertain, and looking for an existing (and functional!) example is always a good idea.  Some types that implement partial or non-standard `copy-from` support (non-exhaustive list):
 * `monstergroup` extends by default.  This prevents mods copying monstergroup definitions from replacing vanilla monstergroup lists.  To replace the *entire* list, add `"override": true` to the monstergroup object.
 * `SPELL` has limited support, given their behavior is governed by its spell `effect`.  Flags are not always inherited.  Testing is required to guarantee an inherited spell will behave as intended, use at your own risk.
 * The `vitamins` field from `material` extends by default.
@@ -190,6 +195,6 @@ Contributors are encouraged to not overuse `copy-from`, as it can decrease the h
 
 In general, there are two situations where `copy-from` should be used in the core game:
 
-* Two things are nearly identical variants of each other.
+* Two things are _nearly identical_ variants of each other.
   * If they're pretty much identical (e.g. everything except for their descriptions can be kept, there are only decorative differences, there are no mechanical differences, or in the case of [guns](/doc/GUN_NAMING_AND_INCLUSION.md#difference-threshold) minor value differences), they can be handled as [variants](JSON_INFO.md#snippets) (scroll down to the variant example).
 * A group of entities always (not almost always, always) shares some set of properties, then one or two levels of abstracts can set up a very shallow and narrow hierarchy.

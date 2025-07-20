@@ -281,6 +281,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_HARVEST_REQ_CUT1: return "HARVEST_REQ_CUT1";
         case ter_furn_flag::TFLAG_NATURAL_UNDERGROUND: return "NATURAL_UNDERGROUND";
         case ter_furn_flag::TFLAG_WIRED_WALL: return "WIRED_WALL";
+        case ter_furn_flag::TFLAG_MON_AVOID_STRICT: return "MON_AVOID_STRICT";
 
         // *INDENT-ON*
         case ter_furn_flag::NUM_TFLAG_FLAGS:
@@ -392,12 +393,20 @@ void map_fd_bash_info::load( const JsonObject &jo, const bool was_loaded,
     optional( jo, was_loaded, "msg_success", field_bash_msg_success );
 }
 
-std::string map_common_bash_info::potential_bash_items( const std::string
-        &ter_furn_name ) const
+std::string map_common_bash_info::potential_bash_items( const map_data_common_t &ter_furn ) const
 {
     //TODO: Add a descriptive indicator of vaguely how hard it is to bash?
-    return string_format( _( "Bashing the %s would yield:\n%s" ),
-                          ter_furn_name, item_group::potential_items( drop_group ) );
+    if( !ter_furn.base_item.is_null() && drop_group == Item_spawn_data_EMPTY_GROUP ) {
+        std::string ret;
+        for( const item_comp &comp : ter_furn.get_uncraft_components() ) {
+            ret += string_format( "- <color_cyan>%d %s</color>\n", comp.count, item::nname( comp.type ) );
+        }
+        return string_format( _( "Bashing the %s may yield:\n%s" ),
+                              ter_furn.name(), ret );
+    } else {
+        return string_format( _( "Bashing the %s would yield:\n%s" ),
+                              ter_furn.name(), item_group::potential_items( drop_group ) );
+    }
 }
 
 void map_common_deconstruct_info::load( const JsonObject &jo, const bool was_loaded,
@@ -429,20 +438,28 @@ void map_furn_deconstruct_info::load( const JsonObject &jo, const bool was_loade
     map_common_deconstruct_info::load( jo, was_loaded, context );
 }
 
-std::string map_common_deconstruct_info::potential_deconstruct_items( const std::string
-        &ter_furn_name ) const
+std::string map_common_deconstruct_info::potential_deconstruct_items( const map_data_common_t
+        &ter_furn ) const
 {
     Character &who = get_avatar();
+    std::string ret;
     bool will_practice_skill = !!skill && who.get_skill_level( skill->id ) >= skill->min &&
                                who.get_skill_level( skill->id ) < skill->max;
-    if( will_practice_skill ) {
-        return string_format(
-                   _( "Deconstructing the %s would yield:\n%s\nYou feel you might also learn something about <color_cyan>%s</color>." ),
-                   ter_furn_name, item_group::potential_items( drop_group ), skill->id.obj().name() );
+
+    if( !ter_furn.base_item.is_null() && drop_group.is_empty() ) {
+        ret += string_format( _( "Deconstructing the %s would yield:\n- <color_cyan>1 %s</color>\n" ),
+                              ter_furn.name(), item::nname( ter_furn.base_item ) );
     } else {
-        return string_format( _( "Deconstructing the %s would yield:\n%s" ),
-                              ter_furn_name, item_group::potential_items( drop_group ) );
+        ret += string_format( _( "Deconstructing the %s would yield:\n%s" ),
+                              ter_furn.name(), item_group::potential_items( drop_group ) );
     }
+
+    if( will_practice_skill ) {
+        ret += string_format(
+                   _( "\nYou feel you might also learn something about <color_cyan>%s</color>." ),
+                   skill->id.obj().name() );
+    }
+    return ret;
 }
 
 bool map_shoot_info::load( const JsonObject &jsobj, std::string_view member, bool was_loaded )
@@ -569,6 +586,12 @@ void load_season_array( const JsonObject &jo, const std::string &key, const std:
     }
 }
 
+bool map_data_common_t::has_disassembly() const
+{
+    return !base_item.is_null() || ( deconstruct_info().has_value() &&
+                                     deconstruct_info().value().drop_group != Item_spawn_data_EMPTY_GROUP );
+}
+
 std::string map_data_common_t::name() const
 {
     return name_.translated();
@@ -669,14 +692,14 @@ std::vector<std::string> ter_t::extended_description() const
     std::vector<std::string> tmp = map_data_common_t::extended_description();
     ret.insert( ret.end(), tmp.begin(), tmp.end() );
 
-    if( deconstruct ) {
+    if( deconstruct || !base_item.is_null() ) {
         ret.emplace_back( "--" );
-        ret.emplace_back( deconstruct->potential_deconstruct_items( name() ) );
+        ret.emplace_back( deconstruct->potential_deconstruct_items( *this ) );
     }
 
     if( is_smashable() ) {
         ret.emplace_back( "--" );
-        ret.emplace_back( bash->potential_bash_items( name() ) );
+        ret.emplace_back( bash->potential_bash_items( *this ) );
     }
 
     return ret;
@@ -709,14 +732,14 @@ std::vector<std::string> furn_t::extended_description() const
         }
     }
 
-    if( deconstruct ) {
+    if( deconstruct || !base_item.is_null() ) {
         ret.emplace_back( "--" );
-        ret.emplace_back( deconstruct->potential_deconstruct_items( name() ) );
+        ret.emplace_back( deconstruct->potential_deconstruct_items( *this ) );
     }
 
     if( is_smashable() ) {
         ret.emplace_back( "--" );
-        ret.emplace_back( bash->potential_bash_items( name() ) );
+        ret.emplace_back( bash->potential_bash_items( *this ) );
     }
 
     return ret;
@@ -896,6 +919,11 @@ void map_data_common_t::set_rotates_to( const std::vector<std::string> &connect_
 void map_data_common_t::unset_rotates_to( const std::vector<std::string> &connect_groups_vec )
 {
     set_groups( rotate_to_groups, connect_groups_vec, true );
+}
+
+std::vector<item_comp> map_data_common_t::get_uncraft_components() const
+{
+    return item( base_item ).get_uncraft_components();
 }
 
 void map_data_common_t::set_groups( std::bitset<NUM_TERCONN> &bits,
@@ -1127,6 +1155,7 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
         shoot->load( jo, "shoot", was_loaded );
     }
 
+    optional( jo, was_loaded, "item", base_item, itype_id::NULL_ID() );
 }
 
 bool ter_t::is_null() const
@@ -1272,6 +1301,20 @@ void ter_t::check() const
         deconstruct->check( id.c_str() );
     }
 
+    if( !base_item.is_null() && bash.has_value() &&
+        bash.value().drop_group != Item_spawn_data_EMPTY_GROUP ) {
+        // in the future, maybe, if base_item would be used more widely,
+        // there would be a reason to not error about it or make some boolean to permit it
+        // but right now let's treat it as a bug
+        debugmsg( R"(terrain %s defines "bash"->"items", but "item" is presented, which is unnecessary - bash result would be picked from %s uncrafting recipe.)",
+                  id.c_str(), base_item.c_str() );
+    }
+
+    if( !base_item.is_null() && deconstruct.has_value() && !deconstruct.value().drop_group.is_null() ) {
+        debugmsg( R"(terrain %s defines "deconstruct"->"items", but "item" is presented, which is unnecessary - deconstruction would be set as %s.)",
+                  id.c_str(), base_item.c_str() );
+    }
+
     if( !transforms_into.is_valid() ) {
         debugmsg( "invalid transforms_into %s for %s", transforms_into.c_str(), id.c_str() );
     }
@@ -1414,6 +1457,17 @@ void furn_t::check() const
     }
     if( deconstruct ) {
         deconstruct->check( id.c_str() );
+    }
+
+    if( !base_item.is_null() && bash.has_value() &&
+        bash.value().drop_group != Item_spawn_data_EMPTY_GROUP ) {
+        debugmsg( R"(furniture %s defines "bash"->"items", but "item" is presented, which is unnecessary - bash result would be picked from %s uncrafting recipe.)",
+                  id.c_str(), base_item.c_str() );
+    }
+
+    if( !base_item.is_null() && deconstruct.has_value() && !deconstruct.value().drop_group.is_null() ) {
+        debugmsg( R"(furniture %s defines "deconstruct"->"items", but "item" is presented, which is unnecessary - deconstruction would be set as %s.)",
+                  id.c_str(), base_item.c_str() );
     }
 
     if( !open.is_valid() ) {
