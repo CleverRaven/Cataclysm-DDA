@@ -41,7 +41,7 @@
     "weight": "100 kg",
     "hp": 150,
     "melee_skill": 5,
-    "luminance": 20,
+    "luminance": 30,
     "special_attacks": [
       {
         "id": "bite_grab",
