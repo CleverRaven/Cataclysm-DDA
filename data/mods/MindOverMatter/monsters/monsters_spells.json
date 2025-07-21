@@ -406,6 +406,21 @@
     "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
+    "id": "photokinetic_irradiation_aura_monster",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Irradiation Aura Monster", "//~": "NO_I18N" },
+    "description": { "str": "Unleash a an aura of radioactive fields  Click, click, click.", "//~": "NO_I18N" },
+    "valid_targets": [ "hostile", "ally" ],
+    "flags": [ "CONCENTRATE", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS" ],
+    "effect": "emit",
+    "effect_str": "emit_radiation_aura_fields",
+    "shape": "blast",
+    "max_level": 20,
+    "min_range": 1,
+    "max_range": 1,
+    "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
     "id": "photokinetic_radiation_attack_monster",
     "type": "SPELL",
     "name": { "str": "[Ψ]Radiation Attack Monster", "//~": "NO_I18N" },
