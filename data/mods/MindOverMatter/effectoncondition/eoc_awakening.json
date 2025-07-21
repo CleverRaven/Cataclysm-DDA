@@ -18,7 +18,7 @@
       { "u_add_trait": "BIOKIN_NEEDS" },
       { "run_eocs": "EOC_TEACH_BIOKIN_CONTEMPLATE_RECIPES" },
       { "run_eocs": "EOC_BIOKINETIC_AWAKENING_KNACK_HANDLING" },
-      { "give_achievement": "mom_psi_awakening_biokinesis" }
+      { "if": "u_is_avatar", "then": { "give_achievement": "mom_psi_awakening_biokinesis" } }
     ]
   },
   {
@@ -31,7 +31,7 @@
       { "u_add_trait": "CLAIR_SENSES" },
       { "run_eocs": "EOC_TEACH_CLAIR_CONTEMPLATE_RECIPES" },
       { "run_eocs": "EOC_CLAIRSENTIENT_AWAKENING_KNACK_HANDLING" },
-      { "give_achievement": "mom_psi_awakening_clairsentience" }
+      { "if": "u_is_avatar", "then": { "give_achievement": "mom_psi_awakening_clairsentience" } }
     ]
   },
   {
@@ -44,7 +44,7 @@
       { "u_add_trait": "ELECTRO_SHIELD" },
       { "run_eocs": "EOC_TEACH_ELECTROKIN_CONTEMPLATE_RECIPES" },
       { "run_eocs": "EOC_ELECTROKINETIC_AWAKENING_KNACK_HANDLING" },
-      { "give_achievement": "mom_psi_awakening_electrokinesis" }
+      { "if": "u_is_avatar", "then": { "give_achievement": "mom_psi_awakening_electrokinesis" } }
     ]
   },
   {
@@ -57,7 +57,7 @@
       { "u_add_trait": "PHOTO_EYES" },
       { "run_eocs": "EOC_TEACH_PHOTOKIN_CONTEMPLATE_RECIPES" },
       { "run_eocs": "EOC_PHOTOKINETIC_AWAKENING_KNACK_HANDLING" },
-      { "give_achievement": "mom_psi_awakening_photokinesis" }
+      { "if": "u_is_avatar", "then": { "give_achievement": "mom_psi_awakening_photokinesis" } }
     ]
   },
   {
@@ -70,7 +70,7 @@
       { "u_add_trait": "PYROKIN_ADAPTATION" },
       { "run_eocs": "EOC_TEACH_PYROKIN_CONTEMPLATE_RECIPES" },
       { "run_eocs": "EOC_PYROKINETIC_AWAKENING_KNACK_HANDLING" },
-      { "give_achievement": "mom_psi_awakening_pyrokinesis" }
+      { "if": "u_is_avatar", "then": { "give_achievement": "mom_psi_awakening_pyrokinesis" } }
     ]
   },
   {
@@ -83,7 +83,7 @@
       { "u_add_trait": "TELEKINETIC_GRAB_POCKETS" },
       { "run_eocs": "EOC_TEACH_TELEKIN_CONTEMPLATE_RECIPES" },
       { "run_eocs": "EOC_TELEKINETIC_AWAKENING_KNACK_HANDLING" },
-      { "give_achievement": "mom_psi_awakening_telekinesis" }
+      { "if": "u_is_avatar", "then": { "give_achievement": "mom_psi_awakening_telekinesis" } }
     ]
   },
   {
@@ -96,7 +96,7 @@
       { "u_add_trait": "TELEPATHIC_SUGGESTION" },
       { "run_eocs": "EOC_TEACH_TELEPATH_CONTEMPLATE_RECIPES" },
       { "run_eocs": "EOC_TELEPATHIC_AWAKENING_KNACK_HANDLING" },
-      { "give_achievement": "mom_psi_awakening_telepathy" }
+      { "if": "u_is_avatar", "then": { "give_achievement": "mom_psi_awakening_telepathy" } }
     ]
   },
   {
@@ -108,7 +108,7 @@
       { "u_add_trait": "TELEPORTER" },
       { "u_add_trait": "TELEPORTER_PROTECT" },
       { "run_eocs": "EOC_TEACH_TELEPORT_CONTEMPLATE_RECIPES" },
-      { "give_achievement": "mom_psi_awakening_teleportation" }
+      { "if": "u_is_avatar", "then": { "give_achievement": "mom_psi_awakening_teleportation" } }
     ]
   },
   {
@@ -121,7 +121,7 @@
       { "u_add_trait": "VITAKINETIC_HEALTH" },
       { "run_eocs": "EOC_TEACH_VITAKIN_CONTEMPLATE_RECIPES" },
       { "run_eocs": "EOC_VITAKINETIC_AWAKENING_KNACK_HANDLING" },
-      { "give_achievement": "mom_psi_awakening_vitakinesis" }
+      { "if": "u_is_avatar", "then": { "give_achievement": "mom_psi_awakening_vitakinesis" } }
     ]
   },
   {
