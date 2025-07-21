@@ -119,5 +119,25 @@
     ],
     "professions": [ "xedra_chronomancer_profession" ],
     "flags": [ "LONE_START" ]
+  },
+  {
+    "copy-from": "mine_bottom",
+    "type": "scenario",
+    "extend": {
+      "professions": [
+        "archaeologist"
+      ]
+    },
+    "id": "Mine_bottom"
+  }, 
+  {
+    "copy-from": "Mansion",
+    "type": "scenario",
+    "extend": {
+      "professions": [
+        "archaeologist"
+      ]
+    },
+    "id": "Mansion"
   }
 ]
