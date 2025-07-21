@@ -5,19 +5,19 @@
     "//": "This should contain all flammable liquids. 1 mL.",
     "components": [
       [
-        [ "gasoline", 1, "CRAFTABLE" ],
-        [ "diesel", 1, "CRAFTABLE" ],
-        [ "biodiesel", 1, "CRAFTABLE" ],
-        [ "chem_ethanol", 1, "CRAFTABLE" ],
-        [ "chem_methanol", 1, "CRAFTABLE" ],
-        [ "ether", 1, "CRAFTABLE" ],
-        [ "denat_alcohol", 1, "CRAFTABLE" ],
-        [ "lamp_oil", 1, "CRAFTABLE" ],
-        [ "motor_oil", 1, "CRAFTABLE" ],
-        [ "jp8", 1, "CRAFTABLE" ],
-        [ "avgas", 1, "CRAFTABLE" ],
-        [ "chem_turpentine", 1, "CRAFTABLE" ],
-        [ "camphine", 1, "CRAFTABLE" ]
+        [ "gasoline", 1 ],
+        [ "diesel", 1 ],
+        [ "biodiesel", 1 ],
+        [ "chem_ethanol", 1 ],
+        [ "chem_methanol", 1 ],
+        [ "ether", 1 ],
+        [ "denat_alcohol", 1 ],
+        [ "lamp_oil", 1 ],
+        [ "motor_oil", 1 ],
+        [ "jp8", 1 ],
+        [ "avgas", 1 ],
+        [ "chem_turpentine", 1 ],
+        [ "camphine", 1 ]
       ]
     ]
   },
@@ -27,13 +27,13 @@
     "//": "This should contain all flammable liquids with a flash point below 30 degrees centigrade, such as for molotovs. 1 mL.",
     "components": [
       [
-        [ "gasoline", 1, "CRAFTABLE" ],
-        [ "chem_ethanol", 1, "CRAFTABLE" ],
-        [ "chem_methanol", 1, "CRAFTABLE" ],
-        [ "ether", 1, "CRAFTABLE" ],
-        [ "denat_alcohol", 1, "CRAFTABLE" ],
-        [ "avgas", 1, "CRAFTABLE" ],
-        [ "chem_turpentine", 1, "CRAFTABLE" ]
+        [ "gasoline", 1 ],
+        [ "chem_ethanol", 1 ],
+        [ "chem_methanol", 1 ],
+        [ "ether", 1 ],
+        [ "denat_alcohol", 1 ],
+        [ "avgas", 1 ],
+        [ "chem_turpentine", 1 ]
       ]
     ]
   },
@@ -41,16 +41,7 @@
     "id": "fuel_liquid",
     "type": "requirement",
     "//": "This should contain all flammable liquids with a flash point above 30 degrees centigrade, 1 mL.",
-    "components": [
-      [
-        [ "diesel", 1, "CRAFTABLE" ],
-        [ "biodiesel", 1, "CRAFTABLE" ],
-        [ "lamp_oil", 1, "CRAFTABLE" ],
-        [ "jp8", 1, "CRAFTABLE" ],
-        [ "motor_oil", 1, "CRAFTABLE" ],
-        [ "camphine", 1, "CRAFTABLE" ]
-      ]
-    ]
+    "components": [ [ [ "diesel", 1 ], [ "biodiesel", 1 ], [ "lamp_oil", 1 ], [ "jp8", 1 ], [ "motor_oil", 1 ], [ "camphine", 1 ] ] ]
   },
   {
     "id": "volatile_explosive",
@@ -58,19 +49,19 @@
     "//": "This should contain all the explosives you can set off with only a fuse, 10g tnt equivalent.",
     "components": [
       [
-        [ "chem_black_powder", 90, "CRAFTABLE" ],
-        [ "gunpowder", 90, "CRAFTABLE" ],
-        [ "red_phosphorous_small", 100, "CRAFTABLE" ],
-        [ "red_phosphorous", 1, "CRAFTABLE" ],
-        [ "gunpowder_pistol", 90, "CRAFTABLE" ],
-        [ "gunpowder_shotgun", 90, "CRAFTABLE" ],
-        [ "gunpowder_magnum_pistol", 80, "CRAFTABLE" ],
-        [ "gunpowder_artillery", 90, "CRAFTABLE" ],
-        [ "gunpowder_rifle", 70, "CRAFTABLE" ],
-        [ "chem_hmtd", 14, "CRAFTABLE" ],
-        [ "chem_apex", 7, "CRAFTABLE" ],
-        [ "chem_mercury_fulminate", 21, "CRAFTABLE" ],
-        [ "chem_lead_azide", 21, "CRAFTABLE" ]
+        [ "chem_black_powder", 90 ],
+        [ "gunpowder", 90 ],
+        [ "red_phosphorous_small", 100 ],
+        [ "red_phosphorous", 1 ],
+        [ "gunpowder_pistol", 90 ],
+        [ "gunpowder_shotgun", 90 ],
+        [ "gunpowder_magnum_pistol", 80 ],
+        [ "gunpowder_artillery", 90 ],
+        [ "gunpowder_rifle", 70 ],
+        [ "chem_hmtd", 14 ],
+        [ "chem_apex", 7 ],
+        [ "chem_mercury_fulminate", 21 ],
+        [ "chem_lead_azide", 21 ]
       ]
     ]
   },
@@ -78,31 +69,24 @@
     "id": "stable_explosive",
     "type": "requirement",
     "//": "This should contain all the explosives you need to set off with an explosive primer, but can be used without casting in a crucible. 10g tnt equivalent.",
-    "components": [
-      [
-        [ "chem_ammonium_nitrate", 24, "CRAFTABLE" ],
-        [ "chem_ammonium_nitrate_pellets", 24, "CRAFTABLE" ],
-        [ "chem_anfo", 14, "CRAFTABLE" ],
-        [ "chem_rdx", 6, "CRAFTABLE" ]
-      ]
-    ]
+    "components": [ [ [ "chem_ammonium_nitrate", 24 ], [ "chem_ammonium_nitrate_pellets", 24 ], [ "chem_anfo", 14 ], [ "chem_rdx", 6 ] ] ]
   },
   {
     "id": "military_explosive",
     "type": "requirement",
     "//": "This should contain all the explosives you need to set off with an explosive primer or a fuze, and also need casting in a crucible. 10g tnt equivalent.",
-    "components": [ [ [ "chem_compositionb", 8, "CRAFTABLE" ] ] ]
+    "components": [ [ [ "chem_compositionb", 8 ] ] ]
   },
   {
     "id": "small_gas_canister_case",
     "type": "requirement",
     "//": " Gas canisters, which can be recycled to get empty canisters. containers with an internal volume of 250 ml.",
-    "components": [ [ [ "canister_empty", 1, "CRAFTABLE" ], [ "can_drink", 1, "CRAFTABLE" ], [ "can_food", 1, "CRAFTABLE" ] ] ]
+    "components": [ [ [ "canister_empty", 1 ], [ "can_drink", 1 ], [ "can_food", 1 ] ] ]
   },
   {
     "id": "small_grenade_case",
     "type": "requirement",
     "//": "Hard containers with an internal volume of 250 ml, which can be used in all explosive recipes that call for them.",
-    "components": [ [ [ "clay_canister", 1, "CRAFTABLE" ], [ "small_gas_canister_case", 1, "LIST" ] ] ]
+    "components": [ [ [ "clay_canister", 1 ], [ "small_gas_canister_case", 1, "LIST" ] ] ]
   }
 ]

@@ -3,18 +3,12 @@
     "id": "any_strong_acid",
     "type": "requirement",
     "//": "This should contain all strong acids, based on pKa value.",
-    "components": [
-      [
-        [ "chem_sulphuric_acid", 1, "CRAFTABLE" ],
-        [ "chem_muriatic_acid", 1, "CRAFTABLE" ],
-        [ "chem_nitric_acid", 1, "CRAFTABLE" ]
-      ]
-    ]
+    "components": [ [ [ "chem_sulphuric_acid", 1 ], [ "chem_muriatic_acid", 1 ], [ "chem_nitric_acid", 1 ] ] ]
   },
   {
     "id": "any_weak_acid",
     "type": "requirement",
     "//": "This should contain all weak acids, based on pKa value.",
-    "components": [ [ [ "chem_acetic_acid", 1, "CRAFTABLE" ], [ "formic_acid", 1, "CRAFTABLE" ] ] ]
+    "components": [ [ [ "chem_acetic_acid", 1 ], [ "formic_acid", 1 ] ] ]
   }
 ]

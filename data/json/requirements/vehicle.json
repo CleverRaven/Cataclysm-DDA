@@ -3,13 +3,7 @@
     "id": "vehicle_fasten",
     "type": "requirement",
     "//": "Compatible with legacy flag TOOL_WRENCH or when installing wheels",
-    "tools": [
-      [
-        [ "lug_wrench", -1, "CRAFTABLE" ],
-        [ "wrench_large", -1, "CRAFTABLE" ],
-        [ "cordless_impact_wrench", 100, "CRAFTABLE" ]
-      ]
-    ]
+    "tools": [ [ [ "lug_wrench", -1 ], [ "wrench_large", -1 ], [ "cordless_impact_wrench", 100 ] ] ]
   },
   {
     "id": "vehicle_wrench_1",
@@ -28,21 +22,21 @@
     "type": "requirement",
     "//": "Compatible with legacy flag NAILABLE",
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "nail", 20, "CRAFTABLE" ] ] ]
+    "components": [ [ [ "nail", 20 ] ] ]
   },
   {
     "id": "vehicle_bolt_install",
     "type": "requirement",
     "//": "represents riveting and/or bolting plates together as a supplement for welding",
     "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "DRILL", "level": 2 } ],
-    "components": [ [ [ "nuts_bolts", 20, "CRAFTABLE" ] ] ]
+    "components": [ [ [ "nuts_bolts", 20 ] ] ]
   },
   {
     "id": "vehicle_bolt_install_simple",
     "type": "requirement",
     "//": "for simple installs that only require tightening bolts",
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "nuts_bolts", 4, "CRAFTABLE" ] ] ]
+    "components": [ [ [ "nuts_bolts", 4 ] ] ]
   },
   {
     "id": "vehicle_nail_removal",

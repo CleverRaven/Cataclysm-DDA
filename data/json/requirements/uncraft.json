@@ -3,6 +3,6 @@
     "id": "uncraft_book",
     "type": "requirement",
     "//": "Result of disassembling books, magazines and similar items",
-    "components": [ [ [ "paper", 1, "CRAFTABLE" ] ] ]
+    "components": [ [ [ "paper", 1 ] ] ]
   }
 ]
