@@ -123,11 +123,7 @@
   {
     "copy-from": "mine_bottom",
     "type": "scenario",
-    "extend": {
-      "professions": [
-        "archaeologist"
-      ]
-    },
+    "extend": { "professions": [ "archaeologist" ] },
     "id": "Mine_bottom"
   }, 
   {
