@@ -125,7 +125,7 @@
     "type": "scenario",
     "extend": { "professions": [ "archaeologist" ] },
     "id": "Mine_bottom"
-  }, 
+  },
   {
     "copy-from": "Mansion",
     "type": "scenario",
