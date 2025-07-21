@@ -79,6 +79,8 @@ static const bionic_id bio_painkiller( "bio_painkiller" );
 static const flag_id json_flag_CALORIES_INTAKE( "CALORIES_INTAKE" );
 static const flag_id json_flag_CALORIE_BURN( "CALORIE_BURN" );
 
+static const itype_id itype_water_clean( "water_clean" );
+
 static const json_character_flag json_flag_MANUAL_CBM_INSTALLATION( "MANUAL_CBM_INSTALLATION" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 
@@ -831,7 +833,9 @@ class comestible_inventory_preset : public inventory_selector_preset
 
     protected:
         int get_order( const item_location &loc, const time_duration &time ) const {
-            if( loc->rotten() ) {
+            if( loc->typeId() == itype_water_clean ) {
+                return 0;
+            } else if( loc->rotten() ) {
                 if( you.has_trait( trait_SAPROPHAGE ) || you.has_trait( trait_SAPROVORE ) ) {
                     return 1;
                 } else {
