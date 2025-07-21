@@ -19,7 +19,7 @@
         "**#ttb  uu#  #########**",
         "**wttb   u#  #a OOO  w**",
         "**wbb     =  =       w**",
-        "**#      u#  #       #**",
+        "**#      u#  #     S #**",
         "**#1F5V234#  #a      #**",
         "**###ww####++####ww###**",
         "..o bbbb             o..",
@@ -30,7 +30,7 @@
         "...........~~...........",
         "...........~~..........."
       ],
-      "palettes": [ { "distribution": [ [ "cabin_palette", 1 ] ] } ],
+      "palettes": [ "cabin_palette" ],
       "terrain": { "-": "t_railing", ">": "t_wood_stairs_down", "w": "t_window_bars_curtains" },
       "items": {
         "A": [
@@ -42,7 +42,10 @@
         ]
       },
       "place_loot": [ { "group": "homeguns", "x": 7, "y": 9, "chance": 30, "ammo": 90, "magazine": 100 } ],
-      "place_monsters": [ { "monster": "GROUP_NETHER_CULT", "x": [ 4, 20 ], "y": [ 4, 14 ], "repeat": 2 } ]
+      "place_monsters": [
+        { "monster": "GROUP_ZOMBIE", "x": 11, "y": 12 },
+        { "monster": "GROUP_NETHER_CULT", "x": [ 4, 20 ], "y": [ 4, 14 ], "repeat": 2 }
+      ]
     }
   },
   {
@@ -84,46 +87,107 @@
     "type": "mapgen",
     "om_terrain": [ "cabin_nether_cult_basement" ],
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
-        "...........~~...........",
-        "...........~~...........",
-        "...%.......~~...........",
-        "**######w##++#########**",
-        "**#R  d#sT#  #A DBBD #**",
-        "**#R  c#  #  #A  BB  w**",
-        "**wR   #  =  =       w**",
-        "**wR   #  #  #########**",
-        "**#R   ####  =  DBBD #**",
-        "**#R   L#<A  #A  BB  w**",
-        "**####=####  #A      w**",
-        "**#ttb  uu#  #########**",
-        "**wttb   u#  #a OOO  w**",
-        "**wbb     =  =       w**",
-        "**#      u#  #       #**",
-        "**#1F5V234#  #a      #**",
-        "**###ww####++####ww###**",
-        "..o bbbb             o..",
-        "..-                  -..",
-        "..-                  -..",
-        "..o-------o  o-------o..",
-        "...........~~...........",
-        "...........~~...........",
-        "...........~~..........."
+        "||||||||||||||||||||||| ",
+        "|BB         LC A-     | ",
+        "|t      cd     A----- | ",
+        "|---+---------%------ | ",
+        "|Ś   s-g cc  - -CtLA| | ",
+        "|ȻȻ  j- cŦŦc + +   A| | ",
+        "|------ cŦŦc - -   A| | ",
+        "|  - L-  cc  - -CtCA| | ",
+        "|  ?  --------+------ | ",
+        "|--- c- -<     gSSS-  | ",
+        "|  -  ----        S- || ",
+        "|  ?  % +       t S- |  ",
+        "|---  ---         L- |  ",
+        "|  -  ---+----+----- |  ",
+        "|  ?  -   --c     D- |  ",
+        "|------   --L     D- |  ",
+        "|     --+-------+---+|||",
+        "              -        |",
+        "              -        |",
+        "              -   OO   |",
+        "              -   OO   |",
+        "              -        |",
+        "              -        |",
+        " |||||||||||||||||||||||"
       ],
-      "palettes": [ { "distribution": [ [ "cabin_palette", 1 ] ] } ],
-      "terrain": { "-": "t_railing", "<": "t_wood_stairs_up" },
+      "terrain": {
+        "-": "t_wall",
+        "|": "t_concrete_wall",
+        "<": "t_wood_stairs_up",
+        "+": [ [ "t_door_c", 2 ], [ "t_door_o", 1 ] ],
+        "?": "t_door_c_peep",
+        "%": "t_door_locked_interior",
+        "A": "t_thconc_floor",
+        "c": "t_thconc_floor",
+        "C": "t_thconc_floor",
+        "Ȼ": "t_thconc_floor",
+        "D": "t_thconc_floor",
+        "g": "t_thconc_floor",
+        "j": "t_thconc_floor",
+        "L": "t_thconc_floor",
+        "s": "t_thconc_floor",
+        "S": "t_thconc_floor",
+        "Ś": "t_thconc_floor",
+        "t": "t_thconc_floor",
+        "Ŧ": "t_thconc_floor"
+      },
+      "furniture": {
+        "A": "f_bookcase",
+        "B": "f_bed",
+        "c": "t_chair",
+        "C": "f_armchair",
+        "Ȼ": "f_counter",
+        "D": "f_dresser",
+        "g": "f_trashcan",
+        "L": "f_floor_lamp",
+        "s": "f_sink",
+        "S": "f_sofa",
+        "t": "f_table"
+      },
+      "toilets": { "j": {  } },
       "items": {
         "A": [
-          { "item": "homebooks", "chance": 60, "repeat": [ 1, 3 ] },
-          { "item": "magazines", "chance": 60, "repeat": [ 1, 8 ] },
-          { "item": "manuals", "chance": 30 },
-          { "item": "esoteric_books", "chance": 25 },
-          { "item": "hedge_magic_books", "chance": 5 }
-        ]
+          { "item": "esoteric_books", "chance": 50 },
+          { "item": "hedge_magic_books", "chance": 25, "repeat": [ 1, 2 ] },
+          { "item": "nether_sorcery_books", "chance": 15 }
+        ],
+        "Ȼ": [ { "item": "SUS_bathroom_cabinet", "chance": 50 } ],
+        "D": [ { "item": "nether_cabin_ritual_prep_clothes", "repeat": [ 2, 8 ] } ],
+        "g": [ { "item": "SUS_trash_trashcan" } ],
+        "j": { "item": "SUS_toilet", "chance": 50 },
+        "s": { "item": "SUS_bathroom_sink", "prob": 50 }
       },
-      "place_loot": [ { "group": "homeguns", "x": 7, "y": 9, "chance": 30, "ammo": 90, "magazine": 100 } ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": 11, "y": 12 } ]
+      "place_item": [
+        { "item": "candle", "prob": 95, "x": 18, "y": 18 },
+        { "item": "candle", "prob": 95, "x": 18, "y": 18 },
+        { "item": "candle", "prob": 95, "x": 19, "y": 18 },
+        { "item": "candle", "prob": 95, "x": 17, "y": 19 },
+        { "item": "candle", "prob": 95, "x": 17, "y": 20 },
+        { "item": "candle", "prob": 95, "x": 20, "y": 19 },
+        { "item": "candle", "prob": 95, "x": 20, "y": 20 },
+        { "item": "candle", "prob": 95, "x": 18, "y": 21 },
+        { "item": "candle", "prob": 95, "x": 19, "y": 21 }
+      ],
+      "place_loot": [
+        { "group": "homebooks", "x": 16, "y": 11, "chance": 30 },
+        { "group": "nether_cabin_ritual_prep_clothes", "x": [ 15, 22 ], "y": [ 17, 22 ], "repeat": [ 2, 5 ] }
+      ],
+      "place_monster": [
+        { "monster": "mon_gracke", "x": 1, "y": 7, "chance": 50 },
+        { "monster": "mon_blank", "x": 1, "y": 10, "chance": 50 },
+        { "monster": "mon_gracke", "x": 1, "y": 13, "chance": 50 },
+        { "monster": "mon_nether_huntsman", "x": [ 19, 20 ], "y": [ 20, 21 ], "chance": 100, "repeat": 2 },
+        { "group": "GROUP_NETHER_CULT", "x": [ 15, 22 ], "y": [ 17, 22 ], "repeat": [ 2, 4 ] },
+        { "group": "GROUP_NETHER_CULT", "x": [ 15, 22 ], "y": [ 17, 22 ], "chance": 75, "repeat": [ 0, 2 ] }
+      ],
+      "place_fields": [
+        { "field": "fd_blood", "x": [ 15, 23 ], "y": [ 17, 22 ], "repeat": [ 12, 24 ] },
+        { "field": "fd_gibs_flesh", "x": [ 15, 23 ], "y": [ 17, 22 ], "repeat": [ 6, 12 ] }
+      ]
     }
   }
 ]

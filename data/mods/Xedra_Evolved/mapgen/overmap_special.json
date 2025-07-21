@@ -494,7 +494,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Cabin",
+    "id": "cabin_xe_nether_cult",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "cabin_nether_cult_north" },
       { "point": [ 0, 0, 1 ], "overmap": "cabin_nether_cult_roof_north" },
