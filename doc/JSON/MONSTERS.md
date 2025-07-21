@@ -70,9 +70,9 @@ Property                 | Description
 `death_drops`            | (string or item group) Item group to spawn when the monster dies
 `death_function`         | (array of strings) How the monster behaves on death. See JSON_FLAGS
 `emit_fields`            | (array of objects) What field the monster emits, and how frequently
-`regenerates`            | (integer) Number of hit points the monster regenerates per turn
+`regenerates`            | (float) Number of hit points the monster regenerates per turn
 `regenerates_in_dark`    | (boolean) True if monster regenerates quickly in the dark
-`regeneration_modifiers` | (effect id, integer) When monster has this effect, modify regenerates by integer value (i.e. -5 reduces a regen value of 40hp/turn to 35hp/turn). Cannot reduce regeneration below 0.
+`regeneration_modifiers` | (effect id, float) When monster has this effect, modify regenerates by integer value (i.e. -5 reduces a regen value of 40hp/turn to 35hp/turn). Cannot reduce regeneration below 0.
 `regen_morale`           | (bool) True if monster will stop fleeing at max HP to regenerate anger and morale
 `special_attacks`        | (array of objects) Special attacks the monster has
 `flags`                  | (array of strings) Any number of attributes like SEES, HEARS, SMELLS, STUMBLES, REVIVES
@@ -470,7 +470,7 @@ How the monster behaves on death.
 What field the monster emits and how often it does so. Time duration can use strings: "1 h", "60 m", "3600 s" etc...
 
 ## "regenerates"
-(integer, optional)
+(float, optional)
 
 Number of hitpoints regenerated per turn.
 
