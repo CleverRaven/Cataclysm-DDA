@@ -89,30 +89,30 @@
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
-        "||||||||||||||||||||||| ",
-        "|BB         LC A%     | ",
-        "|t      cd     A----- | ",
-        "|---+---------%------ | ",
-        "|Ś   s-g cc  - -CtLA| | ",
-        "|ȻȻ  j- cŦŦc + +   A| | ",
-        "|------ cŦŦc - -   A| | ",
-        "|  - L-  cc  - -CtCA| | ",
-        "|  ?  --------+------ | ",
-        "|--- c- -<     gSSS-  | ",
-        "|  -  ----        S- || ",
-        "|  ?  % +       t S- |  ",
-        "|---  ---  ctc    L- |  ",
-        "|  -  ---+----+----- |  ",
-        "|  ?  -    -c     D- |  ",
-        "|------    -L     D- |  ",
-        "|     ---+-------+---+|||",
-        "              -        |",
-        "              -        |",
-        "              -   OO   |",
-        "              -   OO   |",
-        "              -        |",
-        "              -        |",
-        " |||||||||||||||||||||||"
+        "|||||||||||||||||||||||#",
+        "|BB         LC A+     |#",
+        "|t      cd     A----- |#",
+        "|---+---------%------ |#",
+        "|Ś   s-g cc  - -CtLA| |#",
+        "|ȻȻ  j- cŦŦc + +   A| |#",
+        "|------ cŦŦc - -   A| |#",
+        "|  - L-  cc  - -CtCA| |#",
+        "|  ?  --------+------ |#",
+        "|--- c- -<     gSSS-  |#",
+        "|  -  ----        S- ||#",
+        "|  ?  % +       t S- |##",
+        "|---  ---  ctc    L- |##",
+        "|  -  ----+---+----- |##",
+        "|  ?  -sj- -c   DDL- |##",
+        "|------Ȼ + -t     D- |##",
+        "||||||----+-----+---+|||",
+        "#####|        -        |",
+        "#####|        -        |",
+        "#####|        -   OO   |",
+        "#####|        -   OO   |",
+        "#####|        -        |",
+        "#####|        -        |",
+        "#####|||||||||||||||||||"
       ],
       "terrain": {
         "-": "t_wall",
@@ -121,6 +121,7 @@
         "+": [ [ "t_door_c", 2 ], [ "t_door_o", 1 ] ],
         "?": "t_door_c_peep",
         "%": "t_door_locked_interior",
+        "#": "t_soil",
         "A": "t_thconc_floor",
         "c": "t_thconc_floor",
         "C": "t_thconc_floor",
@@ -146,6 +147,7 @@
         "D": "f_dresser",
         "g": "f_trashcan",
         "L": "f_floor_lamp",
+        "O": "f_xe_magic_circle",
         "s": "f_sink",
         "S": "f_sofa",
         "t": "f_table",
@@ -182,12 +184,13 @@
         { "monster": "mon_gracke", "x": 1, "y": 7, "chance": 50 },
         { "monster": "mon_blank", "x": 1, "y": 10, "chance": 50 },
         { "monster": "mon_gracke", "x": 1, "y": 13, "chance": 50 },
+        { "monster": "mon_blank", "x": 1, "y": 1, "chance": 90 },
         { "monster": "mon_nether_huntsman", "x": [ 19, 20 ], "y": [ 20, 21 ], "chance": 100, "repeat": 2 },
         { "group": "GROUP_NETHER_CULT", "x": [ 15, 22 ], "y": [ 17, 22 ], "repeat": [ 2, 4 ] },
         { "group": "GROUP_NETHER_CULT", "x": [ 15, 22 ], "y": [ 17, 22 ], "chance": 75, "repeat": [ 0, 2 ] }
       ],
       "place_fields": [
-        { "field": "fd_blood", "x": [ 15, 23 ], "y": [ 17, 22 ], "repeat": [ 12, 24 ] },
+        { "field": "fd_blood", "x": [ 15, 23 ], "y": [ 17, 22 ], "repeat": [ 18, 36 ] },
         { "field": "fd_gibs_flesh", "x": [ 15, 23 ], "y": [ 17, 22 ], "repeat": [ 6, 12 ] }
       ],
       "place_nested": [
@@ -229,7 +232,8 @@
         "t": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" }
       },
       "furniture": { "g": "f_trashcan", "S": "f_sofa", "t": "f_table" },
-      "items": { "g": [ { "item": "SUS_trash_trashcan" } ], "t": { "item": "homebooks" } }
+      "items": { "g": [ { "item": "SUS_trash_trashcan" } ], "t": { "item": "homebooks" } },
+      "place_monster": [ { "group": "GROUP_NETHER_CULT", "x": [ 0, 3 ], "y": [ 0, 3 ], "chance": 50 } ]
     }
   },
   {
@@ -271,7 +275,8 @@
       "items": {
         "g": [ { "item": "SUS_trash_trashcan" } ],
         "t": { "item": "nether_cabin_ritual_cult_meeting_room", "chance": 50, "repeat": [ 2, 5 ] }
-      }
+      },
+      "place_monster": [ { "group": "GROUP_NETHER_CULT", "x": [ 0, 3 ], "y": [ 0, 3 ], "chance": 25 } ]
     }
   }
 ]
