@@ -90,13 +90,13 @@
       "fill_ter": "t_thconc_floor",
       "rows": [
         "|||||||||||||||||||||||#",
-        "|BB         LC A+     |#",
+        "|BBl        LC A+     |#",
         "|t      cd     A----- |#",
         "|---+---------%------ |#",
-        "|Ś   s-g cc  - -CtLA| |#",
-        "|ȻȻ  j- cŦŦc + +   A| |#",
-        "|------ cŦŦc - -   A| |#",
-        "|  - L-  cc  - -CtCA| |#",
+        "|Ś   s-      - -    | |#",
+        "|ȻȻ  j-      + +    | |#",
+        "|------      - -    | |#",
+        "|  - L-      - -    | |#",
         "|  ?  --------+------ |#",
         "|--- c- -<     gSSS-  |#",
         "|  -  ----        S- ||#",
@@ -106,12 +106,12 @@
         "|  ?  -sj- -c   DDL- |##",
         "|------Ȼ + -t     D- |##",
         "||||||----+-----+---+|##",
+        "#####|£    s-        |##",
+        "#####|£     -        |##",
+        "#####|----  -   OO   |##",
+        "#####|rrrr  -   OO   |##",
         "#####|      -        |##",
-        "#####|      -        |##",
-        "#####|      -   OO   |##",
-        "#####|      -   OO   |##",
-        "#####|      -        |##",
-        "#####|      -        |##",
+        "#####|rrrr  +        |##",
         "#####|||||||||||||||||##"
       ],
       "terrain": {
@@ -130,7 +130,11 @@
         "D": "t_thconc_floor",
         "g": "t_thconc_floor",
         "j": "t_thconc_floor",
+        "l": "t_thconc_floor",
         "L": "t_thconc_floor",
+        "£": "t_thconc_floor",
+        "O": "t_thconc_floor",
+        "r": "t_thconc_floor",
         "s": "t_thconc_floor",
         "S": "t_thconc_floor",
         "Ś": "t_thconc_floor",
@@ -146,8 +150,11 @@
         "d": "f_desk",
         "D": "f_dresser",
         "g": "f_trashcan",
+        "l": "f_foot_locker_aluminum",
         "L": "f_floor_lamp",
+        "£": "f_locker",
         "O": "f_xe_magic_circle",
+        "r": "f_rack_wood",
         "s": "f_sink",
         "S": "f_sofa",
         "t": "f_table",
@@ -156,19 +163,23 @@
       "toilets": { "j": {  } },
       "items": {
         "A": [
+          { "item": "homebooks", "chance": 75 },
           { "item": "esoteric_books", "chance": 50 },
-          { "item": "deduction_books", "chance": 10 },
+          { "item": "deduction_books", "chance": 25 },
           { "item": "hedge_magic_books", "chance": 25, "repeat": [ 1, 2 ] },
-          { "item": "nether_sorcery_books", "chance": 15 }
+          { "item": "nether_sorcery_books", "chance": 25 }
         ],
         "Ȼ": [ { "item": "SUS_bathroom_cabinet", "chance": 50 } ],
         "D": [ { "item": "nether_cabin_ritual_prep_clothes", "repeat": [ 2, 8 ] } ],
         "g": [ { "item": "SUS_trash_trashcan" } ],
         "j": { "item": "SUS_toilet", "chance": 50 },
+        "£": { "item": "cleaning", "repeat": [ 2, 4 ] },
+        "r": {  },
         "s": { "item": "SUS_bathroom_sink", "prob": 50 }
       },
       "place_item": [
         { "item": "book_deduction_black_iron_prison", "x": 1, "y": 2, "prob": 50 },
+        { "item": "mop", "x": 7, "y": 17 },
         { "item": "candle", "prob": 95, "x": 16, "y": 18 },
         { "item": "candle", "prob": 95, "x": 16, "y": 18 },
         { "item": "candle", "prob": 95, "x": 17, "y": 18 },
@@ -185,6 +196,7 @@
         { "monster": "mon_blank", "x": 1, "y": 10, "chance": 50 },
         { "monster": "mon_gracke", "x": 1, "y": 13, "chance": 50 },
         { "monster": "mon_blank", "x": 1, "y": 1, "chance": 90 },
+        { "monster": "mon_star_vampire", "x": 8, "y": 1, "chance": 80 },
         { "monster": "mon_nether_huntsman", "x": [ 17, 18 ], "y": [ 20, 21 ], "chance": 100, "repeat": 2 },
         { "group": "GROUP_NETHER_CULT", "x": [ 13, 20 ], "y": [ 17, 22 ], "repeat": [ 2, 4 ] },
         { "group": "GROUP_NETHER_CULT", "x": [ 13, 20 ], "y": [ 17, 22 ], "chance": 75, "repeat": [ 0, 2 ] }
@@ -195,7 +207,8 @@
       ],
       "place_nested": [
         { "chunks": [ "cabin_nether_cult_basement_4x4_opening_rec_area" ], "x": 15, "y": 9 },
-        { "chunks": [ "cabin_nether_cult_basement_6x6_meeting_room" ], "x": 7, "y": 3 }
+        { "chunks": [ "cabin_nether_cult_basement_6x6_meeting_room" ], "x": 7, "y": 3 },
+        { "chunks": [ "cabin_nether_cult_basement_4x4_library" ], "x": 16, "y": 4 }
       ]
     }
   },
@@ -233,6 +246,52 @@
       },
       "furniture": { "g": "f_trashcan", "S": "f_sofa", "t": "f_table" },
       "items": { "g": [ { "item": "SUS_trash_trashcan" } ], "t": { "item": "homebooks" } },
+      "place_monster": [ { "group": "GROUP_NETHER_CULT", "x": [ 0, 3 ], "y": [ 0, 3 ], "chance": 50 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "cabin_nether_cult_basement_4x4_library",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rows": [
+        "CtLA",
+        "   A",
+        "   A",
+        "CtCA"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "parameters": {
+        "carpet_type": {
+          "type": "ter_str_id",
+          "scope": "omt",
+          "default": {
+            "distribution": [
+              [ "t_carpet_concrete_yellow", 2 ],
+              [ "t_carpet_concrete_green", 2 ],
+              [ "t_carpet_concrete_purple", 1 ],
+              [ "t_carpet_concrete_red", 1 ],
+              [ "t_thconc_floor", 2 ]
+            ]
+          }
+        }
+      },
+      "terrain": {
+        "A": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" },
+        "C": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" },
+        "L": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" },
+        "t": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" }
+      },
+      "furniture": { "A": "f_bookcase", "C": "f_armchair", "L": "f_floor_lamp" },
+      "items": {
+        "A": [
+          { "item": "homebooks", "chance": 75 },
+          { "item": "esoteric_books", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "deduction_books", "chance": 10 },
+          { "item": "hedge_magic_books", "chance": 25, "repeat": [ 1, 2 ] },
+          { "item": "nether_sorcery_books", "chance": 15 }
+        ]
+      },
       "place_monster": [ { "group": "GROUP_NETHER_CULT", "x": [ 0, 3 ], "y": [ 0, 3 ], "chance": 50 } ]
     }
   },
