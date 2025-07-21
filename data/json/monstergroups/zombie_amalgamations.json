@@ -53,21 +53,21 @@
     "id": "GROUP_AMALGAMATION_SMALL",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_amalgamation_swarmer", "weight": 60, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_amalgamation_spotter", "weight": 20, "starts": "28 days" },
-      { "monster": "mon_amalgamation_corroder", "weight": 40, "starts": "112 days" },
-      { "monster": "mon_amalgamation_corroder", "weight": 60, "starts": "224 days" }
+      { "monster": "mon_amalgamation_swarmer", "weight": 120, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_amalgamation_spotter", "weight": 40, "starts": "28 days" },
+      { "monster": "mon_amalgamation_corroder", "weight": 80, "starts": "112 days" },
+      { "monster": "mon_amalgamation_corroder", "weight": 120, "starts": "224 days" }
     ]
   },
   {
     "id": "GROUP_AMALGAMATION_MED",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_amalgamation_jumper", "pack_size": [ 1, 2 ], "weight": 80 },
-      { "monster": "mon_amalgamation_soldier", "weight": 20, "starts": "28 days" },
-      { "monster": "mon_amalgamation_soldier", "weight": 40, "starts": "112 days" },
-      { "monster": "mon_amalgamation_zapper", "weight": 20, "starts": "112 days" },
-      { "monster": "mon_amalgamation_zapper", "weight": 20, "starts": "224 days" }
+      { "monster": "mon_amalgamation_jumper", "pack_size": [ 1, 2 ], "weight": 160 },
+      { "monster": "mon_amalgamation_soldier", "weight": 40, "starts": "28 days" },
+      { "monster": "mon_amalgamation_soldier", "weight": 80, "starts": "112 days" },
+      { "monster": "mon_amalgamation_zapper", "weight": 40, "starts": "112 days" },
+      { "monster": "mon_amalgamation_zapper", "weight": 40, "starts": "224 days" }
     ]
   }
 ]

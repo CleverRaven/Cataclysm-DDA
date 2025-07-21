@@ -163,11 +163,13 @@
     "id": "GROUP_MEATLAB",
     "monsters": [
       { "monster": "mon_amalgamation_photokinetic_flashbanger", "weight": 5, "starts": "112 days" },
+      { "monster": "mon_amalgamation_photokinetic_flashbanger", "weight": 10, "starts": "224 days" },
       { "monster": "mon_amalgamation_telepathic_distractor", "weight": 10, "starts": "112 days" },
+      { "monster": "mon_amalgamation_telepathic_distractor", "weight": 15, "starts": "224 days" },
       { "monster": "mon_amalgamation_telekinetic_shielder", "weight": 5, "starts": "112 days" },
       { "monster": "mon_amalgamation_telekinetic_shielder", "weight": 10, "starts": "224 days" },
       { "monster": "mon_amalgamation_vitakinetic_debuffer", "weight": 10, "starts": "112 days" },
-      { "monster": "mon_amalgamation_vitakinetic_debuffer", "weight": 10, "starts": "224 days" }
+      { "monster": "mon_amalgamation_vitakinetic_debuffer", "weight": 20, "starts": "224 days" }
     ]
   },
   {
@@ -175,11 +177,13 @@
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_amalgamation_photokinetic_flashbanger", "weight": 5, "starts": "112 days" },
+      { "monster": "mon_amalgamation_photokinetic_flashbanger", "weight": 10, "starts": "224 days" },
       { "monster": "mon_amalgamation_telepathic_distractor", "weight": 10, "starts": "112 days" },
+      { "monster": "mon_amalgamation_telepathic_distractor", "weight": 15, "starts": "224 days" },
       { "monster": "mon_amalgamation_telekinetic_shielder", "weight": 5, "starts": "112 days" },
       { "monster": "mon_amalgamation_telekinetic_shielder", "weight": 10, "starts": "224 days" },
       { "monster": "mon_amalgamation_vitakinetic_debuffer", "weight": 10, "starts": "112 days" },
-      { "monster": "mon_amalgamation_vitakinetic_debuffer", "weight": 10, "starts": "224 days" }
+      { "monster": "mon_amalgamation_vitakinetic_debuffer", "weight": 20, "starts": "224 days" }
     ]
   },
   {
