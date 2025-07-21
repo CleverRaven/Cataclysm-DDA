@@ -115,8 +115,6 @@ void scenario::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "eoc", _eoc, auto_flags_reader<effect_on_condition_id> {} );
 
     if( !was_loaded ) {
-        const time_duration year_length = time_duration::from_days( get_option<int>( "SEASON_LENGTH" ) ) *
-                                          4;
 
         int _start_of_cataclysm_hour = 0;
         // The cataclysm started 5 days before game start
@@ -134,7 +132,7 @@ void scenario::load( const JsonObject &jo, std::string_view )
                                       1_hours * _start_of_cataclysm_hour +
                                       1_days * ( _start_of_cataclysm_day - 1 ) +
                                       1_days * get_option<int>( "SEASON_LENGTH" ) * _start_of_cataclysm_season +
-                                      year_length * ( _start_of_cataclysm_year - 1 )
+                                      calendar::year_length() * ( _start_of_cataclysm_year - 1 )
                                       ;
 
         int _start_of_game_hour = 8;
@@ -152,7 +150,7 @@ void scenario::load( const JsonObject &jo, std::string_view )
                                  1_hours * _start_of_game_hour +
                                  1_days * ( _start_of_game_day - 1 ) +
                                  1_days * get_option<int>( "SEASON_LENGTH" ) * _start_of_game_season +
-                                 year_length * ( _start_of_game_year - 1 )
+                                 calendar::year_length() * ( _start_of_game_year - 1 )
                                  ;
 
         reset_calendar();
