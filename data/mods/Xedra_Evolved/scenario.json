@@ -129,11 +129,7 @@
   {
     "copy-from": "Mansion",
     "type": "scenario",
-    "extend": {
-      "professions": [
-        "archaeologist"
-      ]
-    },
+    "extend": { "professions": [ "archaeologist" ] },
     "id": "Mansion"
   }
 ]
