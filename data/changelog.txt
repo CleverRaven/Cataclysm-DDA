@@ -338,14 +338,9 @@ More prepper food, meds in bugout bags
 Adds more spawns for the more esoteric books you can find
 Add nested cellars to cabins
 Add meds, maps in bugout bags
-Spawn oat milk in coffee places
 Adds hair dye and hair dye kits to bathrooms.
 Professions now start with relevant books in their smartphones/laptops and some even with smartwatches
-After a year in draft due to life changes, more mission dialogue for our best boy Liam (Friends to the End scenario)
-Obsolete longarm bags
-2 new freeze-dried meals
 Cheese wheels preserved in wax
-Remove pair of and pairs of wording from the arms armor
 
 
 ## Interface:
@@ -866,39 +861,17 @@ Aftershock: Create cryosuit UI elements and power warnings
 Aftershock: Add a scenario where you control a functional Starship.
 Mods can have 'hard' requirements for meta progression
 [Xedra Evolved] Add Bloodthorne druids
-[XE] Remove melee training cap from a certain boss.
 [Mods] Mutually-exclusive supernatural/fantasy heritage traits are light cyan
 [Mods] Traits that let you cast spells or other supernatural power suites are green
 [Xedra Evolved] Add bloodthorne druid safehouse
-Aftershock: Resolve minor bugs with the Spaceship scenario.
-[MoM] Overhaul Premonition, add Sense Hostility power
-[Aftershock] Esper tweaks
 [MoM] Fifth Sun People is now a HERITAGE trait
 Aftershock: Lasers can only use power cartridges, cant be mounted in vehicle.
-Aftershock: Give the Magellan Exo high environmental defense.
-Aftershock: Update cryosuit armor values to be lower than light-armor
-[MoM] Awakenings are light green
-Aftershock: Lasers can only use power cartridges, cant be mounted in vehicle.
-[Xedra Evolved] Cabin cellars
-[Magiclysm] Add travel_cost_type to Magiclysm
-Aftershock: Give the Magellan Exo high environmental defense.
-Aftershock: Survival heaters produce temporary AC
-Aftershock: Humaniforms can execute humanoid monsters
-[MoM] Add meditation books to esoteric_books
 Aftershock: Add mod achievements and lock challenge scenarios behind them.
 [Xedra Evolved] Vampires can't level dream magick
-Aftershock: Survival heaters produce temporary AC
 Aftershock: Humaniforms can execute humanoid monsters
 Aftershock: Vehicle bay City Building a mix between mechanic garage, gas station and parking lot.
-Properly update cryosuit defenses.
-[MoM] Add the Radiant Amalgamation
-[Xedra Evolved] Add hedge magick books to Esoteric Books itemgroup
-Aftershock: Vehicle bay City Building a mix between mechanic garage, gas station and parking lot.
-[MoM] Add help topics for psionic paths, using psionics, and psychic knacks
 [MoM] Add help topics for psionic paths, using psionics, and psychic knacks
 [Magiclysm] Humans are also a species
-Aftershock: Fix exosuit underlayers so they protect against the cold.
-Aftershock: Fix exosuit underlayers so they protect against the cold.
 
 
 ## Balance:
@@ -999,10 +972,6 @@ Some recipes have 'hard' proficiency requirements
 Expanded spawns for some proper melee weapons
 Adjust Precise Strike melee tech so it also cant stun what other stun-causing techs cant stun.
 Adds cuvettes to analysis kit crafting recipe, increase analysis kit weight.
-fix mostly empty cereal boxes in stores
-Fix mostly empty boxes of pasta in stores
-Fix density, spawn peanut butter and jam in full 500ml jars
-Spawn full bags of pemmican
 Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
 
 
@@ -1369,25 +1338,10 @@ Fix special attacks overwriting cooldown values to zero
 Scenario still had adult hobbies applied
 Fix drawing items under fields without tiles
 Limit the range of water channels
-fix highway segments generating over highway specials
-Fix mod loading
-Fix vehicle teleport issue
-Add looks_like to various medical zeds
 Fix forced traits being applied to NPCs
-Fix forced traits being applied to NPCs
-Adds the missing spawns for the driving manual
-[Aftershock] Fix telekinesis bugs
-Fix liquid charges in stores and pantries
-Fix fault fix requirements requesting undefined-boiling_water_heat
-Make alleged boxes of mac n cheese actually exist
-Fix fault fix requirements requesting undefined-boiling_water_heat
-Z-9s always drop kevlar harnesses
-Seal unopened soda six-packs in fridges
 Fix EOC actor consuming tools on processing
 Fix molotovs exploding multiple times
 add E_STORABLE_EXCLUSIVE flag
-[Xedra Evolved] Bloodthornes are banned from dream magick
-Make fungalizing enemies neutral to Mycus player
 
 
 ## Performance:
@@ -1584,8 +1538,6 @@ Improve ccache performance with age based eviction instead of coarse size limits
 Fix CMake Linux VCPKG build
 Initial support for GNU Make for Windows
 Move Android bundle generation to manually triggered workflow
-Disable emscripten build.
-Disable emscripten build.
 
 
 ## I18N and A11Y:
