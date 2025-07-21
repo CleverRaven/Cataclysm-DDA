@@ -176,7 +176,17 @@
     "connect_groups": [ "INDOORFLOOR", "WALL" ],
     "connects_to": "WALL",
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM", "INDOORS", "AUTO_WALL_SYMBOL", "THIN_OBSTACLE", "MOUNTABLE", "SHORT" ],
+    "flags": [
+      "TRANSPARENT",
+      "PERMEABLE",
+      "FLAMMABLE",
+      "PLACE_ITEM",
+      "INDOORS",
+      "AUTO_WALL_SYMBOL",
+      "THIN_OBSTACLE",
+      "MOUNTABLE",
+      "SHORT"
+    ],
     "deconstruct": { "ter_set": "t_floor", "items": [ { "item": "2x4", "count": 5 }, { "item": "nail", "charges": 20 } ] },
     "bash": {
       "str_min": 8,
@@ -2106,7 +2116,17 @@
     "move_cost": 0,
     "coverage": 60,
     "examine_action": "chainfence",
-    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "MINEABLE", "THIN_OBSTACLE", "CLIMBABLE", "BURROWABLE" ],
+    "flags": [
+      "TRANSPARENT",
+      "NOITEM",
+      "REDUCE_SCENT",
+      "MOUNTABLE",
+      "MINEABLE",
+      "THIN_OBSTACLE",
+      "CLIMBABLE",
+      "BURROWABLE",
+      "PERMEABLE"
+    ],
     "connect_groups": "WALL",
     "connects_to": "WALL",
     "bash": {
