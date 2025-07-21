@@ -608,56 +608,72 @@ void _make_explosion( map *m, const Creature *source, const tripoint_bub_ms &p,
     }
 }
 
-void flashbang( const tripoint_bub_ms &p, bool player_immune )
+void flashbang( const tripoint_bub_ms &p, bool player_immune, const int radius )
 {
-    draw_explosion( p, 8, c_white );
-    Character &player_character = get_player_character();
-    int dist = rl_dist( player_character.pos_bub(), p );
-    map &here = get_map();
-    if( dist <= 8 && !player_immune ) {
-        if( !player_character.has_flag( json_flag_IMMUNE_HEARING_DAMAGE ) &&
-            !player_character.is_wearing( itype_rm13_armor_on ) ) {
-            player_character.add_effect( effect_deaf, time_duration::from_turns( 40 - dist * 4 ) );
-        }
-        if( here.sees( player_character.pos_bub(), p, 8 ) ) {
-            int flash_mod = 0;
-            if( player_character.has_trait( trait_PER_SLIME ) ) {
-                if( one_in( 2 ) ) {
-                    flash_mod = 3; // Yay, you weren't looking!
-                }
-            } else if( player_character.has_trait( trait_PER_SLIME_OK ) ) {
-                flash_mod = 8; // Just retract those and extrude fresh eyes
-            } else if( player_character.has_flag( json_flag_GLARE_RESIST ) ||
-                       player_character.is_wearing( itype_rm13_armor_on ) ) {
-                flash_mod = 6;
-            } else if( player_character.worn_with_flag( json_flag_BLIND ) ||
-                       player_character.worn_with_flag( json_flag_FLASH_PROTECTION ) ) {
-                flash_mod = 3; // Not really proper flash protection, but better than nothing
+
+    auto penalize_char = []( map & here, Character & guy, const tripoint_bub_ms & p,
+    const int radius )->void {
+
+        int dist = rl_dist( guy.pos_bub(), p );
+        if( dist <= radius )
+        {
+            if( !guy.has_flag( json_flag_IMMUNE_HEARING_DAMAGE ) &&
+                !guy.is_wearing( itype_rm13_armor_on ) ) {
+                guy.add_effect( effect_deaf, time_duration::from_turns( radius * 5 - dist * 4 ) );
             }
-            player_character.add_env_effect( effect_blind, bodypart_id( "eyes" ), ( 12 - flash_mod - dist ) / 2,
-                                             time_duration::from_turns( 10 - dist ) );
+            if( here.sees( guy.pos_bub(), p, radius ) ) {
+                int flash_mod = 0;
+                if( guy.has_trait( trait_PER_SLIME ) ) {
+                    if( one_in( 2 ) ) {
+                        flash_mod = radius / 2.6f; // Yay, you weren't looking!
+                    }
+                } else if( guy.has_trait( trait_PER_SLIME_OK ) ) {
+                    flash_mod = radius; // Just retract those and extrude fresh eyes
+                } else if( guy.has_flag( json_flag_GLARE_RESIST ) ||
+                           guy.is_wearing( itype_rm13_armor_on ) ) {
+                    flash_mod = radius / 1.3f;
+                } else if( guy.worn_with_flag( json_flag_BLIND ) ||
+                           guy.worn_with_flag( json_flag_FLASH_PROTECTION ) ) {
+                    flash_mod = radius / 2.6f; // Not really proper flash protection, but better than nothing
+                }
+                guy.add_env_effect( effect_blind, bodypart_id( "eyes" ),
+                                    ( radius * 1.5f - flash_mod - dist ) / 2,
+                                    time_duration::from_turns( 10 - dist ) );
+            }
         }
+    };
+
+    map &here = get_map();
+    draw_explosion( p, radius, c_white );
+
+    Character &you = get_player_character();
+    if( !player_immune && rl_dist( you.pos_bub(), p ) <= radius ) {
+        penalize_char( here, you, p, radius );
     }
+
+    for( npc &guy : g->all_npcs() ) {
+        penalize_char( here, guy, p, radius );
+    }
+
     for( monster &critter : g->all_monsters() ) {
         if( critter.type->in_species( species_ROBOT ) || critter.has_flag( mon_flag_FLASHBANGPROOF ) ) {
             continue;
         }
         // TODO: can the following code be called for all types of creatures
-        dist = rl_dist( critter.pos_bub(), p );
-        if( dist <= 8 ) {
-            if( dist <= 4 ) {
-                critter.add_effect( effect_stunned, time_duration::from_turns( 10 - dist ) );
+        int dist = rl_dist( critter.pos_bub(), p );
+        if( dist <= radius ) {
+            if( dist <= radius / 2 ) {
+                critter.add_effect( effect_stunned, time_duration::from_turns( radius / 0.8f - dist ) );
             }
-            if( critter.has_flag( mon_flag_SEES ) && here.sees( critter.pos_bub(), p, 8 ) ) {
-                critter.add_effect( effect_blind, time_duration::from_turns( 18 - dist ) );
+            if( critter.has_flag( mon_flag_SEES ) && here.sees( critter.pos_bub(), p, radius ) ) {
+                critter.add_effect( effect_blind, time_duration::from_turns( radius * 2.5f - dist ) );
             }
             if( critter.has_flag( mon_flag_HEARS ) ) {
-                critter.add_effect( effect_deaf, time_duration::from_turns( 60 - dist * 4 ) );
+                critter.add_effect( effect_deaf, time_duration::from_turns( radius * 7.5f - dist * 4 ) );
             }
         }
     }
-    sounds::sound( p, 12, sounds::sound_t::combat, _( "a huge boom!" ), false, "misc", "flashbang" );
-    // TODO: Blind/deafen NPC
+    sounds::sound( p, 120, sounds::sound_t::combat, _( "a huge boom!" ), false, "misc", "flashbang" );
 }
 
 void shockwave( const tripoint_bub_ms &p, int radius, int force, int stun, int dam_mult,
