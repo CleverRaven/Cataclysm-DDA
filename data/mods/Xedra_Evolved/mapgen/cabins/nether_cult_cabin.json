@@ -90,7 +90,7 @@
       "fill_ter": "t_thconc_floor",
       "rows": [
         "||||||||||||||||||||||| ",
-        "|BB         LC A-     | ",
+        "|BB         LC A%     | ",
         "|t      cd     A----- | ",
         "|---+---------%------ | ",
         "|Ś   s-g cc  - -CtLA| | ",
@@ -101,11 +101,11 @@
         "|--- c- -<     gSSS-  | ",
         "|  -  ----        S- || ",
         "|  ?  % +       t S- |  ",
-        "|---  ---         L- |  ",
+        "|---  ---  ctc    L- |  ",
         "|  -  ---+----+----- |  ",
-        "|  ?  -   --c     D- |  ",
-        "|------   --L     D- |  ",
-        "|     --+-------+---+|||",
+        "|  ?  -    -c     D- |  ",
+        "|------    -L     D- |  ",
+        "|     ---+-------+---+|||",
         "              -        |",
         "              -        |",
         "              -   OO   |",
@@ -125,6 +125,7 @@
         "c": "t_thconc_floor",
         "C": "t_thconc_floor",
         "Ȼ": "t_thconc_floor",
+        "d": "t_thconc_floor",
         "D": "t_thconc_floor",
         "g": "t_thconc_floor",
         "j": "t_thconc_floor",
@@ -141,17 +142,20 @@
         "c": "t_chair",
         "C": "f_armchair",
         "Ȼ": "f_counter",
+        "d": "f_desk",
         "D": "f_dresser",
         "g": "f_trashcan",
         "L": "f_floor_lamp",
         "s": "f_sink",
         "S": "f_sofa",
-        "t": "f_table"
+        "t": "f_table",
+        "Ŧ": "f_table"
       },
       "toilets": { "j": {  } },
       "items": {
         "A": [
           { "item": "esoteric_books", "chance": 50 },
+          { "item": "deduction_books", "chance": 10 },
           { "item": "hedge_magic_books", "chance": 25, "repeat": [ 1, 2 ] },
           { "item": "nether_sorcery_books", "chance": 15 }
         ],
@@ -162,6 +166,7 @@
         "s": { "item": "SUS_bathroom_sink", "prob": 50 }
       },
       "place_item": [
+        { "item": "book_deduction_black_iron_prison", "x": 1, "y": 2, "prob": 50 },
         { "item": "candle", "prob": 95, "x": 18, "y": 18 },
         { "item": "candle", "prob": 95, "x": 18, "y": 18 },
         { "item": "candle", "prob": 95, "x": 19, "y": 18 },
@@ -172,10 +177,7 @@
         { "item": "candle", "prob": 95, "x": 18, "y": 21 },
         { "item": "candle", "prob": 95, "x": 19, "y": 21 }
       ],
-      "place_loot": [
-        { "group": "homebooks", "x": 16, "y": 11, "chance": 30 },
-        { "group": "nether_cabin_ritual_prep_clothes", "x": [ 15, 22 ], "y": [ 17, 22 ], "repeat": [ 2, 5 ] }
-      ],
+      "place_loot": [ { "group": "nether_cabin_ritual_prep_clothes", "x": [ 15, 22 ], "y": [ 17, 22 ], "repeat": [ 2, 5 ] } ],
       "place_monster": [
         { "monster": "mon_gracke", "x": 1, "y": 7, "chance": 50 },
         { "monster": "mon_blank", "x": 1, "y": 10, "chance": 50 },
@@ -187,7 +189,89 @@
       "place_fields": [
         { "field": "fd_blood", "x": [ 15, 23 ], "y": [ 17, 22 ], "repeat": [ 12, 24 ] },
         { "field": "fd_gibs_flesh", "x": [ 15, 23 ], "y": [ 17, 22 ], "repeat": [ 6, 12 ] }
+      ],
+      "place_nested": [
+        { "chunks": [ "cabin_nether_cult_basement_4x4_opening_rec_area" ], "x": 15, "y": 9 },
+        { "chunks": [ "cabin_nether_cult_basement_6x6_meeting_room" ], "x": 7, "y": 3 }
       ]
+    }
+  },
+  {
+    "nested_mapgen_id": "cabin_nether_cult_basement_4x4_opening_rec_area",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rows": [
+        "gSSS",
+        "   S",
+        " t S",
+        "   S"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "parameters": {
+        "carpet_type": {
+          "type": "ter_str_id",
+          "scope": "omt",
+          "default": {
+            "distribution": [
+              [ "t_carpet_concrete_yellow", 2 ],
+              [ "t_carpet_concrete_green", 2 ],
+              [ "t_carpet_concrete_purple", 1 ],
+              [ "t_carpet_concrete_red", 1 ],
+              [ "t_thconc_floor", 2 ]
+            ]
+          }
+        }
+      },
+      "terrain": {
+        "S": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" },
+        "g": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" },
+        "t": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" }
+      },
+      "furniture": { "g": "f_trashcan", "S": "f_sofa", "t": "f_table" },
+      "items": { "g": [ { "item": "SUS_trash_trashcan" } ], "t": { "item": "homebooks" } }
+    }
+  },
+  {
+    "nested_mapgen_id": "cabin_nether_cult_basement_6x6_meeting_room",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "------",
+        "g cc  ",
+        " cttc ",
+        " cttc ",
+        "  cc  ",
+        "------"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "parameters": {
+        "carpet_type": {
+          "type": "ter_str_id",
+          "scope": "omt",
+          "default": {
+            "distribution": [
+              [ "t_carpet_concrete_yellow", 2 ],
+              [ "t_carpet_concrete_green", 2 ],
+              [ "t_carpet_concrete_purple", 1 ],
+              [ "t_carpet_concrete_red", 1 ],
+              [ "t_thconc_floor", 2 ]
+            ]
+          }
+        }
+      },
+      "terrain": {
+        " ": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" },
+        "g": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" },
+        "t": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" },
+        "c": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" }
+      },
+      "furniture": { "c": "t_chair", "g": "f_trashcan", "t": "f_table" },
+      "items": {
+        "g": [ { "item": "SUS_trash_trashcan" } ],
+        "t": { "item": "nether_cabin_ritual_cult_meeting_room", "chance": 50, "repeat": [ 2, 5 ] }
+      }
     }
   }
 ]
