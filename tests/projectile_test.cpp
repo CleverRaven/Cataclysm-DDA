@@ -93,10 +93,11 @@ TEST_CASE( "projectiles_through_obstacles", "[projectile]" )
 
 TEST_CASE( "liquid_projectiles_applies_effect", "[projectile_effect]" )
 {
-    map &here = get_map();
     clear_avatar();
     clear_npcs();
     clear_map();
+
+    map &here = get_map();
 
     Character &player = get_player_character();
     arm_shooter( player, itype_boomer_head );
