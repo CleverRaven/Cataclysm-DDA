@@ -267,7 +267,7 @@
         "      "
       ],
       "palettes": [ "cabin_cellar" ],
-      "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 0, 5 ], "y": [ 0, 5 ], "chance": 100, "repeat": [ 1, 6 ] } ]
+      "place_monster": [ { "group": "GROUP_VANILLA_DORMANT", "x": [ 0, 5 ], "y": [ 0, 5 ], "chance": 100, "repeat": [ 1, 6 ] } ]
     }
   },
   {

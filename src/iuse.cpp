@@ -2698,7 +2698,7 @@ std::optional<int> iuse::radio_tick( Character *, item *it, const tripoint_bub_m
                                              0 );
         }
     }
-    return 1;
+    return 0;
 }
 
 std::optional<int> iuse::radio_on( Character *, item *it, const tripoint_bub_ms & )
@@ -2754,7 +2754,7 @@ std::optional<int> iuse::noise_emitter_on( Character *, item *, const tripoint_b
 {
     sounds::sound( pos, 30, sounds::sound_t::alarm, _( "KXSHHHHRRCRKLKKK!" ), true, "tool",
                    "noise_emitter" );
-    return 1;
+    return 0;
 }
 
 std::optional<int> iuse::emf_passive_on( Character *, item *, const tripoint_bub_ms &pos )
@@ -2772,7 +2772,7 @@ std::optional<int> iuse::emf_passive_on( Character *, item *, const tripoint_bub
         sounds::sound( pos, 6, sounds::sound_t::alarm, _( "BEEEEE-CHHHHHHH-eeEEEEEEE-CHHHHHHHHHHHH" ), true,
                        "tool", "emf_detector" );
         // skip continuing to check for locations
-        return 1;
+        return 0;
     }
 
     for( const tripoint_bub_ms &loc : closest_points_first( pos, max ) ) {
@@ -2805,10 +2805,10 @@ std::optional<int> iuse::emf_passive_on( Character *, item *, const tripoint_bub
                                "emf_detector" );
             }
             // skip continuing to check for locations
-            return 1;
+            return 0;
         }
     }
-    return 1;
+    return 0;
 }
 
 std::optional<int> iuse::ma_manual( Character *p, item *it, const tripoint_bub_ms & )
@@ -3295,7 +3295,7 @@ std::optional<int> iuse::geiger_active( Character *, item *, const tripoint_bub_
 {
     const int rads = get_map().get_radiation( pos );
     if( rads == 0 ) {
-        return 1;
+        return 0;
     }
     std::string description = rads > 50 ? _( "buzzing" ) :
                               rads > 25 ? _( "rapid clicking" ) : _( "clicking" );
@@ -3305,7 +3305,7 @@ std::optional<int> iuse::geiger_active( Character *, item *, const tripoint_bub_
     sounds::sound( pos, 6, sounds::sound_t::alarm, description, true, "tool", sound_var );
     if( !get_avatar().can_hear( pos, 6 ) ) {
         // can not hear it, but may have alarmed other creatures
-        return 1;
+        return 0;
     }
     if( rads > 50 ) {
         add_msg( m_warning, _( "The geiger counter buzzes intensely." ) );
@@ -3322,7 +3322,7 @@ std::optional<int> iuse::geiger_active( Character *, item *, const tripoint_bub_
     } else {
         add_msg( _( "The geiger counter clicks once." ) );
     }
-    return 1;
+    return 0;
 }
 
 std::optional<int> iuse::teleport( Character *p, item *it, const tripoint_bub_ms & )
@@ -3961,7 +3961,7 @@ std::optional<int> iuse::mp3_on( Character *p, item *, const tripoint_bub_ms &po
     // mp3 player in inventory, we can listen
     play_music( p, pos, 0, 20 );
     music::activate_music_id( music::music_id::mp3 );
-    return 1;
+    return 0;
 }
 
 std::optional<int> iuse::mp3_deactivate( Character *p, item *it, const tripoint_bub_ms & )
@@ -4028,7 +4028,7 @@ std::optional<int> iuse::dive_tank( Character *p, item *it, const tripoint_bub_m
         it->convert( *it->type->revert_to ).active = false;
     }
 
-    return 1;
+    return 0;
 }
 
 std::optional<int> iuse::dive_tank_activate( Character *p, item *it, const tripoint_bub_ms & )
@@ -5658,18 +5658,6 @@ void item::extended_photo_def::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::optional<int> iuse::epic_music( Character *p, item *it, const tripoint_bub_ms &pos )
-{
-    if( !it->get_var( "EIPC_MUSIC_ON" ).empty() &&
-        it->ammo_sufficient( p ) ) {
-
-        //the more varied music, the better max mood.
-        const int songs = it->get_var( "EIPC_MUSIC", 0 );
-        play_music( p, pos, 8, std::min( 25, songs ) );
-    }
-    return std::nullopt;
-}
-
 std::optional<int> iuse::efiledevice( Character *p, item *it, const tripoint_bub_ms & )
 {
     //restrictions
@@ -6908,7 +6896,7 @@ std::optional<int> iuse::ehandcuffs_tick( Character *p, item *it, const tripoint
         it->ammo_unset();
         it->active = false;
         add_msg( m_good, _( "%s automatically turned off!" ), it->tname() );
-        return 1;
+        return 0;
     }
 
     if( !p ) {
@@ -6916,7 +6904,7 @@ std::optional<int> iuse::ehandcuffs_tick( Character *p, item *it, const tripoint
         sounds::sound( pos, 2, sounds::sound_t::combat, "Click.", true, "tools", "handcuffs" );
         it->unset_flag( flag_NO_UNWIELD );
         it->active = false;
-        return 1;
+        return 0;
     }
 
     if( it->charges == 0 ) {
@@ -6928,7 +6916,7 @@ std::optional<int> iuse::ehandcuffs_tick( Character *p, item *it, const tripoint
             add_msg( m_good, _( "%s on your wrists opened!" ), it->tname() );
         }
 
-        return 1;
+        return 0;
     }
 
     if( p->has_active_bionic( bio_shock ) && p->get_power_level() >= bio_shock->power_trigger &&
@@ -6941,7 +6929,7 @@ std::optional<int> iuse::ehandcuffs_tick( Character *p, item *it, const tripoint
         add_msg( m_good, _( "The %s crackle with electricity from your bionic, then come off your hands!" ),
                  it->tname() );
 
-        return 1;
+        return 0;
     }
 
     if( calendar::once_every( 1_minutes ) ) {
@@ -6975,11 +6963,11 @@ std::optional<int> iuse::ehandcuffs_tick( Character *p, item *it, const tripoint
         it->set_var( "HANDCUFFS_X", pos.x() );
         it->set_var( "HANDCUFFS_Y", pos.y() );
 
-        return 1;
+        return 0;
 
     }
 
-    return 1;
+    return 0;
 }
 
 std::optional<int> iuse::ehandcuffs( Character *, item *it, const tripoint_bub_ms & )
@@ -7197,7 +7185,7 @@ std::optional<int> iuse::radiocontrol_tick( Character *p, item *it, const tripoi
         avatar &player = get_avatar();
         it->active = false;
         player.remove_value( "remote_controlling" );
-        return 1;
+        return 0;
     }
     if( !it->ammo_sufficient( p ) ) {
         it->active = false;
@@ -7206,7 +7194,7 @@ std::optional<int> iuse::radiocontrol_tick( Character *p, item *it, const tripoi
         it->active = false;
     }
 
-    return 1;
+    return 0;
 }
 
 std::optional<int> iuse::radiocontrol( Character *p, item *it, const tripoint_bub_ms & )
@@ -7414,7 +7402,7 @@ std::optional<int> iuse::remoteveh_tick( Character *p, item *it, const tripoint_
         g->setremoteveh( nullptr );
     }
 
-    return 1;
+    return 0;
 }
 
 std::optional<int> iuse::remoteveh( Character *p, item *it, const tripoint_bub_ms &pos )

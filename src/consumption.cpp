@@ -130,6 +130,7 @@ static const json_character_flag json_flag_PRED3( "PRED3" );
 static const json_character_flag json_flag_PRED4( "PRED4" );
 static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
+static const json_character_flag json_flag_SKIP_HEALTH( "SKIP_HEALTH" );
 static const json_character_flag json_flag_SPIRITUAL( "SPIRITUAL" );
 static const json_character_flag json_flag_STRICT_HUMANITARIAN( "STRICT_HUMANITARIAN" );
 
@@ -1626,7 +1627,7 @@ bool Character::consume_effects( item &food )
 
     // Used in hibernation messages.
     const int nutr = nutrition_for( food );
-    const bool skip_health = has_trait( trait_PROJUNK2 ) && comest.healthy < 0;
+    const bool skip_health = has_flag( json_flag_SKIP_HEALTH ) && comest.healthy < 0;
     // We can handle junk just fine
     if( !skip_health ) {
         modify_health( comest );

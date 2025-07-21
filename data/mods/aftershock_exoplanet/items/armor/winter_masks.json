@@ -21,7 +21,7 @@
     ],
     "warmth": 50,
     "material_thickness": 1,
-    "environmental_protection": 1,
+    "environmental_protection": 16,
     "flags": [
       "VARSIZE",
       "WATERPROOF",

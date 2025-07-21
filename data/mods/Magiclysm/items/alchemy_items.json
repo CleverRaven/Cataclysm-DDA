@@ -223,6 +223,21 @@
   },
   {
     "type": "ITEM",
+    "id": "demon_chitin_flux",
+    "category": "spare_parts",
+    "symbol": ",",
+    "color": "red",
+    "name": { "str_sp": "flux of demon chitin" },
+    "description": "Demon chitin turned into a paste like substance referred to as flux.  Used to create new; and fill in, repairing existing demon chitin items.",
+    "price": "10 USD",
+    "material": [ "demon_chitin" ],
+    "weight": "500 mg",
+    "volume": "1 ml",
+    "phase": "solid",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "ITEM",
     "id": "demon_chitin_piece",
     "category": "spare_parts",
     "symbol": ",",
