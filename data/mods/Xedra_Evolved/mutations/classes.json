@@ -80,7 +80,7 @@
     "id": "XE_NETHER_SORCERY",
     "name": "Nether Sorcery",
     "points": 0,
-    "description": "There is power in the Nether for those will the will and the strength to seize it, and you are one of them.  Hopefully you won't fly too close to the void.",
+    "description": "There is power in the Nether for those with the will and the strength to seize it, and you are such a one.  Hopefully you won't fly too close to the void.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
