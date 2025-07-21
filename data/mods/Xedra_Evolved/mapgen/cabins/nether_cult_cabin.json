@@ -105,14 +105,14 @@
         "|  -  ----+---+----- |##",
         "|  ?  -sj- -c   DDL- |##",
         "|------Ȼ + -t     D- |##",
-        "||||||----+-----+---+|||",
-        "#####|        -        |",
-        "#####|        -        |",
-        "#####|        -   OO   |",
-        "#####|        -   OO   |",
-        "#####|        -        |",
-        "#####|        -        |",
-        "#####|||||||||||||||||||"
+        "||||||----+-----+---+|##",
+        "#####|      -        |##",
+        "#####|      -        |##",
+        "#####|      -   OO   |##",
+        "#####|      -   OO   |##",
+        "#####|      -        |##",
+        "#####|      -        |##",
+        "#####|||||||||||||||||##"
       ],
       "terrain": {
         "-": "t_wall",
@@ -169,15 +169,15 @@
       },
       "place_item": [
         { "item": "book_deduction_black_iron_prison", "x": 1, "y": 2, "prob": 50 },
-        { "item": "candle", "prob": 95, "x": 18, "y": 18 },
-        { "item": "candle", "prob": 95, "x": 18, "y": 18 },
-        { "item": "candle", "prob": 95, "x": 19, "y": 18 },
-        { "item": "candle", "prob": 95, "x": 17, "y": 19 },
-        { "item": "candle", "prob": 95, "x": 17, "y": 20 },
-        { "item": "candle", "prob": 95, "x": 20, "y": 19 },
-        { "item": "candle", "prob": 95, "x": 20, "y": 20 },
-        { "item": "candle", "prob": 95, "x": 18, "y": 21 },
-        { "item": "candle", "prob": 95, "x": 19, "y": 21 }
+        { "item": "candle", "prob": 95, "x": 16, "y": 18 },
+        { "item": "candle", "prob": 95, "x": 16, "y": 18 },
+        { "item": "candle", "prob": 95, "x": 17, "y": 18 },
+        { "item": "candle", "prob": 95, "x": 15, "y": 19 },
+        { "item": "candle", "prob": 95, "x": 15, "y": 20 },
+        { "item": "candle", "prob": 95, "x": 18, "y": 19 },
+        { "item": "candle", "prob": 95, "x": 18, "y": 20 },
+        { "item": "candle", "prob": 95, "x": 16, "y": 21 },
+        { "item": "candle", "prob": 95, "x": 17, "y": 21 }
       ],
       "place_loot": [ { "group": "nether_cabin_ritual_prep_clothes", "x": [ 15, 22 ], "y": [ 17, 22 ], "repeat": [ 2, 5 ] } ],
       "place_monster": [
@@ -185,13 +185,13 @@
         { "monster": "mon_blank", "x": 1, "y": 10, "chance": 50 },
         { "monster": "mon_gracke", "x": 1, "y": 13, "chance": 50 },
         { "monster": "mon_blank", "x": 1, "y": 1, "chance": 90 },
-        { "monster": "mon_nether_huntsman", "x": [ 19, 20 ], "y": [ 20, 21 ], "chance": 100, "repeat": 2 },
-        { "group": "GROUP_NETHER_CULT", "x": [ 15, 22 ], "y": [ 17, 22 ], "repeat": [ 2, 4 ] },
-        { "group": "GROUP_NETHER_CULT", "x": [ 15, 22 ], "y": [ 17, 22 ], "chance": 75, "repeat": [ 0, 2 ] }
+        { "monster": "mon_nether_huntsman", "x": [ 17, 18 ], "y": [ 20, 21 ], "chance": 100, "repeat": 2 },
+        { "group": "GROUP_NETHER_CULT", "x": [ 13, 20 ], "y": [ 17, 22 ], "repeat": [ 2, 4 ] },
+        { "group": "GROUP_NETHER_CULT", "x": [ 13, 20 ], "y": [ 17, 22 ], "chance": 75, "repeat": [ 0, 2 ] }
       ],
       "place_fields": [
-        { "field": "fd_blood", "x": [ 15, 23 ], "y": [ 17, 22 ], "repeat": [ 18, 36 ] },
-        { "field": "fd_gibs_flesh", "x": [ 15, 23 ], "y": [ 17, 22 ], "repeat": [ 6, 12 ] }
+        { "field": "fd_blood", "x": [ 13, 21 ], "y": [ 17, 22 ], "repeat": [ 18, 36 ] },
+        { "field": "fd_gibs_flesh", "x": [ 13, 21 ], "y": [ 17, 22 ], "repeat": [ 6, 12 ] }
       ],
       "place_nested": [
         { "chunks": [ "cabin_nether_cult_basement_4x4_opening_rec_area" ], "x": 15, "y": 9 },
