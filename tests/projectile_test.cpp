@@ -105,6 +105,8 @@ TEST_CASE( "liquid_projectiles_applies_effect", "[projectile_effect]" )
 
     npc &dummy = spawn_npc( next_to.xy(), "mi-go_prisoner" );
 
+    REQUIRE( dummy.top_items_loc().empty() );
+
     //Fire on naked NPC and check that it got the effect
     SECTION( "Naked NPC gets the effect" ) {
         player.fire_gun( here, dummy.pos_bub(), 100, *player.get_wielded_item() );
