@@ -152,11 +152,11 @@ void craft_command::execute( bool only_cache_comps )
 
     if( need_selections ) {
         add_msg( "trying to make %s", to_make.rec->result_name() );
-        for( const std::vector<item_comp> &vcomp : to_make.rec->simple_requirements().get_components() ) {
-            for( item_comp comp : vcomp ) {
-                add_msg( "%s %s", comp.type.c_str(), comp.craftable ? "craftable" : "-" );
-            }
-        }
+        // for( const std::vector<item_comp> &vcomp : to_make.rec->simple_requirements().get_components() ) {
+        //     for( item_comp comp : vcomp ) {
+        //         add_msg( "%s %s", comp.type.c_str(), comp.craftable ? "craftable" : "-" );
+        //     }
+        // }
         add_msg_debug( debugmode::DF_CRAFTING, "can_make():" );
         if( !crafter->can_make( to_make.rec, to_make.batch ) ) {
             add_msg_debug( debugmode::DF_CRAFTING, "can_start_craft():" );

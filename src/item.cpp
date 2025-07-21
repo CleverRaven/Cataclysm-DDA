@@ -5870,7 +5870,7 @@ static bool can_craft_recipe( const recipe *r, const inventory &crafting_inv,
         return can_craft_recipe_cache.at( r );
     }
     can_craft_recipe_cache[r] = r->deduped_requirements().can_make_with_inventory( crafting_inv,
-                                r->get_component_filter(), 1, craft_flags::none, learned_recipes );
+                                r->get_component_filter(), 1, craft_flags::none, &learned_recipes );
     return can_craft_recipe_cache.at( r );
 }
 

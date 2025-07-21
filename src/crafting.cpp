@@ -620,7 +620,8 @@ bool Character::can_make( const recipe *r, int batch_size ) const
     }
 
     return r->deduped_requirements().can_make_with_inventory(
-               crafting_inv, r->get_component_filter(), batch_size, craft_flags::none, get_learned_recipes() );
+               crafting_inv, r->get_component_filter(), batch_size, craft_flags::none,
+               &get_group_available_recipes() );
 }
 
 bool Character::can_start_craft( const recipe *rec, recipe_filter_flags flags,
@@ -637,7 +638,7 @@ bool Character::can_start_craft( const recipe *rec, recipe_filter_flags flags,
     const inventory &inv = crafting_inventory();
     return rec->deduped_requirements().can_make_with_inventory(
                inv, rec->get_component_filter( flags ), batch_size, craft_flags::start_only,
-               get_learned_recipes() );
+               &get_group_available_recipes() );
 }
 
 const inventory &Character::crafting_inventory( bool clear_path ) const
@@ -1638,7 +1639,7 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
         const int batch_size = 1;
 
         if( !continue_reqs.can_make_with_inventory( crafting_inventory(), std_filter, batch_size,
-                craft_flags::none, true, get_learned_recipes() ) ) {
+                craft_flags::none, true, &get_group_available_recipes() ) ) {
             if( is_avatar() ) {
                 std::string buffer = _( "You don't have the required components to continue crafting!" );
                 buffer += "\n";
@@ -1658,7 +1659,7 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
         }
 
         if( !continue_reqs.can_make_with_inventory( crafting_inventory(), no_rotten_filter, batch_size,
-                craft_flags::none, true, get_learned_recipes() ) ) {
+                craft_flags::none, true, &get_group_available_recipes() ) ) {
             if( !query_yn( _( "Some components required to continue are rotten.\n"
                               "Continue crafting anyway?" ) ) ) {
                 return false;
@@ -1667,7 +1668,7 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
         }
 
         if( !continue_reqs.can_make_with_inventory( crafting_inventory(), no_favorite_filter,
-                batch_size, craft_flags::none, true, get_learned_recipes() ) ) {
+                batch_size, craft_flags::none, true, &get_group_available_recipes() ) ) {
             if( !query_yn( _( "Some components required to continue are favorite.\n"
                               "Continue crafting anyway?" ) ) ) {
                 return false;

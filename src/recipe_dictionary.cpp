@@ -492,7 +492,18 @@ std::vector<const recipe *> recipe_subset::recipes_that_produce( const itype_id 
     std::vector<const recipe *> res;
 
     std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ), [&]( const recipe * r ) {
-        return !r->obsolete && ( item == r->result() || r->in_byproducts( item ) );
+        return !r->obsolete && !r->is_practice() && ( item == r->result() || r->in_byproducts( item ) );
+    } );
+
+    return res;
+}
+
+std::vector<const recipe *> recipe_subset::recipes_that_result( const itype_id &item ) const
+{
+    std::vector<const recipe *> res;
+
+    std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ), [&]( const recipe * r ) {
+        return !r->obsolete && !r->is_practice() && ( item == r->result() );
     } );
 
     return res;

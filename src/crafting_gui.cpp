@@ -45,6 +45,7 @@
 #include "itype.h"
 #include "localized_comparator.h"
 #include "magic_enchantment.h"
+#include "messages.h"
 #include "options.h"
 #include "output.h"
 #include "pimpl.h"
@@ -221,6 +222,8 @@ struct availability {
             crafter( _crafter ) {
 
             rec = r;
+
+            // printf( "init availability for %s (id: %s)\n", rec->result_name().c_str(), rec->ident().c_str() );
             inv_override = inventory_override;
             const inventory &inv = camp_crafting ? *inv_override : crafter.crafting_inventory();
             auto all_items_filter = r->get_component_filter( recipe_filter_flags::none );
@@ -234,6 +237,8 @@ struct availability {
                                         >= static_cast<int>( rec->get_difficulty( crafter ) * 0.8f );
             has_proficiencies = r->character_has_required_proficiencies( crafter );
             std::string reason;
+            add_msg_debug( debugmode::DF_CRAFTING,  _( "checking availability for %s" ),
+                           rec->result_name() );
             if( crafter.is_npc() && !r->npc_can_craft( reason ) && !camp_crafting ) {
                 can_craft = false;
             } else if( r->is_nested() ) {
@@ -241,20 +246,22 @@ struct availability {
             } else {
                 can_craft = ( !r->is_practice() || has_all_skills ) && has_proficiencies &&
                             req.can_make_with_inventory( inv, all_items_filter, batch_size, craft_flags::start_only,
-                                    crafter.get_learned_recipes() );
+                                    &crafter.get_group_available_recipes() );
             }
+
             would_use_rotten = !req.can_make_with_inventory( inv, no_rotten_filter, batch_size,
-                               craft_flags::start_only, crafter.get_learned_recipes() );
+                               craft_flags::start_only, &crafter.get_group_available_recipes() );
             would_use_favorite = !req.can_make_with_inventory( inv, no_favorite_filter, batch_size,
-                                 craft_flags::start_only, crafter.get_learned_recipes() );
+                                 craft_flags::start_only, &crafter.get_group_available_recipes() );
             useless_practice = r->is_practice() && cannot_gain_skill_or_prof( crafter, *r );
             is_nested_category = r->is_nested();
             const requirement_data &simple_req = r->simple_requirements();
+
             apparently_craftable = ( !r->is_practice() || has_all_skills ) && has_proficiencies &&
                                    simple_req.can_make_with_inventory( inv, all_items_filter, batch_size, craft_flags::start_only,
-                                           true, crafter.get_learned_recipes() );
+                                           true, &crafter.get_group_available_recipes() );
 
-            required_component_crafting = simple_req.requires_comp_craft();
+            required_component_crafting = apparently_craftable && simple_req.requires_comp_craft();
             for( const auto & [skill, skill_lvl] : r->required_skills ) {
                 if( crafter.get_skill_level( skill ) < skill_lvl ) {
                     has_all_skills = false;
@@ -560,7 +567,7 @@ static std::vector<std::string> recipe_info(
 
         const std::vector<std::string> comps = req.get_folded_components_list(
                 fold_width, color, crafting_inv, recp.get_component_filter(), batch_size, qry_comps,
-                requirement_display_flags::none, recs );
+                requirement_display_flags::none, &recs );
         result.insert( result.end(), tools.begin(), tools.end() );
         result.insert( result.end(), comps.begin(), comps.end() );
     }
@@ -2163,7 +2170,7 @@ int choose_crafter( const std::vector<Character *> &crafting_group, int crafter_
 
             bool has_stuff = rec->deduped_requirements().can_make_with_inventory(
                                  chara->crafting_inventory(), rec->get_component_filter( recipe_filter_flags::none ), 1,
-                                 craft_flags::start_only, chara->get_learned_recipes() );
+                                 craft_flags::start_only, &chara->get_learned_recipes() );
             if( !has_stuff ) {
                 reasons.emplace_back( _( "stuff" ) );
             }
@@ -2226,7 +2233,7 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
     // use this item
     const itype_id tid = tmp.typeId();
     const std::set<const recipe *> &learned_recipes =
-        crafter.get_learned_recipes().of_component( tid );
+        crafter.get_group_available_recipes().of_component( tid );
     for( const recipe * const &b : learned_recipes ) {
         if( available.contains( b ) ) {
             related_results.emplace_back( b->result(), b->result_name( /*decorated=*/true ) );

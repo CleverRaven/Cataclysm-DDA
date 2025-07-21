@@ -171,6 +171,10 @@ class recipe
 
         bool npc_can_craft( std::string &reason ) const;
 
+        bool is_craftable( const read_only_visitable &crafting_inv,
+                           int batch, const recipe_subset *learned_recipes, const std::function<bool ( const item & )> &filter,
+                           bool force = false ) const;
+
         /**
          * @return a list of recursive recipes required to craft this recipe. If all components are present only this recipe is in the list.
          * If multiple alternative conponents are craftable, show a selector menu to select which component to craft.
@@ -322,6 +326,8 @@ class recipe
         // Return the amount the recipe will produce (be it charges, or whole items).
         int makes_amount() const;
 
+
+
     private:
         void incorporate_build_reqs();
         void add_requirements( const std::vector<std::pair<requirement_id, int>> &reqs );
@@ -399,6 +405,12 @@ class recipe
         bool bp_autocalc = false;
         bool check_blueprint_needs = false;
         cata::value_ptr<parameterized_build_reqs> bp_build_reqs;
+
+        /* cached check craftability for recursive crafting.
+         * saved here for performance. re-check only on different turns
+        */
+        mutable bool cached_is_craftable;
+        mutable time_point cached_is_craftable_turn;
 };
 
 #endif // CATA_SRC_RECIPE_H

@@ -184,6 +184,8 @@ class recipe_subset
         recipe_subset difference( const std::set<const recipe *> &recipe_set ) const;
         /** Find recipes producing the item */
         std::vector<const recipe *> recipes_that_produce( const itype_id &item ) const;
+        /** Same as @ref recipes_that_produce, but only forresult, not for byproducts */
+        std::vector<const recipe *> recipes_that_result( const itype_id &item ) const;
 
         size_t size() const {
             return recipes.size();

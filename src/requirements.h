@@ -15,7 +15,9 @@
 #include <utility>
 #include <vector>
 
+#include "calendar.h"
 #include "crafting.h"
+#include "pimpl.h"
 #include "recipe_dictionary.h"
 #include "translation.h"
 #include "type_id.h"
@@ -183,6 +185,11 @@ template<>
 struct enum_traits<requirement_display_flags> {
     static constexpr bool is_flag_enum = true;
 };
+
+struct craftable_comps: std::map<const item_comp, std::vector<const recipe *>> {};
+
+
+
 
 /**
  * The *_vector members represent list of alternatives requirements:
@@ -353,14 +360,14 @@ struct requirement_data {
         bool can_make_with_inventory( const read_only_visitable &crafting_inv,
                                       const std::function<bool( const item & )> &filter, int batch = 1,
                                       craft_flags = craft_flags::none, bool restrict_volume = true,
-                                      const recipe_subset &learned_recipes = recipe_subset() ) const;
+                                      const recipe_subset *learned_recipes = nullptr ) const;
 
         /** @param filter see @ref can_make_with_inventory */
         std::vector<std::string> get_folded_components_list( int width, nc_color col,
                 const read_only_visitable &crafting_inv, const std::function<bool( const item & )> &filter,
                 int batch = 1, std::string_view hilite = {},
                 requirement_display_flags = requirement_display_flags::none,
-                const recipe_subset &learned_recipes = recipe_subset() ) const;
+                const recipe_subset *learned_recipes = nullptr ) const;
 
         std::vector<std::string> get_folded_tools_list( int width, nc_color col,
                 const read_only_visitable &crafting_inv, int batch = 1 ) const;
@@ -399,17 +406,17 @@ struct requirement_data {
 
         uint64_t make_hash() const;
 
-        void cache_craftable_comps( const read_only_visitable &crafting_inv,
-                                    const std::function<bool( const item & )> &filter,
-                                    int batch = 1,
-                                    const recipe_subset &learned_recipes = recipe_subset() ) const;
 
-        std::map<const item_comp, std::vector<const recipe *>> &craftable_comps();
+
+        craftable_comps &get_craftable_comps( const read_only_visitable &crafting_inv,
+                                              const std::function<bool( const item & )> &filter,
+                                              int batch = 1,
+                                              const recipe_subset *learned_recipes = nullptr ) const;
 
         std::vector<const recipe *> craftable_recs_for_comp( item_comp comp,
                 const read_only_visitable &crafting_inv,
                 const std::function<bool( const item & )> &filter,
-                const recipe_subset &learned_recipes,
+                const recipe_subset *learned_recipes,
                 int batch = 1 ) const;
 
     private:
@@ -420,9 +427,13 @@ struct requirement_data {
         /**
          * save/cache recipes that can be crafted, so that available_status and recursiveness gets properly saved
         */
-        mutable std::map<const item_comp, std::vector<const recipe *>> craftable_comps_;
+        mutable pimpl<craftable_comps> cached_craftable_comps;
+        mutable time_point cached_craftables_turn;
 
-
+        craftable_comps &cache_craftable_comps( const read_only_visitable &crafting_inv,
+                                                const std::function<bool( const item & )> &filter,
+                                                int batch = 1,
+                                                const recipe_subset *learned_recipes = nullptr ) const;
 
         /*
          * as far as I can tell this only checks if a component is also needed by quality/tool
@@ -445,16 +456,21 @@ struct requirement_data {
         static std::string print_missing_objs( const std::string &header,
                                                const std::vector< std::vector<T> > &objs );
         template<typename T>
-        static bool has_comps(
+        bool has_comps(
             const read_only_visitable &crafting_inv, const std::vector< std::vector<T> > &vec,
             const std::function<bool( const item & )> &filter, int batch = 1,
             craft_flags = craft_flags::none,
-            const recipe_subset &learned_recipes = recipe_subset() );
+            const recipe_subset *learned_recipes = nullptr ) const;
 
         template<typename T>
-        static bool comp_is_craftable( const read_only_visitable &crafting_inv,
-                                       T comp, const std::function<bool( const item & )> &filter, int batch,
-                                       const recipe_subset &learned_recipes );
+        bool comp_is_craftable( const read_only_visitable &crafting_inv,
+                                T comp, const std::function<bool( const item & )> &filter, int batch,
+                                const recipe_subset *learned_recipes ) const ;
+        template<>
+        bool comp_is_craftable<item_comp>( const read_only_visitable &crafting_inv,
+                                           item_comp comp, const std::function<bool( const item & )> &filter, int batch,
+                                           const recipe_subset *learned_recipes ) const;
+
 
         template<typename T>
         std::vector<std::string> get_folded_list( int width, const read_only_visitable &crafting_inv,
@@ -462,7 +478,7 @@ struct requirement_data {
                 const std::vector< std::vector<T> > &objs, int batch = 1,
                 std::string_view hilite = {},
                 requirement_display_flags = requirement_display_flags::none,
-                const recipe_subset &learned_recipes = recipe_subset( ) ) const;
+                const recipe_subset *learned_recipes = nullptr ) const;
 
 
         template<typename T>
@@ -519,7 +535,7 @@ class deduped_requirement_data
         std::vector<const requirement_data *> feasible_alternatives(
             const read_only_visitable &crafting_inv, const std::function<bool( const item & )> &filter,
             int batch = 1, craft_flags = craft_flags::none,
-            const recipe_subset &learned_recipes = recipe_subset() ) const;
+            const recipe_subset *learned_recipes = nullptr ) const;
 
         const requirement_data *select_alternative(
             Character &, const std::function<bool( const item & )> &filter, int batch = 1,
@@ -532,7 +548,7 @@ class deduped_requirement_data
         bool can_make_with_inventory(
             const read_only_visitable &crafting_inv, const std::function<bool( const item & )> &filter,
             int batch = 1, craft_flags = craft_flags::none,
-            const recipe_subset &learned_recipes = recipe_subset() ) const;
+            const recipe_subset *learned_recipes = nullptr ) const;
 
         bool is_too_complex() const {
             return is_too_complex_;

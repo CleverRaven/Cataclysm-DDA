@@ -22,6 +22,7 @@
 #include "cata_variant.h"
 #include "character.h"
 #include "color.h"
+#include "crafting.h"
 #include "crafting_gui.h"
 #include "debug.h"
 #include "effect_on_condition.h"
@@ -62,6 +63,7 @@ static const itype_id itype_hotplate( "hotplate" );
 
 static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
 
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
@@ -84,6 +86,26 @@ int recipe::get_skill_cap() const
     }
 }
 
+bool recipe::is_craftable( const read_only_visitable &crafting_inv,
+                           int batch, const recipe_subset *learned_recipes, const std::function<bool ( const item & )> &filter,
+                           bool force ) const
+{
+    if( is_null() || is_blueprint() || is_nested() || is_practice() ) {
+        printf( "invalid recipe\n" );
+        return false;
+    }
+    if( !test_mode && calendar::turn == cached_is_craftable_turn && !force ) {
+        return cached_is_craftable;
+    }
+    printf( "caching %s craftabe (id: %s) \n", result_name().c_str(), ident().c_str() );
+    cached_is_craftable_turn = calendar::turn;
+    cached_is_craftable = deduped_requirements().can_make_with_inventory( crafting_inv,
+                          filter, batch, craft_flags::none, learned_recipes );
+    printf( "%s: %s\n", ident().c_str(), cached_is_craftable ? "True" : "False" );
+    return cached_is_craftable;
+}
+
+
 ret_val<void> recipe::recursive_comp_crafts( std::vector<craft_step_data> &queue,
         const read_only_visitable
         &crafting_inv, int batch, Character *crafter ) const
@@ -102,6 +124,9 @@ ret_val<void> recipe::recursive_comp_crafts( std::vector<craft_step_data> &queue
     const requirement_data *reqs = deduped_requirements().select_alternative( *crafter,
                                    get_component_filter( ), batch, craft_flags::start_only );
     queue.emplace_back( this, batch, reqs );
+    if( get_player_character().has_trait( trait_DEBUG_HS ) ) {
+        return ret_val<void>::make_success();
+    }
     if( queue.size() > 10 ) {
         return ret_val<void>::make_failure( "too many recursive component crafts required" );
     }
@@ -116,13 +141,13 @@ ret_val<void> recipe::recursive_comp_crafts( std::vector<craft_step_data> &queue
             continue;
         }
         std::vector<std::pair<const recipe *, item_comp>> craft;
-        const recipe_subset learned_recipes = crafter->get_learned_recipes();
         // if multiple alternative components are craftable, get which one to craft
         for( item_comp it : comps ) {
             // add_msg( "%i of %s in inv", crafting_inv.amount_of( it.type ), it.type.c_str() );
             for( const recipe *rec : reqs->craftable_recs_for_comp( it, crafting_inv,
-                    get_component_filter(), learned_recipes, batch ) ) {
+                    get_component_filter(), &crafter->get_group_available_recipes(), batch ) ) {
                 craft.emplace_back( rec, it );
+                add_msg_debug( debugmode::DF_CRAFTING, "rec %s is craftable", rec->result_name() );
             }
         }
 
