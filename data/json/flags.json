@@ -2720,5 +2720,10 @@
     "id": "ONE_STORY_FALL",
     "type": "json_flag",
     "//": "When the character falls, the height is reduced by 1 Z level before calculating damage."
+  },
+  {
+    "id": "CYLINDER_GRENADE",
+    "type": "json_flag",
+    "//": "A flag for the large grenade bandolier to limit the type of grenades it will accept."
   }
 ]

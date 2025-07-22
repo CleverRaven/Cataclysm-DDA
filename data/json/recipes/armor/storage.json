@@ -2600,5 +2600,19 @@
     "using": [ [ "strap_large", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_carving" } ],
     "components": [ [ [ "2x4", 4 ], [ "stick", 8 ] ] ]
+  },
+  {
+    "result": "bandolier_pipebomb",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "8 h",
+    "autolearn": true,
+    "using": [ [ "tailoring_nylon", 21 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" } ],
+    "components": [ [ [ "clasps", 7, "LIST" ] ] ]
   }
 ]
