@@ -4292,18 +4292,35 @@ void overmap::spawn_mongroup( const tripoint_om_sm &p, const mongroup_id &type, 
 {
     tripoint_om_ms submap_origin = project_to<coords::ms>( p );
     point_rel_ms cursor{ 0, 0 };
-    for( MonsterGroupResult &result : MonsterGroupManager::GetResultFromGroup( type, &count ) ) {
-        for( int i = 0; i < result.pack_size; ++i ) {
+    while( count ) {
+        for( MonsterGroupResult &result : MonsterGroupManager::GetResultFromGroup( type, &count ) ) {
+            for( int i = 0; i < result.pack_size; ++i ) {
 
-            std::optional<tripoint_om_ms> open_space =
-                find_open_space_in_submap( submap_origin, cursor );
-            if( !open_space ) {
-                // Ran out of space on the submap!
-                return;
+                std::optional<tripoint_om_ms> open_space =
+                    find_open_space_in_submap( submap_origin, cursor );
+                if( !open_space ) {
+                    // Ran out of space on the submap!
+                    return;
+                }
+                monster_map[p].emplace( project_combine( pos(), *open_space ), result.id );
             }
-            monster_map[p].emplace( project_combine( pos(), *open_space ), result.id );
         }
     }
+}
+
+std::vector<std::map<tripoint_abs_ms, horde_entity>*> overmap::hordes_at( const tripoint_om_omt &p )
+{
+    std::vector<std::map<tripoint_abs_ms, horde_entity>*> hordes;
+    // TODO: Find all 4 submaps work and return them.
+    for( int y = 0; y <= 1; ++y ) {
+        for( int x = 0; x <= 1; ++x ) {
+            auto monster_map_iter = monster_map.find( project_to<coords::sm>( p ) + point{ x, y } );
+            if( monster_map_iter != monster_map.end() ) {
+                hordes.push_back( &monster_map_iter->second );
+            }
+        }
+    }
+    return hordes;
 }
 
 /**

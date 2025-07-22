@@ -519,6 +519,8 @@ class overmapbuffer
          * (monster::pos()) is interpreted as relative to the main map.
          */
         void despawn_monster( const monster &critter );
+        void spawn_mongroup( const tripoint_abs_sm &p, const mongroup_id &type, int count );
+        std::vector<std::map<tripoint_abs_ms, horde_entity>*> hordes_at( const tripoint_abs_omt &p );
         /**
          * Find radio station with given frequency, search an unspecified area around
          * the current player location.
