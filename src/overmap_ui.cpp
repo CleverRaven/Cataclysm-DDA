@@ -25,11 +25,13 @@
 #include "cata_variant.h"
 #include "debug.h"
 #include "enum_conversions.h"
+#include "horde_entity.h"
 #include "input_enums.h"
 #include "mapdata.h"
 #include "mapgen_parameter.h"
 #include "mapgendata.h"
 #include "monster.h"
+#include "mtype.h"
 #include "simple_pathfinding.h"
 #include "translation.h"
 #include "cata_scope_helpers.h"
@@ -624,19 +626,6 @@ static void draw_ascii( const catacurses::window &w, overmap_draw_data_t &data )
                            zone.get_center_point() );
     }
 
-    // If we're debugging monster groups, find the monster group we've selected
-    const mongroup *mgroup = nullptr;
-    std::vector<mongroup *> mgroups;
-    if( uistate.overmap_debug_mongroup ) {
-        mgroups = overmap_buffer.monsters_at( cursor_pos );
-        for( mongroup * const &mgp : mgroups ) {
-            mgroup = mgp;
-            if( mgp->horde ) {
-                break;
-            }
-        }
-    }
-
     const tripoint_abs_omt corner = cursor_pos - point( om_half_width, om_half_height );
 
     // For use with place_special: cache the color and symbol of each submap
@@ -759,11 +748,10 @@ static void draw_ascii( const catacurses::window &w, overmap_draw_data_t &data )
 
             // Are we debugging monster groups?
             if( blink && uistate.overmap_debug_mongroup ) {
-                // Check if this tile is the target of the currently selected group
-
-                if( mgroup && project_to<coords::omt>( mgroup->target ) == omp.xy() ) {
-                    ter_color = c_red;
-                    ter_sym = "x";
+                // TODO Check if this tile is a target of the currently highlighted horde.
+                std::vector<std::map<tripoint_abs_ms, horde_entity>*> hordes = overmap_buffer.hordes_at( omp );
+                if( !hordes.empty() ) {
+                    ter_sym = "+";
                 } else {
                     const auto &groups = overmap_buffer.monsters_at( omp );
                     for( const mongroup *mgp : groups ) {
@@ -771,30 +759,22 @@ static void draw_ascii( const catacurses::window &w, overmap_draw_data_t &data )
                             // Don't flood the map with forest creatures.
                             continue;
                         }
-                        if( mgp->horde ) {
-                            // Hordes show as +
-                            ter_sym = "+";
-
-                            if( mgp->type == GROUP_NEMESIS ) {
-                                // nemesis horde shows as &
-                                ter_sym = "&";
-                                ter_color = c_red;
-                            }
-
+                        if( mgp->horde && mgp->type == GROUP_NEMESIS ) {
+                            // nemesis horde shows as &
+                            ter_sym = "&";
+                            ter_color = c_red;
                             break;
-
-                        } else {
-                            // Regular groups show as -
-                            ter_sym = "-";
                         }
+                        // Regular groups show as -
+                        ter_sym = "-";
                     }
-                    // Set the color only if we encountered an eligible group.
-                    if( ter_sym == "+" || ter_sym == "-" ) {
-                        if( get_and_assign_los( oter_args.los, player_character, omp, sight_points ) ) {
-                            ter_color = c_light_blue;
-                        } else {
-                            ter_color = c_blue;
-                        }
+                }
+                // Set the color only if we encountered an eligible group.
+                if( ter_sym == "+" || ter_sym == "-" ) {
+                    if( get_and_assign_los( oter_args.los, player_character, omp, sight_points ) ) {
+                        ter_color = c_light_blue;
+                    } else {
+                        ter_color = c_blue;
                     }
                 }
             }
@@ -979,15 +959,10 @@ static void draw_om_sidebar( ui_adaptor &ui,
     const bool has_target = !target.is_invalid();
     const bool viewing_weather = uistate.overmap_debug_weather || uistate.overmap_visible_weather;
 
-    // If we're debugging monster groups, find the monster group we've selected
-    std::vector<mongroup *> mgroups;
+    // If we're debugging hordes, find the monsters we've selected
+    std::vector<std::map<tripoint_abs_ms, horde_entity>*> hordes;
     if( uistate.overmap_debug_mongroup ) {
-        mgroups = overmap_buffer.monsters_at( cursor_pos );
-        for( mongroup * const &mgp : mgroups ) {
-            if( mgp->horde ) {
-                break;
-            }
-        }
+        hordes = overmap_buffer.hordes_at( cursor_pos );
     }
 
     // Draw the vertical line
@@ -1000,28 +975,31 @@ static void draw_om_sidebar( ui_adaptor &ui,
     // Draw text describing the overmap tile at the cursor position.
     int lines = 1;
     if( center_vision != om_vision_level::unseen ) {
-        if( !mgroups.empty() ) {
+        if( !hordes.empty() ) {
             const point desc_pos( 3, 6 );
             ui.set_cursor( wbar, desc_pos );
             int line_number = 0;
-            for( mongroup * const &mgroup : mgroups ) {
-                wattron( wbar, c_blue );
-                mvwprintw( wbar, desc_pos + point( 0, line_number++ ),
-                           "  Species: %s", mgroup->type.c_str() );
-                mvwprintw( wbar, desc_pos + point( 0, line_number++ ),
-                           "# monsters: %d", mgroup->population + mgroup->monsters.size() );
-                if( !mgroup->horde ) {
+            int horde_size = 0;
+            for( std::map<tripoint_abs_ms, horde_entity> *horde : hordes ) {
+                horde_size += horde->size();
+                // TODO: This overruns the sidebar, need to display better somehow, maybe a popup?
+#if 0
+                for( std::pair<const tripoint_abs_ms, horde_entity> &entity : *horde ) {
+                    wattron( wbar, c_blue );
+                    const mtype *horde_type = entity.second.get_type();
+                    mvwprintw( wbar, desc_pos + point( 0, line_number++ ),
+                               "  Species: %s", horde_type->nname() );
+                    mvwprintw( wbar, desc_pos + point( 0, line_number++ ),
+                               "  Interest: %d", entity.second.tracking_intensity );
+                    mvwprintw( wbar, desc_pos + point( 0, line_number++ ),
+                               "  Target: %s", entity.second.destination.to_string() );
                     wattroff( wbar, c_blue );
-                    continue;
+                    mvwprintz( wbar, desc_pos + point( 0, line_number++ ),
+                               c_red, "x" );
                 }
-                mvwprintw( wbar, desc_pos + point( 0, line_number++ ),
-                           "  Interest: %d", mgroup->interest );
-                mvwprintw( wbar, desc_pos + point( 0, line_number++ ),
-                           "  Target: %s", mgroup->target.to_string() );
-                wattroff( wbar, c_blue );
-                mvwprintz( wbar, desc_pos + point( 0, line_number++ ),
-                           c_red, "x" );
+#endif
             }
+            mvwprintw( wbar, desc_pos + point( 0, line_number++ ), "Horde, population: %d", horde_size );
         } else {
             const oter_t &ter = overmap_buffer.ter( cursor_pos ).obj();
             const auto sm_pos = project_to<coords::sm>( cursor_pos );
@@ -1131,6 +1109,21 @@ static void draw_om_sidebar( ui_adaptor &ui,
         wattroff( wbar, c_white );
 
         wattron( wbar, c_red );
+        int monster_count = 0;
+        std::set<std::string> monster_types;
+        for( std::map<tripoint_abs_ms, horde_entity> *horde : overmap_buffer.hordes_at( cursor_pos ) ) {
+            for( std::pair<const tripoint_abs_ms, horde_entity> &entity : *horde ) {
+                monster_count++;
+                const mtype *entity_type = entity.second.get_type();
+                monster_types.insert( entity_type->nname() );
+            }
+        }
+        if( monster_count ) {
+            mvwprintw( wbar, point( 1, ++lines ), "Spotted %d entities", monster_count );
+            for( const std::string &monster_name : monster_types ) {
+                mvwprintw( wbar, point( 1, ++lines ), "Type %s", monster_name );
+            }
+        }
         for( const mongroup *mg : overmap_buffer.monsters_at( cursor_pos ) ) {
             mvwprintw( wbar, point( 1, ++lines ), "mongroup %s (%zu/%u), %s %s%s",
                        mg->type.str(), mg->monsters.size(), mg->population,
@@ -1409,7 +1402,8 @@ static bool create_point_of_interest( const tripoint_abs_omt &curs )
 }
 
 // if false, search yielded no results
-static bool search( const ui_adaptor &om_ui, tripoint_abs_omt &curs, const tripoint_abs_omt &orig )
+static bool search( const ui_adaptor &om_ui, tripoint_abs_omt &curs,
+                    const tripoint_abs_omt &orig )
 {
     input_context ctxt( "STRING_INPUT" );
     std::vector<std::string> act_descs;

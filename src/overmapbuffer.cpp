@@ -1975,6 +1975,15 @@ void overmapbuffer::spawn_monster( const tripoint_abs_sm &p, bool spawn_nonlocal
     om.monster_map.erase( monster_bucket );
 }
 
+void overmapbuffer::spawn_mongroup( const tripoint_abs_sm &p, const mongroup_id &type, int count )
+{
+    point_abs_om omp;
+    tripoint_om_sm submap_loc;
+    std::tie( omp, submap_loc ) = project_remain<coords::om>( p );
+    overmap &om = get( omp );
+    om.spawn_mongroup( submap_loc, type, count );
+}
+
 void overmapbuffer::despawn_monster( const monster &critter )
 {
     // Get the overmap coordinates and get the overmap, sm is now local to that overmap
@@ -1992,6 +2001,17 @@ void overmapbuffer::despawn_monster( const monster &critter )
         om.monster_map[sm].insert( std::make_pair( critter.pos_abs(), horde_entity( critter ) ) );
     }
 }
+
+std::vector<std::map<tripoint_abs_ms, horde_entity>*> overmapbuffer::hordes_at(
+    const tripoint_abs_omt &p )
+{
+    point_abs_om omp;
+    tripoint_om_omt omt;
+    std::tie( omp, omt ) = project_remain<coords::om>( p );
+    overmap &om = get( omp );
+    return om.hordes_at( omt );
+}
+
 
 horde_entity &overmapbuffer::spawn_monster( const tripoint_abs_ms &p, mtype_id id )
 {
