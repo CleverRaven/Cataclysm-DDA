@@ -22,7 +22,6 @@
     "id": "mend_armor_weld_lc",
     "name": "Weld the hole using a welder.",
     "faults_removed": [ "fault_armor_lc_punctured", "fault_armor_mc_punctured" ],
-    "faults_added": [ "fault_armor_mistempered" ],
     "success_msg": "You weld %s tear.",
     "time": "1 h",
     "skills": { "fabrication": 6 },
