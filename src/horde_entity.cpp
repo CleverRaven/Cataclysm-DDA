@@ -22,3 +22,8 @@ horde_entity::horde_entity( const mtype_id &original )
 {
     type_id = &original.obj();
 }
+
+const mtype *horde_entity::get_type() const
+{
+    return type_id ? type_id : monster_data->type;
+}
