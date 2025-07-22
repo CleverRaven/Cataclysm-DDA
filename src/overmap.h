@@ -377,6 +377,7 @@ class overmap
         void spawn_monsters( const tripoint_om_sm &p, std::vector<monster> &monsters );
         // Spawn monsters from a mongroup on a specified submap.
         void spawn_mongroup( const tripoint_om_sm &p, const mongroup_id &type, int count );
+        std::vector<std::map<tripoint_abs_ms, horde_entity>*> hordes_at( const tripoint_om_omt &p );
         /**
          * Getter for overmap scents.
          * @returns a reference to a scent_trace from the requested location.
