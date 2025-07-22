@@ -42,7 +42,7 @@
       { "prob": 10, "group": "onion_bag_plastic_1" },
       { "prob": 50, "group": "yeast_various" },
       { "prob": 8, "group": "yogurt_starter_culture_bag_plastic_4" },
-      { "prob": 40, "group": "cornmeal_box_small_10" },
+      { "prob": 40, "group": "cornmeal_box_full" },
       { "item": "dry_meat", "prob": 10 },
       { "item": "dry_fish", "prob": 10 },
       { "item": "dry_lobster", "prob": 10, "container-item": "wrapper" },
@@ -67,11 +67,11 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "birdfood", "prob": 10 },
+      { "item": "birdfood", "prob": 10, "container-item": "bag_plastic", "count": -1 },
       { "item": "dogfood", "prob": 30, "container-item": "can_medium" },
       { "item": "catfood", "prob": 30, "container-item": "can_food" },
-      { "prob": 10, "group": "dogfood_dry_bag_plastic_12" },
-      { "prob": 10, "group": "catfood_dry_bag_plastic_12" }
+      { "prob": 10, "item": "dogfood_dry", "count": -1 },
+      { "prob": 10, "item": "catfood_dry", "count": -1 }
     ]
   },
   {
@@ -243,7 +243,7 @@
       { "prob": 20, "group": "milk_powder_various" },
       { "prob": 20, "group": "cocoa_powder_various" },
       { "prob": 20, "group": "milk_cocoa_powder_various" },
-      { "prob": 30, "group": "cornmeal_box_small_10" },
+      { "prob": 30, "group": "cornmeal_box_full" },
       { "prob": 20, "group": "tortilla_corn_bag_plastic_full" },
       { "prob": 20, "group": "tortilla_flour_bag_plastic_full" },
       { "prob": 20, "group": "powder_eggs_bottle_plastic_small_16" },
