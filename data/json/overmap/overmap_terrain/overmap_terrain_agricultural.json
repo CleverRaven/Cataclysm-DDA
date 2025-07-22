@@ -31,7 +31,7 @@
     "color": "i_brown",
     "vision_levels": "isolated_building",
     "delete": { "flags": [ "RISK_HIGH", "PP_GENERATE_RIOT_DAMAGE" ] },
-    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ] }
+    "extend": { "flags": [ "SOURCE_FOOD", "RISK_LOW", "SOURCE_FARMING" ] }
   },
   {
     "type": "overmap_terrain",
