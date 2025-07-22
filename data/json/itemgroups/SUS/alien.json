@@ -158,7 +158,7 @@
       {
         "collection": [
           { "item": "chem_agar", "count": [ 2, -1 ], "prob": 20 },
-          { "item": "lye", "count": [ 2, -1 ], "prob": 45 },
+          { "item": "lye", "charges": [ 2, -1 ], "prob": 45 },
           { "group": "lye_powder_bottle_part", "prob": 20 },
           { "item": "chem_sulphur", "prob": 30, "charges": [ 100, -1 ], "container-item": "bottle_plastic_small" },
           { "item": "chem_peptone_broth", "prob": 95 }
