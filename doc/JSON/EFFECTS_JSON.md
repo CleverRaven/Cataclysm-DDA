@@ -1,3 +1,42 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Effects](#effects)
+  - [How to give effects in-game?](#how-to-give-effects-in-game)
+    - [Comestibles](#comestibles)
+    - [Creature attacks](#creature-attacks)
+  - [Required fields](#required-fields)
+  - [Optional fields](#optional-fields)
+    - [Max intensity](#max-intensity)
+    - [Name](#name)
+    - [Descriptions](#descriptions)
+    - [Rating](#rating)
+    - [Messages](#messages)
+    - [Advanced apply_message](#advanced-apply_message)
+    - [Hiding the effect](#hiding-the-effect)
+    - [Memorial Log](#memorial-log)
+    - [Resistances](#resistances)
+    - [Immunity Flags](#immunity-flags)
+    - [Bodypart Immunity Flags](#bodypart-immunity-flags)
+    - [Removes effects](#removes-effects)
+    - [Blocks effects](#blocks-effects)
+    - [Modifies effect-on-hit durations](#modifies-effect-on-hit-durations)
+    - [Effect limiters](#effect-limiters)
+    - [Intensities](#intensities)
+    - [Miss messages](#miss-messages)
+    - [Decay messages](#decay-messages)
+    - [Targeting modifiers](#targeting-modifiers)
+    - [Effect modifiers](#effect-modifiers)
+    - [Vitamin Mods](#vitamin-mods)
+    - [Death](#death)
+    - [Limb score modifiers](#limb-score-modifiers)
+    - [Effect effects](#effect-effects)
+  - [Example Effect](#example-effect)
+    - [Blood analysis description](#blood-analysis-description)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Effects
 
 ## How to give effects in-game?
