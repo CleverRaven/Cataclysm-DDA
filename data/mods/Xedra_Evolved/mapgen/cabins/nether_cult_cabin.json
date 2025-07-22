@@ -93,10 +93,10 @@
         "|BBl        LC A+     |#",
         "|t      cd     A----- |#",
         "|---+---------%------ |#",
-        "|Ś   s-      - -    | |#",
-        "|ȻȻ  j-      + +    | |#",
-        "|------      - -    | |#",
-        "|  - L-      - -    | |#",
+        "|Ś   s-      - -    - |#",
+        "|ȻȻ  j-      + +    - |#",
+        "|------      - -    - |#",
+        "|  - L-      - -    - |#",
         "|  ?  --------+------ |#",
         "|--- c---<     gSSS-  |#",
         "|  -  ----        S- ||#",
@@ -180,6 +180,7 @@
       },
       "place_item": [
         { "item": "book_deduction_black_iron_prison", "x": 1, "y": 2, "chance": 50 },
+        { "item": "book_nether_sorcery_opening_of_the_way", "x": 20, "y": 21, "chance": 100 },
         { "item": "mop", "x": 7, "y": 17 },
         { "item": "candle", "chance": 95, "x": 16, "y": 18 },
         { "item": "candle", "chance": 95, "x": 16, "y": 18 },
@@ -203,13 +204,40 @@
         { "group": "GROUP_NETHER_CULT", "x": [ 13, 20 ], "y": [ 17, 22 ], "chance": 75, "repeat": [ 0, 2 ] }
       ],
       "place_fields": [
-        { "field": "fd_blood", "x": [ 13, 21 ], "y": [ 17, 22 ], "repeat": [ 18, 36 ] },
-        { "field": "fd_gibs_flesh", "x": [ 13, 21 ], "y": [ 17, 22 ], "repeat": [ 6, 12 ] }
+        { "field": "fd_blood", "x": [ 13, 21 ], "y": [ 17, 22 ], "repeat": [ 22, 44 ] },
+        { "field": "fd_gibs_flesh", "x": [ 13, 21 ], "y": [ 17, 22 ], "repeat": [ 12, 24 ] }
       ],
       "place_nested": [
         { "chunks": [ "cabin_nether_cult_basement_4x4_opening_rec_area" ], "x": 15, "y": 9 },
         { "chunks": [ "cabin_nether_cult_basement_6x6_meeting_room" ], "x": 7, "y": 3 },
-        { "chunks": [ "cabin_nether_cult_basement_4x4_library" ], "x": 16, "y": 4 }
+        { "chunks": [ "cabin_nether_cult_basement_4x4_library" ], "x": 16, "y": 4 },
+        {
+          "chunks": [
+            [ "null", 6 ],
+            [ "cabin_nether_cult_basement_4x4_star_vampire_overlay", 1 ],
+            [ "cabin_nether_cult_basement_4x4_huntsman_overlay", 1 ]
+          ],
+          "x": 8,
+          "y": 4
+        },
+        {
+          "chunks": [
+            [ "null", 8 ],
+            [ "cabin_nether_cult_basement_4x4_star_vampire_overlay", 1 ],
+            [ "cabin_nether_cult_basement_4x4_huntsman_overlay", 1 ]
+          ],
+          "x": 16,
+          "y": 4
+        },
+        {
+          "chunks": [
+            [ "null", 3 ],
+            [ "cabin_nether_cult_basement_4x4_star_vampire_overlay", 1 ],
+            [ "cabin_nether_cult_basement_4x4_huntsman_overlay", 1 ]
+          ],
+          "x": 7,
+          "y": 20
+        }
       ]
     }
   },
@@ -285,7 +313,12 @@
         "L": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" },
         "t": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" }
       },
-      "furniture": { "A": "f_bookcase", "C": "f_armchair", "L": "f_floor_lamp" },
+      "furniture": { 
+        "A": "f_bookcase",
+        "C": "f_armchair",
+        "L": "f_floor_lamp"
+        "t": "f_table"
+      },
       "items": {
         "A": [
           { "item": "homebooks", "chance": 75 },
@@ -341,6 +374,46 @@
         "t": { "item": "nether_cabin_ritual_cult_meeting_room", "chance": 50, "repeat": [ 2, 5 ] }
       },
       "place_monster": [ { "group": "GROUP_NETHER_CULT", "x": [ 0, 3 ], "y": [ 0, 3 ], "chance": 25 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "cabin_nether_cult_basement_4x4_star_vampire_overlay",
+    "//": "An overlay with a star vampire with minimal blood.",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "    ",
+        "    ",
+        "    ",
+        "    "
+      ],
+      "place_fields": [
+        { "field": "fd_blood", "x": [ 0, 3 ], "y": [ 0, 3 ], "repeat": [ 1, 2 ] },
+        { "field": "fd_gibs_flesh", "x": [ 0, 3 ], "y": [ 0, 3 ], "repeat": [ 2, 4 ] }
+      ],
+      "place_monster": [ { "monster": "mon_star_vampire", "x": [ 0, 3 ], "y": [ 0, 3 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "cabin_nether_cult_basement_4x4_nether_huntsman_overlay",
+    "//": "An overlay with a nether huntsman with gore.",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "    ",
+        "    ",
+        "    ",
+        "    "
+      ],
+      "place_fields": [
+        { "field": "fd_blood", "x": [ 0, 3 ], "y": [ 0, 3 ], "repeat": [ 6, 12 ] },
+        { "field": "fd_gibs_flesh", "x": [ 0, 3 ], "y": [ 0, 3 ], "repeat": [ 2, 4 ] }
+      ],
+      "place_monster": [ { "monster": "mon_star_vampire", "x": [ 0, 3 ], "y": [ 0, 3 ] } ]
     }
   }
 ]
