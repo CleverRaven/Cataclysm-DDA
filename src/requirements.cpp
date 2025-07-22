@@ -1953,6 +1953,7 @@ const requirement_data *deduped_requirement_data::select_alternative(
     int batch, craft_flags flags ) const
 {
     const std::vector<const requirement_data *> all_reqs =
-        feasible_alternatives( inv, filter, batch, flags, &crafter.get_group_available_recipes() );
+        feasible_alternatives( inv, filter, batch, flags, &crafter.get_group_available_recipes( nullptr,
+                               true ) );
     return crafter.select_requirements( all_reqs, 1, inv, filter );
 }

@@ -3571,23 +3571,27 @@ class Character : public Creature, public visitable
         const recipe_subset &get_learned_recipes() const;
         recipe_subset get_available_nested( const recipe_subset & ) const;
         /** Returns all recipes that are known from the books (either in inventory or nearby). */
-        recipe_subset get_recipes_from_books( const inventory &crafting_inv ) const;
+        recipe_subset get_recipes_from_books( const inventory &crafting_inv,
+                                              bool require_skill = false ) const;
         /** Returns all recipes that are known from the books inside ereaders (either in inventory or nearby). */
-        recipe_subset get_recipes_from_ebooks( const inventory &crafting_inv ) const;
+        recipe_subset get_recipes_from_ebooks( const inventory &crafting_inv,
+                                               bool require_skill = false ) const;
     protected:
         /**
           * Return all available recipes (from books and companions)
           * @param crafting_inv Current available items to craft
           * @param helpers List of Characters that could help with crafting.
+          * @param require_skill Only list recipes you/helpers have the skill to craft.
           */
         recipe_subset get_available_recipes( const inventory &crafting_inv,
-                                             const std::vector<Character *> *helpers = nullptr ) const;
+                                             const std::vector<Character *> *helpers = nullptr, bool require_skill = false ) const;
     public:
         /**
           * Return all available recipes for any member of `this` crafter's group. Using `this` inventory.
           * If a valid inventory pointer is passed as an argument then returns early with only 'this' crafter using the passed inventory.
           */
-        recipe_subset &get_group_available_recipes( inventory *inventory_override = nullptr ) const;
+        recipe_subset &get_group_available_recipes( inventory *inventory_override = nullptr,
+                bool require_skill = false ) const;
         /**
           * Returns the set of book types in crafting_inv that provide the
           * given recipe.
