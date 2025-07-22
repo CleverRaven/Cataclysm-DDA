@@ -9,6 +9,7 @@
 #include <memory>
 
 class monster;
+struct mtype;
 
 // This represents a single entity that moves around at overmap scale.
 // It needs to spawn the related monster, ideally with any notable details intact.
@@ -19,6 +20,9 @@ struct horde_entity {
     horde_entity( const monster &original );
     // Create a lightweight entity based on a monster id.
     horde_entity( const mtype_id &original );
+    // Retrieve the mtype whether it's a light or heavy entity.
+    const mtype *get_type() const;
+
     // Data here related to processing while acting as a horde entity.
     // a glaring omission is location, the parent horde container knows that.
     // TODO: There are a LOT of horde_entity instances, and destination is a large proportion of it,
