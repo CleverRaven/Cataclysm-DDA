@@ -799,7 +799,7 @@ void game::setup()
     // invalidate calendar caches in case we were previously playing
     // a different world
     calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
-	// must be called before load_world_modfiles() #81904
+    // must be called before load_world_modfiles() #81904
     calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
 
     world_generator->get_mod_manager().check_mods_list( world_generator->active_world );
