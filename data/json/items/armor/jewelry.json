@@ -4755,7 +4755,6 @@
     "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "22_casing", "name": { "str": "light rifle-cartridge necklace" } },
       { "type": "COMPONENT_ID", "condition": "38_casing", "name": { "str": "revolver-cartridge necklace" } },
-      { "type": "COMPONENT_ID", "condition": "46mm_casing", "name": { "str": "automatic-cartridge necklace" } },
       { "type": "COMPONENT_ID", "condition": "57mm_casing", "name": { "str": "automatic-cartridge necklace" } },
       { "type": "COMPONENT_ID", "condition": "45colt_casing", "name": { "str": "revolver-cartridge necklace" } },
       { "type": "COMPONENT_ID", "condition": "357mag_casing", "name": { "str": "magnum-cartridge necklace" } },
@@ -4891,7 +4890,6 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "454_casing", "name": { "str_sp": "Judge's Wrath" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "460sw_casing", "name": { "str_sp": "Hyper Velocity" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "45_casing", "name": { "str_sp": "God's Caliber" } },
-      { "type": "COMPONENT_ID_SUBSTRING", "condition": "46mm_casing", "name": { "str_sp": "Heckler's Screamer" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "57mm_casing", "name": { "str_sp": "Needle Rain" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "500_casing", "name": { "str_sp": "Recoil-Rider" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "762_25_casing", "name": { "str_sp": "Revolutionary's" } },

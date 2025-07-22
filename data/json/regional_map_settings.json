@@ -354,7 +354,7 @@
       "segment_ramp_special": "highway_segment_ramp",
       "fallback_onramp_special": "Highway Fallback Onramp",
       "four_way_intersections": { "Highway Clover Leaf": 1 },
-      "fallback_four_way_intersection_special": "Highway Fallback Crossroad",
+      "fallback_four_way_intersection_special": "Highway Fallback Four-Way Intersection",
       "three_way_intersections": { "Highway Trumpet Interchange": 1 },
       "fallback_three_way_intersection_special": "Highway Fallback Tee",
       "bends": { "Highway Bend": 1 },

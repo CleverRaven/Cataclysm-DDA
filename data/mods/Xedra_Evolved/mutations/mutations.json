@@ -208,7 +208,7 @@
       { "condition": "ALWAYS", "ench_effects": [ { "effect": "effect_lilin_vampire_immune", "intensity": 1 } ] }
     ],
     "//": "Dhampirs not getting Cannibal is deliberate.  The struggle over their own humanity is a core part of the dhampir theme.",
-    "flags": [ "HEMOVORE" ],
+    "flags": [ "HEMOVORE", "HERITAGE" ],
     "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ]
   },
   {
@@ -1249,11 +1249,13 @@
         "condition": "ALWAYS",
         "values": [
           { "value": "SPEED", "multiply": 0.1 },
+          { "value": "MAX_HP", "multiply": -0.85 },
           { "value": "MELEE_DAMAGE", "multiply": -0.95 },
           { "value": "NIGHT_VIS", "add": 6 },
           { "value": "DEXTERITY", "add": 8 },
           { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 }
         ],
+        "mutations": [ "ECHOLOCATION" ],
         "ench_effects": [ { "effect": "effect_vampire_bat_form_levitation", "intensity": 1 } ],
         "skills": [ { "value": "dodge", "add": 8 } ]
       },
@@ -2097,6 +2099,7 @@
     "purifiable": false,
     "valid": false,
     "profession": true,
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ],
     "types": [ "HERITAGE" ]
   }
 ]

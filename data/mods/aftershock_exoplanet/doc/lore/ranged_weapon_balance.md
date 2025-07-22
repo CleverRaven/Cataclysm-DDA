@@ -25,6 +25,7 @@ This table contains every single ranged weapon in the mod and is to be used for 
 |handheld x-ray cannon          |Obsolete   |                   |            |          |       |      |        |    |    |     |                                          |
 |shoddy laser rifle             |Obsolete   |                   |LASER CELL  |          |       |      |        |    |    |     |                                          |
 |av-22                          |LASER      |Pistol             |LASER CELL  |          |5      |      |        |    |    |3    |                                          |
+|Graf 335L                      |LASER      |Handcannon         |LASER CELL  |          |50     |      |        |    |    |1    |Very frequent overheats                   |
 |E-150b                         |LASER      |Pistol             |LASER CELL  |          |20     |      |        |20  |    |2    |                                          |
 |Izhevsk PLC-75                 |LASER      |Recoiless Rifle    |LASER CELL  |          |300    |      |        |50  |    |1    |Single shot                               |
 |Shikishma A-82 tactical laser  |LASER      |AT  Sniper         |LASER CELL  |          |45     |      |        |50  |    |3    |                                          |

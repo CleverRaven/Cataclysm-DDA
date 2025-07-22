@@ -40,6 +40,32 @@
   },
   {
     "type": "ter_furn_transform",
+    "id": "your_ship_stairs_up",
+    "terrain": [ { "result": "t_ship_stairs_down_retracted", "valid_terrain": [ "t_ship_stairs_down" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "your_ship_stairs_down",
+    "terrain": [ { "result": "t_ship_stairs_down", "valid_terrain": [ "t_ship_stairs_down_retracted" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "your_ship_ramp_up",
+    "terrain": [
+      { "result": "t_afs_ship_retracted_bay_ramp", "valid_terrain": [ "t_bay_rap_down" ] },
+      { "result": "t_afs_ship_retracted_bay_ramp_air", "valid_terrain": [ "t_open_air_bay" ] }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "your_ship_ramp_down",
+    "terrain": [
+      { "result": "t_bay_rap_down", "valid_terrain": [ "t_afs_ship_retracted_bay_ramp" ] },
+      { "result": "t_open_air_bay", "valid_terrain": [ "t_afs_ship_retracted_bay_ramp_air" ] }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
     "//": "Used for generic critical failures on furniture that doesn't define custom behavior.",
     "id": "afs_multi_lockdown",
     "furniture": [

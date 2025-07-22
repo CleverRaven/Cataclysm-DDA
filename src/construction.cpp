@@ -1313,7 +1313,11 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
     } else {
         // Use up the components
         for( const std::vector<item_comp> &it : con.requirements->get_components() ) {
-            std::list<item> tmp = player_character.consume_items( it, 1, is_crafting_component );
+            std::list<item> tmp = player_character.consume_items( it, 1, is_crafting_component,
+                                  return_false<itype_id>, true );
+            if( tmp.empty() ) {
+                return;
+            }
             used.splice( used.end(), tmp );
         }
     }
@@ -1578,10 +1582,10 @@ bool construct::check_deconstruct( const tripoint_bub_ms &p )
         if( here.has_flag_furn( ter_furn_flag::TFLAG_EASY_DECONSTRUCT, p ) ) {
             return false;
         }
-        return !!here.furn( p ).obj().deconstruct;
+        return !!here.furn( p ).obj().deconstruct || !here.furn( p ).obj().base_item.is_null();
     }
     // terrain can only be deconstructed when there is no furniture in the way
-    return !!here.ter( p ).obj().deconstruct;
+    return !!here.ter( p ).obj().deconstruct || !here.furn( p ).obj().base_item.is_null();
 }
 
 bool construct::check_up_OK( const tripoint_bub_ms & )
@@ -1808,19 +1812,24 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
     // TODO: Make this the argument
     if( here.has_furn( p ) ) {
         const furn_t &f = here.furn( p ).obj();
-        if( !f.deconstruct ) {
+        if( !f.has_disassembly() ) {
             add_msg( m_info, _( "That %s can not be disassembled!" ), f.name() );
             return;
         }
-        if( f.deconstruct->furn_set.str().empty() ) {
+        if( !f.deconstruct || f.deconstruct->furn_set.str().empty() ) {
             here.furn_set( p, furn_str_id::NULL_ID() );
         } else {
             here.furn_set( p, f.deconstruct->furn_set );
         }
         add_msg( _( "The %s is disassembled." ), f.name() );
         item &item_here = here.i_at( p ).size() != 1 ? null_item_reference() : here.i_at( p ).only_item();
-        const std::vector<item *> drop = here.spawn_items( p,
-                                         item_group::items_from( f.deconstruct->drop_group, calendar::turn ) );
+        std::vector<item *> drop;
+        if( !f.base_item.is_null() ) {
+            here.spawn_item( p, f.base_item );
+        } else {
+            drop = here.spawn_items( p, item_group::items_from( f.deconstruct->drop_group, calendar::turn ) );
+        }
+
         if( f.deconstruct->skill.has_value() ) {
             deconstruction_practice_skill( f.deconstruct->skill.value() );
         }
@@ -1859,7 +1868,13 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
         }
         here.ter_set( p, t.deconstruct->ter_set );
         add_msg( _( "The %s is disassembled." ), t.name() );
-        here.spawn_items( p, item_group::items_from( t.deconstruct->drop_group, calendar::turn ) );
+
+        if( !t.base_item.is_null() ) {
+            here.spawn_item( p, t.base_item );
+        } else {
+            here.spawn_items( p, item_group::items_from( t.deconstruct->drop_group, calendar::turn ) );
+        }
+
         if( t.deconstruct->skill.has_value() ) {
             deconstruction_practice_skill( t.deconstruct->skill.value() );
         }
@@ -2098,13 +2113,13 @@ void construct::do_turn_deconstruct( const tripoint_bub_ms &p, Character &who )
         std::string tname;
         if( here.has_furn( p ) ) {
             const furn_t &f = here.furn( p ).obj();
-            if( f.deconstruct ) {
-                deconstruct_query( f.deconstruct->potential_deconstruct_items( f.name() ) );
+            if( f.deconstruct || !f.base_item.is_null() ) {
+                deconstruct_query( f.deconstruct->potential_deconstruct_items( f ) );
             }
         } else {
             const ter_t &t = here.ter( p ).obj();
-            if( t.deconstruct ) {
-                deconstruct_query( t.deconstruct->potential_deconstruct_items( t.name() ) );
+            if( t.deconstruct || !t.base_item.is_null() ) {
+                deconstruct_query( t.deconstruct->potential_deconstruct_items( t ) );
             }
         }
         if( cancel_construction ) {

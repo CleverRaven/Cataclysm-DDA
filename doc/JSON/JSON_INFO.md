@@ -199,6 +199,7 @@ Use the `Home` key to return to the top.
   - [`whitelist_hobbies`](#whitelist_hobbies-1)
   - [`map_special`](#map_special)
   - [`requirement`](#requirement)
+  - [`hard_requirement`](#hard_requirement)
   - [`reveal_locale`](#reveal_locale)
   - [`distance_initial_visibility`](#distance_initial_visibility)
   - [`eoc`](#eoc)
@@ -1635,7 +1636,7 @@ Fault fixes are methods to fix faults, the fixes can optionally add other faults
   "requirements": [ [ "gun_cleaning", 1 ] ], // requirements array, see below
   "mod_damage": 1000, // damage to modify on item when fix is applied, can be negative to repair
   "mod_degradation": 50, // degradation to modify on item when fix is applied, can be negative to reduce degradation
-  "time_save_profs": { "prof_gun_cleaning": 0.5 }, // this prof change how fast you fix the item
+  "time_save_profs": { "prof_gun_cleaning": 0.5, "prof_welding": 0.5, }, // those proficiencies change how fast you fix the item
   "time_save_flags": { "EASY_CLEAN": 0.5 } // This flag on the item change how fast you fix this item
 }
 ```
@@ -1964,6 +1965,7 @@ The following properties (mandatory, except if noted otherwise) are supported:
     "CBMs": [ "bio_fuel_cell_blood" ],                         // (optional) Array of starting implanted CMBs
     "traits": [ "PROF_CHURL", "ILLITERATE" ],                  // (optional) Array of starting traits/mutations. For further information, see mutations.json and MUTATIONS.md. Note: "trait" is also supported, used for a single trait/mutation ID (legacy!)
     "requirement": "achievement_survive_28_days",              // (optional) String of an achievement ID required to unlock this profession
+    "hard_requirement": true,                                  // (optional) Defaults false. Whether or not the requirement ignores the metaprogression setting and is always required. Intended for use by mods.
     "effect_on_conditions": [ "scenario_assassin_conv" ],      // (optional) eoc id, inline eoc, or multiple of them, that would run when scenario starts
     "spells": [                                                // (optional) Array of starting spell IDs the character knows upon creation. For further information, see MAGIC.md
       { "id": "magic_missile", "level": 4 },
@@ -4058,6 +4060,12 @@ Add a map special to the starting location, see JSON_FLAGS for the possible spec
 (optional, an achievement ID)
 
 The achievement you need to do to access this scenario
+
+## `hard_requirement`
+
+(optional, bool)
+
+Defaults false. Whether or not the requirement ignores the metaprogression setting and is always required. Intended for use by mods.
 
 ## `reveal_locale`
 

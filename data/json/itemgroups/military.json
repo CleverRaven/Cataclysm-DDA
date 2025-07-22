@@ -692,7 +692,8 @@
       { "item": "instant_coffee", "prob": 25 },
       { "item": "con_milk", "prob": 10 },
       { "item": "milk_UHT", "prob": 25 },
-      { "prob": 20, "group": "cereal_box_small_4" },
+      { "prob": 20, "group": "box_cereal2" },
+      { "prob": 20, "group": "box_cereal3" },
       { "item": "sports_drink", "prob": 40 },
       { "item": "water_clean", "prob": 90 }
     ]

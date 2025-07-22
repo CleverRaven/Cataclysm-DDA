@@ -134,6 +134,7 @@ class mod_manager
          * world.
          */
         void load_mods_list( WORLD *world ) const;
+        void check_mods_list( WORLD *world ) const;
         const t_mod_list &get_default_mods() const;
         bool set_default_mods( const t_mod_list &mods );
         const std::vector<mod_id> &get_usable_mods() const {

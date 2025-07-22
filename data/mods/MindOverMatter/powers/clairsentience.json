@@ -79,7 +79,7 @@
     "id": "clair_danger_sense",
     "type": "SPELL",
     "name": "[Ψ]Premonition (C)",
-    "description": "You can sense the presence of the things that wish to do you harm.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "description": "You can sense nearby movement and sometimes gain an advance warning of dangerous events.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -94,12 +94,12 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( ( (u_spell_level('clair_danger_sense') + u_spell_level('clair_danger_sense_knack') ) * 4500) + 12000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('clair_danger_sense') + u_spell_level('clair_danger_sense_knack') ) * 30300) + 117400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( ( (u_spell_level('clair_danger_sense') + u_spell_level('clair_danger_sense_knack') ) * 7500) + 49000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('clair_danger_sense') + u_spell_level('clair_danger_sense_knack') ) * 100200) + 223200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "base_energy_cost": {
@@ -335,6 +335,44 @@
     "base_casting_time": {
       "math": [
         "u_effect_intensity('effect_clair_ranged_enhance') > -1 ? 10 : max((200 -(u_spell_level('clair_ranged_enhance') * 6)), 125)"
+      ]
+    }
+  },
+  {
+    "id": "clair_sense_hostile_creatures",
+    "type": "SPELL",
+    "name": "[Ψ]Sense Hostility (C)",
+    "description": "You can sense the presence of the things that wish to do you harm.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "magic_type": "mom_psionics",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 5,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLAIR_SENSE_HOSTILE_CREATURES_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( ( (u_spell_level('clair_sense_hostile_creatures') + u_spell_level('clair_sense_hostile_creatures_knack') ) * 4500) + 12000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( (u_spell_level('clair_sense_hostile_creatures') + u_spell_level('clair_sense_hostile_creatures_knack') ) * 7500) + 49000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_clair_sense_hostile_creatures') > -1 ? 0 : max( (6500 - ( (u_spell_level('clair_sense_hostile_creatures') + u_spell_level('clair_sense_hostile_creatures_knack') ) * 120)), 3150)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_clair_sense_hostile_creatures') > -1 ? 10 : max( (85 - ( (u_spell_level('clair_sense_hostile_creatures') + u_spell_level('clair_sense_hostile_creatures_knack') ) * 7)), 25)"
       ]
     }
   },

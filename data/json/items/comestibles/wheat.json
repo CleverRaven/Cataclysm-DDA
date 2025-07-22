@@ -57,7 +57,7 @@
     "price": "1 USD 20 cent",
     "price_postapoc": "1 USD",
     "material": [ "wheat" ],
-    "volume": "62 ml",
+    "volume": "130 ml",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
     "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ], [ "wheat_allergen", 1 ] ],
     "fun": -8
@@ -582,7 +582,7 @@
     "price": "2 USD",
     "price_postapoc": "1 USD",
     "material": [ "wheat" ],
-    "volume": "500 ml",
+    "volume": "160 ml",
     "vitamins": [ [ "calcium", 1 ], [ "iron", 18 ], [ "wheat_allergen", 1 ] ],
     "flags": [ "EDIBLE_FROZEN" ]
   },

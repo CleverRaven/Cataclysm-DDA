@@ -1,0 +1,21 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MAGICLYSM_GAME_START_HUMANS_ARE_HUMAN_MOM_CONDITIONS",
+    "//": "Bloodthorne druids and vampires should still show as human",
+    "condition": {
+      "u_has_any_trait": [
+        "NATIVE_SHAPESHIFTER",
+        "DHAMPIR_TRAIT",
+        "UNKNOWING_CHANGELING_NOBLE",
+        "UNKNOWING_CHANGELING_COMMONER_BROWNIE",
+        "UNKNOWING_CHANGELING_COMMONER_POOKA",
+        "UNKNOWING_CHANGELING_COMMONER_SELKIE",
+        "UNKNOWING_CHANGELING_COMMONER_TROW",
+        "LILIN_TRAITS",
+        "GRACKEN"
+      ]
+    },
+    "effect": [  ]
+  }
+]

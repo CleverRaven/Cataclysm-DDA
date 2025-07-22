@@ -23,7 +23,6 @@
 #include "item.h"
 #include "itype.h"
 #include "line.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_scale_constants.h"
 #include "mapdata.h"
@@ -60,6 +59,10 @@ static const ammo_effect_str_id ammo_effect_STREAM_BIG( "STREAM_BIG" );
 static const ammo_effect_str_id ammo_effect_STREAM_TINY( "STREAM_TINY" );
 static const ammo_effect_str_id ammo_effect_TANGLE( "TANGLE" );
 static const ammo_effect_str_id ammo_effect_WIDE( "WIDE" );
+
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_cut( "cut" );
+static const damage_type_id damage_stab( "stab" );
 
 static const itype_id itype_glass_shard( "glass_shard" );
 
@@ -141,9 +144,9 @@ static void drop_or_embed_projectile( map *here, const dealt_projectile_attack &
         // Item volume bumps up the required damage too
         // FIXME: Hardcoded damage types
         embed = embed &&
-                ( attack.dealt_dam.type_damage( STATIC( damage_type_id( "cut" ) ) ) / 2 ) +
-                attack.dealt_dam.type_damage( STATIC( damage_type_id( "stab" ) ) ) >
-                attack.dealt_dam.type_damage( STATIC( damage_type_id( "bash" ) ) ) +
+                ( attack.dealt_dam.type_damage( damage_cut ) / 2 ) +
+                attack.dealt_dam.type_damage( damage_stab ) >
+                attack.dealt_dam.type_damage( damage_bash ) +
                 vol * 3 / 250_ml + rng( 0, 5 );
     }
 

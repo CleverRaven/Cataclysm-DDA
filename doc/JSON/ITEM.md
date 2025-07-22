@@ -1,3 +1,4 @@
+- [Subtypes](#subtypes)
 - [Generic Items](#generic-items)
    * [To hit object](#to-hit-object)
 - [Ammo](#ammo)
@@ -44,7 +45,10 @@
 - [Tick Actions](#tick-actions)
    * [Delayed Item Actions](#delayed-item-actions)
 
-Items are any entity in the game you can pick up. They all share a set of JSON fields, but to help preserve game memory some of their JSON fields are split into multiple `subtypes`:
+### Subtypes
+
+Items are any entity in the game you can pick up.  They all share a set of JSON fields, but to help preserve game memory some of their JSON fields are split into "slots" of data corresponding to the following `subtypes`:
+
 - TOOL - can have tool qualities and use energy
 - ARMOR - can define protection against incoming damage
 - GUN - shoots projectiles of any kind
@@ -63,7 +67,22 @@ Items are any entity in the game you can pick up. They all share a set of JSON f
 - COMPOSTABLE - can be composted
 - MILLING - can be milled
 
-With the exception of PET_ARMOR and ARMOR, any of the subtypes can be combined to load the respective subtype's field, demonstrated in the examples below. A subtype can be included without any of its associated fields defined to indicate that the item is e.g. a "BOOK" to the corresponding C++ function `is_book()`.
+With the exception of PET_ARMOR and ARMOR, any of the subtypes can be combined to load the respective subtype's field, demonstrated in the examples below.  A subtype can be included without any of its associated fields defined to indicate that the item is e.g. a "BOOK" to the corresponding C++ function `is_book()`.
+
+The "subtypes" field is not inherited.  Rather, it specifies which slots and therefore which fields to *load* for the given ITEM definition; slots and their fields are always inherited.  Therefore, one should always provide subtypes for desired fields, keeping in mind that any other subtypes' fields are always inherited unless explicitly overwritten. 
+
+In the below example, the "ARMOR" slot is inherited from "bondage_suit" and a "TOOL" slot is added; adding the "ARMOR" subtype will not change the loading behavior because no ARMOR fields are loaded for "bondage_suit_wrench".  Many items have redundant subtypes anyways because subtypes were formerly types and had to be migrated consistently.
+
+```json
+  {
+    "id": "bondage_suit_wrench",
+    "copy-from": "bondage_suit",
+	"type": "ITEM",
+	"subtypes": [ "TOOL" ],
+    "name": { "str": "wrench bondage suit" },
+    "qualities": [ [ "WRENCH", 2 ], [ "WRENCH_FINE", 1 ] ]
+  },
+```
 
 ### Generic Items
 
@@ -253,6 +272,14 @@ ammo_effects define what effect the projectile, that you shoot, would have. List
       "drop": "null"         // Which item to drop at landing point
     }
   },
+  "on_hit_effects": [        // This effects will be applied if body part is hit
+    {
+      "effect": "bile_stink",// id of an effect, mandatory
+      "duration": "5 m",     // duration, mandatory
+      "intensity": 1,        // intensity, mandatory 
+      "need_touch_skin": true// if true, and projectile is liquid, the target need to be soaked through for effect to be applied
+    }
+  ],
   "do_flashbang": false,     // Creates a one tile radius EMP explosion at the hit location; default false
   "do_emp_blast": false,     // Creates a hardcoded flashbang explosion; default false
   "foamcrete_build": false,  // Creates foamcrete fields and walls on the hit location, used in aftershock; default false
@@ -1386,6 +1413,7 @@ The contents of `use_action` fields can either be a string indicating a built-in
 },
 "use_action": {
   "type": "effect_on_conditions",          // Activate effect_on_conditions
+  "consume": true,                         // defaults false: whether the iuse function should return 1 and attempt to consume the item
   "menu_text": "Infuse saline",            // (optional) Text displayed in the activation screen. Defaults to "Activate item"
   "description": "This debugs the game",   // Usage description
   "effect_on_conditions": [ "test_cond" ]  // IDs of the effect_on_conditions to activate

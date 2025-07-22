@@ -71,7 +71,6 @@
       "S": "f_sink",
       "o": "f_oven",
       "J": [ [ "f_generator_broken", 25 ], [ "f_military_generator", 5 ] ],
-      "p": "f_compact_ASRG_containment",
       "'": "f_console_broken",
       "0": "f_console",
       "t": "f_trashcan",

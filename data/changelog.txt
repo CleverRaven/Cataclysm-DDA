@@ -146,7 +146,7 @@ Toolmods are removable again, and any tool with screw driving quality can remove
 Allow pushing/pulling furniture directly onto and off of vehicles that can load them
 NPCs can handle liquids from crafting
 Bashed furniture and terrain produce dust fields
-Highways, JSON portion
+Highways
 
 
 ## Content:
@@ -330,6 +330,8 @@ Build sturdy wooden shutters for your windows
 Add a sunken helicopter location
 Nuclear Power Plant upgrade
 Add 3 new guns (308 Model 700, .22 Savage Rascal, .32 LWS)
+Added a new faction
+Add practice recipes for learning how to be a proper blacksmith
 
 
 ## Interface:
@@ -847,6 +849,9 @@ Create a loading screen for Aftershock
 [Extra Mutation Scenarios] Add start only mutation glands that gradually permanently mutate you towards a selected category
 Magiclysm - Implement Enchanted Druid Items
 Aftershock: Create cryosuit UI elements and power warnings
+Aftershock: Add a scenario where you control a functional Starship.
+Mods can have 'hard' requirements for meta progression
+[Xedra Evolved] Add Bloodthorne druids
 
 
 ## Balance:

@@ -29,7 +29,6 @@
 #include "item_location.h"
 #include "line.h"
 #include "magic.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_iterator.h"
@@ -55,6 +54,9 @@ class recipe;
 static const activity_id ACT_ADD_VARIABLE_COMPLETE( "ACT_ADD_VARIABLE_COMPLETE" );
 static const activity_id ACT_ADD_VARIABLE_DURING( "ACT_ADD_VARIABLE_DURING" );
 static const activity_id ACT_GENERIC_EOC( "ACT_GENERIC_EOC" );
+
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_bullet( "bullet" );
 
 static const effect_on_condition_id
 effect_on_condition_EOC_TEST_PURIFIABILITY_FALSE( "EOC_TEST_PURIFIABILITY_FALSE" );
@@ -1164,9 +1166,9 @@ TEST_CASE( "math_weapon_damage", "[eoc]" )
     for( damage_type const &dt : damage_type::get_all() ) {
         total_damage += myweapon.damage_melee( dt.id );
     }
-    int const bash_damage = myweapon.damage_melee( STATIC( damage_type_id( "bash" ) ) );
+    int const bash_damage = myweapon.damage_melee( damage_bash );
     int const gun_damage = myweapon.gun_damage().total_damage();
-    int const bullet_damage = myweapon.gun_damage().type_damage( STATIC( damage_type_id( "bullet" ) ) );
+    int const bullet_damage = myweapon.gun_damage().type_damage( damage_bullet );
 
     CAPTURE( myweapon.typeId().c_str() );
     CHECK( globvars.get_global_value( "mymelee" ) ==  total_damage );

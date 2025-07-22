@@ -1215,7 +1215,6 @@
     "color": "light_gray",
     "charges_per_use": 1,
     "use_action": [ "CAMERA", "PORTABLE_GAME", "EBOOKSAVE", "E_FILE_DEVICE" ],
-    "tick_action": [ "EPIC_MUSIC" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -1445,7 +1444,6 @@
       "ALARMCLOCK",
       "SWIM_GOGGLES",
       "SUN_GLASSES",
-      "IRRITANT_IMMUNE",
       "RAD_PROOF",
       "GAS_PROOF",
       "ELECTRIC_IMMUNE",
@@ -1626,7 +1624,6 @@
     "environmental_protection": 10,
     "material_thickness": 3,
     "flags": [
-      "IRRITANT_IMMUNE",
       "RAD_PROOF",
       "PORTAL_PROOF",
       "STURDY",
@@ -1739,7 +1736,6 @@
     },
     "environmental_protection": 80,
     "flags": [
-      "IRRITANT_IMMUNE",
       "RAD_PROOF",
       "PORTAL_PROOF",
       "STURDY",
