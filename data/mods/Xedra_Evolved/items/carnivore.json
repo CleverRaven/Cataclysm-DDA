@@ -211,6 +211,7 @@
     "copy-from": "demihuman_blood",
     "name": { "str_sp": "vampire blood" },
     "description": "Blood extracted from a vampire.  Drinking it feels like a bad idea but there might be other ways to use it.",
-    "material": "vampire_blood"
+    "material": "vampire_blood",
+    "spoils_in": "90000 days"
   }
 ]
