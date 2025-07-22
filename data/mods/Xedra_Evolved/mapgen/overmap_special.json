@@ -503,7 +503,7 @@
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "forest_trail", "connection": "forest_trail" } ],
     "locations": [ "forest" ],
     "city_distance": [ 25, -1 ],
-    "occurrences": [ 20, 100 ],
+    "occurrences": [ 15, 100 ],
     "flags": [ "WILDERNESS", "GLOBALLY_UNIQUE", "MAN_MADE" ]
   }
 ]
