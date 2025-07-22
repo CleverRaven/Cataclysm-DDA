@@ -24,7 +24,7 @@
   - [Generic](#generic)
   - [Guns](#guns)
     - [Firing modes](#firing-modes)
-    - [Gun Faults](#gun-faults)
+    - [Gun faults](#gun-faults)
   - [Magazines](#magazines)
   - [Magic](#magic)
   - [Mapgen](#mapgen)
@@ -38,12 +38,12 @@
     - [Monster Groups](#monster-groups)
       - [Seasons](#seasons)
       - [Time of day](#time-of-day)
-    - [Sizes](#sizes)
     - [Special attacks](#special-attacks)
   - [Mutations](#mutations)
   - [Overmap](#overmap)
     - [Overmap connections](#overmap-connections)
     - [Overmap specials](#overmap-specials)
+      - [City buildings](#city-buildings)
     - [Overmap terrains](#overmap-terrains)
   - [Recipes](#recipes)
     - [Crafting recipes](#crafting-recipes)
@@ -57,7 +57,7 @@
   - [Technical flags](#technical-flags)
   - [Techniques](#techniques)
   - [Tools](#tools)
-    - [`use_action`](#use_action)
+    - [`use_action`](#use_action-1)
   - [Traps](#traps)
   - [Vehicles](#vehicles)
     - [Fuel types](#fuel-types)
@@ -674,7 +674,7 @@ List of known flags, used in both `furniture` and `terrain`.  Some work for both
 - ```NO_SPOIL``` Items placed in this tile do not spoil.
 - ```OPENCLOSE_INSIDE``` If it's a door (with an 'open' or 'close' field), it can only be opened or closed if you're inside.
 - ```PAINFUL``` May cause a small amount of pain.
-- ```PERMEABLE``` Permeable for gases.
+- ```PERMEABLE``` Permeable for gases. Implied for passable terrain, only needed on impassable.
 - ```PICKABLE``` This terrain/furniture could be picked with lockpicks.
 - ```PIT_FILLABLE``` This terrain can be filled with dirt like a shallow pit.
 - ```PLACE_ITEM``` Valid terrain for `place_item()` to put items on.
