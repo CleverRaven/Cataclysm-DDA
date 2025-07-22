@@ -143,7 +143,7 @@
     "price_postapoc": "2 USD 50 cent",
     "ranged_damage": { "damage_type": "bullet", "amount": 6 },
     "range": 16,
-    "dispersion": 150,
+    "dispersion": 225,
     "durability": 6,
     "clip_size": 1,
     "reload": 75,
