@@ -147,6 +147,7 @@ Allow pushing/pulling furniture directly onto and off of vehicles that can load 
 NPCs can handle liquids from crafting
 Bashed furniture and terrain produce dust fields
 Highways
+Expand implementation of liquid ammo
 
 
 ## Content:
@@ -332,6 +333,14 @@ Nuclear Power Plant upgrade
 Add 3 new guns (308 Model 700, .22 Savage Rascal, .32 LWS)
 Added a new faction
 Add practice recipes for learning how to be a proper blacksmith
+Adds fungal mound and fungal construct monsters for zombies who revive on fungal ground.
+More prepper food, meds in bugout bags
+Adds more spawns for the more esoteric books you can find
+Add nested cellars to cabins
+Add meds, maps in bugout bags
+Adds hair dye and hair dye kits to bathrooms.
+Professions now start with relevant books in their smartphones/laptops and some even with smartwatches
+Cheese wheels preserved in wax
 
 
 ## Interface:
@@ -852,6 +861,17 @@ Aftershock: Create cryosuit UI elements and power warnings
 Aftershock: Add a scenario where you control a functional Starship.
 Mods can have 'hard' requirements for meta progression
 [Xedra Evolved] Add Bloodthorne druids
+[Mods] Mutually-exclusive supernatural/fantasy heritage traits are light cyan
+[Mods] Traits that let you cast spells or other supernatural power suites are green
+[Xedra Evolved] Add bloodthorne druid safehouse
+[MoM] Fifth Sun People is now a HERITAGE trait
+Aftershock: Lasers can only use power cartridges, cant be mounted in vehicle.
+Aftershock: Add mod achievements and lock challenge scenarios behind them.
+[Xedra Evolved] Vampires can't level dream magick
+Aftershock: Humaniforms can execute humanoid monsters
+Aftershock: Vehicle bay City Building a mix between mechanic garage, gas station and parking lot.
+[MoM] Add help topics for psionic paths, using psionics, and psychic knacks
+[Magiclysm] Humans are also a species
 
 
 ## Balance:
@@ -952,6 +972,7 @@ Some recipes have 'hard' proficiency requirements
 Expanded spawns for some proper melee weapons
 Adjust Precise Strike melee tech so it also cant stun what other stun-causing techs cant stun.
 Adds cuvettes to analysis kit crafting recipe, increase analysis kit weight.
+Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
 
 
 ## Bugfixes:
@@ -1317,6 +1338,10 @@ Fix special attacks overwriting cooldown values to zero
 Scenario still had adult hobbies applied
 Fix drawing items under fields without tiles
 Limit the range of water channels
+Fix forced traits being applied to NPCs
+Fix EOC actor consuming tools on processing
+Fix molotovs exploding multiple times
+add E_STORABLE_EXCLUSIVE flag
 
 
 ## Performance:
