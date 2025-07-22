@@ -215,7 +215,10 @@
       "S": { "item": "SUS_oven", "chance": 80 },
       "T": { "item": "tools_common", "chance": 10, "repeat": [ 1, 2 ] },
       "U": { "item": "gear_survival", "chance": 10, "repeat": [ 3, 5 ] },
-      "u": [ { "item": "cannedfood", "chance": 10, "repeat": [ 1, 5 ] }, { "item": "pasta", "chance": 10, "repeat": [ 1, 3 ] } ],
+      "u": [
+        { "item": "cannedfood", "chance": 10, "repeat": [ 1, 5 ] },
+        { "item": "pasta_ingredients", "chance": 10, "repeat": [ 1, 3 ] }
+      ],
       "v": { "item": "softdrugs", "chance": 10 },
       "V": { "item": "bags", "chance": 10 },
       "w": { "item": "allclothes", "chance": 20, "repeat": [ 2, 4 ] },
@@ -242,7 +245,10 @@
       "S": { "item": "SUS_oven", "chance": 80 },
       "T": { "item": "tools_common", "chance": 60, "repeat": [ 1, 2 ] },
       "U": { "item": "gear_survival", "chance": 20, "repeat": [ 3, 5 ] },
-      "u": [ { "item": "cannedfood", "chance": 20, "repeat": [ 1, 5 ] }, { "item": "pasta", "chance": 10, "repeat": [ 1, 3 ] } ],
+      "u": [
+        { "item": "cannedfood", "chance": 20, "repeat": [ 1, 5 ] },
+        { "item": "pasta_ingredients", "chance": 10, "repeat": [ 1, 3 ] }
+      ],
       "v": { "item": "softdrugs", "chance": 50 },
       "V": { "item": "bags", "chance": 30 },
       "w": { "item": "allclothes", "chance": 80, "repeat": [ 2, 4 ] },
