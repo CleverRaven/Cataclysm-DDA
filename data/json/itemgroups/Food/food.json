@@ -314,13 +314,10 @@
   },
   {
     "type": "item_group",
-    "id": "pasta",
+    "id": "pasta_ingredients",
     "subtype": "distribution",
     "entries": [
-      { "item": "spaghetti_raw", "prob": 40 },
-      { "item": "lasagne_raw", "prob": 40 },
-      { "item": "macaroni_raw", "prob": 40 },
-      { "item": "noodles_fast", "prob": 30 },
+      { "group": "groce_pasta", "prob": 200 },
       { "prob": 25, "group": "ravioli_can_medium_2" },
       { "item": "sauce_red", "prob": 20 },
       { "item": "sauce_pesto", "prob": 15 },
