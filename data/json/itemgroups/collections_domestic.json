@@ -2062,6 +2062,13 @@
   },
   {
     "type": "item_group",
+    "id": "crackers_box_small_full",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "crackers", "container-item": "null", "count": -1 } ]
+  },
+  {
+    "type": "item_group",
     "id": "oyster_crackers_plastic_bag_vac_8",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",

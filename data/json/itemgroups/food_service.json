@@ -659,7 +659,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "prob": 50, "item": "oatmeal", "count": 16 },
+      { "prob": 50, "group": "oatmeal_box_1lb" },
       { "prob": 25, "group": "box_cereal" },
       { "prob": 55, "group": "box_cereal2" },
       { "prob": 55, "group": "box_cereal3" },
@@ -2378,6 +2378,13 @@
   },
   {
     "type": "item_group",
+    "id": "cornmeal_box_full",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "cornmeal", "container-item": "null", "count": -1 } ]
+  },
+  {
+    "type": "item_group",
     "id": "oyster_crackers_plastic_bag_vac_1_inf",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
@@ -2399,6 +2406,13 @@
     "//": "This group was created automatically and may contain errors.",
     "container-item": "box_small",
     "entries": [ { "item": "brioche", "container-item": "null", "count": 6 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "oatmeal_box_1lb",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "oatmeal", "container-item": "null", "count": 16 } ]
   },
   {
     "type": "item_group",
