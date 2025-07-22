@@ -953,6 +953,7 @@ overmap_path_params overmap_path_params::for_land_vehicle( float offroad_coeff, 
         ret.set_cost( oter_travel_cost_type::water, boat_params.get_cost( oter_travel_cost_type::water ) );
         ret.set_cost( oter_travel_cost_type::shore, boat_params.get_cost( oter_travel_cost_type::shore ) );
     }
+    ret.allow_diagonal = true;
     return ret;
 }
 
@@ -961,6 +962,7 @@ overmap_path_params overmap_path_params::for_watercraft()
     overmap_path_params ret;
     ret.set_cost( oter_travel_cost_type::water, 8 ); // limited by vehicle autodrive speed
     ret.set_cost( oter_travel_cost_type::shore, 16 );
+    ret.allow_diagonal = true;
     return ret;
 }
 
@@ -968,6 +970,7 @@ overmap_path_params overmap_path_params::for_aircraft()
 {
     overmap_path_params ret;
     ret.set_cost( oter_travel_cost_type::air, 8 ); // limited by vehicle autodrive speed
+    ret.allow_diagonal = true;
     return ret;
 }
 
