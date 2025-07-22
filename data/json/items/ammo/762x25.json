@@ -45,6 +45,7 @@
     "description": "A subsonic cartridge derived from the 7.62x25mm, designed for silenced firearms.  It offers good armor penetration at the cost of slightly less damage.",
     "weight": "12 g",
     "count": 50,
+    "loudness": 38,
     "relative": {
       "price": "20 USD",
       "range": -1,
