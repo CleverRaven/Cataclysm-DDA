@@ -179,7 +179,7 @@ recipe_subset Character::get_available_recipes( const inventory &crafting_inv,
             // Directly form the helper's inventory
             res.include( get_recipes_from_books( *guy->inv, require_skill ) );
             // Being told what to do
-            res.include_if( guy->get_learned_recipes(), [ this, require_skill]( const recipe & r ) {
+            res.include_if( guy->get_learned_recipes(), [ this ]( const recipe & r ) {
                 return get_knowledge_level( r.skill_used ) >= static_cast<int>( r.get_difficulty(
                             *this ) * 0.8f ); // Skilled enough to understand
             } );
