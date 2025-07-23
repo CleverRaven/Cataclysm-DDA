@@ -14,7 +14,7 @@
   {
     "type": "start_location",
     "id": "sloc_shelter_vandal",
-    "name": "Vandalised Evac Center",
+    "name": "Vandalized Evac Center",
     "terrain": [ { "om_terrain": "shelter", "parameters": { "shelter_palette": "shelter_vandal" } } ]
   },
   {

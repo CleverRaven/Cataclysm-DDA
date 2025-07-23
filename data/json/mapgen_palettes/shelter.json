@@ -24,7 +24,7 @@
     "type": "palette",
     "id": "shelter_under",
     "terrain": {
-      "#": "t_soil",
+      "-": "t_soil",
       ";": "t_concrete_wall",
       ".": "t_linoleum_white",
       "6": "t_linoleum_white",
@@ -34,7 +34,6 @@
       "%": "t_linoleum_white",
       "t": "t_linoleum_white",
       "C": "t_linoleum_white",
-      "x": "t_linoleum_white",
       "l": "t_linoleum_white",
       "U": "t_linoleum_white",
       "B": "t_linoleum_white",
@@ -44,6 +43,7 @@
   {
     "type": "palette",
     "id": "shelter_shared",
+    "palettes": [ "parametrized_walls_palette" ],
     "terrain": {
       ".": "t_floor",
       "6": "t_floor",
@@ -53,7 +53,6 @@
       "%": "t_floor",
       "t": "t_floor",
       "C": "t_floor",
-      "x": "t_floor",
       "l": "t_floor",
       "U": "t_floor",
       "B": "t_floor",
@@ -61,16 +60,14 @@
       "!": "t_pavement",
       "`": "t_pavement_y",
       "&": "t_sidewalk",
-      "-": "t_wall_w",
       "_": "t_linoleum_white",
       ">": "t_stairs_down",
       "<": "t_stairs_up",
-      "|": "t_wall_w",
       "*": "t_ladder_up",
       "4": "t_gutter_downspout"
     },
     "furniture": {
-      "6": "f_console",
+      "6": "f_bulletin_evac",
       "b": "f_bench",
       "c": "f_cupboard",
       "S": "f_sink",
@@ -85,7 +82,7 @@
     "id": "shelter_basic",
     "palettes": [ "shelter_shared" ],
     "terrain": { "+": "t_door_c", ":": "t_window_domestic", "=": "t_door_locked_interior" },
-    "furniture": { "x": "f_console_broken", "l": "f_locker", "U": "f_utility_shelf", "B": "f_utility_shelf" },
+    "furniture": { "l": "f_locker", "U": "f_utility_shelf", "B": "f_utility_shelf" },
     "toilets": { "T": {  } },
     "items": {
       "l": { "item": "SUS_evac_shelter_locker", "chance": 80 },
@@ -112,7 +109,7 @@
       ":": [ "t_window_frame", "t_window_no_curtains", "t_window" ],
       "=": [ "t_door_b", "t_door_locked_interior", "t_door_c", "t_door_o" ]
     },
-    "furniture": { "x": "f_console", "l": "f_locker", "U": "f_utility_shelf", "B": "f_utility_shelf" },
+    "furniture": { "l": "f_locker", "U": "f_utility_shelf", "B": "f_utility_shelf" },
     "toilets": { "T": {  } },
     "items": {
       "l": { "item": "SUS_evac_shelter_locker_used", "chance": 70 },
@@ -136,8 +133,6 @@
       "|": { "chunks": [ [ "shelter_graffiti", 10 ], [ "null", 90 ] ] },
       "#": { "chunks": [ [ "shelter_graffiti", 10 ], [ "null", 90 ] ] },
       ";": { "chunks": [ [ "shelter_graffiti", 10 ], [ "null", 90 ] ] },
-      "6": { "chunks": [ "shelter_computer" ] },
-      "x": { "chunks": [ [ "shelter_computer", 20 ], [ "shelter_computer_broken", 80 ] ] },
       ".": { "chunks": [ [ "1x1_group_zombie", 1 ], [ "null", 25 ] ] },
       "_": { "chunks": [ [ "1x1_group_zombie", 1 ], [ "null", 25 ] ] },
       "b": { "chunks": [ [ "1x1_group_zombie", 1 ], [ "null", 25 ] ] }
@@ -153,7 +148,6 @@
       "=": [ "t_door_b", "t_door_locked_interior", "t_door_c", "t_door_o" ]
     },
     "furniture": {
-      "x": "f_console",
       "l": [ "f_locker", "f_wreckage" ],
       "U": [ "f_utility_shelf", "f_wreckage" ],
       "B": [ "f_utility_shelf", "f_wreckage" ]
@@ -212,7 +206,7 @@
     "id": "shelter_survivor",
     "palettes": [ "shelter_shared" ],
     "terrain": { "+": "t_door_c", ":": "t_window_boarded", "=": "t_door_locked_interior" },
-    "furniture": { "x": "f_console_broken", "l": "f_locker", "U": "f_utility_shelf", "B": "f_utility_shelf" },
+    "furniture": { "l": "f_locker", "U": "f_utility_shelf", "B": "f_utility_shelf" },
     "toilets": { "T": {  } },
     "items": {
       "l": { "item": "SUS_evac_shelter_locker_used", "chance": 50 },
@@ -240,9 +234,9 @@
     "palettes": [ "shelter_infested_scenario" ],
     "//": "Adds back basement zeds",
     "nested": {
-      ".": { "chunks": [ [ "1x1_group_infested", 1 ], [ "null", 12 ] ], "z": [ -1 ] },
-      "_": { "chunks": [ [ "1x1_group_infested", 1 ], [ "null", 12 ] ], "z": [ -1 ] },
-      "b": { "chunks": [ [ "1x1_group_infested", 1 ], [ "null", 12 ] ], "z": [ -1 ] }
+      ".": { "chunks": [ [ "1x1_group_infested", 1 ], [ "null", 12 ] ], "check_z": [ -1 ] },
+      "_": { "chunks": [ [ "1x1_group_infested", 1 ], [ "null", 12 ] ], "check_z": [ -1 ] },
+      "b": { "chunks": [ [ "1x1_group_infested", 1 ], [ "null", 12 ] ], "check_z": [ -1 ] }
     }
   },
   {
@@ -251,16 +245,13 @@
     "//": "Don't spawn zeds in the basement for the challenge scenario where you start in the basement",
     "palettes": [ "shelter_shared" ],
     "terrain": { "+": "t_door_c", ":": [ "t_window_domestic", "t_window_boarded" ], "=": "t_door_locked_interior" },
-    "furniture": { "x": "f_console_broken", "l": "f_locker", "U": "f_utility_shelf", "B": "f_utility_shelf" },
+    "furniture": { "l": "f_locker", "U": "f_utility_shelf", "B": "f_utility_shelf" },
     "toilets": { "T": {  } },
     "items": {
       "l": { "item": "SUS_evac_shelter_locker", "chance": 80 },
       "c": { "item": "SUS_evac_shelter_cabinet", "chance": 60 },
       "S": { "item": "SUS_evac_shelter_sink", "chance": 70 },
-      "%": [
-        { "item": "shelter_supplies", "chance": 30, "repeat": [ 1, 2 ] },
-        { "item": "trash", "chance": 50, "repeat": [ 1, 3 ] }
-      ],
+      "%": [ { "item": "shelter_supplies", "chance": 30, "repeat": [ 1, 2 ] }, { "item": "SUS_trash_trashcan" } ],
       "U": { "item": "SUS_evac_shelter_supply_closet", "chance": 70 },
       "B": { "item": "SUS_evac_shelter_bathroom_supplies", "chance": 70 },
       "t": { "item": "SUS_evac_shelter_table", "chance": 70 },
@@ -268,10 +259,9 @@
       "_": { "item": "shelter_supplies", "chance": 1 }
     },
     "nested": {
-      "6": { "chunks": [ "shelter_computer" ] },
-      ".": { "else_chunks": [ [ "1x1_group_infested", 1 ], [ "null", 12 ] ], "z": [ -1 ] },
-      "_": { "else_chunks": [ [ "1x1_group_infested", 1 ], [ "null", 12 ] ], "z": [ -1 ] },
-      "b": { "else_chunks": [ [ "1x1_group_infested", 1 ], [ "null", 12 ] ], "z": [ -1 ] }
+      ".": { "else_chunks": [ [ "1x1_group_infested", 1 ], [ "null", 12 ] ], "check_z": [ -1 ] },
+      "_": { "else_chunks": [ [ "1x1_group_infested", 1 ], [ "null", 12 ] ], "check_z": [ -1 ] },
+      "b": { "else_chunks": [ [ "1x1_group_infested", 1 ], [ "null", 12 ] ], "check_z": [ -1 ] }
     }
   },
   {
@@ -289,7 +279,6 @@
       "C": "t_concrete",
       "T": "t_concrete",
       "+": "t_door_frame",
-      "-": "t_wall_half",
       "|": "t_wall_half",
       "_": "t_linoleum_white",
       ":": "t_window_empty_no_roof",

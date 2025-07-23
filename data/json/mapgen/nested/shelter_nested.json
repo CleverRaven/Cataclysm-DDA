@@ -21,27 +21,6 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "shelter_computer",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_computers": [
-        {
-          "x": 0,
-          "y": 0,
-          "name": "Evac shelter computer",
-          "eocs": [ "EOC_REFUGEE_CENTER_COMPUTER" ],
-          "chat_topics": [ "COMP_REFUGEE_CENTER_MAIN" ]
-        }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "nested_mapgen_id": "shelter_computer_broken",
-    "object": { "mapgensize": [ 1, 1 ], "place_furniture": [ { "furn": "f_console_broken", "x": 0, "y": 0 } ] }
-  },
-  {
-    "type": "mapgen",
     "nested_mapgen_id": "4x4_planksandtools",
     "object": {
       "mapgensize": [ 4, 4 ],
