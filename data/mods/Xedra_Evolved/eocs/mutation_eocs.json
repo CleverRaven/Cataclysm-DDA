@@ -105,16 +105,18 @@
         {
           "id": "EOC_XE_IRON_INTOLERANCE_WEARING_IRON_RESULT_TRUE",
           "effect": [
-{ "if": { "or": [ { "and": [ { "u_has_trait": "HOMULLUS" }, { "u_has_trait": "IRON_ALLERGY" } ] }, {
+{ "if": { "or": [ { "and": [ { "u_has_trait": "HOMULLUS" }, { "u_has_trait": "IRON_ALLERGY" } ] }, 
+  { "and": [ {
           "u_has_any_trait": [
             "UNKNOWING_CHANGELING_NOBLE",
             "FAIR_FOLK_COMMONER_SELECTOR",
             "UNKNOWING_CHANGELING_COMMONER_BROWNIE",
             "UNKNOWING_CHANGELING_COMMONER_POOKA",
             "UNKNOWING_CHANGELING_COMMONER_SELKIE",
-            "UNKNOWING_CHANGELING_COMMONER_TROW" }  ] },
+            "UNKNOWING_CHANGELING_COMMONER_TROW" ] 
+    }, { "not": { "u_has_trait": "IRON_ALLERGY" } } ] },
 "then":  { "u_add_effect": "effect_iron_intolerance_wearing_iron_tier_1", "duration": "PERMANENT" } },
-            { "if": { "or": [ { "u_has_trait": "IRON_ALLERGY" }, { "u_has_any_trait": [ "IERDE", "SALAMANDER"] }, { "and": [{
+            { "if": { "or": [ { "u_has_trait": "IRON_ALLERGY" }, { "and": [ { "u_has_any_trait": [ "IERDE", "SALAMANDER"] }, { "not": { "u_has_trait": "IRON_ALLERGY" } } ] }, { "and": [{
           "u_has_any_trait": [
             "UNKNOWING_CHANGELING_NOBLE",
             "FAIR_FOLK_COMMONER_SELECTOR",
@@ -123,8 +125,8 @@
             "UNKNOWING_CHANGELING_COMMONER_SELKIE",
             "UNKNOWING_CHANGELING_COMMONER_TROW" }, { "u_has_trait": "IRON_ALLERGY" }  ] } ] }, 
               "then": { "u_add_effect": "effect_iron_intolerance_wearing_iron_tier_2", "duration": "PERMANENT" }  },
-             { "if": { "or": [ { "u_has_any_trait": [ "ARVORE", "SYLPH", "UNDINE" ] },
-               { "and": [{ "u_has_any_trait": [ "IERDE", "SALAMANDER"] }, { "u_has_trait": "IRON_ALLERGY" }  ] } ] }, 
+             { "if": { "or": [ { "and": [ { "u_has_any_trait": [ "ARVORE", "SYLPH", "UNDINE" ] }, { "not": { "u_has_trait": "IRON_ALLERGY" } } ] },
+               { "and": [ { "u_has_any_trait": [ "IERDE", "SALAMANDER"] }, { "u_has_trait": "IRON_ALLERGY" }  ] } ] }, 
               "then": { "u_add_effect": "effect_iron_intolerance_wearing_iron_tier_3", "duration": "PERMANENT" }  },
               { "if": { "and": [ { "u_has_any_trait": [ "ARVORE", "SYLPH", "UNDINE" ] }, { "u_has_trait": "IRON_ALLERGY" } ] },
               "then": { "u_add_effect": "effect_iron_intolerance_wearing_iron_tier_4", "duration": "PERMANENT" }  }
@@ -170,16 +172,18 @@
         {
           "id": "EOC_XE_IRON_INTOLERANCE_WEARING_STEEL_RESULT_TRUE",
         "effect": [
-{ "if": { "or": [ { "and": [ { "u_has_trait": "HOMULLUS" }, { "u_has_trait": "IRON_ALLERGY" } ] }, {
+{ "if": { "or": [ { "and": [ { "u_has_trait": "HOMULLUS" }, { "u_has_trait": "IRON_ALLERGY" } ] }, 
+  { "and": [ {
           "u_has_any_trait": [
             "UNKNOWING_CHANGELING_NOBLE",
             "FAIR_FOLK_COMMONER_SELECTOR",
             "UNKNOWING_CHANGELING_COMMONER_BROWNIE",
             "UNKNOWING_CHANGELING_COMMONER_POOKA",
             "UNKNOWING_CHANGELING_COMMONER_SELKIE",
-            "UNKNOWING_CHANGELING_COMMONER_TROW" }  ] },
-"then":  { "u_add_effect": "effect_iron_intolerance_wearing_steel_tier_1", "duration": "PERMANENT" } },
-            { "if": { "or": [ { "u_has_trait": "IRON_ALLERGY" }, { "u_has_any_trait": [ "IERDE", "SALAMANDER"] }, { "and": [{
+            "UNKNOWING_CHANGELING_COMMONER_TROW" ] 
+    }, { "not": { "u_has_trait": "IRON_ALLERGY" } } ] },
+"then":  { "u_add_effect": "effect_steel_intolerance_wearing_iron_tier_1", "duration": "PERMANENT" } },
+            { "if": { "or": [ { "u_has_trait": "IRON_ALLERGY" }, { "and": [ { "u_has_any_trait": [ "IERDE", "SALAMANDER"] }, { "not": { "u_has_trait": "IRON_ALLERGY" } } ] }, { "and": [{
           "u_has_any_trait": [
             "UNKNOWING_CHANGELING_NOBLE",
             "FAIR_FOLK_COMMONER_SELECTOR",
@@ -187,12 +191,12 @@
             "UNKNOWING_CHANGELING_COMMONER_POOKA",
             "UNKNOWING_CHANGELING_COMMONER_SELKIE",
             "UNKNOWING_CHANGELING_COMMONER_TROW" }, { "u_has_trait": "IRON_ALLERGY" }  ] } ] }, 
-              "then": { "u_add_effect": "effect_iron_intolerance_wearing_steel_tier_2", "duration": "PERMANENT" }  },
-             { "if": { "or": [ { "u_has_any_trait": [ "ARVORE", "SYLPH", "UNDINE" ] },
-               { "and": [{ "u_has_any_trait": [ "IERDE", "SALAMANDER"] }, { "u_has_trait": "IRON_ALLERGY" }  ] } ] }, 
-              "then": { "u_add_effect": "effect_iron_intolerance_wearing_steel_tier_3", "duration": "PERMANENT" }  },
+              "then": { "u_add_effect": "effect_steel_intolerance_wearing_iron_tier_2", "duration": "PERMANENT" }  },
+             { "if": { "or": [ { "and": [ { "u_has_any_trait": [ "ARVORE", "SYLPH", "UNDINE" ] }, { "not": { "u_has_trait": "IRON_ALLERGY" } } ] },
+               { "and": [ { "u_has_any_trait": [ "IERDE", "SALAMANDER"] }, { "u_has_trait": "IRON_ALLERGY" }  ] } ] }, 
+              "then": { "u_add_effect": "effect_steel_intolerance_wearing_iron_tier_3", "duration": "PERMANENT" }  },
               { "if": { "and": [ { "u_has_any_trait": [ "ARVORE", "SYLPH", "UNDINE" ] }, { "u_has_trait": "IRON_ALLERGY" } ] },
-              "then": { "u_add_effect": "effect_iron_intolerance_wearing_steel_tier_4", "duration": "PERMANENT" }  }
+              "then": { "u_add_effect": "effect_steel_intolerance_wearing_iron_tier_4", "duration": "PERMANENT" }  }
             
            
           ]
