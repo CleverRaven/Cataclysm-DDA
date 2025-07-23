@@ -840,6 +840,10 @@ action_id handle_action_menu( map &here )
         }
     }
 
+    if( player_character.hauling ) {
+        action_weightings[ACTION_HAUL_TOGGLE] = 300;
+    }
+
     // sort the map by its weightings
     std::vector<std::pair<action_id, int> > sorted_pairs;
     std::copy( action_weightings.begin(), action_weightings.end(),

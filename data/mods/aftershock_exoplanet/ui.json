@@ -396,6 +396,7 @@
         "condition": { "math": [ "u_cryosuit_power", ">", "0" ] }
       }
     ],
+    "default_clause": { "text": "      BOOTING      ", "color": "red" },
     "flags": [ "W_NO_PADDING" ]
   }
 ]

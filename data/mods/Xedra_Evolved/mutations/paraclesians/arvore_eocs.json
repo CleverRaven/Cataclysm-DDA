@@ -78,7 +78,9 @@
       "or": [
         { "u_is_on_terrain_with_flag": "SHRUB" },
         { "u_is_on_terrain_with_flag": "DIGGABLE" },
-        { "u_is_on_terrain_with_flag": "YOUNG" }
+        { "u_is_on_terrain_with_flag": "YOUNG" },
+        { "u_is_on_terrain": "t_barkfloor" },
+        { "u_is_on_terrain": "t_barkfloor_noroof" }
       ]
     },
     "effect": [  ]

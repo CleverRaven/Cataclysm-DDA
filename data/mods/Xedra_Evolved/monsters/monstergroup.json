@@ -347,7 +347,10 @@
   {
     "type": "monstergroup",
     "id": "GROUP_MI-GO_BASE_COMMON",
-    "monsters": [ { "monster": "mon_mi_go_stalking_warper", "weight": 50, "cost_multiplier": 2, "starts": "35 days" } ]
+    "monsters": [
+      { "monster": "mon_mi_go_stalking_warper", "weight": 50, "cost_multiplier": 2, "starts": "35 days" },
+      { "monster": "mon_mi_go_humanoid", "weight": 50, "cost_multiplier": 2, "starts": "35 days" }
+    ]
   },
   {
     "type": "monstergroup",
@@ -431,5 +434,10 @@
       { "monster": "mon_zombie_monochrome_2", "weight": 225 },
       { "monster": "mon_zombie_monochrome_3", "weight": 100 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_XE_MIGO_EVO",
+    "monsters": [ { "monster": "mon_mi_go" }, { "monster": "mon_mi_go_humanoid" }, { "monster": "mon_mi_go_stalking_warper" } ]
   }
 ]

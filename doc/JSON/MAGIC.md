@@ -179,7 +179,7 @@ Effect                 | Description
 `effect_on_condition`  | Runs the `effect_on_condition` from `effect_str` on all valid targets.  The EOC will be centered on the player, with the NPC as caster and a context val location variable `spell_location` for the target primarily useful if the target isn't a creature.
 `emit`                 | Causes an `emit` at the target.
 `explosion`            | Causes an explosion centered on the target.  Uses damage() for power and factor aoe()/10.
-`flashbang`            | Causes a flashbang effect is centered on the target.  Uses damage() for power and factor aoe()/10.
+`flashbang`            | Causes a flashbang effect, centered on the target.  AoE affects the flashbang radius.
 `fungalize`            | Fungalizes the target.
 `guilt`                | Target gets the guilt morale as if it killed the caster.
 `map`                  | Maps out the overmap centered on the player, to a radius of aoe().

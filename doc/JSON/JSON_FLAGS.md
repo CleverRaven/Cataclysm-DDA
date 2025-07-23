@@ -24,7 +24,7 @@
   - [Generic](#generic)
   - [Guns](#guns)
     - [Firing modes](#firing-modes)
-    - [Gun Faults](#gun-faults)
+    - [Gun faults](#gun-faults)
   - [Magazines](#magazines)
   - [Magic](#magic)
   - [Mapgen](#mapgen)
@@ -38,12 +38,12 @@
     - [Monster Groups](#monster-groups)
       - [Seasons](#seasons)
       - [Time of day](#time-of-day)
-    - [Sizes](#sizes)
     - [Special attacks](#special-attacks)
   - [Mutations](#mutations)
   - [Overmap](#overmap)
     - [Overmap connections](#overmap-connections)
     - [Overmap specials](#overmap-specials)
+      - [City buildings](#city-buildings)
     - [Overmap terrains](#overmap-terrains)
   - [Recipes](#recipes)
     - [Crafting recipes](#crafting-recipes)
@@ -57,7 +57,7 @@
   - [Technical flags](#technical-flags)
   - [Techniques](#techniques)
   - [Tools](#tools)
-    - [`use_action`](#use_action)
+    - [`use_action`](#use_action-1)
   - [Traps](#traps)
   - [Vehicles](#vehicles)
     - [Fuel types](#fuel-types)
@@ -674,7 +674,7 @@ List of known flags, used in both `furniture` and `terrain`.  Some work for both
 - ```NO_SPOIL``` Items placed in this tile do not spoil.
 - ```OPENCLOSE_INSIDE``` If it's a door (with an 'open' or 'close' field), it can only be opened or closed if you're inside.
 - ```PAINFUL``` May cause a small amount of pain.
-- ```PERMEABLE``` Permeable for gases.
+- ```PERMEABLE``` Permeable for gases. Implied for passable terrain, only needed on impassable.
 - ```PICKABLE``` This terrain/furniture could be picked with lockpicks.
 - ```PIT_FILLABLE``` This terrain can be filled with dirt like a shallow pit.
 - ```PLACE_ITEM``` Valid terrain for `place_item()` to put items on.
@@ -793,7 +793,8 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```DURABLE_MELEE``` Item is made to hit stuff and it does it well, so it's considered to be a lot tougher than other weapons made of the same materials.
 - ```E_COPIABLE``` This item can be scanned onto an electronic device and can be electronically copied.
 - ```E_FILE_COLLECTION``` This item represents a combinable collection of files. Does not imply E_COPIABLE.
-- ```E_STORABLE``` This item can be stored on an electronic device.
+- ```E_STORABLE``` This item can be stored on an in-game electronic device.
+- ```E_STORABLE_EXCLUSIVE``` This item can ONLY be stored on an in-game electronic device; it may only be handled electronically.
 - ```ELECTRONIC``` This item contain sensitive electronics which can be fried by nearby EMP blast.
 - ```FAKE_MILL``` Item is a fake item, to denote a partially milled product by @ref Item::process_fake_mill, where conditions for its removal are set.
 - ```FAKE_SMOKE``` Item is a fake item generating smoke, recognizable by @ref item::process_fake_smoke, where conditions for its removal are set.
@@ -1133,6 +1134,7 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```FIREY``` Burns stuff and is immune to fire.
 - ```FISHABLE``` This monster can be fished.
 - ```FLAMMABLE``` Monster catches fire, burns, and spreads fire to nearby objects.
+- ```FLASHBANGPROOF``` Monster is unaffected by flashbangs.
 - ```FLIES``` Can fly over open air without dropping z-level, over water, etc.
 - ```GOODHEARING``` Pursues sounds more than most monsters.
 - ```GRABS``` Its attacks may grab you!

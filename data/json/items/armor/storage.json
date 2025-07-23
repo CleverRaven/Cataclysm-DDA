@@ -2971,37 +2971,6 @@
     "armor": [ { "encumbrance": [ 0, 0 ], "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
-    "id": "long_duffelbag",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "name": { "str": "longarm bag" },
-    "description": "A long duffel bag.  Provides storage for long arms and rifles.  Quite cumbersome.",
-    "weight": "1203 g",
-    "volume": "12 L",
-    "price": "180 USD",
-    "price_postapoc": "8 USD",
-    "material": [ "canvas" ],
-    "symbol": "[",
-    "looks_like": "rucksack",
-    "color": "green",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "50 L",
-        "max_contains_weight": "80 kg",
-        "max_item_length": "150 cm",
-        "magazine_well": "10 L",
-        "moves": 300
-      }
-    ],
-    "warmth": 8,
-    "material_thickness": 1,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ],
-    "armor": [
-      { "encumbrance": [ 8, 42 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
-    ]
-  },
-  {
     "id": "rifle_case_soft",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],

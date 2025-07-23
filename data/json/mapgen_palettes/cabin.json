@@ -182,7 +182,8 @@
       ".": { "param": "floor_types", "fallback": "t_dirtfloor" },
       "N": { "param": "floor_types", "fallback": "t_dirtfloor" },
       "R": { "param": "floor_types", "fallback": "t_dirtfloor" },
-      "c": { "param": "floor_types", "fallback": "t_dirtfloor" }
+      "c": { "param": "floor_types", "fallback": "t_dirtfloor" },
+      "t": { "param": "floor_types", "fallback": "t_dirtfloor" }
     },
     "furniture": { "R": "f_rack_wood", "t": "f_table", "c": "f_chair" }
   }

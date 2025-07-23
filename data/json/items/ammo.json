@@ -563,7 +563,7 @@
     "category": "spare_parts",
     "material": [ "stone" ],
     "ammo_type": "rock",
-    "flags": [ "TRADER_AVOID", "NPC_THROWN" ],
+    "flags": [ "TRADER_AVOID", "NPC_THROWN", "ALLOWS_BODY_BLOCK" ],
     "weight": "657 g",
     "volume": "250 ml",
     "damage": { "damage_type": "bash", "amount": 7 },
@@ -572,7 +572,7 @@
     "loudness": 0,
     "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
     "recovery_chance": 99,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "ALLOWS_BODY_BLOCK" ],
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ],
     "qualities": [ [ "HAMMER", 1 ] ],
     "melee_damage": { "bash": 7 },
     "thrown_damage": { "damage_type": "bash", "amount": 7 }

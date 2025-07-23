@@ -99,6 +99,7 @@ static const ammo_effect_str_id ammo_effect_HEAVY_HIT( "HEAVY_HIT" );
 static const ammo_effect_str_id ammo_effect_IGNITE( "IGNITE" );
 static const ammo_effect_str_id ammo_effect_LASER( "LASER" );
 static const ammo_effect_str_id ammo_effect_LIGHTNING( "LIGHTNING" );
+static const ammo_effect_str_id ammo_effect_LIQUID( "LIQUID" );
 static const ammo_effect_str_id ammo_effect_MATCHHEAD( "MATCHHEAD" );
 static const ammo_effect_str_id ammo_effect_NON_FOULING( "NON_FOULING" );
 static const ammo_effect_str_id ammo_effect_NO_EMBED( "NO_EMBED" );
@@ -2257,6 +2258,10 @@ static projectile make_gun_projectile( const item &gun )
     proj.range = gun.gun_range();
     proj.proj_effects = gun.ammo_effects();
 
+    if( gun.has_ammo_data() && gun.ammo_data()->phase == phase_id::LIQUID ) {
+        proj.proj_effects.insert( ammo_effect_LIQUID );
+    }
+
     auto &fx = proj.proj_effects;
 
     if( ( gun.has_ammo_data() && gun.ammo_data()->phase == phase_id::LIQUID ) ||
@@ -2458,6 +2463,9 @@ item::sound_data item::gun_noise( const bool burst ) const
 
     } else if( fx.count( ammo_effect_WHIP ) ) {
         return { noise, _( "Crack!" ) };
+
+    } else if( fx.count( ammo_effect_LIQUID ) ) {
+        return { noise, _( "Splash!" ) };
 
     } else if( noise > 0 ) {
         if( noise < 10 ) {

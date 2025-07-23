@@ -905,7 +905,7 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
             continue;
         }
         if( !pocket.is_type( pocket_type::CONTAINER ) &&
-            !( pocket.is_type( pocket_type::E_FILE_STORAGE ) && it.is_estorable() ) ) {
+            !( pocket.is_type( pocket_type::E_FILE_STORAGE ) && it.is_estorable_exclusive() ) ) {
             // best pocket is for picking stuff up.
             // containers are the only pockets that are available for such...
             // unless it's an e-device spawning with contents; we can do this here because
