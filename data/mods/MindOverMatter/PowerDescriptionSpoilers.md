@@ -308,6 +308,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: Increase the psion's range with ranged weapons by 1 square per 4 power levels, reduces weapon dispersion by 2.5% per power level to a maximum of 60%, and increases your chance to hit weakpoints with ranged weapons by 10% plus 8% per power level.<br />
 *Prerequisites*: Discern Weakness 7<br />
 </details>
+<details>
 <summary><h3>Sense Hostility (C)</h3></summary>
 
 *Difficulty*: 5<br />
@@ -815,6 +816,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Effects*: Focus electromagnetic radiation onto a single point, doing immense damage to the target there.  This power does 45 to 135 photokinetic damage plus 5.5 to 17 photokinetic damage per power level<br />
 *Prerequisites*: Star Flash 8 *or* Photon Beam 14, Blinding Radiance 5<br />
 </details>
+<details>
 <summary><h3>Phantom Legion (C)</h3></summary>
 
 *Difficulty*: 9<br />
@@ -824,7 +826,6 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Channeling Time*: 150 moves, minus 4 moves per level to a minimum of 90<br />
 *Effects*: Summon a myriad of holographic clones: 2 to 5 plus 0.75 to 1.5 per power level within 8 squares of the psion, 66% of this amount again from 8 squares away to 25 squares away, and 50% of this amount again from 25 squares to 40 squares away.  The copies will run around and confuse the psion's enemies while the power lasts.  If damaged, they explode into a burst of light, blinding anyone with 5 squares of the clone.  When the power is ended or the psion loses concentration, all duplicates fade without exploding.<br />
 *Prerequisites*: Lucid Shadows 10, Field of Light 14 *or* Refraction of Arms 10 *or* Blinding Radiance 6<br />
-</details>
 </details>
 <details>
 <summary><h1>Pyrokinesis</h1></summary>
