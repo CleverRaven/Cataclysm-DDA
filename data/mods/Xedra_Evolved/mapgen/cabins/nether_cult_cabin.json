@@ -93,8 +93,8 @@
         "|BBl        LC A+     |#",
         "|t      cd     A----- |#",
         "|---+---------%------ |#",
-        "|Ś   s-      - -    - |#",
-        "|ȻȻ  j-      + +    - |#",
+        "|Ś   j-      - -    - |#",
+        "|ȻȻȻsȻ-      + +    - |#",
         "|------      - -    - |#",
         "|  - L-      - -    - |#",
         "|  ?  --------+------ |#",
@@ -167,8 +167,7 @@
           { "item": "homebooks", "chance": 75 },
           { "item": "esoteric_books", "chance": 50 },
           { "item": "deduction_books", "chance": 25 },
-          { "item": "hedge_magic_books", "chance": 25, "repeat": [ 1, 2 ] },
-          { "item": "nether_sorcery_books", "chance": 25 }
+          { "item": "hedge_magic_books", "chance": 25, "repeat": [ 1, 2 ] }
         ],
         "Ȼ": [ { "item": "SUS_bathroom_cabinet", "chance": 50 } ],
         "D": [ { "item": "nether_cabin_ritual_prep_clothes", "repeat": [ 2, 8 ] } ],
@@ -180,7 +179,7 @@
       },
       "place_item": [
         { "item": "book_deduction_black_iron_prison", "x": 1, "y": 2, "chance": 50 },
-        { "item": "book_nether_sorcery_opening_of_the_way", "x": 20, "y": 21, "chance": 100 },
+        { "item": "book_nether_sorcery_opening_of_the_way", "x": 18, "y": 21, "chance": 100 },
         { "item": "mop", "x": 7, "y": 17 },
         { "item": "candle", "chance": 95, "x": 16, "y": 18 },
         { "item": "candle", "chance": 95, "x": 16, "y": 18 },
@@ -256,14 +255,13 @@
       "parameters": {
         "carpet_type": {
           "type": "ter_str_id",
-          "scope": "omt",
+          "scope": "nest",
           "default": {
             "distribution": [
-              [ "t_carpet_concrete_yellow", 2 ],
-              [ "t_carpet_concrete_green", 2 ],
+              [ "t_carpet_concrete_yellow", 1 ],
+              [ "t_carpet_concrete_green", 1 ],
               [ "t_carpet_concrete_purple", 1 ],
-              [ "t_carpet_concrete_red", 1 ],
-              [ "t_thconc_floor", 2 ]
+              [ "t_carpet_concrete_red", 1 ]
             ]
           }
         }
@@ -294,14 +292,13 @@
       "parameters": {
         "carpet_type": {
           "type": "ter_str_id",
-          "scope": "omt",
+          "scope": "nest",
           "default": {
             "distribution": [
-              [ "t_carpet_concrete_yellow", 2 ],
-              [ "t_carpet_concrete_green", 2 ],
+              [ "t_carpet_concrete_yellow", 1 ],
+              [ "t_carpet_concrete_green", 1 ],
               [ "t_carpet_concrete_purple", 1 ],
-              [ "t_carpet_concrete_red", 1 ],
-              [ "t_thconc_floor", 2 ]
+              [ "t_carpet_concrete_red", 1 ]
             ]
           }
         }
@@ -313,19 +310,13 @@
         "L": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" },
         "t": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" }
       },
-      "furniture": { 
-        "A": "f_bookcase",
-        "C": "f_armchair",
-        "L": "f_floor_lamp"
-        "t": "f_table"
-      },
+      "furniture": { "A": "f_bookcase", "C": "f_armchair", "L": "f_floor_lamp", "t": "f_table" },
       "items": {
         "A": [
           { "item": "homebooks", "chance": 75 },
           { "item": "esoteric_books", "chance": 50, "repeat": [ 1, 2 ] },
           { "item": "deduction_books", "chance": 10 },
-          { "item": "hedge_magic_books", "chance": 25, "repeat": [ 1, 2 ] },
-          { "item": "nether_sorcery_books", "chance": 15 }
+          { "item": "hedge_magic_books", "chance": 25, "repeat": [ 1, 2 ] }
         ]
       },
       "place_monster": [ { "group": "GROUP_NETHER_CULT", "x": [ 0, 3 ], "y": [ 0, 3 ], "chance": 50 } ]
@@ -348,14 +339,13 @@
       "parameters": {
         "carpet_type": {
           "type": "ter_str_id",
-          "scope": "omt",
+          "scope": "nest",
           "default": {
             "distribution": [
-              [ "t_carpet_concrete_yellow", 2 ],
-              [ "t_carpet_concrete_green", 2 ],
+              [ "t_carpet_concrete_yellow", 1 ],
+              [ "t_carpet_concrete_green", 1 ],
               [ "t_carpet_concrete_purple", 1 ],
-              [ "t_carpet_concrete_red", 1 ],
-              [ "t_thconc_floor", 2 ]
+              [ "t_carpet_concrete_red", 1 ]
             ]
           }
         }
@@ -398,7 +388,7 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "cabin_nether_cult_basement_4x4_nether_huntsman_overlay",
+    "nested_mapgen_id": "cabin_nether_cult_basement_4x4_huntsman_overlay",
     "//": "An overlay with a nether huntsman with gore.",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -413,7 +403,7 @@
         { "field": "fd_blood", "x": [ 0, 3 ], "y": [ 0, 3 ], "repeat": [ 6, 12 ] },
         { "field": "fd_gibs_flesh", "x": [ 0, 3 ], "y": [ 0, 3 ], "repeat": [ 2, 4 ] }
       ],
-      "place_monster": [ { "monster": "mon_star_vampire", "x": [ 0, 3 ], "y": [ 0, 3 ] } ]
+      "place_monster": [ { "monster": "mon_nether_huntsman", "x": [ 0, 3 ], "y": [ 0, 3 ] } ]
     }
   }
 ]
