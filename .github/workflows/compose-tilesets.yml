@@ -1,0 +1,117 @@
+name: Build tilesets
+on:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  builds:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Altica
+            artifact: Altica
+            tileset_dir: gfx/Altica
+            compose_args: --use-all --obsolete-fillers
+          - name: ASCII_Overmap
+            artifact: ASCII_Overmap
+            tileset_dir: gfx/ASCII_Overmap
+            compose_args: --use-all
+          - name: BrownLikeBears
+            artifact: BrownLikeBears
+            tileset_dir: gfx/BrownLikeBears
+            compose_args: --use-all --obsolete-fillers
+          - name: ChibiUltica
+            artifact: ChibiUltica
+            tileset_dir: gfx/Chibi_Ultica
+            compose_args: --use-all
+          - name: HollowMoon
+            artifact: HollowMoon
+            tileset_dir: gfx/HollowMoon
+            compose_args: --use-all --obsolete-fillers
+          - name: Larwick_Overmap
+            artifact: Larwick_Overmap
+            tileset_dir: gfx/Larwick_Overmap
+            compose_args: --use-all
+          - name: MShockXotto+
+            artifact: MshockXotto+
+            tileset_dir: gfx/MShockXotto+
+            compose_args: --use-all
+          - name: NeoDays
+            artifact: NeoDaysTileset
+            tileset_dir: gfx/NeoDays
+            compose_args: --use-all
+          - name: Retrodays
+            artifact: RetroDaysTileset
+            tileset_dir: gfx/Retrodays
+            compose_args: --use-all
+          - name: GiantDays
+            artifact: GiantDays
+            tileset_dir: gfx/GiantDays
+            compose_args: --use-all
+          - name: SmashButton_iso
+            artifact: SmashButton_iso
+            tileset_dir: gfx/HitButton_iso
+            compose_args: --use-all
+          - name: SurveyorsMap
+            artifact: SurveyorsMap
+            tileset_dir: gfx/SurveyorsMap
+            compose_args: --use-all
+          - name: UltimateCataclysm
+            artifact: UltimateCataclysm
+            tileset_dir: gfx/UltimateCataclysm
+            compose_args: --use-all --obsolete-fillers
+          - name: Ultica_iso
+            artifact: Ultica_iso
+            tileset_dir: gfx/Ultica_iso
+            compose_args: --use-all
+          - name: PenAndPaper
+            artifact: PenAndPaper
+            tileset_dir: gfx/PenAndPaper
+            compose_args: --use-all
+
+    name: Compose tileset
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout local repo
+        uses: actions/checkout@v4
+        with:
+          ref: master
+          sparse-checkout: |
+            src
+            tools
+          fetch-depth: 1
+
+      - name: Build json formatter
+        run: make tools/format/json_formatter.cgi
+
+      - name: Install dependencies
+        uses: awalsh128/cache-apt-pkgs-action@v1
+        with:
+          packages: python3 python3-pip libvips42
+      - run: pip install pyvips
+
+      - name: Clone tileset repo
+        uses: actions/checkout@v4
+        with:
+          repository: I-am-Erk/CDDA-Tilesets
+          ref: master
+          path: build-tilesets
+          sparse-checkout: gfx
+          fetch-depth: 1
+
+      - name: Build ${{ matrix.name }}
+        run: |
+          export SOURCE="${{github.workspace}}/build-tilesets/${{ matrix.tileset_dir }}"
+          export DEST="${{github.workspace}}/${{ matrix.tileset_dir }}"
+          python3 ${{ github.workspace }}/tools/gfx_tools/compose.py ${{ matrix.compose_args }} --feedback CONCISE --format-json --loglevel INFO "$SOURCE" "$DEST"
+
+          mv -v "$SOURCE/tileset.txt" "$DEST/"
+          [ -f "$SOURCE/fallback.png"  ] && mv -v "$SOURCE/fallback.png" "$DEST/" || echo "No fallback.png for ${{ matrix.name }}"
+          [ -f "$SOURCE/layering.json" ] && mv -v "$SOURCE/layering.json" "$DEST/" || echo "No layering.json for ${{ matrix.name }}"
+
+      - name: Store artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: "tileset-${{ matrix.name }}"
+          path: "${{github.workspace}}/gfx/*"
