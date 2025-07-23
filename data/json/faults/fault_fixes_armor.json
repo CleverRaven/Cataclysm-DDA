@@ -64,6 +64,7 @@
     "type": "fault_fix",
     "copy-from": "mend_armor_lc_patch",
     "id": "mend_armor_hc_patch",
+    "name": "Patch the hole.",
     "faults_removed": [ "fault_armor_hc_punctured" ],
     "requirements": [ [ "rivet_setting", 4 ], { "components": [ [ [ "hc_sheet_metal_small", 1 ] ] ] } ]
   },
@@ -71,6 +72,7 @@
     "type": "fault_fix",
     "copy-from": "mend_armor_lc_patch",
     "id": "mend_armor_ch_patch",
+    "name": "Patch the hole.",
     "faults_removed": [ "fault_armor_ch_punctured" ],
     "//": "ch_steel_standard doesn't exist",
     "requirements": [ [ "rivet_setting", 4 ], { "components": [ [ [ "ch_sheet_metal_small", 1 ] ] ] } ]
@@ -79,6 +81,7 @@
     "type": "fault_fix",
     "copy-from": "mend_armor_lc_patch",
     "id": "mend_armor_qt_patch",
+    "name": "Patch the hole.",
     "faults_removed": [ "fault_armor_qt_punctured" ],
     "requirements": [ [ "rivet_setting", 4 ], { "components": [ [ [ "qt_sheet_metal_small", 1 ] ] ] } ]
   },
@@ -105,6 +108,7 @@
     "type": "fault_fix",
     "copy-from": "mend_armor_lc_replace",
     "id": "mend_armor_mc_replace",
+    "name": "Replace the damaged part with a new one.",
     "faults_removed": [ "fault_armor_mc_punctured", "fault_armor_mc_dented" ],
     "requirements": [
       { "qualities": [ { "id": "CHISEL", "level": 3 } ] },
@@ -117,6 +121,7 @@
     "type": "fault_fix",
     "copy-from": "mend_armor_lc_replace",
     "id": "mend_armor_hc_replace",
+    "name": "Replace the damaged part with a new one.",
     "faults_removed": [ "fault_armor_hc_punctured", "fault_armor_hc_dented" ],
     "requirements": [
       { "qualities": [ { "id": "CHISEL", "level": 3 } ] },
@@ -129,6 +134,7 @@
     "type": "fault_fix",
     "copy-from": "mend_armor_lc_replace",
     "id": "mend_armor_ch_replace",
+    "name": "Replace the damaged part with a new one.",
     "faults_removed": [ "fault_armor_ch_punctured", "fault_armor_ch_dented" ],
     "requirements": [
       { "qualities": [ { "id": "CHISEL", "level": 3 } ] },
@@ -142,6 +148,7 @@
     "type": "fault_fix",
     "copy-from": "mend_armor_lc_replace",
     "id": "mend_armor_qt_replace",
+    "name": "Replace the damaged part with a new one.",
     "time": "6 d 21h 36m",
     "faults_removed": [ "fault_armor_qt_punctured", "fault_armor_qt_dented" ],
     "time_save_profs": { "prof_armorsmithing": 0.5, "prof_blacksmithing": 0.5, "prof_quenching": 0.5 },
