@@ -368,7 +368,9 @@
     "copy-from": "generic_city_building",
     "name": "zoo parking",
     "sym": "P",
-    "color": "i_green"
+    "color": "i_green",
+    "looks_like": "s_lot",
+    "vision_levels": "large_pavement"
   },
   {
     "type": "overmap_terrain",
@@ -708,35 +710,39 @@
       "stadium_football_7_6"
     ],
     "copy-from": "generic_stadium_park",
-    "sym": "─"
+    "sym": "─",
+    "looks_like": "s_lot",
+    "vision_levels": "large_pavement"
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "stadium_football_0_1",
-      "stadium_football_0_2",
-      "stadium_football_0_3",
-      "stadium_football_0_4",
-      "stadium_football_0_5",
-      "stadium_football_8_4",
-      "stadium_football_8_5"
-    ],
+    "id": [ "stadium_football_0_3", "stadium_football_8_3" ],
     "copy-from": "generic_stadium_park",
     "sym": "│"
   },
   {
     "type": "overmap_terrain",
     "id": [
+      "stadium_football_0_1",
+      "stadium_football_0_2",
+      "stadium_football_0_4",
+      "stadium_football_0_5",
       "stadium_football_8_1",
       "stadium_football_8_2",
-      "stadium_football_8_3",
-      "stadium_1_0",
-      "stadium_2_0",
-      "stadium_0_0",
-      "stadium_3_0"
+      "stadium_football_8_4",
+      "stadium_football_8_5"
     ],
+    "copy-from": "stadium_football_0_3",
+    "looks_like": "s_lot",
+    "vision_levels": "large_pavement"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "stadium_1_0", "stadium_2_0", "stadium_0_0", "stadium_3_0" ],
     "copy-from": "generic_stadium_park",
-    "sym": "O"
+    "sym": "O",
+    "looks_like": "s_lot",
+    "vision_levels": "large_pavement"
   },
   {
     "type": "overmap_terrain",
