@@ -8,7 +8,7 @@
     "copy-from": "t_wall_metal",
     "connect_groups": "WALL",
     "connects_to": "WALL",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "WIRING", "BLOCK_WIND" ],
     "symbol": "#",
     "color": "white",
     "bash": {
