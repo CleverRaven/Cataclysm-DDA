@@ -187,6 +187,14 @@
     ]
   },
   {
+    "id": "GROUP_AMALGAMATION_MED",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_amalgamation_photokinetic_irradiator", "weight": 5, "starts": "112 days" },
+      { "monster": "mon_amalgamation_photokinetic_irradiator", "weight": 5, "starts": "224 days" }
+    ]
+  },
+  {
     "type": "monstergroup",
     "id": "GROUP_NETHER_REALITY_TEAR_FIELD",
     "monsters": [ { "monster": "mon_nether_eater", "weight": 100, "cost_multiplier": 0 } ]
