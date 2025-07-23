@@ -55,6 +55,7 @@
     "type": "fault_fix",
     "copy-from": "mend_armor_lc_patch",
     "id": "mend_armor_mc_patch",
+    "name": "Patch the hole.",
     "faults_removed": [ "fault_armor_mc_punctured" ],
     "//": "this assumes creating a small sheet of higher carbon steel",
     "requirements": [ [ "rivet_setting", 4 ], { "components": [ [ [ "mc_sheet_metal_small", 1 ] ] ] } ]
