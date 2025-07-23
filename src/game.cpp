@@ -795,6 +795,13 @@ void game::setup()
 
         load_core_data();
     }
+
+    // invalidate calendar caches in case we were previously playing
+    // a different world
+    calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
+    // must be called before load_world_modfiles() #81904
+    calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
+
     world_generator->get_mod_manager().check_mods_list( world_generator->active_world );
     load_world_modfiles();
     // Panel manager needs JSON data to be loaded before init
@@ -806,11 +813,6 @@ void game::setup()
     next_mission_id = 1;
     uquit = QUIT_NO;   // We haven't quit the game
     bVMonsterLookFire = true;
-
-    // invalidate calendar caches in case we were previously playing
-    // a different world
-    calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
-    calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
 
     calendar::set_eternal_night( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "night" );
     calendar::set_eternal_day( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "day" );
