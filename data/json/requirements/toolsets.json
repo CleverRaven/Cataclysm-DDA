@@ -281,8 +281,22 @@
   {
     "id": "drilling_standard",
     "type": "requirement",
-    "//": "Drilling holes in various materials, including metal",
+    "//": "Drilling holes in various materials, including steel",
     "tools": [ [ [ "cordless_drill", 2 ], [ "corded_powerdrill", 2 ], [ "drill_press_tool", 1 ], [ "hand_drill", -1 ] ] ]
+  },
+  {
+    "id": "drilling_light",
+    "type": "requirement",
+    "//": "Drilling holes in various materials other than steel",
+    "tools": [
+      [
+        [ "cordless_drill", 1 ],
+        [ "corded_powerdrill", 1 ],
+        [ "drill_press_tool", 1 ],
+        [ "hand_drill", -1 ],
+        [ "makeshift_hand_drill", -2 ]
+      ]
+    ]
   },
   {
     "id": "anesthetic",
