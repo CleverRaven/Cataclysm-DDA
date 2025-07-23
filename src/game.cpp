@@ -6012,7 +6012,7 @@ void game::control_vehicle()
             veh->interact_with( &here, *vehicle_position );
         }
     }
-    if( veh ) {
+    if( u.controlling_vehicle ) {
         // If we reached here, we gained control of a vehicle.
         // Clear the map memory for the area covered by the vehicle to eliminate ghost vehicles.
         for( const tripoint_abs_ms &target : veh->get_points() ) {

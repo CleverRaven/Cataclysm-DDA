@@ -93,21 +93,25 @@ TEST_CASE( "projectiles_through_obstacles", "[projectile]" )
 
 TEST_CASE( "liquid_projectiles_applies_effect", "[projectile_effect]" )
 {
-    map &here = get_map();
     clear_avatar();
     clear_npcs();
     clear_map();
+
+    map &here = get_map();
 
     Character &player = get_player_character();
     arm_shooter( player, itype_boomer_head );
     const tripoint_bub_ms next_to = player.adjacent_tile();
     const item hazmat( itype_hazmat_suit );
 
-    npc &dummy = spawn_npc( next_to.xy(), "thug" );
+    npc &dummy = spawn_npc( next_to.xy(), "mi-go_prisoner" );
+    dummy.clear_worn();
+
+    REQUIRE( dummy.top_items_loc().empty() );
 
     //Fire on naked NPC and check that it got the effect
     SECTION( "Naked NPC gets the effect" ) {
-        player.fire_gun( here, dummy.pos_bub(), 1000, *player.get_wielded_item() );
+        player.fire_gun( here, dummy.pos_bub(), 100, *player.get_wielded_item() );
         CHECK( dummy.has_effect( effect_bile_stink ) );
     }
 
@@ -116,7 +120,7 @@ TEST_CASE( "liquid_projectiles_applies_effect", "[projectile_effect]" )
     //Fire on NPC with hazmat suit and check that it didn't get the effect
     SECTION( "Hazmat NPC doesn't get the effect" ) {
         dummy.wear_item( hazmat );
-        player.fire_gun( here, dummy.pos_bub(), 1000, *player.get_wielded_item() );
+        player.fire_gun( here, dummy.pos_bub(), 100, *player.get_wielded_item() );
         CHECK( !dummy.has_effect( effect_bile_stink ) );
     }
 }

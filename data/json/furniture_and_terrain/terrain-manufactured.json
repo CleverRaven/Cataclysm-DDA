@@ -1369,7 +1369,7 @@
     "looks_like": "t_pit",
     "move_cost": 0,
     "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "INDOORS" ],
+    "flags": [ "TRANSPARENT", "PERMEABLE", "CONTAINER", "PLACE_ITEM", "INDOORS" ],
     "deconstruct": { "ter_set": "t_pit", "items": [ { "item": "rock", "count": 40 }, { "item": "stick", "count": [ 16, 16 ] } ] },
     "bash": {
       "str_min": 18,
