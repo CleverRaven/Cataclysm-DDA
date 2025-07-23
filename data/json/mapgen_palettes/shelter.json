@@ -260,9 +260,9 @@
       "_": { "item": "shelter_supplies", "chance": 1 }
     },
     "nested": {
-      ".": { "else_chunks": [ [ "1x1_group_infested", 1 ], [ "null", 12 ] ], "check_z": [ -1 ] },
-      "_": { "else_chunks": [ [ "1x1_group_infested", 1 ], [ "null", 12 ] ], "check_z": [ -1 ] },
-      "b": { "else_chunks": [ [ "1x1_group_infested", 1 ], [ "null", 12 ] ], "check_z": [ -1 ] }
+      ".": { "else_chunks": [ [ "1x1_group_infested", 1 ], [ "null", 8 ] ], "check_z": [ -1 ] },
+      "_": { "else_chunks": [ [ "1x1_group_infested", 1 ], [ "null", 8 ] ], "check_z": [ -1 ] },
+      "b": { "else_chunks": [ [ "1x1_group_infested", 1 ], [ "null", 8 ] ], "check_z": [ -1 ] }
     }
   },
   {
