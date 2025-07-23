@@ -827,6 +827,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Effects*: Summon a myriad of holographic clones: 2 to 5 plus 0.75 to 1.5 per power level within 8 squares of the psion, 66% of this amount again from 8 squares away to 25 squares away, and 50% of this amount again from 25 squares to 40 squares away.  The copies will run around and confuse the psion's enemies while the power lasts.  If damaged, they explode into a burst of light, blinding anyone with 5 squares of the clone.  When the power is ended or the psion loses concentration, all duplicates fade without exploding.<br />
 *Prerequisites*: Lucid Shadows 10, Field of Light 14 *or* Refraction of Arms 10 *or* Blinding Radiance 6<br />
 </details>
+</details>
 <details>
 <summary><h1>Pyrokinesis</h1></summary>
 
