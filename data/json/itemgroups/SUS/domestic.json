@@ -1237,7 +1237,7 @@
       { "group": "literature", "prob": 100, "count": [ 2, 5 ] },
       { "group": "homebooks", "count": [ 6, 19 ], "prob": 100 }
     ]
-  }
+  },
   {
     "type": "item_group",
     "id": "adderall_bottle_plastic_pill_prescription_1",
