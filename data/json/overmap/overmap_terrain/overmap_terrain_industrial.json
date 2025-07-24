@@ -251,7 +251,6 @@
       "steel_mill_0_3",
       "steel_mill_0_3_2",
       "steel_mill_0_3_3",
-      "steel_mill_0_4",
       "steel_mill_0_4_2",
       "steel_mill_0_4_3",
       "steel_mill_1_1",
@@ -306,6 +305,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "steel_mill_0_4" ],
+    "copy-from": "steel_mill_0_1",
+    "name": "steel mill parking",
+    "looks_like": "s_lot",
+    "vision_levels": "large_pavement"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "steel_mill_rail_1",
       "steel_mill_rail_2",
@@ -315,8 +322,6 @@
       "steel_mill_rail_2_3"
     ],
     "copy-from": "generic_city_building_no_sidewalk",
-    "vision_levels": "blends_till_outlines",
-    "looks_like": "road",
     "name": "steel mill depot",
     "sym": "│",
     "color": "dark_gray",
@@ -327,6 +332,8 @@
     "id": [ "s_lightindustry_road_0", "s_lightindustry_road_1" ],
     "name": "light industry",
     "copy-from": "road_abstract",
+    "looks_like": "s_lot",
+    "vision_levels": "large_pavement",
     "sym": "─",
     "extras": "build",
     "mondensity": 2
