@@ -209,7 +209,7 @@
       "place_nested": [
         { "chunks": [ "cabin_nether_cult_basement_4x4_opening_rec_area" ], "x": 15, "y": 9 },
         { "chunks": [ "cabin_nether_cult_basement_6x6_meeting_room" ], "x": 7, "y": 3 },
-        { "chunks": [ "cabin_nether_cult_basement_4x4_library" ], "x": 16, "y": 4 },
+        { "chunks": [ "cabin_nether_cult_basement_4x4_library" ], "x": 15, "y": 3 },
         {
           "chunks": [
             [ "null", 6 ],
@@ -281,12 +281,13 @@
     "nested_mapgen_id": "cabin_nether_cult_basement_4x4_library",
     "type": "mapgen",
     "object": {
-      "mapgensize": [ 4, 4 ],
+      "mapgensize": [ 5, 5 ],
       "rows": [
-        "CtLA",
-        "   A",
-        "   A",
-        "CtCA"
+        "-----",
+        "-CtLA",
+        "+   A",
+        "-   A",
+        "-CtCA"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "parameters": {
@@ -304,6 +305,8 @@
         }
       },
       "terrain": {
+        "-": "t_wall_wood",
+        "+": [ [ "t_door_c", 2 ], [ "t_door_o", 1 ] ],
         " ": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" },
         "A": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" },
         "C": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" },
@@ -320,6 +323,60 @@
         ]
       },
       "place_monster": [ { "group": "GROUP_NETHER_CULT", "x": [ 0, 3 ], "y": [ 0, 3 ], "chance": 50 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "cabin_nether_cult_basement_4x4_library",
+    "weight": 150,
+    "//": "Headless corpse inside a locked room. Spooky!",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "-----",
+        "-CtLA",
+        "+   A",
+        "-   A",
+        "-CtCA"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "parameters": {
+        "carpet_type": {
+          "type": "ter_str_id",
+          "scope": "nest",
+          "default": {
+            "distribution": [
+              [ "t_carpet_concrete_yellow", 1 ],
+              [ "t_carpet_concrete_green", 1 ],
+              [ "t_carpet_concrete_purple", 1 ],
+              [ "t_carpet_concrete_red", 1 ]
+            ]
+          }
+        }
+      },
+      "terrain": {
+        "-": "t_wall_wood",
+        "+": "t_door_locked",
+        " ": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" },
+        "A": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" },
+        "C": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" },
+        "L": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" },
+        "t": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" }
+      },
+      "furniture": { "A": "f_bookcase", "C": "f_armchair", "L": "f_floor_lamp", "t": "f_table" },
+      "place_item": [
+        { "item": "book_deduction_lies", "x": 3, "y": 3, "chance": 100 },
+        { "item": "corpse_headless_bloodless", "x": 3, "y": 4, "chance": 100 },
+        { "item": "default_zombie_death_drops", "x": 3, "y": 4, "chance": 100 }
+      ],
+      "items": {
+        "A": [
+          { "item": "homebooks", "chance": 75 },
+          { "item": "esoteric_books", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "deduction_books", "chance": 10 },
+          { "item": "hedge_magic_books", "chance": 25, "repeat": [ 1, 2 ] }
+        ]
+      }
     }
   },
   {
