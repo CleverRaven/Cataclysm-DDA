@@ -728,12 +728,6 @@
   },
   {
     "type": "terrain",
-    "id": "t_window_empty",
-    "copy-from": "t_window_empty_no_roof",
-    "roof": "t_flat_roof"
-  },
-  {
-    "type": "terrain",
     "id": "t_window_empty_no_roof",
     "name": "empty window",
     "looks_like": "t_window_empty",
@@ -771,6 +765,12 @@
       "hit_field": [ "fd_dust", 2 ],
       "destroyed_field": [ "fd_splinters", 1 ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_window_empty",
+    "copy-from": "t_window_empty_no_roof",
+    "roof": "t_flat_roof"
   },
   {
     "type": "terrain",
