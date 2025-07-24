@@ -362,26 +362,18 @@
     "description": "Like a cat, elven eyes are well-attuned to low levels of light, able to pick up even the slightest glimmer.  You have greatly-enhanced night vision.  However, you have no additional vision while in complete darkness.",
     "types": [ "EYES" ],
     "category": [ "SPECIES_ELF" ],
-    "enchantments": [ 
-      { 
+    "enchantments": [
+      {
         "condition": { "and": [ "u_is_outside", { "or": [ { "is_weather": "clear" }, { "is_weather": "sunny" } ] } ] },
-        "values": [
-          { "value": "NIGHT_VIS", "add": 15 } 
-        ]
+        "values": [ { "value": "NIGHT_VIS", "add": 15 } ]
       },
-       { 
-        "condition":  { "and": [ "u_is_outside", { "not": { "is_weather": "clear" } }, { "not": { "is_weather": "sunny" } } ] },
-    
-        "values": [
-          { "value": "NIGHT_VIS", "add": 8 } 
-        ]
+      {
+        "condition": { "and": [ "u_is_outside", { "not": { "is_weather": "clear" } }, { "not": { "is_weather": "sunny" } } ] },
+        "values": [ { "value": "NIGHT_VIS", "add": 8 } ]
       },
-   { 
-        "condition":  { "and": [ { "not": "u_is_outside" }, { "math": [ "u_val('fine_detail_vision_mod') <= 7" ] } ] },
-    
-        "values": [
-          { "value": "NIGHT_VIS", "add": 6 } 
-        ]
+      {
+        "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_val('fine_detail_vision_mod') <= 7" ] } ] },
+        "values": [ { "value": "NIGHT_VIS", "add": 6 } ]
       }
     ]
   },
