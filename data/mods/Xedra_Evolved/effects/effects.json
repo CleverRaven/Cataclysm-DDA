@@ -1237,9 +1237,73 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_arvore_sylph_undine_wearing_iron",
+    "id": "effect_xe_iron_intolerance_wearing_iron_tier_4",
     "name": [ "Touching Iron" ],
-    "desc": [ "You are in contact with iron, the ancient bane of the fae.  It will cause you pain and discomfort until removed." ],
+    "desc": [
+      "You are in contact with iron, the ancient bane of the fae.  It will cause you severe pain and damage until removed."
+    ],
+    "rating": "bad",
+    "apply_message": "As the iron touches you, your skin begins to bubble and sear!",
+    "remove_message": "The burning from the iron finally fades.",
+    "base_mods": {
+      "pain_amount": [ 15 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 4 ],
+      "pain_chance": [ 2 ],
+      "pain_max_val": [ 250 ],
+      "pain_tick": [ 75 ],
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_tick": [ 150 ]
+    },
+    "limb_score_mods": [
+      { "limb_score": "balance", "modifier": 0.5 },
+      { "limb_score": "breathing", "modifier": 0.5 },
+      { "limb_score": "lift", "modifier": 0.6 },
+      { "limb_score": "grip", "modifier": 0.6 },
+      { "limb_score": "reaction", "modifier": 0.7 }
+    ],
+    "removes_effects": [ "effect_iron_allergy_wearing_iron", "effect_iron_allergy_wearing_steel" ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "NO_FEY_MAGIC" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xe_iron_intolerance_wearing_steel_tier_4",
+    "name": [ "Touching Steel" ],
+    "desc": [
+      "You are in contact with steel, the closest material to iron, the ancient bane of the fae.  It will cause you severe pain and damage until removed."
+    ],
+    "rating": "bad",
+    "apply_message": "As the steel touches you, your skin begins to bubble and sear!",
+    "remove_message": "The burning from the steel finally fades.",
+    "base_mods": {
+      "pain_amount": [ 12 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 4 ],
+      "pain_chance": [ 2 ],
+      "pain_max_val": [ 125 ],
+      "pain_tick": [ 110 ],
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_tick": [ 300 ]
+    },
+    "limb_score_mods": [
+      { "limb_score": "balance", "modifier": 0.7 },
+      { "limb_score": "breathing", "modifier": 0.6 },
+      { "limb_score": "lift", "modifier": 0.7 },
+      { "limb_score": "grip", "modifier": 0.75 },
+      { "limb_score": "reaction", "modifier": 0.75 }
+    ],
+    "removes_effects": [ "effect_iron_allergy_wearing_iron", "effect_iron_allergy_wearing_steel" ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "NO_FEY_MAGIC" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xe_iron_intolerance_wearing_iron_tier_3",
+    "name": [ "Touching Iron" ],
+    "desc": [
+      "You are in contact with iron, the ancient bane of the fae.  It will cause you severe pain and discomfort until removed."
+    ],
     "rating": "bad",
     "apply_message": "As the iron touches you, your skin begins to burn.",
     "remove_message": "The burning from the iron finally fades.",
@@ -1258,14 +1322,15 @@
       { "limb_score": "grip", "modifier": 0.8 },
       { "limb_score": "reaction", "modifier": 0.8 }
     ],
+    "removes_effects": [ "effect_iron_allergy_wearing_iron", "effect_iron_allergy_wearing_steel" ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD", "NO_FEY_MAGIC" ]
   },
   {
     "type": "effect_type",
-    "id": "effect_arvore_sylph_undine_wearing_steel",
+    "id": "effect_xe_iron_intolerance_wearing_steel_tier_3",
     "name": [ "Touching Steel" ],
     "desc": [
-      "You are in contact with steel, the closest material to iron, the ancient bane of the fae.  It will cause you pain and discomfort until removed."
+      "You are in contact with steel, the closest material to iron, the ancient bane of the fae.  It will cause you severe pain and discomfort until removed."
     ],
     "rating": "bad",
     "apply_message": "As the steel touches you, your skin begins to burn.",
@@ -1285,11 +1350,12 @@
       { "limb_score": "grip", "modifier": 0.85 },
       { "limb_score": "reaction", "modifier": 0.85 }
     ],
+    "removes_effects": [ "effect_iron_allergy_wearing_iron", "effect_iron_allergy_wearing_steel" ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD", "NO_FEY_MAGIC" ]
   },
   {
     "type": "effect_type",
-    "id": "effect_ierde_salamander_wearing_iron",
+    "id": "effect_xe_iron_intolerance_wearing_iron_tier_2",
     "name": [ "Touching Iron" ],
     "desc": [ "You are in contact with iron, the ancient bane of the fae.  It will cause you pain and discomfort until removed." ],
     "rating": "bad",
@@ -1310,11 +1376,12 @@
       { "limb_score": "grip", "modifier": 0.9 },
       { "limb_score": "reaction", "modifier": 0.9 }
     ],
+    "removes_effects": [ "effect_iron_allergy_wearing_iron", "effect_iron_allergy_wearing_steel" ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD", "NO_FEY_MAGIC" ]
   },
   {
     "type": "effect_type",
-    "id": "effect_ierde_salamander_wearing_steel",
+    "id": "effect_xe_iron_intolerance_wearing_steel_tier_2",
     "name": [ "Touching Steel" ],
     "desc": [
       "You are in contact with steel, the closest material to iron, the ancient bane of the fae.  It will cause you pain and discomfort until removed."
@@ -1331,13 +1398,14 @@
       "pain_tick": [ 120 ]
     },
     "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.95 } ],
+    "removes_effects": [ "effect_iron_allergy_wearing_iron", "effect_iron_allergy_wearing_steel" ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
-    "id": "effect_changeling_wearing_iron",
+    "id": "effect_xe_iron_intolerance_wearing_iron_tier_1",
     "name": [ "Touching Iron" ],
-    "desc": [ "You are in contact with iron.  It will cause you pain and discomfort until removed." ],
+    "desc": [ "You are in contact with iron, the ancient bane of the fae.  It will cause you pain and discomfort until removed." ],
     "rating": "bad",
     "apply_message": "As the iron touches you, your skin begins to itch fiercely.",
     "remove_message": "The itch from the iron finally fades.",
@@ -1356,11 +1424,12 @@
       { "limb_score": "grip", "modifier": 0.9 },
       { "limb_score": "reaction", "modifier": 0.9 }
     ],
+    "removes_effects": [ "effect_iron_allergy_wearing_iron", "effect_iron_allergy_wearing_steel" ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD", "NO_FEY_MAGIC" ]
   },
   {
     "type": "effect_type",
-    "id": "effect_changeling_wearing_steel",
+    "id": "effect_xe_iron_intolerance_wearing_steel_tier_1",
     "name": [ "Touching Steel" ],
     "desc": [ "You are in contact with steel.  It will cause you pain and discomfort until removed." ],
     "rating": "bad",
@@ -1375,6 +1444,7 @@
       "pain_tick": [ 120 ]
     },
     "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.95 } ],
+    "removes_effects": [ "effect_iron_allergy_wearing_iron", "effect_iron_allergy_wearing_steel" ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
