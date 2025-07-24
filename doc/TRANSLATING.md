@@ -1,15 +1,28 @@
 # Translating Cataclysm: DDA
 
-* [Translators](#translators)
-  * [Getting Started](#getting-started)
-  * [Glossary](#glossary)
-  * [Grammatical gender](#grammatical-gender)
-  * [Tips](#tips)
-* [Developers](#developers)
-  * [Translation Functions](#translation-functions)
-  * [`translation`](#translation)
-  * [Recommendations](#recommendations)
-* [Maintainers](#maintainers)
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Translators](#translators)
+  - [Getting Started](#getting-started)
+  - [Glossary](#glossary)
+  - [Grammatical gender](#grammatical-gender)
+  - [Tips](#tips)
+- [Developers](#developers)
+  - [Translation Functions](#translation-functions)
+    - [`_()`](#_)
+    - [`pgettext()`](#pgettext)
+    - [`n_gettext()`](#n_gettext)
+  - [`translation`](#translation)
+  - [Static string variables](#static-string-variables)
+  - [Recommendations](#recommendations)
+- [Maintainers](#maintainers)
+  - [Automated updates](#automated-updates)
+  - [Manual updates](#manual-updates)
+  - [Language stats](#language-stats)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Translators
 

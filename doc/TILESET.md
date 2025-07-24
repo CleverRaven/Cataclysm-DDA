@@ -1,13 +1,62 @@
 # TILESETS
 
-*Content*
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
 
 - [Terminology](#terminology)
+      - [Tileset](#tileset)
+      - [Sprite](#sprite)
+      - [Root name](#root-name)
+      - [Tile](#tile)
+      - [Tilesheet](#tilesheet)
+      - [`tile_config.json` file](#tile_configjson-file)
+      - [`tileset.txt` file](#tilesettxt-file)
+      - [Tile entry](#tile-entry)
+      - [Compositing Tileset](#compositing-tileset)
+      - [`compose.py` script](#composepy-script)
+      - [Tilesheet directory](#tilesheet-directory)
+      - [`tile_info.json` file](#tile_infojson-file)
 - [JSON Schema](#json-schema)
+  - [Tile entry](#tile-entry-1)
+    - [Hardcoded IDs](#hardcoded-ids)
+    - [Complex IDs](#complex-ids)
+    - [Optional gendered variants](#optional-gendered-variants)
+    - [Optional seasonal variants](#optional-seasonal-variants)
+    - [Optional transparent variant](#optional-transparent-variant)
+    - [Item/Mutation variant sprite variants](#itemmutation-variant-sprite-variants)
+    - [Rotations](#rotations)
+    - [Random variations](#random-variations)
+    - [Multitile](#multitile)
+    - [Connecting terrain and furniture - `connect_groups` and `connects_to`](#connecting-terrain-and-furniture---connect_groups-and-connects_to)
+    - [Auto-rotating terrain and furniture - `rotates_to`](#auto-rotating-terrain-and-furniture---rotates_to)
+      - [Windows and doors](#windows-and-doors)
+      - [Unconnected `rotates_to`](#unconnected-rotates_to)
+      - [Full `rotates_to` template](#full-rotates_to-template)
+    - [Multiple tile entries in the same file](#multiple-tile-entries-in-the-same-file)
+    - [Graffitis](#graffitis)
+      - [Graffitis for specific texts](#graffitis-for-specific-texts)
+  - [`tile_info.json`](#tile_infojson)
+  - [Expansion tile entries](#expansion-tile-entries)
+  - [layering.json](#layeringjson)
+      - [Items](#items)
+      - [Fields](#fields)
 - [`compose.py`](#composepy)
+  - [Usage](#usage)
 - [pyvips](#pyvips)
+  - [Windows](#windows)
+    - [Python and pyvips](#python-and-pyvips)
+    - [libvips](#libvips)
+    - [Launching scripts](#launching-scripts)
+  - [Linux](#linux)
+  - [MacOS](#macos)
 - [Including tilesets with the distribution](#including-tilesets-with-the-distribution)
 - [Legacy tilesets](#legacy-tilesets)
+  - [tilesheets](#tilesheets)
+  - [`tile_config`](#tile_config)
+  - [decompose.py](#decomposepy)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 >[!NOTE]
 >If you are looking for specific tileset information or style guides, try the tileset repository:

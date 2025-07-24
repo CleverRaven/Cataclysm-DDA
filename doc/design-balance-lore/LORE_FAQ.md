@@ -1,3 +1,47 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Faction Lore](#faction-lore)
+  - [The Blob](#the-blob)
+    - [Lore owner: ?](#lore-owner-)
+    - [The Blob Questions](#the-blob-questions)
+  - [Exodii](#exodii)
+    - [Lore owner: @I-am_erk](#lore-owner-i-am_erk)
+    - [Exodii Questions](#exodii-questions)
+  - [Hell's Raiders](#hells-raiders)
+    - [Lore owner:](#lore-owner)
+    - [Hell's Raiders Questions](#hells-raiders-questions)
+  - [Hub-01](#hub-01)
+    - [Lore owner: @Candlebury](#lore-owner-candlebury)
+    - [Hub-01 Questions](#hub-01-questions)
+  - [Isherwoods](#isherwoods)
+    - [Lore owner:](#lore-owner-1)
+    - [Isherwoods Questions](#isherwoods-questions)
+  - [Mycus](#mycus)
+    - [Lore owner:](#lore-owner-2)
+    - [Mycus Questions](#mycus-questions)
+  - [Nether](#nether)
+    - [Lore owner: @Maleclypse](#lore-owner-maleclypse)
+    - [Nether Questions](#nether-questions)
+  - [Refugee Center](#refugee-center)
+    - [Lore owner:](#lore-owner-3)
+    - [Refugee Center Questions](#refugee-center-questions)
+  - [Triffids](#triffids)
+    - [Lore owner:](#lore-owner-4)
+    - [Triffids Questions](#triffids-questions)
+  - [The Old Guard](#the-old-guard)
+    - [Lore owner:](#lore-owner-5)
+    - [The Old Guard Questions](#the-old-guard-questions)
+  - [Yrax](#yrax)
+    - [Lore owner:](#lore-owner-6)
+    - [Yrax Questions](#yrax-questions)
+  - [XEDRA](#xedra)
+    - [Lore owner:](#lore-owner-7)
+    - [XEDRA Questions](#xedra-questions)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Faction Lore
 
 ## The Blob

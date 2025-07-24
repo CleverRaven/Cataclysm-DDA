@@ -1,3 +1,31 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Modding guide](#modding-guide)
+  - [Other guides](#other-guides)
+  - [The basics](#the-basics)
+    - [Creating a barebones mod](#creating-a-barebones-mod)
+    - [Modinfo.json](#modinfojson)
+    - [All MOD_INFO fields](#all-mod_info-fields)
+  - [Actually adding things to your mod](#actually-adding-things-to-your-mod)
+    - [File structure](#file-structure)
+    - [JSON_INFO.md](#json_infomd)
+    - [Adding a scenario](#adding-a-scenario)
+    - [Adding a profession.](#adding-a-profession)
+    - [Adding an item](#adding-an-item)
+    - [Preventing monsters from spawning](#preventing-monsters-from-spawning)
+    - [Preventing locations from spawning](#preventing-locations-from-spawning)
+    - [Disabling certain scenarios](#disabling-certain-scenarios)
+    - [Disabling certain professions or hobbies](#disabling-certain-professions-or-hobbies)
+    - [Adding dialogue to existing NPCs](#adding-dialogue-to-existing-npcs)
+  - [Adjusting monster stats](#adjusting-monster-stats)
+  - [External options](#external-options)
+  - [Important note on json files](#important-note-on-json-files)
+    - [That which cannot be modded](#that-which-cannot-be-modded)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Modding guide
 
 Certain features of the game can be modified without rebuilding the game from source code. This includes professions, monsters, npcs, and more. Just modify the pertinent files and run the game to see your changes.

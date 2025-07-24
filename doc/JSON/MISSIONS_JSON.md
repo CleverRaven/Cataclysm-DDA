@@ -1,3 +1,33 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Creating missions](#creating-missions)
+    - [type](#type)
+    - [id](#id)
+    - [name](#name)
+    - [deadline](#deadline)
+    - [description](#description)
+    - [urgent](#urgent)
+    - [goal](#goal)
+    - [monster_species](#monster_species)
+    - [monster_type](#monster_type)
+    - [monster_kill_goal](#monster_kill_goal)
+    - [goal_condition](#goal_condition)
+    - [invisible_on_complete](#invisible_on_complete)
+    - [dialogue](#dialogue)
+    - [start](#start)
+    - [start / end / fail effects](#start--end--fail-effects)
+    - [origin](#origin)
+      - [effect](#effect)
+      - [reveal_om_ter](#reveal_om_ter)
+      - [assign_mission_target](#assign_mission_target)
+      - [Variable Object](#variable-object)
+      - [update_mapgen](#update_mapgen)
+  - [Adding new missions to NPC dialogue](#adding-new-missions-to-npc-dialogue)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Creating missions
 
 NPCs can assign missions to the player.  There is a fairly regular structure for this:
