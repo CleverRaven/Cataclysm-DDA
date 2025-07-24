@@ -8174,26 +8174,6 @@ look_around_result game::look_around(
                 u.set_destination( *try_route );
                 continue;
             }
-        } else if( action == "debug_scent" || action == "debug_scent_type" ) {
-            if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
-                display_scent();
-            }
-        } else if( action == "debug_temp" ) {
-            if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
-                display_temperature();
-            }
-        } else if( action == "debug_lighting" ) {
-            if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
-                display_lighting();
-            }
-        } else if( action == "debug_transparency" ) {
-            if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
-                display_transparency();
-            }
-        } else if( action == "debug_radiation" ) {
-            if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
-                display_radiation();
-            }
         } else if( action == "debug_hour_timer" ) {
             toggle_debug_hour_timer();
         } else if( action == "EXTENDED_DESCRIPTION" ) {
@@ -13349,9 +13329,7 @@ void game::display_toggle_overlay( const action_id action )
 
 void game::display_scent()
 {
-    if( use_tiles ) {
-        display_toggle_overlay( ACTION_DISPLAY_SCENT );
-    } else {
+    if( !use_tiles ) {
         int div = 0;
         if( !query_int( div, false, _( "Set scent map sensitivity to?" ) ) || div != 0 ) {
             return;
@@ -13392,6 +13370,7 @@ void game::display_visibility()
                 displaying_visibility_creature = creature;
             }
         } else {
+            popup( _( "No support for curses mode" ) );
             displaying_visibility_creature = nullptr;
         }
     }
@@ -13447,6 +13426,8 @@ void game::display_lighting()
             ( static_cast<size_t>( lighting_menu.ret ) < lighting_menu_strings.size() ) ) {
             g->displaying_lighting_condition = lighting_menu.ret;
         }
+    } else {
+        popup( _( "No support for curses mode" ) );
     }
 }
 
