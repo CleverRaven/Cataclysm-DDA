@@ -1232,7 +1232,7 @@
     "//": "Random books for a random domestic bookshelf.",
     "subtype": "collection",
     "entries": [
-      { "group": "novels", "prob": 100, "count": [ 7, 21 ]  },
+      { "group": "novels", "prob": 100, "count": [ 7, 21 ] },
       { "group": "kids_books", "prob": 33, "count": [ 3, 7 ] },
       { "group": "literature", "prob": 100, "count": [ 2, 5 ] },
       { "group": "homebooks", "count": [ 6, 19 ], "prob": 100 }
