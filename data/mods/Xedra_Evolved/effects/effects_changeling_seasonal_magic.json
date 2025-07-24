@@ -564,7 +564,16 @@
     "desc": [ "Your fey powers are cut off, like they're trapped behind a wall of glass." ],
     "remove_message": "The glass wall cutting off your fey powers shatters into dust.",
     "rating": "mixed",
-    "removes_effects": [ "effect_changeling_wearing_iron", "effect_changeling_wearing_steel" ],
+    "removes_effects": [
+      "effect_xe_iron_intolerance_wearing_steel_tier_1",
+      "effect_xe_iron_intolerance_wearing_steel_tier_2",
+      "effect_xe_iron_intolerance_wearing_steel_tier_3",
+      "effect_xe_iron_intolerance_wearing_steel_tier_4",
+      "effect_xe_iron_intolerance_wearing_iron_tier_1",
+      "effect_xe_iron_intolerance_wearing_iron_tier_2",
+      "effect_xe_iron_intolerance_wearing_iron_tier_3",
+      "effect_xe_iron_intolerance_wearing_iron_tier_4"
+    ],
     "flags": [ "NO_FEY_MAGIC" ]
   }
 ]
