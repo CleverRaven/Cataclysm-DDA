@@ -8,6 +8,6 @@
     "description": "A total conversion mod inspired by traditional dungeon crawler roguelikes.  Reach the bottom of an altered lab and prevent the Cataclysm from spreading to the surface!",
     "category": "total_conversion",
     "dependencies": [ "dda" ],
-    "conflicts": [ "generic_guns" ]
+    "conflicts": [ "generic_guns", "aftershock_exoplanet", "innawood", "skyisland", "backrooms", "defense_mode", "MA", "tropicata" ]
   }
 ]
