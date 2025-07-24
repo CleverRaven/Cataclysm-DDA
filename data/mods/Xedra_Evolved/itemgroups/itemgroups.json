@@ -150,6 +150,19 @@
     ]
   },
   {
+    "id": "deduction_books",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "mag_deduction", "prob": 25 },
+      { "item": "mag_deduction_tabloid", "prob": 20 },
+      { "item": "book_teens_deduction", "prob": 15 },
+      { "item": "book_deduction_black_iron_prison", "prob": 10 },
+      { "item": "book_deduction_out_of_place", "prob": 5 },
+      { "item": "book_deduction_lies", "prob": 1 }
+    ]
+  },
+  {
     "id": "kids_books",
     "type": "item_group",
     "subtype": "distribution",
@@ -557,6 +570,50 @@
       { "item": "gasoline_lantern", "prob": 5, "charges": [ 0, -1 ] },
       { "item": "electric_lantern", "prob": 8, "charges": [ 0, 100 ] },
       { "item": "oil_lamp", "prob": 5, "charges": [ 0, -1 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "nether_cabin_ritual_prep_clothes",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "robe", "prob": 10 },
+      { "item": "footrags_leather", "prob": 10 },
+      { "item": "robe_wizard", "prob": 5 },
+      { "item": "dress", "prob": 3, "variant": "white" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "nether_cabin_ritual_cult_meeting_room",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "softdrinks_canned", "prob": 60 },
+      { "item": "file", "prob": 190 },
+      { "item": "scrap_dreamdross", "prob": 50, "count": [ 1, 4 ] },
+      { "item": "instant_coffee", "prob": 50 },
+      { "item": "strange_coffee", "prob": 10 },
+      { "item": "survnote", "prob": 1 },
+      { "group": "hedge_magic_books", "prob": 3 },
+      { "prob": 15, "sealed": false, "group": "wyld_candy_wrapper_wyld_20" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "nether_cabin_ritual_ingredients",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "hedge_magick_materials", "prob": 200 },
+      {
+        "item": "lotus_blossom",
+        "container-item": "null",
+        "entry-wrapper": "bag_zipper",
+        "count": [ 8, 14 ],
+        "prob": 30
+      },
+      { "item": "candle", "prob": 75, "charges": [ 10, -1 ] },
+      { "item": "corpse_yugg_jade_fragments", "prob": 15, "count": [ 1, 3 ] },
+      { "item": "blank_blood", "prob": 15, "container-item": "bottle_plastic" }
     ]
   }
 ]

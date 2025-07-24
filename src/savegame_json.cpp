@@ -3655,9 +3655,7 @@ void mission::deserialize( const JsonObject &jo )
 {
     jo.allow_omitted_members();
 
-    if( jo.has_int( "type_id" ) ) {
-        type = &mission_type::from_legacy( jo.get_int( "type_id" ) ).obj();
-    } else if( jo.has_string( "type_id" ) ) {
+    if( jo.has_string( "type_id" ) ) {
         type = &mission_type_id( jo.get_string( "type_id" ) ).obj();
     } else {
         debugmsg( "Saved mission has no type" );
@@ -3693,9 +3691,7 @@ void mission::deserialize( const JsonObject &jo )
         target.y() = ja.get_int( 1 );
     }
 
-    if( jo.has_int( "follow_up" ) ) {
-        follow_up = mission_type::from_legacy( jo.get_int( "follow_up" ) );
-    } else if( jo.has_string( "follow_up" ) ) {
+    if( jo.has_string( "follow_up" ) ) {
         follow_up = mission_type_id( jo.get_string( "follow_up" ) );
     }
 

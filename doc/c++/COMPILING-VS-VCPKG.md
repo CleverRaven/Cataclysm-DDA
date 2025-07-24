@@ -1,3 +1,19 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Compilation guide for Windows (using Visual Studio and vcpkg)](#compilation-guide-for-windows-using-visual-studio-and-vcpkg)
+  - [Prerequisites:](#prerequisites)
+  - [Installation and configuration:](#installation-and-configuration)
+  - [Cloning and compilation:](#cloning-and-compilation)
+    - [Running and debugging Cataclysm](#running-and-debugging-cataclysm)
+    - [Running unit tests](#running-unit-tests)
+    - [Make a distribution](#make-a-distribution)
+    - [ccache integration](#ccache-integration)
+    - [llvm tools integration](#llvm-tools-integration)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Compilation guide for Windows (using Visual Studio and vcpkg)
 
 This guide contains steps required to allow compilation of Cataclysm-DDA on Windows using Visual Studio and vcpkg.

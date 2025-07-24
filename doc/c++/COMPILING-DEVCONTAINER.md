@@ -1,3 +1,15 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Compilation guide for devcontainers in Visual Studio Code](#compilation-guide-for-devcontainers-in-visual-studio-code)
+  - [Prerequisites:](#prerequisites)
+  - [Installation:](#installation)
+- [Cross-compiling from Linux to Windows](#cross-compiling-from-linux-to-windows)
+- [Cross-compiling object creator from Linux to Windows](#cross-compiling-object-creator-from-linux-to-windows)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Compilation guide for devcontainers in Visual Studio Code
 
 This guide contains instructions for compiling Cataclysm-DDA in Visual Studio Code using a [Devcontainer](https://code.visualstudio.com/learn/develop-cloud/containers)

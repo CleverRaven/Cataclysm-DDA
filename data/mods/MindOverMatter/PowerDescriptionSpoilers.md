@@ -308,6 +308,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: Increase the psion's range with ranged weapons by 1 square per 4 power levels, reduces weapon dispersion by 2.5% per power level to a maximum of 60%, and increases your chance to hit weakpoints with ranged weapons by 10% plus 8% per power level.<br />
 *Prerequisites*: Discern Weakness 7<br />
 </details>
+<details>
 <summary><h3>Sense Hostility (C)</h3></summary>
 
 *Difficulty*: 5<br />
@@ -815,6 +816,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Effects*: Focus electromagnetic radiation onto a single point, doing immense damage to the target there.  This power does 45 to 135 photokinetic damage plus 5.5 to 17 photokinetic damage per power level<br />
 *Prerequisites*: Star Flash 8 *or* Photon Beam 14, Blinding Radiance 5<br />
 </details>
+<details>
 <summary><h3>Phantom Legion (C)</h3></summary>
 
 *Difficulty*: 9<br />
