@@ -365,11 +365,11 @@
     "enchantments": [
       {
         "condition": { "and": [ "u_is_outside", { "or": [ { "is_weather": "clear" }, { "is_weather": "sunny" } ] } ] },
-        "values": [ { "value": "NIGHT_VIS", "add": 15 } ]
+        "values": [ { "value": "NIGHT_VIS", "add": 20 } ]
       },
       {
         "condition": { "and": [ "u_is_outside", { "not": { "is_weather": "clear" } }, { "not": { "is_weather": "sunny" } } ] },
-        "values": [ { "value": "NIGHT_VIS", "add": 8 } ]
+        "values": [ { "value": "NIGHT_VIS", "add": 10 } ]
       },
       {
         "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_val('fine_detail_vision_mod') <= 7" ] } ] },
