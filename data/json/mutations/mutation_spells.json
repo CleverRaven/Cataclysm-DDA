@@ -179,7 +179,8 @@
       "RANDOM_DURATION",
       "RANDOM_CRITTER",
       "NO_PROJECTILE",
-      "NON_MAGICAL",
+      "ALWAYS_CASTABLE",
+      "IGNORES_SPELL_RESISTANCE",
       "NO_EXPLOSION_SFX"
     ],
     "energy_source": "NONE",

@@ -82,7 +82,7 @@
     "flags": [
       "PSIONIC",
       "NO_FAIL",
-      "NON_MAGICAL",
+      "ALWAYS_CASTABLE",
       "SILENT",
       "NO_HANDS",
       "TARGET_TELEPORT",

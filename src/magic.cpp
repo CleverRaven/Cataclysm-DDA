@@ -180,7 +180,8 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::MUST_HAVE_CLASS_TO_LEARN: return "MUST_HAVE_CLASS_TO_LEARN";
         case spell_flag::SPAWN_WITH_DEATH_DROPS: return "SPAWN_WITH_DEATH_DROPS";
         case spell_flag::NO_CORPSE_QUIET: return "NO_CORPSE_QUIET";
-        case spell_flag::NON_MAGICAL: return "NON_MAGICAL";
+        case spell_flag::ALWAYS_CASTABLE: return "ALWAYS_CASTABLE";
+        case spell_flag::IGNORES_SPELL_RESISTANCE: return "IGNORES_SPELL_RESISTANCE";
         case spell_flag::PSIONIC: return "PSIONIC";
         case spell_flag::RECHARM: return "RECHARM";
         case spell_flag::EVOCATION_SPELL: return "EVOCATION_SPELL";
@@ -1218,9 +1219,10 @@ bool spell::can_cast( const Character &guy ) const
     if( guy.has_flag( json_flag_CANNOT_ATTACK ) ) {
         return false;
     }
-    if( has_flag( spell_flag::NON_MAGICAL ) ) {
+
+    if( has_flag( spell_flag::ALWAYS_CASTABLE ) ) {
         return true;
-    };
+    }
 
     if( type->magic_type.has_value() ) {
         for( std::string cannot_cast_flag_string : type->magic_type.value()->cannot_cast_flags ) {
