@@ -354,6 +354,23 @@
     ]
   },
   {
+    "id": "sachet",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "sachet" },
+    "looks_like": "bag_plastic",
+    "description": "A very small laminate packet often used to contain single-use quantities of consumer goods.",
+    "ascii_picture": "bag_paper_powder",
+    "weight": "1 g",
+    "volume": "10 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "30 ml", "max_contains_weight": "15 g", "moves": 200 } ],
+    "material": [ "paper" ],
+    "symbol": ")",
+    "color": "white"
+  },
+  {
     "id": "bag_paper_powder",
     "type": "ITEM",
     "category": "container",
