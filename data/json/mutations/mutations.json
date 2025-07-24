@@ -10698,5 +10698,16 @@
     "threshreq": [ "THRESH_CHIROPTERAN" ],
     "category": [ "CHIROPTERAN" ],
     "integrated_armor": [ "integrated_vampire_fangs" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HUMAN_APPEAL",
+    "name": { "str": "Human Appeal" },
+    "points": 0,
+    "player_display": false,
+    "dummy": true,
+    "category": [ "HUMAN" ],
+    "types": [ "ATTRACTIVENESS" ],
+    "description": "Your attractiveness would be considered unremarkable by the average human."
   }
 ]
