@@ -188,6 +188,7 @@
 #include "stats_tracker.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "surroundings_menu.h"
 #include "talker.h"
 #include "text_snippets.h"
 #include "tileray.h"
@@ -8139,7 +8140,7 @@ look_around_result game::look_around(
             blink = !blink;
         }
         if( action == "LIST_ITEMS" ) {
-            list_items_monsters();
+            list_surroundings();
         } else if( action == "TOGGLE_FAST_SCROLL" ) {
             fast_scroll = !fast_scroll;
         } else if( action == "map" ) {
@@ -8635,17 +8636,17 @@ std::string io::enum_to_string<list_item_sort_mode>( list_item_sort_mode data )
     cata_fatal( "Invalid list item sort mode" );
 }
 
-void game::list_items_monsters()
+void game::list_surroundings()
 {
     // Search whole reality bubble because each function internally verifies
     // the visibility of the items / monsters in question.
     std::vector<Creature *> mons = u.get_visible_creatures( MAX_VIEW_DISTANCE );
     const std::vector<map_item_stack> items = find_nearby_items( MAX_VIEW_DISTANCE );
 
-    if( mons.empty() && items.empty() ) {
+    /*if( mons.empty() && items.empty() ) {
         add_msg( m_info, _( "You don't see any items or monsters around you!" ) );
         return;
-    }
+    }*/
 
     std::sort( mons.begin(), mons.end(), [&]( const Creature * lhs, const Creature * rhs ) {
         if( !u.has_trait( trait_INATTENTIVE ) ) {
@@ -8670,19 +8671,27 @@ void game::list_items_monsters()
     }
 
     temp_exit_fullscreen();
-    game::vmenu_ret ret;
-    while( true ) {
-        ret = uistate.vmenu_show_items ? list_items( items ) : list_monsters( mons );
-        if( ret == game::vmenu_ret::CHANGE_TAB ) {
-            uistate.vmenu_show_items = !uistate.vmenu_show_items;
-        } else {
-            break;
-        }
-    }
+    std::optional<tripoint_bub_ms> path_start = u.pos_bub();
+    std::optional<tripoint_bub_ms> path_end = std::nullopt;
+    surroundings_menu vmenu( u, m, path_end, 55 );
+    shared_ptr_fast<draw_callback_t> trail_cb = create_trail_callback( path_start, path_end, true );
+    add_draw_callback( trail_cb );
+    vmenu.execute();
+    //} else {
+    //    game::vmenu_ret ret;
+    //    while( true ) {
+    //        ret = uistate.vmenu_show_items ? list_items( items ) : list_monsters( mons );
+    //        if( ret == game::vmenu_ret::CHANGE_TAB ) {
+    //            uistate.vmenu_show_items = !uistate.vmenu_show_items;
+    //        } else {
+    //            break;
+    //        }
+    //    }
 
-    if( ret == game::vmenu_ret::FIRE ) {
-        avatar_action::fire_wielded_weapon( u );
-    }
+    //    if( ret == game::vmenu_ret::FIRE ) {
+    //        avatar_action::fire_wielded_weapon( u );
+    //    }
+    //}
     reenter_fullscreen();
 }
 
