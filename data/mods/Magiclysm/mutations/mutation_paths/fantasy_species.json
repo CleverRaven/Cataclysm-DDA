@@ -368,8 +368,26 @@
         "values": [ { "value": "NIGHT_VIS", "add": 20 } ]
       },
       {
-        "condition": { "and": [ "u_is_outside", { "not": { "is_weather": "clear" } }, { "not": { "is_weather": "sunny" } } ] },
+        "condition": {
+          "and": [
+            "u_is_outside",
+            { "not": { "is_weather": "clear" } },
+            { "not": { "is_weather": "sunny" } },
+            { "math": [ "moon_phase() != 0" ] }
+          ]
+        },
         "values": [ { "value": "NIGHT_VIS", "add": 10 } ]
+      },
+      {
+        "condition": {
+          "and": [
+            "u_is_outside",
+            { "not": { "is_weather": "clear" } },
+            { "not": { "is_weather": "sunny" } },
+            { "math": [ "moon_phase() == 0" ] }
+          ]
+        },
+        "values": [ { "value": "NIGHT_VIS", "add": 2 } ]
       },
       {
         "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_val('fine_detail_vision_mod') <= 7" ] } ] },
