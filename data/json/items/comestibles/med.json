@@ -2378,7 +2378,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "birth control pill" },
-    "description": "A pill meant to regulate hormones to reduce the chance of a pregnancy.  It also has the fortunate side effect of reducing or even stopping menstration.  As the factories producing these have died down, these have become a valueable good.",
+    "description": "A pill meant to regulate hormones to reduce the chance of a pregnancy.  It also has the fortunate side effect of reducing or even stopping menstruation.  As the factories producing these have died down, these have become a valuable good.",
     "material": [ "drug_filler" ],
     "weight": "80 mg",
     "volume": "1 ml",
