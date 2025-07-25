@@ -365,7 +365,7 @@
     "enchantments": [
       {
         "condition": { "and": [ "u_is_outside", { "or": [ { "is_weather": "clear" }, { "is_weather": "sunny" } ] } ] },
-        "values": [ { "value": "NIGHT_VIS", "add": 20 } ]
+        "values": [ { "value": "NIGHT_VIS", "add": 20 }, { "value": "OVERMAP_SIGHT", "add": 6 } ]
       },
       {
         "condition": {
@@ -376,7 +376,7 @@
             { "math": [ "moon_phase() != 0" ] }
           ]
         },
-        "values": [ { "value": "NIGHT_VIS", "add": 10 } ]
+        "values": [ { "value": "NIGHT_VIS", "add": 10 }, { "value": "OVERMAP_SIGHT", "add": 2 } ]
       },
       {
         "condition": {
