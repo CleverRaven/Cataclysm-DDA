@@ -65,6 +65,7 @@
 #include "game.h"
 #include "game_inventory.h"
 #include "global_vars.h"
+#include "horde_entity.h"
 #include "imgui/imgui.h"
 #include "imgui_demo.h"
 #include "input.h"
@@ -4288,9 +4289,48 @@ void debug()
             g->cleanup_dead();
         }
         break;
-        case debug_menu_index::DISPLAY_HORDES:
+        case debug_menu_index::DISPLAY_HORDES: {
+            tripoint_abs_om const omp = project_to<coords::om>( get_avatar().pos_abs() );
+            overmap &om = overmap_buffer.get( omp.xy() );
+            std::map<mongroup_id, int> mongroup_counts;
+            std::map<mtype_id, int> horde_counts;
+            tripoint_abs_omt omt_cursor( project_to<coords::omt>( om.pos() ), 0 );
+            const int max_y = omt_cursor.y() + 180;
+            const int min_x = omt_cursor.x();
+            const int max_x = omt_cursor.x() + 180;
+            for( ; omt_cursor.y() < max_y; omt_cursor.y()++ ) {
+                for( omt_cursor.x() = min_x; omt_cursor.x() < max_x; omt_cursor.x()++ ) {
+                    std::vector<mongroup *> mgroups = overmap_buffer.monsters_at( omt_cursor );
+                    for( mongroup * const &mgp : mgroups ) {
+                        // Accumulate monster group counts
+                        mongroup_counts[mgp->type] += mgp->population;
+                    }
+                    std::vector<std::map<tripoint_abs_ms, horde_entity>*> hordes = overmap_buffer.hordes_at(
+                                omt_cursor );
+                    for( std::map<tripoint_abs_ms, horde_entity> *horde_in_omt : hordes ) {
+                        for( std::pair<const tripoint_abs_ms, horde_entity> &monster_entry : *horde_in_omt ) {
+                            horde_counts[monster_entry.second.get_type()->id]++;
+                        }
+                    }
+                }
+            }
+            write_to_file( "post-hordes-mongrups.output", [&]( std::ostream & testfile ) {
+                testfile << "Monster Groups" << std::endl;
+                testfile << "group_id group_population" << std::endl;
+
+                for( auto &count_pair : mongroup_counts ) {
+                    testfile << count_pair.first << ' ' << count_pair.second << std::endl;
+                }
+                testfile << "Horde populations" << std::endl;
+                testfile << "monster_id count" << std::endl;
+
+                for( auto &count_pair : horde_counts ) {
+                    testfile << count_pair.first << ' ' << count_pair.second << std::endl;
+                }
+            }, "mon_groups" );
             ui::omap::display_hordes();
-            break;
+        }
+        break;
         case debug_menu_index::TEST_IT_GROUP: {
             debug_menu::wishitemgroup( true );
         }
