@@ -1751,6 +1751,7 @@
     ]
   },
   {
+    "type": "item_group",
     "id": "fireman_gear",
     "copy-from": "fireman_gear",
     "extend": { "item": [ { "item": "mring_fire_protection", "prob": 1 } ] }
