@@ -120,7 +120,8 @@
     "description": "A thick wax candle.  It doesn't provide very much light, but it can burn for quite a long time.  This candle is lit.",
     "turns_per_charge": 1260,
     "use_action": [
-      { "type": "firestarter", "moves": 100 },
+      "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
+      { "type": "firestarter", "moves": 500, "moves_slow": 6000 }
       {
         "ammo_scale": 0,
         "target": "candle",
@@ -538,7 +539,8 @@
         "menu_text": "Turn off",
         "type": "transform"
       },
-      { "type": "firestarter", "moves": 100 }
+      "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
+      { "type": "firestarter", "moves": 500, "moves_slow": 6000 }
     ],
     "flags": [ "LIGHT_15", "TRADER_AVOID", "ALLOWS_REMOTE_USE", "FIRESTARTER", "FIRE" ]
   },
@@ -635,7 +637,8 @@
     "turns_per_charge": 6,
     "revert_to": "handflare_dead",
     "revert_msg": "The flare sputters out",
-    "use_action": { "type": "firestarter", "moves": 50 },
+    "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
+    "use_action": { "type": "firestarter", "moves": 500, "moves_slow": 6000 },
     "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "FIRESTARTER", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
@@ -649,7 +652,8 @@
     "countdown_interval": "60 seconds",
     "revert_to": "handflare_dead",
     "revert_msg": "The flare sputters out",
-    "use_action": { "type": "firestarter", "moves": 50 },
+    "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
+    "use_action": { "type": "firestarter", "moves": 500, "moves_slow": 6000 },
     "flags": [ "FIRE", "LIGHT_720", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "FIRESTARTER", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
@@ -801,7 +805,8 @@
         "menu_text": "Turn off",
         "type": "transform"
       },
-      { "type": "firestarter", "moves": 100 }
+      "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
+      { "type": "firestarter", "moves": 500, "moves_slow": 6000 }
     ],
     "flags": [ "LIGHT_10", "TRADER_AVOID", "FIRE", "ALLOWS_REMOTE_USE", "WATER_EXTINGUISH", "FIRESTARTER" ]
   },
@@ -852,7 +857,8 @@
         "menu_text": "Turn off",
         "type": "transform"
       },
-      { "type": "firestarter", "moves": 100 }
+      "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
+      { "type": "firestarter", "moves": 500, "moves_slow": 6000 }
     ],
     "flags": [ "LIGHT_10", "TRADER_AVOID", "FIRE", "ALLOWS_REMOTE_USE", "WATER_EXTINGUISH", "WIND_EXTINGUISH", "FIRESTARTER" ]
   },
@@ -891,7 +897,8 @@
     "revert_to": "oxylamp",
     "use_action": [
       { "ammo_scale": 0, "menu_text": "Turn off", "type": "transform", "msg": "The %s is extinguished", "target": "oxylamp" },
-      { "type": "firestarter", "moves": 100 }
+      "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
+      { "type": "firestarter", "moves": 500, "moves_slow": 6000 }
     ],
     "flags": [ "LIGHT_30", "FIRESTARTER", "TRADER_AVOID", "FIRE", "ALLOWS_REMOTE_USE" ]
   },
@@ -1064,7 +1071,8 @@
     "revert_to": "torch_done",
     "sub": "fire",
     "use_action": [
-      { "type": "firestarter", "moves": 30 },
+      "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
+      { "type": "firestarter", "moves": 500, "moves_slow": 6000 }
       {
         "target": "torch",
         "msg": "The torch is extinguished.",
@@ -1121,7 +1129,8 @@
         "menu_text": "Turn off",
         "type": "transform"
       },
-      { "type": "firestarter", "moves": 100 }
+      "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
+      { "type": "firestarter", "moves": 500, "moves_slow": 6000 }
     ],
     "flags": [ "LIGHT_15", "TRADER_AVOID", "ALLOWS_REMOTE_USE", "FIRESTARTER", "FIRE" ]
   },
@@ -1160,7 +1169,8 @@
     "description": "A thin wax candle.  It doesn't provide very much light and will burn relatively quickly.  This candle is lit.",
     "turns_per_charge": 63,
     "use_action": [
-      { "type": "firestarter", "moves": 100 },
+      "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
+      { "type": "firestarter", "moves": 500, "moves_slow": 6000 }
       {
         "ammo_scale": 0,
         "target": "candle_small",
