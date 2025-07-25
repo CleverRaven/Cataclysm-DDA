@@ -392,7 +392,8 @@
       },
       {
         "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_val('fine_detail_vision_mod') <= 7" ] } ] },
-        "values": [ { "value": "NIGHT_VIS", "add": 6 } ]
+        "values": [ { "value": "NIGHT_VIS", "add": 6 } ],
+        "ench_effects": [ { "effect": "effect_magiclysm_craft_in_darkness", "intensity": 1 } ]
       }
     ]
   },
