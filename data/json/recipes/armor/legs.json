@@ -233,7 +233,6 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
-    "//": "zero Encumbrance, without elastic, at skill 2? seems tricky",
     "skill_used": "tailor",
     "difficulty": 2,
     "time": "3 h",
