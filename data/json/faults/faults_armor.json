@@ -116,20 +116,5 @@
       { "damage_id": "cut", "multiply": 0.9 },
       { "damage_id": "stab", "multiply": 0.9 }
     ]
-  },
-  {
-    "type": "fault",
-    "id": "fault_armor_mistempered",
-    "name": { "str": "Mistempered" },
-    "description": "The tempering has been undone.",
-    "item_prefix": "mistempered",
-    "message": "%s's tempering has been undone!",
-    "degradation_mod": 5,
-    "price_modifier": 0.8,
-    "armor_mod": [
-      { "damage_id": "bash", "multiply": 0.8 },
-      { "damage_id": "cut", "multiply": 0.8 },
-      { "damage_id": "stab", "multiply": 0.8 }
-    ]
   }
 ]

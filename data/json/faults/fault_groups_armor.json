@@ -22,10 +22,6 @@
   {
     "type": "fault_group",
     "id": "plate_qt",
-    "group": [
-      { "fault": "fault_armor_qt_dented", "weight": 100 },
-      { "fault": "fault_armor_qt_punctured", "weight": 50 },
-      { "fault": "fault_armor_mistempered", "weight": 0 }
-    ]
+    "group": [ { "fault": "fault_armor_qt_dented", "weight": 100 }, { "fault": "fault_armor_qt_punctured", "weight": 5 } ]
   }
 ]
