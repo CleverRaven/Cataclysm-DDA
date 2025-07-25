@@ -54,8 +54,7 @@
     "success_msg": "You weld %s hole.",
     "time": "3 h",
     "skills": { "fabrication": 6 },
-    "time_save_profs": { "prof_armorsmithing": 0.8, "prof_welding_basic": 0.9, "prof_welding": 0.8 },
-    "prof_case_hardening": 0.8,
+    "time_save_profs": { "prof_armorsmithing": 0.8, "prof_welding_basic": 0.9, "prof_welding": 0.8, "prof_case_hardening": 0.8 },
     "requirements": [ [ "forging_standard", 1 ], [ "repair_welding_standard", 1 ], [ "carbon", 1 ] ]
   },
   {
