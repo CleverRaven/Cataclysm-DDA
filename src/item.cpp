@@ -10731,18 +10731,17 @@ ret_val<void> item::can_contain( const item &it, int &copies_remaining, const bo
             const bool ignore_nested_rigidity =
                 !pkt->settings.accepts_item( it ) ||
                 !pkt->get_pocket_data()->get_flag_restrictions().empty() || pkt->is_holster();
+            units::volume remaining_volume = pkt->remaining_volume();
             for( const item *internal_it : pkt->all_items_top() ) {
-                if( parent_it.where() != item_location::type::invalid && internal_it == parent_it.get_item() ) {
-                    continue;
-                }
-                if( !internal_it->is_container() ) {
-                    continue;
-                }
+                const int copies_remaining_before = copies_remaining;
                 auto ret = internal_it->can_contain( it, copies_remaining, true, ignore_nested_rigidity,
                                                      ignore_pkt_settings, ignore_non_container_pocket, parent_it,
-                                                     pkt->remaining_volume() );
+                                                     remaining_volume );
                 if( copies_remaining <= 0 ) {
                     return ret;
+                }
+                if( copies_remaining_before != copies_remaining ) {
+                    remaining_volume = pkt->remaining_volume();
                 }
             }
         }
