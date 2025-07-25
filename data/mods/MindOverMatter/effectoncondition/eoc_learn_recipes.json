@@ -1295,7 +1295,7 @@
             "x": 1,
             "y": {
               "math": [
-                "max( ( (1000 - (u_skill('metaphysics') * 50) - (u_val('intelligence') * 25) ) * (1 - (clamp( ( (u_vitamin('vitamin_psionic_drain') - 155) / 200 ),0.5, 1 ) ) ) ),1)"
+                "max( ( (1000 - (u_skill('metaphysics') * 50) - (u_val('intelligence') * 25) ) * (1 - (clamp( ( (u_vitamin('vitamin_psionic_drain') - 155) / 200 ),0, 0.5 ) ) ) ),1)"
               ]
             }
           }
