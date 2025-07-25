@@ -122,7 +122,6 @@
     "material": [ "stone" ],
     "weight": "112 kg",
     "volume": "80 L",
-    "to_hit": -3,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 4, "cut": 4 }
   }
