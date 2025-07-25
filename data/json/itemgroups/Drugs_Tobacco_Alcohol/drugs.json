@@ -832,5 +832,29 @@
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_zipper",
     "entries": [ { "item": "meth", "container-item": "null", "count": 6 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "birth_control",
+    "subtype": "distribution",
+    "container-item": { "item": "blister_pack_small", "variant": "blister_pack_bc" },
+    "entries": [
+      {
+        "collection": [
+          { "item": "birth_control", "count": [ 0, 21 ] },
+          { "item": "homeopathic_pills", "variant": "sugar_pill", "count": 7 }
+        ],
+        "prob": 40
+      },
+      { "item": "homeopathic_pills", "variant": "sugar_pill", "count": [ 0, 6 ], "prob": 5 },
+      { "item": "birth_control", "count": [ 0, 28 ], "prob": 40 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "estrogen_hrt",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "estrogen", "count": [ 1, 200 ] } ]
   }
 ]

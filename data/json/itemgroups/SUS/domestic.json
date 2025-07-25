@@ -863,7 +863,9 @@
             "count": [ 1, 15 ],
             "container-item": "null",
             "entry-wrapper": "bottle_plastic_pill_painkiller"
-          }
+          },
+          { "group": "birth_control", "prob": 50 },
+          { "group": "estrogen_hrt", "prob": 3 }
         ],
         "prob": 95
       },
