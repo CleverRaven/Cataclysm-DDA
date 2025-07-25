@@ -16,7 +16,7 @@
         "weight": 15,
         "cost_multiplier": 2,
         "pack_size": [ 2, 3 ],
-        "starts": "84 days"
+        "starts": "7 days"
       },
       { "monster": "mon_owlbear", "weight": 10, "cost_multiplier": 10 },
       { "monster": "mon_wisp", "weight": 3, "cost_multiplier": 10, "conditions": [ "NIGHT" ] },
@@ -54,7 +54,7 @@
       },
       { "monster": "mon_irongolem", "weight": 2, "cost_multiplier": 8 },
       { "monster": "mon_demon_spiderling", "weight": 15, "cost_multiplier": 5, "pack_size": [ 3, 7 ] },
-      { "monster": "mon_giant_heron_ridable_zombie", "weight": 7, "cost_multiplier": 10, "starts": "60 days" },
+      { "monster": "mon_giant_heron_ridable_zombie", "weight": 7, "cost_multiplier": 10, "starts": "21 days" },
       { "monster": "mon_owlbear_zombie", "weight": 15, "starts": "28 days" },
       { "monster": "mon_owlbear_zombie_brute", "weight": 1, "cost_multiplier": 15, "starts": "120 days" },
       { "monster": "mon_troll_zombie", "weight": 3, "cost_multiplier": 13 },
