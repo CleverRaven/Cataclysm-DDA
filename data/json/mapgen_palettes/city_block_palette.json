@@ -82,6 +82,10 @@
     },
     "toilets": { "t": {  } },
     "liquids": { "g": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+    "monster": {
+      "p": { "monster": "mon_raccoon", "chance": 35, "conditions": [ "DUSK", "NIGHT", "DAWN" ] },
+      "q": { "monster": "mon_raccoon", "chance": 35, "conditions": [ "DUSK", "NIGHT", "DAWN" ] }
+    },
     "items": {
       "O": [ { "item": "SUS_wardrobe_mens", "chance": 50 }, { "item": "SUS_wardrobe_womens", "chance": 50, "repeat": [ 1, 2 ] } ],
       "Q": [

@@ -73,6 +73,7 @@
     },
     "item": { "[": { "item": "american_flag" } },
     "items": { "&": { "item": "SUS_toilet", "chance": 50 } },
+    "monster": { "U": { "monster": "mon_raccoon", "chance": 15, "conditions": [ "DUSK", "NIGHT", "DAWN" ] } },
     "toilets": { "&": {  } }
   },
   {

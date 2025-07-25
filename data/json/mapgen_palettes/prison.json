@@ -179,6 +179,7 @@
       "5": { "item": "alcohol_bottled_canned", "chance": 95, "repeat": [ 1, 3 ] }
     },
     "monster": {
+      "9": { "monster": "mon_raccoon", "chance": 15, "conditions": [ "DUSK", "NIGHT", "DAWN" ] },
       ",": [
         { "monster": "mon_zombie_cop", "chance": 1 },
         { "monster": "mon_zombie_prisoner", "chance": 2 },

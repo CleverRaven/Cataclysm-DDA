@@ -128,6 +128,7 @@
       "z": "f_cupboard",
       "Z": "f_cupboard"
     },
+    "monster": { "P": { "monster": "mon_raccoon", "chance": 15, "conditions": [ "DUSK", "NIGHT", "DAWN" ] } },
     "items": { "&": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "&": {  } }
   },

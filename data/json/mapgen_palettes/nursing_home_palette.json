@@ -88,6 +88,7 @@
     },
     "items": { "&": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "&": {  } },
+    "monster": { "P": { "monster": "mon_raccoon", "chance": 15, "conditions": [ "DUSK", "NIGHT", "DAWN" ] } },
     "vehicles": {
       "3": { "vehicle": "hospital_bed_small", "rotation": 90 },
       "8": { "vehicle": "hospital_bed_small", "rotation": 270 },

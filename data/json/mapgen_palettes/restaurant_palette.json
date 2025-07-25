@@ -78,6 +78,10 @@
       "Ø": "f_pinball_machine",
       "Æ": "f_arcade_machine"
     },
+    "monster": {
+      ")": { "monster": "mon_raccoon", "chance": 35, "conditions": [ "DUSK", "NIGHT", "DAWN" ] },
+      "(": { "monster": "mon_raccoon", "chance": 5, "conditions": [ "DUSK", "NIGHT", "DAWN" ] }
+    },
     "liquids": { "g": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
     "items": {
       "9": [ { "item": "cash_register_random", "chance": 100 } ],
