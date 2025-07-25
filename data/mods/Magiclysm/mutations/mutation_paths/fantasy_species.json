@@ -373,7 +373,7 @@
             "u_is_outside",
             { "not": { "is_weather": "clear" } },
             { "not": { "is_weather": "sunny" } },
-            { "math": [ "moon_phase() != 0" ] }
+            { "and": [ { "math": [ "moon_phase() >= 2" ] }, { "math": [ "moon_phase() < 7" ] } ] }
           ]
         },
         "values": [ { "value": "NIGHT_VIS", "add": 10 }, { "value": "OVERMAP_SIGHT", "add": 2 } ]
@@ -384,7 +384,7 @@
             "u_is_outside",
             { "not": { "is_weather": "clear" } },
             { "not": { "is_weather": "sunny" } },
-            { "math": [ "moon_phase() == 0" ] }
+            { "or": [ { "math": [ "moon_phase() <= 1" ] }, { "math": [ "moon_phase() == 7" ] } ] }
           ]
         },
         "values": [ { "value": "NIGHT_VIS", "add": 2 } ]
