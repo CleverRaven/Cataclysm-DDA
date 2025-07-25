@@ -13,6 +13,7 @@
     "id": "EOC_PSI_AWAKENING_BIOKINESIS_FINALIZATION",
     "effect": [
       { "math": [ "u_awakening_countup", "+=", "1" ] },
+      { "math": [ "u_awakening_reducer = (matrix_awakening_odds(u_awakening_countup))" ] },
       { "u_lose_trait": "ALWAYS_GAIN_PSIONICS" },
       { "u_add_trait": "BIOKINETIC" },
       { "u_add_trait": "BIOKIN_NEEDS" },
@@ -26,6 +27,7 @@
     "id": "EOC_PSI_AWAKENING_CLAIRSENTIENCE_FINALIZATION",
     "effect": [
       { "math": [ "u_awakening_countup", "+=", "1" ] },
+      { "math": [ "u_awakening_reducer = (matrix_awakening_odds(u_awakening_countup))" ] },
       { "u_lose_trait": "ALWAYS_GAIN_PSIONICS" },
       { "u_add_trait": "CLAIRSENTIENT" },
       { "u_add_trait": "CLAIR_SENSES" },
@@ -39,6 +41,7 @@
     "id": "EOC_PSI_AWAKENING_ELECTROKINESIS_FINALIZATION",
     "effect": [
       { "math": [ "u_awakening_countup", "+=", "1" ] },
+      { "math": [ "u_awakening_reducer = (matrix_awakening_odds(u_awakening_countup))" ] },
       { "u_lose_trait": "ALWAYS_GAIN_PSIONICS" },
       { "u_add_trait": "ELECTROKINETIC" },
       { "u_add_trait": "ELECTRO_SHIELD" },
@@ -52,6 +55,7 @@
     "id": "EOC_PSI_AWAKENING_PHOTOKINESIS_FINALIZATION",
     "effect": [
       { "math": [ "u_awakening_countup", "+=", "1" ] },
+      { "math": [ "u_awakening_reducer = (matrix_awakening_odds(u_awakening_countup))" ] },
       { "u_lose_trait": "ALWAYS_GAIN_PSIONICS" },
       { "u_add_trait": "PHOTOKINETIC" },
       { "u_add_trait": "PHOTO_EYES" },
@@ -65,6 +69,7 @@
     "id": "EOC_PSI_AWAKENING_PYROKINESIS_FINALIZATION",
     "effect": [
       { "math": [ "u_awakening_countup", "+=", "1" ] },
+      { "math": [ "u_awakening_reducer = (matrix_awakening_odds(u_awakening_countup))" ] },
       { "u_lose_trait": "ALWAYS_GAIN_PSIONICS" },
       { "u_add_trait": "PYROKINETIC" },
       { "u_add_trait": "PYROKIN_ADAPTATION" },
@@ -78,6 +83,7 @@
     "id": "EOC_PSI_AWAKENING_TELEKINESIS_FINALIZATION",
     "effect": [
       { "math": [ "u_awakening_countup", "+=", "1" ] },
+      { "math": [ "u_awakening_reducer = (matrix_awakening_odds(u_awakening_countup))" ] },
       { "u_lose_trait": "ALWAYS_GAIN_PSIONICS" },
       { "u_add_trait": "TELEKINETIC" },
       { "u_add_trait": "TELEKINETIC_GRAB_POCKETS" },
@@ -91,6 +97,7 @@
     "id": "EOC_PSI_AWAKENING_TELEPATHY_FINALIZATION",
     "effect": [
       { "math": [ "u_awakening_countup", "+=", "1" ] },
+      { "math": [ "u_awakening_reducer = (matrix_awakening_odds(u_awakening_countup))" ] },
       { "u_lose_trait": "ALWAYS_GAIN_PSIONICS" },
       { "u_add_trait": "TELEPATH" },
       { "u_add_trait": "TELEPATHIC_SUGGESTION" },
@@ -104,6 +111,7 @@
     "id": "EOC_PSI_AWAKENING_TELEPORTATION_FINALIZATION",
     "effect": [
       { "math": [ "u_awakening_countup", "+=", "1" ] },
+      { "math": [ "u_awakening_reducer = (matrix_awakening_odds(u_awakening_countup))" ] },
       { "u_lose_trait": "ALWAYS_GAIN_PSIONICS" },
       { "u_add_trait": "TELEPORTER" },
       { "u_add_trait": "TELEPORTER_PROTECT" },
@@ -116,6 +124,7 @@
     "id": "EOC_PSI_AWAKENING_VITAKINESIS_FINALIZATION",
     "effect": [
       { "math": [ "u_awakening_countup", "+=", "1" ] },
+      { "math": [ "u_awakening_reducer = (matrix_awakening_odds(u_awakening_countup))" ] },
       { "u_lose_trait": "ALWAYS_GAIN_PSIONICS" },
       { "u_add_trait": "VITAKINETIC" },
       { "u_add_trait": "VITAKINETIC_HEALTH" },

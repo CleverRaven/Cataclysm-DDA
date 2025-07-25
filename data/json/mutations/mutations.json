@@ -152,7 +152,7 @@
     "player_display": false,
     "dummy": true,
     "category": [ "HUMAN" ],
-    "types": [ "ATTRACTIVENESS", "MUZZLE", "TEETH", "TONGUE" ],
+    "types": [ "MUZZLE", "TEETH", "TONGUE" ],
     "cancels": [ "SLIT_NOSTRILS", "LEAFNOSE", "BLOODLETTER" ],
     "description": "You have a human mouth with human teeth."
   },
@@ -10698,5 +10698,16 @@
     "threshreq": [ "THRESH_CHIROPTERAN" ],
     "category": [ "CHIROPTERAN" ],
     "integrated_armor": [ "integrated_vampire_fangs" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HUMAN_APPEAL",
+    "name": { "str": "Human Appeal" },
+    "points": 0,
+    "player_display": false,
+    "dummy": true,
+    "category": [ "HUMAN" ],
+    "types": [ "ATTRACTIVENESS" ],
+    "description": "Your attractiveness would be considered unremarkable by the average human."
   }
 ]
