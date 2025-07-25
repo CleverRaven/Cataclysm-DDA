@@ -16,7 +16,7 @@
         "weight": 15,
         "cost_multiplier": 2,
         "pack_size": [ 2, 3 ],
-        "starts": "14 days"
+        "starts": "7 days"
       },
       { "monster": "mon_owlbear", "weight": 10, "cost_multiplier": 10 },
       { "monster": "mon_wisp", "weight": 3, "cost_multiplier": 10, "conditions": [ "NIGHT" ] },
