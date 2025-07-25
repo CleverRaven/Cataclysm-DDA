@@ -13365,20 +13365,6 @@ void game::display_scent()
     }
 }
 
-void game::display_temperature()
-{
-    if( use_tiles ) {
-        display_toggle_overlay( ACTION_DISPLAY_TEMPERATURE );
-    }
-}
-
-void game::display_vehicle_ai()
-{
-    if( use_tiles ) {
-        display_toggle_overlay( ACTION_DISPLAY_VEHICLE_AI );
-    }
-}
-
 void game::display_visibility()
 {
     if( use_tiles ) {
@@ -13460,20 +13446,6 @@ void game::display_lighting()
             ( static_cast<size_t>( lighting_menu.ret ) < lighting_menu_strings.size() ) ) {
             g->displaying_lighting_condition = lighting_menu.ret;
         }
-    }
-}
-
-void game::display_radiation()
-{
-    if( use_tiles ) {
-        display_toggle_overlay( ACTION_DISPLAY_RADIATION );
-    }
-}
-
-void game::display_transparency()
-{
-    if( use_tiles ) {
-        display_toggle_overlay( ACTION_DISPLAY_TRANSPARENCY );
     }
 }
 
