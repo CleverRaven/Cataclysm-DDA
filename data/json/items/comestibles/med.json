@@ -452,7 +452,7 @@
     "comestible_type": "MED",
     "name": { "str": "debug chloroform soaked rag" },
     "description": "A debug item that lets you put NPCs (or yourself) to sleep.",
-    "weight": "240 g",
+    "weight": "125 g",
     "volume": "250 ml",
     "price": "30 USD",
     "price_postapoc": "2 USD 50 cent",
