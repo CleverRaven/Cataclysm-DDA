@@ -2070,7 +2070,6 @@ void Character::on_dodge( Creature *source, float difficulty, float training_lev
         recoil = std::min( MAX_RECOIL, recoil );
     }
 
-    // Even if we are not to train still call practice to prevent skill rust
     difficulty = std::max( difficulty, 0.0f );
 
     // If training_level is set, treat that as the difficulty instead
@@ -2078,7 +2077,10 @@ void Character::on_dodge( Creature *source, float difficulty, float training_lev
         difficulty = training_level;
     }
 
-    practice( skill_dodge, difficulty * 2, difficulty );
+    if( source && source->times_combatted_player <= 100 ) {
+        source->times_combatted_player++;
+        practice( skill_dodge, difficulty * 2, difficulty );
+    }
     martial_arts_data->ma_ondodge_effects( *this );
 
     // For adjacent attackers check for techniques usable upon successful dodge
