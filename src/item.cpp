@@ -5239,6 +5239,11 @@ void item::repair_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         if( !repairs_with.empty() ) {
             info.emplace_back( "DESCRIPTION", string_format( _( "<bold>With</bold> %s." ), repairs_with ) );
         }
+        if( degradation() > 0 && damage() == degradation() ) {
+            info.emplace_back( "DESCRIPTION",
+                               string_format(
+                                   _( "<color_c_red>Degraded and cannot be repaired beyond the current level.</color>" ) ) );
+        }
     } else {
         info.emplace_back( "DESCRIPTION", _( "* This item is <bad>not repairable</bad>." ) );
     }
