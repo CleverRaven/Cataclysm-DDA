@@ -15,7 +15,8 @@
       [ "sights", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "price": "150 USD",
+    "price": "510 USD",
+    "price_postapoc": "510 USD",
     "variants": [
       {
         "id": "vatforged",
@@ -53,7 +54,8 @@
       [ "sights", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "price": "3 kUSD",
+    "price": "4 kUSD",
+    "price_postapoc": "4 kUSD",
     "built_in_mods": [ "afs_magnetic_choke", "afs_shotgun_gauss" ]
   },
   {
@@ -76,6 +78,8 @@
     "dispersion": 125,
     "durability": 7,
     "min_cycle_recoil": 1250,
+    "price": "2510 USD",
+    "price_postapoc": "2510 USD",
     "modes": [ [ "DEFAULT", "single", 1 ], [ "AUTO", "2 rd.", 2 ] ],
     "barrel_volume": "500 ml",
     "valid_mod_locations": [
@@ -99,6 +103,8 @@
     "name": { "str": "Drotik Shotpistol" },
     "description": "A massive TSKBEM-designed 'sidearm' intended for exosuits and uplifts, the Drotik aka 'Dart' is a large revolver firing 12ga shells.",
     "weight": "2250 g",
+    "price": "1510 USD",
+    "price_postapoc": "1510 USD",
     "volume": "1450 ml",
     "longest_side": "475 mm",
     "min_strength": 14,
