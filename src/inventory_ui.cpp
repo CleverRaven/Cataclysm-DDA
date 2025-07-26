@@ -734,6 +734,8 @@ std::function<bool( const inventory_entry & )> inventory_selector_preset::get_fi
     };
 }
 
+void inventory_selector_preset::on_filter_change( const std::string &/*filter*/ ) const {};
+
 std::string inventory_selector_preset::get_caption( const inventory_entry &entry ) const
 {
     size_t count = entry.get_stack_size();
@@ -839,6 +841,33 @@ void inventory_selector_preset::append_cell( const
         return;
     }
     cells.emplace_back( func, title, stub );
+}
+
+// TODO should not be const
+void inventory_selector_preset::replace_cell( const
+        std::function<std::string( const item_location & )> &func,
+        const std::string &title, const std::string &stub ) const
+{
+    // Don't capture by reference here. The func should be able to die earlier than the object itself
+    replace_cell( std::function<std::string( const inventory_entry & )>( [ func ](
+    const inventory_entry & entry ) {
+        return func( entry.any_item() );
+    } ), title, stub );
+}
+
+void inventory_selector_preset::replace_cell( const
+        std::function<std::string( const inventory_entry & )> &func,
+        const std::string &title, const std::string &stub ) const
+{
+    const auto iter = std::find_if( cells.begin(), cells.end(), [ &title ]( const cell_t &cell ) {
+        return cell.title == title;
+    } );
+    if( iter == cells.end() ) {
+        debugmsg( "Tried to replace a non duplicate cell \"%s\": ignored.", title.c_str() );
+        return;
+    }
+    *iter = {func, title, stub};
+    //reset_entry_cell_cache();
 }
 
 std::string inventory_selector_preset::cell_t::get_text( const inventory_entry &entry ) const
@@ -1779,6 +1808,7 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
                     }
                     entry.highlight_as_child = false;
                 } else {
+                    // TODO this screws the colors of `,`, `, and`
                     trim_and_print( win, point( text_x, yy ), text_width, entry_cell_cache.color, text );
                 }
             }
@@ -2769,7 +2799,9 @@ void inventory_selector::set_filter( const std::string &str )
     filter = str;
     for( inventory_column *const elem : columns ) {
         elem->set_filter( filter );
+        // reset_entry_cell_cache();
     }
+    preset.on_filter_change( filter );
 }
 
 std::string inventory_selector::get_filter() const
@@ -3149,6 +3181,8 @@ void inventory_selector::on_input( const inventory_input &input )
 
 void inventory_selector::on_change( const inventory_entry &entry )
 {
+    // TODO does not reset. Workaround during testing: use "Toggle language to English" option
+    entry.reset_entry_cell_cache();
     for( inventory_column *&elem : columns ) {
         elem->on_change( entry );
     }

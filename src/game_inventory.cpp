@@ -11,6 +11,7 @@
 #include <memory>
 #include <optional>
 #include <set>
+#include <stddef.h>
 #include <string>
 #include <vector>
 
@@ -599,6 +600,70 @@ class pickup_inventory_preset : public inventory_selector_preset
         bool ignore_liquidcont;
 };
 
+std::function<bool( const std::string & )> basic_item_filter_only_disassembly( std::string filter )
+{
+    size_t colon;
+    char flag = '\0';
+    if( ( colon = filter.find( ':' ) ) != std::string::npos ) {
+        if( colon >= 1 ) {
+            flag = filter[colon - 1];
+            filter = filter.substr( colon + 1 );
+        }
+    }
+    switch( flag ) {
+        // disassembled components
+        case 'd':
+            return [filter]( const std::string & component ) {
+                return lcmatch( component, filter );
+            };
+        default:
+            return []( const std::string & ) {
+                return false;
+            };
+    }
+}
+
+/**
+ * Take disassembly requests from filter, return OR function matching any disassembly components asked for in filter.
+ */
+std::function<bool( const std::string & )> filter_from_string( std::string filter )
+{
+    // remove curly braces (they only get in the way)
+    if( filter.find( '{' ) != std::string::npos ) {
+        filter.erase( std::remove( filter.begin(), filter.end(), '{' ), filter.end() );
+    }
+    if( filter.find( '}' ) != std::string::npos ) {
+        filter.erase( std::remove( filter.begin(), filter.end(), '}' ), filter.end() );
+    }
+    if( filter.find( ',' ) != std::string::npos ) {
+        // functions which only one of which must return true
+        std::vector<std::function<bool( const std::string & )> > functions;
+        size_t comma = filter.find( ',' );
+        while( !filter.empty() ) {
+            const std::string &current_filter = trim( filter.substr( 0, comma ) );
+            if( !current_filter.empty() ) {
+                auto current_func = filter_from_string( current_filter );
+                functions.push_back( current_func );
+            }
+            if( comma != std::string::npos ) {
+                filter = trim( filter.substr( comma + 1 ) );
+                comma = filter.find( ',' );
+            } else {
+                break;
+            }
+        }
+
+        return [functions]( const std::string & it ) {
+            auto apply = [&]( const std::function<bool( const std::string & )> &func ) {
+                return func( it );
+            };
+            return std::any_of( functions.begin(), functions.end(), apply );;
+        };
+    }
+
+    return basic_item_filter_only_disassembly( filter );
+}
+
 class disassemble_inventory_preset : public inventory_selector_preset
 {
     public:
@@ -606,35 +671,11 @@ class disassemble_inventory_preset : public inventory_selector_preset
             inv( inv ) {
 
             check_components = true;
+            auto filter_func = []( const std::string & ) {
+                return false;
+            };
 
-            std::string filter;
-            get_filter( filter );
-            // TODO: ?bug - changing hiearchy `;` twice removes filter?
-
-            append_cell( [ this ]( const item_location & loc ) {
-                const requirement_data &req = get_recipe( loc ).disassembly_requirements();
-                if( req.is_empty() ) {
-                    return std::string();
-                }
-                const item *i = loc.get_item();
-                std::vector<item_comp> components = i->get_uncraft_components();
-                std::sort( components.begin(), components.end() );
-                auto it = components.begin();
-                while( ( it = std::adjacent_find( it, components.end() ) ) != components.end() ) {
-                    ++( it->count );
-                    components.erase( std::next( it ) );
-                }
-                return colorize( enumerate_as_string( components.begin(), components.end(),
-                []( const decltype( components )::value_type & comps ) {
-                    // if it matches, color it
-                    // basic_item_filter
-                    const std::string ret = comps.to_string();
-                    if( ret == "3 gold" ) {
-                        return colorize( ret, c_light_red );
-                    }
-                    return ret;
-                } ), c_white );
-            }, _( "YIELD" ) );
+            append_cell( highlight_filter_disassembly_components( filter_func ), _( "YIELD" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
                 return colorize( to_string_clipped( get_recipe( loc ).time_to_craft( get_player_character(),
@@ -642,7 +683,7 @@ class disassemble_inventory_preset : public inventory_selector_preset
             }, _( "TIME" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return colorize( get_denialababa( loc ), c_red );
+                return colorize( _get_denial( loc ), c_red );
             }, _( "CAN DISASSEMBLE" ) );
         }
 
@@ -652,6 +693,11 @@ class disassemble_inventory_preset : public inventory_selector_preset
 
         bool get_enabled( const item_location &loc ) const override {
             return you.can_disassemble( *loc, inv ).success();
+        }
+
+        void on_filter_change( const std::string &filter ) const override {
+            auto filter_func = filter_from_string( filter );
+            replace_cell( highlight_filter_disassembly_components( filter_func ), _( "YIELD" ) );
         }
 
     protected:
@@ -664,13 +710,41 @@ class disassemble_inventory_preset : public inventory_selector_preset
         /// Tools etc. in crafters inventory to use for disassembly.
         const inventory &inv;
 
-        std::string get_denialababa( const item_location &loc ) const {
+        std::string _get_denial( const item_location &loc ) const {
             const auto ret = you.can_disassemble( *loc, inv );
             if( !ret.success() ) {
                 return ret.str();
             }
 
             return std::string();
+        }
+
+        std::function<std::string( const item_location &loc )> highlight_filter_disassembly_components(
+            std::function<bool( const std::string & )> filter_func
+        ) const {
+            // TODO bug: changing hiearchy `;` twice removes effect of filter
+            // TODO bug: changing hiearchy `;` doesn't apply effect of filter
+            return [ this, filter_func ]( const item_location & loc ) {
+                const requirement_data &req = get_recipe( loc ).disassembly_requirements();
+                if( req.is_empty() ) {
+                    return std::string();
+                }
+                const item *i = loc.get_item();
+                std::vector<item_comp> components = i->get_uncraft_components();
+                std::sort( components.begin(), components.end() );
+                auto it = components.begin();
+                while( ( it = std::adjacent_find( it, components.end() ) ) != components.end() ) {
+                    ++( it->count );
+                    components.erase( std::next( it ) );
+                }
+                // TODO this color doesn't work if the text is trimmed (contains …)
+                return colorize( enumerate_as_string( components.begin(), components.end(),
+                [&filter_func]( const decltype( components )::value_type & comps ) {
+                    // if it matches, color it
+                    const std::string ret = comps.to_string();
+                    return colorize( ret, filter_func( ret ) ? c_light_red : c_white );
+                } ), c_light_gray );
+            };
         }
 };
 

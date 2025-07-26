@@ -281,6 +281,7 @@ class inventory_selector_preset
 
         virtual std::function<bool( const inventory_entry & )> get_filter( const std::string &filter )
         const;
+        virtual void on_filter_change( const std::string &filter ) const;
 
         bool indent_entries() const {
             return _indent_entries;
@@ -307,6 +308,15 @@ class inventory_selector_preset
         void append_cell( const std::function<std::string( const inventory_entry & )> &func,
                           const std::string &title = std::string(),
                           const std::string &stub = std::string() );
+        /**
+         * Replace an existing cell.
+         */
+        void replace_cell( const std::function<std::string( const item_location & )> &func,
+                           const std::string &title = std::string(),
+                           const std::string &stub = std::string() ) const;
+        void replace_cell( const std::function<std::string( const inventory_entry & )> &func,
+                           const std::string &title = std::string(),
+                           const std::string &stub = std::string() ) const;
         bool check_components = false;
 
         // whether to indent contained entries in the menu
@@ -334,7 +344,7 @@ class inventory_selector_preset
                 std::function<std::string( const inventory_entry & )> func;
         };
 
-        std::vector<cell_t> cells;
+        mutable std::vector<cell_t> cells;
 };
 
 /**
