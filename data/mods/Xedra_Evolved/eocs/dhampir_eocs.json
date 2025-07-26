@@ -22,7 +22,7 @@
         "u_message": "You didn't feed your horse and now the world with pay the price.  And maybe you will as well.",
         "popup": true
       },
-      { "u_cast_spell": "dhampir_horse_blood_hungry_polymorph_spell" },
+      { "u_cast_spell": { "id": "dhampir_horse_blood_hungry_polymorph_spell" } },
       { "run_eocs": "EOC_CHECKING_THE_BLACK_HORSE", "time_in_future": "3 days" }
     ]
   }
