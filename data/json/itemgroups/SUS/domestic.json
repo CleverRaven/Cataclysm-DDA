@@ -1227,6 +1227,18 @@
     ]
   },
   {
+    "id": "SUS_domestic_bookshelf",
+    "type": "item_group",
+    "//": "Random books for a random domestic bookshelf.",
+    "subtype": "collection",
+    "entries": [
+      { "group": "novels", "prob": 100, "count": [ 7, 21 ] },
+      { "group": "kids_books", "prob": 33, "count": [ 3, 7 ] },
+      { "group": "literature", "prob": 100, "count": [ 2, 5 ] },
+      { "group": "homebooks", "count": [ 6, 19 ], "prob": 100 }
+    ]
+  },
+  {
     "type": "item_group",
     "id": "adderall_bottle_plastic_pill_prescription_1",
     "subtype": "collection",
