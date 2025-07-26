@@ -609,7 +609,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "heavy work coveralls" },
     "description": "A thick, fully covering jumpsuit made of waterproof canvas lined with extra fabric for warmth in brisk weather.  Offers solid protection from everyday dangers on the job and plenty of storage pockets.",
-    "weight": "2436 g",
+    "weight": "2100 g",
     "volume": "2000 ml",
     "price": "120 USD",
     "price_postapoc": "12 USD 50 cent",
