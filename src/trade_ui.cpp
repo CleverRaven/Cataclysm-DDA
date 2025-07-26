@@ -71,10 +71,12 @@ std::string trade_preset::get_denial( const item_location &loc ) const
         npc const &np = *_u.as_npc();
         ret_val<void> const ret = np.wants_to_sell( loc, price );
         if( !ret.success() ) {
-            if( ret.str().empty() ) {
+            std::string refused_text = ret.str();
+            if( refused_text.empty() ) {
                 return string_format( _( "%s does not want to sell this" ), np.get_name() );
             }
-            return np.replace_with_npc_name( ret.str() );
+            parse_tags( refused_text, _trader, _u );
+            return refused_text;
         }
     } else if( _trader.is_npc() ) {
         npc const &np = *_trader.as_npc();

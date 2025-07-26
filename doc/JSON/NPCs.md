@@ -95,7 +95,7 @@ Format:
 - `"condition"` : (_optional_) Checked alongside trust with the avatar as alpha and the evaluating NPC as beta. See [Player or NPC conditions](#player-or-npc-conditions).
 - `"strict"` : (_optional_) If true, items in this group will not be available for restocking unless the conditions are met. (Defaults to false)
 - `"rigid"` : (_optional_) By default, item groups will be continually iterated until they reach a certain value or size threshold for the NPC. Rigid groups are instead guaranteed to populate a single time if they can, and will not include duplicate reruns. (Defaults to false)
-- `"refusal"` : (_optional_) message to display in UIs (ex: trade UI) when conditions are not met. Defaults to `"<npcname> does not trust you enough"`
+- `"refusal"` : (_optional_) message to display in UIs (ex: trade UI) when conditions are not met. Defaults to `"<npc_faction> faction does not trust you enough."`
 
 #### Shopkeeper consumption rates
 Controls consumption of shopkeeper's stock of items (simulates purchase by other people besides they player).
@@ -354,6 +354,9 @@ Field | Used for...
 `<mywp>` | displays npc's wielded item
 `<u_name>` | displays avatar's name
 `<npc_name>` | displays npc's name
+`<npcname>` | DO NOT USE, DEPRECATED - This will not work in parse_tags! It is listed here so you don't confuse it with with the very similar <npc_name>.
+`<u_faction>` | displays name of the faction for `u` (usually avatar, but can vary if you've changed talker context). If no faction, uses their display name instead.
+`<npc_faction>` | displays name of the faction for `npc` (usually npc, but can vary if you've changed talker context). If no faction, uses their display name instead.
 `<ammo>` | displays avatar's ammo
 `<current_activity>` | displays npc's current activity
 `<punc>` | displays a random punctuation from: `.`, `…`, `!`

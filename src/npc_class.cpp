@@ -209,7 +209,7 @@ bool shopkeeper_item_group::can_restock( npc const &guy ) const
 std::string shopkeeper_item_group::get_refusal() const
 {
     if( refusal.empty() ) {
-        return _( "<npcname> does not trust you enough" );
+        return _( "<npc_faction> faction does not trust you enough." );
     }
 
     return refusal.translated();
