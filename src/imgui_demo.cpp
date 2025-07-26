@@ -108,6 +108,9 @@ void imgui_demo_ui::draw_controls()
 {
 #ifndef TUI
     ImGui::ShowDemoWindow();
+    ImGui::Begin( "Dear ImGui Style Editor" );
+    ImGui::ShowStyleEditor();
+    ImGui::End();
 #endif
     draw_lorem( stuff );
 }
