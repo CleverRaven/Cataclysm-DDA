@@ -32,7 +32,6 @@
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
-#include "cuboid_rectangle.h"
 #include "damage.h"
 #include "debug.h"
 #include "effect_source.h"
@@ -5102,21 +5101,28 @@ bool vehicle::handle_potential_theft( Character const &you, bool check_only, boo
 
 bool vehicle::balanced_wheel_config( map &here ) const
 {
-    point_rel_ms min = point_rel_ms::max;
-    point_rel_ms max = point_rel_ms::min;
-    // find the bounding box of the wheels
+    // Check center of mass inside wheels convex hull
+    const point_rel_ms &com = local_center_of_mass( here );
+
+    // Calculate angle from COM to each wheel
+    std::vector<double> angles;
     for( const int &w : wheelcache ) {
         const point_rel_ms &pt = parts[ w ].mount;
-        min.x() = std::min( min.x(), pt.x() );
-        min.y() = std::min( min.y(), pt.y() );
-        max.x() = std::max( max.x(), pt.x() );
-        max.y() = std::max( max.y(), pt.y() );
+        angles.push_back( std::atan2( pt.y() - com.y(), pt.x() - com.x() ) );
     }
 
-    // Check center of mass inside support of wheels (roughly)
-    const point_rel_ms &com = local_center_of_mass( here );
-    const inclusive_rectangle<point_rel_ms> support( min, max );
-    return support.contains( com );
+    // Find gaps between angles
+    std::sort( angles.begin(), angles.end() );
+    double max_angle_gap = 0;
+    const size_t count = angles.size();
+    for( size_t i = 0; i < count; i++ ) {
+        const double angle_gap = ( ( i == count - 1 ) ? ( angles[ 0 ] + M_PI * 2 ) : angles[i + 1] ) -
+                                 angles[i];
+        max_angle_gap = std::max( max_angle_gap, angle_gap );
+    }
+
+    // Any gap greater than 180 degrees means the COM is outside the convex hull of the wheels
+    return max_angle_gap <= M_PI;
 }
 
 bool vehicle::valid_wheel_config( map &here ) const
