@@ -1,33 +1,40 @@
 # Magic, Spells, and Enchantments
 
-  - [Spells](#spells)
-  - [The template spell](#the-template-spell)
-  - [Mandatory fields](#mandatory-fields)
-    - [Spell effects](#spell-effects)
-    - [Spell shape](#spell-shape)
-  - [Common fields](#common-fields)
-    - [Spell Flags](#spell-flags)
-    - [Damage Types](#damage-types)
-    - [Spell level](#spell-level)
-    - [Learning Spells](#learning-spells)
-    - [Extra spell effects](#extra-spell-effects)
-  - [Adding spells to professions and NPCs](#adding-spells-to-professions-and-npcs)
-  - [Examples](#examples)
-    - [Summon spell](#summon-spell)
-    - [Typical attack](#typical-attack)
-    - [Consecutive spell casting](#consecutive-spell-casting)
-    - [Random spell casting](#random-spell-casting)
-    - [Repeatedly cast the same spell](#repeatedly-cast-the-same-spell)
-    - [A spell that casts a note on the target and an effect on the caster](#a-spell-that-casts-a-note-on-the-target-and-an-effect-on-the-caster)
-    - [Monster spells](#monster-spells)
-    - [Custom Spell Experience Requirements](#custom-spell-experience-requirements)
-  - [Enchantments](#enchantments)
-    - [The `relic_data` field](#the-relic_data-field)
-    - [Variables](#variables)
-    - [ID values](#id-values)
-	- [Enchantments on monsters](#enchantments-on-monsters)
-    - [Enchantment value examples](#enchantment-value-examples)
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
 
+- [Spells](#spells)
+- [The template spell](#the-template-spell)
+- [Mandatory fields](#mandatory-fields)
+  - [Spell effects](#spell-effects)
+  - [Spell shape](#spell-shape)
+- [Common fields](#common-fields)
+  - [Spell Flags](#spell-flags)
+  - [Damage Types](#damage-types)
+  - [Spell level](#spell-level)
+  - [Learning Spells](#learning-spells)
+  - [Extra spell effects](#extra-spell-effects)
+- [Adding spells to professions and NPCs](#adding-spells-to-professions-and-npcs)
+- [Examples](#examples)
+  - [Summon spell](#summon-spell)
+  - [Typical attack](#typical-attack)
+  - [Consecutive spell casting](#consecutive-spell-casting)
+  - [Random spell casting](#random-spell-casting)
+  - [Repeatedly cast the same spell](#repeatedly-cast-the-same-spell)
+  - [A spell that casts a note on the target and an effect on the caster](#a-spell-that-casts-a-note-on-the-target-and-an-effect-on-the-caster)
+  - [Monster spells](#monster-spells)
+  - [Custom Spell Experience Requirements](#custom-spell-experience-requirements)
+  - [Magic Type](#magic-type)
+- [Enchantments](#enchantments)
+  - [The `relic_data` field](#the-relic_data-field)
+  - [Variables](#variables)
+  - [ID values](#id-values)
+  - [Enchantments on monsters](#enchantments-on-monsters)
+  - [Enchantments on vehicles](#enchantments-on-vehicles)
+  - [Enchantment value examples](#enchantment-value-examples)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Spells
 
@@ -179,7 +186,7 @@ Effect                 | Description
 `effect_on_condition`  | Runs the `effect_on_condition` from `effect_str` on all valid targets.  The EOC will be centered on the player, with the NPC as caster and a context val location variable `spell_location` for the target primarily useful if the target isn't a creature.
 `emit`                 | Causes an `emit` at the target.
 `explosion`            | Causes an explosion centered on the target.  Uses damage() for power and factor aoe()/10.
-`flashbang`            | Causes a flashbang effect is centered on the target.  Uses damage() for power and factor aoe()/10.
+`flashbang`            | Causes a flashbang effect, centered on the target.  AoE affects the flashbang radius.
 `fungalize`            | Fungalizes the target.
 `guilt`                | Target gets the guilt morale as if it killed the caster.
 `map`                  | Maps out the overmap centered on the player, to a radius of aoe().

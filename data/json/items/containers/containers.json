@@ -3461,6 +3461,7 @@
   {
     "id": "wrapper_pr",
     "type": "ITEM",
+    "name": { "str": "wrapper" },
     "copy-from": "wrapper_bar",
     "ascii_picture": "wrapper_pr",
     "description": {

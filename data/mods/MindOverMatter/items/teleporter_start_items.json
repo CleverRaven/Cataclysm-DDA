@@ -165,17 +165,19 @@
     "ammo": [ "mom_lightning_rifle_ammo" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "50 ml", "item_restriction": [ "mom_lightning_rifle_mag" ] } ],
     "flags": [ "NEVER_JAMS", "NO_REPAIR", "NON_FOULING", "NEEDS_NO_LUBE", "NO_REPAIR" ],
-    "variant_type": "gun",
+    "variant_type": "generic",
     "variants": [
       {
         "id": "mom_lightning_rifle_standard",
         "name": { "str": "G-Tz77 \"Tlapetlaniliztli\" battle rifle" },
-        "description": "A shipboard battle rifle, whose non-kinetic ammunition was designed to avoid puncturing ship hulls during engagements.  The G-Tz77 has been a mainstay of the Imperial Navy for decades at this point and seen service on the surface of and in orbit around dozens of worlds.  This is just one more in its long history of protecting the Ēxcān Tlahtōlōyān."
+        "description": "A shipboard battle rifle, whose non-kinetic ammunition was designed to avoid puncturing ship hulls during engagements.  The G-Tz77 has been a mainstay of the Imperial Navy for decades at this point and seen service on the surface of and in orbit around dozens of worlds.  This is just one more in its long history of protecting the Ēxcān Tlahtōlōyān.",
+        "weight": 1
       },
       {
         "id": "mom_lightning_rifle_non_fifth_sun",
         "name": { "str": "odd rifle" },
-        "description": "This is recognizably a rifle but it's like nothing you've ever seen.  The magazine seems to be inserted into the stock and the barrel is almost as big around as your wrist.  When you hold it, some kind of electronic display above the grip shows a series of odd symbols."
+        "description": "This is recognizably a rifle but it's like nothing you've ever seen.  The magazine seems to be inserted into the stock and the barrel is almost as big around as your wrist.  When you hold it, some kind of electronic display above the grip shows a series of odd symbols.",
+        "weight": 1000
       }
     ]
   },

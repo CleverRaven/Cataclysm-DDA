@@ -439,5 +439,19 @@
     "type": "monstergroup",
     "id": "GROUP_XE_MIGO_EVO",
     "monsters": [ { "monster": "mon_mi_go" }, { "monster": "mon_mi_go_humanoid" }, { "monster": "mon_mi_go_stalking_warper" } ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_NETHER_CULT",
+    "default": "mon_blank",
+    "monsters": [
+      { "monster": "mon_blank", "weight": 200, "cost_multiplier": 0 },
+      { "monster": "mon_hunting_horror", "weight": 150, "cost_multiplier": 0 },
+      { "monster": "mon_unseen_hunter", "weight": 50, "cost_multiplier": 0, "starts": "120 days" },
+      { "monster": "mon_gelatin", "weight": 120, "cost_multiplier": 0 },
+      { "monster": "mon_kreck", "weight": 210, "cost_multiplier": 0 },
+      { "monster": "mon_gozu", "weight": 25, "cost_multiplier": 0 },
+      { "monster": "mon_nether_huntsman", "weight": 15, "cost_multiplier": 0 }
+    ]
   }
 ]

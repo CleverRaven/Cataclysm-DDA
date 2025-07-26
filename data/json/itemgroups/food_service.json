@@ -287,7 +287,7 @@
       { "prob": 5, "group": "pepper_bulk" },
       { "prob": 10, "group": "yeast_bulk" },
       { "prob": 9, "group": "sugar_bulk" },
-      [ "cornmeal", 8 ],
+      { "prob": 8, "item": "cornmeal", "count": [ 4, -1 ] },
       { "prob": 25, "group": "flour_bulk" },
       [ "cookbook", 3 ],
       [ "cookbook_italian", 2 ]
@@ -564,7 +564,7 @@
       { "item": "hot_sauce", "prob": 10 },
       { "prob": 40, "group": "flour_bulk" },
       { "prob": 40, "group": "curry_powder_various" },
-      { "prob": 52, "group": "cornmeal_box_small_10" },
+      { "prob": 52, "item": "cornmeal", "count": [ 10, -1 ] },
       { "prob": 35, "group": "oyster_crackers_plastic_bag_vac_1_inf" }
     ]
   },
@@ -625,13 +625,13 @@
       { "item": "hardtack", "prob": 30, "count": 2 },
       { "item": "jihelucake", "prob": 10, "count": 12 },
       { "prob": 50, "group": "biscuit_box_small_10" },
-      { "prob": 40, "group": "crackers_box_small_8" },
+      { "prob": 40, "item": "crackers", "count": -1 },
       { "item": "soybean_seed", "prob": 40 },
-      { "prob": 20, "group": "almond_shelled_bag_plastic_4" },
-      { "prob": 20, "group": "pecan_shelled_bag_plastic_4" },
-      { "prob": 20, "group": "cashews_bag_plastic_4" },
-      { "prob": 20, "group": "pistachio_shelled_bag_plastic_4" },
-      { "prob": 20, "group": "peanut_shelled_bag_plastic_4" }
+      { "prob": 20, "item": "almond_shelled", "count": -1 },
+      { "prob": 20, "item": "pecan_shelled", "count": -1 },
+      { "prob": 20, "item": "cashews", "count": -1 },
+      { "prob": 20, "item": "pistachio_shelled", "count": -1 },
+      { "prob": 20, "item": "peanut_shelled", "count": -1 }
     ]
   },
   {
@@ -659,17 +659,17 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "prob": 50, "group": "oatmeal_box_small_4" },
+      { "prob": 50, "group": "oatmeal_box_1lb" },
       { "prob": 25, "group": "box_cereal" },
       { "prob": 55, "group": "box_cereal2" },
       { "prob": 55, "group": "box_cereal3" },
-      { "prob": 50, "group": "cereal_fp1_box_small_6" },
-      { "prob": 50, "group": "cereal_fp2_box_small_6" },
-      { "prob": 50, "group": "cereal_fp3_box_small_6" },
-      { "prob": 25, "group": "cereal_fp4_box_small_6" },
-      { "prob": 25, "group": "cereal_fp5_box_small_6" },
-      { "prob": 25, "group": "cereal_fp6_box_small_6" },
-      { "prob": 25, "group": "cereal_fp7_box_small_6" },
+      { "prob": 50, "item": "cereal_fp1", "count": -1 },
+      { "prob": 50, "item": "cereal_fp2", "count": -1 },
+      { "prob": 50, "item": "cereal_fp3", "count": -1 },
+      { "prob": 25, "item": "cereal_fp4", "count": -1 },
+      { "prob": 25, "item": "cereal_fp5", "count": -1 },
+      { "prob": 25, "item": "cereal_fp6", "count": -1 },
+      { "prob": 25, "item": "cereal_fp7", "count": -1 },
       { "prob": 40, "group": "toastem_box_small_8" },
       { "prob": 32, "group": "toastem2_box_small_8" },
       { "prob": 25, "group": "toastem3_box_small_8" }
@@ -725,7 +725,7 @@
     "entries": [
       { "prob": 65, "group": "flour_various_full" },
       { "prob": 35, "group": "bread_flour_bag_paper_powder_20" },
-      { "prob": 50, "group": "cornmeal_box_small_10" },
+      { "prob": 50, "item": "cornmeal", "count": -1 },
       { "prob": 40, "group": "yeast_various_full" },
       { "prob": 10, "group": "yogurt_starter_culture_bag_plastic_4" },
       { "prob": 2, "group": "koji_bag_plastic_25" },
@@ -1055,7 +1055,7 @@
       [ "cooking_oil2", 50 ],
       [ "cookbook", 8 ],
       [ "cookbook_italian", 9 ],
-      [ "cornmeal", 3 ],
+      { "prob": 3, "item": "cornmeal", "count": [ 10, -1 ] },
       { "item": "knife_small", "variant": "knife_steak", "prob": 15 },
       { "prob": 15, "group": "chilly-p_various" },
       { "prob": 15, "group": "curry_powder_various" },
@@ -1095,7 +1095,7 @@
       [ "cooking_oil2", 40 ],
       [ "cookbook", 8 ],
       [ "cookbook_daintydishes", 9 ],
-      [ "cornmeal", 3 ],
+      { "prob": 3, "item": "cornmeal", "count": [ 10, -1 ] },
       { "item": "knife_small", "variant": "knife_steak", "prob": 15 },
       { "prob": 15, "group": "chilly-p_various" },
       { "prob": 15, "group": "curry_powder_various" },
@@ -2378,11 +2378,10 @@
   },
   {
     "type": "item_group",
-    "id": "cornmeal_box_small_10",
+    "id": "cornmeal_box_full",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "box_small",
-    "entries": [ { "item": "cornmeal", "container-item": "null", "count": 10 } ]
+    "entries": [ { "item": "cornmeal", "container-item": "null", "count": -1 } ]
   },
   {
     "type": "item_group",
@@ -2410,107 +2409,10 @@
   },
   {
     "type": "item_group",
-    "id": "almond_shelled_bag_plastic_4",
+    "id": "oatmeal_box_1lb",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "almond_shelled", "container-item": "null", "count": 4 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "pecan_shelled_bag_plastic_4",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
-    "entries": [ { "item": "pecan_shelled", "container-item": "null", "count": 4 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "cashews_bag_plastic_4",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "cashews", "container-item": "null", "count": 4 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "pistachio_shelled_bag_plastic_4",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "pistachio_shelled", "container-item": "null", "count": 4 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "peanut_shelled_bag_plastic_4",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "peanut_shelled", "container-item": "null", "count": 4 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "oatmeal_box_small_4",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "box_small",
-    "entries": [ { "item": "oatmeal", "container-item": "null", "count": 4 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "cereal_fp1_box_small_6",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "box_small",
-    "entries": [ { "item": "cereal_fp1", "container-item": "null", "count": 6 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "cereal_fp2_box_small_6",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "box_small",
-    "entries": [ { "item": "cereal_fp2", "container-item": "null", "count": 6 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "cereal_fp3_box_small_6",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "box_small",
-    "entries": [ { "item": "cereal_fp3", "container-item": "null", "count": 6 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "cereal_fp4_box_small_6",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "box_small",
-    "entries": [ { "item": "cereal_fp4", "container-item": "null", "count": 6 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "cereal_fp5_box_small_6",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "box_small",
-    "entries": [ { "item": "cereal_fp5", "container-item": "null", "count": 6 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "cereal_fp6_box_small_6",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "box_small",
-    "entries": [ { "item": "cereal_fp6", "container-item": "null", "count": 6 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "cereal_fp7_box_small_6",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "box_small",
-    "entries": [ { "item": "cereal_fp7", "container-item": "null", "count": 6 } ]
+    "entries": [ { "item": "oatmeal", "container-item": "null", "count": 16 } ]
   },
   {
     "type": "item_group",

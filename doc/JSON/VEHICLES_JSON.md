@@ -1,3 +1,22 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Vehicle prototypes](#vehicle-prototypes)
+  - [Vehicle prototypes](#vehicle-prototypes-1)
+    - [Part order](#part-order)
+    - [Parts list](#parts-list)
+    - [Extra options](#extra-options)
+      - [Turrets](#turrets)
+      - [Fuel tanks](#fuel-tanks)
+      - [VEH_TOOLS parts](#veh_tools-parts)
+    - [Part variants](#part-variants)
+    - [Items list](#items-list)
+    - [Zones list](#zones-list)
+  - [Export vehicle prototypes using debug menu](#export-vehicle-prototypes-using-debug-menu)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Vehicle prototypes
 
 Vehicle prototypes are used to spawn stock vehicles. After a vehicle has been spawned, it is saved in a different format.

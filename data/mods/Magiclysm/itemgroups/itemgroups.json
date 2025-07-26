@@ -1751,6 +1751,12 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "fireman_gear",
+    "copy-from": "fireman_gear",
+    "extend": { "items": [ { "item": "mring_fire_protection", "prob": 1 } ] }
+  },
+  {
     "id": "forge_vault_items",
     "//": "Items that can be traded for at the forge of wonders.",
     "type": "item_group",

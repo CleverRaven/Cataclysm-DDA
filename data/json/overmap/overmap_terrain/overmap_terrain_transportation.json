@@ -494,6 +494,7 @@
     "name": "parking lot",
     "sym": "O",
     "color": "dark_gray",
+    "looks_like": "s_lot",
     "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {

@@ -1,3 +1,22 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Artifacts](#artifacts)
+  - [Introduction](#introduction)
+  - [Generation](#generation)
+    - [charge_types](#charge_types)
+      - [recharge_types](#recharge_types)
+      - [recharge_conditions](#recharge_conditions)
+    - [passive_add_procgen_values and passive_mult_procgen_values](#passive_add_procgen_values-and-passive_mult_procgen_values)
+      - [ench_has](#ench_has)
+    - [type_weights](#type_weights)
+    - [items](#items)
+  - [Power Level](#power-level)
+  - [Resonance](#resonance)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Artifacts
 
 ## Introduction

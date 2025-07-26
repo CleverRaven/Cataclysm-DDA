@@ -3734,7 +3734,7 @@ class Character : public Creature, public visitable
         std::list<item> consume_items( const std::vector<item_comp> &components, int batch = 1,
                                        const std::function<bool( const item & )> &filter = return_true<item>,
                                        const std::function<bool( const itype_id & )> &select_ind = return_false<itype_id>,
-                                       const bool can_cancel = false );
+                                       bool can_cancel = false );
         bool consume_software_container( const itype_id &software_id );
         comp_selection<tool_comp>
         select_tool_component( const std::vector<tool_comp> &tools, int batch, read_only_visitable &map_inv,
