@@ -647,7 +647,7 @@
     "id": "spray_can",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
-    "name": { "str": "spray can" },
+    "name": { "str": "spray paint can" },
     "description": "An aerosol spray can filled with paint.  Activate it to make graffiti on the floor.",
     "weight": "340 g",
     "volume": "250 ml",
@@ -661,6 +661,34 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "aerosol_paint": 10 }, "watertight": true, "rigid": true } ],
     "use_action": [ "SPRAY_CAN" ],
     "flags": [ "WRITE_MESSAGE", "NO_RELOAD", "NO_UNLOAD" ]
+  },
+  {
+    "id": "insecticide_spray_can",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "spray can of insecticide", "str_pl": "spray cans of insecticide" },
+    "description": "A metal aerosol can with a bulky plastic cap.  The front features an illustration of an identical can and a variety of insects dead under its spray.",
+    "weight": "340 g",
+    "volume": "250 ml",
+    "longest_side": "21 cm",
+    "price": "8 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "aluminum" ],
+    "looks_like": "spray_can",
+    "symbol": ";",
+    "color": "yellow",
+    "charges_per_use": 1,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "ammo_restriction": { "home_insecticide": 10 },
+        "airtight": true,
+        "watertight": true,
+        "rigid": true
+      }
+    ],
+    "use_action": { "type": "effect_on_conditions", "effect_on_conditions": [ "EOC_SPRAY_INSECTICIDE" ] },
+    "flags": [ "NO_RELOAD", "NO_UNLOAD" ]
   },
   {
     "id": "stepladder",

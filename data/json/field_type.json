@@ -1863,9 +1863,107 @@
     "id": "fd_insecticidal_gas",
     "type": "field_type",
     "intensity_levels": [
-      { "name": "insecticidal mist", "sym": "8", "dangerous": true, "concentration": 1 },
-      { "name": "insecticidal haze", "color": "light_gray", "concentration": 2 },
-      { "name": "thick insecticidal haze", "color": "dark_gray", "transparent": false, "concentration": 4 }
+      {
+        "name": "insecticidal mist",
+        "sym": "8",
+        "dangerous": true,
+        "concentration": 1,
+        "effects": [
+          {
+            "effect_id": "insecticide_eyes",
+            "body_part": "eyes",
+            "intensity": 1,
+            "min_duration": "1 minutes",
+            "max_duration": "15 minutes",
+            "immunity_data": { "body_part_env_resistance": [ [ "sensor", 5 ] ] },
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "insecticide_mouth",
+            "body_part": "mouth",
+            "intensity": 1,
+            "min_duration": "1 minutes",
+            "max_duration": "5 minutes",
+            "immunity_data": { "body_part_env_resistance": [ [ "mouth", 5 ] ] },
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "poison",
+            "intensity": 2,
+            "min_duration": "2 minutes",
+            "max_duration": "2 minutes",
+            "immunity_data": { "body_part_env_resistance": [ [ "sensor", 5 ], [ "mouth", 5 ] ] },
+            "immune_inside_vehicle": true
+          }
+        ]
+      },
+      {
+        "name": "insecticidal haze",
+        "color": "light_gray",
+        "concentration": 2,
+        "effects": [
+          {
+            "effect_id": "insecticide_eyes",
+            "body_part": "eyes",
+            "intensity": 1,
+            "min_duration": "2 minutes",
+            "max_duration": "15 minutes",
+            "immunity_data": { "body_part_env_resistance": [ [ "sensor", 7 ] ] },
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "insecticide_mouth",
+            "body_part": "mouth",
+            "intensity": 1,
+            "min_duration": "2 minutes",
+            "max_duration": "5 minutes",
+            "immunity_data": { "body_part_env_resistance": [ [ "mouth", 7 ] ] },
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "poison",
+            "intensity": 3,
+            "min_duration": "3 minutes",
+            "max_duration": "3 minutes",
+            "immunity_data": { "body_part_env_resistance": [ [ "sensor", 7 ], [ "mouth", 7 ] ] },
+            "immune_inside_vehicle": true
+          }
+        ]
+      },
+      {
+        "name": "thick insecticidal haze",
+        "color": "dark_gray",
+        "transparent": false,
+        "concentration": 4,
+        "effects": [
+          {
+            "effect_id": "insecticide_eyes",
+            "body_part": "eyes",
+            "intensity": 1,
+            "min_duration": "5 minutes",
+            "max_duration": "15 minutes",
+            "immunity_data": { "body_part_env_resistance": [ [ "sensor", 15 ] ] },
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "insecticide_mouth",
+            "body_part": "mouth",
+            "intensity": 1,
+            "min_duration": "4 minutes",
+            "max_duration": "5 minutes",
+            "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "poison",
+            "intensity": 5,
+            "min_duration": "5 minutes",
+            "max_duration": "5 minutes",
+            "immunity_data": { "body_part_env_resistance": [ [ "sensor", 15 ], [ "mouth", 15 ] ] },
+            "immune_inside_vehicle": true
+          }
+        ]
+      }
     ],
     "decay_amount_factor": 5,
     "gas_absorption_factor": "80m",

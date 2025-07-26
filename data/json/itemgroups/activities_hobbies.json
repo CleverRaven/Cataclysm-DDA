@@ -424,6 +424,7 @@
       [ "signal_flare", 25 ],
       [ "airhorn", 20 ],
       [ "whistle", 20 ],
+      { "item": "insecticide_spray_can", "prob": 30, "charges": [ 0, 10 ] },
       { "group": "charcoal_bag_part", "prob": 20 },
       [ "leathersandals", 10 ],
       [ "espadrilles", 5 ],

@@ -467,6 +467,7 @@
       [ "compressor", 5 ],
       [ "foot_crank", 10 ],
       [ "spray_can", 50 ],
+      { "item": "insecticide_spray_can", "prob": 40, "charges": [ 3, 10 ] },
       [ "nitrogen_membrane_filter", 1 ],
       [ "hd_pipe", 5 ],
       [ "hd_pipe_fittings", 5 ],

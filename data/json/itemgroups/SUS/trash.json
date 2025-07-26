@@ -184,6 +184,7 @@
       { "item": "decoy_elfa", "prob": 10 },
       { "item": "fuel_tin", "prob": 8 },
       { "item": "spray_can", "prob": 2 },
+      { "item": "insecticide_spray_can", "prob": 10, "charges": [ 0, 2 ] },
       { "item": "jar_glass_sealed", "prob": 10 },
       { "item": "jar_3l_glass_sealed", "prob": 8 },
       { "item": "handflare_dead", "prob": 3 },
@@ -237,6 +238,7 @@
       { "item": "decoy_elfa", "prob": 5 },
       { "item": "fuel_tin", "prob": 4 },
       { "item": "spray_can", "prob": 2 },
+      { "item": "insecticide_spray_can", "prob": 5, "charges": [ 0, 2 ] },
       { "item": "jar_glass_sealed", "prob": 5 },
       { "item": "jar_3l_glass_sealed", "prob": 4 },
       { "item": "handflare_dead", "prob": 3 },
@@ -338,6 +340,7 @@
       { "item": "syringe", "prob": 3 },
       { "item": "spike", "prob": 3 },
       { "item": "thermos", "prob": 3 },
+      { "item": "insecticide_spray_can", "prob": 3, "charges": [ 0, 8 ] },
       { "item": "bag_body_bag", "prob": 1 }
     ]
   },

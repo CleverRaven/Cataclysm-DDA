@@ -123,6 +123,26 @@
     "effect": [ { "u_message": "Your <npc_name> goes quiet." }, { "transform_item": { "context_val": "transform_target" } } ]
   },
   {
+    "id": "EOC_SPRAY_INSECTICIDE",
+    "type": "effect_on_condition",
+    "effect": [
+      { "u_choose_adjacent_highlight": { "context_val": "spray_direct" }, "message": "Spray in what direction?" },
+      { "u_emit": "emit_insecticidal_puff", "target_var": { "context_val": "spray_direct" } },
+      { "message": "You spray a fine mist of insecticide from the can." },
+      {
+        "u_transform_radius": 2,
+        "ter_furn_transform": "ter_insecticide_clear",
+        "target_var": { "context_val": "spray_direct" },
+        "time_in_future": 1
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_insecticide_clear",
+    "field": [ { "result": "fd_null", "valid_field": [ "fd_insecticidal_gas" ] } ]
+  },
+  {
     "type": "effect_on_condition",
     "id": "barber_hair",
     "effect": { "open_dialogue": { "topic": "TALK_CUT_YOUR_HAIR" } }
