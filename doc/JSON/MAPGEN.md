@@ -65,8 +65,10 @@
     - [Spawn nested chunks based on overmap neighbors with "place_nested"](#spawn-nested-chunks-based-on-overmap-neighbors-with-place_nested)
     - [Place monster corpse from a monster group with "place_corpses"](#place-monster-corpse-from-a-monster-group-with-place_corpses)
     - [Place computer console with "computers" or "place_computers"](#place-computer-console-with-computers-or-place_computers)
-  - [Mapgen values](#mapgen-values)
   - [Mapgen parameters](#mapgen-parameters)
+    - [Mapgen values](#mapgen-values)
+    - [Full Examples](#full-examples)
+    - [Common parameters](#common-parameters)
   - [Rotate the map with "rotation"](#rotate-the-map-with-rotation)
   - [Pre-load a base mapgen with `"predecessor_mapgen"`](#pre-load-a-base-mapgen-with-predecessor_mapgen)
   - [Dynamically use base mapgen with `"fallback_predecessor_mapgen"`](#dynamically-use-base-mapgen-with-fallback_predecessor_mapgen)
@@ -1301,36 +1303,59 @@ Example for placing computer console (either by using a character in the rows ar
 ],
 ```
 
-## Mapgen values
+## Mapgen parameters
 
-A *mapgen value* can be used in various places where a specific id is expected.
-For example, the default value of a parameter, or a terrain id in the
-`"terrain"` object.  A mapgen value can take one of three forms:
+Parameters consist of a key identifier and a value that can be of various types.  They are used to roll one value out of several possible but then to use that result multiple times at a chosen scope without the value being rerolled.
+The value will be determined when it's needed the first time.
 
-* A simple string, which should be a literal id.  For example, `"t_flat_roof"`.
-* A JSON object containing the key `"distribution"`, whose corresponding value
-  is a list of lists, each a pair of a string id and an integer weight.  For
-  example:
-```jsonc
-{ "distribution": [ [ "t_flat_roof", 2 ], [ "t_tar_flat_roof", 1 ], [ "t_shingle_flat_roof", 1 ] ] }
+To add parameters you first need to define your parameters in a `"parameters"` JSON object as part of a mapgen's `"object"` or part of a palette, which takes the following structure.  
+```json
+"parameters": {
+  "name_of_key": {
+    ...
+  },
+  "name_of_second_key" {
+    ...
+  }
+},
 ```
-* A JSON object containing the key `"param"`, whose corresponding value is the
-  string name of a parameter as discussed in [Mapgen
-  parameters](#mapgen-parameters).  For example, `{ "param": "roof_type" }`.
-  You may be required to also supply a fallback value, such as `{ "param":
-  "roof_type", "fallback": "t_flat_roof" }`.  The fallback is necessary to
-  allow mapgen definitions to change without breaking an ongoing game.
-  Different parts of the same overmap special can be generated at different
-  times, and if a new parameter is added to the definition part way through the
-  generation then the value of that parameter will be missing and the fallback
-  will be used.
-* A switch statement to select different values depending on the value of some
-  other mapgen value.  This would most often be used to switch on the value of
-  a mapgen parameter, so as to allow two parts of the mapgen to be consistent.
-  For example, the following switch would match a fence gate type to a fence
-  type chosen by a mapgen parameter `fence_type`:
-```jsonc
-{
+
+Each such key should have an associated JSON object with the following fields:
+
+| Field   | Description
+| ------- | -----------
+| type    | (mandatory, string) a `cata_variant` type listed in [cata_variant.h](../src/cata_variant.h#L37-L84).  Dictates the type of value the parameter has.
+| default | (mandatory, mapgen value) can currently only be a distribution array that contains either possible values that will all have equal weight or arrays of pairs of possible values and their associated weights
+| scope   | (optional, string, defaults to `"overmap_special"`) the scope at which the chosen value will stay the same. Possible values are `"overmap_special"`, `"omt"`, `"nest"` or `"omt_stack"` which is the same for an omt and all omts vertical to it. There's no enforcement that nest scoped parameters have to be used inside of nested mapgen to allow them to be used in reusable palettes.
+
+To help you debug mapgen parameters and their effect on mapgen, you can see the
+chosen values for `overmap_special` and `"omt_stack"`-scoped parameters in the overmap editor
+(accessible via the debug menu or enabled on the `m`ap when debug mode is enabled).
+
+### Mapgen values
+To use your parameter you use a mapgen value object in place of the normal string id (or weighted array of them).  Most mapgen fields can take mapgen values.
+
+If your parameter's value is the id and type as you want to use in the field you use an object containing the parameter key:
+```json
+"terrain": {
+  ".": "t_floor",
+  "x": { "param": "my_parameter_key" }
+}
+```
+
+If using `"overmap_special"`, or `"omt_stack"` scope, a `"fallback"` must also be specified which will be used if the parameter fails to be determined for any reason for example due to changes during ongoing saves:
+```json
+"terrain": {
+  ".": "t_floor",
+  "x": { "param": "my_parameter_key", "fallback": "t_dirt" }
+}
+```
+
+If your parameter's type doesn't match the field or you want to determine another value based on one parameter's result you can instead use a switch statement:
+```json
+"terrain": {
+  "N": { "param": "fence_type", "fallback": "t_splitrail_fence" },
+  "H": {
     "switch": { "param": "fence_type", "fallback": "t_splitrail_fence" },
     "cases": {
         "t_splitrail_fence": "t_splitrail_fencegate_c",
@@ -1338,67 +1363,114 @@ For example, the default value of a parameter, or a terrain id in the
         "t_fence_barbed": "t_gate_metal_c",
         "t_privacy_fence": "t_privacy_fencegate_c"
     }
+  },
+  ...
 }
 ```
 
+### Full Examples
 
-## Mapgen parameters
-
-(Note that this feature is under development and functionality may not line up exactly
-with the documentation.)
-
-Another entry within a mapgen definition or [palette](#palettes) can be a `"parameters"`
-key.  For example:
-```
-"parameters": {
-  "roof_type": {
-    "type": "ter_str_id",
-    "default": { "distribution": [ [ "t_flat_roof", 2 ], [ "t_tar_flat_roof", 1 ], [ "t_shingle_flat_roof", 1 ] ] }
+Here we define a parameter with key "roof_type" where its value is rolled with a 2 in 4 chance for t_flat_roof to be picked and a 1 in 4 for both t_tar_flat_roof and t_shingle_flat_roof and is then used directly for all the `.` symbols of the mapgen
+```json
+{
+  "type": "mapgen",
+  "om_terrain": "house_with_random_but_consistent_roof",
+  "object": {
+    ...
+    "parameters": {
+      "roof_type": {
+        "type": "ter_str_id",
+        "scope": "omt",
+        "default": { "distribution": [ [ "t_flat_roof", 2 ], [ "t_tar_flat_roof", 1 ], [ "t_shingle_flat_roof", 1 ] ] }
+      }
+    },
+    "terrain": {
+      ".": { "param": "roof_type" },
+      ...
+    }
   }
-},
+}
 ```
 
-Each entry in the `"parameters"` JSON object defines a parameter.  The key is
-the parameter name.  Each such key should have an associated JSON object.  That
-object must provide its type (which should be a type string as for a
-`cata_variant`) and may optionally provide a default value.  The default value
-should be a [mapgen value](#mapgen-values) as defined above.
+Here we define a parameter with key "fence_type" where its value is equal chance of all 4 ids.  We do this in a palette and use the default overmap_special scope so that we can apply it to multiple mapgens that are part of the same special resulting in them sharing the fence_type value.
+We also use a switch to determine a matching gate terrain id to use alongside the chosen fence.
+```json
+{
+  "type": "palette",
+  "id": "outer_fence_palette",
+  "parameters": {
+    "fence_type": {
+      "type": "ter_str_id",
+      "default": { "distribution": [ "t_splitrail_fence", "t_chainfence", "t_fence_barbed", "t_privacy_fence" ] }
+    }
+  },
+  "terrain": {
+    "N": { "param": "fence_type", "fallback": "t_splitrail_fence" },
+    "H": {
+      "switch": { "param": "fence_type", "fallback": "t_splitrail_fence" },
+      "cases": {
+          "t_splitrail_fence": "t_splitrail_fencegate_c",
+          "t_chainfence": "t_chaingate_c",
+          "t_fence_barbed": "t_gate_metal_c",
+          "t_privacy_fence": "t_privacy_fencegate_c"
+      }
+    },
+    ...
+  },
+  ...
+}
+```
 
-At time of writing, the only way for a parameter to get a value is via the
-`"default"`, so you probably want to always have one.
+Here we define a parameter with key "variant" that picks a nest which is used to pick matching nests that sit touching across an omt boundary in order to allow consistent nests between omts (this can also be done vertically to eg match stairs)
+```json
+{
+  "type": "mapgen",
+  "om_terrain": [ [ "half_of_house_W", "half_of_house_E" ] ],
+  "object": {
+  ...
+  "parameters": {
+    "variant": {
+      "type": "nested_mapgen_id",
+      "default": { "distribution": [ [ "24x24_half_of_house_normal_W", 10 ], [ "24x24_half_of_house_giant_indoor_pool_W", 1 ] }
+    }
+  },
+  "place_nested": [
+    {
+      "chunks": [ { "param": "variant", "fallback": "24x24_half_of_house_normal_W" } ],
+      "x": 0,
+      "y": 0
+    },
+    {
+      "chunks": [
+        {
+          "switch": { "param": "variant", "fallback": "24x24_half_of_house_normal_W" },
+          "cases": { "24x24_half_of_house_normal_W": "24x24_half_of_house_normal_E", "24x24_half_of_house_giant_indoor_pool_W": "24x24_half_of_house_giant_indoor_pool_E" }
+        }
+      ],
+      "x": 24,
+      "y": 0
+    }
+  ]
+}
+```
 
-The primary application of parameters is that you can use a `"distribution"`
-mapgen value to select a value at random, and then apply that value to every
-use of that parameter.  In the above example, a random roof terrain is picked.
-By using the parameter with some `"terrain"` key, via a `"param"` mapgen value,
-you can use a random but consistent choice of roof terrain across your map.
-In contrast, placing the `"distribution"` directly in the `"terrain"` object would
-cause mapgen to choose a terrain at random for each roof tile, leading to a
-mishmash of roof terrains.
-
-By default, the scope of a parameter is the `overmap_special` being generated.
-That is, the parameter will have the same value across the `overmap_special`.
-When a default value is needed, it will be chosen when the first chunk of that
-special is generated, and that value will be saved to be reused for later
-chunks.
-
-If you wish, you may specify `"scope": "omt"` to limit the scope to just a
-single overmap tile.  Then a default value will be chosen independently for
-each OMT.  This has the advantage that you are no longer forced to select a
-`"fallback"` value when using that parameter in mapgen.
-
-The third option for scope is `"scope": "nest"`.  This only makes sense when
-used in nested mapgen (although it is not an error to use it elsewhere, so that
-the same palette may be used for nested and non-nested mapgen).  When the scope
-is `nest`, the value of the parameter is chosen for a particular nested chunk.
-For example, suppose a nest defines a carpet across several tiles, you can use
-a parameter to ensure that the carpet is the same colour for all the tiles
-within that nest, but another instance of the same `nested_mapgen_id` elsewhere
-in the same OMT might choose a different colour.
-
-To help you debug mapgen parameters and their effect on mapgen, you can see the
-chosen values for `overmap_special`-scoped parameters in the overmap editor
-(accessible via the debug menu).
+### Common parameters
+There are various reusable parameters in palettes at [common_parameters.json](../data/json/mapgen_palettes/common_parameters.json) and as part of the domestic palettes in [house_general_palette.json](../data/json/mapgen_palettes/house_general_palette.json)
+which are all overmap_special scoped and can be used without need to specify mapgen values of your own by using the symbols provided while also allowing you to use the values where needed.
+For example this map uses the symbols found in the `"standard_domestic_palette"` and `"standard_domestic_lino_kitchen"` palettes which allows it to have random but consistent exterior and interior walls as well as kitchen flooring but also defines an
+additional furniture symbol using the value set by linoleum_color_kitchen for the terrain under it.
+```json
+{
+  "type": "mapgen",
+  "om_terrain": [ "normal_house_bar_some_crazy_kitchen_contraption ],
+  "object": {
+  ...
+  "palettes": [ "standard_domestic_palette", "standard_domestic_lino_kitchen" ],
+  "terrain": { "W": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" } },
+  "furniture": { "W": "f_watermelon_smasher_deluxe_3000" }
+  },
+}
+```
 
 
 ## Rotate the map with "rotation"
