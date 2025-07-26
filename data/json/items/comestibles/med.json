@@ -2395,7 +2395,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "estrogen pill" },
-    "description": "A sublingual tablet of estradiol, meant to increase the level of estrogen in the body.  It's a lifesaving medicine for some transgendered individuals.",
+    "description": "A sublingual tablet of estradiol, meant to increase the level of estrogen in the body.  It's a lifesaving medicine for some transgender individuals.",
     "material": [ "drug_filler" ],
     "weight": "80 mg",
     "volume": "1 ml",
