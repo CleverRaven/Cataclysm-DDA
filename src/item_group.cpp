@@ -21,6 +21,7 @@
 #include "item_components.h"
 #include "item_contents.h"
 #include "item_factory.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
