@@ -801,7 +801,7 @@
     "copy-from": "gasbomb",
     "type": "ITEM",
     "name": { "str": "smoke grenade" },
-    "description": "A canister grenade filled with a variety of pyrotechnic chemicals.  Use this item to pull the pin and start the fuse, turning it into an active smoke bomb.  Five seconds after you do that, it will begin to expel a thick bwhite smoke.  This smoke will obscure vision and scent, and choke out those who enter it.",
+    "description": "A canister grenade filled with a variety of pyrotechnic chemicals.  Use this item to pull the pin and start the fuse, turning it into an active smoke bomb.  Five seconds after you do that, it will begin to expel a thick white smoke.  This smoke will obscure vision and scent, and choke out those who enter it.",
     "weight": "680 g",
     "price": "18 USD",
     "price_postapoc": "1 USD",
