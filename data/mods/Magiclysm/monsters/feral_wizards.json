@@ -613,6 +613,20 @@
         },
         "monster_message": "%1$s throws back their head and howls!"
       },
+      {
+        "id": "feral_high_druid_thornskin",
+        "type": "spell",
+        "spell_data": { "id": "thornskin_druid_monster", "min_level": 10, "hit_self": true },
+        "cooldown": 30,
+        "condition": {
+          "and": [
+            { "not": { "u_has_flag": "MUTE" } },
+            { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+            { "not": { "u_has_effect": "effect_feral_druid_thornskin" } }
+          ]
+        },
+        "monster_message": "%1$s makes several gestures and thick bark and thorns grow over their skin!"
+      },
       [ "BROWSE", 100 ],
       [ "EAT_FOOD", 100 ]
     ],
@@ -755,6 +769,22 @@
           "miss_msg_npc": "%1$s reaches out and <npcname> narrowly avoids their touch!",
           "no_dmg_msg_u": "",
           "no_dmg_msg_npc": ""
+        },
+        {
+          "id": "feral_earthshaper_high_golem_summon",
+          "type": "spell",
+          "spell_data": { "id": "summon_earthshaper_golem_monster", "min_level": 10 },
+          "cooldown": 45,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              {
+                "or": [ { "npc_is_on_terrain_with_flag": "DIGGABLE" }, { "npc_is_on_terrain_with_flag": "PLOWABLE" } ]
+              }
+            ]
+          },
+          "monster_message": "%1$s stomps the ground and a humanoid shape rises out of the earth!"
         },
         {
           "id": "earthshaper_high_dispel",
