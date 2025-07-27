@@ -316,6 +316,7 @@
         "max_contains_weight": "2 kg",
         "moves": 30,
         "flag_restriction": [ "GRENADE" ],
+        "max_item_length": "180 mm",
         "volume_encumber_modifier": 0.3
       },
       {
@@ -324,6 +325,7 @@
         "max_contains_weight": "2 kg",
         "moves": 30,
         "flag_restriction": [ "GRENADE" ],
+        "max_item_length": "180 mm",
         "volume_encumber_modifier": 0.3
       },
       {
@@ -332,6 +334,7 @@
         "max_contains_weight": "2 kg",
         "moves": 30,
         "flag_restriction": [ "GRENADE" ],
+        "max_item_length": "180 mm",
         "volume_encumber_modifier": 0.3
       },
       {
@@ -340,6 +343,7 @@
         "max_contains_weight": "2 kg",
         "moves": 30,
         "flag_restriction": [ "GRENADE" ],
+        "max_item_length": "180 mm",
         "volume_encumber_modifier": 0.3
       }
     ],
