@@ -84,7 +84,7 @@
           "type": "spell",
           "spell_data": { "id": "blinding_flash", "min_level": 0 },
           "cooldown": 15,
-          "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+          "condition": { "and": [ { "not": { "u_has_flag": "NO_SPELLCASTING" } }, { "not": { "u_has_effect": "maimed_arm" } } ] },
           "monster_message": "%1$s gestures and light explodes everywhere!"
         },
         {
@@ -97,7 +97,13 @@
           "range": 8,
           "throw_strength": 40,
           "blockable": false,
-          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "not": { "u_has_effect": "maimed_arm" } }
+            ]
+          },
           "hit_dmg_u": "%1$s gestures at you and a powerful force hurls you through the air!",
           "hit_dmg_npc": "%1$s gestures at <npcname> and a powerful force hurls them through the air!",
           "miss_msg_u": "%s gestures at you, and you feel a crushing pressure for a moment before the feeling vanishes!",
@@ -141,7 +147,7 @@
           "type": "spell",
           "spell_data": { "id": "stormshaper_wall_of_fog", "min_level": 3 },
           "cooldown": 15,
-          "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+          "condition": { "and": [ { "not": { "u_has_flag": "NO_SPELLCASTING" } }, { "not": { "u_has_effect": "maimed_arm" } } ] },
           "monster_message": "%1$s gestures and a sudden force slams you to the ground!"
         },
         {
@@ -157,7 +163,13 @@
           "type": "spell",
           "spell_data": { "id": "mirror_image_rad_mage", "min_level": 0 },
           "cooldown": 15,
-          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "not": { "u_has_effect": "maimed_arm" } }
+            ]
+          },
           "monster_message": "%1$s smiles and duplicates appear!"
         },
         {
@@ -165,7 +177,13 @@
           "type": "spell",
           "spell_data": { "id": "feral_rad_mage_summon_spell", "min_level": 0 },
           "cooldown": 30,
-          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "not": { "u_has_effect": "maimed_arm" } }
+            ]
+          },
           "monster_message": "%1$s intones words of power and a corpse claws its way out of the ground!"
         },
         {
@@ -173,7 +191,13 @@
           "type": "spell",
           "spell_data": { "id": "disjunction_monster", "min_level": 8 },
           "cooldown": 50,
-          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "not": { "u_has_effect": "maimed_arm" } }
+            ]
+          },
           "monster_message": "%1$s waves their hands in a gesture of negation!"
         }
       ],
@@ -212,7 +236,13 @@
           "effects_require_dmg": false,
           "dodgeable": false,
           "blockable": false,
-          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "not": { "u_has_effect": "maimed_arm" } }
+            ]
+          },
           "hit_dmg_u": "%1$s mutters words of magic and blood drips from your %2$s!",
           "hit_dmg_npc": "%1$s mutters words of magic and blood drips from <npcname>'s %2$s!",
           "miss_msg_u": "",
@@ -225,7 +255,7 @@
           "type": "spell",
           "spell_data": { "id": "summon_wisps_monster", "min_level": 5 },
           "cooldown": 30,
-          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "condition": { "and": [ { "not": { "u_has_flag": "NO_SPELLCASTING" } }, { "not": { "u_has_effect": "maimed_arm" } } ] },
           "monster_message": "%1$s make several expansive gestures and eerie lights appear."
         },
         {
@@ -233,7 +263,13 @@
           "type": "spell",
           "spell_data": { "id": "feral_animist_summon_spell", "min_level": 0 },
           "cooldown": 40,
-          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "not": { "u_has_effect": "maimed_arm" } }
+            ]
+          },
           "monster_message": "%1$s intones words of power and a corpse claws its way out of the ground!"
         },
         {
@@ -245,7 +281,8 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "not": { "u_has_effect": "effect_feral_animist_guardian_spirit" } }
+              { "not": { "u_has_effect": "effect_feral_animist_guardian_spirit" } },
+              { "not": { "u_has_effect": "maimed_arm" } }
             ]
           },
           "monster_message": "%1$s mutters words and for a moment, another shape seems to flicker around them."
@@ -288,7 +325,8 @@
                   }
                 ]
               },
-              { "not": { "u_has_flag": "NO_SPELLCASTING" } }
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "not": { "u_has_effect": "maimed_arm" } }
             ]
           },
           "hit_dmg_u": "%1$s mutters words of magic and blood drips from your %2$s!",
@@ -334,19 +372,7 @@
           "type": "spell",
           "spell_data": { "id": "summon_wisps_monster", "min_level": 8 },
           "cooldown": 30,
-          "condition": {
-            "and": [
-              {
-                "or": [
-                  { "u_has_effect": "effect_feral_animist_inner_voice" },
-                  {
-                    "and": [ { "not": { "u_has_effect": "effect_feral_animist_inner_voice" } }, { "not": { "u_has_flag": "MUTE" } } ]
-                  }
-                ]
-              },
-              { "not": { "u_has_flag": "NO_SPELLCASTING" } }
-            ]
-          },
+          "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
           "monster_message": "%1$s make several expansive gestures and eerie lights appear."
         },
         {
@@ -364,7 +390,8 @@
                   }
                 ]
               },
-              { "not": { "u_has_flag": "NO_SPELLCASTING" } }
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "not": { "u_has_effect": "maimed_arm" } }
             ]
           },
           "monster_message": "%1$s make several furtive gestures and the shadows around them begin moving."
@@ -384,7 +411,8 @@
                   }
                 ]
               },
-              { "not": { "u_has_flag": "NO_SPELLCASTING" } }
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "not": { "u_has_effect": "maimed_arm" } }
             ]
           },
           "monster_message": "%1$s intones words of power and a corpse claws its way out of the ground!"
@@ -405,7 +433,8 @@
                 ]
               },
               { "not": { "u_has_effect": "effect_feral_animist_guardian_spirit" } },
-              { "not": { "u_has_flag": "NO_SPELLCASTING" } }
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "not": { "u_has_effect": "maimed_arm" } }
             ]
           },
           "monster_message": "%1$s mutters words and for a moment, another shape seems to flicker around them."
@@ -415,7 +444,13 @@
           "type": "spell",
           "spell_data": { "id": "feral_animist_inner_voice" },
           "cooldown": 15,
-          "condition": { "and": [ { "u_has_flag": "MUTE" }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "condition": {
+            "and": [
+              { "u_has_flag": "MUTE" },
+              { "not": { "u_has_effect": "maimed_arm" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } }
+            ]
+          },
           "monster_message": "%1$s makes a quick gesture near their throat."
         }
       ]
@@ -443,7 +478,13 @@
           "type": "spell",
           "spell_data": { "id": "monster_heal_spell", "min_level": 10, "hit_self": true },
           "cooldown": 25,
-          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "not": { "u_has_effect": "maimed_arm" } }
+            ]
+          },
           "monster_message": "%1$s weaves their hands in a complicated gesture!"
         },
         {
@@ -457,7 +498,13 @@
           "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ],
           "dodgeable": true,
           "blockable": false,
-          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "not": { "u_has_effect": "maimed_arm" } }
+            ]
+          },
           "hit_dmg_u": "%1$s screams words of magic and jagged shards of wood impact your %2$s!",
           "hit_dmg_npc": "%1$s screams words of magic and jagged shards of wood impact <npcname>'s %2$s!",
           "miss_msg_u": "%1$s screams words of magic and you narrowly avoid jagged shards of wood!",
@@ -470,7 +517,13 @@
           "type": "spell",
           "spell_data": { "id": "druid_veggrasp_monster", "min_level": 5 },
           "cooldown": 35,
-          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "not": { "u_has_effect": "maimed_arm" } }
+            ]
+          },
           "monster_message": "%1$s waves their hands and roots burst from the ground around you!"
         }
       ],
@@ -497,7 +550,13 @@
         "type": "spell",
         "spell_data": { "id": "monster_heal_spell", "min_level": 25, "hit_self": true },
         "cooldown": 20,
-        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+        "condition": {
+          "and": [
+            { "not": { "u_has_flag": "MUTE" } },
+            { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+            { "not": { "u_has_effect": "maimed_arm" } }
+          ]
+        },
         "monster_message": "%1$s weaves their hands in a complicated gesture!"
       },
       {
@@ -512,7 +571,13 @@
         "effects": [ { "id": "root_impale", "duration": 60, "chance": 100, "affect_hit_bp": false } ],
         "dodgeable": true,
         "blockable": false,
-        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+        "condition": {
+          "and": [
+            { "not": { "u_has_flag": "MUTE" } },
+            { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+            { "not": { "u_has_effect": "maimed_arm" } }
+          ]
+        },
         "hit_dmg_u": "%1$s screams words of magic and sharp roots thrust from the ground into your %2$s!",
         "hit_dmg_npc": "%1$s screams words of magic and sharp roots thrust from the ground into <npcname>'s %2$s!",
         "miss_msg_u": "%1$s screams words of magic and you narrowly avoid sharp roots thrusting from the ground!",
@@ -525,7 +590,13 @@
         "type": "spell",
         "spell_data": { "id": "druid_veggrasp_monster", "min_level": 5 },
         "cooldown": 25,
-        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+        "condition": {
+          "and": [
+            { "not": { "u_has_flag": "MUTE" } },
+            { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+            { "not": { "u_has_effect": "maimed_arm" } }
+          ]
+        },
         "monster_message": "%1$s waves their hands and roots burst from the ground around you!"
       },
       {
@@ -533,7 +604,13 @@
         "type": "spell",
         "spell_data": { "id": "summon_wolf_druid_monster", "min_level": 10 },
         "cooldown": 45,
-        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+        "condition": {
+          "and": [
+            { "not": { "u_has_flag": "MUTE" } },
+            { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+            { "not": { "u_has_effect": "maimed_arm" } }
+          ]
+        },
         "monster_message": "%1$s throws back their head and howls!"
       },
       [ "BROWSE", 100 ],
@@ -592,7 +669,7 @@
           "move_cost": 100,
           "range": 12,
           "damage_max_instance": [ { "damage_type": "bash", "amount": 25 } ],
-          "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+          "condition": { "and": [ { "not": { "u_has_flag": "NO_SPELLCASTING" } }, { "not": { "u_has_effect": "maimed_arm" } } ] },
           "hit_dmg_u": "%1$s makes a throwing gesture and heavy chunks of rock impact your %2$s!",
           "hit_dmg_npc": "%1$s makes a throwing gesture and heavy chunks of rock impact <npcname>'s %2$s!",
           "miss_msg_u": "%1$s makes a throwing gesture and you narrowly avoid heavy chunks of rock!",
@@ -649,7 +726,7 @@
           "move_cost": 100,
           "range": 12,
           "damage_max_instance": [ { "damage_type": "bash", "amount": 35 } ],
-          "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+          "condition": { "and": [ { "not": { "u_has_flag": "NO_SPELLCASTING" } }, { "not": { "u_has_effect": "maimed_arm" } } ] },
           "hit_dmg_u": "%1$s makes a throwing gesture and heavy chunks of rock impact your %2$s!",
           "hit_dmg_npc": "%1$s makes a throwing gesture and heavy chunks of rock impact <npcname>'s %2$s!",
           "miss_msg_u": "%1$s makes a throwing gesture and you narrowly avoid heavy chunks of rock!",
@@ -671,6 +748,7 @@
           "effects": [
             { "id": "effect_earthshaper_petrifying_touch", "duration": 3, "chance": 75, "intensity": 100, "affect_hit_bp": false }
           ],
+          "condition": { "and": [ { "not": { "u_has_flag": "NO_SPELLCASTING" } }, { "not": { "u_has_effect": "maimed_arm" } } ] },
           "hit_dmg_u": "%1$s reaches out and touches your %2$s!",
           "hit_dmg_npc": "%1$s reaches out and touches <npcname>'s %2$s!",
           "miss_msg_u": "%1$s reaches out and you narrowly avoid their touch!",
@@ -683,7 +761,13 @@
           "type": "spell",
           "spell_data": { "id": "dispel_magic_monster", "min_level": 10 },
           "cooldown": 40,
-          "condition": { "not": { "u_has_flag": "MUTE" } },
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "not": { "u_has_effect": "maimed_arm" } }
+            ]
+          },
           "monster_message": "%1$s claps both hands in the air and shouts at %3$s."
         }
       ],
@@ -715,7 +799,13 @@
           "damage_max_instance": [ { "damage_type": "nether", "amount": 9 } ],
           "dodgeable": false,
           "blockable": false,
-          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "not": { "u_has_effect": "maimed_arm" } }
+            ]
+          },
           "hit_dmg_u": "%1$s screams words of magic and an eldritch bolt impacts your %2$s!",
           "hit_dmg_npc": "%1$s screams words of magic and an eldritch bolt impacts <npcname>'s %2$s!",
           "miss_msg_u": "%1$s screams words of magic and you narrowly avoid an eldritch bolt!",
@@ -728,7 +818,13 @@
           "type": "spell",
           "spell_data": { "id": "dispel_magic_monster", "min_level": 5 },
           "cooldown": 30,
-          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "not": { "u_has_effect": "maimed_arm" } }
+            ]
+          },
           "monster_message": "%1$s screams words of magic."
         },
         {
@@ -736,7 +832,13 @@
           "type": "spell",
           "spell_data": { "id": "magus_light_target", "min_level": 5 },
           "cooldown": 15,
-          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "not": { "u_has_effect": "maimed_arm" } }
+            ]
+          },
           "monster_message": "%1$s screams words of magic and waves their hands."
         },
         {
@@ -744,7 +846,7 @@
           "type": "spell",
           "spell_data": { "id": "phase_door", "min_level": 6 },
           "cooldown": 15,
-          "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+          "condition": { "and": [ { "not": { "u_has_flag": "NO_SPELLCASTING" } }, { "not": { "u_has_effect": "maimed_arm" } } ] },
           "monster_message": "%1$s makes a quick gesture and disappears."
         }
       ]
@@ -785,7 +887,13 @@
           "type": "spell",
           "spell_data": { "id": "dispel_magic_monster", "min_level": 5 },
           "cooldown": 30,
-          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "not": { "u_has_effect": "maimed_arm" } }
+            ]
+          },
           "monster_message": "%1$s screams words of magic."
         },
         {
@@ -801,7 +909,13 @@
           "type": "spell",
           "spell_data": { "id": "magus_slow", "min_level": 3 },
           "cooldown": 35,
-          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "not": { "u_has_effect": "maimed_arm" } }
+            ]
+          },
           "monster_message": "%1$s screams words of magic and the world suddenly starts moving much slower."
         },
         {
@@ -817,7 +931,13 @@
           "type": "spell",
           "spell_data": { "id": "magus_silence", "min_level": 5 },
           "cooldown": 25,
-          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "not": { "u_has_effect": "maimed_arm" } }
+            ]
+          },
           "monster_message": "%1$s screams words of magic and the sounds around you grow muffled."
         },
         {
@@ -875,7 +995,7 @@
           "type": "spell",
           "spell_data": { "id": "stormshaper_wall_of_fog", "min_level": 5 },
           "cooldown": 20,
-          "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+          "condition": { "and": [ { "not": { "u_has_flag": "NO_SPELLCASTING" } }, { "not": { "u_has_effect": "maimed_arm" } } ] },
           "monster_message": "%1$s gestures and fog rapidly condenses out of the air!"
         },
         {
@@ -891,7 +1011,7 @@
           "type": "spell",
           "spell_data": { "id": "blinding_flash", "min_level": 3 },
           "cooldown": 45,
-          "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+          "condition": { "and": [ { "not": { "u_has_flag": "NO_SPELLCASTING" } }, { "not": { "u_has_effect": "maimed_arm" } } ] },
           "monster_message": "%1$s makes a quick gesture and the air erupts into eye-searing light!"
         },
         {
@@ -902,7 +1022,8 @@
           "condition": {
             "and": [
               { "not": { "u_has_effect": "effect_feral_stormshaper_stormhammer_cooldown" } },
-              { "not": { "u_has_flag": "NO_SPELLCASTING" } }
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "not": { "u_has_effect": "maimed_arm" } }
             ]
           },
           "monster_message": "%1$s snaps an arm out and a hammer made of lightning crackles into existence."
@@ -915,7 +1036,7 @@
           "move_cost": 100,
           "accuracy": 4,
           "damage_max_instance": [ { "damage_type": "bash", "amount": 30 }, { "damage_type": "electric", "amount": 15 } ],
-          "condition": { "u_has_effect": "effect_feral_stormshaper_stormhammer" },
+          "condition": { "and": [ { "u_has_effect": "effect_feral_stormshaper_stormhammer" }, { "not": { "u_has_effect": "maimed_arm" } } ] },
           "hit_dmg_u": "%1$s stormhammers your %2$s!",
           "hit_dmg_npc": "%1$s stormhammers <npcname>'s %2$s!",
           "miss_msg_u": "%1$s tries to stormhammers you, but you dodge!",
@@ -951,7 +1072,7 @@
           "damage_max_instance": [ { "damage_type": "electric", "amount": 25 } ],
           "dodgeable": true,
           "blockable": false,
-          "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+          "condition": { "and": [ { "not": { "u_has_flag": "NO_SPELLCASTING" } }, { "not": { "u_has_effect": "maimed_arm" } } ] },
           "hit_dmg_u": "%1$s gestures and sparks impact your %2$s!",
           "hit_dmg_npc": "%1$s gestures and sparks impact <npcname>'s %2$s!",
           "miss_msg_u": "%1$s gestures and you narrowly avoid a shower of sparks!",
@@ -965,7 +1086,7 @@
           "type": "spell",
           "spell_data": { "id": "stormshaper_wall_of_fog", "min_level": 9 },
           "cooldown": 20,
-          "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+          "condition": { "and": [ { "not": { "u_has_flag": "NO_SPELLCASTING" } }, { "not": { "u_has_effect": "maimed_arm" } } ] },
           "monster_message": "%1$s gestures and a sudden force slams you into the ground!"
         },
         {
@@ -984,7 +1105,8 @@
           "condition": {
             "and": [
               { "not": { "u_has_effect": "effect_feral_stormshaper_stormhammer_cooldown" } },
-              { "not": { "u_has_flag": "NO_SPELLCASTING" } }
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "not": { "u_has_effect": "maimed_arm" } }
             ]
           },
           "monster_message": "%1$s snaps an arm out and a hammer made of lightning crackles into existence."
@@ -997,7 +1119,7 @@
           "move_cost": 100,
           "accuracy": 7,
           "damage_max_instance": [ { "damage_type": "bash", "amount": 30 }, { "damage_type": "electric", "amount": 15 } ],
-          "condition": { "u_has_effect": "effect_feral_stormshaper_stormhammer" },
+          "condition": { "and": [ { "u_has_effect": "effect_feral_stormshaper_stormhammer" }, { "not": { "u_has_effect": "maimed_arm" } } ] },
           "hit_dmg_u": "%1$s stormhammers your %2$s!",
           "hit_dmg_npc": "%1$s stormhammers <npcname>'s %2$s!",
           "miss_msg_u": "%1$s tries to stormhammer you, but you dodge!",
@@ -1035,7 +1157,8 @@
             "and": [
               { "not": { "u_has_effect": "effect_feral_technomancer_mage_blade_cooldown" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "not": { "u_has_flag": "MUTE" } }
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_effect": "maimed_arm" } }
             ]
           },
           "monster_message": "%1$s raises an arm and a blade of glowing light materializes."
@@ -1049,7 +1172,8 @@
             "and": [
               { "not": { "u_has_effect": "effect_feral_technomancer_mage_armor_cooldown" } },
               { "not": { "u_has_flag": "MUTE" } },
-              { "not": { "u_has_flag": "NO_SPELLCASTING" } }
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "not": { "u_has_effect": "maimed_arm" } }
             ]
           },
           "monster_message": "%1$s raises an arm and a suit of glowing armor appears on their body."
@@ -1062,7 +1186,7 @@
           "move_cost": 100,
           "accuracy": 5,
           "damage_max_instance": [ { "damage_type": "cut", "amount": 11 }, { "damage_type": "light", "amount": 20 } ],
-          "condition": { "u_has_effect": "effect_feral_technomancer_mage_blade" },
+          "condition": { "and": [ { "u_has_effect": "effect_feral_technomancer_mage_blade" }, { "not": { "u_has_effect": "maimed_arm" } } ] },
           "hit_dmg_u": "%1$s hits your %2$s with a blade of light!",
           "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with a blade of light!",
           "miss_msg_u": "%1$s swings a blade of light at you, but you dodge!",
@@ -1087,7 +1211,8 @@
             "and": [
               { "not": { "u_has_effect": "effect_feral_technomancer_bless" } },
               { "not": { "u_has_flag": "MUTE" } },
-              { "not": { "u_has_flag": "NO_SPELLCASTING" } }
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "not": { "u_has_effect": "maimed_arm" } }
             ]
           },
           "monster_message": "%1$s mutters some words and their body is limned in light."
@@ -1119,7 +1244,8 @@
             "and": [
               { "not": { "u_has_effect": "effect_feral_technomancer_mage_blade_cooldown" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "not": { "u_has_flag": "MUTE" } }
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_effect": "maimed_arm" } }
             ]
           },
           "monster_message": "%1$s raises an arm and a blade of glowing light materializes."
@@ -1133,7 +1259,8 @@
             "and": [
               { "not": { "u_has_effect": "effect_feral_technomancer_mage_armor_cooldown" } },
               { "not": { "u_has_flag": "MUTE" } },
-              { "not": { "u_has_flag": "NO_SPELLCASTING" } }
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "not": { "u_has_effect": "maimed_arm" } }
             ]
           },
           "monster_message": "%1$s raises an arm and a suit of glowing armor appears on their body."
@@ -1146,7 +1273,7 @@
           "move_cost": 100,
           "accuracy": 5,
           "damage_max_instance": [ { "damage_type": "cut", "amount": 11 }, { "damage_type": "light", "amount": 32 } ],
-          "condition": { "u_has_effect": "effect_feral_technomancer_mage_blade" },
+          "condition": { "and": [ { "u_has_effect": "effect_feral_technomancer_mage_blade" }, { "not": { "u_has_effect": "maimed_arm" } } ] },
           "hit_dmg_u": "%1$s hits your %2$s with a blade of light!",
           "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with a blade of light!",
           "miss_msg_u": "%1$s swings a blade of light at you, but you dodge!",
@@ -1171,7 +1298,8 @@
             "and": [
               { "not": { "u_has_effect": "effect_feral_technomancer_bless" } },
               { "not": { "u_has_flag": "MUTE" } },
-              { "not": { "u_has_flag": "NO_SPELLCASTING" } }
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "not": { "u_has_effect": "maimed_arm" } }
             ]
           },
           "monster_message": "%1$s mutters some words and their body is limned in light."
@@ -1185,7 +1313,8 @@
             "and": [
               { "not": { "u_has_effect": "effect_feral_technomancer_bless" } },
               { "math": [ "u_val('morale') <= -20" ] },
-              { "not": { "u_has_flag": "NO_SPELLCASTING" } }
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "not": { "u_has_effect": "maimed_arm" } }
             ]
           },
           "monster_message": "%1$s makes a gesture and disappears."
@@ -1195,7 +1324,13 @@
           "type": "spell",
           "spell_data": { "id": "feral_animated_blade", "min_level": 10 },
           "cooldown": 65,
-          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "not": { "u_has_effect": "maimed_arm" } }
+            ]
+          },
           "monster_message": "%1$s gestures and swords appear out of thin air!"
         },
         {
