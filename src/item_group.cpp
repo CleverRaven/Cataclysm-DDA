@@ -709,7 +709,7 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
             // but i do not see where to fit it elsewhere
 
             bool any_sealed = false;
-            for( const auto &pocket : new_item.get_contents().get_all_contained_pockets() ) {
+            for( const item_pocket &pocket : new_item.get_contents().get_all_contained_pockets() ) {
                 if( pocket->sealable() ) {
                     any_sealed = true;
                     break;
