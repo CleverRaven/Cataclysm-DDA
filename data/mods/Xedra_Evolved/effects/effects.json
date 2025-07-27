@@ -1625,7 +1625,7 @@
     "desc": [
       "You have rebuilt human minds from the shattered remnants you could find.  It will take some time until you can do this again."
     ]
-  },
+  }
   {
     "type": "effect_type",
     "id": "telepathic_ignorance",
