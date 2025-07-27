@@ -379,7 +379,6 @@
     "using": [ [ "stable_explosive", 14 ], [ "volatile_explosive", 1 ] ],
     "components": [
       [ [ "small_gas_canister_case", 1, "LIST" ] ],
-      [ [ "stable_explosive", 15, "LIST" ], [ "volatile_explosive", 15, "LIST" ] ],
       [ [ "fuse", 1 ] ],
       [ [ "super_glue", 4 ], [ "duct_tape", 10 ] ],
       [ [ "nails", 50, "LIST" ], [ "scrap", 2 ] ]
