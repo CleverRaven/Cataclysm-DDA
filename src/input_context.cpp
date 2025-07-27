@@ -698,6 +698,7 @@ void keybindings_ui::draw_controls()
         //ImGui::TableHeadersRow();
         for( size_t i = 0; i < filtered_registered_actions.size(); i++ ) {
             const std::string &action_id = filtered_registered_actions[i];
+            ImGui::PushID( action_id.c_str() );
 
             bool overwrite_default;
             const action_attributes &attributes = inp_mngr.get_action_attributes( action_id, ctxt->category,
@@ -763,6 +764,8 @@ void keybindings_ui::draw_controls()
             //ImGui::SetCursorPosX(str_width_to_pixels(TERMX >= 100 ? 62 : 52));
             ImGui::TableNextColumn();
             ImGui::Text( "%s", ctxt->get_desc( action_id ).c_str() );
+
+            ImGui::PopID();
         }
         ImGui::EndTable();
     }
