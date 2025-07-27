@@ -12407,8 +12407,13 @@ void game::vertical_move( int movez, bool force, bool peeking )
                 move_cost = cost == 0 ? 1000 : cost + 500;
             }
 
+            // climbing up, select which tile to climb to
             const std::optional<tripoint_bub_ms> pnt = point_selection_menu( pts );
             if( !pnt ) {
+                return;
+            }
+            if( here.dangerous_field_at( *pnt ) &&
+                !query_yn( _( "There appears to be a dangerous field at your destination.  Continue?" ) ) ) {
                 return;
             }
             stairs = *pnt;
@@ -12575,6 +12580,13 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
         stairs = *pnt;
     }
+
+    if( !force && !climbing && here.dangerous_field_at( stairs ) &&
+        !query_yn( _( "There appears to be a dangerous field at your destination.  Continue?" ) ) ) {
+        return;
+    }
+
+    // LAST CHANCE TO ABORT! Everything past here assumes the movement is going ahead.
 
     std::vector<monster *> monsters_following;
     if( std::abs( movez ) == 1 ) {
@@ -14118,6 +14130,18 @@ void game::climb_down_using( const tripoint_bub_ms &examp, climbing_aid_id aid_i
         }
         query += "\n";
         query += hint_climb_back;
+    }
+
+    if( here.dangerous_field_at( fall.pos_bottom() ) ) {
+        for( const std::pair<const field_type_id, field_entry> &danger_field : here.field_at(
+                 fall.pos_bottom() ) ) {
+            if( danger_field.first->is_dangerous() ) {
+                query += "\n";
+                query += string_format(
+                             _( "There appears to be a dangerous <color_red>%s</color> at your destination." ),
+                             danger_field.second.name() );
+            }
+        }
     }
 
     std::string query_prompt = _( "Climb down?" );
