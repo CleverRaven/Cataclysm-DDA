@@ -162,12 +162,7 @@
     "using": [ [ "accelerant_liquid", 500 ] ],
     "components": [
       [ [ "cotton_patchwork", 1 ] ],
-      [
-        [ "bottle_glass", 1 ],
-        [ "jar_glass_sealed", 1 ],
-        [ "bottle_glass_seasoning", 1 ],
-        [ "clay_canister", 1 ]
-      ]
+      [ [ "bottle_glass", 1 ], [ "jar_glass_sealed", 1 ], [ "bottle_glass_seasoning", 1 ], [ "clay_canister", 1 ] ]
     ]
   },
   {
