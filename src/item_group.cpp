@@ -702,7 +702,22 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
                 new_item.put_in( it, pk_type );
             }
         }
-        if( sealed ) {
+        // sealed is true by default, but it gives nothing to seal ammunition or glue (at least yet)
+        if( sealed && new_item.is_comestible() ) {
+            // I don't like we validate sealing at itemgroup spawn
+            // but i do not see where to fit it elsewhere
+
+            bool any_sealed = false;
+            for( const auto &pocket : new_item.get_contents().get_all_contained_pockets() ) {
+                if( pocket->sealable() ) {
+                    any_sealed = true;
+                    break;
+                }
+            }
+            if( !any_sealed ) {
+                debugmsg( "in %s: item %s tries to spawn sealed, but has no sealed_data to actually be sealed.",
+                          context, new_item.typeId().c_str() );
+            }
             new_item.seal();
         }
     }
