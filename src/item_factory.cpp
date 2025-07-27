@@ -387,10 +387,6 @@ void Item_factory::finalize_pre( itype &obj )
         obj.category_force = calc_category( obj );
     }
 
-    // use pre-Cataclysm price as default if post-cataclysm price unspecified
-    if( obj.price_post < 0_cent ) {
-        obj.price_post = obj.price;
-    }
     // use base volume if integral volume unspecified
     if( obj.integral_volume < 0_ml ) {
         obj.integral_volume = obj.volume;
@@ -4075,7 +4071,7 @@ void itype::load( const JsonObject &jo, std::string_view src )
     optional( jo, was_loaded, "volume", volume );
     optional( jo, was_loaded, "longest_side", longest_side, -1_mm );
     optional( jo, was_loaded, "price", price, not_negative_money, 0_cent );
-    optional( jo, was_loaded, "price_postapoc", price_post, not_negative_money, -1_cent );
+    optional( jo, was_loaded, "price_postapoc", price_post, not_negative_money, 0_cent );
     optional( jo, was_loaded, "stackable", stackable_ );
     optional( jo, was_loaded, "integral_volume", integral_volume, not_negative_volume, -1_ml );
     optional( jo, was_loaded, "integral_longest_side", integral_longest_side, not_negative_length,
