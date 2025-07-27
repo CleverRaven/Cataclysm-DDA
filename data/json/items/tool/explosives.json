@@ -387,6 +387,7 @@
     "description": "A military-grade fragmentation hand grenade.  Use this item to pull the pin and start the fuse.  You will then have five seconds before it explodes; throwing it would be a good idea.",
     "weight": "397 g",
     "volume": "540 ml",
+    "longest_side": "110 mm",
     "price": "15 USD",
     "price_postapoc": "10 USD",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
