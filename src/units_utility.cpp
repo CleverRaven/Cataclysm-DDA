@@ -1,5 +1,6 @@
 #include "units_utility.h"
 
+#include <clocale>
 #include <string>
 
 #include "cata_utility.h"
@@ -399,4 +400,23 @@ double round_with_places( double value, int decimal_places )
 {
     const double multiplier = std::pow( 10.0, decimal_places );
     return std::round( value * multiplier ) / multiplier;
+}
+
+std::string three_digit_display( const double value )
+{
+    const bool neg = value < 0;
+    const double abs_value = abs( value );
+    if( abs_value == 0 ) {
+        return "0";
+    }
+    if( abs_value >= 10 ) {
+        return string_format( "%.0f", value );
+    }
+    if( abs_value >= 1 ) {
+        return string_format( "%.1f", value );
+    }
+
+    return string_format( "%s%c%02d", neg ? "-" : "",
+                          *std::localeconv()->decimal_point,
+                          static_cast<int>( abs_value * 100 ) );
 }
