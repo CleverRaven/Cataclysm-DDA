@@ -236,7 +236,8 @@
           ],
           "x": 7,
           "y": 20
-        }
+        },
+        { "chunks": [ [ "null", 10 ], [ "cabin_nether_cult_basement_2x2_bathroom_overlay", 1 ] ], "x": 7, "y": 13 }
       ]
     }
   },
@@ -461,6 +462,27 @@
         { "field": "fd_gibs_flesh", "x": [ 0, 3 ], "y": [ 0, 3 ], "repeat": [ 2, 4 ] }
       ],
       "place_monster": [ { "monster": "mon_nether_huntsman", "x": [ 0, 3 ], "y": [ 0, 3 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "cabin_nether_cult_basement_2x2_bathroom_overlay",
+    "//": "An overlay with a bloody corpse.",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "  ",
+        "  "
+      ],
+      "place_fields": [
+        { "field": "fd_blood", "x": [ 0, 3 ], "y": [ 0, 3 ], "repeat": [ 6, 12 ] },
+        { "field": "fd_gibs_flesh", "x": [ 0, 3 ], "y": [ 0, 3 ], "repeat": [ 2, 4 ] }
+      ],
+      "place_item": [
+        { "item": "corpse_painful", "x": 1, "y": 0, "chance": 100 },
+        { "item": "default_zombie_death_drops", "x": 1, "y": 0, "chance": 100 }
+      ]
     }
   }
 ]
