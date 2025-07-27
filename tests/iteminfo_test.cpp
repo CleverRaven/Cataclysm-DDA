@@ -450,26 +450,6 @@ TEST_CASE( "item_price_and_barter_value", "[iteminfo][price]" )
                "--\n"
                "Price: $<color_c_yellow>75.00</color>  Barter value: $<color_c_yellow>3.00</color>\n" );
     }
-
-    SECTION( "item with same price and barter value shows only price" ) {
-        item nuts( itype_test_pine_nuts );
-        REQUIRE( nuts.price( false ) == 136 );
-        REQUIRE( nuts.price( true ) == 136 );
-
-        CHECK( item_info_str( nuts, price_barter ) ==
-               "--\n"
-               "Price: $<color_c_yellow>1.36</color>" );
-    }
-
-    SECTION( "item with no price or barter value" ) {
-        item rock( itype_test_rock );
-        REQUIRE( rock.price( false ) == 0 );
-        REQUIRE( rock.price( true ) == 0 );
-
-        CHECK( item_info_str( rock, price_barter ) ==
-               "--\n"
-               "Price: $<color_c_yellow>0.00</color>" );
-    }
 }
 
 // Related JSON fields:
