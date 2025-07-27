@@ -380,6 +380,7 @@
   },
   {
     "id": "grenade",
+    "//": "Based off of the M67 grenade",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "category": "weapons",
