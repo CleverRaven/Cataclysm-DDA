@@ -685,7 +685,7 @@
         "true_eocs": [
           {
             "id": "EOC_BROWNIE_INDOOR_BLINK_SUCCESS",
-            "condition": { "map_terrain_with_flag": "INDOORS", "loc": { "context_val": "brownie_teleport" } },
+            "condition": { "not": { "map_is_outside": { "context_val": "brownie_teleport" } } },
             "effect": [
               { "u_teleport": { "context_val": "brownie_teleport" } },
               { "u_message": "You carefully slip through the cracks.", "type": "good" }

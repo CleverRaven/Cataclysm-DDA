@@ -371,10 +371,7 @@
     "eoc_type": "EVENT",
     "required_event": "character_wakes_up",
     "condition": {
-      "and": [
-        { "or": [ { "u_has_trait": "THRESH_SYLPH" }, { "u_has_trait": "SYLPH_DEX_BONUS_2" } ] },
-        { "or": [ { "not": "u_is_outside" }, { "u_is_on_terrain_with_flag": "INDOORS" } ] }
-      ]
+      "and": [ { "or": [ { "u_has_trait": "THRESH_SYLPH" }, { "u_has_trait": "SYLPH_DEX_BONUS_2" } ] }, { "not": "u_is_outside" } ]
     },
     "effect": [
       { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
