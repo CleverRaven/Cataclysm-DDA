@@ -1767,7 +1767,7 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
     // Multi z-level draw mode
     // Start drawing from the lowest visible z-level (some off-screen tiles
     // are considered visible here to simplify the logic.)
-    int cur_zlevel = draw_min_z;
+    int cur_zlevel = std::max( center.z() - max_draw_depth, -OVERMAP_DEPTH );
     while( cur_zlevel <= center.z() ) {
         const half_open_rectangle<point> &cur_any_tile_range = is_isometric()
                 ? z_any_tile_range[center.z() - cur_zlevel] : top_any_tile_range;
