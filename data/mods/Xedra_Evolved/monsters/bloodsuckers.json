@@ -1010,7 +1010,7 @@
   {
     "id": "mon_beneficial_polymorph_arion",
     "type": "MONSTER",
-    "name": { "str": "Νυκτίππος" },
+    "name": { "str_sp": "Νυκτίππος" },
     "description": "Is this a horse?  Do horses exude menace and a predatory aura?  A massive absence of color in a form recognizably inspired by a horse.",
     "default_faction": "player",
     "bodytype": "horse",
@@ -1023,7 +1023,7 @@
     "attack_cost": 330,
     "material": [ "flesh" ],
     "symbol": "H",
-    "color": "gray",
+    "color": "dark_gray_yellow",
     "morale": 20,
     "aggro_character": false,
     "melee_skill": 8,
