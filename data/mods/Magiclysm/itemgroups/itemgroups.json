@@ -1983,5 +1983,11 @@
       { "item": "spell_scroll_biomancer_control_mutations", "prob": 1 },
       { "item": "spell_scroll_biomancer_remove_instability", "prob": 1 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "sometimes_bird_litter",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 3 }, { "item": "feces_bird", "prob": 1, "count": 4 } ]
   }
 ]

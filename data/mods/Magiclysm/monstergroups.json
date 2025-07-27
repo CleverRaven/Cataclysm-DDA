@@ -654,5 +654,19 @@
       { "monster": "mon_zoose", "weight": 50 },
       { "monster": "mon_owlbear_zombie", "weight": 25 }
     ]
+  },
+  {
+    "id": "GROUP_AENOR",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_giant_heron_ridable", "weight": 150, "cost_multiplier": 2 },
+      { "monster": "mon_giant_heron_ridable_chick", "weight": 50, "ends": "124 days" },
+      { "monster": "mon_giant_heron_ridable_chick", "weight": 25, "starts": "124 days" }
+    ]
+  },
+  {
+    "id": "GROUP_RANCH_AENOR_STABLES",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_null", "weight": 50 }, { "group": "GROUP_AENOR", "weight": 50, "ends": "56 days" } ]
   }
 ]

@@ -293,6 +293,12 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
                                            vp.carried_name() );
             new_lines += 1;
         }
+        if( vp.degradation() > 0 && vp.damage() == vp.degradation() ) {
+            // Some untranslated padding and a linebreak for formatting here, but we re-use the same string from item::repair_info()
+            possible_msg += string_format( "   %s\n",
+                                           _( "<color_c_red>Degraded and cannot be repaired beyond the current level.</color>" ) );
+            new_lines += 1;
+        }
 
         possible_msg += "</color>\n";
         if( lines + new_lines <= max_y ) {

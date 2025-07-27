@@ -2680,6 +2680,7 @@
     "rating": "bad",
     "max_duration": 3000,
     "dur_add_perc": 5,
+    "show_in_info": true,
     "enchantments": [ { "values": [ { "value": "SPEED", "multiply": -0.25 } ] } ],
     "immune_flags": [ "DIMENSIONAL_ANCHOR", "TELESTOP", "TELEPORT_IMMUNE" ]
   },

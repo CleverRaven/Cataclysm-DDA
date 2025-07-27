@@ -863,7 +863,9 @@
             "count": [ 1, 15 ],
             "container-item": "null",
             "entry-wrapper": "bottle_plastic_pill_painkiller"
-          }
+          },
+          { "group": "birth_control", "prob": 50 },
+          { "group": "estrogen_hrt", "prob": 3 }
         ],
         "prob": 95
       },
@@ -1224,6 +1226,18 @@
       { "group": "gloves_unisex", "prob": 30 },
       { "group": "hats_unisex", "prob": 10 },
       { "group": "bags_unisex_small", "prob": 50 }
+    ]
+  },
+  {
+    "id": "SUS_domestic_bookshelf",
+    "type": "item_group",
+    "//": "Random books for a random domestic bookshelf.",
+    "subtype": "collection",
+    "entries": [
+      { "group": "novels", "prob": 100, "count": [ 7, 21 ] },
+      { "group": "kids_books", "prob": 33, "count": [ 3, 7 ] },
+      { "group": "literature", "prob": 100, "count": [ 2, 5 ] },
+      { "group": "homebooks", "count": [ 6, 19 ], "prob": 100 }
     ]
   },
   {
