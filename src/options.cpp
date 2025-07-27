@@ -1368,8 +1368,8 @@ std::vector<options_manager::id_and_option> options_manager::get_lang_options()
             { "sr", R"(Српски)" },
             { "tr", R"(Türkçe)" },
             { "uk_UA", R"(Українська)" },
-            { "zh_CN", R"(中文 (天朝))" },
-            { "zh_TW", R"(中文 (台灣))" },
+            { "zh_CN", R"(中文 (简体))" },
+            { "zh_TW", R"(中文 (繁體))" },
         }
     };
 
