@@ -15,10 +15,12 @@
     "type": "overmap_special",
     "id": "Canyon Tourist Center",
     "overmaps": [
-      { "point": [ 0, 1, 0 ], "overmap": "s_lot_north", "locations": [ "canyon" ] },
-      { "point": [ 0, 0, 0 ], "overmap": "s_lot_north", "locations": [ "land" ] }
+      { "point": [ 0, 1, 0 ], "overmap": "s_lot_north", "locations": [ "land" ] },
+      { "point": [ 0, 0, 0 ], "overmap": "s_lot_north", "locations": [ "land" ] },
+      { "point": [ 1, 0, 0 ], "locations": [ "canyon" ] },
+      { "point": [ 1, 1, 0 ], "locations": [ "canyon" ] }
     ],
-    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "from": [ 0, 0, 0 ] } ],
     "city_distance": [ 5, 75 ],
     "occurrences": [ 0, 2 ],
     "flags": [ "CLASSIC", "MAN_MADE" ]

@@ -78,7 +78,6 @@ cata_path compression_folder_path();
 cata_path moddir();
 cata_path mods_dev_default();
 cata_path mods_user_default();
-cata_path mods_replacements();
 cata_path names();
 cata_path options();
 cata_path panel_options();

@@ -6,7 +6,7 @@
     "category": "armor",
     "name": { "str_sp": "attachable ear muffs" },
     "description": "A pair of ear muffs attachable to a hard hat or helmet to reduce noise exposures to safe levels.  Activate to put ear muffs into a working position, blocking most sounds.",
-    "weight": "290 g",
+    "weight": "185 g",
     "volume": "250 ml",
     "price": "10 USD",
     "price_postapoc": "80 cent",

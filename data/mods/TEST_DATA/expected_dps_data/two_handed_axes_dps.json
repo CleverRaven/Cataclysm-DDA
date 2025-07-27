@@ -9,12 +9,8 @@
       "fire_ax": 21.2,
       "ax": 20.25,
       "copper_ax": 13.75,
-      "e_combatsaw_on": 29,
-      "combatsaw_on": 29,
-      "chainsaw_on": 22.0,
-      "circsaw_on": 25.32,
-      "e_combatsaw_off": 3.0,
-      "combatsaw_off": 3.0,
+      "chainsaw_on": 4.38,
+      "circsaw_on": 3.84,
       "chainsaw_off": 2.0,
       "circsaw_off": 1.25
     }

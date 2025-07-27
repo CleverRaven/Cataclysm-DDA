@@ -294,12 +294,6 @@
         "topic": "TALK_GUNSMITH_CONVERT_FROM_TYPE"
       },
       {
-        "text": "[<color_light_green>+$30</color>, <color_light_red>-100 <item_name:46mm></color>]",
-        "condition": { "u_has_items": { "item": "46mm", "count": 100 } },
-        "effect": { "run_eocs": "EOC_gunsmith_source", "variables": { "item": "46mm", "coeff": "30" } },
-        "topic": "TALK_GUNSMITH_CONVERT_FROM_TYPE"
-      },
-      {
         "text": "[<color_light_green>+$15</color>, <color_light_red>-100 <item_name:57mm_ss></color>]",
         "condition": { "u_has_items": { "item": "57mm_ss", "count": 100 } },
         "effect": { "run_eocs": "EOC_gunsmith_source", "variables": { "item": "57mm_ss", "coeff": "15" } },

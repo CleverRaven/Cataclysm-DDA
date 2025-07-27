@@ -1952,6 +1952,18 @@
     ]
   },
   {
+    "type": "effect_type",
+    "id": "effect_will_o_wisp_draining_monsters",
+    "//": "Self-explanatory",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "max_intensity": 25,
+    "int_add_val": 1,
+    "base_mods": { "speed_mod": [ -1 ] },
+    "scaling_mods": { "speed_mod": [ -1 ] }
+  },
+  {
     "id": "effect_dispel_magic",
     "type": "effect_type",
     "name": [ "Dispel Magic" ],
@@ -2026,7 +2038,9 @@
       "effect_feral_technomancer_mage_blade",
       "effect_feral_technomancer_mage_armor",
       "effect_feral_technomancer_bless",
-      "enchant_windrun_monster"
+      "enchant_windrun_monster",
+      "effect_feral_animist_guardian_spirit",
+      "effect_feral_animist_inner_voice"
     ]
   },
   {
@@ -2180,7 +2194,9 @@
       "effect_feral_technomancer_mage_blade",
       "effect_feral_technomancer_mage_armor",
       "effect_feral_technomancer_bless",
-      "enchant_windrun_monster"
+      "enchant_windrun_monster",
+      "effect_feral_animist_guardian_spirit",
+      "effect_feral_animist_inner_voice"
     ]
   },
   {

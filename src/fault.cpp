@@ -193,6 +193,16 @@ bool fault::affected_by_degradation() const
     return affected_by_degradation_;
 }
 
+double fault::encumb_mod_flat() const
+{
+    return encumbrance_mod_flat_;
+}
+
+double fault::encumb_mod_mult() const
+{
+    return encumbrance_mod_mult_;
+}
+
 std::string fault::type() const
 {
     return type_;
@@ -227,6 +237,8 @@ void fault::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "price_modifier", price_modifier, 1.0 );
     optional( jo, was_loaded, "degradation_mod", degradation_mod_, 0 );
     optional( jo, was_loaded, "affected_by_degradation", affected_by_degradation_, false );
+    optional( jo, was_loaded, "encumbrance_add", encumbrance_mod_flat_, 0 );
+    optional( jo, was_loaded, "encumbrance_mult", encumbrance_mod_mult_, 1.f );
 
     if( jo.has_array( "melee_damage_mod" ) ) {
         for( JsonObject jo_f : jo.get_array( "melee_damage_mod" ) ) {
@@ -314,6 +326,7 @@ void fault_fix::finalize()
     for( const fault_id &fid : faults_removed ) {
         const_cast<fault &>( *fid ).fixes.emplace( id );
     }
+    requirements->finalize();
 }
 
 void fault_fix::check() const

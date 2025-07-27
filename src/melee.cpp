@@ -49,7 +49,6 @@
 #include "itype.h"
 #include "line.h"
 #include "magic_enchantment.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -98,7 +97,10 @@ static const character_modifier_id
 character_modifier_melee_thrown_move_lift_mod( "melee_thrown_move_lift_mod" );
 
 static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_cold( "cold" );
 static const damage_type_id damage_cut( "cut" );
+static const damage_type_id damage_electric( "electric" );
+static const damage_type_id damage_heat( "heat" );
 static const damage_type_id damage_stab( "stab" );
 
 static const efftype_id effect_amigara( "amigara" );
@@ -412,6 +414,19 @@ float Character::hit_roll() const
         hit -= 2.0f;
     }
 
+    // Greatly impaired accuracy when in a vehicle.
+    // TODO: mitigating factors like "standing on top of a vehicle" instead of "in a vehicle".
+    map &here = get_map();
+    const optional_vpart_position vp_there = here.veh_at( pos_abs() );
+    if( vp_there ) {
+        hit -= 10;
+        vehicle &boarded_vehicle = vp_there->vehicle();
+        if( boarded_vehicle.player_in_control( here, *this ) ) {
+            hit -= 10;
+        }
+        hit -= std::abs( boarded_vehicle.forward_velocity() );
+    }
+
     hit *= get_modifier( character_modifier_melee_attack_roll_mod );
 
     return melee::melee_hit_range( hit );
@@ -668,6 +683,13 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
     const int skill_training_cap = t.is_monster() ? t.as_monster()->type->melee_training_cap :
                                    MAX_SKILL;
+    // Practice melee and relevant weapon skill (if any) except when using CQB bionic, if the creature is a hallucination, if the creature cannot move,
+    // if the creature cannot take damage, or if the monster has already trained someone an excessive number of times.
+    const bool can_train_melee = !has_active_bionic( bio_cqb ) &&
+                                 !t.is_hallucination() &&
+                                 !t.has_flag( json_flag_CANNOT_MOVE ) &&
+                                 !t.has_flag( json_flag_CANNOT_TAKE_DAMAGE ) &&
+                                 t.times_combatted_player <= 100;
     Character &player_character = get_player_character();
     if( !hits ) {
         int stumble_pen = stumble( *this, cur_weapon );
@@ -705,10 +727,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             }
         }
 
-        // Practice melee and relevant weapon skill (if any) except when using CQB bionic, if the creature is a hallucination, or if the creature cannot move and take damage.
-        if( !has_active_bionic( bio_cqb ) && !t.is_hallucination() &&
-            !( t.has_flag( json_flag_CANNOT_MOVE ) &&
-               t.has_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) ) {
+        if( can_train_melee ) {
+            t.times_combatted_player++;
             melee_train( *this, 2, std::min( 5, skill_training_cap ), cur_weap, attack_vector_id::NULL_ID() );
         }
 
@@ -887,10 +907,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             int dam = dealt_dam.total_damage();
             melee::melee_stats.damage_amount += dam;
 
-            // Practice melee and relevant weapon skill (if any) except when using CQB bionic, if the creature is a hallucination, or if the creature cannot move and take damage.
-            if( !has_active_bionic( bio_cqb ) && !t.is_hallucination() &&
-                !( t.has_flag( json_flag_CANNOT_MOVE ) &&
-                   t.has_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) ) {
+            if( can_train_melee ) {
+                t.times_combatted_player++;
                 melee_train( *this, 5, std::min( 10, skill_training_cap ), cur_weap, vector_id );
             }
 
@@ -2134,7 +2152,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
             // electrical damage deals full damage if unarmed OR wielding a conductive weapon
             // non-electrical "elemental" damage types do their full damage if unarmed,
             // but severely mitigated damage if not
-            bool can_block = elem.type == STATIC( damage_type_id( "electric" ) ) ? !conductive_shield : true;
+            bool can_block = elem.type == damage_electric ? !conductive_shield : true;
             // Unarmed weapons won't block those
             if( item_blocking && can_block ) {
                 float previous_amount = elem.amount;
@@ -2239,7 +2257,7 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
     if( has_active_bionic( bio_shock ) && get_power_level() >= bio_shock->power_trigger &&
         ( weap.is_null() || weap.conductive() || weapon.conductive() ) ) {
         mod_power_level( -bio_shock->power_trigger );
-        d.add_damage( STATIC( damage_type_id( "electric" ) ), rng( 2, 10 ) );
+        d.add_damage( damage_electric, rng( 2, 10 ) );
 
         if( is_avatar() ) {
             dump += string_format( _( "You shock %s." ), target ) + "\n";
@@ -2250,7 +2268,7 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
 
     if( has_active_bionic( bio_heat_absorb ) && weap.is_null() && t.is_warm() ) {
         mod_power_level( bio_heat_absorb->power_trigger );
-        d.add_damage( STATIC( damage_type_id( "cold" ) ), 3 );
+        d.add_damage( damage_cold, 3 );
         if( is_avatar() ) {
             dump += string_format( _( "You drain %s's body heat." ), target ) + "\n";
         } else {
@@ -2259,7 +2277,7 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
     }
 
     if( weap.has_flag( flag_FLAMING ) ) {
-        d.add_damage( STATIC( damage_type_id( "heat" ) ), rng( 1, 8 ) );
+        d.add_damage( damage_heat, rng( 1, 8 ) );
 
         if( is_avatar() ) {
             dump += string_format( _( "You burn %s." ), target ) + "\n";

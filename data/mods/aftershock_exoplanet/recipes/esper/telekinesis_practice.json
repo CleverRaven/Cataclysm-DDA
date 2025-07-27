@@ -33,6 +33,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_AFS_TELEKIN_MOVE_ITEMS",
+        "condition": { "u_has_trait": "AFS_TELEKINETIC" },
         "effect": [
           { "set_string_var": "afs_telekinetic_move_item", "target_var": { "u_val": "latest_studied_power_name" } },
           { "math": [ "u_latest_studied_power_difficulty = 2" ] },
@@ -57,6 +58,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_AFS_TELEKIN_MOVE_CREATURES",
+        "condition": { "u_has_trait": "AFS_TELEKINETIC" },
         "effect": [
           { "set_string_var": "afs_telekinetic_move_creature", "target_var": { "u_val": "latest_studied_power_name" } },
           { "math": [ "u_latest_studied_power_difficulty = 3" ] },
@@ -81,6 +83,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_AFS_TELEKIN_MOMENTUM",
+        "condition": { "u_has_trait": "AFS_TELEKINETIC" },
         "effect": [
           { "set_string_var": "afs_telekinetic_momentum", "target_var": { "u_val": "latest_studied_power_name" } },
           { "math": [ "u_latest_studied_power_difficulty = 4" ] },
@@ -105,6 +108,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_AFS_TELEKIN_WAVE",
+        "condition": { "u_has_trait": "AFS_TELEKINETIC" },
         "effect": [
           { "set_string_var": "afs_telekinetic_wave", "target_var": { "u_val": "latest_studied_power_name" } },
           { "math": [ "u_latest_studied_power_difficulty = 5" ] },
@@ -129,6 +133,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_AFS_TELEKIN_HAMMER",
+        "condition": { "u_has_trait": "AFS_TELEKINETIC" },
         "effect": [
           { "set_string_var": "afs_telekinetic_hammer", "target_var": { "u_val": "latest_studied_power_name" } },
           { "math": [ "u_latest_studied_power_difficulty = 7" ] },

@@ -17,7 +17,6 @@
 #include "item_category.h"
 #include "item_factory.h"
 #include "itype.h"
-#include "make_static.h"
 #include "material.h"
 #include "math_parser_type.h"
 #include "requirements.h"
@@ -28,6 +27,8 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+
+static const itype_id itype_debug_item_search( "debug_item_search" );
 
 static std::pair<std::string, std::string> get_both( std::string_view a );
 
@@ -49,7 +50,7 @@ static std::function< bool( const item & )> can_contain_filter( std::string_view
     // copy the debug item template (itype), put it on heap so the itype pointer doesn't move
     // TODO unique_ptr
     std::shared_ptr<itype> filtered_fake_itype = std::make_shared<itype>
-            ( *item_controller->find_template( STATIC( itype_id( "debug_item_search" ) ) ) );
+            ( *item_controller->find_template( itype_debug_item_search ) );
     item filtered_fake_item = set_function( filtered_fake_itype.get(), uni );
     // pass to keep filtered_fake_itype valid until lambda capture is destroyed (while item is needed)
     return [filtered_fake_itype, filtered_fake_item]( const item & i ) {

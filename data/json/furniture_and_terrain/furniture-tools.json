@@ -162,15 +162,9 @@
     "required_str": -1,
     "crafting_pseudo_item": "fake_forge",
     "flags": [ "TRANSPARENT", "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "AMMOTYPE_RELOAD" ],
-    "deconstruct": { "items": [ { "item": "char_forge", "count": 1 } ] },
+    "item": "char_forge",
     "examine_action": "reload_furniture",
-    "bash": {
-      "str_min": 4,
-      "str_max": 8,
-      "sound": "crunch!",
-      "sound_fail": "whump.",
-      "items": [ { "item": "char_forge", "count": 1 } ]
-    }
+    "bash": { "str_min": 30, "str_max": 80, "sound": "crunch!", "sound_fail": "whump." }
   },
   {
     "type": "furniture",
@@ -185,15 +179,9 @@
     "required_str": -1,
     "crafting_pseudo_item": "fake_forge",
     "flags": [ "TRANSPARENT", "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "AMMOTYPE_RELOAD" ],
-    "deconstruct": { "items": [ { "item": "char_forge", "count": 1 } ] },
+    "item": "char_forge",
     "examine_action": "reload_furniture",
-    "bash": {
-      "str_min": 4,
-      "str_max": 8,
-      "sound": "crunch!",
-      "sound_fail": "whump.",
-      "items": [ { "item": "char_forge", "count": 1 } ]
-    }
+    "bash": { "str_min": 30, "str_max": 80, "sound": "crunch!", "sound_fail": "whump." }
   },
   {
     "type": "furniture",
@@ -208,15 +196,9 @@
     "required_str": -1,
     "crafting_pseudo_item": "fake_forge",
     "flags": [ "TRANSPARENT", "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "AMMOTYPE_RELOAD" ],
-    "deconstruct": { "items": [ { "item": "char_forge", "count": 1 } ] },
+    "item": "char_forge",
     "examine_action": "reload_furniture",
-    "bash": {
-      "str_min": 4,
-      "str_max": 8,
-      "sound": "crunch!",
-      "sound_fail": "whump.",
-      "items": [ { "item": "char_forge", "count": 1 } ]
-    }
+    "bash": { "str_min": 30, "str_max": 80, "sound": "crunch!", "sound_fail": "whump." }
   },
   {
     "type": "furniture",
@@ -230,9 +212,9 @@
     "coverage": 30,
     "required_str": 10,
     "crafting_pseudo_item": "fake_anvil",
-    "deconstruct": { "items": [ { "item": "anvil", "count": 1 } ] },
+    "item": "anvil",
     "flags": [ "TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT" ],
-    "bash": { "str_min": 4, "str_max": 8, "sound": "crunch!", "sound_fail": "whump.", "items": [ { "item": "anvil", "count": 1 } ] }
+    "bash": { "str_min": 130, "str_max": 500, "sound": "crunch!", "sound_fail": "whump." }
   },
   {
     "type": "furniture",
@@ -246,15 +228,9 @@
     "coverage": 30,
     "required_str": 10,
     "crafting_pseudo_item": "fake_anvil",
-    "deconstruct": { "items": [ { "item": "anvil_bronze", "count": 1 } ] },
+    "item": "anvil_bronze",
     "flags": [ "TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT" ],
-    "bash": {
-      "str_min": 4,
-      "str_max": 8,
-      "sound": "crunch!",
-      "sound_fail": "whump.",
-      "items": [ { "item": "anvil_bronze", "count": 1 } ]
-    }
+    "bash": { "str_min": 110, "str_max": 450, "sound": "crunch!", "sound_fail": "whump." }
   },
   {
     "type": "furniture",
@@ -268,15 +244,9 @@
     "coverage": 30,
     "required_str": 20,
     "crafting_pseudo_item": "fake_anvil_heavy",
-    "deconstruct": { "items": [ { "item": "anvil_heavy", "count": 1 } ] },
+    "item": "anvil_heavy",
     "flags": [ "TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT" ],
-    "bash": {
-      "str_min": 4,
-      "str_max": 8,
-      "sound": "crunch!",
-      "sound_fail": "whump.",
-      "items": [ { "item": "anvil_heavy", "count": 1 } ]
-    }
+    "bash": { "str_min": 190, "str_max": 800, "sound": "crunch!", "sound_fail": "whump." }
   },
   {
     "type": "furniture",
@@ -290,14 +260,52 @@
     "coverage": 30,
     "required_str": 10,
     "crafting_pseudo_item": "fake_anvil",
-    "deconstruct": { "items": [ { "item": "anvil_crude", "count": 1 } ] },
+    "item": "anvil_crude",
+    "flags": [ "TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT" ],
+    "bash": { "str_min": 120, "str_max": 480, "sound": "crunch!", "sound_fail": "whump." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_anvil_ingot",
+    "name": "makeshift anvil",
+    "looks_like": "f_anvil",
+    "description": "A steel ingot mounted into a heavy log to make a suitable anvil.  Smaller steel pieces serve as shaping surfaces.",
+    "symbol": "^",
+    "color": "light_red",
+    "move_cost_mod": -1,
+    "coverage": 30,
+    "required_str": 10,
+    "crafting_pseudo_item": "fake_anvil",
+    "deconstruct": { "items": [ { "item": "10l_steel", "count": 1 }, { "item": "spike", "count": 5 }, { "item": "log", "count": 1 } ] },
     "flags": [ "TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT" ],
     "bash": {
-      "str_min": 4,
-      "str_max": 8,
+      "str_min": 14,
+      "str_max": 28,
       "sound": "crunch!",
       "sound_fail": "whump.",
-      "items": [ { "item": "anvil_crude", "count": 1 } ]
+      "items": [ { "item": "10l_steel", "count": 1 }, { "item": "log", "count": 1 } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_anvil_scavenged",
+    "name": "scavenged anvil",
+    "looks_like": "f_anvil",
+    "description": "An old machinery part, cut and smoothed to make a serviceable anvil, and mounted to a heavy log stand.",
+    "symbol": "^",
+    "color": "light_red",
+    "move_cost_mod": -1,
+    "coverage": 30,
+    "required_str": 10,
+    "crafting_pseudo_item": "fake_anvil",
+    "deconstruct": { "items": [ { "item": "anvil_scavenged", "count": 1 }, { "item": "log", "count": 1 } ] },
+    "flags": [ "TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT" ],
+    "bash": {
+      "str_min": 14,
+      "str_max": 28,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "anvil_scavenged", "count": 1 }, { "item": "log", "count": 1 } ]
     }
   },
   {
@@ -312,9 +320,9 @@
     "coverage": 40,
     "required_str": -1,
     "crafting_pseudo_item": "still",
-    "deconstruct": { "items": [ { "item": "still", "count": 1 } ] },
+    "item": "still",
     "flags": [ "TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT" ],
-    "bash": { "str_min": 4, "str_max": 8, "sound": "crunch!", "sound_fail": "whump.", "items": [ { "item": "still", "count": 1 } ] }
+    "bash": { "str_min": 60, "str_max": 150, "sound": "crunch!", "sound_fail": "whump." }
   },
   {
     "type": "furniture",
@@ -327,18 +335,15 @@
     "coverage": 40,
     "required_str": -1,
     "crafting_pseudo_item": "screw_press",
-    "deconstruct": { "items": [ { "item": "screw_press_tool", "count": 1 } ] },
+    "item": "screw_press_tool",
     "flags": [ "TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT" ],
     "bash": {
       "str_min": 4,
       "str_max": 8,
       "sound": "crunch!",
       "sound_fail": "whump.",
-      "items": [
-        { "item": "wood_beam", "count": [ 0, 2 ] },
-        { "item": "2x4", "count": [ 2, 6 ] },
-        { "item": "splinter", "count": [ 5, 20 ] }
-      ]
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -403,18 +408,8 @@
     "max_volume": "200 L",
     "crafting_pseudo_item": "fake_char_kiln",
     "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM" ],
-    "deconstruct": { "items": [ { "item": "char_kiln", "count": 1 } ] },
-    "bash": {
-      "str_min": 12,
-      "str_max": 40,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "mc_steel_lump", "count": [ 2, 12 ] },
-        { "item": "mc_steel_chunk", "count": [ 4, 15 ] },
-        { "item": "pipe", "count": [ 0, 1 ] }
-      ]
-    }
+    "item": "char_kiln",
+    "bash": { "str_min": 12, "str_max": 40, "sound": "metal screeching!", "sound_fail": "clang!" }
   },
   {
     "type": "furniture",
@@ -428,19 +423,9 @@
     "coverage": 40,
     "required_str": -1,
     "examine_action": "kiln_full",
-    "deconstruct": { "items": [ { "item": "char_kiln", "count": 1 } ] },
+    "item": "char_kiln",
     "flags": [ "NOITEM", "SEALED", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM" ],
-    "bash": {
-      "str_min": 12,
-      "str_max": 40,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "mc_steel_lump", "count": [ 2, 12 ] },
-        { "item": "mc_steel_chunk", "count": [ 4, 15 ] },
-        { "item": "pipe", "count": [ 0, 1 ] }
-      ]
-    }
+    "bash": { "str_min": 12, "str_max": 40, "sound": "metal screeching!", "sound_fail": "clang!" }
   },
   {
     "type": "furniture",
@@ -510,18 +495,8 @@
     "max_volume": "200 L",
     "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM", "EASY_DECONSTRUCT" ],
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "arc_furnace" },
-    "deconstruct": { "items": [ { "item": "arc_furnace", "count": 1 } ] },
-    "bash": {
-      "str_min": 18,
-      "str_max": 40,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "scrap", "count": [ 2, 4 ] },
-        { "item": "ch_steel_chunk", "count": [ 0, 3 ] },
-        { "item": "pipe", "count": [ 0, 4 ] }
-      ]
-    },
+    "item": "arc_furnace",
+    "bash": { "str_min": 18, "str_max": 40, "sound": "metal screeching!", "sound_fail": "clang!" },
     "crafting_pseudo_item": "fake_arc_furnace"
   },
   {
@@ -709,14 +684,8 @@
     "flags": [ "TRANSPARENT", "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
     "crafting_pseudo_item": "fake_char_smoker",
     "examine_action": "smoker_options",
-    "deconstruct": { "items": [ { "item": "metal_smoking_rack", "count": 1 } ] },
-    "bash": {
-      "str_min": 18,
-      "str_max": 50,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [ { "item": "scrap", "count": 4 }, { "item": "pipe", "count": [ 3, 5 ] } ]
-    }
+    "item": "metal_smoking_rack",
+    "bash": { "str_min": 18, "str_max": 50, "sound": "metal screeching!", "sound_fail": "clang!" }
   },
   {
     "type": "furniture",
@@ -732,14 +701,8 @@
     "flags": [ "TRANSPARENT", "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
     "crafting_pseudo_item": "fake_char_smoker",
     "examine_action": "smoker_options",
-    "deconstruct": { "items": [ { "item": "metal_smoking_rack", "count": 1 } ] },
-    "bash": {
-      "str_min": 18,
-      "str_max": 50,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [ { "item": "scrap", "count": 4 }, { "item": "pipe", "count": [ 3, 5 ] } ]
-    }
+    "item": "metal_smoking_rack",
+    "bash": { "str_min": 18, "str_max": 50, "sound": "metal screeching!", "sound_fail": "clang!" }
   },
   {
     "type": "furniture",
@@ -810,7 +773,9 @@
         { "item": "2x4", "count": [ 4, 10 ] },
         { "item": "nail", "charges": [ 10, 30 ] },
         { "item": "splinter", "count": [ 5, 10 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -847,18 +812,8 @@
     "coverage": 40,
     "required_str": 10,
     "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT" ],
-    "bash": {
-      "str_min": 40,
-      "str_max": 150,
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "pipe", "count": [ 0, 1 ] },
-        { "item": "ch_steel_chunk", "count": [ 2, 4 ] },
-        { "item": "ch_steel_lump", "count": [ 1, 2 ] },
-        { "item": "scrap", "count": [ 2, 4 ] }
-      ]
-    },
-    "deconstruct": { "items": [ { "item": "beverly_shear", "count": 1 } ] },
+    "bash": { "str_min": 40, "str_max": 150, "sound_fail": "clang!" },
+    "item": "beverly_shear",
     "crafting_pseudo_item": "fake_beverly_shear"
   },
   {
@@ -874,19 +829,8 @@
     "required_str": 10,
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "drill_press" },
     "flags": [ "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "drill_press", "count": 1 } ] },
-    "bash": {
-      "str_min": 40,
-      "str_max": 150,
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "cable", "charges": [ 0, 4 ] },
-        { "item": "scrap", "count": [ 8, 12 ] },
-        { "item": "ch_steel_chunk", "count": [ 2, 4 ] },
-        { "item": "plastic_chunk", "count": [ 4, 10 ] },
-        { "item": "steel_plate", "count": [ 2, 4 ] }
-      ]
-    }
+    "item": "drill_press",
+    "bash": { "str_min": 40, "str_max": 150, "sound_fail": "clang!" }
   },
   {
     "type": "furniture",
@@ -928,19 +872,8 @@
     "required_str": 10,
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "tablesaw" },
     "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "tablesaw", "count": 1 } ] },
-    "bash": {
-      "str_min": 40,
-      "str_max": 150,
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "cable", "charges": [ 0, 4 ] },
-        { "item": "scrap", "count": [ 8, 12 ] },
-        { "item": "ch_steel_chunk", "count": [ 2, 4 ] },
-        { "item": "plastic_chunk", "count": [ 4, 10 ] },
-        { "item": "steel_plate", "count": [ 2, 4 ] }
-      ]
-    }
+    "item": "tablesaw",
+    "bash": { "str_min": 40, "str_max": 150, "sound_fail": "clang!" }
   },
   {
     "type": "furniture",
@@ -955,19 +888,8 @@
     "required_str": 10,
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "mitresaw" },
     "flags": [ "BLOCKSDOOR", "TRANSPARENT", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "mitresaw", "count": 1 } ] },
-    "bash": {
-      "str_min": 40,
-      "str_max": 150,
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "cable", "charges": [ 0, 4 ] },
-        { "item": "scrap", "count": [ 8, 12 ] },
-        { "item": "ch_steel_chunk", "count": [ 2, 4 ] },
-        { "item": "plastic_chunk", "count": [ 4, 10 ] },
-        { "item": "steel_plate", "count": [ 2, 4 ] }
-      ]
-    }
+    "item": "mitresaw",
+    "bash": { "str_min": 40, "str_max": 150, "sound_fail": "clang!" }
   },
   {
     "type": "furniture",
@@ -982,19 +904,8 @@
     "required_str": 10,
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "bandsaw" },
     "flags": [ "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "bandsaw", "count": 1 } ] },
-    "bash": {
-      "str_min": 40,
-      "str_max": 150,
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "cable", "charges": [ 0, 4 ] },
-        { "item": "scrap", "count": [ 8, 12 ] },
-        { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
-        { "item": "plastic_chunk", "count": [ 4, 10 ] },
-        { "item": "steel_plate", "count": [ 2, 4 ] }
-      ]
-    }
+    "item": "bandsaw",
+    "bash": { "str_min": 40, "str_max": 150, "sound_fail": "clang!" }
   },
   {
     "type": "furniture",
@@ -1009,19 +920,8 @@
     "required_str": 14,
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "router" },
     "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "router", "count": 1 } ] },
-    "bash": {
-      "str_min": 40,
-      "str_max": 150,
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "cable", "charges": [ 0, 4 ] },
-        { "item": "scrap", "count": [ 8, 12 ] },
-        { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
-        { "item": "plastic_chunk", "count": [ 4, 10 ] },
-        { "item": "steel_plate", "count": [ 2, 4 ] }
-      ]
-    }
+    "item": "router",
+    "bash": { "str_min": 40, "str_max": 150, "sound_fail": "clang!" }
   },
   {
     "type": "furniture",
@@ -1036,19 +936,8 @@
     "required_str": 12,
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "planer" },
     "flags": [ "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "planer", "count": 1 } ] },
-    "bash": {
-      "str_min": 40,
-      "str_max": 150,
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "cable", "charges": [ 0, 4 ] },
-        { "item": "scrap", "count": [ 8, 12 ] },
-        { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
-        { "item": "plastic_chunk", "count": [ 4, 10 ] },
-        { "item": "steel_plate", "count": [ 2, 4 ] }
-      ]
-    }
+    "item": "planer",
+    "bash": { "str_min": 40, "str_max": 150, "sound_fail": "clang!" }
   },
   {
     "type": "furniture",
@@ -1063,19 +952,8 @@
     "required_str": 14,
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "jointer" },
     "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "jointer", "count": 1 } ] },
-    "bash": {
-      "str_min": 40,
-      "str_max": 150,
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "cable", "charges": [ 0, 4 ] },
-        { "item": "scrap", "count": [ 8, 12 ] },
-        { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
-        { "item": "plastic_chunk", "count": [ 4, 10 ] },
-        { "item": "steel_plate", "count": [ 2, 4 ] }
-      ]
-    }
+    "item": "jointer",
+    "bash": { "str_min": 40, "str_max": 150, "sound_fail": "clang!" }
   },
   {
     "type": "furniture",
@@ -1090,22 +968,8 @@
     "required_str": 16,
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "catalytic_cracking_reactor" },
     "flags": [ "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
-    "bash": {
-      "str_min": 40,
-      "str_max": 150,
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "element", "count": [ 4, 8 ] },
-        { "item": "55gal_drum", "count": [ 3, 5 ] },
-        { "item": "pipe", "count": [ 2, 5 ] },
-        { "item": "thermometer", "count": [ 1, 4 ] },
-        { "item": "well_pump", "count": [ 0, 1 ] },
-        { "item": "laptop", "count": [ 0, 1 ] },
-        { "item": "pump_complex", "count": [ 0, 3 ] },
-        { "item": "cable", "count": [ 3, 8 ] }
-      ]
-    },
-    "deconstruct": { "items": [ { "item": "catalytic_cracking_reactor", "count": 1 } ] }
+    "bash": { "str_min": 40, "str_max": 150, "sound_fail": "clang!" },
+    "item": "catalytic_cracking_reactor"
   },
   {
     "type": "furniture",
@@ -1120,19 +984,8 @@
     "required_str": 16,
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "hydraulic_press" },
     "flags": [ "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
-    "bash": {
-      "str_min": 40,
-      "str_max": 150,
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "cable", "charges": [ 0, 4 ] },
-        { "item": "scrap", "count": [ 8, 12 ] },
-        { "item": "ch_steel_chunk", "count": [ 2, 4 ] },
-        { "item": "ch_steel_lump", "count": [ 1, 2 ] },
-        { "item": "steel_plate", "count": [ 1, 2 ] }
-      ]
-    },
-    "deconstruct": { "items": [ { "item": "hydraulic_press", "count": 1 } ] }
+    "bash": { "str_min": 40, "str_max": 150, "sound_fail": "clang!" },
+    "item": "hydraulic_press"
   },
   {
     "type": "furniture",
@@ -1181,23 +1034,8 @@
     "required_str": 12,
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "air_compressor" },
     "flags": [ "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "air_compressor", "count": 1 } ] },
-    "bash": {
-      "str_min": 18,
-      "str_max": 50,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
-        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
-        { "item": "sheet_metal", "count": [ 1, 2 ] },
-        { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "hose", "count": [ 0, 1 ] },
-        { "item": "e_scrap", "count": [ 5, 10 ] },
-        { "item": "plastic_chunk", "count": [ 0, 2 ] }
-      ]
-    }
+    "item": "air_compressor",
+    "bash": { "str_min": 18, "str_max": 50, "sound": "metal screeching!", "sound_fail": "clang!" }
   },
   {
     "type": "furniture",
@@ -1212,18 +1050,8 @@
     "coverage": 30,
     "required_str": 10,
     "flags": [ "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "manual_tire_changer", "count": 1 } ] },
-    "bash": {
-      "str_min": 18,
-      "str_max": 50,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
-        { "item": "plastic_chunk", "count": [ 0, 2 ] }
-      ]
-    },
+    "item": "manual_tire_changer",
+    "bash": { "str_min": 18, "str_max": 50, "sound": "metal screeching!", "sound_fail": "clang!" },
     "crafting_pseudo_item": "fake_tire_changer"
   },
   {
@@ -1259,7 +1087,9 @@
         { "item": "sheet_metal_small", "count": [ 2, 6 ] },
         { "item": "scrap", "count": [ 5, 10 ] },
         { "item": "splinter", "count": 1 }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1295,7 +1125,9 @@
         { "item": "sheet_metal_small", "count": [ 2, 6 ] },
         { "item": "scrap", "count": [ 5, 10 ] },
         { "item": "splinter", "count": 1 }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1322,7 +1154,9 @@
         { "item": "2x4", "count": [ 4, 8 ] },
         { "item": "cordage_6", "count": [ 80, 120 ] },
         { "item": "splinter", "count": 2 }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1349,7 +1183,9 @@
         { "item": "2x4", "count": [ 4, 8 ] },
         { "item": "cordage_6", "count": [ 80, 120 ] },
         { "item": "splinter", "count": 2 }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1456,14 +1292,8 @@
     "examine_action": "deployed_furniture",
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "MOUNTABLE", "ALLOW_FIELD_EFFECT", "BUTCHER_EQ" ],
     "crafting_pseudo_item": "fake_butcher_rack",
-    "deconstruct": { "items": [ { "item": "metal_butcher_rack", "count": 1 } ] },
-    "bash": {
-      "str_min": 18,
-      "str_max": 50,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [ { "item": "scrap", "count": [ 1, 3 ] }, { "item": "pipe", "count": [ 1, 3 ] } ]
-    }
+    "item": "metal_butcher_rack",
+    "bash": { "str_min": 18, "str_max": 50, "sound": "metal screeching!", "sound_fail": "clang!" }
   },
   {
     "id": "f_hanging_meathook",
@@ -1490,19 +1320,8 @@
     "required_str": -1,
     "examine_action": "quern_examine",
     "flags": [ "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "BLOCKSDOOR" ],
-    "deconstruct": { "items": [ { "item": "wind_mill", "count": 1 } ] },
-    "bash": {
-      "str_min": 16,
-      "str_max": 50,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "scrap", "count": [ 4, 8 ] },
-        { "item": "pipe", "count": [ 1, 3 ] },
-        { "item": "sheet_metal_small", "count": [ 4, 8 ] },
-        { "item": "rock", "count": [ 8, 15 ] }
-      ]
-    }
+    "item": "wind_mill",
+    "bash": { "str_min": 16, "str_max": 50, "sound": "metal screeching!", "sound_fail": "clang!" }
   },
   {
     "type": "furniture",
@@ -1516,19 +1335,8 @@
     "required_str": -1,
     "examine_action": "quern_examine",
     "flags": [ "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "BLOCKSDOOR" ],
-    "deconstruct": { "items": [ { "item": "wind_mill", "count": 1 } ] },
-    "bash": {
-      "str_min": 16,
-      "str_max": 50,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "scrap", "count": [ 4, 8 ] },
-        { "item": "pipe", "count": [ 1, 3 ] },
-        { "item": "sheet_metal_small", "count": [ 4, 8 ] },
-        { "item": "rock", "count": [ 8, 15 ] }
-      ]
-    }
+    "item": "wind_mill",
+    "bash": { "str_min": 16, "str_max": 50, "sound": "metal screeching!", "sound_fail": "clang!" }
   },
   {
     "type": "furniture",
@@ -1541,20 +1349,14 @@
     "required_str": -1,
     "examine_action": "quern_examine",
     "flags": [ "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "BLOCKSDOOR" ],
-    "deconstruct": { "items": [ { "item": "water_mill", "count": 1 } ] },
+    "item": "water_mill",
     "bash": {
       "str_min": 12,
       "str_max": 50,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [
-        { "item": "2x4", "count": [ 1, 5 ] },
-        { "item": "nail", "charges": [ 5, 15 ] },
-        { "item": "splinter", "count": [ 20, 30 ] },
-        { "item": "sheet_metal_small", "count": [ 2, 3 ] },
-        { "item": "scrap", "count": [ 3, 5 ] },
-        { "item": "rock", "count": [ 8, 15 ] }
-      ]
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1569,20 +1371,14 @@
     "required_str": -1,
     "examine_action": "quern_examine",
     "flags": [ "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "BLOCKSDOOR" ],
-    "deconstruct": { "items": [ { "item": "water_mill", "count": 1 } ] },
+    "item": "water_mill",
     "bash": {
       "str_min": 12,
       "str_max": 50,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [
-        { "item": "2x4", "count": [ 1, 5 ] },
-        { "item": "nail", "charges": [ 5, 15 ] },
-        { "item": "splinter", "count": [ 20, 30 ] },
-        { "item": "sheet_metal_small", "count": [ 2, 3 ] },
-        { "item": "scrap", "count": [ 3, 5 ] },
-        { "item": "rock", "count": [ 8, 15 ] }
-      ]
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1859,7 +1655,7 @@
     "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "NOCOLLIDE" ],
     "examine_action": "deployed_furniture",
     "deployed_item": "rope_30",
-    "deconstruct": { "items": [ { "item": "rope_30", "count": 1 } ] },
+    "item": "rope_30",
     "crafting_pseudo_item": "fake_lift_light"
   },
   {

@@ -105,7 +105,9 @@
       "str_max": 20,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "splinter", "count": [ 15, 30 ] } ]
+      "items": [ { "item": "splinter", "count": [ 15, 30 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -198,7 +200,9 @@
       "str_min": 50,
       "str_max": 400,
       "str_min_supported": 100,
-      "items": [ { "item": "splinter", "count": [ 2, 8 ] } ]
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -367,7 +371,7 @@
     "id": "f_alembic",
     "//": "Just a copy from the Magiclysm one",
     "name": "standing alembic",
-    "looks_like": "f_still",
+    "looks_like": "f_alembic",
     "description": "A large glass and copper alembic for distilling alchemical concoctions.  It consists of a copper pot with rising spires of twisted glass draining into various removable bottles.",
     "symbol": "&",
     "color": "light_blue",
@@ -397,5 +401,17 @@
         { "item": "glass_shard", "count": [ 25, 50 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_xe_magic_circle",
+    "name": "magick circle",
+    "looks_like": "f_magic_circle",
+    "move_cost_mod": 0,
+    "symbol": "O",
+    "color": "red",
+    "required_str": -1,
+    "flags": [ "ALLOW_FIELD_EFFECT", "TRANSPARENT" ],
+    "description": "This is a rough magic circle, carved into the ground and decorated with blood, candles, and other small knick-knacks."
   }
 ]

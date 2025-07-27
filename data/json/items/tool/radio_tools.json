@@ -202,5 +202,52 @@
       }
     ],
     "tool_ammo": [ "battery" ]
+  },
+  {
+    "id": "balthazar_radio",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "modified radio" },
+    "description": "A modified portable radio.  A mess of metal and wires has been attached to the back and the frequency dial has been removed.",
+    "//": "Slightly heavier and bulkier since it has had a block attached to the back",
+    "weight": "325 g",
+    "volume": "1250 ml",
+    "price": "10 USD",
+    "price_postapoc": "2 USD",
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "faults": [ { "fault_group": "electronic_general" } ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Use radio",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_BALTHAZAR_RADIO_FALSE",
+          "condition": { "u_has_mission": "MISSION_FIND_BALTHAZAR_BUNKER" },
+          "effect": [ { "u_message": "You turn the radio on.\n\nJust static.", "popup": true } ]
+        },
+        {
+          "id": "EOC_BALTHAZAR_RADIO_TRUE",
+          "condition": { "not": { "u_has_mission": "MISSION_FIND_BALTHAZAR_BUNKER" } },
+          "effect": [
+            {
+              "if": { "math": [ "balthazar_power < 50" ] },
+              "then": {
+                "u_message": "You turn on the radio.  You hear a broadcast:\n\"If anyone can hear, I'm stuck in a bunker and need help.  I'm also transmitting my coordinates.  This message will repeat.\"\nYou note down the coordinates.",
+                "popup": true
+              },
+              "else": {
+                "u_message": "You turn on the radio.  You hear a broadcast:\n\"If anyone who is listening to this broadcast is willing to do work for weapons, head to the transmitted coordinates.  This message will repeat.\"\nYou write down the coordinates.",
+                "popup": true
+              }
+            },
+            { "assign_mission": "MISSION_FIND_BALTHAZAR_BUNKER" }
+          ]
+        }
+      ]
+    },
+    "melee_damage": { "bash": 6 }
   }
 ]

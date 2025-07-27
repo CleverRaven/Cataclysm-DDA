@@ -37,6 +37,7 @@
 #include "overmapbuffer.h"
 #include "point.h"
 #include "recipe.h"
+#include "regional_settings.h"
 #include "rng.h"
 #include "test_data.h"
 #include "type_id.h"
@@ -519,7 +520,8 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
             if( found ) {
                 FAIL( "oter_type_id was found in map but had SHOULD_NOT_SPAWN flag" );
             } else {
-                bool is_whitelisted = id->has_flag( oter_flags::ocean );
+                //oceans and highways are not guaranteed to be inside the checked overmap radius
+                bool is_whitelisted = id->has_flag( oter_flags::ocean ) || id->has_flag( oter_flags::highway );
                 for( const std::regex &wl : test_data::overmap_terrain_coverage_whitelist ) {
                     std::cmatch m;
                     is_whitelisted = is_whitelisted || (
@@ -647,4 +649,54 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
             }
         }
     }
+}
+
+TEST_CASE( "highway_find_intersection_bounds", "[overmap]" )
+{
+    overmap_buffer.clear();
+    overmap_buffer.set_highway_global_offset();
+    point_abs_om pos = overmap_buffer.get_highway_global_offset();
+    const overmap_highway_settings &highway_settings = overmap_buffer.get_default_settings(
+                pos ).overmap_highway;
+
+    const int c_seperation = highway_settings.grid_column_seperation;
+    const int r_seperation = highway_settings.grid_row_seperation;
+
+    const int col_test = c_seperation / 2;
+    const int row_test = r_seperation / 2;
+    const int col_test_2 = c_seperation * 1.5;
+    const int row_test_2 = r_seperation * 1.5;
+
+    //check points in 8 directions of origin
+    std::vector<std::pair<point_rel_om, point_rel_om>> input_output_pairs = {
+        //inside quadrants surrounding origin + 0,0
+        { point_rel_om( col_test, 0 ), point_rel_om( 0, 0 ) },
+        { point_rel_om( -col_test, 0 ), point_rel_om( -c_seperation, 0 ) },
+        { point_rel_om( 0, row_test ), point_rel_om( 0, 0 ) },
+        { point_rel_om( 0, -row_test ), point_rel_om( 0, -r_seperation ) },
+        { point_rel_om( col_test, row_test ), point_rel_om( 0, 0 ) },
+        { point_rel_om( -col_test, row_test ), point_rel_om( -c_seperation, 0 ) },
+        { point_rel_om( col_test, -row_test ), point_rel_om( 0, -r_seperation ) },
+        //on grid points
+        { point_rel_om( 0, 0 ), point_rel_om( 0, 0 ) },
+        { point_rel_om( -c_seperation, 0 ), point_rel_om( -c_seperation, 0 ) },
+        { point_rel_om( c_seperation, 0 ), point_rel_om( c_seperation, 0 ) },
+        { point_rel_om( 0, -r_seperation ), point_rel_om( 0, -r_seperation ) },
+        { point_rel_om( 0, r_seperation ), point_rel_om( 0, r_seperation ) },
+        //outside quadrants surrounding origin + 0,0
+        { point_rel_om( col_test_2, 0 ), point_rel_om( c_seperation, 0 ) },
+        { point_rel_om( -col_test_2, 0 ), point_rel_om( -c_seperation * 2, 0 ) },
+        { point_rel_om( 0, row_test_2 ), point_rel_om( 0, r_seperation ) },
+        { point_rel_om( 0, -row_test_2 ), point_rel_om( 0, -r_seperation * 2 ) },
+        { point_rel_om( col_test_2, row_test_2 ), point_rel_om( c_seperation, r_seperation ) },
+        { point_rel_om( -col_test_2, row_test_2 ), point_rel_om( -c_seperation * 2, r_seperation ) },
+        { point_rel_om( col_test_2, -row_test_2 ), point_rel_om( c_seperation, -r_seperation * 2 ) },
+        { point_rel_om( -col_test_2, -row_test_2 ), point_rel_om( -c_seperation * 2, -r_seperation * 2 ) }
+    };
+
+    for( const std::pair<point_rel_om, point_rel_om> &p : input_output_pairs ) {
+        std::vector<point_abs_om> bounds = overmap_buffer.find_highway_intersection_bounds( pos + p.first );
+        CHECK( bounds.back() == pos + p.second );
+    }
+
 }

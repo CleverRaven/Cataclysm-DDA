@@ -22,6 +22,7 @@
 #include "activity_handlers.h"
 #include "avatar.h"
 #include "bionics.h"
+#include "bodypart.h"
 #include "cata_assert.h"
 #include "cata_bitset.h"
 #include "cata_utility.h"
@@ -31,9 +32,9 @@
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
-#include "cuboid_rectangle.h"
 #include "damage.h"
 #include "debug.h"
+#include "effect_source.h"
 #include "enum_traits.h"
 #include "enums.h"
 #include "event.h"
@@ -50,7 +51,6 @@
 #include "itype.h"
 #include "json.h"
 #include "json_loader.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
@@ -145,9 +145,9 @@ static const vproto_id vehicle_prototype_none( "none" );
 
 static const zone_type_id zone_type_VEHICLE_PATROL( "VEHICLE_PATROL" );
 
-static const std::string flag_E_COMBUSTION( "E_COMBUSTION" );
 
 static const std::string flag_APPLIANCE( "APPLIANCE" );
+static const std::string flag_E_COMBUSTION( "E_COMBUSTION" );
 static const std::string flag_WIRING( "WIRING" );
 
 //~ Name for an array of electronic power grid appliances, like batteries and solar panels
@@ -219,6 +219,18 @@ units::volume vehicle_stack::max_volume() const
     }
     // Set max volume for vehicle cargo to prevent integer overflow
     return std::min( vpi.size, 10000_liter );
+}
+
+units::volume vehicle_stack::stored_volume() const
+{
+    if( vp.get_base().has_var( "tied_down_furniture" ) ) { // There's a furniture in the way!!
+        return max_volume();
+    }
+    units::volume ret = 0_ml;
+    for( const item &it : *items ) {
+        ret += it.volume();
+    }
+    return ret;
 }
 
 // Vehicle class methods.
@@ -1514,6 +1526,150 @@ bool vehicle::is_connected( const vehicle_part &to, const vehicle_part &from,
     return false;
 }
 
+void vehicle::recalculate_enchantment_cache()
+{
+    enchantment_cache.clear();
+
+    for( const auto &elem : effects ) {
+        for( const enchantment_id &ench_id : elem.first->enchantments ) {
+            const enchantment &ench = ench_id.obj();
+            if( ench.is_active( *this, true ) ) {
+                enchantment_cache.force_add( ench, *this );
+            }
+        }
+    }
+
+    for( vehicle_part &part : parts ) {
+        if( part.removed ) {
+            continue;
+        }
+        for( const enchantment_id &ench_id : part.info().enchantments ) {
+            const enchantment &ench = ench_id.obj();
+            if( ench.is_active( *this, part.enabled ) && ench.is_vehicle_relevant() ) {
+                enchantment_cache.force_add( ench, *this );
+            }
+        }
+    }
+}
+
+void vehicle::add_effect( const effect_source &source, const efftype_id &eff_id,
+                          const time_duration &dur, bool permanent, int intensity )
+{
+    if( !eff_id.is_valid() ) {
+        debugmsg( "Invalid effect, ID: %s", eff_id.c_str() );
+        return;
+    }
+    const effect_type &type = eff_id.obj();
+
+    // Then check if the effect is blocked by another
+    for( auto &elem : effects ) {
+        for( const auto &blocked_effect : elem.second.get_blocks_effects() ) {
+            if( blocked_effect == eff_id ) {
+                // The effect is blocked by another, return
+                return;
+            }
+        }
+    }
+
+    bool found = false;
+    // Check if we already have it
+    auto found_effect = effects.find( eff_id );
+    if( found_effect != effects.end() ) {
+        found = true;
+        effect &e = found_effect->second;
+        // If we do, mod the duration, factoring in the mod value
+        e.mod_duration( dur * e.get_dur_add_perc() / 100 );
+        // Limit to max duration
+        if( e.get_duration() > e.get_max_duration() ) {
+            e.set_duration( e.get_max_duration() );
+        }
+        // Adding a permanent effect makes it permanent
+        if( e.is_permanent() ) {
+            e.pause_effect();
+        }
+    }
+
+    if( !found ) {
+        // If we don't already have it then add a new one
+
+        // Now we can make the new effect for application
+        effect e( effect_source( source ), &type, dur, bodypart_str_id::NULL_ID(), permanent, intensity,
+                  calendar::turn );
+        // Bound to max duration
+        if( e.get_duration() > e.get_max_duration() ) {
+            e.set_duration( e.get_max_duration() );
+        }
+
+        // Force intensity if it is duration based
+        if( e.get_int_dur_factor() != 0_turns ) {
+            const int intensity = std::ceil( e.get_duration() / e.get_int_dur_factor() );
+            e.set_intensity( std::max( 1, intensity ) );
+        }
+        // Bound new effect intensity by [1, max intensity]
+        if( e.get_intensity() < 1 ) {
+            add_msg_debug( debugmode::DF_CREATURE, "Bad intensity, ID: %s", e.get_id().c_str() );
+            e.set_intensity( 1 );
+        } else if( e.get_intensity() > e.get_max_intensity() ) {
+            e.set_intensity( e.get_max_intensity() );
+        }
+        effects[eff_id] = e;
+    }
+}
+
+void vehicle::process_effects()
+{
+    // id's of all effects to be removed.
+    std::vector<efftype_id> rem_ids;
+
+    // Decay/removal of effects
+    for( auto &elem : effects ) {
+        // Add any effects that others remove to the removal list
+        for( const auto &removed_effect : elem.second.get_removes_effects() ) {
+            rem_ids.push_back( removed_effect );
+        }
+        std::vector<bodypart_id> empty_bp;
+        effect &e = elem.second;
+
+        // Run decay effects, marking effects for removal as necessary.
+        e.decay( rem_ids, empty_bp, calendar::turn, false );
+    }
+
+    // Actually remove effects. This should be the last thing done in process_effects().
+    for( efftype_id &id : rem_ids ) {
+        remove_effect( id );
+    }
+}
+
+bool vehicle::has_visible_effect()
+{
+    for( const auto &elem : effects ) {
+        if( elem.first->is_show_in_info() ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+std::vector<std::reference_wrapper<const effect>> vehicle::get_effects() const
+{
+    std::vector<std::reference_wrapper<const effect>> effs;
+    effs.reserve( effects.size() );
+    for( const std::pair<const efftype_id, effect> &_it : effects ) {
+        effs.emplace_back( _it.second );
+    }
+    return effs;
+}
+
+void vehicle::remove_effect( const efftype_id &eff_id )
+{
+    effects.erase( eff_id );
+}
+
+bool vehicle::has_effect( const efftype_id &eff_id ) const
+{
+    return effects.count( eff_id );
+}
+
 bool vehicle::is_appliance() const
 {
     return has_tag( flag_APPLIANCE );
@@ -1594,6 +1750,7 @@ int vehicle::install_part( map &here, const point_rel_ms &dp, vehicle_part &&vp 
     const int vp_installed_index = parts.size() - 1;
     refresh( );
     coeff_air_changed = true;
+    recalculate_enchantment_cache();
     return vp_installed_index;
 }
 
@@ -3634,7 +3791,7 @@ units::mass vehicle::total_mass( map &here ) const
         calc_mass_center( here, false );
     }
 
-    return mass_cache;
+    return enchantment_cache.modify_value( enchant_vals::mod::TOTAL_WEIGHT, mass_cache );
 }
 
 units::mass vehicle::unloaded_mass() const
@@ -3647,7 +3804,7 @@ units::mass vehicle::unloaded_mass() const
         m_total += vp.part().base.weight();
 
     }
-    return m_total;
+    return enchantment_cache.modify_value( enchant_vals::mod::TOTAL_WEIGHT, m_total );
 }
 
 units::mass vehicle::weight_on_wheels( map &here ) const
@@ -3663,7 +3820,8 @@ units::mass vehicle::weight_on_wheels( map &here ) const
             }
         }
     }
-    return vehicle_mass - animal_mass;
+    return enchantment_cache.modify_value( enchant_vals::mod::TOTAL_WEIGHT,
+                                           vehicle_mass - animal_mass );
 }
 
 const point_rel_ms &vehicle::rotated_center_of_mass( map &here ) const
@@ -4943,21 +5101,28 @@ bool vehicle::handle_potential_theft( Character const &you, bool check_only, boo
 
 bool vehicle::balanced_wheel_config( map &here ) const
 {
-    point_rel_ms min = point_rel_ms::max;
-    point_rel_ms max = point_rel_ms::min;
-    // find the bounding box of the wheels
+    // Check center of mass inside wheels convex hull
+    const point_rel_ms &com = local_center_of_mass( here );
+
+    // Calculate angle from COM to each wheel
+    std::vector<double> angles;
     for( const int &w : wheelcache ) {
         const point_rel_ms &pt = parts[ w ].mount;
-        min.x() = std::min( min.x(), pt.x() );
-        min.y() = std::min( min.y(), pt.y() );
-        max.x() = std::max( max.x(), pt.x() );
-        max.y() = std::max( max.y(), pt.y() );
+        angles.push_back( std::atan2( pt.y() - com.y(), pt.x() - com.x() ) );
     }
 
-    // Check center of mass inside support of wheels (roughly)
-    const point_rel_ms &com = local_center_of_mass( here );
-    const inclusive_rectangle<point_rel_ms> support( min, max );
-    return support.contains( com );
+    // Find gaps between angles
+    std::sort( angles.begin(), angles.end() );
+    double max_angle_gap = 0;
+    const size_t count = angles.size();
+    for( size_t i = 0; i < count; i++ ) {
+        const double angle_gap = ( ( i == count - 1 ) ? ( angles[ 0 ] + M_PI * 2 ) : angles[i + 1] ) -
+                                 angles[i];
+        max_angle_gap = std::max( max_angle_gap, angle_gap );
+    }
+
+    // Any gap greater than 180 degrees means the COM is outside the convex hull of the wheels
+    return max_angle_gap <= M_PI;
 }
 
 bool vehicle::valid_wheel_config( map &here ) const
@@ -5016,7 +5181,8 @@ float vehicle::handling_difficulty( map &here ) const
     // TestVehicle but on fungal bed (0.5 friction) and bad steering = 10
     // TestVehicle but turned 90 degrees during this turn (0 align) = 10
     const float diff_mod = ( 1.0f - steer ) + ( 1.0f - ktraction ) + ( 1.0f - aligned );
-    return velocity * diff_mod / vehicles::vmiph_per_tile;
+    return enchantment_cache.modify_value( enchant_vals::mod::TURNING_DIFFICULTY,
+                                           velocity * diff_mod / vehicles::vmiph_per_tile );
 }
 
 units::power vehicle::engine_fuel_usage( const vehicle_part &vp ) const
@@ -5024,7 +5190,8 @@ units::power vehicle::engine_fuel_usage( const vehicle_part &vp ) const
     if( !is_engine_on( vp ) || is_perpetual_type( vp ) ) {
         return 0_W;
     }
-    const units::power usage = vp.info().energy_consumption;
+    units::power usage = vp.info().energy_consumption;
+    usage = enchantment_cache.modify_value( enchant_vals::mod::FUEL_USAGE, usage );
     if( vp.has_fault_flag( "DOUBLE_FUEL_CONSUMPTION" ) ) {
         return usage * 2;
     }
@@ -5373,7 +5540,7 @@ units::power vehicle::active_reactor_epower( map &here ) const
     for( const int p : reactors ) {
         const vehicle_part &vp = parts[p];
         if( vp.enabled && vp.is_available() &&
-            ( vp.info().has_flag( STATIC( std::string( "PERPETUAL" ) ) ) || vp.ammo_remaining( ) ) ) {
+            ( vp.info().has_flag( flag_PERPETUAL.str() ) || vp.ammo_remaining( ) ) ) {
             reactors_flow += part_epower( vp );
         }
     }
@@ -5473,7 +5640,7 @@ void vehicle::power_parts( map &here )
                 const int gen_energy_bat = power_to_energy_bat( part_epower( vp ), 1_turns );
                 if( vp.is_unavailable() ) {
                     continue;
-                } else if( vp.info().has_flag( STATIC( std::string( "PERPETUAL" ) ) ) ) {
+                } else if( vp.info().has_flag( flag_PERPETUAL.str() ) ) {
                     reactor_working = true;
                     delta_energy_bat += std::min( storage_deficit_bat, gen_energy_bat );
                 } else if( vp.ammo_remaining( ) > 0 ) {
@@ -8328,6 +8495,11 @@ void vehicle::calc_mass_center( map &here, bool use_precalc ) const
         }
         if( vp.part().info().cargo_weight_modifier != 100 ) {
             m_part_items *= static_cast<float>( vp.part().info().cargo_weight_modifier ) / 100.0f;
+        }
+        if( vp.has_feature( "FURNITURE_TIEDOWN" ) &&
+            vp.part().get_base().has_var( "tied_down_furniture" ) ) {
+            furn_str_id carried_furniture( vp.part().get_base().get_var( "tied_down_furniture" ) );
+            m_part_items += carried_furniture->mass;
         }
         m_part += m_part_items;
 

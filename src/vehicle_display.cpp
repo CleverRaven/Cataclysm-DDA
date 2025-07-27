@@ -41,7 +41,8 @@ vpart_display::vpart_display()
 
 vpart_display::vpart_display( const vehicle_part &vp )
     : id( vp.info().id )
-    , variant( vp.info().variants.at( vp.variant ) ) {}
+    , variant( vp.info().variants.at( vp.variant ) )
+    , carried_furn( vp.get_base().get_var( "tied_down_furniture" ) ) {}
 
 std::string vpart_display::get_tileset_id() const
 {
@@ -290,6 +291,12 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
         if( vp.has_flag( vp_flag::carried_flag ) ) {
             possible_msg += string_format( _( "  Part of a %s carried on a rack.\n" ),
                                            vp.carried_name() );
+            new_lines += 1;
+        }
+        if( vp.degradation() > 0 && vp.damage() == vp.degradation() ) {
+            // Some untranslated padding and a linebreak for formatting here, but we re-use the same string from item::repair_info()
+            possible_msg += string_format( "   %s\n",
+                                           _( "<color_c_red>Degraded and cannot be repaired beyond the current level.</color>" ) );
             new_lines += 1;
         }
 

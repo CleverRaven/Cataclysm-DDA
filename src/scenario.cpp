@@ -102,6 +102,12 @@ void scenario::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "missions", _missions, string_id_reader<::mission_type> {} );
 
     optional( jo, was_loaded, "requirement", _requirement );
+    optional( jo, was_loaded, "hard_requirement", hard_requirement, false );
+
+    if( hard_requirement && !_requirement ) {
+        jo.throw_error_at( "hard_requirement",
+                           "Cannot have hard requirement when object has no requirements" );
+    }
 
     optional( jo, was_loaded, "reveal_locale", reveal_locale, true );
     optional( jo, was_loaded, "distance_initial_visibility", distance_initial_visibility, 15 );
@@ -111,7 +117,8 @@ void scenario::load( const JsonObject &jo, std::string_view )
     if( !was_loaded ) {
 
         int _start_of_cataclysm_hour = 0;
-        int _start_of_cataclysm_day = 1 + get_option<int>( "SEASON_LENGTH" ) / 3 * 2;
+        // The cataclysm started 5 days before game start
+        int _start_of_cataclysm_day = ( 1 + get_option<int>( "SEASON_LENGTH" ) / 3 * 2 ) - 5;
         season_type _start_of_cataclysm_season = SPRING;
         int _start_of_cataclysm_year = 1;
         if( jo.has_member( "start_of_cataclysm" ) ) {
@@ -508,6 +515,11 @@ bool scenario::scenario_traits_conflict_with_profession_traits( const profession
     return false;
 }
 
+bool scenario::has_hard_requirement() const
+{
+    return hard_requirement;
+}
+
 const profession *scenario::weighted_random_profession() const
 {
     // Strategy: 1/3 of the time, return the generic profession (if it's permitted).
@@ -661,18 +673,23 @@ ret_val<void> scenario::can_afford( const scenario &current_scenario, const int 
 
 ret_val<void> scenario::can_pick() const
 {
+    const bool meta_progression = get_option<bool>( "META_PROGRESS" );
     // if meta progression is disabled then skip this
     if( get_past_achievements().is_completed( achievement_achievement_arcade_mode ) ||
-        !get_option<bool>( "META_PROGRESS" ) ) {
+        ( !meta_progression && !has_hard_requirement() ) ) {
         return ret_val<void>::make_success();
     }
 
     if( _requirement ) {
         const bool has_req = get_past_achievements().is_completed(
                                  _requirement.value()->id );
+        std::string fail_msg = _( "You must complete the achievement \"%s\" to unlock this scenario." );
+        if( !meta_progression ) {
+            fail_msg += _( "\nThis scenario can only be unlocked through achievements." );
+        }
         if( !has_req ) {
             return ret_val<void>::make_failure(
-                       _( "You must complete the achievement \"%s\" to unlock this scenario." ),
+                       fail_msg,
                        _requirement.value()->name() );
         }
     }

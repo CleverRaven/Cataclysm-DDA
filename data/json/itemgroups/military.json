@@ -463,6 +463,7 @@
       { "item": "e_tool", "prob": 60 },
       { "group": "gasmask_bag_full", "prob": 20 },
       { "item": "two_way_radio", "prob": 60, "charges": [ 0, 100 ] },
+      { "item": "balthazar_radio", "prob": 1 },
       { "group": "infantry_knives", "prob": 80 }
     ]
   },
@@ -691,7 +692,8 @@
       { "item": "instant_coffee", "prob": 25 },
       { "item": "con_milk", "prob": 10 },
       { "item": "milk_UHT", "prob": 25 },
-      { "prob": 20, "group": "cereal_box_small_4" },
+      { "prob": 20, "group": "box_cereal2" },
+      { "prob": 20, "group": "box_cereal3" },
       { "item": "sports_drink", "prob": 40 },
       { "item": "water_clean", "prob": 90 }
     ]

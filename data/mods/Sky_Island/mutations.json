@@ -40,9 +40,9 @@
   {
     "type": "mutation",
     "id": "mut_skyisland_sunblock",
-    "name": { "str": "Personal Sunblock" },
+    "name": { "str": "Personal Sunblock", "//~": "NO_I18N" },
+    "description": { "str": "As long as you are on the island, the sun cannot affect you.", "//~": "NO_I18N" },
     "points": 0,
-    "description": "As long as you are on the island, the sun cannot affect you.",
     "valid": false,
     "player_display": false,
     "purifiable": false,
@@ -51,12 +51,50 @@
   {
     "type": "mutation",
     "id": "mut_skyisland_sunblock_real",
-    "name": { "str": "Personal sunblock real" },
+    "name": { "str": "Personal Sunblock", "//~": "NO_I18N" },
+    "description": { "str": "As long as you are on the island, the sun cannot affect you.", "//~": "NO_I18N" },
     "points": 0,
-    "description": "As long as you are on the island, the sun cannot affect you.",
     "valid": false,
     "player_display": false,
     "purifiable": false,
     "integrated_armor": [ "sky_island_sunblock" ]
+  },
+  {
+    "type": "mutation",
+    "id": "mut_skyisland_windblock",
+    "name": { "str": "Personal Windblock", "//~": "NO_I18N" },
+    "description": { "str": "As long as you are on the island, the winds cannot affect you.", "//~": "NO_I18N" },
+    "points": 0,
+    "valid": false,
+    "player_display": false,
+    "purifiable": false,
+    "enchantments": [ { "condition": { "not": { "u_has_trait": "awayfromhome" } }, "mutations": [ "mut_skyisland_windblock_real" ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "mut_skyisland_windblock_real",
+    "name": { "str": "Personal Windblock Real", "//~": "NO_I18N" },
+    "description": { "str": "As long as you are on the island, the winds cannot affect you.", "//~": "NO_I18N" },
+    "points": 0,
+    "valid": false,
+    "player_display": false,
+    "purifiable": false,
+    "integrated_armor": [ "sky_island_windblock" ]
+  },
+  {
+    "type": "mutation",
+    "id": "mut_skyisland_personal_temperature_adaptation",
+    "name": { "str": "Personal Temperature Adaptation", "//~": "NO_I18N" },
+    "description": { "str": "As long as you are on the island, temperature cannot affect you.", "//~": "NO_I18N" },
+    "points": 0,
+    "valid": false,
+    "player_display": false,
+    "purifiable": false,
+    "enchantments": [
+      {
+        "condition": { "not": { "u_has_trait": "awayfromhome" } },
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 999 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 999 } ]
+      }
+    ]
   }
 ]

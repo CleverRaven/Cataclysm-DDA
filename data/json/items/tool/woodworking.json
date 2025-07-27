@@ -125,7 +125,7 @@
       ]
     },
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE" ],
-    "melee_damage": { "bash": 4, "cut": 70 }
+    "melee_damage": { "bash": 4, "cut": 18 }
   },
   {
     "id": "polesaw_off",
@@ -211,7 +211,7 @@
       ]
     },
     "flags": [ "MESSY", "POLEARM", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE", "REACH_ATTACK" ],
-    "melee_damage": { "bash": 4, "cut": 35 }
+    "melee_damage": { "bash": 4, "cut": 11 }
   },
   {
     "id": "circsaw_off",
@@ -296,7 +296,7 @@
       ]
     },
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
-    "melee_damage": { "bash": 2, "cut": 50 }
+    "melee_damage": { "bash": 2, "cut": 10 }
   },
   {
     "id": "copper_ax",
@@ -465,7 +465,7 @@
       ]
     },
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE" ],
-    "melee_damage": { "bash": 4, "cut": 70 }
+    "melee_damage": { "bash": 4, "cut": 16 }
   },
   {
     "id": "elec_chainsaw_cord_off",

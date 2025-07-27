@@ -143,7 +143,25 @@
       { "u_remove_item_with": "upgradekey_bloodgift_research" },
       { "u_forget_recipe": "upgradekey_bloodgift_research" },
       { "u_learn_recipe": "xe_vampire_blood_gift_research" },
-      { "u_message": "You learn how to expand your blood gifts.", "type": "good" }
+      { "u_learn_recipe": "xe_vampire_blood_weaknesses_reshuffle" },
+      { "u_message": "You learn how to expand your blood gifts and reshuffle your weaknesses.", "type": "good" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UPDATE_KNOWN_RECIPES",
+    "eoc_type": "EVENT",
+    "required_event": "game_load",
+    "//": "If a player only has the learn recipe, they also gain the reshuffle.  They're always gained together and this will ensure those who update aren't locked out of reshuffling.",
+    "condition": {
+      "and": [
+        { "u_know_recipe": "xe_vampire_blood_gift_research" },
+        { "not": { "u_know_recipe": "xe_vampire_blood_weaknesses_reshuffle" } }
+      ]
+    },
+    "effect": [
+      { "u_learn_recipe": "xe_vampire_blood_weaknesses_reshuffle" },
+      { "u_message": "You can now reshuffle your weaknesses.", "type": "popup" }
     ]
   }
 ]

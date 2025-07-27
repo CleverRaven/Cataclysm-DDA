@@ -1139,7 +1139,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "tank top" },
     "description": "A sleeveless cotton shirt.  Very easy to move in.",
-    "weight": "130 g",
+    "weight": "55 g",
     "volume": "115 ml",
     "price": "9 USD",
     "price_postapoc": "50 cent",

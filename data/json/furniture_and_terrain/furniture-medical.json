@@ -43,7 +43,8 @@
         { "item": "amplifier", "prob": 25 },
         { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
         { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
-      ]
+      ],
+      "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
   {
@@ -80,7 +81,8 @@
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "sheet_cotton", "count": [ 3, 4 ] },
         { "item": "cotton_patchwork", "count": [ 3, 4 ] }
-      ]
+      ],
+      "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
   {
@@ -95,23 +97,14 @@
     "required_str": 16,
     "looks_like": "f_washer",
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "autoclave", "count": 1 } ] },
+    "item": "autoclave",
     "examine_action": "autoclave_empty",
     "bash": {
       "str_min": 40,
       "str_max": 80,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [
-        { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
-        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
-        { "item": "sheet_metal", "count": [ 1, 4 ] },
-        { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "hose", "count": [ 0, 2 ] },
-        { "item": "cu_pipe", "count": [ 1, 4 ] },
-        { "item": "scrap_copper", "count": [ 0, 2 ] }
-      ]
+      "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
   {
@@ -154,7 +147,8 @@
         { "item": "hose", "count": [ 0, 2 ] },
         { "item": "cu_pipe", "count": [ 1, 4 ] },
         { "item": "scrap_copper", "count": [ 0, 2 ] }
-      ]
+      ],
+      "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
   {
@@ -199,7 +193,8 @@
         { "item": "cu_pipe", "count": [ 2, 4 ] },
         { "item": "scrap_copper", "count": [ 1, 2 ] },
         { "item": "motor_tiny", "prob": 25 }
-      ]
+      ],
+      "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
   {
@@ -286,7 +281,8 @@
         { "item": "pipe", "count": 1 },
         { "item": "glass_shard", "count": [ 25, 100 ] },
         { "item": "cable", "charges": [ 1, 2 ] }
-      ]
+      ],
+      "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
   {
@@ -325,7 +321,8 @@
         { "item": "sheet_metal", "count": [ 1, 4 ] },
         { "item": "element", "count": [ 1, 3 ] },
         { "item": "cable", "charges": [ 1, 15 ] }
-      ]
+      ],
+      "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
   {
@@ -427,7 +424,8 @@
         { "item": "hose", "count": [ 0, 1 ] },
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
-      ]
+      ],
+      "destroyed_field": [ "fd_mechanical_fluid", 2 ]
     }
   },
   {
@@ -471,7 +469,8 @@
         { "item": "hose", "count": [ 0, 1 ] },
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
-      ]
+      ],
+      "destroyed_field": [ "fd_mechanical_fluid", 2 ]
     }
   },
   {
@@ -511,7 +510,8 @@
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
-      ]
+      ],
+      "destroyed_field": [ "fd_mechanical_fluid", 2 ]
     }
   },
   {
@@ -550,7 +550,8 @@
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
-      ]
+      ],
+      "destroyed_field": [ "fd_mechanical_fluid", 2 ]
     }
   },
   {
@@ -588,7 +589,8 @@
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
-      ]
+      ],
+      "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
   {
@@ -628,7 +630,8 @@
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
-      ]
+      ],
+      "destroyed_field": [ "fd_mechanical_fluid", 2 ]
     }
   },
   {
@@ -668,7 +671,8 @@
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
-      ]
+      ],
+      "destroyed_field": [ "fd_mechanical_fluid", 2 ]
     }
   },
   {
@@ -748,7 +752,8 @@
         { "item": "hose", "count": [ 0, 1 ] },
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
-      ]
+      ],
+      "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
   {
@@ -791,7 +796,8 @@
         { "item": "hose", "count": [ 0, 1 ] },
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
-      ]
+      ],
+      "destroyed_field": [ "fd_mechanical_fluid", 3 ]
     }
   },
   {
@@ -834,7 +840,8 @@
         { "item": "hose", "count": [ 0, 1 ] },
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
-      ]
+      ],
+      "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
   {
@@ -937,7 +944,8 @@
         { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal", "count": [ 1, 3 ] },
         { "item": "cable", "charges": [ 1, 15 ] }
-      ]
+      ],
+      "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
   {
@@ -977,7 +985,8 @@
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
-      ]
+      ],
+      "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
   {
@@ -1017,7 +1026,8 @@
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "e_scrap", "count": [ 2, 4 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
-      ]
+      ],
+      "destroyed_field": [ "fd_mechanical_fluid", 1 ]
     }
   },
   {

@@ -124,8 +124,6 @@
       "ump45_makeshiftmag",
       "ump40mag",
       "ump9mag",
-      "hk46bigmag",
-      "hk46mag",
       "fnp90mag",
       "robofacmultimag",
       "5x50_100_mag",
@@ -211,12 +209,14 @@
       "j22mag",
       "wp22mag",
       "kp32mag",
+      "lws32mag",
       "cp33_mag",
       "cp33_mag_50",
       "ruger_mk4_mag",
       "1911_22_mag",
       "sr22_mag",
-      "glock44_mag"
+      "glock44_mag",
+      "mp1522_mag"
     ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_mag"

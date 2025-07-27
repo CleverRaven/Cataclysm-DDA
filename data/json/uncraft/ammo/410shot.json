@@ -3,8 +3,6 @@
     "result": "410shot_000",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "gun",
-    "difficulty": 5,
     "time": "1 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [ [ [ "unprimed_410shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder_pistol", 10 ] ], [ [ "lead", 5 ] ] ]
@@ -13,8 +11,6 @@
     "result": "410shot_bird",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "gun",
-    "difficulty": 5,
     "time": "1 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [ [ [ "unprimed_410shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder_pistol", 10 ] ], [ [ "lead", 2 ] ] ]
@@ -23,8 +19,6 @@
     "result": "410shot_slug",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "gun",
-    "difficulty": 5,
     "time": "1 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [ [ [ "unprimed_410shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder_pistol", 10 ] ], [ [ "lead", 2 ] ] ]
@@ -33,8 +27,6 @@
     "result": "410shot_hull",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "gun",
-    "difficulty": 5,
     "time": "1 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [ [ [ "unprimed_410shot_hull", 1 ] ], [ [ "spent_shotgun_primer", 1 ] ] ]

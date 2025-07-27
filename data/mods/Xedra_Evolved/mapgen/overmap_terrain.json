@@ -405,5 +405,34 @@
     "sym": ".",
     "color": "blue",
     "see_cost": "low"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "cabin_book_lies", "cabin_roof_book_lies" ],
+    "name": "cabin",
+    "sym": "C",
+    "color": "green",
+    "vision_levels": "open_land",
+    "looks_like": "cabin",
+    "see_cost": "high",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cabin_nether_cult_basement",
+    "looks_like": "cabin_strange_b",
+    "copy-from": "cabin_strange_b"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cabin_nether_cult_roof",
+    "looks_like": "cabin_strange_roof",
+    "copy-from": "cabin_strange_roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cabin_nether_cult",
+    "looks_like": "cabin_strange",
+    "copy-from": "cabin_strange"
   }
 ]

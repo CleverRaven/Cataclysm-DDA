@@ -1531,7 +1531,18 @@ void options_manager::add_options_general()
 
         add( "AUTO_PULP_BUTCHER", page_id, to_translation( "Auto pulp or butcher" ),
              to_translation( "Action to perform when 'Auto pulp or butcher' is enabled.  Pulp: Pulp corpses you stand on.  - Pulp Adjacent: Also pulp corpses adjacent from you.  - Butcher: Butcher corpses you stand on." ),
-        { { "off", to_translation( "options", "Disabled" ) }, { "pulp", to_translation( "Pulp" ) }, { "pulp_zombie_only", to_translation( "Pulp Zombies Only" ) }, { "pulp_adjacent", to_translation( "Pulp Adjacent" ) }, { "pulp_adjacent_zombie_only", to_translation( "Pulp Adjacent Zombie Only" ) }, { "butcher", to_translation( "Butcher" ) } },
+        {
+            { "off", to_translation( "options", "Disabled" ) },
+            { "pulp", to_translation( "Pulp" ) },
+            { "pulp_zombie_only", to_translation( "Pulp Zombies Only" ) },
+            { "pulp_adjacent", to_translation( "Pulp Adjacent" ) },
+            { "pulp_adjacent_zombie_only", to_translation( "Pulp Adjacent Zombie Only" ) },
+            { "pulp_or_dismember", to_translation( "Pulp or Dismember" ) },
+            { "pulp_or_dismember_adjacent", to_translation( "Pulp or Dismember Adjacent" ) },
+            { "pulp_or_dismember_zombies_only", to_translation( "Pulp or Dismember Zombie Only" ) },
+            { "pulp_or_dismember_zombies_only_adjacent", to_translation( "Pulp or Dismember Adjacent Zombie Only" ) },
+            { "butcher", to_translation( "Butcher" ) }
+        },
         "off"
            );
 

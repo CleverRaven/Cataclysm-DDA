@@ -158,7 +158,7 @@
     "id": "photokinetic_light_up_enemy",
     "type": "SPELL",
     "name": "[Ψ]Illuminate",
-    "description": "Create photons to illuminate an entire area.",
+    "description": "Surround a single target with a outline of line that follows them as they move, revealing their position at all times.",
     "message": "Your target is outlined in light.",
     "teachable": false,
     "valid_targets": [ "ally", "hostile" ],

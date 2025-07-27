@@ -163,7 +163,7 @@
         { "item": "pantry_liquids", "chance": 55, "repeat": [ 0, 6 ] },
         { "item": "softdrinks_canned", "chance": 30, "repeat": [ 0, 5 ] },
         { "item": "pantry_liquids", "chance": 25, "repeat": [ 0, 8 ] },
-        { "item": "pasta", "chance": 55, "repeat": [ 0, 6 ] }
+        { "item": "pasta_ingredients", "chance": 55, "repeat": [ 0, 6 ] }
       ],
       "G": [ { "item": "milspec_arsenal_group_only_guns", "chance": 100 } ],
       "H": [ { "item": "autodoc_supplies", "chance": 100 } ],

@@ -57,7 +57,6 @@
       "40fmj",
       "45colt_cowboy",
       "45_acp",
-      "46mm",
       "57mm",
       "57mm_ss",
       "57mm_lf",
@@ -87,7 +86,6 @@
       "reloaded_45colt_fmj",
       "reloaded_45colt_cowboy",
       "reloaded_45_acp",
-      "reloaded_46mm",
       "reloaded_57mm",
       "reloaded_5x50dart",
       "reloaded_9mmfmj",
@@ -112,7 +110,6 @@
       "bp_45colt_fmj",
       "bp_45colt_cowboy",
       "bp_45_acp",
-      "bp_46mm",
       "bp_57mm",
       "bp_9mmfmj",
       "bp_9x18mmfmj"
@@ -540,11 +537,6 @@
     "id": [ "shot_dragon", "shot_paper_dragon" ],
     "type": "MIGRATION",
     "replace": "shot_pyro"
-  },
-  {
-    "id": [ "shot_he" ],
-    "type": "MIGRATION",
-    "replace": "shot_explosive"
   },
   {
     "id": [ "reloaded_shot_00", "reloaded_410shot_000", "20x66_bootleg_shot", "shot_scrap", "410shot_scrap" ],

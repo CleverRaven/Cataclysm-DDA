@@ -1,0 +1,27 @@
+[
+  {
+    "type": "ITEM",
+    "id": "corpse_yugg_jade_fragments",
+    "symbol": ",",
+    "color": "light_green",
+    "name": { "str": "jade shard" },
+    "category": "other",
+    "description": "A shard of jade that fell away from the petrified corpse of a yugg.  The edges are rounded and sinuous, and when you look at it out of the corner of your eye it almost seems to be trying to crawl away.",
+    "material": [ "glass" ],
+    "weight": "75 g",
+    "volume": "30 ml",
+    "flags": [ "TRADER_AVOID", "ALLOWS_BODY_BLOCK" ],
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "point", "balance": "neutral" },
+    "melee_damage": { "bash": 2 },
+    "weapon_category": [ "SHIVS" ]
+  },
+  {
+    "id": "blank_blood",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "copy-from": "demihuman_blood",
+    "name": { "str_sp": "blank blood" },
+    "description": "Blood extracted from a blank body.  It's a pale red color with none of the luster of human blood.",
+    "spoils_in": "9000 days"
+  }
+]

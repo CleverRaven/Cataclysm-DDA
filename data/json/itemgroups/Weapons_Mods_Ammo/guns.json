@@ -15,7 +15,6 @@
       { "group": "guns_pistol_common_38", "prob": 11 },
       { "group": "guns_pistol_common_44", "prob": 1 },
       { "group": "guns_pistol_common_10mm", "prob": 1 },
-      { "group": "guns_pistol_common_762_39", "prob": 2 },
       { "group": "guns_pistol_common_223", "prob": 33 },
       { "group": "guns_pistol_common_300", "prob": 8 },
       { "group": "guns_pistol_common_57", "prob": 2 },
@@ -63,7 +62,6 @@
       { "group": "guns_pistol_common_display_44", "prob": 1 },
       { "group": "guns_pistol_common_display_45colt", "prob": 5 },
       { "group": "guns_pistol_common_display_10mm", "prob": 1 },
-      { "group": "guns_pistol_common_display_762_39", "prob": 1 },
       { "group": "guns_pistol_common_display_223", "prob": 17 },
       { "group": "guns_pistol_common_display_300", "prob": 8 },
       { "group": "guns_pistol_common_display_57", "prob": 2 },
@@ -120,15 +118,11 @@
       { "group": "modular_deagle_357", "prob": 4, "charges": 0 },
       { "group": "modular_deagle_44", "prob": 20, "charges": 0 },
       { "group": "modular_deagle_50", "prob": 40, "charges": 0 },
-      { "item": "draco", "prob": 10, "charges": 0 },
-      { "item": "draco_mini", "prob": 30, "charges": 0 },
-      { "item": "draco_micro", "prob": 40, "charges": 0 },
       { "item": "raging_bull", "prob": 20 },
       { "item": "taurus_judge", "prob": 10 },
       { "item": "hk_mp5_semi_pistol", "prob": 100, "charges": 0 },
       { "item": "sw_500", "prob": 50 },
-      { "item": "bfr", "prob": 10 },
-      { "item": "draco_9mm", "prob": 10, "charges": 0 }
+      { "item": "bfr", "prob": 10 }
     ]
   },
   {
@@ -165,7 +159,6 @@
     "id": "guns_smg_milspec",
     "//": "Military specification SMGs only ever found at military sites.",
     "items": [
-      { "group": "nested_hk_mp7", "prob": 5 },
       { "group": "nested_hk_mp5", "prob": 100 },
       { "group": "nested_hk_mp5k", "prob": 10 },
       { "group": "nested_hk_mp5sd", "prob": 5 }
@@ -913,20 +906,6 @@
       },
       {
         "collection": [
-          {
-            "item": "glock_31",
-            "ammo-item": "357sig_jhp",
-            "prob": 100,
-            "charges": [ 0, 15 ],
-            "damage": [ 0, 1 ],
-            "dirt": [ 0, 7050 ]
-          },
-          { "group": "field_glock_31" }
-        ],
-        "prob": 4
-      },
-      {
-        "collection": [
           { "item": "p226_357sig", "prob": 100, "charges": [ 0, 12 ], "damage": [ 0, 3 ], "dirt": [ 0, 7050 ] },
           { "group": "field_p226_357sig" }
         ],
@@ -989,7 +968,6 @@
       { "group": "field_sp2022_9mm", "prob": 10 },
       { "group": "field_px4_9mm", "prob": 5 },
       { "group": "field_usp_9mm", "prob": 3 },
-      { "group": "field_glock_31", "prob": 4 },
       { "group": "field_p226_357sig", "prob": 2 },
       { "group": "field_p320_357sig", "prob": 2 },
       { "group": "field_glock_22", "prob": 30 },
@@ -1141,13 +1119,6 @@
         "collection": [
           { "item": "fn_p90", "charges": [ 0, 50 ], "contents-item": "shoulder_strap", "damage": [ 0, 3 ], "dirt": [ 0, 7050 ] },
           { "group": "field_p90" }
-        ],
-        "prob": 1
-      },
-      {
-        "collection": [
-          { "item": "hk_mp7", "charges": [ 0, 20 ], "contents-item": "shoulder_strap", "damage": [ 0, 3 ], "dirt": [ 0, 7050 ] },
-          { "group": "field_mp7" }
         ],
         "prob": 1
       },

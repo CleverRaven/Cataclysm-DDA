@@ -24,7 +24,59 @@
         "min_radius": 2,
         "max_radius": 10
       },
-      { "u_add_effect": "warpcloak", "intensity": 1, "duration": { "global_val": "invistime", "default": "3 s" } },
+      { "u_add_effect": "warpcloak", "intensity": 2, "duration": { "global_val": "invistime", "default": "3 s" } },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PLAYER_WARPCLOAK_WATERWALK",
+            "condition": { "math": [ "landing_waterwalk == 1" ] },
+            "effect": [
+              {
+                "u_add_effect": "effect_warped_waterwalking_hidden",
+                "intensity": 1,
+                "duration": { "global_val": "invistime", "default": "3 s" }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PLAYER_WARPCLOAK_FLIGHT",
+            "condition": { "math": [ "landing_flight == 1" ] },
+            "effect": [
+              { "u_add_effect": "effect_warped_flight", "intensity": 1, "duration": { "global_val": "invistime", "default": "3 s" } }
+            ]
+          }
+        ]
+      },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PLAYER_WARPCLOAK_PHASING",
+            "condition": { "math": [ "landing_phase == 1" ] },
+            "effect": [
+              { "u_add_effect": "effect_warped_phasing", "intensity": 1, "duration": { "global_val": "invistime", "default": "3 s" } }
+            ]
+          }
+        ]
+      },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PLAYER_START_CLAIRVOYANCE",
+            "condition": { "math": [ "scoutingclairvoyancetime >= 1" ] },
+            "effect": [
+              {
+                "u_add_effect": "effect_warped_super_clairvoyance",
+                "intensity": 1,
+                "duration": { "global_val": "scoutingclairvoyancetime", "default": "3 s" }
+              }
+            ]
+          }
+        ]
+      },
       {
         "u_run_npc_eocs": [
           {

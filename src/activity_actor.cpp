@@ -5,6 +5,7 @@
 #include <cmath>
 #include <cstddef>
 #include <cstdint>
+#include <cstdlib>
 #include <functional>
 #include <initializer_list>
 #include <iterator>
@@ -5045,6 +5046,147 @@ std::unique_ptr<activity_actor> disable_activity_actor::deserialize( JsonValue &
     return actor.clone();
 }
 
+void move_furniture_on_vehicle_activity_actor::start( player_activity &act, Character &who )
+{
+    map &here = get_map();
+    furn_str_id furn( here.veh_at( who.pos_bub() +
+                                   who.grab_point )->part_with_feature( "FURNITURE_TIEDOWN",
+                                           true )->part().get_base().get_var( "tied_down_furniture" ) );
+    if( !furn.is_valid() ) {
+        debugmsg( "Tried dragging invalid furniture %s", furn.str() );
+        act.set_to_null();
+        return;
+    }
+    int moves = 50;
+    if( furn->move_str_req > who.get_arm_str() ) {
+        moves = std::max<int>( 3000, furn->move_str_req * 10 + std::pow( furn->move_str_req, 2.0 ) * 10 );
+    }
+    act.moves_left = moves;
+    act.moves_total = moves;
+}
+
+bool move_furniture_on_vehicle_activity_actor::can_move_furn_on_veh_to( map &here,
+        const tripoint_bub_ms &dest ) const
+{
+    if( !here.passable( dest ) ) {
+        return false;
+    }
+
+    if( get_creature_tracker().creature_at<npc>( dest ) != nullptr ||
+        get_creature_tracker().creature_at<monster>( dest ) != nullptr ) {
+        return false;
+    }
+
+    if( here.veh_at( dest ) && !here.veh_at( dest )->can_load_furniture() ) {
+        return false;
+    }
+
+    if( !g->can_move_furniture( dest, dp ) ) {
+        return false;
+    }
+
+    return true;
+}
+
+static void transfer_furniture( vpart_position &from, vpart_position &to )
+{
+    vehicle_part &from_part = from.part_with_feature( "FURNITURE_TIEDOWN", true )->part();
+    vehicle_part &to_part = to.part_with_feature( "FURNITURE_TIEDOWN", true )->part();
+    item from_base( from_part.get_base() );
+    item to_base( to_part.get_base() );
+    std::string furn = from_base.get_var( "tied_down_furniture" );
+    from_base.remove_var( "tied_down_furniture" );
+    to_base.set_var( "tied_down_furniture", furn );
+    from_part.set_base( std::move( from_base ) );
+    to_part.set_base( std::move( to_base ) );
+}
+
+static void stop_grab( Character &who )
+{
+    if( avatar *a = dynamic_cast<avatar *>( &who ) ) {
+        a->grab( object_type::NONE );
+    } else {
+        debugmsg( "who in grabbing is not an avatar??" );
+    }
+}
+
+bool move_furniture_on_vehicle_activity_actor::move_furniture( Character &who ) const
+{
+    map &here = get_map();
+    tripoint_bub_ms pos = who.pos_bub() + who.grab_point;
+
+    std::optional<vpart_position> vp = here.veh_at( pos );
+    if( !vp.has_value() || !vp->has_loaded_furniture() ) {
+        add_msg( m_warning, _( "The grabbed furniture has been lost." ) );
+        return true;
+    }
+
+    tripoint_bub_ms dest = pos + dp;
+    if( !can_move_furn_on_veh_to( here, dest ) ) {
+        add_msg( m_warning, _( "Can't drag to there." ) );
+        return true;
+    }
+
+    bool pulling = dp.xy() == -who.grab_point.xy();
+    bool pushing = dp.xy() == who.grab_point.xy();
+    bool shifting = !pushing && !pulling;
+
+    std::optional<vpart_position> vp_dest = here.veh_at( dest );
+    if( vp_dest ) {
+        transfer_furniture( *vp, *vp_dest );
+    } else {
+        vp->part_with_feature( "FURNITURE_TIEDOWN", true )->part().unload_furniture( here, dest );
+        if( avatar *a = dynamic_cast<avatar *>( &who ) ) {
+            a->grab( object_type::FURNITURE, who.grab_point );
+        }
+    }
+    if( shifting ) {
+        tripoint_rel_ms d_sum = who.grab_point + dp;
+        if( std::abs( d_sum.x() ) < 2 && std::abs( d_sum.y() ) < 2 ) {
+            who.grab_point = d_sum;
+        } else {
+            stop_grab( who );
+        }
+        return true;
+    }
+    return false;
+}
+
+void move_furniture_on_vehicle_activity_actor::finish( player_activity &act, Character &who )
+{
+    if( !move_furniture( who ) ) {
+        g->walk_move( who.pos_bub() + dp, via_ramp, true );
+    }
+    act.set_to_null();
+}
+
+void move_furniture_on_vehicle_activity_actor::canceled( player_activity &, Character & )
+{
+    add_msg( m_warning, _( "You let go of the grabbed object." ) );
+    get_avatar().grab( object_type::NONE );
+}
+
+void move_furniture_on_vehicle_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "dp", dp );
+    jsout.member( "via_ramp", via_ramp );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> move_furniture_on_vehicle_activity_actor::deserialize(
+    JsonValue &jsin )
+{
+    move_furniture_on_vehicle_activity_actor actor( tripoint_rel_ms::zero, false );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "dp", actor.dp );
+    data.read( "via_ramp", actor.via_ramp );
+
+    return actor.clone();
+}
+
 void move_furniture_activity_actor::start( player_activity &act, Character & )
 {
     int moves = g->grabbed_furn_move_time( dp );
@@ -8584,6 +8726,24 @@ void pulp_activity_actor::start( player_activity &act, Character &you )
     act.moves_left = calendar::INDEFINITELY_LONG;
     you.recoil = MAX_RECOIL;
 
+    map &here = get_map();
+
+    if( !placement.empty() ) {
+        for( const tripoint_abs_ms &pos_abs : placement ) {
+            tripoint_bub_ms pos = here.get_bub( pos_abs );
+            map_stack corpse_pile = here.i_at( pos );
+            for( item &corpse : corpse_pile ) {
+                if( !corpse.is_corpse() || !corpse.can_revive() ) {
+                    // Don't smash non-rezing corpses or random items
+                    continue;
+                }
+                if( corpse.can_revive() ) {
+                    item_location corpse_loc( map_cursor( here.get_bub( pos_abs ) ), &corpse );
+                    corpses.push_back( corpse_loc );
+                }
+            }
+        }
+    }
     pd = g->calculate_character_ability_to_pulp( you );
 }
 
@@ -8591,36 +8751,39 @@ void pulp_activity_actor::do_turn( player_activity &act, Character &you )
 {
     map &here = get_map();
 
-    for( const tripoint_abs_ms &pos_abs : placement ) {
-        tripoint_bub_ms pos = here.get_bub( pos_abs );
-        map_stack corpse_pile = here.i_at( pos );
-        for( item &corpse : corpse_pile ) {
-            if( !corpse.is_corpse() || !corpse.can_revive() ) {
-                // Don't smash non-rezing corpses or random items
+    // inverse loop, so we can pop the last element cheaply
+    for( int i = corpses.size() - 1; i >= 0; --i ) {
+        item *corpse = corpses[i].get_item();
+        if( corpse != nullptr && corpse->damage() < corpse->max_damage() ) {
+            bool can_pulp = punch_corpse_once( *corpse, you, corpses[i].pos_bub( here ), here );
+            if( !can_pulp ) {
+                ++unpulped_corpses_qty;
+                corpses.pop_back();
                 continue;
             }
-
-            if( corpse.damage() < corpse.max_damage() ) {
-                bool can_pulp = punch_corpse_once( corpse, you, pos, here );
-                if( !can_pulp ) {
-                    ++unpulped_corpses_qty;
-                    continue;
-                }
-                return; // pulp at most one corpse per turn
+            return; // pulp at most one corpse per turn
+        } else {
+            corpses.pop_back();
+            if( !corpses.empty() ) {
+                continue;
             }
         }
     }
 
-    // if we are here, that means we survived the whole previous loop
-    // without pulping anything. I.e. we are done.
-    // Stop the activity.
-    act.moves_total = 0;
-    act.moves_left = 0;
+    // If nothing to pulp, stop the activity.
+    if( corpses.empty() ) {
+        act.moves_total = 0;
+        act.moves_left = 0;
+    }
 }
 
-bool pulp_activity_actor::punch_corpse_once( item &corpse, Character &you,
-        tripoint_bub_ms pos, map &here )
+bool pulp_activity_actor::can_pulp( item &corpse, Character &you )
 {
+
+    if( !corpse.can_revive() ) {
+        return false;
+    }
+
     const mtype *corpse_mtype = corpse.get_mtype();
     if( corpse_mtype == nullptr ) {
         debugmsg( string_format( "Tried to pulp not-a-corpse (id %s)", corpse.typeId().c_str() ) );
@@ -8639,7 +8802,8 @@ bool pulp_activity_actor::punch_corpse_once( item &corpse, Character &you,
         return false;
     }
 
-    add_msg_debug( debugmode::DF_ACTIVITY, "time to pulp: %s", pd.time_to_pulp );
+    add_msg_debug( debugmode::DF_ACTIVITY, "corpse: %s\ntime to pulp: %s", corpse.get_corpse_name(),
+                   to_string_writable( time_duration::from_seconds( pd.time_to_pulp ) ) );
 
     // 10 minutes
     if( pd.time_to_pulp > 600 && !too_long_to_pulp ) {
@@ -8649,6 +8813,15 @@ bool pulp_activity_actor::punch_corpse_once( item &corpse, Character &you,
             too_long_to_pulp_interrupted = true;
             return false;
         }
+    }
+    return true;
+}
+
+bool pulp_activity_actor::punch_corpse_once( item &corpse, Character &you,
+        tripoint_bub_ms pos, map &here )
+{
+    if( !can_pulp( corpse, you ) ) {
+        return false;
     }
 
     // how much damage you need to deal each second to match expected pulp time
@@ -8712,85 +8885,107 @@ void pulp_activity_actor::send_final_message( Character &you ) const
 
     if( acid_corpse ) {
         you.add_msg_if_player( m_bad,
-                               _( "You cannot pulp acid-filled corpses without appropriate protection." ) );
+                               _( "You cannot pulp acid-filled corpses, and need to be slowly dismembered to prevent acid spraying on your skin." ) );
         return;
     }
 
     if( way_too_long_to_pulp && num_corpses == 0 ) {
         you.add_msg_player_or_npc( n_gettext(
-                                       _( "You cannot pulp this corpse, for you have no tool heavy enough to deal with it quickly." ),
-                                       _( "You cannot pulp these corpses, for you have no tool heavy enough to deal with it quickly." ),
+                                       "You cannot pulp this corpse, for you have no tool heavy enough to deal with it quickly.",
+                                       "You cannot pulp these corpses, for you have no tool heavy enough to deal with it quickly.",
                                        unpulped_corpses_qty ),
                                    n_gettext(
-                                       _( "<npcname> cannot pulp this corpse without a heavier tool." ),
-                                       _( "<npcname> cannot pulp these corpses without a heavier tool." ),
+                                       "<npcname> cannot pulp this corpse without a heavier tool.",
+                                       "<npcname> cannot pulp these corpses without a heavier tool.",
                                        unpulped_corpses_qty ) );
         return;
     }
 
     if( too_long_to_pulp_interrupted && num_corpses == 0 ) {
         you.add_msg_if_player( n_gettext(
-                                   _( "You interrupted pulping of this corpse, for you have no tool heavy enough to deal with it quickly." ),
-                                   _( "You interrupted pulping of these corpses, for you have no tool heavy enough to deal with it quickly." ),
+                                   "You interrupted pulping of this corpse, for you have no tool heavy enough to deal with it quickly.",
+                                   "You interrupted pulping of these corpses, for you have no tool heavy enough to deal with it quickly.",
                                    unpulped_corpses_qty ) );
         return;
     }
 
-    std::string tools;
-    if( pd.stomps_only ) {
-        tools = string_format( ", with nothing but your %s",
-                               you.get_random_body_part_of_type( body_part_type::type::leg )->accusative_multiple );
-    } else if( pd.weapon_only ) {
-        tools = string_format( " with your %s", pd.bash_tool );
-    } else {
-        tools = string_format( " mixing your %s with powerful stomps", pd.bash_tool );
+    if( you.is_npc() ) {
+        you.add_msg_if_npc( n_gettext( "<npcname> finished pulping the corpse.",
+                                       "<npcname> finished pulping the corpses.",
+                                       unpulped_corpses_qty ) );
+        if( way_too_long_to_pulp ) {
+            you.add_msg_if_npc(
+                n_gettext( "<npcname> left one corpse unpulped, for %1$s has no tool heavy enough to deal with it.",
+                           "<npcname> left some corpses unpulped, for %1$s has no tool heavy enough to deal with it.",
+                           unpulped_corpses_qty ),
+                you.male ? pgettext( "npc", "he" ) : pgettext( "npc", "she" )
+            );
+        }
+        return;
     }
+
+    std::string msg = _( n_gettext( "You finished pulping the corpse.",
+                                    "You finished pulping the corpses.",
+                                    unpulped_corpses_qty ) );
+
+    std::string tools;
     if( pd.can_cut_precisely ) {
-        tools += string_format( " and a trusty %s", pd.cut_tool );
+        if( pd.cut_tool == pd.bash_tool ) {
+            tools = string_format( _( "It took you some time, messing corpses with your trusty %1$s." ),
+                                   pd.bash_tool );
+        } else if( pd.stomps_only ) {
+            tools = string_format(
+                        _( "It took you some time, stomping corpses with nothing but your %1$s, and occasionally cutting it with a %2$s." ),
+                        you.get_random_body_part_of_type( body_part_type::type::leg )->accusative_multiple, pd.cut_tool );
+        } else if( pd.weapon_only ) {
+            tools = string_format(
+                        _( "It took you some time, bashing corpses with your %1$s, with occasional cuts with a %2$s." ),
+                        pd.bash_tool, pd.cut_tool );
+        } else {
+            tools = string_format(
+                        _( "It took you some time, mixing your %1$s with powerful stomps, and occasional cuts with a %2$s." ),
+                        pd.bash_tool, pd.cut_tool );
+        }
+    } else {
+        if( pd.stomps_only ) {
+            tools = string_format( _( "It took you some time, stomping corpses with nothing but your %1$s." ),
+                                   you.get_random_body_part_of_type( body_part_type::type::leg )->accusative_multiple );
+        } else if( pd.weapon_only ) {
+            tools = string_format( _( "It took you some time, bashing corpses with just your %1$s." ),
+                                   pd.bash_tool );
+        }
     }
 
     std::string skill;
-    if( you.get_skill_level( skill_survival ) < 2 ) {
-        skill = string_format( "even if your moves still lack the experience" );
-        if( you.get_skill_level( skill_swimming ) < 2 ) {
-            skill += " and your body is not fit";
-        }
-    } else if( you.get_skill_level( skill_swimming ) < 2 ) {
-        skill = "even if your body is not fit";
-    } else {
-        skill = "";
+    if( you.get_skill_level( skill_swimming ) < 2 ) {
+        skill = _( "Heavy breathing, you think your form is far from perfect for such activities." );
     }
 
-    std::string pry = ".";
+    std::string pry;
     if( pd.pry_tool == pd.bash_tool ) {
-        // use default assignment
+        // bail out
     } else if( pd.used_pry ) {
-        pry = string_format( ".  You also were lucky to carry %, it helped a lot with more armoured bodies.",
-                             pd.pry_tool );
+        pry = string_format(
+                  _( "You praise yourself for bringing %1$s, it helped a lot with more armoured bits." ),
+                  pd.pry_tool );
     } else if( pd.couldnt_use_pry ) {
-        pry = string_format( ".  You wish you had anything like a crowbar, you had a really hard time without it." );
+        pry = _( "You also consider finding something like a crowbar, you had a really hard time without it." );
     }
 
-    you.add_msg_player_or_npc(
-        //~ %1$s is message about tools used in pulping, %2$s is a note if your skill is too low (optional, can be empty),
-        //~ 3$s is message about you using/not being able to use prying tool (optional, can be `.`).
-        //~ see pulp_activity_actor::send_final_message() for full context
-        n_gettext( "You finished pulping the corpse%1$s, %2$s%3$s",
-                   "You finished pulping the corpses%1$s, %2$s%3$s", unpulped_corpses_qty ),
-        n_gettext( "<npcname> finished pulping the corpse.",
-                   "<npcname> finished pulping the corpses.", unpulped_corpses_qty ),
-        tools, skill, pry
-    );
+    std::string final_message;
+
+    final_message += msg;
+    final_message += tools.empty() ? "" : "  " + tools;
+    final_message += skill.empty() ? "" : "  " + skill;
+    final_message += pry.empty() ? "" : "  " + pry;
+
+    you.add_msg_if_player( final_message );
 
     if( way_too_long_to_pulp ) {
-        you.add_msg_player_or_npc(
+        you.add_msg_if_player(
             n_gettext( "You left one corpse unpulped, for you have no tool heavy enough to deal with it.",
                        "You left some corpses unpulped, for you have no tool heavy enough to deal with it.",
-                       unpulped_corpses_qty ),
-            n_gettext( "<npcname> left one corpse unpulped, for %1$s has no tool heavy enough to deal with it.",
-                       "<npcname> left some corpses unpulped, for %1$s has no tool heavy enough to deal with it.",
-                       unpulped_corpses_qty ),
-            you.male ? pgettext( "npc", "he" ) : pgettext( "npc", "she" )
+                       unpulped_corpses_qty )
         );
     }
 }
@@ -8800,7 +8995,7 @@ void pulp_activity_actor::serialize( JsonOut &jsout ) const
     jsout.start_object();
 
     jsout.member( "num_corpses", num_corpses );
-    jsout.member( "placement", placement );
+    jsout.member( "corpses", corpses );
     jsout.member( "nominal_pulp_power", pd.nominal_pulp_power );
     jsout.member( "pulp_power", pd.pulp_power );
     jsout.member( "pulp_effort", pd.pulp_effort );
@@ -8830,7 +9025,7 @@ std::unique_ptr<activity_actor> pulp_activity_actor::deserialize( JsonValue &jsi
     JsonObject data = jsin.get_object();
 
     data.read( "num_corpses", actor.num_corpses );
-    data.read( "placement", actor.placement );
+    data.read( "corpses", actor.corpses );
     data.read( "pulp_power", actor.pd.pulp_power );
     // Backward compatibility introduced 2025-04-09
     if( !data.read( "nominal_pulp_power", actor.pd.nominal_pulp_power ) ) {
@@ -8964,10 +9159,11 @@ void butchery_activity_actor::do_turn( player_activity &act, Character &you )
     if( this_bd->progress >= this_bd->time_to_butcher ) {
         // this corpse is done
         destroy_the_carcass( *this_bd, you );
-        bd.pop_back();
         if( bd.empty() ) {
             act.moves_left = 0;
             return;
+        } else {
+            bd.pop_back();
         }
     } else {
         this_bd->progress += 1_seconds;

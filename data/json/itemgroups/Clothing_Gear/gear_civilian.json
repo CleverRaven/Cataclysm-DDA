@@ -277,7 +277,7 @@
       [ "textbook_computer", 8 ],
       [ "textbook_anarch", 4 ],
       [ "computer_science", 7 ],
-      [ "mask_guy_fawkes", 5 ],
+      { "item": "mask_skull", "variant": "guy_fawkes", "prob": 5 },
       [ "solar_cell", 5 ],
       [ "SICP", 3 ],
       [ "recipe_serum", 2 ],

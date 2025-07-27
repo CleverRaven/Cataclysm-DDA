@@ -67,7 +67,7 @@
     "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "dimensional_anchor",
     "name": { "str": "recall rig" },
-    "description": "A complex antennae assembly worn around the upper torso that allows its user to home and teleport towards previously configured teleport pads.  Although relatively functional, it's much inferior to the translocation systems of old, and a successful teleport requires standing perfectly still for several minutes.",
+    "description": "A complex antennae assembly worn around the upper torso that allows its user to teleport towards previously configured teleport pads.  Although relatively functional, it's much inferior to the translocation systems of old, and a successful teleport requires standing perfectly still for several minutes.",
     "charges_per_use": 1000,
     "pocket_data": [
       {

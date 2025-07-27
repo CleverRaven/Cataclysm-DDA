@@ -25,7 +25,11 @@
         "cooldown": 1,
         "gun_type": "laser_cannon_xray_mon",
         "fake_skills": [ [ "gun", 4 ], [ "rifle", 8 ] ],
-        "ranges": [ [ 0, 30, "DEFAULT" ] ]
+        "ranges": [ [ 0, 30, "DEFAULT" ] ],
+        "require_targeting_npc": true,
+        "require_targeting_monster": true,
+        "target_moving_vehicles": true,
+        "laser_lock": false
       }
     ],
     "special_when_hit": [ "RETURN_FIRE", 100 ],
@@ -66,6 +70,7 @@
         "ranges": [ [ 0, 20, "DEFAULT" ] ],
         "require_targeting_npc": true,
         "require_targeting_monster": true,
+        "target_moving_vehicles": true,
         "laser_lock": false,
         "targeting_cost": 150,
         "targeting_timeout_extend": -10,
