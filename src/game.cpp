@@ -5908,14 +5908,16 @@ void game::control_vehicle()
         }
     }
     vehicle *veh = nullptr;
+    bool controls_ok = false;
+    bool reins_ok = false;
     if( const optional_vpart_position vp = here.veh_at( u.pos_bub() ) ) {
         veh = &vp->vehicle();
         const int controls_idx = veh->avail_part_with_feature( vp->mount_pos(), "CONTROLS" );
         const int reins_idx = veh->avail_part_with_feature( vp->mount_pos(), "CONTROL_ANIMAL" );
-        const bool controls_ok = controls_idx >= 0; // controls available to "drive"
-        const bool reins_ok = reins_idx >= 0 // reins + animal available to "drive"
-                              && veh->has_engine_type( fuel_type_animal, false )
-                              && veh->get_harnessed_animal( here );
+        controls_ok = controls_idx >= 0; // controls available to "drive"
+        reins_ok = reins_idx >= 0 // reins + animal available to "drive"
+                   && veh->has_engine_type( fuel_type_animal, false )
+                   && veh->get_harnessed_animal( here );
         if( veh->player_in_control( here, u ) ) {
             // player already "driving" - offer ways to leave
             if( controls_ok ) {
@@ -5969,7 +5971,7 @@ void game::control_vehicle()
             }
         }
     }
-    if( !veh ) { // no controls or animal reins under player position, search nearby
+    if( !controls_ok && !reins_ok ) { // no controls or reins under player position, search nearby
         int num_valid_controls = 0;
         std::optional<tripoint_bub_ms> vehicle_position;
         std::optional<vpart_reference> vehicle_controls;
