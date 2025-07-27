@@ -1877,6 +1877,20 @@ conditional_t::func f_map_in_city( const JsonObject &jo, std::string_view member
     };
 }
 
+conditional_t::func f_map_is_outside( const JsonObject &jo, std::string_view member )
+{
+    var_info loc_var = read_var_info( jo.get_member( member ) );
+    return [loc_var]( const_dialogue const & d ) {
+        map &here = get_map();
+        tripoint_bub_ms loc = here.get_bub( read_var_value( loc_var, d ).tripoint() );
+        if( here.inbounds( loc ) ) {
+            return !here.is_outside( loc );
+        }
+        //TODO: Make work outside of reality bubble?
+        return false;
+    };
+}
+
 conditional_t::func f_mod_is_loaded( const JsonObject &jo, std::string_view member )
 {
     str_or_var compared_mod = get_str_or_var( jo.get_member( member ), member, true );
@@ -2595,6 +2609,7 @@ parsers = {
     {"map_terrain_id", jarg::member, &conditional_fun::f_map_ter_furn_id },
     {"map_furniture_id", jarg::member, &conditional_fun::f_map_ter_furn_id },
     {"map_field_id", jarg::member, &conditional_fun::f_map_ter_furn_id },
+    {"map_is_outside", jarg::member, &conditional_fun::f_map_is_outside },
     {"map_in_city", jarg::member, &conditional_fun::f_map_in_city },
     {"mod_is_loaded", jarg::member, &conditional_fun::f_mod_is_loaded },
     {"u_has_faction_trust", jarg::member | jarg::array, &conditional_fun::f_has_faction_trust },
