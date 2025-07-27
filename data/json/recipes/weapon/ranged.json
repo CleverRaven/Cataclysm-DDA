@@ -561,7 +561,7 @@
     "reversible": true,
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_fibers", "skill_penalty": 0 } ],
-    "using": [ [ [ "cordage", 6 ] ], [ "scrap_leather", 1 ] ] ]
+    "using": [ [ [ "cordage", 6 ] ], [ [ "scrap_leather", 1 ] ] ]
   },
   {
     "type": "recipe",
