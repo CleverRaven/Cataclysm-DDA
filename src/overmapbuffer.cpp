@@ -23,6 +23,7 @@
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
+#include "horde_entity.h"
 #include "line.h"
 #include "map.h"
 #include "mapgendata.h"
@@ -31,6 +32,7 @@
 #include "mod_manager.h"
 #include "mongroup.h"
 #include "monster.h"
+#include "mtype.h"
 #include "npc.h"
 #include "omdata.h"
 #include "options.h"
@@ -596,6 +598,53 @@ std::string overmapbuffer::get_vehicle_tile_id( const tripoint_abs_omt &omt )
     return tile_id;
 }
 
+bool overmapbuffer::passable( const tripoint_abs_ms &p )
+{
+    point_abs_om loc;
+    tripoint_om_ms offset;
+    std::tie( loc, offset ) = project_remain<coords::om>( p );
+    overmap *om = get_existing( loc );
+    if( om == nullptr ) {
+        return false;
+    }
+    return om->passable( offset );
+}
+
+std::shared_ptr<map_data_summary> overmapbuffer::get_omt_summary( const tripoint_abs_omt &p )
+{
+    point_abs_om loc;
+    tripoint_om_omt offset;
+    std::tie( loc, offset ) = project_remain<coords::om>( p );
+    overmap *om = get_existing( loc );
+    if( om == nullptr ) {
+        return {};
+    }
+    return om->get_omt_summary( offset );
+}
+
+void overmapbuffer::set_passable( const tripoint_abs_ms &p, bool new_passable )
+{
+    point_abs_om loc;
+    tripoint_om_ms offset;
+    std::tie( loc, offset ) = project_remain<coords::om>( p );
+    overmap *om = get_existing( loc );
+    if( om == nullptr ) {
+        return;
+    }
+    om->set_passable( offset, new_passable );
+}
+
+void overmapbuffer::set_passable( const tripoint_abs_omt &p,
+                                  const std::bitset<24 * 24> &new_passable )
+{
+    const tripoint_abs_om loc = project_to<coords::om>( p );
+    overmap *om = get_existing( loc.xy() );
+    if( om == nullptr ) {
+        return;
+    }
+    om->set_passable( p, new_passable );
+}
+
 void overmapbuffer::signal_hordes( const tripoint_abs_sm &center, const int sig_power )
 {
     const int radius = sig_power;
@@ -625,6 +674,14 @@ void overmapbuffer::add_nemesis( const tripoint_abs_omt &p )
     overmap *om = get_existing( loc.xy() );
     om->place_nemesis( p );
 
+}
+
+void overmapbuffer::clear_mongroups()
+{
+    for( std::pair<const point_abs_om, std::unique_ptr<overmap>> &omp : overmaps ) {
+        omp.second->clear_mon_groups();
+        omp.second->monster_map.clear();
+    }
 }
 
 void overmapbuffer::process_mongroups()
@@ -1875,23 +1932,33 @@ void overmapbuffer::spawn_monster( const tripoint_abs_sm &p, bool spawn_nonlocal
     tripoint_om_sm current_submap_loc;
     std::tie( omp, current_submap_loc ) = project_remain<coords::om>( p );
     overmap &om = get( omp );
-    auto monster_bucket = om.monster_map.equal_range( current_submap_loc );
-    std::for_each( monster_bucket.first, monster_bucket.second,
-    [&]( std::pair<const tripoint_om_sm, monster> &monster_entry ) {
-        monster &this_monster = monster_entry.second;
+    auto monster_bucket = om.monster_map.find( current_submap_loc );
+    if( monster_bucket == om.monster_map.end() ) {
+        return;
+    }
+    std::for_each( monster_bucket->second.begin(), monster_bucket->second.end(),
+    [&]( std::pair<const tripoint_abs_ms, horde_entity> &monster_entry ) {
         map &here = get_map();
-        const tripoint_bub_ms local = this_monster.pos_bub( here );
+        const tripoint_bub_ms local = here.get_bub( monster_entry.first );
         // The monster position must be local to the main map when added to the game
         if( !spawn_nonlocal ) {
             cata_assert( here.inbounds( local ) );
         }
-        monster *const placed = g->place_critter_around( make_shared_fast<monster>( this_monster ),
-                                local, 0, true );
+        // This needs to verify that the monster can be placed, otherwise it will fail with a debugmsg in creature_tracker::add()
+        monster *placed = nullptr;
+        if( monster_entry.second.monster_data ) {
+            placed = g->place_critter_around( make_shared_fast<monster>
+                                              ( *monster_entry.second.monster_data ),
+                                              local, 1, true );
+            // TODO: make sure entity data such as destination is synched
+        } else {
+            placed = g->place_critter_around( monster_entry.second.type_id->id, local, 1 );
+        }
         if( placed ) {
             placed->on_load();
         }
     } );
-    om.monster_map.erase( current_submap_loc );
+    om.monster_map.erase( monster_bucket );
 }
 
 void overmapbuffer::despawn_monster( const monster &critter )
@@ -1907,8 +1974,19 @@ void overmapbuffer::despawn_monster( const monster &critter )
         //if the monster is the 'hunted' trait's nemesis, it becomes an overmap horde
         om.place_nemesis( critter.pos_abs_omt() );
     } else {
-        om.monster_map.insert( std::make_pair( sm, critter ) );
+        // TODO, this should be emplace?
+        om.monster_map[sm].insert( std::make_pair( critter.pos_abs(), horde_entity( critter ) ) );
     }
+}
+
+horde_entity &overmapbuffer::spawn_monster( const tripoint_abs_ms &p, mtype_id id )
+{
+    // Get the overmap coordinates and get the overmap, sm is now local to that overmap
+    point_abs_om omp;
+    tripoint_om_sm sm;
+    std::tie( omp, sm ) = project_remain<coords::om>( project_to<coords::sm>( p ) );
+    overmap &om = get( omp );
+    return om.spawn_monster( p, id );
 }
 
 overmapbuffer::t_notes_vector overmapbuffer::get_notes( int z, std::string_view pattern )

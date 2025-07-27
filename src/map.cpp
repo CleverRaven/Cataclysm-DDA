@@ -78,6 +78,7 @@
 #include "mtype.h"
 #include "output.h"
 #include "overmap.h"
+#include "overmap_map_data_cache.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "pocket_type.h"
@@ -1771,6 +1772,10 @@ bool map::furn_set( const tripoint_bub_ms &p, const furn_id &new_furniture, cons
         return true;
     }
 
+    if( !mapgen_in_progress ) {
+        // TODO: Consider evaluating whether this is a "meaningful" adjustment instead of just any edit.
+        current_submap->player_adjusted_map = true;
+    }
     current_submap->set_furn( l, new_target_furniture );
     current_submap->set_map_damage( point_sm_ms( l ), 0 );
 
@@ -2218,6 +2223,10 @@ bool map::ter_set( const tripoint_bub_ms &p, const ter_id &new_terrain, bool avo
         return false;
     }
 
+    if( !mapgen_in_progress ) {
+        // TODO: Consider evaluating whether this is a "meaningful" adjustment instead of just any edit.
+        current_submap->player_adjusted_map = true;
+    }
     current_submap->set_ter( l, new_terrain );
     current_submap->set_map_damage( point_sm_ms( l ), 0 );
 
@@ -8064,6 +8073,12 @@ void map::shift( const point_rel_sm &sp )
 
     for( int gridx = x_start; gridx != x_stop; gridx += x_step ) {
         for( int gridy = y_start; gridy != y_stop; gridy += y_step ) {
+            if( ( sp.x() && gridx == x_start ) || ( sp.y() && gridy == y_start ) ) {
+                for( int gridz = zmin; gridz <= zmax; gridz++ ) {
+                    const tripoint_rel_sm grid( gridx, gridy, gridz );
+                    on_unload( grid );
+                }
+            }
             if( gridx + sp.x() != x_stop && gridy + sp.y() != y_stop ) {
                 for( int gridz = zmin; gridz <= zmax; gridz++ ) {
                     const tripoint_rel_sm grid( gridx, gridy, gridz );
@@ -8791,6 +8806,57 @@ void map::add_tree_tops( const tripoint_rel_sm &grid )
                     }
                 }
         }
+    }
+}
+
+void map::on_unload( const tripoint_rel_sm &loc )
+{
+    // Look up the existing map data summary entry, if it's already dynamic we don't
+    // need to check all the submaps, just update it.
+    tripoint_abs_sm submap_abs_origin = get_abs_sub() + loc;
+    tripoint_abs_omt omt_abs_origin;
+    point_omt_sm offset_within_omt;
+    std::tie( omt_abs_origin, offset_within_omt ) = project_remain<coords::omt>( submap_abs_origin );
+    // uuuugh this should be const?
+    std::shared_ptr<map_data_summary> const_summary = overmap_buffer.get_omt_summary( omt_abs_origin );
+    bool adjusted = !const_summary->placeholder;
+
+
+    if( !adjusted ) {
+        tripoint_rel_omt omt_origin = project_to<coords::omt>( loc );
+        tripoint_rel_sm sm_origin = project_to<coords::sm>( omt_origin );
+        std::vector<point_rel_sm> offsets;
+        offsets.reserve( 4 );
+        offsets.push_back( point_rel_sm::zero );
+        offsets.push_back( point_rel_sm::south );
+        offsets.push_back( point_rel_sm::east );
+        offsets.push_back( point_rel_sm::south_east );
+        for( const point_rel_sm &offset : offsets ) {
+            tripoint_rel_sm submap_offset = sm_origin + offset;
+            // Handle null submap ptr, it can definitely happen and we just ignore it.
+            if( get_submap_at_grid( submap_offset )->player_adjusted_map ) {
+                adjusted = true;
+                break;
+            }
+        }
+    }
+    // Update just the quadrant of the map_data_summary matching the current submap.
+    if( adjusted ) {
+        // Just the passable data for now, in future might want to copy the whole thing.
+        std::shared_ptr<map_data_summary> new_summary = std::make_shared<map_data_summary>
+                ( const_summary->passable );
+        tripoint_bub_ms submap_origin = get_bub( project_to<coords::ms>( submap_abs_origin ) );
+        point summary_origin = offset_within_omt.raw();
+        for( point cursor; cursor.y < 12; cursor.y++ ) {
+            int y_component = summary_origin.y + cursor.y;
+            for( cursor.x = 0; cursor.x < 12; cursor.x++ ) {
+                int x_component = summary_origin.x + cursor.x;
+                bool passable_value = passable( submap_origin + cursor );
+                new_summary->passable.set( ( y_component * 24 ) + x_component, passable_value );
+            }
+        }
+        // TODO: minimize copying?
+        overmap_buffer.set_passable( omt_abs_origin, new_summary->passable );
     }
 }
 
