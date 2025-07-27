@@ -43,6 +43,7 @@
       "s_lightindustry_scen_11_roof_west": "s_lightindustry_11_roof_west",
       "s_lightindustry_scen_00_roof_west": "s_lightindustry_00_roof_west",
       "s_lightindustry_scen_01_roof_west": "s_lightindustry_01_roof_west"
+    }
   },
   {
     "type": "oter_id_migration",
