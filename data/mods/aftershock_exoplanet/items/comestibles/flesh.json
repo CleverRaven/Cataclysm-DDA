@@ -18,6 +18,23 @@
   },
   {
     "type": "ITEM",
+    "id": "fish",
+    "copy-from": "fish",
+    "variants": [
+      {
+        "id": "synth",
+        "name": { "str_sp": "synth fish" },
+        "description": "Pink flesh from a non-existent species of fish, grown in a vat.  Of particularly high quality, it makes for a decent meal even when raw."
+      },
+      {
+        "id": "insect",
+        "name": { "str_sp": "arthropod meat" },
+        "description": "A large white fillet of meat from the thorax of an alien insect.  It has a slightly sweet taste, and is very nutritious.  Used interchangeably with fish in many recipes."
+      }
+    ]
+  },
+  {
+    "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "curry_meat",
     "looks_like": "soup_meat",

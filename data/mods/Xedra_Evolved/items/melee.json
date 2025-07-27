@@ -525,5 +525,39 @@
     "copy-from": "knife_rm42",
     "price_postapoc": "100 USD",
     "extend": { "flags": [ "UNBREAKABLE_MELEE" ] }
+  },
+  {
+    "id": "heartvine_whip",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
+    "category": "weapons",
+    "looks_like": "bullwhip_razor",
+    "name": { "str": "heartvine whip" },
+    "description": "A lengthy vine, growing out of your arm and wrapping around your wrist.  It has a series of long, sharp thorns on the parts away from your body.",
+    "weight": "216 g",
+    "volume": "360 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "dry_plant" ],
+    "symbol": ",",
+    "color": "light_green",
+    "techniques": [ "WHIP_DISARM" ],
+    "flags": [
+      "WOODEN_WEAPON",
+      "UNBREAKABLE_MELEE",
+      "NONCONDUCTIVE",
+      "MAGIC_FOCUS",
+      "TRADER_AVOID",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "UNRESTRICTED",
+      "REACH_ATTACK",
+      "REACH3",
+      "WHIP"
+    ],
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
+    "melee_damage": { "cut": 13 },
+    "weapon_category": [ "WHIPS" ],
+    "passive_effects": [ { "id": "BLOODTHORNE_DRUID_HEARTWHIP" } ]
   }
 ]

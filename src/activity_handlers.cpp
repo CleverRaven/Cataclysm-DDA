@@ -54,7 +54,6 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "magic.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -168,6 +167,9 @@ static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_social_dissatisfied( "social_dissatisfied" );
 static const efftype_id effect_social_satisfied( "social_satisfied" );
 static const efftype_id effect_under_operation( "under_operation" );
+
+static const flag_id json_flag_IRREMOVABLE( "IRREMOVABLE" );
+static const flag_id json_flag_PSEUDO( "PSEUDO" );
 
 static const furn_str_id furn_f_compost_empty( "f_compost_empty" );
 static const furn_str_id furn_f_compost_full( "f_compost_full" );
@@ -1164,9 +1166,9 @@ struct weldrig_hack {
             // null item should be handled just fine
             return null_item_reference();
         }
-        pseudo.set_flag( STATIC( flag_id( "PSEUDO" ) ) );
+        pseudo.set_flag( json_flag_PSEUDO );
         item mag_mod( itype_pseudo_magazine_mod );
-        mag_mod.set_flag( STATIC( flag_id( "IRREMOVABLE" ) ) );
+        mag_mod.set_flag( json_flag_IRREMOVABLE );
         if( !pseudo.put_in( mag_mod, pocket_type::MOD ).success() ) {
             debugmsg( "tool %s has no space for a %s, this is likely a bug",
                       pseudo.typeId().str(), mag_mod.type->nname( 1 ) );

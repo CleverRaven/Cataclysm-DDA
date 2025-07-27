@@ -136,7 +136,6 @@ void start_location::load( const JsonObject &jo, const std::string &src )
                 ter_match_type = jot.get_enum_value<ot_match_type>( "om_terrain_match_type", ter_match_type );
             }
             if( jot.has_object( "parameters" ) ) {
-                std::unordered_map<std::string, std::string> parameter_map;
                 jot.read( "parameters", parameter_map );
             }
         }

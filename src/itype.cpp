@@ -11,7 +11,6 @@
 #include "debug.h"
 #include "generic_factory.h"
 #include "item.h"
-#include "make_static.h"
 #include "map.h"
 #include "material.h"
 #include "recipe.h"
@@ -19,6 +18,8 @@
 #include "ret_val.h"
 #include "subbodypart.h"
 #include "translations.h"
+
+static const flag_id json_flag_CAN_HAVE_CHARGES( "CAN_HAVE_CHARGES" );
 
 std::string gunmod_location::name() const
 {
@@ -268,7 +269,7 @@ bool itype::can_have_charges() const
     if( gun && gun->clip > 0 ) {
         return true;
     }
-    if( has_flag( STATIC( flag_id( "CAN_HAVE_CHARGES" ) ) ) ) {
+    if( has_flag( json_flag_CAN_HAVE_CHARGES ) ) {
         return true;
     }
     return false;

@@ -132,7 +132,7 @@
     "scents_tracked": [ "sc_human", "sc_fetid" ],
     "melee_dice": 3,
     "melee_dice_sides": 8,
-    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "bleed_rate": 50,
     "vision_night": 4,
     "grab_strength": 30,
@@ -144,7 +144,14 @@
       "flags": [ "SMELLS", "PUSH_VEH" ],
       "weakpoint_sets": [ "wps_humanoid_head_small" ],
       "special_attacks": [ { "id": "smash", "throw_strength": 72, "cooldown": 30 } ]
-    }
+    },
+    "delete": { "flags": [ "STUMBLES" ] },
+    "revive_forms": [
+      {
+        "condition": { "map_terrain_with_flag": "FUNGUS", "loc": { "context_val": "loc" } },
+        "monster": "mon_fungal_mound_large"
+      }
+    ]
   },
   {
     "id": "mon_zombie_brute_grappler",
@@ -420,7 +427,14 @@
       "flags": [ "SMELLS", "PUSH_VEH", "DESTROYS" ],
       "weakpoint_sets": [ "wps_humanoid_head_small" ],
       "families": [ "prof_wp_hulk" ]
-    }
+    },
+    "delete": { "flags": [ "STUMBLES" ] },
+    "revive_forms": [
+      {
+        "condition": { "map_terrain_with_flag": "FUNGUS", "loc": { "context_val": "loc" } },
+        "monster": "mon_fungal_mound_massive"
+      }
+    ]
   },
   {
     "id": "mon_zombie_hunter",
@@ -474,7 +488,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 2,
     "weakpoints": [
-      { "name": "the inside of the mouth", "is_head": true, "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the inside of its mouth", "is_head": true, "armor_mult": { "physical": 0.5 }, "coverage": 3 },
       { "name": "the eye", "is_head": true, "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
     "weakpoint_sets": [  ],

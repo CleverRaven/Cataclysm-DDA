@@ -79,6 +79,8 @@ static const bionic_id bio_painkiller( "bio_painkiller" );
 static const flag_id json_flag_CALORIES_INTAKE( "CALORIES_INTAKE" );
 static const flag_id json_flag_CALORIE_BURN( "CALORIE_BURN" );
 
+static const itype_id itype_water_clean( "water_clean" );
+
 static const json_character_flag json_flag_MANUAL_CBM_INSTALLATION( "MANUAL_CBM_INSTALLATION" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 
@@ -831,7 +833,9 @@ class comestible_inventory_preset : public inventory_selector_preset
 
     protected:
         int get_order( const item_location &loc, const time_duration &time ) const {
-            if( loc->rotten() ) {
+            if( loc->typeId() == itype_water_clean ) {
+                return 0;
+            } else if( loc->rotten() ) {
                 if( you.has_trait( trait_SAPROPHAGE ) || you.has_trait( trait_SAPROVORE ) ) {
                     return 1;
                 } else {
@@ -1918,7 +1922,13 @@ class weapon_inventory_preset: public inventory_selector_preset
                                                 );
                         }
                     }
-                    const int ammo_damage = damage.total_damage();
+
+                    int ammo_damage;
+                    if( loc->barrel_length().value() > 0 ) {
+                        ammo_damage = damage.di_considering_length( loc->barrel_length() ).total_damage();
+                    } else {
+                        ammo_damage = damage.total_damage();
+                    }
 
                     return string_format( "%s<color_light_gray>+</color>%s <color_light_gray>=</color> %s",
                                           get_damage_string( basic_damage, true ),
@@ -2882,7 +2892,9 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
                 ret_val<void> const refusal =
                     you.as_npc()->wants_to_sell( loc, price );
                 if( !refusal.success() ) {
-                    return you.replace_with_npc_name( refusal.str() );
+                    std::string refused_text = refusal.str();
+                    parse_tags( refused_text, you, pa );
+                    return refused_text;
                 }
             }
             const ret_val<void> installable = pa.is_installable( loc.get_item(), false );

@@ -11,6 +11,7 @@
     "price": "1 USD",
     "price_postapoc": "10 USD",
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "loudness": 7,
     "count": 100,
     "stack_size": 150,
     "recoil": 39,

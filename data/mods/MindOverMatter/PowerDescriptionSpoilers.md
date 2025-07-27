@@ -246,11 +246,11 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 <summary><h3>Premonition (C)</h3></summary>
 
 *Difficulty*: 2<br />
-*Target*: All enemies within 2 squares per power level<br />
-*Duration*: 2 minutes to 8 minutes 10 seconds, plus 45 seconds to 1 minutes 15 seconds minutes per level<br />
+*Target*: Self<br />
+*Duration*: 19 minutes and 34 seconds to 37 minutes and 12 seconds, plus 5 minutes and 3 seconds seconds to 16 minutes and 42 seconds per level<br />
 *Stamina Cost*: 2250, minus 85 per level to a minimum of 850<br />
 *Channeling Time*: 85 moves, minus 7 moves per level to a minimum of 25<br />
-*Effects*: Reveal the location of all hostile enemies (NPCs who are currently hostile and creatures with aggression 10 or greater) within the power's range. Premonition does not reveal exactly what sort of enemy is out there, only that something is.<br />
+*Effects*: Open the psion's senses up to nearby dangers or other disturbances, allowing them to sense nearby motion as well as other more esoteric sources of danger (such as receiving an advance warning before a portal storm).  The psion cannot tell the exact location of the danger, only that it's nearby.<br />
 *Prerequisites*: Heightened Senses 6<br />
 </details>
 <details>
@@ -309,6 +309,17 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Prerequisites*: Discern Weakness 7<br />
 </details>
 <details>
+<summary><h3>Sense Hostility (C)</h3></summary>
+
+*Difficulty*: 5<br />
+*Target*: All hostile creatures within 2 squares per power level<br />
+*Duration*: 2 minutes to 8 minutes 10 seconds, plus 45 seconds to 1 minutes 15 seconds minutes per level<br />
+*Stamina Cost*: 6500, minus 120 per level to a minimum of 3150<br />
+*Channeling Time*: 85 moves, minus 7 moves per level to a minimum of 25<br />
+*Effects*: Reveal the location of all hostile enemies (NPCs who are currently hostile and creatures with aggression 10 or greater) within the power's range. Sense Danger does not reveal exactly what sort of enemy is out there, only that something is.<br />
+*Prerequisites*: Heightened Senses 8, Premonition 6, Aura Sight 5<br />
+</details>
+<details>
 <summary><h3>Clairyovance</h3></summary>
 
 *Difficulty*: 5<br />
@@ -328,7 +339,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Stamina Cost*: 5500, minus 145 per level to a minimum of 2750<br />
 *Channeling Time*: 150 moves, minus 9 moves per level to a minimum of 70<br />
 *Effects*: Gaze a short time into the future to predict enemy movements.  Grants a 25% chance to avoid any damage from an attack plus 1.5% per power level to a maximum of a 70% chance, prevents the psion from being grabbed, and applies the HARDTOHIT flag.  It also increases your effective dodge skill by 1 per 2 power levels.<br />
-*Prerequisites*: Premonition 10 *or* Speed Reader 10 *or* Discern Weakness 6, Clairyovance 6<br />
+*Prerequisites*: Premonition 10 *or* Sense Hostility 5, Speed Reader 10 *or* Discern Weakness 6, Clairyovance 6<br />
 </details>
 <details>
 <summary><h3>Intuitive Artisan (C)</h3></summary>
@@ -805,6 +816,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Effects*: Focus electromagnetic radiation onto a single point, doing immense damage to the target there.  This power does 45 to 135 photokinetic damage plus 5.5 to 17 photokinetic damage per power level<br />
 *Prerequisites*: Star Flash 8 *or* Photon Beam 14, Blinding Radiance 5<br />
 </details>
+<details>
 <summary><h3>Phantom Legion (C)</h3></summary>
 
 *Difficulty*: 9<br />

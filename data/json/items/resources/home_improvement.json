@@ -131,7 +131,7 @@
     "description": "A roll of red carpet.",
     "material": [ "cotton" ],
     "volume": "7500 ml",
-    "weight": "6800 g",
+    "weight": "3750 g",
     "//": "Assuming roughly 1m^2 at a density of 1.4 lbs/ft^2",
     "ammo_type": "NULL"
   },
@@ -148,7 +148,7 @@
     "description": "A roll of green carpet.",
     "material": [ "cotton" ],
     "volume": "7500 ml",
-    "weight": "6800 g",
+    "weight": "3750 g",
     "//": "Assuming roughly 1m^2 at a density of 1.4 lbs/ft^2",
     "ammo_type": "NULL"
   },
@@ -165,7 +165,7 @@
     "description": "A roll of yellow carpet.",
     "material": [ "cotton" ],
     "volume": "7500 ml",
-    "weight": "6800 g",
+    "weight": "3750 g",
     "//": "Assuming roughly 1m^2 at a density of 1.4 lbs/ft^2",
     "ammo_type": "NULL"
   },
@@ -182,7 +182,7 @@
     "description": "A roll of purple carpet.",
     "material": [ "cotton" ],
     "volume": "7500 ml",
-    "weight": "6800 g",
+    "weight": "3750 g",
     "//": "Assuming roughly 1m^2 at a density of 1.4 lbs/ft^2",
     "ammo_type": "NULL"
   },

@@ -1,3 +1,18 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Activities](#activities)
+  - [Adding new activities](#adding-new-activities)
+  - [JSON Properties](#json-properties)
+  - [Termination](#termination)
+  - [Notes](#notes)
+    - [`activity_actor::start`](#activity_actorstart)
+    - [`activity_actor::do_turn`](#activity_actordo_turn)
+    - [`activity_actor::finish`](#activity_actorfinish)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Activities
 
 Activities are long term actions, that can be interrupted and (optionally)

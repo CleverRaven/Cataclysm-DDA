@@ -201,7 +201,8 @@
           }
         ]
       }
-    ]
+    ],
+    "flags": [ "HERITAGE" ]
   },
   {
     "type": "mutation",

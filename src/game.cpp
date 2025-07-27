@@ -139,7 +139,6 @@
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "main_menu.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_item_stack.h"
 #include "map_iterator.h"
@@ -304,6 +303,7 @@ static const itype_id itype_towel_wet( "towel_wet" );
 static const json_character_flag json_flag_ALL_TERRAIN_NAVIGATION( "ALL_TERRAIN_NAVIGATION" );
 static const json_character_flag json_flag_CLIMB_FLYING( "CLIMB_FLYING" );
 static const json_character_flag json_flag_CLIMB_NO_LADDER( "CLIMB_NO_LADDER" );
+static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 static const json_character_flag json_flag_GRAB( "GRAB" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 static const json_character_flag json_flag_INFECTION_IMMUNE( "INFECTION_IMMUNE" );
@@ -795,7 +795,14 @@ void game::setup()
 
         load_core_data();
     }
-    world_generator->get_mod_manager().load_mods_list( world_generator->active_world );
+
+    // invalidate calendar caches in case we were previously playing
+    // a different world
+    calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
+    // must be called before load_world_modfiles() #81904
+    calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
+
+    world_generator->get_mod_manager().check_mods_list( world_generator->active_world );
     load_world_modfiles();
     // Panel manager needs JSON data to be loaded before init
     panel_manager::get_manager().init();
@@ -806,11 +813,6 @@ void game::setup()
     next_mission_id = 1;
     uquit = QUIT_NO;   // We haven't quit the game
     bVMonsterLookFire = true;
-
-    // invalidate calendar caches in case we were previously playing
-    // a different world
-    calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
-    calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
 
     calendar::set_eternal_night( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "night" );
     calendar::set_eternal_day( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "day" );
@@ -1165,7 +1167,7 @@ bool game::start_game()
 
     get_event_bus().send<event_type::game_start>( getVersionString() );
     get_event_bus().send<event_type::game_avatar_new>( /*is_new_game=*/true, /*is_debug=*/false,
-            u.getID(), u.name, u.male, u.prof->ident(), u.custom_profession );
+            u.getID(), u.name, u.custom_profession );
     time_played_at_last_load = std::chrono::seconds( 0 );
     time_of_last_load = std::chrono::steady_clock::now();
     tripoint_abs_omt abs_omt = u.pos_abs_omt();
@@ -3048,8 +3050,7 @@ void end_screen_data::draw_end_screen_ui()
     }
     avatar &u = get_avatar();
     const bool is_suicide = g->uquit == QUIT_SUICIDE;
-    get_event_bus().send<event_type::game_avatar_death>( u.getID(), u.name, u.male, is_suicide,
-            p_impl.text );
+    get_event_bus().send<event_type::game_avatar_death>( u.getID(), u.name, is_suicide, p_impl.text );
 }
 
 void end_screen_ui_impl::draw_controls()
@@ -5144,7 +5145,7 @@ void game::use_computer( const tripoint_bub_ms &p )
     }
     if( u.has_flag( json_flag_HYPEROPIC ) && !u.worn_with_flag( flag_FIX_FARSIGHT ) &&
         !u.has_effect( effect_contacts ) && !u.has_effect( effect_transition_contacts ) &&
-        !u.has_flag( STATIC( json_character_flag( "ENHANCED_VISION" ) ) ) ) {
+        !u.has_flag( json_flag_ENHANCED_VISION ) ) {
         add_msg( m_info, _( "You'll need to put on reading glasses before you can see the screen." ) );
         return;
     }
@@ -5907,14 +5908,16 @@ void game::control_vehicle()
         }
     }
     vehicle *veh = nullptr;
+    bool controls_ok = false;
+    bool reins_ok = false;
     if( const optional_vpart_position vp = here.veh_at( u.pos_bub() ) ) {
         veh = &vp->vehicle();
         const int controls_idx = veh->avail_part_with_feature( vp->mount_pos(), "CONTROLS" );
         const int reins_idx = veh->avail_part_with_feature( vp->mount_pos(), "CONTROL_ANIMAL" );
-        const bool controls_ok = controls_idx >= 0; // controls available to "drive"
-        const bool reins_ok = reins_idx >= 0 // reins + animal available to "drive"
-                              && veh->has_engine_type( fuel_type_animal, false )
-                              && veh->get_harnessed_animal( here );
+        controls_ok = controls_idx >= 0; // controls available to "drive"
+        reins_ok = reins_idx >= 0 // reins + animal available to "drive"
+                   && veh->has_engine_type( fuel_type_animal, false )
+                   && veh->get_harnessed_animal( here );
         if( veh->player_in_control( here, u ) ) {
             // player already "driving" - offer ways to leave
             if( controls_ok ) {
@@ -5968,7 +5971,7 @@ void game::control_vehicle()
             }
         }
     }
-    if( !veh ) { // no controls or animal reins under player position, search nearby
+    if( !controls_ok && !reins_ok ) { // no controls or reins under player position, search nearby
         int num_valid_controls = 0;
         std::optional<tripoint_bub_ms> vehicle_position;
         std::optional<vpart_reference> vehicle_controls;
@@ -6000,7 +6003,7 @@ void game::control_vehicle()
                     return;
                 }
             } else {
-                add_msg( _( "No vehicle there." ) );
+                add_msg( _( "There's no vehicle there." ) );
                 return;
             }
         }
@@ -6013,7 +6016,7 @@ void game::control_vehicle()
             veh->interact_with( &here, *vehicle_position );
         }
     }
-    if( veh ) {
+    if( u.controlling_vehicle ) {
         // If we reached here, we gained control of a vehicle.
         // Clear the map memory for the area covered by the vehicle to eliminate ghost vehicles.
         for( const tripoint_abs_ms &target : veh->get_points() ) {
@@ -8172,26 +8175,6 @@ look_around_result game::look_around(
             if( try_route.has_value() ) {
                 u.set_destination( *try_route );
                 continue;
-            }
-        } else if( action == "debug_scent" || action == "debug_scent_type" ) {
-            if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
-                display_scent();
-            }
-        } else if( action == "debug_temp" ) {
-            if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
-                display_temperature();
-            }
-        } else if( action == "debug_lighting" ) {
-            if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
-                display_lighting();
-            }
-        } else if( action == "debug_transparency" ) {
-            if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
-                display_transparency();
-            }
-        } else if( action == "debug_radiation" ) {
-            if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
-                display_radiation();
             }
         } else if( action == "debug_hour_timer" ) {
             toggle_debug_hour_timer();
@@ -11053,7 +11036,7 @@ static void autopulp_or_butcher( avatar &u )
     for( const tripoint_bub_ms &pos : target ) {
         for( item &it : here.i_at( pos ) ) {
             // skip not corpses or corpses that are already pulped
-            if( !it.is_corpse() || it.damage() >= it.max_damage() ) {
+            if( !it.can_revive() ) {
                 continue;
             }
             if( who == AUTO_WHO::ZOMBIES && !it.get_mtype()->has_flag( mon_flag_REVIVES ) ) {
@@ -13348,9 +13331,7 @@ void game::display_toggle_overlay( const action_id action )
 
 void game::display_scent()
 {
-    if( use_tiles ) {
-        display_toggle_overlay( ACTION_DISPLAY_SCENT );
-    } else {
+    if( !use_tiles ) {
         int div = 0;
         if( !query_int( div, false, _( "Set scent map sensitivity to?" ) ) || div != 0 ) {
             return;
@@ -13362,20 +13343,6 @@ void game::display_scent()
 
         ui_manager::redraw();
         inp_mngr.wait_for_any_key();
-    }
-}
-
-void game::display_temperature()
-{
-    if( use_tiles ) {
-        display_toggle_overlay( ACTION_DISPLAY_TEMPERATURE );
-    }
-}
-
-void game::display_vehicle_ai()
-{
-    if( use_tiles ) {
-        display_toggle_overlay( ACTION_DISPLAY_VEHICLE_AI );
     }
 }
 
@@ -13405,6 +13372,7 @@ void game::display_visibility()
                 displaying_visibility_creature = creature;
             }
         } else {
+            popup( _( "No support for curses mode" ) );
             displaying_visibility_creature = nullptr;
         }
     }
@@ -13460,20 +13428,8 @@ void game::display_lighting()
             ( static_cast<size_t>( lighting_menu.ret ) < lighting_menu_strings.size() ) ) {
             g->displaying_lighting_condition = lighting_menu.ret;
         }
-    }
-}
-
-void game::display_radiation()
-{
-    if( use_tiles ) {
-        display_toggle_overlay( ACTION_DISPLAY_RADIATION );
-    }
-}
-
-void game::display_transparency()
-{
-    if( use_tiles ) {
-        display_toggle_overlay( ACTION_DISPLAY_TRANSPARENCY );
+    } else {
+        popup( _( "No support for curses mode" ) );
     }
 }
 
@@ -14269,8 +14225,8 @@ pulp_data game::calculate_character_ability_to_pulp( const Character &you )
     }
 
     add_msg_debug( debugmode::DF_ACTIVITY,
-                   "you: %s, bash weapon: %s, final pulp_power_bash: %s, pulp_power_stomps: %s",
-                   you.name.c_str(), pair_bash.second.display_name().c_str(), pair_bash.first, pulp_power_bash,
+                   "you: %s\nbash weapon: %s\nfinal pulp_power_bash: %s\npulp_power_stomps: %s\n",
+                   you.name.c_str(), pair_bash.second.type->id.c_str(), pair_bash.first, pulp_power_bash,
                    pulp_power_stomps, bash_factor );
 
     bash_factor = std::pow( bash_factor, 1.8f );
@@ -14331,10 +14287,11 @@ pulp_data game::calculate_pulpability( const Character &you, const mtype &corpse
 
     float corpse_volume = units::to_liter( corpse_mtype.volume );
     // in seconds
-    int time_to_pulp = ( std::pow( corpse_volume, pow_factor ) * 1000 ) / pd.nominal_pulp_power;
+    int time_to_pulp = std::max( 1.0, ( std::pow( corpse_volume,
+                                        pow_factor ) * 1000 ) / pd.nominal_pulp_power );
     // in seconds also
     // 30 seconds for human body volume of 62.5L, scale from this
-    int min_time_to_pulp = 30 * corpse_volume / 62.5;
+    int min_time_to_pulp = std::max( 1.0, 30 * corpse_volume / 62.5 );
 
     // you have a hard time pulling armor to reach important parts of this monster
     if( corpse_mtype.has_flag( mon_flag_PULP_PRYING ) ) {

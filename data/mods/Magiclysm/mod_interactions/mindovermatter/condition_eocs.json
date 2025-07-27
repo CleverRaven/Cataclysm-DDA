@@ -1,0 +1,8 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MAGICLYSM_GAME_START_HUMANS_ARE_HUMAN_MOM_CONDITIONS",
+    "condition": { "u_has_trait": "FIFTH_SUN_PEOPLE" },
+    "effect": [  ]
+  }
+]

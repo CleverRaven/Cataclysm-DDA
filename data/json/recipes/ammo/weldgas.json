@@ -210,6 +210,7 @@
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_redsmithing", "required": true },
+      { "proficiency": "prof_redsmithing_adv" },
       { "proficiency": "prof_intro_chemistry" }
     ],
     "components": [ [ [ "scrap_bronze", 1 ] ], [ [ "detergent", 7 ] ] ]

@@ -1,0 +1,409 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [ "cabin_nether_cult" ],
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "...........~~...........",
+        "...........~~...........",
+        "...%.......~~...........",
+        "**######w##++#########**",
+        "**#R  d#sT#  #A DBBD #**",
+        "**#R  c#  #  #A  BB  w**",
+        "**wR   #  =  =       w**",
+        "**wR   #  #  #########**",
+        "**#R   ####  =  DBBD #**",
+        "**#R   L#>A  #A  BB  w**",
+        "**####=####  #A      w**",
+        "**#ttb  uu#  #########**",
+        "**wttb   u#  #a OOO  w**",
+        "**wbb     =  =       w**",
+        "**#      u#  #     S #**",
+        "**#1F5V234#  #a      #**",
+        "**###ww####++####ww###**",
+        "..o bbbb             o..",
+        "..-                  -..",
+        "..-                  -..",
+        "..o-------o  o-------o..",
+        "...........~~...........",
+        "...........~~...........",
+        "...........~~..........."
+      ],
+      "palettes": [ "cabin_palette" ],
+      "terrain": { "-": "t_railing", ">": "t_wood_stairs_down", "w": "t_window_bars_curtains" },
+      "items": {
+        "A": [
+          { "item": "homebooks", "chance": 60, "repeat": [ 1, 3 ] },
+          { "item": "magazines", "chance": 60, "repeat": [ 1, 8 ] },
+          { "item": "manuals", "chance": 30 },
+          { "item": "esoteric_books", "chance": 25 },
+          { "item": "hedge_magic_books", "chance": 5 }
+        ]
+      },
+      "place_loot": [ { "group": "homeguns", "x": 7, "y": 9, "chance": 30, "ammo": 90, "magazine": 100 } ],
+      "place_monsters": [
+        { "monster": "GROUP_ZOMBIE", "x": 11, "y": 12 },
+        { "monster": "GROUP_NETHER_CULT", "x": [ 4, 20 ], "y": [ 4, 14 ], "repeat": 2 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "cabin_nether_cult_roof",
+    "object": {
+      "fill_ter": "t_tar_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "  -5------------------  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -................~.-  ",
+        "  -..................-  ",
+        "  --------------------  ",
+        "  ....................  ",
+        "  ....................  ",
+        "  ....................  ",
+        "  ....................  ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_tar_flat_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "cabin_nether_cult_basement" ],
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "|||||||||||||||||||||||#",
+        "|BBl        LC A+     |#",
+        "|t      cd     A----- |#",
+        "|---+---------%------ |#",
+        "|Ś   j-      - -    - |#",
+        "|ȻȻȻsȻ-      + +    - |#",
+        "|------      - -    - |#",
+        "|  - L-      - -    - |#",
+        "|  ?  --------+------ |#",
+        "|--- c---<     gSSS-  |#",
+        "|  -  ----        S- ||#",
+        "|  ?  % +       t S- |##",
+        "|---  ---  ctc    L- |##",
+        "|  -  ----+---+----- |##",
+        "|  ?  -sj- -c   DDL- |##",
+        "|------Ȼ + -t     D- |##",
+        "||||||----+-----+---+|##",
+        "#####|£    s-        |##",
+        "#####|£     -        |##",
+        "#####|----  -   OO   |##",
+        "#####|rrrr  -   OO   |##",
+        "#####|      +        |##",
+        "#####|rrrr L-        |##",
+        "#####|||||||||||||||||##"
+      ],
+      "terrain": {
+        "-": "t_wall_wood",
+        "|": "t_concrete_wall",
+        "<": "t_wood_stairs_up",
+        "+": [ [ "t_door_c", 2 ], [ "t_door_o", 1 ] ],
+        "?": "t_door_c_peep",
+        "%": "t_door_locked_interior",
+        "#": "t_soil",
+        "A": "t_thconc_floor",
+        "c": "t_thconc_floor",
+        "C": "t_thconc_floor",
+        "Ȼ": "t_thconc_floor",
+        "d": "t_thconc_floor",
+        "D": "t_thconc_floor",
+        "g": "t_thconc_floor",
+        "j": "t_thconc_floor",
+        "l": "t_thconc_floor",
+        "L": "t_thconc_floor",
+        "£": "t_thconc_floor",
+        "O": "t_thconc_floor",
+        "r": "t_thconc_floor",
+        "s": "t_thconc_floor",
+        "S": "t_thconc_floor",
+        "Ś": "t_thconc_floor",
+        "t": "t_thconc_floor",
+        "Ŧ": "t_thconc_floor"
+      },
+      "furniture": {
+        "A": "f_bookcase",
+        "B": "f_bed",
+        "c": "f_chair",
+        "C": "f_armchair",
+        "Ȼ": "f_counter",
+        "d": "f_desk",
+        "D": "f_dresser",
+        "g": "f_trashcan",
+        "l": "f_foot_locker_aluminum",
+        "L": "f_floor_lamp",
+        "£": "f_locker",
+        "O": "f_xe_magic_circle",
+        "r": "f_rack_wood",
+        "s": "f_sink",
+        "S": "f_sofa",
+        "Ś": "f_shower",
+        "t": "f_table",
+        "Ŧ": "f_table"
+      },
+      "toilets": { "j": {  } },
+      "items": {
+        "A": [
+          { "item": "homebooks", "chance": 75 },
+          { "item": "esoteric_books", "chance": 50 },
+          { "item": "deduction_books", "chance": 25 },
+          { "item": "hedge_magic_books", "chance": 25, "repeat": [ 1, 2 ] }
+        ],
+        "Ȼ": [ { "item": "SUS_bathroom_cabinet", "chance": 50 } ],
+        "D": [ { "item": "nether_cabin_ritual_prep_clothes", "repeat": [ 2, 8 ] } ],
+        "g": [ { "item": "SUS_trash_trashcan" } ],
+        "j": { "item": "SUS_toilet", "chance": 50 },
+        "£": { "item": "cleaning", "repeat": [ 2, 4 ] },
+        "r": { "item": "nether_cabin_ritual_ingredients", "repeat": [ 2, 4 ] },
+        "s": { "item": "SUS_bathroom_sink", "chance": 50 }
+      },
+      "place_item": [
+        { "item": "book_deduction_black_iron_prison", "x": 1, "y": 2, "chance": 50 },
+        { "item": "book_nether_sorcery_opening_of_the_way", "x": 18, "y": 21, "chance": 100 },
+        { "item": "mop", "x": 7, "y": 17 },
+        { "item": "candle", "chance": 95, "x": 16, "y": 18 },
+        { "item": "candle", "chance": 95, "x": 16, "y": 18 },
+        { "item": "candle", "chance": 95, "x": 17, "y": 18 },
+        { "item": "candle", "chance": 95, "x": 15, "y": 19 },
+        { "item": "candle", "chance": 95, "x": 15, "y": 20 },
+        { "item": "candle", "chance": 95, "x": 18, "y": 19 },
+        { "item": "candle", "chance": 95, "x": 18, "y": 20 },
+        { "item": "candle", "chance": 95, "x": 16, "y": 21 },
+        { "item": "candle", "chance": 95, "x": 17, "y": 21 }
+      ],
+      "place_loot": [ { "group": "nether_cabin_ritual_prep_clothes", "x": [ 15, 22 ], "y": [ 17, 22 ], "repeat": [ 2, 5 ] } ],
+      "place_monster": [
+        { "monster": "mon_gracke", "x": 1, "y": 7, "chance": 50 },
+        { "monster": "mon_blank", "x": 1, "y": 10, "chance": 50 },
+        { "monster": "mon_gracke", "x": 1, "y": 13, "chance": 50 },
+        { "monster": "mon_blank", "x": 1, "y": 1, "chance": 90 },
+        { "monster": "mon_star_vampire", "x": 8, "y": 1, "chance": 80 },
+        { "monster": "mon_nether_huntsman", "x": [ 17, 18 ], "y": [ 20, 21 ], "chance": 100, "repeat": 2 },
+        { "group": "GROUP_NETHER_CULT", "x": [ 13, 20 ], "y": [ 17, 22 ], "repeat": [ 2, 4 ] },
+        { "group": "GROUP_NETHER_CULT", "x": [ 13, 20 ], "y": [ 17, 22 ], "chance": 75, "repeat": [ 0, 2 ] }
+      ],
+      "place_fields": [
+        { "field": "fd_blood", "x": [ 13, 21 ], "y": [ 17, 22 ], "repeat": [ 22, 44 ] },
+        { "field": "fd_gibs_flesh", "x": [ 13, 21 ], "y": [ 17, 22 ], "repeat": [ 12, 24 ] }
+      ],
+      "place_nested": [
+        { "chunks": [ "cabin_nether_cult_basement_4x4_opening_rec_area" ], "x": 15, "y": 9 },
+        { "chunks": [ "cabin_nether_cult_basement_6x6_meeting_room" ], "x": 7, "y": 3 },
+        { "chunks": [ "cabin_nether_cult_basement_4x4_library" ], "x": 16, "y": 4 },
+        {
+          "chunks": [
+            [ "null", 6 ],
+            [ "cabin_nether_cult_basement_4x4_star_vampire_overlay", 1 ],
+            [ "cabin_nether_cult_basement_4x4_huntsman_overlay", 1 ]
+          ],
+          "x": 8,
+          "y": 4
+        },
+        {
+          "chunks": [
+            [ "null", 8 ],
+            [ "cabin_nether_cult_basement_4x4_star_vampire_overlay", 1 ],
+            [ "cabin_nether_cult_basement_4x4_huntsman_overlay", 1 ]
+          ],
+          "x": 16,
+          "y": 4
+        },
+        {
+          "chunks": [
+            [ "null", 3 ],
+            [ "cabin_nether_cult_basement_4x4_star_vampire_overlay", 1 ],
+            [ "cabin_nether_cult_basement_4x4_huntsman_overlay", 1 ]
+          ],
+          "x": 7,
+          "y": 20
+        }
+      ]
+    }
+  },
+  {
+    "nested_mapgen_id": "cabin_nether_cult_basement_4x4_opening_rec_area",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rows": [
+        "gSSS",
+        "   S",
+        " t S",
+        "   S"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "parameters": {
+        "carpet_type": {
+          "type": "ter_str_id",
+          "scope": "nest",
+          "default": {
+            "distribution": [
+              [ "t_carpet_concrete_yellow", 1 ],
+              [ "t_carpet_concrete_green", 1 ],
+              [ "t_carpet_concrete_purple", 1 ],
+              [ "t_carpet_concrete_red", 1 ]
+            ]
+          }
+        }
+      },
+      "terrain": {
+        " ": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" },
+        "S": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" },
+        "g": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" },
+        "t": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" }
+      },
+      "furniture": { "g": "f_trashcan", "S": "f_sofa", "t": "f_table" },
+      "items": { "g": [ { "item": "SUS_trash_trashcan" } ], "t": { "item": "homebooks" } },
+      "place_monster": [ { "group": "GROUP_NETHER_CULT", "x": [ 0, 3 ], "y": [ 0, 3 ], "chance": 50 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "cabin_nether_cult_basement_4x4_library",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rows": [
+        "CtLA",
+        "   A",
+        "   A",
+        "CtCA"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "parameters": {
+        "carpet_type": {
+          "type": "ter_str_id",
+          "scope": "nest",
+          "default": {
+            "distribution": [
+              [ "t_carpet_concrete_yellow", 1 ],
+              [ "t_carpet_concrete_green", 1 ],
+              [ "t_carpet_concrete_purple", 1 ],
+              [ "t_carpet_concrete_red", 1 ]
+            ]
+          }
+        }
+      },
+      "terrain": {
+        " ": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" },
+        "A": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" },
+        "C": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" },
+        "L": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" },
+        "t": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" }
+      },
+      "furniture": { "A": "f_bookcase", "C": "f_armchair", "L": "f_floor_lamp", "t": "f_table" },
+      "items": {
+        "A": [
+          { "item": "homebooks", "chance": 75 },
+          { "item": "esoteric_books", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "deduction_books", "chance": 10 },
+          { "item": "hedge_magic_books", "chance": 25, "repeat": [ 1, 2 ] }
+        ]
+      },
+      "place_monster": [ { "group": "GROUP_NETHER_CULT", "x": [ 0, 3 ], "y": [ 0, 3 ], "chance": 50 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "cabin_nether_cult_basement_6x6_meeting_room",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "------",
+        "g cc  ",
+        " cttc ",
+        " cttc ",
+        "L cc  ",
+        "------"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "parameters": {
+        "carpet_type": {
+          "type": "ter_str_id",
+          "scope": "nest",
+          "default": {
+            "distribution": [
+              [ "t_carpet_concrete_yellow", 1 ],
+              [ "t_carpet_concrete_green", 1 ],
+              [ "t_carpet_concrete_purple", 1 ],
+              [ "t_carpet_concrete_red", 1 ]
+            ]
+          }
+        }
+      },
+      "terrain": {
+        "-": "t_wall_wood",
+        " ": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" },
+        "g": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" },
+        "L": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" },
+        "t": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" },
+        "c": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" }
+      },
+      "furniture": { "c": "f_chair", "g": "f_trashcan", "t": "f_table" },
+      "items": {
+        "g": [ { "item": "SUS_trash_trashcan" } ],
+        "t": { "item": "nether_cabin_ritual_cult_meeting_room", "chance": 50, "repeat": [ 2, 5 ] }
+      },
+      "place_monster": [ { "group": "GROUP_NETHER_CULT", "x": [ 0, 3 ], "y": [ 0, 3 ], "chance": 25 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "cabin_nether_cult_basement_4x4_star_vampire_overlay",
+    "//": "An overlay with a star vampire with minimal blood.",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "    ",
+        "    ",
+        "    ",
+        "    "
+      ],
+      "place_fields": [
+        { "field": "fd_blood", "x": [ 0, 3 ], "y": [ 0, 3 ], "repeat": [ 1, 2 ] },
+        { "field": "fd_gibs_flesh", "x": [ 0, 3 ], "y": [ 0, 3 ], "repeat": [ 2, 4 ] }
+      ],
+      "place_monster": [ { "monster": "mon_star_vampire", "x": [ 0, 3 ], "y": [ 0, 3 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "cabin_nether_cult_basement_4x4_huntsman_overlay",
+    "//": "An overlay with a nether huntsman with gore.",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "    ",
+        "    ",
+        "    ",
+        "    "
+      ],
+      "place_fields": [
+        { "field": "fd_blood", "x": [ 0, 3 ], "y": [ 0, 3 ], "repeat": [ 6, 12 ] },
+        { "field": "fd_gibs_flesh", "x": [ 0, 3 ], "y": [ 0, 3 ], "repeat": [ 2, 4 ] }
+      ],
+      "place_monster": [ { "monster": "mon_nether_huntsman", "x": [ 0, 3 ], "y": [ 0, 3 ] } ]
+    }
+  }
+]

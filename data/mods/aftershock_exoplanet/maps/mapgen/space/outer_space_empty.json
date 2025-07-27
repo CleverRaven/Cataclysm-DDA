@@ -1,0 +1,12 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": "outer_space",
+    "object": { "fill_ter": "t_hard_vacuum" }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "high_orbit_salus_4", "high_orbit_salus_4tp" ],
+    "object": { "fill_ter": "t_open_air" }
+  }
+]

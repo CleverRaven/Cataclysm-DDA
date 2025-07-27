@@ -1,3 +1,36 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Contribute](#contribute)
+  - [Licensing and Authorship](#licensing-and-authorship)
+  - [Using a good text editor](#using-a-good-text-editor)
+  - [All PRs must have a "Summary" section](#all-prs-must-have-a-summary-section)
+  - [Contributing via GitHub](#contributing-via-github)
+  - [Code Style](#code-style)
+  - [Translations](#translations)
+  - [Doxygen Comments](#doxygen-comments)
+    - [Guidelines for adding documentation](#guidelines-for-adding-documentation)
+    - [Building the documentation for viewing it locally](#building-the-documentation-for-viewing-it-locally)
+  - [Example Workflow](#example-workflow)
+      - [Setup your environment](#setup-your-environment)
+      - [Update your `master` branch](#update-your-master-branch)
+      - [Make your changes](#make-your-changes)
+  - [Drafts](#drafts)
+    - [Comment requests](#comment-requests)
+    - [Keep your PR description relevant](#keep-your-pr-description-relevant)
+    - [Closing issues using keywords](#closing-issues-using-keywords)
+  - [Tooling support](#tooling-support)
+  - [Advanced Techniques](#advanced-techniques)
+      - [Using remote tracking branches](#using-remote-tracking-branches)
+  - [Unit tests](#unit-tests)
+  - [In-game testing, test environment and the debug menu](#in-game-testing-test-environment-and-the-debug-menu)
+  - [Frequently Asked Questions](#frequently-asked-questions)
+      - [Why does `git pull --ff-only` result in an error?](#why-does-git-pull---ff-only-result-in-an-error)
+      - [Oh no! I've made my changes to `master` branch and have pushed it to my repo! What should I do now?](#oh-no-ive-made-my-changes-to-master-branch-and-have-pushed-it-to-my-repo-what-should-i-do-now)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Contribute
 
 **Opening a new issue?** Please read [ISSUES.md](../ISSUES.md) first.
