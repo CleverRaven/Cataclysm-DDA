@@ -83,6 +83,7 @@
         "###o###+####o########o###o####o####o###.sssss..."
       ],
       "palettes": [ "parametrized_linoleum_palette", "parametrized_carpets_palette", "parametrized_walls_palette" ],
+      "parameters": { "safe": { "type": "bool", "default": { "distribution": [ [ "true", 20 ], [ "false", 80 ] ] } } },
       "terrain": {
         ".": "t_region_groundcover_urban",
         "%": "t_region_shrub_decorative",
@@ -217,14 +218,62 @@
         { "group": "elecsto_diy", "chance": 60, "repeat": 4, "x": [ 34, 37 ], "y": [ 4, 5 ] }
       ],
       "place_monster": [
-        { "group": "GROUP_CIVILIAN", "x": [ 2, 22 ], "y": [ 7, 14 ], "chance": 75, "repeat": [ 6, 12 ] },
-        { "group": "GROUP_CIVILIAN", "x": [ 25, 42 ], "y": [ 7, 14 ], "chance": 35, "repeat": [ 2, 6 ] },
-        { "group": "GROUP_CIVILIAN", "x": [ 2, 22 ], "y": [ 60, 71 ], "chance": 75, "repeat": [ 6, 12 ] },
-        { "group": "GROUP_CIVILIAN", "x": [ 25, 42 ], "y": [ 60, 71 ], "chance": 35, "repeat": [ 2, 6 ] },
-        { "group": "GROUP_SMALL_STATION", "x": [ 2, 22 ], "y": [ 7, 14 ], "chance": 75, "repeat": [ 3, 6 ] },
-        { "group": "GROUP_SMALL_STATION", "x": [ 25, 42 ], "y": [ 7, 14 ], "chance": 35, "repeat": [ 2, 6 ] },
-        { "group": "GROUP_SMALL_STATION", "x": [ 2, 22 ], "y": [ 60, 71 ], "chance": 75, "repeat": [ 3, 6 ] },
-        { "group": "GROUP_SMALL_STATION", "x": [ 25, 42 ], "y": [ 60, 71 ], "chance": 35, "repeat": [ 2, 6 ] }
+        {
+          "group": { "switch": { "param": "safe", "fallback": "true" }, "cases": { "true": "GROUP_NULL", "false": "GROUP_CIVILIAN" } },
+          "x": [ 2, 22 ],
+          "y": [ 7, 14 ],
+          "chance": 75,
+          "repeat": [ 6, 12 ]
+        },
+        {
+          "group": { "switch": { "param": "safe", "fallback": "true" }, "cases": { "true": "GROUP_NULL", "false": "GROUP_CIVILIAN" } },
+          "x": [ 25, 42 ],
+          "y": [ 7, 14 ],
+          "chance": 35,
+          "repeat": [ 2, 6 ]
+        },
+        {
+          "group": { "switch": { "param": "safe", "fallback": "true" }, "cases": { "true": "GROUP_NULL", "false": "GROUP_CIVILIAN" } },
+          "x": [ 2, 22 ],
+          "y": [ 60, 71 ],
+          "chance": 75,
+          "repeat": [ 6, 12 ]
+        },
+        {
+          "group": { "switch": { "param": "safe", "fallback": "true" }, "cases": { "true": "GROUP_NULL", "false": "GROUP_CIVILIAN" } },
+          "x": [ 25, 42 ],
+          "y": [ 60, 71 ],
+          "chance": 35,
+          "repeat": [ 2, 6 ]
+        },
+        {
+          "group": { "switch": { "param": "safe", "fallback": "true" }, "cases": { "true": "GROUP_NULL", "false": "GROUP_SMALL_STATION" } },
+          "x": [ 2, 22 ],
+          "y": [ 7, 14 ],
+          "chance": 75,
+          "repeat": [ 3, 6 ]
+        },
+        {
+          "group": { "switch": { "param": "safe", "fallback": "true" }, "cases": { "true": "GROUP_NULL", "false": "GROUP_SMALL_STATION" } },
+          "x": [ 25, 42 ],
+          "y": [ 7, 14 ],
+          "chance": 35,
+          "repeat": [ 2, 6 ]
+        },
+        {
+          "group": { "switch": { "param": "safe", "fallback": "true" }, "cases": { "true": "GROUP_NULL", "false": "GROUP_SMALL_STATION" } },
+          "x": [ 2, 22 ],
+          "y": [ 60, 71 ],
+          "chance": 75,
+          "repeat": [ 3, 6 ]
+        },
+        {
+          "group": { "switch": { "param": "safe", "fallback": "true" }, "cases": { "true": "GROUP_NULL", "false": "GROUP_SMALL_STATION" } },
+          "x": [ 25, 42 ],
+          "y": [ 60, 71 ],
+          "chance": 35,
+          "repeat": [ 2, 6 ]
+        }
       ],
       "vehicles": {
         "Á": { "vehicle": "suburban_home_compact", "chance": 50, "rotation": 270 },

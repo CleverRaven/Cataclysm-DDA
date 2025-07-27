@@ -677,7 +677,7 @@
     "type": "start_location",
     "id": "sloc_light_industry_scen",
     "name": "Industrial Offices",
-    "terrain": [ "s_lightindustry_scen_10" ]
+    "terrain": [ { "om_terrain": "s_lightindustry_10", "parameters": { "safe": "true" } } ]
   },
   {
     "type": "start_location",

@@ -1,6 +1,12 @@
 [
   {
     "type": "overmap_special_migration",
+    "id": "o_lightindustry_scen",
+    "new_id": "o_lightindustry",
+    "//": "Migrated in 0.J"
+  },
+  {
+    "type": "overmap_special_migration",
     "id": "Evac Shelter 1",
     "new_id": "Evac Shelter",
     "//": "Migrated in 0.J"
