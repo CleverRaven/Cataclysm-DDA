@@ -2341,6 +2341,13 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_magiclysm_craft_in_darkness",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "CRAFT_IN_DARKNESS" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_vulcanist_no_smoke_or_blisters",
     "name": [ "" ],
     "desc": [ "" ],

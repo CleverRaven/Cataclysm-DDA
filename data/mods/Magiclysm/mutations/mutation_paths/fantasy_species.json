@@ -359,10 +359,43 @@
     "id": "ELVEN_SIGHT",
     "name": { "str": "Elvensight" },
     "points": 2,
-    "description": "Like a cat, elven eyes are well-attuned to low levels of light, able to pick up even the slightest glimmer.  You have greatly-enhanced night vision.",
+    "description": "Like a cat, elven eyes are well-attuned to low levels of light, able to pick up even the slightest glimmer.  You have greatly-enhanced night vision.  However, you have no additional vision while in complete darkness.",
     "types": [ "EYES" ],
     "category": [ "SPECIES_ELF" ],
-    "enchantments": [ { "values": [ { "value": "NIGHT_VIS", "add": 5 } ] } ]
+    "enchantments": [
+      {
+        "condition": { "and": [ "u_is_outside", { "or": [ { "is_weather": "clear" }, { "is_weather": "sunny" } ] } ] },
+        "values": [ { "value": "NIGHT_VIS", "add": 20 }, { "value": "OVERMAP_SIGHT", "add": 6 } ],
+        "ench_effects": [ { "effect": "effect_magiclysm_craft_in_darkness", "intensity": 1 } ]
+      },
+      {
+        "condition": {
+          "and": [
+            "u_is_outside",
+            { "not": { "is_weather": "clear" } },
+            { "not": { "is_weather": "sunny" } },
+            { "and": [ { "math": [ "moon_phase() >= 2" ] }, { "math": [ "moon_phase() < 7" ] } ] }
+          ]
+        },
+        "values": [ { "value": "NIGHT_VIS", "add": 10 }, { "value": "OVERMAP_SIGHT", "add": 2 } ]
+      },
+      {
+        "condition": {
+          "and": [
+            "u_is_outside",
+            { "not": { "is_weather": "clear" } },
+            { "not": { "is_weather": "sunny" } },
+            { "or": [ { "math": [ "moon_phase() <= 1" ] }, { "math": [ "moon_phase() == 7" ] } ] }
+          ]
+        },
+        "values": [ { "value": "NIGHT_VIS", "add": 2 } ]
+      },
+      {
+        "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_val('fine_detail_vision_mod') <= 7" ] } ] },
+        "values": [ { "value": "NIGHT_VIS", "add": 6 } ],
+        "ench_effects": [ { "effect": "effect_magiclysm_craft_in_darkness", "intensity": 1 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
