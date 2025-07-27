@@ -166,7 +166,6 @@ jobs:
             localize: 1
             native: linux64
             pch: 1
-          # sanitize: address
             title: GCC 14, Ubuntu, Curses
             ccache_limit: 6.5G
             ccache_key: linux-gcc-14
