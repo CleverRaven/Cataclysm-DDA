@@ -37,12 +37,21 @@
     "subtype": "collection",
     "items": [
       { "group": "afs_civilian_armory", "count": [ 14, 28 ] },
+      { "group": "afs_augustmoon_guntrader_seyfert", "count": 1 },
       { "group": "augustmoon_shop_money" },
       { "item": "UPS_OFF", "charges": 1000, "count": 1 },
       { "item": "small_repairkit", "count": 1 },
       { "item": "large_repairkit", "count": 1 },
       { "item": "chem_acetone", "count": [ 1, 2 ] }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_augustmoon_guntrader_seyfert",
+    "subtype": "collection",
+    "magazine": 100,
+    "ammo": 100,
+    "items": [ { "item": "afs_seyfert_84K" }, { "item": "afs_84k_20mag" } ]
   },
   {
     "type": "item_group",

@@ -34,7 +34,7 @@
     "copy-from": "afs_plasma_base",
     "looks_like": "plasma_gun",
     "description": "A heavy plasma railgun that easily defeats most forms of conventional armor and flash-incinerates anything  behind it.  Its large size and liability to overheat make it unsuitable for infantry use, but it is a common sight on military vehicles and in the hands of power-armored troops, especially when heavy armor is expected.",
-    "weight": "8500 g",
+    "weight": "7500 g",
     "volume": "4 L",
     "longest_side": "100 cm",
     "price": "15 kUSD",
