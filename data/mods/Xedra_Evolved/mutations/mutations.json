@@ -691,7 +691,46 @@
     "name": { "str": "Predator's Senses" },
     "description": "Your senses are heightened, allowing you to see more clearly, hear even tiny sounds, and smell nearby fresh human blood.",
     "spells_learned": [ [ "vampire_smell_nearby_blood_spell", 1 ] ],
-    "enchantments": [ "ench_vampire_heightened_senses_hearing", "ench_vampire_heightened_senses_perception" ]
+    "enchantments": [
+      "ench_vampire_heightened_senses_hearing",
+      "ench_vampire_heightened_senses_perception",
+      {
+        "special_vision": [
+          {
+            "condition": {
+              "and": [
+                { "math": [ "vampire_total_tier_three_traits() >= 1" ] },
+                { "math": [ "u_val('perception') >= 16" ] },
+                {
+                  "or": [
+                    { "npc_has_effect": "bleed" },
+                    {
+                      "and": [
+                        "npc_is_character",
+                        {
+                          "or": [
+                            { "npc_has_effect": "bleed", "bodypart": "head" },
+                            { "npc_has_effect": "bleed", "bodypart": "torso" },
+                            { "npc_has_effect": "bleed", "bodypart": "arm_l" },
+                            { "npc_has_effect": "bleed", "bodypart": "arm_r" },
+                            { "npc_has_effect": "bleed", "bodypart": "leg_l" },
+                            { "npc_has_effect": "bleed", "bodypart": "leg_r" }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "distance": { "math": [ "u_val('perception') * 2" ] },
+            "descriptions": [
+              { "id": "infrared_creature_medium", "symbol": "?", "color": "c_red", "text": "You can smell something bleeding here." }
+            ]
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
