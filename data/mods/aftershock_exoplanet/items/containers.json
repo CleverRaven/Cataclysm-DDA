@@ -31,7 +31,7 @@
     "subtypes": [ "TOOL" ],
     "copy-from": "pressure_tank",
     "name": { "str": "pressurized tank" },
-    "flags": [ "NO_UNLOAD", "MAG_BULKY" ]
+    "flags": [ "NO_RELOAD", "MAG_BULKY" ]
   },
   {
     "id": "afs_thermos",
