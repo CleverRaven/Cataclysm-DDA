@@ -1337,11 +1337,22 @@ ImGuiStyle::ImGuiStyle()
     ChildBorderSize             = 1.0f;             // Thickness of border around child windows. Generally set to 0.0f or 1.0f. Other values not well tested.
     PopupRounding               = 0.0f;             // Radius of popup window corners rounding. Set to 0.0f to have rectangular child windows
     PopupBorderSize             = 1.0f;             // Thickness of border around popup or tooltip windows. Generally set to 0.0f or 1.0f. Other values not well tested.
+// START CDDA PATCH #82135
+#ifdef IMTUI
+    FramePadding                = ImVec2(1,1);      // Padding within a framed rectangle (used by most widgets)
+#else
     FramePadding                = ImVec2(4,3);      // Padding within a framed rectangle (used by most widgets)
+#endif
     FrameRounding               = 0.0f;             // Radius of frame corners rounding. Set to 0.0f to have rectangular frames (used by most widgets).
     FrameBorderSize             = 0.0f;             // Thickness of border around frames. Generally set to 0.0f or 1.0f. Other values not well tested.
+#ifdef TUI
+    ItemSpacing                 = ImVec2(1,1);      // Horizontal and vertical spacing between widgets/lines
+    ItemInnerSpacing            = ImVec2(1,0);      // Horizontal and vertical spacing between within elements of a composed widget (e.g. a slider and its label)
+#else
     ItemSpacing                 = ImVec2(8,4);      // Horizontal and vertical spacing between widgets/lines
     ItemInnerSpacing            = ImVec2(4,4);      // Horizontal and vertical spacing between within elements of a composed widget (e.g. a slider and its label)
+#endif
+// END CDDA PATCH #82135
     CellPadding                 = ImVec2(4,2);      // Padding within a table cell. Cellpadding.x is locked for entire table. CellPadding.y may be altered between different rows.
     TouchExtraPadding           = ImVec2(0,0);      // Expand reactive bounding box for touch-based system where touch position is not accurate enough. Unfortunately we don't sort widgets so priority on overlap will always be given to the first widget. So don't grow this too much!
     IndentSpacing               = 21.0f;            // Horizontal spacing when e.g. entering a tree node. Generally == (FontSize + FramePadding.x*2).
@@ -1363,15 +1374,28 @@ ImGuiStyle::ImGuiStyle()
     ColorButtonPosition         = ImGuiDir_Right;   // Side of the color button in the ColorEdit4 widget (left/right). Defaults to ImGuiDir_Right.
     ButtonTextAlign             = ImVec2(0.5f,0.5f);// Alignment of button text when button is larger than text.
     SelectableTextAlign         = ImVec2(0.0f,0.0f);// Alignment of selectable text. Defaults to (0.0f, 0.0f) (top-left aligned). It's generally important to keep this left-aligned if you want to lay multiple items on a same line.
+// START CDDA PATCH #82135
+#ifdef IMTUI
+    SeparatorTextBorderSize     = 0.0f;             // Thickness of border in SeparatorText()
+    SeparatorTextAlign          = ImVec2(0.5f,0.5f);// Alignment of text within the separator.
+    SeparatorTextPadding        = ImVec2(0.0f,0.f);// Horizontal offset of text from each edge of the separator + spacing on other axis.
+#else
     SeparatorTextBorderSize     = 3.0f;             // Thickness of border in SeparatorText()
     SeparatorTextAlign          = ImVec2(0.0f,0.5f);// Alignment of text within the separator. Defaults to (0.0f, 0.5f) (left aligned, center).
     SeparatorTextPadding        = ImVec2(20.0f,3.f);// Horizontal offset of text from each edge of the separator + spacing on other axis. Generally small values. .y is recommended to be == FramePadding.y.
+#endif
+// END CDDA PATCH #82135
     DisplayWindowPadding        = ImVec2(19,19);    // Window position are clamped to be visible within the display area or monitors by at least this amount. Only applies to regular windows.
     DisplaySafeAreaPadding      = ImVec2(3,3);      // If you cannot see the edge of your screen (e.g. on a TV) increase the safe area padding. Covers popups/tooltips as well regular windows.
     MouseCursorScale            = 1.0f;             // Scale software rendered mouse cursor (when io.MouseDrawCursor is enabled). May be removed later.
     AntiAliasedLines            = true;             // Enable anti-aliased lines/borders. Disable if you are really tight on CPU/GPU.
     AntiAliasedLinesUseTex      = true;             // Enable anti-aliased lines/borders using textures where possible. Require backend to render with bilinear filtering (NOT point/nearest filtering).
     AntiAliasedFill             = true;             // Enable anti-aliased filled shapes (rounded rectangles, circles, etc.).
+// START CDDA PATCH #65709
+#ifdef IMTUI
+    WindowBorderAscii       = false;            // [ImTui] Draw ASCII window border
+#endif
+// END CDDA PATCH #65709
     CurveTessellationTol        = 1.25f;            // Tessellation tolerance when using PathBezierCurveTo() without a specific number of segments. Decrease for highly tessellated curves (higher quality, more polygons), increase to reduce quality.
     CircleTessellationMaxError  = 0.30f;            // Maximum error (in pixels) allowed when using AddCircle()/AddCircleFilled() or drawing rounded corner rectangles with no explicit segment count specified. Decrease for higher quality but more geometry.
 
@@ -1497,7 +1521,20 @@ ImGuiIO::ImGuiIO()
     for (int i = 0; i < IM_ARRAYSIZE(MouseDownDuration); i++) MouseDownDuration[i] = MouseDownDurationPrev[i] = -1.0f;
     for (int i = 0; i < IM_ARRAYSIZE(KeysData); i++) { KeysData[i].DownDuration = KeysData[i].DownDurationPrev = -1.0f; }
     AppAcceptingEvents = true;
+// START CDDA PATCH #72645
+    PreEditText[0] = '\0';
 }
+
+void ImGuiIO::SetPreEditText(const char *str)
+{
+    strcpy(PreEditText, str);
+}
+
+void ImGuiIO::ClearPreEditText()
+{
+    PreEditText[0] = '\0';
+}
+// END CDDA PATCH #72645
 
 // Pass in translated ASCII characters for text input.
 // - with glfw you can get those from the callback set in glfwSetCharCallback()
@@ -3746,7 +3783,14 @@ void ImGui::RenderFrame(ImVec2 p_min, ImVec2 p_max, ImU32 fill_col, bool borders
 {
     ImGuiContext& g = *GImGui;
     ImGuiWindow* window = g.CurrentWindow;
-    window->DrawList->AddRectFilled(p_min, p_max, fill_col, rounding);
+// START CDDA PATCH #65709
+    ImVec2 p_frame_max = p_max;
+#ifdef IMTUI
+    p_min += ImVec2(1.0, 0.0);
+    p_frame_max -= ImVec2(+0.1,0.1);
+#endif
+    window->DrawList->AddRectFilled(p_min, p_frame_max, fill_col, rounding);
+// END CDDA PATCH #65709
     const float border_size = g.Style.FrameBorderSize;
     if (borders && border_size > 0.0f)
     {
@@ -3766,6 +3810,25 @@ void ImGui::RenderFrameBorder(ImVec2 p_min, ImVec2 p_max, float rounding)
         window->DrawList->AddRect(p_min, p_max, GetColorU32(ImGuiCol_Border), rounding, 0, border_size);
     }
 }
+
+// START CDDA PATCH #83011
+#ifdef IMTUI
+bool ImGui::ShouldRenderNavCursor(ImGuiID id, ImGuiNavRenderCursorFlags flags)
+{
+    ImGuiContext& g = *GImGui;
+    if (id != g.NavId)
+        return false;
+    if (!g.NavCursorVisible && !(flags & ImGuiNavRenderCursorFlags_AlwaysDraw))
+        return false;
+    if (id == g.LastItemData.ID && (g.LastItemData.ItemFlags & ImGuiItemFlags_NoNav))
+        return false;
+    ImGuiWindow* window = g.CurrentWindow;
+    if (window->DC.NavHideHighlightOneFrame)
+        return false;
+    return true;
+}
+#endif
+// END CDDA PATCH #83011
 
 void ImGui::RenderNavCursor(const ImRect& bb, ImGuiID id, ImGuiNavRenderCursorFlags flags)
 {
@@ -6387,6 +6450,11 @@ static ImVec2 CalcWindowAutoFitSize(ImGuiWindow* window, const ImVec2& size_cont
     ImVec2 size_desired = size_contents + size_pad + ImVec2(decoration_w_without_scrollbars, decoration_h_without_scrollbars);
     if (window->Flags & ImGuiWindowFlags_Tooltip)
     {
+// START CDDA PATCH #65709
+#ifdef IMTUI
+        size_desired += ImVec2(1.5f, 0.0f);
+#endif
+// END CDDA PATCH #65709
         // Tooltip always resize
         return size_desired;
     }
@@ -6529,7 +6597,12 @@ static int ImGui::UpdateWindowManualResize(ImGuiWindow* window, const ImVec2& si
 
     int ret_auto_fit_mask = 0x00;
     const float grip_draw_size = IM_TRUNC(ImMax(g.FontSize * 1.35f, window->WindowRounding + 1.0f + g.FontSize * 0.2f));
-    const float grip_hover_inner_size = (resize_grip_count > 0) ? IM_TRUNC(grip_draw_size * 0.75f) : 0.0f;
+// START CDDA PATCH #65709
+    float grip_hover_inner_size = IM_FLOOR(grip_draw_size * 0.75f);
+#ifdef IMTUI
+    grip_hover_inner_size = ImMax(1.0f, grip_hover_inner_size);
+#endif
+// END CDDA PATCH #65709
     const float grip_hover_outer_size = g.WindowsBorderHoverPadding;
 
     ImRect clamp_rect = visibility_rect;
@@ -6804,6 +6877,13 @@ void ImGui::RenderWindowDecorations(ImGuiWindow* window, const ImRect& title_bar
     }
     else
     {
+// START CDDA PATCH #65709
+#ifdef IMTUI
+            ImVec2 p_max_extra_padding = ImVec2(1, 1);
+#else
+            ImVec2 p_max_extra_padding = ImVec2(0, 0);
+#endif
+// END CDDA PATCH #65709
         // Window background
         if (!(flags & ImGuiWindowFlags_NoBackground))
         {
@@ -6817,14 +6897,18 @@ void ImGui::RenderWindowDecorations(ImGuiWindow* window, const ImRect& title_bar
             }
             if (override_alpha)
                 bg_col = (bg_col & ~IM_COL32_A_MASK) | (IM_F32_TO_INT8_SAT(alpha) << IM_COL32_A_SHIFT);
-            window->DrawList->AddRectFilled(window->Pos + ImVec2(0, window->TitleBarHeight), window->Pos + window->Size, bg_col, window_rounding, (flags & ImGuiWindowFlags_NoTitleBar) ? 0 : ImDrawFlags_RoundCornersBottom);
+// START CDDA PATCH #65709
+            window->DrawList->AddRectFilled(window->Pos + ImVec2(0, window->TitleBarHeight), window->Pos + window->Size - p_max_extra_padding, bg_col, window_rounding, (flags & ImGuiWindowFlags_NoTitleBar) ? 0 : ImDrawFlags_RoundCornersBottom);
+// END CDDA PATCH #65709
         }
 
         // Title bar
         if (!(flags & ImGuiWindowFlags_NoTitleBar))
         {
             ImU32 title_bar_col = GetColorU32(title_bar_is_highlight ? ImGuiCol_TitleBgActive : ImGuiCol_TitleBg);
-            window->DrawList->AddRectFilled(title_bar_rect.Min, title_bar_rect.Max, title_bar_col, window_rounding, ImDrawFlags_RoundCornersTop);
+// START CDDA PATCH #65709
+            window->DrawList->AddRectFilled(title_bar_rect.Min, title_bar_rect.Max - p_max_extra_padding, title_bar_col, window_rounding, ImDrawFlags_RoundCornersTop);
+// END CDDA PATCH #65709
         }
 
         // Menu bar
@@ -6832,7 +6916,9 @@ void ImGui::RenderWindowDecorations(ImGuiWindow* window, const ImRect& title_bar
         {
             ImRect menu_bar_rect = window->MenuBarRect();
             menu_bar_rect.ClipWith(window->Rect());  // Soft clipping, in particular child window don't have minimum size covering the menu bar so this is useful for them.
-            window->DrawList->AddRectFilled(menu_bar_rect.Min, menu_bar_rect.Max, GetColorU32(ImGuiCol_MenuBarBg), (flags & ImGuiWindowFlags_NoTitleBar) ? window_rounding : 0.0f, ImDrawFlags_RoundCornersTop);
+// START CDDA PATCH #65709 Check this one is still wanted?
+            window->DrawList->AddRectFilled(menu_bar_rect.Min, menu_bar_rect.Max - p_max_extra_padding, GetColorU32(ImGuiCol_MenuBarBg), (flags & ImGuiWindowFlags_NoTitleBar) ? window_rounding : 0.0f, ImDrawFlags_RoundCornersTop);
+// END CDDA PATCH #65709
             if (style.FrameBorderSize > 0.0f && menu_bar_rect.Max.y < window->Pos.y + window->Size.y)
                 window->DrawList->AddLine(menu_bar_rect.GetBL() + ImVec2(window_border_size * 0.5f, 0.0f), menu_bar_rect.GetBR() - ImVec2(window_border_size * 0.5f, 0.0f), GetColorU32(ImGuiCol_Border), style.FrameBorderSize);
         }
@@ -6842,6 +6928,23 @@ void ImGui::RenderWindowDecorations(ImGuiWindow* window, const ImRect& title_bar
             Scrollbar(ImGuiAxis_X);
         if (window->ScrollbarY)
             Scrollbar(ImGuiAxis_Y);
+        
+// START CDDA PATCH #65709
+#ifdef IMTUI
+        // Ascii borders
+        if (style.WindowBorderAscii) {
+            window->DrawList->AddText(ImVec2(window->Pos.x - 1, window->Pos.y + window->Size.y - 1), GetColorU32(ImGuiCol_Border), "\\");
+            window->DrawList->AddText(ImVec2(window->Pos.x + window->Size.x - 2, window->Pos.y + window->Size.y - 1), GetColorU32(ImGuiCol_Border), "/");
+            for (int i = 0; i < window->Size.x - 2; ++i) {
+                window->DrawList->AddText(ImVec2(window->Pos.x + i, window->Pos.y + window->Size.y - 1), GetColorU32(ImGuiCol_Border), "-");
+            }
+            for (int i = 1; i < window->Size.y - 1; ++i) {
+                window->DrawList->AddText(ImVec2(window->Pos.x - 1, window->Pos.y + i), GetColorU32(ImGuiCol_Border), "|");
+                window->DrawList->AddText(ImVec2(window->Pos.x + window->Size.x - 2, window->Pos.y + i), GetColorU32(ImGuiCol_Border), "|");
+            }
+        }
+#endif
+// END CDDA PATCH #65709
 
         // Render resize grips (after their input handling so we don't have a frame of latency)
         if (handle_borders_and_resize_grips && !(flags & ImGuiWindowFlags_NoResize))
@@ -6853,11 +6956,17 @@ void ImGui::RenderWindowDecorations(ImGuiWindow* window, const ImRect& title_bar
                     continue;
                 const ImGuiResizeGripDef& grip = resize_grip_def[resize_grip_n];
                 const ImVec2 corner = ImLerp(window->Pos, window->Pos + window->Size, grip.CornerPosN);
+// START CDDA PATCH #65709
+#ifdef IMTUI
+                window->DrawList->AddText(corner + grip.InnerDir * ((resize_grip_n & 1) ? ImVec2(window_border_size, resize_grip_draw_size) : ImVec2(resize_grip_draw_size, window_border_size)) - ImVec2(1, 1), resize_grip_col[resize_grip_n], "+");
+#else
                 const float border_inner = IM_ROUND(window_border_size * 0.5f);
                 window->DrawList->PathLineTo(corner + grip.InnerDir * ((resize_grip_n & 1) ? ImVec2(border_inner, resize_grip_draw_size) : ImVec2(resize_grip_draw_size, border_inner)));
                 window->DrawList->PathLineTo(corner + grip.InnerDir * ((resize_grip_n & 1) ? ImVec2(resize_grip_draw_size, border_inner) : ImVec2(border_inner, resize_grip_draw_size)));
                 window->DrawList->PathArcToFast(ImVec2(corner.x + grip.InnerDir.x * (window_rounding + border_inner), corner.y + grip.InnerDir.y * (window_rounding + border_inner)), window_rounding, grip.AngleMin12, grip.AngleMax12);
                 window->DrawList->PathFillConvex(col);
+#endif
+// END CDDA PATCH #65709
             }
         }
 
@@ -6940,7 +7049,13 @@ void ImGui::RenderWindowTitleBarContents(ImGuiWindow* window, const ImRect& titl
     }
 
     ImRect layout_r(title_bar_rect.Min.x + pad_l, title_bar_rect.Min.y, title_bar_rect.Max.x - pad_r, title_bar_rect.Max.y);
-    ImRect clip_r(layout_r.Min.x, layout_r.Min.y, ImMin(layout_r.Max.x + g.Style.ItemInnerSpacing.x, title_bar_rect.Max.x), layout_r.Max.y);
+// START CDDA PATCH #65709
+    float clip_r_x2 = ImMin(layout_r.Max.x + g.Style.ItemInnerSpacing.x, title_bar_rect.Max.x);
+#ifdef IMTUI
+     clip_r_x2 -= 2.1f;
+#endif
+    ImRect clip_r(layout_r.Min.x, layout_r.Min.y, clip_r_x2, layout_r.Max.y);
+// END CDDA PATCH #65709
     if (flags & ImGuiWindowFlags_UnsavedDocument)
     {
         ImVec2 marker_pos;
@@ -7878,16 +7993,22 @@ void ImGui::SetCurrentFont(ImFont* font)
 //     because we have a concrete need and a test bed for multiple atlas textures.
 void ImGui::PushFont(ImFont* font)
 {
+// START CDDA PATCH #76529
+#ifndef IMTUI
     ImGuiContext& g = *GImGui;
     if (font == NULL)
         font = GetDefaultFont();
     g.FontStack.push_back(font);
     SetCurrentFont(font);
     g.CurrentWindow->DrawList->_SetTextureID(font->ContainerAtlas->TexID);
+    #endif
+// END CDDA PATCH #76529
 }
 
 void  ImGui::PopFont()
 {
+// START CDDA PATCH #76529
+#ifndef IMTUI
     ImGuiContext& g = *GImGui;
     if (g.FontStack.Size <= 0)
     {
@@ -7898,6 +8019,9 @@ void  ImGui::PopFont()
     ImFont* font = g.FontStack.Size == 0 ? GetDefaultFont() : g.FontStack.back();
     SetCurrentFont(font);
     g.CurrentWindow->DrawList->_SetTextureID(font->ContainerAtlas->TexID);
+    
+    #endif
+// END CDDA PATCH #76529
 }
 
 void ImGui::PushItemFlag(ImGuiItemFlags option, bool enabled)

@@ -172,6 +172,9 @@ struct ImFontAtlas;                 // Runtime data for multiple fonts, bake mul
 struct ImFontBuilderIO;             // Opaque interface to a font builder (stb_truetype or FreeType).
 struct ImFontConfig;                // Configuration data when adding a font or merging fonts
 struct ImFontGlyph;                 // A single font glyph (code point + coordinates within in ImFontAtlas + offset)
+// START CDDA PATCH #72579
+struct ImFontGlyphToDraw;
+// END CDDA PATCH #72579
 struct ImFontGlyphRangesBuilder;    // Helper to build glyph ranges from text/string data
 struct ImColor;                     // Helper functions to create a color that can be converted to either u32 or float4 (*OBSOLETE* please avoid using)
 
@@ -271,6 +274,11 @@ typedef int     (*ImGuiInputTextCallback)(ImGuiInputTextCallbackData* data);    
 typedef void    (*ImGuiSizeCallback)(ImGuiSizeCallbackData* data);              // Callback function for ImGui::SetNextWindowSizeConstraints()
 typedef void*   (*ImGuiMemAllocFunc)(size_t sz, void* user_data);               // Function signature for ImGui::SetAllocatorFunctions()
 typedef void    (*ImGuiMemFreeFunc)(void* ptr, void* user_data);                // Function signature for ImGui::SetAllocatorFunctions()
+// START CDDA PATCH (#73414
+typedef int     (*ImGuiGetFallbackTextSize)(const char* begin, const char* end, const float scale); // Function signature for ImGui::SetTextSizeCallback()
+typedef int     (*ImGuiGetFallbackCharSize)(const ImWchar ch, const float scale); // Function signature for ImGui::SetCharSizeCallback()
+typedef bool    (*ImGuiRenderFallbackChar)(const ImWchar ch);                   // Function signature for ImGui::SetRenderFallbackCharCallback()
+// END CDDA PATCH (#73414
 
 // ImVec2: 2D vector used to store positions, sizes etc. [Compile-time configurable type]
 // - This is a frequently used type in the API. Consider using IM_VEC2_CLASS_EXTRA to create implicit cast from/to our preferred type.
@@ -2192,6 +2200,11 @@ struct ImGuiStyle
     bool        AntiAliasedLines;           // Enable anti-aliased lines/borders. Disable if you are really tight on CPU/GPU. Latched at the beginning of the frame (copied to ImDrawList).
     bool        AntiAliasedLinesUseTex;     // Enable anti-aliased lines/borders using textures where possible. Require backend to render with bilinear filtering (NOT point/nearest filtering). Latched at the beginning of the frame (copied to ImDrawList).
     bool        AntiAliasedFill;            // Enable anti-aliased edges around filled shapes (rounded rectangles, circles, etc.). Disable if you are really tight on CPU/GPU. Latched at the beginning of the frame (copied to ImDrawList).
+// START CDDA PATCH #65709
+#ifdef IMTUI
+    bool        WindowBorderAscii;          // [ImTui] Draw ASCII window border
+#endif
+// END CDDA PATCH #65709
     float       CurveTessellationTol;       // Tessellation tolerance when using PathBezierCurveTo() without a specific number of segments. Decrease for highly tessellated curves (higher quality, more polygons), increase to reduce quality.
     float       CircleTessellationMaxError; // Maximum error (in pixels) allowed when using AddCircle()/AddCircleFilled() or drawing rounded corner rectangles with no explicit segment count specified. Decrease for higher quality but more geometry.
 
@@ -2369,7 +2382,10 @@ struct ImGuiIO
     IMGUI_API void  AddInputCharacter(unsigned int c);                      // Queue a new character input
     IMGUI_API void  AddInputCharacterUTF16(ImWchar16 c);                    // Queue a new character input from a UTF-16 character, it can be a surrogate
     IMGUI_API void  AddInputCharactersUTF8(const char* str);                // Queue a new characters input from a UTF-8 string
-
+// START CDDA PATCH #72645
+    IMGUI_API void  SetPreEditText(const char *str);
+    IMGUI_API void  ClearPreEditText();
+// END CDDA PATCH #72645
     IMGUI_API void  SetKeyEventNativeData(ImGuiKey key, int native_keycode, int native_scancode, int native_legacy_index = -1); // [Optional] Specify index for legacy <1.87 IsKeyXXX() functions with native indices + specify native keycode, scancode.
     IMGUI_API void  SetAppAcceptingEvents(bool accepting_events);           // Set master flag for accepting key/mouse/text events (default to true). Useful if you have native dialog boxes that are interrupting your application loop/refresh, and you want to disable events being queued while your app is frozen.
     IMGUI_API void  ClearEventsQueue();                                     // Clear all incoming events.
@@ -2443,6 +2459,9 @@ struct ImGuiIO
     bool        AppAcceptingEvents;                 // Only modify via SetAppAcceptingEvents()
     ImWchar16   InputQueueSurrogate;                // For AddInputCharacterUTF16()
     ImVector<ImWchar> InputQueueCharacters;         // Queue of _characters_ input (obtained by platform backend). Fill using AddInputCharacter() helper.
+// START CDDA PATCH #72645
+    char PreEditText[255];                          // preview of text entered by the user via an IME, but not yet confirmed
+// END CDDA PATCH #72645
 
     // Legacy: before 1.87, we required backend to fill io.KeyMap[] (imgui->native map) during initialization and io.KeysDown[] (native indices) every frame.
     // This is still temporarily supported as a legacy feature. However the new preferred scheme is for backend to call io.AddKeyEvent().
@@ -3096,6 +3115,9 @@ struct ImDrawList
     ImVector<ImDrawCmd>     CmdBuffer;          // Draw commands. Typically 1 command = 1 GPU draw call, unless the command is a callback.
     ImVector<ImDrawIdx>     IdxBuffer;          // Index buffer. Each command consume ImDrawCmd::ElemCount of those
     ImVector<ImDrawVert>    VtxBuffer;          // Vertex buffer.
+// START CDDA PATCH #72579
+    ImVector<ImFontGlyphToDraw> FallbackGlyphs;
+// END CDDA PATCH #72579
     ImDrawListFlags         Flags;              // Flags, you may poke into these to adjust anti-aliasing settings per-primitive.
 
     // [Internal, used while building lists]
@@ -3309,6 +3331,15 @@ struct ImFontGlyph
     float           U0, V0, U1, V1;     // Texture coordinates
 };
 
+// START CDDA PATCH #72579
+struct ImFontGlyphToDraw
+{
+    char uni_str[7];
+    ImVec2 pos;
+    ImU32 col;
+};
+// END CDDA PATCH #72579
+
 // Helper to build glyph ranges from text/string data. Feed your application strings/characters to it then call BuildRanges().
 // This is essentially a tightly packed of vector of 64k booleans = 8KB storage.
 struct ImFontGlyphRangesBuilder
@@ -3497,22 +3528,33 @@ struct ImFont
     float                       Ascent, Descent;    // 4+4   // out // Ascent: distance from top to bottom of e.g. 'A' [0..FontSize] (unscaled)
     int                         MetricsTotalSurface;// 4     // out // Total surface in pixels to get an idea of the font rasterization/texture cost (not exact, we approximate the cost of padding between glyphs)
     bool                        DirtyLookupTables;  // 1     // out //
+// START CDDA PATCH #73414
+    ImGuiGetFallbackTextSize    GetFallbackTextSizeCallback;
+    ImGuiGetFallbackCharSize    GetFallbackCharSizeCallback;
+    ImGuiRenderFallbackChar     RenderFallbackCharCallback;
     ImU8                        Used8kPagesMap[(IM_UNICODE_CODEPOINT_MAX+1)/8192/8]; // 1 bytes if ImWchar=ImWchar16, 16 bytes if ImWchar==ImWchar32. Store 1-bit for each block of 4K codepoints that has one active glyph. This is mainly used to facilitate iterations across all used codepoints.
 
     // Methods
     IMGUI_API ImFont();
-    IMGUI_API ~ImFont();
+    virtual IMGUI_API ~ImFont();
     IMGUI_API ImFontGlyph*      FindGlyph(ImWchar c);
     IMGUI_API ImFontGlyph*      FindGlyphNoFallback(ImWchar c);
-    float                       GetCharAdvance(ImWchar c)       { return ((int)c < IndexAdvanceX.Size) ? IndexAdvanceX[(int)c] : FallbackAdvanceX; }
+    float                       GetCharAdvance(ImWchar c) const;
     bool                        IsLoaded() const                { return ContainerAtlas != NULL; }
     const char*                 GetDebugName() const            { return Sources ? Sources->Name : "<unknown>"; }
-
+    void                        SetFallbackStrSizeCallback(ImGuiGetFallbackTextSize callback) { GetFallbackTextSizeCallback = callback; }
+    void                        SetFallbackCharSizeCallback(ImGuiGetFallbackCharSize callback) { GetFallbackCharSizeCallback = callback; }
+    void                        SetRenderFallbackCharCallback(ImGuiRenderFallbackChar callback) { RenderFallbackCharCallback = callback; }
+// END CDDA PATCH #73414
     // [Internal] Don't use!
     // 'max_width' stops rendering after a certain width (could be turned into a 2d size). FLT_MAX to disable.
     // 'wrap_width' enable automatic word-wrapping across multiple lines to fit into given width. 0.0f to disable.
     IMGUI_API ImVec2            CalcTextSizeA(float size, float max_width, float wrap_width, const char* text_begin, const char* text_end = NULL, const char** remaining = NULL); // utf8
     IMGUI_API const char*       CalcWordWrapPositionA(float scale, const char* text, const char* text_end, float wrap_width);
+// START CDDA PATCH #72579
+    int                         GetFallbackCharWidth( const char* s_begin, const char* s_end, const float scale ) const;
+    int                         GetFallbackCharWidth(ImWchar c, const float scale) const;
+// END CDDA PATCH #72579
     IMGUI_API void              RenderChar(ImDrawList* draw_list, float size, const ImVec2& pos, ImU32 col, ImWchar c);
     IMGUI_API void              RenderText(ImDrawList* draw_list, float size, const ImVec2& pos, ImU32 col, const ImVec4& clip_rect, const char* text_begin, const char* text_end, float wrap_width = 0.0f, bool cpu_fine_clip = false);
 
