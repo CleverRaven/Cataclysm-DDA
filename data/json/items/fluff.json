@@ -1525,7 +1525,7 @@
     "id": "doormat",
     "name": { "str": "doormat" },
     "description": "A non-slip mat with a welcoming message.  Once used to keep a house clean and inviting.",
-    "weight": "2200 g",
+    "weight": "1500 g",
     "volume": "3 L",
     "price": "10 USD",
     "price_postapoc": "10 cent",

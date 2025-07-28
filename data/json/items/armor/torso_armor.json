@@ -299,7 +299,7 @@
     "name": { "str": "ichcahuipilli" },
     "description": "A Mesoamerican armor of Nahuatl origin, somewhat similar to a European gambeson.  It is made of unspun cotton between two layers of quilted cotton crystalized by brine, edged with leather around its holes.  It is extremely thick and offers superb protection, but is also heavy.  This bad boy once stopped Spanish bullets and Aztec missiles alike, now its time has come to stop zombie bites.",
     "//": "Reasoning for weight and volume parts are within the recipe.",
-    "weight": "16800 g",
+    "weight": "8150 g",
     "volume": "16300 ml",
     "symbol": "[",
     "color": "light_gray",

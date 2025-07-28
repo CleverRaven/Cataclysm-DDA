@@ -1751,6 +1751,12 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "fireman_gear",
+    "copy-from": "fireman_gear",
+    "extend": { "items": [ { "item": "mring_fire_protection", "prob": 1 } ] }
+  },
+  {
     "id": "forge_vault_items",
     "//": "Items that can be traded for at the forge of wonders.",
     "type": "item_group",
@@ -1848,9 +1854,14 @@
     "subtype": "collection",
     "id": "lab_torso_research_thaumaturge",
     "items": [
-      [ "coat_lab", 20 ],
-      [ "coat_lab", 20 ],
-      [ "coat_lab", 20 ],
+      {
+        "distribution": [
+          { "item": "coat_lab", "prob": 80 },
+          { "item": "coat_lab_plus_one", "prob": 20 },
+          { "item": "coat_lab_plus_two", "prob": 5 }
+        ],
+        "prob": 50
+      },
       [ "coat_lab", 20 ],
       [ "tshirt", 80 ],
       [ "longshirt", 80 ],
@@ -1865,9 +1876,7 @@
       [ "jumpsuit", 20 ],
       [ "badge_doctor", 10 ],
       [ "hazmat_suit", 5 ],
-      [ "cleansuit", 10 ],
-      { "item": "coat_lab_plus_one", "prob": 20 },
-      { "item": "coat_lab_plus_two", "prob": 5 }
+      [ "cleansuit", 10 ]
     ]
   },
   {
@@ -1977,5 +1986,11 @@
       { "item": "spell_scroll_biomancer_control_mutations", "prob": 1 },
       { "item": "spell_scroll_biomancer_remove_instability", "prob": 1 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "sometimes_bird_litter",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 3 }, { "item": "feces_bird", "prob": 1, "count": 4 } ]
   }
 ]

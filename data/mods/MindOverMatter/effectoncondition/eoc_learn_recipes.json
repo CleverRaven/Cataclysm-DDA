@@ -1291,7 +1291,14 @@
         { "not": { "u_know_recipe": "psi_research_torrential_channeling" } },
         { "math": [ "u_vitamin('vitamin_psionic_drain') >= 135" ] },
         {
-          "x_in_y_chance": { "x": 1, "y": { "math": [ "max( (1000 - (u_skill('metaphysics') * 50) - (u_val('intelligence') * 25) ),1)" ] } }
+          "x_in_y_chance": {
+            "x": 1,
+            "y": {
+              "math": [
+                "max( ( (1000 - (u_skill('metaphysics') * 50) - (u_val('intelligence') * 25) ) * (1 - (clamp( ( (u_vitamin('vitamin_psionic_drain') - 155) / 200 ),0, 0.5 ) ) ) ),1)"
+              ]
+            }
+          }
         },
         { "math": [ "_success != false" ] }
       ]

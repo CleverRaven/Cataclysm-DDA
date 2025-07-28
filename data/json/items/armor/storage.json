@@ -3262,7 +3262,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "loop of rope", "str_pl": "loops of rope" },
     "description": "A length of rope tied with a sliding knot into a loop.  You can slip all sorts of large objects in and carry them as a bundle; if you want to tie a single item more securely you'd have to disassemble this loop.  It takes a while to untie it and get things out, and attackers might pull the whole thing undone if you're not careful.",
-    "weight": "216 g",
+    "weight": "180 g",
     "volume": "360 ml",
     "price": "3 USD 60 cent",
     "price_postapoc": "10 cent",

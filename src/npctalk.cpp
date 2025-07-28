@@ -2321,6 +2321,16 @@ int topic_category( const talk_topic &the_topic )
     return -1; // Not grouped with other topics
 }
 
+static std::string faction_or_fallback( const_talker const &guy )
+{
+    faction *fac = guy.get_faction();
+    if( !fac ) {
+        return guy.get_name();
+    }
+    // Note: Check for translation, don't just return raw name.
+    return _( fac->name );
+}
+
 void parse_tags( std::string &phrase, const Character &u, const Creature &me,
                  const itype_id &item_type )
 {
@@ -2394,6 +2404,10 @@ void parse_tags( std::string &phrase, const_talker const &u, const_talker const 
             phrase.replace( fa, l, u.get_name() );
         } else if( tag == "<npc_name>" ) {
             phrase.replace( fa, l, me.get_name() );
+        } else if( tag == "<u_faction>" ) {
+            phrase.replace( fa, l, faction_or_fallback( u ) );
+        } else if( tag == "<npc_faction>" ) {
+            phrase.replace( fa, l, faction_or_fallback( me ) );
         } else if( tag == "<ammo>" ) {
             if( !me_weapon || !me_weapon->is_gun() ) {
                 phrase.replace( fa, l, _( "BADAMMO" ) );

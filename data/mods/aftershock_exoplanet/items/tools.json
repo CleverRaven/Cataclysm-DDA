@@ -140,7 +140,7 @@
     "symbol": ";",
     "color": "red",
     "qualities": [ [ "WELD", 2 ] ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE", "UNRECOVERABLE" ]
   },
   {
     "id": "afs_plasma_torch",

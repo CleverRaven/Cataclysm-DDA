@@ -831,39 +831,26 @@ static float item_density( const item &target )
                 target.volume() ) );
 }
 
-static bool assert_maximum_density_for_material( const item &target )
+static void assert_maximum_density_for_material( const item &target )
 {
     if( to_milliliter( target.volume() ) == 0 ) {
-        return false;
+        return;
     }
     const std::map<material_id, int> &mats = target.made_of();
     if( !mats.empty() && test_data::known_bad.count( target.typeId() ) == 0 ) {
         const float max_density = max_density_for_mats( mats, target.type->mat_portion_total );
         CAPTURE( target.typeId(), target.weight(), target.volume() );
         CHECK( item_density( target ) <= max_density );
-
-        return item_density( target ) > max_density;
     }
-
-    // fallback return
-    return false;
 }
 
 TEST_CASE( "item_material_density_sanity_check", "[item]" )
 {
     std::vector<const itype *> all_items = item_controller->all();
 
-    // only allow so many failures before stopping
-    int number_of_failures = 0;
-
     for( const itype *type : all_items ) {
         const item sample( type, calendar::turn_zero, item::solitary_tag{} );
-        if( assert_maximum_density_for_material( sample ) ) {
-            number_of_failures++;
-            if( number_of_failures > 20 ) {
-                break;
-            }
-        }
+        assert_maximum_density_for_material( sample );
     }
 }
 

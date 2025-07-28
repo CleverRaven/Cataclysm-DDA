@@ -95,7 +95,7 @@ Format:
 - `"condition"` : (_optional_) Checked alongside trust with the avatar as alpha and the evaluating NPC as beta. See [Player or NPC conditions](#player-or-npc-conditions).
 - `"strict"` : (_optional_) If true, items in this group will not be available for restocking unless the conditions are met. (Defaults to false)
 - `"rigid"` : (_optional_) By default, item groups will be continually iterated until they reach a certain value or size threshold for the NPC. Rigid groups are instead guaranteed to populate a single time if they can, and will not include duplicate reruns. (Defaults to false)
-- `"refusal"` : (_optional_) message to display in UIs (ex: trade UI) when conditions are not met. Defaults to `"<npcname> does not trust you enough"`
+- `"refusal"` : (_optional_) message to display in UIs (ex: trade UI) when conditions are not met. Defaults to `"<npc_faction> faction does not trust you enough."`
 
 #### Shopkeeper consumption rates
 Controls consumption of shopkeeper's stock of items (simulates purchase by other people besides they player).
@@ -354,6 +354,7 @@ Certain entries like the snippets above are taken from the game state as opposed
 | `<mywp>`                                      | beta           | gets replaced with beta talker's wielded item or "fists" if they aren't wielding anything
 | `<u_name>`                                    | alpha          | gets replaced with alpha talker's name
 | `<npc_name>`                                  | beta           | gets replaced with beta talker's name
+| `<npcname>`                                   | N/A            | DO NOT USE, DEPRECATED - This will not work in parse_tags! It is listed here so you don't confuse it with with the very similar <npc_name>.
 | `<ammo>`                                      | beta           | gets replaced with beta talker's ammo or "BADAMMO" if it can't be determined
 | `<current_activity>`                          | beta           | gets replaced with beta talker's current activity or "doing this and that" if they don't have one assigned
 | `<mypronoun>`                                 | beta           | gets replaced with capitalised beta talker's pronoun (just "He" or "She" as of writing)

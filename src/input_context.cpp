@@ -688,8 +688,13 @@ void keybindings_ui::draw_controls()
     if( last_status != status && status == kb_menu_status::show ) {
         ImGui::SetNextWindowFocus();
     }
-    if( ImGui::BeginTable( "KB_KEYS", 2, ImGuiTableFlags_ScrollY ) ) {
+    if( ImGui::BeginTable( "KB_KEYS", 4, ImGuiTableFlags_ScrollY ) ) {
 
+        float one_char_width = ImGui::CalcTextSize( "M" ).x;
+        ImGui::TableSetupColumn( "##invlet",
+                                 ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoSort, one_char_width );
+        ImGui::TableSetupColumn( "##modified",
+                                 ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoSort, one_char_width );
         ImGui::TableSetupColumn( "Action Name",
                                  ImGuiTableColumnFlags_WidthStretch | ImGuiTableColumnFlags_NoSort );
         float keys_col_width = str_width_to_pixels( width ) - str_width_to_pixels( TERMX >= 100 ? 62 : 52 );
@@ -698,6 +703,7 @@ void keybindings_ui::draw_controls()
         //ImGui::TableHeadersRow();
         for( size_t i = 0; i < filtered_registered_actions.size(); i++ ) {
             const std::string &action_id = filtered_registered_actions[i];
+            ImGui::PushID( action_id.c_str() );
 
             bool overwrite_default;
             const action_attributes &attributes = inp_mngr.get_action_attributes( action_id, ctxt->category,
@@ -709,11 +715,7 @@ void keybindings_ui::draw_controls()
                                          || attributes.input_events != basic_attributes.input_events;
 
             ImGui::TableNextColumn();
-            ImGui::Text( " " );
-            ImGui::SameLine( 0, 0 );
             char invlet = ' ';
-            //if( i < hotkeys.size() ) {
-            //    invlet = hotkeys[i];
             if( ImGui::IsItemVisible() ) {
                 if( scroll_offset == SIZE_MAX ) {
                     scroll_offset = i;
@@ -722,21 +724,25 @@ void keybindings_ui::draw_controls()
                     invlet = hotkeys[i - scroll_offset];
                 }
             }
-            std::string key_text;
             if( ( status == kb_menu_status::add_global && overwrite_default )
                 || ( status == kb_menu_status::reset && !customized_keybinding )
               ) {
                 // We're trying to add a global, but this action has a local
                 // defined, so gray out the invlet.
-                key_text = colorize( string_format( "%c", invlet ), c_dark_gray );
+                ImGui::TextColored( c_dark_gray, "%c", invlet );
             } else if( status == kb_menu_status::add || status == kb_menu_status::add_global ||
                        status == kb_menu_status::remove || status == kb_menu_status::reset ) {
-                key_text = colorize( string_format( "%c", invlet ), c_light_blue );
+                ImGui::TextColored( c_light_blue, "%c", invlet );
             } else if( status == kb_menu_status::execute ) {
-                key_text = colorize( string_format( "%c", invlet ), c_white );
-            } else {
-                key_text = " ";
+                ImGui::TextColored( c_white, "%c", invlet );
             }
+
+            ImGui::TableNextColumn();
+            if( customized_keybinding ) {
+                ImGui::TextUnformatted( "*" );
+            }
+
+            ImGui::TableNextColumn();
             nc_color col;
             if( attributes.input_events.empty() ) {
                 col = i == size_t( highlight_row_index ) ? h_unbound_key : unbound_key;
@@ -745,24 +751,20 @@ void keybindings_ui::draw_controls()
             } else {
                 col = i == size_t( highlight_row_index ) ? h_global_key : global_key;
             }
-            if( customized_keybinding ) {
-                key_text += "*";
-            } else {
-                key_text += " ";
-            }
-            key_text += string_format( "%s:", ctxt->get_action_name( action_id ) );
             bool is_selected = false;
             bool is_hovered = false;
-            cataimgui::draw_colored_text( key_text, col, 0.0f,
+            cataimgui::draw_colored_text( ctxt->get_action_name( action_id ),
+                                          col, 0.0f,
                                           status == kb_menu_status::show ? nullptr : &is_selected,
                                           nullptr, &is_hovered );
             if( ( is_selected || is_hovered ) && invlet != ' ' ) {
                 highlight_row_index = i;
             }
-            //ImGui::SameLine();
-            //ImGui::SetCursorPosX(str_width_to_pixels(TERMX >= 100 ? 62 : 52));
+
             ImGui::TableNextColumn();
             ImGui::Text( "%s", ctxt->get_desc( action_id ).c_str() );
+
+            ImGui::PopID();
         }
         ImGui::EndTable();
     }
