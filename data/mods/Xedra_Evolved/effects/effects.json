@@ -445,7 +445,7 @@
     "dur_add_perc": 25
   },
   {
-    "id": "arion_blood_drank"
+    "id": "arion_blood_drank",
     "type": "effect_type",
     "name": [ "Drank blood" ],
     "desc": [ "The hungry Arion has drunk blood and is now visibly regenerating." ],
