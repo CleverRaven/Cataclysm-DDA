@@ -1500,7 +1500,7 @@ bool vehicle::check_heli_ascend( map &here, Character &p ) const
         const tripoint_bub_ms pos = here.get_bub( pt );
         tripoint_bub_ms above( pos + tripoint::above );
         const optional_vpart_position ovp = here.veh_at( above );
-        if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_INDOORS, pos ) ||
+        if( here.has_floor( above ) ||
             here.impassable_ter_furn( above ) ||
             ovp ||
             creatures.creature_at( above ) ) {

@@ -303,8 +303,7 @@ static bool tile_can_have_blood( map &md, const tripoint_bub_ms &current_tile,
         return md.has_flag_ter( ter_furn_flag::TFLAG_WALL, current_tile ) &&
                !md.has_flag_ter( ter_furn_flag::TFLAG_NATURAL_UNDERGROUND, current_tile );
     } else {
-        if( !md.has_flag_ter( ter_furn_flag::TFLAG_INDOORS, current_tile ) &&
-            x_in_y( days_since_cataclysm, 30 ) ) {
+        if( md.is_outside( current_tile ) && x_in_y( days_since_cataclysm, 30 ) ) {
             // Placement of blood outdoors scales down over the course of 30 days until no further blood is placed.
             return false;
         }
@@ -625,12 +624,12 @@ static void GENERATOR_pre_burn( map &md,
             if( md.has_flag_ter( ter_furn_flag::TFLAG_WALL, current_tile ) ) {
                 // burnt wall
                 md.ter_set( current_tile.xy(), ter_t_wall_burnt );
-            } else if( md.has_flag_ter( ter_furn_flag::TFLAG_INDOORS, current_tile ) ||
+            } else if( !md.is_outside( current_tile ) ||
                        md.has_flag_ter( ter_furn_flag::TFLAG_DOOR, current_tile ) ) {
                 // if we're indoors but we're not a wall, then we must be a floor.
                 // doorways also get burned to the ground.
                 md.ter_set( current_tile.xy(), ter_t_floor_burnt );
-            } else if( !md.has_flag_ter( ter_furn_flag::TFLAG_INDOORS, current_tile ) ) {
+            } else if( md.is_outside( current_tile ) ) {
                 // if we're outside on ground level, burn it to dirt.
                 if( current_tile.z() == 0 ) {
                     md.ter_set( current_tile.xy(), ter_t_dirt );

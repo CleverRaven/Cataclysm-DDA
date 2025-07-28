@@ -4071,8 +4071,8 @@ bool monster::will_join_horde( int size )
     if( mha == MHA_ALWAYS ) {
         return true;
     }
-    if( get_map().has_flag( ter_furn_flag::TFLAG_INDOORS, pos_bub() ) &&
-        ( mha == MHA_OUTDOORS || mha == MHA_OUTDOORS_AND_LARGE ) ) {
+    if( ( mha == MHA_OUTDOORS || mha == MHA_OUTDOORS_AND_LARGE ) &&
+        get_map().is_outside( pos_abs() ) ) {
         return false;
     }
     if( size < 3 && ( mha == MHA_LARGE || mha == MHA_OUTDOORS_AND_LARGE ) ) {

@@ -200,7 +200,6 @@ struct plant_data {
  * ALARMED - Sets off an alarm if smashed
  * SUPPORTS_ROOF - Used as a boundary for roof construction
  * MINEABLE - Able to broken with the jackhammer/pickaxe, but does not necessarily support a roof
- * INDOORS - Has roof over it; blocks rain, sunlight, etc.
  * COLLAPSES - Has a roof that can collapse
  * FLAMMABLE_ASH - Burns to ash rather than rubble.
  * REDUCE_SCENT - Reduces scent even more, only works if also bashable
@@ -259,7 +258,6 @@ enum class ter_furn_flag : int {
     TFLAG_COLLAPSES,
     TFLAG_FLAMMABLE_ASH,
     TFLAG_DESTROY_ITEM,
-    TFLAG_INDOORS,
     TFLAG_LIQUIDCONT,
     TFLAG_FIRE_CONTAINER,
     TFLAG_FLAMMABLE_HARD,
@@ -391,9 +389,6 @@ struct connect_group {
     public:
         connect_group_id id;
         int index;
-        std::set<ter_furn_flag> group_flags;
-        std::set<ter_furn_flag> connects_to_flags;
-        std::set<ter_furn_flag> rotates_to_flags;
 
         static void load( const JsonObject &jo );
         static void reset();

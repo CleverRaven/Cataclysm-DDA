@@ -798,12 +798,6 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     if( vp ) {
         extras += _( " [vehicle]" );
     }
-    if( here.has_flag( ter_furn_flag::TFLAG_INDOORS, target ) ) {
-        extras += _( " [indoors]" );
-    }
-    if( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, target ) ) {
-        extras += _( " [roof]" );
-    }
 
     mvwprintw( w_info, point( 1, off++ ), "%s %s", here.features( target ), extras ); // 12
 
@@ -965,17 +959,13 @@ static std::string describe( const T_t &t );
 template<>
 std::string describe( const ter_t &type )
 {
-    return string_format( _( "Move cost: %d\nIndoors: %s\nRoof: %s" ), type.movecost,
-                          type.has_flag( ter_furn_flag::TFLAG_INDOORS ) ? _( "Yes" ) : _( "No" ),
-                          type.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF ) ? _( "Yes" ) : _( "No" ) );
+    return string_format( _( "Move cost: %d" ), type.movecost );
 }
 
 template<>
 std::string describe( const furn_t &type )
 {
-    return string_format( _( "Move cost: %d\nIndoors: %s\nRoof: %s" ), type.movecost,
-                          type.has_flag( ter_furn_flag::TFLAG_INDOORS ) ? _( "Yes" ) : _( "No" ),
-                          type.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF ) ? _( "Yes" ) : _( "No" ) );
+    return string_format( _( "Move cost: %d" ), type.movecost );
 }
 
 template<>
@@ -1903,7 +1893,6 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
             const point_rel_sm target_sub( target.x() / SEEX, target.y() / SEEY );
 
             here.set_transparency_cache_dirty( target.z() );
-            here.set_outside_cache_dirty( target.z() );
             here.set_floor_cache_dirty( target.z() );
             here.set_pathfinding_cache_dirty( target.z() );
 

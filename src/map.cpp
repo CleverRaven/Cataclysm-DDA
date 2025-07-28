@@ -364,17 +364,14 @@ void map::set_seen_cache_dirty( const int zlevel )
     }
 }
 
-void map::set_outside_cache_dirty( const int zlev )
-{
-    if( inbounds_z( zlev ) ) {
-        get_cache( zlev ).outside_cache_dirty = true;
-    }
-}
-
 void map::set_floor_cache_dirty( const int zlev )
 {
     if( inbounds_z( zlev ) ) {
         get_cache( zlev ).floor_cache_dirty = true;
+        //TODO: Wants removing in favour of much less aggressively and more precisely dirtying outside_cache (at most dirtying a whole point_bub_ms, ideally in smallscale situations like ter_set it can be updated more specifically)
+        for( int z = zlev; z >= -OVERMAP_DEPTH; z-- ) {
+            get_cache( zlev ).outside_cache_dirty = true;
+        }
     }
 }
 
@@ -700,7 +697,6 @@ void map::destroy_vehicle( vehicle *veh )
 
 void map::on_vehicle_moved( const int smz )
 {
-    set_outside_cache_dirty( smz );
     set_transparency_cache_dirty( smz );
     set_floor_cache_dirty( smz );
     set_floor_cache_dirty( smz + 1 );
@@ -1885,11 +1881,6 @@ bool map::furn_set( const tripoint_bub_ms &p, const furn_id &new_furniture, cons
         set_seen_cache_dirty( p );
     }
 
-    if( old_f.has_flag( ter_furn_flag::TFLAG_INDOORS ) != new_f.has_flag(
-            ter_furn_flag::TFLAG_INDOORS ) ) {
-        set_outside_cache_dirty( p.z() );
-    }
-
     if( old_f.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) != new_f.has_flag(
             ter_furn_flag::TFLAG_NO_FLOOR ) ) {
         set_floor_cache_dirty( p.z() );
@@ -2373,11 +2364,6 @@ bool map::ter_set( const tripoint_bub_ms &p, const ter_id &new_terrain, bool avo
         set_seen_cache_dirty( p );
     }
 
-    if( old_t.has_flag( ter_furn_flag::TFLAG_INDOORS ) != new_t.has_flag(
-            ter_furn_flag::TFLAG_INDOORS ) ) {
-        set_outside_cache_dirty( p.z() );
-    }
-
     if( new_t.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) != old_t.has_flag(
             ter_furn_flag::TFLAG_NO_FLOOR ) ) {
         set_floor_cache_dirty( p.z() );
@@ -2764,6 +2750,7 @@ int map::climb_difficulty( const tripoint_bub_ms &p ) const
 
 bool map::has_floor( const tripoint_bub_ms &p ) const
 {
+    //TODO: Why is this not using floor_cache?
     if( !zlevels || p.z() < -OVERMAP_DEPTH + 1 || p.z() > OVERMAP_HEIGHT ) {
         return true;
     }
@@ -3460,6 +3447,8 @@ bool map::is_divable( const tripoint_bub_ms &p ) const
 bool map::is_outside( const tripoint_bub_ms &p ) const
 {
     if( !inbounds( p ) ) {
+        DebugLog( D_WARNING, D_MAP ) <<
+                                     "Attempted to access point outside of reality bubble with bubble coordinate: " << p.to_string();
         return true;
     }
 
@@ -4276,8 +4265,9 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params, bool rep
     soundfxid = "smash_success";
     const translation &sound = bash->sound;
     // Set this now in case the ter_set below changes this
-    const bool will_collapse = smash_ter &&
-                               has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p ) && !has_flag( ter_furn_flag::TFLAG_INDOORS, p );
+    //TODO: Why does this care if it's outside?
+    const bool will_collapse = smash_ter && has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p ) &&
+                               !is_outside( p );
     const bool tent = smash_furn && !bash->tent_centers.empty();
     bool set_to_air = false;
 
@@ -8624,7 +8614,6 @@ void map::loadn( const point_bub_sm &grid, bool update_vehicles )
         // New submap changes the content of the map and all caches must be recalculated
         set_transparency_cache_dirty( z );
         set_seen_cache_dirty( z );
-        set_outside_cache_dirty( z );
         set_floor_cache_dirty( z );
         set_pathfinding_cache_dirty( z );
         tmpsub = MAPBUFFER.lookup_submap( pos );
@@ -8779,8 +8768,9 @@ void map::fill_funnels( const tripoint_bub_ms &p, const time_point &since )
     if( !tr.is_funnel() ) {
         return;
     }
+    //BEFOREMERGE: Force update cache
     // Note: the inside/outside cache might not be correct at this time
-    if( has_flag_ter_or_furn( ter_furn_flag::TFLAG_INDOORS, p ) ) {
+    if( !is_outside( p ) ) {
         return;
     }
     map_stack items = i_at( p );
@@ -9347,7 +9337,7 @@ void map::spawn_monsters_submap_group( const tripoint_rel_sm &gp, mongroup &grou
     if( current_submap->is_uniform() ) {
         const tripoint_bub_ms upper_left{ SEEX * gp.x(), SEEY * gp.y(), gp.z()};
         if( !allow_on_terrain( upper_left ) ||
-            ( !ignore_inside_checks && has_flag_ter_or_furn( ter_furn_flag::TFLAG_INDOORS, upper_left ) ) ) {
+            ( !ignore_inside_checks && !is_outside( upper_left ) ) ) {
             const tripoint_abs_ms glp = get_abs( tripoint_bub_ms( gp.x() * SEEX, gp.y() * SEEY, gp.z() ) );
             dbg( D_WARNING ) << "Empty locations for group " << group.type.str() <<
                              " at uniform submap " << gp.x() << "," << gp.y() << "," << gp.z() <<
@@ -9376,7 +9366,7 @@ void map::spawn_monsters_submap_group( const tripoint_rel_sm &gp, mongroup &grou
                 continue; // monster must spawn outside the viewing range of the player
             }
 
-            if( !ignore_inside_checks && has_flag_ter_or_furn( ter_furn_flag::TFLAG_INDOORS, fp ) ) {
+            if( !ignore_inside_checks && !is_outside( fp ) ) {
                 continue; // monster must spawn outside.
             }
 
@@ -9808,26 +9798,31 @@ int map::determine_wall_corner( const tripoint_bub_ms &p ) const
 
 void map::build_outside_cache( const int zlev )
 {
+    const bool top_floor = zlev == OVERMAP_DEPTH;
+
     auto *ch_lazy = get_cache_lazy( zlev );
     if( !ch_lazy || !ch_lazy->outside_cache_dirty ) {
         return;
     }
     level_cache &ch = *ch_lazy;
 
-    // Make a bigger cache to avoid bounds checking
-    // We will later copy it to our regular cache
-    const size_t padded_w = MAPSIZE_X + 2;
-    const size_t padded_h = MAPSIZE_Y + 2;
-    cata::mdarray<bool, point_bub_ms, padded_w, padded_h> padded_cache;
-
     auto &outside_cache = ch.outside_cache;
-    if( zlev < 0 ) {
-        std::uninitialized_fill_n(
-            &outside_cache[0][0], MAPSIZE_X * MAPSIZE_Y, false );
+
+    std::uninitialized_fill_n( &outside_cache[0][0], MAPSIZE_X * MAPSIZE_Y, true );
+
+    // Max z-level should always be outside, it can't possibly be rooved
+    if( top_floor ) {
         return;
     }
 
-    padded_cache.fill( true );
+    auto *ch_lazy_above = get_cache_lazy( zlev + 1 );
+    if( !ch_lazy_above ) {
+        debugmsg( "Tried to access level cache at z-level %d but it hasn't been populated", zlev + 1 );
+    }
+    const level_cache &ch_above = *ch_lazy_above;
+    const cata::mdarray<bool, point_bub_ms> &outside_cache_above = ch_above.outside_cache;
+    const cata::mdarray<bool, point_bub_ms> &floor_cache_above = ch_above.floor_cache;
+
 
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
@@ -9840,25 +9835,14 @@ void map::build_outside_cache( const int zlev )
 
             for( int sx = 0; sx < SEEX; ++sx ) {
                 for( int sy = 0; sy < SEEY; ++sy ) {
-                    point_sm_ms sp( sx, sy );
-                    if( cur_submap->get_ter( sp ).obj().has_flag( ter_furn_flag::TFLAG_INDOORS ) ||
-                        cur_submap->get_furn( sp ).obj().has_flag( ter_furn_flag::TFLAG_INDOORS ) ) {
-                        const point p( sx + smx * SEEX, sy + smy * SEEY );
-                        // Add 1 to both coordinates, because we're operating on the padded cache
-                        for( int dx = 0; dx <= 2; dx++ ) {
-                            for( int dy = 0; dy <= 2; dy++ ) {
-                                padded_cache[p.x + dx][p.y + dy] = false;
-                            }
-                        }
+                    const point_sm_ms sp( sx, sy );
+                    const point p( sx + smx * SEEX, sy + smy * SEEY );
+                    if( !outside_cache_above[p.x][p.y] || floor_cache_above[p.x][p.y] ) {
+                        outside_cache[p.x][p.y] = false;
                     }
                 }
             }
         }
-    }
-
-    // Copy the padded cache back to the proper one, but with no padding
-    for( int x = 0; x < SEEX * my_MAPSIZE; x++ ) {
-        std::copy_n( &padded_cache[x + 1][1], SEEX * my_MAPSIZE, &outside_cache[x][0] );
     }
 
     ch.outside_cache_dirty = false;
@@ -10102,11 +10086,13 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
     bool seen_cache_dirty = false;
     bool camera_cache_dirty = false;
     for( int z = minz; z <= maxz; z++ ) {
-        build_outside_cache( z );
         build_transparency_cache( z );
         bool floor_cache_was_dirty = build_floor_cache( z );
         seen_cache_dirty |= floor_cache_was_dirty;
         seen_cache_dirty |= get_cache( z ).seen_cache_dirty;
+    }
+    for( int z = maxz; z >= minz; z-- ) {
+        build_outside_cache( z );
     }
     // needs a separate pass as it changes the caches on neighbour z-levels (e.g. floor_cache);
     // otherwise such changes might be overwritten by main cache-building logic
@@ -10302,7 +10288,7 @@ void map::draw_fill_background( const ter_id &type )
     // Need to explicitly set caches dirty - set_ter would do it before
     set_transparency_cache_dirty( abs_sub.z() );
     set_seen_cache_dirty( abs_sub.z() );
-    set_outside_cache_dirty( abs_sub.z() );
+    set_floor_cache_dirty( abs_sub.z() );
     set_pathfinding_cache_dirty( abs_sub.z() );
 
     // Fill each submap rather than each tile
