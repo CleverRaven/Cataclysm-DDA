@@ -13,6 +13,7 @@
     "color": "brown",
     "looks_like": "box_small",
     "variant_type": "generic",
+    "//": "These variants must remain 0 weight, as most ammo boxes copy from this and inherit variants",
     "variants": [
       {
         "id": "22lr_ammo_box_50",
