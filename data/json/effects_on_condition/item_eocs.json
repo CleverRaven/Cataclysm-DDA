@@ -209,25 +209,7 @@
     "type": "effect_on_condition",
     "id": "EOC_apply_makeup",
     "condition": { "u_has_trait": "VANITY" },
-    "effect": [
-      { "u_message": "You apply some makeup.  The world will now get to know the true meaning of beauty." },
-      {
-        "u_add_morale": "morale_applied_makeup",
-        "bonus": 10,
-        "max_bonus": 10,
-        "duration": "12 h",
-        "decay_start": "6 h"
-      }
-    ],
-    "false_effect": [
-      { "u_message": "You apply some makeup.  It feels good to take care of yourself." },
-      {
-        "u_add_morale": "morale_applied_makeup",
-        "bonus": 5,
-        "max_bonus": 5,
-        "duration": "12 h",
-        "decay_start": "6 h"
-      }
-    ]
+    "effect": { "u_message": "You apply some makeup.  The world will now get to know the true meaning of beauty." },
+    "false_effect": { "u_message": "You apply some makeup.  It feels good to take care of yourself." }
   }
 ]
