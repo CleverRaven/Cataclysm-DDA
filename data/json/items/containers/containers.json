@@ -3661,6 +3661,8 @@
     "looks_like": "condom",
     "name": { "str": "balloon" },
     "description": "A deflated balloon.  This could be used as a makeshift water container.",
+    "//": "delete condom variants",
+    "variants": [  ],
     "ascii_picture": "balloon",
     "copy-from": "condom"
   },

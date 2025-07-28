@@ -261,6 +261,8 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "flag jumpsuit" },
     "description": "A jumpsuit embroidered with a pattern of the American flag.  Provides decent storage and is not very encumbering.",
+    "//": "delete jumpsuit variants",
+    "variants": [  ],
     "color": "light_red"
   },
   {
@@ -424,6 +426,8 @@
     "copy-from": "jumpsuit",
     "name": { "str": "jumpsuit" },
     "description": "A thin, short-sleeved jumpsuit; similar to those worn by prisoners.  Provides decent storage and is not very encumbering.",
+    "//": "delete jumpsuit variants",
+    "variants": [  ],
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
@@ -434,6 +438,8 @@
     "copy-from": "jumpsuit",
     "name": { "str": "skeleton jumpsuit" },
     "description": "A black jumpsuit with a skeleton pattern printed on it.  It can be zipped all the way up to cover your head and face in a skull pattern too.  Use it to zip the head portion closed.",
+    "//": "delete jumpsuit variants",
+    "variants": [  ],
     "weight": "939 g",
     "volume": "3500 ml",
     "price": "95 USD",

@@ -119,6 +119,8 @@
     "subtypes": [ "GUN" ],
     "name": { "str": "M14 EBR-RI rifle" },
     "description": "A highly modified version of the M14 rifle designed to cover both CQB and designated marksman roles.  A very powerful and versatile rifle, if somewhat heavy.",
+    "//variants": "remove m1a variants",
+    "variants": [  ],
     "weight": "5070 g",
     "volume": "3672 ml",
     "longest_side": "889 mm",

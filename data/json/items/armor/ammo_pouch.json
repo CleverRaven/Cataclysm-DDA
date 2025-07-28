@@ -208,6 +208,8 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "chestrig",
     "name": { "str": "chest rig" },
+    "//": "delete chest rig variants",
+    "variants": [  ],
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
@@ -217,6 +219,8 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "chestrig",
     "name": { "str": "chest rig" },
+    "//": "delete chest rig variants",
+    "variants": [  ],
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
