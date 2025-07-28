@@ -22,6 +22,9 @@
     "copy-from": "demihuman_blood",
     "name": { "str_sp": "blank blood" },
     "description": "Blood extracted from a blank body.  It's a pale red color with none of the luster of human blood.",
-    "spoils_in": "9000 days"
+    "spoils_in": "9000 days",
+    "parasites": 0,
+    "vitamins": [ [ "calcium", 0 ], [ "iron", 0 ], [ "meat_allergen", 0 ], [ "human_flesh_vitamin", 0 ] ],
+    "calories": 0
   }
 ]
