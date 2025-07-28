@@ -35,7 +35,7 @@
     "dynamic_line": {
       "compare_string": [ "yes", { "u_val": "dialogue_augustmoon_shipping_chief_first_meet" } ],
       "yes": [ "Interested in booking passage planetside?" ],
-      "no": "Let me be first to welcome you to Salus IV orbit.  I'm the portmaster representative for this section of the station, and I can help you with booking passage planetside for you and any cargo.\"  They glance briefly to a desk console before continuing with a well trained smile.   \"Oh it seems system flagged you as a new arrival, are you familiar with local planetary conditions?  If not, I can provide you with a starting kit that will help you survive the first few days planetside."
+      "no": "Let me be first to welcome you to Salus IV orbit.  I'm the portmaster representative for this section of the station, and I can help you with booking passage planetside for you and any cargo.\"  They glance briefly to a desk console before continuing with a well trained smile.  \"Oh it seems system flagged you as a new arrival, are you familiar with local planetary conditions?  If not, I can provide you with a starting kit that will help you survive the first few days planetside."
     },
     "speaker_effect": {
       "effect": [ { "u_add_var": "dialogue_augustmoon_shipping_chief_first_meet", "value": "yes" } ],
