@@ -343,8 +343,6 @@ Add meds, maps in bugout bags
 Adds hair dye and hair dye kits to bathrooms.
 Professions now start with relevant books in their smartphones/laptops and some even with smartwatches
 Cheese wheels preserved in wax
-Bandolier for molotovs/pipebombs
-Add estrogen and birth control
 
 
 ## Interface:
@@ -879,31 +877,8 @@ Aftershock: Humaniforms can execute humanoid monsters
 Aftershock: Vehicle bay City Building a mix between mechanic garage, gas station and parking lot.
 [MoM] Add help topics for psionic paths, using psionics, and psychic knacks
 [Magiclysm] Humans are also a species
-[MoM/Vanilla] Adjust weights of amalgamation spawn groups to allow rarer MoM amalgamations to spawn rarely
-[MoM] Add phosphorescent amalgamation
-[Xedra Evolvd] Add AoE to Clap of Thunder Sylph glamour
-[Xedra Evolved/Magiclysm] Fix changelings being assigned the Human heritage trait
-[Xedra Evolved] Add "Nether Cult" strange cabin
-[MoM] Fix illuminate description
-Mark Sky Islands incompatible with Aftershock Exoplanet
-[Isolation Protocol] Mark other total conversions as incompatible
-Mark Sky Islands incompatible with Aftershock Exoplanet
-[Isolation Protocol] Mark other total conversions as incompatible
-[MoM] You can only craft in darkness using Heightened Senses/Night Eyes if there is some light
-[Magiclysm/XE] Unify iron intolerance traits, handle fey taking Iron Intolerance
-Aftershock: Small price updates for vendors
-[MoM] Remove double minus 100 from awakening calculations
-[Magiclysm] Add ring of fire protection to possible `fireman_gear` loot
-[MoM] Nether Attunement affects Torrential Channeling unlock chance
-[MoM] Stutterstep now shows in enemy info
-Aftershock: Small price updates for vendors
-[XE/Sky Island] The island also gives the recipe to reshuffle vampire weaknesses.
 [Magiclysm] Add Aenor version of the horse ranch
-[Magiclysm] Feral mages have a hard time casting spells with `maimed_arm`
 [Magiclysm] SOMATIC spells are harder to cast with broken arms
-[Magiclysm] Adjust elven vision based on light level
-[Xedra Evolved] Vampires/dhampirs with enough Perception/power can smell if you're bleeding
-[Magiclysm] Add a spell to feral high druids and feral high earthshapers
 
 
 ## Balance:
@@ -1005,8 +980,6 @@ Expanded spawns for some proper melee weapons
 Adjust Precise Strike melee tech so it also cant stun what other stun-causing techs cant stun.
 Adds cuvettes to analysis kit crafting recipe, increase analysis kit weight.
 Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
-Make full and half field stone wall bash results more consistent
-More realistic dry goods
 
 
 ## Bugfixes:
@@ -1376,27 +1349,7 @@ Fix forced traits being applied to NPCs
 Fix EOC actor consuming tools on processing
 Fix molotovs exploding multiple times
 add E_STORABLE_EXCLUSIVE flag
-[Xedra Evolved] Update `EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN` to account for bark floors
-[MoM] Change Tlapetlaniliztli variant from type `gun` to type `generic`
-[MoM] Change Tlapetlaniliztli variant from type `gun` to type `generic`
-[MoM] Fix achivements being granted by NPCs awakening
-Allow gas to permeate through various non-solid terrain
-[MoM] Fix achivements being granted by NPCs awakening
-Only forget vehicle ghost when gaining control
-Assign name to protein wrapper
 add E_STORABLE_EXCLUSIVE flag
-Fix incorrect date from starting year scenarios on first load
-Remove pair of and pairs of wording from the brigandine armor
-[MoM] Doc format fixing
-Audit recipe of homemade grenades
-[Magiclysm] Fix aenóren spawn
-Vehicles center of mass outside wheels convex hull now unbalanced
-Cannot trap a monster and use it as an infinite training dummy
-Vehicle control hotkey works while in vehicle adjacent to controls
-[Magiclysm] Fix Feral Research Thaumaturge drops
-[Magiclysm] Fix Feral Research Thaumaturge drops
-Audit stats of a few grenades
-Audit containers used for homemade grenades, molotov
 avoid ImGui warning in keybindings window if the translation happens to have duplicate text
 
 
