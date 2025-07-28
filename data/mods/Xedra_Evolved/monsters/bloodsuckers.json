@@ -725,6 +725,6 @@
     "default_faction": "vampire",
     "//": "Vampire faction so they aren't killed by the vampires.  They're food, not foe.",
     "//2": "Being fed and locked does wonders to keep them alive, so they don't die over time like the other civilians.",
-    "upgrades": false,
+    "upgrades": false
   }
 ]
