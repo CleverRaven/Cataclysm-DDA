@@ -1072,7 +1072,7 @@
     "attack_cost": 330,
     "material": [ "flesh" ],
     "symbol": "H",
-    "color": "gray",
+    "color": "dark_gray_red",
     "morale": 20,
     "melee_skill": 8,
     "melee_dice": 3,
