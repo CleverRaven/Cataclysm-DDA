@@ -367,9 +367,9 @@
       "furniture": { "A": "f_bookcase", "C": "f_armchair", "L": "f_floor_lamp", "t": "f_table" },
       "place_item": [
         { "item": "book_deduction_lies", "x": 3, "y": 3, "chance": 100 },
-        { "item": "corpse_headless_bloodless", "x": 3, "y": 4, "chance": 100 },
-        { "item": "default_zombie_death_drops", "x": 3, "y": 4, "chance": 100 }
+        { "item": "corpse_headless_bloodless", "x": 3, "y": 4, "chance": 100 }
       ],
+      "place_items": [ { "item": "default_zombie_death_drops", "x": 3, "y": 4, "chance": 100 } ],
       "items": {
         "A": [
           { "item": "homebooks", "chance": 75 },
@@ -479,10 +479,27 @@
         { "field": "fd_blood", "x": [ 0, 3 ], "y": [ 0, 3 ], "repeat": [ 6, 12 ] },
         { "field": "fd_gibs_flesh", "x": [ 0, 3 ], "y": [ 0, 3 ], "repeat": [ 2, 4 ] }
       ],
-      "place_item": [
-        { "item": "corpse_painful", "x": 1, "y": 0, "chance": 100 },
-        { "item": "default_zombie_death_drops", "x": 1, "y": 0, "chance": 100 }
-      ]
+      "place_item": [ { "item": "corpse_painful", "x": 1, "y": 0, "chance": 100 } ],
+      "place_items": [ { "item": "default_zombie_death_drops", "x": 1, "y": 0, "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "cabin_nether_cult_basement_2x2_bathroom_overlay",
+    "//": "An overlay with a zombie.",
+    "weight": 500,
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "  ",
+        "  "
+      ],
+      "place_fields": [
+        { "field": "fd_blood", "x": [ 0, 3 ], "y": [ 0, 3 ], "repeat": [ 6, 12 ] },
+        { "field": "fd_gibs_flesh", "x": [ 0, 3 ], "y": [ 0, 3 ], "repeat": [ 2, 4 ] }
+      ],
+      "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 0, 3 ], "y": [ 0, 3 ] } ]
     }
   }
 ]
