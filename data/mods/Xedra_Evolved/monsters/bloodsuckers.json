@@ -722,6 +722,7 @@
     "name": { "str": "petrified person" },
     "copy-from": "mon_civilian_stationary",
     "description": "They just stand there, staring into the void, with a vacant expression on their face.  A multitude of small puncture scars can be seen on their neck.",
+    "default_faction": "vampire",
     "//": "Vampire faction so they aren't killed by the vampires.  They're food, not foe.",
     "//2": "Being fed and locked does wonders to keep them alive, so they don't die over time like the other civilians.",
     "upgrades": false,
