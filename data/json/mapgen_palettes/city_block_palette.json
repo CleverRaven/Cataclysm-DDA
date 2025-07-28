@@ -83,6 +83,7 @@
     "toilets": { "t": {  } },
     "liquids": { "g": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
     "monster": {
+      "^": { "monster": "mon_raccoon", "chance": 20, "conditions": [ "DUSK", "NIGHT", "DAWN" ] },
       "p": { "monster": "mon_raccoon", "chance": 35, "conditions": [ "DUSK", "NIGHT", "DAWN" ] },
       "q": { "monster": "mon_raccoon", "chance": 35, "conditions": [ "DUSK", "NIGHT", "DAWN" ] }
     },
