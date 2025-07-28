@@ -176,6 +176,7 @@
         "y": "f_indoor_plant",
         "A": "f_armchair"
       },
+      "monster": { "f": { "monster": "mon_raccoon", "chance": 25, "conditions": [ "DUSK", "NIGHT", "DAWN" ] } },
       "items": { "t": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "t": {  } },
       "place_items": [
