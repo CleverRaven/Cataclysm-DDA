@@ -221,15 +221,6 @@
         },
         {
           "chunks": [
-            [ "null", 8 ],
-            [ "cabin_nether_cult_basement_4x4_star_vampire_overlay", 1 ],
-            [ "cabin_nether_cult_basement_4x4_huntsman_overlay", 1 ]
-          ],
-          "x": 16,
-          "y": 4
-        },
-        {
-          "chunks": [
             [ "null", 3 ],
             [ "cabin_nether_cult_basement_4x4_star_vampire_overlay", 1 ],
             [ "cabin_nether_cult_basement_4x4_huntsman_overlay", 1 ]
@@ -237,7 +228,7 @@
           "x": 7,
           "y": 20
         },
-        { "chunks": [ [ "null", 10 ], [ "cabin_nether_cult_basement_2x2_bathroom_overlay", 1 ] ], "x": 7, "y": 13 }
+        { "chunks": [ [ "null", 10 ], [ "cabin_nether_cult_basement_2x2_bathroom_overlay", 1000 ] ], "x": 7, "y": 13 }
       ]
     }
   },
@@ -323,61 +314,38 @@
           { "item": "hedge_magic_books", "chance": 25, "repeat": [ 1, 2 ] }
         ]
       },
-      "place_monster": [ { "group": "GROUP_NETHER_CULT", "x": [ 0, 3 ], "y": [ 0, 3 ], "chance": 50 } ]
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 80 ],
+            [ "cabin_nether_cult_basement_4x4_star_vampire_overlay", 10 ],
+            [ "cabin_nether_cult_basement_4x4_huntsman_overlay", 10 ],
+            [ "cabin_nether_cult_basement_4x4_library_lies", 1 ]
+          ],
+          "x": 0,
+          "y": 0
+        }
+      ]
     }
   },
   {
-    "nested_mapgen_id": "cabin_nether_cult_basement_4x4_library",
-    "weight": 150,
+    "nested_mapgen_id": "cabin_nether_cult_basement_4x4_library_lies",
     "//": "Headless corpse inside a locked room. Spooky!",
     "type": "mapgen",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rows": [
-        "-----",
-        "-CtLA",
-        "+   A",
-        "-   A",
-        "-CtCA"
+        "     ",
+        "     ",
+        "     ",
+        "     ",
+        "     "
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "parameters": {
-        "carpet_type": {
-          "type": "ter_str_id",
-          "scope": "nest",
-          "default": {
-            "distribution": [
-              [ "t_carpet_concrete_yellow", 1 ],
-              [ "t_carpet_concrete_green", 1 ],
-              [ "t_carpet_concrete_purple", 1 ],
-              [ "t_carpet_concrete_red", 1 ]
-            ]
-          }
-        }
-      },
-      "terrain": {
-        "-": "t_wall_wood",
-        "+": "t_door_locked",
-        " ": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" },
-        "A": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" },
-        "C": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" },
-        "L": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" },
-        "t": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" }
-      },
-      "furniture": { "A": "f_bookcase", "C": "f_armchair", "L": "f_floor_lamp", "t": "f_table" },
       "place_item": [
         { "item": "book_deduction_lies", "x": 3, "y": 3, "chance": 100 },
         { "item": "corpse_headless_bloodless", "x": 3, "y": 4, "chance": 100 }
       ],
-      "place_items": [ { "item": "default_zombie_death_drops", "x": 3, "y": 4, "chance": 100 } ],
-      "items": {
-        "A": [
-          { "item": "homebooks", "chance": 75 },
-          { "item": "esoteric_books", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "deduction_books", "chance": 10 },
-          { "item": "hedge_magic_books", "chance": 25, "repeat": [ 1, 2 ] }
-        ]
-      }
+      "place_items": [ { "item": "default_zombie_death_drops", "x": 3, "y": 4, "chance": 100 } ]
     }
   },
   {
@@ -476,7 +444,7 @@
         "  "
       ],
       "place_fields": [
-        { "field": "fd_blood", "x": [ 0, 3 ], "y": [ 0, 3 ], "repeat": [ 6, 12 ] },
+        { "field": "fd_blood", "x": [ 0, 3 ], "y": [ 0, 3 ], "repeat": [ 2, 6 ] },
         { "field": "fd_gibs_flesh", "x": [ 0, 3 ], "y": [ 0, 3 ], "repeat": [ 2, 4 ] }
       ],
       "place_item": [ { "item": "corpse_painful", "x": 1, "y": 0, "chance": 100 } ],
@@ -496,7 +464,7 @@
         "  "
       ],
       "place_fields": [
-        { "field": "fd_blood", "x": [ 0, 3 ], "y": [ 0, 3 ], "repeat": [ 6, 12 ] },
+        { "field": "fd_blood", "x": [ 0, 3 ], "y": [ 0, 3 ], "repeat": [ 2, 6 ] },
         { "field": "fd_gibs_flesh", "x": [ 0, 3 ], "y": [ 0, 3 ], "repeat": [ 2, 4 ] }
       ],
       "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 0, 3 ], "y": [ 0, 3 ] } ]
