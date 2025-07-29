@@ -719,7 +719,7 @@
   {
     "id": "mon_civilian_bloodbag",
     "type": "MONSTER",
-    "name": { "str": "petrified person" },
+    "name": { "str": "enthralled victim" },
     "copy-from": "mon_civilian_stationary",
     "description": "They just stand there, staring into the void, with a vacant expression on their face.  A multitude of small puncture scars can be seen on their neck.",
     "default_faction": "vampire",
