@@ -334,6 +334,7 @@ static const json_character_flag json_flag_NO_RADIATION( "NO_RADIATION" );
 static const json_character_flag json_flag_NO_THIRST( "NO_THIRST" );
 static const json_character_flag json_flag_NVG_GREEN( "NVG_GREEN" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
+static const json_character_flag json_flag_PHASE_MOVEMENT( "PHASE_MOVEMENT" );
 static const json_character_flag json_flag_PLANTBLOOD( "PLANTBLOOD" );
 static const json_character_flag json_flag_PRED2( "PRED2" );
 static const json_character_flag json_flag_PRED3( "PRED3" );
@@ -11282,6 +11283,9 @@ void Character::process_effects()
 
 void Character::gravity_check()
 {
+    if( has_flag( json_flag_PHASE_MOVEMENT ) ) {
+        return; // debug trait immunity to gravity, walls etc
+    }
     map &here = get_map();
     if( here.is_open_air( pos_bub() ) && !in_vehicle && !has_effect_with_flag( json_flag_GLIDING ) &&
         here.try_fall( pos_bub(), this ) ) {
@@ -11291,6 +11295,9 @@ void Character::gravity_check()
 
 void Character::gravity_check( map *here )
 {
+    if( has_flag( json_flag_PHASE_MOVEMENT ) ) {
+        return; // debug trait immunity to gravity, walls etc
+    }
     const tripoint_bub_ms pos = pos_bub( *here );
     if( here->is_open_air( pos ) && !in_vehicle && !has_effect_with_flag( json_flag_GLIDING ) &&
         here->try_fall( pos, this ) ) {
