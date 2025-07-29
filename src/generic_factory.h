@@ -669,6 +669,10 @@ inline void mandatory( const JsonObject &jo, const bool was_loaded, const std::s
     }
 }
 
+// warn when relative/proportional/extend/delete is used for a member but is not read
+void warn_disabled_feature( const JsonObject &jo, std::string_view feature,
+                            std::string_view member, std::string_view reason );
+
 /*
  * Template vodoo:
  * The compiler will construct the appropriate one of these based on if the
@@ -875,6 +879,8 @@ inline void optional( const JsonObject &jo, const bool was_loaded, const std::st
             member = MemberType();
         }
     }
+    warn_disabled_feature( jo, "extend", name, "does not use reader" );
+    warn_disabled_feature( jo, "delete", name, "does not use reader" );
 }
 /*
 Template trickery, not for the faint of heart. It is required because there are two functions
@@ -897,6 +903,8 @@ template<typename MemberType, typename DefaultType = MemberType,
             member = default_value;
         }
     }
+    warn_disabled_feature( jo, "extend", name, "does not use reader" );
+    warn_disabled_feature( jo, "delete", name, "does not use reader" );
 }
 template < typename MemberType, typename ReaderType, typename DefaultType = MemberType,
            typename = std::enable_if_t <
@@ -1243,8 +1251,14 @@ public:
             derived.insert_values_from( jo, member_name, container );
             return true;
         } else if( !was_loaded ) {
+            warn_disabled_feature( jo, "relative", member_name, "no copy-from" );
+            warn_disabled_feature( jo, "proportional", member_name, "no copy-from" );
+            warn_disabled_feature( jo, "extend", member_name, "no copy-from" );
+            warn_disabled_feature( jo, "delete", member_name, "no copy-from" );
             return false;
         } else {
+            warn_disabled_feature( jo, "relative", member_name, "not implemented" );
+            warn_disabled_feature( jo, "proportional", member_name, "not implemented" );
             if( jo.has_object( "extend" ) ) {
                 JsonObject tmp = jo.get_object( "extend" );
                 tmp.allow_omitted_members();
@@ -1322,6 +1336,9 @@ public:
     bool operator()( const JsonObject &jo, const std::string_view member_name,
                      C &member, bool /*was_loaded*/ ) const {
         const Derived &derived = static_cast<const Derived &>( *this );
+        // or no handler for the container
+        warn_disabled_feature( jo, "extend", member_name, "not container" );
+        warn_disabled_feature( jo, "delete", member_name, "not container" );
         return derived.read_normal( jo, member_name, member ) ||
                handle_proportional( jo, member_name, member ) || //not every reader uses proportional
                derived.do_relative( jo, member_name, member ); //readers can override relative handling
