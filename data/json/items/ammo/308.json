@@ -93,8 +93,7 @@
     "description": ".308 Winchester ammunition with a 168gr hollow point bullet.  The .308 cartridge is one of the most popular hunting cartridges in the world due to its accuracy and power.",
     "relative": { "damage": { "damage_type": "bullet", "amount": 2, "armor_penetration": -4 }, "dispersion": -10 },
     "proportional": { "recoil": 0.909 },
-    "casing": "308_casing",
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "casing": "308_casing"
   },
   {
     "id": "762_51_incendiary",

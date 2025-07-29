@@ -65,7 +65,6 @@
     "description": "This muscular human corpse is wrapped in sticky black fibers that cover everything from the neck down.  Beneath the wrapping there is a strange rhythmic movement, grotesque to behold.",
     "copy-from": "mon_zombie_brute",
     "species": [ "ZOMBIE" ],
-    "delete": { "categories": [ "CLASSIC" ] },
     "harvest": "zombie_pupating",
     "speed": 95,
     "regenerates": 10,
