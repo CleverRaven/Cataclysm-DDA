@@ -177,6 +177,8 @@ class JsonValue : Json
         JsonValue( JsonValue && ) noexcept = default;
         JsonValue &operator=( JsonValue && ) noexcept = default;
 
+        virtual ~JsonValue() = default;
+
         // NOLINTNEXTLINE(google-explicit-constructor)
         operator std::string() const;
         // NOLINTNEXTLINE(google-explicit-constructor)
@@ -204,6 +206,9 @@ class JsonValue : Json
         bool test_object() const;
         bool test_array() const;
         bool test_null() const;
+
+        // overidden by JsonMember
+        virtual bool is_member() const;
 
         std::string get_string() const;
         bool get_bool() const;
@@ -517,6 +522,10 @@ class JsonMember : public JsonValue
 
         bool is_comment() const {
             return strncmp( name_.c_str(), "//", 2 ) == 0;
+        }
+
+        bool is_member() const override {
+            return true;
         }
 
     private:

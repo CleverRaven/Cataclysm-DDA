@@ -1213,7 +1213,36 @@ struct handler<std::map<Key, Val>> {
 template<typename Derived>
 class generic_typed_reader
 {
+    static constexpr bool read_objects = false;
 public:
+    template<typename C, typename Fn>
+    // I tried using a member function pointer and couldn't work it out
+    void apply_all_values( JsonValue &jv, C &container, Fn apply ) const {
+        if constexpr( Derived::read_objects ) {
+            if( jv.test_array() ) {
+                for( JsonValue jav : jv.get_array() ) {
+                    apply( jav, container );
+                }
+            } else if( jv.test_object() ) {
+                for( JsonMember jam : jv.get_object() ) {
+                    apply( jam, container );
+                }
+            } else {
+                apply( jv, container );
+            }
+        } else {
+            if( jv.test_array() ) {
+                for( JsonValue jav : jv.get_array() ) {
+                    apply( jav, container );
+                }
+            } else {
+                apply( jv, container );
+            }
+        }
+    }
+
+    // We allow either a single value or an array of values. Note that this will not work
+    // correctly if the thing we load from JSON is itself an array.
     template<typename C>
     void insert_values_from( const JsonObject &jo, const std::string_view member_name,
                              C &container ) const {
@@ -1222,15 +1251,9 @@ public:
             return;
         }
         JsonValue jv = jo.get_member( member_name );
-        // We allow either a single value or an array of values. Note that this will not work
-        // correctly if the thing we load from JSON is itself an array.
-        if( jv.test_array() ) {
-            for( JsonValue jav : jv.get_array() ) {
-                derived.insert_next( jav, container );
-            }
-        } else {
-            derived.insert_next( jv, container );
-        }
+        apply_all_values( jv, container, [&derived]( JsonValue & val, C & container ) {
+            derived.insert_next( val, container );
+        } );
     }
 
     template<typename C>
@@ -1247,14 +1270,9 @@ public:
             return;
         }
         JsonValue jv = jo.get_member( member_name );
-        // Same as for inserting: either an array or a single value, same caveat applies.
-        if( jv.test_array() ) {
-            for( JsonValue jav : jv.get_array() ) {
-                derived.erase_next( jav, container );
-            }
-        } else {
-            derived.erase_next( jv, container );
-        }
+        apply_all_values( jv, container, [&derived]( JsonValue & val, C & container ) {
+            derived.erase_next( val, container );
+        } );
     }
     template<typename C>
     void erase_next( JsonValue &jv, C &container ) const {
@@ -1271,13 +1289,9 @@ public:
             return;
         }
         JsonValue jv = jo.get_member( member_name );
-        if( jv.test_array() ) {
-            for( JsonValue jav : jv.get_array() ) {
-                derived.relative_next( jav, container );
-            }
-        } else {
-            derived.relative_next( jv, container );
-        }
+        apply_all_values( jv, container, [&derived]( JsonValue & val, C & container ) {
+            derived.relative_next( val, container );
+        } );
     }
     template<typename C>
     void relative_next( JsonValue &jv, C &container ) const {
@@ -1576,11 +1590,16 @@ template<typename K, typename V>
 class weighted_string_id_reader : public generic_typed_reader<weighted_string_id_reader<K, V>>
 {
 public:
+    static constexpr bool read_objects = true;
+
     V default_weight;
     explicit weighted_string_id_reader( V default_weight ) : default_weight( default_weight ) {};
 
     std::pair<K, V> get_next( const JsonValue &val ) const {
-        if( val.test_object() ) {
+        if( val.is_member() ) {
+            const JsonMember &jm = dynamic_cast<const JsonMember &>( val );
+            return std::pair<K, V>( jm.name(), val.get_float() );
+        } else if( val.test_object() ) {
             JsonObject inline_pair = val.get_object();
             if( !( inline_pair.size() == 1 || inline_pair.size() == 2 ) ) {
                 inline_pair.throw_error( "weighted_string_id_reader failed to read object" );

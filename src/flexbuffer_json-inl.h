@@ -233,6 +233,11 @@ inline bool JsonValue::test_null() const
     return json_.IsNull();
 }
 
+inline bool JsonValue::is_member() const
+{
+    return false;
+}
+
 inline std::string JsonValue::get_string() const
 {
     return static_cast<std::string>( *this );
