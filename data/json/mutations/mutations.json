@@ -990,7 +990,7 @@
     "enchantments": [ { "values": [ { "value": "CONSUME_TIME_MOD", "multiply": 0.5 } ] } ],
     "description": "You've been taught proper table manners from your early childhood on; now, you can't even think about eating without being seated at a table and taking your time.  Eating without a table and chair frustrates you, but eating like a civilized person gives you a bigger morale bonus.",
     "starting_trait": true,
-    "random_at_chargen": false,
+    "chargen_allow_npc": false,
     "valid": false
   },
   {
@@ -1325,7 +1325,7 @@
     "points": 2,
     "description": "For your whole life you've been forbidden from indulging in your peculiar tastes.  Now the world's ended, and you'll be damned if anyone is going to tell you that you can't eat people.",
     "starting_trait": true,
-    "random_at_chargen": false,
+    "chargen_allow_npc": false,
     "valid": false,
     "cancels": [ "VEGETARIAN", "VEGAN", "HERBIVORE", "RUMINANT", "GRAZER" ],
     "flags": [ "CANNIBAL" ]
@@ -1337,7 +1337,7 @@
     "points": 1,
     "description": "You're convinced that these things that look vaguely human from elsewhere are definitely not people.  Therefore it's okay to eat them, right?",
     "starting_trait": true,
-    "random_at_chargen": false,
+    "chargen_allow_npc": false,
     "valid": false,
     "cancels": [ "VEGETARIAN", "VEGAN", "HERBIVORE", "RUMINANT", "GRAZER", "CANNIBAL" ],
     "flags": [ "STRICT_HUMANITARIAN" ]
@@ -1349,7 +1349,7 @@
     "points": 2,
     "description": "You don't feel any strong feelings for your fellow man.",
     "starting_trait": true,
-    "random_at_chargen": false,
+    "chargen_allow_npc": false,
     "valid": false,
     "social_modifiers": { "lie": -5, "persuade": -5 },
     "types": [ "HUMAN_EMPATHY" ],
@@ -1914,7 +1914,7 @@
     "vitamin_cost": 160,
     "description": "You suffer from a minor chemical imbalance, whether mental or physical.  Minor changes to your internal chemistry will manifest themselves on occasion, such as hunger, sleepiness, narcotic effects, etc.",
     "starting_trait": true,
-    "random_at_chargen": false,
+    "chargen_allow_npc": false,
     "category": [ "SLIME", "MEDICAL", "CHIMERA", "ELFA" ]
   },
   {
@@ -1961,7 +1961,7 @@
     "vitamin_cost": 160,
     "description": "Ever since the sky first broke, you have felt unwell, your head split by alien thoughts.  You will periodically suffer from delusions, ranging from minor effects to full visual hallucinations.  Some of these effects may be controlled through the use of antipsychotics.",
     "starting_trait": true,
-    "random_at_chargen": false,
+    "chargen_allow_npc": false,
     "category": [ "MEDICAL" ]
   },
   {
@@ -1972,7 +1972,7 @@
     "vitamin_cost": 160,
     "description": "You randomly fall asleep without any reason.",
     "starting_trait": true,
-    "random_at_chargen": false,
+    "chargen_allow_npc": false,
     "category": [ "MEDICAL" ]
   },
   {
@@ -9063,7 +9063,7 @@
     "vitamin_cost": 160,
     "description": "You have an unhealthy obsession with fire, and you get anxious if you don't light them every now and then or stand near them often.  However, you gain a mood bonus from doing so.",
     "starting_trait": true,
-    "random_at_chargen": false
+    "chargen_allow_npc": false
   },
   {
     "type": "mutation",

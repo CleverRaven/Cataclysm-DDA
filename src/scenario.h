@@ -122,8 +122,8 @@ class scenario
 
         vproto_id vehicle() const;
 
-        const profession *weighted_random_profession() const;
-        std::vector<string_id<profession>> permitted_professions() const;
+        const profession *weighted_random_profession( bool is_npc = false ) const;
+        std::vector<string_id<profession>> permitted_professions( bool is_npc = false ) const;
         std::vector<string_id<profession>> permitted_hobbies() const;
 
         bool traitquery( const trait_id &trait ) const;
