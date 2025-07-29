@@ -5647,33 +5647,27 @@ bool game::swap_critters( Creature &a, Creature &b )
     if( lhs->as_avatar() ) {
         if( here.veh_at( lhs_cached_pos ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
             here.board_vehicle( lhs_cached_pos, rhs_as_char ); // sets position!
-        } else {
-            rhs->setpos( here, lhs_cached_pos );
         }
+        rhs->setpos( here, lhs_cached_pos ); // If board vehicle didn't move us, harmless otherwise.
         walk_move( rhs_cached_pos ); // boards if needed!
         return true;
     } else if( rhs->as_avatar() ) {
         if( here.veh_at( rhs_cached_pos ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
             here.board_vehicle( rhs_cached_pos, lhs_as_char );
-        } else {
-            lhs->setpos( here, rhs_cached_pos );
         }
+        lhs->setpos( here, rhs_cached_pos );
         walk_move( lhs_cached_pos );
         return true;
     }
-    // Two NPCs, oh boy!
-    // LHS movement
+    // Two NPCs, oh boy! no walk_move() here.
     if( here.veh_at( rhs_cached_pos ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
         here.board_vehicle( rhs_cached_pos, lhs_as_char );
-    } else {
-        lhs->setpos( here, rhs_cached_pos );
     }
-    // RHS movement
     if( here.veh_at( lhs_cached_pos ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
         here.board_vehicle( lhs_cached_pos, rhs_as_char );
-    } else {
-        rhs->setpos( here, lhs_cached_pos );
     }
+    lhs->setpos( here, rhs_cached_pos );
+    rhs->setpos( here, lhs_cached_pos );
     return true;
 }
 
