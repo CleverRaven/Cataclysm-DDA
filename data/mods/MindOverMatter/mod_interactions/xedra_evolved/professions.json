@@ -142,7 +142,7 @@
           { "item": "legrig" },
           { "item": "tacvest" },
           { "item": "socks" },
-          { "item": "xedra_jumpsuit", "variant": "xedra_jumpsuit_dreamer" },
+          { "item": "xedra_jumpsuit", "variant": "xedra_jumpsuit_gamma" },
           { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" },
           { "group": "military_ballistic_vest_light" },
           { "item": "fn57_sup", "ammo-item": "57mm_ss", "charges": 20, "container-item": "shoulder_holster" },
