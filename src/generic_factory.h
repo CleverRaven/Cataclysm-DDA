@@ -26,6 +26,7 @@
 #include "debug.h"
 #include "demangle.h"
 #include "enum_conversions.h"
+#include "flat_set.h"
 #include "flexbuffer_json.h"
 #include "init.h"
 #include "int_id.h"
@@ -1017,6 +1018,27 @@ static std::string data_string( const T & )
 template<typename T>
 struct handler {
     static constexpr bool is_container = false;
+};
+
+template<typename T>
+struct handler<cata::flat_set<T>> {
+    void clear( cata::flat_set<T> &container ) const {
+        container.clear();
+    }
+    void insert( cata::flat_set<T> &container, const T &data ) const {
+        container.insert( data );
+    }
+    bool relative( cata::flat_set<T> &, const T & ) const {
+        return false;
+    }
+    bool erase( cata::flat_set<T> &container, const T &data ) const {
+        if( container.erase( data ) < 1 ) {
+            debugmsg( "Did not remove %s in delete", data_string( data ) );
+            return false;
+        }
+        return true;
+    }
+    static constexpr bool is_container = true;
 };
 
 template<typename T>
