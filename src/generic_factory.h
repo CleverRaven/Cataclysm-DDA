@@ -1027,6 +1027,9 @@ struct handler<std::set<T>> {
     void insert( std::set<T> &container, const T &data ) const {
         container.insert( data );
     }
+    bool relative( std::set<T> &, const T & ) const {
+        return false;
+    }
     bool erase( std::set<T> &container, const T &data ) const {
         if( container.erase( data ) < 1 ) {
             debugmsg( "Did not remove %s in delete", data_string( data ) );
@@ -1044,6 +1047,9 @@ struct handler<std::unordered_set<T>> {
     }
     void insert( std::unordered_set<T> &container, const T &data ) const {
         container.insert( data );
+    }
+    bool relative( std::unordered_set<T> &, const T & ) const {
+        return false;
     }
     bool erase( std::unordered_set<T> &container, const T &data ) const {
         if( container.erase( data ) < 1 ) {
@@ -1065,6 +1071,10 @@ struct handler<std::bitset<N>> {
         container.set( data );
     }
     template<typename T>
+    bool relative( std::bitset<N> &, const T & ) const {
+        return false;
+    }
+    template<typename T>
     bool erase( std::bitset<N> &container, const T &data ) const {
         container.reset( data );
         return true;
@@ -1082,6 +1092,10 @@ struct handler<enum_bitset<E>> {
         container.set( data );
     }
     template<typename T>
+    bool relative( enum_bitset<E> &, const T & ) const {
+        return false;
+    }
+    template<typename T>
     bool erase( enum_bitset<E> &container, const T &data ) const {
         container.reset( data );
         return true;
@@ -1096,6 +1110,9 @@ struct handler<std::vector<T>> {
     }
     void insert( std::vector<T> &container, const T &data ) const {
         container.push_back( data );
+    }
+    bool relative( std::vector<T> &, const T & ) const {
+        return false;
     }
     template<typename E>
     bool erase( std::vector<T> &container, const E &data ) const {
@@ -1128,6 +1145,21 @@ struct handler<std::map<Key, Val>> {
     }
     void insert( std::map<Key, Val> &container, const std::pair<Key, Val> &data ) const {
         container.emplace( data );
+    }
+    bool relative( std::map<Key, Val> &container, const std::pair<Key, Val> &data ) const {
+        if constexpr( !supports_relative<Val>::value ) {
+            debugmsg( "relative not supported by type %s", demangle( typeid( Val ).name() ) );
+            return false;
+        } else {
+            const auto iter = container.find( data.first );
+            if( iter == container.end() ) {
+                debugmsg( "No %s to perform relative of %s on",
+                          data_string( data.first ),  data_string( data.second ) );
+                return false;
+            }
+            iter->second += data.second;
+        }
+        return true;
     }
     bool erase( std::map<Key, Val> &container, const std::pair<Key, Val> &data ) const {
         const auto iter = container.find( data.first );
@@ -1231,6 +1263,29 @@ public:
             jv.throw_error( "no value to delete" );
         }
     }
+    template<typename C>
+    void relative_values_from( const JsonObject &jo, const std::string_view member_name,
+                               C &container ) const {
+        const Derived &derived = static_cast<const Derived &>( *this );
+        if( !jo.has_member( member_name ) ) {
+            return;
+        }
+        JsonValue jv = jo.get_member( member_name );
+        if( jv.test_array() ) {
+            for( JsonValue jav : jv.get_array() ) {
+                derived.relative_next( jav, container );
+            }
+        } else {
+            derived.relative_next( jv, container );
+        }
+    }
+    template<typename C>
+    void relative_next( JsonValue &jv, C &container ) const {
+        const Derived &derived = static_cast<const Derived &>( *this );
+        if( !reader_detail::handler<C>().relative( container, derived.get_next( jv ) ) ) {
+            jv.throw_error( "relative not supported or no value to modify" );
+        }
+    }
 
     /**
      * Implements the reader interface, handles members that are containers of flags.
@@ -1257,8 +1312,12 @@ public:
             warn_disabled_feature( jo, "delete", member_name, "no copy-from" );
             return false;
         } else {
-            warn_disabled_feature( jo, "relative", member_name, "not implemented" );
             warn_disabled_feature( jo, "proportional", member_name, "not implemented" );
+            if( jo.has_object( "relative" ) ) {
+                JsonObject tmp = jo.get_object( "relative" );
+                tmp.allow_omitted_members();
+                derived.relative_values_from( tmp, member_name, container );
+            }
             if( jo.has_object( "extend" ) ) {
                 JsonObject tmp = jo.get_object( "extend" );
                 tmp.allow_omitted_members();
