@@ -191,9 +191,9 @@
     "id": "hot_pants",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str_sp": "hot pants" },
+    "name": { "str_sp": "short shorts" },
     "description": "A simple pair of short shorts.",
-    "weight": "92 g",
+    "weight": "125 g",
     "volume": "250 ml",
     "price": "25 USD",
     "price_postapoc": "50 cent",
@@ -202,46 +202,188 @@
     "looks_like": "boxer_briefs",
     "color": "light_red",
     "material_thickness": 0.1,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
-    "armor": [ { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
+    "flags": [ "VARSIZE", "SKINTIGHT" ],
+    "armor": [ { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "purple",
+        "name": { "str_sp": "purple short shorts" },
+        "color": "magenta",
+        "description": "These ones are purple.",
+        "append": true,
+        "weight": 10
+      },
+      {
+        "id": "blue",
+        "name": { "str_sp": "blue short shorts" },
+        "color": "blue",
+        "description": "These ones are colored blue.",
+        "append": true,
+        "weight": 10
+      },
+      {
+        "id": "yellow",
+        "name": { "str_sp": "yellow short shorts" },
+        "color": "yellow",
+        "description": "These ones are colored yellow.",
+        "append": true,
+        "weight": 10
+      },
+      {
+        "id": "green",
+        "name": { "str_sp": "green short shorts" },
+        "color": "green",
+        "description": "These ones are colored green.",
+        "append": true,
+        "weight": 10
+      },
+      {
+        "id": "pink",
+        "name": { "str_sp": "pink short shorts" },
+        "color": "magenta",
+        "description": "These ones are colored pink.",
+        "append": true,
+        "weight": 10
+      },
+      {
+        "id": "cyan",
+        "name": { "str_sp": "cyan short shorts" },
+        "color": "cyan",
+        "description": "These ones are colored cyan.",
+        "append": true,
+        "weight": 10
+      },
+      {
+        "id": "black",
+        "name": { "str_sp": "black short shorts" },
+        "color": "dark_gray",
+        "description": "These ones are colored black.",
+        "append": true,
+        "weight": 10
+      },
+      {
+        "id": "white",
+        "name": { "str_sp": "white short shorts" },
+        "color": "light_gray",
+        "description": "These ones are colored white.",
+        "append": true,
+        "weight": 10
+      },
+      {
+        "id": "brown",
+        "name": { "str_sp": "brown short shorts" },
+        "color": "brown",
+        "description": "These ones are colored brown.",
+        "append": true,
+        "weight": 10
+      },
+      {
+        "id": "red",
+        "name": { "str_sp": "red short shorts" },
+        "description": "These ones are red.",
+        "append": true,
+        "weight": 10
+      },
+      {
+        "id": "dolphin_purple",
+        "name": { "str_sp": "purple dolphin shorts" },
+        "color": "magenta",
+        "description": "Athletic shorts with a characteristic white hem.  These ones are purple, perfect to play some strategy games in.",
+        "append": true
+      },
+      {
+        "id": "dolphin_red",
+        "name": { "str_sp": "red dolphin shorts" },
+        "description": "Athletic shorts with a characteristic white hem.  These ones are colored red.",
+        "color": "red",
+        "append": true
+      },
+      {
+        "id": "dolphin_blue",
+        "name": { "str_sp": "blue dolphin shorts" },
+        "color": "blue",
+        "description": "Athletic shorts with a characteristic white hem.  These ones are colored blue.",
+        "append": true
+      },
+      {
+        "id": "dolphin_yellow",
+        "name": { "str_sp": "yellow dolphin shorts" },
+        "color": "yellow",
+        "description": "Athletic shorts with a characteristic white hem.  These ones are colored yellow.",
+        "append": true
+      },
+      {
+        "id": "dolphin_green",
+        "name": { "str_sp": "green dolphin shorts" },
+        "color": "green",
+        "description": "Athletic shorts with a characteristic white hem.  These ones are colored green.",
+        "append": true
+      },
+      {
+        "id": "dolphin_pink",
+        "name": { "str_sp": "pink dolphin shorts" },
+        "color": "magenta",
+        "description": "Athletic shorts with a characteristic white hem.  These ones are colored pink.",
+        "append": true
+      },
+      {
+        "id": "dolphin_cyan",
+        "name": { "str_sp": "cyan dolphin shorts" },
+        "color": "cyan",
+        "description": "Athletic shorts with a characteristic white hem.  These ones are colored cyan.",
+        "append": true
+      },
+      {
+        "id": "dolphin_black",
+        "name": { "str_sp": "black dolphin shorts" },
+        "color": "dark_gray",
+        "description": "Athletic shorts with a characteristic white hem.  These ones are colored black.",
+        "append": true
+      },
+      {
+        "id": "dolphin_white",
+        "name": { "str_sp": "white dolphin shorts" },
+        "color": "light_gray",
+        "description": "Athletic shorts with a characteristic white hem.  These ones are colored white.",
+        "append": true
+      },
+      {
+        "id": "dolphin_brown",
+        "name": { "str_sp": "brown dolphin shorts" },
+        "color": "brown",
+        "description": "Athletic shorts with a characteristic white hem.  These ones are colored brown.",
+        "append": true
+      }
+    ]
   },
   {
-    "id": "hot_pants_fur",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
+    "id": "hot_pants_leather",
+    "copy-from": "hot_pants",
+    "proportional": { "weight": 2.2 },
+    "name": { "str_sp": "leather hot pants" },
+    "description": "A simple pair of leather short shorts.",
+    "material": [ "leather" ],
+    "looks_like": "hot_pants",
+    "color": "brown",
+    "warmth": 5,
+    "material_thickness": 0.1
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "hot_pants_fur",
+    "copy-from": "hot_pants",
+    "proportional": { "weight": 2.2 },
     "name": { "str_sp": "fur hot pants" },
     "description": "A simple pair of fur short shorts.",
-    "weight": "118 g",
-    "volume": "250 ml",
-    "price": "55 USD",
-    "price_postapoc": "1 USD",
     "material": [ "fur" ],
-    "symbol": "[",
     "looks_like": "hot_pants_leather",
     "color": "brown",
     "warmth": 10,
-    "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
-  },
-  {
-    "id": "hot_pants_leather",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "name": { "str_sp": "leather hot pants" },
-    "description": "A simple pair of leather short shorts.",
-    "weight": "106 g",
-    "volume": "250 ml",
-    "price": "25 USD",
-    "price_postapoc": "50 cent",
-    "material": [ "leather" ],
-    "symbol": "[",
-    "looks_like": "hot_pants",
-    "color": "dark_gray",
-    "warmth": 5,
-    "material_thickness": 0.1,
-    "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
+    "material_thickness": 0.2
   },
   {
     "id": "jeans",
@@ -1161,7 +1303,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "checkered pants" },
     "description": "In a pinch, these pants can be used for an impromptu game of checkers.",
-    "weight": "630 g",
+    "weight": "625 g",
     "volume": "1250 ml",
     "price": "40 USD",
     "price_postapoc": "1 USD",
@@ -1758,7 +1900,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "skirt" },
     "description": "A short, breezy cotton skirt.  Easy to move in, but only has a single small pocket.",
-    "weight": "225 g",
+    "weight": "125 g",
     "volume": "250 ml",
     "price": "65 USD",
     "price_postapoc": "50 cent",
@@ -1864,7 +2006,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "long skirt" },
     "description": "A long skirt with no pockets.  Slightly more cumbersome but warmer than a normal skirt.",
-    "weight": "500 g",
+    "weight": "275 g",
     "volume": "550 ml",
     "price": "65 USD",
     "price_postapoc": "75 cent",
@@ -2350,7 +2492,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "Boston-Chan skirt" },
     "description": "A short skirt for the Boston-Chan costume.",
-    "weight": "230 g",
+    "weight": "125 g",
     "volume": "250 ml",
     "price": "95 USD",
     "price_postapoc": "50 cent",

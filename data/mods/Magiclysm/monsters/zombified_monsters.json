@@ -223,6 +223,14 @@
     "extend": { "flags": [ "NO_FUNG_DMG", "IMMOBILE" ] }
   },
   {
+    "id": "mon_eshaper_golem_feral_earthshaper",
+    "copy-from": "mon_eshaper_golem",
+    "//": "Not technically a zombie, but allied with them as a feral earthshaper summon.",
+    "type": "MONSTER",
+    "name": { "str": "earthshaper's golem" },
+    "default_faction": "zombie"
+  },
+  {
     "id": "mon_wolf_feral_druid",
     "copy-from": "mon_wolf",
     "//": "Not technically a zombie, but allied with them as a feral druid summon.",

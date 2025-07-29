@@ -184,7 +184,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CONDITION_AWAKENING_X_IN_Y_CHANCE",
-    "condition": { "x_in_y_chance": { "x": { "math": [ "100 - u_awakening_reducer" ] }, "y": 100 } },
+    "condition": { "x_in_y_chance": { "x": { "math": [ "u_awakening_reducer" ] }, "y": 100 } },
     "effect": [  ]
   },
   {

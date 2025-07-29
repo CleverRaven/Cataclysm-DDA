@@ -929,5 +929,11 @@
     "id": "airgun_pellet",
     "name": "airgun pellet",
     "default": "airgun_pellet_target"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "rivets",
+    "name": "rivets",
+    "default": "rivets"
   }
 ]

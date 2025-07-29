@@ -383,6 +383,7 @@
       [ "beartrap", 10 ],
       [ "beer", 15 ],
       [ "belgian_ale", 3 ],
+      { "group": "birth_control", "prob": 5 },
       [ "binoculars", 10 ],
       [ "biscuit", 3 ],
       [ "blackberries", 3 ],

@@ -495,7 +495,7 @@ Field              | Description
 ## "vision_day", "vision_night"
 (integer, optional)
 
-Vision range in full daylight and in total darkness.
+Vision range in full daylight and in total darkness.  Defaults to 40 tiles for day and 1 for night.
 
 ## "luminance"
 (integer, optional)
