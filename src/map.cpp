@@ -9854,8 +9854,14 @@ void map::build_outside_cache( const int zlev )
         debugmsg( "Tried to access level cache at z-level %d but it hasn't been populated", zlev + 1 );
     }
     const level_cache &ch_above = *ch_lazy_above;
-    const cata::mdarray<bool, point_bub_ms> &outside_cache_above = ch_above.outside_cache;
+    if( ch_lazy_above->floor_cache_dirty ) {
+        build_floor_cache( zlev + 1 );
+    }
+    if( ch_lazy_above->outside_cache_dirty ) {
+        build_outside_cache( zlev + 1 );
+    }
     const cata::mdarray<bool, point_bub_ms> &floor_cache_above = ch_above.floor_cache;
+    const cata::mdarray<bool, point_bub_ms> &outside_cache_above = ch_above.outside_cache;
 
 
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
