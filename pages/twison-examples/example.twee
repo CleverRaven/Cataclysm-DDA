@@ -1,0 +1,75 @@
+:: StoryTitle
+Nautilus_Intro
+
+
+:: StoryData
+{
+  "ifid": "4422091B-426E-4C3F-B426-C8138CFCB5CB",
+  "format": "cdda_twison",
+  "format-version": "0.0.2",
+  "start": "Intro",
+  "zoom": 1
+}
+
+
+:: DynamicLineTest {"position":"900,575","size":"100,100"}
+{{u_is_wearing}}foodperson_mask{{/u_is_wearing}}
+{{gendered_line}}I was just a regular person. Until some American <name_b>s ruined my business!{{/gendered_line}}
+{{relevant_genders}}[ npc ]{{/relevant_genders}}
+
+Very interesting, thanks. [[Landing]]
+     
+
+ 
+
+
+
+:: Intro [INTRO] {"position":"725,400","size":"100,100"}
+Hey there, stranger! I'm Nautilus, leader of this little caravan we have here. We've got quite a few supplies to deliver, and it looks like you could use some help. Why don't you join us?
+
+What's it going to cost me? [[ResponsePrompTest]]
+What's your story? [[DynamicLineTest]]
+Trial talk example [[TrialTest]]
+List some responses [[ListResponseTest]]
+
+
+
+
+
+:: Landing [LANDING EXIT] {"position":"1025,425","size":"100,100"}
+Have some more questions? Ask away, and I'll do my best to shed some light.
+
+What's it going to cost me? [[ResponsePrompTest]]
+What's your backstory? [[DynamicLineTest]]
+Let's go [[TALK_DONE]]
+Take me back [[Intro]]
+
+
+:: ListResponseTest {"position":"900,125","size":"100,100"}
+[Can I define an empty object name and still get an object?, If so, that makes it simple, Here's some random text, Can't define that way, I think it may be best to match the string and then save as array]
+
+Cool [[Landing]] 
+
+
+:: ResponsePrompTest {"position":"900,250","size":"100,100"}
+Welp, joining the caravan isn't exactly cheap, but I promise it'll be worth every single coin. We've got a lot of mouths to feed and supplies to buy, so we need people who are willing to chip in and help us out.
+
+But don't worry, I won't ask for everything you have right away.
+
+Here's some cash. {{effect}}{{u_add_var}}dialogue_survivor_cop_talked_to_survivor_cop{{/u_add_var}} {{value}}yes{{/value}} } {{/effect}} {{condition}}something{{/condition}} [[Landing]]
+
+Okay, that sounds good. [[Landing]] {{condition}}{{u_has_item}}money_twenty{{/u_has_item}}{{/condition}}
+
+
+:: TALK_DONE {"position":"1275,425","size":"100,100"}
+
+
+
+:: TrialTest {"position":"900,425","size":"100,100"}
+{{compare_string}}yes{{/compare_string}}
+{{yes}}It's nice to see you again <u_name>.  What can I do for you?{{/yes}}
+{{no}}{{gendered_line}}It's nice to see a new face around here. I'm <npc_name>, it's a pleasure meeting you.{{/gendered_line}}{{relevant_genders}}["npc"]{{/relevant_genders}}{{/no}}
+
+Nice to meet you too, I'm <u_name> [[Landing]] {{condition}}{{not}}{{compare_string}}yes{{/compare_string}}{{/not}}{{/condition}}
+
+Hands up! Hand over everything you've got, and nobody gets hurt! [[Landing]] {{condition}}{{not}}yes{{/not}}{{/condition}}{{trial}}{{type}}Intimidate{{/type}}{{difficulty}}30{{/difficulty}}{{/trial}}{{success}}change_topic_logic{{/success}}{{failure}}change_topic_logic{{/failure}}
