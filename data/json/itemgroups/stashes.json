@@ -345,7 +345,7 @@
     "//": "about 9L/2 gallons worth of food with long shelf life",
     "entries": [
       { "group": "MRE", "count": 4 },
-      { "group": "freeze_dried_meal_box_8", "count": 4 },
+      { "group": "freeze_dried_meal_box_any", "count": 4 },
       { "group": "jerky_ziploc_gallon_irradiated", "count": 2 },
       { "group": "pemmican_ziploc_gallon", "count": 2 },
       { "group": "pemmican_ziploc_gallon_irradiated", "count": 2 },
@@ -540,13 +540,6 @@
       { "item": "subwaymap", "prob": 10 },
       { "item": "sewermap", "prob": 10 }
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "freeze_dried_meal_box_8",
-    "subtype": "collection",
-    "container-item": "box_small",
-    "entries": [ { "item": "freeze_dried_meal", "count": 8 } ]
   },
   {
     "type": "item_group",

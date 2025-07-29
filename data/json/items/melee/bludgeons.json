@@ -1647,7 +1647,7 @@
     "price": "10 USD",
     "price_postapoc": "10 cent",
     "material": [ "cotton", "stone" ],
-    "weight": "1007 g",
+    "weight": "825 g",
     "volume": "500 ml",
     "longest_side": "10 cm",
     "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },

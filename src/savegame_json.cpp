@@ -2615,6 +2615,7 @@ void monster::load( const JsonObject &data )
     biosig_timer = time_point( data.get_int( "biosig_timer", -1 ) );
 
     data.read( "udder_timer", udder_timer );
+    data.read( "times_combatted_player", times_combatted_player );
 
     horde_attraction = static_cast<monster_horde_attraction>( data.get_int( "horde_attraction", 0 ) );
 
@@ -2701,6 +2702,7 @@ void monster::store( JsonOut &json ) const
     json.member( "biosignatures", biosignatures );
     json.member( "biosig_timer", biosig_timer );
     json.member( "udder_timer", udder_timer );
+    json.member( "times_combatted_player", times_combatted_player );
 
     if( horde_attraction > MHA_NULL && horde_attraction < NUM_MONSTER_HORDE_ATTRACTION ) {
         json.member( "horde_attraction", horde_attraction );
@@ -3655,9 +3657,7 @@ void mission::deserialize( const JsonObject &jo )
 {
     jo.allow_omitted_members();
 
-    if( jo.has_int( "type_id" ) ) {
-        type = &mission_type::from_legacy( jo.get_int( "type_id" ) ).obj();
-    } else if( jo.has_string( "type_id" ) ) {
+    if( jo.has_string( "type_id" ) ) {
         type = &mission_type_id( jo.get_string( "type_id" ) ).obj();
     } else {
         debugmsg( "Saved mission has no type" );
@@ -3693,9 +3693,7 @@ void mission::deserialize( const JsonObject &jo )
         target.y() = ja.get_int( 1 );
     }
 
-    if( jo.has_int( "follow_up" ) ) {
-        follow_up = mission_type::from_legacy( jo.get_int( "follow_up" ) );
-    } else if( jo.has_string( "follow_up" ) ) {
+    if( jo.has_string( "follow_up" ) ) {
         follow_up = mission_type_id( jo.get_string( "follow_up" ) );
     }
 

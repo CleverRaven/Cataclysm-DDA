@@ -83,7 +83,7 @@
     "id": "sail",
     "name": { "str": "sail" },
     "description": "A sail for a boat.",
-    "weight": "7904 g",
+    "weight": "4 kg",
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "clumsy" },
     "color": "light_gray",
     "symbol": ":",

@@ -1,3 +1,26 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Design - Overview of game balance principles](#design---overview-of-game-balance-principles)
+  - [Balance around general game concepts](#balance-around-general-game-concepts)
+    - [Overall combat balance](#overall-combat-balance)
+    - [Sound](#sound)
+    - [Light](#light)
+    - [Time](#time)
+    - [Crafting vs Looting](#crafting-vs-looting)
+    - [NPC interactions and non-linear plotting](#npc-interactions-and-non-linear-plotting)
+    - [Monster design considerations](#monster-design-considerations)
+  - [Balance of specific gameplay elements](#balance-of-specific-gameplay-elements)
+    - [Melee](#melee)
+    - [Guns](#guns)
+      - [Enemies using guns](#enemies-using-guns)
+    - [Armour](#armour)
+    - [Vehicles](#vehicles)
+    - [Food and Food Preparation](#food-and-food-preparation)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Design - Overview of game balance principles
 
 **Summary**

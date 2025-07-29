@@ -129,5 +129,87 @@
       "and": [ { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } }, { "not": { "u_has_flag": "MAGICAL_MIND_PROTECTION" } } ]
     },
     "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_YUGG_DEATH",
+    "effect": [
+      { "npc_location_variable": { "context_val": "death_loc" } },
+      {
+        "switch": { "math": [ "rand(4)" ] },
+        "cases": [
+          {
+            "case": 0,
+            "effect": [
+              { "map_spawn_item": "black_glass_shard", "loc": { "context_val": "death_loc" }, "count": [ 750, 2250 ] },
+              {
+                "if": "player_see_u",
+                "then": {
+                  "message": "As it stops moving, the creature quickly begins to darken and turn translucent, shattering like glass soon after.",
+                  "type": "info"
+                }
+              }
+            ]
+          },
+          {
+            "case": 1,
+            "effect": [
+              { "map_spawn_item": "corpse_yugg_rubber", "loc": { "context_val": "death_loc" } },
+              {
+                "if": "player_see_u",
+                "then": {
+                  "message": "As it stops moving, the creature's skin turns darker and it falls limp like a pool noodle.",
+                  "type": "info"
+                }
+              }
+            ]
+          },
+          {
+            "case": 2,
+            "effect": [
+              { "map_spawn_item": "corpse_yugg_mutflesh", "loc": { "context_val": "death_loc" } },
+              {
+                "if": "player_see_u",
+                "then": {
+                  "message": "As it stops moving, the creature seems to lose all detail and falls limply on the ground with a wet thud.",
+                  "type": "info"
+                }
+              }
+            ]
+          },
+          {
+            "case": 3,
+            "effect": [
+              { "map_spawn_item": "corpse_yugg_jade", "loc": { "context_val": "death_loc" } },
+              {
+                "map_spawn_item": "corpse_yugg_jade_fragments",
+                "loc": { "context_val": "death_loc" },
+                "count": [ 1, 4 ]
+              },
+              {
+                "if": "player_see_u",
+                "then": {
+                  "message": "As it stops moving, the creature seems to stiffen as it skins seems to harden and take a form not dissimilar to stone.",
+                  "type": "info"
+                }
+              }
+            ]
+          },
+          {
+            "case": 4,
+            "effect": [
+              { "npc_emit": "emit_fog_plume", "target_var": { "context_val": "death_loc" } },
+              {
+                "if": "player_see_u",
+                "then": {
+                  "message": "As it falls to the ground, strands of fog seem to tear away from the corpse.  The giant worm dissolves in the air in front of your eyes.",
+                  "type": "info"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 ]

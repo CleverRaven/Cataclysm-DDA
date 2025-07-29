@@ -2320,6 +2320,16 @@ int topic_category( const talk_topic &the_topic )
     return -1; // Not grouped with other topics
 }
 
+static std::string faction_or_fallback( const_talker const &guy )
+{
+    faction *fac = guy.get_faction();
+    if( !fac ) {
+        return guy.get_name();
+    }
+    // Note: Check for translation, don't just return raw name.
+    return _( fac->name );
+}
+
 void parse_tags( std::string &phrase, const Character &u, const Creature &me,
                  const itype_id &item_type )
 {
@@ -2393,6 +2403,10 @@ void parse_tags( std::string &phrase, const_talker const &u, const_talker const 
             phrase.replace( fa, l, u.get_name() );
         } else if( tag == "<npc_name>" ) {
             phrase.replace( fa, l, me.get_name() );
+        } else if( tag == "<u_faction>" ) {
+            phrase.replace( fa, l, faction_or_fallback( u ) );
+        } else if( tag == "<npc_faction>" ) {
+            phrase.replace( fa, l, faction_or_fallback( me ) );
         } else if( tag == "<ammo>" ) {
             if( !me_weapon || !me_weapon->is_gun() ) {
                 phrase.replace( fa, l, _( "BADAMMO" ) );
@@ -4517,10 +4531,13 @@ talk_effect_fun_t::func f_explosion( const JsonObject &jo, std::string_view memb
 
     bool emp_blast = jo.get_bool( "emp_blast", false );
     bool scrambler_blast = jo.get_bool( "scrambler_blast", false );
+    bool flashbang = jo.get_bool( "flashbang", false );
+    bool flashbang_avatar_is_immune = jo.get_bool( "flashbang_avatar_is_immune", false );
+    dbl_or_var flashbang_radius = get_dbl_or_var( jo, "flashbang_radius", false, 8 );
 
     return [target_var, dov_power, dov_distance_factor, dov_max_noise, fire, dov_shrapnel_casing_mass,
                         dov_shrapnel_fragment_mass, dov_shrapnel_recovery, dov_shrapnel_drop, emp_blast, scrambler_blast,
-                is_npc, &here]( dialogue const & d ) {
+                flashbang, flashbang_avatar_is_immune, flashbang_radius, is_npc, &here]( dialogue const & d ) {
         tripoint_bub_ms target_pos;
         if( target_var.has_value() ) {
             tripoint_abs_ms abs_ms = read_var_value( *target_var, d ).tripoint();
@@ -4547,6 +4564,10 @@ talk_effect_fun_t::func f_explosion( const JsonObject &jo, std::string_view memb
         }
         if( scrambler_blast ) {
             explosion_handler::scrambler_blast( target_pos );
+        }
+        if( flashbang ) {
+            explosion_handler::flashbang( target_pos, flashbang_avatar_is_immune,
+                                          flashbang_radius.evaluate( d ) );
         }
     };
 }
@@ -7779,7 +7800,7 @@ talk_effect_fun_t::func f_trigger_event( const JsonObject &jo, std::string_view 
         args_str.reserve( args.size() );
         std::transform( args.cbegin(), args.cend(),
         std::back_inserter( args_str ), [&d]( str_or_var const & sov ) {
-            return sov.evaluate( d );
+            return sov.evaluate( d, true );
         } );
         get_event_bus().send( cata::event::make_dyn( type, args_str ) );
     };

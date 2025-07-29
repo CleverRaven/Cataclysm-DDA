@@ -141,8 +141,8 @@
       { "group": "candy_chocolate", "prob": 45 },
       { "prob": 15, "group": "licorice_bag_plastic_4" },
       { "group": "salty_snacks", "prob": 80 },
-      [ "peanut_shelled", 20 ],
-      [ "almond_shelled", 20 ],
+      { "item": "peanut_shelled", "count": -1, "prob": 20 },
+      { "item": "almond_shelled", "count": -1, "prob": 20 },
       { "group": "box_cereal", "prob": 25 },
       { "group": "box_cereal3", "prob": 25 },
       [ "soup_tomato", 25 ],
@@ -158,10 +158,10 @@
       [ "can_cheese", 20 ],
       { "group": "peanutbutter_jar_sealed", "prob": 20 },
       { "group": "jam_fruit_jar_sealed", "prob": 20 },
-      [ "dry_rice", 20 ],
-      [ "dry_beans", 20 ],
-      [ "dry_lentils", 50 ],
-      [ "cookies", 25 ],
+      { "item": "dry_rice", "count": -1, "prob": 20 },
+      { "item": "dry_beans", "count": -1, "prob": 20 },
+      { "item": "dry_lentils", "count": -1, "prob": 20 },
+      { "item": "cookies", "count": -1, "prob": 25 },
       { "prob": 40, "group": "bread_bag_plastic_14" }
     ]
   },
@@ -1317,9 +1317,9 @@
     "items": [
       { "item": "dogfood", "prob": 20, "container-item": "can_medium" },
       { "item": "catfood", "prob": 20, "container-item": "can_food" },
-      { "prob": 5, "group": "dogfood_dry_bag_plastic_24" },
-      { "prob": 5, "group": "catfood_dry_bag_plastic_24" },
-      [ "birdfood", 15 ],
+      { "prob": 5, "item": "dogfood_dry", "count": -1 },
+      { "prob": 5, "item": "catfood_dry", "count": -1 },
+      { "prob": 15, "item": "birdfood", "count": -1, "container-item": "bag_plastic" },
       [ "dog_whistle", 15 ],
       { "item": "flashlight", "prob": 5, "charges": [ 0, 300 ] }
     ]
@@ -1330,15 +1330,15 @@
     "items": [
       { "item": "dogfood", "prob": 10, "container-item": "can_medium" },
       { "item": "catfood", "prob": 10, "container-item": "can_food" },
-      { "prob": 10, "group": "dogfood_dry_bag_plastic_24" },
-      { "prob": 10, "group": "catfood_dry_bag_plastic_24" },
+      { "prob": 10, "item": "dogfood_dry", "count": -1 },
+      { "prob": 10, "item": "catfood_dry", "count": -1 },
       { "item": "salt_water", "prob": 10, "container-item": "aquarium_medium" },
       { "item": "water", "prob": 10, "container-item": "aquarium_medium" },
       { "item": "salt_water", "prob": 10, "container-item": "aquarium_small" },
       { "item": "water", "prob": 10, "container-item": "aquarium_small" },
       { "item": "salt_water", "prob": 3, "container-item": "aquarium_large" },
       { "item": "water", "prob": 3, "container-item": "aquarium_large" },
-      [ "birdfood", 15 ],
+      { "prob": 15, "item": "birdfood", "count": -1, "container-item": "bag_plastic_small" },
       [ "can_tuna", 15 ],
       [ "can_chicken", 15 ],
       [ "aquarium_medium", 10 ],
@@ -1913,7 +1913,7 @@
       [ "petpack", 3 ],
       { "item": "dogfood", "prob": 20, "container-item": "can_medium" },
       { "item": "catfood", "prob": 20, "container-item": "can_food" },
-      [ "birdfood", 10 ],
+      { "item": "birdfood", "prob": 10, "count": -1, "container-item": "bag_plastic_small" },
       [ "towel", 20 ],
       { "item": "soap", "prob": 10, "charges": [ 1, 10 ] },
       [ "gloves_medical", 20 ],
@@ -2138,22 +2138,6 @@
     "//": "This group was created automatically and may contain errors.",
     "container-item": "carton_egg",
     "entries": [ { "item": "egg_bird_unfert", "count": 10 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "dogfood_dry_bag_plastic_24",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
-    "entries": [ { "item": "dogfood_dry", "container-item": "null", "count": 24 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "catfood_dry_bag_plastic_24",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
-    "entries": [ { "item": "catfood_dry", "container-item": "null", "count": 24 } ]
   },
   {
     "type": "item_group",

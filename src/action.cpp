@@ -339,22 +339,6 @@ std::string action_ident( action_id act )
             return "help";
         case ACTION_DEBUG:
             return "debug";
-        case ACTION_DISPLAY_SCENT:
-            return "debug_scent";
-        case ACTION_DISPLAY_SCENT_TYPE:
-            return "debug_scent_type";
-        case ACTION_DISPLAY_TEMPERATURE:
-            return "debug_temp";
-        case ACTION_DISPLAY_VEHICLE_AI:
-            return "debug_vehicle_ai";
-        case ACTION_DISPLAY_VISIBILITY:
-            return "debug_visibility";
-        case ACTION_DISPLAY_TRANSPARENCY:
-            return "debug_transparency";
-        case ACTION_DISPLAY_LIGHTING:
-            return "debug_lighting";
-        case ACTION_DISPLAY_RADIATION:
-            return "debug_radiation";
         case ACTION_DISPLAY_NPC_ATTACK_POTENTIAL:
             return "debug_npc_attack_potential";
         case ACTION_TOGGLE_HOUR_TIMER:
@@ -472,12 +456,6 @@ bool can_action_change_worldstate( const action_id act )
         // Debug Functions
         case ACTION_TOGGLE_FULLSCREEN:
         case ACTION_DEBUG:
-        case ACTION_DISPLAY_SCENT:
-        case ACTION_DISPLAY_SCENT_TYPE:
-        case ACTION_DISPLAY_TEMPERATURE:
-        case ACTION_DISPLAY_VEHICLE_AI:
-        case ACTION_DISPLAY_VISIBILITY:
-        case ACTION_DISPLAY_LIGHTING:
         case ACTION_DISPLAY_RADIATION:
         case ACTION_DISPLAY_NPC_ATTACK_POTENTIAL:
         case ACTION_DISPLAY_TRANSPARENCY:
@@ -838,6 +816,10 @@ action_id handle_action_menu( map &here )
                 action_weightings[ACTION_MOVE_DOWN] = 200;
             }
         }
+    }
+
+    if( player_character.hauling ) {
+        action_weightings[ACTION_HAUL_TOGGLE] = 300;
     }
 
     // sort the map by its weightings

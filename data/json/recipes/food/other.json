@@ -583,6 +583,28 @@
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
+    "result": "freeze_dried_stroganoff_hydrated",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "time": "15 m",
+    "charges": 2,
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "freeze_dried_stroganoff", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "freeze_dried_veggypasta_hydrated",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "time": "15 m",
+    "charges": 2,
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "freeze_dried_veggypasta", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "acid_soaked_hide",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",

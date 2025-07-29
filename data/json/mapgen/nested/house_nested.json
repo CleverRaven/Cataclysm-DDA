@@ -1602,7 +1602,8 @@
         "RRRRR ",
         "RRRRR "
       ],
-      "terrain": { "R": "t_glass_roof" }
+      "terrain": { "R": "t_glass_roof" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {

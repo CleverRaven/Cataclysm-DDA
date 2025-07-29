@@ -329,7 +329,7 @@
         { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
         { "item": "bed", "chance": 30, "repeat": [ 1, 2 ] }
       ],
-      "R": [ { "item": "homebooks", "chance": 40, "repeat": [ 1, 4 ] }, { "item": "games", "chance": 20, "repeat": [ 1, 2 ] } ],
+      "R": [ { "item": "SUS_domestic_bookshelf" }, { "item": "games", "chance": 20, "repeat": [ 1, 2 ] } ],
       "S": [ { "item": "SUS_bathroom_sink", "chance": 80 }, { "item": "SUS_bathroom_medicine", "chance": 60 } ],
       "U": [
         { "item": "home_hw", "chance": 20, "repeat": [ 1, 2 ] },

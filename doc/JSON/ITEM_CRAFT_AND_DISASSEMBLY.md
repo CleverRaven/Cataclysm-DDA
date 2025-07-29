@@ -1,18 +1,23 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
 
 - [Recipes](#recipes)
-   * [Practice recipes](#practice-recipes)
-   * [Nested recipes](#nested-recipes)
-   * [Recipe requirements](#recipe-requirements)
-   * [Defining common requirements](#defining-common-requirements)
-   * [Overlapping recipe component requirements](#overlapping-recipe-component-requirements)
+  - [Practice recipes](#practice-recipes)
+  - [Nested recipes](#nested-recipes)
+  - [Recipe requirements](#recipe-requirements)
+  - [Defining common requirements](#defining-common-requirements)
+  - [Overlapping recipe component requirements](#overlapping-recipe-component-requirements)
 - [Item disassembly](#item-disassembly)
 - [Introduction](#introduction)
 - [The three methods](#the-three-methods)
-   * [Uncraft recipes](#uncraft-recipes)
-   * [Reversible crafting recipes](#reversible-crafting-recipes)
-   * [Salvaging / Cutting Up](#salvaging-cutting-up)
+  - [Uncraft recipes](#uncraft-recipes)
+  - [Reversible crafting recipes](#reversible-crafting-recipes)
+  - [Salvaging / Cutting Up](#salvaging--cutting-up)
 - [Choosing the method](#choosing-the-method)
 - [Closing words (Or what you should remember when working with item disassembly in general)](#closing-words-or-what-you-should-remember-when-working-with-item-disassembly-in-general)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # Recipes
 

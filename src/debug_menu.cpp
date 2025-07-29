@@ -4204,9 +4204,11 @@ void debug()
             ui::omap::display_scents();
             break;
         case debug_menu_index::DISPLAY_SCENTS_LOCAL:
-            g->display_toggle_overlay( ACTION_DISPLAY_SCENT );
+            g->display_scent(); // sets anything that needs to be set
+            g->display_toggle_overlay( ACTION_DISPLAY_SCENT ); // turns it on.
             break;
         case debug_menu_index::DISPLAY_SCENTS_TYPE_LOCAL:
+            g->display_scent();
             g->display_toggle_overlay( ACTION_DISPLAY_SCENT_TYPE );
             break;
         case debug_menu_index::DISPLAY_NPC_ATTACK:
@@ -4219,10 +4221,10 @@ void debug()
             g->display_toggle_overlay( ACTION_DISPLAY_VEHICLE_AI );
             break;
         case debug_menu_index::DISPLAY_VISIBILITY:
-            g->display_toggle_overlay( ACTION_DISPLAY_VISIBILITY );
+            g->display_visibility();
             break;
         case debug_menu_index::DISPLAY_LIGHTING:
-            g->display_toggle_overlay( ACTION_DISPLAY_LIGHTING );
+            g->display_lighting();
             break;
         case debug_menu_index::DISPLAY_RADIATION:
             g->display_toggle_overlay( ACTION_DISPLAY_RADIATION );

@@ -848,7 +848,7 @@
     "comestible_type": "FOOD",
     "name": { "str_sp": "cattle fodder" },
     "description": "What cattle eat.  Mainly made of grass, silage or legumes.  It's perfect for ruminants.",
-    "weight": "300 g",
+    "weight": "275 g",
     "volume": "250 ml",
     "price": "1 USD",
     "price_postapoc": "25 cent",

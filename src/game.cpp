@@ -795,6 +795,13 @@ void game::setup()
 
         load_core_data();
     }
+
+    // invalidate calendar caches in case we were previously playing
+    // a different world
+    calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
+    // must be called before load_world_modfiles() #81904
+    calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
+
     world_generator->get_mod_manager().check_mods_list( world_generator->active_world );
     load_world_modfiles();
     // Panel manager needs JSON data to be loaded before init
@@ -806,11 +813,6 @@ void game::setup()
     next_mission_id = 1;
     uquit = QUIT_NO;   // We haven't quit the game
     bVMonsterLookFire = true;
-
-    // invalidate calendar caches in case we were previously playing
-    // a different world
-    calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
-    calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
 
     calendar::set_eternal_night( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "night" );
     calendar::set_eternal_day( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "day" );
@@ -5906,14 +5908,16 @@ void game::control_vehicle()
         }
     }
     vehicle *veh = nullptr;
+    bool controls_ok = false;
+    bool reins_ok = false;
     if( const optional_vpart_position vp = here.veh_at( u.pos_bub() ) ) {
         veh = &vp->vehicle();
         const int controls_idx = veh->avail_part_with_feature( vp->mount_pos(), "CONTROLS" );
         const int reins_idx = veh->avail_part_with_feature( vp->mount_pos(), "CONTROL_ANIMAL" );
-        const bool controls_ok = controls_idx >= 0; // controls available to "drive"
-        const bool reins_ok = reins_idx >= 0 // reins + animal available to "drive"
-                              && veh->has_engine_type( fuel_type_animal, false )
-                              && veh->get_harnessed_animal( here );
+        controls_ok = controls_idx >= 0; // controls available to "drive"
+        reins_ok = reins_idx >= 0 // reins + animal available to "drive"
+                   && veh->has_engine_type( fuel_type_animal, false )
+                   && veh->get_harnessed_animal( here );
         if( veh->player_in_control( here, u ) ) {
             // player already "driving" - offer ways to leave
             if( controls_ok ) {
@@ -5967,7 +5971,7 @@ void game::control_vehicle()
             }
         }
     }
-    if( !veh ) { // no controls or animal reins under player position, search nearby
+    if( !controls_ok && !reins_ok ) { // no controls or reins under player position, search nearby
         int num_valid_controls = 0;
         std::optional<tripoint_bub_ms> vehicle_position;
         std::optional<vpart_reference> vehicle_controls;
@@ -6012,7 +6016,7 @@ void game::control_vehicle()
             veh->interact_with( &here, *vehicle_position );
         }
     }
-    if( veh ) {
+    if( u.controlling_vehicle ) {
         // If we reached here, we gained control of a vehicle.
         // Clear the map memory for the area covered by the vehicle to eliminate ghost vehicles.
         for( const tripoint_abs_ms &target : veh->get_points() ) {
@@ -8171,26 +8175,6 @@ look_around_result game::look_around(
             if( try_route.has_value() ) {
                 u.set_destination( *try_route );
                 continue;
-            }
-        } else if( action == "debug_scent" || action == "debug_scent_type" ) {
-            if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
-                display_scent();
-            }
-        } else if( action == "debug_temp" ) {
-            if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
-                display_temperature();
-            }
-        } else if( action == "debug_lighting" ) {
-            if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
-                display_lighting();
-            }
-        } else if( action == "debug_transparency" ) {
-            if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
-                display_transparency();
-            }
-        } else if( action == "debug_radiation" ) {
-            if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
-                display_radiation();
             }
         } else if( action == "debug_hour_timer" ) {
             toggle_debug_hour_timer();
@@ -12405,8 +12389,13 @@ void game::vertical_move( int movez, bool force, bool peeking )
                 move_cost = cost == 0 ? 1000 : cost + 500;
             }
 
+            // climbing up, select which tile to climb to
             const std::optional<tripoint_bub_ms> pnt = point_selection_menu( pts );
             if( !pnt ) {
+                return;
+            }
+            if( here.dangerous_field_at( *pnt ) &&
+                !query_yn( _( "There appears to be a dangerous field at your destination.  Continue?" ) ) ) {
                 return;
             }
             stairs = *pnt;
@@ -12573,6 +12562,13 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
         stairs = *pnt;
     }
+
+    if( !force && !climbing && here.dangerous_field_at( stairs ) &&
+        !query_yn( _( "There appears to be a dangerous field at your destination.  Continue?" ) ) ) {
+        return;
+    }
+
+    // LAST CHANCE TO ABORT! Everything past here assumes the movement is going ahead.
 
     std::vector<monster *> monsters_following;
     if( std::abs( movez ) == 1 ) {
@@ -13347,9 +13343,7 @@ void game::display_toggle_overlay( const action_id action )
 
 void game::display_scent()
 {
-    if( use_tiles ) {
-        display_toggle_overlay( ACTION_DISPLAY_SCENT );
-    } else {
+    if( !use_tiles ) {
         int div = 0;
         if( !query_int( div, false, _( "Set scent map sensitivity to?" ) ) || div != 0 ) {
             return;
@@ -13361,20 +13355,6 @@ void game::display_scent()
 
         ui_manager::redraw();
         inp_mngr.wait_for_any_key();
-    }
-}
-
-void game::display_temperature()
-{
-    if( use_tiles ) {
-        display_toggle_overlay( ACTION_DISPLAY_TEMPERATURE );
-    }
-}
-
-void game::display_vehicle_ai()
-{
-    if( use_tiles ) {
-        display_toggle_overlay( ACTION_DISPLAY_VEHICLE_AI );
     }
 }
 
@@ -13404,6 +13384,7 @@ void game::display_visibility()
                 displaying_visibility_creature = creature;
             }
         } else {
+            popup( _( "No support for curses mode" ) );
             displaying_visibility_creature = nullptr;
         }
     }
@@ -13459,20 +13440,8 @@ void game::display_lighting()
             ( static_cast<size_t>( lighting_menu.ret ) < lighting_menu_strings.size() ) ) {
             g->displaying_lighting_condition = lighting_menu.ret;
         }
-    }
-}
-
-void game::display_radiation()
-{
-    if( use_tiles ) {
-        display_toggle_overlay( ACTION_DISPLAY_RADIATION );
-    }
-}
-
-void game::display_transparency()
-{
-    if( use_tiles ) {
-        display_toggle_overlay( ACTION_DISPLAY_TRANSPARENCY );
+    } else {
+        popup( _( "No support for curses mode" ) );
     }
 }
 
@@ -14116,6 +14085,18 @@ void game::climb_down_using( const tripoint_bub_ms &examp, climbing_aid_id aid_i
         }
         query += "\n";
         query += hint_climb_back;
+    }
+
+    if( here.dangerous_field_at( fall.pos_bottom() ) ) {
+        for( const std::pair<const field_type_id, field_entry> &danger_field : here.field_at(
+                 fall.pos_bottom() ) ) {
+            if( danger_field.first->is_dangerous() ) {
+                query += "\n";
+                query += string_format(
+                             _( "There appears to be a dangerous <color_red>%s</color> at your destination." ),
+                             danger_field.second.name() );
+            }
+        }
     }
 
     std::string query_prompt = _( "Climb down?" );
