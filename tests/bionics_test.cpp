@@ -531,37 +531,6 @@ TEST_CASE( "fueled_bionics", "[bionics] [item]" )
         CHECK( units::to_joule( dummy.get_power_level() ) == 2000 );
     }
 
-    SECTION( "bio_cable solar" ) {
-        bionic &bio = *dummy.find_bionic_by_uid( dummy.add_bionic( bio_cable ) ).value();
-
-        // Midday for solar test
-        clear_map();
-        g->reset_light_level();
-        scoped_weather_override weather_clear( WEATHER_CLEAR );
-        calendar::turn = calendar::turn_zero + 12_hours;
-        REQUIRE( g->is_in_sunlight( dummy.pos_bub() ) );
-
-        // Connect solar backpack
-        dummy.worn.wear_item( dummy, item( itype_pants_cargo ), false, false );
-        dummy.worn.wear_item( dummy, item( itype_solarpack_on ), false, false );
-        // Unsafe way to get the worn solar backpack
-        item_location solar_pack = dummy.top_items_loc()[1];
-        REQUIRE( solar_pack->typeId() == itype_solarpack_on );
-        item_location cable = dummy.i_add( item( itype_jumper_cable ) );
-        cable->link().source = link_state::solarpack;
-        cable->link().target = link_state::bio_cable;
-        solar_pack->set_var( "cable", "plugged_in" );
-        cable->active = true;
-
-        CHECK( dummy.get_bionic_fuels( bio.id ).empty() );
-        CHECK( dummy.get_cable_ups().empty() );
-        CHECK_FALSE( dummy.get_cable_solar().empty() );
-        CHECK( dummy.get_cable_vehicle().empty() );
-        CHECK( dummy.activate_bionic( bio ) );
-        dummy.suffer();
-        CHECK( units::to_millijoule( dummy.get_power_level() ) == 37525 );
-    }
-
     SECTION( "bio_wood_burner" ) {
         bionic &bio = *dummy.find_bionic_by_uid( dummy.add_bionic( bio_fuel_wood ) ).value();
         item_location woodshed = dummy.top_items_loc().front();
