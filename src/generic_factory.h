@@ -941,6 +941,71 @@ float read_proportional_entry( const JsonObject &jo, std::string_view key );
 
 namespace reader_detail
 {
+
+template<typename T, typename = std::void_t<>>
+struct stringify : std::false_type {};
+
+template<typename T, typename = std::void_t<>>
+struct has_to_string : std::false_type {};
+
+template<typename T>
+struct has_to_string<T, std::void_t<decltype( std::declval<T &>().to_string() )>> :
+std::true_type {};
+
+template<typename T, typename = std::void_t<>>
+struct has_to_string_writable : std::false_type {};
+
+template<typename T>
+struct has_to_string_writable<T, std::void_t<decltype( std::declval<T &>().to_string_writable() )>> :
+std::true_type {};
+
+template<typename T, typename = std::void_t<>>
+struct has_to_string_call : std::false_type {};
+
+template<typename T>
+struct has_to_string_call<T, std::void_t<decltype( to_string( std::declval<T &>() ) )>> :
+std::true_type {};
+
+template<typename T, typename = std::void_t<>>
+struct has_str : std::false_type {};
+
+template<typename T>
+struct has_str<T, std::void_t<decltype( std::declval<T &>().str() )> > : std::true_type {};
+
+template<typename T>
+struct stringify < T, std::enable_if_t < has_to_string<T>::value ||
+                   has_to_string_writable<T>::value ||
+                   has_to_string_call<T>::value ||
+                   has_str<T>::value >> : std::true_type {
+    static std::string string( const T &data ) {
+        if constexpr( has_to_string<T>::value ) {
+            return data.to_string();
+        }
+        if constexpr( has_to_string_writable<T>::value ) {
+            return data.to_string_writable();
+        }
+        if constexpr( has_to_string_call<T>::value ) {
+            return to_string( data );
+        }
+        if constexpr( has_str<T>::value ) {
+            return data.str();
+        }
+    }
+};
+
+template<typename T, std::enable_if_t<stringify<T>::value>* = nullptr>
+static std::string data_string( const T &data )
+{
+    return stringify<T>::string( data );
+}
+
+template < typename T, std::enable_if_t < !stringify<T>::value > * = nullptr >
+static std::string data_string( const T & )
+{
+    return string_format( "type '%s'", demangle( typeid( T ).name() ) );
+}
+
+
 template<typename T>
 struct handler {
     static constexpr bool is_container = false;
@@ -954,8 +1019,12 @@ struct handler<std::set<T>> {
     void insert( std::set<T> &container, const T &data ) const {
         container.insert( data );
     }
-    void erase( std::set<T> &container, const T &data ) const {
-        container.erase( data );
+    bool erase( std::set<T> &container, const T &data ) const {
+        if( container.erase( data ) < 1 ) {
+            debugmsg( "Did not remove %s in delete", data_string( data ) );
+            return false;
+        }
+        return true;
     }
     static constexpr bool is_container = true;
 };
@@ -968,8 +1037,12 @@ struct handler<std::unordered_set<T>> {
     void insert( std::unordered_set<T> &container, const T &data ) const {
         container.insert( data );
     }
-    void erase( std::unordered_set<T> &container, const T &data ) const {
-        container.erase( data );
+    bool erase( std::unordered_set<T> &container, const T &data ) const {
+        if( container.erase( data ) < 1 ) {
+            debugmsg( "Did not remove %s in delete", data_string( data ) );
+            return false;
+        }
+        return true;
     }
     static constexpr bool is_container = true;
 };
@@ -984,8 +1057,9 @@ struct handler<std::bitset<N>> {
         container.set( data );
     }
     template<typename T>
-    void erase( std::bitset<N> &container, const T &data ) const {
+    bool erase( std::bitset<N> &container, const T &data ) const {
         container.reset( data );
+        return true;
     }
     static constexpr bool is_container = true;
 };
@@ -1000,8 +1074,9 @@ struct handler<enum_bitset<E>> {
         container.set( data );
     }
     template<typename T>
-    void erase( enum_bitset<E> &container, const T &data ) const {
+    bool erase( enum_bitset<E> &container, const T &data ) const {
         container.reset( data );
+        return true;
     }
     static constexpr bool is_container = true;
 };
@@ -1015,17 +1090,25 @@ struct handler<std::vector<T>> {
         container.push_back( data );
     }
     template<typename E>
-    void erase( std::vector<T> &container, const E &data ) const {
-        erase_if( container, [&data]( const T & e ) {
+    bool erase( std::vector<T> &container, const E &data ) const {
+        const auto pred = [&data]( const T & e ) {
             return e == data;
-        } );
+        };
+        if( !erase_if( container, pred ) ) {
+            debugmsg( "Did not remove %s in delete", data_string( data ) );
+            return false;
+        }
+        return true;
     }
     template<typename P>
-    void erase_if( std::vector<T> &container, const P &predicate ) const {
+    bool erase_if( std::vector<T> &container, const P &predicate ) const {
         const auto iter = std::find_if( container.begin(), container.end(), predicate );
         if( iter != container.end() ) {
             container.erase( iter );
+        } else {
+            return false;
         }
+        return true;
     }
     static constexpr bool is_container = true;
 };
@@ -1038,11 +1121,16 @@ struct handler<std::map<Key, Val>> {
     void insert( std::map<Key, Val> &container, const std::pair<Key, Val> &data ) const {
         container.emplace( data );
     }
-    void erase( std::map<Key, Val> &container, const std::pair<Key, Val> &data ) const {
+    bool erase( std::map<Key, Val> &container, const std::pair<Key, Val> &data ) const {
         const auto iter = container.find( data.first );
         if( iter != container.end() ) {
             container.erase( iter );
+        } else {
+            debugmsg( "Did not remove <%s, %s> in delete", data_string( data.first ),
+                      data_string( data.second ) );
+            return false;
         }
+        return true;
     }
     static constexpr bool is_container = true;
 };
@@ -1131,7 +1219,9 @@ public:
     template<typename C>
     void erase_next( JsonValue &jv, C &container ) const {
         const Derived &derived = static_cast<const Derived &>( *this );
-        reader_detail::handler<C>().erase( container, derived.get_next( jv ) );
+        if( !reader_detail::handler<C>().erase( container, derived.get_next( jv ) ) ) {
+            jv.throw_error( "no value to delete" );
+        }
     }
 
     /**
