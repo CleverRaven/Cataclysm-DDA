@@ -1077,10 +1077,7 @@ class map
         }
 
         bool is_outside( const tripoint_bub_ms &p ) const;
-        bool is_outside( const tripoint_abs_ms &p ) const {
-            //TODO: Likely needs out of bubble handling that replicates floor cache logic at a tripoint_abs_ms scale and above
-            return is_outside( get_bub( p ) );
-        };
+        bool is_outside( const tripoint_abs_ms &p ) const;
         /**
          * Returns whether or not the terrain at the given location can be dived into
          * (by monsters that can swim or are aquatic or non-breathing).

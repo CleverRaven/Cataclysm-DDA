@@ -3447,13 +3447,47 @@ bool map::is_divable( const tripoint_bub_ms &p ) const
 bool map::is_outside( const tripoint_bub_ms &p ) const
 {
     if( !inbounds( p ) ) {
-        DebugLog( D_WARNING, D_MAP ) <<
-                                     "Attempted to access point outside of reality bubble with bubble coordinate: " << p.to_string();
+        //TODO: This is occuring way too frequently to even have a debug log message rn, all callpoints passing bubble coordinates need verifying as either being in bubble, changing to absolute coords or using their own fallback value when not inbounds (remembering out of bubble is slower bc it's not using the cache)
+        //DebugLog( D_WARNING, D_MAP ) <<
+        //                             "Attempted to access point outside of reality bubble with bubble coordinate: " << p.to_string() <<
+        //                             ".  Should pass an absolute coordinate instead.";
         return true;
     }
 
     const auto &outside_cache = get_cache_ref( p.z() ).outside_cache;
     return outside_cache[p.x()][p.y()];
+}
+
+static bool has_no_floor_helper( const ter_t &ter )
+{
+    return ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ||
+           ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR_WATER ) ||
+           ter.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ||
+           ter.has_flag( ter_furn_flag::TFLAG_TRANSPARENT_FLOOR );
+}
+
+bool map::is_outside( const tripoint_abs_ms &p ) const
+{
+    const tripoint_bub_ms p_bub = get_bub( p );
+    if( !inbounds( p_bub ) ) {
+        std::unique_ptr<smallmap> p_smap = std::make_unique<smallmap>();
+        smallmap &smap = *p_smap;
+        tripoint_abs_omt p_omt = project_to<coords::omt>( p );
+        smap.load( p_omt, false );
+        map *m_smap = smap.cast_to_map();
+        const tripoint_bub_ms p_smap_bub = m_smap->get_bub( p );
+        for( int z = OVERMAP_DEPTH; z > p.z(); z-- ) {
+            // Duplicate logic from build_floor_cache
+            const tripoint_bub_ms p_smap_bub_above( p_smap_bub.x(), p_smap_bub.y(), z );
+            const ter_t &terrain = m_smap->ter( p_smap_bub_above ).obj();
+            if( !has_no_floor_helper( terrain ) ) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    return is_outside( p_bub );
 }
 
 bool map::is_last_ter_wall( const bool no_furn, const point_bub_ms &p,
@@ -9983,10 +10017,8 @@ bool map::build_floor_cache( const int zlev )
                 for( int sy = 0; sy < SEEY; ++sy ) {
                     point_sm_ms sp( sx, sy );
                     const ter_t &terrain = cur_submap->get_ter( sp ).obj();
-                    if( terrain.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ||
-                        terrain.has_flag( ter_furn_flag::TFLAG_NO_FLOOR_WATER ) ||
-                        terrain.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ||
-                        terrain.has_flag( ter_furn_flag::TFLAG_TRANSPARENT_FLOOR ) ) {
+                    if( has_no_floor_helper( terrain ) ) {
+                        //TODO: SUN_ROOF_ABOVE wants removing in favour of actual mapgen + C++ tent roofs
                         if( below_submap &&
                             below_submap->get_furn( sp ).obj().has_flag( ter_furn_flag::TFLAG_SUN_ROOF_ABOVE ) ) {
                             continue;
