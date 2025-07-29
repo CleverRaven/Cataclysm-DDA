@@ -1634,6 +1634,24 @@ public:
     }
 };
 
+template<typename K, typename V>
+class generic_map_reader : public generic_typed_reader<generic_map_reader<K, V>>
+{
+public:
+    static constexpr bool read_objects = true;
+
+    std::pair<K, V> get_next( const JsonValue &jv ) const {
+        const JsonMember *jm = dynamic_cast<const JsonMember *>( &jv );
+        if( jm == nullptr ) {
+            jv.throw_error( "not part of a JsonObject" );
+        }
+        K key( jm->name() );
+        V value;
+        jv.read( value, true );
+        return std::pair<K, V>( key, value );
+    }
+};
+
 template<typename T>
 static T bound_check( T low, T high, const JsonValue &jv, T read_value )
 {
