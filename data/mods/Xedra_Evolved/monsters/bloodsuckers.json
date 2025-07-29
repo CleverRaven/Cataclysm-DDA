@@ -1059,7 +1059,7 @@
   {
     "id": "mon_negative_polymorph_arion",
     "type": "MONSTER",
-    "name": { "str": "δαίμων ἵππος" },
+    "name": { "str_sp": "δαίμων ἵππος" },
     "description": "You didn't feed your responsibility and now it will feed itself.",
     "default_faction": "jabberwock",
     "bodytype": "horse",
