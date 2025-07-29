@@ -564,7 +564,7 @@
     "components": [ [ [ "cordage", 6 ] ], [ [ "scrap_leather", 1 ] ] ]
   },
   {
-    "type": "recipe", // different recipe variant with leather or fur for a leather cupped sling
+    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "sling_long",
     "category": "CC_WEAPON",
