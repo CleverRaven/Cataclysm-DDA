@@ -1566,7 +1566,7 @@ struct itype {
         bool stackable_ = false;
 
     public:
-        static constexpr int damage_scale = 1000; /** Damage scale compared to the old float damage value */
+        static constexpr int damage_scale = 40; /** Damage scale compared to the old float damage value */
 
 
         int damage_max() const {

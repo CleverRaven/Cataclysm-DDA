@@ -99,8 +99,8 @@
     "type": "item_group",
     "subtype": "collection",
     "items": [
-      { "group": "clothing_outdoor_set", "prob": 100, "damage": [ 1, 4 ] },
-      { "distribution": [ { "item": "m240", "damage": [ 2, 4 ] }, { "item": "m60", "damage": [ 2, 4 ] } ] }
+      { "group": "clothing_outdoor_set", "prob": 100, "damage": [ 25, 100 ] },
+      { "distribution": [ { "item": "m240", "damage": [ 50, 100 ] }, { "item": "m60", "damage": [ 50, 100 ] } ] }
     ]
   },
   {

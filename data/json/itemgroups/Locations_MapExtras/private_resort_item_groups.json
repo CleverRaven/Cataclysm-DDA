@@ -255,14 +255,14 @@
       { "group": "suits", "prob": 50 },
       { "group": "hatstore_hats", "prob": 25 },
       { "group": "bags_trip", "prob": 15 },
-      { "group": "mil_accessories", "prob": 5, "damage": [ 0, 4 ] }
+      { "group": "mil_accessories", "prob": 5, "damage": [ 0, 100 ] }
     ]
   },
   {
     "id": "private_resort_sec_weapon",
     "type": "item_group",
     "items": [
-      { "item": "tazer", "prob": 20, "charges": [ 0, 500 ], "damage": [ 1, 4 ] },
+      { "item": "tazer", "prob": 20, "charges": [ 0, 500 ], "damage": [ 25, 100 ] },
       { "item": "PR24-retracted", "prob": 50 },
       { "item": "shot_beanbag", "prob": 50 }
     ]

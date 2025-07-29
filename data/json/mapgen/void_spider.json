@@ -37,14 +37,14 @@
           },
           {
             "collection": [
-              { "item": "jade_nagamaki", "damage": [ 0, 2 ] },
-              { "item": "greatbow_meteor", "damage": [ 0, 1 ] },
-              { "item": "armor_star_samurai", "damage": [ 0, 1 ] },
-              { "item": "armor_star_samurai_mask", "damage": [ 0, 1 ] },
-              { "item": "armor_star_samurai_torso", "damage": [ 0, 1 ] },
-              { "item": "armor_star_samurai_shoulder", "damage": [ 0, 1 ] },
-              { "item": "armor_star_samurai_shoulder", "damage": [ 0, 1 ] },
-              { "item": "armor_star_samurai_legs", "damage": [ 0, 1 ] },
+              { "item": "jade_nagamaki", "damage": [ 0, 50 ] },
+              { "item": "greatbow_meteor", "damage": [ 0, 25 ] },
+              { "item": "armor_star_samurai", "damage": [ 0, 25 ] },
+              { "item": "armor_star_samurai_mask", "damage": [ 0, 25 ] },
+              { "item": "armor_star_samurai_torso", "damage": [ 0, 25 ] },
+              { "item": "armor_star_samurai_shoulder", "damage": [ 0, 25 ] },
+              { "item": "armor_star_samurai_shoulder", "damage": [ 0, 25 ] },
+              { "item": "armor_star_samurai_legs", "damage": [ 0, 25 ] },
               { "item": "armor_star_samurai_helmet_destroyed" },
               { "item": "arrow_meteor", "count": [ 1, 2 ], "prob": 40 }
             ],

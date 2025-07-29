@@ -4,11 +4,11 @@
     "subtype": "collection",
     "id": "mon_zombie_prisoner_death_drops",
     "entries": [
-      { "item": "jumpsuit_pocketless", "variant": "orange", "damage": [ 1, 4 ] },
-      { "item": "bandana", "damage": [ 1, 4 ], "prob": 5 },
+      { "item": "jumpsuit_pocketless", "variant": "orange", "damage": [ 25, 100 ] },
+      { "item": "bandana", "damage": [ 25, 100 ], "prob": 5 },
       { "group": "clothing_glasses", "prob": 10 },
-      { "group": "underwear", "damage": [ 1, 4 ] },
-      { "group": "clothing_prisoner_shoes", "damage": [ 1, 4 ] },
+      { "group": "underwear", "damage": [ 25, 100 ] },
+      { "group": "clothing_prisoner_shoes", "damage": [ 25, 100 ] },
       { "group": "contraband", "prob": 30 }
     ]
   }

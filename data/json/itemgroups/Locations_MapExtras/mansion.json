@@ -11,10 +11,10 @@
     "subtype": "collection",
     "entries": [
       { "group": "cleaning", "prob": 40 },
-      { "group": "female_underwear", "prob": 90, "damage": [ 0, 4 ] },
-      { "group": "shoes_maid", "prob": 30, "damage": [ 0, 4 ] },
-      { "item": "maid_hat", "prob": 50, "damage": [ 0, 4 ] },
-      { "group": "mansion_maid_dress", "prob": 100, "damage": [ 0, 4 ] },
+      { "group": "female_underwear", "prob": 90, "damage": [ 0, 100 ] },
+      { "group": "shoes_maid", "prob": 30, "damage": [ 0, 100 ] },
+      { "item": "maid_hat", "prob": 50, "damage": [ 0, 100 ] },
+      { "group": "mansion_maid_dress", "prob": 100, "damage": [ 0, 100 ] },
       { "group": "corpse_female" }
     ]
   },
@@ -24,13 +24,13 @@
     "subtype": "collection",
     "entries": [
       { "group": "gear_butler", "prob": 40 },
-      { "item": "socks", "prob": 30, "damage": [ 0, 4 ] },
-      { "group": "male_underwear", "prob": 90, "damage": [ 0, 4 ] },
-      { "item": "dress_shoes", "prob": 30, "damage": [ 0, 4 ] },
-      { "item": "dress_shirt", "prob": 50, "damage": [ 0, 4 ] },
-      { "item": "suit", "prob": 100, "damage": [ 0, 4 ] },
-      { "item": "glasses_monocle", "prob": 40, "damage": [ 0, 4 ] },
-      { "item": "pocketwatch", "prob": 35, "damage": [ 0, 4 ] },
+      { "item": "socks", "prob": 30, "damage": [ 0, 100 ] },
+      { "group": "male_underwear", "prob": 90, "damage": [ 0, 100 ] },
+      { "item": "dress_shoes", "prob": 30, "damage": [ 0, 100 ] },
+      { "item": "dress_shirt", "prob": 50, "damage": [ 0, 100 ] },
+      { "item": "suit", "prob": 100, "damage": [ 0, 100 ] },
+      { "item": "glasses_monocle", "prob": 40, "damage": [ 0, 100 ] },
+      { "item": "pocketwatch", "prob": 35, "damage": [ 0, 100 ] },
       { "group": "corpse_male" }
     ]
   },
@@ -41,13 +41,13 @@
     "entries": [
       { "group": "jewelry_front", "prob": 40 },
       { "group": "mansion_guns", "prob": 40 },
-      { "group": "shoestore_shoes", "prob": 30, "damage": [ 0, 4 ] },
-      { "group": "suits", "prob": 90, "damage": [ 0, 4 ] },
+      { "group": "shoestore_shoes", "prob": 30, "damage": [ 0, 100 ] },
+      { "group": "suits", "prob": 90, "damage": [ 0, 100 ] },
       {
         "distribution": [
-          { "collection": [ { "group": "male_underwear", "prob": 90, "damage": [ 0, 4 ] }, { "group": "corpse_male" } ] },
+          { "collection": [ { "group": "male_underwear", "prob": 90, "damage": [ 0, 100 ] }, { "group": "corpse_male" } ] },
           {
-            "collection": [ { "group": "female_underwear", "prob": 90, "damage": [ 0, 4 ] }, { "group": "corpse_female" } ]
+            "collection": [ { "group": "female_underwear", "prob": 90, "damage": [ 0, 100 ] }, { "group": "corpse_female" } ]
           }
         ]
       }
@@ -1387,11 +1387,11 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      { "item": "jeans", "prob": 50, "damage": [ 0, 2 ] },
+      { "item": "jeans", "prob": 50, "damage": [ 0, 50 ] },
       [ "jeans", 90 ],
-      { "item": "jeans_ripped", "prob": 5, "damage": [ 0, 2 ] },
+      { "item": "jeans_ripped", "prob": 5, "damage": [ 0, 50 ] },
       [ "jeans_ripped", 10 ],
-      { "item": "jeans_skinny", "prob": 20, "damage": [ 0, 2 ] },
+      { "item": "jeans_skinny", "prob": 20, "damage": [ 0, 50 ] },
       [ "jeans_skinny", 20 ],
       [ "jeans_vintage", 1 ],
       [ "shorts", 70 ],
@@ -1445,16 +1445,16 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      { "item": "jeans", "prob": 90, "damage": [ 1, 3 ] },
-      { "item": "jeans", "prob": 10, "damage": [ 1, 3 ] },
-      { "item": "jeans_skinny", "prob": 30, "damage": [ 1, 3 ] },
-      { "item": "jeans_ripped", "prob": 10, "damage": [ 1, 3 ] },
+      { "item": "jeans", "prob": 90, "damage": [ 25, 75 ] },
+      { "item": "jeans", "prob": 10, "damage": [ 25, 75 ] },
+      { "item": "jeans_skinny", "prob": 30, "damage": [ 25, 75 ] },
+      { "item": "jeans_ripped", "prob": 10, "damage": [ 25, 75 ] },
       [ "pants_checkered", 5 ],
       [ "shorts", 70 ],
-      { "item": "shorts_denim", "prob": 35, "damage": [ 1, 3 ] },
-      { "item": "pants_leather", "prob": 35, "damage": [ 1, 3 ] },
-      { "item": "pants_cargo", "prob": 70, "damage": [ 1, 3 ] },
-      { "item": "shorts_cargo", "prob": 50, "damage": [ 1, 3 ] },
+      { "item": "shorts_denim", "prob": 35, "damage": [ 25, 75 ] },
+      { "item": "pants_leather", "prob": 35, "damage": [ 25, 75 ] },
+      { "item": "pants_cargo", "prob": 70, "damage": [ 25, 75 ] },
+      { "item": "shorts_cargo", "prob": 50, "damage": [ 25, 75 ] },
       [ "skirt_leather", 10 ],
       [ "tshirt", 70 ],
       [ "tshirt_cropped", 7 ],
@@ -1462,20 +1462,20 @@
       [ "hoodie", 90 ],
       [ "jacket_light", 20 ],
       [ "jacket_varsity", 10 ],
-      { "item": "jacket_jean", "prob": 50, "damage": [ 1, 3 ] },
-      { "item": "vest_jean", "prob": 20, "damage": [ 1, 3 ] },
-      { "item": "jacket_leather", "prob": 50, "damage": [ 1, 3 ] },
+      { "item": "jacket_jean", "prob": 50, "damage": [ 25, 75 ] },
+      { "item": "vest_jean", "prob": 20, "damage": [ 25, 75 ] },
+      { "item": "jacket_leather", "prob": 50, "damage": [ 25, 75 ] },
       { "item": "tacjacket", "prob": 75 },
       [ "bandana", 35 ],
       [ "hat_cotton", 45 ],
       [ "hat_knit", 25 ],
-      { "item": "tights", "prob": 30, "damage": [ 1, 3 ] },
-      { "item": "leggings", "prob": 30, "damage": [ 1, 3 ] },
-      { "item": "stockings", "prob": 30, "damage": [ 1, 3 ] },
-      { "item": "garter_belt", "prob": 15, "damage": [ 1, 3 ] },
+      { "item": "tights", "prob": 30, "damage": [ 25, 75 ] },
+      { "item": "leggings", "prob": 30, "damage": [ 25, 75 ] },
+      { "item": "stockings", "prob": 30, "damage": [ 25, 75 ] },
+      { "item": "garter_belt", "prob": 15, "damage": [ 25, 75 ] },
       { "item": "balclava", "variant": "black", "prob": 15 },
       [ "union_suit", 20 ],
-      { "item": "sleeveless_trenchcoat", "prob": 30, "damage": [ 1, 3 ] },
+      { "item": "sleeveless_trenchcoat", "prob": 30, "damage": [ 25, 75 ] },
       [ "house_coat", 25 ],
       [ "jedi_cloak", 1 ],
       [ "apron_leather", 1 ],
@@ -1494,7 +1494,7 @@
       [ "halter_top", 50 ],
       [ "nanoskirt", 40 ],
       [ "ear_spool", 30 ],
-      { "item": "straw_fedora", "prob": 5, "damage": [ 1, 3 ] }
+      { "item": "straw_fedora", "prob": 5, "damage": [ 25, 75 ] }
     ]
   },
   {

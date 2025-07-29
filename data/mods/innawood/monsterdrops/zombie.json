@@ -4,8 +4,8 @@
     "subtype": "collection",
     "id": "mon_zombie_hulk_death_drops",
     "entries": [
-      { "item": "cotton_patchwork", "damage": [ 1, 4 ], "count": [ 1, 4 ] },
-      { "group": "pants", "damage": [ 1, 4 ] },
+      { "item": "cotton_patchwork", "damage": [ 25, 100 ], "count": [ 1, 4 ] },
+      { "group": "pants", "damage": [ 25, 100 ] },
       { "group": "default_zombie_items" }
     ]
   },

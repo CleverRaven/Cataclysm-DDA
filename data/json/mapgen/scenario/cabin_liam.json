@@ -70,8 +70,8 @@
       { "item": "socks" },
       { "item": "boxer_shorts" },
       { "item": "jeans_ripped" },
-      { "item": "jersey", "damage": [ 0, 2 ] },
-      { "item": "coat_rain", "damage": [ 0, 2 ], "prob": 30 },
+      { "item": "jersey", "damage": [ 0, 50 ] },
+      { "item": "coat_rain", "damage": [ 0, 50 ], "prob": 30 },
       { "item": "gloves_light", "prob": 50 },
       { "item": "hat_ball", "prob": 40 }
     ]

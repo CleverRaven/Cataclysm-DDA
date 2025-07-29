@@ -79,7 +79,7 @@
     "type": "item_group",
     "//": "ESAPI plates for light vest",
     "subtype": "collection",
-    "entries": [ { "item": "steel_ballistic_plate", "damage": [ 0, 2 ] }, { "item": "steel_ballistic_plate", "damage": [ 0, 2 ] } ]
+    "entries": [ { "item": "steel_ballistic_plate", "damage": [ 0, 50 ] }, { "item": "steel_ballistic_plate", "damage": [ 0, 50 ] } ]
   },
   {
     "id": "some_heavy_steel_front_plates",
@@ -87,8 +87,8 @@
     "//": "ESAPI plates for light vest",
     "subtype": "collection",
     "entries": [
-      { "item": "heavy_steel_ballistic_plate", "damage": [ 0, 2 ] },
-      { "item": "heavy_steel_ballistic_plate", "damage": [ 0, 2 ] }
+      { "item": "heavy_steel_ballistic_plate", "damage": [ 0, 50 ] },
+      { "item": "heavy_steel_ballistic_plate", "damage": [ 0, 50 ] }
     ]
   },
   {
@@ -96,7 +96,7 @@
     "type": "item_group",
     "//": "ESAPI plates for light vest",
     "subtype": "collection",
-    "entries": [ { "item": "stab_plate", "damage": [ 0, 2 ] }, { "item": "stab_plate", "damage": [ 0, 2 ] } ]
+    "entries": [ { "item": "stab_plate", "damage": [ 0, 50 ] }, { "item": "stab_plate", "damage": [ 0, 50 ] } ]
   },
   {
     "id": "pristine_esapi_plates",
@@ -134,7 +134,7 @@
     "entries": [
       { "group": "some_esapi_plates" },
       { "group": "custom_heavy_lbv" },
-      { "group": "ballistic_protectors", "damage": [ 0, 2 ] }
+      { "group": "ballistic_protectors", "damage": [ 0, 50 ] }
     ]
   },
   {

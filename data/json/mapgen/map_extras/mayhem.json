@@ -142,13 +142,13 @@
     "id": "wheel_spare",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "wheel", "damage": [ 0, 1 ] } ]
+    "entries": [ { "item": "wheel", "damage": [ 0, 25 ] } ]
   },
   {
     "id": "wheel_busted",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "wheel", "damage": [ 3, 4 ] } ]
+    "entries": [ { "item": "wheel", "damage": [ 75, 100 ] } ]
   },
   {
     "type": "mapgen",

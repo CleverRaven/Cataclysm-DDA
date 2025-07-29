@@ -341,7 +341,7 @@
           },
           {
             "collection": [
-              { "item": "teddy_bear", "custom-flags": [ "FILTHY" ], "damage": [ 0, 3 ], "prob": 50 },
+              { "item": "teddy_bear", "custom-flags": [ "FILTHY" ], "damage": [ 0, 75 ], "prob": 50 },
               { "item": "hat_ball", "prob": 20 },
               { "item": "baseball", "prob": 20 },
               { "item": "roller_shoes_off", "prob": 10 },
@@ -427,7 +427,7 @@
           },
           {
             "collection": [
-              { "item": "teddy_bear", "custom-flags": [ "FILTHY" ], "damage": [ 0, 3 ], "prob": 50 },
+              { "item": "teddy_bear", "custom-flags": [ "FILTHY" ], "damage": [ 0, 75 ], "prob": 50 },
               { "item": "hat_ball", "prob": 20 },
               { "item": "baseball", "prob": 20 },
               { "item": "roller_shoes_off", "prob": 10 },

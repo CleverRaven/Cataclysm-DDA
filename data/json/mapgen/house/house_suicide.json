@@ -49,7 +49,11 @@
     "id": "house_suicide_shotgun",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "group": "guns_shotgun_common" }, { "item": "shot_hull", "charges": 1 }, { "item": "corpse", "damage": [ 2, 3 ] } ]
+    "entries": [
+      { "group": "guns_shotgun_common" },
+      { "item": "shot_hull", "charges": 1 },
+      { "item": "corpse", "damage": [ 50, 75 ] }
+    ]
   },
   {
     "id": "oxy_small",

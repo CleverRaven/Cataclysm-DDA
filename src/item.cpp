@@ -2524,6 +2524,8 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         if( g != nullptr ) {
             info.emplace_back( "BASE", string_format( "itype_id: %s",
                                typeId().str() ) );
+            info.emplace_back( "BASE", string_format( "HP: %d/%d", damage(), max_damage() ) );
+
             if( !old_owner.is_null() ) {
                 info.emplace_back( "BASE", string_format( _( "Old owner: %s" ),
                                    _( get_old_owner_name() ) ) );
@@ -9498,7 +9500,7 @@ item::armor_status item::damage_armor_durability( damage_unit &du, damage_unit &
             return armor_status::UNDAMAGED;
         } else {
             //Shields deliberately ignore the enchantment multiplier, as the health mechanic wouldn't make sense otherwise.
-            mod_damage( itype::damage_scale * 6 );
+            mod_damage( max_damage() );
             return armor_status::DESTROYED;
         }
     }
@@ -9534,7 +9536,7 @@ item::armor_status item::damage_armor_durability( damage_unit &du, damage_unit &
     if( has_flag( flag_STURDY ) && premitigated.amount < armors_own_resist ) {
         return armor_status::UNDAMAGED;
     } else if( x_in_y( damage_chance, 1.0 ) ) {
-        return mod_damage( itype::damage_scale * enchant_multiplier ) ? armor_status::DESTROYED :
+        return mod_damage( itype::damage_scale * 25 * enchant_multiplier ) ? armor_status::DESTROYED :
                armor_status::DAMAGED;
     }
     return armor_status::UNDAMAGED;

@@ -4,9 +4,9 @@
     "subtype": "collection",
     "id": "mon_mathematician_alpha_five_seven_death_drops",
     "entries": [
-      { "item": "pipe", "prob": 100, "damage": [ 0, 2 ] },
+      { "item": "pipe", "prob": 100, "damage": [ 0, 50 ] },
       { "group": "default_zombie_clothes", "prob": 100 },
-      { "group": "wallets_phavian", "damage": [ 1, 4 ] },
+      { "group": "wallets_phavian", "damage": [ 25, 100 ] },
       { "group": "clothing_watch", "prob": 5 },
       { "group": "default_zombie_items_pockets", "count": [ 1, 2 ], "prob": 50 },
       { "item": "matrix_crystal_biokinesis", "prob": 60 },

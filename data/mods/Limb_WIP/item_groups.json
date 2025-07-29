@@ -5,10 +5,10 @@
     "copy-from": "museum_primitive",
     "extend": {
       "items": [
-        { "item": "left_peg_leg_old", "prob": 10, "damage": [ 2, 4 ] },
-        { "item": "right_peg_leg_old", "prob": 10, "damage": [ 2, 4 ] },
-        { "item": "left_arm_prosthetic_wood_old", "prob": 10, "damage": [ 2, 4 ] },
-        { "item": "right_arm_prosthetic_wood_old", "prob": 10, "damage": [ 2, 4 ] }
+        { "item": "left_peg_leg_old", "prob": 10, "damage": [ 50, 100 ] },
+        { "item": "right_peg_leg_old", "prob": 10, "damage": [ 50, 100 ] },
+        { "item": "left_arm_prosthetic_wood_old", "prob": 10, "damage": [ 50, 100 ] },
+        { "item": "right_arm_prosthetic_wood_old", "prob": 10, "damage": [ 50, 100 ] }
       ]
     }
   },
@@ -18,14 +18,14 @@
     "copy-from": "museum_misc",
     "extend": {
       "items": [
-        { "item": "left_peg_leg_old", "prob": 15, "damage": [ 2, 4 ] },
-        { "item": "right_peg_leg_old", "prob": 15, "damage": [ 2, 4 ] },
-        { "item": "right_leg_prosthetic_steel_old", "prob": 15, "damage": [ 2, 4 ] },
-        { "item": "left_leg_prosthetic_steel_old", "prob": 15, "damage": [ 2, 4 ] },
-        { "item": "left_arm_prosthetic_wood_old", "prob": 15, "damage": [ 2, 4 ] },
-        { "item": "right_arm_prosthetic_wood_old", "prob": 15, "damage": [ 2, 4 ] },
-        { "item": "left_arm_prosthetic_steel_old", "prob": 15, "damage": [ 2, 4 ] },
-        { "item": "right_arm_prosthetic_steel_old", "prob": 15, "damage": [ 2, 4 ] }
+        { "item": "left_peg_leg_old", "prob": 15, "damage": [ 50, 100 ] },
+        { "item": "right_peg_leg_old", "prob": 15, "damage": [ 50, 100 ] },
+        { "item": "right_leg_prosthetic_steel_old", "prob": 15, "damage": [ 50, 100 ] },
+        { "item": "left_leg_prosthetic_steel_old", "prob": 15, "damage": [ 50, 100 ] },
+        { "item": "left_arm_prosthetic_wood_old", "prob": 15, "damage": [ 50, 100 ] },
+        { "item": "right_arm_prosthetic_wood_old", "prob": 15, "damage": [ 50, 100 ] },
+        { "item": "left_arm_prosthetic_steel_old", "prob": 15, "damage": [ 50, 100 ] },
+        { "item": "right_arm_prosthetic_steel_old", "prob": 15, "damage": [ 50, 100 ] }
       ]
     }
   },

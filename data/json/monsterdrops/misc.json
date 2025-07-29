@@ -76,16 +76,16 @@
       },
       {
         "collection": [
-          { "item": "knee_high_boots", "damage": [ 1, 4 ], "prob": 20 },
-          { "item": "breeches", "damage": [ 1, 4 ], "prob": 50 },
-          { "item": "waistcoat", "damage": [ 1, 4 ], "prob": 30 },
-          { "item": "peacoat", "damage": [ 1, 4 ], "prob": 50 },
-          { "item": "leather_belt", "damage": [ 1, 4 ], "prob": 10 },
-          { "item": "knit_scarf", "damage": [ 1, 4 ], "prob": 10 },
-          { "item": "tricorne", "damage": [ 1, 4 ], "prob": 30 },
-          { "item": "gloves_leather", "damage": [ 1, 4 ], "prob": 10 },
-          { "item": "stockings", "variant": "stockings_white", "damage": [ 1, 4 ], "prob": 20 },
-          { "item": "long_underpants", "damage": [ 1, 4 ] }
+          { "item": "knee_high_boots", "damage": [ 25, 100 ], "prob": 20 },
+          { "item": "breeches", "damage": [ 25, 100 ], "prob": 50 },
+          { "item": "waistcoat", "damage": [ 25, 100 ], "prob": 30 },
+          { "item": "peacoat", "damage": [ 25, 100 ], "prob": 50 },
+          { "item": "leather_belt", "damage": [ 25, 100 ], "prob": 10 },
+          { "item": "knit_scarf", "damage": [ 25, 100 ], "prob": 10 },
+          { "item": "tricorne", "damage": [ 25, 100 ], "prob": 30 },
+          { "item": "gloves_leather", "damage": [ 25, 100 ], "prob": 10 },
+          { "item": "stockings", "variant": "stockings_white", "damage": [ 25, 100 ], "prob": 20 },
+          { "item": "long_underpants", "damage": [ 25, 100 ] }
         ]
       },
       {
@@ -104,7 +104,7 @@
             "prob": 50
           },
           {
-            "collection": [ { "item": "flintlock_pouch", "damage": [ 1, 4 ] }, { "item": "flintlock_ammo", "charges": [ 0, 14 ] } ],
+            "collection": [ { "item": "flintlock_pouch", "damage": [ 25, 100 ] }, { "item": "flintlock_ammo", "charges": [ 0, 14 ] } ],
             "prob": 30
           },
           { "item": "lamp_oil", "charges": [ 0, 250 ], "container-item": "bottle_plastic_small", "prob": 10 }

@@ -242,7 +242,7 @@
     "subtype": "collection",
     "id": "map_extra_fallen_adventurer",
     "//": "Nested group to damage the container-item",
-    "entries": [ { "group": "map_extra_fallen_adventurer_corpse", "prob": 100, "damage": [ 3, 4 ] } ]
+    "entries": [ { "group": "map_extra_fallen_adventurer_corpse", "prob": 100, "damage": [ 75, 100 ] } ]
   },
   {
     "type": "item_group",

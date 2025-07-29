@@ -395,8 +395,8 @@
     "death_drops": {
       "subtype": "collection",
       "items": [
-        { "item": "mannequin", "prob": 100, "damage": [ 2, 4 ] },
-        { "item": "talking_doll", "prob": 100, "damage": [ 2, 4 ] }
+        { "item": "mannequin", "prob": 100, "damage": [ 50, 100 ] },
+        { "item": "talking_doll", "prob": 100, "damage": [ 50, 100 ] }
       ]
     },
     "death_function": { "message": "The %s falls over!", "corpse_type": "NO_CORPSE" },

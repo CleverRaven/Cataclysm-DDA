@@ -3,13 +3,13 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "mon_mutant_experimental_death_drops",
-    "entries": [ { "item": "jumpsuit_pocketless", "variant": "orange", "damage": [ 2, 3 ] } ]
+    "entries": [ { "item": "jumpsuit_pocketless", "variant": "orange", "damage": [ 50, 75 ] } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "mon_mutant_evolved_death_drops",
-    "entries": [ { "item": "cotton_patchwork", "damage": [ 1, 4 ], "count": [ 1, 4 ] }, { "item": "pants", "damage": [ 2, 3 ] } ]
+    "entries": [ { "item": "cotton_patchwork", "damage": [ 25, 100 ], "count": [ 1, 4 ] }, { "item": "pants", "damage": [ 50, 75 ] } ]
   },
   {
     "type": "item_group",
@@ -17,7 +17,7 @@
     "id": "mon_mutant_alpha_boss_death_drops",
     "entries": [
       { "item": "id_science_mutagen_green" },
-      { "item": "coat_lab", "damage": [ 0, 2 ] },
+      { "item": "coat_lab", "damage": [ 0, 50 ] },
       {
         "collection": [
           { "item": "leather_journal", "prob": 80, "contents-item": "note_mutant_alpha_boss" },

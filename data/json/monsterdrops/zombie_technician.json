@@ -4,15 +4,15 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-      { "group": "clothing_work_set", "damage": [ 1, 4 ] },
-      { "group": "underwear", "damage": [ 1, 4 ] },
-      { "group": "default_zombie_items_pockets", "prob": 80, "damage": [ 0, 2 ] },
+      { "group": "clothing_work_set", "damage": [ 25, 100 ] },
+      { "group": "underwear", "damage": [ 25, 100 ] },
+      { "group": "default_zombie_items_pockets", "prob": 80, "damage": [ 0, 50 ] },
       {
         "distribution": [ { "group": "tools_workshop", "prob": 30 }, { "group": "tools_toolbox", "prob": 70 } ],
         "prob": 50
       },
       { "group": "supplies_electronics", "count": [ 1, 3 ], "prob": 70 },
-      { "group": "wallets", "damage": [ 1, 4 ], "prob": 60 },
+      { "group": "wallets", "damage": [ 25, 100 ], "prob": 60 },
       { "item": "id_industrial", "prob": 20 }
     ]
   },
@@ -21,16 +21,16 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-      { "item": "attachable_ear_muffs", "damage": [ 1, 3 ], "prob": 50 },
+      { "item": "attachable_ear_muffs", "damage": [ 25, 75 ], "prob": 50 },
       {
-        "distribution": [ { "item": "nape_protector", "damage": [ 1, 3 ] }, { "item": "mesh_nape_protector", "damage": [ 1, 3 ] } ],
+        "distribution": [ { "item": "nape_protector", "damage": [ 25, 75 ] }, { "item": "mesh_nape_protector", "damage": [ 25, 75 ] } ],
         "prob": 60
       },
       {
         "distribution": [
-          { "item": "shield_visor", "damage": [ 1, 3 ] },
-          { "item": "face_shield", "damage": [ 1, 3 ] },
-          { "item": "face_shield_plastic", "damage": [ 1, 3 ] }
+          { "item": "shield_visor", "damage": [ 25, 75 ] },
+          { "item": "face_shield", "damage": [ 25, 75 ] },
+          { "item": "face_shield_plastic", "damage": [ 25, 75 ] }
         ],
         "prob": 60
       }
@@ -41,15 +41,15 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-      { "group": "clothing_work_boots", "prob": 60, "damage": [ 1, 4 ] },
-      { "group": "clothing_work_glasses", "prob": 60, "damage": [ 1, 4 ] },
-      { "group": "clothing_work_gloves", "prob": 50, "damage": [ 1, 4 ] },
-      { "group": "clothing_work_mask", "prob": 40, "damage": [ 1, 4 ] },
-      { "group": "default_zombie_items_pockets", "prob": 80, "damage": [ 0, 2 ] },
-      { "group": "wallets", "damage": [ 1, 4 ], "prob": 40 },
-      { "item": "tool_belt", "prob": 25, "damage": [ 1, 4 ] },
+      { "group": "clothing_work_boots", "prob": 60, "damage": [ 25, 100 ] },
+      { "group": "clothing_work_glasses", "prob": 60, "damage": [ 25, 100 ] },
+      { "group": "clothing_work_gloves", "prob": 50, "damage": [ 25, 100 ] },
+      { "group": "clothing_work_mask", "prob": 40, "damage": [ 25, 100 ] },
+      { "group": "default_zombie_items_pockets", "prob": 80, "damage": [ 0, 50 ] },
+      { "group": "wallets", "damage": [ 25, 100 ], "prob": 40 },
+      { "item": "tool_belt", "prob": 25, "damage": [ 25, 100 ] },
       {
-        "distribution": [ { "item": "pickaxe", "prob": 10, "damage": [ 1, 3 ] }, { "item": "shovel", "prob": 50, "damage": [ 1, 3 ] } ],
+        "distribution": [ { "item": "pickaxe", "prob": 10, "damage": [ 25, 75 ] }, { "item": "shovel", "prob": 50, "damage": [ 25, 75 ] } ],
         "prob": 40
       },
       {
@@ -58,17 +58,17 @@
             "collection": [
               {
                 "distribution": [
-                  { "item": "hat_hard", "variant": "yellow_hat_hard", "damage": [ 1, 3 ], "contents-group": "worker_kitted_hard_hat" },
+                  { "item": "hat_hard", "variant": "yellow_hat_hard", "damage": [ 25, 75 ], "contents-group": "worker_kitted_hard_hat" },
                   {
                     "item": "hat_hard",
                     "variant": "green_hat_hard",
-                    "damage": [ 1, 3 ],
+                    "damage": [ 25, 75 ],
                     "prob": 10,
                     "contents-group": "worker_kitted_hard_hat"
                   },
                   {
                     "collection": [
-                      { "item": "hat_hard", "variant": "white_hat_hard", "damage": [ 1, 3 ], "contents-group": "worker_kitted_hard_hat" },
+                      { "item": "hat_hard", "variant": "white_hat_hard", "damage": [ 25, 75 ], "contents-group": "worker_kitted_hard_hat" },
                       {
                         "distribution": [ { "group": "used_1st_aid", "prob": 70 }, { "group": "full_1st_aid", "prob": 30 } ]
                       }
@@ -79,16 +79,16 @@
               },
               {
                 "distribution": [
-                  { "item": "ear_plugs", "prob": 15, "damage": [ 1, 4 ] },
-                  { "group": "tools_lighting_industrial", "damage": [ 1, 3 ] },
-                  { "item": "electric_lantern", "charges": [ 0, 100 ], "damage": [ 1, 3 ] }
+                  { "item": "ear_plugs", "prob": 15, "damage": [ 25, 100 ] },
+                  { "group": "tools_lighting_industrial", "damage": [ 25, 75 ] },
+                  { "item": "electric_lantern", "charges": [ 0, 100 ], "damage": [ 25, 75 ] }
                 ]
               }
             ]
           },
           {
             "group": "hat_hard_flashlight",
-            "damage": [ 1, 4 ],
+            "damage": [ 25, 100 ],
             "contents-group": "worker_kitted_hard_hat",
             "prob": 40
           }
@@ -99,14 +99,14 @@
       {
         "distribution": [
           {
-            "collection": [ { "group": "clothing_work_pants", "damage": [ 1, 4 ] }, { "group": "clothing_work_torso", "damage": [ 1, 4 ] } ],
+            "collection": [ { "group": "clothing_work_pants", "damage": [ 25, 100 ] }, { "group": "clothing_work_torso", "damage": [ 25, 100 ] } ],
             "prob": 70
           },
-          { "item": "technician_coveralls", "prob": 20, "damage": [ 1, 4 ] },
-          { "item": "technician_coveralls_h", "prob": 10, "damage": [ 1, 4 ] }
+          { "item": "technician_coveralls", "prob": 20, "damage": [ 25, 100 ] },
+          { "item": "technician_coveralls_h", "prob": 10, "damage": [ 25, 100 ] }
         ]
       },
-      { "group": "underwear", "damage": [ 1, 4 ] }
+      { "group": "underwear", "damage": [ 25, 100 ] }
     ]
   }
 ]

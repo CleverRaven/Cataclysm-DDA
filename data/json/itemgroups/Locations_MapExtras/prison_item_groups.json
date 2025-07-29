@@ -29,22 +29,22 @@
     "id": "prison_workshop_safety",
     "subtype": "collection",
     "items": [
-      { "item": "mask_dust", "prob": 75, "damage": [ 1, 4 ] },
-      { "item": "gloves_work", "prob": 75, "damage": [ 1, 4 ] },
-      { "item": "glasses_safety", "prob": 75, "damage": [ 1, 4 ] }
+      { "item": "mask_dust", "prob": 75, "damage": [ 25, 100 ] },
+      { "item": "gloves_work", "prob": 75, "damage": [ 25, 100 ] },
+      { "item": "glasses_safety", "prob": 75, "damage": [ 25, 100 ] }
     ]
   },
   {
     "id": "prison_jumpsuit",
     "type": "item_group",
-    "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "prob": 75, "damage": [ 1, 4 ] } ]
+    "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "prob": 75, "damage": [ 25, 100 ] } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "prisoner_or_cop_clothes",
     "//": "Nested group to damage the container-item",
-    "entries": [ { "group": "prisoner_or_cop_clothes_corpse", "prob": 100, "damage": [ 3, 4 ] } ]
+    "entries": [ { "group": "prisoner_or_cop_clothes_corpse", "prob": 100, "damage": [ 75, 100 ] } ]
   },
   {
     "type": "item_group",
@@ -52,29 +52,29 @@
     "subtype": "collection",
     "container-item": "corpse_generic_human",
     "entries": [
-      { "group": "male_underwear", "damage": [ 1, 4 ] },
+      { "group": "male_underwear", "damage": [ 25, 100 ] },
       {
         "distribution": [
           {
             "collection": [
-              { "item": "jumpsuit_pocketless", "variant": "orange", "damage": [ 1, 4 ] },
-              { "group": "clothing_prisoner_shoes", "damage": [ 1, 4 ], "prob": 20 },
-              { "item": "bandana", "damage": [ 1, 4 ] }
+              { "item": "jumpsuit_pocketless", "variant": "orange", "damage": [ 25, 100 ] },
+              { "group": "clothing_prisoner_shoes", "damage": [ 25, 100 ], "prob": 20 },
+              { "item": "bandana", "damage": [ 25, 100 ] }
             ]
           },
           {
             "collection": [
-              { "group": "cop_pants", "damage": [ 1, 4 ] },
-              { "group": "cop_shoes", "damage": [ 1, 4 ], "prob": 20 },
-              { "group": "cop_torso", "damage": [ 1, 4 ] },
+              { "group": "cop_pants", "damage": [ 25, 100 ] },
+              { "group": "cop_shoes", "damage": [ 25, 100 ], "prob": 20 },
+              { "group": "cop_torso", "damage": [ 25, 100 ] },
               { "group": "clothing_watch", "prob": 20 },
-              { "item": "police_belt", "damage": [ 1, 4 ], "prob": 20 }
+              { "item": "police_belt", "damage": [ 25, 100 ], "prob": 20 }
             ]
           }
         ],
         "prob": 90
       },
-      { "group": "socks_unisex", "damage": [ 1, 4 ] },
+      { "group": "socks_unisex", "damage": [ 25, 100 ] },
       { "group": "clothing_glasses", "prob": 20 }
     ]
   }

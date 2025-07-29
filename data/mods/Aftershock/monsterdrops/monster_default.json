@@ -5,8 +5,8 @@
     "//": "contains cloth for an average human moxie",
     "id": "default_moxie_human_clothes",
     "entries": [
-      { "group": "afs_colonist_outfit", "damage": [ 1, 4 ] },
-      { "group": "afs_scrap_armor_g", "damage": [ 1, 4 ], "prob": 15 }
+      { "group": "afs_colonist_outfit", "damage": [ 25, 100 ] },
+      { "group": "afs_scrap_armor_g", "damage": [ 25, 100 ], "prob": 15 }
     ]
   },
   {
@@ -15,7 +15,7 @@
     "//": "items people could have carried in their bags prior to the moxification, that word is a WIP, haha",
     "id": "default_moxie_human_item_bags",
     "entries": [
-      { "group": "afs_colonist_bags", "damage": [ 1, 4 ] },
+      { "group": "afs_colonist_bags", "damage": [ 25, 100 ] },
       { "group": "default_moxie_human_items_pockets", "prob": 50 },
       { "group": "alcohol_bottled_canned", "prob": 10 },
       { "group": "vending_drink_items", "prob": 25 },
@@ -59,7 +59,7 @@
       { "distribution": [ { "item": "gum" }, { "item": "caff_gum" } ], "prob": 30 },
       { "item": "mp3", "prob": 18, "charges": [ 0, 15 ] },
       { "item": "portable_game", "prob": 10, "charges": [ 0, 50 ] },
-      { "item": "game_watch", "prob": 10, "damage": [ 1, 4 ], "charges": [ 0, 50 ] },
+      { "item": "game_watch", "prob": 10, "damage": [ 25, 100 ], "charges": [ 0, 50 ] },
       { "item": "usb_drive", "prob": 10 },
       { "item": "meth", "prob": 2 },
       { "item": "coke", "prob": 2 },
@@ -93,7 +93,7 @@
     "entries": [
       { "group": "default_moxie_human_clothes" },
       { "group": "default_moxie_human_items", "prob": 50 },
-      { "group": "wallets", "damage": [ 1, 4 ], "prob": 10 }
+      { "group": "wallets", "damage": [ 25, 100 ], "prob": 10 }
     ]
   }
 ]

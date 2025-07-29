@@ -21,15 +21,15 @@
     "subtype": "collection",
     "id": "feral_goblin_death_drops",
     "entries": [
-      { "group": "shoes_unisex", "prob": 40, "damage": [ 1, 4 ], "custom-flags": [ "UNDERSIZE" ] },
-      { "group": "npc_hat", "prob": 10, "damage": [ 1, 4 ], "custom-flags": [ "UNDERSIZE" ] },
-      { "group": "male_underwear_bottom", "prob": 100, "damage": [ 1, 4 ], "custom-flags": [ "UNDERSIZE" ] },
-      { "group": "female_underwear_top", "prob": 100, "damage": [ 1, 4 ], "custom-flags": [ "UNDERSIZE" ] },
-      { "item": "chestwrap_leather", "prob": 20, "damage": [ 1, 4 ], "custom-flags": [ "UNDERSIZE" ] },
-      { "group": "pants_male", "prob": 75, "damage": [ 1, 4 ], "custom-flags": [ "UNDERSIZE" ] },
-      { "group": "npc_coat", "prob": 2, "damage": [ 1, 4 ], "custom-flags": [ "UNDERSIZE" ] },
-      { "group": "npc_gloves", "prob": 50, "damage": [ 1, 4 ], "custom-flags": [ "UNDERSIZE" ] },
-      { "item": "wicker_backpack", "prob": 1, "damage": [ 1, 4 ] }
+      { "group": "shoes_unisex", "prob": 40, "damage": [ 25, 100 ], "custom-flags": [ "UNDERSIZE" ] },
+      { "group": "npc_hat", "prob": 10, "damage": [ 25, 100 ], "custom-flags": [ "UNDERSIZE" ] },
+      { "group": "male_underwear_bottom", "prob": 100, "damage": [ 25, 100 ], "custom-flags": [ "UNDERSIZE" ] },
+      { "group": "female_underwear_top", "prob": 100, "damage": [ 25, 100 ], "custom-flags": [ "UNDERSIZE" ] },
+      { "item": "chestwrap_leather", "prob": 20, "damage": [ 25, 100 ], "custom-flags": [ "UNDERSIZE" ] },
+      { "group": "pants_male", "prob": 75, "damage": [ 25, 100 ], "custom-flags": [ "UNDERSIZE" ] },
+      { "group": "npc_coat", "prob": 2, "damage": [ 25, 100 ], "custom-flags": [ "UNDERSIZE" ] },
+      { "group": "npc_gloves", "prob": 50, "damage": [ 25, 100 ], "custom-flags": [ "UNDERSIZE" ] },
+      { "item": "wicker_backpack", "prob": 1, "damage": [ 25, 100 ] }
     ]
   },
   {

@@ -24,7 +24,7 @@
       "explosive": 1,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "item": "diesel_generator", "contents-group": "some_diesel", "damage": [ 0, 1 ] } ]
+      "items": [ { "item": "diesel_generator", "contents-group": "some_diesel", "damage": [ 0, 25 ] } ]
     },
     "deconstruct": { "items": [ { "item": "diesel_generator", "contents-group": "some_diesel" } ] }
   },
@@ -42,7 +42,7 @@
       "explosive": 1,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "item": "portable_generator", "damage": [ 0, 1 ] } ]
+      "items": [ { "item": "portable_generator", "damage": [ 0, 25 ] } ]
     },
     "deconstruct": { "items": [ { "item": "portable_generator" } ] }
   },
@@ -60,7 +60,7 @@
       "explosive": 1,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "item": "diesel_generator", "damage": [ 0, 1 ] } ]
+      "items": [ { "item": "diesel_generator", "damage": [ 0, 25 ] } ]
     },
     "deconstruct": { "items": [ { "item": "diesel_generator" } ] }
   },
@@ -78,7 +78,7 @@
       "explosive": 1,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "item": "military_generator", "damage": [ 0, 1 ] } ]
+      "items": [ { "item": "military_generator", "damage": [ 0, 25 ] } ]
     },
     "deconstruct": { "items": [ { "item": "military_generator" } ] }
   },
@@ -96,7 +96,7 @@
       "explosive": 1,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "item": "12000_gasoline_generator", "damage": [ 0, 1 ] } ]
+      "items": [ { "item": "12000_gasoline_generator", "damage": [ 0, 25 ] } ]
     },
     "deconstruct": { "items": [ { "item": "12000_gasoline_generator" } ] }
   }

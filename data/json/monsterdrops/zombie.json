@@ -25,22 +25,22 @@
     "entries": [
       {
         "distribution": [
-          { "group": "hazmat_full", "damage": [ 1, 4 ], "prob": 20 },
+          { "group": "hazmat_full", "damage": [ 25, 100 ], "prob": 20 },
           {
             "collection": [
-              { "group": "hazmat_torso", "damage": [ 1, 4 ] },
-              { "group": "hazmat_gloves", "damage": [ 1, 4 ] },
-              { "group": "hazmat_boots", "damage": [ 1, 4 ] },
-              { "group": "hazmat_mask", "damage": [ 1, 4 ] },
-              { "group": "hazmat_eyes", "damage": [ 1, 4 ], "prob": 33 }
+              { "group": "hazmat_torso", "damage": [ 25, 100 ] },
+              { "group": "hazmat_gloves", "damage": [ 25, 100 ] },
+              { "group": "hazmat_boots", "damage": [ 25, 100 ] },
+              { "group": "hazmat_mask", "damage": [ 25, 100 ] },
+              { "group": "hazmat_eyes", "damage": [ 25, 100 ], "prob": 33 }
             ],
             "prob": 80
           }
         ]
       },
-      { "group": "underwear", "damage": [ 1, 4 ] },
+      { "group": "underwear", "damage": [ 25, 100 ] },
       { "distribution": [ { "group": "rad_gear", "prob": 1 } ] },
-      { "group": "wallets", "damage": [ 1, 4 ] }
+      { "group": "wallets", "damage": [ 25, 100 ] }
     ]
   },
   {
@@ -48,10 +48,10 @@
     "subtype": "collection",
     "id": "mon_zombie_hulk_death_drops",
     "entries": [
-      { "item": "cotton_patchwork", "damage": [ 1, 4 ], "count": [ 1, 4 ] },
-      { "group": "pants", "damage": [ 1, 4 ] },
+      { "item": "cotton_patchwork", "damage": [ 25, 100 ], "count": [ 1, 4 ] },
+      { "group": "pants", "damage": [ 25, 100 ] },
       { "group": "default_zombie_items" },
-      { "group": "wallets", "damage": [ 1, 4 ] }
+      { "group": "wallets", "damage": [ 25, 100 ] }
     ]
   },
   {
@@ -65,15 +65,15 @@
     "subtype": "collection",
     "id": "mon_zombie_fireman_death_drops",
     "entries": [
-      { "group": "fireman_torso", "damage": [ 1, 4 ] },
-      { "group": "fireman_pants", "damage": [ 1, 4 ] },
-      { "group": "fireman_gloves", "damage": [ 1, 4 ] },
-      { "group": "fireman_boots", "damage": [ 1, 4 ] },
-      { "group": "fireman_mask", "damage": [ 1, 4 ] },
-      { "group": "fireman_head", "damage": [ 1, 4 ] },
-      { "group": "hazmat_eyes", "damage": [ 1, 4 ], "prob": 33 },
+      { "group": "fireman_torso", "damage": [ 25, 100 ] },
+      { "group": "fireman_pants", "damage": [ 25, 100 ] },
+      { "group": "fireman_gloves", "damage": [ 25, 100 ] },
+      { "group": "fireman_boots", "damage": [ 25, 100 ] },
+      { "group": "fireman_mask", "damage": [ 25, 100 ] },
+      { "group": "fireman_head", "damage": [ 25, 100 ] },
+      { "group": "hazmat_eyes", "damage": [ 25, 100 ], "prob": 33 },
       { "distribution": [ { "group": "fireman_gear", "prob": 1 } ] },
-      { "group": "wallets", "damage": [ 1, 4 ] }
+      { "group": "wallets", "damage": [ 25, 100 ] }
     ]
   },
   {
@@ -83,25 +83,25 @@
     "entries": [
       {
         "distribution": [
-          { "group": "swimmer_wetsuit", "damage": [ 1, 4 ], "prob": 10 },
-          { "group": "bikini", "damage": [ 1, 4 ], "prob": 25 },
+          { "group": "swimmer_wetsuit", "damage": [ 25, 100 ], "prob": 10 },
+          { "group": "bikini", "damage": [ 25, 100 ], "prob": 25 },
           {
             "collection": [
-              { "group": "swimmer_torso_no_bikini", "damage": [ 1, 4 ], "prob": 45 },
-              { "group": "swimmer_pants_no_bikini", "damage": [ 1, 4 ] }
+              { "group": "swimmer_torso_no_bikini", "damage": [ 25, 100 ], "prob": 45 },
+              { "group": "swimmer_pants_no_bikini", "damage": [ 25, 100 ] }
             ],
             "prob": 65
           }
         ]
       },
-      { "group": "swimmer_head", "damage": [ 1, 4 ], "prob": 20 },
-      { "group": "swimmer_gloves", "damage": [ 1, 4 ], "prob": 5 },
-      { "group": "swimmer_shoes", "damage": [ 1, 4 ], "prob": 30 },
-      { "group": "swimmer_accessories", "damage": [ 1, 4 ], "prob": 20 },
-      { "group": "swimmer_glasses", "damage": [ 0, 4 ], "prob": 15 },
+      { "group": "swimmer_head", "damage": [ 25, 100 ], "prob": 20 },
+      { "group": "swimmer_gloves", "damage": [ 25, 100 ], "prob": 5 },
+      { "group": "swimmer_shoes", "damage": [ 25, 100 ], "prob": 30 },
+      { "group": "swimmer_accessories", "damage": [ 25, 100 ], "prob": 20 },
+      { "group": "swimmer_glasses", "damage": [ 0, 100 ], "prob": 15 },
       { "group": "swimmer_items", "prob": 5 },
-      { "group": "wallets", "damage": [ 1, 4 ], "prob": 10 },
-      { "group": "civilian_phones_case", "damage": [ 0, 4 ], "prob": 5 }
+      { "group": "wallets", "damage": [ 25, 100 ], "prob": 10 },
+      { "group": "civilian_phones_case", "damage": [ 0, 100 ], "prob": 5 }
     ]
   },
   {
@@ -109,11 +109,11 @@
     "id": "mon_zombie_thorny_death_drops",
     "subtype": "collection",
     "entries": [
-      { "item": "cotton_patchwork", "damage": [ 1, 4 ], "count": [ 1, 4 ] },
-      { "group": "pants", "damage": [ 1, 4 ] },
-      { "group": "shoes", "damage": [ 1, 4 ] },
+      { "item": "cotton_patchwork", "damage": [ 25, 100 ], "count": [ 1, 4 ] },
+      { "group": "pants", "damage": [ 25, 100 ] },
+      { "group": "shoes", "damage": [ 25, 100 ] },
       { "group": "default_zombie_items" },
-      { "group": "wallets", "damage": [ 1, 4 ], "prob": 10 },
+      { "group": "wallets", "damage": [ 25, 100 ], "prob": 10 },
       { "item": "fighter_sting", "prob": 60 }
     ]
   },
@@ -121,13 +121,16 @@
     "type": "item_group",
     "id": "mon_dog_death_drops",
     "subtype": "collection",
-    "entries": [ { "group": "dog_clothes", "damage": [ 1, 4 ], "prob": 5 }, { "item": "dog_tag_dog", "prob": 40, "damage": [ 0, 2 ] } ]
+    "entries": [
+      { "group": "dog_clothes", "damage": [ 25, 100 ], "prob": 5 },
+      { "item": "dog_tag_dog", "prob": 40, "damage": [ 0, 50 ] }
+    ]
   },
   {
     "type": "item_group",
     "id": "zombie_fursuits",
     "subtype": "distribution",
-    "entries": [ { "item": "fursuit", "prob": 50, "damage": [ 2, 3 ] } ]
+    "entries": [ { "item": "fursuit", "prob": 50, "damage": [ 50, 75 ] } ]
   },
   {
     "type": "item_group",
@@ -135,8 +138,8 @@
     "subtype": "collection",
     "entries": [
       { "item": "corpse_ash", "count": [ 25, 35 ] },
-      { "item": "skull_human_tainted", "prob": 40, "damage": [ 1, 3 ] },
-      { "item": "bone_tainted", "prob": 50, "damage": [ 2, 3 ], "count": [ 1, 3 ] }
+      { "item": "skull_human_tainted", "prob": 40, "damage": [ 25, 75 ] },
+      { "item": "bone_tainted", "prob": 50, "damage": [ 50, 75 ], "count": [ 1, 3 ] }
     ]
   },
   {
@@ -144,10 +147,10 @@
     "id": "zed_skin",
     "subtype": "collection",
     "entries": [
-      { "item": "raw_tainted_leather_scraps", "prob": 100, "damage": [ 2, 3 ], "count": [ 5, 12 ] },
-      { "item": "fat_tainted", "prob": 50, "damage": [ 2, 3 ], "count": [ 1, 4 ] },
-      { "item": "bone_tainted", "prob": 50, "damage": [ 2, 3 ], "count": [ 1, 4 ] },
-      { "item": "sinew", "prob": 50, "damage": [ 2, 3 ], "count": [ 1, 2 ] }
+      { "item": "raw_tainted_leather_scraps", "prob": 100, "damage": [ 50, 75 ], "count": [ 5, 12 ] },
+      { "item": "fat_tainted", "prob": 50, "damage": [ 50, 75 ], "count": [ 1, 4 ] },
+      { "item": "bone_tainted", "prob": 50, "damage": [ 50, 75 ], "count": [ 1, 4 ] },
+      { "item": "sinew", "prob": 50, "damage": [ 50, 75 ], "count": [ 1, 2 ] }
     ]
   },
   {
@@ -155,17 +158,17 @@
     "id": "explode_zed",
     "subtype": "collection",
     "entries": [
-      { "item": "skull_human_tainted", "prob": 60, "damage": [ 2, 3 ] },
-      { "item": "arm_zed", "prob": 30, "damage": [ 2, 3 ], "count": [ 1, 2 ] },
-      { "item": "leg_zed", "prob": 30, "damage": [ 2, 3 ], "count": [ 1, 2 ] },
-      { "item": "blood_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 5, 10 ] },
-      { "item": "meat_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 5, 10 ] },
-      { "item": "fat_tainted", "prob": 80, "damage": [ 2, 3 ], "count": [ 1, 5 ] },
-      { "item": "bone_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 5, 10 ] },
-      { "item": "tainted_marrow", "prob": 50, "damage": [ 2, 3 ], "count": [ 1, 5 ] },
-      { "item": "tainted_innards", "prob": 100, "damage": [ 2, 3 ], "count": [ 5, 10 ] },
-      { "item": "raw_tainted_leather_scraps", "prob": 50, "damage": [ 2, 3 ], "count": [ 2, 5 ] },
-      { "item": "sinew", "prob": 50, "damage": [ 2, 3 ], "count": [ 5, 10 ] }
+      { "item": "skull_human_tainted", "prob": 60, "damage": [ 50, 75 ] },
+      { "item": "arm_zed", "prob": 30, "damage": [ 50, 75 ], "count": [ 1, 2 ] },
+      { "item": "leg_zed", "prob": 30, "damage": [ 50, 75 ], "count": [ 1, 2 ] },
+      { "item": "blood_tainted", "prob": 100, "damage": [ 50, 75 ], "count": [ 5, 10 ] },
+      { "item": "meat_tainted", "prob": 100, "damage": [ 50, 75 ], "count": [ 5, 10 ] },
+      { "item": "fat_tainted", "prob": 80, "damage": [ 50, 75 ], "count": [ 1, 5 ] },
+      { "item": "bone_tainted", "prob": 100, "damage": [ 50, 75 ], "count": [ 5, 10 ] },
+      { "item": "tainted_marrow", "prob": 50, "damage": [ 50, 75 ], "count": [ 1, 5 ] },
+      { "item": "tainted_innards", "prob": 100, "damage": [ 50, 75 ], "count": [ 5, 10 ] },
+      { "item": "raw_tainted_leather_scraps", "prob": 50, "damage": [ 50, 75 ], "count": [ 2, 5 ] },
+      { "item": "sinew", "prob": 50, "damage": [ 50, 75 ], "count": [ 5, 10 ] }
     ]
   },
   {
@@ -173,17 +176,17 @@
     "id": "explode_zed_fungal",
     "subtype": "collection",
     "entries": [
-      { "item": "skull_human_tainted", "prob": 60, "damage": [ 2, 3 ] },
-      { "item": "arm_zed", "prob": 20, "damage": [ 2, 3 ], "count": [ 1, 2 ] },
-      { "item": "leg_zed", "prob": 20, "damage": [ 2, 3 ], "count": [ 1, 2 ] },
-      { "item": "blood_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 5, 10 ] },
-      { "item": "meat_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 5, 10 ] },
-      { "item": "fat_tainted", "prob": 80, "damage": [ 2, 3 ], "count": [ 1, 5 ] },
-      { "item": "bone_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 5, 10 ] },
-      { "item": "tainted_marrow", "prob": 50, "damage": [ 2, 3 ], "count": [ 1, 5 ] },
-      { "item": "veggy_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 5, 10 ] },
-      { "item": "raw_tainted_leather_scraps", "prob": 50, "damage": [ 2, 3 ], "count": [ 2, 5 ] },
-      { "item": "sinew", "prob": 50, "damage": [ 2, 3 ], "count": [ 5, 10 ] }
+      { "item": "skull_human_tainted", "prob": 60, "damage": [ 50, 75 ] },
+      { "item": "arm_zed", "prob": 20, "damage": [ 50, 75 ], "count": [ 1, 2 ] },
+      { "item": "leg_zed", "prob": 20, "damage": [ 50, 75 ], "count": [ 1, 2 ] },
+      { "item": "blood_tainted", "prob": 100, "damage": [ 50, 75 ], "count": [ 5, 10 ] },
+      { "item": "meat_tainted", "prob": 100, "damage": [ 50, 75 ], "count": [ 5, 10 ] },
+      { "item": "fat_tainted", "prob": 80, "damage": [ 50, 75 ], "count": [ 1, 5 ] },
+      { "item": "bone_tainted", "prob": 100, "damage": [ 50, 75 ], "count": [ 5, 10 ] },
+      { "item": "tainted_marrow", "prob": 50, "damage": [ 50, 75 ], "count": [ 1, 5 ] },
+      { "item": "veggy_tainted", "prob": 100, "damage": [ 50, 75 ], "count": [ 5, 10 ] },
+      { "item": "raw_tainted_leather_scraps", "prob": 50, "damage": [ 50, 75 ], "count": [ 2, 5 ] },
+      { "item": "sinew", "prob": 50, "damage": [ 50, 75 ], "count": [ 5, 10 ] }
     ]
   },
   {
@@ -191,17 +194,17 @@
     "id": "explode_zed_fungal_bone",
     "subtype": "collection",
     "entries": [
-      { "item": "skull_human_tainted", "prob": 90, "damage": [ 2, 3 ] },
-      { "item": "arm_zed", "prob": 20, "damage": [ 2, 3 ], "count": [ 1, 2 ] },
-      { "item": "leg_zed", "prob": 20, "damage": [ 2, 3 ], "count": [ 1, 2 ] },
-      { "item": "blood_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 5, 10 ] },
-      { "item": "meat_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 5, 10 ] },
-      { "item": "fat_tainted", "prob": 80, "damage": [ 2, 3 ], "count": [ 1, 5 ] },
-      { "item": "bone_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 15, 25 ] },
-      { "item": "tainted_marrow", "prob": 50, "damage": [ 2, 3 ], "count": [ 10, 15 ] },
-      { "item": "veggy_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 5, 10 ] },
-      { "item": "raw_tainted_leather_scraps", "prob": 50, "damage": [ 2, 3 ], "count": [ 1, 3 ] },
-      { "item": "sinew", "prob": 50, "damage": [ 2, 3 ], "count": [ 5, 10 ] }
+      { "item": "skull_human_tainted", "prob": 90, "damage": [ 50, 75 ] },
+      { "item": "arm_zed", "prob": 20, "damage": [ 50, 75 ], "count": [ 1, 2 ] },
+      { "item": "leg_zed", "prob": 20, "damage": [ 50, 75 ], "count": [ 1, 2 ] },
+      { "item": "blood_tainted", "prob": 100, "damage": [ 50, 75 ], "count": [ 5, 10 ] },
+      { "item": "meat_tainted", "prob": 100, "damage": [ 50, 75 ], "count": [ 5, 10 ] },
+      { "item": "fat_tainted", "prob": 80, "damage": [ 50, 75 ], "count": [ 1, 5 ] },
+      { "item": "bone_tainted", "prob": 100, "damage": [ 50, 75 ], "count": [ 15, 25 ] },
+      { "item": "tainted_marrow", "prob": 50, "damage": [ 50, 75 ], "count": [ 10, 15 ] },
+      { "item": "veggy_tainted", "prob": 100, "damage": [ 50, 75 ], "count": [ 5, 10 ] },
+      { "item": "raw_tainted_leather_scraps", "prob": 50, "damage": [ 50, 75 ], "count": [ 1, 3 ] },
+      { "item": "sinew", "prob": 50, "damage": [ 50, 75 ], "count": [ 5, 10 ] }
     ]
   },
   {
@@ -209,16 +212,16 @@
     "id": "explode_zed_beast",
     "subtype": "collection",
     "entries": [
-      { "item": "leg_zed", "prob": 80, "damage": [ 2, 3 ], "count": [ 1, 2 ] },
-      { "item": "leg_zed", "prob": 40, "damage": [ 2, 3 ], "count": [ 1, 2 ] },
-      { "item": "raw_tainted_leather_scraps", "prob": 100, "damage": [ 2, 3 ], "count": [ 5, 10 ] },
-      { "item": "blood_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 5, 10 ] },
-      { "item": "meat_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 5, 10 ] },
-      { "item": "fat_tainted", "prob": 80, "damage": [ 2, 3 ], "count": [ 1, 5 ] },
-      { "item": "bone_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 5, 10 ] },
-      { "item": "tainted_marrow", "prob": 50, "damage": [ 2, 3 ], "count": [ 1, 5 ] },
-      { "item": "tainted_innards", "prob": 100, "damage": [ 2, 3 ], "count": [ 5, 10 ] },
-      { "item": "sinew", "prob": 50, "damage": [ 2, 3 ], "count": [ 5, 10 ] }
+      { "item": "leg_zed", "prob": 80, "damage": [ 50, 75 ], "count": [ 1, 2 ] },
+      { "item": "leg_zed", "prob": 40, "damage": [ 50, 75 ], "count": [ 1, 2 ] },
+      { "item": "raw_tainted_leather_scraps", "prob": 100, "damage": [ 50, 75 ], "count": [ 5, 10 ] },
+      { "item": "blood_tainted", "prob": 100, "damage": [ 50, 75 ], "count": [ 5, 10 ] },
+      { "item": "meat_tainted", "prob": 100, "damage": [ 50, 75 ], "count": [ 5, 10 ] },
+      { "item": "fat_tainted", "prob": 80, "damage": [ 50, 75 ], "count": [ 1, 5 ] },
+      { "item": "bone_tainted", "prob": 100, "damage": [ 50, 75 ], "count": [ 5, 10 ] },
+      { "item": "tainted_marrow", "prob": 50, "damage": [ 50, 75 ], "count": [ 1, 5 ] },
+      { "item": "tainted_innards", "prob": 100, "damage": [ 50, 75 ], "count": [ 5, 10 ] },
+      { "item": "sinew", "prob": 50, "damage": [ 50, 75 ], "count": [ 5, 10 ] }
     ]
   },
   {
@@ -226,16 +229,16 @@
     "id": "explode_gasbag",
     "subtype": "collection",
     "entries": [
-      { "item": "arm_zed", "prob": 10, "damage": [ 2, 3 ] },
-      { "item": "leg_zed", "prob": 10, "damage": [ 2, 3 ] },
-      { "item": "blood_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 3, 7 ] },
-      { "item": "meat_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 3, 7 ] },
-      { "item": "fat_tainted", "prob": 80, "damage": [ 2, 3 ], "count": [ 1, 3 ] },
-      { "item": "bone_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 5, 10 ] },
-      { "item": "tainted_marrow", "prob": 50, "damage": [ 2, 3 ], "count": [ 1, 2 ] },
-      { "item": "tainted_innards", "prob": 100, "damage": [ 2, 3 ], "count": [ 3, 7 ] },
-      { "item": "raw_tainted_leather_scraps", "prob": 80, "damage": [ 2, 3 ], "count": [ 2, 5 ] },
-      { "item": "sinew", "prob": 50, "damage": [ 2, 3 ], "count": [ 3, 7 ] }
+      { "item": "arm_zed", "prob": 10, "damage": [ 50, 75 ] },
+      { "item": "leg_zed", "prob": 10, "damage": [ 50, 75 ] },
+      { "item": "blood_tainted", "prob": 100, "damage": [ 50, 75 ], "count": [ 3, 7 ] },
+      { "item": "meat_tainted", "prob": 100, "damage": [ 50, 75 ], "count": [ 3, 7 ] },
+      { "item": "fat_tainted", "prob": 80, "damage": [ 50, 75 ], "count": [ 1, 3 ] },
+      { "item": "bone_tainted", "prob": 100, "damage": [ 50, 75 ], "count": [ 5, 10 ] },
+      { "item": "tainted_marrow", "prob": 50, "damage": [ 50, 75 ], "count": [ 1, 2 ] },
+      { "item": "tainted_innards", "prob": 100, "damage": [ 50, 75 ], "count": [ 3, 7 ] },
+      { "item": "raw_tainted_leather_scraps", "prob": 80, "damage": [ 50, 75 ], "count": [ 2, 5 ] },
+      { "item": "sinew", "prob": 50, "damage": [ 50, 75 ], "count": [ 3, 7 ] }
     ]
   },
   {
@@ -243,14 +246,14 @@
     "id": "explode_innards",
     "subtype": "collection",
     "entries": [
-      { "item": "blood_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 8, 15 ] },
-      { "item": "meat_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 8, 15 ] },
-      { "item": "fat_tainted", "prob": 80, "damage": [ 2, 3 ], "count": [ 3, 8 ] },
-      { "item": "bone_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 1, 3 ] },
-      { "item": "tainted_marrow", "prob": 50, "damage": [ 2, 3 ], "count": [ 1, 2 ] },
-      { "item": "tainted_innards", "prob": 100, "damage": [ 2, 3 ], "count": [ 12, 24 ] },
-      { "item": "raw_tainted_leather_scraps", "prob": 80, "damage": [ 2, 3 ], "count": [ 2, 5 ] },
-      { "item": "sinew", "prob": 100, "damage": [ 2, 3 ], "count": [ 8, 15 ] }
+      { "item": "blood_tainted", "prob": 100, "damage": [ 50, 75 ], "count": [ 8, 15 ] },
+      { "item": "meat_tainted", "prob": 100, "damage": [ 50, 75 ], "count": [ 8, 15 ] },
+      { "item": "fat_tainted", "prob": 80, "damage": [ 50, 75 ], "count": [ 3, 8 ] },
+      { "item": "bone_tainted", "prob": 100, "damage": [ 50, 75 ], "count": [ 1, 3 ] },
+      { "item": "tainted_marrow", "prob": 50, "damage": [ 50, 75 ], "count": [ 1, 2 ] },
+      { "item": "tainted_innards", "prob": 100, "damage": [ 50, 75 ], "count": [ 12, 24 ] },
+      { "item": "raw_tainted_leather_scraps", "prob": 80, "damage": [ 50, 75 ], "count": [ 2, 5 ] },
+      { "item": "sinew", "prob": 100, "damage": [ 50, 75 ], "count": [ 8, 15 ] }
     ]
   },
   {
@@ -258,14 +261,14 @@
     "id": "explode_innards_small",
     "subtype": "collection",
     "entries": [
-      { "item": "blood_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 3, 5 ] },
-      { "item": "meat_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 2, 5 ] },
-      { "item": "fat_tainted", "prob": 80, "damage": [ 2, 3 ], "count": [ 1, 3 ] },
-      { "item": "bone_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 1, 3 ] },
-      { "item": "tainted_marrow", "prob": 50, "damage": [ 2, 3 ], "count": [ 1, 2 ] },
-      { "item": "tainted_innards", "prob": 100, "damage": [ 2, 3 ], "count": [ 1, 3 ] },
-      { "item": "raw_tainted_leather_scraps", "prob": 50, "damage": [ 2, 3 ], "count": [ 1, 3 ] },
-      { "item": "sinew", "prob": 100, "damage": [ 2, 3 ], "count": [ 1, 3 ] }
+      { "item": "blood_tainted", "prob": 100, "damage": [ 50, 75 ], "count": [ 3, 5 ] },
+      { "item": "meat_tainted", "prob": 100, "damage": [ 50, 75 ], "count": [ 2, 5 ] },
+      { "item": "fat_tainted", "prob": 80, "damage": [ 50, 75 ], "count": [ 1, 3 ] },
+      { "item": "bone_tainted", "prob": 100, "damage": [ 50, 75 ], "count": [ 1, 3 ] },
+      { "item": "tainted_marrow", "prob": 50, "damage": [ 50, 75 ], "count": [ 1, 2 ] },
+      { "item": "tainted_innards", "prob": 100, "damage": [ 50, 75 ], "count": [ 1, 3 ] },
+      { "item": "raw_tainted_leather_scraps", "prob": 50, "damage": [ 50, 75 ], "count": [ 1, 3 ] },
+      { "item": "sinew", "prob": 100, "damage": [ 50, 75 ], "count": [ 1, 3 ] }
     ]
   },
   {
@@ -273,20 +276,20 @@
     "id": "explode_toad",
     "subtype": "collection",
     "entries": [
-      { "item": "leg_zed", "prob": 60, "damage": [ 2, 3 ], "count": [ 1, 2 ] },
-      { "item": "leg_zed", "prob": 80, "damage": [ 2, 3 ], "count": [ 1, 2 ] },
-      { "item": "blood_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 5, 10 ] },
-      { "item": "meat_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 5, 10 ] },
-      { "item": "fat_tainted", "prob": 80, "damage": [ 2, 3 ], "count": [ 1, 5 ] },
-      { "item": "bone_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 5, 10 ] },
-      { "item": "tainted_marrow", "prob": 50, "damage": [ 2, 3 ], "count": [ 1, 5 ] },
-      { "item": "sinew", "prob": 50, "damage": [ 2, 3 ], "count": [ 5, 10 ] },
-      { "item": "mutant_brain", "prob": 20, "damage": [ 2, 3 ], "count": [ 1, 3 ] },
-      { "item": "mutant_lung", "prob": 50, "damage": [ 2, 3 ], "count": [ 1, 5 ] },
-      { "item": "mutant_liver", "prob": 70, "damage": [ 2, 3 ], "count": [ 5, 10 ] },
-      { "item": "tainted_innards", "prob": 100, "damage": [ 2, 3 ], "count": [ 5, 10 ] },
-      { "item": "raw_tainted_leather_scraps", "prob": 100, "damage": [ 2, 3 ], "count": [ 2, 5 ] },
-      { "item": "stomach_large", "prob": 80, "damage": [ 2, 3 ] }
+      { "item": "leg_zed", "prob": 60, "damage": [ 50, 75 ], "count": [ 1, 2 ] },
+      { "item": "leg_zed", "prob": 80, "damage": [ 50, 75 ], "count": [ 1, 2 ] },
+      { "item": "blood_tainted", "prob": 100, "damage": [ 50, 75 ], "count": [ 5, 10 ] },
+      { "item": "meat_tainted", "prob": 100, "damage": [ 50, 75 ], "count": [ 5, 10 ] },
+      { "item": "fat_tainted", "prob": 80, "damage": [ 50, 75 ], "count": [ 1, 5 ] },
+      { "item": "bone_tainted", "prob": 100, "damage": [ 50, 75 ], "count": [ 5, 10 ] },
+      { "item": "tainted_marrow", "prob": 50, "damage": [ 50, 75 ], "count": [ 1, 5 ] },
+      { "item": "sinew", "prob": 50, "damage": [ 50, 75 ], "count": [ 5, 10 ] },
+      { "item": "mutant_brain", "prob": 20, "damage": [ 50, 75 ], "count": [ 1, 3 ] },
+      { "item": "mutant_lung", "prob": 50, "damage": [ 50, 75 ], "count": [ 1, 5 ] },
+      { "item": "mutant_liver", "prob": 70, "damage": [ 50, 75 ], "count": [ 5, 10 ] },
+      { "item": "tainted_innards", "prob": 100, "damage": [ 50, 75 ], "count": [ 5, 10 ] },
+      { "item": "raw_tainted_leather_scraps", "prob": 100, "damage": [ 50, 75 ], "count": [ 2, 5 ] },
+      { "item": "stomach_large", "prob": 80, "damage": [ 50, 75 ] }
     ]
   }
 ]

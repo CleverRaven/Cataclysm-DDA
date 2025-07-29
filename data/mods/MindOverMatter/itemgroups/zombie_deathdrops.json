@@ -4,10 +4,10 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-      { "group": "lab_shoes", "damage": [ 1, 4 ] },
-      { "group": "lab_torso", "damage": [ 1, 4 ] },
-      { "group": "lab_pants", "damage": [ 1, 4 ] },
-      { "group": "underwear", "damage": [ 1, 4 ] },
+      { "group": "lab_shoes", "damage": [ 25, 100 ] },
+      { "group": "lab_torso", "damage": [ 25, 100 ] },
+      { "group": "lab_pants", "damage": [ 25, 100 ] },
+      { "group": "underwear", "damage": [ 25, 100 ] },
       {
         "collection": [
           { "group": "dissection", "prob": 25 },
@@ -18,7 +18,7 @@
           { "item": "lab_postit_psi", "prob": 15 }
         ]
       },
-      { "group": "wallets_phavian", "damage": [ 1, 4 ], "prob": 5 }
+      { "group": "wallets_phavian", "damage": [ 25, 100 ], "prob": 5 }
     ]
   },
   {

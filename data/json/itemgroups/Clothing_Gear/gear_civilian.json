@@ -77,7 +77,7 @@
       { "group": "donated_clothes", "prob": 25 },
       { "group": "gear_survival", "prob": 5 },
       { "group": "contraband", "prob": 20 },
-      { "group": "prison_textile", "prob": 7, "damage": [ 1, 2 ] },
+      { "group": "prison_textile", "prob": 7, "damage": [ 25, 50 ] },
       { "group": "novels", "prob": 10 },
       { "group": "misc_smoking", "prob": 10 },
       { "group": "stoner", "prob": 5 },

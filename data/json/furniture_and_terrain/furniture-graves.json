@@ -110,8 +110,8 @@
     "deconstruct": {
       "items": [
         { "group": "modular_m4a1", "count": 1, "charges": 0 },
-        { "item": "helmet_army", "count": 1, "damage": [ 0, 3 ] },
-        { "item": "boots_combat", "count": [ 0, 1 ], "damage": [ 0, 3 ] }
+        { "item": "helmet_army", "count": 1, "damage": [ 0, 75 ] },
+        { "item": "boots_combat", "count": [ 0, 1 ], "damage": [ 0, 75 ] }
       ]
     },
     "bash": {
@@ -121,8 +121,8 @@
       "sound_fail": "whack.",
       "items": [
         { "group": "modular_m4a1", "count": 1, "charges": 0 },
-        { "item": "helmet_army", "count": 1, "damage": [ 0, 3 ] },
-        { "item": "boots_combat", "count": [ 0, 1 ], "damage": [ 0, 3 ] }
+        { "item": "helmet_army", "count": 1, "damage": [ 0, 75 ] },
+        { "item": "boots_combat", "count": [ 0, 1 ], "damage": [ 0, 75 ] }
       ]
     }
   }

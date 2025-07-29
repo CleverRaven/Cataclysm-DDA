@@ -67,7 +67,7 @@ item_location mdeath::normal( map *here, monster &z )
         if( pulverized ) {
             return splatter( here, z );
         } else {
-            const float damage = std::floor( corpse_damage * itype::damage_scale );
+            const float damage = std::floor( corpse_damage * itype::damage_scale * 25 );
             return make_mon_corpse( here,  z, static_cast<int>( damage ) );
         }
     }
@@ -229,7 +229,7 @@ void mdeath::broken( map *here, monster &z )
     const int max_hp = std::max( z.get_hp_max(), 1 );
     const float overflow_damage = std::max( -z.get_hp(), 0 );
     const float corpse_damage = 2.5 * overflow_damage / max_hp;
-    broken_mon.set_damage( static_cast<int>( std::floor( corpse_damage * itype::damage_scale ) ) );
+    broken_mon.set_damage( static_cast<int>( std::floor( corpse_damage * itype::damage_scale * 25 ) ) );
 
     here->add_item_or_charges( z.pos_bub( *here ), broken_mon );
 

@@ -622,7 +622,7 @@
     "proportional": { "durability": 0.5 },
     "epower": "120 W",
     "requirements": { "removal": { "time": "5 s" } },
-    "breaks_into": [ { "item": "folding_solar_panel", "damage": [ 5, 5 ] } ],
+    "breaks_into": [ { "item": "folding_solar_panel", "damage": [ 100, 100 ] } ],
     "remove_as": "folding_solar_panel",
     "item": "folding_solar_panel_deployed"
   },
@@ -634,7 +634,7 @@
     "description": "This solar suitcase has been unpacked and is ready to supply power.",
     "copy-from": "ap_folding_solar_panel",
     "epower": "200 W",
-    "breaks_into": [ { "item": "folding_solar_panel_v2", "damage": [ 5, 5 ] } ],
+    "breaks_into": [ { "item": "folding_solar_panel_v2", "damage": [ 100, 100 ] } ],
     "requirements": { "removal": { "time": "1 m" } },
     "remove_as": "folding_solar_panel_v2",
     "item": "folding_solar_panel_v2_deployed"

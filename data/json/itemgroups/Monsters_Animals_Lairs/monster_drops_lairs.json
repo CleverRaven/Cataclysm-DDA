@@ -85,8 +85,8 @@
       { "item": "razorclaw_roe", "prob": 5 },
       { "item": "stick", "prob": 95 },
       { "item": "survivormap", "prob": 1 },
-      { "item": "wetsuit", "prob": 10, "damage": [ 2, 4 ] },
-      { "item": "wetsuit_thick", "prob": 10, "damage": [ 2, 4 ] },
+      { "item": "wetsuit", "prob": 10, "damage": [ 50, 100 ] },
+      { "item": "wetsuit_thick", "prob": 10, "damage": [ 50, 100 ] },
       { "item": "homemade_bomb_act", "prob": 1 }
     ]
   },
@@ -220,21 +220,21 @@
     "subtype": "distribution",
     "ammo": 10,
     "entries": [
-      { "group": "allclothes", "damage": [ 2, 4 ], "prob": 150 },
-      { "group": "clothing_outdoor_set", "damage": [ 2, 4 ], "prob": 10 },
-      { "group": "clothing_hunting", "damage": [ 2, 4 ], "prob": 10 },
-      { "group": "clothing_work_set", "damage": [ 2, 4 ], "prob": 10 },
-      { "group": "everyday_gear", "damage": [ 2, 4 ], "prob": 50 },
-      { "group": "gear_homeless", "damage": [ 2, 4 ], "prob": 30 },
-      { "group": "child_items", "damage": [ 2, 4 ], "prob": 30 },
-      { "group": "traveler", "damage": [ 2, 4 ], "prob": 10 },
-      { "group": "default_zombie_clothes", "damage": [ 2, 4 ], "prob": 30 },
-      { "group": "default_zombie_items_bags", "damage": [ 2, 4 ], "prob": 30 },
-      { "group": "default_zombie_items_pockets", "damage": [ 2, 4 ], "prob": 30 },
-      { "group": "mon_zombie_scientist_death_drops", "damage": [ 2, 4 ], "prob": 5 },
-      { "group": "mon_zombie_labsecurity_death_drops", "damage": [ 2, 4 ], "prob": 5 },
-      { "group": "mon_zombie_kevlar_death_drops", "damage": [ 2, 4 ], "prob": 15 },
-      { "group": "mon_zombie_military_pilot_death_drops", "damage": [ 2, 4 ], "prob": 5 }
+      { "group": "allclothes", "damage": [ 50, 100 ], "prob": 150 },
+      { "group": "clothing_outdoor_set", "damage": [ 50, 100 ], "prob": 10 },
+      { "group": "clothing_hunting", "damage": [ 50, 100 ], "prob": 10 },
+      { "group": "clothing_work_set", "damage": [ 50, 100 ], "prob": 10 },
+      { "group": "everyday_gear", "damage": [ 50, 100 ], "prob": 50 },
+      { "group": "gear_homeless", "damage": [ 50, 100 ], "prob": 30 },
+      { "group": "child_items", "damage": [ 50, 100 ], "prob": 30 },
+      { "group": "traveler", "damage": [ 50, 100 ], "prob": 10 },
+      { "group": "default_zombie_clothes", "damage": [ 50, 100 ], "prob": 30 },
+      { "group": "default_zombie_items_bags", "damage": [ 50, 100 ], "prob": 30 },
+      { "group": "default_zombie_items_pockets", "damage": [ 50, 100 ], "prob": 30 },
+      { "group": "mon_zombie_scientist_death_drops", "damage": [ 50, 100 ], "prob": 5 },
+      { "group": "mon_zombie_labsecurity_death_drops", "damage": [ 50, 100 ], "prob": 5 },
+      { "group": "mon_zombie_kevlar_death_drops", "damage": [ 50, 100 ], "prob": 15 },
+      { "group": "mon_zombie_military_pilot_death_drops", "damage": [ 50, 100 ], "prob": 5 }
     ]
   },
   {

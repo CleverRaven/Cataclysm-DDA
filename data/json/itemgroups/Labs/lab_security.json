@@ -133,28 +133,28 @@
     "id": "combat_exoskeleton_light_damaged",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ { "item": "combat_exoskeleton_light", "damage": [ 0, 3 ] } ]
+    "items": [ { "item": "combat_exoskeleton_light", "damage": [ 0, 75 ] } ]
   },
   {
     "id": "combat_exoskeleton_medium_damaged",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ { "item": "combat_exoskeleton_medium", "damage": [ 0, 3 ] } ]
+    "items": [ { "item": "combat_exoskeleton_medium", "damage": [ 0, 75 ] } ]
   },
   {
     "id": "combat_exoskeleton_heavy_damaged",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ { "item": "combat_exoskeleton_heavy", "damage": [ 0, 3 ] } ]
+    "items": [ { "item": "combat_exoskeleton_heavy", "damage": [ 0, 75 ] } ]
   },
   {
     "id": "combat_exoskeleton_armor_set_damaged",
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      { "group": "combat_exoskeleton_armor_set_light", "damage": [ 0, 3 ] },
-      { "group": "combat_exoskeleton_armor_set_medium", "damage": [ 0, 3 ] },
-      { "group": "combat_exoskeleton_armor_set_heavy", "damage": [ 0, 3 ] }
+      { "group": "combat_exoskeleton_armor_set_light", "damage": [ 0, 75 ] },
+      { "group": "combat_exoskeleton_armor_set_medium", "damage": [ 0, 75 ] },
+      { "group": "combat_exoskeleton_armor_set_heavy", "damage": [ 0, 75 ] }
     ]
   },
   {

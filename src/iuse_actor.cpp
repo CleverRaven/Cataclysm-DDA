@@ -3548,7 +3548,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
             const std::string startdurability = fix->durability_indicator( true );
             handle_components( pl, *fix, false, false, true );
 
-            fix->mod_damage( -itype::damage_scale );
+            fix->mod_damage( -itype::damage_scale * 25 );
 
             const std::string resultdurability = fix->durability_indicator( true );
             if( fix->repairable_levels() ) {

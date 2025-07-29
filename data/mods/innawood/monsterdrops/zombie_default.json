@@ -5,8 +5,13 @@
     "//": "items that an average zombie carries around and drops on death",
     "id": "default_zombie_items",
     "entries": [
-      { "group": "large_bags", "damage": [ 1, 4 ], "contents-group": "default_zombie_items_bags", "prob": 6 },
-      { "group": "small_bags", "damage": [ 1, 4 ], "contents-group": "default_zombie_items_bags_small", "prob": 10 },
+      { "group": "large_bags", "damage": [ 25, 100 ], "contents-group": "default_zombie_items_bags", "prob": 6 },
+      {
+        "group": "small_bags",
+        "damage": [ 25, 100 ],
+        "contents-group": "default_zombie_items_bags_small",
+        "prob": 10
+      },
       { "group": "default_zombie_items_pockets", "prob": 20 }
     ]
   },

@@ -10,7 +10,7 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-      { "item": "footrags", "damage": [ 0, 2 ] },
+      { "item": "footrags", "damage": [ 0, 50 ] },
       { "group": "zealot_outfit" },
       { "item": "marloss_berry", "prob": 33 },
       { "item": "stick_long", "prob": 50 },

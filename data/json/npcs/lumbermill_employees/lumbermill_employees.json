@@ -121,11 +121,11 @@
     "id": "NC_LUMBERJACK_tools",
     "subtype": "distribution",
     "entries": [
-      { "item": "ax", "damage": [ 0, 2 ], "prob": 70 },
-      { "item": "hatchet", "damage": [ 0, 2 ], "prob": 30 },
-      { "item": "saw", "damage": [ 0, 2 ], "prob": 10 },
-      { "item": "chainsaw_off", "damage": [ 0, 2 ], "prob": 25, "charges": [ 250, 500 ] },
-      { "item": "elec_chainsaw_off", "damage": [ 0, 2 ], "prob": 25, "charges": [ 250, 500 ] }
+      { "item": "ax", "damage": [ 0, 50 ], "prob": 70 },
+      { "item": "hatchet", "damage": [ 0, 50 ], "prob": 30 },
+      { "item": "saw", "damage": [ 0, 50 ], "prob": 10 },
+      { "item": "chainsaw_off", "damage": [ 0, 50 ], "prob": 25, "charges": [ 250, 500 ] },
+      { "item": "elec_chainsaw_off", "damage": [ 0, 50 ], "prob": 25, "charges": [ 250, 500 ] }
     ]
   },
   {

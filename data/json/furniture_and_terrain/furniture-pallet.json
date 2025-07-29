@@ -22,8 +22,8 @@
       "items": [
         { "item": "pallet", "count": 1 },
         { "item": "brick", "count": [ 300, 350 ] },
-        { "item": "brick", "count": [ 30, 50 ], "damage": [ 1, 6 ] },
-        { "item": "plastic_sheet", "count": 1, "damage": [ 2, 5 ] }
+        { "item": "brick", "count": [ 30, 50 ], "damage": [ 25, 100 ] },
+        { "item": "plastic_sheet", "count": 1, "damage": [ 50, 100 ] }
       ]
     }
   },
@@ -50,8 +50,8 @@
       "items": [
         { "item": "pallet", "count": 1 },
         { "item": "adobe_brick", "count": 350 },
-        { "item": "adobe_brick", "count": 50, "damage": [ 1, 4 ] },
-        { "item": "plastic_sheet", "count": 1, "damage": [ 2, 4 ] }
+        { "item": "adobe_brick", "count": 50, "damage": [ 25, 100 ] },
+        { "item": "plastic_sheet", "count": 1, "damage": [ 50, 100 ] }
       ]
     }
   },
@@ -78,7 +78,7 @@
       "items": [
         { "item": "material_cement", "container-item": "bag_canvas", "charges": 500, "count": [ 80, 90 ] },
         { "item": "material_cement", "charges": [ 500, 1500 ] },
-        { "item": "bag_durasack", "count": [ 2, 10 ], "damage": [ 1, 5 ] },
+        { "item": "bag_durasack", "count": [ 2, 10 ], "damage": [ 25, 100 ] },
         { "item": "pallet", "count": 1 }
       ]
     }
@@ -105,7 +105,7 @@
         { "item": "2x4", "count": [ 90, 100 ] },
         { "item": "2x4", "count": [ 2, 20 ] },
         { "item": "pallet", "count": 1 },
-        { "item": "rope_6", "count": [ 1, 2 ], "damage": [ 1, 5 ] }
+        { "item": "rope_6", "count": [ 1, 2 ], "damage": [ 25, 100 ] }
       ]
     }
   }

@@ -89,50 +89,50 @@
     "entries": [
       {
         "collection": [
-          { "item": "santa_hat", "damage": [ 1, 4 ] },
-          { "item": "santa_belt", "damage": [ 1, 4 ] },
+          { "item": "santa_hat", "damage": [ 25, 100 ] },
+          { "item": "santa_belt", "damage": [ 25, 100 ] },
           {
             "distribution": [
-              { "item": "santa_beard", "prob": 80, "damage": [ 1, 4 ] },
-              { "group": "scarfs_unisex", "prob": 20, "damage": [ 1, 4 ] }
+              { "item": "santa_beard", "prob": 80, "damage": [ 25, 100 ] },
+              { "group": "scarfs_unisex", "prob": 20, "damage": [ 25, 100 ] }
             ],
             "prob": 90
           },
           {
             "distribution": [
-              { "item": "gloves_white", "prob": 80, "damage": [ 1, 4 ] },
-              { "item": "santa_gloves", "prob": 20, "damage": [ 1, 4 ] }
+              { "item": "gloves_white", "prob": 80, "damage": [ 25, 100 ] },
+              { "item": "santa_gloves", "prob": 20, "damage": [ 25, 100 ] }
             ],
             "prob": 90
           },
           {
             "distribution": [
-              { "item": "santa_jacket", "prob": 80, "damage": [ 1, 4 ] },
-              { "item": "santa_jacket_short", "prob": 20, "damage": [ 1, 4 ] }
+              { "item": "santa_jacket", "prob": 80, "damage": [ 25, 100 ] },
+              { "item": "santa_jacket_short", "prob": 20, "damage": [ 25, 100 ] }
             ]
           },
           {
             "distribution": [
-              { "item": "santa_pants", "prob": 80, "damage": [ 1, 4 ] },
-              { "item": "santa_shorts", "prob": 20, "damage": [ 1, 4 ] }
+              { "item": "santa_pants", "prob": 80, "damage": [ 25, 100 ] },
+              { "item": "santa_shorts", "prob": 20, "damage": [ 25, 100 ] }
             ]
           },
           {
             "distribution": [
-              { "item": "boots_winter", "prob": 70, "damage": [ 1, 4 ] },
-              { "item": "boots_fur", "prob": 20, "damage": [ 1, 4 ] },
-              { "item": "boots", "prob": 10, "damage": [ 1, 4 ] }
+              { "item": "boots_winter", "prob": 70, "damage": [ 25, 100 ] },
+              { "item": "boots_fur", "prob": 20, "damage": [ 25, 100 ] },
+              { "item": "boots", "prob": 10, "damage": [ 25, 100 ] }
             ]
           },
           {
             "distribution": [
-              { "group": "male_underwear", "prob": 80, "damage": [ 1, 4 ] },
-              { "item": "union_suit", "prob": 20, "damage": [ 1, 4 ] }
+              { "group": "male_underwear", "prob": 80, "damage": [ 25, 100 ] },
+              { "item": "union_suit", "prob": 20, "damage": [ 25, 100 ] }
             ]
           },
-          { "group": "shirts_unisex", "prob": 60, "damage": [ 1, 4 ] },
-          { "group": "socks_unisex", "damage": [ 1, 4 ] },
-          { "group": "accesories_personal_unisex", "prob": 20, "damage": [ 1, 4 ] }
+          { "group": "shirts_unisex", "prob": 60, "damage": [ 25, 100 ] },
+          { "group": "socks_unisex", "damage": [ 25, 100 ] },
+          { "group": "accesories_personal_unisex", "prob": 20, "damage": [ 25, 100 ] }
         ]
       }
     ]
@@ -145,51 +145,51 @@
     "entries": [
       {
         "collection": [
-          { "item": "santa_hat", "damage": [ 1, 4 ] },
-          { "item": "santa_belt", "prob": 75, "damage": [ 1, 4 ] },
+          { "item": "santa_hat", "damage": [ 25, 100 ] },
+          { "item": "santa_belt", "prob": 75, "damage": [ 25, 100 ] },
           {
             "distribution": [
-              { "item": "santa_beard", "prob": 20, "damage": [ 1, 4 ] },
-              { "group": "scarfs_unisex", "prob": 80, "damage": [ 1, 4 ] }
+              { "item": "santa_beard", "prob": 20, "damage": [ 25, 100 ] },
+              { "group": "scarfs_unisex", "prob": 80, "damage": [ 25, 100 ] }
             ],
             "prob": 20
           },
           {
             "distribution": [
-              { "item": "gloves_white", "prob": 60, "damage": [ 1, 4 ] },
-              { "item": "santa_gloves", "prob": 20, "damage": [ 1, 4 ] },
-              { "item": "long_glove_white", "prob": 20, "damage": [ 1, 4 ] }
+              { "item": "gloves_white", "prob": 60, "damage": [ 25, 100 ] },
+              { "item": "santa_gloves", "prob": 20, "damage": [ 25, 100 ] },
+              { "item": "long_glove_white", "prob": 20, "damage": [ 25, 100 ] }
             ],
             "prob": 90
           },
           {
             "distribution": [
-              { "item": "santa_dress", "prob": 60, "damage": [ 1, 4 ] },
-              { "item": "santa_dress_long", "prob": 25, "damage": [ 1, 4 ] },
-              { "item": "santa_dress_short", "prob": 15, "damage": [ 1, 4 ] }
+              { "item": "santa_dress", "prob": 60, "damage": [ 25, 100 ] },
+              { "item": "santa_dress_long", "prob": 25, "damage": [ 25, 100 ] },
+              { "item": "santa_dress_short", "prob": 15, "damage": [ 25, 100 ] }
             ]
           },
           {
             "distribution": [
-              { "item": "boots_winter", "prob": 20, "damage": [ 1, 4 ] },
-              { "item": "dress_shoes", "prob": 40, "damage": [ 1, 4 ] },
-              { "item": "heels", "prob": 40, "damage": [ 1, 4 ] }
+              { "item": "boots_winter", "prob": 20, "damage": [ 25, 100 ] },
+              { "item": "dress_shoes", "prob": 40, "damage": [ 25, 100 ] },
+              { "item": "heels", "prob": 40, "damage": [ 25, 100 ] }
             ]
           },
-          { "group": "female_underwear", "damage": [ 1, 4 ] },
-          { "group": "shirts_unisex", "prob": 60, "damage": [ 1, 4 ] },
-          { "group": "accesories_personal_womens", "prob": 20, "damage": [ 1, 4 ] },
+          { "group": "female_underwear", "damage": [ 25, 100 ] },
+          { "group": "shirts_unisex", "prob": 60, "damage": [ 25, 100 ] },
+          { "group": "accesories_personal_womens", "prob": 20, "damage": [ 25, 100 ] },
           {
             "distribution": [
               {
                 "collection": [
                   {
-                    "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                    "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 25, 100 ] }, { "item": "tights", "prob": 50, "damage": [ 25, 100 ] } ]
                   },
-                  { "item": "garter_belt", "prob": 10, "damage": [ 1, 4 ] }
+                  { "item": "garter_belt", "prob": 10, "damage": [ 25, 100 ] }
                 ]
               },
-              { "group": "socks_unisex", "prob": 50, "damage": [ 1, 4 ] }
+              { "group": "socks_unisex", "prob": 50, "damage": [ 25, 100 ] }
             ]
           }
         ]
