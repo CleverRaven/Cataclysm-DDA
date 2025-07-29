@@ -346,38 +346,38 @@ Field | Default messages/snippets | Used for...
 
 ### Special Custom Entries
 
-Certain entries like the snippets above are taken from the game state as opposed to JSON; they are found in the npctalk function parse_tags. They are as follows:
+Certain entries like the snippets above are taken from the game state as opposed to JSON; they are found in the npctalk function parse_tags. In dialogue the alpha talker is the avatar and the beta talker is the NPC.
 
-Field | Used for...
----|---
-`<yrwp>` | displays avatar's wielded item
-`<mywp>` | displays npc's wielded item
-`<u_name>` | displays avatar's name
-`<npc_name>` | displays npc's name
-`<npcname>` | DO NOT USE, DEPRECATED - This will not work in parse_tags! It is listed here so you don't confuse it with with the very similar <npc_name>.
-`<u_faction>` | displays name of the faction for `u` (usually avatar, but can vary if you've changed talker context). If no faction, uses their display name instead.
-`<npc_faction>` | displays name of the faction for `npc` (usually npc, but can vary if you've changed talker context). If no faction, uses their display name instead.
-`<ammo>` | displays avatar's ammo
-`<current_activity>` | displays npc's current activity
-`<punc>` | displays a random punctuation from: `.`, `…`, `!`
-`<mypronoun>` | displays npc's pronoun
-`<total_kills>` | total kills of the Player
-`<time_survived>` | time since start of the game
-`<topic_item>` | referenced item
-`<topic_item_price>` | referenced item unit price
-`<topic_item_my_total_price>` | TODO Add
-`<topic_item_your_total_price>` | TODO Add
-`<interval>` | displays the time remaining until restock
-`<u_val:VAR>` | The user variable VAR
-`<npc_val:VAR>` | The npc variable VAR
-`<context_val:VAR>` | The context variable VAR
-`<global_val:VAR>` | The global variable VAR
-`<item_name:ID>` | The name of the item from ID
-`<item_description:ID>` | The description of the item from ID
-`<trait_name:ID>` | The name of the trait from ID
-`<trait_description:ID>` | The description of the trait from ID
-`<spell_name:ID>` | The description of the name from ID
-`<spell_description:ID>` | The description of the trait from ID
+| Field                                         | Expects talker | Description
+| --------------------------------------------- | -------------- | -----------------------------------
+| `<yrwp>`                                      | alpha          | gets replaced with alpha talker's wielded item
+| `<mywp>`                                      | beta           | gets replaced with beta talker's wielded item or "fists" if they aren't wielding anything
+| `<u_name>`                                    | alpha          | gets replaced with alpha talker's name
+| `<npc_name>`                                  | beta           | gets replaced with beta talker's name
+| `<npcname>`                                   | N/A            | DO NOT USE, DEPRECATED - This will not work in parse_tags! It is listed here so you don't confuse it with with the very similar <npc_name>.
+| `<ammo>`                                      | beta           | gets replaced with beta talker's ammo or "BADAMMO" if it can't be determined
+| `<current_activity>`                          | beta           | gets replaced with beta talker's current activity or "doing this and that" if they don't have one assigned
+| `<mypronoun>`                                 | beta           | gets replaced with capitalised beta talker's pronoun (just "He" or "She" as of writing)
+| `<mypossesivepronoun>`                        | beta           | gets replaced with lowercase beta talker's possesive pronoun (just "his" or "her" as of writing)
+| `<topic_item>`                                | N/A            | gets replaced with talk_topic's referenced item's name
+| `<topic_item_price>`                          | N/A            | gets replaced with talk_topic's referenced item's unit price before modifiers
+| `<topic_item_my_total_price>`                 | beta           | gets replaced with the total price for talk_topic's referenced item in beta talker's inventory
+| `<topic_item_your_total_price>`               | alpha          | gets replaced with the total price for talk_topic's referenced item in alpha talker's inventory
+| `<interval>`                                  | beta           | gets replaced with the time remaining until the beta talker restocks
+| `<u_val:VAR>`                                 | alpha          | gets replaced with the user variable VAR
+| `<npc_val:VAR>`                               | beta           | gets replaced with the npc variable VAR
+| `<context_val:VAR>`                           | N/A            | gets replaced with the context variable VAR
+| `<global_val:VAR>`                            | N/A            | gets replaced with the global variable VAR
+| `<item_name:ID>`                              | N/A            | gets replaced with the name of the item from ID
+| `<item_description:ID>`                       | N/A            | gets replaced with the description of the item from ID
+| `<trait_name:ID>`                             | N/A            | gets replaced with the name of the trait from ID
+| `<trait_description:ID>`                      | beta           | gets replaced with the description of the trait from ID (uses beta talker to grab the description)
+| `<spell_name:ID>`                             | N/A            | gets replaced with the description of the name from ID
+| `<spell_description:ID>`                      | N/A            | gets replaced with the description of the trait from ID
+| `<keybind:ID>` and `<keybind:CATEGORY_ID:ID>` | N/A            | gets replaced with the keys bound to a specific `"type": "keybind"` found in data/raw or "Unbound globally/locally! (<keybind_name> in keybind category CATEGORY_ID)" if unbound.
+| `<city>`                                      | N/A            | gets replaced with the name of the closest city to the avatar
+| `<time_survived>`                             | N/A            | gets replaced with time since start of the game
+| `<total_kills>`                               | N/A            | gets replaced with total kills of the avatar
 
 item_name and similar tags, that parse the text out of the id, are able to parse the tags of variables, so it is possible to use `<item_name:<global_val:VAR>>`
 

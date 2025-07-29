@@ -224,7 +224,7 @@
     "charges": 1,
     "phase": "liquid",
     "fun": -12,
-    "vitamins": [ [ "milk_allergen", 1 ] ]
+    "vitamins": [ [ "calcium", 32 ], [ "iron", 2 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "ITEM",
