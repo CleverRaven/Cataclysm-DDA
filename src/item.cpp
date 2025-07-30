@@ -16156,8 +16156,11 @@ void item::combine( const item_contents &read_input, bool convert )
 
 bool is_preferred_component( const item &component )
 {
-    return component.is_container_empty() && !component.has_flag( flag_HIDDEN_POISON ) &&
-           !component.has_flag( flag_HIDDEN_HALLU );
+    const float survival = get_player_character().get_greater_skill_or_knowledge_level(
+                               skill_survival );
+    return component.is_container_empty() &&
+           ( survival < 3 || !component.has_flag( flag_HIDDEN_POISON ) ) &&
+           ( survival < 5 || !component.has_flag( flag_HIDDEN_HALLU ) );
 }
 
 disp_mod_by_barrel::disp_mod_by_barrel() = default;
