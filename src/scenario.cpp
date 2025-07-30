@@ -455,7 +455,7 @@ std::vector<string_id<profession>> scenario::permitted_professions( bool is_npc 
     return res;
 }
 
-std::vector<string_id<profession>> scenario::permitted_hobbies() const
+std::vector<string_id<profession>> scenario::permitted_hobbies( bool is_npc ) const
 {
     if( !cached_permitted_hobbies.empty() ) {
         return cached_permitted_hobbies;
@@ -474,6 +474,9 @@ std::vector<string_id<profession>> scenario::permitted_hobbies() const
             continue;
         }
         if( hobbies_whitelist && !hobby_exclusion.empty() && hobby_exclusion.count( hobby ) == 0 ) {
+            continue;
+        }
+        if( is_npc && !hobby->chargen_allow_npc() ) {
             continue;
         }
 
