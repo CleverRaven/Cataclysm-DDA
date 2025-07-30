@@ -86,7 +86,7 @@
       { "item": "meat", "variant": "synth", "prob": 10, "container-item": "afs_foil_bag" },
       { "item": "fish", "variant": "synth", "prob": 10, "container-item": "afs_foil_bag" },
       { "item": "fish", "variant": "insect", "prob": 10, "container-item": "afs_foil_bag" },
-      { "item": "ajerky", "variant": "synth", "prob": 40, "container-item": "afs_foil_bag" }
+      { "item": "jerky", "variant": "synth", "prob": 40, "container-item": "afs_foil_bag" }
     ]
   },
   {
