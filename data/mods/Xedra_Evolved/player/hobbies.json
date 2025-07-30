@@ -8,7 +8,8 @@
     "points": 4,
     "spells": [ { "id": "spring_heeled_leap", "level": 4 }, { "id": "spell_dodge", "level": 4 } ],
     "traits": [ "EATER" ],
-    "skills": [ { "level": 3, "name": "deduction" } ]
+    "skills": [ { "level": 3, "name": "deduction" } ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -19,7 +20,8 @@
     "points": 4,
     "spells": [ { "id": "create_dream_dross", "level": 4 }, { "id": "summon_shifter", "level": 4 } ],
     "traits": [ "DREAMER" ],
-    "skills": [ { "level": 3, "name": "deduction" } ]
+    "skills": [ { "level": 3, "name": "deduction" } ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -29,7 +31,8 @@
     "description": "Ever since the Cataclysm you've begun having crazy ideas on how to create technological devices.  While conventional logic would label these designs as silly or even insane, something tells you that they'd work regardless.",
     "points": 4,
     "traits": [ "INVENTOR" ],
-    "skills": [ { "level": 3, "name": "deduction" } ]
+    "skills": [ { "level": 3, "name": "deduction" } ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -40,7 +43,8 @@
     "points": 4,
     "spells": [ { "id": "spell_oneiric_hammer", "level": 0 } ],
     "traits": [ "DREAMSMITH" ],
-    "skills": [ { "level": 3, "name": "deduction" } ]
+    "skills": [ { "level": 3, "name": "deduction" } ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
