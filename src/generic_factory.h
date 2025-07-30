@@ -1025,8 +1025,9 @@ struct handler<cata::flat_set<T>> {
     void clear( cata::flat_set<T> &container ) const {
         container.clear();
     }
-    void insert( cata::flat_set<T> &container, const T &data ) const {
+    bool insert( cata::flat_set<T> &container, const T &data ) const {
         container.insert( data );
+        return true;
     }
     bool relative( cata::flat_set<T> &, const T & ) const {
         return false;
@@ -1046,8 +1047,9 @@ struct handler<std::set<T>> {
     void clear( std::set<T> &container ) const {
         container.clear();
     }
-    void insert( std::set<T> &container, const T &data ) const {
+    bool insert( std::set<T> &container, const T &data ) const {
         container.insert( data );
+        return true;
     }
     bool relative( std::set<T> &, const T & ) const {
         return false;
@@ -1067,8 +1069,9 @@ struct handler<std::unordered_set<T>> {
     void clear( std::unordered_set<T> &container ) const {
         container.clear();
     }
-    void insert( std::unordered_set<T> &container, const T &data ) const {
+    bool insert( std::unordered_set<T> &container, const T &data ) const {
         container.insert( data );
+        return true;
     }
     bool relative( std::unordered_set<T> &, const T & ) const {
         return false;
@@ -1089,8 +1092,9 @@ struct handler<std::bitset<N>> {
         container.reset();
     }
     template<typename T>
-    void insert( std::bitset<N> &container, const T &data ) const {
+    bool insert( std::bitset<N> &container, const T &data ) const {
         container.set( data );
+        return true;
     }
     template<typename T>
     bool relative( std::bitset<N> &, const T & ) const {
@@ -1110,8 +1114,9 @@ struct handler<enum_bitset<E>> {
         container.reset();
     }
     template<typename T>
-    void insert( enum_bitset<E> &container, const T &data ) const {
+    bool insert( enum_bitset<E> &container, const T &data ) const {
         container.set( data );
+        return true;
     }
     template<typename T>
     bool relative( enum_bitset<E> &, const T & ) const {
@@ -1130,8 +1135,9 @@ struct handler<std::vector<T>> {
     void clear( std::vector<T> &container ) const {
         container.clear();
     }
-    void insert( std::vector<T> &container, const T &data ) const {
+    bool insert( std::vector<T> &container, const T &data ) const {
         container.push_back( data );
+        return true;
     }
     bool relative( std::vector<T> &, const T & ) const {
         return false;
@@ -1165,8 +1171,14 @@ struct handler<std::map<Key, Val>> {
     void clear( std::map<Key, Val> &container ) const {
         container.clear();
     }
-    void insert( std::map<Key, Val> &container, const std::pair<Key, Val> &data ) const {
-        container.emplace( data );
+    bool insert( std::map<Key, Val> &container, const std::pair<Key, Val> &data ) const {
+        // emplace can fail if the key already exists
+        if( !container.emplace( data ).second ) {
+            debugmsg( "Insert of <%s, %s> failed, key already exists",
+                      data_string( data.first ), data_string( data.second ) );
+            return false;
+        }
+        return true;
     }
     bool relative( std::map<Key, Val> &container, const std::pair<Key, Val> &data ) const {
         if constexpr( !supports_relative<Val>::value ) {
@@ -1281,7 +1293,9 @@ public:
     template<typename C>
     void insert_next( JsonValue &jv, C &container ) const {
         const Derived &derived = static_cast<const Derived &>( *this );
-        reader_detail::handler<C>().insert( container, derived.get_next( jv ) );
+        if( !reader_detail::handler<C>().insert( container, derived.get_next( jv ) ) ) {
+            jv.throw_error( "insert failed" );
+        }
     }
 
     template<typename C>
