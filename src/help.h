@@ -49,6 +49,9 @@ class help_window : public cataimgui::window
         void draw_controls() override;
         cataimgui::bounds get_bounds() override;
     private:
+        //Temporary to fix issue where IMGUI scrollbar width isn't accounted for for the first few frames
+        float get_wrap_width();
+
         const bool screen_reader = get_option<bool>( "SCREEN_READER_MODE" );
         help &data = get_help();
         input_context ctxt;

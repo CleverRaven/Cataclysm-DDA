@@ -285,15 +285,15 @@ void help_window::draw_category()
              translated_paragraphs ) {
             switch( translated_paragraph.second ) {
                 case MM_NORMAL:
-                    cataimgui::TextColoredParagraph( c_white, translated_paragraph.first );
+                    cataimgui::draw_colored_text( translated_paragraph.first, c_white, get_wrap_width() );
                     break;
                 case MM_SUBTITLE:
                     // BEFOREMERGE: Do something different
-                    cataimgui::TextColoredParagraph( c_white, translated_paragraph.first );
+                    cataimgui::draw_colored_text( translated_paragraph.first, c_white, get_wrap_width() );
                     break;
                 case MM_MONOFONT:
                     cataimgui::PushMonoFont();
-                    cataimgui::TextColoredParagraph( c_white, translated_paragraph.first );
+                    cataimgui::draw_colored_text( translated_paragraph.first, c_white, get_wrap_width() );
                     ImGui::PopFont();
                     break;
                 // Causing a missing EndChild() ImGui crash?
@@ -322,6 +322,11 @@ void help_window::draw_category()
 cataimgui::bounds help_window::get_bounds()
 {
     return {0, 0, 1.0, 1.0};
+}
+
+float help_window::get_wrap_width()
+{
+    return static_cast<float>( str_width_to_pixels( get_terminal_width() - 5 ) );
 }
 
 void help_window::show()
