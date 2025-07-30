@@ -5763,6 +5763,10 @@ bool game::revive_corpse( const tripoint_bub_ms &p, item &it, int radius )
         }
     }
 
+    if( it.get_var( "times_combatted", 0.0 ) > 0.0 ) {
+        critter.times_combatted_player = it.get_var( "times_combatted", 0.0 );
+    }
+
     return place_critter_around( newmon_ptr, tripoint_bub_ms( p ), radius );
 }
 
