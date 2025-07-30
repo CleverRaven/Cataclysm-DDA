@@ -5556,89 +5556,118 @@ bool game::swap_critters( Creature &a, Creature &b )
 {
     map &here = get_map();
 
-    const tripoint_bub_ms a_pos = a.pos_bub( );
-    const tripoint_bub_ms b_pos = b.pos_bub( );
+    Creature *lhs = &a;
+    Creature *rhs = &b;
 
-    if( &a == &b ) {
+    if( rhs->as_character() && !lhs->as_character() ) {
+        std::swap( lhs, rhs ); // LHS will always be a character if either is a character
+    }
+
+    // Possible options:
+    // LHS and RHS are both monsters
+    // LHS is character, RHS is monster
+    // LHS is character, RHS is character
+    // This is simply to make it easier to follow the code.
+
+    const tripoint_bub_ms lhs_cached_pos = lhs->pos_bub( );
+    const tripoint_bub_ms rhs_cached_pos = rhs->pos_bub( );
+
+    if( lhs == rhs ) {
         // No need to do anything, but print a debugmsg anyway
-        debugmsg( "Tried to swap %s with itself", a.disp_name() );
+        debugmsg( "Tried to swap %s with itself", lhs->disp_name() );
         return true;
     }
     creature_tracker &creatures = get_creature_tracker();
-    if( creatures.creature_at( a_pos ) != &a ) {
-        if( creatures.creature_at( a_pos ) == nullptr ) {
+    if( creatures.creature_at( lhs_cached_pos ) != &a ) {
+        if( creatures.creature_at( lhs_cached_pos ) == nullptr ) {
             debugmsg( "Tried to swap %s and %s when the latter isn't present at its own location %s.",
-                      b.disp_name(), a.disp_name(), a_pos.to_string() );
+                      rhs->disp_name(), lhs->disp_name(), lhs_cached_pos.to_string() );
         } else {
             debugmsg( "Tried to swap when it would cause a collision between %s and %s.",
-                      b.disp_name(), creatures.creature_at( a_pos )->disp_name() );
+                      rhs->disp_name(), creatures.creature_at( lhs_cached_pos )->disp_name() );
         }
         return false;
     }
-    if( creatures.creature_at( b_pos ) != &b ) {
-        if( creatures.creature_at( b_pos ) == nullptr ) {
+    if( creatures.creature_at( rhs_cached_pos ) != &b ) {
+        if( creatures.creature_at( rhs_cached_pos ) == nullptr ) {
             debugmsg( "Tried to swap %s and %s when the latter isn't present at its own location %s.",
-                      a.disp_name(), b.disp_name(), b_pos.to_string() );
+                      lhs->disp_name(), rhs->disp_name(), rhs_cached_pos.to_string() );
         } else {
             debugmsg( "Tried to swap when it would cause a collision between %s and %s.",
-                      a.disp_name(), creatures.creature_at( b_pos )->disp_name() );
+                      lhs->disp_name(), creatures.creature_at( rhs_cached_pos )->disp_name() );
         }
         return false;
     }
-    // Simplify by "sorting" the arguments
-    // Only the first argument can be u
-    // If swapping player/npc with a monster, monster is second
-    bool a_first = a.is_avatar() ||
-                   ( a.is_npc() && !b.is_avatar() );
-    Creature &first  = a_first ? a : b;
-    Creature &second = a_first ? b : a;
-    // Possible options:
-    // both first and second are monsters
-    // second is a monster, first is a player or an npc
-    // first is a player, second is an npc
-    // both first and second are npcs
-    if( first.is_monster() ) {
-        monster *m1 = dynamic_cast< monster * >( &first );
-        monster *m2 = dynamic_cast< monster * >( &second );
-        if( m1 == nullptr || m2 == nullptr || m1 == m2 ) {
+
+    if( lhs->is_monster() ) { // then we have two monsters.
+        monster *lhs_as_mon = dynamic_cast< monster * >( lhs );
+        monster *rhs_as_mon = dynamic_cast< monster * >( rhs );
+        if( lhs_as_mon == nullptr || rhs_as_mon == nullptr || lhs_as_mon == rhs_as_mon ) {
             debugmsg( "Couldn't swap two monsters" );
             return false;
         }
 
-        critter_tracker->swap_positions( *m1, *m2 );
+        critter_tracker->swap_positions( *lhs_as_mon, *rhs_as_mon );
         return true;
     }
 
-    Character *u_or_npc = dynamic_cast< Character * >( &first );
-    // Issue https://github.com/CleverRaven/Cataclysm-DDA/issues/80245
-    // second can be a monster, in that case other_npc will be NULL
-    Character *other_npc = dynamic_cast< Character * >( &second );
-    const tripoint_bub_ms u_or_npc_pos = u_or_npc->pos_bub( );
-    const tripoint_bub_ms other_npc_pos = second.pos_bub( );
+    // If we've reached here, LHS must be a character. RHS *might* be a character.
+    Character *lhs_as_char = static_cast< Character * >( lhs );
 
-    if( u_or_npc->in_vehicle ) {
-        here.unboard_vehicle( u_or_npc_pos );
-    }
-
-    if( other_npc && other_npc->in_vehicle ) {
-        here.unboard_vehicle( other_npc_pos );
-    }
-
-    tripoint_bub_ms temp = second.pos_bub( );
-    second.setpos( here, first.pos_bub( ) );
-
-    if( first.is_avatar() ) {
-        walk_move( temp );
-    } else {
-        first.setpos( here, temp );
-        if( here.veh_at( u_or_npc_pos ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
-            here.board_vehicle( u_or_npc_pos, u_or_npc );
+    // Case: character swaps with monster.
+    if( rhs->as_monster() ) {
+        if( lhs_as_char->in_vehicle ) { // unboard lhs always...
+            here.unboard_vehicle( lhs_cached_pos );
+        }
+        // Go ahead and move rhs, so the destination is clear
+        rhs->setpos( here, lhs_cached_pos );
+        if( lhs->as_avatar() ) {
+            walk_move( rhs_cached_pos ); // Does vehicle boarding! Do not double board! DON'T DO IT! >:(
+            return true;
+        } else {
+            if( here.veh_at( rhs_cached_pos ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
+                here.board_vehicle( rhs_cached_pos, lhs_as_char );
+            }
+            lhs->setpos( here, rhs_cached_pos );
+            return true;
         }
     }
 
-    if( other_npc && here.veh_at( other_npc->pos_bub() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
-        here.board_vehicle( other_npc->pos_bub(), other_npc );
+    // If we've reached here, both LHS and RHS are characters. So we need to do some real juggling...
+    Character *rhs_as_char = static_cast< Character * >( rhs );
+
+    // Make sure we're both unboarded.
+    if( lhs_as_char->in_vehicle ) {
+        here.unboard_vehicle( lhs_cached_pos );
     }
+    if( rhs_as_char->in_vehicle ) {
+        here.unboard_vehicle( rhs_cached_pos );
+    }
+
+    if( lhs->as_avatar() ) {
+        if( here.veh_at( lhs_cached_pos ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
+            here.board_vehicle( lhs_cached_pos, rhs_as_char ); // sets position!
+        }
+        rhs->setpos( here, lhs_cached_pos ); // If board vehicle didn't move us, harmless otherwise.
+        walk_move( rhs_cached_pos ); // boards if needed!
+        return true;
+    } else if( rhs->as_avatar() ) {
+        if( here.veh_at( rhs_cached_pos ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
+            here.board_vehicle( rhs_cached_pos, lhs_as_char );
+        }
+        lhs->setpos( here, rhs_cached_pos );
+        walk_move( lhs_cached_pos );
+        return true;
+    }
+    // Two NPCs, oh boy! no walk_move() here.
+    if( here.veh_at( rhs_cached_pos ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
+        here.board_vehicle( rhs_cached_pos, lhs_as_char );
+    }
+    if( here.veh_at( lhs_cached_pos ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
+        here.board_vehicle( lhs_cached_pos, rhs_as_char );
+    }
+    lhs->setpos( here, rhs_cached_pos );
+    rhs->setpos( here, lhs_cached_pos );
     return true;
 }
 
