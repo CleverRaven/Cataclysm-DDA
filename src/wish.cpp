@@ -947,16 +947,13 @@ class wish_item_callback: public uilist_callback
                     // Otherwise, edit the existing list of user-defined instance flags
                     edit_flags = flags;
                 }
-                string_input_popup popup;
-                popup
-                .title( _( "Flags:" ) )
-                .description( _( "UPPERCASE, no quotes, separate with spaces" ) )
-                .max_length( 100 )
-                .text( edit_flags )
-                .query();
+               string_input_popup_imgui popup( 34, edit_flags, _( "Flags:" ) );
+                popup.set_description( _( "UPPERCASE, no quotes, separate with spaces" ) );
+                popup.set_max_input_length( 100 );
+                const std::string &rval = popup.query();
                 // Save instance flags on this item (will be reset when selecting another item)
-                if( popup.confirmed() ) {
-                    flags = popup.text();
+                if( !popup.cancelled() ) {
+                    flags = rval;
                     return true;
                 }
             }
