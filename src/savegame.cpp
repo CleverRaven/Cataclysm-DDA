@@ -39,6 +39,7 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "overmap_types.h"
+#include "overmap_map_data_cache.h"
 #include "path_info.h"
 #include "regional_settings.h"
 #include "scent_map.h"
@@ -457,6 +458,39 @@ void overmap::unserialize( std::istream &fin )
     unserialize( jsin.get_object() );
 }
 
+// In global scope for testing
+// NOLINTNEXTLINE(cata-static-declarations)
+std::string base64_encode_bitset( const std::bitset<576> &bitset_to_encode );
+std::string base64_encode_bitset( const std::bitset<576> &bitset_to_encode )
+{
+    std::string raw_bitset_data( 72, '\0' );
+    for( uint64_t i = 0; i < 9; ++i ) {
+        uint64_t bits = 0;
+        for( size_t j = 0; j < sizeof( bits ) * 8; ++j ) {
+            if( bitset_to_encode[( i * 64 ) + j ] ) {
+                bits |= 1ULL << j;
+            }
+        }
+        memcpy( &raw_bitset_data[ i * 8 ], &bits, sizeof( bits ) );
+    }
+    return base64_encode( raw_bitset_data );
+}
+
+// In global scope for testing
+// NOLINTNEXTLINE(cata-static-declarations)
+void base64_decode_bitset( const std::string &packed_bitset, std::bitset<576> &destination_bitset );
+void base64_decode_bitset( const std::string &packed_bitset, std::bitset<576> &destination_bitset )
+{
+    std::string decoded_string = base64_decode( packed_bitset );
+    for( int i = 0; i < 9; i++ ) {
+        uint64_t bits;
+        memcpy( &bits, &decoded_string[( 8 - i ) * 8], sizeof( bits ) );
+        std::bitset<576> temp_bitset( bits );
+        destination_bitset <<= 64;
+        destination_bitset |= temp_bitset;
+    }
+}
+
 void overmap::unserialize( const JsonObject &jsobj )
 {
     // These must be read in this order.
@@ -518,6 +552,8 @@ void overmap::unserialize( const JsonObject &jsobj )
                         }
                     }
                     count--;
+                    set_passable( project_combine( loc, tripoint_om_omt( i, j, z - OVERMAP_HEIGHT ) ),
+                                  tmp_otid->get_type_id()->default_map_data );
                     layer[z].terrain[i][j] = tmp_otid;
                 }
             }
@@ -672,6 +708,15 @@ void overmap::unserialize( const JsonObject &jsobj )
                 result->second.tracking_intensity = monster_map_json.next_int();
                 result->second.last_processed.deserialize( monster_map_json.next_value() );
                 result->second.moves = monster_map_json.next_int();
+            }
+        } else if( name == "map_data" ) {
+            JsonArray map_data_json = om_member;
+            while( map_data_json.has_more() ) {
+                tripoint_om_omt entry_location;
+                entry_location.deserialize( map_data_json.next_value() );
+                std::shared_ptr<map_data_summary> new_summary = std::make_shared<map_data_summary>();
+                base64_decode_bitset( map_data_json.next_string(), new_summary->passable );
+                set_passable( project_combine( loc, entry_location ), new_summary );
             }
         } else if( name == "tracked_vehicles" ) {
             JsonArray tracked_vehicles_json = om_member;
@@ -850,6 +895,8 @@ void overmap::unserialize( const JsonObject &jsobj )
 }
 
 // throws std::exception
+// This loads old-style overmaps and is only kept around in order to support
+// MA mod's pregenerated overmaps that are shimmed in by overmap::generate.
 void overmap::unserialize_omap( const JsonValue &jsin, const cata_path &json_path )
 {
     JsonArray ja = jsin.get_array();
@@ -1329,6 +1376,24 @@ void overmap::serialize( std::ostream &fout ) const
         json.end_array();
         // Insert a newline occasionally so the file isn't totally unreadable.
         fout << std::endl;
+    }
+    json.end_array();
+
+    json.member( "map_data" );
+    json.start_array();
+    for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
+        for( tripoint_om_omt entry_location{ 0, 0, z - OVERMAP_HEIGHT };
+             entry_location.y() < 180; entry_location.y()++ ) {
+            for( entry_location.x() = 0; entry_location.x() < 180; entry_location.x()++ ) {
+                std::shared_ptr<map_data_summary> summary = layer[z].map_cache[ entry_location.xy() ];
+                // We don't serialize placeholders, we regenerate them from the ter for their location.
+                if( summary->placeholder ) {
+                    continue;
+                }
+                json.write( entry_location );
+                json.write( base64_encode_bitset( summary->passable ) );
+            }
+        }
     }
     json.end_array();
 

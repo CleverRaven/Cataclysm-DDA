@@ -8199,7 +8199,9 @@ void map::saven( const tripoint_bub_sm &grid )
         return;
     }
 
-    const tripoint_abs_sm abs = abs_sub.xy() + rebase_rel( grid );
+    tripoint_rel_sm relative_origin = rebase_rel( grid );
+    on_unload( relative_origin );
+    const tripoint_abs_sm abs = abs_sub.xy() + relative_origin;
 
     if( !zlevels && grid.z() != abs_sub.z() ) {
         debugmsg( "Tried to save submap (%d,%d,%d) as (%d,%d,%d), which isn't supported in non-z-level builds",
@@ -8920,11 +8922,18 @@ void map::on_unload( const tripoint_rel_sm &loc )
         offsets.push_back( point_rel_sm::south_east );
         for( const point_rel_sm &offset : offsets ) {
             tripoint_rel_sm submap_offset = sm_origin + offset;
+            // Is there a better option than this manual check?
+            if( submap_offset.x() < 0 || submap_offset.x() >= my_MAPSIZE ||
+                submap_offset.y() < 0 || submap_offset.y() >= my_MAPSIZE ||
+                submap_offset.z() < -OVERMAP_DEPTH || submap_offset.z() > OVERMAP_HEIGHT ) {
+                continue;
+            }
             // Handle null submap ptr, it can definitely happen and we just ignore it.
             if( get_submap_at_grid( submap_offset )->player_adjusted_map ) {
                 adjusted = true;
                 break;
             }
+
         }
     }
     // Update just the quadrant of the map_data_summary matching the current submap.
