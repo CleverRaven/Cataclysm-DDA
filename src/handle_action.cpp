@@ -3044,56 +3044,8 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             set_next_option( "AUTO_PICKUP" );
             break;
 
-        case ACTION_DISPLAY_SCENT:
-        case ACTION_DISPLAY_SCENT_TYPE:
-            if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
-                break;    //don't do anything when sharing and not debugger
-            }
-            display_scent();
-            break;
-
-        case ACTION_DISPLAY_TEMPERATURE:
-            if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
-                break;    //don't do anything when sharing and not debugger
-            }
-            display_temperature();
-            break;
-        case ACTION_DISPLAY_VEHICLE_AI:
-            if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
-                break;    //don't do anything when sharing and not debugger
-            }
-            display_vehicle_ai();
-            break;
-        case ACTION_DISPLAY_VISIBILITY:
-            if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
-                break;    //don't do anything when sharing and not debugger
-            }
-            display_visibility();
-            break;
-
-        case ACTION_DISPLAY_LIGHTING:
-            if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
-                break;    //don't do anything when sharing and not debugger
-            }
-            display_lighting();
-            break;
-
-        case ACTION_DISPLAY_RADIATION:
-            if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
-                break;    //don't do anything when sharing and not debugger
-            }
-            display_radiation();
-            break;
-
         case ACTION_TOGGLE_HOUR_TIMER:
             toggle_debug_hour_timer();
-            break;
-
-        case ACTION_DISPLAY_TRANSPARENCY:
-            if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
-                break;    //don't do anything when sharing and not debugger
-            }
-            display_transparency();
             break;
 
         case ACTION_TOGGLE_DEBUG_MODE:

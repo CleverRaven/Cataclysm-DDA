@@ -2036,6 +2036,10 @@ bool item_pocket::empty() const
 
 bool item_pocket::full( bool allow_bucket ) const
 {
+    if( contents.empty() ) {
+        return false;
+    }
+
     if( !allow_bucket && will_spill() ) {
         return true;
     }
@@ -2052,7 +2056,23 @@ bool item_pocket::full( bool allow_bucket ) const
         return false;
     }
 
-    return remaining_volume() == 0_ml;
+    if( remaining_volume() == 0_ml ) {
+        return true;
+    }
+
+    if( remaining_capacity_for_item( contents.front() ) == 0 ) {
+        bool has_only_one_type = true;
+        // maybe there is a better way?
+        for( const item &it : contents ) {
+            if( it.type->id != contents.front().type->id ) {
+                has_only_one_type = false;
+                break;
+            }
+        }
+        return has_only_one_type;
+    }
+
+    return false;
 }
 
 bool item_pocket::rigid() const

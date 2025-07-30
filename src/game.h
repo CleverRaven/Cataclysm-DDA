@@ -1081,17 +1081,15 @@ class game
         void display_faction_epilogues();
         void disp_NPC_epilogues();  // Display NPC endings
 
+    public:
         /* Debug functions */
         // currently displayed overlay (none is displayed if empty)
         std::optional<action_id> displaying_overlays; // NOLINT(cata-serialize)
         void display_scent();   // Displays the scent map
-        void display_temperature();    // Displays temperature map
-        void display_vehicle_ai(); // Displays vehicle autopilot AI overlay
         void display_visibility(); // Displays visibility map
         void display_lighting(); // Displays lighting conditions heat map
-        void display_radiation(); // Displays radiation map
-        void display_transparency(); // Displays transparency map
 
+    private:
         // prints the IRL time in ms of the last full in-game hour
         class debug_hour_timer
         {

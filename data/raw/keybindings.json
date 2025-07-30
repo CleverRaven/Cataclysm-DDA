@@ -2964,43 +2964,7 @@
   },
   {
     "type": "keybinding",
-    "name": "View scent map",
-    "category": "DEFAULTMODE",
-    "id": "debug_scent"
-  },
-  {
-    "type": "keybinding",
-    "name": "View scent type",
-    "category": "DEFAULTMODE",
-    "id": "debug_scent_type"
-  },
-  {
-    "type": "keybinding",
-    "name": "View temperature map (using map font)",
-    "category": "DEFAULTMODE",
-    "id": "debug_temp"
-  },
-  {
-    "type": "keybinding",
-    "name": "View visibility map",
-    "category": "DEFAULTMODE",
-    "id": "debug_visibility"
-  },
-  {
-    "type": "keybinding",
-    "name": "View lighting map",
-    "category": "DEFAULTMODE",
-    "id": "debug_lighting"
-  },
-  {
-    "type": "keybinding",
-    "name": "View radiation map",
-    "category": "DEFAULTMODE",
-    "id": "debug_radiation"
-  },
-  {
-    "type": "keybinding",
-    "name": "Toggle hour timer",
+    "name": "Debug Toggle hour timer",
     "category": "DEFAULTMODE",
     "id": "debug_hour_timer"
   },

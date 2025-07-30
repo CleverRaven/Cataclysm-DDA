@@ -409,7 +409,7 @@ static const skill_id skill_throw( "throw" );
 
 static const species_id species_HUMAN( "HUMAN" );
 
-static const start_location_id start_location_sloc_shelter_a( "sloc_shelter_a" );
+static const start_location_id start_location_sloc_shelter_safe( "sloc_shelter_safe" );
 
 static const trait_id trait_ADRENALINE( "ADRENALINE" );
 static const trait_id trait_BADBACK( "BADBACK" );
@@ -615,7 +615,7 @@ Character::Character() :
     male = true;
     prof = profession::has_initialized() ? profession::generic() :
            nullptr; //workaround for a potential structural limitation, see player::create
-    start_location = start_location_sloc_shelter_a;
+    start_location = start_location_sloc_shelter_safe;
     moves = 100;
     oxygen = 0;
     in_vehicle = false;
@@ -2070,7 +2070,6 @@ void Character::on_dodge( Creature *source, float difficulty, float training_lev
         recoil = std::min( MAX_RECOIL, recoil );
     }
 
-    // Even if we are not to train still call practice to prevent skill rust
     difficulty = std::max( difficulty, 0.0f );
 
     // If training_level is set, treat that as the difficulty instead
@@ -2078,7 +2077,10 @@ void Character::on_dodge( Creature *source, float difficulty, float training_lev
         difficulty = training_level;
     }
 
-    practice( skill_dodge, difficulty * 2, difficulty );
+    if( source && source->times_combatted_player <= 100 ) {
+        source->times_combatted_player++;
+        practice( skill_dodge, difficulty * 2, difficulty );
+    }
     martial_arts_data->ma_ondodge_effects( *this );
 
     // For adjacent attackers check for techniques usable upon successful dodge
@@ -7990,14 +7992,22 @@ ret_val<void> Character::can_wield( const item &it ) const
                                             weapname(), it.tname() );
     }
     monster *mount = mounted_creature.get();
-    if( it.is_two_handed( *this ) && ( !has_two_arms_lifting() ||
-                                       worn_with_flag( flag_RESTRICT_HANDS ) ) &&
-        !( is_mounted() && mount->has_flag( mon_flag_RIDEABLE_MECH ) &&
-           mount->type->mech_weapon && it.typeId() == mount->type->mech_weapon ) ) {
-        if( worn_with_flag( flag_RESTRICT_HANDS ) ) {
+    const itype_id mech_weapon = is_mounted() ? mount->type->mech_weapon : itype_id::NULL_ID();
+    bool mounted_mech = is_mounted() && mount->has_flag( mon_flag_RIDEABLE_MECH ) &&
+                        mech_weapon;
+    bool armor_restricts_hands = worn_with_flag( flag_RESTRICT_HANDS );
+    bool item_twohand = it.has_flag( flag_ALWAYS_TWOHAND );
+    bool missing_arms = !has_two_arms_lifting();
+    bool two_handed = it.is_two_handed( *this );
+
+    if( two_handed &&
+        ( missing_arms || armor_restricts_hands ) &&
+        !( mounted_mech && it.typeId() == mech_weapon ) //ignore this check for mech weapons
+      ) {
+        if( armor_restricts_hands ) {
             return ret_val<void>::make_failure(
                        _( "Something you are wearing hinders the use of both hands." ) );
-        } else if( it.has_flag( flag_ALWAYS_TWOHAND ) ) {
+        } else if( item_twohand ) {
             return ret_val<void>::make_failure( _( "You can't wield the %s with only one arm." ),
                                                 it.tname() );
         } else {
@@ -8005,16 +8015,19 @@ ret_val<void> Character::can_wield( const item &it ) const
                                                 it.tname() );
         }
     }
-    if( is_mounted() && mount->has_flag( mon_flag_RIDEABLE_MECH ) &&
-        mount->type->mech_weapon && it.typeId() != mount->type->mech_weapon ) {
+    if( mounted_mech && it.typeId() != mech_weapon ) {
         return ret_val<void>::make_failure( _( "You cannot wield anything while piloting a mech." ) );
     }
     if( controlling_vehicle ) {
-        if( worn_with_flag( flag_RESTRICT_HANDS ) ) {
+        if( two_handed ) {
+            return ret_val<void>::make_failure( _( "You need both hands to wield the %s but are driving." ),
+                                                it.tname() );
+        }
+        if( armor_restricts_hands ) {
             return ret_val<void>::make_failure(
                        _( "Something you are wearing hinders the use of both hands." ) );
         }
-        if( !has_two_arms_lifting() || it.has_flag( flag_ALWAYS_TWOHAND ) ) {
+        if( missing_arms || item_twohand ) {
             return ret_val<void>::make_failure( _( "You can't wield your %s while driving." ),
                                                 it.tname() );
         }

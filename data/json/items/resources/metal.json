@@ -248,8 +248,8 @@
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "category": "spare_parts",
-    "name": { "str": "small metal sheet" },
-    "description": "A small sheet of metal.",
+    "name": { "str": "small mild steel sheet" },
+    "description": "A small sheet of mild steel.",
     "looks_like": "sheet_metal",
     "weight": "250 g",
     "volume": "250 ml",
@@ -264,6 +264,38 @@
     "color": "light_cyan",
     "ammo_type": "components",
     "melee_damage": { "bash": 5 }
+  },
+  {
+    "id": "mc_sheet_metal_small",
+    "type": "ITEM",
+    "copy-from": "sheet_metal_small",
+    "name": { "str": "small medium steel sheet" },
+    "description": "A small sheet of medium steel.",
+    "material": [ "mc_steel" ]
+  },
+  {
+    "id": "hc_sheet_metal_small",
+    "type": "ITEM",
+    "copy-from": "sheet_metal_small",
+    "name": { "str": "small high steel sheet" },
+    "description": "A small sheet of high steel.",
+    "material": [ "hc_steel" ]
+  },
+  {
+    "id": "ch_sheet_metal_small",
+    "type": "ITEM",
+    "copy-from": "sheet_metal_small",
+    "name": { "str": "small hardened steel sheet" },
+    "description": "A small sheet of hardened steel.",
+    "material": [ "ch_steel" ]
+  },
+  {
+    "id": "qt_sheet_metal_small",
+    "type": "ITEM",
+    "copy-from": "sheet_metal_small",
+    "name": { "str": "small tempered steel sheet" },
+    "description": "A small sheet of tempered steel.",
+    "material": [ "qt_steel" ]
   },
   {
     "id": "steel_chunk",

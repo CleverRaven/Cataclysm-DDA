@@ -1009,7 +1009,8 @@
               "math": [
                 "(u_spell_level('clair_better_senses') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling) >= 8"
               ]
-            }
+            },
+            { "math": [ "u_val('fine_detail_vision_mod') <= 7" ] }
           ]
         },
         "ench_effects": [ { "effect": "effect_clair_craft_in_darkness", "intensity": 1 } ]
@@ -2679,6 +2680,7 @@
     "rating": "bad",
     "max_duration": 3000,
     "dur_add_perc": 5,
+    "show_in_info": true,
     "enchantments": [ { "values": [ { "value": "SPEED", "multiply": -0.25 } ] } ],
     "immune_flags": [ "DIMENSIONAL_ANCHOR", "TELESTOP", "TELEPORT_IMMUNE" ]
   },

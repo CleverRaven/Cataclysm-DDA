@@ -1281,6 +1281,10 @@ Runs a query, allowing you to pick specific tile around. When picked, stores coo
 - type: location string or [variable object](#variable-object)
 - return true if the location is in the bounds of a city at or above z-1
 
+### `map_is_outside`
+- type: location string or [variable object](#variable-object)
+- return true if the location is outside. Currently always returns false if the location is outside the reality bubble.
+
 #### Valid talkers:
 
 No talker is needed.

@@ -346,8 +346,6 @@ The full multitile would be defined like this:
 
 The order of sprites ensures that the multitile also works with only the first 4 instead of all 8 sprites. It also makes it compatible with tilesets that don't use the `rotates_to` feature.
 
-Doors and windows work out of the box without modifying terrain definitions, as the required group `INDOORFLOOR` is implied by the flags `WINDOW`, `DOOR` (active) and `INDOORS` (target/passive).
-
 ##### Unconnected `rotates_to`
 
 For unconnected tiles, `rotates_to` requires either 4 or 16 sprites.
