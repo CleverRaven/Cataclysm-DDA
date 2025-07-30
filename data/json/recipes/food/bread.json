@@ -59,7 +59,7 @@
     "tools": [ [ [ "surface_heat", 11, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" } ],
     "//": "flour = 11u",
-    "components": [ [ [ "flour", 11 ], [ "bread_flour", 11 ] ], [ [ "water_clean", 2 ] ] ]
+    "components": [ [ [ "flour", 11, "CRAFTABLE" ], [ "bread_flour", 11, "CRAFTABLE" ] ], [ [ "water_clean", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -84,29 +84,6 @@
       [ [ "any_butter_or_oil", 4, "LIST" ] ],
       [ [ "salt", 1 ] ]
     ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "bread",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_BREAD",
-    "skill_used": "cooking",
-    "difficulty": 2,
-    "charges": 10,
-    "time": "20 m",
-    "batch_time_factors": [ 50, 4 ],
-    "book_learn": [
-      [ "family_cookbook", 1 ],
-      [ "baking_book", 1 ],
-      [ "cookbook", 2 ],
-      [ "cookbook_italian", 3 ],
-      [ "atomic_survival", 6 ]
-    ],
-    "qualities": [ { "id": "OVEN", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 22, "LIST" ] ] ],
-    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" }, { "proficiency": "prof_baking_bread" } ],
-    "components": [ [ [ "flour", 22 ], [ "bread_flour", 5 ] ], [ [ "yeast", 1 ] ], [ [ "water_clean", 2 ] ], [ [ "sugar", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -143,7 +120,7 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" } ],
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
     "components": [
-      [ [ "flour", 1 ], [ "bread_flour", 1 ] ],
+      [ [ "flour", 1, "CRAFTABLE" ], [ "bread_flour", 1, "CRAFTABLE" ] ],
       [ [ "any_butter_or_oil", 1, "LIST" ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
@@ -163,7 +140,7 @@
     "qualities": [ [ { "id": "COOK", "level": 2 } ], [ { "id": "OVEN", "level": 1 } ] ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" } ],
-    "components": [ [ [ "cornmeal", 4 ] ], [ [ "water_clean", 2 ] ] ]
+    "components": [ [ [ "cornmeal", 4, "CRAFTABLE" ] ], [ [ "water_clean", 2 ] ] ]
   },
   {
     "type": "recipe",
