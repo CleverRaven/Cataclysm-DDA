@@ -1148,7 +1148,7 @@ static void load_imgui_style_file( const cata_path &style_path )
 {
     ImGuiStyle &style = ImGui::GetStyle();
     // reset style first to unset colors
-    ImGui::StyleColorsDark(&style);
+    ImGui::StyleColorsDark( &style );
 
     JsonValue jsin = json_loader::from_path( style_path );
 
