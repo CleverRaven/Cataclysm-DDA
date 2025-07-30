@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "cata_imgui.h"
+#include "color.h"
 #include "input_context.h"
 #include "input_enums.h"
 #include "options.h"
@@ -18,6 +19,7 @@ class JsonObject;
 
 struct help_category {
     translation name;
+    nc_color color = c_light_blue;
     std::vector<std::pair<translation, int>> paragraphs;
 };
 
@@ -58,7 +60,8 @@ class help_window : public cataimgui::window
         std::map<int, input_event> hotkeys;
 
         void draw_category_selection();
-        void format_title( const std::string translated_category_name );
+        void format_title( std::optional<help_category> category = std::nullopt );
+        void format_subtitle( const help_category &category, const std::string translated_category_name );
 
         void draw_category_option( const int &option, const help_category &category );
         int selected_option;

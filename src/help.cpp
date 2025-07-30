@@ -71,6 +71,20 @@ void help::load_object( const JsonObject &jo, const std::string &src )
 
     translation name;
     jo.read( "name", category.name );
+    if( jo.has_string( "color" ) ) {
+        const std::string color_string = jo.get_string( "color" );
+        category.color = color_from_string( color_string, report_color_error::no );
+        if( category.color == c_unset ) {
+            // We can't use throw_error if called from core bc that results in a CTD
+            if( src == "core" ) {
+                debugmsg( "Can't parse color: %s in data/core(/help.json?). Object dump: %s", color_string,
+                          jo.str() );
+            } else {
+                jo.throw_error_at( "color", "Can't parse color" );
+            }
+            category.color = c_light_blue;
+        }
+    }
 
     for( JsonValue jv : jo.get_array( "messages" ) ) {
         if( jv.test_string() ) {
@@ -83,7 +97,18 @@ void help::load_object( const JsonObject &jo, const std::string &src )
                 category.paragraphs.emplace_back( to_translation( jobj.get_string( "force_monospaced" ) ),
                                                   MM_MONOFONT );
             } else if( jobj.has_string( "seperator" ) ) {
-                category.paragraphs.emplace_back( no_translation( jobj.get_string( "seperator" ) ), MM_SEPERATOR );
+                auto it = category.paragraphs.emplace_back( no_translation( jobj.get_string( "seperator" ) ),
+                          MM_SEPERATOR );
+                // Verify color now bc later the debugmsg would cause an ImGui CTD, don't use color_from_string's debugmsg though bc that will be useless context wise
+                if( color_from_string( it.first.translated(), report_color_error::no ) == c_unset ) {
+                    // Except we also can't use throw_error if called from core bc that also results in a CTD, fun
+                    if( src == "core" ) {
+                        debugmsg( "Can't parse seperator color: %s in data/core(/help.json?). Object dump: %s",
+                                  it.first.translated(), jo.str() );
+                    } else {
+                        jo.throw_error_at( "seperator", "Can't parse color" );
+                    }
+                }
             }
         }
     }
@@ -116,6 +141,7 @@ help_window::help_window() : cataimgui::window( "help",
     ctxt.register_leftright();
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "NEXT_TAB" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
     const hotkey_queue &hkq = hotkey_queue::alphabets();
     input_event next_hotkey = ctxt.first_unassigned_hotkey( hkq );
     for( const auto &text : data.help_categories ) {
@@ -137,8 +163,7 @@ void help_window::draw_category_selection()
 {
     // TODO: Add one column display for tiny screens and screen reader users
     selected_option = -1;
-    //~ Help menu header
-    format_title( _( "Help" ) );
+    format_title();
     // Split the categories in half
     if( ImGui::BeginTable( "Category Options", 2, ImGuiTableFlags_None ) ) {
         ImGui::TableSetupColumn( "Left Column", ImGuiTableColumnFlags_WidthStretch, 1.0f );
@@ -186,19 +211,25 @@ void help_window::draw_category_option( const int &option, const help_category &
     }
 }
 
-void help_window::format_title( const std::string translated_category_name )
+void help_window::format_title( std::optional<help_category> category )
 {
+    //~ Help menu header
+    const std::string translated_category_name = !category ? _( "Help" ) : category->name.translated();
+
     if( screen_reader ) {
         cataimgui::TextColoredParagraph( c_white, translated_category_name );
         ImGui::NewLine();
         return;
     }
+
+    nc_color category_color = !category ? c_light_blue : category->color;
+
     const float title_length = ImGui::CalcTextSize( remove_color_tags(
                                    translated_category_name ).c_str() ).x;
     ImGui::PushStyleVarX( ImGuiStyleVar_ItemSpacing, 0 );
     ImGui::PushStyleVarY( ImGuiStyleVar_ItemSpacing, 0 );
-    ImGui::PushStyleColor( ImGuiCol_Text, c_light_blue );
-    ImGui::PushStyleColor( ImGuiCol_Separator, c_light_blue );
+    ImGui::PushStyleColor( ImGuiCol_Text, category_color );
+    ImGui::PushStyleColor( ImGuiCol_Separator, category_color );
     cataimgui::PushMonoFont();
     const int sep_len = std::ceil( ( title_length / ImGui::CalcTextSize( "═" ).x )  + 2 );
     ImGui::Text( "╔" );
@@ -233,49 +264,52 @@ void help_window::format_title( const std::string translated_category_name )
     ImGui::SetCursorPos( end_pos );
 }
 
-//void help_window::format_subtitle( const std::string translated_category_name )
-//{
-//    if( get_option<bool>( "SCREEN_READER_MODE" ) ) {
-//        cataimgui::TextColoredParagraph( c_white, translated_category_name );
-//        ImGui::NewLine();
-//        return;
-//    }
-//    const float title_length = ImGui::CalcTextSize( remove_color_tags(
-//                                   translated_category_name ).c_str() ).x;
-//    cataimgui::PushMonoFont();
-//    const int sep_len = std::ceil( ( title_length / ImGui::CalcTextSize( "═" ).x )  + 4 );
-//    ImGui::PushStyleColor( ImGuiCol_Text, c_light_blue );
-//    for( int i = sep_len; i > 0; i-- ) {
-//        ImGui::Text( "▁" );
-//        ImGui::SameLine( 0.f, 0.f );
-//    }
-//    ImGui::NewLine();
-//    // Using the matching box character doesn't look good bc there's forced(?) y spacing on NewLine
-//    ImGui::Text( "▏ " );
-//    ImGui::SameLine( 0.f, 0.f );
-//    ImGui::PopStyleColor();
-//    ImGui::PopFont();
-//    cataimgui::TextColoredParagraph( c_white, translated_category_name );
-//    cataimgui::PushMonoFont();
-//    ImGui::SameLine( 0.f, 0.f );
-//    ImGui::PushStyleColor( ImGuiCol_Text, c_light_blue );
-//    ImGui::Text( " ▕" );
-//    for( int i = sep_len; i > 0; i-- ) {
-//        ImGui::Text( "▔" );
-//        ImGui::SameLine( 0.f, 0.f );
-//    }
-//    ImGui::PopStyleColor();
-//    ImGui::PopFont();
-//    ImGui::NewLine();
-//    ImGui::PushStyleColor( ImGuiCol_Separator, c_light_blue );
-//    ImGui::Separator();
-//    ImGui::PopStyleColor();
-//}
+void help_window::format_subtitle( const help_category &category,
+                                   const std::string translated_category_name )
+{
+    if( screen_reader ) {
+        cataimgui::TextColoredParagraph( c_white, translated_category_name );
+        ImGui::NewLine();
+        return;
+    }
+
+    const nc_color &category_color = category.color;
+
+    const float title_length = ImGui::CalcTextSize( remove_color_tags(
+                                   translated_category_name ).c_str() ).x;
+    cataimgui::PushMonoFont();
+    const int sep_len = std::ceil( ( title_length / ImGui::CalcTextSize( "═" ).x )  + 4 );
+    ImGui::PushStyleColor( ImGuiCol_Text, category_color );
+    for( int i = sep_len; i > 0; i-- ) {
+        ImGui::Text( "▁" );
+        ImGui::SameLine( 0.f, 0.f );
+    }
+    ImGui::NewLine();
+    // Using the matching box character doesn't look good bc there's forced(?) y spacing on NewLine
+    ImGui::Text( "▏ " );
+    ImGui::SameLine( 0.f, 0.f );
+    ImGui::PopStyleColor();
+    ImGui::PopFont();
+    cataimgui::TextColoredParagraph( c_white, translated_category_name );
+    cataimgui::PushMonoFont();
+    ImGui::SameLine( 0.f, 0.f );
+    ImGui::PushStyleColor( ImGuiCol_Text, category_color );
+    ImGui::PushStyleColor( ImGuiCol_Separator, category_color );
+    ImGui::Text( " ▕" );
+    for( int i = sep_len; i > 0; i-- ) {
+        ImGui::Text( "▔" );
+        ImGui::SameLine( 0.f, 0.f );
+    }
+    ImGui::PopFont();
+    ImGui::NewLine();
+    ImGui::Separator();
+    ImGui::PopStyleColor( 2 );
+}
 
 void help_window::draw_category()
 {
     const help_category &cat = data.help_categories[loaded_option];
-    format_title( cat.name.translated() );
+    format_title( cat );
     // Use a table so we can scroll the category paragraphs without the title
     if( ImGui::BeginTable( "HELP_PARAGRAPHS", 1,
                            ImGuiTableFlags_ScrollY ) ) {
@@ -289,26 +323,24 @@ void help_window::draw_category()
                     cataimgui::draw_colored_text( translated_paragraph.first, c_white, get_wrap_width() );
                     break;
                 case MM_SUBTITLE:
-                    // BEFOREMERGE: Do something different
-                    cataimgui::draw_colored_text( translated_paragraph.first, c_white, get_wrap_width() );
+                    format_subtitle( cat, translated_paragraph.first );
                     break;
                 case MM_MONOFONT:
                     cataimgui::PushMonoFont();
                     cataimgui::draw_colored_text( translated_paragraph.first, c_white, get_wrap_width() );
                     ImGui::PopFont();
                     break;
-                // Causing a missing EndChild() ImGui crash?
-                //case MM_SEPERATOR: {
-                //    nc_color col = get_all_colors().name_to_color( translated_paragraph.first );
-                //    ImGui::PushStyleColor( ImGuiCol_Separator, cataimgui::imvec4_from_color( col ) );
-                //    ImGui::Separator();
-                //    ImGui::PopStyleColor();
-                //    break;
-                //}
-                // Temporary until crash is worked out
-                case MM_SEPERATOR:
+                case MM_SEPERATOR: {
+                    //Can't verify here bc the debugmsg would cause an ImGui CTD
+                    nc_color seperator_color = color_from_string( translated_paragraph.first, report_color_error::no );
+                    if( seperator_color == c_unset ) {
+                        seperator_color = cat.color;
+                    }
+                    ImGui::PushStyleColor( ImGuiCol_Separator, seperator_color );
                     ImGui::Separator();
+                    ImGui::PopStyleColor();
                     break;
+                }
                 default:
                     debugmsg( "Unexpected help message modifier" );
                     continue;

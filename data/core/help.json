@@ -33,7 +33,6 @@
         "force_monospaced": "<color_light_blue>  With Shift    With Ctrl\n      N             NW\n   NW S  NE      SW S  SE\n"
       },
       "- Diagonal Lock: In this mode holding Shift or Ctrl results in only diagonal combinations of two directions being accepted for example Ctrl + Up + Right becomes NE.",
-      { "seperator": "color_green" },
       "Each step will take 100 movement points (or more, depending on the terrain); you will then replenish a variable amount of movement points, depending on many factors (press <keybind:player_data> to see the exact amount).",
       "To attempt to hit a monster with your weapon, simply move into it.",
       "You may find doors, ('+'); these may be opened with <press_open> or closed with <press_close>.  Some doors are locked.  Locked doors, windows, and some other obstacles can be destroyed by smashing them (<press_smash>, then choose a direction).  Smashing down obstacles is much easier with a good weapon or a strong character.",
