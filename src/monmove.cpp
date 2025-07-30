@@ -1761,8 +1761,10 @@ bool monster::bash_at( const tripoint_bub_ms &p )
         return false;
     }
 
+    // Note: Cramped space preventing movement is currently 'turned off', so the chance for them bashing is purposefully low
+    // This variable remains for maintenance purposes and the 1-in-1000 chance to prevent clang from complaining.
     const bool cramped = will_be_cramped_in_vehicle_tile( here, here.get_abs( p ) );
-    bool try_bash = !can_move_to( p ) || one_in( 3 ) || cramped;
+    bool try_bash = !can_move_to( p ) || one_in( 3 ) || ( cramped && one_in( 1000 ) );
     if( !try_bash ) {
         return false;
     }
@@ -1771,7 +1773,7 @@ bool monster::bash_at( const tripoint_bub_ms &p )
         return false;
     }
 
-    if( !( here.is_bashable_furn( p ) || here.veh_at( p ).obstacle_at_part() || cramped ) ) {
+    if( !( here.is_bashable_furn( p ) || here.veh_at( p ).obstacle_at_part() ) ) {
         // if the only thing here is road or flat, rarely bash it
         bool flat_ground = here.has_flag( ter_furn_flag::TFLAG_ROAD, p ) ||
                            here.has_flag( ter_furn_flag::TFLAG_FLAT, p );
