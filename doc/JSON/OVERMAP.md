@@ -490,6 +490,9 @@ until all sectors are occupied). For specials that are not common enough to warr
 than once per overmap please use the "OVERMAP_UNIQUE" flag. For specials that should only have one instance
 per world use "GLOBALLY_UNIQUE".
 
+NOTE: currently, minimum occurences are NOT enforced in-game but ARE enforced by 
+test case `default_overmap_generation_always_succeeds`.
+
 ### Occurrences ( OVERMAP_UNIQUE, GLOBALLY_UNIQUE )
 
 When the special has the "OVERMAP_UNIQUE" or "GLOBALLY_UNIQUE" flag, instead of defining the minimum and maximum
