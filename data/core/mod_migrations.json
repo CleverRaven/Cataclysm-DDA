@@ -15,7 +15,7 @@
     "type": "mod_migration",
     "//": "Removed in 0.I",
     "id": "StatsThroughSkills",
-    "removal_reason": "Hardcode that enabled this was removed and it doesn't meet repo inclusion criteria, non-hardcoded alternatives are available out of repo eg Erin105/StatsThroughSkills."
+    "removal_reason": "Hardcode that enabled this was removed and it doesn't meet repo inclusion criteria, non-hardcoded alternatives are available out of repo."
   },
   {
     "type": "mod_migration",
