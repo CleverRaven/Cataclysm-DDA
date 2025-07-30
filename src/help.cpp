@@ -1,13 +1,11 @@
 #include "help.h"
 
 #include <cmath>
-#include <cstddef>
 #include <iterator>
 #include <optional>
 #include <string>
 #include <vector>
 
-#include "action.h"
 #include "cata_imgui.h"
 #include "cata_path.h"
 #include "character.h"
