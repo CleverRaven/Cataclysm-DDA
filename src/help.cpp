@@ -143,18 +143,19 @@ void help_window::draw_category_selection()
     if( ImGui::BeginTable( "Category Options", 2, ImGuiTableFlags_None ) ) {
         ImGui::TableSetupColumn( "Left Column", ImGuiTableColumnFlags_WidthStretch, 1.0f );
         ImGui::TableSetupColumn( "Right Column", ImGuiTableColumnFlags_WidthStretch, 1.0f );
-        int half_size = static_cast<float>( data.help_categories.size() / 2.0f ) + 1;
+        int half_size = std::trunc( data.help_categories.size() / 2.0 ) + 1;
         auto half_it = data.help_categories.begin();
         std::advance( half_it, half_size );
         auto jt = data.help_categories.begin();
         std::advance( jt, half_size );
-        for( auto it = data.help_categories.begin(); it != half_it; it++, jt++ ) {
+        for( auto it = data.help_categories.begin(); it != half_it; it++ ) {
+            if( jt != std::prev( data.help_categories.end() ) ) {
+                jt++;
+            }
             ImGui::TableNextColumn();
             draw_category_option( it->first, it->second );
             ImGui::TableNextColumn();
-            if( jt != data.help_categories.end() ) {
-                draw_category_option( jt->first, jt->second );
-            }
+            draw_category_option( jt->first, jt->second );
         }
         ImGui::EndTable();
     }
