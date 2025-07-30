@@ -4334,15 +4334,6 @@ int Character::get_int_bonus() const
     return int_bonus;
 }
 
-static int get_speedydex_bonus( const int dex )
-{
-    static const std::string speedydex_min_dex( "SPEEDYDEX_MIN_DEX" );
-    static const std::string speedydex_dex_speed( "SPEEDYDEX_DEX_SPEED" );
-    // this is the number to be multiplied by the increment
-    const int modified_dex = std::max( dex - get_option<int>( speedydex_min_dex ), 0 );
-    return modified_dex * get_option<int>( speedydex_dex_speed );
-}
-
 int Character::get_enchantment_speed_bonus() const
 {
     return enchantment_speed_bonus;
@@ -12492,8 +12483,6 @@ void Character::recalc_speed_bonus()
         carry_penalty = 25 * ( weight_carried() - weight_cap ) / weight_cap;
     }
     mod_speed_bonus( -carry_penalty, _( "Weight Carried" ) );
-
-    mod_speed_bonus( +get_speedydex_bonus( get_dex() ), _( "Dexterity" ) );
 
     mod_speed_bonus( -get_pain_penalty().speed, _( "Pain" ) );
 
