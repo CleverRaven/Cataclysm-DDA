@@ -209,7 +209,7 @@
       "place_nested": [
         { "chunks": [ "cabin_nether_cult_basement_4x4_opening_rec_area" ], "x": 15, "y": 9 },
         { "chunks": [ "cabin_nether_cult_basement_6x6_meeting_room" ], "x": 7, "y": 3 },
-        { "chunks": [ "cabin_nether_cult_basement_4x4_library" ], "x": 16, "y": 4 },
+        { "chunks": [ "cabin_nether_cult_basement_4x4_library" ], "x": 15, "y": 3 },
         {
           "chunks": [
             [ "null", 6 ],
@@ -221,22 +221,14 @@
         },
         {
           "chunks": [
-            [ "null", 8 ],
-            [ "cabin_nether_cult_basement_4x4_star_vampire_overlay", 1 ],
-            [ "cabin_nether_cult_basement_4x4_huntsman_overlay", 1 ]
-          ],
-          "x": 16,
-          "y": 4
-        },
-        {
-          "chunks": [
             [ "null", 3 ],
             [ "cabin_nether_cult_basement_4x4_star_vampire_overlay", 1 ],
             [ "cabin_nether_cult_basement_4x4_huntsman_overlay", 1 ]
           ],
           "x": 7,
           "y": 20
-        }
+        },
+        { "chunks": [ [ "null", 10 ], [ "cabin_nether_cult_basement_2x2_bathroom_overlay", 1000 ] ], "x": 7, "y": 13 }
       ]
     }
   },
@@ -281,12 +273,13 @@
     "nested_mapgen_id": "cabin_nether_cult_basement_4x4_library",
     "type": "mapgen",
     "object": {
-      "mapgensize": [ 4, 4 ],
+      "mapgensize": [ 5, 5 ],
       "rows": [
-        "CtLA",
-        "   A",
-        "   A",
-        "CtCA"
+        "-----",
+        "-CtLA",
+        "+   A",
+        "-   A",
+        "-CtCA"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "parameters": {
@@ -304,6 +297,8 @@
         }
       },
       "terrain": {
+        "-": "t_wall_wood",
+        "+": [ [ "t_door_c", 2 ], [ "t_door_o", 1 ] ],
         " ": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" },
         "A": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" },
         "C": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" },
@@ -319,7 +314,38 @@
           { "item": "hedge_magic_books", "chance": 25, "repeat": [ 1, 2 ] }
         ]
       },
-      "place_monster": [ { "group": "GROUP_NETHER_CULT", "x": [ 0, 3 ], "y": [ 0, 3 ], "chance": 50 } ]
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 80 ],
+            [ "cabin_nether_cult_basement_4x4_star_vampire_overlay", 10 ],
+            [ "cabin_nether_cult_basement_4x4_huntsman_overlay", 10 ],
+            [ "cabin_nether_cult_basement_4x4_library_lies", 1 ]
+          ],
+          "x": 0,
+          "y": 0
+        }
+      ]
+    }
+  },
+  {
+    "nested_mapgen_id": "cabin_nether_cult_basement_4x4_library_lies",
+    "//": "Headless corpse inside a locked room. Spooky!",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "     ",
+        "     ",
+        "     ",
+        "     ",
+        "     "
+      ],
+      "place_item": [
+        { "item": "book_deduction_lies", "x": 3, "y": 3, "chance": 100 },
+        { "item": "corpse_headless_bloodless", "x": 3, "y": 4, "chance": 100 }
+      ],
+      "place_items": [ { "item": "default_zombie_death_drops", "x": 3, "y": 4, "chance": 100 } ]
     }
   },
   {
@@ -404,6 +430,44 @@
         { "field": "fd_gibs_flesh", "x": [ 0, 3 ], "y": [ 0, 3 ], "repeat": [ 2, 4 ] }
       ],
       "place_monster": [ { "monster": "mon_nether_huntsman", "x": [ 0, 3 ], "y": [ 0, 3 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "cabin_nether_cult_basement_2x2_bathroom_overlay",
+    "//": "An overlay with a bloody corpse.",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "  ",
+        "  "
+      ],
+      "place_fields": [
+        { "field": "fd_blood", "x": [ 0, 3 ], "y": [ 0, 3 ], "repeat": [ 2, 6 ] },
+        { "field": "fd_gibs_flesh", "x": [ 0, 3 ], "y": [ 0, 3 ], "repeat": [ 2, 4 ] }
+      ],
+      "place_item": [ { "item": "corpse_painful", "x": 1, "y": 0, "chance": 100 } ],
+      "place_items": [ { "item": "default_zombie_death_drops", "x": 1, "y": 0, "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "cabin_nether_cult_basement_2x2_bathroom_overlay",
+    "//": "An overlay with a zombie.",
+    "weight": 500,
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "  ",
+        "  "
+      ],
+      "place_fields": [
+        { "field": "fd_blood", "x": [ 0, 3 ], "y": [ 0, 3 ], "repeat": [ 2, 6 ] },
+        { "field": "fd_gibs_flesh", "x": [ 0, 3 ], "y": [ 0, 3 ], "repeat": [ 2, 4 ] }
+      ],
+      "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 0, 3 ], "y": [ 0, 3 ] } ]
     }
   }
 ]

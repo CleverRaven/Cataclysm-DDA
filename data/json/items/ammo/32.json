@@ -48,7 +48,7 @@
     "copy-from": "32_acp",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
-    "name": { "str_sp": ".32 ACP, black powder" },
+    "name": { "str_sp": ".32 ACP FMJ, black powder" },
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
@@ -63,7 +63,7 @@
     "copy-from": "32_acp",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
-    "name": { "str_sp": ".32 ACP, reloaded" },
+    "name": { "str_sp": ".32 ACP FMJ, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -74,7 +74,7 @@
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
-    "name": { "str_sp": ".32 ACP, matchhead powder" },
+    "name": { "str_sp": ".32 ACP FMJ, matchhead powder" },
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
     "looks_like": "bp_32_acp",
     "extend": { "effects": [ "MATCHHEAD" ] }

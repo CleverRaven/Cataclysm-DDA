@@ -729,6 +729,17 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Prerequisites*: Chameleoflage 8, Lucent Barrier 5<br />
 </details>
 <details>
+<summary><h3>Flashbang</h3></summary>
+
+*Difficulty*: 4<br />
+*Target*: An area of effect with radius 2 squares, plus 1 square per 2 power levels to a maximum of 30 squares, at a range of 3 squares plus 0.7 squares per power level to a maximum of 50 squares<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 4500, minus 120 per level to a minimum of 1750<br />
+*Channeling Time*: 135 moves, minus 5.5 moves per level to a minimum of 50<br />
+*Effects*: Wrap the psion in illusions, concealing any mutations or visible bionics they may have. NPCs will react to them better, and certain people who might refuse to talk to a mutant will be happy to talk to them.  Their total Ugliness is reduced by 60% plus 1.5% per level, to a maximum of 100% Ugliness reduction.<br />
+*Prerequisites*: Field of Light 9 *or* Photon Beam 5, Illuminate 6<br />
+</details>
+<details>
 <summary><h3>Lucid Shadows</h3></summary>
 
 *Difficulty*: 5<br />
@@ -803,7 +814,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Stamina Cost*: 6500, minus 95 per level to a minimum of 3250<br />
 *Channeling Time*: 125 moves, minus 7.5 moves per level to a minimum of 25<br />
 *Effects*: Begin glowing brighter than a floodlight, illuminating the ground out to XXXX squares and gaining a +4 dodge bonus as enemies have a hard time targeting the psion.  When hit or when attacking enemies, there is a 33% chance the psion will unleash an even brighter flash that blinds everyone within 5 squares plus 1.2 squares per power level for between 5 and 20 seconds.<br />
-*Prerequisites*: Field of Light 12, Star Flash 6 *or* Lucent Barrier 10<br />
+*Prerequisites*: Field of Light 12 *or* Flashbang 7, Star Flash 6 *or* Lucent Barrier 10<br />
 </details>
 <details>
 <summary><h3>Luminous Disintegration</h3></summary>

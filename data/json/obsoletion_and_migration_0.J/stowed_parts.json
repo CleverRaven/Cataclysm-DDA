@@ -1,5 +1,6 @@
 [
   {
+    "//COMMENT": "Everything in here is obsolete! You should not be adding anything! The only changes should be bare maintenance.",
     "type": "vehicle_part",
     "id": "stowed_fridge",
     "name": { "str": "tied-down household fridge" },
@@ -13,7 +14,7 @@
     "location": "on_roof",
     "requirements": { "install": { "time": "10 m", "using": [ [ "rope_natural", 1 ] ] }, "removal": { "time": "5 m" } },
     "breaks_into": [ { "item": "apartment_fridge" }, { "item": "rope_30" } ],
-    "flags": [ "EXTRA_DRAG" ],
+    "flags": [ "EXTRA_DRAG", "NO_INSTALL_HIDDEN" ],
     "variants": [ { "symbols": "F", "symbols_broken": "*" } ]
   },
   {
@@ -30,7 +31,7 @@
     "location": "on_roof",
     "requirements": { "install": { "time": "10 m", "using": [ [ "rope_natural", 1 ] ] }, "removal": { "time": "5 m" } },
     "breaks_into": [ { "item": "minifridge" }, { "item": "rope_30" } ],
-    "flags": [ "EXTRA_DRAG" ],
+    "flags": [ "EXTRA_DRAG", "NO_INSTALL_HIDDEN" ],
     "variants": [ { "symbols": "F", "symbols_broken": "*" } ]
   },
   {
@@ -47,7 +48,7 @@
     "location": "on_roof",
     "requirements": { "install": { "time": "10 m", "using": [ [ "rope_natural", 1 ] ] }, "removal": { "time": "5 m" } },
     "breaks_into": [ { "item": "minifridge" }, { "item": "rope_30" } ],
-    "flags": [ "EXTRA_DRAG" ],
+    "flags": [ "EXTRA_DRAG", "NO_INSTALL_HIDDEN" ],
     "variants": [ { "symbols": "F", "symbols_broken": "*" } ]
   },
   {
@@ -64,7 +65,7 @@
     "location": "on_roof",
     "requirements": { "install": { "time": "10 m", "using": [ [ "rope_natural", 1 ] ] }, "removal": { "time": "5 m" } },
     "breaks_into": [ { "item": "glass_fridge" }, { "item": "rope_30" } ],
-    "flags": [ "EXTRA_DRAG" ],
+    "flags": [ "EXTRA_DRAG", "NO_INSTALL_HIDDEN" ],
     "variants": [ { "symbols": "F", "symbols_broken": "*" } ]
   },
   {
@@ -81,7 +82,7 @@
     "location": "on_roof",
     "requirements": { "install": { "time": "10 m", "using": [ [ "rope_natural", 1 ] ] }, "removal": { "time": "5 m" } },
     "breaks_into": [ { "item": "glass_fridge_double" }, { "item": "rope_30" } ],
-    "flags": [ "EXTRA_DRAG" ],
+    "flags": [ "EXTRA_DRAG", "NO_INSTALL_HIDDEN" ],
     "variants": [ { "symbols": "F", "symbols_broken": "*" } ]
   },
   {
@@ -98,7 +99,7 @@
     "location": "on_roof",
     "requirements": { "install": { "time": "15 m", "using": [ [ "rope_natural", 2 ] ] }, "removal": { "time": "10 m" } },
     "breaks_into": [ { "item": "heavy_duty_fridge" }, { "item": "rope_30", "count": [ 2, 2 ] } ],
-    "flags": [ "EXTRA_DRAG" ],
+    "flags": [ "EXTRA_DRAG", "NO_INSTALL_HIDDEN" ],
     "variants": [ { "symbols": "F", "symbols_broken": "*" } ]
   },
   {
@@ -115,7 +116,7 @@
     "location": "on_roof",
     "requirements": { "install": { "time": "10 m", "using": [ [ "rope_natural", 1 ] ] }, "removal": { "time": "5 m" } },
     "breaks_into": [ { "item": "display_fridge" }, { "item": "rope_30" } ],
-    "flags": [ "EXTRA_DRAG" ],
+    "flags": [ "EXTRA_DRAG", "NO_INSTALL_HIDDEN" ],
     "variants": [ { "symbols": "F", "symbols_broken": "*" } ]
   },
   {
@@ -132,7 +133,7 @@
     "location": "on_roof",
     "requirements": { "install": { "time": "10 m", "using": [ [ "rope_natural", 1 ] ] }, "removal": { "time": "5 m" } },
     "breaks_into": [ { "item": "apartment_freezer" }, { "item": "rope_30" } ],
-    "flags": [ "EXTRA_DRAG" ],
+    "flags": [ "EXTRA_DRAG", "NO_INSTALL_HIDDEN" ],
     "variants": [ { "symbols": "F", "symbols_broken": "*" } ]
   },
   {
@@ -149,7 +150,7 @@
     "location": "on_roof",
     "requirements": { "install": { "time": "10 m", "using": [ [ "rope_natural", 1 ] ] }, "removal": { "time": "5 m" } },
     "breaks_into": [ { "item": "minifreezer" }, { "item": "rope_30" } ],
-    "flags": [ "EXTRA_DRAG" ],
+    "flags": [ "EXTRA_DRAG", "NO_INSTALL_HIDDEN" ],
     "variants": [ { "symbols": "F", "symbols_broken": "*" } ]
   },
   {
@@ -166,7 +167,7 @@
     "location": "on_roof",
     "requirements": { "install": { "time": "10 m", "using": [ [ "rope_natural", 1 ] ] }, "removal": { "time": "5 m" } },
     "breaks_into": [ { "item": "chest_minifreezer" }, { "item": "rope_30" } ],
-    "flags": [ "EXTRA_DRAG" ],
+    "flags": [ "EXTRA_DRAG", "NO_INSTALL_HIDDEN" ],
     "variants": [ { "symbols": "F", "symbols_broken": "*" } ]
   },
   {
@@ -183,7 +184,7 @@
     "location": "on_roof",
     "requirements": { "install": { "time": "10 m", "using": [ [ "rope_natural", 1 ] ] }, "removal": { "time": "5 m" } },
     "breaks_into": [ { "item": "big_portable_freezer" }, { "item": "rope_30" } ],
-    "flags": [ "EXTRA_DRAG" ],
+    "flags": [ "EXTRA_DRAG", "NO_INSTALL_HIDDEN" ],
     "variants": [ { "symbols": "F", "symbols_broken": "*" } ]
   },
   {
@@ -200,7 +201,7 @@
     "location": "on_roof",
     "requirements": { "install": { "time": "10 m", "using": [ [ "rope_natural", 1 ] ] }, "removal": { "time": "5 m" } },
     "breaks_into": [ { "item": "chest_freezer" }, { "item": "rope_30" } ],
-    "flags": [ "EXTRA_DRAG" ],
+    "flags": [ "EXTRA_DRAG", "NO_INSTALL_HIDDEN" ],
     "variants": [ { "symbols": "F", "symbols_broken": "*" } ]
   },
   {
@@ -217,7 +218,7 @@
     "location": "on_roof",
     "requirements": { "install": { "time": "15 m", "using": [ [ "rope_natural", 2 ] ] }, "removal": { "time": "10 m" } },
     "breaks_into": [ { "item": "heavy_duty_freezer" }, { "item": "rope_30", "count": [ 2, 2 ] } ],
-    "flags": [ "EXTRA_DRAG" ],
+    "flags": [ "EXTRA_DRAG", "NO_INSTALL_HIDDEN" ],
     "variants": [ { "symbols": "F", "symbols_broken": "*" } ]
   },
   {
@@ -234,7 +235,7 @@
     "location": "on_roof",
     "requirements": { "install": { "time": "10 m", "using": [ [ "rope_natural", 1 ] ] }, "removal": { "time": "5 m" } },
     "breaks_into": [ { "item": "glass_freezer" }, { "item": "rope_30" } ],
-    "flags": [ "EXTRA_DRAG" ],
+    "flags": [ "EXTRA_DRAG", "NO_INSTALL_HIDDEN" ],
     "variants": [ { "symbols": "F", "symbols_broken": "*" } ]
   },
   {
@@ -251,7 +252,7 @@
     "location": "on_roof",
     "requirements": { "install": { "time": "10 m", "using": [ [ "rope_natural", 1 ] ] }, "removal": { "time": "5 m" } },
     "breaks_into": [ { "item": "display_freezer" }, { "item": "rope_30" } ],
-    "flags": [ "EXTRA_DRAG" ],
+    "flags": [ "EXTRA_DRAG", "NO_INSTALL_HIDDEN" ],
     "variants": [ { "symbols": "F", "symbols_broken": "*" } ]
   },
   {
@@ -268,7 +269,7 @@
     "location": "on_roof",
     "requirements": { "install": { "time": "10 m", "using": [ [ "rope_natural", 1 ] ] }, "removal": { "time": "5 m" } },
     "breaks_into": [ { "item": "oven" }, { "item": "rope_30" } ],
-    "flags": [ "EXTRA_DRAG" ],
+    "flags": [ "EXTRA_DRAG", "NO_INSTALL_HIDDEN" ],
     "variants": [ { "symbols": "#", "symbols_broken": "*" } ]
   },
   {
@@ -285,7 +286,7 @@
     "location": "on_roof",
     "requirements": { "install": { "time": "10 m", "using": [ [ "rope_natural", 1 ] ] }, "removal": { "time": "5 m" } },
     "breaks_into": [ { "item": "arcade_machine" }, { "item": "rope_30" } ],
-    "flags": [ "EXTRA_DRAG" ],
+    "flags": [ "EXTRA_DRAG", "NO_INSTALL_HIDDEN" ],
     "variants": [ { "symbols": "6", "symbols_broken": "*" } ]
   },
   {
@@ -302,7 +303,7 @@
     "location": "on_roof",
     "requirements": { "install": { "time": "10 m", "using": [ [ "rope_natural", 1 ] ] }, "removal": { "time": "5 m" } },
     "breaks_into": [ { "item": "drill_press" }, { "item": "rope_30" } ],
-    "flags": [ "EXTRA_DRAG" ],
+    "flags": [ "EXTRA_DRAG", "NO_INSTALL_HIDDEN" ],
     "variants": [ { "symbols": "7", "symbols_broken": "*" } ]
   },
   {
@@ -319,7 +320,7 @@
     "location": "on_roof",
     "requirements": { "install": { "time": "10 m", "using": [ [ "rope_natural", 1 ] ] }, "removal": { "time": "5 m" } },
     "breaks_into": [ { "item": "tablesaw" }, { "item": "rope_30" } ],
-    "flags": [ "EXTRA_DRAG" ],
+    "flags": [ "EXTRA_DRAG", "NO_INSTALL_HIDDEN" ],
     "variants": [ { "symbols": "7", "symbols_broken": "*" } ]
   },
   {
@@ -336,7 +337,7 @@
     "location": "on_roof",
     "requirements": { "install": { "time": "10 m", "using": [ [ "rope_natural", 1 ] ] }, "removal": { "time": "5 m" } },
     "breaks_into": [ { "item": "mitresaw" }, { "item": "rope_30" } ],
-    "flags": [ "EXTRA_DRAG" ],
+    "flags": [ "EXTRA_DRAG", "NO_INSTALL_HIDDEN" ],
     "variants": [ { "symbols": "7", "symbols_broken": "*" } ]
   },
   {
@@ -353,7 +354,7 @@
     "location": "on_roof",
     "requirements": { "install": { "time": "10 m", "using": [ [ "rope_natural", 1 ] ] }, "removal": { "time": "5 m" } },
     "breaks_into": [ { "item": "bandsaw" }, { "item": "rope_30" } ],
-    "flags": [ "EXTRA_DRAG" ],
+    "flags": [ "EXTRA_DRAG", "NO_INSTALL_HIDDEN" ],
     "variants": [ { "symbols": "7", "symbols_broken": "*" } ]
   },
   {
@@ -370,7 +371,7 @@
     "location": "on_roof",
     "requirements": { "install": { "time": "10 m", "using": [ [ "rope_natural", 1 ] ] }, "removal": { "time": "5 m" } },
     "breaks_into": [ { "item": "router" }, { "item": "rope_30" } ],
-    "flags": [ "EXTRA_DRAG" ],
+    "flags": [ "EXTRA_DRAG", "NO_INSTALL_HIDDEN" ],
     "variants": [ { "symbols": "7", "symbols_broken": "*" } ]
   },
   {
@@ -387,7 +388,7 @@
     "location": "on_roof",
     "requirements": { "install": { "time": "10 m", "using": [ [ "rope_natural", 1 ] ] }, "removal": { "time": "5 m" } },
     "breaks_into": [ { "item": "planer" }, { "item": "rope_30" } ],
-    "flags": [ "EXTRA_DRAG" ],
+    "flags": [ "EXTRA_DRAG", "NO_INSTALL_HIDDEN" ],
     "variants": [ { "symbols": "7", "symbols_broken": "*" } ]
   },
   {
@@ -404,7 +405,7 @@
     "location": "on_roof",
     "requirements": { "install": { "time": "10 m", "using": [ [ "rope_natural", 1 ] ] }, "removal": { "time": "5 m" } },
     "breaks_into": [ { "item": "jointer" }, { "item": "rope_30" } ],
-    "flags": [ "EXTRA_DRAG" ],
+    "flags": [ "EXTRA_DRAG", "NO_INSTALL_HIDDEN" ],
     "variants": [ { "symbols": "7", "symbols_broken": "*" } ]
   },
   {
@@ -421,7 +422,7 @@
     "location": "on_roof",
     "requirements": { "install": { "time": "10 m", "using": [ [ "rope_natural", 1 ] ] }, "removal": { "time": "5 m" } },
     "breaks_into": [ { "item": "hydraulic_press" }, { "item": "rope_30" } ],
-    "flags": [ "EXTRA_DRAG" ],
+    "flags": [ "EXTRA_DRAG", "NO_INSTALL_HIDDEN" ],
     "variants": [ { "symbols": "7", "symbols_broken": "*" } ]
   },
   {
@@ -438,7 +439,7 @@
     "location": "on_roof",
     "requirements": { "install": { "time": "10 m", "using": [ [ "rope_natural", 1 ] ] }, "removal": { "time": "5 m" } },
     "breaks_into": [ { "item": "air_compressor" }, { "item": "rope_30" } ],
-    "flags": [ "EXTRA_DRAG" ],
+    "flags": [ "EXTRA_DRAG", "NO_INSTALL_HIDDEN" ],
     "variants": [ { "symbols": "7", "symbols_broken": "*" } ]
   },
   {
@@ -454,7 +455,7 @@
     "location": "on_roof",
     "requirements": { "install": { "time": "10 m", "using": [ [ "rope_natural", 1 ] ] }, "removal": { "time": "5 m" } },
     "breaks_into": [ { "item": "oxygen_concentrator" }, { "item": "rope_30" } ],
-    "flags": [ "EXTRA_DRAG" ],
+    "flags": [ "EXTRA_DRAG", "NO_INSTALL_HIDDEN" ],
     "variants": [ { "symbols": "&", "symbols_broken": "*" } ]
   },
   {
@@ -470,7 +471,7 @@
     "location": "on_roof",
     "requirements": { "install": { "time": "10 m", "using": [ [ "rope_natural", 1 ] ] }, "removal": { "time": "5 m" } },
     "breaks_into": [ { "item": "hd_compressor_unit" }, { "item": "rope_30" } ],
-    "flags": [ "EXTRA_DRAG" ],
+    "flags": [ "EXTRA_DRAG", "NO_INSTALL_HIDDEN" ],
     "variants": [ { "symbols": "&", "symbols_broken": "*" } ]
   },
   {
@@ -487,7 +488,7 @@
     "location": "on_roof",
     "requirements": { "install": { "time": "35 m", "using": [ [ "chain_material", 3 ] ] }, "removal": { "time": "15 m" } },
     "breaks_into": [ { "item": "broken_yrax_quadraphract_leg" }, { "item": "chain", "count": [ 3, 3 ] } ],
-    "flags": [ "EXTRA_DRAG" ],
+    "flags": [ "EXTRA_DRAG", "NO_INSTALL_HIDDEN" ],
     "variants": [ { "symbols": "Y", "symbols_broken": "*" } ]
   },
   {
@@ -504,7 +505,7 @@
     "location": "on_roof",
     "requirements": { "install": { "time": "35 m", "using": [ [ "chain_material", 3 ] ] }, "removal": { "time": "15 m" } },
     "breaks_into": [ { "item": "broken_yrax_quadraphract" }, { "item": "chain", "count": [ 3, 3 ] } ],
-    "flags": [ "EXTRA_DRAG" ],
+    "flags": [ "EXTRA_DRAG", "NO_INSTALL_HIDDEN" ],
     "variants": [ { "symbols": "Y", "symbols_broken": "*" } ]
   },
   {
@@ -521,7 +522,7 @@
     "location": "on_roof",
     "requirements": { "install": { "time": "2 h", "using": [ [ "chain_material", 4 ] ] }, "removal": { "time": "20 m" } },
     "breaks_into": [ { "item": "broken_golden_monolith" }, { "item": "chain", "count": [ 4, 4 ] } ],
-    "flags": [ "EXTRA_DRAG" ],
+    "flags": [ "EXTRA_DRAG", "NO_INSTALL_HIDDEN" ],
     "variants": [ { "symbols": "I", "symbols_broken": "*" } ]
   },
   {
@@ -538,7 +539,7 @@
     "location": "on_roof",
     "requirements": { "install": { "time": "2 h", "using": [ [ "chain_material", 4 ] ] }, "removal": { "time": "20 m" } },
     "breaks_into": [ { "item": "bot_golden_monolith" }, { "item": "chain", "count": [ 4, 4 ] } ],
-    "flags": [ "EXTRA_DRAG" ],
+    "flags": [ "EXTRA_DRAG", "NO_INSTALL_HIDDEN" ],
     "variants": [ { "symbols": "I", "symbols_broken": "*" } ]
   }
 ]

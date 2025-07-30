@@ -212,5 +212,16 @@
     "name": { "str_sp": "vampire blood" },
     "description": "Blood extracted from a vampire.  Drinking it feels like a bad idea but there might be other ways to use it.",
     "material": "vampire_blood"
+  },
+  {
+    "type": "ITEM",
+    "id": "corpse_headless_bloodless",
+    "copy-from": "corpse_painful",
+    "name": { "str": "corpse" },
+    "volume": "60 L",
+    "description": "A dead body with its head missing.  Considering what must have been required to remove the head, there is a surprising lack of blood.",
+    "looks_like": "corpse_generic_human",
+    "material": [ "hflesh" ],
+    "extend": { "flags": [ "PULPED" ] }
   }
 ]

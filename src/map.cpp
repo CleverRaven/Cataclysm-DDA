@@ -1401,8 +1401,9 @@ void map::board_vehicle( const tripoint_bub_ms &pos, Character *p )
     }
     if( vp->part().has_flag( vp_flag::passenger_flag ) ) {
         Character *psg = vp->vehicle().get_passenger( vp->part_index() );
-        debugmsg( "map::board_vehicle: passenger (%s) is already there",
-                  psg ? psg->get_name() : "<null>" );
+        debugmsg( "map::board_vehicle: %s failed to board passenger (%s) is already there",
+                  p ? p->get_name() : "<null_boarder>",
+                  psg ? psg->get_name() : "<null_passenger>" );
         unboard_vehicle( pos );
     }
     vp->part().set_flag( vp_flag::passenger_flag );

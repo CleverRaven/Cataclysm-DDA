@@ -7992,14 +7992,22 @@ ret_val<void> Character::can_wield( const item &it ) const
                                             weapname(), it.tname() );
     }
     monster *mount = mounted_creature.get();
-    if( it.is_two_handed( *this ) && ( !has_two_arms_lifting() ||
-                                       worn_with_flag( flag_RESTRICT_HANDS ) ) &&
-        !( is_mounted() && mount->has_flag( mon_flag_RIDEABLE_MECH ) &&
-           mount->type->mech_weapon && it.typeId() == mount->type->mech_weapon ) ) {
-        if( worn_with_flag( flag_RESTRICT_HANDS ) ) {
+    const itype_id mech_weapon = is_mounted() ? mount->type->mech_weapon : itype_id::NULL_ID();
+    bool mounted_mech = is_mounted() && mount->has_flag( mon_flag_RIDEABLE_MECH ) &&
+                        mech_weapon;
+    bool armor_restricts_hands = worn_with_flag( flag_RESTRICT_HANDS );
+    bool item_twohand = it.has_flag( flag_ALWAYS_TWOHAND );
+    bool missing_arms = !has_two_arms_lifting();
+    bool two_handed = it.is_two_handed( *this );
+
+    if( two_handed &&
+        ( missing_arms || armor_restricts_hands ) &&
+        !( mounted_mech && it.typeId() == mech_weapon ) //ignore this check for mech weapons
+      ) {
+        if( armor_restricts_hands ) {
             return ret_val<void>::make_failure(
                        _( "Something you are wearing hinders the use of both hands." ) );
-        } else if( it.has_flag( flag_ALWAYS_TWOHAND ) ) {
+        } else if( item_twohand ) {
             return ret_val<void>::make_failure( _( "You can't wield the %s with only one arm." ),
                                                 it.tname() );
         } else {
@@ -8007,16 +8015,19 @@ ret_val<void> Character::can_wield( const item &it ) const
                                                 it.tname() );
         }
     }
-    if( is_mounted() && mount->has_flag( mon_flag_RIDEABLE_MECH ) &&
-        mount->type->mech_weapon && it.typeId() != mount->type->mech_weapon ) {
+    if( mounted_mech && it.typeId() != mech_weapon ) {
         return ret_val<void>::make_failure( _( "You cannot wield anything while piloting a mech." ) );
     }
     if( controlling_vehicle ) {
-        if( worn_with_flag( flag_RESTRICT_HANDS ) ) {
+        if( two_handed ) {
+            return ret_val<void>::make_failure( _( "You need both hands to wield the %s but are driving." ),
+                                                it.tname() );
+        }
+        if( armor_restricts_hands ) {
             return ret_val<void>::make_failure(
                        _( "Something you are wearing hinders the use of both hands." ) );
         }
-        if( !has_two_arms_lifting() || it.has_flag( flag_ALWAYS_TWOHAND ) ) {
+        if( missing_arms || item_twohand ) {
             return ret_val<void>::make_failure( _( "You can't wield your %s while driving." ),
                                                 it.tname() );
         }
