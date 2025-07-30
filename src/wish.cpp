@@ -947,7 +947,7 @@ class wish_item_callback: public uilist_callback
                     // Otherwise, edit the existing list of user-defined instance flags
                     edit_flags = flags;
                 }
-               string_input_popup_imgui popup( 34, edit_flags, _( "Flags:" ) );
+                string_input_popup_imgui popup( 34, edit_flags, _( "Flags:" ) );
                 popup.set_description( _( "UPPERCASE, no quotes, separate with spaces" ) );
                 popup.set_max_input_length( 100 );
                 const std::string &rval = popup.query();
