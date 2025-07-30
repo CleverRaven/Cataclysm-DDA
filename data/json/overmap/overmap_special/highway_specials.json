@@ -513,7 +513,7 @@
     ],
     "priority": 2,
     "locations": [ "land", "highway" ],
-    "occurrences": [ 4, 4 ],
+    "occurrences": [ 0, 4 ],
     "flags": [ "CLASSIC" ]
   },
   {
