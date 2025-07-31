@@ -684,9 +684,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
             return;
         }
 
-        const int cbm_ammo = free_power / cbm_weapon.get_gun_energy_drain();
-
-        if( weapon_value( weap, ammo_count ) < weapon_value( cbm_weapon, cbm_ammo ) ) {
+        if( evaluate_weapon( weap ) < evaluate_weapon( cbm_weapon ) ) {
             if( real_weapon.is_null() ) {
                 // Prevent replacing real weapon when migrating saves
                 real_weapon = weap;
@@ -706,7 +704,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
 
         const item cbm_weapon = bio.get_weapon();
 
-        if( weapon_value( weap, ammo_count ) < weapon_value( cbm_weapon, 0 ) ) {
+        if( evaluate_weapon( weap ) < evaluate_weapon( cbm_weapon ) ) {
             if( is_armed() ) {
                 stow_item( *weapon );
             }

@@ -1317,7 +1317,7 @@ void npc::regen_ai_cache()
     ai_cache.danger = 0.0f;
     ai_cache.total_danger = 0.0f;
     item &weapon = get_wielded_item() ? *get_wielded_item() : null_item_reference();
-    ai_cache.my_weapon_value = weapon_value( weapon );
+    ai_cache.my_weapon_value = evaluate_weapon( weapon );
     ai_cache.dangerous_explosives = find_dangerous_explosives();
     mem_combat.formation_distance = -1;
 
@@ -3897,7 +3897,7 @@ bool npc::wants_take_that( const item &it )
 
     item &weap = get_wielded_item() ? *get_wielded_item() : null_item_reference();
     if( ( ( !whitelisting && value( it ) > min_value ) || item_whitelisted( it ) ) ||
-        weapon_value( it ) > weapon_value( weap ) ) {
+        evaluate_weapon( it ) > evaluate_weapon( weap ) ) {
         good = true;
     }
 
