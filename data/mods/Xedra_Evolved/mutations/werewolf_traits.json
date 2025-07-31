@@ -353,5 +353,16 @@
     "flags": [ "MUTE", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_HUGE" ],
     "integrated_armor": [ "integrated_werewolf_primal_form_fur", "integrated_werewolf_primal_form_fangs" ],
     "override_look": { "id": "mon_direwolf", "tile_category": "monster" }
+  },
+  {
+    "type": "mutation",
+    "id": "WEREWOLF_CLOSE_TEAR_IN_REALITY",
+    "name": { "str": "Mending Rent Veils" },
+    "points": 2,
+    "description": "The world is falling apart but that is no reason to cease the hunt.  You can close a tear in reality, if you can get close enough to it.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "xe_werewolf_close_tear_in_reality_spell", 1 ] ]
   }
 ]

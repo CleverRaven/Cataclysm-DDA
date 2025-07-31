@@ -100,7 +100,7 @@
     "id": "EOC_WEREWOLVES_GAIN_MORE_POWERS_TIER_5",
     "effect": [
       {
-        "u_roll_remainder": [ "WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM" ],
+        "u_roll_remainder": [ "WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM", "WEREWOLF_CLOSE_TEAR_IN_REALITY" ],
         "type": "mutation",
         "message": "You learn a new gift of the moon!",
         "true_eocs": [ "EOC_WEREWOLVES_GAIN_MORE_POWERS_COST_UPDATER" ],

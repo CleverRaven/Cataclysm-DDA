@@ -91,5 +91,26 @@
     "base_energy_cost": 150,
     "base_casting_time": 50,
     "targeted_monster_species": [ "ROBOT", "ROBOT_FLYING", "CYBORG" ]
+  },
+  {
+    "id": "druid_cause_rot_terrain",
+    "type": "SPELL",
+    "name": "Mending Rent Veils",
+    "description": "The world is falling apart but that is no reason to cease the hunt.  You can close a tear in reality, if you can get close enough to it and have enough time.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground" ],
+    "spell_class": "WEREWOLF_SPELLS",
+    "magic_type": "xe_werewolf_powers",
+    "skill": "deduction",
+    "effect": "ter_transform",
+    "effect_str": "ter_werewolf_close_reality_tear",
+    "shape": "blast",
+    "flags": [ "VERBAL", "NO_HANDS" ],
+    "max_level": 25,
+    "min_range": 1,
+    "max_range": 1,
+    "base_energy_cost": 2000,
+    "base_casting_time": 30000
   }
 ]
