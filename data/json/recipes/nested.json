@@ -7943,8 +7943,8 @@
     "activity_level": "NO_EXERCISE",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_RIFLE",
-    "name": ".223/5.56x45mm ammo",
-    "description": "Recipes related to reloading .223/5.56x45mm ammo.",
+    "name": ".22 LR ammo",
+    "description": "Recipes related to reloading .22 LR ammo.",
     "skill_used": "fabrication",
     "nested_category_data": [ "reloaded_22_lr", "reloaded_22_fmj", "bp_22_lr", "bp_22_fmj", "matchhead_22_lr", "matchhead_22_fmj" ]
   },
