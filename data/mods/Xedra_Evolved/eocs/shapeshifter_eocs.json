@@ -125,7 +125,7 @@
                     "condition": { "math": [ "u_val('mana') >= 50" ] },
                     "effect": [
                       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
-                      { "math": [ "u_transformed_mana = u_val('mana') - 50" ] },
+                      { "math": [ "u_val('mana') -= 50" ] },
                       { "u_add_trait": "VAMPIRE_WOLF_FORM_TRAITS" },
                       { "u_add_trait": "CARNIVORE" },
                       {
@@ -154,8 +154,7 @@
                         "type": "neutral"
                       },
                       { "u_lose_trait": "VAMPIRE_WOLF_FORM_TRAITS" },
-                      { "u_lose_trait": "CARNIVORE" },
-                      { "math": [ "u_val('mana') = u_transformed_mana" ] }
+                      { "u_lose_trait": "CARNIVORE" }
                     ]
                   }
                 ]
@@ -198,7 +197,7 @@
                     "condition": { "math": [ "u_val('mana') >= 50" ] },
                     "effect": [
                       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
-                      { "math": [ "u_transformed_mana = u_val('mana') - 50" ] },
+                      { "math": [ "u_val('mana') -= 50" ] },
                       { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "3" ] },
                       { "math": [ "u_werewolf_healing_tick_counter = 0" ] },
                       { "u_add_trait": "WEREWOLF_HYBRID_FORM_TRAITS" },
@@ -230,7 +229,6 @@
                       },
                       { "u_lose_trait": "WEREWOLF_HYBRID_FORM_TRAITS" },
                       { "u_lose_trait": "CARNIVORE" },
-                      { "math": [ "u_val('mana') = u_transformed_mana" ] },
                       { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "3" ] }
                     ]
                   }
