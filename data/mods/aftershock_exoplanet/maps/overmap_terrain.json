@@ -34,6 +34,14 @@
     "flags": [ "SOURCE_FOOD", "SOURCE_GUN", "SOURCE_AMMO" ]
   },
   {
+    "type": "overmap_terrain",
+    "name": "old landing pad",
+    "id": [ "afs_shuttlepad_salvors_old_pad" ],
+    "sym": "0",
+    "color": "red",
+    "see_cost": "high"
+  },
+  {
     "id": "afs_landed_shuttle",
     "type": "overmap_terrain",
     "name": "drone shuttle landing site",
@@ -130,6 +138,15 @@
     "type": "overmap_terrain",
     "id": [ "afs_formless_ruins_aeolian" ],
     "name": "lonely ruins",
+    "sym": "r",
+    "color": "light_gray",
+    "looks_like": "afs_formless_ruins_dynamic",
+    "see_cost": "spaced_high"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "afs_formless_ruins_industrial", "afs_formless_ruins_pipe" ],
+    "name": "industrial ruins",
     "sym": "r",
     "color": "light_gray",
     "looks_like": "afs_formless_ruins_dynamic",
@@ -297,6 +314,40 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "afs_pipe_ramp_down_ruins",
+    "name": "conduit",
+    "sym": "v",
+    "color": "light_blue",
+    "see_cost": "spaced_high"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "afs_pipe_ramp_up",
+    "name": "conduit",
+    "sym": "^",
+    "color": "light_blue",
+    "see_cost": "spaced_high"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "afs_pipe",
+    "name": "conduit",
+    "color": "light_blue",
+    "see_cost": "spaced_high",
+    "spawns": { "group": "AFS_GROUP_FAUNA_TUNNELS", "population": [ 4, 10 ], "chance": 30 },
+    "flags": [ "LINEAR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "afs_player_ship" ],
+    "name": "Vanishing Arc",
+    "sym": "+",
+    "color": "red",
+    "see_cost": "low",
+    "flags": [ "SOURCE_PEOPLE", "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "land_pad_outpost_basement_a1",
       "land_pad_outpost_basement_a2",
@@ -424,6 +475,18 @@
     "spawns": { "group": "GROUP_ZOMBIE", "population": [ 2, 5 ], "chance": 80 },
     "id": [ "afs_shuttle_pad_a1", "afs_shuttle_pad_a2", "afs_shuttle_pad_a1_roof", "afs_shuttle_pad_a2_roof" ],
     "sym": "-",
+    "color": "light_blue",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "vehicle bay",
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 2, 5 ], "chance": 80 },
+    "id": [ "afs_vehicle_bay_a1", "afs_vehicle_bay_a2", "afs_vehicle_bay_a1_roof", "afs_vehicle_bay_a2_roof" ],
+    "sym": "0",
+    "looks_like": "s_lot",
     "color": "light_blue",
     "see_cost": "high",
     "mondensity": 2,
@@ -648,6 +711,27 @@
     "name": "Garage",
     "id": [ "afs_garage_a1_floor_1", "afs_garage_a1_floor_2", "afs_garage_2_a1_floor_1", "afs_garage_2_a1_floor_2" ],
     "sym": "g",
+    "color": "yellow",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Catalytic Reactor Ruins",
+    "id": [
+      "afs_catalytic_react_r1",
+      "afs_catalytic_react_r2",
+      "afs_catalytic_react_u1",
+      "afs_catalytic_react_u2",
+      "afs_catalytic_react_m1",
+      "afs_catalytic_react_m2",
+      "afs_catalytic_react_g1",
+      "afs_catalytic_react_g2",
+      "afs_catalytic_react_sub1",
+      "afs_catalytic_react_sub2"
+    ],
+    "sym": "R",
     "color": "yellow",
     "see_cost": "high",
     "mondensity": 2,

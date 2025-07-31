@@ -45,7 +45,6 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "magic_enchantment.h"
-#include "make_static.h"
 #include "map.h"
 #include "math_parser_diag_value.h"
 #include "messages.h"
@@ -73,6 +72,11 @@
 
 static const std::string comesttype_DRINK( "DRINK" );
 static const std::string comesttype_FOOD( "FOOD" );
+
+static const addiction_id addiction_amphetamine( "amphetamine" );
+static const addiction_id addiction_caffeine( "caffeine" );
+static const addiction_id addiction_cocaine( "cocaine" );
+static const addiction_id addiction_crack( "crack" );
 
 static const bionic_id bio_faulty_grossfood( "bio_faulty_grossfood" );
 static const bionic_id bio_syringe( "bio_syringe" );
@@ -126,6 +130,7 @@ static const json_character_flag json_flag_PRED3( "PRED3" );
 static const json_character_flag json_flag_PRED4( "PRED4" );
 static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
+static const json_character_flag json_flag_SKIP_HEALTH( "SKIP_HEALTH" );
 static const json_character_flag json_flag_SPIRITUAL( "SPIRITUAL" );
 static const json_character_flag json_flag_STRICT_HUMANITARIAN( "STRICT_HUMANITARIAN" );
 
@@ -1291,10 +1296,10 @@ void Character::modify_stimulation( const islot_comestible &comest )
                 -1 ) );
     }
     if( has_trait( trait_STIMBOOST ) && ( current_stim > 30 ) &&
-        ( comest.addictions.count( STATIC( addiction_id( "caffeine" ) ) ) ||
-          comest.addictions.count( STATIC( addiction_id( "amphetamine" ) ) ) ||
-          comest.addictions.count( STATIC( addiction_id( "cocaine" ) ) ) ||
-          comest.addictions.count( STATIC( addiction_id( "crack" ) ) ) ) ) {
+        ( comest.addictions.count( addiction_caffeine ) ||
+          comest.addictions.count( addiction_amphetamine ) ||
+          comest.addictions.count( addiction_cocaine ) ||
+          comest.addictions.count( addiction_crack ) ) ) {
         int hallu_duration = ( current_stim - comest.stim < 30 ) ? current_stim - 30 : comest.stim;
         add_effect( effect_visuals, hallu_duration * 30_minutes );
         add_msg_if_player( m_bad, SNIPPET.random_from_category( "comest_stimulant" ).value_or(
@@ -1379,48 +1384,49 @@ void Character::modify_morale( item &food, const int nutr )
         const bool sapiovore = has_flag( json_flag_SAPIOVORE );
         const bool spiritual = has_flag( json_flag_SPIRITUAL );
         const bool numb = has_flag( json_flag_NUMB );
-        if( cannibal && psycho && spiritual ) {
-            add_msg_if_player( m_good,
-                               _( "You feast upon the human flesh, and in doing so, devour their spirit." ) );
-            // You're not really consuming anything special; you just think you are.
-            add_morale( morale_cannibal, 25, 300 );
-        } else if( cannibal && psycho ) {
-            add_msg_if_player( m_good, _( "You feast upon the human flesh." ) );
-            add_morale( morale_cannibal, 15, 200 );
-        } else if( cannibal && spiritual ) {
-            add_msg_if_player( m_good, _( "You consume the sacred human flesh." ) );
-            // Boosted because you understand the philosophical implications of your actions, and YOU LIKE THEM.
-            add_morale( morale_cannibal, 15, 200 );
-        } else if( sapiovore && spiritual ) {
+        const int huge_morale_penalty = -60;
+        const int moderate_morale_penalty = -25;
+        const int minor_morale_penalty = -10;
+        const int minor_morale_bonus = 10;
+        const int maximum_stacked_morale_penalty = -400;
+        if( sapiovore && spiritual ) {
             add_msg_if_player( m_good, _( "You eat the human flesh, and in doing so, devour their spirit." ) );
-            add_morale( morale_cannibal, 10, 50 );
+            add_morale( morale_cannibal, minor_morale_bonus, minor_morale_bonus * 5 );
+        } else if( sapiovore ) {
+            add_msg_if_player( _( "Mmh.  Tastes like venison." ) );
+        } else if( cannibal && spiritual ) {
+            add_msg_if_player( m_good,
+                               _( "Even as you indulge your darkest impulses, you dread what judgement may come." ) );
+            // Reduced penalties
+            add_morale( morale_cannibal, moderate_morale_penalty, maximum_stacked_morale_penalty,
+                        7_days, 4_days );
+        } else if( cannibal && psycho ) {
+            add_msg_if_player( m_good,
+                               _( "You worry that your hunger for human flesh is going to be a liability one of these days." ) );
+            // Reduced penalties
+            add_morale( morale_cannibal, minor_morale_penalty, minor_morale_penalty * 5, 6_hours, 3_hours );
         } else if( cannibal ) {
             add_msg_if_player( m_good, _( "You indulge your shameful hunger." ) );
-            add_morale( morale_cannibal, 10, 50 );
-        } else if( psycho && spiritual ) {
-            add_msg_if_player( _( "You greedily devour the taboo meat." ) );
-            // Small bonus for violating a taboo.
-            add_morale( morale_cannibal, 5, 50 );
+            // No morale added, but lack of morale penalty is a huge bonus already.
         } else if( has_flag( json_flag_BLOODFEEDER ) && food.has_flag( flag_HEMOVORE_FUN ) ) {
             add_msg_if_player( _( "The human blood tastes as good as any other." ) );
         } else if( psycho ) {
             add_msg_if_player( _( "Meh.  You've eaten worse." ) );
-        } else if( sapiovore ) {
-            add_msg_if_player( _( "Mmh.  Tastes like venison." ) );
         } else if( has_flag( json_flag_HEMOVORE ) && food.has_flag( flag_HEMOVORE_FUN ) ) {
             add_msg_if_player(
                 _( "Despite your cravings, you still can't help feeling weird about drinking somebody's blood." ) );
-            add_morale( morale_cannibal, -10, -30, 30_minutes, 15_minutes );
+            add_morale( morale_cannibal, minor_morale_penalty, minor_morale_penalty * 3,
+                        30_minutes, 15_minutes );
         } else if( spiritual ) {
             add_msg_if_player( m_bad,
                                _( "This is probably going to count against you if there's still an afterlife." ) );
-            add_morale( morale_cannibal, -60, -400, 60_minutes, 30_minutes );
+            add_morale( morale_cannibal, huge_morale_penalty, maximum_stacked_morale_penalty, 7_days, 4_days );
         } else if( numb ) {
             add_msg_if_player( m_bad, _( "You find this meal distasteful, but necessary." ) );
-            add_morale( morale_cannibal, -60, -400, 60_minutes, 30_minutes );
+            add_morale( morale_cannibal, huge_morale_penalty, maximum_stacked_morale_penalty, 7_days, 4_days );
         } else {
             add_msg_if_player( m_bad, _( "You feel horrible for eating a person." ) );
-            add_morale( morale_cannibal, -60, -400, 60_minutes, 30_minutes );
+            add_morale( morale_cannibal, huge_morale_penalty, maximum_stacked_morale_penalty, 7_days, 4_days );
         }
     }
 
@@ -1522,8 +1528,7 @@ double Character::compute_effective_food_volume_ratio( const item &food ) const
 // These maths are made easier by the fact that 1 g = 1 mL. Thanks, metric system.
 std::pair<units::volume, units::volume> Character::masticated_volume( const item &food ) const
 {
-    units::volume water_vol = ( food.get_comestible()->quench > 0 ) ? food.get_comestible()->quench *
-                              5_ml : 0_ml;
+    units::volume water_vol = food.get_comestible()->quench * 5_ml;
     units::mass water_weight = units::from_gram( units::to_milliliter( water_vol ) );
     // handle the division by zero exception when the food count is 0 with std::max()
     units::mass food_dry_weight = food.weight() / std::max( 1, food.count() ) - water_weight;
@@ -1622,7 +1627,7 @@ bool Character::consume_effects( item &food )
 
     // Used in hibernation messages.
     const int nutr = nutrition_for( food );
-    const bool skip_health = has_trait( trait_PROJUNK2 ) && comest.healthy < 0;
+    const bool skip_health = has_flag( json_flag_SKIP_HEALTH ) && comest.healthy < 0;
     // We can handle junk just fine
     if( !skip_health ) {
         modify_health( comest );
@@ -1713,6 +1718,13 @@ bool Character::consume_effects( item &food )
 
     // GET IN MAH BELLY!
     stomach.ingest( ingested );
+
+    if( ingested.water < 0_ml ) {
+        mod_thirst( -units::to_milliliter( ingested.water ) / 5 );
+        if( comest.quench < -15 ) {
+            add_msg_if_player( m_bad, _( "You feel thirstier than before you consumed that!" ) );
+        }
+    }
 
     // update speculative values
     if( is_avatar() ) {

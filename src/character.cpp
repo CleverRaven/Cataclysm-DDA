@@ -72,7 +72,6 @@
 #include "localized_comparator.h"
 #include "magic.h"
 #include "magic_enchantment.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
@@ -280,6 +279,8 @@ static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
 
 static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
 
+static const flag_id json_flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
+
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id itype_UPS( "UPS" );
@@ -299,8 +300,12 @@ static const itype_id itype_snare_trigger( "snare_trigger" );
 static const json_character_flag json_flag_ACIDBLOOD( "ACIDBLOOD" );
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 static const json_character_flag json_flag_ALWAYS_HEAL( "ALWAYS_HEAL" );
+static const json_character_flag json_flag_BIONIC_FAULTY( "BIONIC_FAULTY" );
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
+static const json_character_flag json_flag_BIONIC_SHOCKPROOF( "BIONIC_SHOCKPROOF" );
+static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 static const json_character_flag json_flag_BLIND( "BLIND" );
+static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_CANNOT_CHANGE_TEMPERATURE( "CANNOT_CHANGE_TEMPERATURE" );
 static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const json_character_flag json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMAGE" );
@@ -329,6 +334,7 @@ static const json_character_flag json_flag_NO_RADIATION( "NO_RADIATION" );
 static const json_character_flag json_flag_NO_THIRST( "NO_THIRST" );
 static const json_character_flag json_flag_NVG_GREEN( "NVG_GREEN" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
+static const json_character_flag json_flag_PHASE_MOVEMENT( "PHASE_MOVEMENT" );
 static const json_character_flag json_flag_PLANTBLOOD( "PLANTBLOOD" );
 static const json_character_flag json_flag_PRED2( "PRED2" );
 static const json_character_flag json_flag_PRED3( "PRED3" );
@@ -404,7 +410,7 @@ static const skill_id skill_throw( "throw" );
 
 static const species_id species_HUMAN( "HUMAN" );
 
-static const start_location_id start_location_sloc_shelter_a( "sloc_shelter_a" );
+static const start_location_id start_location_sloc_shelter_safe( "sloc_shelter_safe" );
 
 static const trait_id trait_ADRENALINE( "ADRENALINE" );
 static const trait_id trait_BADBACK( "BADBACK" );
@@ -491,6 +497,7 @@ static const vitamin_id vitamin_iron( "iron" );
 
 static const std::set<material_id> ferric = { material_iron, material_steel, material_budget_steel, material_ch_steel, material_hc_steel, material_lc_steel, material_mc_steel, material_qt_steel };
 
+static const std::string player_base_stamina_burn_rate( "PLAYER_BASE_STAMINA_BURN_RATE" );
 static const std::string type_hair_color( "hair_color" );
 static const std::string type_hair_style( "hair_style" );
 static const std::string type_skin_tone( "skin_tone" );
@@ -609,7 +616,7 @@ Character::Character() :
     male = true;
     prof = profession::has_initialized() ? profession::generic() :
            nullptr; //workaround for a potential structural limitation, see player::create
-    start_location = start_location_sloc_shelter_a;
+    start_location = start_location_sloc_shelter_safe;
     moves = 100;
     oxygen = 0;
     in_vehicle = false;
@@ -2042,7 +2049,7 @@ void Character::on_try_dodge()
     // Each attempt consumes an available dodge
     consume_dodge_attempts();
 
-    const int base_burn_rate = get_option<int>( STATIC( "PLAYER_BASE_STAMINA_BURN_RATE" ) );
+    const int base_burn_rate = get_option<int>( player_base_stamina_burn_rate );
     const float dodge_skill_modifier = ( 20.0f - get_skill_level( skill_dodge ) ) / 20.0f;
     burn_energy_legs( - std::floor( static_cast<float>( base_burn_rate ) * 6.0f *
                                     dodge_skill_modifier ) );
@@ -2064,7 +2071,6 @@ void Character::on_dodge( Creature *source, float difficulty, float training_lev
         recoil = std::min( MAX_RECOIL, recoil );
     }
 
-    // Even if we are not to train still call practice to prevent skill rust
     difficulty = std::max( difficulty, 0.0f );
 
     // If training_level is set, treat that as the difficulty instead
@@ -2072,7 +2078,10 @@ void Character::on_dodge( Creature *source, float difficulty, float training_lev
         difficulty = training_level;
     }
 
-    practice( skill_dodge, difficulty * 2, difficulty );
+    if( source && source->times_combatted_player <= 100 ) {
+        source->times_combatted_player++;
+        practice( skill_dodge, difficulty * 2, difficulty );
+    }
     martial_arts_data->ma_ondodge_effects( *this );
 
     // For adjacent attackers check for techniques usable upon successful dodge
@@ -2853,6 +2862,7 @@ bool Character::practice( const skill_id &id, int amount, int cap, bool suppress
         }
     }
     bool level_up = false;
+    // NOTE: Normally always training, this training toggle is just retained for tests
     if( amount > 0 && level.isTraining() ) {
         int old_practical_level = static_cast<int>( get_skill_level( id ) );
         int old_theoretical_level = get_knowledge_level( id );
@@ -2881,7 +2891,8 @@ bool Character::practice( const skill_id &id, int amount, int cap, bool suppress
 
         // Apex Predators don't think about much other than killing.
         // They don't lose Focus when practicing combat skills.
-        if( !( has_flag( json_flag_PRED4 ) && skill.is_combat_skill() ) ) {
+        const bool predator_training_combat = has_flag( json_flag_PRED4 ) && skill.is_combat_skill();
+        if( skill.training_consumes_focus() && !predator_training_combat ) {
             // Base reduction on the larger of 1% of total, or practice amount.
             // The latter kicks in when long actions like crafting
             // apply many turns of gains at once.
@@ -4043,7 +4054,7 @@ units::mass Character::get_weight() const
     ret += wornWeight;             // Weight of worn items
     ret += weapon.weight();        // Weight of wielded item
     ret += bionics_weight();       // Weight of installed bionics
-    return ret;
+    return enchantment_cache->modify_value( enchant_vals::mod::TOTAL_WEIGHT, ret );
 }
 
 std::pair<int, int> Character::climate_control_strength() const
@@ -4322,15 +4333,6 @@ int Character::get_per_bonus() const
 int Character::get_int_bonus() const
 {
     return int_bonus;
-}
-
-static int get_speedydex_bonus( const int dex )
-{
-    static const std::string speedydex_min_dex( "SPEEDYDEX_MIN_DEX" );
-    static const std::string speedydex_dex_speed( "SPEEDYDEX_DEX_SPEED" );
-    // this is the number to be multiplied by the increment
-    const int modified_dex = std::max( dex - get_option<int>( speedydex_min_dex ), 0 );
-    return modified_dex * get_option<int>( speedydex_dex_speed );
 }
 
 int Character::get_enchantment_speed_bonus() const
@@ -4865,8 +4867,8 @@ void Character::on_damage_of_type( const effect_source &source, int adjusted_dam
                 continue;
             }
             const bionic_data &info = i.info();
-            if( info.has_flag( STATIC( json_character_flag( "BIONIC_SHOCKPROOF" ) ) ) ||
-                info.has_flag( STATIC( json_character_flag( "BIONIC_FAULTY" ) ) ) ) {
+            if( info.has_flag( json_flag_BIONIC_SHOCKPROOF ) ||
+                info.has_flag( json_flag_BIONIC_FAULTY ) ) {
                 continue;
             }
             const std::map<bodypart_str_id, size_t> &bodyparts = info.occupied_bodyparts;
@@ -5665,11 +5667,13 @@ void Character::toolmod_add( item_location tool, item_location mod )
         return;
     }
 
-    if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ),
-                   colorize( mod->tname(), mod->color_in_inventory() ),
-                   colorize( tool->tname(), tool->color_in_inventory() ) ) ) {
-        add_msg_if_player( _( "Never mind." ) );
-        return; // player canceled installation
+    if( mod->is_irremovable() ) {
+        if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ),
+                       colorize( mod->tname(), mod->color_in_inventory() ),
+                       colorize( tool->tname(), tool->color_in_inventory() ) ) ) {
+            add_msg_if_player( _( "Never mind." ) );
+            return; // player canceled installation
+        }
     }
 
     assign_activity( ACT_TOOLMOD_ADD, 1, -1 );
@@ -7219,8 +7223,7 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
 
     actually_used->activation_consume( charges_used.value(), pt, this );
 
-    if( actually_used->has_flag( flag_SINGLE_USE ) || actually_used->is_bionic() ||
-        actually_used->is_deployable() ) {
+    if( actually_used->has_flag( flag_SINGLE_USE ) || actually_used->is_bionic() ) {
         i_rem( actually_used );
         return true;
     }
@@ -7764,7 +7767,7 @@ void Character::recalculate_enchantment_cache()
         for( const enchantment_id &ench_id : bid->enchantments ) {
             const enchantment &ench = ench_id.obj();
             if( ench.is_active( *this, bio.powered &&
-                                bid->has_flag( STATIC( json_character_flag( "BIONIC_TOGGLED" ) ) ) ) ) {
+                                bid->has_flag( json_flag_BIONIC_TOGGLED ) ) ) {
                 enchantment_cache->force_add( ench, *this );
             }
         }
@@ -7981,14 +7984,22 @@ ret_val<void> Character::can_wield( const item &it ) const
                                             weapname(), it.tname() );
     }
     monster *mount = mounted_creature.get();
-    if( it.is_two_handed( *this ) && ( !has_two_arms_lifting() ||
-                                       worn_with_flag( flag_RESTRICT_HANDS ) ) &&
-        !( is_mounted() && mount->has_flag( mon_flag_RIDEABLE_MECH ) &&
-           mount->type->mech_weapon && it.typeId() == mount->type->mech_weapon ) ) {
-        if( worn_with_flag( flag_RESTRICT_HANDS ) ) {
+    const itype_id mech_weapon = is_mounted() ? mount->type->mech_weapon : itype_id::NULL_ID();
+    bool mounted_mech = is_mounted() && mount->has_flag( mon_flag_RIDEABLE_MECH ) &&
+                        mech_weapon;
+    bool armor_restricts_hands = worn_with_flag( flag_RESTRICT_HANDS );
+    bool item_twohand = it.has_flag( flag_ALWAYS_TWOHAND );
+    bool missing_arms = !has_two_arms_lifting();
+    bool two_handed = it.is_two_handed( *this );
+
+    if( two_handed &&
+        ( missing_arms || armor_restricts_hands ) &&
+        !( mounted_mech && it.typeId() == mech_weapon ) //ignore this check for mech weapons
+      ) {
+        if( armor_restricts_hands ) {
             return ret_val<void>::make_failure(
                        _( "Something you are wearing hinders the use of both hands." ) );
-        } else if( it.has_flag( flag_ALWAYS_TWOHAND ) ) {
+        } else if( item_twohand ) {
             return ret_val<void>::make_failure( _( "You can't wield the %s with only one arm." ),
                                                 it.tname() );
         } else {
@@ -7996,16 +8007,19 @@ ret_val<void> Character::can_wield( const item &it ) const
                                                 it.tname() );
         }
     }
-    if( is_mounted() && mount->has_flag( mon_flag_RIDEABLE_MECH ) &&
-        mount->type->mech_weapon && it.typeId() != mount->type->mech_weapon ) {
+    if( mounted_mech && it.typeId() != mech_weapon ) {
         return ret_val<void>::make_failure( _( "You cannot wield anything while piloting a mech." ) );
     }
     if( controlling_vehicle ) {
-        if( worn_with_flag( flag_RESTRICT_HANDS ) ) {
+        if( two_handed ) {
+            return ret_val<void>::make_failure( _( "You need both hands to wield the %s but are driving." ),
+                                                it.tname() );
+        }
+        if( armor_restricts_hands ) {
             return ret_val<void>::make_failure(
                        _( "Something you are wearing hinders the use of both hands." ) );
         }
-        if( !has_two_arms_lifting() || it.has_flag( flag_ALWAYS_TWOHAND ) ) {
+        if( missing_arms || item_twohand ) {
             return ret_val<void>::make_failure( _( "You can't wield your %s while driving." ),
                                                 it.tname() );
         }
@@ -11273,6 +11287,9 @@ void Character::process_effects()
 
 void Character::gravity_check()
 {
+    if( has_flag( json_flag_PHASE_MOVEMENT ) ) {
+        return; // debug trait immunity to gravity, walls etc
+    }
     map &here = get_map();
     if( here.is_open_air( pos_bub() ) && !in_vehicle && !has_effect_with_flag( json_flag_GLIDING ) &&
         here.try_fall( pos_bub(), this ) ) {
@@ -11282,6 +11299,9 @@ void Character::gravity_check()
 
 void Character::gravity_check( map *here )
 {
+    if( has_flag( json_flag_PHASE_MOVEMENT ) ) {
+        return; // debug trait immunity to gravity, walls etc
+    }
     const tripoint_bub_ms pos = pos_bub( *here );
     if( here->is_open_air( pos ) && !in_vehicle && !has_effect_with_flag( json_flag_GLIDING ) &&
         here->try_fall( pos, this ) ) {
@@ -12098,7 +12118,7 @@ int Character::count_flag( const json_character_flag &flag ) const
 
 bool Character::empathizes_with_species( const species_id &species ) const
 {
-    if( has_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) || has_flag( json_flag_PSYCHOPATH ) ||
+    if( has_flag( json_flag_CANNIBAL ) || has_flag( json_flag_PSYCHOPATH ) ||
         has_flag( json_flag_SAPIOVORE ) ) {
         return false;
     }
@@ -12131,7 +12151,7 @@ bool Character::empathizes_with_species( const species_id &species ) const
 
 bool Character::empathizes_with_monster( const mtype_id &monster ) const
 {
-    if( has_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) || has_flag( json_flag_PSYCHOPATH ) ||
+    if( has_flag( json_flag_CANNIBAL ) || has_flag( json_flag_PSYCHOPATH ) ||
         has_flag( json_flag_SAPIOVORE ) ) {
         return false;
     }
@@ -12277,10 +12297,10 @@ read_condition_result Character::check_read_condition( const item &book ) const
             result |= read_condition_result::ILLITERATE;
         }
         if( has_flag( json_flag_HYPEROPIC ) &&
-            !worn_with_flag( STATIC( flag_id( "FIX_FARSIGHT" ) ) ) &&
+            !worn_with_flag( json_flag_FIX_FARSIGHT ) &&
             !has_effect( effect_contacts ) &&
             !has_effect( effect_transition_contacts ) &&
-            !has_flag( STATIC( json_character_flag( "ENHANCED_VISION" ) ) ) ) {
+            !has_flag( json_flag_ENHANCED_VISION ) ) {
             result |= read_condition_result::NEED_GLASSES;
         }
         if( fine_detail_vision_mod() > 4 && !book.has_flag( flag_CAN_USE_IN_DARK ) ) {
@@ -12470,8 +12490,6 @@ void Character::recalc_speed_bonus()
         carry_penalty = 25 * ( weight_carried() - weight_cap ) / weight_cap;
     }
     mod_speed_bonus( -carry_penalty, _( "Weight Carried" ) );
-
-    mod_speed_bonus( +get_speedydex_bonus( get_dex() ), _( "Dexterity" ) );
 
     mod_speed_bonus( -get_pain_penalty().speed, _( "Pain" ) );
 
@@ -13247,6 +13265,11 @@ bool Character::wield( item_location loc, bool remove_old )
     }
 
     if( remove_old && loc ) {
+        // Remove DROPPED_FAVORITES autonote if exists.
+        if( overmap_buffer.note( pos_abs_omt() ) == loc.get_item()->display_name() ) {
+            overmap_buffer.delete_note( pos_abs_omt() );
+        }
+
         loc.remove_item();
     }
     return true;

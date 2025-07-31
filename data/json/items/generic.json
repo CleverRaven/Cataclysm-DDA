@@ -470,7 +470,7 @@
     "category": "spare_parts",
     "name": { "str": "bundle of cotton patches", "str_pl": "bundles of cotton patches" },
     "description": "A hundred cotton patches, bundled tightly together for storage.  Disassemble to unpack.",
-    "weight": "500 g",
+    "weight": "250 g",
     "volume": "500 ml",
     "price": "200 USD",
     "price_postapoc": "2 USD",
@@ -484,7 +484,7 @@
     "category": "spare_parts",
     "name": { "str": "bundle of cotton sheets", "str_pl": "bundles of cotton sheets" },
     "description": "Twenty-five cotton sheets, bundled tightly together for storage.  Disassemble to unpack.",
-    "weight": "950 g",
+    "weight": "500 g",
     "volume": "1000 ml",
     "price": "200 USD",
     "price_postapoc": "2 USD",
@@ -3003,8 +3003,9 @@
     "category": "drugs",
     "emits": [ "emit_tobacco_trail" ],
     "revert_to": "cigar_butt",
+    "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
     "use_action": [
-      { "type": "firestarter", "moves": 200, "moves_slow": 2000 },
+      { "type": "firestarter", "moves": 500, "moves_slow": 6000 },
       {
         "target": "cigar_butt",
         "msg": "You extinguish the cigar.",
@@ -3050,8 +3051,9 @@
     "category": "drugs",
     "emits": [ "emit_tobacco_trail" ],
     "revert_to": "cig_butt",
+    "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
     "use_action": [
-      { "type": "firestarter", "moves": 200, "moves_slow": 2000 },
+      { "type": "firestarter", "moves": 500, "moves_slow": 6000 },
       {
         "target": "cig_butt",
         "msg": "You extinguish the cigarette.",
@@ -3097,8 +3099,9 @@
     "category": "drugs",
     "emits": [ "emit_joint_trail" ],
     "revert_to": "joint_roach",
+    "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
     "use_action": [
-      { "type": "firestarter", "moves": 200, "moves_slow": 2000 },
+      { "type": "firestarter", "moves": 500, "moves_slow": 6000 },
       {
         "target": "joint_roach",
         "msg": "You extinguish the joint.",
@@ -3527,6 +3530,11 @@
   },
   {
     "type": "ITEM",
+    "id": "broken_turret_rifle_balthazar",
+    "copy-from": "broken_turret_rifle"
+  },
+  {
+    "type": "ITEM",
     "id": "broken_crows_m240",
     "symbol": ",",
     "color": "green",
@@ -3568,6 +3576,11 @@
     "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "clumsy" },
     "flags": [ "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE" ],
     "melee_damage": { "bash": 4, "cut": 4 }
+  },
+  {
+    "type": "ITEM",
+    "id": "broken_secubot_balthazar",
+    "copy-from": "broken_secubot"
   },
   {
     "type": "ITEM",
@@ -3965,7 +3978,7 @@
     "id": "pallet",
     "type": "ITEM",
     "name": { "str": "wooden pallet" },
-    "description": "This is a heavy and bulky 40x48 inch palette.",
+    "description": "This is a heavy and bulky 40x48 inch pallet.",
     "weight": "28 kg",
     "volume": "194400 ml",
     "material": [ "wood" ],

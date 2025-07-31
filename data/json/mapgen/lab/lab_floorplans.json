@@ -454,7 +454,7 @@
         "R": { "items": [ { "item": "cleaning", "chance": 60 } ] },
         "l": {
           "items": [
-            { "item": "office", "chance": 10 },
+            { "item": "SUS_office_filing_cabinet", "chance": 10 },
             { "item": "textbooks", "chance": 3 },
             { "item": "science", "chance": 3 },
             { "item": "harddrugs", "chance": 3 },
@@ -664,7 +664,7 @@
       "furniture": { "7": "f_console", "C": "f_centrifuge" },
       "terrain": { "C": "t_floor_blue", "7": "t_floor_blue", ",": "t_floor_blue" },
       "mapping": {
-        "c": { "items": [ { "item": "office", "chance": 30 }, { "item": "tools_science", "chance": 15 } ] },
+        "c": { "items": [ { "item": "SUS_office_desk", "chance": 30 }, { "item": "tools_science", "chance": 15 } ] },
         "l": { "items": [ { "item": "science", "chance": 60 } ] },
         "j": { "items": [ { "item": "guns_launcher_flame_xedra", "chance": 20 } ] }
       },

@@ -250,16 +250,21 @@
     "id": "EOC_CHANGELING_SUMMER_RING_OF_FLAMES_KILL_TARGET_NPC",
     "eoc_type": "EVENT",
     "required_event": "character_kills_character",
-    "condition": {
-      "or": [
-        { "u_has_effect": "effect_changeling_summer_ring_of_flames" },
-        { "npc_has_effect": "effect_changeling_summer_ring_of_flames_enemy" }
-      ]
-    },
+    "condition": "has_beta",
     "effect": [
-      { "u_transform_radius": 12, "ter_furn_transform": "ter_changeling_summer_remove_ring_fire" },
-      { "u_lose_effect": "effect_changeling_summer_ring_of_flames" },
-      { "u_message": "As your enemy collapses, the ring of flames gutters and dies.", "type": "mixed" }
+      {
+        "if": {
+          "or": [
+            { "u_has_effect": "effect_changeling_summer_ring_of_flames" },
+            { "npc_has_effect": "effect_changeling_summer_ring_of_flames_enemy" }
+          ]
+        },
+        "then": [
+          { "u_transform_radius": 12, "ter_furn_transform": "ter_changeling_summer_remove_ring_fire" },
+          { "u_lose_effect": "effect_changeling_summer_ring_of_flames" },
+          { "u_message": "As your enemy collapses, the ring of flames gutters and dies.", "type": "mixed" }
+        ]
+      }
     ]
   },
   {
@@ -267,16 +272,21 @@
     "id": "EOC_CHANGELING_SUMMER_RING_OF_FLAMES_KILL_TARGET_MONSTER",
     "eoc_type": "EVENT",
     "required_event": "character_kills_monster",
-    "condition": {
-      "or": [
-        { "u_has_effect": "effect_changeling_summer_ring_of_flames" },
-        { "npc_has_effect": "effect_changeling_summer_ring_of_flames_enemy" }
-      ]
-    },
+    "condition": "has_beta",
     "effect": [
-      { "u_transform_radius": 12, "ter_furn_transform": "ter_changeling_summer_remove_ring_fire" },
-      { "u_lose_effect": "effect_changeling_summer_ring_of_flames" },
-      { "u_message": "As your enemy collapses, the ring of flames gutters and dies.", "type": "mixed" }
+      {
+        "if": {
+          "or": [
+            { "u_has_effect": "effect_changeling_summer_ring_of_flames" },
+            { "npc_has_effect": "effect_changeling_summer_ring_of_flames_enemy" }
+          ]
+        },
+        "then": [
+          { "u_transform_radius": 12, "ter_furn_transform": "ter_changeling_summer_remove_ring_fire" },
+          { "u_lose_effect": "effect_changeling_summer_ring_of_flames" },
+          { "u_message": "As your enemy collapses, the ring of flames gutters and dies.", "type": "mixed" }
+        ]
+      }
     ]
   },
   {

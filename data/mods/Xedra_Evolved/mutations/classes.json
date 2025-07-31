@@ -19,7 +19,8 @@
     ],
     "vitamin_rates": [ [ "dreamer_vit", -1080 ] ],
     "//": "1 vit each 18 minutes, 80 per day, 12,5 days to full",
-    "spells_learned": [ [ "create_dream_dross", 0 ], [ "dreamer_artifact", 0 ], [ "return_critters", 0 ] ]
+    "spells_learned": [ [ "create_dream_dross", 0 ], [ "dreamer_artifact", 0 ], [ "return_critters", 0 ] ],
+    "flags": [ "ATTUNEMENT" ]
   },
   {
     "type": "mutation",
@@ -32,7 +33,8 @@
     "valid": false,
     "enchantments": [ "BONUS_EATER" ],
     "cancels": [ "DREAMER" ],
-    "spells_learned": [ [ "eat_dreamdross", 0 ] ]
+    "spells_learned": [ [ "eat_dreamdross", 0 ] ],
+    "flags": [ "ATTUNEMENT" ]
   },
   {
     "type": "mutation",
@@ -44,7 +46,8 @@
     "purifiable": false,
     "valid": false,
     "enchantments": [ "BONUS_DREAMSMITH" ],
-    "cancels": [ "INVENTOR" ]
+    "cancels": [ "INVENTOR" ],
+    "flags": [ "ATTUNEMENT" ]
   },
   {
     "type": "mutation",
@@ -57,7 +60,8 @@
     "valid": false,
     "enchantments": [ "BONUS_INVENTOR" ],
     "cancels": [ "DREAMSMITH" ],
-    "vitamin_rates": [ [ "creative_spark", -64800 ] ]
+    "vitamin_rates": [ [ "creative_spark", -64800 ] ],
+    "flags": [ "ATTUNEMENT" ]
   },
   {
     "type": "mutation",
@@ -68,6 +72,33 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [ [ "hedge_luck_spell", 0 ] ]
+    "spells_learned": [ [ "hedge_luck_spell", 0 ] ],
+    "flags": [ "ATTUNEMENT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "XE_NETHER_SORCERY",
+    "name": "Nether Sorcery",
+    "points": 0,
+    "description": "There is power in the Nether for those with the will and the strength to seize it, and you are such a one.  Hopefully you won't fly too close to the void.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "flags": [ "ATTUNEMENT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "XE_NO_NETHER_SORCERY",
+    "name": { "str": "Not a Nether Sorcerer", "//~": "NO_I18N" },
+    "points": 0,
+    "description": {
+      "str": "You can't use Nether Sorcery, which makes you pretty much the same as anyone else, to be honest.  This trait blocks using Nether Sorcery grimoires as spellbooks and is not player-visible.",
+      "//~": "NO_I18N"
+    },
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "cancels": [ "XE_NETHER_SORCERY" ]
   }
 ]

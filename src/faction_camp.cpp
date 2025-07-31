@@ -2536,7 +2536,8 @@ static const std::unordered_set<oter_type_str_id> terrains_field_swamp_forest = 
 
 void basecamp::start_cut_logs( const mission_id &miss_id, float exertion_level )
 {
-    tripoint_abs_omt forest = om_target_tile( omt_pos, 1, 50, terrains_forest,
+    tripoint_abs_omt forest = om_target_tile( omt_pos, 1, 50, terrains_forest, true,
+                              tripoint_abs_omt::invalid, false,
                               _( "Select a forest (or road/trail) from %d to %d tiles away." ) );
     if( !forest.is_invalid() ) {
         standard_npc sample_npc( "Temp" );
@@ -2784,12 +2785,12 @@ void basecamp::start_fortifications( const mission_id &miss_id, float exertion_l
               "swamps are valid fortification locations.  In addition to existing fortification "
               "constructions." ) );
     tripoint_abs_omt start = om_target_tile( omt_pos, 2, 90, terrains_field_swamp_forest, true, omt_pos,
-                             _( "Select a start point from %d to %d tiles away." ) );
+                             false, _( "Select a start point from %d to %d tiles away." ) );
     if( start.is_invalid() ) {
         return;
     }
     tripoint_abs_omt stop = om_target_tile( omt_pos, 2, 90, terrains_field_swamp_forest, true, start,
-                                            _( "Select an end point from %d to %d tiles away." ) );
+                                            false, _( "Select an end point from %d to %d tiles away." ) );
     if( stop.is_invalid() ) {
         return;
     }

@@ -138,6 +138,18 @@ river generation overhaul
 faction camp food supply can expire over time
 Roads cross streams at culverts
 Add Weight Modifying Enchantment
+Query to quick-reveal all nearby wires when revealing wall wires
+Generic tie-down/haul system for furniture on vehicles
+Descriptive recipe names
+Add vehicle enchantments and effects
+Toolmods are removable again, and any tool with screw driving quality can remove them
+Allow pushing/pulling furniture directly onto and off of vehicles that can load them
+NPCs can handle liquids from crafting
+Bashed furniture and terrain produce dust fields
+Highways
+Expand implementation of liquid ammo
+NPC AI fixes to improve fleeing in bad situations, reduce it in good ones
+Armors faults. Part 1: Steel Plate
 
 
 ## Content:
@@ -315,6 +327,22 @@ Snippetize Tshirt variants
 Exodii Ceramics
 Opiate Vitamin
 Add arab and islamic clothes for women
+Adds a few other scavengeable options for anvils
+Adds an early playtest version of the exodii labyrinth dungeon, accessible by a chargen trait.
+Build sturdy wooden shutters for your windows
+Add a sunken helicopter location
+Nuclear Power Plant upgrade
+Add 3 new guns (308 Model 700, .22 Savage Rascal, .32 LWS)
+Added a new faction
+Add practice recipes for learning how to be a proper blacksmith
+Adds fungal mound and fungal construct monsters for zombies who revive on fungal ground.
+More prepper food, meds in bugout bags
+Adds more spawns for the more esoteric books you can find
+Add nested cellars to cabins
+Add meds, maps in bugout bags
+Adds hair dye and hair dye kits to bathrooms.
+Professions now start with relevant books in their smartphones/laptops and some even with smartwatches
+Cheese wheels preserved in wax
 
 
 ## Interface:
@@ -432,6 +460,9 @@ Create a terminal-like default theme for Imgui
 Add NPC faction and NPC omt location to mission entries
 Describe stat level in new character window
 Severe hypovolemic shock message now mentions saline infusion instead of transfusion
+Always show clean water on top of consume menu
+Toggle haul from action menu when hauling
+Explain that degraded items are degraded
 
 
 ## Mods:
@@ -825,6 +856,29 @@ Mod Conflicts
 [Bombastic Perks] Limit metamagic perks to Magiclysm
 Aftershock: More mundane tools are available in exoplanet
 [MoM] Add possible `Mathematican A57` boss fight to Research Facility
+[Magiclysm] Spellcasting always grants proficiency XP
+[MoM] Add Achievements
+[Crazy Cataclysm] Add the immortal snail as second nemesis
+Create a loading screen for Aftershock
+[Extra Mutation Scenarios] Add start only mutation glands that gradually permanently mutate you towards a selected category
+Magiclysm - Implement Enchanted Druid Items
+Aftershock: Create cryosuit UI elements and power warnings
+Aftershock: Add a scenario where you control a functional Starship.
+Mods can have 'hard' requirements for meta progression
+[Xedra Evolved] Add Bloodthorne druids
+[Mods] Mutually-exclusive supernatural/fantasy heritage traits are light cyan
+[Mods] Traits that let you cast spells or other supernatural power suites are green
+[Xedra Evolved] Add bloodthorne druid safehouse
+[MoM] Fifth Sun People is now a HERITAGE trait
+Aftershock: Lasers can only use power cartridges, cant be mounted in vehicle.
+Aftershock: Add mod achievements and lock challenge scenarios behind them.
+[Xedra Evolved] Vampires can't level dream magick
+Aftershock: Humaniforms can execute humanoid monsters
+Aftershock: Vehicle bay City Building a mix between mechanic garage, gas station and parking lot.
+[MoM] Add help topics for psionic paths, using psionics, and psychic knacks
+[Magiclysm] Humans are also a species
+[Magiclysm] Add Aenor version of the horse ranch
+[Magiclysm] SOMATIC spells are harder to cast with broken arms
 
 
 ## Balance:
@@ -922,6 +976,10 @@ Triffid flesh is no longer safe to eat
 Milspec searchlights don't explode, now drop broken version
 World sliders rebalanced to offer differing gameplay experiences
 Some recipes have 'hard' proficiency requirements
+Expanded spawns for some proper melee weapons
+Adjust Precise Strike melee tech so it also cant stun what other stun-causing techs cant stun.
+Adds cuvettes to analysis kit crafting recipe, increase analysis kit weight.
+Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
 
 
 ## Bugfixes:
@@ -1283,6 +1341,16 @@ Special vision save failure
 Players learning from NPCs while blind and teaching NPCs while blind is now fixed.
 Attempt to increase average autotravel speed when driving on straight roads
 remove landmines from weird places
+Fix special attacks overwriting cooldown values to zero
+Scenario still had adult hobbies applied
+Fix drawing items under fields without tiles
+Limit the range of water channels
+Fix forced traits being applied to NPCs
+Fix EOC actor consuming tools on processing
+Fix molotovs exploding multiple times
+add E_STORABLE_EXCLUSIVE flag
+add E_STORABLE_EXCLUSIVE flag
+avoid ImGui warning in keybindings window if the translation happens to have duplicate text
 
 
 ## Performance:
@@ -1313,6 +1381,10 @@ Vehicles are slightly more efficient
 vision_transparency_cache isn't rebuilt if transparency_cache_dirty isn't set
 AIM cache filter function once
 Cache item info, reducing time of crafting filter `d:` to ~32%
+Speed up mapgen especially noticeable in Sky Islands
+don’t call std::pow for squaring numbers
+don’t compute the size of far away hordes when drawing the world map
+can_contain: calculate pocket volume once (huge speed up in special cases)
 
 
 ## Infrastructure:
@@ -1447,6 +1519,9 @@ Allow monsters to have different climb/swim/dig speeds
 Mapgen: removed unused, obsoleted and pointless JSON fields
 Zstandard compressed save data for disk space savings.
 bulk overmap testing debug tools
+Adds a vertical stack of omt scope for mapgen parameters
+Monsters can be forced to flee through an EoC
+Improve mod migration
 
 
 ## Build:

@@ -728,9 +728,9 @@
   },
   {
     "type": "terrain",
-    "id": "t_window_empty",
+    "id": "t_window_empty_no_roof",
     "name": "empty window",
-    "roof": "t_flat_roof",
+    "looks_like": "t_window_empty",
     "description": "An empty window frame made of planks and nails.  You could install a sheet of glass, or board it up for protection.  You could also convert it into a solid wall if you took the time to construct it.",
     "symbol": "0",
     "color": "yellow",
@@ -745,11 +745,11 @@
       "FLAMMABLE",
       "SUPPORTS_ROOF",
       "MOUNTABLE",
+      "CONNECT_WITH_WALL",
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW",
-      "SUPPORTS_ROOF"
+      "WINDOW"
     ],
     "bash": {
       "str_min": 10,
@@ -761,8 +761,16 @@
         { "item": "2x4", "count": [ 0, 5 ] },
         { "item": "nail", "charges": [ 0, 5 ] },
         { "item": "splinter", "count": [ 5, 10 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_window_empty",
+    "copy-from": "t_window_empty_no_roof",
+    "roof": "t_flat_roof"
   },
   {
     "type": "terrain",
@@ -794,7 +802,9 @@
         { "item": "sheet", "count": 2 },
         { "item": "stick", "count": 1 },
         { "item": "string_36", "count": 1 }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -827,7 +837,9 @@
         { "item": "sheet", "count": 2 },
         { "item": "stick", "count": 1 },
         { "item": "string_36", "count": 1 }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -881,11 +893,13 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "splinter", "count": [ 0, 2 ] }, { "item": "glass_shard", "count": [ 25, 42 ] } ]
+      "items": [ { "item": "splinter", "count": [ 10, 20 ] }, { "item": "glass_shard", "count": [ 25, 42 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "prying": {
-      "result": "t_window_frame",
-      "duration": "30 seconds",
+      "result": "t_window",
+      "duration": "2 minutes",
       "message": "You pry the boards from the window.",
       "byproducts": [ { "item": "nail", "count": 8 }, { "item": "2x4", "count": 4 } ],
       "prying_data": { "prying_nails": true }
@@ -919,16 +933,100 @@
       "sound_vol": 14,
       "sound_fail_vol": 10,
       "ter_set": "t_window_empty",
-      "items": [ { "item": "splinter", "count": [ 0, 2 ] } ]
+      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "prying": {
       "result": "t_window_empty",
-      "duration": "30 seconds",
+      "duration": "2 minutes",
       "message": "You pry the boards from the window frame.",
       "byproducts": [ { "item": "nail", "count": 8 }, { "item": "2x4", "count": 4 } ],
       "prying_data": { "prying_nails": true }
     },
     "shoot": { "reduce_damage": [ 9, 21 ], "reduce_damage_laser": [ 5, 16 ], "destroy_damage": [ 10, 40 ] }
+  },
+  {
+    "type": "terrain",
+    "id": "t_window_boarded_shutters_closed",
+    "name": "window with makeshift shutters",
+    "description": "A glass window with a heavy makeshift shutter bolted into the window frame, with a wooden bar to close it from the inside.  It's fairly sturdy when closed.",
+    "symbol": "=",
+    "copy-from": "t_window_boarded",
+    "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "BLOCK_WIND", "WINDOW", "OPENCLOSE_INSIDE", "SUPPORTS_ROOF" ],
+    "open": "t_window_boarded_shutters_open",
+    "deconstruct": {
+      "ter_set": "t_window",
+      "items": [
+        { "item": "2x4", "count": 7 },
+        { "item": "nail", "charges": [ 10, 16 ] },
+        { "item": "wood_panel", "count": 4 },
+        { "item": "hinge", "count": 4 },
+        { "item": "nuts_bolts", "count": 8 }
+      ]
+    },
+    "bash": {
+      "str_min": 6,
+      "str_max": 30,
+      "sound": "crash!",
+      "sound_fail": "wham!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_window_frame",
+      "items": [
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "glass_shard", "count": [ 25, 42 ] },
+        { "item": "hinge", "count": [ 0, 3 ] },
+        { "item": "nuts_bolts", "count": [ 1, 4 ] }
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
+    },
+    "shoot": { "reduce_damage": [ 10, 25 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 10, 40 ] }
+  },
+  {
+    "type": "terrain",
+    "id": "t_window_boarded_shutters_open",
+    "name": "window with open makeshift shutters",
+    "looks_like": "t_window",
+    "description": "A glass window with a heavy makeshift shutter bolted into the window frame, with a wooden bar to close it from the inside.  The shutters are currently open, and offer no more defense than any glass window.",
+    "symbol": "/",
+    "coverage": 70,
+    "copy-from": "t_window_boarded_shutters_closed",
+    "close": "t_window_boarded_shutters_closed",
+    "open": "t_window_boarded_shutters_open_fully",
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "BLOCK_WIND", "WINDOW", "OPENCLOSE_INSIDE", "SUPPORTS_ROOF" ],
+    "bash": {
+      "str_min": 3,
+      "str_max": 8,
+      "sound": "glass shattering!",
+      "sound_fail": "wham!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_window_frame",
+      "items": [
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "glass_shard", "count": [ 25, 42 ] },
+        { "item": "hinge", "count": [ 0, 3 ] },
+        { "item": "nuts_bolts", "count": [ 1, 4 ] }
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
+    },
+    "prying": { "result": "t_window_boarded_shutters_open_fully", "duration": "30 seconds", "message": "You pry open the window." }
+  },
+  {
+    "type": "terrain",
+    "id": "t_window_boarded_shutters_open_fully",
+    "name": "window with open makeshift shutters",
+    "looks_like": "t_window_open",
+    "description": "A glass window with a heavy makeshift shutter bolted into the window frame, with a wooden bar to close it from the inside.  Both the shutters and the window glass are wide open, offering no defense.",
+    "symbol": "0",
+    "move_cost": 5,
+    "coverage": 70,
+    "copy-from": "t_window_boarded_shutters_open",
+    "close": "t_window_boarded_shutters_open",
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "WINDOW", "OPENCLOSE_INSIDE", "SUPPORTS_ROOF", "PERMEABLE" ]
   },
   {
     "type": "terrain",
@@ -952,7 +1050,9 @@
       "sound": "crash!",
       "sound_fail": "wham!",
       "ter_set": "t_window_boarded",
-      "items": [ { "item": "splinter", "count": [ 0, 8 ] } ]
+      "items": [ { "item": "splinter", "count": [ 0, 8 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "shoot": { "reduce_damage": [ 15, 30 ], "reduce_damage_laser": [ 10, 30 ], "destroy_damage": [ 20, 50 ] }
   },
@@ -981,7 +1081,9 @@
       "sound": "crash!",
       "sound_fail": "wham!",
       "ter_set": "t_window_boarded_noglass",
-      "items": [ { "item": "splinter", "count": [ 0, 8 ] } ]
+      "items": [ { "item": "splinter", "count": [ 0, 8 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "shoot": { "reduce_damage": [ 14, 26 ], "reduce_damage_laser": [ 10, 26 ], "destroy_damage": [ 20, 50 ] }
   },

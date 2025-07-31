@@ -5,5 +5,37 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "3 m",
     "components": [ [ [ "stick", 1 ] ], [ [ "scrap_copper", 1 ] ], [ [ "string_6", 2 ] ] ]
+  },
+  {
+    "result": "chainsaw_off",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "WRENCH_FINE", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "plastic_chunk", 10 ] ], [ [ "1cyl_combustion_small", 1 ] ], [ [ "scrap", 20 ] ] ]
+  },
+  {
+    "result": "polesaw_off",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "WRENCH_FINE", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "plastic_chunk", 10 ] ], [ [ "1cyl_combustion_small", 1 ] ], [ [ "scrap", 20 ] ], [ [ "pipe", 2 ] ] ]
+  },
+  {
+    "result": "elec_chainsaw_off",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "WRENCH_FINE", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "plastic_chunk", 10 ] ], [ [ "motor_tiny", 1 ] ], [ [ "scrap", 20 ] ] ]
+  },
+  {
+    "result": "elec_chainsaw_cord_off",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "WRENCH_FINE", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "plastic_chunk", 10 ] ], [ [ "motor_tiny", 1 ] ], [ [ "scrap", 20 ] ], [ [ "cable", 12 ] ] ]
   }
 ]

@@ -313,8 +313,8 @@
         "S": { "item": "mechanics", "chance": 80, "repeat": [ 1, 6 ] },
         "x": { "item": "mechanics", "chance": 80, "repeat": [ 1, 6 ] },
         "w": { "item": "SUS_welding_gear", "chance": 80, "repeat": [ 1, 2 ] },
-        "f": { "item": "office", "chance": 70, "repeat": [ 1, 6 ] },
-        "d": { "item": "office", "chance": 70, "repeat": [ 1, 6 ] },
+        "f": { "item": "SUS_office_filing_cabinet", "chance": 70, "repeat": [ 1, 2 ] },
+        "d": { "item": "SUS_office_desk", "chance": 80 },
         "&": { "item": "SUS_toilet", "chance": 50 },
         "T": { "item": "cleaning", "chance": 70, "repeat": [ 1, 6 ] }
       },
@@ -361,7 +361,7 @@
         "x": [ "f_machinery_light", "f_machinery_heavy", "f_machinery_old", "f_machinery_electronic" ]
       },
       "items": {
-        "I": { "item": "office", "chance": 30 },
+        "I": { "item": "SUS_office_desk", "chance": 30 },
         "i": { "item": "SUS_office_filing_cabinet", "chance": 30 },
         "S": { "item": "mechanics", "chance": 20 },
         "r": { "item": "mechanics", "chance": 20 },

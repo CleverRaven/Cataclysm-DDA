@@ -180,6 +180,13 @@ WORLD *worldfactory::make_new_world( bool show_prompt, const std::string &world_
         }
     }
 
+    for( mod_id checked_mod : retworld->active_mod_order ) {
+        if( !mman_ui->confirm_mod_compatibility( checked_mod, retworld->active_mod_order ) ) {
+            popup( _( "Unable to create new world, some active mods are incompatible." ) );
+            return nullptr;
+        }
+    }
+
     retworld->create_timestamp();
 
     return add_world( std::move( retworld ) );
@@ -742,7 +749,8 @@ int worldfactory::show_worldgen_tab_options( const catacurses::window &, WORLD *
 std::map<int, inclusive_rectangle<point>> worldfactory::draw_mod_list( const catacurses::window &w,
                                        int &start, size_t cursor, const std::vector<mod_id> &mods,
                                        bool is_active_list, const std::string &text_if_empty,
-                                       const catacurses::window &w_shift, bool recalc_start )
+                                       const catacurses::window &w_shift, bool recalc_start,
+                                       const std::vector<mod_id> &potential_conflicts )
 {
     werase( w );
     werase( w_shift );
@@ -830,6 +838,10 @@ std::map<int, inclusive_rectangle<point>> worldfactory::draw_mod_list( const cat
 
                     }
                     mod_entry_name += string_format( _( " [%s]" ), mod_entry_id.str() );
+                    if( !mman_ui->confirm_mod_compatibility( mod_entry_id, potential_conflicts ) ) {
+                        mod_entry_name += _( " --- INCOMPATIBLE!" );
+                        mod_entry_color = c_pink;
+                    }
                     trim_and_print( w, point( 4, iNum - start ), wwidth, mod_entry_color, mod_entry_name );
                     ent_map.emplace( static_cast<int>( std::distance( mods.begin(), iter ) ),
                                      inclusive_rectangle<point>( point( 1, iNum - start ), point( 3 + wwidth, iNum - start ) ) );
@@ -1231,7 +1243,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         const char *msg = current_tab.mods_unfiltered.empty() ?
                           _( "--NO AVAILABLE MODS--" ) : _( "--NO RESULTS FOUND--" );
         inact_mod_map = draw_mod_list( w_list, startsel[0], cursel[0], current_tab.mods,
-                                       active_header == 0, msg, catacurses::window(), recalc_start );
+                                       active_header == 0, msg, catacurses::window(), recalc_start, active_mod_order );
 
         // Draw active mods
         act_mod_map = draw_mod_list( w_active, startsel[1], cursel[1], active_mod_order,

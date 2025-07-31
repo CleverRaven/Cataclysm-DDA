@@ -603,7 +603,10 @@ static void GENERATOR_pre_burn( map &md,
             continue; // failed roll
         }
         for( tripoint_bub_ms current_tile : all_points_in_map ) {
-            if( md.has_flag_ter( ter_furn_flag::TFLAG_NATURAL_UNDERGROUND, current_tile ) ) {
+            if( md.has_flag_ter( ter_furn_flag::TFLAG_NATURAL_UNDERGROUND, current_tile ) ||
+                md.has_flag_ter( ter_furn_flag::TFLAG_GOES_DOWN, current_tile ) ||
+                md.has_flag_ter( ter_furn_flag::TFLAG_GOES_UP, current_tile ) ) {
+                // skip natural underground walls, or any stairs. (Even man-made or wooden stairs)
                 continue;
             }
             if( md.has_flag_ter( ter_furn_flag::TFLAG_WALL, current_tile ) ) {
@@ -2181,6 +2184,7 @@ std::string enum_to_string<mapgen_parameter_scope>( mapgen_parameter_scope v )
     switch( v ) {
         // *INDENT-OFF*
         case mapgen_parameter_scope::overmap_special: return "overmap_special";
+        case mapgen_parameter_scope::omt_stack: return "omt_stack";
         case mapgen_parameter_scope::omt: return "omt";
         case mapgen_parameter_scope::nest: return "nest";
         // *INDENT-ON*
@@ -2289,6 +2293,18 @@ mapgen_arguments mapgen_parameters::get_args(
         if( param.scope() == scope ) {
             cata_variant value = md.get_arg_or( param_name, param.get( md ) );
             result.emplace( param_name, value );
+        }
+        if( param.scope() == mapgen_parameter_scope::omt_stack && scope == mapgen_parameter_scope::omt ) {
+            const point_abs_omt &p_scope = md.pos().xy();
+            overmap *om = overmap_buffer.get_existing_om_global( p_scope ).om;
+            std::optional<cata_variant> v = om->get_existing_omt_stack_argument( p_scope, param_name );
+            if( !!v ) {
+                result.emplace( param_name, *v );
+            } else {
+                cata_variant value = md.get_arg_or( param_name, param.get( md ) );
+                om->add_omt_stack_argument( p_scope, param_name, value );
+                result.emplace( param_name, value );
+            }
         }
     }
     return mapgen_arguments{ result };
@@ -3570,7 +3586,7 @@ class jmapgen_terrain : public jmapgen_piece_with_has_vehicle_collision
                             } else {
                                 dat.m.furn_set( p, furn_bash->furn_set );
                             }
-                            dat.m.spawn_items( p, item_group::items_from( furn_bash->drop_group, calendar::turn ) );
+                            dat.m.drop_bash_results( f, p );
                         } else {
                             break;
                         }

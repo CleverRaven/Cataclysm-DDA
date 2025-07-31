@@ -1,18 +1,23 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
 
 - [Recipes](#recipes)
-   * [Practice recipes](#practice-recipes)
-   * [Nested recipes](#nested-recipes)
-   * [Recipe requirements](#recipe-requirements)
-   * [Defining common requirements](#defining-common-requirements)
-   * [Overlapping recipe component requirements](#overlapping-recipe-component-requirements)
+  - [Practice recipes](#practice-recipes)
+  - [Nested recipes](#nested-recipes)
+  - [Recipe requirements](#recipe-requirements)
+  - [Defining common requirements](#defining-common-requirements)
+  - [Overlapping recipe component requirements](#overlapping-recipe-component-requirements)
 - [Item disassembly](#item-disassembly)
 - [Introduction](#introduction)
 - [The three methods](#the-three-methods)
-   * [Uncraft recipes](#uncraft-recipes)
-   * [Reversible crafting recipes](#reversible-crafting-recipes)
-   * [Salvaging / Cutting Up](#salvaging-cutting-up)
+  - [Uncraft recipes](#uncraft-recipes)
+  - [Reversible crafting recipes](#reversible-crafting-recipes)
+  - [Salvaging / Cutting Up](#salvaging--cutting-up)
 - [Choosing the method](#choosing-the-method)
 - [Closing words (Or what you should remember when working with item disassembly in general)](#closing-words-or-what-you-should-remember-when-working-with-item-disassembly-in-general)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # Recipes
 
@@ -80,6 +85,7 @@ Crafting recipes are defined as a JSON object with the following fields:
 ],
 "result_eocs": [ {"id": "TEST", "effect": { "u_message": "You feel Test" } } // List of inline effect_on_conditions or effect_on_condition ids that attempt to activate when this recipe is successfully finished.  If a value is provided a result becomes optional, though a name and id will be needed it it is missing.  If no result is provided and a description is present, that will be displayed as the result on the crafting gui.
 ], 
+"name" : "%s with quern", // optional string to further describe recipe where %s is the recipe result name. Example if the result name is "flour", the final name will be "flour with quern". Especially useful for recipes with "id_suffix" that produce the same result as other recipes.
 "construction_blueprint": "camp", // an optional string containing an update_mapgen_id.  Used by faction camps to upgrade their buildings
 "on_display": false,         // this is a hidden construction item, used by faction camps to calculate construction times but not available to the player
 "qualities": [               // Generic qualities of tools needed to craft

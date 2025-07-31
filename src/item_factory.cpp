@@ -44,7 +44,6 @@
 #include "item_pocket.h"
 #include "itype.h"
 #include "iuse_actor.h"
-#include "make_static.h"
 #include "mapdata.h"
 #include "material.h"
 #include "math_parser_diag_value.h"
@@ -104,6 +103,8 @@ static const item_category_id item_category_veh_parts( "veh_parts" );
 static const item_category_id item_category_weapons( "weapons" );
 
 static const item_group_id Item_spawn_data_EMPTY_GROUP( "EMPTY_GROUP" );
+
+static const itype_id itype_debug_backpack( "debug_backpack" );
 
 static const material_id material_bean( "bean" );
 static const material_id material_blood( "blood" );
@@ -322,8 +323,7 @@ void Item_factory::finalize_pre( itype &obj )
     }
 
     if( obj.thrown_damage.empty() ) {
-        obj.thrown_damage.add_damage( damage_bash,
-                                      obj.melee.damage_map[damage_bash] + obj.weight / 1.0_kilogram );
+        obj.thrown_damage.add_damage( damage_bash, obj.melee.damage_map[damage_bash] * 0.75 );
     }
 
     if( obj.has_flag( flag_STAB ) ) {
@@ -387,10 +387,6 @@ void Item_factory::finalize_pre( itype &obj )
         obj.category_force = calc_category( obj );
     }
 
-    // use pre-Cataclysm price as default if post-cataclysm price unspecified
-    if( obj.price_post < 0_cent ) {
-        obj.price_post = obj.price;
-    }
     // use base volume if integral volume unspecified
     if( obj.integral_volume < 0_ml ) {
         obj.integral_volume = obj.volume;
@@ -1977,7 +1973,6 @@ void Item_factory::init()
     add_iuse( "ECIG", &iuse::ecig );
     add_iuse( "EHANDCUFFS", &iuse::ehandcuffs );
     add_iuse( "EHANDCUFFS_TICK", &iuse::ehandcuffs_tick );
-    add_iuse( "EPIC_MUSIC", &iuse::epic_music );
     add_iuse( "EBOOKSAVE", &iuse::ebooksave );
     add_iuse( "EMF_PASSIVE_ON", &iuse::emf_passive_on );
     add_iuse( "EXTINGUISHER", &iuse::extinguisher );
@@ -4076,7 +4071,7 @@ void itype::load( const JsonObject &jo, std::string_view src )
     optional( jo, was_loaded, "volume", volume );
     optional( jo, was_loaded, "longest_side", longest_side, -1_mm );
     optional( jo, was_loaded, "price", price, not_negative_money, 0_cent );
-    optional( jo, was_loaded, "price_postapoc", price_post, not_negative_money, -1_cent );
+    optional( jo, was_loaded, "price_postapoc", price_post, not_negative_money, 0_cent );
     optional( jo, was_loaded, "stackable", stackable_ );
     optional( jo, was_loaded, "integral_volume", integral_volume, not_negative_volume, -1_ml );
     optional( jo, was_loaded, "integral_longest_side", integral_longest_side, not_negative_length,
@@ -4642,6 +4637,15 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj,
         use_modifier = true;
     }
 
+    if( obj.has_object( "faults" ) ) {
+        JsonObject jo = obj.get_object( "faults" );
+        int chance = jo.get_int( "chance", 100 );
+        for( std::string ids : jo.get_array( "id" ) ) {
+            modifier.faults.emplace_back( fault_id( ids ), chance );
+        }
+        use_modifier = true;
+    }
+
     if( use_modifier ) {
         sptr->modifier.emplace( std::move( modifier ) );
     }
@@ -4679,15 +4683,23 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const item_group_id
     if( context.empty() ) {
         context = group_id.str();
     }
+    // Check if the copy-from target exists BEFORE we get a reference to it!
+    // std::map's [] operator inserts a reference if one isn't found!
+    const bool already_exists = m_template_groups.find( group_id ) != m_template_groups.end();
     std::unique_ptr<Item_spawn_data> &isd = m_template_groups[group_id];
     // If we copy-from, do copy-from
     // Otherwise, unconditionally overwrite
     if( jsobj.has_member( "copy-from" ) ) {
+        const std::string target_grp_str = jsobj.get_string( "copy-from" );
         // We can only copy-from a group with the same id (for now)
-        if( jsobj.get_string( "copy-from" ) != group_id.str() ) {
+        if( target_grp_str != group_id.str() ) {
             debugmsg( "Item group '%s' tries to copy from different group '%s'", group_id.str(),
-                      jsobj.get_string( "copy-from" ) );
+                      target_grp_str );
             return;
+        }
+        if( !already_exists ) {
+            debugmsg( "%1$s was unable to find item group %2$s to copy-from during loading.  Context: %3$s",
+                      group_id.str(), target_grp_str, context );
         }
     } else {
         isd.reset();
@@ -4905,9 +4917,7 @@ Item_factory::get_armor_containers( units::volume min_volume ) const
         using item_volumes = std::tuple<item, units::volume>;
         std::vector<item_volumes> vols;
         for( const itype *ity : all() ) {
-            if( item_is_blacklisted( ity->get_id() )
-                || ity->get_id() == STATIC( itype_id( "debug_backpack" ) )
-              ) {
+            if( item_is_blacklisted( ity->get_id() ) || ity->get_id() == itype_debug_backpack ) {
                 continue;
             }
             item itm = item( ity );

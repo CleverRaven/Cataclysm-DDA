@@ -29,7 +29,6 @@
           "44": 18,
           "45": 18,
           "45colt": 18,
-          "46": 18,
           "57": 18,
           "9x18": 18,
           "9mm": 18,
@@ -317,6 +316,7 @@
         "max_contains_weight": "2 kg",
         "moves": 30,
         "flag_restriction": [ "GRENADE" ],
+        "max_item_length": "180 mm",
         "volume_encumber_modifier": 0.3
       },
       {
@@ -325,6 +325,7 @@
         "max_contains_weight": "2 kg",
         "moves": 30,
         "flag_restriction": [ "GRENADE" ],
+        "max_item_length": "180 mm",
         "volume_encumber_modifier": 0.3
       },
       {
@@ -333,6 +334,7 @@
         "max_contains_weight": "2 kg",
         "moves": 30,
         "flag_restriction": [ "GRENADE" ],
+        "max_item_length": "180 mm",
         "volume_encumber_modifier": 0.3
       },
       {
@@ -341,6 +343,7 @@
         "max_contains_weight": "2 kg",
         "moves": 30,
         "flag_restriction": [ "GRENADE" ],
+        "max_item_length": "180 mm",
         "volume_encumber_modifier": 0.3
       }
     ],
@@ -354,7 +357,7 @@
     "subtypes": [ "ARMOR" ],
     "name": "military 5.56 bandolier",
     "description": "A simple bag on a strap, partitioned into pouches for four STANAG 30-round magazines or twelve 10-round 5.56x45mm stripper clips.  When full, this bandolier is more encumbering than proper kit and slower to reload from, but it at least offers a quick and cheap means of resupplying ammunition.",
-    "weight": "60 g",
+    "weight": "20 g",
     "volume": "40 ml",
     "price": "6 USD",
     "price_postapoc": "15 cent",
@@ -406,7 +409,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "5.56x45 belt pouch", "str_pl": "5.56x45 belt pouches" },
     "description": "A large cotton pouch, designed to store a spare ammo belt for the M249 SAW.",
-    "weight": "60 g",
+    "weight": "20 g",
     "volume": "40 ml",
     "price": "6 USD",
     "price_postapoc": "15 cent",
@@ -432,7 +435,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "7.62x51 belt pouch", "str_pl": "7.62x51 belt pouches" },
     "description": "A large cotton pouch, designed to store a spare ammo belt for the M240 or M60 machine guns.",
-    "weight": "60 g",
+    "weight": "20 g",
     "volume": "40 ml",
     "price": "6 USD",
     "price_postapoc": "15 cent",
@@ -452,5 +455,74 @@
     ],
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
     "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+  },
+  {
+    "id": "bandolier_pipebomb",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "large grenade bandolier" },
+    "description": "A homemade nylon bandolier covering the upper chest while supported by straps on both shoulders.  While fairly hefty and cumbersome when full, it does allow the wearer to carry larger grenades such as pipebombs or Molotovs.",
+    "weight": "830 g",
+    "volume": "730 ml",
+    "price": "19 USD",
+    "price_postapoc": "10 USD",
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "leather_belt",
+    "color": "dark_gray",
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "moves": 140,
+        "flag_restriction": [ "CYLINDER_GRENADE" ],
+        "holster": true,
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1200 g",
+        "max_item_length": "30 cm"
+      },
+      {
+        "moves": 140,
+        "flag_restriction": [ "CYLINDER_GRENADE" ],
+        "holster": true,
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1200 g",
+        "max_item_length": "30 cm"
+      },
+      {
+        "moves": 140,
+        "flag_restriction": [ "CYLINDER_GRENADE" ],
+        "holster": true,
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1200 g",
+        "max_item_length": "30 cm"
+      },
+      {
+        "moves": 140,
+        "flag_restriction": [ "CYLINDER_GRENADE" ],
+        "holster": true,
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1200 g",
+        "max_item_length": "30 cm"
+      },
+      {
+        "moves": 140,
+        "flag_restriction": [ "CYLINDER_GRENADE" ],
+        "holster": true,
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1200 g",
+        "max_item_length": "30 cm"
+      }
+    ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ],
+    "armor": [
+      { "encumbrance": 6, "coverage": 35, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] },
+      {
+        "encumbrance": 3,
+        "volume_encumber_modifier": 0,
+        "coverage": 60,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
+      }
+    ]
   }
 ]

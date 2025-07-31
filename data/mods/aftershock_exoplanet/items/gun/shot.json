@@ -6,6 +6,17 @@
     "subtypes": [ "GUN" ],
     "name": { "str": "Benelli 315" },
     "description": "A widely popular combat shotgun featuring minor iterative refinements to a base design nearly three centuries old.  Whether the design is outdated or unsurpassable remains a matter of personal opinion.",
+    "valid_mod_locations": [
+      [ "sling", 1 ],
+      [ "mechanism", 2 ],
+      [ "brass catcher", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "price": "510 USD",
+    "price_postapoc": "510 USD",
     "variants": [
       {
         "id": "vatforged",
@@ -34,6 +45,17 @@
     "subtypes": [ "GUN" ],
     "name": { "str_sp": "Accipiter Magnastorm-12" },
     "description": "An advanced shotgun that combines chemical and electromagnetic propulsion systems to accelerate and focus a cloud of steel flechettes.  Resulting in a longer effective range and greater penetration than whats conventionally possible.  Most often deployed during low-intensity corporate conflicts.",
+    "valid_mod_locations": [
+      [ "sling", 1 ],
+      [ "mechanism", 2 ],
+      [ "brass catcher", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "price": "4 kUSD",
+    "price_postapoc": "4 kUSD",
     "built_in_mods": [ "afs_magnetic_choke", "afs_shotgun_gauss" ]
   },
   {
@@ -56,6 +78,8 @@
     "dispersion": 125,
     "durability": 7,
     "min_cycle_recoil": 1250,
+    "price": "2510 USD",
+    "price_postapoc": "2510 USD",
     "modes": [ [ "DEFAULT", "single", 1 ], [ "AUTO", "2 rd.", 2 ] ],
     "barrel_volume": "500 ml",
     "valid_mod_locations": [
@@ -64,7 +88,7 @@
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
       [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
+      [ "sights", 1 ],
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "afs_raketa30mag" ] } ],
@@ -79,6 +103,8 @@
     "name": { "str": "Drotik Shotpistol" },
     "description": "A massive TSKBEM-designed 'sidearm' intended for exosuits and uplifts, the Drotik aka 'Dart' is a large revolver firing 12ga shells.",
     "weight": "2250 g",
+    "price": "1510 USD",
+    "price_postapoc": "1510 USD",
     "volume": "1450 ml",
     "longest_side": "475 mm",
     "min_strength": 14,

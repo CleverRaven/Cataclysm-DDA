@@ -1,0 +1,313 @@
+[
+  {
+    "//": "There are four tiers of iron intolerance depending on various traits",
+    "//2": "Homullus with Iron Allergy and changelings have tier 1",
+    "//3": "Salamanders, Ierde, and mortals with Iron Allergy have tier 2",
+    "//4": "Salamanders and Ierde with Iron Allergy, and Sylphs, Arvore, and Undines have tier 3",
+    "//5": "Sylphs, Arvore, and Undines with Iron Allergy have tier 4",
+    "type": "effect_on_condition",
+    "id": "EOC_XE_IRON_INTOLERANCE_WEARING_IRON_OR_STEEL",
+    "eoc_type": "EVENT",
+    "required_event": "character_wears_item",
+    "condition": {
+      "and": [
+        {
+          "u_has_any_trait": [
+            "UNKNOWING_CHANGELING_NOBLE",
+            "FAIR_FOLK_COMMONER_SELECTOR",
+            "UNKNOWING_CHANGELING_COMMONER_BROWNIE",
+            "UNKNOWING_CHANGELING_COMMONER_POOKA",
+            "UNKNOWING_CHANGELING_COMMONER_SELKIE",
+            "UNKNOWING_CHANGELING_COMMONER_TROW",
+            "ARVORE",
+            "SYLPH",
+            "UNDINE",
+            "IERDE",
+            "SALAMANDER",
+            "HOMULLUS",
+            "IRON_ALLERGY"
+          ]
+        },
+        { "not": { "u_has_effect": "effect_changeling_winter_cut_off_fey_nature" } }
+      ]
+    },
+    "effect": [
+      { "run_eocs": [ "EOC_XE_IRON_INTOLERANCE_WEARING_IRON_FOLLOWUP", "EOC_XE_IRON_INTOLERANCE_WEARING_STEEL_FOLLOWUP" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_IRON_INTOLERANCE_UNWEARING_IRON_OR_STEEL",
+    "eoc_type": "EVENT",
+    "required_event": "character_takeoff_item",
+    "condition": {
+      "u_has_any_trait": [
+        "UNKNOWING_CHANGELING_NOBLE",
+        "FAIR_FOLK_COMMONER_SELECTOR",
+        "UNKNOWING_CHANGELING_COMMONER_BROWNIE",
+        "UNKNOWING_CHANGELING_COMMONER_POOKA",
+        "UNKNOWING_CHANGELING_COMMONER_SELKIE",
+        "UNKNOWING_CHANGELING_COMMONER_TROW",
+        "ARVORE",
+        "SYLPH",
+        "UNDINE",
+        "IERDE",
+        "SALAMANDER",
+        "HOMULLUS",
+        "IRON_ALLERGY"
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [ "EOC_XE_IRON_INTOLERANCE_WEARING_IRON_FOLLOWUP", "EOC_XE_IRON_INTOLERANCE_WEARING_STEEL_FOLLOWUP" ],
+        "time_in_future": 1
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_IRON_INTOLERANCE_WIELDING_IRON_OR_STEEL",
+    "eoc_type": "EVENT",
+    "required_event": "character_wields_item",
+    "condition": {
+      "and": [
+        {
+          "u_has_any_trait": [
+            "UNKNOWING_CHANGELING_NOBLE",
+            "FAIR_FOLK_COMMONER_SELECTOR",
+            "UNKNOWING_CHANGELING_COMMONER_BROWNIE",
+            "UNKNOWING_CHANGELING_COMMONER_POOKA",
+            "UNKNOWING_CHANGELING_COMMONER_SELKIE",
+            "UNKNOWING_CHANGELING_COMMONER_TROW",
+            "ARVORE",
+            "SYLPH",
+            "UNDINE",
+            "IERDE",
+            "SALAMANDER",
+            "HOMULLUS",
+            "IRON_ALLERGY"
+          ]
+        },
+        { "not": { "u_has_effect": "effect_changeling_winter_cut_off_fey_nature" } }
+      ]
+    },
+    "effect": [
+      { "run_eocs": [ "EOC_XE_IRON_INTOLERANCE_WEARING_IRON_FOLLOWUP", "EOC_XE_IRON_INTOLERANCE_WEARING_STEEL_FOLLOWUP" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_IRON_INTOLERANCE_WEARING_IRON_FOLLOWUP",
+    "effect": {
+      "u_run_inv_eocs": "all",
+      "search_data": [ { "material": "iron", "worn_only": true }, { "material": "iron", "wielded_only": true } ],
+      "true_eocs": [
+        {
+          "id": "EOC_XE_IRON_INTOLERANCE_WEARING_IRON_RESULT_TRUE",
+          "effect": [
+            {
+              "if": {
+                "or": [
+                  { "and": [ { "u_has_trait": "HOMULLUS" }, { "u_has_trait": "IRON_ALLERGY" } ] },
+                  {
+                    "and": [
+                      {
+                        "u_has_any_trait": [
+                          "UNKNOWING_CHANGELING_NOBLE",
+                          "FAIR_FOLK_COMMONER_SELECTOR",
+                          "UNKNOWING_CHANGELING_COMMONER_BROWNIE",
+                          "UNKNOWING_CHANGELING_COMMONER_POOKA",
+                          "UNKNOWING_CHANGELING_COMMONER_SELKIE",
+                          "UNKNOWING_CHANGELING_COMMONER_TROW"
+                        ]
+                      },
+                      { "not": { "u_has_trait": "IRON_ALLERGY" } }
+                    ]
+                  }
+                ]
+              },
+              "then": { "u_add_effect": "effect_xe_iron_intolerance_wearing_iron_tier_1", "duration": "PERMANENT" }
+            },
+            {
+              "if": {
+                "or": [
+                  {
+                    "and": [
+                      { "u_has_trait": "IRON_ALLERGY" },
+                      { "not": { "u_has_any_trait": [ "ARVORE", "SYLPH", "UNDINE", "IERDE", "SALAMANDER" ] } }
+                    ]
+                  },
+                  {
+                    "and": [ { "u_has_any_trait": [ "IERDE", "SALAMANDER" ] }, { "not": { "u_has_trait": "IRON_ALLERGY" } } ]
+                  },
+                  {
+                    "and": [
+                      {
+                        "u_has_any_trait": [
+                          "UNKNOWING_CHANGELING_NOBLE",
+                          "FAIR_FOLK_COMMONER_SELECTOR",
+                          "UNKNOWING_CHANGELING_COMMONER_BROWNIE",
+                          "UNKNOWING_CHANGELING_COMMONER_POOKA",
+                          "UNKNOWING_CHANGELING_COMMONER_SELKIE",
+                          "UNKNOWING_CHANGELING_COMMONER_TROW"
+                        ]
+                      },
+                      { "u_has_trait": "IRON_ALLERGY" }
+                    ]
+                  }
+                ]
+              },
+              "then": { "u_add_effect": "effect_xe_iron_intolerance_wearing_iron_tier_2", "duration": "PERMANENT" }
+            },
+            {
+              "if": {
+                "or": [
+                  { "and": [ { "u_has_any_trait": [ "ARVORE", "SYLPH", "UNDINE" ] }, { "not": { "u_has_trait": "IRON_ALLERGY" } } ] },
+                  { "and": [ { "u_has_any_trait": [ "IERDE", "SALAMANDER" ] }, { "u_has_trait": "IRON_ALLERGY" } ] }
+                ]
+              },
+              "then": { "u_add_effect": "effect_xe_iron_intolerance_wearing_iron_tier_3", "duration": "PERMANENT" }
+            },
+            {
+              "if": { "and": [ { "u_has_any_trait": [ "ARVORE", "SYLPH", "UNDINE" ] }, { "u_has_trait": "IRON_ALLERGY" } ] },
+              "then": { "u_add_effect": "effect_xe_iron_intolerance_wearing_iron_tier_4", "duration": "PERMANENT" }
+            }
+          ]
+        }
+      ],
+      "false_eocs": [
+        {
+          "id": "EOC_XE_IRON_INTOLERANCE_WEARING_IRON_RESULT_FALSE",
+          "effect": [
+            {
+              "u_lose_effect": [
+                "effect_xe_iron_intolerance_wearing_iron_tier_1",
+                "effect_xe_iron_intolerance_wearing_iron_tier_2",
+                "effect_xe_iron_intolerance_wearing_iron_tier_3",
+                "effect_xe_iron_intolerance_wearing_iron_tier_4"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_IRON_INTOLERANCE_WEARING_STEEL_FOLLOWUP",
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [
+          { "material": "steel", "worn_only": true },
+          { "material": "lc_steel", "worn_only": true },
+          { "material": "mc_steel", "worn_only": true },
+          { "material": "hc_steel", "worn_only": true },
+          { "material": "ch_steel", "worn_only": true },
+          { "material": "lc_steel_chain", "worn_only": true },
+          { "material": "mc_steel_chain", "worn_only": true },
+          { "material": "hc_steel_chain", "worn_only": true },
+          { "material": "ch_steel_chain", "worn_only": true },
+          { "material": "steel", "wielded_only": true },
+          { "material": "lc_steel", "wielded_only": true },
+          { "material": "mc_steel", "wielded_only": true },
+          { "material": "hc_steel", "wielded_only": true },
+          { "material": "ch_steel", "wielded_only": true },
+          { "material": "lc_steel_chain", "wielded_only": true },
+          { "material": "mc_steel_chain", "wielded_only": true },
+          { "material": "hc_steel_chain", "wielded_only": true },
+          { "material": "ch_steel_chain", "wielded_only": true }
+        ],
+        "true_eocs": [
+          {
+            "id": "EOC_XE_IRON_INTOLERANCE_WEARING_STEEL_RESULT_TRUE",
+            "effect": [
+              {
+                "if": {
+                  "or": [
+                    { "and": [ { "u_has_trait": "HOMULLUS" }, { "u_has_trait": "IRON_ALLERGY" } ] },
+                    {
+                      "and": [
+                        {
+                          "u_has_any_trait": [
+                            "UNKNOWING_CHANGELING_NOBLE",
+                            "FAIR_FOLK_COMMONER_SELECTOR",
+                            "UNKNOWING_CHANGELING_COMMONER_BROWNIE",
+                            "UNKNOWING_CHANGELING_COMMONER_POOKA",
+                            "UNKNOWING_CHANGELING_COMMONER_SELKIE",
+                            "UNKNOWING_CHANGELING_COMMONER_TROW"
+                          ]
+                        },
+                        { "not": { "u_has_trait": "IRON_ALLERGY" } }
+                      ]
+                    }
+                  ]
+                },
+                "then": { "u_add_effect": "effect_xe_iron_intolerance_wearing_steel_tier_1", "duration": "PERMANENT" }
+              },
+              {
+                "if": {
+                  "or": [
+                    {
+                      "and": [
+                        { "u_has_trait": "IRON_ALLERGY" },
+                        { "not": { "u_has_any_trait": [ "ARVORE", "SYLPH", "UNDINE", "IERDE", "SALAMANDER" ] } }
+                      ]
+                    },
+                    {
+                      "and": [ { "u_has_any_trait": [ "IERDE", "SALAMANDER" ] }, { "not": { "u_has_trait": "IRON_ALLERGY" } } ]
+                    },
+                    {
+                      "and": [
+                        {
+                          "u_has_any_trait": [
+                            "UNKNOWING_CHANGELING_NOBLE",
+                            "FAIR_FOLK_COMMONER_SELECTOR",
+                            "UNKNOWING_CHANGELING_COMMONER_BROWNIE",
+                            "UNKNOWING_CHANGELING_COMMONER_POOKA",
+                            "UNKNOWING_CHANGELING_COMMONER_SELKIE",
+                            "UNKNOWING_CHANGELING_COMMONER_TROW"
+                          ]
+                        },
+                        { "u_has_trait": "IRON_ALLERGY" }
+                      ]
+                    }
+                  ]
+                },
+                "then": { "u_add_effect": "effect_xe_iron_intolerance_wearing_steel_tier_2", "duration": "PERMANENT" }
+              },
+              {
+                "if": {
+                  "or": [
+                    { "and": [ { "u_has_any_trait": [ "ARVORE", "SYLPH", "UNDINE" ] }, { "not": { "u_has_trait": "IRON_ALLERGY" } } ] },
+                    { "and": [ { "u_has_any_trait": [ "IERDE", "SALAMANDER" ] }, { "u_has_trait": "IRON_ALLERGY" } ] }
+                  ]
+                },
+                "then": { "u_add_effect": "effect_xe_iron_intolerance_wearing_steel_tier_3", "duration": "PERMANENT" }
+              },
+              {
+                "if": { "and": [ { "u_has_any_trait": [ "ARVORE", "SYLPH", "UNDINE" ] }, { "u_has_trait": "IRON_ALLERGY" } ] },
+                "then": { "u_add_effect": "effect_xe_iron_intolerance_wearing_steel_tier_4", "duration": "PERMANENT" }
+              }
+            ]
+          }
+        ],
+        "false_eocs": [
+          {
+            "id": "EOC_XE_IRON_INTOLERANCE_WEARING_STEEL_RESULT_FALSE",
+            "effect": [
+              {
+                "u_lose_effect": [
+                  "effect_xe_iron_intolerance_wearing_steel_tier_1",
+                  "effect_xe_iron_intolerance_wearing_steel_tier_2",
+                  "effect_xe_iron_intolerance_wearing_steel_tier_3",
+                  "effect_xe_iron_intolerance_wearing_steel_tier_4"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

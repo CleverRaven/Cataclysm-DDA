@@ -892,39 +892,41 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                                              omp, 0, 0, lit_level::LIT, false );
                     }
                 }
-                const int horde_size = overmap_buffer.get_horde_size( omp );
-                if( showhordes && los && horde_size >= HORDE_VISIBILITY_SIZE ) {
-                    // a little bit of hardcoded fallbacks for hordes
-                    if( find_tile_with_season( id ) ) {
-                        // NOLINTNEXTLINE(cata-translate-string-literal)
-                        draw_from_id_string( string_format( "overmap_horde_%d", horde_size < 10 ? horde_size : 10 ),
-                                             omp, 0, 0, lit_level::LIT, false );
-                    } else {
-                        switch( horde_size ) {
-                            case HORDE_VISIBILITY_SIZE:
-                                draw_from_id_string( "mon_zombie", omp, 0, 0, lit_level::LIT,
-                                                     false );
-                                break;
-                            case HORDE_VISIBILITY_SIZE + 1:
-                                draw_from_id_string( "mon_zombie_tough", omp, 0, 0,
-                                                     lit_level::LIT, false );
-                                break;
-                            case HORDE_VISIBILITY_SIZE + 2:
-                                draw_from_id_string( "mon_zombie_brute", omp, 0, 0,
-                                                     lit_level::LIT, false );
-                                break;
-                            case HORDE_VISIBILITY_SIZE + 3:
-                                draw_from_id_string( "mon_zombie_hulk", omp, 0, 0,
-                                                     lit_level::LIT, false );
-                                break;
-                            case HORDE_VISIBILITY_SIZE + 4:
-                                draw_from_id_string( "mon_zombie_necro", omp, 0, 0,
-                                                     lit_level::LIT, false );
-                                break;
-                            default:
-                                draw_from_id_string( "mon_zombie_master", omp, 0, 0,
-                                                     lit_level::LIT, false );
-                                break;
+                if( showhordes && los ) {
+                    const int horde_size = overmap_buffer.get_horde_size( omp );
+                    if( horde_size >= HORDE_VISIBILITY_SIZE ) {
+                        // a little bit of hardcoded fallbacks for hordes
+                        if( find_tile_with_season( id ) ) {
+                            // NOLINTNEXTLINE(cata-translate-string-literal)
+                            draw_from_id_string( string_format( "overmap_horde_%d", horde_size < 10 ? horde_size : 10 ),
+                                                 omp, 0, 0, lit_level::LIT, false );
+                        } else {
+                            switch( horde_size ) {
+                                case HORDE_VISIBILITY_SIZE:
+                                    draw_from_id_string( "mon_zombie", omp, 0, 0, lit_level::LIT,
+                                                         false );
+                                    break;
+                                case HORDE_VISIBILITY_SIZE + 1:
+                                    draw_from_id_string( "mon_zombie_tough", omp, 0, 0,
+                                                         lit_level::LIT, false );
+                                    break;
+                                case HORDE_VISIBILITY_SIZE + 2:
+                                    draw_from_id_string( "mon_zombie_brute", omp, 0, 0,
+                                                         lit_level::LIT, false );
+                                    break;
+                                case HORDE_VISIBILITY_SIZE + 3:
+                                    draw_from_id_string( "mon_zombie_hulk", omp, 0, 0,
+                                                         lit_level::LIT, false );
+                                    break;
+                                case HORDE_VISIBILITY_SIZE + 4:
+                                    draw_from_id_string( "mon_zombie_necro", omp, 0, 0,
+                                                         lit_level::LIT, false );
+                                    break;
+                                default:
+                                    draw_from_id_string( "mon_zombie_master", omp, 0, 0,
+                                                         lit_level::LIT, false );
+                                    break;
+                            }
                         }
                     }
                 }
@@ -1002,8 +1004,9 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     // draw nearby seen npcs
     for( const shared_ptr_fast<npc> &guy : npcs_near_player ) {
         const tripoint_abs_omt &guy_loc = guy->pos_abs_omt();
-        if( guy_loc.z() == center_pos.z() && ( has_debug_vision ||
-                                               overmap_buffer.seen_more_than( guy_loc, om_vision_level::details ) ) ) {
+        if( guy_loc.z() == center_pos.z() &&
+            ( has_debug_vision || overmap_buffer.seen_more_than( guy_loc, om_vision_level::details ) ) &&
+            !guy->guaranteed_hostile() ) {
             draw_entity_with_overlays( *guy, global_omt_to_draw_position( guy_loc ),
                                        lit_level::LIT,
                                        height_3d );
@@ -1093,6 +1096,16 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
 
     std::vector<std::pair<nc_color, std::string>> notes_window_text;
 
+    if( fast_traveling ) {
+        // We hijack this to avoid repeating code just for this simple notice. Notes will still display normally
+        notes_window_text.emplace_back( c_yellow, _( "FAST TRAVELING" ) );
+    }
+
+    if( viewing_weather ) {
+        // We hijack this to avoid repeating code just for this simple notice. Notes will still display normally
+        notes_window_text.emplace_back( c_yellow, _( "WEATHER MODE" ) );
+    }
+
     if( uistate.overmap_show_map_notes ) {
         const std::string &note_text = overmap_buffer.note( center_pos );
         if( !note_text.empty() ) {
@@ -1111,7 +1124,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     if( has_debug_vision ||
         overmap_buffer.seen_more_than( center_pos, om_vision_level::details ) ) {
         for( const auto &npc : npcs_near_player ) {
-            if( !npc->marked_for_death && npc->pos_abs_omt() == center_pos ) {
+            if( !npc->marked_for_death && npc->pos_abs_omt() == center_pos && !npc->guaranteed_hostile() ) {
                 notes_window_text.emplace_back( npc->basic_symbol_color(), npc->get_name() );
             }
         }
@@ -1135,7 +1148,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     }
 
 
-    if( !notes_window_text.empty() && !fast_traveling ) {
+    if( !notes_window_text.empty() ) {
         constexpr int padding = 2;
 
         const auto draw_note_text = [&]( const point & draw_pos, const std::string & name,

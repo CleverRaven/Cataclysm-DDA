@@ -1,3 +1,32 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Mutations](#mutations)
+  - [System info](#system-info)
+    - [Mutagens and primers](#mutagens-and-primers)
+      - [Purifier](#purifier)
+    - [Thresholds](#thresholds)
+    - [How mutation works](#how-mutation-works)
+    - [Instability and the odds of a good mutation](#instability-and-the-odds-of-a-good-mutation)
+    - [tl;dr](#tldr)
+    - [Further reading and relevant files](#further-reading-and-relevant-files)
+- [Syntax documentation](#syntax-documentation)
+  - [Mutations](#mutations-1)
+    - [Example](#example)
+    - [Mandatory Fields](#mandatory-fields)
+    - [Supplementary Fields](#supplementary-fields)
+    - [Optional Fields](#optional-fields)
+    - [Comfort Conditions](#comfort-conditions)
+      - [Fields](#fields)
+      - [Types](#types)
+    - [EOC details](#eoc-details)
+    - [Sample trait: Example Sleep](#sample-trait-example-sleep)
+  - [Mutation Categories](#mutation-categories)
+  - [Trait Migrations](#trait-migrations)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Mutations
 
 ## System info

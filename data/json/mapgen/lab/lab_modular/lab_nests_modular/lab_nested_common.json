@@ -95,7 +95,7 @@
       ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ],
       "items": {
-        "r": [ { "item": "office", "chance": 70, "repeat": [ 1, 3 ] } ],
+        "r": [ { "item": "SUS_office_desk", "chance": 70 } ],
         "P": [ { "item": "SUS_office_filing_cabinet", "chance": 70, "repeat": [ 1, 3 ] } ]
       }
     }

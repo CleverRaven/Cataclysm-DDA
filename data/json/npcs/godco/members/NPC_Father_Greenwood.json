@@ -14,13 +14,7 @@
       {
         "text": "I'm seeking forgiveness, Father.  I've made mistakes in my life that I can never take back.",
         "effect": [ "morale_chat_activity", { "u_add_effect": "godco_confessed", "duration": "24 h" } ],
-        "condition": {
-          "and": [
-            { "not": { "u_has_effect": "godco_confessed" } },
-            { "not": { "u_has_trait": "KILLER" } },
-            { "not": { "u_has_trait": "PSYCHOPATH" } }
-          ]
-        },
+        "condition": { "and": [ { "not": { "u_has_effect": "godco_confessed" } }, { "not": { "u_has_trait": "PSYCHOPATH" } } ] },
         "topic": "TALK_GODCO_Greenwood_Confessed"
       }
     ]

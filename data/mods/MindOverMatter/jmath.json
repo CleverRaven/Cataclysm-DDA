@@ -25,9 +25,91 @@
   },
   {
     "type": "jmath_function",
+    "id": "psionic_power_success_formula",
+    "num_args": 0,
+    "return": "psionic_power_success_formula_convert_to_decimal()"
+  },
+  {
+    "type": "jmath_function",
+    "id": "psionic_power_success_formula_convert_to_decimal",
+    "num_args": 0,
+    "return": "( (psionic_power_success_formula_prevent_out_of_bounds() - 40 ) / 40) ^ 2"
+  },
+  {
+    "type": "jmath_function",
+    "id": "psionic_power_success_formula_prevent_out_of_bounds",
+    "num_args": 0,
+    "return": "clamp( psionic_power_success_formula_proficiency_handling(), 0, 40 )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "psionic_power_success_formula_proficiency_handling",
+    "num_args": 0,
+    "return": " u_has_proficiency('prof_concentration_basic') ? ( u_has_proficiency('prof_concentration_intermediate') ? ( u_has_proficiency('prof_concentration_master') ? min( ( psionic_power_success_formula_base_calc() ), 40 ) : min( ( psionic_power_success_formula_base_calc() ), (37 + (u_has_trait('PSI_EXTENDED_CHANNELING_active') * 3) ) ) ) : min( ( psionic_power_success_formula_base_calc() ), 31 + (u_has_trait('PSI_EXTENDED_CHANNELING_active') * 3) ) ) : min( ( psionic_power_success_formula_base_calc() ), 24 + (u_has_trait('PSI_EXTENDED_CHANNELING_active') * 7) )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "psionic_power_success_formula_base_calc",
+    "//": "Metaphysics is by far the most important factor, followed by intelligence, followed only after by power level.  At effective skill level 12 there's a 50% chance to fail",
+    "num_args": 0,
+    "return": "(2 * ( ( u_skill('metaphysics') * 2 ) - u_spell_difficulty(_spell_id) ) + ( u_val('intelligence') * 1.5 ) + (u_spell_level(_spell_id) * 0.6666666666) ) + psionic_power_success_formula_channeling_concentration_modifiers() + psionic_power_success_formula_weariness_modifiers() + psionic_power_success_formula_repeated_channeling_modifiers() + psionic_power_success_formula_modifiers() + psionic_power_success_formula_perks()"
+  },
+  {
+    "type": "jmath_function",
+    "id": "psionic_power_success_formula_channeling_concentration_modifiers",
+    "//": "These affect the effective skill level in psionic_power_success_formula_base_calc and as such are negative",
+    "num_args": 0,
+    "return": "u_vitamin('vitamin_maintained_powers') > 0 ? ( ( (u_vitamin('vitamin_maintained_powers') > concentration_calculations() ) ? ( ( u_vitamin('vitamin_maintained_powers') - concentration_calculations() ) * 3 ): 0 ) * -1) : 0"
+  },
+  {
+    "type": "jmath_function",
+    "id": "psionic_power_success_formula_weariness_modifiers",
+    "//": "These affect the effective skill level in psionic_power_success_formula_base_calc and as such are negative",
+    "num_args": 0,
+    "return": "3 + (u_effect_intensity('weary_1') > -1 ? -3 : 0) + (u_effect_intensity('weary_2') > -1 ? -7 : 0) + (u_effect_intensity('weary_3') > -1 ? -11 : 0) + (u_effect_intensity('weary_4') > -1 ? -16 : 0) + (u_effect_intensity('weary_5') > -1 ? -22 : 0) + (u_effect_intensity('weary_6') > -1 ? -30 : 0)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "psionic_power_success_formula_repeated_channeling_modifiers",
+    "//": "These affect the effective skill level in psionic_power_success_formula_base_calc and as such are negative",
+    "num_args": 0,
+    "return": "(u_nether_conduit_repeated_channeling_value / -2) * (1 + (u_has_trait('PSI_TORRENTIAL_CHANNELING_active') + 0.6) )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "psionic_power_success_formula_modifiers",
+    "num_args": 0,
+    "return": "psionic_power_success_formula_torrential_channeling() + u_has_trait('PSI_EXTENDED_CHANNELING_active') ? (8 + u_skill('metaphysics') ) ) : 0"
+  },
+  {
+    "type": "jmath_function",
+    "id": "psionic_power_success_formula_torrential_channeling",
+    "num_args": 0,
+    "return": "u_has_trait('PSI_TORRENTIAL_CHANNELING_active') ? max( (psionic_power_success_formula_nether_attunement_calculations() * -2), -35) : (psionic_power_success_formula_nether_attunement_calculations() * -1)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "psionic_power_success_formula_nether_attunement_calculations",
+    "num_args": 0,
+    "return": "u_has_proficiency('prof_concentration_basic') ? ( u_has_proficiency('prof_concentration_intermediate') ? ( u_has_proficiency('prof_concentration_master') ? ( u_vitamin('vitamin_psionic_drain') / 40 ) : ( u_vitamin('vitamin_psionic_drain') / 25 ) ) : ( u_vitamin('vitamin_psionic_drain') / 15 ) ) : ( u_vitamin('vitamin_psionic_drain') / 10 )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "psionic_power_success_formula_perks",
+    "num_args": 0,
+    "return": "0"
+  },
+  {
+    "type": "jmath_function",
     "id": "nether_attune_difficulty_scaler",
     "num_args": 1,
     "return": "_0 * _0"
+  },
+  {
+    "type": "jmath_function",
+    "id": "nether_attune_torrential_channeling_influence",
+    "num_args": 0,
+    "return": "u_has_trait('PSI_TORRENTIAL_CHANNELING_active') * ( clamp( (u_vitamin('vitamin_psionic_drain') / 2), 0,50) + clamp( (u_vitamin('vitamin_psionic_drain') - 100), 0,100) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 200) * 2), 0,100) )"
   },
   {
     "type": "jmath_function",
@@ -45,13 +127,13 @@
     "type": "jmath_function",
     "id": "matrix_awakening_odds",
     "num_args": 1,
-    "return": "100 - (100 * (e ^ ( ( _0 - max( (u_has_trait('MORE_PSI_ALPHA') * 0.75), 0) ) / -1.7) ) )"
+    "return": "100 * (e ^ ( ( _0 - max( (u_has_trait('MORE_PSI_ALPHA') * 0.75), 0) ) / -1.7) )"
   },
   {
     "type": "jmath_function",
     "id": "portal_storm_awakening_odds",
     "num_args": 1,
-    "return": "100 - (100 * (e ^ ( ( _0 - max( (u_has_trait('MORE_PSI_ALPHA') * 0.75), 0) ) / -3) ) )"
+    "return": "100 * (e ^ ( ( _0 - max( (u_has_trait('MORE_PSI_ALPHA') * 0.75), 0) ) / -3) )"
   },
   {
     "type": "jmath_function",

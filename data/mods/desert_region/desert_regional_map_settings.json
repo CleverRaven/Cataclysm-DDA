@@ -88,6 +88,32 @@
       "sandy_beach_width": 0
     },
     "overmap_ravine_settings": { "num_ravines": 0, "ravine_width": 3, "ravine_range": 15, "ravine_depth": -2 },
+    "overmap_highway_settings": {
+      "grid_column_seperation": 10,
+      "grid_row_seperation": 8,
+      "width_of_segments": 2,
+      "straightness_chance": 0.6,
+      "intersection_max_radius": 2,
+      "reserved_terrain_id": "hw_reserved",
+      "reserved_terrain_water_id": "hw_reserved_water",
+      "segment_ramp_special": "highway_segment_ramp",
+      "fallback_onramp_special": "Highway Fallback Onramp",
+      "four_way_intersections": { "Highway Clover Leaf": 1 },
+      "fallback_four_way_intersection_special": "Highway Fallback Crossroad",
+      "three_way_intersections": { "Highway Trumpet Interchange": 1 },
+      "fallback_three_way_intersection_special": "Highway Fallback Tee",
+      "bends": { "Highway Bend": 1 },
+      "fallback_bend_special": "Highway Bend",
+      "fallback_supports": "hw_fb_supports",
+      "clockwise_slant_special": "Highway Slant Minor Clockwise",
+      "counterclockwise_slant_special": "Highway Slant Minor Counterclockwise",
+      "road_connections": { "Highway Diamond Interchange": 2, "Highway Rest Area Parking": 1 },
+      "segment_flat_special": "highway_segment_flat",
+      "segment_road_bridge_special": "highway_segment_road_bridge",
+      "segment_bridge_special": "highway_segment_bridge",
+      "segment_bridge_supports_special": "highway_support_mutable",
+      "segment_overpass_special": "highway_segment_overpass"
+    },
     "overmap_forest_settings": {
       "noise_threshold_forest": 0.29,
       "noise_threshold_forest_thick": 0.5,
@@ -322,7 +348,6 @@
           "mx_exocrash_2": 5
         }
       },
-      "bridgehead_ground": { "chance": 5, "extras": { "mx_minefield": 100 } },
       "road_nesw_manhole": { "chance": 20, "extras": { "mx_city_trap": 100 } },
       "build": {
         "chance": 90,

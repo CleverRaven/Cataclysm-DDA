@@ -42,7 +42,12 @@ files:
     - thaelina
   'tools/json_tools/gun_variant_validator.py':
     - anothersimulacrum
-
+  '.github/workflows/iwyu.yml':
+    - moxian
+  'build-scripts/ci-iwyu-run.py':
+    - moxian
+  'tools/iwyu/bad_files.txt':
+    - moxian
   '**/.clang-tidy':
     - jbytheway
   '**/magic*.cpp':

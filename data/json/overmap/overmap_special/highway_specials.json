@@ -2,7 +2,7 @@
   {
     "type": "overmap_special",
     "id": "highway_segment_flat",
-    "//": "Placed by C++",
+    "//": "Placed by C++; the basic highway path",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "hw_road_north" }, { "point": [ 1, 0, 0 ], "overmap": "hw_road_south" } ],
     "locations": [ "land" ],
     "occurrences": [ 0, 0 ],
@@ -10,8 +10,22 @@
   },
   {
     "type": "overmap_special",
+    "id": "highway_segment_ramp",
+    "//": "Placed by C++; raises z-value of highway by one from south to north",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "highway_ramp_up_0_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "highway_ramp_up_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "highway_ramp_down_0_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "highway_ramp_down_1_north" }
+    ],
+    "locations": [ "land" ],
+    "occurrences": [ 0, 0 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "highway_segment_road_bridge",
-    "//": "Placed by C++",
+    "//": "Placed by C++; normal highway segment, but a road crosses over it",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "hw_road_north" },
       { "point": [ 1, 0, 0 ], "overmap": "hw_road_south" },
@@ -25,12 +39,12 @@
   {
     "type": "overmap_special",
     "id": "highway_segment_bridge",
-    "//": "Placed by C++",
+    "//": "Placed by C++; normal highway segment, but over water",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "hw_bridge_supports_north" },
-      { "point": [ 1, 0, 0 ], "overmap": "hw_bridge_supports_south" },
-      { "point": [ 0, 0, 1 ], "overmap": "hw_road_north" },
-      { "point": [ 1, 0, 1 ], "overmap": "hw_road_south" }
+      { "point": [ 0, 0, 0 ], "overmap": "hw_road_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "hw_road_south" },
+      { "point": [ 0, 0, -1 ], "overmap": "hw_fb_supports" },
+      { "point": [ 1, 0, -1 ], "overmap": "hw_fb_supports" }
     ],
     "locations": [ "land" ],
     "occurrences": [ 0, 0 ],
@@ -38,25 +52,61 @@
   },
   {
     "type": "overmap_special",
-    "id": "highway_segment_bridge_supports",
-    "//": "Placed by C++ in lakes under highway_segment_bridge",
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "hw_bridge_supports_north" },
-      { "point": [ 1, 0, 0 ], "overmap": "hw_bridge_supports_south" }
+    "id": "highway_support_mutable",
+    "subtype": "mutable",
+    "//": "Placed by C++; a single support that builds downwards through water",
+    "joins": [ { "id": "support_join", "into_locations": [ "lake_surface", "open_air", "lake_water_cube", "lake_bed" ] } ],
+    "overmaps": {
+      "support_top": {
+        "overmap": "hw_supports",
+        "below": { "id": "support_join", "type": "available" },
+        "locations": [ "lake_surface", "open_air" ]
+      },
+      "support": {
+        "overmap": "hw_supports",
+        "above": { "id": "support_join", "type": "available" },
+        "below": { "id": "support_join", "type": "available" },
+        "locations": [ "open_air", "lake_water_cube" ]
+      },
+      "support_bottom": {
+        "overmap": "hw_supports",
+        "above": { "id": "support_join", "type": "available" },
+        "locations": [ "water", "lake_bed", "subterranean" ]
+      }
+    },
+    "root": "support_top",
+    "phases": [
+      [ { "name": "support_middle", "chunk": [ { "overmap": "support", "rot": "north" } ], "max": 10 } ],
+      [ { "name": "support_end", "chunk": [ { "overmap": "support_bottom", "rot": "north" } ], "max": 1 } ]
     ],
-    "locations": [ "land" ],
     "occurrences": [ 0, 0 ],
     "flags": [ "CLASSIC" ]
   },
   {
     "type": "overmap_special",
     "id": "highway_segment_overpass",
-    "//": "Placed by C++",
+    "//": "Placed by C++; for cities",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "hw_underpass_north" },
-      { "point": [ 1, 0, 0 ], "overmap": "hw_underpass_south" },
+      { "point": [ 0, 0, 0 ], "overmap": "hw_fb_supports" },
+      { "point": [ 1, 0, 0 ], "overmap": "hw_fb_supports" },
       { "point": [ 0, 0, 1 ], "overmap": "hw_road_north" },
       { "point": [ 1, 0, 1 ], "overmap": "hw_road_south" }
+    ],
+    "locations": [ "land" ],
+    "occurrences": [ 0, 0 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Highway Fallback Onramp",
+    "//": "Placed by C++; converts one highway segment into two road connection points",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "hw_merge_to_road_w_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "hw_merge_to_road_e_north" }
+    ],
+    "connections": [
+      { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "highway_road_connection", "from": [ 0, 0, 0 ] },
+      { "point": [ 1, -1, 0 ], "terrain": "road", "connection": "highway_road_connection", "from": [ 1, 0, 0 ] }
     ],
     "locations": [ "land" ],
     "occurrences": [ 0, 0 ],
@@ -86,6 +136,24 @@
   },
   {
     "type": "overmap_special",
+    "id": "Highway Fallback Four-Way Intersection",
+    "//": "Placed by C++, can add more or replace in region settings without needing to compile",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "hw_fallback_four_way_0_0_0_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "hw_fallback_four_way_1_0_0_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "hw_fallback_four_way_0_1_0_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "hw_fallback_four_way_1_1_0_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "hw_fallback_four_way_0_0_1_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "hw_fallback_four_way_1_0_1_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "hw_fallback_four_way_0_1_1_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "hw_fallback_four_way_1_1_1_north" }
+    ],
+    "locations": [ "highway", "highway_water" ],
+    "occurrences": [ 0, 0 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "Highway Fallback Tee",
     "//": "Placed by C++, can add more or replace in region settings without needing to compile",
     "overmaps": [
@@ -96,42 +164,6 @@
       { "point": [ -1, 1, 0 ] },
       { "point": [ 0, 1, 0 ], "overmap": "hw_fb_crossroad_west" },
       { "point": [ 1, 1, 0 ], "overmap": "hw_fb_crossroad_south" },
-      { "point": [ 2, 1, 0 ] },
-      { "point": [ 0, 2, 0 ] },
-      { "point": [ 1, 2, 0 ] }
-    ],
-    "locations": [ "highway", "highway_water" ],
-    "occurrences": [ 0, 0 ],
-    "flags": [ "CLASSIC" ]
-  },
-  {
-    "type": "overmap_special",
-    "id": "Highway Fallback Bend",
-    "//": "Placed by C++, can add more or replace in region settings without needing to compile",
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "hw_fb_bend_0_0_north" },
-      { "point": [ 1, 0, 0 ], "overmap": "hw_fb_bend_1_0_north" },
-      { "point": [ 2, 0, 0 ] },
-      { "point": [ 0, 1, 0 ], "overmap": "hw_fb_bend_0_1_north" },
-      { "point": [ 1, 1, 0 ], "overmap": "hw_fb_bend_1_1_north" },
-      { "point": [ 2, 1, 0 ] },
-      { "point": [ 0, 2, 0 ] },
-      { "point": [ 1, 2, 0 ] }
-    ],
-    "locations": [ "highway", "highway_water" ],
-    "occurrences": [ 0, 0 ],
-    "flags": [ "CLASSIC" ]
-  },
-  {
-    "type": "overmap_special",
-    "id": "Highway Fallback Supports",
-    "//": "Placed by C++, can add more or replace in region settings without needing to compile",
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "hw_fb_supports_north" },
-      { "point": [ 1, 0, 0 ], "overmap": "hw_fb_supports_east" },
-      { "point": [ 2, 0, 0 ] },
-      { "point": [ 0, 1, 0 ], "overmap": "hw_fb_supports_west" },
-      { "point": [ 1, 1, 0 ], "overmap": "hw_fb_supports_south" },
       { "point": [ 2, 1, 0 ] },
       { "point": [ 0, 2, 0 ] },
       { "point": [ 1, 2, 0 ] }
@@ -272,7 +304,15 @@
       { "point": [ -1, 2, 1 ], "overmap": "hw_railings_north" },
       { "point": [ 0, 2, 1 ], "overmap": "hw_railings_north" },
       { "point": [ 1, 2, 1 ], "overmap": "hw_railings_north" },
-      { "point": [ 2, 2, 1 ], "overmap": "hw_railings_north" }
+      { "point": [ 2, 2, 1 ], "overmap": "hw_railings_north" },
+      { "point": [ 0, -7, 0 ] },
+      { "point": [ 1, -7, 0 ] },
+      { "point": [ 0, 8, 0 ] },
+      { "point": [ 1, 8, 0 ] },
+      { "point": [ 8, 0, 0 ] },
+      { "point": [ 8, 1, 0 ] },
+      { "point": [ -7, 0, 0 ] },
+      { "point": [ -7, 1, 0 ] }
     ],
     "locations": [ "land", "highway" ],
     "occurrences": [ 0, 0 ],
@@ -340,7 +380,13 @@
       { "point": [ 0, 0, 1 ], "overmap": "hw_trumpet_bridge_0_0_north" },
       { "point": [ 1, 0, 1 ], "overmap": "hw_trumpet_bridge_1_0_north" },
       { "point": [ 0, 1, 1 ], "overmap": "hw_trumpet_bridge_0_1_north" },
-      { "point": [ 1, 1, 1 ], "overmap": "hw_trumpet_bridge_1_1_north" }
+      { "point": [ 1, 1, 1 ], "overmap": "hw_trumpet_bridge_1_1_north" },
+      { "point": [ 8, 0, 0 ] },
+      { "point": [ 8, 1, 0 ] },
+      { "point": [ -4, 0, 0 ] },
+      { "point": [ -4, 1, 0 ] },
+      { "point": [ 0, 5, 0 ] },
+      { "point": [ 1, 5, 0 ] }
     ],
     "locations": [ "land", "highway" ],
     "occurrences": [ 0, 0 ],
@@ -351,12 +397,9 @@
     "id": "Highway Bend",
     "//": "Placed by C++, can add more or replace in region settings without needing to compile",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "special_field_highway" },
-      { "point": [ 1, 0, 0 ], "overmap": "special_field_highway" },
       { "point": [ 2, 0, 0 ], "overmap": "hw_bend_2_0_north", "locations": [ "highway" ] },
       { "point": [ 3, 0, 0 ], "overmap": "hw_bend_3_0_north" },
       { "point": [ 4, 0, 0 ], "overmap": "hw_bend_4_0_north" },
-      { "point": [ 0, 1, 0 ], "overmap": "special_field_highway" },
       { "point": [ 1, 1, 0 ], "overmap": "hw_bend_1_1_north" },
       { "point": [ 2, 1, 0 ], "overmap": "hw_bend_2_1_north", "locations": [ "highway" ] },
       { "point": [ 3, 1, 0 ], "overmap": "hw_bend_3_1_north" },
@@ -369,7 +412,55 @@
       { "point": [ 1, 3, 0 ], "overmap": "hw_bend_1_3_north" },
       { "point": [ 2, 3, 0 ], "overmap": "hw_bend_2_3_north" },
       { "point": [ 0, 4, 0 ], "overmap": "hw_bend_0_4_north" },
-      { "point": [ 1, 4, 0 ], "overmap": "hw_bend_1_4_north" }
+      { "point": [ 1, 4, 0 ], "overmap": "hw_bend_1_4_north" },
+      { "point": [ 1, 4, -1 ], "overmap": "hw_fb_supports" },
+      { "point": [ 4, 1, -1 ], "overmap": "hw_fb_supports" },
+      { "point": [ 2, 2, -1 ], "overmap": "hw_fb_supports" },
+      { "point": [ 1, 3, -1 ], "overmap": "hw_fb_supports" },
+      { "point": [ 3, 1, -1 ], "overmap": "hw_fb_supports" }
+    ],
+    "locations": [ "land", "highway" ],
+    "occurrences": [ 0, 0 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Highway Slant Minor Clockwise",
+    "//": "Placed by C++, can add more or replace in region settings without needing to compile",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "hw_slant_minor_0_0_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "hw_slant_minor_1_0_north" },
+      { "point": [ 2, 0, 0 ], "overmap": "hw_slant_minor_2_0_north" },
+      { "point": [ 0, -1, 0 ], "overmap": "hw_slant_minor_0_-1_north" },
+      { "point": [ 1, -1, 0 ], "overmap": "hw_slant_minor_1_-1_north" },
+      { "point": [ 2, -1, 0 ], "overmap": "hw_slant_minor_2_-1_north" },
+      { "point": [ 0, -2, 0 ], "overmap": "hw_slant_minor_0_-2_north" },
+      { "point": [ 1, -2, 0 ], "overmap": "hw_slant_minor_1_-2_north" },
+      { "point": [ 2, -2, 0 ], "overmap": "hw_slant_minor_2_-2_north" },
+      { "point": [ 1, 0, -1 ], "overmap": "hw_fb_supports" },
+      { "point": [ 1, -1, -1 ], "overmap": "hw_fb_supports" },
+      { "point": [ 1, -2, -1 ], "overmap": "hw_fb_supports" }
+    ],
+    "locations": [ "land", "highway" ],
+    "occurrences": [ 0, 0 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Highway Slant Minor Counterclockwise",
+    "overmaps": [
+      { "point": [ -1, 0, 0 ], "overmap": "hw_slant_minor_cc_-1_0_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "hw_slant_minor_cc_0_0_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "hw_slant_minor_cc_1_0_north" },
+      { "point": [ -1, -1, 0 ], "overmap": "hw_slant_minor_cc_-1_-1_north" },
+      { "point": [ 0, -1, 0 ], "overmap": "hw_slant_minor_cc_0_-1_north" },
+      { "point": [ 1, -1, 0 ], "overmap": "hw_slant_minor_cc_1_-1_north" },
+      { "point": [ -1, -2, 0 ], "overmap": "hw_slant_minor_cc_-1_-2_north" },
+      { "point": [ 0, -2, 0 ], "overmap": "hw_slant_minor_cc_0_-2_north" },
+      { "point": [ 1, -2, 0 ], "overmap": "hw_slant_minor_cc_1_-2_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "hw_fb_supports" },
+      { "point": [ 0, -1, -1 ], "overmap": "hw_fb_supports" },
+      { "point": [ 0, -2, -1 ], "overmap": "hw_fb_supports" }
     ],
     "locations": [ "land", "highway" ],
     "occurrences": [ 0, 0 ],
@@ -379,8 +470,8 @@
     "type": "overmap_special",
     "id": "Highway Diamond Interchange",
     "overmaps": [
-      { "point": [ 0, -4, 0 ], "overmap": "hw_three_lane_merge_w_north" },
-      { "point": [ 1, -4, 0 ], "overmap": "hw_three_lane_merge_e_north" },
+      { "point": [ 0, -4, 0 ], "overmap": "hw_three_lane_merge_w_north", "locations": [ "highway" ] },
+      { "point": [ 1, -4, 0 ], "overmap": "hw_three_lane_merge_e_north", "locations": [ "highway" ] },
       { "point": [ 0, -3, 0 ], "overmap": "hw_three_lane_north" },
       { "point": [ 1, -3, 0 ], "overmap": "hw_three_lane_south" },
       { "point": [ -1, -2, 0 ], "overmap": "hw_diamond_interchange_-1_-2_north" },
@@ -413,10 +504,10 @@
       { "point": [ 2, 2, 0 ], "overmap": "hw_diamond_interchange_-1_-2_south" },
       { "point": [ 0, 3, 0 ], "overmap": "hw_three_lane_north" },
       { "point": [ 1, 3, 0 ], "overmap": "hw_three_lane_south" },
-      { "point": [ 0, 4, 0 ], "overmap": "hw_three_lane_merge_e_south" },
-      { "point": [ 1, 4, 0 ], "overmap": "hw_three_lane_merge_w_south" }
+      { "point": [ 0, 4, 0 ], "overmap": "hw_three_lane_merge_e_south", "locations": [ "highway" ] },
+      { "point": [ 1, 4, 0 ], "overmap": "hw_three_lane_merge_w_south", "locations": [ "highway" ] }
     ],
-    "//connections": [
+    "connections": [
       { "point": [ -3, 0, 0 ], "terrain": "road", "connection": "highway_road_connection", "from": [ -2, 0, 0 ] },
       { "point": [ 4, 0, 0 ], "terrain": "road", "connection": "highway_road_connection", "from": [ 3, 0, 0 ] }
     ],

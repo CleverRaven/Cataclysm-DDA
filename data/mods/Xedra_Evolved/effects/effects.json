@@ -450,7 +450,7 @@
     "blood_analysis_description": "Unknown RNA virus is rewriting sampled blood cells.",
     "base_mods": { "speed_mod": [ -5 ] },
     "scaling_mods": { "speed_mod": [ 15 ], "str_mod": [ 1.5 ], "dodge_mod": [ 1.5 ] },
-    "flags": [ "HEMOVORE" ]
+    "flags": [ "HEMOVORE", "NO_THORNWITCHERY" ]
   },
   {
     "type": "effect_type",
@@ -600,6 +600,13 @@
     "name": [ "" ],
     "desc": [ "" ],
     "vitamins": [ { "vitamin": "human_blood_vitamin", "rate": [ [ -1, -1 ] ], "tick": [ "30 s", "90 s" ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_dhampir_the_blood_is_the_life",
+    "//": "Hidden--prevents gaining blood when using The Blood is the Life",
+    "name": [ "" ],
+    "desc": [ "" ]
   },
   {
     "type": "effect_type",
@@ -1230,9 +1237,73 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_arvore_sylph_undine_wearing_iron",
+    "id": "effect_xe_iron_intolerance_wearing_iron_tier_4",
     "name": [ "Touching Iron" ],
-    "desc": [ "You are in contact with iron, the ancient bane of the fae.  It will cause you pain and discomfort until removed." ],
+    "desc": [
+      "You are in contact with iron, the ancient bane of the fae.  It will cause you severe pain and damage until removed."
+    ],
+    "rating": "bad",
+    "apply_message": "As the iron touches you, your skin begins to bubble and sear!",
+    "remove_message": "The burning from the iron finally fades.",
+    "base_mods": {
+      "pain_amount": [ 15 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 4 ],
+      "pain_chance": [ 2 ],
+      "pain_max_val": [ 250 ],
+      "pain_tick": [ 75 ],
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_tick": [ 150 ]
+    },
+    "limb_score_mods": [
+      { "limb_score": "balance", "modifier": 0.5 },
+      { "limb_score": "breathing", "modifier": 0.5 },
+      { "limb_score": "lift", "modifier": 0.6 },
+      { "limb_score": "grip", "modifier": 0.6 },
+      { "limb_score": "reaction", "modifier": 0.7 }
+    ],
+    "removes_effects": [ "effect_iron_allergy_wearing_iron", "effect_iron_allergy_wearing_steel" ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "NO_FEY_MAGIC" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xe_iron_intolerance_wearing_steel_tier_4",
+    "name": [ "Touching Steel" ],
+    "desc": [
+      "You are in contact with steel, the closest material to iron, the ancient bane of the fae.  It will cause you severe pain and damage until removed."
+    ],
+    "rating": "bad",
+    "apply_message": "As the steel touches you, your skin begins to bubble and sear!",
+    "remove_message": "The burning from the steel finally fades.",
+    "base_mods": {
+      "pain_amount": [ 12 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 4 ],
+      "pain_chance": [ 2 ],
+      "pain_max_val": [ 125 ],
+      "pain_tick": [ 110 ],
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_tick": [ 300 ]
+    },
+    "limb_score_mods": [
+      { "limb_score": "balance", "modifier": 0.7 },
+      { "limb_score": "breathing", "modifier": 0.6 },
+      { "limb_score": "lift", "modifier": 0.7 },
+      { "limb_score": "grip", "modifier": 0.75 },
+      { "limb_score": "reaction", "modifier": 0.75 }
+    ],
+    "removes_effects": [ "effect_iron_allergy_wearing_iron", "effect_iron_allergy_wearing_steel" ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "NO_FEY_MAGIC" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xe_iron_intolerance_wearing_iron_tier_3",
+    "name": [ "Touching Iron" ],
+    "desc": [
+      "You are in contact with iron, the ancient bane of the fae.  It will cause you severe pain and discomfort until removed."
+    ],
     "rating": "bad",
     "apply_message": "As the iron touches you, your skin begins to burn.",
     "remove_message": "The burning from the iron finally fades.",
@@ -1251,14 +1322,15 @@
       { "limb_score": "grip", "modifier": 0.8 },
       { "limb_score": "reaction", "modifier": 0.8 }
     ],
+    "removes_effects": [ "effect_iron_allergy_wearing_iron", "effect_iron_allergy_wearing_steel" ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD", "NO_FEY_MAGIC" ]
   },
   {
     "type": "effect_type",
-    "id": "effect_arvore_sylph_undine_wearing_steel",
+    "id": "effect_xe_iron_intolerance_wearing_steel_tier_3",
     "name": [ "Touching Steel" ],
     "desc": [
-      "You are in contact with steel, the closest material to iron, the ancient bane of the fae.  It will cause you pain and discomfort until removed."
+      "You are in contact with steel, the closest material to iron, the ancient bane of the fae.  It will cause you severe pain and discomfort until removed."
     ],
     "rating": "bad",
     "apply_message": "As the steel touches you, your skin begins to burn.",
@@ -1278,11 +1350,12 @@
       { "limb_score": "grip", "modifier": 0.85 },
       { "limb_score": "reaction", "modifier": 0.85 }
     ],
+    "removes_effects": [ "effect_iron_allergy_wearing_iron", "effect_iron_allergy_wearing_steel" ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD", "NO_FEY_MAGIC" ]
   },
   {
     "type": "effect_type",
-    "id": "effect_ierde_salamander_wearing_iron",
+    "id": "effect_xe_iron_intolerance_wearing_iron_tier_2",
     "name": [ "Touching Iron" ],
     "desc": [ "You are in contact with iron, the ancient bane of the fae.  It will cause you pain and discomfort until removed." ],
     "rating": "bad",
@@ -1303,11 +1376,12 @@
       { "limb_score": "grip", "modifier": 0.9 },
       { "limb_score": "reaction", "modifier": 0.9 }
     ],
+    "removes_effects": [ "effect_iron_allergy_wearing_iron", "effect_iron_allergy_wearing_steel" ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD", "NO_FEY_MAGIC" ]
   },
   {
     "type": "effect_type",
-    "id": "effect_ierde_salamander_wearing_steel",
+    "id": "effect_xe_iron_intolerance_wearing_steel_tier_2",
     "name": [ "Touching Steel" ],
     "desc": [
       "You are in contact with steel, the closest material to iron, the ancient bane of the fae.  It will cause you pain and discomfort until removed."
@@ -1324,13 +1398,14 @@
       "pain_tick": [ 120 ]
     },
     "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.95 } ],
+    "removes_effects": [ "effect_iron_allergy_wearing_iron", "effect_iron_allergy_wearing_steel" ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
-    "id": "effect_changeling_wearing_iron",
+    "id": "effect_xe_iron_intolerance_wearing_iron_tier_1",
     "name": [ "Touching Iron" ],
-    "desc": [ "You are in contact with iron.  It will cause you pain and discomfort until removed." ],
+    "desc": [ "You are in contact with iron, the ancient bane of the fae.  It will cause you pain and discomfort until removed." ],
     "rating": "bad",
     "apply_message": "As the iron touches you, your skin begins to itch fiercely.",
     "remove_message": "The itch from the iron finally fades.",
@@ -1349,11 +1424,12 @@
       { "limb_score": "grip", "modifier": 0.9 },
       { "limb_score": "reaction", "modifier": 0.9 }
     ],
+    "removes_effects": [ "effect_iron_allergy_wearing_iron", "effect_iron_allergy_wearing_steel" ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD", "NO_FEY_MAGIC" ]
   },
   {
     "type": "effect_type",
-    "id": "effect_changeling_wearing_steel",
+    "id": "effect_xe_iron_intolerance_wearing_steel_tier_1",
     "name": [ "Touching Steel" ],
     "desc": [ "You are in contact with steel.  It will cause you pain and discomfort until removed." ],
     "rating": "bad",
@@ -1368,6 +1444,7 @@
       "pain_tick": [ 120 ]
     },
     "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.95 } ],
+    "removes_effects": [ "effect_iron_allergy_wearing_iron", "effect_iron_allergy_wearing_steel" ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
@@ -1475,8 +1552,15 @@
   {
     "type": "effect_type",
     "id": "effect_arvore_attacked_a_triffid",
-    "name": [ "Broken Green Pact " ],
+    "name": [ "Broken Green Pact" ],
     "desc": [ "You broke the pact of the green and have no more protection from the triffids' wrath." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_arvore_is_day_in_the_sun_not_winter",
+    "//": "Hidden effect, used in Arvore spellcasting failure calculations",
+    "name": [ "" ],
+    "desc": [ "" ]
   },
   {
     "type": "effect_type",
@@ -3748,7 +3832,9 @@
       "pre_flu",
       "pre_common_cold",
       "blood_spiders",
-      "visuals"
+      "visuals",
+      "xe_hydrating_gout_incubation",
+      "xe_hydrating_gout"
     ]
   },
   {
@@ -3762,5 +3848,108 @@
     "scaling_mods": { "int_mod": [ -2 ] },
     "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.8, "scaling": -0.1 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "disease_type",
+    "id": "xe_hydrating_gout_incubation",
+    "min_duration": "22 h",
+    "max_duration": "26 h",
+    "min_intensity": 1,
+    "max_intensity": 1,
+    "symptoms": "xe_hydrating_gout_incubation"
+  },
+  {
+    "type": "effect_type",
+    "id": "xe_hydrating_gout_incubation",
+    "name": [ "Imminent Hydrating Gout" ],
+    "//": "Required for an incubation period",
+    "desc": [
+      "You are about to suffer from the hydrating gout.  This disease causes the spontaneous generation of water inside the body, and becomes more virulent the more hydrated the afflicted is."
+    ],
+    "apply_message": "You have a bad feeling about drinking more water.",
+    "rating": "bad",
+    "immune_flags": [ "NO_THIRST" ],
+    "blood_analysis_description": "Unknown water-producing pathogen."
+  },
+  {
+    "type": "effect_type",
+    "id": "xe_hydrating_gout",
+    "name": [ "Hydrating Gout" ],
+    "desc": [
+      "You are suffering from the peculiar illness known as hydrating gout.  This disease causes the spontaneous generation of water inside the body, and becomes more virulent the more hydrated the afflicted is."
+    ],
+    "apply_memorial_log": "Caught a supernatural illness.",
+    "remove_memorial_log": "Got over the hydrating gout.",
+    "apply_message": "You feel you're going to drown in your own body water.",
+    "remove_message": "You no longer fear the absence of thirst.",
+    "rating": "bad",
+    "immune_flags": [ "NO_THIRST" ],
+    "blood_analysis_description": "Unknown water-producing pathogen."
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_bloodthorn_druid_upgrade_ready",
+    "name": [ "Twitching Heartvines" ],
+    "desc": [
+      "You can occasionally feel your heartvines twitch beneath your skin.  They are ready to grow.  Seek out the unspoiled wilderness and allow them to flourish."
+    ],
+    "apply_message": "As the vampire dies you feel your heartvines stir, invigorated by the creature's blood.  You must seek out the wilderness and meditate there to allow your heartvine to grow.",
+    "remove_message": "Your heartvines cease their movements."
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_bloodthorn_druid_upgrade_active",
+    "//": "Hidden effect to make sure you're actually researching",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_bloodthorne_druid_gain_strength_dexterity_buff",
+    "name": [ "Verdurous Prowess" ],
+    "desc": [ "Your physical capabilities are increased." ],
+    "apply_message": "You feel a surge of power and a sense of unity with the wild.",
+    "remove_message": "Your wilderness-enhanced prowess fades away.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "STRENGTH",
+            "add": {
+              "math": [
+                "min( ( (1 + (0.3 * bloodthorn_druid_traits_sum() ) + (0.1 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') ) ) * (u_arvore_is_in_wilderness == 1 ? 1.5 : 1) ), 10)"
+              ]
+            }
+          },
+          {
+            "value": "DEXTERITY",
+            "add": {
+              "math": [
+                "min( ( (1 + (0.3 * bloodthorn_druid_traits_sum() ) + (0.1 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') ) ) * (u_arvore_is_in_wilderness == 1 ? 1.5 : 1) ), 10)"
+              ]
+            }
+          },
+          {
+            "value": "MAX_HP",
+            "multiply": {
+              "math": [
+                "min( ( (0.1 + (0.02 * bloodthorn_druid_traits_sum() ) + (0.005 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') ) ) * (u_arvore_is_in_wilderness == 1 ? 1.5 : 1) ), 0.6)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_bloodthorne_druid_thorn_prison",
+    "name": [ "Henge of Iron Thorns" ],
+    "desc": [ "You are imprisoned in a thick tangle of thorns." ],
+    "//": "Ideally there would be some way to require a roll before the vampire can break out but that's currently impossible so it's just duration-based for now.",
+    "show_in_info": true,
+    "max_intensity": 300,
+    "flags": [ "CANNOT_MOVE" ]
   }
 ]

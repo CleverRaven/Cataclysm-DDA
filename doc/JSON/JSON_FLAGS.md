@@ -1,68 +1,73 @@
 # JSON Flags
 
-- [JSON Flags](#json-flags)
-  - [Notes](#notes)
-  - [Inheritance](#inheritance)
-  - [TODO](#todo)
-  - [Ammo](#ammo)
-  - [Armor](#armor)
-    - [Covers](#covers)
-    - [Specifically Covers](#specifically-covers)
-  - [Bionics](#bionics)
-  - [Bodyparts](#bodyparts)
-  - [Books](#books)
-  - [Character](#character)
-    - [Mutation Categories](#mutation-categories)
-  - [Comestibles](#comestibles)
-    - [Comestible type](#comestible-type)
-    - [Addiction type](#addiction-type)
-    - [`use_action`](#use_action)
-  - [Effects](#effects)
-  - [Furniture and Terrain](#furniture-and-terrain)
-    - [Fungal Conversions Only](#fungal-conversions-only)
-    - [Furniture Only](#furniture-only)
-  - [Generic](#generic)
-  - [Guns](#guns)
-    - [Firing modes](#firing-modes)
-    - [Gun Faults](#gun-faults)
-  - [Magazines](#magazines)
-  - [Magic](#magic)
-  - [Mapgen](#mapgen)
-  - [Map Specials](#map-specials)
-  - [Material Phases](#material-phases)
-  - [Melee](#melee)
-  - [Monsters](#monsters)
-    - [Anger, Fear and Placation Triggers](#anger-fear-and-placation-triggers)
-    - [Categories](#categories)
-    - [Death Functions](#death-functions)
-    - [Monster Groups](#monster-groups)
-      - [Seasons](#seasons)
-      - [Time of day](#time-of-day)
-    - [Sizes](#sizes)
-    - [Special attacks](#special-attacks)
-  - [Mutations](#mutations)
-  - [Overmap](#overmap)
-    - [Overmap connections](#overmap-connections)
-    - [Overmap specials](#overmap-specials)
-    - [Overmap terrains](#overmap-terrains)
-  - [Recipes](#recipes)
-    - [Crafting recipes](#crafting-recipes)
-    - [Camp building recipes](#camp-building-recipes)
-      - [Blueprint reorientation flags](#blueprint-reorientation-flags)
-  - [Scenarios](#scenarios)
-    - [Profession](#profession)
-    - [Starting Location](#starting-location)
-  - [Skills](#skills)
-    - [Tags](#tags)
-  - [Technical flags](#technical-flags)
-  - [Techniques](#techniques)
-  - [Tools](#tools)
-    - [`use_action`](#use_action)
-  - [Traps](#traps)
-  - [Vehicles](#vehicles)
-    - [Fuel types](#fuel-types)
-    - [Parts](#parts)
-    - [Vehicle faults](#vehicle-faults)
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Notes](#notes)
+- [Inheritance](#inheritance)
+- [TODO](#todo)
+- [Ammo](#ammo)
+- [Armor](#armor)
+  - [Covers](#covers)
+  - [Specifically Covers](#specifically-covers)
+- [Bionics](#bionics)
+- [Bodyparts](#bodyparts)
+- [Books](#books)
+- [Character](#character)
+  - [Mutation Categories](#mutation-categories)
+- [Comestibles](#comestibles)
+  - [Comestible type](#comestible-type)
+  - [Addiction type](#addiction-type)
+  - [`use_action`](#use_action)
+- [Effects](#effects)
+- [Furniture and Terrain](#furniture-and-terrain)
+  - [Fungal Conversions Only](#fungal-conversions-only)
+  - [Furniture Only](#furniture-only)
+- [Generic](#generic)
+- [Guns](#guns)
+  - [Firing modes](#firing-modes)
+  - [Gun faults](#gun-faults)
+- [Magazines](#magazines)
+- [Magic](#magic)
+- [Mapgen](#mapgen)
+- [Map Specials](#map-specials)
+- [Material Phases](#material-phases)
+- [Melee](#melee)
+- [Monsters](#monsters)
+  - [Anger, Fear and Placation Triggers](#anger-fear-and-placation-triggers)
+  - [Categories](#categories)
+  - [Death Functions](#death-functions)
+  - [Monster Groups](#monster-groups)
+    - [Seasons](#seasons)
+    - [Time of day](#time-of-day)
+  - [Special attacks](#special-attacks)
+- [Mutations](#mutations)
+- [Overmap](#overmap)
+  - [Overmap connections](#overmap-connections)
+  - [Overmap specials](#overmap-specials)
+    - [City buildings](#city-buildings)
+  - [Overmap terrains](#overmap-terrains)
+- [Recipes](#recipes)
+  - [Crafting recipes](#crafting-recipes)
+  - [Camp building recipes](#camp-building-recipes)
+    - [Blueprint reorientation flags](#blueprint-reorientation-flags)
+- [Scenarios](#scenarios)
+  - [Profession](#profession)
+  - [Starting Location](#starting-location)
+- [Skills](#skills)
+  - [Tags](#tags)
+- [Technical flags](#technical-flags)
+- [Techniques](#techniques)
+- [Tools](#tools)
+  - [`use_action`](#use_action-1)
+- [Traps](#traps)
+- [Vehicles](#vehicles)
+  - [Fuel types](#fuel-types)
+  - [Parts](#parts)
+  - [Vehicle faults](#vehicle-faults)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Notes
 
@@ -332,6 +337,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```ACID_IMMUNE``` You are immune to acid damage.
 - ```ALARMCLOCK``` You always can set alarms.
 - ```ALBINO``` Cause you to have painful sunburns.
+- ```ATTUNEMENT``` Turns a mutation with this flag green on the list.  Currently used in mods for mutations that grant spellcasting or other supernatural powers.
 - ```BARKY``` Makes you considered to be made of bark for the purposes of making blistering harder.
 - ```BASH_IMMUNE``` You are immune to bashing damage.
 - ```BG_OTHER_SURVIVORS_STORY``` Given to NPC when it has other survival story.
@@ -379,6 +385,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```HARDTOHIT``` Whenever something attacks you, RNG gets rolled twice, and you get the better result.
 - ```HEATSINK``` You are resistant to extreme heat.
 - ```HEAT_IMMUNE``` Immune to very hot temperatures.
+- ```HERITAGE``` Turns a mutation with this flag light cyan on the list.  Currently used in mods for mutations that indicate non-human ancestry.
 - ```HUGE``` Changes your size to `creature_size::huge`.  Checked last of the size category flags, if no size flags are found your size defaults to `creature_size::medium`.
 - ```HYPEROPIC``` You are far-sighted: close combat is hampered and reading is impossible without glasses.
 - ```IMMUNE_HEARING_DAMAGE``` Immune to hearing damage from loud sounds.
@@ -408,6 +415,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```ONE_STORY_FALL``` You can slow your fall, effectively reducing the height of it by 1 level.
 - ```PAIN_IMMUNE``` Character don't feel pain.
 - ```PARAIMMUNE``` You are immune to parasites.
+- ```PHASE_MOVEMENT``` DEBUG. Completely ignores all impassable tiles, gravity checks, etc. and forces movement anyway.
 - ```PLANTBLOOD``` Your body drip veggy blood if wounded.
 - ```PORTAL_PROOF``` You are immune to personal portal storm effects.
 - ```PRED1``` Small morale bonus from foods with the `PREDATOR_FUN` flag.  Lower morale penalty from the guilt mondeath effect.
@@ -672,7 +680,7 @@ List of known flags, used in both `furniture` and `terrain`.  Some work for both
 - ```NO_SPOIL``` Items placed in this tile do not spoil.
 - ```OPENCLOSE_INSIDE``` If it's a door (with an 'open' or 'close' field), it can only be opened or closed if you're inside.
 - ```PAINFUL``` May cause a small amount of pain.
-- ```PERMEABLE``` Permeable for gases.
+- ```PERMEABLE``` Permeable for gases. Implied for passable terrain, only needed on impassable.
 - ```PICKABLE``` This terrain/furniture could be picked with lockpicks.
 - ```PIT_FILLABLE``` This terrain can be filled with dirt like a shallow pit.
 - ```PLACE_ITEM``` Valid terrain for `place_item()` to put items on.
@@ -791,7 +799,8 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```DURABLE_MELEE``` Item is made to hit stuff and it does it well, so it's considered to be a lot tougher than other weapons made of the same materials.
 - ```E_COPIABLE``` This item can be scanned onto an electronic device and can be electronically copied.
 - ```E_FILE_COLLECTION``` This item represents a combinable collection of files. Does not imply E_COPIABLE.
-- ```E_STORABLE``` This item can be stored on an electronic device.
+- ```E_STORABLE``` This item can be stored on an in-game electronic device.
+- ```E_STORABLE_EXCLUSIVE``` This item can ONLY be stored on an in-game electronic device; it may only be handled electronically.
 - ```ELECTRONIC``` This item contain sensitive electronics which can be fried by nearby EMP blast.
 - ```FAKE_MILL``` Item is a fake item, to denote a partially milled product by @ref Item::process_fake_mill, where conditions for its removal are set.
 - ```FAKE_SMOKE``` Item is a fake item generating smoke, recognizable by @ref item::process_fake_smoke, where conditions for its removal are set.
@@ -1019,7 +1028,6 @@ See [Mapgen flags](MAPGEN.md#mapgen-flags).
 - ```mx_mass_grave``` Mass grave with zombies and everyday loot.
 - ```mx_mayhem``` Several types of road mayhem (firefights, crashed cars etc).
 - ```mx_military``` Corpses and some military items.
-- ```mx_minefield``` A military roadblock at the entry of the bridges with landmines scattered in the front of it.
 - ```mx_nest_dermatik``` Dermatik nest.
 - ```mx_nest_wasp``` Wasp nest.
 - ```mx_null``` No special at all.
@@ -1101,6 +1109,7 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```BILE_BLOOD``` Makes monster bleed bile.
 - ```BIOLOGICALPROOF``` Immune to biological damage.
 - ```BORES``` Tunnels through just about anything (15x bash multiplier e.g. dark wyrms' bash skill 12 -> 180).
+- ```BULLETPROOF``` Immune to ballistic damage.
 - ```CAMOUFLAGE``` Stays invisible up to (current Perception, + base Perception if the character has the Spotting proficiency) tiles away, even in broad daylight.  Monsters see it from the lower of `vision_day` and `vision_night` ranges.
 - ```CANPLAY``` This creature can be played with if it's a pet.
 - ```CAN_BE_CULLED``` This animal can be culled if it's a pet.
@@ -1131,6 +1140,7 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```FIREY``` Burns stuff and is immune to fire.
 - ```FISHABLE``` This monster can be fished.
 - ```FLAMMABLE``` Monster catches fire, burns, and spreads fire to nearby objects.
+- ```FLASHBANGPROOF``` Monster is unaffected by flashbangs.
 - ```FLIES``` Can fly over open air without dropping z-level, over water, etc.
 - ```GOODHEARING``` Pursues sounds more than most monsters.
 - ```GRABS``` Its attacks may grab you!
@@ -1286,6 +1296,7 @@ See [Character](#character)
 ### Overmap connections
 
 - ```ORTHOGONAL``` The connection generally prefers straight lines, avoids turning wherever possible.
+- ```PERPENDICULAR_CROSSING``` The connection will never turn while crossing the given location AND may not cross the location in a parallel direction.
 
 ### Overmap specials
 

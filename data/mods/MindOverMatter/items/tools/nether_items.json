@@ -7,6 +7,7 @@
     "color": "magenta",
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "description": "Seems like chaos in solid form.",
       "effect_on_conditions": [ "EOC_CAUSE_PORTAL_STORM" ]
     },

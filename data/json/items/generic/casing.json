@@ -19,6 +19,15 @@
     "volume": "5ml"
   },
   {
+    "id": "unprimed_223_casing",
+    "copy-from": "casing",
+    "type": "ITEM",
+    "name": { "str": "primerless .223 casing" },
+    "description": "An empty casing from a .223 round, with its primer removed.",
+    "weight": "5 g",
+    "volume": "5ml"
+  },
+  {
     "id": "22_casing",
     "copy-from": "casing",
     "looks_like": "9mm_casing",
@@ -71,12 +80,32 @@
     "volume": "10ml"
   },
   {
+    "id": "unprimed_3006_casing",
+    "copy-from": "casing",
+    "looks_like": "223_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless .30-06 casing" },
+    "description": "An empty casing from a .30-06 round, with its primer removed.",
+    "weight": "7 g",
+    "volume": "10ml"
+  },
+  {
     "id": "123ln_casing",
     "copy-from": "casing",
     "looks_like": "223_casing",
     "type": "ITEM",
     "name": { "str": "12.3ln casing" },
     "description": "An empty casing from a 12.3ln round.  It looks deceptively like a .303 British casing, if those were rimless.",
+    "weight": "7 g",
+    "volume": "10ml"
+  },
+  {
+    "id": "unprimed_123ln_casing",
+    "copy-from": "casing",
+    "looks_like": "223_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless 12.3ln casing" },
+    "description": "An empty casing from a 12.3ln round.  It looks deceptively like a .303 British casing, if those were rimless.  This one has had its primer removed.",
     "weight": "7 g",
     "volume": "10ml"
   },
@@ -113,12 +142,32 @@
     "volume": "10ml"
   },
   {
+    "id": "unprimed_270win_casing",
+    "copy-from": "casing",
+    "looks_like": "223_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless .270 Winchester casing" },
+    "description": "An empty casing from a .270 Winchester round, with its primer removed.",
+    "weight": "7 g",
+    "volume": "10ml"
+  },
+  {
     "id": "303_casing",
     "copy-from": "casing",
     "looks_like": "223_casing",
     "type": "ITEM",
-    "name": { "str": ".303 casing" },
+    "name": { "str": ".303 British casing" },
     "description": "An empty casing from a .303 round.",
+    "weight": "7 g",
+    "volume": "10ml"
+  },
+  {
+    "id": "unprimed_303_casing",
+    "copy-from": "casing",
+    "looks_like": "223_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless .303 casing" },
+    "description": "An empty casing from a .303 round, with its primer removed.",
     "weight": "7 g",
     "volume": "10ml"
   },
@@ -127,8 +176,18 @@
     "copy-from": "casing",
     "looks_like": "223_casing",
     "type": "ITEM",
-    "name": { "str": ".300 Win Mag casing" },
+    "name": { "str": ".300 Winchester Magnum casing" },
     "description": "An empty casing from a .300 Winchester Magnum round.",
+    "weight": "7 g",
+    "volume": "10ml"
+  },
+  {
+    "id": "unprimed_300_casing",
+    "copy-from": "casing",
+    "looks_like": "223_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless .300 Win Mag casing" },
+    "description": "An empty casing from a .300 Winchester Magnum round, with its primer removed.",
     "weight": "7 g",
     "volume": "10ml"
   },
@@ -137,8 +196,18 @@
     "copy-from": "casing",
     "looks_like": "223_casing",
     "type": "ITEM",
-    "name": { "str": ".308 casing" },
+    "name": { "str": ".308 Winchester casing" },
     "description": "An empty casing from a .308 round.",
+    "weight": "6 g",
+    "volume": "9ml"
+  },
+  {
+    "id": "unprimed_308_casing",
+    "copy-from": "casing",
+    "looks_like": "223_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless .308 casing" },
+    "description": "An empty casing from a .308 round, with its primer removed.",
     "weight": "6 g",
     "volume": "9ml"
   },
@@ -147,8 +216,18 @@
     "copy-from": "casing",
     "looks_like": "223_casing",
     "type": "ITEM",
-    "name": { "str": "7.62x51mm casing" },
+    "name": { "str": "7.62x51mm NATO casing" },
     "description": "An empty casing from a 7.62x51mm M80 round.",
+    "weight": "6 g",
+    "volume": "9ml"
+  },
+  {
+    "id": "unprimed_762_51_casing",
+    "copy-from": "casing",
+    "looks_like": "223_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless 7.62x51mm casing" },
+    "description": "An empty casing from a 7.62x51mm M80 round, with its primer removed.",
     "weight": "6 g",
     "volume": "9ml"
   },
@@ -163,12 +242,32 @@
     "volume": "3ml"
   },
   {
+    "id": "unprimed_32_casing",
+    "copy-from": "casing",
+    "looks_like": "9mm_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless .32 ACP casing" },
+    "description": "An empty casing from a .32 ACP round, with its primer removed.",
+    "weight": "2 g",
+    "volume": "3ml"
+  },
+  {
     "id": "38_casing",
     "copy-from": "casing",
     "looks_like": "9mm_casing",
     "type": "ITEM",
     "name": { "str": ".38 Special casing" },
     "description": "An empty casing from a .38 Special round.",
+    "weight": "3 g",
+    "volume": "4ml"
+  },
+  {
+    "id": "unprimed_38_casing",
+    "copy-from": "casing",
+    "looks_like": "9mm_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless .38 Special casing" },
+    "description": "An empty casing from a .38 Special round, with its primer removed.",
     "weight": "3 g",
     "volume": "4ml"
   },
@@ -183,6 +282,16 @@
     "volume": "4ml"
   },
   {
+    "id": "unprimed_38super_casing",
+    "copy-from": "casing",
+    "looks_like": "9mm_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless .38 Super casing" },
+    "description": "An empty casing from a .38 Super round, with its primer removed.",
+    "weight": "3 g",
+    "volume": "4ml"
+  },
+  {
     "id": "40_casing",
     "copy-from": "casing",
     "looks_like": "9mm_casing",
@@ -193,12 +302,32 @@
     "volume": "5ml"
   },
   {
+    "id": "unprimed_40_casing",
+    "copy-from": "casing",
+    "looks_like": "9mm_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless .40 S&W casing" },
+    "description": "An empty casing from a .40 S&W round, with its primer removed.",
+    "weight": "3 g",
+    "volume": "5ml"
+  },
+  {
     "id": "10mm_casing",
     "copy-from": "casing",
     "looks_like": "9mm_casing",
     "type": "ITEM",
     "name": { "str": "10mm Auto casing" },
     "description": "An empty casing from a 10mm Auto round.",
+    "weight": "3 g",
+    "volume": "5ml"
+  },
+  {
+    "id": "unprimed_10mm_casing",
+    "copy-from": "casing",
+    "looks_like": "9mm_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless 10mm Auto casing" },
+    "description": "An empty casing from a 10mm Auto round, with its primer removed.",
     "weight": "3 g",
     "volume": "5ml"
   },
@@ -304,12 +433,32 @@
     "volume": "6ml"
   },
   {
+    "id": "unprimed_44_casing",
+    "copy-from": "casing",
+    "looks_like": "9mm_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless .44 Magnum casing" },
+    "description": "An empty casing from a .44 Magnum round, with its primer removed.",
+    "weight": "4 g",
+    "volume": "6ml"
+  },
+  {
     "id": "454_casing",
     "copy-from": "casing",
     "looks_like": "9mm_casing",
     "type": "ITEM",
     "name": { "str": ".454 Casull casing" },
     "description": "An empty casing from a .454 Casull round.",
+    "weight": "7 g",
+    "volume": "10ml"
+  },
+  {
+    "id": "unprimed_454_casing",
+    "copy-from": "casing",
+    "looks_like": "9mm_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless .454 Casull casing" },
+    "description": "An empty casing from a .454 Casull round, with its primer removed.",
     "weight": "7 g",
     "volume": "10ml"
   },
@@ -324,12 +473,32 @@
     "volume": "10ml"
   },
   {
+    "id": "unprimed_460sw_casing",
+    "copy-from": "casing",
+    "looks_like": "9mm_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless .460 S&W Magnum casing" },
+    "description": "An empty casing from a .460 S&W Magnum round, with its primer removed.",
+    "weight": "7 g",
+    "volume": "10ml"
+  },
+  {
     "id": "45_casing",
     "copy-from": "casing",
     "looks_like": "9mm_casing",
     "type": "ITEM",
     "name": { "str": ".45 ACP casing" },
     "description": "An empty casing from a .45 ACP round.",
+    "weight": "4 g",
+    "volume": "6ml"
+  },
+  {
+    "id": "unprimed_45_casing",
+    "copy-from": "casing",
+    "looks_like": "9mm_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless .45 ACP casing" },
+    "description": "An empty casing from a .45 ACP round, with its primer removed.",
     "weight": "4 g",
     "volume": "6ml"
   },
@@ -344,12 +513,32 @@
     "volume": "6ml"
   },
   {
+    "id": "unprimed_45colt_casing",
+    "copy-from": "casing",
+    "looks_like": "9mm_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless .45 Colt casing" },
+    "description": "An empty casing from a .45 Colt round, with its primer removed.",
+    "weight": "4 g",
+    "volume": "6ml"
+  },
+  {
     "id": "4570_casing",
     "copy-from": "casing",
     "looks_like": "9mm_casing",
     "type": "ITEM",
     "name": { "str": ".45-70 casing" },
     "description": "An empty casing from a .45-70 Government round.",
+    "weight": "4 g",
+    "volume": "10ml"
+  },
+  {
+    "id": "unprimed_4570_casing",
+    "copy-from": "casing",
+    "looks_like": "9mm_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless .45-70 casing" },
+    "description": "An empty casing from a .45-70 Government round, with its primer removed.",
     "weight": "4 g",
     "volume": "10ml"
   },
@@ -364,12 +553,32 @@
     "volume": "10ml"
   },
   {
+    "id": "unprimed_50beowulf_casing",
+    "copy-from": "casing",
+    "looks_like": "223_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless .50 Beowulf casing" },
+    "description": "An empty casing from a .50 Beowulf round, with its primer removed.",
+    "weight": "4 g",
+    "volume": "10ml"
+  },
+  {
     "id": "450_casing",
     "copy-from": "casing",
     "looks_like": "223_casing",
     "type": "ITEM",
     "name": { "str": ".450 Bushmaster casing" },
     "description": "An empty casing from a .450 Bushmaster round.",
+    "weight": "4 g",
+    "volume": "10ml"
+  },
+  {
+    "id": "unprimed_450_casing",
+    "copy-from": "casing",
+    "looks_like": "223_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless .450 Bushmaster casing" },
+    "description": "An empty casing from a .450 Bushmaster round, with its primer removed.",
     "weight": "4 g",
     "volume": "10ml"
   },
@@ -384,6 +593,16 @@
     "volume": "3ml"
   },
   {
+    "id": "unprimed_46mm_casing",
+    "copy-from": "casing",
+    "looks_like": "9mm_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless 4.6x30mm casing" },
+    "description": "An empty casing from a 4.6x30mm round, with its primer removed.",
+    "weight": "2 g",
+    "volume": "3ml"
+  },
+  {
     "id": "500_casing",
     "copy-from": "casing",
     "looks_like": "9mm_casing",
@@ -394,12 +613,32 @@
     "volume": "10ml"
   },
   {
+    "id": "unprimed_500_casing",
+    "copy-from": "casing",
+    "looks_like": "9mm_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless .500 S&W Magnum casing" },
+    "description": "An empty casing from a .500 S&W Magnum round, with its primer removed.",
+    "weight": "7 g",
+    "volume": "10ml"
+  },
+  {
     "id": "50_casing",
     "copy-from": "casing",
     "looks_like": "223_casing",
     "type": "ITEM",
     "name": { "str": ".50 BMG casing" },
-    "description": "An empty casing from a .50 BMG round.  These are rare, so you might want to hold onto them.",
+    "description": "An empty casing from a .50 BMG round.",
+    "weight": "18 g",
+    "volume": "12ml"
+  },
+  {
+    "id": "unprimed_50_casing",
+    "copy-from": "casing",
+    "looks_like": "223_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless .50 BMG casing" },
+    "description": "An empty casing from a .50 BMG round, with its primer removed.",
     "weight": "18 g",
     "volume": "12ml"
   },
@@ -414,12 +653,33 @@
     "volume": "12ml"
   },
   {
+    "id": "unprimed_338lapua_casing",
+    "copy-from": "casing",
+    "looks_like": "223_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless .338 Lapua casing" },
+    "description": "An empty casing from a .338 Lapua round.  These are rare, so you might want to hold onto them.  This one has had its primer removed.",
+    "weight": "18 g",
+    "volume": "12ml"
+  },
+  {
     "id": "77arisaka_casing",
     "copy-from": "casing",
     "looks_like": "223_casing",
     "type": "ITEM",
-    "name": { "str": "7.7mm Arisaka casing" },
-    "description": "An empty casing from a 7.7x58mm Japanese round.",
+    "name": { "str": "7.7x58mm Arisaka casing" },
+    "description": "An empty casing from a 7.7x58mm Arisaka round.",
+    "weight": "5 g",
+    "volume": "7ml",
+    "longest_side": "58 mm"
+  },
+  {
+    "id": "unprimed_77arisaka_casing",
+    "copy-from": "casing",
+    "looks_like": "223_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless 7.7mm Arisaka casing" },
+    "description": "An empty casing from a 7.7x58mm Japanese round, with its primer removed.",
     "weight": "5 g",
     "volume": "7ml",
     "longest_side": "58 mm"
@@ -435,6 +695,16 @@
     "volume": "7ml"
   },
   {
+    "id": "unprimed_545_casing",
+    "copy-from": "casing",
+    "looks_like": "9mm_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless 5.45x39mm casing" },
+    "description": "An empty casing from a 5.45x39mm round, with its primer removed.",
+    "weight": "4 g",
+    "volume": "7ml"
+  },
+  {
     "id": "57mm_casing",
     "copy-from": "casing",
     "looks_like": "9mm_casing",
@@ -445,12 +715,32 @@
     "volume": "3ml"
   },
   {
+    "id": "unprimed_57mm_casing",
+    "copy-from": "casing",
+    "looks_like": "9mm_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless 5.7x28mm casing" },
+    "description": "An empty casing from a 5.7x28mm round, with its primer removed.",
+    "weight": "2 g",
+    "volume": "3ml"
+  },
+  {
     "id": "458wm_casing",
     "copy-from": "casing",
     "looks_like": "50beowulf_casing",
     "type": "ITEM",
-    "name": { "str": ".458 WM casing" },
+    "name": { "str": ".458 Winchester Magnum casing" },
     "description": "An empty casing from a .458 Winchester Magnum round.",
+    "weight": "13 g",
+    "volume": "8ml"
+  },
+  {
+    "id": "unprimed_458wm_casing",
+    "copy-from": "casing",
+    "looks_like": "50beowulf_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless .458 WM casing" },
+    "description": "An empty casing from a .458 Winchester Magnum round, with its primer removed.",
     "weight": "13 g",
     "volume": "8ml"
   },
@@ -465,6 +755,16 @@
     "volume": "10ml"
   },
   {
+    "id": "unprimed_762R_casing",
+    "copy-from": "casing",
+    "looks_like": "223_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless 7.62x54mmR casing" },
+    "description": "An empty casing from a 7.62x54mmR round, with its primer removed.",
+    "weight": "7 g",
+    "volume": "10ml"
+  },
+  {
     "id": "762_casing",
     "copy-from": "casing",
     "looks_like": "223_casing",
@@ -475,12 +775,32 @@
     "volume": "9ml"
   },
   {
+    "id": "unprimed_762_casing",
+    "copy-from": "casing",
+    "looks_like": "223_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless 7.62x39mm casing" },
+    "description": "An empty casing from a 7.62x39mm round, with its primer removed.",
+    "weight": "6 g",
+    "volume": "9ml"
+  },
+  {
     "id": "762_25_casing",
     "copy-from": "casing",
     "looks_like": "9mm_casing",
     "type": "ITEM",
-    "name": { "str": "7.62x25mm casing" },
+    "name": { "str": "7.62x25mm Tokarev casing" },
     "description": "An empty casing from a 7.62x25mm round.",
+    "weight": "4 g",
+    "volume": "7ml"
+  },
+  {
+    "id": "unprimed_762_25_casing",
+    "copy-from": "casing",
+    "looks_like": "9mm_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless 7.62x25mm casing" },
+    "description": "An empty casing from a 7.62x25mm round, with its primer removed.",
     "weight": "4 g",
     "volume": "7ml"
   },
@@ -490,6 +810,15 @@
     "type": "ITEM",
     "name": { "str": "9x19mm casing" },
     "description": "An empty casing from a 9x19mm round.",
+    "weight": "3 g",
+    "volume": "5ml"
+  },
+  {
+    "id": "unprimed_9mm_casing",
+    "copy-from": "casing",
+    "type": "ITEM",
+    "name": { "str": "primerless 9x19mm casing" },
+    "description": "An empty casing from a 9x19mm round, with its primer removed.",
     "weight": "3 g",
     "volume": "5ml"
   },
@@ -504,12 +833,32 @@
     "volume": "5ml"
   },
   {
+    "id": "unprimed_357sig_casing",
+    "copy-from": "casing",
+    "looks_like": "9mm_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless .357 SIG casing" },
+    "description": "An empty casing from a .357 SIG round, with its primer removed.",
+    "weight": "3 g",
+    "volume": "5ml"
+  },
+  {
     "id": "357mag_casing",
     "copy-from": "casing",
     "looks_like": "9mm_casing",
     "type": "ITEM",
-    "name": { "str": ".357 magnum casing" },
-    "description": "An empty casing from a .357 magnum round.",
+    "name": { "str": ".357 Magnum casing" },
+    "description": "An empty casing from a .357 Magnum round.",
+    "weight": "3 g",
+    "volume": "5ml"
+  },
+  {
+    "id": "unprimed_357mag_casing",
+    "copy-from": "casing",
+    "looks_like": "9mm_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless .357 magnum casing" },
+    "description": "An empty casing from a .357 magnum round, with its primer removed.",
     "weight": "3 g",
     "volume": "5ml"
   },
@@ -518,8 +867,18 @@
     "copy-from": "casing",
     "looks_like": "9mm_casing",
     "type": "ITEM",
-    "name": { "str": "9x18mm casing" },
+    "name": { "str": "9x18mm Makarov casing" },
     "description": "An empty casing from a 9x18mm round.",
+    "weight": "3 g",
+    "volume": "5ml"
+  },
+  {
+    "id": "unprimed_9x18mm_casing",
+    "copy-from": "casing",
+    "looks_like": "9mm_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless 9x18mm casing" },
+    "description": "An empty casing from a 9x18mm round, with its primer removed.",
     "weight": "3 g",
     "volume": "5ml"
   },
@@ -530,6 +889,16 @@
     "type": "ITEM",
     "name": { "str": ".380 ACP casing" },
     "description": "An empty casing from a .380 ACP round.",
+    "weight": "3 g",
+    "volume": "5ml"
+  },
+  {
+    "id": "unprimed_380_casing",
+    "copy-from": "casing",
+    "looks_like": "9mm_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless .380 ACP casing" },
+    "description": "An empty casing from a .380 ACP round, with its primer removed.",
     "weight": "3 g",
     "volume": "5ml"
   },
@@ -558,6 +927,19 @@
     "color": "red"
   },
   {
+    "id": "unprimed_shot_hull",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "primerless 12 gauge hull" },
+    "description": "An empty hull from a 12 gauge shotgun shell, with its primer removed.",
+    "weight": "8 g",
+    "volume": "12ml",
+    "stackable": true,
+    "material": [ "plastic" ],
+    "symbol": "=",
+    "color": "red"
+  },
+  {
     "id": "410shot_hull",
     "type": "ITEM",
     "category": "spare_parts",
@@ -572,12 +954,36 @@
     "color": "red"
   },
   {
+    "id": "unprimed_410shot_hull",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "primerless .410 hull" },
+    "description": "An empty hull from a .410 shotgun shell, with its primer removed.",
+    "weight": "8 g",
+    "volume": "12ml",
+    "stackable": true,
+    "material": [ "plastic" ],
+    "symbol": "=",
+    "looks_like": "shot_hull",
+    "color": "red"
+  },
+  {
     "id": "300blk_casing",
     "copy-from": "casing",
     "looks_like": "223_casing",
     "type": "ITEM",
-    "name": { "str": ".300BLK casing" },
+    "name": { "str": ".300 AAC Blackout casing" },
     "description": "An empty casing from a .300 AAC Blackout round.",
+    "weight": "6 g",
+    "volume": "9ml"
+  },
+  {
+    "id": "unprimed_300blk_casing",
+    "copy-from": "casing",
+    "looks_like": "223_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless .300BLK casing" },
+    "description": "An empty casing from a .300 AAC Blackout round, with its primer removed.",
     "weight": "6 g",
     "volume": "9ml"
   },
@@ -588,6 +994,16 @@
     "type": "ITEM",
     "name": { "str": ".30 Carbine casing" },
     "description": "An empty casing from a .30 Carbine round.",
+    "weight": "6 g",
+    "volume": "8ml"
+  },
+  {
+    "id": "unprimed_30carbine_casing",
+    "copy-from": "casing",
+    "looks_like": "223_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless .30 Carbine casing" },
+    "description": "An empty casing from a .30 Carbine round, with its primer removed.",
     "weight": "6 g",
     "volume": "8ml"
   },
@@ -618,6 +1034,16 @@
     "type": "ITEM",
     "name": { "str": ".50 AE casing" },
     "description": "An empty casing from a .50 Action Express round.",
+    "weight": "6 g",
+    "volume": "8ml"
+  },
+  {
+    "id": "unprimed_50ae_casing",
+    "copy-from": "casing",
+    "looks_like": "9mm_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless .50 AE casing" },
+    "description": "An empty casing from a .50 Action Express round, with its primer removed.",
     "weight": "6 g",
     "volume": "8ml"
   }

@@ -27,6 +27,17 @@
     ],
     "type": "talk_topic",
     "responses": [
+      {
+        "text": "[PLAYTEST] Send me to the Labyrinthine Structure alpha test 0.1, I know it's low on content and lacking combat balance, but I still want to check it out!",
+        "effect": { "run_eocs": "EOC_LS_Teleport_to_labyrinth" },
+        "condition": { "u_has_trait": "LS_Alphatest" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "[PLAYTEST] Tell me more about the Labyrinthine Structure alpha test.",
+        "condition": { "u_has_trait": "LS_Alphatest" },
+        "topic": "TALK_EXODII_MERCHANT_Alphatest"
+      },
       { "text": "What've you got for trade?", "effect": "start_trade", "topic": "TALK_EXODII_MERCHANT_DoneTrade" },
       {
         "text": "Can you do something for me?",
@@ -114,7 +125,7 @@
       "no": {
         "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ],
         "yes": [
-          "And a fine return, matey.\"  Rubik puts a hand on the countertop, and gestures you closer with the other.",
+          "&\"And a fine return, matey.\"  Rubik puts a hand on the countertop, and gestures you closer with the other.",
           "Fine and you still ain't dead.\"  Their gravelly voice is cheerful.  \"What brings ye roun' Rubik's neckawoods?",
           "Bright and sunny, you're back!\"  There's a bit of a friendly chuckle in Rubik's gravelly voice.  \"Rubik's got goods for ye, if you got goods for Rubik."
         ],
@@ -473,7 +484,7 @@
             "outdoor_only": false,
             "min_radius": 1,
             "max_radius": 3,
-            "spawn_message": "Rubic leads a person to you."
+            "spawn_message": "Rubik leads a person to you."
           }
         ],
         "topic": "TALK_DONE"
@@ -492,7 +503,7 @@
             "outdoor_only": false,
             "min_radius": 1,
             "max_radius": 3,
-            "spawn_message": "Rubic leads a person to you."
+            "spawn_message": "Rubik leads a person to you."
           }
         ],
         "topic": "TALK_DONE"
@@ -511,7 +522,7 @@
             "outdoor_only": false,
             "min_radius": 1,
             "max_radius": 3,
-            "spawn_message": "Rubic leads a person to you."
+            "spawn_message": "Rubik leads a person to you."
           }
         ],
         "topic": "TALK_DONE"
@@ -881,7 +892,7 @@
     "id": "TALK_EXODII_MERCHANT_Home",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "Ah.  Home.  That's a long time gone, you know?  Yours isn't too different.  I… don't think I want to talk about it.  I've changed too much between then and now.\"",
+      "//~": "Ah.  Home.  That's a long time gone, you know?  Yours isn't too different.  I… don't think I want to talk about it.  I've changed too much between then and now.",
       "str": "*becomes distant for a moment.  \"Ah.  Home.  It were a long time gone, kennit.  Your'n be not too far.  This'n… I don't think I want to talk 'bout it.  Too much metal atwixt now an' then.\""
     },
     "responses": [
@@ -930,7 +941,7 @@
     "type": "talk_topic",
     "dynamic_line": {
       "//~": "Robot?  What does that word mean?  Hang on.  …Ah, an automate?  No, I'm as flesh and blood as you are, encased in a shell of metal and wire.  Not as much flesh as there used to be.  The wire is mixed and woven into the flesh, all as one, you see.",
-      "str": "Robot?  What assert is f'r it?  Ahold…\"  Rubik stops for a moment, as if thinking.  \"Ah, an automate?  No, this'n be flesh 'n blood as ye be, encased in a shell o' metal an' wire.  Not so much flesh as there were.  The wire is amixed an' afloat with the flesh, all as one, kennit.\""
+      "str": "Robot?  What assert is f'r it?  Ahold…\"  Rubik stops for a moment, as if thinking.  \"Ah, an automate?  No, this'n be flesh 'n blood as ye be, encased in a shell o' metal an' wire.  Not so much flesh as there were.  The wire is amixed an' afloat with the flesh, all as one, kennit."
     },
     "speaker_effect": { "effect": { "u_add_var": "knowledge_rubik_is_cyborg_u_knows_exodiilore", "value": "yes" } },
     "responses": [
@@ -1079,7 +1090,7 @@
     "id": "TALK_EXODII_MERCHANT_Robot_Buy",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "I don't know about that.  Each one we make is very important to our operations here, and they're extremely expensive.  I might be able to sell you one later, but not right now.\"",
+      "//~": "I don't know about that.  Each one we make is very important to our operations here, and they're extremely expensive.  I might be able to sell you one later, but not right now.",
       "str": "*sounds thoughtful.  \"This'n can't make a call o' the quarter.  The stompers be a king's necklace, and the manufactory don't run on dreams.  Mayhap when us'n be more on the solid, but for the tick and tumble, no.\""
     },
     "speaker_effect": { "effect": { "u_add_var": "dialogue_exodii_rubik_offered_robosell", "value": "yes" } },
@@ -1226,7 +1237,7 @@
   {
     "id": "TALK_EXODII_MERCHANT_Talk_CataclysmCause2",
     "type": "talk_topic",
-    "dynamic_line": "No!  Bluster an' clouds, no!\"  Rubik's voice comes haltingly, as if they are picking their words with unusual care for clarity.  \"We done a few things what Rubik don't like to pickle an'… to think about, but never that!  We came after the fall, long after.  Always.\"",
+    "dynamic_line": "No!  Bluster an' clouds, no!\"  Rubik's voice comes haltingly, as if they are picking their words with unusual care for clarity.  \"We done a few things what Rubik don't like to pickle an'… to think about, but never that!  We came after the fall, long after.  Always.",
     "responses": [
       {
         "text": "Is it always like this?  What's going to happen to us?",
@@ -1395,8 +1406,8 @@
     "id": "TALK_EXODII_MERCHANT_Hempen1",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "That takes me way back.  That's a bit of the old King's Landing right there, you know, calling back from when I was just little.  It… ah, it's really hard for me to think about those old days.  Maybe another time.\"",
-      "str": "*seems to become wistful for a moment.  \"Harks this'n yonder, right so.  'Tis a bit o' t'ol' King's Landing right there, kennit, yarkin' from back when Rubik were nigh smaller than a kelpie.  It…\"  Rubik's gravelly voice falters.  \"Ah, 'tis mightily tassed to hearken back yonder.  Mayhap another time."
+      "//~": "That takes me way back.  That's a bit of the old King's Landing right there, you know, calling back from when I was just little.  It… ah, it's really hard for me to think about those old days.  Maybe another time.",
+      "str": "*seems to become wistful for a moment.  \"Harks this'n yonder, right so.  'Tis a bit o' t'ol' King's Landing right there, kennit, yarkin' from back when Rubik were nigh smaller than a kelpie.  It…\"  Rubik's gravelly voice falters.  \"Ah, 'tis mightily tassed to hearken back yonder.  Mayhap another time.\""
     },
     "responses": [
       { "text": "Maybe later then.  What were you saying about the job?", "topic": "TALK_EXODII_MERCHANT_mission_1_intro" },

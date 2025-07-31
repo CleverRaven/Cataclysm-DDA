@@ -623,7 +623,7 @@
       "male": { "entries": [ { "item": "undershirt" }, { "item": "boxer_briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
-    "traits": [ "ANIMIST", "TERRIFYING", "KILLER" ]
+    "traits": [ "ANIMIST", "TERRIFYING" ]
   },
   {
     "type": "profession",

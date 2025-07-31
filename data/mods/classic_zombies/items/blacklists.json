@@ -208,9 +208,6 @@
       "hk417_makeshiftmag",
       "hk_g80",
       "hk_mp5_semi_pistol",
-      "hk_mp7",
-      "hk46mag",
-      "hk46bigmag",
       "hm12",
       "huge_atomic_battery_cell",
       "iv_mutagen",
@@ -376,7 +373,6 @@
       "cp33_mag_50",
       "ruger_mk4",
       "ruger_mk4_mag",
-      "ruger_charger",
       "sl8",
       "sl8mag"
     ]

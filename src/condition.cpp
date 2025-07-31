@@ -237,6 +237,21 @@ dbl_or_var get_dbl_or_var( const JsonValue &jv )
     return ret_val;
 }
 
+dbl_or_var dbl_or_var_reader::get_next( const JsonValue &jv ) const
+{
+    return get_dbl_or_var( jv );
+}
+
+bool dbl_or_var_reader::operator()( const JsonObject &jo, const std::string_view member_name,
+                                    dbl_or_var &member, bool /*was_loaded*/ ) const
+{
+    if( !jo.has_member( member_name ) ) {
+        return false;
+    }
+    member = get_dbl_or_var( jo, member_name );
+    return true;
+}
+
 duration_or_var_part get_duration_or_var_part( const JsonValue &jv )
 {
     duration_or_var_part ret_val;
@@ -582,16 +597,40 @@ conditional_t::func f_is_trait_purifiable( const JsonObject &jo, std::string_vie
 conditional_t::func f_has_visible_trait( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
-    str_or_var trait_to_check = get_str_or_var( jo.get_member( member ), member, true );
-    return [trait_to_check, is_npc]( const_dialogue const & d ) {
+    str_or_var trait_to_check_var = get_str_or_var( jo.get_member( member ), member, true );
+    return [trait_to_check_var, is_npc]( const_dialogue const & d ) {
         const_talker const *observer = d.const_actor( !is_npc );
         const_talker const *observed = d.const_actor( is_npc );
         int visibility_cap = observer->get_const_character()->get_mutation_visibility_cap(
                                  observed->get_const_character() );
-        bool observed_has = observed->has_trait( trait_id( trait_to_check.evaluate( d ) ) );
-        const mutation_branch &mut_branch = trait_id( trait_to_check.evaluate( d ) ).obj();
+        const trait_id trait_to_check( trait_to_check_var.evaluate( d ) );
+        bool observed_has = observed->has_trait( trait_to_check );
+        const mutation_branch &mut_branch = trait_to_check.obj();
         bool is_visible = mut_branch.visibility > 0 && mut_branch.visibility >= visibility_cap;
         return observed_has && is_visible;
+    };
+}
+
+conditional_t::func f_has_profession( const JsonObject &jo, std::string_view member, bool is_npc )
+{
+    str_or_var prof_to_check_var = get_str_or_var( jo.get_member( member ), member, true );
+    return [prof_to_check_var, is_npc ]( const_dialogue const & d ) {
+        const Character *ch = d.const_actor( is_npc )->get_const_character();
+        const profession *prof_present = ch->prof;
+        const profession_id prof_to_check( prof_to_check_var.evaluate( d ) );
+        if( !!prof_present ) {
+            if( prof_present->get_profession_id() == prof_to_check ) {
+                return true;
+            }
+        }
+        if( prof_to_check->is_hobby() ) {
+            for( const profession *hob : ch->get_hobbies() ) {
+                if( hob->get_profession_id() == prof_to_check ) {
+                    return true;
+                }
+            }
+        }
+        return false;
     };
 }
 
@@ -725,28 +764,6 @@ conditional_t::func f_u_safe_mode_trigger( const JsonObject &jo, std::string_vie
         const int card_dir = static_cast<int>( io::string_to_enum<cardinal_direction>( dir.evaluate(
                 d ) ) );
         return get_avatar().get_mon_visible().dangerous[card_dir];
-    };
-}
-
-conditional_t::func f_u_profession( const JsonObject &jo, std::string_view member )
-{
-    str_or_var u_profession = get_str_or_var( jo.get_member( member ), member, true );
-    return [u_profession]( const_dialogue const & d ) {
-        const profession *prof = get_player_character().get_profession();
-        std::set<const profession *> hobbies = get_player_character().get_hobbies();
-        if( prof->get_profession_id() == profession_id( u_profession.evaluate( d ) ) ) {
-            return true;
-        } else if( profession_id( u_profession.evaluate( d ) )->is_hobby() ) {
-            for( const profession *hob : hobbies ) {
-                if( hob->get_profession_id() == profession_id( u_profession.evaluate( d ) ) ) {
-                    return true;
-                }
-                break;
-            }
-            return false;
-        } else {
-            return false;
-        }
     };
 }
 
@@ -1028,6 +1045,31 @@ conditional_t::func f_at_om_location( const JsonObject &jo, std::string_view mem
         } else {
             return oter_no_dir_or_connections( omt_ter ) == location_value;
         }
+    };
+}
+
+conditional_t::func f_overmap_at_point( const JsonObject &jo, std::string_view member )
+{
+
+    str_or_var location = get_str_or_var( jo.get_member( member ), member, true );
+
+    std::optional<var_info> loc_var;
+    if( jo.has_object( "point" ) ) {
+        loc_var = read_var_info( jo.get_object( "point" ) );
+    }
+
+    return [loc_var, location]( const_dialogue const & d ) {
+        tripoint_abs_ms target_location;
+        if( loc_var.has_value() ) {
+            target_location = read_var_value( *loc_var, d ).tripoint();
+        } else {
+            target_location = d.const_actor( false )->pos_abs();
+        }
+        tripoint_abs_omt omt_pos = project_to<coords::omt>( target_location );
+        const oter_id &omt_ter = overmap_buffer.ter( omt_pos );
+        std::string location_value = location.evaluate( d );
+
+        return oter_no_dir_or_connections( omt_ter ) == location_value;
     };
 }
 
@@ -1328,12 +1370,11 @@ conditional_t::func f_player_see( bool is_npc )
     const map &here = get_map();
 
     return [is_npc, &here]( const_dialogue const & d ) {
-        const Creature *c = d.const_actor( is_npc )->get_const_creature();
-        if( c ) {
+        if( d.has_actor( is_npc ) ) {
+            const Creature *c = d.const_actor( is_npc )->get_const_creature();
             return get_player_view().sees( here, *c );
-        } else {
-            return get_player_view().sees( here,  d.const_actor( is_npc )->pos_bub( here ) );
         }
+        return false;
     };
 }
 
@@ -1833,6 +1874,20 @@ conditional_t::func f_map_in_city( const JsonObject &jo, std::string_view member
         }
 
         return overmap_buffer.is_in_city( target_pos );
+    };
+}
+
+conditional_t::func f_map_is_outside( const JsonObject &jo, std::string_view member )
+{
+    var_info loc_var = read_var_info( jo.get_member( member ) );
+    return [loc_var]( const_dialogue const & d ) {
+        map &here = get_map();
+        tripoint_bub_ms loc = here.get_bub( read_var_value( loc_var, d ).tripoint() );
+        if( here.inbounds( loc ) ) {
+            return !here.is_outside( loc );
+        }
+        //TODO: Make work outside of reality bubble?
+        return false;
     };
 }
 
@@ -2484,6 +2539,7 @@ parsers = {
     {"u_has_trait", "npc_has_trait", jarg::member, &conditional_fun::f_has_trait },
     { "u_is_trait_purifiable", "npc_is_trait_purifiable", jarg::member, &conditional_fun::f_is_trait_purifiable},
     {"u_has_visible_trait", "npc_has_visible_trait", jarg::member, &conditional_fun::f_has_visible_trait },
+    {"u_has_profession", "npc_has_profession", jarg::string, &conditional_fun::f_has_profession },
     {"u_has_martial_art", "npc_has_martial_art", jarg::member, &conditional_fun::f_has_martial_art },
     {"u_using_martial_art", "npc_using_martial_art", jarg::member, &conditional_fun::f_using_martial_art },
     {"u_has_proficiency", "npc_has_proficiency", jarg::member, &conditional_fun::f_has_proficiency },
@@ -2496,7 +2552,6 @@ parsers = {
     {"u_has_mission", jarg::string, &conditional_fun::f_u_has_mission },
     {"u_monsters_in_direction", jarg::string, &conditional_fun::f_u_monsters_in_direction },
     {"u_safe_mode_trigger", jarg::member, &conditional_fun::f_u_safe_mode_trigger },
-    {"u_profession", jarg::string, &conditional_fun::f_u_profession },
     {"u_has_strength", "npc_has_strength", jarg::member | jarg::array, &conditional_fun::f_has_strength },
     {"u_has_dexterity", "npc_has_dexterity", jarg::member | jarg::array, &conditional_fun::f_has_dexterity },
     {"u_has_intelligence", "npc_has_intelligence", jarg::member | jarg::array, &conditional_fun::f_has_intelligence },
@@ -2554,10 +2609,12 @@ parsers = {
     {"map_terrain_id", jarg::member, &conditional_fun::f_map_ter_furn_id },
     {"map_furniture_id", jarg::member, &conditional_fun::f_map_ter_furn_id },
     {"map_field_id", jarg::member, &conditional_fun::f_map_ter_furn_id },
+    {"map_is_outside", jarg::member, &conditional_fun::f_map_is_outside },
     {"map_in_city", jarg::member, &conditional_fun::f_map_in_city },
     {"mod_is_loaded", jarg::member, &conditional_fun::f_mod_is_loaded },
     {"u_has_faction_trust", jarg::member | jarg::array, &conditional_fun::f_has_faction_trust },
     {"math", jarg::member, &conditional_fun::f_math },
+    {"overmap_at_point", jarg::member, &conditional_fun::f_overmap_at_point },
     {"compare_string", jarg::member, &conditional_fun::f_compare_string },
     {"compare_string_match_all", jarg::member, &conditional_fun::f_compare_string_match_all },
     {"get_condition", jarg::member, &conditional_fun::f_get_condition },

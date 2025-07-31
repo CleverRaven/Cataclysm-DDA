@@ -700,7 +700,7 @@
       "c": {
         "terrain": { "param": "floor_type", "fallback": "t_floor" },
         "furniture": "f_counter",
-        "items": { "item": "office", "chance": 75 }
+        "items": { "item": "SUS_office_desk", "chance": 75 }
       },
       "t": {
         "terrain": { "param": "floor_type", "fallback": "t_floor" },

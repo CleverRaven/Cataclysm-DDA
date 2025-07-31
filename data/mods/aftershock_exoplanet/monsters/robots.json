@@ -26,7 +26,10 @@
         "cooldown": 1,
         "gun_type": "vibrating_blaster",
         "fake_skills": [ [ "gun", 2 ], [ "rifle", 3 ] ],
-        "ranges": [ [ 0, 20, "DEFAULT" ] ]
+        "ranges": [ [ 0, 20, "DEFAULT" ] ],
+        "require_targeting_npc": true,
+        "require_targeting_monster": true,
+        "target_moving_vehicles": true
       }
     ],
     "death_drops": {  },
@@ -85,6 +88,7 @@
         "require_targeting_player": true,
         "require_targeting_npc": true,
         "require_targeting_monster": true,
+        "target_moving_vehicles": true,
         "targeting_cost": 10,
         "targeting_timeout_extend": -1,
         "targeting_sound": "\"Hostile Detected.\"",
@@ -104,6 +108,7 @@
         "require_targeting_player": true,
         "require_targeting_npc": true,
         "require_targeting_monster": true,
+        "target_moving_vehicles": true,
         "targeting_cost": 10,
         "targeting_timeout_extend": -1,
         "targeting_sound": "\"Hostile Detected.\"",
@@ -154,6 +159,7 @@
         "require_targeting_player": true,
         "require_targeting_npc": true,
         "require_targeting_monster": true,
+        "target_moving_vehicles": true,
         "targeting_cost": 10,
         "targeting_timeout_extend": -1,
         "targeting_sound": "\"Hostile Detected.\"",
@@ -173,6 +179,7 @@
         "require_targeting_player": true,
         "require_targeting_npc": true,
         "require_targeting_monster": true,
+        "target_moving_vehicles": true,
         "targeting_cost": 10,
         "targeting_timeout_extend": -1,
         "targeting_sound": "\"Hostile Detected.\"",
@@ -234,6 +241,7 @@
         "require_targeting_player": true,
         "require_targeting_npc": true,
         "require_targeting_monster": true,
+        "target_moving_vehicles": true,
         "targeting_cost": 200,
         "targeting_timeout_extend": -10,
         "targeting_sound": "\"Hostile Detected.\"",
@@ -260,7 +268,7 @@
     "id": "afs_mon_sentinel_lx",
     "type": "MONSTER",
     "name": { "str": "Wraitheon Sentinel-lx", "str_pl": "Wraitheon Sentinels-lx" },
-    "description": "Its exterior plates are sable and gold, this luxurious variant of a Wraitheon drone was once kept as a bodyguard by society's wealthiest.  Still with its wrist sword extended, it resembles an ancient knight, standing an eternal watch.",
+    "description": "Clad in sable and gold armor, this luxurious combat humaniform is intended to serve as a bodyguard to society's wealthiest.  Still with its wrist sword extended, it resembles an ancient knight, standing an eternal watch.",
     "default_faction": "WraitheonRobotics",
     "species": [ "ROBOT" ],
     "diff": 10,
@@ -268,6 +276,7 @@
     "weight": "81500 g",
     "hp": 200,
     "speed": 100,
+    "bleed_rate": 0,
     "material": [ "steel" ],
     "symbol": "R",
     "color": "light_gray",
@@ -277,21 +286,26 @@
     "melee_dice": 4,
     "melee_dice_sides": 5,
     "melee_dice_ap": 4,
-    "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
+    "melee_damage": [ { "damage_type": "cut", "amount": 10 } ],
     "dodge": 8,
     "vision_day": 6,
     "vision_night": 6,
     "path_settings": { "max_dist": 6, "avoid_traps": true, "avoid_sharp": true },
     "revert_to_itype": "bot_sentinel_lx",
     "special_attacks": [
+      { "id": "android_crush", "cooldown": 1 },
+      { "id": "android_crush_monster", "cooldown": 1 },
+      { "id": "android_drop", "cooldown": 2 },
       [ "SMASH", 20 ],
-      [ "TAZER", 5 ],
       {
         "type": "gun",
         "cooldown": 15,
         "gun_type": "afs_sentinel_laser_mon",
-        "ranges": [ [ 0, 12, "DEFAULT" ] ],
-        "targeting_sound": "\"Dispatching hostile with lethal force.\""
+        "ranges": [ [ 3, 12, "DEFAULT" ] ],
+        "targeting_sound": "\"Dispatching hostile with lethal force.\"",
+        "require_targeting_npc": true,
+        "require_targeting_monster": true,
+        "target_moving_vehicles": true
       }
     ],
     "death_function": { "corpse_type": "BROKEN" },
@@ -305,8 +319,7 @@
       "NO_BREATHE",
       "PRIORITIZE_TARGETS",
       "GOODHEARING",
-      "PATH_AVOID_DANGER",
-      "HIT_AND_RUN"
+      "PATH_AVOID_DANGER"
     ],
     "//": "Much lower armor than usual since this is a player allied robot only.",
     "armor": { "bash": 8, "cut": 10, "bullet": 15 }
@@ -401,6 +414,7 @@
     "special_attacks": [
       {
         "type": "gun",
+        "cooldown": 0,
         "move_cost": 150,
         "gun_type": "nailgun",
         "fake_skills": [ [ "gun", 0 ], [ "pistol", 2 ] ],
@@ -484,6 +498,7 @@
     "special_attacks": [
       {
         "type": "gun",
+        "cooldown": 0,
         "move_cost": 100,
         "gun_type": "watercannon",
         "fake_skills": [ [ "gun", 2 ], [ "launcher", 2 ] ],
@@ -677,6 +692,7 @@
     "melee_dice": 4,
     "melee_dice_sides": 5,
     "melee_dice_ap": 4,
+    "bleed_rate": 0,
     "starting_ammo": { "afs_7.50mm_caseless": 90 },
     "vision_day": 50,
     "vision_night": 50,
@@ -696,21 +712,22 @@
         "require_targeting_player": true,
         "require_targeting_npc": true,
         "require_targeting_monster": true,
+        "target_moving_vehicles": true,
         "targeting_cost": 200,
         "targeting_timeout": 2,
         "targeting_timeout_extend": -1,
         "targeting_sound": "\"Hostile Detected.\"",
         "targeting_volume": 10
       },
-      { "id": "grab", "cooldown": 7 },
       {
         "id": "smash",
         "throw_strength": 48,
         "cooldown": 30,
         "condition": { "not": { "u_has_effect": "afs_android_crawling" } }
       },
-      { "id": "android_crush", "cooldown": 3 },
-      { "id": "leg_sweep", "cooldown": 2 }
+      { "id": "android_crush", "cooldown": 1 },
+      { "id": "android_crush_monster", "cooldown": 1 },
+      { "id": "android_drop", "cooldown": 2 }
     ],
     "extend": { "flags": [ "DROPS_AMMO" ] },
     "broken_itype": "broken_imaginifer",
@@ -777,6 +794,7 @@
         "require_targeting_player": true,
         "require_targeting_npc": true,
         "require_targeting_monster": true,
+        "target_moving_vehicles": true,
         "targeting_cost": 200,
         "targeting_timeout_extend": -10,
         "targeting_sound": "\"Hostile Detected.\"",
@@ -809,6 +827,7 @@
         "require_targeting_player": true,
         "require_targeting_npc": true,
         "require_targeting_monster": true,
+        "target_moving_vehicles": true,
         "targeting_cost": 10,
         "targeting_timeout_extend": -5,
         "targeting_sound": "\"Hostile Detected.\"",
@@ -842,6 +861,7 @@
         "ranges": [ [ 0, 40, "DEFAULT" ] ],
         "require_targeting_npc": true,
         "require_targeting_monster": true,
+        "target_moving_vehicles": true,
         "targeting_cost": 600,
         "laser_lock": true,
         "targeting_timeout": 15,
@@ -914,6 +934,7 @@
         "require_targeting_player": true,
         "require_targeting_npc": true,
         "require_targeting_monster": true,
+        "target_moving_vehicles": true,
         "targeting_cost": 10,
         "targeting_timeout": 1,
         "targeting_timeout_extend": -1,

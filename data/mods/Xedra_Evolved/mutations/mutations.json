@@ -177,6 +177,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_trait": "DHAMPIR_WEAKNESS_SLOWER_BLOOD_GAIN" } },
+            { "not": { "u_has_effect": "effect_dhampir_the_blood_is_the_life" } },
             { "math": [ "u_vitamin('human_blood_vitamin')", "<", "1799" ] }
           ]
         },
@@ -186,6 +187,7 @@
         "condition": {
           "and": [
             { "u_has_trait": "DHAMPIR_WEAKNESS_SLOWER_BLOOD_GAIN" },
+            { "not": { "u_has_effect": "effect_dhampir_the_blood_is_the_life" } },
             { "math": [ "u_vitamin('human_blood_vitamin')", "<", "1799" ] }
           ]
         },
@@ -206,7 +208,7 @@
       { "condition": "ALWAYS", "ench_effects": [ { "effect": "effect_lilin_vampire_immune", "intensity": 1 } ] }
     ],
     "//": "Dhampirs not getting Cannibal is deliberate.  The struggle over their own humanity is a core part of the dhampir theme.",
-    "flags": [ "HEMOVORE" ],
+    "flags": [ "HEMOVORE", "HERITAGE" ],
     "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ]
   },
   {
@@ -359,6 +361,34 @@
       }
     ],
     "flags": [ "MEND_ALL" ]
+  },
+  {
+    "type": "mutation",
+    "id": "DHAMPIR_AVOID_EAT_SLEEP_DRINK",
+    "name": { "str": "The Blood is the Life" },
+    "points": 5,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "description": "While you must normally eat, sleep, and drink as a mortal must, in times of need you can put that off.  Activate this trait to reduce your need for food, water, and sleep to zero.  While active, the Blood is the Life will continually expend the power in your blood, and when it wears off, you will become exhausted in proportion to how long the trait was active.  You spend <color_yellow>much more blood</color> if outdoors in the sunlight.\n\n<color_light_red>Initial Blood Cost:</color> 1 ml (<u_val:blood_amount_for_graph> ml current)\n<color_light_red>Periodic Blood Cost:</color> 1 ml per minute",
+    "active": true,
+    "activated_is_setup": true,
+    "activation_msg": "You draw on the power in your blood to stave off mortal needs.",
+    "activated_eocs": [ "EOC_DHAMPIR_AVOID_EAT_SLEEP_DRINK_activated" ],
+    "processed_eocs": [ "EOC_DHAMPIR_AVOID_EAT_SLEEP_DRINK_periodic" ],
+    "deactivated_eocs": [ "EOC_DHAMPIR_AVOID_EAT_SLEEP_DRINK_deactivated" ],
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "values": [
+          { "value": "HUNGER", "multiply": -1 },
+          { "value": "METABOLISM", "multiply": -1 },
+          { "value": "THIRST", "multiply": -1 },
+          { "value": "SLEEPINESS", "multiply": -1 }
+        ],
+        "ench_effects": [ { "effect": "effect_dhampir_the_blood_is_the_life", "intensity": 1 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -661,7 +691,46 @@
     "name": { "str": "Predator's Senses" },
     "description": "Your senses are heightened, allowing you to see more clearly, hear even tiny sounds, and smell nearby fresh human blood.",
     "spells_learned": [ [ "vampire_smell_nearby_blood_spell", 1 ] ],
-    "enchantments": [ "ench_vampire_heightened_senses_hearing", "ench_vampire_heightened_senses_perception" ]
+    "enchantments": [
+      "ench_vampire_heightened_senses_hearing",
+      "ench_vampire_heightened_senses_perception",
+      {
+        "special_vision": [
+          {
+            "condition": {
+              "and": [
+                { "math": [ "vampire_total_tier_three_traits() >= 1" ] },
+                { "math": [ "u_val('perception') >= 16" ] },
+                {
+                  "or": [
+                    { "npc_has_effect": "bleed" },
+                    {
+                      "and": [
+                        "npc_is_character",
+                        {
+                          "or": [
+                            { "npc_has_effect": "bleed", "bodypart": "head" },
+                            { "npc_has_effect": "bleed", "bodypart": "torso" },
+                            { "npc_has_effect": "bleed", "bodypart": "arm_l" },
+                            { "npc_has_effect": "bleed", "bodypart": "arm_r" },
+                            { "npc_has_effect": "bleed", "bodypart": "leg_l" },
+                            { "npc_has_effect": "bleed", "bodypart": "leg_r" }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "distance": { "math": [ "u_val('perception') * 2" ] },
+            "descriptions": [
+              { "id": "infrared_creature_medium", "symbol": "?", "color": "c_red", "text": "You can smell something bleeding here." }
+            ]
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -1219,11 +1288,13 @@
         "condition": "ALWAYS",
         "values": [
           { "value": "SPEED", "multiply": 0.1 },
+          { "value": "MAX_HP", "multiply": -0.85 },
           { "value": "MELEE_DAMAGE", "multiply": -0.95 },
           { "value": "NIGHT_VIS", "add": 6 },
           { "value": "DEXTERITY", "add": 8 },
           { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 }
         ],
+        "mutations": [ "ECHOLOCATION" ],
         "ench_effects": [ { "effect": "effect_vampire_bat_form_levitation", "intensity": 1 } ],
         "skills": [ { "value": "dodge", "add": 8 } ]
       },
@@ -1461,23 +1532,42 @@
     "id": "MENTOR_PEACE",
     "name": { "str": "Mentor's peace", "//~": "NO_I18N" },
     "points": 0,
-    "description": { "str": "Intended to be hidden.  Prevent the mentor from being killed by vampires and renfields.", "//~": "NO_I18N" },
+    "description": {
+      "str": "Intended to be hidden.  Prevent the mentor from being killed by vampires and renfields and makes them react to attacks by vanishing in mist.",
+      "//~": "NO_I18N"
+    },
+    "//": "Until NPC_DEATH can work, I'm using a forcefield so they can't perma-die before vanishing forever.  I tried to use an evasion effect so the message would be more fitting but it interfered with the hit_me.",
+    "//2": "<npcname> and %1$s both failed to work for dialogue-based vanishing, so until it is fixed these messages will refer to the mentor's title.",
     "starting_trait": false,
     "player_display": false,
     "purifiable": false,
     "valid": false,
-    "anger_relations": [ [ "VAMPIRE", -150 ], [ "RENFIELD", -150 ] ]
+    "anger_relations": [ [ "VAMPIRE", -150 ], [ "RENFIELD", -150 ] ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "FORCEFIELD", "add": 1 } ],
+        "hit_me_effect": [
+          {
+            "id": "mentor_vanish",
+            "hit_self": true,
+            "message": "You're not supposed to see this.  Open a bug report on Github about having the Mentor's Peace trait.",
+            "npc_message": "%1$s vanishes in a fine mist."
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
     "id": "VAMPIRE_WEAKNESS_MORE_BLOOD",
     "name": { "str": "Vampiric weakness: blood drain" },
     "points": -1,
-    "description": "You thirst for blood is more intense than usual.  You now need twice as much blood to prevent blood starvation.",
+    "description": "You thirst for blood is more intense than usual.  You now need much more blood to prevent blood starvation.",
     "starting_trait": false,
     "valid": false,
     "purifiable": false,
-    "vitamin_rates": [ [ "human_blood_vitamin", 60 ] ]
+    "vitamin_rates": [ [ "human_blood_vitamin", 120 ] ]
   },
   {
     "type": "mutation",
@@ -1604,6 +1694,16 @@
     "name": { "str": "Vampiric weakness: blood cravings" },
     "points": -1,
     "description": "Your thirst for blood will occasionally magnify, causing painful cravings.  You can calm these cravings as or before they happen by consuming blood.",
+    "starting_trait": false,
+    "valid": false,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_WEAKNESS_NO_FUN",
+    "name": { "str": "Vampiric weakness: barred from mortal joys" },
+    "points": -1,
+    "description": "Blood is the only thing that can bring a smile to your lips.  Nothing else gives you any lasting joy or pleasure.  It is impossible for you to be truly happy unless you recently consumed blood.",
     "starting_trait": false,
     "valid": false,
     "purifiable": false
@@ -2028,5 +2128,17 @@
       { "hit_me_effect": [ { "id": "boann_retaliation_mark", "hit_self": false } ] },
       { "hit_me_effect": [ { "id": "boann_retaliation", "hit_self": true } ] }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "BLOODTHORNE_DRUID",
+    "name": { "str": "Bloodthorne Druid" },
+    "points": 0,
+    "description": "You are a oath-sworn member of the ancient order of Bloodthorne Druids, dedicated to defending humanity against the vampires that lurk in the shadows.",
+    "purifiable": false,
+    "valid": false,
+    "profession": true,
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ],
+    "types": [ "HERITAGE" ]
   }
 ]

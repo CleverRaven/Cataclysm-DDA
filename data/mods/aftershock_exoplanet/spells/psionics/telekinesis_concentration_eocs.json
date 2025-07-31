@@ -30,17 +30,11 @@
     "id": "EOC_AFS_TELEKIN_MOMENTUM_MAINTENANCE",
     "condition": { "u_has_effect": "effect_afs_telekinetic_momentum" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty = 4" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = u_spell_difficulty('afs_telekinetic_momentum')" ] },
       {
-        "math": [ "u_spell_exp('afs_electrokinetic_see_electric')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
+        "math": [ "u_spell_exp('afs_telekinetic_momentum')", "+=", "psionic_power_experience_formula_maintenance()" ]
       },
-      {
-        "run_eocs": [
-          "EOC_AFS_CONCENTRATION_SUCCESS_PROFICIENCY",
-          "EOC_AFS_PSI_SKILL_INCREASE_ON_USE_FINALIZE",
-          "EOC_AFS_CONCENTRATION_COSTS_FOCUS"
-        ]
-      },
+      { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_AFS_TELEKIN_MOMENTUM_MAINTENANCE",
         "time_in_future": [

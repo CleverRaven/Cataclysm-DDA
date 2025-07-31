@@ -42,6 +42,8 @@
 #  make BACKTRACE=0
 # Use libbacktrace. Only has effect if BACKTRACE=1. (currently only for MinGW and Linux builds)
 #  make LIBBACKTRACE=1
+# Instruct $(AR) to create a thick archive, copying to object files to cataclysm.a
+#  make THIN_AR=0
 # Compile localization files for specified languages
 #  make localization LANGUAGES="<lang_id_1>[ lang_id_2][ ...]"
 #  (for example: make LANGUAGES="zh_CN zh_TW" for Chinese)
@@ -147,7 +149,7 @@ export CCACHE_COMMENTS=1
 # Explicitly let 'char' to be 'signed char' to fix #18776
 OTHERS += -fsigned-char
 
-VERSION = 0.I
+VERSION = 0.J
 
 TARGET_NAME = cataclysm
 TILES_TARGET_NAME = $(TARGET_NAME)-tiles
@@ -186,6 +188,11 @@ endif
 # Enable json format check by default
 ifndef LINTJSON
   LINTJSON = 1
+endif
+
+# Enable building a thin archive by default
+ifndef THIN_AR
+  THIN_AR = 1
 endif
 
 # We don't want to have both 'check' and 'tests' as targets, because that will
@@ -587,6 +594,8 @@ ifeq ($(NATIVE), osx)
   DEFINES += -DMACOSX
   CXXFLAGS += -mmacosx-version-min=10.15
   LDFLAGS += -mmacosx-version-min=10.15 -framework CoreFoundation -Wl,-headerpad_max_install_names
+  # doesn't use GNU ar
+  THIN_AR=0
   ifeq ($(UNIVERSAL_BINARY), 1)
     CXXFLAGS += -arch x86_64 -arch arm64
     LDFLAGS += -arch x86_64 -arch arm64
@@ -908,6 +917,12 @@ ifeq ($(LOCALIZE),1)
   LOCALIZE_TEST_DEPS = localization $(TEST_MO)
 endif
 
+ifeq ($(THIN_AR), 1)
+  AR_FLAGS = --thin
+else
+  AR_FLAGS =
+endif
+
 ifeq ($(TARGETSYSTEM),LINUX)
   BINDIST_EXTRAS += cataclysm-launcher
   ifneq ("$(wildcard LICENSE-SDL.txt)","")
@@ -1074,7 +1089,7 @@ $(PCH_P): $(PCH_H)
 	-$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -MMD -MP -Wno-error -c $(PCH_H) -o $(PCH_P)
 
 $(BUILD_PREFIX)$(TARGET_NAME).a: $(OBJS)
-	$(AR) rcs $(BUILD_PREFIX)$(TARGET_NAME).a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
+	$(AR) rcs $(AR_FLAGS) $(BUILD_PREFIX)$(TARGET_NAME).a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
 
 .PHONY: version prefix
 version:
@@ -1094,7 +1109,7 @@ version:
 
 prefix:
 	@( PREFIX_STRING=$(PREFIX) ; \
-            [ -e "$(SRC_DIR)/prefix.h" ] && OLDPREFIX=$$(grep PREFIX $(SRC_DIR)/PREFIX.h|cut -d '"' -f2) ; \
+            [ -e "$(SRC_DIR)/prefix.h" ] && OLDPREFIX=$$(grep -s PREFIX $(SRC_DIR)/PREFIX.h|cut -d '"' -f2) ; \
             if [ "x$$PREFIX_STRING" != "x$$OLDPREFIX" ]; then printf '// NOLINT(cata-header-guard)\n#define PREFIX "%s"\n' "$$PREFIX_STRING" | tee $(SRC_DIR)/prefix.h ; fi \
          )
 

@@ -360,7 +360,7 @@
               { "item": "dog_whistle", "prob": 50 },
               { "item": "dog_whistle_wood", "prob": 25 },
               { "item": "leather_harness_dog", "prob": 50 },
-              { "item": "dogfood_dry", "prob": 50 },
+              { "item": "dogfood_dry", "container-item": "bowl_plastic", "prob": 50 },
               { "item": "bone", "prob": 50 },
               { "item": "dog_tag_dog", "prob": 100 }
             ],
@@ -478,9 +478,10 @@
       { "item": "joint", "prob": 10 },
       { "item": "seed_weed", "prob": 5, "count": 2 },
       { "item": "seed_tobacco", "prob": 5 },
+      { "item": "seed_poppy_bud", "prob": 5 },
       { "item": "rolling_paper", "prob": 5 },
       { "item": "mask_hockey", "prob": 5 },
-      { "item": "mask_guy_fawkes", "prob": 5 },
+      { "item": "mask_skull", "variant": "guy_fawkes", "prob": 5 },
       { "item": "hockey_stick", "prob": 10 },
       { "item": "throat_guard_nylon", "prob": 3 },
       { "item": "throat_guard_canvas", "prob": 3 },
@@ -630,12 +631,13 @@
       { "item": "rubber_harness_dog", "prob": 2 },
       { "item": "dogfood", "prob": 5, "container-item": "can_medium" },
       { "item": "catfood", "prob": 5, "container-item": "can_food" },
-      { "prob": 2, "group": "dogfood_dry_bag_plastic_8" },
-      { "prob": 2, "group": "catfood_dry_bag_plastic_8" },
+      { "prob": 2, "item": "dogfood_dry", "count": [ 2, -1 ] },
+      { "prob": 2, "item": "catfood_dry", "count": [ 2, -1 ] },
       { "item": "nic_gum", "prob": 2, "count": [ 1, 10 ] },
       { "item": "oxygen_tank", "prob": 2, "charges": [ 0, 12 ] },
       { "item": "smoxygen_tank", "prob": 1, "charges": [ 0, 24 ] },
       { "group": "religious_books", "prob": 38 },
+      { "group": "SUS_book_nonf_pulp_newage", "prob": 5 },
       { "item": "leathersandals", "prob": 25 },
       { "item": "espadrilles", "prob": 15 },
       { "item": "phonebook", "prob": 5 },
@@ -673,9 +675,7 @@
       { "group": "snacks", "prob": 370 },
       { "item": "aluminum_foil", "prob": 25 },
       { "item": "rolling_pin", "prob": 25 },
-      { "prob": 50, "group": "cereal_box_small_4" },
-      { "prob": 60, "group": "cereal2_box_small_4" },
-      { "prob": 45, "group": "cereal3_box_small_4" },
+      { "prob": 60, "group": "box_cereal_any_opened" },
       { "group": "kitchen_appliances", "prob": 253 },
       { "item": "apron_cotton", "prob": 25 },
       { "item": "waist_apron_long", "prob": 7 },
@@ -791,10 +791,10 @@
       { "prob": 7, "group": "bread_garlic_bag_plastic_14" },
       { "prob": 7, "group": "cornbread_bag_plastic_6" },
       { "prob": 7, "group": "flatbread_bag_plastic_6" },
-      { "prob": 20, "group": "crackers_box_small_8" },
-      { "prob": 20, "group": "grahmcrackers_box_small_8" },
+      { "prob": 20, "item": "crackers", "count": [ 1, -1 ] },
+      { "prob": 20, "item": "grahmcrackers", "count": [ 2, -1 ] },
       { "prob": 15, "group": "oyster_crackers_plastic_bag_vac_8" },
-      { "prob": 20, "group": "marshmallow_bag_plastic" },
+      { "prob": 20, "item": "marshmallow", "count": [ 1, -1 ] },
       { "prob": 12, "group": "biscuit_box_small_10" },
       { "item": "hardtack", "prob": 2, "count": 2 },
       { "prob": 40, "group": "cheese_bag_plastic" },
@@ -820,8 +820,8 @@
       { "item": "dog_whistle", "prob": 5 },
       { "item": "dogfood", "prob": 10, "container-item": "can_medium" },
       { "item": "catfood", "prob": 10, "container-item": "can_food" },
-      { "prob": 5, "group": "dogfood_dry_bag_plastic_12" },
-      { "prob": 5, "group": "catfood_dry_bag_plastic_12" },
+      { "prob": 5, "item": "dogfood_dry", "count": [ 2, -1 ] },
+      { "prob": 5, "item": "catfood_dry", "count": [ 2, -1 ] },
       { "group": "charcoal_bag_part", "prob": 5, "charges": [ 25, 50 ] },
       { "item": "soap", "prob": 70, "charges": [ 1, 10 ] },
       { "item": "detergent", "prob": 50, "charges": [ 1, 20 ] },
@@ -872,6 +872,7 @@
       { "item": "weed", "prob": 20, "count": [ 1, 5 ] },
       { "item": "seed_weed", "prob": 15, "count": 2 },
       { "item": "seed_tobacco", "prob": 5 },
+      { "item": "seed_poppy_bud", "prob": 5 },
       { "item": "rolling_paper", "prob": 5, "charges": [ 1, 30 ] },
       { "item": "pipe_glass", "prob": 5 },
       { "prob": 8, "group": "coke_bag_zipper_1_8" },
@@ -950,6 +951,7 @@
       { "group": "novels", "prob": 95 },
       { "item": "ZSG", "prob": 5 },
       { "item": "manual_mechanics", "prob": 35 },
+      { "item": "manual_driving", "prob": 5 },
       { "item": "manual_fabrication", "prob": 12 },
       { "item": "manual_speech", "prob": 50 },
       { "item": "manual_business", "prob": 40 },
@@ -1002,6 +1004,7 @@
       { "item": "talking_doll", "prob": 65, "charges": [ 0, 100 ] },
       { "item": "marble", "prob": 65 },
       { "item": "creepy_doll", "prob": 1, "charges": [ 0, 100 ] },
+      { "group": "esoteric_books", "prob": 1 },
       { "item": "straw_doll", "prob": 1 },
       { "item": "money_strap_five", "prob": 30 },
       { "item": "wristwatch", "prob": 15 },
@@ -1025,6 +1028,7 @@
       { "item": "vibrator", "prob": 5, "charges": [ 0, 100 ] },
       { "item": "tux", "prob": 1 },
       { "item": "dress", "variant": "gown", "prob": 1 },
+      { "item": "cheongsam", "prob": 1 },
       { "item": "long_glove_white", "prob": 1 },
       { "item": "veil_wedding", "prob": 1 },
       { "item": "dress_wedding", "prob": 1 },
@@ -1051,7 +1055,7 @@
       { "item": "leathersandals", "prob": 25 },
       { "item": "espadrilles", "prob": 15 },
       { "item": "survnote", "prob": 2 },
-      { "item": "mask_guy_fawkes", "prob": 5 },
+      { "item": "mask_skull", "variant": "guy_fawkes", "prob": 5 },
       { "item": "magnifying_glass", "prob": 2 },
       { "item": "holy_symbol", "prob": 5 },
       { "item": "pet_carrier", "prob": 3 },
@@ -1187,6 +1191,8 @@
       [ "binoculars", 50 ],
       [ "crossbow", 20 ],
       [ "compcrossbow", 20 ],
+      { "group": "esoteric_books", "prob": 5 },
+      { "group": "mansion_exotic_weapons", "prob": 1 },
       [ "rapier_fake", 10 ],
       [ "cavalry_sabre_fake", 20 ],
       [ "katana_fake", 20 ],
@@ -1232,7 +1238,7 @@
       { "item": "pet_carrier", "prob": 30 },
       { "item": "petpack", "prob": 15 },
       { "item": "catfood", "prob": 30, "container-item": "can_food" },
-      { "prob": 10, "group": "catfood_dry_bag_plastic_18" },
+      { "prob": 10, "item": "catfood_dry", "count": [ 12, -1 ] },
       { "item": "towel", "prob": 20 },
       { "item": "soap", "prob": 10 },
       { "item": "gloves_medical", "prob": 20 },
@@ -1508,43 +1514,30 @@
   },
   {
     "type": "item_group",
-    "id": "dogfood_dry_bag_plastic_8",
+    "id": "box_cereal_opened",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
-    "entries": [ { "item": "dogfood_dry", "container-item": "null", "count": 8 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "catfood_dry_bag_plastic_8",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
-    "entries": [ { "item": "catfood_dry", "container-item": "null", "count": 8 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "cereal_box_small_4",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "box_small",
-    "entries": [ { "item": "cereal", "container-item": "null", "count": 4 } ]
+    "entries": [ { "item": "cereal", "container-item": "null", "count": [ 4, -1 ] } ]
   },
   {
     "type": "item_group",
-    "id": "cereal2_box_small_4",
+    "id": "box_cereal2_opened",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "box_small",
-    "entries": [ { "item": "cereal2", "container-item": "null", "count": 4 } ]
+    "entries": [ { "item": "cereal2", "container-item": "null", "count": [ 4, -1 ] } ]
   },
   {
     "type": "item_group",
-    "id": "cereal3_box_small_4",
+    "id": "box_cereal3_opened",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "box_small",
-    "entries": [ { "item": "cereal3", "container-item": "null", "count": 4 } ]
+    "entries": [ { "item": "cereal3", "container-item": "null", "count": [ 4, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "box_cereal_any_opened",
+    "subtype": "distribution",
+    "entries": [ { "group": "box_cereal_opened" }, { "group": "box_cereal2_opened" }, { "group": "box_cereal3_opened" } ]
   },
   {
     "type": "item_group",
@@ -2069,19 +2062,10 @@
   },
   {
     "type": "item_group",
-    "id": "crackers_box_small_8",
+    "id": "crackers_box_small_full",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "box_small",
-    "entries": [ { "item": "crackers", "container-item": "null", "count": 8 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "grahmcrackers_box_small_8",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "box_small",
-    "entries": [ { "item": "grahmcrackers", "container-item": "null", "count": 8 } ]
+    "entries": [ { "item": "crackers", "container-item": "null", "count": -1 } ]
   },
   {
     "type": "item_group",
@@ -2090,14 +2074,6 @@
     "//": "This group was created automatically and may contain errors.",
     "container-item": "plastic_bag_vac",
     "entries": [ { "item": "oyster_crackers", "container-item": "null", "count": 8 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "marshmallow_bag_plastic",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "marshmallow", "container-item": "null", "count": [ 1, 5 ] } ]
   },
   {
     "type": "item_group",
@@ -2154,22 +2130,6 @@
     "//": "This group was created automatically and may contain errors.",
     "container-item": "jar_glass_sealed",
     "entries": [ { "item": "fish_pickled", "container-item": "null", "count": 2 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "dogfood_dry_bag_plastic_12",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
-    "entries": [ { "item": "dogfood_dry", "container-item": "null", "count": 12 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "catfood_dry_bag_plastic_12",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
-    "entries": [ { "item": "catfood_dry", "container-item": "null", "count": 12 } ]
   },
   {
     "type": "item_group",

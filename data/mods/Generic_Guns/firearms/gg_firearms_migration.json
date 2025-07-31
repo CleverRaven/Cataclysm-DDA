@@ -40,18 +40,7 @@
     "replace": "pistol_levergun"
   },
   {
-    "id": [
-      "skorpion_61",
-      "mac_11",
-      "mac_10",
-      "hk_mp7",
-      "needlepistol",
-      "hk_mp5k",
-      "briefcase_smg",
-      "skorpion_82",
-      "tec9",
-      "glock_18c"
-    ],
+    "id": [ "skorpion_61", "mac_11", "mac_10", "needlepistol", "hk_mp5k", "briefcase_smg", "skorpion_82", "tec9", "glock_18c" ],
     "type": "MIGRATION",
     "replace": "pistol_machine"
   },
@@ -221,7 +210,7 @@
     "replace": "pistol_smg"
   },
   {
-    "id": [ "ruger_1022", "ruger_1022_auto", "ruger_charger_auto", "rossi_gallery", "marlin60" ],
+    "id": [ "ruger_1022", "ruger_1022_auto", "ruger_charger_auto", "rossi_gallery", "marlin60", "mp_15_22", "savage_rascal" ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_rifle"
   },
@@ -229,6 +218,7 @@
     "id": [
       "marlin_9a",
       "kp32",
+      "lws32",
       "ruger_lcr_22",
       "sig_mosquito",
       "walther_p22",
@@ -303,6 +293,7 @@
   {
     "id": [
       "survivor_special_700",
+      "remington_700_308",
       "m110a1",
       "mosin44_ebr",
       "mosin91_30_ebr",
@@ -382,6 +373,7 @@
       "ar15_762",
       "rifle_223",
       "ruger_mini",
+      "mp_15",
       "sig_assault_rifle",
       "steyr_aug",
       "iwi_tavor_x95_300blk",

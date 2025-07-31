@@ -348,7 +348,8 @@
       { "item": "cell_phone", "prob": 10, "charges": [ 0, 150 ] },
       [ "file", 40 ],
       [ "mag_mechanics", 20 ],
-      [ "manual_mechanics", 10 ]
+      [ "manual_mechanics", 10 ],
+      [ "manual_driving", 10 ]
     ]
   },
   {
@@ -1121,7 +1122,9 @@
       { "item": "sword_xiphos", "prob": 4, "damage": [ 2, 4 ] },
       { "item": "khopesh", "prob": 4, "damage": [ 2, 4 ] },
       { "item": "spear_dory", "prob": 3, "damage": [ 2, 4 ] },
-      { "item": "pike_bronze", "prob": 3, "damage": [ 2, 4 ] }
+      { "item": "pike_bronze", "prob": 3, "damage": [ 2, 4 ] },
+      { "item": "cestus", "prob": 4, "damage": [ 2, 4 ] },
+      { "item": "bagh_nakha", "prob": 2, "damage": [ 2, 4 ] }
     ]
   },
   {
@@ -1188,6 +1191,8 @@
       { "item": "chem_baking_soda", "prob": 60, "charges": [ 10, -1 ] },
       [ "syringe", 30 ],
       [ "punch_dagger", 12 ],
+      [ "knuckle_brass", 12 ],
+      [ "knuckle_steel_forged", 6 ],
       { "item": "water_clean", "prob": 80, "charges": [ 1, -1 ], "container-item": "bottle_plastic", "sealed": false },
       { "prob": 80, "group": "salt_various" },
       [ "mag_porn", 20 ],
@@ -1471,8 +1476,10 @@
       { "item": "crackpipe", "prob": 8 },
       { "item": "weed", "prob": 10, "count": [ 1, 5 ] },
       { "item": "joint", "prob": 10 },
+      { "item": "poppy_bud", "prob": 10 },
       { "item": "seed_weed", "prob": 15, "count": 2 },
       { "item": "seed_tobacco", "prob": 5 },
+      { "item": "seed_poppy_bud", "prob": 15 },
       { "item": "rolling_paper", "prob": 5 },
       { "item": "pipe_glass", "prob": 15 },
       { "prob": 8, "group": "coke_bag_zipper_1_8" },
@@ -1494,6 +1501,8 @@
       { "item": "tanto", "prob": 3 },
       { "item": "throwing_knife", "prob": 7 },
       { "item": "punch_dagger", "prob": 12 },
+      { "item": "knuckle_brass", "prob": 16 },
+      { "item": "knuckle_steel_forged", "prob": 8 },
       { "item": "claw_bar", "prob": 3 },
       { "item": "crowbar", "prob": 18 },
       { "item": "tazer", "prob": 3, "charges": [ 0, 500 ] },
@@ -1657,6 +1666,7 @@
     "subtype": "distribution",
     "entries": [
       { "group": "tools_medical", "prob": 100 },
+      { "item": "bag_body_bag", "prob": 5 },
       { "group": "drugs_emergency", "prob": 50 },
       { "prob": 10, "group": "quikclot_bag_plastic_1_6" },
       { "item": "badge_doctor", "prob": 2 }
@@ -1852,7 +1862,7 @@
       { "prob": 1, "group": "heroin_bag_zipper_1_4" },
       [ "sneakers", 40 ],
       [ "mask_hockey", 5 ],
-      [ "mask_guy_fawkes", 5 ],
+      { "item": "mask_skull", "variant": "guy_fawkes", "prob": 5 },
       [ "scarf_long", 15 ],
       [ "jersey", 20 ],
       [ "coat_lab", 40 ],
@@ -2002,6 +2012,7 @@
       [ "baseball", 20 ],
       [ "shuttlecock", 5 ],
       [ "manual_mechanics", 35 ],
+      [ "manual_driving", 5 ],
       [ "manual_speech", 50 ],
       [ "manual_business", 40 ],
       [ "manual_first_aid", 40 ],
@@ -2009,7 +2020,7 @@
       [ "hackerman_computer", 10 ],
       [ "webbasics_computer", 10 ],
       [ "cookbook", 35 ],
-      [ "mask_guy_fawkes", 5 ],
+      { "item": "mask_skull", "variant": "guy_fawkes", "prob": 5 },
       [ "cookbook_italian", 25 ],
       [ "cookbook_mexican", 14 ],
       [ "manual_electronics", 20 ],
@@ -2159,6 +2170,7 @@
       [ "fun_survival", 5 ],
       [ "howto_traps", 10 ],
       [ "decoy_anarch", 8 ],
+      [ "manual_driving", 5 ],
       [ "recipe_augs", 8 ],
       { "prob": 85, "group": "bottle_otc_painkiller_1_20" },
       [ "junk_burrito", 25 ],
@@ -2219,6 +2231,7 @@
       { "item": "fun_survival", "prob": 10 },
       { "item": "recipe_augs", "prob": 1 },
       { "item": "decoy_anarch", "prob": 10 },
+      { "item": "manual_driving", "prob": 5 },
       { "prob": 85, "group": "bottle_otc_painkiller_1_20" },
       { "prob": 30, "group": "maltballs_box_snack_4" },
       { "group": "cigar_box_opened", "prob": 20 },

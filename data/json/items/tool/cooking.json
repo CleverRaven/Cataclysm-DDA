@@ -768,7 +768,7 @@
     "use_action": {
       "target": "pickle",
       "container": "jar_glass_sealed",
-      "target_charges": 2,
+      "target_charges": 8,
       "msg": "You test the batch, and it tastes good, so you seal the jar up for storage.",
       "moves": 50,
       "type": "delayed_transform",
@@ -1093,7 +1093,8 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "GAS_TANK" ], "default_magazine": "small_propane_tank" } ],
     "charges_per_use": 2,
     "qualities": [ [ "HOTPLATE", 2 ] ],
-    "use_action": [ "HEAT_SOLID_ITEMS", { "type": "firestarter", "moves": 100, "moves_slow": 1000 } ],
+    "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
+    "use_action": [ "HEAT_SOLID_ITEMS", { "type": "firestarter", "moves": 500, "moves_slow": 6000 } ],
     "flags": [ "FIRESTARTER" ],
     "melee_damage": { "bash": 4 },
     "tool_ammo": [ "propane" ]
@@ -1115,7 +1116,8 @@
       }
     ],
     "charges_per_use": 8,
-    "use_action": [ "HOTPLATE", "HEAT_FOOD", { "type": "firestarter", "moves": 100, "moves_slow": 1000 } ],
+    "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
+    "use_action": [ "HOTPLATE", "HEAT_FOOD", { "type": "firestarter", "moves": 500, "moves_slow": 6000 } ],
     "tool_ammo": [ "biogas" ]
   },
   {
@@ -1141,7 +1143,8 @@
     ],
     "qualities": [ [ "HOTPLATE", 2 ] ],
     "charges_per_use": 1,
-    "use_action": [ "HEAT_SOLID_ITEMS", { "type": "firestarter", "moves": 100, "moves_slow": 1000 } ],
+    "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
+    "use_action": [ "HEAT_SOLID_ITEMS", { "type": "firestarter", "moves": 500, "moves_slow": 6000 } ],
     "flags": [ "FIRESTARTER" ],
     "melee_damage": { "bash": 4 },
     "tool_ammo": [ "weldgas" ]

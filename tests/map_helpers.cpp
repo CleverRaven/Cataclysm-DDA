@@ -11,6 +11,7 @@
 #include "character.h"
 #include "character_attire.h"
 #include "clzones.h"
+#include "creature_tracker.h"
 #include "coordinates.h"
 #include "field.h"
 #include "game.h"
@@ -174,7 +175,14 @@ void clear_map_and_put_player_underground()
 monster &spawn_test_monster( const std::string &monster_type, const tripoint_bub_ms &start,
                              const bool death_drops )
 {
-    monster *const test_monster_ptr = g->place_critter_at( mtype_id( monster_type ), start );
+    mtype_id type( monster_type );
+    REQUIRE( !type.is_null() );
+    REQUIRE( get_creature_tracker().creature_at( start ) == nullptr );
+    monster mon( type );
+    REQUIRE( mon.will_move_to( start ) );
+    REQUIRE( mon.know_danger_at( start ) );
+
+    monster *const test_monster_ptr = g->place_critter_at( type, start );
     REQUIRE( test_monster_ptr );
     test_monster_ptr->death_drops = death_drops;
     return *test_monster_ptr;

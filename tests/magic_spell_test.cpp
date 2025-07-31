@@ -115,6 +115,163 @@ TEST_CASE( "spell_level", "[magic][spell][level]" )
     }
 }
 
+static int char_to_invlet( char c )
+{
+    return static_cast<int>( static_cast<unsigned char>( c ) );
+}
+
+// Spell invlet assignment/removal/swap
+// -----------
+//
+// Functions:
+// known_magic::get_invlet
+// known_magic::set_invlet
+// known_magic::rem_invlet
+// known_magic::swap_invlet
+TEST_CASE( "spell_invlet", "[magic][invlet]" )
+{
+    spell_id spell_1( "test_spell_pew" );
+    spell_id spell_2( "test_spell_lava" );
+    spell_id spell_3( "test_spell_kiss" );
+
+    SECTION( "get_invlet" ) {
+        GIVEN( "empty npc" ) {
+            npc guy;
+            WHEN( "getting spell invlet without setting it" ) {
+                int invlet = guy.magic->get_invlet( spell_1 );
+                THEN( "spell assigned to 'a'" ) {
+                    CHECK( invlet == char_to_invlet( 'a' ) );
+                    CHECK( guy.magic->get_invlet( spell_1 ) == invlet );
+                }
+            }
+        }
+        GIVEN( "empty npc" ) {
+            npc guy;
+            WHEN( "getting two spell invlets without setting them" ) {
+                int spell_1_invlet = guy.magic->get_invlet( spell_1 );
+                int spell_2_invlet = guy.magic->get_invlet( spell_2 );
+                THEN( "spells assigned to 'a' and 'b'" ) {
+                    CHECK( spell_1_invlet == char_to_invlet( 'a' ) );
+                    CHECK( spell_2_invlet == char_to_invlet( 'b' ) );
+                    CHECK( guy.magic->get_invlet( spell_1 ) == spell_1_invlet );
+                    CHECK( guy.magic->get_invlet( spell_2 ) == spell_2_invlet );
+                }
+            }
+        }
+        GIVEN( "NPC with 'a' and 'c' assigned" ) {
+            npc guy;
+            guy.magic->set_invlet( spell_1, char_to_invlet( 'a' ) );
+            guy.magic->set_invlet( spell_2, char_to_invlet( 'c' ) );
+            WHEN( "getting invlet of a new spell" ) {
+                int spell_3_invlet = guy.magic->get_invlet( spell_3 );
+                THEN( "spell assigned to 'b'" ) {
+                    CHECK( spell_3_invlet == char_to_invlet( 'b' ) );
+                    CHECK( guy.magic->get_invlet( spell_3 ) == spell_3_invlet );
+                }
+            }
+        }
+    }
+    SECTION( "set_invlet" ) {
+        GIVEN( "empty npc" ) {
+            npc guy;
+            WHEN( "set_invlet to 'c'" ) {
+                CHECK( guy.magic->set_invlet( spell_1, char_to_invlet( 'c' ) ) );
+                THEN( "spell assigned to 'c'" ) {
+                    CHECK( guy.magic->get_invlet( spell_1 ) == char_to_invlet( 'c' ) );
+                }
+            }
+        }
+        GIVEN( "npc with 'a' assigned" ) {
+            npc guy;
+            CHECK( guy.magic->set_invlet( spell_1, char_to_invlet( 'a' ) ) );
+            WHEN( "another spell set to 'a'" ) {
+                bool success = guy.magic->set_invlet( spell_2, char_to_invlet( 'a' ) );
+                THEN( "assignment fails" ) {
+                    CHECK( !success );
+                }
+            }
+        }
+    }
+    SECTION( "rem_invlet" ) {
+        GIVEN( "npc with 'a' assigned" ) {
+            npc guy;
+            CHECK( guy.magic->set_invlet( spell_1, char_to_invlet( 'a' ) ) );
+            WHEN( "spell removed" ) {
+                guy.magic->rem_invlet( spell_1 );
+                THEN( "another spell assigns to 'a'" ) {
+                    CHECK( guy.magic->set_invlet( spell_1, char_to_invlet( 'a' ) ) );
+                }
+            }
+        }
+        GIVEN( "empty npc" ) {
+            npc guy;
+            WHEN( "non-set spell removed" ) {
+                guy.magic->rem_invlet( spell_1 );
+                THEN( "nothing crashes" ) {}
+            }
+        }
+    }
+    SECTION( "swap_invlet" ) {
+        GIVEN( "npc with 'a' and 'b' assigned" ) {
+            npc guy;
+            CHECK( guy.magic->set_invlet( spell_1, char_to_invlet( 'a' ) ) );
+            CHECK( guy.magic->set_invlet( spell_2, char_to_invlet( 'b' ) ) );
+            WHEN( "spell_2 swapped to 'a'" ) {
+                guy.magic->swap_invlet( spell_2, char_to_invlet( 'a' ) );
+                THEN( "spells are swapped" ) {
+                    CHECK( guy.magic->get_invlet( spell_1 ) == char_to_invlet( 'b' ) );
+                    CHECK( guy.magic->get_invlet( spell_2 ) == char_to_invlet( 'a' ) );
+                }
+            }
+        }
+        GIVEN( "npc with 'a' and 'b' assigned" ) {
+            npc guy;
+            CHECK( guy.magic->set_invlet( spell_1, char_to_invlet( 'a' ) ) );
+            CHECK( guy.magic->set_invlet( spell_2, char_to_invlet( 'b' ) ) );
+            WHEN( "unassigned spell_3 swapped to 'a'" ) {
+                guy.magic->swap_invlet( spell_3, char_to_invlet( 'a' ) );
+                THEN( "spell_1 unassigned, spell_3 set to 'a'" ) {
+                    CHECK( guy.magic->get_invlet( spell_3 ) == char_to_invlet( 'a' ) );
+                    // Assigned by get_invlet to next available letter.
+                    CHECK( guy.magic->get_invlet( spell_1 ) == char_to_invlet( 'c' ) );
+                }
+            }
+        }
+        GIVEN( "npc with 'a' and 'b' assigned" ) {
+            npc guy;
+            CHECK( guy.magic->set_invlet( spell_1, char_to_invlet( 'a' ) ) );
+            CHECK( guy.magic->set_invlet( spell_2, char_to_invlet( 'b' ) ) );
+            WHEN( "spell_1 is swapped with itself" ) {
+                guy.magic->swap_invlet( spell_1, char_to_invlet( 'a' ) );
+                THEN( "nothing changes" ) {
+                    CHECK( guy.magic->get_invlet( spell_1 ) == char_to_invlet( 'a' ) );
+                    CHECK( guy.magic->get_invlet( spell_2 ) == char_to_invlet( 'b' ) );
+                }
+            }
+        }
+        GIVEN( "npc with 'a' assigned" ) {
+            npc guy;
+            CHECK( guy.magic->set_invlet( spell_1, char_to_invlet( 'a' ) ) );
+            WHEN( "spell_1 is swapped to 'b'" ) {
+                guy.magic->swap_invlet( spell_1, char_to_invlet( 'b' ) );
+                THEN( "another spell will be assigned to 'a'" ) {
+                    CHECK( guy.magic->get_invlet( spell_1 ) == char_to_invlet( 'b' ) );
+                    CHECK( guy.magic->get_invlet( spell_2 ) == char_to_invlet( 'a' ) );
+                }
+            }
+        }
+        GIVEN( "empty npc" ) {
+            npc guy;
+            WHEN( "spell_1 is swapped with unassigned letter" ) {
+                guy.magic->swap_invlet( spell_1, char_to_invlet( 'b' ) );
+                THEN( "spell_1 assigned" ) {
+                    CHECK( guy.magic->get_invlet( spell_1 ) == char_to_invlet( 'b' ) );
+                }
+            }
+        }
+    }
+}
+
 // Return experience points needed to level up a spell, starting at from_level
 static int spell_xp_to_next_level( const spell_id &sp_id, const int from_level )
 {

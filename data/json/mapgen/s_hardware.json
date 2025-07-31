@@ -70,7 +70,7 @@
         "a": { "item": "plumbing_bulk", "chance": 50, "repeat": [ 5, 15 ] },
         "b": { "item": "hardware_plumbing", "chance": 50, "repeat": [ 5, 15 ] },
         "c": { "item": "hardware", "chance": 50, "repeat": [ 5, 15 ] },
-        "d": { "item": "office", "chance": 50, "repeat": [ 5, 15 ] },
+        "d": { "item": "SUS_office_desk", "chance": 100, "repeat": [ 1, 2 ] },
         "e": { "item": "mechanics", "chance": 50, "repeat": [ 5, 15 ] }
       },
       "toilets": { "&": {  } },
@@ -329,7 +329,7 @@
         { "item": "tools_earthworking", "x": 2, "y": [ 16, 20 ], "chance": 55, "repeat": [ 1, 4 ] },
         { "item": "farming_seeds", "x": 5, "y": [ 11, 14 ], "chance": 80, "repeat": [ 4, 16 ] },
         { "item": "supplies_farming", "x": 5, "y": [ 16, 20 ], "chance": 65, "repeat": [ 1, 8 ] },
-        { "item": "SUS_trash_trashcan", "x": 10, "y": 20, "chance": 75 }
+        { "item": "SUS_trash_trashcan_public", "x": 10, "y": 20, "chance": 75 }
       ],
       "place_vehicles": [
         { "vehicle": "wheelbarrow", "x": [ 3, 4 ], "y": [ 5, 9 ], "chance": 40 },
@@ -464,7 +464,7 @@
         ],
         "C": { "item": "home_hw", "chance": 30, "repeat": [ 2, 4 ] },
         "S": { "item": "softdrugs", "chance": 30 },
-        "Y": { "item": "SUS_trash_trashcan", "chance": 20 },
+        "Y": { "item": "SUS_trash_trashcan_public", "chance": 20 },
         "L": [ { "item": "jackets", "chance": 10 }, { "item": "bags", "chance": 10 } ]
       },
       "place_items": [

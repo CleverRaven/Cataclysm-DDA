@@ -608,9 +608,9 @@ Check if two variables are `yes`
 "compare_string": [ "yes", { "context_val": "some_context_should_be_yes" }, { "context_val": "some_another_context_also_should_be_yes" } ]
 ```
 
-### `u_profession`
+### `u_has_profession`, `npc_has_profession`
 - type: string or [variable object](#variable-object)
-- Return true if player character has the given profession id or its "hobby" subtype
+- Return true if alpha / beta talker has the given profession id or its "hobby" subtype
 
 #### Valid talkers:
 
@@ -619,14 +619,21 @@ Check if two variables are `yes`
 | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 #### Examples
-True if the character has selected Heist Driver profession at the character creation
+True if the talker has the Heist Driver profession
 ```jsonc
-{ "u_profession": "heist_driver" }
+{ "u_has_profession": "heist_driver" }
 ```
 
-True if the character has selected Fishing background at the character creation
+Print a message if the character selected Fisher profession or the Fishing background at character creation
 ```jsonc
-{ "u_profession": "fishing" }
+{
+  "type": "effect_on_condition",
+  "id": "EOC_MSG_IF_FISHER",
+  "eoc_type": "EVENT",
+  "required_event": "game_start",
+  "condition": { "or": [ { "u_has_profession": "fisher" }, { "u_has_profession": "fishing" } ] },
+  "effect": { "u_message": "Good morning. Nice day for fishing ain't it?" }
+}
 ```
 
 ### `u_has_strength`, `npc_has_strength`, `u_has_dexterity`, `npc_has_dexterity`, `u_has_intelligence`, `npc_has_intelligence`, `u_has_perception`, `npc_has_perception`
@@ -1274,6 +1281,10 @@ Runs a query, allowing you to pick specific tile around. When picked, stores coo
 - type: location string or [variable object](#variable-object)
 - return true if the location is in the bounds of a city at or above z-1
 
+### `map_is_outside`
+- type: location string or [variable object](#variable-object)
+- return true if the location is outside. Currently always returns false if the location is outside the reality bubble.
+
 #### Valid talkers:
 
 No talker is needed.
@@ -1705,7 +1716,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | gains_proficiency | | { "character", `character_id` },<br/> { "proficiency", `proficiency_id` }, | character / NONE |
 | gains_skill_level | | { "character", `character_id` },<br/> { "skill", `skill_id` },<br/> { "new_level", `int` }, | character / NONE |
 | game_avatar_death | Triggers during bury screen with ASCII grave art is displayed (when avatar dies, obviously) | { "avatar_id", `character_id` },<br/> { "avatar_name", `string` },<br/> { "avatar_is_male", `bool` },<br/> { "is_suicide", `bool` },<br/> { "last_words", `string` }, | avatar / NONE |
-| game_avatar_new | Triggers when new character is controlled and during new game character initialization  | { "is_new_game", `bool` },<br/> { "is_debug", `bool` },<br/> { "avatar_id", `character_id` },<br/> { "avatar_name", `string` },<br/> { "avatar_is_male", `bool` },<br/> { "avatar_profession", `profession_id` },<br/> { "avatar_custom_profession", `string` }, | avatar / NONE |
+| game_avatar_new | Triggers when new character is controlled and during new game character initialization  | { "is_new_game", `bool` },<br/> { "is_debug", `bool` },<br/> { "avatar_id", `character_id` },<br/> { "avatar_name", `string` },<br/> { "avatar_is_male", `bool` },<br/> { "avatar_custom_profession", `string` }, | avatar / NONE |
 | game_load | Triggers only when loading a saved game (not a new game!) | { "cdda_version", `string` }, | avatar / NONE |
 | game_begin | Triggered during game load and new game start | { "cdda_version", `string` }, | avatar / NONE |
 | game_over | Triggers after fully accepting death, epilogues etc. have played (probably not useable for eoc purposes?) | { "total_time_played", `chrono_seconds` }, | avatar / NONE |
@@ -3159,6 +3170,33 @@ Adds `hair_mohawk` trait with the `purple` variant to the character:
 { "u_add_trait": "hair_mohawk", "variant": "purple" }
 ```
 
+
+#### `u_lose_trait`, `npc_lose_trait`
+Character or NPC got trait or mutation removed, if it has one
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_lose_trait" / "npc_lose_trait" | **mandatory** | string or [variable object](#variable-object) | id of mutation to be removed; if character or NPC has no such mutation, nothing happens |
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+
+##### Examples
+
+`CHITIN` mutation is removed from character:
+```jsonc
+{ "u_lose_trait": "CHITIN" }
+```
+
+mutation, stored in `mutation_id`  context value, is removed from character:
+```jsonc
+{ "u_lose_trait": { "context_val": "mutation_id" } }
+```
+
+
 #### `u_lose_effect`, `npc_lose_effect`
 Remove effect from character or NPC, if it has one
 
@@ -3198,33 +3236,6 @@ Removes `infection`, `downed` and `winded` effects from player:
 ```jsonc
 { "u_lose_effect": [ "infection", "downed", "winded" ] }
 ```
-
-
-#### `u_lose_trait`, `npc_lose_trait`
-Character or NPC got trait or mutation removed, if it has one
-
-| Syntax | Optionality | Value  | Info |
-| --- | --- | --- | --- | 
-| "u_lose_trait" / "npc_lose_trait" | **mandatory** | string or [variable object](#variable-object) | id of mutation to be removed; if character or NPC has no such mutation, nothing happens |
-
-##### Valid talkers:
-
-| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
-| ------ | --------- | --------- | ---- | ------- | --- | ---- |
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
-
-##### Examples
-
-`CHITIN` mutation is removed from character:
-```jsonc
-{ "u_lose_trait": "CHITIN" }
-```
-
-mutation, stored in `mutation_id`  context value, is removed from character:
-```jsonc
-{ "u_lose_trait": { "context_val": "mutation_id" } }
-```
-
 
 #### `u_activate_trait`, `npc_activate_trait`
 Your character or the NPC will activate the trait.
@@ -4091,7 +4102,7 @@ Display a text message in the log. `u_message` and `npc_message` display a mess
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "u_message" / "npc_message" / "message" | **mandatory** | string or [variable object](#variable-object) | message, that would be printed; If `snippet` is true, id of a snippet that would be printed |
+| "u_message" / "npc_message" / "message" | **mandatory** | string or [variable object](#variable-object) | message, that would be printed; If `snippet` is true, id of a snippet that would be printed.  Custom [tags](./NPCs.md#special-custom-entries) can be added to the message. |
 | "type" | optional | string or [variable object](#variable-object) | default neutral; how the message would be displayed in log (usually means the color); could be any of good (green), neutral (white), bad (red), mixed (purple), warning (yellow), info (blue), debug (appear only if debug mode is on), headshot (purple), critical (yellow), grazing (blue) | 
 | "sound" | optional | boolean | default false; if true, shows message only if player is not deaf | 
 | "outdoor_only" | optional | boolean | default false; if true, and `sound` is true, the message is harder to hear if you are underground | 
@@ -4302,8 +4313,11 @@ Creates an explosion at talker position or at passed coordinate
 | --- | --- | --- | --- | 
 | "u_explosion", / "npc_explosion" | **mandatory** | explosion_data | copies the `explosion` field from `"type": "ammo_effect"`, but allows to use variables; defines what type of explosion is occuring. |
 | "target_var" | optional | [variable object](#variable-object) | if used, explosion will occur where the variable point to | 
-| "emp_blast" | optional | bool | if used, the emp blast would appear at the center of the explosion (only at the center, no matter the size of explosion.  If you want the explosion to have an area, see examples below) | 
-| "scrambler_blast" | optional | bool | if used, the scrambler blast would appear at the center of the explosion (only at the center, no matter the size of explosion) |
+| "emp_blast" | optional | bool | if used, the emp blast would appear at the center of the explosion (only at the center, no matter the size of explosion.  If you want the explosion to have an area, see examples below). Default false | 
+| "scrambler_blast" | optional | bool | if used, the scrambler blast would appear at the center of the explosion (only at the center, no matter the size of explosion). Default false |
+| "flashbang" | optional | bool | if used, the flashbang explosion happens. Default false |
+| "flashbang_avatar_is_immune" | optional | bool | if used with `flashbang`, the flashbang explosion won't affect the avatar (to protect alpha/beta talker, if they are not an avatar, other means need to be used, like FLASH_PROTECTION flag for character and FLASHBANGPROOF flag for monster ) |
+| "flashbang_radius" | optional | int, duration or [variable object](#variable-object) | if used with `flashbang`, the flashbang explosion would be this big. Doesn't affect flashbang loudness. Default is 8 |
 
 ##### Valid talkers:
 
@@ -4327,6 +4341,27 @@ You pick a tile using u_query_omt, then the explosion is caused at this position
       }
     ]
   }
+```
+
+You pick a tile using `u_query_tile`, pass it to `u_explosion`, with a flashbang on and `flashbang_radius` being input manually
+```jsonc
+  {
+    "type": "effect_on_condition",
+    "id": "AAAAAAAAAAAA",
+    "effect": [
+      { "u_query_tile": "anywhere", "target_var": { "context_val": "pos" }, "message": "Select point to detonate." },
+      {
+        "if": { "math": [ "has_var(_pos)" ] },
+        "then": {
+          "u_explosion": { },
+          "flashbang": true,
+          "flashbang_radius": { "math": [ "num_input('flashbang radius?', 8)" ] },
+          "target_var": { "context_val": "pos" }
+        },
+        "else": { "u_message": "Canceled" }
+      }
+    ]
+  },
 ```
 
 `u_map_run_eocs` runs 5 tiles around alpha talker, applying EMP effect on all the tiles

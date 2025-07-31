@@ -79,7 +79,7 @@
       { "run_eocs": "EOC_TELEPORT_SELF_CARRIED_VOLUME_CHECKER" },
       {
         "math": [
-          "_teleport_phase_limit = ( ( ( u_spell_level('teleport_blink') * 5000 ) + 10000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
+          "_teleport_phase_limit = ( ( ( u_spell_level('teleport_phase') * 5000 ) + 10000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
         ]
       },
       { "u_message": "Your Phase volume limit is <context_val:teleport_blink_limit>.", "type": "debug" },
@@ -277,16 +277,12 @@
       { "run_eocs": "EOC_TELEPORT_SELF_CARRIED_VOLUME_CHECKER" },
       {
         "math": [
-          "_teleport_farstep_limit = ( ( ( u_spell_level('teleport_blink') * 5000 ) + 8000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
+          "_teleport_farstep_limit = ( ( ( u_spell_level('teleport_farstep') * 5000 ) + 8000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
         ]
       },
-      { "u_message": "Your Blink volume limit is <context_val:teleport_farstep_limit>.", "type": "debug" },
+      { "u_message": "Your Farstep volume limit is <context_val:teleport_farstep_limit>.", "type": "debug" },
       {
-        "if": {
-          "math": [
-            "u_teleport_total_carried_volume <= ( ( ( u_spell_level('teleport_farstep') * 5000 ) + 8000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
-          ]
-        },
+        "if": { "math": [ "u_teleport_total_carried_volume <= _teleport_farstep_limit" ] },
         "then": [
           { "u_cast_spell": { "id": "teleport_farstep_real", "hit_self": false }, "targeted": true },
           {

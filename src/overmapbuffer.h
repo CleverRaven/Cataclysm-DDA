@@ -222,6 +222,7 @@ class overmapbuffer
         std::string get_vehicle_ter_sym( const tripoint_abs_omt &omt );
         std::string get_vehicle_tile_id( const tripoint_abs_omt &omt );
         const regional_settings &get_settings( const tripoint_abs_omt &p );
+        const regional_settings &get_default_settings( const point_abs_om &p );
         /**
          * Accessors for horde introspection into overmaps.
          * Probably also useful for NPC overmap-scale navigation.
@@ -568,6 +569,29 @@ class overmapbuffer
         void inc_major_river_count() {
             major_river_count++;
         }
+        // most central overmap highway intersection
+        point_abs_om highway_global_offset = point_abs_om::invalid;
+        // all highway intersections
+        std::map<std::string, interhighway_node> highway_intersections;
+        interhighway_node get_overmap_highway_intersection_point( const point_abs_om &p );
+        void set_overmap_highway_intersection_point( const point_abs_om &p,
+                const interhighway_node &intersection );
+        void set_highway_global_offset();
+        point_abs_om get_highway_global_offset() const;
+        /*
+        * given an overmap point, finds and generates cardinal-adjacent highway intersection points
+        */
+        std::vector<interhighway_node>
+        find_highway_adjacent_intersections( const point_abs_om &generated_om_pos );
+        bool highway_intersection_exists( const point_abs_om &intersection_om ) const;
+        void generate_highway_intersection_point( const point_abs_om &generated_om_pos );
+        /**
+        * given an overmap point, finds and generates the highway intersection points boxing it in,
+        * aligning to the top-left-most point; this point is always last in the returned list
+        * NOTE: this function can be generalized if necessary
+        */
+        std::vector<point_abs_om> find_highway_intersection_bounds( const point_abs_om
+                & generated_om_pos );
 
     private:
         /**
@@ -620,6 +644,7 @@ class overmapbuffer
                        const tripoint_abs_omt &p );
         bool check_overmap_special_type( const overmap_special_id &id, const tripoint_abs_omt &loc );
         std::optional<overmap_special_id> overmap_special_at( const tripoint_abs_omt & );
+        std::optional<mapgen_arguments> get_existing_omt_stack_arguments( const point_abs_omt &p );
 
         /**
         * These versions of the check_* methods will only check existing overmaps, and

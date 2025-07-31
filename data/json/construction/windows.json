@@ -841,6 +841,26 @@
   },
   {
     "type": "construction",
+    "id": "constr_window_boarded_shutters",
+    "group": "wooden_shutters",
+    "//": "Bolt sturdy wood shutters onto a window",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "30 m",
+    "qualities": [
+      [
+        { "id": "HAMMER", "level": 2 },
+        { "id": "WRENCH", "level": 1 },
+        { "id": "DRILL", "level": 1 },
+        { "id": "SAW_W", "level": 2 }
+      ]
+    ],
+    "components": [ [ [ "2x4", 7 ] ], [ [ "wood_panel", 4 ] ], [ [ "hinge", 4 ] ], [ [ "nuts_bolts", 8 ] ], [ [ "nails", 16, "LIST" ] ] ],
+    "pre_flags": "BARRICADABLE_WINDOW",
+    "post_terrain": "t_window_boarded_shutters_closed"
+  },
+  {
+    "type": "construction",
     "id": "constr_window_boarded_curtains",
     "group": "board_up_window",
     "//": "Board up window with curtains",

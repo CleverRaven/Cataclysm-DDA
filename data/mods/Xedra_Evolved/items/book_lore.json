@@ -307,5 +307,20 @@
       { "u_learn_recipe": "anathema_blood_catalyst_unready" },
       { "u_add_var": "you_know_vampire_anathema_recipe", "value": "yes" }
     ]
+  },
+  {
+    "type": "ITEM",
+    "id": "note_snippet_bloodthorne_druid",
+    "name": { "str": "druidic notes", "str_pl": "copies of druidic notes" },
+    "category": "books",
+    "description": "Some notes taken on paper with pen or pencil.  Some parts of them catch your eye.",
+    "snippet_category": "note_bloodthorne_druid",
+    "weight": "15 g",
+    "color": "white",
+    "symbol": ",",
+    "material": [ "paper" ],
+    "volume": "50 ml",
+    "flags": [ "TRADER_AVOID" ],
+    "copy-from": "file"
   }
 ]

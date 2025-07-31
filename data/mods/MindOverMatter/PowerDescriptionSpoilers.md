@@ -246,11 +246,11 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 <summary><h3>Premonition (C)</h3></summary>
 
 *Difficulty*: 2<br />
-*Target*: All enemies within 2 squares per power level<br />
-*Duration*: 2 minutes to 8 minutes 10 seconds, plus 45 seconds to 1 minutes 15 seconds minutes per level<br />
+*Target*: Self<br />
+*Duration*: 19 minutes and 34 seconds to 37 minutes and 12 seconds, plus 5 minutes and 3 seconds seconds to 16 minutes and 42 seconds per level<br />
 *Stamina Cost*: 2250, minus 85 per level to a minimum of 850<br />
 *Channeling Time*: 85 moves, minus 7 moves per level to a minimum of 25<br />
-*Effects*: Reveal the location of all hostile enemies (NPCs who are currently hostile and creatures with aggression 10 or greater) within the power's range. Premonition does not reveal exactly what sort of enemy is out there, only that something is.<br />
+*Effects*: Open the psion's senses up to nearby dangers or other disturbances, allowing them to sense nearby motion as well as other more esoteric sources of danger (such as receiving an advance warning before a portal storm).  The psion cannot tell the exact location of the danger, only that it's nearby.<br />
 *Prerequisites*: Heightened Senses 6<br />
 </details>
 <details>
@@ -261,7 +261,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 12 minutes to 23 minutes 20 seconds, plus 6 minutes 12 seconds to 13 minutes 30 seconds minutes per level<br />
 *Stamina Cost*: 3500, minus 75 per level to a minimum of 2000<br />
 *Channeling Time*: 50 moves, minus 2 moves per level to a minimum of 20<br />
-*Effects*: Allows the psion to see in the dark.  This increases the psion's night vision by 2 squares plus 1.5 squares per power level.<br />
+*Effects*: Allows the psion to "see" in the dark--this is technically not sight but functions that way for game purposes.  This increases the psion's night vision by 2 squares plus 1.5 squares per power level.  If the psions also has Heightened Senses level 8 or higher (counting Intelligence and Nether Attunement scaling) active, they can craft in darkness as well.<br />
 *Prerequisites*: Heightened Senses 8<br />
 </details>
 <details>
@@ -309,6 +309,17 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Prerequisites*: Discern Weakness 7<br />
 </details>
 <details>
+<summary><h3>Sense Hostility (C)</h3></summary>
+
+*Difficulty*: 5<br />
+*Target*: All hostile creatures within 2 squares per power level<br />
+*Duration*: 2 minutes to 8 minutes 10 seconds, plus 45 seconds to 1 minutes 15 seconds minutes per level<br />
+*Stamina Cost*: 6500, minus 120 per level to a minimum of 3150<br />
+*Channeling Time*: 85 moves, minus 7 moves per level to a minimum of 25<br />
+*Effects*: Reveal the location of all hostile enemies (NPCs who are currently hostile and creatures with aggression 10 or greater) within the power's range. Sense Danger does not reveal exactly what sort of enemy is out there, only that something is.<br />
+*Prerequisites*: Heightened Senses 8, Premonition 6, Aura Sight 5<br />
+</details>
+<details>
 <summary><h3>Clairyovance</h3></summary>
 
 *Difficulty*: 5<br />
@@ -328,7 +339,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Stamina Cost*: 5500, minus 145 per level to a minimum of 2750<br />
 *Channeling Time*: 150 moves, minus 9 moves per level to a minimum of 70<br />
 *Effects*: Gaze a short time into the future to predict enemy movements.  Grants a 25% chance to avoid any damage from an attack plus 1.5% per power level to a maximum of a 70% chance, prevents the psion from being grabbed, and applies the HARDTOHIT flag.  It also increases your effective dodge skill by 1 per 2 power levels.<br />
-*Prerequisites*: Premonition 10 *or* Speed Reader 10 *or* Discern Weakness 6, Clairyovance 6<br />
+*Prerequisites*: Premonition 10 *or* Sense Hostility 5, Speed Reader 10 *or* Discern Weakness 6, Clairyovance 6<br />
 </details>
 <details>
 <summary><h3>Intuitive Artisan (C)</h3></summary>
@@ -718,6 +729,17 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Prerequisites*: Chameleoflage 8, Lucent Barrier 5<br />
 </details>
 <details>
+<summary><h3>Flashbang</h3></summary>
+
+*Difficulty*: 4<br />
+*Target*: An area of effect with radius 2 squares, plus 1 square per 2 power levels to a maximum of 30 squares, at a range of 3 squares plus 0.7 squares per power level to a maximum of 50 squares<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 4500, minus 120 per level to a minimum of 1750<br />
+*Channeling Time*: 135 moves, minus 5.5 moves per level to a minimum of 50<br />
+*Effects*: Wrap the psion in illusions, concealing any mutations or visible bionics they may have. NPCs will react to them better, and certain people who might refuse to talk to a mutant will be happy to talk to them.  Their total Ugliness is reduced by 60% plus 1.5% per level, to a maximum of 100% Ugliness reduction.<br />
+*Prerequisites*: Field of Light 9 *or* Photon Beam 5, Illuminate 6<br />
+</details>
+<details>
 <summary><h3>Lucid Shadows</h3></summary>
 
 *Difficulty*: 5<br />
@@ -792,7 +814,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Stamina Cost*: 6500, minus 95 per level to a minimum of 3250<br />
 *Channeling Time*: 125 moves, minus 7.5 moves per level to a minimum of 25<br />
 *Effects*: Begin glowing brighter than a floodlight, illuminating the ground out to XXXX squares and gaining a +4 dodge bonus as enemies have a hard time targeting the psion.  When hit or when attacking enemies, there is a 33% chance the psion will unleash an even brighter flash that blinds everyone within 5 squares plus 1.2 squares per power level for between 5 and 20 seconds.<br />
-*Prerequisites*: Field of Light 12, Star Flash 6 *or* Lucent Barrier 10<br />
+*Prerequisites*: Field of Light 12 *or* Flashbang 7, Star Flash 6 *or* Lucent Barrier 10<br />
 </details>
 <details>
 <summary><h3>Luminous Disintegration</h3></summary>
@@ -805,6 +827,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Effects*: Focus electromagnetic radiation onto a single point, doing immense damage to the target there.  This power does 45 to 135 photokinetic damage plus 5.5 to 17 photokinetic damage per power level<br />
 *Prerequisites*: Star Flash 8 *or* Photon Beam 14, Blinding Radiance 5<br />
 </details>
+<details>
 <summary><h3>Phantom Legion (C)</h3></summary>
 
 *Difficulty*: 9<br />
@@ -1055,7 +1078,7 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 *Duration*: Instant<br />
 *Stamina Cost*: 4500, minus 125 per level to a minimum of 2250<br />
 *Channeling Time*: 50 moves, minus 4 moves per level to a minimum of 20<br />
-*Effects*: Unleash an indiscriminate wave of force, knocking back everything nearby by 2 to 6 squares, plus 1 square per 10 power levels to 1 square per four power levels. This power affects item and allies as well as enemies.<br />
+*Effects*: Unleash an indiscriminate wave of force, knocking back everything nearby. Like Force Shove, the distance is based on the weight ratio: (power level * 55 kg) * Intelligence modifier * Nether Attunement modifier, divided by the target's weight in kg.  This power affects allies as well as enemies.<br />
 *Prerequisites*: Force Shove 7, Knockdown 4 <br />
 </details>
 <details>

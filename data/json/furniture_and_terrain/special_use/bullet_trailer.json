@@ -232,7 +232,9 @@
         { "item": "wood_panel", "count": [ 0, 1 ] },
         { "item": "nail", "charges": [ 0, 5 ] },
         { "item": "splinter", "count": [ 5, 10 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -259,7 +261,9 @@
         { "item": "wood_panel", "count": [ 0, 1 ] },
         { "item": "nail", "charges": [ 0, 5 ] },
         { "item": "splinter", "count": [ 5, 10 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -273,14 +277,8 @@
     "coverage": 15,
     "required_str": 6,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "MOUNTABLE", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "toilet_travel", "count": 1 } ] },
-    "bash": {
-      "str_min": 6,
-      "str_max": 15,
-      "sound": "plastic cracking!",
-      "sound_fail": "whump!",
-      "items": [ { "item": "plastic_chunk", "count": [ 4, 8 ] } ]
-    }
+    "item": "toilet_travel",
+    "bash": { "str_min": 6, "str_max": 15, "sound": "plastic cracking!", "sound_fail": "whump!" }
   },
   {
     "type": "furniture",

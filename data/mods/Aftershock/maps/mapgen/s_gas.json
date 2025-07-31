@@ -40,7 +40,7 @@
       "toilets": { "&": {  } },
       "gaspumps": { "G": {  } },
       "items": {
-        "d": { "item": "office", "chance": 33, "repeat": [ 1, 2 ] },
+        "d": { "item": "SUS_office_desk", "chance": 33, "repeat": [ 1, 2 ] },
         "k": { "item": "snacks", "chance": 33, "repeat": [ 1, 2 ] },
         "&": { "item": "SUS_toilet", "chance": 50 }
       },

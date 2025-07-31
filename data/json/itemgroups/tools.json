@@ -559,8 +559,7 @@
       [ "stethoscope", 50 ],
       [ "syringe", 50 ],
       [ "thermometer", 50 ],
-      [ "vacutainer", 50 ],
-      [ "bag_body_bag", 10 ]
+      [ "vacutainer", 50 ]
     ]
   },
   {

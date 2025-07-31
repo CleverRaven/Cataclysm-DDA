@@ -75,7 +75,6 @@
 #include "localized_comparator.h"
 #include "magic.h"
 #include "magic_enchantment.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_scale_constants.h"
 #include "mapdata.h"
@@ -129,6 +128,7 @@
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CLOTHING_MOD_VAR_PREFIX( "clothing_mod_" );
+static const std::string var_lateral( "lateral" );
 
 static const ammo_effect_str_id ammo_effect_BLACKPOWDER( "BLACKPOWDER" );
 static const ammo_effect_str_id ammo_effect_IGNITE( "IGNITE" );
@@ -1231,8 +1231,11 @@ bool item::is_sided() const
 side item::get_side() const
 {
     // MSVC complains if directly cast double to enum
-    return static_cast<side>( static_cast<int>( get_var( STATIC( std::string{ "lateral" } ),
-                              static_cast<int>( side::BOTH ) ) ) );
+    return static_cast<side>(
+               static_cast<int>(
+                   get_var( var_lateral, static_cast<int>( side::BOTH ) )
+               )
+           );
 }
 
 bool item::set_side( side s )
@@ -1242,9 +1245,9 @@ bool item::set_side( side s )
     }
 
     if( s == side::BOTH ) {
-        erase_var( "lateral" );
+        erase_var( var_lateral );
     } else {
-        set_var( "lateral", static_cast<int>( s ) );
+        set_var( var_lateral, static_cast<int>( s ) );
     }
 
     return true;
@@ -1308,7 +1311,7 @@ item item::in_container( const itype_id &cont, int qty, bool sealed,
     if( !variant.empty() ) {
         container.set_itype_variant( variant );
     }
-    if( container.is_container() ) {
+    if( container.is_container() || container.is_estorage() ) {
         container.fill_with( *this, qty );
         container.invlet = invlet;
         if( sealed ) {
@@ -5236,6 +5239,11 @@ void item::repair_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         if( !repairs_with.empty() ) {
             info.emplace_back( "DESCRIPTION", string_format( _( "<bold>With</bold> %s." ), repairs_with ) );
         }
+        if( degradation() > 0 && damage() == degradation() ) {
+            info.emplace_back( "DESCRIPTION",
+                               string_format(
+                                   _( "<color_c_red>Degraded and cannot be repaired beyond the current level.</color>" ) ) );
+        }
     } else {
         info.emplace_back( "DESCRIPTION", _( "* This item is <bad>not repairable</bad>." ) );
     }
@@ -6102,7 +6110,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                            iteminfo::is_decimal | iteminfo::no_newline,
                            static_cast<double>( price_preapoc ) / 100 );
     }
-    if( price_preapoc != price_postapoc && parts->test( iteminfo_parts::BASE_BARTER ) ) {
+    if( parts->test( iteminfo_parts::BASE_BARTER ) ) {
         const std::string space = "  ";
         info.emplace_back( "BASE", space + _( "Barter value: " ), _( "$<num>" ),
                            iteminfo::is_decimal,
@@ -7852,7 +7860,7 @@ void item::set_random_fault_of_type( const std::string &fault_type, bool force, 
 
     weighted_int_list<fault_id> faults_by_type;
     for( const weighted_object<int, fault_id> &f : type->faults ) {
-        if( can_have_fault( f.obj ) ) {
+        if( f.obj.obj().type() == fault_type && can_have_fault( f.obj ) ) {
             faults_by_type.add( f.obj, f.weight );
         }
 
@@ -8420,6 +8428,16 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
 
     encumber += static_cast<int>( std::ceil( get_clothing_mod_val( clothing_mod_type_encumbrance ) ) );
 
+    if( !faults.empty() ) {
+        int add = 0;
+        float mult = 1.f;
+        for( const fault_id fault : faults ) {
+            add += fault->encumb_mod_flat();
+            mult *= fault->encumb_mod_mult();
+        }
+        encumber = std::max( 0.f, ( encumber + add ) * mult );
+    }
+
     return encumber;
 }
 
@@ -8929,7 +8947,12 @@ bool item::is_estorage_usable( const Character &who ) const
 
 bool item::is_estorable() const
 {
-    return has_flag( flag_E_STORABLE ) || is_book();
+    return has_flag( flag_E_STORABLE ) || has_flag( flag_E_STORABLE_EXCLUSIVE ) || is_book();
+}
+
+bool item::is_estorable_exclusive() const
+{
+    return has_flag( flag_E_STORABLE_EXCLUSIVE );
 }
 
 bool item::is_browsed() const
@@ -10713,18 +10736,17 @@ ret_val<void> item::can_contain( const item &it, int &copies_remaining, const bo
             const bool ignore_nested_rigidity =
                 !pkt->settings.accepts_item( it ) ||
                 !pkt->get_pocket_data()->get_flag_restrictions().empty() || pkt->is_holster();
+            units::volume remaining_volume = pkt->remaining_volume();
             for( const item *internal_it : pkt->all_items_top() ) {
-                if( parent_it.where() != item_location::type::invalid && internal_it == parent_it.get_item() ) {
-                    continue;
-                }
-                if( !internal_it->is_container() ) {
-                    continue;
-                }
+                const int copies_remaining_before = copies_remaining;
                 auto ret = internal_it->can_contain( it, copies_remaining, true, ignore_nested_rigidity,
                                                      ignore_pkt_settings, ignore_non_container_pocket, parent_it,
-                                                     pkt->remaining_volume() );
+                                                     remaining_volume );
                 if( copies_remaining <= 0 ) {
                     return ret;
+                }
+                if( copies_remaining_before != copies_remaining ) {
+                    remaining_volume = pkt->remaining_volume();
                 }
             }
         }
@@ -12905,7 +12927,7 @@ bool item::use_amount_internal( const itype_id &it, int &quantity, std::list<ite
 
 bool item::allow_crafting_component() const
 {
-    if( ( is_toolmod() && is_irremovable() ) || has_flag( flag_PSEUDO ) ) {
+    if( has_flag( flag_PSEUDO ) ) {
         return false;
     }
 
@@ -14816,8 +14838,15 @@ bool item::process_tool( Character *carrier, const tripoint_bub_ms &pos )
         }
     }
 
-    type->tick( carrier, *this, pos );
-    return false;
+    // FIXME: some iuse functions return 1+ expecting to be destroyed (molotovs), others
+    // to use charges, and others just because?
+    // allow some items to opt into requesting destruction
+    const int charges_used = type->tick( carrier, *this, pos );
+    const bool destroy = has_flag( flag_DESTROY_ON_CHARGE_USE );
+    if( !destroy && charges_used > 0 ) {
+        debugmsg( "Item %s consumes charges via tick_action, but should not", tname() );
+    }
+    return destroy && charges_used > 0;
 }
 
 bool item::process_blackpowder_fouling( Character *carrier )
@@ -16127,8 +16156,11 @@ void item::combine( const item_contents &read_input, bool convert )
 
 bool is_preferred_component( const item &component )
 {
-    return component.is_container_empty() && !component.has_flag( flag_HIDDEN_POISON ) &&
-           !component.has_flag( flag_HIDDEN_HALLU );
+    const float survival = get_player_character().get_greater_skill_or_knowledge_level(
+                               skill_survival );
+    return component.is_container_empty() &&
+           ( survival < 3 || !component.has_flag( flag_HIDDEN_POISON ) ) &&
+           ( survival < 5 || !component.has_flag( flag_HIDDEN_HALLU ) );
 }
 
 disp_mod_by_barrel::disp_mod_by_barrel() = default;

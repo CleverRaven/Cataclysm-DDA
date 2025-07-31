@@ -2046,6 +2046,7 @@ int spell::casting_exp( const Character &guy ) const
 {
     if( type->magic_type.has_value() && type->magic_type.value()->casting_xp_formula_id.has_value() ) {
         const_dialogue d( get_const_talker_for( guy ), nullptr );
+        d.set_value( "spell_id", id().str() );
         return std::round( type->magic_type.value()->casting_xp_formula_id.value()->eval( d ) );
     } else {
         // the amount of xp you would get with no modifiers
@@ -2372,7 +2373,7 @@ void known_magic::serialize( JsonOut &json ) const
         json.end_object();
     }
     json.end_array();
-    json.member( "invlets", invlets );
+    json.member( "invlets", spells_to_invlets );
     json.member( "favorites", favorites );
 
     json.end_object();
@@ -2396,7 +2397,8 @@ void known_magic::deserialize( const JsonObject &data )
             spellbook.emplace( sp, spell( sp, xp ) );
         }
     }
-    data.read( "invlets", invlets );
+    data.read( "invlets", spells_to_invlets );
+    build_invlets_to_spells();
     data.read( "favorites", favorites );
 }
 
@@ -2756,16 +2758,21 @@ class spellcasting_callback : public uilist_callback
                 int invlet = 0;
                 invlet = popup_getkey( _( "Choose a new hotkey for this spell." ) );
                 if( inv_chars.valid( invlet ) ) {
-                    std::set<int> used_invlets{ spellcasting_callback::reserved_invlets };
-                    get_player_character().magic->update_used_invlets( used_invlets );
-                    const bool invlet_set = get_player_character().magic->set_invlet(
-                                                known_spells[entnum]->id(), invlet, used_invlets );
-                    // TODO: if key already in use, have spells swap invlets?
-                    if( !invlet_set ) {
-                        popup( _( "Hotkey already used." ) );
+                    if( spellcasting_callback::reserved_invlets.count( invlet ) ) {
+                        popup( _( "Can't use a reserved hotkey." ) );
                     } else {
-                        popup( _( "%c set.  Close and reopen spell menu to refresh list with changes." ),
-                               invlet );
+                        const bool invlet_set = get_player_character().magic->set_invlet(
+                                                    known_spells[entnum]->id(), invlet );
+                        if( !invlet_set ) {
+                            if( query_yn( _( "Hotkey already used.  Swap hotkeys?" ) ) ) {
+                                get_player_character().magic->swap_invlet( known_spells[entnum]->id(), invlet );
+                                popup( _( "%c set.  Close and reopen spell menu to refresh list with changes." ),
+                                       invlet );
+                            }
+                        } else {
+                            popup( _( "%c set.  Close and reopen spell menu to refresh list with changes." ),
+                                   invlet );
+                        }
                     }
                 } else {
                     popup( _( "Hotkey removed." ) );
@@ -3132,26 +3139,58 @@ void spellcasting_callback::display_spell_info( size_t index )
     }
 }
 
-bool known_magic::set_invlet( const spell_id &sp, int invlet, const std::set<int> &used_invlets )
+bool known_magic::set_invlet( const spell_id &sp, int invlet )
 {
-    if( used_invlets.count( invlet ) > 0 ) {
+    if( invlets_to_spells.count( invlet ) ) {
         return false;
     }
-    invlets[sp] = invlet;
-    // TODO: we should really update used_invlets too, to avoid inconsistency
+    rem_invlet( sp );
+    spells_to_invlets[sp] = invlet;
+    invlets_to_spells[invlet] = sp;
     return true;
+}
+
+void known_magic::swap_invlet( const spell_id &new_sp, int invlet )
+{
+    if( !invlets_to_spells.count( invlet ) ) {
+        // If invlet is not in use, simply set it.
+        if( !set_invlet( new_sp, invlet ) ) {
+            debugmsg( "Failed to set '%s' spell to '%c' invlet", new_sp.c_str(), static_cast<char>( invlet ) );
+        }
+        return;
+    }
+    spell_id old_sp = invlets_to_spells[invlet];
+    int new_sp_old_invlet = get_invlet( new_sp );
+
+    rem_invlet( old_sp );
+    rem_invlet( new_sp );
+    spells_to_invlets[new_sp] = invlet;
+    invlets_to_spells[invlet] = new_sp;
+    if( new_sp != old_sp && new_sp_old_invlet != 0 ) {
+        spells_to_invlets[old_sp] = new_sp_old_invlet;
+        invlets_to_spells[new_sp_old_invlet] = old_sp;
+    }
 }
 
 void known_magic::rem_invlet( const spell_id &sp )
 {
-    // TODO: ... except that rem_invlet cannot update used_invlets (not passed in)
-    invlets.erase( sp );
+    auto it = spells_to_invlets.find( sp );
+    if( it == spells_to_invlets.end() ) {
+        return;
+    }
+    invlets_to_spells.erase( it->second );
+    spells_to_invlets.erase( it );
 }
 
-void known_magic::update_used_invlets( std::set<int> &used_invlets )
+void known_magic::build_invlets_to_spells()
 {
-    for( const std::pair<const spell_id, int> &invlet_pair : invlets ) {
-        used_invlets.emplace( invlet_pair.second );
+    invlets_to_spells.clear();
+    for( auto const &[spell_id, invlet] : spells_to_invlets ) {
+        if( !invlets_to_spells.insert( {invlet, spell_id} ).second ) {
+            // Two spells are mapped to the same invlet, this should not have happened.
+            debugmsg( "Two spells are assigned invlet '%d': '%s', '%s'", invlet, spell_id.c_str(),
+                      invlets_to_spells[invlet].c_str() );
+        }
     }
 }
 
@@ -3169,23 +3208,29 @@ bool known_magic::is_favorite( const spell_id &sp )
     return favorites.count( sp ) > 0;
 }
 
-int known_magic::get_invlet( const spell_id &sp, std::set<int> &used_invlets )
+int known_magic::get_invlet( const spell_id &sp )
 {
-    auto found = invlets.find( sp );
-    if( found != invlets.end() ) {
+    auto found = spells_to_invlets.find( sp );
+    if( found != spells_to_invlets.end() ) {
         return found->second;
     }
-    update_used_invlets( used_invlets );
     // For spells without an invlet, assign first available one.
     // Assignment is "sticky" (permanent), to avoid invlets getting scrambled
     // when spells are added or subtracted.
     // TODO: respect "Auto inventory letters" option?
     for( char &ch : inv_chars.get_allowed_chars() ) {
         int invlet = static_cast<int>( static_cast<unsigned char>( ch ) );
-        if( set_invlet( sp, invlet, used_invlets ) ) {
-            used_invlets.emplace( invlet );
-            return invlet;
+        if( invlets_to_spells.count( invlet ) ) {
+            continue;
         }
+        if( spellcasting_callback::reserved_invlets.count( invlet ) ) {
+            continue;
+        }
+        if( !set_invlet( sp, invlet ) ) {
+            debugmsg( "Attempt to set invlet '%c' for '%s' failed", ch, sp.c_str() );
+            continue;
+        }
+        return invlet;
     }
     return 0;
 }
@@ -3194,11 +3239,9 @@ spell &known_magic::select_spell( Character &guy )
 {
     std::vector<spell *> known_spells_sorted = get_spells();
 
-    std::set<int> used_invlets{ spellcasting_callback::reserved_invlets };
-
     // Sort the spell lists by 3 dimensions.
     sort( known_spells_sorted.begin(), known_spells_sorted.end(),
-    [&guy, &used_invlets, this]( spell * left, spell * right ) -> int {
+    [&guy, this]( spell * left, spell * right ) -> int {
         const bool l_fav = guy.magic->is_favorite( left->id() );
         const bool r_fav = guy.magic->is_favorite( right->id() );
         // 1. Favorite spells before non-favorite
@@ -3206,8 +3249,8 @@ spell &known_magic::select_spell( Character &guy )
         {
             return l_fav > r_fav;
         }
-        const int l_invlet = get_invlet( left->id(), used_invlets );
-        const int r_invlet = get_invlet( right->id(), used_invlets );
+        const int l_invlet = get_invlet( left->id() );
+        const int r_invlet = get_invlet( right->id() );
         // 2. By invlet, if present (but in allowed_chars order; e.g.,
         //    lower-case first)
         if( l_invlet != r_invlet )
@@ -3281,7 +3324,7 @@ spell &known_magic::select_spell( Character &guy )
 
     for( size_t i = 0; i < known_spells_sorted.size(); i++ ) {
         spell_menu.addentry( static_cast<int>( i ), known_spells_sorted[i]->can_cast( guy ),
-                             get_invlet( known_spells_sorted[i]->id(), used_invlets ), known_spells_sorted[i]->name() );
+                             get_invlet( known_spells_sorted[i]->id() ), known_spells_sorted[i]->name() );
     }
     refresh_favorite( &spell_menu, known_spells_sorted );
 

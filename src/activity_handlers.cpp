@@ -54,7 +54,6 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "magic.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -168,6 +167,9 @@ static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_social_dissatisfied( "social_dissatisfied" );
 static const efftype_id effect_social_satisfied( "social_satisfied" );
 static const efftype_id effect_under_operation( "under_operation" );
+
+static const flag_id json_flag_IRREMOVABLE( "IRREMOVABLE" );
+static const flag_id json_flag_PSEUDO( "PSEUDO" );
 
 static const furn_str_id furn_f_compost_empty( "f_compost_empty" );
 static const furn_str_id furn_f_compost_full( "f_compost_full" );
@@ -1164,9 +1166,9 @@ struct weldrig_hack {
             // null item should be handled just fine
             return null_item_reference();
         }
-        pseudo.set_flag( STATIC( flag_id( "PSEUDO" ) ) );
+        pseudo.set_flag( json_flag_PSEUDO );
         item mag_mod( itype_pseudo_magazine_mod );
-        mag_mod.set_flag( STATIC( flag_id( "IRREMOVABLE" ) ) );
+        mag_mod.set_flag( json_flag_IRREMOVABLE );
         if( !pseudo.put_in( mag_mod, pocket_type::MOD ).success() ) {
             debugmsg( "tool %s has no space for a %s, this is likely a bug",
                       pseudo.typeId().str(), mag_mod.type->nname( 1 ) );
@@ -1573,7 +1575,6 @@ void activity_handlers::toolmod_add_finish( player_activity *act, Character *you
     item &mod = *act->targets[1];
     you->add_msg_if_player( m_good, _( "You successfully attached the %1$s to your %2$s." ),
                             mod.tname(), tool.tname() );
-    mod.set_flag( flag_IRREMOVABLE );
     tool.put_in( mod, pocket_type::MOD );
     tool.on_contents_changed();
     act->targets[1].remove_item();
@@ -2570,10 +2571,6 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
                     // still get some experience for trying
                     exp_gained *= spell_being_cast.get_failure_exp_percent( *you );
                     spell_being_cast.gain_exp( *you, exp_gained );
-                    if( exp_gained != 0 ) {
-                        you->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained,
-                                                spell_being_cast.xp() );
-                    }
                 }
                 if( act->get_value( 2 ) != 0 ) {
                     spell_being_cast.consume_spell_cost( *you, false );
@@ -2625,10 +2622,6 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
                                                 _( "Something about how this spell works just clicked!  You gained a level!" ) );
                     } else {
                         spell_being_cast.gain_exp( *you, exp_gained );
-                        if( exp_gained != 0 ) {
-                            you->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained,
-                                                    spell_being_cast.xp() );
-                        }
                     }
                     if( spell_being_cast.get_level() != old_level ) {
                         // Level 0-1 message is printed above - notify player when leveling up further

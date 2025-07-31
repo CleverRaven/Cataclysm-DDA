@@ -714,6 +714,8 @@ void map::vehmove()
         vehs.emplace( connected_veh, false ); // add with 'false' if does not exist (off map)
     }
     for( const std::pair<vehicle *const, bool> &veh_pair : vehs ) {
+        veh_pair.first->process_effects();
+        veh_pair.first->recalculate_enchantment_cache();
         veh_pair.first->idle( *this, /* on_map = */ veh_pair.second );
     }
 
@@ -1270,6 +1272,10 @@ std::set<tripoint_bub_ms> map::get_moving_vehicle_targets( const Creature &z, in
         if( !v.v->is_moving() ) {
             continue;
         }
+        if( v.v->get_driver( *this ) != nullptr &&
+            z.attitude_to( *v.v->get_driver( *this ) ) != Creature::Attitude::HOSTILE ) {
+            continue;
+        }
         if( std::abs( v.pos.z() - zpos.z() ) > fov_3d_z_range ) {
             continue;
         }
@@ -1395,8 +1401,9 @@ void map::board_vehicle( const tripoint_bub_ms &pos, Character *p )
     }
     if( vp->part().has_flag( vp_flag::passenger_flag ) ) {
         Character *psg = vp->vehicle().get_passenger( vp->part_index() );
-        debugmsg( "map::board_vehicle: passenger (%s) is already there",
-                  psg ? psg->get_name() : "<null>" );
+        debugmsg( "map::board_vehicle: %s failed to board passenger (%s) is already there",
+                  p ? p->get_name() : "<null_boarder>",
+                  psg ? psg->get_name() : "<null_passenger>" );
         unboard_vehicle( pos );
     }
     vp->part().set_flag( vp_flag::passenger_flag );
@@ -2141,40 +2148,20 @@ uint8_t map::get_known_rotates_to_f( const tripoint_bub_ms &p,
  */
 const harvest_id &map::get_harvest( const tripoint_bub_ms &pos ) const
 {
-    const furn_id &furn_here = furn( pos );
-    if( !furn_here->has_flag( ter_furn_flag::TFLAG_HARVESTED ) ) {
-        const harvest_id &harvest = furn_here->get_harvest();
-        if( !harvest.is_null() ) {
-            return harvest;
-        }
+    const harvest_id &furn_harvest = furn( pos )->get_harvest();
+    if( !furn_harvest.is_null() ) {
+        return furn_harvest;
     }
-
-    const ter_id &ter_here = ter( pos );
-    if( ter_here->has_flag( ter_furn_flag::TFLAG_HARVESTED ) ) {
-        return harvest_id::NULL_ID();
-    }
-
-    return ter_here->get_harvest();
+    return ter( pos )->get_harvest();
 }
 
 const std::set<std::string> &map::get_harvest_names( const tripoint_bub_ms &pos ) const
 {
-    static const std::set<std::string> null_harvest_names = {};
     const furn_id &furn_here = furn( pos );
     if( furn_here->can_examine( pos ) ) {
-        if( furn_here->has_flag( ter_furn_flag::TFLAG_HARVESTED ) ) {
-            return null_harvest_names;
-        }
-
         return furn_here->get_harvest_names();
     }
-
-    const ter_id &ter_here = ter( pos );
-    if( ter_here->has_flag( ter_furn_flag::TFLAG_HARVESTED ) ) {
-        return null_harvest_names;
-    }
-
-    return ter_here->get_harvest_names();
+    return ter( pos )->get_harvest_names();
 }
 
 /*
@@ -3586,7 +3573,7 @@ bool map::terrain_moppable( const tripoint_bub_ms &p )
 
     // Moppable fields ( blood )
     for( const std::pair<const field_type_id, field_entry> &pr : field_at( p ) ) {
-        if( pr.second.get_field_type().obj().phase == phase_id::LIQUID ) {
+        if( pr.first->phase == phase_id::LIQUID || pr.first->moppable ) {
             return true;
         }
     }
@@ -3631,7 +3618,7 @@ bool map::mop_spills( const tripoint_bub_ms &p )
 
     field &fld = field_at( p );
     for( const auto &it : fld ) {
-        if( it.first->phase == phase_id::LIQUID ) {
+        if( it.first->phase == phase_id::LIQUID || it.first->moppable ) {
             remove_field( p, it.first );
             retval = true;
         }
@@ -4081,6 +4068,11 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params, bool rep
                            "smash_fail", soundfxvariant );
         }
 
+        // add here because early return, otherwise they're added at the end
+        if( !bash->hit_field.first.is_null() ) {
+            add_field( p, bash->hit_field.first, bash->hit_field.second );
+        }
+
         return;
     }
 
@@ -4142,6 +4134,11 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params, bool rep
         // Didn't find any tent center, wreck the current tile
         if( !tentp ) {
             if( bash ) {
+                if( smash_ter ) {
+                    drop_bash_results( terid, p );
+                } else {
+                    drop_bash_results( furnid, p );
+                }
                 spawn_items( p, item_group::items_from( bash->drop_group, calendar::turn ) );
                 furn_set( p, furn_bash.furn_set );
             }
@@ -4212,7 +4209,11 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params, bool rep
     }
 
     if( !tent ) {
-        spawn_items( p, item_group::items_from( bash->drop_group, calendar::turn ) );
+        if( smash_ter ) {
+            drop_bash_results( terid, p );
+        } else {
+            drop_bash_results( furnid, p );
+        }
     }
     //regenerates roofs for tiles that should be walkable from above
     if( zlevels && smash_ter && !set_to_air && ter( p )->has_flag( "EMPTY_SPACE" ) &&
@@ -4227,6 +4228,13 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params, bool rep
 
     if( will_collapse && !has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p ) ) {
         collapse_at( tripoint_bub_ms( p ), params.silent, true, bash->explosive > 0 );
+    }
+
+    if( !bash->hit_field.first.is_null() ) {
+        add_field( p, bash->hit_field.first, bash->hit_field.second );
+    }
+    if( !bash->destroyed_field.first.is_null() ) {
+        add_field( p, bash->destroyed_field.first, bash->destroyed_field.second );
     }
 
     params.did_bash = true;
@@ -4340,6 +4348,48 @@ void map::bash_field( const tripoint_bub_ms &p, bash_params &params )
     }
 }
 
+void map::drop_bash_results( const map_data_common_t &ter_furn, const tripoint_bub_ms &p )
+{
+    map &here = get_map();
+
+    // todo: do the same component recursive loop for generic salvaging
+    if( !ter_furn.base_item.is_null() ) {
+        // if has underlying item, take it's uncraft components as bash result
+        for( const item_comp &comp : ter_furn.get_uncraft_components() ) {
+            const std::vector<item_comp> sub_uncraft_components = item( comp.type ).get_uncraft_components();
+            if( sub_uncraft_components.empty() ) {
+                // if no subcomponents, just straight drop 100% of item count
+                if( comp.type->count_by_charges() ) {
+                    here.spawn_item( p, comp.type, 1, comp.count );
+                } else {
+                    here.spawn_item( p, comp.type, comp.count );
+                }
+            } else {
+                // if subcomponents, drop a bit of subcomponents and a bit of components
+                const float broken_qty = rng_float( 0.1f, 0.4f );
+                for( const item_comp &sub_comp : sub_uncraft_components ) {
+                    if( sub_comp.type->count_by_charges() ) {
+                        here.spawn_item( p, sub_comp.type, 1, sub_comp.count * broken_qty );
+                    } else {
+                        here.spawn_item( p, sub_comp.type, sub_comp.count * broken_qty );
+                    }
+
+                }
+                if( comp.type->count_by_charges() ) {
+                    here.spawn_item( p, comp.type, 1, comp.count * ( 1 - broken_qty ) );
+                } else {
+                    here.spawn_item( p, comp.type, comp.count * ( 1 - broken_qty ) );
+                }
+            }
+        }
+    } else {
+        if( ter_furn.bash_info().has_value() ) {
+            here.spawn_items( p, item_group::items_from( ter_furn.bash_info().value().drop_group,
+                              calendar::turn ) );
+        }
+    }
+}
+
 void map::destroy( const tripoint_bub_ms &p, const bool silent )
 {
     // Break if it takes more than 25 destructions to remove to prevent infinite loops
@@ -4444,6 +4494,10 @@ void map::crush( const tripoint_bub_ms &p )
 }
 double map::shoot( const tripoint_bub_ms &p, projectile &proj, const bool hit_items )
 {
+    if( !inbounds( p ) ) {
+        debugmsg( "Called map::shoot on out-of-bounds tile %s", p.to_string() );
+        return 0;
+    }
     // TODO: make bashing better a destroying, worse at penetrating
     std::map<damage_type_id, float> dmg_by_type {};
     damage_instance &impact = proj.multishot ? proj.shot_impact : proj.impact;
@@ -7125,7 +7179,7 @@ bool map::draw_maptile( const catacurses::window &w, const tripoint_bub_ms &p,
             // (that are visible to the player!), we always set the symbol.
             // If there are items and the field does not hide them,
             // the code handling items will override it.
-            draw_item_sym = ( field_symbol == "'%" );
+            draw_item_sym = ( field_symbol == "%" );
             // If field display_priority is > 1, and the field is set to hide items,
             //draw the field as it obscures what's under it.
             if( ( field_symbol != "%" && fid.obj().priority > 1 ) || ( field_symbol != "%" &&
@@ -7175,6 +7229,11 @@ bool map::draw_maptile( const catacurses::window &w, const tripoint_bub_ms &p,
                   && veh->get_points().count( ( player_character.pos_abs() +
                                                 player_character.grab_point ) ) ) ) {
             memory_sym = sym;
+        }
+        if( !vd.carried_furn.empty() ) {
+            furn_str_id furn( vd.carried_furn );
+            sym = furn->symbol();
+            tercol = furn->color();
         }
     }
 
