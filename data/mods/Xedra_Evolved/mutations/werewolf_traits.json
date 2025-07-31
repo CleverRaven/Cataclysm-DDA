@@ -234,8 +234,46 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
+    "active": true
+  },
+  {
+    "type": "mutation",
+    "id": "WEREWOLF_SILVER_CLAWS",
+    "name": { "str": "Argent Claws" },
+    "points": 4,
+    "description": "While in war form, transform your claws into silver, causing them to do additional damage to creatures of the Nether.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
     "active": true,
-    "activated_eocs": [ "EOC_WEREWOLF_PARTIAL_SHIFT_activated" ]
+    "activated_is_setup": true,
+    "mana": true,
+    "cost": 1,
+    "time": 4,
+    "activated_eocs": [ "EOC_WEREWOLF_SILVER_CLAWS_ON" ],
+    "deactivated_eocs": [ "EOC_WEREWOLF_SILVER_CLAWS_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "WEREWOLF_SILVER_CLAWS_ACTIVE",
+    "name": { "str": "Argent Claws Active", "//~": "NO_I18N" },
+    "points": 4,
+    "description": "The active trait for Argent Claws.  It should not be visible.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "enchantments": [ { "hit_you_effect": [ { "id": "xe_werewolf_argent_claws_damage" } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "WEREWOLF_MANA_BONUS_AFTER_KILL",
+    "name": "Thrill of the Hunt",
+    "points": 4,
+    "description": "The wolf must hunt.  When you kill an otherworldly target, such as a triffid, a Nether monster, or one of the Fair Folk, you regain some mana.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false
   },
   {
     "//": "Tier 4 traits begin here",

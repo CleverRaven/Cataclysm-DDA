@@ -11,6 +11,56 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_SILVER_CLAWS_ON",
+    "condition": { "u_has_trait": "WEREWOLF_HYBRID_FORM_TRAITS" },
+    "effect": [ { "u_add_trait": "WEREWOLF_SILVER_CLAWS_ACTIVE" } ],
+    "false_effect": [ { "run_eocs": "EOC_WEREWOLF_SILVER_CLAWS_deactivated_future", "time_in_future": 0 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_SILVER_CLAWS_deactivated_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC to deactivate that trait does not work",
+    "effect": { "u_deactivate_trait": "WEREWOLF_SILVER_CLAWS" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_SILVER_CLAWS_OFF",
+    "effect": [ { "u_lose_trait": "WEREWOLF_SILVER_CLAWS_ACTIVE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_THRILL_OF_THE_HUNT_KILLS",
+    "eoc_type": "EVENT",
+    "required_event": "character_kills_monster",
+    "condition": {
+      "and": [
+        { "u_has_trait": "WEREWOLF_MANA_BONUS_AFTER_KILL" },
+        { "not": "u_has_weapon" },
+        {
+          "or": [
+            { "npc_has_species": "NETHER" },
+            { "npc_has_species": "NETHER_BURROWING" },
+            { "npc_has_species": "NETHER_EMANATION" },
+            { "npc_has_species": "PLANT" },
+            { "npc_has_species": "ARVORE" },
+            { "npc_has_species": "CHANGELING" },
+            { "npc_has_species": "CHANGELING_NOBLE" },
+            { "npc_has_species": "IERDE" },
+            { "npc_has_species": "HOMULLUS" },
+            { "npc_has_species": "SALAMANDER" },
+            { "npc_has_species": "SYLPH" },
+            { "npc_has_species": "UNDINE" },
+            { "npc_has_species": "VAMPIRE" },
+            { "npc_has_species": "VAMPIRE_ANATHEMA" },
+            { "npc_has_trait": "VAMPIRE" }
+          ]
+        }
+      ]
+    },
+    "effect": [ { "math": [ "u_val('mana')", "+=", "50" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_WEREWOLF_SUPER_FAST_REGENERATION_activated",
     "effect": [
       { "if": { "math": [ "u_pain() >= 1" ] }, "then": { "math": [ "u_pain()--" ] } },
