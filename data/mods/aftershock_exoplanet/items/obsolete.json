@@ -160,5 +160,17 @@
     "//": "remove after 0.J",
     "id": "afs_frontier_cryomask_on",
     "replace": "afs_frontier_cryomask"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.J",
+    "id": "afs_magellan_suit_helmet_on",
+    "replace": "jerky"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.J",
+    "id": "afs_jerky",
+    "replace": "meat"
   }
 ]
