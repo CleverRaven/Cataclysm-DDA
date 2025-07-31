@@ -4133,7 +4133,15 @@ bool npc::do_player_activity()
     return moves != old_moves;
 }
 
-double npc::evaluate_weapon( item &maybe_weapon, bool can_use_gun, bool use_silent ) const
+double npc::evaluate_weapon( const item &maybe_weapon ) const
+{
+    const bool can_use_gun = !is_player_ally() || rules.has_flag( ally_rule::use_guns );
+    const bool use_silent = is_player_ally() && rules.has_flag( ally_rule::use_silent );
+    return evaluate_weapon_internal( maybe_weapon, can_use_gun, use_silent );
+}
+
+double npc::evaluate_weapon_internal( const item &maybe_weapon, bool can_use_gun,
+                                      bool use_silent ) const
 {
     // Needed because evaluation includes electricity via linked cables.
     const map &here = get_map();
@@ -4166,13 +4174,13 @@ item *npc::evaluate_best_weapon() const
 
     // Check if there's something better to wield
     item *best = &weap;
-    double best_value = evaluate_weapon( weap, can_use_gun, use_silent );
+    double best_value = evaluate_weapon( weap );
 
     // To prevent changing to barely better stuff
     best_value *= std::max<float>( 1.0f, ai_cache.danger_assessment / 10.0f );
 
     // Fists aren't checked below
-    double fist_value = evaluate_weapon( null_item_reference(), can_use_gun, use_silent );
+    double fist_value = evaluate_weapon( null_item_reference() );
 
     if( fist_value > best_value ) {
         best = &null_item_reference();
@@ -4188,7 +4196,7 @@ item *npc::evaluate_best_weapon() const
                                                  && node->type->get_id() == weap.type->get_id();
 
             if( node->is_melee() || node->is_gun() ) {
-                weapon_value = evaluate_weapon( *node, can_use_gun, use_silent );
+                weapon_value = evaluate_weapon( *node );
                 if( weapon_value > best_value && !using_same_type_bionic_weapon ) {
                     best = const_cast<item *>( node );
                     best_value = weapon_value;
@@ -4207,10 +4215,6 @@ item *npc::evaluate_best_weapon() const
 
 bool npc::wield_better_weapon()
 {
-    // These are also assigned here so npc::evaluate_best_weapon() can be called by itself
-    bool can_use_gun = !is_player_ally() || rules.has_flag( ally_rule::use_guns );
-    bool use_silent = is_player_ally() && rules.has_flag( ally_rule::use_silent );
-
     item_location weapon = get_wielded_item();
     item &weap = weapon ? *weapon : null_item_reference();
     item *best = &weap;
@@ -4220,12 +4224,12 @@ bool npc::wield_better_weapon()
     if( best == better_weapon ) {
         add_msg_debug( debugmode::DF_NPC, "Wielded %s is best at %.1f, not switching",
                        best->type->get_id().str(),
-                       evaluate_weapon( *better_weapon, can_use_gun, use_silent ) );
+                       evaluate_weapon( *better_weapon ) );
         return false;
     }
 
     add_msg_debug( debugmode::DF_NPC, "Wielding %s at value %.1f", better_weapon->type->get_id().str(),
-                   evaluate_weapon( *better_weapon, can_use_gun, use_silent ) );
+                   evaluate_weapon( *better_weapon ) );
 
     // Always returns true, but future proof
     bool wield_success = wield( *better_weapon );
