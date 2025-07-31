@@ -420,5 +420,29 @@
     "display_items": true,
     "description_affix": "in",
     "half_life": "2 seconds"
+  },
+  {
+    "id": "fd_kreck_death_debris",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "starry fragments",
+        "sym": "%",
+        "color": "brown",
+        "transparent": true,
+        "dangerous": false,
+        "concentration": 1
+      }
+    ],
+    "priority": 1,
+    "dirty_transparency_cache": false,
+    "display_items": true,
+    "display_field": true,
+    "description_affix": "covered_in",
+    "mopsafe": true,
+    "moppable": true,
+    "percent_spread": 20,
+    "phase": "gas",
+    "looks_like": "fd_dust"
   }
 ]

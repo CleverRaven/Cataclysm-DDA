@@ -124,7 +124,7 @@
     "copy-from": "450_penetrator",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
-    "name": { "str_sp": ".450 Xtreme Hunter, reloaded" },
+    "name": { "str_sp": ".450 Bushmaster Xtreme Hunter, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }

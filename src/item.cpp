@@ -6110,7 +6110,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                            iteminfo::is_decimal | iteminfo::no_newline,
                            static_cast<double>( price_preapoc ) / 100 );
     }
-    if( price_preapoc != price_postapoc && parts->test( iteminfo_parts::BASE_BARTER ) ) {
+    if( parts->test( iteminfo_parts::BASE_BARTER ) ) {
         const std::string space = "  ";
         info.emplace_back( "BASE", space + _( "Barter value: " ), _( "$<num>" ),
                            iteminfo::is_decimal,
@@ -16156,8 +16156,11 @@ void item::combine( const item_contents &read_input, bool convert )
 
 bool is_preferred_component( const item &component )
 {
-    return component.is_container_empty() && !component.has_flag( flag_HIDDEN_POISON ) &&
-           !component.has_flag( flag_HIDDEN_HALLU );
+    const float survival = get_player_character().get_greater_skill_or_knowledge_level(
+                               skill_survival );
+    return component.is_container_empty() &&
+           ( survival < 3 || !component.has_flag( flag_HIDDEN_POISON ) ) &&
+           ( survival < 5 || !component.has_flag( flag_HIDDEN_HALLU ) );
 }
 
 disp_mod_by_barrel::disp_mod_by_barrel() = default;

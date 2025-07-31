@@ -3148,33 +3148,13 @@ Harvest drop types are used in harvest drop entries to control how the drop is p
 
 Connect groups can be used by id in terrain and furniture `connect_groups`, `connects_to` and `rotates_to` properties.
 
-Examples from the actual definitions:
-
-**`group_flags`**: Flags that imply that terrain or furniture is added to this group.
-
-**`connects_to_flags`**: Flags that imply that terrain or furniture connects to this group.
-
-**`rotates_to_flags`**: Flags that imply that terrain or furniture rotates to this group.
+Example
 
 ```jsonc
-[
   {
     "type": "connect_group",
-    "id": "WALL",
-    "group_flags": [ "WALL", "CONNECT_WITH_WALL" ],
-    "connects_to_flags": [ "WALL", "CONNECT_WITH_WALL" ]
-  },
-  {
-    "type": "connect_group",
-    "id": "CHAINFENCE"
-  },
-  {
-    "type": "connect_group",
-    "id": "INDOORFLOOR",
-    "group_flags": [ "INDOORS" ],
-    "rotates_to_flags": [ "WINDOW", "DOOR" ]
+    "id": "WALL"
   }
-]
 ```
 
 ### Furniture
@@ -3691,8 +3671,6 @@ MARBLEFLOOR          BEACH_FORMATIONS
 GRAVELPILE           LIXATUBE
 ```
 
-`WALL` is implied by the flags `WALL` and `CONNECT_WITH_WALL`.
-`INDOORFLOOR` is implied by the flag `INDOORS`.
 Implicit groups can be removed be using tilde `~` as prefix of the group name.
 
 #### `connects_to`

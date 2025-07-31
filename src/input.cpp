@@ -751,6 +751,19 @@ std::string input_manager::get_keyname( int ch, input_event_t inp_type, bool por
     }
 }
 
+void input_manager::check_keybind( const std::string &category, const std::string &keybind,
+                                   const std::string &context ) const
+{
+    if( action_contexts.find( category ) != action_contexts.end() ) {
+        const t_actions &act_cat = action_contexts.at( category );
+        if( act_cat.find( keybind ) == act_cat.end() ) {
+            debugmsg( "Invalid keybind %s in valid category %s from %s", keybind, category, context );
+        }
+    } else {
+        debugmsg( "Invalid keybind category %s for keybind %s from %s", category, keybind, context );
+    }
+}
+
 const std::vector<input_event> &input_manager::get_input_for_action( const std::string
         &action_descriptor, const std::string &context, bool *overwrites_default )
 {

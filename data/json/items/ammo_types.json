@@ -26,7 +26,7 @@
   {
     "type": "ammunition_type",
     "id": "50beowulf",
-    "name": "12.7x42mm",
+    "name": ".50 Beowulf",
     "default": "50beowulf_xtp"
   },
   {
@@ -176,7 +176,7 @@
   {
     "type": "ammunition_type",
     "id": "9x18",
-    "name": "9x18mm",
+    "name": "9x18mm Makarov",
     "default": "9x18mm"
   },
   {
@@ -242,13 +242,13 @@
   {
     "type": "ammunition_type",
     "id": "500",
-    "name": ".500 Magnum",
+    "name": ".500 S&W Magnum",
     "default": "500_Magnum"
   },
   {
     "type": "ammunition_type",
     "id": "57",
-    "name": "5.7mm",
+    "name": "5.7x28mm",
     "default": "57mm"
   },
   {
@@ -314,19 +314,19 @@
   {
     "type": "ammunition_type",
     "id": "66mm",
-    "name": "high-explosive anti-tank warhead",
+    "name": "66mm HEAT",
     "default": "66mm_HEAT"
   },
   {
     "type": "ammunition_type",
     "id": "120mm",
-    "name": "high-explosive anti-tank warhead",
+    "name": "120mm HEAT",
     "default": "120mm_HEAT"
   },
   {
     "type": "ammunition_type",
     "id": "84x246mm",
-    "name": "84mm recoilless projectile",
+    "name": "84x245mm cartridge",
     "default": "84x246mm_he"
   },
   {
@@ -518,7 +518,7 @@
   {
     "type": "ammunition_type",
     "id": "12mm",
-    "name": "12mm slugs",
+    "name": "12mm slug",
     "default": "12mm"
   },
   {
@@ -669,7 +669,7 @@
   {
     "type": "ammunition_type",
     "id": "762x25",
-    "name": "7.62x25mm",
+    "name": "7.62x25mm Tokarev",
     "default": "762_25"
   },
   {
@@ -681,7 +681,7 @@
   {
     "type": "ammunition_type",
     "id": "36paper",
-    "name": ".36 cap & ball",
+    "name": ".36 paper cartridge",
     "default": "36navy"
   },
   {
@@ -807,19 +807,19 @@
   {
     "type": "ammunition_type",
     "id": "273x110",
-    "name": "27.3x110 Diyua",
+    "name": "27.3x110 Diyua shotshell",
     "default": "273x110canister"
   },
   {
     "type": "ammunition_type",
     "id": "273x44",
-    "name": "27.3x44 Diyua",
+    "name": "27.3x44 Diyua grenade",
     "default": "273x44HE"
   },
   {
     "type": "ammunition_type",
     "id": "273x44RG",
-    "name": "27.3x44 Diyua Grenade",
+    "name": "27.3x44 Diyua rocket",
     "default": "273x44RG"
   },
   {

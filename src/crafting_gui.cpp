@@ -233,23 +233,25 @@ struct availability {
                                         >= static_cast<int>( rec->get_difficulty( crafter ) * 0.8f );
             has_proficiencies = r->character_has_required_proficiencies( crafter );
             std::string reason;
+            craft_flags flag = camp_crafting ? craft_flags::none : craft_flags::start_only;
+
             if( crafter.is_npc() && !r->npc_can_craft( reason ) && !camp_crafting ) {
                 can_craft = false;
             } else if( r->is_nested() ) {
                 can_craft = check_can_craft_nested( _crafter, *r );
             } else {
                 can_craft = ( !r->is_practice() || has_all_skills ) && has_proficiencies &&
-                            req.can_make_with_inventory( inv, all_items_filter, batch_size, craft_flags::start_only );
+                            req.can_make_with_inventory( inv, all_items_filter, batch_size, flag );
             }
             would_use_rotten = !req.can_make_with_inventory( inv, no_rotten_filter, batch_size,
-                               craft_flags::start_only );
+                               flag );
             would_use_favorite = !req.can_make_with_inventory( inv, no_favorite_filter, batch_size,
-                                 craft_flags::start_only );
+                                 flag );
             useless_practice = r->is_practice() && cannot_gain_skill_or_prof( crafter, *r );
             is_nested_category = r->is_nested();
             const requirement_data &simple_req = r->simple_requirements();
             apparently_craftable = ( !r->is_practice() || has_all_skills ) && has_proficiencies &&
-                                   simple_req.can_make_with_inventory( inv, all_items_filter, batch_size, craft_flags::start_only );
+                                   simple_req.can_make_with_inventory( inv, all_items_filter, batch_size, flag );
             for( const auto& [skill, skill_lvl] : r->required_skills ) {
                 if( crafter.get_skill_level( skill ) < skill_lvl ) {
                     has_all_skills = false;

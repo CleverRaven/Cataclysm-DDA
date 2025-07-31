@@ -15,6 +15,7 @@
 #include "auto_pickup.h"
 #include "basecamp.h"
 #include "bodypart.h"
+#include "cata_assert.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_attire.h"
@@ -3045,23 +3046,16 @@ void npc::die( map *here, Creature *nkiller )
             if( player_character.has_flag( json_flag_SPIRITUAL ) &&
                 !player_character.has_flag( json_flag_PSYCHOPATH ) &&
                 !player_character.has_flag( json_flag_SAPIOVORE ) ) {
-                if( morale_effect < 0 ) {
-                    add_msg( _( "You feel ashamed of your actions." ) );
-                    morale_effect -= 10;
-                } // skulls for the skull throne
-                if( morale_effect > 0 ) {
-                    add_msg( _( "You feel a sense of righteous purpose." ) );
-                    morale_effect += 5;
-                }
+                add_msg( _( "You feel ashamed of your actions." ) );
+                morale_effect -= 10;
             }
+            cata_assert( morale_effect <= 0 );
             if( morale_effect == 0 ) {
                 // No morale effect
             } else if( morale_effect <= -50 ) {
                 player_character.add_morale( morale_killed_innocent, morale_effect, 0, 14_days, 7_days );
             } else if( morale_effect > -50 && morale_effect < 0 ) {
                 player_character.add_morale( morale_killed_innocent, morale_effect, 0, 10_days, 7_days );
-            } else {
-                player_character.add_morale( morale_killed_innocent, morale_effect, 0, 7_days, 4_days );
             }
         }
     }

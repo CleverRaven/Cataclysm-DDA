@@ -945,10 +945,11 @@ std::pair<std::string, nc_color> display::vehicle_cruise_text_color( const Chara
     // Text color indicates how much the engine is straining beyond its safe velocity.
     vehicle *veh = display::vehicle_driven( u );
     if( veh ) {
-        int target = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
-        int current = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
+        const double target = convert_velocity( veh->cruise_velocity, VU_VEHICLE );
+        const double current = convert_velocity( veh->velocity, VU_VEHICLE );
         const std::string units = get_option<std::string> ( "USE_METRIC_SPEEDS" );
-        vel_text = string_format( "%d < %d %s", target, current, units );
+        vel_text = string_format( "%s < %s %s", three_digit_display( target ),
+                                  three_digit_display( current ), units );
 
         const float strain = veh->strain( here );
         if( strain <= 0 ) {

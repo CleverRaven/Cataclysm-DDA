@@ -3385,7 +3385,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "big pack frame" },
-    "description": "A sturdy L-shaped wooden frame with leather straps to secure an oversized item to it. It has straps to wear it on your back.",
+    "description": "A sturdy L-shaped wooden frame with leather straps to secure an oversized item to it.  It has straps to wear it on your back.",
     "weight": "10 kg",
     "volume": "45 L",
     "price": "8 USD",
@@ -3410,6 +3410,70 @@
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
     "armor": [
       { "encumbrance": [ 30, 250 ], "coverage": 70, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
+    ]
+  },
+  {
+    "id": "seabag",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "//": "based off of USMC seabag",
+    "name": { "str": "military seabag" },
+    "description": "A massive, watertight, olive drab duffel bag used to move soft goods like uniforms when being redeployed.  While it has straps to be worn like a backpack, it is extremely cumbersome to do so.",
+    "weight": "1000 g",
+    "volume": "5 L",
+    "price": "65 USD",
+    "price_postapoc": "10 USD",
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "duffelbag",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "80 L",
+        "max_contains_weight": "90 kg",
+        "max_item_length": "92 cm",
+        "watertight": true,
+        "rigid": false,
+        "magazine_well": "4 L",
+        "moves": 450
+      },
+      {
+        "//": "Small pocket for ID, etc",
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "250 g",
+        "max_item_length": "8 cm",
+        "watertight": true,
+        "moves": 150
+      },
+      {
+        "//": "tucked against back",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "150 cm",
+        "min_item_length": "60 cm",
+        "moves": 200,
+        "rigid": false,
+        "extra_encumbrance": 10,
+        "description": "Tucked between your back and the seabag.",
+        "ripoff": 3,
+        "transparent": true
+      }
+    ],
+    "warmth": 10,
+    "material_thickness": 1,
+    "flags": [ "FLOTATION", "BELTED", "WATER_FRIENDLY", "OVERSIZE" ],
+    "armor": [
+      {
+        "encumbrance": 10,
+        "volume_encumber_modifier": 0.3,
+        "coverage": 100,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
     ]
   }
 ]

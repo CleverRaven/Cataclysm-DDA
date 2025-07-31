@@ -55,7 +55,7 @@
       {
         "id": "faction_base_lightindustry_alt_0",
         "description": "Light Industry Office With Glass Walls Base",
-        "om_terrains": [ "s_lightindustry_10", "s_lightindustry_scen_10" ]
+        "om_terrains": [ "s_lightindustry_10" ]
       },
       { "id": "faction_base_helipad_0", "description": "Military Helipad Base", "om_terrains": [ "helipad_nw" ] },
       {

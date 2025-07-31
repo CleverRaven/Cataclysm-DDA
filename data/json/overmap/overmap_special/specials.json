@@ -5983,29 +5983,6 @@
   },
   {
     "type": "overmap_special",
-    "id": "o_lightindustry_scen",
-    "overmaps": [
-      { "point": [ 1, 0, 0 ], "overmap": "s_lightindustry_scen_road_0_south" },
-      { "point": [ 0, 0, 0 ], "overmap": "s_lightindustry_scen_road_1_south" },
-      { "point": [ 1, -1, 0 ], "overmap": "s_lightindustry_scen_00_south" },
-      { "point": [ 1, -1, 1 ], "overmap": "s_lightindustry_scen_00_roof_south" },
-      { "point": [ 0, -1, 0 ], "overmap": "s_lightindustry_scen_01_south" },
-      { "point": [ 0, -1, 1 ], "overmap": "s_lightindustry_scen_01_roof_south" },
-      { "point": [ 1, 1, 0 ], "overmap": "s_lightindustry_scen_10_south" },
-      { "point": [ 1, 1, 1 ], "overmap": "s_lightindustry_scen_10_roof_south" },
-      { "point": [ 0, 1, 0 ], "overmap": "s_lightindustry_scen_11_south" },
-      { "point": [ 0, 1, 1 ], "overmap": "s_lightindustry_scen_11_roof_south" },
-      { "point": [ -1, 0, 0 ], "locations": [ "land", "road" ] }
-    ],
-    "connections": [ { "point": [ -1, 0, 0 ], "terrain": "road", "from": [ 0, 0, 0 ] } ],
-    "locations": [ "field", "forest_without_trail" ],
-    "city_distance": [ 1, 40 ],
-    "city_sizes": [ 4, -1 ],
-    "occurrences": [ 0, 1 ],
-    "flags": [ "CLASSIC", "MAN_MADE" ]
-  },
-  {
-    "type": "overmap_special",
     "id": "nursing_home_sh",
     "locations": [ "land" ],
     "overmaps": [
