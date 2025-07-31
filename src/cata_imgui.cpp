@@ -1146,10 +1146,9 @@ static void inherit_base_colors()
 
 static void load_imgui_style_file( const cata_path &style_path )
 {
-    // reset style first to unset colors
-    ImGui::GetStyle() = ImGuiStyle();
-
     ImGuiStyle &style = ImGui::GetStyle();
+    // reset style first to unset colors
+    ImGui::StyleColorsDark( &style );
 
     JsonValue jsin = json_loader::from_path( style_path );
 
@@ -1253,4 +1252,3 @@ void cataimgui::init_colors()
                   style_path.generic_u8string(), err.what() );
     }
 }
-
