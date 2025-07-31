@@ -1,3 +1,16 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Adding Json Roof Guide](#adding-json-roof-guide)
+  - [Making the Roof Map](#making-the-roof-map)
+  - [Linking the main floor and the roof](#linking-the-main-floor-and-the-roof)
+  - [Overmap Specials](#overmap-specials)
+  - [Adding the overmap_terrain entry](#adding-the-overmap_terrain-entry)
+  - [Adding to regional_map_settings](#adding-to-regional_map_settings)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Adding Json Roof Guide
 
 Adding json roofs to a building involves using a few more files to link the roof and building together during mapgen.

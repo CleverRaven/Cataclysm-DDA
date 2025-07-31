@@ -715,5 +715,16 @@
     "special_attacks": [ { "type": "bite", "cooldown": 15 } ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "WARM", "FLIES", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER" ]
+  },
+  {
+    "id": "mon_civilian_bloodbag",
+    "type": "MONSTER",
+    "name": { "str": "enthralled victim" },
+    "copy-from": "mon_civilian_stationary",
+    "description": "They just stand there, staring into the void, with a vacant expression on their face.  A multitude of small puncture scars can be seen on their neck.",
+    "default_faction": "vampire",
+    "//": "Vampire faction so they aren't killed by the vampires.  They're food, not foe.",
+    "//2": "Being fed and locked does wonders to keep them alive, so they don't die over time like the other civilians.",
+    "upgrades": false
   }
 ]

@@ -27,7 +27,11 @@
     "using": [ [ "bronze_tiny", 1 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 2 } ],
     "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ]
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_redsmithing_adv" }
+    ]
   },
   {
     "type": "recipe",
@@ -44,7 +48,11 @@
     "using": [ [ "bronze_tiny", 1 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ]
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_redsmithing_adv" }
+    ]
   },
   {
     "type": "recipe",
@@ -58,7 +66,11 @@
     "time": "2 h",
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 1 ], [ "bronze_tiny", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_redsmithing_adv" }
+    ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
@@ -710,5 +722,11 @@
     "using": [ [ "power_saw_long", 5 ] ],
     "result_mult": 8,
     "components": [ [ [ "log", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "copy-from": "nail",
+    "result": "rivets",
+    "extend": { "tools": [ [ [ "monkey_tool", -1 ] ] ] }
   }
 ]

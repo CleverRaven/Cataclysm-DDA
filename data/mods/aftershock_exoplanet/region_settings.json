@@ -41,7 +41,7 @@
         "afs_habitat_block_2": 100,
         "afs_habitat_block_3": 200
       },
-      "parks": { "afs_city_ruinfield": 100, "afs_shuttle_pad": 10, "afs_enclosed_park": 30 },
+      "parks": { "afs_city_ruinfield": 70, "afs_shuttle_pad": 10, "afs_enclosed_park": 30, "afs_vehicle_bay": 50 },
       "shops": {
         "afs_augmentation_clinic_1": 400,
         "afs_gene_clinic_1": 400,

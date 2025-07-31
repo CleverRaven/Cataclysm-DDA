@@ -21,7 +21,7 @@
     ],
     "warmth": 50,
     "material_thickness": 1,
-    "environmental_protection": 1,
+    "environmental_protection": 16,
     "flags": [
       "VARSIZE",
       "WATERPROOF",
@@ -62,6 +62,7 @@
     "color": "dark_gray",
     "armor": [
       { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 15 },
+      { "covers": [ "head" ], "coverage": 100, "encumbrance": 20 },
       { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 20 }
     ],
     "warmth": 50,

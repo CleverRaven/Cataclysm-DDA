@@ -31,7 +31,7 @@
     "subtypes": [ "TOOL" ],
     "copy-from": "pressure_tank",
     "name": { "str": "pressurized tank" },
-    "flags": [ "NO_UNLOAD", "MAG_BULKY" ]
+    "flags": [ "NO_RELOAD", "MAG_BULKY" ]
   },
   {
     "id": "afs_thermos",
@@ -45,7 +45,7 @@
     "volume": "1250 ml",
     "longest_side": "32 cm",
     "price": "175 USD ",
-    "price_postapoc": "1 USD",
+    "price_postapoc": "175 USD",
     "material": [ "steel" ],
     "symbol": "I",
     "color": "green",

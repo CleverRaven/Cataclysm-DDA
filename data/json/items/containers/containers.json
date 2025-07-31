@@ -449,7 +449,7 @@
         "transparent": true,
         "magazine_well": "50 ml",
         "max_contains_volume": "4500 ml",
-        "max_contains_weight": "3000 g",
+        "max_contains_weight": "5000 g",
         "max_item_length": "29 cm",
         "spoil_multiplier": 0.8,
         "moves": 600
@@ -1185,7 +1185,7 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "max_contains_volume": "540 ml",
-        "max_contains_weight": "500 g",
+        "max_contains_weight": "800 g",
         "max_item_length": "11 cm"
       }
     ],
@@ -1861,7 +1861,7 @@
     "looks_like": "runner_bag",
     "description": "A slim and lightweight insulated plastic bladder worn on the back or within a hydration pouch in a backpack.  It has a large pocket and a capped mouth for filling with liquid, with a hose that allows the wearer to drink hands-free.",
     "ascii_picture": "camelbak",
-    "weight": "286 g",
+    "weight": "185 g",
     "volume": "250 ml",
     "price": "100 USD",
     "price_postapoc": "2 USD 50 cent",
@@ -2159,8 +2159,8 @@
     "looks_like": "bowl_clay",
     "description": "A fragile clay vessel with a waterproofed hide lid.  It can be used to make crude impact grenades or to store liquid.",
     "ascii_picture": "clay_canister",
-    "weight": "268 g",
-    "volume": "295 ml",
+    "weight": "536 g",
+    "volume": "590 ml",
     "price": "10 USD",
     "price_postapoc": "10 cent",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
@@ -2172,8 +2172,8 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
-        "max_contains_volume": "250 ml",
-        "max_contains_weight": "1 kg"
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg"
       }
     ],
     "use_action": [ "HEAT_LIQUID_ITEMS" ],
@@ -3447,20 +3447,27 @@
     "flags": [ "NO_RELOAD" ]
   },
   {
-    "id": "wrapper_pr",
+    "id": "wrapper_bar",
     "type": "ITEM",
     "name": { "str": "wrapper" },
-    "description": {
-      "//~": "Daizu is Japanese for soy, hence DaiZoom",
-      "str": "\"DaiZoom Protein Bar, brought to you by SoyPelusa\" is emblazoned proudly upon this greaseproof wrapper."
-    },
-    "ascii_picture": "wrapper_pr",
+    "description": "A wrapper for some kind of snack bar.",
     "copy-from": "wrapper",
     "weight": "1 g",
     "volume": "5 ml",
     "pocket_data": [
       { "pocket_type": "CONTAINER", "magazine_well": "4 ml", "max_contains_volume": "175 ml", "max_contains_weight": "1 kg" }
     ]
+  },
+  {
+    "id": "wrapper_pr",
+    "type": "ITEM",
+    "name": { "str": "wrapper" },
+    "copy-from": "wrapper_bar",
+    "ascii_picture": "wrapper_pr",
+    "description": {
+      "//~": "Daizu is Japanese for soy, hence DaiZoom",
+      "str": "\"DaiZoom Protein Bar, brought to you by SoyPelusa\" is emblazoned proudly upon this greaseproof wrapper."
+    }
   },
   {
     "id": "styrofoam_cup",

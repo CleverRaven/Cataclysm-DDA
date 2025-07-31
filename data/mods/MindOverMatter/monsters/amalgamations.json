@@ -1,6 +1,71 @@
 [
   {
     "type": "MONSTER",
+    "id": "mon_amalgamation_photokinetic_flashbanger",
+    "copy-from": "mon_amalgamation_abstract_small",
+    "symbol": "ä",
+    "name": { "str": "radiant amalgamation" },
+    "description": "A four-legged creature with bulbous body and a small head with a fanged maw, with three multi-jointed limbs waving above it in the air.  The limbs emit a soft glow, occasionally brightening into a eye-searing flare.",
+    "luminance": 5,
+    "special_attacks": [
+      {
+        "type": "bite",
+        "cooldown": 3,
+        "move_cost": 150,
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_penetration": 5 } ],
+        "hitsize_min": 4,
+        "min_mul": 0.5,
+        "max_mul": 1.2,
+        "infection_chance": 10,
+        "attack_upper": false
+      },
+      {
+        "id": "psi_amalgamation_photokinetic_flashbang",
+        "type": "spell",
+        "spell_data": { "id": "photokinetic_flashbang_monster", "min_level": 5 },
+        "cooldown": { "math": [ "9 + rand(18)" ] },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+        "monster_message": "The air erupts into an eye-searing flash and a loud screech of static!"
+      }
+    ],
+    "extend": { "flags": [ "PHOTOKIN_MONSTER_IMMUNE", "FLASHBANGPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_amalgamation_photokinetic_irradiator",
+    "copy-from": "mon_amalgamation_abstract_med",
+    "symbol": "A",
+    "name": { "str": "phosphorescent amalgamation" },
+    "description": "A large creature with a sleek body running on seven multi-jointed legs, with four large mandibles dominating what you are forced by necessity to call its face.  It glows with an eerie blue light that gives you an uneasy feeling.",
+    "volume": "100 L",
+    "weight": "100 kg",
+    "hp": 150,
+    "melee_skill": 5,
+    "luminance": 30,
+    "special_attacks": [
+      {
+        "id": "bite_grab",
+        "cooldown": 10,
+        "move_cost": 120,
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_penetration": 13 } ],
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } },
+        "infection_chance": 10,
+        "hitsize_min": 0
+      },
+      { "id": "grab_drag", "cooldown": 15, "grab_data": { "drag_distance": 2, "drag_movecost_mod": 0.2 } },
+      { "id": "drag_followup", "grab_data": { "drag_distance": 2, "drag_movecost_mod": 0.2 } },
+      {
+        "id": "psi_amalgamation_photokinetic_irradiation",
+        "type": "spell",
+        "spell_data": { "id": "photokinetic_irradiation_aura_monster", "min_level": 5 },
+        "cooldown": { "math": [ "9 + rand(18)" ] },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+        "monster_message": "The glow of %1$s suddenly brightens into a flash!"
+      }
+    ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_amalgamation_telekinetic_shielder",
     "copy-from": "mon_amalgamation_abstract_small",
     "symbol": "ä",

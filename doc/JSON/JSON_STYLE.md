@@ -1,3 +1,14 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [JSON Style Guide](#json-style-guide)
+  - [JSON Example](#json-example)
+  - [Formatting tool](#formatting-tool)
+    - [Visual Studio Code](#visual-studio-code)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # JSON Style Guide
 
 Like in [CODE_STYLE.md](CODE_STYLE.md), the JSON styling policy is to update JSON as it is added or edited, and in relatively small chunks otherwise in order to prevent undue disruption to development.

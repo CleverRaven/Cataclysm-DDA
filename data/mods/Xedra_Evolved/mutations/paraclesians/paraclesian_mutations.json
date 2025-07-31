@@ -8,7 +8,6 @@
     "starting_trait": false,
     "valid": false,
     "purifiable": false,
-    "profession": true,
     "points": 2,
     "ignored_by": [ "IERDE" ],
     "cancels": [
@@ -47,7 +46,8 @@
     "vitamin_rates": [ [ "mutagen_human", 1 ] ],
     "empathize_with": [ "IERDE" ],
     "no_empathize_with": [ "HUMAN" ],
-    "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+    "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+    "flags": [ "HERITAGE" ]
   },
   {
     "type": "mutation",
@@ -58,7 +58,6 @@
     "valid": false,
     "starting_trait": false,
     "purifiable": false,
-    "profession": true,
     "points": 2,
     "ignored_by": [ "ARVORE" ],
     "cancels": [
@@ -98,7 +97,7 @@
     "empathize_with": [ "ARVORE" ],
     "no_empathize_with": [ "HUMAN" ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-    "flags": [ "TREE_COMMUNION_PLUS", "ARVORE_POLLEN_IMMUNE" ],
+    "flags": [ "TREE_COMMUNION_PLUS", "ARVORE_POLLEN_IMMUNE", "HERITAGE" ],
     "enchantments": [
       {
         "condition": {
@@ -115,6 +114,10 @@
           ]
         },
         "mutations": [ "ARVORE_TRIFFID_NEUTRALITY" ]
+      },
+      {
+        "condition": { "and": [ "u_is_outside", "is_day", { "math": [ "global_what_is_the_season != 4" ] } ] },
+        "ench_effects": [ { "effect": "effect_arvore_is_day_in_the_sun_not_winter", "intensity": 1 } ]
       }
     ]
   },
@@ -127,7 +130,6 @@
     "valid": false,
     "starting_trait": false,
     "purifiable": false,
-    "profession": true,
     "points": 2,
     "ignored_by": [ "SALAMANDER" ],
     "cancels": [
@@ -166,7 +168,8 @@
     "vitamin_rates": [ [ "mutagen_human", 1 ] ],
     "empathize_with": [ "SALAMANDER" ],
     "no_empathize_with": [ "HUMAN" ],
-    "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+    "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+    "flags": [ "HERITAGE" ]
   },
   {
     "type": "mutation",
@@ -177,7 +180,6 @@
     "valid": false,
     "starting_trait": false,
     "purifiable": false,
-    "profession": true,
     "points": 2,
     "enchantments": [
       {
@@ -226,7 +228,8 @@
     "vitamin_rates": [ [ "mutagen_human", 1 ] ],
     "empathize_with": [ "UNDINE" ],
     "no_empathize_with": [ "HUMAN" ],
-    "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+    "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+    "flags": [ "HERITAGE" ]
   },
   {
     "type": "mutation",
@@ -237,7 +240,6 @@
     "valid": false,
     "starting_trait": false,
     "purifiable": false,
-    "profession": true,
     "points": 2,
     "ignored_by": [ "HOMULLUS" ],
     "cancels": [
@@ -273,7 +275,8 @@
     "vitamin_rates": [ [ "mutagen_human", 1 ] ],
     "description": "A spirit of the image of humans given life.",
     "empathize_with": [ "HOMULLUS" ],
-    "anger_relations": [ [ "HOMULLUS", -20 ], [ "ARVORE", 20 ] ]
+    "anger_relations": [ [ "HOMULLUS", -20 ], [ "ARVORE", 20 ] ],
+    "flags": [ "HERITAGE" ]
   },
   {
     "type": "mutation",
@@ -284,7 +287,6 @@
     "valid": false,
     "starting_trait": false,
     "purifiable": false,
-    "profession": true,
     "points": 2,
     "ignored_by": [ "SYLPH" ],
     "cancels": [
@@ -323,7 +325,8 @@
     "vitamin_rates": [ [ "mutagen_human", 1 ] ],
     "empathize_with": [ "SYLPH" ],
     "no_empathize_with": [ "HUMAN" ],
-    "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+    "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+    "flags": [ "HERITAGE" ]
   },
   {
     "type": "mutation",

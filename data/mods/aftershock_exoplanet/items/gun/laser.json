@@ -14,7 +14,7 @@
     "dispersion": 500,
     "energy_drain": "25 kJ",
     "ammo_effects": [ "LASER", "BEANBAG" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS" ],
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS", "NO_TURRET" ],
     "melee_damage": { "bash": 10 }
   },
   {
@@ -30,7 +30,7 @@
     "energy_drain": "30 kJ",
     "modes": [ [ "MULTI", "trilaser", 3 ] ],
     "ammo_effects": [ "LASER" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS", "NO_TURRET" ]
   },
   {
     "id": "afs_sentinel_laser_mon",
@@ -76,7 +76,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "ammo_effects": [ "LASER", "IGNITE" ],
-    "flags": [ "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS" ],
+    "flags": [ "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS", "NO_TURRET" ],
     "melee_damage": { "bash": 4 }
   },
   {
@@ -86,7 +86,7 @@
     "copy-from": "laser_cannon_xray",
     "name": { "str": "mounted x-ray cannon" },
     "energy_drain": "0 kJ",
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "NO_TURRET" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "NO_TURRET", "NO_TURRET" ]
   },
   {
     "id": "laser_rifle_cheap",
@@ -112,7 +112,7 @@
     "reload": 500,
     "valid_mod_locations": [ [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "ammo_effects": [ "LASER" ],
-    "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE" ],
+    "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE", "NO_TURRET" ],
     "ammo_to_fire": 0,
     "energy_drain": "20 kJ",
     "pocket_data": [
@@ -142,11 +142,41 @@
     "overheat_threshold": 150,
     "range": 15,
     "modes": [ [ "DEFAULT", "pulse", 1 ], [ "BURST", "2s sequence", 2 ], [ "AUTO", "3s sequence", 3 ] ],
-    "delete": { "flags": [ "NO_UNLOAD", "NO_RELOAD" ] },
+    "extend": { "flags": [ "NO_TURRET" ] },
+    "delete": { "flags": [ "NO_UNLOAD", "NO_RELOAD", "USE_UPS" ] },
     "ammo_to_fire": 0,
     "energy_drain": "10 kJ",
     "valid_mod_locations": [ [ "emitter", 1 ], [ "grip", 1 ], [ "lens", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "default_mods": [ "red_dot_sight" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "magazine_well": "75 ml",
+        "item_restriction": [ "afs_cartridge", "afs_compact_cartridge", "afs_bootleg_cartridge", "afs_archeotech_cartridge" ]
+      }
+    ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
+  },
+  {
+    "id": "afs_graf337",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "Graf 335L" },
+    "copy-from": "afs_av22",
+    "description": "A laser pistol of tremendous power, equally as likely to melt its targets as it is to melt itself.  Powerful enough to punch through heavy military armor, it'll win most shootouts so long as you can end them in three shots or less.",
+    "dispersion": 480,
+    "price": "1250 USD",
+    "price_postapoc": "1250 USD",
+    "ranged_damage": { "damage_type": "afs_laser", "amount": 50 },
+    "overheat_threshold": 100,
+    "cooling_value": 15,
+    "heat_per_shot": 50,
+    "range": 15,
+    "modes": [ [ "DEFAULT", "pulse", 1 ] ],
+    "energy_drain": "75 kJ",
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -177,7 +207,8 @@
     "modes": [ [ "DEFAULT", "pulse", 1 ], [ "BURST", "2s sequence", 2 ] ],
     "ammo_to_fire": 0,
     "ammo_effects": [ "IGNITE", "DAZZLE_BEAM", "PLASMA_BUBBLE" ],
-    "delete": { "flags": [ "NO_UNLOAD", "NO_RELOAD" ] },
+    "extend": { "flags": [ "NO_TURRET" ] },
+    "delete": { "flags": [ "NO_UNLOAD", "NO_RELOAD", "USE_UPS" ] },
     "energy_drain": "30 kJ",
     "built_in_mods": [ "afs_holo_aim_assist" ],
     "valid_mod_locations": [ [ "emitter", 1 ], [ "grip", 1 ], [ "lens", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
@@ -202,7 +233,7 @@
     "symbol": "(",
     "color": "green",
     "name": { "str": "Izhevsk PLC-75" },
-    "description": "Straight from the bureaus of the old Soviet Union the PLC-75 is the crude and brutal answer to the constraints posed by the design of heavy laser ordnance.  Its use of antiquated flashtube pumped laser technology makes it unwieldy and wholly incompatible with modern equipment, whether this offers any consolation to downrange targets remains a matter of contentious dispute.",
+    "description": "Straight from the bureaus of the old Soviet Union the PLC-75 is the crude and brutal answer to the constraints posed by the design of heavy laser ordnance.  Its use of antiquated flashtube pumped laser technology makes it unwieldy and wholly incompatible with modern equipment, whether this offers any advantage to downrange targets remains a matter of contentious dispute.",
     "material": [ "steel" ],
     "flags": [ "RELOAD_ONE", "BACKBLAST", "NEVER_JAMS" ],
     "range": 55,
@@ -270,7 +301,8 @@
     "ranged_damage": { "damage_type": "afs_laser", "amount": 10 },
     "range": 15,
     "ammo_to_fire": 0,
-    "delete": { "flags": [ "NO_UNLOAD", "NO_RELOAD" ] },
+    "extend": { "flags": [ "NO_TURRET" ] },
+    "delete": { "flags": [ "NO_UNLOAD", "NO_RELOAD", "USE_UPS" ] },
     "energy_drain": "5 kJ",
     "valid_mod_locations": [ [ "emitter", 1 ], [ "grip", 1 ], [ "lens", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "pocket_data": [
@@ -295,7 +327,8 @@
     "price_postapoc": "1 kUSD",
     "ammo": [ "battery" ],
     "ammo_to_fire": 0,
-    "delete": { "flags": [ "NO_UNLOAD", "NO_RELOAD" ] },
+    "extend": { "flags": [ "NO_TURRET" ] },
+    "delete": { "flags": [ "NO_UNLOAD", "NO_RELOAD", "USE_UPS" ] },
     "energy_drain": "120 kJ",
     "modes": [ [ "DEFAULT", "pulse", 1 ], [ "BURST", "2s sequence", 2 ] ],
     "ranged_damage": { "damage_type": "afs_laser", "amount": 25, "armor_penetration": 4 },
@@ -334,7 +367,7 @@
     "ammo_to_fire": 0,
     "energy_drain": "30 kJ",
     "ammo_effects": [ "LASER", "ROBOT_DAZZLE" ],
-    "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE", "FRAGILE" ],
+    "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE", "FRAGILE", "NO_TURRET" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -356,7 +389,8 @@
     "price_postapoc": "1500 USD",
     "ammo": [ "battery" ],
     "ammo_to_fire": 0,
-    "delete": { "flags": [ "NO_UNLOAD", "NO_RELOAD" ] },
+    "extend": { "flags": [ "NO_TURRET" ] },
+    "delete": { "flags": [ "NO_UNLOAD", "NO_RELOAD", "USE_UPS" ] },
     "energy_drain": "75 kJ",
     "pocket_data": [
       {

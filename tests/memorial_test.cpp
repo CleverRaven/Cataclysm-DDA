@@ -15,13 +15,13 @@
 #include "event.h"
 #include "event_bus.h"
 #include "filesystem.h"
-#include "make_static.h"
 #include "memorial_logger.h"
 #include "mutation.h"
 #include "player_helpers.h"
-#include "profession.h"
 #include "stats_tracker.h"
 #include "type_id.h"
+
+static const addiction_id addiction_alcohol( "alcohol" );
 
 static const matype_id style_aikido( "style_aikido" );
 
@@ -211,7 +211,7 @@ TEST_CASE( "memorials", "[memorial]" )
         m, b, "The fuel tank of the vehicle_name exploded!", "vehicle_name" );
 
     check_memorial<event_type::gains_addiction>(
-        m, b, "Became addicted to alcohol.", ch, STATIC( addiction_id( "alcohol" ) ) );
+        m, b, "Became addicted to alcohol.", ch, addiction_alcohol );
 
     check_memorial<event_type::gains_mutation>(
         m, b, "Gained the mutation 'Carnivore'.", ch, mut );
@@ -223,12 +223,11 @@ TEST_CASE( "memorials", "[memorial]" )
         m, b, "Reached skill level 8 in vehicles.", ch, skill_driving, 8 );
 
     check_memorial<event_type::game_avatar_death>(
-        m, b, u_name + " was killed.\nLast words: last_words", ch, u_name, player_character.male, false,
-        "last_words" );
+        m, b, u_name + " was killed.\nLast words: last_words", ch, u_name, false, "last_words" );
 
     check_memorial<event_type::game_avatar_new>(
         m, b, u_name + " began their journey into the Cataclysm.", true, false, ch, u_name,
-        player_character.male, player_character.prof->ident(), player_character.custom_profession );
+        player_character.custom_profession );
 
     check_memorial<event_type::installs_cbm>(
         m, b, "Installed bionic: Alarm System.", ch, cbm );
@@ -240,7 +239,7 @@ TEST_CASE( "memorials", "[memorial]" )
         m, b, "Learned Aikido.", ch, style_aikido );
 
     check_memorial<event_type::loses_addiction>(
-        m, b, "Overcame addiction to alcohol.", ch, STATIC( addiction_id( "alcohol" ) ) );
+        m, b, "Overcame addiction to alcohol.", ch, addiction_alcohol );
 
     check_memorial<event_type::npc_becomes_hostile>(
         m, b, "npc_name became hostile.", ch2, "npc_name" );

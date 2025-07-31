@@ -1,3 +1,17 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [How You Can Help](#how-you-can-help)
+  - [Other ways to help](#other-ways-to-help)
+  - [Issue labels](#issue-labels)
+    - [Languages](#languages)
+    - [Issue Types](#issue-types)
+    - [Gameplay Categories](#gameplay-categories)
+    - [Flags](#flags)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # How You Can Help
 
 CDDA is maintained by thousands of volunteers, organized by a core development team. There are many

@@ -11,7 +11,8 @@
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "item.h"
-#include "make_static.h"
+
+static const damage_type_id damage_heat( "heat" );
 
 namespace
 {
@@ -130,7 +131,7 @@ void material_type::load( const JsonObject &jsobj, std::string_view )
     if( _burn_data.empty() ) {
         // If not specified, supply default
         mat_burn_data mbd;
-        if( _resistances.type_resist( STATIC( damage_type_id( "heat" ) ) ) <= 0.f ) {
+        if( _resistances.type_resist( damage_heat ) <= 0.f ) {
             mbd.burn = 1;
         }
         _burn_data.emplace_back( mbd );

@@ -1108,7 +1108,6 @@
           "robofac_gun_ar",
           "robofac_gun_smg",
           "robofac_gun_57",
-          "robofac_gun_46",
           "robofac_gun_dmr",
           "robofac_gun_shotgun",
           "robofac_gun_shotgun_breach",
@@ -1852,5 +1851,20 @@
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "2500 W" } ],
     "melee_damage": { "bash": 20 }
+  },
+  {
+    "id": "monkey_tool",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "monkey tool" },
+    "description": "A small cylindrical chunk of steel with a hole in the middle, made to fit into the hand.  It's used to make rivets by inserting a small rod of steel inside then hammering the end sticking out until it forms the characteristic mushroom shape of the rivet head.",
+    "longest_side": "12 cm",
+    "weight": "1 kg",
+    "volume": "125 ml",
+    "price": "20 USD",
+    "price_postapoc": "3 USD",
+    "material": [ "lc_steel" ],
+    "symbol": "-",
+    "color": "light_gray"
   }
 ]

@@ -1,3 +1,20 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Colors](#colors)
+  - [Color string format](#color-string-format)
+  - [Examples of color strings](#examples-of-color-strings)
+  - [Color code](#color-code)
+  - [Possible colors](#possible-colors)
+  - [Color rules](#color-rules)
+  - [Color tags](#color-tags)
+- [User color customization](#user-color-customization)
+  - [Base colors](#base-colors)
+  - [GUI colors](#gui-colors)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Colors
 
 DDA is colorful game. You can use several foreground and background colors in various places:

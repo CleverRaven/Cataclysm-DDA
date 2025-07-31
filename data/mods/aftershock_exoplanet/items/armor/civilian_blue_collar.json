@@ -144,6 +144,16 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "soft hazard suit" },
+    "material": [ "plastic", "cotton" ],
+    "armor": [
+      {
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "encumbrance": 2,
+        "coverage": 100,
+        "cover_vitals": 100,
+        "covers": [ "foot_l", "foot_r", "head", "torso", "eyes", "mouth", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r" ]
+      }
+    ],
     "description": "A brightly colored, standard-fab pattern environmental suit for use in industrial and medical settings.  Offers good protection from chemical and radioactive hazards, but is not insulated against heat or cold.  Requires a gasmask or sealed helmet for full protection.",
     "use_action": {
       "type": "transform",
@@ -164,7 +174,16 @@
       "menu_text": "Wear normally",
       "msg": "You untie the sleeves and put back on the top of the suit.",
       "target": "afs_hazard_suit"
-    }
+    },
+    "armor": [
+      {
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "encumbrance": 2,
+        "coverage": 100,
+        "cover_vitals": 100,
+        "covers": [ "foot_l", "foot_r", "head", "leg_l", "leg_r" ]
+      }
+    ]
   },
   {
     "id": "spacer_cap",

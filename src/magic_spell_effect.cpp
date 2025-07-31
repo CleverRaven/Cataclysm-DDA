@@ -1469,7 +1469,7 @@ void spell_effect::explosion( const spell &sp, Creature &caster, const tripoint_
 void spell_effect::flashbang( const spell &sp, Creature &caster, const tripoint_bub_ms &target )
 {
     explosion_handler::flashbang( target, caster.is_avatar() &&
-                                  !sp.is_valid_target( spell_target::self ) );
+                                  !sp.is_valid_target( spell_target::self ), sp.aoe( caster ) );
 }
 
 void spell_effect::mod_moves( const spell &sp, Creature &caster, const tripoint_bub_ms &target )

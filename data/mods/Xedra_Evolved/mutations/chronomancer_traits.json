@@ -13,7 +13,8 @@
     "vitamin_rates": [ [ "xedra_chronomancer_insight", -86400 ] ],
     "active": true,
     "activated_eocs": [ "EOC_XEDRA_CHRONOMANCER_OPEN_INSIGHT_MENU" ],
-    "activation_msg": ""
+    "activation_msg": "",
+    "flags": [ "ATTUNEMENT" ]
   },
   {
     "type": "mutation",
