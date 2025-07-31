@@ -51,6 +51,7 @@ class talker_character_const: virtual public const_talker
         units::temperature get_cur_part_temp( const bodypart_id &bp ) const override;
 
         // stats, skills, traits, bionics, and magic
+        int get_artifact_resonance() const override;
         int str_cur() const override;
         int dex_cur() const override;
         int int_cur() const override;

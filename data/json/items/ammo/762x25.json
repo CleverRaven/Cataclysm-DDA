@@ -3,7 +3,7 @@
     "id": "762_25",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
-    "name": { "str_sp": "7.62x25mm JHP" },
+    "name": { "str_sp": "7.62x25mm Tokarev JHP" },
     "description": "A commercial version of the 7.62x25mm cartridge created for the armed forces of Soviet Russia.  It was derived from the 7.63x25mm cartridge used by the C96 pistol.",
     "ascii_picture": "762_25",
     "weight": "10 g",
@@ -30,7 +30,7 @@
     "copy-from": "762_25",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
-    "name": { "str_sp": "7.62x25mm FMJ hot load" },
+    "name": { "str_sp": "7.62x25mm Tokarev +P" },
     "description": "A high-pressure commercial version of the 7.62x25mm cartridge, loaded with an 85 gr. FMJ bullet.  It is more powerful than the original.",
     "relative": { "price": "5 USD", "range": 2, "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": 3 } },
     "proportional": { "recoil": 1.4 }
@@ -40,11 +40,12 @@
     "copy-from": "762_25",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
-    "name": { "str_sp": "7.62x25mm Type P" },
+    "name": { "str_sp": "7.62x25mm Tokarev Type P" },
     "//": "Stopgap price of $1 per.  Anti-China prejudice in the pre-Cataclysm US may have made this ammo tougher to come by.",
     "description": "A subsonic cartridge derived from the 7.62x25mm, designed for silenced firearms.  It offers good armor penetration at the cost of slightly less damage.",
     "weight": "12 g",
     "count": 50,
+    "loudness": 38,
     "relative": {
       "price": "20 USD",
       "range": -1,
@@ -58,7 +59,7 @@
     "copy-from": "762_25hot",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
-    "name": { "str_sp": "7.62x25mm FMJ, black powder" },
+    "name": { "str_sp": "7.62x25mm Tokarev FMJ, black powder" },
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
@@ -73,7 +74,7 @@
     "copy-from": "762_25hot",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
-    "name": { "str_sp": "7.62x25mm FMJ, reloaded" },
+    "name": { "str_sp": "7.62x25mm Tokarev FMJ, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9, "armor_penetration": 0.9 }, "dispersion": 1.1 }
   },
   {
@@ -82,7 +83,7 @@
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
-    "name": { "str_sp": "7.62x25mm FMJ, matchhead powder" },
+    "name": { "str_sp": "7.62x25mm Tokarev FMJ, matchhead powder" },
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
     "looks_like": "bp_762_25",
     "extend": { "effects": [ "MATCHHEAD" ] }

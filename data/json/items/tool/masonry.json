@@ -84,7 +84,7 @@
       ]
     },
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE" ],
-    "melee_damage": { "bash": 4, "cut": 70 }
+    "melee_damage": { "bash": 4, "cut": 10 }
   },
   {
     "id": "electric_masonrysaw_off",
@@ -184,7 +184,7 @@
       "ELECTRONIC"
     ],
     "faults": [ { "fault_group": "electronic_general" } ],
-    "melee_damage": { "bash": 4, "cut": 70 }
+    "melee_damage": { "bash": 4, "cut": 10 }
   },
   {
     "type": "ITEM",

@@ -213,14 +213,8 @@
     "deployed_item": "mattress",
     "examine_action": "deployed_furniture",
     "flags": [ "TRANSPARENT", "SHORT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "mattress", "count": 1 } ] },
-    "bash": {
-      "str_min": 8,
-      "str_max": 30,
-      "sound": "rrrrip!",
-      "sound_fail": "whump.",
-      "items": [ { "item": "sheet_cotton", "count": [ 5, 6 ] }, { "item": "cotton_patchwork", "count": [ 8, 15 ] } ]
-    }
+    "item": "mattress",
+    "bash": { "str_min": 8, "str_max": 30, "sound": "rrrrip!", "sound_fail": "whump." }
   },
   {
     "type": "furniture",
@@ -238,18 +232,8 @@
     "deployed_item": "down_mattress",
     "examine_action": "deployed_furniture",
     "flags": [ "TRANSPARENT", "SHORT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE" ],
-    "deconstruct": { "items": [ { "item": "down_mattress", "count": 1 } ] },
-    "bash": {
-      "str_min": 8,
-      "str_max": 30,
-      "sound": "rrrrip!",
-      "sound_fail": "whump.",
-      "items": [
-        { "item": "sheet_cotton", "count": 1 },
-        { "item": "cotton_patchwork", "count": [ 10, 15 ] },
-        { "item": "down_feather", "count": [ 45, 55 ] }
-      ]
-    }
+    "item": "down_mattress",
+    "bash": { "str_min": 8, "str_max": 30, "sound": "rrrrip!", "sound_fail": "whump." }
   },
   {
     "type": "furniture",
@@ -263,21 +247,9 @@
     "comfort": 4,
     "floor_bedding_warmth": -1400,
     "required_str": -1,
-    "deconstruct": { "items": [ { "item": "hammock", "count": 1 } ] },
+    "item": "hammock",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "CAN_SIT", "EASY_DECONSTRUCT" ],
-    "bash": {
-      "str_min": 4,
-      "str_max": 14,
-      "sound": "rrrrip!",
-      "sound_fail": "slap!",
-      "sound_vol": 6,
-      "sound_fail_vol": 3,
-      "items": [
-        { "item": "sheet_cotton", "count": [ 2, 3 ] },
-        { "item": "cotton_patchwork", "count": [ 12, 14 ] },
-        { "item": "rope_makeshift_6", "count": [ 2, 3 ] }
-      ]
-    }
+    "bash": { "str_min": 4, "str_max": 14, "sound": "rrrrip!", "sound_fail": "slap!", "sound_vol": 6, "sound_fail_vol": 3 }
   },
   {
     "type": "furniture",
@@ -291,17 +263,9 @@
     "comfort": 4,
     "floor_bedding_warmth": -1500,
     "required_str": -1,
-    "deconstruct": { "items": [ { "item": "hammock_net", "count": 1 } ] },
+    "item": "hammock_net",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "CAN_SIT", "EASY_DECONSTRUCT" ],
-    "bash": {
-      "str_min": 2,
-      "str_max": 10,
-      "sound": "rrrrip!",
-      "sound_fail": "slap!",
-      "sound_vol": 6,
-      "sound_fail_vol": 3,
-      "items": [ { "item": "string_36", "count": [ 12, 16 ] }, { "item": "rope_makeshift_6", "count": [ 2, 3 ] } ]
-    }
+    "bash": { "str_min": 2, "str_max": 10, "sound": "rrrrip!", "sound_fail": "slap!", "sound_vol": 6, "sound_fail_vol": 3 }
   },
   {
     "type": "furniture",

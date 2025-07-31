@@ -79,136 +79,6 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_UNKNOWING_CHANGELING_WEARING_IRON_OR_STEEL",
-    "eoc_type": "EVENT",
-    "required_event": "character_wears_item",
-    "condition": {
-      "and": [
-        {
-          "u_has_any_trait": [
-            "UNKNOWING_CHANGELING_NOBLE",
-            "FAIR_FOLK_COMMONER_SELECTOR",
-            "UNKNOWING_CHANGELING_COMMONER_BROWNIE",
-            "UNKNOWING_CHANGELING_COMMONER_POOKA",
-            "UNKNOWING_CHANGELING_COMMONER_SELKIE",
-            "UNKNOWING_CHANGELING_COMMONER_TROW"
-          ]
-        },
-        { "not": { "u_has_effect": "effect_changeling_winter_cut_off_fey_nature" } }
-      ]
-    },
-    "effect": [
-      { "run_eocs": [ "EOC_UNKNOWING_CHANGELING_WEARING_IRON_FOLLOWUP", "EOC_UNKNOWING_CHANGELING_WEARING_STEEL_FOLLOWUP" ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_UNKNOWING_CHANGELING_UNWEARING_IRON_OR_STEEL",
-    "eoc_type": "EVENT",
-    "required_event": "character_takeoff_item",
-    "condition": {
-      "u_has_any_trait": [
-        "UNKNOWING_CHANGELING_NOBLE",
-        "FAIR_FOLK_COMMONER_SELECTOR",
-        "UNKNOWING_CHANGELING_COMMONER_BROWNIE",
-        "UNKNOWING_CHANGELING_COMMONER_POOKA",
-        "UNKNOWING_CHANGELING_COMMONER_SELKIE",
-        "UNKNOWING_CHANGELING_COMMONER_TROW"
-      ]
-    },
-    "effect": [
-      {
-        "run_eocs": [ "EOC_UNKNOWING_CHANGELING_WEARING_IRON_FOLLOWUP", "EOC_UNKNOWING_CHANGELING_WEARING_STEEL_FOLLOWUP" ],
-        "time_in_future": 1
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_UNKNOWING_CHANGELING_WIELDING_IRON_OR_STEEL",
-    "eoc_type": "EVENT",
-    "required_event": "character_wields_item",
-    "condition": {
-      "and": [
-        {
-          "u_has_any_trait": [
-            "UNKNOWING_CHANGELING_NOBLE",
-            "FAIR_FOLK_COMMONER_SELECTOR",
-            "UNKNOWING_CHANGELING_COMMONER_BROWNIE",
-            "UNKNOWING_CHANGELING_COMMONER_POOKA",
-            "UNKNOWING_CHANGELING_COMMONER_SELKIE",
-            "UNKNOWING_CHANGELING_COMMONER_TROW"
-          ]
-        },
-        { "not": { "u_has_effect": "effect_changeling_winter_cut_off_fey_nature" } }
-      ]
-    },
-    "effect": [
-      { "run_eocs": [ "EOC_UNKNOWING_CHANGELING_WEARING_IRON_FOLLOWUP", "EOC_UNKNOWING_CHANGELING_WEARING_STEEL_FOLLOWUP" ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_UNKNOWING_CHANGELING_WEARING_IRON_FOLLOWUP",
-    "effect": {
-      "u_run_inv_eocs": "all",
-      "search_data": [ { "material": "iron", "worn_only": true }, { "material": "iron", "wielded_only": true } ],
-      "true_eocs": [
-        {
-          "id": "EOC_UNKNOWING_CHANGELING_WEARING_IRON_RESULT_TRUE",
-          "effect": [ { "u_add_effect": "effect_changeling_wearing_iron", "duration": "PERMANENT" } ]
-        }
-      ],
-      "false_eocs": [
-        {
-          "id": "EOC_UNKNOWING_CHANGELING_WEARING_IRON_RESULT_FALSE",
-          "effect": [ { "u_lose_effect": "effect_changeling_wearing_iron" } ]
-        }
-      ]
-    }
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_UNKNOWING_CHANGELING_WEARING_STEEL_FOLLOWUP",
-    "effect": {
-      "u_run_inv_eocs": "all",
-      "search_data": [
-        { "material": "steel", "worn_only": true },
-        { "material": "lc_steel", "worn_only": true },
-        { "material": "mc_steel", "worn_only": true },
-        { "material": "hc_steel", "worn_only": true },
-        { "material": "ch_steel", "worn_only": true },
-        { "material": "lc_steel_chain", "worn_only": true },
-        { "material": "mc_steel_chain", "worn_only": true },
-        { "material": "hc_steel_chain", "worn_only": true },
-        { "material": "ch_steel_chain", "worn_only": true },
-        { "material": "steel", "wielded_only": true },
-        { "material": "lc_steel", "wielded_only": true },
-        { "material": "mc_steel", "wielded_only": true },
-        { "material": "hc_steel", "wielded_only": true },
-        { "material": "ch_steel", "wielded_only": true },
-        { "material": "lc_steel_chain", "wielded_only": true },
-        { "material": "mc_steel_chain", "wielded_only": true },
-        { "material": "hc_steel_chain", "wielded_only": true },
-        { "material": "ch_steel_chain", "wielded_only": true }
-      ],
-      "true_eocs": [
-        {
-          "id": "EOC_UNKNOWING_CHANGELING_WEARING_STEEL_RESULT_TRUE",
-          "effect": [ { "u_add_effect": "effect_changeling_wearing_steel", "duration": "PERMANENT" } ],
-          "false_effect": [ { "u_lose_effect": "effect_changeling_wearing_steel" } ]
-        }
-      ],
-      "false_eocs": [
-        {
-          "id": "EOC_UNKNOWING_CHANGELING_WEARING_STEEL_RESULT_FALSE",
-          "effect": [ { "u_lose_effect": "effect_changeling_wearing_steel" } ]
-        }
-      ]
-    }
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_CHANGELING_EFFECTS_REMOVED_BY_ATTACKING_MONSTERS_MELEE",
     "eoc_type": "EVENT",
     "required_event": "character_melee_attacks_monster",
@@ -815,7 +685,7 @@
         "true_eocs": [
           {
             "id": "EOC_BROWNIE_INDOOR_BLINK_SUCCESS",
-            "condition": { "map_terrain_with_flag": "INDOORS", "loc": { "context_val": "brownie_teleport" } },
+            "condition": { "not": { "map_is_outside": { "context_val": "brownie_teleport" } } },
             "effect": [
               { "u_teleport": { "context_val": "brownie_teleport" } },
               { "u_message": "You carefully slip through the cracks.", "type": "good" }

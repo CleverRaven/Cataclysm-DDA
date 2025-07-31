@@ -15,7 +15,7 @@
     "type": "mod_migration",
     "//": "Removed in 0.I",
     "id": "StatsThroughSkills",
-    "removal_reason": "Hardcode that enabled this was removed and it doesn't meet repo inclusion criteria, non-hardcoded alternatives are available out of repo eg Erin105/StatsThroughSkills."
+    "removal_reason": "Hardcode that enabled this was removed and it doesn't meet repo inclusion criteria, non-hardcoded alternatives are available out of repo."
   },
   {
     "type": "mod_migration",
@@ -34,5 +34,11 @@
     "//": "Removed in 0.H",
     "id": "No_Rail_Stations",
     "removal_reason": "Railway stations removed from vanilla and moved to \"Railroads\" mod making this mod redundant."
+  },
+  {
+    "type": "mod_migration",
+    "//": "Removed in 0.I",
+    "id": "speedydex",
+    "removal_reason": "Does not meet repo requirements of offering a different, curated gameplay experience.  Mod can trivially be reproduced in JSON with enchantments."
   }
 ]

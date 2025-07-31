@@ -120,19 +120,20 @@
     "entries": [
       {
         "collection": [
-          { "item": "flour", "prob": 50 },
-          { "item": "cornmeal", "prob": 75 },
-          { "item": "oatmeal", "prob": 90 },
-          { "item": "barley", "prob": 90 }
+          { "group": "flour_bag_paper", "prob": 50 },
+          { "item": "cornmeal", "count": [ 2, -1 ], "prob": 75 },
+          { "item": "oatmeal", "count": [ 2, -1 ], "prob": 90 },
+          { "item": "barley", "count": [ 2, -1 ], "container-item": "bag_canvas_small", "prob": 90 }
         ],
         "prob": 20
       },
       {
         "collection": [
-          { "item": "salt", "prob": 100 },
+          { "group": "salt_various", "prob": 100 },
+          { "group": "pepper_various", "prob": 95 },
           { "group": "sugar_jar_glass_sealed_10_140", "prob": 25 },
-          { "item": "chem_saltpetre", "prob": 10 },
-          { "item": "yeast", "prob": 30 }
+          { "item": "chem_saltpetre", "count": [ 2, -1 ], "prob": 10 },
+          { "group": "yeast_various", "prob": 30 }
         ],
         "prob": 50
       },
@@ -147,13 +148,17 @@
         "prob": 10
       },
       {
-        "collection": [ { "item": "dry_beans", "prob": 80 }, { "item": "dry_lentils", "prob": 80 }, { "item": "dry_rice", "prob": 50 } ],
+        "collection": [
+          { "item": "dry_beans", "count": [ 2, -1 ], "prob": 80 },
+          { "item": "dry_lentils", "count": [ 2, -1 ], "prob": 80 },
+          { "item": "dry_rice", "count": [ 2, -1 ], "prob": 50 }
+        ],
         "prob": 50
       },
       {
         "collection": [
-          { "item": "chem_agar", "prob": 20 },
-          { "item": "lye", "prob": 45 },
+          { "item": "chem_agar", "count": [ 2, -1 ], "prob": 20 },
+          { "item": "lye", "charges": [ 2, -1 ], "prob": 45 },
           { "group": "lye_powder_bottle_part", "prob": 20 },
           { "item": "chem_sulphur", "prob": 30, "charges": [ 100, -1 ], "container-item": "bottle_plastic_small" },
           { "item": "chem_peptone_broth", "prob": 95 }

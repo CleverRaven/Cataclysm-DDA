@@ -162,14 +162,7 @@
     "using": [ [ "accelerant_liquid", 500 ] ],
     "components": [
       [ [ "cotton_patchwork", 1 ] ],
-      [
-        [ "bottle_glass", 1 ],
-        [ "jar_glass_sealed", 1 ],
-        [ "bottle_glass_seasoning", 1 ],
-        [ "bottle_glass_seasoning_small", 2 ],
-        [ "flask_glass", 2 ],
-        [ "clay_canister", 2 ]
-      ]
+      [ [ "bottle_glass", 1 ], [ "jar_glass_sealed", 1 ], [ "bottle_glass_seasoning", 1 ], [ "clay_canister", 1 ] ]
     ]
   },
   {
@@ -265,7 +258,7 @@
     "book_learn": [ [ "manual_launcher", 4 ], [ "textbook_anarch", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "using": [ [ "military_explosive", 46 ], [ "explosives_casting_standard", 1 ], [ "small_grenade_case", 1 ] ],
+    "using": [ [ "military_explosive", 46 ], [ "explosives_casting_standard", 1 ], [ "small_gas_canister_case", 1 ] ],
     "components": [
       [ [ "delay_fuze", 1 ] ],
       [ [ "super_glue", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ],
@@ -372,7 +365,6 @@
   },
   {
     "result": "small_homemade_grenade",
-    "id_suffix": "volatile",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_WEAPON",
@@ -384,17 +376,16 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "using": [ [ "stable_explosive", 14 ], [ "volatile_explosive", 1 ] ],
     "components": [
-      [ [ "small_grenade_case", 1, "LIST" ] ],
-      [ [ "stable_explosive", 15, "LIST" ], [ "volatile_explosive", 15, "LIST" ] ],
+      [ [ "small_gas_canister_case", 1, "LIST" ] ],
       [ [ "fuse", 1 ] ],
-      [ [ "super_glue", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ],
+      [ [ "super_glue", 4 ], [ "duct_tape", 10 ] ],
       [ [ "nails", 50, "LIST" ], [ "scrap", 2 ] ]
     ]
   },
   {
     "result": "homemade_grenade",
-    "id_suffix": "volatile",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_WEAPON",
@@ -406,11 +397,11 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "using": [ [ "stable_explosive", 29 ], [ "volatile_explosive", 1 ] ],
     "components": [
       [ [ "can_medium", 1 ] ],
-      [ [ "stable_explosive", 30, "LIST" ], [ "volatile_explosive", 30, "LIST" ] ],
       [ [ "fuse", 1 ] ],
-      [ [ "super_glue", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ],
+      [ [ "super_glue", 4 ], [ "duct_tape", 10 ] ],
       [ [ "nails", 100, "LIST" ], [ "scrap", 4 ] ]
     ]
   },

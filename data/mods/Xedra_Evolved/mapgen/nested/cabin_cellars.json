@@ -1,0 +1,77 @@
+[
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "cabin_6x6_cellar_nested",
+    "//": "A cellar with a setup for hedge magick",
+    "weight": 250,
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "BB  tt",
+        "     t",
+        "  OO  ",
+        "  OO  ",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "cabin_cellar" ],
+      "furniture": { "O": "f_xe_magic_circle", "B": "f_bookcase" },
+      "items": {
+        "B": [
+          { "item": "esoteric_books", "chance": 80, "repeat": [ 1, 2 ] },
+          { "item": "hedge_magic_books", "chance": 50, "repeat": [ 1, 2 ] }
+        ],
+        "t": [ { "item": "hedge_magick_materials", "chance": 80, "repeat": [ 2, 4 ] } ]
+      },
+      "place_fields": [ { "field": "fd_dust", "x": [ 0, 5 ], "y": [ 0, 5 ], "repeat": [ 10, 20 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "cabin_6x6_cellar_nested_zombies",
+    "//": "A cellar overlay for a feral vampire.",
+    "weight": 200,
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "cabin_cellar" ],
+      "place_loot": [
+        { "item": "sleeping_bag", "x": 1, "y": 3, "chance": 100, "repeat": [ 1, 2 ] },
+        { "group": "stash_food", "x": [ 2, 3 ], "y": [ 2, 4 ], "chance": 30, "repeat": [ 2, 3 ] },
+        { "group": "roof_holdout", "x": [ 2, 3 ], "y": [ 2, 4 ], "chance": 70, "repeat": [ 2, 4 ] }
+      ],
+      "place_fields": [ { "field": "fd_blood", "x": [ 0, 5 ], "y": [ 0, 5 ], "repeat": [ 1, 4 ] } ],
+      "place_monster": [ { "monster": "mon_vampire_feral", "x": [ 0, 5 ], "y": [ 0, 5 ], "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "cabin_6x6_cellar_nested_spiders",
+    "weight": 250,
+    "//": "A cellar overlay for XE goblin spiders.  Won't you come out to play?",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "cabin_cellar" ],
+      "place_fields": [ { "field": "fd_web", "x": [ 0, 5 ], "y": [ 0, 5 ], "repeat": [ 10, 20 ] } ],
+      "place_monster": [ { "group": "GROUP_GOBLIN_SPIDER", "x": [ 0, 5 ], "y": [ 0, 5 ], "chance": 100, "repeat": [ 3, 4 ] } ]
+    }
+  }
+]

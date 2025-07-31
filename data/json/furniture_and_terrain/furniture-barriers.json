@@ -238,14 +238,8 @@
     "required_str": -1,
     "examine_action": "chainfence",
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "PERMEABLE", "FLAMMABLE_ASH", "CLIMBABLE", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "long_pole", "count": 1 } ] },
-    "bash": {
-      "str_min": 5,
-      "str_max": 12,
-      "sound": "whump!",
-      "sound_fail": "whack!",
-      "items": [ { "item": "long_pole", "count": [ 0, 1 ] } ]
-    }
+    "item": "long_pole",
+    "bash": { "str_min": 5, "str_max": 12, "sound": "whump!", "sound_fail": "whack!" }
   },
   {
     "type": "furniture",

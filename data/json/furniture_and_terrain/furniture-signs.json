@@ -106,25 +106,30 @@
       "type": "effect_on_condition",
       "effect_on_conditions": [
         {
-          "id": "EOC_EVAC_BOARD_FALSE",
-          "condition": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" },
-          "effect": [
-            {
+          "id": "EOC_EVAC_BOARD",
+          "condition": {
+            "and": [
+              "u_can_see",
+              {
+                "or": [ { "u_has_flag": "READ_IN_DARKNESS" }, { "math": [ "u_val('fine_detail_vision_mod') <= 4" ] } ]
+              }
+            ]
+          },
+          "effect": {
+            "if": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" },
+            "then": {
               "u_message": "You study the board.  It shows a similar set of directions to the ones you already have.  You cross-reference them and don't learn anything new.",
               "popup": true
-            }
-          ]
-        },
-        {
-          "id": "EOC_EVAC_BOARD",
-          "condition": { "not": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" } },
-          "effect": [
-            {
-              "u_message": "You study the board.  One of the pages has a map and address for a nearby refugee center alongside minutia you no longer need trouble yourself with now that society has collapsed, like 'operating hours' and 'acceptable forms of ID'.  You take careful note of the map on the board and mark down the coordinates.",
-              "popup": true
             },
-            { "assign_mission": "MISSION_REACH_REFUGEE_CENTER" }
-          ]
+            "else": [
+              {
+                "u_message": "You study the board.  One of the pages has a map and address for a nearby refugee center alongside minutia you no longer need trouble yourself with now that society has collapsed, like 'operating hours' and 'acceptable forms of ID'.  You take careful note of the map on the board and mark down the coordinates.",
+                "popup": true
+              },
+              { "assign_mission": "MISSION_REACH_REFUGEE_CENTER" }
+            ]
+          },
+          "false_effect": { "u_message": "It's too dark to read." }
         }
       ]
     }

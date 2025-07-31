@@ -1,0 +1,24 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_UPGRADE_ESPERS_ON_LOAD",
+    "eoc_type": "EVENT",
+    "required_event": "game_load",
+    "condition": {
+      "and": [
+        { "u_has_trait": "ESPER" },
+        { "not": { "u_has_any_trait": [ "ESPER_ADVANCEMENT_OKAY", "ESPER_STARTER_ADVANCEMENT_OKAY" ] } },
+        { "math": [ "u_afs_esper_heritage_updated != 1" ] }
+      ]
+    },
+    "effect": [ { "u_add_trait": "ESPER_STARTER_ADVANCEMENT_OKAY" }, { "math": [ "u_afs_esper_heritage_updated = 1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_UPGRADE_ESPERS_ON_GAME_START",
+    "eoc_type": "EVENT",
+    "required_event": "game_start",
+    "condition": { "and": [ { "u_has_trait": "ESPER" }, { "math": [ "u_afs_esper_heritage_updated != 1" ] } ] },
+    "effect": [ { "math": [ "u_afs_esper_heritage_updated = 1" ] } ]
+  }
+]

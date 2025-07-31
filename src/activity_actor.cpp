@@ -8737,7 +8737,7 @@ void pulp_activity_actor::start( player_activity &act, Character &you )
                     // Don't smash non-rezing corpses or random items
                     continue;
                 }
-                if( corpse.damage() < corpse.max_damage() ) {
+                if( corpse.can_revive() ) {
                     item_location corpse_loc( map_cursor( here.get_bub( pos_abs ) ), &corpse );
                     corpses.push_back( corpse_loc );
                 }
@@ -8754,7 +8754,7 @@ void pulp_activity_actor::do_turn( player_activity &act, Character &you )
     // inverse loop, so we can pop the last element cheaply
     for( int i = corpses.size() - 1; i >= 0; --i ) {
         item *corpse = corpses[i].get_item();
-        if( corpse->damage() < corpse->max_damage() ) {
+        if( corpse != nullptr && corpse->damage() < corpse->max_damage() ) {
             bool can_pulp = punch_corpse_once( *corpse, you, corpses[i].pos_bub( here ), here );
             if( !can_pulp ) {
                 ++unpulped_corpses_qty;
@@ -8779,6 +8779,10 @@ void pulp_activity_actor::do_turn( player_activity &act, Character &you )
 
 bool pulp_activity_actor::can_pulp( item &corpse, Character &you )
 {
+
+    if( !corpse.can_revive() ) {
+        return false;
+    }
 
     const mtype *corpse_mtype = corpse.get_mtype();
     if( corpse_mtype == nullptr ) {

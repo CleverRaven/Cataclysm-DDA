@@ -68,6 +68,7 @@
 #include "global_vars.h"
 #include "gun_mode.h"
 #include "help.h"
+#include "input.h"
 #include "input_context.h"
 #include "input_enums.h"
 #include "inventory.h"
@@ -2320,6 +2321,16 @@ int topic_category( const talk_topic &the_topic )
     return -1; // Not grouped with other topics
 }
 
+static std::string faction_or_fallback( const_talker const &guy )
+{
+    faction *fac = guy.get_faction();
+    if( !fac ) {
+        return guy.get_name();
+    }
+    // Note: Check for translation, don't just return raw name.
+    return _( fac->name );
+}
+
 void parse_tags( std::string &phrase, const Character &u, const Creature &me,
                  const itype_id &item_type )
 {
@@ -2393,6 +2404,10 @@ void parse_tags( std::string &phrase, const_talker const &u, const_talker const 
             phrase.replace( fa, l, u.get_name() );
         } else if( tag == "<npc_name>" ) {
             phrase.replace( fa, l, me.get_name() );
+        } else if( tag == "<u_faction>" ) {
+            phrase.replace( fa, l, faction_or_fallback( u ) );
+        } else if( tag == "<npc_faction>" ) {
+            phrase.replace( fa, l, faction_or_fallback( me ) );
         } else if( tag == "<ammo>" ) {
             if( !me_weapon || !me_weapon->is_gun() ) {
                 phrase.replace( fa, l, _( "BADAMMO" ) );
@@ -2408,18 +2423,6 @@ void parse_tags( std::string &phrase, const_talker const &u, const_talker const 
                 activity_name = _( "doing this and that" );
             }
             phrase.replace( fa, l, activity_name );
-        } else if( tag == "<punc>" ) {
-            switch( rng( 0, 2 ) ) {
-                case 0:
-                    phrase.replace( fa, l, pgettext( "punctuation", "." ) );
-                    break;
-                case 1:
-                    phrase.replace( fa, l, pgettext( "punctuation", "…" ) );
-                    break;
-                case 2:
-                    phrase.replace( fa, l, pgettext( "punctuation", "!" ) );
-                    break;
-            }
         } else if( tag == "<mypronoun>" ) {
             std::string npcstr = me.is_male() ? pgettext( "npc", "He" ) : pgettext( "npc", "She" );
             phrase.replace( fa, l, npcstr );
@@ -2547,12 +2550,13 @@ void parse_tags( std::string &phrase, const_talker const &u, const_talker const 
 
             std::string keybind_desc;
             std::vector<input_event> keys = ctxt.keys_bound_to( keybind, -1, false, false );
-            if( keys.empty() ) { // Display description for unbound keys
-                keybind_desc = colorize( '<' + ctxt.get_desc( keybind ) + '>', c_red );
-
-                if( !ctxt.is_registered_action( keybind ) ) {
-                    debugmsg( "Keybind specified by <keybind:%s> is invalid/missing", var );
-                }
+            if( keys.empty() ) {
+                // Check if the tag is references a non-existant bind and debugmsg if it does
+                inp_mngr.check_keybind( category, keybind, tag );
+                // Display description for unbound keys, don't use tag or <> or it tries to read it as another tag
+                //~ Describing an unbound keybind, %1$s - whether the key is globally or locally unbound, %2$s - the display name of the keybind like you'd find in the bind menu, %3$s - the untranslated category id it belongs to for context
+                keybind_desc = colorize( string_format( _( "%1$s (\"%2$s\" in keybind category %3$s)" ),
+                                                        ctxt.get_desc( keybind ), ctxt.get_action_name( keybind ), category ), c_red );
             } else {
                 keybind_desc = enumerate_as_string( keys.begin(), keys.end(), []( const input_event & k ) {
                     return colorize( '\'' + k.long_description() + '\'', c_yellow );
@@ -2569,21 +2573,8 @@ void parse_tags( std::string &phrase, const_talker const &u, const_talker const 
             }
             phrase.replace( fa, l, cityname );
         } else if( tag.find( "<time_survived>" ) == 0 ) {
-            std::string time_survived;
             const time_duration survived = calendar::turn - calendar::start_of_game;
-            const int minutes = to_minutes<int>( survived ) % 60;
-            const int hours = to_hours<int>( survived ) % 24;
-            const int days = to_days<int>( survived );
-            if( days > 0 ) {
-                // NOLINTNEXTLINE(cata-translate-string-literal)
-                time_survived = string_format( "%dd %dh %dm", days, hours, minutes );
-            } else if( hours > 0 ) {
-                // NOLINTNEXTLINE(cata-translate-string-literal)
-                time_survived = string_format( "%dh %dm", hours, minutes );
-            } else {
-                // NOLINTNEXTLINE(cata-translate-string-literal)
-                time_survived = string_format( "%dm", minutes );
-            }
+            const std::string time_survived = to_string( survived, true );
             phrase.replace( fa, l, time_survived );
         } else if( tag.find( "<total_kills>" ) == 0 ) {
             const std::string total_kills = std::to_string( g->get_kill_tracker().monster_kill_count() );
@@ -4517,10 +4508,13 @@ talk_effect_fun_t::func f_explosion( const JsonObject &jo, std::string_view memb
 
     bool emp_blast = jo.get_bool( "emp_blast", false );
     bool scrambler_blast = jo.get_bool( "scrambler_blast", false );
+    bool flashbang = jo.get_bool( "flashbang", false );
+    bool flashbang_avatar_is_immune = jo.get_bool( "flashbang_avatar_is_immune", false );
+    dbl_or_var flashbang_radius = get_dbl_or_var( jo, "flashbang_radius", false, 8 );
 
     return [target_var, dov_power, dov_distance_factor, dov_max_noise, fire, dov_shrapnel_casing_mass,
                         dov_shrapnel_fragment_mass, dov_shrapnel_recovery, dov_shrapnel_drop, emp_blast, scrambler_blast,
-                is_npc, &here]( dialogue const & d ) {
+                flashbang, flashbang_avatar_is_immune, flashbang_radius, is_npc, &here]( dialogue const & d ) {
         tripoint_bub_ms target_pos;
         if( target_var.has_value() ) {
             tripoint_abs_ms abs_ms = read_var_value( *target_var, d ).tripoint();
@@ -4547,6 +4541,10 @@ talk_effect_fun_t::func f_explosion( const JsonObject &jo, std::string_view memb
         }
         if( scrambler_blast ) {
             explosion_handler::scrambler_blast( target_pos );
+        }
+        if( flashbang ) {
+            explosion_handler::flashbang( target_pos, flashbang_avatar_is_immune,
+                                          flashbang_radius.evaluate( d ) );
         }
     };
 }
@@ -4869,7 +4867,7 @@ talk_effect_fun_t::func f_revert_location( const JsonObject &jo, std::string_vie
         key.str_val = "";
     }
     var_info target_var = read_var_info( jo.get_object( member ) );
-    return [target_var, dov_time_in_future, key]( dialogue & d ) {
+    return[target_var, dov_time_in_future, key]( dialogue & d ) {
         const tripoint_abs_ms abs_ms = read_var_value( target_var, d ).tripoint();
         tripoint_abs_omt omt_pos = project_to<coords::omt>( abs_ms );
         time_point tif = calendar::turn + dov_time_in_future.evaluate( d ) + 1_seconds;
@@ -4895,6 +4893,51 @@ talk_effect_fun_t::func f_revert_location( const JsonObject &jo, std::string_vie
         }
 
         reality_bubble().invalidate_map_cache( omt_pos.z() );
+    };
+}
+
+talk_effect_fun_t::func f_copy_location( const JsonObject &jo, std::string_view member,
+        std::string_view )
+{
+    duration_or_var dov_time_in_future = get_duration_or_var( jo, "time_in_future", true );
+    str_or_var key;
+    if( jo.has_member( "key" ) ) {
+        key = get_str_or_var( jo.get_member( "key" ), "key", false, "" );
+    } else {
+        key.str_val = "";
+    }
+    var_info new_loc = read_var_info( jo.get_object( "new_loc" ) );
+    var_info target_var = read_var_info( jo.get_object( member ) );
+    return[target_var, new_loc, dov_time_in_future, key]( dialogue & d ) {
+        const tripoint_abs_ms abs_ms = read_var_value( target_var, d ).tripoint();
+        const tripoint_abs_ms abs_ms_new = read_var_value( new_loc, d ).tripoint();
+        tripoint_abs_omt omt_pos = project_to<coords::omt>( abs_ms );
+        tripoint_abs_omt omt_pos_new = project_to<coords::omt>( abs_ms_new );
+
+        time_point tif = calendar::turn + dov_time_in_future.evaluate( d ) + 1_seconds;
+        // Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
+        // maptile is 4 submaps so queue up 4 submap reverts
+        const tripoint_abs_sm revert_sm_base = project_to<coords::sm>( omt_pos );
+        const tripoint_abs_sm new_sm_base = project_to<coords::sm>( omt_pos_new );
+        if( !MAPBUFFER.submap_exists( new_sm_base ) ) {
+            tinymap tm;
+            // This creates the submaps if they didn't already exist.
+            // Note that all four submaps are loaded/created by this
+            // call, so the submap lookup can fail at most once.
+            tm.load( omt_pos_new, true );
+        }
+        for( int x = 0; x < 2; x++ ) {
+            for( int y = 0; y < 2; y++ ) {
+                const tripoint_abs_sm new_sm = new_sm_base + point( x, y );
+
+                const tripoint_abs_sm revert_sm = revert_sm_base + point( x, y );
+                submap *sm = MAPBUFFER.lookup_submap( revert_sm );
+                get_timed_events().add( timed_event_type::REVERT_SUBMAP, tif, -1,
+                                        project_to<coords::ms>( new_sm ), 0, "",
+                                        sm->get_revert_submap(), key.evaluate( d ) );
+            }
+        }
+        reality_bubble().invalidate_map_cache( omt_pos_new.z() );
     };
 }
 
@@ -7734,7 +7777,7 @@ talk_effect_fun_t::func f_trigger_event( const JsonObject &jo, std::string_view 
         args_str.reserve( args.size() );
         std::transform( args.cbegin(), args.cend(),
         std::back_inserter( args_str ), [&d]( str_or_var const & sov ) {
-            return sov.evaluate( d );
+            return sov.evaluate( d, true );
         } );
         get_event_bus().send( cata::event::make_dyn( type, args_str ) );
     };
@@ -7923,6 +7966,7 @@ parsers = {
     { "mapgen_update", jarg::member, &talk_effect_fun::f_mapgen_update },
     { "alter_timed_events", jarg::member, &talk_effect_fun::f_alter_timed_events },
     { "revert_location", jarg::member, &talk_effect_fun::f_revert_location },
+    { "copy_location", jarg::member, &talk_effect_fun::f_copy_location },
     { "place_override", jarg::member, &talk_effect_fun::f_place_override },
     { "transform_line", jarg::member, &talk_effect_fun::f_transform_line },
     { "location_variable_adjust", jarg::member, &talk_effect_fun::f_location_variable_adjust },

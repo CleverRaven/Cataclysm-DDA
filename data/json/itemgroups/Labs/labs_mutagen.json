@@ -7,7 +7,10 @@
       { "item": "bleach", "charges": [ 1, -1 ], "prob": 40, "container-item": "jug_plastic", "sealed": false },
       { "item": "ammonia_liquid", "charges": [ 6, -1 ], "prob": 40, "container-item": "pressure_tank" },
       {
-        "distribution": [ { "item": "honey_glassed", "prob": 20 }, { "item": "honey_bottled", "prob": 80 } ],
+        "distribution": [
+          { "item": "honey_glassed", "count": [ 1, -1 ], "prob": 20 },
+          { "item": "honey_bottled", "charges": [ 1, -1 ], "prob": 80 }
+        ],
         "prob": 30
       },
       { "item": "can_clams", "count": [ 1, 3 ], "prob": 30 },

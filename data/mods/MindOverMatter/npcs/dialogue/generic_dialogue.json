@@ -52,11 +52,11 @@
     "type": "talk_topic",
     "dynamic_line": {
       "npc_male": [
-        "*'s weapon flies out of his hands.\n\n\"<freaking> <name_b>!  You some kind of witch?",
+        "*'s weapon flies out of his hands.\n\n\"<freaking> <name_b>!  You some kind of witch?\"",
         "*'s weapon flies out of his hands and he lets out a startled yelp."
       ],
       "no": [
-        "*'s weapon flies out of her hands.\n\n\"<freaking> <name_b>!  You some kind of witch?",
+        "*'s weapon flies out of her hands.\n\n\"<freaking> <name_b>!  You some kind of witch?\"",
         "*'s weapon flies out of her hands and she lets out a startled yelp."
       ]
     },

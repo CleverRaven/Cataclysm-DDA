@@ -267,7 +267,7 @@
     "id": "EOC_CLAIR_DANGER_SENSE_INITIATE",
     "condition": { "not": { "u_has_effect": "effect_clair_premonition" } },
     "effect": [
-      { "u_message": "You open your senses to the dangers of the world.", "type": "good" },
+      { "u_message": "You become preternaturally aware of possible dangers.", "type": "good" },
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_clair_premonition", "duration": "PERMANENT" },
       {
@@ -275,12 +275,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_spell_level('clair_danger_sense') * 45) + 120) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('clair_danger_sense') + u_spell_level('clair_danger_sense_knack') ) * 303.00) + 1174.00) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('clair_danger_sense') * 75) + 490) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('clair_danger_sense') + u_spell_level('clair_danger_sense_knack') ) * 1002.00) + 2232.00) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -306,19 +306,18 @@
         "then": { "math": [ "u_spell_exp('clair_danger_sense')", "+=", "psionic_power_experience_formula()" ] },
         "else": { "math": [ "u_spell_exp('clair_danger_sense_knack')", "+=", "psionic_power_experience_formula()" ] }
       },
-      { "math": [ "u_spell_exp('clair_danger_sense')", "+=", "psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_CLAIR_DANGER_SENSE_DRAIN",
         "time_in_future": [
           {
             "math": [
-              "( (u_spell_level('clair_danger_sense') * 45) + 120) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('clair_danger_sense') + u_spell_level('clair_danger_sense_knack') ) * 303.00) + 1174.00) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('clair_danger_sense') * 75) + 490) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('clair_danger_sense') + u_spell_level('clair_danger_sense_knack') ) * 1002.00) + 2232.00) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -381,6 +380,65 @@
           {
             "math": [
               "( (u_spell_level('clair_ranged_enhance') * 25) + 640) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_SENSE_HOSTILE_CREATURES_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_clair_sense_hostile_creatures" } },
+    "effect": [
+      { "u_message": "You open your senses to the dangers of the world.", "type": "good" },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
+      { "u_add_effect": "effect_clair_sense_hostile_creatures", "duration": "PERMANENT" },
+      {
+        "run_eocs": "EOC_CLAIR_SENSE_HOSTILE_CREATURES_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_spell_level('clair_sense_hostile_creatures') * 45) + 120) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( (u_spell_level('clair_sense_hostile_creatures') * 75) + 490) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_CLAIR_REMOVE_SENSE_HOSTILE_CREATURES" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_REMOVE_SENSE_HOSTILE_CREATURES",
+    "condition": { "u_has_effect": "effect_clair_sense_hostile_creatures" },
+    "effect": [ { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" }, { "u_lose_effect": "effect_clair_sense_hostile_creatures" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_SENSE_HOSTILE_CREATURES_DRAIN",
+    "condition": { "u_has_effect": "effect_clair_sense_hostile_creatures" },
+    "effect": [
+      { "math": [ "u_latest_channeled_power_difficulty = 5" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
+      { "math": [ "u_spell_exp('clair_sense_hostile_creatures')", "+=", "psionic_power_experience_formula()" ] },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
+      {
+        "run_eocs": "EOC_CLAIR_SENSE_HOSTILE_CREATURES_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_spell_level('clair_sense_hostile_creatures') * 45) + 120) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( (u_spell_level('clair_sense_hostile_creatures') * 75) + 490) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
