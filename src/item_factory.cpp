@@ -3416,7 +3416,7 @@ void islot_comestible::deserialize( const JsonObject &jo )
     optional( jo, was_loaded, "spoils_in", spoils, time_bound_reader{0_seconds} );
     optional( jo, was_loaded, "cooks_like", cooks_like );
     optional( jo, was_loaded, "smoking_result", smoking_result );
-    optional( jo, was_loaded, "petfood", petfood );
+    optional( jo, was_loaded, "petfood", petfood, string_reader{} );
     optional( jo, was_loaded, "monotony_penalty", monotony_penalty, -1 );
     optional( jo, was_loaded, "calories", default_nutrition.calories );
 

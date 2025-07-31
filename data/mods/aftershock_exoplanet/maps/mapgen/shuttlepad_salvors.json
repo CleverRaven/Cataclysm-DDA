@@ -29,7 +29,7 @@
         " |ΩΩÖÖÖÖ×Ω|‘ ℗¾℗‘‘‘‘‘‘‘ À╫ ‘‘‘ ‘ ╫℗℗ÀÀ‘‘‘‘ä¦ìì·#",
         " |||####|||    ℗   ℗¾‘‘‘ ╫╫╫╫‘╫╫╫╫½¾‘‘‘‘‘Ψä¦¦··#",
         "   ℗℗℗℗℗            ℗‘‘‘   ω‘‘℗¾¼¼‘‘‘╡ÅÅ╡‘ á¦·ú¦",
-        "    ℗    Χ            ‘‘℗℗¾¿‘℗ ‘‘‘‘‘‘╡Æ∙È‘ 2¦ûó¦",
+        "    ℗    Χ            ‘‘℗℗¾¿‘℗ ‘‘‘‘‘‘╡ÆθÈ‘ 2¦ûó¦",
         "      ℗℗ ℗℗   ℗℗℗℗    ‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘╡Éõ╡‘‘½╡╡¦¦",
         "    ---##------##---  ℗‘‘‘Ù‘‘‘‘Ù‘ Ψ ‘‘ ‘‘ ‘â╡ûø¦",
         "    -Υ.³³..ΦΦ..ΦΦ%©-  ¾‘‘¼╡----¦Á2 ‘ ‘Ù¦$$$$¦ýù¦",
@@ -78,7 +78,8 @@
         "χ": { "class": "uica_ground_soldier" },
         "ϋ": { "class": "uica_vehicle_merchant" },
         "ի": { "class": "salvor_camp_solo" },
-        "λ": { "class": "salvor_fabricator" }
+        "λ": { "class": "salvor_fabricator" },
+        "θ": { "class": "salvor_street_food" }
       },
       "monster": {
         "ψ": { "monster": "mon_uica_tankbot" },
@@ -162,6 +163,7 @@
         "è": "t_strconc_floor",
         "é": "t_strconc_floor_olight",
         "ê": "t_thconc_floor_no_roof",
+        "θ": "t_thconc_floor_no_roof",
         "ë": "t_thconc_floor_no_roof",
         "ì": "t_thconc_floor_no_roof",
         "í": "t_thconc_floor_no_roof",

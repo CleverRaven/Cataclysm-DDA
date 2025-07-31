@@ -4,6 +4,20 @@
 #include "output.h"
 #include "wcwidth.h"
 
+void warn_disabled_feature( const JsonObject &jo, const std::string_view feature,
+                            const std::string_view member, const std::string_view reason )
+{
+    if( !jo.has_member( feature ) ) {
+        return;
+    }
+    JsonObject feat = jo.get_object( feature );
+    feat.allow_omitted_members();
+    if( feat.has_member( member ) ) {
+        jo.throw_error( string_format( "Using '%s' on '%s' not permitted in this instance: %s",
+                                       feature, member, reason ) );
+    }
+}
+
 bool one_char_symbol_reader( const JsonObject &jo, std::string_view member_name, int &sym,
                              bool )
 {

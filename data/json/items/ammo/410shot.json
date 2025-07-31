@@ -70,7 +70,7 @@
     "name": { "str_sp": ".410 slug, reloaded" },
     "proportional": { "price": 0.7, "price_postapoc": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "bp_410shot_slug",
@@ -79,8 +79,7 @@
     "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".410 slug, black powder" },
     "proportional": { "price": 0.6, "price_postapoc": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
-    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] }
   },
   {
     "id": "410shot_000",
@@ -107,7 +106,7 @@
     "name": { "str_sp": ".410 buckshot, reloaded" },
     "proportional": { "price": 0.7, "price_postapoc": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "bp_410shot_000",
@@ -116,8 +115,7 @@
     "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".410 buckshot, black powder" },
     "proportional": { "price": 0.6, "price_postapoc": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
-    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] }
   },
   {
     "id": "410shot_bird",
@@ -143,7 +141,7 @@
     "name": { "str_sp": ".410 birdshot, reloaded" },
     "proportional": { "price": 0.7, "price_postapoc": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "bp_410shot_bird",
@@ -152,8 +150,7 @@
     "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".410 birdshot, black powder" },
     "proportional": { "price": 0.6, "price_postapoc": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
-    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] }
   },
   {
     "id": "410shot_scrap",
@@ -164,7 +161,7 @@
     "description": "A .410 shotshell filled with whatever scrap metal was lying around.  More damaging than birdshot, but fairly inaccurate.",
     "proportional": { "price": 0.4, "price_postapoc": 0.4, "damage": { "damage_type": "bullet", "amount": 0.6 }, "shot_spread": 1.2 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "bp_410shot_scrap",

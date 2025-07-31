@@ -5,8 +5,7 @@
     "copy-from": "crowbar",
     "name": { "str": "crowbar +1", "str_pl": "crowbars +1" },
     "proportional": { "price": 6.0, "price_postapoc": 6.0, "weight": 0.9, "melee_damage": { "all": 1.1 } },
-    "relative": { "to_hit": 1 },
-    "extend": { "qualities": [ [ "PRY", 4 ] ] }
+    "relative": { "to_hit": 1, "qualities": [ [ "PRY", 1 ] ] }
   },
   {
     "type": "ITEM",
@@ -14,8 +13,7 @@
     "copy-from": "crowbar",
     "name": { "str": "crowbar +2", "str_pl": "crowbars +2" },
     "proportional": { "price": 9.0, "price_postapoc": 9.0, "weight": 0.8, "melee_damage": { "all": 1.2 } },
-    "relative": { "to_hit": 2 },
-    "extend": { "qualities": [ [ "PRY", 5 ] ] }
+    "relative": { "to_hit": 2, "qualities": [ [ "PRY", 2 ] ] }
   },
   {
     "type": "ITEM",
@@ -23,8 +21,7 @@
     "copy-from": "knife_hunting",
     "name": { "str": "hunting knife +1", "str_pl": "hunting knives +1" },
     "proportional": { "price": 3.0, "price_postapoc": 3.0, "weight": 0.9, "melee_damage": { "all": 1.1 } },
-    "relative": { "to_hit": 1 },
-    "extend": { "qualities": [ [ "BUTCHER", 33 ] ] }
+    "relative": { "to_hit": 1, "qualities": [ [ "BUTCHER", 1 ] ] }
   },
   {
     "type": "ITEM",
@@ -32,8 +29,7 @@
     "copy-from": "knife_hunting",
     "name": { "str": "hunting knife +2", "str_pl": "hunting knives +2" },
     "proportional": { "price": 6.0, "price_postapoc": 6.0, "weight": 0.8, "melee_damage": { "all": 1.2 } },
-    "relative": { "to_hit": 2 },
-    "extend": { "qualities": [ [ "BUTCHER", 36 ] ] }
+    "relative": { "to_hit": 2, "qualities": [ [ "BUTCHER", 2 ] ] }
   },
   {
     "type": "ITEM",
@@ -41,7 +37,7 @@
     "copy-from": "jack",
     "name": { "str": "bottle jack +1", "str_pl": "bottle jacks +1" },
     "proportional": { "price": 3.0, "price_postapoc": 3.0, "weight": 0.9, "melee_damage": { "all": 1.1 } },
-    "extend": { "qualities": [ [ "JACK", 18 ] ] }
+    "relative": { "qualities": [ [ "JACK", 1 ] ] }
   },
   {
     "type": "ITEM",
@@ -49,7 +45,7 @@
     "copy-from": "jack",
     "name": { "str": "bottle jack +2", "str_pl": "bottle jacks +2" },
     "proportional": { "price": 6.0, "price_postapoc": 6.0, "weight": 0.8, "melee_damage": { "all": 1.2 } },
-    "extend": { "qualities": [ [ "JACK", 20 ] ] }
+    "relative": { "qualities": [ [ "JACK", 2 ] ] }
   },
   {
     "type": "ITEM",
@@ -57,7 +53,7 @@
     "copy-from": "scalpel",
     "name": { "str": "scalpel +1", "str_pl": "scalpels +1" },
     "proportional": { "price": 3.0, "price_postapoc": 3.0, "weight": 0.9, "melee_damage": { "all": 1.1 } },
-    "extend": { "qualities": [ [ "CUT_FINE", 4 ], [ "BUTCHER", 9 ] ] }
+    "relative": { "qualities": [ [ "CUT_FINE", 1 ], [ "BUTCHER", 1 ] ] }
   },
   {
     "type": "ITEM",
@@ -65,7 +61,7 @@
     "copy-from": "scalpel",
     "name": { "str": "scalpel +2", "str_pl": "scalpels +2" },
     "proportional": { "price": 6.0, "price_postapoc": 6.0, "weight": 0.8, "melee_damage": { "all": 1.2 } },
-    "extend": { "qualities": [ [ "CUT_FINE", 5 ], [ "BUTCHER", 10 ] ] }
+    "relative": { "qualities": [ [ "CUT_FINE", 2 ], [ "BUTCHER", 2 ] ] }
   },
   {
     "type": "ITEM",
@@ -73,7 +69,7 @@
     "copy-from": "knife_huge",
     "name": { "str": "butcher knife +1", "str_pl": "butcher knives +1" },
     "proportional": { "price": 3.0, "price_postapoc": 3.0, "weight": 0.9, "melee_damage": { "all": 1.1 } },
-    "extend": { "qualities": [ [ "BUTCHER", 28 ] ] }
+    "relative": { "qualities": [ [ "BUTCHER", 1 ] ] }
   },
   {
     "type": "ITEM",
@@ -81,7 +77,7 @@
     "copy-from": "knife_huge",
     "name": { "str": "butcher knife +2", "str_pl": "butcher knives +2" },
     "proportional": { "price": 6.0, "price_postapoc": 6.0, "weight": 0.8, "melee_damage": { "all": 1.2 } },
-    "extend": { "qualities": [ [ "BUTCHER", 30 ] ] }
+    "relative": { "qualities": [ [ "BUTCHER", 2 ] ] }
   },
   {
     "type": "ITEM",
@@ -89,7 +85,7 @@
     "copy-from": "knife_cleaver",
     "name": { "str": "meat cleaver +1", "str_pl": "meat cleavers +1" },
     "proportional": { "price": 3.0, "price_postapoc": 3.0, "weight": 0.9, "melee_damage": { "all": 1.1 } },
-    "extend": { "qualities": [ [ "BUTCHER", 28 ] ] }
+    "relative": { "qualities": [ [ "BUTCHER", 1 ] ] }
   },
   {
     "type": "ITEM",
@@ -97,7 +93,7 @@
     "copy-from": "knife_cleaver",
     "name": { "str": "meat cleaver +2", "str_pl": "meat cleavers +2" },
     "proportional": { "price": 6.0, "price_postapoc": 6.0, "weight": 0.8, "melee_damage": { "all": 1.2 } },
-    "extend": { "qualities": [ [ "BUTCHER", 30 ] ] }
+    "relative": { "qualities": [ [ "BUTCHER", 2 ] ] }
   },
   {
     "type": "ITEM",
@@ -105,7 +101,7 @@
     "copy-from": "knife_large",
     "name": { "str": "carving knife +1", "str_pl": "carving knives +1" },
     "proportional": { "price": 3.0, "price_postapoc": 3.0, "weight": 0.9, "melee_damage": { "all": 1.1 } },
-    "extend": { "qualities": [ [ "BUTCHER", 24 ] ] }
+    "relative": { "qualities": [ [ "BUTCHER", 1 ] ] }
   },
   {
     "type": "ITEM",
@@ -113,7 +109,7 @@
     "copy-from": "knife_large",
     "name": { "str": "carving knife +2", "str_pl": "carving knives +2" },
     "proportional": { "price": 6.0, "price_postapoc": 6.0, "weight": 0.8, "melee_damage": { "all": 1.2 } },
-    "extend": { "qualities": [ [ "BUTCHER", 26 ] ] }
+    "relative": { "qualities": [ [ "BUTCHER", 2 ] ] }
   },
   {
     "type": "ITEM",
@@ -121,7 +117,7 @@
     "copy-from": "butchering_kit",
     "name": { "str": "butchering kit +1", "str_pl": "butchering kits +1" },
     "proportional": { "price": 3.0, "price_postapoc": 3.0, "weight": 0.9, "melee_damage": { "all": 1.1 } },
-    "extend": { "qualities": [ [ "BUTCHER", 41 ] ] }
+    "relative": { "qualities": [ [ "BUTCHER", 1 ] ] }
   },
   {
     "type": "ITEM",
@@ -129,6 +125,6 @@
     "copy-from": "butchering_kit",
     "name": { "str": "butchering kit +2", "str_pl": "butchering kits +2" },
     "proportional": { "price": 6.0, "price_postapoc": 6.0, "weight": 0.8, "melee_damage": { "all": 1.2 } },
-    "extend": { "qualities": [ [ "BUTCHER", 45 ] ] }
+    "relative": { "qualities": [ [ "BUTCHER", 2 ] ] }
   }
 ]

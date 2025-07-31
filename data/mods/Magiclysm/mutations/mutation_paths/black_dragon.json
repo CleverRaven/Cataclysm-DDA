@@ -471,8 +471,7 @@
     "id": "ARM_FEATHERS",
     "copy-from": "ARM_FEATHERS",
     "valid": true,
-    "extend": { "category": [ "SPECIES_RAVENFOLK" ] },
-    "delete": { "prereqs2": [ "PRE_ARM_FEATHERS" ] }
+    "extend": { "category": [ "SPECIES_RAVENFOLK" ] }
   },
   {
     "type": "mutation",

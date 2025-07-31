@@ -58,7 +58,7 @@
     "id": "meat_raw_steak",
     "type": "requirement",
     "//": "An unbroken slab of raw meat.  For when scraps just aren't good enough.",
-    "extend": { "components": [ [ [ "frost_human_flesh", 1 ], [ "afs_synthetic_meat", 1 ], [ "alien_flesh", 1 ] ] ] }
+    "extend": { "components": [ [ [ "frost_human_flesh", 1 ], [ "alien_flesh", 1 ] ] ] }
   },
   {
     "id": "meat_red_raw",
@@ -94,9 +94,7 @@
     "id": "meat_cooked",
     "type": "requirement",
     "//": "meat you'd put on a sandwich",
-    "extend": {
-      "components": [ [ [ "alien_flesh_cooked", 1 ], [ "alien_meat_scrap_cooked", 10 ], [ "frost_human_cooked", 1 ], [ "afs_jerky", 1 ] ] ]
-    }
+    "extend": { "components": [ [ [ "alien_flesh_cooked", 1 ], [ "alien_meat_scrap_cooked", 10 ], [ "frost_human_cooked", 1 ] ] ] }
   },
   {
     "id": "human_meat",
@@ -109,17 +107,5 @@
     "type": "requirement",
     "//": "Cooked meat that non-cannibals would be unhappy eating.",
     "extend": { "components": [ [ [ "frost_human_cooked", 1 ] ] ] }
-  },
-  {
-    "id": "veggy_any_fresh_uncooked",
-    "type": "requirement",
-    "//": "Any type of edible raw fat.",
-    "extend": { "components": [ [ [ "afs_kelp", 1 ] ] ] }
-  },
-  {
-    "id": "veggy_green",
-    "type": "requirement",
-    "//": "Any type of edible raw fat.",
-    "extend": { "components": [ [ [ "afs_kelp", 1 ] ] ] }
   }
 ]

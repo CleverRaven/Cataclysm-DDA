@@ -259,6 +259,7 @@ void profession::load( const JsonObject &jo, std::string_view )
     std::string background_group_id;
     optional( jo, was_loaded, "npc_background", _starting_npc_background,
               Trait_group_BG_survival_story_UNIVERSAL );
+    optional( jo, was_loaded, "chargen_allow_npc", _chargen_allow_npc, true );
     optional( jo, was_loaded, "age_lower", age_lower, 16 );
     optional( jo, was_loaded, "age_upper", age_upper, 55 );
     optional( jo, was_loaded, "starting_cash", _starting_cash );
@@ -750,6 +751,11 @@ bool profession::is_locked_trait( const trait_id &trait ) const
 bool profession::is_forbidden_trait( const trait_id &trait ) const
 {
     return _forbidden_traits.count( trait ) != 0;
+}
+
+bool profession::chargen_allow_npc() const
+{
+    return _chargen_allow_npc;
 }
 
 std::map<spell_id, int> profession::spells() const
