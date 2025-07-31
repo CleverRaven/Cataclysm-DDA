@@ -36,7 +36,7 @@
       "and": [
         { "u_has_trait": "WEREWOLF_MANA_BONUS_AFTER_KILL" },
         { "not": "u_has_weapon" },
-        { "test_eocs": "EOC_CONDITIONS_WEREWOLF_HUNT_TARGETS" }
+        { "test_eoc": "EOC_CONDITIONS_WEREWOLF_HUNT_TARGETS" }
       ]
     },
     "effect": [ { "math": [ "u_val('mana')", "+=", "50" ] } ]
@@ -86,7 +86,7 @@
             {
               "if": { "math": [ "u_hp(_id) < u_hp_max(_id)" ] },
               "then": {
-                "math": [ "u_hp(_id)", "+=", "1 + (min( (werewolf_tier_four_traits() * 0.1 ) + (werewolf_tier_five_traits() * 0.2 ) ),3)" ]
+                "math": [ "u_hp(_id)", "+=", "1 + min( ( (werewolf_tier_four_traits() * 0.1 ) + (werewolf_tier_five_traits() * 0.2 ) ), 3)" ]
               }
             }
           ]

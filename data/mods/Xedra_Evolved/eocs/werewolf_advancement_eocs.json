@@ -7,7 +7,7 @@
     "condition": { "not": "u_has_weapon" },
     "effect": [
       {
-        "if": { "test_eocs": "EOC_CONDITIONS_WEREWOLF_HUNT_TARGETS" },
+        "if": { "test_eoc": "EOC_CONDITIONS_WEREWOLF_HUNT_TARGETS" },
         "then": [
           { "math": [ "u_werewolf_exp += _exp" ] },
           {

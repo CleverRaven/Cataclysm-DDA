@@ -335,6 +335,7 @@
     "return": "0"
   },
   {
+    "type": "jmath_function",
     "id": "werewolf_tier_one_traits",
     "num_args": 0,
     "return": "u_has_trait('WEREWOLF_SMELL_NEARBY_ENEMIES') + u_has_trait('WEREWOLF_NO_SCENT') + u_has_trait('WEREWOLF_ILLUMINATE_TARGET')"

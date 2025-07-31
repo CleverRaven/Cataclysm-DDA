@@ -17,7 +17,7 @@
             "value": "MAX_MANA",
             "add": {
               "math": [
-                "(-200 + (u_val('intelligence') * -100 ) ) + min( ( u_val('strength') * 30 ) + u_val('dexterity') * 15 ) + ( werewolf_tier_one_traits() * 10 ) + ( werewolf_tier_two_traits() * 20 ) + ( werewolf_tier_three_traits() * 30 ) + ( werewolf_tier_four_traits() * 40 ) + ( werewolf_tier_five_traits() * 50 ) ) ,3000)"
+                "(-200 + (u_val('intelligence') * -100 ) ) + min( ( ( u_val('strength') * 30 ) +  ( u_val('dexterity') * 15 ) + ( werewolf_tier_one_traits() * 10 ) + ( werewolf_tier_two_traits() * 20 ) + ( werewolf_tier_three_traits() * 30 ) + ( werewolf_tier_four_traits() * 40 ) + ( werewolf_tier_five_traits() * 50 )  ) ,3000)"
               ]
             }
           }
@@ -139,10 +139,11 @@
     "activated_is_setup": true,
     "cost": 1,
     "time": 5,
-    "activated_eocs": "EOC_WEREWOLF_SENSE_SPIRITS_AND_ALIENS_ON",
-    "deactivated_eocs": "EOC_WEREWOLF_SENSE_SPIRITS_AND_ALIENS_OFF"
+    "activated_eocs": [ "EOC_WEREWOLF_SENSE_SPIRITS_AND_ALIENS_ON" ],
+    "deactivated_eocs": [ "EOC_WEREWOLF_SENSE_SPIRITS_AND_ALIENS_OFF" ]
   },
   {
+    "type": "mutation",
     "id": "WEREWOLF_SENSE_SPIRITS_AND_ALIENS_ACTIVE",
     "name": { "str": "Sense the Outsider Active", "//~": "NO_I18N" },
     "points": 2,

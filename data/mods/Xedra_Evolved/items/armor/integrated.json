@@ -902,7 +902,7 @@
     "melee_damage": { "stab": 13 }
   },
   {
-    "id": "integrated_primal_form_teeth",
+    "id": "integrated_werewolf_primal_form_fangs",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "armor",
@@ -933,7 +933,7 @@
   {
     "id": "integrated_werewolf_primal_form_fur",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str": "primal form fur" },
     "description": "A heavy carpet of fur, as strong as steel.",
