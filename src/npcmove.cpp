@@ -4133,37 +4133,6 @@ bool npc::do_player_activity()
     return moves != old_moves;
 }
 
-double npc::evaluate_weapon( const item &maybe_weapon ) const
-{
-    const bool can_use_gun = !is_player_ally() || rules.has_flag( ally_rule::use_guns );
-    const bool use_silent = is_player_ally() && rules.has_flag( ally_rule::use_silent );
-    return evaluate_weapon_internal( maybe_weapon, can_use_gun, use_silent );
-}
-
-double npc::evaluate_weapon_internal( const item &maybe_weapon, bool can_use_gun,
-                                      bool use_silent ) const
-{
-    // Needed because evaluation includes electricity via linked cables.
-    const map &here = get_map();
-
-    bool allowed = can_use_gun && maybe_weapon.is_gun() && ( !use_silent || maybe_weapon.is_silent() );
-    // According to unmodified evaluation score, NPCs almost always prioritize wielding guns if they have one.
-    // This is relatively reasonable, as players can issue commands to NPCs when we do not want them to use ranged weapons.
-    // Conversely, we cannot directly issue commands when we want NPCs to prioritize ranged weapons.
-    // Note that the scoring method here is different from the 'weapon_value' used elsewhere.
-    double val_gun = allowed ? gun_value( maybe_weapon, maybe_weapon.shots_remaining( here,
-                                          this ) ) : 0;
-    add_msg_debug( debugmode::DF_NPC_ITEMAI,
-                   "%s %s valued at <color_light_cyan>%1.2f as a ranged weapon to wield</color>.",
-                   disp_name( true ), maybe_weapon.type->get_id().str(), val_gun );
-    double val_melee = melee_value( maybe_weapon );
-    add_msg_debug( debugmode::DF_NPC_ITEMAI,
-                   "%s %s valued at <color_light_cyan>%1.2f as a melee weapon to wield</color>.", disp_name( true ),
-                   maybe_weapon.type->get_id().str(), val_melee );
-    double val = std::max( val_gun, val_melee );
-    return val;
-}
-
 item *npc::evaluate_best_weapon() const
 {
     bool can_use_gun = !is_player_ally() || rules.has_flag( ally_rule::use_guns );

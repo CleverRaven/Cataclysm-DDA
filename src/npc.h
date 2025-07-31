@@ -1131,12 +1131,6 @@ class npc : public Character
         int evaluate_sleep_spot( tripoint_bub_ms p );
         // Returns true if did something and we should end turn
         bool scan_new_items();
-        // Returns score for how well this weapon might kill things
-        double evaluate_weapon( const item &maybe_weapon ) const;
-    private:
-        // Returns score for how well this weapon might kill things
-        double evaluate_weapon_internal( const item &maybe_weapon, bool can_use_gun,
-                                         bool use_silent ) const;
     public:
         // Returns best weapon. Can return null (fists)
         item *evaluate_best_weapon() const;
