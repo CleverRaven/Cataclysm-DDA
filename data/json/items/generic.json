@@ -3003,8 +3003,9 @@
     "category": "drugs",
     "emits": [ "emit_tobacco_trail" ],
     "revert_to": "cigar_butt",
+    "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
     "use_action": [
-      { "type": "firestarter", "moves": 200, "moves_slow": 2000 },
+      { "type": "firestarter", "moves": 500, "moves_slow": 6000 },
       {
         "target": "cigar_butt",
         "msg": "You extinguish the cigar.",
@@ -3050,8 +3051,9 @@
     "category": "drugs",
     "emits": [ "emit_tobacco_trail" ],
     "revert_to": "cig_butt",
+    "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
     "use_action": [
-      { "type": "firestarter", "moves": 200, "moves_slow": 2000 },
+      { "type": "firestarter", "moves": 500, "moves_slow": 6000 },
       {
         "target": "cig_butt",
         "msg": "You extinguish the cigarette.",
@@ -3097,8 +3099,9 @@
     "category": "drugs",
     "emits": [ "emit_joint_trail" ],
     "revert_to": "joint_roach",
+    "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
     "use_action": [
-      { "type": "firestarter", "moves": 200, "moves_slow": 2000 },
+      { "type": "firestarter", "moves": 500, "moves_slow": 6000 },
       {
         "target": "joint_roach",
         "msg": "You extinguish the joint.",
