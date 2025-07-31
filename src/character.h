@@ -1221,7 +1221,7 @@ class Character : public Creature, public visitable
 
     private:
         double evaluate_weapon_internal( const item &maybe_weapon, bool can_use_gun,
-                                         bool use_silent, const int pretend_ammo = 0 ) const;
+                                         bool use_silent, int pretend_ammo = 0 ) const;
         mutable std::optional<bool> cached_dead_state;
     public:
         void set_part_hp_cur( const bodypart_id &id, int set ) override;

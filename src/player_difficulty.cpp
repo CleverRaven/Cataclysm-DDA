@@ -11,7 +11,6 @@
 #include "character_martial_arts.h"
 #include "inventory.h"
 #include "item.h"
-#include "itype.h"
 #include "mutation.h"
 #include "npc_opinion.h"
 #include "options.h"
