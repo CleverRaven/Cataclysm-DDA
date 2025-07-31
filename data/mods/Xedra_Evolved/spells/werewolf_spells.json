@@ -93,7 +93,7 @@
     "targeted_monster_species": [ "ROBOT", "ROBOT_FLYING", "CYBORG" ]
   },
   {
-    "id": "druid_cause_rot_terrain",
+    "id": "xe_werewolf_close_tear_in_reality_spell",
     "type": "SPELL",
     "name": "Mending Rent Veils",
     "description": "The world is falling apart but that is no reason to cease the hunt.  You can close a tear in reality, if you can get close enough to it and have enough time.",
