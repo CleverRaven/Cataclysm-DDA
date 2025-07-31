@@ -205,14 +205,14 @@ double player_difficulty::calc_dps_value( const Character &u )
     item early_cutting = item( itype_machete );
     item early_bashing = item( itype_bat );
 
-    double baseline = std::max( u.weapon_value( early_piercing ),
-                                u.weapon_value( early_cutting ) );
-    baseline = std::max( baseline, u.weapon_value( early_bashing ) );
+    double baseline = std::max( u.weapon_value( early_piercing, true ),
+                                u.weapon_value( early_cutting, true ) );
+    baseline = std::max( baseline, u.weapon_value( early_bashing, true ) );
 
     // check any other items the character has on them
     if( u.prof ) {
         for( const item &i : u.prof->items( true, std::vector<trait_id>() ) ) {
-            baseline = std::max( baseline, u.weapon_value( i ) );
+            baseline = std::max( baseline, u.weapon_value( i, true ) );
         }
     }
 
