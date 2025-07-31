@@ -104,7 +104,7 @@
     "type": "profession",
     "id": "xe_psi_pyrokinetic_cyborg",
     "name": "Mobile Task Force: Gamma 9 \"Maxwell's Angels\"",
-    "description": "The success of Offworld Acquisitions in procuring technology from other dimensions has led to a multiple advancements in fields never dreamed of in the past, including cybernetics, noetics, and their interactions. Maxwell's Angels use CBMs sourced from a psionically-active dimension designed to increase the effective range of psionic channeling.  While the technology has some undesirable side effects, including fever and severe headaches, it had more than proved its usefulness before the Cataclysm and you suspect it'll be equally as useful in this new world.",
+    "description": "The success of Offworld Acquisitions in procuring technology from other dimensions has led to a multiple advancements in fields never dreamed of in the past, including cybernetics, noetics, and their interactions.  Maxwell's Angels use CBMs sourced from a psionically-active dimension designed to increase the effective range of psionic channeling.  While the technology has some undesirable side effects, including fever and severe headaches, it had more than proved its usefulness before the Cataclysm and you suspect it'll be equally as useful in this new world.",
     "points": 10,
     "skills": [
       { "level": 2, "name": "gun" },
