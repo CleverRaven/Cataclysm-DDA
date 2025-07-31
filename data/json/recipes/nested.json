@@ -8192,5 +8192,106 @@
       "bp_338lapua_fmjbt",
       "bp_338lapua_api"
     ]
+  },
+  {
+    "id": "nested_12_gauge",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_SHOT",
+    "name": "12 gauge ammo",
+    "description": "Recipes related to reloading 12 gauge ammo.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "reloaded_shot_00",
+      "reloaded_shot_bird",
+      "reloaded_shot_slug",
+      "wax_slug",
+      "shot_scrap",
+      "reloaded_shot_dragon",
+      "reloaded_shot_flechette",
+      "bp_shot_00",
+      "bp_shot_bird",
+      "bp_shot_slug",
+      "bp_shot_scrap",
+      "bp_shot_dragon",
+      "bp_shot_flechette",
+      "bp_shot_00_with dowel",
+      "bp_shot_bird_with dowel",
+      "bp_shot_slug_with dowel",
+      "bp_shot_scrap_with dowel",
+      "bp_shot_dragon_with dowel",
+      "bp_shot_flechette_with dowel"
+    ]
+  },
+  {
+    "id": "nested_410bore",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_SHOT",
+    "name": ".410 bore ammo",
+    "description": "Recipes related to reloading .410 bore ammo.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "reloaded_410shot_000",
+      "reloaded_410shot_bird",
+      "reloaded_410shot_slug",
+      "410shot_scrap",
+      "bp_410shot_000",
+      "bp_410shot_bird",
+      "bp_410shot_slug",
+      "bp_410shot_scrap",
+      "bp_410shot_000_with_dowel",
+      "bp_410shot_bird_with_dowel",
+      "bp_410shot_slug_with_dowel",
+      "bp_410shot_scrap_with_dowel"
+    ]
+  },
+  {
+    "id": "nested_blunderbuss",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_SHOT",
+    "name": "blunderbuss ammo",
+    "description": "Recipes related to reloading blunderbuss ammo.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "blun_lead_shot", "blun_shot", "blun_shot_using_big_scrap", "blun_slug_using_lead", "blun_flechette" ]
+  },
+  {
+    "id": "nested_40x46",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_SHOT",
+    "name": "40x46mm ammo",
+    "description": "Recipes related to reloading 40x46mm ammo.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "40x46mm_hornets_nest_22lr",
+      "40x46mm_hornets_nest_410_slug",
+      "40x46mm_hornets_nest_410_bird",
+      "40x46mm_hornets_nest_410",
+      "40x46mm_hornets_nest_410_scrap"
+    ]
+  },
+  {
+    "id": "nested_40x53",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_SHOT",
+    "name": "40x53mm ammo",
+    "description": "Recipes related to reloading 40x53mm ammo.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "40x53mm_buckshot_m169",
+      "40x53mm_slug_m169",
+      "40x53mm_flechette_m169",
+      "bp_40x53mm_buckshot_m169",
+      "bp_40x53mm_slug_m169",
+      "bp_40x53mm_flechette_m169"
+    ]
   }
 ]
