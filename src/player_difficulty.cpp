@@ -11,6 +11,7 @@
 #include "character_martial_arts.h"
 #include "inventory.h"
 #include "item.h"
+#include "itype.h"
 #include "mutation.h"
 #include "npc_opinion.h"
 #include "options.h"
@@ -30,6 +31,9 @@ static const damage_type_id damage_bash( "bash" );
 static const itype_id itype_bat( "bat" );
 static const itype_id itype_knife_combat( "knife_combat" );
 static const itype_id itype_machete( "machete" );
+static const itype_id itype_mossberg_500( "mossberg_500" );
+static const itype_id itype_ruger_1022( "ruger_1022" );
+static const itype_id itype_swbodyguard( "swbodyguard" );
 
 static const profession_id profession_unemployed( "unemployed" );
 
@@ -205,14 +209,23 @@ double player_difficulty::calc_dps_value( const Character &u )
     item early_cutting = item( itype_machete );
     item early_bashing = item( itype_bat );
 
-    double baseline = std::max( u.weapon_value( early_piercing ),
-                                u.weapon_value( early_cutting ) );
-    baseline = std::max( baseline, u.weapon_value( early_bashing ) );
+    // and some firearms, based on availability.
+    item most_common_pistol = item( itype_swbodyguard );
+    item most_common_rifle = item( itype_ruger_1022 );
+    item most_common_shotgun = item( itype_mossberg_500 );
+
+    std::vector<item> weapons_to_test = {early_piercing, early_cutting, early_bashing, most_common_pistol, most_common_rifle, most_common_shotgun};
+    double baseline = 0.0;
+
+    for( item &weapon : weapons_to_test ) {
+        const double new_weapon_value = u.evaluate_weapon( weapon, true );
+        baseline = std::max( baseline, new_weapon_value );
+    }
 
     // check any other items the character has on them
     if( u.prof ) {
         for( const item &i : u.prof->items( true, std::vector<trait_id>() ) ) {
-            baseline = std::max( baseline, u.weapon_value( i ) );
+            baseline = std::max( baseline, u.evaluate_weapon( i, true ) );
         }
     }
 

@@ -2723,7 +2723,7 @@ int Character::attack_speed( const item &weap ) const
     return std::round( move_cost );
 }
 
-double Character::evaluate_weapon( const item &maybe_weapon ) const
+double Character::evaluate_weapon( const item &maybe_weapon, const bool pretend_have_ammo ) const
 {
     bool can_use_gun = true;
     bool use_silent = false;
@@ -2736,11 +2736,27 @@ double Character::evaluate_weapon( const item &maybe_weapon ) const
             use_silent = true;
         }
     }
-    return evaluate_weapon_internal( maybe_weapon, can_use_gun, use_silent );
+    // ABSOLUTELY disgusting fake gun assembly for character creation
+    int pretend_ammo = 0;
+    if( pretend_have_ammo && maybe_weapon.is_gun() ) {
+        itype_id ammo_id = itype_id::NULL_ID();
+        if( maybe_weapon.ammo_default().is_null() ) {
+            ammo_id = item( maybe_weapon.magazine_default() ).ammo_default();
+        } else {
+            ammo_id = maybe_weapon.ammo_default();
+        }
+        const ammotype &type_of_ammo = item::find_type( ammo_id )->ammo->type;
+        if( maybe_weapon.magazine_integral() ) {
+            pretend_ammo = maybe_weapon.ammo_capacity( type_of_ammo );
+        } else {
+            pretend_ammo = item( maybe_weapon.magazine_default() ).ammo_capacity( type_of_ammo );
+        }
+    }
+    return evaluate_weapon_internal( maybe_weapon, can_use_gun, use_silent, pretend_ammo );
 }
 
 double Character::evaluate_weapon_internal( const item &maybe_weapon, bool can_use_gun,
-        bool use_silent ) const
+        bool use_silent, const int pretend_ammo ) const
 {
     if( is_wielding( maybe_weapon ) || ( !get_wielded_item() && maybe_weapon.is_null() ) ) {
         auto cached_value = cached_info.find( "weapon_value" );
@@ -2756,8 +2772,9 @@ double Character::evaluate_weapon_internal( const item &maybe_weapon, bool can_u
     // This is relatively reasonable, as players can issue commands to NPCs when we do not want them to use ranged weapons.
     // Conversely, we cannot directly issue commands when we want NPCs to prioritize ranged weapons.
     // Note that the scoring method here is different from the 'weapon_value' used elsewhere.
-    double val_gun = allowed ? gun_value( maybe_weapon, maybe_weapon.shots_remaining( here,
-                                          this ) ) : 0;
+    double val_gun = allowed ? gun_value( maybe_weapon,
+                                          std::max( maybe_weapon.shots_remaining( here, this ), pretend_ammo )
+                                        ) : 0;
     add_msg_debug( debugmode::DF_NPC_ITEMAI,
                    "%s %s valued at <color_light_cyan>%1.2f as a ranged weapon to wield</color>.",
                    disp_name( true ), maybe_weapon.type->get_id().str(), val_gun );
@@ -2772,39 +2789,6 @@ double Character::evaluate_weapon_internal( const item &maybe_weapon, bool can_u
         cached_info.emplace( "weapon_value", val );
     }
     return val;
-}
-
-double Character::weapon_value( const item &weap, int ammo ) const
-{
-    if( is_wielding( weap ) || ( !get_wielded_item() && weap.is_null() ) ) {
-        auto cached_value = cached_info.find( "weapon_value" );
-        if( cached_value != cached_info.end() ) {
-            return cached_value->second;
-        }
-    }
-    double val_gun = gun_value( weap, ammo );
-    val_gun = val_gun /
-              5.0f; // This is an emergency patch to get melee and ranged in approximate parity, if you're looking at it in 2025 or later and it's still here... I'm sorry.  Kill it with fire.  Tear it all down, and rebuild a glorious castle from the ashes.
-    add_msg_debug( debugmode::DF_NPC_ITEMAI,
-                   "<color_magenta>weapon_value</color>%s %s valued at <color_light_cyan>%1.2f as a ranged weapon</color>.",
-                   disp_name( true ), weap.type->get_id().str(), val_gun );
-    double val_melee = melee_value( weap );
-    val_melee *=
-        val_melee; // Same emergency patch.  Same purple prose descriptors, you already saw them above.
-    add_msg_debug( debugmode::DF_NPC_ITEMAI,
-                   "%s %s valued at <color_light_cyan>%1.2f as a melee weapon</color>.", disp_name( true ),
-                   weap.type->get_id().str(), val_melee );
-    const double more = std::max( val_gun, val_melee );
-    const double less = std::min( val_gun, val_melee );
-
-    // A small bonus for guns you can also use to hit stuff with (bayonets etc.)
-    const double my_val = more + ( less / 2.0 );
-    add_msg_debug( debugmode::DF_MELEE, "%s (%ld ammo) sum value: %.1f", weap.type->get_id().str(),
-                   ammo, my_val );
-    if( is_wielding( weap ) || ( !get_wielded_item() && weap.is_null() ) ) {
-        cached_info.emplace( "weapon_value", my_val );
-    }
-    return my_val;
 }
 
 double Character::melee_value( const item &weap ) const
