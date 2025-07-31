@@ -1089,7 +1089,7 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_ungulate" ],
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 2 },
     "special_attacks": [
-      [ "GRAB", 5 ],
+      [  "grab", "cooldown": 11 ],
       {
         "type": "monster_attack",
         "attack_type": "bite",
