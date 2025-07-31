@@ -2711,7 +2711,7 @@ int Character::attack_speed( const item &weap ) const
     return std::round( move_cost );
 }
 
-double Character::weapon_value( const item &weap, int ammo ) const
+double Character::weapon_value( const item &weap, int ammo, bool char_creation ) const
 {
     if( is_wielding( weap ) || ( !get_wielded_item() && weap.is_null() ) ) {
         auto cached_value = cached_info.find( "weapon_value" );
@@ -2720,8 +2720,9 @@ double Character::weapon_value( const item &weap, int ammo ) const
         }
     }
     double val_gun = gun_value( weap, ammo );
+    const double gun_divisor = char_creation ? 2.0 : 5.0;
     val_gun = val_gun /
-              5.0f; // This is an emergency patch to get melee and ranged in approximate parity, if you're looking at it in 2025 or later and it's still here... I'm sorry.  Kill it with fire.  Tear it all down, and rebuild a glorious castle from the ashes.
+              gun_divisor; // This is an emergency patch to get melee and ranged in approximate parity, if you're looking at it in 2025 or later and it's still here... I'm sorry.  Kill it with fire.  Tear it all down, and rebuild a glorious castle from the ashes.
     add_msg_debug( debugmode::DF_NPC_ITEMAI,
                    "<color_magenta>weapon_value</color>%s %s valued at <color_light_cyan>%1.2f as a ranged weapon</color>.",
                    disp_name( true ), weap.type->get_id().str(), val_gun );

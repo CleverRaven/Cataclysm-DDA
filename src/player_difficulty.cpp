@@ -11,6 +11,7 @@
 #include "character_martial_arts.h"
 #include "inventory.h"
 #include "item.h"
+#include "itype.h"
 #include "mutation.h"
 #include "npc_opinion.h"
 #include "options.h"
@@ -30,6 +31,9 @@ static const damage_type_id damage_bash( "bash" );
 static const itype_id itype_bat( "bat" );
 static const itype_id itype_knife_combat( "knife_combat" );
 static const itype_id itype_machete( "machete" );
+static const itype_id itype_mossberg_500( "mossberg_500" );
+static const itype_id itype_ruger_1022( "ruger_1022" );
+static const itype_id itype_swbodyguard( "swbodyguard" );
 
 static const profession_id profession_unemployed( "unemployed" );
 
@@ -197,6 +201,27 @@ std::string player_difficulty::get_defense_difficulty( const Character &u ) cons
     return format_output( percent_band, per );
 }
 
+// ABSOLUTELY disgusting fake gun assembly for character creation
+static int default_max_ammo_for_gun( const item &maybe_weapon )
+{
+    int pretend_ammo = 0;
+    if( maybe_weapon.is_gun() ) {
+        itype_id ammo_id = itype_id::NULL_ID();
+        if( maybe_weapon.ammo_default().is_null() ) {
+            ammo_id = item( maybe_weapon.magazine_default() ).ammo_default();
+        } else {
+            ammo_id = maybe_weapon.ammo_default();
+        }
+        const ammotype &type_of_ammo = item::find_type( ammo_id )->ammo->type;
+        if( maybe_weapon.magazine_integral() ) {
+            pretend_ammo = maybe_weapon.ammo_capacity( type_of_ammo );
+        } else {
+            pretend_ammo = item( maybe_weapon.magazine_default() ).ammo_capacity( type_of_ammo );
+        }
+    }
+    return pretend_ammo;
+}
+
 double player_difficulty::calc_dps_value( const Character &u )
 {
     // check against the big three
@@ -205,14 +230,23 @@ double player_difficulty::calc_dps_value( const Character &u )
     item early_cutting = item( itype_machete );
     item early_bashing = item( itype_bat );
 
-    double baseline = std::max( u.weapon_value( early_piercing ),
-                                u.weapon_value( early_cutting ) );
-    baseline = std::max( baseline, u.weapon_value( early_bashing ) );
+    // and some firearms, based on availability.
+    item most_common_pistol = item( itype_swbodyguard );
+    item most_common_rifle = item( itype_ruger_1022 );
+    item most_common_shotgun = item( itype_mossberg_500 );
+
+    std::vector<item> weapons_to_test = {early_piercing, early_cutting, early_bashing, most_common_pistol, most_common_rifle, most_common_shotgun};
+    double baseline = 0.0;
+
+    for( item &weapon : weapons_to_test ) {
+        const double new_weapon_value = u.weapon_value( weapon, default_max_ammo_for_gun( weapon ), true );
+        baseline = std::max( baseline, new_weapon_value );
+    }
 
     // check any other items the character has on them
     if( u.prof ) {
         for( const item &i : u.prof->items( true, std::vector<trait_id>() ) ) {
-            baseline = std::max( baseline, u.weapon_value( i ) );
+            baseline = std::max( baseline, u.weapon_value( i, default_max_ammo_for_gun( i ), true ) );
         }
     }
 
@@ -226,7 +260,7 @@ std::string player_difficulty::get_combat_difficulty( const Character &u ) const
     // compare to the dps of this character with 1 of those 3 or their best weapon they spawn with
 
     // the percent margin between result bands
-    const float percent_band = 0.5f;
+    const float percent_band = 0.2f;
 
     // dps should be multiplied by speed which is a multiplier
     double npc_dps = calc_dps_value( average ) * average.get_speed();
