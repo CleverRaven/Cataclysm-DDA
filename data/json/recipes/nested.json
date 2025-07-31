@@ -7647,5 +7647,294 @@
     "description": "Recipes related to the production of belt loops.",
     "skill_used": "fabrication",
     "nested_category_data": [ "belt_loop_small", "belt_loop_medium", "belt_loop_large" ]
+  },
+  {
+    "id": "nested_9mm",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "name": "9x19mm ammo",
+    "description": "Recipes related to reloading 9x19mm ammo.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "reloaded_9mmfmj",
+      "reloaded_9mm",
+      "reloaded_9mmP",
+      "reloaded_9mmP2",
+      "bp_9mmfmj",
+      "bp_9mm",
+      "matchhead_9mmfmj",
+      "matchhead_9mm"
+    ]
+  },
+  {
+    "id": "nested_40sw",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "name": ".40 S&W ammo",
+    "description": "Recipes related to reloading .40 S&W ammo.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "reloaded_40sw", "reloaded_40fmj", "bp_40fmj", "bp_40sw", "matchhead_40fmj", "matchhead_40sw" ]
+  },
+  {
+    "id": "nested_32acp",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "name": ".32 ACP ammo",
+    "description": "Recipes related to reloading .32 ACP ammo.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "reloaded_32_acp", "reloaded_32_acp_jhp", "bp_32_acp", "bp_32_acp_jhp", "matchhead_32_acp", "matchhead_32_acp_jhp" ]
+  },
+  {
+    "id": "nested_38_special",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "name": ".38 Special ammo",
+    "description": "Recipes related to reloading .38 Special ammo.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "reloaded_38_fmj",
+      "reloaded_38_special",
+      "reloaded_38_special_p",
+      "bp_38_fmj",
+      "bp_38_special",
+      "matchhead_38_fmj",
+      "matchhead_38_special"
+    ]
+  },
+  {
+    "id": "nested_38_super",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "name": ".38 Super ammo",
+    "description": "Recipes related to reloading .38 Super ammo.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "reloaded_38super_fmj",
+      "reloaded_38_super",
+      "bp_38super_fmj",
+      "bp_38super",
+      "matchhead_38_super_fmj",
+      "matchhead_38_super"
+    ]
+  },
+  {
+    "id": "nested_44_magnum",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "name": ".44 Magnum ammo",
+    "description": "Recipes related to reloading .44 Magnum ammo.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "reloaded_44fmj", "reloaded_44magnum", "bp_44fmj", "bp_44magnum" ]
+  },
+  {
+    "id": "nested_45_acp",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "name": ".45 ACP ammo",
+    "description": "Recipes related to reloading .45 ACP ammo.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "reloaded_45_acp",
+      "reloaded_45_jhp",
+      "reloaded_45_super",
+      "bp_45_acp",
+      "bp_45_jhp",
+      "matchhead_45_acp",
+      "matchhead_45_jhp"
+    ]
+  },
+  {
+    "id": "nested_500_s&w",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "name": ".500 S&W Magnum ammo",
+    "description": "Recipes related to reloading .500 S&W Magnum ammo.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "reloaded_500_Magnum", "bp_500_Magnum" ]
+  },
+  {
+    "id": "nested_50_ae",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "name": ".50 AE ammo",
+    "description": "Recipes related to reloading .50 AE ammo.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "reloaded_50ae_fmj", "reloaded_50ae_jhp", "bp_50ae_fmj", "bp_50ae_jhp", "matchhead_50ae_fmj", "matchhead_50ae_jhp" ]
+  },
+  {
+    "id": "nested_762_25",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "name": "7.62x25mm ammo",
+    "description": "Recipes related to reloading 7.62x25mm ammo.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "reloaded_762_25", "bp_762_25", "matchhead_762_25" ]
+  },
+  {
+    "id": "nested_9x18",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "name": "9x18mm ammo",
+    "description": "Recipes related to reloading 9x18mm ammo.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "reloaded_9x18mmfmj",
+      "reloaded_9x18mm",
+      "reloaded_9x18mmP2",
+      "bp_9x18mmfmj",
+      "bp_9x18mm",
+      "matchhead_9x18mmfmj",
+      "matchhead_9x18mm"
+    ]
+  },
+  {
+    "id": "nested_380_acp",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "name": ".380 ACP ammo",
+    "description": "Recipes related to reloading .380 ACP ammo.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "reloaded_380_FMJ",
+      "reloaded_380_JHP",
+      "reloaded_380_p",
+      "bp_380_FMJ",
+      "bp_380_JHP",
+      "matchhead_380_FMJ",
+      "matchhead_380_JHP"
+    ]
+  },
+  {
+    "id": "nested_57",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "name": "5.7x28mm ammo",
+    "description": "Recipes related to reloading 5.7x28mm ammo.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "reloaded_57mm", "bp_57mm" ]
+  },
+  {
+    "id": "nested_357_sig",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "name": ".357 SIG ammo",
+    "description": "Recipes related to reloading .357 SIG ammo.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "reloaded_357sig_fmj",
+      "reloaded_357sig_jhp",
+      "bp_357sig_fmj",
+      "bp_357sig_jhp",
+      "matchhead_357sig_fmj",
+      "matchhead_357sig_jhp"
+    ]
+  },
+  {
+    "id": "nested_357_magnum",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "name": ".357 Magnum ammo",
+    "description": "Recipes related to reloading .357 Magnum ammo.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "reloaded_357mag_fmj",
+      "reloaded_357mag_jhp",
+      "bp_357mag_fmj",
+      "bp_357mag_jhp",
+      "matchhead_357mag_fmj",
+      "matchhead_357mag_jhp"
+    ]
+  },
+  {
+    "id": "nested_10mm",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "name": "10mm Auto ammo",
+    "description": "Recipes related to reloading 10mm Auto ammo.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "reloaded_10mm_fmj",
+      "reloaded_10mm_jhp",
+      "reloaded_10mmP",
+      "bp_10mm_fmj",
+      "bp_10mm_jhp",
+      "matchhead_10mm_fmj",
+      "matchhead_10mm_jhp"
+    ]
+  },
+  {
+    "id": "nested_454",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "name": ".454 Casull ammo",
+    "description": "Recipes related to reloading .454 Casull ammo.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "reloaded_454_Casull", "bp_454_Casull" ]
+  },
+  {
+    "id": "nested_45colt",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "name": ".45 Colt ammo",
+    "description": "Recipes related to reloading .45 Colt ammo.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "reloaded_45colt_fmj",
+      "reloaded_45colt_jhp",
+      "reloaded_45colt_cowboy",
+      "bp_45colt_fmj",
+      "bp_45colt_jhp",
+      "bp_45colt_cowboy",
+      "matchhead_45colt_fmj",
+      "matchhead_45colt_jhp",
+      "matchhead_45colt_cowboy"
+    ]
+  },
+  {
+    "id": "nested_460",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "name": ".460 S&W Magnum ammo",
+    "description": "Recipes related to reloading .460 S&W ammo.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "reloaded_460sw", "reloaded_460sw_jhp" ]
   }
 ]
