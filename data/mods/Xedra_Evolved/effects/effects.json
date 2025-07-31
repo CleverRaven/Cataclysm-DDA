@@ -3954,6 +3954,12 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_werewolf_gain_more_powers",
+    "name": [ "Gifts of the Moon" ],
+    "desc": [ "You can unlock a new Lunar Gift.  Do so at night under the moon." ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_xe_werewolf_illuminate_target",
     "name": [ "Moon's Cold Glow" ],
     "desc": [ "You are glowing slightly." ],

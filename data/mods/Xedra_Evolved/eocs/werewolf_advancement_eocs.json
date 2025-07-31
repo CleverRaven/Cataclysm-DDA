@@ -1,0 +1,125 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLVES_GAIN_XP_FROM_OUTSIDER_KILLS",
+    "eoc_type": "EVENT",
+    "required_event": "character_kills_monster",
+    "condition": { "not": "u_has_weapon" },
+    "effect": [
+      {
+        "if": { "test_eocs": "EOC_CONDITIONS_WEREWOLF_HUNT_TARGETS" },
+        "then": [
+          { "math": [ "u_werewolf_exp += _exp" ] },
+          {
+            "if": { "math": [ "u_werewolf_exp > u_werewolf_xp_threshold" ] },
+            "then": [ { "u_add_effect": "effect_werewolf_gain_more_powers", "duration": "PERMANENT" } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLVES_GAIN_MORE_POWERS",
+    "condition": { "and": [ { "u_has_effect": "effect_werewolf_gain_more_powers" }, { "not": "is_day" }, "u_is_outside" ] },
+    "effect": [
+      {
+        "if": { "math": [ "rand(99)", "<", "90" ] },
+        "then": { "run_eocs": "EOC_WEREWOLVES_GAIN_MORE_POWERS_TIER_1" },
+        "else": {
+          "if": { "math": [ "rand(99)", "<", "90" ] },
+          "then": { "run_eocs": "EOC_WEREWOLVES_GAIN_MORE_POWERS_TIER_2" },
+          "else": {
+            "if": { "math": [ "rand(99)", "<", "90" ] },
+            "then": { "run_eocs": "EOC_WEREWOLVES_GAIN_MORE_POWERS_TIER_3" },
+            "else": {
+              "if": { "math": [ "rand(99)", "<", "90" ] },
+              "then": { "run_eocs": "EOC_WEREWOLVES_GAIN_MORE_POWERS_TIER_4" },
+              "else": { "run_eocs": "EOC_WEREWOLVES_GAIN_MORE_POWERS_TIER_5" }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLVES_GAIN_MORE_POWERS_TIER_1",
+    "//": "For this and following, make sure to add each spell into the proper tier.",
+    "effect": [
+      {
+        "u_roll_remainder": [ "WEREWOLF_SMELL_NEARBY_ENEMIES", "WEREWOLF_NO_SCENT", "WEREWOLF_ILLUMINATE_TARGET" ],
+        "type": "mutation",
+        "message": "You learn a new gift of the moon!",
+        "true_eocs": [ "EOC_WEREWOLVES_GAIN_MORE_POWERS_COST_UPDATER" ],
+        "false_eocs": [ "EOC_WEREWOLVES_GAIN_MORE_POWERS_TIER_2" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLVES_GAIN_MORE_POWERS_TIER_2",
+    "effect": [
+      {
+        "u_roll_remainder": [ "WEREWOLF_SENSE_SPIRITS_AND_ALIENS", "WEREWOLF_STUN_MACHINE" ],
+        "type": "mutation",
+        "message": "You learn a new gift of the moon!",
+        "true_eocs": [ "EOC_WEREWOLVES_GAIN_MORE_POWERS_COST_UPDATER" ],
+        "false_eocs": [ "EOC_WEREWOLVES_GAIN_MORE_POWERS_TIER_3" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLVES_GAIN_MORE_POWERS_TIER_3",
+    "effect": [
+      {
+        "u_roll_remainder": [ "WEREWOLF_SILVER_CLAWS", "WEREWOLF_MANA_BONUS_AFTER_KILL" ],
+        "type": "mutation",
+        "message": "You learn a new gift of the moon!",
+        "true_eocs": [ "EOC_WEREWOLVES_GAIN_MORE_POWERS_COST_UPDATER" ],
+        "false_eocs": [ "EOC_WEREWOLVES_GAIN_MORE_POWERS_TIER_4" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLVES_GAIN_MORE_POWERS_TIER_4",
+    "effect": [
+      {
+        "u_roll_remainder": [ "WEREWOLF_SUPER_FAST_REGENERATION" ],
+        "type": "mutation",
+        "message": "You learn a new gift of the moon!",
+        "true_eocs": [ "EOC_WEREWOLVES_GAIN_MORE_POWERS_COST_UPDATER" ],
+        "false_eocs": [ "EOC_WEREWOLVES_GAIN_MORE_POWERS_TIER_5" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLVES_GAIN_MORE_POWERS_TIER_5",
+    "effect": [
+      {
+        "u_roll_remainder": [ "WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM" ],
+        "type": "mutation",
+        "message": "You learn a new gift of the moon!",
+        "true_eocs": [ "EOC_WEREWOLVES_GAIN_MORE_POWERS_COST_UPDATER" ],
+        "false_eocs": {
+          "id": "EOC_WEREWOLVES_GAIN_MORE_POWERS_DONE",
+          "effect": [
+            {
+              "u_message": "You are one of the mightiest warriors of the People and have no more gifts of the moon to learn.",
+              "type": "mixed"
+            },
+            { "u_lose_effect": "effect_werewolf_gain_more_powers" }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLVES_GAIN_MORE_POWERS_COST_UPDATER",
+    "effect": [ { "math": [ "u_werewolf_xp_threshold += 300" ] }, { "u_lose_effect": "effect_werewolf_gain_more_powers" } ]
+  }
+]

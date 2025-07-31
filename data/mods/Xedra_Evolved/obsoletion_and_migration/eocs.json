@@ -9,11 +9,11 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_NON_LILIN_RAAB_UPDATE",
+    "id": "EOC_WEREWOLF_GAIN_POWER_TRAIT_UPDATE",
     "eoc_type": "EVENT",
     "required_event": "game_load",
     "condition": { "u_has_trait": "WEREWOLF_ANIMAL_FORM" },
-    "effect": [ { "u_add_trait": "WEREWOLF_SPELLS" } ]
+    "effect": [ { "u_add_trait": "WEREWOLF_SPELLS" }, { "u_add_trait": "WEREWOLF_MANA_TRAIT" } ]
   },
   {
     "type": "effect_on_condition",
@@ -99,6 +99,14 @@
       },
       { "math": [ "u_vampire_blood_scale_updated = 1" ] }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_XP_UPDATE",
+    "eoc_type": "EVENT",
+    "required_event": "game_load",
+    "condition": { "and": [ { "u_has_trait": "WEREWOLF_ANIMAL_FORM" }, { "math": [ "u_werewolf_give_xp_value != 1" ] } ] },
+    "effect": [ { "math": [ "u_werewolf_xp_threshold = 100" ] }, { "math": [ "u_werewolf_give_xp_value = 1" ] } ]
   },
   {
     "type": "effect_on_condition",

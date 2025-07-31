@@ -80,10 +80,13 @@
     "id": "WEREWOLF_SPELLS",
     "name": "Lunar Gifts",
     "points": 0,
-    "description": "The People gain many powers from the Moon, to better survive and hunt the wilds for their prey.",
+    "description": "The People gain many powers from the Moon, to better survive and hunt the wilds for their prey.\n\nActivate at the appropriate time to learn a new Lunar Gift when under the moon.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
+    "active": true,
+    "activated_eocs": [ "EOC_WEREWOLVES_GAIN_MORE_POWERS" ],
+    "activation_msg": "",
     "flags": [ "ATTUNEMENT" ]
   },
   {
