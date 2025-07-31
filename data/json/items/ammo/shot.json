@@ -7,7 +7,7 @@
     "name": { "str_sp": "12 gauge birdshot, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "reloaded_shot_dragon",
@@ -18,7 +18,7 @@
     "description": "A shotgun shell filled with magnesium pellets or shards, used mostly as a distress flare or pyrotechnics tool.  When the round is fired, high-temperature sparks and flames shoot out of the barrel.  While looking very impressive, they present more of a fire hazard than an effective tool for lighting up hostiles.  This one was made in somebody's garage.  Are you sure you want to shoot this?",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "reloaded_shot_00",
@@ -28,7 +28,7 @@
     "name": { "str_sp": "12 gauge buckshot, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "reloaded_shot_flechette",
@@ -38,7 +38,7 @@
     "name": { "str": "12 gauge flechette, reloaded", "str_pl": "12 gauge flechettes, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "reloaded_shot_slug",
@@ -48,7 +48,7 @@
     "name": { "str": "12 gauge slug, reloaded", "str_pl": "12 gauge slugs, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "bp_shot_bird",
@@ -58,7 +58,7 @@
     "name": { "str_sp": "12 gauge birdshot, black powder" },
     "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "bp_shot_dragon",
@@ -69,7 +69,7 @@
     "description": "A shotgun shell filled with magnesium pellets or shards, used mostly as a distress flare or pyrotechnics tool.  When the round is fired, high-temperature sparks and flames shoot out of the barrel.  While looking very impressive, they present more of a fire hazard than an effective tool for lighting up hostiles.  This one was made in somebody's garage.  Are you sure you want to shoot this?",
     "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "bp_shot_00",
@@ -79,7 +79,7 @@
     "name": { "str_sp": "12 gauge buckshot, black powder" },
     "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "bp_shot_flechette",
@@ -89,7 +89,7 @@
     "name": { "str": "12 gauge flechette, black powder", "str_pl": "12 gauge flechettes, black powder" },
     "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "bp_shot_slug",
@@ -99,7 +99,7 @@
     "name": { "str": "12 gauge slug, black powder", "str_pl": "12 gauge slugs, black powder" },
     "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "abstract": "shotshell_abstract",
@@ -231,7 +231,7 @@
     "ascii_picture": "shot_scrap",
     "proportional": { "price": 0.4, "damage": { "damage_type": "bullet", "amount": 0.6 }, "shot_spread": 1.2 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "bp_shot_scrap",
@@ -241,8 +241,7 @@
     "name": { "str_sp": "12 gauge scrap shot, black powder" },
     "description": "A shotgun shell filled with black gunpowder and whatever scrap metal was lying around.  The logical conclusion of ammunition bootlegging.  It'll kill zombies just fine, but your gun will suffer for it.",
     "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 } },
-    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] }
   },
   {
     "id": "shot_slug",

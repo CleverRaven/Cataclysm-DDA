@@ -7,7 +7,7 @@
     "name": { "str_sp": "12.3ln" },
     "description": "In some alternate universe, the 12.3ln cartridge was introduced in Romania in the wake of the second Carpathian conflict.  The PA md. 71 rifle, using this ammunition, rapidly gained popularity in the Eastern Union, and from there, the world.  Due to this, the 12.3ln rapidly became the standard combat round in the Eurasian sphere, making it easy for the Exodii to stockpile it in large quantities when they visited that version of Earth.  It looks vaguely like a rimless, .303 British cartridge loaded with a larger, non-spitzer bullet.",
     "ammo_type": "123ln",
-    "extend": { "damage": { "damage_type": "bullet", "amount": -3 } },
+    "relative": { "damage": { "damage_type": "bullet", "amount": -3 } },
     "casing": "123ln_casing"
   },
   {
@@ -18,7 +18,7 @@
     "name": { "str_sp": "12.3ln, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "bp_123ln",
@@ -33,7 +33,7 @@
       "dispersion": 1.2
     },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "abstract": "273x110abstract",

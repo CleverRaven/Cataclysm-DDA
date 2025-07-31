@@ -195,7 +195,6 @@
     "name": { "str": "abstract recipe catalog", "//~": "NO_I18N" },
     "description": { "str": "for any collection of recipes", "//~": "NO_I18N" },
     "ememory_size": "4 MB",
-    "delete": { "flags": [ "E_STORABLE" ] },
     "extend": { "flags": [ "E_FILE_COLLECTION", "E_STORABLE_EXCLUSIVE" ] },
     "variables": { "browsed": "false" }
   },
