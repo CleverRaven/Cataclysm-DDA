@@ -149,6 +149,7 @@ static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 static const json_character_flag json_flag_BIONIC_SLEEP_FRIENDLY( "BIONIC_SLEEP_FRIENDLY" );
 static const json_character_flag json_flag_CANNOT_ATTACK( "CANNOT_ATTACK" );
 static const json_character_flag json_flag_LEVITATION( "LEVITATION" );
+static const json_character_flag json_flag_PHASE_MOVEMENT( "PHASE_MOVEMENT" );
 static const json_character_flag json_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
 
 static const material_id material_glass( "glass" );
@@ -2432,7 +2433,8 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
             if( !player_character.in_vehicle ) {
                 // We're NOT standing on tiles with stairs, ropes, ladders etc
-                if( !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, player_character.pos_bub() ) ) {
+                if( !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, player_character.pos_bub() ) &&
+                    !u.has_flag( json_flag_PHASE_MOVEMENT ) ) {
                     std::vector<tripoint_bub_ms> pts;
 
                     // If levitating, just move straight down if possible.
@@ -2465,7 +2467,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
                 // If we're here, we might or might not be standing on tiles with stairs, ropes, ladders etc
                 // In any case, attempt a descend
-                vertical_move( -1, false );
+                vertical_move( -1, u.has_flag( json_flag_PHASE_MOVEMENT ) );
             }
             break;
         }
@@ -2479,7 +2481,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 }
             }
             if( !player_character.in_vehicle ) {
-                vertical_move( 1, false );
+                vertical_move( 1, u.has_flag( json_flag_PHASE_MOVEMENT ) );
             } else if( has_vehicle_control( player_character ) ) {
                 const optional_vpart_position vp = here.veh_at( player_character.pos_bub() );
                 if( vp->vehicle().is_rotorcraft( here ) ) {

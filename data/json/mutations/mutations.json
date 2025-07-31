@@ -9585,6 +9585,16 @@
   },
   {
     "type": "mutation",
+    "id": "DEBUG_PHASE_MOVEMENT",
+    "name": { "str": "Debug Phase Movement" },
+    "points": 99,
+    "valid": false,
+    "description": "You can walk anywhere, do anything.  Neither walls nor gravity can stop you.",
+    "flags": [ "PHASE_MOVEMENT" ],
+    "debug": true
+  },
+  {
+    "type": "mutation",
     "id": "DEBUG_CLOAK",
     "name": { "str": "Debug Invisibility" },
     "points": 99,
