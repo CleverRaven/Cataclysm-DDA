@@ -1936,6 +1936,7 @@ The following properties (mandatory, except if noted otherwise) are supported:
     "points": 0,                                               // Point cost of profession. Positive values cost points and negative values grant points. Has no effect as of 0.G
     "starting_cash": 500000,                                   // (optional) Int value for the starting bank balance.
     "npc_background": "BG_survival_story_LAB",                 // (optional) BG_trait_group ID, provides list of background stories. (see BG_trait_groups.json)
+	"chargen_allow_npc": false,                                // (optional) when false, removes this profession as an option for generated NPCs (default: true)
     "addictions": [ { "intensity": 10, "type": "nicotine" } ], // (optional) Array of addictions. Requires "type" as the string ID of the addiction (see JSON_FLAGS.md) and "intensity"
     "skills": [ { "name": "archery", "level": 2 } ],           // (optional) Array of starting skills. Requires "name" as the string ID of the skill (see skills.json) and "level", which is a value added to the skill level after character creation
     "missions": [ "MISSION_LAST_DELIVERY" ],                   // (optional) Array of starting mission IDs
@@ -3148,33 +3149,13 @@ Harvest drop types are used in harvest drop entries to control how the drop is p
 
 Connect groups can be used by id in terrain and furniture `connect_groups`, `connects_to` and `rotates_to` properties.
 
-Examples from the actual definitions:
-
-**`group_flags`**: Flags that imply that terrain or furniture is added to this group.
-
-**`connects_to_flags`**: Flags that imply that terrain or furniture connects to this group.
-
-**`rotates_to_flags`**: Flags that imply that terrain or furniture rotates to this group.
+Example
 
 ```jsonc
-[
   {
     "type": "connect_group",
-    "id": "WALL",
-    "group_flags": [ "WALL", "CONNECT_WITH_WALL" ],
-    "connects_to_flags": [ "WALL", "CONNECT_WITH_WALL" ]
-  },
-  {
-    "type": "connect_group",
-    "id": "CHAINFENCE"
-  },
-  {
-    "type": "connect_group",
-    "id": "INDOORFLOOR",
-    "group_flags": [ "INDOORS" ],
-    "rotates_to_flags": [ "WINDOW", "DOOR" ]
+    "id": "WALL"
   }
-]
 ```
 
 ### Furniture
@@ -3691,8 +3672,6 @@ MARBLEFLOOR          BEACH_FORMATIONS
 GRAVELPILE           LIXATUBE
 ```
 
-`WALL` is implied by the flags `WALL` and `CONNECT_WITH_WALL`.
-`INDOORFLOOR` is implied by the flag `INDOORS`.
 Implicit groups can be removed be using tilde `~` as prefix of the group name.
 
 #### `connects_to`

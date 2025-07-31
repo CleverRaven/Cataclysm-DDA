@@ -591,6 +591,7 @@
     "type": "effect_on_condition",
     "id": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK",
     "//": "x-in_y event prevents divide-by-0 but makes concentration breaking much more likely the more negative your concentration limit is",
+    "//2": "This controls gaining metaphysics XP on concentration success or failure.  Gaining metaphysics XP for general channeling of powers is in eoc_misc",
     "condition": {
       "and": [
         { "math": [ "u_vitamin('vitamin_maintained_powers') >= concentration_calculations()" ] },

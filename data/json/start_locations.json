@@ -7,9 +7,21 @@
   },
   {
     "type": "start_location",
-    "id": "sloc_shelter_a",
-    "name": "Shelter - Open Floorplan",
-    "terrain": [ "shelter" ]
+    "id": "sloc_shelter_safe",
+    "name": "Evac Center",
+    "terrain": [ { "om_terrain": "shelter", "parameters": { "shelter_palette": "shelter_basic" } } ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_shelter_vandal",
+    "name": "Vandalized Evac Center",
+    "terrain": [ { "om_terrain": "shelter", "parameters": { "shelter_palette": "shelter_vandal" } } ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_shelter_under_infested",
+    "name": "Infested Evac Center Basement",
+    "terrain": [ { "om_terrain": "shelter_under", "parameters": { "shelter_palette": "shelter_infested_scenario" } } ]
   },
   {
     "type": "start_location",
@@ -26,54 +38,6 @@
       "town_hall_1_1_1",
       "town_hall_0_0_roof"
     ]
-  },
-  {
-    "type": "start_location",
-    "id": "sloc_shelter_b",
-    "name": "Shelter - Compartmentalized",
-    "terrain": [ "shelter_1", "shelter_1b" ]
-  },
-  {
-    "type": "start_location",
-    "id": "sloc_shelter_c",
-    "name": "Shelter - Central Pillar",
-    "terrain": [ "shelter_2" ]
-  },
-  {
-    "type": "start_location",
-    "id": "sloc_shelter_vandalized_a",
-    "name": "Shelter - Open Floorplan (Vandalized)",
-    "terrain": [ "shelter_vandal" ]
-  },
-  {
-    "type": "start_location",
-    "id": "sloc_shelter_vandalized_b",
-    "name": "Shelter - Compartmentalized (Vandalized)",
-    "terrain": [ "shelter_1_vandal", "shelter_1b_vandal" ]
-  },
-  {
-    "type": "start_location",
-    "id": "sloc_shelter_vandalized_c",
-    "name": "Shelter - Central Pillar (Vandalized)",
-    "terrain": [ "shelter_2_vandal" ]
-  },
-  {
-    "type": "start_location",
-    "id": "sloc_shelter_infest_a",
-    "name": "Infested Shelter - Open Floorplan",
-    "terrain": [ "shelter_under_infested" ]
-  },
-  {
-    "type": "start_location",
-    "id": "sloc_shelter_infest_b",
-    "name": "Infested Shelter - Compartmentalized",
-    "terrain": [ "shelter_under_1_infested", "shelter_under_1b_infested" ]
-  },
-  {
-    "type": "start_location",
-    "id": "sloc_shelter_infest_c",
-    "name": "Infested Shelter - Central Pillar",
-    "terrain": [ "shelter_under_2_infested" ]
   },
   {
     "type": "start_location",
@@ -713,7 +677,7 @@
     "type": "start_location",
     "id": "sloc_light_industry_scen",
     "name": "Industrial Offices",
-    "terrain": [ "s_lightindustry_scen_10" ]
+    "terrain": [ { "om_terrain": "s_lightindustry_10", "parameters": { "safe": "true" } } ]
   },
   {
     "type": "start_location",

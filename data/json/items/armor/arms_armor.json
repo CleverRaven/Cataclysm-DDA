@@ -1790,7 +1790,7 @@
     "category": "armor",
     "name": { "str_sp": "leather-padded sleeves" },
     "description": "Armor made of combined pre-Cataclysm clothing.  Sections from leather clothing are tightened and affixed to the sleeves of a thick cotton shirt, excluding the joints.",
-    "weight": "500 g",
+    "weight": "300 g",
     "volume": "500 ml",
     "price_postapoc": "10 USD",
     "material": [ "cotton", "leather" ],

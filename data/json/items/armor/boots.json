@@ -1932,7 +1932,7 @@
     "category": "armor",
     "name": { "str_sp": "motorcycle boots (pair)" },
     "description": "A pair of durable boots used by dirt bikers and motorcyclists.",
-    "weight": "2125 g",
+    "weight": "1800 g",
     "volume": "2 L",
     "price": "80 USD",
     "price_postapoc": "7 USD 50 cent",
@@ -3449,7 +3449,7 @@
     "symbol": "[",
     "material": "cotton",
     "volume": "600 ml",
-    "weight": "500 g",
+    "weight": "300 g",
     "flags": [ "VARSIZE" ],
     "warmth": 2,
     "armor": [

@@ -148,3 +148,14 @@ std::string unit_to_string( const units::length &unit, bool compact = false );
 /** utility function to round with specified decimal places */
 double round_with_places( double value, int decimal_places );
 #endif // CATA_SRC_UNITS_UTILITY_H
+
+/**
+ * convert a float @value to a string to be displayed in up to 3 characters
+ * negative numbers have an extra character for the -
+ * 0 renders as 0
+ * values >= 1000 render as more than 3 characters
+ * values >= 10 render as integers
+ * values < 10 and >= 1.0 render with one decimal place
+ * values < 1 and > 0 render with two decimal places and no leading zero
+*/
+std::string three_digit_display( double value );

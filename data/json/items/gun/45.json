@@ -320,6 +320,7 @@
     "volume": "483 ml",
     "longest_side": "241 mm",
     "ammo": [ "45" ],
+    "material": [ "plastic", "steel" ],
     "price": "700 USD",
     "price_postapoc": "25 USD",
     "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],

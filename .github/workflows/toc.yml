@@ -3,7 +3,7 @@ on:
     branches:
     - master
     paths:
-    - 'doc/JSON/JSON_INFO.md'
+    - 'doc/'
 name: TOC Generator
 permissions:
   contents: read

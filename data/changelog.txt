@@ -148,6 +148,8 @@ NPCs can handle liquids from crafting
 Bashed furniture and terrain produce dust fields
 Highways
 Expand implementation of liquid ammo
+NPC AI fixes to improve fleeing in bad situations, reduce it in good ones
+Armors faults. Part 1: Steel Plate
 
 
 ## Content:
@@ -458,6 +460,9 @@ Create a terminal-like default theme for Imgui
 Add NPC faction and NPC omt location to mission entries
 Describe stat level in new character window
 Severe hypovolemic shock message now mentions saline infusion instead of transfusion
+Always show clean water on top of consume menu
+Toggle haul from action menu when hauling
+Explain that degraded items are degraded
 
 
 ## Mods:
@@ -872,6 +877,8 @@ Aftershock: Humaniforms can execute humanoid monsters
 Aftershock: Vehicle bay City Building a mix between mechanic garage, gas station and parking lot.
 [MoM] Add help topics for psionic paths, using psionics, and psychic knacks
 [Magiclysm] Humans are also a species
+[Magiclysm] Add Aenor version of the horse ranch
+[Magiclysm] SOMATIC spells are harder to cast with broken arms
 
 
 ## Balance:
@@ -1342,6 +1349,8 @@ Fix forced traits being applied to NPCs
 Fix EOC actor consuming tools on processing
 Fix molotovs exploding multiple times
 add E_STORABLE_EXCLUSIVE flag
+add E_STORABLE_EXCLUSIVE flag
+avoid ImGui warning in keybindings window if the translation happens to have duplicate text
 
 
 ## Performance:
@@ -1375,6 +1384,7 @@ Cache item info, reducing time of crafting filter `d:` to ~32%
 Speed up mapgen especially noticeable in Sky Islands
 don’t call std::pow for squaring numbers
 don’t compute the size of far away hordes when drawing the world map
+can_contain: calculate pocket volume once (huge speed up in special cases)
 
 
 ## Infrastructure:

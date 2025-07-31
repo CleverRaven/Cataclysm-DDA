@@ -14,6 +14,7 @@
     "id": "afs_jerky",
     "copy-from": "jerky",
     "name": { "str_sp": "meat flakes" },
+    "price_postapoc": "1 USD 50 cent",
     "description": "Transparent thin hexagonal cuts of dried meat.  Conspicuously uniform in both looks and texture."
   },
   {
