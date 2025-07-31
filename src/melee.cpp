@@ -2742,6 +2742,12 @@ double Character::evaluate_weapon( const item &maybe_weapon ) const
 double Character::evaluate_weapon_internal( const item &maybe_weapon, bool can_use_gun,
         bool use_silent ) const
 {
+    if( is_wielding( maybe_weapon ) || ( !get_wielded_item() && maybe_weapon.is_null() ) ) {
+        auto cached_value = cached_info.find( "weapon_value" );
+        if( cached_value != cached_info.end() ) {
+            return cached_value->second;
+        }
+    }
     // Needed because evaluation includes electricity via linked cables.
     const map &here = get_map();
 
@@ -2760,6 +2766,11 @@ double Character::evaluate_weapon_internal( const item &maybe_weapon, bool can_u
                    "%s %s valued at <color_light_cyan>%1.2f as a melee weapon to wield</color>.", disp_name( true ),
                    maybe_weapon.type->get_id().str(), val_melee );
     double val = std::max( val_gun, val_melee );
+
+
+    if( is_wielding( maybe_weapon ) || ( !get_wielded_item() && maybe_weapon.is_null() ) ) {
+        cached_info.emplace( "weapon_value", val );
+    }
     return val;
 }
 
