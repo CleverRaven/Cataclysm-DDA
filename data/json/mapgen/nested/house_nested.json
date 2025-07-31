@@ -16,7 +16,7 @@
     }
   },
   {
-    "type": "mapgen"
+    "type": "mapgen",
     "//": "compass direction indicates head of bed",
     "nested_mapgen_id": "bedroom_4x4_adult_1_N",
     "object": {
