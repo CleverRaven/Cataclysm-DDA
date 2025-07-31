@@ -99,15 +99,7 @@ void activity_type::load( const JsonObject &jo )
     optional( jo, was_loaded, "do_turn_eoc", do_turn_EOC );
     optional( jo, was_loaded, "ignored_distractions", default_ignored_distractions_ );
     optional( jo, was_loaded, "based_on", based_on_ );
-
-    auto act_level_it = activity_levels_map.find( jo.get_string( "activity_level", "undefined" ) );
-    if( act_level_it == activity_levels_map.end() ) {
-        debugmsg( "activity_type '%s' has invalid activity_level '%s', defaulting to 'LIGHT_EXERCISE'",
-                  result.id().c_str() );
-        activity_level = activity_levels_map.at( "LIGHT_EXERCISE" );
-    } else {
-        activity_level = act_level_it->second;
-    }
+    mandatory( jo, was_loaded, "activity_level", activity_level, activity_level_reader{} );
 }
 
 void activity_type::load_all( const JsonObject &jo )
