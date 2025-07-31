@@ -1621,7 +1621,7 @@ npc_opinion npc::get_opinion_values( const Character &you ) const
         } else {
             npc_values.fear += 6;
         }
-    } else if( you.weapon_value( *weapon ) > 20 ) {
+    } else if( you.evaluate_weapon( *weapon ) > 20 ) {
         npc_values.fear += 2;
     }
 

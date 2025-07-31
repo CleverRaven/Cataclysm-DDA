@@ -512,7 +512,7 @@ float npc::evaluate_character( const Character &candidate, bool my_gun, bool ene
     bool candidate_gun = candidate.get_wielded_item() && candidate.get_wielded_item()->is_gun();
     const item &candidate_weap = candidate.get_wielded_item() ? *candidate.get_wielded_item() :
                                  null_item_reference();
-    double candidate_weap_val = candidate.weapon_value( candidate_weap );
+    double candidate_weap_val = candidate.evaluate_weapon( candidate_weap );
     float candidate_health =  candidate.hp_percentage() / 100.0f;
     float armour = estimate_armour( candidate );
     float speed = std::max( 0.25f, candidate.get_speed() / 100.0f );
