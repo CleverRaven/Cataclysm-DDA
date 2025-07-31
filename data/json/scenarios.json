@@ -891,7 +891,7 @@
     "description": "You were participating in a mining operation when you found… something.  You're not sure what, but it sure is dark down here.",
     "start_name": "Bottom of a mine",
     "allowed_locs": [ "sloc_mine_finale" ],
-    "professions": [ "miner", "labtech", "security", "archaeologist" ],
+    "professions": [ "miner", "labtech", "security" ],
     "requirement": "achievement_reach_mine",
     "flags": [ "CITY_START", "LONE_START", "CHALLENGE" ]
   },
@@ -1083,7 +1083,6 @@
       "homemaker",
       "pizzaboy",
       "paranormal_investigator",
-      "archaeologist",
       "tourist",
       "urbex",
       "burglar",
