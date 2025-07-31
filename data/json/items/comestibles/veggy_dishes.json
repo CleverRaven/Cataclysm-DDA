@@ -1784,7 +1784,6 @@
     "description": "Boiled potatoes mashed together with salt & oil.",
     "price": "50 cent",
     "price_postapoc": "30 cent",
-    "sealed": true,
-    "delete": { "flags": [ "RAW" ] }
+    "sealed": true
   }
 ]
