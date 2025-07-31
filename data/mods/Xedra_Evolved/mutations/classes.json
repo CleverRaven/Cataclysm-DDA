@@ -77,6 +77,17 @@
   },
   {
     "type": "mutation",
+    "id": "WEREWOLF_SPELLS",
+    "name": "Lunar Gifts",
+    "points": 0,
+    "description": "The People gain many powers from the Moon, to better survive and hunt the wilds for their prey.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "flags": [ "ATTUNEMENT" ]
+  },
+  {
+    "type": "mutation",
     "id": "XE_NETHER_SORCERY",
     "name": "Nether Sorcery",
     "points": 0,

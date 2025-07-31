@@ -1,0 +1,75 @@
+[
+  {
+    "id": "xe_werewolf_powers",
+    "type": "magic_type",
+    "energy_source": "MANA",
+    "cannot_cast_flags": [ "NO_WEREWOLF_POWERS" ],
+    "cannot_cast_message": "You cannot draw on your lunar gifts!",
+    "failure_cost_percent": 0.75,
+    "max_book_level": 0,
+    "failure_chance_formula_id": "werewolf_power_failure_chance"
+  },
+  {
+    "id": "xe_werewolf_illuminate_target_spell",
+    "type": "SPELL",
+    "name": "Moon's Cold Glow",
+    "description": "Surround a single target with a outline of line that follows them as they move, revealing their position at all times.",
+    "message": "Your target is outlined in light.",
+    "teachable": false,
+    "valid_targets": [ "ally", "hostile" ],
+    "spell_class": "WEREWOLF_SPELLS",
+    "magic_type": "xe_werewolf_powers",
+    "skill": "deduction",
+    "flags": [ "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "difficulty": 2,
+    "effect": "attack",
+    "effect_str": "effect_xe_werewolf_illuminate_target",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "3700 + (werewolf_tier_one_traits() * 150) + (werewolf_tier_two_traits() * 310) + (werewolf_tier_three_traits() * 625) + (werewolf_tier_four_traits() * 1201) + (werewolf_tier_five_traits() * 1680)"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "10810 + (werewolf_tier_one_traits() * 295) + (werewolf_tier_two_traits() * 615) + (werewolf_tier_three_traits() * 1181) + (werewolf_tier_four_traits() * 1925) + (werewolf_tier_five_traits() * 2545)"
+      ]
+    },
+    "min_range": { "math": [ "15 + min( (werewolf_tier_four_traits() * 1) + (werewolf_tier_five_traits() * 2),20)" ] },
+    "max_range": { "math": [ "15 + min( (werewolf_tier_four_traits() * 1) + (werewolf_tier_five_traits() * 2),20)" ] },
+    "base_energy_cost": 75,
+    "base_casting_time": 50
+  },
+  {
+    "id": "xe_werewolf_stun_machine_spell",
+    "type": "SPELL",
+    "name": "Moon's Cold Glow",
+    "description": "You can cause just enough change in a machine to confuse the rigid requirements of its programming, stunning it.",
+    "message": "The machine stops in its tracks.",
+    "teachable": false,
+    "valid_targets": [ "ally", "hostile" ],
+    "spell_class": "WEREWOLF_SPELLS",
+    "magic_type": "xe_werewolf_powers",
+    "skill": "deduction",
+    "flags": [ "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "difficulty": 4,
+    "effect": "attack",
+    "effect_str": "sensor_stun",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "1050 + (werewolf_tier_one_traits() * 45) + (werewolf_tier_two_traits() * 75) + (werewolf_tier_three_traits() * 135) + (werewolf_tier_four_traits() * 195) + (werewolf_tier_five_traits() * 200)"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "1905 + (werewolf_tier_one_traits() * 75) + (werewolf_tier_two_traits() * 100) + (werewolf_tier_three_traits() * 185) + (werewolf_tier_four_traits() * 235) + (werewolf_tier_five_traits() * 300)"
+      ]
+    },
+    "min_range": { "math": [ "15 + min( (werewolf_tier_four_traits() * 1) + (werewolf_tier_five_traits() * 2),20)" ] },
+    "max_range": { "math": [ "15 + min( (werewolf_tier_four_traits() * 1) + (werewolf_tier_five_traits() * 2),20)" ] },
+    "base_energy_cost": 150,
+    "base_casting_time": 50,
+    "targeted_monster_species": [ "ROBOT", "ROBOT_FLYING", "CYBORG" ]
+  }
+]

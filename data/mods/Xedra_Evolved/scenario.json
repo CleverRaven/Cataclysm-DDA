@@ -56,7 +56,7 @@
     "description": "You had no idea what was going on the first time it happened, when you woke up with mud on your bare feet and a sour taste in your mouth, but you were soon found.  The People of the Moon, they called themselves, and they said you were one of them.  A werewolf.  You lived out in the wilderness for a while but didn't entirely abandon human civilization, and when the Cataclysm hit you ignored the evacuation warnings and struck it out on your own.  Maybe some of the People are still out there.",
     "start_name": "Alone",
     "allowed_locs": [ "sloc_shelter_vandal", "sloc_hermit_shack", "sloc_cabin", "sloc_house_boarded", "sloc_forest", "sloc_field" ],
-    "forced_traits": [ "NATIVE_SHAPESHIFTER", "WEREWOLF_ANIMAL_FORM", "WEREWOLF_HYBRID_FORM" ]
+    "forced_traits": [ "NATIVE_SHAPESHIFTER", "WEREWOLF_ANIMAL_FORM", "WEREWOLF_HYBRID_FORM", "WEREWOLF_SPELLS" ]
   },
   {
     "type": "scenario",

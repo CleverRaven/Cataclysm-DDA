@@ -329,15 +329,21 @@
     "return": "(global_what_is_the_season == 4 ? 0.2 : 0 ) + (u_arvore_is_in_wilderness == 0 ? 0.25 : 0) + (u_arvore_is_in_forest == 0 ? 0.1 : 0) + (u_skill('deduction') * -0.03) + (u_pain() / 200 * ( u_has_trait('BLOODTHORNE_DRUID_REDUCED_PAIN_PENALTIES') ? 0.66666 : 1) )"
   },
   {
+    "type": "jmath_function",
+    "id": "werewolf_power_failure_chance",
+    "num_args": 0,
+    "return": "0"
+  },
+  {
     "id": "werewolf_tier_one_traits",
     "num_args": 0,
-    "return": "u_has_trait('WEREWOLF_SMELL_NEARBY_ENEMIES') + u_has_trait('WEREWOLF_NO_SCENT')"
+    "return": "u_has_trait('WEREWOLF_SMELL_NEARBY_ENEMIES') + u_has_trait('WEREWOLF_NO_SCENT') + u_has_trait('WEREWOLF_ILLUMINATE_TARGET')"
   },
   {
     "type": "jmath_function",
     "id": "werewolf_tier_two_traits",
     "num_args": 0,
-    "return": "u_has_trait('WEREWOLF_SENSE_SPIRITS_AND_ALIENS')"
+    "return": "u_has_trait('WEREWOLF_SENSE_SPIRITS_AND_ALIENS') + u_has_trait('WEREWOLF_STUN_MACHINE')"
   },
   {
     "type": "jmath_function",
@@ -355,6 +361,6 @@
     "type": "jmath_function",
     "id": "werewolf_tier_five_traits",
     "num_args": 0,
-    "return": "u_has_trait('WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM')"
+    "return": "u_has_trait('WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM') + u_has_trait('WEREWOLF_CLOSE_TEAR_IN_REALITY')"
   }
 ]

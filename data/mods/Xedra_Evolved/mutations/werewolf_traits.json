@@ -41,7 +41,11 @@
         "special_vision": [
           {
             "condition": { "or": [ "npc_is_npc", { "and": [ { "npc_has_species": "FERAL" }, { "not": { "npc_has_species": "ZOMBIE" } } ] } ] },
-            "distance": { "math": [ "2 + (u_has_trait('WEREWOLF_HYBRID_FORM_TRAITS') * 2) + (u_has_trait('VAMPIRE_WOLF_FORM_TRAITS') * 4)" ] },
+            "distance": {
+              "math": [
+                "2 + (u_has_trait('WEREWOLF_HYBRID_FORM_TRAITS') * 2) + (u_has_trait('VAMPIRE_WOLF_FORM_TRAITS') * 4) + + (u_has_trait('VAMPIRE_WOLF_FORM_TRAITS') * 4)"
+              ]
+            },
             "descriptions": [ { "id": "moving_creature", "text": "You smell the scent of a human." } ]
           },
           {
@@ -108,6 +112,17 @@
     "cost": 1,
     "time": 10,
     "active_flags": [ "NO_SCENT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "WEREWOLF_ILLUMINATE_TARGET",
+    "name": { "str": "Moon's Cold Glow" },
+    "points": 2,
+    "description": "As a hunter, you know that catching a scent is the first step to getting the prey's neck between your jaws, so it's best to avoid that first step.  While active, you have no scent at all.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "xe_werewolf_illuminate_target_spell", 1 ] ]
   },
   {
     "//": "Tier 2 traits begin here",
@@ -199,6 +214,17 @@
     ]
   },
   {
+    "type": "mutation",
+    "id": "WEREWOLF_STUN_MACHINE",
+    "name": { "str": "Gremlinize" },
+    "points": 2,
+    "description": "You can cause just enough change in a machine to confuse the rigid requirements of its programming, stunning it.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "xe_werewolf_stun_machine_spell", 1 ] ]
+  },
+  {
     "//": "Tier 3 traits begin here",
     "type": "mutation",
     "id": "WEREWOLF_PARTIAL_SHIFT",
@@ -210,6 +236,23 @@
     "valid": false,
     "active": true,
     "activated_eocs": [ "EOC_WEREWOLF_PARTIAL_SHIFT_activated" ]
+  },
+  {
+    "//": "Tier 4 traits begin here",
+    "type": "mutation",
+    "id": "WEREWOLF_SUPER_FAST_REGENERATION",
+    "name": { "str": "Gift of Lunar Renewal" },
+    "points": 8,
+    "description": "The moon cycles from new to full and back to new, and it always returns no matter how many cycles pass.  You can draw on that eternal renewal and enhance your natural regeneration to a truly monstrous level, healing grievous wounds in seconds and regrowing lost limbs in less than a minute.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "mana": true,
+    "cost": 35,
+    "time": 1,
+    "processed_eocs": [ "EOC_WEREWOLF_SUPER_FAST_REGENERATION_activated" ]
   },
   {
     "//": "Tier 5 traits begin here",
@@ -227,6 +270,50 @@
     "cost": 3,
     "time": 1,
     "activated_eocs": [ "EOC_WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM_activated" ],
+    "processed_eocs": [ "EOC_WEREWOLF_HYBRID_FORM_healing" ],
     "deactivated_eocs": [ "EOC_WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "WEREWOLF_PRIMAL_FORM_TRAITS",
+    "name": { "str": "Primal Form", "//~": "NO_I18N" },
+    "points": 0,
+    "description": {
+      "str": "You are a gigantic atavistic wolf.  This provides the actual effects of primal form.  Should not be player-visible.",
+      "//~": "NO_I18N"
+    },
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "SPEED", "multiply": 0.2 },
+          { "value": "RANGE", "multiply": -1 },
+          { "value": "MAX_HP", "multiply": 0.35 },
+          { "value": "DEXTERITY", "add": 2 },
+          { "value": "STRENGTH", "add": 8 },
+          { "value": "NIGHT_VIS", "add": 8 },
+          { "value": "MELEE_DAMAGE", "multiply": 0.3 },
+          { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 }
+        ],
+        "mutations": [ "MUZZLE", "TAIL_FLUFFY", "PAWS", "LUPINE_FUR", "LUPINE_EARS", "PERSISTENCE_HUNTER2", "PRED3" ]
+      },
+      {
+        "condition": { "and": [ { "not": "u_can_drop_weapon" } ] },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.15 } ],
+        "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "quadruped_full", "intensity": 1 } ]
+      },
+      { "condition": { "u_has_move_mode": "run" }, "values": [ { "value": "MOVE_COST", "multiply": -0.25 } ] },
+      {
+        "condition": "u_has_weapon",
+        "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
+      }
+    ],
+    "flags": [ "MUTE", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_HUGE" ],
+    "integrated_armor": [ "integrated_werewolf_primal_form_fur", "integrated_werewolf_primal_form_fangs" ],
+    "override_look": { "id": "mon_direwolf", "tile_category": "monster" }
   }
 ]

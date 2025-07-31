@@ -9,6 +9,14 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_NON_LILIN_RAAB_UPDATE",
+    "eoc_type": "EVENT",
+    "required_event": "game_load",
+    "condition": { "u_has_trait": "WEREWOLF_ANIMAL_FORM" },
+    "effect": [ { "u_add_trait": "WEREWOLF_SPELLS" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_GIVE_CHANGELINGS_THEIR_DREAMSPARKS_OBS",
     "eoc_type": "EVENT",
     "required_event": "game_load",

@@ -902,6 +902,35 @@
     "melee_damage": { "stab": 13 }
   },
   {
+    "id": "integrated_primal_form_teeth",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str_sp": "primal form teeth" },
+    "description": "A gigantic mouth full of vicious sharp teeth, large enough to bite off a person's head.",
+    "weight": "50 g",
+    "volume": "100 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "bone" ],
+    "symbol": ",",
+    "color": "white",
+    "warmth": 5,
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 4 ] ],
+    "techniques": [ "FANGS_BITE_SHAPESHIFTER_WOLF_FORM", "FANGS_BITE_SHAPESHIFTER_WOLF_CRIT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "PADDED", "PROVIDES_TECHNIQUES" ],
+    "armor": [
+      {
+        "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 3.2 } ],
+        "covers": [ "mouth" ],
+        "specifically_covers": [ "mouth_lips" ],
+        "coverage": 100,
+        "encumbrance": 0
+      }
+    ],
+    "melee_damage": { "stab": 25 }
+  },
+  {
     "id": "integrated_brownie_fur",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
