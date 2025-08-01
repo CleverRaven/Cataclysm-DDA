@@ -165,7 +165,7 @@
     "spell_class": "PHOTOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
