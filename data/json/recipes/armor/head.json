@@ -4266,6 +4266,6 @@
     "using": [ [ "welding_standard", 20 ] ],
     "components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "nuts_bolts", 12 ] ], [ [ "hat_hard", 1 ], [ "hat_hard_hooded", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
-    "qualities": [ { "id": "DRILL", "level": 2 }, { "id": "SAW_M", "level": 2 } ]
+    "qualities": [ { "id": "DRILL", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "WRENCH", "level": 2 } ]
   }
 ]
