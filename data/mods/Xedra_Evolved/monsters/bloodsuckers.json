@@ -1227,7 +1227,7 @@
     "effect": [
       { "math": [ "_arion_amount_drained = rng(250,650)" ] },
       {
-        "if": [ { "npc_has_trait": "VAMPIRE" }, { "npc_has_trait": "DHAMPIR" } ],
+        "if": { “or”:  [ { "npc_has_trait": "VAMPIRE" }, { "npc_has_trait": "DHAMPIR" } ] },
         "then": [
           { "math": [ "n_vitamin('blood') -= _arion_amount_drained" ] },
           { "math": [ "n_vitamin('redcells') -= _arion_amount_drained" ] },
