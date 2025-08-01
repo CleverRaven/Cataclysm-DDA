@@ -2068,6 +2068,53 @@
           { "math": [ "n_vitamin('blood') -= _arion_amount_drained" ] },
           { "math": [ "n_vitamin('redcells') -= _arion_amount_drained" ] },
           { "math": [ "n_vitamin('human_blood_vitamin') -= _arion_amount_drained" ] }
+          ]
+        },
+        "eoc": [ "EOC_ARION_DRINK_BLOOD" ],
+        "self_effects_ondmg": [ { "id": "arion_blood_drank", "duration": 10 } ],
+        "cooldown": 1,
+        "move_cost": 100,
+        "hit_dmg_u": "%1$s fastens onto your %2$s and greedily drinks your blood!",
+        "hit_dmg_npc": "%1$s fastens onto <npcname>'s %2$s and greedily drinks their blood!",
+        "miss_msg_u": "%1$s tries to fasten onto you, but you dodge!",
+        "miss_msg_npc": "%1$s tries to fasten onto you <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%1$s tries to fasten onto your %2$s, but can't penetrate your armor.",
+        "no_dmg_msg_npc": "%1$s tries to fasten onto <npcname>'s %2$s, but can't penetrate their armor."
+      },
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "arion_blood_drinking_ferals",
+        "//": "Since ferals have no blood vitamin, a separate attack to simulate drinking their blood",
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 50, "armor_multiplier": 0.5 } ],
+        "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" }, { "npc_has_species": "FERAL" } ] },
+        "effects": [ { "id": "star_vampire_blood_drink_feral", "duration": 2, "chance": 100 } ],
+        "self_effects_ondmg": [ { "id": "arion_blood_drank", "duration": 10 } ],
+        "cooldown": 1,
+        "move_cost": 100,
+        "hit_dmg_u": "%1$s fastens onto your %2$s and greedily drinks your blood!",
+        "hit_dmg_npc": "%1$s fastens onto <npcname>'s %2$s and greedily drinks their blood!",
+        "miss_msg_u": "%1$s tries to fasten onto you, but you dodge!",
+        "miss_msg_npc": "%1$s tries to fasten onto <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%1$s tries to fasten onto your %2$s, but can't penetrate your armor.",
+        "no_dmg_msg_npc": "%1$s tries to fasten onto <npcname>'s %2$s, but can't penetrate their armor."
+      }
+    ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER", "WARM", "EATS" ],
+    "armor": { "bash": 24, "electric": 10, "cut": 14, "ballistic": 52, "cold": 30 }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARION_DRINK_BLOOD",
+    "condition": { "math": [ "_damage > 0" ] },
+    "effect": [
+      { "math": [ "_arion_amount_drained = rng(250,650)" ] },
+      {
+        "if": { "npc_has_any_trait": [ "VAMPIRE", "DHAMPIR" ] },
+        "then": [
+          { "math": [ "n_vitamin('blood') -= _arion_amount_drained" ] },
+          { "math": [ "n_vitamin('redcells') -= _arion_amount_drained" ] },
+          { "math": [ "n_vitamin('human_blood_vitamin') -= _arion_amount_drained" ] }
         ]
       },
       {
