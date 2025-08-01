@@ -3713,6 +3713,12 @@
   },
   {
     "type": "effect_type",
+    "id": "vampire_attacked_vampire_or_renfield",
+    "name": [ "Broken Vampire's Truce" ],
+    "desc": [ "Your actions against the vampires and their servants have drawn their ire." ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_anathema_resilience",
     "//": "As per the vampire power, but includes the fire vulnerability as it is a multiplier, not an absolute.  It also includes the effects of flow like blood.",
     "blocks_effects": [ "grabbed" ],

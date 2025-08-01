@@ -309,5 +309,23 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BREAK_VAMPIRE_TRUCE",
+    "eoc_type": "EVENT",
+    "required_event": "monster_takes_damage",
+    "condition": { "and": [ { "or": [ { "u_has_species": "VAMPIRE" }, { "u_has_species": "RENFIELD" } ] }, "has_beta" ] },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_BREAK_VAMPIRE_TRUCE_2",
+            "condition": { "and": [ { "npc_has_trait": "VAMPIRE" }, { "not": { "npc_has_effect": "vampire_attacked_vampire_or_renfield" } } ] },
+            "effect": [ { "npc_add_effect": "vampire_attacked_vampire_or_renfield", "duration": { "math": [ "10800 + rand(43200)" ] } } ]
+          }
+        ]
+      }
+    ]
   }
 ]
