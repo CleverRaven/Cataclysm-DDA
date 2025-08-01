@@ -18,6 +18,38 @@
   {
     "type": "mapgen",
     "//": "compass direction indicates head of bed",
+    "nested_mapgen_id": "bedroom_4x4_adult_1_N",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "¤@@¤",
+        " @@ ",
+        "E   ",
+        "I   "
+      ],
+      "palettes": [ "standard_domestic_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "//": "compass direction indicates head of bed",
+    "nested_mapgen_id": "bedroom_4x4_adult_1_N",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "¤@@¤",
+        " @@ ",
+        "E   ",
+        "ɱ   "
+      ],
+      "palettes": [ "standard_domestic_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "//": "compass direction indicates head of bed",
     "nested_mapgen_id": "bedroom_4x4_adult_1_W",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -26,6 +58,22 @@
         "@@  ",
         "¤  I",
         "  hI",
+        "DT  "
+      ],
+      "palettes": [ "standard_domestic_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "//": "compass direction indicates head of bed",
+    "nested_mapgen_id": "bedroom_4x4_adult_1_W",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "@@  ",
+        "¤  I",
+        "  hɱ",
         "DT  "
       ],
       "palettes": [ "standard_domestic_palette" ]
@@ -50,12 +98,44 @@
   {
     "type": "mapgen",
     "//": "compass direction indicates head of bed",
+    "nested_mapgen_id": "bedroom_4x4_adult_1_E",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "ɱI  ",
+        "h  ¤",
+        "y @@",
+        "D   "
+      ],
+      "palettes": [ "standard_domestic_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "//": "compass direction indicates head of bed",
     "nested_mapgen_id": "bedroom_4x4_adult_1_S",
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
       "rows": [
         "IIy ",
+        "h  D",
+        " @  ",
+        "¤@  "
+      ],
+      "palettes": [ "standard_domestic_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "//": "compass direction indicates head of bed",
+    "nested_mapgen_id": "bedroom_4x4_adult_1_S",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "ɱIy ",
         "h  D",
         " @  ",
         "¤@  "
@@ -88,12 +168,63 @@
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
       "rows": [
+        "¤@@¤",
+        " @@ ",
+        "E   ",
+        "I   "
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "//": "compass direction indicates head of bed",
+    "nested_mapgen_id": "bedroom_4x4_adult_2_N",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "¤@@¤",
+        " @@ ",
+        "E   ",
+        "ɱ   "
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "//": "compass direction indicates head of bed",
+    "nested_mapgen_id": "bedroom_4x4_adult_2_N",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
         "D@@D",
         " @@ ",
         " == ",
         " == "
       ],
       "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ],
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "//": "compass direction indicates head of bed",
+    "nested_mapgen_id": "bedroom_4x4_adult_2_N",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "D@@D",
+        " @@ ",
+        "    ",
+        " ɱa "
+      ],
+      "palettes": [ "standard_domestic_palette" ],
       "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
     }
   },
@@ -188,6 +319,22 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "   D",
+        "ɱ @@",
+        "a @@",
+        "   D"
+      ],
+      "palettes": [ "standard_domestic_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "//": "compass direction indicates head of bed",
+    "nested_mapgen_id": "bedroom_4x4_adult_2_E",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "   D",
         "b @@",
         "T @@",
         "   D"
@@ -206,6 +353,38 @@
         "¤   ",
         "@@ D",
         "@@ y",
+        "¤   "
+      ],
+      "palettes": [ "standard_domestic_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "bedroom_4x4_adult_2_W",
+    "//": "compass direction indicates head of bed",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "¤   ",
+        "@@ E",
+        "@@ I",
+        "¤   "
+      ],
+      "palettes": [ "standard_domestic_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "bedroom_4x4_adult_2_W",
+    "//": "compass direction indicates head of bed",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "¤   ",
+        "@@ E",
+        "@@ ɱ",
         "¤   "
       ],
       "palettes": [ "standard_domestic_palette" ]
@@ -238,6 +417,22 @@
         "D   ",
         "@@ a",
         "@@ I",
+        "D   "
+      ],
+      "palettes": [ "standard_domestic_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "//": "compass direction indicates head of bed",
+    "nested_mapgen_id": "bedroom_4x4_adult_2_W",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "D   ",
+        "@@ a",
+        "@@ ɱ",
         "D   "
       ],
       "palettes": [ "standard_domestic_palette" ]
@@ -342,6 +537,22 @@
   {
     "type": "mapgen",
     "//": "compass direction indicates head of bed, works for rooms with corner doors.",
+    "nested_mapgen_id": "bedroom_4x4_adult_3_S",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        " Eɱ ",
+        "D   ",
+        " @@ ",
+        " @@ "
+      ],
+      "palettes": [ "standard_domestic_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "//": "compass direction indicates head of bed, works for rooms with corner doors.",
     "nested_mapgen_id": "bedroom_4x4_adult_3_N",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -358,6 +569,22 @@
   {
     "type": "mapgen",
     "//": "compass direction indicates head of bed, works for rooms with corner doors.",
+    "nested_mapgen_id": "bedroom_4x4_adult_3_N",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        " @@ ",
+        " @@ ",
+        "D   ",
+        " ɱE "
+      ],
+      "palettes": [ "standard_domestic_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "//": "compass direction indicates head of bed, works for rooms with corner doors.",
     "nested_mapgen_id": "bedroom_4x4_adult_3_E",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -365,6 +592,22 @@
       "rows": [
         "    ",
         "R @@",
+        "E @@",
+        " D  "
+      ],
+      "palettes": [ "standard_domestic_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "//": "compass direction indicates head of bed, works for rooms with corner doors.",
+    "nested_mapgen_id": "bedroom_4x4_adult_3_E",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "    ",
+        "ɱ @@",
         "E @@",
         " D  "
       ],
@@ -389,6 +632,22 @@
   },
   {
     "type": "mapgen",
+    "//": "compass direction indicates head of bed, works for rooms with corner doors.",
+    "nested_mapgen_id": "bedroom_4x4_adult_3_W",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "    ",
+        "@@ E",
+        "@@ ɱ",
+        "  D "
+      ],
+      "palettes": [ "standard_domestic_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
     "//": "compass direction indicates head of bed",
     "nested_mapgen_id": "bedroom_5x5_adult_N_1",
     "object": {
@@ -399,6 +658,23 @@
         "  @@ ",
         "y    ",
         "Ih   ",
+        "I  DD"
+      ],
+      "palettes": [ "standard_domestic_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "//": "compass direction indicates head of bed",
+    "nested_mapgen_id": "bedroom_5x5_adult_N_1",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        " ¤@@¤",
+        "  @@ ",
+        "y    ",
+        "ɱh   ",
         "I  DD"
       ],
       "palettes": [ "standard_domestic_palette" ]
@@ -432,6 +708,23 @@
         "¤    ",
         "@@  I",
         "@@ hI",
+        "¤    ",
+        "DDy  "
+      ],
+      "palettes": [ "standard_domestic_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "//": "compass direction indicates head of bed",
+    "nested_mapgen_id": "bedroom_5x5_adult_W_1",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "¤    ",
+        "@@  I",
+        "@@ hɱ",
         "¤    ",
         "DDy  "
       ],
@@ -1251,6 +1544,20 @@
   {
     "type": "mapgen",
     "//": "bookcase and chair for studies, workrooms, hobby rooms, etc",
+    "nested_mapgen_id": "bonus_room_2x2_2",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "E ",
+        "ɱ "
+      ],
+      "palettes": [ "standard_domestic_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "//": "bookcase and chair for studies, workrooms, hobby rooms, etc",
     "nested_mapgen_id": "bonus_room_2x2_3",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -1335,6 +1642,21 @@
   },
   {
     "type": "mapgen",
+    "//": "bookcases, computer, and chair for studies, workrooms, hobby rooms, etc",
+    "nested_mapgen_id": "bonus_room_3x3_1",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "R T",
+        "ɱE ",
+        "R  "
+      ],
+      "palettes": [ "standard_domestic_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
     "//": "bookcases and chair for studies, workrooms, hobby rooms, etc",
     "nested_mapgen_id": "bonus_room_3x3_1A",
     "object": {
@@ -1350,6 +1672,21 @@
   },
   {
     "type": "mapgen",
+    "//": "computer and chair for studies, workrooms, hobby rooms, etc",
+    "nested_mapgen_id": "bonus_room_3x3_1A",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "T I",
+        " Eɱ",
+        "  I"
+      ],
+      "palettes": [ "standard_domestic_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
     "//": "small furniture groupings for studies, workrooms, hobby rooms, etc",
     "nested_mapgen_id": "bonus_room_3x3_2",
     "object": {
@@ -1357,6 +1694,21 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "III",
+        " h ",
+        "y  "
+      ],
+      "palettes": [ "standard_domestic_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "//": "small furniture groupings for studies, workrooms, hobby rooms, etc",
+    "nested_mapgen_id": "bonus_room_3x3_2",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "IɱI",
         " h ",
         "y  "
       ],
@@ -1381,12 +1733,42 @@
   {
     "type": "mapgen",
     "//": "small furniture groupings for studies, workrooms, hobby rooms, etc",
+    "nested_mapgen_id": "bonus_room_3x3_3",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "I  ",
+        "ɱh ",
+        "I y"
+      ],
+      "palettes": [ "standard_domestic_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "//": "small furniture groupings for studies, workrooms, hobby rooms, etc",
     "nested_mapgen_id": "bonus_room_3x3_4",
     "object": {
       "mapgensize": [ 3, 3 ],
       "rotation": [ 0, 3 ],
       "rows": [
         "III",
+        "h  ",
+        "  y"
+      ],
+      "palettes": [ "standard_domestic_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "//": "small furniture groupings for studies, workrooms, hobby rooms, etc",
+    "nested_mapgen_id": "bonus_room_3x3_4",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "ɱII",
         "h  ",
         "  y"
       ],

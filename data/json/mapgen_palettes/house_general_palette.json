@@ -198,7 +198,8 @@
       "≠": "f_chest",
       "Ø": "f_pinball_machine",
       "Æ": "f_arcade_machine",
-      "ʭ": "f_ladder"
+      "ʭ": "f_ladder",
+      "ɱ": "f_console_broken"
     },
     "terrain": {
       "Ŧ": { "param": "house_fence_type", "fallback": "t_fence" },
