@@ -2748,6 +2748,12 @@ target_handler::trajectory target_ui::run()
     src = you->pos_bub();
     update_target_list();
 
+    if( mode == TargetMode::Reach && targets.empty() ) {
+        add_msg( m_info, _( "No hostile creature in reach." ) );
+        traj.clear();
+        return traj; // nothing to attack.
+    }
+
     if( activity && activity->abort_if_no_targets && targets.empty() ) {
         // this branch is taken when already shot once and re-entered
         // aiming, if no targets are available we want to abort so
