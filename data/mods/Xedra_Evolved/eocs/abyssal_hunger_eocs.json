@@ -109,6 +109,7 @@
         "fail_message": "Something is very wrong!",
         "force": true
       },
+      { "run_eocs": "EOC_PLAYABLE_CHANGELING_ADVANCEMENT_CLEAR_ABYSSAL_HUNGER" },
       { "alter_timed_events": "abyssal_hunger" },
       { "math": [ "abyssal_hunger_level = 0" ] }
     ]
