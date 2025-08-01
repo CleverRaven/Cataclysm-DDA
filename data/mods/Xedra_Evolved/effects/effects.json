@@ -3951,5 +3951,28 @@
     "show_in_info": true,
     "max_intensity": 300,
     "flags": [ "CANNOT_MOVE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_werewolf_gain_more_powers",
+    "name": [ "Gifts of the Moon" ],
+    "desc": [ "You can unlock a new Lunar Gift.  Do so at night under the moon." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xe_werewolf_illuminate_target",
+    "name": [ "Moon's Cold Glow" ],
+    "desc": [ "You are glowing slightly." ],
+    "apply_message": "A glow springs up around you!",
+    "remove_message": "The faint glow around you fades away.",
+    "rating": "bad",
+    "base_mods": { "dodge_mod": [ -1 ] },
+    "enchantments": [
+      { "condition": { "or": [ "is_day", { "not": "u_is_outside" } ] }, "values": [ { "value": "LUMINATION", "add": 20 } ] },
+      {
+        "condition": { "and": [ "u_is_outside", { "not": "is_day" } ] },
+        "values": [ { "value": "LUMINATION", "add": 45 } ]
+      }
+    ]
   }
 ]

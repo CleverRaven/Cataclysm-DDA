@@ -27,5 +27,29 @@
     "id": "EOC_CONDITIONS_VAMPIRE_DRINK_BLOOD_WITH_FANGS_MOM",
     "condition": { "math": [ "0 == 1" ] },
     "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITIONS_WEREWOLF_HUNT_TARGETS",
+    "condition": {
+      "or": [
+        { "npc_has_species": "NETHER" },
+        { "npc_has_species": "NETHER_BURROWING" },
+        { "npc_has_species": "NETHER_EMANATION" },
+        { "npc_has_species": "PLANT" },
+        { "npc_has_species": "ARVORE" },
+        { "npc_has_species": "CHANGELING" },
+        { "npc_has_species": "CHANGELING_NOBLE" },
+        { "npc_has_species": "IERDE" },
+        { "npc_has_species": "HOMULLUS" },
+        { "npc_has_species": "SALAMANDER" },
+        { "npc_has_species": "SYLPH" },
+        { "npc_has_species": "UNDINE" },
+        { "npc_has_species": "VAMPIRE" },
+        { "npc_has_species": "VAMPIRE_ANATHEMA" },
+        { "npc_has_trait": "VAMPIRE" }
+      ]
+    },
+    "effect": [  ]
   }
 ]
