@@ -147,7 +147,7 @@
     "id": "WEREWOLF_SENSE_SPIRITS_AND_ALIENS_ACTIVE",
     "name": { "str": "Sense the Outsider Active", "//~": "NO_I18N" },
     "points": 2,
-    "description": { "str": "The active trait for Sense the Outsider. This should not be player-visible.", "//~": "NO_I18N" },
+    "description": { "str": "The active trait for Sense the Outsider.  This should not be player-visible.", "//~": "NO_I18N" },
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
