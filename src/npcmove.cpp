@@ -512,7 +512,7 @@ float npc::evaluate_character( const Character &candidate, bool my_gun, bool ene
     bool candidate_gun = candidate.get_wielded_item() && candidate.get_wielded_item()->is_gun();
     const item &candidate_weap = candidate.get_wielded_item() ? *candidate.get_wielded_item() :
                                  null_item_reference();
-    double candidate_weap_val = candidate.weapon_value( candidate_weap );
+    double candidate_weap_val = candidate.evaluate_weapon( candidate_weap );
     float candidate_health =  candidate.hp_percentage() / 100.0f;
     float armour = estimate_armour( candidate );
     float speed = std::max( 0.25f, candidate.get_speed() / 100.0f );
@@ -1317,7 +1317,7 @@ void npc::regen_ai_cache()
     ai_cache.danger = 0.0f;
     ai_cache.total_danger = 0.0f;
     item &weapon = get_wielded_item() ? *get_wielded_item() : null_item_reference();
-    ai_cache.my_weapon_value = weapon_value( weapon );
+    ai_cache.my_weapon_value = evaluate_weapon( weapon );
     ai_cache.dangerous_explosives = find_dangerous_explosives();
     mem_combat.formation_distance = -1;
 
@@ -3897,7 +3897,7 @@ bool npc::wants_take_that( const item &it )
 
     item &weap = get_wielded_item() ? *get_wielded_item() : null_item_reference();
     if( ( ( !whitelisting && value( it ) > min_value ) || item_whitelisted( it ) ) ||
-        weapon_value( it ) > weapon_value( weap ) ) {
+        evaluate_weapon( it ) > evaluate_weapon( weap ) ) {
         good = true;
     }
 
@@ -4133,46 +4133,20 @@ bool npc::do_player_activity()
     return moves != old_moves;
 }
 
-double npc::evaluate_weapon( item &maybe_weapon, bool can_use_gun, bool use_silent ) const
-{
-    // Needed because evaluation includes electricity via linked cables.
-    const map &here = get_map();
-
-    bool allowed = can_use_gun && maybe_weapon.is_gun() && ( !use_silent || maybe_weapon.is_silent() );
-    // According to unmodified evaluation score, NPCs almost always prioritize wielding guns if they have one.
-    // This is relatively reasonable, as players can issue commands to NPCs when we do not want them to use ranged weapons.
-    // Conversely, we cannot directly issue commands when we want NPCs to prioritize ranged weapons.
-    // Note that the scoring method here is different from the 'weapon_value' used elsewhere.
-    double val_gun = allowed ? gun_value( maybe_weapon, maybe_weapon.shots_remaining( here,
-                                          this ) ) : 0;
-    add_msg_debug( debugmode::DF_NPC_ITEMAI,
-                   "%s %s valued at <color_light_cyan>%1.2f as a ranged weapon to wield</color>.",
-                   disp_name( true ), maybe_weapon.type->get_id().str(), val_gun );
-    double val_melee = melee_value( maybe_weapon );
-    add_msg_debug( debugmode::DF_NPC_ITEMAI,
-                   "%s %s valued at <color_light_cyan>%1.2f as a melee weapon to wield</color>.", disp_name( true ),
-                   maybe_weapon.type->get_id().str(), val_melee );
-    double val = std::max( val_gun, val_melee );
-    return val;
-}
-
 item *npc::evaluate_best_weapon() const
 {
-    bool can_use_gun = !is_player_ally() || rules.has_flag( ally_rule::use_guns );
-    bool use_silent = is_player_ally() && rules.has_flag( ally_rule::use_silent );
-
     item_location weapon = get_wielded_item();
     item &weap = weapon ? *weapon : null_item_reference();
 
     // Check if there's something better to wield
     item *best = &weap;
-    double best_value = evaluate_weapon( weap, can_use_gun, use_silent );
+    double best_value = evaluate_weapon( weap );
 
     // To prevent changing to barely better stuff
     best_value *= std::max<float>( 1.0f, ai_cache.danger_assessment / 10.0f );
 
     // Fists aren't checked below
-    double fist_value = evaluate_weapon( null_item_reference(), can_use_gun, use_silent );
+    double fist_value = evaluate_weapon( null_item_reference() );
 
     if( fist_value > best_value ) {
         best = &null_item_reference();
@@ -4180,7 +4154,7 @@ item *npc::evaluate_best_weapon() const
     }
 
     //Now check through the NPC's inventory for melee weapons, guns, or holstered items
-    visit_items( [this, can_use_gun, use_silent, &weap, &best_value, &best]( item * node, item * ) {
+    visit_items( [this, &weap, &best_value, &best]( item * node, item * ) {
         if( can_wield( *node ).success() ) {
             double weapon_value = 0.0;
             bool using_same_type_bionic_weapon = is_using_bionic_weapon()
@@ -4188,7 +4162,7 @@ item *npc::evaluate_best_weapon() const
                                                  && node->type->get_id() == weap.type->get_id();
 
             if( node->is_melee() || node->is_gun() ) {
-                weapon_value = evaluate_weapon( *node, can_use_gun, use_silent );
+                weapon_value = evaluate_weapon( *node );
                 if( weapon_value > best_value && !using_same_type_bionic_weapon ) {
                     best = const_cast<item *>( node );
                     best_value = weapon_value;
@@ -4207,10 +4181,6 @@ item *npc::evaluate_best_weapon() const
 
 bool npc::wield_better_weapon()
 {
-    // These are also assigned here so npc::evaluate_best_weapon() can be called by itself
-    bool can_use_gun = !is_player_ally() || rules.has_flag( ally_rule::use_guns );
-    bool use_silent = is_player_ally() && rules.has_flag( ally_rule::use_silent );
-
     item_location weapon = get_wielded_item();
     item &weap = weapon ? *weapon : null_item_reference();
     item *best = &weap;
@@ -4220,12 +4190,12 @@ bool npc::wield_better_weapon()
     if( best == better_weapon ) {
         add_msg_debug( debugmode::DF_NPC, "Wielded %s is best at %.1f, not switching",
                        best->type->get_id().str(),
-                       evaluate_weapon( *better_weapon, can_use_gun, use_silent ) );
+                       evaluate_weapon( *better_weapon ) );
         return false;
     }
 
     add_msg_debug( debugmode::DF_NPC, "Wielding %s at value %.1f", better_weapon->type->get_id().str(),
-                   evaluate_weapon( *better_weapon, can_use_gun, use_silent ) );
+                   evaluate_weapon( *better_weapon ) );
 
     // Always returns true, but future proof
     bool wield_success = wield( *better_weapon );
