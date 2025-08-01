@@ -31,7 +31,7 @@
     "id": "WEREWOLF_SMELL_NEARBY_ENEMIES",
     "name": { "str": "Scent the Prey" },
     "points": 2,
-    "description": "Your sense of smell is heightened even in human form, allowing you to smell nearby enemies. In war or wolf form, this range is extended.",
+    "description": "Your sense of smell is heightened even in human form, allowing you to smell nearby enemies.  In war or wolf form, this range is extended.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
