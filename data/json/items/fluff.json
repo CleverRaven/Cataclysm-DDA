@@ -1137,7 +1137,7 @@
     "volume": "1977 ml",
     "price": "26 USD 80 cent",
     "price_postapoc": "5 USD",
-    "material": [ "paper", "paper", "plastic" ],
+    "material": { "paper": 2, "plastic": 1 },
     "symbol": "?",
     "color": "brown",
     "flags": [ "NO_REPAIR" ],

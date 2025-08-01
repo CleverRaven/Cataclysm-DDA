@@ -26,15 +26,6 @@
         "type": "transform"
       },
       {
-        "target": "laptop",
-        "msg": "Reinstall the OS.",
-        "menu_text": "You can reinstall the OS to use it as a common laptop.",
-        "need_charges": 50,
-        "need_charges_msg": "The laptop's batteries need more charge.",
-        "type": "transform",
-        "moves": 180000
-      },
-      {
         "type": "link_up",
         "menu_text": "Plug in / Unplug",
         "ammo_scale": 0,
