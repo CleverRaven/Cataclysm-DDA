@@ -727,6 +727,7 @@
     "//2": "Being fed and locked does wonders to keep them alive, so they don't die over time like the other civilians.",
     "upgrades": false,
     "//3": "When possible, apply a permanent dazed effect to them without needing a spell.  This effects allows vampires to drink from them at all times.",
+    "delete": { "flags": [ "CAN_OPEN_DOORS" ] },
     "special_attacks": [
       {
         "type": "spell",
