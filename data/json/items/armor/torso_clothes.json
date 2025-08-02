@@ -775,6 +775,8 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "pocket shirt" },
     "description": "A white button-down shirt with long sleeves and a pocket on the front.  Looks professional!",
+    "//": "delete button shirt variants",
+    "variants": [  ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",

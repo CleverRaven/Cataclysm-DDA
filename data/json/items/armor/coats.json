@@ -213,6 +213,8 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "fur coat" },
+    "//": "delete fur coat variants, this is survivor made",
+    "variants": [  ],
     "copy-from": "coat_fur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
@@ -223,6 +225,8 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "coat_fur",
     "name": { "str": "fur coat" },
+    "//": "delete fur coat variants, this is survivor made",
+    "variants": [  ],
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
@@ -234,6 +238,8 @@
     "looks_like": "coat_fur",
     "name": { "str": "faux fur coat" },
     "description": "A garishly-colored faux fur coat with a couple small pockets.  Although not as warm as natural fur, it gives you some of that unique flair.",
+    "//": "delete fur coat variants",
+    "variants": [  ],
     "material": [ "faux_fur", "cotton" ],
     "color": "pink",
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
