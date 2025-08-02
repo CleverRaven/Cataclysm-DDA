@@ -184,7 +184,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "cabin_aban1", "cabin_aban1_roof" ],
+    "id": [ "cabin_aban1" ],
     "copy-from": "cabin_aban1",
     "name": "ruined cabin",
     "sym": "#",
@@ -192,7 +192,14 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "barn_aban1", "barn_aban1_roof" ],
+    "id": [ "cabin_aban1_roof" ],
+    "copy-from": "cabin_aban1_roof",
+    "sym": "#",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "barn_aban1" ],
     "copy-from": "barn_aban1",
     "name": "barn",
     "sym": "#",
@@ -200,9 +207,23 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "car_corner_aban1", "car_corner_aban1_roof" ],
+    "id": [ "barn_aban1_roof" ],
+    "copy-from": "barn_aban1_roof",
+    "sym": "#",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "car_corner_aban1" ],
     "copy-from": "car_corner_aban1",
     "name": "car corner",
+    "sym": "#",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "car_corner_aban1_roof" ],
+    "copy-from": "car_corner_aban1_roof",
     "sym": "#",
     "color": "green"
   }
