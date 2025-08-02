@@ -59,14 +59,14 @@
     "result": "armor_chitin_xs",
     "type": "recipe",
     "copy-from": "armor_chitin",
-    "time": "66 h",
+    "time": "13 h",
     "using": [ [ "armor_chitin", 54 ], [ "strap_large", 16 ], [ "tailoring_leather_patchwork", 6 ] ]
   },
   {
     "result": "xl_armor_chitin",
     "type": "recipe",
     "copy-from": "armor_chitin",
-    "time": "117 h",
+    "time": "27 h",
     "using": [ [ "armor_chitin", 93 ], [ "strap_large", 18 ], [ "tailoring_leather_patchwork", 9 ] ]
   },
   {
