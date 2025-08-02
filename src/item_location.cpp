@@ -938,6 +938,19 @@ bool item_location::is_efile() const
     return parent_item() && parent_item()->is_estorage();
 }
 
+/**
+ * Return length of the longest nesting chain.
+ * For A > B > C, return 2.
+ */
+static int DFS_nesting( const item *it )
+{
+    int max_nest = 0;
+    for( const item *son : it->all_items_top() ) {
+        max_nest = std::max( max_nest, 1 + DFS_nesting( son ) );
+    }
+    return max_nest;
+}
+
 ret_val<void> item_location::parents_can_contain_recursive( item *it ) const
 {
     item_pocket *parent_pocket;
@@ -950,8 +963,10 @@ ret_val<void> item_location::parents_can_contain_recursive( item *it ) const
     const item_pocket *current_pocket = get_item()->get_all_standard_pockets().front();
     const pocket_data *current_pocket_data = current_pocket->get_pocket_data();
 
+    int recursion_depth = DFS_nesting( it );
     //Repeat until top-most container reached
     while( current_location.has_parent() ) {
+        ++recursion_depth;
         parent_pocket = current_location.parent_pocket();
 
         //Ignore volume and length after innermost rigid container
@@ -977,6 +992,9 @@ ret_val<void> item_location::parents_can_contain_recursive( item *it ) const
         current_pocket = parent_pocket;
         current_pocket_data = current_pocket->get_pocket_data();
         current_location = current_location.parent_item();
+    }
+    if( recursion_depth > 10 ) {
+        return ret_val<void>::make_failure( _( "containers are nested too deeply" ) );
     }
     return ret_val<void>::make_success();
 }
