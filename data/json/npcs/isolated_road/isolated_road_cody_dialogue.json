@@ -81,6 +81,7 @@
         "effect": [
           { "u_sell_item": "FMCNote", "count": 100 },
           { "u_spawn_item": "id_artisan_member" },
+          { "u_set_fac_relation": "share public goods" },
           { "u_add_var": "dialogue_artisans_blacksmith_can_buy_coop", "value": "no" }
         ],
         "topic": "TALK_BLACKSMITH_BOUGHT_COOP"
