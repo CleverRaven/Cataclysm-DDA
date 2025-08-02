@@ -84,7 +84,16 @@
     "weight": "5 g",
     "volume": "46 ml",
     "material": [ "plastic" ],
-    "pocket_data": [ { "ammo_restriction": { "22": 50 }, "rigid": true } ]
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "26 mm",
+        "max_contains_volume": "33 ml",
+        "max_item_volume": "1 ml",
+        "max_contains_weight": "200 g",
+        "rigid": true
+      }
+    ]
   },
   {
     "id": "22lr_ammo_box_100",
