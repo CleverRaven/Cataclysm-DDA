@@ -539,5 +539,12 @@
     "type": "recipe",
     "copy-from": "seed_extraction_base",
     "components": [ [ [ "raw_bottle_gourd", 3 ] ] ]
+  },
+  {
+    "result": "split_seed_hops",
+    "type": "recipe",
+    "copy-from": "seed_extraction_base",
+    "components": [ [ [ "seed_hops", 1 ] ], [ [ "water", 1 ] ], [ [ "soil", 1 ] ] ],
+    "charges": 2
   }
 ]

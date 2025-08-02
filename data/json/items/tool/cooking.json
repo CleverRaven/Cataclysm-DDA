@@ -1230,5 +1230,29 @@
       "//": "2 weeks for cristallizing sugar, based on the real-life example"
     },
     "flags": [ "NO_SALVAGE" ]
+  },
+  {
+    "id": "split_seed_hops",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "symbol": ";",
+    "color": "green",
+    "name": { "str": "split hop rhizome" },
+    "description": "Cut roots of a hop rhizome.  It needs two weeks to heal and grow into mature hop rhizomes.",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "weight": "8 g",
+    "volume": "19 ml",
+    "phase": "liquid",
+    "use_action": {
+      "type": "delayed_transform",
+      "target": "seed_hops",
+      "msg": "You examine the root and determine it's matured into a hop rhizome",
+      "not_ready_msg": "The roots are still growing",
+      "moves": 300,
+      "transform_age": 1209600,
+      "//": "2 weeks for cristallizing sugar, based on the real-life example"
+    },
+    "flags": [ "NO_SALVAGE" ]
   }
 ]
