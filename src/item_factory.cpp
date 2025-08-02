@@ -14,7 +14,6 @@
 #include <variant>
 
 #include "ammo.h"
-#include "assign.h"
 #include "body_part_set.h"
 #include "bodypart.h"
 #include "cached_options.h"
@@ -2972,7 +2971,6 @@ void islot_ammo::deserialize( const JsonObject &jo )
     optional( jo, was_loaded, "projectile_count", count, 1 );
     optional( jo, was_loaded, "shot_spread", shot_spread, not_negative );
     optional( jo, was_loaded, "shot_damage", shot_damage );
-    // Damage instance assign reader handles pierce and prop_damage
     optional( jo, was_loaded, "damage", damage );
     optional( jo, was_loaded, "range", range, not_negative );
     optional( jo, was_loaded, "range_multiplier", range_multiplier, positive_float,
@@ -3462,7 +3460,7 @@ void islot_compostable::deserialize( const JsonObject &jo )
 
 void islot_seed::deserialize( const JsonObject &jo )
 {
-    assign( jo, "grow", grow, false, 1_days );
+    optional( jo, was_loaded, "grow", grow, 1_days );
     optional( jo, was_loaded, "fruit_div", fruit_div, 1 );
     mandatory( jo, was_loaded, "plant_name", plant_name );
     mandatory( jo, was_loaded, "fruit", fruit_id );
@@ -4246,14 +4244,14 @@ void Item_factory::add_migration( const migration &m )
 void Item_factory::load_migration( const JsonObject &jo )
 {
     migration m;
-    assign( jo, "replace", m.replace );
-    assign( jo, "variant", m.variant );
-    assign( jo, "from_variant", m.from_variant );
-    assign( jo, "flags", m.flags );
-    assign( jo, "charges", m.charges );
-    assign( jo, "contents", m.contents );
-    assign( jo, "sealed", m.sealed );
-    assign( jo, "reset_item_vars", m.reset_item_vars );
+    optional( jo, false, "replace", m.replace );
+    optional( jo, false, "variant", m.variant );
+    optional( jo, false, "from_variant", m.from_variant );
+    optional( jo, false, "flags", m.flags );
+    optional( jo, false, "charges", m.charges, 0 );
+    optional( jo, false, "contents", m.contents );
+    optional( jo, false, "sealed", m.sealed, true );
+    optional( jo, false, "reset_item_vars", m.reset_item_vars, false );
 
     std::vector<itype_id> ids;
     if( jo.has_string( "id" ) ) {
