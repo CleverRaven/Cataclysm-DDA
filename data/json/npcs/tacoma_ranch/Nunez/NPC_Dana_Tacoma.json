@@ -118,7 +118,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_TACOMA_Dana_Trailer1",
-    "dynamic_line": "Ha, this thing!\"  She dusts the flour off her hands and tucks a loose lock of hair back behind her ear.  \"You remember, we signed on as caravan hands to get us out here.  Well, we had a bunch of stops along the way first.  We were headed to a little group of survivors that snagged themselves a huge stock of dry food somehow, and passed this trailer sales yard smack dab in the middle of nowhere, nobody to be seen for miles.  Pablo managed to sweet talk the group into taking a rest stop there.  We searched the yard, and a lot of the stuff wasn't suitable, but this baby was ready to go.  Long story short, we got the keys to that vintage truck outside, hitched this thing up, and upgraded our caravan.\"",
+    "dynamic_line": "Ha, this thing!\"  She dusts the flour off her hands and tucks a loose lock of hair back behind her ear.  \"You remember, we signed on as caravan hands to get us out here.  Well, we had a bunch of stops along the way first.  We were headed to a little group of survivors that snagged themselves a huge stock of dry food somehow, and passed this trailer sales yard smack dab in the middle of nowhere, nobody to be seen for miles.  Pablo managed to sweet talk the group into taking a rest stop there.  We searched the yard, and a lot of the stuff wasn't suitable, but this baby was ready to go.  Long story short, we got the keys to that vintage truck outside, hitched this thing up, and upgraded our caravan.",
     "responses": [
       { "text": "How did you get the keys to the truck?", "topic": "TALK_TACOMA_Dana_TrailerKeys" },
       { "text": "What made this trailer so good?", "topic": "TALK_TACOMA_Dana_Trailer2" },
@@ -142,7 +142,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_TACOMA_Dana_Trailer2",
-    "dynamic_line": "It's all propane!\"  She grins.  \"The oven, especially.  We don't need electric, which means we don't need to run the gennie and attract attention.\"",
+    "dynamic_line": "It's all propane!\"  She grins.  \"The oven, especially.  We don't need electric, which means we don't need to run the gennie and attract attention.",
     "responses": [
       { "text": "Seems like a tiny kitchen for a bakery.", "topic": "TALK_TACOMA_Dana_Trailer3" },
       {

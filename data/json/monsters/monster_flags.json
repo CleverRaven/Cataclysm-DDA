@@ -200,6 +200,11 @@
     "//": "Causes monster to leave a low intensity, 1 tile sludge pool approximately every other tile when moving"
   },
   {
+    "id": "BULLETPROOF",
+    "type": "monster_flag",
+    "//": "Immune to ballistic damage"
+  },
+  {
     "id": "COLDPROOF",
     "type": "monster_flag",
     "//": "Immune to cold damage"
@@ -218,6 +223,11 @@
     "id": "FIREY",
     "type": "monster_flag",
     "//": "Burns stuff and is immune to fire"
+  },
+  {
+    "id": "FLASHBANGPROOF",
+    "type": "monster_flag",
+    "//": "Cannot be flashbanged"
   },
   {
     "id": "QUEEN",

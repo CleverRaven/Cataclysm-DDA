@@ -22,5 +22,10 @@
       { "if": { "u_has_trait": "HOMULLUS" }, "then": { "math": [ "u_vitamin('mutagen_dollkin')", "+=", "550 " ] } },
       { "if": { "u_has_trait": "ARVORE" }, "then": { "math": [ "u_vitamin('mutagen_plantkin')", "+=", "550 " ] } }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "scenario_werewolf_variables",
+    "effect": [ { "math": [ "u_werewolf_xp_threshold = 100" ] }, { "math": [ "u_werewolf_give_xp_value = 1" ] } ]
   }
 ]

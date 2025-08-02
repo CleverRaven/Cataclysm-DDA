@@ -43,7 +43,6 @@
 #include "localized_comparator.h"
 #include "magic.h"
 #include "magic_enchantment.h"
-#include "make_static.h"
 #include "mapsharing.h"
 #include "martialarts.h"
 #include "mission.h"
@@ -86,6 +85,7 @@ static const std::string flag_CITY_START( "CITY_START" );
 static const std::string flag_SECRET( "SECRET" );
 static const std::string flag_SKIP_DEFAULT_BACKGROUND( "SKIP_DEFAULT_BACKGROUND" );
 
+static const flag_id json_flag_WET( "WET" );
 static const flag_id json_flag_auto_wield( "auto_wield" );
 static const flag_id json_flag_no_auto_equip( "no_auto_equip" );
 
@@ -460,7 +460,7 @@ void Character::randomize( const bool random_scenario, bool play_now )
     }
 
     const scenario *scenario_from = is_avatar() ? get_scenario() : scenario::generic();
-    prof = scenario_from->weighted_random_profession();
+    prof = scenario_from->weighted_random_profession( is_npc() );
     play_name_suffix = prof->gender_appropriate_name( male );
     zero_all_skills();
 
@@ -476,9 +476,11 @@ void Character::randomize( const bool random_scenario, bool play_now )
 
     set_body();
     randomize_hobbies();
-    const trait_id background = prof->pick_background();
-    if( !background.is_empty() ) {
-        set_mutation( background );
+    if( is_npc() ) {
+        const trait_id background = prof->pick_background();
+        if( !background.is_empty() ) {
+            set_mutation( background );
+        }
     }
 
     int num_gtraits = 0;
@@ -629,7 +631,7 @@ void Character::add_profession_items()
 
     auto attempt_add_items = [this]( std::list<item> &prof_items, std::list<item> &failed_to_add ) {
         for( item &it : prof_items ) {
-            if( it.has_flag( STATIC( flag_id( "WET" ) ) ) ) {
+            if( it.has_flag( json_flag_WET ) ) {
                 it.active = true;
                 it.item_counter = 450; // Give it some time to dry off
             }
@@ -695,7 +697,7 @@ void Character::add_profession_items()
 void Character::randomize_hobbies()
 {
     hobbies.clear();
-    std::vector<profession_id> choices = get_scenario()->permitted_hobbies();
+    std::vector<profession_id> choices = get_scenario()->permitted_hobbies( is_npc() );
     choices.erase( std::remove_if( choices.begin(), choices.end(),
     [this]( const string_id<profession> &hobby ) {
         return !prof->allows_hobby( hobby );
@@ -2276,8 +2278,14 @@ static std::string assemble_profession_details( const avatar &u, const input_con
 
     if( sorted_profs[cur_id]->get_requirement().has_value() ) {
         assembled += "\n" + colorize( _( "Profession requirements:" ), COL_HEADER ) + "\n";
-        assembled += string_format( _( "Complete \"%s\"\n" ),
-                                    sorted_profs[cur_id]->get_requirement().value()->name() );
+        ret_val<void> can_pick_prof = sorted_profs[cur_id]->can_pick();
+        if( can_pick_prof.success() ) {
+            assembled += colorize( string_format( _( "Completed \"%s\"\n" ),
+                                                  sorted_profs[cur_id]->get_requirement().value()->name() ),
+                                   c_green ) + "\n";
+        } else { // fail, can't pick so display ret_val's reason
+            assembled += colorize( can_pick_prof.str(), c_red ) + "\n";
+        }
     }
     //Profession story
     assembled += "\n" + colorize( _( "Profession story:" ), COL_HEADER ) + "\n";
@@ -3506,12 +3514,13 @@ static std::string assemble_scenario_details( const avatar &u, const input_conte
             assembled += colorize( scenUnavailable, c_red ) + "\n";
         }
         if( scenRequirement.has_value() ) {
-            nc_color requirement_color = c_red;
-            if( current_scenario->can_pick().success() ) {
-                requirement_color = c_green;
+            ret_val<void> can_pick_scenario = current_scenario->can_pick();
+            if( can_pick_scenario.success() ) {
+                assembled += colorize( string_format( _( "Completed \"%s\"" ), scenRequirement.value()->name() ),
+                                       c_green ) + "\n";
+            } else { // fail, can't pick so display ret_val's reason
+                assembled += colorize( can_pick_scenario.str(), c_red ) + "\n";
             }
-            assembled += colorize( string_format( _( "Complete \"%s\"" ), scenRequirement.value()->name() ),
-                                   requirement_color ) + "\n";
         }
     }
 
@@ -4929,30 +4938,32 @@ void Character::empty_skills()
 
 void Character::add_traits()
 {
-    // TODO: get rid of using get_avatar() here, use `this` instead
-    for( const trait_and_var &tr : get_avatar().prof->get_locked_traits() ) {
-        if( !has_trait( tr.trait ) ) {
-            toggle_trait_deps( tr.trait );
+    //TODO: NPCs already get profession stuff assigned at least twice elsewhere causing issues and it all wants unifying (if not here this should be made an avatar::add_traits()
+    if( !is_npc() ) {
+        for( const trait_and_var &tr : prof->get_locked_traits() ) {
+            if( !has_trait( tr.trait ) ) {
+                toggle_trait_deps( tr.trait );
+            }
         }
-    }
-    for( const trait_id &tr : get_scenario()->get_locked_traits() ) {
-        if( !has_trait( tr ) ) {
-            toggle_trait_deps( tr );
+        for( const trait_id &tr : get_scenario()->get_locked_traits() ) {
+            if( !has_trait( tr ) ) {
+                toggle_trait_deps( tr );
+            }
         }
     }
 }
 
 trait_id Character::random_good_trait()
 {
-    return get_random_trait( []( const mutation_branch & mb ) {
-        return mb.points > 0 && mb.random_at_chargen;
+    return get_random_trait( [this]( const mutation_branch & mb ) {
+        return mb.points > 0 && ( mb.chargen_allow_npc || is_avatar() );
     } );
 }
 
 trait_id Character::random_bad_trait()
 {
-    return get_random_trait( []( const mutation_branch & mb ) {
-        return mb.points < 0 && mb.random_at_chargen;
+    return get_random_trait( [this]( const mutation_branch & mb ) {
+        return mb.points < 0 && ( mb.chargen_allow_npc || is_avatar() );
     } );
 }
 

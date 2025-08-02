@@ -1,19 +1,24 @@
-# How to add special attacks to monsters
-- [Monster special Attacks](#monster-special-attacks)
-    - [TODO](#todo)
-    - [Adding `special_attacks` to monsters](#adding-special_attacks-to-monsters)
-      - [Old style array](#old-style-array)
-      - [New style object](#new-style-object)
-      - [Combination](#combination)
-    - [Hardcoded special attacks](#hardcoded-special-attacks)
-    - [JSON special attacks](#json-special-attacks)
-        - [`bite`](#bite)
-        - [`grab`](#grab-attacks)
-    - [Non-melee special attacks](#non-melee-special-attacks)
-        - [`gun`](#gun)
-        - [`spell`](#spell)
-        - [`leap`](#leap)
-    - [Monster defensive attacks](#monster-defensive-attacks)        
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Monster special attacks](#monster-special-attacks)
+  - [Special attack selection logic](#special-attack-selection-logic)
+  - [TODO](#todo)
+  - [Adding `special_attacks` to monsters](#adding-special_attacks-to-monsters)
+    - [Old style array](#old-style-array)
+    - [New style object](#new-style-object)
+    - [Combination](#combination)
+  - [Hardcoded special attacks](#hardcoded-special-attacks)
+  - [JSON special attacks](#json-special-attacks)
+    - [`bite`](#bite)
+    - [Grab attacks](#grab-attacks)
+    - [`gun`](#gun)
+    - ["spell" Monster Spells](#spell-monster-spells)
+    - ["leap"](#leap)
+  - [Monster defensive attacks](#monster-defensive-attacks)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # Monster special attacks
 
@@ -94,8 +99,6 @@ These special attacks are mostly hardcoded in C++ and are generally not configur
 - ```BIO_OP_IMPALE``` Stabbing attack, deals heavy damage and has a chance to cause bleeding.
 - ```BIO_OP_TAKEDOWN``` Takedown attack, bashes either the target's head or torso and inflicts `downed`.
 - ```BLOW_WHISTLE``` Blow a whistle creating a sound of volume 40 from the position of the monster.
-- ```BOOMER_GLOW``` Spits glowing bile.
-- ```BOOMER``` Spits bile.
 - ```BRANDISH``` Brandishes a knife at the player.
 - ```BROWSE``` The monster will eat harvestable foods from BROWSABLE trees and plants when they're in season.
 - ```BREATHE``` Spawns a `breather`.  Note: `breather hub` only!

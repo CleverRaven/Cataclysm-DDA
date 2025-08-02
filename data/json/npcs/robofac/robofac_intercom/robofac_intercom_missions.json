@@ -425,7 +425,7 @@
   {
     "id": [ "MISSION_ROBOFAC_INTERCOM_2_COMPLETE", "MISSION_ROBOFAC_INTERCOM_2_COMPLETE_Hardcase" ],
     "type": "talk_topic",
-    "dynamic_line": "&The intercom's tray slides shut.\n\n\"This is the case; thank you.  Transferring the stipulated amount now.\"  The tray slides back open with your payment.  \"As an additional form of payment, you have been given clearance to receive a map of the area around this site, to assist in your work.  The standing price is 1 HGC; please inform us if you'd like to follow up on that offer going forward.",
+    "dynamic_line": "&The intercom's tray slides shut.\n\n\"This is the case; thank you.  Transferring the stipulated amount now.\"  The tray slides back open with your payment.  \"As an additional form of payment, you have been given clearance to receive a map of the area around this site, to assist in your work.  The standing price is 1 HGC; please inform us if you'd like to follow up on that offer going forward.\"",
     "responses": [
       {
         "text": "[PER 8] The original markings on that case had been scratched out.  Who did it really belong to?",

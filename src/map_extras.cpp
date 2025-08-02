@@ -1517,7 +1517,7 @@ void map_extra::load( const JsonObject &jo, std::string_view )
             color : c_white;
     optional( jo, was_loaded, "autonote", autonote, false );
     optional( jo, was_loaded, "min_max_zlevel", min_max_zlevel_ );
-    optional( jo, was_loaded, "flags", flags_ );
+    optional( jo, was_loaded, "flags", flags_, string_reader{} );
     if( was_loaded && jo.has_member( "extend" ) ) {
         JsonObject joe = jo.get_object( "extend" );
         for( auto &flag : joe.get_string_array( "flags" ) ) {

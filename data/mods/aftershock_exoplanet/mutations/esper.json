@@ -11,12 +11,48 @@
     "description": "You are an esper, capable of accessing the hidden powers of the human mind.",
     "starting_trait": false,
     "purifiable": false,
-    "valid": false
+    "valid": false,
+    "flags": [ "ATTUNEMENT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ESPER_ADVANCEMENT_OKAY",
+    "name": "Esper Legacy",
+    "points": 2,
+    "description": "One of your ancestors received noetic treatments during the Hyperspace Era and that legacy has been passed down to you…but the powers have not.  Perhaps one of your relatives does, or perhaps they do not, but you were raised with the knowledge that it was always a possibility and to avoid receiving any genetech treatments that could damage your family's esper powers.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "cancels": [
+      "AFS_PHYSICAL_CAPABILITY_GENEMOD",
+      "AFS_MENTAL_CAPABILITY_GENEMOD",
+      "AFS_HEALTH_CAPABILITY_GENEMOD",
+      "AFS_RECOVERY_CAPABILITY_GENEMOD",
+      "AFS_BEAUTY_GENEMOD"
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "ESPER_STARTER_ADVANCEMENT_OKAY",
+    "name": "Esper Advancement",
+    "points": 2,
+    "description": "This is the trait for the Esper scenario that lets them advance.  It exists to have a different description than Esper Legacy and is not visible during gameplay.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "cancels": [
+      "AFS_PHYSICAL_CAPABILITY_GENEMOD",
+      "AFS_MENTAL_CAPABILITY_GENEMOD",
+      "AFS_HEALTH_CAPABILITY_GENEMOD",
+      "AFS_RECOVERY_CAPABILITY_GENEMOD",
+      "AFS_BEAUTY_GENEMOD"
+    ]
   },
   {
     "type": "mutation",
     "id": "AFS_ELECTROKINETIC",
-    "name": "Electrokinetic",
+    "name": "Electrokinesis",
     "points": 0,
     "description": "The ability to control electricity with your mind.",
     "types": [ "ESPER" ],
@@ -29,7 +65,7 @@
   {
     "type": "mutation",
     "id": "AFS_TELEKINETIC",
-    "name": "Telekinetic",
+    "name": "Telekinesis",
     "points": 0,
     "description": "The ability to move objects without touching them.",
     "types": [ "ESPER" ],
@@ -42,7 +78,7 @@
   {
     "type": "mutation",
     "id": "AFS_TELEPATH",
-    "name": "Telepath",
+    "name": "Telepathy",
     "points": 0,
     "description": "The ability to read thoughts and influence others' minds.",
     "types": [ "ESPER" ],

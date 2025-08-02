@@ -19,7 +19,6 @@
 #include "flexbuffer_json.h"
 #include "item.h"
 #include "json_loader.h"
-#include "make_static.h"
 #include "map_scale_constants.h"
 #include "point.h"
 #include "string_formatter.h"
@@ -31,13 +30,27 @@
 static const construction_str_id construction_constr_ground_cable( "constr_ground_cable" );
 static const construction_str_id construction_constr_rack_coat( "constr_rack_coat" );
 
+static const field_type_str_id field_fd_acid( "fd_acid" );
+static const field_type_str_id field_fd_electricity( "fd_electricity" );
+static const field_type_str_id field_fd_laser( "fd_laser" );
+static const field_type_str_id field_fd_nuke_gas( "fd_nuke_gas" );
+static const field_type_str_id field_fd_smoke( "fd_smoke" );
+static const field_type_str_id field_fd_web( "fd_web" );
 static const field_type_str_id field_test_fd_migration_new_id( "test_fd_migration_new_id" );
 
 static const furn_str_id furn_f_bookcase( "f_bookcase" );
 static const furn_str_id furn_f_coffin_c( "f_coffin_c" );
 static const furn_str_id furn_f_crate_o( "f_crate_o" );
 static const furn_str_id furn_f_dresser( "f_dresser" );
+static const furn_str_id furn_f_gas_tank( "f_gas_tank" );
 static const furn_str_id furn_test_f_migration_new_id( "test_f_migration_new_id" );
+
+static const itype_id itype_bat_nerf( "bat_nerf" );
+static const itype_id itype_bottle_plastic( "bottle_plastic" );
+static const itype_id itype_foodperson_mask( "foodperson_mask" );
+static const itype_id itype_foon( "foon" );
+static const itype_id itype_jackhammer( "jackhammer" );
+static const itype_id itype_machete( "machete" );
 
 static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_floor( "t_floor" );
@@ -46,6 +59,12 @@ static const ter_str_id ter_t_floor_green( "t_floor_green" );
 static const ter_str_id ter_t_floor_red( "t_floor_red" );
 static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
 static const ter_str_id ter_test_t_migration_new_id( "test_t_migration_new_id" );
+
+static const trap_str_id tr_beartrap( "tr_beartrap" );
+static const trap_str_id tr_bubblewrap( "tr_bubblewrap" );
+static const trap_str_id tr_funnel( "tr_funnel" );
+static const trap_str_id tr_landmine( "tr_landmine" );
+static const trap_str_id tr_rollmat( "tr_rollmat" );
 
 // NOLINTNEXTLINE(cata-static-declarations)
 extern const int savegame_version;
@@ -1043,7 +1062,7 @@ TEST_CASE( "submap_furniture_load", "[submap][load]" )
     REQUIRE( furn_ne == furn_f_bookcase );
     REQUIRE( furn_sw == furn_f_dresser );
     REQUIRE( furn_se == furn_f_crate_o );
-    REQUIRE( furn_ra == STATIC( furn_str_id( "f_gas_tank" ) ) );
+    REQUIRE( furn_ra == furn_f_gas_tank );
 
     // Also, check we have no other furniture
     for( int x = 0; x < SEEX; ++x ) {
@@ -1080,11 +1099,11 @@ TEST_CASE( "submap_trap_load", "[submap][load]" )
     INFO( string_format( "se: %s", trap_se.id().str() ) );
     INFO( string_format( "ra: %s", trap_ra.id().str() ) );
     // Require to prevent the lower CHECK from being spammy
-    REQUIRE( trap_nw == STATIC( trap_str_id( "tr_rollmat" ) ) );
-    REQUIRE( trap_ne == STATIC( trap_str_id( "tr_bubblewrap" ) ) );
-    REQUIRE( trap_sw == STATIC( trap_str_id( "tr_beartrap" ) ) );
-    REQUIRE( trap_se == STATIC( trap_str_id( "tr_funnel" ) ) );
-    REQUIRE( trap_ra == STATIC( trap_str_id( "tr_landmine" ) ) );
+    REQUIRE( trap_nw == tr_rollmat );
+    REQUIRE( trap_ne == tr_bubblewrap );
+    REQUIRE( trap_sw == tr_beartrap );
+    REQUIRE( trap_se == tr_funnel );
+    REQUIRE( trap_ra == tr_landmine );
 
     // Also, check we have no other traps
     for( int x = 0; x < SEEX; ++x ) {
@@ -1196,12 +1215,12 @@ TEST_CASE( "submap_item_load", "[submap][load]" )
     INFO( string_format( "se: %d %s", item_se.size(), item_se[0].str() ) );
     INFO( string_format( "ra: %d %s", item_ra.size(), item_ra[0].str() ) );
     // Require to prevent the lower CHECK from being spammy
-    REQUIRE( item_nw[0] == STATIC( itype_id( "machete" ) ) );
-    REQUIRE( item_nw[1] == STATIC( itype_id( "foon" ) ) );
-    REQUIRE( item_ne[0] == STATIC( itype_id( "foodperson_mask" ) ) );
-    REQUIRE( item_sw[0] == STATIC( itype_id( "bottle_plastic" ) ) );
-    REQUIRE( item_se[0] == STATIC( itype_id( "bat_nerf" ) ) );
-    REQUIRE( item_ra[0] == STATIC( itype_id( "jackhammer" ) ) );
+    REQUIRE( item_nw[0] == itype_machete );
+    REQUIRE( item_nw[1] == itype_foon );
+    REQUIRE( item_ne[0] == itype_foodperson_mask );
+    REQUIRE( item_sw[0] == itype_bottle_plastic );
+    REQUIRE( item_se[0] == itype_bat_nerf );
+    REQUIRE( item_ra[0] == itype_jackhammer );
 
     // Also, check we have no other items
     for( int y = 0; y < SEEY; ++y ) {
@@ -1230,12 +1249,12 @@ TEST_CASE( "submap_field_load", "[submap][load]" )
     const field &field_sw = sm.get_field( corner_sw );
     const field &field_se = sm.get_field( corner_se );
     const field &field_ra = sm.get_field( random_pt );
-    const field_entry *fd_nw = field_nw.find_field( STATIC( field_type_str_id( "fd_web" ) ) );
-    const field_entry *fd_ne = field_ne.find_field( STATIC( field_type_str_id( "fd_laser" ) ) );
-    const field_entry *fd_sw = field_sw.find_field( STATIC( field_type_str_id( "fd_electricity" ) ) );
-    const field_entry *fd_se = field_se.find_field( STATIC( field_type_str_id( "fd_acid" ) ) );
-    const field_entry *fd_ra = field_ra.find_field( STATIC( field_type_str_id( "fd_nuke_gas" ) ) );
-    const field_entry *fd_ow = field_nw.find_field( STATIC( field_type_str_id( "fd_smoke" ) ) );
+    const field_entry *fd_nw = field_nw.find_field( field_fd_web );
+    const field_entry *fd_ne = field_ne.find_field( field_fd_laser );
+    const field_entry *fd_sw = field_sw.find_field( field_fd_electricity );
+    const field_entry *fd_se = field_se.find_field( field_fd_acid );
+    const field_entry *fd_ra = field_ra.find_field( field_fd_nuke_gas );
+    const field_entry *fd_ow = field_nw.find_field( field_fd_smoke );
     // No nullptrs for me
     REQUIRE( fd_nw != nullptr );
     REQUIRE( fd_ow != nullptr );

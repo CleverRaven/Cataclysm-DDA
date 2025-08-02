@@ -21,7 +21,6 @@
 #include "faction.h"
 #include "game.h"
 #include "game_constants.h"
-#include "make_static.h"
 #include "map.h"
 #include "mood_face.h"
 #include "move_mode.h"
@@ -142,7 +141,7 @@ std::string display::get_temp( const Character &u )
 {
     std::string temp;
     if( u.cache_has_item_with( json_flag_THERMOMETER ) ||
-        u.has_flag( STATIC( json_character_flag( "THERMOMETER" ) ) ) ) {
+        u.has_flag( json_flag_THERMOMETER ) ) {
         temp = print_temperature( get_weather().get_temperature( u.pos_bub() ) );
     }
     if( temp.empty() ) {
@@ -946,10 +945,11 @@ std::pair<std::string, nc_color> display::vehicle_cruise_text_color( const Chara
     // Text color indicates how much the engine is straining beyond its safe velocity.
     vehicle *veh = display::vehicle_driven( u );
     if( veh ) {
-        int target = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
-        int current = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
+        const double target = convert_velocity( veh->cruise_velocity, VU_VEHICLE );
+        const double current = convert_velocity( veh->velocity, VU_VEHICLE );
         const std::string units = get_option<std::string> ( "USE_METRIC_SPEEDS" );
-        vel_text = string_format( "%d < %d %s", target, current, units );
+        vel_text = string_format( "%s < %s %s", three_digit_display( target ),
+                                  three_digit_display( current ), units );
 
         const float strain = veh->strain( here );
         if( strain <= 0 ) {

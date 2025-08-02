@@ -452,7 +452,7 @@
     "comestible_type": "MED",
     "name": { "str": "debug chloroform soaked rag" },
     "description": "A debug item that lets you put NPCs (or yourself) to sleep.",
-    "weight": "240 g",
+    "weight": "125 g",
     "volume": "250 ml",
     "price": "30 USD",
     "price_postapoc": "2 USD 50 cent",
@@ -566,6 +566,7 @@
     "use_action": [
       {
         "type": "effect_on_conditions",
+        "consume": true,
         "menu_text": "Apply contact lenses",
         "description": "You can use this to mitigate your nearsightedness.",
         "effect_on_conditions": [
@@ -593,6 +594,7 @@
     "use_action": [
       {
         "type": "effect_on_conditions",
+        "consume": true,
         "menu_text": "Apply contact lenses",
         "description": "You can use this to mitigate your nearsightedness.",
         "effect_on_conditions": [
@@ -618,6 +620,7 @@
     "use_action": [
       {
         "type": "effect_on_conditions",
+        "consume": true,
         "menu_text": "Apply contact lenses",
         "description": "You can use this to mitigate your nearsightedness.",
         "effect_on_conditions": [
@@ -643,6 +646,7 @@
     "use_action": [
       {
         "type": "effect_on_conditions",
+        "consume": true,
         "menu_text": "Apply contact lenses",
         "description": "You can use this to mitigate your nearsightedness.",
         "effect_on_conditions": [
@@ -668,6 +672,7 @@
     "use_action": [
       {
         "type": "effect_on_conditions",
+        "consume": true,
         "menu_text": "Apply contact lenses",
         "description": "You can use this to mitigate your farsightedness.",
         "effect_on_conditions": [
@@ -690,6 +695,7 @@
     "use_action": [
       {
         "type": "effect_on_conditions",
+        "consume": true,
         "menu_text": "Apply contact lenses",
         "description": "You can use this to mitigate your farsightedness.",
         "effect_on_conditions": [
@@ -712,6 +718,7 @@
     "use_action": [
       {
         "type": "effect_on_conditions",
+        "consume": true,
         "menu_text": "Apply contact lenses",
         "description": "You can use this to mitigate your farsightedness.",
         "effect_on_conditions": [
@@ -734,6 +741,7 @@
     "use_action": [
       {
         "type": "effect_on_conditions",
+        "consume": true,
         "menu_text": "Apply contact lenses",
         "description": "You can use this to mitigate your farsightedness.",
         "effect_on_conditions": [
@@ -756,6 +764,7 @@
     "use_action": [
       {
         "type": "effect_on_conditions",
+        "consume": true,
         "menu_text": "Apply contact lenses",
         "description": "You can use this to mitigate your nearsightedness or farsightedness.",
         "effect_on_conditions": [
@@ -781,6 +790,7 @@
     "use_action": [
       {
         "type": "effect_on_conditions",
+        "consume": true,
         "menu_text": "Apply contact lenses",
         "description": "You can use this to mitigate your nearsightedness or farsightedness.",
         "effect_on_conditions": [
@@ -812,6 +822,7 @@
     "use_action": [
       {
         "type": "effect_on_conditions",
+        "consume": true,
         "menu_text": "Apply contact lenses",
         "description": "You can use this to mitigate your nearsightedness or farsightedness.",
         "effect_on_conditions": [
@@ -837,6 +848,7 @@
     "use_action": [
       {
         "type": "effect_on_conditions",
+        "consume": true,
         "menu_text": "Apply contact lenses",
         "description": "You can use this to mitigate your nearsightedness or farsightedness.",
         "effect_on_conditions": [
@@ -868,6 +880,7 @@
     "use_action": [
       {
         "type": "effect_on_conditions",
+        "consume": true,
         "menu_text": "Apply contact lenses",
         "description": "You can use this to mitigate your the bright light discomfort.",
         "effect_on_conditions": [
@@ -890,6 +903,7 @@
     "use_action": [
       {
         "type": "effect_on_conditions",
+        "consume": true,
         "menu_text": "Apply contact lenses",
         "description": "You can use this to mitigate the bright light discomfort.",
         "effect_on_conditions": [
@@ -2015,39 +2029,50 @@
     "description": "A homeopathic pill, prepared through the repeated dilution of an active ingredient with water.  The label purports that these pills are able to maintain general wellness.",
     "material": [ "sugar" ],
     "weight": "1 g",
-    "volume": "5 ml",
+    "volume": "1 ml",
     "price": "50 cent",
     "price_postapoc": "1 cent",
     "fun": 1,
     "symbol": "!",
     "color": "white",
-    "container": "bottle_plastic_pill_supplement",
     "flags": [ "NO_TEMP" ],
     "use_action": { "type": "consume_drug", "activation_message": "You swallow the %s.  You wait in anticipation of its effects." },
-    "snippet_category": [
+    "variants": [
       {
         "id": "pill1",
-        "text": "An Oscillococcinum homeopathic pill, prepared through the dilution of one part duck offal with 10^400 parts water.  The label purports that these pills are able to treat flu-like symptoms and maintain general wellness."
+        "name": { "str": "homeopathic pill" },
+        "description": "An Oscillococcinum homeopathic pill, prepared through the dilution of one part duck offal with 10^400 parts water.  The label purports that these pills are able to treat flu-like symptoms and maintain general wellness."
       },
       {
         "id": "pill2",
-        "text": "An Arsenicum album homeopathic pill, prepared through the dilution of one part arsenic trioxide with 10^24 parts water.  Purported to treat anxiety, various digestive disorders, and arsenic poisoning."
+        "name": { "str": "homeopathic pill" },
+        "description": "An Arsenicum album homeopathic pill, prepared through the dilution of one part arsenic trioxide with 10^24 parts water.  Purported to treat anxiety, various digestive disorders, and arsenic poisoning."
       },
       {
         "id": "pill3",
-        "text": "An Allium cepa homeopathic pill, prepared through the dilution of one part onion with 10^30 parts water.  The label states that these pills can ameliorate symptoms of asthma, gastrointestinal disorders, and bronchitis.  You briefly wonder if it can cure fungal infections."
+        "name": { "str": "homeopathic pill" },
+        "description": "An Allium cepa homeopathic pill, prepared through the dilution of one part onion with 10^30 parts water.  The label states that these pills can ameliorate symptoms of asthma, gastrointestinal disorders, and bronchitis.  You briefly wonder if it can cure fungal infections."
       },
       {
         "id": "pill4",
-        "text": "An Arum tryphillum homeopathic pill, prepared through the dilution of the jack-in-the-pulpit plant with 10^30 parts water.  The label claims that the pills are able to treat voice loss."
+        "name": { "str": "homeopathic pill" },
+        "description": "An Arum tryphillum homeopathic pill, prepared through the dilution of the jack-in-the-pulpit plant with 10^30 parts water.  The label claims that the pills are able to treat voice loss."
       },
       {
         "id": "pill5",
-        "text": "An Aesculus hippocastanum homeopathic pill, prepared through the dilution of horse chestnut with 10^30 parts water.  These pills are meant to treat dysentery and hemorrhoids."
+        "name": { "str": "homeopathic pill" },
+        "description": "An Aesculus hippocastanum homeopathic pill, prepared through the dilution of horse chestnut with 10^30 parts water.  These pills are meant to treat dysentery and hemorrhoids."
       },
       {
         "id": "pill6",
-        "text": "A Lachesis mutus pill, prepared through the dilution of the venom of the bushmaster snake with 10^1000 parts water.  These pills are claimed to be an effective treatment for sore throat."
+        "name": { "str": "homeopathic pill" },
+        "description": "A Lachesis mutus pill, prepared through the dilution of the venom of the bushmaster snake with 10^1000 parts water.  These pills are claimed to be an effective treatment for sore throat."
+      },
+      {
+        "id": "sugar_pill",
+        "name": { "str": "sugar pill" },
+        "description": "A pill that's just made of sugar, meant to help keep the daily routine of taking birth control pills.",
+        "weight": 0
       }
     ]
   },
@@ -2100,7 +2125,7 @@
       "fields_produced": { "fd_weedsmoke": 2 },
       "charges_needed": { "fire": 1 },
       "tools_needed": { "apparatus": -1 },
-      "moves": 40
+      "moves": 420
     },
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
@@ -2360,5 +2385,39 @@
         "description": "A pouch containing citrus-flavored nicotine salts."
       }
     ]
+  },
+  {
+    "id": "birth_control",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "comestible_type": "MED",
+    "name": { "str": "birth control pill" },
+    "description": "A pill meant to regulate hormones to reduce the chance of a pregnancy.  It also has the fortunate side effect of reducing or even stopping menstruation.  As the factories producing these have died down, these have become a valuable good.",
+    "material": [ "drug_filler" ],
+    "weight": "80 mg",
+    "volume": "1 ml",
+    "price": "89 cent",
+    "price_postapoc": "1 USD",
+    "symbol": "!",
+    "color": "white",
+    "flags": [ "NO_TEMP" ],
+    "use_action": { "type": "consume_drug", "activation_message": "You take the pill." }
+  },
+  {
+    "id": "estrogen",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "comestible_type": "MED",
+    "name": { "str": "estrogen pill" },
+    "description": "A sublingual tablet of estradiol, meant to increase the level of estrogen in the body.  It's a lifesaving medicine for some transgender individuals.",
+    "material": [ "drug_filler" ],
+    "weight": "80 mg",
+    "volume": "1 ml",
+    "price": "50 cent",
+    "price_postapoc": "10 cent",
+    "symbol": "!",
+    "color": "white",
+    "flags": [ "NO_TEMP" ],
+    "use_action": { "type": "consume_drug", "activation_message": "You set the pill under your tongue and let it dissolve." }
   }
 ]

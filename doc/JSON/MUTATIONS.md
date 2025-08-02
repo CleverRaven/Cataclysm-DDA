@@ -1,3 +1,32 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Mutations](#mutations)
+  - [System info](#system-info)
+    - [Mutagens and primers](#mutagens-and-primers)
+      - [Purifier](#purifier)
+    - [Thresholds](#thresholds)
+    - [How mutation works](#how-mutation-works)
+    - [Instability and the odds of a good mutation](#instability-and-the-odds-of-a-good-mutation)
+    - [tl;dr](#tldr)
+    - [Further reading and relevant files](#further-reading-and-relevant-files)
+- [Syntax documentation](#syntax-documentation)
+  - [Mutations](#mutations-1)
+    - [Example](#example)
+    - [Mandatory Fields](#mandatory-fields)
+    - [Supplementary Fields](#supplementary-fields)
+    - [Optional Fields](#optional-fields)
+    - [Comfort Conditions](#comfort-conditions)
+      - [Fields](#fields)
+      - [Types](#types)
+    - [EOC details](#eoc-details)
+    - [Sample trait: Example Sleep](#sample-trait-example-sleep)
+  - [Mutation Categories](#mutation-categories)
+  - [Trait Migrations](#trait-migrations)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Mutations
 
 ## System info
@@ -96,7 +125,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "mixed_effect": false,                      // Whether the trait has both positive and negative effects.  This is purely declarative and is only used for the user interface (default: false).
   "description": "Nothing gets you down!",    // In-game description. Supports snippets and u/global variables
   "starting_trait": true,                     // Can be selected at character creation (default: false).
-  "random_at_chargen": false,                 // (Optional) Starting traits can be randomly assigned to NPCs during chargen.  This options prevents that (default: true).
+  "chargen_allow_npc": false,                 // (Optional) Starting traits can be randomly assigned to NPCs during chargen.  This options prevents that when false (default: true).
   "valid": false,                             // Can be mutated ingame (default: true).  Note that prerequisites can even mutate invalid mutations.
   "purifiable": false,                        // Sets if the mutation be purified (default: true).
   "profession": true,                         // Trait is a starting profession special trait (default: false).

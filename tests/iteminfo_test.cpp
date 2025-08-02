@@ -18,7 +18,6 @@
 #include "item_location.h"
 #include "iteminfo_query.h"
 #include "itype.h"
-#include "make_static.h"
 #include "options_helpers.h"
 #include "output.h"
 #include "player_helpers.h"
@@ -31,6 +30,13 @@
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
+
+static const damage_type_id damage_acid( "acid" );
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_bullet( "bullet" );
+static const damage_type_id damage_cut( "cut" );
+static const damage_type_id damage_heat( "heat" );
+static const damage_type_id damage_stab( "stab" );
 
 static const itype_id itype_attachable_ear_muffs( "attachable_ear_muffs" );
 static const itype_id itype_backpack( "backpack" );
@@ -443,26 +449,6 @@ TEST_CASE( "item_price_and_barter_value", "[iteminfo][price]" )
         CHECK( item_info_str( pipe, price_barter ) ==
                "--\n"
                "Price: $<color_c_yellow>75.00</color>  Barter value: $<color_c_yellow>3.00</color>\n" );
-    }
-
-    SECTION( "item with same price and barter value shows only price" ) {
-        item nuts( itype_test_pine_nuts );
-        REQUIRE( nuts.price( false ) == 136 );
-        REQUIRE( nuts.price( true ) == 136 );
-
-        CHECK( item_info_str( nuts, price_barter ) ==
-               "--\n"
-               "Price: $<color_c_yellow>1.36</color>" );
-    }
-
-    SECTION( "item with no price or barter value" ) {
-        item rock( itype_test_rock );
-        REQUIRE( rock.price( false ) == 0 );
-        REQUIRE( rock.price( true ) == 0 );
-
-        CHECK( item_info_str( rock, price_barter ) ==
-               "--\n"
-               "Price: $<color_c_yellow>0.00</color>" );
     }
 }
 
@@ -1297,12 +1283,12 @@ static void expected_armor_values( const item &armor, float bash, float cut, flo
                                    float acid = 0.0f, float fire = 0.0f, float env = 0.0f )
 {
     CAPTURE( armor.typeId().str() );
-    REQUIRE( armor.resist( STATIC( damage_type_id( "bash" ) ) ) == Approx( bash ) );
-    REQUIRE( armor.resist( STATIC( damage_type_id( "cut" ) ) ) == Approx( cut ) );
-    REQUIRE( armor.resist( STATIC( damage_type_id( "stab" ) ) ) == Approx( stab ) );
-    REQUIRE( armor.resist( STATIC( damage_type_id( "bullet" ) ) ) == Approx( bullet ) );
-    REQUIRE( armor.resist( STATIC( damage_type_id( "acid" ) ) ) == Approx( acid ) );
-    REQUIRE( armor.resist( STATIC( damage_type_id( "heat" ) ) ) == Approx( fire ) );
+    REQUIRE( armor.resist( damage_bash ) == Approx( bash ) );
+    REQUIRE( armor.resist( damage_cut ) == Approx( cut ) );
+    REQUIRE( armor.resist( damage_stab ) == Approx( stab ) );
+    REQUIRE( armor.resist( damage_bullet ) == Approx( bullet ) );
+    REQUIRE( armor.resist( damage_acid ) == Approx( acid ) );
+    REQUIRE( armor.resist( damage_heat ) == Approx( fire ) );
     REQUIRE( armor.get_env_resist() == Approx( env ) );
 }
 
@@ -1324,9 +1310,9 @@ TEST_CASE( "helmet_with_pockets_stats", "[iteminfo][armor][protection]" )
     item hh( itype_hat_hard );
     THEN( "base stats" ) {
         //resistance stats
-        CHECK( hh.resist( STATIC( damage_type_id( "bash" ) ), false, bp_head ) == Approx( 8.f ) );
-        CHECK( hh.resist( STATIC( damage_type_id( "bash" ) ), false, bp_eyes ) == Approx( 0.f ) );
-        CHECK( hh.resist( STATIC( damage_type_id( "bash" ) ), false, eye_r ) == Approx( 0.f ) );
+        CHECK( hh.resist( damage_bash, false, bp_head ) == Approx( 8.f ) );
+        CHECK( hh.resist( damage_bash, false, bp_eyes ) == Approx( 0.f ) );
+        CHECK( hh.resist( damage_bash, false, eye_r ) == Approx( 0.f ) );
         //warmth stats: 5 (hat's warmth) * 0.4 (hat's body part coverage)
         CHECK( hh.get_warmth( bp_head ) == 2 );
         CHECK( hh.get_warmth( bp_eyes ) == 0 );
@@ -1337,9 +1323,9 @@ TEST_CASE( "helmet_with_pockets_stats", "[iteminfo][armor][protection]" )
         item face_shield( itype_face_shield );
         REQUIRE( hh.put_in( face_shield, pocket_type::CONTAINER ).success() );
         THEN( "eyes should be protected" ) {
-            CHECK( hh.resist( STATIC( damage_type_id( "bash" ) ), false, bp_head ) == Approx( 8.f ) );
-            CHECK( hh.resist( STATIC( damage_type_id( "bash" ) ), false, bp_eyes ) == Approx( 6.f ) );
-            CHECK( hh.resist( STATIC( damage_type_id( "bash" ) ), false, eye_r ) == Approx( 6.f ) );
+            CHECK( hh.resist( damage_bash, false, bp_head ) == Approx( 8.f ) );
+            CHECK( hh.resist( damage_bash, false, bp_eyes ) == Approx( 6.f ) );
+            CHECK( hh.resist( damage_bash, false, eye_r ) == Approx( 6.f ) );
         }
         THEN( "warmth should not change" ) {
             CHECK( hh.get_warmth( bp_head ) == 2 );
@@ -1377,14 +1363,14 @@ TEST_CASE( "vest_with_plate_stats", "[iteminfo][armor][protection]" )
     item vest = item( itype_ballistic_vest_esapi );
     //nylon: 1 (mat resist) * 1 (thickness)
     //kevlar: 1.5 * 4.4
-    CHECK( vest.resist( STATIC( damage_type_id( "bash" ) ), false, bp_torso ) == Approx( 7.6f ) );
+    CHECK( vest.resist( damage_bash, false, bp_torso ) == Approx( 7.6f ) );
 
     WHEN( "inserting plate" ) {
         CHECK( vest.put_in( item( itype_test_plate ), pocket_type::CONTAINER ).success() );
 
         THEN( "resist should be increased" ) {
             //previous + 1 * 25
-            CHECK( vest.resist( STATIC( damage_type_id( "bash" ) ), false, bp_torso ) == Approx( 32.6f ) );
+            CHECK( vest.resist( damage_bash, false, bp_torso ) == Approx( 32.6f ) );
         }
     }
 

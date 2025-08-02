@@ -237,10 +237,6 @@ struct mission_type {
          */
         static const mission_type *get( const mission_type_id &id );
         /**
-         * Converts the legacy int id to a string_id.
-         */
-        static mission_type_id from_legacy( int old_id );
-        /**
          * Returns a random id of a mission type that can be started at the defined origin
          * around tripoint p, see @ref mission_start.
          * Returns @ref MISSION_NULL if no suitable type could be found.

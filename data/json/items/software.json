@@ -1,7 +1,7 @@
 [
   {
     "id": "abstract_software",
-    "copy-from": "abstract_efile",
+    "copy-from": "abstract_efile_exclusive",
     "type": "ITEM",
     "category": "software",
     "name": { "str_sp": "abstract software", "//~": "NO_I18N" },
@@ -113,6 +113,17 @@
     "variables": { "browsed": "false" }
   },
   {
+    "abstract": "abstract_efile_exclusive",
+    "copy-from": "abstract_efile",
+    "type": "ITEM",
+    "symbol": "o",
+    "name": { "str": "abstract e-only electronic file", "//~": "NO_I18N" },
+    "description": { "str": "abstract e-only electronic file", "//~": "NO_I18N" },
+    "ememory_size": "1 KB",
+    "delete": { "flags": [ "E_STORABLE" ] },
+    "extend": { "flags": [ "E_STORABLE_EXCLUSIVE" ] }
+  },
+  {
     "abstract": "abstract_efile_copiable",
     "copy-from": "abstract_efile",
     "type": "ITEM",
@@ -121,6 +132,17 @@
     "description": { "str": "abstract copiable electronic file", "//~": "NO_I18N" },
     "ememory_size": "1 KB",
     "extend": { "flags": [ "E_COPIABLE" ] }
+  },
+  {
+    "abstract": "abstract_efile_exclusive_copiable",
+    "copy-from": "abstract_efile",
+    "type": "ITEM",
+    "symbol": "o",
+    "name": { "str": "abstract copiable electronic file", "//~": "NO_I18N" },
+    "description": { "str": "abstract copiable electronic file", "//~": "NO_I18N" },
+    "ememory_size": "1 KB",
+    "delete": { "flags": [ "E_STORABLE" ] },
+    "extend": { "flags": [ "E_COPIABLE", "E_STORABLE_EXCLUSIVE" ] }
   },
   {
     "abstract": "abstract_efile_read",
@@ -136,7 +158,7 @@
   },
   {
     "id": "efile_junk",
-    "copy-from": "abstract_efile",
+    "copy-from": "abstract_efile_exclusive",
     "type": "ITEM",
     "symbol": "o",
     "name": "junk file",
@@ -146,7 +168,7 @@
   },
   {
     "id": "efile_lore",
-    "copy-from": "abstract_efile",
+    "copy-from": "abstract_efile_exclusive",
     "type": "ITEM",
     "symbol": "o",
     "name": "questionable media file",
@@ -156,7 +178,7 @@
   },
   {
     "id": "efile_map",
-    "copy-from": "abstract_efile",
+    "copy-from": "abstract_efile_exclusive",
     "type": "ITEM",
     "symbol": "o",
     "name": "map cache",
@@ -167,13 +189,13 @@
   },
   {
     "abstract": "abstract_efile_recipes",
-    "copy-from": "abstract_efile_copiable",
+    "copy-from": "abstract_efile_exclusive_copiable",
     "type": "ITEM",
     "symbol": "o",
     "name": { "str": "abstract recipe catalog", "//~": "NO_I18N" },
     "description": { "str": "for any collection of recipes", "//~": "NO_I18N" },
     "ememory_size": "4 MB",
-    "extend": { "flags": [ "E_FILE_COLLECTION" ] },
+    "extend": { "flags": [ "E_FILE_COLLECTION", "E_STORABLE_EXCLUSIVE" ] },
     "variables": { "browsed": "false" }
   },
   {
@@ -227,7 +249,7 @@
   },
   {
     "id": "efile_photos",
-    "copy-from": "abstract_efile_copiable",
+    "copy-from": "abstract_efile_exclusive_copiable",
     "type": "ITEM",
     "symbol": "o",
     "name": { "str": "photo gallery", "str_pl": "photo galleries" },

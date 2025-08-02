@@ -283,19 +283,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     }
 
     // Mandatory: This recipe's exertion level
-    mandatory( jo, was_loaded, "activity_level", exertion_str );
-    // Remove after 0.H
-    if( exertion_str == "fake" ) {
-        debugmsg( "Depreciated activity level \"fake\" found in recipe %s from source %s. Setting activity level to MODERATE_EXERCISE.",
-                  id.c_str(), src );
-        exertion_str = "MODERATE_EXERCISE";
-    }
-    const auto it = activity_levels_map.find( exertion_str );
-    if( it == activity_levels_map.end() ) {
-        jo.throw_error_at(
-            "activity_level", string_format( "Invalid activity level %s", exertion_str ) );
-    }
-    exertion = it->second;
+    mandatory( jo, was_loaded, "activity_level", exertion, activity_level_reader{} );
 
     // Never let the player have a debug or NPC recipe
     if( jo.has_bool( "never_learn" ) ) {

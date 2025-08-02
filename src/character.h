@@ -1197,7 +1197,7 @@ class Character : public Creature, public visitable
         bool can_attack_high() const override;
 
         /** NPC-related item rating functions */
-        double weapon_value( const item &weap, int ammo = 10 ) const; // Evaluates item as a weapon
+        double evaluate_weapon( const item &maybe_weapon, bool pretend_have_ammo = false ) const;
         double gun_value( const item &weap, int ammo = 10 ) const; // Evaluates item as a gun
         double melee_value( const item &weap ) const; // As above, but only as melee
         double unarmed_value() const; // Evaluate yourself!
@@ -1220,6 +1220,8 @@ class Character : public Creature, public visitable
         bool is_dead_state() const override;
 
     private:
+        double evaluate_weapon_internal( const item &maybe_weapon, bool can_use_gun,
+                                         bool use_silent, int pretend_ammo = 0 ) const;
         mutable std::optional<bool> cached_dead_state;
     public:
         void set_part_hp_cur( const bodypart_id &id, int set ) override;
@@ -1334,9 +1336,9 @@ class Character : public Creature, public visitable
         int mabuff_armor_bonus( const damage_type_id &type ) const;
         // --------------- Mutation Stuff ---------------
         // In newcharacter.cpp
-        /** Returns the id of a random starting trait that costs >= 0 points */
+        /** Returns the id of a random starting chargen trait that costs >= 0 points */
         trait_id random_good_trait();
-        /** Returns the id of a random starting trait that costs < 0 points */
+        /** Returns the id of a random starting chargen trait that costs < 0 points */
         trait_id random_bad_trait();
         /** Returns the id of a random trait matching the given predicate */
         trait_id get_random_trait( const std::function<bool( const mutation_branch & )> &func );
@@ -2027,7 +2029,8 @@ class Character : public Creature, public visitable
          * If do_calc_encumbrance is false, don't recalculate encumbrance, caller must call it eventually.
          */
         std::optional<std::list<item>::iterator>
-        wear_item( const item &to_wear, bool interactive = true, bool do_calc_encumbrance = true );
+        wear_item( const item &to_wear, bool interactive = true, bool do_calc_encumbrance = true,
+                   bool do_sort_items = true, bool quiet = false );
 
         /** Returns the amount of item `type' that is currently worn */
         int  amount_worn( const itype_id &id ) const;
@@ -3732,7 +3735,8 @@ class Character : public Creature, public visitable
         // Selects one entry in components using select_item_component and consumes those items.
         std::list<item> consume_items( const std::vector<item_comp> &components, int batch = 1,
                                        const std::function<bool( const item & )> &filter = return_true<item>,
-                                       const std::function<bool( const itype_id & )> &select_ind = return_false<itype_id> );
+                                       const std::function<bool( const itype_id & )> &select_ind = return_false<itype_id>,
+                                       bool can_cancel = false );
         bool consume_software_container( const itype_id &software_id );
         comp_selection<tool_comp>
         select_tool_component( const std::vector<tool_comp> &tools, int batch, read_only_visitable &map_inv,

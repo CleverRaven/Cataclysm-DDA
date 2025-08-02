@@ -449,17 +449,17 @@
     "eoc_type": "EVENT",
     "required_event": "character_gains_effect",
     "condition": { "and": [ { "compare_string": [ "bleed", { "context_val": "effect" } ] } ] },
-    "effect": [ { "run_eocs": "EOC_VAMPIRE_BLEED_STOLEN_BLOOD" } ]
+    "effect": [ { "run_eocs": [ "EOC_VAMPIRE_BLEED_STOLEN_BLOOD" ] }, { "run_eocs": [ "EOC_DHAMPIR_BLEED_STOLEN_BLOOD" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_BLEED_STOLEN_BLOOD",
     "//": "Gives regular blood to not cause hypovolemia.  Losing stolen blood is already a sufficient penalty.",
-    "//2": "Doesn't affect lesser vampires as they still have both mundane blood and stolen blood, as shown by their mundane blood recovery and by their non-exsanguination when using their stolen blood.",
-    "//3": "A vampire cannot gain nourishment from its own blood, even if it still has some mundane blood.",
+    "//2": "The idea is that bleeding penalize vampires more on the spot, but they recover near-instantly if they can drink blood.",
+    "//3": "A vampire cannot gain nourishment from its own blood under any circumstances.",
     "condition": {
       "and": [
-        { "u_has_trait": "BLOOD_DRINKER" },
+        { "u_has_trait": "VAMPIRE" },
         {
           "or": [
             { "math": [ "u_effect_intensity('bleed', 'bodypart': 'arm_l') >= 1" ] },

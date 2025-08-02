@@ -1,14 +1,11 @@
 {
-    "name": "object-creator-vcpkg-dependencies",
-    "version-string": "0.I",
-    "dependencies": [
-        "sdl2",
-        "sdl2-image",
-        {
-          "name": "sdl2-mixer",
-          "features": [ "libflac", "mpg123", "libmodplug" ]
-        },
-        "sdl2-ttf",
-        "qt5-base"
-    ]
+  "name": "object-creator-vcpkg-dependencies",
+  "version-string": "0.J",
+  "dependencies": [
+    "sdl2",
+    "sdl2-image",
+    { "name": "sdl2-mixer", "features": [ "libflac", "mpg123", "libmodplug" ] },
+    "sdl2-ttf",
+    "qt5-base"
+  ]
 }

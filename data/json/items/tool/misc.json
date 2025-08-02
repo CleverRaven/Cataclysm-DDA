@@ -544,7 +544,7 @@
       "type": "place_trap",
       "allow_under_player": true,
       "trap": "tr_rollmat",
-      "moves": 100,
+      "moves": 1000,
       "practice": 0,
       "done_message": "You unroll the mat and lay it on the ground."
     },
@@ -1125,7 +1125,7 @@
     "use_action": {
       "type": "place_trap",
       "trap": "tr_teeth",
-      "moves": 150,
+      "moves": 3000,
       "practice": 2,
       "done_message": "You carefully place the teeth on the ground, ready to be walked on by something passing by."
     },

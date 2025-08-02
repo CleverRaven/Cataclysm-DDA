@@ -4,7 +4,7 @@ Use the `Home` key to return to the top.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**
+*Contents*
 
 - [Introduction](#introduction)
   - [Overall structure](#overall-structure)
@@ -199,6 +199,7 @@ Use the `Home` key to return to the top.
   - [`whitelist_hobbies`](#whitelist_hobbies-1)
   - [`map_special`](#map_special)
   - [`requirement`](#requirement)
+  - [`hard_requirement`](#hard_requirement)
   - [`reveal_locale`](#reveal_locale)
   - [`distance_initial_visibility`](#distance_initial_visibility)
   - [`eoc`](#eoc)
@@ -1635,7 +1636,7 @@ Fault fixes are methods to fix faults, the fixes can optionally add other faults
   "requirements": [ [ "gun_cleaning", 1 ] ], // requirements array, see below
   "mod_damage": 1000, // damage to modify on item when fix is applied, can be negative to repair
   "mod_degradation": 50, // degradation to modify on item when fix is applied, can be negative to reduce degradation
-  "time_save_profs": { "prof_gun_cleaning": 0.5 }, // this prof change how fast you fix the item
+  "time_save_profs": { "prof_gun_cleaning": 0.5, "prof_welding": 0.5, }, // those proficiencies change how fast you fix the item
   "time_save_flags": { "EASY_CLEAN": 0.5 } // This flag on the item change how fast you fix this item
 }
 ```
@@ -1935,6 +1936,7 @@ The following properties (mandatory, except if noted otherwise) are supported:
     "points": 0,                                               // Point cost of profession. Positive values cost points and negative values grant points. Has no effect as of 0.G
     "starting_cash": 500000,                                   // (optional) Int value for the starting bank balance.
     "npc_background": "BG_survival_story_LAB",                 // (optional) BG_trait_group ID, provides list of background stories. (see BG_trait_groups.json)
+	"chargen_allow_npc": false,                                // (optional) when false, removes this profession as an option for generated NPCs (default: true)
     "addictions": [ { "intensity": 10, "type": "nicotine" } ], // (optional) Array of addictions. Requires "type" as the string ID of the addiction (see JSON_FLAGS.md) and "intensity"
     "skills": [ { "name": "archery", "level": 2 } ],           // (optional) Array of starting skills. Requires "name" as the string ID of the skill (see skills.json) and "level", which is a value added to the skill level after character creation
     "missions": [ "MISSION_LAST_DELIVERY" ],                   // (optional) Array of starting mission IDs
@@ -1964,6 +1966,7 @@ The following properties (mandatory, except if noted otherwise) are supported:
     "CBMs": [ "bio_fuel_cell_blood" ],                         // (optional) Array of starting implanted CMBs
     "traits": [ "PROF_CHURL", "ILLITERATE" ],                  // (optional) Array of starting traits/mutations. For further information, see mutations.json and MUTATIONS.md. Note: "trait" is also supported, used for a single trait/mutation ID (legacy!)
     "requirement": "achievement_survive_28_days",              // (optional) String of an achievement ID required to unlock this profession
+    "hard_requirement": true,                                  // (optional) Defaults false. Whether or not the requirement ignores the metaprogression setting and is always required. Intended for use by mods.
     "effect_on_conditions": [ "scenario_assassin_conv" ],      // (optional) eoc id, inline eoc, or multiple of them, that would run when scenario starts
     "spells": [                                                // (optional) Array of starting spell IDs the character knows upon creation. For further information, see MAGIC.md
       { "id": "magic_missile", "level": 4 },
@@ -3146,33 +3149,13 @@ Harvest drop types are used in harvest drop entries to control how the drop is p
 
 Connect groups can be used by id in terrain and furniture `connect_groups`, `connects_to` and `rotates_to` properties.
 
-Examples from the actual definitions:
-
-**`group_flags`**: Flags that imply that terrain or furniture is added to this group.
-
-**`connects_to_flags`**: Flags that imply that terrain or furniture connects to this group.
-
-**`rotates_to_flags`**: Flags that imply that terrain or furniture rotates to this group.
+Example
 
 ```jsonc
-[
   {
     "type": "connect_group",
-    "id": "WALL",
-    "group_flags": [ "WALL", "CONNECT_WITH_WALL" ],
-    "connects_to_flags": [ "WALL", "CONNECT_WITH_WALL" ]
-  },
-  {
-    "type": "connect_group",
-    "id": "CHAINFENCE"
-  },
-  {
-    "type": "connect_group",
-    "id": "INDOORFLOOR",
-    "group_flags": [ "INDOORS" ],
-    "rotates_to_flags": [ "WINDOW", "DOOR" ]
+    "id": "WALL"
   }
-]
 ```
 
 ### Furniture
@@ -3689,8 +3672,6 @@ MARBLEFLOOR          BEACH_FORMATIONS
 GRAVELPILE           LIXATUBE
 ```
 
-`WALL` is implied by the flags `WALL` and `CONNECT_WITH_WALL`.
-`INDOORFLOOR` is implied by the flag `INDOORS`.
 Implicit groups can be removed be using tilde `~` as prefix of the group name.
 
 #### `connects_to`
@@ -4058,6 +4039,12 @@ Add a map special to the starting location, see JSON_FLAGS for the possible spec
 (optional, an achievement ID)
 
 The achievement you need to do to access this scenario
+
+## `hard_requirement`
+
+(optional, bool)
+
+Defaults false. Whether or not the requirement ignores the metaprogression setting and is always required. Intended for use by mods.
 
 ## `reveal_locale`
 

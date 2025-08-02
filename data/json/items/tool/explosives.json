@@ -242,13 +242,15 @@
   },
   {
     "id": "flashbang",
+    "//": "Based on the M84 stun grenade",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "flashbang" },
-    "description": "A military police-style flashbang.  Use this item to pull the pin and start the fuse.  You will then have five seconds before it detonates with intense light and sound, blinding, deafening, and disorienting anyone nearby.",
-    "weight": "236 g",
-    "volume": "270 ml",
+    "description": "A military police-style flashbang.  Use this item to pull the pin and start the fuse.  You will then have two seconds before it detonates with intense light and sound, blinding, deafening, and disorienting anyone nearby.",
+    "weight": "425 g",
+    "volume": "207 ml",
+    "longest_side": "141 mm",
     "price": "20 USD",
     "price_postapoc": "2 USD 50 cent",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
@@ -259,11 +261,11 @@
       "need_wielding": true,
       "target": "flashbang_act",
       "msg": "You pull the pin on the flashbang.",
-      "target_timer": "5 seconds",
+      "target_timer": "2 seconds",
       "menu_text": "Pull pin",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ],
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "CYLINDER_GRENADE" ],
     "melee_damage": { "bash": 1 }
   },
   {
@@ -347,7 +349,7 @@
       "menu_text": "Arm",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "CYLINDER_GRENADE" ]
   },
   {
     "id": "gasbomb_makeshift_act",
@@ -378,6 +380,7 @@
   },
   {
     "id": "grenade",
+    "//": "Based off of the M67 grenade",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "category": "weapons",
@@ -385,6 +388,7 @@
     "description": "A military-grade fragmentation hand grenade.  Use this item to pull the pin and start the fuse.  You will then have five seconds before it explodes; throwing it would be a good idea.",
     "weight": "397 g",
     "volume": "540 ml",
+    "longest_side": "110 mm",
     "price": "15 USD",
     "price_postapoc": "10 USD",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
@@ -501,7 +505,7 @@
       "menu_text": "Pull pin",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ACT_IN_FIRE", "GRENADE" ],
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ACT_IN_FIRE", "GRENADE", "CYLINDER_GRENADE" ],
     "melee_damage": { "bash": 1 }
   },
   {
@@ -527,11 +531,13 @@
   {
     "id": "gasbomb",
     "looks_like": "smokebomb",
+    "//": "Based on the M73A riot grenade",
     "type": "ITEM",
     "category": "weapons",
     "name": { "str": "tear gas grenade" },
-    "weight": "1058 g",
-    "volume": "270 ml",
+    "weight": "431 g",
+    "volume": "459 ml",
+    "longest_side": "158 mm",
     "material": [ "steel" ],
     "symbol": "*",
     "color": "dark_gray",
@@ -546,7 +552,7 @@
       "target_timer": "50 seconds",
       "target": "gasbomb_act"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "CYLINDER_GRENADE" ]
   },
   {
     "id": "gasbomb_act",
@@ -714,12 +720,12 @@
       "target": "molotov_lit",
       "msg": "You light the Molotov cocktail!",
       "active": true,
-      "moves": 75,
+      "moves": 250,
       "need_fire": 1,
       "menu_text": "Light rag",
       "type": "transform"
     },
-    "flags": [ "NPC_ACTIVATE", "NO_REPAIR" ],
+    "flags": [ "NPC_ACTIVATE", "NO_REPAIR", "CYLINDER_GRENADE" ],
     "melee_damage": { "bash": 5 }
   },
   {
@@ -739,7 +745,7 @@
     "symbol": "*",
     "color": "light_gray",
     "tick_action": [ "MOLOTOV_LIT" ],
-    "flags": [ "LIGHT_15", "TRADER_AVOID", "NPC_THROW_NOW", "NO_REPAIR", "WATER_EXTINGUISH" ],
+    "flags": [ "LIGHT_15", "TRADER_AVOID", "NPC_THROW_NOW", "NO_REPAIR", "WATER_EXTINGUISH", "DESTROY_ON_CHARGE_USE" ],
     "melee_damage": { "bash": 5 }
   },
   {
@@ -791,13 +797,14 @@
   },
   {
     "id": "smokebomb",
+    "//": "Based on AN-M8 grenade",
     "copy-from": "gasbomb",
     "type": "ITEM",
-    "name": { "str": "smoke bomb" },
-    "description": "A canister grenade filled with a variety of pyrotechnic chemicals.  Use this item to pull the pin and start the fuse, turning it into an active smoke bomb.  Five seconds after you do that, it will begin to expel a thick black smoke.  This smoke will slow those who enter it, as well as obscuring vision and scent.",
+    "name": { "str": "smoke grenade" },
+    "description": "A canister grenade filled with a variety of pyrotechnic chemicals.  Use this item to pull the pin and start the fuse, turning it into an active smoke bomb.  Five seconds after you do that, it will begin to expel a thick white smoke.  This smoke will obscure vision and scent, and choke out those who enter it.",
+    "weight": "680 g",
     "price": "18 USD",
-    "price_postapoc": "0 cent",
-    "weight": "569 g",
+    "price_postapoc": "1 USD",
     "use_action": { "need_wielding": true, "type": "transform", "target_timer": "100 seconds", "target": "smokebomb_act" }
   },
   {
@@ -925,7 +932,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "NPC_ACTIVATE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "NPC_ACTIVATE", "CYLINDER_GRENADE" ]
   },
   {
     "id": "military_explosive_grenade_act",
@@ -965,7 +972,7 @@
       "menu_text": "Pull pin",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE" ],
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE", "CYLINDER_GRENADE" ],
     "melee_damage": { "bash": 4 }
   },
   {
@@ -1181,7 +1188,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "NPC_ACTIVATE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "NPC_ACTIVATE", "CYLINDER_GRENADE" ]
   },
   {
     "id": "homemade_grenade_act",
@@ -1223,7 +1230,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE" ],
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE", "CYLINDER_GRENADE" ],
     "melee_damage": { "bash": 3 }
   },
   {

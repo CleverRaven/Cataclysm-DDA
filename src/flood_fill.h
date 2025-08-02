@@ -2,11 +2,18 @@
 #ifndef CATA_SRC_FLOOD_FILL_H
 #define CATA_SRC_FLOOD_FILL_H
 
+#include <algorithm>
+#include <array>
+#include <bitset>
+#include <cstdint>
 #include <queue>
 #include <vector>
 #include <unordered_set>
 
-#include "enums.h"
+#include "cata_utility.h"
+#include "coordinates.h"
+#include "coords_fwd.h"
+#include "map_scale_constants.h"
 #include "point.h"
 
 namespace ff

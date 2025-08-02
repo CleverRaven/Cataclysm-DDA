@@ -72,5 +72,22 @@
     "damage": { "damage_type": "bullet", "amount": 3, "armor_penetration": 1 },
     "dispersion": 180,
     "effects": [ "NON_FOULING" ]
+  },
+  {
+    "id": "rivets",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "ammo_type": "rivets",
+    "category": "spare_parts",
+    "name": { "str": "rivet" },
+    "description": "A solid rivet, outdated, unless you plan on doing medieval smithing.",
+    "weight": "4 g",
+    "volume": "250 ml",
+    "price_postapoc": "1 USD 50 cent",
+    "material": [ "lc_steel" ],
+    "symbol": "=",
+    "color": "cyan",
+    "count": 100,
+    "stack_size": 100
   }
 ]

@@ -1096,6 +1096,11 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
 
     std::vector<std::pair<nc_color, std::string>> notes_window_text;
 
+    if( fast_traveling ) {
+        // We hijack this to avoid repeating code just for this simple notice. Notes will still display normally
+        notes_window_text.emplace_back( c_yellow, _( "FAST TRAVELING" ) );
+    }
+
     if( viewing_weather ) {
         // We hijack this to avoid repeating code just for this simple notice. Notes will still display normally
         notes_window_text.emplace_back( c_yellow, _( "WEATHER MODE" ) );
@@ -1143,7 +1148,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     }
 
 
-    if( !notes_window_text.empty() && !fast_traveling ) {
+    if( !notes_window_text.empty() ) {
         constexpr int padding = 2;
 
         const auto draw_note_text = [&]( const point & draw_pos, const std::string & name,

@@ -259,6 +259,7 @@ void profession::load( const JsonObject &jo, std::string_view )
     std::string background_group_id;
     optional( jo, was_loaded, "npc_background", _starting_npc_background,
               Trait_group_BG_survival_story_UNIVERSAL );
+    optional( jo, was_loaded, "chargen_allow_npc", _chargen_allow_npc, true );
     optional( jo, was_loaded, "age_lower", age_lower, 16 );
     optional( jo, was_loaded, "age_upper", age_upper, 55 );
     optional( jo, was_loaded, "starting_cash", _starting_cash );
@@ -321,6 +322,12 @@ void profession::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "no_bonus", no_bonus );
 
     optional( jo, was_loaded, "requirement", _requirement );
+    optional( jo, was_loaded, "hard_requirement", hard_requirement, false );
+
+    if( hard_requirement && !_requirement ) {
+        jo.throw_error_at( "hard_requirement",
+                           "Cannot have hard requirement when object has no requirements" );
+    }
 
     optional( jo, was_loaded, "skills", _starting_skills, skilllevel_reader {} );
     optional( jo, was_loaded, "addictions", _starting_addictions, addiction_reader {} );
@@ -708,18 +715,23 @@ ret_val<void> profession::can_afford( const Character &you, const int points ) c
 
 ret_val<void> profession::can_pick() const
 {
+    const bool meta_progression = get_option<bool>( "META_PROGRESS" );
     // if meta progression is disabled then skip this
     if( get_past_achievements().is_completed( achievement_achievement_arcade_mode ) ||
-        !get_option<bool>( "META_PROGRESS" ) ) {
+        ( !meta_progression && !has_hard_requirement() ) ) {
         return ret_val<void>::make_success();
     }
 
     if( _requirement ) {
         const bool has_req = get_past_achievements().is_completed(
                                  _requirement.value()->id );
+        std::string fail_msg = _( "You must complete the achievement \"%s\" to unlock this profession." );
+        if( !meta_progression ) {
+            fail_msg += _( "\nThis profession can only be unlocked through achievements." );
+        }
         if( !has_req ) {
             return ret_val<void>::make_failure(
-                       _( "You must complete the achievement \"%s\" to unlock this profession." ),
+                       fail_msg,
                        _requirement.value()->name() );
         }
     }
@@ -739,6 +751,11 @@ bool profession::is_locked_trait( const trait_id &trait ) const
 bool profession::is_forbidden_trait( const trait_id &trait ) const
 {
     return _forbidden_traits.count( trait ) != 0;
+}
+
+bool profession::chargen_allow_npc() const
+{
+    return _chargen_allow_npc;
 }
 
 std::map<spell_id, int> profession::spells() const
@@ -953,6 +970,11 @@ const
 profession_id profession::get_profession_id() const
 {
     return id;
+}
+
+bool profession::has_hard_requirement() const
+{
+    return hard_requirement;
 }
 
 bool profession::is_hobby() const

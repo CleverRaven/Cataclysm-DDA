@@ -618,5 +618,24 @@
     "shape": "blast",
     "min_damage": 20,
     "max_damage": 35
+  },
+  {
+    "id": "BLOODBAG_DAZE_SELF",
+    "type": "SPELL",
+    "name": { "str": "Bloodbag daze self", "//~": "NO_I18N" },
+    "description": {
+      "str": "This gives the dazed effect to the entralled victims when they spawns, as monsters cannot spawn with effects as of writting this.",
+      "//~": "NO_I18N"
+    },
+    "flags": [ "NO_EXPLOSION_SFX", "SILENT", "NO_FAIL", "NO_LEGS", "NO_HANDS" ],
+    "valid_targets": [ "self" ],
+    "shape": "blast",
+    "effect": "attack",
+    "effect_str": "dazed",
+    "spell_class": "NONE",
+    "energy_source": "NONE",
+    "max_level": 1,
+    "min_duration": 3000000,
+    "max_duration": 3000000
   }
 ]

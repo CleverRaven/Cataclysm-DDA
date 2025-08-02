@@ -99,5 +99,14 @@
     "price": "10 kUSD",
     "color": "cyan",
     "price_postapoc": "10 kUSD"
+  },
+  {
+    "id": "gold_small",
+    "copy-from": "gold_small",
+    "type": "ITEM",
+    "name": { "str": "gold" },
+    "description": "Soft, shiny metal.  Near universally valuable across human cultures, and often kept aboard ships as emergency currency.",
+    "price": "30 kUSD",
+    "price_postapoc": "30 kUSD"
   }
 ]

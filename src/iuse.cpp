@@ -75,7 +75,6 @@
 #include "json_loader.h"
 #include "line.h"
 #include "magic_enchantment.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
@@ -162,6 +161,9 @@ static const construction_str_id construction_constr_pit_shallow( "constr_pit_sh
 static const construction_str_id construction_constr_water_channel( "constr_water_channel" );
 
 static const crafting_category_id crafting_category_CC_FOOD( "CC_FOOD" );
+
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_cut( "cut" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_antibiotic( "antibiotic" );
@@ -284,6 +286,7 @@ static const itype_id itype_fire( "fire" );
 static const itype_id itype_firecracker_act( "firecracker_act" );
 static const itype_id itype_firecracker_pack_act( "firecracker_pack_act" );
 static const itype_id itype_geiger_on( "geiger_on" );
+static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_handrolled_cig( "handrolled_cig" );
 static const itype_id itype_heatpack_used( "heatpack_used" );
 static const itype_id itype_hotplate( "hotplate" );
@@ -411,6 +414,7 @@ static const trait_id trait_MARLOSS_YELLOW( "MARLOSS_YELLOW" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
+static const trait_id trait_THRESH_LUPINE( "THRESH_LUPINE" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
@@ -1621,8 +1625,7 @@ std::optional<int> iuse::petfood( Character *p, item *it, const tripoint_bub_ms 
 
         if( mon->type->id == mon_dog_thing ) {
             if( !halluc ) {
-                p->deal_damage( mon, bodypart_id( "hand_r" ), damage_instance( STATIC( damage_type_id( "cut" ) ),
-                                rng( 1, 10 ) ) );
+                p->deal_damage( mon, bodypart_id( "hand_r" ), damage_instance( damage_cut, rng( 1, 10 ) ) );
             }
             p->add_msg_if_player( m_bad, _( "You want to feed it the dog food, but it bites your fingers!" ) );
             if( one_in( 5 ) ) {
@@ -2695,7 +2698,7 @@ std::optional<int> iuse::radio_tick( Character *, item *it, const tripoint_bub_m
                                              0 );
         }
     }
-    return 1;
+    return 0;
 }
 
 std::optional<int> iuse::radio_on( Character *, item *it, const tripoint_bub_ms & )
@@ -2751,7 +2754,7 @@ std::optional<int> iuse::noise_emitter_on( Character *, item *, const tripoint_b
 {
     sounds::sound( pos, 30, sounds::sound_t::alarm, _( "KXSHHHHRRCRKLKKK!" ), true, "tool",
                    "noise_emitter" );
-    return 1;
+    return 0;
 }
 
 std::optional<int> iuse::emf_passive_on( Character *, item *, const tripoint_bub_ms &pos )
@@ -2769,7 +2772,7 @@ std::optional<int> iuse::emf_passive_on( Character *, item *, const tripoint_bub
         sounds::sound( pos, 6, sounds::sound_t::alarm, _( "BEEEEE-CHHHHHHH-eeEEEEEEE-CHHHHHHHHHHHH" ), true,
                        "tool", "emf_detector" );
         // skip continuing to check for locations
-        return 1;
+        return 0;
     }
 
     for( const tripoint_bub_ms &loc : closest_points_first( pos, max ) ) {
@@ -2802,10 +2805,10 @@ std::optional<int> iuse::emf_passive_on( Character *, item *, const tripoint_bub
                                "emf_detector" );
             }
             // skip continuing to check for locations
-            return 1;
+            return 0;
         }
     }
-    return 1;
+    return 0;
 }
 
 std::optional<int> iuse::ma_manual( Character *p, item *it, const tripoint_bub_ms & )
@@ -2867,7 +2870,7 @@ std::optional<int> iuse::crowbar( Character *p, item *it, const tripoint_bub_ms 
 
     if( !f( pnt ) ) {
         if( pnt == p->pos_bub() ) {
-            if( it->typeId() == STATIC( itype_id( "hammer" ) ) ) {
+            if( it->typeId() == itype_hammer ) {
                 p->add_msg_if_player( m_info, _( "You try to hit yourself with the hammer." ) );
                 p->add_msg_if_player( m_info, _( "But you can't touch this." ) );
             } else {
@@ -3292,7 +3295,7 @@ std::optional<int> iuse::geiger_active( Character *, item *, const tripoint_bub_
 {
     const int rads = get_map().get_radiation( pos );
     if( rads == 0 ) {
-        return 1;
+        return 0;
     }
     std::string description = rads > 50 ? _( "buzzing" ) :
                               rads > 25 ? _( "rapid clicking" ) : _( "clicking" );
@@ -3302,7 +3305,7 @@ std::optional<int> iuse::geiger_active( Character *, item *, const tripoint_bub_
     sounds::sound( pos, 6, sounds::sound_t::alarm, description, true, "tool", sound_var );
     if( !get_avatar().can_hear( pos, 6 ) ) {
         // can not hear it, but may have alarmed other creatures
-        return 1;
+        return 0;
     }
     if( rads > 50 ) {
         add_msg( m_warning, _( "The geiger counter buzzes intensely." ) );
@@ -3319,7 +3322,7 @@ std::optional<int> iuse::geiger_active( Character *, item *, const tripoint_bub_
     } else {
         add_msg( _( "The geiger counter clicks once." ) );
     }
-    return 1;
+    return 0;
 }
 
 std::optional<int> iuse::teleport( Character *p, item *it, const tripoint_bub_ms & )
@@ -3609,8 +3612,12 @@ std::optional<int> iuse::molotov_lit( Character *p, item *it, const tripoint_bub
         return 1;
     }
 
-    // 20% chance of going out harmlessly.
-    if( one_in( 5 ) ) {
+    // 2% chance per turn of going out harmlessly.
+    // This is necessary to prevent a player from lighting a ton of molotovs and stuffing them in their backpack until pulling them out 6 weeks later.
+    // Note that moves are deducted (time is spent) when lighting the molotov, and each turn that passes before the player acts again can possibly succeed at this chance.
+    // That results in the player spending the time to light a molotov, but effectively wasting their time spent. So the chance of that happening should be very low.
+    // With the current (as of this writing) time to light a molotov being 2.5 seconds, this is a ~4% chance for a lit molotov to need to be lit a second time.
+    if( one_in( 50 ) ) {
         p->add_msg_if_player( _( "Your lit Molotov goes out." ) );
         it->convert( itype_molotov, p ).active = false;
     }
@@ -3740,8 +3747,8 @@ std::optional<int> iuse::tazer( Character *p, item *it, const tripoint_bub_ms &p
     p->mod_moves( -to_moves<int>( 1_seconds ) );
 
     const bool tazer_was_dodged = target->dodge_check( p->hit_roll() );
-    const bool tazer_was_armored = hit_roll < target->get_armor_type( STATIC(
-                                       damage_type_id( "bash" ) ), bodypart_id( "torso" ) );
+    const bool tazer_was_armored = hit_roll < target->get_armor_type( damage_bash,
+                                   bodypart_id( "torso" ) );
     if( tazer_was_dodged ) {
         p->add_msg_player_or_npc( _( "You attempt to shock %s, but miss." ),
                                   _( "<npcname> attempts to shock %s, but misses." ),
@@ -3958,7 +3965,7 @@ std::optional<int> iuse::mp3_on( Character *p, item *, const tripoint_bub_ms &po
     // mp3 player in inventory, we can listen
     play_music( p, pos, 0, 20 );
     music::activate_music_id( music::music_id::mp3 );
-    return 1;
+    return 0;
 }
 
 std::optional<int> iuse::mp3_deactivate( Character *p, item *it, const tripoint_bub_ms & )
@@ -4025,7 +4032,7 @@ std::optional<int> iuse::dive_tank( Character *p, item *it, const tripoint_bub_m
         it->convert( *it->type->revert_to ).active = false;
     }
 
-    return 1;
+    return 0;
 }
 
 std::optional<int> iuse::dive_tank_activate( Character *p, item *it, const tripoint_bub_ms & )
@@ -4484,7 +4491,7 @@ std::optional<int> iuse::dog_whistle( Character *p, item *, const tripoint_bub_m
     // Can the Character hear the dog whistle?
     auto hearing_check = [p, &here]( const Character & who ) -> bool {
         return !who.is_deaf() && p->sees( here, who ) &&
-        who.has_trait( STATIC( trait_id( "THRESH_LUPINE" ) ) );
+        who.has_trait( trait_THRESH_LUPINE );
     };
 
     for( const npc &subject : g->all_npcs() ) {
@@ -5653,18 +5660,6 @@ void item::extended_photo_def::serialize( JsonOut &jsout ) const
     jsout.member( "name", name );
     jsout.member( "description", description );
     jsout.end_object();
-}
-
-std::optional<int> iuse::epic_music( Character *p, item *it, const tripoint_bub_ms &pos )
-{
-    if( !it->get_var( "EIPC_MUSIC_ON" ).empty() &&
-        it->ammo_sufficient( p ) ) {
-
-        //the more varied music, the better max mood.
-        const int songs = it->get_var( "EIPC_MUSIC", 0 );
-        play_music( p, pos, 8, std::min( 25, songs ) );
-    }
-    return std::nullopt;
 }
 
 std::optional<int> iuse::efiledevice( Character *p, item *it, const tripoint_bub_ms & )
@@ -6905,7 +6900,7 @@ std::optional<int> iuse::ehandcuffs_tick( Character *p, item *it, const tripoint
         it->ammo_unset();
         it->active = false;
         add_msg( m_good, _( "%s automatically turned off!" ), it->tname() );
-        return 1;
+        return 0;
     }
 
     if( !p ) {
@@ -6913,7 +6908,7 @@ std::optional<int> iuse::ehandcuffs_tick( Character *p, item *it, const tripoint
         sounds::sound( pos, 2, sounds::sound_t::combat, "Click.", true, "tools", "handcuffs" );
         it->unset_flag( flag_NO_UNWIELD );
         it->active = false;
-        return 1;
+        return 0;
     }
 
     if( it->charges == 0 ) {
@@ -6925,7 +6920,7 @@ std::optional<int> iuse::ehandcuffs_tick( Character *p, item *it, const tripoint
             add_msg( m_good, _( "%s on your wrists opened!" ), it->tname() );
         }
 
-        return 1;
+        return 0;
     }
 
     if( p->has_active_bionic( bio_shock ) && p->get_power_level() >= bio_shock->power_trigger &&
@@ -6938,7 +6933,7 @@ std::optional<int> iuse::ehandcuffs_tick( Character *p, item *it, const tripoint
         add_msg( m_good, _( "The %s crackle with electricity from your bionic, then come off your hands!" ),
                  it->tname() );
 
-        return 1;
+        return 0;
     }
 
     if( calendar::once_every( 1_minutes ) ) {
@@ -6972,11 +6967,11 @@ std::optional<int> iuse::ehandcuffs_tick( Character *p, item *it, const tripoint
         it->set_var( "HANDCUFFS_X", pos.x() );
         it->set_var( "HANDCUFFS_Y", pos.y() );
 
-        return 1;
+        return 0;
 
     }
 
-    return 1;
+    return 0;
 }
 
 std::optional<int> iuse::ehandcuffs( Character *, item *it, const tripoint_bub_ms & )
@@ -7194,7 +7189,7 @@ std::optional<int> iuse::radiocontrol_tick( Character *p, item *it, const tripoi
         avatar &player = get_avatar();
         it->active = false;
         player.remove_value( "remote_controlling" );
-        return 1;
+        return 0;
     }
     if( !it->ammo_sufficient( p ) ) {
         it->active = false;
@@ -7203,7 +7198,7 @@ std::optional<int> iuse::radiocontrol_tick( Character *p, item *it, const tripoi
         it->active = false;
     }
 
-    return 1;
+    return 0;
 }
 
 std::optional<int> iuse::radiocontrol( Character *p, item *it, const tripoint_bub_ms & )
@@ -7411,7 +7406,7 @@ std::optional<int> iuse::remoteveh_tick( Character *p, item *it, const tripoint_
         g->setremoteveh( nullptr );
     }
 
-    return 1;
+    return 0;
 }
 
 std::optional<int> iuse::remoteveh( Character *p, item *it, const tripoint_bub_ms &pos )

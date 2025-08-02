@@ -15,6 +15,7 @@
 #include "auto_pickup.h"
 #include "basecamp.h"
 #include "bodypart.h"
+#include "cata_assert.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_attire.h"
@@ -914,7 +915,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
         }
         if( who.can_wear( it ).success() ) {
             it.on_wear( who );
-            who.worn.wear_item( who, it, false, false );
+            who.worn.wear_item( who, it, false, false, true, true );
             it.set_owner( who );
         }
     }
@@ -1621,7 +1622,7 @@ npc_opinion npc::get_opinion_values( const Character &you ) const
         } else {
             npc_values.fear += 6;
         }
-    } else if( you.weapon_value( *weapon ) > 20 ) {
+    } else if( you.evaluate_weapon( *weapon ) > 20 ) {
         npc_values.fear += 2;
     }
 
@@ -1851,7 +1852,7 @@ void npc::decide_needs()
     }
 
     const item &weap = weapon ? *weapon : null_item_reference();
-    needrank[need_weapon] = weapon_value( weap );
+    needrank[need_weapon] = evaluate_weapon( weap );
     needrank[need_food] = 15 - get_hunger();
     needrank[need_drink] = 15 - get_thirst();
     cache_visit_items_with( "is_food", &item::is_food, [&]( const item & it ) {
@@ -2230,8 +2231,8 @@ double npc::value( const item &it, double market_price ) const
     float ret = 1;
     if( it.is_maybe_melee_weapon() || it.is_gun() ) {
         // todo: remove when weapon_value takes an item_location
-        double wield_val = weapon ? weapon_value( *weapon ) : weapon_value( null_item_reference() );
-        double weapon_val = weapon_value( it ) - wield_val;
+        double wield_val = weapon ? evaluate_weapon( *weapon ) : evaluate_weapon( null_item_reference() );
+        double weapon_val = evaluate_weapon( it ) - wield_val;
 
         if( weapon_val > 0 ) {
             ret += weapon_val * 0.0002;
@@ -3045,23 +3046,16 @@ void npc::die( map *here, Creature *nkiller )
             if( player_character.has_flag( json_flag_SPIRITUAL ) &&
                 !player_character.has_flag( json_flag_PSYCHOPATH ) &&
                 !player_character.has_flag( json_flag_SAPIOVORE ) ) {
-                if( morale_effect < 0 ) {
-                    add_msg( _( "You feel ashamed of your actions." ) );
-                    morale_effect -= 10;
-                } // skulls for the skull throne
-                if( morale_effect > 0 ) {
-                    add_msg( _( "You feel a sense of righteous purpose." ) );
-                    morale_effect += 5;
-                }
+                add_msg( _( "You feel ashamed of your actions." ) );
+                morale_effect -= 10;
             }
+            cata_assert( morale_effect <= 0 );
             if( morale_effect == 0 ) {
                 // No morale effect
             } else if( morale_effect <= -50 ) {
                 player_character.add_morale( morale_killed_innocent, morale_effect, 0, 14_days, 7_days );
             } else if( morale_effect > -50 && morale_effect < 0 ) {
                 player_character.add_morale( morale_killed_innocent, morale_effect, 0, 10_days, 7_days );
-            } else {
-                player_character.add_morale( morale_killed_innocent, morale_effect, 0, 7_days, 4_days );
             }
         }
     }

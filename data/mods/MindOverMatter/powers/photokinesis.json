@@ -158,14 +158,14 @@
     "id": "photokinetic_light_up_enemy",
     "type": "SPELL",
     "name": "[Ψ]Illuminate",
-    "description": "Create photons to illuminate an entire area.",
+    "description": "Surround a single target with a outline of line that follows them as they move, revealing their position at all times.",
     "message": "Your target is outlined in light.",
     "teachable": false,
     "valid_targets": [ "ally", "hostile" ],
     "spell_class": "PHOTOKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -462,6 +462,45 @@
         "u_effect_intensity('effect_photokin_hide_ugly') > -1 ? 10 : max( (1500 - ( (u_spell_level('photokinetic_hide_ugly') + u_spell_level('photokinetic_hide_ugly_knack') ) * 75) ), 150)"
       ]
     }
+  },
+  {
+    "id": "photokinetic_flash_bang",
+    "type": "SPELL",
+    "name": "[Ψ]Flashbang",
+    "description": "Create a concentration of photons and EM radiation and then allow them to burst outward, creating a bright flash of light accompanied by a loud sound, producing a flashbang effect.",
+    "message": "The air bursts into a eye-searing flash accompanied by a loud bang!",
+    "teachable": false,
+    "valid_targets": [ "ally", "ground", "hostile" ],
+    "spell_class": "PHOTOKINETIC",
+    "magic_type": "mom_psionics",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "NO_HANDS", "NO_LEGS" ],
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "difficulty": 4,
+    "effect": "flashbang",
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( ( ( (u_spell_level('photokinetic_flash_bang') * 0.7) + 3) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), 50)"
+      ]
+    },
+    "max_range": 50,
+    "min_aoe": {
+      "math": [
+        "min( ( ( (u_spell_level('photokinetic_flash_bang') * 0.5) + 2) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), 30)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( ( ( (u_spell_level('photokinetic_flash_bang') * 0.5) + 2) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), 30)"
+      ]
+    },
+    "base_energy_cost": 4500,
+    "final_energy_cost": 1750,
+    "energy_increment": -120,
+    "base_casting_time": 135,
+    "final_casting_time": 50,
+    "casting_time_increment": -5.5
   },
   {
     "id": "photokinetic_light_image",

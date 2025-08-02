@@ -177,6 +177,8 @@ class JsonValue : Json
         JsonValue( JsonValue && ) noexcept = default;
         JsonValue &operator=( JsonValue && ) noexcept = default;
 
+        virtual ~JsonValue() = default;
+
         // NOLINTNEXTLINE(google-explicit-constructor)
         operator std::string() const;
         // NOLINTNEXTLINE(google-explicit-constructor)
@@ -204,6 +206,9 @@ class JsonValue : Json
         bool test_object() const;
         bool test_array() const;
         bool test_null() const;
+
+        // overidden by JsonMember
+        virtual bool is_member() const;
 
         std::string get_string() const;
         bool get_bool() const;
@@ -519,6 +524,10 @@ class JsonMember : public JsonValue
             return strncmp( name_.c_str(), "//", 2 ) == 0;
         }
 
+        bool is_member() const override {
+            return true;
+        }
+
     private:
         flexbuffers::String name_;
 };
@@ -612,53 +621,55 @@ class JsonObject : JsonWithPath
         JsonArray get_array( std::string_view key ) const;
         JsonObject get_object( std::string_view key ) const;
 
+        // *INDENT-OFF*
         template<typename E, typename = std::enable_if_t<std::is_enum_v<E>>>
-                 E get_enum_value( const std::string &name ) const;
-                 template<typename E, typename = std::enable_if_t<std::is_enum_v<E>>>
-                          E get_enum_value( const char *name ) const;
+        E get_enum_value( const std::string &name ) const;
+        template<typename E, typename = std::enable_if_t<std::is_enum_v<E>>>
+        E get_enum_value( const char *name ) const;
 
-                          template<typename E, typename = std::enable_if_t<std::is_enum_v<E>>>
-                                   E get_enum_value( const std::string &name, E fallback ) const;
-                                   template<typename E, typename = std::enable_if_t<std::is_enum_v<E>>>
-                                            E get_enum_value( const char *name, E fallback ) const;
+        template<typename E, typename = std::enable_if_t<std::is_enum_v<E>>>
+        E get_enum_value( const std::string &name, E fallback ) const;
+        template<typename E, typename = std::enable_if_t<std::is_enum_v<E>>>
+        E get_enum_value( const char *name, E fallback ) const;
 
-                                            // Sigh.
-                                            std::vector<int> get_int_array( std::string_view name ) const;
-                                            std::vector<std::string> get_string_array( std::string_view name ) const;
-                                            std::vector<std::string> get_as_string_array( const std::string &name ) const;
-                                            std::set<std::string> get_as_string_set( const std::string &name ) const;
+        // Sigh.
+        std::vector<int> get_int_array( std::string_view name ) const;
+        std::vector<std::string> get_string_array( std::string_view name ) const;
+        std::vector<std::string> get_as_string_array( const std::string &name ) const;
+        std::set<std::string> get_as_string_set( const std::string &name ) const;
 
-                                            bool has_member( std::string_view key ) const;
-                                            bool has_null( std::string_view key ) const;
-                                            bool has_string( std::string_view key ) const;
-                                            bool has_bool( std::string_view key ) const;
-                                            bool has_number( std::string_view key ) const;
-                                            bool has_int( std::string_view key ) const;
-                                            bool has_float( std::string_view key ) const;
-                                            bool has_array( std::string_view key ) const;
-                                            bool has_object( std::string_view key ) const;
+        bool has_member( std::string_view key ) const;
+        bool has_null( std::string_view key ) const;
+        bool has_string( std::string_view key ) const;
+        bool has_bool( std::string_view key ) const;
+        bool has_number( std::string_view key ) const;
+        bool has_int( std::string_view key ) const;
+        bool has_float( std::string_view key ) const;
+        bool has_array( std::string_view key ) const;
+        bool has_object( std::string_view key ) const;
 
-                                            // Fallback accessors. Test if the named member exists, and if yes, return it,
-                                            // else will return the fallback value. Does *not* test the member is the type
-                                            // being requested.
-                                            bool get_bool( std::string_view key, bool fallback ) const;
-                                            int get_int( std::string_view key, int fallback ) const;
-                                            double get_float( std::string_view key, double fallback ) const;
+        // Fallback accessors. Test if the named member exists, and if yes, return it,
+        // else will return the fallback value. Does *not* test the member is the type
+        // being requested.
+        bool get_bool( std::string_view key, bool fallback ) const;
+        int get_int( std::string_view key, int fallback ) const;
+        double get_float( std::string_view key, double fallback ) const;
 
-                                            // Tries to get the member, and if found, calls it visited.
-                                            std::optional<JsonValue> get_member_opt( std::string_view key ) const;
-                                            JsonValue get_member( std::string_view key ) const;
-                                            JsonValue operator[]( std::string_view key ) const;
+        // Tries to get the member, and if found, calls it visited.
+        std::optional<JsonValue> get_member_opt( std::string_view key ) const;
+        JsonValue get_member( std::string_view key ) const;
+        JsonValue operator[]( std::string_view key ) const;
 
-                                            // Schwillions of read overloads
-                                            template <typename T>
-                                            bool read( std::string_view name, T &t, bool throw_on_error = true ) const;
+        // Schwillions of read overloads
+        template <typename T>
+        bool read( std::string_view name, T &t, bool throw_on_error = true ) const;
 
-                                            template <typename T = std::string, typename Res = std::set<T>>
-                                            Res get_tags( std::string_view name ) const;
+        template <typename T = std::string, typename Res = std::set<T>>
+        Res get_tags( std::string_view name ) const;
 
-                                            [[noreturn]] void throw_error( const std::string &err ) const;
-                                            [[noreturn]] void throw_error_at( std::string_view member, const std::string &err ) const;
+        [[noreturn]] void throw_error( const std::string &err ) const;
+        [[noreturn]] void throw_error_at( std::string_view member, const std::string &err ) const;
+        // *INDENT-ON*
 
         void allow_omitted_members() const {
             visited_fields_bitset_.set_all();

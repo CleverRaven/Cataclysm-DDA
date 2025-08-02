@@ -99,7 +99,7 @@
     "copy-from": "458wm_fmj",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
-    "name": { "str_sp": ".458 WM JSP" },
+    "name": { "str_sp": ".458 Winchester Magnum JSP" },
     "description": "Jacketed .458 Winchester Magnum loaded with a 350gr soft point bullet.  Compared to other cartridges of this size, the straight walls of the case and the 'belt' near the base of the case give the cartridge a strange appearance.  .458 Winchester Magnum is a modern Big Five game rifle cartridge, intended for taking any of Africa's large and dangerous game, which quickly supplanted other cartridges in use by hunters, guides and wardens.",
     "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": -4 } }
   },
@@ -108,17 +108,17 @@
     "copy-from": "458wm",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
-    "name": { "str_sp": ".458 WM, reloaded" },
+    "name": { "str_sp": ".458 Winchester Magnum JSP, reloaded" },
     "proportional": { "price": 0.7, "price_postapoc": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "bp_458wm",
     "copy-from": "458wm",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
-    "name": { "str_sp": ".458 WM, black powder" },
+    "name": { "str_sp": ".458 Winchester Magnum JSP, black powder" },
     "proportional": {
       "price": 0.3,
       "price_postapoc": 0.3,
@@ -127,6 +127,6 @@
       "dispersion": 1.2
     },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }
 ]

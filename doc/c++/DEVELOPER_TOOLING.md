@@ -1,3 +1,31 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Developer Tooling](#developer-tooling)
+  - [Pre-commit hook](#pre-commit-hook)
+  - [Code style (astyle)](#code-style-astyle)
+      - [Instruction:](#instruction)
+  - [JSON style](#json-style)
+  - [ctags](#ctags)
+  - [clang-tidy](#clang-tidy)
+    - [Custom clang-tidy plugin](#custom-clang-tidy-plugin)
+      - [Extreme tl;dr for Ubuntu Focal (including WSL)](#extreme-tldr-for-ubuntu-focal-including-wsl)
+      - [Ubuntu Focal](#ubuntu-focal)
+      - [Other Linux distributions](#other-linux-distributions)
+      - [Windows](#windows)
+        - [Build LLVM](#build-llvm)
+        - [Build clang-tidy with custom checks](#build-clang-tidy-with-custom-checks)
+        - [(Optional) Test custom checks work](#optional-test-custom-checks-work)
+      - [Run custom-built clang-tidy on your code](#run-custom-built-clang-tidy-on-your-code)
+      - [Windows MinGW-w64](#windows-mingw-w64)
+        - [Build LLVM](#build-llvm-1)
+        - [Build clang-tidy with custom checks](#build-clang-tidy-with-custom-checks-1)
+  - [include-what-you-use](#include-what-you-use)
+  - [Python and pyvips on Windows](#python-and-pyvips-on-windows)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Developer Tooling
 
 ## Pre-commit hook

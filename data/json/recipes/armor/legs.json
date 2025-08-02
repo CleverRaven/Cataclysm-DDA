@@ -232,7 +232,6 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
-    "//": "zero Encumbrance, without elastic, at skill 2? seems tricky",
     "skill_used": "tailor",
     "difficulty": 2,
     "time": "3 h",
@@ -1623,6 +1622,7 @@
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_redsmithing", "required": true },
+      { "proficiency": "prof_redsmithing_adv" },
       { "proficiency": "prof_articulation", "required": true }
     ],
     "components": [ [ [ "scrap_bronze", 12 ] ] ]

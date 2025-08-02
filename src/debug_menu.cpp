@@ -168,6 +168,7 @@ static const trait_id trait_DEBUG_MANA( "DEBUG_MANA" );
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
+static const trait_id trait_DEBUG_PHASE_MOVEMENT( "DEBUG_PHASE_MOVEMENT" );
 static const trait_id trait_DEBUG_SPEED( "DEBUG_SPEED" );
 static const trait_id trait_DEBUG_STAMINA( "DEBUG_STAMINA" );
 static const trait_id trait_NONE( "NONE" );
@@ -469,7 +470,7 @@ class mission_debug
 // Used for quick setup
 static std::vector<trait_id> setup_traits{trait_DEBUG_BIONICS, trait_DEBUG_CLAIRVOYANCE, trait_DEBUG_CLOAK,
            trait_DEBUG_HS, trait_DEBUG_LIGHT, trait_DEBUG_LS, trait_DEBUG_MANA, trait_DEBUG_MIND_CONTROL,
-           trait_DEBUG_NODMG, trait_DEBUG_NOTEMP, trait_DEBUG_STAMINA, trait_DEBUG_SPEED};
+           trait_DEBUG_NODMG, trait_DEBUG_NOTEMP, trait_DEBUG_PHASE_MOVEMENT, trait_DEBUG_STAMINA, trait_DEBUG_SPEED};
 
 static std::string first_word( const std::string &str )
 {
@@ -4204,9 +4205,11 @@ void debug()
             ui::omap::display_scents();
             break;
         case debug_menu_index::DISPLAY_SCENTS_LOCAL:
-            g->display_toggle_overlay( ACTION_DISPLAY_SCENT );
+            g->display_scent(); // sets anything that needs to be set
+            g->display_toggle_overlay( ACTION_DISPLAY_SCENT ); // turns it on.
             break;
         case debug_menu_index::DISPLAY_SCENTS_TYPE_LOCAL:
+            g->display_scent();
             g->display_toggle_overlay( ACTION_DISPLAY_SCENT_TYPE );
             break;
         case debug_menu_index::DISPLAY_NPC_ATTACK:
@@ -4219,10 +4222,10 @@ void debug()
             g->display_toggle_overlay( ACTION_DISPLAY_VEHICLE_AI );
             break;
         case debug_menu_index::DISPLAY_VISIBILITY:
-            g->display_toggle_overlay( ACTION_DISPLAY_VISIBILITY );
+            g->display_visibility();
             break;
         case debug_menu_index::DISPLAY_LIGHTING:
-            g->display_toggle_overlay( ACTION_DISPLAY_LIGHTING );
+            g->display_lighting();
             break;
         case debug_menu_index::DISPLAY_RADIATION:
             g->display_toggle_overlay( ACTION_DISPLAY_RADIATION );
