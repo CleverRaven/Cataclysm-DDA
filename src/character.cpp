@@ -3776,6 +3776,10 @@ std::pair<bodypart_id, int> Character::best_part_to_smash() const
         }
     }
 
+    if( !best_part_to_smash.first.obj().main_part.is_empty() ) {
+        best_part_to_smash = {best_part_to_smash.first.obj().main_part, best_part_to_smash.second};
+    }
+
     return best_part_to_smash;
 }
 
