@@ -298,5 +298,50 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DHAMPIR_BLEED_STOLEN_BLOOD",
+    "//": "Vampires fill their veins with others' blood.  Dhampirs fill their own blood with power, so they lose a little of both.",
+    "//2": "If they don't have empowerment, they only lose regular blood.",
+    "//3": "When possible, make the effect below require less lines.",
+    "condition": {
+      "and": [
+        { "u_has_trait": "DHAMPIR_TRAIT" },
+        {
+          "or": [
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': 'arm_l') >= 1" ] },
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': 'arm_r') >= 1" ] },
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': 'leg_l') >= 1" ] },
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': 'leg_r') >= 1" ] },
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': 'torso') >= 1" ] },
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': 'head') >= 1" ] }
+          ]
+        },
+        { "math": [ "u_vitamin('human_blood_vitamin') > 0" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('blood')", "+=", "u_effect_intensity('bleed', 'bodypart': 'arm_l') * 2" ] },
+      { "math": [ "u_vitamin('blood')", "+=", "u_effect_intensity('bleed', 'bodypart': 'arm_r') * 2" ] },
+      { "math": [ "u_vitamin('blood')", "+=", "u_effect_intensity('bleed', 'bodypart': 'leg_l') * 2" ] },
+      { "math": [ "u_vitamin('blood')", "+=", "u_effect_intensity('bleed', 'bodypart': 'leg_r') * 2" ] },
+      { "math": [ "u_vitamin('blood')", "+=", "u_effect_intensity('bleed', 'bodypart': 'torso') * 2" ] },
+      { "math": [ "u_vitamin('blood')", "+=", "u_effect_intensity('bleed', 'bodypart': 'head') * 2" ] },
+      { "math": [ "u_vitamin('redcells')", "+=", "u_effect_intensity('bleed', 'bodypart': 'arm_l') * 2" ] },
+      { "math": [ "u_vitamin('redcells')", "+=", "u_effect_intensity('bleed', 'bodypart': 'arm_r') * 2" ] },
+      { "math": [ "u_vitamin('redcells')", "+=", "u_effect_intensity('bleed', 'bodypart': 'leg_l') * 2" ] },
+      { "math": [ "u_vitamin('redcells')", "+=", "u_effect_intensity('bleed', 'bodypart': 'leg_r') * 2" ] },
+      { "math": [ "u_vitamin('redcells')", "+=", "u_effect_intensity('bleed', 'bodypart': 'torso') * 2" ] },
+      { "math": [ "u_vitamin('redcells')", "+=", "u_effect_intensity('bleed', 'bodypart': 'head') * 2" ] },
+      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "u_effect_intensity('bleed', 'bodypart': 'arm_l') * 2" ] },
+      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "u_effect_intensity('bleed', 'bodypart': 'arm_r') * 2" ] },
+      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "u_effect_intensity('bleed', 'bodypart': 'leg_l') * 2" ] },
+      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "u_effect_intensity('bleed', 'bodypart': 'leg_r') * 2" ] },
+      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "u_effect_intensity('bleed', 'bodypart': 'torso') * 2" ] },
+      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "u_effect_intensity('bleed', 'bodypart': 'head') * 2" ] },
+      { "u_message": "Your empowered blood is falling to the ground!", "type": "bad" },
+      { "run_eocs": "EOC_DHAMPIR_BLEED_STOLEN_BLOOD", "time_in_future": [ "10 s", "10 s" ] }
+    ]
   }
 ]

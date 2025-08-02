@@ -1197,7 +1197,7 @@ class Character : public Creature, public visitable
         bool can_attack_high() const override;
 
         /** NPC-related item rating functions */
-        double weapon_value( const item &weap, int ammo = 10 ) const; // Evaluates item as a weapon
+        double evaluate_weapon( const item &maybe_weapon, bool pretend_have_ammo = false ) const;
         double gun_value( const item &weap, int ammo = 10 ) const; // Evaluates item as a gun
         double melee_value( const item &weap ) const; // As above, but only as melee
         double unarmed_value() const; // Evaluate yourself!
@@ -1220,6 +1220,8 @@ class Character : public Creature, public visitable
         bool is_dead_state() const override;
 
     private:
+        double evaluate_weapon_internal( const item &maybe_weapon, bool can_use_gun,
+                                         bool use_silent, int pretend_ammo = 0 ) const;
         mutable std::optional<bool> cached_dead_state;
     public:
         void set_part_hp_cur( const bodypart_id &id, int set ) override;

@@ -558,7 +558,27 @@
     "vitamin_rates": [ [ "human_blood_vitamin", 720 ], [ "mutagen", 300 ] ],
     "no_empathize_with": [ "HUMAN" ],
     "flags": [ "CANNIBAL", "HEMOVORE" ],
-    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ]
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ],
+    "//": "Unless you attack them or are the ultimate vampire killer, vampires and renfields won't attack you as your blood holds no interest for them.",
+    "enchantments": [
+      {
+        "condition": {
+          "not": { "or": [ { "u_has_effect": "vampire_attacked_vampire_or_renfield" }, { "u_has_trait": "VAMPIRE_ANATHEMA" } ] }
+        },
+        "mutations": [ "VAMPIRE_TRUCE" ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_TRUCE",
+    "name": { "str": "Vampire's Truce", "//~": "NO_I18N" },
+    "description": { "str": "The hidden trait that makes other vampires not attack you first.  It should be hidden.", "//~": "NO_I18N" },
+    "points": 1,
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "ignored_by": [ "VAMPIRE", "RENFIELD" ]
   },
   {
     "type": "mutation",
@@ -1152,7 +1172,6 @@
     "purifiable": false,
     "valid": false,
     "flags": [ "CANNIBAL", "SUNBURN", "DAYFEAR", "HEMOVORE", "MEND_ALL" ],
-    "anger_relations": [ [ "VAMPIRE", -95 ], [ "RENFIELD", -95 ] ],
     "enchantments": [
       {
         "values": [
@@ -1542,7 +1561,7 @@
     "player_display": false,
     "purifiable": false,
     "valid": false,
-    "anger_relations": [ [ "VAMPIRE", -150 ], [ "RENFIELD", -150 ] ],
+    "ignored_by": [ "VAMPIRE", "RENFIELD" ],
     "enchantments": [
       {
         "condition": "ALWAYS",

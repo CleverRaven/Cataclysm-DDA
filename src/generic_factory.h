@@ -1826,6 +1826,12 @@ class text_style_check_reader : public generic_typed_reader<text_style_check_rea
         allow_object object_allowed;
 };
 
+class activity_level_reader : public generic_typed_reader<activity_level_reader>
+{
+    public:
+        float get_next( const JsonValue &jv ) const;
+};
+
 struct dbl_or_var;
 
 class dbl_or_var_reader : public generic_typed_reader<dbl_or_var>

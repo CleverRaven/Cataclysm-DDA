@@ -389,7 +389,7 @@ bool teleport::teleport_vehicle( vehicle &veh, const tripoint_abs_ms &dp )
     tileray facing;
     facing.init( veh.turn_dir );
 
-    veh.precalc_mounts( 1, veh.skidding ? veh.turn_dir : facing.dir(), point_rel_ms( 0, 0 ) );
+    veh.precalc_mounts( 1, veh.skidding ? veh.turn_dir : facing.dir(), veh.pivot_anchor[0] );
 
     Character &player_character = get_player_character();
     tripoint_bub_ms src = veh.pos_bub( here );

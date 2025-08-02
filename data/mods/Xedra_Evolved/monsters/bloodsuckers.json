@@ -725,6 +725,18 @@
     "default_faction": "vampire",
     "//": "Vampire faction so they aren't killed by the vampires.  They're food, not foe.",
     "//2": "Being fed and locked does wonders to keep them alive, so they don't die over time like the other civilians.",
-    "upgrades": false
+    "upgrades": false,
+    "//3": "When possible, apply a permanent dazed effect to them without needing a spell.  This effects allows vampires to drink from them at all times.",
+    "delete": { "flags": [ "CAN_OPEN_DOORS" ] },
+    "special_attacks": [
+      {
+        "type": "spell",
+        "id": "BLOODBAG_DAZE_SELF",
+        "condition": { "not": { "u_has_effect": "dazed" } },
+        "spell_data": { "id": "BLOODBAG_DAZE_SELF", "min_level": 1, "hit_self": true },
+        "cooldown": 1,
+        "allow_no_target": true
+      }
+    ]
   }
 ]
