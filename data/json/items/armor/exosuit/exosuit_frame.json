@@ -272,7 +272,7 @@
         ],
         "covers": [ "eyes" ],
         "coverage": 100,
-        "encumbrance": 100,
+        "encumbrance": [ 5, 5 ],
         "layers": [ "OUTER" ]
       },
       {
@@ -307,6 +307,7 @@
       "OUTER",
       "MUNDANE",
       "DEAF",
+      "BLIND",
       "MODULE_HOLDER"
     ],
     "use_action": [
@@ -515,7 +516,7 @@
         ],
         "covers": [ "eyes" ],
         "coverage": 100,
-        "encumbrance": 100,
+        "encumbrance": [ 5, 5 ],
         "layers": [ "OUTER" ]
       },
       {
@@ -552,6 +553,7 @@
       "OUTER",
       "MUNDANE",
       "DEAF",
+      "BLIND",
       "TARDIS",
       "MODULE_HOLDER"
     ],
