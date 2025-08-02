@@ -72,7 +72,7 @@ static ImVec4 compute_color( uint8_t index )
     }
 }
 
-ImVec4 cataimgui::imvec4_from_color( nc_color &color )
+ImVec4 cataimgui::imvec4_from_color( const nc_color &color )
 {
     int pair_id = color.get_index();
     pairs &pair = colorpairs[pair_id];
@@ -239,7 +239,7 @@ RGBTuple color_loader<RGBTuple>::from_rgb( const int r, const int g, const int b
 #include <imgui/imgui_impl_sdl2.h>
 #include <imgui/imgui_impl_sdlrenderer2.h>
 
-ImVec4 cataimgui::imvec4_from_color( nc_color &color )
+ImVec4 cataimgui::imvec4_from_color( const nc_color &color )
 {
     SDL_Color c = curses_color_to_SDL( color );
     return { static_cast<float>( c.r / 255. ),
