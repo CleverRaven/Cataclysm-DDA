@@ -7,7 +7,8 @@
     "name": "Unknowing Changeling, Noble (Species)",
     "description": "You grew up thinking you were human, just another person among billions, but you were born Under the Hill and swapped for a human baby shortly after birth.  Your parents were the nobility of the Fair Folk, the great lords and ladies who traveled in spider-silk carriages on roads built of moonbeams and danced the unending nights away before leading fantastic armies in battle the next morning.  When the Cataclysm hit, your parents' slumbering power asserted itself, giving you access to a portion of their fae magick.  Hopefully it will help you survive.",
     "points": 4,
-    "traits": [ "ELFA_EARS", "CHANGELING_MAGIC", "UNKNOWING_CHANGELING_NOBLE" ]
+    "traits": [ "ELFA_EARS", "CHANGELING_MAGIC", "UNKNOWING_CHANGELING_NOBLE" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -16,7 +17,8 @@
     "name": "Unknowing Changeling, Commoner (Species)",
     "description": "You grew up thinking you were human, just another person among billions, but you were born Under the Hill and swapped for a human baby shortly after birth.  Your parents come from the common masses of the Fair Folk, the pooka, redcaps, hobgoblins, trow, pixies, knockers, selkies, or any of the myriad of others.  When the Cataclysm hit, your parents' slumbering power asserted itself, revealing your heritage and giving you access to a portion of their fae magick.  Hopefully it will help you survive.",
     "points": 4,
-    "traits": [ "FAIR_FOLK_COMMONER_SELECTOR", "CHANGELING_MAGIC", "ELFA_EARS" ]
+    "traits": [ "FAIR_FOLK_COMMONER_SELECTOR", "CHANGELING_MAGIC", "ELFA_EARS" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "mutation",
@@ -39,7 +41,8 @@
     "purifiable": false,
     "types": [ "HERITAGE" ],
     "player_display": false,
-    "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+    "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "mutation",
@@ -50,7 +53,8 @@
     "valid": false,
     "purifiable": false,
     "profession": true,
-    "cancels": [ "CHANGELING_COURT_WINTER" ]
+    "cancels": [ "CHANGELING_COURT_WINTER" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "mutation",
@@ -61,7 +65,8 @@
     "valid": false,
     "purifiable": false,
     "profession": true,
-    "cancels": [ "CHANGELING_COURT_SUMMER" ]
+    "cancels": [ "CHANGELING_COURT_SUMMER" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "mutation",
@@ -72,7 +77,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ]
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "mutation",
@@ -202,7 +208,8 @@
         ]
       }
     ],
-    "flags": [ "HERITAGE" ]
+    "flags": [ "HERITAGE" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "mutation",
@@ -220,7 +227,8 @@
           }
         ]
       }
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "mutation",
@@ -249,7 +257,8 @@
           }
         ]
       }
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "mutation",
@@ -278,7 +287,8 @@
           }
         ]
       }
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "mutation",
@@ -307,7 +317,8 @@
           }
         ]
       }
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "mutation",

@@ -52,7 +52,8 @@
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
       "knack_vita_cure_disease"
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -127,7 +128,8 @@
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
       "knack_vita_cure_disease"
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -199,7 +201,8 @@
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
       "knack_vita_cure_disease"
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -279,7 +282,8 @@
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
       "knack_vita_cure_disease"
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -348,7 +352,8 @@
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
       "knack_vita_cure_disease"
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -409,7 +414,8 @@
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
       "knack_vita_cure_disease"
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -505,7 +511,8 @@
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
       "knack_vita_cure_disease"
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -576,7 +583,8 @@
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
       "knack_vita_cure_disease"
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -668,7 +676,8 @@
       "knack_vita_remove_poison",
       "knack_vita_cure_disease"
     ],
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -734,7 +743,8 @@
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
       "knack_vita_cure_disease"
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -860,7 +870,8 @@
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
       "knack_vita_cure_disease"
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "item_group",

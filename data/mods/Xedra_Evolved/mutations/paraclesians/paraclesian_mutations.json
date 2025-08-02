@@ -47,7 +47,8 @@
     "empathize_with": [ "IERDE" ],
     "no_empathize_with": [ "HUMAN" ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-    "flags": [ "HERITAGE" ]
+    "flags": [ "HERITAGE" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "mutation",
@@ -98,6 +99,7 @@
     "no_empathize_with": [ "HUMAN" ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
     "flags": [ "TREE_COMMUNION_PLUS", "ARVORE_POLLEN_IMMUNE", "HERITAGE" ],
+    "chargen_allow_npc": false,
     "enchantments": [
       {
         "condition": {
@@ -169,7 +171,8 @@
     "empathize_with": [ "SALAMANDER" ],
     "no_empathize_with": [ "HUMAN" ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-    "flags": [ "HERITAGE" ]
+    "flags": [ "HERITAGE" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "mutation",
@@ -229,7 +232,8 @@
     "empathize_with": [ "UNDINE" ],
     "no_empathize_with": [ "HUMAN" ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-    "flags": [ "HERITAGE" ]
+    "flags": [ "HERITAGE" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "mutation",
@@ -276,7 +280,8 @@
     "description": "A spirit of the image of humans given life.",
     "empathize_with": [ "HOMULLUS" ],
     "anger_relations": [ [ "HOMULLUS", -20 ], [ "ARVORE", 20 ] ],
-    "flags": [ "HERITAGE" ]
+    "flags": [ "HERITAGE" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "mutation",
@@ -326,7 +331,8 @@
     "empathize_with": [ "SYLPH" ],
     "no_empathize_with": [ "HUMAN" ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-    "flags": [ "HERITAGE" ]
+    "flags": [ "HERITAGE" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "mutation",
