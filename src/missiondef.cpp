@@ -1,13 +1,10 @@
 #include "mission.h" // IWYU pragma: associated
 
 #include <algorithm>
-#include <set>
 
-#include "assign.h"
 #include "condition.h"
 #include "debug.h"
 #include "dialogue.h"
-#include "enum_conversions.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "item.h"
@@ -130,21 +127,14 @@ void assign_function( const JsonObject &jo, const std::string &id, Fun &target,
     }
 }
 
-bool mission_type::load( const JsonObject &jo, const std::string &src )
+bool mission_type::load( const JsonObject &jo, const std::string_view src )
 {
-    const bool strict = src == "dda";
-
     mandatory( jo, was_loaded, "name", name );
 
     mandatory( jo, was_loaded, "difficulty", difficulty );
     mandatory( jo, was_loaded, "value", value );
 
-    if( jo.has_member( "origins" ) ) {
-        origins.clear();
-        for( const std::string &m : jo.get_tags( "origins" ) ) {
-            origins.emplace_back( io::string_to_enum<mission_origin>( m ) );
-        }
-    }
+    optional( jo, was_loaded, "origins", origins, enum_flags_reader<mission_origin> { "mission_origin" } );
 
     if( std::any_of( origins.begin(), origins.end(), []( mission_origin origin ) {
     return origin == ORIGIN_ANY_NPC || origin == ORIGIN_OPENER_NPC || origin == ORIGIN_SECONDARY;
@@ -173,7 +163,7 @@ bool mission_type::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "empty_container", empty_container );
     optional( jo, was_loaded, "has_generic_rewards", has_generic_rewards, true );
 
-    goal = jo.get_enum_value<decltype( goal )>( "goal" );
+    mandatory( jo, was_loaded, "goal", goal, enum_flags_reader<mission_goal> { "mission_goal" } );
 
     assign_function( jo, "place", place, tripoint_function_map );
     const auto parse_phase = [&]( const std::string & phase,
@@ -199,25 +189,16 @@ bool mission_type::load( const JsonObject &jo, const std::string &src )
         return false;
     }
 
+    // FIXME: duration_or_var generic factory reader
     deadline = get_duration_or_var( jo, "deadline", false );
 
-    if( jo.has_member( "followup" ) ) {
-        follow_up = mission_type_id( jo.get_string( "followup" ) );
-    }
+    optional( jo, was_loaded, "followup", follow_up, mission_type_id::NULL_ID() );
+    optional( jo, was_loaded, "monster_species", monster_species );
+    optional( jo, was_loaded, "monster_type", monster_type, mtype_id::NULL_ID() );
+    optional( jo, was_loaded, "monster_kill_goal", monster_kill_goal, -1 );
+    optional( jo, was_loaded, "destination", target_id );
 
-    if( jo.has_member( "monster_species" ) ) {
-        monster_species = species_id( jo.get_string( "monster_species" ) );
-    }
-    if( jo.has_member( "monster_type" ) ) {
-        monster_type = mtype_id( jo.get_string( "monster_type" ) );
-    }
-
-    if( jo.has_member( "monster_kill_goal" ) ) {
-        monster_kill_goal = jo.get_int( "monster_kill_goal" );
-    }
-
-    assign( jo, "destination", target_id, strict );
-
+    // FIXME: reader for condition
     if( jo.has_member( "goal_condition" ) ) {
         read_condition( jo, "goal_condition", goal_condition, true );
     }
