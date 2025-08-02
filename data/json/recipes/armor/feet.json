@@ -55,10 +55,11 @@
     "skill_used": "tailor",
     "difficulty": 4,
     "skills_required": [ [ "fabrication", 3 ] ],
-    "time": "12 h",
+    "time": "1 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_arthropod", 3 ] ],
-    "using": [ [ "armor_chitin", 18 ], [ "strap_small", 4 ], [ "clasps", 2 ] ],
+    "byproducts": [ [ "scrap_leather", 2 ] ],
+    "using": [ [ "armor_chitin", 3 ], [ "strap_small", 4 ], [ "clasps", 2 ], [ "tailoring_leather_small", 2 ] ],
     "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_cobbling" },

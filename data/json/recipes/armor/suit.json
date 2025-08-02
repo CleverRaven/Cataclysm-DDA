@@ -43,30 +43,31 @@
     "skill_used": "tailor",
     "difficulty": 7,
     "skills_required": [ [ "fabrication", 3 ] ],
-    "time": "12 h",
+    "time": "20 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ], [ "textbook_arthropod", 6 ] ],
+    "byproducts": [ [ "leather", 4 ], [ "scrap_leather", 7 ] ],
     "proficiencies": [
-      { "proficiency": "prof_articulation" },
       { "proficiency": "prof_chitinworking" },
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_leatherworking_basic" }
     ],
-    "using": [ [ "armor_chitin", 72 ] ]
+    "using": [ [ "armor_chitin", 70 ], [ "strap_large", 16 ], [ "tailoring_leather_patchwork", 6 ] ],
+    "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "police_belt", 1 ], [ "fireman_belt", 1 ] ] ]
   },
   {
     "result": "armor_chitin_xs",
     "type": "recipe",
     "copy-from": "armor_chitin",
-    "time": "9 h",
-    "using": [ [ "armor_chitin", 54 ] ]
+    "time": "66 h",
+    "using": [ [ "armor_chitin", 54 ], [ "strap_large", 16 ], [ "tailoring_leather_patchwork", 6 ] ]
   },
   {
     "result": "xl_armor_chitin",
     "type": "recipe",
     "copy-from": "armor_chitin",
-    "time": "16 h",
-    "using": [ [ "armor_chitin", 96 ] ]
+    "time": "117 h",
+    "using": [ [ "armor_chitin", 93 ], [ "strap_large", 18 ], [ "tailoring_leather_patchwork", 9 ] ]
   },
   {
     "result": "armor_acidchitin",

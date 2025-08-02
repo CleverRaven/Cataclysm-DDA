@@ -1,0 +1,18 @@
+[
+  {
+    "result": "gauntlets_chitin",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "40 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [
+      [ [ "string_6", 8 ] ],
+      [ [ "chitin_piece", 2 ] ],
+      [ [ "leather", 2 ] ],
+      [ [ "cotton_patchwork", 8 ] ],
+      [ [ "button_wood", 2 ] ]
+    ]
+  }
+]
