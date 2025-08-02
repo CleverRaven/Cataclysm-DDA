@@ -44,6 +44,22 @@ bool zzip_stack::add_file( std::filesystem::path const &zzip_relative_path,
     return ret;
 }
 
+bool zzip_stack::copy_files_to( std::vector<std::filesystem::path> const &zzip_relative_paths,
+                                std::shared_ptr<zzip> const &to )
+{
+    std::unordered_map<file_temp, std::vector<std::filesystem::path>> temp_to_paths;
+    for( std::filesystem::path const &zzip_relative_path : zzip_relative_paths ) {
+        file_temp temp = temp_of_file( zzip_relative_path );
+        if( temp == file_temp::unknown ) {
+            continue;
+        }
+        temp_to_paths[temp].emplace_back( zzip_relative_path );
+    }
+    return to->copy_files( temp_to_paths[file_temp::cold], cold() ) &&
+           to->copy_files( temp_to_paths[file_temp::warm], warm() ) &&
+           to->copy_files( temp_to_paths[file_temp::hot], hot() );
+}
+
 bool zzip_stack::has_file( std::filesystem::path const &zzip_relative_path ) const
 {
     return temp_of_file( zzip_relative_path ) != file_temp::unknown;
@@ -56,6 +72,19 @@ size_t zzip_stack::get_file_size( std::filesystem::path const &zzip_relative_pat
         return 0;
     }
     return zzip_of_temp( temp )->get_file_size( zzip_relative_path );
+}
+
+std::vector<std::filesystem::path> zzip_stack::get_entries() const
+{
+    std::vector<std::filesystem::path> entries;
+    cold();
+    warm();
+    hot();
+    entries.reserve( path_temp_map_.size() );
+    for( const auto& [entry_path, temp] : path_temp_map_ ) {
+        entries.emplace_back( entry_path );
+    }
+    return entries;
 }
 
 std::vector<std::byte> zzip_stack::get_file( std::filesystem::path const &zzip_relative_path ) const

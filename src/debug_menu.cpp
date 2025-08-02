@@ -18,6 +18,8 @@
 #include <set>
 #include <sstream>
 #include <string>
+#include <system_error>
+#include <thread>
 #include <tuple>
 #include <unordered_map>
 #include <unordered_set>
@@ -135,6 +137,8 @@
 #include "weather_type.h"
 #include "weighted_list.h"
 #include "worldfactory.h"
+#include "zzip.h"
+#include "zzip_stack.h"
 
 static const achievement_id achievement_achievement_arcade_mode( "achievement_arcade_mode" );
 
@@ -381,9 +385,15 @@ bool _trim_mapbuffer( std::filesystem::path const &dep, rdi_t &iter,
                       tripoint_range<tripoint> const &regs )
 {
     // discard map memory outside of current region and adjacent regions
-    if( dep.parent_path().extension() == std::filesystem::u8path( ".mm1" ) &&
-        !regs.is_point_inside( tripoint{ _from_map_string( dep.stem().string() ).xy(), 0 } ) ) {
-        return false;
+    if( dep.parent_path().extension() == std::filesystem::u8path( ".mm1" ) ) {
+        if( dep.has_extension() && dep.extension() == ".zzip" ) { // NOLINT(cata-u8-path)
+            // Compressed map memory has to be handled separately
+            return false;
+        }
+        if( !regs.is_point_inside( tripoint{ _from_map_string( dep.stem().string() ).xy(), 0 } ) ) {
+            return false;
+        }
+        return true;
     }
     // discard map buffer outside of current and adjacent segments
     if( dep.parent_path().filename() == std::filesystem::u8path( "maps" ) ) {
@@ -404,7 +414,9 @@ bool _trim_mapbuffer( std::filesystem::path const &dep, rdi_t &iter,
 
 bool _trim_overmapbuffer( std::filesystem::path const &dep, tripoint_range<tripoint> const &oms )
 {
-    std::string const fname = dep.filename().generic_u8string();
+    std::string const fname = dep.extension() == ".zzip" ?  // NOLINT(cata-u8-path)
+                              dep.filename().replace_extension( "" ).generic_u8string() : // NOLINT(cata-u8-path)
+                              dep.filename().generic_u8string();
 
     std::string::size_type const seenpos = fname.find( ".seen." );
     if( seenpos != std::string::npos ) {
@@ -441,11 +453,59 @@ void write_min_archive()
                _trim_overmapbuffer( dep, oms );
     };
 
-    if( _add_dir( tgz, save_root, mb_validate ) &&
-        _add_dir( tgz, std::filesystem::path( PATH_INFO::config_dir_path() ) ) ) {
-        tgz.finalize();
-        popup( string_format( _( "Minimized archive saved to %s" ), ofile ) );
+    if( !_add_dir( tgz, save_root, mb_validate ) ||
+        !_add_dir( tgz, std::filesystem::path( PATH_INFO::config_dir_path() ) ) ) {
+        return;
     }
+
+    // Map memory needs special handling.
+    std::filesystem::path mmr_dict = ( PATH_INFO::world_base_save_path() /
+                                       "mmr.dict" ).get_unrelative_path();
+    if( file_exist( mmr_dict ) ) {
+        for( const std::filesystem::directory_entry &entry : std::filesystem::directory_iterator(
+                 PATH_INFO::world_base_save_path().get_unrelative_path() ) ) {
+            std::filesystem::path entry_filename = entry.path().filename();
+            if( entry_filename.extension() == ".mm1" ) {  // NOLINT(cata-u8-path)
+                std::shared_ptr<zzip_stack> mmr_stack = zzip_stack::load( ( PATH_INFO::world_base_save_path() /
+                                                        entry_filename ).get_unrelative_path(), mmr_dict );
+                std::vector<std::filesystem::path> trimmed_mmr_entries;
+                for( const std::filesystem::path &mmr_entry : mmr_stack->get_entries() ) {
+                    if( regs.is_point_inside( tripoint{ _from_map_string( mmr_entry.stem().string() ).xy(), 0 } ) ) {
+                        trimmed_mmr_entries.push_back( mmr_entry );
+                    }
+                }
+                std::filesystem::path min_mmr_save_rel = ( std::filesystem::path{ entry_filename } / // NOLINT(cata-u8-path)
+                        entry_filename ).concat( ".cold.zzip" ); // NOLINT(cata-u8-path)
+                std::filesystem::path min_mmr_temp_zzip_path = ( PATH_INFO::world_base_save_path() /
+                        min_mmr_save_rel +
+                        ".temp" ).get_unrelative_path();
+                {
+                    std::shared_ptr<zzip> min_mmr_temp_zzip = zzip::load( min_mmr_temp_zzip_path, mmr_dict );
+                    if( !min_mmr_temp_zzip ||
+                        !mmr_stack->copy_files_to( trimmed_mmr_entries, min_mmr_temp_zzip ) ||
+                        !min_mmr_temp_zzip->compact( 0 ) ) {
+                        popup( _( "Failed to create minimized archive" ) );
+                        return;
+                    }
+                }
+                if( !tgz.add_file( min_mmr_temp_zzip_path, save_root.filename() / min_mmr_save_rel ) ) {
+                    popup( _( "Failed to create minimized archive" ) );
+                    return;
+                }
+                size_t attempts = 0;
+                do {
+                    std::error_code ec;
+                    std::filesystem::remove( min_mmr_temp_zzip_path, ec );
+                    if( !ec ) {
+                        break;
+                    }
+                    std::this_thread::sleep_for( std::chrono::milliseconds( 200 ) );
+                } while( ++attempts < 3 );
+            }
+        }
+    }
+    tgz.finalize();
+    popup( string_format( _( "Minimized archive saved to %s" ), ofile ) );
 }
 
 } // namespace
