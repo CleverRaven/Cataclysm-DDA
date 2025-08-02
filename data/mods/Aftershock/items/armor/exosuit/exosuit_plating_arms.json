@@ -1,6 +1,6 @@
 [
   {
-    "id": "exo_afs_arm_steel",
+    "id": "afs_exo_arm_steel",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "exosuit",
@@ -14,7 +14,7 @@
     "color": "light_gray",
     "warmth": 20,
     "flags": [ "CANT_WEAR", "ABLATIVE_LARGE", "EXO_ARM_PLATE" ],
-    "non_functional": "damaged_exo_afs_arm_steel",
+    "non_functional": "afs_damaged_exo_arm_steel",
     "armor": [
       {
         "material": [ { "type": "afs_steel", "covered_by_mat": 100, "thickness": 2 } ],
@@ -32,14 +32,14 @@
     ]
   },
   {
-    "id": "damaged_exo_afs_arm_steel",
+    "id": "afs_damaged_exo_arm_steel",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "exo_arm_steel",
     "name": { "str": "damaged steel arm plate (exosuit)", "str_pl": "damaged steel arm plates (exosuit)" },
     "description": "The remains of a steel arm plate after taking a strong impact.  Can be restored to full effectiveness via reforging.",
     "looks_like": "exo_arm_steel",
-    "non_functional": "destroyed_exo_afs_arm_steel",
+    "non_functional": "afs_destroyed_exo_arm_steel",
     "armor": [
       {
         "material": [ { "type": "afs_steel", "covered_by_mat": 100, "thickness": 1 } ],
@@ -57,7 +57,7 @@
     ]
   },
   {
-    "id": "destroyed_exo_afs_arm_steel",
+    "id": "afs_destroyed_exo_arm_steel",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "exo_arm_steel",
@@ -91,14 +91,14 @@
     ]
   },
   {
-    "id": "damaged_exo_afs_arm_steel",
+    "id": "afs_damaged_exo_arm_steel",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "exo_arm_steel",
     "name": { "str": "damaged steel arm plate (exosuit)", "str_pl": "damaged steel arm plates (exosuit)" },
     "description": "The remains of a steel arm plate after taking a strong impact.  Can be restored to full effectiveness via reforging.",
     "looks_like": "exo_arm_steel",
-    "non_functional": "destroyed_exo_afs_arm_steel",
+    "non_functional": "afs_destroyed_exo_arm_steel",
     "armor": [
       {
         "material": [ { "type": "afs_steel", "covered_by_mat": 100, "thickness": 1 } ],
@@ -116,7 +116,7 @@
     ]
   },
   {
-    "id": "destroyed_exo_afs_arm_steel",
+    "id": "afs_destroyed_exo_arm_steel",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "exo_arm_steel",
