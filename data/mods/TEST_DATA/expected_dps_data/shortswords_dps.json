@@ -25,7 +25,7 @@
       "survivor_machete": 17.41,
       "cutlass_inferior": 17.5,
       "lc_cavalry_sabre": 17.8,
-      "lc_rapier": 18.0,
+      "lc_rapier": 15.5,
       "mc_kukri": 18.194,
       "survivor_machete_qt": 22.6,
       "sword_cane": 20.34,
@@ -54,9 +54,9 @@
       "qt_scimitar": 27.0,
       "qt_wakizashi": 27.68,
       "ch_cavalry_sabre": 27.7,
-      "ch_rapier": 28.3,
+      "ch_rapier": 25.0,
       "qt_cavalry_sabre": 28.7,
-      "qt_rapier": 30.5
+      "qt_rapier": 27.0
     }
   }
 ]
