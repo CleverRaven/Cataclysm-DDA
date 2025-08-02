@@ -91,13 +91,19 @@ std::unique_ptr<cataimgui::client> imclient;
 
 #if defined(__ANDROID__)
 #include <jni.h>
+#endif
 
+#if defined(__IPHONEOS__) || defined(__ANDROID__)
 #include "action.h"
 #include "inventory.h"
 #include "map.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "worldfactory.h"
+#endif
+
+#if defined(__IPHONEOS__)
+#include <CataclysmExperimental-Swift.h>
 #endif
 
 #if defined(EMSCRIPTEN)
@@ -136,7 +142,7 @@ static SDL_Renderer_Ptr renderer;
 static SDL_PixelFormat_Ptr format;
 static SDL_Texture_Ptr display_buffer;
 static GeometryRenderer_Ptr geometry;
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
 static SDL_Texture_Ptr touch_joystick;
 #endif
 static int WindowWidth;        //Width of the actual window, not the curses window
@@ -262,7 +268,7 @@ static void WinCreate()
         SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, get_option<std::string>( "SCALING_MODE" ).c_str() );
     }
 
-#if !defined(__ANDROID__) && !defined(EMSCRIPTEN)
+#if !defined(__ANDROID__) && !defined(__IPHONEOS__) && !defined(EMSCRIPTEN)
     if( get_option<std::string>( "FULLSCREEN" ) == "fullscreen" ) {
         window_flags |= SDL_WINDOW_FULLSCREEN;
         fullscreen = true;
@@ -282,7 +288,8 @@ static void WinCreate()
     // Without this, the game only displays in the top-left 1/4 of the window.
     window_flags &= ~SDL_WINDOW_ALLOW_HIGHDPI;
 #endif
-#if defined(__ANDROID__)
+
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
     // Without this, the game only displays in the top-left 1/4 of the window.
     window_flags = SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_MAXIMIZED;
 #endif
@@ -292,7 +299,7 @@ static void WinCreate()
         display = 0;
     }
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
     // Bugfix for red screen on Samsung S3/Mali
     // https://forums.libsdl.org/viewtopic.php?t=11445
     SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 5 );
@@ -300,17 +307,21 @@ static void WinCreate()
     SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 5 );
 
     // Fix Back button crash on Android 9
-#if defined(SDL_HINT_ANDROID_TRAP_BACK_BUTTON )
+#if defined(SDL_HINT_ANDROID_TRAP_BACK_BUTTON ) && !defined(__IPHONEOS__)
     const bool trap_back_button = get_option<bool>( "ANDROID_TRAP_BACK_BUTTON" );
     SDL_SetHint( SDL_HINT_ANDROID_TRAP_BACK_BUTTON, trap_back_button ? "1" : "0" );
 #endif
 
     // Prevent mouse|touch input confusion
-#if defined(SDL_HINT_ANDROID_SEPARATE_MOUSE_AND_TOUCH)
+#if defined(SDL_HINT_ANDROID_SEPARATE_MOUSE_AND_TOUCH) && !defined(__IPHONEOS__)
     SDL_SetHint( SDL_HINT_ANDROID_SEPARATE_MOUSE_AND_TOUCH, "1" );
 #else
     SDL_SetHint( SDL_HINT_MOUSE_TOUCH_EVENTS, "0" );
     SDL_SetHint( SDL_HINT_TOUCH_MOUSE_EVENTS, "0" );
+#endif
+
+#if defined(SDL_HINT_IOS_HIDE_HOME_INDICATOR)
+    SDL_SetHint( SDL_HINT_IOS_HIDE_HOME_INDICATOR, "1" );
 #endif
 #endif
 
@@ -323,7 +334,7 @@ static void WinCreate()
                                     ) );
     throwErrorIf( !::window, "SDL_CreateWindow failed" );
 
-#if !defined(__ANDROID__) && !defined(EMSCRIPTEN)
+#if !defined(__ANDROID__) || !defined(__IPHONEOS__) || !defined(EMSCRIPTEN)
     // On Android SDL seems janky in windowed mode so we're fullscreen all the time.
     // Fullscreen mode is now modified so it obeys terminal width/height, rather than
     // overwriting it with this calculation.
@@ -401,15 +412,28 @@ static void WinCreate()
     SDL_SetWindowMinimumSize( ::window.get(), fontwidth * EVEN_MINIMUM_TERM_WIDTH * scaling_factor,
                               fontheight * EVEN_MINIMUM_TERM_HEIGHT * scaling_factor );
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
     // TODO: Not too sure why this works to make fullscreen on Android behave. :/
     if( window_flags & SDL_WINDOW_FULLSCREEN || window_flags & SDL_WINDOW_FULLSCREEN_DESKTOP
         || window_flags & SDL_WINDOW_MAXIMIZED ) {
         SDL_GetWindowSize( ::window.get(), &WindowWidth, &WindowHeight );
+#if defined(__IPHONEOS__)
+        WindowWidth = static_cast<int>( WindowWidth * CataclysmExperimental::iosGetDisplayDensity() );
+        WindowHeight = static_cast<int>( WindowHeight * CataclysmExperimental::iosGetDisplayDensity() );
+#endif
+        DebugLog( D_INFO, DC_ALL ) << "WindowWidth: " << WindowWidth;
+        DebugLog( D_INFO, DC_ALL ) << "WindowHeight: " << WindowHeight;
     }
+#endif
 
+#if defined(__ANDROID__)
     // Load virtual joystick texture
     touch_joystick = CreateTextureFromSurface( renderer, load_image( "android/joystick.png" ) );
+#endif
+
+#if defined(__IPHONEOS__)
+    // Load virtual joystick texture
+    touch_joystick = CreateTextureFromSurface( renderer, load_image( "ios/joystick.png" ) );
 #endif
 
     ClearScreen();
@@ -443,7 +467,7 @@ static void WinCreate()
 
 static void WinDestroy()
 {
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
     touch_joystick.reset();
 #endif
     imclient.reset();
@@ -463,7 +487,7 @@ static const SDL_Color &color_as_sdl( const unsigned char color )
     return windowsPalette[color];
 }
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
 void draw_terminal_size_preview();
 void draw_quick_shortcuts();
 void draw_virtual_joystick();
@@ -481,6 +505,8 @@ extern "C" {
     static bool has_visible_display_frame = false;
     static SDL_Rect visible_display_frame;
 
+    // TODO: get this thing to work on iOS
+#if defined(__ANDROID__)
     JNIEXPORT void JNICALL Java_org_libsdl_app_SDLActivity_onNativeVisibleDisplayFrameChanged(
         JNIEnv *env, jclass jcls, jint left, jint top, jint right, jint bottom )
     {
@@ -493,7 +519,7 @@ extern "C" {
         visible_display_frame.w = right - left;
         visible_display_frame.h = bottom - top;
     }
-
+#endif
 } // "C"
 
 SDL_Rect get_android_render_rect( float DisplayBufferWidth, float DisplayBufferHeight )
@@ -519,9 +545,8 @@ SDL_Rect get_android_render_rect( float DisplayBufferWidth, float DisplayBufferH
         dstrect.w = WindowHeightLessShortcuts * DisplayBufferAspect;
         dstrect.h = WindowHeightLessShortcuts;
     }
-
     // Make sure the destination rectangle fits within the visible area
-    if( get_option<bool>( "ANDROID_KEYBOARD_SCREEN_SCALE" ) && has_visible_display_frame ) {
+/*    if( get_option<bool>( "ANDROID_KEYBOARD_SCREEN_SCALE" ) && has_visible_display_frame ) {
         int vdf_right = visible_display_frame.x + visible_display_frame.w;
         int vdf_bottom = visible_display_frame.y + visible_display_frame.h;
         if( vdf_right < dstrect.x + dstrect.w ) {
@@ -530,10 +555,14 @@ SDL_Rect get_android_render_rect( float DisplayBufferWidth, float DisplayBufferH
         if( vdf_bottom < dstrect.y + dstrect.h ) {
             dstrect.h = vdf_bottom - dstrect.y;
         }
-    }
+    } */
+    DebugLog( D_INFO, DC_ALL ) << "dstrect.x: " << dstrect.x;
+    DebugLog( D_INFO, DC_ALL ) << "dstrect.y: " << dstrect.y;
+    DebugLog( D_INFO, DC_ALL ) << "dstrect.w: " << dstrect.w;
+    DebugLog( D_INFO, DC_ALL ) << "dstrect.h: " << dstrect.h;
+
     return dstrect;
 }
-
 #endif
 
 void refresh_display()
@@ -549,7 +578,7 @@ void refresh_display()
     // there, present it, select the buffer as target again.
     SetRenderTarget( renderer, nullptr );
     ClearScreen();
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
     SDL_Rect dstrect = get_android_render_rect( TERMINAL_WIDTH * fontwidth,
                        TERMINAL_HEIGHT * fontheight );
     RenderCopy( renderer, display_buffer, NULL, &dstrect );
@@ -557,7 +586,7 @@ void refresh_display()
     RenderCopy( renderer, display_buffer, nullptr, nullptr );
 #endif
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
     draw_terminal_size_preview();
     if( g ) {
         draw_quick_shortcuts();
@@ -763,7 +792,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         return;
     }
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
     // Attempted bugfix for Google Play crash - prevent divide-by-zero if no tile
     // width/height specified
     if( tile_width == 0 || tile_height == 0 ) {
@@ -1881,7 +1910,7 @@ void toggle_fullscreen_window()
     fullscreen = !fullscreen;
 }
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
 static float finger_down_x = -1.0f; // in pixels
 static float finger_down_y = -1.0f; // in pixels
 static float finger_curr_x = -1.0f; // in pixels
@@ -1935,6 +1964,7 @@ std::string get_quick_shortcut_name( const std::string &category )
 
 float android_get_display_density()
 {
+#if defined(__ANDROID__)
     JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
     jobject activity = ( jobject )SDL_AndroidGetActivity();
     jclass clazz( env->GetObjectClass( activity ) );
@@ -1942,6 +1972,10 @@ float android_get_display_density()
     jfloat ans = env->CallFloatMethod( activity, method_id );
     env->DeleteLocalRef( activity );
     env->DeleteLocalRef( clazz );
+#endif
+#if defined(__IPHONEOS__)
+    float ans = CataclysmExperimental::iosGetDisplayDensity();
+#endif
     return ans;
 }
 
@@ -2427,7 +2461,6 @@ void draw_quick_shortcuts()
 
 void draw_virtual_joystick()
 {
-
     // Bail out if we don't need to draw the joystick
     if( !get_option<bool>( "ANDROID_SHOW_VIRTUAL_JOYSTICK" ) ||
         finger_down_time <= 0 ||
@@ -2438,6 +2471,8 @@ void draw_virtual_joystick()
         is_three_finger_touch ) {
         return;
     }
+
+    dbg( D_INFO ) << "Drawing virtual joystick";
 
     SDL_SetTextureAlphaMod( touch_joystick.get(),
                             get_option<int>( "ANDROID_VIRTUAL_JOYSTICK_OPACITY" ) * 0.01f * 255.0f );
@@ -2597,6 +2632,7 @@ void handle_finger_input( uint32_t ticks )
 
 bool android_is_hardware_keyboard_available()
 {
+#if defined(__ANDROID__)
     JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
     jobject activity = ( jobject )SDL_AndroidGetActivity();
     jclass clazz( env->GetObjectClass( activity ) );
@@ -2604,6 +2640,10 @@ bool android_is_hardware_keyboard_available()
     jboolean ans = env->CallBooleanMethod( activity, method_id );
     env->DeleteLocalRef( activity );
     env->DeleteLocalRef( clazz );
+#endif
+#if defined(__IPHONEOS__)
+    bool ans = CataclysmExperimental::isIOSKeyBoardAvailable();
+#endif
     return ans;
 }
 
@@ -2611,6 +2651,7 @@ void android_vibrate()
 {
     int vibration_ms = get_option<int>( "ANDROID_VIBRATION" );
     if( vibration_ms > 0 && !android_is_hardware_keyboard_available() ) {
+#if defined(__ANDROID__)
         JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
         jobject activity = ( jobject )SDL_AndroidGetActivity();
         jclass clazz( env->GetObjectClass( activity ) );
@@ -2618,11 +2659,15 @@ void android_vibrate()
         env->CallVoidMethod( activity, method_id, vibration_ms );
         env->DeleteLocalRef( activity );
         env->DeleteLocalRef( clazz );
+#endif
+#if defined(__IPHONEOS__)
+        CataclysmExperimental::vibrateDevice();
+#endif
     }
 }
 #endif
 
-#if !defined(__ANDROID__)
+#if !defined(__ANDROID__) || !defined(__IPHONEOS__)
 static bool window_focus = false;
 static bool text_input_active_when_regaining_focus = false;
 #endif
@@ -2633,7 +2678,7 @@ void StartTextInput()
     if( SDL_IsTextInputActive() == SDL_TRUE ) {
         return;
     }
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
     SDL_StartTextInput();
 #else
     if( window_focus ) {
@@ -2646,7 +2691,7 @@ void StartTextInput()
 
 void StopTextInput()
 {
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
     SDL_StopTextInput();
 #else
     if( window_focus ) {
@@ -2665,7 +2710,7 @@ static void CheckMessages()
     bool text_refresh = false;
     bool is_repeat = false;
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
     if( visible_display_frame_dirty ) {
         needupdate = true;
         ui_manager::redraw_invalidated();
@@ -2678,7 +2723,7 @@ static void CheckMessages()
     if( android_is_hardware_keyboard_available() && !SDL_IsTextInputActive() ) {
         StartTextInput();
     }
-
+#if defined(__ANDROID__)
     // Make sure the SDL surface view is visible, otherwise the "Z" loading screen is visible.
     if( needs_sdl_surface_visibility_refresh ) {
         needs_sdl_surface_visibility_refresh = false;
@@ -2692,6 +2737,7 @@ static void CheckMessages()
         env->DeleteLocalRef( activity );
         env->DeleteLocalRef( clazz );
     }
+#endif
 
     // Copy the current input context
     if( !input_context::input_context_stack.empty() ) {
@@ -2910,15 +2956,17 @@ static void CheckMessages()
 
                 // Display an Android toast message
                 {
-                    JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
-                    jobject activity = ( jobject )SDL_AndroidGetActivity();
-                    jclass clazz( env->GetObjectClass( activity ) );
-                    jstring toast_message = env->NewStringUTF( quick_shortcuts_enabled ? "Shortcuts visible" :
-                                            "Shortcuts hidden" );
-                    jmethodID method_id = env->GetMethodID( clazz, "toast", "(Ljava/lang/String;)V" );
-                    env->CallVoidMethod( activity, method_id, toast_message );
-                    env->DeleteLocalRef( activity );
-                    env->DeleteLocalRef( clazz );
+#if defined(__ANDROID__)
+                                        JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
+                                        jobject activity = ( jobject )SDL_AndroidGetActivity();
+                                        jclass clazz( env->GetObjectClass( activity ) );
+                                        jstring toast_message = env->NewStringUTF( quick_shortcuts_enabled ? "Shortcuts visible" :
+                                                                "Shortcuts hidden" );
+                                        jmethodID method_id = env->GetMethodID( clazz, "toast", "(Ljava/lang/String;)V" );
+                                        env->CallVoidMethod( activity, method_id, toast_message );
+                                        env->DeleteLocalRef( activity );
+                                        env->DeleteLocalRef( clazz );
+#endif
                 }
             }
         }
@@ -2971,7 +3019,7 @@ static void CheckMessages()
         }
     }
 #endif
-
+    
     last_input = input_event();
 
     std::optional<point> resize_dims;
@@ -2980,10 +3028,14 @@ static void CheckMessages()
 
     while( SDL_PollEvent( &ev ) ) {
         imclient->process_input( &ev );
+        dbg( D_INFO ) << "Starting Event Poll.";
+        dbg( D_INFO ) << "ev.tfinger.fingerId: " << ev.tfinger.fingerId;
+        dbg( D_INFO ) << "ev.tfinger.touchId: " << ev.tfinger.touchId;
+        dbg( D_INFO ) << "numfingers: " << SDL_GetNumTouchFingers( ev.tfinger.touchId );
         switch( ev.type ) {
             case SDL_WINDOWEVENT:
                 switch( ev.window.event ) {
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
                     // SDL will send a focus lost event whenever the app loses focus (eg. lock screen, switch app focus etc.)
                     // If we detect it and the game seems in a saveable state, try and do a quicksave. This is a bit dodgy
                     // as the player could be ANYWHERE doing ANYTHING (a sub-menu, interacting with an NPC/computer etc.)
@@ -3014,7 +3066,7 @@ static void CheckMessages()
                         if( SDL_IsTextInputActive() ) {
                             text_input_active_when_regaining_focus = true;
                             // Stop text input to not intefere with other programs
-                            SDL_StopTextInput();
+                            StopTextInput();
                             // Clear uncommited IME text. TODO: commit IME text instead.
                             last_input = input_event();
                             last_input.type = input_event_t::keyboard_char;
@@ -3040,7 +3092,7 @@ static void CheckMessages()
                         needupdate = true;
                         break;
                     case SDL_WINDOWEVENT_RESTORED:
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
                         needs_sdl_surface_visibility_refresh = true;
                         if( android_is_hardware_keyboard_available() ) {
                             StopTextInput();
@@ -3055,11 +3107,45 @@ static void CheckMessages()
                         break;
                 }
                 break;
+#if defined(__IPHONEOS__)
+            case SDL_APP_WILLENTERBACKGROUND:
+                if( world_generator &&
+                    world_generator->active_world &&
+                    g && g->uquit == QUIT_NO &&
+                    !std::uncaught_exception() ) {
+                    g->quicksave();
+                }
+                if( SDL_IsTextInputActive() ) {
+                    // TODO: Abstract common method with above usage
+                    text_input_active_when_regaining_focus = true;
+                    // Stop text input to not intefere with other programs
+                    StopTextInput();
+                    // Clear uncommited IME text. TODO: commit IME text instead.
+                    last_input = input_event();
+                    last_input.type = input_event_t::keyboard_char;
+                    last_input.edit.clear();
+                    last_input.edit_refresh = true;
+                    text_refresh = true;
+                } else {
+                    text_input_active_when_regaining_focus = false;
+                }
+                break;
+            case SDL_APP_DIDENTERBACKGROUND:
+                window_focus = false;
+                break;
+            case SDL_APP_DIDENTERFOREGROUND:
+                window_focus = true;
+                // Restore text input status
+                if( !SDL_IsTextInputActive() || text_input_active_when_regaining_focus ) {
+                    SDL_StartTextInput();
+                }
+                break;
+#endif
             case SDL_RENDER_TARGETS_RESET:
                 render_target_reset = true;
                 break;
             case SDL_KEYDOWN: {
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
                 // Toggle virtual keyboard with Android back button. For some reason I get double inputs, so ignore everything once it's already down.
                 if( ev.key.keysym.sym == SDLK_AC_BACK && ac_back_down_time == 0 ) {
                     ac_back_down_time = ticks;
@@ -3072,7 +3158,7 @@ static void CheckMessages()
                     SDL_ShowCursor( SDL_DISABLE );
                 }
                 keyboard_mode mode = keyboard_mode::keychar;
-#if !defined(__ANDROID__) && !(defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE == 1)
+#if !defined(__ANDROID__) && !defined(__IPHONEOS__)
                 if( !SDL_IsTextInputActive() ) {
                     mode = keyboard_mode::keycode;
                 }
@@ -3086,7 +3172,7 @@ static void CheckMessages()
                         // key was handled
                     } else {
                         last_input = input_event( lc, input_event_t::keyboard_char );
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
                         if( !android_is_hardware_keyboard_available() ) {
                             if( !is_string_input( touch_input_context ) && !touch_input_context.allow_text_entry ) {
                                 if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
@@ -3130,7 +3216,7 @@ static void CheckMessages()
                 }
 #endif
                 keyboard_mode mode = keyboard_mode::keychar;
-#if !defined(__ANDROID__) && !(defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE == 1)
+#if !defined(__ANDROID__) && !defined(__IPHONEOS__)
                 if( !SDL_IsTextInputActive() ) {
                     mode = keyboard_mode::keycode;
                 }
@@ -3154,7 +3240,7 @@ static void CheckMessages()
                     if( strlen( ev.text.text ) > 0 ) {
                         const unsigned lc = UTF8_getch( ev.text.text );
                         last_input = input_event( lc, input_event_t::keyboard_char );
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
                         if( !android_is_hardware_keyboard_available() ) {
                             if( !is_string_input( touch_input_context ) && !touch_input_context.allow_text_entry ) {
                                 if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
@@ -3297,10 +3383,15 @@ static void CheckMessages()
                 }
                 break;
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
             case SDL_FINGERMOTION:
-                if( ev.tfinger.fingerId == 0 ) {
+                dbg( D_INFO ) << "Fingermotion triggered.";
+                dbg( D_INFO ) << "ev.tfinger.fingerId: " << ev.tfinger.fingerId;
+                dbg( D_INFO ) << "ev.tfinger.touchId: " << ev.tfinger.touchId;
+                dbg( D_INFO ) << "numfingers: " << SDL_GetNumTouchFingers( ev.tfinger.touchId );
+                if( static_cast<int>(ev.tfinger.fingerId) > 0 && SDL_GetNumTouchFingers( ev.tfinger.touchId ) == 1 ) {
                     if( !is_quick_shortcut_touch ) {
+                        dbg( D_INFO ) << "Not quick shortcut touch";
                         update_finger_repeat_delay();
                     }
                     needupdate = true; // ensure virtual joystick and quick shortcuts redraw as we interact
@@ -3322,35 +3413,42 @@ static void CheckMessages()
                             finger_down_y += delta_y * delta_ratio;
                         }
                     }
-
-                } else if( ev.tfinger.fingerId == 1 ) {
+                } else if( static_cast<int>(ev.tfinger.fingerId) > 0 && SDL_GetNumTouchFingers( ev.tfinger.touchId ) == 2 ) {
                     second_finger_curr_x = ev.tfinger.x * WindowWidth;
                     second_finger_curr_y = ev.tfinger.y * WindowHeight;
-                } else if( ev.tfinger.fingerId == 2 ) {
+                } else if( static_cast<int>(ev.tfinger.fingerId) > 0 && SDL_GetNumTouchFingers( ev.tfinger.touchId ) == 3 ) {
                     third_finger_curr_x = ev.tfinger.x * WindowWidth;
                     third_finger_curr_y = ev.tfinger.y * WindowHeight;
                 }
                 break;
             case SDL_FINGERDOWN:
-                if( ev.tfinger.fingerId == 0 ) {
+                dbg( D_INFO ) << "Fingerdown triggered.";
+                dbg( D_INFO ) << "ev.tfinger.fingerId: " << ev.tfinger.fingerId;
+                dbg( D_INFO ) << "numfingers: " << SDL_GetNumTouchFingers( ev.tfinger.touchId );
+                if( static_cast<int>(ev.tfinger.fingerId) > 0 && SDL_GetNumTouchFingers( ev.tfinger.touchId ) == 1 ) {
                     finger_down_x = finger_curr_x = ev.tfinger.x * WindowWidth;
                     finger_down_y = finger_curr_y = ev.tfinger.y * WindowHeight;
                     finger_down_time = ticks;
                     finger_repeat_time = 0;
                     is_quick_shortcut_touch = get_quick_shortcut_under_finger() != NULL;
+                    DebugLog( D_INFO, DC_ALL ) << "finger_down_x: " << finger_down_x;
+                    DebugLog( D_INFO, DC_ALL ) << "finger_down_y: " << finger_down_y;
                     if( !is_quick_shortcut_touch ) {
+                        dbg( D_INFO ) << "Not quick shortcut touch";
                         update_finger_repeat_delay();
                     }
                     ui_manager::redraw_invalidated();
                     needupdate = true; // ensure virtual joystick and quick shortcuts redraw as we interact
-                } else if( ev.tfinger.fingerId == 1 ) {
-                    if( !is_quick_shortcut_touch ) {
+                } else if( static_cast<int>(ev.tfinger.fingerId) > 0 && SDL_GetNumTouchFingers( ev.tfinger.touchId ) == 2 ) {
+                    if ( !is_quick_shortcut_touch ){
                         second_finger_down_x = second_finger_curr_x = ev.tfinger.x * WindowWidth;
                         second_finger_down_y = second_finger_curr_y = ev.tfinger.y * WindowHeight;
+                        DebugLog( D_INFO, DC_ALL ) << "second_finger_curr_x: " << finger_down_x;
+                        DebugLog( D_INFO, DC_ALL ) << "second_finger_curr_y: " << second_finger_curr_y;
                         is_two_finger_touch = true;
                     }
-                } else if( ev.tfinger.fingerId == 2 ) {
-                    if( !is_quick_shortcut_touch ) {
+                } else if( static_cast<int>(ev.tfinger.fingerId) > 0 && SDL_GetNumTouchFingers( ev.tfinger.touchId ) == 3 ) {
+                    if ( !is_quick_shortcut_touch ){
                         third_finger_down_x = third_finger_curr_x = ev.tfinger.x * WindowWidth;
                         third_finger_down_y = third_finger_curr_y = ev.tfinger.y * WindowHeight;
                         is_three_finger_touch = true;
@@ -3359,9 +3457,14 @@ static void CheckMessages()
                 }
                 break;
             case SDL_FINGERUP:
-                if( ev.tfinger.fingerId == 0 ) {
+                dbg( D_INFO ) << "Fingerup triggered.";
+                dbg( D_INFO ) << "ev.tfinger.fingerId: " << ev.tfinger.fingerId;
+                dbg( D_INFO ) << "numfingers: " << SDL_GetNumTouchFingers( ev.tfinger.touchId );
+                if( static_cast<int>(ev.tfinger.fingerId) > 0 && SDL_GetNumTouchFingers( ev.tfinger.touchId ) == 1 ) {
                     finger_curr_x = ev.tfinger.x * WindowWidth;
                     finger_curr_y = ev.tfinger.y * WindowHeight;
+                    DebugLog( D_INFO, DC_ALL ) << "finger_curr_x: " << finger_curr_x;
+                    DebugLog( D_INFO, DC_ALL ) << "finger_curr_y: " << finger_curr_y;
                     if( is_quick_shortcut_touch ) {
                         input_event *quick_shortcut = get_quick_shortcut_under_finger();
                         if( quick_shortcut ) {
@@ -3471,9 +3574,10 @@ static void CheckMessages()
                                     quick_shortcuts_enabled = !quick_shortcuts_enabled;
 
                                     quick_shortcuts_toggle_handled = true;
-
+                                    //TODO: get some equivalent to iOS
                                     // Display an Android toast message
                                     {
+#if defined(__ANDROID__)
                                         JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
                                         jobject activity = ( jobject )SDL_AndroidGetActivity();
                                         jclass clazz( env->GetObjectClass( activity ) );
@@ -3483,6 +3587,7 @@ static void CheckMessages()
                                         env->CallVoidMethod( activity, method_id, toast_message );
                                         env->DeleteLocalRef( activity );
                                         env->DeleteLocalRef( clazz );
+#endif
                                     }
                                 } else {
                                     last_input = input_event( three_tap_key, input_event_t::keyboard_char );
@@ -3528,14 +3633,14 @@ static void CheckMessages()
                     needupdate = true; // ensure virtual joystick and quick shortcuts are updated properly
                     ui_manager::redraw_invalidated();
                     refresh_display(); // as above, but actually redraw it now as well
-                } else if( ev.tfinger.fingerId == 1 ) {
-                    if( is_two_finger_touch ) {
+                } else if( static_cast<int>(ev.tfinger.fingerId) > 0 && SDL_GetNumTouchFingers( ev.tfinger.touchId ) == 2 ) {
+                    if( is_two_finger_touch  ) {
                         // on second finger release, just remember the x/y position so we can calculate delta once first finger is done
                         // is_two_finger_touch will be reset when first finger lifts (see above)
                         second_finger_curr_x = ev.tfinger.x * WindowWidth;
                         second_finger_curr_y = ev.tfinger.y * WindowHeight;
                     }
-                } else if( ev.tfinger.fingerId == 2 ) {
+                } else if( static_cast<int>(ev.tfinger.fingerId) > 0 && SDL_GetNumTouchFingers( ev.tfinger.touchId ) == 3 ) {
                     if( is_three_finger_touch ) {
                         // on third finger release, just remember the x/y position so we can calculate delta once first finger is done
                         // is_three_finger_touch will be reset when first finger lifts (see above)
@@ -3604,7 +3709,7 @@ static void init_term_size_and_scaling_factor()
     scaling_factor = 1;
     point terminal( get_option<int>( "TERMINAL_X" ), get_option<int>( "TERMINAL_Y" ) );
 
-#if !defined(__ANDROID__)
+#if !defined(__ANDROID__) || !defined(__IPHONEOS__)
 
     if( get_option<std::string>( "SCALING_FACTOR" ) == "2" ) {
         scaling_factor = 2;
@@ -3803,7 +3908,7 @@ void catacurses::init_interface()
     stdscr = newwin( get_terminal_height(), get_terminal_width(), point::zero );
     //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
     imclient->load_fonts( gui_font, font, windowsPalette, fl.gui_typeface, fl.typeface );
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
     // Make sure we initialize preview_terminal_width/height to sensible values
     preview_terminal_width = TERMINAL_WIDTH * fontwidth;
     preview_terminal_height = TERMINAL_HEIGHT * fontheight;
@@ -3889,7 +3994,7 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
         throw std::runtime_error( "input_manager::get_input_event called in test mode" );
     }
 
-#if !defined(__ANDROID__) && !(defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE == 1)
+#if !defined(__ANDROID__) && !defined(__IPHONEOS__)
     if( actual_keyboard_mode( preferred_keyboard_mode ) == keyboard_mode::keychar ) {
         StartTextInput();
     } else {
@@ -3947,11 +4052,11 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
     SDL_GetMouseState( &last_input.mouse_pos.x, &last_input.mouse_pos.y );
     if( last_input.type == input_event_t::keyboard_char ) {
         previously_pressed_key = last_input.get_first_input();
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
         android_vibrate();
 #endif
     }
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
     else if( last_input.type == input_event_t::gamepad ) {
         android_vibrate();
     }
