@@ -53,17 +53,16 @@
     "skill_used": "tailor",
     "difficulty": 5,
     "skills_required": [ [ "fabrication", 3 ] ],
-    "time": "390 m",
+    "time": "250 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_arthropod", 4 ] ],
-    "byproducts": [ [ "scrap_leather", 4 ] ],
+    "byproducts": [ [ "leather", 7 ], [ "scrap_leather", 5 ] ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_chitinworking" },
-      { "proficiency": "prof_leatherworking" },
-      { "proficiency": "prof_articulation" }
+      { "proficiency": "prof_leatherworking" }
     ],
-    "using": [ [ "armor_chitin", 3 ], [ "tailoring_leather_small", 2 ] ]
+    "using": [ [ "armor_chitin", 13 ], [ "strap_large", 8 ], [ "tailoring_leather_patchwork", 2 ] ]
   },
   {
     "result": "xs_armguard_chitin",

@@ -64,5 +64,15 @@
       [ [ "button_plastic", 5 ] ],
       [ [ "zipper_short_plastic", 1 ] ]
     ]
+  },
+  {
+    "result": "legguard_chitin",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "40 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "string_6", 8 ] ], [ [ "chitin_piece", 26 ] ], [ [ "sheet_leather_patchwork", 2 ] ] ]
   }
 ]
