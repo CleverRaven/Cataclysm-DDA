@@ -47,6 +47,9 @@
 
 class overmap_connection;
 
+static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
+static const mongroup_id GROUP_ZOMBIE_HORDE( "GROUP_ZOMBIE_HORDE" );
+
 static const oter_str_id oter_forest( "forest" );
 static const oter_str_id oter_forest_thick( "forest_thick" );
 static const oter_str_id oter_lake_bed( "lake_bed" );
@@ -412,6 +415,9 @@ void overmap::load_monster_groups( const JsonArray &jsin )
                 if( !new_group.monsters.empty() ) {
                     spawn_monsters( temp, new_group.monsters );
                 } else {
+                    if( new_group.type == GROUP_ZOMBIE ) {
+                        new_group.type = GROUP_ZOMBIE_HORDE;
+                    }
                     spawn_mongroup( temp, new_group.type, new_group.population );
                 }
             } else {

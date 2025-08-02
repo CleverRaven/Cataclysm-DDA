@@ -81,7 +81,7 @@ static const mongroup_id GROUP_OCEAN_SHORE( "GROUP_OCEAN_SHORE" );
 static const mongroup_id GROUP_RIVER( "GROUP_RIVER" );
 static const mongroup_id GROUP_SUBWAY_CITY( "GROUP_SUBWAY_CITY" );
 static const mongroup_id GROUP_SWAMP( "GROUP_SWAMP" );
-static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
+static const mongroup_id GROUP_ZOMBIE_HORDE( "GROUP_ZOMBIE_HORDE" );
 
 static const oter_str_id oter_central_lab( "central_lab" );
 static const oter_str_id oter_central_lab_core( "central_lab_core" );
@@ -4337,7 +4337,8 @@ void overmap::move_hordes()
              mon != monster_submap.second.end(); ) {
             // This might have an issue where a monster prevented from acting possibly should
             // get another chance to act?
-            if( mon->second.last_processed == calendar::turn ) {
+            if( mon->second.last_processed == calendar::turn ||
+                mon->second.get_type()->has_flag( mon_flag_DORMANT ) ) {
                 mon++;
                 continue;
             }
@@ -4360,7 +4361,6 @@ void overmap::move_hordes()
                 if( viable_candidates.empty() ) {
                     // We're stuck.
                     // TODO: try to wander to get around obstacles, or smash.
-                    debugmsg( "No viable move candidates" );
                     mon++;
                     continue;
                 }
@@ -4384,7 +4384,7 @@ void overmap::move_hordes()
                     }
                     // TODO: this should be bundled into a constructor.
                     if( mon->second.tracking_intensity > 0 ) {
-                        placed_monster->set_dest( mon->second.destination );
+                        placed_monster->wander_to( mon->second.destination, mon->second.tracking_intensity );
                     }
                     mon = monster_submap.second.erase( mon );
                     // Do we need to delete the current tree if it's empty, or not bother and
@@ -6363,7 +6363,7 @@ void overmap::place_mongroups()
                         if( desired_zombies <= 0 ) {
                             break;
                         }
-                        spawn_mongroup( s, GROUP_ZOMBIE, desired_zombies > 10 ? 10 : desired_zombies );
+                        spawn_mongroup( s, GROUP_ZOMBIE_HORDE, desired_zombies > 10 ? 10 : desired_zombies );
                         desired_zombies -= 10;
                     }
                 }
