@@ -5,7 +5,6 @@
 #include <string>
 #include <unordered_map>
 
-#include "assign.h"
 #include "debug.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
@@ -53,8 +52,8 @@ void move_mode::load( const JsonObject &jo, std::string_view/*src*/ )
     mandatory( jo, was_loaded, "name",  _name );
 
     mandatory( jo, was_loaded, "panel_char", _panel_letter, unicode_codepoint_from_symbol_reader );
-    assign( jo, "panel_color", _panel_color );
-    assign( jo, "symbol_color", _symbol_color );
+    optional( jo, was_loaded, "panel_color", _panel_color, nc_color_reader{} );
+    optional( jo, was_loaded, "symbol_color", _symbol_color, nc_color_reader{} );
 
     mandatory( jo, was_loaded, "exertion_level", _exertion_level, activity_level_reader{} );
 
