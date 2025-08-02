@@ -8,7 +8,7 @@
     "description": "Designed to attach to an exosuit's helmet, this is a sturdy plate of tempered steel.",
     "weight": "5 kg",
     "volume": "5 L",
-    "material": [ "qt_steel", "qt_steel" ],
+    "material": [ "qt_steel" ],
     "symbol": "[",
     "looks_like": "power_armor_helmet_basic",
     "color": "light_gray",
