@@ -5,7 +5,7 @@
     "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".30-30 Winchester SP" },
     "//": "Based on https://www.federalpremium.com/rifle/power-shok/11-3030A.html",
-    "description": "A 150 grain Soft Point 30-30 Winchester round. .30-30 Winchester is a common rifle round, being in use for hunting and recreation for over 100 years.  It holds the title of being the first non-military cartridge designed for smokeless powder, despite still using the old naming scheme for black powder cartridges.",
+    "description": "A 150 grain Soft Point 30-30 Winchester round.  .30-30 Winchester is a common rifle round, being in use for hunting and recreation for over 100 years.  It holds the title of being the first non-military cartridge designed for smokeless powder, despite still using the old naming scheme for black powder cartridges.",
     "ascii_picture": "4570_sp",
     "weight": "35 g",
     "volume": "117 ml",
