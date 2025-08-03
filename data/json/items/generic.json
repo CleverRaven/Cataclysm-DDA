@@ -1088,6 +1088,7 @@
     "color": "light_gray",
     "name": { "str": "rebar" },
     "description": "A rod of rebar, makes a nice melee weapon, and could be handy in constructing tougher walls and such.",
+    "//": "80 cm x 16mm diameter",
     "category": "spare_parts",
     "price": "75 USD",
     "price_postapoc": "25 cent",
