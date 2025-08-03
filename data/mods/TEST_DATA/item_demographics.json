@@ -447,6 +447,11 @@
             "reloaded_45colt_cowboy": 1
           }
         },
+        {
+          "type": "3030",
+          "weight": 5,
+          "items": { "3030": 1, "reloaded_3030_fmj": 1, "reloaded_3030": 1, "reloaded_3030_bp": 1, "reloaded_3030_fmj_bp": 1 }
+        },
         { "type": "762R", "weight": 4, "items": { "762_54R": 1, "bp_762_54R": 1, "reloaded_762_54R": 1 } },
         {
           "type": "10mm",
