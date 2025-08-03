@@ -4011,5 +4011,14 @@
         "values": [ { "value": "ATTACK_SPEED", "multiply": -0.1 }, { "value": "PAIN", "multiply": -0.25 } ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xe_werewolf_walk_through_walls",
+    "//": "Hidden effect, used to make sure werewolves don't drink their items when Ghostwalking.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "enchantments": [ { "values": [ { "value": "EVASION", "add": 1 }, { "value": "PHASE_DISTANCE", "add": 1 } ] } ],
+    "flags": [ "ETHEREAL", "INVISIBLE" ]
   }
 ]

@@ -13,7 +13,10 @@
     "type": "effect_on_condition",
     "id": "EOC_WEREWOLF_SILVER_CLAWS_ON",
     "condition": { "u_has_trait": "WEREWOLF_HYBRID_FORM_TRAITS" },
-    "effect": [ { "u_add_trait": "WEREWOLF_SILVER_CLAWS_ACTIVE" } ],
+    "effect": [
+      { "u_add_trait": "WEREWOLF_SILVER_CLAWS_ACTIVE" },
+      { "u_message": "Your claws shine like the moon.", "type": "good" }
+    ],
     "false_effect": [ { "run_eocs": "EOC_WEREWOLF_SILVER_CLAWS_deactivated_future", "time_in_future": 0 } ]
   },
   {
@@ -189,5 +192,19 @@
     "id": "EOC_WEREWOLF_PRIMAL_FORM_deactivated_future",
     "//": "This is necessary because calling u_deactivate_trait from within the trait EoC to deactivate that trait does not work",
     "effect": { "u_deactivate_trait": "WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_WALK_THROUGH_WALLS_ON",
+    "effect": [
+      { "u_add_effect": "effect_xe_werewolf_walk_through_walls", "duration": "PERMANENT" },
+      { "u_add_effect": "incorporeal", "duration": "PERMANENT" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_WALK_THROUGH_WALLS_OFF",
+    "condition": { "u_has_effect": "effect_xe_werewolf_walk_through_walls" },
+    "effect": [ { "u_lose_effect": "incorporeal" }, { "u_lose_effect": "effect_xe_werewolf_walk_through_walls" } ]
   }
 ]
