@@ -3980,5 +3980,23 @@
         "values": [ { "value": "LUMINATION", "add": 45 } ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xe_werewolf_primal_strength_human_form",
+    "//": "This is necessary because the ACTIVE condition can't be included with or/and statements",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "enchantments": [
+      {
+        "condition": { "not": { "u_has_any_trait": [ "WEREWOLF_HYBRID_FORM_TRAITS", "WEREWOLF_PRIMAL_FORM_TRAITS" ] } },
+        "values": [
+          {
+            "value": "STRENGTH",
+            "add": { "math": [ "min( (2 + (werewolf_tier_four_traits() * 0.2) + (werewolf_tier_five_traits() * 0.35) ), 8)" ] }
+          }
+        ]
+      }
+    ]
   }
 ]

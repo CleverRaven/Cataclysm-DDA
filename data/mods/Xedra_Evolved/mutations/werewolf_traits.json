@@ -118,11 +118,27 @@
     "id": "WEREWOLF_ILLUMINATE_TARGET",
     "name": { "str": "Moon's Cold Glow" },
     "points": 2,
-    "description": "As a hunter, you know that catching a scent is the first step to getting the prey's neck between your jaws, so it's best to avoid that first step.  While active, you have no scent at all.",
+    "description": "Moonlight illumates those under its light, and you can focus that light onto a single target.  The target will glow with a soft silvery light, which grows brighter when out under the moon.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
     "spells_learned": [ [ "xe_werewolf_illuminate_target_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "WEREWOLF_FRIEND_TO_ANIMALS",
+    "name": { "str": "Among the Birds and Beasts" },
+    "points": 2,
+    "description": "A werewolf is a hunter and the natural world knows that, even in human form.  However, it is possible to cloak your predator's mien and masquerade as a simple animal, drawing less negative.  While activate, this trait provides the effects of Animal Kinship.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "mana": true,
+    "cost": 1,
+    "time": 10,
+    "active_flags": [ "ANIMALEMPATH2" ]
   },
   {
     "//": "Tier 2 traits begin here",
@@ -275,6 +291,36 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "WEREWOLF_STRENGTH_BONUS",
+    "name": "Primal Strength",
+    "points": 4,
+    "description": "A werewolf in their war form is a nightmare of claws and teeth and corded muscles, but in drawing on the might of the ancient hunters you have surpassed even that.  You gain an additional strength bonus while in war form, and may activate this trait to receive that bonus while in human or wolf form as well.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "mana": true,
+    "active": true,
+    "activated_is_setup": true,
+    "cost": 2,
+    "time": 5,
+    "enchantments": [
+      {
+        "condition": { "u_has_any_trait": [ "WEREWOLF_HYBRID_FORM_TRAITS", "WEREWOLF_PRIMAL_FORM_TRAITS" ] },
+        "values": [
+          {
+            "value": "STRENGTH",
+            "add": { "math": [ "min( (2 + (werewolf_tier_four_traits() * 0.2) + (werewolf_tier_five_traits() * 0.35) ), 8)" ] }
+          }
+        ]
+      },
+      {
+        "condition": "ACTIVE",
+        "ench_effects": [ { "effect": "effect_xe_werewolf_primal_strength_human_form", "intensity": 1 } ]
+      }
+    ]
   },
   {
     "//": "Tier 4 traits begin here",

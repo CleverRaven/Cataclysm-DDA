@@ -110,6 +110,14 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_XP_UPDATER_UPDATE",
+    "eoc_type": "EVENT",
+    "required_event": "game_load",
+    "condition": { "and": [ { "u_has_trait": "WEREWOLF_ANIMAL_FORM" }, { "math": [ "u_werewolf_give_xp_updater_value != 1" ] } ] },
+    "effect": [ { "math": [ "u_werewolf_xp_threshold_updater = 250" ] }, { "math": [ "u_werewolf_give_xp_updater_value = 1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_POWER_TRAIT_UPDATE_GAME_BEGIN",
     "eoc_type": "EVENT",
     "required_event": "game_begin",
