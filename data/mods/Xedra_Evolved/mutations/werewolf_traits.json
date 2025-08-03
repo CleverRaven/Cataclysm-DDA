@@ -245,6 +245,32 @@
     "spells_learned": [ [ "xe_werewolf_stun_machine_spell", 1 ] ]
   },
   {
+    "type": "mutation",
+    "id": "WEREWOLF_EXTRA_WEAKPOINT_HITS",
+    "name": "Go for the Throat",
+    "points": 3,
+    "description": "A successful hunter targets the vulnerable belly, or throat, or ears, they do not simply bite the first thing that comes into their reach.  When unarmed or in war or wolf form, you have a higher chance to hit your enemies' weakpoints.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "mana": true,
+    "enchantments": [
+      {
+        "condition": { "not": "u_has_weapon" },
+        "values": [
+          {
+            "value": "WEAKPOINT_ACCURACY",
+            "multiply": {
+              "math": [
+                "min( (0.25 + (werewolf_tier_three_traits() * 0.1) + (werewolf_tier_four_traits() * 0.15) + (werewolf_tier_five_traits() * 0.2) ), 2)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
     "//": "Tier 3 traits begin here",
     "type": "mutation",
     "id": "WEREWOLF_PARTIAL_SHIFT",

@@ -171,13 +171,20 @@
         "run_eoc_selector": [
           "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_TWO_WEREWOLF_SENSE_SPIRITS_AND_ALIENS",
           "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_TWO_WEREWOLF_STUN_MACHINE",
+          "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_TWO_WEREWOLF_EXTRA_WEAKPOINT_HITS",
           "Go Back."
         ],
-        "names": [ "Learn <trait_name:WEREWOLF_SENSE_SPIRITS_AND_ALIENS>", "Learn <trait_name:WEREWOLF_STUN_MACHINE>", "Go Back." ],
-        "keys": [ "1", "2", "3" ],
+        "names": [
+          "Learn <trait_name:WEREWOLF_SENSE_SPIRITS_AND_ALIENS>",
+          "Learn <trait_name:WEREWOLF_STUN_MACHINE>",
+          "Learn <trait_name:WEREWOLF_EXTRA_WEAKPOINT_HITS>",
+          "Go Back."
+        ],
+        "keys": [ "1", "2", "3", "4" ],
         "descriptions": [
           "<trait_name:WEREWOLF_SENSE_SPIRITS_AND_ALIENS>\n<trait_description:WEREWOLF_SENSE_SPIRITS_AND_ALIENS>",
           "<trait_name:WEREWOLF_STUN_MACHINE>\n<trait_description:WEREWOLF_STUN_MACHINE>",
+          "<trait_name:WEREWOLF_EXTRA_WEAKPOINT_HITS>\n<trait_description:WEREWOLF_EXTRA_WEAKPOINT_HITS>",
           "Go Back."
         ],
         "allow_cancel": true
@@ -200,6 +207,16 @@
     "condition": { "not": { "u_has_trait": "WEREWOLF_NO_SCENT" } },
     "effect": [
       { "set_string_var": "WEREWOLF_NO_SCENT", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "2 hours", "3 hours" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_TWO_WEREWOLF_EXTRA_WEAKPOINT_HITS",
+    "condition": { "not": { "u_has_trait": "WEREWOLF_EXTRA_WEAKPOINT_HITS" } },
+    "effect": [
+      { "set_string_var": "WEREWOLF_EXTRA_WEAKPOINT_HITS", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "2 hours", "3 hours" ] }
     ]
@@ -327,17 +344,20 @@
         "run_eoc_selector": [
           "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_FIVE_WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM",
           "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_FIVE_WEREWOLF_CLOSE_TEAR_IN_REALITY",
+          "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_FIVE_WEREWOLF_WALK_THROUGH_WALLS",
           "Go Back."
         ],
         "names": [
           "Learn <trait_name:WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM>",
           "Learn <trait_name:WEREWOLF_CLOSE_TEAR_IN_REALITY>",
+          "Learn <trait_name:WEREWOLF_WALK_THROUGH_WALLS>",
           "Go Back."
         ],
-        "keys": [ "1", "2", "3" ],
+        "keys": [ "1", "2", "3", "4" ],
         "descriptions": [
           "<trait_name:WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM>\n<trait_description:WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM>",
           "<trait_name:WEREWOLF_CLOSE_TEAR_IN_REALITY>\n<trait_description:WEREWOLF_CLOSE_TEAR_IN_REALITY>",
+          "<trait_name:WEREWOLF_WALK_THROUGH_WALLS>\n<trait_description:WEREWOLF_WALK_THROUGH_WALLS>",
           "Go Back."
         ],
         "allow_cancel": true
@@ -360,6 +380,16 @@
     "condition": { "not": { "u_has_trait": "WEREWOLF_CLOSE_TEAR_IN_REALITY" } },
     "effect": [
       { "set_string_var": "WEREWOLF_CLOSE_TEAR_IN_REALITY", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "5 hours", "7 hours 30 minutes" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_FIVE_WEREWOLF_WALK_THROUGH_WALLS",
+    "condition": { "not": { "u_has_trait": "WEREWOLF_WALK_THROUGH_WALLS" } },
+    "effect": [
+      { "set_string_var": "WEREWOLF_WALK_THROUGH_WALLS", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "5 hours", "7 hours 30 minutes" ] }
     ]
