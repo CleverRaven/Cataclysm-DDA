@@ -5,12 +5,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [
-      [ [ "lead", 2 ] ],
-      [ [ "unprimed_3030_casing", 1 ] ],
-      [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder_rifle", 28 ] ]
-    ]
+    "components": [ [ [ "lead", 2 ] ], [ [ "unprimed_3030_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "gunpowder_rifle", 28 ] ] ]
   },
   {
     "result": "3030_casing",
