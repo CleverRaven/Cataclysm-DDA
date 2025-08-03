@@ -271,6 +271,17 @@
     ]
   },
   {
+    "type": "mutation",
+    "id": "WEREWOLF_FAR_JUMP",
+    "name": { "str": "Grasshopper's Leap" },
+    "points": 2,
+    "description": "You can make mighty leaps from a standing start that would normally be impossible.  While in wolf form, you can jump <color_green>much further</color>.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "xe_werewolf_far_jump_spell", 1 ] ]
+  },
+  {
     "//": "Tier 3 traits begin here",
     "type": "mutation",
     "id": "WEREWOLF_PARTIAL_SHIFT",

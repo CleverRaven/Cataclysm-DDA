@@ -41,6 +41,31 @@
     "base_casting_time": 50
   },
   {
+    "id": "xe_werewolf_far_jump_spell",
+    "name": "Grasshopper's Leap",
+    "//": "TODO: Balance its effect and damage once issue #53511 is fixed.",
+    "description": "Gather your legs and leap.  You will leap <color_green>much further</color> if in wolf form.",
+    "valid_targets": [ "ground" ],
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "NO_EXPLOSION_SFX" ],
+    "effect": "dash",
+    "shape": "cone",
+    "min_damage": 0,
+    "max_damage": 0,
+    "damage_type": "cut",
+    "min_range": {
+      "math": [
+        "min( (3 + (werewolf_tier_three_traits() * 0.1) + (werewolf_tier_four_traits() * 0.25) + (werewolf_tier_five_traits() * 0.4) ), 8 ) * (1 + (u_has_trait('VAMPIRE_WOLF_FORM') * 0.5) )"
+      ]
+    },
+    "max_range": {
+      "math": [
+        "min( (3 + (werewolf_tier_three_traits() * 0.1) + (werewolf_tier_four_traits() * 0.25) + (werewolf_tier_five_traits() * 1.4) ), 8 ) * (1 + (u_has_trait('VAMPIRE_WOLF_FORM') * 0.5) )"
+      ]
+    },
+    "base_energy_cost": 50,
+    "base_casting_time": 50
+  },
+  {
     "id": "xe_werewolf_argent_claws_damage",
     "type": "SPELL",
     "name": { "str": "Argent Claws Damage", "//~": "NO_I18N" },

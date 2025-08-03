@@ -172,19 +172,22 @@
           "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_TWO_WEREWOLF_SENSE_SPIRITS_AND_ALIENS",
           "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_TWO_WEREWOLF_STUN_MACHINE",
           "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_TWO_WEREWOLF_EXTRA_WEAKPOINT_HITS",
+          "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_TWO_WEREWOLF_FAR_JUMP",
           "Go Back."
         ],
         "names": [
           "Learn <trait_name:WEREWOLF_SENSE_SPIRITS_AND_ALIENS>",
           "Learn <trait_name:WEREWOLF_STUN_MACHINE>",
           "Learn <trait_name:WEREWOLF_EXTRA_WEAKPOINT_HITS>",
+          "Learn <trait_name:WEREWOLF_FAR_JUMP>",
           "Go Back."
         ],
-        "keys": [ "1", "2", "3", "4" ],
+        "keys": [ "1", "2", "3", "4", "5" ],
         "descriptions": [
           "<trait_name:WEREWOLF_SENSE_SPIRITS_AND_ALIENS>\n<trait_description:WEREWOLF_SENSE_SPIRITS_AND_ALIENS>",
           "<trait_name:WEREWOLF_STUN_MACHINE>\n<trait_description:WEREWOLF_STUN_MACHINE>",
           "<trait_name:WEREWOLF_EXTRA_WEAKPOINT_HITS>\n<trait_description:WEREWOLF_EXTRA_WEAKPOINT_HITS>",
+          "<trait_name:WEREWOLF_EXTRA_WEAKPOINT_HITS>\n<trait_description:WEREWOLF_FAR_JUMP>",
           "Go Back."
         ],
         "allow_cancel": true
@@ -207,6 +210,16 @@
     "condition": { "not": { "u_has_trait": "WEREWOLF_NO_SCENT" } },
     "effect": [
       { "set_string_var": "WEREWOLF_NO_SCENT", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "2 hours", "3 hours" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_TWO_WEREWOLF_FAR_JUMP",
+    "condition": { "not": { "u_has_trait": "WEREWOLF_FAR_JUMP" } },
+    "effect": [
+      { "set_string_var": "WEREWOLF_FAR_JUMP", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "2 hours", "3 hours" ] }
     ]
