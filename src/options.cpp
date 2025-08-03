@@ -3975,7 +3975,17 @@ void options_manager::deserialize( const JsonArray &ja )
     for( JsonObject joOptions : ja ) {
         joOptions.allow_omitted_members();
 
+        // yay hardcoded list! remove after 0.J
+        std::vector<std::string> removed_options = { "DISTANCE_INITIAL_VISIBILITY", "FOV_3D_Z_RANGE",
+                                                     "INITIAL_STAT_POINTS", "INITIAL_TRAIT_POINTS", "INITIAL_SKILL_POINTS", "MAX_TRAIT_POINTS",
+                                                     "SKILL_TRAINING_SPEED", "PROFICIENCY_TRAINING_SPEED"
+                                                   };
+
         const std::string name = migrateOptionName( joOptions.get_string( "name" ) );
+
+        if( std::find( removed_options.begin(), removed_options.end(), name ) != removed_options.end() ) {
+            continue; // option was removed so we just don't do anything here.
+        }
         const std::string value = migrateOptionValue( joOptions.get_string( "name" ),
                                   joOptions.get_string( "value" ) );
 
