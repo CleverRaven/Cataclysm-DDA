@@ -3998,5 +3998,18 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xe_werewolf_redhanded_rage",
+    "//": "Hidden effect, part of an activatable trait",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "enchantments": [
+      {
+        "condition": { "not": "u_has_weapon" },
+        "values": [ { "value": "ATTACK_SPEED", "multiply": -0.1 }, { "value": "PAIN", "multiply": -0.25 } ]
+      }
+    ]
   }
 ]

@@ -323,6 +323,22 @@
     ]
   },
   {
+    "type": "mutation",
+    "id": "WEREWOLF_BATTLE_FURY",
+    "name": "Red-Handed Rage",
+    "points": 4,
+    "description": "You can enter a focused battle frenzy, suffering less pain and attacking faster while unarmed.  In addition, while in war form you enable two more claw techniques: a powerful knockback that downs your enemy, and a slash that hits multiple targets around you.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "mana": true,
+    "active": true,
+    "activated_is_setup": true,
+    "cost": 1,
+    "time": 2,
+    "enchantments": [ { "condition": "ACTIVE", "ench_effects": [ { "effect": "effect_xe_werewolf_redhanded_rage", "intensity": 1 } ] } ]
+  },
+  {
     "//": "Tier 4 traits begin here",
     "type": "mutation",
     "id": "WEREWOLF_SUPER_FAST_REGENERATION",

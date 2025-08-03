@@ -214,19 +214,22 @@
           "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_THREE_WEREWOLF_SILVER_CLAWS",
           "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_THREE_WEREWOLF_MANA_BONUS_AFTER_KILL",
           "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_THREE_WEREWOLF_STRENGTH_BONUS",
+          "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_THREE_WEREWOLF_BATTLE_FURY",
           "Go Back."
         ],
         "names": [
           "Learn <trait_name:WEREWOLF_SILVER_CLAWS>",
           "Learn <trait_name:WEREWOLF_MANA_BONUS_AFTER_KILL>",
           "Learn <trait_name:WEREWOLF_STRENGTH_BONUS>",
+          "Learn <trait_name:WEREWOLF_BATTLE_FURY>",
           "Go Back."
         ],
-        "keys": [ "1", "2", "3", "4" ],
+        "keys": [ "1", "2", "3", "4", "5" ],
         "descriptions": [
           "<trait_name:WEREWOLF_SILVER_CLAWS>\n<trait_description:WEREWOLF_SILVER_CLAWS>",
           "<trait_name:WEREWOLF_MANA_BONUS_AFTER_KILL>\n<trait_description:WEREWOLF_MANA_BONUS_AFTER_KILL>",
           "<trait_name:WEREWOLF_STRENGTH_BONUS>\n<trait_description:WEREWOLF_STRENGTH_BONUS>",
+          "<trait_name:WEREWOLF_BATTLE_FURY>\n<trait_description:WEREWOLF_BATTLE_FURY>",
           "Go Back."
         ],
         "allow_cancel": true
@@ -259,6 +262,16 @@
     "condition": { "not": { "u_has_trait": "WEREWOLF_STRENGTH_BONUS" } },
     "effect": [
       { "set_string_var": "WEREWOLF_STRENGTH_BONUS", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "3 hours", "4 hours 30 minutes" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_THREE_WEREWOLF_BATTLE_FURY",
+    "condition": { "not": { "u_has_trait": "WEREWOLF_BATTLE_FURY" } },
+    "effect": [
+      { "set_string_var": "WEREWOLF_BATTLE_FURY", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "3 hours", "4 hours 30 minutes" ] }
     ]

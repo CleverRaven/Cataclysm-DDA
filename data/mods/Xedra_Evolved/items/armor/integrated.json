@@ -859,7 +859,13 @@
     "material": [ "chitin" ],
     "symbol": ";",
     "color": "dark_gray",
-    "techniques": [ "CLAWS_SHAPESHIFTER", "CLAWS_SHAPESHIFTER_RENDING", "CLAWS_SHAPESHIFTER_CRIT" ],
+    "techniques": [
+      "CLAWS_SHAPESHIFTER",
+      "CLAWS_SHAPESHIFTER_RENDING",
+      "CLAWS_SHAPESHIFTER_CRIT",
+      "CLAWS_SHAPESHIFTER_REDHANDED_RAGE_KNOCKBACK",
+      "CLAWS_SHAPESHIFTER_REDHANDED_RAGE_AOE_SLASH"
+    ],
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED", "NO_SALVAGE" ],
     "armor": [
       {
