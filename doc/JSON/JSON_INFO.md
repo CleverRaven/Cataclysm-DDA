@@ -3786,7 +3786,7 @@ Defines the various things that happen when the player or something else bashes 
     "destroy_only": true,
     "bash_below": true,
     "tent_centers": ["f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet"],
-    "items": "bashed_item_result_group"
+    "items": "bashed_item_result_group" // if terrain or furniture uses `item`, you can omit this field, the game would pick the bash from item uncraft recipe, with some items bashed down to it's components. Alternatively, the game would pick it from the item deconstruction, with, again, some items bashed down to it's components.
 }
 ```
 
@@ -3836,7 +3836,7 @@ This terrain is the roof of the tile below it, try to destroy that too. Further 
     "furn_set": "f_safe",
     "ter_set": "t_dirt",
     "skill": { "skill": "electronics", "multiplier": 0.5, "min": 1, "max": 8 },
-    "items": "deconstructed_item_result_group"
+    "items": "deconstructed_item_result_group" // if terrain or furniture uses `item`, you can omit this field, the game would then assign the base item to drop for deconstruction
 }
 ```
 
