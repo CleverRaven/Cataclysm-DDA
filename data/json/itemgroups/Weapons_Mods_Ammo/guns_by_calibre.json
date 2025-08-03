@@ -642,6 +642,11 @@
   },
   {
     "type": "item_group",
+    "id": "guns_rifle_common_3030",
+    "items": [ { "group": "nested_winchester_94_3030", "prob": 93 }, { "group": "nested_marlin_336_3030", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
     "id": "guns_rifle_common_762R",
     "items": [
       { "group": "nested_mosin44", "prob": 23 },
@@ -822,6 +827,11 @@
       { "item": "rossi_r92_44_16", "prob": 185 },
       { "item": "rossi_r92_44_20", "prob": 121 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common_display_3030",
+    "items": [ { "item": "winchester_94_3030", "prob": 93 }, { "item": "marlin_336_3030", "prob": 100 } ]
   },
   {
     "type": "item_group",

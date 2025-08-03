@@ -1208,6 +1208,49 @@ struct handler<std::map<Key, Val>> {
     }
     static constexpr bool is_container = true;
 };
+
+template<typename Key, typename Val>
+struct handler<std::unordered_map<Key, Val>> {
+    void clear( std::unordered_map<Key, Val> &container ) const {
+        container.clear();
+    }
+    bool insert( std::unordered_map<Key, Val> &container, const std::pair<Key, Val> &data ) const {
+        // emplace can fail if the key already exists
+        if( !container.emplace( data ).second ) {
+            debugmsg( "Insert of <%s, %s> failed, key already exists",
+                      data_string( data.first ), data_string( data.second ) );
+            return false;
+        }
+        return true;
+    }
+    bool relative( std::unordered_map<Key, Val> &container, const std::pair<Key, Val> &data ) const {
+        if constexpr( !supports_relative<Val>::value ) {
+            debugmsg( "relative not supported by type %s", demangle( typeid( Val ).name() ) );
+            return false;
+        } else {
+            const auto iter = container.find( data.first );
+            if( iter == container.end() ) {
+                debugmsg( "No %s to perform relative of %s on",
+                          data_string( data.first ),  data_string( data.second ) );
+                return false;
+            }
+            iter->second += data.second;
+        }
+        return true;
+    }
+    bool erase( std::unordered_map<Key, Val> &container, const std::pair<Key, Val> &data ) const {
+        const auto iter = container.find( data.first );
+        if( iter != container.end() ) {
+            container.erase( iter );
+        } else {
+            debugmsg( "Did not remove <%s, %s> in delete", data_string( data.first ),
+                      data_string( data.second ) );
+            return false;
+        }
+        return true;
+    }
+    static constexpr bool is_container = true;
+};
 } // namespace reader_detail
 
 /**
@@ -1685,6 +1728,32 @@ public:
         V value;
         jv.read( value, true );
         return std::pair<K, V>( key, value );
+    }
+};
+
+// Support shorthand for a single value.
+template<typename T>
+class pair_reader : public generic_typed_reader<pair_reader<T>>
+{
+public:
+    std::pair<T, T> get_next( const JsonValue &jv ) const {
+        if( jv.test_float() ) {
+            T val;
+            jv.read( val, true );
+            return std::make_pair( val, val );
+        }
+        if( !jv.test_array() ) {
+            jv.throw_error( "bad pair" );
+        }
+        JsonArray ja = jv.get_array();
+        if( ja.size() != 2 ) {
+            ja.throw_error( "Must have 2 elements" );
+        }
+        T l;
+        T h;
+        ja[0].read( l, true );
+        ja[1].read( h, true );
+        return std::make_pair( l, h );
     }
 };
 

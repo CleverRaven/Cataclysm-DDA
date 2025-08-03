@@ -399,7 +399,9 @@
       "papm77",
       "rfb_308",
       "rdb_223",
-      "scar_16s"
+      "scar_16s",
+      "winchester_94_3030",
+      "marlin_336_3030"
     ],
     "type": "MIGRATION",
     "replace": "rifle_sporter"
