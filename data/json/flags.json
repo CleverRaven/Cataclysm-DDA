@@ -1219,7 +1219,8 @@
   {
     "id": "SHAPESHIFTED_ARMOR",
     "type": "json_flag",
-    "//": "Used to tag armor that is part of the character's new form to apply other flags."
+    "//": "Used to tag armor that is part of the character's new form to apply other flags.",
+    "info": "This item is currently <good>part of your form</good> and <bad>will not protect you</bad>."
   },
   {
     "id": "SHAPESHIFTED_ARMOR_ABSORBED_INTO_FORM",

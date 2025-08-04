@@ -198,6 +198,7 @@
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
               { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "360 * lilin_has_ruach_efficiency()" ] },
+              { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
               { "u_add_trait": "TURN_INTO_OWL_TRAITS" },
               {
                 "if": { "u_has_trait": "LILIN_OWL_FORM_PASS_THROUGH_WALLS" },
@@ -227,7 +228,8 @@
               { "u_message": "Your wings recede and you land on now-humanoid legs.", "type": "neutral" },
               { "u_lose_trait": "TURN_INTO_OWL_TRAITS" },
               { "u_lose_effect": "effect_lilin_owl_form_pass_through_walls" },
-              { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "4" ] }
+              { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "4" ] },
+              { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_RETURN_ARMOR_TO_NORMAL" }
             ]
           }
         ]
