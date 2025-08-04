@@ -210,6 +210,18 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
     return nullptr;
 }
 
+void Character::armor_use_power_when_hit( damage_unit &du, item &armor ) const
+{
+    const auto amount = units::from_kilojoule( du.amount );
+    if( amount > armor.energy_remaining( nullptr, true ) ) {
+        armor.deactivate( nullptr, false );
+        add_msg_if_player( _( "Your %s doesn't have enough power to absorb the blow and shuts down!" ),
+                           armor.tname() );
+    } else {
+        armor.energy_consume( amount, pos_bub(), nullptr );
+    }
+}
+
 bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp,
                               const sub_bodypart_id &sbp, int roll ) const
 {
@@ -219,17 +231,11 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
     if( roll > armor.get_coverage( sbp, ctype ) ) {
         return false;
     }
-    // if this armor has the flag, try to deduct that much energy from it. If that takes it to 0 energy, turn it off before it absorbs damage.
-    if( armor.has_flag( flag_USE_POWER_WHEN_HIT ) &&
-        units::from_kilojoule( du.amount ) > armor.energy_remaining( nullptr, true ) ) {
-        armor.deactivate( nullptr, false );
-        add_msg_if_player( _( "Your %s doesn't have enough power to absorb the blow and shuts down!" ),
-                           armor.tname() );
-    } else if( armor.has_flag( flag_USE_POWER_WHEN_HIT ) &&
-               units::from_kilojoule( du.amount ) < armor.energy_remaining( nullptr, true ) ) {
-        armor.energy_consume( units::from_kilojoule( du.amount ),
-                              pos_bub(), nullptr );
+
+    if( armor.has_flag( flag_USE_POWER_WHEN_HIT ) ) {
+        armor_use_power_when_hit( du, armor );
     }
+
     // We copy the damage unit here since it will be mutated by mitigate_damage()
     damage_unit pre_mitigation = du;
 
@@ -257,17 +263,11 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
     if( roll > armor.get_coverage( bp, ctype ) ) {
         return false;
     }
-    // if this armor has the flag, try to deduct that much energy from it. If that takes it to 0 energy, turn it off before it absorbs damage.
-    if( armor.has_flag( flag_USE_POWER_WHEN_HIT ) &&
-        units::from_kilojoule( du.amount ) > armor.energy_remaining( nullptr, true ) ) {
-        armor.deactivate( nullptr, false );
-        add_msg_if_player( _( "Your %s doesn't have enough power to absorb the blow and shuts down!" ),
-                           armor.tname() );
-    } else if( armor.has_flag( flag_USE_POWER_WHEN_HIT ) &&
-               units::from_kilojoule( du.amount ) < armor.energy_remaining( nullptr, true ) ) {
-        armor.energy_consume( units::from_kilojoule( du.amount ),
-                              pos_bub(), nullptr );
+
+    if( armor.has_flag( flag_USE_POWER_WHEN_HIT ) ) {
+        armor_use_power_when_hit( du, armor );
     }
+
     // We copy the damage unit here since it will be mutated by mitigate_damage()
     damage_unit pre_mitigation = du;
 
