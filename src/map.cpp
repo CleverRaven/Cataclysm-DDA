@@ -4387,12 +4387,12 @@ void map::drop_bash_results( const map_data_common_t &ter_furn, const tripoint_b
                 // if subcomponents, drop a bit of subcomponents and a bit of components
                 const float broken_qty = rng_float( 0.1f, 0.4f );
                 for( const item_comp &sub_comp : sub_uncraft_components ) {
-                    int qty_or_charges_comp =  sub_comp.count * std::round( it_qty.second * broken_qty );
+                    const int qty_or_charges_comp =  sub_comp.count * std::round( it_qty.second * broken_qty );
                     spawn_items_or_charges( here, p, sub_comp.type, qty_or_charges_comp );
                     add_msg_debug( debugmode::DF_MAP, "type 2, subcomponent: %s, %s pcs.",
                                    sub_comp.type->id.c_str(), qty_or_charges_comp );
                 }
-                int qty_or_charges = std::round( it_qty.second * ( 1 - broken_qty ) );
+                const int qty_or_charges = std::round( it_qty.second * ( 1 - broken_qty ) );
                 spawn_items_or_charges( here, p, it_qty.first->id, qty_or_charges );
                 add_msg_debug( debugmode::DF_MAP, "type 3, component: %s, %s pcs.",
                                it_qty.first->id.c_str(), qty_or_charges ) ;
