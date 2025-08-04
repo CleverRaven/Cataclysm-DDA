@@ -2,7 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_XE_CHANGELING_GRANT_POWER_VITAMIN_RECURRING",
-    "recurrence": [ "7 days", "10 days" ],
+    "recurrence": [ "8 days", "10 days" ],
     "condition": { "test_eoc": "EOC_CONDITIONS_YOU_ARE_A_PLAYABLE_CHANGELING" },
     "effect": { "math": [ "u_changeling_advancement_dreams_counter++" ] }
   },
@@ -243,14 +243,10 @@
     "condition": {
       "and": [
         { "test_eoc": "EOC_CONDITIONS_YOU_ARE_A_PLAYABLE_CHANGELING" },
-        { "compare_string": [ { "context_val": "victim_type" }, "mon_march_lord" ] },
-        { "math": [ "u_changeling_advancement_condition_killed_march_lord != 1" ] }
+        { "compare_string": [ { "context_val": "victim_type" }, "mon_march_lord" ] }
       ]
     },
-    "effect": [
-      { "math": [ "u_changeling_advancement_dreams_counter++" ] },
-      { "math": [ "u_changeling_advancement_condition_killed_march_lord = 1" ] }
-    ]
+    "effect": [ { "math": [ "u_changeling_advancement_dreams_counter++" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -289,6 +285,24 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_PLAYABLE_CHANGELING_ADVANCEMENT_REACH_LEVEL_SEVEN_DEDUCTION",
+    "eoc_type": "EVENT",
+    "required_event": "gains_skill_level",
+    "condition": {
+      "and": [
+        { "test_eoc": "EOC_CONDITIONS_YOU_ARE_A_PLAYABLE_CHANGELING" },
+        { "compare_string": [ { "context_val": "skill" }, "deduction" ] },
+        { "math": [ "_new_level >= 7" ] },
+        { "math": [ "u_changeling_advancement_condition_reach_level_seven_deduction != 1" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_changeling_advancement_dreams_counter++" ] },
+      { "math": [ "u_changeling_advancement_condition_reach_level_seven_deduction = 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PLAYABLE_CHANGELING_ADVANCEMENT_CLEAR_ABYSSAL_HUNGER",
     "condition": { "test_eoc": "EOC_CONDITIONS_YOU_ARE_A_PLAYABLE_CHANGELING" },
     "effect": [ { "math": [ "u_changeling_advancement_dreams_counter++" ] } ]
@@ -313,15 +327,90 @@
     ]
   },
   {
-     "//": "Advancement conditions that apply to noble changelings only should go here",
+    "//": "Advancement conditions that apply to noble changelings only should go here",
     "type": "effect_on_condition",
     "id": "EOC_PLAYABLE_CHANGELING_ADVANCEMENT_NOBLE_YOU_HAVE_ONE_FOLLOWER",
-     "condition": {
+    "recurrence": [ "1 hours", "1 hours" ],
+    "condition": {
       "and": [
         { "u_has_trait": "UNKNOWING_CHANGELING_NOBLE" },
-
+        { "npc_allies": 1 },
         { "math": [ "u_changeling_advancement_noble_condition_you_have_one_follower != 1" ] }
       ]
     },
+    "deactivate_condition": {
+      "or": [
+        { "not": { "u_has_trait": "UNKNOWING_CHANGELING_NOBLE" } },
+        { "math": [ "u_changeling_advancement_noble_condition_you_have_one_follower = 1" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_changeling_advancement_dreams_counter++" ] },
+      { "math": [ "u_changeling_advancement_noble_condition_you_have_one_follower = 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLAYABLE_CHANGELING_ADVANCEMENT_NOBLE_YOU_HAVES_SEVEN_FOLLOWERS",
+    "recurrence": [ "1 hours", "1 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "UNKNOWING_CHANGELING_NOBLE" },
+        { "npc_allies": 7 },
+        { "math": [ "u_changeling_advancement_noble_condition_you_have_seven_followers != 1" ] }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [
+        { "not": { "u_has_trait": "UNKNOWING_CHANGELING_NOBLE" } },
+        { "math": [ "u_changeling_advancement_noble_condition_you_have_seven_followers = 1" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_changeling_advancement_dreams_counter++" ] },
+      { "math": [ "u_changeling_advancement_noble_condition_you_have_seven_followers = 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLAYABLE_CHANGELING_ADVANCEMENT_NOBLE_REACH_LEVEL_SEVEN_SOCIAL",
+    "eoc_type": "EVENT",
+    "required_event": "gains_skill_level",
+    "condition": {
+      "and": [
+        { "u_has_trait": "UNKNOWING_CHANGELING_NOBLE" },
+        { "compare_string": [ { "context_val": "skill" }, "speech" ] },
+        { "math": [ "_new_level >= 7" ] },
+        { "math": [ "u_changeling_advancement_noble_condition_reach_level_seven_social != 1" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_changeling_advancement_dreams_counter++" ] },
+      { "math": [ "u_changeling_advancement_noble_condition_reach_level_seven_social = 1" ] }
+    ]
+  },
+  {
+    "//": "Advancement conditions that apply to brownie changelings should go here",
+    "type": "effect_on_condition",
+    "id": "EOC_PLAYABLE_CHANGELING_BROWNIE_ADVANCEMENT_REACH_LEVEL_SEVEN_FOOD_OR_TAILORING",
+    "eoc_type": "EVENT",
+    "required_event": "gains_skill_level",
+    "condition": {
+      "and": [
+        { "u_has_trait": "UNKNOWING_CHANGELING_COMMONER_BROWNIE" },
+        {
+          "or": [
+            { "compare_string": [ { "context_val": "skill" }, "tailor" ] },
+            { "compare_string": [ { "context_val": "skill" }, "cooking" ] }
+          ]
+        },
+        { "math": [ "_new_level >= 7" ] },
+        { "math": [ "u_changeling_advancement_brownie_condition_reach_level_seven_food_or_tailoring != 1" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_changeling_advancement_dreams_counter++" ] },
+      { "math": [ "u_changeling_advancement_brownie_condition_reach_level_seven_food_or_tailoring = 1" ] }
+    ]
   }
 ]

@@ -68,11 +68,11 @@
     "id": "CHANGELING_MAGIC",
     "name": { "str": "Glamour" },
     "points": 1,
-    "description": "This provides the school trait for Changeling magic.  It should not be visible.",
+    "description": "The fey ability to spin whimsy into reality.",
     "valid": false,
     "purifiable": false,
-    "player_display": false,
-    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ]
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ],
+    "flags": [ "ATTUNEMENT" ]
   },
   {
     "type": "mutation",
