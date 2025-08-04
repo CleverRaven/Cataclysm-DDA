@@ -7645,6 +7645,8 @@ void iexamine::workbench_internal( Character &you, const tripoint_bub_ms &examp,
                 you.add_msg_if_player( m_info, _( "You can't craft while you're in your shell." ) );
             } else if( you.has_effect( effect_incorporeal ) ) {
                 add_msg( m_info, _( "You lack the substance to affect anything." ) );
+            } else if( shapeshift_handless ) {
+                add_msg( m_info, _( "You don't have proper hands to do that." ) );
             } else {
                 you.craft( examp );
             }
@@ -7655,6 +7657,8 @@ void iexamine::workbench_internal( Character &you, const tripoint_bub_ms &examp,
                 you.add_msg_if_player( m_info, _( "You can't craft while you're in your shell." ) );
             } else if( you.has_effect( effect_incorporeal ) ) {
                 add_msg( m_info, _( "You lack the substance to affect anything." ) );
+            } else if( shapeshift_handless ) {
+                add_msg( m_info, _( "You don't have proper hands to do that." ) );
             } else {
                 you.recraft( examp );
             }
@@ -7665,6 +7669,8 @@ void iexamine::workbench_internal( Character &you, const tripoint_bub_ms &examp,
                 you.add_msg_if_player( m_info, _( "You can't craft while you're in your shell." ) );
             } else if( you.has_effect( effect_incorporeal ) ) {
                 add_msg( m_info, _( "You lack the substance to affect anything." ) );
+            } else if( shapeshift_handless ) {
+                add_msg( m_info, _( "You don't have proper hands to do that." ) );
             } else {
                 you.long_craft( examp );
             }

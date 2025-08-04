@@ -1212,6 +1212,11 @@
     "//": "Due to shapeshifting, the character is size Huge."
   },
   {
+    "id": "TEMPORARY_SHAPESHIFT_NO_HANDS",
+    "type": "json_flag",
+    "//": "Due to shapeshifting, the character lacks humanoid hands."
+  },
+  {
     "id": "NON_THRESH",
     "type": "json_flag",
     "//": "This mutation does not count toward thresholds at all."
