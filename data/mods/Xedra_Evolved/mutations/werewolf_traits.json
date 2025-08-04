@@ -143,6 +143,17 @@
     "active_flags": [ "ANIMALEMPATH2" ]
   },
   {
+    "type": "mutation",
+    "id": "WEREWOLF_SMASH_TERRAIN",
+    "name": { "str": "Mighty Blow" },
+    "points": 2,
+    "description": "No barrier can stop the hunter truly devoted to seeking their quarry.  You can temporarily enhance your strenth for the purposes of smashing through barriers.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "xe_werewolf_smash_terrain_spell", 1 ] ]
+  },
+  {
     "//": "Tier 2 traits begin here",
     "type": "mutation",
     "id": "WEREWOLF_SENSE_SPIRITS_AND_ALIENS",
@@ -275,7 +286,7 @@
     "id": "WEREWOLF_FAR_JUMP",
     "name": { "str": "Grasshopper's Leap" },
     "points": 2,
-    "description": "You can make mighty leaps from a standing start that would normally be impossible.  While in wolf form, you can jump <color_green>much further</color>.",
+    "description": "You can make mighty leaps from a standing start that would normally be impossible.  While in wolf form, you can jump <color_green>even further</color>.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
