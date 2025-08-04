@@ -151,6 +151,8 @@ static const json_character_flag json_flag_CANNOT_ATTACK( "CANNOT_ATTACK" );
 static const json_character_flag json_flag_LEVITATION( "LEVITATION" );
 static const json_character_flag json_flag_PHASE_MOVEMENT( "PHASE_MOVEMENT" );
 static const json_character_flag json_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
+static const json_character_flag
+json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS( "TEMPORARY_SHAPESHIFT_NO_HANDS" );
 
 static const material_id material_glass( "glass" );
 
@@ -2253,6 +2255,28 @@ static const std::set<action_id> actions_disabled_in_incorporeal {
     ACTION_CONTROL_VEHICLE,
 };
 
+static std::map<action_id, std::string> get_actions_disabled_in_handless_temporary_shapeshift()
+{
+    return std::map<action_id, std::string> {
+        { ACTION_OPEN,               _( "You can't open things while shapeshifted." ) },
+        { ACTION_CLOSE,              _( "You can't close things while shapeshifted." ) },
+        { ACTION_ADVANCEDINV,        _( "You can't move mass quantities while shapeshifted." ) },
+        { ACTION_PICKUP,             _( "You can't pick anything up while shapeshifted." ) },
+        { ACTION_PICKUP_ALL,         _( "You can't pick anything up while shapeshifted." ) },
+        { ACTION_GRAB,               _( "You can't grab things while shapeshifted." ) },
+        { ACTION_HAUL,               _( "You can't haul things while shapeshifted." ) },
+        { ACTION_HAUL_TOGGLE,        _( "You can't haul things while shapeshifted." ) },
+        { ACTION_BUTCHER,            _( "You can't butcher while shapeshifted." ) },
+        { ACTION_DROP,               _( "You can't drop things while shapeshifted." ) },
+        { ACTION_CRAFT,              _( "You can't craft while shapeshifted." ) },
+        { ACTION_RECRAFT,            _( "You can't craft while shapeshifted." ) },
+        { ACTION_LONGCRAFT,          _( "You can't craft while shapeshifted." ) },
+        { ACTION_DISASSEMBLE,        _( "You can't disassemble while shapeshifted." ) },
+        { ACTION_CONSTRUCT,          _( "You can't construct while shapeshifted." ) },
+        { ACTION_CONTROL_VEHICLE,    _( "You can't operate a vehicle while shapeshifted." ) },
+    };
+}
+
 static std::map<action_id, std::string> get_actions_disabled_mounted()
 {
     return std::map<action_id, std::string> {
@@ -2284,6 +2308,8 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
     const std::map<action_id, std::string> actions_disabled_mounted = get_actions_disabled_mounted();
     const std::map<action_id, std::string> actions_disabled_in_shell = get_actions_disabled_in_shell();
+    const std::map<action_id, std::string> actions_disabled_while_handless_shapeshifted =
+        get_actions_disabled_in_handless_temporary_shapeshift();
 
     if( in_shell && actions_disabled_in_shell.count( act ) > 0 ) {
         add_msg( m_info, actions_disabled_in_shell.at( act ) );
@@ -2292,6 +2318,12 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
     if( u.has_effect( effect_incorporeal ) && actions_disabled_in_incorporeal.count( act ) > 0 ) {
         add_msg( m_info, _( "You lack the substance to affect anything." ) );
+        return true;
+    }
+
+    if( u.has_flag( json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS ) &&
+        actions_disabled_while_handless_shapeshifted.count( act ) > 0 ) {
+        add_msg( m_info, _( "You can't do that while shapeshifted." ) );
         return true;
     }
 
