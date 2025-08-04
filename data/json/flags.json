@@ -1212,6 +1212,11 @@
     "//": "Due to shapeshifting, the character is size Huge."
   },
   {
+    "id": "TEMPORARY_SHAPESHIFT_NO_HANDS",
+    "type": "json_flag",
+    "//": "Due to shapeshifting, the character lacks humanoid hands."
+  },
+  {
     "id": "SHAPESHIFTED_ARMOR",
     "type": "json_flag",
     "//": "Used to tag armor that is part of the character's new form to apply other flags."
