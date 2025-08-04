@@ -3101,7 +3101,7 @@ bool repair_item_actor::can_use_tool( const Character &p, const item &tool, bool
     if( p.cant_do_underwater( print_msg ) ) {
         return false;
     }
-    if (p.has_flag( json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS) ) {
+    if( p.has_flag( json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS ) ) {
         if( print_msg ) {
             p.add_msg_player_or_npc( m_bad, _( "You don't have proper hands to do that." ),
                                      _( "<npcname> doesn't have proper hands to do that." ) );
