@@ -176,20 +176,6 @@
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "SPEEDYDEX_MIN_DEX",
-    "//": "The minimum dex required for speedydex mod to add speed",
-    "stype": "int",
-    "value": 0
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "SPEEDYDEX_DEX_SPEED",
-    "//": "The amount of moves gained per dex above SPEEDYDEX_MIN_DEX",
-    "stype": "int",
-    "value": 0
-  },
-  {
-    "type": "EXTERNAL_OPTION",
     "name": "DISABLE_ROBOT_RESPONSE",
     "//": "Disables robot spawning from alerts and from being wanted.",
     "stype": "bool",
