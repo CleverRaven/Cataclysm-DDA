@@ -519,5 +519,36 @@
       { "item": "jar_glass_sealed", "prob": 2 },
       { "item": "jar_3l_glass_sealed", "prob": 1 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "SUS_trash_highway_shoulder",
+    "//": "Trash that's often found on the side of the highway.",
+    "subtype": "distribution",
+    "items": [
+      [ "rubber_tire_chunk", 300 ],
+      [ "wrapper", 100 ],
+      [ "plastic_shopping_bag", 100 ],
+      { "group": "SUS_trash_trashcan", "prob": 50 },
+      [ "plastic_chunk", 50 ],
+      { "item": "cup_plastic", "prob": 50, "count": [ 1, 3 ] },
+      [ "jug_plastic", 5 ],
+      { "item": "bottle_plastic", "prob": 50, "count": [ 1, 3 ] },
+      { "item": "bottle_plastic_small", "prob": 10, "count": [ 1, 5 ] },
+      [ "can_drink", 50 ],
+      [ "can_food", 50 ],
+      [ "box_cigarette", 50 ],
+      [ "bubblewrap", 5 ],
+      [ "flyer", 5 ],
+      [ "lc_steel_lump", 50 ],
+      [ "lc_steel_chunk", 50 ],
+      [ "cardboard", 25 ],
+      [ "bag_zipper", 25 ],
+      [ "box_snack", 25 ],
+      [ "box_small", 10 ],
+      [ "box_small_folded", 10 ],
+      [ "box_medium_folded", 5 ],
+      [ "box_large_folded", 5 ]
+    ]
   }
 ]
