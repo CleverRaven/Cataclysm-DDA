@@ -550,5 +550,16 @@
       { "item": "77mm_arisaka_jsp", "charges": [ 1, 10 ], "prob": 100 },
       { "group": "boxed_77x58", "prob": 50 }
     ]
+  },
+  {
+    "id": "on_hand_3030",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded gun.",
+    "subtype": "collection",
+    "entries": [
+      { "group": "boxed_3030_used", "prob": 100 },
+      { "item": "3030", "charges": [ 1, 10 ], "prob": 100 },
+      { "group": "boxed_3030", "prob": 50 }
+    ]
   }
 ]

@@ -253,10 +253,36 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
-    "time": "5 m",
+    "time": "25 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "2x4", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "club_wooden_nails",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "time": "10 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic", "skill_penalty": 0 } ],
+    "components": [ [ [ "club_wooden", 1 ] ], [ [ "nails", 30, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "club_wooden_bolted",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "time": "15 m",
+    "autolearn": true,
+    "qualities": [ { "id": "DRILL", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic", "skill_penalty": 0 } ],
+    "components": [ [ [ "club_wooden", 1 ] ], [ [ "nuts_bolts", 30 ] ] ]
   },
   {
     "type": "recipe",
@@ -265,10 +291,36 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
-    "time": "5 m",
+    "time": "25 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "2x4", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "club_wooden_large_nails",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "time": "10 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic", "skill_penalty": 0 } ],
+    "components": [ [ [ "club_wooden_large", 1 ] ], [ [ "nails", 30, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "club_wooden_large_bolted",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "time": "15 m",
+    "autolearn": true,
+    "qualities": [ { "id": "DRILL", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic", "skill_penalty": 0 } ],
+    "components": [ [ [ "club_wooden_large", 1 ] ], [ [ "nuts_bolts", 30 ] ] ]
   },
   {
     "type": "recipe",
@@ -775,7 +827,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carpentry_basic", "skill_penalty": 0 } ],
-    "components": [ [ [ "bat", 1 ] ], [ [ "nails", 6, "LIST" ] ] ]
+    "components": [ [ [ "bat", 1 ] ], [ [ "nails", 20, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -800,7 +852,7 @@
     "autolearn": true,
     "qualities": [ { "id": "DRILL", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carpentry_basic", "skill_penalty": 0 } ],
-    "components": [ [ [ "bat", 1 ] ], [ [ "nuts_bolts", 12 ] ] ]
+    "components": [ [ [ "bat", 1 ] ], [ [ "nuts_bolts", 20 ] ] ]
   },
   {
     "type": "recipe",

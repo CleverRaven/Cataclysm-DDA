@@ -90,6 +90,26 @@
     "volume": "10ml"
   },
   {
+    "id": "3030_casing",
+    "copy-from": "casing",
+    "looks_like": "223_casing",
+    "type": "ITEM",
+    "name": { "str": ".30-30 Winchester casing" },
+    "description": "An empty casing from a .30-30 Winchester round.",
+    "weight": "7 g",
+    "volume": "10ml"
+  },
+  {
+    "id": "unprimed_3030_casing",
+    "copy-from": "casing",
+    "looks_like": "223_casing",
+    "type": "ITEM",
+    "name": { "str": "primerless .30-30 Winchester casing" },
+    "description": "An empty casing from a .30-30 Winchester round.",
+    "weight": "7 g",
+    "volume": "10ml"
+  },
+  {
     "id": "123ln_casing",
     "copy-from": "casing",
     "looks_like": "223_casing",
