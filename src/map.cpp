@@ -4382,7 +4382,7 @@ void map::drop_bash_results( const map_data_common_t &ter_furn, const tripoint_b
                 // if no subcomponents, just straight drop 100% of item count
                 spawn_items_or_charges( here, p, it_qty.first->id, it_qty.second );
                 add_msg_debug( debugmode::DF_MAP, "type 1, plain item: %s, %s pcs.",
-                               it_qty.first->id.c_str(), qty );
+                               it_qty.first->id.c_str(), it_qty.second );
             } else {
                 // if subcomponents, drop a bit of subcomponents and a bit of components
                 const float broken_qty = rng_float( 0.1f, 0.4f );
