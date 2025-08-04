@@ -41,8 +41,8 @@ static const damage_type_id damage_cut( "cut" );
 static const damage_type_id damage_stab( "stab" );
 
 static const json_character_flag json_flag_BIONIC_ARMOR_INTERFACE( "BIONIC_ARMOR_INTERFACE" );
-static const json_character_flag json_flag_SEESLEEP( "SEESLEEP" );
 static const json_character_flag json_flag_INTANGIBLE_ARMOR( "INTANGIBLE_ARMOR" );
+static const json_character_flag json_flag_SEESLEEP( "SEESLEEP" );
 
 bool Character::can_interface_armor() const
 {
