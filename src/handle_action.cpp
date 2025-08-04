@@ -2321,7 +2321,8 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
         return true;
     }
 
-    if( u.has_flag( json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS ) && actions_disabled_while_handless_shapeshifted.count( act ) > 0 ) {
+    if( u.has_flag( json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS ) &&
+        actions_disabled_while_handless_shapeshifted.count( act ) > 0 ) {
         add_msg( m_info, _( "You can't do that while shapeshifted." ) );
         return true;
     }
