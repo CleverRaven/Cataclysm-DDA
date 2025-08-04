@@ -7639,7 +7639,7 @@ void iexamine::workbench_internal( Character &you, const tripoint_bub_ms &examp,
     const option choice = static_cast<option>( amenu.ret );
     bool in_shell = you.has_active_mutation( trait_SHELL2 ) ||
                     you.has_active_mutation( trait_SHELL3 );
-    bool shapeshift_handless = you.has_flag ( json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS );              
+    bool shapeshift_handless = you.has_flag( json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS );
     switch( choice ) {
         case start_craft: {
             if( in_shell ) {
