@@ -1464,5 +1464,108 @@
     "//": "This group was created automatically and may contain errors.",
     "container-item": "wrapper",
     "entries": [ { "item": "sandwich_pbj", "container-item": "null", "count": [ 1, -1 ] } ]
-  }
+  },
+  {
+    "type": "item_group",
+    "id": "liquid_letichin_bulk",
+    "subtype": "collection",
+    "container-item": "jug_plastic",
+    "entries": [ { "item": "liquid_soy_lecithin", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "powder_letichin_bulk",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 5, "group": "powder_letichin_plastic" },
+      { "prob": 20, "group": "powder_letichin_paper" },
+      { "prob": 2, "group": "powder_letichin_paper_bulk" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "powder_letichin_paper",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "powder_soy_letichin", "container-item": "null", "count": [ 10, 100 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "powder_letichin_paper_bulk",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder_bulk",
+    "entries": [ { "item": "powder_soy_letichin", "container-item": "null", "count": [ 10, 400 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "powder_letichin_plastic",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "powder_soy_letichin", "container-item": "null", "count": [ 2, 20 ] } ]
+  },
+  {
+    "id": "SUS_candy_factory_fridge",
+    "type": "item_group",
+    "//": "Select a fridge from several available options.",
+    "subtype": "distribution",
+    "items": [
+      { "group": "SUS_candy_factory_fridge_milk", "prob": 50 },
+      { "group": "SUS_candy_factory_fridge_cacao", "prob": 50 },
+      { "group": "SUS_candy_factory_fridge_soy", "prob": 25 },
+      { "group": "SUS_candy_factory_fridge_liquors", "prob": 25 }
+    ]
+  },
+  {
+    "id": "SUS_candy_factory_fridge_milk",
+    "type": "item_group",
+    "//": "Select a fridge from several available options.",
+    "subtype": "collection",
+    "items": [
+      { "item": "milk", "container-item": "jug_plastic", "count": [ 0, 6 ] },
+      { "item": "butter", "container-item": "wrapper", "count": [ 0, 26 ] },
+      { "item": "milk_evap", "container-item": "can_medium", "count": [ 0, 19 ] },
+      { "group": "milk_powder_bag_paper_full",  "count": [ 0, 6 ] }
+    ]
+  },
+  {
+    "id": "SUS_candy_factory_fridge_cacao",
+    "type": "item_group",
+    "//": "Select a fridge from several available options.",
+    "subtype": "collection",
+    "items": [
+      { "group": "powder_cacao_bulk",  "count": [ 0, 6 ] },
+      { "group": "cacao_liquor_bulk",  "count": [ 0, 6 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "powder_cacao_bulk",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 5, "group": "powder_cacao_plastic" },
+      { "prob": 20, "group": "powder_cacao_paper" },
+      { "prob": 2, "group": "powder_cacao_paper_bulk" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "powder_cacao_paper",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "powder_cacao", "container-item": "null", "count": [ 10, 100 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "powder_cacao_paper_bulk",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder_bulk",
+    "entries": [ { "item": "powder_cacao", "container-item": "null", "count": [ 10, 400 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "powder_cacao_plastic",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "powder_cacao", "container-item": "null", "count": [ 2, 20 ] } ]
+  },
 ]
