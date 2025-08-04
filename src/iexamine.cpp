@@ -216,7 +216,8 @@ static const json_character_flag json_flag_GLIDE( "GLIDE" );
 static const json_character_flag json_flag_LEVITATION( "LEVITATION" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_SAFECRACK_NO_TOOL( "SAFECRACK_NO_TOOL" );
-static const json_character_flag json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS ( "TEMPORARY_SHAPESHIFT_NO_HANDS");
+static const json_character_flag
+json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS( "TEMPORARY_SHAPESHIFT_NO_HANDS" );
 static const json_character_flag json_flag_WING_ARM( "WING_ARM" );
 static const json_character_flag json_flag_WING_GLIDE( "WING_GLIDE" );
 
