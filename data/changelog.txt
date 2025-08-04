@@ -150,7 +150,6 @@ Highways
 Expand implementation of liquid ammo
 NPC AI fixes to improve fleeing in bad situations, reduce it in good ones
 Armors faults. Part 1: Steel Plate
-Add cdda-twison story format
 
 
 ## Content:
@@ -345,10 +344,6 @@ Adds hair dye and hair dye kits to bathrooms.
 Professions now start with relevant books in their smartphones/laptops and some even with smartwatches
 Cheese wheels preserved in wax
 You can do your makeup
-Bus variant with bike rack
-Add seabags, a large duffel used by the military when traveling
-Modified hard hat that allows aventails
-New caliber (30-30 Winchester) and two new guns for it
 
 
 ## Interface:
@@ -469,9 +464,6 @@ Severe hypovolemic shock message now mentions saline infusion instead of transfu
 Always show clean water on top of consume menu
 Toggle haul from action menu when hauling
 Explain that degraded items are degraded
-Simplify ammo names
-Display decimals for low speed values
-Ammo crafts are nested in crafting menu
 
 
 ## Mods:
@@ -888,19 +880,7 @@ Aftershock: Vehicle bay City Building a mix between mechanic garage, gas station
 [Magiclysm] Humans are also a species
 [Magiclysm] Add Aenor version of the horse ranch
 [Magiclysm] SOMATIC spells are harder to cast with broken arms
-[MoM] Add Flashbang Photokinetic power
-[Xedra Evolved] More Nether Cabin nests
-[XE] Vampire cathedrals contain captives the vampires feed from.
 Obsolete and remove 'speedydex'
-Obsolete and remove 'speedydex'
-[XE] Migrate the Archaeologist profession to XEDRA Evolved, buff it to be a little closer to movie Indie.
-Aftershock: Add a food vendor to the spaceport.
-[MoM/Xedra Evolved] Two new Mobile task forces
-[Xedra Evolved] Add some powers for werewolves
-[XE] Misc vampire-related adjustments
-[MoM] Fix MAX_HP recalculation healing you problem for vitakinetics
-Aftershock: Add a food vendor to the spaceport.
-[MoM] Fix MAX_HP recalculation healing you problem for vitakinetics
 
 
 ## Balance:
@@ -1002,9 +982,6 @@ Expanded spawns for some proper melee weapons
 Adjust Precise Strike melee tech so it also cant stun what other stun-causing techs cant stun.
 Adds cuvettes to analysis kit crafting recipe, increase analysis kit weight.
 Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
-Scale cheesemaking batches
-Audit use action movecosts
-Allow drilling non-steel vehicle parts with makeshift hand drill
 
 
 ## Bugfixes:
@@ -1376,37 +1353,7 @@ Fix molotovs exploding multiple times
 add E_STORABLE_EXCLUSIVE flag
 add E_STORABLE_EXCLUSIVE flag
 avoid ImGui warning in keybindings window if the translation happens to have duplicate text
-When when going up/down into a dangerous field
-fix wielding two-handed item after taking control of vehicle
-increase highway interchange frequency, pad intersections for ramps
-fix NPC rules checkbox CONFIRM key double toggle
-Fix error when swapping position with NPC in vehicle
-When when going up/down into a dangerous field
-fix NPC rules checkbox CONFIRM key double toggle
-Fix zombies always(100%) trying to bash cramped vehicle space
-fix zones disabling on save/load
-[Xedra Evolved] Fix VERRBAL
-Crafting filter for poison and hallucinogen requires survival skill
-Fix error when swapping position with NPC in vehicle
-[Xedra Evolved] Fix VERRBAL
 Cannot trap a monster and use it as an infinite training dummy
-[MoM] Fix Electrokinesis/Knacks not gaining metaphysics XP on successful channels
-fix sizes of ImTui widgets
-Riot damage 'pre-burnt' doesn't destroy stairs
-Riot damage 'pre-burnt' doesn't destroy stairs
-[MoM] Fix Electrokinesis/Knacks not gaining metaphysics XP on successful channels
-Add a material to the USP pistol
-avatar-only traits/professions for chargen
-Vehicles no longer move around when you use the Aftershock Spaceship
-[MoM] Illuminate needs RANDOM_DURATION
-[MoM] Illuminate needs RANDOM_DURATION
-LMOE mission: unlock door properly
-revert diagonal OMT pathing for land/air vehicles
-Abort 'fired' reach attack if there are no valid targets
-Update NECC/Cody & Jay after asking permission to use their stuff
-Abort 'fired' reach attack if there are no valid targets
-Update NECC/Cody & Jay after asking permission to use their stuff
-Negative volume in drop menu for ammo trays.
 
 
 ## Performance:
@@ -1578,13 +1525,6 @@ bulk overmap testing debug tools
 Adds a vertical stack of omt scope for mapgen parameters
 Monsters can be forced to flee through an EoC
 Improve mod migration
-Allow EOCs to read artifact resonance
-More JSON error reporting for extend/delete/relative/proportional
-Expand use of optional/mandatory to activity type, add reader for activity level
-Use optional/mandatory for ascii art, bionic data, bodypart
-Expand use of optional/mandatory to weakpoints, add more readers
-Use mandatory/optional for item factory
-zzip.exe: a tool for manipulating compressed save 'zzip' files.
 
 
 ## Build:
