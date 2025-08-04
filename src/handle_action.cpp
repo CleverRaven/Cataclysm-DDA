@@ -2265,7 +2265,7 @@ static std::map<action_id, std::string> get_actions_disabled_in_handless_tempora
         { ACTION_PICKUP_ALL,         _( "You can't pick anything up while shapeshifted." ) },
         { ACTION_GRAB,               _( "You can't grab things while shapeshifted." ) },
         { ACTION_HAUL,               _( "You can't haul things while shapeshifted." ) },
-        { ACTION_HAUL_TOGGLE,        _( "You can't haul things while yshapeshifted." ) },
+        { ACTION_HAUL_TOGGLE,        _( "You can't haul things while shapeshifted." ) },
         { ACTION_BUTCHER,            _( "You can't butcher while shapeshifted." ) },
         { ACTION_DROP,               _( "You can't drop things while shapeshifted." ) },
         { ACTION_CRAFT,              _( "You can't craft while shapeshifted." ) },
