@@ -151,7 +151,8 @@ static const json_character_flag json_flag_CANNOT_ATTACK( "CANNOT_ATTACK" );
 static const json_character_flag json_flag_LEVITATION( "LEVITATION" );
 static const json_character_flag json_flag_PHASE_MOVEMENT( "PHASE_MOVEMENT" );
 static const json_character_flag json_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
-static const json_character_flag json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS ( "TEMPORARY_SHAPESHIFT_NO_HANDS");
+static const json_character_flag
+json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS( "TEMPORARY_SHAPESHIFT_NO_HANDS" );
 
 static const material_id material_glass( "glass" );
 
