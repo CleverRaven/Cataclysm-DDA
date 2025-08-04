@@ -42,6 +42,7 @@ static const damage_type_id damage_stab( "stab" );
 
 static const json_character_flag json_flag_BIONIC_ARMOR_INTERFACE( "BIONIC_ARMOR_INTERFACE" );
 static const json_character_flag json_flag_SEESLEEP( "SEESLEEP" );
+static const json_character_flag json_flag_SHAPESHIFTED_ARMOR_ABSORBED_INTO_FORM( "SHAPESHIFTED_ARMOR_ABSORBED_INTO_FORM" );
 
 bool Character::can_interface_armor() const
 {
@@ -215,6 +216,11 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
 {
     item::cover_type ctype = item::get_cover_type( du.type );
 
+    // If you're shapeshifted and your gear is part of your form, it can't protect you
+    if (armor.has_flag( json_flag_SHAPESHIFTED_ARMOR_ABSORBED_INTO_FORM ) ) {
+        return false;
+    }
+
     // if the core armor is missed then exit
     if( roll > armor.get_coverage( sbp, ctype ) ) {
         return false;
@@ -253,6 +259,11 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
 bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp, int roll ) const
 {
     item::cover_type ctype = item::get_cover_type( du.type );
+
+    // If you're shapeshifted and your gear is part of your form, it can't protect you
+    if (armor.has_flag( json_flag_SHAPESHIFTED_ARMOR_ABSORBED_INTO_FORM ) ) {
+        return false;
+    }
 
     if( roll > armor.get_coverage( bp, ctype ) ) {
         return false;

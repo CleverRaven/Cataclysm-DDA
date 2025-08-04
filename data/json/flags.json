@@ -1212,6 +1212,16 @@
     "//": "Due to shapeshifting, the character is size Huge."
   },
   {
+    "id": "SHAPESHIFTED_ARMOR",
+    "type": "json_flag",
+    "//": "Used to tag armor that is part of the character's new form to apply other flags."
+  },
+  {
+    "id": "SHAPESHIFTED_ARMOR_ABSORBED_INTO_FORM",
+    "type": "json_flag",
+    "//": "Prevents armor from protecting the character while shapeshifted."
+  },
+  {
     "id": "NON_THRESH",
     "type": "json_flag",
     "//": "This mutation does not count toward thresholds at all."
