@@ -2308,7 +2308,8 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
     const std::map<action_id, std::string> actions_disabled_mounted = get_actions_disabled_mounted();
     const std::map<action_id, std::string> actions_disabled_in_shell = get_actions_disabled_in_shell();
-    const std::map<action_id, std::string> actions_disabled_while_handless_shapeshifted = get_actions_disabled_in_handless_temporary_shapeshift();
+    const std::map<action_id, std::string> actions_disabled_while_handless_shapeshifted =
+        get_actions_disabled_in_handless_temporary_shapeshift();
 
     if( in_shell && actions_disabled_in_shell.count( act ) > 0 ) {
         add_msg( m_info, actions_disabled_in_shell.at( act ) );
