@@ -101,7 +101,7 @@
         "var": { "context_val": "id" },
         "effect": [
           {
-            "if": { "u_has_effect": "bite", "target_part": { "context_val": "id" } },
+            "if": { "u_has_effect": "bite", "bodypart": { "context_val": "id" } },
             "then": {
               "if": { "x_in_y_chance": { "x": 1, "y": 15 } },
               "then": { "u_lose_effect": "bite", "target_part": { "context_val": "id" } }
@@ -115,7 +115,7 @@
         "var": { "context_val": "id" },
         "effect": [
           {
-            "if": { "u_has_effect": "infected", "target_part": { "context_val": "id" } },
+            "if": { "u_has_effect": "infected", "bodypart": { "context_val": "id" } },
             "then": {
               "if": { "x_in_y_chance": { "x": 1, "y": 65 } },
               "then": { "u_lose_effect": "infected", "target_part": { "context_val": "id" } }
@@ -137,15 +137,15 @@
       },
       {
         "if": { "math": [ "u_hp('leg_r') < u_hp_max('leg_r')" ] },
-        "then": { "u_add_effect": "bleed", "target_part": "leg_r" }
+        "then": { "u_lose_effect": "bleed", "target_part": "leg_r" }
       },
       {
         "if": { "math": [ "u_hp('torso') < u_hp_max('torso')" ] },
-        "then": { "u_add_effect": "bleed", "target_part": "torso" }
+        "then": { "u_lose_effect": "bleed", "target_part": "torso" }
       },
       {
         "if": { "math": [ "u_hp('head') < u_hp_max('head')" ] },
-        "then": { "u_add_effect": "bleed", "target_part": "head" }
+        "then": { "u_lose_effect": "bleed", "target_part": "head" }
       }
     ]
   },
