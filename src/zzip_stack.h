@@ -49,6 +49,12 @@ class zzip_stack
         bool add_file( std::filesystem::path const &zzip_relative_path, std::string_view content );
 
         /**
+         * Directly copies the most recent version of the given files into the destination zzip.
+         */
+        bool copy_files_to( std::vector<std::filesystem::path> const &zzip_relative_paths,
+                            std::shared_ptr<zzip> const &to );
+
+        /**
          * Returns true if the zzip contains the given path. Paths are checked through exact string
          * matches. Normalizing paths, and using generic u8 paths, is recommended.
          */
@@ -59,6 +65,11 @@ class zzip_stack
          * Returns 0 otherwise.
          */
         size_t get_file_size( std::filesystem::path const &zzip_relative_path ) const;
+
+        /**
+         * Returns a vector of filesystem paths of the contained entries.
+         */
+        std::vector<std::filesystem::path> get_entries() const;
 
         /**
          * Extracts the given file and returns it in a fresh std::vector<std::byte>.

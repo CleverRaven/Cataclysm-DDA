@@ -148,6 +148,8 @@ static const itype_id itype_syringe( "syringe" );
 
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 static const json_character_flag json_flag_MANUAL_CBM_INSTALLATION( "MANUAL_CBM_INSTALLATION" );
+static const json_character_flag
+json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS( "TEMPORARY_SHAPESHIFT_NO_HANDS" );
 
 static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
 static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
@@ -3099,6 +3101,15 @@ bool repair_item_actor::can_use_tool( const Character &p, const item &tool, bool
     if( p.cant_do_underwater( print_msg ) ) {
         return false;
     }
+    if( p.has_flag( json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS ) ) {
+        if( print_msg ) {
+            p.add_msg_player_or_npc( m_bad, _( "You don't have proper hands to do that." ),
+                                     _( "<npcname> doesn't have proper hands to do that." ) );
+        }
+        return false;
+
+    }
+
     if( p.cant_do_mounted( print_msg ) ) {
         return false;
     }
