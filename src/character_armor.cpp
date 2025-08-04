@@ -42,7 +42,8 @@ static const damage_type_id damage_stab( "stab" );
 
 static const json_character_flag json_flag_BIONIC_ARMOR_INTERFACE( "BIONIC_ARMOR_INTERFACE" );
 static const json_character_flag json_flag_SEESLEEP( "SEESLEEP" );
-static const json_character_flag json_flag_SHAPESHIFTED_ARMOR_ABSORBED_INTO_FORM( "SHAPESHIFTED_ARMOR_ABSORBED_INTO_FORM" );
+static const json_character_flag
+json_flag_SHAPESHIFTED_ARMOR_ABSORBED_INTO_FORM( "SHAPESHIFTED_ARMOR_ABSORBED_INTO_FORM" );
 
 bool Character::can_interface_armor() const
 {
