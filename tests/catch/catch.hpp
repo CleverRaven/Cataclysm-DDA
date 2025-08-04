@@ -576,6 +576,7 @@ namespace Catch {
 
     class TestCase;
     struct IConfig;
+	class Config;
 
     struct ITestCaseRegistry {
         virtual ~ITestCaseRegistry();
@@ -585,7 +586,7 @@ namespace Catch {
 
     bool isThrowSafe( TestCase const& testCase, IConfig const& config );
     bool matchTest( TestCase const& testCase, TestSpec const& testSpec, IConfig const& config );
-    std::vector<TestCase> filterTests( std::vector<TestCase> const& testCases, TestSpec const& testSpec, IConfig const& config );
+    std::vector<TestCase> filterTests( std::vector<TestCase> const& testCases, TestSpec const& testSpec, Config const& config );
     std::vector<TestCase> const& getAllTestCasesSorted( IConfig const& config );
 
 }
@@ -5154,7 +5155,7 @@ namespace Catch {
 
         bool hasFilters() const;
         bool matches( TestCaseInfo const& testCase ) const;
-        Matches matchesByFilter( std::vector<TestCase> const& testCases, IConfig const& config ) const;
+        Matches matchesByFilter( std::vector<TestCase> const& testCases, Config const& config, bool just_checking = false ) const;
         const vectorStrings & getInvalidArgs() const;
 
     private:
@@ -5268,6 +5269,8 @@ namespace Catch {
         bool listTags = false;
         bool listReporters = false;
         bool listTestNamesOnly = false;
+        bool up_to_inclusive = false;
+        bool after_and_inclusive = false;
 
         bool showSuccessfulTests = false;
         bool shouldDebugBreak = false;
@@ -5320,6 +5323,9 @@ namespace Catch {
         bool listTestNamesOnly() const;
         bool listTags() const;
         bool listReporters() const;
+        bool up_to_inclusive() const;
+        bool after_and_inclusive() const;
+        bool segmented_ordering() const;
 
         std::string getProcessName() const;
         std::string const& getReporterName() const;
@@ -9793,6 +9799,12 @@ namespace Catch {
             | Opt( config.listTags )
                 ["-t"]["--list-tags"]
                 ( "list all/matching tags" )
+            | Opt( config.up_to_inclusive )
+                ["-<="]["--up-to-inclusive"]
+                ( "run tests until and including (requires test argument)" )
+            | Opt( config.after_and_inclusive )
+                ["-=>"]["--after-and-inclusive"]
+                ( "run tests after and including (requires test argument)" )
             | Opt( config.showSuccessfulTests )
                 ["-s"]["--success"]
                 ( "include successful tests in output" )
@@ -9956,6 +9968,9 @@ namespace Catch {
     bool Config::listTestNamesOnly() const  { return m_data.listTestNamesOnly; }
     bool Config::listTags() const           { return m_data.listTags; }
     bool Config::listReporters() const      { return m_data.listReporters; }
+    bool Config::up_to_inclusive() const      { return m_data.up_to_inclusive; }
+    bool Config::after_and_inclusive() const      { return m_data.after_and_inclusive; }
+    bool Config::segmented_ordering() const      { return m_data.up_to_inclusive || m_data.after_and_inclusive; }
 
     std::string Config::getProcessName() const { return m_data.processName; }
     std::string const& Config::getReporterName() const { return m_data.reporterName; }
@@ -12264,7 +12279,7 @@ namespace Catch {
 
     void enforceNoDuplicateTestCases( std::vector<TestCase> const& functions );
 
-    std::vector<TestCase> filterTests( std::vector<TestCase> const& testCases, TestSpec const& testSpec, IConfig const& config );
+    std::vector<TestCase> filterTests( std::vector<TestCase> const& testCases, TestSpec const& testSpec, Config const& config );
     std::vector<TestCase> const& getAllTestCasesSorted( IConfig const& config );
 
     class TestRegistry : public ITestCaseRegistry {
@@ -14254,9 +14269,28 @@ namespace Catch {
         }
     }
 
-    std::vector<TestCase> filterTests( std::vector<TestCase> const& testCases, TestSpec const& testSpec, IConfig const& config ) {
+    std::vector<TestCase> filterTests( std::vector<TestCase> const& testCases, TestSpec const& testSpec, Config const& config ) {
         std::vector<TestCase> filtered;
         filtered.reserve( testCases.size() );
+        if ( ( config.segmented_ordering() ) &&
+             testSpec.matchesByFilter(testCases, config, true).size() == 1 ) {
+            std::string only_match_name = testSpec.matchesByFilter(getAllTestCasesSorted(config), config).front().name;
+            std::vector<TestCase>::const_iterator start_trim_iter = testCases.begin();
+            std::vector<TestCase>::const_iterator end_trim_iter = testCases.end();
+			auto is_name_match = [&only_match_name](const TestCase &some_case) {
+				return some_case.name == only_match_name;
+			};
+                if ( config.up_to_inclusive() ) {
+                    end_trim_iter = std::find_if(testCases.begin(), testCases.end(), is_name_match );
+					if ( end_trim_iter != testCases.end() && std::next(end_trim_iter, 1) != testCases.end() ) {
+						end_trim_iter++; // inclusive, baybee!
+					}
+                } else if ( config.after_and_inclusive() ) {
+                    start_trim_iter = std::find_if(testCases.begin(), testCases.end(), is_name_match );
+				}
+				filtered.insert(filtered.begin(), start_trim_iter, end_trim_iter);
+				return filtered;
+        }
         for (auto const& testCase : testCases) {
             if ((!testSpec.hasFilters() && !testCase.isHidden()) ||
                 (testSpec.hasFilters() && matchTest(testCase, testSpec, config))) {
@@ -14651,7 +14685,7 @@ namespace Catch {
         return std::any_of( m_filters.begin(), m_filters.end(), [&]( Filter const& f ){ return f.matches( testCase ); } );
     }
 
-    TestSpec::Matches TestSpec::matchesByFilter( std::vector<TestCase> const& testCases, IConfig const& config ) const
+    TestSpec::Matches TestSpec::matchesByFilter( std::vector<TestCase> const& testCases, Config const& config, bool just_checking ) const
     {
         Matches matches( m_filters.size() );
         std::transform( m_filters.begin(), m_filters.end(), matches.begin(), [&]( Filter const& filter ){
@@ -14661,6 +14695,31 @@ namespace Catch {
                     currentMatches.emplace_back( &test );
             return FilterMatch{ filter.name(), currentMatches };
         } );
+        // Absolutely terrible. Do not do this.
+		if ( !just_checking && matches.size() == 1 && config.segmented_ordering() ) {
+			std::string only_match_name = matches.front().name;
+			matches.clear();
+			std::vector<TestCase>::const_iterator start_trim_iter = testCases.begin();
+            std::vector<TestCase>::const_iterator end_trim_iter = testCases.end();
+			auto is_name_match = [&only_match_name](const TestCase &some_case) {
+				return some_case.name == only_match_name;
+			};
+                if ( config.up_to_inclusive() ) {
+                    end_trim_iter = std::find_if(testCases.begin(), testCases.end(), is_name_match );
+					if ( end_trim_iter != testCases.end() && std::next(end_trim_iter, 1) != testCases.end() ) {
+						end_trim_iter++; // inclusive, baybee!
+					}
+                } else if ( config.after_and_inclusive() ) {
+                    start_trim_iter = std::find_if(testCases.begin(), testCases.end(), is_name_match );
+				}
+				while ( start_trim_iter != end_trim_iter ) {
+					std::vector<TestCase const*> currentMatches;
+					auto const &test = *start_trim_iter;
+					currentMatches.emplace_back(&test);
+					matches.emplace_back(FilterMatch{only_match_name, currentMatches});
+					start_trim_iter++;
+				}
+		}
         return matches;
     }
 
