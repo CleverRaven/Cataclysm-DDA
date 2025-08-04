@@ -97,6 +97,7 @@
           "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_ONE_WEREWOLF_ILLUMINATE_TARGET",
           "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_ONE_WEREWOLF_FRIEND_TO_ANIMALS",
           "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_ONE_WEREWOLF_SMASH_TERRAIN",
+          "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_ONE_WEREWOLF_CLIMB_IN_WOLF_FORM",
           "EOC_WEREWOLF_LUNAR_GIFT_GO_BACK"
         ],
         "names": [
@@ -105,15 +106,17 @@
           "Learn <trait_name:WEREWOLF_ILLUMINATE_TARGET>",
           "Learn <trait_name:WEREWOLF_FRIEND_TO_ANIMALS>",
           "Learn <trait_name:WEREWOLF_SMASH_TERRAIN>",
+          "Learn <trait_name:WEREWOLF_CLIMB_IN_WOLF_FORM>",
           "Go Back."
         ],
-        "keys": [ "1", "2", "3", "4", "5", "6" ],
+        "keys": [ "1", "2", "3", "4", "5", "6", "7" ],
         "descriptions": [
           "<trait_name:WEREWOLF_SMELL_NEARBY_ENEMIES>\n<trait_description:WEREWOLF_SMELL_NEARBY_ENEMIES>",
           "<trait_name:WEREWOLF_NO_SCENT>\n<trait_description:WEREWOLF_NO_SCENT>",
           "<trait_name:WEREWOLF_ILLUMINATE_TARGET>\n<trait_description:WEREWOLF_ILLUMINATE_TARGET>",
           "<trait_name:WEREWOLF_FRIEND_TO_ANIMALS>\n<trait_description:WEREWOLF_FRIEND_TO_ANIMALS>",
           "<trait_name:WEREWOLF_SMASH_TERRAIN>\n<trait_description:WEREWOLF_SMASH_TERRAIN>",
+          "<trait_name:WEREWOLF_CLIMB_IN_WOLF_FORM>\n<trait_description:WEREWOLF_CLIMB_IN_WOLF_FORM>",
           "Go back to the Gift level selection."
         ],
         "allow_cancel": true
@@ -171,6 +174,16 @@
     "condition": { "not": { "u_has_trait": "WEREWOLF_SMASH_TERRAIN" } },
     "effect": [
       { "set_string_var": "WEREWOLF_SMASH_TERRAIN", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "1 hours", "1 hours 30 minutes" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_ONE_WEREWOLF_CLIMB_IN_WOLF_FORM",
+    "condition": { "not": { "u_has_trait": "WEREWOLF_CLIMB_IN_WOLF_FORM" } },
+    "effect": [
+      { "set_string_var": "WEREWOLF_CLIMB_IN_WOLF_FORM", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "1 hours", "1 hours 30 minutes" ] }
     ]

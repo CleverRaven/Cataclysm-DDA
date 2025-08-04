@@ -4001,6 +4001,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_xe_werewolf_climb_in_wolf_form",
+    "//": "Hidden effect, flags only apply in wolf form",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "CLIMB_NO_LADDER", "ONE_STORY_FALL" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_xe_werewolf_redhanded_rage",
     "//": "Hidden effect, part of an activatable trait",
     "name": [ "" ],

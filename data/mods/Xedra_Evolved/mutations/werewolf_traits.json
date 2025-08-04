@@ -154,6 +154,22 @@
     "spells_learned": [ [ "xe_werewolf_smash_terrain_spell", 1 ] ]
   },
   {
+    "type": "mutation",
+    "id": "WEREWOLF_CLIMB_IN_WOLF_FORM",
+    "name": { "str": "Spider Climb" },
+    "points": 2,
+    "description": "You can chase after your prey wherever they travel.  While in wolf form, you can scramble up one-story walls to reach the roof, and you can fall a single story without taking any damage.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [
+      {
+        "condition": { "u_has_trait": "VAMPIRE_WOLF_FORM_TRAITS" },
+        "ench_effects": [ { "effect": "effect_xe_werewolf_climb_in_wolf_form", "intensity": 1 } ]
+      }
+    ]
+  },
+  {
     "//": "Tier 2 traits begin here",
     "type": "mutation",
     "id": "WEREWOLF_SENSE_SPIRITS_AND_ALIENS",
