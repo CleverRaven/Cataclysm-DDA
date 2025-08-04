@@ -147,15 +147,10 @@
     "rotates_to": "PAVEMENT",
     "required_str": -1,
     "flags": [ "TRANSPARENT", "NO_SELF_CONNECT" ],
+    "//": "36x36 inch aluminum sign on 7 feet U-channel post (post weight is 3 pound per foot, but we don't really have any sort of beams, so pipe is used instead), mounted using 2 bolts",
     "deconstruct": {
-      "items": [ { "item": "pipe", "count": 1 }, { "item": "sheet_metal", "count": 1 }, { "item": "nuts_bolts", "charges": [ 4, 8 ] } ]
+      "items": [ { "item": "sheet_aluminum", "count": 2 }, { "item": "pipe", "count": 4 }, { "item": "nuts_bolts", "charges": 2 } ]
     },
-    "bash": {
-      "str_min": 10,
-      "str_max": 20,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [ { "item": "scrap", "count": [ 4, 6 ] } ]
-    }
+    "bash": { "str_min": 10, "str_max": 20, "sound": "metal screeching!", "sound_fail": "clang!" }
   }
 ]

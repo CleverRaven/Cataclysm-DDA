@@ -722,5 +722,11 @@
     "using": [ [ "power_saw_long", 5 ] ],
     "result_mult": 8,
     "components": [ [ [ "log", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "copy-from": "nail",
+    "result": "rivets",
+    "extend": { "tools": [ [ [ "monkey_tool", -1 ] ] ] }
   }
 ]

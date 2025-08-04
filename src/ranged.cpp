@@ -1147,9 +1147,15 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
 
         int qty = gun.gun_recoil( *this, bipod );
         delay  += qty * absorb;
-        // Temporarily scale by 5x as we adjust MAX_RECOIL, factoring in the recoil enchantment also.
-        recoil += enchantment_cache->modify_value( enchant_vals::mod::RECOIL_MODIFIER, 5.0 ) *
-                  ( qty * ( 1.0 - absorb ) );
+        // if shoots multiple barrels simultaneously, do not apply the recoil just yet
+        if( gun.gun_current_mode().flags.count( "VOLLEY" ) ) {
+            delay += enchantment_cache->modify_value( enchant_vals::mod::RECOIL_MODIFIER, 5.0 ) *
+                     ( qty * ( 1.0 - absorb ) );
+        } else {
+            // Temporarily scale by 5x as we adjust MAX_RECOIL, factoring in the recoil enchantment also.
+            recoil += enchantment_cache->modify_value( enchant_vals::mod::RECOIL_MODIFIER, 5.0 ) *
+                      ( qty * ( 1.0 - absorb ) );
+        }
 
         const itype_id current_ammo = gun.ammo_current();
 
@@ -2747,6 +2753,12 @@ target_handler::trajectory target_ui::run()
     // Initialize cursor position
     src = you->pos_bub();
     update_target_list();
+
+    if( mode == TargetMode::Reach && targets.empty() ) {
+        add_msg( m_info, _( "No hostile creature in reach." ) );
+        traj.clear();
+        return traj; // nothing to attack.
+    }
 
     if( activity && activity->abort_if_no_targets && targets.empty() ) {
         // this branch is taken when already shot once and re-entered

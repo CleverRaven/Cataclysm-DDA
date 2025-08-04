@@ -4911,7 +4911,7 @@
         { "id": "mon_michelangelo", "fg": 3154, "rotates": false },
         { "id": "mon_raphael", "fg": 3155, "rotates": false },
         { "id": "mon_ratman_ninja", "fg": 3152, "rotates": false },
-        { "id": [ "mon_shia", "mon_zombie_jackson" ], "fg": 3352 },
+        { "id": [ "mon_shia", "mon_zombie_jackson" ], "fg": 3351 },
         {
           "id": [
             "spell_scroll_spell_scroll_tornskin",
@@ -5331,8 +5331,8 @@
           "fg": 3331
         },
         { "id": [ "mon_blob_large", "mon_gelatin" ], "fg": 3343 },
-        { "id": [ "mon_hallu_mannequin", "f_mannequin" ], "fg": 3350 },
-        { "id": "mon_mannequin_decoy", "fg": 3352, "//": "referred by mod: crazy" },
+        { "id": [ "mon_hallu_mannequin", "f_mannequin" ], "fg": 3349 },
+        { "id": "mon_mannequin_decoy", "fg": 3351, "//": "referred by mod: crazy" },
         { "id": [ "mon_fungaloid", "mon_fungaloid_dormant" ], "fg": 3362 },
         { "id": [ "mon_spore", "mon_fungus_boil" ], "fg": 3366 },
         { "id": "mon_civilian_icu", "fg": [ { "weight": 1, "sprite": 3369 }, { "weight": 1, "sprite": 3368 } ] },
@@ -10632,8 +10632,8 @@
         { "id": "mon_breather_hub", "fg": 3346 },
         { "id": "mon_player_blob", "fg": 3347 },
         { "id": "mon_slime_ocularium", "fg": 3348 },
-        { "id": "debug_mon", "fg": 3349 },
-        { "id": "mon_hallu_mom", "fg": 3351 },
+        { "id": "mon_hallu_mom", "fg": 3350 },
+        { "id": "pseudo_debug_mon", "fg": 3352 },
         { "id": "mon_ant_fungus", "fg": 3353 },
         { "id": "mon_bee_fungus", "fg": 3354 },
         { "id": "mon_bee_small_fungus", "fg": 3355 },

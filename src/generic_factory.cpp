@@ -1,8 +1,24 @@
 #include "generic_factory.h"
 
 #include "catacharset.h"
+#include "color.h"
+#include "game_constants.h"
 #include "output.h"
 #include "wcwidth.h"
+
+void warn_disabled_feature( const JsonObject &jo, const std::string_view feature,
+                            const std::string_view member, const std::string_view reason )
+{
+    if( !jo.has_member( feature ) ) {
+        return;
+    }
+    JsonObject feat = jo.get_object( feature );
+    feat.allow_omitted_members();
+    if( feat.has_member( member ) ) {
+        jo.throw_error( string_format( "Using '%s' on '%s' not permitted in this instance: %s",
+                                       feature, member, reason ) );
+    }
+}
 
 bool one_char_symbol_reader( const JsonObject &jo, std::string_view member_name, int &sym,
                              bool )
@@ -60,4 +76,24 @@ float read_proportional_entry( const JsonObject &jo, std::string_view key )
         return scalar;
     }
     return 1.0f;
+}
+
+nc_color nc_color_reader::get_next( const JsonValue &jv ) const
+{
+    if( !jv.test_string() ) {
+        jv.throw_error( "invalid format for nc_color" );
+    }
+    return color_from_string( jv.get_string() );
+}
+
+float activity_level_reader::get_next( const JsonValue &jv ) const
+{
+    if( !jv.test_string() ) {
+        jv.throw_error( "Invalid activity level" );
+    }
+    auto it = activity_levels_map.find( jv.get_string() );
+    if( it == activity_levels_map.end() ) {
+        jv.throw_error( "Invalid activity level" );
+    }
+    return it->second;
 }

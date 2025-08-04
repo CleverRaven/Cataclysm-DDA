@@ -309,6 +309,8 @@ static const trait_id trait_BEAK_HUM( "BEAK_HUM" );
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const trait_id trait_ESPER_ADVANCEMENT_OKAY( "ESPER_ADVANCEMENT_OKAY" );
+static const trait_id trait_ESPER_STARTER_ADVANCEMENT_OKAY( "ESPER_STARTER_ADVANCEMENT_OKAY" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
 static const trait_id trait_M_DEFENDER( "M_DEFENDER" );
@@ -560,6 +562,14 @@ void iexamine::genemill( Character &you, const tripoint_bub_ms & )
             you.mutate_towards( treatment );
             rc++;
         } while( !you.has_permanent_trait( treatment ) && rc < 10 );
+    }
+
+    // Remove esper potential
+    if( you.has_permanent_trait( trait_ESPER_ADVANCEMENT_OKAY ) ) {
+        you.remove_mutation( trait_ESPER_ADVANCEMENT_OKAY );
+    }
+    if( you.has_permanent_trait( trait_ESPER_STARTER_ADVANCEMENT_OKAY ) ) {
+        you.remove_mutation( trait_ESPER_STARTER_ADVANCEMENT_OKAY );
     }
 
     //Handle Thesholds changing/removal.

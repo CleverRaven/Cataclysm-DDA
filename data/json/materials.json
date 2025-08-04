@@ -601,7 +601,7 @@
     "type": "material",
     "id": "cotton",
     "name": "Cotton",
-    "density": 1.6,
+    "density": 0.5,
     "specific_heat_liquid": 0.02,
     "specific_heat_solid": 0.02,
     "latent_heat": 205,

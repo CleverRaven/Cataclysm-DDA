@@ -9,6 +9,7 @@
         {
           "u_has_any_trait": [
             "VAMPIRE_WOLF_FORM_TRAITS",
+            "WEREWOLF_PRIMAL_FORM_TRAITS",
             "TURN_INTO_BEAR_TRAITS",
             "TURN_INTO_DEER_TRAITS",
             "TURN_INTO_COUGAR_TRAITS",
@@ -108,7 +109,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_WEREWOLF_WOLF_FORM_activated",
-    "condition": { "not": { "u_has_trait": "WEREWOLF_HYBRID_FORM_TRAITS" } },
+    "condition": { "not": { "u_has_any_trait": [ "WEREWOLF_HYBRID_FORM_TRAITS", "WEREWOLF_PRIMAL_FORM_TRAITS" ] } },
     "effect": [
       {
         "run_eocs": [
@@ -123,8 +124,8 @@
                     "id": "EOC_WEREWOLF_WOLF_FORM_activated_3",
                     "condition": { "math": [ "u_val('mana') >= 50" ] },
                     "effect": [
-                      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
-                      { "math": [ "u_transformed_mana = u_val('mana') - 50" ] },
+                      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
+                      { "math": [ "u_val('mana') -= 50" ] },
                       { "u_add_trait": "VAMPIRE_WOLF_FORM_TRAITS" },
                       { "u_add_trait": "CARNIVORE" },
                       {
@@ -147,14 +148,13 @@
                     "id": "EOC_WEREWOLF_WOLF_FORM_deactivated",
                     "condition": { "u_has_trait": "VAMPIRE_WOLF_FORM_TRAITS" },
                     "effect": [
-                      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+                      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
                       {
                         "u_message": "Your body shifts and contracts and you return to your humanoid form.",
                         "type": "neutral"
                       },
                       { "u_lose_trait": "VAMPIRE_WOLF_FORM_TRAITS" },
-                      { "u_lose_trait": "CARNIVORE" },
-                      { "math": [ "u_val('mana') = u_transformed_mana" ] }
+                      { "u_lose_trait": "CARNIVORE" }
                     ]
                   }
                 ]
@@ -164,7 +164,14 @@
         ]
       }
     ],
-    "false_effect": [ { "u_deactivate_trait": "WEREWOLF_HYBRID_FORM" }, { "run_eocs": "EOC_WEREWOLF_WOLF_FORM_activated_2" } ]
+    "false_effect": [
+      { "u_deactivate_trait": "WEREWOLF_HYBRID_FORM" },
+      {
+        "if": { "u_has_trait": "WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM" },
+        "then": { "u_deactivate_trait": "WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM" }
+      },
+      { "run_eocs": "EOC_WEREWOLF_WOLF_FORM_activated_2" }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -175,7 +182,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_WEREWOLF_HYBRID_FORM_activated",
-    "condition": { "not": { "u_has_trait": "VAMPIRE_WOLF_FORM_TRAITS" } },
+    "condition": { "not": { "u_has_any_trait": [ "VAMPIRE_WOLF_FORM_TRAITS", "WEREWOLF_PRIMAL_FORM_TRAITS" ] } },
     "effect": [
       {
         "run_eocs": [
@@ -189,8 +196,8 @@
                     "id": "EOC_WEREWOLF_HYBRID_FORM_activated_3",
                     "condition": { "math": [ "u_val('mana') >= 50" ] },
                     "effect": [
-                      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
-                      { "math": [ "u_transformed_mana = u_val('mana') - 50" ] },
+                      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
+                      { "math": [ "u_val('mana') -= 50" ] },
                       { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "3" ] },
                       { "math": [ "u_werewolf_healing_tick_counter = 0" ] },
                       { "u_add_trait": "WEREWOLF_HYBRID_FORM_TRAITS" },
@@ -215,14 +222,13 @@
                     "id": "EOC_WEREWOLF_HYBRID_FORM_deactivated",
                     "condition": { "u_has_trait": "WEREWOLF_HYBRID_FORM_TRAITS" },
                     "effect": [
-                      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+                      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
                       {
                         "u_message": "Your body shifts and contracts and you return to your humanoid form.",
                         "type": "neutral"
                       },
                       { "u_lose_trait": "WEREWOLF_HYBRID_FORM_TRAITS" },
                       { "u_lose_trait": "CARNIVORE" },
-                      { "math": [ "u_val('mana') = u_transformed_mana" ] },
                       { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "3" ] }
                     ]
                   }
@@ -233,7 +239,14 @@
         ]
       }
     ],
-    "false_effect": [ { "u_deactivate_trait": "WEREWOLF_ANIMAL_FORM" }, { "run_eocs": "EOC_WEREWOLF_HYBRID_FORM_activated_2" } ]
+    "false_effect": [
+      { "u_deactivate_trait": "WEREWOLF_ANIMAL_FORM" },
+      {
+        "if": { "u_has_trait": "WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM" },
+        "then": { "u_deactivate_trait": "WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM" }
+      },
+      { "run_eocs": "EOC_WEREWOLF_HYBRID_FORM_activated_2" }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -290,14 +303,7 @@
               "foreach": "array",
               "target": [ "arm_l", "arm_r", "leg_l", "leg_r", "torso", "head" ],
               "var": { "context_val": "id" },
-              "effect": [
-                {
-                  "if": { "math": [ "u_hp(_id) < u_hp_max(_id)" ] },
-                  "then": {
-                    "math": [ "u_hp(_id)", "+=", "max(( 1 * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), 1)" ]
-                  }
-                }
-              ]
+              "effect": [ { "if": { "math": [ "u_hp(_id) < u_hp_max(_id)" ] }, "then": { "math": [ "u_hp(_id)", "+=", "1" ] } } ]
             }
           },
           {

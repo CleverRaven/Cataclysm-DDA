@@ -138,8 +138,7 @@
       [ [ "material_sand", 4000 ] ],
       [ [ "duct_tape", 20 ] ]
     ],
-    "pre_flags": [ "INDOORS" ],
-    "pre_special": "check_empty",
+    "pre_special": [ "check_empty", "check_floor_above" ],
     "post_terrain": "f_punching_bag"
   }
 ]

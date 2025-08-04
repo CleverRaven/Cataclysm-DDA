@@ -14,7 +14,6 @@
 #include <variant>
 
 #include "ammo.h"
-#include "assign.h"
 #include "body_part_set.h"
 #include "bodypart.h"
 #include "cached_options.h"
@@ -387,10 +386,6 @@ void Item_factory::finalize_pre( itype &obj )
         obj.category_force = calc_category( obj );
     }
 
-    // use pre-Cataclysm price as default if post-cataclysm price unspecified
-    if( obj.price_post < 0_cent ) {
-        obj.price_post = obj.price;
-    }
     // use base volume if integral volume unspecified
     if( obj.integral_volume < 0_ml ) {
         obj.integral_volume = obj.volume;
@@ -2976,7 +2971,6 @@ void islot_ammo::deserialize( const JsonObject &jo )
     optional( jo, was_loaded, "projectile_count", count, 1 );
     optional( jo, was_loaded, "shot_spread", shot_spread, not_negative );
     optional( jo, was_loaded, "shot_damage", shot_damage );
-    // Damage instance assign reader handles pierce and prop_damage
     optional( jo, was_loaded, "damage", damage );
     optional( jo, was_loaded, "range", range, not_negative );
     optional( jo, was_loaded, "range_multiplier", range_multiplier, positive_float,
@@ -3420,7 +3414,7 @@ void islot_comestible::deserialize( const JsonObject &jo )
     optional( jo, was_loaded, "spoils_in", spoils, time_bound_reader{0_seconds} );
     optional( jo, was_loaded, "cooks_like", cooks_like );
     optional( jo, was_loaded, "smoking_result", smoking_result );
-    optional( jo, was_loaded, "petfood", petfood );
+    optional( jo, was_loaded, "petfood", petfood, string_reader{} );
     optional( jo, was_loaded, "monotony_penalty", monotony_penalty, -1 );
     optional( jo, was_loaded, "calories", default_nutrition.calories );
 
@@ -3466,7 +3460,7 @@ void islot_compostable::deserialize( const JsonObject &jo )
 
 void islot_seed::deserialize( const JsonObject &jo )
 {
-    assign( jo, "grow", grow, false, 1_days );
+    optional( jo, was_loaded, "grow", grow, 1_days );
     optional( jo, was_loaded, "fruit_div", fruit_div, 1 );
     mandatory( jo, was_loaded, "plant_name", plant_name );
     mandatory( jo, was_loaded, "fruit", fruit_id );
@@ -4075,7 +4069,7 @@ void itype::load( const JsonObject &jo, std::string_view src )
     optional( jo, was_loaded, "volume", volume );
     optional( jo, was_loaded, "longest_side", longest_side, -1_mm );
     optional( jo, was_loaded, "price", price, not_negative_money, 0_cent );
-    optional( jo, was_loaded, "price_postapoc", price_post, not_negative_money, -1_cent );
+    optional( jo, was_loaded, "price_postapoc", price_post, not_negative_money, 0_cent );
     optional( jo, was_loaded, "stackable", stackable_ );
     optional( jo, was_loaded, "integral_volume", integral_volume, not_negative_volume, -1_ml );
     optional( jo, was_loaded, "integral_longest_side", integral_longest_side, not_negative_length,
@@ -4250,14 +4244,14 @@ void Item_factory::add_migration( const migration &m )
 void Item_factory::load_migration( const JsonObject &jo )
 {
     migration m;
-    assign( jo, "replace", m.replace );
-    assign( jo, "variant", m.variant );
-    assign( jo, "from_variant", m.from_variant );
-    assign( jo, "flags", m.flags );
-    assign( jo, "charges", m.charges );
-    assign( jo, "contents", m.contents );
-    assign( jo, "sealed", m.sealed );
-    assign( jo, "reset_item_vars", m.reset_item_vars );
+    optional( jo, false, "replace", m.replace );
+    optional( jo, false, "variant", m.variant );
+    optional( jo, false, "from_variant", m.from_variant );
+    optional( jo, false, "flags", m.flags );
+    optional( jo, false, "charges", m.charges, 0 );
+    optional( jo, false, "contents", m.contents );
+    optional( jo, false, "sealed", m.sealed, true );
+    optional( jo, false, "reset_item_vars", m.reset_item_vars, false );
 
     std::vector<itype_id> ids;
     if( jo.has_string( "id" ) ) {

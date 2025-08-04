@@ -32,6 +32,7 @@
 #include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
+#include "generic_factory.h"
 #include "input.h"
 #include "input_context.h"
 #include "inventory.h"
@@ -181,8 +182,9 @@ static bool check_support_below( const tripoint_bub_ms
                                  & ); // at least two orthogonal supports at the level below or from below
 static bool check_single_support( const tripoint_bub_ms
                                   &p ); // Only support from directly below matters
-static bool check_stable( const tripoint_bub_ms & ); // tile below has a flag SUPPORTS_ROOF
-static bool check_nofloor_above( const tripoint_bub_ms & ); // tile above has a flag NO_FLOOR
+static bool check_stable( const tripoint_bub_ms & ); // tile below has a SUPPORTS_ROOF flag
+static bool check_floor_above( const tripoint_bub_ms & ); // tile above doesn't have a NO_FLOOR flag
+static bool check_nofloor_above( const tripoint_bub_ms & ); // tile above has a NO_FLOOR flag
 static bool check_deconstruct( const tripoint_bub_ms
                                & ); // either terrain or furniture must be deconstructible
 static bool check_up_OK( const tripoint_bub_ms & ); // tile is below OVERMAP_HEIGHT
@@ -1510,6 +1512,9 @@ bool construct::check_support( const tripoint_bub_ms &p )
             num_supports++;
         }
     }
+
+    //TODO: This doesn't make any sense for the original purpose of check_support and should be seperated
+
     // We want to find "walls" below (including windows and doors), but not open rooms and the like.
     if( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + tripoint::below ) &&
         ( here.has_flag( ter_furn_flag::TFLAG_WALL, p + tripoint::below ) ||
@@ -1567,6 +1572,11 @@ bool construct::check_single_support( const tripoint_bub_ms &p )
 bool construct::check_stable( const tripoint_bub_ms &p )
 {
     return get_map().has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + tripoint::below );
+}
+
+bool construct::check_floor_above( const tripoint_bub_ms &p )
+{
+    return !check_nofloor_above( p );
 }
 
 bool construct::check_nofloor_above( const tripoint_bub_ms &p )
@@ -2260,14 +2270,8 @@ void load_construction( const JsonObject &jo )
         con.post_is_furniture = true;
     }
 
-    std::string activity_level = jo.get_string( "activity_level", "MODERATE_EXERCISE" );
-    const auto activity_it = activity_levels_map.find( activity_level );
-    if( activity_it != activity_levels_map.end() ) {
-        con.activity_level = activity_it->second;
-    } else {
-        jo.throw_error( string_format( "Invalid activity level %s in construction %s", activity_level,
-                                       con.str_id.str() ) );
-    }
+    optional( jo, false/*con.was_loaded*/, "activity_level", con.activity_level,
+              activity_level_reader{}, MODERATE_EXERCISE );
 
     if( jo.has_member( "pre_flags" ) ) {
         con.pre_flags.clear();
@@ -2305,6 +2309,7 @@ void load_construction( const JsonObject &jo )
             { "check_support_below", construct::check_support_below },
             { "check_single_support", construct::check_single_support },
             { "check_stable", construct::check_stable },
+            { "check_floor_above", construct::check_floor_above },
             { "check_nofloor_above", construct::check_nofloor_above },
             { "check_deconstruct", construct::check_deconstruct },
             { "check_up_OK", construct::check_up_OK },

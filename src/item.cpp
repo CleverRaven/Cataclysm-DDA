@@ -5239,6 +5239,11 @@ void item::repair_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         if( !repairs_with.empty() ) {
             info.emplace_back( "DESCRIPTION", string_format( _( "<bold>With</bold> %s." ), repairs_with ) );
         }
+        if( degradation() > 0 && damage() == degradation() ) {
+            info.emplace_back( "DESCRIPTION",
+                               string_format(
+                                   _( "<color_c_red>Degraded and cannot be repaired beyond the current level.</color>" ) ) );
+        }
     } else {
         info.emplace_back( "DESCRIPTION", _( "* This item is <bad>not repairable</bad>." ) );
     }
@@ -6105,7 +6110,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                            iteminfo::is_decimal | iteminfo::no_newline,
                            static_cast<double>( price_preapoc ) / 100 );
     }
-    if( price_preapoc != price_postapoc && parts->test( iteminfo_parts::BASE_BARTER ) ) {
+    if( parts->test( iteminfo_parts::BASE_BARTER ) ) {
         const std::string space = "  ";
         info.emplace_back( "BASE", space + _( "Barter value: " ), _( "$<num>" ),
                            iteminfo::is_decimal,
@@ -10731,18 +10736,17 @@ ret_val<void> item::can_contain( const item &it, int &copies_remaining, const bo
             const bool ignore_nested_rigidity =
                 !pkt->settings.accepts_item( it ) ||
                 !pkt->get_pocket_data()->get_flag_restrictions().empty() || pkt->is_holster();
+            units::volume remaining_volume = pkt->remaining_volume();
             for( const item *internal_it : pkt->all_items_top() ) {
-                if( parent_it.where() != item_location::type::invalid && internal_it == parent_it.get_item() ) {
-                    continue;
-                }
-                if( !internal_it->is_container() ) {
-                    continue;
-                }
+                const int copies_remaining_before = copies_remaining;
                 auto ret = internal_it->can_contain( it, copies_remaining, true, ignore_nested_rigidity,
                                                      ignore_pkt_settings, ignore_non_container_pocket, parent_it,
-                                                     pkt->remaining_volume() );
+                                                     remaining_volume );
                 if( copies_remaining <= 0 ) {
                     return ret;
+                }
+                if( copies_remaining_before != copies_remaining ) {
+                    remaining_volume = pkt->remaining_volume();
                 }
             }
         }
@@ -16152,8 +16156,11 @@ void item::combine( const item_contents &read_input, bool convert )
 
 bool is_preferred_component( const item &component )
 {
-    return component.is_container_empty() && !component.has_flag( flag_HIDDEN_POISON ) &&
-           !component.has_flag( flag_HIDDEN_HALLU );
+    const float survival = get_player_character().get_greater_skill_or_knowledge_level(
+                               skill_survival );
+    return component.is_container_empty() &&
+           ( survival < 3 || !component.has_flag( flag_HIDDEN_POISON ) ) &&
+           ( survival < 5 || !component.has_flag( flag_HIDDEN_HALLU ) );
 }
 
 disp_mod_by_barrel::disp_mod_by_barrel() = default;
