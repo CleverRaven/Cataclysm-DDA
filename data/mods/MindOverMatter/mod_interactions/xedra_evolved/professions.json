@@ -50,7 +50,6 @@
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     },
     "chargen_allow_npc": false
-    }
   },
   {
     "type": "profession",
