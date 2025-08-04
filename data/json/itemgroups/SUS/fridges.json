@@ -1524,7 +1524,7 @@
       { "item": "milk", "container-item": "jug_plastic", "count": [ 0, 6 ] },
       { "item": "butter", "container-item": "wrapper", "count": [ 0, 26 ] },
       { "item": "milk_evap", "container-item": "can_medium", "count": [ 0, 19 ] },
-      { "group": "milk_powder_bag_paper_full",  "count": [ 0, 6 ] }
+      { "group": "milk_powder_bag_paper_full", "count": [ 0, 6 ] }
     ]
   },
   {
@@ -1532,10 +1532,7 @@
     "type": "item_group",
     "//": "Select a fridge from several available options.",
     "subtype": "collection",
-    "items": [
-      { "group": "powder_cacao_bulk",  "count": [ 0, 6 ] },
-      { "group": "cacao_liquor_bulk",  "count": [ 0, 6 ] }
-    ]
+    "items": [ { "group": "powder_cacao_bulk", "count": [ 0, 6 ] }, { "group": "cacao_liquor_bulk", "count": [ 0, 6 ] } ]
   },
   {
     "type": "item_group",
@@ -1567,5 +1564,5 @@
     "subtype": "collection",
     "container-item": "bag_plastic_small",
     "entries": [ { "item": "powder_cacao", "container-item": "null", "count": [ 2, 20 ] } ]
-  },
+  }
 ]
