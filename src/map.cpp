@@ -4710,7 +4710,8 @@ bool map::hit_with_fire( const tripoint_bub_ms &p )
 bool map::open_door( Creature const &u, const tripoint_bub_ms &p, const bool inside,
                      const bool check_only )
 {
-    if( u.has_effect( effect_incorporeal ) || impassable_field_at( p ) || u.has_flag ( json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS ) ) {
+    if( u.has_effect( effect_incorporeal ) || impassable_field_at( p ) ||
+        u.has_flag( json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS ) ) {
         return false;
     }
 
