@@ -1757,6 +1757,13 @@ public:
     }
 };
 
+class nc_color;
+class nc_color_reader : public generic_typed_reader<nc_color_reader>
+{
+    public:
+        nc_color get_next( const JsonValue &jv ) const;
+};
+
 template<typename T>
 static T bound_check( T low, T high, const JsonValue &jv, T read_value )
 {

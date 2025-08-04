@@ -1323,7 +1323,7 @@
       },
       { "condition": { "u_is_on_terrain": "t_open_air" }, "values": [ { "value": "MOVE_COST", "multiply": -0.6 } ] }
     ],
-    "flags": [ "DRACULIN_VENOM", "LEVITATION", "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_TINY" ],
+    "flags": [ "DRACULIN_VENOM", "LEVITATION", "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_TINY", "TEMPORARY_SHAPESHIFT_NO_HANDS" ],
     "override_look": { "id": "mon_bat", "tile_category": "monster" }
   },
   {
@@ -1377,7 +1377,7 @@
         "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
       }
     ],
-    "flags": [ "MUTE", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT" ],
+    "flags": [ "MUTE", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT", "TEMPORARY_SHAPESHIFT_NO_HANDS" ],
     "override_look": { "id": "mon_wolf", "tile_category": "monster" }
   },
   {
