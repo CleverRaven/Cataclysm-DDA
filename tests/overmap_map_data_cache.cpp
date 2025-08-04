@@ -59,3 +59,25 @@ TEST_CASE( "check_placeholders_in_isolation", "[map_data]" )
         }
     }
 }
+
+std::string base64_encode_bitset( const std::bitset<576> &bitset_to_encode );
+void base64_decode_bitset( const std::string &packed_bitset, std::bitset<576> &destination_bitset );
+
+TEST_CASE( "round_trip_bitset_to_base64", "[map_data][hordes]" )
+{
+    map_data_summary test_summary;
+    int bitset_size = test_summary.passable.size();
+    REQUIRE( bitset_size == 576 );
+    REQUIRE( test_summary.passable.none() );
+    // Set some bits to yes at random.
+    for( int i = 0; i < bitset_size; ++i ) {
+        test_summary.passable.set( i, one_in( 5 ) );
+    }
+    // Verify we set at least something.
+    REQUIRE( test_summary.passable.any() );
+    std::string packed_bitset = base64_encode_bitset( test_summary.passable );
+    CAPTURE( packed_bitset );
+    map_data_summary copied_summary;
+    base64_decode_bitset( packed_bitset, copied_summary.passable );
+    CHECK( test_summary.passable == copied_summary.passable );
+}
