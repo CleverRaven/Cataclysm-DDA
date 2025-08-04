@@ -65,7 +65,8 @@
       ">": "t_stairs_down",
       "<": "t_stairs_up",
       "*": "t_ladder_up",
-      "4": "t_gutter_downspout"
+      "4": "t_gutter_downspout",
+      "y": "t_floor"
     },
     "furniture": {
       "6": "f_bulletin_evac",
@@ -74,7 +75,15 @@
       "S": "f_sink",
       "%": "f_trashcan",
       "t": "f_table",
-      "C": "f_counter"
+      "C": "f_counter",
+      "r": "f_bed",
+      "R": "f_cardboard_box",
+      "z": "f_entertainment_center",
+      "d": "f_desk",
+      "h": "f_chair",
+      "F": "f_fridge",
+      "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
+      "E": "f_bookcase"
     },
     "toilets": { "T": {  } }
   },
@@ -98,7 +107,11 @@
       "t": { "item": "SUS_evac_shelter_table", "chance": 70 },
       "C": { "item": "SUS_evac_shelter_bathroom_counter", "chance": 40 },
       "_": { "item": "shelter_supplies", "chance": 1 },
-      "T": { "item": "SUS_toilet", "chance": 50 }
+      "F": { "item": "SUS_fridge_breakroom", "chance": 70 },
+      "R": { "item": "SUS_office_supplies", "chance": 70 },
+      "T": { "item": "SUS_toilet", "chance": 50 },
+      "d": { "item": "SUS_office_desk", "chance": 70 },
+      "E": { "item": "homebooks", "chance": 50 }
     }
   },
   {
