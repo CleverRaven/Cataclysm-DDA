@@ -148,7 +148,8 @@ static const itype_id itype_syringe( "syringe" );
 
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 static const json_character_flag json_flag_MANUAL_CBM_INSTALLATION( "MANUAL_CBM_INSTALLATION" );
-static const json_character_flag json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS ( "TEMPORARY_SHAPESHIFT_NO_HANDS");
+static const json_character_flag
+json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS( "TEMPORARY_SHAPESHIFT_NO_HANDS" );
 
 static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
 static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
