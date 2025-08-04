@@ -925,7 +925,8 @@ std::string to_string( month m )
     return _( months[static_cast<int>( m )] );
 }
 
-std::string get_diary_time_since_str( const time_duration &turn_diff, time_accuracy acc )
+std::string get_diary_time_since_str( const time_duration &turn_diff, time_accuracy acc,
+                                      bool include_postfix )
 {
     const int days = to_days<int>( turn_diff );
     const int hours = to_hours<int>( turn_diff ) % 24;
@@ -965,8 +966,12 @@ std::string get_diary_time_since_str( const time_duration &turn_diff, time_accur
             break;
 
     }
+    if( include_postfix ) {
+        //~ %1$s is xx days, %2$s is xx hours, %3$s is xx minutes
+        return string_format( _( "%1$s%2$s%3$s since last entry" ), days_text, hours_text, minutes_text );
+    }
     //~ %1$s is xx days, %2$s is xx hours, %3$s is xx minutes
-    return string_format( _( "%1$s%2$s%3$s since last entry" ), days_text, hours_text, minutes_text );
+    return string_format( _( "%1$s%2$s%3$s" ), days_text, hours_text, minutes_text );
 }
 
 std::string get_diary_time_str( const time_point &turn, time_accuracy acc )

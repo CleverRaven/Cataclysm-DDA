@@ -606,7 +606,8 @@ std::string to_string_time_of_day( const time_point &p );
 /** Time approximation based on the player's timekeeping capability, formatted for diary pages **/
 std::string get_diary_time_str( const time_point &turn, time_accuracy acc );
 /** Time approximation based on the player's timekeeping capability, formatted for diary pages **/
-std::string get_diary_time_since_str( const time_duration &turn_diff, time_accuracy acc );
+std::string get_diary_time_since_str( const time_duration &turn_diff, time_accuracy acc,
+                                      bool include_postfix = true );
 /** Returns the default duration of a lunar month (duration between syzygies) */
 time_duration lunar_month();
 /** Returns the current phase of the moon. */
