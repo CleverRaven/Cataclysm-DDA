@@ -1314,8 +1314,16 @@
           { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 }
         ],
         "mutations": [ "ECHOLOCATION" ],
-        "ench_effects": [ { "effect": "effect_vampire_bat_form_levitation", "intensity": 1 } ],
         "skills": [ { "value": "dodge", "add": 8 } ]
+      },
+      {
+        "condition": {
+          "and": [
+            { "not": { "u_has_effect": "disabled", "bodypart": "arm_l" } },
+            { "not": { "u_has_effect": "disabled", "bodypart": "arm_r" } }
+          ]
+        },
+        "ench_effects": [ { "effect": "effect_vampire_bat_form_levitation", "intensity": 1 } ]
       },
       {
         "condition": "u_has_weapon",
