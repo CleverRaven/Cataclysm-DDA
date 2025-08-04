@@ -2257,7 +2257,7 @@ static const std::set<action_id> actions_disabled_in_incorporeal {
 static std::map<action_id, std::string> get_actions_disabled_in_handless_temporary_shapeshift()
 {
     return std::map<action_id, std::string> {
-        { ACTION_OPEN,               _( "You can't open things shapeshifted." ) },
+        { ACTION_OPEN,               _( "You can't open things while shapeshifted." ) },
         { ACTION_CLOSE,              _( "You can't close things while shapeshifted." ) },
         { ACTION_ADVANCEDINV,        _( "You can't move mass quantities while shapeshifted." ) },
         { ACTION_PICKUP,             _( "You can't pick anything up while shapeshifted." ) },
