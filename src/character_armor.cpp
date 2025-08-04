@@ -262,7 +262,7 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
     item::cover_type ctype = item::get_cover_type( du.type );
 
     // If you're shapeshifted and your gear is part of your form, it can't protect you
-    if (armor.has_flag( json_flag_SHAPESHIFTED_ARMOR_ABSORBED_INTO_FORM ) ) {
+    if( armor.has_flag( json_flag_SHAPESHIFTED_ARMOR_ABSORBED_INTO_FORM ) ) {
         return false;
     }
 
