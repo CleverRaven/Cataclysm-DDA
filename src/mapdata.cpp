@@ -404,7 +404,7 @@ std::string map_common_bash_info::potential_bash_items( const map_data_common_t 
         }
         ret += string_format( _( "Bashing the %s may yield:\n%s" ), ter_furn.name(), ret );
         ret += "\n";
-        ret += _( "Or components of this items" );
+        ret += _( "Or whatever remains of that which you manage to not destroy" );
         return ret;
     } else if( ter_furn.deconstruct_info().has_value()
                && ter_furn.deconstruct_info().value().drop_group != Item_spawn_data_EMPTY_GROUP
@@ -412,7 +412,7 @@ std::string map_common_bash_info::potential_bash_items( const map_data_common_t 
         ret += string_format( _( "Bashing the %s would yield:\n%s" ),
                               ter_furn.name(), item_group::potential_items( ter_furn.deconstruct_info().value().drop_group ) );
         ret += "\n";
-        ret += _( "Or components of this items" );
+        ret += _( "Or whatever remains of that which you manage to not destroy" );
         return ret;
     } else {
         return string_format( _( "Bashing the %s would yield:\n%s" ),
