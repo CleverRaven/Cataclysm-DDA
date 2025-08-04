@@ -2142,7 +2142,7 @@
     "latent_heat": 273,
     "conductive": true,
     "chip_resist": 20,
-    "repaired_with": "steel_chunk",
+    "repaired_with": "welding_rod_steel",
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
