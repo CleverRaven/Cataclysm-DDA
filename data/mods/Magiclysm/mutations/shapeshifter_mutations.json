@@ -286,9 +286,17 @@
           { "value": "NIGHT_VIS", "add": 4 },
           { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 }
         ],
-        "ench_effects": [ { "effect": "effect_druid_shifter_raven_form_levitation", "intensity": 1 } ],
         "skills": [ { "value": "dodge", "add": 6 } ],
         "mutations": [ "BIRD_EYE", "DOWN", "EAGLEEYED", "LIGHTEATER" ]
+      },
+      {
+        "condition": {
+          "and": [
+            { "not": { "u_has_effect": "disabled", "bodypart": "arm_l" } },
+            { "not": { "u_has_effect": "disabled", "bodypart": "arm_r" } }
+          ]
+        },
+        "ench_effects": [ { "effect": "effect_druid_shifter_raven_form_levitation", "intensity": 1 } ]
       },
       {
         "condition": "u_has_weapon",
