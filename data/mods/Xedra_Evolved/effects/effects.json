@@ -4009,6 +4009,32 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_xe_werewolf_camouflage_as_wolf",
+    "//": "Hidden effect, part of an activatable trait",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "enchantments": [
+      {
+        "condition": { "not": { "u_has_trait": "WOLF_VAMPIRE_WOLF_FORM_TRAITS" } },
+        "values": [ { "value": "STEALTH_MODIFIER", "add": 10 } ]
+      },
+      {
+        "condition": { "u_has_trait": "WOLF_VAMPIRE_WOLF_FORM_TRAITS" },
+        "values": [
+          {
+            "value": "STEALTH_MODIFIER",
+            "add": {
+              "math": [
+                "min( (25 + (werewolf_tier_three_traits() * 1) + (werewolf_tier_four_traits() * 2) + (werewolf_tier_five_traits() * 4) ), 50)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_xe_werewolf_redhanded_rage",
     "//": "Hidden effect, part of an activatable trait",
     "name": [ "" ],

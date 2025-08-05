@@ -199,6 +199,7 @@
           "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_TWO_WEREWOLF_STUN_MACHINE",
           "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_TWO_WEREWOLF_EXTRA_WEAKPOINT_HITS",
           "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_TWO_WEREWOLF_FAR_JUMP",
+          "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_TWO_WEREWOLF_CAMOUFLAGE_COAT",
           "Go Back."
         ],
         "names": [
@@ -206,14 +207,16 @@
           "Learn <trait_name:WEREWOLF_STUN_MACHINE>",
           "Learn <trait_name:WEREWOLF_EXTRA_WEAKPOINT_HITS>",
           "Learn <trait_name:WEREWOLF_FAR_JUMP>",
+          "Learn <trait_name:WEREWOLF_CAMOUFLAGE_COAT>",
           "Go Back."
         ],
-        "keys": [ "1", "2", "3", "4", "5" ],
+        "keys": [ "1", "2", "3", "4", "5", "6" ],
         "descriptions": [
           "<trait_name:WEREWOLF_SENSE_SPIRITS_AND_ALIENS>\n<trait_description:WEREWOLF_SENSE_SPIRITS_AND_ALIENS>",
           "<trait_name:WEREWOLF_STUN_MACHINE>\n<trait_description:WEREWOLF_STUN_MACHINE>",
           "<trait_name:WEREWOLF_EXTRA_WEAKPOINT_HITS>\n<trait_description:WEREWOLF_EXTRA_WEAKPOINT_HITS>",
-          "<trait_name:WEREWOLF_EXTRA_WEAKPOINT_HITS>\n<trait_description:WEREWOLF_FAR_JUMP>",
+          "<trait_name:WEREWOLF_FAR_JUMP>\n<trait_description:WEREWOLF_FAR_JUMP>",
+          "<trait_name:WEREWOLF_CAMOUFLAGE_COAT>\n<trait_description:WEREWOLF_CAMOUFLAGE_COAT>",
           "Go Back."
         ],
         "allow_cancel": true
@@ -233,9 +236,19 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_TWO_WEREWOLF_STUN_MACHINE",
-    "condition": { "not": { "u_has_trait": "WEREWOLF_NO_SCENT" } },
+    "condition": { "not": { "u_has_trait": "WEREWOLF_STUN_MACHINE" } },
     "effect": [
-      { "set_string_var": "WEREWOLF_NO_SCENT", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "set_string_var": "WEREWOLF_STUN_MACHINE", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "2 hours", "3 hours" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_TWO_WEREWOLF_EXTRA_WEAKPOINT_HITS",
+    "condition": { "not": { "u_has_trait": "WEREWOLF_EXTRA_WEAKPOINT_HITS" } },
+    "effect": [
+      { "set_string_var": "WEREWOLF_EXTRA_WEAKPOINT_HITS", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "2 hours", "3 hours" ] }
     ]
@@ -252,10 +265,10 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_TWO_WEREWOLF_EXTRA_WEAKPOINT_HITS",
-    "condition": { "not": { "u_has_trait": "WEREWOLF_EXTRA_WEAKPOINT_HITS" } },
+    "id": "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_TWO_WEREWOLF_CAMOUFLAGE_COAT",
+    "condition": { "not": { "u_has_trait": "WEREWOLF_CAMOUFLAGE_COAT" } },
     "effect": [
-      { "set_string_var": "WEREWOLF_EXTRA_WEAKPOINT_HITS", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "set_string_var": "WEREWOLF_CAMOUFLAGE_COAT", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "2 hours", "3 hours" ] }
     ]

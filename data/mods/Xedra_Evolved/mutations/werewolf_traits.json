@@ -309,6 +309,23 @@
     "spells_learned": [ [ "xe_werewolf_far_jump_spell", 1 ] ]
   },
   {
+    "type": "mutation",
+    "id": "WEREWOLF_CAMOUFLAGE_COAT",
+    "name": { "str": "Shimmerpelt" },
+    "points": 4,
+    "description": "Blend your coat in with the surrounding environment, making it harder for enemies to spot you.  This gift is most effective in wolf form, but still has minor effects in human or war form.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "mana": true,
+    "cost": 1,
+    "time": 10,
+    "activation_msg": "",
+    "enchantments": [ { "condition": "ACTIVE", "ench_effects": [ { "effect": "effect_xe_werewolf_camouflage_as_wolf", "intensity": 1 } ] } ]
+  },
+  {
     "//": "Tier 3 traits begin here",
     "type": "mutation",
     "id": "WEREWOLF_PARTIAL_SHIFT",
