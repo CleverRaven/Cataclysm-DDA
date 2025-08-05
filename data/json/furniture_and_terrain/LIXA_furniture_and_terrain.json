@@ -181,7 +181,7 @@
     "id": "EOC_FALL_DOWN",
     "effect": [
       {
-        "npc_location_variable": { "context_val": "Lixa_teleport" },
+        "u_location_variable": { "context_val": "Lixa_teleport" },
         "target_params": {
           "om_terrain": "LIXA_road",
           "om_terrain_match_type": "CONTAINS",
@@ -192,10 +192,10 @@
         }
       },
       {
-        "npc_message": "As you step into the open air… you fall.  Then you keep falling.  The shaft you thought was only a few stories in height must be miles.  You lose count repeatedly but slowly, finally, the floor approaches…  THUMP!  You feel searing final pain as every part of your body breaks as it hits the ground.",
+        "u_message": "As you step into the open air… you fall.  Then you keep falling.  The shaft you thought was only a few stories in height must be miles.  You lose count repeatedly but slowly, finally, the floor approaches…  THUMP!  You feel searing final pain as every part of your body breaks as it hits the ground.",
         "popup": true
       },
-      { "npc_teleport": { "context_val": "Lixa_teleport" }, "force": true }
+      { "u_teleport": { "context_val": "Lixa_teleport" }, "force": true }
     ],
     "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "NO_FLOOR", "INDOORS", "FREE_TO_EXAMINE" ]
