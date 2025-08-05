@@ -13113,6 +13113,7 @@ void Character::process_items( map *here )
                 continue;
             } else if( it->active && !it->ammo_sufficient( this ) ) {
                 it->deactivate();
+                add_msg_if_player( _( "Your %s shut down due to lack of power." ), it->tname() );
             } else if( available_charges - ups_used >= 1_kJ &&
                        it->ammo_remaining_linked( *here, nullptr ) < it->ammo_capacity( ammo_battery ) ) {
                 // Charge the battery in the UPS modded tool
