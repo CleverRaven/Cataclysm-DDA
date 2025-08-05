@@ -27,7 +27,7 @@
     "name": { "str": "survival kit" },
     "description": "A survival kit box clearly repurposed from a ship's escape pod.  It contains a variety of supplies to help you survive planetside.",
     "weight": "1022 g",
-    "volume": "30 L",
+    "volume": "32 L",
     "price_postapoc": "5 USD",
     "symbol": ",",
     "color": "red",
