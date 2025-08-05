@@ -1126,7 +1126,7 @@
     "time": "7 h",
     "autolearn": true,
     "using": [ [ "tailoring_nylon_patchwork", 1 ], [ "tailoring_neoprene_patchwork", 4 ], [ "tailoring_kevlar_fabric", 10 ] ],
-    "components": [ [ [ "wetsuit_hood", 1 ] ], [ [ "rubber_cement", 1 ] ] ],
+    "components": [ [ [ "wetsuit_hood", 1 ] ], [ [ "glue_weak", 250 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_millinery" },
       { "proficiency": "prof_closures" },
@@ -1178,7 +1178,7 @@
     "time": "12 h",
     "autolearn": true,
     "using": [ [ "tailoring_nylon_patchwork", 1 ], [ "tailoring_neoprene_patchwork", 1 ], [ "tailoring_kevlar_fabric", 20 ] ],
-    "components": [ [ [ "wetsuit_hood_thick", 1 ] ], [ [ "rubber_cement", 1 ] ] ]
+    "components": [ [ [ "wetsuit_hood_thick", 1 ] ], [ [ "glue_weak", 250 ] ] ]
   },
   {
     "result": "xs_hood_h20survivor_thick",

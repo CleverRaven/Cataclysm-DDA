@@ -138,7 +138,7 @@
     "book_learn": [ [ "cooking_poison", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_chitinworking", "required": false, "time_multiplier": 1.5, "skill_penalty": 0.5 } ],
     "qualities": [ { "id": "CHISEL", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
-    "components": [ [ [ "demon_chitin_piece", 16 ] ], [ [ "bone_glue", 10 ] ] ]
+    "components": [ [ [ "demon_chitin_piece", 16 ] ], [ [ "glue_weak", 1500 ] ] ]
   },
   {
     "type": "recipe",

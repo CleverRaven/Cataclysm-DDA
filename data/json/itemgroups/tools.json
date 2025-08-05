@@ -46,7 +46,7 @@
       { "item": "tuning_pegs", "prob": 100, "count": [ 5, 15 ] },
       { "item": "qt_wire", "prob": 100, "count": [ 1, 3 ] },
       [ "hand_drill", 20 ],
-      { "item": "super_glue", "prob": 100, "count": [ 1, 3 ] },
+      { "group": "glue_strong_professional" },
       [ "chisel", 10 ],
       [ "sandpaper", 100 ]
     ]
@@ -103,7 +103,8 @@
       [ "screwdriver_set", 50 ],
       [ "socket_screwdriver_set", 10 ],
       { "group": "duct_tape_roll_part", "prob": 10 },
-      { "group": "superglue", "prob": 10 },
+      { "group": "glue_weak_domestic", "prob": 5 },
+      { "group": "glue_strong_domestic", "prob": 5 },
       [ "tin_snips", 10 ],
       [ "wrench", 20 ],
       [ "wrench_small", 20 ],
@@ -830,7 +831,8 @@
       [ "teleporter", 1 ],
       { "group": "used_laptops", "prob": 4, "contents-group": "efiles_science" },
       { "item": "plut_cell", "prob": 4, "charges": [ 1, 5 ] },
-      { "group": "superglue", "prob": 30 },
+      { "group": "glue_weak_domestic", "prob": 15 },
+      { "group": "glue_strong_domestic", "prob": 15 },
       [ "pliers", 10 ],
       [ "tin_snips", 10 ],
       { "item": "matches", "prob": 10, "charges": [ 1, 20 ] },
@@ -1055,16 +1057,89 @@
   {
     "type": "item_group",
     "subtype": "distribution",
-    "id": "superglue",
-    "items": [ { "item": "super_glue", "charges": [ 0, 600 ], "container-group": "superglue_bottles" } ]
+    "id": "superglue_bottles",
+    "items": [ { "item": "small_squeeze_tube", "prob": 90 }, { "item": "bottle_plastic_tiny_glue", "prob": 10 } ]
   },
   {
     "type": "item_group",
     "subtype": "distribution",
-    "id": "superglue_bottles",
+    "id": "glue_weak_domestic",
     "items": [
-      { "item": "small_squeeze_tube", "variant": "small_squeeze_tube_superglue", "prob": 90 },
-      { "item": "bottle_plastic_tiny_glue", "variant": "bottle_plastic_tiny_superglue", "prob": 10 }
+      { "item": "bottle_plastic_tiny_glue", "contents-item": "glue_weak", "count": [ 0, 30 ], "prob": 1 },
+      { "item": "bottle_plastic_small_glue", "contents-item": "glue_weak", "count": [ 0, 250 ], "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "glue_weak_domestic_full",
+    "items": [
+      { "item": "bottle_plastic_tiny_glue", "contents-item": "glue_weak", "count": 30, "prob": 1 },
+      { "item": "bottle_plastic_small_glue", "contents-item": "glue_weak", "count": 250, "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "glue_weak_professional",
+    "items": [
+      { "item": "bottle_plastic_small_glue", "contents-item": "glue_weak", "count": [ 0, 500 ], "prob": 1 },
+      { "item": "bottle_plastic_glue", "contents-item": "glue_weak", "count": [ 0, 1000 ], "prob": 1 },
+      { "item": "bottle_twoliter_glue", "contents-item": "glue_weak", "count": [ 0, 2000 ], "prob": 1 },
+      { "item": "jug_plastic_glue", "contents-item": "glue_weak", "count": [ 0, 3750 ], "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "glue_weak_professional_full",
+    "items": [
+      { "item": "bottle_plastic_small_glue", "contents-item": "glue_weak", "count": 500, "prob": 1 },
+      { "item": "bottle_plastic_glue", "contents-item": "glue_weak", "count": 1000, "prob": 1 },
+      { "item": "bottle_twoliter_glue", "contents-item": "glue_weak", "count": 2000, "prob": 1 },
+      { "item": "jug_plastic_glue", "contents-item": "glue_weak", "count": 3750, "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "glue_strong_domestic",
+    "items": [
+      { "item": "small_squeeze_tube", "contents-item": "glue_strong", "count": [ 0, 4 ], "prob": 1 },
+      { "item": "bottle_plastic_tiny_glue", "contents-item": "glue_strong", "count": [ 0, 30 ], "prob": 1 },
+      { "item": "bottle_plastic_small_glue", "contents-item": "glue_strong", "count": [ 0, 250 ], "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "glue_strong_domestic_full",
+    "items": [
+      { "item": "small_squeeze_tube", "contents-item": "glue_strong", "count": 4, "prob": 1 },
+      { "item": "bottle_plastic_tiny_glue", "contents-item": "glue_strong", "count": 30, "prob": 1 },
+      { "item": "bottle_plastic_small_glue", "contents-item": "glue_strong", "count": 250, "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "glue_strong_professional",
+    "items": [
+      { "item": "bottle_plastic_small_glue", "contents-item": "glue_strong", "count": [ 0, 500 ], "prob": 1 },
+      { "item": "bottle_plastic_glue", "contents-item": "glue_strong", "count": [ 0, 1000 ], "prob": 1 },
+      { "item": "bottle_twoliter_glue", "contents-item": "glue_strong", "count": [ 0, 2000 ], "prob": 1 },
+      { "item": "jug_plastic_glue", "contents-item": "glue_strong", "count": [ 0, 3750 ], "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "glue_strong_professional_full",
+    "items": [
+      { "item": "bottle_plastic_small_glue", "contents-item": "glue_strong", "count": 500, "prob": 1 },
+      { "item": "bottle_plastic_glue", "contents-item": "glue_strong", "count": 1000, "prob": 1 },
+      { "item": "bottle_twoliter_glue", "contents-item": "glue_strong", "count": 2000, "prob": 1 },
+      { "item": "jug_plastic_glue", "contents-item": "glue_strong", "count": 3750, "prob": 1 }
     ]
   }
 ]
