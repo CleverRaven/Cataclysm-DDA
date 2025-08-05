@@ -561,7 +561,7 @@
     "reversible": true,
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_fibers", "skill_penalty": 0 } ],
-    "components": [ [ [ "cordage", 6 ] ] ]
+    "using": [ [ "cordage", 6 ] ]
   },
   {
     "type": "recipe",
