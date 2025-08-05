@@ -87,7 +87,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "leather lamellar cuirass", "str_pl": "leather lamellar cuirasses" },
     "description": "A cuirass made of multiple pieces of tough leather, laced together for durable yet flexible protection.",
-    "weight": "4 537 g",
+    "weight": "4537 g",
     "volume": "9250 ml",
     "//": "Human surface area is roughly 18600 cm^2, based off of rules of 9 the torso is 36% leaving us with 6696 cm^2, and arms are 18% leaving us with 3348 cm^2.",
     "//1": "Leather has a density of 1.1g/cm^3, thickness of 0.4 cm, coverage of 100% leaves us with 3 741 grams.",
