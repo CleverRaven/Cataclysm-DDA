@@ -154,6 +154,7 @@
     ]
   },
   {
+    "type": "effect_on_condition",
     "id": "EOC_CLIMB_DOWN",
     "effect": [
       {
@@ -175,6 +176,7 @@
     ]
   },
   {
+    "type": "effect_on_condition",
     "id": "EOC_JUMP_ACROSS",
     "effect": [
       {
@@ -183,6 +185,7 @@
     ]
   },
   {
+    "type": "effect_on_condition",
     "id": "EOC_FALL_DOWN",
     "effect": [
       {
