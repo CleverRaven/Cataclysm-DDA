@@ -44,7 +44,7 @@
     "id": "xe_werewolf_smash_terrain_spell",
     "type": "SPELL",
     "name": "Moon's Cold Glow",
-    "description": "No barrier can stop the hunter truly devoted to flushing out their quarry.  You can temporarily enhance your strenth for the purposes of smashing through barriers.",
+    "description": "No barrier can stop the hunter truly devoted to flushing out their quarry.  You can temporarily enhance your strength for the purposes of smashing through barriers.",
     "message": "Your unleash a punishing blow.",
     "teachable": false,
     "valid_targets": [ "ground" ],

@@ -147,7 +147,7 @@
     "id": "WEREWOLF_SMASH_TERRAIN",
     "name": { "str": "Mighty Blow" },
     "points": 2,
-    "description": "No barrier can stop the hunter truly devoted to seeking their quarry.  You can temporarily enhance your strenth for the purposes of smashing through barriers.",
+    "description": "No barrier can stop the hunter truly devoted to seeking their quarry.  You can temporarily enhance your strength for the purposes of smashing through barriers.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
