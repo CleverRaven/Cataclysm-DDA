@@ -149,6 +149,7 @@ static const furn_str_id furn_f_rubble( "f_rubble" );
 static const furn_str_id furn_f_rubble_rock( "f_rubble_rock" );
 static const furn_str_id furn_f_wreckage( "f_wreckage" );
 
+static const item_group_id Item_spawn_data_EMPTY_GROUP( "EMPTY_GROUP" );
 static const item_group_id Item_spawn_data_default_zombie_clothes( "default_zombie_clothes" );
 static const item_group_id Item_spawn_data_default_zombie_items( "default_zombie_items" );
 
@@ -4352,42 +4353,88 @@ void map::bash_field( const tripoint_bub_ms &p, bash_params &params )
 
 void map::drop_bash_results( const map_data_common_t &ter_furn, const tripoint_bub_ms &p )
 {
-    map &here = get_map();
+    auto spawn_items_or_charges = []( map & here, const tripoint_bub_ms & p, const itype_id it,
+    const int qty ) {
+        // there seems to be some way to replace it with add_item_or_charges()
+        // but it results in charges spawned in dumb ways, so i dropped it
+        if( it->count_by_charges() ) {
+            here.spawn_item( p, it, 1, qty );
+        } else {
+            here.spawn_item( p, it, qty );
+        }
+    };
 
-    // todo: do the same component recursive loop for generic salvaging
-    if( !ter_furn.base_item.is_null() ) {
-        // if has underlying item, take it's uncraft components as bash result
-        for( const item_comp &comp : ter_furn.get_uncraft_components() ) {
-            const std::vector<item_comp> sub_uncraft_components = item( comp.type ).get_uncraft_components();
+    auto drop_components_or_subcomponents = [spawn_items_or_charges](
+    const std::vector<std::pair<itype_id, int>> &it_qty_v, const tripoint_bub_ms & p )->void {
+
+        map &here = get_map();
+
+        if( it_qty_v.empty() )
+        {
+            return;
+        }
+
+        add_msg_debug( debugmode::DF_MAP, "drop_bash_results():" );
+
+        for( const std::pair<itype_id, int> &it_qty : it_qty_v )
+        {
+            const std::vector<item_comp> sub_uncraft_components = item( it_qty.first ).get_uncraft_components();
+
             if( sub_uncraft_components.empty() ) {
                 // if no subcomponents, just straight drop 100% of item count
-                if( comp.type->count_by_charges() ) {
-                    here.spawn_item( p, comp.type, 1, comp.count );
-                } else {
-                    here.spawn_item( p, comp.type, comp.count );
-                }
+                spawn_items_or_charges( here, p, it_qty.first->id, it_qty.second );
+                add_msg_debug( debugmode::DF_MAP, "type 1, plain item: %s, %s pcs.",
+                               it_qty.first->id.c_str(), it_qty.second );
             } else {
                 // if subcomponents, drop a bit of subcomponents and a bit of components
                 const float broken_qty = rng_float( 0.1f, 0.4f );
                 for( const item_comp &sub_comp : sub_uncraft_components ) {
-                    if( sub_comp.type->count_by_charges() ) {
-                        here.spawn_item( p, sub_comp.type, 1, sub_comp.count * broken_qty );
-                    } else {
-                        here.spawn_item( p, sub_comp.type, sub_comp.count * broken_qty );
-                    }
-
+                    const int qty_or_charges_comp =  sub_comp.count * std::round( it_qty.second * broken_qty );
+                    spawn_items_or_charges( here, p, sub_comp.type, qty_or_charges_comp );
+                    add_msg_debug( debugmode::DF_MAP, "type 2, subcomponent: %s, %s pcs.",
+                                   sub_comp.type->id.c_str(), qty_or_charges_comp );
                 }
-                if( comp.type->count_by_charges() ) {
-                    here.spawn_item( p, comp.type, 1, comp.count * ( 1 - broken_qty ) );
-                } else {
-                    here.spawn_item( p, comp.type, comp.count * ( 1 - broken_qty ) );
-                }
+                const int qty_or_charges = std::round( it_qty.second * ( 1 - broken_qty ) );
+                spawn_items_or_charges( here, p, it_qty.first->id, qty_or_charges );
+                add_msg_debug( debugmode::DF_MAP, "type 3, component: %s, %s pcs.",
+                               it_qty.first->id.c_str(), qty_or_charges ) ;
             }
         }
+    };
+
+    // todo: do the same component recursive loop for generic salvaging
+    if( !ter_furn.base_item.is_null() ) {
+        // if has underlying item, take it's uncraft components as bash result
+
+        std::vector<std::pair<itype_id, int>> it_qty_v;
+        it_qty_v.reserve( ter_furn.get_uncraft_components().size() );
+        for( const item_comp &comp : ter_furn.get_uncraft_components() ) {
+            it_qty_v.emplace_back( comp.type, comp.count );
+        }
+        drop_components_or_subcomponents( it_qty_v, p );
     } else {
         if( ter_furn.bash_info().has_value() ) {
-            here.spawn_items( p, item_group::items_from( ter_furn.bash_info().value().drop_group,
-                              calendar::turn ) );
+            if( ter_furn.bash_info().value().drop_group == Item_spawn_data_EMPTY_GROUP
+                && ter_furn.deconstruct_info().has_value()
+                && ter_furn.deconstruct_info().value().drop_group != Item_spawn_data_EMPTY_GROUP ) {
+                // if drop_group is not defined manually, and we have deconstruct group
+                // then pick deconstruct group as a base, break it a bit, and then drop it.
+
+                const std::map<const itype *, std::pair<int, int>> every_item = item_group::spawn_data_from_group(
+                            ter_furn.deconstruct_info().value().drop_group )->every_item_min_max();
+                std::vector<std::pair<itype_id, int>> it_qty_v;
+
+                it_qty_v.reserve( every_item.size() );
+                for( const std::pair<const itype *, std::pair<int, int>> item_instance : every_item ) {
+                    it_qty_v.emplace_back( item_instance.first->id, rng( item_instance.second.first,
+                                           item_instance.second.second ) );
+                }
+                drop_components_or_subcomponents( it_qty_v, p );
+            } else {
+                map &here = get_map();
+                here.spawn_items( p, item_group::items_from( ter_furn.bash_info().value().drop_group,
+                                  calendar::turn ) );
+            }
         }
     }
 }
