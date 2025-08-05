@@ -413,6 +413,7 @@ struct consumption_event {
     void deserialize( const JsonObject &jo );
 };
 
+//* Modifiers to stats and speed. Positive/negative values are contextual; expected penalties are stored as positive values */
 struct stat_mod {
     int strength = 0;
     int dexterity = 0;
@@ -921,7 +922,9 @@ class Character : public Creature, public visitable
         bool has_mind() const override;
         /** Returns the penalty to speed from thirst */
         static int thirst_speed_penalty( int thirst );
-        /** Returns the effect of pain on stats */
+        /** Returns the effect of weight on stats, with positive penalties representing negative bonuses */
+        stat_mod get_weight_penalty() const;
+        /** Returns the effect of pain on stats, with positive penalties representing negative bonuses */
         stat_mod get_pain_penalty() const;
         stat_mod read_pain_penalty() const;
         /** returns players strength adjusted by any traits that affect strength during lifting jobs */

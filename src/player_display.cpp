@@ -1566,15 +1566,13 @@ void Character::disp_info( bool customize_character )
         }
 
         if( bmi < character_weight_category::normal ) {
-            const int str_penalty = std::floor( ( 1.0f - ( get_bmi_fat() /
-                                                  character_weight_category::normal ) ) * str_max );
-            const int dexint_penalty = std::floor( ( character_weight_category::normal - bmi ) * 3.0f );
+            const stat_mod wpen = get_weight_penalty();
             starvation_text += std::string( _( "Strength" ) ) + " -" + string_format( "%d\n",
-                               str_penalty );
+                               wpen.strength );
             starvation_text += std::string( _( "Dexterity" ) ) + " -" + string_format( "%d\n",
-                               dexint_penalty );
+                               wpen.dexterity );
             starvation_text += std::string( _( "Intelligence" ) ) + " -" + string_format( "%d",
-                               dexint_penalty );
+                               wpen.intelligence );
         }
 
         effect_name_and_text.emplace_back( starvation_name, starvation_text );
