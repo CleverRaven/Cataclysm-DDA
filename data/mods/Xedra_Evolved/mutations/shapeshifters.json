@@ -54,6 +54,7 @@
     "valid": false,
     "active": true,
     "activated_is_setup": true,
+    "activation_msg": "",
     "activated_eocs": [ "EOC_WEREWOLF_WOLF_FORM_activated" ],
     "deactivated_eocs": [ "EOC_WEREWOLF_WOLF_FORM_deactivated" ]
   },
@@ -68,6 +69,7 @@
     "valid": false,
     "active": true,
     "activated_is_setup": true,
+    "activation_msg": "",
     "activated_eocs": [ "EOC_WEREWOLF_HYBRID_FORM_activated" ],
     "processed_eocs": [ "EOC_WEREWOLF_HYBRID_FORM_healing" ],
     "deactivated_eocs": [ "EOC_WEREWOLF_HYBRID_FORM_deactivated" ]

@@ -126,6 +126,7 @@
                     "effect": [
                       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
                       { "math": [ "u_val('mana') -= 50" ] },
+                      { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
                       { "u_add_trait": "VAMPIRE_WOLF_FORM_TRAITS" },
                       { "u_add_trait": "CARNIVORE" },
                       {
@@ -154,7 +155,8 @@
                         "type": "neutral"
                       },
                       { "u_lose_trait": "VAMPIRE_WOLF_FORM_TRAITS" },
-                      { "u_lose_trait": "CARNIVORE" }
+                      { "u_lose_trait": "CARNIVORE" },
+                      { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_RETURN_ARMOR_TO_NORMAL" }
                     ]
                   }
                 ]
@@ -200,6 +202,7 @@
                       { "math": [ "u_val('mana') -= 50" ] },
                       { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "3" ] },
                       { "math": [ "u_werewolf_healing_tick_counter = 0" ] },
+                      { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
                       { "u_add_trait": "WEREWOLF_HYBRID_FORM_TRAITS" },
                       { "u_add_trait": "CARNIVORE" },
                       {
@@ -229,7 +232,8 @@
                       },
                       { "u_lose_trait": "WEREWOLF_HYBRID_FORM_TRAITS" },
                       { "u_lose_trait": "CARNIVORE" },
-                      { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "3" ] }
+                      { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "3" ] },
+                      { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_RETURN_ARMOR_TO_NORMAL" }
                     ]
                   }
                 ]
@@ -257,6 +261,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_WEREWOLF_HYBRID_FORM_healing",
+    "condition": { "u_has_trait": "WEREWOLF_HYBRID_FORM_TRAITS" },
     "effect": [
       { "math": [ "u_werewolf_healing_tick_counter++" ] },
       {
@@ -329,6 +334,61 @@
           {
             "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'head') >= 1" ] },
             "then": { "u_add_effect": "bleed", "target_part": "head", "duration": 0, "intensity": -1 }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM",
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "worn_only": true } ],
+        "true_eocs": [
+          {
+            "id": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM_APPLY_FLAGS",
+            "effect": [
+              {
+                "if": {
+                  "and": [
+                    { "not": { "npc_has_flag": "SEMITANGIBLE" } },
+                    { "not": { "npc_has_flag": "UNRESTRICTED" } },
+                    { "not": { "npc_has_flag": "INTEGRATED" } }
+                  ]
+                },
+                "then": [
+                  { "npc_set_flag": "SHAPESHIFTED_ARMOR" },
+                  { "npc_set_flag": "SEMITANGIBLE" },
+                  { "npc_set_flag": "UNRESTRICTED" },
+                  { "npc_set_flag": "INTANGIBLE_ARMOR" },
+                  { "npc_set_flag": "NO_TAKEOFF" }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SHAPESHIFTING_ARMOR_CHECK_RETURN_ARMOR_TO_NORMAL",
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "flags": [ "SHAPESHIFTED_ARMOR" ] } ],
+        "true_eocs": [
+          {
+            "id": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM_REMOVE_FLAGS",
+            "effect": [
+              { "npc_unset_flag": "SEMITANGIBLE" },
+              { "npc_unset_flag": "INTANGIBLE_ARMOR" },
+              { "npc_unset_flag": "UNRESTRICTED" },
+              { "npc_unset_flag": "NO_TAKEOFF" },
+              { "npc_unset_flag": "SHAPESHIFTED_ARMOR" }
+            ]
           }
         ]
       }

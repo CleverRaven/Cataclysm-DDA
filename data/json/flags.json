@@ -1217,6 +1217,17 @@
     "//": "Due to shapeshifting, the character lacks humanoid hands."
   },
   {
+    "id": "SHAPESHIFTED_ARMOR",
+    "type": "json_flag",
+    "//": "Used to tag armor that is part of the character's new form to apply other flags.",
+    "info": "This item is currently <good>part of your form</good> and <bad>will not protect you</bad>."
+  },
+  {
+    "id": "INTANGIBLE_ARMOR",
+    "type": "json_flag",
+    "//": "Prevents armor from protecting the character."
+  },
+  {
     "id": "NON_THRESH",
     "type": "json_flag",
     "//": "This mutation does not count toward thresholds at all."
