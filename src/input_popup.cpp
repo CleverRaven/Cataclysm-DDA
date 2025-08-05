@@ -175,7 +175,7 @@ static int input_callback( ImGuiInputTextCallbackData *data )
         }
     }
 
-    if( data->EventFlag = ImGuiInputTextFlags_CallbackAlways && popup->want_clear_text() ) {
+    if( data->EventFlag == ImGuiInputTextFlags_CallbackAlways && popup->want_clear_text() ) {
         // Only called when popup->text is empty
         data->BufTextLen = 0;
         data->SelectionStart = 0;
