@@ -48,7 +48,27 @@
     "ammo_type": "22",
     "casing": "22_casing",
     "range": 13,
-    "damage": { "damage_type": "bullet", "amount": 12 },
+    "damage": {
+      "damage_type": "bullet",
+      "amount": 12,
+      "barrels": [
+        { "barrel_length": "5 mm", "amount": 3 },
+        { "barrel_length": "6 mm", "amount": 4 },
+        { "barrel_length": "9 mm", "amount": 5 },
+        { "barrel_length": "13 mm", "amount": 6 },
+        { "barrel_length": "19 mm", "amount": 7 },
+        { "barrel_length": "29 mm", "amount": 8 },
+        { "barrel_length": "42 mm", "amount": 9 },
+        { "barrel_length": "63 mm", "amount": 10 },
+        { "barrel_length": "93 mm", "amount": 11 },
+        { "barrel_length": "138 mm", "amount": 12 },
+        { "barrel_length": "205 mm", "amount": 13 },
+        { "barrel_length": "304 mm", "amount": 14 },
+        { "barrel_length": "452 mm", "amount": 15 },
+        { "barrel_length": "672 mm", "amount": 16 },
+        { "barrel_length": "998 mm", "amount": 17 }
+      ]
+    },
     "dispersion": 60,
     "recoil": 150,
     "effects": [ "COOKOFF" ]
