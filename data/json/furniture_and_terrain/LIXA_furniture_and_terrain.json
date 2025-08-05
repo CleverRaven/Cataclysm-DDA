@@ -88,7 +88,7 @@
               "run_eoc_selector": [ "EOC_PEEK_DOWN_pseudo", "EOC_CLIMB_DOWN_pseudo", "EOC_JUMP_ACROSS_pseudo", "EOC_FALL_DOWN_pseudo" ],
               "allow_cancel": true,
               "names": [ "Peek down", "Climb down by lowering yourself from the ledge", "Can't jump across (need a small gap)", "Fall down" ],
-              "title": "There is a ledge here. What do you want to do?",
+              "title": "There is a ledge here.  What do you want to do?",
               "descriptions": [
                 "You look down as far as you can see.",
                 "You hang off the ledge to get closer to a bottom you cannot see.",
@@ -158,7 +158,7 @@
     "id": "EOC_CLIMB_DOWN",
     "effect": [
       {
-        "npc_location_variable": { "context_val": "Lixa_teleport" },
+        "u_location_variable": { "context_val": "Lixa_teleport" },
         "target_params": {
           "om_terrain": "LIXA_road",
           "om_terrain_match_type": "CONTAINS",
@@ -169,10 +169,10 @@
         }
       },
       {
-        "npc_message": "You climb down as far as you can and then you let go… you fall.  Then you keep falling.  The shaft you thought was only a few stories in height must be miles.  You try to count but every so often you scrape up against the wall abrading the skin from your limbs, and bruising you to the bone.  You pass out long before you ever hit the bottom.",
+        "u_message": "You climb down as far as you can and then you let go… you fall.  Then you keep falling.  The shaft you thought was only a few stories in height must be miles.  You try to count but every so often you scrape up against the wall abrading the skin from your limbs, and bruising you to the bone.  You pass out long before you ever hit the bottom.",
         "popup": true
       },
-      { "npc_teleport": { "context_val": "Lixa_teleport" }, "force": true }
+      { "u_teleport": { "context_val": "Lixa_teleport" }, "force": true }
     ]
   },
   {
