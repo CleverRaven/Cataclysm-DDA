@@ -80,22 +80,33 @@
     "roof": "t_flat_roof",
     "examine_action": {
       "type": "effect_on_condition",
-      "effect_on_conditions": [
+"examine_action": {
+  "type": "effect_on_condition",
+  "effect_on_conditions": [
+    {
+      "id": "false_ledge",
+      "effect": [
         {
-          "id": "false_ledge",
-          "effect": [
-            {
-              "run_eoc_selector": [ "EOC_PEEK_DOWN_pseudo", "EOC_CLIMB_DOWN_pseudo", "EOC_JUMP_ACROSS_pseudo", "EOC_FALL_DOWN_pseudo" ],
-              "allow_cancel": true,
-              "names": [ "Peek down", "Climb down by lowering yourself from the ledge", "Can't jump across (need a small gap)", "Fall down" ],
-              "title": "There is a ledge here.  What do you want to do?",
-              "descriptions": [
-                "You look down as far as you can see.",
-                "You hang off the ledge to get closer to a bottom you cannot see.",
-                "Take a leap of faith.",
-                "End it all."
-              ]
-            }
+          "run_eoc_selector": [ "EOC_PEEK_DOWN_pseudo", "EOC_CLIMB_DOWN_pseudo", "EOC_JUMP_ACROSS_pseudo", "EOC_FALL_DOWN_pseudo" ],
+          "allow_cancel": true,
+          "names": [
+            "Peek down",
+            "Climb down by lowering yourself from the ledge",
+            "Can't jump across (need a small gap)",
+            "Fall down"
+          ],
+          "title": "There is a ledge here. What do you want to do?",
+          "descriptions": [
+            "You look down as far as you can see.",
+            "You hang off the ledge to get closer to a bottom you cannot see.",
+            "Take a leap of faith.",
+            "End it all."
+          ]
+        }
+      ]
+    }
+  ]
+}
           ]
         },
         {
