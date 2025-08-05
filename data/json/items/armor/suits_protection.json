@@ -240,7 +240,7 @@
     "name": { "str": "leather body armor" },
     "description": "A full suit of thick leather body armor.  Light and comfortable.",
     "weight": "8400 g",
-    "volume": "7 L",
+    "volume": "10 L",
     "price": "120 USD",
     "price_postapoc": "25 USD",
     "material": [ "leather" ],
