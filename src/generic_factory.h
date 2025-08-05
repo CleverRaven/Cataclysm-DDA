@@ -1948,7 +1948,7 @@ class activity_level_reader : public generic_typed_reader<activity_level_reader>
 
 struct dbl_or_var;
 
-class dbl_or_var_reader : public generic_typed_reader<dbl_or_var>
+class dbl_or_var_reader : public generic_typed_reader<dbl_or_var_reader>
 {
     public:
         bool operator()( const JsonObject &jo, std::string_view member_name,
