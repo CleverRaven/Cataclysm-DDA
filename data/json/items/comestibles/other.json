@@ -573,7 +573,8 @@
     "subtypes": [ "COMESTIBLE" ],
     "id": "dry_tofu",
     "name": { "str_sp": "dehydrated tofu" },
-    "weight": "65 g",
+    "weight": "25 g",
+    "volume": "50 ml",
     "color": "white",
     "spoils_in": "360 days",
     "comestible_type": "FOOD",
@@ -583,7 +584,6 @@
     "price": "90 cent",
     "price_postapoc": "75 cent",
     "material": [ "veggy" ],
-    "volume": "85 ml",
     "vitamins": [ [ "calcium", 16 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ]
   },
   {

@@ -509,7 +509,7 @@
     "autolearn": true,
     "batch_time_factors": [ 25, 2 ],
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
-    "components": [ [ [ "soybean", 2 ] ], [ [ "water_clean", 2 ] ] ]
+    "components": [ [ [ "soybean", 2 ] ], [ [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
