@@ -217,7 +217,7 @@ void help::display_help() const
         if( action == "MOUSE_MOVE" || action == "SELECT" ) {
             std::optional<point> coord = ctxt.get_coordinates_text( w_help );
             if( !!coord ) {
-                int cnt = run_for_point_in<int, point>( opt_map, *coord,
+                int cnt = run_for_point_in<int, point, inclusive_rectangle>( opt_map, *coord,
                 [&sel]( const std::pair<int, inclusive_rectangle<point>> &p ) {
                     sel = p.first;
                 } );

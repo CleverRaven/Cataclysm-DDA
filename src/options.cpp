@@ -3717,7 +3717,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
             std::optional<point> coord = ctxt.get_coordinates_text( w_options_border );
             if( world_options_only && with_tabs && coord.has_value() ) {
                 // worldgen tabs
-                found_opt = run_for_point_in<size_t, point>( worldgen_tab_map, *coord,
+                found_opt = run_for_point_in<size_t, point, inclusive_rectangle>( worldgen_tab_map, *coord,
                 [&sel_worldgen_tab]( const std::pair<size_t, inclusive_rectangle<point>> &p ) {
                     sel_worldgen_tab = p.first;
                 } ) > 0;
@@ -3730,7 +3730,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
                 // option category tabs
                 bool new_val = false;
                 const int psize = pages_.size();
-                found_opt = run_for_point_in<int, point>( opt_tab_map, *coord,
+                found_opt = run_for_point_in<int, point, inclusive_rectangle>( opt_tab_map, *coord,
                 [&iCurrentPage, &new_val, &psize]( const std::pair<int, inclusive_rectangle<point>> &p ) {
                     if( p.first != iCurrentPage ) {
                         new_val = true;
@@ -3748,7 +3748,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
             if( !found_opt && coord.has_value() ) {
                 // option lines
                 const int psize = page_items.size();
-                found_opt = run_for_point_in<int, point>( opt_line_map, *coord,
+                found_opt = run_for_point_in<int, point, inclusive_rectangle>( opt_line_map, *coord,
                 [&iCurrentLine, &psize]( const std::pair<int, inclusive_rectangle<point>> &p ) {
                     iCurrentLine = clamp<int>( p.first, 0, psize - 1 );
                 } ) > 0;

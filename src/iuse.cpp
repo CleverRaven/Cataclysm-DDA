@@ -2159,7 +2159,7 @@ class exosuit_interact
                     std::optional<point> coord = ctxt.get_coordinates_text( w_border );
                     if( !!coord ) {
                         int tmp_frame = 0;
-                        run_for_point_in<int, point>( pkt_map, *coord,
+                        run_for_point_in<int, point, inclusive_rectangle>( pkt_map, *coord,
                         [&tmp_frame]( const std::pair<int, inclusive_rectangle<point>> &p ) {
                             if( p.first == -1 ) {
                                 tmp_frame = 1;
@@ -2170,7 +2170,7 @@ class exosuit_interact
                     coord = ctxt.get_coordinates_text( w_menu );
                     if( !!coord ) {
                         int tmp_pocket = cur_pocket;
-                        run_for_point_in<int, point>( pkt_map, *coord,
+                        run_for_point_in<int, point, inclusive_rectangle>( pkt_map, *coord,
                         [&tmp_pocket, &action]( const std::pair<int, inclusive_rectangle<point>> &p ) {
                             if( p.first >= 0 ) {
                                 tmp_pocket = p.first;
