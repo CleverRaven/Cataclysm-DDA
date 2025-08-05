@@ -272,6 +272,7 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_subaquatic_sonar( "subaquatic_sonar" );
 static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_tied( "tied" );
+static const efftype_id effect_took_thorazine( "took_thorazine" );
 static const efftype_id effect_transition_contacts( "transition_contacts" );
 static const efftype_id effect_winded( "winded" );
 
@@ -475,6 +476,7 @@ static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SAVANT( "SAVANT" );
+static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL3( "SHELL3" );
 static const trait_id trait_SHOUT2( "SHOUT2" );
@@ -12165,6 +12167,11 @@ bool Character::empathizes_with_monster( const mtype_id &monster ) const
         return true;
     }
     return false;
+}
+
+bool Character::schizo_symptoms( int chance ) const
+{
+    return has_trait( trait_SCHIZOPHRENIC ) && !has_effect( effect_took_thorazine ) && one_in( chance );
 }
 
 bool Character::is_driving() const
