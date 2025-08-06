@@ -1414,7 +1414,7 @@ static bool create_point_of_interest( const tripoint_abs_omt &curs )
         return true;
     }
     return false;
-};
+}
 
 // if false, search yielded no results
 static bool search( const ui_adaptor &om_ui, tripoint_abs_omt &curs, const tripoint_abs_omt &orig )
