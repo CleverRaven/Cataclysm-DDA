@@ -15,6 +15,23 @@
     "components": [ [ [ "wooden_post", 1 ] ] ]
   },
   {
+    "type": "recipe",
+    "result": "bat",
+    "id_suffix": "with_lathe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 2 } ],
+    "difficulty": 3,
+    "time": "1 h",
+    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "FILE", "level": 1 }, { "id": "CHISEL_WOOD", "level": 2 } ],
+    "tools": [ [ [ "fake_lathe", -1 ] ] ],
+    "components": [ [ [ "wooden_post", 1 ] ] ],
+    "byproducts": [ [ "splinter", 30 ] ],
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
     "result": "hollow_cane",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
