@@ -128,22 +128,5 @@
       [ [ "cable", 2 ] ],
       [ [ "small_lcd_screen", 1 ] ]
     ]
-  },
-  {
-    "result": "lathe",
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "time": "2 h",
-    "skill_used": "fabrication",
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_appliance_repair", "skill_penalty": 4 } ],
-    "components": [
-      [ [ "scrap", 14 ] ],
-      [ [ "chunk_cast_iron", 5 ] ],
-      [ [ "lump_cast_iron", 3 ] ],
-      [ [ "pipe", 2 ] ],
-      [ [ "cable", 6 ] ],
-      [ [ "motor_small", 1 ] ]
-    ]
   }
 ]
