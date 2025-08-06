@@ -2371,7 +2371,7 @@ int game::inventory_item_menu( item_location locThisItem,
             }
 
             const int prev_selected = action_menu.selected;
-            action_menu.query( false );
+            action_menu.query( true );
             if( action_menu.ret >= 0 ) {
                 cMenu = action_menu.ret; /* Remember: hotkey == retval, see addentry above. */
             } else if( action_menu.ret == UILIST_UNBOUND && action_menu.ret_act == "RIGHT" ) {
