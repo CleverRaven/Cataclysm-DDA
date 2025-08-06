@@ -2874,18 +2874,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
             if( dis_item.count_by_charges() ) {
                 compcount *= activity.position;
             }
-            const bool is_liquid = newit.made_of( phase_id::LIQUID );
-            // Compress liquids and counted-by-charges items into one item,
-            // they are added together on the map anyway and handle_liquid
-            // should only be called once to put it all into a container at once.
-            if( newit.count_by_charges() || is_liquid ) {
-                newit.charges = compcount;
-                compcount = 1;
-            } else if( !newit.craft_has_charges() && newit.charges > 0 ) {
-                // tools that can be unloaded should be created unloaded,
-                // tools that can't be unloaded will keep their default charges.
-                newit.charges = 0;
-            }
+            newit.compress_charges_or_liquid( compcount );
 
             // If the recipe has a `FULL_MAGAZINE` flag, spawn any magazines full of ammo
             if( newit.is_magazine() && dis.has_flag( flag_FULL_MAGAZINE ) ) {

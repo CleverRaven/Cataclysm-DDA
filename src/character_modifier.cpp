@@ -13,7 +13,6 @@
 #include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "generic_factory.h"
-#include "magic_enchantment.h"
 #include "messages.h"
 #include "move_mode.h"
 #include "output.h"

@@ -9127,6 +9127,18 @@ bool item::count_by_charges() const
     return type->count_by_charges();
 }
 
+void item::compress_charges_or_liquid( int &compcount )
+{
+    if( count_by_charges() || made_of( phase_id::LIQUID ) ) {
+        charges = compcount;
+        compcount = 1;
+    } else if( !craft_has_charges() && charges > 0 ) {
+        // tools that can be unloaded should be created unloaded,
+        // tools that can't be unloaded will keep their default charges.
+        charges = 0;
+    }
+}
+
 int item::count() const
 {
     return count_by_charges() ? charges : 1;

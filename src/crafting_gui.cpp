@@ -46,7 +46,6 @@
 #include "localized_comparator.h"
 #include "options.h"
 #include "output.h"
-#include "pimpl.h"
 #include "point.h"
 #include "popup.h"
 #include "recipe.h"
