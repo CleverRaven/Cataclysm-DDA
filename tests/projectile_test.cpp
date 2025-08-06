@@ -106,6 +106,7 @@ TEST_CASE( "liquid_projectiles_applies_effect", "[projectile_effect]" )
 
     npc &dummy = spawn_npc( next_to.xy(), "mi-go_prisoner" );
     dummy.clear_worn();
+    dummy.clear_mutations();
 
     REQUIRE( dummy.top_items_loc().empty() );
 
