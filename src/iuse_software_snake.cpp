@@ -15,6 +15,7 @@
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "ui_helpers.h"
 #include "ui_manager.h"
 
 snake_game::snake_game() = default;
@@ -94,13 +95,7 @@ int snake_game::start_game()
     catacurses::window w_snake;
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        const point iOffset( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
-                             TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 );
-
-        w_snake = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                      iOffset );
-
-        ui.position_from_window( w_snake );
+        ui_helpers::full_screen_window( ui, &w_snake );
     } );
     ui.mark_resize();
 
