@@ -18,6 +18,7 @@
 #include "npc.h"
 #include "faction.h"
 #include "output.h"
+#include "point.h"
 #include "string_formatter.h"
 #include "talker.h"
 #include "translation.h"
@@ -239,8 +240,8 @@ void mission_ui_impl::draw_controls()
         get_avatar().delete_point_of_interest( upoints_of_interest[selected_mission].pos );
     }
 
-    if( selected_tab != mission_ui_tab_enum::POINTS_OF_INTEREST && umissions.empty() ||
-        selected_tab == mission_ui_tab_enum::POINTS_OF_INTEREST && upoints_of_interest.empty() ) {
+    if( ( selected_tab != mission_ui_tab_enum::POINTS_OF_INTEREST && umissions.empty() ) ||
+        ( selected_tab == mission_ui_tab_enum::POINTS_OF_INTEREST && upoints_of_interest.empty() ) ) {
         static const std::map< mission_ui_tab_enum, std::string > nope = {
             { mission_ui_tab_enum::ACTIVE, translate_marker( "You have no active missions!" ) },
             { mission_ui_tab_enum::COMPLETED, translate_marker( "You haven't completed any missions!" ) },

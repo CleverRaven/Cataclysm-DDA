@@ -347,14 +347,15 @@ void avatar::set_active_mission( mission &cur_mission )
 
 void avatar::set_active_point_of_interest( point_of_interest active_point_of_interest )
 {
-    for( auto iter = points_of_interest.begin(); iter < points_of_interest.end(); iter++ ) {
+    for( auto iter : points_of_interest ) {
         // It's really sufficient to only check the position as used...
-        if( iter._Ptr->pos == active_point_of_interest.pos &&
-            iter._Ptr->text == active_point_of_interest.text ) {
+        if( iter.pos == active_point_of_interest.pos &&
+            iter.text == active_point_of_interest.text ) {
             this->active_point_of_interest = active_point_of_interest;
             active_mission = nullptr;
             return;
         }
+
     }
 
     debugmsg( "active point of interest %s is not in the points_of_interest list",
@@ -446,7 +447,7 @@ void avatar::add_point_of_interest( point_of_interest new_point_of_interest )
 void avatar::delete_point_of_interest( tripoint_abs_omt pos )
 {
     for( auto iter = points_of_interest.begin(); iter != points_of_interest.end(); iter++ ) {
-        if( iter._Ptr->pos == pos ) {
+        if( iter->pos == pos ) {
             points_of_interest.erase( iter );
 
             if( active_point_of_interest.pos == pos ) {
