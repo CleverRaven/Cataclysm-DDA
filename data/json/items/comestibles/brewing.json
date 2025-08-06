@@ -409,7 +409,7 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "brew_time": "14 days",
-    "brew_results": [ "mead", "yeast" ]
+    "brew_results": [ "plain_mead", "yeast" ]
   },
   {
     "id": "brew_hopped_mead",
