@@ -2166,6 +2166,7 @@
     "valid": false,
     "profession": true,
     "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ],
-    "types": [ "HERITAGE" ]
+    "types": [ "HERITAGE" ],
+    "chargen_allow_npc": false
   }
 ]

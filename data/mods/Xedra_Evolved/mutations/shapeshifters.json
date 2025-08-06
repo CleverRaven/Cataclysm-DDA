@@ -41,7 +41,8 @@
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
     "flags": [ "MEND_ALL", "HERITAGE" ],
     "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": 0.25 }, { "value": "REGEN_HP_AWAKE", "multiply": 0.1 } ] } ],
-    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ]
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "mutation",
@@ -56,7 +57,8 @@
     "activated_is_setup": true,
     "activation_msg": "",
     "activated_eocs": [ "EOC_WEREWOLF_WOLF_FORM_activated" ],
-    "deactivated_eocs": [ "EOC_WEREWOLF_WOLF_FORM_deactivated" ]
+    "deactivated_eocs": [ "EOC_WEREWOLF_WOLF_FORM_deactivated" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "mutation",
@@ -72,7 +74,8 @@
     "activation_msg": "",
     "activated_eocs": [ "EOC_WEREWOLF_HYBRID_FORM_activated" ],
     "processed_eocs": [ "EOC_WEREWOLF_HYBRID_FORM_healing" ],
-    "deactivated_eocs": [ "EOC_WEREWOLF_HYBRID_FORM_deactivated" ]
+    "deactivated_eocs": [ "EOC_WEREWOLF_HYBRID_FORM_deactivated" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "mutation",
