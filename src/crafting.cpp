@@ -874,18 +874,21 @@ static item_location place_craft_or_disassembly(
         }
     }
 
+    auto craft_wield = [&craft_in_world, &ch, &craft]() {
+        if( std::optional<item_location> it_loc = wield_craft( ch, craft ) ) {
+            craft_in_world = *it_loc;
+        }  else {
+            // This almost certainly shouldn't happen
+            put_into_vehicle_or_drop( ch, item_drop_reason::tumbling, {craft} );
+        }
+    };
+
     // Crafting without a workbench
     if( !target ) {
         if( !ch.has_two_arms_lifting() ) {
             craft_in_world = set_item_map_or_vehicle( ch, ch.pos_bub(), craft );
         } else if( !ch.has_wield_conflicts( craft ) || ch.is_npc() ) {
-            // NPC always tries wield craft first
-            if( std::optional<item_location> it_loc = wield_craft( ch, craft ) ) {
-                craft_in_world = *it_loc;
-            }  else {
-                // This almost certainly shouldn't happen
-                put_into_vehicle_or_drop( ch, item_drop_reason::tumbling, {craft} );
-            }
+            craft_wield();
         } else {
             enum option : int {
                 WIELD_CRAFT = 0,
@@ -910,12 +913,7 @@ static item_location place_craft_or_disassembly(
             const option choice = amenu.ret == UILIST_CANCEL ? DROP : static_cast<option>( amenu.ret );
             switch( choice ) {
                 case WIELD_CRAFT: {
-                    if( std::optional<item_location> it_loc = wield_craft( ch, craft ) ) {
-                        craft_in_world = *it_loc;
-                    } else {
-                        // This almost certainly shouldn't happen
-                        put_into_vehicle_or_drop( ch, item_drop_reason::tumbling, {craft} );
-                    }
+                    craft_wield();
                     break;
                 }
                 case DROP_CRAFT: {
