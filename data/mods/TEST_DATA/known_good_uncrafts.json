@@ -64,7 +64,9 @@
       "gasfilter_s",
       "boomer_bile",
       "boomer_bile_adv",
-      "rivets"
+      "rivets",
+      "lathe",
+      "fake_lathe"
     ]
   }
 ]
