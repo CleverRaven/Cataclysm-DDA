@@ -319,6 +319,4 @@ inline bool assign( const JsonObject &jo, const std::string_view name, std::opti
     return assign( jo, name, *val, strict );
 }
 
-constexpr float float_max = std::numeric_limits<float>::max();
-
 #endif // CATA_SRC_ASSIGN_H
