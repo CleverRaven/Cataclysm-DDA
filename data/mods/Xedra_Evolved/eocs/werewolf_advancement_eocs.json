@@ -354,13 +354,20 @@
         "run_eoc_selector": [
           "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_FOUR_WEREWOLF_SUPER_FAST_REGENERATION",
           "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_FOUR_WEREWOLF_SUMMON_FOG",
+          "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_FOUR_WEREWOLF_MOON_ARMOR",
           "Go Back."
         ],
-        "names": [ "Learn <trait_name:WEREWOLF_SUPER_FAST_REGENERATION>", "Learn <trait_name:WEREWOLF_SUMMON_FOG>", "Go Back." ],
+        "names": [
+          "Learn <trait_name:WEREWOLF_SUPER_FAST_REGENERATION>",
+          "Learn <trait_name:WEREWOLF_SUMMON_FOG>",
+          "Learn <trait_name:WEREWOLF_MOON_ARMOR>",
+          "Go Back."
+        ],
         "keys": [ "1", "2", "3" ],
         "descriptions": [
           "<trait_name:WEREWOLF_SUPER_FAST_REGENERATION>\n<trait_description:WEREWOLF_SUPER_FAST_REGENERATION>",
           "<trait_name:WEREWOLF_SUMMON_FOG>\n<trait_description:WEREWOLF_SUMMON_FOG>",
+          "<trait_name:WEREWOLF_MOON_ARMOR>\n<trait_description:WEREWOLF_MOON_ARMOR>",
           "Go Back."
         ],
         "allow_cancel": true
@@ -383,6 +390,16 @@
     "condition": { "not": { "u_has_trait": "WEREWOLF_SUMMON_FOG" } },
     "effect": [
       { "set_string_var": "WEREWOLF_SUMMON_FOG", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "4 hours", "6 hours" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_FOUR_WEREWOLF_MOON_ARMOR",
+    "condition": { "not": { "u_has_trait": "WEREWOLF_MOON_ARMOR" } },
+    "effect": [
+      { "set_string_var": "WEREWOLF_MOON_ARMOR", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "4 hours", "6 hours" ] }
     ]

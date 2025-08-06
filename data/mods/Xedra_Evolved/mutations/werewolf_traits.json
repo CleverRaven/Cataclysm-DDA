@@ -455,6 +455,45 @@
     "spells_learned": [ [ "xe_werewolf_summon_fog_spell", 1 ] ]
   },
   {
+    "type": "mutation",
+    "id": "WEREWOLF_MOON_ARMOR",
+    "name": "Lucent Armor",
+    "points": 6,
+    "description": "Regeneration and battle rage are potent weapons but sometimes the People need more protection.  You can summon up tangible moonlight that will protect you from the fists, claws, and fangs of your enemies.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "mana": true,
+    "active": true,
+    "activated_is_setup": true,
+    "cost": 1,
+    "time": 1,
+    "activation_msg": "A soft silvery glow springs forth around you.",
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "incoming_damage_mod": [
+          { "type": "bash", "add": { "math": [ "max( (-6 + (werewolf_tier_five_traits() * -0.4) ), -12)" ] } },
+          {
+            "type": "bash",
+            "multiply": { "math": [ "max( (-0.2 + (werewolf_tier_five_traits() * -0.05) ), -0.5)" ] }
+          },
+          { "type": "cut", "add": { "math": [ "max( (-4 + (werewolf_tier_five_traits() * -0.4) ), -8)" ] } },
+          {
+            "type": "cut",
+            "multiply": { "math": [ "max( (-0.15 + (werewolf_tier_five_traits() * -0.04) ), -0.5)" ] }
+          },
+          { "type": "stab", "add": { "math": [ "max( (-2 + (werewolf_tier_five_traits() * -0.4) ), -4)" ] } },
+          {
+            "type": "stab",
+            "multiply": { "math": [ "max( (-0.1 + (werewolf_tier_five_traits() * -0.03) ), -0.5)" ] }
+          }
+        ],
+        "values": [ { "value": "LUMINATION", "add": { "math": [ "min( (10 + (werewolf_tier_five_traits() * 1) ), 30)" ] } } ]
+      }
+    ]
+  },
+  {
     "//": "Tier 5 traits begin here",
     "type": "mutation",
     "id": "WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM",
