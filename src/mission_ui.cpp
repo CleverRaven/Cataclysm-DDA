@@ -76,7 +76,7 @@ class mission_ui_impl : public cataimgui::window
                                            bool &need_adjust ) const;
         void draw_selected_description( std::vector<mission *> missions, int &selected_mission );
         void draw_selected_description( std::vector<point_of_interest> points_of_interest,
-                                        const int &selected_mission );
+                                        const int &selected_mission ) const;
 
         mission_ui_tab_enum selected_tab = mission_ui_tab_enum::ACTIVE;
         mission_ui_tab_enum switch_tab = mission_ui_tab_enum::num_tabs;
@@ -441,7 +441,7 @@ void mission_ui_impl::draw_selected_description( std::vector<mission *> missions
 }
 
 void mission_ui_impl::draw_selected_description( std::vector<point_of_interest> points_of_interest,
-        const int &selected_mission )
+        const int &selected_mission ) const
 {
     point_of_interest selected_point_of_interest = points_of_interest[selected_mission];
     ImGui::TextWrapped( _( "Point of Interest: %s" ), selected_point_of_interest.text.c_str() );

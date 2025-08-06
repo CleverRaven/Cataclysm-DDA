@@ -347,7 +347,7 @@ void avatar::set_active_mission( mission &cur_mission )
 
 void avatar::set_active_point_of_interest( const point_of_interest &active_point_of_interest )
 {
-    for( const point_of_interest iter : points_of_interest ) {
+    for( const point_of_interest &iter : points_of_interest ) {
         // It's really sufficient to only check the position as used...
         if( iter.pos == active_point_of_interest.pos &&
             iter.text == active_point_of_interest.text ) {
