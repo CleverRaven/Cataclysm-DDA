@@ -186,7 +186,7 @@ class avatar : public Character
         /**
          * Set which point of interest is active. The point of interest must be listed in @ref points_of_interest.
          */
-        void set_active_point_of_interest( point_of_interest active_point_of_interest );
+        void set_active_point_of_interest( const point_of_interest &active_point_of_interest );
         /**
          * Called when a mission has been assigned to the player.
          */
@@ -206,7 +206,7 @@ class avatar : public Character
         /**
         * Despite the name, this operation also makes an existing point of interest active.
         */
-        void add_point_of_interest( point_of_interest new_point_of_interest );
+        void add_point_of_interest( const point_of_interest &new_point_of_interest );
         void delete_point_of_interest( tripoint_abs_omt pos );
 
         //return avatar diary

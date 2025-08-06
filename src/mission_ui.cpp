@@ -76,7 +76,7 @@ class mission_ui_impl : public cataimgui::window
                                            bool &need_adjust ) const;
         void draw_selected_description( std::vector<mission *> missions, int &selected_mission );
         void draw_selected_description( std::vector<point_of_interest> points_of_interest,
-                                        int &selected_mission );
+                                        const int &selected_mission );
 
         mission_ui_tab_enum selected_tab = mission_ui_tab_enum::ACTIVE;
         mission_ui_tab_enum switch_tab = mission_ui_tab_enum::num_tabs;
@@ -246,7 +246,7 @@ void mission_ui_impl::draw_controls()
             { mission_ui_tab_enum::ACTIVE, translate_marker( "You have no active missions!" ) },
             { mission_ui_tab_enum::COMPLETED, translate_marker( "You haven't completed any missions!" ) },
             { mission_ui_tab_enum::FAILED, translate_marker( "You haven't failed any missions!" ) },
-            {mission_ui_tab_enum::POINTS_OF_INTEREST, translate_marker( "You don't have any points of interest. Add those from the overmap." )}
+            {mission_ui_tab_enum::POINTS_OF_INTEREST, translate_marker( "You don't have any points of interest.  Add those from the overmap." )}
         };
         ImGui::TextWrapped( "%s", nope.at( selected_tab ).c_str() );
         return;
@@ -441,7 +441,7 @@ void mission_ui_impl::draw_selected_description( std::vector<mission *> missions
 }
 
 void mission_ui_impl::draw_selected_description( std::vector<point_of_interest> points_of_interest,
-        int &selected_mission )
+        const int &selected_mission )
 {
     point_of_interest selected_point_of_interest = points_of_interest[selected_mission];
     ImGui::TextWrapped( _( "Point of Interest: %s" ), selected_point_of_interest.text.c_str() );

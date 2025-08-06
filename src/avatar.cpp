@@ -345,9 +345,9 @@ void avatar::set_active_mission( mission &cur_mission )
     }
 }
 
-void avatar::set_active_point_of_interest( point_of_interest active_point_of_interest )
+void avatar::set_active_point_of_interest( const point_of_interest &active_point_of_interest )
 {
-    for( auto iter : points_of_interest ) {
+    for( const point_of_interest iter : points_of_interest ) {
         // It's really sufficient to only check the position as used...
         if( iter.pos == active_point_of_interest.pos &&
             iter.text == active_point_of_interest.text ) {
@@ -428,7 +428,7 @@ void avatar::remove_active_mission( mission &cur_mission )
     }
 }
 
-void avatar::add_point_of_interest( point_of_interest new_point_of_interest )
+void avatar::add_point_of_interest( const point_of_interest &new_point_of_interest )
 {
     for( point_of_interest &existing_point_of_interest : points_of_interest ) {
         if( new_point_of_interest.pos == existing_point_of_interest.pos ) {
