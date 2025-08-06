@@ -362,41 +362,43 @@ void creature_tracker::flood_fill_zone( const Creature &origin )
         return;
     }
 
-    map &map = get_map();
+    map &here = get_map();
     ff::flood_fill_visit_10_connected( origin.pos_bub(),
-    [&map]( const tripoint_bub_ms & loc, int direction ) {
+    [&here]( const tripoint_bub_ms & loc, int direction ) {
         if( direction == 0 ) {
-            return map.inbounds( loc ) && ( map.is_transparent_wo_fields( loc ) ||
-                                            map.passable( loc ) );
+            return here.inbounds( loc ) && ( here.is_transparent_wo_fields( loc ) ||
+                                             here.passable( loc ) );
         }
+
+        auto check_location_passable_down = [loc, &here]( const maptile & mt, const ter_t & ter ) {
+            return ( ( ter.movecost != 0 && mt.get_furn_t().movecost >= 0 ) ||
+                     here.is_transparent_wo_fields( loc ) ) &&
+                   ( ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ||
+                     ter.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) );
+        };
+
         if( direction == 1 ) {
-            const maptile &up = map.maptile_at( loc );
+            const maptile &up = here.maptile_at( loc );
             const ter_t &up_ter = up.get_ter_t();
             if( up_ter.id.is_null() ) {
                 return false;
             }
-            if( ( ( up_ter.movecost != 0 && up.get_furn_t().movecost >= 0 ) ||
-                  map.is_transparent_wo_fields( loc ) ) &&
-                ( up_ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ||
-                  up_ter.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) ) {
+            if( check_location_passable_down( up, up_ter ) ) {
                 return true;
             }
         }
         if( direction == -1 ) {
-            const maptile &up = map.maptile_at( loc + tripoint::above );
+            const maptile &up = here.maptile_at( loc + tripoint::above );
             const ter_t &up_ter = up.get_ter_t();
             if( up_ter.id.is_null() ) {
                 return false;
             }
-            const maptile &down = map.maptile_at( loc );
+            const maptile &down = here.maptile_at( loc );
             const ter_t &down_ter = up.get_ter_t();
             if( down_ter.id.is_null() ) {
                 return false;
             }
-            if( ( ( down_ter.movecost != 0 && down.get_furn_t().movecost >= 0 ) ||
-                  map.is_transparent_wo_fields( loc ) ) &&
-                ( up_ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ||
-                  up_ter.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) ) {
+            if( check_location_passable_down( down, down_ter ) ) {
                 return true;
             }
         }
