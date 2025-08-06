@@ -750,11 +750,7 @@ static item_location set_item_inventory( Character &p, item &newit )
 {
     item_location ret_val = item_location::nowhere;
     if( newit.made_of( phase_id::LIQUID ) ) {
-        if( p.is_avatar() ) {
-            liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
-        } else {
-            liquid_handler::handle_npc_liquid( newit, p );
-        }
+        liquid_handler::handle_all_or_npc_liquid( p, newit, PICKUP_RANGE );
     } else {
         p.inv->assign_empty_invlet( newit, p );
         // We might not have space for the item
@@ -1494,11 +1490,7 @@ static void spawn_items( Character &guy, std::vector<item> &results,
 
         newit.set_owner( guy.get_faction()->id );
         if( newit.made_of( phase_id::LIQUID ) ) {
-            if( guy.is_avatar() ) {
-                liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
-            } else {
-                liquid_handler::handle_npc_liquid( newit, guy );
-            }
+            liquid_handler::handle_all_or_npc_liquid( guy, newit, PICKUP_RANGE );
         } else if( !loc && allow_wield && !guy.has_wield_conflicts( newit ) &&
                    guy.can_wield( newit ).success() ) {
             wield_craft( guy, newit );
@@ -2980,11 +2972,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
             }
 
             if( act_item.made_of( phase_id::LIQUID ) ) {
-                if( is_avatar() ) {
-                    liquid_handler::handle_all_liquid( act_item, PICKUP_RANGE );
-                } else {
-                    liquid_handler::handle_npc_liquid( act_item, *this );
-                }
+                liquid_handler::handle_all_or_npc_liquid( *this, act_item, PICKUP_RANGE );
             } else {
                 drop_items.push_back( act_item );
             }
@@ -3051,14 +3039,10 @@ void remove_ammo( std::list<item> &dis_items, Character &p )
 
 void drop_or_handle( const item &newit, Character &p )
 {
+    item tmp( newit );
     if( newit.made_of( phase_id::LIQUID ) ) {
-        if( p.is_avatar() ) {
-            liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
-        } else {
-            liquid_handler::handle_npc_liquid( newit, p );
-        }
+        liquid_handler::handle_all_or_npc_liquid( p, tmp, PICKUP_RANGE );
     } else {
-        item tmp( newit );
         p.i_add_or_drop( tmp );
     }
 }
