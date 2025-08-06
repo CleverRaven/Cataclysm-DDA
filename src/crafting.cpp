@@ -229,6 +229,23 @@ float Character::morale_crafting_speed_multiplier( const recipe &rec ) const
     return 1.0f / morale_effect;
 }
 
+float Character::limb_score_crafting_speed_multiplier( const recipe &rec ) const
+{
+    return rec.has_flag( flag_NO_MANIP ) ? 1.0f : get_limb_score( limb_score_manip );
+}
+
+float Character::pain_crafting_speed_multiplier( const recipe &rec ) const
+{
+    return rec.has_flag( flag_AFFECTED_BY_PAIN ) ? std::max( 0.0f,
+            1.0f - ( get_perceived_pain() / 100.0f ) ) : 1.0f;
+}
+
+float Character::mut_crafting_speed_multiplier( const recipe &rec ) const
+{
+    return rec.has_flag( flag_NO_ENCHANTMENT ) ? 1.0f : 1.0 + enchantment_cache->get_value_multiply(
+               enchant_vals::mod::CRAFTING_SPEED_MULTIPLIER );
+}
+
 template<typename T>
 static float lerped_multiplier( const T &value, const T &low, const T &high )
 {
@@ -303,14 +320,12 @@ float Character::workbench_crafting_speed_multiplier( const item &craft,
 float Character::crafting_speed_multiplier( const recipe &rec ) const
 {
 
-    const float limb_score = rec.has_flag( flag_NO_MANIP ) ? 1.0f : get_limb_score(
-                                 limb_score_manip );
-    const float pain_multi = rec.has_flag( flag_AFFECTED_BY_PAIN ) ? std::max( 0.0f,
-                             1.0f - ( get_perceived_pain() / 100.0f ) ) : 1.0f;
+    const float limb_score_multi = limb_score_crafting_speed_multiplier( rec );
+    const float pain_multi = pain_crafting_speed_multiplier( rec );
 
-    float crafting_speed = morale_crafting_speed_multiplier( rec ) *
-                           lighting_craft_speed_multiplier( rec ) *
-                           limb_score * pain_multi;
+    const float crafting_speed = morale_crafting_speed_multiplier( rec ) *
+                                 lighting_craft_speed_multiplier( rec ) *
+                                 limb_score_multi * pain_multi;
 
     const float result = enchantment_cache->modify_value( enchant_vals::mod::CRAFTING_SPEED_MULTIPLIER,
                          crafting_speed );
@@ -333,20 +348,17 @@ float Character::crafting_speed_multiplier( const item &craft,
     const recipe &rec = craft.get_making();
 
     const float light_multi = lighting_craft_speed_multiplier( rec );
-    const float bench_value = ( use_cached_workbench_multiplier ||
-                                cached_workbench_multiplier > 0.0f ) ? cached_workbench_multiplier :
+    const float bench_multi = rec.has_flag( flag_NO_BENCH ) ?
+                              1.0f :
+                              ( use_cached_workbench_multiplier || cached_workbench_multiplier > 0.0f ) ?
+                              cached_workbench_multiplier :
                               workbench_crafting_speed_multiplier( craft, loc );
-    const float bench_multi = rec.has_flag( flag_NO_BENCH ) ? 1.0f : bench_value;
     const float morale_multi = morale_crafting_speed_multiplier( rec );
-    const float mut_multi = rec.has_flag( flag_NO_ENCHANTMENT ) ? 1.0f : 1.0 +
-                            enchantment_cache->get_value_multiply(
-                                enchant_vals::mod::CRAFTING_SPEED_MULTIPLIER );
-    const float limb_score = rec.has_flag( flag_NO_MANIP ) ? 1.0f : get_limb_score(
-                                 limb_score_manip );
-    const float pain_multi = rec.has_flag( flag_AFFECTED_BY_PAIN ) ? std::max( 0.0f,
-                             1.0f - ( get_perceived_pain() / 100.0f ) ) : 1.0f;
+    const float mut_multi = mut_crafting_speed_multiplier( rec );
+    const float limb_score_multi = limb_score_crafting_speed_multiplier( rec );
+    const float pain_multi = pain_crafting_speed_multiplier( rec );
 
-    const float total_multi = light_multi * bench_multi * morale_multi * mut_multi * limb_score *
+    const float total_multi = light_multi * bench_multi * morale_multi * mut_multi * limb_score_multi *
                               pain_multi;
 
     if( light_multi <= 0.0f ) {
