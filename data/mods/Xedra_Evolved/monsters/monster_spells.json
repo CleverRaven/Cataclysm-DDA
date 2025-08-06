@@ -611,7 +611,7 @@
     "id": "wild_hunt_hound_baying_self",
     "name": { "str": "Wild Hunt Hound Baying Self", "//~": "NO_I18N" },
     "description": { "str": "Causes noise when the hound spots you.", "//~": "NO_I18N" },
-    "flags": [ "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN", "RANDOM_DURATION" ],
+    "flags": [ "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN", "RANDOM_DAMAGE" ],
     "valid_targets": [ "self" ],
     "max_level": 1,
     "effect": "noise",
@@ -637,5 +637,19 @@
     "max_level": 1,
     "min_duration": 3000000,
     "max_duration": 3000000
+  },
+  {
+    "type": "SPELL",
+    "id": "werewolf_hyper_regeneration_monster",
+    "name": { "str": "Shadow Pack Regeneration Self", "//~": "NO_I18N" },
+    "description": { "str": "For monster werewolves to regenerate faster.", "//~": "NO_I18N" },
+    "flags": [ "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN", "RANDOM_DURATION" ],
+    "valid_targets": [ "self" ],
+    "max_level": 1,
+    "effect": "attack",
+    "effect_str": "effect_werewolf_lunar_renewal_monster",
+    "shape": "blast",
+    "min_duration": 600,
+    "max_duration": 1800
   }
 ]

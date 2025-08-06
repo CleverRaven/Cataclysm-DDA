@@ -4054,5 +4054,11 @@
     "desc": [ "" ],
     "enchantments": [ { "values": [ { "value": "EVASION", "add": 1 }, { "value": "PHASE_DISTANCE", "add": 1 } ] } ],
     "flags": [ "ETHEREAL", "INVISIBLE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xe_werewolf_summon_shadow_pack_limiter",
+    "name": [ "Summoned the Shadow Pack" ],
+    "desc": [ "You called on the aid of ancestral werewolves and must wait before seeking their aid again." ]
   }
 ]

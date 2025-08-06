@@ -363,7 +363,7 @@
           "Learn <trait_name:WEREWOLF_MOON_ARMOR>",
           "Go Back."
         ],
-        "keys": [ "1", "2", "3" ],
+        "keys": [ "1", "2", "3", "4" ],
         "descriptions": [
           "<trait_name:WEREWOLF_SUPER_FAST_REGENERATION>\n<trait_description:WEREWOLF_SUPER_FAST_REGENERATION>",
           "<trait_name:WEREWOLF_SUMMON_FOG>\n<trait_description:WEREWOLF_SUMMON_FOG>",
@@ -414,19 +414,22 @@
           "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_FIVE_WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM",
           "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_FIVE_WEREWOLF_CLOSE_TEAR_IN_REALITY",
           "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_FIVE_WEREWOLF_WALK_THROUGH_WALLS",
+          "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_FIVE_WEREWOLF_SUMMON_SHADOW_PACK",
           "Go Back."
         ],
         "names": [
           "Learn <trait_name:WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM>",
           "Learn <trait_name:WEREWOLF_CLOSE_TEAR_IN_REALITY>",
           "Learn <trait_name:WEREWOLF_WALK_THROUGH_WALLS>",
+          "Learn <trait_name:WEREWOLF_SUMMON_SHADOW_PACK>",
           "Go Back."
         ],
-        "keys": [ "1", "2", "3", "4" ],
+        "keys": [ "1", "2", "3", "4", "5" ],
         "descriptions": [
           "<trait_name:WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM>\n<trait_description:WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM>",
           "<trait_name:WEREWOLF_CLOSE_TEAR_IN_REALITY>\n<trait_description:WEREWOLF_CLOSE_TEAR_IN_REALITY>",
           "<trait_name:WEREWOLF_WALK_THROUGH_WALLS>\n<trait_description:WEREWOLF_WALK_THROUGH_WALLS>",
+          "<trait_name:WEREWOLF_SUMMON_SHADOW_PACK>\n<trait_description:WEREWOLF_SUMMON_SHADOW_PACK>",
           "Go Back."
         ],
         "allow_cancel": true
@@ -459,6 +462,16 @@
     "condition": { "not": { "u_has_trait": "WEREWOLF_WALK_THROUGH_WALLS" } },
     "effect": [
       { "set_string_var": "WEREWOLF_WALK_THROUGH_WALLS", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "5 hours", "7 hours 30 minutes" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_FIVE_WEREWOLF_SUMMON_SHADOW_PACK",
+    "condition": { "not": { "u_has_trait": "WEREWOLF_SUMMON_SHADOW_PACK" } },
+    "effect": [
+      { "set_string_var": "WEREWOLF_SUMMON_SHADOW_PACK", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_add_trait": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "5 hours", "7 hours 30 minutes" ] }
     ]

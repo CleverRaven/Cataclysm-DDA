@@ -583,5 +583,16 @@
     "activation_msg": "You concentrate for a moment and sublimate your body into spirit.",
     "activated_eocs": [ "EOC_WEREWOLF_WALK_THROUGH_WALLS_ON" ],
     "deactivated_eocs": [ "EOC_WEREWOLF_WALK_THROUGH_WALLS_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "WEREWOLF_SUMMON_SHADOW_PACK",
+    "name": { "str": "Summon the Shadow Pack" },
+    "points": 2,
+    "description": "Even death cannot always stop the Hunt.  You may summon the spirits of werewolves long dead back to join you in the Hunt.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "xe_werewolf_summon_shadow_pack_spell", 1 ] ]
   }
 ]
