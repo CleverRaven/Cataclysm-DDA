@@ -2,7 +2,7 @@
   {
     "result": "glue_weak",
     "type": "recipe",
-    "id_suffix": "from_bones"
+    "id_suffix": "from_bones",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_OTHER",
