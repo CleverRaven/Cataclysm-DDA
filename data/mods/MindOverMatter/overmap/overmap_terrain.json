@@ -341,11 +341,17 @@
       "microlab_psi_phavian_biokinesis_mutation_lab_nw",
       "microlab_psi_phavian_biokinesis_mutation_lab_ne",
       "microlab_psi_phavian_biokinesis_mutation_lab_sw",
-      "microlab_psi_phavian_biokinesis_mutation_lab_se"
+      "microlab_psi_phavian_biokinesis_mutation_lab_se",
+      "microlab_no_meat_generic_edge"
     ],
     "copy-from": "microlab_generic",
     "name": "science lab",
     "sym": "L",
     "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_no_meat_sub_station",
+    "copy-from": "microlab_sub_station"
   }
 ]
