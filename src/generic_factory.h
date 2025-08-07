@@ -636,12 +636,20 @@ data), it should throw.
 
 */
 
+// warn when relative/proportional/extend/delete is used for a member but is not read
+void warn_disabled_feature( const JsonObject &jo, std::string_view feature,
+                            std::string_view member, std::string_view reason );
+
 /** @name Implementation of `mandatory` and `optional`. */
 /**@{*/
 template<typename MemberType>
 inline void mandatory( const JsonObject &jo, const bool was_loaded, const std::string_view name,
                        MemberType &member )
 {
+    warn_disabled_feature( jo, "extend", name, "disabled for mandatory" );
+    warn_disabled_feature( jo, "delete", name, "disabled for mandatory" );
+    warn_disabled_feature( jo, "relative", name, "disabled for mandatory" );
+    warn_disabled_feature( jo, "proportional", name, "disabled for mandatory" );
     if( !jo.read( name, member ) ) {
         if( !was_loaded ) {
             if( jo.has_member( name ) ) {
@@ -670,10 +678,6 @@ inline void mandatory( const JsonObject &jo, const bool was_loaded, const std::s
         }
     }
 }
-
-// warn when relative/proportional/extend/delete is used for a member but is not read
-void warn_disabled_feature( const JsonObject &jo, std::string_view feature,
-                            std::string_view member, std::string_view reason );
 
 /*
  * Template vodoo:
@@ -1944,7 +1948,7 @@ class activity_level_reader : public generic_typed_reader<activity_level_reader>
 
 struct dbl_or_var;
 
-class dbl_or_var_reader : public generic_typed_reader<dbl_or_var>
+class dbl_or_var_reader : public generic_typed_reader<dbl_or_var_reader>
 {
     public:
         bool operator()( const JsonObject &jo, std::string_view member_name,
