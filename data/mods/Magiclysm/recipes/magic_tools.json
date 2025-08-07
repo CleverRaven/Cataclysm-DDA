@@ -109,7 +109,26 @@
       { "proficiency": "prof_fine_metalsmithing", "required": false, "time_multiplier": 3 }
     ],
     "qualities": [ { "id": "CHISEL", "level": 1 } ],
-    "components": [ [ [ "silver_bracelet", 1 ] ] ]
+    "components": [
+      [
+        [ "silver_bracelet", 1 ],
+        [ "diamond_silver_bracelet", 1 ],
+        [ "garnet_silver_bracelet", 1 ],
+        [ "amethyst_silver_bracelet", 1 ],
+        [ "aquamarine_silver_bracelet", 1 ],
+        [ "emerald_silver_bracelet", 1 ],
+        [ "alexandrite_silver_bracelet", 1 ],
+        [ "ruby_silver_bracelet", 1 ],
+        [ "peridot_silver_bracelet", 1 ],
+        [ "sapphire_silver_bracelet", 1 ],
+        [ "tourmaline_silver_bracelet", 1 ],
+        [ "citrine_silver_bracelet", 1 ],
+        [ "blue_topaz_silver_bracelet", 1 ],
+        [ "opal_silver_bracelet", 1 ],
+        [ "pearl_silver_bracelet", 1 ],
+        [ "onyx_silver_bracelet", 1 ]
+      ]
+    ]
   },
   {
     "type": "recipe",
