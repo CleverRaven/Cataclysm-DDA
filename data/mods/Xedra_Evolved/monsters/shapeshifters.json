@@ -23,6 +23,7 @@
     "dodge": 4,
     "regenerates": 1,
     "regeneration_modifiers": [ [ "effect_werewolf_lunar_renewal_monster", 5 ] ],
+    "bleed_rate": 25,
     "vision_night": 8,
     "harvest": "demihuman_fur",
     "families": [ "prof_gross_anatomy", "prof_intro_biology" ],
@@ -94,7 +95,21 @@
       }
     ],
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "GOODHEARING", "HAS_MIND", "HIT_AND_RUN", "PATH_AVOID_DANGER", "WARM", "KEENNOSE" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "GOODHEARING",
+      "HAS_MIND",
+      "HIT_AND_RUN",
+      "NO_FUNG_DMG",
+      "PATH_AVOID_DANGER",
+      "PATH_AVOID_FALL",
+      "PATH_AVOID_FIRE",
+      "WARM",
+      "SWARMS",
+      "KEENNOSE"
+    ],
     "armor": { "bash": 5, "cut": 3, "stab": 2 }
   },
   {
