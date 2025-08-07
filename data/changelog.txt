@@ -880,7 +880,6 @@ Aftershock: Vehicle bay City Building a mix between mechanic garage, gas station
 [Magiclysm] Humans are also a species
 [Magiclysm] Add Aenor version of the horse ranch
 [Magiclysm] SOMATIC spells are harder to cast with broken arms
-Obsolete and remove 'speedydex'
 
 
 ## Balance:
