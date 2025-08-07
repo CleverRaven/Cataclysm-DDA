@@ -158,7 +158,9 @@
       "torso_bandolier_shotgun",
       "torso_bandolier_grenade",
       "bandolier_wrist",
-      "bandolier_pipebomb"
+      "bandolier_pipebomb",
+      "bandolier_pipebomb_xs",
+      "bandolier_pipebomb_xl"
     ],
     "difficulty": 1
   },
