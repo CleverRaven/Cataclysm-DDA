@@ -7,7 +7,6 @@
     "messages": [ "You slash at %s with your claws", "<npcname> slashes at %s with their claws" ],
     "unarmed_allowed": true,
     "weighting": 3,
-    "crit_ok": true,
     "reach_ok": false,
     "attack_vectors": [ "vector_punch" ],
     "flat_bonuses": [
@@ -98,6 +97,7 @@
     "messages": [ "You brutally slash %s with your claws", "<npcname> brutally slashes to %s with their claws" ],
     "unarmed_allowed": true,
     "reach_ok": false,
+    "crit_ok": true,
     "crit_tec": true,
     "attack_vectors": [ "vector_punch" ],
     "flat_bonuses": [
