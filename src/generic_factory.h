@@ -1682,7 +1682,7 @@ public:
     std::pair<K, V> get_next( const JsonValue &val ) const {
         if( val.is_member() ) {
             const JsonMember &jm = dynamic_cast<const JsonMember &>( val );
-            return std::pair<K, V>( jm.name(), val.get_float() );
+            return std::pair<K, V>( jm.name(), static_cast<V>( val.get_float() ) );
         } else if( val.test_object() ) {
             JsonObject inline_pair = val.get_object();
             if( !( inline_pair.size() == 1 || inline_pair.size() == 2 ) ) {
