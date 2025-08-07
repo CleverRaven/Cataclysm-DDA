@@ -866,7 +866,7 @@
       "CLAWS_SHAPESHIFTER_REDHANDED_RAGE_KNOCKBACK",
       "CLAWS_SHAPESHIFTER_REDHANDED_RAGE_AOE_SLASH"
     ],
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED", "NO_SALVAGE" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED", "NO_SALVAGE", "PROVIDES_TECHNIQUES" ],
     "armor": [
       {
         "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 3 } ],
