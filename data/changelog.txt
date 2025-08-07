@@ -345,7 +345,6 @@ Professions now start with relevant books in their smartphones/laptops and some 
 Cheese wheels preserved in wax
 You can do your makeup
 Allow EOCs to read artifact resonance
-Allow EOCs to read artifact resonance
 
 
 ## Interface:
