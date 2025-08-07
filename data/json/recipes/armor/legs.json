@@ -26,13 +26,13 @@
     "time": "440 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_arthropod", 4 ] ],
-    "byproducts": [ [ "leather", 7 ], [ "scrap_leather", 2 ] ],
+    "byproducts": [ [ "scrap_leather", 7 ] ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_chitinworking" },
       { "proficiency": "prof_leatherworking" }
     ],
-    "using": [ [ "armor_chitin", 26 ], [ "strap_large", 8 ], [ "tailoring_leather_patchwork", 3 ] ]
+    "using": [ [ "armor_chitin", 26 ], [ "strap_large", 8 ], [ "tailoring_leather_patchwork", 2 ] ]
   },
   {
     "result": "xs_legguard_chitin",

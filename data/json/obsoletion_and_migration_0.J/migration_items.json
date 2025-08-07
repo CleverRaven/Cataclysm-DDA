@@ -73,5 +73,35 @@
     "type": "MIGRATION",
     "id": "long_duffelbag",
     "replace": "duffelbag"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "helmet_chitin_light",
+    "replace": "helmet_chitin"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_helmet_chitin_light",
+    "replace": "xl_helmet_chitin"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "helmet_chitin_light_xs",
+    "replace": "helmet_chitin_xs"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "helmet_acidchitin_light",
+    "replace": "helmet_acidchitin"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_helmet_acidchitin_light",
+    "replace": "xl_helmet_acidchitin"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "helmet_acidchitin_light_xs",
+    "replace": "helmet_acidchitin_xs"
   }
 ]
