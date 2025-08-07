@@ -51,6 +51,8 @@ static const flag_id json_flag_TELEPORT_LOCK( "TELEPORT_LOCK" );
 static const itype_id itype_wall_wiring( "wall_wiring" );
 static const itype_id itype_power_cord( "power_cord" );
 
+const std::string flag_WIRING( "WIRING" );
+
 static bool TestForVehicleTeleportCollision( vehicle &veh, map &here, map *dest,
         const tripoint_abs_ms &dp )
 {
@@ -60,7 +62,7 @@ static bool TestForVehicleTeleportCollision( vehicle &veh, map &here, map *dest,
             dest->load( project_to<coords::sm>( dp + rel_pos ), false );
         }
 
-        if( part.info().base_item == itype_wall_wiring ||
+        if( part.info().has_flag( flag_WIRING ) ||
             part.info().base_item == itype_power_cord
           ) {
             continue;
