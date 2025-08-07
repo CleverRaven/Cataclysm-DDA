@@ -26,6 +26,11 @@
   {
     "type": "effect_on_condition",
     "id": "scenario_werewolf_variables",
-    "effect": [ { "math": [ "u_werewolf_xp_threshold = 100" ] }, { "math": [ "u_werewolf_give_xp_value = 1" ] } ]
+    "effect": [
+      { "math": [ "u_werewolf_xp_threshold = 100" ] },
+      { "math": [ "u_werewolf_xp_threshold_updater = 250" ] },
+      { "math": [ "u_werewolf_give_xp_value = 1" ] },
+      { "math": [ "u_werewolf_give_xp_updater_value = 1" ] }
+    ]
   }
 ]

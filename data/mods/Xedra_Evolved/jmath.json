@@ -338,30 +338,30 @@
     "type": "jmath_function",
     "id": "werewolf_tier_one_traits",
     "num_args": 0,
-    "return": "u_has_trait('WEREWOLF_SMELL_NEARBY_ENEMIES') + u_has_trait('WEREWOLF_NO_SCENT') + u_has_trait('WEREWOLF_ILLUMINATE_TARGET')"
+    "return": "u_has_trait('WEREWOLF_SMELL_NEARBY_ENEMIES') + u_has_trait('WEREWOLF_NO_SCENT') + u_has_trait('WEREWOLF_ILLUMINATE_TARGET') + u_has_trait('WEREWOLF_FRIEND_TO_ANIMALS') + u_has_trait('WEREWOLF_SMASH_TERRAIN') + u_has_trait('WEREWOLF_CLIMB_IN_WOLF_FORM')"
   },
   {
     "type": "jmath_function",
     "id": "werewolf_tier_two_traits",
     "num_args": 0,
-    "return": "u_has_trait('WEREWOLF_SENSE_SPIRITS_AND_ALIENS') + u_has_trait('WEREWOLF_STUN_MACHINE')"
+    "return": "u_has_trait('WEREWOLF_SENSE_SPIRITS_AND_ALIENS') + u_has_trait('WEREWOLF_STUN_MACHINE') + u_has_trait('WEREWOLF_EXTRA_WEAKPOINT_HITS') + u_has_trait('WEREWOLF_FAR_JUMP') + u_has_trait('WEREWOLF_CAMOUFLAGE_COAT')"
   },
   {
     "type": "jmath_function",
     "id": "werewolf_tier_three_traits",
     "num_args": 0,
-    "return": "u_has_trait('WEREWOLF_PARTIAL_SHIFT') + u_has_trait('WEREWOLF_SILVER_CLAWS') + u_has_trait('WEREWOLF_MANA_BONUS_AFTER_KILL')"
+    "return": "u_has_trait('WEREWOLF_PARTIAL_SHIFT') + u_has_trait('WEREWOLF_SILVER_CLAWS') + u_has_trait('WEREWOLF_MANA_BONUS_AFTER_KILL') + u_has_trait('WEREWOLF_STRENGTH_BONUS') + u_has_trait('WEREWOLF_BATTLE_FURY')"
   },
   {
     "type": "jmath_function",
     "id": "werewolf_tier_four_traits",
     "num_args": 0,
-    "return": "u_has_trait('WEREWOLF_SUPER_FAST_REGENERATION')"
+    "return": "u_has_trait('WEREWOLF_SUPER_FAST_REGENERATION') + u_has_trait('WEREWOLF_SUMMON_FOG') + u_has_trait('WEREWOLF_MOON_ARMOR')"
   },
   {
     "type": "jmath_function",
     "id": "werewolf_tier_five_traits",
     "num_args": 0,
-    "return": "u_has_trait('WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM') + u_has_trait('WEREWOLF_CLOSE_TEAR_IN_REALITY')"
+    "return": "u_has_trait('WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM') + u_has_trait('WEREWOLF_CLOSE_TEAR_IN_REALITY') + u_has_trait('WEREWOLF_WALK_THROUGH_WALLS') + u_has_trait('WEREWOLF_SUMMON_SHADOW_PACK')"
   }
 ]

@@ -95,5 +95,10 @@
     "id": "GRACKEN",
     "description": "Grackens from the nether",
     "fear_triggers": [ "HURT" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "SHAPESHIFTER",
+    "description": "A creature that can take more than one form at will"
   }
 ]

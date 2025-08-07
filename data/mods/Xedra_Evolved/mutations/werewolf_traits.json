@@ -111,6 +111,7 @@
     "mana": true,
     "cost": 1,
     "time": 10,
+    "activation_msg": "You suppress your scent.",
     "active_flags": [ "NO_SCENT" ]
   },
   {
@@ -118,11 +119,55 @@
     "id": "WEREWOLF_ILLUMINATE_TARGET",
     "name": { "str": "Moon's Cold Glow" },
     "points": 2,
-    "description": "As a hunter, you know that catching a scent is the first step to getting the prey's neck between your jaws, so it's best to avoid that first step.  While active, you have no scent at all.",
+    "description": "Moonlight illuminates those under its light, and you can focus that light onto a single target.  The target will glow with a soft silvery light, which grows brighter when out under the moon.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
     "spells_learned": [ [ "xe_werewolf_illuminate_target_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "WEREWOLF_FRIEND_TO_ANIMALS",
+    "name": { "str": "Among the Birds and Beasts" },
+    "points": 2,
+    "description": "A werewolf is a hunter and the natural world knows that, even in human form.  However, it is possible to cloak your predator's mien and masquerade as a simple animal, drawing less negative.  While activate, this trait provides the effects of Animal Kinship.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "mana": true,
+    "cost": 1,
+    "time": 10,
+    "activation_msg": "You submerge your aura into the natural world.",
+    "active_flags": [ "ANIMALEMPATH2" ]
+  },
+  {
+    "type": "mutation",
+    "id": "WEREWOLF_SMASH_TERRAIN",
+    "name": { "str": "Mighty Blow" },
+    "points": 2,
+    "description": "No barrier can stop the hunter truly devoted to seeking their quarry.  You can temporarily enhance your strength for the purposes of smashing through barriers.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "xe_werewolf_smash_terrain_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "WEREWOLF_CLIMB_IN_WOLF_FORM",
+    "name": { "str": "Spider Climb" },
+    "points": 2,
+    "description": "You can chase after your prey wherever they travel.  While in wolf form, you can scramble up one-story walls to reach the roof, and you can fall a single story without taking any damage.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [
+      {
+        "condition": { "u_has_trait": "VAMPIRE_WOLF_FORM_TRAITS" },
+        "ench_effects": [ { "effect": "effect_xe_werewolf_climb_in_wolf_form", "intensity": 1 } ]
+      }
+    ]
   },
   {
     "//": "Tier 2 traits begin here",
@@ -139,6 +184,7 @@
     "activated_is_setup": true,
     "cost": 1,
     "time": 5,
+    "activation_msg": "You open your senses to the presence of your prey.",
     "activated_eocs": [ "EOC_WEREWOLF_SENSE_SPIRITS_AND_ALIENS_ON" ],
     "deactivated_eocs": [ "EOC_WEREWOLF_SENSE_SPIRITS_AND_ALIENS_OFF" ]
   },
@@ -226,6 +272,60 @@
     "spells_learned": [ [ "xe_werewolf_stun_machine_spell", 1 ] ]
   },
   {
+    "type": "mutation",
+    "id": "WEREWOLF_EXTRA_WEAKPOINT_HITS",
+    "name": "Go for the Throat",
+    "points": 3,
+    "description": "A successful hunter targets the vulnerable belly, or throat, or ears, they do not simply bite the first thing that comes into their reach.  When unarmed or in war or wolf form, you have a higher chance to hit your enemies' weakpoints.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "mana": true,
+    "enchantments": [
+      {
+        "condition": { "not": "u_has_weapon" },
+        "values": [
+          {
+            "value": "WEAKPOINT_ACCURACY",
+            "multiply": {
+              "math": [
+                "min( (0.25 + (werewolf_tier_three_traits() * 0.1) + (werewolf_tier_four_traits() * 0.15) + (werewolf_tier_five_traits() * 0.2) ), 2)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "WEREWOLF_FAR_JUMP",
+    "name": { "str": "Grasshopper's Leap" },
+    "points": 2,
+    "description": "You can make mighty leaps from a standing start that would normally be impossible.  While in wolf form, you can jump <color_green>even further</color>.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "xe_werewolf_far_jump_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "WEREWOLF_CAMOUFLAGE_COAT",
+    "name": { "str": "Shimmerpelt" },
+    "points": 4,
+    "description": "Blend your coat in with the surrounding environment, making it harder for enemies to spot you.  This gift is most effective in wolf form, but still has minor effects in human or war form.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "mana": true,
+    "cost": 1,
+    "time": 10,
+    "activation_msg": "",
+    "enchantments": [ { "condition": "ACTIVE", "ench_effects": [ { "effect": "effect_xe_werewolf_camouflage_as_wolf", "intensity": 1 } ] } ]
+  },
+  {
     "//": "Tier 3 traits begin here",
     "type": "mutation",
     "id": "WEREWOLF_PARTIAL_SHIFT",
@@ -250,7 +350,8 @@
     "activated_is_setup": true,
     "mana": true,
     "cost": 1,
-    "time": 4,
+    "time": 6,
+    "activation_msg": "",
     "activated_eocs": [ "EOC_WEREWOLF_SILVER_CLAWS_ON" ],
     "deactivated_eocs": [ "EOC_WEREWOLF_SILVER_CLAWS_OFF" ]
   },
@@ -277,6 +378,54 @@
     "valid": false
   },
   {
+    "type": "mutation",
+    "id": "WEREWOLF_STRENGTH_BONUS",
+    "name": "Primal Strength",
+    "points": 4,
+    "description": "A werewolf in their war form is a nightmare of claws and teeth and corded muscles, but in drawing on the might of the ancient hunters you have surpassed even that.  You gain an additional strength bonus while in war form, and may activate this trait to receive that bonus while in human or wolf form as well.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "mana": true,
+    "active": true,
+    "activated_is_setup": true,
+    "activation_msg": "You feel a tension in your muscles.",
+    "cost": 1,
+    "time": 5,
+    "enchantments": [
+      {
+        "condition": { "u_has_any_trait": [ "WEREWOLF_HYBRID_FORM_TRAITS", "WEREWOLF_PRIMAL_FORM_TRAITS" ] },
+        "values": [
+          {
+            "value": "STRENGTH",
+            "add": { "math": [ "min( (2 + (werewolf_tier_four_traits() * 0.2) + (werewolf_tier_five_traits() * 0.35) ), 8)" ] }
+          }
+        ]
+      },
+      {
+        "condition": "ACTIVE",
+        "ench_effects": [ { "effect": "effect_xe_werewolf_primal_strength_human_form", "intensity": 1 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "WEREWOLF_BATTLE_FURY",
+    "name": "Red-Handed Rage",
+    "points": 4,
+    "description": "You can enter a focused battle frenzy, suffering less pain and attacking faster while unarmed.  In addition, while in war form you enable two more claw techniques: a powerful knockback that downs your enemy, and a slash that hits multiple targets around you.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "mana": true,
+    "active": true,
+    "activated_is_setup": true,
+    "cost": 1,
+    "time": 2,
+    "activation_msg": "The edges of your vision turn red.",
+    "enchantments": [ { "condition": "ACTIVE", "ench_effects": [ { "effect": "effect_xe_werewolf_redhanded_rage", "intensity": 1 } ] } ]
+  },
+  {
     "//": "Tier 4 traits begin here",
     "type": "mutation",
     "id": "WEREWOLF_SUPER_FAST_REGENERATION",
@@ -289,9 +438,60 @@
     "active": true,
     "activated_is_setup": true,
     "mana": true,
-    "cost": 35,
+    "cost": 7,
     "time": 1,
+    "activation_msg": "Your natural regeneration kicks into overdrive.",
     "processed_eocs": [ "EOC_WEREWOLF_SUPER_FAST_REGENERATION_activated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "WEREWOLF_SUMMON_FOG",
+    "name": { "str": "Hunter's Haze" },
+    "points": 2,
+    "description": "You can cause just enough change in a machine to confuse the rigid requirements of its programming, stunning it.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "xe_werewolf_summon_fog_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "WEREWOLF_MOON_ARMOR",
+    "name": "Lucent Armor",
+    "points": 6,
+    "description": "Regeneration and battle rage are potent weapons but sometimes the People need more protection.  You can summon up tangible moonlight that will protect you from the fists, claws, and fangs of your enemies.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "mana": true,
+    "active": true,
+    "activated_is_setup": true,
+    "cost": 1,
+    "time": 1,
+    "activation_msg": "A soft silvery glow springs forth around you.",
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "incoming_damage_mod": [
+          { "type": "bash", "add": { "math": [ "max( (-6 + (werewolf_tier_five_traits() * -0.4) ), -12)" ] } },
+          {
+            "type": "bash",
+            "multiply": { "math": [ "max( (-0.2 + (werewolf_tier_five_traits() * -0.05) ), -0.5)" ] }
+          },
+          { "type": "cut", "add": { "math": [ "max( (-4 + (werewolf_tier_five_traits() * -0.4) ), -8)" ] } },
+          {
+            "type": "cut",
+            "multiply": { "math": [ "max( (-0.15 + (werewolf_tier_five_traits() * -0.04) ), -0.5)" ] }
+          },
+          { "type": "stab", "add": { "math": [ "max( (-2 + (werewolf_tier_five_traits() * -0.4) ), -4)" ] } },
+          {
+            "type": "stab",
+            "multiply": { "math": [ "max( (-0.1 + (werewolf_tier_five_traits() * -0.03) ), -0.5)" ] }
+          }
+        ],
+        "values": [ { "value": "LUMINATION", "add": { "math": [ "min( (10 + (werewolf_tier_five_traits() * 1) ), 30)" ] } } ]
+      }
+    ]
   },
   {
     "//": "Tier 5 traits begin here",
@@ -365,5 +565,34 @@
     "purifiable": false,
     "valid": false,
     "spells_learned": [ [ "xe_werewolf_close_tear_in_reality_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "WEREWOLF_WALK_THROUGH_WALLS",
+    "name": { "str": "Ghostwalker" },
+    "points": 4,
+    "description": "While in war form, transform your claws into silver, causing them to do additional damage to creatures of the Nether.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "mana": true,
+    "cost": 20,
+    "time": 1,
+    "activation_msg": "You concentrate for a moment and sublimate your body into spirit.",
+    "activated_eocs": [ "EOC_WEREWOLF_WALK_THROUGH_WALLS_ON" ],
+    "deactivated_eocs": [ "EOC_WEREWOLF_WALK_THROUGH_WALLS_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "WEREWOLF_SUMMON_SHADOW_PACK",
+    "name": { "str": "Summon the Shadow Pack" },
+    "points": 2,
+    "description": "Even death cannot always stop the Hunt.  You may summon the spirits of werewolves long dead back to join you in the Hunt.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "xe_werewolf_summon_shadow_pack_spell", 1 ] ]
   }
 ]

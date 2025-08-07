@@ -41,6 +41,60 @@
   },
   {
     "type": "technique",
+    "id": "CLAWS_SHAPESHIFTER_REDHANDED_RAGE_KNOCKBACK",
+    "name": "Red-Handed Rage Claw Knockback",
+    "melee_allowed": true,
+    "messages": [
+      "You slash %s with a brutal strike, knocking them to the ground.",
+      "<npcname> slashes %swith a brutal strike, knocking them to the ground."
+    ],
+    "unarmed_allowed": true,
+    "weighting": 1,
+    "crit_ok": true,
+    "reach_ok": false,
+    "miss_recovery": true,
+    "condition": { "and": [ { "u_has_effect": "effect_xe_werewolf_redhanded_rage" }, { "math": [ "u_val('size') >= n_val('size')" ] } ] },
+    "condition_desc": "Needs X",
+    "attack_vectors": [ "vector_punch" ],
+    "knockback_dist": 1,
+    "knockback_spread": 1,
+    "knockback_follow": true,
+    "down_dur": 2,
+    "flat_bonuses": [
+      { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.06 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "CLAWS_SHAPESHIFTER_REDHANDED_RAGE_AOE_SLASH",
+    "name": "Red-Handed Rage Claw AoE",
+    "melee_allowed": true,
+    "messages": [
+      "You slash %s in a wide arc, hitting multiple target.",
+      "<npcname> slashes %s in a wide arc, hitting multiple targets."
+    ],
+    "unarmed_allowed": true,
+    "weighting": 1,
+    "crit_ok": true,
+    "reach_ok": false,
+    "miss_recovery": true,
+    "condition": { "u_has_effect": "effect_xe_werewolf_redhanded_rage" },
+    "attack_vectors": [ "vector_punch" ],
+    "aoe": "spin",
+    "flat_bonuses": [
+      { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.06 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
     "id": "CLAWS_SHAPESHIFTER_CRIT",
     "name": "Critical Claw Slash",
     "melee_allowed": true,
