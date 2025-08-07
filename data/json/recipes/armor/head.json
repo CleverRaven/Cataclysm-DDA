@@ -543,15 +543,15 @@
     "result": "helmet_chitin_xs",
     "type": "recipe",
     "copy-from": "helmet_chitin",
-    "time": "1 h 30 m",
-    "using": [ [ "armor_chitin", 9 ] ]
+    "time": "130 m",
+    "using": [ [ "armor_chitin", 5 ], [ "tailoring_leather_patchwork", 1 ] ]
   },
   {
     "result": "xl_helmet_chitin",
     "type": "recipe",
     "copy-from": "helmet_chitin",
-    "time": "2 h 50 m",
-    "using": [ [ "armor_chitin", 17 ] ]
+    "time": "200 m",
+    "using": [ [ "armor_chitin", 8 ], [ "tailoring_leather_patchwork", 2 ] ]
   },
   {
     "result": "helmet_conical",

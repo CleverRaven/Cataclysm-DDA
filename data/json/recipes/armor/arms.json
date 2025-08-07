@@ -68,17 +68,17 @@
     "result": "xs_armguard_chitin",
     "type": "recipe",
     "copy-from": "armguard_chitin",
-    "time": "390 m",
+    "time": "220 m",
     "byproducts": [ [ "scrap_leather", 4 ] ],
-    "using": [ [ "armor_chitin", 2 ], [ "tailoring_leather_small", 1 ] ]
+    "using": [ [ "armor_chitin", 10 ], [ "strap_large", 8 ], [ "tailoring_leather_patchwork", 1 ] ]
   },
   {
     "result": "xl_armguard_chitin",
     "type": "recipe",
     "copy-from": "armguard_chitin",
-    "time": "440 m",
+    "time": "300 m",
     "byproducts": [ [ "scrap_leather", 4 ] ],
-    "using": [ [ "armor_chitin", 4 ], [ "tailoring_leather_small", 3 ] ]
+    "using": [ [ "armor_chitin", 17 ], [ "strap_large", 8 ], [ "tailoring_leather_patchwork", 1 ] ]
   },
   {
     "result": "armguard_acidchitin",
