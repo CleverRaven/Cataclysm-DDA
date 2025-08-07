@@ -434,6 +434,7 @@ class avatar : public Character
 
         point_of_interest active_point_of_interest;
 
+        void update_active_mission();
         /**
         * diary to track player progression and to write the players story
         */

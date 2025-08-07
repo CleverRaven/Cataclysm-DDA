@@ -36,7 +36,6 @@
 #include "activity_actor_definitions.h"
 #include "activity_type.h"
 #include "addiction.h"
-#include "assign.h"
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "basecamp.h"
@@ -1095,8 +1094,8 @@ void Character::load( const JsonObject &data )
     recalc_sight_limits();
     calc_encumbrance();
 
-    assign( data, "power_level", power_level, false, 0_kJ );
-    assign( data, "max_power_level_modifier", max_power_level_modifier, false, units::energy::min() );
+    optional( data, false, "power_level", power_level, 0_kJ );
+    optional( data, false, "max_power_level_modifier", max_power_level_modifier, units::energy::min() );
 
     // Bionic power should not be negative!
     if( power_level < 0_mJ ) {
@@ -1798,11 +1797,7 @@ void avatar::load( const JsonObject &data )
     std::copy( last, active_missions.end(), std::back_inserter( failed_missions ) );
     active_missions.erase( last, active_missions.end() );
     if( active_mission && active_mission->has_failed() ) {
-        if( active_missions.empty() ) {
-            active_mission = nullptr;
-        } else {
-            active_mission = active_missions.front();
-        }
+        update_active_mission();
     }
 
     data.read( "show_map_memory", show_map_memory );

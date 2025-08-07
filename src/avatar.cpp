@@ -362,6 +362,15 @@ void avatar::set_active_point_of_interest( const point_of_interest &active_point
               active_point_of_interest.text.c_str() );
 }
 
+void avatar::update_active_mission()
+{
+    if( active_missions.empty() ) {
+        active_mission = nullptr;
+    } else {
+        active_mission = active_missions.front();
+    }
+}
+
 void avatar::on_mission_assignment( mission &new_mission )
 {
     active_missions.push_back( &new_mission );
@@ -390,11 +399,7 @@ void avatar::on_mission_finished( mission &cur_mission )
         active_missions.erase( iter );
     }
     if( &cur_mission == active_mission ) {
-        if( active_missions.empty() ) {
-            active_mission = nullptr;
-        } else {
-            active_mission = active_missions.front();
-        }
+        update_active_mission();
     }
 }
 
@@ -420,11 +425,7 @@ void avatar::remove_active_mission( mission &cur_mission )
     }
 
     if( &cur_mission == active_mission ) {
-        if( active_missions.empty() ) {
-            active_mission = nullptr;
-        } else {
-            active_mission = active_missions.front();
-        }
+        update_active_mission();
     }
 }
 
