@@ -79,7 +79,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "demonous chitin scale mail suit" },
     "description": "A full body suit of chitin sections overlapping with each other, secured to a leather backing.  The odd irregular shapes make full coverage impossible, but at least it's made with a strong chitin.  Seems to be made more out of desperation than anything, and would benefit greatly from some underlying armor.",
-    "weight": "2 815 g",
+    "weight": "2815 g",
     "volume": "7 L",
     "//": "Human surface area is roughly 18600 cm^2, based off of rules of 9 the torso is 36%, both arms are 18%, both legs are 36% leaving us with 16740 cm^2.",
     "//1": "Demon chitin has a density of 0.356g/cm^3, thickness of 0.32 cm, coverage of 80% leaves us with 1 526 grams.",
