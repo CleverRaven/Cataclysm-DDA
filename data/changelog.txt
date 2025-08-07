@@ -343,6 +343,8 @@ Add meds, maps in bugout bags
 Adds hair dye and hair dye kits to bathrooms.
 Professions now start with relevant books in their smartphones/laptops and some even with smartwatches
 Cheese wheels preserved in wax
+You can do your makeup
+Allow EOCs to read artifact resonance
 
 
 ## Interface:
@@ -1351,6 +1353,7 @@ Fix molotovs exploding multiple times
 add E_STORABLE_EXCLUSIVE flag
 add E_STORABLE_EXCLUSIVE flag
 avoid ImGui warning in keybindings window if the translation happens to have duplicate text
+Cannot trap a monster and use it as an infinite training dummy
 
 
 ## Performance:
