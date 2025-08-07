@@ -532,7 +532,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_arthropod", 5 ] ],
     "byproducts": [ [ "leather", 3 ], [ "scrap_leather", 4 ] ],
-    "using": [ [ "armor_chitin", 7 ], [ "tailoring_leather_patchwork", 1 ] ],
+    "using": [ [ "armor_chitin", 9 ], [ "tailoring_leather_patchwork", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_chitinworking" },
@@ -544,14 +544,14 @@
     "type": "recipe",
     "copy-from": "helmet_chitin",
     "time": "130 m",
-    "using": [ [ "armor_chitin", 5 ], [ "tailoring_leather_patchwork", 1 ] ]
+    "using": [ [ "armor_chitin", 6 ], [ "tailoring_leather_patchwork", 1 ] ]
   },
   {
     "result": "xl_helmet_chitin",
     "type": "recipe",
     "copy-from": "helmet_chitin",
     "time": "200 m",
-    "using": [ [ "armor_chitin", 8 ], [ "tailoring_leather_patchwork", 2 ] ]
+    "using": [ [ "armor_chitin", 12 ], [ "tailoring_leather_patchwork", 2 ] ]
   },
   {
     "result": "helmet_conical",

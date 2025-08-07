@@ -32,7 +32,7 @@
       { "proficiency": "prof_chitinworking" },
       { "proficiency": "prof_leatherworking" }
     ],
-    "using": [ [ "armor_chitin", 26 ], [ "strap_large", 8 ], [ "tailoring_leather_patchwork", 2 ] ]
+    "using": [ [ "armor_chitin", 35 ], [ "strap_large", 8 ], [ "tailoring_leather_patchwork", 2 ] ]
   },
   {
     "result": "xs_legguard_chitin",
@@ -40,7 +40,7 @@
     "copy-from": "legguard_chitin",
     "time": "520 m",
     "byproducts": [ [ "scrap_leather", 4 ] ],
-    "using": [ [ "armor_chitin", 20 ], [ "strap_large", 8 ], [ "tailoring_leather_patchwork", 2 ] ]
+    "using": [ [ "armor_chitin", 26 ], [ "strap_large", 8 ], [ "tailoring_leather_patchwork", 2 ] ]
   },
   {
     "result": "xl_legguard_chitin",
@@ -48,7 +48,7 @@
     "copy-from": "legguard_chitin",
     "time": "580 m",
     "byproducts": [ [ "scrap_leather", 4 ] ],
-    "using": [ [ "armor_chitin", 35 ], [ "strap_large", 8 ], [ "tailoring_leather_patchwork", 3 ] ]
+    "using": [ [ "armor_chitin", 45 ], [ "strap_large", 8 ], [ "tailoring_leather_patchwork", 3 ] ]
   },
   {
     "result": "legguard_acidchitin",

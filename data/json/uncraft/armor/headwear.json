@@ -7,7 +7,7 @@
     "difficulty": 1,
     "time": "25 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "leather", 7 ] ], [ [ "chitin_piece", 7 ] ] ]
+    "components": [ [ [ "leather", 7 ] ], [ [ "chitin_piece", 9 ] ] ]
   },
   {
     "result": "helmet_chitin_xs",
@@ -17,7 +17,7 @@
     "difficulty": 1,
     "time": "25 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "leather", 7 ] ], [ [ "chitin_piece", 5 ] ] ]
+    "components": [ [ [ "leather", 7 ] ], [ [ "chitin_piece", 6 ] ] ]
   },
   {
     "result": "xl_helmet_chitin",
@@ -27,7 +27,7 @@
     "difficulty": 1,
     "time": "25 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "leather", 7 ] ], [ [ "chitin_piece", 8 ] ] ]
+    "components": [ [ [ "leather", 7 ] ], [ [ "chitin_piece", 12 ] ] ]
   },
   {
     "result": "cowboy_hat",
