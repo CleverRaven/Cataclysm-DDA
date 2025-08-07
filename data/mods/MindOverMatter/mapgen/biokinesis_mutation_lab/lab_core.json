@@ -150,7 +150,7 @@
         ";": { "item": "SUS_toilet", "chance": 50 }
       },
       "vendingmachines": { "V": {  } },
-      "item": { "0": { "item": "fetus" }, "ȼ": { "item": "iv_mutagen_alpha" } },
+      "item": { "0": { "item": "fetus" } },
       "monster": { "T": { "monster": "mon_turret_rifle", "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 30, 90 ] } ] } } }
     }
   }
