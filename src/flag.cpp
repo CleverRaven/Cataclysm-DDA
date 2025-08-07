@@ -59,6 +59,7 @@ const flag_id flag_CANT_HEAL_EVERYONE( "CANT_HEAL_EVERYONE" );
 const flag_id flag_CANT_WEAR( "CANT_WEAR" );
 const flag_id flag_CAN_USE_IN_DARK( "CAN_USE_IN_DARK" );
 const flag_id flag_CARNIVORE_OK( "CARNIVORE_OK" );
+const flag_id flag_CASELESS_ROUNDS( "CASELESS_ROUNDS" );
 const flag_id flag_CASING( "CASING" );
 const flag_id flag_CATTLE( "CATTLE" );
 const flag_id flag_CHALLENGE( "CHALLENGE" );
