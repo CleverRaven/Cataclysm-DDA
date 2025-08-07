@@ -35,7 +35,7 @@
     "byproducts": [ [ "splinter", 68 ] ],
     "components": [
       [ [ "tonewood", 3 ] ],
-      [ [ "glue_strong", 2 ] ],
+      [ [ "glue_weak", 2 ] ],
       [ [ "wood_panel", 1 ] ],
       [ [ "qt_wire", 5 ] ],
       [ [ "tuning_pegs", 5 ] ]
