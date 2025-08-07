@@ -363,6 +363,12 @@
         "name": { "str": "Hub 01 jumpsuit" },
         "description": "A brown jumpsuit worn by the staff of Hub 01.",
         "color": "brown"
+      },
+      {
+        "id": "nanofab",
+        "name": { "str": "facility jumpsuit" },
+        "description": "A brown jumpsuit with yellow accents, appears to be an uniform of some sort.",
+        "weight": 0
       }
     ]
   },
