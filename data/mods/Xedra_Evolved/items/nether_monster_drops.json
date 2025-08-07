@@ -41,5 +41,20 @@
     "longest_side": "8 cm",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "melee_damage": { "bash": 3 }
+  },
+  {
+    "id": "shoggoth_ooze",
+    "type": "ITEM",
+    "name": { "str": "protoplasmic ooze" },
+    "description": "A deeply disturbing ooze that seems to attempt to take on form over and over again, never quite succeeding.  The only thing it seems to manage are eyes that look around madly for a few seconds before dissolving back into the steaming gunk.",
+    "material": [ "shoggoth_protoplasmic_ooze" ],
+    "flags": [ "TRADER_AVOID" ],
+    "symbol": "/",
+    "color": "yellow",
+    "weight": "275 g",
+    "volume": "250 ml",
+    "phase": "liquid",
+    "stack_size": 1,
+    "conditional_names": [ { "type": "FLAG", "condition": "DIRTY", "name": "protoplasmic spill" } ]
   }
 ]
