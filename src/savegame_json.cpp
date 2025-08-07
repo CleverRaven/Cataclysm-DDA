@@ -1467,7 +1467,7 @@ void Character::store( JsonOut &json ) const
     } else {
         json.member( "power_level", units::to_kilojoule( power_level ) );
     }
-    json.member( "max_power_level_modifier", units::to_kilojoule( max_power_level_modifier ) );
+    json.member( "max_power_level_modifier", std::to_string( units::to_millijoule( max_power_level_modifier ) ) + " mJ" );
 
     if( !overmap_time.empty() ) {
         json.member( "overmap_time" );
