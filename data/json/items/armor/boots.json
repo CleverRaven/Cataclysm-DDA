@@ -217,7 +217,7 @@
     "//3": "Totalled up this is 239 grams with some rounding",
     "price": "135 USD",
     "price_postapoc": "50 cent",
-    "material": [ "chitin", "leather" ],
+    "material": [ { "type": "chitin", "portion": 35 }, { "type": "leather", "portion": 1 } ],
     "symbol": "[",
     "color": "green",
     "warmth": 10,

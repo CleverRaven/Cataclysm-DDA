@@ -779,7 +779,7 @@
     "//3": "Totalled up this is 906 grams with some rounding",
     "price": "380 USD",
     "price_postapoc": "50 cent",
-    "material": [ "chitin", "leather" ],
+    "material": [ { "type": "chitin", "portion": 35 }, { "type": "leather", "portion": 1 } ],
     "symbol": "[",
     "looks_like": "helmet_larmor",
     "color": "green",
