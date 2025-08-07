@@ -413,6 +413,7 @@ struct consumption_event {
     void deserialize( const JsonObject &jo );
 };
 
+//* Modifiers to stats and speed. Positive/negative values are contextual; expected penalties are stored as positive values */
 struct stat_mod {
     int strength = 0;
     int dexterity = 0;
@@ -921,7 +922,9 @@ class Character : public Creature, public visitable
         bool has_mind() const override;
         /** Returns the penalty to speed from thirst */
         static int thirst_speed_penalty( int thirst );
-        /** Returns the effect of pain on stats */
+        /** Returns the effect of weight on stats, with positive penalties representing negative bonuses */
+        stat_mod get_weight_penalty() const;
+        /** Returns the effect of pain on stats, with positive penalties representing negative bonuses */
         stat_mod get_pain_penalty() const;
         stat_mod read_pain_penalty() const;
         /** returns players strength adjusted by any traits that affect strength during lifting jobs */
@@ -1197,7 +1200,7 @@ class Character : public Creature, public visitable
         bool can_attack_high() const override;
 
         /** NPC-related item rating functions */
-        double weapon_value( const item &weap, int ammo = 10 ) const; // Evaluates item as a weapon
+        double evaluate_weapon( const item &maybe_weapon, bool pretend_have_ammo = false ) const;
         double gun_value( const item &weap, int ammo = 10 ) const; // Evaluates item as a gun
         double melee_value( const item &weap ) const; // As above, but only as melee
         double unarmed_value() const; // Evaluate yourself!
@@ -1220,6 +1223,8 @@ class Character : public Creature, public visitable
         bool is_dead_state() const override;
 
     private:
+        double evaluate_weapon_internal( const item &maybe_weapon, bool can_use_gun,
+                                         bool use_silent, int pretend_ammo = 0 ) const;
         mutable std::optional<bool> cached_dead_state;
     public:
         void set_part_hp_cur( const bodypart_id &id, int set ) override;
@@ -1304,6 +1309,8 @@ class Character : public Creature, public visitable
         float melee_weakpoint_skill( const item &weapon ) const;
         float ranged_weakpoint_skill( const item &weapon ) const;
         float throw_weakpoint_skill() const;
+        /** Consumes power from power armor or deactivates without enough power */
+        void armor_use_power_when_hit( damage_unit &du, item &armor ) const;
         /**
          * Reduces and mutates du, prints messages about armor taking damage.
          * Requires a roll out of 100

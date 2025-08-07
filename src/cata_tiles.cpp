@@ -1365,9 +1365,7 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
     screentile_width = s.x;
     screentile_height = s.y;
 
-    // Limit draw depth to vertical vision setting
-    const int max_draw_depth = fov_3d_z_range;
-    const int num_ranges = is_isometric() ? 1 + std::max( 0, max_draw_depth ) : 1;
+    const int num_ranges = is_isometric() ? 1 + fov_3d_z_range : 1;
     std::vector<half_open_rectangle<point>> z_any_tile_range( num_ranges );
     for( int z = 0; z < num_ranges; ++z ) {
         z_any_tile_range[z] = get_window_any_tile_range( { width, height }, -z );
@@ -1389,7 +1387,7 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
     const point min_visible( you_pos.x() % SEEX, you_pos.y() % SEEY );
     const point max_visible( ( you_pos.x() % SEEX ) + ( MAPSIZE - 1 ) * SEEX,
                              ( you_pos.y() % SEEY ) + ( MAPSIZE - 1 ) * SEEY );
-    const int draw_min_z = std::max( you.posz() - max_draw_depth, -OVERMAP_DEPTH );
+    const int draw_min_z = std::max( you.posz() - fov_3d_z_range, -OVERMAP_DEPTH );
 
     const level_cache &ch = here.access_cache( center.z() );
 
@@ -1747,28 +1745,29 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
         }
     };
 
-    // Legacy code to use when vertical vision range is 0
-    const std::array<decltype( &cata_tiles::draw_furniture ), 14> drawing_layers_legacy = {{
-            &cata_tiles::draw_terrain, &cata_tiles::draw_furniture, &cata_tiles::draw_graffiti, &cata_tiles::draw_trap, &cata_tiles::draw_part_con,
-            &cata_tiles::draw_field_or_item, &cata_tiles::draw_vpart_below,
-            &cata_tiles::draw_critter_at_below, &cata_tiles::draw_terrain_below,
-            &cata_tiles::draw_vpart_no_roof, &cata_tiles::draw_vpart_roof,
-            &cata_tiles::draw_critter_at, &cata_tiles::draw_zone_mark,
-            &cata_tiles::draw_zombie_revival_indicators
-        }
-    };
-
     // Skip drawing shadow of critters above if there is no shadow sprite
     bool do_draw_shadow = false;
     if( find_tile_looks_like( "shadow", TILE_CATEGORY::NONE, "" ) ) {
         do_draw_shadow = true;
     }
 
-    if( max_draw_depth <= 0 ) {
-        // Legacy draw mode
-        for( int row = min_row; row < max_row; row ++ ) {
-            for( auto f : drawing_layers_legacy ) {
-                for( tile_render_info &p : here.draw_points_cache[center.z()][row] ) {
+    // Multi z-level draw mode
+    // Start drawing from the lowest visible z-level (some off-screen tiles
+    // are considered visible here to simplify the logic.)
+    int cur_zlevel = std::max( center.z() - fov_3d_z_range, -OVERMAP_DEPTH );
+    while( cur_zlevel <= center.z() ) {
+        const half_open_rectangle<point> &cur_any_tile_range = is_isometric()
+                ? z_any_tile_range[center.z() - cur_zlevel] : top_any_tile_range;
+        // For each row
+        for( int row = cur_any_tile_range.p_min.y; row < cur_any_tile_range.p_max.y; row ++ ) {
+            // Set base height for each tile
+            for( tile_render_info &p : here.draw_points_cache[cur_zlevel][row] ) {
+                p.com.height_3d = ( cur_zlevel - center.z() ) * zlevel_height;
+            }
+            // For each layer
+            for( auto f : drawing_layers ) {
+                // For each tile
+                for( tile_render_info &p : here.draw_points_cache[cur_zlevel][row] ) {
                     if( const tile_render_info::vision_effect * const
                         var = std::get_if<tile_render_info::vision_effect>( &p.var ) ) {
                         if( f == &cata_tiles::draw_terrain ) {
@@ -1776,67 +1775,36 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
                         }
                     } else if( const tile_render_info::sprite * const
                                var = std::get_if<tile_render_info::sprite>( &p.var ) ) {
-                        ( this->*f )( p.com.pos, var->ll, p.com.height_3d, var->invisible, false );
-                    }
-                }
-            }
-        }
-    } else {
-        // Multi z-level draw mode
-        // Start drawing from the lowest visible z-level (some off-screen tiles
-        // are considered visible here to simplify the logic.)
-        int cur_zlevel = draw_min_z;
-        while( cur_zlevel <= center.z() ) {
-            const half_open_rectangle<point> &cur_any_tile_range = is_isometric()
-                    ? z_any_tile_range[center.z() - cur_zlevel] : top_any_tile_range;
-            // For each row
-            for( int row = cur_any_tile_range.p_min.y; row < cur_any_tile_range.p_max.y; row ++ ) {
-                // Set base height for each tile
-                for( tile_render_info &p : here.draw_points_cache[cur_zlevel][row] ) {
-                    p.com.height_3d = ( cur_zlevel - center.z() ) * zlevel_height;
-                }
-                // For each layer
-                for( auto f : drawing_layers ) {
-                    // For each tile
-                    for( tile_render_info &p : here.draw_points_cache[cur_zlevel][row] ) {
-                        if( const tile_render_info::vision_effect * const
-                            var = std::get_if<tile_render_info::vision_effect>( &p.var ) ) {
-                            if( f == &cata_tiles::draw_terrain ) {
-                                apply_vision_effects( p.com.pos, var->vis, p.com.height_3d );
-                            }
-                        } else if( const tile_render_info::sprite * const
-                                   var = std::get_if<tile_render_info::sprite>( &p.var ) ) {
 
-                            // Get visibility variables
-                            lit_level ll = var->ll;
-                            std::array<bool, 5> invisible = var->invisible;
+                        // Get visibility variables
+                        lit_level ll = var->ll;
+                        std::array<bool, 5> invisible = var->invisible;
 
-                            if( f == &cata_tiles::draw_vpart_no_roof || f == &cata_tiles::draw_vpart_roof ) {
-                                int temp_height_3d = p.com.height_3d;
-                                // Reset height_3d to base when drawing vehicles
-                                p.com.height_3d = ( cur_zlevel - center.z() ) * zlevel_height;
-                                // Draw
-                                if( !( this->*f )( p.com.pos, ll, p.com.height_3d, invisible, false ) ) {
-                                    // If no vpart drawn, revert height_3d changes
-                                    p.com.height_3d = temp_height_3d;
-                                }
-                            } else if( f == &cata_tiles::draw_critter_at ) {
-                                // Draw
-                                if( !( this->*f )( p.com.pos, ll, p.com.height_3d, invisible, false ) && do_draw_shadow &&
-                                    here.dont_draw_lower_floor( p.com.pos ) ) {
-                                    // Draw shadow of flying critters on bottom-most tile if no other critter drawn
-                                    draw_critter_above( p.com.pos, ll, p.com.height_3d, invisible );
-                                }
-                            } else {
-                                // Draw
-                                ( this->*f )( p.com.pos, ll, p.com.height_3d, invisible, false );
+                        if( f == &cata_tiles::draw_vpart_no_roof || f == &cata_tiles::draw_vpart_roof ) {
+                            int temp_height_3d = p.com.height_3d;
+                            // Reset height_3d to base when drawing vehicles
+                            p.com.height_3d = ( cur_zlevel - center.z() ) * zlevel_height;
+                            // Draw
+                            if( !( this->*f )( p.com.pos, ll, p.com.height_3d, invisible, false ) ) {
+                                // If no vpart drawn, revert height_3d changes
+                                p.com.height_3d = temp_height_3d;
                             }
+                        } else if( f == &cata_tiles::draw_critter_at ) {
+                            // Draw
+                            if( !( this->*f )( p.com.pos, ll, p.com.height_3d, invisible, false ) && do_draw_shadow &&
+                                here.dont_draw_lower_floor( p.com.pos ) ) {
+                                // Draw shadow of flying critters on bottom-most tile if no other critter drawn
+                                draw_critter_above( p.com.pos, ll, p.com.height_3d, invisible );
+                            }
+                        } else {
+                            // Draw
+                            ( this->*f )( p.com.pos, ll, p.com.height_3d, invisible, false );
                         }
                     }
                 }
             }
-            cur_zlevel += 1;
         }
+        cur_zlevel += 1;
     }
 
     // display number of monsters to spawn in mapgen preview

@@ -2,6 +2,9 @@ files:
   'data/mods/Aftershock/**':
     - Maleclypse
     - John-Candlebury
+  'data/mods/aftershock_exoplanet/**':
+    - Maleclypse
+    - John-Candlebury
   'data/mods/Backrooms/**':
     - onura46
   'data/mods/DinoMod/**':
@@ -20,8 +23,6 @@ files:
     - Fris0uman
   'data/mods/ruralbiome/**':
     - I-am-Erk
-  'data/mods/speedydex/**':
-    - KorGgenT
   'data/mods/stats_through_kills/**':
     - KorGgenT
   'data/mods/Xedra_Evolved/**':

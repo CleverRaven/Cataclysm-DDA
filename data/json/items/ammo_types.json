@@ -935,5 +935,11 @@
     "id": "rivets",
     "name": "rivets",
     "default": "rivets"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "3030",
+    "name": ".30-30 Winchester",
+    "default": "3030"
   }
 ]

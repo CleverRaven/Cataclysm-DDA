@@ -396,13 +396,24 @@ void map_fd_bash_info::load( const JsonObject &jo, const bool was_loaded,
 std::string map_common_bash_info::potential_bash_items( const map_data_common_t &ter_furn ) const
 {
     //TODO: Add a descriptive indicator of vaguely how hard it is to bash?
+
+    std::string ret;
     if( !ter_furn.base_item.is_null() && drop_group == Item_spawn_data_EMPTY_GROUP ) {
-        std::string ret;
         for( const item_comp &comp : ter_furn.get_uncraft_components() ) {
             ret += string_format( "- <color_cyan>%d %s</color>\n", comp.count, item::nname( comp.type ) );
         }
-        return string_format( _( "Bashing the %s may yield:\n%s" ),
-                              ter_furn.name(), ret );
+        ret += string_format( _( "Bashing the %s may yield:\n%s" ), ter_furn.name(), ret );
+        ret += "\n";
+        ret += _( "Or whatever remains of that which you manage to not destroy" );
+        return ret;
+    } else if( ter_furn.deconstruct_info().has_value()
+               && ter_furn.deconstruct_info().value().drop_group != Item_spawn_data_EMPTY_GROUP
+               && drop_group == Item_spawn_data_EMPTY_GROUP ) {
+        ret += string_format( _( "Bashing the %s would yield:\n%s" ),
+                              ter_furn.name(), item_group::potential_items( ter_furn.deconstruct_info().value().drop_group ) );
+        ret += "\n";
+        ret += _( "Or whatever remains of that which you manage to not destroy" );
+        return ret;
     } else {
         return string_format( _( "Bashing the %s would yield:\n%s" ),
                               ter_furn.name(), item_group::potential_items( drop_group ) );

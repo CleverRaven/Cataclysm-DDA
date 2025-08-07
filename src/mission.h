@@ -256,7 +256,7 @@ struct mission_type {
 
         bool parse_funcs( const JsonObject &jo, std::string_view src,
                           std::function<void( mission * )> &phase_func );
-        bool load( const JsonObject &jo, const std::string &src );
+        bool load( const JsonObject &jo, std::string_view src );
 
         /**
          * Returns the translated name

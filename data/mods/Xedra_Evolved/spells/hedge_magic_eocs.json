@@ -275,6 +275,7 @@
           { "case": 5, "effect": [  ] }
         ]
       },
+      { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
       { "u_add_trait": "TURN_INTO_BEAR_TRAITS" },
       {
         "u_run_inv_eocs": "random",
@@ -302,6 +303,7 @@
           { "case": 5, "effect": [  ] }
         ]
       },
+      { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_RETURN_ARMOR_TO_NORMAL" },
       {
         "run_eocs": [
           {

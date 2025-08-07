@@ -234,7 +234,9 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "coat_fur",
     "name": { "str": "ornate fur coat" },
-    "description": "A heavy, finely crafted coat made of the fur of an unidentifiable creature.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
+    "description": "A heavy, finely crafted coat made of the fur of an unidentifiable creature.  It is the only one of its kind.\nIt may have unknown powers; try activating them.",
+    "//": "remove fur coat variants",
+    "variants": [  ]
   },
   {
     "id": "art_mask",

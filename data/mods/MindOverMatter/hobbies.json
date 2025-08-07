@@ -43,7 +43,8 @@
     "name": "Newly-Awakened Biokinetic",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You feel in better shape than you ever have in your life, like you could run ten miles and climb a mountain and then wake up and do it again.  You'll probably need it.",
     "points": 3,
-    "traits": [ "BIOKINETIC", "BIOKIN_NEEDS" ]
+    "traits": [ "BIOKINETIC", "BIOKIN_NEEDS" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -63,7 +64,8 @@
       { "id": "biokin_flexibility", "level": 9 },
       { "id": "biokin_adrenaline", "level": 4 },
       { "id": "biokin_enhance_mobility", "level": 5 }
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -87,7 +89,8 @@
       { "id": "biokin_hammerhand", "level": 6 },
       { "id": "biokin_reflex_enhance", "level": 10 },
       { "id": "biokin_combat_dance", "level": 4 }
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -96,7 +99,8 @@
     "name": "Newly-Awakened Clairsentient",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You can read much faster and can see much better in the dark, and even in total darkness you no longer have any hesitation about moving.  At least once you avoided zombies on the other side of a wall that you didn't hear and couldn't see, but you, you just knew they were there.",
     "points": 5,
-    "traits": [ "CLAIRSENTIENT", "CLAIR_SENSES" ]
+    "traits": [ "CLAIRSENTIENT", "CLAIR_SENSES" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -115,7 +119,8 @@
       { "id": "clair_see_auras", "level": 8 },
       { "id": "clair_spot_weakness", "level": 6 },
       { "id": "clair_voyance", "level": 4 }
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -138,7 +143,8 @@
       { "id": "clair_dodge_power", "level": 7 },
       { "id": "clair_craft_bonus", "level": 7 },
       { "id": "clair_clear_sight", "level": 5 }
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -147,7 +153,8 @@
     "name": "Newly-Awakened Electrokinetic",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  While running down an alleyway to escape a group of rioters, you looked back and realized you were going to get caught and then there was a deafening crash of thunder and your vision went white.  When your hearing and sight came back, the rioters were lying in a heap, some still with smoldering clothes, and you were unscathed.",
     "points": 4,
-    "traits": [ "ELECTROKINETIC", "ELECTRO_SHIELD" ]
+    "traits": [ "ELECTROKINETIC", "ELECTRO_SHIELD" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -168,7 +175,8 @@
       { "id": "electrokinetic_reduce_pain", "level": 6 },
       { "id": "electrokinetic_lightning_bolt", "level": 7 },
       { "id": "electrokinetic_speed_boost", "level": 2 }
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -192,7 +200,8 @@
       { "id": "electrokinetic_speed_boost", "level": 9 },
       { "id": "electrokinetic_kill_robot", "level": 5 },
       { "id": "electrokinetic_lightning_aura", "level": 4 }
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -201,7 +210,8 @@
     "name": "Newly-Awakened Photokinetic",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You noticed that light seemed to bend at the will of your thoughts, when you were almost caught by a wandering horde, light slowly dimmed enough for you to hide in the shadows.  You have a sense that there's more to your newfound talents.",
     "points": 4,
-    "traits": [ "PHOTOKINETIC", "PHOTO_EYES" ]
+    "traits": [ "PHOTOKINETIC", "PHOTO_EYES" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -221,7 +231,8 @@
       { "id": "photokinetic_camouflage", "level": 6 },
       { "id": "photokinetic_rad_immunity", "level": 6 },
       { "id": "photokinetic_radio", "level": 4 }
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -244,7 +255,8 @@
       { "id": "photokinetic_radio", "level": 4 },
       { "id": "photokinetic_invisibility", "level": 8 },
       { "id": "photokinetic_light_flash", "level": 6 }
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -253,7 +265,8 @@
     "name": "Newly-Awakened Pyrokinetic",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  With just a thought, you can start a fire or make light radiate from the very air.  It's already saved your life once when you burned a zombie to ash while scavenging in a ruined house.  Sure, the house burned down too, but you'll definitely get more control as time goes on, right?",
     "points": 5,
-    "traits": [ "PYROKINETIC", "PYROKIN_ADAPTATION" ]
+    "traits": [ "PYROKINETIC", "PYROKIN_ADAPTATION" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -272,7 +285,8 @@
       { "id": "pyrokinetic_cloak", "level": 6 },
       { "id": "pyrokinetic_flamethrower", "level": 6 },
       { "id": "pyrokinetic_thermogenesis", "level": 6 }
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -294,7 +308,8 @@
       { "id": "pyrokinetic_aura", "level": 6 },
       { "id": "pyrokinetic_flame_immunity", "level": 7 },
       { "id": "pyrokinetic_blast", "level": 5 }
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -303,7 +318,8 @@
     "name": "Newly-Awakened Telekinetic",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You can lift things with your mind.  Mostly just small things, but during the chaos a group of rioters jumped you and you hurled them off of you just by thinking about it.  This will definitely come in handy.",
     "points": 4,
-    "traits": [ "TELEKINETIC", "TELEKINETIC_GRAB_POCKETS" ]
+    "traits": [ "TELEKINETIC", "TELEKINETIC_GRAB_POCKETS" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -322,7 +338,8 @@
       { "id": "telekinetic_momentum", "level": 10 },
       { "id": "telekinetic_hammer", "level": 6 },
       { "id": "telekinetic_shield", "level": 4 }
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -348,7 +365,8 @@
       { "id": "telekinetic_shield", "level": 7 },
       { "id": "telekinetic_explosion", "level": 6 },
       { "id": "telekinetic_levitation", "level": 4 }
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -357,7 +375,8 @@
     "name": "Newly-Awakened Telepath",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  The crazies were bad enough during the riots, but once you were stopped by a police officer whose bloodshot eyes told you that he wasn't going to let you off with a warning.  But you could somehow hear his thoughts, a chaotic jumble of rage and hunger and fear, you just…nudged them a little bit, and he wandered off and left you alone.  It doesn't work the same way with the zombies, but you can't have everything.",
     "points": 3,
-    "traits": [ "TELEPATH", "TELEPATHIC_SUGGESTION" ]
+    "traits": [ "TELEPATH", "TELEPATHIC_SUGGESTION" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -376,7 +395,8 @@
       { "id": "telepathic_blast", "level": 6 },
       { "id": "telepathic_animal_mind_control", "level": 5 },
       { "id": "telepathic_confusion", "level": 5 }
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -399,7 +419,8 @@
       { "id": "telepathic_invisibility", "level": 8 },
       { "id": "telepathic_blast_radius", "level": 6 },
       { "id": "telepathic_beast_taming", "level": 5 }
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -408,7 +429,8 @@
     "name": "Newly-Awakened Teleporter",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You were fleeing down a side street when you heard a crash above you.  You looked up and saw something hurtling through the air down toward you, you closed your eyes and wished you were anywhere but where you were, and then… you were.  Indoors, in a house near the street, and you went out the back door and made good your escape.  You're very, very good at escaping now.",
     "points": 6,
-    "traits": [ "TELEPORTER", "TELEPORTER_PROTECT" ]
+    "traits": [ "TELEPORTER", "TELEPORTER_PROTECT" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -429,7 +451,8 @@
       { "id": "teleport_farstep", "level": 5 },
       { "id": "teleport_loci_establishment", "level": 2 },
       { "id": "teleport_loci_technique", "level": 2 }
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -455,7 +478,8 @@
       { "id": "teleport_loci_establishment", "level": 5 },
       { "id": "teleport_loci_technique", "level": 5 },
       { "id": "teleport_gateway", "level": 4 }
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -466,7 +490,8 @@
     "points": 5,
     "traits": [ "TELEPORTER", "TELEPORTER_PROTECT" ],
     "skills": [ { "level": 2, "name": "metaphysics" } ],
-    "spells": [ { "id": "teleport_gateway", "level": 3 } ]
+    "spells": [ { "id": "teleport_gateway", "level": 3 } ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -475,7 +500,8 @@
     "name": "Newly-Awakened Vitakinetic",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You broke your leg when you got caught in a riot, and when things got really bad you were positive you were going to die.  But somehow, after only a few days your leg didn't seem to hurt nearly as much anymore.  By the end of the week you could walk on it, and by now it's like nothing ever happened.  It's not going to help you fight the zombies but it'll sure help you recover afterward.",
     "points": 3,
-    "traits": [ "VITAKINETIC", "VITAKINETIC_HEALTH" ]
+    "traits": [ "VITAKINETIC", "VITAKINETIC_HEALTH" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -495,7 +521,8 @@
       { "id": "vita_remove_poison", "level": 6 },
       { "id": "vita_sleeping_trance", "level": 5 },
       { "id": "vita_cure_disease", "level": 5 }
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -519,7 +546,8 @@
       { "id": "vita_healing_trance", "level": 6 },
       { "id": "vita_blood_purge", "level": 6 },
       { "id": "vita_banish_illness", "level": 4 }
-    ]
+    ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",

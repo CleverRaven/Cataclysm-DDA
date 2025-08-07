@@ -4,7 +4,7 @@
     "id": "EOC_WEREWOLVES_GAIN_XP_FROM_OUTSIDER_KILLS",
     "eoc_type": "EVENT",
     "required_event": "character_kills_monster",
-    "condition": { "not": "u_has_weapon" },
+    "condition": { "and": [ { "u_has_trait": "WEREWOLF_MANA_TRAIT" }, { "not": "u_has_weapon" } ] },
     "effect": [
       {
         "if": { "test_eoc": "EOC_CONDITIONS_WEREWOLF_HUNT_TARGETS" },

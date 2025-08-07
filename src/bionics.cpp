@@ -18,7 +18,6 @@
 
 #include "action.h"
 #include "activity_actor_definitions.h"
-#include "assign.h"
 #include "avatar.h"
 #include "avatar_action.h"
 #include "ballistics.h"
@@ -313,12 +312,15 @@ void bionic_data::load( const JsonObject &jsobj, std::string_view src )
     mandatory( jsobj, was_loaded, "description", description );
 
     optional( jsobj, was_loaded, "cant_remove_reason", cant_remove_reason );
-    // uses assign because optional doesn't handle loading units as strings
-    assign( jsobj, "react_cost", power_over_time, false, 0_kJ );
-    assign( jsobj, "capacity", capacity, false );
-    assign( jsobj, "act_cost", power_activate, false, 0_kJ );
-    assign( jsobj, "deact_cost", power_deactivate, false, 0_kJ );
-    assign( jsobj, "trigger_cost", power_trigger, false, 0_kJ );
+    optional( jsobj, was_loaded, "react_cost", power_over_time,
+              units_bound_reader<units::energy>( 0_kJ ), 0_kJ );
+    optional( jsobj, was_loaded, "capacity", capacity, 0_kJ );
+    optional( jsobj, was_loaded, "act_cost", power_activate,
+              units_bound_reader<units::energy>( 0_kJ ), 0_kJ );
+    optional( jsobj, was_loaded, "deact_cost", power_deactivate,
+              units_bound_reader<units::energy>( 0_kJ ), 0_kJ );
+    optional( jsobj, was_loaded, "trigger_cost", power_trigger,
+              units_bound_reader<units::energy>( 0_kJ ), 0_kJ );
 
     optional( jsobj, was_loaded, "time", charge_time, 0_turns );
 
@@ -683,9 +685,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
             return;
         }
 
-        const int cbm_ammo = free_power / cbm_weapon.get_gun_energy_drain();
-
-        if( weapon_value( weap, ammo_count ) < weapon_value( cbm_weapon, cbm_ammo ) ) {
+        if( evaluate_weapon( weap ) < evaluate_weapon( cbm_weapon ) ) {
             if( real_weapon.is_null() ) {
                 // Prevent replacing real weapon when migrating saves
                 real_weapon = weap;
@@ -705,7 +705,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
 
         const item cbm_weapon = bio.get_weapon();
 
-        if( weapon_value( weap, ammo_count ) < weapon_value( cbm_weapon, 0 ) ) {
+        if( evaluate_weapon( weap ) < evaluate_weapon( cbm_weapon ) ) {
             if( is_armed() ) {
                 stow_item( *weapon );
             }

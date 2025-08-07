@@ -236,7 +236,7 @@ bool set_up_butchery( player_activity &act, Character &you, butchery_data bd )
     const mtype &corpse = *corpse_item.get_mtype();
 
     if( bd.b_type != butcher_type::DISSECT ) {
-        if( factor == 0 ) {
+        if( factor == INT_MIN ) {
             you.add_msg_if_player( m_info,
                                    _( "None of your cutting tools are suitable for butchering." ) );
             act.set_to_null();

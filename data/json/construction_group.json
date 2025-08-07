@@ -2114,5 +2114,10 @@
     "type": "construction_group",
     "id": "build_beanbag",
     "name": "Place a bean bag"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_lathe",
+    "name": "Place a lathe"
   }
 ]

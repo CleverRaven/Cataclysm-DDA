@@ -390,7 +390,7 @@
     "subtypes": [ "BREWABLE", "COMESTIBLE" ],
     "id": "brew_mead",
     "looks_like": "mead",
-    "name": { "str_sp": "plain mead must" },
+    "name": { "str_sp": "mead must" },
     "description": "Unfermented plain mead.  Diluted honey and yeast.  You need to put it in a fermenting vat to brew it.",
     "material": [ { "type": "water", "portion": 4 }, { "type": "honey", "portion": 1 } ],
     "weight": "34 g",
