@@ -338,10 +338,10 @@
   {
     "type": "overmap_terrain",
     "id": [
-      "psi_phavian_biokinesis_mutation_lab_nw",
-      "psi_phavian_biokinesis_mutation_lab_ne",
-      "psi_phavian_biokinesis_mutation_lab_sw",
-      "psi_phavian_biokinesis_mutation_lab_se"
+      "microlab_psi_phavian_biokinesis_mutation_lab_nw",
+      "microlab_psi_phavian_biokinesis_mutation_lab_ne",
+      "microlab_psi_phavian_biokinesis_mutation_lab_sw",
+      "microlab_psi_phavian_biokinesis_mutation_lab_se"
     ],
     "copy-from": "microlab_generic",
     "name": "science lab",
