@@ -344,6 +344,7 @@ Adds hair dye and hair dye kits to bathrooms.
 Professions now start with relevant books in their smartphones/laptops and some even with smartwatches
 Cheese wheels preserved in wax
 You can do your makeup
+Allow EOCs to read artifact resonance
 
 
 ## Interface:
