@@ -1094,8 +1094,19 @@ void Character::load( const JsonObject &data )
     recalc_sight_limits();
     calc_encumbrance();
 
-    optional( data, false, "power_level", power_level, 0_kJ );
-    optional( data, false, "max_power_level_modifier", max_power_level_modifier, units::energy::min() );
+    int int_power;
+    // Handle transition from existing saves to new format. 2025-08-07
+    if( data.read( "power_level", int_power, false ) ) {
+        power_level = int_power * 1_kJ;
+    } else {
+        optional( data, false, "power_level", power_level, 0_kJ );
+    }
+    // Handle transition from existing saves to new format. 2025-08-07
+    if( data.read( "max_power_level_modifier", int_power, false ) ) {
+        max_power_level_modifier = int_power * 1_kJ;
+    } else {
+        optional( data, false, "max_power_level_modifier", max_power_level_modifier, units::energy::min() );
+    }
 
     // Bionic power should not be negative!
     if( power_level < 0_mJ ) {
