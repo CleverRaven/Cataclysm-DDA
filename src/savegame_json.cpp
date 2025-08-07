@@ -1771,11 +1771,7 @@ void avatar::load( const JsonObject &data )
     std::copy( last, active_missions.end(), std::back_inserter( failed_missions ) );
     active_missions.erase( last, active_missions.end() );
     if( active_mission && active_mission->has_failed() ) {
-        if( active_missions.empty() ) {
-            active_mission = nullptr;
-        } else {
-            active_mission = active_missions.front();
-        }
+        update_active_mission();
     }
 
     data.read( "show_map_memory", show_map_memory );
