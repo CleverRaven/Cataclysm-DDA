@@ -565,7 +565,7 @@
     "price": "1 cent",
     "price_postapoc": "1 cent",
     "fun": -14,
-    "phase": "powder",
+    "phase": "solid",
     "material": [ "veggy" ],
     "volume": "10 ml",
     "flags": [ "NUTRIENT_OVERRIDE" ],
