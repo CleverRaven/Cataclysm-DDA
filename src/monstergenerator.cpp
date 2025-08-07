@@ -743,6 +743,19 @@ void mon_effect_data::load( const JsonObject &jo )
     }
 }
 
+void monster_invulnerability::deserialize( const JsonObject &jo )
+{
+    optional( jo, false, "damage_type", damage_type, damage_type_id( "all" ) );
+    optional( jo, false, "material", material, material_id::NULL_ID() );
+    optional( jo, false, "amount", amount, 0 );
+}
+
+void monster_vulnerability::deserialize( const JsonObject &jo )
+{
+    optional( jo, false, "material", material, material_id::NULL_ID() );
+    optional( jo, false, "flag", flag, flag_id::NULL_ID() );
+}
+
 void mtype::load( const JsonObject &jo, const std::string &src )
 {
     bool strict = src == "dda";
@@ -784,27 +797,9 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     if( was_loaded && jo.has_member( "copy-from" ) && looks_like.empty() ) {
         looks_like = jo.get_string( "copy-from" );
     }
-    if( jo.has_array("invulnerability") ) {
-    invulnerabilities.clear();
-    for( const JsonObject &entry : jo.get_array("invulnerability") ) {
-        monster_invulnerability inv;
-        inv.damage_type = damage_type_id( entry.get_string("damage_type", "all") );
-        inv.material = material_id( entry.get_string("material", "") );
-        inv.amount = entry.get_int("amount", 0);
-        invulnerabilities.push_back( inv );
-    }
-}
-    if( jo.has_object("vulnerability") ) {
-        JsonObject vobj = jo.get_object("vulnerability");
-        monster_vulnerability vul;
-    if( vobj.has_string("material") ) {
-        vul.material = material_id( vobj.get_string("material") );
-    }
-    if( vobj.has_string("flag") ) {
-        vul.flag = flag_id( vobj.get_string("flag") );
-    }
-    vulnerability = vul;
-}
+    optional( jo, was_loaded, "invulnerability", invulnerabilities );
+    optional( jo, was_loaded, "vulnerability", vulnerability );
+
     jo.read( "looks_like", looks_like );
 
     assign( jo, "bodytype", bodytype );
