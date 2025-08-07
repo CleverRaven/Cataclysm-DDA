@@ -95,6 +95,7 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
+        "encumbrance_modifier": [ { "part": "hand_r", "add": -10 }, { "part": "hand_l", "add": -10 } ],
         "values": [
           { "value": "SPEED", "multiply": 0.2 },
           { "value": "RANGE", "multiply": -1 },
