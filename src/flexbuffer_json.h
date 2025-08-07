@@ -617,6 +617,7 @@ class JsonObject : JsonWithPath
         // Vanilla accessors. Just return the named member and use it's conversion function.
         bool get_bool( std::string_view key ) const;
         int get_int( std::string_view key ) const;
+        int64_t get_int64( std::string_view key ) const;
         double get_float( std::string_view key ) const;
         JsonArray get_array( std::string_view key ) const;
         JsonObject get_object( std::string_view key ) const;
