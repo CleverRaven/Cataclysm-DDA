@@ -296,7 +296,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "gauntlets_chitin",
-    "name": { "str": "chitinous scale mail gauntlets (pairs)", "str_pl": "chitinous scale mail gauntlets (pairs)" },
+    "name": { "str": "chitinous scale mail gauntlets (pair)", "str_pl": "chitinous scale mail gauntlets (pairs)" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
