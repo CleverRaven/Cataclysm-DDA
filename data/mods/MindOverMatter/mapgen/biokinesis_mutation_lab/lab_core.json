@@ -1,0 +1,38 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [
+      [ "psi_phavian_biokinesis_mutation_lab_nw", "psi_phavian_biokinesis_mutation_lab_ne" ],
+      [ "psi_phavian_biokinesis_mutation_lab_sw", "psi_phavian_biokinesis_mutation_lab_se" ]
+    ],
+    "object": {
+      "rows": [
+        " cc c|    |  | cc |     ",
+        " ||||||22||  | cc | c c ",
+        " 2           |    2 c c ",
+        " (           |ccrr| c c ",
+        " |  |||||||||||||||     ",
+        "||  2 2          6||||||",
+        " |  2 2  tt6RRRt O| ccc ",
+        " 2  |((          O|     ",
+        " |  |th  6RRRttt R|     ",
+        " |  |tt          6|FFrr ",
+        "||  ||||(((((((((|||||||",
+        "    2             2     ",
+        "    2             2     ",
+        "||22|||||||||||||||||||2",
+        " |  |???^ dd^dd6ddd6d|c ",
+        "c|  |     6h d  hd hd|c ",
+        "c|  2     dd         2  ",
+        " |  2                2  ",
+        "||22||||||||||||||22||||",
+        "F|           |ccc|  |ccr",
+        "c|Y          |          ",
+        "||2((||||||  |      ccc ",
+        "     |cccc|  | ccc  ccc ",
+        "     |    |  |          "
+      ],
+      "palettes": [ "microlab" ]
+    }
+  }
+]
