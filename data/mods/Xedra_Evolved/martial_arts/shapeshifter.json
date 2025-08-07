@@ -4,11 +4,10 @@
     "id": "CLAWS_SHAPESHIFTER",
     "name": "Claw Slash",
     "melee_allowed": true,
-    "messages": [ "You deliver a slash to %s with your claws", "<npcname> delivers a slash to %s with their claws" ],
+    "messages": [ "You slash at %s with your claws", "<npcname> slashes at %s with their claws" ],
     "unarmed_allowed": true,
-    "weighting": 1,
+    "weighting": 3,
     "reach_ok": false,
-    "miss_recovery": true,
     "attack_vectors": [ "vector_punch" ],
     "flat_bonuses": [
       { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 1.0 },
@@ -25,10 +24,9 @@
     "melee_allowed": true,
     "messages": [ "You slash %s, tearing open bleeding wounds", "<npcname> slashes %s, tearing open bleeding wounds" ],
     "unarmed_allowed": true,
-    "weighting": -2,
+    "weighting": 0,
     "crit_ok": true,
     "reach_ok": false,
-    "miss_recovery": true,
     "attack_vectors": [ "vector_punch" ],
     "tech_effects": [ { "id": "bleed", "chance": 100, "duration": 600, "on_damage": true, "message": "%s is bleeding!" } ],
     "flat_bonuses": [
@@ -45,14 +43,13 @@
     "name": "Red-Handed Rage Claw Knockback",
     "melee_allowed": true,
     "messages": [
-      "You slash %s with a brutal strike, knocking them to the ground.",
-      "<npcname> slashes %swith a brutal strike, knocking them to the ground."
+      "You slash %s with a brutal strike, knocking them to the ground",
+      "<npcname> slashes %swith a brutal strike, knocking them to the ground"
     ],
     "unarmed_allowed": true,
     "weighting": 1,
     "crit_ok": true,
     "reach_ok": false,
-    "miss_recovery": true,
     "condition": { "and": [ { "u_has_effect": "effect_xe_werewolf_redhanded_rage" }, { "math": [ "u_val('size') >= n_val('size')" ] } ] },
     "condition_desc": "Needs X",
     "attack_vectors": [ "vector_punch" ],
@@ -74,14 +71,13 @@
     "name": "Red-Handed Rage Claw AoE",
     "melee_allowed": true,
     "messages": [
-      "You slash %s in a wide arc, hitting multiple target.",
-      "<npcname> slashes %s in a wide arc, hitting multiple targets."
+      "You slash %s in a wide arc, hitting multiple target",
+      "<npcname> slashes %s in a wide arc, hitting multiple targets"
     ],
     "unarmed_allowed": true,
     "weighting": 1,
     "crit_ok": true,
     "reach_ok": false,
-    "miss_recovery": true,
     "condition": { "u_has_effect": "effect_xe_werewolf_redhanded_rage" },
     "attack_vectors": [ "vector_punch" ],
     "aoe": "spin",
@@ -98,11 +94,11 @@
     "id": "CLAWS_SHAPESHIFTER_CRIT",
     "name": "Critical Claw Slash",
     "melee_allowed": true,
-    "messages": [ "You deliver a wicked slash to %s with your claws", "<npcname> delivers a wicked slash to %s with their claws" ],
+    "messages": [ "You brutally slash %s with your claws", "<npcname> brutally slashes to %s with their claws" ],
     "unarmed_allowed": true,
     "reach_ok": false,
+    "crit_ok": true,
     "crit_tec": true,
-    "miss_recovery": true,
     "attack_vectors": [ "vector_punch" ],
     "flat_bonuses": [
       { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 4.4 },
@@ -122,7 +118,7 @@
     "melee_allowed": true,
     "messages": [ "You bite %s", "<npcname> bites %s" ],
     "unarmed_allowed": true,
-    "weighting": 0,
+    "weighting": 2,
     "reach_ok": false,
     "attack_vectors": [ "vector_bite" ],
     "flat_bonuses": [

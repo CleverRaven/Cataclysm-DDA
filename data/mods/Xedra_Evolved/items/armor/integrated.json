@@ -866,14 +866,14 @@
       "CLAWS_SHAPESHIFTER_REDHANDED_RAGE_KNOCKBACK",
       "CLAWS_SHAPESHIFTER_REDHANDED_RAGE_AOE_SLASH"
     ],
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED", "NO_SALVAGE" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED", "NO_SALVAGE", "PROVIDES_TECHNIQUES" ],
     "armor": [
       {
         "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 3 } ],
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
         "coverage": 20,
-        "encumbrance": 3
+        "encumbrance": 0
       }
     ],
     "melee_damage": { "cut": 16 }
