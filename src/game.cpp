@@ -2303,13 +2303,8 @@ int game::inventory_item_menu( item_location locThisItem,
                     }
                     addentry( 'v', pgettext( "action", "pocket settings" ), hint_rating::good );
                 }
-
-                if( oThisItem.is_favorite ) {
-                    addentry( 'f', pgettext( "action", "unfavorite" ), hint_rating::good );
-                } else {
-                    addentry( 'f', pgettext( "action", "favorite" ), hint_rating::good );
-                }
-
+                addentry( 'f', pgettext( "action", oThisItem.is_favorite ? "unfavorite" : "favorite" ),
+                          hint_rating::good );
                 addentry( 'V', pgettext( "action", "view recipe" ), rate_action_view_recipe( u, oThisItem ) );
                 addentry( '>', pgettext( "action", "hide contents" ), rate_action_collapse( oThisItem ) );
                 addentry( '<', pgettext( "action", "show contents" ), rate_action_expand( oThisItem ) );
@@ -2325,23 +2320,6 @@ int game::inventory_item_menu( item_location locThisItem,
 
                 popup_width += ImGui::CalcTextSize( " [X] " ).x + 2 * ( ImGui::GetStyle().WindowPadding.x +
                                ImGui::GetStyle().WindowBorderSize );
-                float x = 0.0;
-                switch( position ) {
-                    default:
-                    case RIGHT_TERMINAL_EDGE:
-                        x = 0.0;
-                        break;
-                    case LEFT_OF_INFO:
-                        x = ( iStartX() * ImGui::CalcTextSize( "X" ).x ) - popup_width;
-                        break;
-                    case RIGHT_OF_INFO:
-                        x = ( iStartX() + iWidth() ) * ImGui::CalcTextSize( "X" ).x;
-                        break;
-                    case LEFT_TERMINAL_EDGE:
-                        x = ImGui::GetMainViewport()->Size.x - popup_width;
-                        break;
-                }
-                action_menu.desired_bounds = { x, 0.0, popup_width, -1.0 };
                 // Filtering isn't needed, the number of entries is manageable.
                 action_menu.filtering = false;
                 // Default menu border color is different, this matches the border of the item info window.
@@ -2351,10 +2329,29 @@ int game::inventory_item_menu( item_location locThisItem,
                 data.without_getch = true;
 
                 ui = std::make_unique<ui_adaptor>();
+                float x = 0.0;
                 ui->on_screen_resize( [&]( ui_adaptor & ui ) {
                     w_info = catacurses::newwin( TERMY, iWidth(), point( iStartX(), 0 ) );
                     iScrollHeight = TERMY - 2;
                     ui.position_from_window( w_info );
+
+                    switch( position ) {
+                        default:
+                        case RIGHT_TERMINAL_EDGE:
+                            x = 0.0;
+                            break;
+                        case LEFT_OF_INFO:
+                            x = ( iStartX() * ImGui::CalcTextSize( "X" ).x ) - popup_width;
+                            break;
+                        case RIGHT_OF_INFO:
+                            x = ( iStartX() + iWidth() ) * ImGui::CalcTextSize( "X" ).x;
+                            break;
+                        case LEFT_TERMINAL_EDGE:
+                            x = ImGui::GetMainViewport()->Size.x - popup_width;
+                            break;
+                    }
+                    action_menu.desired_bounds = { x, 0.0, popup_width, -1.0 };
+                    action_menu.reposition();
                 } );
                 ui->mark_resize();
 
