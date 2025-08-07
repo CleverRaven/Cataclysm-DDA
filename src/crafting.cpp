@@ -229,6 +229,23 @@ float Character::morale_crafting_speed_multiplier( const recipe &rec ) const
     return 1.0f / morale_effect;
 }
 
+float Character::limb_score_crafting_speed_multiplier( const recipe &rec ) const
+{
+    return rec.has_flag( flag_NO_MANIP ) ? 1.0f : get_limb_score( limb_score_manip );
+}
+
+float Character::pain_crafting_speed_multiplier( const recipe &rec ) const
+{
+    return rec.has_flag( flag_AFFECTED_BY_PAIN ) ? std::max( 0.0f,
+            1.0f - ( get_perceived_pain() / 100.0f ) ) : 1.0f;
+}
+
+float Character::mut_crafting_speed_multiplier( const recipe &rec ) const
+{
+    return rec.has_flag( flag_NO_ENCHANTMENT ) ? 1.0f : 1.0 + enchantment_cache->get_value_multiply(
+               enchant_vals::mod::CRAFTING_SPEED_MULTIPLIER );
+}
+
 template<typename T>
 static float lerped_multiplier( const T &value, const T &low, const T &high )
 {
@@ -303,14 +320,12 @@ float Character::workbench_crafting_speed_multiplier( const item &craft,
 float Character::crafting_speed_multiplier( const recipe &rec ) const
 {
 
-    const float limb_score = rec.has_flag( flag_NO_MANIP ) ? 1.0f : get_limb_score(
-                                 limb_score_manip );
-    const float pain_multi = rec.has_flag( flag_AFFECTED_BY_PAIN ) ? std::max( 0.0f,
-                             1.0f - ( get_perceived_pain() / 100.0f ) ) : 1.0f;
+    const float limb_score_multi = limb_score_crafting_speed_multiplier( rec );
+    const float pain_multi = pain_crafting_speed_multiplier( rec );
 
-    float crafting_speed = morale_crafting_speed_multiplier( rec ) *
-                           lighting_craft_speed_multiplier( rec ) *
-                           limb_score * pain_multi;
+    const float crafting_speed = morale_crafting_speed_multiplier( rec ) *
+                                 lighting_craft_speed_multiplier( rec ) *
+                                 limb_score_multi * pain_multi;
 
     const float result = enchantment_cache->modify_value( enchant_vals::mod::CRAFTING_SPEED_MULTIPLIER,
                          crafting_speed );
@@ -333,20 +348,17 @@ float Character::crafting_speed_multiplier( const item &craft,
     const recipe &rec = craft.get_making();
 
     const float light_multi = lighting_craft_speed_multiplier( rec );
-    const float bench_value = ( use_cached_workbench_multiplier ||
-                                cached_workbench_multiplier > 0.0f ) ? cached_workbench_multiplier :
+    const float bench_multi = rec.has_flag( flag_NO_BENCH ) ?
+                              1.0f :
+                              ( use_cached_workbench_multiplier || cached_workbench_multiplier > 0.0f ) ?
+                              cached_workbench_multiplier :
                               workbench_crafting_speed_multiplier( craft, loc );
-    const float bench_multi = rec.has_flag( flag_NO_BENCH ) ? 1.0f : bench_value;
     const float morale_multi = morale_crafting_speed_multiplier( rec );
-    const float mut_multi = rec.has_flag( flag_NO_ENCHANTMENT ) ? 1.0f : 1.0 +
-                            enchantment_cache->get_value_multiply(
-                                enchant_vals::mod::CRAFTING_SPEED_MULTIPLIER );
-    const float limb_score = rec.has_flag( flag_NO_MANIP ) ? 1.0f : get_limb_score(
-                                 limb_score_manip );
-    const float pain_multi = rec.has_flag( flag_AFFECTED_BY_PAIN ) ? std::max( 0.0f,
-                             1.0f - ( get_perceived_pain() / 100.0f ) ) : 1.0f;
+    const float mut_multi = mut_crafting_speed_multiplier( rec );
+    const float limb_score_multi = limb_score_crafting_speed_multiplier( rec );
+    const float pain_multi = pain_crafting_speed_multiplier( rec );
 
-    const float total_multi = light_multi * bench_multi * morale_multi * mut_multi * limb_score *
+    const float total_multi = light_multi * bench_multi * morale_multi * mut_multi * limb_score_multi *
                               pain_multi;
 
     if( light_multi <= 0.0f ) {
@@ -750,11 +762,7 @@ static item_location set_item_inventory( Character &p, item &newit )
 {
     item_location ret_val = item_location::nowhere;
     if( newit.made_of( phase_id::LIQUID ) ) {
-        if( p.is_avatar() ) {
-            liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
-        } else {
-            liquid_handler::handle_npc_liquid( newit, p );
-        }
+        liquid_handler::handle_all_or_npc_liquid( p, newit, PICKUP_RANGE );
     } else {
         p.inv->assign_empty_invlet( newit, p );
         // We might not have space for the item
@@ -866,18 +874,21 @@ static item_location place_craft_or_disassembly(
         }
     }
 
+    auto craft_wield = [&craft_in_world, &ch, &craft]() {
+        if( std::optional<item_location> it_loc = wield_craft( ch, craft ) ) {
+            craft_in_world = *it_loc;
+        }  else {
+            // This almost certainly shouldn't happen
+            put_into_vehicle_or_drop( ch, item_drop_reason::tumbling, {craft} );
+        }
+    };
+
     // Crafting without a workbench
     if( !target ) {
         if( !ch.has_two_arms_lifting() ) {
             craft_in_world = set_item_map_or_vehicle( ch, ch.pos_bub(), craft );
         } else if( !ch.has_wield_conflicts( craft ) || ch.is_npc() ) {
-            // NPC always tries wield craft first
-            if( std::optional<item_location> it_loc = wield_craft( ch, craft ) ) {
-                craft_in_world = *it_loc;
-            }  else {
-                // This almost certainly shouldn't happen
-                put_into_vehicle_or_drop( ch, item_drop_reason::tumbling, {craft} );
-            }
+            craft_wield();
         } else {
             enum option : int {
                 WIELD_CRAFT = 0,
@@ -902,12 +913,7 @@ static item_location place_craft_or_disassembly(
             const option choice = amenu.ret == UILIST_CANCEL ? DROP : static_cast<option>( amenu.ret );
             switch( choice ) {
                 case WIELD_CRAFT: {
-                    if( std::optional<item_location> it_loc = wield_craft( ch, craft ) ) {
-                        craft_in_world = *it_loc;
-                    } else {
-                        // This almost certainly shouldn't happen
-                        put_into_vehicle_or_drop( ch, item_drop_reason::tumbling, {craft} );
-                    }
+                    craft_wield();
                     break;
                 }
                 case DROP_CRAFT: {
@@ -1494,11 +1500,7 @@ static void spawn_items( Character &guy, std::vector<item> &results,
 
         newit.set_owner( guy.get_faction()->id );
         if( newit.made_of( phase_id::LIQUID ) ) {
-            if( guy.is_avatar() ) {
-                liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
-            } else {
-                liquid_handler::handle_npc_liquid( newit, guy );
-            }
+            liquid_handler::handle_all_or_npc_liquid( guy, newit, PICKUP_RANGE );
         } else if( !loc && allow_wield && !guy.has_wield_conflicts( newit ) &&
                    guy.can_wield( newit ).success() ) {
             wield_craft( guy, newit );
@@ -2872,18 +2874,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
             if( dis_item.count_by_charges() ) {
                 compcount *= activity.position;
             }
-            const bool is_liquid = newit.made_of( phase_id::LIQUID );
-            // Compress liquids and counted-by-charges items into one item,
-            // they are added together on the map anyway and handle_liquid
-            // should only be called once to put it all into a container at once.
-            if( newit.count_by_charges() || is_liquid ) {
-                newit.charges = compcount;
-                compcount = 1;
-            } else if( !newit.craft_has_charges() && newit.charges > 0 ) {
-                // tools that can be unloaded should be created unloaded,
-                // tools that can't be unloaded will keep their default charges.
-                newit.charges = 0;
-            }
+            newit.compress_charges_or_liquid( compcount );
 
             // If the recipe has a `FULL_MAGAZINE` flag, spawn any magazines full of ammo
             if( newit.is_magazine() && dis.has_flag( flag_FULL_MAGAZINE ) ) {
@@ -2980,11 +2971,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
             }
 
             if( act_item.made_of( phase_id::LIQUID ) ) {
-                if( is_avatar() ) {
-                    liquid_handler::handle_all_liquid( act_item, PICKUP_RANGE );
-                } else {
-                    liquid_handler::handle_npc_liquid( act_item, *this );
-                }
+                liquid_handler::handle_all_or_npc_liquid( *this, act_item, PICKUP_RANGE );
             } else {
                 drop_items.push_back( act_item );
             }
@@ -3051,14 +3038,10 @@ void remove_ammo( std::list<item> &dis_items, Character &p )
 
 void drop_or_handle( const item &newit, Character &p )
 {
+    item tmp( newit );
     if( newit.made_of( phase_id::LIQUID ) ) {
-        if( p.is_avatar() ) {
-            liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
-        } else {
-            liquid_handler::handle_npc_liquid( newit, p );
-        }
+        liquid_handler::handle_all_or_npc_liquid( p, tmp, PICKUP_RANGE );
     } else {
-        item tmp( newit );
         p.i_add_or_drop( tmp );
     }
 }

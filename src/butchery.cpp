@@ -875,10 +875,8 @@ bool butchery_drops_harvest( butchery_data bt, Character &you )
                 // If we're not bleeding the animal we don't care about the blood being wasted
                 if( action != butcher_type::BLEED ) {
                     drop_on_map( you, item_drop_reason::deliberate, { obj }, &here, corpse_loc );
-                } else if( you.is_avatar() ) {
-                    liquid_handler::handle_all_liquid( obj, 1 );
                 } else {
-                    liquid_handler::handle_npc_liquid( obj, you );
+                    liquid_handler::handle_all_or_npc_liquid( you, obj, 1 );
                 }
             } else if( drop->count_by_charges() ) {
                 std::vector<item> objs = create_charge_items( drop, roll, entry, &corpse_item, you );

@@ -3612,6 +3612,9 @@ class Character : public Creature, public visitable
         float crafting_speed_multiplier( const recipe &rec ) const;
         float workbench_crafting_speed_multiplier( const item &craft,
                 const std::optional<tripoint_bub_ms> &loc )const;
+        float limb_score_crafting_speed_multiplier( const recipe &rec ) const;
+        float pain_crafting_speed_multiplier( const recipe &rec ) const;
+        float mut_crafting_speed_multiplier( const recipe &rec ) const;
         /** For use with in progress crafts.
          *  Workbench multiplier calculation (especially finding lifters nearby)
          *  is expensive when numorous items are around.
