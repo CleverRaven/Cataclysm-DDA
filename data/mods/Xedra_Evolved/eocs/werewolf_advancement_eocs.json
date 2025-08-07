@@ -126,7 +126,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_WEREWOLF_LUNAR_GIFT_GO_BACK",
-    "run_eocs": [ { "run_eocs": "EOC_WEREWOLVES_GAIN_MORE_POWERS" } ]
+    "effect": [ { "run_eocs": "EOC_WEREWOLVES_GAIN_MORE_POWERS" } ]
   },
   {
     "type": "effect_on_condition",

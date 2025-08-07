@@ -350,7 +350,7 @@
     "activated_is_setup": true,
     "mana": true,
     "cost": 1,
-    "time": 4,
+    "time": 6,
     "activation_msg": "",
     "activated_eocs": [ "EOC_WEREWOLF_SILVER_CLAWS_ON" ],
     "deactivated_eocs": [ "EOC_WEREWOLF_SILVER_CLAWS_OFF" ]
@@ -390,7 +390,7 @@
     "active": true,
     "activated_is_setup": true,
     "activation_msg": "You feel a tension in your muscles.",
-    "cost": 2,
+    "cost": 1,
     "time": 5,
     "enchantments": [
       {
@@ -438,7 +438,7 @@
     "active": true,
     "activated_is_setup": true,
     "mana": true,
-    "cost": 35,
+    "cost": 7,
     "time": 1,
     "activation_msg": "Your natural regeneration kicks into overdrive.",
     "processed_eocs": [ "EOC_WEREWOLF_SUPER_FAST_REGENERATION_activated" ]

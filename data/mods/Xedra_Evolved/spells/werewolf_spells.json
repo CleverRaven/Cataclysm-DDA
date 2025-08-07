@@ -43,7 +43,7 @@
   {
     "id": "xe_werewolf_smash_terrain_spell",
     "type": "SPELL",
-    "name": "Moon's Cold Glow",
+    "name": "Mighty Blow",
     "description": "No barrier can stop the hunter truly devoted to flushing out their quarry.  You can temporarily enhance your strength for the purposes of smashing through barriers.",
     "message": "Your unleash a punishing blow.",
     "teachable": false,
@@ -57,12 +57,12 @@
     "shape": "blast",
     "min_damage": {
       "math": [
-        "(u_val('strength') + (werewolf_tier_two_traits() * 0.1) + (werewolf_tier_three_traits() * 0.2) + (werewolf_tier_four_traits() * 0.3) + (werewolf_tier_five_traits() * 0.4) * 2"
+        "(u_val('strength') + (werewolf_tier_two_traits() * 0.1) + (werewolf_tier_three_traits() * 0.2) + (werewolf_tier_four_traits() * 0.3) + (werewolf_tier_five_traits() * 0.4) ) * 2"
       ]
     },
     "max_damage": {
       "math": [
-        "(u_val('strength') + (werewolf_tier_two_traits() * 0.1) + (werewolf_tier_three_traits() * 0.2) + (werewolf_tier_four_traits() * 0.3) + (werewolf_tier_five_traits() * 0.4) * 4"
+        "(u_val('strength') + (werewolf_tier_two_traits() * 0.1) + (werewolf_tier_three_traits() * 0.2) + (werewolf_tier_four_traits() * 0.3) + (werewolf_tier_five_traits() * 0.4) ) * 4"
       ]
     },
     "min_range": 1,
@@ -72,6 +72,7 @@
   },
   {
     "id": "xe_werewolf_far_jump_spell",
+    "type": "SPELL",
     "name": "Grasshopper's Leap",
     "//": "TODO: Balance its effect and damage once issue #53511 is fixed.",
     "description": "Gather your legs and leap.  You will leap <color_green>much further</color> if in wolf form.",
@@ -241,7 +242,7 @@
     "difficulty": 10,
     "min_range": 1,
     "max_range": 1,
-    "base_energy_cost": 2000,
+    "base_energy_cost": 1000,
     "base_casting_time": 3000
   },
   {
@@ -257,6 +258,7 @@
     "skill": "deduction",
     "effect": "summon",
     "effect_str": "mon_werewolf_shadow_pack",
+    "condition": { "not": { "u_has_effect": "effect_xe_werewolf_summon_shadow_pack_limiter" } },
     "extra_effects": [ { "id": "xe_werewolf_summon_shadow_pack_limiter_spell", "hit_self": true } ],
     "shape": "blast",
     "flags": [ "VERBAL", "NO_HANDS", "RANDOM_DAMAGE", "RANDOM_DURATION" ],
@@ -283,7 +285,6 @@
     "skill": "deduction",
     "effect": "attack",
     "effect_str": "effect_xe_werewolf_summon_shadow_pack_limiter",
-    "condition": { "not": { "u_has_effect": "effect_xe_werewolf_summon_shadow_pack_limiter" } },
     "shape": "blast",
     "flags": [ "SILENT" ],
     "min_duration": 4320000,

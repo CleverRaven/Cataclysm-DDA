@@ -317,7 +317,7 @@
             "var": { "context_val": "id" },
             "effect": [
               {
-                "if": { "u_has_effect": "bite", "bodpart": { "context_val": "id" } },
+                "if": { "u_has_effect": "bite", "bodypart": { "context_val": "id" } },
                 "then": {
                   "if": { "x_in_y_chance": { "x": 1, "y": 100 } },
                   "then": { "u_lose_effect": "bite", "target_part": { "context_val": "id" } }
@@ -331,7 +331,7 @@
             "var": { "context_val": "id" },
             "effect": [
               {
-                "if": { "u_has_effect": "infected", "bodpart": { "context_val": "id" } },
+                "if": { "u_has_effect": "infected", "bodypart": { "context_val": "id" } },
                 "then": {
                   "if": { "x_in_y_chance": { "x": 1, "y": 250 } },
                   "then": { "u_lose_effect": "infected", "target_part": { "context_val": "id" } }
