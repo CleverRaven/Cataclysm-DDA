@@ -229,12 +229,7 @@
           { "type": "leather", "covered_by_mat": 100, "thickness": 0.7 }
         ],
         "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [
-          "foot_ankle_r",
-          "foot_ankle_l",
-          "foot_toes_l",
-          "foot_toes_r"
-        ],
+        "specifically_covers": [ "foot_ankle_r", "foot_ankle_l", "foot_toes_l", "foot_toes_r" ],
         "encumbrance": 9,
         "coverage": 100
       }

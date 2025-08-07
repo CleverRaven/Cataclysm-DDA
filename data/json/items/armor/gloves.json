@@ -275,9 +275,7 @@
         "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
       },
       {
-        "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 0.7 }
-        ],
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 0.7 } ],
         "coverage": 100,
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_palm_r", "hand_palm_l" ]

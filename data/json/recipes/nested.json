@@ -615,11 +615,7 @@
     "name": "chitinous helmets",
     "description": "Recipes related to constructing durable helmets from chitin.",
     "skill_used": "tailor",
-    "nested_category_data": [
-      "armor_chitin_vest",
-      "xs_armor_chitin_vest",
-      "xl_armor_chitin_vest"
-    ],
+    "nested_category_data": [ "armor_chitin_vest", "xs_armor_chitin_vest", "xl_armor_chitin_vest" ],
     "difficulty": 6
   },
   {
