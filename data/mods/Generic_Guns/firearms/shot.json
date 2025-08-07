@@ -7,6 +7,7 @@
     "name": { "str": "double-barrel shotgun" },
     "ammo": [ "ammo_shot" ],
     "description": "An old-fashioned double barreled shotgun, with a trigger for each barrel.  Follow up shots are incredibly quick with this, but reloading is a bit slow.  Shotshells come in many varieties, and shotguns are suitable for anything from some large game to small birds.",
+    "variants": [  ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_shot": 2 }, "rigid": true } ]
   },
   {
@@ -16,6 +17,7 @@
     "subtypes": [ "GUN" ],
     "name": { "str": "double-barrel pipe shotgun" },
     "ammo": [ "ammo_shot" ],
+    "variants": [  ],
     "description": "A crudely handmade double barreled shotgun, with a trigger for each barrel.  Follow up shots are incredibly quick with this, but reloading is slow, as there are no extractors or ejectors.  Shotshells come in many varieties, and shotguns are suitable for anything from some large game to small birds."
   },
   {
@@ -27,6 +29,7 @@
     "ammo": [ "ammo_shot" ],
     "description": "A simple, popular design, sporting shotguns are used by law enforcement, civilians and occasionally militaries.  Its internal magazine is small by modern standards, and reloading can be quite slow.  Shotshells come in many varieties, and shotguns are suitable for anything from some large game to small birds.",
     "clip_size": 6,
+    "variants": [  ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_shot": 6 }, "rigid": true } ]
   },
   {
@@ -38,6 +41,7 @@
     "ammo": [ "ammo_shot" ],
     "description": "A simple, shotgun without a stock used by law enforcement and occasionally militaries.  Its internal magazine is small, and reloading can be quite slow.  Shotshells come in many varieties, and shotguns are suitable for anything from some large game to small birds.",
     "clip_size": 4,
+    "variants": [  ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_shot": 4 }, "rigid": true } ]
   },
   {
@@ -48,6 +52,7 @@
     "name": "tactical shotgun",
     "ammo": [ "ammo_shot" ],
     "description": "A detachable magazine fed shotgun, mostly oriented towards overly enthusiastic civilians.  Featuring rails and a menacing black appearance, this sort of shotgun doesn't really look like it has a sporting use.  The magazines reduce lengthy reloading times associated with shotguns.  Though known for being somewhat finicky, these can be tuned to run with some reliability.",
+    "variants": [  ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -65,6 +70,7 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "bionic shotgun" },
+    "variants": [  ],
     "ammo": [ "ammo_shot" ]
   },
   {
@@ -74,6 +80,7 @@
     "subtypes": [ "GUN" ],
     "name": { "str": "slam-fire pipe shotgun" },
     "description": "A crude shotgun, composed of two thick steel pipes, an end cap and a nail.  The lack of sights make this weapon only useful at point-blank range.",
+    "variants": [  ],
     "ammo": [ "ammo_shot" ]
   },
   {
@@ -83,6 +90,7 @@
     "subtypes": [ "GUN" ],
     "name": { "str": "double slam-fire pipe shotgun" },
     "description": "A crude shotgun, composed of two thick steel pipes, an end cap and a nail.  The lack of sights make this weapon only useful at point-blank range.",
+    "variants": [  ],
     "ammo": [ "ammo_shot" ]
   },
   {
@@ -92,6 +100,7 @@
     "subtypes": [ "GUN" ],
     "name": { "str": "compact shotgun" },
     "description": "Small shotgun, assembled from underbarrel shotgun modification and a pistol grip.  Not the best weapon, but has a really small size and weight.",
+    "variants": [  ],
     "ammo": [ "ammo_shot" ]
   }
 ]

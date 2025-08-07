@@ -1184,6 +1184,7 @@
             "condition": { "math": [ "u_val('mana') >= 2" ] },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
               { "u_add_trait": "VAMPIRE_BAT_FORM_TRAITS" },
               { "u_add_trait": "ECHOLOCATION" },
               { "math": [ "u_calories()", "/=", "4" ] },
@@ -1214,7 +1215,8 @@
               {
                 "u_message": "Your body shifts and your fingers separate as you return to your previous form.",
                 "type": "neutral"
-              }
+              },
+              { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_RETURN_ARMOR_TO_NORMAL" }
             ]
           }
         ]
@@ -1245,6 +1247,7 @@
             "condition": { "math": [ "u_val('mana') >= 2" ] },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
               { "u_add_trait": "TURN_INTO_RAVEN_TRAITS" },
               { "math": [ "u_calories()", "/=", "4" ] },
               {
@@ -1273,7 +1276,8 @@
               {
                 "u_message": "Your body shifts and your feathers vanish as you return to your previous form.",
                 "type": "neutral"
-              }
+              },
+              { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_RETURN_ARMOR_TO_NORMAL" }
             ]
           }
         ]
@@ -1304,6 +1308,7 @@
             "condition": { "math": [ "u_val('mana') >= 2" ] },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
               { "u_add_trait": "TURN_INTO_BEAR_TRAITS" },
               { "math": [ "u_calories()", "*=", "3" ] },
               {
@@ -1332,7 +1337,8 @@
               {
                 "u_message": "Your body shifts and contracts and you return to your humanoid form.",
                 "type": "neutral"
-              }
+              },
+              { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_RETURN_ARMOR_TO_NORMAL" }
             ]
           }
         ]
@@ -1363,6 +1369,7 @@
             "condition": { "math": [ "u_val('mana') >= 2" ] },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
               { "u_add_trait": "TURN_INTO_DEER_TRAITS" },
               {
                 "u_message": "Your body shifts and warps as your fingers and feet fuse into hooves and majestic antlers sprout from your head.",
@@ -1389,7 +1396,8 @@
               {
                 "u_message": "Your body shifts and contracts and you return to your humanoid form.",
                 "type": "neutral"
-              }
+              },
+              { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_RETURN_ARMOR_TO_NORMAL" }
             ]
           }
         ]
@@ -1420,6 +1428,7 @@
             "condition": { "math": [ "u_val('mana') >= 2" ] },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
               { "u_add_trait": "VAMPIRE_WOLF_FORM_TRAITS" },
               {
                 "u_message": "Your nose pushes out into a muzzle as you fall forward on all fours and let out a snarl.",
@@ -1443,7 +1452,8 @@
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
               { "u_lose_trait": "VAMPIRE_WOLF_FORM_TRAITS" },
-              { "u_message": "Your fur disappears and you walk once again on two legs.", "type": "neutral" }
+              { "u_message": "Your fur disappears and you walk once again on two legs.", "type": "neutral" },
+              { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_RETURN_ARMOR_TO_NORMAL" }
             ]
           }
         ]
@@ -1474,6 +1484,7 @@
             "condition": { "math": [ "u_val('mana') >= 2" ] },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
               { "u_add_trait": "TURN_INTO_COUGAR_TRAITS" },
               { "u_add_trait": "FELINE_LEAP" },
               { "u_add_trait": "WHISKERS" },
@@ -1504,7 +1515,8 @@
               {
                 "u_message": "Your fur and whiskers disappear and you walk once again on two legs.",
                 "type": "neutral"
-              }
+              },
+              { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_RETURN_ARMOR_TO_NORMAL" }
             ]
           }
         ]

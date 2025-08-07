@@ -8,5 +8,15 @@
     "time": "4 m",
     "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "leather", 14 ] ], [ [ "thread", 40 ] ] ]
+  },
+  {
+    "result": "hat_hard_modified",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 m",
+    "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "WRENCH", "level": 2 } ],
+    "components": [ [ [ "scrap", 8 ] ], [ [ "hat_hard", 1 ] ], [ [ "nuts_bolts", 12 ] ] ]
   }
 ]

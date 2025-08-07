@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <cstdlib>
 
-#include "assign.h"
 #include "calendar.h"
 #include "cata_assert.h"
 #include "color.h"
@@ -291,8 +290,7 @@ void scent_type::load_scent_type( const JsonObject &jo, const std::string &src )
 
 void scent_type::load( const JsonObject &jo, std::string_view )
 {
-    assign( jo, "id", id );
-    assign( jo, "receptive_species", receptive_species );
+    mandatory( jo, was_loaded, "receptive_species", receptive_species );
 }
 
 const std::vector<scent_type> &scent_type::get_all()

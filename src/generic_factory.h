@@ -21,6 +21,7 @@
 
 #include "cached_options.h"
 #include "calendar.h"
+#include "cata_assert.h"
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "debug.h"
@@ -1208,6 +1209,49 @@ struct handler<std::map<Key, Val>> {
     }
     static constexpr bool is_container = true;
 };
+
+template<typename Key, typename Val>
+struct handler<std::unordered_map<Key, Val>> {
+    void clear( std::unordered_map<Key, Val> &container ) const {
+        container.clear();
+    }
+    bool insert( std::unordered_map<Key, Val> &container, const std::pair<Key, Val> &data ) const {
+        // emplace can fail if the key already exists
+        if( !container.emplace( data ).second ) {
+            debugmsg( "Insert of <%s, %s> failed, key already exists",
+                      data_string( data.first ), data_string( data.second ) );
+            return false;
+        }
+        return true;
+    }
+    bool relative( std::unordered_map<Key, Val> &container, const std::pair<Key, Val> &data ) const {
+        if constexpr( !supports_relative<Val>::value ) {
+            debugmsg( "relative not supported by type %s", demangle( typeid( Val ).name() ) );
+            return false;
+        } else {
+            const auto iter = container.find( data.first );
+            if( iter == container.end() ) {
+                debugmsg( "No %s to perform relative of %s on",
+                          data_string( data.first ),  data_string( data.second ) );
+                return false;
+            }
+            iter->second += data.second;
+        }
+        return true;
+    }
+    bool erase( std::unordered_map<Key, Val> &container, const std::pair<Key, Val> &data ) const {
+        const auto iter = container.find( data.first );
+        if( iter != container.end() ) {
+            container.erase( iter );
+        } else {
+            debugmsg( "Did not remove <%s, %s> in delete", data_string( data.first ),
+                      data_string( data.second ) );
+            return false;
+        }
+        return true;
+    }
+    static constexpr bool is_container = true;
+};
 } // namespace reader_detail
 
 /**
@@ -1686,6 +1730,72 @@ public:
         jv.read( value, true );
         return std::pair<K, V>( key, value );
     }
+};
+
+// Support shorthand for a single value.
+template<typename T>
+class pair_reader : public generic_typed_reader<pair_reader<T>>
+{
+public:
+    std::pair<T, T> get_next( const JsonValue &jv ) const {
+        if( jv.test_float() ) {
+            T val;
+            jv.read( val, true );
+            return std::make_pair( val, val );
+        }
+        if( !jv.test_array() ) {
+            jv.throw_error( "bad pair" );
+        }
+        JsonArray ja = jv.get_array();
+        if( ja.size() != 2 ) {
+            ja.throw_error( "Must have 2 elements" );
+        }
+        T l;
+        T h;
+        ja[0].read( l, true );
+        ja[1].read( h, true );
+        return std::make_pair( l, h );
+    }
+};
+
+template<typename T1, typename T2>
+class named_pair_reader : public generic_typed_reader<named_pair_reader<T1, T2>>
+{
+public:
+    std::string_view key1;
+    std::string_view key2;
+    T2 default_value2;
+
+    named_pair_reader( std::string_view _key1, std::string_view _key2,
+                       T2 _default = T2() ) : key1( _key1 ), key2( _key2 ), default_value2( _default ) {
+        cata_assert( !key1.empty() );
+        cata_assert( !key2.empty() );
+        cata_assert( key1 != key2 );
+    }
+
+    std::pair<T1, T2> get_next( const JsonValue &jv ) const {
+        std::pair<T1, T2> ret;
+        if( jv.test_object() ) {
+            JsonObject jo = jv.get_object();
+            jo.read( key1, ret.first, true );
+            jo.read( key2, ret.second, true );
+            return ret;
+        }
+        // TODO: support pair format?
+        if( jv.test_array() ) {
+            jv.throw_error( "invalid format" );
+        }
+        jv.read( ret.first, true );
+        ret.second = default_value2;
+        return ret;
+    }
+};
+
+class nc_color;
+class nc_color_reader : public generic_typed_reader<nc_color_reader>
+{
+    public:
+        nc_color get_next( const JsonValue &jv ) const;
 };
 
 template<typename T>

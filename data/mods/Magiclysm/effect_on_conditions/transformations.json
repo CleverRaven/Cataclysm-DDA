@@ -1,6 +1,61 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM",
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "worn_only": true } ],
+        "true_eocs": [
+          {
+            "id": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM_APPLY_FLAGS",
+            "effect": [
+              {
+                "if": {
+                  "and": [
+                    { "not": { "npc_has_flag": "SEMITANGIBLE" } },
+                    { "not": { "npc_has_flag": "UNRESTRICTED" } },
+                    { "not": { "npc_has_flag": "INTEGRATED" } }
+                  ]
+                },
+                "then": [
+                  { "npc_set_flag": "SHAPESHIFTED_ARMOR" },
+                  { "npc_set_flag": "SEMITANGIBLE" },
+                  { "npc_set_flag": "UNRESTRICTED" },
+                  { "npc_set_flag": "INTANGIBLE_ARMOR" },
+                  { "npc_set_flag": "NO_TAKEOFF" }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SHAPESHIFTING_ARMOR_CHECK_RETURN_ARMOR_TO_NORMAL",
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "flags": [ "SHAPESHIFTED_ARMOR" ] } ],
+        "true_eocs": [
+          {
+            "id": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM_REMOVE_FLAGS",
+            "effect": [
+              { "npc_unset_flag": "SEMITANGIBLE" },
+              { "npc_unset_flag": "INTANGIBLE_ARMOR" },
+              { "npc_unset_flag": "UNRESTRICTED" },
+              { "npc_unset_flag": "NO_TAKEOFF" },
+              { "npc_unset_flag": "SHAPESHIFTED_ARMOR" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_DRUID_SHIFTER_BEAR_FORM_activated",
     "condition": {
       "not": {
@@ -42,6 +97,7 @@
                           { "case": 5, "effect": [  ] }
                         ]
                       },
+                      { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
                       { "u_add_trait": "DRUID_SHIFTER_BEAR_FORM_TRAITS" },
                       { "u_add_trait": "DRUID_SHIFTER_MANA_REDUCER" },
                       {
@@ -90,7 +146,8 @@
                           },
                           { "case": 5, "effect": [  ] }
                         ]
-                      }
+                      },
+                      { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_RETURN_ARMOR_TO_NORMAL" }
                     ]
                   }
                 ]
@@ -145,6 +202,7 @@
                           { "case": 5, "effect": [ { "math": [ "u_calories()", "*=", "3" ] } ] }
                         ]
                       },
+                      { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
                       { "u_add_trait": "DRUID_SHIFTER_COUGAR_FORM_TRAITS" },
                       { "u_add_trait": "DRUID_SHIFTER_MANA_REDUCER" },
                       { "if": { "not": { "u_has_trait": "FELINE_LEAP" } }, "then": { "u_add_trait": "FELINE_LEAP" } },
@@ -189,7 +247,8 @@
                           { "case": 4, "effect": [ { "math": [ "u_calories()", "/=", "1.5" ] } ] },
                           { "case": 5, "effect": [ { "math": [ "u_calories()", "/=", "3" ] } ] }
                         ]
-                      }
+                      },
+                      { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_RETURN_ARMOR_TO_NORMAL" }
                     ]
                   }
                 ]
@@ -253,6 +312,7 @@
                           }
                         ]
                       },
+                      { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
                       { "u_add_trait": "DRUID_SHIFTER_DEER_FORM_TRAITS" },
                       { "u_add_trait": "DRUID_SHIFTER_MANA_REDUCER" },
                       {
@@ -301,7 +361,8 @@
                             "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "3" ] } ]
                           }
                         ]
-                      }
+                      },
+                      { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_RETURN_ARMOR_TO_NORMAL" }
                     ]
                   }
                 ]
@@ -369,6 +430,7 @@
                           }
                         ]
                       },
+                      { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
                       { "u_add_trait": "DRUID_SHIFTER_RAVEN_FORM_TRAITS" },
                       { "u_add_trait": "DRUID_SHIFTER_MANA_REDUCER" },
                       {
@@ -421,7 +483,8 @@
                             "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "10" ] } ]
                           }
                         ]
-                      }
+                      },
+                      { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_RETURN_ARMOR_TO_NORMAL" }
                     ]
                   }
                 ]

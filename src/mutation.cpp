@@ -59,6 +59,7 @@ static const efftype_id effect_mutation_internal_damage( "mutation_internal_dama
 static const flag_id json_flag_CANT_HEAL_EVERYONE( "CANT_HEAL_EVERYONE" );
 static const flag_id json_flag_INTEGRATED( "INTEGRATED" );
 static const flag_id json_flag_OVERSIZE( "OVERSIZE" );
+static const flag_id json_flag_UNRESTRICTED( "UNRESTRICTED" );
 
 static const itype_id itype_fake_burrowing( "fake_burrowing" );
 
@@ -598,6 +599,9 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
             return false;
         }
         if( armor.has_flag( json_flag_INTEGRATED ) ) {
+            return false;
+        }
+        if( armor.has_flag( json_flag_UNRESTRICTED ) ) {
             return false;
         }
         // initial check for rigid items to pull off, doesn't matter what else the item has you can only wear one rigid item

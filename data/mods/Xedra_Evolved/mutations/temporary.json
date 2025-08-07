@@ -168,7 +168,7 @@
       {
         "condition": "ALWAYS",
         "values": [
-          { "value": "MAX_HP", "multiply": 0.5 },
+          { "value": "MAX_HP", "multiply": 2 },
           { "value": "SPEED", "multiply": 0.2 },
           { "value": "RANGE", "multiply": -1 },
           { "value": "DEXTERITY", "add": 2 },
@@ -176,6 +176,7 @@
           { "value": "NIGHT_VIS", "add": 5 },
           { "value": "MELEE_DAMAGE", "multiply": 0.4 },
           { "value": "CLIMATE_CONTROL_HEAT", "add": 25 },
+          { "value": "PAIN", "multiply": -0.4 },
           { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 }
         ],
         "mutations": [ "FANGS", "MUZZLE_BEAR", "TAIL_STUB", "PAWS_LARGE", "URSINE_FUR", "URSINE_EARS", "PRED3" ]
@@ -191,7 +192,15 @@
         "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
       }
     ],
-    "flags": [ "MUTE", "NO_SPELLCASTING", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_HUGE" ],
+    "flags": [
+      "MUTE",
+      "NO_SPELLCASTING",
+      "QUADRUPED_RUN",
+      "TOUGH_FEET",
+      "TEMPORARY_SHAPESHIFT",
+      "SHAPESHIFT_SIZE_HUGE",
+      "TEMPORARY_SHAPESHIFT_NO_HANDS"
+    ],
     "override_look": { "id": "mon_bear", "tile_category": "monster" }
   },
   {
@@ -232,7 +241,7 @@
       }
     ],
     "integrated_armor": [ "integrated_antlers", "integrated_feline_fur" ],
-    "flags": [ "MUTE", "NO_SPELLCASTING", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT" ],
+    "flags": [ "MUTE", "NO_SPELLCASTING", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT", "TEMPORARY_SHAPESHIFT_NO_HANDS" ],
     "override_look": { "id": "mon_deer", "tile_category": "monster" }
   },
   {
@@ -275,7 +284,7 @@
         "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
       }
     ],
-    "flags": [ "MUTE", "NO_SPELLCASTING", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT" ],
+    "flags": [ "MUTE", "NO_SPELLCASTING", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT", "TEMPORARY_SHAPESHIFT_NO_HANDS" ],
     "override_look": { "id": "mon_cougar", "tile_category": "monster" }
   },
   {
@@ -304,9 +313,17 @@
           { "value": "NIGHT_VIS", "add": 8 },
           { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 }
         ],
-        "ench_effects": [ { "effect": "effect_vampire_bat_form_levitation", "intensity": 1 } ],
         "skills": [ { "value": "dodge", "add": 4 } ],
         "mutations": [ "BIRD_EYE", "DOWN", "EAGLEEYED", "LIGHTEATER" ]
+      },
+      {
+        "condition": {
+          "and": [
+            { "not": { "u_has_effect": "disabled", "bodypart": "arm_l" } },
+            { "not": { "u_has_effect": "disabled", "bodypart": "arm_r" } }
+          ]
+        },
+        "ench_effects": [ { "effect": "effect_vampire_bat_form_levitation", "intensity": 1 } ]
       },
       {
         "condition": "u_has_weapon",
@@ -317,7 +334,14 @@
         "values": [ { "value": "MOVE_COST", "multiply": -0.6 }, { "value": "FOOTSTEP_NOISE", "multiply": -1 } ]
       }
     ],
-    "flags": [ "LEVITATION", "MUTE", "NO_SPELLCASTING", "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_TINY" ],
+    "flags": [
+      "LEVITATION",
+      "MUTE",
+      "NO_SPELLCASTING",
+      "TEMPORARY_SHAPESHIFT",
+      "SHAPESHIFT_SIZE_TINY",
+      "TEMPORARY_SHAPESHIFT_NO_HANDS"
+    ],
     "//2": "override below is because apparently we have no owls in the game",
     "override_look": { "id": "mon_albino_penguin", "tile_category": "monster" }
   },
@@ -381,9 +405,17 @@
           { "value": "NIGHT_VIS", "add": 4 },
           { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 }
         ],
-        "ench_effects": [ { "effect": "effect_vampire_bat_form_levitation", "intensity": 1 } ],
         "skills": [ { "value": "dodge", "add": 6 } ],
         "mutations": [ "BIRD_EYE", "DOWN", "EAGLEEYED", "LIGHTEATER" ]
+      },
+      {
+        "condition": {
+          "and": [
+            { "not": { "u_has_effect": "disabled", "bodypart": "arm_l" } },
+            { "not": { "u_has_effect": "disabled", "bodypart": "arm_r" } }
+          ]
+        },
+        "ench_effects": [ { "effect": "effect_vampire_bat_form_levitation", "intensity": 1 } ]
       },
       {
         "condition": "u_has_weapon",
@@ -394,7 +426,14 @@
         "values": [ { "value": "MOVE_COST", "multiply": -0.6 }, { "value": "FOOTSTEP_NOISE", "multiply": -1 } ]
       }
     ],
-    "flags": [ "LEVITATION", "MUTE", "NO_SPELLCASTING", "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_TINY" ],
+    "flags": [
+      "LEVITATION",
+      "MUTE",
+      "NO_SPELLCASTING",
+      "TEMPORARY_SHAPESHIFT",
+      "SHAPESHIFT_SIZE_TINY",
+      "TEMPORARY_SHAPESHIFT_NO_HANDS"
+    ],
     "override_look": { "id": "mon_raven", "tile_category": "monster" }
   },
   {

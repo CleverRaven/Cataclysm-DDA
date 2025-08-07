@@ -1622,7 +1622,7 @@ npc_opinion npc::get_opinion_values( const Character &you ) const
         } else {
             npc_values.fear += 6;
         }
-    } else if( you.weapon_value( *weapon ) > 20 ) {
+    } else if( you.evaluate_weapon( *weapon ) > 20 ) {
         npc_values.fear += 2;
     }
 
@@ -1852,7 +1852,7 @@ void npc::decide_needs()
     }
 
     const item &weap = weapon ? *weapon : null_item_reference();
-    needrank[need_weapon] = weapon_value( weap );
+    needrank[need_weapon] = evaluate_weapon( weap );
     needrank[need_food] = 15 - get_hunger();
     needrank[need_drink] = 15 - get_thirst();
     cache_visit_items_with( "is_food", &item::is_food, [&]( const item & it ) {
@@ -2231,8 +2231,8 @@ double npc::value( const item &it, double market_price ) const
     float ret = 1;
     if( it.is_maybe_melee_weapon() || it.is_gun() ) {
         // todo: remove when weapon_value takes an item_location
-        double wield_val = weapon ? weapon_value( *weapon ) : weapon_value( null_item_reference() );
-        double weapon_val = weapon_value( it ) - wield_val;
+        double wield_val = weapon ? evaluate_weapon( *weapon ) : evaluate_weapon( null_item_reference() );
+        double weapon_val = evaluate_weapon( it ) - wield_val;
 
         if( weapon_val > 0 ) {
             ret += weapon_val * 0.0002;

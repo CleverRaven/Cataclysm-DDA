@@ -1750,6 +1750,7 @@
                 "then": { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "300" ] },
                 "else": { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "600" ] }
               },
+              { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
               { "u_add_trait": "VAMPIRE_BAT_FORM_TRAITS" },
               { "u_add_trait": "ECHOLOCATION" },
               { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "4" ] },
@@ -1779,7 +1780,8 @@
               { "u_lose_trait": "VAMPIRE_BAT_FORM_TRAITS" },
               { "u_lose_trait": "ECHOLOCATION" },
               { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "4" ] },
-              { "math": [ "u_spell_level('vampire_bat_form_fly_upward') = -1" ] }
+              { "math": [ "u_spell_level('vampire_bat_form_fly_upward') = -1" ] },
+              { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_RETURN_ARMOR_TO_NORMAL" }
             ]
           }
         ]
@@ -1807,6 +1809,7 @@
               { "run_eocs": "EOC_VAMPIRE_CANCEL_MIST_FORM" },
               { "run_eocs": "EOC_VAMPIRE_CANCEL_SHADOW_FORM" },
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
+              { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
               {
                 "if": { "u_has_trait": "VAMPIRE_FORM_UPGRADE" },
                 "then": { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "300" ] },
@@ -1834,7 +1837,8 @@
             "condition": { "u_has_trait": "VAMPIRE_WOLF_FORM_TRAITS" },
             "effect": [
               { "u_message": "Your fur disappears and you walk once again on two legs.", "type": "neutral" },
-              { "u_lose_trait": "VAMPIRE_WOLF_FORM_TRAITS" }
+              { "u_lose_trait": "VAMPIRE_WOLF_FORM_TRAITS" },
+              { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_RETURN_ARMOR_TO_NORMAL" }
             ]
           }
         ]
