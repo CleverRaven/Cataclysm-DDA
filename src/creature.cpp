@@ -1818,14 +1818,6 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
             const int prev_int = e.get_intensity();
             // If we do, mod the duration, factoring in the mod value
             e.mod_duration( dur * e.get_dur_add_perc() / 100 );
-            // Limit to max duration
-            if( e.get_duration() > e.get_max_duration() ) {
-                e.set_duration( e.get_max_duration() );
-            }
-            // Adding a permanent effect makes it permanent
-            if( e.is_permanent() ) {
-                e.pause_effect();
-            }
             // int_dur_factor overrides all other intensity settings
             // ...but it's handled in set_duration, so explicitly do nothing here
             if( e.get_int_dur_factor() > 0_turns ) {
@@ -1836,14 +1828,8 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
             } else if( e.get_int_add_val() != 0 ) {
                 e.mod_intensity( e.get_int_add_val(), is_avatar() );
             }
-
-            // Bound intensity by [1, max intensity]
-            if( e.get_intensity() < 1 ) {
-                add_msg_debug( debugmode::DF_CREATURE, "Bad intensity, ID: %s", e.get_id().c_str() );
-                e.set_intensity( 1 );
-            } else if( e.get_intensity() > e.get_max_intensity() ) {
-                e.set_intensity( e.get_max_intensity() );
-            }
+            // Bound new effect intensity by [1, max intensity]
+            e.clamp_intensity();
             if( e.get_intensity() != prev_int ) {
                 on_effect_int_change( eff_id, e.get_intensity(), bp );
             }
@@ -1855,23 +1841,7 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
 
         // Now we can make the new effect for application
         effect e( effect_source( source ), &type, dur, bp.id(), permanent, intensity, calendar::turn );
-        // Bound to max duration
-        if( e.get_duration() > e.get_max_duration() ) {
-            e.set_duration( e.get_max_duration() );
-        }
 
-        // Force intensity if it is duration based
-        if( e.get_int_dur_factor() != 0_turns ) {
-            const int intensity = std::ceil( e.get_duration() / e.get_int_dur_factor() );
-            e.set_intensity( std::max( 1, intensity ) );
-        }
-        // Bound new effect intensity by [1, max intensity]
-        if( e.get_intensity() < 1 ) {
-            add_msg_debug( debugmode::DF_CREATURE, "Bad intensity, ID: %s", e.get_id().c_str() );
-            e.set_intensity( 1 );
-        } else if( e.get_intensity() > e.get_max_intensity() ) {
-            e.set_intensity( e.get_max_intensity() );
-        }
         ( *effects )[eff_id][bp] = e;
         if( Character *ch = as_character() ) {
             get_event_bus().send<event_type::character_gains_effect>( ch->getID(), bp.id(), eff_id, intensity );

@@ -1579,14 +1579,6 @@ void vehicle::add_effect( const effect_source &source, const efftype_id &eff_id,
         effect &e = found_effect->second;
         // If we do, mod the duration, factoring in the mod value
         e.mod_duration( dur * e.get_dur_add_perc() / 100 );
-        // Limit to max duration
-        if( e.get_duration() > e.get_max_duration() ) {
-            e.set_duration( e.get_max_duration() );
-        }
-        // Adding a permanent effect makes it permanent
-        if( e.is_permanent() ) {
-            e.pause_effect();
-        }
     }
 
     if( !found ) {
@@ -1595,23 +1587,7 @@ void vehicle::add_effect( const effect_source &source, const efftype_id &eff_id,
         // Now we can make the new effect for application
         effect e( effect_source( source ), &type, dur, bodypart_str_id::NULL_ID(), permanent, intensity,
                   calendar::turn );
-        // Bound to max duration
-        if( e.get_duration() > e.get_max_duration() ) {
-            e.set_duration( e.get_max_duration() );
-        }
 
-        // Force intensity if it is duration based
-        if( e.get_int_dur_factor() != 0_turns ) {
-            const int intensity = std::ceil( e.get_duration() / e.get_int_dur_factor() );
-            e.set_intensity( std::max( 1, intensity ) );
-        }
-        // Bound new effect intensity by [1, max intensity]
-        if( e.get_intensity() < 1 ) {
-            add_msg_debug( debugmode::DF_CREATURE, "Bad intensity, ID: %s", e.get_id().c_str() );
-            e.set_intensity( 1 );
-        } else if( e.get_intensity() > e.get_max_intensity() ) {
-            e.set_intensity( e.get_max_intensity() );
-        }
         effects[eff_id] = e;
     }
 }
