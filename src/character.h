@@ -2850,6 +2850,8 @@ class Character : public Creature, public visitable
         std::vector<effect_on_condition_id> inactive_effect_on_condition_vector;
         queued_eocs queued_effect_on_conditions;
 
+        /** Queue mutliple EOCs without delay */
+        void queue_effects( const std::vector<effect_on_condition_id> &effects );
         /** Queue an EOC to add effect after a delay */
         void queue_effect( const std::string &name, const time_duration &delay,
                            const time_duration &duration );

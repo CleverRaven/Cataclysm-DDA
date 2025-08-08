@@ -527,6 +527,17 @@ std::string enum_to_string<blood_type>( blood_type data )
 
 } // namespace io
 
+void Character::queue_effects( const std::vector<effect_on_condition_id> &effects )
+{
+    for( const effect_on_condition_id &eoc_id : effects ) {
+        effect_on_condition eoc = eoc_id.obj();
+        if( is_avatar() || eoc.run_for_npcs ) {
+            queued_eoc new_eoc = queued_eoc{ eoc.id, calendar::turn_zero, {} };
+            queued_effect_on_conditions.push( new_eoc );
+        }
+    }
+}
+
 void Character::queue_effect( const std::string &name, const time_duration &delay,
                               const time_duration &effect_duration )
 {
