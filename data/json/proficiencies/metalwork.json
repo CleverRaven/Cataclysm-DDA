@@ -154,7 +154,7 @@
   {
     "type": "proficiency",
     "id": "prof_machining_basic",
-    "category": "prof_machining",
+    "category": "prof_smithing",
     "name": { "str": "Principles of Machining" },
     "description": "A basic understanding of the operation of various metalworking machinery, such as lathes and mills.",
     "can_learn": true,
