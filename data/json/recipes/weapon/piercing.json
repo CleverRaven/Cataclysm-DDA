@@ -210,7 +210,7 @@
   {
     "result": "spear_machined",
     "type": "recipe",
-	"id_suffix": "with_lathe",
+    "id_suffix": "with_lathe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
