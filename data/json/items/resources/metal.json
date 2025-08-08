@@ -1389,7 +1389,7 @@
     "type": "ITEM",
     "copy-from": "steel_bar_round",
     "name": { "str": "low carbon steel bar stock", "str_pl": "low carbon bar stock" },
-    "material": ["lc_steel"]
+    "material": [ "lc_steel" ]
   },
   {
     "id": "mc_steel_bar_round",
