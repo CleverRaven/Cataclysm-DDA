@@ -219,8 +219,7 @@
     "time": "2 h",
     "autolearn": true,
     "using": [ [ "steel_standard", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_machining_basic", "time_multiplier": 2 } ],
-    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_machining_basic"}, ],
     "tools": [ [ [ "fake_lathe", -1 ] ] ],
     "components": [ [ [ "spear_shaft", 1 ] ] ]
   },
