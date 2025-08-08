@@ -110,13 +110,17 @@ class field
 
         /**
          * Returns a field entry corresponding to the field_type_id parameter passed in.
+         * Good for checking for existence of a field: if(myfield.find_field(fd_fire)) would tell you if the field is on fire.
          * If no fields are found then nullptr is returned.
+         * @param field_type_to_find
          * @param alive_only if true, returns non-null result only if field is alive
          */
         field_entry *find_field( const field_type_id &field_type_to_find, bool alive_only = true );
         /**
          * Returns a field entry corresponding to the field_type_id parameter passed in.
+         * Good for checking for existence of a field: if(myfield.find_field(fd_fire)) would tell you if the field is on fire.
          * If no fields are found then nullptr is returned.
+         * @param field_type_to_find
          * @param alive_only if true, returns non-null result only if field is alive
          */
         const field_entry *find_field( const field_type_id &field_type_to_find,
