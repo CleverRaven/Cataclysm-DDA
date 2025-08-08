@@ -689,7 +689,7 @@
       { "item": "hc_steel_bar_round", "prob": 5, "count": [ 1, 10 ] }
     ]
   },
-   {
+  {
     "id": "supplies_machining",
     "type": "item_group",
     "//": "untouched bar stock for machine shops, steel mills, etc.",
