@@ -352,7 +352,7 @@
     "type": "ITEM",
     "id": "spear_machined",
     "name": { "str": "machined steel spear" },
-    "description": "A stout wooden pole with a cylindrical steel spearhead that was turned on a lathe.",
+    "description": "A stout wooden pole with a conical steel spearhead that was turned on a lathe.",
     "weight": "1600 g",
     "price_postapoc": "55 USD",
     "color": "light_gray",
