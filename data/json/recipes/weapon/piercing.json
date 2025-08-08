@@ -208,22 +208,6 @@
     "components": [ [ [ "spear_shaft", 1 ] ] ]
   },
   {
-    "result": "spear_machined",
-    "type": "recipe",
-    "id_suffix": "with_lathe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_PIERCING",
-    "skill_used": "fabrication",
-    "difficulty": 4,
-    "time": "2 h",
-    "autolearn": true,
-    "using": [ [ "steel_standard", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_machining_basic"} ],
-    "tools": [ [ [ "fake_lathe", -1 ] ] ],
-    "components": [ [ [ "spear_shaft", 1 ] ] ]
-  },
-  {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "spear_stone",
