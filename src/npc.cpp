@@ -1809,9 +1809,8 @@ void npc::on_attacked( const Creature &attacker )
 {
     map &here = get_map();
 
-    if( is_hallucination() ) {
-        die( &here, nullptr );
-    }
+    hallucination_die( &here, nullptr );
+
     if( attacker.is_avatar() && !is_enemy() && !is_dead() && !guaranteed_hostile() ) {
         make_angry();
         hit_by_player = true;

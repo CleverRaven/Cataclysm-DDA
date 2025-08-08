@@ -2344,8 +2344,7 @@ void monster::knock_back_to( const tripoint_bub_ms &to )
         return; // No effect
     }
 
-    if( is_hallucination() ) {
-        die( &here, nullptr );
+    if( hallucination_die( &here, nullptr ) ) {
         return;
     }
 
