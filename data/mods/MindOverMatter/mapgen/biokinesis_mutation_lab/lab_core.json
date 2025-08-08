@@ -6,6 +6,7 @@
       [ "microlab_psi_phavian_biokinesis_mutation_lab_sw", "microlab_psi_phavian_biokinesis_mutation_lab_se" ]
     ],
     "object": {
+      "rotation": [ 0, 3 ],
       "fill_ter": "t_strconc_floor",
       "rows": [
         " cc c|    |  | cc |      cc  |    |  |FFFF|6    ",
