@@ -2151,12 +2151,14 @@ void basecamp::start_upgrade( const mission_id &miss_id )
     }
 }
 
-void basecamp::remove_camp() const
+void basecamp::remove_camp( bool remove_from_overmap ) const
 {
     std::set<tripoint_abs_omt> &known_camps = get_player_character().camps;
     known_camps.erase( omt_pos );
 
-    overmap_buffer.remove_camp( omt_pos.xy() );
+    if( remove_from_overmap ) {
+        overmap_buffer.remove_camp( omt_pos.xy() );
+    }
 
     map &here = get_map();
     tripoint_bub_ms pos_bub;
