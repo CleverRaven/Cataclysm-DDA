@@ -849,6 +849,11 @@ inline int JsonObject::get_int( const std::string_view key ) const
     return get_member( key );
 }
 
+inline int64_t JsonObject::get_int64( const std::string_view key ) const
+{
+    return get_member( key );
+}
+
 inline double JsonObject::get_float( const std::string_view key ) const
 {
     return get_member( key );
