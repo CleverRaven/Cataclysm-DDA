@@ -140,33 +140,17 @@ static time_duration next_recurrence( const effect_on_condition_id &eoc, dialogu
 void effect_on_conditions::load_new_character( Character &you )
 {
     bool is_avatar = you.is_avatar();
-    for( const effect_on_condition_id &eoc_id : get_scenario()->eoc() ) {
-        effect_on_condition eoc = eoc_id.obj();
-        if( is_avatar || eoc.run_for_npcs ) {
-            queued_eoc new_eoc = queued_eoc{ eoc.id, calendar::turn_zero, {} };
-            you.queued_effect_on_conditions.push( new_eoc );
-        }
-    }
+
+    you.queue_effects( get_scenario()->eoc() );
 
     if( you.get_profession() ) {
-        for( const effect_on_condition_id &eoc_id : you.get_profession()->get_eocs() ) {
-            effect_on_condition eoc = eoc_id.obj();
-            if( is_avatar || eoc.run_for_npcs ) {
-                queued_eoc new_eoc = queued_eoc{ eoc.id, calendar::turn_zero, {} };
-                you.queued_effect_on_conditions.push( new_eoc );
-            }
-        }
+        you.queue_effects( you.get_profession()->get_eocs() );
     }
 
     for( const effect_on_condition &eoc : effect_on_conditions::get_all() ) {
         if( eoc.type == eoc_type::RECURRING && ( ( is_avatar && eoc.global ) || !eoc.global ) ) {
             dialogue d( get_talker_for( you ), nullptr );
-            queued_eoc new_eoc = queued_eoc{ eoc.id, calendar::turn + next_recurrence( eoc.id, d ), {} };
-            if( eoc.global ) {
-                g->queued_global_effect_on_conditions.push( new_eoc );
-            } else {
-                you.queued_effect_on_conditions.push( new_eoc );
-            }
+            effect_on_conditions::queue_effect_on_condition( next_recurrence( eoc.id, d ), eoc.id, you, {} );
         }
     }
 
