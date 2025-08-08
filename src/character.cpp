@@ -379,6 +379,8 @@ static const material_id material_steel( "steel" );
 
 static const morale_type morale_cold( "morale_cold" );
 static const morale_type morale_hot( "morale_hot" );
+static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
+static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
 
 static const move_mode_id move_mode_prone( "prone" );
 static const move_mode_id move_mode_walk( "walk" );
@@ -470,6 +472,7 @@ static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_QUILLS( "QUILLS" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
@@ -12165,6 +12168,40 @@ bool Character::empathizes_with_monster( const mtype_id &monster ) const
     }
     // used since this method is called on corpse ids, which are null for npc corpses.
     if( monster == mtype_id::NULL_ID() && empathizes_with_species( species_HUMAN ) ) {
+        return true;
+    }
+    return false;
+}
+
+bool Character::has_unfulfilled_pyromania() const
+{
+    return has_trait( trait_PYROMANIA ) && !has_morale( morale_pyromania_startfire );
+}
+
+void Character::fulfill_pyromania( std::string &target_name )
+{
+    add_msg_if_player( m_good, _( "You feel a surge of euphoria as flame%s%s!" ),
+                       target_name.empty() ? "s burst out" : " engulfs ", target_name );
+    add_morale( morale_pyromania_startfire, 15, 15, 8_hours, 6_hours );
+    rem_morale( morale_pyromania_nofire );
+}
+
+
+bool Character::fulfill_pyromania_sees( const map &here, const Creature &target,
+                                        std::string target_name )
+{
+    if( sees( here, target ) ) {
+        fulfill_pyromania( target_name );
+        return true;
+    }
+    return false;
+}
+
+bool Character::fulfill_pyromania_sees( const map &here, const tripoint_bub_ms &target,
+                                        std::string target_name )
+{
+    if( sees( here, target ) ) {
+        fulfill_pyromania( target_name );
         return true;
     }
     return false;
