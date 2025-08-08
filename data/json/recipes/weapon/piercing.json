@@ -221,7 +221,7 @@
     "using": [ [ "steel_standard", 1 ] ],
 	"proficiencies": [ {"proficiency": "prof_machining_basic", "time_multiplier": 2 } ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-	"tools": [ [ [ "fake_lathe", -1 ] ] ],
+    "tools": [ [ [ "fake_lathe", -1 ] ] ],
     "components": [ [ [ "spear_shaft", 1 ] ] ]
   },
   {
