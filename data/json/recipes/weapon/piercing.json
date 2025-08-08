@@ -207,7 +207,7 @@
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "components": [ [ [ "spear_shaft", 1 ] ] ]
   },
-    {
+  {
     "result": "spear_machined",
     "type": "recipe",
 	"id_suffix": "with_lathe",
