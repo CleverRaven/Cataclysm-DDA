@@ -10584,8 +10584,18 @@
     "category": [ "ALPHA" ],
     "social_modifiers": { "intimidate": 5, "persuade": 15, "lie": 10 },
     "triggers": [
-      [ { "condition": { "or": [ { "math": [ "u_val('morale') < -75" ] }, { "math": [ "u_val('morale') < 75" ] } ] } } ],
-      [ { "condition": { "or": [ { "math": [ "u_val('stim') < -50" ] }, { "math": [ "u_val('stim') < 50" ] } ] } } ]
+      [
+        {
+          "condition": {
+            "or": [
+              { "math": [ "u_val('morale') < -75" ] },
+              { "math": [ "u_val('morale') > 75" ] },
+              { "math": [ "u_val('stim') < -50" ] },
+              { "math": [ "u_val('stim') > 50" ] }
+            ]
+          }
+        }
+      ]
     ],
     "transform": { "target": "DARK_TRIAD", "msg_transform": "You give in to your worst instincts.", "active": false, "moves": 10 }
   },
