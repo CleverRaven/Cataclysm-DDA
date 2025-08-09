@@ -447,6 +447,7 @@ class overmap
         // Fill in any gaps in city_tiles that don't connect to the map edge
         void flood_fill_city_tiles();
         std::multimap<tripoint_om_sm, mongroup> zg; // NOLINT(cata-serialize)
+        std::map<point_abs_omt, basecamp> camps;
     public:
         /** Unit test enablers to check if a given mongroup is present. */
         bool mongroup_check( const mongroup &candidate ) const;
@@ -455,11 +456,16 @@ class overmap
         // TODO: make private
         std::vector<radio_tower> radios;
         std::map<int, om_vehicle> vehicles;
-        std::vector<basecamp> camps;
         std::vector<city> cities;
         std::vector<overmap_river_node> rivers;
         std::map<string_id<overmap_connection>, std::vector<tripoint_om_omt>> connections_out;
+        void add_camp( const point_abs_omt &p, const basecamp &camp );
         std::optional<basecamp *> find_camp( const point_abs_omt &p );
+        void clear_camps();
+        const std::map<point_abs_omt, basecamp> &get_camps() const {
+            return camps;
+        }
+        void remove_camp( const point_abs_omt &p );
         /// Adds the npc to the contained list of npcs ( @ref npcs ).
         void insert_npc( const shared_ptr_fast<npc> &who );
         /// Removes the npc and returns it ( or returns nullptr if not found ).

@@ -39,6 +39,7 @@ TEST_CASE( "camp_calorie_counting", "[camp]" )
     clear_map();
     map &m = get_map();
     const tripoint_abs_ms zone_loc = m.get_abs( tripoint_bub_ms{ 5, 5, 0 } );
+    REQUIRE( m.inbounds( zone_loc ) );
     mapgen_place_zone( zone_loc, zone_loc, zone_type_CAMP_FOOD, your_fac, {},
                        "food" );
     mapgen_place_zone( zone_loc, zone_loc, zone_type_CAMP_STORAGE, your_fac, {},
@@ -47,6 +48,7 @@ TEST_CASE( "camp_calorie_counting", "[camp]" )
     const tripoint_abs_omt this_omt = project_to<coords::omt>( zone_loc );
     m.add_camp( this_omt, "faction_camp" );
     std::optional<basecamp *> bcp = overmap_buffer.find_camp( this_omt.xy() );
+    REQUIRE( !!bcp );
     basecamp *test_camp = *bcp;
     test_camp->set_owner( your_fac );
     WHEN( "a base item is added to larder" ) {
@@ -155,5 +157,6 @@ TEST_CASE( "camp_calorie_counting", "[camp]" )
 
         CHECK( camp_faction->food_supply().kcal() == 0 );
     }
+    overmap_buffer.clear_camps( this_omt.xy() );
 }
 // TODO: Tests for: Check calorie display at various activity levels, camp crafting works as expected (consumes inputs, returns outputs+byproducts, costs calories)
