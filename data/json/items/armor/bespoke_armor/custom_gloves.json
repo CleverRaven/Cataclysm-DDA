@@ -305,7 +305,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "armor",
-    "name": { "str": "pair of light Kevlar wetsuit overgloves", "str_pl": "pairs of light Kevlar wetsuit gloves" },
+    "name": { "str": "pair of light Kevlar wetsuit overgloves", "str_pl": "pairs of light Kevlar wetsuit overgloves" },
     "description": "A pair of customized, Kevlar-armored light neoprene gloves, modified to be easy to wear while providing significant protection under extreme conditions.",
     "//": "Cut down in thickness yet expanded in size wetsuit gloves, armored with Kevlar.",
     "weight": "390 g",
