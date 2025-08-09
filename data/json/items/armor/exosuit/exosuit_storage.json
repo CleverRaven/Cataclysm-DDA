@@ -2,7 +2,7 @@
   {
     "id": "exo_rifle_storage",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "back_holster",
     "looks_like": "slingpack",
     "color": "light_gray",
@@ -106,7 +106,7 @@
     "subtypes": [ "TOOL", "ARMOR" ],
     "category": "exosuit",
     "name": { "str": "exosuit quick draw holster" },
-    "description": "This module holds a single sidearm and will recharge an energy weapon.  Automatically opens when the exosuit's pilot reaches for it, just like in that one movie.",
+    "description": "This module holds a single sidearm.  Automatically opens when the exosuit's pilot reaches for it, just like in that one movie.",
     "weight": "500 g",
     "volume": "2500 ml",
     "material": [ "plastic", "nylon" ],
@@ -114,7 +114,7 @@
     "looks_like": "storage_battery",
     "color": "light_gray",
     "sided": true,
-    "flags": [ "CANT_WEAR", "USE_UPS", "EXO_MEDIUM_GADGET" ],
+    "flags": [ "CANT_WEAR", "EXO_MEDIUM_GADGET" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",

@@ -84,7 +84,7 @@
     "color": "dark_gray",
     "name": { "str_sp": "large ammo pouches (exosuit)" },
     "description": "A set of pouches that attach to a hardpoint.",
-    "weight": "1750 g",
+    "weight": "1200 g",
     "volume": "1050 ml",
     "material": [ "nylon" ],
     "flags": [ "WATER_FRIENDLY", "EXO_MEDIUM_GADGET" ]
