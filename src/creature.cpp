@@ -370,7 +370,7 @@ void Creature::reset_bonuses()
     throw_resist = 0;
 }
 
-void Creature::process_turn()
+void Creature::process_turn_no_moves()
 {
     decrement_summon_timer();
     if( is_dead_state() ) {
@@ -384,6 +384,12 @@ void Creature::process_turn()
 
     // Call this in case any effects have changed our stats
     reset_stats();
+
+}
+
+void Creature::process_turn()
+{
+    process_turn_no_moves();
 
     // add an appropriate number of moves
     if( !has_effect( effect_ridden ) ) {
