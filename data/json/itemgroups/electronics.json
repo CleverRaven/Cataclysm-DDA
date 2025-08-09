@@ -328,6 +328,6 @@
     "id": "soldering_supplies",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ { "group": "soldering_tool" }, { "item": "solder_wire", "count": [ 0, 200 ] } ]
+    "items": [ { "group": "soldering_tool" }, { "item": "solder_wire", "charges": [ 0, 200 ] } ]
   }
 ]
