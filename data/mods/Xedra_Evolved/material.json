@@ -322,5 +322,25 @@
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
     "resist": { "bash": 1, "cut": 1, "acid": 1, "heat": 999, "bullet": 1 }
+  },
+  {
+    "type": "material",
+    "id": "shoggoth_protoplasmic_ooze",
+    "name": "Proto-plasmic Ooze",
+    "density": 1.1,
+    "specific_heat_liquid": 4.186,
+    "specific_heat_solid": 2.108,
+    "latent_heat": 333,
+    "conductive": true,
+    "chip_resist": 10,
+    "breathability": "SECOND_SKIN",
+    "dmg_adj": [ "agitated", "thinned", "culled", "eradicated" ],
+    "bash_dmg_verb": "ripples",
+    "cut_dmg_verb": "passed through",
+    "repaired_with": "chimerically_charged_ooze",
+    "soft": true,
+    "resist": { "bash": 1, "cut": 3, "acid": 8, "heat": 4, "bullet": 6 },
+    "//1": "Once it's dead it requires dreamstuff to hold a shape.  The material isn't dead, just the mind controlling it.",
+    "repair_difficulty": 3
   }
 ]
