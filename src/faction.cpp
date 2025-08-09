@@ -943,17 +943,21 @@ void faction_manager::display() const
         // entries_per_page * page number
         const size_t top_of_page = entries_per_page * ( selection / entries_per_page );
 
+        const auto draw_list = [&]( const std::function<const std::string( size_t )> &text ) {
+            draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size, point( 0, 3 ) );
+            for( size_t i = top_of_page; i < active_vec_size && i < top_of_page + entries_per_page; i++ ) {
+                const int y = i - top_of_page + 3;
+                trim_and_print( w_missions, point( 1, y ), 28, selection == i ? hilite( col ) : col, text( i ) );
+            }
+        };
+
         switch( tab ) {
             case tab_mode::TAB_MYFACTION: {
                 const std::string no_camp = _( "You have no camps" );
                 if( active_vec_size > 0 ) {
-                    draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size,
-                                    point( 0, 3 ) );
-                    for( size_t i = top_of_page; i < active_vec_size && i < top_of_page + entries_per_page; i++ ) {
-                        const int y = i - top_of_page + 3;
-                        trim_and_print( w_missions, point( 1, y ), 28, selection == i ? hilite( col ) : col,
-                                        camps[i]->camp_name() );
-                    }
+                    draw_list( std::function( [&camps]( size_t i ) {
+                        return camps[i]->camp_name();
+                    } ) );
                     if( camp ) {
                         camp->faction_display( w_missions, 31 );
                     } else {
@@ -968,13 +972,9 @@ void faction_manager::display() const
             case tab_mode::TAB_FOLLOWERS: {
                 const std::string no_ally = _( "You have no followers" );
                 if( !followers.empty() ) {
-                    draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size,
-                                    point( 0, 3 ) );
-                    for( size_t i = top_of_page; i < active_vec_size && i < top_of_page + entries_per_page; i++ ) {
-                        const int y = i - top_of_page + 3;
-                        trim_and_print( w_missions, point( 1, y ), 28, selection == i ? hilite( col ) : col,
-                                        followers[i]->disp_name() );
-                    }
+                    draw_list( std::function( [&followers]( size_t i ) {
+                        return followers[i]->disp_name();
+                    } ) );
                     if( guy ) {
                         int retval = guy->faction_display( w_missions, 31 );
                         if( retval == 2 ) {
@@ -994,13 +994,9 @@ void faction_manager::display() const
             case tab_mode::TAB_OTHERFACTIONS: {
                 const std::string no_fac = _( "You don't know of any factions." );
                 if( active_vec_size > 0 ) {
-                    draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size,
-                                    point( 0, 3 ) );
-                    for( size_t i = top_of_page; i < active_vec_size && i < top_of_page + entries_per_page; i++ ) {
-                        const int y = i - top_of_page + 3;
-                        trim_and_print( w_missions, point( 1, y ), 28, selection == i ? hilite( col ) : col,
-                                        _( valfac[i]->name ) );
-                    }
+                    draw_list( std::function( [&valfac]( size_t i ) {
+                        return _( valfac[i]->name );
+                    } ) );
                     if( cur_fac ) {
                         cur_fac->faction_display( w_missions, 31 );
                     } else {
@@ -1015,13 +1011,9 @@ void faction_manager::display() const
             case tab_mode::TAB_LORE: {
                 const std::string no_lore = _( "You haven't learned anything about the world." );
                 if( active_vec_size > 0 ) {
-                    draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size,
-                                    point( 0, 3 ) );
-                    for( size_t i = top_of_page; i < active_vec_size && i < top_of_page + entries_per_page; i++ ) {
-                        const int y = i - top_of_page + 3;
-                        trim_and_print( w_missions, point( 1, y ), 28, selection == i ? hilite( col ) : col,
-                                        _( lore[i].second ) );
-                    }
+                    draw_list( std::function( [&lore]( size_t i ) {
+                        return _( lore[i].second );
+                    } ) );
                     if( snippet != nullptr ) {
                         int y = 2;
                         fold_and_print( w_missions, point( 31, ++y ), getmaxx( w_missions ) - 31 - 2, c_light_gray,
@@ -1040,15 +1032,13 @@ void faction_manager::display() const
                     _( "You haven't recorded sightings of any creatures.  Taking photos can be a good way to keep track of them." );
                 const int w = getmaxx( w_missions ) - 31 - 2;
                 if( active_vec_size > 0 ) {
-                    draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size,
-                                    point( 0, 3 ) );
-                    for( size_t i = top_of_page; i < active_vec_size && i < top_of_page + entries_per_page; i++ ) {
-                        const int y = i - top_of_page + 3;
-                        trim_and_print( w_missions, point( 1, y ), 28, selection == i ? hilite( col ) : col,
-                                        string_format( "%s  %s", colorize( creatures[i]->sym,
-                                                       selection == i ? hilite( creatures[i]->color ) : creatures[i]->color ),
-                                                       creatures[i]->nname() ) );
-                    }
+                    draw_list( std::function( [&creatures, &selection]( size_t i ) {
+                        return string_format( "%s  %s",
+                                              colorize( creatures[i]->sym, selection == i ?
+                                                        hilite( creatures[i]->color ) :
+                                                        creatures[i]->color ),
+                                              creatures[i]->nname() );
+                    } ) );
                     if( !cur_creature.is_null() ) {
                         cur_creature->faction_display( w_missions, point( 31, 3 ), w );
                     } else {
