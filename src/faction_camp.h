@@ -23,6 +23,7 @@ enum tab_mode : int;
 } // namespace base_camps
 
 enum class farm_ops : int {
+    none = 0,
     plow = 1,
     plant = 2,
     harvest = 4
