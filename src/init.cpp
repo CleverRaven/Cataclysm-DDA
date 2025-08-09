@@ -66,6 +66,7 @@
 #include "magic_enchantment.h"
 #include "magic_ter_furn_transform.h"
 #include "magic_type.h"
+#include "map_accessories.h"
 #include "map_extras.h"
 #include "mapdata.h"
 #include "mapgen.h"
@@ -283,6 +284,7 @@ void DynamicDataLoader::initialize()
     add( "movement_mode", &move_mode::load_move_mode );
     add( "vitamin", &vitamin::load_vitamin );
     add( "material", &materials::load );
+    add( "bash_damage_profile", &bash_damage_profile::load_all );
     add( "bionic", &bionic_data::load_bionic );
     add( "bionic_migration", &bionic_data::load_bionic_migration );
     add( "profession", &profession::load_profession );
@@ -605,6 +607,7 @@ void DynamicDataLoader::unload_data()
     ammunition_type::reset();
     anatomy::reset();
     ascii_art::reset();
+    bash_damage_profile::reset();
     behavior::reset();
     body_part_type::reset();
     butchery_requirements::reset();
@@ -742,6 +745,7 @@ void DynamicDataLoader::finalize_loaded_data()
     const std::vector<named_entry> entries = {{
             { _( "Flags" ), &json_flag::finalize_all },
             { _( "Option sliders" ), &option_slider::finalize_all },
+            { _( "Bash damage profiles" ), &bash_damage_profile::finalize_all },
             { _( "Body parts" ), &body_part_type::finalize_all },
             { _( "Sub body parts" ), &sub_body_part_type::finalize_all },
             { _( "Body graphs" ), &bodygraph::finalize_all },
@@ -845,6 +849,7 @@ void DynamicDataLoader::check_consistency()
             { _( "Effect types" ), &effect_type::check_consistency },
             { _( "Activities" ), &activity_type::check_consistency },
             { _( "Addiction types" ), &add_type::check_add_types },
+            { _( "Bash damage profiles" ), &bash_damage_profile::check_all },
             { _( "Items" ), &items::check_consistency },
             { _( "Materials" ), &materials::check },
             { _( "Faults" ), &faults::check_consistency },

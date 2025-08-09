@@ -4218,7 +4218,7 @@ std::function<bool( const tripoint_bub_ms & )> monster::get_path_avoid() const
     return [this]( const tripoint_bub_ms & p ) {
         map &here = get_map();
         // If we can't move there and can't bash it, don't path through it.
-        if( !can_move_to( p ) && ( bash_skill() <= 0 || !here.is_bashable( p ) ) ) {
+        if( !can_move_to( p ) && ( !bash_skill().empty() || !here.is_bashable( p ) ) ) {
             return true;
         }
 
