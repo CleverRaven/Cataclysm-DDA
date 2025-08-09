@@ -65,6 +65,18 @@ struct diary_page {
     std::vector<proficiency_id> learning_profs;
     /*maximal power level the character has*/
     units::energy max_power_level;
+
+    virtual std::string entry_name() const;
+    virtual bool is_summary() const {
+        return false;
+    }
+};
+
+struct diary_page_summary : public diary_page {
+    std::string entry_name() const override;
+    bool is_summary() const override {
+        return true;
+    }
 };
 
 /// <summary>
@@ -106,6 +118,10 @@ class diary
         void serialize( JsonOut &jsout );
 
     private:
+        void add_summary_page();
+        void open_summary_page();
+        time_accuracy time_acc() const;
+
         /*Uses editor window class to edit the text.*/
         void edit_page_ui( const std::function<catacurses::window()> &create_window );
         /*set page to be be shown in ui*/

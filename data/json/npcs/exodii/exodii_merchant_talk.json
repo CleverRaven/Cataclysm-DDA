@@ -340,8 +340,8 @@
     "id": "TALK_EXODII_MERCHANT_AskedRestock",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "HEH, you can't get enough of old Rubik's merchandise, eh?  Sure as hell, come back in <interval>.",
-      "str": "HEH, ye c'nnae get enough o' ol' Rubik's merchandise, eh?  Sure as 'ell, come back in <interval>."
+      "//~": "HEH, you can't get enough of old Rubik's merchandise, eh?  Sure as hell, come back after <restock_time_point>.",
+      "str": "HEH, ye c'nnae get enough o' ol' Rubik's merchandise, eh?  Sure as 'ell, come back after <restock_time_point>."
     },
     "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },

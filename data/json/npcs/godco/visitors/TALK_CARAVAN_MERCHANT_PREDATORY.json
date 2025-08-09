@@ -96,7 +96,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CARAVAN_MERCHANT_PREDATORY_askinterval",
-    "dynamic_line": "Well, not right now.  Try again after around <interval>.",
+    "dynamic_line": "Well, not right now.  Try again after around <restock_time_point>.",
     "responses": [ { "text": "Okay.  About other things…", "topic": "TALK_CARAVAN_MERCHANT_PREDATORY_2" } ]
   },
   {
