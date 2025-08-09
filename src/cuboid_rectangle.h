@@ -155,31 +155,13 @@ Tripoint clamp( const Tripoint &p, const inclusive_cuboid<Tripoint> &c )
                      clamp( Traits::z( p ), Traits::z( c.p_min ), Traits::z( c.p_max ) ) );
 }
 
-template<typename Index, typename Point>
-int run_for_point_in( const std::map<Index, half_open_rectangle<Point>> &m, const Point &p,
-                      const std::function<void( const std::pair<Index, half_open_rectangle<Point>> & )> &func,
+template<typename Index, typename Point, template <typename> typename Rect>
+int run_for_point_in( const std::map<Index, Rect<Point>> &m, const Point &p,
+                      const std::function<void( const std::pair<Index, Rect<Point>> & )> &func,
                       bool first_only = true )
 {
     int cnt = 0;
-    for( const std::pair<const Index, half_open_rectangle<Point>> &mp : m ) {
-        if( mp.second.contains( p ) ) {
-            func( mp );
-            cnt++;
-            if( first_only ) {
-                break;
-            }
-        }
-    }
-    return cnt;
-}
-
-template<typename Index, typename Point>
-int run_for_point_in( const std::map<Index, inclusive_rectangle<Point>> &m, const Point &p,
-                      const std::function<void( const std::pair<Index, inclusive_rectangle<Point>> & )> &func,
-                      bool first_only = true )
-{
-    int cnt = 0;
-    for( const std::pair<const Index, inclusive_rectangle<Point>> &mp : m ) {
+    for( const std::pair<const Index, Rect<Point>> &mp : m ) {
         if( mp.second.contains( p ) ) {
             func( mp );
             cnt++;

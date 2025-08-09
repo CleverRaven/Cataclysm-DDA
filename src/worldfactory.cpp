@@ -629,7 +629,7 @@ WORLD *worldfactory::pick_world( bool show_prompt, bool empty_only )
         if( action == "SELECT" || action == "MOUSE_MOVE" ) {
             std::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
             if( !!coord ) {
-                int cnt = run_for_point_in<int, point>( button_map, *coord,
+                int cnt = run_for_point_in<int, point, inclusive_rectangle>( button_map, *coord,
                 [&sel, &on_move]( const std::pair<int, inclusive_rectangle<point>> &p ) {
                     if( sel != p.first ) {
                         on_move( false );
@@ -947,7 +947,7 @@ void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods
         if( !world_mods.empty() && action == "MOUSE_MOVE" ) {
             std::optional<point> coord = ctxt.get_coordinates_text( w_mods );
             if( !!coord ) {
-                run_for_point_in<int, point>( ent_map, *coord,
+                run_for_point_in<int, point, inclusive_rectangle>( ent_map, *coord,
                 [&cursor]( const std::pair<int, inclusive_rectangle<point>> &p ) {
                     cursor = p.first;
                 } );
@@ -1297,7 +1297,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             if( !!coord ) {
                 // Mod tabs
                 bool new_val = false;
-                found_opt = run_for_point_in<int, point>( mod_tab_map, *coord,
+                found_opt = run_for_point_in<int, point, inclusive_rectangle>( mod_tab_map, *coord,
                 [&iCurrentTab, &new_val]( const std::pair<int, inclusive_rectangle<point>> &p ) {
                     if( static_cast<int>( iCurrentTab ) != p.first ) {
                         new_val = true;
@@ -1313,7 +1313,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             }
             if( !found_opt && !!coord && with_tabs ) {
                 // Top tabs
-                found_opt = run_for_point_in<size_t, point>( top_tab_map, *coord,
+                found_opt = run_for_point_in<size_t, point, inclusive_rectangle>( top_tab_map, *coord,
                 [&sel_top_tab]( const std::pair<size_t, inclusive_rectangle<point>> &p ) {
                     sel_top_tab = p.first;
                 } ) > 0;
@@ -1327,7 +1327,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
                 // Inactive mod list
                 coord = ctxt.get_coordinates_text( w_list );
                 if( !!coord ) {
-                    found_opt = run_for_point_in<int, point>( inact_mod_map, *coord,
+                    found_opt = run_for_point_in<int, point, inclusive_rectangle>( inact_mod_map, *coord,
                     [&cursel]( const std::pair<int, inclusive_rectangle<point>> &p ) {
                         cursel[0] = p.first;
                     } );
@@ -1343,7 +1343,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
                 // Active mod list
                 coord = ctxt.get_coordinates_text( w_active );
                 if( !!coord ) {
-                    found_opt = run_for_point_in<int, point>( act_mod_map, *coord,
+                    found_opt = run_for_point_in<int, point, inclusive_rectangle>( act_mod_map, *coord,
                     [&cursel]( const std::pair<int, inclusive_rectangle<point>> &p ) {
                         cursel[1] = p.first;
                     } );
@@ -1695,7 +1695,7 @@ int worldfactory::show_worldgen_basic( WORLD *world )
             std::optional<point> coord = ctxt.get_coordinates_text( w_confirmation );
             if( !!coord ) {
                 int orig_opt = sel_opt;
-                bool found = run_for_point_in<int, point>( btn_map, *coord,
+                bool found = run_for_point_in<int, point, inclusive_rectangle>( btn_map, *coord,
                 [&sel_opt]( const std::pair<int, inclusive_rectangle<point>> &p ) {
                     sel_opt = p.first;
                 } ) > 0;
@@ -1706,7 +1706,7 @@ int worldfactory::show_worldgen_basic( WORLD *world )
                         action = "PICK_MODS";
                     } else {
                         action = "CONFIRM";
-                        run_for_point_in<int, point>( slider_inc_map, *coord,
+                        run_for_point_in<int, point, inclusive_rectangle>( slider_inc_map, *coord,
                         [&action]( const std::pair<int, inclusive_rectangle<point>> &p ) {
                             action = p.first % 2 == 0 ? "LEFT" : "RIGHT";
                         } );
