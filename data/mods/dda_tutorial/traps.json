@@ -52,7 +52,7 @@
     "id": "EOC_LESSON_MONSTER_SIGHTED",
     "effect": [
       {
-        "u_message": "There is a <color_light_cyan>dummy</color> standing before you.  Let's attack it.  To do this, simply move into it.\n\nAfter you've dealt with it, please move to the door behind it.",
+        "u_message": "There is a <color_light_cyan>dummy</color> standing before you.  Attack it by moving into it.\nYou'll receive a message warning you that safe mode is on.  Safe mode prevents certain actions while hostiles are visible and within a certain configurable range as well as preventing you accidently attacking non-hostile creatures.  You can turn it off with <keybind:safemode>.\n\nAfter you've dealt with it, please move to the door behind it.",
         "popup": true,
         "popup_flag": "PF_ON_TOP"
       }
@@ -245,7 +245,7 @@
     "id": "EOC_LESSON_FINALE",
     "effect": [
       {
-        "u_message": "Congratulations!  You have completed the tutorial.  Here is some last-minute advice.\n\nYou can press <keybind:action_menu> to open the <color_light_cyan>Action menu</color>.  It provides a convenient way to access various actions.\n\nNot sure what keys you can press in a given menu?  Press the <keybind:HELP_KEYBINDINGS> to open the <color_light_cyan>Keybindings</color> menu.  It allows you to view the existing keybindings and modify them to your liking.  Sometimes there will be lesser used or convenience actions without a default keybinding, which you can also set.\n\nYou can continue exploring the tutorial rooms, or you can exit the tutorial by pressing <keybind:save>.  This will save your game and exit to the main menu.",
+        "u_message": "Congratulations!  You have completed the tutorial.  Here is some last-minute advice.\n\nYou can press <keybind:action_menu> to open the <color_light_cyan>Action menu</color>.  It provides a convenient way to access various actions.\n\nNot sure what keys you can press in a given menu?  Press the <keybind:HELP_KEYBINDINGS> to open the <color_light_cyan>Keybindings</color> menu.  It allows you to view the existing keybindings and modify them to your liking.  Sometimes there will be lesser used or convenience actions without a default keybinding, which you can also set.\n\nYou can continue exploring the tutorial rooms, or you can exit the tutorial by pressing <keybind:main_menu> followed by <keybind:save>.  This will save your game and exit to the main menu.\n\nConsider starting your first game with a custom character with the \"Friends to the End\" scenario for a start with more direction or \"Play Now! (Default Scenario)\" if you just want to jump straight in.  Dying is frequent in the cataclysm so if you choose to make a custom character then you can load the same initial character and scenario after death by using \"Preset Character\" -> \"Last Character\".  You can also consult the help menu on the main menu or in game using <keybind:help> for more information.",
         "popup": true,
         "popup_flag": "PF_ON_TOP"
       }
