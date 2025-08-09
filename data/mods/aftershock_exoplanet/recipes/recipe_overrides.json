@@ -13,7 +13,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "plastic_chunk", 5 ] ],
-      [ [ "super_glue", 5 ] ],
+      [ [ "glue_strong", 5 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "element", 1 ] ],
       [ [ "scrap", 2 ] ],
@@ -34,7 +34,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "plastic_chunk", 1 ] ],
-      [ [ "super_glue", 1 ] ],
+      [ [ "glue_strong", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "cable", 1 ] ],
       [ [ "plut_cell", 1 ] ]
@@ -54,7 +54,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "plastic_chunk", 2 ] ],
-      [ [ "super_glue", 1 ] ],
+      [ [ "glue_strong", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "cable", 2 ] ],
       [ [ "plut_cell", 2 ] ]

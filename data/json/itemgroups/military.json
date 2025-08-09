@@ -820,7 +820,7 @@
       [ "motor", 2 ],
       [ "wheel", 10 ],
       { "item": "polycarbonate_sheet", "prob": 4, "count": [ 1, 3 ] },
-      { "item": "rubber_cement", "prob": 15, "count": [ 3, 9 ] },
+      { "group": "glue_weak_professional" },
       [ "vac_mold", 1 ],
       [ "wheel_wide", 10 ],
       [ "wheel_small", 10 ],

@@ -1595,7 +1595,7 @@
       [ "10gal_hat", 3 ],
       [ "glasses_monocle", 2 ],
       { "group": "duct_tape_roll_part", "prob": 60 },
-      { "group": "superglue", "prob": 20 },
+      { "group": "glue_weak_domestic", "prob": 20 },
       [ "firecracker_pack", 5 ],
       [ "firecracker", 5 ],
       [ "fursuit", 5 ],
