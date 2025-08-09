@@ -266,7 +266,7 @@
       { "item": "picklocks" },
       { "item": "lifestraw" },
       { "item": "pocket_survival" },
-      { "item": "solarpack" },
+      { "item": "folding_solar_panel_v2" },
       { "item": "handflare", "count": 4, "charges": 300 }
     ]
   },
