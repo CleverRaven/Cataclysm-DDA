@@ -1,0 +1,13 @@
+[
+  {
+    "type": "npc",
+    "id": "personality_reconstruction_template",
+    "//": "EOC-specific, should not spawn outside of trigger events.",
+    "name_suffix": "rebuilt",
+    "class": "NC_NPC_XE_RECONSTRUCTED_MIND",
+    "attitude": 0,
+    "mission": 0,
+    "chat": "TALK_DONE",
+    "faction": "your_followers"
+  }
+]
