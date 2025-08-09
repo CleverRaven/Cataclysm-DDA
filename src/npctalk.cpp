@@ -7692,6 +7692,22 @@ talk_effect_fun_t::func f_closest_city( const JsonObject &jo, std::string_view m
     };
 }
 
+talk_effect_fun_t::func f_pickup_items( const JsonObject &jo, std::string_view member,
+                                      std::string_view src, bool is_npc )
+{
+    var_info target_var = read_var_info( jo.get_object( member ) );
+    return [is_npc, target_var] ( dialogue const & d ) {
+        tripoint_abs_ms target_pos_abs = read_var_value( target_var, d ).tripoint();
+        tripoint_bub_ms target_pos = get_map().get_bub( target_pos_abs );
+        Character *c = d.actor( is_npc )->get_character();
+        if( c ) {
+            if( !is_npc ) {
+                (*c).pick_up( game_menus::inv::pickup( target_pos ) );
+            }
+        }
+    };
+}
+
 talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view member,
                                     std::string_view, bool is_npc )
 {
@@ -7942,6 +7958,7 @@ parsers = {
     { "u_cast_spell", "npc_cast_spell", jarg::member, &talk_effect_fun::f_cast_spell },
     { "u_map_run_eocs", "npc_map_run_eocs", jarg::member, &talk_effect_fun::f_map_run_eocs },
     { "u_map_run_item_eocs", "npc_map_run_item_eocs", jarg::member, &talk_effect_fun::f_map_run_item_eocs },
+    { "u_pickup_items", "npc_pickup_items", jarg::object, &talk_effect_fun::f_pickup_items },
     { "companion_mission", jarg::string, &talk_effect_fun::f_companion_mission },
     { "copy_var", jarg::member, &talk_effect_fun::f_copy_var },
     { "reveal_map", jarg::object, &talk_effect_fun::f_reveal_map },
