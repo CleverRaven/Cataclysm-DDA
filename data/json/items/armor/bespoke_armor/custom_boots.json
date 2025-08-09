@@ -154,7 +154,7 @@
     "name": { "str_sp": "faux fur winter survivor boots (pair)" },
     "description": "A pair of customized, Kevlar-armored boots with a chemical-resistant layer and steel toes.  Warm thanks to the faux-fur lining, and quite protective due to the thick materials, though perhaps a little hard to move in.",
     "copy-from": "boots_wsurvivor",
-    "material": [ "leather", "leather", "nomex", "faux_fur", "steel" ],
+    "material": [ "leather", "nomex", "faux_fur", "steel" ],
     "symbol": "[",
     "warmth": 50,
     "looks_like": "boots_fur",
