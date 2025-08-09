@@ -23,17 +23,16 @@
     "skill_used": "tailor",
     "difficulty": 5,
     "skills_required": [ [ "fabrication", 3 ] ],
-    "time": "520 m",
+    "time": "440 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_arthropod", 4 ] ],
-    "byproducts": [ [ "scrap_leather", 92 ] ],
+    "byproducts": [ [ "scrap_leather", 7 ] ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_chitinworking" },
-      { "proficiency": "prof_leatherworking" },
-      { "proficiency": "prof_articulation" }
+      { "proficiency": "prof_leatherworking" }
     ],
-    "using": [ [ "armor_chitin", 6 ], [ "tailoring_leather_small", 4 ] ]
+    "using": [ [ "armor_chitin", 35 ], [ "strap_large", 8 ], [ "tailoring_leather_patchwork", 2 ] ]
   },
   {
     "result": "xs_legguard_chitin",
@@ -41,7 +40,7 @@
     "copy-from": "legguard_chitin",
     "time": "520 m",
     "byproducts": [ [ "scrap_leather", 4 ] ],
-    "using": [ [ "armor_chitin", 5 ], [ "tailoring_leather_small", 3 ] ]
+    "using": [ [ "armor_chitin", 26 ], [ "strap_large", 8 ], [ "tailoring_leather_patchwork", 2 ] ]
   },
   {
     "result": "xl_legguard_chitin",
@@ -49,7 +48,7 @@
     "copy-from": "legguard_chitin",
     "time": "580 m",
     "byproducts": [ [ "scrap_leather", 4 ] ],
-    "using": [ [ "armor_chitin", 7 ], [ "tailoring_leather_small", 5 ] ]
+    "using": [ [ "armor_chitin", 45 ], [ "strap_large", 8 ], [ "tailoring_leather_patchwork", 3 ] ]
   },
   {
     "result": "legguard_acidchitin",

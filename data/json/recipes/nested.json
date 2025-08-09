@@ -507,15 +507,9 @@
       "helmet_acidchitin",
       "helmet_acidchitin_xs",
       "xl_helmet_acidchitin",
-      "helmet_acidchitin_light",
-      "helmet_acidchitin_light_xs",
-      "xl_helmet_acidchitin_light",
       "helmet_chitin",
       "helmet_chitin_xs",
-      "xl_helmet_chitin",
-      "helmet_chitin_light",
-      "helmet_chitin_light_xs",
-      "xl_helmet_chitin_light"
+      "xl_helmet_chitin"
     ],
     "difficulty": 6
   },
@@ -613,6 +607,18 @@
       "xl_boots_acidchitin"
     ],
     "difficulty": 4
+  },
+  {
+    "id": "nested_chitin_vests",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "name": "chitinous helmets",
+    "description": "Recipes related to constructing durable helmets from chitin.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "armor_chitin_vest", "xs_armor_chitin_vest", "xl_armor_chitin_vest" ],
+    "difficulty": 6
   },
   {
     "id": "nested_lc_light_chestplate",

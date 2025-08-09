@@ -11,13 +11,13 @@
     "time": "10 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_arthropod", 3 ] ],
-    "reversible": true,
-    "using": [ [ "armor_chitin", 8 ], [ "strap_small", 2 ], [ "clasps", 2 ] ],
+    "byproducts": [ [ "scrap_leather", 7 ] ],
+    "using": [ [ "armor_chitin", 2 ], [ "strap_small", 2 ], [ "clasps", 2 ], [ "tailoring_leather_small", 3 ] ],
     "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_chitinworking" },
-      { "proficiency": "prof_articulation" }
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_chitinworking" }
     ]
   },
   {
@@ -25,7 +25,7 @@
     "type": "recipe",
     "copy-from": "gauntlets_chitin",
     "time": "10 h",
-    "using": [ [ "armor_chitin", 6 ], [ "strap_small", 1 ], [ "clasps", 1 ] ],
+    "using": [ [ "armor_chitin", 1 ], [ "strap_small", 2 ], [ "clasps", 2 ], [ "tailoring_leather_small", 2 ] ],
     "qualities": [ { "id": "CUT_FINE", "level": 1 } ]
   },
   {
@@ -33,7 +33,7 @@
     "type": "recipe",
     "copy-from": "gauntlets_chitin",
     "time": "11 h 15 m",
-    "using": [ [ "armor_chitin", 12 ], [ "strap_small", 2 ], [ "clasps", 2 ] ],
+    "using": [ [ "armor_chitin", 3 ], [ "strap_small", 2 ], [ "clasps", 2 ], [ "tailoring_leather_small", 4 ] ],
     "qualities": [ { "id": "CUT_FINE", "level": 1 } ]
   },
   {

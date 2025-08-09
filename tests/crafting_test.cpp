@@ -1338,13 +1338,13 @@ TEST_CASE( "crafting_skill_gain", "[skill],[crafting],[slow]" )
     }
     SECTION( "lvl 5 -> 6" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_armguard_chitin, 28818, 0, true );
+            test_skill_progression( recipe_armguard_chitin, 28794, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_armguard_chitin, 23613, 50, true );
+            test_skill_progression( recipe_armguard_chitin, 23606, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_armguard_chitin, 21651, 100, true );
+            test_skill_progression( recipe_armguard_chitin, 21650, 100, true );
         }
     }
     SECTION( "lvl 6 -> 7" ) {
