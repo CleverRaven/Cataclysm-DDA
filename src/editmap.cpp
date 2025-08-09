@@ -1154,7 +1154,7 @@ void editmap::edit_feature()
         info_title_curr = info_title<T_t>();
         do_ui_invalidation();
 
-        emenu.query( false, get_option<int>( "BLINK_SPEED" ) );
+        emenu.query( true, get_option<int>( "BLINK_SPEED" ) );
         if( emenu.ret == UILIST_CANCEL ) {
             quit = true;
         } else if( ( emenu.ret >= 0 && static_cast<size_t>( emenu.ret ) < T_t::count() ) ||
@@ -1280,7 +1280,7 @@ void editmap::edit_fld()
         info_title_curr = pgettext( "Map editor: Editing field effects", "Field effects" );
         do_ui_invalidation();
 
-        fmenu.query( false, get_option<int>( "BLINK_SPEED" ) );
+        fmenu.query( true, get_option<int>( "BLINK_SPEED" ) );
         if( ( fmenu.ret > 0 && static_cast<size_t>( fmenu.ret ) < field_type::count() ) ||
             ( fmenu.ret == UILIST_ADDITIONAL && ( fmenu.ret_act == "LEFT" || fmenu.ret_act == "RIGHT" ) ) ) {
 
@@ -1893,7 +1893,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
                                          oter_id( gmenu.selected ).id().str() );
         do_ui_invalidation();
 
-        gpmenu.query( false, get_option<int>( "BLINK_SPEED" ) * 3 );
+        gpmenu.query( true, get_option<int>( "BLINK_SPEED" ) * 3 );
 
         if( gpmenu.ret == 0 ) {
             cleartmpmap( tmpmap );
