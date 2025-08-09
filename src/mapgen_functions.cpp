@@ -1562,9 +1562,9 @@ void mapgen_lake_shore( mapgendata &dat )
     };
 
     const auto fill_deep_water = [&]( const point_bub_ms & starting_point ) {
-        std::vector<point_bub_ms> water_points = ff::point_flood_fill_4_connected( starting_point, visited,
-                should_fill );
-        for( point_bub_ms &wp : water_points ) {
+        std::vector<point_bub_ms> water_points =
+            ff::point_flood_fill_4_connected<std::vector>( starting_point, visited, should_fill );
+        for( const point_bub_ms &wp : water_points ) {
             m->ter_set( wp, ter_t_water_dp );
             m->furn_set( wp, furn_str_id::NULL_ID() );
         }
@@ -2028,9 +2028,9 @@ void mapgen_ocean_shore( mapgendata &dat )
     };
 
     const auto fill_deep_water = [&]( const point_bub_ms & starting_point ) {
-        std::vector<point_bub_ms> water_points = ff::point_flood_fill_4_connected( starting_point, visited,
-                should_fill );
-        for( point_bub_ms &wp : water_points ) {
+        std::vector<point_bub_ms> water_points =
+            ff::point_flood_fill_4_connected<std::vector>( starting_point, visited, should_fill );
+        for( const point_bub_ms &wp : water_points ) {
             m->ter_set( wp, ter_t_swater_dp );
             m->furn_set( wp, furn_str_id::NULL_ID() );
         }
