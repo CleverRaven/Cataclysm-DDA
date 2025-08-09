@@ -272,12 +272,9 @@ void gates::open_gate( const tripoint_bub_ms &pos, Character &p )
 // Doors namespace
 // TODO: move door functions from maps namespace here, or vice versa.
 
-void doors::close_door( map &m, Creature &who, const tripoint_bub_ms &closep )
+bool doors::check_mon_blocking_door( const Creature &who, const tripoint_abs_ms &p )
 {
-    bool didit = false;
-    const bool inside = !m.is_outside( who.pos_bub() );
-
-    const Creature *const mon = get_creature_tracker().creature_at( closep );
+    const Creature *const mon = get_creature_tracker().creature_at( p );
     if( mon ) {
         if( mon->is_avatar() ) {
             who.add_msg_if_player( m_info, _( "There's some buffoon in the way!" ) );
@@ -287,6 +284,17 @@ void doors::close_door( map &m, Creature &who, const tripoint_bub_ms &closep )
         } else {
             who.add_msg_if_player( m_info, _( "%s is in the way!" ), mon->disp_name() );
         }
+        return true;
+    }
+    return false;
+}
+
+void doors::close_door( map &m, Creature &who, const tripoint_bub_ms &closep )
+{
+    bool didit = false;
+    const bool inside = !m.is_outside( who.pos_bub() );
+
+    if( check_mon_blocking_door( who, m.get_abs( closep ) ) ) {
         return;
     }
 

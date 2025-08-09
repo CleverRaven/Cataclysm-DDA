@@ -1275,7 +1275,6 @@ void vehicle::lock( int part_index )
 
 bool vehicle::can_close( int part_index, Character &who )
 {
-    creature_tracker &creatures = get_creature_tracker();
     part_index = get_non_fake_part( part_index );
     std::vector<std::vector<int>> openable_parts = find_lines_of_parts( part_index, "OPENABLE" );
     if( openable_parts.empty() ) {
@@ -1287,16 +1286,7 @@ bool vehicle::can_close( int part_index, Character &who )
         for( int partID : vec ) {
             // Check the part for collisions, then if there's a fake part present check that too.
             while( partID >= 0 ) {
-                const Creature *const mon = creatures.creature_at( abs_part_pos( parts[partID] ) );
-                if( mon ) {
-                    if( mon->is_avatar() ) {
-                        who.add_msg_if_player( m_info, _( "There's some buffoon in the way!" ) );
-                    } else if( mon->is_monster() ) {
-                        // TODO: Houseflies, mosquitoes, etc shouldn't count
-                        who.add_msg_if_player( m_info, _( "The %s is in the way!" ), mon->get_name() );
-                    } else {
-                        who.add_msg_if_player( m_info, _( "%s is in the way!" ), mon->disp_name() );
-                    }
+                if( doors::check_mon_blocking_door( who, abs_part_pos( parts[partID] ) ) ) {
                     return false;
                 }
                 if( parts[partID].has_fake && parts[parts[partID].fake_part_at].is_active_fake ) {
