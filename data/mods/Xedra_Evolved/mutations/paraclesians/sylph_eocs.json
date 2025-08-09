@@ -60,7 +60,7 @@
           "EOC_SYLPH_JUMP_HIGH_SELECTOR_TWO",
           "EOC_SYLPH_JUMP_HIGH_SELECTOR_FOUR",
           "EOC_SYLPH_JUMP_HIGH_SELECTOR_SIX",
-          "EOC_NULL"
+          "EOC_NONE"
         ],
         "names": [ "Leap two stories up", "Leap four stories up", "Leap six stories up", "Cancel" ],
         "keys": [ "1", "2", "3", "4" ],

@@ -15,7 +15,7 @@
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telekinesis", -1 ] ]
     ],
     "flags": [ "SECRET", "BLIND_EASY" ],
-    "result_eocs": [ "EOC_NULL" ]
+    "result_eocs": [ "EOC_NONE" ]
   },
   {
     "type": "recipe",
