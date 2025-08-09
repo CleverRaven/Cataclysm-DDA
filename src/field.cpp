@@ -118,21 +118,10 @@ field::field()
 {
 }
 
-/*
-Function: find_field
-Returns a field entry corresponding to the field_type_id parameter passed in. If no fields are found then returns NULL.
-Good for checking for existence of a field: if(myfield.find_field(fd_fire)) would tell you if the field is on fire.
-*/
 field_entry *field::find_field( const field_type_id &field_type_to_find, const bool alive_only )
 {
-    if( !_displayed_field_type ) {
-        return nullptr;
-    }
-    const auto it = _field_type_list->find( field_type_to_find );
-    if( it != _field_type_list->end() && ( !alive_only || it->second.is_field_alive() ) ) {
-        return &it->second;
-    }
-    return nullptr;
+    return const_cast<field_entry *>( const_cast<const field *>( this )->find_field( field_type_to_find,
+                                      alive_only ) );
 }
 
 const field_entry *field::find_field( const field_type_id &field_type_to_find,
