@@ -6155,11 +6155,7 @@ std::optional<int> effect_on_conditions_actor::use( Character *p, item &it,
     dialogue d( ( char_ptr == nullptr ? nullptr : get_talker_for( char_ptr ) ), get_talker_for( loc ) );
     write_var_value( var_type::context, "id", &d, it.typeId().str() );
     for( const effect_on_condition_id &eoc : eocs ) {
-        if( eoc->type == eoc_type::ACTIVATION ) {
-            eoc->activate( d );
-        } else {
-            debugmsg( "Must use an activation eoc for activation.  If you don't want the effect_on_condition to happen on its own (without the item's involvement), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this item with its condition and effects, then have a recurring one queue it." );
-        }
+        eoc->activate_activation_only( d, "activation", "item's involvement", "item" );
     }
     // Prevents crash from trying to spend charge with item removed
     // NOTE: Because this section and/or calling stack does not check if the item exists in the surrounding tiles
