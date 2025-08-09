@@ -285,7 +285,7 @@ void overmap::place_lakes( const std::vector<const overmap *> &neighbor_overmaps
             // We're going to flood-fill our lake so that we can consider the entire lake when evaluating it
             // for placement, even when the lake runs off the edge of the current overmap.
             std::vector<point_om_omt> lake_points =
-                ff::point_flood_fill_4_connected( seed_point, visited, is_lake );
+                ff::point_flood_fill_4_connected<std::vector>( seed_point, visited, is_lake );
 
             // If this lake doesn't exceed our minimum size threshold, then skip it. We can use this to
             // exclude the tiny lakes that don't provide interesting map features and exist mostly as a
@@ -299,10 +299,7 @@ void overmap::place_lakes( const std::vector<const overmap *> &neighbor_overmaps
             // we just found AND all of the rivers on the map, because we want our lakes to write
             // over any rivers that are placed already. Note that the assumption here is that river
             // overmap generation (e.g. place_rivers) runs BEFORE lake overmap generation.
-            std::unordered_set<point_om_omt> lake_set;
-            for( auto &p : lake_points ) {
-                lake_set.emplace( p );
-            }
+            std::unordered_set<point_om_omt> lake_set( lake_points.begin(), lake_points.end() );
 
             // Before we place the lake terrain and get river points, generate a river to somewhere
             // in the lake from an existing river.
@@ -442,7 +439,7 @@ void overmap::place_oceans( const std::vector<const overmap *> &neighbor_overmap
             }
 
             std::vector<point_om_omt> ocean_points =
-                ff::point_flood_fill_4_connected( seed_point, visited, is_ocean );
+                ff::point_flood_fill_4_connected<std::vector>( seed_point, visited, is_ocean );
 
             // Ocean size is checked like lake size, but minimum size is much bigger.
             // you could change this, if you want little tiny oceans all over the place.
@@ -452,10 +449,7 @@ void overmap::place_oceans( const std::vector<const overmap *> &neighbor_overmap
                 continue;
             }
 
-            std::unordered_set<point_om_omt> ocean_set;
-            for( auto &p : ocean_points ) {
-                ocean_set.emplace( p );
-            }
+            std::unordered_set<point_om_omt> ocean_set( ocean_points.begin(), ocean_points.end() );
 
             for( int x = 0; x < OMAPX; x++ ) {
                 for( int y = 0; y < OMAPY; y++ ) {
