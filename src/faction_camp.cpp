@@ -5108,11 +5108,12 @@ void om_range_mark( const tripoint_abs_omt &origin, int range, bool add_notes,
     std::vector<tripoint_abs_omt> note_pts;
 
     if( trigdist ) {
+        note_pts.reserve( range * 7 ); // actual multiplier varies from 5.33 to 8, mostly 6 to 7
         for( const tripoint_abs_omt &pos : points_on_radius_circ( origin, range ) ) {
             note_pts.emplace_back( pos );
         }
     } else {
-        note_pts.reserve( range * 4 - 4 );
+        note_pts.reserve( range * 8 );
         //North Limit
         for( int x = origin.x() - range; x < origin.x() + range + 1; x++ ) {
             note_pts.emplace_back( x, origin.y() - range, origin.z() );
