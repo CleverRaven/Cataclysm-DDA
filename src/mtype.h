@@ -240,11 +240,15 @@ struct monster_invulnerability {
     damage_type_id damage_type;    // e.g. "bash", "cut", "all"
     material_id material;          // optional; can be empty
     int amount = 0;                // e.g. percent or flat reduction
+
+    void deserialize( const JsonObject &jo );
 };
 
 struct monster_vulnerability {
     material_id material;          // optional; items of this material ignore invulnerability
     flag_id flag;                  // optional; items of with this flag ignore invulnerability
+
+    void deserialize( const JsonObject &jo );
 };
 
 
@@ -359,7 +363,7 @@ struct mtype {
 
         std::vector<revive_type> revive_types;
         std::vector<monster_invulnerability> invulnerabilities;
-        cata::optional<monster_vulnerability> vulnerability;
+        std::optional<monster_vulnerability> vulnerability;
 
         mtype_id zombify_into; // mtype_id this monster zombifies into
         mtype_id fungalize_into; // mtype_id this monster fungalize into
