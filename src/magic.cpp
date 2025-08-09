@@ -65,6 +65,7 @@
 #include "translations.h"
 #include "uilist.h"
 #include "units.h"
+#include "vitamin.h"
 #include "vpart_position.h"
 
 struct species_type;
@@ -204,6 +205,7 @@ std::string enum_to_string<magic_energy_type>( magic_energy_type data )
     case magic_energy_type::mana: return "MANA";
     case magic_energy_type::none: return "NONE";
     case magic_energy_type::stamina: return "STAMINA";
+    case magic_energy_type::vitamin: return "VITAMIN";
     case magic_energy_type::last: break;
     }
     cata_fatal( "Invalid magic_energy_type" );
@@ -508,7 +510,13 @@ void spell_type::load( const JsonObject &jo, std::string_view src )
     }
 
     optional( jo, was_loaded, "spell_class", spell_class, spell_class_default );
-    optional( jo, was_loaded, "energy_source", energy_source );
+    if( jo.has_string( "energy_source" ) ) {
+        optional( jo, was_loaded, "energy_source", energy_source );
+    } else if( jo.has_object( "energy_source" ) ) {
+        const JsonObject jo_energy = jo.get_object( "energy_source" );
+        mandatory( jo_energy, was_loaded, "type", energy_source );
+        optional( jo_energy, was_loaded, "vitamin", vitamin_energy_source_ );
+    }
     optional( jo, was_loaded, "damage_type", dmg_type, dmg_type_default );
     optional( jo, was_loaded, "get_level_formula_id", get_level_formula_id );
     optional( jo, was_loaded, "exp_for_level_formula_id", exp_for_level_formula_id );
@@ -713,6 +721,17 @@ void spell_type::check_consistency()
         if( sp_t.spell_tags[spell_flag::WONDER] && sp_t.additional_spells.empty() ) {
             debugmsg( "ERROR: %s has WONDER flag but no spells to choose from!", sp_t.id.c_str() );
         }
+        if( sp_t.get_energy_source() == magic_energy_type::vitamin &&
+            !sp_t.vitamin_energy_source().has_value() ) {
+            debugmsg( R"(spell %s uses energy_source "vitamin", but doesn't specify the "vitamin")",
+                      sp_t.id.c_str() );
+        }
+        if( sp_t.get_energy_source() != magic_energy_type::vitamin &&
+            sp_t.vitamin_energy_source().has_value() ) {
+            debugmsg( R"(spell %s specifies "vitamin", but doesn't use the vitamin energy source)",
+                      sp_t.id.c_str() );
+        }
+
         if( sp_t.exp_for_level_formula_id.has_value() &&
             sp_t.exp_for_level_formula_id.value()->num_params != 1 ) {
             debugmsg( "ERROR: %s exp_for_level_formula_id has params that != 1!", sp_t.id.c_str() );
@@ -1533,6 +1552,8 @@ std::string spell::energy_string() const
             return _( "stamina" );
         case magic_energy_type::bionic:
             return _( "kJ" );
+        case magic_energy_type::vitamin:
+            return vitamin_energy_source().value().obj().name();
         default:
             return "";
     }
@@ -1554,6 +1575,9 @@ std::string spell::energy_cost_string( const Character &guy ) const
         auto pair = get_hp_bar( energy_cost( guy ), guy.get_stamina_max() );
         return colorize( pair.first, pair.second );
     }
+    if( energy_source() == magic_energy_type::vitamin ) {
+        return colorize( std::to_string( energy_cost( guy ) ), c_cyan );
+    }
     debugmsg( "ERROR: Spell %s has invalid energy source.", id().c_str() );
     return _( "error: energy_type" );
 }
@@ -1572,6 +1596,9 @@ std::string spell::energy_cur_string( const Character &guy ) const
     if( energy_source() == magic_energy_type::stamina ) {
         auto pair = get_hp_bar( guy.get_stamina(), guy.get_stamina_max() );
         return colorize( pair.first, pair.second );
+    }
+    if( energy_source() == magic_energy_type::vitamin ) {
+        return colorize( std::to_string( guy.vitamin_get( vitamin_energy_source().value() ) ), c_cyan );
     }
     if( energy_source() == magic_energy_type::hp ) {
         return "";
@@ -1652,6 +1679,11 @@ std::string spell::effect() const
 magic_energy_type spell::energy_source() const
 {
     return type->get_energy_source();
+}
+
+std::optional<vitamin_id> spell::vitamin_energy_source() const
+{
+    return type->vitamin_energy_source();
 }
 
 bool spell::is_target_in_range( const Creature &caster, const tripoint_bub_ms &p ) const
@@ -1810,6 +1842,11 @@ magic_energy_type spell_type::get_energy_source() const
     }
 }
 
+std::optional<vitamin_id> spell_type::vitamin_energy_source() const
+{
+    return vitamin_energy_source_;
+}
+
 std::optional<jmath_func_id> spell_type::overall_get_level_formula_id() const
 {
     if( get_level_formula_id.has_value() ) {
@@ -1889,6 +1926,9 @@ void spell::consume_spell_cost( Character &caster, bool cast_success ) const
             break;
         case magic_energy_type::stamina:
             caster.mod_stamina( -cost );
+            break;
+        case magic_energy_type::vitamin:
+            caster.vitamin_mod( vitamin_energy_source().value(), -cost );
             break;
         case magic_energy_type::bionic:
             caster.mod_power_level( -units::from_kilojoule( static_cast<std::int64_t>( cost ) ) );
@@ -2637,6 +2677,8 @@ bool known_magic::has_enough_energy( const Character &guy, const spell &sp ) con
             return guy.get_power_level() >= units::from_kilojoule( static_cast<std::int64_t>( cost ) );
         case magic_energy_type::stamina:
             return guy.get_stamina() >= cost;
+        case magic_energy_type::vitamin:
+            return guy.vitamin_get( sp.vitamin_energy_source().value() ) >= cost;
         case magic_energy_type::hp:
             for( const std::pair<const bodypart_str_id, bodypart> &elem : guy.get_body() ) {
                 if( elem.second.get_hp_cur() > cost ) {
