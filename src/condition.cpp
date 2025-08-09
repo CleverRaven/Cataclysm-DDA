@@ -245,6 +245,10 @@ dbl_or_var dbl_or_var_reader::get_next( const JsonValue &jv ) const
 bool dbl_or_var_reader::operator()( const JsonObject &jo, const std::string_view member_name,
                                     dbl_or_var &member, bool /*was_loaded*/ ) const
 {
+    warn_disabled_feature( jo, "extend", member_name, "disabled for dbl_or_var_reader" );
+    warn_disabled_feature( jo, "delete", member_name, "disabled for dbl_or_var_reader" );
+    warn_disabled_feature( jo, "relative", member_name, "disabled for dbl_or_var_reader" );
+    warn_disabled_feature( jo, "proportional", member_name, "disabled for dbl_or_var_reader" );
     if( !jo.has_member( member_name ) ) {
         return false;
     }
