@@ -100,7 +100,6 @@ static const efftype_id effect_nausea( "nausea" );
 static const efftype_id effect_paincysts( "paincysts" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_tapeworm( "tapeworm" );
-static const efftype_id effect_took_thorazine( "took_thorazine" );
 static const efftype_id effect_visuals( "visuals" );
 
 static const flag_id json_flag_ALLERGEN_CHEESE( "ALLERGEN_CHEESE" );
@@ -181,7 +180,6 @@ static const trait_id trait_PROJUNK2( "PROJUNK2" );
 static const trait_id trait_RUMINANT( "RUMINANT" );
 static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
-static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STIMBOOST( "STIMBOOST" );
@@ -1173,9 +1171,7 @@ static bool eat( item &food, Character &you, bool force )
         you.add_msg_player_or_npc( _( "You assimilate your %s." ), _( "<npcname> assimilates a %s." ),
                                    food.tname() );
     } else if( drinkable ) {
-        if( you.has_trait( trait_SCHIZOPHRENIC ) &&
-            !you.has_effect( effect_took_thorazine ) && one_in( 50 ) && !spoiled && food.goes_bad() &&
-            you.is_avatar() ) {
+        if( you.is_avatar() && you.schizo_symptoms( 50 ) && !spoiled && food.goes_bad() ) {
 
             add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );
             add_msg( _( "You drink your %s (rotten)." ), food.tname() );
@@ -1184,9 +1180,7 @@ static bool eat( item &food, Character &you, bool force )
                                        food.tname() );
         }
     } else if( chew ) {
-        if( you.has_trait( trait_SCHIZOPHRENIC ) &&
-            !you.has_effect( effect_took_thorazine ) && one_in( 50 ) && !spoiled && food.goes_bad() &&
-            you.is_avatar() ) {
+        if( you.is_avatar() && you.schizo_symptoms( 50 ) && !spoiled && food.goes_bad() ) {
 
             add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );
             add_msg( _( "You eat your %s (rotten)." ), food.tname() );
