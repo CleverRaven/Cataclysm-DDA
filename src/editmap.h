@@ -11,6 +11,7 @@
 
 #include "color.h"
 #include "coordinates.h"
+#include "creature_tracker.h"
 #include "cursesdef.h"
 #include "memory_fast.h"
 #include "point.h"
@@ -33,7 +34,7 @@ enum shapetype {
 class editmap;
 
 struct editmap_hilight {
-    std::vector<bool> blink_interval;
+    int blink_interval;
     int cur_blink = 0;
     nc_color color;
     std::map<tripoint_bub_ms, char> points;
@@ -99,6 +100,7 @@ class editmap
         ~editmap();
 
     private:
+        void setup();
         shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor();
 
         weak_ptr_fast<ui_adaptor> ui;
@@ -116,6 +118,8 @@ class editmap
 
         bool run_post_process = true;
 
+        void draw_pos( map &here, const tripoint_bub_ms &p, creature_tracker &creatures,
+                       const std::function<nc_color( nc_color & )> &color_func );
         void draw_main_ui_overlay();
         void do_ui_invalidation();
 
@@ -124,6 +128,8 @@ class editmap
 
         std::unique_ptr<game_draw_callback_t_container> draw_cb_container_;
         game_draw_callback_t_container &draw_cb_container();
+
+        friend struct editmap_hilight;
 };
 
 #endif // CATA_SRC_EDITMAP_H

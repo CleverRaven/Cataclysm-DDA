@@ -195,15 +195,12 @@ editmap::editmap()
 
     target_list.clear();
     hilights.clear();
-    hilights["mplan"].blink_interval.push_back( true );
-    hilights["mplan"].blink_interval.push_back( false );
+    hilights["mplan"].blink_interval = 2;
     hilights["mplan"].cur_blink = 0;
     hilights["mplan"].color = c_red;
     hilights["mplan"].setup();
 
-    hilights["mapgentgt"].blink_interval.push_back( true );
-    hilights["mapgentgt"].blink_interval.push_back( false );
-    hilights["mapgentgt"].blink_interval.push_back( false );
+    hilights["mapgentgt"].blink_interval = 3;
     hilights["mapgentgt"].cur_blink = 0;
     hilights["mapgentgt"].color = c_cyan;
     hilights["mapgentgt"].setup();
@@ -216,44 +213,49 @@ editmap::~editmap() = default;
 void editmap_hilight::draw( editmap &em, bool update )
 {
     cur_blink++;
-    if( cur_blink >= static_cast<int>( blink_interval.size() ) ) {
-        cur_blink = 0;
-    }
+    cur_blink %= blink_interval;
     creature_tracker &creatures = get_creature_tracker();
-    if( blink_interval[ cur_blink ] || update ) {
+    if( cur_blink == 0 || update ) {
         map &here = get_map();
         for( auto &elem : points ) {
             const tripoint_bub_ms &p = elem.first;
-            // but only if there's no vehicles/mobs/npcs on a point
-            if( !here.veh_at( p ) && !creatures.creature_at( p ) ) {
-                const ter_t &terrain = here.ter( p ).obj();
-                char t_sym = terrain.symbol();
-                nc_color t_col = terrain.color();
-
-                const furn_id &f = here.furn( p );
-                if( f.to_i() > 0 ) {
-                    const furn_t &furniture_type = f.obj();
-                    t_sym = furniture_type.symbol();
-                    t_col = furniture_type.color();
-                }
-                const field &t_field = here.field_at( p );
-                if( t_field.field_count() > 0 ) {
-                    field_type_id t_ftype = t_field.displayed_field_type();
-                    const field_entry *t_fld = t_field.find_field( t_ftype );
-                    if( t_fld != nullptr ) {
-                        t_col = t_fld->color();
-                        t_sym = t_fld->symbol()[0];
-                    }
-                }
-                if( blink_interval[ cur_blink ] ) {
-                    t_col = getbg( t_col );
-                }
-                tripoint scrpos = em.pos2screen( p );
-                mvwputch( g->w_terrain, scrpos.xy(), t_col, t_sym );
-            }
+            const std::function blink_func( [this]( nc_color & c ) -> nc_color {
+                return cur_blink ? c : getbg( c ); } );
+            em.draw_pos( here, p, creatures, blink_func );
         }
     }
 }
+
+void editmap::draw_pos( map &here, const tripoint_bub_ms &p, creature_tracker &creatures,
+                        const std::function<nc_color( nc_color & )> &color_func )
+{
+    // but only if there's no vehicles/mobs/npcs on a point
+    if( !here.veh_at( p ) && !creatures.creature_at( p ) ) {
+        const ter_t &terrain = here.ter( p ).obj();
+        char t_sym = terrain.symbol();
+        nc_color t_col = terrain.color();
+
+        const furn_id &f = here.furn( p );
+        if( f != furn_str_id::NULL_ID() ) {
+            const furn_t &furniture_type = f.obj();
+            t_sym = furniture_type.symbol();
+            t_col = furniture_type.color();
+        }
+        const field &t_field = here.field_at( p );
+        if( t_field.field_count() > 0 ) {
+            field_type_id t_ftype = t_field.displayed_field_type();
+            const field_entry *t_fld = t_field.find_field( t_ftype );
+            if( t_fld != nullptr ) {
+                t_col = t_fld->color();
+                t_sym = t_fld->symbol()[0];
+            }
+        }
+        t_col = color_func( t_col );
+        tripoint scrpos = pos2screen( p );
+        mvwputch( g->w_terrain, scrpos.xy(), t_col, t_sym );
+    }
+}
+
 /*
  * map position to screen position
  */
@@ -352,6 +354,17 @@ shared_ptr_fast<ui_adaptor> editmap::create_or_get_ui_adaptor()
     return current_ui;
 }
 
+void editmap::setup()
+{
+    shared_ptr_fast<game::draw_callback_t> editmap_cb = draw_cb_container().create_or_get();
+    shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
+    on_out_of_scope invalidate_current_ui( [this]() {
+        do_ui_invalidation();
+    } );
+    restore_on_out_of_scope info_txt_prev( info_txt_curr );
+    restore_on_out_of_scope info_title_prev( info_title_curr );
+}
+
 std::optional<tripoint_bub_ms> editmap::edit()
 {
     avatar &player_character = get_avatar();
@@ -385,13 +398,7 @@ std::optional<tripoint_bub_ms> editmap::edit()
     uberdraw = uistate.editmap_nsa_viewmode;
     blink = true;
 
-    shared_ptr_fast<game::draw_callback_t> editmap_cb = draw_cb_container().create_or_get();
-    shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
-    on_out_of_scope invalidate_current_ui( [this]() {
-        do_ui_invalidation();
-    } );
-    restore_on_out_of_scope info_txt_prev( info_txt_curr );
-    restore_on_out_of_scope info_title_prev( info_title_curr );
+    setup();
 
     creature_tracker &creatures = get_creature_tracker();
     do {
@@ -583,30 +590,10 @@ void editmap::draw_main_ui_overlay()
                 }
             } else {
 #endif
-                // but only if there's no vehicles/mobs/npcs on a point
-                if( !here.veh_at( p ) && !creatures.creature_at( p ) ) {
-                    const ter_t &terrain = here.ter( p ).obj();
-                    char t_sym = terrain.symbol();
-                    nc_color t_col = terrain.color();
-
-                    if( here.has_furn( p ) ) {
-                        const furn_t &furniture_type = here.furn( p ).obj();
-                        t_sym = furniture_type.symbol();
-                        t_col = furniture_type.color();
-                    }
-                    const field &t_field = here.field_at( p );
-                    if( t_field.field_count() > 0 ) {
-                        field_type_id t_ftype = t_field.displayed_field_type();
-                        const field_entry *t_fld = t_field.find_field( t_ftype );
-                        if( t_fld != nullptr ) {
-                            t_col = t_fld->color();
-                            t_sym = t_fld->symbol()[0];
-                        }
-                    }
-                    t_col = altblink ? green_background( t_col ) : cyan_background( t_col );
-                    tripoint scrpos = pos2screen( p );
-                    mvwputch( g->w_terrain, scrpos.xy(), t_col, t_sym );
-                }
+                const std::function blink_func( [this]( nc_color & c ) -> nc_color {
+                    return altblink ? green_background( c ) : cyan_background( c );
+                } );
+                draw_pos( here, p, creatures, blink_func );
 #ifdef TILES
             }
 #endif
@@ -963,27 +950,14 @@ nc_color color( const trap &t )
     return t.color;
 }
 
-template<typename T_t>
-static std::string describe( const T_t &t );
-
-template<>
-std::string describe( const ter_t &type )
+static std::string describe( const map_data_common_t &type )
 {
     return string_format( _( "Move cost: %d\nIndoors: %s\nRoof: %s" ), type.movecost,
                           type.has_flag( ter_furn_flag::TFLAG_INDOORS ) ? _( "Yes" ) : _( "No" ),
                           type.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF ) ? _( "Yes" ) : _( "No" ) );
 }
 
-template<>
-std::string describe( const furn_t &type )
-{
-    return string_format( _( "Move cost: %d\nIndoors: %s\nRoof: %s" ), type.movecost,
-                          type.has_flag( ter_furn_flag::TFLAG_INDOORS ) ? _( "Yes" ) : _( "No" ),
-                          type.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF ) ? _( "Yes" ) : _( "No" ) );
-}
-
-template<>
-std::string describe( const trap &type )
+static std::string describe( const trap &type )
 {
     return type.debug_describe();
 }
@@ -1121,13 +1095,7 @@ void editmap::edit_feature()
     int current_feature = emenu.selected = feature<T_id>( target ).to_i();
     emenu.entries[current_feature].text_color = c_green;
 
-    shared_ptr_fast<game::draw_callback_t> editmap_cb = draw_cb_container().create_or_get();
-    shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
-    on_out_of_scope invalidate_current_ui( [this]() {
-        do_ui_invalidation();
-    } );
-    restore_on_out_of_scope info_txt_prev( info_txt_curr );
-    restore_on_out_of_scope info_title_prev( info_title_curr );
+    setup();
 
     blink = true;
     bool quit = false;
@@ -1245,13 +1213,7 @@ void editmap::edit_fld()
     };
     fmenu.allow_additional = true;
 
-    shared_ptr_fast<game::draw_callback_t> editmap_cb = draw_cb_container().create_or_get();
-    shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
-    on_out_of_scope invalidate_current_ui( [this]() {
-        do_ui_invalidation();
-    } );
-    restore_on_out_of_scope info_txt_prev( info_txt_curr );
-    restore_on_out_of_scope info_title_prev( info_title_curr );
+    setup();
     map &here = get_map();
 
     blink = true;
@@ -1412,13 +1374,7 @@ void editmap::edit_itm()
     };
     ilmenu.allow_additional = true;
 
-    shared_ptr_fast<game::draw_callback_t> editmap_cb = draw_cb_container().create_or_get();
-    shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
-    on_out_of_scope invalidate_current_ui( [this]() {
-        do_ui_invalidation();
-    } );
-    restore_on_out_of_scope info_txt_prev( info_txt_curr );
-    restore_on_out_of_scope info_title_prev( info_title_curr );
+    setup();
 
     shared_ptr_fast<uilist_impl> ilmenu_ui = ilmenu.create_or_get_ui();
 
@@ -1697,13 +1653,7 @@ int editmap::select_shape( shapetype shape, int mode )
     }
     altblink = moveall;
 
-    shared_ptr_fast<game::draw_callback_t> editmap_cb = draw_cb_container().create_or_get();
-    shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
-    on_out_of_scope invalidate_current_ui( [this]() {
-        do_ui_invalidation();
-    } );
-    restore_on_out_of_scope info_txt_prev( info_txt_curr );
-    restore_on_out_of_scope info_title_prev( info_title_curr );
+    setup();
 
     do {
         if( moveall ) {
@@ -1858,14 +1808,8 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     };
     gpmenu.allow_additional = true;
 
-    shared_ptr_fast<game::draw_callback_t> editmap_cb = draw_cb_container().create_or_get();
-    shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
-    on_out_of_scope invalidate_current_ui( [this]() {
-        do_ui_invalidation();
-    } );
+    setup();
     restore_on_out_of_scope tinymap_ptr_prev( tmpmap_ptr );
-    restore_on_out_of_scope info_txt_prev( info_txt_curr );
-    restore_on_out_of_scope info_title_prev( info_title_curr );
     map &here = get_map();
 
     int lastsel = gmenu.selected;
@@ -2041,6 +1985,24 @@ bool editmap::mapgen_veh_destroy( const tripoint_abs_omt &omt_tgt, vehicle *car_
     return false;
 }
 
+static void target_perimeter_to_list( const tripoint_bub_ms &target,
+                                      std::vector<tripoint_bub_ms> &target_list )
+{
+    target_list.clear();
+    const int xmin = target.x() - SEEX + 1;
+    const int xmax = target.x() + SEEX;
+    const int ymin = target.y() - SEEY + 1;
+    const int ymax = target.y() + SEEY;
+    const int yskip = ymax - ymin;
+    const int z = target.z();
+    for( int x = xmin; x <= xmax; x++ ) {
+        const int ystep = ( x == xmin || x == xmax ) ? 1 : yskip;
+        for( int y = ymin; y <= ymax; y += ystep ) {
+            target_list.emplace_back( x, y, z );
+        }
+    }
+}
+
 /*
  * Move mapgen's target, which is different enough from the standard tile edit to warrant it's own function.
  */
@@ -2057,13 +2019,7 @@ void editmap::mapgen_retarget()
     std::string action;
     tripoint_bub_ms origm = target;
 
-    shared_ptr_fast<game::draw_callback_t> editmap_cb = draw_cb_container().create_or_get();
-    shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
-    on_out_of_scope invalidate_current_ui( [this]() {
-        do_ui_invalidation();
-    } );
-    restore_on_out_of_scope info_txt_prev( info_txt_curr );
-    restore_on_out_of_scope info_title_prev( info_title_curr );
+    setup();
 
     blink = true;
     do {
@@ -2082,16 +2038,7 @@ void editmap::mapgen_retarget()
             if( here.inbounds( ptarget ) &&
                 here.inbounds( ptarget + point( SEEX, SEEY ) ) ) {
                 target = ptarget;
-
-                target_list.clear();
-                for( int x = target.x() - SEEX + 1; x < target.x() + SEEX + 1; x++ ) {
-                    for( int y = target.y() - SEEY + 1; y < target.y() + SEEY + 1; y++ ) {
-                        if( x == target.x() - SEEX + 1 || x == target.x() + SEEX ||
-                            y == target.y() - SEEY + 1 || y == target.y() + SEEY ) {
-                            target_list.emplace_back( x, y, target.z() );
-                        }
-                    }
-                }
+                target_perimeter_to_list( target, target_list );
             }
         }
         blink = action == "TIMEOUT" ? !blink : true;
@@ -2126,13 +2073,7 @@ void editmap::edit_mapgen()
     }
     real_coords tc;
 
-    shared_ptr_fast<game::draw_callback_t> editmap_cb = draw_cb_container().create_or_get();
-    shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
-    on_out_of_scope invalidate_current_ui( [this]() {
-        do_ui_invalidation();
-    } );
-    restore_on_out_of_scope info_txt_prev( info_txt_curr );
-    restore_on_out_of_scope info_title_prev( info_title_curr );
+    setup();
     map &here = get_map();
 
     do {
@@ -2144,15 +2085,7 @@ void editmap::edit_mapgen()
             target = om_ltarget;
             tc.fromabs( here.get_abs( { target.xy(), here.abs_sub.z() } ).xy().raw() );
         }
-        target_list.clear();
-        for( int x = target.x() - SEEX + 1; x < target.x() + SEEX + 1; x++ ) {
-            for( int y = target.y() - SEEY + 1; y < target.y() + SEEY + 1; y++ ) {
-                if( x == target.x() - SEEX + 1 || x == target.x() + SEEX ||
-                    y == target.y() - SEEY + 1 || y == target.y() + SEEY ) {
-                    target_list.emplace_back( x, y, target.z() );
-                }
-            }
-        }
+        target_perimeter_to_list( target, target_list );
 
         blink = true;
 
