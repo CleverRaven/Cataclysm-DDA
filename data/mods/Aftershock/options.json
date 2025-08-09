@@ -13,6 +13,13 @@
   },
   {
     "type": "EXTERNAL_OPTION",
+    "name": "IRREPLACEABLE_PRICING",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "EMP_DISABLE_ELECTRONICS",
     "name": "GAME_EMP",
     "stype": "bool",
     "value": true
