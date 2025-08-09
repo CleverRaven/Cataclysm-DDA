@@ -743,6 +743,19 @@ void mon_effect_data::load( const JsonObject &jo )
     }
 }
 
+void monster_invulnerability::deserialize( const JsonObject &jo )
+{
+    optional( jo, false, "damage_type", damage_type, damage_type_id::NULL_ID() );
+    optional( jo, false, "material", material, material_id::NULL_ID() );
+    optional( jo, false, "amount", amount, 0 );
+}
+
+void monster_vulnerability::deserialize( const JsonObject &jo )
+{
+    optional( jo, false, "material", material, material_id::NULL_ID() );
+    optional( jo, false, "flag", flag, flag_id::NULL_ID() );
+}
+
 void mtype::load( const JsonObject &jo, const std::string &src )
 {
     bool strict = src == "dda";
@@ -784,6 +797,9 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     if( was_loaded && jo.has_member( "copy-from" ) && looks_like.empty() ) {
         looks_like = jo.get_string( "copy-from" );
     }
+    optional( jo, was_loaded, "invulnerability", invulnerabilities );
+    optional( jo, was_loaded, "vulnerability", vulnerability );
+
     jo.read( "looks_like", looks_like );
 
     assign( jo, "bodytype", bodytype );
