@@ -54,7 +54,7 @@
     "weight": "275 g",
     "volume": "250 ml",
     "phase": "liquid",
-    "stack_size": 1,
+    "charges": 1,
     "conditional_names": [ { "type": "FLAG", "condition": "DIRTY", "name": "protoplasmic spill" } ]
   }
 ]
