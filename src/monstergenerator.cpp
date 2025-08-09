@@ -745,7 +745,7 @@ void mon_effect_data::load( const JsonObject &jo )
 
 void monster_invulnerability::deserialize( const JsonObject &jo )
 {
-    optional( jo, false, "damage_type", damage_type, damage_type_id( "all" ) );
+    optional( jo, false, "damage_type", damage_type, damage_type_id::NULL_ID() );
     optional( jo, false, "material", material, material_id::NULL_ID() );
     optional( jo, false, "amount", amount, 0 );
 }
