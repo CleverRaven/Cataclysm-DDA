@@ -103,6 +103,7 @@
 #include "flag.h"
 #include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
+#include "flood_fill.h"
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "game_ui.h"
@@ -4551,44 +4552,13 @@ std::unordered_set<tripoint_bub_ms> game::get_fishable_locations_bub( int distan
     const inclusive_cuboid<tripoint_bub_ms> fishing_boundaries(
         fishing_boundary_min, fishing_boundary_max );
 
-    const auto get_fishable_terrain = [&]( tripoint_bub_ms starting_point,
-    std::unordered_set<tripoint_bub_ms> &fishable_terrain ) {
-        std::queue<tripoint_bub_ms> to_check;
-        to_check.push( starting_point );
-        while( !to_check.empty() ) {
-            const tripoint_bub_ms current_point = to_check.front();
-            to_check.pop();
-
-            // We've been here before, so bail.
-            if( visited.find( current_point ) != visited.end() ) {
-                continue;
-            }
-
-            // This point is out of bounds, so bail.
-            if( !fishing_boundaries.contains( current_point ) ) {
-                continue;
-            }
-
-            // Mark this point as visited.
-            visited.emplace( current_point );
-
-            if( here.has_flag( ter_furn_flag::TFLAG_FISHABLE, current_point ) ) {
-                fishable_terrain.emplace( current_point );
-                to_check.push( current_point + point::south );
-                to_check.push( current_point + point::north );
-                to_check.push( current_point + point::east );
-                to_check.push( current_point + point::west );
-            }
-        }
-    };
-
     // Starting at the provided location, get our fishable terrain
     // and populate a set with those locations which we'll then use
     // to determine if any fishable monsters are in those locations.
-    std::unordered_set<tripoint_bub_ms> fishable_points;
-    get_fishable_terrain( fish_pos, fishable_points );
-
-    return fishable_points;
+    return ff::point_flood_fill_4_connected<std::unordered_set>( fish_pos, visited, [&here,
+    &fishing_boundaries]( const tripoint_bub_ms & p ) {
+        return !fishing_boundaries.contains( p ) && here.has_flag( ter_furn_flag::TFLAG_FISHABLE, p );
+    } );
 }
 
 std::vector<monster *> game::get_fishable_monsters( std::unordered_set<tripoint_abs_ms>

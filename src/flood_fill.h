@@ -29,11 +29,11 @@ namespace ff
 * @param predicate UnaryPredicate that will be provided with a point for evaluation as to whether or
 * not the point should be filled.
 */
-template<typename Point, typename UnaryPredicate>
-std::vector<Point> point_flood_fill_4_connected( const Point &starting_point,
+template<template <typename...> typename Container, typename Point, typename UnaryPredicate>
+Container<Point> point_flood_fill_4_connected( const Point &starting_point,
         std::unordered_set<Point> &visited, UnaryPredicate predicate )
 {
-    std::vector<Point> filled_points;
+    Container<Point> filled_points;
     std::queue<Point> to_check;
     to_check.push( starting_point );
     while( !to_check.empty() ) {
@@ -47,7 +47,11 @@ std::vector<Point> point_flood_fill_4_connected( const Point &starting_point,
         visited.emplace( current_point );
 
         if( predicate( current_point ) ) {
-            filled_points.emplace_back( current_point );
+            if constexpr( std::is_same_v<Container<Point>, std::vector<Point>> ) {
+                filled_points.emplace_back( current_point );
+            } else {
+                filled_points.emplace( current_point );
+            }
             to_check.push( current_point + point::south );
             to_check.push( current_point + point::north );
             to_check.push( current_point + point::east );
