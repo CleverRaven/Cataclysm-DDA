@@ -660,7 +660,6 @@ List of known flags, used in both `furniture` and `terrain`.  Some work for both
 - ```GROWTH_SEEDLING``` This plant is in its seedling stage of growth.
 - ```HARVESTED``` Marks the harvested version of a terrain type (e.g. harvesting an apple tree turns it into a harvested tree, which later becomes an apple tree again).
 - ```HIDE_PLACE``` Creatures on this tile can't be seen by creatures not standing on adjacent tiles.
-- ```INDOORS``` Has a roof over it; blocks rain, sunlight, etc.
 - ```LADDER``` This piece of furniture that makes climbing easy.
 - ```LIQUIDCONT``` Furniture that contains liquid, allows for contents to be accessed in some checks even if `SEALED`.
 - ```LIQUID``` Terrain is liquid (e.g. water, lava, etc.), blocking movement without being a wall.
