@@ -1382,7 +1382,7 @@
     "type": "ITEM",
     "copy-from": "steel_bar_round",
     "name": { "str": "budget steel bar stock", "str_pl": "budget steel bar stock" },
-    "material": ["budget_steel"]
+    "material": [ "budget_steel" ]
   },
   {
     "id": "lc_steel_bar_round",
