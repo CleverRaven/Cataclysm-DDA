@@ -1,7 +1,8 @@
 [
   {
     "type": "trap",
-    "id": "tr_tutorial_1",
+    "//": "Should be an abstract but traps don't support abstracts rn",
+    "id": "tr_tutorial",
     "name": { "str": "tutorial message", "//~": "NO_I18N" },
     "color": "white",
     "symbol": "x",
@@ -11,6 +12,12 @@
     "always_invisible": true,
     "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ],
     "action": "eocs",
+    "eocs": [ "EOC_NONE" ]
+  },
+  {
+    "type": "trap",
+    "id": "tr_tutorial_1",
+    "copy-from": "tr_tutorial",
     "eocs": [ "EOC_LESSON_LOOK" ]
   },
   {
@@ -27,7 +34,7 @@
   {
     "type": "trap",
     "id": "tr_tutorial_2",
-    "copy-from": "tr_tutorial_1",
+    "copy-from": "tr_tutorial",
     "eocs": [ "EOC_LESSON_MOVEMENT_MODES" ]
   },
   {
@@ -44,7 +51,7 @@
   {
     "type": "trap",
     "id": "tr_tutorial_3",
-    "copy-from": "tr_tutorial_1",
+    "copy-from": "tr_tutorial",
     "eocs": [ "EOC_LESSON_MONSTER_SIGHTED" ]
   },
   {
@@ -61,7 +68,7 @@
   {
     "type": "trap",
     "id": "tr_tutorial_4",
-    "copy-from": "tr_tutorial_1",
+    "copy-from": "tr_tutorial",
     "eocs": [ "EOC_LESSON_REACH_ATTACK" ]
   },
   {
@@ -78,7 +85,7 @@
   {
     "type": "trap",
     "id": "tr_tutorial_5",
-    "copy-from": "tr_tutorial_1",
+    "copy-from": "tr_tutorial",
     "eocs": [ "EOC_LESSON_HOLSTERS_WEAR" ]
   },
   {
@@ -95,7 +102,7 @@
   {
     "type": "trap",
     "id": "tr_tutorial_6",
-    "copy-from": "tr_tutorial_1",
+    "copy-from": "tr_tutorial",
     "eocs": [ "EOC_LESSON_GUN_LOAD" ]
   },
   {
@@ -112,7 +119,7 @@
   {
     "type": "trap",
     "id": "tr_tutorial_7",
-    "copy-from": "tr_tutorial_1",
+    "copy-from": "tr_tutorial",
     "eocs": [ "EOC_LESSON_INVENTORY" ]
   },
   {
@@ -129,7 +136,7 @@
   {
     "type": "trap",
     "id": "tr_tutorial_8",
-    "copy-from": "tr_tutorial_1",
+    "copy-from": "tr_tutorial",
     "eocs": [ "EOC_LESSON_FLASHLIGHT" ]
   },
   {
@@ -146,7 +153,7 @@
   {
     "type": "trap",
     "id": "tr_tutorial_9",
-    "copy-from": "tr_tutorial_1",
+    "copy-from": "tr_tutorial",
     "eocs": [ "EOC_LESSON_INTERACT" ]
   },
   {
@@ -163,7 +170,7 @@
   {
     "type": "trap",
     "id": "tr_tutorial_10",
-    "copy-from": "tr_tutorial_1",
+    "copy-from": "tr_tutorial",
     "eocs": [ "EOC_LESSON_REMOTE_USE" ]
   },
   {
@@ -180,7 +187,7 @@
   {
     "type": "trap",
     "id": "tr_tutorial_11",
-    "copy-from": "tr_tutorial_1",
+    "copy-from": "tr_tutorial",
     "eocs": [ "EOC_LESSON_CRAFTING_FOOD" ]
   },
   {
@@ -197,7 +204,7 @@
   {
     "type": "trap",
     "id": "tr_tutorial_12",
-    "copy-from": "tr_tutorial_1",
+    "copy-from": "tr_tutorial",
     "eocs": [ "EOC_LESSON_CONSTRUCTION" ]
   },
   {
@@ -214,13 +221,13 @@
   {
     "type": "trap",
     "id": "tr_tutorial_13",
-    "copy-from": "tr_tutorial_1",
+    "copy-from": "tr_tutorial",
     "action": "none"
   },
   {
     "type": "trap",
     "id": "tr_tutorial_14",
-    "copy-from": "tr_tutorial_1",
+    "copy-from": "tr_tutorial",
     "eocs": [ "EOC_LESSON_THROWING" ]
   },
   {
@@ -237,7 +244,7 @@
   {
     "type": "trap",
     "id": "tr_tutorial_15",
-    "copy-from": "tr_tutorial_1",
+    "copy-from": "tr_tutorial",
     "eocs": [ "EOC_LESSON_FINALE" ]
   },
   {
