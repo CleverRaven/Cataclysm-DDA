@@ -984,6 +984,7 @@
   },
   {
     "id": "wearable_camera",
+    "copy-from": "camera",
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
@@ -991,32 +992,20 @@
     "color": "blue",
     "name": { "str": "wearable camera" },
     "description": "A point-and-shoot digital camera with a digital viewfinder, a backup 'iron-sight', and flash.  You can look at your photos on the digital screen, or transfer them with a memory card.  This one can be worn over your neck.",
-    "price": "200 USD",
-    "price_postapoc": "50 cent",
-    "material": [ "plastic", "steel" ],
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "WATER_BREAK", "ELECTRONIC" ],
-    "faults": [ { "fault_group": "electronic_general" } ],
     "weight": "520 g",
     "volume": "500 ml",
-    "charges_per_use": 1,
-    "use_action": [ "CAMERA", { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" } ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 50 } } ],
     "armor": [ { "encumbrance": 2, "coverage": 15, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ],
-    "melee_damage": { "bash": 1 },
-    "tool_ammo": "battery"
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "wearable_camera_pro",
+    "copy-from": "camera_pro",
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
-    "symbol": "[",
-    "color": "blue",
     "name": { "str": "wearable professional camera" },
     "description": "A 35 mm digital SLR (single-lens reflex) camera with optical and digital viewfinders, a zoom lens with auto-focus and stabilizer, and flash.  You can view your photos on it or transfer them with a memory card.  Before the Cataclysm, you could have taken professional-grade photos using this.  This one can be worn over your neck.",
-    "price": "8 kUSD",
-    "price_postapoc": "1 USD",
-    "material": [ "plastic", "steel" ],
     "flags": [
       "NO_UNLOAD",
       "NO_RELOAD",
@@ -1028,15 +1017,10 @@
       "WATER_BREAK",
       "ELECTRONIC"
     ],
-    "faults": [ { "fault_group": "electronic_general" } ],
     "weight": "520 g",
     "volume": "500 ml",
-    "charges_per_use": 1,
-    "use_action": [ "CAMERA", { "type": "link_up", "cable_length": 3, "charge_rate": "50 W" } ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 100 } } ],
     "armor": [ { "encumbrance": 2, "coverage": 15, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ],
-    "melee_damage": { "bash": 1 },
-    "tool_ammo": "battery"
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "wearable_light_on",
