@@ -558,6 +558,7 @@ class Creature : public viewer
 
         virtual bool has_weapon() const = 0;
         virtual bool is_hallucination() const = 0;
+        bool hallucination_die( map *here, Creature *killer );
 
         // returns true if the creature has an electric field
         virtual bool is_electrical() const = 0;
