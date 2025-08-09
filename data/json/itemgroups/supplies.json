@@ -272,7 +272,6 @@
       [ "string_6", 100 ],
       [ "string_36", 100 ],
       { "group": "glue_weak_professional_full", "count": [ 6, 10 ] },
-      [ "glue_weak", 10250 ],
       [ "rope_6", 100 ],
       [ "rope_30", 50 ],
       [ "water_faucet", 100 ],
