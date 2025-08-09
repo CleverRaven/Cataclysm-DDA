@@ -169,7 +169,11 @@
       { "item": "sheet_metal", "count": [ 25, 50 ] },
       { "item": "lc_steel_lump", "count": [ 25, 50 ] },
       { "item": "mc_steel_lump", "count": [ 25, 50 ] },
-      { "item": "hc_steel_lump", "count": [ 25, 50 ] }
+      { "item": "hc_steel_lump", "count": [ 25, 50 ] },
+      { "item": "aluminum_bar_round", "prob": 15, "count": [ 10, 25 ] },
+      { "item": "lc_steel_bar_round", "prob": 15, "count": [ 10, 20 ] },
+      { "item": "mc_steel_bar_round", "prob": 10, "count": [ 5, 10 ] },
+      { "item": "hc_steel_bar_round", "prob": 5, "count": [ 1, 5 ] }
     ]
   },
   {
