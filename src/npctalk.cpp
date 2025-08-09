@@ -7701,9 +7701,7 @@ talk_effect_fun_t::func f_pickup_items( const JsonObject &jo, std::string_view m
         tripoint_bub_ms target_pos = get_map().get_bub( target_pos_abs );
         Character *c = d.actor( is_npc )->get_character();
         if( c ) {
-            if( !is_npc ) {
-                (*c).pick_up( game_menus::inv::pickup( target_pos ) );
-            }
+            (*c).pick_up( game_menus::inv::pickup( target_pos ) );
         }
     };
 }
