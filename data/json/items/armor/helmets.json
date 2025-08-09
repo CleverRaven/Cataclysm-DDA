@@ -267,7 +267,7 @@
     "subtypes": [ "ARMOR" ],
     "category": "armor",
     "copy-from": "helmet_army",
-    "name": { "str": "army helmet (stripped)", "str_pl;": "army helmets (stripped)" },
+    "name": { "str": "army helmet (stripped)", "str_pl": "army helmets (stripped)" },
     "description": "A heavy helmet that provides excellent protection from all sorts of damage.  It is labeled as the advanced combat helmet.  This one has been stripped of all its mounting points, leaving only the nape and mandible attachment points, and the counterweight pouch.",
     "weight": "1153 g",
     "pocket_data": [
