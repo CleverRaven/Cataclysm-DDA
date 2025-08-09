@@ -686,7 +686,7 @@
     "material": [ "nylon", "kevlar_layered" ],
     "color": "light_gray",
     "warmth": 15,
-    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY" ],
+    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "PADDED" ],
     "use_action": [ { "type": "attach_molle", "size": 10 }, { "type": "detach_molle" } ],
     "pocket_data": [
       {
