@@ -55,7 +55,7 @@
     "type": "ITEM",
     "id": "saddle",
     "name": { "str": "saddle" },
-    "description": "A leather-covered seat designed to be straddled.",
+    "description": "A padded wedge that you straddle, like a bicycle or motorcycle.",
     "weight": "300 g",
     "material": [ "plastic", "aluminum" ],
     "volume": "1250 ml",
