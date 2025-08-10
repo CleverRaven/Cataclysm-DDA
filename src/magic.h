@@ -15,6 +15,7 @@
 
 #include "body_part_set.h"
 #include "bodypart.h"
+#include "color.h"
 #include "coordinates.h"
 #include "damage.h"
 #include "dialogue_helpers.h"
@@ -31,7 +32,6 @@ class Character;
 class Creature;
 class JsonObject;
 class JsonOut;
-class nc_color;
 class spell;
 class time_duration;
 struct const_dialogue;
@@ -345,6 +345,9 @@ class spell_type
         // what energy do you use to cast this spell
         std::optional<vitamin_id> vitamin_energy_source() const;
 
+        // if vitamin is used, specifies the color of an energy
+        nc_color energy_color() const;
+
         damage_type_id dmg_type = damage_type_id::NULL_ID();
 
         // list of valid targets enum
@@ -445,6 +448,7 @@ class spell_type
 
         std::optional<magic_energy_type> energy_source;
         std::optional<vitamin_id> vitamin_energy_source_; // NOLINT(cata-serialize)
+        nc_color energy_color_ = c_cyan; // NOLINT(cata-serialize)
         std::optional<jmath_func_id> get_level_formula_id;
         std::optional<jmath_func_id> exp_for_level_formula_id;
         std::optional<int> max_book_level;
@@ -637,6 +641,7 @@ class spell
         // magic energy source enum
         magic_energy_type energy_source() const;
         std::optional<vitamin_id> vitamin_energy_source() const;
+        nc_color energy_color() const;
         // the color that's representative of the damage type
         nc_color damage_type_color() const;
         std::string damage_type_string() const;

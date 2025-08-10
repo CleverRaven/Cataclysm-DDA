@@ -516,6 +516,9 @@ void spell_type::load( const JsonObject &jo, std::string_view src )
         const JsonObject jo_energy = jo.get_object( "energy_source" );
         mandatory( jo_energy, was_loaded, "type", energy_source );
         optional( jo_energy, was_loaded, "vitamin", vitamin_energy_source_ );
+        if( jo_energy.has_string( "color" ) ) {
+            energy_color_ = color_from_string( jo_energy.get_string( "color" ) );
+        }
     }
     optional( jo, was_loaded, "damage_type", dmg_type, dmg_type_default );
     optional( jo, was_loaded, "get_level_formula_id", get_level_formula_id );
@@ -1576,7 +1579,7 @@ std::string spell::energy_cost_string( const Character &guy ) const
         return colorize( pair.first, pair.second );
     }
     if( energy_source() == magic_energy_type::vitamin ) {
-        return colorize( std::to_string( energy_cost( guy ) ), c_cyan );
+        return colorize( std::to_string( energy_cost( guy ) ), energy_color() );
     }
     debugmsg( "ERROR: Spell %s has invalid energy source.", id().c_str() );
     return _( "error: energy_type" );
@@ -1598,7 +1601,8 @@ std::string spell::energy_cur_string( const Character &guy ) const
         return colorize( pair.first, pair.second );
     }
     if( energy_source() == magic_energy_type::vitamin ) {
-        return colorize( std::to_string( guy.vitamin_get( vitamin_energy_source().value() ) ), c_cyan );
+        return colorize( std::to_string( guy.vitamin_get( vitamin_energy_source().value() ) ),
+                         energy_color() );
     }
     if( energy_source() == magic_energy_type::hp ) {
         return "";
@@ -1684,6 +1688,11 @@ magic_energy_type spell::energy_source() const
 std::optional<vitamin_id> spell::vitamin_energy_source() const
 {
     return type->vitamin_energy_source();
+}
+
+nc_color spell::energy_color() const
+{
+    return type->energy_color();
 }
 
 bool spell::is_target_in_range( const Creature &caster, const tripoint_bub_ms &p ) const
@@ -1845,6 +1854,11 @@ magic_energy_type spell_type::get_energy_source() const
 std::optional<vitamin_id> spell_type::vitamin_energy_source() const
 {
     return vitamin_energy_source_;
+}
+
+nc_color spell_type::energy_color() const
+{
+    return energy_color_;
 }
 
 std::optional<jmath_func_id> spell_type::overall_get_level_formula_id() const
@@ -2677,8 +2691,12 @@ bool known_magic::has_enough_energy( const Character &guy, const spell &sp ) con
             return guy.get_power_level() >= units::from_kilojoule( static_cast<std::int64_t>( cost ) );
         case magic_energy_type::stamina:
             return guy.get_stamina() >= cost;
-        case magic_energy_type::vitamin:
-            return guy.vitamin_get( sp.vitamin_energy_source().value() ) >= cost;
+        case magic_energy_type::vitamin: {
+            const int min_vitamin_level = sp.vitamin_energy_source().value().obj().min();
+            const int current_vitamin_level = guy.vitamin_get( sp.vitamin_energy_source().value() );
+            // in case the vitamin can go into negative, check min also
+            return current_vitamin_level >= cost + min_vitamin_level;
+        }
         case magic_energy_type::hp:
             for( const std::pair<const bodypart_str_id, bodypart> &elem : guy.get_body() ) {
                 if( elem.second.get_hp_cur() > cost ) {
