@@ -1538,6 +1538,14 @@ std::string to_upper_case( const std::string &s )
     return wstr_to_utf8( wstr );
 }
 
+std::string to_lower_case( const std::string &s )
+{
+    const auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
+    std::wstring wstr = utf8_to_wstr( s );
+    f.tolower( wstr.data(), wstr.data() + wstr.size() );
+    return wstr_to_utf8( wstr );
+}
+
 // find the position of each non-printing tag in a string
 std::vector<size_t> get_tag_positions( std::string_view s )
 {

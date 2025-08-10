@@ -1556,7 +1556,7 @@ std::string spell::energy_string() const
         case magic_energy_type::bionic:
             return _( "kJ" );
         case magic_energy_type::vitamin:
-            return vitamin_energy_source().value().obj().name();
+            return to_lower_case( vitamin_energy_source().value().obj().name() );
         default:
             return "";
     }
