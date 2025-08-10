@@ -360,6 +360,24 @@ bool effect_on_condition::activate( dialogue &d, bool require_callstack_check ) 
     return retval;
 }
 
+bool effect_on_condition::activate_activation_only( dialogue &d, const std::string &text1,
+        const std::string &text2, const std::string &text3, bool require_callstack_check ) const
+{
+    if( type == eoc_type::ACTIVATION ) {
+        return activate( d, require_callstack_check );
+    }
+    debugmsg(
+        "Must use an activation eoc for %s%s%s%s.  Otherwise, create a non-recurring effect_on_condition for this %s%swith its condition and effects, then have a recurring one queue it.",
+        text1,
+        text2.empty() ? "" :
+        ".  If you don't want the effect_on_condition to happen on its own (without the ",
+        text2,
+        text2.empty() ? "" : "), remove the recurrence min and max.",
+        text3,
+        text3.empty() ? "" : " " );
+    return false;
+}
+
 bool effect_on_condition::check_deactivate( const_dialogue const &d ) const
 {
     if( !has_deactivate_condition || has_false_effect ) {
