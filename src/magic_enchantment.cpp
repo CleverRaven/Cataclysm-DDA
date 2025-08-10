@@ -4,13 +4,12 @@
 #include <set>
 #include <string>
 
-#include "bodypart.h"
 #include "calendar.h"
+#include "cata_utility.h"
 #include "character.h"
 #include "condition.h"
 #include "coordinates.h"
 #include "creature.h"
-#include "damage.h"
 #include "debug.h"
 #include "dialogue.h"
 #include "dialogue_helpers.h"
@@ -24,7 +23,6 @@
 #include "mod_tracker.h"
 #include "monster.h"
 #include "rng.h"
-#include "skill.h"
 #include "talker.h"
 #include "units.h"
 #include "vehicle.h"
