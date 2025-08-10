@@ -48,5 +48,21 @@
     "time": "30 m",
     "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "WRENCH", "level": 2 } ],
     "components": [ [ [ "scrap", 8 ] ], [ [ "hat_hard", 1 ] ], [ [ "nuts_bolts", 12 ] ] ]
+  },
+  {
+    "result": "helmet_army",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 m",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "helmet_army_stripped", 1 ] ], [ [ "helmet_mounting_brackets", 1 ] ] ]
+  },
+  {
+    "result": "airsoft_helmet",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 m",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "airsoft_helmet_stripped", 1 ] ], [ [ "helmet_mounting_brackets", 1 ] ] ]
   }
 ]
