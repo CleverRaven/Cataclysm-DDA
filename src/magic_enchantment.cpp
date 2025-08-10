@@ -568,67 +568,27 @@ void enchant_cache::load( const JsonObject &jo, std::string_view,
     enchantment::load( jo, "", inline_id, true );
     if( jo.has_array( "values" ) ) {
 
-        // enchantment to be silently skipped for migration purposes
-        std::set<std::string> legacy_values = {
-            "ITEM_DAMAGE_ACID",
-            "ITEM_DAMAGE_BIO",
-            "ITEM_DAMAGE_BULLET",
-            "ITEM_DAMAGE_COLD",
-            "ITEM_DAMAGE_CUT",
-            "ITEM_DAMAGE_ELEC",
-            "ITEM_DAMAGE_HEAT",
-            "ITEM_DAMAGE_PURE",
-            "ITEM_DAMAGE_STAB",
-            "ITEM_DAMAGE_BASH",
-            "SIGHT_RANGE_ELECTRIC",
-            "MOTION_VISION_RANGE",
-            "SIGHT_RANGE_FAE",
-            "SIGHT_RANGE_NETHER",
-            "SIGHT_RANGE_MINDS",
-            "ARMOR_ACID",
-            "ARMOR_BASH",
-            "ARMOR_BIO",
-            "ARMOR_COLD",
-            "ARMOR_CUT",
-            "ARMOR_ELEC",
-            "ARMOR_HEAT",
-            "ARMOR_STAB",
-            "ARMOR_BULLET",
-            "EXTRA_BASH",
-            "EXTRA_CUT",
-            "EXTRA_STAB",
-            "EXTRA_BULLET",
-            "EXTRA_HEAT",
-            "EXTRA_COLD",
-            "EXTRA_ELEC",
-            "EXTRA_ACID",
-            "EXTRA_BIO",
-            "ITEM_ARMOR_BASH",
-            "ITEM_ARMOR_CUT",
-            "ITEM_ARMOR_STAB",
-            "ITEM_ARMOR_BULLET",
-            "ITEM_ARMOR_HEAT",
-            "ITEM_ARMOR_COLD",
-            "ITEM_ARMOR_ELEC",
-            "ITEM_ARMOR_ACID",
-            "ITEM_ARMOR_BIO"
-            // values above to be removed after 0.I
-        };
+        // enchantments to be silently skipped for recent obsoletion purposes
+        static const std::set<std::string> legacy_values = { };
 
         for( const JsonObject value_obj : jo.get_array( "values" ) ) {
             try {
                 const enchant_vals::mod value = io::string_to_enum<enchant_vals::mod>
                                                 ( value_obj.get_string( "value" ) );
-                const int add = value_obj.has_int( "add" ) ? value_obj.get_int( "add", 0 ) : 0;
-                const double mult = value_obj.has_float( "multiply" ) ? value_obj.get_float( "multiply",
-                                    0.0 ) : 0.0;
-                if( add != 0 ) {
-                    values_add.emplace( value, add );
+                if( value_obj.get_int( "add" ) ) {
+                    const int add = value_obj.get_int( "add" );
+                    if( add != 0 ) ) {
+                        values_add.emplace( value, add );
+                    }
                 }
-                if( mult != 0.0 ) {
-                    values_multiply.emplace( value, mult );
+                if( value_obj.has_float( "multiply" ) ) {
+                    const float multiply = value_obj.get_float( "multiply" );
+                    if( !float_equals( multiply, 0.0 ) ) {
+                        values_multiply.emplace( value, multiply );
+                    }
                 }
             } catch( ... ) {
+                value_obj.allow_omitted_members();
                 if( legacy_values.find( value_obj.get_string( "value", "" ) ) == legacy_values.end() ) {
                     debugmsg( "A relic attempted to load invalid enchantment %s.", value_obj.get_string( "value",
                               "" ) );
@@ -727,40 +687,67 @@ void enchant_cache::serialize( JsonOut &jsout ) const
     jsout.member( "modified_bodyparts", modified_bodyparts );
     jsout.member( "mutations", mutations );
 
-    jsout.member( "values" );
-    jsout.start_array();
-    for( int value = 0; value < static_cast<int>( enchant_vals::mod::NUM_MOD ); value++ ) {
-        enchant_vals::mod enum_value = static_cast<enchant_vals::mod>( value );
-        jsout.start_object();
-        jsout.member( "value", io::enum_to_string<enchant_vals::mod>( enum_value ) );
-        if( get_value_add( enum_value ) != 0 ) {
-            jsout.member( "add", get_value_add( enum_value ) );
+    if( !values_add.empty() || !values_multiply.empty() ) {
+        jsout.member( "values" );
+        jsout.start_array();
+        std::set<enchant_vals::mod> values_add_multiply;
+        for( auto& [ enchant, add ] : values_add ) {
+            if( float_equals( add, 0.0 ) ) {
+                continue;
+            }
+            jsout.start_object();
+            jsout.member( "value", io::enum_to_string<enchant_vals::mod>( enchant ) );
+            jsout.member( "add", add );
+            const double multiply = get_value_multiply( enchant );
+            if( !float_equals( multiply, 0.0 ) ) {
+                jsout.member( "multiply", multiply );
+                values_add_multiply.insert( enchant );
+            }
+            jsout.end_object();
         }
-        if( get_value_multiply( enum_value ) != 0 ) {
-            jsout.member( "multiply", get_value_multiply( enum_value ) );
+        for( auto& [ enchant, multiply ] : values_multiply ) {
+            if( float_equals( multiply, 0.0 ) ||
+                values_add_multiply.find( enchant ) != values_add_multiply.end() ) {
+                continue;
+            }
+            jsout.start_object();
+            jsout.member( "value", io::enum_to_string<enchant_vals::mod>( enchant ) );
+            jsout.member( "multiply", multiply );
+            jsout.end_object();
         }
-        jsout.end_object();
+        jsout.end_array();
     }
-    jsout.end_array();
 
-    jsout.member( "skills" );
-    jsout.start_array();
-    const auto skill_f = []( const Skill & lhs, const Skill & rhs ) {
-        return lhs.ident() < rhs.ident();
-    };
-    for( const Skill *sk : Skill::get_skills_sorted_by( skill_f ) ) {
-        skill_id skid = sk->ident();
-        jsout.start_object();
-        jsout.member( "value", skid );
-        if( get_skill_value_add( skid ) != 0 ) {
-            jsout.member( "add", get_skill_value_add( skid ) );
+    if( !skill_values_add.empty() || !skill_values_multiply.empty() ) {
+        jsout.member( "skills" );
+        jsout.start_array();
+        std::set<skill_id> values_add_multiply;
+        for( auto& [ skill, add ] : skill_values_add ) {
+            if( float_equals( add, 0.0 ) ) {
+                continue;
+            }
+            jsout.start_object();
+            jsout.member( "value", skill );
+            jsout.member( "add", add );
+            const double multiply = get_value_multiply( enchant );
+            if( !float_equals( multiply, 0.0 ) ) {
+                jsout.member( "multiply", multiply );
+                values_add_multiply.insert( enchant );
+            }
+            jsout.end_object();
         }
-        if( get_skill_value_multiply( skid ) != 0 ) {
-            jsout.member( "multiply", get_skill_value_multiply( skid ) );
+        for( auto& [ skill, multiply ] : skill_values_multiply ) {
+            if( float_equals( multiply, 0.0 ) ||
+                values_add_multiply.find( skill ) != values_add_multiply.end() ) {
+                continue;
+            }
+            jsout.start_object();
+            jsout.member( "value", skill );
+            jsout.member( "multiply", multiply );
+            jsout.end_object();
         }
-        jsout.end_object();
+        jsout.end_array();
     }
-    jsout.end_array();
 
     jsout.member( "melee_damage_bonus" );
     jsout.start_array();
