@@ -7,6 +7,7 @@
 #include <memory>
 #include <ostream>
 #include <queue>
+#include <stdexcept>
 
 #include "assign.h"
 #include "cata_utility.h"
