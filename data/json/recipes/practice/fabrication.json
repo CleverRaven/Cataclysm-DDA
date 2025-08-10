@@ -341,6 +341,7 @@
   {
     "id": "prac_machining_lathe",
     "type": "practice",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_FABRICATION",
     "name": "lathe turning",
@@ -349,11 +350,12 @@
     "practice_data": { "min_difficulty": 2, "max_difficulty": 3, "skill_limit": 3 },
     "proficiencies": [
       { "proficiency": "prof_metalworking", "time_multiplier": 1, "skill_penalty": 0 },
-      { "proficiency": "prof_blacksmithing", "time_multiplier": 1, "skill_penalty": 0 }
+      { "proficiency": "prof_machining_basic", "time_multiplier": 1, "skill_penalty": 0 }
     ],
     "time": "1 h",
     "byproducts": [ [ "scrap_aluminum", 50 ] ],
-    "using": [ [ "heavy_lathe_tool", 1 ], [ "aluminum_bar_round", 1 ] ],
+    "tools": [ [ ["fake_lathe", 25] ] ],
+    "components": [ [ [ "aluminum_bar_round", 1 ] ] ],
     "autolearn": [ [ "fabrication", 4 ] ],
     "book_learn": [
       [ "textbook_fabrication", 3 ],
