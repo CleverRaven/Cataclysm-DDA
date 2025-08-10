@@ -2528,6 +2528,11 @@
   },
   {
     "type": "MIGRATION",
+    "id": "sheriffshirt",
+    "replace": "postman_shirt"
+  },
+  {
+    "type": "MIGRATION",
     "id": "subsuit_xl",
     "replace": "jumpsuit_pocketless",
     "variant": "orange"
