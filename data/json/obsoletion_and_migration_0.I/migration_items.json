@@ -2686,5 +2686,10 @@
     "type": "MIGRATION",
     "id": "e_combatsaw_on",
     "replace": "elec_chainsaw_on"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "robofac_yrax_deactivation_manual",
+    "replace": "robofac_yrax_trifacet_deactivation_manual"
   }
 ]
