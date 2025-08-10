@@ -364,6 +364,7 @@ Certain entries like the snippets above are taken from the game state as opposed
 | `<topic_item_my_total_price>`                 | beta           | gets replaced with the total price for talk_topic's referenced item in beta talker's inventory
 | `<topic_item_your_total_price>`               | alpha          | gets replaced with the total price for talk_topic's referenced item in alpha talker's inventory
 | `<interval>`                                  | beta           | gets replaced with the time remaining until the beta talker restocks
+| `<restock_time_point>`                        | beta           | displays the date of next restock of the beta talker
 | `<u_val:VAR>`                                 | alpha          | gets replaced with the user variable VAR
 | `<npc_val:VAR>`                               | beta           | gets replaced with the npc variable VAR
 | `<context_val:VAR>`                           | N/A            | gets replaced with the context variable VAR

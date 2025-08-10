@@ -238,40 +238,55 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "armor",
-    "name": { "str": "pair of chitinous gauntlets", "str_pl": "pairs of chitinous gauntlets" },
-    "description": "A pair of gauntlets made from the exoskeletons of insects.",
-    "weight": "760 g",
-    "volume": "1750 ml",
+    "name": { "str": "chitinous scale mail gauntlets (pair)", "str_pl": "chitinous scale mail gauntlets (pairs)" },
+    "description": "A pair of gauntlets made from loose sections of chitin attached to a leather backing.  Due to the poor material qualities of chitin, it doesn't cover everything and isn't very protective.",
+    "weight": "261 g",
+    "volume": "300 ml",
+    "//": "Human hands assumed to be about 1 sq ft total, or 929 cm^2.",
+    "//1": "Chitin has a density of 1.45g/cm^3, thickness of 0.32 cm, total coverage of 44% leaves us with 190 grams.",
+    "//2": "Leather has a density of 1.1g/cm^3, thickness of 0.07 cm, coverage of 100% leaves us with 71 grams.",
+    "//3": "Totalled up this is 261 grams with some rounding",
     "price": "380 USD",
-    "price_postapoc": "12 USD 50 cent",
-    "material": [ "chitin" ],
+    "price_postapoc": "50 cent",
+    "material": [ { "type": "chitin", "portion": 35 }, { "type": "leather", "portion": 1 } ],
     "symbol": "[",
     "looks_like": "gauntlets_larmor",
     "color": "green",
     "warmth": 20,
-    "material_thickness": 4,
-    "environmental_protection": 4,
-    "flags": [ "STURDY", "DURABLE_MELEE", "OUTER" ],
+    "flags": [ "OUTER" ],
     "armor": [
       {
+        "material": [
+          { "type": "chitin", "covered_by_mat": 80, "thickness": 3.2 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.7 }
+        ],
         "encumbrance": 12,
-        "coverage": 95,
+        "coverage": 100,
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_back_l", "hand_back_r", "hand_wrist_l", "hand_wrist_r" ]
       },
       {
-        "coverage": 80,
+        "material": [
+          { "type": "chitin", "covered_by_mat": 40, "thickness": 3.2 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.7 }
+        ],
+        "coverage": 100,
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+      },
+      {
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 0.7 } ],
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_palm_r", "hand_palm_l" ]
       }
-    ],
-    "melee_damage": { "bash": 2 }
+    ]
   },
   {
     "id": "xl_gauntlets_chitin",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "pair of chitinous gauntlets", "str_pl": "pairs of chitinous gauntlets" },
+    "name": { "str": "chitinous scale mail gauntlets (pair)", "str_pl": "chitinous scale mail gauntlets (pairs)" },
     "copy-from": "gauntlets_chitin",
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
@@ -281,7 +296,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "gauntlets_chitin",
-    "name": { "str": "pair of chitinous gauntlets", "str_pl": "pairs of chitinous gauntlets" },
+    "name": { "str": "chitinous scale mail gauntlets (pair)", "str_pl": "chitinous scale mail gauntlets (pairs)" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },

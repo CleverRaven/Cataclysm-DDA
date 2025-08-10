@@ -126,7 +126,7 @@ void omt_types_parameters::deserialize( const JsonValue &jv )
     }
     JsonObject jo = jv.get_object();
     mandatory( jo, false, "om_terrain", omt );
-    optional( jo, false, "om_terrain_match_type", omt_type );
+    optional( jo, false, "om_terrain_match_type", omt_type, ot_match_type::type );
     optional( jo, false, "parameters", parameters );
 }
 

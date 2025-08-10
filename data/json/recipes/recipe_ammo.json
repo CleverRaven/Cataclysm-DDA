@@ -71,7 +71,7 @@
     "autolearn": true,
     "using": [ [ "tailoring_leather_small", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ],
-    "components": [ [ [ "string_36", 3 ], [ "cordage_36", 3 ] ], [ [ "super_glue", 5 ], [ "bone_glue", 1 ] ] ],
+    "components": [ [ [ "string_36", 3 ], [ "cordage_36", 3 ] ], [ [ "glue_strong", 5 ], [ "glue_weak", 150 ] ] ],
     "//": "Essentially a ball of glued-together string with some leather around it"
   },
   {

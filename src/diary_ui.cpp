@@ -256,7 +256,7 @@ void diary::show_diary_ui( diary *c_diary )
         print_list_scrollable( &w_pages, c_diary->get_pages_list(), &selected[window_mode::PAGE_WIN],
                                currwin == window_mode::PAGE_WIN, true, report_color_error::yes );
         center_print( w_pages, 0, c_light_gray, string_format( _( "pages: %d" ),
-                      c_diary->get_pages_list().size() ) );
+                      c_diary->get_pages_list().size() - 1 ) );
 
         wnoutrefresh( w_pages );
     } );
@@ -360,7 +360,7 @@ void diary::show_diary_ui( diary *c_diary )
         } else if( action == "VIEW_SCORES" ) {
             show_scores_ui();
         } else if( action == "DELETE PAGE" ) {
-            if( !c_diary->pages.empty() ) {
+            if( c_diary->pages.size() > 1 ) {
                 if( query_yn( _( "Really delete Page?" ) ) ) {
                     c_diary->delete_page();
                     if( selected[window_mode::PAGE_WIN] >= static_cast<int>( c_diary->pages.size() ) ) {
@@ -382,6 +382,9 @@ void diary::show_diary_ui( diary *c_diary )
 
 void diary::edit_page_ui( const std::function<catacurses::window()> &create_window )
 {
+    if( get_page_ptr()->is_summary() ) {
+        return;
+    }
     // Modify the stored text so the new text is displayed after exiting from
     // the editor window and before confirming or canceling the y/n query.
     std::string &new_text = get_page_ptr()->m_text;
