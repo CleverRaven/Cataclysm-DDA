@@ -2,7 +2,7 @@
   {
     "type": "monstergroup",
     "id": "GROUP_ZOMBIE_UPGRADE",
-    "//": "Masters pick from here when upgrading; no dogs, bionics, or profession-types.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
+    "//": "Masters pick from here when upgrading; no dogs, bionics, or profession-types.",
     "monsters": [
       { "monster": "mon_zombie_tough", "weight": 110 },
       { "monster": "mon_zombie_grabber", "weight": 60 },

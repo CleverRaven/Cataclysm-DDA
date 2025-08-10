@@ -4,7 +4,6 @@
 #include <string>
 #include <utility>
 
-#include "assign.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "debug.h"
@@ -450,7 +449,7 @@ std::map<mongroup_id, MonsterGroup> &MonsterGroupManager::Get_all_Groups()
 
 void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
 {
-    float mon_upgrade_factor = get_option<float>( "EVOLUTION_INVERSE_MULTIPLIER" );
+    const float mon_upgrade_factor = get_option<float>( "EVOLUTION_INVERSE_MULTIPLIER" );
 
     MonsterGroup g;
     int freq_total = 0;
@@ -493,16 +492,11 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
 
             holiday event = mon.get_enum_value<holiday>( "event", holiday::none );
 
-            int freq = mon.get_int( "weight", 1 );
-            if( mon.has_int( "freq" ) ) {
-                freq = mon.get_int( "freq" );
-            }
-            if( freq > max_freq.second ) {
-                if( !isgroup && event == holiday::none ) {
+            const int freq = mon.get_int( "weight", 1 );
+            if( event == holiday::none ) {
+                if( freq > max_freq.second  && !isgroup ) {
                     max_freq = { mtype_id( id_name ), freq };
                 }
-            }
-            if( event == holiday::none ) {
                 freq_total += freq;
             }
             int cost = mon.get_int( "cost_multiplier", 1 );
@@ -551,20 +545,9 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
             g.defaultMonster = max_freq.first;
         }
     }
-    g.replace_monster_group = jo.get_bool( "replace_monster_group", false );
-    g.new_monster_group = mongroup_id( jo.get_string( "new_monster_group_id",
-                                       mongroup_id::NULL_ID().str() ) );
-    assign( jo, "replacement_time", g.monster_group_time, false, 1_days );
     g.is_safe = jo.get_bool( "is_safe", false );
 
-    g.freq_total = jo.get_int( "freq_total", ( extending ? g.freq_total : 0 ) + freq_total );
-    if( jo.get_bool( "auto_total", false ) ) { //Fit the max size to the sum of all freqs
-        int total = 0;
-        for( MonsterGroupEntry &mon : g.monsters ) {
-            total += mon.frequency;
-        }
-        g.freq_total = total;
-    }
+    g.freq_total = ( extending ? g.freq_total : 0 ) + freq_total;
 
     monsterGroupMap[g.id] = g;
 }

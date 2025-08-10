@@ -1609,7 +1609,7 @@ void spell_effect::upgrade( const spell &sp, Creature &caster, const tripoint_bu
         monster *mon = creatures.creature_at<monster>( aoe );
         if( mon != nullptr && rng( 1, 10000 ) < sp.damage( caster ) ) {
             mon->allow_upgrade();
-            mon->try_upgrade( false );
+            mon->try_upgrade();
         }
     }
 }

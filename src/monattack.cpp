@@ -3120,7 +3120,7 @@ bool mattack::upgrade( monster *z )
     viewer &player_view = get_player_view();
     const bool could_see = player_view.sees( here, *target );
     target->hasten_upgrade();
-    target->try_upgrade( false );
+    target->try_upgrade();
     const bool can_see = player_view.sees( here, *target );
     if( player_view.sees( here, *z ) ) {
         if( could_see ) {
@@ -3832,7 +3832,7 @@ bool mattack::evolve_kill_strike( monster *z )
         const std::string old_name = z->name();
         const bool could_see_z = player_character.sees( here, *z );
         z->allow_upgrade();
-        z->try_upgrade( false );
+        z->try_upgrade();
         z->setpos( target_pos );
         const std::string upgrade_name = z->name();
         const bool can_see_z_upgrade = player_character.sees( here, *z );

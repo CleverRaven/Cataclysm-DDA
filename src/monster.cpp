@@ -16,6 +16,7 @@
 #include "avatar.h"
 #include "bodypart.h"
 #include "cached_options.h"
+#include "cata_assert.h"
 #include "cata_imgui.h"
 #include "catacharset.h"
 #include "character.h"
@@ -216,8 +217,8 @@ static const trait_id trait_TERRIFYING( "TERRIFYING" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
 // Limit the number of iterations for next upgrade_time calculations.
-// This also sets the percentage of monsters that will never upgrade.
-// The rough formula is 2^(-x), e.g. for x = 5 it's 0.03125 (~ 3%).
+// Any monsters that reach this limit will upgrade at UPGRADE_MAX_ITERS half lifes.
+// The formula for the expected amount that will reach this limit is 2^(-x), e.g. for x = 5 it's 0.03125 (~ 3%).
 static constexpr int UPGRADE_MAX_ITERS = 5;
 
 static const std::map<creature_size, translation> size_names {
@@ -285,7 +286,7 @@ monster::monster( const mtype_id &id ) : monster()
     anger = type->agro;
     morale = type->morale;
     faction = type->default_faction;
-    upgrades = type->upgrades && ( type->half_life || type->age_grow );
+    upgrades = type->upgrades && ( type->half_life >= 0 || type->age_grow >= 0 );
     reproduces = type->reproduces && type->baby_timer && !monster::has_flag( mon_flag_NO_BREED );
     if( reproduces && type->baby_timer ) {
         baby_timer.emplace( calendar::turn + *type->baby_timer );
@@ -329,6 +330,7 @@ monster::monster( const mtype_id &id ) : monster()
         }
     }
     aggro_character = type->aggro_character;
+    initial_upgrade_time();
 }
 
 monster::monster( const mtype_id &id, const tripoint_bub_ms &p ) : monster( id )
@@ -388,6 +390,11 @@ void monster::poly( const mtype_id &id )
     aggro_character = type->aggro_character;
 }
 
+void monster::upgrades_override_disable()
+{
+    upgrades = false;
+}
+
 bool monster::can_upgrade() const
 {
     return upgrades && get_option<float>( "EVOLUTION_INVERSE_MULTIPLIER" ) > 0.0;
@@ -415,9 +422,7 @@ void monster::hasten_upgrade()
 
     const int scaled_half_life = type->half_life * get_option<float>( "EVOLUTION_INVERSE_MULTIPLIER" );
     upgrade_time -= rng( 1, scaled_half_life );
-    if( upgrade_time < 0 ) {
-        upgrade_time = 0;
-    }
+    upgrade_time = std::max( upgrade_time, to_days<int>( calendar::turn - calendar::turn_zero ) );
 }
 
 int monster::get_upgrade_time() const
@@ -425,16 +430,15 @@ int monster::get_upgrade_time() const
     return upgrade_time;
 }
 
-// Sets time to upgrade to 0.
+// Allows the monster to immediately upgrade
 void monster::allow_upgrade()
 {
-    upgrade_time = 0;
+    upgrade_time = to_days<int>( calendar::turn - calendar::turn_zero );
 }
 
-// This will disable upgrades in case max iters have been reached.
-// Checking for return value of -1 is necessary.
-int monster::next_upgrade_time()
+int monster::next_upgrade_time() const
 {
+    cata_assert( can_upgrade() );
     if( type->age_grow > 0 ) {
         return type->age_grow;
     }
@@ -448,12 +452,31 @@ int monster::next_upgrade_time()
             day += scaled_half_life;
         }
     }
-    // didn't manage to upgrade, shouldn't ever then
-    upgrades = false;
-    return -1;
+    return day; // Didn't manage to upgrade in UPGRADE_MAX_ITERS half lifes, just use UPGRADE_MAX_ITERS half lifes
 }
 
-void monster::try_upgrade( bool pin_time )
+void monster::initial_upgrade_time()
+{
+    if( !can_upgrade() ) {
+        return;
+    }
+
+    const int current_day = to_days<int>( calendar::turn - calendar::turn_zero );
+    if( upgrade_time < 0 ) {
+        upgrade_time = next_upgrade_time();
+        if( type->age_grow > 0 ) {
+            // offset by today for growing creatures so it works off when they're born/hatched
+            // TODO: Mapgen placed growing creatures should -= rng( 0, age_grow - 1 ) so they aren't all 0 days into their growth
+            upgrade_time += current_day;
+        } else {
+            // offset by starting season
+            // TODO: cache calendar::start_of_cataclysm - calendar::turn_zero
+            upgrade_time += to_days<int>( calendar::start_of_cataclysm - calendar::turn_zero );
+        }
+    }
+}
+
+void monster::try_upgrade()
 {
     map &here = get_map();
 
@@ -462,31 +485,11 @@ void monster::try_upgrade( bool pin_time )
     }
 
     const int current_day = to_days<int>( calendar::turn - calendar::turn_zero );
-    //This should only occur when a monster is created or upgraded to a new form
-    if( upgrade_time < 0 ) {
-        upgrade_time = next_upgrade_time();
-        if( upgrade_time < 0 ) {
-            return;
-        }
-        if( pin_time || type->age_grow > 0 ) {
-            // offset by today, always true for growing creatures
-            upgrade_time += current_day;
-        } else {
-            // offset by starting season
-            // TODO: revisit this and make it simpler
-            upgrade_time += to_days<int>( calendar::start_of_cataclysm - calendar::turn_zero );
-        }
-    }
 
     // Here we iterate until we either are before upgrade_time or can't upgrade any more.
     // This is so that late into game new monsters can 'catch up' with all that half-life
     // upgrades they'd get if we were simulating whole world.
-    while( true ) {
-        if( upgrade_time > current_day ) {
-            // not yet
-            return;
-        }
-
+    while( upgrade_time <= current_day ) {
         if( type->upgrade_into ) {
             //If we upgrade into a blacklisted monster, treat it as though we are non-upgradeable
             if( MonsterGroupManager::monster_is_blacklisted( type->upgrade_into ) ) {
@@ -537,16 +540,11 @@ void monster::try_upgrade( bool pin_time )
             }
         }
 
-        if( !upgrades ) {
-            // upgraded into a non-upgradeable monster
+        if( !can_upgrade() ) {
+            // Upgraded into a non-upgradeable monster (poly() updates upgrades)
             return;
         }
-
         const int next_upgrade = next_upgrade_time();
-        if( next_upgrade < 0 ) {
-            // hit never_upgrade
-            return;
-        }
         upgrade_time += next_upgrade;
     }
 }
@@ -762,12 +760,14 @@ void monster::spawn( const tripoint_bub_ms &p )
 
     set_pos_bub_only( here, p );
     unset_dest();
+    try_upgrade();
 }
 
 void monster::spawn( const tripoint_abs_ms &loc )
 {
     set_pos_abs_only( loc );
     unset_dest();
+    try_upgrade();
 }
 
 std::string monster::get_name() const
@@ -2946,6 +2946,9 @@ void monster::process_turn()
             }
             here.emit_field( pos_bub(), emid );
         }
+        if( calendar::once_every( 1_days ) ) {
+            try_upgrade();
+        }
     }
 
     // Special attack cooldowns are updated here.
@@ -4097,7 +4100,7 @@ void monster::on_unload()
 
 void monster::on_load()
 {
-    try_upgrade( false );
+    try_upgrade();
     try_reproduce();
     try_biosignature();
 
