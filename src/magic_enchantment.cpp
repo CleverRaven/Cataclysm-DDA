@@ -230,7 +230,7 @@ void load_add_and_multiply( const JsonObject &jo, const bool &is_child,
 }
 
 template<typename TKey>
-double enchant_cache::get_value( const TKey value, const std::map<TKey, double> &value_map ) const
+double enchant_cache::get_value( const TKey &value, const std::map<TKey, double> &value_map ) const
 {
     const auto found = value_map.find( value );
     if( found == value_map.cend() ) {
@@ -263,7 +263,7 @@ void load_add_and_multiply( const JsonObject &jo, std::string_view array_key,
 }
 
 template<typename TKey>
-void enchant_cache::save_add_and_multiply( JsonOut &jsout, const std::string &member_key,
+void enchant_cache::save_add_and_multiply( JsonOut &jsout, const std::string_view &member_key,
         const std::string &type_key, const std::map<TKey, double> &add_map,
         const std::map<TKey, double> &mult_map ) const
 {
@@ -733,7 +733,7 @@ void enchant_cache::serialize( JsonOut &jsout ) const
         jsout.member( "values" );
         jsout.start_array();
         std::set<enchant_vals::mod> values_add_multiply;
-        for( auto& [ enchant, add ] : values_add ) {
+        for( const auto& [ enchant, add ] : values_add ) {
             if( float_equals( add, 0.0 ) ) {
                 continue;
             }
@@ -747,7 +747,7 @@ void enchant_cache::serialize( JsonOut &jsout ) const
             }
             jsout.end_object();
         }
-        for( auto& [ enchant, multiply ] : values_multiply ) {
+        for( const auto& [ enchant, multiply ] : values_multiply ) {
             if( float_equals( multiply, 0.0 ) ||
                 values_add_multiply.find( enchant ) != values_add_multiply.end() ) {
                 continue;
