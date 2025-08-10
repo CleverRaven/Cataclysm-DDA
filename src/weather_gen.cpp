@@ -67,12 +67,15 @@ static weather_gen_common get_common_data( const tripoint_abs_ms &location,
     result.modSEED = seed % SIMPLEX_NOISE_RANDOM_SEED_LIMIT;
     const double year_fraction( time_past_new_year( t.t ) /
                                 calendar::year_length() ); // [0,1)
-
-    result.cyf = std::cos( tau * ( year_fraction + .125 ) ); // [-1, 1]
-    // We add one-eighth to line up `cyf` so that 1 is at
+    // We add an offset to line up `cyf` so that 1 is at
     // midwinter and -1 at midsummer. (Cataclsym DDA years
-    // start when spring starts. Gregorian years start when
-    // winter starts.)
+    // start season_length - turn_zero_offset days into winter.
+    // Gregorian years start when winter starts.)
+    // LATER: Do gregorian years start on winter? They start ~10 days into winter...
+    const double days_year_start_to_midwinter = to_days<double>( ( calendar::season_length() / 2 ) -
+            ( calendar::season_length() - calendar::turn_zero_offset() ) );
+    const double offset = days_year_start_to_midwinter / to_days<double>( calendar::year_length() );
+    result.cyf = std::cos( tau * ( year_fraction - offset ) ); // [-1, 1]
     result.season = season_of_year( t.t );
 
     return result;
