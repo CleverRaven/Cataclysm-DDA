@@ -404,7 +404,8 @@
         "gun_type": "nailgun",
         "fake_skills": [ [ "gun", 0 ], [ "pistol", 2 ] ],
         "fake_dex": 8,
-        "ranges": [ [ 0, 3, "BURST" ] ]
+        "ranges": [ [ 0, 3, "BURST" ] ],
+        "cooldown": 0
       }
     ],
     "extend": { "flags": [ "DROPS_AMMO" ] }
@@ -423,7 +424,7 @@
     "melee_dice": 4,
     "melee_dice_sides": 5,
     "melee_dice_ap": 4,
-    "special_attacks": [ { "id": "smash", "throw_strength": 96 } ],
+    "special_attacks": [ { "id": "smash", "throw_strength": 96, "cooldown": 0 } ],
     "extend": { "flags": [ "BASHES", "DESTROYS", "ATTACKMON" ] }
   },
   {
@@ -487,7 +488,8 @@
         "gun_type": "watercannon",
         "fake_skills": [ [ "gun", 2 ], [ "launcher", 2 ] ],
         "fake_dex": 8,
-        "ranges": [ [ 0, 5, "BURST" ] ]
+        "ranges": [ [ 0, 5, "BURST" ] ],
+        "cooldown": 0
       }
     ],
     "extend": { "flags": [ "FIREPROOF", "BASHES" ] }
@@ -547,7 +549,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
     "attack_effs": [ { "id": "bleed", "chance": 20, "duration": 3 } ],
     "vision_day": 50,
-    "special_attacks": [ { "id": "hypo_pkill" } ],
+    "special_attacks": [ { "id": "hypo_pkill", "cooldown": 0 } ],
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
     "death_function": { "corpse_type": "BROKEN" },
     "death_drops": { "groups": [ [ "broken_robots", 3 ] ] },
