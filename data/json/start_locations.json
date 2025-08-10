@@ -8,19 +8,19 @@
   {
     "type": "start_location",
     "id": "sloc_shelter_safe",
-    "name": "Evac Center",
+    "name": "Evacuation Shelter",
     "terrain": [ { "om_terrain": "shelter", "parameters": { "shelter_palette": "shelter_basic" } } ]
   },
   {
     "type": "start_location",
     "id": "sloc_shelter_vandal",
-    "name": "Vandalized Evac Center",
+    "name": "Vandalized Evacuation Shelter",
     "terrain": [ { "om_terrain": "shelter", "parameters": { "shelter_palette": "shelter_vandal" } } ]
   },
   {
     "type": "start_location",
     "id": "sloc_shelter_under_infested",
-    "name": "Infested Evac Center Basement",
+    "name": "Infested Evacuation Shelter Basement",
     "terrain": [ { "om_terrain": "shelter_under", "parameters": { "shelter_palette": "shelter_infested_scenario" } } ]
   },
   {
