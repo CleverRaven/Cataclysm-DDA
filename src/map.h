@@ -1944,7 +1944,7 @@ class map
          */
         void set_abs_sub( const tripoint_abs_sm &p );
 
-    private:
+    protected:
         field &get_field( const tripoint_bub_ms &p );
 
         /**
