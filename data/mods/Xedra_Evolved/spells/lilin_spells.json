@@ -369,7 +369,7 @@
     "effect": "attack",
     "effect_str": "effect_lilin_speed_boost",
     "shape": "blast",
-    "mind_duration": {
+    "min_duration": {
       "math": [
         "(1500 + (u_has_trait('THRESH_LILIN') * 1500) + (u_vitamin('lilin_ruach_vitamin') / 0.24)) * (u_effect_intensity('effect_lilin_attribute_bonuses') > 0 ? 1.25 : 1) * (u_effect_intensity('effect_lilin_limb_score_bonuses_at_night') > 0 ? 1.25 : 1) * 0.7"
       ]
