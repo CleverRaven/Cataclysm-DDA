@@ -124,7 +124,8 @@
       [ "metal_file", 10 ],
       [ "clamp", 10 ],
       [ "sandpaper", 80 ],
-      { "group": "writing_utensils", "prob": 5 }
+      { "group": "writing_utensils", "prob": 5 },
+      { "group": "soldering_supplies", "prob": 50 }
     ]
   },
   {
