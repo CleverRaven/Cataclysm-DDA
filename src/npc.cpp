@@ -310,6 +310,11 @@ npc &npc::operator=( npc && ) noexcept( list_is_noexcept ) = default;
 
 static std::map<string_id<npc_template>, npc_template> npc_templates;
 
+std::map<npc_template_id, npc_template> &npc_template::get_npc_templates()
+{
+    return npc_templates;
+}
+
 void npc_template::load( const JsonObject &jsobj, std::string_view src )
 {
     npc_template tem;
