@@ -304,13 +304,6 @@
   },
   {
     "type": "jmath_function",
-    "id": "lilin_has_ruach_efficiency_beta",
-    "//": "For use when the lilit is the beta talker of the spell EoC, such as when it's targeting someone else",
-    "num_args": 0,
-    "return": "1 - min( ( (n_has_trait('LILIN_RUACH_EFFICIENCY') * 0.15) + (n_has_trait('LILIN_RUACH_EFFICIENCY_UPGRADE') * 0.15) + ( n_has_trait('LILIN_RUACH_EFFICIENCY_UPGRADE') * max( ( (n_vitamin('lilin_ruach_vitamin') - 3500 ) / 12000 ), 0) ) ), 0.33)"
-  },
-  {
-    "type": "jmath_function",
     "id": "bloodthorn_druid_traits_sum",
     "num_args": 0,
     "return": "u_has_trait('BLOODTHORNE_DRUID_SYMBIOTIC_PLANT') + u_has_trait('BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP') + u_has_trait('BLOODTHORNE_DRUID_REGAIN_BLOOD') + u_has_trait('BLOODTHORNE_DRUID_BONUS_MANA_REGEN') + u_has_trait('BLOODTHORNE_DRUID_STOP_BLEEDING') + u_has_trait('BLOODTHORNE_DRUID_WHIP_TARGETS_IN_NATURE') + u_has_trait('BLOODTHORNE_DRUID_REDUCED_PAIN_PENALTIES') + u_has_trait('BLOODTHORNE_DRUID_HEAL_FROM_SPILLED_BLOOD') + u_has_trait('BLOODTHORNE_DRUID_SUMMON_THORNHOUND') + u_has_trait('BLOODTHORNE_DRUID_SLOWER_BLEEDING') + u_has_trait('BLOODTHORNE_DRUID_CREATE_THORN_PRISON')"
