@@ -516,7 +516,7 @@ void spell_type::load( const JsonObject &jo, std::string_view src )
         const JsonObject jo_energy = jo.get_object( "energy_source" );
         mandatory( jo_energy, was_loaded, "type", energy_source );
         optional( jo_energy, was_loaded, "vitamin", vitamin_energy_source_ );
-    optional( jo_energy, was_loaded, "color", energy_color_, nc_color_reader{}, c_cyan );
+        optional( jo_energy, was_loaded, "color", energy_color_, nc_color_reader{}, c_cyan );
     }
     optional( jo, was_loaded, "damage_type", dmg_type, dmg_type_default );
     optional( jo, was_loaded, "get_level_formula_id", get_level_formula_id );
