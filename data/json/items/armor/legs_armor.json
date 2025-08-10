@@ -149,7 +149,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "legguard_chitin",
-    "name": { "str": "chitinous scale mail leggings (pair)" },
+    "name": { "str_sp": "chitinous scale mail leggings (pair)" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
