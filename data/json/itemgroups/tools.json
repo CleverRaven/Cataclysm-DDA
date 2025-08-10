@@ -1105,9 +1105,9 @@
     "subtype": "distribution",
     "id": "glue_strong_domestic",
     "items": [
-      { "item": "glue_strong", "contents-item": "small_squeeze_tube", "charges": [ 0, 4 ] },
-      { "item": "glue_strong", "contents-item": "bottle_plastic_tiny_glue", "charges": [ 0, 30 ] },
-      { "item": "glue_strong", "contents-item": "bottle_plastic_small_glue", "charges": [ 0, 250 ] }
+      { "item": "glue_strong", "container-item": "small_squeeze_tube", "charges": [ 0, 4 ] },
+      { "item": "glue_strong", "container-item": "bottle_plastic_tiny_glue", "charges": [ 0, 30 ] },
+      { "item": "glue_strong", "container-item": "bottle_plastic_small_glue", "charges": [ 0, 250 ] }
     ]
   },
   {
@@ -1115,9 +1115,9 @@
     "subtype": "distribution",
     "id": "glue_strong_domestic_full",
     "items": [
-      { "item": "glue_strong", "contents-item": "small_squeeze_tube", "charges": 4 },
-      { "item": "glue_strong", "contents-item": "bottle_plastic_tiny_glue", "charges": 30 },
-      { "item": "glue_strong", "contents-item": "bottle_plastic_small_glue", "charges": 250 }
+      { "item": "glue_strong", "container-item": "small_squeeze_tube", "charges": 4 },
+      { "item": "glue_strong", "container-item": "bottle_plastic_tiny_glue", "charges": 30 },
+      { "item": "glue_strong", "container-item": "bottle_plastic_small_glue", "charges": 250 }
     ]
   },
   {
@@ -1125,10 +1125,10 @@
     "subtype": "distribution",
     "id": "glue_strong_professional",
     "items": [
-      { "item": "glue_strong", "contents-item": "bottle_plastic_small_glue", "charges": [ 0, 500 ] },
-      { "item": "glue_strong", "contents-item": "bottle_plastic_glue", "charges": [ 0, 1000 ] },
-      { "item": "glue_strong", "contents-item": "bottle_twoliter_glue", "charges": [ 0, 2000 ] },
-      { "item": "glue_strong", "contents-item": "jug_plastic_glue", "charges": [ 0, 3750 ] }
+      { "item": "glue_strong", "container-item": "bottle_plastic_small_glue", "charges": [ 0, 500 ] },
+      { "item": "glue_strong", "container-item": "bottle_plastic_glue", "charges": [ 0, 1000 ] },
+      { "item": "glue_strong", "container-item": "bottle_twoliter_glue", "charges": [ 0, 2000 ] },
+      { "item": "glue_strong", "container-item": "jug_plastic_glue", "charges": [ 0, 3750 ] }
     ]
   },
   {
@@ -1136,10 +1136,10 @@
     "subtype": "distribution",
     "id": "glue_strong_professional_full",
     "items": [
-      { "item": "glue_strong", "contents-item": "bottle_plastic_small_glue", "charges": 500 },
-      { "item": "glue_strong", "contents-item": "bottle_plastic_glue", "charges": 1000 },
-      { "item": "glue_strong", "contents-item": "bottle_twoliter_glue", "charges": 2000 },
-      { "item": "glue_strong", "contents-item": "jug_plastic_glue", "charges": 3750 }
+      { "item": "glue_strong", "container-item": "bottle_plastic_small_glue", "charges": 500 },
+      { "item": "glue_strong", "container-item": "bottle_plastic_glue", "charges": 1000 },
+      { "item": "glue_strong", "container-item": "bottle_twoliter_glue", "charges": 2000 },
+      { "item": "glue_strong", "container-item": "jug_plastic_glue", "charges": 3750 }
     ]
   }
 ]
