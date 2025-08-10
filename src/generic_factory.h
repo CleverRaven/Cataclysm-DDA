@@ -918,6 +918,7 @@ template < typename MemberType, typename ReaderType, typename DefaultType = Memb
 inline void optional( const JsonObject &jo, const bool was_loaded, const std::string_view name,
                       MemberType &member, const ReaderType &reader )
 {
+    // reader handles disabled features
     if( !reader( jo, name, member, was_loaded ) ) {
         if( !was_loaded ) {
             member = MemberType();
@@ -928,6 +929,7 @@ template<typename MemberType, typename ReaderType, typename DefaultType = Member
 inline void optional( const JsonObject &jo, const bool was_loaded, const std::string_view name,
                       MemberType &member, const ReaderType &reader, const DefaultType &default_value )
 {
+    // reader handles disabled features
     if( !reader( jo, name, member, was_loaded ) ) {
         if( !was_loaded ) {
             member = default_value;
