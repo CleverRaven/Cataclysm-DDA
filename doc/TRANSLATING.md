@@ -308,7 +308,11 @@ the singular form + "s". However, `"str_pl"` may still be needed if the unit
 test cannot determine whether the correct plural form can be formed by simply
 appending "s".
 
-You can also add comments for translators by writing it like below (the order
+### Translation Context Comments
+
+#### JSON
+
+JSON objects can add comments for translators by writing it like below (the order
 of the entries does not matter):
 
 ```jsonc
@@ -333,6 +337,16 @@ If a string doesn't need to be translated, you can write `"NO_I18N"` in the
     "//~": "NO_I18N",
     "str": "Fake Monster-Only Spell"
 }
+```
+
+#### C++
+
+C++ code can add comments for translators by including a ~ in a comment on the
+previous line of the file containing the string to be translated.
+
+```C++
+//~ foo
+some.function( _( "translators get 'foo' for context translating this string" ) );
 ```
 
 ### Static string variables
