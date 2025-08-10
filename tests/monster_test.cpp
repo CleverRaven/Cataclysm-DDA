@@ -32,9 +32,11 @@
 #include "mtype.h"
 #include "options.h"
 #include "options_helpers.h"
+#include "overmap_map_data_cache.h"
 #include "overmapbuffer.h"
 #include "point.h"
 #include "sounds.h"
+#include "submap.h"
 #include "test_statistics.h"
 #include "type_id.h"
 
@@ -42,12 +44,15 @@ class item;
 
 using move_statistics = statistics<int>;
 
+static const furn_str_id furn_f_null( "f_null" );
+
 static const mtype_id mon_dog_zombie_brute( "mon_dog_zombie_brute" );
 static const mtype_id mon_test_zombie( "mon_test_zombie" );
 static const mtype_id mon_zombie( "mon_zombie" );
 
 static const ter_str_id ter_t_fence( "t_fence" );
 static const ter_str_id ter_t_grass( "t_grass" );
+static const ter_str_id ter_t_palisade( "t_palisade" );
 static const ter_str_id ter_t_water_dp( "t_water_dp" );
 
 
@@ -991,4 +996,67 @@ TEST_CASE( "monsters_appear_on_map_as_expected", "[monster][map][hordes]" )
     walk_toward_monster_off_the_map( omt_origin_to_south_of_map + point( 18, 6 ), point::south );
     walk_toward_monster_off_the_map( omt_origin_to_south_of_map + point( 6, 18 ), point::south );
     walk_toward_monster_off_the_map( omt_origin_to_south_of_map + point( 18, 18 ), point::south );
+}
+
+TEST_CASE( "obstacles_placed_on_map_are_present_in_overmap", "[map][hordes]" )
+{
+    clear_map();
+    map &here = get_map();
+    tripoint_bub_ms player_start_pos{ 11 * 6, 11 * 6, 0 };
+    Character &test_player = get_player_character();
+    // Player spawned at known location.
+    test_player.setpos( here, player_start_pos );
+
+    // Place a series of obstacles on the map while recording their coordinates.
+    tripoint_bub_ms obstacle_origin{ 30, 30, 0 };
+    int obstacle_radius = 10;
+    tripoint_abs_ms obstacle_eastern_border = here.get_abs( obstacle_origin + point::east *
+            obstacle_radius );
+    std::set<tripoint_abs_omt> edited_omts;
+    std::set<tripoint_abs_ms> obstacle_locations;
+    std::set<tripoint_abs_ms> passable_locations;
+    for( const tripoint_bub_ms &candidate :
+         here.points_in_radius( obstacle_origin, obstacle_radius ) ) {
+        REQUIRE( here.passable( candidate ) );
+        tripoint_abs_ms abs_candidate = here.get_abs( candidate );
+        CHECK( overmap_buffer.passable( abs_candidate ) );
+        if( one_in( 5 ) ) {
+            here.ter_set( candidate, ter_t_palisade );
+            REQUIRE( !here.passable( candidate ) );
+            edited_omts.insert( project_to<coords::omt>( abs_candidate ) );
+            obstacle_locations.insert( abs_candidate );
+        } else {
+            passable_locations.insert( abs_candidate );
+        }
+    }
+    point_sm_ms l;
+    submap *const current_submap = map_meddler::unsafe_get_submap_at( obstacle_origin, l );
+    REQUIRE( current_submap->player_adjusted_map );
+    REQUIRE( !obstacle_locations.empty() );
+    // Navigate away from said obstacles.
+    int steps = 0;
+    while( here.inbounds( obstacle_eastern_border ) || steps < 100 ) {
+        steps++;
+        tripoint_bub_ms dest = get_player_character().pos_bub() + point::east;
+        // Clear path ahead of player.
+        here.set( dest, ter_t_grass, furn_f_null );
+        REQUIRE( here.passable( dest ) );
+        g->walk_move( dest );
+    }
+    REQUIRE( !here.inbounds( obstacle_eastern_border ) );
+    // Check that for each OMT we touched, it's marked as non-placeholder.
+    for( const tripoint_abs_omt &expected_altered_omt : edited_omts ) {
+        CHECK( !overmap_buffer.get_omt_summary( expected_altered_omt )->placeholder );
+    }
+    // Assert that obstacles are present and non-obstacles are not.
+    for( const tripoint_abs_ms &expected_obstacle : obstacle_locations ) {
+        CAPTURE( expected_obstacle );
+        REQUIRE( !here.inbounds( expected_obstacle ) );
+        CHECK( !overmap_buffer.passable( expected_obstacle ) );
+    }
+    for( const tripoint_abs_ms &expected_passable : passable_locations ) {
+        CAPTURE( expected_passable );
+        REQUIRE( !here.inbounds( expected_passable ) );
+        CHECK( overmap_buffer.passable( expected_passable ) );
+    }
 }
