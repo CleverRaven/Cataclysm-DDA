@@ -337,5 +337,27 @@
       [ "textbook_fabrication", 6 ],
       [ "welding_book", 6 ]
     ]
+  },
+  {
+    "id": "prac_machining_lathe",
+    "type": "practice",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_FABRICATION",
+    "name": "lathe turning",
+    "description": "Practice turning aluminum bar stock into basic parts.",
+    "skill_used": "fabrication",
+    "practice_data": { "min_difficulty": 2, "max_difficulty": 3, "skill_limit": 3 },
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "time_multiplier": 1, "skill_penalty": 0 },
+      { "proficiency": "prof_blacksmithing", "time_multiplier": 1, "skill_penalty": 0 }
+    ],
+    "time": "1 h",
+    "byproducts": [ [ "scrap_aluminum", 50 ] ],
+    "using": [ [ "heavy_lathe_tool", 1 ], [ "aluminum_bar_round", 1 ] ],
+    "autolearn": [ [ "fabrication", 4 ] ],
+    "book_learn": [
+      [ "textbook_fabrication", 3 ],
+      [ "reference_fabrication1", 2 ]
+    ]
   }
 ]
