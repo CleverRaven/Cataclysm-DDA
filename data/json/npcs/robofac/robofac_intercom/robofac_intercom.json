@@ -123,7 +123,7 @@
     "type": "item_group",
     "id": "NC_ROBOFAC_INTERCOM_trade_envirosuit",
     "subtype": "collection",
-    "entries": [ { "item": "robofac_enviro_suit", "count": 1, "prob": 25 } ]
+    "entries": [ { "item": "robofac_enviro_suit", "count": 1, "prob": 100 } ]
   },
   {
     "id": "robofac_blacklist",
