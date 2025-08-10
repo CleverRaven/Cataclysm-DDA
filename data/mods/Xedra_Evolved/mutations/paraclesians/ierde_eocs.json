@@ -525,7 +525,7 @@
           "EOC_RESHAPE_EARTH_CHURN_EARTH",
           "EOC_RESHAPE_EARTH_DIRT_TO_STONE",
           "EOC_RESHAPE_EARTH_STONE_TO_DIRT",
-          "EOC_NULL"
+          "EOC_NONE"
         ],
         "names": [
           "Create or Destroy Wall",
