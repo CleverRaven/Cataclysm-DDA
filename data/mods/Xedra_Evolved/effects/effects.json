@@ -2768,6 +2768,17 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_pooka_outdoors_tracker",
+    "//": "Hidden effect, used for pooka advancement",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "max_intensity": 24,
+    "int_decay_step": 1,
+    "int_decay_tick": 3600
+  },
+  {
+    "type": "effect_type",
     "id": "effect_selkie_fog_cloak",
     "name": [ "Cloak of Fog" ],
     "desc": [ "The fog shields you from sight." ],

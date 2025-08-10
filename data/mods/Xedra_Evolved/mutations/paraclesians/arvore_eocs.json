@@ -4,15 +4,48 @@
     "id": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD_ON_OMT_ENTER",
     "eoc_type": "EVENT",
     "required_event": "avatar_enters_omt",
-    "condition": { "u_has_any_trait": [ "ARVORE", "FALSE_ARVORE_HATRED", "FAE_ENMITY", "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT" ] },
+    "//": "Pooka bits are for the pooka spend 24 hours in the wilderness advancement condition.",
+    "condition": {
+      "u_has_any_trait": [
+        "ARVORE",
+        "FALSE_ARVORE_HATRED",
+        "FAE_ENMITY",
+        "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT",
+        "UNKNOWING_CHANGELING_COMMONER_POOKA"
+      ]
+    },
     "effect": [
       {
         "run_eocs": [
           {
             "id": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD_ON_OMT_ENTER_2",
             "condition": { "not": { "u_near_om_location": "road", "range": 2 } },
-            "effect": [ { "math": [ "u_arvore_is_in_wilderness = 1" ] } ],
-            "false_effect": [ { "math": [ "u_arvore_is_in_wilderness = 0" ] } ]
+            "effect": [
+              { "math": [ "u_arvore_is_in_wilderness = 1" ] },
+              {
+                "if": {
+                  "and": [
+                    { "u_has_trait": "UNKNOWING_CHANGELING_COMMONER_POOKA" },
+                    { "not": { "u_has_effect": "effect_pooka_outdoors_tracker" } },
+                    {
+                      "math": [ "u_changeling_advancement_pooka_condition_spend_twenty_four_hours_in_the_wilderness != 1" ]
+                    }
+                  ]
+                },
+                "then": [ { "u_add_effect": "effect_pooka_outdoors_tracker" } ]
+              },
+              {
+                "if": { "u_has_effect": "effect_pooka_outdoors_tracker", "intensity": 24 },
+                "then": [ { "run_eocs": "EOC_PLAYABLE_CHANGELING_POOKA_ADVANCEMENT_SPEND_TWENTY_FOUR_HOURS_IN_THE_WILDERNESS" } ]
+              }
+            ],
+            "false_effect": [
+              { "math": [ "u_arvore_is_in_wilderness = 0" ] },
+              {
+                "if": { "u_has_effect": "effect_pooka_outdoors_tracker" },
+                "then": { "u_lose_effect": "effect_pooka_outdoors_tracker" }
+              }
+            ]
           }
         ]
       }

@@ -683,12 +683,24 @@
     "condition": {
       "and": [
         { "u_has_trait": "BROWNIE_HOMEBODY" },
-        { "math": [ "u_brownie_homebody_speed_bonus <= 19" ] },
+        { "math": [ "u_brownie_homebody_speed_bonus <= 25" ] },
         { "not": { "u_has_effect": "sleep" } }
       ]
     },
     "deactivate_condition": { "not": { "u_has_trait": "BROWNIE_HOMEBODY" } },
-    "effect": [ { "math": [ "u_brownie_homebody_speed_bonus++" ] }, { "math": [ "u_brownie_sense_intruders++" ] } ]
+    "effect": [
+      { "math": [ "u_brownie_homebody_speed_bonus++" ] },
+      { "math": [ "u_brownie_sense_intruders++" ] },
+      {
+        "if": {
+          "and": [
+            { "math": [ "u_brownie_homebody_speed_bonus == 24" ] },
+            { "math": [ "u_changeling_advancement_brownie_condition_spend_twenty_four_hours_indoors != 1" ] }
+          ]
+        },
+        "then": [ { "run_eocs": "EOC_PLAYABLE_CHANGELING_BROWNIE_ADVANCEMENT_REACH_SPEND_TWENTY_FOUR_HOURS_INDOORS" } ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
