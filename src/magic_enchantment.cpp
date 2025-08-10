@@ -575,17 +575,13 @@ void enchant_cache::load( const JsonObject &jo, std::string_view,
             try {
                 const enchant_vals::mod value = io::string_to_enum<enchant_vals::mod>
                                                 ( value_obj.get_string( "value" ) );
-                if( value_obj.get_int( "add" ) ) {
-                    const int add = value_obj.get_int( "add" );
-                    if( add != 0 ) ) {
-                        values_add.emplace( value, add );
-                    }
+                const int add = value_obj.get_int( "add", 0 );
+                if( add != 0 ) {
+                    values_add.emplace( value, add );
                 }
-                if( value_obj.has_float( "multiply" ) ) {
-                    const float multiply = value_obj.get_float( "multiply" );
-                    if( !float_equals( multiply, 0.0 ) ) {
-                        values_multiply.emplace( value, multiply );
-                    }
+                const double multiply = value_obj.get_float( "multiply", 0.0 );
+                if( !float_equals( multiply, 0.0 ) ) {
+                    values_multiply.emplace( value, multiply );
                 }
             } catch( ... ) {
                 value_obj.allow_omitted_members();
@@ -690,29 +686,21 @@ void enchant_cache::serialize( JsonOut &jsout ) const
     if( !values_add.empty() || !values_multiply.empty() ) {
         jsout.member( "values" );
         jsout.start_array();
-        std::set<enchant_vals::mod> values_add_multiply;
-        for( auto& [ enchant, add ] : values_add ) {
-            if( float_equals( add, 0.0 ) ) {
+        for( int value = 0; value < static_cast<int>( enchant_vals::mod::NUM_MOD ); value++ ) {
+            const enchant_vals::mod enchant = static_cast<enchant_vals::mod>( value );
+            const double add = get_value_add( enchant );
+            const double multiply = get_value_multiply( enchant );
+            if( float_equals( add, 0.0 ) && float_equals( multiply, 0.0 ) ) {
                 continue;
             }
             jsout.start_object();
             jsout.member( "value", io::enum_to_string<enchant_vals::mod>( enchant ) );
-            jsout.member( "add", add );
-            const double multiply = get_value_multiply( enchant );
+            if( !float_equals( add, 0.0 ) ) {
+                jsout.member( "add", add );
+            }
             if( !float_equals( multiply, 0.0 ) ) {
                 jsout.member( "multiply", multiply );
-                values_add_multiply.insert( enchant );
             }
-            jsout.end_object();
-        }
-        for( auto& [ enchant, multiply ] : values_multiply ) {
-            if( float_equals( multiply, 0.0 ) ||
-                values_add_multiply.find( enchant ) != values_add_multiply.end() ) {
-                continue;
-            }
-            jsout.start_object();
-            jsout.member( "value", io::enum_to_string<enchant_vals::mod>( enchant ) );
-            jsout.member( "multiply", multiply );
             jsout.end_object();
         }
         jsout.end_array();
@@ -721,93 +709,120 @@ void enchant_cache::serialize( JsonOut &jsout ) const
     if( !skill_values_add.empty() || !skill_values_multiply.empty() ) {
         jsout.member( "skills" );
         jsout.start_array();
-        std::set<skill_id> values_add_multiply;
-        for( auto& [ skill, add ] : skill_values_add ) {
-            if( float_equals( add, 0.0 ) ) {
+        const auto skill_f = []( const Skill & lhs, const Skill & rhs ) {
+            return lhs.ident() < rhs.ident();
+        };
+        for( const Skill *sk : Skill::get_skills_sorted_by( skill_f ) ) {
+            const skill_id &skill = sk->ident();
+            const double add = get_skill_value_add( skill );
+            const double multiply = get_skill_value_multiply( skill );
+            if( float_equals( add, 0.0 ) && float_equals( multiply, 0.0 ) ) {
                 continue;
             }
             jsout.start_object();
             jsout.member( "value", skill );
-            jsout.member( "add", add );
-            const double multiply = get_value_multiply( enchant );
+            if( !float_equals( add, 0.0 ) ) {
+                jsout.member( "add", add );
+            }
             if( !float_equals( multiply, 0.0 ) ) {
                 jsout.member( "multiply", multiply );
-                values_add_multiply.insert( enchant );
             }
-            jsout.end_object();
-        }
-        for( auto& [ skill, multiply ] : skill_values_multiply ) {
-            if( float_equals( multiply, 0.0 ) ||
-                values_add_multiply.find( skill ) != values_add_multiply.end() ) {
-                continue;
-            }
-            jsout.start_object();
-            jsout.member( "value", skill );
-            jsout.member( "multiply", multiply );
             jsout.end_object();
         }
         jsout.end_array();
     }
 
-    jsout.member( "melee_damage_bonus" );
-    jsout.start_array();
-    for( const damage_type &dt : damage_type::get_all() ) {
-        jsout.start_object();
-        jsout.member( "type", dt.id );
-        if( get_damage_add( dt.id ) != 0 ) {
-            jsout.member( "add", get_damage_add( dt.id ) );
+    if( !damage_values_add.empty() || !damage_values_multiply.empty() ) {
+        jsout.member( "melee_damage_bonus" );
+        jsout.start_array();
+        for( const damage_type &dt : damage_type::get_all() ) {
+            const damage_type_id &type = dt.id;
+            const double add = get_damage_add( type );
+            const double multiply = get_damage_multiply( type );
+            if( float_equals( add, 0.0 ) && float_equals( multiply, 0.0 ) ) {
+                continue;
+            }
+            jsout.start_object();
+            jsout.member( "type", type );
+            if( !float_equals( add, 0.0 ) ) {
+                jsout.member( "add", add );
+            }
+            if( !float_equals( multiply, 0.0 ) ) {
+                jsout.member( "multiply", multiply );
+            }
+            jsout.end_object();
         }
-        if( get_damage_multiply( dt.id ) != 0 ) {
-            jsout.member( "multiply", get_damage_multiply( dt.id ) );
-        }
-        jsout.end_object();
+        jsout.end_array();
     }
-    jsout.end_array();
 
-    jsout.member( "encumbrance_modifier" );
-    jsout.start_array();
-    for( const body_part_type &bt : body_part_type::get_all() ) {
-        jsout.start_object();
-        jsout.member( "part", bt.id );
-        if( get_encumbrance_add( bt.id ) != 0 ) {
-            jsout.member( "add", get_encumbrance_add( bt.id ) );
+    if( !encumbrance_values_add.empty() || !encumbrance_values_multiply.empty() ) {
+        jsout.member( "encumbrance_modifier" );
+        jsout.start_array();
+        for( const body_part_type &bt : body_part_type::get_all() ) {
+            const bodypart_str_id &part = bt.id;
+            const double add = get_encumbrance_add( part );
+            const double multiply = get_encumbrance_multiply( part );
+            if( float_equals( add, 0.0 ) && float_equals( multiply, 0.0 ) ) {
+                continue;
+            }
+            jsout.start_object();
+            jsout.member( "part", part );
+            if( !float_equals( add, 0.0 ) ) {
+                jsout.member( "add", add );
+            }
+            if( !float_equals( multiply, 0.0 ) ) {
+                jsout.member( "multiply", multiply );
+            }
+            jsout.end_object();
         }
-        if( get_encumbrance_multiply( bt.id ) != 0 ) {
-            jsout.member( "multiply", get_encumbrance_multiply( bt.id ) );
-        }
-        jsout.end_object();
+        jsout.end_array();
     }
-    jsout.end_array();
 
-    jsout.member( "incoming_damage_mod" );
-    jsout.start_array();
-    for( const damage_type &dt : damage_type::get_all() ) {
-        jsout.start_object();
-        jsout.member( "type", dt.id );
-        if( get_armor_add( dt.id ) != 0 ) {
-            jsout.member( "add", get_armor_add( dt.id ) );
+    if( !armor_values_add.empty() || !armor_values_multiply.empty() ) {
+        jsout.member( "incoming_damage_mod" );
+        jsout.start_array();
+        for( const damage_type &dt : damage_type::get_all() ) {
+            const damage_type_id &type = dt.id;
+            const double add = get_armor_add( type );
+            const double multiply = get_armor_multiply( type );
+            if( float_equals( add, 0.0 ) && float_equals( multiply, 0.0 ) ) {
+                continue;
+            }
+            jsout.start_object();
+            jsout.member( "type", type );
+            if( !float_equals( add, 0.0 ) ) {
+                jsout.member( "add", add );
+            }
+            if( !float_equals( multiply, 0.0 ) ) {
+                jsout.member( "multiply", multiply );
+            }
+            jsout.end_object();
         }
-        if( get_armor_multiply( dt.id ) != 0 ) {
-            jsout.member( "multiply", get_armor_multiply( dt.id ) );
-        }
-        jsout.end_object();
+        jsout.end_array();
     }
-    jsout.end_array();
 
-    jsout.member( "incoming_damage_mod_post_absorbed" );
-    jsout.start_array();
-    for( const damage_type &dt : damage_type::get_all() ) {
-        jsout.start_object();
-        jsout.member( "type", dt.id );
-        if( get_extra_damage_add( dt.id ) != 0 ) {
-            jsout.member( "add", get_extra_damage_add( dt.id ) );
+    if( !extra_damage_add.empty() || !extra_damage_multiply.empty() ) {
+        jsout.member( "incoming_damage_mod_post_absorbed" );
+        jsout.start_array();
+        for( const damage_type &dt : damage_type::get_all() ) {
+            const damage_type_id &type = dt.id;
+            const double add = get_extra_damage_add( type );
+            const double multiply = get_extra_damage_multiply( type );
+            if( float_equals( add, 0.0 ) && float_equals( multiply, 0.0 ) ) {
+                continue;
+            }
+            jsout.start_object();
+            jsout.member( "type", type );
+            if( !float_equals( add, 0.0 ) ) {
+                jsout.member( "add", add );
+            }
+            if( !float_equals( multiply, 0.0 ) ) {
+                jsout.member( "multiply", multiply );
+            }
+            jsout.end_object();
         }
-        if( get_extra_damage_multiply( dt.id ) != 0 ) {
-            jsout.member( "multiply", get_extra_damage_multiply( dt.id ) );
-        }
-        jsout.end_object();
+        jsout.end_array();
     }
-    jsout.end_array();
 
     jsout.member( "special_vision" );
     jsout.start_array();
