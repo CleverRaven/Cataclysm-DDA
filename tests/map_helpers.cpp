@@ -289,3 +289,8 @@ bool map_meddler::has_altered_submaps( map &m )
     }
     return false;
 }
+
+submap *map_meddler::unsafe_get_submap_at( tripoint_bub_ms &p, point_sm_ms &l )
+{
+    return get_map().unsafe_get_submap_at( p, l );
+}

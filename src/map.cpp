@@ -8066,6 +8066,31 @@ void map::shift( const point_rel_sm &sp )
     const tripoint_abs_sm abs = get_abs_sub();
     std::vector<tripoint_rel_sm> loaded_grids;
 
+    const int zmin = -OVERMAP_DEPTH;
+    const int zmax = OVERMAP_HEIGHT;
+
+    const int x_start = sp.x() >= 0 ? 0 : my_MAPSIZE - 1;
+    const int x_stop = sp.x() >= 0 ? my_MAPSIZE : -1;
+    const int x_step = sp.x() >= 0 ? 1 : -1;
+    const int y_start = sp.y() >= 0 ? 0 : my_MAPSIZE - 1;
+    const int y_stop = sp.y() >= 0 ? my_MAPSIZE : -1;
+    const int y_step = sp.y() >= 0 ? 1 : -1;
+
+    // Have to run on_unload before changing the abs_sub for the map.
+    // TODO: can probably skip a bunch of iteration here.
+    for( int gridx = x_start; gridx != x_stop; gridx += x_step ) {
+        for( int gridy = y_start; gridy != y_stop; gridy += y_step ) {
+            // The sp.x() and sp.y() check here establishes that we are moving
+            // in the x or y direction respectively. If we are not moving in the x direction,
+            // we don't want to call on_unload on grid points where gridx == x_start.
+            if( ( sp.x() && gridx == x_start ) || ( sp.y() && gridy == y_start ) ) {
+                for( int gridz = zmin; gridz <= zmax; gridz++ ) {
+                    const tripoint_rel_sm grid( gridx, gridy, gridz );
+                    on_unload( grid );
+                }
+            }
+        }
+    }
     set_abs_sub( abs + sp );
 
     g->shift_destination_preview( { -sp.x() * SEEX, -sp.y() * SEEY } );
@@ -8073,9 +8098,6 @@ void map::shift( const point_rel_sm &sp )
     shift_traps( sp );
 
     vehicle *remoteveh = g->remoteveh();
-
-    const int zmin = -OVERMAP_DEPTH;
-    const int zmax = OVERMAP_HEIGHT;
 
     for( int gridz = zmin; gridz <= zmax; gridz++ ) {
         level_cache *cache = get_cache_lazy( gridz );
@@ -8092,13 +8114,6 @@ void map::shift( const point_rel_sm &sp )
     // absx and absy are our position in the world, for saving/loading purposes.
     clear_vehicle_level_caches();
 
-    const int x_start = sp.x() >= 0 ? 0 : my_MAPSIZE - 1;
-    const int x_stop = sp.x() >= 0 ? my_MAPSIZE : -1;
-    const int x_step = sp.x() >= 0 ? 1 : -1;
-    const int y_start = sp.y() >= 0 ? 0 : my_MAPSIZE - 1;
-    const int y_stop = sp.y() >= 0 ? my_MAPSIZE : -1;
-    const int y_step = sp.y() >= 0 ? 1 : -1;
-
     for( int gridz = zmin; gridz <= zmax; gridz++ ) {
         // Clear vehicle list and rebuild after shift
         // mlangsdorf 2020 - this is kind of insane, building the cache is not free, why are
@@ -8114,12 +8129,6 @@ void map::shift( const point_rel_sm &sp )
 
     for( int gridx = x_start; gridx != x_stop; gridx += x_step ) {
         for( int gridy = y_start; gridy != y_stop; gridy += y_step ) {
-            if( ( sp.x() && gridx == x_start ) || ( sp.y() && gridy == y_start ) ) {
-                for( int gridz = zmin; gridz <= zmax; gridz++ ) {
-                    const tripoint_rel_sm grid( gridx, gridy, gridz );
-                    on_unload( grid );
-                }
-            }
             if( gridx + sp.x() != x_stop && gridy + sp.y() != y_stop ) {
                 for( int gridz = zmin; gridz <= zmax; gridz++ ) {
                     const tripoint_rel_sm grid( gridx, gridy, gridz );
@@ -8929,7 +8938,7 @@ void map::on_unload( const tripoint_rel_sm &loc )
                 continue;
             }
             // Handle null submap ptr, it can definitely happen and we just ignore it.
-            if( get_submap_at_grid( submap_offset )->player_adjusted_map ) {
+            if( submap *sm = get_submap_at_grid( submap_offset ); sm && sm->player_adjusted_map ) {
                 adjusted = true;
                 break;
             }
@@ -8946,9 +8955,9 @@ void map::on_unload( const tripoint_rel_sm &loc )
         tripoint_bub_ms submap_origin = get_bub( project_to<coords::ms>( submap_abs_origin ) );
         point summary_origin = offset_within_omt.raw();
         for( point cursor; cursor.y < 12; cursor.y++ ) {
-            int y_component = summary_origin.y + cursor.y;
+            int y_component = summary_origin.y * 12 + cursor.y;
             for( cursor.x = 0; cursor.x < 12; cursor.x++ ) {
-                int x_component = summary_origin.x + cursor.x;
+                int x_component = summary_origin.x * 12 + cursor.x;
                 bool passable_value = passable( submap_origin + cursor );
                 new_summary->passable.set( ( y_component * 24 ) + x_component, passable_value );
             }
