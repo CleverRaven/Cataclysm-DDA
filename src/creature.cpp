@@ -415,6 +415,15 @@ bool Creature::is_likely_underwater( const map &here ) const
              here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub( here ) ) );
 }
 
+bool Creature::hallucination_die( map *here, Creature *killer )
+{
+    const bool h = is_hallucination();
+    if( h ) {
+        die( here, killer );
+    }
+    return h;
+}
+
 // Detects whether a target is sapient or not (or barely sapient, since ferals count)
 bool Creature::has_mind() const
 {
@@ -3452,8 +3461,7 @@ void Creature::knock_back_from( const tripoint_bub_ms &p )
     if( p == pos ) {
         return; // No effect
     }
-    if( is_hallucination() ) {
-        die( &here, nullptr );
+    if( hallucination_die( &here, nullptr ) ) {
         return;
     }
     tripoint_bub_ms to = pos;

@@ -2160,9 +2160,11 @@ specification for it in `event.h`:
 
 <!-- {% raw %} -->
 ```cpp
+using event_field = std::pair<const char *, cata_variant_type>;
+//...
 template<>
 struct event_spec<event_type::gains_skill_level> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 3> fields = {{
+    static constexpr std::array<event_field, 3> fields = {{
             { "character", cata_variant_type::character_id },
             { "skill", cata_variant_type::skill_id },
             { "new_level", cata_variant_type::int_ },

@@ -3229,9 +3229,9 @@ TEST_CASE( "Armor_values_preserved_after_copy-from", "[iteminfo][armor][protecti
             "  Default:  <color_c_yellow>90</color>\n"
             "<color_c_white>Protection</color>:\n";
         const std::string bash_string = "  Bash: <color_c_yellow>10.00</color>\n";
-        const std::string cut_string = "  Cut: <color_c_yellow>16.00</color>\n";
+        const std::string cut_string = "  Cut: <color_c_yellow>12.00</color>\n";
         const std::string ballistic_string = "  Ballistic: <color_c_yellow>5.60</color>\n";
-        const std::string pierce_string = "  Pierce: <color_c_yellow>12.80</color>\n";
+        const std::string pierce_string = "  Pierce: <color_c_yellow>9.60</color>\n";
         const std::string acid_string = "  Acid: <color_c_yellow>3.60</color>\n";
         const std::string fire_string = "  Fire: <color_c_yellow>1.50</color>\n";
         const std::string env_string = "  Environmental: <color_c_yellow>6</color>\n";
@@ -3258,9 +3258,9 @@ TEST_CASE( "Armor_values_preserved_after_copy-from", "[iteminfo][armor][protecti
             "  Default:  <color_c_yellow>90</color>\n"
             "<color_c_white>Protection</color>:\n";
         const std::string bash_str = "  Bash: <color_c_yellow>12.00</color>\n";
-        const std::string cut_str = "  Cut: <color_c_yellow>19.20</color>\n";
+        const std::string cut_str = "  Cut: <color_c_yellow>14.40</color>\n";
         const std::string ballistic_str = "  Ballistic: <color_c_yellow>6.72</color>\n";
-        const std::string pierce_str = "  Pierce: <color_c_yellow>15.36</color>\n";
+        const std::string pierce_str = "  Pierce: <color_c_yellow>11.52</color>\n";
         const std::string acid_str = "  Acid: <color_c_yellow>4.20</color>\n";
         const std::string fire_str = "  Fire: <color_c_yellow>1.75</color>\n";
         const std::string env_str = "  Environmental: <color_c_yellow>7</color>\n";
@@ -3286,9 +3286,9 @@ TEST_CASE( "Armor_values_preserved_after_copy-from", "[iteminfo][armor][protecti
             "  Default:  <color_c_yellow>90</color>\n"
             "<color_c_white>Protection</color>:\n";
         const std::string bash_str = "  Bash: <color_c_yellow>15.00</color>\n";
-        const std::string cut_str = "  Cut: <color_c_yellow>24.00</color>\n";
+        const std::string cut_str = "  Cut: <color_c_yellow>18.00</color>\n";
         const std::string ballistic_str = "  Ballistic: <color_c_yellow>8.40</color>\n";
-        const std::string pierce_str = "  Pierce: <color_c_yellow>19.20</color>\n";
+        const std::string pierce_str = "  Pierce: <color_c_yellow>14.40</color>\n";
         const std::string acid_str = "  Acid: <color_c_yellow>4.80</color>\n";
         const std::string fire_str = "  Fire: <color_c_yellow>2.00</color>\n";
         const std::string env_str = "  Environmental: <color_c_yellow>8</color>\n";

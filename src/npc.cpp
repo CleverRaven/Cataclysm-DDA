@@ -1809,9 +1809,8 @@ void npc::on_attacked( const Creature &attacker )
 {
     map &here = get_map();
 
-    if( is_hallucination() ) {
-        die( &here, nullptr );
-    }
+    hallucination_die( &here, nullptr );
+
     if( attacker.is_avatar() && !is_enemy() && !is_dead() && !guaranteed_hostile() ) {
         make_angry();
         hit_by_player = true;
@@ -2176,6 +2175,11 @@ void npc::shop_restock()
     add_fallback_zone( *this );
     consume_items_in_zones( *this, elapsed );
     distribute_items_to_npc_zones( ret, *this );
+}
+
+time_point npc::restock_time() const
+{
+    return restock + myclass->get_shop_restock_interval();
 }
 
 std::string npc::get_restock_interval() const

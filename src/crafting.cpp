@@ -1587,12 +1587,8 @@ void Character::complete_craft( item &craft, const std::optional<tripoint_bub_ms
     inv->restack( *this );
     for( const effect_on_condition_id &eoc : making.result_eocs ) {
         dialogue d( get_talker_for( *this ), nullptr );
-        if( eoc->type == eoc_type::ACTIVATION ) {
-            for( int i = 0; i < batch_size; i++ ) {
-                eoc->activate( d );
-            }
-        } else {
-            debugmsg( "Must use an activation eoc for a recipe.  If you don't want the effect_on_condition to happen on its own, remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this recipe with its condition and effects, then have a recurring one queue it." );
+        for( int i = 0; i < batch_size; i++ ) {
+            eoc->activate_activation_only( d, "a recipe", "crafting", "recipe" );
         }
     }
 }

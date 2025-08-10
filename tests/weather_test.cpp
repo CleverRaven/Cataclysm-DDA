@@ -113,6 +113,7 @@ TEST_CASE( "weather_realism", "[weather]" )
 // https://gist.github.com/Kodiologist/e2f1e6685e8fd865650f97bb6a67ad07
 {
     for( unsigned int seed : seeds ) {
+        CAPTURE( seed );
         year_of_weather_data data = collect_weather_data( seed );
 
         // Check the mean absolute difference between the highs or lows
@@ -130,9 +131,10 @@ TEST_CASE( "weather_realism", "[weather]" )
         CHECK( mean_of_ranges <= 25 );
 
         // Check that summer and winter temperatures are very different.
-        size_t half = data.highs.size() / 4;
-        double summer_low = data.lows[half];
-        double winter_high = data.highs[0];
+        size_t summer_idx = data.lows.size() / 4;
+        size_t winter_idx = 5 * data.highs.size() / 6;
+        double summer_low = data.lows[summer_idx];
+        double winter_high = data.highs[winter_idx];
         {
             CAPTURE( summer_low );
             CAPTURE( winter_high );

@@ -36,36 +36,49 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "armor",
-    "name": { "str": "chitinous armor" },
-    "description": "Leg and body armor made from the exoskeletons of insects.",
-    "weight": "2632 g",
-    "volume": "17500 ml",
+    "name": { "str": "chitinous scale mail suit" },
+    "description": "A full body suit of chitin sections overlapping with each other, secured to a leather backing.  The odd irregular shapes make full coverage impossible, not helped by how poor of a material chitin is.  Seems to be made more out of desperation than anything, and would benefit greatly from some underlying armor.",
+    "weight": "9056 g",
+    "volume": "7 L",
+    "//": "Human surface area is roughly 18600 cm^2, based off of rules of 9 the torso is 36%, both arms are 18%, both legs are 36% leaving us with 16740 cm^2.",
+    "//1": "Chitin has a density of 1.45g/cm^3, thickness of 0.32 cm, coverage of 80% leaves us with 7 767 grams.",
+    "//2": "Leather has a density of 1.1g/cm^3, thickness of 0.07 cm, coverage of 100% leaves us with 1 289 grams.",
+    "//3": "Totalled up this is 9 056 grams with some rounding",
     "price": "1 kUSD 200 USD",
-    "price_postapoc": "30 USD",
-    "material": [ "chitin" ],
+    "price_postapoc": "5 USD",
+    "material": [ { "type": "chitin", "portion": 35 }, { "type": "leather", "portion": 1 } ],
     "symbol": "[",
     "looks_like": "armor_larmor",
     "color": "green",
-    "warmth": 10,
+    "warmth": 20,
     "longest_side": "60 cm",
-    "material_thickness": 4,
-    "flags": [ "STURDY", "OUTER" ],
+    "flags": [ "OUTER" ],
     "armor": [
-      { "covers": [ "torso" ], "coverage": 90, "encumbrance": 10 },
       {
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 90,
-        "encumbrance": [ 5, 5 ],
-        "specifically_covers": [ "leg_upper_r", "leg_upper_l", "leg_hip_r", "leg_hip_l" ]
+        "material": [
+          { "type": "chitin", "covered_by_mat": 80, "thickness": 3.2 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.7 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 8
+      },
+      {
+        "material": [
+          { "type": "chitin", "covered_by_mat": 80, "thickness": 3.2 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.7 }
+        ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 12
       }
-    ],
-    "melee_damage": { "bash": 2 }
+    ]
   },
   {
     "id": "xl_armor_chitin",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "chitinous armor" },
+    "name": { "str": "chitinous scale mail suit" },
     "copy-from": "armor_chitin",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
@@ -76,7 +89,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "armor_chitin",
     "looks_like": "armor_chitin",
-    "name": { "str": "chitinous armor" },
+    "name": { "str": "chitinous scale mail suit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "STURDY", "OUTER", "UNDERSIZE", "PREFIX_XS" ]
   },

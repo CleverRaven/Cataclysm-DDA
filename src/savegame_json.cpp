@@ -1639,10 +1639,23 @@ void avatar::store( JsonOut &json ) const
 
     // mission stuff
     json.member( "active_mission", active_mission == nullptr ? -1 : active_mission->get_id() );
+    json.member( "active_point_of_interest_pos", active_point_of_interest.pos );
+    json.member( "active_point_of_interest_text",
+                 active_point_of_interest.pos == tripoint_abs_omt::invalid ? "" : active_point_of_interest.text );
 
     json.member( "active_missions", mission::to_uid_vector( active_missions ) );
     json.member( "completed_missions", mission::to_uid_vector( completed_missions ) );
     json.member( "failed_missions", mission::to_uid_vector( failed_missions ) );
+
+    json.member( "points_of_interest" );
+    json.start_array();
+    for( const point_of_interest &entry : points_of_interest ) {
+        json.start_object();
+        json.member( "pos", entry.pos );
+        json.member( "text", entry.text );
+        json.end_object();
+    }
+    json.end_array();
 
     json.member( "show_map_memory", show_map_memory );
 
@@ -1757,11 +1770,24 @@ void avatar::load( const JsonObject &data )
         completed_missions = mission::to_ptr_vector( tmpmissions );
     }
 
+    for( JsonObject object : data.get_array( "points_of_interest" ) ) {
+        point_of_interest poi;
+        object.read( "pos", poi.pos );
+        object.read( "text", poi.text );
+        points_of_interest.push_back( poi );
+    }
+
     int tmpactive_mission = 0;
     if( data.read( "active_mission", tmpactive_mission ) ) {
         if( tmpactive_mission != -1 ) {
             active_mission = mission::find( tmpactive_mission );
         }
+    }
+    if( !data.read( "active_point_of_interest_pos", active_point_of_interest.pos ) ) {
+        active_point_of_interest.pos = tripoint_abs_omt::invalid;
+        active_point_of_interest.text = "";
+    } else {
+        data.read( "active_point_of_interest_text", active_point_of_interest.text );
     }
 
     // Normally there is only one player character loaded, so if a mission that is assigned to

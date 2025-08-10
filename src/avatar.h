@@ -25,6 +25,7 @@
 #include "magic_teleporter_list.h"
 #include "mdarray.h"
 #include "memory_fast.h"
+#include "point.h"
 #include "type_id.h"
 #include "units.h"
 
@@ -72,6 +73,11 @@ struct monster_visible_info {
     bool has_dangerous_creature_in_proximity = false;
 
     void remove_npc( npc *n );
+};
+
+struct point_of_interest {
+    tripoint_abs_omt pos = tripoint_abs_omt::invalid;
+    std::string text;
 };
 
 class avatar : public Character
@@ -159,19 +165,28 @@ class avatar : public Character
         std::vector<mission *> get_active_missions() const;
         std::vector<mission *> get_completed_missions() const;
         std::vector<mission *> get_failed_missions() const;
+        std::vector<point_of_interest> get_points_of_interest() const;
         /**
-         * Returns the mission that is currently active. Returns null if mission is active.
+         * Returns the mission that is currently active. Returns null if no mission is active.
          */
         mission *get_active_mission() const;
         /**
-         * Returns the target of the active mission or @ref tripoint_abs_omt::invalid if there is
-         * no active mission.
+         * Returns the point of interest that is currently active. Returns null if no mission is active.
+         */
+        point_of_interest get_active_point_of_interest() const;
+        /**
+         * Returns the target of the active mission/point of interest or @ref tripoint_abs_omt::invalid if there is
+         * no active mission or point of interest.
          */
         tripoint_abs_omt get_active_mission_target() const;
         /**
          * Set which mission is active. The mission must be listed in @ref active_missions.
          */
         void set_active_mission( mission &cur_mission );
+        /**
+         * Set which point of interest is active. The point of interest must be listed in @ref points_of_interest.
+         */
+        void set_active_point_of_interest( const point_of_interest &active_point_of_interest );
         /**
          * Called when a mission has been assigned to the player.
          */
@@ -187,6 +202,12 @@ class avatar : public Character
         bool has_mission_id( const mission_type_id &miss_id );
 
         void remove_active_mission( mission &cur_mission );
+
+        /**
+        * Despite the name, this operation also makes an existing point of interest active.
+        */
+        void add_point_of_interest( const point_of_interest &new_point_of_interest );
+        void delete_point_of_interest( tripoint_abs_omt pos );
 
         //return avatar diary
         diary *get_avatar_diary();
@@ -404,10 +425,18 @@ class avatar : public Character
         /**
          * The currently active mission, or null if no mission is currently in progress.
          */
+        /**
+        * Points of interest added by the player.
+        */
+        std::vector<point_of_interest> points_of_interest;
+
         mission *active_mission;
+
+        point_of_interest active_point_of_interest;
+
         void update_active_mission();
         /**
-        * diary to track player progression and to write the players stroy
+        * diary to track player progression and to write the players story
         */
         std::unique_ptr <diary> a_diary;
         /**

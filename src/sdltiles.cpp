@@ -595,13 +595,11 @@ void clear_window_area( const catacurses::window &win_ )
 static std::optional<std::pair<tripoint_abs_omt, std::string>> get_mission_arrow(
             const inclusive_cuboid<tripoint_abs_omt> &overmap_area, const tripoint_abs_omt &center )
 {
-    if( get_avatar().get_active_mission() == nullptr ) {
-        return std::nullopt;
-    }
-    if( !get_avatar().get_active_mission()->has_target() ) {
-        return std::nullopt;
-    }
     const tripoint_abs_omt mission_target = get_avatar().get_active_mission_target();
+
+    if( mission_target == tripoint_abs_omt::invalid ) {
+        return std::nullopt;
+    }
 
     std::string mission_arrow_variant;
     if( overmap_area.contains( mission_target ) ) {

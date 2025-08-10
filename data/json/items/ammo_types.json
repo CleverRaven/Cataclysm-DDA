@@ -481,12 +481,6 @@
   },
   {
     "type": "ammunition_type",
-    "id": "superglue",
-    "name": "super glue",
-    "default": "super_glue"
-  },
-  {
-    "type": "ammunition_type",
     "id": "battery",
     "name": "kJ",
     "default": "battery"

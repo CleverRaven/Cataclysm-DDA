@@ -75,7 +75,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_LUMBERMILL_RESTOCK",
-    "dynamic_line": "Workers will bring in a new shipment of lumber in <interval>."
+    "dynamic_line": "Workers will bring in a new shipment of lumber on <restock_time_point>."
   },
   {
     "type": "talk_topic",

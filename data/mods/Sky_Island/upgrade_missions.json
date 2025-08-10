@@ -188,7 +188,7 @@
       [ [ "camera", 1 ], [ "camera_pro", 1 ], [ "wearable_camera", 1 ], [ "wearable_camera_pro", 1 ], [ "omnicamera", 1 ] ],
       [ [ "warptoken", 5 ] ],
       [ [ "scrap_aluminum", 12 ] ],
-      [ [ "super_glue", 10 ], [ "bone_glue", 1 ] ],
+      [ [ "glue_strong", 10 ], [ "glue_weak", 150 ] ],
       [ [ "medium_battery_cell", 6 ] ],
       [ [ "extension_cable", 1 ], [ "long_extension_cable", 1 ], [ "jumper_cable", 1 ] ]
     ]
@@ -3539,7 +3539,7 @@
       [ [ "2x4", 4 ] ],
       [ [ "glass_shard", 150 ] ],
       [ [ "chunk_rubber", 5 ] ],
-      [ [ "super_glue", 20 ] ],
+      [ [ "glue_strong", 20 ] ],
       [ [ "cordage", 5, "LIST" ] ]
     ]
   },
@@ -3602,7 +3602,7 @@
       [ [ "aquamarine", 4 ], [ "citrine", 4 ], [ "garnet", 4 ], [ "peridot", 4 ], [ "tourmaline", 4 ], [ "blue_topaz", 4 ] ],
       [ [ "glass_sheet", 3 ] ],
       [ [ "mirror", 1 ] ],
-      [ [ "super_glue", 40 ] ],
+      [ [ "glue_strong", 40 ] ],
       [ [ "frame_wood", 2 ] ],
       [ [ "cordage", 1, "LIST" ] ]
     ]
@@ -3666,7 +3666,7 @@
       [ [ "bigmirror", 1 ] ],
       [ [ "tempered_glass_sheet", 4 ] ],
       [ [ "frame", 4 ] ],
-      [ [ "rubber_cement", 8 ] ],
+      [ [ "glue_weak", 8 ] ],
       [ [ "diamond", 8 ], [ "ruby", 8 ], [ "emerald", 8 ], [ "sapphire", 8 ] ],
       [ [ "cordage", 1, "LIST" ] ]
     ]
@@ -4558,7 +4558,7 @@
     "components": [
       [ [ "shovel", 1 ], [ "shovel_snow", 1 ] ],
       [ [ "glass_sheet", 4 ] ],
-      [ [ "rubber_cement", 4 ] ],
+      [ [ "glue_weak", 4 ] ],
       [ [ "frame", 2 ] ],
       [ [ "cordage", 1, "LIST" ] ]
     ]

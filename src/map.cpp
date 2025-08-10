@@ -223,8 +223,6 @@ static const ter_str_id ter_t_window_alarm( "t_window_alarm" );
 static const ter_str_id ter_t_window_empty( "t_window_empty" );
 static const ter_str_id ter_t_window_no_curtains( "t_window_no_curtains" );
 
-static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
-
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
@@ -4774,8 +4772,8 @@ bool map::open_door( Creature const &u, const tripoint_bub_ms &p, const bool ins
                            "open_door", ter.id.str() );
             ter_set( p, ter.open );
 
-            if( u.has_trait( trait_SCHIZOPHRENIC ) && u.is_avatar() &&
-                one_in( 50 ) && !ter.has_flag( ter_furn_flag::TFLAG_TRANSPARENT ) ) {
+            if( u.is_avatar() && u.as_avatar()->schizo_symptoms( 50 ) &&
+                !ter.has_flag( ter_furn_flag::TFLAG_TRANSPARENT ) ) {
                 tripoint_bub_ms mp = p + point_rel_ms( -2 * u.pos_bub().xy().raw() ) + tripoint_rel_ms{ 2 * p.x(), 2 * p.y(), p.z() };
                 g->spawn_hallucination( mp );
             }
