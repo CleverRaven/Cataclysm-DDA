@@ -312,7 +312,7 @@ void diary::show_diary_ui( diary *c_diary )
         center_print( w_info, 0, c_light_gray, string_format( _( "Info" ) ) );
         if( currwin == window_mode::CHANGE_WIN || currwin == window_mode::TEXT_WIN ) {
             fold_and_print( w_info, point::south_east, getmaxx( w_info ) - 2, c_white,
-                            c_diary->get_desc_map()[selected[window_mode::CHANGE_WIN]] );
+                            c_diary->get_desc_map()[ selected[window_mode::CHANGE_WIN] ] );
         }
 
         wnoutrefresh( w_info );

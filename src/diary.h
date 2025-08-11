@@ -6,6 +6,7 @@
 #include <iosfwd>
 #include <map>
 #include <memory>
+#include <stddef.h>
 #include <string>
 #include <vector>
 
@@ -111,11 +112,11 @@ class diary
         void death_entry();
 
         /*serialize and deserialize*/
-        bool store();
+        bool store() const;
         void load();
-        void serialize( std::ostream &fout );
+        void serialize( std::ostream &fout ) const;
         void deserialize( const JsonValue &jsin );
-        void serialize( JsonOut &jsout );
+        void serialize( JsonOut &jsout ) const;
 
     private:
         void add_summary_page();
@@ -136,21 +137,35 @@ class diary
         /*get opened page nummer*/
         int get_opened_page_num() const;
         /*returns a list with all pages by the its date*/
-        std::vector<std::string> get_pages_list();
+        std::vector<std::string> get_pages_list() const;
         /*returns a list with all changes compared to the previous page*/
-        std::vector<std::string> get_change_list();
+        const std::vector<std::string> &get_change_list();
         /*returns a map corresponding to the change_list with descriptions*/
-        std::map<int, std::string> get_desc_map();
+        std::map<int, std::string> &get_desc_map();
 
         /*returns pointer to current page*/
-        diary_page *get_page_ptr( int offset = 0 );
+        diary_page *get_page_ptr( int offset = 0, bool allow_summary = true );
         /*returns the text of opened page*/
         std::string get_page_text();
         /*returns text for head of page*/
         std::string get_head_text();
+        /*helper functions for *_changes below, adds to change_list with headers, pluralization, etc*/
+        template<typename Container, typename Fn>
+        void changes( Container diary_page::* member, Fn &&get_entry,
+                      const std::string &heading_first, const std::string &headings_first,
+                      const std::string &heading, const std::string &headings,
+                      diary_page *currpage, diary_page *prevpage );
+        template<typename Container, typename Fn>
+        void changes( Container diary_page::* member, Fn &&get_entry,
+                      const std::string &heading_first, const std::string &headings_first,
+                      const std::string &heading, const std::string &headings );
+        template<typename Container, typename Fn>
+        void changes( Container diary_page::* member, Fn &&get_entry,
+                      const std::string &heading_first, const std::string &headings_first );
         /*the following methods are used to fill the change_list and desc_map in comparison to the previous page*/
         void skill_changes();
-        void kill_changes();
+        void mon_kill_changes();
+        void npc_kill_changes();
         void trait_changes();
         void bionic_changes();
         void stat_changes();
@@ -160,7 +175,9 @@ class diary
 
         /*expots the diary to a readable .txt file. If its the lastexport, its exportet to memorial otherwise its exportet to the world folder*/
         void export_to_txt( bool lastexport = false );
-        /*method for adding changes to the changelist. with the possibility to connect a description*/
-        void add_to_change_list( const std::string &entry, const std::string &desc = "" );
+        /* add a change to the change list, with optional description. returns the index of the new entry.*/
+        size_t add_to_change_list( const std::string &entry, const std::string &desc = "" );
+        /* update a change in the change list, with optional description. returns the index of the new entry.*/
+        void update_change_list( size_t index, const std::string &entry, const std::string &desc = "" );
 };
 #endif // CATA_SRC_DIARY_H
