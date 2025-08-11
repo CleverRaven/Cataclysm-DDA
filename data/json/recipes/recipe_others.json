@@ -2299,25 +2299,6 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "bagpipes",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_OTHER",
-    "skill_used": "fabrication",
-    "skills_required": [ "tailor", 4 ],
-    "difficulty": 6,
-    "time": "1 h",
-    "book_learn": [ [ "scots_tailor", 3 ], [ "scots_cookbook", 7 ] ],
-    "using": [ [ "sewing_standard", 20 ] ],
-    "components": [
-      [ [ "large_stomach_sealed", 1 ], [ "tanned_hide", 2 ], [ "leather", 16 ], [ "tanned_pelt", 2 ], [ "fur", 16 ] ],
-      [ [ "stick", 1 ], [ "2x4", 1 ] ],
-      [ [ "cotton_patchwork", 3 ] ],
-      [ [ "adhesive", 1, "LIST" ], [ "medical_tape", 50 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "survivor_shavingkit",
     "category": "CC_OTHER",
