@@ -164,7 +164,7 @@
               {
                 "if": { "npc_has_flag": "FIFTH_SUN_TECHNOLOGY" },
                 "then": {
-                  "u_message": "You have a sense of utter distance from this object, as though it came from a place you would never find on any map.  For a moment, you see an eagle stooping over a snake, wings flashing in the sun."
+                  "u_message": "You have a sense of vast distances from this object, as though it came from a place you would never find on any map.  For a moment, you see an eagle stooping over a snake, wings flashing in the sun."
                 }
               }
             ]

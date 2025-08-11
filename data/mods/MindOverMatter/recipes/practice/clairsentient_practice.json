@@ -421,7 +421,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: psychometry",
     "id": "practice_clair_examine_item",
-    "description": "Contemplate your powers and improve your ability to aim ranged weapons with precision.\n\nPower Difficulty: 4",
+    "description": "Contemplate your powers and improve your ability to determine hidden aspects of items.\n\nPower Difficulty: 4",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
@@ -440,18 +440,18 @@
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
-        "id": "EOC_PRACTICE_CLAIR_RANGED_ENHANCE",
+        "id": "EOC_PRACTICE_CLAIR_EXAMINE_ITEM",
         "condition": { "u_has_trait": "CLAIRSENTIENT" },
         "effect": [
-          { "set_string_var": "clair_ranged_enhance", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "set_string_var": "clair_examine_item", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_CLAIR_POWER_SETUP" },
           {
-            "if": { "math": [ "u_spell_level('clair_ranged_enhance') >= 1" ] },
+            "if": { "math": [ "u_spell_level('clair_examine_item') >= 1" ] },
             "then": { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] },
             "else": [
               { "run_eocs": [ "EOC_PSI_STUDYING_POWER_INITIAL_SETUP", "EOC_PSI_PRACTICE_FOCUS_MOD" ] },
               {
-                "run_eocs": "EOC_PRACTICE_CLAIR_RANGED_ENHANCE_LEARNING",
+                "run_eocs": "EOC_PRACTICE_CLAIR_EXAMINE_ITEM_LEARNING",
                 "time_in_future": [
                   { "math": [ "learn_new_power_lower_time_bound(u_latest_studied_power_difficulty)" ] },
                   { "math": [ "learn_new_power_upper_time_bound(u_latest_studied_power_difficulty)" ] }
@@ -465,10 +465,10 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_PRACTICE_CLAIR_RANGED_ENHANCE_LEARNING",
+    "id": "EOC_PRACTICE_CLAIR_EXAMINE_ITEM_LEARNING",
     "condition": {
       "and": [
-        { "compare_string": [ "clair_ranged_enhance", { "u_val": "latest_studied_power_name" } ] },
+        { "compare_string": [ "clair_examine_item", { "u_val": "latest_studied_power_name" } ] },
         { "test_eoc": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
       ]
     },
