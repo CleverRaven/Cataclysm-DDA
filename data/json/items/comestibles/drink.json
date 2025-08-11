@@ -526,7 +526,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "vitamins": [ [ "vitC", 131 ], [ "calcium", 3 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ],
-    "fun": -1
+    "fun": 2
   },
   {
     "type": "ITEM",
