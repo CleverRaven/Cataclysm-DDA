@@ -150,7 +150,6 @@ Highways
 Expand implementation of liquid ammo
 NPC AI fixes to improve fleeing in bad situations, reduce it in good ones
 Armors faults. Part 1: Steel Plate
-Plain Mead name change to just Mead
 Show time in months/days
 Player assigned Points of interest visible as Mission markers
 
@@ -349,10 +348,7 @@ Cheese wheels preserved in wax
 You can do your makeup
 Allow EOCs to read artifact resonance
 Add lathe functionality and industrial baseball bat production
-Adds new longer sling
-XS/XL pipebomb bandolier
 Chitin armor overhaul
-Modified motorcycle helmets for NV attachments
 
 
 ## Interface:
@@ -473,7 +469,6 @@ Severe hypovolemic shock message now mentions saline infusion instead of transfu
 Always show clean water on top of consume menu
 Toggle haul from action menu when hauling
 Explain that degraded items are degraded
-Remove 'Toggle skill training' hotkey description
 Message to player when UPS equipment runs out of power.
 
 
@@ -895,12 +890,6 @@ Aftershock: Vehicle bay City Building a mix between mechanic garage, gas station
 [Mods] When shapeshifted into a form with no hands, you don't have hands
 [Mods] Your gear doesn't protect you when you're shapeshifted
 [Mods] If you have a broken limb and are in a shapeshifted form, you can't fly
-[MoM/Xedra Evolved] Implement `chargen_allow_npc` on various psionic/supernatural traits
-Aftershock: Portmaster offers a survival kit for sale if you havent been planetside yet.
-[Xedra Evolved] More werewolf powers + rework advancement system
-[Xedra Evolved] Werewolves get mana back on Nether kills
-Aftershock: Portmaster offers a survival kit for sale if you havent been planetside yet.
-[Xedra Evolved] Lilin use ruach as their `energy_source`
 
 
 ## Balance:
@@ -1374,29 +1363,12 @@ add E_STORABLE_EXCLUSIVE flag
 add E_STORABLE_EXCLUSIVE flag
 avoid ImGui warning in keybindings window if the translation happens to have duplicate text
 Cannot trap a monster and use it as an infinite training dummy
-[MoM] Fix Golden Radiance
-Fix drying with hot air in an oven.
-Fix drying with hot air in an oven.
-[MoM] Fix Golden Radiance
-Fix CTD when looking up with isometric tileset
-Resolve errors from loading 0.H options on 0.I
 Resolve errors from loading 0.H options on 0.I
 Fix CTD when looking up with isometric tileset
-Negative volume in drop menu for ammo trays.
 [Xedra Evolved] Only werewolves gain werewolf gifts
-Adjust weights of a few leather armors
-Fix CTRL+U not clearing text
-Copy variants with copy-from
 AIM item menu wouldn't update window position on resize.
-[Xedra Evolved] Fix werewolf techniques
 Fix deserialization error with power level
 Power grid deleted on ship movement
-Prevent armor inserts like groin or throat protector on heavy ballistic vest from having uncomfy penalty
-AIM uilist submenu shaking violently.
-Fixes Alpha Member of the Group to work as intended
-Wearable cameras now work
-Prevent armor inserts like groin or throat protector on heavy ballistic vest from having uncomfy penalty
-Remove pair of and pairs of wording from the leg armor and gloves
 AIM uilist submenu shaking violently.
 
 
