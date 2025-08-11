@@ -143,7 +143,7 @@
           "om_terrain": "LIXA_entry_1",
           "om_terrain_match_type": "CONTAINS",
           "search_range": 12,
-          "min_distance": 25,
+          "min_distance": 1,
           "z": 0,
           "random": true
         }
@@ -165,7 +165,7 @@
           "om_terrain": "LIXA_entry_1",
           "om_terrain_match_type": "CONTAINS",
           "search_range": 12,
-          "min_distance": 25,
+          "min_distance": 1,
           "z": 0,
           "random": true
         }
@@ -196,7 +196,7 @@
           "om_terrain": "LIXA_entry_1",
           "om_terrain_match_type": "CONTAINS",
           "search_range": 12,
-          "min_distance": 25,
+          "min_distance": 1,
           "z": 0,
           "random": true
         }
