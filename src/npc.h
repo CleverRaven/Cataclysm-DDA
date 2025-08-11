@@ -918,7 +918,6 @@ class npc : public Character
         bool is_guarding() const;
         // Has a guard patrol mission
         bool is_patrolling() const;
-        bool within_boundaries_of_camp() const;
         /** is performing a player_activity */
         bool has_player_activity() const;
         bool is_travelling() const;

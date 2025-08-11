@@ -338,11 +338,11 @@ static void draw_camp_labels( const catacurses::window &w, const tripoint_abs_om
              project_to<coords::sm>( center ), sm_radius ) ) {
         const point_abs_omt camp_pos( element.camp->camp_omt_pos().xy() );
         const point screen_pos( ( camp_pos - center.xy() ).raw() + screen_center_pos );
-        const int text_width = utf8_width( element.camp->name, true );
+        const int text_width = utf8_width( element.camp->camp_name(), true );
         const int text_x_min = screen_pos.x - text_width / 2;
         const int text_x_max = text_x_min + text_width;
         const int text_y = screen_pos.y;
-        const std::string camp_name = element.camp->name;
+        const std::string camp_name = element.camp->camp_name();
         if( text_x_min < 0 ||
             text_x_max > win_x_max ||
             text_y < 0 ||

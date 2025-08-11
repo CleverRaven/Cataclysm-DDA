@@ -7351,14 +7351,40 @@ shared_ptr_fast<npc> overmap::find_npc_by_unique_id( const std::string &id ) con
     return nullptr;
 }
 
+void overmap::add_camp( const point_abs_omt &p, const basecamp &camp )
+{
+    //TODO: After 0.I stable this should debugmsg on failed emplace
+    //auto it = camps.emplace( p, camp );
+    //if( !it.second ) {
+    //  debugmsg( "Tried to add a basecamp %s at %s when basecamp %s is already present", camp.camp_name(), p.to_string(), it.first->second.camp_name() );
+    //}
+    camps.emplace( p, camp );
+}
+
 std::optional<basecamp *> overmap::find_camp( const point_abs_omt &p )
 {
-    for( basecamp &v : camps ) {
-        if( v.camp_omt_pos().xy() == p ) {
-            return &v;
-        }
+    const auto it = camps.find( p );
+    if( it != camps.end() ) {
+        return &( it->second );
     }
     return std::nullopt;
+}
+
+void overmap::remove_camp( const point_abs_omt &p )
+{
+    const auto it = camps.find( p );
+    if( it != camps.end() ) {
+        camps.erase( it );
+    }
+}
+
+void overmap::clear_camps()
+{
+    auto iter = camps.begin();
+    while( iter != camps.end() ) {
+        iter->second.remove_camp( false );
+        iter = camps.erase( iter );
+    }
 }
 
 bool overmap::is_omt_generated( const tripoint_om_omt &loc ) const
