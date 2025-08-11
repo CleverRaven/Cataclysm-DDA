@@ -1347,8 +1347,8 @@
     "id": "aluminum_bar_round",
     "type": "ITEM",
     "category": "spare_parts",
-    "name": { "str": "aluminum bar stock", "str_pl": "aluminum bar stock" },
-    "description": "A round bar of aluminum. Ready to be turned on the lathe.",
+    "name": { "str_sp": "aluminum bar stock" },
+    "description": "A round bar of aluminum.  Ready to be turned on the lathe.",
     "weight": "2781 g",
     "volume": "1030 ml",
     "longest_side": "5 cm",
@@ -1364,8 +1364,8 @@
     "id": "steel_bar_round",
     "type": "ITEM",
     "category": "spare_parts",
-    "name": { "str": "steel bar stock", "str_pl": "steel bar stock" },
-    "description": "A round bar of steel. Ready to be turned on the lathe.",
+    "name": { "str_sp": "steel bar stock" },
+    "description": "A round bar of steel.  Ready to be turned on the lathe.",
     "weight": "8085 g",
     "volume": "1030 ml",
     "longest_side": "5 cm",
@@ -1381,28 +1381,28 @@
     "id": "budget_steel_bar_round",
     "type": "ITEM",
     "copy-from": "steel_bar_round",
-    "name": { "str": "budget steel bar stock", "str_pl": "budget steel bar stock" },
+    "name": { "str_sp": "budget steel bar stock" },
     "material": [ "budget_steel" ]
   },
   {
     "id": "lc_steel_bar_round",
     "type": "ITEM",
     "copy-from": "steel_bar_round",
-    "name": { "str": "low carbon steel bar stock", "str_pl": "low carbon steel bar stock" },
+    "name": { "str_sp": "low carbon steel bar stock" },
     "material": [ "lc_steel" ]
   },
   {
     "id": "mc_steel_bar_round",
     "type": "ITEM",
     "copy-from": "steel_bar_round",
-    "name": { "str": "medium carbon steel bar stock", "str_pl": "medium carbon steel bar stock" },
+    "name": { "str_sp": "medium carbon steel bar stock" },
     "material": [ "mc_steel" ]
   },
   {
     "id": "hc_steel_bar_round",
     "type": "ITEM",
     "copy-from": "steel_bar_round",
-    "name": { "str": "high carbon steel bar stock", "str_pl": "high carbon steel bar stock" },
+    "name": { "str_sp": "high carbon steel bar stock" },
     "material": [ "hc_steel" ]
   }
 ]
