@@ -1396,13 +1396,13 @@
     "type": "ITEM",
     "copy-from": "steel_bar_round",
     "name": { "str": "medium carbon steel bar stock", "str_pl": "medium carbon steel bar stock" },
-    "material": ["mc_steel"]
+    "material": [ "mc_steel" ]
   },
   {
     "id": "hc_steel_bar_round",
     "type": "ITEM",
     "copy-from": "steel_bar_round",
     "name": { "str": "high carbon steel bar stock", "str_pl": "high carbon steel bar stock" },
-    "material": ["hc_steel"]
+    "material": [ "hc_steel" ]
   }
 ]
