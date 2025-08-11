@@ -141,6 +141,40 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_CLAIR_EXAMINE_ITEM_INITIATE",
+    "effect": [
+      {
+        "u_run_inv_eocs": "manual",
+        "true_eocs": [
+          {
+            "id": "EOC_CLAIR_EXAMINE_ITEM_DETECTION",
+            "effect": [
+              { "math": [ "_artifact_resonance = artifact_resonance()" ] },
+              { "math": [ "_resonance_modifier = max( (u_spell_level('clair_examine_item') ),0) )" ] },
+              { "math": [ "_resonance_modifier = (10 - _resonance_modifier) / 10" ] },
+              {
+                "math": [ "_artifact_resonance = _artifact_resonance * rng( ( 1 - _resonance_modifier), (1 + _resonance_modifier) )" ]
+              },
+              {
+                "if": { "math": [ "_artifact_resonance > 0" ] },
+                "then": {
+                  "u_message": "The strange object has an otherworldly resonance about it (about <context_val:artifact_resonance> resonance )."
+                }
+              },
+              {
+                "if": { "npc_has_flag": "FIFTH_SUN_TECHNOLOGY" },
+                "then": {
+                  "u_message": "You have a sense of utter distance from this object, as though it came from a place you would never find on any map.  For a moment, you see an eagle stooping over a snake, wings flashing in the sun."
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CLAIR_CRAFTING_ADD_BLINDNESS_WHEN_CRAFTING",
     "eoc_type": "EVENT",
     "required_event": "character_starts_activity",
