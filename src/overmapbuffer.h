@@ -270,7 +270,7 @@ class overmapbuffer
         /**
          * Remove basecamp
          */
-        void remove_camp( const basecamp &camp );
+        void remove_camp( const point_abs_omt &p );
         /**
          * Remove the vehicle from being tracked in the overmap.
          */
@@ -281,6 +281,8 @@ class overmapbuffer
         void add_camp( const basecamp &camp );
 
         std::optional<basecamp *> find_camp( const point_abs_omt &p );
+        // Remove all basecamps in the inbound overmap
+        void clear_camps( const point_abs_omt &p );
         /**
          * Get all npcs in a area with given radius around given central point.
          * All z-levels are considered.

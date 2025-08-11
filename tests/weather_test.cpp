@@ -77,10 +77,10 @@ static year_of_weather_data collect_weather_data( unsigned seed )
     // Collect generated weather data for a single year.
     for( time_point i = begin ; i < end ; i += 1_minutes ) {
         w_point w = wgen.get_weather( tripoint_abs_ms::zero, i, seed );
-        int day = to_days<int>( time_past_new_year( i ) );
+        int day = to_days<int>( i - begin );
         int minute = to_minutes<int>( time_past_midnight( i ) );
         result.temperature[day][minute] = units::to_fahrenheit( w.temperature );
-        int hour = to_hours<int>( time_past_new_year( i ) );
+        int hour = to_hours<int>( i - begin );
         *get_weather().weather_precise = w;
         result.hourly_precip[hour] +=
             precip_mm_per_hour(
@@ -131,8 +131,9 @@ TEST_CASE( "weather_realism", "[weather]" )
         CHECK( mean_of_ranges <= 25 );
 
         // Check that summer and winter temperatures are very different.
-        size_t summer_idx = data.lows.size() / 4;
-        size_t winter_idx = 5 * data.highs.size() / 6;
+        // 0 is the start of spring, 1/4 is the start of summer, 1/8 is halfway through
+        size_t summer_idx = 3 * data.lows.size() / 8;
+        size_t winter_idx = 7 * data.highs.size() / 8;
         double summer_low = data.lows[summer_idx];
         double winter_high = data.highs[winter_idx];
         {

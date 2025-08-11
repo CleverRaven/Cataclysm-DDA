@@ -632,6 +632,8 @@ std::string trim_trailing_punctuations( std::string_view s );
 std::string remove_punctuations( const std::string &s );
 // Converts the string to upper case.
 std::string to_upper_case( const std::string &s );
+// Converts the string to lower case.
+std::string to_lower_case( const std::string &s );
 
 std::string rewrite_vsnprintf( const char *msg );
 

@@ -333,10 +333,14 @@ Any damage type can be used, see [JSON_INFO.md#damage-types](JSON_INFO.md#damage
 ```jsonc
 "energy_source": "MANA",
 "energy_source": "STAMINA",
-"energy_source": "BIONIC", // consumes MJ from your CBM batteries
+"energy_source": "BIONIC",  // consumes MJ from your CBM batteries
 "energy_source": "NONE",
-"energy_source": "HP", // Require a tool with CUT 1, and allow to pick the limb to be damaged
-"energy_source": { "type": "VITAMIN", "vitamin": "vitamin_id" },
+"energy_source": "HP",      // Require a tool with CUT 1, and allow to pick the limb to be damaged
+"energy_source": { 
+  "type": "VITAMIN",
+  "vitamin": "vitamin_id",
+  "color": "c_red"          // default color is c_cyan
+  } 
 ```
 
 ### Spell level

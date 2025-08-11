@@ -1087,7 +1087,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
             const tripoint_abs_omt camp_center = project_to<coords::omt>( camp.abs_sm_pos );
             if( overmap_buffer.seen_more_than( camp_center, om_vision_level::outlines ) &&
                 overmap_area.contains( camp_center ) ) {
-                label_bg( camp.abs_sm_pos, camp.camp->name );
+                label_bg( camp.abs_sm_pos, camp.camp->camp_name() );
             }
         }
     }
