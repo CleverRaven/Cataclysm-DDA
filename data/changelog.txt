@@ -150,6 +150,8 @@ Highways
 Expand implementation of liquid ammo
 NPC AI fixes to improve fleeing in bad situations, reduce it in good ones
 Armors faults. Part 1: Steel Plate
+Show time in months/days
+Player assigned Points of interest visible as Mission markers
 
 
 ## Content:
@@ -345,6 +347,8 @@ Professions now start with relevant books in their smartphones/laptops and some 
 Cheese wheels preserved in wax
 You can do your makeup
 Allow EOCs to read artifact resonance
+Add lathe functionality and industrial baseball bat production
+Chitin armor overhaul
 
 
 ## Interface:
@@ -465,6 +469,7 @@ Severe hypovolemic shock message now mentions saline infusion instead of transfu
 Always show clean water on top of consume menu
 Toggle haul from action menu when hauling
 Explain that degraded items are degraded
+Message to player when UPS equipment runs out of power.
 
 
 ## Mods:
@@ -881,6 +886,10 @@ Aftershock: Vehicle bay City Building a mix between mechanic garage, gas station
 [Magiclysm] Humans are also a species
 [Magiclysm] Add Aenor version of the horse ranch
 [Magiclysm] SOMATIC spells are harder to cast with broken arms
+[Aftershock] Using the genetech machines de-espers you
+[Mods] When shapeshifted into a form with no hands, you don't have hands
+[Mods] Your gear doesn't protect you when you're shapeshifted
+[Mods] If you have a broken limb and are in a shapeshifted form, you can't fly
 
 
 ## Balance:
@@ -1354,6 +1363,13 @@ add E_STORABLE_EXCLUSIVE flag
 add E_STORABLE_EXCLUSIVE flag
 avoid ImGui warning in keybindings window if the translation happens to have duplicate text
 Cannot trap a monster and use it as an infinite training dummy
+Resolve errors from loading 0.H options on 0.I
+Fix CTD when looking up with isometric tileset
+[Xedra Evolved] Only werewolves gain werewolf gifts
+AIM item menu wouldn't update window position on resize.
+Fix deserialization error with power level
+Power grid deleted on ship movement
+AIM uilist submenu shaking violently.
 
 
 ## Performance:
@@ -1525,6 +1541,10 @@ bulk overmap testing debug tools
 Adds a vertical stack of omt scope for mapgen parameters
 Monsters can be forced to flee through an EoC
 Improve mod migration
+Use optional/mandatory for mutation, material, mission def, move mode
+Use optional/mandatory for weather type, trap, start location, scent map, profession group, and various json loading cleanup
+Check for unused extend/delete/proportional/relative with mandatory
+Begin moving duplicated UI code to new helpers library
 
 
 ## Build:
@@ -1575,6 +1595,7 @@ Restructure the template file
 [MoM] Dont extract monster/fake spells/effects for translation
 Miscellaneous NO_I18N additions
 Translate martial art condition text and cable notification text
+Add documentation for C++ translation context comments
 
 
 # 0.H (Herbert)
