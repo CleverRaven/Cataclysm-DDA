@@ -17,11 +17,30 @@
 
 class JsonOut;
 class JsonValue;
+class Skill;
 
 namespace catacurses
 {
 class window;
 }  // namespace catacurses
+
+///Compares two string_id by translated name
+template<typename T>
+class id_translated_name_comp
+{
+    public:
+        bool operator()( const string_id<T> &a, const string_id<T> &b ) const {
+            const std::string &a_name = a->name();
+            const std::string &b_name = b->name();
+            if( a_name == b_name ) {
+                // just in case there's a collision in translated names
+                // NOLINTNEXTLINE(cata-use-localized-sorting)
+                return a.str() < b.str();
+            }
+            // NOLINTNEXTLINE(cata-use-localized-sorting)
+            return a->name() < b->name();
+        }
+};
 
 /// <summary>
 /// diary page, to save current character progression
@@ -60,7 +79,7 @@ struct diary_page {
     /*bionics id`s the character has*/
     std::vector<bionic_id> bionics;
     /*skill id's with level the character has*/
-    std::map<skill_id, int> skillsL;
+    std::map<skill_id, int, id_translated_name_comp<Skill>> skillsL;
     /*known and learning profession id of the character*/
     std::vector<proficiency_id> known_profs;
     std::vector<proficiency_id> learning_profs;
@@ -148,7 +167,7 @@ class diary
         /*returns the text of opened page*/
         std::string get_page_text();
         /*returns text for head of page*/
-        std::string get_head_text();
+        std::string get_head_text( bool is_summary = false );
         /*helper functions for *_changes below, adds to change_list with headers, pluralization, etc*/
         template<typename Container, typename Fn>
         void changes( Container diary_page::* member, Fn &&get_entry,

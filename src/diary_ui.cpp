@@ -230,7 +230,7 @@ void diary::show_diary_ui( diary *c_diary )
                                currwin == window_mode::TEXT_WIN, false, report_color_error::no );
 
         trim_and_print( w_head, point::south_east, getmaxx( w_head ) - 2, c_white,
-                        c_diary->get_head_text() );
+                        c_diary->get_head_text( c_diary->get_page_ptr()->is_summary() ) );
 
         wnoutrefresh( w_border );
         wnoutrefresh( w_head );
@@ -256,7 +256,7 @@ void diary::show_diary_ui( diary *c_diary )
         print_list_scrollable( &w_pages, c_diary->get_pages_list(), &selected[window_mode::PAGE_WIN],
                                currwin == window_mode::PAGE_WIN, true, report_color_error::yes );
         center_print( w_pages, 0, c_light_gray, string_format( _( "pages: %d" ),
-                      c_diary->get_pages_list().size() - 1 ) );
+                      c_diary->get_pages_list().size() ) );
 
         wnoutrefresh( w_pages );
     } );

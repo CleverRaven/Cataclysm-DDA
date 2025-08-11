@@ -70,9 +70,6 @@ int diary::set_opened_page( int pagenum )
         opened_page = - 1;
     } else if( pagenum < 0 ) {
         opened_page = pages.size() - 1;
-    } else if( pagenum == 0 && pagenum != opened_page ) {
-        opened_page = 0;
-        open_summary_page();
     } else {
         opened_page = pagenum % pages.size();
     }
@@ -89,7 +86,7 @@ diary_page *diary::get_page_ptr( int offset, bool allow_summary )
 {
     const int page = offset + opened_page;
     if( !pages.empty() && page >= 0 && page < static_cast<int>( pages.size() ) ) {
-        diary_page * const ptr = pages[page].get();
+        diary_page *const ptr = pages[page].get();
         if( allow_summary || !ptr->is_summary() ) {
             return ptr;
         }
@@ -110,7 +107,7 @@ size_t diary::add_to_change_list( const std::string &entry, const std::string &d
 void diary::update_change_list( const size_t index, const std::string &entry,
                                 const std::string &desc )
 {
-    if( index < 0 || index >= change_list.size() ) {
+    if( index >= change_list.size() ) {
         return;
     }
     if( desc.empty() ) {
@@ -141,6 +138,7 @@ void diary::open_summary_page()
 
 template<typename Container, typename Fn>
 void diary::changes( Container diary_page::* member, Fn &&get_entry,
+                     // NOLINTNEXTLINE(cata-use-string_view)
                      const std::string &heading_first, const std::string &headings_first,
                      const std::string &heading, const std::string &headings,
                      diary_page *const currpage, diary_page *const prevpage )
@@ -170,6 +168,7 @@ void diary::changes( Container diary_page::* member, Fn &&get_entry,
 
 template<typename Container, typename Fn>
 void diary::changes( Container diary_page::* member, Fn &&get_entry,
+                     // NOLINTNEXTLINE(cata-use-string_view)
                      const std::string &heading_first, const std::string &headings_first,
                      const std::string &heading, const std::string &headings )
 {
@@ -179,6 +178,7 @@ void diary::changes( Container diary_page::* member, Fn &&get_entry,
 
 template<typename Container, typename Fn>
 void diary::changes( Container diary_page::* member, Fn &&get_entry,
+                     // NOLINTNEXTLINE(cata-use-string_view)
                      const std::string &heading_first, const std::string &headings_first )
 {
     changes( member, get_entry, heading_first, headings_first, heading_first, headings_first );
@@ -232,12 +232,12 @@ void diary::mission_changes()
              _( "Active mission: " ), _( "Active missions: " ),
              _( "New mission: " ), _( "New missions: " )
            );
-    changes( &diary_page::mission_active,
+    changes( &diary_page::mission_completed,
              mission_change,
              _( "Completed mission: " ), _( "Completed missions: " ),
              _( "New completed mission: " ), _( "New completed missions: " )
            );
-    changes( &diary_page::mission_active,
+    changes( &diary_page::mission_failed,
              mission_change,
              _( "Failed mission: " ), _( "Failed missions: " ),
              _( "New failed mission: " ), _( "New failed missions: " )
@@ -304,12 +304,12 @@ void diary::npc_kill_changes()
     changes( &diary_page::npc_kills, npc_kill_change, _( "NPC killed: " ), _( "NPCs killed: " ) );
 }
 
-static diary_entry_opt skill_change( const std::pair<const string_id<Skill>, int> &elem,
+static diary_entry_opt skill_change( const std::pair<const skill_id, int> &elem,
                                      diary_page *const prevpage )
 {
     const int prevlvl = prevpage ? prevpage->skillsL[ elem.first ] : 0;
     if( elem.second > prevlvl ) {
-        Skill s = elem.first.obj();
+        const Skill &s = elem.first.obj();
         return { {
                 prevpage ?
                 string_format( _( "<color_light_blue>%s: %d -> %d</color>" ), s.name(),
@@ -350,12 +350,12 @@ void diary::trait_changes()
            );
 }
 
-static const std::array<std::tuple<const char *, const char *, int diary_page::*>, 4> diary_stats
+static const std::array<std::tuple<translation, translation, int diary_page::*>, 4> diary_stats
 = { {
-        { _( "Strength: %d" ), _( "Strength: %d -> %d" ), &diary_page::strength },
-        { _( "Dexterity: %d" ), _( "Dexterity: %d -> %d" ), &diary_page::dexterity },
-        { _( "Intelligence: %d" ), _( "Intelligence: %d -> %d" ), &diary_page::intelligence },
-        { _( "Perception: %d" ), _( "Perception: %d -> %d" ), &diary_page::perception }
+        { to_translation( "Strength: %d" ),     to_translation( "Strength: %d -> %d" ),     &diary_page::strength },
+        { to_translation( "Dexterity: %d" ),    to_translation( "Dexterity: %d -> %d" ),    &diary_page::dexterity },
+        { to_translation( "Intelligence: %d" ), to_translation( "Intelligence: %d -> %d" ), &diary_page::intelligence },
+        { to_translation( "Perception: %d" ),   to_translation( "Perception: %d -> %d" ),   &diary_page::perception }
     }
 };
 
@@ -408,10 +408,12 @@ void diary::prof_changes()
 
 const std::vector<std::string> &diary::get_change_list()
 {
-    if( !change_list.empty() ) {
+    if( !change_list.empty() || pages.empty() ) {
         return change_list;
     }
-    if( !pages.empty() ) {
+    if( get_page_ptr()->is_summary() ) {
+        open_summary_page();
+    } else {
         stat_changes();
         skill_changes();
         prof_changes();
@@ -446,26 +448,40 @@ std::string diary::get_page_text()
     return "";
 }
 
-std::string diary::get_head_text()
+std::string diary::get_head_text( bool is_summary )
 {
 
     if( !pages.empty() ) {
         const diary_page *prevpageptr = get_page_ptr( -1, false );
         const diary_page *currpageptr = get_page_ptr();
-        const time_point prev_turn = ( prevpageptr != nullptr ) ? prevpageptr->turn : calendar::turn_zero;
+        const time_point prev_turn = ( prevpageptr != nullptr ) ? prevpageptr->turn :
+                                     calendar::start_of_game;
         const time_duration turn_diff = currpageptr->turn - prev_turn;
         std::string time_diff_text;
-        if( opened_page != 0 ) {
+        if( prevpageptr ) {
             time_diff_text = get_diary_time_since_str( turn_diff, currpageptr->time_acc );
         }
-        //~ Head text of a diary page
-        //~ %1$d is the current page number, %2$d is the number of pages in total
-        //~ %3$s is the time point when the current page was created
-        //~ %4$s is time relative to the previous page
-        return string_format( _( "Entry: %1$d/%2$d, %3$s, %4$s" ),
-                              opened_page + 1, pages.size(),
-                              get_diary_time_str( currpageptr->turn, currpageptr->time_acc ),
-                              time_diff_text );
+        if( is_summary ) {
+            //~ Head text of diary summary page
+            //~ %1$d is the number of entries in total
+            return string_format( _( "Summary: %1$d entries" ), pages.size() - 1 );
+        } else if( time_diff_text.empty() ) {
+            //~ Head text of first diary entry
+            //~ %1$d is the current entry number, %2$d is the number of entries in total
+            //~ %3$s is the time point when the current entry was created
+            return string_format( _( "Entry: %1$d/%2$d, %3$s" ),
+                                  opened_page, pages.size() - 1,
+                                  get_diary_time_str( currpageptr->turn, currpageptr->time_acc ) );
+        } else {
+            //~ Head text of second and later diary entries
+            //~ %1$d is the current entry number, %2$d is the number of entries in total
+            //~ %3$s is the time point when the current entry was created
+            //~ %4$s is time relative to the previous entry
+            return string_format( _( "Entry: %1$d/%2$d, %3$s, %4$s" ),
+                                  opened_page, pages.size() - 1,
+                                  get_diary_time_str( currpageptr->turn, currpageptr->time_acc ),
+                                  time_diff_text );
+        }
     }
     return "";
 }
@@ -523,6 +539,7 @@ void diary::new_page()
     page->intelligence = u->get_int_base();
     page->perception = u->get_per_base();
     page->traits = u->get_mutations_variants( false );
+    std::sort( page->traits.begin(), page->traits.end(), trait_var_display_sort );
     const auto spells = u->magic->get_spells();
     for( const spell *spell : spells ) {
         const spell_id &id = spell->id();
@@ -531,12 +548,13 @@ void diary::new_page()
     }
     page-> bionics = u->get_bionics();
     for( Skill &elem : Skill::skills ) {
-
         int level = u->get_skill_level_object( elem.ident() ).level();
         page->skillsL.insert( { elem.ident(), level } );
     }
     page -> known_profs = u->_proficiencies->known_profs();
+    std::sort( page->known_profs.begin(), page->known_profs.end() );
     page -> learning_profs = u->_proficiencies->learning_profs();
+    std::sort( page->learning_profs.begin(), page->learning_profs.end() );
     page->max_power_level = u->get_max_power_level();
     diary::pages.push_back( std::move( page ) );
 }
@@ -560,7 +578,7 @@ void diary::export_to_txt( bool lastexport )
     for( int i = 0; i < static_cast<int>( pages.size() ); i++ ) {
         set_opened_page( i );
         const diary_page page = *get_page_ptr();
-        myfile << get_head_text() + "\n\n";
+        myfile << get_head_text( page.is_summary() ) + "\n\n";
         for( const std::string &str : this->get_change_list() ) {
             myfile << remove_color_tags( str ) + "\n";
         }
