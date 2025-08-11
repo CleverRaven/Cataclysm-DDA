@@ -1179,7 +1179,7 @@
           { "value": "METABOLISM", "multiply": -0.5 },
           { "value": "DISINFECTANT_BONUS", "multiply": -1 },
           { "value": "BANDAGE_BONUS", "multiply": -1 },
-          { "value": "MANA", "multiply": 0 }
+          { "value": "MAX_MANA", "multiply": 0 }
         ]
       },
       {
