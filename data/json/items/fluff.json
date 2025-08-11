@@ -95,7 +95,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
     "id": "pom_poms",
-    "name": { "str": "pair of pom poms", "str_pl": "pairs of pom poms" },
+    "name": { "str_sp": "pom poms (pair)" },
     "category": "other",
     "weight": "150 g",
     "color": "red",

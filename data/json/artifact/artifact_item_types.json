@@ -272,7 +272,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "gloves_leather",
-    "name": { "str": "pair of ornate leather gloves", "str_pl": "pairs of ornate leather gloves" },
+    "name": { "str_sp": "ornate leather gloves (pair)" },
     "description": "A set of worn leather gloves embossed with gold.  The unidentifiable leather it is made from is oddly soft.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
   },
   {
@@ -280,7 +280,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "boots",
-    "name": { "str": "pair of ancient leather boots", "str_pl": "pairs of ancient leather boots" },
+    "name": { "str_sp": "ancient leather boots (pair)" },
     "description": "A pair of ancient leather boots.  Though the flaps of leather are crudely sewn together, the red hue it is dyed with is striking.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
   },
   {

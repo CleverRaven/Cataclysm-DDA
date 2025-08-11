@@ -1456,7 +1456,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "armor",
-    "name": { "str": "pair of ballistic shoulder protectors", "str_pl": "pairs of ballistic shoulder protectors" },
+    "name": { "str_sp": "ballistic shoulder protectors (pair)" },
     "description": "Nylon armor with soft armor inserts protecting the deltoid and upper arm.  Designed to be attached to heavy military body armor.",
     "weight": "1034 g",
     "volume": "812 ml",
