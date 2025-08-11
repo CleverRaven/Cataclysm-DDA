@@ -49,6 +49,7 @@
     "description": "A deeply disturbing ooze that seems to attempt to take on form over and over again, never quite succeeding.  The only thing it seems to manage are eyes that look around madly for a few seconds before dissolving back into the steaming gunk.",
     "material": [ "shoggoth_protoplasmic_ooze" ],
     "flags": [ "TRADER_AVOID" ],
+    "copy-from": "blood_mi-go",
     "symbol": "/",
     "color": "yellow",
     "weight": "275 g",
