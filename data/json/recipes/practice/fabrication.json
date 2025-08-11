@@ -389,16 +389,8 @@
       "skill_limit": 3
     },
     "proficiencies": [
-      {
-        "proficiency": "prof_metalworking",
-        "time_multiplier": 1,
-        "skill_penalty": 0
-      },
-      {
-        "proficiency": "prof_machining_basic",
-        "time_multiplier": 1.5,
-        "skill_penalty": 0.25
-      }
+      { "proficiency": "prof_metalworking", "time_multiplier": 1, "skill_penalty": 0 },
+      { "proficiency": "prof_machining_basic", "time_multiplier": 1.5, "skill_penalty": 0.25 }
     ],
     "time": "1 h",
     "byproducts": [ [ "scrap", 50 ] ],
