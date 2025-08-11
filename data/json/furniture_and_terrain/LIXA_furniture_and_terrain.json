@@ -162,7 +162,7 @@
       {
         "u_location_variable": { "context_val": "Lixa_teleport" },
         "target_params": {
-          "om_terrain": "LIXA_road",
+          "om_terrain": "LIXA_entry_1",
           "om_terrain_match_type": "CONTAINS",
           "search_range": 12,
           "min_distance": 25,
@@ -193,7 +193,7 @@
       {
         "u_location_variable": { "context_val": "Lixa_teleport" },
         "target_params": {
-          "om_terrain": "LIXA_road",
+          "om_terrain": "LIXA_entry_1",
           "om_terrain_match_type": "CONTAINS",
           "search_range": 12,
           "min_distance": 25,
