@@ -29,7 +29,9 @@ std::shared_ptr<const map_data_summary> get_ptr( string_id<map_data_summary> id 
 // with the underlying OMT data and serialized with the overmap.
 struct map_data_summary {
     map_data_summary() = default;
-    map_data_summary( std::bitset<24 * 24> const &new_passable ): passable( new_passable ) {}
+    map_data_summary( std::bitset<24 * 24> const &new_passable,
+                      bool placeholder_override = false ): placeholder( placeholder_override ),
+        passable( new_passable ) {}
     void load( const JsonObject &jo, const std::string &src );
     // Only used for placeholder summaries, not used by "real" map summaries.
     string_id<map_data_summary> id;

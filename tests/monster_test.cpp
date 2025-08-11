@@ -998,6 +998,11 @@ TEST_CASE( "obstacles_placed_on_map_are_present_in_overmap", "[map][hordes]" )
 {
     clear_map();
     map &here = get_map();
+    tripoint_bub_ms player_start_pos{ 11 * 6, 11 * 6, 0 };
+    Character &test_player = get_player_character();
+    // Player spawned at known location.
+    test_player.setpos( here, player_start_pos );
+
     // Place a series of obstacles on the map while recording their coordinates.
     tripoint_bub_ms obstacle_origin{ 30, 30, 0 };
     int obstacle_radius = 10;
@@ -1011,7 +1016,7 @@ TEST_CASE( "obstacles_placed_on_map_are_present_in_overmap", "[map][hordes]" )
         REQUIRE( here.passable( candidate ) );
         tripoint_abs_ms abs_candidate = here.get_abs( candidate );
         CHECK( overmap_buffer.passable( abs_candidate ) );
-        if( one_in( 5 ) ) {
+        if( one_in( 3 ) ) {
             here.ter_set( candidate, ter_t_palisade );
             REQUIRE( !here.passable( candidate ) );
             edited_omts.insert( project_to<coords::omt>( abs_candidate ) );

@@ -3228,7 +3228,7 @@ oter_id overmap::get_default_terrain( int z ) const
 
 // underlying bitset default constructs to all 0.
 static map_data_summary impassable_omt{};
-static map_data_summary passable_omt{ ~impassable_omt.passable };
+static map_data_summary passable_omt{ ~impassable_omt.passable, true };
 
 void overmap::init_layers()
 {
