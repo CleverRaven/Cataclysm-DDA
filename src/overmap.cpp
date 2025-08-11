@@ -8042,9 +8042,10 @@ void overmap::remove_camp( const point_abs_omt &p )
 
 void overmap::clear_camps()
 {
-    for( const std::pair<const point_abs_omt, basecamp> &camp : camps ) {
-        // ::remove_camp is called in this
-        camp.second.remove_camp();
+    auto iter = camps.begin();
+    while( iter != camps.end() ) {
+        iter->second.remove_camp( false );
+        iter = camps.erase( iter );
     }
 }
 
