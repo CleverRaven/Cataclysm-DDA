@@ -120,6 +120,7 @@ class Json
         std::shared_ptr<parsed_flexbuffer> root_;
         // The actual thing we are pointing to with this Json instance.
         flexbuffer json_;
+        std::string get_root_source_path() const;
 };
 
 class JsonWithPath : protected Json
