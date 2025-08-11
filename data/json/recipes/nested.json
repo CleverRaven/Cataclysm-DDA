@@ -4620,6 +4620,18 @@
     "difficulty": 1
   },
   {
+    "id": "nested_lathe_practice",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_FABRICATION",
+    "name": "lathe turning",
+    "description": "Recipes for practicing with a manual lathe.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "prac_machining_lathe_aluminum", "prac_machining_lathe_steel" ],
+    "difficulty": 1
+  },
+  {
     "id": "nested_arming_sword",
     "type": "nested_category",
     "activity_level": "MODERATE_EXERCISE",
