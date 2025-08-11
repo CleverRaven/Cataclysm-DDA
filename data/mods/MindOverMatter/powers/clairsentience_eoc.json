@@ -149,16 +149,18 @@
           {
             "id": "EOC_CLAIR_EXAMINE_ITEM_DETECTION",
             "effect": [
-              { "math": [ "_artifact_resonance = artifact_resonance()" ] },
-              { "math": [ "_resonance_modifier = max( (u_spell_level('clair_examine_item') ),0) )" ] },
-              { "math": [ "_resonance_modifier = (10 - _resonance_modifier) / 10" ] },
+              { "math": [ "_artifact_resonance = n_artifact_resonance()" ] },
+              {
+                "math": [ "_resonance_modifier = min( (u_spell_level('clair_examine_item') + u_spell_level('clair_examine_item_knack')),10)" ]
+              },
+              { "math": [ "_resonance_modifier = (10 - _resonance_modifier) / 50" ] },
               {
                 "math": [ "_artifact_resonance = _artifact_resonance * rng( ( 1 - _resonance_modifier), (1 + _resonance_modifier) )" ]
               },
               {
                 "if": { "math": [ "_artifact_resonance > 0" ] },
                 "then": {
-                  "u_message": "The strange object has an otherworldly resonance about it (about <context_val:artifact_resonance> resonance )."
+                  "u_message": "The strange object has an otherworldly resonance about it (about <color_light_cyan><context_val:artifact_resonance></color> resonance )."
                 }
               },
               {
