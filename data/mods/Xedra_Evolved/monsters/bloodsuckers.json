@@ -2068,21 +2068,6 @@
           { "math": [ "n_vitamin('blood') -= _arion_amount_drained" ] },
           { "math": [ "n_vitamin('redcells') -= _arion_amount_drained" ] },
           { "math": [ "n_vitamin('human_blood_vitamin') -= _arion_amount_drained" ] }
-          ]
-        },
-      },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_ARION_DRINK_BLOOD",
-    "condition": { "math": [ "_damage > 0" ] },
-    "effect": [
-      { "math": [ "_arion_amount_drained = rng(250,650)" ] },
-      {
-        "if": { "npc_has_any_trait": [ "VAMPIRE", "DHAMPIR" ] },
-        "then": [
-          { "math": [ "n_vitamin('blood') -= _arion_amount_drained" ] },
-          { "math": [ "n_vitamin('redcells') -= _arion_amount_drained" ] },
-          { "math": [ "n_vitamin('human_blood_vitamin') -= _arion_amount_drained" ] }
         ]
       },
       {
