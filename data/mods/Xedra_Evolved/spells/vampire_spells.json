@@ -407,7 +407,7 @@
     "difficulty": 0,
     "min_duration": 16640000,
     "base_energy_cost": 350,
-        "energy_source": "MANA"
+    "energy_source": "MANA"
   },
   {
     "id": "vampire_invisible_in_dark",
