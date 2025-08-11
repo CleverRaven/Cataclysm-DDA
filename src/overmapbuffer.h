@@ -269,7 +269,7 @@ class overmapbuffer
         /**
          * Remove basecamp
          */
-        void remove_camp( const basecamp &camp );
+        void remove_camp( const point_abs_omt &p );
         /**
          * Remove the vehicle from being tracked in the overmap.
          */

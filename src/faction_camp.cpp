@@ -2156,7 +2156,7 @@ void basecamp::remove_camp( const tripoint_abs_omt &omt_pos ) const
     std::set<tripoint_abs_omt> &known_camps = get_player_character().camps;
     known_camps.erase( omt_pos );
 
-    overmap_buffer.remove_camp( *this );
+    overmap_buffer.remove_camp( omt_pos.xy() );
 
     map &here = get_map();
     const tripoint_abs_sm sm_pos = coords::project_to<coords::sm>( omt_pos );
