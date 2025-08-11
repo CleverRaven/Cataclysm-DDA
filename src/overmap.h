@@ -403,6 +403,7 @@ class overmap
         std::map<string_id<overmap_connection>, std::vector<tripoint_om_omt>> connections_out;
         void add_camp( const point_abs_omt &p, const basecamp &camp );
         std::optional<basecamp *> find_camp( const point_abs_omt &p );
+        void clear_camps();
         const std::map<point_abs_omt, basecamp> &get_camps() const {
             return camps;
         }

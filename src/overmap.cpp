@@ -8040,6 +8040,14 @@ void overmap::remove_camp( const point_abs_omt &p )
     }
 }
 
+void overmap::clear_camps()
+{
+    for( const std::pair<const point_abs_omt, basecamp> &camp : camps ) {
+        // ::remove_camp is called in this
+        camp.second.remove_camp();
+    }
+}
+
 bool overmap::is_omt_generated( const tripoint_om_omt &loc ) const
 {
     if( !inbounds( loc ) ) {

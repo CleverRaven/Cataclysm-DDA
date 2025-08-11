@@ -204,7 +204,7 @@ class basecamp
         void set_name( const std::string &new_name );
         void query_new_name( bool force = false );
         // remove the camp without safety checks; use abandon_camp() for in-game
-        void remove_camp( const tripoint_abs_omt &omt_pos ) const;
+        void remove_camp() const;
         // remove the camp from an in-game context
         void abandon_camp();
         void scan_pseudo_items();
