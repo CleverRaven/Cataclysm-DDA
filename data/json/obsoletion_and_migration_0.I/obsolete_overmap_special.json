@@ -21,6 +21,11 @@
   },
   {
     "type": "overmap_special_migration",
+    "id": "house_09b",
+    "new_id": "house_09"
+  },
+  {
+    "type": "overmap_special_migration",
     "id": "Isherwood Farms",
     "new_id": "Isherwood Farm Mutable",
     "//": "Migrated in 0.I"

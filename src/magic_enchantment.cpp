@@ -629,6 +629,7 @@ void enchant_cache::load( const JsonObject &jo, std::string_view,
                     values_multiply.emplace( value, mult );
                 }
             } catch( ... ) {
+                value_obj.allow_omitted_members();
                 if( legacy_values.find( value_obj.get_string( "value", "" ) ) == legacy_values.end() ) {
                     debugmsg( "A relic attempted to load invalid enchantment %s.", value_obj.get_string( "value",
                               "" ) );
