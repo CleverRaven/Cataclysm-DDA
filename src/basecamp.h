@@ -198,7 +198,6 @@ class basecamp
         std::vector<std::vector<ui_mission_id>> hidden_missions;
         std::vector<tripoint_abs_omt> fortifications;
         std::vector<expansion_salt_water_pipe *> salt_water_pipes;
-        std::string name;
         void faction_display( const catacurses::window &fac_w, int width ) const;
 
         //change name of camp
@@ -499,6 +498,8 @@ class basecamp
         // lazy re-evaluation of available camp resources
         void reset_camp_resources( map &here );
         void add_resource( const itype_id &camp_resource );
+        // Translated name w/ parse_tags evaluated
+        std::string name;
         // omt pos
         tripoint_abs_omt omt_pos;
         std::vector<npc_ptr> assigned_npcs; // NOLINT(cata-serialize)
