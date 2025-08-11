@@ -350,7 +350,7 @@
     "practice_data": { "min_difficulty": 2, "max_difficulty": 3, "skill_limit": 3 },
     "proficiencies": [
       { "proficiency": "prof_metalworking", "time_multiplier": 1, "skill_penalty": 0 },
-      { "proficiency": "prof_machining_basic", "time_multiplier": 1.5, "skill_penalty": 1 }
+      { "proficiency": "prof_machining_basic", "time_multiplier": 1.5, "skill_penalty": 5 }
     ],
     "time": "1 h",
     "byproducts": [ [ "scrap_aluminum", 50 ] ],
