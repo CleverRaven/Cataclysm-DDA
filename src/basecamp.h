@@ -413,13 +413,11 @@ class basecamp
         ///NPC, loops until quit or empty.
         drop_locations give_basecamp_equipment( inventory_filter_preset &preset, const std::string &title,
                                                 const std::string &column_title, const std::string &msg_empty ) const;
-        drop_locations give_equipment( Character *pc, const inventory_filter_preset &preset,
+        ///If target_bay is null, this is for sending items, otherwise retrieving
+        drop_locations xfer_equipment( Character *pc, const inventory_filter_preset &preset,
                                        const std::string &msg, const std::string &title, units::volume &total_volume,
-                                       units::mass &total_mass );
-        drop_locations get_equipment( tinymap *target_bay, const tripoint_omt_ms &target, Character *pc,
-                                      const inventory_filter_preset &preset,
-                                      const std::string &msg, const std::string &title, units::volume &total_volume,
-                                      units::mass &total_mass );
+                                       units::mass &total_mass, tinymap *target_bay = nullptr,
+                                       const tripoint_omt_ms &target = tripoint_omt_ms() );
 
         // mission return functions
         /// called to select a companion to return to the base
@@ -499,6 +497,8 @@ class basecamp
         // lazy re-evaluation of available camp resources
         void reset_camp_resources( map &here );
         void add_resource( const itype_id &camp_resource );
+        point_rel_omt survey_return_input( tripoint_abs_omt &where, npc_ptr &comp,
+                                           const std::string &abort_msg, bool &ret );
         // omt pos
         tripoint_abs_omt omt_pos;
         std::vector<npc_ptr> assigned_npcs; // NOLINT(cata-serialize)
