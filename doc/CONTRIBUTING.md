@@ -401,13 +401,29 @@ Bring up the keybindings menu (press `Escape` then `1`), scroll down almost to t
 │ g Game…                                                                   │
 │ s Spawning…                                                               │
 │ p Player…                                                                 │
+│ c Monster…                                                                │
+│ f Faction…                                                                │
 │ v Vehicle…                                                                │
 │ t Teleport…                                                               │
 │ m Map…                                                                    │
+│ d Dialogue…                                                               │
+│ q Quick setup…                                                            │
 └───────────────────────────────────────────────────────────────────────────┘
 ```
 
-With these commands, you should be able to recreate the proper conditions to test your changes.
+With the commands in this menu, you should be able to recreate the proper conditions to test your changes.  Most commands change one thing at a time.
+
+The last command, "Quick setup", does many things at once:
+* Gives you debug traits such as clairvoyance, invincibility, near infinite stamina and mana, etc
+* Gives you a nearly infinite backpack
+* Maxes your skills (but not your stats!)
+* Reveals the map
+
+### Debug names
+
+If you name a character starting with one of "Debug", "Test", "Sandbox", "Staging", "QA", or "UAT", they will spawn with the debug quick setup performed automatically.
+
+If you name a world one of those names, every character will spawn that way.
 
 ## Frequently Asked Questions
 
