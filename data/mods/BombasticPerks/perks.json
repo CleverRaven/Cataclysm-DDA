@@ -1190,7 +1190,10 @@
     "category": [ "perk" ],
     "enchantments": [
       { "condition": "ALWAYS", "values": [ { "value": "SPEED", "add": { "math": [ "( u_val('dexterity') - 8 ) * 2" ] } } ] },
-      { "condition": "ALWAYS", "values": [ { "value": "CARRY_WEIGHT", "subtract": { "math": [ "( u_val('dexterity') - 8 ) * 4000" ] } } ] }
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "CARRY_WEIGHT", "subtract": { "math": [ "( u_val('dexterity') - 8 ) * 4000" ] } } ]
+      }
     ]
   },
   {
