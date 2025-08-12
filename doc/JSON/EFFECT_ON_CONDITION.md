@@ -3398,7 +3398,7 @@ Setting and checking monster vars via `math`.  The first spell targets a monster
   {
     "id": "spell_tag_eoc",
     "type": "effect_on_condition",
-    "effect": [ { "math": [ "u_var_tagged", "+=", "1" ] } ]
+    "effect": [ { "math": [ "u_var_tagged += 1" ] } ]
   }
 ...
   {
