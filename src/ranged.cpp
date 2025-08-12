@@ -3001,7 +3001,9 @@ void target_ui::init_window_and_input()
     ctxt.register_action( "NEXT_TARGET" );
     ctxt.register_action( "PREV_TARGET" );
     ctxt.register_action( "CENTER" );
-    ctxt.register_action( "TOGGLE_UNLOAD_RAS_WEAPON" );
+    if( mode == TargetMode::Fire && relevant->has_flag( flag_RELOAD_AND_SHOOT ) ) {
+        ctxt.register_action( "TOGGLE_UNLOAD_RAS_WEAPON" );
+    }
     ctxt.register_action( "TOGGLE_SNAP_TO_TARGET" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
@@ -4087,12 +4089,12 @@ void target_ui::draw_controls_list( int text_y )
                              } );
         } else {
             if( !unload_RAS_weapon ) {
-                std::string unload = string_format( _( "[%s] Unload the %s after quitting." ),
+                std::string unload = string_format( _( "[%s] to unload the %s after quitting." ),
                                                     bound_key( "TOGGLE_UNLOAD_RAS_WEAPON" ).short_description(),
                                                     relevant->tname() );
-                lines.push_back( {3, colored( col_disabled, unload )} );
+                lines.push_back( {3, colored( col_enabled, unload )} );
             } else {
-                std::string unload = string_format( _( "[%s] Keep the %s loaded after quitting." ),
+                std::string unload = string_format( _( "[%s] to keep the %s loaded after quitting." ),
                                                     bound_key( "TOGGLE_UNLOAD_RAS_WEAPON" ).short_description(),
                                                     relevant->tname() );
                 lines.push_back( {3, colored( col_enabled, unload )} );
