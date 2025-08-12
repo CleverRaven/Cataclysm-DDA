@@ -32,6 +32,7 @@
 #include "effect_on_condition.h"
 #include "enums.h"
 #include "explosion.h"
+#include "game_inventory.h"
 #include "field.h"
 #include "field_type.h"
 #include "fungal_effects.h"
@@ -1910,13 +1911,19 @@ void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint
 void spell_effect::pickup( const spell &sp, Creature &caster,
                                         const tripoint_bub_ms &target )
 {
-    ::map &here = get_map();
-
-    const std::set<tripoint_bub_ms> area = spell_effect_area( sp, target, caster );
-    const std::set<tripoint_bub_ms> valid_targets = {};
-    for( const tripoint_bub_ms &potential_target : area ) {
-
+    Character *c = caster.as_character();
+    if( !c ) {
+        // Only characters can loot items.
+        return;
     }
+    const std::set<tripoint_bub_ms> area = spell_effect_area( sp, target, caster );
+    std::set<tripoint_bub_ms> valid_targets = {};
+    for( const tripoint_bub_ms &potential_target : area ) {
+        if (sp.is_valid_target( caster, potential_target ) ) {
+            valid_targets.emplace( potential_target );
+        }
+    }
+    (*c).pick_up( game_menus::inv::pickup( valid_targets ) );;
 
 }
 
