@@ -15,7 +15,6 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
-#include <variant>
 #include <vector>
 
 #include "avatar.h"
@@ -2120,16 +2119,26 @@ template<class T>
 static std::function<T( const_dialogue const & )> get_get_translation_( const JsonObject &jo,
         std::function<T( const translation & )> ret_func )
 {
+    // straight translation - used by diag_value_or_var
+    if( jo.get_bool( "i18n", false ) && jo.has_string( "str" ) ) {
+        translation tr;
+        tr.deserialize( jo.get_member( "str" ) );
+        return [tr, ret_func]( const_dialogue const &/* d */ ) {
+            return ret_func( tr );
+        };
+    }
+
     if( !jo.has_string( "mutator" ) ) {
         return nullptr;
     }
-    if( jo.get_string( "mutator" ) == "ma_technique_description" ) {
+    std::string const &mutator = jo.get_string( "mutator" );
+    if( mutator == "ma_technique_description" ) {
         str_or_var ma = get_str_or_var( jo.get_member( "matec_id" ), "matec_id" );
 
         return [ma, ret_func]( const_dialogue const & d ) {
             return ret_func( matec_id( ma.evaluate( d ) )->description );
         };
-    } else if( jo.get_string( "mutator" ) == "ma_technique_name" ) {
+    } else if( mutator == "ma_technique_name" ) {
         str_or_var ma = get_str_or_var( jo.get_member( "matec_id" ), "matec_id" );
 
         return [ma, ret_func]( const_dialogue const & d ) {
