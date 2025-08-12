@@ -198,14 +198,14 @@ class basecamp
         std::vector<std::vector<ui_mission_id>> hidden_missions;
         std::vector<tripoint_abs_omt> fortifications;
         std::vector<expansion_salt_water_pipe *> salt_water_pipes;
-        std::string name;
         void faction_display( const catacurses::window &fac_w, int width ) const;
 
         //change name of camp
         void set_name( const std::string &new_name );
         void query_new_name( bool force = false );
         // remove the camp without safety checks; use abandon_camp() for in-game
-        void remove_camp( const tripoint_abs_omt &omt_pos ) const;
+        // normally always removes from overmap, but when mass-removing via overmap::clear_camps() we don't so we can iterate it properly
+        void remove_camp( bool remove_from_overmap = true ) const;
         // remove the camp from an in-game context
         void abandon_camp();
         void scan_pseudo_items();
@@ -499,6 +499,8 @@ class basecamp
         // lazy re-evaluation of available camp resources
         void reset_camp_resources( map &here );
         void add_resource( const itype_id &camp_resource );
+        // Translated name w/ parse_tags evaluated
+        std::string name;
         // omt pos
         tripoint_abs_omt omt_pos;
         std::vector<npc_ptr> assigned_npcs; // NOLINT(cata-serialize)
