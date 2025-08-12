@@ -1909,7 +1909,7 @@
     "id": "glass_tinted",
     "symbol": ".",
     "color": "dark_gray",
-    "name": { "str": "pair of tinted glass lenses", "str_pl": "pairs of tinted glass lenses" },
+    "name": { "str_sp": "tinted glass lenses (pair)" },
     "category": "spare_parts",
     "description": "A pair of small, darkened glass lenses, like the ones used in sunglasses.",
     "price": "10 USD",
