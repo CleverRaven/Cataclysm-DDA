@@ -1326,7 +1326,7 @@
     "id": "TALK_EXODII_MERCHANT_Talk_CataclysmTimelineTough",
     "type": "talk_topic",
     "//": "While many people face the possibility of destruction with planning and hope, and the Exodii don't consider that unusual, it is a bit of a warning sign to be this overconfident.  That said, as an individual data point it doesn't mean much.",
-    "speaker_effect": { "effect": { "math": [ "u_counter_exodii_exodii_psychosis_judgment", "+=", "2" ] } },
+    "speaker_effect": { "effect": { "math": [ "u_counter_exodii_exodii_psychosis_judgment += 2" ] } },
     "dynamic_line": {
       "//~": "You do that then.  I'll cheer for you when you stand over the vanquished corpse of the devil himself.",
       "str": "Fine an' fine.  Rubik'll clarion for ye when ye stand o'er the garried trick o' Anubine hisself."

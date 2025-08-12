@@ -839,7 +839,7 @@
                   "min( n_val('power_max') - n_val('power'), u_technomancer_conjure_ups_max_indv_power )"
                 ]
               },
-              { "math": [ "n_val('power')", "+=", "u_technomancer_conjure_ups_powering_used" ] },
+              { "math": [ "n_val('power') += u_technomancer_conjure_ups_powering_used" ] },
               { "math": [ "u_technomancer_conjure_ups_powering", "-=", "u_technomancer_conjure_ups_powering_used" ] }
             ]
           }

@@ -97,7 +97,7 @@
       { "u_message": "[Skill experience test]" },
       { "math": [ "u_skill_test = u_skill_exp('swimming')" ] },
       { "u_message": "Swimming skill experience before: <u_val:skill_test>" },
-      { "math": [ "u_skill_exp('swimming')", "+=", "10" ] },
+      { "math": [ "u_skill_exp('swimming') += 10" ] },
       { "math": [ "u_skill_test = u_skill_exp('swimming')" ] },
       { "u_message": "Swimming skill experience after: <u_val:skill_test>" },
       { "u_message": "[Weight and volume test]" },

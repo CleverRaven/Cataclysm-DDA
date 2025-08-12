@@ -33,6 +33,6 @@
     "eoc_type": "EVENT",
     "required_event": "character_consumes_item",
     "condition": { "compare_string": [ "afs_stimpack", { "context_val": "itype" } ] },
-    "effect": [ { "math": [ "u_pain()", "-=", "80" ] }, { "math": [ "u_val('stamina')", "+=", "2500" ] } ]
+    "effect": [ { "math": [ "u_pain()", "-=", "80" ] }, { "math": [ "u_val('stamina') += 2500" ] } ]
   }
 ]

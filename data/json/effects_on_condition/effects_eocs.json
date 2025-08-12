@@ -125,10 +125,10 @@
             "target_part": { "global_val": "IMPREGNATED_BODYPART" },
             "duration": { "math": [ "HOW_MUCH_WILL_THIS_SUCK * 60" ] }
           },
-          { "math": [ "u_pain('type': 'perceived')", "+=", "HOW_MUCH_WILL_THIS_SUCK * 2" ] },
+          { "math": [ "u_pain('type': 'perceived') += HOW_MUCH_WILL_THIS_SUCK * 2" ] },
           { "math": [ "u_hp(IMPREGNATED_BODYPART)", "-=", "HOW_MUCH_WILL_THIS_SUCK * 2" ] }
         ],
-        "else": { "math": [ "u_vitamin('mutant_toxin')", "+=", "u_vitamin('dermatik_larva_size') / 3" ] }
+        "else": { "math": [ "u_vitamin('mutant_toxin') += u_vitamin('dermatik_larva_size') / 3" ] }
       },
       { "u_lose_effect": "dermatik_visible" },
       { "math": [ "u_vitamin('dermatik_larva_size') = 0" ] }

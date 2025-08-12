@@ -34,7 +34,7 @@
             }
           ]
         },
-        "then": { "math": [ "u_paraclesian_passive_mutation_value", "+=", "1 " ] },
+        "then": { "math": [ "u_paraclesian_passive_mutation_value += 1 " ] },
         "else": {
           "if": { "math": [ "u_paraclesian_passive_mutation_value", ">", "0 " ] },
           "then": { "math": [ "u_paraclesian_passive_mutation_value", "-=", "1 " ] }
@@ -70,7 +70,7 @@
             { "map_in_city": { "context_val": "check_loc" } }
           ]
         },
-        "then": { "math": [ "u_paraclesian_passive_mutation_value", "+=", "1 " ] },
+        "then": { "math": [ "u_paraclesian_passive_mutation_value += 1 " ] },
         "else": {
           "if": { "math": [ "u_paraclesian_passive_mutation_value", ">", "0 " ] },
           "then": { "math": [ "u_paraclesian_passive_mutation_value", "-=", "1 " ] }
@@ -120,7 +120,7 @@
             { "u_at_om_location": "ierde_genius_loci_SE" }
           ]
         },
-        "then": { "math": [ "u_paraclesian_passive_mutation_value", "+=", "1 " ] },
+        "then": { "math": [ "u_paraclesian_passive_mutation_value += 1 " ] },
         "else": {
           "if": { "math": [ "u_paraclesian_passive_mutation_value", ">", "0 " ] },
           "then": { "math": [ "u_paraclesian_passive_mutation_value", "-=", "1 " ] }
@@ -160,7 +160,7 @@
             { "math": [ "weather('temperature') >= from_fahrenheit( 80 )" ] }
           ]
         },
-        "then": { "math": [ "u_paraclesian_passive_mutation_value", "+=", "1 " ] },
+        "then": { "math": [ "u_paraclesian_passive_mutation_value += 1 " ] },
         "else": {
           "if": { "math": [ "u_paraclesian_passive_mutation_value", ">", "0 " ] },
           "then": { "math": [ "u_paraclesian_passive_mutation_value", "-=", "1 " ] }
@@ -212,7 +212,7 @@
             { "u_at_om_location": "sylph_genius_loci_SE" }
           ]
         },
-        "then": { "math": [ "u_paraclesian_passive_mutation_value", "+=", "1 " ] },
+        "then": { "math": [ "u_paraclesian_passive_mutation_value += 1 " ] },
         "else": {
           "if": { "math": [ "u_paraclesian_passive_mutation_value", ">", "0 " ] },
           "then": { "math": [ "u_paraclesian_passive_mutation_value", "-=", "1 " ] }
@@ -243,7 +243,7 @@
         "if": {
           "or": [ { "math": [ "u_undine_is_connected_to_waters == 1" ] }, { "test_eoc": "EOC_CONDITION_CHECK_UNDINE_IN_WATER" } ]
         },
-        "then": { "math": [ "u_paraclesian_passive_mutation_value", "+=", "1 " ] },
+        "then": { "math": [ "u_paraclesian_passive_mutation_value += 1 " ] },
         "else": {
           "if": { "math": [ "u_paraclesian_passive_mutation_value", ">", "0 " ] },
           "then": { "math": [ "u_paraclesian_passive_mutation_value", "-=", "1 " ] }
@@ -268,13 +268,13 @@
     "id": "EOC_PARACLESIAN_GAIN_TRAIT_FROM_PASSIVE_POWER",
     "condition": { "math": [ "u_vitamin('mutagen')", "==", "0" ] },
     "effect": [
-      { "math": [ "u_vitamin('mutagen')", "+=", "550" ] },
-      { "if": { "u_has_trait": "IERDE" }, "then": { "math": [ "u_vitamin('mutagen_earthkin')", "+=", "550 " ] } },
-      { "if": { "u_has_trait": "UNDINE" }, "then": { "math": [ "u_vitamin('mutagen_waterkin')", "+=", "550 " ] } },
-      { "if": { "u_has_trait": "SALAMANDER" }, "then": { "math": [ "u_vitamin('mutagen_flamekin')", "+=", "550 " ] } },
-      { "if": { "u_has_trait": "SYLPH" }, "then": { "math": [ "u_vitamin('mutagen_airkin')", "+=", "550 " ] } },
-      { "if": { "u_has_trait": "HOMULLUS" }, "then": { "math": [ "u_vitamin('mutagen_dollkin')", "+=", "550 " ] } },
-      { "if": { "u_has_trait": "ARVORE" }, "then": { "math": [ "u_vitamin('mutagen_plantkin')", "+=", "550 " ] } },
+      { "math": [ "u_vitamin('mutagen') += 550" ] },
+      { "if": { "u_has_trait": "IERDE" }, "then": { "math": [ "u_vitamin('mutagen_earthkin') += 550 " ] } },
+      { "if": { "u_has_trait": "UNDINE" }, "then": { "math": [ "u_vitamin('mutagen_waterkin') += 550 " ] } },
+      { "if": { "u_has_trait": "SALAMANDER" }, "then": { "math": [ "u_vitamin('mutagen_flamekin') += 550 " ] } },
+      { "if": { "u_has_trait": "SYLPH" }, "then": { "math": [ "u_vitamin('mutagen_airkin') += 550 " ] } },
+      { "if": { "u_has_trait": "HOMULLUS" }, "then": { "math": [ "u_vitamin('mutagen_dollkin') += 550 " ] } },
+      { "if": { "u_has_trait": "ARVORE" }, "then": { "math": [ "u_vitamin('mutagen_plantkin') += 550 " ] } },
       { "u_mutate": 0 },
       { "math": [ "u_vitamin('mutagen')", "=", "0" ] },
       { "math": [ "u_vitamin('mutagen_earthkin')", "=", "0 " ] },

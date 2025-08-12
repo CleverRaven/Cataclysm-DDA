@@ -479,7 +479,7 @@
       },
       {
         "text": "Increase by 5",
-        "effect": { "math": [ "diffulty_modifier", "+=", "5" ] },
+        "effect": { "math": [ "diffulty_modifier += 5" ] },
         "topic": "TALK_DEFENSE_MODE_CUSTOM_DIFFICULTY_MENU"
       },
       {

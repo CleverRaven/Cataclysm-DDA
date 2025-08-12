@@ -654,7 +654,7 @@
     },
     "effect": [
       { "math": [ "u_calories()", "-=", "47" ] },
-      { "math": [ "u_val('thirst')", "+=", "4" ] },
+      { "math": [ "u_val('thirst') += 4" ] },
       {
         "u_add_effect": "ink_gland_ink",
         "duration": "PERMANENT",

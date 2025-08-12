@@ -304,7 +304,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_GOBLIN_FRUIT_NO_DRUNK",
-    "effect": [ { "u_add_effect": "effect_goblin_fruit_no_drunk", "duration": "1 seconds" }, { "math": [ "u_pain()", "+=", "10" ] } ]
+    "effect": [ { "u_add_effect": "effect_goblin_fruit_no_drunk", "duration": "1 seconds" }, { "math": [ "u_pain() += 10" ] } ]
   },
   {
     "type": "ITEM",
@@ -662,13 +662,13 @@
     "//2": "This fruit cannot and will not allow vampires to survive without blood.  It will only fill their reserves of mundane blood, as currently vampires can't lose stolen blood from blood loss.",
     "effect": [
       { "u_message": "This isn't the blood you need." },
-      { "math": [ "u_vitamin('blood')", "+=", "5000" ] },
-      { "math": [ "u_vitamin('redcells')", "+=", "5000" ] }
+      { "math": [ "u_vitamin('blood') += 5000" ] },
+      { "math": [ "u_vitamin('redcells') += 5000" ] }
     ],
     "false_effect": [
       { "u_message": "You feel a pressure in your veins, then it passes." },
-      { "math": [ "u_vitamin('blood')", "+=", "5000" ] },
-      { "math": [ "u_vitamin('redcells')", "+=", "5000" ] }
+      { "math": [ "u_vitamin('blood') += 5000" ] },
+      { "math": [ "u_vitamin('redcells') += 5000" ] }
     ]
   },
   {
@@ -1290,26 +1290,26 @@
     "//": "Unbreaks the first broken limb it finds, then heals it.  No effect if you don't have broken limbs.",
     "condition": { "math": [ "u_hp('arm_l') == 0" ] },
     "effect": [
-      { "math": [ "u_hp('arm_l')", "+=", "30" ] },
+      { "math": [ "u_hp('arm_l') += 30" ] },
       { "u_message": "The bones of your left arm mend together in an instant!", "type": "good" }
     ],
     "false_effect": [
       {
         "if": { "math": [ "u_hp('arm_r') == 0" ] },
         "then": [
-          { "math": [ "u_hp('arm_r')", "+=", "30" ] },
+          { "math": [ "u_hp('arm_r') += 30" ] },
           { "u_message": "The bones of your right arm mend together in an instant!", "type": "good" }
         ],
         "else": {
           "if": { "math": [ "u_hp('leg_l') == 0" ] },
           "then": [
-            { "math": [ "u_hp('leg_l')", "+=", "30" ] },
+            { "math": [ "u_hp('leg_l') += 30" ] },
             { "u_message": "The bones of your left leg mend together in an instant!", "type": "good" }
           ],
           "else": {
             "if": { "math": [ "u_hp('leg_r') == 0" ] },
             "then": [
-              { "math": [ "u_hp('leg_r')", "+=", "30" ] },
+              { "math": [ "u_hp('leg_r') += 30" ] },
               { "u_message": "The bones of your right leg mend together in an instant!", "type": "good" }
             ],
             "else": { "u_message": "You feel your bones itch for a moment, but nothing happens.", "type": "info" }

@@ -11,8 +11,8 @@
         "then": { "u_add_trait": "FALSE_SALAMANDER_HATRED" },
         "else": { "u_add_trait": "FAE_ENMITY" }
       },
-      { "math": [ "u_vitamin('mutagen_flamekin')", "+=", "500" ] },
-      { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
+      { "math": [ "u_vitamin('mutagen_flamekin') += 500" ] },
+      { "math": [ "u_vitamin('mutagen') += 1000" ] },
       { "u_mutate": 0 },
       { "math": [ "u_vitamin('mutagen_flamekin')", "-=", "500" ] },
       { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] }
@@ -31,8 +31,8 @@
         "then": { "u_add_trait": "FALSE_HOMULLUS_HATRED" },
         "else": { "u_add_trait": "FAE_ENMITY" }
       },
-      { "math": [ "u_vitamin('mutagen_dollkin')", "+=", "500" ] },
-      { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
+      { "math": [ "u_vitamin('mutagen_dollkin') += 500" ] },
+      { "math": [ "u_vitamin('mutagen') += 1000" ] },
       { "u_mutate": 0 },
       { "math": [ "u_vitamin('mutagen_dollkin')", "-=", "500" ] },
       { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] }
@@ -92,8 +92,8 @@
         "then": { "u_add_trait": "FALSE_ARVORE_HATRED" },
         "else": { "u_add_trait": "FAE_ENMITY" }
       },
-      { "math": [ "u_vitamin('mutagen_alchemical_plantkin')", "+=", "500" ] },
-      { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
+      { "math": [ "u_vitamin('mutagen_alchemical_plantkin') += 500" ] },
+      { "math": [ "u_vitamin('mutagen') += 1000" ] },
       { "u_mutate": 0 },
       { "math": [ "u_vitamin('mutagen_alchemical_plantkin')", "-=", "500" ] },
       { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] }

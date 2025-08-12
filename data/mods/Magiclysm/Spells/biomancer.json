@@ -811,11 +811,11 @@
     "effect": [
       {
         "if": { "math": [ "u_vitamin('blood') < 0" ] },
-        "then": { "math": [ "u_vitamin('blood')", "+=", "300 + (u_spell_level('biomancer_get_more_blood') * 150)" ] }
+        "then": { "math": [ "u_vitamin('blood') += 300 + (u_spell_level('biomancer_get_more_blood') * 150)" ] }
       },
       {
         "if": { "math": [ "u_vitamin('redcells') < 0" ] },
-        "then": { "math": [ "u_vitamin('redcells')", "+=", "300 + (u_spell_level('biomancer_get_more_blood') * 150)" ] }
+        "then": { "math": [ "u_vitamin('redcells') += 300 + (u_spell_level('biomancer_get_more_blood') * 150)" ] }
       }
     ]
   },

@@ -115,7 +115,7 @@
           {
             "id": "EOC_PHOTOKINETIC_STERILIZE_FOODS_PREP",
             "effect": [
-              { "math": [ "u_photokinetic_sterilize_item_weight_in_grams", "+=", "n_weight() / 1000" ] },
+              { "math": [ "u_photokinetic_sterilize_item_weight_in_grams += n_weight() / 1000" ] },
               { "npc_set_flag": "PHOTOKIN_IRRADIATION_READY" }
             ]
           }

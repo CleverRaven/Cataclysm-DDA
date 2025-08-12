@@ -627,8 +627,8 @@
         "if": {
           "and": [ { "math": [ "u_calories('dont_affect_weariness': true) <= 179999" ] }, { "math": [ "u_calories() >= 75000" ] } ]
         },
-        "then": { "math": [ "u_calories('dont_affect_weariness': true)", "+=", "7" ] },
-        "else": { "if": { "math": [ "u_calories() <= 74999" ] }, "then": { "math": [ "u_calories()", "+=", "12" ] } }
+        "then": { "math": [ "u_calories('dont_affect_weariness': true) += 7" ] },
+        "else": { "if": { "math": [ "u_calories() <= 74999" ] }, "then": { "math": [ "u_calories() += 12" ] } }
       }
     ]
   },

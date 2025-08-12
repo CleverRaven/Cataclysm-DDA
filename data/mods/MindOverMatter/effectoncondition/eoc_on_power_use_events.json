@@ -554,7 +554,7 @@
     "type": "effect_on_condition",
     "id": "EOC_POWER_MAINTENANCE_PLUS_ONE",
     "effect": [
-      { "math": [ "u_vitamin('vitamin_maintained_powers')", "+=", "1" ] },
+      { "math": [ "u_vitamin('vitamin_maintained_powers') += 1" ] },
       { "run_eocs": "EOC_CONCENTRATION_VS_LIMIT_CALCULATIONS" }
     ]
   },
@@ -617,9 +617,7 @@
           "rng( 3,8 ) * (u_vitamin('vitamin_maintained_powers')) / concentration_calculations()"
         ]
       },
-      {
-        "math": [ "u_skill_exp('metaphysics', 'format': 'raw')", "+=", "(15 * u_latest_channeled_power_difficulty)" ]
-      },
+      { "math": [ "u_skill_exp('metaphysics', 'format': 'raw') += (15 * u_latest_channeled_power_difficulty)" ] },
       { "run_eocs": "EOC_CONCENTRATION_CHECK_FOR_NETHER_ATTUNEMENT_BACKLASH" }
     ],
     "false_effect": [
@@ -633,9 +631,7 @@
           "EOC_CONCENTRATION_VS_LIMIT_CALCULATIONS"
         ]
       },
-      {
-        "math": [ "u_skill_exp('metaphysics', 'format': 'raw')", "+=", "(75 * u_latest_channeled_power_difficulty)" ]
-      }
+      { "math": [ "u_skill_exp('metaphysics', 'format': 'raw') += (75 * u_latest_channeled_power_difficulty)" ] }
     ]
   },
   {
@@ -647,7 +643,7 @@
         { "math": [ "u_vitamin('vitamin_maintained_powers') > 0" ] }
       ]
     },
-    "effect": [ { "math": [ "u_proficiency('prof_concentration_basic', 'format': 'percent')", "+=", "rand(4) / 24" ] } ],
+    "effect": [ { "math": [ "u_proficiency('prof_concentration_basic', 'format': 'percent') += rand(4) / 24" ] } ],
     "//": "adds 0% - 0.16% experience per run",
     "false_effect": {
       "run_eocs": [
@@ -659,7 +655,7 @@
               { "math": [ "u_vitamin('vitamin_maintained_powers') > 0" ] }
             ]
           },
-          "effect": [ { "math": [ "u_proficiency('prof_concentration_intermediate', 'format': 'percent')", "+=", "rand(4) / 48" ] } ],
+          "effect": [ { "math": [ "u_proficiency('prof_concentration_intermediate', 'format': 'percent') += rand(4) / 48" ] } ],
           "false_effect": {
             "run_eocs": [
               {
@@ -670,7 +666,7 @@
                     { "math": [ "u_vitamin('vitamin_maintained_powers') > 0" ] }
                   ]
                 },
-                "effect": [ { "math": [ "u_proficiency('prof_concentration_master', 'format': 'percent')", "+=", "rand(4) / 96" ] } ]
+                "effect": [ { "math": [ "u_proficiency('prof_concentration_master', 'format': 'percent') += rand(4) / 96" ] } ]
               }
             ]
           }

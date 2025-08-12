@@ -53,11 +53,11 @@
       { "u_lose_var": "traits_limbs_missing_right_leg" },
       { "u_add_trait": "HAS_RIGHT_LEG" },
       { "run_eocs": "EOC_VITA_RESTORE_LIMB_DRAIN" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 45,75 )" ] }
     ],
     "false_effect": [
       { "u_message": "Your healing powers were not great enough, you'll have to try again.", "type": "bad" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 45,75 )" ] }
     ]
   },
   {
@@ -90,11 +90,11 @@
       { "u_lose_var": "traits_limbs_missing_left_leg" },
       { "u_add_trait": "HAS_LEFT_LEG" },
       { "run_eocs": "EOC_VITA_RESTORE_LIMB_DRAIN" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 45,75 )" ] }
     ],
     "false_effect": [
       { "u_message": "Your healing powers were not great enough, you'll have to try again.", "type": "bad" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 45,75 )" ] }
     ]
   },
   {
@@ -127,11 +127,11 @@
       { "u_lose_var": "traits_limbs_missing_right_arm" },
       { "u_add_trait": "HAS_RIGHT_ARM" },
       { "run_eocs": "EOC_VITA_RESTORE_LIMB_DRAIN" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 45,75 )" ] }
     ],
     "false_effect": [
       { "u_message": "Your healing powers were not great enough, you'll have to try again.", "type": "bad" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 45,75 )" ] }
     ]
   },
   {
@@ -164,11 +164,11 @@
       { "u_lose_var": "traits_limbs_missing_left_arm" },
       { "u_add_trait": "HAS_LEFT_ARM" },
       { "run_eocs": "EOC_VITA_RESTORE_LIMB_DRAIN" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 45,75 )" ] }
     ],
     "false_effect": [
       { "u_message": "Your healing powers were not great enough, you'll have to try again.", "type": "bad" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 45,75 )" ] }
     ]
   },
   {
@@ -180,7 +180,7 @@
       { "math": [ "u_vitamin('iron')", "-=", "rng( 1875,7500 )" ] },
       { "math": [ "u_vitamin('calcium')", "-=", "rng( 3750,7500 )" ] },
       { "math": [ "u_vitamin('vitC')", "-=", "rng( 750,3000 )" ] },
-      { "math": [ "u_val('sleepiness')", "+=", "rng( 75,375 )" ] }
+      { "math": [ "u_val('sleepiness') += rng( 75,375 )" ] }
     ]
   }
 ]

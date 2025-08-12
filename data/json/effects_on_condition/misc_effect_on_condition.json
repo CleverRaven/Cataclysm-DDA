@@ -2,12 +2,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SLEEP",
-    "effect": [ { "u_message": "You feel very sleepy…" }, { "math": [ "u_val('sleepiness')", "+=", "40" ] } ]
+    "effect": [ { "u_message": "You feel very sleepy…" }, { "math": [ "u_val('sleepiness') += 40" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_MINOR_SLEEP",
-    "effect": [ { "u_message": "You feel sleepy…" }, { "math": [ "u_val('sleepiness')", "+=", "20" ] } ]
+    "effect": [ { "u_message": "You feel sleepy…" }, { "math": [ "u_val('sleepiness') += 20" ] } ]
   },
   {
     "type": "effect_on_condition",

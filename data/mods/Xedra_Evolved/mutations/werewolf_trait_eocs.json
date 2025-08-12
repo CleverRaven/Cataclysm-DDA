@@ -5,7 +5,7 @@
     "eoc_type": "EVENT",
     "required_event": "character_kills_monster",
     "condition": { "and": [ { "not": "u_has_weapon" }, { "test_eoc": "EOC_CONDITIONS_WEREWOLF_HUNT_TARGETS" } ] },
-    "effect": [ { "math": [ "u_val('mana')", "+=", "25" ] } ]
+    "effect": [ { "math": [ "u_val('mana') += 25" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -50,34 +50,25 @@
         { "test_eoc": "EOC_CONDITIONS_WEREWOLF_HUNT_TARGETS" }
       ]
     },
-    "effect": [ { "math": [ "u_val('mana')", "+=", "50" ] } ]
+    "effect": [ { "math": [ "u_val('mana') += 50" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_WEREWOLF_SUPER_FAST_REGENERATION_activated",
     "effect": [
       { "if": { "math": [ "u_pain() >= 1" ] }, "then": { "math": [ "u_pain()--" ] } },
-      {
-        "if": { "math": [ "u_vitamin('redcells') < 0" ] },
-        "then": { "math": [ "u_vitamin('redcells')", "+=", "150" ] }
-      },
+      { "if": { "math": [ "u_vitamin('redcells') < 0" ] }, "then": { "math": [ "u_vitamin('redcells') += 150" ] } },
       {
         "if": { "math": [ "u_vitamin('redcells') < -1000" ] },
-        "then": { "math": [ "u_vitamin('redcells')", "+=", "500" ] }
+        "then": { "math": [ "u_vitamin('redcells') += 500" ] }
       },
       {
         "if": { "math": [ "u_vitamin('redcells') < -10000" ] },
-        "then": { "math": [ "u_vitamin('redcells')", "+=", "2500" ] }
+        "then": { "math": [ "u_vitamin('redcells') += 2500" ] }
       },
-      { "if": { "math": [ "u_vitamin('blood') < 0" ] }, "then": { "math": [ "u_vitamin('blood')", "+=", "150" ] } },
-      {
-        "if": { "math": [ "u_vitamin('blood') < -1000" ] },
-        "then": { "math": [ "u_vitamin('blood')", "+=", "500" ] }
-      },
-      {
-        "if": { "math": [ "u_vitamin('blood') < -10000" ] },
-        "then": { "math": [ "u_vitamin('blood')", "+=", "2500" ] }
-      },
+      { "if": { "math": [ "u_vitamin('blood') < 0" ] }, "then": { "math": [ "u_vitamin('blood') += 150" ] } },
+      { "if": { "math": [ "u_vitamin('blood') < -1000" ] }, "then": { "math": [ "u_vitamin('blood') += 500" ] } },
+      { "if": { "math": [ "u_vitamin('blood') < -10000" ] }, "then": { "math": [ "u_vitamin('blood') += 2500" ] } },
       {
         "if": {
           "or": [
@@ -97,7 +88,7 @@
             {
               "if": { "math": [ "u_hp(_id) < u_hp_max(_id)" ] },
               "then": {
-                "math": [ "u_hp(_id)", "+=", "1 + min( ( (werewolf_tier_four_traits() * 0.1 ) + (werewolf_tier_five_traits() * 0.2 ) ), 3)" ]
+                "math": [ "u_hp(_id) += 1 + min( ( (werewolf_tier_four_traits() * 0.1 ) + (werewolf_tier_five_traits() * 0.2 ) ), 3)" ]
               }
             }
           ]

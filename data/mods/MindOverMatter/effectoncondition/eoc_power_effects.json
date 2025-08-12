@@ -43,7 +43,7 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "and": [ { "u_has_trait": "BIOKINETIC" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_BIOKINESIS" } ] },
-    "effect": [ { "math": [ "u_school_level_adjustment('BIOKINETIC')", "+=", "4" ] } ]
+    "effect": [ { "math": [ "u_school_level_adjustment('BIOKINETIC') += 4" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -51,7 +51,7 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "and": [ { "u_has_trait": "CLAIRSENTIENT" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_CLAIRSENTIENCE" } ] },
-    "effect": [ { "math": [ "u_school_level_adjustment('CLAIRSENTIENT')", "+=", "4" ] } ]
+    "effect": [ { "math": [ "u_school_level_adjustment('CLAIRSENTIENT') += 4" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -59,7 +59,7 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "and": [ { "u_has_trait": "ELECTROKINETIC" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_ELECTROKINESIS" } ] },
-    "effect": [ { "math": [ "u_school_level_adjustment('ELECTROKINETIC')", "+=", "4" ] } ]
+    "effect": [ { "math": [ "u_school_level_adjustment('ELECTROKINETIC') += 4" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -67,7 +67,7 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_PHOTOKINESIS" } ] },
-    "effect": [ { "math": [ "u_school_level_adjustment('PHOTOKINETIC')", "+=", "4" ] } ]
+    "effect": [ { "math": [ "u_school_level_adjustment('PHOTOKINETIC') += 4" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -75,7 +75,7 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "and": [ { "u_has_trait": "PYROKINETIC" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_PYROKINESIS" } ] },
-    "effect": [ { "math": [ "u_school_level_adjustment('PYROKINETIC')", "+=", "4" ] } ]
+    "effect": [ { "math": [ "u_school_level_adjustment('PYROKINETIC') += 4" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -83,7 +83,7 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_TELEKINESIS" } ] },
-    "effect": [ { "math": [ "u_school_level_adjustment('TELEKINETIC')", "+=", "4" ] } ]
+    "effect": [ { "math": [ "u_school_level_adjustment('TELEKINETIC') += 4" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -91,7 +91,7 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "and": [ { "u_has_trait": "TELEPATH" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_TELEPATHY" } ] },
-    "effect": [ { "math": [ "u_school_level_adjustment('TELEPATH')", "+=", "4" ] } ]
+    "effect": [ { "math": [ "u_school_level_adjustment('TELEPATH') += 4" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -99,7 +99,7 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_TELEPORTATION" } ] },
-    "effect": [ { "math": [ "u_school_level_adjustment('TELEPORTER')", "+=", "4" ] } ]
+    "effect": [ { "math": [ "u_school_level_adjustment('TELEPORTER') += 4" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -107,7 +107,7 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_VITAKINESIS" } ] },
-    "effect": [ { "math": [ "u_school_level_adjustment('VITAKINETIC')", "+=", "4" ] } ]
+    "effect": [ { "math": [ "u_school_level_adjustment('VITAKINETIC') += 4" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -191,7 +191,7 @@
         { "or": [ { "compare_string": [ "telepathic_blast", { "context_val": "spell" } ] } ] }
       ]
     },
-    "effect": [ { "math": [ "u_val('focus')", "+=", "rand(2) + 1" ] } ]
+    "effect": [ { "math": [ "u_val('focus') += rand(2) + 1" ] } ]
   },
   {
     "type": "effect_on_condition",

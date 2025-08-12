@@ -271,27 +271,21 @@
           { "if": { "math": [ "u_pain() >= 1" ] }, "then": { "math": [ "u_pain()--" ] } },
           {
             "if": { "math": [ "u_vitamin('redcells') < 0" ] },
-            "then": { "math": [ "u_vitamin('redcells')", "+=", "150" ] }
+            "then": { "math": [ "u_vitamin('redcells') += 150" ] }
           },
           {
             "if": { "math": [ "u_vitamin('redcells') < -1000" ] },
-            "then": { "math": [ "u_vitamin('redcells')", "+=", "500" ] }
+            "then": { "math": [ "u_vitamin('redcells') += 500" ] }
           },
           {
             "if": { "math": [ "u_vitamin('redcells') < -10000" ] },
-            "then": { "math": [ "u_vitamin('redcells')", "+=", "2500" ] }
+            "then": { "math": [ "u_vitamin('redcells') += 2500" ] }
           },
-          {
-            "if": { "math": [ "u_vitamin('blood') < 0" ] },
-            "then": { "math": [ "u_vitamin('blood')", "+=", "150" ] }
-          },
-          {
-            "if": { "math": [ "u_vitamin('blood') < -1000" ] },
-            "then": { "math": [ "u_vitamin('blood')", "+=", "500" ] }
-          },
+          { "if": { "math": [ "u_vitamin('blood') < 0" ] }, "then": { "math": [ "u_vitamin('blood') += 150" ] } },
+          { "if": { "math": [ "u_vitamin('blood') < -1000" ] }, "then": { "math": [ "u_vitamin('blood') += 500" ] } },
           {
             "if": { "math": [ "u_vitamin('blood') < -10000" ] },
-            "then": { "math": [ "u_vitamin('blood')", "+=", "2500" ] }
+            "then": { "math": [ "u_vitamin('blood') += 2500" ] }
           },
           {
             "if": {
@@ -308,7 +302,7 @@
               "foreach": "array",
               "target": [ "arm_l", "arm_r", "leg_l", "leg_r", "torso", "head" ],
               "var": { "context_val": "id" },
-              "effect": [ { "if": { "math": [ "u_hp(_id) < u_hp_max(_id)" ] }, "then": { "math": [ "u_hp(_id)", "+=", "1" ] } } ]
+              "effect": [ { "if": { "math": [ "u_hp(_id) < u_hp_max(_id)" ] }, "then": { "math": [ "u_hp(_id) += 1" ] } } ]
             }
           },
           {

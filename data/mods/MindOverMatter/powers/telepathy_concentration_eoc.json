@@ -38,7 +38,7 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 1" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('telepathic_concentration')", "+=", "psionic_power_experience_formula()" ] },
+      { "math": [ "u_spell_exp('telepathic_concentration') += psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_TELEPATH_CONCENTRATION_DRAIN",
@@ -103,8 +103,8 @@
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       {
         "if": { "math": [ "u_spell_level('telepathic_shield') >= 1" ] },
-        "then": { "math": [ "u_spell_exp('telepathic_shield')", "+=", "psionic_power_experience_formula()" ] },
-        "else": { "math": [ "u_spell_exp('telepathic_shield_knack')", "+=", "psionic_power_experience_formula()" ] }
+        "then": { "math": [ "u_spell_exp('telepathic_shield') += psionic_power_experience_formula()" ] },
+        "else": { "math": [ "u_spell_exp('telepathic_shield_knack') += psionic_power_experience_formula()" ] }
       },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -170,8 +170,8 @@
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       {
         "if": { "math": [ "u_spell_level('telepathic_mind_sense') >= 1" ] },
-        "then": { "math": [ "u_spell_exp('telepathic_mind_sense')", "+=", "psionic_power_experience_formula()" ] },
-        "else": { "math": [ "u_spell_exp('telepathic_mind_sense_knack')", "+=", "psionic_power_experience_formula()" ] }
+        "then": { "math": [ "u_spell_exp('telepathic_mind_sense') += psionic_power_experience_formula()" ] },
+        "else": { "math": [ "u_spell_exp('telepathic_mind_sense_knack') += psionic_power_experience_formula()" ] }
       },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -256,8 +256,8 @@
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       {
         "if": { "math": [ "u_spell_level('telepathic_morale') >= 1" ] },
-        "then": { "math": [ "u_spell_exp('telepathic_morale')", "+=", "psionic_power_experience_formula()" ] },
-        "else": { "math": [ "u_spell_exp('telepathic_morale_knack')", "+=", "psionic_power_experience_formula()" ] }
+        "then": { "math": [ "u_spell_exp('telepathic_morale') += psionic_power_experience_formula()" ] },
+        "else": { "math": [ "u_spell_exp('telepathic_morale_knack') += psionic_power_experience_formula()" ] }
       },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {

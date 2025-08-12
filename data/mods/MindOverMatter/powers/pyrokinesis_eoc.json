@@ -57,7 +57,7 @@
               },
               { "u_lose_effect": "bleed", "target_part": "arm_l" },
               { "math": [ "u_hp('arm_l')", "-=", "1" ] },
-              { "math": [ "u_pain('type': 'perceived')", "+=", "rng(1,2)" ] },
+              { "math": [ "u_pain('type': 'perceived') += rng(1,2)" ] },
               {
                 "run_eocs": "EOC_PYROKIN_CAUTERIZE_LEFT_ARM_INFECTION_CHECK",
                 "time_in_future": [ "6 hours", "24 hours" ]
@@ -75,7 +75,7 @@
                 "intensity": { "math": [ "u_effect_intensity('effect_psi_post_cauterize', 'bodypart': 'arm_l') + 1" ] }
               },
               { "math": [ "u_hp('arm_l')", "-=", "3" ] },
-              { "math": [ "u_pain('type': 'perceived')", "+=", "rng(1,3)" ] },
+              { "math": [ "u_pain('type': 'perceived') += rng(1,3)" ] },
               {
                 "run_eocs": "EOC_PYROKIN_CAUTERIZE_LEFT_ARM_INFECTION_CHECK",
                 "time_in_future": [ "6 hours", "24 hours" ]
@@ -116,7 +116,7 @@
               },
               { "u_lose_effect": "bleed", "target_part": "arm_r" },
               { "math": [ "u_hp('arm_r')", "-=", "1" ] },
-              { "math": [ "u_pain('type': 'perceived')", "+=", "rng(1,2)" ] },
+              { "math": [ "u_pain('type': 'perceived') += rng(1,2)" ] },
               {
                 "run_eocs": "EOC_PYROKIN_CAUTERIZE_RIGHT_ARM_INFECTION_CHECK",
                 "time_in_future": [ "6 hours", "24 hours" ]
@@ -134,7 +134,7 @@
                 "intensity": { "math": [ "u_effect_intensity('effect_psi_post_cauterize', 'bodypart': 'arm_r') + 1" ] }
               },
               { "math": [ "u_hp('arm_r')", "-=", "3" ] },
-              { "math": [ "u_pain('type': 'perceived')", "+=", "rng(1,3)" ] },
+              { "math": [ "u_pain('type': 'perceived') += rng(1,3)" ] },
               {
                 "run_eocs": "EOC_PYROKIN_CAUTERIZE_RIGHT_ARM_INFECTION_CHECK",
                 "time_in_future": [ "6 hours", "24 hours" ]
@@ -175,7 +175,7 @@
               },
               { "u_lose_effect": "bleed", "target_part": "head" },
               { "math": [ "u_hp('head')", "-=", "1" ] },
-              { "math": [ "u_pain('type': 'perceived')", "+=", "rng(1,4)" ] },
+              { "math": [ "u_pain('type': 'perceived') += rng(1,4)" ] },
               {
                 "run_eocs": "EOC_PYROKIN_CAUTERIZE_HEAD_INFECTION_CHECK",
                 "time_in_future": [ "6 hours", "24 hours" ]
@@ -193,7 +193,7 @@
                 "intensity": { "math": [ "u_effect_intensity('effect_psi_post_cauterize', 'bodypart': 'head') + 1" ] }
               },
               { "math": [ "u_hp('head')", "-=", "3" ] },
-              { "math": [ "u_pain('type': 'perceived')", "+=", "rng(2,6)" ] },
+              { "math": [ "u_pain('type': 'perceived') += rng(2,6)" ] },
               {
                 "run_eocs": "EOC_PYROKIN_CAUTERIZE_HEAD_INFECTION_CHECK",
                 "time_in_future": [ "6 hours", "24 hours" ]
@@ -234,7 +234,7 @@
               },
               { "u_lose_effect": "bleed", "target_part": "leg_l" },
               { "math": [ "u_hp('leg_l')", "-=", "1" ] },
-              { "math": [ "u_pain('type': 'perceived')", "+=", "rng(1,2)" ] },
+              { "math": [ "u_pain('type': 'perceived') += rng(1,2)" ] },
               {
                 "run_eocs": "EOC_PYROKIN_CAUTERIZE_LEFT_LEG_INFECTION_CHECK",
                 "time_in_future": [ "6 hours", "24 hours" ]
@@ -252,7 +252,7 @@
                 "intensity": { "math": [ "u_effect_intensity('effect_psi_post_cauterize', 'bodypart': 'leg_l') + 1" ] }
               },
               { "math": [ "u_hp('leg_l')", "-=", "3" ] },
-              { "math": [ "u_pain('type': 'perceived')", "+=", "rng(1,3)" ] },
+              { "math": [ "u_pain('type': 'perceived') += rng(1,3)" ] },
               {
                 "run_eocs": "EOC_PYROKIN_CAUTERIZE_LEFT_LEG_INFECTION_CHECK",
                 "time_in_future": [ "6 hours", "24 hours" ]
@@ -293,7 +293,7 @@
               },
               { "u_lose_effect": "bleed", "target_part": "leg_r" },
               { "math": [ "u_hp('leg_r')", "-=", "1" ] },
-              { "math": [ "u_pain('type': 'perceived')", "+=", "rng(1,2)" ] },
+              { "math": [ "u_pain('type': 'perceived') += rng(1,2)" ] },
               {
                 "run_eocs": "EOC_PYROKIN_CAUTERIZE_RIGHT_LEG_INFECTION_CHECK",
                 "time_in_future": [ "6 hours", "24 hours" ]
@@ -311,7 +311,7 @@
                 "intensity": { "math": [ "u_effect_intensity('effect_psi_post_cauterize', 'bodypart': 'leg_r') + 1" ] }
               },
               { "math": [ "u_hp('leg_r')", "-=", "3" ] },
-              { "math": [ "u_pain('type': 'perceived')", "+=", "rng(1,3)" ] },
+              { "math": [ "u_pain('type': 'perceived') += rng(1,3)" ] },
               {
                 "run_eocs": "EOC_PYROKIN_CAUTERIZE_RIGHT_LEG_INFECTION_CHECK",
                 "time_in_future": [ "6 hours", "24 hours" ]
@@ -352,7 +352,7 @@
               },
               { "u_lose_effect": "bleed", "target_part": "torso" },
               { "math": [ "u_hp('torso')", "-=", "1" ] },
-              { "math": [ "u_pain('type': 'perceived')", "+=", "rng(1,3)" ] },
+              { "math": [ "u_pain('type': 'perceived') += rng(1,3)" ] },
               {
                 "run_eocs": "EOC_PYROKIN_CAUTERIZE_TORSO_INFECTION_CHECK",
                 "time_in_future": [ "6 hours", "24 hours" ]
@@ -370,7 +370,7 @@
                 "intensity": { "math": [ "u_effect_intensity('effect_psi_post_cauterize', 'bodypart': 'torso') + 1" ] }
               },
               { "math": [ "u_hp('torso')", "-=", "3" ] },
-              { "math": [ "u_pain('type': 'perceived')", "+=", "rng(1,3)" ] },
+              { "math": [ "u_pain('type': 'perceived') += rng(1,3)" ] },
               {
                 "run_eocs": "EOC_PYROKIN_CAUTERIZE_TORSO_INFECTION_CHECK",
                 "time_in_future": [ "6 hours", "24 hours" ]

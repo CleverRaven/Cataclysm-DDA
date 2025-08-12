@@ -270,7 +270,7 @@
         "then": [
           { "math": [ "u_vitamin('human_blood_vitamin') --" ] },
           { "math": [ "u_dhampir_avoid_eat_sleep_drink_counter = 0" ] },
-          { "if": { "math": [ "u_calories()", "<", "118000" ] }, "then": { "math": [ "u_calories()", "+=", "2" ] } },
+          { "if": { "math": [ "u_calories()", "<", "118000" ] }, "then": { "math": [ "u_calories() += 2" ] } },
           { "math": [ "u_val('sleep_deprivation') = 0" ] }
         ]
       },
@@ -288,7 +288,7 @@
         "u_message": "You feel a wave of tiredness as you allow mortal needs to assert their will once again.",
         "type": "bad"
       },
-      { "math": [ "u_val('sleepiness')", "+=", "min( (u_dhampir_avoid_eat_sleep_drink_long_counter / 200), 700)" ] },
+      { "math": [ "u_val('sleepiness') += min( (u_dhampir_avoid_eat_sleep_drink_long_counter / 200), 700)" ] },
       { "math": [ "u_calories()", "-=", "min( (u_dhampir_avoid_eat_sleep_drink_long_counter * 0.06), 10000)" ] },
       {
         "math": [
@@ -322,18 +322,18 @@
       ]
     },
     "effect": [
-      { "math": [ "u_vitamin('blood')", "+=", "u_effect_intensity('bleed', 'bodypart': 'arm_l') * 2" ] },
-      { "math": [ "u_vitamin('blood')", "+=", "u_effect_intensity('bleed', 'bodypart': 'arm_r') * 2" ] },
-      { "math": [ "u_vitamin('blood')", "+=", "u_effect_intensity('bleed', 'bodypart': 'leg_l') * 2" ] },
-      { "math": [ "u_vitamin('blood')", "+=", "u_effect_intensity('bleed', 'bodypart': 'leg_r') * 2" ] },
-      { "math": [ "u_vitamin('blood')", "+=", "u_effect_intensity('bleed', 'bodypart': 'torso') * 2" ] },
-      { "math": [ "u_vitamin('blood')", "+=", "u_effect_intensity('bleed', 'bodypart': 'head') * 2" ] },
-      { "math": [ "u_vitamin('redcells')", "+=", "u_effect_intensity('bleed', 'bodypart': 'arm_l') * 2" ] },
-      { "math": [ "u_vitamin('redcells')", "+=", "u_effect_intensity('bleed', 'bodypart': 'arm_r') * 2" ] },
-      { "math": [ "u_vitamin('redcells')", "+=", "u_effect_intensity('bleed', 'bodypart': 'leg_l') * 2" ] },
-      { "math": [ "u_vitamin('redcells')", "+=", "u_effect_intensity('bleed', 'bodypart': 'leg_r') * 2" ] },
-      { "math": [ "u_vitamin('redcells')", "+=", "u_effect_intensity('bleed', 'bodypart': 'torso') * 2" ] },
-      { "math": [ "u_vitamin('redcells')", "+=", "u_effect_intensity('bleed', 'bodypart': 'head') * 2" ] },
+      { "math": [ "u_vitamin('blood') += u_effect_intensity('bleed', 'bodypart': 'arm_l') * 2" ] },
+      { "math": [ "u_vitamin('blood') += u_effect_intensity('bleed', 'bodypart': 'arm_r') * 2" ] },
+      { "math": [ "u_vitamin('blood') += u_effect_intensity('bleed', 'bodypart': 'leg_l') * 2" ] },
+      { "math": [ "u_vitamin('blood') += u_effect_intensity('bleed', 'bodypart': 'leg_r') * 2" ] },
+      { "math": [ "u_vitamin('blood') += u_effect_intensity('bleed', 'bodypart': 'torso') * 2" ] },
+      { "math": [ "u_vitamin('blood') += u_effect_intensity('bleed', 'bodypart': 'head') * 2" ] },
+      { "math": [ "u_vitamin('redcells') += u_effect_intensity('bleed', 'bodypart': 'arm_l') * 2" ] },
+      { "math": [ "u_vitamin('redcells') += u_effect_intensity('bleed', 'bodypart': 'arm_r') * 2" ] },
+      { "math": [ "u_vitamin('redcells') += u_effect_intensity('bleed', 'bodypart': 'leg_l') * 2" ] },
+      { "math": [ "u_vitamin('redcells') += u_effect_intensity('bleed', 'bodypart': 'leg_r') * 2" ] },
+      { "math": [ "u_vitamin('redcells') += u_effect_intensity('bleed', 'bodypart': 'torso') * 2" ] },
+      { "math": [ "u_vitamin('redcells') += u_effect_intensity('bleed', 'bodypart': 'head') * 2" ] },
       { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "u_effect_intensity('bleed', 'bodypart': 'arm_l') * 2" ] },
       { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "u_effect_intensity('bleed', 'bodypart': 'arm_r') * 2" ] },
       { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "u_effect_intensity('bleed', 'bodypart': 'leg_l') * 2" ] },

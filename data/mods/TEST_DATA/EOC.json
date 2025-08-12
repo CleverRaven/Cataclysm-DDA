@@ -516,7 +516,7 @@
     "type": "effect_on_condition",
     "id": "EOC_math_test_greater_increment",
     "condition": { "math": [ "math_test > 0" ] },
-    "effect": [ { "math": [ "math_test", "+=", "1" ] } ],
+    "effect": [ { "math": [ "math_test += 1" ] } ],
     "false_effect": [ { "math": [ "math_test--" ] } ]
   },
   {

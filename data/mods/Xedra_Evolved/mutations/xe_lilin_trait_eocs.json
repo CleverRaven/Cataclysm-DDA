@@ -540,7 +540,7 @@
       },
       { "u_add_effect": "lilit_prevent_death_escape", "duration": 15 },
       { "u_add_effect": "lilit_prevent_death_cooldown", "duration": 300 },
-      { "math": [ "u_vitamin('lilin_ruach_vitamin')", "+=", "360 * lilin_has_ruach_efficiency()" ] },
+      { "math": [ "u_vitamin('lilin_ruach_vitamin') += 360 * lilin_has_ruach_efficiency()" ] },
       { "u_activate_trait": "LILIN_TURN_INTO_OWL" }
     ]
   }

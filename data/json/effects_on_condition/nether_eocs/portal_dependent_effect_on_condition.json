@@ -108,7 +108,7 @@
         "type": "good"
       },
       { "math": [ "u_val('sleepiness')", "-=", "20" ] },
-      { "math": [ "u_val('stamina')", "+=", "20" ] }
+      { "math": [ "u_val('stamina') += 20" ] }
     ]
   },
   {
@@ -158,10 +158,7 @@
     "id": "EOC_PORTAL_DEPENDENT_FOCUS_GOOD",
     "//": "Your mind gains focus as an effect of your connection with the portal storms.",
     "condition": { "not": { "u_has_effect": "sleep" } },
-    "effect": [
-      { "u_message": "Everything suddenly feels more clear.", "type": "good" },
-      { "math": [ "u_val('focus')", "+=", "10" ] }
-    ]
+    "effect": [ { "u_message": "Everything suddenly feels more clear.", "type": "good" }, { "math": [ "u_val('focus') += 10" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -389,7 +386,7 @@
         "u_message": "Faint sparks suddenly appear and disappear around you, as if rejecting your very existence.  Pain flares across your body.",
         "type": "bad"
       },
-      { "math": [ "u_pain()", "+=", "10" ] }
+      { "math": [ "u_pain() += 10" ] }
     ]
   },
   {

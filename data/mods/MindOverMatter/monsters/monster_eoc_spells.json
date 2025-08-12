@@ -118,7 +118,7 @@
     "type": "effect_on_condition",
     "id": "pigeon_aura",
     "condition": "u_is_character",
-    "effect": [ { "math": [ "u_vitamin('passenger_pigeon_aura')", "+=", "400 + rand(100)" ] } ]
+    "effect": [ { "math": [ "u_vitamin('passenger_pigeon_aura') += 400 + rand(100)" ] } ]
   },
   {
     "id": "null_break_concentration_spell",
@@ -168,21 +168,15 @@
                     },
                     "effect": [
                       { "u_message": "An icy dagger seems to stab into your brain.", "type": "bad" },
-                      { "math": [ "u_pain()", "+=", "rand(3) + 1" ] },
+                      { "math": [ "u_pain() += rand(3) + 1" ] },
                       { "run_eocs": "EOC_END_PSI_POWERS_MAINTAINED" }
                     ],
-                    "false_effect": [
-                      { "u_message": "Icy fingers crawl across your brain for a moment.", "type": "bad" },
-                      { "math": [ "u_pain()", "+=", "1" ] }
-                    ]
+                    "false_effect": [ { "u_message": "Icy fingers crawl across your brain for a moment.", "type": "bad" }, { "math": [ "u_pain() += 1" ] } ]
                   }
                 ]
               }
             ],
-            "false_effect": [
-              { "u_message": "Icy fingers crawl across your brain for a moment.", "type": "bad" },
-              { "math": [ "u_pain()", "+=", "1" ] }
-            ]
+            "false_effect": [ { "u_message": "Icy fingers crawl across your brain for a moment.", "type": "bad" }, { "math": [ "u_pain() += 1" ] } ]
           }
         ]
       }

@@ -1084,7 +1084,7 @@
     "speaker_effect": {
       "effect": [
         { "npc_add_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" },
-        { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "+=", "1" ] }
+        { "math": [ "u_mission_cleanup_promises_Boris_mission_1 += 1" ] }
       ]
     },
     "responses": [

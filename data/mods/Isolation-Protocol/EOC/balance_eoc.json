@@ -6,14 +6,14 @@
     "global": true,
     "condition": { "math": [ "u_monsters_nearby('radius': 10, 'attitude': 'hostile') == 0" ] },
     "effect": [
-      { "math": [ "u_hp('torso')", "+=", "2" ] },
-      { "math": [ "u_hp('head')", "+=", "2" ] },
-      { "math": [ "u_hp('arm_l')", "+=", "2" ] },
-      { "math": [ "u_hp('arm_r')", "+=", "2" ] },
-      { "math": [ "u_hp('leg_l')", "+=", "2" ] },
-      { "math": [ "u_hp('leg_r')", "+=", "2" ] },
+      { "math": [ "u_hp('torso') += 2" ] },
+      { "math": [ "u_hp('head') += 2" ] },
+      { "math": [ "u_hp('arm_l') += 2" ] },
+      { "math": [ "u_hp('arm_r') += 2" ] },
+      { "math": [ "u_hp('leg_l') += 2" ] },
+      { "math": [ "u_hp('leg_r') += 2" ] },
       { "math": [ "u_pain()", "-=", "4" ] },
-      { "if": { "u_has_trait": "iso_eldritch_sorcery" }, "then": { "math": [ "u_val('mana')", "+=", "25" ] } }
+      { "if": { "u_has_trait": "iso_eldritch_sorcery" }, "then": { "math": [ "u_val('mana') += 25" ] } }
     ]
   },
   {

@@ -163,7 +163,7 @@
       },
       { "run_eocs": [ "EOC_PERENNIAL_REBIRTH_HEAL" ] },
       { "u_add_effect": "effect_salamander_prevented_death", "duration": 1209600 },
-      { "math": [ "u_calories('dont_affect_weariness': true)", "+=", "40000" ] }
+      { "math": [ "u_calories('dont_affect_weariness': true) += 40000" ] }
     ],
     "false_effect": {
       "run_eocs": [
@@ -183,7 +183,7 @@
               "popup": true
             },
             { "run_eocs": [ "EOC_PERENNIAL_REBIRTH_HEAL" ] },
-            { "math": [ "u_calories('dont_affect_weariness': true)", "+=", "40000" ] }
+            { "math": [ "u_calories('dont_affect_weariness': true) += 40000" ] }
           ]
         }
       ]
@@ -220,7 +220,7 @@
     "id": "EOC_SALAMANDER_HEALTH_FOR_MANA",
     "condition": { "math": [ "u_val('mana') < u_val('mana_max')" ] },
     "effect": [
-      { "math": [ "u_val('mana')", "+=", "1000" ] },
+      { "math": [ "u_val('mana') += 1000" ] },
       { "u_add_effect": "effect_salamander_burning_damage", "duration": "30 s", "target_part": "torso" },
       { "u_add_effect": "effect_salamander_burning_damage", "duration": "30 s", "target_part": "head" },
       { "u_add_effect": "effect_salamander_burning_damage", "duration": "30 s", "target_part": "arm_l" },
@@ -283,7 +283,7 @@
     "id": "EOC_SALAMANDER_BERSERK_STANCE_OFF",
     "condition": { "u_has_effect": "effect_salamander_berserk_stance" },
     "effect": [
-      { "math": [ "u_pain()", "+=", "(u_salamander_pain_value * 1.15)" ] },
+      { "math": [ "u_pain() += (u_salamander_pain_value * 1.15)" ] },
       { "u_lose_effect": "effect_salamander_berserk_stance" }
     ]
   }

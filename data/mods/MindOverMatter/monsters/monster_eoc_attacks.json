@@ -12,7 +12,7 @@
     "effect": [
       { "npc_add_effect": "effect_vitakinetic_health_down", "duration": [ 620000, 1620000 ] },
       { "math": [ "n_calories()", "-=", "75" ] },
-      { "math": [ "n_calories('dont_affect_weariness': true)", "+=", "75" ] }
+      { "math": [ "n_calories('dont_affect_weariness': true) += 75" ] }
     ],
     "false_effect": [ { "npc_add_effect": "effect_vitakinetic_health_down_monster", "duration": [ 620000, 1620000 ] } ]
   },
@@ -23,7 +23,7 @@
     "effect": [
       { "npc_add_effect": "effect_vitakinetic_healing_down", "duration": [ 620000, 1620000 ] },
       { "math": [ "n_calories()", "-=", "200" ] },
-      { "math": [ "n_calories('dont_affect_weariness': true)", "+=", "200" ] }
+      { "math": [ "n_calories('dont_affect_weariness': true) += 200" ] }
     ],
     "false_effect": [ { "npc_add_effect": "effect_vitakinetic_health_down_monster", "intensity": 3, "duration": [ 620000, 1620000 ] } ]
   },
@@ -34,7 +34,7 @@
     "effect": [
       { "npc_add_effect": "effect_vitakinetic_healing_down_super", "duration": [ 620000, 1620000 ] },
       { "math": [ "n_calories()", "-=", "350" ] },
-      { "math": [ "n_calories('dont_affect_weariness': true)", "+=", "350" ] }
+      { "math": [ "n_calories('dont_affect_weariness': true) += 350" ] }
     ],
     "false_effect": [ { "npc_add_effect": "effect_vitakinetic_health_down_monster", "intensity": 3, "duration": [ 620000, 1620000 ] } ]
   },

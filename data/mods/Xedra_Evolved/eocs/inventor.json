@@ -11,7 +11,7 @@
     },
     "effect": [
       { "math": [ "u_vitamin('creative_spark_research')", "-=", "base_difficulty_1" ] },
-      { "math": [ "base_difficulty_1", "+=", "2" ] },
+      { "math": [ "base_difficulty_1 += 2" ] },
       {
         "u_roll_remainder": [
           "inventor_leg_weight",
@@ -43,7 +43,7 @@
     "false_effect": [
       { "u_message": "inventor_fail", "snippet": true, "type": "bad" },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
-      { "math": [ "u_vitamin('creative_spark_research')", "+=", "1" ] }
+      { "math": [ "u_vitamin('creative_spark_research') += 1" ] }
     ]
   },
   {
@@ -57,7 +57,7 @@
     },
     "effect": [
       { "math": [ "u_vitamin('creative_spark_research')", "-=", "base_difficulty_2" ] },
-      { "math": [ "base_difficulty_2", "+=", "3" ] },
+      { "math": [ "base_difficulty_2 += 3" ] },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
       {
         "u_roll_remainder": [
@@ -97,7 +97,7 @@
     "false_effect": [
       { "u_message": "inventor_fail", "snippet": true, "type": "bad" },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
-      { "math": [ "u_vitamin('creative_spark_research')", "+=", "2" ] }
+      { "math": [ "u_vitamin('creative_spark_research') += 2" ] }
     ]
   },
   {
@@ -111,7 +111,7 @@
     },
     "effect": [
       { "math": [ "u_vitamin('creative_spark_research')", "-=", "base_difficulty_3" ] },
-      { "math": [ "base_difficulty_3", "+=", "4" ] },
+      { "math": [ "base_difficulty_3 += 4" ] },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
       {
         "u_roll_remainder": [
@@ -141,7 +141,7 @@
     "false_effect": [
       { "u_message": "inventor_fail", "snippet": true, "type": "bad" },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
-      { "math": [ "u_vitamin('creative_spark_research')", "+=", "3" ] }
+      { "math": [ "u_vitamin('creative_spark_research') += 3" ] }
     ]
   },
   {
@@ -155,7 +155,7 @@
     },
     "effect": [
       { "math": [ "u_vitamin('creative_spark_research')", "-=", "energy_difficulty_1" ] },
-      { "math": [ "energy_difficulty_1", "+=", "2" ] },
+      { "math": [ "energy_difficulty_1 += 2" ] },
       {
         "u_roll_remainder": [
           "battery_gun",
@@ -187,7 +187,7 @@
     "false_effect": [
       { "u_message": "inventor_fail", "snippet": true, "type": "bad" },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
-      { "math": [ "u_vitamin('creative_spark_research')", "+=", "1" ] }
+      { "math": [ "u_vitamin('creative_spark_research') += 1" ] }
     ]
   },
   {
@@ -201,7 +201,7 @@
     },
     "effect": [
       { "math": [ "u_vitamin('creative_spark_research')", "-=", "energy_difficulty_2" ] },
-      { "math": [ "energy_difficulty_2", "+=", "3" ] },
+      { "math": [ "energy_difficulty_2 += 3" ] },
       {
         "u_roll_remainder": [
           "aura_force",
@@ -240,7 +240,7 @@
     "false_effect": [
       { "u_message": "inventor_fail", "snippet": true, "type": "bad" },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
-      { "math": [ "u_vitamin('creative_spark_research')", "+=", "2" ] }
+      { "math": [ "u_vitamin('creative_spark_research') += 2" ] }
     ]
   },
   {
@@ -254,7 +254,7 @@
     },
     "effect": [
       { "math": [ "u_vitamin('creative_spark_research')", "-=", "energy_difficulty_3" ] },
-      { "math": [ "energy_difficulty_3", "+=", "4" ] },
+      { "math": [ "energy_difficulty_3 += 4" ] },
       {
         "u_roll_remainder": [
           "inventor_glauncher",
@@ -289,7 +289,7 @@
     "false_effect": [
       { "u_message": "inventor_fail", "snippet": true, "type": "bad" },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
-      { "math": [ "u_vitamin('creative_spark_research')", "+=", "3" ] }
+      { "math": [ "u_vitamin('creative_spark_research') += 3" ] }
     ]
   },
   {
@@ -304,9 +304,9 @@
     },
     "effect": [
       { "math": [ "u_vitamin('creative_spark_research')", "-=", "base_difficulty_3" ] },
-      { "math": [ "AI_sparks", "+=", "AI_difficulty_1" ] },
-      { "math": [ "base_difficulty_3", "+=", "5" ] },
-      { "math": [ "AI_difficulty_1", "+=", "5" ] },
+      { "math": [ "AI_sparks += AI_difficulty_1" ] },
+      { "math": [ "base_difficulty_3 += 5" ] },
+      { "math": [ "AI_difficulty_1 += 5" ] },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
       {
         "u_roll_remainder": [ "bot_sniperbot", "bot_shotgunbot", "bot_meleebot" ],
@@ -326,8 +326,8 @@
     ],
     "false_effect": [
       { "u_message": "inventor_fail", "snippet": true, "type": "bad" },
-      { "math": [ "u_vitamin('creative_spark_research')", "+=", "4" ] },
-      { "math": [ "AI_sparks", "+=", "4" ] }
+      { "math": [ "u_vitamin('creative_spark_research') += 4" ] },
+      { "math": [ "AI_sparks += 4" ] }
     ]
   },
   {
@@ -342,9 +342,9 @@
     },
     "effect": [
       { "math": [ "u_vitamin('creative_spark_research')", "-=", "base_difficulty_3" ] },
-      { "math": [ "dimension_sparks", "+=", "dimension_difficulty_1" ] },
-      { "math": [ "base_difficulty_3", "+=", "5" ] },
-      { "math": [ "dimension_difficulty_1", "+=", "5" ] },
+      { "math": [ "dimension_sparks += dimension_difficulty_1" ] },
+      { "math": [ "base_difficulty_3 += 5" ] },
+      { "math": [ "dimension_difficulty_1 += 5" ] },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
       {
         "u_roll_remainder": [
@@ -371,8 +371,8 @@
     ],
     "false_effect": [
       { "u_message": "inventor_fail", "snippet": true, "type": "bad" },
-      { "math": [ "u_vitamin('creative_spark_research')", "+=", "5" ] },
-      { "math": [ "dimension_sparks", "+=", "4" ] }
+      { "math": [ "u_vitamin('creative_spark_research') += 5" ] },
+      { "math": [ "dimension_sparks += 4" ] }
     ]
   },
   {
