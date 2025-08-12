@@ -48,10 +48,9 @@ static const flag_id json_flag_DIMENSIONAL_ANCHOR( "DIMENSIONAL_ANCHOR" );
 static const flag_id json_flag_GRAB( "GRAB" );
 static const flag_id json_flag_TELEPORT_LOCK( "TELEPORT_LOCK" );
 
-static const itype_id itype_wall_wiring( "wall_wiring" );
 static const itype_id itype_power_cord( "power_cord" );
 
-const std::string flag_WIRING( "WIRING" );
+static const std::string flag_WIRING( "WIRING" );
 
 static bool TestForVehicleTeleportCollision( vehicle &veh, map &here, map *dest,
         const tripoint_abs_ms &dp )
