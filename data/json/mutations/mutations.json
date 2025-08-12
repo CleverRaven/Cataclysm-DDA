@@ -10729,5 +10729,16 @@
     "category": [ "HUMAN" ],
     "types": [ "ATTRACTIVENESS" ],
     "description": "Your attractiveness would be considered unremarkable by the average human."
+  },
+  {
+    "type": "mutation",
+    "id": "anti_shape",
+    "name": { "str": "Extradimensional Comprehension" },
+    "player_display": true,
+    "points": 0,
+    "description": "Inside the infinite tunnel at LIXA, you saw things in a few more dimensions than the human brain is meant to handle.  But now that you have escaped, your brain has rewired itself to compensate, allowing you to observe impossible shapes without damage to your psyche",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false
   }
 ]
