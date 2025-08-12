@@ -2235,7 +2235,7 @@ In three hours, you will be given five AR-15
   {
     "type": "effect_on_condition",
     "id": "EOC_until_nested",
-    "effect": [ { "u_spawn_item": "knife_combat" }, { "math": [ "my_variable", "++" ] } ]
+    "effect": [ { "u_spawn_item": "knife_combat" }, { "math": [ "my_variable++" ] } ]
   }
 ```
 
@@ -2400,7 +2400,7 @@ Resets all of your vitamins.
   "foreach": "ids",
   "var": { "context_val": "id" },
   "target": "vitamin",
-  "effect": [ { "math": [ "u_vitamin(_id)", "=", "0" ] } ]
+  "effect": [ { "math": [ "u_vitamin(_id) = 0" ] } ]
 }
 ```
 
@@ -3377,7 +3377,7 @@ For example:
 ```
 could be moved to:
 ```json  
-[ "u_number_artisans_gunsmith_ammo_amount", "=", "800" ]
+[ "u_number_artisans_gunsmith_ammo_amount = 800" ]
 ```
 
 Setting and checking monster vars via `math`.  The first spell targets a monster and forces it to run the effect on condition to apply a custom var, which the second spell checks to deal additional effects:
