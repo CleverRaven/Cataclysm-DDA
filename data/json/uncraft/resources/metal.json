@@ -466,7 +466,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "45 m",
     "tools": [ [ [ "angle_grinder", 25 ] ] ],
-    "components": [ [ [ "lc_steel_lump", 8 ] ] ]
+    "components": [ [ [ "lc_steel_chunk", 3 ] ] ]
   },
   {
     "result": "mc_steel_bar_round",
@@ -474,7 +474,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "45 m",
     "tools": [ [ [ "angle_grinder", 25 ] ] ],
-    "components": [ [ [ "lc_steel_lump", 8 ] ] ]
+    "components": [ [ [ "mc_steel_chunk", 3 ] ] ]
   },
   {
     "result": "hc_steel_bar_round",
@@ -482,14 +482,46 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "45 m",
     "tools": [ [ [ "angle_grinder", 25 ] ] ],
-    "components": [ [ [ "lc_steel_lump", 8 ] ] ]
+    "components": [ [ [ "hc_steel_chunk", 3 ] ] ]
   },
   {
     "result": "aluminum_bar_round",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "time": "45 m",
+    "time": "25 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "scrap_aluminum", 5 ] ] ]
+  },
+  {
+    "result": "small_aluminum_bar_round",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "15 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "scrap_aluminum", 2 ] ] ]
+  },
+  {
+    "result": "small_lc_steel_bar_round",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "lc_steel_chunk", 1 ] ] ]
+  },
+  {
+    "result": "small_mc_steel_bar_round",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "mc_steel_chunk", 1 ] ] ]
+  },
+  {
+    "result": "small_hc_steel_bar_round",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
     "tools": [ [ [ "angle_grinder", 25 ] ] ],
-    "components": [ [ [ "material_aluminium_ingot", 11 ] ] ]
+    "components": [ [ [ "hc_steel_chunk", 1 ] ] ]
   }
 ]

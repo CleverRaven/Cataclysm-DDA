@@ -353,9 +353,9 @@
       { "proficiency": "prof_machining_basic", "time_multiplier": 1.5, "skill_penalty": 0.25 }
     ],
     "time": "1 h",
-    "byproducts": [ [ "scrap_aluminum", 50 ] ],
-    "tools": [ [ [ "fake_lathe", 50 ] ] ],
-    "components": [ [ [ "aluminum_bar_round", 1 ] ] ],
+    "byproducts": [ [ "scrap_aluminum", 5 ] ],
+    "tools": [ [ [ "fake_lathe", 40 ] ] ],
+    "components": [ [ [ "aluminum_bar_round", 1 ], [ "small_aluminum_bar_round", 3 ] ] ],
     "autolearn": [ [ "fabrication", 4 ] ],
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "reference_fabrication1", 2 ] ]
   },
@@ -373,10 +373,10 @@
       { "proficiency": "prof_metalworking", "time_multiplier": 1, "skill_penalty": 0 },
       { "proficiency": "prof_machining_basic", "time_multiplier": 1.5, "skill_penalty": 0.25 }
     ],
-    "time": "1 h",
-    "byproducts": [ [ "scrap", 150 ] ],
+    "time": "1 h 30m",
+    "byproducts": [ [ "scrap", 15 ] ],
     "tools": [ [ [ "fake_lathe", 50 ] ] ],
-    "components": [ [ [ "lc_steel_bar_round", 1 ], [ "mc_steel_bar_round", 1 ], [ "pipe", 1 ] ] ],
+    "components": [ [ [ "lc_steel_bar_round", 1 ], [ "mc_steel_bar_round", 1 ], [ "pipe", 2 ], [ "small_lc_steel_bar_round", 3 ], [ "small_mc_steel_bar_round", 3 ] ] ],
     "autolearn": [ [ "fabrication", 4 ] ],
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "reference_fabrication1", 2 ] ]
   }
