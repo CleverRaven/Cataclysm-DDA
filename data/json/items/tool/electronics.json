@@ -1218,9 +1218,9 @@
           "effect": {
             "run_eocs": "EOC_toolweapon_running",
             "variables": {
-              "sound_chance": "0",
+              "sound_chance": 0,
               "sound_message": { "i18n": true, "str": "Your super noise emitter produces an unholy blast of sonic chaos." },
-              "volume": "300",
+              "volume": 300,
               "revert_to": "noise_emitter_super"
             }
           }

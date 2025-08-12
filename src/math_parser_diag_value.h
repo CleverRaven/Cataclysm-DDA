@@ -83,7 +83,10 @@ struct diag_value {
     std::string to_string( bool i18n = false ) const;
 
     void serialize( JsonOut & ) const;
-    void deserialize( const JsonValue &jsin );
+    void _deserialize( const JsonValue &jsin, bool allow_legacy );
+    void deserialize( const JsonValue &jsin ) {
+        _deserialize( jsin, true );
+    }
 
     struct legacy_value {
         std::string val;

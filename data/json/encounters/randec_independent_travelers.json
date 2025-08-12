@@ -12,8 +12,8 @@
           "omt": "roadstop_a",
           "map_update": "nest_RandEnc_campervan_traveler_add",
           "map_removal": "nest_RandEnc_campervan_traveler_remove",
-          "chance": "10",
-          "days_till_spawn": "7"
+          "chance": 10,
+          "days_till_spawn": 7
         }
       }
     ]

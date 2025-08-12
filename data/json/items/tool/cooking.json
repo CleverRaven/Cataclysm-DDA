@@ -96,10 +96,10 @@
             "effect": {
               "run_eocs": "EOC_toolweapon_activate",
               "variables": {
-                "turn_cost": "0.8",
+                "turn_cost": 0.8,
                 "transform_target": "carver_on",
                 "success_message": { "i18n": true, "str": "The electric carver's serrated blades start buzzing!" },
-                "volume": "20",
+                "volume": 20,
                 "failure_message": { "i18n": true, "str": "You pull the trigger, but nothing happens." }
               }
             }
@@ -145,9 +145,9 @@
           "effect": {
             "run_eocs": "EOC_toolweapon_running",
             "variables": {
-              "sound_chance": "10",
+              "sound_chance": 10,
               "sound_message": { "i18n": true, "str": "Your electric carver buzzes." },
-              "volume": "8",
+              "volume": 8,
               "revert_to": "carver_off"
             }
           }

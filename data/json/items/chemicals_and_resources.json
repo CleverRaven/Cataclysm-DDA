@@ -1254,7 +1254,7 @@
     "volume": "2 ml",
     "flags": [ "NO_INGEST", "WATER_DISSOLVE" ],
     "//6": "The ratio of how much water can be purified per tablet (maximum).  Should match the water_purifying recipe",
-    "variables": { "water_per_tablet": "4" }
+    "variables": { "water_per_tablet": 4 }
   },
   {
     "type": "ITEM",

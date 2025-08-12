@@ -12,10 +12,10 @@
 - [Armor](#armor)
   - [Armor Portion Data](#armor-portion-data)
     - [Encumbrance](#encumbrance)
-    - [Encumbrance_modifiers](#encumbrance_modifiers)
+    - [Encumbrance\_modifiers](#encumbrance_modifiers)
     - [breathability](#breathability)
     - [Layers](#layers)
-    - [rigid_layer_only](#rigid_layer_only)
+    - [rigid\_layer\_only](#rigid_layer_only)
     - [Coverage](#coverage)
     - [Covers](#covers)
     - [Specifically Covers](#specifically-covers)
@@ -1545,7 +1545,7 @@ Example:
     "variables": { "browsed": "false" }
 ```
 ```jsonc
-    "variables": { "water_per_tablet": "4" }
+    "variables": { "water_per_tablet": 4 }
 ```
 
 This will make any item instantiated from that prototype get assigned this variable, once
