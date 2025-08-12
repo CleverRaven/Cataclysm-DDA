@@ -592,6 +592,16 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "knack_clair_examine_item",
+    "name": "Psychic Knack (Psychometry)",
+    "description": "Before the Cataclysm you would sometimes get strong impressions from items you touched, or have dreams about things you had bought.  Bits of their history that seemed so real, they had to have happened.  Hopefully it helps you survive.",
+    "points": 3,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "clair_examine_item_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "knack_clair_astral_projection",
     "name": "Psychic Knack (Astral Projection)",
     "description": "Before the Cataclysm you sometimes felt like already new unfamiliar places, like you had been there before in a dream, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
