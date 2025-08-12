@@ -333,6 +333,7 @@ void relic_charge_info::accumulate_charge( item &parent )
                 current_magazine->ammo_set( current_magazine->ammo_default(), 1 );
             } else {
                 current_magazine->ammo_set( current_ammo, current_magazine->ammo_remaining( ) + 1 );
+                caster.add_msg_if_player( m_good, _( "The artifact suddenly emits a slight warmth and a glow beyond the edge of sight." ) );
             }
         } else {
             charges++;
