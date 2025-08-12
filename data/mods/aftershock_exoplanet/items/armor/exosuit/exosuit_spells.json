@@ -129,8 +129,11 @@
   {
     "id": "exosuit_electrolaser_electro",
     "type": "SPELL",
-    "name": "Exosuit Electric Damage",
-    "description": "Give some electric damage for Electrolaser spell.  Subspell; you aren't allowed to see it except in debug mode.",
+    "name": { "str": "Exosuit Electric Damage", "//~": "NO_I18N" },
+    "description": {
+      "str": "Give some electric damage for Electrolaser spell.  Subspell; you aren't allowed to see it except in debug mode.",
+      "//~": "NO_I18N"
+    },
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "hostile", "ground" ],
@@ -147,8 +150,8 @@
   {
     "id": "electrolaser_sparks",
     "type": "SPELL",
-    "name": "Electrolaser Sparks",
-    "description": "The spark portion of the Electrolaser spell.",
+    "name": { "str": "Electrolaser Sparks", "//~": "NO_I18N" },
+    "description": { "str": "The spark portion of the Electrolaser spell.", "//~": "NO_I18N" },
     "valid_targets": [ "ground", "hostile", "ally" ],
     "effect": "attack",
     "shape": "line",

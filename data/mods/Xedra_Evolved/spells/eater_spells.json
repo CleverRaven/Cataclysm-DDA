@@ -590,8 +590,11 @@
   {
     "id": "xedra_eater_erosion_attack",
     "type": "SPELL",
-    "name": "Erosion - Attack",
-    "description": "This causes the dot when attacking targets with the erosion buff.  Having the spell is a bug.",
+    "name": { "str": "Erosion - Attack", "//~": "NO_I18N" },
+    "description": {
+      "str": "This causes the dot when attacking targets with the erosion buff.  Having the spell is a bug.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "effect": "attack",

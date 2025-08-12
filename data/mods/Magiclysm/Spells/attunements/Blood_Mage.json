@@ -130,8 +130,8 @@
   {
     "id": "demonic_possession_real",
     "type": "SPELL",
-    "name": "Demonic Possession Real",
-    "description": "Grants the aura that gives the demon traits.  You're not supposed to see this.",
+    "name": { "str": "Demonic Possession Real", "//~": "NO_I18N" },
+    "description": { "str": "Grants the aura that gives the demon traits.  You're not supposed to see this.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "CONJURATION_SPELL", "SOMATIC", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN", "SILENT", "NO_EXPLOSION_SFX" ],
     "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
