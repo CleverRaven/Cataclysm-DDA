@@ -198,7 +198,7 @@
                       },
                       { "u_lose_trait": "WEREWOLF_PRIMAL_FORM_TRAITS" },
                       { "u_lose_trait": "CARNIVORE" },
-                      { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "3" ] }
+                      { "math": [ "u_calories('dont_affect_weariness': true) /= 3" ] }
                     ]
                   }
                 ]

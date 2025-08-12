@@ -1187,7 +1187,7 @@
               { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
               { "u_add_trait": "VAMPIRE_BAT_FORM_TRAITS" },
               { "u_add_trait": "ECHOLOCATION" },
-              { "math": [ "u_calories()", "/=", "4" ] },
+              { "math": [ "u_calories() /= 4" ] },
               {
                 "u_message": "Your fingers lengthen as flaps of skin grow between them and as your legs shorten, you take to the air.",
                 "type": "good"
@@ -1249,7 +1249,7 @@
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
               { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
               { "u_add_trait": "TURN_INTO_RAVEN_TRAITS" },
-              { "math": [ "u_calories()", "/=", "4" ] },
+              { "math": [ "u_calories() /= 4" ] },
               {
                 "u_message": "Your body shifts and warps as your fingers extend into wings and feathers burst from your skin as you take to the air.",
                 "type": "good"
@@ -1332,7 +1332,7 @@
             "condition": { "u_has_trait": "TURN_INTO_BEAR_TRAITS" },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
-              { "math": [ "u_calories()", "/=", "3" ] },
+              { "math": [ "u_calories() /= 3" ] },
               { "u_lose_trait": "TURN_INTO_BEAR_TRAITS" },
               {
                 "u_message": "Your body shifts and contracts and you return to your humanoid form.",

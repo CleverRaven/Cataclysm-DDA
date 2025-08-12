@@ -1654,7 +1654,7 @@
               { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
               { "u_add_trait": "VAMPIRE_BAT_FORM_TRAITS" },
               { "u_add_trait": "ECHOLOCATION" },
-              { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "4" ] },
+              { "math": [ "u_calories('dont_affect_weariness': true) /= 4" ] },
               {
                 "u_message": "Your fingers lengthen as flaps of skin grow between them and as your legs shorten, you take to the air.",
                 "type": "good"
@@ -1886,7 +1886,7 @@
           {
             "id": "eoc_vampire_blood_to_kcal_check_size_tiny",
             "condition": { "u_has_flag": "TINY" },
-            "effect": [ { "math": [ "u_calories_needed", "/=", "8" ] }, { "run_eocs": "eoc_vampire_blood_to_kcal_convert" } ],
+            "effect": [ { "math": [ "u_calories_needed /= 8" ] }, { "run_eocs": "eoc_vampire_blood_to_kcal_convert" } ],
             "false_effect": [ { "run_eocs": [ "eoc_vampire_blood_to_kcal_check_size_small" ] } ]
           }
         ]
@@ -1897,7 +1897,7 @@
     "type": "effect_on_condition",
     "id": "eoc_vampire_blood_to_kcal_check_size_small",
     "condition": { "u_has_flag": "SMALL" },
-    "effect": [ { "math": [ "u_calories_needed", "/=", "3" ] }, { "run_eocs": "eoc_vampire_blood_to_kcal_convert" } ],
+    "effect": [ { "math": [ "u_calories_needed /= 3" ] }, { "run_eocs": "eoc_vampire_blood_to_kcal_convert" } ],
     "false_effect": [ { "run_eocs": [ "eoc_vampire_blood_to_kcal_check_size_large" ] } ]
   },
   {

@@ -232,7 +232,7 @@
                       },
                       { "u_lose_trait": "WEREWOLF_HYBRID_FORM_TRAITS" },
                       { "u_lose_trait": "CARNIVORE" },
-                      { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "3" ] },
+                      { "math": [ "u_calories('dont_affect_weariness': true) /= 3" ] },
                       { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_RETURN_ARMOR_TO_NORMAL" }
                     ]
                   }

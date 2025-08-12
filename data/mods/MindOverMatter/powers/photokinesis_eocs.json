@@ -121,7 +121,7 @@
           }
         ]
       },
-      { "math": [ "u_photokinetic_sterilize_item_weight_in_grams", "/=", "40" ] },
+      { "math": [ "u_photokinetic_sterilize_item_weight_in_grams /= 40" ] },
       {
         "u_add_effect": "effect_photokin_sterilization",
         "duration": { "math": [ "max( ( u_photokinetic_sterilize_item_weight_in_grams + 1), 1)" ] }
