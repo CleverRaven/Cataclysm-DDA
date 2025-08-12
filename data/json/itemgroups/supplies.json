@@ -703,14 +703,14 @@
     "type": "item_group",
     "//": "untouched bar stock for machine shops, steel mills, etc.",
     "items": [
-      { "item": "aluminum_bar_round", "prob": 15, "count": [ 20, -1 ] },
-      { "item": "lc_steel_bar_round", "prob": 15, "count": [ 25, -1 ] },
-      { "item": "mc_steel_bar_round", "prob": 10, "count": [8, -1 ] },
-      { "item": "hc_steel_bar_round", "prob": 5, "count": [ 7, -1 ] },
-      { "item": "small_aluminum_bar_round", "prob": 15, "count": [ 20, -1 ] },
-      { "item": "small_lc_steel_bar_round", "prob": 15, "count": [ 25, -1 ] },
-      { "item": "small_mc_steel_bar_round", "prob": 10, "count": [8, -1 ] },
-      { "item": "small_hc_steel_bar_round", "prob": 5, "count": [ 7, -1 ] }
+      { "item": "aluminum_bar_round", "prob": 30, "count": [ 5, 30 ] },
+      { "item": "lc_steel_bar_round", "prob": 30, "count": [ 5, 25 ] },
+      { "item": "mc_steel_bar_round", "prob": 10, "count": [1, 10 ] },
+      { "item": "hc_steel_bar_round", "prob": 5, "count": [ 1, 10 ] },
+      { "item": "small_aluminum_bar_round", "prob": 20, "count": [ 5, 30] },
+      { "item": "small_lc_steel_bar_round", "prob": 20, "count": [ 5, 25 ] },
+      { "item": "small_mc_steel_bar_round", "prob": 5, "count": [1, 15 ] },
+      { "item": "small_hc_steel_bar_round", "prob": 5, "count": [ 1, 10 ] }
     ]
   },
   {

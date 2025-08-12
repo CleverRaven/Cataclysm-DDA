@@ -522,10 +522,7 @@
       { "item": "mc_wire", "prob": 20, "count": [ 0, 40 ] },
       { "item": "hc_wire", "prob": 20, "count": [ 0, 40 ] },
       { "item": "qt_wire", "prob": 10, "count": [ 0, 40 ] },
-      { "item": "lc_steel_bar_round", "prob": 60, "count": [ 1, 10 ] },
-      { "item": "mc_steel_bar_round", "prob": 40, "count": [ 1, 10 ] },
-      { "item": "hc_steel_bar_round", "prob": 20, "count": [ 1, 5 ] },
-      { "item": "aluminum_bar_round", "prob": 15, "count": [ 1, 10 ] },
+      { "group": "supplies_machining", "prob": 50 , "count": [3, -1] },
       [ "chain", 35 ],
       [ "rebar", 35 ],
       [ "pipe", 40 ],
@@ -551,10 +548,7 @@
       { "item": "sheet_metal", "prob": 5 },
       { "item": "sheet_metal_small", "prob": 5, "count": [ 2, 4 ] },
       { "item": "material_aluminium_ingot", "prob": 10, "count": [ 1, 5 ] },
-      { "item": "aluminum_bar_round", "prob": 10, "count": [ 1, 5 ] },
-      { "item": "lc_steel_bar_round", "prob": 30, "count": [ 1, 5 ] },
-      { "item": "mc_steel_bar_round", "prob": 25, "count": [ 1, 4 ] },
-      { "item": "hc_steel_bar_round", "prob": 10, "count": [ 1, 2 ] }
+      { "group": "supplies_machining", "prob": 70 , "count": [1, 5] }
     ]
   },
   {

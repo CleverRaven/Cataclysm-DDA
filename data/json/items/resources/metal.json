@@ -1401,21 +1401,21 @@
     "id": "lc_steel_bar_round",
     "type": "ITEM",
     "copy-from": "steel_bar_round",
-    "name": { "str_sp": "low carbon steel bar stock" },
+    "name": { "str_sp": "low steel bar stock" },
     "material": [ "lc_steel" ]
   },
   {
     "id": "mc_steel_bar_round",
     "type": "ITEM",
     "copy-from": "steel_bar_round",
-    "name": { "str_sp": "medium carbon steel bar stock" },
+    "name": { "str_sp": "medium steel bar stock" },
     "material": [ "mc_steel" ]
   },
   {
     "id": "hc_steel_bar_round",
     "type": "ITEM",
     "copy-from": "steel_bar_round",
-    "name": { "str_sp": "high carbon steel bar stock" },
+    "name": { "str_sp": "high steel bar stock" },
     "material": [ "hc_steel" ]
   },
   {
@@ -1440,21 +1440,21 @@
     "id": "small_lc_steel_bar_round",
     "type": "ITEM",
     "copy-from": "small_steel_bar_round",
-    "name": { "str_sp": "small low carbon steel bar stock" },
+    "name": { "str_sp": "small low steel bar stock" },
     "material": [ "lc_steel" ]
   },
   {
     "id": "small_mc_steel_bar_round",
     "type": "ITEM",
     "copy-from": "small_steel_bar_round",
-    "name": { "str_sp": "small medium carbon steel bar stock" },
+    "name": { "str_sp": "small medium steel bar stock" },
     "material": [ "mc_steel" ]
   },
   {
     "id": "small_hc_steel_bar_round",
     "type": "ITEM",
     "copy-from": "small_steel_bar_round",
-    "name": { "str_sp": "small high carbon steel bar stock" },
+    "name": { "str_sp": "small high steel bar stock" },
     "material": [ "hc_steel" ]
   }
 ]
