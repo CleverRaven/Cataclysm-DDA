@@ -289,7 +289,7 @@
         "type": "bad"
       },
       { "math": [ "u_val('sleepiness') += min( (u_dhampir_avoid_eat_sleep_drink_long_counter / 200), 700)" ] },
-      { "math": [ "u_calories()", "-=", "min( (u_dhampir_avoid_eat_sleep_drink_long_counter * 0.06), 10000)" ] },
+      { "math": [ "u_calories() -= min( (u_dhampir_avoid_eat_sleep_drink_long_counter * 0.06), 10000)" ] },
       {
         "math": [
           "u_calories('dont_affect_weariness': true)",
@@ -334,12 +334,12 @@
       { "math": [ "u_vitamin('redcells') += u_effect_intensity('bleed', 'bodypart': 'leg_r') * 2" ] },
       { "math": [ "u_vitamin('redcells') += u_effect_intensity('bleed', 'bodypart': 'torso') * 2" ] },
       { "math": [ "u_vitamin('redcells') += u_effect_intensity('bleed', 'bodypart': 'head') * 2" ] },
-      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "u_effect_intensity('bleed', 'bodypart': 'arm_l') * 2" ] },
-      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "u_effect_intensity('bleed', 'bodypart': 'arm_r') * 2" ] },
-      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "u_effect_intensity('bleed', 'bodypart': 'leg_l') * 2" ] },
-      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "u_effect_intensity('bleed', 'bodypart': 'leg_r') * 2" ] },
-      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "u_effect_intensity('bleed', 'bodypart': 'torso') * 2" ] },
-      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "u_effect_intensity('bleed', 'bodypart': 'head') * 2" ] },
+      { "math": [ "u_vitamin('human_blood_vitamin') -= u_effect_intensity('bleed', 'bodypart': 'arm_l') * 2" ] },
+      { "math": [ "u_vitamin('human_blood_vitamin') -= u_effect_intensity('bleed', 'bodypart': 'arm_r') * 2" ] },
+      { "math": [ "u_vitamin('human_blood_vitamin') -= u_effect_intensity('bleed', 'bodypart': 'leg_l') * 2" ] },
+      { "math": [ "u_vitamin('human_blood_vitamin') -= u_effect_intensity('bleed', 'bodypart': 'leg_r') * 2" ] },
+      { "math": [ "u_vitamin('human_blood_vitamin') -= u_effect_intensity('bleed', 'bodypart': 'torso') * 2" ] },
+      { "math": [ "u_vitamin('human_blood_vitamin') -= u_effect_intensity('bleed', 'bodypart': 'head') * 2" ] },
       { "u_message": "Your empowered blood is falling to the ground!", "type": "bad" },
       { "run_eocs": "EOC_DHAMPIR_BLEED_STOLEN_BLOOD", "time_in_future": [ "10 s", "10 s" ] }
     ]

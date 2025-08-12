@@ -405,7 +405,7 @@
                     "condition": { "math": [ "u_val('mana') >= 50" ] },
                     "effect": [
                       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
-                      { "math": [ "u_val('mana')", "-=", "50" ] },
+                      { "math": [ "u_val('mana') -= 50" ] },
                       { "math": [ "u_transformed_mana = u_val('mana') - 50" ] },
                       { "math": [ "u_preshift_size = u_val('size')" ] },
                       {

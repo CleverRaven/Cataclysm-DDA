@@ -562,7 +562,7 @@
     "type": "effect_on_condition",
     "id": "EOC_POWER_MAINTENANCE_MINUS_ONE",
     "effect": [
-      { "math": [ "u_vitamin('vitamin_maintained_powers')", "-=", "1" ] },
+      { "math": [ "u_vitamin('vitamin_maintained_powers') -= 1" ] },
       { "run_eocs": "EOC_CONCENTRATION_VS_LIMIT_CALCULATIONS" }
     ]
   },
@@ -678,13 +678,13 @@
     "type": "effect_on_condition",
     "id": "EOC_CONCENTRATION_SUCCESS_REDUCE_FOCUS",
     "condition": { "and": [ { "math": [ "u_vitamin('vitamin_maintained_powers') > 0" ] }, { "math": [ "u_val('focus') >= 15" ] } ] },
-    "effect": [ { "math": [ "u_val('focus')", "-=", "1" ] } ]
+    "effect": [ { "math": [ "u_val('focus') -= 1" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_CONCENTRATION_FAILURE_REDUCE_FOCUS",
     "condition": { "and": [ { "math": [ "u_vitamin('vitamin_maintained_powers') > 0" ] }, { "math": [ "u_val('focus') >= 20" ] } ] },
-    "effect": [ { "math": [ "u_val('focus')", "-=", "5" ] } ]
+    "effect": [ { "math": [ "u_val('focus') -= 5" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -723,7 +723,7 @@
     "condition": {
       "and": [ { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" }, { "math": [ "u_val('focus') >= 15" ] } ]
     },
-    "effect": [ { "math": [ "u_val('focus')", "-=", "1" ] } ]
+    "effect": [ { "math": [ "u_val('focus') -= 1" ] } ]
   },
   {
     "type": "effect_on_condition",

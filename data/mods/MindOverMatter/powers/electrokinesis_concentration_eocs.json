@@ -427,7 +427,7 @@
               },
               { "math": [ "n_val('power') += u_electrokin_personal_battery_power_count_used" ] },
               {
-                "math": [ "u_electrokin_personal_battery_power_count", "-=", "u_electrokin_personal_battery_power_count_used" ]
+                "math": [ "u_electrokin_personal_battery_power_count -= u_electrokin_personal_battery_power_count_used" ]
               }
             ]
           }

@@ -87,7 +87,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POTION_FRUIT_RASPBERRY",
-    "effect": [ { "math": [ "u_pain()", "-=", "3" ] } ]
+    "effect": [ { "math": [ "u_pain() -= 3" ] } ]
   },
   {
     "type": "ITEM",
@@ -123,7 +123,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POTION_FRUIT_ELDERBERRY",
-    "effect": [ { "math": [ "u_val('sleepiness')", "-=", "25" ] } ]
+    "effect": [ { "math": [ "u_val('sleepiness') -= 25" ] } ]
   },
   {
     "type": "ITEM",

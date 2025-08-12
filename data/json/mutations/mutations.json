@@ -5244,7 +5244,7 @@
     "recurrence": "1 m",
     "condition": { "and": [ { "math": [ "u_pain() > 0" ] }, { "u_has_trait": "PAINREC1" } ] },
     "deactivate_condition": { "not": { "u_has_trait": "PAINREC1" } },
-    "effect": [ { "math": [ "u_pain()", "-=", "3" ] } ]
+    "effect": [ { "math": [ "u_pain() -= 3" ] } ]
   },
   {
     "type": "mutation",
@@ -5264,7 +5264,7 @@
     "recurrence": "1 m",
     "condition": { "and": [ { "math": [ "u_pain() > 0" ] }, { "u_has_trait": "PAINREC2" } ] },
     "deactivate_condition": { "not": { "u_has_trait": "PAINREC2" } },
-    "effect": [ { "math": [ "u_pain()", "-=", "4" ] } ]
+    "effect": [ { "math": [ "u_pain() -= 4" ] } ]
   },
   {
     "type": "mutation",
@@ -5283,7 +5283,7 @@
     "recurrence": "1 m",
     "condition": { "and": [ { "math": [ "u_pain() > 0" ] }, { "u_has_trait": "PAINREC3" } ] },
     "deactivate_condition": { "not": { "u_has_trait": "PAINREC3" } },
-    "effect": [ { "math": [ "u_pain()", "-=", "5" ] } ]
+    "effect": [ { "math": [ "u_pain() -= 5" ] } ]
   },
   {
     "type": "mutation",

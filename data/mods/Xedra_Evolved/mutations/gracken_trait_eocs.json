@@ -8,11 +8,11 @@
     "effect": [
       {
         "if": { "math": [ "u_val('rad') >= 100" ] },
-        "then": [ { "math": [ "u_calories() += 3" ] }, { "math": [ "u_val('rad')", "-=", "1" ] } ]
+        "then": [ { "math": [ "u_calories() += 3" ] }, { "math": [ "u_val('rad') -= 1" ] } ]
       },
       {
         "if": { "and": [ { "math": [ "u_val('rad') < 100" ] }, { "math": [ "u_val('rad') > 0" ] } ] },
-        "then": [ { "math": [ "u_calories() += 2" ] }, { "math": [ "u_val('rad')", "-=", "1" ] } ]
+        "then": [ { "math": [ "u_calories() += 2" ] }, { "math": [ "u_val('rad') -= 1" ] } ]
       }
     ]
   },

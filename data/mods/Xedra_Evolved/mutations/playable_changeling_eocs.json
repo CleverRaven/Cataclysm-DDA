@@ -1156,7 +1156,7 @@
     "type": "effect_on_condition",
     "id": "EOC_POOKA_SHAPESHIFT_FULL_PROCESSED",
     "condition": { "math": [ "u_val('mana') >= 2" ] },
-    "effect": [ { "math": [ "u_val('mana')", "-=", "1" ] } ],
+    "effect": [ { "math": [ "u_val('mana') -= 1" ] } ],
     "false_effect": [
       { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_BAT" },
       { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_RAVEN" },

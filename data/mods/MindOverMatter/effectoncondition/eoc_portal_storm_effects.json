@@ -51,7 +51,7 @@
         "target_var": { "context_val": "loc" }
       },
       { "message": "The nearby air cracks.", "type": "bad" },
-      { "math": [ "u_ire", "-=", "5" ] }
+      { "math": [ "u_ire -= 5" ] }
     ]
   }
 ]

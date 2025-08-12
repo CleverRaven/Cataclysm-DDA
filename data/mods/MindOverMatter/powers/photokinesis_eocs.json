@@ -151,7 +151,7 @@
     "id": "EOC_PHOTOKIN_RADIATION_STERILIZATION_COST",
     "condition": { "u_has_effect": "effect_photokin_sterilization" },
     "effect": [
-      { "math": [ "u_calories()", "-=", "rand(2) + 1" ] },
+      { "math": [ "u_calories() -= rand(2) + 1" ] },
       { "run_eocs": "EOC_PHOTOKIN_RADIATION_STERILIZATION_COST", "time_in_future": [ 10, 15 ] }
     ]
   },

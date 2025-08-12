@@ -118,15 +118,15 @@
           { "u_set_field": "fd_blood", "radius": 1, "intensity": 3 },
           { "turn_cost": "6 seconds" },
           { "math": [ "HOW_MUCH_WILL_THIS_SUCK = rng(21, 30)" ] },
-          { "math": [ "u_vitamin('blood')", "-=", "HOW_MUCH_WILL_THIS_SUCK * 100" ] },
-          { "math": [ "u_vitamin('redcells')", "-=", "HOW_MUCH_WILL_THIS_SUCK * 100" ] },
+          { "math": [ "u_vitamin('blood') -= HOW_MUCH_WILL_THIS_SUCK * 100" ] },
+          { "math": [ "u_vitamin('redcells') -= HOW_MUCH_WILL_THIS_SUCK * 100" ] },
           {
             "u_add_effect": "bleed",
             "target_part": { "global_val": "IMPREGNATED_BODYPART" },
             "duration": { "math": [ "HOW_MUCH_WILL_THIS_SUCK * 60" ] }
           },
           { "math": [ "u_pain('type': 'perceived') += HOW_MUCH_WILL_THIS_SUCK * 2" ] },
-          { "math": [ "u_hp(IMPREGNATED_BODYPART)", "-=", "HOW_MUCH_WILL_THIS_SUCK * 2" ] }
+          { "math": [ "u_hp(IMPREGNATED_BODYPART) -= HOW_MUCH_WILL_THIS_SUCK * 2" ] }
         ],
         "else": { "math": [ "u_vitamin('mutant_toxin') += u_vitamin('dermatik_larva_size') / 3" ] }
       },

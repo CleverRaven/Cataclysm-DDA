@@ -41,35 +41,35 @@
       {
         "if": { "u_has_trait": "ELVEN_BUILD" },
         "then": [
-          { "math": [ "u_vitamin('mutagen_human')", "-=", "u_purifying_level" ] },
+          { "math": [ "u_vitamin('mutagen_human') -= u_purifying_level" ] },
           { "math": [ "u_vitamin('mutagen_species_elf') += u_purifying_level" ] }
         ]
       },
       {
         "if": { "u_has_trait": "DWARVEN_BUILD" },
         "then": [
-          { "math": [ "u_vitamin('mutagen_human')", "-=", "u_purifying_level" ] },
+          { "math": [ "u_vitamin('mutagen_human') -= u_purifying_level" ] },
           { "math": [ "u_vitamin('mutagen_species_dwarf') += u_purifying_level" ] }
         ]
       },
       {
         "if": { "u_has_trait": "GOBLIN_BUILD" },
         "then": [
-          { "math": [ "u_vitamin('mutagen_human')", "-=", "u_purifying_level" ] },
+          { "math": [ "u_vitamin('mutagen_human') -= u_purifying_level" ] },
           { "math": [ "u_vitamin('mutagen_species_goblin') += u_purifying_level" ] }
         ]
       },
       {
         "if": { "u_has_trait": "LIZARDFOLK_BUILD" },
         "then": [
-          { "math": [ "u_vitamin('mutagen_human')", "-=", "u_purifying_level" ] },
+          { "math": [ "u_vitamin('mutagen_human') -= u_purifying_level" ] },
           { "math": [ "u_vitamin('mutagen_species_lizardfolk') += u_purifying_level" ] }
         ]
       },
       {
         "if": { "u_has_trait": "RAVENFOLK_BUILD" },
         "then": [
-          { "math": [ "u_vitamin('mutagen_human')", "-=", "u_purifying_level" ] },
+          { "math": [ "u_vitamin('mutagen_human') -= u_purifying_level" ] },
           { "math": [ "u_vitamin('mutagen_species_ravenfolk') += u_purifying_level" ] }
         ]
       }

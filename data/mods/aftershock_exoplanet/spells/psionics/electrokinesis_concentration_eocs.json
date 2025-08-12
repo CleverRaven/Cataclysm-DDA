@@ -260,23 +260,23 @@
             "effect": [
               {
                 "if": { "math": [ "n_afs_electrokin_charging_value_counter >= 5" ] },
-                "then": [ { "math": [ "n_val('power') += 5" ] }, { "math": [ "n_afs_electrokin_charging_value_counter", "-=", "5" ] } ],
+                "then": [ { "math": [ "n_val('power') += 5" ] }, { "math": [ "n_afs_electrokin_charging_value_counter -= 5" ] } ],
                 "else": [
                   {
                     "if": { "math": [ "n_afs_electrokin_charging_value_counter >= 4" ] },
-                    "then": [ { "math": [ "n_val('power') += 4" ] }, { "math": [ "n_afs_electrokin_charging_value_counter", "-=", "4" ] } ],
+                    "then": [ { "math": [ "n_val('power') += 4" ] }, { "math": [ "n_afs_electrokin_charging_value_counter -= 4" ] } ],
                     "else": [
                       {
                         "if": { "math": [ "n_afs_electrokin_charging_value_counter >= 3" ] },
-                        "then": [ { "math": [ "n_val('power') += 3" ] }, { "math": [ "n_afs_electrokin_charging_value_counter", "-=", "3" ] } ],
+                        "then": [ { "math": [ "n_val('power') += 3" ] }, { "math": [ "n_afs_electrokin_charging_value_counter -= 3" ] } ],
                         "else": [
                           {
                             "if": { "math": [ "n_afs_electrokin_charging_value_counter >= 2" ] },
-                            "then": [ { "math": [ "n_val('power') += 2" ] }, { "math": [ "n_afs_electrokin_charging_value_counter", "-=", "2" ] } ],
+                            "then": [ { "math": [ "n_val('power') += 2" ] }, { "math": [ "n_afs_electrokin_charging_value_counter -= 2" ] } ],
                             "else": [
                               {
                                 "if": { "math": [ "n_afs_electrokin_charging_value_counter >= 1" ] },
-                                "then": [ { "math": [ "n_val('power') += 1" ] }, { "math": [ "n_afs_electrokin_charging_value_counter", "-=", "1" ] } ]
+                                "then": [ { "math": [ "n_val('power') += 1" ] }, { "math": [ "n_afs_electrokin_charging_value_counter -= 1" ] } ]
                               }
                             ]
                           }

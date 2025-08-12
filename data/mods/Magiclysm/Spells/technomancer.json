@@ -840,7 +840,7 @@
                 ]
               },
               { "math": [ "n_val('power') += u_technomancer_conjure_ups_powering_used" ] },
-              { "math": [ "u_technomancer_conjure_ups_powering", "-=", "u_technomancer_conjure_ups_powering_used" ] }
+              { "math": [ "u_technomancer_conjure_ups_powering -= u_technomancer_conjure_ups_powering_used" ] }
             ]
           }
         ]

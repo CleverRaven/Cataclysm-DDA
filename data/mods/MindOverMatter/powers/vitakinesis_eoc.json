@@ -225,7 +225,7 @@
     "id": "EOC_VITAKIN_SLEEP_EXPERIENCE",
     "condition": { "u_has_effect": "effect_vitakin_wakeful_resting" },
     "effect": [
-      { "if": { "math": [ "u_val('focus') >= 25" ] }, "then": { "math": [ "u_val('focus')", "-=", "rand(10) + 5" ] } },
+      { "if": { "math": [ "u_val('focus') >= 25" ] }, "then": { "math": [ "u_val('focus') -= rand(10) + 5" ] } },
       { "math": [ "u_spell_exp('vita_sleeping_trance') += psionic_power_experience_formula()" ] },
       {
         "run_eocs": "EOC_VITAKIN_SLEEP_EXPERIENCE",
@@ -271,13 +271,13 @@
         }
       ]
     },
-    "effect": [ { "math": [ "u_val('sleepiness')", "-=", "1" ] } ]
+    "effect": [ { "math": [ "u_val('sleepiness') -= 1" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_SLEEP_DEPRIVATION",
     "condition": { "math": [ "u_val('sleep_deprivation') >= 0" ] },
-    "effect": { "math": [ "u_val('sleep_deprivation')", "-=", "1" ] }
+    "effect": { "math": [ "u_val('sleep_deprivation') -= 1" ] }
   },
   {
     "type": "effect_on_condition",
@@ -344,7 +344,7 @@
     "id": "EOC_VITAKIN_HEALING_TRANCE_EXPERIENCE",
     "condition": { "u_has_effect": "effect_vitakin_healing_trance" },
     "effect": [
-      { "if": { "math": [ "u_val('focus') >= 25" ] }, "then": { "math": [ "u_val('focus')", "-=", "rand(10) + 5" ] } },
+      { "if": { "math": [ "u_val('focus') >= 25" ] }, "then": { "math": [ "u_val('focus') -= rand(10) + 5" ] } },
       { "math": [ "u_spell_exp('vita_healing_trance') += psionic_power_experience_formula()" ] },
       {
         "run_eocs": "EOC_VITAKIN_HEALING_TRANCE_EXPERIENCE",
@@ -1121,10 +1121,10 @@
     "type": "effect_on_condition",
     "id": "EOC_VITA_SUPER_HEAL_DRAIN",
     "effect": [
-      { "math": [ "u_calories('dont_affect_weariness': true)", "-=", "rng( 150,650 )" ] },
-      { "math": [ "u_vitamin('iron')", "-=", "rng( 50,200 )" ] },
-      { "math": [ "u_vitamin('calcium')", "-=", "rng( 100,200 )" ] },
-      { "math": [ "u_vitamin('vitC')", "-=", "rng( 20,60 )" ] },
+      { "math": [ "u_calories('dont_affect_weariness': true) -= rng( 150,650 )" ] },
+      { "math": [ "u_vitamin('iron') -= rng( 50,200 )" ] },
+      { "math": [ "u_vitamin('calcium') -= rng( 100,200 )" ] },
+      { "math": [ "u_vitamin('vitC') -= rng( 20,60 )" ] },
       { "math": [ "u_val('sleepiness') += rng( 2,10 )" ] }
     ]
   },

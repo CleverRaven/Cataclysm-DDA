@@ -176,10 +176,10 @@
     "id": "EOC_VITA_RESTORE_LIMB_DRAIN",
     "//": "About 2.5 times as costly as the super heal drain, factored for each tick of healing. Assuming you're using super heal at level twelve, it ticks 15 times. 15 * 2.5 = 37.5 times increase for proper scaling in a single tick of this.  You are regrowing a whole body part, you know.",
     "effect": [
-      { "math": [ "u_calories('dont_affect_weariness': true)", "-=", "rng( 1875,9375 )" ] },
-      { "math": [ "u_vitamin('iron')", "-=", "rng( 1875,7500 )" ] },
-      { "math": [ "u_vitamin('calcium')", "-=", "rng( 3750,7500 )" ] },
-      { "math": [ "u_vitamin('vitC')", "-=", "rng( 750,3000 )" ] },
+      { "math": [ "u_calories('dont_affect_weariness': true) -= rng( 1875,9375 )" ] },
+      { "math": [ "u_vitamin('iron') -= rng( 1875,7500 )" ] },
+      { "math": [ "u_vitamin('calcium') -= rng( 3750,7500 )" ] },
+      { "math": [ "u_vitamin('vitC') -= rng( 750,3000 )" ] },
       { "math": [ "u_val('sleepiness') += rng( 75,375 )" ] }
     ]
   }

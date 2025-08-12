@@ -216,7 +216,7 @@
     "type": "effect_on_condition",
     "id": "EOC_HOMULLUS_DOLL_FORM_MOVEMENT_COUNTER",
     "condition": { "math": [ "u_doll_form_movement > 0" ] },
-    "effect": [ { "math": [ "u_doll_form_movement", "-=", "rand(3) + 1" ] } ]
+    "effect": [ { "math": [ "u_doll_form_movement -= rand(3) + 1" ] } ]
   },
   {
     "type": "effect_on_condition",

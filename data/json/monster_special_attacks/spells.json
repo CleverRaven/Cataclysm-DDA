@@ -854,7 +854,7 @@
     "effect": [
       { "u_add_effect": "nightmares", "duration": "18 hours" },
       { "math": [ "u_pain() += 3" ] },
-      { "math": [ "u_val('stamina')", "-=", "20" ] }
+      { "math": [ "u_val('stamina') -= 20" ] }
     ]
   },
   {

@@ -27,7 +27,7 @@
     "condition": { "math": [ "u_grit_your_teeth_pain_value >= 62" ] },
     "effect": [
       { "math": [ "u_grit_your_teeth_pain_value_removed = u_pain() / 2" ] },
-      { "math": [ "u_pain()", "-=", "u_grit_your_teeth_pain_value_removed" ] },
+      { "math": [ "u_pain() -= u_grit_your_teeth_pain_value_removed" ] },
       { "run_eocs": "EOC_PERK_GRIT_YOUR_TEETH_DEACTIVATE", "time_in_future": 180 }
     ],
     "false_effect": [
@@ -35,7 +35,7 @@
         "if": { "math": [ "u_grit_your_teeth_pain_value >= 30" ] },
         "then": [
           { "math": [ "u_grit_your_teeth_pain_value_removed = 30" ] },
-          { "math": [ "u_pain()", "-=", "u_grit_your_teeth_pain_value_removed" ] },
+          { "math": [ "u_pain() -= u_grit_your_teeth_pain_value_removed" ] },
           { "run_eocs": "EOC_PERK_GRIT_YOUR_TEETH_DEACTIVATE", "time_in_future": 180 }
         ],
         "else": [

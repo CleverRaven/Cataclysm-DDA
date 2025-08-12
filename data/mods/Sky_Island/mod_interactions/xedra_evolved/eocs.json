@@ -32,7 +32,7 @@
       {
         "if": { "not": { "u_has_effect": "effect_si_lilin_no_ruach_upgrades" } },
         "then": [
-          { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "240" ] },
+          { "math": [ "u_vitamin('lilin_ruach_vitamin') -= 240" ] },
           { "math": [ "u_lilin_amount_of_ruach_spent_for_powers_increaser += 0.75" ] },
           {
             "math": [ "u_lilin_amount_of_ruach_spent_for_powers += u_lilin_amount_of_ruach_spent_for_powers_increaser" ]

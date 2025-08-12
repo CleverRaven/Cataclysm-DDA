@@ -350,11 +350,11 @@
                       "true_eocs": [
                         {
                           "id": "EOC_ELECTRONKINETIC_MONSTER_POWER_DRAINING_INV_RESULT",
-                          "effect": [ { "math": [ "n_val('power')", "-=", "rand(200) + 50" ] } ]
+                          "effect": [ { "math": [ "n_val('power') -= rand(200) + 50" ] } ]
                         }
                       ]
                     },
-                    "false_effect": [ { "math": [ "u_val('stamina')", "-=", "rand(350) + 300" ] } ]
+                    "false_effect": [ { "math": [ "u_val('stamina') -= rand(350) + 300" ] } ]
                   }
                 ]
               }

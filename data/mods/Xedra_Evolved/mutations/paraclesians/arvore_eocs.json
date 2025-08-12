@@ -899,7 +899,7 @@
     "recurrence": [ "3 minutes", "3 minutes" ],
     "condition": { "u_has_trait": "ARVORE_TREE_FORM_TRAITS" },
     "deactivate_condition": { "not": { "u_has_trait": "ARVORE_TREE_FORM_TRAITS" } },
-    "effect": [ { "if": { "math": [ "u_val('thirst') >= -50" ] }, "then": { "math": [ "u_val('thirst')", "-=", "1" ] } } ]
+    "effect": [ { "if": { "math": [ "u_val('thirst') >= -50" ] }, "then": { "math": [ "u_val('thirst') -= 1" ] } } ]
   },
   {
     "type": "effect_on_condition",

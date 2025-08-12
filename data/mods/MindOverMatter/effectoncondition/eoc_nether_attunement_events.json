@@ -218,7 +218,7 @@
     "global": true,
     "run_for_npcs": true,
     "condition": { "math": [ "u_nether_conduit_repeated_channeling_value > 0" ] },
-    "effect": [ { "math": [ "u_nether_conduit_repeated_channeling_value", "-=", "1" ] } ],
+    "effect": [ { "math": [ "u_nether_conduit_repeated_channeling_value -= 1" ] } ],
     "false_effect": [ { "math": [ "u_nether_conduit_repeated_channeling_value = 0" ] } ]
   },
   {
@@ -520,7 +520,7 @@
         "then": [
           { "u_message": "Blood drips from your nose.", "type": "bad" },
           { "u_add_effect": "bleed", "intensity": 1, "target_part": "head", "duration": "5 minutes" },
-          { "math": [ "u_hp('head')", "-=", "1" ] }
+          { "math": [ "u_hp('head') -= 1" ] }
         ]
       }
     ],
@@ -545,7 +545,7 @@
         },
         "then": [
           { "u_message": "You feel a sudden wave of fatigue.", "type": "bad" },
-          { "math": [ "u_val('stamina')", "-=", "rng(3000,9000)" ] }
+          { "math": [ "u_val('stamina') -= rng(3000,9000)" ] }
         ]
       }
     ],
@@ -1838,7 +1838,7 @@
         "true_eocs": [
           {
             "id": "EOC_NETHER_EFFECT_ELECTROKINETIC_POWER_DRAIN_ACTIVE",
-            "effect": [ { "math": [ "n_val('power')", "-=", "rand(2) + 1" ] } ]
+            "effect": [ { "math": [ "n_val('power') -= rand(2) + 1" ] } ]
           }
         ]
       }

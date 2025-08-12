@@ -141,7 +141,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_GOBLIN_FRUIT_PAIN",
-    "effect": [ { "math": [ "u_pain()", "-=", "5" ] } ]
+    "effect": [ { "math": [ "u_pain() -= 5" ] } ]
   },
   {
     "type": "ITEM",
@@ -178,7 +178,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_GOBLIN_FRUIT_AWAKE",
-    "effect": [ { "math": [ "u_val('sleepiness')", "-=", "25" ] } ]
+    "effect": [ { "math": [ "u_val('sleepiness') -= 25" ] } ]
   },
   {
     "type": "ITEM",

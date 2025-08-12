@@ -836,7 +836,7 @@
       { "u_add_effect": "effect_biokin_overload", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
       { "u_add_effect": "downed", "duration": { "math": [ "ps_str * time(' 5 s')" ] } },
       { "u_add_effect": "motor_seizure", "duration": { "math": [ "ps_str * time(' 5 s')" ] } },
-      { "math": [ "u_val('stamina')", "-=", "4000" ] }
+      { "math": [ "u_val('stamina') -= 4000" ] }
     ]
   },
   {
@@ -866,7 +866,7 @@
       { "u_add_effect": "hallu", "duration": { "math": [ "ps_str * time(' 3 h')" ] } },
       { "u_add_effect": "blind_clair_overload", "duration": { "math": [ "ps_str * time(' 15 s')" ] } },
       { "u_add_effect": "deaf_clair_overload", "duration": { "math": [ "ps_str * time(' 15 s')" ] } },
-      { "math": [ "u_val('stamina')", "-=", "4000" ] }
+      { "math": [ "u_val('stamina') -= 4000" ] }
     ]
   },
   {
@@ -895,7 +895,7 @@
       { "u_add_effect": "psionic_overload", "duration": { "math": [ "ps_str * time(' 1 h')" ] } },
       { "u_add_effect": "effect_electrokin_overload", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
       { "run_eocs": "EOC_ELECTRO_OVERLOAD_ZAP" },
-      { "math": [ "u_val('stamina')", "-=", "4000" ] }
+      { "math": [ "u_val('stamina') -= 4000" ] }
     ]
   },
   {
@@ -927,7 +927,7 @@
       { "u_add_effect": "downed", "duration": { "math": [ "ps_str * time(' 3 s')" ] } },
       { "u_add_effect": "effect_photokin_myopia_overload", "duration": { "math": [ "ps_str * time(' 10 m')" ] } },
       { "u_add_effect": "effect_photokin_lumination_overload", "duration": { "math": [ "ps_str * time(' 20 m')" ] } },
-      { "math": [ "u_val('stamina')", "-=", "4000" ] }
+      { "math": [ "u_val('stamina') -= 4000" ] }
     ]
   },
   {
@@ -960,7 +960,7 @@
       { "u_add_effect": "effect_pyrokin_overload", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
       { "u_add_effect": "downed", "duration": { "math": [ "ps_str * time(' 1 s')" ] } },
       { "u_set_field": "fd_hot_air3", "outdoor_only": true },
-      { "math": [ "u_val('stamina')", "-=", "4000" ] }
+      { "math": [ "u_val('stamina') -= 4000" ] }
     ]
   },
   {
@@ -990,7 +990,7 @@
       { "u_add_effect": "psionic_overload", "duration": { "math": [ "ps_str * time(' 1 h')" ] } },
       { "u_add_effect": "effect_telekin_overload", "duration": { "math": [ "ps_str * time(' 30 m')" ] } },
       { "u_add_effect": "downed", "duration": { "math": [ "ps_str * time(' 1 s')" ] } },
-      { "math": [ "u_val('stamina')", "-=", "4000" ] }
+      { "math": [ "u_val('stamina') -= 4000" ] }
     ]
   },
   {
@@ -1021,7 +1021,7 @@
       { "u_add_effect": "nightmares", "duration": { "math": [ "ps_str * time(' 4 h')" ] } },
       { "u_add_effect": "disrupted_sleep", "duration": { "math": [ "ps_str * time(' 4 h')" ] } },
       { "u_add_effect": "downed", "duration": { "math": [ "ps_str * time(' 1 s')" ] } },
-      { "math": [ "u_val('stamina')", "-=", "4000" ] }
+      { "math": [ "u_val('stamina') -= 4000" ] }
     ]
   },
   {
@@ -1051,7 +1051,7 @@
       { "u_add_effect": "effect_portal_storm_teleport", "duration": { "math": [ "ps_str * time(' 20 s')" ] } },
       { "u_add_effect": "effect_teleporter_overload", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
       { "u_add_effect": "downed", "duration": { "math": [ "ps_str * time(' 1 s')" ] } },
-      { "math": [ "u_val('stamina')", "-=", "4000" ] }
+      { "math": [ "u_val('stamina') -= 4000" ] }
     ]
   },
   {
@@ -1081,7 +1081,7 @@
       { "u_add_effect": "flu", "duration": { "math": [ "ps_str * time(' 4 h')" ] } },
       { "u_add_effect": "effect_vitakin_overload", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
       { "u_add_effect": "downed", "duration": { "math": [ "ps_str * time(' 3 s')" ] } },
-      { "math": [ "u_val('stamina')", "-=", "4000" ] }
+      { "math": [ "u_val('stamina') -= 4000" ] }
     ]
   },
   {

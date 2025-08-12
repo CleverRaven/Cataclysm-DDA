@@ -95,7 +95,7 @@
     "//": "Your feel faintly more accepted by the world, it could be related with the decay of reality in here.",
     "effect": [
       { "u_message": "You suddenly feel a weight you didn't know you had on you, being lifted away.", "type": "good" },
-      { "math": [ "u_pain()", "-=", "5" ] }
+      { "math": [ "u_pain() -= 5" ] }
     ]
   },
   {
@@ -107,7 +107,7 @@
         "u_message": "You suddenly feel wakeful and energized, as if something that was slowing you down is now gone.",
         "type": "good"
       },
-      { "math": [ "u_val('sleepiness')", "-=", "20" ] },
+      { "math": [ "u_val('sleepiness') -= 20" ] },
       { "math": [ "u_val('stamina') += 20" ] }
     ]
   },
@@ -255,7 +255,7 @@
     "condition": { "not": { "u_has_effect": "sleep" } },
     "effect": [
       { "u_message": "You try to recall what you were about to do, but you can't focus…", "type": "bad" },
-      { "math": [ "u_val('focus')", "-=", "10" ] }
+      { "math": [ "u_val('focus') -= 10" ] }
     ]
   },
   {

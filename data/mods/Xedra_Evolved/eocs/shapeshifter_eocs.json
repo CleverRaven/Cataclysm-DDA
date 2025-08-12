@@ -267,7 +267,7 @@
       {
         "if": { "math": [ "u_werewolf_healing_tick_counter >= 6" ] },
         "then": [
-          { "math": [ "u_werewolf_healing_tick_counter", "-=", "6" ] },
+          { "math": [ "u_werewolf_healing_tick_counter -= 6" ] },
           { "if": { "math": [ "u_pain() >= 1" ] }, "then": { "math": [ "u_pain()--" ] } },
           {
             "if": { "math": [ "u_vitamin('redcells') < 0" ] },

@@ -10,7 +10,7 @@
       ]
     },
     "effect": [
-      { "math": [ "u_vitamin('creative_spark_research')", "-=", "base_difficulty_1" ] },
+      { "math": [ "u_vitamin('creative_spark_research') -= base_difficulty_1" ] },
       { "math": [ "base_difficulty_1 += 2" ] },
       {
         "u_roll_remainder": [
@@ -56,7 +56,7 @@
       ]
     },
     "effect": [
-      { "math": [ "u_vitamin('creative_spark_research')", "-=", "base_difficulty_2" ] },
+      { "math": [ "u_vitamin('creative_spark_research') -= base_difficulty_2" ] },
       { "math": [ "base_difficulty_2 += 3" ] },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
       {
@@ -110,7 +110,7 @@
       ]
     },
     "effect": [
-      { "math": [ "u_vitamin('creative_spark_research')", "-=", "base_difficulty_3" ] },
+      { "math": [ "u_vitamin('creative_spark_research') -= base_difficulty_3" ] },
       { "math": [ "base_difficulty_3 += 4" ] },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
       {
@@ -154,7 +154,7 @@
       ]
     },
     "effect": [
-      { "math": [ "u_vitamin('creative_spark_research')", "-=", "energy_difficulty_1" ] },
+      { "math": [ "u_vitamin('creative_spark_research') -= energy_difficulty_1" ] },
       { "math": [ "energy_difficulty_1 += 2" ] },
       {
         "u_roll_remainder": [
@@ -200,7 +200,7 @@
       ]
     },
     "effect": [
-      { "math": [ "u_vitamin('creative_spark_research')", "-=", "energy_difficulty_2" ] },
+      { "math": [ "u_vitamin('creative_spark_research') -= energy_difficulty_2" ] },
       { "math": [ "energy_difficulty_2 += 3" ] },
       {
         "u_roll_remainder": [
@@ -253,7 +253,7 @@
       ]
     },
     "effect": [
-      { "math": [ "u_vitamin('creative_spark_research')", "-=", "energy_difficulty_3" ] },
+      { "math": [ "u_vitamin('creative_spark_research') -= energy_difficulty_3" ] },
       { "math": [ "energy_difficulty_3 += 4" ] },
       {
         "u_roll_remainder": [
@@ -303,7 +303,7 @@
       ]
     },
     "effect": [
-      { "math": [ "u_vitamin('creative_spark_research')", "-=", "base_difficulty_3" ] },
+      { "math": [ "u_vitamin('creative_spark_research') -= base_difficulty_3" ] },
       { "math": [ "AI_sparks += AI_difficulty_1" ] },
       { "math": [ "base_difficulty_3 += 5" ] },
       { "math": [ "AI_difficulty_1 += 5" ] },
@@ -341,7 +341,7 @@
       ]
     },
     "effect": [
-      { "math": [ "u_vitamin('creative_spark_research')", "-=", "base_difficulty_3" ] },
+      { "math": [ "u_vitamin('creative_spark_research') -= base_difficulty_3" ] },
       { "math": [ "dimension_sparks += dimension_difficulty_1" ] },
       { "math": [ "base_difficulty_3 += 5" ] },
       { "math": [ "dimension_difficulty_1 += 5" ] },
@@ -421,7 +421,7 @@
         {
           "id": "EOC_RUST_INVENTOR_ITEMS",
           "effect": [
-            { "math": [ "n_hp('ALL')", "-=", "2" ] },
+            { "math": [ "n_hp('ALL') -= 2" ] },
             { "message": "You hear a sudden crack!" },
             {
               "u_message": "Your lack of an inventor's aura makes items created by their fevered mind rapidly degrade!"

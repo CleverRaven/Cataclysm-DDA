@@ -169,13 +169,13 @@
             "if": {
               "and": [ { "math": [ "rand(1) == 1" ] }, { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects') >= 1" ] } ]
             },
-            "then": { "math": [ "u_npc_trust()", "-=", "1 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)" ] }
+            "then": { "math": [ "u_npc_trust() -= 1 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)" ] }
           },
           {
             "if": {
               "and": [ { "math": [ "rand(2) == 2" ] }, { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects') >= 2" ] } ]
             },
-            "then": { "math": [ "u_npc_value()", "-=", "1 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)" ] }
+            "then": { "math": [ "u_npc_value() -= 1 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)" ] }
           },
           {
             "u_deal_damage": "biological",
@@ -223,7 +223,7 @@
           }
         ],
         "else": [
-          { "math": [ "u_val('morale')", "-=", "5 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') * 5)" ] },
+          { "math": [ "u_val('morale') -= 5 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') * 5)" ] },
           {
             "u_deal_damage": "biological",
             "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') * 1.5 )- 3), 0 )" ] }
@@ -253,7 +253,7 @@
       },
       {
         "if": { "math": [ "n_val('thirst')", ">=", "-60" ] },
-        "then": { "math": [ "n_val('thirst')", "-=", "rng(10,25)" ] }
+        "then": { "math": [ "n_val('thirst') -= rng(10,25)" ] }
       },
       { "math": [ "n_vitamin('iron') += rng(15,30)" ] },
       { "math": [ "n_vitamin('vitC') += rng(15,30)" ] },
@@ -283,7 +283,7 @@
           },
           {
             "if": { "math": [ "n_val('thirst')", ">=", "-60" ] },
-            "then": { "math": [ "n_val('thirst')", "-=", "rng(10,25)" ] }
+            "then": { "math": [ "n_val('thirst') -= rng(10,25)" ] }
           },
           { "math": [ "n_vitamin('iron') += rng(15,30)" ] },
           { "math": [ "n_vitamin('vitC') += rng(15,30)" ] },
@@ -298,7 +298,7 @@
             },
             {
               "if": { "math": [ "n_val('thirst')", ">=", "-60" ] },
-              "then": { "math": [ "n_val('thirst')", "-=", "rng(0,15)" ] }
+              "then": { "math": [ "n_val('thirst') -= rng(0,15)" ] }
             },
             { "math": [ "n_vitamin('iron') += rng(0,10)" ] },
             { "math": [ "n_vitamin('vitC') += rng(0,10)" ] },
@@ -313,7 +313,7 @@
               },
               {
                 "if": { "math": [ "n_val('thirst')", ">=", "-60" ] },
-                "then": { "math": [ "n_val('thirst')", "-=", "rng(-25,25)" ] }
+                "then": { "math": [ "n_val('thirst') -= rng(-25,25)" ] }
               },
               { "math": [ "n_vitamin('iron') += rng(-30,30)" ] },
               { "math": [ "n_vitamin('vitC') += rng(-30,30)" ] },
@@ -337,7 +337,7 @@
                 },
                 {
                   "if": { "math": [ "n_val('thirst')", ">=", "-60" ] },
-                  "then": { "math": [ "n_val('thirst')", "-=", "rng(2,6)" ] }
+                  "then": { "math": [ "n_val('thirst') -= rng(2,6)" ] }
                 },
                 { "math": [ "n_vitamin('iron') += rng(1,8)" ] },
                 { "math": [ "n_vitamin('vitC') += rng(1,8)" ] },
@@ -363,7 +363,7 @@
                   },
                   {
                     "if": { "math": [ "n_val('thirst')", ">=", "-60" ] },
-                    "then": { "math": [ "n_val('thirst')", "-=", "rng(1,3)" ] }
+                    "then": { "math": [ "n_val('thirst') -= rng(1,3)" ] }
                   },
                   { "math": [ "n_vitamin('iron') += rng(1,4)" ] },
                   { "math": [ "n_vitamin('vitC') += rng(1,4)" ] },
@@ -598,7 +598,7 @@
     "type": "effect_on_condition",
     "id": "EOC_LILIN_AVOID_SLEEP",
     "effect": [
-      { "math": [ "u_val('sleepiness')", "-=", "rng(200,350)" ] },
+      { "math": [ "u_val('sleepiness') -= rng(200,350)" ] },
       { "if": { "math": [ "u_val('sleepiness') < 0" ] }, "then": { "math": [ "u_val('sleepiness') = 0" ] } },
       { "math": [ "u_val('sleep_deprivation') = 0" ] },
       { "u_message": "As a cool breeze touches your skin, you feel much more awake.", "type": "good" }
@@ -685,7 +685,7 @@
       ]
     },
     "effect": [
-      { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "1200 * lilin_has_ruach_efficiency()" ] },
+      { "math": [ "u_vitamin('lilin_ruach_vitamin') -= 1200 * lilin_has_ruach_efficiency()" ] },
       { "npc_message": "Your wounded flesh knits together in moments.", "type": "neutral" },
       {
         "if": { "math": [ "u_hp('torso') < u_hp_max('torso')" ] },

@@ -34,9 +34,6 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_SHORTEN",
     "condition": { "math": [ "ps_min_length >= time('15 minutes')" ] },
-    "effect": [
-      { "math": [ "ps_min_length", "-=", "time('15 minutes')" ] },
-      { "math": [ "ps_max_length", "-=", "time('15 minutes')" ] }
-    ]
+    "effect": [ { "math": [ "ps_min_length -= time('15 minutes')" ] }, { "math": [ "ps_max_length -= time('15 minutes')" ] } ]
   }
 ]

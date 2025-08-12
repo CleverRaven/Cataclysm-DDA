@@ -35,7 +35,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PSIONICS_KCAL_COST",
-    "effect": [ { "math": [ "u_calories()", "-=", "psionics_kcal_cost(u_latest_channeled_power_difficulty)" ] } ]
+    "effect": [ { "math": [ "u_calories() -= psionics_kcal_cost(u_latest_channeled_power_difficulty)" ] } ]
   },
   {
     "type": "effect_on_condition",

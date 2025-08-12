@@ -113,7 +113,7 @@
     "id": "EOC_LILIN_SPEND_RUACH_FOR_POWERS",
     "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 240" ] },
     "effect": [
-      { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "240" ] },
+      { "math": [ "u_vitamin('lilin_ruach_vitamin') -= 240" ] },
       { "math": [ "u_lilin_amount_of_ruach_spent_for_powers_increaser += 0.75" ] },
       { "math": [ "u_lilin_amount_of_ruach_spent_for_powers += u_lilin_amount_of_ruach_spent_for_powers_increaser" ] }
     ],
@@ -150,8 +150,8 @@
           { "math": [ "u_vitamin('mutagen_lilin') += 2500" ] },
           { "math": [ "u_vitamin('mutagen') += 1000" ] },
           { "u_mutate": 0 },
-          { "math": [ "u_vitamin('mutagen_lilin')", "-=", "2500" ] },
-          { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] },
+          { "math": [ "u_vitamin('mutagen_lilin') -= 2500" ] },
+          { "math": [ "u_vitamin('mutagen') -= 1000" ] },
           {
             "math": [
               "u_lilin_new_power_delay_timer",

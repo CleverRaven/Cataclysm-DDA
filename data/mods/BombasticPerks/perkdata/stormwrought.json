@@ -20,8 +20,8 @@
       { "math": [ "u_vitamin('mutagen_bird') += 2500" ] },
       { "math": [ "u_vitamin('mutagen') += 1000" ] },
       { "u_mutate": 0 },
-      { "math": [ "u_vitamin('mutagen_bird')", "-=", "2500" ] },
-      { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] }
+      { "math": [ "u_vitamin('mutagen_bird') -= 2500" ] },
+      { "math": [ "u_vitamin('mutagen') -= 1000" ] }
     ]
   },
   {
@@ -45,8 +45,8 @@
       { "math": [ "u_vitamin('mutagen_feline') += 2500" ] },
       { "math": [ "u_vitamin('mutagen') += 1000" ] },
       { "u_mutate": 0 },
-      { "math": [ "u_vitamin('mutagen_feline')", "-=", "2500" ] },
-      { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] }
+      { "math": [ "u_vitamin('mutagen_feline') -= 2500" ] },
+      { "math": [ "u_vitamin('mutagen') -= 1000" ] }
     ]
   },
   {
@@ -70,8 +70,8 @@
       { "math": [ "u_vitamin('mutagen_insect') += 2500" ] },
       { "math": [ "u_vitamin('mutagen') += 1000" ] },
       { "u_mutate": 0 },
-      { "math": [ "u_vitamin('mutagen_insect')", "-=", "2500" ] },
-      { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] }
+      { "math": [ "u_vitamin('mutagen_insect') -= 2500" ] },
+      { "math": [ "u_vitamin('mutagen') -= 1000" ] }
     ]
   },
   {
@@ -95,8 +95,8 @@
       { "math": [ "u_vitamin('mutagen_lupine') += 2500" ] },
       { "math": [ "u_vitamin('mutagen') += 1000" ] },
       { "u_mutate": 0 },
-      { "math": [ "u_vitamin('mutagen_lupine')", "-=", "2500" ] },
-      { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] }
+      { "math": [ "u_vitamin('mutagen_lupine') -= 2500" ] },
+      { "math": [ "u_vitamin('mutagen') -= 1000" ] }
     ]
   },
   {
@@ -120,8 +120,8 @@
       { "math": [ "u_vitamin('mutagen_plant') += 2500" ] },
       { "math": [ "u_vitamin('mutagen') += 1000" ] },
       { "u_mutate": 0 },
-      { "math": [ "u_vitamin('mutagen_plant')", "-=", "2500" ] },
-      { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] }
+      { "math": [ "u_vitamin('mutagen_plant') -= 2500" ] },
+      { "math": [ "u_vitamin('mutagen') -= 1000" ] }
     ]
   },
   {
@@ -145,8 +145,8 @@
       { "math": [ "u_vitamin('mutagen_spider') += 2500" ] },
       { "math": [ "u_vitamin('mutagen') += 1000" ] },
       { "u_mutate": 0 },
-      { "math": [ "u_vitamin('mutagen_spider')", "-=", "2500" ] },
-      { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] }
+      { "math": [ "u_vitamin('mutagen_spider') -= 2500" ] },
+      { "math": [ "u_vitamin('mutagen') -= 1000" ] }
     ]
   }
 ]

@@ -146,7 +146,7 @@
       {
         "//": "Check to see if you've sold enough for Rubik's trust in you to increase a bit",
         "condition": { "and": [ { "math": [ "n_val('sold') >= 20" ] }, { "not": { "u_has_faction_trust": 20 } } ] },
-        "effect": [ { "math": [ "n_val('sold')", "-=", "20" ] }, { "u_add_faction_trust": 1 } ]
+        "effect": [ { "math": [ "n_val('sold') -= 20" ] }, { "u_add_faction_trust": 1 } ]
       },
       {
         "//": "Governs the special CBM stock availability and restock, also adds a little extra faction rep.",
@@ -259,7 +259,7 @@
     ],
     "speaker_effect": {
       "condition": { "and": [ { "math": [ "n_val('sold') >= 20" ] }, { "not": { "u_has_faction_trust": 21 } } ] },
-      "effect": [ { "math": [ "n_val('sold')", "-=", "20" ] }, { "u_add_faction_trust": 1 } ]
+      "effect": [ { "math": [ "n_val('sold') -= 20" ] }, { "u_add_faction_trust": 1 } ]
     },
     "responses": [
       {

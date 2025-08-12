@@ -15,7 +15,7 @@
     },
     "effect": [
       { "turn_cost": { "context_val": "prep_time" } },
-      { "math": [ "u_val('stamina')", "-=", "_energy_amount" ] },
+      { "math": [ "u_val('stamina') -= _energy_amount" ] },
       { "run_eocs": [ "EOC_GENERIC_SPELL_MUTATION_ACT" ] }
     ],
     "false_effect": [ { "u_message": { "context_val": "message_fail" }, "type": "bad" } ]

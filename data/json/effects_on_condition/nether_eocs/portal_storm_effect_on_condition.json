@@ -532,7 +532,7 @@
         "max_radius": 50,
         "lifespan": [ "12 minutes", "15 minutes" ]
       },
-      { "math": [ "u_ire", "-=", "4" ] }
+      { "math": [ "u_ire -= 4" ] }
     ]
   },
   {
@@ -574,7 +574,7 @@
         "lifespan": [ "10 minutes", "30 minutes" ],
         "spawn_message": "The swarm structure was always here, right?"
       },
-      { "math": [ "u_ire", "-=", "4" ] }
+      { "math": [ "u_ire -= 4" ] }
     ]
   },
   {
@@ -588,7 +588,7 @@
       },
       { "math": [ "u_pain() += 10" ] },
       { "u_set_field": "fd_blood", "radius": 2 },
-      { "math": [ "u_ire", "-=", "3" ] }
+      { "math": [ "u_ire -= 3" ] }
     ]
   },
   {
@@ -597,7 +597,7 @@
     "effect": [
       { "u_message": "A million tiny pinpricks in space open for an instant, and smoke fills the air.", "type": "bad" },
       { "u_set_field": "fd_smoke", "outdoor_only": true },
-      { "math": [ "u_ire", "-=", "1" ] }
+      { "math": [ "u_ire -= 1" ] }
     ]
   },
   {
@@ -627,7 +627,7 @@
       { "u_location_variable": { "u_val": "stuck_teleport" }, "min_radius": 0, "max_radius": 0 },
       { "run_eocs": "EOC_PORTAL_TELEPORT_STUCK" },
       { "u_message": "The moment feels thick, as if it's not quite over.", "type": "bad" },
-      { "math": [ "u_ire", "-=", "2" ] }
+      { "math": [ "u_ire -= 2" ] }
     ]
   },
   {

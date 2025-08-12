@@ -17,7 +17,7 @@
         { "u_has_trait": "perk_blood_drinking_heal" }
       ]
     },
-    "effect": [ { "math": [ "u_pain()", "-=", "2" ] }, { "run_eocs": "EOC_perk_blood_drinking_heal_hp_check" } ]
+    "effect": [ { "math": [ "u_pain() -= 2" ] }, { "run_eocs": "EOC_perk_blood_drinking_heal_hp_check" } ]
   },
   {
     "type": "effect_on_condition",

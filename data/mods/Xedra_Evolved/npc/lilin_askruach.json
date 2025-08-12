@@ -221,7 +221,7 @@
             { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects')", ">=", "1" ] }
           ]
         },
-        "then": { "math": [ "u_npc_trust()", "-=", "1 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)" ] }
+        "then": { "math": [ "u_npc_trust() -= 1 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)" ] }
       },
       {
         "if": {
@@ -231,7 +231,7 @@
             { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects')", ">=", "2" ] }
           ]
         },
-        "then": { "math": [ "u_npc_value()", "-=", "1 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)" ] }
+        "then": { "math": [ "u_npc_value() -= 1 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)" ] }
       },
       {
         "u_deal_damage": "biological",

@@ -4,7 +4,7 @@
     "id": "EOC_CHANGELING_SPRING_MINOR_RESTORE_STAMINA_AND_PAIN",
     "condition": { "or": [ { "u_is_on_terrain_with_flag": "PLOWABLE" }, { "u_is_on_terrain": "t_forestfloor" } ] },
     "effect": [
-      { "math": [ "u_pain()", "-=", "rand(2) + 1" ] },
+      { "math": [ "u_pain() -= rand(2) + 1" ] },
       {
         "math": [
           "u_val('stamina')",
