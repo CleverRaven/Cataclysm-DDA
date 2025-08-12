@@ -356,6 +356,8 @@ class spell_type
         std::function<bool( const_dialogue const & )> condition; // NOLINT(cata-serialize)
         bool has_condition = false; // NOLINT(cata-serialize)
 
+        translation condition_fail_message_;
+
         std::set<mtype_id> targeted_monster_ids;
 
         std::set<species_id> targeted_species_ids;
@@ -696,6 +698,8 @@ class spell
         bool ignore_by_species_id( const tripoint_bub_ms &p ) const;
         bool valid_by_condition( const Creature &caster, const Creature &target ) const;
         bool valid_by_condition( const Creature &caster ) const;
+
+        std::string failed_condition_message() const;
 
         // picks a random valid tripoint from @area
         std::optional<tripoint_bub_ms> random_valid_target( const Creature &caster,

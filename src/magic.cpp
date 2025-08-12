@@ -358,6 +358,7 @@ void spell_type::load( const JsonObject &jo, std::string_view src )
         read_condition( jo, "condition", condition, false );
         has_condition = true;
     }
+    optional( jo, was_loaded, "condition_fail_message", condition_fail_message_ );
 
     optional( jo, was_loaded, "extra_effects", additional_spells );
 
@@ -728,7 +729,7 @@ void spell_type::check_consistency()
                       sp_t.id.c_str() );
         }
         if( sp_t.get_energy_source() != magic_energy_type::vitamin &&
-            sp_t.vitamin_energy_source() == vitamin_id::NULL_ID() ) {
+            sp_t.vitamin_energy_source() != vitamin_id::NULL_ID() ) {
             debugmsg( R"(spell %s specifies "vitamin" field, but doesn't use the vitamin energy source)",
                       sp_t.id.c_str() );
         }
@@ -1723,6 +1724,10 @@ bool spell::valid_by_condition( const Creature &caster ) const
     }
 }
 
+std::string spell::failed_condition_message() const
+{
+    return type->condition_fail_message_.translated();
+}
 
 bool spell::is_valid_target( const Creature &caster, const tripoint_bub_ms &p ) const
 {

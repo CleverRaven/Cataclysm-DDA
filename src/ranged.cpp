@@ -4242,6 +4242,12 @@ void target_ui::panel_spell_info( int &text_y )
     }
     print_colored_text( w_target, point( 1, text_y++ ), clr, clr, fail_str );
 
+    if( dst_critter != nullptr && !casting->valid_by_condition( *you, *dst_critter ) ) {
+        nc_color red_color = c_red;
+        print_colored_text( w_target, point( 1, text_y++ ), red_color, red_color,
+                            casting->failed_condition_message() );
+    }
+
     if( casting->aoe( get_player_character() ) > 0 ) {
         nc_color color = c_light_gray;
         const std::string fx = casting->effect();
