@@ -343,7 +343,7 @@ class spell_type
         magic_energy_type get_energy_source() const;
 
         // what energy do you use to cast this spell
-        std::optional<vitamin_id> vitamin_energy_source() const;
+        vitamin_id vitamin_energy_source() const;
 
         // if vitamin is used, specifies the color of an energy
         nc_color energy_color() const;
@@ -448,7 +448,7 @@ class spell_type
 
         std::optional<magic_energy_type> energy_source;
         std::optional<vitamin_id> vitamin_energy_source_; // NOLINT(cata-serialize)
-        nc_color energy_color_ = c_cyan; // NOLINT(cata-serialize)
+        std::optional<nc_color> energy_color_; // NOLINT(cata-serialize)
         std::optional<jmath_func_id> get_level_formula_id;
         std::optional<jmath_func_id> exp_for_level_formula_id;
         std::optional<int> max_book_level;
