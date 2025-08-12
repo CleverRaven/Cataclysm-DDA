@@ -376,7 +376,15 @@
     "time": "1 h 30m",
     "byproducts": [ [ "scrap", 15 ] ],
     "tools": [ [ [ "fake_lathe", 50 ] ] ],
-    "components": [ [ [ "lc_steel_bar_round", 1 ], [ "mc_steel_bar_round", 1 ], [ "pipe", 2 ], [ "small_lc_steel_bar_round", 3 ], [ "small_mc_steel_bar_round", 3 ] ] ],
+    "components": [
+      [
+        [ "lc_steel_bar_round", 1 ],
+        [ "mc_steel_bar_round", 1 ],
+        [ "pipe", 2 ],
+        [ "small_lc_steel_bar_round", 3 ],
+        [ "small_mc_steel_bar_round", 3 ]
+      ]
+    ],
     "autolearn": [ [ "fabrication", 4 ] ],
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "reference_fabrication1", 2 ] ]
   }
