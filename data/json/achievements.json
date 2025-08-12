@@ -2326,7 +2326,7 @@
   {
     "id": "achievement_reach_LIXA",
     "type": "achievement",
-    "name": "Brilliant!",
+    "name": "She Blinded Me… With SCIENCE!",
     "requirements": [
       {
         "event_statistic": "num_avatar_enters_LIXA",
