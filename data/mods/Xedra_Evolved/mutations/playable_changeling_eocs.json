@@ -1730,6 +1730,21 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_TROW_FUNGAL_FARMER_LEARN_RECIPES",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": { "and": [ { "u_has_trait": "TROW_FUNGAL_FARMER" }, { "x_in_y_chance": { "x": 1, "y": 15 } } ] },
+    "effect": [
+      {
+        "if": { "not": { "u_know_recipe": "fae_fungal_spores" } },
+        "then": { "u_learn_recipe": "fae_fungal_spores" },
+        "else": { "run_eocs": "EOC_LEARN_FUNGAL_FARMER_RECIPES" }
+      },
+      { "u_message": "Your dreams have revealed to you a secret of forging moon's tears.", "type": "good" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_TROW_START_MINING",
     "eoc_type": "EVENT",
     "required_event": "character_starts_activity",

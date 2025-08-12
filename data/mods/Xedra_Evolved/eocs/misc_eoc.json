@@ -286,6 +286,26 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_LEARN_FUNGAL_FARMER_RECIPES",
+    "effect": [
+      {
+        "u_roll_remainder": [
+          "fae_fungal_spores",
+          "nightcaps_lantern",
+          "puffball_alarm",
+          "founders_feast",
+          "acidic_puffbomb",
+          "leaking_pech",
+          "behlpornias_heart"
+        ],
+        "type": "recipe",
+        "true_eocs": [  ],
+        "false_eocs": [  ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_SLEEP_NEAR_SEVENOCLOCK",
     "eoc_type": "EVENT",
     "required_event": "character_attempt_to_fall_asleep",

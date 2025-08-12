@@ -1651,6 +1651,15 @@
   },
   {
     "type": "mutation",
+    "id": "TROW_FUNGAL_FARMER",
+    "name": { "str": "Fungal Farming" },
+    "points": 3,
+    "description": "You have learned the secrets of farming Trow fungi.  Sometimes in your dreams, a new recipe might be revealed to you.",
+    "prereqs2": [ "TROW_LESS_METABOLISM_UNDERGROUND" ],
+    "category": [ "FAIR_FOLK_COMMONER_TROW" ]
+  },
+  {
+    "type": "mutation",
     "id": "PAINRESIST_TROW2",
     "name": { "str": "Unwavering Resilience of the Stones" },
     "points": 6,
