@@ -719,7 +719,9 @@
     "false_effect": [
       {
         "if": "u_can_see",
-        "then": { "u_message": "You could never describe its appearance, but you percieve the impossible shape as you would any other." }
+        "then": {
+          "u_message": "You could never describe its appearance, but you percieve the impossible shape as you would any other."
+        }
       }
     ]
   },
