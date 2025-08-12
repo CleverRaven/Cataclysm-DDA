@@ -918,6 +918,7 @@ template < typename MemberType, typename ReaderType, typename DefaultType = Memb
 inline void optional( const JsonObject &jo, const bool was_loaded, const std::string_view name,
                       MemberType &member, const ReaderType &reader )
 {
+    // reader handles disabled features
     if( !reader( jo, name, member, was_loaded ) ) {
         if( !was_loaded ) {
             member = MemberType();
@@ -928,6 +929,7 @@ template<typename MemberType, typename ReaderType, typename DefaultType = Member
 inline void optional( const JsonObject &jo, const bool was_loaded, const std::string_view name,
                       MemberType &member, const ReaderType &reader, const DefaultType &default_value )
 {
+    // reader handles disabled features
     if( !reader( jo, name, member, was_loaded ) ) {
         if( !was_loaded ) {
             member = default_value;
@@ -1525,50 +1527,26 @@ public:
 
 using string_reader = auto_flags_reader<>;
 
-class volume_reader : public generic_typed_reader<units::volume>
+class volume_reader : public generic_typed_reader<volume_reader>
 {
     public:
-        bool operator()( const JsonObject &jo, const std::string_view member_name,
-                         units::volume &member, bool /* was_loaded */ ) const {
-            if( !jo.has_member( member_name ) ) {
-                return false;
-            }
-            member = read_from_json_string<units::volume>( jo.get_member( member_name ), units::volume_units );
-            return true;
-        }
-        units::volume get_next( JsonValue &jv ) const {
+        units::volume get_next( const JsonValue &jv ) const {
             return read_from_json_string<units::volume>( jv, units::volume_units );
         }
 };
 
-class mass_reader : public generic_typed_reader<units::mass>
+class mass_reader : public generic_typed_reader<mass_reader>
 {
     public:
-        bool operator()( const JsonObject &jo, const std::string_view member_name,
-                         units::mass &member, bool /* was_loaded */ ) const {
-            if( !jo.has_member( member_name ) ) {
-                return false;
-            }
-            member = read_from_json_string<units::mass>( jo.get_member( member_name ), units::mass_units );
-            return true;
-        }
-        units::mass get_next( JsonValue &jv ) const {
+        units::mass get_next( const JsonValue &jv ) const {
             return read_from_json_string<units::mass>( jv, units::mass_units );
         }
 };
 
-class money_reader : public generic_typed_reader<units::money>
+class money_reader : public generic_typed_reader<money_reader>
 {
     public:
-        bool operator()( const JsonObject &jo, const std::string_view member_name,
-                         units::money &member, bool /* was_loaded */ ) const {
-            if( !jo.has_member( member_name ) ) {
-                return false;
-            }
-            member = read_from_json_string<units::money>( jo.get_member( member_name ), units::money_units );
-            return true;
-        }
-        static units::money get_next( JsonValue &jv ) {
+        units::money get_next( const JsonValue &jv ) const {
             return read_from_json_string<units::money>( jv, units::money_units );
         }
 };

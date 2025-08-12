@@ -2161,19 +2161,6 @@ void Item_factory::init()
         std::make_unique<Item_group>( Item_group::G_COLLECTION, 100, 0, 0, "EMPTY_GROUP" );
 }
 
-//reads nc_color from string
-class color_reader : public generic_typed_reader<color_reader>
-{
-    public:
-        nc_color get_next( const JsonValue &val ) const {
-            if( val.test_string() ) {
-                return nc_color( color_from_string( val.get_string() ) );
-            }
-            val.throw_error( "color must be string" );
-            return nc_color();
-        }
-};
-
 //reads snippet as array or string
 class snippet_reader : public generic_typed_reader<snippet_reader>
 {
@@ -4098,7 +4085,7 @@ void itype::load( const JsonObject &jo, std::string_view src )
     optional( jo, was_loaded, "repairs_with", repairs_with, auto_flags_reader<material_id> {} );
     optional( jo, was_loaded, "ememory_size", ememory_size );
 
-    optional( jo, was_loaded, "color", color, color_reader{} );
+    optional( jo, was_loaded, "color", color, nc_color_reader{} );
 
     optional( jo, was_loaded, "repairs_like", repairs_like );
 
