@@ -720,7 +720,7 @@
       {
         "if": "u_can_see",
         "then": {
-          "u_message": "You could never describe its appearance, but you percieve the impossible shape as you would any other."
+          "u_message": "You could never describe its appearance, but you perceive the impossible shape as you would any other."
         }
       }
     ]
