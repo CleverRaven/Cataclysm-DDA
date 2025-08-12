@@ -41,22 +41,27 @@
       },
       {
         "id": "flier_11",
+        "name": "Curfew alert",
         "text": "This is a government-issued, air-dropped alert.  \"STAY IN YOUR HOMES.  Universal curfew in effect.  Police and military forces are authorized to use lethal force against looters and rioters.\""
       },
       {
         "id": "flier_12",
+        "name": "Curfew alert",
         "text": "This is a government-issued, air-dropped alert.  \"STAY IN YOUR HOMES.  Police and military forces have been dispatched to your area and will help escort you to safety.  DO NOT APPROACH ROADBLOCKS WITHOUT AUTHORIZED PERSONNEL.\""
       },
       {
         "id": "flier_13",
+        "name": "Evacuation alert",
         "text": "This is a government-issued, air-dropped alert.  \"EVACUATION ALERT.  Please make your way to the nearest FEMA evacuation shelter.  Avoid crowds.  Looters and rioters may turn violent against unarmed civilians.  Seek protection from police and military forces if traveling in groups.\""
       },
       {
         "id": "flier_14",
+        "name": "Evacuation alert",
         "text": "This is a government-issued, air-dropped alert.  \"EVACUATION ALERT.  Please make your way to the nearest FEMA evacuation shelter.  Travel in groups and avoid crowds.  This is believed to be a biological agent that causes violent behavior: do not attempt to engage looters or rioters.\""
       },
       {
         "id": "flier_15",
+        "name": "What they don't want you to know!",
         "text": "This is a glossy, high-quality flier.  \"What they don't want you to know!  Reading this may save your life.\"  Inside is a series of warnings recommending people avoid the evacuation shelters, and worse, the FEMA evacuation camps, along with some high-quality telephoto shots showing bodies being shoveled into huge pits by excavation machines."
       },
       {
@@ -121,22 +126,27 @@
       },
       {
         "id": "flier_31",
+        "name": "CDC: Contaminated groundwater",
         "text": "This is a public notice from the Centers for Disease Control.  Its message, repeated in several languages, reads: \"BOIL WATER ADVISORY.  An unidentified agent has contaminated local groundwater.  It is highly infectious and can cause erratic and violent behavior.  Boil all water, and isolate any loved ones showing concerning symptoms.  Visit www.cdc.gov/cdda-advisory for more information.\""
       },
       {
         "id": "flier_32",
+        "name": "CDC: Biological contaminant is affecting citizens",
         "text": "This is a public alert from the Centers for Disease Control.  Its message, repeated in several languages, reads: PUBLIC HEALTH ALERT: Due to recent events, the CDC is issuing a warning to avoid public areas and spaces.  An unknown biological contaminant is suspected to be affecting citizens.  The CDC would like to remind the public to cover your nose and mouth when sneezing, wash your hands frequently, and receive an up-to-date flu shot if possible.  Boiling water is recommended until further notice."
       },
       {
         "id": "flier_33",
+        "name": "CDC: Stay in your homes",
         "text": "This is a public alert from the Federal Emergency Management Agency.  Its message, repeated in several languages, reads: STAY IN YOUR HOMES!  All residents of the New England Disaster Area are advised to shelter in place wherever possible.  The United States Armed Forces are working to contain the area.  If there is a nearby evacuation shelter you can get to safely, you are recommended to do so.  Otherwise, stay in your homes until authorized personnel evacuate you to a secured facility.  Thank you for your compliance."
       },
       {
         "id": "flier_34",
+        "name": "FEMA: Evacuation points",
         "text": "This is a public alert from the Federal Emergency Management Agency.  Its message, repeated in several languages, consists of a list of towns serving as major evacuation points from the New England Disaster Area.  Someone has scribbled off most of the town names, and scrawled \"OVERRUN\" next to each one, with the exception of the Tacoma evacuation point."
       },
       {
         "id": "flier_35",
+        "name": "All official evacuation points are deathtraps",
         "text": "This is a public warning from an unnamed source.  Its rambling message, poorly-photocopied onto both sides of the page, reads: Don't believe the lies!  The Army is rounding up people in death camps and executing them at mass graves.  They cannot stop this.  Do not believe what the mainstream news media is reporting.  All official evacuation points are deathtraps.  Secure supplies and escape the cities while there is still time."
       },
       {
@@ -145,6 +155,7 @@
       },
       {
         "id": "flier_37",
+        "name": "The President has declared martial law",
         "text": "This is a public warning from the Federal Government.  Its brief message, repeated in several languages, reads:  The President of the United States has declared unilateral martial law to be in effect for the 48 contiguous states in response to the ongoing national crisis.  Continue to shelter in place until evacuated to an appropriate emergency management camp by authorized military personnel.  A 24-hour curfew has been established.  This curfew will remain in effect until further notice.  Stay indoors.  Violators will be shot on sight."
       },
       {
@@ -205,6 +216,7 @@
       },
       {
         "id": "flier_52",
+        "name": "Do not leave until nightfall",
         "text": "This is high quality flier, mass produced with photocopying.  \"IF YOU ARE STUCK IN THE CITY, DO NOT LEAVE UNTIL NIGHTFALL, *THEY* WILL SEE YOU!\" The flier further discusses how to barricade your apartment and duct tape sheets to your windows."
       },
       {
@@ -225,6 +237,7 @@
       },
       {
         "id": "flier_57",
+        "name": "CDC: Overwhelmed hospitals",
         "text": "This is a public alert from the Center of Disease Control.  Its message, repeated in several languages reads: \"ADVISORY.  Do not attempt to bring infected loved ones or friends to any hospitals, they are being currently overwhelmed due to the volume of incoming patients.  Restrain those believed to be infected, and wait for further information at www.cdc.gov.\""
       },
       {
