@@ -687,7 +687,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_impossible_shape_attack",
-    "condition": { "and": [ "u_can_see", { "math": [ { "u_has_trait": "anti_shape" } ] } ] },
+    "condition": { "and": [ "u_can_see", { "not": { "u_has_trait": "anti_shape" } } ] },
     "effect": [
       {
         "if": { "math": [ "u_madness >= 10" ] },
