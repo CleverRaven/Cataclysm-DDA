@@ -13487,7 +13487,7 @@ void game::init_autosave()
 void game::quicksave()
 {
     //Don't autosave if the player hasn't done anything since the last autosave/quicksave,
-    if( !moves_since_last_save ) {
+    if( !moves_since_last_save && !world_generator->active_world->world_saves.empty() ) {
         return;
     }
     add_msg( m_info, _( "Saving game, this may take a while." ) );
