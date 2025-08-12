@@ -1907,6 +1907,19 @@ void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint
     }
 }
 
+void spell_effect::pickup( const spell &sp, Creature &caster,
+                                        const tripoint_bub_ms &target )
+{
+    ::map &here = get_map();
+
+    const std::set<tripoint_bub_ms> area = spell_effect_area( sp, target, caster );
+    const std::set<tripoint_bub_ms> valid_targets = {};
+    for( const tripoint_bub_ms &potential_target : area ) {
+
+    }
+
+}
+
 void spell_effect::effect_on_condition( const spell &sp, Creature &caster,
                                         const tripoint_bub_ms &target )
 {

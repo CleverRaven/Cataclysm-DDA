@@ -113,7 +113,7 @@ drop_locations multidrop( Character &you );
  * Otherwise, pick up items from the avatar's current location and all adjacent tiles.
  * @return A list of pairs of item_location, quantity.
  */
-drop_locations pickup( const std::optional<tripoint_bub_ms> &target = std::nullopt,
+drop_locations pickup( const std::set<tripoint_bub_ms> &targets = {},
                        const std::vector<drop_location> &selection = {} );
 
 drop_locations smoke_food( Character &you, units::volume total_capacity,

@@ -2426,26 +2426,28 @@ drop_locations game_menus::inv::multidrop( Character &you )
     return inv_s.execute();
 }
 
-drop_locations game_menus::inv::pickup( const std::optional<tripoint_bub_ms> &target,
+drop_locations game_menus::inv::pickup( const std::set<tripoint_bub_ms> &targets,
                                         const std::vector<drop_location> &selection )
 {
     avatar &you = get_avatar();
     pickup_inventory_preset preset( you, /*skip_wield_check=*/true, /*ignore_liquidcont=*/true );
     preset.save_state = &pickup_ui_default_state;
 
-    pickup_selector pick_s( you, preset, _( "ITEMS TO PICK UP" ), target );
+    pickup_selector pick_s( you, preset, _( "ITEMS TO PICK UP" ), targets );
 
     // Add items from the selected tile, or from current and all surrounding tiles
-    if( target ) {
-        pick_s.add_vehicle_items( *target );
-        pick_s.add_map_items( *target );
+    if( targets.size() >  0 ) {
+        for( tripoint_bub_ms target : targets ) {
+            pick_s.add_vehicle_items( target );
+            pick_s.add_map_items( target );
+        }
     } else {
         pick_s.add_nearby_items();
     }
     pick_s.set_title( _( "Pickup" ) );
 
     if( pick_s.empty() ) {
-        if( target ) {
+        if( targets.size() > 0 ) {
             add_msg( _( "There is nothing to pick up." ) );
         } else {
             add_msg( _( "There is nothing to pick up nearby." ) );

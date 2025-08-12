@@ -1086,7 +1086,7 @@ class pickup_selector : public inventory_multiselector
     public:
         explicit pickup_selector( Character &p, const inventory_selector_preset &preset = default_preset,
                                   const std::string &selection_column_title = _( "ITEMS TO PICK UP" ),
-                                  const std::optional<tripoint_bub_ms> &where = std::nullopt );
+                                  const std::set<tripoint_bub_ms> &where = {} );
         drop_locations execute();
         void apply_selection( std::vector<drop_location> selection );
     protected:
@@ -1097,7 +1097,7 @@ class pickup_selector : public inventory_multiselector
         bool wear();
         void remove_from_to_use( item_location &it );
         void reopen_menu();
-        const std::optional<tripoint_bub_ms> where;
+        const std::set<tripoint_bub_ms> where;
 };
 
 class unload_selector : public inventory_pick_selector
