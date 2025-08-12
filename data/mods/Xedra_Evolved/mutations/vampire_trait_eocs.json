@@ -928,7 +928,7 @@
     "id": "EOC_VAMPIRE_SCENT_BLOOD_activated",
     "condition": {
       "math": [
-        "(u_characters_nearby('radius': 30, 'attitude': 'any') + u_monsters_nearby('mon_feral_cop', 'mon_feral_human_pipe', 'mon_feral_human_crowbar', 'mon_feral_jackboot', 'mon_feral_marine_bayonet', 'mon_feral_soldier', 'mon_feral_prepper_knife', 'mon_feral_sailor_axe', 'mon_feral_maid_knife', 'mon_feral_maid_candlestick', 'mon_feral_officer', 'mon_feral_sailor_lug_wrench', 'mon_feral_sailor_mop', 'mon_feral_maid_broom', 'mon_feral_sailor_wrench', 'mon_feral_swimmer_kickboard', 'mon_feral_armored_battleaxe', 'mon_feral_sapien_spear', 'mon_feral_armored_mace', 'mon_feral_human_tool', 'mon_feral_militia', 'mon_feral_fancy_rapier_fake', 'mon_feral_fancy_rapier', 'mon_feral_human_axe', 'mon_feral_labsecurity_flashlight', 'mon_feral_labsecurity_9mm',  'mon_feral_survivalist', 'mon_feral_scientist_scalpel', 'mon_feral_zebra_agent', 'mon_renfield', 'mon_renfield_9mm', 'mon_renfield_shotgun', 'mon_renfield_flamethrower', 'radius': 30, 'attitude': 'both'))",
+        "(u_characters_nearby('radius': 30, 'attitude': 'any') + u_mon_species_nearby('FERAL', 'RENFIELD', 'radius': 30, 'attitude': 'both'))",
         ">=",
         "1"
       ]
@@ -938,41 +938,17 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_STAMINAFORBLOOD_activated",
-    "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
-    "effect": [
-      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "1 seconds" },
-      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "100" ] },
-      {
-        "u_message": "Your veins pulse as your body pushes some of your blood reserves to exhaustion and early dissolution.",
-        "type": "good"
-      },
-      {
-        "math": [
-          "u_val('stamina')",
-          "+=",
-          "min((1500 + (vampire_total_tier_one_traits_plus_potency() * 200) + (vampire_total_tier_two_traits() * 450) + (vampire_total_tier_three_traits() * 900) + (vampire_total_tier_four_traits_plus_potence() * 1500) + (vampire_total_tier_five_traits_plus_cauldron() * 2000)), 15000)"
-        ]
-      }
-    ],
-    "false_effect": [ { "u_message": "You don't have enough blood to recover any stamina.", "type": "bad" } ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_COMMUNE_NIGHT_MAP",
-    "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
     "effect": [
       {
         "if": { "and": [ { "math": [ "u_val('pos_z') >= 0" ] }, { "not": "is_day" }, "u_is_outside" ] },
         "then": [
           { "u_cast_spell": { "id": "vampire_map_real" } },
-          { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "100" ] },
           { "u_message": "The children of the night tell you what features of the map are nearby." }
         ],
         "else": [ { "u_message": "Without the ability to howl into the wilds of the night, there is no response." } ]
       }
-    ],
-    "false_effect": [ { "u_message": "You don't have enough blood to summon the creatures of the night.", "type": "bad" } ]
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -1065,10 +1041,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BLOODHEAL_activated",
-    "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
     "effect": [
-      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "750" ] },
-      { "u_message": "Blood suffuses your flesh, repairing any damage it comes across.", "type": "good" },
       {
         "if": { "and": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "disabled", "bodypart": "arm_l" } ] },
         "then": { "u_message": "But your left arm is too damaged.  Only time can heal it.", "type": "bad" },
@@ -1304,7 +1277,6 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_FEAR_GAZE_activated",
-    "condition": { "math": [ "n_vitamin('human_blood_vitamin') >= -500" ] },
     "effect": [
       {
         "math": [
@@ -1313,7 +1285,6 @@
           "(n_vampire_total_tier_one_traits_plus_potency * 0.5) + (n_vampire_total_tier_two_traits * 0.75) + (n_vampire_total_tier_three_traits * 1) + (n_vampire_total_tier_four_traits * 2) + (n_vampire_total_tier_five_traits_plus_cauldron * 3)"
         ]
       },
-      { "math": [ "n_vitamin('human_blood_vitamin')", "-=", "150" ] },
       {
         "run_eocs": [
           {
@@ -1342,8 +1313,7 @@
           }
         ]
       }
-    ],
-    "false_effect": [ { "npc_message": "You don't have enough blood to activate your predator's mien.", "type": "bad" } ]
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -1451,29 +1421,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_MAGICFORBLOOD_activated",
-    "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
-    "effect": [
-      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "1 seconds" },
-      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "200" ] },
-      {
-        "u_message": "Your veins pulse as your body pushes some of your blood reserves to exhaustion and early dissolution.",
-        "type": "good"
-      },
-      {
-        "math": [
-          "u_val('mana')",
-          "+=",
-          "min((150 + (vampire_total_tier_one_traits_plus_potency() * 20) + (vampire_total_tier_two_traits() * 45) + (vampire_total_tier_three_traits() * 90) + (vampire_total_tier_four_traits_plus_potence() * 150) + (vampire_total_tier_five_traits_plus_cauldron() * 200)), 1500)"
-        ]
-      }
-    ],
-    "false_effect": [ { "u_message": "You don't have enough blood to recover any mana.", "type": "bad" } ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_HYPNOTIC_GAZE_activated",
-    "condition": { "math": [ "n_vitamin('human_blood_vitamin') >= -500" ] },
     "effect": [
       {
         "math": [
@@ -1482,7 +1430,6 @@
           "2 + (n_vampire_total_tier_one_traits_plus_potency * 0.5) + (n_vampire_total_tier_two_traits * 0.75) + (n_vampire_total_tier_three_traits * 1.2) + (n_vampire_total_tier_four_traits * 2.5) + (n_vampire_total_tier_five_traits_plus_cauldron * 3.5)"
         ]
       },
-      { "math": [ "n_vitamin('human_blood_vitamin')", "-=", "150" ] },
       {
         "run_eocs": [
           {
@@ -1500,8 +1447,7 @@
           }
         ]
       }
-    ],
-    "false_effect": [ { "npc_message": "You don't have enough blood to activate your hypnotic gaze.", "type": "bad" } ]
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -1584,27 +1530,6 @@
         ]
       }
     ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_VAMPIRE_COMMAND_BEAST_activated",
-    "condition": { "math": [ "n_vitamin('human_blood_vitamin') >= -500" ] },
-    "effect": [
-      { "math": [ "n_vitamin('human_blood_vitamin')", "-=", "500" ] },
-      { "u_location_variable": { "context_val": "loc" } },
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_VAMPIRE_COMMAND_BEAST_activated_2",
-            "effect": [
-              { "npc_cast_spell": { "id": "vampire_command_beast_spell_real", "min_level": 1 }, "loc": { "context_val": "loc" } },
-              { "npc_message": "You exert your predatory will on your target.", "type": "good" }
-            ]
-          }
-        ]
-      }
-    ],
-    "false_effect": [ { "npc_message": "You don't have enough blood to attempt to cow the beast.", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",
@@ -1705,30 +1630,6 @@
         ]
       }
     ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_VAMPIRE_DOMINATE_activated",
-    "condition": { "math": [ "n_vitamin('human_blood_vitamin') >= -500" ] },
-    "effect": [
-      { "math": [ "n_vitamin('human_blood_vitamin')", "-=", "700" ] },
-      { "u_location_variable": { "context_val": "loc" } },
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_VAMPIRE_DOMINATE_activated2",
-            "effect": [
-              { "npc_cast_spell": { "id": "vampire_dominate_real", "min_level": 1 }, "loc": { "context_val": "loc" } },
-              {
-                "npc_message": "You focus your gaze on your target's mind, attempting to take control of it.",
-                "type": "good"
-              }
-            ]
-          }
-        ]
-      }
-    ],
-    "false_effect": [ { "npc_message": "You don't have enough blood to activate your dominating gaze.", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",
@@ -2578,31 +2479,20 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_INVISIBLE_IN_DARK",
-    "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+    "condition": { "not": { "and": [ "is_day", "u_is_outside", { "not": { "is_weather": "blotted_sun" } } ] } },
     "effect": [
+      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.25 },
+      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "300" ] },
       {
-        "run_eocs": [
-          {
-            "id": "EOC_VAMPIRE_INVISIBLE_IN_DARK_2",
-            "condition": { "not": { "and": [ "is_day", "u_is_outside", { "not": { "is_weather": "blotted_sun" } } ] } },
-            "effect": [
-              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.25 },
-              { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "300" ] },
-              {
-                "u_add_effect": "effect_vampire_invisible_in_dark",
-                "duration": {
-                  "math": [
-                    "rng(0.75,1.25) * (200 + (vampire_total_tier_one_traits_plus_potency() * 20) + (vampire_total_tier_two_traits() * 45) + (vampire_total_tier_three_traits() * 70) + (vampire_total_tier_four_traits_plus_potence() * 100) + (vampire_total_tier_five_traits_plus_cauldron() * 150))"
-                  ]
-                }
-              }
-            ],
-            "false_effect": [ { "u_message": "You cannot use this power under the sun's rays.", "type": "bad" } ]
-          }
-        ]
+        "u_add_effect": "effect_vampire_invisible_in_dark",
+        "duration": {
+          "math": [
+            "rng(0.75,1.25) * (200 + (vampire_total_tier_one_traits_plus_potency() * 20) + (vampire_total_tier_two_traits() * 45) + (vampire_total_tier_three_traits() * 70) + (vampire_total_tier_four_traits_plus_potence() * 100) + (vampire_total_tier_five_traits_plus_cauldron() * 150))"
+          ]
+        }
       }
     ],
-    "false_effect": [ { "u_message": "You don't have enough blood to shroud yourself in shadows.", "type": "bad" } ]
+    "false_effect": [ { "u_message": "You cannot use this power under the sun's rays.", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",
