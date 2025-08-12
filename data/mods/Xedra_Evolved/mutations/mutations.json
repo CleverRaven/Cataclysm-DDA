@@ -1215,7 +1215,8 @@
           { "value": "REGEN_HP_AWAKE", "multiply": 1 },
           { "value": "MENDING_MODIFIER", "multiply": 12 }
         ]
-      }
+      },
+      { "ench_effects": [ { "effect": "effect_vampire_immune_to_classic_zombification", "intensity": 1 } ] }
     ]
   },
   {
