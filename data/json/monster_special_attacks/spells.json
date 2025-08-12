@@ -670,7 +670,7 @@
     "condition": { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
     "effect": [
       { "math": [ "u_val('sleepiness') = min(u_val('sleepiness') + ps_str + 20, 1200)" ] },
-      { "math": [ "u_val('stamina')", "*=", "ps_str + 50" ] },
+      { "math": [ "u_val('stamina') *= ps_str + 50" ] },
       { "math": [ "u_sleep_deprivation += time('1 minutes')" ] }
     ]
   },

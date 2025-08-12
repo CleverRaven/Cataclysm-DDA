@@ -1210,7 +1210,7 @@
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
               { "u_lose_trait": "ECHOLOCATION" },
-              { "math": [ "u_calories()", "*=", "4" ] },
+              { "math": [ "u_calories() *= 4" ] },
               { "u_lose_trait": "VAMPIRE_BAT_FORM_TRAITS" },
               {
                 "u_message": "Your body shifts and your fingers separate as you return to your previous form.",
@@ -1271,7 +1271,7 @@
             "condition": { "u_has_trait": "TURN_INTO_RAVEN_TRAITS" },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
-              { "math": [ "u_calories()", "*=", "4" ] },
+              { "math": [ "u_calories() *= 4" ] },
               { "u_lose_trait": "TURN_INTO_RAVEN_TRAITS" },
               {
                 "u_message": "Your body shifts and your feathers vanish as you return to your previous form.",
@@ -1310,7 +1310,7 @@
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
               { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
               { "u_add_trait": "TURN_INTO_BEAR_TRAITS" },
-              { "math": [ "u_calories()", "*=", "3" ] },
+              { "math": [ "u_calories() *= 3" ] },
               {
                 "u_message": "Your body shifts and expands as fur sprouts from your skin and your mouth and teeth lengthen.",
                 "type": "good"

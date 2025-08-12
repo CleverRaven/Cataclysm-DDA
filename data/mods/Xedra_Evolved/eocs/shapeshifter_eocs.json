@@ -200,7 +200,7 @@
                     "effect": [
                       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
                       { "math": [ "u_val('mana') -= 20" ] },
-                      { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "3" ] },
+                      { "math": [ "u_calories('dont_affect_weariness': true) *= 3" ] },
                       { "math": [ "u_werewolf_healing_tick_counter = 0" ] },
                       { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
                       { "u_add_trait": "WEREWOLF_HYBRID_FORM_TRAITS" },

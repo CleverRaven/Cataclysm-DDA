@@ -284,7 +284,7 @@
               "u_effect_duration('bile_irritant') > 0 ? u_effect_duration('bile_irritant') + 120 + rand(90) : 240 + rand(180)"
             ]
           },
-          { "math": [ "MORALE_MULTIPLIER", "*=", "u_has_trait('SQUEAMISH') ? 4 : 2" ] },
+          { "math": [ "MORALE_MULTIPLIER *= u_has_trait('SQUEAMISH') ? 4 : 2" ] },
           { "u_add_effect": "bile_irritant", "duration": { "global_val": "BILE_IRRITANT_DURATION" } }
         ]
       },

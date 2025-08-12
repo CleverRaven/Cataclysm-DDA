@@ -79,7 +79,7 @@
         "text": "[ Prick yourself on the needle ]",
         "topic": "COMP_LS_Passcode_Door4blood",
         "effect": [
-          { "math": [ "u_vitamin('blood')", "*=", "0.75" ] },
+          { "math": [ "u_vitamin('blood') *= 0.75" ] },
           { "math": [ "npc_LS_door_requests += 1" ] },
           { "run_eocs": [ "EOC_LS_ReallyUnlock" ] }
         ]

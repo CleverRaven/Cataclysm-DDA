@@ -167,7 +167,7 @@
                     "effect": [
                       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
                       { "math": [ "u_val('mana') -= 50" ] },
-                      { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "3" ] },
+                      { "math": [ "u_calories('dont_affect_weariness': true) *= 3" ] },
                       { "math": [ "u_werewolf_healing_tick_counter = 0" ] },
                       { "u_add_trait": "WEREWOLF_PRIMAL_FORM_TRAITS" },
                       { "u_add_trait": "CARNIVORE" },

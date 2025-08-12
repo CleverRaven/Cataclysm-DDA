@@ -1680,7 +1680,7 @@
               { "u_message": "Your wings recede and you land on now-humanoid legs.", "type": "neutral" },
               { "u_lose_trait": "VAMPIRE_BAT_FORM_TRAITS" },
               { "u_lose_trait": "ECHOLOCATION" },
-              { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "4" ] },
+              { "math": [ "u_calories('dont_affect_weariness': true) *= 4" ] },
               { "math": [ "u_spell_level('vampire_bat_form_fly_upward') = -1" ] },
               { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_RETURN_ARMOR_TO_NORMAL" }
             ]
@@ -1904,14 +1904,14 @@
     "type": "effect_on_condition",
     "id": "eoc_vampire_blood_to_kcal_check_size_large",
     "condition": { "u_has_flag": "LARGE" },
-    "effect": [ { "math": [ "u_calories_needed", "*=", "1.5" ] }, { "run_eocs": "eoc_vampire_blood_to_kcal_convert" } ],
+    "effect": [ { "math": [ "u_calories_needed *= 1.5" ] }, { "run_eocs": "eoc_vampire_blood_to_kcal_convert" } ],
     "false_effect": [ { "run_eocs": [ "eoc_vampire_blood_to_kcal_check_size_huge" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "eoc_vampire_blood_to_kcal_check_size_huge",
     "condition": { "u_has_flag": "HUGE" },
-    "effect": [ { "math": [ "u_calories_needed", "*=", "2" ] }, { "run_eocs": "eoc_vampire_blood_to_kcal_convert" } ],
+    "effect": [ { "math": [ "u_calories_needed *= 2" ] }, { "run_eocs": "eoc_vampire_blood_to_kcal_convert" } ],
     "false_effect": [ { "run_eocs": [ "eoc_vampire_blood_to_kcal_convert" ] } ]
   },
   {

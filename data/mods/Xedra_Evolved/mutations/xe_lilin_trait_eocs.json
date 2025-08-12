@@ -228,7 +228,7 @@
               { "u_message": "Your wings recede and you land on now-humanoid legs.", "type": "neutral" },
               { "u_lose_trait": "TURN_INTO_OWL_TRAITS" },
               { "u_lose_effect": "effect_lilin_owl_form_pass_through_walls" },
-              { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "4" ] },
+              { "math": [ "u_calories('dont_affect_weariness': true) *= 4" ] },
               { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_RETURN_ARMOR_TO_NORMAL" }
             ]
           }
@@ -394,7 +394,7 @@
               { "math": [ "u_vitamin('lilin_ruach_vitamin') -= 480 * lilin_has_ruach_efficiency()" ] },
               { "u_add_trait": "LILIN_WAR_OWL_FORM_TRAITS" },
               { "u_add_trait": "LILIN_WAR_OWL_FORM_LEAPER" },
-              { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "1.5" ] },
+              { "math": [ "u_calories('dont_affect_weariness': true) *= 1.5" ] },
               {
                 "u_message": "Wings erupt from your shoulders and talons grow from your fingers as you assume the strix form.",
                 "type": "good"
