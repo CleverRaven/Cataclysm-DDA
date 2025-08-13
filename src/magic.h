@@ -188,6 +188,7 @@ class spell_events : public event_subscriber
         void notify( const cata::event & ) override;
 };
 
+// NOLINTNEXTLINE(clang-analyzer-optin.performance.Padding)
 class spell_type
 {
     public:
