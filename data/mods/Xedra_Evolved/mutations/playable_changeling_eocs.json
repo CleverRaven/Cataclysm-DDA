@@ -377,94 +377,94 @@
     "effect": [
       {
         "if": { "u_has_effect": "dermatik" },
-        "then": [ { "u_lose_effect": "dermatik" }, { "math": [ "u_val('sleepiness')", "+=", "50" ] } ]
+        "then": [ { "u_lose_effect": "dermatik" }, { "math": [ "u_val('sleepiness') += 50" ] } ]
       },
       {
         "if": { "u_has_effect": "dermatik_visible" },
-        "then": [ { "u_lose_effect": "dermatik_visible" }, { "math": [ "u_val('sleepiness')", "+=", "125" ] } ]
+        "then": [ { "u_lose_effect": "dermatik_visible" }, { "math": [ "u_val('sleepiness') += 125" ] } ]
       },
       {
         "if": { "u_has_effect": "poison" },
-        "then": [ { "u_lose_effect": "poison" }, { "math": [ "u_val('sleepiness')", "+=", "20" ] } ]
+        "then": [ { "u_lose_effect": "poison" }, { "math": [ "u_val('sleepiness') += 20" ] } ]
       },
       {
         "if": { "u_has_effect": "poison", "bodypart": "head" },
-        "then": [ { "u_lose_effect": "poison", "target_part": "head" }, { "math": [ "u_val('sleepiness')", "+=", "20" ] } ]
+        "then": [ { "u_lose_effect": "poison", "target_part": "head" }, { "math": [ "u_val('sleepiness') += 20" ] } ]
       },
       {
         "if": { "u_has_effect": "poison", "bodypart": "torso" },
-        "then": [ { "u_lose_effect": "poison", "target_part": "torso" }, { "math": [ "u_val('sleepiness')", "+=", "20" ] } ]
+        "then": [ { "u_lose_effect": "poison", "target_part": "torso" }, { "math": [ "u_val('sleepiness') += 20" ] } ]
       },
       {
         "if": { "u_has_effect": "poison", "bodypart": "arm_r" },
-        "then": [ { "u_lose_effect": "poison", "target_part": "arm_r" }, { "math": [ "u_val('sleepiness')", "+=", "20" ] } ]
+        "then": [ { "u_lose_effect": "poison", "target_part": "arm_r" }, { "math": [ "u_val('sleepiness') += 20" ] } ]
       },
       {
         "if": { "u_has_effect": "poison", "bodypart": "arm_l" },
-        "then": [ { "u_lose_effect": "poison", "target_part": "arm_l" }, { "math": [ "u_val('sleepiness')", "+=", "20" ] } ]
+        "then": [ { "u_lose_effect": "poison", "target_part": "arm_l" }, { "math": [ "u_val('sleepiness') += 20" ] } ]
       },
       {
         "if": { "u_has_effect": "poison", "bodypart": "leg_r" },
-        "then": [ { "u_lose_effect": "poison", "target_part": "leg_r" }, { "math": [ "u_val('sleepiness')", "+=", "20" ] } ]
+        "then": [ { "u_lose_effect": "poison", "target_part": "leg_r" }, { "math": [ "u_val('sleepiness') += 20" ] } ]
       },
       {
         "if": { "u_has_effect": "poison", "bodypart": "leg_l" },
-        "then": [ { "u_lose_effect": "poison", "target_part": "leg_l" }, { "math": [ "u_val('sleepiness')", "+=", "20" ] } ]
+        "then": [ { "u_lose_effect": "poison", "target_part": "leg_l" }, { "math": [ "u_val('sleepiness') += 20" ] } ]
       },
       {
         "if": { "u_has_effect": "badpoison" },
-        "then": [ { "u_lose_effect": "badpoison" }, { "math": [ "u_val('sleepiness')", "+=", "50" ] } ]
+        "then": [ { "u_lose_effect": "badpoison" }, { "math": [ "u_val('sleepiness') += 50" ] } ]
       },
       {
         "if": { "u_has_effect": "badpoison", "bodypart": "head" },
-        "then": [ { "u_lose_effect": "badpoison", "target_part": "head" }, { "math": [ "u_val('sleepiness')", "+=", "50" ] } ]
+        "then": [ { "u_lose_effect": "badpoison", "target_part": "head" }, { "math": [ "u_val('sleepiness') += 50" ] } ]
       },
       {
         "if": { "u_has_effect": "badpoison", "bodypart": "torso" },
-        "then": [ { "u_lose_effect": "badpoison", "target_part": "torso" }, { "math": [ "u_val('sleepiness')", "+=", "50" ] } ]
+        "then": [ { "u_lose_effect": "badpoison", "target_part": "torso" }, { "math": [ "u_val('sleepiness') += 50" ] } ]
       },
       {
         "if": { "u_has_effect": "badpoison", "bodypart": "arm_r" },
-        "then": [ { "u_lose_effect": "badpoison", "target_part": "arm_r" }, { "math": [ "u_val('sleepiness')", "+=", "50" ] } ]
+        "then": [ { "u_lose_effect": "badpoison", "target_part": "arm_r" }, { "math": [ "u_val('sleepiness') += 50" ] } ]
       },
       {
         "if": { "u_has_effect": "badpoison", "bodypart": "arm_l" },
-        "then": [ { "u_lose_effect": "badpoison", "target_part": "arm_l" }, { "math": [ "u_val('sleepiness')", "+=", "50" ] } ]
+        "then": [ { "u_lose_effect": "badpoison", "target_part": "arm_l" }, { "math": [ "u_val('sleepiness') += 50" ] } ]
       },
       {
         "if": { "u_has_effect": "badpoison", "bodypart": "leg_r" },
-        "then": [ { "u_lose_effect": "badpoison", "target_part": "leg_r" }, { "math": [ "u_val('sleepiness')", "+=", "50" ] } ]
+        "then": [ { "u_lose_effect": "badpoison", "target_part": "leg_r" }, { "math": [ "u_val('sleepiness') += 50" ] } ]
       },
       {
         "if": { "u_has_effect": "badpoison", "bodypart": "leg_l" },
-        "then": [ { "u_lose_effect": "badpoison", "target_part": "leg_l" }, { "math": [ "u_val('sleepiness')", "+=", "50" ] } ]
+        "then": [ { "u_lose_effect": "badpoison", "target_part": "leg_l" }, { "math": [ "u_val('sleepiness') += 50" ] } ]
       },
       {
         "if": { "u_has_effect": "venom_dmg" },
-        "then": [ { "u_lose_effect": "venom_dmg" }, { "math": [ "u_val('sleepiness')", "+=", "35" ] } ]
+        "then": [ { "u_lose_effect": "venom_dmg" }, { "math": [ "u_val('sleepiness') += 35" ] } ]
       },
       {
         "if": { "u_has_effect": "venom_weaken" },
-        "then": [ { "u_lose_effect": "venom_weaken" }, { "math": [ "u_val('sleepiness')", "+=", "40" ] } ]
+        "then": [ { "u_lose_effect": "venom_weaken" }, { "math": [ "u_val('sleepiness') += 40" ] } ]
       },
       {
         "if": { "u_has_effect": "venom_blind" },
-        "then": [ { "u_lose_effect": "venom_blind" }, { "math": [ "u_val('sleepiness')", "+=", "30" ] } ]
+        "then": [ { "u_lose_effect": "venom_blind" }, { "math": [ "u_val('sleepiness') += 30" ] } ]
       },
       {
         "if": { "u_has_effect": "venom_pain" },
-        "then": [ { "u_lose_effect": "venom_pain" }, { "math": [ "u_val('sleepiness')", "+=", "40" ] } ]
+        "then": [ { "u_lose_effect": "venom_pain" }, { "math": [ "u_val('sleepiness') += 40" ] } ]
       },
       {
         "if": { "u_has_effect": "paralyzepoison" },
-        "then": [ { "u_lose_effect": "paralyzepoison" }, { "math": [ "u_val('sleepiness')", "+=", "45" ] } ]
+        "then": [ { "u_lose_effect": "paralyzepoison" }, { "math": [ "u_val('sleepiness') += 45" ] } ]
       },
       {
         "if": { "u_has_effect": "pre_common_cold" },
         "then": [
           { "u_lose_effect": "pre_common_cold" },
           { "u_add_effect": "effect_hedge_cure_cold_or_flu", "duration": "10 days" },
-          { "math": [ "u_val('sleepiness')", "+=", "25" ] }
+          { "math": [ "u_val('sleepiness') += 25" ] }
         ]
       },
       {
@@ -472,7 +472,7 @@
         "then": [
           { "u_lose_effect": "common_cold" },
           { "u_add_effect": "effect_hedge_cure_cold_or_flu", "duration": "10 days" },
-          { "math": [ "u_val('sleepiness')", "+=", "50" ] }
+          { "math": [ "u_val('sleepiness') += 50" ] }
         ]
       },
       {
@@ -480,7 +480,7 @@
         "then": [
           { "u_lose_effect": "pre_flu" },
           { "u_add_effect": "effect_hedge_cure_cold_or_flu", "duration": "10 days" },
-          { "math": [ "u_val('sleepiness')", "+=", "40" ] }
+          { "math": [ "u_val('sleepiness') += 40" ] }
         ]
       },
       {
@@ -488,12 +488,12 @@
         "then": [
           { "u_lose_effect": "flu" },
           { "u_add_effect": "effect_hedge_cure_cold_or_flu", "duration": "10 days" },
-          { "math": [ "u_val('sleepiness')", "+=", "80" ] }
+          { "math": [ "u_val('sleepiness') += 80" ] }
         ]
       },
       {
         "if": { "u_has_effect": "conjunctivitis", "bodypart": "eyes" },
-        "then": [ { "u_lose_effect": "conjunctivitis", "target_part": "eyes" }, { "math": [ "u_val('sleepiness')", "+=", "35" ] } ]
+        "then": [ { "u_lose_effect": "conjunctivitis", "target_part": "eyes" }, { "math": [ "u_val('sleepiness') += 35" ] } ]
       }
     ]
   },
@@ -1156,7 +1156,7 @@
     "type": "effect_on_condition",
     "id": "EOC_POOKA_SHAPESHIFT_FULL_PROCESSED",
     "condition": { "math": [ "u_val('mana') >= 2" ] },
-    "effect": [ { "math": [ "u_val('mana')", "-=", "1" ] } ],
+    "effect": [ { "math": [ "u_val('mana') -= 1" ] } ],
     "false_effect": [
       { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_BAT" },
       { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_RAVEN" },
@@ -1187,7 +1187,7 @@
               { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
               { "u_add_trait": "VAMPIRE_BAT_FORM_TRAITS" },
               { "u_add_trait": "ECHOLOCATION" },
-              { "math": [ "u_calories()", "/=", "4" ] },
+              { "math": [ "u_calories() /= 4" ] },
               {
                 "u_message": "Your fingers lengthen as flaps of skin grow between them and as your legs shorten, you take to the air.",
                 "type": "good"
@@ -1210,7 +1210,7 @@
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
               { "u_lose_trait": "ECHOLOCATION" },
-              { "math": [ "u_calories()", "*=", "4" ] },
+              { "math": [ "u_calories() *= 4" ] },
               { "u_lose_trait": "VAMPIRE_BAT_FORM_TRAITS" },
               {
                 "u_message": "Your body shifts and your fingers separate as you return to your previous form.",
@@ -1249,7 +1249,7 @@
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
               { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
               { "u_add_trait": "TURN_INTO_RAVEN_TRAITS" },
-              { "math": [ "u_calories()", "/=", "4" ] },
+              { "math": [ "u_calories() /= 4" ] },
               {
                 "u_message": "Your body shifts and warps as your fingers extend into wings and feathers burst from your skin as you take to the air.",
                 "type": "good"
@@ -1271,7 +1271,7 @@
             "condition": { "u_has_trait": "TURN_INTO_RAVEN_TRAITS" },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
-              { "math": [ "u_calories()", "*=", "4" ] },
+              { "math": [ "u_calories() *= 4" ] },
               { "u_lose_trait": "TURN_INTO_RAVEN_TRAITS" },
               {
                 "u_message": "Your body shifts and your feathers vanish as you return to your previous form.",
@@ -1310,7 +1310,7 @@
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
               { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
               { "u_add_trait": "TURN_INTO_BEAR_TRAITS" },
-              { "math": [ "u_calories()", "*=", "3" ] },
+              { "math": [ "u_calories() *= 3" ] },
               {
                 "u_message": "Your body shifts and expands as fur sprouts from your skin and your mouth and teeth lengthen.",
                 "type": "good"
@@ -1332,7 +1332,7 @@
             "condition": { "u_has_trait": "TURN_INTO_BEAR_TRAITS" },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
-              { "math": [ "u_calories()", "/=", "3" ] },
+              { "math": [ "u_calories() /= 3" ] },
               { "u_lose_trait": "TURN_INTO_BEAR_TRAITS" },
               {
                 "u_message": "Your body shifts and contracts and you return to your humanoid form.",

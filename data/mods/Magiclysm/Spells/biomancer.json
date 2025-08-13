@@ -508,10 +508,10 @@
       {
         "switch": { "math": [ "u_preshift_size" ] },
         "cases": [
-          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "12" ] } ] },
-          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "6" ] } ] },
-          { "case": 3, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "2" ] } ] },
-          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "1.5" ] } ] },
+          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) *= 12" ] } ] },
+          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) *= 6" ] } ] },
+          { "case": 3, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) *= 2" ] } ] },
+          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) *= 1.5" ] } ] },
           { "case": 5, "effect": [  ] }
         ]
       },
@@ -531,10 +531,10 @@
       {
         "switch": { "math": [ "u_preshift_size" ] },
         "cases": [
-          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "12" ] } ] },
-          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "6" ] } ] },
-          { "case": 3, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "2" ] } ] },
-          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "1.5" ] } ] },
+          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) /= 12" ] } ] },
+          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) /= 6" ] } ] },
+          { "case": 3, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) /= 2" ] } ] },
+          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) /= 1.5" ] } ] },
           { "case": 5, "effect": [  ] }
         ]
       },
@@ -811,11 +811,11 @@
     "effect": [
       {
         "if": { "math": [ "u_vitamin('blood') < 0" ] },
-        "then": { "math": [ "u_vitamin('blood')", "+=", "300 + (u_spell_level('biomancer_get_more_blood') * 150)" ] }
+        "then": { "math": [ "u_vitamin('blood') += 300 + (u_spell_level('biomancer_get_more_blood') * 150)" ] }
       },
       {
         "if": { "math": [ "u_vitamin('redcells') < 0" ] },
-        "then": { "math": [ "u_vitamin('redcells')", "+=", "300 + (u_spell_level('biomancer_get_more_blood') * 150)" ] }
+        "then": { "math": [ "u_vitamin('redcells') += 300 + (u_spell_level('biomancer_get_more_blood') * 150)" ] }
       }
     ]
   },

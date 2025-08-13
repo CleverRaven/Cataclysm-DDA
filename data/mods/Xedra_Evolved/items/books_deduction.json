@@ -342,7 +342,7 @@
         },
         "then": { "math": [ "u_deduction_from_book_lies_counter += u_deduction_from_book_lies_counter" ] }
       },
-      { "math": [ "u_skill_exp('deduction', 'format': 'raw')", "+=", "u_deduction_from_book_lies_counter" ] },
+      { "math": [ "u_skill_exp('deduction', 'format': 'raw') += u_deduction_from_book_lies_counter" ] },
       { "math": [ "u_deduction_from_book_lies_counter = 0" ] }
     ]
   }

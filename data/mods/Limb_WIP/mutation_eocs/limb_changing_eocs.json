@@ -36,7 +36,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ARM_PAIN",
-    "effect": [ { "u_message": "<arm_pain>", "snippet": true }, { "math": [ "u_pain('type': 'perceived')", "+=", "5" ] } ]
+    "effect": [ { "u_message": "<arm_pain>", "snippet": true }, { "math": [ "u_pain('type': 'perceived') += 5" ] } ]
   },
   {
     "type": "effect_on_condition",

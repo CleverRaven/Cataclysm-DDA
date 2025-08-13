@@ -38,7 +38,7 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 1" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('photokinetic_light_local')", "+=", "psionic_power_experience_formula()" ] },
+      { "math": [ "u_spell_exp('photokinetic_light_local') += psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_PHOTOKIN_LIGHT_LOCAL_DRAIN",
@@ -97,7 +97,7 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 2" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('photokinetic_light_dodge')", "+=", "psionic_power_experience_formula()" ] },
+      { "math": [ "u_spell_exp('photokinetic_light_dodge') += psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_PHOTOKIN_LIGHT_DODGE_DRAIN",
@@ -156,7 +156,7 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 3" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('photokinetic_rad_immunity')", "+=", "psionic_power_experience_formula()" ] },
+      { "math": [ "u_spell_exp('photokinetic_rad_immunity') += psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_PHOTOKIN_RAD_IMMUNITY_DRAIN",
@@ -230,8 +230,8 @@
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       {
         "if": { "math": [ "u_spell_level('photokinetic_camouflage') >= 1" ] },
-        "then": { "math": [ "u_spell_exp('photokinetic_camouflage')", "+=", "psionic_power_experience_formula()" ] },
-        "else": { "math": [ "u_spell_exp('photokinetic_camouflage_knack')", "+=", "psionic_power_experience_formula()" ] }
+        "then": { "math": [ "u_spell_exp('photokinetic_camouflage') += psionic_power_experience_formula()" ] },
+        "else": { "math": [ "u_spell_exp('photokinetic_camouflage_knack') += psionic_power_experience_formula()" ] }
       },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -307,8 +307,8 @@
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       {
         "if": { "math": [ "u_spell_level('photokinetic_hide_ugly') >= 1" ] },
-        "then": { "math": [ "u_spell_exp('photokinetic_hide_ugly')", "+=", "psionic_power_experience_formula()" ] },
-        "else": { "math": [ "u_spell_exp('photokinetic_hide_ugly_knack')", "+=", "psionic_power_experience_formula()" ] }
+        "then": { "math": [ "u_spell_exp('photokinetic_hide_ugly') += psionic_power_experience_formula()" ] },
+        "else": { "math": [ "u_spell_exp('photokinetic_hide_ugly_knack') += psionic_power_experience_formula()" ] }
       },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -380,8 +380,8 @@
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       {
         "if": { "math": [ "u_spell_level('photokinetic_radio') >= 1" ] },
-        "then": { "math": [ "u_spell_exp('photokinetic_radio')", "+=", "psionic_power_experience_formula()" ] },
-        "else": { "math": [ "u_spell_exp('photokinetic_radio_knack')", "+=", "psionic_power_experience_formula()" ] }
+        "then": { "math": [ "u_spell_exp('photokinetic_radio') += psionic_power_experience_formula()" ] },
+        "else": { "math": [ "u_spell_exp('photokinetic_radio_knack') += psionic_power_experience_formula()" ] }
       },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -444,7 +444,7 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 6" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('photokinetic_invisibility')", "+=", "psionic_power_experience_formula()" ] },
+      { "math": [ "u_spell_exp('photokinetic_invisibility') += psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_PHOTOKIN_INVISIBILITY_DRAIN",
@@ -503,7 +503,7 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 7" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('photokinetic_blinding_glare')", "+=", "psionic_power_experience_formula()" ] },
+      { "math": [ "u_spell_exp('photokinetic_blinding_glare') += psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_PHOTOKIN_BLINDING_GLARE_DRAIN",
@@ -613,7 +613,7 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 9" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('photokinetic_light_army')", "+=", "psionic_power_experience_formula()" ] },
+      { "math": [ "u_spell_exp('photokinetic_light_army') += psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_PHOTOKIN_LIGHT_ARMY_DRAIN",

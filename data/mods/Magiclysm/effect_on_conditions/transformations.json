@@ -81,18 +81,18 @@
                       {
                         "switch": { "math": [ "u_preshift_size" ] },
                         "cases": [
-                          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "12" ] } ] },
+                          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) *= 12" ] } ] },
                           {
                             "case": 2,
-                            "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "6" ] } ]
+                            "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) *= 6" ] } ]
                           },
                           {
                             "case": 3,
-                            "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "2" ] } ]
+                            "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) *= 2" ] } ]
                           },
                           {
                             "case": 4,
-                            "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "1.5" ] } ]
+                            "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) *= 1.5" ] } ]
                           },
                           { "case": 5, "effect": [  ] }
                         ]
@@ -131,18 +131,18 @@
                       {
                         "switch": { "math": [ "u_preshift_size" ] },
                         "cases": [
-                          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "12" ] } ] },
+                          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) /= 12" ] } ] },
                           {
                             "case": 2,
-                            "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "6" ] } ]
+                            "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) /= 6" ] } ]
                           },
                           {
                             "case": 3,
-                            "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "2" ] } ]
+                            "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) /= 2" ] } ]
                           },
                           {
                             "case": 4,
-                            "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "1.5" ] } ]
+                            "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) /= 1.5" ] } ]
                           },
                           { "case": 5, "effect": [  ] }
                         ]
@@ -195,11 +195,11 @@
                       {
                         "switch": { "math": [ "u_preshift_size" ] },
                         "cases": [
-                          { "case": 1, "effect": [ { "math": [ "u_calories()", "/=", "4" ] } ] },
-                          { "case": 2, "effect": [ { "math": [ "u_calories()", "/=", "2" ] } ] },
+                          { "case": 1, "effect": [ { "math": [ "u_calories() /= 4" ] } ] },
+                          { "case": 2, "effect": [ { "math": [ "u_calories() /= 2" ] } ] },
                           { "case": 3, "effect": [  ] },
-                          { "case": 4, "effect": [ { "math": [ "u_calories()", "*=", "1.5" ] } ] },
-                          { "case": 5, "effect": [ { "math": [ "u_calories()", "*=", "3" ] } ] }
+                          { "case": 4, "effect": [ { "math": [ "u_calories() *= 1.5" ] } ] },
+                          { "case": 5, "effect": [ { "math": [ "u_calories() *= 3" ] } ] }
                         ]
                       },
                       { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
@@ -241,11 +241,11 @@
                       {
                         "switch": { "math": [ "u_preshift_size" ] },
                         "cases": [
-                          { "case": 1, "effect": [ { "math": [ "u_calories()", "*=", "4" ] } ] },
-                          { "case": 2, "effect": [ { "math": [ "u_calories()", "*=", "2" ] } ] },
+                          { "case": 1, "effect": [ { "math": [ "u_calories() *= 4" ] } ] },
+                          { "case": 2, "effect": [ { "math": [ "u_calories() *= 2" ] } ] },
                           { "case": 3, "effect": [  ] },
-                          { "case": 4, "effect": [ { "math": [ "u_calories()", "/=", "1.5" ] } ] },
-                          { "case": 5, "effect": [ { "math": [ "u_calories()", "/=", "3" ] } ] }
+                          { "case": 4, "effect": [ { "math": [ "u_calories() /= 1.5" ] } ] },
+                          { "case": 5, "effect": [ { "math": [ "u_calories() /= 3" ] } ] }
                         ]
                       },
                       { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_RETURN_ARMOR_TO_NORMAL" }
@@ -296,19 +296,19 @@
                       {
                         "switch": { "math": [ "u_preshift_size" ] },
                         "cases": [
-                          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "4" ] } ] },
+                          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) /= 4" ] } ] },
                           {
                             "case": 2,
-                            "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "2" ] } ]
+                            "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) /= 2" ] } ]
                           },
                           { "case": 3, "effect": [  ] },
                           {
                             "case": 4,
-                            "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "1.5" ] } ]
+                            "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) *= 1.5" ] } ]
                           },
                           {
                             "case": 5,
-                            "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "3" ] } ]
+                            "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) *= 3" ] } ]
                           }
                         ]
                       },
@@ -346,19 +346,19 @@
                       {
                         "switch": { "math": [ "u_preshift_size" ] },
                         "cases": [
-                          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "4" ] } ] },
+                          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) *= 4" ] } ] },
                           {
                             "case": 2,
-                            "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "2" ] } ]
+                            "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) *= 2" ] } ]
                           },
                           { "case": 3, "effect": [  ] },
                           {
                             "case": 4,
-                            "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "1.5" ] } ]
+                            "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) /= 1.5" ] } ]
                           },
                           {
                             "case": 5,
-                            "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "3" ] } ]
+                            "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) /= 3" ] } ]
                           }
                         ]
                       },
@@ -405,7 +405,7 @@
                     "condition": { "math": [ "u_val('mana') >= 50" ] },
                     "effect": [
                       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
-                      { "math": [ "u_val('mana')", "-=", "50" ] },
+                      { "math": [ "u_val('mana') -= 50" ] },
                       { "math": [ "u_transformed_mana = u_val('mana') - 50" ] },
                       { "math": [ "u_preshift_size = u_val('size')" ] },
                       {
@@ -414,19 +414,19 @@
                           { "case": 1, "effect": [  ] },
                           {
                             "case": 2,
-                            "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "2" ] } ]
+                            "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) /= 2" ] } ]
                           },
                           {
                             "case": 3,
-                            "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "4" ] } ]
+                            "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) /= 4" ] } ]
                           },
                           {
                             "case": 4,
-                            "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "6" ] } ]
+                            "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) /= 6" ] } ]
                           },
                           {
                             "case": 5,
-                            "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "10" ] } ]
+                            "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) /= 10" ] } ]
                           }
                         ]
                       },
@@ -468,19 +468,19 @@
                           { "case": 1, "effect": [  ] },
                           {
                             "case": 2,
-                            "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "2" ] } ]
+                            "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) *= 2" ] } ]
                           },
                           {
                             "case": 3,
-                            "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "4" ] } ]
+                            "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) *= 4" ] } ]
                           },
                           {
                             "case": 4,
-                            "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "6" ] } ]
+                            "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) *= 6" ] } ]
                           },
                           {
                             "case": 5,
-                            "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "10" ] } ]
+                            "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) *= 10" ] } ]
                           }
                         ]
                       },

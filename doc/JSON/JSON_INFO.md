@@ -893,7 +893,7 @@ Each turn, the player's addictions are processed using either the given `effect_
     "effect": [
       { "u_add_morale": "morale_craving_marloss", "bonus": -5, "max_bonus": -30 },
       { "u_message": "You daydream about luscious pink berries as big as your fist.", "type": "info" },
-      { "if": { "math": [ "u_val('focus') > 40" ] }, "then": { "math": [ "u_val('focus')", "--" ] } }
+      { "if": { "math": [ "u_val('focus') > 40" ] }, "then": { "math": [ "u_val('focus')--" ] } }
     ]
   },
 ```

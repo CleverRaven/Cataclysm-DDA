@@ -37,7 +37,7 @@
             "id": "EOC_WOLF_SLEDGE_TRHOW_nested",
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "2 seconds" },
-              { "math": [ "u_val('stamina')", "-=", "400" ] },
+              { "math": [ "u_val('stamina') -= 400" ] },
               { "u_cast_spell": { "id": "mace_pipe_magic_throw" } }
             ]
           }

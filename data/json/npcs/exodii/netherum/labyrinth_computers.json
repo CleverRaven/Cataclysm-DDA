@@ -29,7 +29,7 @@
       },
       {
         "text": "Lock connected doors",
-        "effect": [ { "run_eocs": [ "EOC_LS_Lock" ] }, { "math": [ "npc_LS_door_requests", "+=", "1" ] } ],
+        "effect": [ { "run_eocs": [ "EOC_LS_Lock" ] }, { "math": [ "npc_LS_door_requests += 1" ] } ],
         "topic": "COMP_LS_Passcode_Door3",
         "condition": { "math": [ "npc_LS_door_requests", "==", "1" ] }
       },
@@ -79,8 +79,8 @@
         "text": "[ Prick yourself on the needle ]",
         "topic": "COMP_LS_Passcode_Door4blood",
         "effect": [
-          { "math": [ "u_vitamin('blood')", "*=", "0.75" ] },
-          { "math": [ "npc_LS_door_requests", "+=", "1" ] },
+          { "math": [ "u_vitamin('blood') *= 0.75" ] },
+          { "math": [ "npc_LS_door_requests += 1" ] },
           { "run_eocs": [ "EOC_LS_ReallyUnlock" ] }
         ]
       },

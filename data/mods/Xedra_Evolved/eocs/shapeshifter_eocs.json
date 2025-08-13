@@ -200,7 +200,7 @@
                     "effect": [
                       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
                       { "math": [ "u_val('mana') -= 20" ] },
-                      { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "3" ] },
+                      { "math": [ "u_calories('dont_affect_weariness': true) *= 3" ] },
                       { "math": [ "u_werewolf_healing_tick_counter = 0" ] },
                       { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
                       { "u_add_trait": "WEREWOLF_HYBRID_FORM_TRAITS" },
@@ -232,7 +232,7 @@
                       },
                       { "u_lose_trait": "WEREWOLF_HYBRID_FORM_TRAITS" },
                       { "u_lose_trait": "CARNIVORE" },
-                      { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "3" ] },
+                      { "math": [ "u_calories('dont_affect_weariness': true) /= 3" ] },
                       { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_RETURN_ARMOR_TO_NORMAL" }
                     ]
                   }
@@ -267,31 +267,25 @@
       {
         "if": { "math": [ "u_werewolf_healing_tick_counter >= 6" ] },
         "then": [
-          { "math": [ "u_werewolf_healing_tick_counter", "-=", "6" ] },
+          { "math": [ "u_werewolf_healing_tick_counter -= 6" ] },
           { "if": { "math": [ "u_pain() >= 1" ] }, "then": { "math": [ "u_pain()--" ] } },
           {
             "if": { "math": [ "u_vitamin('redcells') < 0" ] },
-            "then": { "math": [ "u_vitamin('redcells')", "+=", "150" ] }
+            "then": { "math": [ "u_vitamin('redcells') += 150" ] }
           },
           {
             "if": { "math": [ "u_vitamin('redcells') < -1000" ] },
-            "then": { "math": [ "u_vitamin('redcells')", "+=", "500" ] }
+            "then": { "math": [ "u_vitamin('redcells') += 500" ] }
           },
           {
             "if": { "math": [ "u_vitamin('redcells') < -10000" ] },
-            "then": { "math": [ "u_vitamin('redcells')", "+=", "2500" ] }
+            "then": { "math": [ "u_vitamin('redcells') += 2500" ] }
           },
-          {
-            "if": { "math": [ "u_vitamin('blood') < 0" ] },
-            "then": { "math": [ "u_vitamin('blood')", "+=", "150" ] }
-          },
-          {
-            "if": { "math": [ "u_vitamin('blood') < -1000" ] },
-            "then": { "math": [ "u_vitamin('blood')", "+=", "500" ] }
-          },
+          { "if": { "math": [ "u_vitamin('blood') < 0" ] }, "then": { "math": [ "u_vitamin('blood') += 150" ] } },
+          { "if": { "math": [ "u_vitamin('blood') < -1000" ] }, "then": { "math": [ "u_vitamin('blood') += 500" ] } },
           {
             "if": { "math": [ "u_vitamin('blood') < -10000" ] },
-            "then": { "math": [ "u_vitamin('blood')", "+=", "2500" ] }
+            "then": { "math": [ "u_vitamin('blood') += 2500" ] }
           },
           {
             "if": {
@@ -308,7 +302,7 @@
               "foreach": "array",
               "target": [ "arm_l", "arm_r", "leg_l", "leg_r", "torso", "head" ],
               "var": { "context_val": "id" },
-              "effect": [ { "if": { "math": [ "u_hp(_id) < u_hp_max(_id)" ] }, "then": { "math": [ "u_hp(_id)", "+=", "1" ] } } ]
+              "effect": [ { "if": { "math": [ "u_hp(_id) < u_hp_max(_id)" ] }, "then": { "math": [ "u_hp(_id) += 1" ] } } ]
             }
           },
           {
