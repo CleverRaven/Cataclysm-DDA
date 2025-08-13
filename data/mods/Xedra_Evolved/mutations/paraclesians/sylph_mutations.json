@@ -592,9 +592,12 @@
   {
     "type": "mutation",
     "id": "SYLPH_CLOUD_FORM_APPEARANCE",
-    "name": { "str": "Body of Cloud Appearance" },
+    "name": { "str": "Body of Cloud Appearance", "//~": "NO_I18N" },
     "points": 1,
-    "description": "This mutation carries the sprite override info for Body of Cloud.  You shouldn't be able to see it in game.",
+    "description": {
+      "str": "This mutation carries the sprite override info for Body of Cloud.  You shouldn't be able to see it in game.",
+      "//~": "NO_I18N"
+    },
     "valid": false,
     "player_display": false,
     "override_look": { "id": "fd_extinguisher", "tile_category": "field" },

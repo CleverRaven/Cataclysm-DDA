@@ -2988,7 +2988,7 @@
     "type": "effect_type",
     "id": "effect_vitakin_hurt",
     "name": [ "Enervating Touch" ],
-    "desc": [ "This reduces monsters' regeneration.  It's a bug if you have it." ],
+    "desc": [ { "str": "This reduces monsters' regeneration.  It's a bug if you have it.", "//~": "NO_I18N" } ],
     "rating": "bad",
     "max_duration": "300 minutes",
     "show_in_info": true,
