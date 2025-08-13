@@ -27,6 +27,8 @@
 
 static const mtype_id pseudo_debug_mon( "pseudo_debug_mon" );
 
+static const vpart_location_id vpart_location_structure( "structure" );
+
 static void clear_game_and_set_ramp( const int transit_x, bool use_ramp, bool up )
 {
     // Set to turn 0 to prevent solars from producing power
@@ -153,7 +155,7 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
             REQUIRE( here.ter( here.get_bub( pos ) ) );
         }
         for( const vpart_reference &vp : veh.get_all_parts() ) {
-            if( vp.info().location != "structure" ) {
+            if( vp.info().location != vpart_location_structure ) {
                 continue;
             }
             const point_rel_ms &pmount = vp.mount_pos();

@@ -69,6 +69,8 @@ static const skill_id skill_launcher( "launcher" );
 
 static const vpart_id vpart_turret_generic( "turret_generic" );
 
+static const vpart_location_id vpart_location_structure( "structure" );
+
 // GENERAL GUIDELINES
 // To determine mount position for parts (dx, dy), check this scheme:
 //         orthogonal dir left: (Y-)
@@ -661,54 +663,11 @@ void vpart_info::finalize()
     if( has_flag( VPFLAG_APPLIANCE ) ) {
         // force all appliances' location field to "structure"
         // dragging code currently checks this for considering collisions
-        location = "structure";
+        location = vpart_location_structure;
     }
 
     finalize_damage_map( damage_reduction );
 
-    // Calculate and cache z-ordering based off of location
-    // list_order is used when inspecting the vehicle
-    if( location == "on_roof" ) {
-        z_order = 9;
-        list_order = 3;
-    } else if( location == "on_cargo" ) {
-        z_order = 8;
-        list_order = 6;
-    } else if( location == "center" ) {
-        z_order = 7;
-        list_order = 7;
-    } else if( location == "under" ) {
-        // Have wheels show up over frames
-        z_order = 6;
-        list_order = 10;
-    } else if( location == "structure" ) {
-        z_order = 5;
-        list_order = 1;
-    } else if( location == "engine_block" ) {
-        // Should be hidden by frames
-        z_order = 4;
-        list_order = 8;
-    } else if( location == "on_battery_mount" ) {
-        // Should be hidden by frames
-        z_order = 3;
-        list_order = 10;
-    } else if( location == "fuel_source" ) {
-        // Should be hidden by frames
-        z_order = 3;
-        list_order = 9;
-    } else if( location == "roof" ) {
-        // Shouldn't be displayed
-        z_order = -1;
-        list_order = 4;
-    } else if( location == "armor" ) {
-        // Shouldn't be displayed (the color is used, but not the symbol)
-        z_order = -2;
-        list_order = 2;
-    } else {
-        // Everything else
-        z_order = 0;
-        list_order = 5;
-    }
     std::set<std::pair<itype_id, int>> &pt = pseudo_tools;
     for( auto it = pt.begin(); it != pt.end(); /* blank */ ) {
         const itype_id &tool = it->first;
@@ -1399,7 +1358,6 @@ void vehicle_prototype::load( const JsonObject &jo, std::string_view )
 void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh,
         JsonOut &json )
 {
-    static const std::string part_location_structure( "structure" );
     json.start_object();
     // Add some notes to the exported file.
     json.member( "//1",

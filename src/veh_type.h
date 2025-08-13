@@ -407,7 +407,7 @@ class vpart_info
         std::optional<itype_id> removed_item;
 
         /** What slot of the vehicle tile does this part occupy? */
-        std::string location;
+        vpart_location_id location;
 
         /** Maximum damage part can sustain before being destroyed */
         int durability = 0;
