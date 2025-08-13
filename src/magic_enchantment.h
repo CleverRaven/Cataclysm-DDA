@@ -326,8 +326,7 @@ class enchant_cache : public enchantment
         void force_add( const enchantment &rhs, const vehicle &veh );
         void force_add( const enchantment &rhs );
         void force_add( const enchant_cache &rhs );
-        void force_add_with_dialogue( const enchantment &rhs, const const_dialogue &d,
-                                      bool evaluate = true );
+        void force_add_with_dialogue( const enchantment &rhs, const const_dialogue &d );
         // adds enchantment mutations to the cache
         void force_add_mutation( const enchantment &rhs );
 

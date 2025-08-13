@@ -523,7 +523,7 @@ mtype MonsterGenerator::generate_fake_pseudo_dormant_monster( const mtype &mon )
     // first make a new mon_spellcasting_actor actor
     std::unique_ptr<mon_spellcasting_actor> new_actor( new mon_spellcasting_actor() );
     new_actor->allow_no_target = true;
-    new_actor->cooldown.min.dbl_val = 1;
+    new_actor->cooldown = 1;
     new_actor->spell_data.id = spell_pseudo_dormant_trap_setup;
     new_actor->spell_data.self = true;
 
@@ -1425,7 +1425,7 @@ void mattack_actor::load( const JsonObject &jo, const std::string &src )
         assign( jo, "id", id, false );
     }
 
-    mandatory( jo, was_loaded, "cooldown", cooldown, dbl_or_var_reader{} );
+    mandatory( jo, was_loaded, "cooldown", cooldown );
 
     load_internal( jo, src );
     // Set was_loaded manually because we don't have generic_factory to do it for us
@@ -1477,12 +1477,7 @@ void mtype::add_special_attack( const JsonArray &inner, std::string_view )
         }
     }
     mtype_special_attack new_attack = mtype_special_attack( iter->second );
-    if( inner.has_array( 1 ) ) {
-        new_attack.actor->cooldown.min = get_dbl_or_var_part( inner.get_array( 1 )[0] );
-        new_attack.actor->cooldown.max = get_dbl_or_var_part( inner.get_array( 1 )[1] );
-    } else {
-        new_attack.actor->cooldown.min = get_dbl_or_var_part( inner[1] );
-    }
+    new_attack.actor->cooldown.deserialize( inner[1] );
     special_attacks.emplace( name, new_attack );
     special_attacks_names.push_back( name );
 }

@@ -2,6 +2,8 @@
 #ifndef CATA_SRC_WEIGHTED_DBL_OR_VAR_LIST_H
 #define CATA_SRC_WEIGHTED_DBL_OR_VAR_LIST_H
 
+#include "avatar.h"
+#include "condition.h"
 #include "dialogue.h"
 #include "weighted_list.h"
 
@@ -22,7 +24,8 @@ template <typename T> struct weighted_dbl_or_var_list {
                     JsonArray ja = entry.get_array();
                     T object;
                     ja.next_value().read( object );
-                    const dbl_or_var weight = get_dbl_or_var( ja.next_value() );
+                    dbl_or_var weight;
+                    weight.deserialize( ja.next_value() );
                     add( object, weight );
                 } else {
                     T object;
@@ -40,7 +43,7 @@ template <typename T> struct weighted_dbl_or_var_list {
          * @param weight The weight of the object.
          */
         T *add( const T &obj, const dbl_or_var &weight ) {
-            if( weight.is_constant() && weight.min.dbl_val.value() <= 0 ) {
+            if( weight.is_constant() && weight.constant() <= 0 ) {
                 return nullptr;
             }
             objects.emplace_back( obj, weight );
@@ -88,7 +91,7 @@ template <typename T> struct weighted_dbl_or_var_list {
          */
         T *add_or_replace( const T &obj, const dbl_or_var &weight ) {
 
-            if( weight.is_constant() && weight.min.dbl_val.value() <= 0 ) {
+            if( weight.is_constant() && weight.constant() <= 0 ) {
                 remove( obj );
                 invalidate_precalc();
                 return nullptr;
@@ -254,7 +257,7 @@ template <typename T> struct weighted_dbl_or_var_list {
             size_t i;
             if( is_constant() ) {
                 for( i = 0; i < objects.size(); i++ ) {
-                    accumulated_weight += objects[i].weight.min.dbl_val.value();
+                    accumulated_weight += objects[i].weight.constant();
                     if( accumulated_weight >= picked ) {
                         break;
                     }

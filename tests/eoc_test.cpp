@@ -948,7 +948,8 @@ TEST_CASE( "EOC_run_with_test", "[eoc]" )
     CHECK( effect_on_condition_EOC_run_with_test->activate( d ) );
     CHECK( globvars.get_global_value( "key1" ) ==  1 );
     CHECK( globvars.get_global_value( "key2" ) ==  2 );
-    CHECK( globvars.get_global_value( "key3" ) ==  3 );
+    auto blorg = globvars.get_global_value( "key3" );
+    CHECK( blorg ==  3 );
 
     // value shouldn't exist in the original dialogue
     CHECK( !d.maybe_get_value( "key1" ) );
