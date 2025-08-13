@@ -379,7 +379,7 @@
     "id": "EOC_ATTEMPT_HORSE_FAMILIAR",
     "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= 2400" ] },
     "effect": [
-      { "u_cast_spell": { "dhampir_horse_familiar_spell" }, "suppress_message": true },
+      { "u_cast_spell": { "dhampir_horse_familiar_spell" } },
       { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "2000" ] },
       {
         "u_message": "You feed your blood and will into this once docile horse transforming it into a familiar worthy of a hunter of monsters and men.",
@@ -401,7 +401,7 @@
     "id": "EOC_FEED_HORSE_FAMILIAR",
     "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= 1800" ] },
     "effect": [
-      { "u_cast_spell": { "dhampir_horse_familiar_spell" }, "suppress_message": true },
+      { "u_cast_spell": { "dhampir_horse_familiar_spell" } },
       { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "1000" ] },
       {
         "u_message": "You feed your blood to this monstrous nightmare horse and it swallows the blood like an addict with their vice of choice after a forced avoidance.",
