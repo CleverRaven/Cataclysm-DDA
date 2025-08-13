@@ -8,7 +8,7 @@
       "and": [
         { "u_has_any_trait": [ "VAMPIRE", "DHAMPIR_TRAIT" ] },
         { "not": { "u_has_trait": "VAMPIRE4" } },
-        { "compare_string": [ "taint", { "zombie_virus": "effect" } ] }
+        { "compare_string": [ "zombie_virus", { "context_val": "effect" } ] }
       ]
     },
     "effect": [
