@@ -24,11 +24,12 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 
-static const std::string part_location_structure( "structure" );
 static const ammotype ammo_battery( "battery" );
 
 static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id itype_battery( "battery" );
+
+static const vpart_location_id vpart_location_structure( "structure" );
 
 std::string vehicle::disp_name() const
 {
@@ -200,7 +201,7 @@ int vehicle::print_part_list( const catacurses::window &win, int y1,
         if( armor ) {
             left_sym = "(";
             right_sym = ")";
-        } else if( vpi.location == part_location_structure ) {
+        } else if( vpi.location == vpart_location_structure ) {
             left_sym = "[";
             right_sym = "]";
         } else {
