@@ -175,10 +175,7 @@ static const ter_str_id ter_t_slide( "t_slide" );
 static const ter_str_id ter_t_stump( "t_stump" );
 static const ter_str_id ter_t_trunk( "t_trunk" );
 static const ter_str_id ter_t_underbrush( "t_underbrush" );
-static const ter_str_id ter_t_underbrush_harvested_autumn( "t_underbrush_harvested_autumn" );
-static const ter_str_id ter_t_underbrush_harvested_spring( "t_underbrush_harvested_spring" );
-static const ter_str_id ter_t_underbrush_harvested_summer( "t_underbrush_harvested_summer" );
-static const ter_str_id ter_t_underbrush_harvested_winter( "t_underbrush_harvested_winter" );
+static const ter_str_id ter_t_underbrush_harvested( "t_underbrush_harvested" );
 
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
@@ -1768,10 +1765,7 @@ void sfx::do_footstep()
             ter_t_shrub_lilac,
             ter_t_shrub_lilac_harvested,
             ter_t_underbrush,
-            ter_t_underbrush_harvested_spring,
-            ter_t_underbrush_harvested_summer,
-            ter_t_underbrush_harvested_autumn,
-            ter_t_underbrush_harvested_winter,
+            ter_t_underbrush_harvested,
             ter_t_moss,
             ter_t_grass_white,
             ter_t_grass_long,

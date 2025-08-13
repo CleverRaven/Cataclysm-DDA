@@ -221,10 +221,7 @@
           "t_forestfloor",
           "t_moss",
           "t_underbrush",
-          "t_underbrush_harvested_spring",
-          "t_underbrush_harvested_summer",
-          "t_underbrush_harvested_autumn",
-          "t_underbrush_harvested_winter",
+          "t_underbrush_harvested",
           "t_fern",
           "t_fern_harvested",
           "t_tree_young"
