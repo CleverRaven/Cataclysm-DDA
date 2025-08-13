@@ -1304,11 +1304,8 @@ void martialart::activate_eocs( Character &u,
 {
     for( const effect_on_condition_id &eoc : eocs ) {
         dialogue d( get_talker_for( u ), nullptr );
-        if( eoc->type == eoc_type::ACTIVATION ) {
-            eoc->activate( d );
-        } else {
-            debugmsg( "Must use an activation eoc for a martial art activation.  If you don't want the effect_on_condition to happen on its own (without the martial art being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this martial art with its condition and effects, then have a recurring one queue it." );
-        }
+        eoc->activate_activation_only( d, "a martial art activation", "martial art being activated",
+                                       "martial art" );
     }
 }
 

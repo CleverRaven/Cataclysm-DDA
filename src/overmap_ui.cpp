@@ -123,6 +123,9 @@ namespace overmap_ui
 static bool create_note( const tripoint_abs_omt &curs,
                          std::optional<std::string> context = std::nullopt );
 
+// returns true if a point of interest was created, false otherwise
+static bool create_point_of_interest( const tripoint_abs_omt &curs );
+
 // {note symbol, note color, offset to text}
 std::tuple<char, nc_color, size_t> get_note_display_info( std::string_view note )
 {
@@ -335,11 +338,11 @@ static void draw_camp_labels( const catacurses::window &w, const tripoint_abs_om
              project_to<coords::sm>( center ), sm_radius ) ) {
         const point_abs_omt camp_pos( element.camp->camp_omt_pos().xy() );
         const point screen_pos( ( camp_pos - center.xy() ).raw() + screen_center_pos );
-        const int text_width = utf8_width( element.camp->name, true );
+        const int text_width = utf8_width( element.camp->camp_name(), true );
         const int text_x_min = screen_pos.x - text_width / 2;
         const int text_x_max = text_x_min + text_width;
         const int text_y = screen_pos.y;
-        const std::string camp_name = element.camp->name;
+        const std::string camp_name = element.camp->camp_name();
         if( text_x_min < 0 ||
             text_x_max > win_x_max ||
             text_y < 0 ||
@@ -1215,6 +1218,7 @@ static void draw_om_sidebar( ui_adaptor &ui,
     print_hint( "DELETE_NOTE" );
     print_hint( "MARK_DANGER" );
     print_hint( "LIST_NOTES" );
+    print_hint( "CREATE_POINT_OF_INTEREST" );
     print_hint( "MISSIONS" );
     print_hint( "TOGGLE_MAP_NOTES", uistate.overmap_show_map_notes ? c_pink : c_magenta );
     print_hint( "TOGGLE_BLINKING", uistate.overmap_blinking ? c_pink : c_magenta );
@@ -1350,6 +1354,63 @@ static bool create_note( const tripoint_abs_omt &curs, std::optional<std::string
         }
     } else if( !esc_pressed && old_note != new_note ) {
         overmap_buffer.add_note( curs, new_note );
+        return true;
+    }
+    return false;
+}
+
+static bool create_point_of_interest( const tripoint_abs_omt &curs )
+{
+    std::string context = _( "Add a Point of Interest entry to the Mission UI" );
+    std::string title = _( "Description:" );
+    std::string new_note;
+
+    catacurses::window w_preview;
+    catacurses::window w_preview_title;
+    catacurses::window w_preview_map;
+    std::tuple<catacurses::window *, catacurses::window *, catacurses::window *> preview_windows;
+
+    ui_adaptor ui;
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        w_preview = catacurses::newwin( npm_height + 2,
+                                        max_note_display_length - npm_width - 1,
+                                        point( npm_width + 2, 2 ) );
+        w_preview_title = catacurses::newwin( 2, max_note_display_length + 1,
+                                              point::zero );
+        w_preview_map = catacurses::newwin( npm_height + 2, npm_width + 2,
+                                            point( 0, 2 ) );
+        preview_windows = std::make_tuple( &w_preview, &w_preview_title, &w_preview_map );
+
+        ui.position( point::zero, point( max_note_display_length + 1, npm_height + 4 ) );
+    } );
+    ui.mark_resize();
+
+    bool esc_pressed = false;
+    string_input_popup input_popup;
+    input_popup
+    .title( title )
+    .width( max_note_length )
+    .text( new_note )
+    .description( context )
+    .title_color( c_white )
+    .desc_color( c_light_gray )
+    .string_color( c_yellow )
+    .identifier( "map_note" );
+
+    do {
+        new_note = input_popup.query_string( false );
+        if( input_popup.canceled() ) {
+            new_note = "";
+            esc_pressed = true;
+            break;
+        } else if( input_popup.confirmed() ) {
+            break;
+        }
+        ui.invalidate_ui();
+    } while( true );
+
+    if( !esc_pressed && !new_note.empty() ) {
+        get_avatar().add_point_of_interest( {curs, new_note} );
         return true;
     }
     return false;
@@ -2000,6 +2061,7 @@ static tripoint_abs_omt display()
     ictxt.register_action( "MARK_DANGER" );
     ictxt.register_action( "SEARCH" );
     ictxt.register_action( "LIST_NOTES" );
+    ictxt.register_action( "CREATE_POINT_OF_INTEREST" );
     ictxt.register_action( "TOGGLE_MAP_NOTES" );
     ictxt.register_action( "TOGGLE_BLINKING" );
     ictxt.register_action( "TOGGLE_OVERLAYS" );
@@ -2139,6 +2201,8 @@ static tripoint_abs_omt display()
                 curs.x() = p.x();
                 curs.y() = p.y();
             }
+        } else if( action == "CREATE_POINT_OF_INTEREST" ) {
+            create_point_of_interest( curs );
         } else if( action == "GO_TO_DESTINATION" ) {
             avatar &player_character = get_avatar();
             if( !player_character.omt_path.empty() ) {

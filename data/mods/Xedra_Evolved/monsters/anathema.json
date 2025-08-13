@@ -415,7 +415,7 @@
       ]
     },
     "effect": [
-      { "math": [ "Anathema_Warnings", "+=", "1" ] },
+      { "math": [ "Anathema_Warnings += 1" ] },
       {
         "if": { "math": [ "Anathema_Warnings < 2" ] },
         "then": { "u_message": "Anathema_Warnings_Snippets", "snippet": true, "popup": true },

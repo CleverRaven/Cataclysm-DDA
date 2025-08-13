@@ -135,18 +135,18 @@
       {
         "if": { "npc_has_flag": "BLEEDSLOW2" },
         "then": [
-          { "math": [ "n_vitamin('blood')", "-=", "_vampire_amount_drained / 3" ] },
-          { "math": [ "n_vitamin('redcells')", "-=", "_vampire_amount_drained / 3" ] }
+          { "math": [ "n_vitamin('blood') -= _vampire_amount_drained / 3" ] },
+          { "math": [ "n_vitamin('redcells') -= _vampire_amount_drained / 3" ] }
         ],
         "else": {
           "if": { "npc_has_flag": "BLEEDSLOW" },
           "then": [
-            { "math": [ "n_vitamin('blood')", "-=", "_vampire_amount_drained / 1.5" ] },
-            { "math": [ "n_vitamin('redcells')", "-=", "_vampire_amount_drained / 1.5" ] }
+            { "math": [ "n_vitamin('blood') -= _vampire_amount_drained / 1.5" ] },
+            { "math": [ "n_vitamin('redcells') -= _vampire_amount_drained / 1.5" ] }
           ],
           "else": [
-            { "math": [ "n_vitamin('blood')", "-=", "_vampire_amount_drained" ] },
-            { "math": [ "n_vitamin('redcells')", "-=", "_vampire_amount_drained" ] }
+            { "math": [ "n_vitamin('blood') -= _vampire_amount_drained" ] },
+            { "math": [ "n_vitamin('redcells') -= _vampire_amount_drained" ] }
           ]
         }
       }
@@ -715,5 +715,28 @@
     "special_attacks": [ { "type": "bite", "cooldown": 15 } ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "WARM", "FLIES", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER" ]
+  },
+  {
+    "id": "mon_civilian_bloodbag",
+    "type": "MONSTER",
+    "name": { "str": "enthralled victim" },
+    "copy-from": "mon_civilian_stationary",
+    "description": "They just stand there, staring into the void, with a vacant expression on their face.  A multitude of small puncture scars can be seen on their neck.",
+    "default_faction": "vampire",
+    "//": "Vampire faction so they aren't killed by the vampires.  They're food, not foe.",
+    "//2": "Being fed and locked does wonders to keep them alive, so they don't die over time like the other civilians.",
+    "upgrades": false,
+    "//3": "When possible, apply a permanent dazed effect to them without needing a spell.  This effects allows vampires to drink from them at all times.",
+    "delete": { "flags": [ "CAN_OPEN_DOORS" ] },
+    "special_attacks": [
+      {
+        "type": "spell",
+        "id": "BLOODBAG_DAZE_SELF",
+        "condition": { "not": { "u_has_effect": "dazed" } },
+        "spell_data": { "id": "BLOODBAG_DAZE_SELF", "min_level": 1, "hit_self": true },
+        "cooldown": 1,
+        "allow_no_target": true
+      }
+    ]
   }
 ]

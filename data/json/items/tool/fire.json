@@ -14,7 +14,7 @@
     "symbol": ",",
     "color": "light_gray",
     "charges_per_use": 1,
-    "use_action": { "type": "firestarter" },
+    "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 6000 },
     "flags": [ "FIRESTARTER" ],
     "pocket_data": [
       {
@@ -82,7 +82,7 @@
     "initial_charges": 2000,
     "max_charges": 2000,
     "charges_per_use": 1,
-    "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 5000 },
+    "use_action": { "type": "firestarter", "moves": 3000, "moves_slow": 6000 },
     "flags": [ "FIRESTARTER", "REQUIRES_TINDER" ]
   },
   {
@@ -108,7 +108,8 @@
         "watertight": true
       }
     ],
-    "use_action": { "type": "firestarter", "moves": 50 },
+    "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
+    "use_action": { "type": "firestarter", "moves": 500, "moves_slow": 6000 },
     "flags": [ "FIRESTARTER", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
@@ -159,8 +160,9 @@
     "color": "brown",
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "tinder": 50 } } ],
-    "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 5000 },
-    "flags": [ "FIRESTARTER" ]
+    "//COMMENT": "Insert tinder, pump (possibly repeatedly), take ember out.",
+    "use_action": { "type": "firestarter", "moves": 6000, "moves_slow": 30000 },
+    "flags": [ "FIRESTARTER", "REQUIRES_TINDER" ]
   },
   {
     "id": "matches",
@@ -178,7 +180,8 @@
     "color": "blue",
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "holster": true, "ammo_restriction": { "match": 20 } } ],
-    "use_action": { "type": "firestarter", "moves": 40, "moves_slow": 1000 },
+    "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
+    "use_action": { "type": "firestarter", "moves": 500, "moves_slow": 6000 },
     "flags": [ "FIRESTARTER", "NO_RELOAD", "WATER_BREAK" ]
   },
   {
@@ -198,7 +201,8 @@
     "initial_charges": 1,
     "max_charges": 1,
     "charges_per_use": 1,
-    "use_action": { "type": "firestarter", "moves": 50, "moves_slow": 1000 },
+    "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
+    "use_action": { "type": "firestarter", "moves": 500, "moves_slow": 6000 },
     "flags": [ "FIRESTARTER", "BURNOUT" ]
   },
   {
@@ -218,7 +222,8 @@
     "color": "blue",
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "holster": true, "ammo_restriction": { "match": 32 } } ],
-    "use_action": { "type": "firestarter", "moves": 40, "moves_slow": 1000 },
+    "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
+    "use_action": { "type": "firestarter", "moves": 500, "moves_slow": 6000 },
     "flags": [ "FIRESTARTER", "WATER_BREAK" ]
   },
   {
@@ -244,6 +249,7 @@
         "watertight": true
       }
     ],
+    "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
     "use_action": [
       {
         "target": "ref_lighter_on",
@@ -254,7 +260,7 @@
         "menu_text": "Light up",
         "type": "transform"
       },
-      { "type": "firestarter", "moves": 50 }
+      { "type": "firestarter", "moves": 500, "moves_slow": 6000 }
     ],
     "flags": [ "FIRESTARTER" ],
     "tool_ammo": [ "lamp_oil" ]
@@ -284,8 +290,9 @@
     ],
     "turns_per_charge": 20,
     "revert_to": "ref_lighter",
+    "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
     "use_action": [
-      { "type": "firestarter", "moves": 40, "moves_slow": 500 },
+      { "type": "firestarter", "moves": 500, "moves_slow": 6000 },
       {
         "target": "ref_lighter",
         "msg": "You extinguish the lighter.",
@@ -313,7 +320,8 @@
     "color": "white",
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "butane_can" ] } ],
-    "use_action": { "type": "firestarter", "moves": 50, "moves_slow": 500 },
+    "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
+    "use_action": { "type": "firestarter", "moves": 500, "moves_slow": 6000 },
     "flags": [ "FIRESTARTER" ],
     "tool_ammo": [ "butane" ]
   },
@@ -359,8 +367,9 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "tinder": 50 } } ],
     "turns_per_charge": 600,
     "revert_to": "tinderbox",
+    "//COMMENT": "~30 seconds to get the tinder out and spreading under optimal conditions.",
     "use_action": [
-      { "type": "firestarter", "moves": 200, "moves_slow": 2000 },
+      { "type": "firestarter", "moves": 3000, "moves_slow": 30000 },
       {
         "target": "tinderbox",
         "msg": "The ember is extinguished.",
@@ -388,8 +397,9 @@
     "symbol": ",",
     "color": "blue",
     "charges_per_use": 1,
+    "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
     "use_action": [
-      { "type": "firestarter", "moves": 25 },
+      { "type": "firestarter", "moves": 500, "moves_slow": 6000 },
       { "type": "link_up", "cable_length": 3, "//": "USB 1/2 should take 2 hours for full", "charge_rate": "5 W" }
     ],
     "flags": [ "FIRESTARTER", "NO_UNLOAD", "NO_RELOAD", "ELECTRONIC" ],
@@ -415,7 +425,8 @@
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "rigid": true, "airtight": true, "ammo_restriction": { "butane": 50 }, "watertight": true }
     ],
-    "use_action": { "type": "firestarter", "moves": 50 },
+    "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
+    "use_action": { "type": "firestarter", "moves": 500, "moves_slow": 6000 },
     "flags": [ "FIRESTARTER", "NO_UNLOAD" ]
   }
 ]

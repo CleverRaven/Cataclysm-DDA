@@ -3612,8 +3612,12 @@ std::optional<int> iuse::molotov_lit( Character *p, item *it, const tripoint_bub
         return 1;
     }
 
-    // 20% chance of going out harmlessly.
-    if( one_in( 5 ) ) {
+    // 2% chance per turn of going out harmlessly.
+    // This is necessary to prevent a player from lighting a ton of molotovs and stuffing them in their backpack until pulling them out 6 weeks later.
+    // Note that moves are deducted (time is spent) when lighting the molotov, and each turn that passes before the player acts again can possibly succeed at this chance.
+    // That results in the player spending the time to light a molotov, but effectively wasting their time spent. So the chance of that happening should be very low.
+    // With the current (as of this writing) time to light a molotov being 2.5 seconds, this is a ~4% chance for a lit molotov to need to be lit a second time.
+    if( one_in( 50 ) ) {
         p->add_msg_if_player( _( "Your lit Molotov goes out." ) );
         it->convert( itype_molotov, p ).active = false;
     }

@@ -236,7 +236,7 @@ bool set_up_butchery( player_activity &act, Character &you, butchery_data bd )
     const mtype &corpse = *corpse_item.get_mtype();
 
     if( bd.b_type != butcher_type::DISSECT ) {
-        if( factor == 0 ) {
+        if( factor == INT_MIN ) {
             you.add_msg_if_player( m_info,
                                    _( "None of your cutting tools are suitable for butchering." ) );
             act.set_to_null();
@@ -875,10 +875,8 @@ bool butchery_drops_harvest( butchery_data bt, Character &you )
                 // If we're not bleeding the animal we don't care about the blood being wasted
                 if( action != butcher_type::BLEED ) {
                     drop_on_map( you, item_drop_reason::deliberate, { obj }, &here, corpse_loc );
-                } else if( you.is_avatar() ) {
-                    liquid_handler::handle_all_liquid( obj, 1 );
                 } else {
-                    liquid_handler::handle_npc_liquid( obj, you );
+                    liquid_handler::handle_all_or_npc_liquid( you, obj, 1 );
                 }
             } else if( drop->count_by_charges() ) {
                 std::vector<item> objs = create_charge_items( drop, roll, entry, &corpse_item, you );

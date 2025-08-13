@@ -39,13 +39,13 @@
     "type": "effect_on_condition",
     "id": "EOC_THAUMIC_ZOMBIE_MANA_DRAIN",
     "condition": "npc_is_character",
-    "effect": [ { "math": [ "n_val('mana')", "-=", "5" ] } ]
+    "effect": [ { "math": [ "n_val('mana') -= 5" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_THAUMIC_ZOMBIE_MANA_DRAIN_BITE",
     "condition": "npc_is_character",
-    "effect": [ { "math": [ "n_val('mana')", "-=", "15" ] } ]
+    "effect": [ { "math": [ "n_val('mana') -= 15" ] } ]
   },
   {
     "type": "MONSTER",

@@ -332,6 +332,8 @@ class enchant_cache : public enchantment
 
         // modifies character stats, or does other passive effects
         void activate_passive( Character &guy ) const;
+        template<typename TKey>
+        double get_value( const TKey &value, const std::map<TKey, double> &value_map ) const;
         double get_value_add( enchant_vals::mod value ) const;
         double get_value_multiply( enchant_vals::mod value ) const;
         int mult_bonus( enchant_vals::mod value_type, int base_value ) const;
@@ -365,6 +367,12 @@ class enchant_cache : public enchantment
         // casts all the hit_me_effects on self or a target depending on the enchantment definition
         void cast_hit_me( Character &caster, const Creature *target ) const;
         void cast_hit_me( Creature &caster, const Creature *target ) const;
+
+        template<typename TKey>
+        void save_add_and_multiply( JsonOut &jsout, const std::string_view &member_key,
+                                    const std::string &type_key, const std::map<TKey, double> &add_map,
+                                    const std::map<TKey, double> &mult_map ) const;
+
         void serialize( JsonOut &jsout ) const;
         void add_value_add( enchant_vals::mod value, int add_value );
 

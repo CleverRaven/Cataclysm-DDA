@@ -603,7 +603,10 @@ static void GENERATOR_pre_burn( map &md,
             continue; // failed roll
         }
         for( tripoint_bub_ms current_tile : all_points_in_map ) {
-            if( md.has_flag_ter( ter_furn_flag::TFLAG_NATURAL_UNDERGROUND, current_tile ) ) {
+            if( md.has_flag_ter( ter_furn_flag::TFLAG_NATURAL_UNDERGROUND, current_tile ) ||
+                md.has_flag_ter( ter_furn_flag::TFLAG_GOES_DOWN, current_tile ) ||
+                md.has_flag_ter( ter_furn_flag::TFLAG_GOES_UP, current_tile ) ) {
+                // skip natural underground walls, or any stairs. (Even man-made or wooden stairs)
                 continue;
             }
             if( md.has_flag_ter( ter_furn_flag::TFLAG_WALL, current_tile ) ) {
@@ -889,6 +892,38 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
     }
 
     set_abs_sub( p_sm_base );
+}
+
+class spawn_data_ammo_reader : public generic_typed_reader<spawn_data_ammo_reader>
+{
+    public:
+        std::pair<itype_id, jmapgen_int> get_next( const JsonValue &jv ) const {
+            if( !jv.test_object() ) {
+                jv.throw_error( "Invalid format" );
+            }
+            JsonObject jo = jv.get_object();
+            return std::pair<itype_id, jmapgen_int> { jo.get_string( "ammo_id" ), jmapgen_int( jo, "qty" ) };
+        }
+};
+
+class spawn_data_patrol_reader : public generic_typed_reader<spawn_data_patrol_reader>
+{
+    public:
+        point_rel_ms get_next( const JsonValue &jv ) const {
+            if( !jv.test_object() ) {
+                jv.throw_error( "Invalid format" );
+            }
+            JsonObject jo = jv.get_object();
+            jmapgen_int ptx( jo, "x" );
+            jmapgen_int pty( jo, "y" );
+            return point_rel_ms( ptx.get(), pty.get() );
+        }
+};
+
+void spawn_data::deserialize( const JsonObject &jo )
+{
+    optional( jo, false, "ammo", ammo, spawn_data_ammo_reader{} );
+    optional( jo, false, "patrol", patrol_points_rel_ms, spawn_data_patrol_reader{} );
 }
 
 void map::delete_unmerged_submaps()
@@ -3051,26 +3086,7 @@ class jmapgen_monster : public jmapgen_piece
                 debugmsg( "Invalid random name '%s'", random_name_str );
             }
 
-            if( jsi.has_object( "spawn_data" ) ) {
-                const JsonObject &sd = jsi.get_object( "spawn_data" );
-                if( sd.has_array( "ammo" ) ) {
-                    const JsonArray &ammos = sd.get_array( "ammo" );
-                    for( const JsonObject adata : ammos ) {
-                        data.ammo.emplace( itype_id( adata.get_string( "ammo_id" ) ),
-                                           jmapgen_int( adata, "qty" ) );
-                    }
-                }
-                if( sd.has_array( "patrol" ) ) {
-                    const JsonArray &patrol_pts = sd.get_array( "patrol" );
-                    for( const JsonObject p_pt : patrol_pts ) {
-                        jmapgen_int ptx = jmapgen_int( p_pt, "x" );
-                        jmapgen_int pty = jmapgen_int( p_pt, "y" );
-                        //"unnecessary" temporary object created while calling emplace_back [modernize-use-emplace,-warnings-as-errors]
-                        const point_rel_ms work_around = point_rel_ms( ptx.get(), pty.get() );
-                        data.patrol_points_rel_ms.emplace_back( work_around );
-                    }
-                }
-            }
+            optional( jsi, false, "spawn_data", data );
         }
 
         void check( const std::string &oter_name, const mapgen_parameters &parameters,

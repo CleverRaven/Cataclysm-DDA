@@ -1770,6 +1770,13 @@ void options_manager::add_options_general()
 
         get_option( "AMBIENT_SOUND_VOLUME" ).setPrerequisite( "SOUND_ENABLED" );
     } );
+
+    add_empty_line();
+
+    add( "WORLD_COMPRESSION2", "general", to_translation( "World data compression" ),
+         to_translation( "If true, new worlds store data in a compressed format." ),
+         true
+       );
 }
 
 void options_manager::add_options_interface()
@@ -1828,6 +1835,9 @@ void options_manager::add_options_interface()
             { "24h", to_translation( "24h" ) }
         },
         "12h" );
+        add( "SHOW_MONTHS", page_id, to_translation( "Show day/month" ),
+             to_translation( "Show day/month instead of season in time displays." ),
+             true );
         add( "SHOW_VITAMIN_MASS", page_id, to_translation( "Show vitamin masses" ),
              to_translation( "Display the masses of vitamins in addition to units/RDA values in item descriptions." ),
              true );
@@ -2748,11 +2758,6 @@ void options_manager::add_options_world_default()
         { "reset", to_translation( "Reset" ) }, { "delete", to_translation( "Delete" ) },
         { "query", to_translation( "Query" ) }, { "keep", to_translation( "Keep" ) }
     }, "reset"
-       );
-
-    add( "WORLD_COMPRESSION", "world_default", to_translation( "World data compression" ),
-         to_translation( "If true, new worlds store data in a compressed format." ),
-         false
        );
 
     add_empty_line();
@@ -3975,7 +3980,17 @@ void options_manager::deserialize( const JsonArray &ja )
     for( JsonObject joOptions : ja ) {
         joOptions.allow_omitted_members();
 
+        // yay hardcoded list! remove after 0.J
+        std::vector<std::string> removed_options = { "DISTANCE_INITIAL_VISIBILITY", "FOV_3D_Z_RANGE",
+                                                     "INITIAL_STAT_POINTS", "INITIAL_TRAIT_POINTS", "INITIAL_SKILL_POINTS", "MAX_TRAIT_POINTS",
+                                                     "SKILL_TRAINING_SPEED", "PROFICIENCY_TRAINING_SPEED"
+                                                   };
+
         const std::string name = migrateOptionName( joOptions.get_string( "name" ) );
+
+        if( std::find( removed_options.begin(), removed_options.end(), name ) != removed_options.end() ) {
+            continue; // option was removed so we just don't do anything here.
+        }
         const std::string value = migrateOptionValue( joOptions.get_string( "name" ),
                                   joOptions.get_string( "value" ) );
 

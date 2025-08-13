@@ -196,9 +196,10 @@
 #include "translation_cache.h"
 #include "translations.h"
 #include "trap.h"
-#include "uilist.h"
+#include "ui_helpers.h"
 #include "ui_extended_description.h"
 #include "ui_manager.h"
+#include "uilist.h"
 #include "uistate.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -309,6 +310,7 @@ static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 static const json_character_flag json_flag_INFECTION_IMMUNE( "INFECTION_IMMUNE" );
 static const json_character_flag json_flag_ITEM_WATERPROOFING( "ITEM_WATERPROOFING" );
 static const json_character_flag json_flag_NYCTOPHOBIA( "NYCTOPHOBIA" );
+static const json_character_flag json_flag_PHASE_MOVEMENT( "PHASE_MOVEMENT" );
 static const json_character_flag json_flag_VINE_RAPPEL( "VINE_RAPPEL" );
 static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
 static const json_character_flag json_flag_WEB_RAPPEL( "WEB_RAPPEL" );
@@ -2302,13 +2304,8 @@ int game::inventory_item_menu( item_location locThisItem,
                     }
                     addentry( 'v', pgettext( "action", "pocket settings" ), hint_rating::good );
                 }
-
-                if( oThisItem.is_favorite ) {
-                    addentry( 'f', pgettext( "action", "unfavorite" ), hint_rating::good );
-                } else {
-                    addentry( 'f', pgettext( "action", "favorite" ), hint_rating::good );
-                }
-
+                addentry( 'f', pgettext( "action", oThisItem.is_favorite ? "unfavorite" : "favorite" ),
+                          hint_rating::good );
                 addentry( 'V', pgettext( "action", "view recipe" ), rate_action_view_recipe( u, oThisItem ) );
                 addentry( '>', pgettext( "action", "hide contents" ), rate_action_collapse( oThisItem ) );
                 addentry( '<', pgettext( "action", "show contents" ), rate_action_expand( oThisItem ) );
@@ -2324,23 +2321,6 @@ int game::inventory_item_menu( item_location locThisItem,
 
                 popup_width += ImGui::CalcTextSize( " [X] " ).x + 2 * ( ImGui::GetStyle().WindowPadding.x +
                                ImGui::GetStyle().WindowBorderSize );
-                float x = 0.0;
-                switch( position ) {
-                    default:
-                    case RIGHT_TERMINAL_EDGE:
-                        x = 0.0;
-                        break;
-                    case LEFT_OF_INFO:
-                        x = ( iStartX() * ImGui::CalcTextSize( "X" ).x ) - popup_width;
-                        break;
-                    case RIGHT_OF_INFO:
-                        x = ( iStartX() + iWidth() ) * ImGui::CalcTextSize( "X" ).x;
-                        break;
-                    case LEFT_TERMINAL_EDGE:
-                        x = ImGui::GetMainViewport()->Size.x - popup_width;
-                        break;
-                }
-                action_menu.desired_bounds = { x, 0.0, popup_width, -1.0 };
                 // Filtering isn't needed, the number of entries is manageable.
                 action_menu.filtering = false;
                 // Default menu border color is different, this matches the border of the item info window.
@@ -2350,10 +2330,29 @@ int game::inventory_item_menu( item_location locThisItem,
                 data.without_getch = true;
 
                 ui = std::make_unique<ui_adaptor>();
+                float x = 0.0;
                 ui->on_screen_resize( [&]( ui_adaptor & ui ) {
                     w_info = catacurses::newwin( TERMY, iWidth(), point( iStartX(), 0 ) );
                     iScrollHeight = TERMY - 2;
                     ui.position_from_window( w_info );
+
+                    switch( position ) {
+                        default:
+                        case RIGHT_TERMINAL_EDGE:
+                            x = 0.0;
+                            break;
+                        case LEFT_OF_INFO:
+                            x = ( iStartX() * ImGui::CalcTextSize( "X" ).x ) - popup_width;
+                            break;
+                        case RIGHT_OF_INFO:
+                            x = ( iStartX() + iWidth() ) * ImGui::CalcTextSize( "X" ).x;
+                            break;
+                        case LEFT_TERMINAL_EDGE:
+                            x = ImGui::GetMainViewport()->Size.x - popup_width;
+                            break;
+                    }
+                    action_menu.desired_bounds = { x, 0.0, popup_width, -1.0 };
+                    action_menu.reposition();
                 } );
                 ui->mark_resize();
 
@@ -2370,7 +2369,7 @@ int game::inventory_item_menu( item_location locThisItem,
             }
 
             const int prev_selected = action_menu.selected;
-            action_menu.query( false );
+            action_menu.query( true );
             if( action_menu.ret >= 0 ) {
                 cMenu = action_menu.ret; /* Remember: hotkey == retval, see addentry above. */
             } else if( action_menu.ret == UILIST_UNBOUND && action_menu.ret_act == "RIGHT" ) {
@@ -3836,10 +3835,7 @@ void game::disp_NPCs()
     catacurses::window w;
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                point( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
-                                       TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) );
-        ui.position_from_window( w );
+        ui_helpers::full_screen_window( ui, &w );
     } );
     ui.mark_resize();
     ui.on_redraw( [&]( const ui_adaptor & ) {
@@ -5556,89 +5552,118 @@ bool game::swap_critters( Creature &a, Creature &b )
 {
     map &here = get_map();
 
-    const tripoint_bub_ms a_pos = a.pos_bub( );
-    const tripoint_bub_ms b_pos = b.pos_bub( );
+    Creature *lhs = &a;
+    Creature *rhs = &b;
 
-    if( &a == &b ) {
+    if( rhs->as_character() && !lhs->as_character() ) {
+        std::swap( lhs, rhs ); // LHS will always be a character if either is a character
+    }
+
+    // Possible options:
+    // LHS and RHS are both monsters
+    // LHS is character, RHS is monster
+    // LHS is character, RHS is character
+    // This is simply to make it easier to follow the code.
+
+    const tripoint_bub_ms lhs_cached_pos = lhs->pos_bub( );
+    const tripoint_bub_ms rhs_cached_pos = rhs->pos_bub( );
+
+    if( lhs == rhs ) {
         // No need to do anything, but print a debugmsg anyway
-        debugmsg( "Tried to swap %s with itself", a.disp_name() );
+        debugmsg( "Tried to swap %s with itself", lhs->disp_name() );
         return true;
     }
     creature_tracker &creatures = get_creature_tracker();
-    if( creatures.creature_at( a_pos ) != &a ) {
-        if( creatures.creature_at( a_pos ) == nullptr ) {
+    if( creatures.creature_at( lhs_cached_pos ) != &a ) {
+        if( creatures.creature_at( lhs_cached_pos ) == nullptr ) {
             debugmsg( "Tried to swap %s and %s when the latter isn't present at its own location %s.",
-                      b.disp_name(), a.disp_name(), a_pos.to_string() );
+                      rhs->disp_name(), lhs->disp_name(), lhs_cached_pos.to_string() );
         } else {
             debugmsg( "Tried to swap when it would cause a collision between %s and %s.",
-                      b.disp_name(), creatures.creature_at( a_pos )->disp_name() );
+                      rhs->disp_name(), creatures.creature_at( lhs_cached_pos )->disp_name() );
         }
         return false;
     }
-    if( creatures.creature_at( b_pos ) != &b ) {
-        if( creatures.creature_at( b_pos ) == nullptr ) {
+    if( creatures.creature_at( rhs_cached_pos ) != &b ) {
+        if( creatures.creature_at( rhs_cached_pos ) == nullptr ) {
             debugmsg( "Tried to swap %s and %s when the latter isn't present at its own location %s.",
-                      a.disp_name(), b.disp_name(), b_pos.to_string() );
+                      lhs->disp_name(), rhs->disp_name(), rhs_cached_pos.to_string() );
         } else {
             debugmsg( "Tried to swap when it would cause a collision between %s and %s.",
-                      a.disp_name(), creatures.creature_at( b_pos )->disp_name() );
+                      lhs->disp_name(), creatures.creature_at( rhs_cached_pos )->disp_name() );
         }
         return false;
     }
-    // Simplify by "sorting" the arguments
-    // Only the first argument can be u
-    // If swapping player/npc with a monster, monster is second
-    bool a_first = a.is_avatar() ||
-                   ( a.is_npc() && !b.is_avatar() );
-    Creature &first  = a_first ? a : b;
-    Creature &second = a_first ? b : a;
-    // Possible options:
-    // both first and second are monsters
-    // second is a monster, first is a player or an npc
-    // first is a player, second is an npc
-    // both first and second are npcs
-    if( first.is_monster() ) {
-        monster *m1 = dynamic_cast< monster * >( &first );
-        monster *m2 = dynamic_cast< monster * >( &second );
-        if( m1 == nullptr || m2 == nullptr || m1 == m2 ) {
+
+    if( lhs->is_monster() ) { // then we have two monsters.
+        monster *lhs_as_mon = dynamic_cast< monster * >( lhs );
+        monster *rhs_as_mon = dynamic_cast< monster * >( rhs );
+        if( lhs_as_mon == nullptr || rhs_as_mon == nullptr || lhs_as_mon == rhs_as_mon ) {
             debugmsg( "Couldn't swap two monsters" );
             return false;
         }
 
-        critter_tracker->swap_positions( *m1, *m2 );
+        critter_tracker->swap_positions( *lhs_as_mon, *rhs_as_mon );
         return true;
     }
 
-    Character *u_or_npc = dynamic_cast< Character * >( &first );
-    // Issue https://github.com/CleverRaven/Cataclysm-DDA/issues/80245
-    // second can be a monster, in that case other_npc will be NULL
-    Character *other_npc = dynamic_cast< Character * >( &second );
-    const tripoint_bub_ms u_or_npc_pos = u_or_npc->pos_bub( );
-    const tripoint_bub_ms other_npc_pos = second.pos_bub( );
+    // If we've reached here, LHS must be a character. RHS *might* be a character.
+    Character *lhs_as_char = static_cast< Character * >( lhs );
 
-    if( u_or_npc->in_vehicle ) {
-        here.unboard_vehicle( u_or_npc_pos );
-    }
-
-    if( other_npc && other_npc->in_vehicle ) {
-        here.unboard_vehicle( other_npc_pos );
-    }
-
-    tripoint_bub_ms temp = second.pos_bub( );
-    second.setpos( here, first.pos_bub( ) );
-
-    if( first.is_avatar() ) {
-        walk_move( temp );
-    } else {
-        first.setpos( here, temp );
-        if( here.veh_at( u_or_npc_pos ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
-            here.board_vehicle( u_or_npc_pos, u_or_npc );
+    // Case: character swaps with monster.
+    if( rhs->as_monster() ) {
+        if( lhs_as_char->in_vehicle ) { // unboard lhs always...
+            here.unboard_vehicle( lhs_cached_pos );
+        }
+        // Go ahead and move rhs, so the destination is clear
+        rhs->setpos( here, lhs_cached_pos );
+        if( lhs->as_avatar() ) {
+            walk_move( rhs_cached_pos ); // Does vehicle boarding! Do not double board! DON'T DO IT! >:(
+            return true;
+        } else {
+            if( here.veh_at( rhs_cached_pos ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
+                here.board_vehicle( rhs_cached_pos, lhs_as_char );
+            }
+            lhs->setpos( here, rhs_cached_pos );
+            return true;
         }
     }
 
-    if( other_npc && here.veh_at( other_npc_pos ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
-        here.board_vehicle( other_npc_pos, other_npc );
+    // If we've reached here, both LHS and RHS are characters. So we need to do some real juggling...
+    Character *rhs_as_char = static_cast< Character * >( rhs );
+
+    // Make sure we're both unboarded.
+    if( lhs_as_char->in_vehicle ) {
+        here.unboard_vehicle( lhs_cached_pos );
     }
+    if( rhs_as_char->in_vehicle ) {
+        here.unboard_vehicle( rhs_cached_pos );
+    }
+
+    if( lhs->as_avatar() ) {
+        if( here.veh_at( lhs_cached_pos ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
+            here.board_vehicle( lhs_cached_pos, rhs_as_char ); // sets position!
+        }
+        rhs->setpos( here, lhs_cached_pos ); // If board vehicle didn't move us, harmless otherwise.
+        walk_move( rhs_cached_pos ); // boards if needed!
+        return true;
+    } else if( rhs->as_avatar() ) {
+        if( here.veh_at( rhs_cached_pos ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
+            here.board_vehicle( rhs_cached_pos, lhs_as_char );
+        }
+        lhs->setpos( here, rhs_cached_pos );
+        walk_move( lhs_cached_pos );
+        return true;
+    }
+    // Two NPCs, oh boy! no walk_move() here.
+    if( here.veh_at( rhs_cached_pos ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
+        here.board_vehicle( rhs_cached_pos, lhs_as_char );
+    }
+    if( here.veh_at( lhs_cached_pos ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
+        here.board_vehicle( lhs_cached_pos, rhs_as_char );
+    }
+    lhs->setpos( here, rhs_cached_pos );
+    rhs->setpos( here, lhs_cached_pos );
     return true;
 }
 
@@ -5732,6 +5757,10 @@ bool game::revive_corpse( const tripoint_bub_ms &p, item &it, int radius )
         for( auto &ammo : critter.ammo ) {
             ammo.second = 0;
         }
+    }
+
+    if( it.get_var( "times_combatted", 0.0 ) > 0.0 ) {
+        critter.times_combatted_player = it.get_var( "times_combatted", 0.0 );
     }
 
     return place_critter_around( newmon_ptr, tripoint_bub_ms( p ), radius );
@@ -10588,6 +10617,10 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint_bub_ms &dest_l
 bool game::walk_move( const tripoint_bub_ms &dest_loc, const bool via_ramp,
                       const bool furniture_move )
 {
+    if( u.has_flag( json_flag_PHASE_MOVEMENT ) ) {
+        place_player( dest_loc );
+        return true; // debug trait immunity to gravity, walls etc
+    }
     map &here = get_map();
     const tripoint_bub_ms pos = u.pos_bub( here );
 
@@ -13454,7 +13487,7 @@ void game::init_autosave()
 void game::quicksave()
 {
     //Don't autosave if the player hasn't done anything since the last autosave/quicksave,
-    if( !moves_since_last_save ) {
+    if( !moves_since_last_save && !world_generator->active_world->world_saves.empty() ) {
         return;
     }
     add_msg( m_info, _( "Saving game, this may take a while." ) );
@@ -14409,21 +14442,13 @@ void avatar_moves( const tripoint_abs_ms &old_abs_pos, const avatar &u, const ma
         if( !past_ter->get_exit_EOC().is_null() ) {
             dialogue d( get_talker_for( get_avatar() ), nullptr );
             effect_on_condition_id eoc = cur_ter->get_exit_EOC();
-            if( eoc->type == eoc_type::ACTIVATION ) {
-                eoc->activate( d );
-            } else {
-                debugmsg( "Must use an activation eoc for OMT movement.  Otherwise, create a non-recurring effect_on_condition for this with its condition and effects, then have a recurring one queue it." );
-            }
+            eoc->activate_activation_only( d, "OMT movement" );
         }
 
         if( !cur_ter->get_entry_EOC().is_null() ) {
             dialogue d( get_talker_for( get_avatar() ), nullptr );
             effect_on_condition_id eoc = cur_ter->get_entry_EOC();
-            if( eoc->type == eoc_type::ACTIVATION ) {
-                eoc->activate( d );
-            } else {
-                debugmsg( "Must use an activation eoc for OMT movement.  Otherwise, create a non-recurring effect_on_condition for this with its condition and effects, then have a recurring one queue it." );
-            }
+            eoc->activate_activation_only( d, "OMT movement" );
         }
 
     }

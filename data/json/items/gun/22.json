@@ -25,7 +25,6 @@
     "material": [ "iron", "wood" ],
     "range": 7,
     "ammo": [ "22" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": 5 },
     "dispersion": 90,
     "clip_size": 19,
     "valid_mod_locations": [
@@ -65,7 +64,6 @@
     "price_postapoc": "5 USD",
     "material": [ "steel", "wood" ],
     "ammo": [ "22" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 550,
     "durability": 6,
     "blackpowder_tolerance": 60,
@@ -97,12 +95,11 @@
     "weight": "2270 g",
     "volume": "2120 ml",
     "longest_side": "942 mm",
-    "barrel_length": "406 mm",
+    "barrel_length": "470 mm",
     "price": "270 USD",
     "material": [ "steel", "wood" ],
     "range": 6,
     "//range": "It is a blowback action, like most non-target, sporting rifles of this caliber.",
-    "ranged_damage": { "damage_type": "bullet", "amount": 4 },
     "dispersion": 110,
     "barrel_volume": "500 ml",
     "valid_mod_locations": [
@@ -211,7 +208,6 @@
     "barrel_length": "99 mm",
     "price": "360 USD",
     "material": [ "aluminum", "steel", "plastic" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 480,
     "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mosquitomag" ] } ]
@@ -358,7 +354,6 @@
     "material": [ "steel", "wood", "aluminum" ],
     "range": 7,
     "ammo": [ "22" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": 3 },
     "dispersion": 140,
     "clip_size": 15,
     "valid_mod_locations": [
@@ -416,7 +411,6 @@
     "barrel_length": "254 mm",
     "price": "288 USD 99 cent",
     "range": 2,
-    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 340,
     "variant_type": "gun",
     "variants": [
@@ -444,7 +438,6 @@
     "price": "749 USD 99 cent",
     "price_postapoc": "10 USD",
     "material": [ "steel" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 320,
     "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [ { "magazine_well": "40 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "1911_22_mag" ] } ],
@@ -484,7 +477,6 @@
     "material": [ "steel", "wood", "aluminum" ],
     "range": 5,
     "ammo": [ "22" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": 3 },
     "dispersion": 110,
     "clip_size": 15,
     "valid_mod_locations": [
@@ -527,7 +519,6 @@
     "material": [ "steel", "wood", "aluminum", "brass" ],
     "range": 6,
     "ammo": [ "22" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": 3 },
     "dispersion": 100,
     "clip_size": 16,
     "valid_mod_locations": [
@@ -567,7 +558,6 @@
     "price": "250 USD",
     "material": [ "steel", "wood" ],
     "range": 6,
-    "ranged_damage": { "damage_type": "bullet", "amount": 3 },
     "dispersion": 110,
     "flags": [ "RELOAD_ONE" ],
     "clip_size": 14,
@@ -628,7 +618,6 @@
     "barrel_length": "89 mm",
     "price": "559 USD",
     "material": [ "steel" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 320,
     "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [ { "magazine_well": "40 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "sr22_mag" ] } ],
@@ -656,7 +645,6 @@
     "price": "380 USD",
     "price_postapoc": "10 USD",
     "material": [ "steel", "plastic" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 580,
     "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [ { "magazine_well": "40 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glock44_mag" ] } ]
@@ -688,7 +676,6 @@
     "melee_damage": { "bash": 7 },
     "range": 4,
     "ammo": [ "22" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": 3 },
     "dispersion": 100,
     "clip_size": 1,
     "valid_mod_locations": [

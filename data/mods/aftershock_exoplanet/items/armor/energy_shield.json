@@ -226,7 +226,7 @@
             },
             "then": [
               { "math": [ "n_shield_turn = 0" ] },
-              { "math": [ "n_ENERGY_SHIELD_HP", "+=", "n_SHIELD_REGEN" ] },
+              { "math": [ "n_ENERGY_SHIELD_HP += n_SHIELD_REGEN" ] },
               {
                 "math": [
                   "n_ENERGY_SHIELD_HP",

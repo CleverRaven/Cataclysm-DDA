@@ -1060,6 +1060,13 @@ class item : public visitable
         bool count_by_charges() const;
 
         /**
+         * Compress liquids and counted-by-charges items into one item.
+         * They are added together on the map anyway and handle_liquid
+         * should only be called once to put it all into a container at once.
+         */
+        void compress_charges_or_liquid( int &compcount );
+
+        /**
          * If count_by_charges(), returns charges, otherwise 1
          */
         int count() const;

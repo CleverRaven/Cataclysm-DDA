@@ -379,7 +379,7 @@ an exhaustive example...
     "eoc": {
       "id": "EOC_REFUGEE_CENTER_GENERATE", 
       "condition": { "math": [ "refugee_centers < 1" ] }, 
-      "effect": [ { "math": [ "refugee_centers", "++" ] } ]
+      "effect": [ { "math": [ "refugee_centers++" ] } ]
     },
     "entry_eoc": "EOC_ENTERED_SECRET_FIELD",
     "exity_eoc": "EOC_LEFT_SECRET_FIELD"
@@ -489,6 +489,9 @@ overmap, specials that failed placement don't get disqualified and can be rolled
 until all sectors are occupied). For specials that are not common enough to warrant appearing more
 than once per overmap please use the "OVERMAP_UNIQUE" flag. For specials that should only have one instance
 per world use "GLOBALLY_UNIQUE".
+
+NOTE: currently, minimum occurences are NOT enforced in-game but ARE enforced by 
+test case `default_overmap_generation_always_succeeds`.
 
 ### Occurrences ( OVERMAP_UNIQUE, GLOBALLY_UNIQUE )
 

@@ -513,9 +513,159 @@
         "max_item_length": "30 cm"
       }
     ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED" ],
     "armor": [
       { "encumbrance": 6, "coverage": 35, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] },
+      {
+        "encumbrance": 3,
+        "volume_encumber_modifier": 0,
+        "coverage": 60,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
+      }
+    ]
+  },
+  {
+    "id": "bandolier_pipebomb_xs",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "large grenade bandolier" },
+    "description": "A homemade nylon bandolier covering the upper chest while supported by straps on both shoulders.  While fairly hefty and cumbersome when full, it does allow the wearer to carry larger grenades such as pipebombs or Molotovs.",
+    "weight": "623 g",
+    "volume": "548 ml",
+    "price": "19 USD",
+    "price_postapoc": "4 USD",
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "leather_belt",
+    "color": "dark_gray",
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "moves": 140,
+        "flag_restriction": [ "CYLINDER_GRENADE" ],
+        "holster": true,
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1200 g",
+        "max_item_length": "30 cm"
+      },
+      {
+        "moves": 140,
+        "flag_restriction": [ "CYLINDER_GRENADE" ],
+        "holster": true,
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1200 g",
+        "max_item_length": "30 cm"
+      },
+      {
+        "moves": 140,
+        "flag_restriction": [ "CYLINDER_GRENADE" ],
+        "holster": true,
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1200 g",
+        "max_item_length": "30 cm"
+      }
+    ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "UNDERSIZE", "PREFIX_XS" ],
+    "armor": [
+      {
+        "encumbrance": 6,
+        "volume_encumber_modifier": 1.4,
+        "coverage": 35,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ]
+      },
+      {
+        "encumbrance": 3,
+        "volume_encumber_modifier": 0,
+        "coverage": 60,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
+      }
+    ]
+  },
+  {
+    "id": "bandolier_pipebomb_xl",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "large grenade bandolier" },
+    "description": "A homemade nylon bandolier covering the upper chest while supported by straps on both shoulders.  While fairly hefty and cumbersome when full, it does allow the wearer to carry larger grenades such as pipebombs or Molotovs.",
+    "weight": "934 g",
+    "volume": "825 ml",
+    "price": "19 USD",
+    "price_postapoc": "4 USD",
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "leather_belt",
+    "color": "dark_gray",
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "moves": 140,
+        "flag_restriction": [ "CYLINDER_GRENADE" ],
+        "holster": true,
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1200 g",
+        "max_item_length": "30 cm"
+      },
+      {
+        "moves": 140,
+        "flag_restriction": [ "CYLINDER_GRENADE" ],
+        "holster": true,
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1200 g",
+        "max_item_length": "30 cm"
+      },
+      {
+        "moves": 140,
+        "flag_restriction": [ "CYLINDER_GRENADE" ],
+        "holster": true,
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1200 g",
+        "max_item_length": "30 cm"
+      },
+      {
+        "moves": 140,
+        "flag_restriction": [ "CYLINDER_GRENADE" ],
+        "holster": true,
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1200 g",
+        "max_item_length": "30 cm"
+      },
+      {
+        "moves": 140,
+        "flag_restriction": [ "CYLINDER_GRENADE" ],
+        "holster": true,
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1200 g",
+        "max_item_length": "30 cm"
+      },
+      {
+        "moves": 140,
+        "flag_restriction": [ "CYLINDER_GRENADE" ],
+        "holster": true,
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1200 g",
+        "max_item_length": "30 cm"
+      },
+      {
+        "moves": 140,
+        "flag_restriction": [ "CYLINDER_GRENADE" ],
+        "holster": true,
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1200 g",
+        "max_item_length": "30 cm"
+      }
+    ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "PREFIX_XL" ],
+    "armor": [
+      {
+        "encumbrance": 6,
+        "volume_encumber_modifier": 0.8,
+        "coverage": 35,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ]
+      },
       {
         "encumbrance": 3,
         "volume_encumber_modifier": 0,

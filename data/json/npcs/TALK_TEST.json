@@ -880,7 +880,7 @@
       {
         "text": "This is an math test response that increments by 2.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "n_test_var_compare_test_test", "+=", "2" ] }
+        "effect": { "math": [ "n_test_var_compare_test_test += 2" ] }
       },
       {
         "text": "This is a u_add_var time test response.",
@@ -1175,7 +1175,7 @@
       {
         "text": "Learns Test Proficiency for 1h",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_proficiency('prof_test', 'format': 'time_spent')", "+=", "time('1h')" ] }
+        "effect": { "math": [ "u_proficiency('prof_test', 'format': 'time_spent') += time('1h')" ] }
       }
     ]
   },

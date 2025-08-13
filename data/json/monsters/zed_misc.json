@@ -314,7 +314,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_NEMESIS_DIED",
-    "effect": [ { "math": [ "Nemesis_iteration", "+=", "1" ] } ]
+    "effect": [ { "math": [ "Nemesis_iteration += 1" ] } ]
   },
   {
     "id": "mon_zombie_grabber",

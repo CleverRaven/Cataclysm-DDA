@@ -670,8 +670,8 @@
     "condition": { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
     "effect": [
       { "math": [ "u_val('sleepiness') = min(u_val('sleepiness') + ps_str + 20, 1200)" ] },
-      { "math": [ "u_val('stamina')", "*=", "ps_str + 50" ] },
-      { "math": [ "u_sleep_deprivation", "+=", "time('1 minutes')" ] }
+      { "math": [ "u_val('stamina') *= ps_str + 50" ] },
+      { "math": [ "u_sleep_deprivation += time('1 minutes')" ] }
     ]
   },
   {
@@ -698,14 +698,14 @@
         "duration": "36 hours",
         "decay_start": "24 hours"
       },
-      { "math": [ "u_pain()", "+=", "3" ] },
+      { "math": [ "u_pain() += 3" ] },
       { "math": [ "u_madness = 0" ] },
       {
         "u_message": "Your mind lurches, the shapes and figures dance across your vision, you feel like your head is going to explode."
       }
     ],
     "false_effect": [
-      { "math": [ "u_pain()", "+=", "3" ] },
+      { "math": [ "u_pain() += 3" ] },
       { "math": [ "u_madness++" ] },
       {
         "u_message": "You can't look away from the impossible shape, staring at it is making you feel sick, you have to get away!"
@@ -853,8 +853,8 @@
     "condition": "u_can_see",
     "effect": [
       { "u_add_effect": "nightmares", "duration": "18 hours" },
-      { "math": [ "u_pain()", "+=", "3" ] },
-      { "math": [ "u_val('stamina')", "-=", "20" ] }
+      { "math": [ "u_pain() += 3" ] },
+      { "math": [ "u_val('stamina') -= 20" ] }
     ]
   },
   {
@@ -906,7 +906,7 @@
           "effect": [
             { "u_message": "Your reflection feasts directly on your essence." },
             { "math": [ "u_val('sleepiness') = min(u_val('sleepiness') + portal_dungeon_reflect_strength, 1200)" ] },
-            { "math": [ "portal_dungeon_reflect_strength", "+=", "3" ] }
+            { "math": [ "portal_dungeon_reflect_strength += 3" ] }
           ]
         },
         {
@@ -1298,7 +1298,7 @@
     "condition": "u_is_character",
     "effect": [
       { "u_message": "The veiled butterfly's wings move in odd ways and a strange glow envelops you!", "type": "bad" },
-      { "math": [ "u_val('rad')", "+=", "20" ] }
+      { "math": [ "u_val('rad') += 20" ] }
     ]
   }
 ]

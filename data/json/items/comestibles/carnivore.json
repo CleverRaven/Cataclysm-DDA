@@ -17,7 +17,7 @@
     "copy-from": "flesh",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
-    "name": { "str": "pair of frog legs", "str_pl": "pairs of frog legs" },
+    "name": { "str_sp": "frog legs (pair)" },
     "description": "A raw pair of frog legs.  Tastes like chicken when cooked or smoked.",
     "//": "Nutrition information from USDA",
     "weight": "100 g",
@@ -35,7 +35,7 @@
     "copy-from": "froglegs",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
-    "name": { "str": "pair of cooked frog legs", "str_pl": "pairs of cooked frog legs" },
+    "name": { "str_sp": "cooked frog legs (pair)" },
     "parasites": 0,
     "spoils_in": "1 day",
     "flags": [ "EATEN_HOT" ],
@@ -46,7 +46,7 @@
     "copy-from": "froglegs_cooked",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
-    "name": { "str": "pair of smoked frog legs", "str_pl": "pairs of smoked frog legs" },
+    "name": { "str_sp": "smoked frog legs (pair)" },
     "color": "brown",
     "spoils_in": "42 days",
     "price_postapoc": "2 USD",
@@ -476,8 +476,7 @@
     "looks_like": "meat_scrap",
     "cooks_like": "mutant_meat_scrap_cooked",
     "proportional": { "price_postapoc": 0.2, "calories": 0.5 },
-    "vitamins": [ [ "mutant_toxin", 2 ], [ "meat_allergen", 1 ] ],
-    "delete": { "flags": [ "SMOKABLE" ] }
+    "vitamins": [ [ "mutant_toxin", 2 ], [ "meat_allergen", 1 ] ]
   },
   {
     "id": "mutant_human_flesh",
@@ -857,7 +856,7 @@
     "description": "A selection of cooked mutant bug organs.  Looks awful, but if you give it a try, you'll find -- that it's worse than it looks.",
     "looks_like": "offal_cooked",
     "parasites": 0,
-    "delete": { "flags": [ "RAW", "NUTRIENT_OVERRIDE" ] }
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "id": "offal_pickled",
@@ -1112,8 +1111,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "copy-from": "lung_cooked",
     "name": { "str": "cooked piece of mutant lung", "str_pl": "cooked pieces of mutant lung" },
-    "snippet_category": "cooked_mutant_lung_desc",
-    "delete": { "flags": [ "RAW" ] }
+    "snippet_category": "cooked_mutant_lung_desc"
   },
   {
     "id": "heart",
@@ -1204,8 +1202,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "copy-from": "heart_cooked",
     "name": { "str": "cooked piece of mutant heart", "str_pl": "cooked pieces of mutant heart" },
-    "snippet_category": "cooked_mutant_heart_desc",
-    "delete": { "flags": [ "RAW" ] }
+    "snippet_category": "cooked_mutant_heart_desc"
   },
   {
     "id": "mutant_bug_lungs",
@@ -1415,8 +1412,7 @@
     "copy-from": "brain_cooked",
     "name": { "str": "cooked piece of mutant brain", "str_pl": "cooked pieces of mutant brain" },
     "snippet_category": "cooked_mutant_brain_desc",
-    "fun": -12,
-    "delete": { "flags": [ "RAW" ] }
+    "fun": -12
   },
   {
     "id": "kidney",
@@ -1485,8 +1481,7 @@
     "copy-from": "kidney_cooked",
     "name": { "str": "cooked piece of mutant kidney", "str_pl": "cooked pieces of mutant kidney" },
     "snippet_category": "cooked_mutant_kidney_desc",
-    "fun": -12,
-    "delete": { "flags": [ "RAW" ] }
+    "fun": -12
   },
   {
     "id": "sweetbread",

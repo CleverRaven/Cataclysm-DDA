@@ -1,0 +1,13 @@
+[
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_werewolf_close_reality_tear",
+    "field": [
+      {
+        "result": "fd_null",
+        "valid_field": [ "fd_fatigue" ],
+        "message": "The rent in reality slowly collapses on itself and fades away."
+      }
+    ]
+  }
+]

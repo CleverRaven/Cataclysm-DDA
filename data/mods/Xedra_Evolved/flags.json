@@ -66,6 +66,10 @@
     "type": "json_flag"
   },
   {
+    "id": "NO_WEREWOLF_POWERS",
+    "type": "json_flag"
+  },
+  {
     "id": "NO_VAMPIRE_BLOOD_POWERS",
     "type": "json_flag"
   },

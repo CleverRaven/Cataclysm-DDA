@@ -370,7 +370,7 @@ void Creature::reset_bonuses()
     throw_resist = 0;
 }
 
-void Creature::process_turn()
+void Creature::process_turn_no_moves()
 {
     decrement_summon_timer();
     if( is_dead_state() ) {
@@ -384,6 +384,12 @@ void Creature::process_turn()
 
     // Call this in case any effects have changed our stats
     reset_stats();
+
+}
+
+void Creature::process_turn()
+{
+    process_turn_no_moves();
 
     // add an appropriate number of moves
     if( !has_effect( effect_ridden ) ) {
@@ -413,6 +419,15 @@ bool Creature::is_likely_underwater( const map &here ) const
     return is_underwater() ||
            ( has_flag( mon_flag_AQUATIC ) &&
              here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub( here ) ) );
+}
+
+bool Creature::hallucination_die( map *here, Creature *killer )
+{
+    const bool h = is_hallucination();
+    if( h ) {
+        die( here, killer );
+    }
+    return h;
 }
 
 // Detects whether a target is sapient or not (or barely sapient, since ferals count)
@@ -3452,8 +3467,7 @@ void Creature::knock_back_from( const tripoint_bub_ms &p )
     if( p == pos ) {
         return; // No effect
     }
-    if( is_hallucination() ) {
-        die( &here, nullptr );
+    if( hallucination_die( &here, nullptr ) ) {
         return;
     }
     tripoint_bub_ms to = pos;

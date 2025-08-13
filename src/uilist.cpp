@@ -971,13 +971,8 @@ void uilist::query( bool loop, int timeout, bool allow_unfiltered_hotkeys )
         } else if( filtering && ret_act == "UILIST.FILTER" ) {
             inputfilter();
         } else if( !categories.empty() && ( ret_act == "UILIST.LEFT" || ret_act == "UILIST.RIGHT" ) ) {
-            int tmp = current_category + ( ret_act == "UILIST.LEFT" ? -1 : 1 );
-            if( tmp < 0 ) {
-                tmp = categories.size() - 1;
-            } else if( tmp >= static_cast<int>( categories.size() ) ) {
-                tmp = 0;
-            }
-            switch_to_category = static_cast<size_t>( tmp );
+            switch_to_category = inc_clamp_wrap( current_category, ret_act == "UILIST.RIGHT",
+                                                 categories.size() );
         } else if( iter != keymap.end() ) {
             if( allow_unfiltered_hotkeys ) {
                 const bool enabled = entries[iter->second].enabled;

@@ -233,7 +233,7 @@ TEST_CASE( "Generated_character_with_category_mutations", "[mutation]" )
 TEST_CASE( "cannibal_not_randomly_selected", " [character] [traits] [random]" )
 {
     for( int i = 0; i < 1000; ++i ) {
-        trait_id random_trait = get_avatar().random_good_trait();
+        trait_id random_trait = get_avatar().random_bad_trait();
         REQUIRE( random_trait != trait_CANNIBAL );
     }
 }

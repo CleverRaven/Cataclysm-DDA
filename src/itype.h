@@ -1515,7 +1515,7 @@ struct itype {
         units::money price = 0_cent;
 
         /** Value after the Cataclysm, dependent upon practical usages. Price given is for a default-sized stack. */
-        units::money price_post = 0_cent;
+        units::money price_post = -1_cent;
 
         // TODO: Add some very basic unweildiness calc for non specified to_hit?
         int m_to_hit = -2;  // To-hit bonus for melee combat, see GAME_BALANCE.md#to-hit-value

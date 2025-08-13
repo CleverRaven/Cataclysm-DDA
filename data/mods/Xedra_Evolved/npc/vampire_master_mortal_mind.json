@@ -51,8 +51,8 @@
         "effect": [
           {
             "if": { "u_has_trait": "VAMPIRE_MASTER_MORTAL_MIND_UPGRADE" },
-            "then": { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "50" ] },
-            "else": { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "100" ] }
+            "then": { "math": [ "u_vitamin('human_blood_vitamin') -= 50" ] },
+            "else": { "math": [ "u_vitamin('human_blood_vitamin') -= 100" ] }
           }
         ],
         "opinion": { "trust": 1, "value": 1 }
@@ -64,8 +64,8 @@
         "effect": [
           {
             "if": { "u_has_trait": "VAMPIRE_MASTER_MORTAL_MIND_UPGRADE" },
-            "then": { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "250" ] },
-            "else": { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "500" ] }
+            "then": { "math": [ "u_vitamin('human_blood_vitamin') -= 250" ] },
+            "else": { "math": [ "u_vitamin('human_blood_vitamin') -= 500" ] }
           }
         ],
         "opinion": { "trust": 3, "value": 3, "anger": -2, "fear": -1 }
@@ -77,8 +77,8 @@
         "effect": [
           {
             "if": { "u_has_trait": "VAMPIRE_MASTER_MORTAL_MIND_UPGRADE" },
-            "then": { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "1500" ] },
-            "else": { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "3000" ] }
+            "then": { "math": [ "u_vitamin('human_blood_vitamin') -= 1500" ] },
+            "else": { "math": [ "u_vitamin('human_blood_vitamin') -= 3000" ] }
           },
           { "npc_add_trait": "RENFIELD" },
           "follow"

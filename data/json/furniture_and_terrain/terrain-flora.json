@@ -1541,6 +1541,7 @@
       "SMALL_HIDE"
     ],
     "examine_action": "shrub_wildveggies",
+    "transforms_into": "t_underbrush_harvested",
     "bash": {
       "str_min": 4,
       "str_max": 30,
@@ -1552,131 +1553,14 @@
   },
   {
     "type": "terrain",
-    "id": "t_underbrush_harvested_spring",
-    "name": "underbrush",
-    "looks_like": "t_underbrush",
+    "id": "t_underbrush_harvested",
+    "copy-from": "t_underbrush",
+    "looks_like": "t_underbrush_harvested_spring",
     "description": "Small plants and shrubs that decorate the forest.  It has been rummaged through and doesn't have anything useful left to forage from it.",
-    "symbol": "#",
     "color": "green",
-    "move_cost": 6,
-    "coverage": 40,
-    "flags": [
-      "TRANSPARENT",
-      "DIGGABLE",
-      "CONTAINER",
-      "FLAMMABLE_ASH",
-      "THIN_OBSTACLE",
-      "PLACE_ITEM",
-      "SHRUB",
-      "SHORT",
-      "HARVESTED",
-      "SMALL_HIDE"
-    ],
-    "transforms_into": "t_underbrush",
-    "bash": {
-      "str_min": 4,
-      "str_max": 30,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_underbrush_harvested_summer",
-    "name": "underbrush",
-    "looks_like": "t_underbrush",
-    "description": "Small plants and shrubs that decorate the forest.  It has been rummaged through and doesn't have anything useful left to forage from it.",
-    "symbol": "#",
-    "color": "green",
-    "move_cost": 6,
-    "coverage": 40,
-    "flags": [
-      "TRANSPARENT",
-      "DIGGABLE",
-      "CONTAINER",
-      "FLAMMABLE_ASH",
-      "THIN_OBSTACLE",
-      "PLACE_ITEM",
-      "SHRUB",
-      "SHORT",
-      "HARVESTED",
-      "SMALL_HIDE"
-    ],
-    "transforms_into": "t_underbrush",
-    "bash": {
-      "str_min": 4,
-      "str_max": 30,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_underbrush_harvested_autumn",
-    "name": "underbrush",
-    "looks_like": "t_underbrush",
-    "description": "Small plants and shrubs that decorate the forest.  It has been rummaged through and doesn't have anything useful left to forage from it.",
-    "symbol": "#",
-    "color": "green",
-    "move_cost": 6,
-    "coverage": 40,
-    "flags": [
-      "TRANSPARENT",
-      "DIGGABLE",
-      "CONTAINER",
-      "FLAMMABLE_ASH",
-      "THIN_OBSTACLE",
-      "PLACE_ITEM",
-      "SHRUB",
-      "SHORT",
-      "HARVESTED",
-      "SMALL_HIDE"
-    ],
-    "transforms_into": "t_underbrush",
-    "bash": {
-      "str_min": 4,
-      "str_max": 30,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_underbrush_harvested_winter",
-    "name": "underbrush",
-    "looks_like": "t_underbrush",
-    "description": "Small plants and shrubs that decorate the forest.  It has been rummaged through and doesn't have anything useful left to forage from it.  Frost covers it.",
-    "symbol": "#",
-    "color": "green",
-    "move_cost": 6,
-    "coverage": 40,
-    "flags": [
-      "TRANSPARENT",
-      "DIGGABLE",
-      "CONTAINER",
-      "FLAMMABLE_ASH",
-      "THIN_OBSTACLE",
-      "PLACE_ITEM",
-      "SHRUB",
-      "SHORT",
-      "HARVESTED",
-      "SMALL_HIDE"
-    ],
-    "transforms_into": "t_underbrush",
-    "bash": {
-      "str_min": 4,
-      "str_max": 30,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
-    }
+    "examine_action": "harvested_plant",
+    "extend": { "flags": [ "HARVESTED" ] },
+    "transforms_into": "t_underbrush"
   },
   {
     "type": "terrain",

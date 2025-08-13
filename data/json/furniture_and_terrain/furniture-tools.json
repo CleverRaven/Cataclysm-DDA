@@ -992,13 +992,14 @@
     "id": "f_heavy_lathe",
     "name": "power lathe",
     "looks_like": "f_machinery_light",
-    "description": "An industrial-grade lathe, for turning chunks of metal and other hard things into round chunks of metal and other hard things.",
+    "description": "An industrial-grade lathe, for turning chunks of metal and other hard things into round chunks of metal and other hard things.  It's really heavy but you could take this down and use it for your own purposes if you wanted.",
     "symbol": "4",
     "color": "cyan_red",
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 16,
     "flags": [ "BLOCKSDOOR" ],
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "lathe" },
     "bash": {
       "str_min": 40,
       "str_max": 150,
@@ -1006,15 +1007,15 @@
       "items": [
         { "item": "cable", "charges": [ 0, 4 ] },
         { "item": "scrap", "count": [ 12, 20 ] },
-        { "item": "ch_steel_chunk", "count": [ 2, 4 ] },
-        { "item": "ch_steel_lump", "count": [ 1, 2 ] }
+        { "item": "chunk_cast_iron", "count": [ 2, 4 ] },
+        { "item": "lump_cast_iron", "count": [ 1, 2 ] }
       ]
     },
     "deconstruct": {
       "items": [
         { "item": "cable", "charges": [ 4, 8 ] },
-        { "item": "ch_steel_chunk", "count": [ 4, 6 ] },
-        { "item": "ch_steel_lump", "count": [ 2, 4 ] },
+        { "item": "chunk_cast_iron", "count": [ 4, 6 ] },
+        { "item": "lump_cast_iron", "count": [ 2, 4 ] },
         { "item": "scrap", "count": [ 12, 16 ] },
         { "item": "pipe", "count": [ 0, 4 ] },
         { "item": "motor_small", "count": 1 }

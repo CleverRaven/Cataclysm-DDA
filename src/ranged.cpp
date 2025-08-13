@@ -2754,6 +2754,12 @@ target_handler::trajectory target_ui::run()
     src = you->pos_bub();
     update_target_list();
 
+    if( mode == TargetMode::Reach && targets.empty() ) {
+        add_msg( m_info, _( "No hostile creature in reach." ) );
+        traj.clear();
+        return traj; // nothing to attack.
+    }
+
     if( activity && activity->abort_if_no_targets && targets.empty() ) {
         // this branch is taken when already shot once and re-entered
         // aiming, if no targets are available we want to abort so
@@ -2995,7 +3001,9 @@ void target_ui::init_window_and_input()
     ctxt.register_action( "NEXT_TARGET" );
     ctxt.register_action( "PREV_TARGET" );
     ctxt.register_action( "CENTER" );
-    ctxt.register_action( "TOGGLE_UNLOAD_RAS_WEAPON" );
+    if( mode == TargetMode::Fire && relevant->has_flag( flag_RELOAD_AND_SHOOT ) ) {
+        ctxt.register_action( "TOGGLE_UNLOAD_RAS_WEAPON" );
+    }
     ctxt.register_action( "TOGGLE_SNAP_TO_TARGET" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
@@ -4081,12 +4089,12 @@ void target_ui::draw_controls_list( int text_y )
                              } );
         } else {
             if( !unload_RAS_weapon ) {
-                std::string unload = string_format( _( "[%s] Unload the %s after quitting." ),
+                std::string unload = string_format( _( "[%s] to unload the %s after quitting." ),
                                                     bound_key( "TOGGLE_UNLOAD_RAS_WEAPON" ).short_description(),
                                                     relevant->tname() );
-                lines.push_back( {3, colored( col_disabled, unload )} );
+                lines.push_back( {3, colored( col_enabled, unload )} );
             } else {
-                std::string unload = string_format( _( "[%s] Keep the %s loaded after quitting." ),
+                std::string unload = string_format( _( "[%s] to keep the %s loaded after quitting." ),
                                                     bound_key( "TOGGLE_UNLOAD_RAS_WEAPON" ).short_description(),
                                                     relevant->tname() );
                 lines.push_back( {3, colored( col_enabled, unload )} );

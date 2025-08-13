@@ -199,7 +199,6 @@ static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_sheared( "sheared" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_tied( "tied" );
-static const efftype_id effect_took_thorazine( "took_thorazine" );
 static const efftype_id effect_worked_on( "worked_on" );
 
 static const faction_id faction_your_followers( "your_followers" );
@@ -284,14 +283,9 @@ static const ter_str_id ter_t_door_metal_c( "t_door_metal_c" );
 static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
 static const ter_str_id ter_t_stump( "t_stump" );
 static const ter_str_id ter_t_trunk( "t_trunk" );
-static const ter_str_id ter_t_underbrush_harvested_autumn( "t_underbrush_harvested_autumn" );
-static const ter_str_id ter_t_underbrush_harvested_spring( "t_underbrush_harvested_spring" );
-static const ter_str_id ter_t_underbrush_harvested_summer( "t_underbrush_harvested_summer" );
-static const ter_str_id ter_t_underbrush_harvested_winter( "t_underbrush_harvested_winter" );
 
 static const trait_id trait_NUMB( "NUMB" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
-static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 
 static const vproto_id vehicle_prototype_none( "none" );
 
@@ -1196,6 +1190,17 @@ void hacksaw_activity_actor::start( player_activity &act, Character &/*who*/ )
     act.moves_left = act.moves_total;
 }
 
+static void tool_out_of_charges( Character &who, const std::string &tool_name )
+{
+    if( who.is_avatar() ) {
+        who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), tool_name );
+    } else { // who.is_npc()
+        add_msg_if_player_sees( who.pos_bub(), _( "%1$s %2$s ran out of charges." ), who.disp_name( false,
+                                true ), tool_name );
+    }
+    who.cancel_activity();
+}
+
 void hacksaw_activity_actor::do_turn( player_activity &/*act*/, Character &who )
 {
     map &here = get_map();
@@ -1217,13 +1222,7 @@ void hacksaw_activity_actor::do_turn( player_activity &/*act*/, Character &who )
                 sounds::sound( target, 15, sounds::sound_t::destructive_activity, _( "grnd grnd grnd" ) );
             }
         } else {
-            if( who.is_avatar() ) {
-                who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), tool->tname() );
-            } else { // who.is_npc()
-                add_msg_if_player_sees( who.pos_bub(), _( "%1$s %2$s ran out of charges." ), who.disp_name( false,
-                                        true ), tool->tname() );
-            }
-            who.cancel_activity();
+            tool_out_of_charges( who, tool->tname() );
         }
     } else {
         map &here = get_map();
@@ -1240,13 +1239,7 @@ void hacksaw_activity_actor::do_turn( player_activity &/*act*/, Character &who )
                 sounds::sound( target, 15, sounds::sound_t::destructive_activity, _( "grnd grnd grnd" ) );
             }
         } else {
-            if( who.is_avatar() ) {
-                who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), type.value()->nname( 1 ) );
-            } else { // who.is_npc()
-                add_msg_if_player_sees( who.pos_bub(), _( "%1$s %2$s ran out of charges." ), who.disp_name( false,
-                                        true ), type.value()->nname( 1 ) );
-            }
-            who.cancel_activity();
+            tool_out_of_charges( who, type.value()->nname( 1 ) );
         }
     }
 }
@@ -1432,6 +1425,13 @@ std::unique_ptr<activity_actor> bikerack_racking_activity_actor::deserialize( Js
     return actor.clone();
 }
 
+static void finish_gliding( player_activity &act, Character &you )
+{
+    you.remove_effect( effect_gliding );
+    you.gravity_check();
+    act.set_to_null();
+}
+
 void glide_activity_actor::do_turn( player_activity &act, Character &you )
 {
     map &here = get_map();
@@ -1467,9 +1467,7 @@ void glide_activity_actor::do_turn( player_activity &act, Character &you )
         you.add_msg_player_or_npc( m_good,
                                    _( "You come to a gentle landing." ),
                                    _( "<npcname> comes to a gentle landing." ) );
-        you.remove_effect( effect_gliding );
-        you.gravity_check();
-        act.set_to_null();
+        finish_gliding( act, you );
         return;
     }   // Have we crashed into a wall?
     if( here.impassable( checknewpos ) ) {
@@ -1477,15 +1475,11 @@ void glide_activity_actor::do_turn( player_activity &act, Character &you )
                                    _( "You collide with %s, bringing an abrupt halt to your glide." ),
                                    _( "<npcname> collides with %s, bringing an abrupt halt to their glide." ),
                                    here.tername( checknewpos ) );
-        you.remove_effect( effect_gliding );
-        you.gravity_check();
-        act.set_to_null();
+        finish_gliding( act, you );
         return;
     }
     if( !you.can_fly() ) {
-        you.remove_effect( effect_gliding );
-        you.gravity_check();
-        act.set_to_null();
+        finish_gliding( act, you );
         return;
     }
     Creature *creature_ahead = get_creature_tracker().creature_at( newpos );
@@ -1501,9 +1495,7 @@ void glide_activity_actor::do_turn( player_activity &act, Character &you )
             if( creature_ahead->get_size() < creature_size::huge ) {
                 creature_ahead->add_effect( effect_downed, 2_turns, false );
             }
-            you.remove_effect( effect_gliding );
-            you.gravity_check();
-            act.set_to_null();
+            finish_gliding( act, you );
             return;
         }
         you.add_msg_player_or_npc( m_good,
@@ -1589,9 +1581,7 @@ void glide_activity_actor::finish( player_activity &act, Character &you )
     you.add_msg_player_or_npc( m_good,
                                _( "You come to a gentle landing." ),
                                _( "<npcname> comes to a gentle landing." ) );
-    you.remove_effect( effect_gliding );
-    you.gravity_check();
-    act.set_to_null();
+    finish_gliding( act, you );
 }
 
 bikerack_unracking_activity_actor::bikerack_unracking_activity_actor( const vehicle &parent_vehicle,
@@ -1901,9 +1891,8 @@ bool read_activity_actor::player_read( avatar &you )
                 }
             }
 
-            if( ( skill_level == islotbook->level || !skill_level.can_train() ) ||
-                ( learner->has_trait( trait_SCHIZOPHRENIC ) && !learner->has_effect( effect_took_thorazine ) &&
-                  one_in( 25 ) ) ) {
+            if( skill_level == islotbook->level || !skill_level.can_train() ||
+                learner->schizo_symptoms( 25 ) ) {
                 if( learner->is_avatar() ) {
                     add_msg( m_info, _( "You can no longer learn from %s." ), book->type_name() );
                 } else {
@@ -2042,9 +2031,7 @@ bool read_activity_actor::npc_read( npc &learner )
         }
 
         if( display_messages &&
-            ( ( skill_level == islotbook->level || !skill_level.can_train() ) ||
-              ( learner.has_trait( trait_SCHIZOPHRENIC ) && !learner.has_effect( effect_took_thorazine ) &&
-                one_in( 25 ) ) ) ) {
+            ( skill_level == islotbook->level || !skill_level.can_train() || learner.schizo_symptoms( 25 ) ) ) {
             add_msg( m_info, _( "%s can no longer learn from %s." ), learner.disp_name(),
                      book->type_name() );
         }
@@ -2442,13 +2429,7 @@ void boltcutting_activity_actor::do_turn( player_activity &/*act*/, Character &w
     if( tool->ammo_sufficient( &who ) ) {
         tool->ammo_consume( tool->ammo_required(), here, tool.pos_bub( here ), &who );
     } else {
-        if( who.is_avatar() ) {
-            who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), tool->tname() );
-        } else { // who.is_npc()
-            add_msg_if_player_sees( who.pos_bub(), _( "%1$s %2$s ran out of charges." ), who.disp_name( false,
-                                    true ), tool->tname() );
-        }
-        who.cancel_activity();
+        tool_out_of_charges( who, tool->tname() );
     }
 }
 
@@ -6139,13 +6120,7 @@ void oxytorch_activity_actor::do_turn( player_activity &/*act*/, Character &who 
             sounds::sound( target, 10, sounds::sound_t::destructive_activity, _( "hissssssssss!" ) );
         }
     } else {
-        if( who.is_avatar() ) {
-            who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), tool->tname() );
-        } else { // who.is_npc()
-            add_msg_if_player_sees( who.pos_bub(), _( "%1$s %2$s ran out of charges." ), who.disp_name( false,
-                                    true ), tool->tname() );
-        }
-        who.cancel_activity();
+        tool_out_of_charges( who, tool->tname() );
     }
 }
 
@@ -6620,13 +6595,7 @@ void prying_activity_actor::do_turn( player_activity &/*act*/, Character &who )
             sfx::play_activity_sound( "tool", "hammer", sfx::get_heard_volume( target ) );
         }
     } else {
-        if( who.is_avatar() ) {
-            who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), tool->tname() );
-        } else { // who.is_npc()
-            add_msg_if_player_sees( who.pos_bub(), _( "%1$s %2$s ran out of charges." ), who.disp_name( false,
-                                    true ), tool->tname() );
-        }
-        who.cancel_activity();
+        tool_out_of_charges( who, tool->tname() );
     }
 }
 
@@ -7575,31 +7544,26 @@ void forage_activity_actor::finish( player_activity &act, Character &who )
     bool found_something = false;
 
     item_group_id group_id;
-    ter_str_id next_ter;
 
     switch( season_of_year( calendar::turn ) ) {
         case SPRING:
             group_id = Item_spawn_data_forage_spring;
-            next_ter = ter_t_underbrush_harvested_spring;
             break;
         case SUMMER:
             group_id = Item_spawn_data_forage_summer;
-            next_ter = ter_t_underbrush_harvested_summer;
             break;
         case AUTUMN:
             group_id = Item_spawn_data_forage_autumn;
-            next_ter = ter_t_underbrush_harvested_autumn;
             break;
         case WINTER:
             group_id = Item_spawn_data_forage_winter;
-            next_ter = ter_t_underbrush_harvested_winter;
             break;
         default:
             debugmsg( "Invalid season" );
     }
 
     const tripoint_bub_ms bush_pos = here.get_bub( act.placement );
-    here.ter_set( bush_pos, next_ter );
+    here.ter_set( bush_pos, here.get_ter_transforms_into( bush_pos ) );
 
     // Survival gives a bigger boost, and Perception is leveled a bit.
     // Both survival and perception affect time to forage

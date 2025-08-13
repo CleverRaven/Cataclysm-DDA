@@ -8,7 +8,6 @@
 #include <utility>
 #include <vector>
 
-#include "assign.h"
 #include "body_part_set.h"
 #include "creature.h"
 #include "debug.h"
@@ -285,6 +284,21 @@ const std::vector<body_part_type> &body_part_type::get_all()
     return body_part_factory.get_all();
 }
 
+class encumbrance_per_weight_reader : public generic_typed_reader<encumbrance_per_weight_reader>
+{
+    public:
+        std::pair<units::mass, int> get_next( const JsonValue &jv ) const {
+            std::pair<units::mass, int> ret;
+            if( !jv.test_object() ) {
+                jv.throw_error( "Invalid format" );
+            }
+            JsonObject entry = jv.get_object();
+            entry.read( "weight", ret.first, true );
+            entry.read( "encumbrance", ret.second, true );
+            return ret;
+        }
+};
+
 void body_part_type::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
@@ -459,18 +473,8 @@ void body_part_type::load( const JsonObject &jo, std::string_view )
 
     mandatory( jo, was_loaded, "sub_parts", sub_parts );
 
-    if( jo.has_array( "encumbrance_per_weight" ) ) {
-        const JsonArray &jarr = jo.get_array( "encumbrance_per_weight" );
-        for( const JsonObject jval : jarr ) {
-            units::mass weight = 0_gram;
-            int encumbrance = 0;
-
-            assign( jval, "weight", weight, true );
-            mandatory( jval, was_loaded, "encumbrance", encumbrance );
-
-            encumbrance_per_weight.insert( std::pair<units::mass, int>( weight, encumbrance ) );
-        }
-    }
+    optional( jo, was_loaded, "encumbrance_per_weight", encumbrance_per_weight,
+              encumbrance_per_weight_reader{} );
 }
 
 void bp_onhit_effect::load( const JsonObject &jo )

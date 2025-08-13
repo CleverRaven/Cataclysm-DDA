@@ -976,9 +976,9 @@
   {
     "id": "warp_home_real",
     "type": "SPELL",
-    "name": "Warp Home Real",
+    "name": { "str": "Warp Home Real", "//~": "NO_I18N" },
     "//": "A simple no-failure spell that can be cast with hands full and triggers the EOC to return home.  Flagged as verbal so you make noise while casting, increasing the need to find a safe spot to warp from.  This only exists in case of bugs.",
-    "description": "The actual warp home spell.  It's a bug if you have it.",
+    "description": { "str": "The actual warp home spell.  It's a bug if you have it.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "spell_class": "NONE",
     "flags": [ "NO_EXPLOSION_SFX", "NO_FAIL", "NO_LEGS", "NO_HANDS", "VERBAL" ],

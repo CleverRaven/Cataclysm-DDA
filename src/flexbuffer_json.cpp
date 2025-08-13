@@ -81,16 +81,19 @@ static void advance_jsin( TextJsonIn *jsin, flexbuffers::Reference root, const J
     }
 }
 
+std::string Json::get_root_source_path() const
+{
+    if( root_->get_source_path().empty() ) {
+        return std::string{ "<unknown source file>" };
+    }
+    return root_->get_source_path().u8string();
+
+}
+
 void Json::throw_error( const JsonPath &path, int offset, const std::string &message ) const
 {
     std::unique_ptr<std::istream> original_json = root_->get_source_stream();
-    std::string source_path = [&] {
-        if( root_->get_source_path().empty() )
-        {
-            return std::string{ "<unknown source file>" };
-        }
-        return root_->get_source_path().u8string();
-    }();
+    std::string source_path = get_root_source_path();
     if( original_json ) {
         TextJsonIn jsin( *original_json, source_path );
 
@@ -107,13 +110,7 @@ void Json::throw_error( const JsonPath &path, int offset, const std::string &mes
 void Json::throw_error_after( const JsonPath &path, const std::string &message ) const
 {
     std::unique_ptr<std::istream> original_json = root_->get_source_stream();
-    std::string source_path = [&] {
-        if( root_->get_source_path().empty() )
-        {
-            return std::string{ "<unknown source file>" };
-        }
-        return root_->get_source_path().u8string();
-    }();
+    std::string source_path = get_root_source_path();
     TextJsonIn jsin( *original_json, source_path );
 
     advance_jsin( &jsin, flexbuffer_root_from_storage( root_->get_storage() ), path );
@@ -125,13 +122,7 @@ void Json::throw_error_after( const JsonPath &path, const std::string &message )
 void Json::string_error( const JsonPath &path, int offset, const std::string &message ) const
 {
     std::unique_ptr<std::istream> original_json = root_->get_source_stream();
-    std::string source_path = [&] {
-        if( root_->get_source_path().empty() )
-        {
-            return std::string{ "<unknown source file>" };
-        }
-        return root_->get_source_path().u8string();
-    }();
+    std::string source_path = get_root_source_path();
     TextJsonIn jsin( *original_json, source_path );
 
     advance_jsin( &jsin, flexbuffer_root_from_storage( root_->get_storage() ), path );
@@ -303,13 +294,7 @@ void JsonObject::report_unvisited() const
 void JsonObject::error_no_member( std::string_view member ) const
 {
     std::unique_ptr<std::istream> original_json = root_->get_source_stream();
-    std::string source_path = [&] {
-        if( root_->get_source_path().empty() )
-        {
-            return std::string{ "<unknown source file>" };
-        }
-        return root_->get_source_path().u8string();
-    }();
+    std::string source_path = get_root_source_path();
     TextJsonIn jsin( *original_json, source_path );
 
     advance_jsin( &jsin, flexbuffer_root_from_storage( root_->get_storage() ), path_ );
@@ -324,13 +309,7 @@ void JsonObject::error_no_member( std::string_view member ) const
 void JsonObject::error_skipped_members( const std::vector<size_t> &skipped_members ) const
 {
     std::unique_ptr<std::istream> original_json = root_->get_source_stream();
-    std::string source_path = [&] {
-        if( root_->get_source_path().empty() )
-        {
-            return std::string{ "<unknown source file>" };
-        }
-        return root_->get_source_path().u8string();
-    }();
+    std::string source_path = get_root_source_path();
     TextJsonIn jsin( *original_json, source_path );
 
     advance_jsin( &jsin, flexbuffer_root_from_storage( root_->get_storage() ), path_ );

@@ -272,6 +272,7 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_subaquatic_sonar( "subaquatic_sonar" );
 static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_tied( "tied" );
+static const efftype_id effect_took_thorazine( "took_thorazine" );
 static const efftype_id effect_transition_contacts( "transition_contacts" );
 static const efftype_id effect_winded( "winded" );
 
@@ -334,6 +335,7 @@ static const json_character_flag json_flag_NO_RADIATION( "NO_RADIATION" );
 static const json_character_flag json_flag_NO_THIRST( "NO_THIRST" );
 static const json_character_flag json_flag_NVG_GREEN( "NVG_GREEN" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
+static const json_character_flag json_flag_PHASE_MOVEMENT( "PHASE_MOVEMENT" );
 static const json_character_flag json_flag_PLANTBLOOD( "PLANTBLOOD" );
 static const json_character_flag json_flag_PRED2( "PRED2" );
 static const json_character_flag json_flag_PRED3( "PRED3" );
@@ -474,6 +476,7 @@ static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SAVANT( "SAVANT" );
+static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL3( "SHELL3" );
 static const trait_id trait_SHOUT2( "SHOUT2" );
@@ -2440,24 +2443,9 @@ void Character::process_turn()
     for( const trait_id &mut : get_functioning_mutations() ) {
         mutation_reflex_trigger( mut );
     }
-    //Creature::process_turn() uses speed to restore moves, but for Character, speed has not yet been calculated.
-    //So Creature::process_turn() cannot be used directly here.
-    //Exposed the content of Creature::process_turn() except restore moves here,
-    //and do the reset moves later after recalc_speed_bonus().
-    //The following is the content of Creature::process_turn() except restore moves
-    decrement_summon_timer();
-    if( is_dead_state() ) {
-        return;
-    }
-    reset_bonuses();
 
-    process_effects();
-
-    process_damage_over_time();
-
-    // Call this in case any effects have changed our stats
-    reset_stats();
-    //The above is the content of Creature::process_turn() except reset moves
+    //Creature::process_turn() cannot be used directly here because Character::speed has not yet been calculated
+    Creature::process_turn_no_moves();
 
     // If we're actively handling something we can't just drop it on the ground
     // in the middle of handling it
@@ -3775,6 +3763,10 @@ std::pair<bodypart_id, int> Character::best_part_to_smash() const
         }
     }
 
+    if( !best_part_to_smash.first.obj().main_part.is_empty() ) {
+        best_part_to_smash = {best_part_to_smash.first.obj().main_part, best_part_to_smash.second};
+    }
+
     return best_part_to_smash;
 }
 
@@ -4332,15 +4324,6 @@ int Character::get_per_bonus() const
 int Character::get_int_bonus() const
 {
     return int_bonus;
-}
-
-static int get_speedydex_bonus( const int dex )
-{
-    static const std::string speedydex_min_dex( "SPEEDYDEX_MIN_DEX" );
-    static const std::string speedydex_dex_speed( "SPEEDYDEX_DEX_SPEED" );
-    // this is the number to be multiplied by the increment
-    const int modified_dex = std::max( dex - get_option<int>( speedydex_min_dex ), 0 );
-    return modified_dex * get_option<int>( speedydex_dex_speed );
 }
 
 int Character::get_enchantment_speed_bonus() const
@@ -6351,9 +6334,8 @@ float Character::get_bmi_lean() const
 {
     //strength BMIs decrease to zero as you starve (muscle atrophy)
     if( get_bmi_fat() < character_weight_category::normal ) {
-        const int str_penalty = std::floor( ( 1.0f - ( get_bmi_fat() /
-                                              character_weight_category::normal ) ) * str_max );
-        return 12.0f + get_str_base() - str_penalty;
+        const stat_mod wpen = get_weight_penalty();
+        return 12.0f + get_str_base() - wpen.strength;
     }
     return 12.0f + get_str_base();
 }
@@ -11295,6 +11277,9 @@ void Character::process_effects()
 
 void Character::gravity_check()
 {
+    if( has_flag( json_flag_PHASE_MOVEMENT ) ) {
+        return; // debug trait immunity to gravity, walls etc
+    }
     map &here = get_map();
     if( here.is_open_air( pos_bub() ) && !in_vehicle && !has_effect_with_flag( json_flag_GLIDING ) &&
         here.try_fall( pos_bub(), this ) ) {
@@ -11304,6 +11289,9 @@ void Character::gravity_check()
 
 void Character::gravity_check( map *here )
 {
+    if( has_flag( json_flag_PHASE_MOVEMENT ) ) {
+        return; // debug trait immunity to gravity, walls etc
+    }
     const tripoint_bub_ms pos = pos_bub( *here );
     if( here->is_open_air( pos ) && !in_vehicle && !has_effect_with_flag( json_flag_GLIDING ) &&
         here->try_fall( pos, this ) ) {
@@ -12169,6 +12157,11 @@ bool Character::empathizes_with_monster( const mtype_id &monster ) const
     return false;
 }
 
+bool Character::schizo_symptoms( int chance ) const
+{
+    return has_trait( trait_SCHIZOPHRENIC ) && !has_effect( effect_took_thorazine ) && one_in( chance );
+}
+
 bool Character::is_driving() const
 {
     map &here = get_map();
@@ -12493,8 +12486,6 @@ void Character::recalc_speed_bonus()
     }
     mod_speed_bonus( -carry_penalty, _( "Weight Carried" ) );
 
-    mod_speed_bonus( +get_speedydex_bonus( get_dex() ), _( "Dexterity" ) );
-
     mod_speed_bonus( -get_pain_penalty().speed, _( "Pain" ) );
 
     if( get_thirst() > 40 ) {
@@ -12591,6 +12582,17 @@ void Character::set_underwater( bool u )
         recalc_sight_limits();
     }
 }
+
+stat_mod Character::get_weight_penalty() const
+{
+    stat_mod ret;
+    const float bmi = get_bmi_fat();
+    ret.strength = std::floor( ( 1.0f - ( bmi / character_weight_category::normal ) ) * str_max );
+    ret.dexterity = std::floor( ( character_weight_category::normal - bmi ) * 3.0f );
+    ret.intelligence = ret.dexterity;
+    return ret;
+}
+
 
 stat_mod Character::get_pain_penalty() const
 {
@@ -13103,6 +13105,7 @@ void Character::process_items( map *here )
                 continue;
             } else if( it->active && !it->ammo_sufficient( this ) ) {
                 it->deactivate();
+                add_msg_if_player( _( "Your %s shut down due to lack of power." ), it->tname() );
             } else if( available_charges - ups_used >= 1_kJ &&
                        it->ammo_remaining_linked( *here, nullptr ) < it->ammo_capacity( ammo_battery ) ) {
                 // Charge the battery in the UPS modded tool

@@ -447,6 +447,11 @@
             "reloaded_45colt_cowboy": 1
           }
         },
+        {
+          "type": "3030",
+          "weight": 5,
+          "items": { "3030": 1, "reloaded_3030_fmj": 1, "reloaded_3030": 1, "reloaded_3030_bp": 1, "reloaded_3030_fmj_bp": 1 }
+        },
         { "type": "762R", "weight": 4, "items": { "762_54R": 1, "bp_762_54R": 1, "reloaded_762_54R": 1 } },
         {
           "type": "10mm",
@@ -892,6 +897,7 @@
           "weight": 8,
           "items": { "colt_saa": 1, "bond_410": 1, "taurus_judge": 1, "raging_bull": 1 }
         },
+        { "type": "3030", "weight": 5, "items": { "marlin_336_3030": 1, "winchester_94_3030": 1 } },
         { "type": "762R", "weight": 4, "items": { "mosin44": 1, "mosin91_30": 1, "psl": 1 } },
         { "type": "270win", "weight": 3, "items": { "remington700_270": 1 } },
         { "type": "410shot", "weight": 3, "items": { "shotgun_410": 1 } },
@@ -1122,6 +1128,7 @@
             "m2carbine": 1,
             "m60": 1,
             "m60_semi": 1,
+            "marlin_336_3030": 1,
             "marlin60": 1,
             "marlin_9a": 1,
             "mdrx": 1,
@@ -1189,6 +1196,7 @@
             "uberti_1873": 1,
             "weatherby_5": 1,
             "win70": 1,
+            "winchester_94_3030": 1,
             "briefcase_smg": 1,
             "bt_apc9k": 1,
             "calico": 1,

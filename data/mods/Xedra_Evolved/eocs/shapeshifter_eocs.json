@@ -9,6 +9,7 @@
         {
           "u_has_any_trait": [
             "VAMPIRE_WOLF_FORM_TRAITS",
+            "WEREWOLF_PRIMAL_FORM_TRAITS",
             "TURN_INTO_BEAR_TRAITS",
             "TURN_INTO_DEER_TRAITS",
             "TURN_INTO_COUGAR_TRAITS",
@@ -108,7 +109,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_WEREWOLF_WOLF_FORM_activated",
-    "condition": { "not": { "u_has_trait": "WEREWOLF_HYBRID_FORM_TRAITS" } },
+    "condition": { "not": { "u_has_any_trait": [ "WEREWOLF_HYBRID_FORM_TRAITS", "WEREWOLF_PRIMAL_FORM_TRAITS" ] } },
     "effect": [
       {
         "run_eocs": [
@@ -121,10 +122,11 @@
                 "run_eocs": [
                   {
                     "id": "EOC_WEREWOLF_WOLF_FORM_activated_3",
-                    "condition": { "math": [ "u_val('mana') >= 50" ] },
+                    "condition": { "math": [ "u_val('mana') >= 20" ] },
                     "effect": [
-                      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
-                      { "math": [ "u_transformed_mana = u_val('mana') - 50" ] },
+                      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
+                      { "math": [ "u_val('mana') -= 20" ] },
+                      { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
                       { "u_add_trait": "VAMPIRE_WOLF_FORM_TRAITS" },
                       { "u_add_trait": "CARNIVORE" },
                       {
@@ -147,14 +149,14 @@
                     "id": "EOC_WEREWOLF_WOLF_FORM_deactivated",
                     "condition": { "u_has_trait": "VAMPIRE_WOLF_FORM_TRAITS" },
                     "effect": [
-                      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+                      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
                       {
                         "u_message": "Your body shifts and contracts and you return to your humanoid form.",
                         "type": "neutral"
                       },
                       { "u_lose_trait": "VAMPIRE_WOLF_FORM_TRAITS" },
                       { "u_lose_trait": "CARNIVORE" },
-                      { "math": [ "u_val('mana') = u_transformed_mana" ] }
+                      { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_RETURN_ARMOR_TO_NORMAL" }
                     ]
                   }
                 ]
@@ -164,7 +166,14 @@
         ]
       }
     ],
-    "false_effect": [ { "u_deactivate_trait": "WEREWOLF_HYBRID_FORM" }, { "run_eocs": "EOC_WEREWOLF_WOLF_FORM_activated_2" } ]
+    "false_effect": [
+      { "u_deactivate_trait": "WEREWOLF_HYBRID_FORM" },
+      {
+        "if": { "u_has_trait": "WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM" },
+        "then": { "u_deactivate_trait": "WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM" }
+      },
+      { "run_eocs": "EOC_WEREWOLF_WOLF_FORM_activated_2" }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -175,7 +184,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_WEREWOLF_HYBRID_FORM_activated",
-    "condition": { "not": { "u_has_trait": "VAMPIRE_WOLF_FORM_TRAITS" } },
+    "condition": { "not": { "u_has_any_trait": [ "VAMPIRE_WOLF_FORM_TRAITS", "WEREWOLF_PRIMAL_FORM_TRAITS" ] } },
     "effect": [
       {
         "run_eocs": [
@@ -187,12 +196,13 @@
                 "run_eocs": [
                   {
                     "id": "EOC_WEREWOLF_HYBRID_FORM_activated_3",
-                    "condition": { "math": [ "u_val('mana') >= 50" ] },
+                    "condition": { "math": [ "u_val('mana') >= 20" ] },
                     "effect": [
-                      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
-                      { "math": [ "u_transformed_mana = u_val('mana') - 50" ] },
-                      { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "3" ] },
+                      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
+                      { "math": [ "u_val('mana') -= 20" ] },
+                      { "math": [ "u_calories('dont_affect_weariness': true) *= 3" ] },
                       { "math": [ "u_werewolf_healing_tick_counter = 0" ] },
+                      { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
                       { "u_add_trait": "WEREWOLF_HYBRID_FORM_TRAITS" },
                       { "u_add_trait": "CARNIVORE" },
                       {
@@ -215,15 +225,15 @@
                     "id": "EOC_WEREWOLF_HYBRID_FORM_deactivated",
                     "condition": { "u_has_trait": "WEREWOLF_HYBRID_FORM_TRAITS" },
                     "effect": [
-                      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+                      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
                       {
                         "u_message": "Your body shifts and contracts and you return to your humanoid form.",
                         "type": "neutral"
                       },
                       { "u_lose_trait": "WEREWOLF_HYBRID_FORM_TRAITS" },
                       { "u_lose_trait": "CARNIVORE" },
-                      { "math": [ "u_val('mana') = u_transformed_mana" ] },
-                      { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "3" ] }
+                      { "math": [ "u_calories('dont_affect_weariness': true) /= 3" ] },
+                      { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_RETURN_ARMOR_TO_NORMAL" }
                     ]
                   }
                 ]
@@ -233,7 +243,14 @@
         ]
       }
     ],
-    "false_effect": [ { "u_deactivate_trait": "WEREWOLF_ANIMAL_FORM" }, { "run_eocs": "EOC_WEREWOLF_HYBRID_FORM_activated_2" } ]
+    "false_effect": [
+      { "u_deactivate_trait": "WEREWOLF_ANIMAL_FORM" },
+      {
+        "if": { "u_has_trait": "WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM" },
+        "then": { "u_deactivate_trait": "WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM" }
+      },
+      { "run_eocs": "EOC_WEREWOLF_HYBRID_FORM_activated_2" }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -244,36 +261,31 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_WEREWOLF_HYBRID_FORM_healing",
+    "condition": { "u_has_trait": "WEREWOLF_HYBRID_FORM_TRAITS" },
     "effect": [
       { "math": [ "u_werewolf_healing_tick_counter++" ] },
       {
         "if": { "math": [ "u_werewolf_healing_tick_counter >= 6" ] },
         "then": [
-          { "math": [ "u_werewolf_healing_tick_counter", "-=", "6" ] },
+          { "math": [ "u_werewolf_healing_tick_counter -= 6" ] },
           { "if": { "math": [ "u_pain() >= 1" ] }, "then": { "math": [ "u_pain()--" ] } },
           {
             "if": { "math": [ "u_vitamin('redcells') < 0" ] },
-            "then": { "math": [ "u_vitamin('redcells')", "+=", "150" ] }
+            "then": { "math": [ "u_vitamin('redcells') += 150" ] }
           },
           {
             "if": { "math": [ "u_vitamin('redcells') < -1000" ] },
-            "then": { "math": [ "u_vitamin('redcells')", "+=", "500" ] }
+            "then": { "math": [ "u_vitamin('redcells') += 500" ] }
           },
           {
             "if": { "math": [ "u_vitamin('redcells') < -10000" ] },
-            "then": { "math": [ "u_vitamin('redcells')", "+=", "2500" ] }
+            "then": { "math": [ "u_vitamin('redcells') += 2500" ] }
           },
-          {
-            "if": { "math": [ "u_vitamin('blood') < 0" ] },
-            "then": { "math": [ "u_vitamin('blood')", "+=", "150" ] }
-          },
-          {
-            "if": { "math": [ "u_vitamin('blood') < -1000" ] },
-            "then": { "math": [ "u_vitamin('blood')", "+=", "500" ] }
-          },
+          { "if": { "math": [ "u_vitamin('blood') < 0" ] }, "then": { "math": [ "u_vitamin('blood') += 150" ] } },
+          { "if": { "math": [ "u_vitamin('blood') < -1000" ] }, "then": { "math": [ "u_vitamin('blood') += 500" ] } },
           {
             "if": { "math": [ "u_vitamin('blood') < -10000" ] },
-            "then": { "math": [ "u_vitamin('blood')", "+=", "2500" ] }
+            "then": { "math": [ "u_vitamin('blood') += 2500" ] }
           },
           {
             "if": {
@@ -290,39 +302,115 @@
               "foreach": "array",
               "target": [ "arm_l", "arm_r", "leg_l", "leg_r", "torso", "head" ],
               "var": { "context_val": "id" },
-              "effect": [
-                {
-                  "if": { "math": [ "u_hp(_id) < u_hp_max(_id)" ] },
-                  "then": {
-                    "math": [ "u_hp(_id)", "+=", "max(( 1 * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), 1)" ]
-                  }
-                }
-              ]
+              "effect": [ { "if": { "math": [ "u_hp(_id) < u_hp_max(_id)" ] }, "then": { "math": [ "u_hp(_id) += 1" ] } } ]
             }
           },
           {
-            "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'arm_l') >= 1" ] },
-            "then": { "u_add_effect": "bleed", "target_part": "arm_l", "duration": 0, "intensity": -1 }
+            "foreach": "array",
+            "target": [ "arm_l", "arm_r", "leg_l", "leg_r", "torso", "head" ],
+            "var": { "context_val": "id" },
+            "effect": [
+              {
+                "if": { "u_has_effect": "bite", "bodypart": { "context_val": "id" } },
+                "then": {
+                  "if": { "x_in_y_chance": { "x": 1, "y": 100 } },
+                  "then": { "u_lose_effect": "bite", "target_part": { "context_val": "id" } }
+                }
+              }
+            ]
           },
           {
-            "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'arm_r') >= 1" ] },
-            "then": { "u_add_effect": "bleed", "target_part": "arm_r", "duration": 0, "intensity": -1 }
+            "foreach": "array",
+            "target": [ "arm_l", "arm_r", "leg_l", "leg_r", "torso", "head" ],
+            "var": { "context_val": "id" },
+            "effect": [
+              {
+                "if": { "u_has_effect": "infected", "bodypart": { "context_val": "id" } },
+                "then": {
+                  "if": { "x_in_y_chance": { "x": 1, "y": 250 } },
+                  "then": { "u_lose_effect": "infected", "target_part": { "context_val": "id" } }
+                }
+              }
+            ]
           },
           {
-            "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'leg_l') >= 1" ] },
-            "then": { "u_add_effect": "bleed", "target_part": "leg_l", "duration": 0, "intensity": -1 }
+            "if": { "math": [ "u_hp('arm_l') < u_hp_max('arm_l')" ] },
+            "then": { "u_lose_effect": "bleed", "target_part": "arm_l" }
           },
           {
-            "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'leg_r') >= 1" ] },
-            "then": { "u_add_effect": "bleed", "target_part": "leg_r", "duration": 0, "intensity": -1 }
+            "if": { "math": [ "u_hp('arm_r') < u_hp_max('arm_r')" ] },
+            "then": { "u_lose_effect": "bleed", "target_part": "arm_r" }
           },
           {
-            "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'torso') >= 1" ] },
-            "then": { "u_add_effect": "bleed", "target_part": "torso", "duration": 0, "intensity": -1 }
+            "if": { "math": [ "u_hp('leg_l') < u_hp_max('leg_l')" ] },
+            "then": { "u_lose_effect": "bleed", "target_part": "leg_l" }
           },
           {
-            "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'head') >= 1" ] },
-            "then": { "u_add_effect": "bleed", "target_part": "head", "duration": 0, "intensity": -1 }
+            "if": { "math": [ "u_hp('leg_r') < u_hp_max('leg_r')" ] },
+            "then": { "u_lose_effect": "bleed", "target_part": "leg_r" }
+          },
+          {
+            "if": { "math": [ "u_hp('torso') < u_hp_max('torso')" ] },
+            "then": { "u_lose_effect": "bleed", "target_part": "torso" }
+          },
+          {
+            "if": { "math": [ "u_hp('head') < u_hp_max('head')" ] },
+            "then": { "u_lose_effect": "bleed", "target_part": "head" }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM",
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "worn_only": true } ],
+        "true_eocs": [
+          {
+            "id": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM_APPLY_FLAGS",
+            "effect": [
+              {
+                "if": {
+                  "and": [
+                    { "not": { "npc_has_flag": "SEMITANGIBLE" } },
+                    { "not": { "npc_has_flag": "UNRESTRICTED" } },
+                    { "not": { "npc_has_flag": "INTEGRATED" } }
+                  ]
+                },
+                "then": [
+                  { "npc_set_flag": "SHAPESHIFTED_ARMOR" },
+                  { "npc_set_flag": "SEMITANGIBLE" },
+                  { "npc_set_flag": "UNRESTRICTED" },
+                  { "npc_set_flag": "INTANGIBLE_ARMOR" },
+                  { "npc_set_flag": "NO_TAKEOFF" }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SHAPESHIFTING_ARMOR_CHECK_RETURN_ARMOR_TO_NORMAL",
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "flags": [ "SHAPESHIFTED_ARMOR" ] } ],
+        "true_eocs": [
+          {
+            "id": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM_REMOVE_FLAGS",
+            "effect": [
+              { "npc_unset_flag": "SEMITANGIBLE" },
+              { "npc_unset_flag": "INTANGIBLE_ARMOR" },
+              { "npc_unset_flag": "UNRESTRICTED" },
+              { "npc_unset_flag": "NO_TAKEOFF" },
+              { "npc_unset_flag": "SHAPESHIFTED_ARMOR" }
+            ]
           }
         ]
       }

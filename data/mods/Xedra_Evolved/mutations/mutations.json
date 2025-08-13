@@ -558,7 +558,27 @@
     "vitamin_rates": [ [ "human_blood_vitamin", 720 ], [ "mutagen", 300 ] ],
     "no_empathize_with": [ "HUMAN" ],
     "flags": [ "CANNIBAL", "HEMOVORE" ],
-    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ]
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ],
+    "//": "Unless you attack them or are the ultimate vampire killer, vampires and renfields won't attack you as your blood holds no interest for them.",
+    "enchantments": [
+      {
+        "condition": {
+          "not": { "or": [ { "u_has_effect": "vampire_attacked_vampire_or_renfield" }, { "u_has_trait": "VAMPIRE_ANATHEMA" } ] }
+        },
+        "mutations": [ "VAMPIRE_TRUCE" ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_TRUCE",
+    "name": { "str": "Vampire's Truce", "//~": "NO_I18N" },
+    "description": { "str": "The hidden trait that makes other vampires not attack you first.  It should be hidden.", "//~": "NO_I18N" },
+    "points": 1,
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "ignored_by": [ "VAMPIRE", "RENFIELD" ]
   },
   {
     "type": "mutation",
@@ -1152,7 +1172,6 @@
     "purifiable": false,
     "valid": false,
     "flags": [ "CANNIBAL", "SUNBURN", "DAYFEAR", "HEMOVORE", "MEND_ALL" ],
-    "anger_relations": [ [ "VAMPIRE", -95 ], [ "RENFIELD", -95 ] ],
     "enchantments": [
       {
         "values": [
@@ -1196,7 +1215,8 @@
           { "value": "REGEN_HP_AWAKE", "multiply": 1 },
           { "value": "MENDING_MODIFIER", "multiply": 12 }
         ]
-      }
+      },
+      { "ench_effects": [ { "effect": "effect_vampire_immune_to_classic_zombification", "intensity": 1 } ] }
     ]
   },
   {
@@ -1295,8 +1315,16 @@
           { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 }
         ],
         "mutations": [ "ECHOLOCATION" ],
-        "ench_effects": [ { "effect": "effect_vampire_bat_form_levitation", "intensity": 1 } ],
         "skills": [ { "value": "dodge", "add": 8 } ]
+      },
+      {
+        "condition": {
+          "and": [
+            { "not": { "u_has_effect": "disabled", "bodypart": "arm_l" } },
+            { "not": { "u_has_effect": "disabled", "bodypart": "arm_r" } }
+          ]
+        },
+        "ench_effects": [ { "effect": "effect_vampire_bat_form_levitation", "intensity": 1 } ]
       },
       {
         "condition": "u_has_weapon",
@@ -1304,7 +1332,7 @@
       },
       { "condition": { "u_is_on_terrain": "t_open_air" }, "values": [ { "value": "MOVE_COST", "multiply": -0.6 } ] }
     ],
-    "flags": [ "DRACULIN_VENOM", "LEVITATION", "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_TINY" ],
+    "flags": [ "DRACULIN_VENOM", "LEVITATION", "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_TINY", "TEMPORARY_SHAPESHIFT_NO_HANDS" ],
     "override_look": { "id": "mon_bat", "tile_category": "monster" }
   },
   {
@@ -1358,7 +1386,7 @@
         "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
       }
     ],
-    "flags": [ "MUTE", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT" ],
+    "flags": [ "MUTE", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT", "TEMPORARY_SHAPESHIFT_NO_HANDS" ],
     "override_look": { "id": "mon_wolf", "tile_category": "monster" }
   },
   {
@@ -1542,7 +1570,7 @@
     "player_display": false,
     "purifiable": false,
     "valid": false,
-    "anger_relations": [ [ "VAMPIRE", -150 ], [ "RENFIELD", -150 ] ],
+    "ignored_by": [ "VAMPIRE", "RENFIELD" ],
     "enchantments": [
       {
         "condition": "ALWAYS",
@@ -2139,6 +2167,7 @@
     "valid": false,
     "profession": true,
     "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ],
-    "types": [ "HERITAGE" ]
+    "types": [ "HERITAGE" ],
+    "chargen_allow_npc": false
   }
 ]

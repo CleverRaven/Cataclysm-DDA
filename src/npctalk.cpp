@@ -68,6 +68,7 @@
 #include "global_vars.h"
 #include "gun_mode.h"
 #include "help.h"
+#include "input.h"
 #include "input_context.h"
 #include "input_enums.h"
 #include "inventory.h"
@@ -102,6 +103,7 @@
 #include "npctalk.h"
 #include "npctalk_rules.h"
 #include "npctrade.h"
+#include "options.h"
 #include "output.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
@@ -2422,18 +2424,6 @@ void parse_tags( std::string &phrase, const_talker const &u, const_talker const 
                 activity_name = _( "doing this and that" );
             }
             phrase.replace( fa, l, activity_name );
-        } else if( tag == "<punc>" ) {
-            switch( rng( 0, 2 ) ) {
-                case 0:
-                    phrase.replace( fa, l, pgettext( "punctuation", "." ) );
-                    break;
-                case 1:
-                    phrase.replace( fa, l, pgettext( "punctuation", "…" ) );
-                    break;
-                case 2:
-                    phrase.replace( fa, l, pgettext( "punctuation", "!" ) );
-                    break;
-            }
         } else if( tag == "<mypronoun>" ) {
             std::string npcstr = me.is_male() ? pgettext( "npc", "He" ) : pgettext( "npc", "She" );
             phrase.replace( fa, l, npcstr );
@@ -2455,6 +2445,21 @@ void parse_tags( std::string &phrase, const_talker const &u, const_talker const 
             const npc *guy = dynamic_cast<const npc *>( me_chr );
             std::string restock_interval = guy ? guy->get_restock_interval() : _( "a few days" );
             phrase.replace( fa, l, restock_interval );
+        } else if( tag == "<restock_time_point>" ) {
+            const npc *guy = dynamic_cast<const npc *>( me_chr );
+            if( guy == nullptr ) {
+                phrase.replace( fa, l, _( "the future" ) );
+            } else if( get_option<bool>( "SHOW_MONTHS" ) && calendar::year_length() ==  364_days ) {
+                std::pair<month, int> month_day = month_and_day( guy->restock_time() );
+                //~ 1 is month, 2 is day
+                phrase.replace( fa, l, string_format( pgettext( "month and day", "%1$s %2$d" ),
+                                                      to_string( month_day.first ), month_day.second ) );
+            } else {
+                //~ 1 is season, 2 is day
+                phrase.replace( fa, l, string_format( pgettext( "season and day", "%1$s %2$d" ),
+                                                      calendar::name_season( season_of_year( guy->restock_time() ) ),
+                                                      day_of_season<int>( guy->restock_time() ) ) );
+            }
         } else if( tag.find( "<u_val:" ) == 0 ) {
             //adding a user variable to the string
             std::string var = tag.substr( tag.find( ':' ) + 1 );
@@ -2561,12 +2566,13 @@ void parse_tags( std::string &phrase, const_talker const &u, const_talker const 
 
             std::string keybind_desc;
             std::vector<input_event> keys = ctxt.keys_bound_to( keybind, -1, false, false );
-            if( keys.empty() ) { // Display description for unbound keys
-                keybind_desc = colorize( '<' + ctxt.get_desc( keybind ) + '>', c_red );
-
-                if( !ctxt.is_registered_action( keybind ) ) {
-                    debugmsg( "Keybind specified by <keybind:%s> is invalid/missing", var );
-                }
+            if( keys.empty() ) {
+                // Check if the tag is references a non-existant bind and debugmsg if it does
+                inp_mngr.check_keybind( category, keybind, tag );
+                // Display description for unbound keys, don't use tag or <> or it tries to read it as another tag
+                //~ Describing an unbound keybind, %1$s - whether the key is globally or locally unbound, %2$s - the display name of the keybind like you'd find in the bind menu, %3$s - the untranslated category id it belongs to for context
+                keybind_desc = colorize( string_format( _( "%1$s (\"%2$s\" in keybind category %3$s)" ),
+                                                        ctxt.get_desc( keybind ), ctxt.get_action_name( keybind ), category ), c_red );
             } else {
                 keybind_desc = enumerate_as_string( keys.begin(), keys.end(), []( const input_event & k ) {
                     return colorize( '\'' + k.long_description() + '\'', c_yellow );
@@ -2583,21 +2589,8 @@ void parse_tags( std::string &phrase, const_talker const &u, const_talker const 
             }
             phrase.replace( fa, l, cityname );
         } else if( tag.find( "<time_survived>" ) == 0 ) {
-            std::string time_survived;
             const time_duration survived = calendar::turn - calendar::start_of_game;
-            const int minutes = to_minutes<int>( survived ) % 60;
-            const int hours = to_hours<int>( survived ) % 24;
-            const int days = to_days<int>( survived );
-            if( days > 0 ) {
-                // NOLINTNEXTLINE(cata-translate-string-literal)
-                time_survived = string_format( "%dd %dh %dm", days, hours, minutes );
-            } else if( hours > 0 ) {
-                // NOLINTNEXTLINE(cata-translate-string-literal)
-                time_survived = string_format( "%dh %dm", hours, minutes );
-            } else {
-                // NOLINTNEXTLINE(cata-translate-string-literal)
-                time_survived = string_format( "%dm", minutes );
-            }
+            const std::string time_survived = to_string( survived, true );
             phrase.replace( fa, l, time_survived );
         } else if( tag.find( "<total_kills>" ) == 0 ) {
             const std::string total_kills = std::to_string( g->get_kill_tracker().monster_kill_count() );

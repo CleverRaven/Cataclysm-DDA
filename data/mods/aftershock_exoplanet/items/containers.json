@@ -10,7 +10,36 @@
     "price_postapoc": "30 USD",
     "symbol": ",",
     "color": "red",
-    "pocket_data": [ { "max_contains_volume": "20 L", "max_contains_weight": "40 kg", "max_item_length": "133 cm", "rigid": true } ]
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "40 kg",
+        "max_item_length": "133 cm",
+        "rigid": true
+      }
+    ]
+  },
+  {
+    "id": "afs_augustmoon_kit_box",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "survival kit" },
+    "description": "A survival kit box clearly repurposed from a ship's escape pod.  It contains a variety of supplies to help you survive planetside.",
+    "weight": "1022 g",
+    "volume": "32 L",
+    "price_postapoc": "5 USD",
+    "symbol": ",",
+    "color": "red",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "30 L",
+        "max_contains_weight": "40 kg",
+        "max_item_length": "133 cm",
+        "rigid": true
+      }
+    ]
   },
   {
     "id": "afs_cargo_crate",

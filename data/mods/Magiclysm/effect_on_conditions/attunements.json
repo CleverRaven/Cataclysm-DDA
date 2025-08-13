@@ -18,7 +18,7 @@
           {
             "id": "EOC_ATTUNEMENT_ARTIFICER_BATTERY_RECHARGING_CHARGER",
             "condition": { "math": [ "n_val('power') < n_val('power_max')" ] },
-            "effect": [ { "math": [ "n_val('power')", "+=", "u_spell_level('spy_wasp') + u_spell_level('artificer_toolkit')" ] } ]
+            "effect": [ { "math": [ "n_val('power') += u_spell_level('spy_wasp') + u_spell_level('artificer_toolkit')" ] } ]
           }
         ]
       }

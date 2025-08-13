@@ -367,7 +367,6 @@
     "name": { "str_sp": "sweetened coffee substitute with milk" },
     "conditional_names": [ { "type": "FLAG", "condition": "COLD", "name": { "str_sp": "iced coffee substitute" } } ],
     "calories": 88,
-    "delete": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "extend": { "flags": [ "EATEN_COLD" ] },
     "description": "The morning ritual of the post-apocalyptic world.  Brewed from the Kentucky coffeetree, this drink has no actual caffeine, but serves as a replacement for those who dearly miss the aroma of real coffee.  Can also be served cold as iced coffee.",
     "fun": 4

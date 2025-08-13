@@ -46,8 +46,10 @@
     "type": "talk_topic",
     "//": "When dialogue conditions will be possible to chain, there needs to be a 1% chance of a dialogue where the mentor gets mad at the fact that there is now another Anathema.  Around 1% of mentors knew about it.",
     "//2": "Their response focuses on not panicking, for that tends to provoke hostiles into attacking.  However, they will refuse to stay near the Anathema even for a second.",
+    "//3": "Same for Bloodthorne druids.  It's a good idea to stay near someone who swore to spend their entire life killing your kind, it totally won't get you killed.",
+    "//4": "Except for these, they won't react unless facing hostility as they can't magically guess which human is a vampire hunter.",
     "dynamic_line": {
-      "u_has_trait": "VAMPIRE_ANATHEMA",
+      "u_has_any_trait": [ "VAMPIRE_ANATHEMA", "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT" ],
       "yes": "Sorry I must go.  Bye!",
       "no": {
         "compare_string": [ "yes", { "u_val": "general_meeting_u_met_mentor" } ],
@@ -59,19 +61,19 @@
       {
         "text": "I want to talk.",
         "topic": "TALK_VAMPIRE_MENTOR_TALK",
-        "condition": { "not": { "u_has_trait": "VAMPIRE_ANATHEMA" } },
+        "condition": { "not": { "u_has_any_trait": [ "VAMPIRE_ANATHEMA", "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT" ] } },
         "effect": { "u_add_var": "general_meeting_u_met_mentor", "value": "yes" }
       },
       {
         "text": "I want a mentor.",
         "topic": "TALK_VAMPIRE_MENTOR_MENTORING",
-        "condition": { "not": { "u_has_trait": "VAMPIRE_ANATHEMA" } },
+        "condition": { "not": { "u_has_any_trait": [ "VAMPIRE_ANATHEMA", "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT" ] } },
         "effect": { "u_add_var": "general_meeting_u_met_mentor", "value": "yes" }
       },
       {
         "text": "I want to kill vampires.",
         "topic": "TALK_VAMPIRE_MENTOR_KILLING",
-        "condition": { "not": { "u_has_trait": "VAMPIRE_ANATHEMA" } },
+        "condition": { "not": { "u_has_any_trait": [ "VAMPIRE_ANATHEMA", "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT" ] } },
         "effect": { "u_add_var": "general_meeting_u_met_mentor", "value": "yes" }
       },
       {
@@ -81,7 +83,7 @@
           "and": [
             { "u_has_trait": "VAMPIRE4" },
             { "not": { "compare_string": [ "yes", { "u_val": "told_about_trueness" } ] } },
-            { "not": { "u_has_trait": "VAMPIRE_ANATHEMA" } }
+            { "not": { "u_has_any_trait": [ "VAMPIRE_ANATHEMA", "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT" ] } }
           ]
         },
         "effect": { "u_add_var": "told_about_trueness", "value": "yes" }
@@ -92,7 +94,7 @@
         "//": "Anathema who haven't obtained these recipes need not to worry, for one of their powers will give them the remaining gifts and they will have almost all the weaknesses anyway.",
         "condition": {
           "and": [
-            { "not": { "u_has_trait": "VAMPIRE_ANATHEMA" } },
+            { "not": { "u_has_any_trait": [ "VAMPIRE_ANATHEMA", "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT" ] } },
             { "not": { "u_know_recipe": "xe_vampire_blood_gift_research" } },
             { "compare_string": [ "yes", { "u_val": "told_about_trueness" } ] }
           ]
@@ -105,7 +107,7 @@
           "and": [
             { "compare_string": [ "yes", { "u_val": "received_mentor_book" } ] },
             { "not": { "u_has_item": "vampire_mentor_book" } },
-            { "not": { "u_has_trait": "VAMPIRE_ANATHEMA" } }
+            { "not": { "u_has_any_trait": [ "VAMPIRE_ANATHEMA", "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT" ] } }
           ]
         }
       },
@@ -133,7 +135,7 @@
       {
         "text": "…",
         "topic": "TALK_DONE",
-        "condition": { "u_has_trait": "VAMPIRE_ANATHEMA" },
+        "condition": { "u_has_any_trait": [ "VAMPIRE_ANATHEMA", "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT" ] },
         "effect": [
           { "npc_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } },
           { "u_message": "The mentor vanishes in a fine mist." }
@@ -142,7 +144,12 @@
       {
         "text": "Do you want to chat for a bit?",
         "topic": "TALK_MENTOR_NO_CHAT",
-        "condition": { "and": [ { "not": { "u_has_trait": "VAMPIRE_ANATHEMA" } }, { "npc_has_trait": "PSYCHOPATH" } ] },
+        "condition": {
+          "and": [
+            { "not": { "u_has_any_trait": [ "VAMPIRE_ANATHEMA", "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT" ] } },
+            { "npc_has_trait": "PSYCHOPATH" }
+          ]
+        },
         "effect": { "u_add_var": "general_meeting_u_met_mentor", "value": "yes" }
       },
       {
@@ -151,13 +158,18 @@
         "//": "Non-uncaring mentors enjoy a good chat, both for fun and purpose.",
         "//2": "If you're a vampire, it keeps them on your good side and cement that you made the right choice.",
         "//3": "If you're not a vampire, it builds trust so you're more receptive when they will offer you to become a vampire.",
-        "condition": { "and": [ { "not": { "u_has_trait": "VAMPIRE_ANATHEMA" } }, { "not": { "npc_has_trait": "PSYCHOPATH" } } ] },
+        "condition": {
+          "and": [
+            { "not": { "u_has_any_trait": [ "VAMPIRE_ANATHEMA", "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT" ] } },
+            { "not": { "npc_has_trait": "PSYCHOPATH" } }
+          ]
+        },
         "effect": { "u_add_var": "general_meeting_u_met_mentor", "value": "yes" }
       },
       {
         "text": "Just passing through, don't mind me.",
         "topic": "TALK_DONE",
-        "condition": { "not": { "u_has_trait": "VAMPIRE_ANATHEMA" } },
+        "condition": { "not": { "u_has_any_trait": [ "VAMPIRE_ANATHEMA", "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT" ] } },
         "effect": { "u_add_var": "general_meeting_u_met_mentor", "value": "yes" }
       }
     ]

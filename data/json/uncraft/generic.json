@@ -51,6 +51,24 @@
     "components": [ [ [ "scrap", 5 ] ] ]
   },
   {
+    "result": "sheet_aluminum",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "150 s",
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "sheet_aluminum_small", 24 ] ] ]
+  },
+  {
+    "result": "sheet_aluminum_small",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "12 s",
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "scrap_aluminum", 1 ] ] ]
+  },
+  {
     "result": "railroad_track_item",
     "type": "uncraft",
     "activity_level": "BRISK_EXERCISE",

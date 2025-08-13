@@ -24,7 +24,7 @@
     "ammo_effects": [ "PLASMA", "PLASMA_BUBBLE", "IGNITE" ],
     "ammo": [ "mom_fusion_ammo" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "25 ml", "item_restriction": [ "mom_fusion_mag" ] } ],
-    "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE", "NO_REPAIR" ]
+    "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE", "NO_REPAIR", "FIFTH_SUN_TECHNOLOGY" ]
   },
   {
     "id": "mom_fusion_mag",
@@ -91,7 +91,7 @@
     "ammo_effects": [ "NEURAL_STUNGUN" ],
     "ammo": [ "mom_fifth_sun_stungun_ammo" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "25 ml", "item_restriction": [ "mom_fifth_sun_stungun_mag" ] } ],
-    "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE", "NO_REPAIR" ]
+    "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE", "NO_REPAIR", "FIFTH_SUN_TECHNOLOGY" ]
   },
   {
     "id": "mom_fifth_sun_stungun_mag",
@@ -164,7 +164,7 @@
     "melee_damage": { "bash": 12 },
     "ammo": [ "mom_lightning_rifle_ammo" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "50 ml", "item_restriction": [ "mom_lightning_rifle_mag" ] } ],
-    "flags": [ "NEVER_JAMS", "NO_REPAIR", "NON_FOULING", "NEEDS_NO_LUBE", "NO_REPAIR" ],
+    "flags": [ "NEVER_JAMS", "NO_REPAIR", "NON_FOULING", "NEEDS_NO_LUBE", "NO_REPAIR", "FIFTH_SUN_TECHNOLOGY" ],
     "variant_type": "generic",
     "variants": [
       {
@@ -267,7 +267,7 @@
       { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 10 }
     ],
     "melee_damage": { "bash": 1 },
-    "flags": [ "VARSIZE", "WATERPROOF", "MUNDANE", "STURDY", "PADDED" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "MUNDANE", "STURDY", "PADDED", "FIFTH_SUN_TECHNOLOGY" ]
   },
   {
     "id": "mom_fifth_sun_eagle_tac_helmet_on",
@@ -370,7 +370,7 @@
         ]
       }
     ],
-    "flags": [ "VARSIZE", "STURDY", "MUNDANE", "OUTER", "NO_REPAIR" ]
+    "flags": [ "VARSIZE", "STURDY", "MUNDANE", "OUTER", "NO_REPAIR", "FIFTH_SUN_TECHNOLOGY" ]
   },
   {
     "id": "mom_fifth_sun_standard_body_armor_on",
@@ -457,7 +457,8 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "Itzcuāuhtli Corps tilmàtli" },
     "description": "A formal dress cape for the Itzcuāuhtli Corps in crimson and gold, with the eagle's head over a field of stars insignia on the left shoulder, worn by generations of those who sought out new worlds in service to the Huey Tlatoani and the Ēxcān Tlahtōlōyān.  You're pretty sure this is the furthest anyone wearing one has ever been from Anáhuac.",
-    "delete": { "flags": [ "HOOD" ] }
+    "delete": { "flags": [ "HOOD" ] },
+    "extend": { "flags": [ "FIFTH_SUN_TECHNOLOGY" ] }
   },
   {
     "id": "itzcuauhtli_hat",
@@ -465,7 +466,8 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "Imperial navy cap" },
-    "description": "A flat crimson hat worn by members of the Imperial navy at formal events.  This one has the black circle of the Yohualli Ehēcatl on it."
+    "description": "A flat crimson hat worn by members of the Imperial navy at formal events.  This one has the black circle of the Yohualli Ehēcatl on it.",
+    "extend": { "flags": [ "FIFTH_SUN_TECHNOLOGY" ] }
   },
   {
     "id": "itzcuauhtli_holster",
@@ -485,7 +487,8 @@
         "max_item_length": "30 cm",
         "moves": 50
       }
-    ]
+    ],
+    "extend": { "flags": [ "FIFTH_SUN_TECHNOLOGY" ] }
   },
   {
     "id": "itzcuauhtli_holster_m12",
@@ -505,7 +508,8 @@
         "max_item_length": "30 cm",
         "moves": 50
       }
-    ]
+    ],
+    "extend": { "flags": [ "FIFTH_SUN_TECHNOLOGY" ] }
   },
   {
     "id": "itzcuauhtli_tunic",
@@ -513,7 +517,8 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "Yohualli Ehēcatl division tunic" },
-    "description": "A dress tunic, in gold and crimson, slashed with black bars.  This would immediately mark your exact rank and position to anyone else in the Imperial Navy, if you ever see another one again."
+    "description": "A dress tunic, in gold and crimson, slashed with black bars.  This would immediately mark your exact rank and position to anyone else in the Imperial Navy, if you ever see another one again.",
+    "extend": { "flags": [ "FIFTH_SUN_TECHNOLOGY" ] }
   },
   {
     "id": "itzcuauhtli_tunic_jaguar",
@@ -536,7 +541,8 @@
         "description": "Some sort of uniform dress shirt in a blood-red crimson color with gold accents and a series of yellow bars on the left side.  You can't recall any military that dresses quite like this.",
         "weight": 1
       }
-    ]
+    ],
+    "extend": { "flags": [ "FIFTH_SUN_TECHNOLOGY" ] }
   },
   {
     "id": "itzcuauhtli_pants",
@@ -559,7 +565,8 @@
         "description": "Some sort of uniform pants in a blood-red crimson color with gold accents.  You can't recall any military that dresses quite like this.",
         "weight": 1
       }
-    ]
+    ],
+    "extend": { "flags": [ "FIFTH_SUN_TECHNOLOGY" ] }
   },
   {
     "id": "itzcuauhtli_boots",
@@ -582,7 +589,8 @@
         "description": "Simple black leather boots.",
         "weight": 1
       }
-    ]
+    ],
+    "extend": { "flags": [ "FIFTH_SUN_TECHNOLOGY" ] }
   },
   {
     "id": "itzcuauhtli_wrist_computer",
@@ -608,7 +616,8 @@
       "NO_RELOAD",
       "ALLOWS_NATURAL_ATTACKS",
       "OVERSIZE",
-      "NO_REPAIR"
+      "NO_REPAIR",
+      "FIFTH_SUN_TECHNOLOGY"
     ],
     "symbol": "[",
     "use_action": [ "E_FILE_DEVICE", "EBOOKSAVE", "MP3", "CAMERA", "CALORIES_INTAKE_TRACKER", "PORTABLE_GAME", "FITNESS_CHECK" ],
@@ -646,7 +655,8 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "Itzcuāuhtli Corps combat uniform pants" },
-    "description": "The standard combat uniform of the Itzcuāuhtli Corps, in shades of dark green and grey.  These are pants, with several pockets."
+    "description": "The standard combat uniform of the Itzcuāuhtli Corps, in shades of dark green and grey.  These are pants, with several pockets.",
+    "extend": { "flags": [ "FIFTH_SUN_TECHNOLOGY" ] }
   },
   {
     "id": "itzcuauhtli_combat_shirt",
@@ -654,7 +664,8 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "Itzcuāuhtli Corps combat uniform shirt" },
-    "description": "The standard combat uniform of the Itzcuāuhtli Corps, in shades of dark green and grey.  This is a shirt."
+    "description": "The standard combat uniform of the Itzcuāuhtli Corps, in shades of dark green and grey.  This is a shirt.",
+    "extend": { "flags": [ "FIFTH_SUN_TECHNOLOGY" ] }
   },
   {
     "id": "itzcuauhtli_jacket_army_modern",
@@ -662,7 +673,8 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "Itzcuāuhtli Corps combat uniform jacket" },
-    "description": "The standard combat uniform of the Itzcuāuhtli Corps, in shades of dark green and grey.  This is a jacket.  It has the eagle over a field of stars symbol of the Itzcuāuhtli Corps on both shoulders."
+    "description": "The standard combat uniform of the Itzcuāuhtli Corps, in shades of dark green and grey.  This is a jacket.  It has the eagle over a field of stars symbol of the Itzcuāuhtli Corps on both shoulders.",
+    "extend": { "flags": [ "FIFTH_SUN_TECHNOLOGY" ] }
   },
   {
     "id": "holy_symbol_fifth_sun",
@@ -670,6 +682,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "Imperial Church holy symbol" },
-    "description": "A necklace made of fine gold chain, bearing an image of Jesucristo as the Ultimate Sacrifice as a pendant, his heart clearly visible through his chest.  Under his left hand is a raindrop, representing the Aeon Tláloc, and under his right hand is a sun disc, representing the Aeon Huītzilōpōchtli."
+    "description": "A necklace made of fine gold chain, bearing an image of Jesucristo as the Ultimate Sacrifice as a pendant, his heart clearly visible through his chest.  Under his left hand is a raindrop, representing the Aeon Tláloc, and under his right hand is a sun disc, representing the Aeon Huītzilōpōchtli.",
+    "extend": { "flags": [ "FIFTH_SUN_TECHNOLOGY" ] }
   }
 ]

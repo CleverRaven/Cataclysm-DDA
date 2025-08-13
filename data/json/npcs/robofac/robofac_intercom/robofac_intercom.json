@@ -123,7 +123,7 @@
     "type": "item_group",
     "id": "NC_ROBOFAC_INTERCOM_trade_envirosuit",
     "subtype": "collection",
-    "entries": [ { "item": "robofac_enviro_suit", "count": 1, "prob": 25 } ]
+    "entries": [ { "item": "robofac_enviro_suit", "count": 1, "prob": 100 } ]
   },
   {
     "id": "robofac_blacklist",
@@ -1069,8 +1069,8 @@
     "id": "TALK_ROBOFAC_INTERCOM_ASK_INTERVAL",
     "type": "talk_topic",
     "dynamic_line": [
-      "We have no other disposable equipment right now.  You'll have to come back in <interval>.",
-      "No. Come back in <interval>."
+      "We have no other disposable equipment right now.  You'll have to come back on <restock_time_point>.",
+      "No. Come back on <restock_time_point>."
     ],
     "responses": [ { "text": "Right…", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
   }

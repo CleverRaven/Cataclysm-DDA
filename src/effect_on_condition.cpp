@@ -140,11 +140,14 @@ static time_duration next_recurrence( const effect_on_condition_id &eoc, dialogu
 void effect_on_conditions::load_new_character( Character &you )
 {
     bool is_avatar = you.is_avatar();
-    for( const effect_on_condition_id &eoc_id : get_scenario()->eoc() ) {
-        effect_on_condition eoc = eoc_id.obj();
-        if( is_avatar || eoc.run_for_npcs ) {
-            queued_eoc new_eoc = queued_eoc{ eoc.id, calendar::turn_zero, {} };
-            you.queued_effect_on_conditions.push( new_eoc );
+    // npcs do not have scenario, so check for that
+    if( get_scenario() ) {
+        for( const effect_on_condition_id &eoc_id : get_scenario()->eoc() ) {
+            effect_on_condition eoc = eoc_id.obj();
+            if( is_avatar || eoc.run_for_npcs ) {
+                queued_eoc new_eoc = queued_eoc{ eoc.id, calendar::turn_zero, {} };
+                you.queued_effect_on_conditions.push( new_eoc );
+            }
         }
     }
 
@@ -355,6 +358,24 @@ bool effect_on_condition::activate( dialogue &d, bool require_callstack_check ) 
         }
     }
     return retval;
+}
+
+bool effect_on_condition::activate_activation_only( dialogue &d, const std::string &text1,
+        const std::string &text2, const std::string &text3, bool require_callstack_check ) const
+{
+    if( type == eoc_type::ACTIVATION ) {
+        return activate( d, require_callstack_check );
+    }
+    debugmsg(
+        "Must use an activation eoc for %s%s%s%s.  Otherwise, create a non-recurring effect_on_condition for this %s%swith its condition and effects, then have a recurring one queue it.",
+        text1,
+        text2.empty() ? "" :
+        ".  If you don't want the effect_on_condition to happen on its own (without the ",
+        text2,
+        text2.empty() ? "" : "), remove the recurrence min and max.",
+        text3,
+        text3.empty() ? "" : " " );
+    return false;
 }
 
 bool effect_on_condition::check_deactivate( const_dialogue const &d ) const

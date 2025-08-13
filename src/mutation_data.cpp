@@ -10,7 +10,6 @@
 #include <unordered_map>
 #include <vector>
 
-#include "assign.h"
 #include "color.h"
 #include "condition.h"
 #include "debug.h"
@@ -200,11 +199,11 @@ bool mut_transform::load( const JsonObject &jsobj, std::string_view member )
 {
     JsonObject j = jsobj.get_object( member );
 
-    assign( j, "target", target );
-    assign( j, "msg_transform", msg_transform );
-    assign( j, "active", active );
+    optional( j, false, "target", target );
+    optional( j, false, "msg_transform", msg_transform );
+    optional( j, false, "active", active, false );
     optional( j, false, "safe", safe, false );
-    assign( j, "moves", moves );
+    optional( j, false, "moves", moves, 0 );
 
     return true;
 }
@@ -307,7 +306,7 @@ void mutation_branch::load( const JsonObject &jo, std::string_view src )
     optional( jo, was_loaded, "visibility", visibility, 0 );
     optional( jo, was_loaded, "ugliness", ugliness, 0 );
     optional( jo, was_loaded, "starting_trait", startingtrait, false );
-    optional( jo, was_loaded, "random_at_chargen", random_at_chargen, true );
+    optional( jo, was_loaded, "chargen_allow_npc", chargen_allow_npc, true );
     optional( jo, was_loaded, "mixed_effect", mixed_effect, false );
     optional( jo, was_loaded, "active", activated, false );
     optional( jo, was_loaded, "starts_active", starts_active, false );

@@ -71,7 +71,7 @@
 
 ## Notes
 
-- Some flags (items, effects, vehicle parts) have to be defined in `flags.json` or `vp_flags.json` (with type: `json_flag`) to work correctly.
+- Some flags (items, effects, vehicle parts, construction pre_flags) have to be defined in `flags.json` or `vp_flags.json` (with type: `json_flag`) to work correctly.
 - Many of the flags intended for one category or item type can be used in other categories or item types.  Experiment to see where else flags can be used.
 - Offensive and defensive flags can be used on any item type that can be wielded.
 
@@ -210,6 +210,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```HELMET_NAPE_PROTECTOR``` Item can be worn with different hard helmets, as attachment; specifically can be put in pocket for armor with this flag restriction.
 - ```HOOD``` Allow this clothing to conditionally cover the head, for additional warmth or water protection, if the player's head isn't encumbered.
 - ```HYGROMETER``` This gear is equipped with an accurate hygrometer (which is used to measure humidity).
+- ```INTANGIBLE_ARMOR``` The armor provides no protection on any covered body part, as thought it had a coverage of 0%. 
 - ```INTEGRATED``` This item represents a part of you granted by mutations or bionics.  It will always fit, will not conflict with armor-blocking mutations, cannot be unequipped (aside from losing the source), and won't drop on death, but otherwise behaves like normal armor with regards to function, encumbrance, layer conflicts and so on.
 - ```MUTE``` Makes the player mute.
 - ```NORMAL``` Items worn like normal clothing.  This is assumed as default.
@@ -415,6 +416,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```ONE_STORY_FALL``` You can slow your fall, effectively reducing the height of it by 1 level.
 - ```PAIN_IMMUNE``` Character don't feel pain.
 - ```PARAIMMUNE``` You are immune to parasites.
+- ```PHASE_MOVEMENT``` DEBUG. Completely ignores all impassable tiles, gravity checks, etc. and forces movement anyway.
 - ```PLANTBLOOD``` Your body drip veggy blood if wounded.
 - ```PORTAL_PROOF``` You are immune to personal portal storm effects.
 - ```PRED1``` Small morale bonus from foods with the `PREDATOR_FUN` flag.  Lower morale penalty from the guilt mondeath effect.
@@ -598,6 +600,7 @@ These are checked by hardcode for monsters (introducing new flags will require C
 ## Furniture and Terrain
 
 List of known flags, used in both `furniture` and `terrain`.  Some work for both, others are limited to either.
+Can also be used as `pre_flags` for `construction`.
 
 - ```ALARMED``` Sets off an alarm if smashed.
 - ```ALLOW_FIELD_EFFECT``` Apply field effects to items inside `SEALED` terrain/furniture.

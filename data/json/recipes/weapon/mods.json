@@ -651,7 +651,7 @@
     "time": "10 m",
     "book_learn": [ [ "mag_archery", 1 ], [ "manual_archery", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "chunk_rubber", 1 ] ], [ [ "super_glue", 5 ] ] ]
+    "components": [ [ [ "chunk_rubber", 1 ] ], [ [ "glue_strong", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -666,7 +666,7 @@
     "autolearn": true,
     "book_learn": [ [ "mag_archery", 1 ], [ "manual_archery", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "fur", 1 ] ], [ [ "bone_glue", 1 ] ] ]
+    "components": [ [ [ "fur", 1 ] ], [ [ "glue_weak", 150 ] ] ]
   },
   {
     "type": "recipe",

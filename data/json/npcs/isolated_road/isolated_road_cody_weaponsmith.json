@@ -150,8 +150,8 @@
             "target_var": { "u_val": "general_artisans_blacksmith_weapon" },
             "parse_tags": true
           },
-          { "math": [ "u_number_artisans_blacksmith_weapon_cost", "+=", "50" ] },
-          { "math": [ "u_number_artisans_blacksmith_weapon_wait", "+=", "2" ] }
+          { "math": [ "u_number_artisans_blacksmith_weapon_cost += 50" ] },
+          { "math": [ "u_number_artisans_blacksmith_weapon_wait += 2" ] }
         ],
         "topic": "TALK_BLACKSMITH_WEAPONSMITH_PAYMENT"
       },

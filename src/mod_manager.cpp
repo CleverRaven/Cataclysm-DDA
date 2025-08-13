@@ -7,6 +7,7 @@
 #include <memory>
 #include <ostream>
 #include <queue>
+#include <stdexcept>
 
 #include "assign.h"
 #include "cata_utility.h"
@@ -14,6 +15,7 @@
 #include "dependency_tree.h"
 #include "filesystem.h"
 #include "flexbuffer_json.h"
+#include "input_context.h"
 #include "json.h"
 #include "localized_comparator.h"
 #include "output.h"
@@ -469,18 +471,28 @@ void mod_manager::check_mods_list( WORLD *world ) const
                 amo.insert( check_it, replace_it->second );
                 amo.erase( check_it );
                 changed = true;
-            } else if( const auto it = removed_mods.find( *check_it ); it != removed_mods.end() ) {
-                if( query_yn(
-                        _( "Mod %s has been removed with reason: %s\nRemove it from this world's active mods?" ),
-                        check_it->c_str(), it->second.translated() ) ) {
-                    amo.erase( check_it-- );
-                    changed = true;
-                }
             } else {
-                if( query_yn( _( "Mod %s not found in mods folder, remove it from this world's active mods?" ),
-                              check_it->c_str() ) ) {
-                    amo.erase( check_it-- );
-                    changed = true;
+                input_context dummy_ctxt( "YESNOQUIT" );
+                const std::string cancel_option_name = dummy_ctxt.get_action_name( "QUIT" );
+                query_ynq_result res;
+                if( const auto it = removed_mods.find( *check_it ); it != removed_mods.end() ) {
+                    res = query_ynq(
+                              _( "Mod %s has been removed with reason: %s\nRemove it from this world's active mods?  (%s aborts load)" ),
+                              check_it->c_str(), it->second.translated(), cancel_option_name );
+                } else {
+                    res = query_ynq(
+                              _( "Mod %s not found in mods folder, remove it from this world's active mods?  (%s aborts load)" ),
+                              check_it->c_str(), cancel_option_name );
+                }
+                switch( res ) {
+                    case query_ynq_result::quit:
+                        throw std::runtime_error( _( "Player aborted load." ) );
+                    case query_ynq_result::no:
+                        break;
+                    case query_ynq_result::yes:
+                        amo.erase( check_it-- );
+                        changed = true;
+                        break;
                 }
             }
         }

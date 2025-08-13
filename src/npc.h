@@ -918,7 +918,6 @@ class npc : public Character
         bool is_guarding() const;
         // Has a guard patrol mission
         bool is_patrolling() const;
-        bool within_boundaries_of_camp() const;
         /** is performing a player_activity */
         bool has_player_activity() const;
         bool is_travelling() const;
@@ -938,6 +937,7 @@ class npc : public Character
 
         // Re-roll the inventory of a shopkeeper
         void shop_restock();
+        time_point restock_time() const;
         std::string get_restock_interval() const;
         bool is_shopkeeper() const;
         // Use and assessment of items
@@ -1131,8 +1131,6 @@ class npc : public Character
         int evaluate_sleep_spot( tripoint_bub_ms p );
         // Returns true if did something and we should end turn
         bool scan_new_items();
-        // Returns score for how well this weapon might kill things
-        double evaluate_weapon( item &maybe_weapon, bool can_use_gun, bool use_silent ) const;
         // Returns best weapon. Can return null (fists)
         item *evaluate_best_weapon() const;
         // Returns true if did wield it
@@ -1508,6 +1506,8 @@ class npc_template
         static void load( const JsonObject &jsobj, std::string_view src );
         static void reset();
         static void check_consistency();
+
+        static std::map<npc_template_id, npc_template> &get_npc_templates();
 };
 
 std::ostream &operator<< ( std::ostream &os, const npc_need &need );
