@@ -19,7 +19,7 @@
           { "u_lose_effect": "zombie_virus" },
           { "u_lose_effect": "effect_xe_ddotd_zombie_virus_resistance" },
           {
-            "u_message": "You've started feeling a bit better.  Maybe your unique condition has saved you from the zombie bite's inexorable…death this time.",
+            "u_message": "You've started feeling a bit better.  Maybe your unique condition has saved you from the zombie bite's inexorable death…this time.",
             "type": "good"
           }
         ],
@@ -38,7 +38,7 @@
           { "u_lose_effect": "zombie_virus" },
           { "u_lose_effect": "effect_xe_ddotd_zombie_virus_resistance" },
           {
-            "u_message": "You've started feeling a bit better.  Maybe your unique condition has saved you from the zombie bite's inexorable…death this time.",
+            "u_message": "You've started feeling a bit better.  Maybe your unique condition has saved you from the zombie bite's inexorable death…this time.",
             "type": "good"
           }
         ],
