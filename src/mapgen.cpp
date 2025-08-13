@@ -1014,7 +1014,6 @@ class mapgen_basic_container
          */
         void setup() {
             for( const std::shared_ptr<mapgen_function> &ptr : mapgens_ ) {
-                cata_assert( ptr->weight );
                 if( ptr->weight.is_constant() ) {
                     int const weight = ptr->weight.constant();
                     if( weight < 1 ) {
@@ -1283,8 +1282,8 @@ load_mapgen_function( const JsonObject &jio, const std::string &id_base,
                                       weight.min.constant() >= INT_MAX ) ) {
         jio.throw_error_at( "weight", "min value out of bounds (0 - max int)" );
     }
-    if( weight.pair && weight.max.is_constant() && ( weight.max.constant() < 0 ||
-            weight.max.constant() >= INT_MAX ) ) {
+    if( weight.max && weight.max->is_constant() && ( weight.max->constant() < 0 ||
+            weight.max->constant() >= INT_MAX ) ) {
         jio.throw_error_at( "weight", "max value out of bounds (0 - max int)" );
     }
     if( jio.has_string( "builtin" ) ) {

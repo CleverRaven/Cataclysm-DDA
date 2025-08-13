@@ -210,18 +210,13 @@ void load_add_and_multiply_dbl_or_var( const JsonObject &jo, std::string_view ar
             mandatory( value_obj, false, type_key, value );
 
             if( value_obj.has_member( "add" ) ) {
-                dbl_or_var add = get_dbl_or_var( value_obj, "add", false );
+                dbl_or_var add = get_dbl_or_var( value_obj, "add" );
                 add_map.emplace( value, add );
             }
 
             if( value_obj.has_member( "multiply" ) ) {
-                dbl_or_var mult;
-                if( value_obj.has_float( "multiply" ) ) {
-                    mult.max.dbl_val = mult.min.dbl_val = value_obj.get_float( "multiply" );
-                } else {
-                    mult = get_dbl_or_var( value_obj, "multiply", false );
+                dbl_or_var mult = get_dbl_or_var( value_obj, "multiply" );
 
-                }
                 mult_map.emplace( value, mult );
             }
 
@@ -955,127 +950,72 @@ void enchant_cache::force_add( const enchantment &rhs, const vehicle &veh )
 void enchant_cache::force_add( const enchantment &rhs )
 {
     const_dialogue d( nullptr, nullptr );
-    force_add_with_dialogue( rhs, d, false );
+    force_add_with_dialogue( rhs, d );
 }
 
-void enchant_cache::force_add_with_dialogue( const enchantment &rhs, const const_dialogue &d,
-        const bool evaluate )
+void enchant_cache::force_add_with_dialogue( const enchantment &rhs, const const_dialogue &d )
 {
     for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values :
          rhs.values_add ) {
-        if( evaluate ) {
-            values_add[pair_values.first] += pair_values.second.evaluate( d );
-        } else {
-            values_add[pair_values.first] += pair_values.second.constant();
-        }
+        values_add[pair_values.first] += pair_values.second.evaluate( d );
     }
     for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values :
          rhs.values_multiply ) {
         // values do not multiply against each other, they add.
         // so +10% and -10% will add to 0%
-        if( evaluate ) {
-            values_multiply[pair_values.first] += pair_values.second.evaluate( d );
-        } else {
-            values_multiply[pair_values.first] += pair_values.second.constant();
-        }
+        values_multiply[pair_values.first] += pair_values.second.evaluate( d );
     }
 
     for( const std::pair<const skill_id, dbl_or_var> &pair_values :
          rhs.skill_values_add ) {
-        if( evaluate ) {
-            skill_values_add[pair_values.first] += pair_values.second.evaluate( d );
-        } else {
-            skill_values_add[pair_values.first] += pair_values.second.constant();
-        }
+        skill_values_add[pair_values.first] += pair_values.second.evaluate( d );
     }
     for( const std::pair<const skill_id, dbl_or_var> &pair_values :
          rhs.skill_values_multiply ) {
         // values do not multiply against each other, they add.
         // so +10% and -10% will add to 0%
-        if( evaluate ) {
-            skill_values_multiply[pair_values.first] += pair_values.second.evaluate( d );
-        } else {
-            skill_values_multiply[pair_values.first] += pair_values.second.constant();
-        }
+        skill_values_multiply[pair_values.first] += pair_values.second.evaluate( d );
     }
 
     for( const std::pair<const bodypart_str_id, dbl_or_var> &pair_values :
          rhs.encumbrance_values_add ) {
-        if( evaluate ) {
-            encumbrance_values_add[pair_values.first] += pair_values.second.evaluate( d );
-        } else {
-            encumbrance_values_add[pair_values.first] += pair_values.second.constant();
-        }
+        encumbrance_values_add[pair_values.first] += pair_values.second.evaluate( d );
     }
     for( const std::pair<const bodypart_str_id, dbl_or_var> &pair_values :
          rhs.encumbrance_values_multiply ) {
-        if( evaluate ) {
-            encumbrance_values_multiply[pair_values.first] += pair_values.second.evaluate( d );
-        } else {
-            encumbrance_values_multiply[pair_values.first] += pair_values.second.constant();
-        }
+        encumbrance_values_multiply[pair_values.first] += pair_values.second.evaluate( d );
     }
 
     for( const std::pair<const damage_type_id, dbl_or_var> &pair_values :
          rhs.damage_values_add ) {
-        if( evaluate ) {
-            damage_values_add[pair_values.first] += pair_values.second.evaluate( d );
-        } else {
-            damage_values_add[pair_values.first] += pair_values.second.constant();
-        }
+        damage_values_add[pair_values.first] += pair_values.second.evaluate( d );
     }
     for( const std::pair<const damage_type_id, dbl_or_var> &pair_values :
          rhs.damage_values_multiply ) {
-        if( evaluate ) {
-            damage_values_multiply[pair_values.first] += pair_values.second.evaluate( d );
-        } else {
-            damage_values_multiply[pair_values.first] += pair_values.second.constant();
-        }
+        damage_values_multiply[pair_values.first] += pair_values.second.evaluate( d );
     }
 
     for( const std::pair<const damage_type_id, dbl_or_var> &pair_values :
          rhs.armor_values_add ) {
-        if( evaluate ) {
-            armor_values_add[pair_values.first] += pair_values.second.evaluate( d );
-        } else {
-            armor_values_add[pair_values.first] += pair_values.second.constant();
-        }
+        armor_values_add[pair_values.first] += pair_values.second.evaluate( d );
     }
     for( const std::pair<const damage_type_id, dbl_or_var> &pair_values :
          rhs.armor_values_multiply ) {
-        if( evaluate ) {
-            armor_values_multiply[pair_values.first] += pair_values.second.evaluate( d );
-        } else {
-            armor_values_multiply[pair_values.first] += pair_values.second.constant();
-        }
+        armor_values_multiply[pair_values.first] += pair_values.second.evaluate( d );
     }
 
     for( const std::pair<const damage_type_id, dbl_or_var> &pair_values :
          rhs.extra_damage_add ) {
-        if( evaluate ) {
-            extra_damage_add[pair_values.first] += pair_values.second.evaluate( d );
-        } else {
-            extra_damage_add[pair_values.first] += pair_values.second.constant();
-        }
+        extra_damage_add[pair_values.first] += pair_values.second.evaluate( d );
     }
     for( const std::pair<const damage_type_id, dbl_or_var> &pair_values :
          rhs.extra_damage_multiply ) {
-        if( evaluate ) {
-            extra_damage_multiply[pair_values.first] += pair_values.second.evaluate( d );
-        } else {
-            extra_damage_multiply[pair_values.first] += pair_values.second.constant();
-        }
+        extra_damage_multiply[pair_values.first] += pair_values.second.evaluate( d );
     }
     for( const enchantment::special_vision &struc : rhs.special_vision_vector ) {
-        if( evaluate ) {
-            special_vision_vector.emplace_back( special_vision{
-                struc.special_vision_descriptions_vector, struc.condition, struc.range.evaluate( d ),
-                struc.precise, struc.ignores_aiming_cone } );
-        } else {
-            special_vision_vector.emplace_back( special_vision{
-                struc.special_vision_descriptions_vector, struc.condition, struc.range.constant(),
-                struc.precise, struc.ignores_aiming_cone } );
-        }
+        special_vision_vector.emplace_back( special_vision{
+            struc.special_vision_descriptions_vector, struc.condition, struc.range.evaluate( d ),
+            struc.precise, struc.ignores_aiming_cone } );
     }
 
     hit_me_effect.insert( hit_me_effect.end(), rhs.hit_me_effect.begin(), rhs.hit_me_effect.end() );

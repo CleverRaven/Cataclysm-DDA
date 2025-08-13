@@ -431,20 +431,21 @@ void widget_custom_var::deserialize( const JsonObject &jo )
         JsonArray range = jo.get_array( "range" );
         switch( range.size() ) {
             case 2:
-                min = get_dbl_or_var_part( range.next_value() );
-                norm = std::make_pair( dbl_or_var_part( INT_MIN ), dbl_or_var_part( INT_MAX ) );
-                max = get_dbl_or_var_part( range.next_value() );
+                min.deserialize( range.next_value() );
+                norm = std::make_pair( dbl_or_var::part_t( INT_MIN ), dbl_or_var::part_t( INT_MAX ) );
+                max.deserialize( range.next_value() );
                 break;
             case 3:
-                min = get_dbl_or_var_part( range.next_value() );
-                norm.first = norm.second = get_dbl_or_var_part( range.next_value() );
-                max = get_dbl_or_var_part( range.next_value() );
+                min.deserialize( range.next_value() );
+                norm.first.deserialize( range.next_value() );
+                norm.second = norm.first;
+                max.deserialize( range.next_value() );
                 break;
             case 4:
-                min = get_dbl_or_var_part( range.next_value() );
-                norm.first = get_dbl_or_var_part( range.next_value() );
-                norm.second = get_dbl_or_var_part( range.next_value() );
-                max = get_dbl_or_var_part( range.next_value() );
+                min.deserialize( range.next_value() );
+                norm.first.deserialize( range.next_value() );
+                norm.second.deserialize( range.next_value() );
+                max.deserialize( range.next_value() );
                 break;
             default:
                 jo.throw_error( "invalid number of elements in \"range\", must have 2~4" );
