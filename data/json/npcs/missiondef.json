@@ -984,7 +984,7 @@
         "u_message": "You've been badly wounded.  It might be better to rest for a while and let someone else scavenge.  (Changing characters is now available at any camp board.)",
         "type": "mixed"
       },
-      { "math": [ "u_timer_time_of_last_succession", "-=", "time_between_succession" ] }
+      { "math": [ "u_timer_time_of_last_succession -= time_between_succession" ] }
     ]
   }
 ]

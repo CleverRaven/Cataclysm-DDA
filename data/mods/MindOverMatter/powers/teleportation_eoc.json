@@ -10,7 +10,7 @@
         "true_eocs": [
           {
             "id": "EOC_TELEPORT_SELF_CARRIED_VOLUME_CHECKER_ADD_VOLUME_WORN",
-            "effect": [ { "math": [ "u_teleport_total_carried_volume", "+=", "n_volume()" ] } ]
+            "effect": [ { "math": [ "u_teleport_total_carried_volume += n_volume()" ] } ]
           }
         ]
       },
@@ -22,7 +22,7 @@
         "true_eocs": [
           {
             "id": "EOC_TELEPORT_SELF_CARRIED_VOLUME_CHECKER_ADD_VOLUME_WIELDED",
-            "effect": [ { "math": [ "u_teleport_total_carried_volume", "+=", "n_volume()" ] } ]
+            "effect": [ { "math": [ "u_teleport_total_carried_volume += n_volume()" ] } ]
           }
         ]
       },

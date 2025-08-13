@@ -135,18 +135,18 @@
       {
         "if": { "npc_has_flag": "BLEEDSLOW2" },
         "then": [
-          { "math": [ "n_vitamin('blood')", "-=", "_vampire_amount_drained / 3" ] },
-          { "math": [ "n_vitamin('redcells')", "-=", "_vampire_amount_drained / 3" ] }
+          { "math": [ "n_vitamin('blood') -= _vampire_amount_drained / 3" ] },
+          { "math": [ "n_vitamin('redcells') -= _vampire_amount_drained / 3" ] }
         ],
         "else": {
           "if": { "npc_has_flag": "BLEEDSLOW" },
           "then": [
-            { "math": [ "n_vitamin('blood')", "-=", "_vampire_amount_drained / 1.5" ] },
-            { "math": [ "n_vitamin('redcells')", "-=", "_vampire_amount_drained / 1.5" ] }
+            { "math": [ "n_vitamin('blood') -= _vampire_amount_drained / 1.5" ] },
+            { "math": [ "n_vitamin('redcells') -= _vampire_amount_drained / 1.5" ] }
           ],
           "else": [
-            { "math": [ "n_vitamin('blood')", "-=", "_vampire_amount_drained" ] },
-            { "math": [ "n_vitamin('redcells')", "-=", "_vampire_amount_drained" ] }
+            { "math": [ "n_vitamin('blood') -= _vampire_amount_drained" ] },
+            { "math": [ "n_vitamin('redcells') -= _vampire_amount_drained" ] }
           ]
         }
       }

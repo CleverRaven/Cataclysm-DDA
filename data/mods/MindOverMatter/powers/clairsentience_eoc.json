@@ -260,7 +260,7 @@
     "eoc_type": "EVENT",
     "required_event": "avatar_moves",
     "condition": { "u_has_effect": "effect_clair_astral_projection" },
-    "effect": [ { "math": [ "u_val('stamina')", "-=", "max((75 - (u_spell_level('clair_astral_projection') * 3)), 25)" ] } ]
+    "effect": [ { "math": [ "u_val('stamina') -= max((75 - (u_spell_level('clair_astral_projection') * 3)), 25)" ] } ]
   },
   {
     "type": "effect_on_condition",

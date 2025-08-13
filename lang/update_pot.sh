@@ -43,6 +43,7 @@ if ! lang/extract_json_strings.py \
         -i data/json \
         -i data/mods \
         -x data/mods/TEST_DATA \
+        -X data/json/effects_on_condition/example_eocs.json \
         -X data/json/furniture_and_terrain/terrain-regional-pseudo.json \
         -X data/json/furniture_and_terrain/furniture-regional-pseudo.json \
         -X data/json/items/book/abstract.json \

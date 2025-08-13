@@ -2099,7 +2099,7 @@
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_mutate_towards": { "context_val": "trait_id" }, "category": "ANY", "use_vitamins": false },
-          { "math": [ "u_num_perks", "-=", "u_playstyle_cost + 1" ] }
+          { "math": [ "u_num_perks -= u_playstyle_cost + 1" ] }
         ]
       },
       {

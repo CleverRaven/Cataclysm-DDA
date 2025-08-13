@@ -146,7 +146,7 @@
       {
         "//": "Check to see if you've sold enough for Rubik's trust in you to increase a bit",
         "condition": { "and": [ { "math": [ "n_val('sold') >= 20" ] }, { "not": { "u_has_faction_trust": 20 } } ] },
-        "effect": [ { "math": [ "n_val('sold')", "-=", "20" ] }, { "u_add_faction_trust": 1 } ]
+        "effect": [ { "math": [ "n_val('sold') -= 20" ] }, { "u_add_faction_trust": 1 } ]
       },
       {
         "//": "Governs the special CBM stock availability and restock, also adds a little extra faction rep.",
@@ -259,7 +259,7 @@
     ],
     "speaker_effect": {
       "condition": { "and": [ { "math": [ "n_val('sold') >= 20" ] }, { "not": { "u_has_faction_trust": 21 } } ] },
-      "effect": [ { "math": [ "n_val('sold')", "-=", "20" ] }, { "u_add_faction_trust": 1 } ]
+      "effect": [ { "math": [ "n_val('sold') -= 20" ] }, { "u_add_faction_trust": 1 } ]
     },
     "responses": [
       {
@@ -1326,7 +1326,7 @@
     "id": "TALK_EXODII_MERCHANT_Talk_CataclysmTimelineTough",
     "type": "talk_topic",
     "//": "While many people face the possibility of destruction with planning and hope, and the Exodii don't consider that unusual, it is a bit of a warning sign to be this overconfident.  That said, as an individual data point it doesn't mean much.",
-    "speaker_effect": { "effect": { "math": [ "u_counter_exodii_exodii_psychosis_judgment", "+=", "2" ] } },
+    "speaker_effect": { "effect": { "math": [ "u_counter_exodii_exodii_psychosis_judgment += 2" ] } },
     "dynamic_line": {
       "//~": "You do that then.  I'll cheer for you when you stand over the vanquished corpse of the devil himself.",
       "str": "Fine an' fine.  Rubik'll clarion for ye when ye stand o'er the garried trick o' Anubine hisself."

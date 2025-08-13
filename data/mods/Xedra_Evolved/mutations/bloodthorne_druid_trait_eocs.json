@@ -55,7 +55,7 @@
           ]
         },
         "then": { "math": [ "u_bloodthorn_druid_vampire_heartwhip_kills ++" ] },
-        "else": { "math": [ "u_bloodthorn_druid_vampire_heartwhip_kills", "+=", "0.3334" ] }
+        "else": { "math": [ "u_bloodthorn_druid_vampire_heartwhip_kills += 0.3334" ] }
       },
       {
         "if": {
@@ -159,7 +159,7 @@
             "u_message": "You dream of chalices of flowing blood and endless night, of the moon filling half the sky, of red eyes in the dark, when your dream is interrupted with the sensation of dozens of thorns pricking you from the inside.  You wake with a start, in terrible pain…but free of your curse.",
             "popup": true
           },
-          { "math": [ "u_pain()", "+=", "30 + rand(30)" ] },
+          { "math": [ "u_pain() += 30 + rand(30)" ] },
           { "u_lose_effect": "vampire_virus" },
           { "u_add_morale": "morale_nightmare", "bonus": [ -15, -30 ], "max_bonus": -30 }
         ],
@@ -168,7 +168,7 @@
             "u_message": "You have terrible dreams of blood and darkness, interrupted by the sensation of prickling thorns.  You need to sleep out in the wild places if you want your curse to be purged.",
             "type": "mixed"
           },
-          { "math": [ "u_pain()", "+=", "10 + rand(10)" ] },
+          { "math": [ "u_pain() += 10 + rand(10)" ] },
           { "u_add_morale": "morale_nightmare", "bonus": [ -15, -30 ], "max_bonus": -30 }
         ]
       }

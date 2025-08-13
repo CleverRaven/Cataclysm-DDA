@@ -77,9 +77,9 @@
     "id": "GROUP_ROACH",
     "is_animal": true,
     "monsters": [
-      { "monster": "mon_large_cockroach", "weight": 975, "cost_multiplier": 0 },
-      { "monster": "mon_pregnant_giant_cockroach", "weight": 5, "cost_multiplier": 2 },
-      { "monster": "mon_giant_cockroach_nymph", "weight": 20, "cost_multiplier": 0 }
+      { "monster": "mon_large_cockroach", "weight": 975, "starts": "45 days", "cost_multiplier": 0 },
+      { "monster": "mon_pregnant_giant_cockroach", "weight": 5, "starts": "45 days", "cost_multiplier": 2 },
+      { "monster": "mon_giant_cockroach_nymph", "weight": 20, "starts": "45 days", "cost_multiplier": 0 }
     ]
   },
   {
@@ -87,16 +87,16 @@
     "id": "GROUP_PLAGUE_ROACH",
     "is_animal": true,
     "monsters": [
-      { "monster": "mon_skittering_plague", "weight": 975, "cost_multiplier": 0 },
-      { "monster": "mon_plague_vector", "weight": 5, "cost_multiplier": 2 },
-      { "monster": "mon_plague_nymph", "weight": 20, "cost_multiplier": 0 }
+      { "monster": "mon_skittering_plague", "weight": 975, "starts": "45 days", "cost_multiplier": 0 },
+      { "monster": "mon_plague_vector", "weight": 5, "starts": "45 days", "cost_multiplier": 2 },
+      { "monster": "mon_plague_nymph", "weight": 20, "starts": "45 days", "cost_multiplier": 0 }
     ]
   },
   {
     "type": "monstergroup",
     "id": "GROUP_SPIDER",
     "monsters": [
-      { "monster": "mon_spider_web_small", "weight": 5, "ends": "180 days" },
+      { "monster": "mon_spider_web_small", "weight": 5, "starts": "45 days", "ends": "180 days" },
       { "monster": "mon_spider_web", "weight": 5, "starts": "120 days" },
       { "monster": "mon_spider_web_mega", "weight": 2, "starts": "288 days" }
     ]
@@ -107,7 +107,7 @@
     "default": "mon_spider_cellar_small",
     "//": "`monster` ignores group-level pack size, so numbers are set in mapgen",
     "monsters": [
-      { "monster": "mon_spider_cellar_small", "weight": 30, "ends": "180 days" },
+      { "monster": "mon_spider_cellar_small", "weight": 30, "starts": "45 days", "ends": "180 days" },
       { "monster": "mon_spider_cellar_giant", "weight": 22, "starts": "120 days", "ends": "288 days" },
       { "monster": "mon_spider_cellar_mom", "weight": 8, "starts": "120 days" },
       { "monster": "mon_spider_cellar_giant", "weight": 20, "starts": "288 days" },
@@ -127,7 +127,7 @@
     "type": "monstergroup",
     "id": "GROUP_SPIDER_TRAPDOOR",
     "monsters": [
-      { "monster": "mon_spider_trapdoor_small", "weight": 5, "ends": "180 days" },
+      { "monster": "mon_spider_trapdoor_small", "weight": 5, "starts": "45 days", "ends": "180 days" },
       { "monster": "mon_spider_trapdoor_giant", "weight": 5, "starts": "120 days" },
       { "monster": "mon_spider_trapdoor_mega", "weight": 2, "starts": "288 days" }
     ]
@@ -136,7 +136,7 @@
     "type": "monstergroup",
     "id": "GROUP_SPIDER_WIDOW",
     "monsters": [
-      { "monster": "mon_spider_widow_small", "weight": 5, "ends": "180 days" },
+      { "monster": "mon_spider_widow_small", "weight": 5, "starts": "45 days", "ends": "180 days" },
       { "monster": "mon_spider_widow_giant", "weight": 5, "starts": "120 days" },
       { "monster": "mon_spider_widow_mega", "weight": 2, "starts": "288 days" }
     ]
@@ -145,7 +145,7 @@
     "type": "monstergroup",
     "id": "GROUP_SPIDER_WOLF",
     "monsters": [
-      { "monster": "mon_spider_wolf_small", "weight": 5, "ends": "180 days" },
+      { "monster": "mon_spider_wolf_small", "weight": 5, "starts": "45 days", "ends": "180 days" },
       { "monster": "mon_spider_wolf_giant", "weight": 5, "starts": "120 days" },
       { "monster": "mon_spider_wolf_mega", "weight": 2, "starts": "288 days" }
     ]
@@ -154,7 +154,7 @@
     "type": "monstergroup",
     "id": "GROUP_SPIDER_JUMPING",
     "monsters": [
-      { "monster": "mon_spider_jumping_small", "weight": 5, "ends": "180 days" },
+      { "monster": "mon_spider_jumping_small", "weight": 5, "starts": "45 days", "ends": "180 days" },
       { "monster": "mon_spider_jumping_giant", "weight": 5, "starts": "120 days" },
       { "monster": "mon_spider_jumping_mega", "weight": 2, "starts": "288 days" }
     ]
@@ -296,7 +296,7 @@
     "type": "monstergroup",
     "id": "GROUP_WORM",
     "monsters": [
-      { "monster": "mon_worm_small", "weight": 5, "ends": "180 days" },
+      { "monster": "mon_worm_small", "weight": 5, "starts": "45 days", "ends": "180 days" },
       { "monster": "mon_worm", "weight": 5, "starts": "120 days" },
       { "monster": "mon_graboid", "weight": 2, "starts": "288 days" }
     ]
@@ -305,7 +305,7 @@
     "type": "monstergroup",
     "id": "GROUP_FLY",
     "monsters": [
-      { "monster": "mon_fly_small", "weight": 5, "ends": "180 days" },
+      { "monster": "mon_fly_small", "weight": 5, "starts": "45 days", "ends": "180 days" },
       { "monster": "mon_fly", "weight": 5, "starts": "120 days" },
       { "monster": "mon_fly_mega", "weight": 2, "starts": "288 days" }
     ]
@@ -314,7 +314,7 @@
     "type": "monstergroup",
     "id": "GROUP_MOSQUITO",
     "monsters": [
-      { "monster": "mon_mosquito_small", "weight": 5, "ends": "180 days" },
+      { "monster": "mon_mosquito_small", "weight": 5, "starts": "45 days", "ends": "180 days" },
       { "monster": "mon_mosquito_giant", "weight": 5, "starts": "120 days" },
       { "monster": "mon_mosquito_mega", "weight": 2, "starts": "288 days" }
     ]
@@ -323,7 +323,7 @@
     "type": "monstergroup",
     "id": "GROUP_GRASSHOPPER",
     "monsters": [
-      { "monster": "mon_grasshopper_small", "ends": "180 days" },
+      { "monster": "mon_grasshopper_small", "starts": "45 days", "ends": "180 days" },
       { "monster": "mon_grasshopper_giant", "starts": "120 days" }
     ]
   },
@@ -331,7 +331,7 @@
     "type": "monstergroup",
     "id": "GROUP_LOCUST",
     "monsters": [
-      { "monster": "mon_locust_small", "weight": 5, "ends": "180 days" },
+      { "monster": "mon_locust_small", "weight": 5, "starts": "45 days", "ends": "180 days" },
       { "monster": "mon_locust", "weight": 5, "starts": "120 days" },
       { "monster": "mon_locust_mega", "weight": 2, "starts": "288 days" }
     ]
@@ -339,7 +339,10 @@
   {
     "type": "monstergroup",
     "id": "GROUP_WATER_STRIDER",
-    "monsters": [ { "monster": "mon_strider_small", "ends": "180 days" }, { "monster": "mon_strider_giant", "starts": "120 days" } ]
+    "monsters": [
+      { "monster": "mon_strider_small", "starts": "45 days", "ends": "180 days" },
+      { "monster": "mon_strider_giant", "starts": "120 days" }
+    ]
   },
   {
     "type": "monstergroup",
@@ -353,18 +356,24 @@
   {
     "type": "monstergroup",
     "id": "GROUP_APHID",
-    "monsters": [ { "monster": "mon_aphid_small", "ends": "180 days" }, { "monster": "mon_aphid", "starts": "120 days" } ]
+    "monsters": [
+      { "monster": "mon_aphid_small", "starts": "45 days", "ends": "180 days" },
+      { "monster": "mon_aphid", "starts": "120 days" }
+    ]
   },
   {
     "type": "monstergroup",
     "id": "GROUP_LADY_BUG",
-    "monsters": [ { "monster": "mon_lady_bug", "ends": "252 days" }, { "monster": "mon_lady_bug_giant", "starts": "168 days" } ]
+    "monsters": [
+      { "monster": "mon_lady_bug", "starts": "45 days", "ends": "252 days" },
+      { "monster": "mon_lady_bug_giant", "starts": "168 days" }
+    ]
   },
   {
     "type": "monstergroup",
     "id": "GROUP_CENTIPEDE",
     "monsters": [
-      { "monster": "mon_centipede_small", "weight": 30, "ends": "180 days" },
+      { "monster": "mon_centipede_small", "weight": 30, "starts": "45 days", "ends": "180 days" },
       { "monster": "mon_centipede_giant", "weight": 22, "starts": "120 days", "ends": "288 days" },
       { "monster": "mon_centipede_mom", "weight": 8, "starts": "120 days" },
       { "monster": "mon_centipede_giant", "weight": 20, "starts": "288 days" },
@@ -375,7 +384,7 @@
     "type": "monstergroup",
     "id": "GROUP_STAG_BEETLE",
     "monsters": [
-      { "monster": "mon_stag_beetle_small", "weight": 5, "ends": "360 days" },
+      { "monster": "mon_stag_beetle_small", "weight": 5, "starts": "45 days", "ends": "360 days" },
       { "monster": "mon_stag_beetle_giant", "weight": 5, "starts": "240 days" },
       { "monster": "mon_stag_beetle_mega", "weight": 2, "starts": "480 days" }
     ]
@@ -384,7 +393,7 @@
     "type": "monstergroup",
     "id": "GROUP_BUTTERFLY",
     "monsters": [
-      { "monster": "mon_butterfly", "weight": 5, "ends": "180 days" },
+      { "monster": "mon_butterfly", "weight": 5, "starts": "45 days", "ends": "180 days" },
       { "monster": "mon_butterfly_giant", "weight": 5, "starts": "120 days" },
       { "monster": "mon_butterfly_titan", "weight": 2, "starts": "288 days" }
     ]
@@ -393,7 +402,7 @@
     "type": "monstergroup",
     "id": "GROUP_MOTH",
     "monsters": [
-      { "monster": "mon_moth", "weight": 5, "ends": "180 days" },
+      { "monster": "mon_moth", "weight": 5, "starts": "45 days", "ends": "180 days" },
       { "monster": "mon_moth_giant", "weight": 5, "starts": "120 days" },
       { "monster": "mon_moth_titan", "weight": 2, "starts": "288 days" }
     ]
@@ -402,7 +411,7 @@
     "type": "monstergroup",
     "id": "GROUP_SNAIL",
     "monsters": [
-      { "monster": "mon_snail_forest", "weight": 5, "ends": "180 days" },
+      { "monster": "mon_snail_forest", "weight": 5, "starts": "45 days", "ends": "180 days" },
       { "monster": "mon_snail_small", "weight": 5, "starts": "120 days" },
       { "monster": "mon_snail_giant", "weight": 2, "starts": "288 days" }
     ]
@@ -411,7 +420,7 @@
     "type": "monstergroup",
     "id": "GROUP_SLUG",
     "monsters": [
-      { "monster": "mon_slug_forest", "weight": 5, "ends": "180 days" },
+      { "monster": "mon_slug_forest", "weight": 5, "starts": "45 days", "ends": "180 days" },
       { "monster": "mon_slug_small", "weight": 5, "starts": "120 days" },
       { "monster": "mon_slug_giant", "weight": 2, "starts": "288 days" }
     ]
@@ -419,18 +428,24 @@
   {
     "type": "monstergroup",
     "id": "GROUP_MOTH_FLY",
-    "monsters": [ { "monster": "mon_moth_fly_small", "ends": "180 days" }, { "monster": "mon_moth_fly", "starts": "120 days" } ]
+    "monsters": [
+      { "monster": "mon_moth_fly_small", "starts": "45 days", "ends": "180 days" },
+      { "monster": "mon_moth_fly", "starts": "120 days" }
+    ]
   },
   {
     "type": "monstergroup",
     "id": "GROUP_SILVERFISH",
-    "monsters": [ { "monster": "mon_silverfish_small", "ends": "180 days" }, { "monster": "mon_silverfish", "starts": "120 days" } ]
+    "monsters": [
+      { "monster": "mon_silverfish_small", "starts": "45 days", "ends": "180 days" },
+      { "monster": "mon_silverfish", "starts": "120 days" }
+    ]
   },
   {
     "type": "monstergroup",
     "id": "GROUP_CENTIPEDE_HOUSE",
     "monsters": [
-      { "monster": "mon_centipede_house_small", "ends": "180 days" },
+      { "monster": "mon_centipede_house_small", "starts": "45 days", "ends": "180 days" },
       { "monster": "mon_centipede_house", "starts": "120 days" }
     ]
   },

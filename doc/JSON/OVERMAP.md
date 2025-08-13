@@ -379,7 +379,7 @@ an exhaustive example...
     "eoc": {
       "id": "EOC_REFUGEE_CENTER_GENERATE", 
       "condition": { "math": [ "refugee_centers < 1" ] }, 
-      "effect": [ { "math": [ "refugee_centers", "++" ] } ]
+      "effect": [ { "math": [ "refugee_centers++" ] } ]
     },
     "entry_eoc": "EOC_ENTERED_SECRET_FIELD",
     "exity_eoc": "EOC_LEFT_SECRET_FIELD"

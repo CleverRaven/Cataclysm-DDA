@@ -31,7 +31,7 @@
         "FFFFFFFFFFFFFFFFFFFFFFFF"
       ],
       "terrain": {
-        "#": "t_underbrush_harvested_spring",
+        "#": "t_underbrush_harvested",
         "+": "t_door_c",
         " ": "t_region_groundcover_urban",
         "-": "t_fence",
@@ -125,7 +125,7 @@
         "p": "t_grass",
         "s": "t_shrub_blueberry",
         "t": "t_tree_apricot",
-        "u": "t_underbrush_harvested_spring",
+        "u": "t_underbrush_harvested",
         "w": "t_wall_log",
         "F": "t_fence_barbed"
       },

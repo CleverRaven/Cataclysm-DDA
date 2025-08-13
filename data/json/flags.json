@@ -2741,5 +2741,110 @@
     "id": "CYLINDER_GRENADE",
     "type": "json_flag",
     "//": "A flag for the large grenade bandolier to limit the type of grenades it will accept."
+  },
+  {
+    "id": "BARRICADABLE_DOOR_DAMAGED",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Damaged Barricadable Door"
+  },
+  {
+    "id": "BARRICADABLE_DOOR_REINFORCED_DAMAGED",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Damaged Barricadable Reinforced Door"
+  },
+  {
+    "id": "BARRICADABLE_DOOR_REINFORCED",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Barricadable Reinforced Door"
+  },
+  {
+    "id": "BARRICADABLE_DOOR",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Barricadable Door"
+  },
+  {
+    "id": "BARRICADABLE_WINDOW_CURTAINS",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Barricadable Window with Curtains"
+  },
+  {
+    "id": "BARRICADABLE_WINDOW",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Barricadable Window"
+  },
+  {
+    "id": "CHIP",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Chip",
+    "info": "A paint chipper can be used to remove paint from this."
+  },
+  {
+    "id": "DIGGABLE",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Diggable",
+    "info": "A hole can be dug here."
+  },
+  {
+    "id": "EASY_DECONSTRUCT",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Simple"
+  },
+  {
+    "id": "FLAT",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Flat"
+  },
+  {
+    "id": "PIT_FILLABLE",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Fillable pit"
+  },
+  {
+    "id": "PLOWABLE",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Plowable"
+  },
+  {
+    "id": "RUBBLE",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Rubble"
+  },
+  {
+    "id": "SUPPORTS_ROOF",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Supports roof",
+    "info": "A roof can be built above this without other support."
+  },
+  {
+    "id": "TREE",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Tree"
+  },
+  {
+    "id": "WALL",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Wall"
+  },
+  {
+    "id": "WIRED_WALL",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Wired Wall"
   }
 ]

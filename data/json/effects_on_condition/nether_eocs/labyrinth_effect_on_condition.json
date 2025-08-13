@@ -50,15 +50,15 @@
     "effect": [
       {
         "if": { "and": [ { "math": [ "LS_Passcode_Selector", "==", "3" ] }, { "u_has_trait": "LS_Passcode_3" } ] },
-        "then": { "math": [ "LS_Passcode_Selector", "-=", "1" ] }
+        "then": { "math": [ "LS_Passcode_Selector -= 1" ] }
       },
       {
         "if": { "and": [ { "math": [ "LS_Passcode_Selector", "==", "2" ] }, { "u_has_trait": "LS_Passcode_2" } ] },
-        "then": { "math": [ "LS_Passcode_Selector", "-=", "1" ] }
+        "then": { "math": [ "LS_Passcode_Selector -= 1" ] }
       },
       {
         "if": { "and": [ { "math": [ "LS_Passcode_Selector", "==", "1" ] }, { "u_has_trait": "LS_Passcode_1" } ] },
-        "then": { "math": [ "LS_Passcode_Selector", "-=", "1" ] }
+        "then": { "math": [ "LS_Passcode_Selector -= 1" ] }
       }
     ]
   },
