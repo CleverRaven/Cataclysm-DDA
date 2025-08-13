@@ -348,6 +348,9 @@ using vitamin_id = string_id<vitamin>;
 class vpart_info;
 using vpart_id = string_id<vpart_info>;
 
+class vpart_location;
+using vpart_location_id = string_id<vpart_location>;
+
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
 

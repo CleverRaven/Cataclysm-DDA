@@ -252,6 +252,8 @@ static const trap_str_id tr_shadow( "tr_shadow" );
 static const trap_str_id tr_snake( "tr_snake" );
 static const trap_str_id tr_telepad( "tr_telepad" );
 
+static const vpart_location_id vpart_location_structure( "structure" );
+
 static const vproto_id vehicle_prototype_shopping_cart( "shopping_cart" );
 
 #define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
@@ -7599,7 +7601,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
     std::unique_ptr<vehicle> veh_to_add, const bool merge_wrecks )
 {
     //We only want to check once per square, so loop over all structural parts
-    std::vector<int> frame_indices = veh_to_add->all_parts_at_location( "structure" );
+    std::vector<int> frame_indices = veh_to_add->all_parts_at_location( vpart_location_structure );
 
     //Check for boat type vehicles that should be placeable in deep water
     const bool can_float = size( veh_to_add->get_avail_parts( "FLOATS" ) ) > 2;
@@ -7635,7 +7637,8 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
 
             // Hard wreck-merging limit: 200 tiles
             // Merging is slow for big vehicles which lags the mapgen
-            if( frame_indices.size() + first_veh->all_parts_at_location( "structure" ).size() > 200 ) {
+            if( frame_indices.size() + first_veh->all_parts_at_location( vpart_location_structure ).size() >
+                200 ) {
                 return nullptr;
             }
 
