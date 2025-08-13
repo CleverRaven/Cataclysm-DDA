@@ -357,7 +357,7 @@ class spell_type
         std::function<bool( const_dialogue const & )> condition; // NOLINT(cata-serialize)
         bool has_condition = false; // NOLINT(cata-serialize)
 
-        translation condition_fail_message_;
+        translation condition_fail_message_; // NOLINT(cata-serialize)
 
         std::set<mtype_id> targeted_monster_ids;
 
