@@ -1559,6 +1559,7 @@
     "description": "Small plants and shrubs that decorate the forest.  It has been rummaged through and doesn't have anything useful left to forage from it.",
     "color": "green",
     "examine_action": "harvested_plant",
+    "extend": { "flags": [ "HARVESTED" ] },
     "transforms_into": "t_underbrush"
   },
   {
