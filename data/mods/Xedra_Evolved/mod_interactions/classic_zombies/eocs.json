@@ -30,12 +30,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_XE_DDOTD_DHAMPIRS_VAMPIRES_RESIST_INFECTION_FOLLOWUP",
-    "condition": {
-      "and": [
-        { "u_has_effect": "zombie_virus" },
-        { "u_has_effect": "effect_xe_ddotd_zombie_virus_resistance" }
-      ]
-    },
+    "condition": { "and": [ { "u_has_effect": "zombie_virus" }, { "u_has_effect": "effect_xe_ddotd_zombie_virus_resistance" } ] },
     "effect": [
        { "if": { "x_in_y_chance": { "x": 1, "y": 4 } },
         "then": [
