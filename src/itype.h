@@ -724,6 +724,11 @@ struct itype_variant_data {
 
     int weight = 1;
 
+    // this is only needed for delete in generic_factory, so only compares id!
+    // Not safe for general use!
+    bool operator==( const itype_variant_data &rhs ) const {
+        return id == rhs.id;
+    }
     void deserialize( const JsonObject &jo );
     void load( const JsonObject &jo );
 };
