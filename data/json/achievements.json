@@ -46,8 +46,8 @@
     "type": "achievement",
     "name": "Psycho Killer",
     "time_constraint": { "since": "game_start", "is": "<=", "target": "30 days" },
-    "description": "Kill 3 NPCs within 30 days of game start, loosely meeting the legal definition of a serial killer.",
-    "requirements": [ { "event_statistic": "num_avatar_character_kills", "is": ">=", "target": 3 } ]
+    "description": "Qu'est-ce que c'est",
+    "requirements": [ { "event_statistic": "num_avatar_character_kills", "is": ">=", "target": 3 }, { "description": "Kill 3 NPCs within 30 days of game start, loosely meeting the legal definition of a serial killer." } ]
   },
   {
     "id": "achievement_kill_in_first_minute",
@@ -367,9 +367,9 @@
     "name": "Freeman's favorite",
     "requirements": [
       {
-        "event_statistic": "num_avatar_wields_crowbar",
-        "is": ">=",
-        "target": 1,
+        "event_statistic": "avatar_last_item_wielded",
+        "is": "==",
+        "target": [ "itype_id", "crowbar" ],
         "visible": "when_achievement_completed",
         "description": "Wield a crowbar"
       }
@@ -379,13 +379,14 @@
     "id": "achievement_wear_power_armor",
     "type": "achievement",
     "name": "Impenetrable",
+    "description": "War... War never changes...",
     "requirements": [
       {
-        "event_statistic": "num_avatar_wears_power_armor_heavy",
+        "event_statistic": "num_avatar_wears_power_armor",
         "is": ">=",
         "target": 1,
         "visible": "when_achievement_completed",
-        "description": "Wear a tank suit"
+        "description": "Wear military-grade power armor"
       }
     ]
   },
@@ -395,11 +396,25 @@
     "name": "Military-industrial complex?  No, it's quite simple",
     "requirements": [
       {
-        "event_statistic": "num_avatar_wears_rm13",
-        "is": ">=",
-        "target": 1,
+        "event_statistic": "avatar_last_item_worn",
+        "is": "==",
+        "target": [ "itype_id", "rm_13" ],
         "visible": "when_achievement_completed",
         "description": "Wear RM13 combat armor"
+      }
+    ]
+  },
+  {
+    "id": "achievement_wear_rm13",
+    "type": "achievement",
+    "name": "King Nothing",
+    "description": "...And you point your finger, but there's no one around...",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_item_worn",
+        "is": "==",
+        "target": [ "itype_id", "crown_golden_survivor" ],
+        "description": "Forge a crown of gold, and place it atop your head"
       }
     ]
   },
@@ -524,6 +539,14 @@
     "description": "By most mechanical and dirty hand.  I shall have such revenges on you… both.  The things I will do, what they are, yet I know not.  But they will be the terrors of the earth.",
     "requirements": [ { "event_statistic": "num_installs_cbm", "is": ">=", "target": 10 } ],
     "hidden_by": [ "achievement_install_1_cbm" ]
+  },
+  {
+    "id": "achievement_install_25_cbms",
+    "type": "achievement",
+    "name": "Adeptus Mechanicus",
+    "description": "From the moment I understood the weakness of my flesh, it disgusted me. I craved the strength and certainty of steel... Your kind cling to your flesh as if it will not decay and fail you. One day the crude biomass you call a temple will wither...",
+    "requirements": [ { "event_statistic": "num_installs_cbm", "is": ">=", "target": 10 } ],
+    "hidden_by": [ "achievement_install_10_cbm" ]
   },
   {
     "id": "achievement_crosses_mutation_threshold",
@@ -2155,8 +2178,8 @@
   {
     "id": "achievement_reach_lmoe",
     "type": "achievement",
-    "name": "Last Man on Earth",
-    "description": "How egotistical of you",
+    "name": "Last Man on Earth (except for all the other ones)",
+    "description": "It's statistically impossible",
     "requirements": [
       {
         "event_statistic": "num_avatar_enters_lmoe",
@@ -2166,7 +2189,35 @@
         "description": "Reach an LMOE shelter"
       }
     ]
+  },  
+  {
+    "id": "achievement_reach_resort",
+    "type": "achievement",
+    "name": "Don't Threaten Me With A Good Time",
+    "description": "Champagne, Cocaine, Gasoline, and zombies inbetween",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "private_resort" ],
+        "description": "Reach a Private Resort"
+      }
+    ]
   },
+  {
+    "id": "achievement_beat_resort",
+    "type": "achievement",
+    "name": "Dance Till You're (Un)Dead",
+    "description": "It's sooner than you think",
+    "requirements": [
+      {
+        "event_statistic": "num_avatar_enters_resort_top",
+        "is": ">=",
+        "target": 1,
+        "description": "Get to the top of a resort"
+      }
+    ]
+  },  
   {
     "id": "achievement_reach_bastion_fort",
     "type": "achievement",
@@ -2198,14 +2249,41 @@
   {
     "id": "achievement_reach_military_bunker",
     "type": "achievement",
-    "name": "They've overrun point Zach!",
+    "name": "Z-COM",
     "requirements": [
       {
         "event_statistic": "last_overmap_special_avatar_entered",
         "is": "==",
         "target": [ "overmap_special_id", "military_bunker_1" ],
-        "visible": "when_achievement_completed",
         "description": "Reach a Military Bunker"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_military_outpost",
+    "type": "achievement",
+    "name": "They've captured point Zulu!",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "military_outpost" ],
+        "visible": "when_achievement_completed",
+        "description": "Reach a Military Outpost"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_military_helipad",
+    "type": "achievement",
+    "name": "Get To Da Choppa",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "military_helipad" ],
+        "visible": "when_achievement_completed",
+        "description": "Reach a Military Helipad"
       }
     ]
   },
@@ -2277,6 +2355,21 @@
         "target": 1,
         "visible": "when_achievement_completed",
         "description": "Reach a Prison"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_airport",
+    "type": "achievement",
+    "name": "Zeds On A Plane",
+    "description": "I'm tired of these motherfuckin' zombies on this motherfuckin' plane!",
+    "requirements": [
+      {
+        "event_statistic": "num_avatar_enters_prison",
+        "is": ">=",
+        "target": 1,
+        "visible": "when_achievement_completed",
+        "description": "Reach an Airport"
       }
     ]
   },
