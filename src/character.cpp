@@ -13179,7 +13179,7 @@ void Character::search_surroundings()
     }
 }
 
-bool Character::wield( item &it, std::optional<int> obtain_cost )
+bool Character::wield( item &it, std::optional<int> obtain_cost, bool combat )
 {
     invalidate_inventory_validity_cache();
     invalidate_leak_level_cache();
@@ -13259,7 +13259,7 @@ bool Character::wield( item &it, std::optional<int> obtain_cost )
     // if fists are wielded get_wielded_item returns item_location::nowhere, which is a nullptr
     if( wielded ) {
         last_item = wielded->typeId();
-        wielded->on_wield( *this );
+        wielded->on_wield( *this, combat );
         inv->update_invlet( *wielded );
         inv->update_cache_with_item( *wielded );
         cata::event e = cata::event::make<event_type::character_wields_item>( getID(), last_item );

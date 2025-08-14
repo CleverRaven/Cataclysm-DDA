@@ -2399,9 +2399,11 @@ class Character : public Creature, public visitable
          * Wield an item, unwielding currently wielded item (if any).
          * If moving from a location, use provide item_location instead of item for more accurate move-cost.
          * @param it item to be wielded.
+         * @param obtain_cost value to override move cost calculation
+         * @param combat wielding for combat purposes
          * @return whether both removal and replacement were successful (they are performed atomically)
          */
-        bool wield( item &it, std::optional<int> obtain_cost = std::nullopt );
+        bool wield( item &it, std::optional<int> obtain_cost = std::nullopt, bool combat = true );
         /**
          * Check player capable of unwielding an item.
          * @param it Thing to be unwielded
