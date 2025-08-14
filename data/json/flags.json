@@ -2540,9 +2540,9 @@
     "info": "You are immune to being crowd-crushed"
   },
   {
-    "id": "SUFFOCATION_IMMUNE",
+    "id": "INHALED_TOXIN_IMMUNE",
     "type": "json_flag",
-    "info": "You are immune to being crowd-crushed"
+    "info": "You are immune to gaseous toxins"
   },
   {
     "id": "TREE_COMMUNION_PLUS",
