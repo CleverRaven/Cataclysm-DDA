@@ -778,7 +778,6 @@
       { "item": "grapnel", "prob": 1 },
       { "item": "briefcase", "prob": 5 },
       { "item": "survnote", "prob": 2 },
-      { "item": "solarpack", "prob": 1 },
       { "item": "flight_helmet", "prob": 20, "ammo-item": "light_battery_cell", "charges": [ 0, 150 ] },
       { "item": "mil_flight_suit", "prob": 20 }
     ]

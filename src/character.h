@@ -2399,9 +2399,11 @@ class Character : public Creature, public visitable
          * Wield an item, unwielding currently wielded item (if any).
          * If moving from a location, use provide item_location instead of item for more accurate move-cost.
          * @param it item to be wielded.
+         * @param obtain_cost value to override move cost calculation
+         * @param combat wielding for combat purposes
          * @return whether both removal and replacement were successful (they are performed atomically)
          */
-        bool wield( item &it, std::optional<int> obtain_cost = std::nullopt );
+        bool wield( item &it, std::optional<int> obtain_cost = std::nullopt, bool combat = true );
         /**
          * Check player capable of unwielding an item.
          * @param it Thing to be unwielded
@@ -2850,6 +2852,8 @@ class Character : public Creature, public visitable
         std::vector<effect_on_condition_id> inactive_effect_on_condition_vector;
         queued_eocs queued_effect_on_conditions;
 
+        /** Queue mutliple EOCs without delay */
+        void queue_effects( const std::vector<effect_on_condition_id> &effects );
         /** Queue an EOC to add effect after a delay */
         void queue_effect( const std::string &name, const time_duration &delay,
                            const time_duration &duration );

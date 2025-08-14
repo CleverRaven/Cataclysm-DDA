@@ -2984,8 +2984,8 @@
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "GRIND", "level": 2 }, { "id": "WRENCH", "level": 2 } ],
     "tools": [ [ [ "angle_grinder", 220 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking", "required": true }, { "proficiency": "prof_blacksmithing" } ],
-    "components": [ [ [ "hdframe", 1 ], [ "engine_block_large", 1 ] ] ],
-    "byproducts": [ [ "mc_steel_lump", 15 ] ]
+    "components": [ [ [ "hdframe", 1 ], [ "frame", 1 ], [ "engine_block_large", 1 ] ] ],
+    "byproducts": [ [ "lc_steel_lump", 15 ] ]
   },
   {
     "result": "anvil_bronze",

@@ -6698,7 +6698,7 @@ int item::on_wield_cost( const Character &you ) const
     return mv;
 }
 
-void item::on_wield( Character &you )
+void item::on_wield( Character &you, bool combat )
 {
     int wield_cost = on_wield_cost( you );
     you.mod_moves( -wield_cost );
@@ -6713,7 +6713,7 @@ void item::on_wield( Character &you )
     }
     you.add_msg_if_player( m_neutral, msg, tname() );
 
-    if( !you.martial_arts_data->selected_is_none() ) {
+    if( combat && !you.martial_arts_data->selected_is_none() ) {
         you.martial_arts_data->martialart_use_message( you );
     }
 
