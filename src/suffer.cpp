@@ -369,7 +369,7 @@ void suffer::while_grabbed( Character &you )
     }
 
     // if you don't need to breathe, you can't suffocate from being crushed
-    if( you.has_flag( json_flag_SUFFOCATION_IMMUNE) ) { 
+    if( you.has_flag( json_flag_SUFFOCATION_IMMUNE ) ) {
         return;
     }
 
