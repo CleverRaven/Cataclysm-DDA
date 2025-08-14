@@ -3,7 +3,7 @@
     "id": "mon_zombie_base",
     "type": "MONSTER",
     "copy-from": "mon_zombie_base",
-    "extend": { 
+    "extend": {
       "special_attacks": [
         {
           "type": "monster_attack",
@@ -14,20 +14,20 @@
           "move_cost": 100,
           "dodgeable": true,
           "blockable": false,
-          "condition": { 
+          "condition": {
             "and": [
-              { 
-                "or": [ 
-                  { "npc_has_effect": "grabbed", "bodypart": "arm_r", "intensity": 30 }, 
-                  { "npc_has_effect": "grabbed", "bodypart": "arm_l", "intensity": 30 },
-                  { "npc_has_effect": "grabbed", "bodypart": "head", "intensity": 30 },
-                  { "npc_has_effect": "grabbed", "bodypart": "torso", "intensity": 30 },
-                  { "npc_has_effect": "grabbed", "bodypart": "leg_l", "intensity": 30 },
-                  { "npc_has_effect": "grabbed", "bodypart": "leg_r", "intensity": 30 },
+              {
+                "or": [
+                  { "npc_has_effect": "grabbed", "bodypart": "arm_r" },
+                  { "npc_has_effect": "grabbed", "bodypart": "arm_l" },
+                  { "npc_has_effect": "grabbed", "bodypart": "head" },
+                  { "npc_has_effect": "grabbed", "bodypart": "torso" },
+                  { "npc_has_effect": "grabbed", "bodypart": "leg_l" },
+                  { "npc_has_effect": "grabbed", "bodypart": "leg_r" }
                 ]
               },
               { "math": [ "u_mon_species_nearby('ZOMBIE', 'radius': 1) >= 3" ] }
-            ] 
+            ]
           },
           "damage_max_instance": [ { "damage_type": "bash", "amount": 0 } ],
           "effects": [ { "id": "downed", "duration": 3 } ],
@@ -39,7 +39,7 @@
           "miss_msg_u": "",
           "miss_msg_npc": ""
         }
-      ] 
+      ]
     }
   }
 ]
