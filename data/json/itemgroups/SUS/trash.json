@@ -64,6 +64,7 @@
       { "//": "Lore items" },
       { "group": "SUS_book_nonf_zine_news", "prob": 5 },
       { "item": "flyer", "prob": 5 },
+      { "item": "flyer_evac", "prob": 10 },
       { "item": "survnote", "prob": 1 }
     ]
   },
@@ -126,7 +127,8 @@
       { "item": "cig_butt", "prob": 20, "count": [ 3, 6 ] },
       { "//": "Lore items" },
       { "group": "SUS_book_nonf_zine_news", "prob": 20 },
-      { "item": "flyer", "prob": 20, "count": [ 1, 3 ] }
+      { "item": "flyer", "prob": 20, "count": [ 1, 3 ] },
+      { "item": "flyer_evac", "prob": 20, "count": [ 1, 3 ] }
     ]
   },
   {
