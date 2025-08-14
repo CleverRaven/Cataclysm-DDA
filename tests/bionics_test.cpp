@@ -8,25 +8,19 @@
 
 #include "avatar.h"
 #include "bionics.h"
-#include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
 #include "character_attire.h"
-#include "coordinates.h"
 #include "debug.h"
 #include "enums.h"
-#include "game.h"
 #include "item.h"
 #include "item_location.h"
-#include "map_helpers.h"
-#include "options_helpers.h"
 #include "pimpl.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
 #include "ret_val.h"
 #include "type_id.h"
 #include "units.h"
-#include "weather_type.h"
 
 static const bionic_id bio_batteries( "bio_batteries" );
 // Change to some other weapon CBM if bio_blade is ever removed
