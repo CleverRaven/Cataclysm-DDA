@@ -1132,6 +1132,7 @@
     "entries": [
       { "group": "missing_poster_all", "prob": 30 },
       { "item": "flyer", "prob": 70, "count": [ 1, 2 ] },
+      { "item": "flyer_evac", "prob": 70, "count": [ 1, 2 ] },
       { "item": "buylocalpamphlet", "prob": 15 }
     ]
   },
