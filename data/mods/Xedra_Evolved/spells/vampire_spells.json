@@ -399,9 +399,9 @@
   {
     "id": "vampire_summon_blood_container",
     "type": "SPELL",
-    "name": "Create blood-storing sphere.",
-    "description": "Create a magical sphere that will contain any blood you will put in it until the spell ends.\n\nYou must have <color_yellow>greater</color> than <color_red>-500</color> Stolen Blood to use this blood art.",
-    "message": "You conjure a magical sphere to store blood.",
+    "name": "Vintner's Vessel",
+    "description": "Create a magical sphere that will contain any blood you will put in it until the power ends.\n\nYou must have <color_yellow>greater</color> than <color_red>-500</color> Stolen Blood to use this blood art.",
+    "message": "You spin a crimson sphere out of blood to store blood.  Like calls to like.",
     "teachable": false,
     "magic_type": "xe_vampire_blood_powers",
     "valid_targets": [ "self" ],
