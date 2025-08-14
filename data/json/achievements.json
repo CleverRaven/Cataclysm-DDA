@@ -2342,7 +2342,7 @@
     "type": "achievement",
     "name": { "str": "Trigintaduonion" },
     "manually_given": true,
-    "description": "Defeat a higher-dimensional entity",
+    "description": "Defeat a being from a higher dimension, and free the damned souls trapped inside",
     "requirements": [  ]
   }
 ]
