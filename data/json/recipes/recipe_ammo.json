@@ -1039,7 +1039,7 @@
     ],
     "proficiencies": [
       { "proficiency": "prof_fletching" },
-      { "proficiency": "prof_machining_basic" }
+      { "proficiency": "prof_lathing" }
     ],
     "qualities": [
       {
@@ -1049,10 +1049,10 @@
     ],
     "components": [
       [
-        [ "adhesive", 1, "LIST" ],
+        [ "adhesive", 1, "LIST" ]
       ],
       [
-        [ "small_bar_aluminum_round", 6 ],
+        [ "small_aluminum_bar_round", 6 ]
       ],
       [
         [ "bone_sturdy", 5, "LIST" ],
