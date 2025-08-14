@@ -1342,5 +1342,119 @@
     "weight": "1 kg",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "aluminum_bar_round",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str_sp": "aluminum bar stock" },
+    "description": "A round bar of aluminum.  Ready to be turned on the lathe.",
+    "//": "Bar is 5cm in diameter.",
+    "weight": "2538 mg",
+    "volume": "94 ml",
+    "longest_side": "5 cm",
+    "price": "2 USD",
+    "price_postapoc": "10 cent",
+    "material": [ "aluminum" ],
+    "symbol": "-",
+    "color": "light_cyan",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 4 }
+  },
+  {
+    "id": "small_aluminum_bar_round",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str_sp": "small aluminum bar stock" },
+    "description": "A small round bar of aluminum.  Ready to be turned on the lathe.",
+    "//": "Bar is 3cm in diameter.",
+    "weight": "945 mg",
+    "volume": "35 ml",
+    "longest_side": "5 cm",
+    "price": "1 USD",
+    "price_postapoc": "5 cent",
+    "material": [ "aluminum" ],
+    "symbol": "-",
+    "color": "light_cyan",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 2 }
+  },
+  {
+    "id": "steel_bar_round",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str_sp": "steel bar stock" },
+    "description": "A round bar of steel.  Ready to be turned on the lathe.",
+    "//": "Bar is 5cm in diameter.",
+    "weight": "752 g",
+    "volume": "94 ml",
+    "longest_side": "5 cm",
+    "price": "5 USD",
+    "price_postapoc": "20 cent",
+    "material": [ "steel" ],
+    "symbol": "-",
+    "color": "light_gray",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "lc_steel_bar_round",
+    "type": "ITEM",
+    "copy-from": "steel_bar_round",
+    "name": { "str_sp": "low steel bar stock" },
+    "material": [ "lc_steel" ]
+  },
+  {
+    "id": "mc_steel_bar_round",
+    "type": "ITEM",
+    "copy-from": "steel_bar_round",
+    "name": { "str_sp": "medium steel bar stock" },
+    "material": [ "mc_steel" ]
+  },
+  {
+    "id": "hc_steel_bar_round",
+    "type": "ITEM",
+    "copy-from": "steel_bar_round",
+    "name": { "str_sp": "high steel bar stock" },
+    "material": [ "hc_steel" ]
+  },
+  {
+    "id": "small_steel_bar_round",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str_sp": "small steel bar stock" },
+    "description": "A small round bar of steel.  Ready to be turned on the lathe.",
+    "//": "Bar is 3cm in diameter.",
+    "weight": "280 g",
+    "volume": "35 ml",
+    "longest_side": "5 cm",
+    "price": "5 USD",
+    "price_postapoc": "10 cent",
+    "material": [ "steel" ],
+    "symbol": "-",
+    "color": "light_gray",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 4 }
+  },
+  {
+    "id": "small_lc_steel_bar_round",
+    "type": "ITEM",
+    "copy-from": "small_steel_bar_round",
+    "name": { "str_sp": "small low steel bar stock" },
+    "material": [ "lc_steel" ]
+  },
+  {
+    "id": "small_mc_steel_bar_round",
+    "type": "ITEM",
+    "copy-from": "small_steel_bar_round",
+    "name": { "str_sp": "small medium steel bar stock" },
+    "material": [ "mc_steel" ]
+  },
+  {
+    "id": "small_hc_steel_bar_round",
+    "type": "ITEM",
+    "copy-from": "small_steel_bar_round",
+    "name": { "str_sp": "small high steel bar stock" },
+    "material": [ "hc_steel" ]
   }
 ]
