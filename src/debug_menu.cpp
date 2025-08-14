@@ -3733,30 +3733,43 @@ static void spawn_npc()
 
 static void spawn_named_npc()
 {
-    const std::string input = string_input_popup()
-                              .title( _( "Enter NPC template" ) )
-                              .width( 20 )
-                              .query_string();
+    uilist npc_menu;
 
-    if( input.empty() ) {
-        return;
+    npc_menu.text = _( "Choose NPC:" );
+
+    std::vector<npc_template_id> npc_list;
+
+    for( const auto &e : npc_template::get_npc_templates() ) {
+        npc_list.emplace_back( e.first );
     }
 
-    const npc_template_id npc_template = npc_template_id( input );
-    if( !npc_template.is_valid() ) {
-        popup( "Invalid template id" );
-        return;
+    std::sort( npc_list.begin(), npc_list.end(), localized_compare );
+    int index = 0;
+
+    for( auto &e : npc_list ) {
+        npc_menu.addentry( index++, true, MENU_AUTOASSIGN, e.str().c_str() );
     }
 
-    avatar &player_character = get_avatar();
-    shared_ptr_fast<npc> temp = make_shared_fast<npc>();
-    temp->normalize();
-    temp->load_npc_template( npc_template );
-    temp->spawn_at_precise( player_character.pos_abs() + point( -4, -4 ) );
-    overmap_buffer.insert_npc( temp );
-    temp->form_opinion( player_character );
+    npc_menu.query();
 
-    g->load_npcs();
+    if( npc_menu.ret >= 0 && npc_menu.ret < static_cast<int>( npc_list.size() ) ) {
+        const auto &chosen = npc_list.at( npc_menu.ret );
+        if( !chosen.is_valid() ) {
+            popup( _( "Invalid NPC template" ) );
+            return;
+        }
+
+        avatar &player_character = get_avatar();
+        shared_ptr_fast<npc> temp = make_shared_fast<npc>();
+        temp->normalize();
+        temp->load_npc_template( chosen );
+        temp->spawn_at_precise( player_character.pos_abs() + point( -4, -4 ) );
+        overmap_buffer.insert_npc( temp );
+        temp->form_opinion( player_character );
+
+        g->load_npcs();
+    }
+
 }
 
 static void unlock_all()

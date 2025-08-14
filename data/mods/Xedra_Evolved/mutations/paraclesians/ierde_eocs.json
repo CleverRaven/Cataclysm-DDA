@@ -371,13 +371,13 @@
     "type": "effect_on_condition",
     "id": "EOC_IERDE_SLEEP_SLEEPINESS",
     "condition": { "and": [ { "math": [ "u_val('sleepiness') >= 0" ] }, { "x_in_y_chance": { "x": 1, "y": 35 } } ] },
-    "effect": [ { "math": [ "u_val('sleepiness')", "-=", "1" ] } ]
+    "effect": [ { "math": [ "u_val('sleepiness') -= 1" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_IERDE_SLEEP_DEPRIVATION",
     "condition": { "math": [ "u_val('sleep_deprivation') >= 0" ] },
-    "effect": { "math": [ "u_val('sleep_deprivation')", "-=", "1" ] }
+    "effect": { "math": [ "u_val('sleep_deprivation') -= 1" ] }
   },
   {
     "type": "effect_on_condition",
@@ -421,7 +421,7 @@
     "eoc_type": "EVENT",
     "required_event": "character_takes_damage",
     "condition": { "math": [ "u_earthen_shield_protection_level >= 1" ] },
-    "effect": [ { "math": [ "u_earthen_shield_protection_level", "-=", "1" ] } ],
+    "effect": [ { "math": [ "u_earthen_shield_protection_level -= 1" ] } ],
     "false_effect": [ { "u_lose_effect": "effect_ierde_earthen_shield" } ]
   },
   {

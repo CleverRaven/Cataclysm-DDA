@@ -514,8 +514,8 @@
   {
     "id": "xedra_inventor_time_pierce",
     "type": "SPELL",
-    "name": "Inventor Time Pierce",
-    "description": "Used by a time piercer to fix frozen time areas.  Having this spell is a bug.",
+    "name": { "str": "Inventor Time Pierce", "//~": "NO_I18N" },
+    "description": { "str": "Used by a time piercer to fix frozen time areas.  Having this spell is a bug.", "//~": "NO_I18N" },
     "teachable": false,
     "valid_targets": [ "self", "ally", "ground", "hostile" ],
     "flags": [ "SILENT", "NO_LEGS", "NO_EXPLOSION_SFX", "NON_MAGICAL", "NO_FAIL" ],
@@ -536,8 +536,8 @@
   {
     "id": "xedra_inventor_time_pierce_creature",
     "type": "SPELL",
-    "name": "Inventor Time Pierce - Creature",
-    "description": "Used by a time piercer to fix time frozen creatures.  Having this spell is a bug.",
+    "name": { "str": "Inventor Time Pierce - Creature", "//~": "NO_I18N" },
+    "description": { "str": "Used by a time piercer to fix time frozen creatures.  Having this spell is a bug.", "//~": "NO_I18N" },
     "teachable": false,
     "valid_targets": [ "self", "ally", "hostile" ],
     "flags": [ "SILENT", "NO_LEGS", "NO_EXPLOSION_SFX", "NON_MAGICAL", "NO_FAIL" ],
@@ -562,8 +562,8 @@
   {
     "id": "xedra_dreamsmith_time_trap_freeze",
     "type": "SPELL",
-    "name": "Time Freeze",
-    "description": "Freezes the target in time.  Having this spell is a bug.",
+    "name": { "str": "Time Freeze", "//~": "NO_I18N" },
+    "description": { "str": "Freezes the target in time.  Having this spell is a bug.", "//~": "NO_I18N" },
     "teachable": false,
     "valid_targets": [ "hostile", "ground", "ally" ],
     "skill": "deduction",
@@ -585,8 +585,8 @@
   {
     "id": "xedra_dreamsmith_time_trap_freeze_spawn_trap",
     "type": "SPELL",
-    "name": "Time Freeze - Spawn Trap",
-    "description": "Spawns the trap after it is used.  Having this spell is a bug.",
+    "name": { "str": "Time Freeze - Spawn Trap", "//~": "NO_I18N" },
+    "description": { "str": "Spawns the trap after it is used.  Having this spell is a bug.", "//~": "NO_I18N" },
     "teachable": false,
     "valid_targets": [ "ground" ],
     "skill": "deduction",
@@ -620,7 +620,7 @@
   {
     "id": "goblin_fruit_blind_flash",
     "type": "SPELL",
-    "name": { "str": "Flash fruit" },
+    "name": { "str": "Flash fruit", "//~": "NO_I18N" },
     "description": {
       "str": "Produces the fruit's flash effect when eaten.  You're not supposed to see this, the same way your foes aren't supposed to see after you ate that fruit near them.",
       "//~": "NO_I18N"

@@ -610,6 +610,13 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_vampire_immune_to_classic_zombification",
+    "//": "Hidden--does nothing in base XE, used for DDotD interactions",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_dhampir_empowered_blood_indicator",
     "name": [ "Empowered Blood" ],
     "desc": [ "Your blood hums with power, allowing you to access more of your vampiric abilities." ]

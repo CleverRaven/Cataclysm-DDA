@@ -102,12 +102,12 @@
     "type": "effect_on_condition",
     "id": "EOC_ESPER_SCENARIO_SETUP",
     "effect": [
-      { "math": [ "u_hp('head')", "-=", "rand(5)" ] },
-      { "math": [ "u_hp('torso')", "-=", "rand(5)" ] },
-      { "math": [ "u_hp('arm_r')", "-=", "rand(5)" ] },
-      { "math": [ "u_hp('arm_l')", "-=", "rand(5)" ] },
-      { "math": [ "u_hp('leg_l')", "-=", "rand(5)" ] },
-      { "math": [ "u_hp('leg_r')", "-=", "rand(5)" ] }
+      { "math": [ "u_hp('head') -= rand(5)" ] },
+      { "math": [ "u_hp('torso') -= rand(5)" ] },
+      { "math": [ "u_hp('arm_r') -= rand(5)" ] },
+      { "math": [ "u_hp('arm_l') -= rand(5)" ] },
+      { "math": [ "u_hp('leg_l') -= rand(5)" ] },
+      { "math": [ "u_hp('leg_r') -= rand(5)" ] }
     ]
   },
   {

@@ -1936,9 +1936,9 @@ class item : public visitable
          * Callback when a player starts wielding the item. The item is already in the weapon
          * slot and is called from there.
          * @param p player that has started wielding item
-         * @param mv number of moves *already* spent wielding the weapon
+         * @param combat wielding for combat purposes
          */
-        void on_wield( Character &you );
+        void on_wield( Character &you, bool combat = true );
         /**
          * Callback when a player starts carrying the item. The item is already in the inventory
          * and is called from there. This is not called when the item is added to the inventory

@@ -18,8 +18,8 @@
     "effect": [
       {
         "if": { "and": [ { "npc_has_trait": "LILIN_GAIN_EXTRA_RUACH_FROM_SLEEPY_PEOPLE" }, { "u_has_effect": "asleep" } ] },
-        "then": { "math": [ "n_vitamin('lilin_ruach_vitamin')", "+=", "rng(200,300) * 1.5" ] },
-        "else": { "math": [ "n_vitamin('lilin_ruach_vitamin')", "+=", "rng(200,300)" ] }
+        "then": { "math": [ "n_vitamin('lilin_ruach_vitamin') += rng(200,300) * 1.5" ] },
+        "else": { "math": [ "n_vitamin('lilin_ruach_vitamin') += rng(200,300)" ] }
       },
       { "npc_message": "You feel a rush of warmth as you absorb the ruach.", "type": "good" },
       { "math": [ "u_lilin_ruach_drained_recently = 1" ] },
@@ -53,8 +53,8 @@
         "then": [
           {
             "if": { "and": [ { "npc_has_trait": "LILIN_GAIN_EXTRA_RUACH_FROM_SLEEPY_PEOPLE" }, { "u_has_effect": "asleep" } ] },
-            "then": { "math": [ "n_vitamin('lilin_ruach_vitamin')", "+=", "rng(200,300) * 1.5" ] },
-            "else": { "math": [ "n_vitamin('lilin_ruach_vitamin')", "+=", "rng(200,300)" ] }
+            "then": { "math": [ "n_vitamin('lilin_ruach_vitamin') += rng(200,300) * 1.5" ] },
+            "else": { "math": [ "n_vitamin('lilin_ruach_vitamin') += rng(200,300)" ] }
           },
           { "npc_message": "You feel a rush of warmth as you absorb the ruach.", "type": "good" },
           { "run_eocs": "EOC_LILIN_RUACH_DRAIN_SIDE_EFFECTS" }
@@ -62,7 +62,7 @@
         "else": {
           "if": { "or": [ { "u_has_species": "PLANT" }, { "u_has_species": "MIGO" } ] },
           "then": [
-            { "math": [ "n_vitamin('lilin_ruach_vitamin')", "+=", "rng(1,400)" ] },
+            { "math": [ "n_vitamin('lilin_ruach_vitamin') += rng(1,400)" ] },
             {
               "npc_message": "You feel a rush of warmth as you absorb the ruach, though your skin breaks out in goosebumps afterward.",
               "type": "good"
@@ -83,7 +83,7 @@
                   }
                 ]
               },
-              { "math": [ "n_vitamin('lilin_ruach_vitamin')", "+=", "u_ruach_random_nether_amount" ] },
+              { "math": [ "n_vitamin('lilin_ruach_vitamin') += u_ruach_random_nether_amount" ] },
               { "run_eocs": "EOC_LILIN_RUACH_DRAIN_SIDE_EFFECTS" }
             ],
             "else": {
@@ -98,7 +98,7 @@
                 ]
               },
               "then": [
-                { "math": [ "n_vitamin('lilin_ruach_vitamin')", "+=", "rng(20,60)" ] },
+                { "math": [ "n_vitamin('lilin_ruach_vitamin') += rng(20,60)" ] },
                 { "npc_message": "You feel a moment of warmth as you absorb the ruach.", "type": "good" },
                 { "run_eocs": "EOC_LILIN_RUACH_DRAIN_SIDE_EFFECTS" }
               ],
@@ -116,7 +116,7 @@
                   ]
                 },
                 "then": [
-                  { "math": [ "n_vitamin('lilin_ruach_vitamin')", "+=", "rng(5,15)" ] },
+                  { "math": [ "n_vitamin('lilin_ruach_vitamin') += rng(5,15)" ] },
                   {
                     "npc_message": "You feel a brief tingle as you absorb the animal's ruach.  Weak, but better than nothing.",
                     "type": "good"
@@ -133,7 +133,7 @@
                     ]
                   },
                   "then": [
-                    { "math": [ "n_vitamin('lilin_ruach_vitamin')", "+=", "rng(2,7)" ] },
+                    { "math": [ "n_vitamin('lilin_ruach_vitamin') += rng(2,7)" ] },
                     {
                       "npc_message": "You feel a slight prickling as you absorb the insect's ruach.  Barely worth bothering with.",
                       "type": "good"
@@ -164,18 +164,18 @@
       {
         "if": "u_is_character",
         "then": [
-          { "math": [ "u_npc_fear()", "+=", "1 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)" ] },
+          { "math": [ "u_npc_fear() += 1 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)" ] },
           {
             "if": {
               "and": [ { "math": [ "rand(1) == 1" ] }, { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects') >= 1" ] } ]
             },
-            "then": { "math": [ "u_npc_trust()", "-=", "1 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)" ] }
+            "then": { "math": [ "u_npc_trust() -= 1 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)" ] }
           },
           {
             "if": {
               "and": [ { "math": [ "rand(2) == 2" ] }, { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects') >= 2" ] } ]
             },
-            "then": { "math": [ "u_npc_value()", "-=", "1 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)" ] }
+            "then": { "math": [ "u_npc_value() -= 1 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)" ] }
           },
           {
             "u_deal_damage": "biological",
@@ -211,7 +211,7 @@
             "if": {
               "and": [ { "math": [ "rand(1) == 1" ] }, { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects') >= 2" ] } ]
             },
-            "then": { "math": [ "u_val('sleepiness')", "+=", "2 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') * 1.5)" ] }
+            "then": { "math": [ "u_val('sleepiness') += 2 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') * 1.5)" ] }
           },
           {
             "if": { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects') >= 4" ] },
@@ -223,7 +223,7 @@
           }
         ],
         "else": [
-          { "math": [ "u_val('morale')", "-=", "5 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') * 5)" ] },
+          { "math": [ "u_val('morale') -= 5 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') * 5)" ] },
           {
             "u_deal_damage": "biological",
             "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') * 1.5 )- 3), 0 )" ] }
@@ -249,15 +249,15 @@
     "effect": [
       {
         "if": { "math": [ "n_calories()", "<=", "118000" ] },
-        "then": { "math": [ "n_calories('dont_affect_weariness': true)", "+=", "rng(200,300)" ] }
+        "then": { "math": [ "n_calories('dont_affect_weariness': true) += rng(200,300)" ] }
       },
       {
         "if": { "math": [ "n_val('thirst')", ">=", "-60" ] },
-        "then": { "math": [ "n_val('thirst')", "-=", "rng(10,25)" ] }
+        "then": { "math": [ "n_val('thirst') -= rng(10,25)" ] }
       },
-      { "math": [ "n_vitamin('iron')", "+=", "rng(15,30)" ] },
-      { "math": [ "n_vitamin('vitC')", "+=", "rng(15,30)" ] },
-      { "math": [ "n_vitamin('calcium')", "+=", "rng(15,30)" ] }
+      { "math": [ "n_vitamin('iron') += rng(15,30)" ] },
+      { "math": [ "n_vitamin('vitC') += rng(15,30)" ] },
+      { "math": [ "n_vitamin('calcium') += rng(15,30)" ] }
     ],
     "false_effect": [
       {
@@ -279,45 +279,45 @@
         "then": [
           {
             "if": { "math": [ "n_calories()", "<=", "118000" ] },
-            "then": { "math": [ "n_calories('dont_affect_weariness': true)", "+=", "rng(200,300)" ] }
+            "then": { "math": [ "n_calories('dont_affect_weariness': true) += rng(200,300)" ] }
           },
           {
             "if": { "math": [ "n_val('thirst')", ">=", "-60" ] },
-            "then": { "math": [ "n_val('thirst')", "-=", "rng(10,25)" ] }
+            "then": { "math": [ "n_val('thirst') -= rng(10,25)" ] }
           },
-          { "math": [ "n_vitamin('iron')", "+=", "rng(15,30)" ] },
-          { "math": [ "n_vitamin('vitC')", "+=", "rng(15,30)" ] },
-          { "math": [ "n_vitamin('calcium')", "+=", "rng(15,30)" ] }
+          { "math": [ "n_vitamin('iron') += rng(15,30)" ] },
+          { "math": [ "n_vitamin('vitC') += rng(15,30)" ] },
+          { "math": [ "n_vitamin('calcium') += rng(15,30)" ] }
         ],
         "else": {
           "if": { "or": [ { "u_has_species": "PLANT" }, { "u_has_species": "MIGO" } ] },
           "then": [
             {
               "if": { "math": [ "n_calories()", "<=", "118000" ] },
-              "then": { "math": [ "n_calories('dont_affect_weariness': true)", "+=", "rng(0,250)" ] }
+              "then": { "math": [ "n_calories('dont_affect_weariness': true) += rng(0,250)" ] }
             },
             {
               "if": { "math": [ "n_val('thirst')", ">=", "-60" ] },
-              "then": { "math": [ "n_val('thirst')", "-=", "rng(0,15)" ] }
+              "then": { "math": [ "n_val('thirst') -= rng(0,15)" ] }
             },
-            { "math": [ "n_vitamin('iron')", "+=", "rng(0,10)" ] },
-            { "math": [ "n_vitamin('vitC')", "+=", "rng(0,10)" ] },
-            { "math": [ "n_vitamin('calcium')", "+=", "rng(0,10)" ] }
+            { "math": [ "n_vitamin('iron') += rng(0,10)" ] },
+            { "math": [ "n_vitamin('vitC') += rng(0,10)" ] },
+            { "math": [ "n_vitamin('calcium') += rng(0,10)" ] }
           ],
           "else": {
             "if": { "u_has_species": "NETHER" },
             "then": [
               {
                 "if": { "math": [ "n_calories()", "<=", "118000" ] },
-                "then": { "math": [ "n_calories('dont_affect_weariness': true)", "+=", "rng(-500,500)" ] }
+                "then": { "math": [ "n_calories('dont_affect_weariness': true) += rng(-500,500)" ] }
               },
               {
                 "if": { "math": [ "n_val('thirst')", ">=", "-60" ] },
-                "then": { "math": [ "n_val('thirst')", "-=", "rng(-25,25)" ] }
+                "then": { "math": [ "n_val('thirst') -= rng(-25,25)" ] }
               },
-              { "math": [ "n_vitamin('iron')", "+=", "rng(-30,30)" ] },
-              { "math": [ "n_vitamin('vitC')", "+=", "rng(-30,30)" ] },
-              { "math": [ "n_vitamin('calcium')", "+=", "rng(-30,30)" ] }
+              { "math": [ "n_vitamin('iron') += rng(-30,30)" ] },
+              { "math": [ "n_vitamin('vitC') += rng(-30,30)" ] },
+              { "math": [ "n_vitamin('calcium') += rng(-30,30)" ] }
             ],
             "else": {
               "if": {
@@ -333,15 +333,15 @@
               "then": [
                 {
                   "if": { "math": [ "n_calories()", "<=", "118000" ] },
-                  "then": { "math": [ "n_calories('dont_affect_weariness': true)", "+=", "rng(65,125)" ] }
+                  "then": { "math": [ "n_calories('dont_affect_weariness': true) += rng(65,125)" ] }
                 },
                 {
                   "if": { "math": [ "n_val('thirst')", ">=", "-60" ] },
-                  "then": { "math": [ "n_val('thirst')", "-=", "rng(2,6)" ] }
+                  "then": { "math": [ "n_val('thirst') -= rng(2,6)" ] }
                 },
-                { "math": [ "n_vitamin('iron')", "+=", "rng(1,8)" ] },
-                { "math": [ "n_vitamin('vitC')", "+=", "rng(1,8)" ] },
-                { "math": [ "n_vitamin('calcium')", "+=", "rng(1,8)" ] }
+                { "math": [ "n_vitamin('iron') += rng(1,8)" ] },
+                { "math": [ "n_vitamin('vitC') += rng(1,8)" ] },
+                { "math": [ "n_vitamin('calcium') += rng(1,8)" ] }
               ],
               "else": {
                 "if": {
@@ -359,15 +359,15 @@
                 "then": [
                   {
                     "if": { "math": [ "n_calories()", "<=", "118000" ] },
-                    "then": { "math": [ "n_calories('dont_affect_weariness': true)", "+=", "rng(20,40)" ] }
+                    "then": { "math": [ "n_calories('dont_affect_weariness': true) += rng(20,40)" ] }
                   },
                   {
                     "if": { "math": [ "n_val('thirst')", ">=", "-60" ] },
-                    "then": { "math": [ "n_val('thirst')", "-=", "rng(1,3)" ] }
+                    "then": { "math": [ "n_val('thirst') -= rng(1,3)" ] }
                   },
-                  { "math": [ "n_vitamin('iron')", "+=", "rng(1,4)" ] },
-                  { "math": [ "n_vitamin('vitC')", "+=", "rng(1,4)" ] },
-                  { "math": [ "n_vitamin('calcium')", "+=", "rng(1,4)" ] }
+                  { "math": [ "n_vitamin('iron') += rng(1,4)" ] },
+                  { "math": [ "n_vitamin('vitC') += rng(1,4)" ] },
+                  { "math": [ "n_vitamin('calcium') += rng(1,4)" ] }
                 ]
               }
             }
@@ -598,7 +598,7 @@
     "type": "effect_on_condition",
     "id": "EOC_LILIN_AVOID_SLEEP",
     "effect": [
-      { "math": [ "u_val('sleepiness')", "-=", "rng(200,350)" ] },
+      { "math": [ "u_val('sleepiness') -= rng(200,350)" ] },
       { "if": { "math": [ "u_val('sleepiness') < 0" ] }, "then": { "math": [ "u_val('sleepiness') = 0" ] } },
       { "math": [ "u_val('sleep_deprivation') = 0" ] },
       { "u_message": "As a cool breeze touches your skin, you feel much more awake.", "type": "good" }
@@ -685,31 +685,31 @@
       ]
     },
     "effect": [
-      { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "1200 * lilin_has_ruach_efficiency()" ] },
+      { "math": [ "u_vitamin('lilin_ruach_vitamin') -= 1200 * lilin_has_ruach_efficiency()" ] },
       { "npc_message": "Your wounded flesh knits together in moments.", "type": "neutral" },
       {
         "if": { "math": [ "u_hp('torso') < u_hp_max('torso')" ] },
-        "then": { "math": [ "u_hp('torso')", "+=", "25 * min( (u_vitamin('lilin_ruach_vitamin') / 4000),1)" ] }
+        "then": { "math": [ "u_hp('torso') += 25 * min( (u_vitamin('lilin_ruach_vitamin') / 4000),1)" ] }
       },
       {
         "if": { "math": [ "u_hp('head') < u_hp_max('head')" ] },
-        "then": { "math": [ "u_hp('head')", "+=", "25 * min( (u_vitamin('lilin_ruach_vitamin') / 4000),1)" ] }
+        "then": { "math": [ "u_hp('head') += 25 * min( (u_vitamin('lilin_ruach_vitamin') / 4000),1)" ] }
       },
       {
         "if": { "math": [ "u_hp('arm_l') < u_hp_max('arm_l')" ] },
-        "then": { "math": [ "u_hp('arm_l')", "+=", "25 * min( (u_vitamin('lilin_ruach_vitamin') / 4000),1)" ] }
+        "then": { "math": [ "u_hp('arm_l') += 25 * min( (u_vitamin('lilin_ruach_vitamin') / 4000),1)" ] }
       },
       {
         "if": { "math": [ "u_hp('arm_r') < u_hp_max('arm_r')" ] },
-        "then": { "math": [ "u_hp('arm_r')", "+=", "25 * min( (u_vitamin('lilin_ruach_vitamin') / 4000),1)" ] }
+        "then": { "math": [ "u_hp('arm_r') += 25 * min( (u_vitamin('lilin_ruach_vitamin') / 4000),1)" ] }
       },
       {
         "if": { "math": [ "u_hp('leg_l') < u_hp_max('leg_l')" ] },
-        "then": { "math": [ "u_hp('leg_l')", "+=", "25 * min( (u_vitamin('lilin_ruach_vitamin') / 4000),1)" ] }
+        "then": { "math": [ "u_hp('leg_l') += 25 * min( (u_vitamin('lilin_ruach_vitamin') / 4000),1)" ] }
       },
       {
         "if": { "math": [ "u_hp('leg_r') < u_hp_max('leg_r')" ] },
-        "then": { "math": [ "u_hp('leg_r')", "+=", "25 * min( (u_vitamin('lilin_ruach_vitamin') / 4000),1)" ] }
+        "then": { "math": [ "u_hp('leg_r') += 25 * min( (u_vitamin('lilin_ruach_vitamin') / 4000),1)" ] }
       }
     ],
     "false_effect": [

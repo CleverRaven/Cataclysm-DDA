@@ -1809,12 +1809,12 @@
     "id": "EOC_DRUID_EAT_THE_GOODBERRY",
     "//": "Will not unbreak your limbs, but heals you.",
     "effect": [
-      { "if": { "math": [ "u_hp('head') > 0" ] }, "then": { "math": [ "u_hp('head')", "+=", "3" ] } },
-      { "if": { "math": [ "u_hp('torso') > 0" ] }, "then": { "math": [ "u_hp('torso')", "+=", "3" ] } },
-      { "if": { "math": [ "u_hp('arm_l') > 0" ] }, "then": { "math": [ "u_hp('arm_l')", "+=", "3" ] } },
-      { "if": { "math": [ "u_hp('arm_r') > 0" ] }, "then": { "math": [ "u_hp('arm_r')", "+=", "3" ] } },
-      { "if": { "math": [ "u_hp('leg_l') > 0" ] }, "then": { "math": [ "u_hp('leg_l')", "+=", "3" ] } },
-      { "if": { "math": [ "u_hp('leg_r') > 0" ] }, "then": { "math": [ "u_hp('leg_r')", "+=", "3" ] } }
+      { "if": { "math": [ "u_hp('head') > 0" ] }, "then": { "math": [ "u_hp('head') += 3" ] } },
+      { "if": { "math": [ "u_hp('torso') > 0" ] }, "then": { "math": [ "u_hp('torso') += 3" ] } },
+      { "if": { "math": [ "u_hp('arm_l') > 0" ] }, "then": { "math": [ "u_hp('arm_l') += 3" ] } },
+      { "if": { "math": [ "u_hp('arm_r') > 0" ] }, "then": { "math": [ "u_hp('arm_r') += 3" ] } },
+      { "if": { "math": [ "u_hp('leg_l') > 0" ] }, "then": { "math": [ "u_hp('leg_l') += 3" ] } },
+      { "if": { "math": [ "u_hp('leg_r') > 0" ] }, "then": { "math": [ "u_hp('leg_r') += 3" ] } }
     ]
   }
 ]

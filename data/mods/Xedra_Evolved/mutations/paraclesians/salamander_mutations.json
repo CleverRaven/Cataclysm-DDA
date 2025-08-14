@@ -743,9 +743,12 @@
   {
     "type": "mutation",
     "id": "SALAMANDER_SMOKE_FORM_APPEARANCE",
-    "name": { "str": "Form of Billowing Smoke Appearance" },
+    "name": { "str": "Form of Billowing Smoke Appearance", "//~": "NO_I18N" },
     "points": 1,
-    "description": "This mutation carries the sprite override info for Form of Billowing Smoke.  You shouldn't be able to see it in game.",
+    "description": {
+      "str": "This mutation carries the sprite override info for Form of Billowing Smoke.  You shouldn't be able to see it in game.",
+      "//~": "NO_I18N"
+    },
     "valid": false,
     "player_display": false,
     "override_look": { "id": "fd_nuke_gas", "tile_category": "field" },

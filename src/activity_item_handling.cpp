@@ -836,7 +836,7 @@ construction const *_find_prereq( tripoint_bub_ms const &loc, construction_id co
                ( idx->pre_terrain.find( it.post_terrain ) != idx->pre_terrain.end() )  &&
                // don't get stuck building and deconstructing the top level post_terrain
                ( it.pre_terrain.find( top_idx->post_terrain ) == it.pre_terrain.end() )  &&
-               ( it.pre_flags.empty() || !can_construct_furn_ter( it, f, t ) );
+               ( it.pre_flags.empty() || !has_pre_flags( it, f, t ) );
     } );
 
     for( construction const *gcon : cons ) {

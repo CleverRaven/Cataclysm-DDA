@@ -746,7 +746,7 @@ void Character::make_craft_with_command( const recipe_id &id_to_make, int batch_
 
 static std::optional<item_location> wield_craft( Character &p, item &craft )
 {
-    if( p.wield( craft ) ) {
+    if( p.wield( craft, std::nullopt, false ) ) {
         item_location weapon = p.get_wielded_item();
         if( weapon->invlet ) {
             p.add_msg_if_player( m_info, _( "Wielding %c - %s" ), weapon->invlet, weapon->display_name() );

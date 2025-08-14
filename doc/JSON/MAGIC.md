@@ -110,7 +110,17 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
     "sound_ambient": true,                                    // whether or not this is treated as an ambient sound or not
     "sound_id": "misc",                                       // the sound id
     "sound_variant": "shockwave",                             // the sound variant
-    "learn_spells": { "create_atomic_light": 5, "megablast": 10 }   // the caster will learn these spells when the current spell reaches the specified level. should be a map of spell_type_id and the level at which the new spell is learned.
+    "learn_spells": { "create_atomic_light": 5, "megablast": 10 },   // the caster will learn these spells when the current spell reaches the specified level. should be a map of spell_type_id and the level at which the new spell is learned.
+    "condition": {                                            // if valid_targets, targeted_monster_ids, targeted_monster_species and ignored_monster_species is not enough,
+      "and": [                                                // you can place more conditions to check both the caster (alpha/u_) and target (beta/npc/n_).
+        { "not": { "npc_has_worn_with_flag": "DIMENSIONAL_ANCHOR" } }, // If it return false, you cannot cast this spell against creature you are aiming at
+        { "not": { "npc_has_worn_with_flag": "STABILIZED_TIMELINE" } }
+      ]
+    },
+    "condition_fail_message": "Cannot be used against time or space anchored." // if `condition` fails, this message would be printed.
+                                                                               // because `condition` is designed to evaluate both alpha and beta,
+                                                                               // the only place where this message can be rendered is at aiming menu
+                                                                               // which i consider a bug that needs to be resovled
   }
 ```
 The template spell above shows every JSON field that spells can have.  Most of these values can be set at 0 or "NONE", so you may leave out most of these fields if they do not pertain to your spell.

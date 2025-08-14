@@ -65,7 +65,7 @@
         { "u_has_trait": "ARVORE" }
       ]
     },
-    "effect": [ { "math": [ "u_school_level_adjustment('ARVORE')", "-=", "4" ] } ]
+    "effect": [ { "math": [ "u_school_level_adjustment('ARVORE') -= 4" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -97,7 +97,7 @@
         { "u_has_trait": "HOMULLUS" }
       ]
     },
-    "effect": [ { "math": [ "u_school_level_adjustment('HOMULLUS')", "-=", "4" ] } ]
+    "effect": [ { "math": [ "u_school_level_adjustment('HOMULLUS') -= 4" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -137,7 +137,7 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "and": [ { "math": [ "u_val('pos_z') >= 1" ] }, { "u_has_trait": "IERDE" } ] },
-    "effect": [ { "math": [ "u_school_level_adjustment('IERDE')", "-=", "4" ] } ]
+    "effect": [ { "math": [ "u_school_level_adjustment('IERDE') -= 4" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -193,7 +193,7 @@
         { "u_has_trait": "SALAMANDER" }
       ]
     },
-    "effect": [ { "math": [ "u_school_level_adjustment('SALAMANDER')", "-=", "4" ] } ]
+    "effect": [ { "math": [ "u_school_level_adjustment('SALAMANDER') -= 4" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -223,7 +223,7 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "and": [ { "math": [ "u_val('pos_z') <= -1" ] }, { "not": "u_is_outside" }, { "u_has_trait": "SYLPH" } ] },
-    "effect": [ { "math": [ "u_school_level_adjustment('SYLPH')", "-=", "4" ] } ]
+    "effect": [ { "math": [ "u_school_level_adjustment('SYLPH') -= 4" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -326,6 +326,6 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "and": [ { "math": [ "time_since(u_timer_undine_last_in_water) >= time('6 h')" ] }, { "u_has_trait": "UNDINE" } ] },
-    "effect": [ { "math": [ "u_school_level_adjustment('UNDINE')", "-=", "4" ] } ]
+    "effect": [ { "math": [ "u_school_level_adjustment('UNDINE') -= 4" ] } ]
   }
 ]

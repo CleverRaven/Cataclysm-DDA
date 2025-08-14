@@ -1236,7 +1236,7 @@
         ]
       }
     },
-    "effect": [ { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "+=", "1" ] } ]
+    "effect": [ { "math": [ "u_vitamin('vitamin_psi_learning_counter') += 1" ] } ]
   },
   {
     "type": "effect_on_condition",

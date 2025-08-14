@@ -770,8 +770,8 @@
         { "math": [ "u_favor_owed_to_u_robofac_merc_1_favor++" ] },
         { "npc_lose_var": "general_robofac_merc_1_temporal_follower" },
         { "u_add_var": "general_robofac_merc_1_helped_with_missions", "value": "yes" },
-        { "math": [ "n_npc_trust()", "+=", "2" ] },
-        { "math": [ "n_npc_value()", "+=", "2" ] }
+        { "math": [ "n_npc_trust() += 2" ] },
+        { "math": [ "n_npc_value() += 2" ] }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],

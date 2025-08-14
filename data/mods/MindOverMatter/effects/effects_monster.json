@@ -174,7 +174,7 @@
       "Revivified",
       "Revivified"
     ],
-    "desc": [ "Causes the target to eventually die.  It's a bug if you have it." ],
+    "desc": [ { "str": "Causes the target to eventually die.  It's a bug if you have it.", "//~": "NO_I18N" } ],
     "max_intensity": 12,
     "int_decay_step": 1,
     "int_decay_tick": 60,

@@ -84,7 +84,7 @@
               },
               { "u_add_trait": "VERDANT_HAND_PROTOCOLS" },
               { "give_achievement": "mom_learn_verdant_hand_protocols" },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,30 )" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 10,30 )" ] },
               { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
             ],
             "false_effect": [
@@ -92,7 +92,7 @@
                 "u_message": "You just couldn't master the forms and the meditations eluded you.  You'll need to try again.",
                 "type": "bad"
               },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,30 )" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 10,30 )" ] },
               { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
             ]
           }
@@ -101,7 +101,7 @@
           {
             "u_message": "Your mastery of biokinesis isn't deep enough to succeed.  You'll need to develop your powers and try again."
           },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,30 )" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 10,30 )" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ]
       }
@@ -163,7 +163,7 @@
               { "math": [ "u_spell_level('teleport_warper_combat') = 1" ] },
               { "give_achievement": "mom_learn_flicker_flash_stance" },
               { "u_learn_recipe": "practice_teleport_warper_combat" },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 50,100 )" ] },
               { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
             ],
             "false_effect": [
@@ -171,7 +171,7 @@
                 "u_message": "You just couldn't master the forms and the meditations eluded you.  You'll need to try again.",
                 "type": "bad"
               },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 50,100 )" ] },
               { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
             ]
           }
@@ -180,7 +180,7 @@
           {
             "u_message": "Your mastery of teleportation isn't deep enough to succeed.  You'll need to develop your powers and try again."
           },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 50,100 )" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ]
       }
