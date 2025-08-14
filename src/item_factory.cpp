@@ -4066,7 +4066,7 @@ void itype::load( const JsonObject &jo, std::string_view src )
     optional( jo, was_loaded, "integral_longest_side", integral_longest_side, not_negative_length,
               -1_mm );
     optional( jo, was_loaded, "variant_type", variant_kind, itype_variant_kind::generic );
-    optional( jo, was_loaded, "variants", variants );
+    optional( jo, was_loaded, "variants", variants, json_read_reader<itype_variant_data> {} );
     optional( jo, was_loaded, "container", default_container );
     optional( jo, was_loaded, "container_variant", default_container_variant );
     optional( jo, was_loaded, "sealed", default_container_sealed, true );

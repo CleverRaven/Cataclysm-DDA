@@ -2963,7 +2963,7 @@
       [ "beret_wool", 40 ],
       [ "elbow_pads", 50 ],
       [ "knee_pads", 50 ],
-      [ "solarpack", 5 ]
+      [ "folding_solar_panel_v2", 5 ]
     ]
   },
   {
@@ -3002,7 +3002,6 @@
       [ "shoulder_holster", 1 ],
       [ "bandolier_shotgun", 8 ],
       [ "torso_bandolier_grenade", 8 ],
-      [ "solarpack", 5 ],
       [ "chem_hexamine", 3 ],
       { "item": "esbit_stove", "prob": 6, "charges": [ 0, 50 ] },
       { "group": "full_survival_kit", "prob": 4 }
@@ -4094,7 +4093,6 @@
           { "item": "nylon_quiver", "prob": 12 },
           { "item": "quiver", "prob": 8 },
           { "item": "quiver_large", "prob": 15 },
-          { "item": "solarpack", "prob": 5 },
           { "item": "ammo_satchel", "prob": 10 },
           { "item": "ammo_pouch", "prob": 10 },
           { "item": "chestrig", "prob": 20 },
@@ -4156,7 +4154,6 @@
           { "item": "nylon_quiver", "prob": 12 },
           { "item": "quiver", "prob": 8 },
           { "item": "quiver_large", "prob": 15 },
-          { "item": "solarpack", "prob": 5 },
           { "item": "ammo_satchel", "prob": 10 },
           { "item": "ammo_pouch", "prob": 10 },
           { "item": "chestrig", "prob": 20 },

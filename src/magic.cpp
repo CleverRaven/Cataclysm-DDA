@@ -358,6 +358,7 @@ void spell_type::load( const JsonObject &jo, std::string_view src )
         read_condition( jo, "condition", condition, false );
         has_condition = true;
     }
+    optional( jo, was_loaded, "condition_fail_message", condition_fail_message_ );
 
     optional( jo, was_loaded, "extra_effects", additional_spells );
 
@@ -511,7 +512,7 @@ void spell_type::load( const JsonObject &jo, std::string_view src )
 
     optional( jo, was_loaded, "spell_class", spell_class, spell_class_default );
     if( jo.has_string( "energy_source" ) ) {
-        optional( jo, was_loaded, "energy_source", energy_source );
+        mandatory( jo, was_loaded, "energy_source", energy_source );
     } else if( jo.has_object( "energy_source" ) ) {
         const JsonObject jo_energy = jo.get_object( "energy_source" );
         mandatory( jo_energy, was_loaded, "type", energy_source );
@@ -723,13 +724,13 @@ void spell_type::check_consistency()
             debugmsg( "ERROR: %s has WONDER flag but no spells to choose from!", sp_t.id.c_str() );
         }
         if( sp_t.get_energy_source() == magic_energy_type::vitamin &&
-            !sp_t.vitamin_energy_source().has_value() ) {
-            debugmsg( R"(spell %s uses energy_source "vitamin", but doesn't specify the "vitamin")",
+            sp_t.vitamin_energy_source() == vitamin_id::NULL_ID() ) {
+            debugmsg( R"(spell %s uses energy_source "VITAMIN", but doesn't specify the "vitamin" id)",
                       sp_t.id.c_str() );
         }
         if( sp_t.get_energy_source() != magic_energy_type::vitamin &&
-            sp_t.vitamin_energy_source().has_value() ) {
-            debugmsg( R"(spell %s specifies "vitamin", but doesn't use the vitamin energy source)",
+            sp_t.vitamin_energy_source() != vitamin_id::NULL_ID() ) {
+            debugmsg( R"(spell %s specifies "vitamin" field, but doesn't use the vitamin energy source)",
                       sp_t.id.c_str() );
         }
 
@@ -1723,6 +1724,10 @@ bool spell::valid_by_condition( const Creature &caster ) const
     }
 }
 
+std::string spell::failed_condition_message() const
+{
+    return type->condition_fail_message_.translated();
+}
 
 bool spell::is_valid_target( const Creature &caster, const tripoint_bub_ms &p ) const
 {
@@ -1849,14 +1854,27 @@ magic_energy_type spell_type::get_energy_source() const
     }
 }
 
-std::optional<vitamin_id> spell_type::vitamin_energy_source() const
+vitamin_id spell_type::vitamin_energy_source() const
 {
-    return vitamin_energy_source_;
+    if( vitamin_energy_source_.has_value() ) {
+        return vitamin_energy_source_.value();
+    } else if( magic_type.has_value() && magic_type.value()->vitamin_energy_source_.has_value() ) {
+        return magic_type.value()->vitamin_energy_source_.value();
+    } else {
+        // should happen only at check_consistency()
+        return vitamin_id::NULL_ID();
+    }
 }
 
 nc_color spell_type::energy_color() const
 {
-    return energy_color_;
+    if( energy_color_.has_value() ) {
+        return energy_color_.value();
+    } else if( magic_type.has_value() && magic_type.value()->energy_color_.has_value() ) {
+        return magic_type.value()->energy_color_.value();
+    } else {
+        return c_cyan;
+    }
 }
 
 std::optional<jmath_func_id> spell_type::overall_get_level_formula_id() const

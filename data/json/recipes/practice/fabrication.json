@@ -337,5 +337,55 @@
       [ "textbook_fabrication", 6 ],
       [ "welding_book", 6 ]
     ]
+  },
+  {
+    "id": "prac_machining_lathe_aluminum",
+    "type": "practice",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "lathe turning (aluminum)",
+    "description": "Practice turning aluminum bar stock into basic parts.",
+    "skill_used": "fabrication",
+    "practice_data": { "min_difficulty": 2, "max_difficulty": 3, "skill_limit": 3 },
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "time_multiplier": 1, "skill_penalty": 0 },
+      { "proficiency": "prof_machining_basic", "time_multiplier": 1.5, "skill_penalty": 0.5 }
+    ],
+    "time": "1 h",
+    "byproducts": [ [ "scrap_aluminum", 5 ] ],
+    "tools": [ [ [ "fake_lathe", 40 ] ] ],
+    "components": [ [ [ "aluminum_bar_round", 1 ], [ "small_aluminum_bar_round", 3 ] ] ],
+    "autolearn": [ [ "fabrication", 4 ] ],
+    "book_learn": [ [ "textbook_fabrication", 3 ], [ "reference_fabrication1", 2 ] ]
+  },
+  {
+    "id": "prac_machining_lathe_steel",
+    "type": "practice",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "lathe turning (steel)",
+    "description": "Practice turning steel bar stock into basic parts.",
+    "skill_used": "fabrication",
+    "practice_data": { "min_difficulty": 2, "max_difficulty": 3, "skill_limit": 3 },
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "time_multiplier": 1, "skill_penalty": 0 },
+      { "proficiency": "prof_machining_basic", "time_multiplier": 1.5, "skill_penalty": 1.25 }
+    ],
+    "time": "1 h 30m",
+    "byproducts": [ [ "scrap", 7.5 ] ],
+    "tools": [ [ [ "fake_lathe", 50 ] ] ],
+    "components": [
+      [
+        [ "lc_steel_bar_round", 1 ],
+        [ "mc_steel_bar_round", 1 ],
+        [ "pipe", 2 ],
+        [ "small_lc_steel_bar_round", 3 ],
+        [ "small_mc_steel_bar_round", 3 ]
+      ]
+    ],
+    "autolearn": [ [ "fabrication", 4 ] ],
+    "book_learn": [ [ "textbook_fabrication", 3 ], [ "reference_fabrication1", 2 ] ]
   }
 ]
