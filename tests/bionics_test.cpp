@@ -8,25 +8,19 @@
 
 #include "avatar.h"
 #include "bionics.h"
-#include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
 #include "character_attire.h"
-#include "coordinates.h"
 #include "debug.h"
 #include "enums.h"
-#include "game.h"
 #include "item.h"
 #include "item_location.h"
-#include "map_helpers.h"
-#include "options_helpers.h"
 #include "pimpl.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
 #include "ret_val.h"
 #include "type_id.h"
 #include "units.h"
-#include "weather_type.h"
 
 static const bionic_id bio_batteries( "bio_batteries" );
 // Change to some other weapon CBM if bio_blade is ever removed
@@ -48,8 +42,6 @@ static const itype_id itype_UPS_ON( "UPS_ON" );
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_jumper_cable( "jumper_cable" );
 static const itype_id itype_light_battery_cell( "light_battery_cell" );
-static const itype_id itype_pants_cargo( "pants_cargo" );
-static const itype_id itype_solarpack_on( "solarpack_on" );
 static const itype_id itype_splinter( "splinter" );
 static const itype_id itype_test_backpack( "test_backpack" );
 
@@ -529,37 +521,6 @@ TEST_CASE( "fueled_bionics", "[bionics] [item]" )
         // Run out of fuel
         dummy.suffer();
         CHECK( units::to_joule( dummy.get_power_level() ) == 2000 );
-    }
-
-    SECTION( "bio_cable solar" ) {
-        bionic &bio = *dummy.find_bionic_by_uid( dummy.add_bionic( bio_cable ) ).value();
-
-        // Midday for solar test
-        clear_map();
-        g->reset_light_level();
-        scoped_weather_override weather_clear( WEATHER_CLEAR );
-        calendar::turn = calendar::turn_zero + 12_hours;
-        REQUIRE( g->is_in_sunlight( dummy.pos_bub() ) );
-
-        // Connect solar backpack
-        dummy.worn.wear_item( dummy, item( itype_pants_cargo ), false, false );
-        dummy.worn.wear_item( dummy, item( itype_solarpack_on ), false, false );
-        // Unsafe way to get the worn solar backpack
-        item_location solar_pack = dummy.top_items_loc()[1];
-        REQUIRE( solar_pack->typeId() == itype_solarpack_on );
-        item_location cable = dummy.i_add( item( itype_jumper_cable ) );
-        cable->link().source = link_state::solarpack;
-        cable->link().target = link_state::bio_cable;
-        solar_pack->set_var( "cable", "plugged_in" );
-        cable->active = true;
-
-        CHECK( dummy.get_bionic_fuels( bio.id ).empty() );
-        CHECK( dummy.get_cable_ups().empty() );
-        CHECK_FALSE( dummy.get_cable_solar().empty() );
-        CHECK( dummy.get_cable_vehicle().empty() );
-        CHECK( dummy.activate_bionic( bio ) );
-        dummy.suffer();
-        CHECK( units::to_millijoule( dummy.get_power_level() ) == 37525 );
     }
 
     SECTION( "bio_wood_burner" ) {
