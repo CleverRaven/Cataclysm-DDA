@@ -9,6 +9,7 @@
 #include <set>
 #include <string>
 #include <tuple>
+#include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -459,12 +460,7 @@ void put_into_vehicle_or_drop( Character &you, item_drop_reason reason,
                                const std::list<item> &items,
                                map *here, const tripoint_bub_ms &where, bool force_ground )
 {
-    const std::optional<vpart_reference> vp = here->veh_at( where ).cargo();
-    if( vp && !force_ground ) {
-        try_to_put_into_vehicle( you, reason, items, *vp );
-        return;
-    }
-    drop_on_map( you, reason, items, here, where );
+    put_into_vehicle_or_drop_ret_locs( you, reason, items, here, where, force_ground );
 }
 
 std::vector<item_location> put_into_vehicle_or_drop_ret_locs( Character &you,
@@ -687,6 +683,26 @@ static void move_item( Character &you, item &it, const int quantity, const tripo
     }
 }
 
+static std::vector<tripoint_bub_ms> first_nonempty_route_to( const Character &you, const map &here,
+        const std::vector<tripoint_bub_ms> &dests )
+{
+    if( dests.front() == you.pos_bub() ) {
+        // We are on the best tile
+        return {};
+    }
+
+    for( const tripoint_bub_ms &tp : dests ) {
+        std::vector<tripoint_bub_ms> route =
+            here.route( you, pathfinding_target::point( tp ) );
+
+        if( !route.empty() ) {
+            return route;
+        }
+    }
+
+    return {};
+}
+
 std::vector<tripoint_bub_ms> route_adjacent( const Character &you, const tripoint_bub_ms &dest )
 {
     std::unordered_set<tripoint_bub_ms> passable_tiles;
@@ -701,16 +717,7 @@ std::vector<tripoint_bub_ms> route_adjacent( const Character &you, const tripoin
     const std::vector<tripoint_bub_ms> &sorted =
         get_sorted_tiles_by_distance( you.pos_bub(), passable_tiles );
 
-    for( const tripoint_bub_ms &tp : sorted ) {
-        std::vector<tripoint_bub_ms> route =
-            here.route( you, pathfinding_target::point( tp ) );
-
-        if( !route.empty() ) {
-            return route;
-        }
-    }
-
-    return {};
+    return first_nonempty_route_to( you, here, sorted );
 }
 
 static std::vector<tripoint_bub_ms> route_best_workbench(
@@ -774,20 +781,8 @@ static std::vector<tripoint_bub_ms> route_best_workbench(
         return best_bench_multi_a > best_bench_multi_b;
     };
     std::stable_sort( sorted.begin(), sorted.end(), cmp );
-    if( sorted.front() == you.pos_bub() ) {
-        // We are on the best tile
-        return {};
-    }
-    for( const tripoint_bub_ms &tp : sorted ) {
-        std::vector<tripoint_bub_ms> route =
-            here.route( you, pathfinding_target::point( tp ) );
 
-        if( !route.empty() ) {
-            return route;
-        }
-    }
-    return {};
-
+    return first_nonempty_route_to( you, here, sorted );
 }
 
 namespace
@@ -1561,41 +1556,37 @@ static std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> requirements_map(
     for( const tripoint_bub_ms &point_elem : pickup_task ? loot_spots : combined_spots ) {
         std::map<itype_id, int> temp_map;
         for( const item &stack_elem : here.i_at( point_elem ) ) {
-            for( std::vector<item_comp> &elem : req_comps ) {
-                for( item_comp &comp_elem : elem ) {
-                    if( comp_elem.type == stack_elem.typeId() ) {
-                        // if its near the work site, we can remove a count from the requirements.
-                        // if two "lines" of the requirement have the same component appearing again
-                        // that is fine, we will choose which "line" to fulfill later, and the decrement will count towards that then.
-                        if( !pickup_task &&
-                            std::find( already_there_spots.begin(), already_there_spots.end(),
-                                       point_elem ) != already_there_spots.end() ) {
-                            comp_elem.count -= stack_elem.count();
-                        }
-                        temp_map[stack_elem.typeId()] += stack_elem.count();
-                    }
-                }
-            }
-            for( std::vector<tool_comp> &elem : tool_comps ) {
-                for( tool_comp &comp_elem : elem ) {
-                    if( comp_elem.type == stack_elem.typeId() ) {
-                        if( !pickup_task &&
-                            std::find( already_there_spots.begin(), already_there_spots.end(),
-                                       point_elem ) != already_there_spots.end() ) {
-                            comp_elem.count -= stack_elem.count();
-                        }
-                        if( comp_elem.by_charges() ) {
-                            // we don't care if there are 10 welders with 5 charges each
-                            // we only want the one welder that has the required charge.
-                            if( stack_elem.ammo_remaining( &you ) >= comp_elem.count ) {
-                                temp_map[stack_elem.typeId()] += stack_elem.ammo_remaining( &you );
+            static const auto emplace_items = [&]( auto comps ) {
+                for( auto &elem : comps ) {
+                    for( auto &comp_elem : elem ) {
+                        if( comp_elem.type == stack_elem.typeId() ) {
+                            // if its near the work site, we can remove a count from the requirements.
+                            // if two "lines" of the requirement have the same component appearing again
+                            // that is fine, we will choose which "line" to fulfill later, and the decrement will count towards that then.
+                            if( !pickup_task &&
+                                std::find( already_there_spots.begin(), already_there_spots.end(),
+                                           point_elem ) != already_there_spots.end() ) {
+                                comp_elem.count -= stack_elem.count();
                             }
-                        } else {
-                            temp_map[stack_elem.typeId()] += stack_elem.count();
+                            if constexpr( std::is_same_v<decltype( comp_elem ), tool_comp &> ) {
+                                if( comp_elem.by_charges() ) {
+                                    // we don't care if there are 10 welders with 5 charges each
+                                    // we only want the one welder that has the required charge.
+                                    if( stack_elem.ammo_remaining( &you ) >= comp_elem.count ) {
+                                        temp_map[stack_elem.typeId()] += stack_elem.ammo_remaining( &you );
+                                    }
+                                    continue;
+                                }
+                            }
+                            // FIXME during a test with label "[zones][activities][construction]" this leads
+                            // to a SIGSEGV when _M_begin() on temp_map yields invalid ptr 0x0fffffffffffffff
+                            temp_map[stack_elem.typeId()] += stack_elem.count(); 
                         }
                     }
                 }
-            }
+            };
+            emplace_items( req_comps );
+            emplace_items( tool_comps );
 
             for( std::vector<quality_requirement> &elem : quality_comps ) {
                 for( quality_requirement &comp_elem : elem ) {
@@ -1628,122 +1619,68 @@ static std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> requirements_map(
     }
     // Ok we now have a list of all the items that match the requirements, their points, and a quantity for each one.
     // we need to consolidate them, and winnow it down to the minimum required counts, instead of all matching.
-    for( const std::vector<item_comp> &elem : req_comps ) {
-        bool line_found = false;
-        for( const item_comp &comp_elem : elem ) {
-            if( line_found || comp_elem.count <= 0 ) {
-                break;
-            }
-            int quantity_required = comp_elem.count;
-            int item_quantity = 0;
-            auto it = requirement_map.begin();
-            int remainder = 0;
-            while( it != requirement_map.end() ) {
-                tripoint_bub_ms pos_here = std::get<0>( *it );
-                itype_id item_here = std::get<1>( *it );
-                int quantity_here = std::get<2>( *it );
-                if( comp_elem.type == item_here ) {
-                    item_quantity += quantity_here;
-                }
-                if( item_quantity >= quantity_required ) {
-                    // it's just this spot that can fulfil the requirement on its own
-                    final_map.emplace_back( pos_here, item_here, std::min<int>( quantity_here,
-                                            quantity_required ) );
-                    if( quantity_here >= quantity_required ) {
-                        line_found = true;
-                        break;
-                    } else {
-                        remainder = quantity_required - quantity_here;
-                    }
+    static const auto emplace_comps = [&requirement_map, &final_map]( auto & comps, bool tools ) {
+        for( const auto &elem : comps ) {
+            bool line_found = false;
+            for( const auto &comp_elem : elem ) {
+                if( line_found || comp_elem.count <= ( tools ? -2 : 0 ) ) {
                     break;
                 }
-                ++it;
-            }
-            if( line_found ) {
-                while( true ) {
-                    // go back over things
-                    if( it == requirement_map.begin() ) {
-                        break;
+                int quantity_required = tools ? std::max( 1, comp_elem.count ) : comp_elem.count;
+                int item_quantity = 0;
+                auto it = requirement_map.begin();
+                int remainder = 0;
+                while( it != requirement_map.end() ) {
+                    tripoint_bub_ms pos_here = std::get<0>( *it );
+                    itype_id item_here = std::get<1>( *it );
+                    int quantity_here = std::get<2>( *it );
+                    if( comp_elem.type == item_here ) {
+                        item_quantity += quantity_here;
                     }
-                    if( remainder <= 0 ) {
-                        line_found = true;
-                        break;
-                    }
-                    tripoint_bub_ms pos_here2 = std::get<0>( *it );
-                    itype_id item_here2 = std::get<1>( *it );
-                    int quantity_here2 = std::get<2>( *it );
-                    if( comp_elem.type == item_here2 ) {
-                        if( quantity_here2 >= remainder ) {
-                            final_map.emplace_back( pos_here2, item_here2, remainder );
+                    if( item_quantity >= quantity_required ) {
+                        // it's just this spot that can fulfil the requirement on its own
+                        final_map.emplace_back( pos_here, item_here, std::min<int>( quantity_here,
+                                                quantity_required ) );
+                        if( quantity_here >= quantity_required ) {
                             line_found = true;
+                            break;
                         } else {
-                            final_map.emplace_back( pos_here2, item_here2, remainder );
-                            remainder -= quantity_here2;
+                            remainder = quantity_required - quantity_here;
                         }
+                        break;
                     }
-                    --it;
+                    ++it;
+                }
+                if( line_found ) {
+                    while( true ) {
+                        // go back over things
+                        if( it == requirement_map.begin() ) {
+                            break;
+                        }
+                        if( remainder <= 0 ) {
+                            line_found = true;
+                            break;
+                        }
+                        tripoint_bub_ms pos_here2 = std::get<0>( *it );
+                        itype_id item_here2 = std::get<1>( *it );
+                        int quantity_here2 = std::get<2>( *it );
+                        if( comp_elem.type == item_here2 ) {
+                            if( quantity_here2 >= remainder ) {
+                                final_map.emplace_back( pos_here2, item_here2, remainder );
+                                line_found = true;
+                            } else {
+                                final_map.emplace_back( pos_here2, item_here2, remainder );
+                                remainder -= quantity_here2;
+                            }
+                        }
+                        --it;
+                    }
                 }
             }
         }
-    }
-    for( const std::vector<tool_comp> &elem : tool_comps ) {
-        bool line_found = false;
-        for( const tool_comp &comp_elem : elem ) {
-            if( line_found || comp_elem.count < -1 ) {
-                break;
-            }
-            int quantity_required = std::max( 1, comp_elem.count );
-            int item_quantity = 0;
-            auto it = requirement_map.begin();
-            int remainder = 0;
-            while( it != requirement_map.end() ) {
-                tripoint_bub_ms pos_here = std::get<0>( *it );
-                itype_id item_here = std::get<1>( *it );
-                int quantity_here = std::get<2>( *it );
-                if( comp_elem.type == item_here ) {
-                    item_quantity += quantity_here;
-                }
-                if( item_quantity >= quantity_required ) {
-                    // it's just this spot that can fulfil the requirement on its own
-                    final_map.emplace_back( pos_here, item_here, std::min<int>( quantity_here,
-                                            quantity_required ) );
-                    if( quantity_here >= quantity_required ) {
-                        line_found = true;
-                        break;
-                    } else {
-                        remainder = quantity_required - quantity_here;
-                    }
-                    break;
-                }
-                ++it;
-            }
-            if( line_found ) {
-                while( true ) {
-                    // go back over things
-                    if( it == requirement_map.begin() ) {
-                        break;
-                    }
-                    if( remainder <= 0 ) {
-                        line_found = true;
-                        break;
-                    }
-                    tripoint_bub_ms pos_here2 = std::get<0>( *it );
-                    itype_id item_here2 = std::get<1>( *it );
-                    int quantity_here2 = std::get<2>( *it );
-                    if( comp_elem.type == item_here2 ) {
-                        if( quantity_here2 >= remainder ) {
-                            final_map.emplace_back( pos_here2, item_here2, remainder );
-                            line_found = true;
-                        } else {
-                            final_map.emplace_back( pos_here2, item_here2, remainder );
-                            remainder -= quantity_here2;
-                        }
-                    }
-                    --it;
-                }
-            }
-        }
-    }
+    };
+    emplace_comps( req_comps, false );
+    emplace_comps( tool_comps, true );
     for( const std::vector<quality_requirement> &elem : quality_comps ) {
         bool line_found = false;
         for( const quality_requirement &comp_elem : elem ) {
