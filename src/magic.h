@@ -188,6 +188,7 @@ class spell_events : public event_subscriber
         void notify( const cata::event & ) override;
 };
 
+// NOLINTNEXTLINE(clang-analyzer-optin.performance.Padding)
 class spell_type
 {
     public:
@@ -343,7 +344,7 @@ class spell_type
         magic_energy_type get_energy_source() const;
 
         // what energy do you use to cast this spell
-        std::optional<vitamin_id> vitamin_energy_source() const;
+        vitamin_id vitamin_energy_source() const;
 
         // if vitamin is used, specifies the color of an energy
         nc_color energy_color() const;
@@ -355,6 +356,8 @@ class spell_type
 
         std::function<bool( const_dialogue const & )> condition; // NOLINT(cata-serialize)
         bool has_condition = false; // NOLINT(cata-serialize)
+
+        translation condition_fail_message_; // NOLINT(cata-serialize)
 
         std::set<mtype_id> targeted_monster_ids;
 
@@ -448,7 +451,7 @@ class spell_type
 
         std::optional<magic_energy_type> energy_source;
         std::optional<vitamin_id> vitamin_energy_source_; // NOLINT(cata-serialize)
-        nc_color energy_color_ = c_cyan; // NOLINT(cata-serialize)
+        std::optional<nc_color> energy_color_; // NOLINT(cata-serialize)
         std::optional<jmath_func_id> get_level_formula_id;
         std::optional<jmath_func_id> exp_for_level_formula_id;
         std::optional<int> max_book_level;
@@ -696,6 +699,8 @@ class spell
         bool ignore_by_species_id( const tripoint_bub_ms &p ) const;
         bool valid_by_condition( const Creature &caster, const Creature &target ) const;
         bool valid_by_condition( const Creature &caster ) const;
+
+        std::string failed_condition_message() const;
 
         // picks a random valid tripoint from @area
         std::optional<tripoint_bub_ms> random_valid_target( const Creature &caster,
