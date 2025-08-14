@@ -30,7 +30,7 @@
 #include "uilist.h"
 #include "cata_imgui.h"
 
-nc_color::operator ImVec4()
+nc_color::operator ImVec4() const
 {
     return cataimgui::imvec4_from_color( *this );
 }
