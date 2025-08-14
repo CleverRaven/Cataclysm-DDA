@@ -34,6 +34,20 @@
     "type": "achievement",
     "name": "Disassemble Number Five!",
     "requirements": [ { "event_statistic": "num_avatar_robot_kills", "is": ">=", "target": 1, "visible": "when_achievement_completed" } ]
+  },  
+  {
+    "id": "achievement_kill_mutant",
+    "type": "achievement",
+    "name": "Ah sweet. Manmade horrors beyond my comprehension",
+    "requirements": [ { "event_statistic": "num_avatar_mutant_kills", "is": ">=", "target": 1, "visible": "when_achievement_completed" } ]
+  },
+  {
+    "id": "achievement_kill_npc",
+    "type": "achievement",
+    "name": "Psycho Killer",
+    "time_constraint": { "since": "game_start", "is": "<=", "target": "30 days" },
+    "description": "Kill 3 NPCs within 30 days of game start, loosely meeting the legal definition of a serial killer.",
+    "requirements": [ { "event_statistic": "num_avatar_character_kills", "is": ">=", "target": 3 } ]
   },
   {
     "id": "achievement_kill_in_first_minute",
@@ -201,6 +215,15 @@
     "name": "Head of the Charles",
     "//": "Prestigious rowing race held in Boston",
     "requirements": [ { "event_statistic": "num_moves_boat_ctrl_direct", "is": ">=", "target": 4800 } ]
+  }, 
+  {
+    "id": "achievement_vehicle_distance_boat_spanlad",
+    "type": "achievement",
+    "name": "From Ushant to Scilly",
+    "description": "It's 35 leagues",
+    "//": "Lyric from sea shanty 'Spanish Ladies', actual distance is approx 33 leagues, or 184km ",
+    "requirements": [ { "event_statistic": "num_moves_boat_ctrl_direct", "is": ">=", "target": 184000 } ],
+    "hidden_by": [ "achievement_vehicle_distance_boat_hocr" ]
   },
   {
     "id": "achievement_vehicle_distance_boat_mayflower",
@@ -208,7 +231,7 @@
     "name": "Plymouth to Plymouth",
     "//": "Approx distance sailed by the Pilgrims",
     "requirements": [ { "event_statistic": "num_moves_boat_onboard", "is": ">=", "target": 5200000 } ],
-    "hidden_by": [ "achievement_vehicle_distance_boat_hocr" ]
+    "hidden_by": [ "achievement_vehicle_distance_boat_spanlad" ]
   },
   {
     "id": "achievement_vehicle_distance_boat_circumnavigate",
@@ -363,6 +386,20 @@
         "target": 1,
         "visible": "when_achievement_completed",
         "description": "Wear a tank suit"
+      }
+    ]
+  },
+  {
+    "id": "achievement_wear_rm13",
+    "type": "achievement",
+    "name": "Military-industrial complex?  No, it's quite simple",
+    "requirements": [
+      {
+        "event_statistic": "num_avatar_wears_rm13",
+        "is": ">=",
+        "target": 1,
+        "visible": "when_achievement_completed",
+        "description": "Wear RM13 combat armor"
       }
     ]
   },
@@ -2072,7 +2109,21 @@
         "description": "Reach an Island Prison"
       }
     ]
-  },
+  },    
+  {
+    "id": "achievement_reach_police_hq",
+    "type": "achievement",
+    "name": "ZPD's Dead and Dullest",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "police_dept" ],
+        "visible": "when_achievement_completed",
+        "description": "Reach a large Police Department"
+      }
+    ]
+  },  
   {
     "id": "achievement_reach_mi-Go_encampment",
     "type": "achievement",
@@ -2102,6 +2153,21 @@
     ]
   },
   {
+    "id": "achievement_reach_lmoe",
+    "type": "achievement",
+    "name": "Last Man on Earth",
+    "description": "How egotistical of you",
+    "requirements": [
+      {
+        "event_statistic": "num_avatar_enters_lmoe",
+        "is": ">=",
+        "target": 1,
+        "visible": "when_achievement_completed",
+        "description": "Reach an LMOE shelter"
+      }
+    ]
+  },
+  {
     "id": "achievement_reach_bastion_fort",
     "type": "achievement",
     "name": "What a Larp!",
@@ -2125,14 +2191,14 @@
         "is": "==",
         "target": [ "overmap_special_id", "mil_base" ],
         "visible": "when_achievement_completed",
-        "description": "Reach a Military Base"
+        "description": "Reach the Military Base"
       }
     ]
   },
   {
     "id": "achievement_reach_military_bunker",
     "type": "achievement",
-    "name": "Zombie Forces",
+    "name": "They've overrun point Zach!",
     "requirements": [
       {
         "event_statistic": "last_overmap_special_avatar_entered",
@@ -2170,6 +2236,20 @@
         "description": "Reach a Megastore"
       }
     ]
+  },  
+  {
+    "id": "achievement_reach_vetaff",
+    "type": "achievement",
+    "name": "Your Zombification is not service related",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "s_vfw" ],
+        "visible": "when_achievement_completed",
+        "description": "Reach a Veterans of Foreign Wars office"
+      }
+    ]
   },
   {
     "id": "achievement_reach_hospital",
@@ -2182,6 +2262,21 @@
         "target": 1,
         "visible": "when_achievement_completed",
         "description": "Reach a Hospital"
+      }
+    ]
+  },  
+  {
+    "id": "achievement_reach_prison",
+    "type": "achievement",
+    "name": "I fought the Law",
+    "description": "But the Dead won",
+    "requirements": [
+      {
+        "event_statistic": "num_avatar_enters_prison",
+        "is": ">=",
+        "target": 1,
+        "visible": "when_achievement_completed",
+        "description": "Reach a Prison"
       }
     ]
   },
@@ -2335,6 +2430,16 @@
         "visible": "when_achievement_completed",
         "description": "Reach a research lab"
       }
+    ]
+  },  
+  {
+    "id": "achievement_black_glass",
+    "type": "achievement",
+    "name": "I like you just the way you are",
+    "description": "-Fred Rogers",
+    "manually_given": true,
+    "requirements": [ 
+      {"description": "Understand the value of ugliness" }
     ]
   }
 ]
