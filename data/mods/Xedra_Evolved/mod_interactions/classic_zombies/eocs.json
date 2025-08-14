@@ -23,7 +23,7 @@
             "type": "good"
           }
         ],
-        "else": { "run_eocs": "EOC_XE_DDOTD_DHAMPIRS_VAMPIRES_RESIST_INFECTION_FOLLOWUP", "time_in_future": "1 hours" }
+        "else": { "run_eocs": "EOC_XE_DDOTD_DHAMPIRS_VAMPIRES_RESIST_INFECTION_FOLLOWUP", "time_in_future": "1 days" }
       }
     ]
   },
@@ -42,7 +42,7 @@
             "type": "good"
           }
         ],
-        "else": { "run_eocs": "EOC_XE_DDOTD_DHAMPIRS_VAMPIRES_RESIST_INFECTION_FOLLOWUP", "time_in_future": "1 hours" }
+        "else": { "run_eocs": "EOC_XE_DDOTD_DHAMPIRS_VAMPIRES_RESIST_INFECTION_FOLLOWUP", "time_in_future": "1 days" }
       }
     ]
   }
