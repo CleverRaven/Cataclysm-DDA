@@ -1505,6 +1505,27 @@ public:
 };
 
 /**
+ * This reader is for any object that can be read from a JsonValue,
+ * but does not otherwise need special handling in a reader.
+ * This enables using extend/delete for arbitrary types without a specialized reader,
+ * by implementing a deserialize function for the type and using this reader.
+ * The type must be constructible with no arguments, and may need to implement some operators,
+ * depending on the underlying container. (e.g. vector requires operator==() for the handler above)
+ */
+template<typename T>
+class json_read_reader : public generic_typed_reader<json_read_reader<T>>
+{
+public:
+    T get_next( const JsonValue &jv ) const {
+        T ret;
+        if( !jv.read( ret ) ) {
+            jv.throw_error( string_format( "Couldn't read %s", demangle( typeid( T ).name() ) ) );
+        }
+        return ret;
+    }
+};
+
+/**
  * Converts the JSON string to some type that must be construable from a `std::string`,
  * e.g. @ref string_id.
  * Example:
