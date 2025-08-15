@@ -1294,6 +1294,18 @@ double proficiency_eval( const_dialogue const &d, char scope, std::vector<diag_v
     }
 }
 
+double enchantment_eval( const_dialogue const &d, char scope, std::vector<diag_value> const &params,
+                         diag_kwargs const &/* kwargs */ )
+{
+    const std::optional<enchant_vals::mod> mod_val = io::string_to_enum_optional<enchant_vals::mod>
+            ( params[0].str( d ) );
+    if( mod_val.has_value() ) {
+        return d.const_actor( is_beta( scope ) )->enchantment_value( mod_val.value() );
+    } else {
+        throw math::runtime_error( "Incorrect enchantment value id" );
+    }
+}
+
 void proficiency_ass( double val, dialogue &d, char scope, std::vector<diag_value> const &params,
                       diag_kwargs const &kwargs )
 {
@@ -1706,6 +1718,7 @@ std::map<std::string_view, dialogue_func> const dialogue_funcs{
     { "moon_phase", { "g", 0, moon_phase_eval } },
     { "num_input", { "g", 2, num_input_eval } },
     { "pain", { "un", 0, pain_eval, pain_ass, { "type" } } },
+    { "enchantment", { "un", 1, enchantment_eval } },
     { "school_level", { "un", 1, school_level_eval } },
     { "school_level_adjustment", { "un", 1, school_level_adjustment_eval, school_level_adjustment_ass } },
     { "spellcasting_adjustment", { "u", 1, {}, spellcasting_adjustment_ass, { "mod", "school", "spell", "flag_whitelist", "flag_blacklist" } } },

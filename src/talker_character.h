@@ -90,6 +90,7 @@ class talker_character_const: virtual public const_talker
         bool crossed_threshold() const override;
         int num_bionics() const override;
         bool has_max_power() const override;
+        double enchantment_value( const enchant_vals::mod mod ) const override;
         bool has_bionic( const bionic_id &bionics_id ) const override;
         bool knows_spell( const spell_id &sp ) const override;
         int get_skill_level( const skill_id & ) const override;
