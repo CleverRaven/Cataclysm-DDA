@@ -399,6 +399,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```ITEM_WATERPROOFING``` Gear on your person is immune to being dissolved or broken while you're underwater.
 - ```LARGE``` Changes your size to `creature_size::large`.  Checked third of the size category flags.
 - ```LEVITATION``` You can walk on air. Does not allow you to ascend unless paired with `CLIMB_FLYING`
+- ```MAGICAL_MIND_PROTECTION``` Your mind is protected by magic from being attacked, such as from a flaming eye's stare.
 - ```MEND_ALL``` You need no splint to heal broken bones.
 - ```MUSCLE_VEH_BOOST``` Something, such as buzzing insect wings, is speeding you up when you use a muscle-powered vehicle.
 - ```MYCUS_IMMUNE``` Critter is immune to fungal hase field (`fd_fungal_haze`)
@@ -484,13 +485,6 @@ These branches are the valid `dreams` from [dreams.json](../data/json/dreams.jso
 - ```MUTCAT_SLIME``` "Your body loses all rigidity for a moment."
 - ```MUTCAT_SPIDER``` "You feel insidious."
 - ```MUTCAT_TROGLOBITE``` "You yearn for a cool, dark place to hide."
-
-
-### Mod-Only Character
-
-These character flags are only used in mods, but are used in multiple mods and so documented here for ease of compatability:
-
-- ```MAGICAL_MIND_PROTECTION``` Your mind is protected by magic from being attacked, such as from a flaming eye's stare.
 
 
 ## Comestibles
@@ -1171,6 +1165,7 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```KEENNOSE``` Keen sense of smell.
 - ```KEEP_DISTANCE``` Monster will try to keep `tracking_distance` number of tiles between it and its current target.
 - ```LOUDMOVES``` Makes move noises as if ~2 sizes louder, even if flying.
+- ```MAGIC_USER``` A monster that casts magical spells, used in mods for avatar detection abilities
 - ```MECH_DEFENSIVE``` This mech can protect you thoroughly when piloted.
 - ```MECH_RECON_VISION``` This mech grants you night-vision and enhanced overmap sight radius when piloted.
 - ```MILITARY_MECH``` Is a military-grade mech.
@@ -1293,13 +1288,6 @@ Multiple time of day conditions will be combined together so that any of those c
 ### Special attacks
 
 Special attacks have been moved to [MONSTER_SPECIAL_ATTACKS.md](MONSTER_SPECIAL_ATTACKS.md) as they have all been migrated away from flags.
-
-
-### Mod-Only Monster
-
-These monster flags are only used in mods, but are used in multiple mods and so documented here for ease of compatability:
-
-- ```MAGIC_USER``` A monster that casts magical spells, used for avatar detection abilities
 
 
 ## Mutations
