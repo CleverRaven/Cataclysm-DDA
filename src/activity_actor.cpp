@@ -6888,7 +6888,7 @@ static bool check_stealing( Character &who, item &it )
     if( !it.is_owned_by( who, true ) ) {
         // Has the player given input on if stealing is ok?
         if( who.get_value( "THIEF_MODE" ).str() == "THIEF_ASK" ) {
-            Pickup::query_thief();
+            Pickup::query_thief( it );
         }
         if( who.get_value( "THIEF_MODE" ).str() == "THIEF_HONEST" ) {
             if( who.get_value( "THIEF_MODE_KEEP" ).str() != "YES" ) {

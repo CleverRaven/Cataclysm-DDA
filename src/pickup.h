@@ -37,7 +37,12 @@ struct pick_info {
  */
 bool do_pickup( std::vector<item_location> &targets, std::vector<int> &quantities,
                 bool autopickup, bool &stash_successful, Pickup::pick_info &info );
-bool query_thief();
+/**
+* Returns true if the player has thief mode = OFF, prompts if thief mode = ASK
+*/
+bool check_no_stealing( const item &it );
+bool query_thief( const item &it );
+void toggle_thief_mode( Character &player_character );
 
 enum from_where : int {
     from_cargo = 0,

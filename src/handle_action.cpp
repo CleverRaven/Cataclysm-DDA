@@ -76,6 +76,7 @@
 #include "overmap_ui.h"
 #include "panels.h"
 #include "pathfinding.h"
+#include "pickup.h"
 #include "player_activity.h"
 #include "point.h"
 #include "popup.h"
@@ -3045,26 +3046,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_TOGGLE_THIEF_MODE:
-            if( player_character.get_value( "THIEF_MODE" ).str() == "THIEF_ASK" ) {
-                player_character.set_value( "THIEF_MODE", "THIEF_HONEST" );
-                player_character.set_value( "THIEF_MODE_KEEP", "YES" );
-                //~ Thief mode cycled between THIEF_ASK/THIEF_HONEST/THIEF_STEAL
-                add_msg( _( "You will not pick up other peoples belongings." ) );
-            } else if( player_character.get_value( "THIEF_MODE" ).str() == "THIEF_HONEST" ) {
-                player_character.set_value( "THIEF_MODE", "THIEF_STEAL" );
-                player_character.set_value( "THIEF_MODE_KEEP", "YES" );
-                //~ Thief mode cycled between THIEF_ASK/THIEF_HONEST/THIEF_STEAL
-                add_msg( _( "You will pick up also those things that belong to others!" ) );
-            } else if( player_character.get_value( "THIEF_MODE" ).str() == "THIEF_STEAL" ) {
-                player_character.set_value( "THIEF_MODE", "THIEF_ASK" );
-                player_character.set_value( "THIEF_MODE_KEEP", "NO" );
-                //~ Thief mode cycled between THIEF_ASK/THIEF_HONEST/THIEF_STEAL
-                add_msg( _( "You will be reminded not to steal." ) );
-            } else {
-                // ERROR
-                add_msg( _( "THIEF_MODE CONTAINED BAD VALUE [ %s ]!" ),
-                         player_character.get_value( "THIEF_MODE" ).to_string() );
-            }
+            Pickup::toggle_thief_mode( player_character );
             break;
 
         case ACTION_TOGGLE_AUTO_FORAGING:
