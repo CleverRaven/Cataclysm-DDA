@@ -620,7 +620,7 @@
     "id": "dhampir_horse_blood_hungry_polymorph_spell",
     "type": "SPELL",
     "name": "Hungry for your blood",
-    "description": "Transform's your dhampir horse to a blood hungry monster.",
+    "description": "Transforms your dhampir horse to a blood-hungry monster.",
     "valid_targets": [ "ally" ],
     "flags": [ "TRANSFORMATION_SPELL", "NO_LEGS", "NO_PROJECTILE" ],
     "effect": "targeted_polymorph",
