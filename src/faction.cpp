@@ -26,7 +26,6 @@
 #include "localized_comparator.h"
 #include "map.h"
 #include "map_scale_constants.h"
-#include "memory_fast.h"
 #include "mission_companion.h"
 #include "mtype.h"
 #include "npc.h"
@@ -1068,16 +1067,7 @@ void faction_manager::display() const
 
     avatar &player_character = get_avatar();
     while( true ) {
-        // create a list of NPCs, visible and the ones on overmapbuffer
-        followers.clear();
-        for( const character_id &elem : g->get_follower_list() ) {
-            shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
-            if( !npc_to_get ) {
-                continue;
-            }
-            npc *npc_to_add = npc_to_get.get();
-            followers.push_back( npc_to_add );
-        }
+        overmap_buffer.populate_followers_vec( followers );
         valfac.clear();
         for( const auto &elem : g->faction_manager_ptr->all() ) {
             if( elem.second.known_by_u && elem.second.id != faction_your_followers ) {
