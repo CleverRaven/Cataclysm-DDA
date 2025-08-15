@@ -12,6 +12,7 @@
 #include "character.h"
 #include "construction.h"
 #include "creature.h"
+#include "debug.h"
 #include "dialogue.h"
 #include "effect_on_condition.h"
 #include "event.h"
@@ -22,6 +23,7 @@
 #include "itype.h"
 #include "magic.h"
 #include "map.h"
+#include "messages.h"
 #include "rng.h"
 #include "skill.h"
 #include "sounds.h"
@@ -90,6 +92,12 @@ player_activity::player_activity( const activity_actor &actor ) : type( actor.ge
             ignored_distractions.emplace( dt );
         }
     }
+}
+
+void player_activity::set_moves_total_left()
+{
+    add_msg_debug( debugmode::DF_ACTIVITY, "%s moves_total: %d", id().str(), moves_total );
+    moves_left = moves_total;
 }
 
 void player_activity::set_to_null()

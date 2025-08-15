@@ -711,7 +711,7 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
             setup_activity( boltcutter );
             REQUIRE( dummy.activity.id() == ACT_BOLTCUTTING );
 
-            WHEN( "furniture has a duration of 5 seconds" ) {
+            WHEN( "furniture activity has a duration of 5 seconds" ) {
                 REQUIRE( furn_test_f_boltcut1->boltcut->duration() == 5_seconds );
                 THEN( "moves_left is equal to 5 seconds" ) {
                     CHECK( dummy.activity.moves_left == to_moves<int>( 5_seconds ) );
@@ -781,7 +781,7 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
             }
         }
 
-        GIVEN( "a tripoint with valid furniture" ) {
+        GIVEN( "a tripoint with valid furniture with no activity result" ) {
             clear_map();
             clear_avatar();
 
@@ -795,7 +795,7 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
             process_activity( dummy );
             REQUIRE( dummy.activity.id() == ACT_NULL );
 
-            THEN( "furniture gets converted to new furniture type" ) {
+            THEN( "furniture gets removed" ) {
                 CHECK( mp.furn( tripoint_bub_ms::zero ) == furn_str_id::NULL_ID() );
             }
         }
@@ -819,7 +819,7 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
             }
         }
 
-        GIVEN( "a tripoint with a valid furniture with byproducts" ) {
+        GIVEN( "a tripoint with a valid terrain with byproducts" ) {
             clear_map();
             clear_avatar();
 
@@ -975,7 +975,7 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
             setup_activity( hacksaw );
             REQUIRE( dummy.activity.id() == ACT_HACKSAW );
 
-            WHEN( "furniture has a duration of 5 minutes" ) {
+            WHEN( "furniture activity has a duration of 5 minutes" ) {
                 REQUIRE( furn_test_f_hacksaw1->hacksaw->duration() == 5_minutes );
                 THEN( "moves_left is equal to 5 minutes" ) {
                     CHECK( dummy.activity.moves_left == to_moves<int>( 5_minutes ) );
@@ -1046,7 +1046,7 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
             }
         }
 
-        GIVEN( "a tripoint with valid furniture" ) {
+        GIVEN( "a tripoint with valid furniture with no activity result" ) {
             clear_map();
             clear_avatar();
 
@@ -1060,7 +1060,7 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
             process_activity( dummy );
             REQUIRE( dummy.activity.id() == ACT_NULL );
 
-            THEN( "furniture gets converted to new furniture type" ) {
+            THEN( "furniture gets removed" ) {
                 CHECK( mp.furn( tripoint_bub_ms::zero ) == furn_str_id::NULL_ID() );
             }
         }
@@ -1084,7 +1084,7 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
             }
         }
 
-        GIVEN( "a tripoint with a valid furniture with byproducts" ) {
+        GIVEN( "a tripoint with a valid terrain with byproducts" ) {
             clear_map();
             clear_avatar();
 
@@ -1241,7 +1241,7 @@ TEST_CASE( "oxytorch", "[activity][oxytorch]" )
             setup_activity( welding_torch );
             REQUIRE( dummy.activity.id() == ACT_OXYTORCH );
 
-            WHEN( "furniture has a duration of 5 seconds" ) {
+            WHEN( "furniture activity has a duration of 5 seconds" ) {
                 REQUIRE( furn_test_f_oxytorch1->oxytorch->duration() == 5_seconds );
                 THEN( "moves_left is equal to 5 seconds" ) {
                     CHECK( dummy.activity.moves_left == to_moves<int>( 5_seconds ) );
@@ -1301,7 +1301,7 @@ TEST_CASE( "oxytorch", "[activity][oxytorch]" )
             }
         }
 
-        GIVEN( "a tripoint with valid furniture" ) {
+        GIVEN( "a tripoint with valid furniture with no activity result" ) {
             clear_map();
             clear_avatar();
 
@@ -1315,7 +1315,7 @@ TEST_CASE( "oxytorch", "[activity][oxytorch]" )
             process_activity( dummy );
             REQUIRE( dummy.activity.id() == ACT_NULL );
 
-            THEN( "furniture gets converted to new furniture type" ) {
+            THEN( "furniture gets removed" ) {
                 CHECK( mp.furn( tripoint_bub_ms::zero ) == furn_str_id::NULL_ID() );
             }
         }
@@ -1339,7 +1339,7 @@ TEST_CASE( "oxytorch", "[activity][oxytorch]" )
             }
         }
 
-        GIVEN( "a tripoint with a valid furniture with byproducts" ) {
+        GIVEN( "a tripoint with a valid terrain with byproducts" ) {
             clear_map();
             clear_avatar();
 
@@ -1538,7 +1538,7 @@ TEST_CASE( "prying", "[activity][prying]" )
             setup_activity( prying_tool );
             REQUIRE( dummy.activity.id() == ACT_PRYING );
 
-            WHEN( "furniture has a duration of 17 seconds" ) {
+            WHEN( "furniture activity has a duration of 17 seconds" ) {
                 REQUIRE( furn_test_f_prying1->prying->duration() == 17_seconds );
                 THEN( "moves_left is equal to 17 seconds" ) {
                     CHECK( dummy.activity.moves_left == to_moves<int>( 17_seconds ) );
@@ -1567,7 +1567,7 @@ TEST_CASE( "prying", "[activity][prying]" )
             }
         }
 
-        GIVEN( "a tripoint with valid furniture" ) {
+        GIVEN( "a tripoint with valid furniture with no activity result" ) {
             clear_map();
             clear_avatar();
 
@@ -1581,7 +1581,7 @@ TEST_CASE( "prying", "[activity][prying]" )
             process_activity( dummy );
             REQUIRE( dummy.activity.id() == ACT_NULL );
 
-            THEN( "furniture gets converted to new furniture type" ) {
+            THEN( "furniture gets removed" ) {
                 CHECK( mp.furn( tripoint_bub_ms::zero ) == furn_str_id::NULL_ID() );
             }
         }

@@ -1935,6 +1935,17 @@ void sfx::play_activity_sound( const std::string &id, const std::string &variant
     }
 }
 
+void sfx::play_activity_sound_repeat( const std::string &id, const std::string &variant,
+                                      const tripoint_bub_ms &p, const time_duration &once_every, int repeat_vol, sounds::sound_t category,
+                                      const std::string &description )
+{
+    sfx::play_activity_sound( id, variant, sfx::get_heard_volume( p ) );
+    if( calendar::once_every( once_every ) ) {
+        sounds::sound( p, repeat_vol, category, description );
+    }
+
+}
+
 void sfx::end_activity_sounds()
 {
     if( test_mode ) {
@@ -1997,6 +2008,9 @@ void sfx::play_variant_sound( const std::string &, const std::string &, int ) { 
 void sfx::play_ambient_variant_sound( const std::string &, const std::string &, int, channel, int,
                                       double, int ) { }
 void sfx::play_activity_sound( const std::string &, const std::string &, int ) { }
+void sfx::play_activity_sound_repeat( const std::string &, const std::string &,
+                                      const tripoint_bub_ms &, const time_duration &, int, sounds::sound_t,
+                                      const std::string & ) { }
 void sfx::end_activity_sounds() { }
 void sfx::generate_gun_sound( const Character &, const item & ) { }
 void sfx::generate_melee_sound( const tripoint_bub_ms &, const tripoint_bub_ms &, bool, bool,
