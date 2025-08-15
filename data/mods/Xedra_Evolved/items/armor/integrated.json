@@ -828,23 +828,6 @@
     "armor": [ { "covers": [ "torso" ], "coverage": 0, "encumbrance": 0 } ]
   },
   {
-    "id": "integrated_nobreathe",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "category": "armor",
-    "name": { "str_sp": "vestigial lungs" },
-    "description": "Breathing is now something you decide to do, rather than a biological necessity.",
-    "volume": "1 ml",
-    "price": "0 cent",
-    "price_postapoc": "0 cent",
-    "material": [ "flesh" ],
-    "symbol": "o",
-    "color": "magenta",
-    "flags": [ "INTEGRATED", "REBREATHER", "UNBREAKABLE", "PERSONAL", "NO_SALVAGE", "TRADER_AVOID" ],
-    "environmental_protection": 15,
-    "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "mouth" ] } ]
-  },
-  {
     "id": "integrated_claws_werewolf",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],

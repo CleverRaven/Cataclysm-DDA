@@ -155,11 +155,11 @@
   {
     "type": "effect_type",
     "id": "effect_biokin_breathe_skin",
-    "//": "effect used as tracker",
     "name": [ "Oxygen Absorption" ],
     "desc": [ "You can absorb oxygen through your skin." ],
     "rating": "good",
-    "max_duration": "7 days"
+    "max_duration": "7 days",
+    "flags": [ "GILLS", "SUFFOCATION_IMMUNE" ]
   },
   {
     "type": "effect_type",
@@ -428,23 +428,10 @@
     "max_intensity": 50,
     "dur_add_perc": 10,
     "int_dur_factor": "9 s",
-    "blocks_effects": [
-      "smoke_eyes",
-      "smoke_lungs",
-      "teargas",
-      "boomered",
-      "migo_atmosphere",
-      "fetid_goop",
-      "relax_gas",
-      "spores",
-      "dermatik",
-      "tpollen",
-      "poison",
-      "badpoison"
-    ],
+    "blocks_effects": [ "smoke_eyes", "teargas", "boomered", "fetid_goop", "spores", "dermatik" ],
     "removes_effects": [ "bleed" ],
     "//": "Gills here because they're holding their breath",
-    "flags": [ "NO_SCENT", "ELECTRIC_IMMUNE", "RAD_RESIST", "GILLS", "WALK_UNDERWATER" ]
+    "flags": [ "NO_SCENT", "ELECTRIC_IMMUNE", "RAD_RESIST", "GILLS", "WALK_UNDERWATER", "INHALED_TOXIN_IMMUNE" ]
   },
   {
     "type": "effect_type",

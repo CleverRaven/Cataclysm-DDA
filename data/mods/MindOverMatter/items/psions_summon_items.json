@@ -1,33 +1,5 @@
 [
   {
-    "id": "biokin_breathe_skin_item",
-    "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
-    "name": { "str_sp": "[Ψ]oxygen absorption" },
-    "description": "You are breathing through your skin.",
-    "weight": "0 g",
-    "volume": "0 L",
-    "price": "1 cent",
-    "price_postapoc": "1 cent",
-    "symbol": "[",
-    "color": "pink",
-    "flags": [
-      "PERSONAL",
-      "UNBREAKABLE",
-      "ZERO_WEIGHT",
-      "ALLOWS_NATURAL_ATTACKS",
-      "INTEGRATED",
-      "PADDED",
-      "SEMITANGIBLE",
-      "REBREATHER",
-      "WATER_FRIENDLY",
-      "NO_DROP"
-    ],
-    "max_worn": 1,
-    "environmental_protection": -5,
-    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "mouth", "head", "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
-  },
-  {
     "id": "biokin_hammerhand_item",
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],

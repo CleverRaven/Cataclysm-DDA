@@ -389,6 +389,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```HERITAGE``` Turns a mutation with this flag light cyan on the list.  Currently used in mods for mutations that indicate non-human ancestry.
 - ```HUGE``` Changes your size to `creature_size::huge`.  Checked last of the size category flags, if no size flags are found your size defaults to `creature_size::medium`.
 - ```HYPEROPIC``` You are far-sighted: close combat is hampered and reading is impossible without glasses.
+- ```INHALED_TOXIN_IMMUNE``` You are immune to any inhaled toxin that mouth environmental resistance would also protect against.
 - ```IMMUNE_HEARING_DAMAGE``` Immune to hearing damage from loud sounds.
 - ```IMMUNE_SPOIL``` You are immune to negative outcomes from spoiled food.
 - ```INFECTION_IMMUNE``` This mutation grants immunity to infections, including infection from bites and tetanus.
@@ -440,6 +441,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```STEADY``` Your speed can never go below base speed, bonuses from effects etc can still apply.
 - ```STOP_SLEEP_DEPRIVATION``` Stops Sleep Deprivation while awake and boosts it while sleeping.
 - ```STRICT_HUMANITARIAN``` You can eat foodstuffs tagged with `STRICT_HUMANITARIANISM` without morale penalties.
+- ```SUFFOCATION_IMMUNE``` You cannot suffocate by being crushed from multiple enemies.
 - ```SUNBURN``` TBD, probably related to `ALBINO`.
 - ```SUPER_CLAIRVOYANCE``` Gives a super clairvoyance effect (works with multiple z-levels), used for debug purposes.
 - ```SAFECRACK_NO_TOOL``` Allows to open safes without stethoscope.
