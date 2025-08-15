@@ -444,5 +444,25 @@
     "percent_spread": 20,
     "phase": "gas",
     "looks_like": "fd_dust"
+  },
+  {
+    "id": "fd_shoggoth_dissolution",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "spilled protoplasm", "color": "yellow" },
+      { "name": "puddle of protoplasm", "light_emitted": 1 },
+      { "name": "deep puddle of protoplasm", "light_emitted": 3 }
+    ],
+    "description_affix": "covered_in",
+    "underwater_age_speedup": "25 minutes",
+    "decay_amount_factor": 2,
+    "is_splattering": true,
+    "half_life": "1 days",
+    "phase": "liquid",
+    "accelerated_decay": true,
+    "display_field": true,
+    "moppable": true,
+    "mopsafe": true,
+    "looks_like": "fd_bile"
   }
 ]
