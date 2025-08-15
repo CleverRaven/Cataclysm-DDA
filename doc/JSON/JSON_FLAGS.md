@@ -446,6 +446,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```SAFECRACK_NO_TOOL``` Allows to open safes without stethoscope.
 - ```TELEPORT_LOCK``` You cannot teleport.  This has none of the protective effects of `DIMENSIONAL_ANCHOR`.
 - ```TEMPORARY_SHAPESHIFT``` You are in another shape due to some supernatural effect.
+- ```TEMPORARY_SHAPESHIFT_NO_HANDS``` You do not have hands in your new shapeshifted form, and so cannot pick up or manipulate objects. 
 - ```THERMOMETER``` You always know what temperature it is.
 - ```TINY``` Changes your size to `creature_size::tiny`.  Checked first of the size category flags.
 - ```TREE_COMMUNION_PLUS``` Gain greatly enhanced effects from the Mycorrhizal Communion mutation.
