@@ -334,9 +334,9 @@ void relic_charge_info::accumulate_charge( item &parent )
             } else {
                 current_magazine->ammo_set( current_ammo, current_magazine->ammo_remaining( ) + 1 );
                 if( carrier != nullptr && carrier->is_avatar() ) {
-    carrier->add_msg_if_player( m_good,
-        _( "The artifact suddenly emits a slight warmth and a glow beyond the edge of sight." ) );
-}
+                    carrier->add_msg_if_player( m_good,
+                                                _( "The artifact suddenly emits a slight warmth and a glow beyond the edge of sight." ) );
+                }
             }
         } else {
             charges++;
