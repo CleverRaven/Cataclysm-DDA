@@ -16,7 +16,6 @@
 - [Books](#books)
 - [Character](#character)
   - [Mutation Categories](#mutation-categories)
-  - [Mod-Only Character](#mod-only-character)
 - [Comestibles](#comestibles)
   - [Comestible type](#comestible-type)
   - [Addiction type](#addiction-type)
@@ -43,7 +42,6 @@
     - [Seasons](#seasons)
     - [Time of day](#time-of-day)
   - [Special attacks](#special-attacks)
-  - [Mods Monster](#mods-monster)
 - [Mutations](#mutations)
 - [Overmap](#overmap)
   - [Overmap connections](#overmap-connections)
@@ -1297,7 +1295,7 @@ Multiple time of day conditions will be combined together so that any of those c
 Special attacks have been moved to [MONSTER_SPECIAL_ATTACKS.md](MONSTER_SPECIAL_ATTACKS.md) as they have all been migrated away from flags.
 
 
-### Mod-Only Monster Flags
+### Mod-Only Monster
 
 These monster flags are only used in mods, but are used in multiple mods and so documented here for ease of compatability:
 
