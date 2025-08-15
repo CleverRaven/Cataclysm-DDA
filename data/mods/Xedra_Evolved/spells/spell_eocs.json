@@ -382,7 +382,7 @@
       { "u_cast_spell": { "dhampir_horse_familiar_spell" } },
       { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "2000" ] },
       {
-        "u_message": "You feed your blood and will into this once docile horse transforming it into a familiar worthy of a hunter of monsters and men.",
+        "u_message": "You feed your blood and will into this once docile horse, transforming it into a familiar worthy of a hunter of monsters and men.",
         "type": "info"
       }
     ],
@@ -392,7 +392,7 @@
     "type": "effect_on_condition",
     "id": "EOC_ATTEMPT_HORSE_FAMILIAR_FAIL_MESSAGE",
     "effect": {
-      "u_message": "You lack the excess blood needed, you must be engorged or even tick like before you can attempt this.",
+      "u_message": "You lack the excess blood needed, you must be engorged or even tick-like before you can attempt this.",
       "type": "bad"
     }
   },
