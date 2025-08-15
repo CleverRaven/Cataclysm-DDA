@@ -3750,6 +3750,12 @@ void overmap::generate( const std::vector<const overmap *> &neighbor_overmaps,
     if( get_option<bool>( "OVERMAP_PLACE_CITIES" ) ) {
         place_cities();
     }
+    if( get_option<bool>( "OVERMAP_PLACE_HIGHWAYS" ) ) {
+        place_highway_interchanges( highway_paths );
+    }
+    if( get_option<bool>( "OVERMAP_PLACE_CITIES" ) ) {
+        build_cities();
+    }
     if( get_option<bool>( "OVERMAP_PLACE_FOREST_TRAILS" ) ) {
         place_forest_trails();
     }
@@ -5460,39 +5466,40 @@ void overmap::place_cities()
     const double city_map_coverage_ratio = 1.0 / std::pow( 2.0, op_city_spacing );
     const double omts_per_city = ( op_city_size * 2 + 1 ) * ( max_city_size * 2 + 1 ) * 3 / 4.0;
 
-    // how many cities on this overmap?
-    int num_cities_on_this_overmap = 0;
-    std::vector<city> cities_to_place;
-    for( const city &c : city::get_all() ) {
-        if( c.pos_om == pos() ) {
-            num_cities_on_this_overmap++;
-            cities_to_place.emplace_back( c );
-        }
-    }
 
     const bool use_random_cities = city::get_all().empty();
 
-    // Random cities if no cities were defined in regional settings
-    if( use_random_cities ) {
+    int num_cities_on_this_overmap = 0;
+    std::vector<city> cities_to_place;
+
+    if( !use_random_cities ) {
+        // how many predetermined cities on this overmap?
+        for( const city &c : city::get_all() ) {
+            if( c.pos_om == pos() ) {
+                num_cities_on_this_overmap++;
+                cities_to_place.emplace_back( c );
+            }
+        }
+    } else {
+        // Random cities if no cities were defined in regional settings
         num_cities_on_this_overmap = roll_remainder( omts_per_overmap * city_map_coverage_ratio /
                                      omts_per_city );
     }
 
-    const overmap_connection_id &overmap_connection_intra_city_road =
-        settings->overmap_connection.intra_city_road_connection;
-    const overmap_connection &local_road( *overmap_connection_intra_city_road );
+    tripoint_range city_candidates_range = points_in_radius_where(
+            tripoint_om_omt( OMAPX / 2, OMAPY / 2, 0 ),
+    OMAPX / 2 - max_city_size, [&]( const tripoint_om_omt & p ) {
+        return ter( p ) == settings->default_oter[OVERMAP_DEPTH];
+    } );
+    std::vector<tripoint_om_omt> city_candidates( city_candidates_range.begin(),
+            city_candidates_range.end() );
 
-    // if there is only a single free tile, the probability of NOT finding it after MAX_PLACEMENT_ATTEMPTS attempts
-    // is (1 - 1/(OMAPX * OMAPY))^MAX_PLACEMENT_ATTEMPTS ≈ 36% for the OMAPX=OMAPY=180 and MAX_PLACEMENT_ATTEMPTS=OMAPX * OMAPY
-    const int MAX_PLACEMENT_ATTEMPTS = 50;//OMAPX * OMAPY;
-    int placement_attempts = 0;
+    const size_t num_cities_on_this_overmap_count = num_cities_on_this_overmap;
 
     // place a seed for num_cities_on_this_overmap cities, and maybe one more
-    while( cities.size() < static_cast<size_t>( num_cities_on_this_overmap ) &&
-           placement_attempts < MAX_PLACEMENT_ATTEMPTS ) {
-        placement_attempts++;
+    while( cities.size() < num_cities_on_this_overmap_count && !city_candidates.empty() ) {
 
-        tripoint_om_omt p;
+        tripoint_om_omt selected_point;
         city tmp;
         tmp.pos_om = pos();
         if( use_random_cities ) {
@@ -5512,33 +5519,49 @@ void overmap::place_cities()
             size = std::min( size, 55 );
             // TODO: put cities closer to the edge when they can span overmaps
             // don't draw cities across the edge of the map, they will get clipped
-            point_om_omt c( rng( size - 1, OMAPX - size ), rng( size - 1, OMAPY - size ) );
-            p = tripoint_om_omt( c, 0 );
-            if( ter( p ) == settings->default_oter[OVERMAP_DEPTH] ) {
-                placement_attempts = 0;
-                ter_set( p, oter_road_nesw ); // every city starts with an intersection
-                city_tiles.insert( c );
-                tmp.pos = p.xy();
-                tmp.size = size;
+            selected_point = random_entry_removed( city_candidates );
+            // remove candidates within 2 tiles of selection
+            for( const tripoint_om_omt &remove_radius : points_in_radius( selected_point, 2 ) ) {
+                std::vector<tripoint_om_omt>::iterator removed_point =
+                    std::find( city_candidates.begin(), city_candidates.end(), remove_radius );
+                if( removed_point != city_candidates.end() ) {
+                    city_candidates.erase( removed_point );
+                }
             }
+
+            ter_set( selected_point, oter_road_nesw ); // every city starts with an intersection
+            city_tiles.insert( selected_point.xy() );
+            tmp.pos = selected_point.xy();
+            tmp.size = size;
+
         } else {
-            placement_attempts = 0;
             tmp = random_entry( cities_to_place );
-            p = tripoint_om_omt( tmp.pos, 0 );
+            selected_point = tripoint_om_omt( tmp.pos, 0 );
             ter_set( tripoint_om_omt( tmp.pos, 0 ), oter_road_nesw );
             city_tiles.insert( tmp.pos );
         }
-        if( placement_attempts == 0 ) {
-            cities.push_back( tmp );
-            const om_direction::type start_dir = om_direction::random();
-            om_direction::type cur_dir = start_dir;
 
-            // Track placed CITY_UNIQUE buildings
-            std::unordered_set<overmap_special_id> placed_unique_buildings;
-            do {
-                build_city_street( local_road, tmp.pos, tmp.size, cur_dir, tmp, placed_unique_buildings );
-            } while( ( cur_dir = om_direction::turn_right( cur_dir ) ) != start_dir );
-        }
+        cities.push_back( tmp );
+    }
+}
+
+void overmap::build_cities()
+{
+
+    const overmap_connection_id &overmap_connection_intra_city_road =
+        settings->overmap_connection.intra_city_road_connection;
+    const overmap_connection &local_road( *overmap_connection_intra_city_road );
+
+    for( const city &c : cities ) {
+        const om_direction::type start_dir = om_direction::random();
+        om_direction::type cur_dir = start_dir;
+
+        // Track placed CITY_UNIQUE buildings
+        std::unordered_set<overmap_special_id> placed_unique_buildings;
+        // place streets in all cardinal directions from central intersection
+        do {
+            build_city_street( local_road, c.pos, c.size, cur_dir, c, placed_unique_buildings );
+        } while( ( cur_dir = om_direction::turn_right( cur_dir ) ) != start_dir );
     }
     flood_fill_city_tiles();
 }
@@ -6024,28 +6047,26 @@ pf::directed_path<point_om_omt> overmap::lay_out_street( const overmap_connectio
             return false;
         }
         int collisions = 0;
-        for( int i = -1; i <= 1; i++ ) {
-            for( int j = -1; j <= 1; j++ ) {
-                const tripoint_om_omt checkp = pos + tripoint( i, j, 0 );
 
-                if( checkp != pos + om_direction::displace( dir, 1 ) &&
-                    checkp != pos + om_direction::displace( om_direction::opposite( dir ), 1 ) &&
-                    checkp != pos ) {
-                    if( ter( checkp )->get_type_id() == oter_type_road ) {
-                        //Stop roads from running right next to each other
-                        if( collisions >= 2 ) {
-                            return false;
-                        }
-                        collisions++;
+        for( const tripoint_om_omt &checkp : points_in_radius( pos, 1 ) ) {
+            if( checkp != pos + om_direction::displace( dir, 1 ) &&
+                checkp != pos + om_direction::displace( om_direction::opposite( dir ), 1 ) &&
+                checkp != pos ) {
+                if( ter( checkp )->get_type_id() == oter_type_road ) {
+                    //Stop roads from running right next to each other
+                    if( collisions >= 2 ) {
+                        return false;
                     }
+                    collisions++;
                 }
             }
         }
+
         return true;
     };
 
     const tripoint_om_omt from( source, 0 );
-    // See if we need to make another one "step" further.
+    // See if we need to take another one-tile "step" further.
     const tripoint_om_omt en_pos = from + om_direction::displace( dir, len + 1 );
     if( inbounds( en_pos, 1 ) && connection.has( ter( en_pos ) ) ) {
         ++len;
