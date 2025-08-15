@@ -16,7 +16,7 @@
 - [Books](#books)
 - [Character](#character)
   - [Mutation Categories](#mutation-categories)
-  - [Mod-only Character](#mod-only-character)
+  - [Mod-Only Character](#mod-only-character)
 - [Comestibles](#comestibles)
   - [Comestible type](#comestible-type)
   - [Addiction type](#addiction-type)
@@ -43,7 +43,7 @@
     - [Seasons](#seasons)
     - [Time of day](#time-of-day)
   - [Special attacks](#special-attacks)
-  - [Mod-only Monster](#mod-only-monster)
+  - [Mods Monster](#mods-monster)
 - [Mutations](#mutations)
 - [Overmap](#overmap)
   - [Overmap connections](#overmap-connections)
@@ -488,7 +488,7 @@ These branches are the valid `dreams` from [dreams.json](../data/json/dreams.jso
 - ```MUTCAT_TROGLOBITE``` "You yearn for a cool, dark place to hide."
 
 
-### Mod-Only Character Flags
+### Mod-Only Character
 
 These character flags are only used in mods, but are used in multiple mods and so documented here for ease of compatability:
 
