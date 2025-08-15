@@ -400,6 +400,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```ITEM_WATERPROOFING``` Gear on your person is immune to being dissolved or broken while you're underwater.
 - ```LARGE``` Changes your size to `creature_size::large`.  Checked third of the size category flags.
 - ```LEVITATION``` You can walk on air. Does not allow you to ascend unless paired with `CLIMB_FLYING`
+- ```MAGICAL_MIND_PROTECTION``` Your mind is protected by magic from being attacked, such as from a flaming eye's stare.
 - ```MEND_ALL``` You need no splint to heal broken bones.
 - ```MUSCLE_VEH_BOOST``` Something, such as buzzing insect wings, is speeding you up when you use a muscle-powered vehicle.
 - ```MYCUS_IMMUNE``` Critter is immune to fungal hase field (`fd_fungal_haze`)
@@ -447,6 +448,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```SAFECRACK_NO_TOOL``` Allows to open safes without stethoscope.
 - ```TELEPORT_LOCK``` You cannot teleport.  This has none of the protective effects of `DIMENSIONAL_ANCHOR`.
 - ```TEMPORARY_SHAPESHIFT``` You are in another shape due to some supernatural effect.
+- ```TEMPORARY_SHAPESHIFT_NO_HANDS``` You do not have hands in your new shapeshifted form, and so cannot pick up or manipulate objects. 
 - ```THERMOMETER``` You always know what temperature it is.
 - ```TINY``` Changes your size to `creature_size::tiny`.  Checked first of the size category flags.
 - ```TREE_COMMUNION_PLUS``` Gain greatly enhanced effects from the Mycorrhizal Communion mutation.
@@ -1166,6 +1168,7 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```KEENNOSE``` Keen sense of smell.
 - ```KEEP_DISTANCE``` Monster will try to keep `tracking_distance` number of tiles between it and its current target.
 - ```LOUDMOVES``` Makes move noises as if ~2 sizes louder, even if flying.
+- ```MAGIC_USER``` A monster that casts magical spells, used in mods for avatar detection abilities
 - ```MECH_DEFENSIVE``` This mech can protect you thoroughly when piloted.
 - ```MECH_RECON_VISION``` This mech grants you night-vision and enhanced overmap sight radius when piloted.
 - ```MILITARY_MECH``` Is a military-grade mech.
