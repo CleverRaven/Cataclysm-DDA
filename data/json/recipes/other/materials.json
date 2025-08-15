@@ -2624,13 +2624,11 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
-    "difficulty": 5,
+    "difficulty": 3,
     "time": "30 m",
     "batch_time_factors": [ 75, 2 ],
     "book_learn": [
-      [ "reference_fabrication1", 5 ],
-      [ "welding_book", 5 ],
-      [ "alloy_book", 5 ]
+      [ "reference_fabrication1", 4 ]
     ],
     "proficiencies": [
       { "proficiency": "prof_machining_basic" },
