@@ -25,6 +25,7 @@
 #include "flag.h"
 #include "game.h"
 #include "game_constants.h"
+#include "game_inventory.h"
 #include "input_context.h"
 #include "input_enums.h"
 #include "output.h"
@@ -332,7 +333,7 @@ static void draw_medical_titlebar( const catacurses::window &window, Character &
     // Hotkey Helper
     std::string desc;
     desc = string_format( _(
-                              "[<color_yellow>%s/%s</color>] Scroll info [<color_yellow>%s</color>] Use item [<color_yellow>%s</color>] Keybindings" ),
+                              "[<color_yellow>%s/%s</color>] Scroll info [<color_yellow>%s</color>] Use drug [<color_yellow>%s</color>] Keybindings" ),
                           ctxt.get_desc( "SCROLL_INFOBOX_UP" ), ctxt.get_desc( "SCROLL_INFOBOX_DOWN" ),
                           ctxt.get_desc( "APPLY" ), ctxt.get_desc( "HELP_KEYBINDINGS" ) );
 
@@ -1021,7 +1022,9 @@ void Character::disp_medical()
         } else if( action == "APPLY" ) {
             avatar *a = this->as_avatar();
             if( a ) {
-                avatar_action::use_item( *a );
+                item_location loc = game_menus::inv::consume_meds();
+                avatar_action::eat( *a, loc );
+                break; // Close Medical Menu so that consume menu can work properly
             } else {
                 popup( _( "Applying not implemented for NPCs." ) );
             }
