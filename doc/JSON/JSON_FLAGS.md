@@ -16,6 +16,7 @@
 - [Books](#books)
 - [Character](#character)
   - [Mutation Categories](#mutation-categories)
+  - [Mod-only Character](#mod-character)
 - [Comestibles](#comestibles)
   - [Comestible type](#comestible-type)
   - [Addiction type](#addiction-type)
@@ -42,6 +43,7 @@
     - [Seasons](#seasons)
     - [Time of day](#time-of-day)
   - [Special attacks](#special-attacks)
+  - [Mod-only Monster](#mod-monster)
 - [Mutations](#mutations)
 - [Overmap](#overmap)
   - [Overmap connections](#overmap-connections)
@@ -484,6 +486,13 @@ These branches are the valid `dreams` from [dreams.json](../data/json/dreams.jso
 - ```MUTCAT_SLIME``` "Your body loses all rigidity for a moment."
 - ```MUTCAT_SPIDER``` "You feel insidious."
 - ```MUTCAT_TROGLOBITE``` "You yearn for a cool, dark place to hide."
+
+
+### Mod-Only Character Flags
+
+These character flags are only used in mods, but are used in multiple mods and so documented here for ease of compatability:
+
+- ```MAGICAL_MIND_PROTECTION``` Your mind is protected by magic from being attacked, such as from a flaming eye's stare.
 
 
 ## Comestibles
@@ -1286,6 +1295,13 @@ Multiple time of day conditions will be combined together so that any of those c
 ### Special attacks
 
 Special attacks have been moved to [MONSTER_SPECIAL_ATTACKS.md](MONSTER_SPECIAL_ATTACKS.md) as they have all been migrated away from flags.
+
+
+### Mod-Only Monster Flags
+
+These monster flags are only used in mods, but are used in multiple mods and so documented here for ease of compatability:
+
+- ```MAGIC_USER``` A monster that casts magical spells, used for avatar detection abilities
 
 
 ## Mutations
