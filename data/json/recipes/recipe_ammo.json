@@ -1032,10 +1032,10 @@
     "skills_required": [ [ "archery", 2 ] ],
     "difficulty": 3,
     "charges": 1,
-    "time": "30 m",
+    "time": "45 m",
     "autolearn": true,
     "book_learn": [
-      [ "recipe_arrows", 2 ]
+      [ "recipe_arrows", 3 ]
     ],
     "proficiencies": [
       { "proficiency": "prof_fletching" },
@@ -1044,6 +1044,10 @@
     "qualities": [
       {
         "id": "CUT",
+        "level": 2
+      },
+      {
+        "id": "THREAD_TAP",
         "level": 2
       }
     ],
@@ -1055,13 +1059,9 @@
         [ "small_aluminum_bar_round", 6 ]
       ],
       [
-        [ "bone_sturdy", 5, "LIST" ],
-        [ "rock", 1 ],
-        [ "ceramic_shard", 1 ],
-        [ "scrap", 2 ],
-        [ "nail", 10 ],
-        [ "bronze_nail", 10 ],
-        [ "rock_flaking_any", 1, "LIST" ]
+        [ "small_lc_steel_bar_round", 1 ],
+        [ "small_mc_steel_bar_round", 1 ],
+        [ "small_hc_steel_bar_round", 1 ]
       ],
       [ [ "fletching", 1, "LIST" ] ]
     ]

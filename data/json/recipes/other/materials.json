@@ -2640,6 +2640,69 @@
   },
   {
     "type": "recipe",
+    "result": "small_lc_steel_bar_round",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "45 m",
+    "batch_time_factors": [ 75, 2 ],
+    "book_learn": [
+      [ "reference_fabrication1", 4 ]
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_machining_basic" },
+      { "proficiency": "prof_metalworking" }
+    ],
+    "tools": [ [ [ "fake_lathe", 25 ] ] ],
+    "components": [ [ [ "lc_steel_bar_round", 1 ] ] ],
+    "byproducts": [ [ "scrap", 5 ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "small_mc_steel_bar_round",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "50 m",
+    "batch_time_factors": [ 75, 2 ],
+    "book_learn": [
+      [ "reference_fabrication1", 4 ]
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_machining_basic" },
+      { "proficiency": "prof_metalworking" }
+    ],
+    "tools": [ [ [ "fake_lathe", 25 ] ] ],
+    "components": [ [ [ "mc_steel_bar_round", 1 ] ] ],
+    "byproducts": [ [ "scrap", 5 ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "small_hc_steel_bar_round",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "1 h",
+    "batch_time_factors": [ 75, 2 ],
+    "book_learn": [
+      [ "reference_fabrication1", 4 ]
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_machining_basic" },
+      { "proficiency": "prof_metalworking" }
+    ],
+    "tools": [ [ [ "fake_lathe", 25 ] ] ],
+    "components": [ [ [ "hc_steel_bar_round", 1 ] ] ],
+    "byproducts": [ [ "scrap", 5 ] ]
+  },
+  {
+    "type": "recipe",
     "result": "stick",
     "id_suffix": "stick_from_plank",
     "activity_level": "MODERATE_EXERCISE",
