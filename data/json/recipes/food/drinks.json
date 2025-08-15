@@ -499,6 +499,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "soy_milk",
+    "id_suffix": "mortar",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
