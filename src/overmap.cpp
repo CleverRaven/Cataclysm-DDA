@@ -4348,7 +4348,8 @@ void overmap::flood_fill_city_tiles()
                 return true;
             };
             // All the points connected to this point that aren't part of a city
-            std::vector<point_om_omt> area = ff::point_flood_fill_4_connected( checked, visited, is_unchecked );
+            std::vector<point_om_omt> area =
+                ff::point_flood_fill_4_connected<std::vector>( checked, visited, is_unchecked );
             if( !enclosed ) {
                 continue;
             }
@@ -4899,7 +4900,7 @@ void overmap::place_forest_trails()
 
             // Get the contiguous forest from this point.
             std::vector<point_om_omt> forest_points =
-                ff::point_flood_fill_4_connected( seed_point.xy(), visited, is_forest );
+                ff::point_flood_fill_4_connected<std::vector>( seed_point.xy(), visited, is_forest );
 
             // If we don't have enough points to build a trail, move on.
             if( forest_points.empty() ||
@@ -4963,7 +4964,7 @@ void overmap::place_forest_trails()
             // ...and then add our random points.
             int random_point_count = 0;
             std::shuffle( forest_points.begin(), forest_points.end(), rng_get_engine() );
-            for( auto &random_point : forest_points ) {
+            for( const auto &random_point : forest_points ) {
                 if( random_point_count >= max_random_points ) {
                     break;
                 }
