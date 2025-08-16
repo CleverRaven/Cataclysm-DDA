@@ -412,7 +412,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_half_legs",
-    "name": { "str_sp": "chainmail half-leggings" },
+    "name": { "str_sp": "chainmail half-leggings", "//~": "NO_I18N" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "pocket_data": [
       {
