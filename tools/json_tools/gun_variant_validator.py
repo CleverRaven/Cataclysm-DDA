@@ -6,8 +6,8 @@ import os
 
 args = argparse.ArgumentParser()
 args.add_argument("dir", action="store", help="specify json directory")
-args.add_argument("-v", "--verbose", action="store_true",
-                  help="extra debugging output")
+args.add_argument("-v", "--verbose", action="count", default=0,
+                  help="extra debugging output, '-v' or '-vv'")
 args.add_argument("-c", "--combine", action="store_true",
                   help="check for guns that should be combined as variants")
 args.add_argument("-i", "--identifier", action="store_true",
@@ -27,8 +27,10 @@ all_jos = dict()
 VERBOSE = args_dict["verbose"]
 LOADED_TYPES = {"GUN", "MAGAZINE"}
 INHERITED_KEYS = [
+    "abstract",
     "id",
     "type",
+    "subtypes",
     "name",
     "ammo",
     "flags",
@@ -87,80 +89,81 @@ VARIANT_CHECK_BLACKLIST = {
 }
 VARIANT_CHECK_PAIR_BLACKLIST = {
     # FIXME: fix and remove these
-    ("m17", "m18"),
     ("pamd68", "pamd68mountable"),
     ("type99", "type99_sniper"),
-    ("glock_20", "glock_40"),
+    ("ithaca37", "remington_1100"),
+    ("browning_a5", "benelli_sa"),
 }
 IDENTIFIER_CHECK_BLACKLIST = {
     # FIXME: fix and remove these
+    "ar12_shotgun",
     "bigun",
-    "american_180",
     "fn_fal_semi",
-    "m1a",
-    "rfb_308",
-    "steyr_scout",
-    "mdrx",
-    "STI_DS_10",
+    "gfy_1",
     "hpt3895",
+    "m1a",
     "m2carbine",
+    "mdrx",
+    "rfb_308",
+    "srm_1216",
 }
 NAME_CHECK_BLACKLIST = {
     # FIXME: fix and remove these
+    "AT4",
+    "atgm_launcher",
+    "bbgun",
+    "brogyaga",
     "fn_p90",
-    "hk_mp7",
-    "obrez",
-    "pressin",
+    "hi_power_40",
+    "hptjcp",
+    "iwi_tavor_x95_300blk",
+    "m1911a1_38super",
     "m2010",
+    "m203",
+    "m320_mod",
+    "mgl",
+    "obrez",
+    "p226_357sig",
+    "p320_357sig",
+    "pressin",
+    "pseudo_m203",
+    "px4_40",
+    "raging_bull",
+    "scar_l",
+    "shotgun_410",
+    "sig_40",
+    "sig_mcx_rattler_sbr",
     "weatherby_5",
     "win70",
-    "mr73",
-    "iwi_tavor_x95_300blk",
-    "sig_mcx_rattler_sbr",
-    "p226_357sig",
-    "glock_31",
-    "p320_357sig",
-    "scar_l",
-    "brogyaga",
-    "raging_bull",
-    "raging_judge",
-    "saiga_410",
-    "shotgun_410",
-    "mgl",
-    "pseudo_m203",
-    "atgm_launcher",
     "xedra_gun",
-    "90two40",
-    "glock_22",
-    "px4_40",
-    "sig_40",
-    "hi_power_40",
-    "walther_ppq_40",
-    "hptjcp",
-    "AT4",
-    "af2011a1_38super",
-    "m1911a1_38super",
-    "plasma_gun",
-    "bbgun",
 }
 # Stripped from gun/mag names before checking for an identifier
 BAD_IDENTIFIERS = [
     "10mm",
     ".22",
+    ".30-06",
+    ".300",
     ".338",
+    ".357",
+    ".380",
+    ".38 Super",
     ".38",
+    ".32",
     ".40",
     ".44",
+    ".450",
     ".45",
     ".500",
+    ".50",
     "5x50mm",
     "5.7mm",
     "7.7mm",
     "8x40mm",
     "9x19mm",
+    "magazine-fed",
     "-round",
+    "clip",
     "magazine",
-    "pistol",
     "stripper",
     "speedloader",
 ]
@@ -169,6 +172,13 @@ BAD_COMMON_TOKENS = {
     "rifle",
     "carbine",
     "pistol",
+    "revolver",
+    "shotgun",
+    "handgun",
+    "six-shooter",
+    "SMG",
+    "submachine gun",
+    "grenade launcher",
     "ing"
 }
 # Common tokens that are permitted to be below length reqs
@@ -193,6 +203,7 @@ TYPE_DESCRIPTORS = [
     # Special faction-specific invented weapons get a pass
     "FSP",
     "gatling gun",
+    "grenade launcher",
     "hand cannon",
     "handgun",
     "HMG",
@@ -216,8 +227,7 @@ TYPE_DESCRIPTORS = [
     "trenchgun",
 ]
 DUPE_CHECK_BLACKLIST = [
-    # No magazines, and very similar tube-fed rifles with slightly diff barrels
-    {"rio_bravo", "henry_golden_boy"},
+    # {"similar_gun1_id", "similar_gun2_id"},
 ]
 
 """
@@ -276,7 +286,7 @@ def simplify_gun_data(jo):
     # Oh god why
     if "pocket_data" not in jo:
         if VERBOSE:
-            print("\tRemoving %s, conversion kit gun" % jo["id"])
+            print(f" - Removing {jo['id']}, conversion kit gun")
         return False
     for data in jo["pocket_data"]:
         # It does not take magazines
@@ -306,8 +316,6 @@ def simplify_gun_data(jo):
 def simplify_object(jo):
     # Only guns are subject to intense scrutiny
     # everything else can be considered already simple
-    if jo["type"] != "GUN":
-        return True
     if "id" not in jo or jo["id"] in GUNS_BLACKLIST:
         if VERBOSE:
             name = str(jo)
@@ -315,7 +323,7 @@ def simplify_object(jo):
                 name = jo["id"]
             if "abstract" in jo:
                 name = jo["abstract"]
-            print("\tRemoving %s, blacklisted or abstract" % name)
+            print(f" - Removing {name}, blacklisted or abstract")
         return False
 
     req_keys = {"weight", "volume", "ammo", "id"}
@@ -330,12 +338,12 @@ def simplify_object(jo):
     # guns without the required keys can't be checked
     for key in filter(lambda key: key not in jo, req_keys):
         if VERBOSE:
-            print("\tRemoving %s, lacking %s" % (jo["id"], key))
+            print(f" - Removing {jo['id']}, lacking {key}")
         return False
     # We don't care about fake guns
     if "flags" in jo and "PSEUDO" in jo["flags"]:
         if VERBOSE:
-            print("\tRemoving %s, pseudo gun" % jo["id"])
+            print(f" - Removing  {jo['id']}, pseudo gun")
         return False
 
     return simplify_gun_data(jo)
@@ -373,10 +381,12 @@ def extract_jos(path):
                       " of an array of objects!")
                 break
 
-            if "type" not in jo or jo["type"] not in LOADED_TYPES:
+            if (jo["type"] != "ITEM") or ("subtypes" not in jo) or \
+               LOADED_TYPES.isdisjoint(jo["subtypes"]):
                 continue
 
             ident = jo["id"] if "id" in jo else jo["abstract"]
+
             all_jos[ident] = jo
 
 
@@ -403,7 +413,7 @@ def copy_from_delete(jo, data):
             continue
         for val in subobject[key]:
             if key not in data:
-                raise ValueError("Invalid delete on %s" % key)
+                raise ValueError(f"Invalid delete on {key}")
             else:
                 data[key].remove(val)
 
@@ -416,7 +426,7 @@ def copy_from_relative(jo, data):
         if key not in subobject:
             continue
         if key not in data:
-            raise ValueError("Invalid relative on %s" % key)
+            raise ValueError(f"Invalid relative on {key}")
         if key in UNIT_KEYS:
             data[key] += parse_unit(subobject[key], UNIT_UNITS[key])
         elif (key == "ranged_damage" and
@@ -426,7 +436,7 @@ def copy_from_relative(jo, data):
         elif key in {"dispersion"}:
             data[key] += subobject[key]
         else:
-            raise ValueError("Relative for %s not supported" % key)
+            raise ValueError(f"Relative for {key} not supported")
 
 
 def copy_from_proportional(jo, data):
@@ -437,7 +447,7 @@ def copy_from_proportional(jo, data):
         if key not in subobject:
             continue
         if key not in data:
-            raise ValueError("Invalid proportional on %s" % key)
+            raise ValueError(f"Invalid proportional on {key}")
         if (key == "ranged_damage" and
            type(data[key]) is dict and
            type(subobject[key]) is dict):
@@ -445,7 +455,7 @@ def copy_from_proportional(jo, data):
         elif key in UNIT_KEYS or key in {"reload", "dispersion"}:
             data[key] *= subobject[key]
         else:
-            raise ValueError("Proportional for %s not supported" % key)
+            raise ValueError(f"Proportional for {key} not supported")
 
 
 def do_copy_from(jo):
@@ -474,6 +484,9 @@ def load_all_json(directory):
     for root, directories, filenames in os.walk(directory):
         for filename in filenames:
             if not filename.endswith(".json"):
+                continue
+            if "obsolet" in root + filename:
+                # skip obsoleted json
                 continue
             path = os.path.join(root, filename)
             extract_jos(path)
@@ -613,8 +626,8 @@ def clean_names(names):
 def common_token(names):
     names = clean_names(names)
     # Assume the longest common substring will be the "identifier"
-    # leading/trailing whitespace isn't meaningful in identifiers
-    common_token = longest_common_substring(names).strip()
+    # leading/trailing/extra whitespace isn't meaningful in identifiers
+    common_token = " ".join(longest_common_substring(names).split())
     # It can't be a meaningful identifier if it's 1-2 characters long
     # Some exceptions (e.g. AK, G3)
     if len(common_token) < 3 and common_token not in SHORT_COMMON_TOKENS:
@@ -622,6 +635,8 @@ def common_token(names):
     # Some common identifiers that don't work
     if common_token in BAD_COMMON_TOKENS:
         return None
+    if VERBOSE > 1:
+        print(f" --- Token '{common_token}': {names}")
     return common_token
 
 
@@ -659,8 +674,7 @@ def find_identifiers(all_guns):
         for mag in gun["magazines"]:
             if mag not in all_jos:
                 if VERBOSE and not type(mag) is not str:
-                    print("\tnot checking magazine %s for %s" %
-                          (mag, gun["id"]))
+                    print(f" - Not checking magazine {mag} for {gun['id']}")
                 continue
             mags.append(mag)
         # Add all the magazine names in
@@ -728,6 +742,12 @@ def find_dupe_names(all_guns):
     all_names = {}
     for gun in all_guns:
         name = name_of(gun) + str(sorted(gun["ammo"]))
+
+        # include ammo count
+        for mag_type in gun.get("magazines"):
+            if type(mag_type) is int:
+                name += f",{mag_type}-round"
+
         if name in all_names:
             all_names[name].append(gun)
         else:
@@ -736,10 +756,10 @@ def find_dupe_names(all_guns):
         value = remove_blacklisted_dupes(value)
         if len(value) < 2:
             continue
-        out = "ERROR: Guns have the same name and ammo (" + key + "):"
         error = True
+        out = f"ERROR: Guns have the same name, ammo, capacity ({key}):\n  "
         for gun in value:
-            out += " (" + gun["id"] + "),"
+            out += f" '{gun['id']}',"
         print(out)
     return error
 
@@ -757,24 +777,10 @@ def check_combination(all_guns):
     print("==== VARIANT COMBINATION ====")
     similar_guns = find_variants(all_guns)
     for pair in similar_guns:
-        print("ERROR: Guns %s and %s are too similar and should be combined" %
-              (pair[0]["id"], pair[1]["id"]))
+        print(f"ERROR: Guns '{pair[0]['id']}' and '{pair[1]['id']}' are"
+              " too similar and should be combined")
 
     return len(similar_guns) > 0
-
-
-def string_listify(strings, separator):
-    count = len(strings)
-    if count == 0:
-        return ""
-    elif count == 1:
-        return strings[0]
-
-    ret = ""
-    for i in range(count - 1):
-        ret += strings[i] + separator
-    ret += strings[count - 1]
-    return ret
 
 
 def check_identifiers(all_guns):
@@ -801,19 +807,9 @@ def check_identifiers(all_guns):
             # multiple guns, those guns all take the same mags, etc
             print("The following valid identifiers were found.",
                   "Please check to ensure they make sense.")
-            good_tokens = [[]]
-            idx = 0
-            len_so_far = 0
+
             for token in sorted(good_token_list):
-                guns_str = string_listify(good_token_list[token], " ")
-                good_tokens[idx].append(f"{token} ({guns_str})")
-                len_so_far += len(good_tokens[idx][-1])
-                if len_so_far > 100:
-                    len_so_far = 0
-                    idx += 1
-                    good_tokens.append([])
-            for string in good_tokens:
-                print(" -", string_listify(string, ", "))
+                print(f" - '{token}': {good_token_list[token]}")
 
     return len(bad_tokens) > 0
 
@@ -824,7 +820,7 @@ def check_names(all_guns):
     print("====  DESCRIPTIVE NAMES  ====")
     bad_names = find_bad_names(all_guns)
     for bad in bad_names:
-        print("ERROR: Gun %s (%s) lacks a descriptive name" % (bad[1], bad[0]))
+        print(f"ERROR: Gun '{bad[1]}' ({bad[0]}) lacks a descriptive name")
 
     dupes = find_dupe_names(all_guns)
 
@@ -846,6 +842,7 @@ def table(all_guns):
     # Don't report these
     skipped = {
         "type",
+        "subtypes",
         "barrel_volume",
         "blackpowder_tolerance",
         "pocket_data",
@@ -854,11 +851,8 @@ def table(all_guns):
     # If we don't have these, report this
     defaults = {
         "flags": [],
-        "barrel_length": "???",
         "reload": 0,
-        "longest_side": "???",
         "speedloaders": [],
-        "dispersion": "???"
     }
     # Do the inherited keys, except the skipped ones, plus these
     keys = INHERITED_KEYS + ["magazines", "speedloaders"]
@@ -889,7 +883,7 @@ def table(all_guns):
                 for val in gun[key]:
                     out += "'" + str(val) + "' "
             else:
-                out += str(gun[key]) if key in gun else str(defaults[key])
+                out += str(gun[key] if key in gun else defaults.get(key, "?"))
             out += insert_separator()
         print(out)
 
@@ -900,7 +894,7 @@ def main():
     # Find all the guns and simplify them
     all_guns = []
     for jo in all_jos.values():
-        if jo["type"] != "GUN":
+        if "GUN" not in jo["subtypes"]:
             continue
         if ("flags" in jo and
             ("PRIMITIVE_RANGED_WEAPON" in jo["flags"] or
