@@ -10565,7 +10565,8 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint_bub_ms &dest_l
     }
 
     if( here.is_open_air( dest_loc ) ) {
-        if( !veh_dest && !u.has_effect_with_flag( json_flag_LEVITATION ) ) {
+        if( !veh_dest && !u.has_effect_with_flag( json_flag_LEVITATION ) &&
+            !here.has_flag( ter_furn_flag::TFLAG_LADDER, dest_loc + tripoint::below ) ) {
             harmful_stuff.emplace_back( "ledge" );
             if( harmful_stuff.size() == max ) {
                 return harmful_stuff;
@@ -12368,15 +12369,6 @@ void game::vertical_move( int movez, bool force, bool peeking )
             return;
         }
 
-        const int cost = u.climbing_cost( pos, stairs );
-        add_msg_debug( debugmode::DF_GAME, "Climb cost %d", cost );
-        const bool can_climb_here = cost > 0 ||
-                                    u.has_flag( json_flag_CLIMB_NO_LADDER ) || wall_cling || climb_flying;
-        if( !can_climb_here && !adjacent_climb ) {
-            add_msg( m_info, _( "You can't climb here - you need walls and/or furniture to brace against." ) );
-            return;
-        }
-
         const item_location weapon = u.get_wielded_item();
         if( !climb_flying && !here.has_flag( ter_furn_flag::TFLAG_LADDER, pos ) && weapon &&
             weapon->is_two_handed( u ) ) {
@@ -12389,6 +12381,18 @@ void game::vertical_move( int movez, bool force, bool peeking )
             } else {
                 return;
             }
+        }
+
+        // from here on, standing at the base of a ladder gives the same benefits as flying
+        climb_flying |= here.has_flag( ter_furn_flag::TFLAG_LADDER, pos );
+
+        const int cost = u.climbing_cost( pos, stairs );
+        add_msg_debug( debugmode::DF_GAME, "Climb cost %d", cost );
+        const bool can_climb_here = cost > 0 ||
+                                    u.has_flag( json_flag_CLIMB_NO_LADDER ) || wall_cling || climb_flying;
+        if( !can_climb_here && !adjacent_climb ) {
+            add_msg( m_info, _( "You can't climb here - you need walls and/or furniture to brace against." ) );
+            return;
         }
 
         std::vector<tripoint_bub_ms> pts;
@@ -12436,6 +12440,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     }
 
     if( !force && movez == -1 && !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, pos ) &&
+        !here.has_flag( ter_furn_flag::TFLAG_LADDER, pos + tripoint::below ) &&
         !u.is_underwater() && !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR_WATER, pos ) &&
         !u.has_effect( effect_gliding ) ) {
         tripoint_bub_ms dest_phase = pos;
@@ -12793,7 +12798,8 @@ std::optional<tripoint_bub_ms> game::find_stairs( const map &mp, int z_after,
     const bool going_up_1 = movez == 1;
 
     // If there are stairs on the same x and y as we currently are, use those
-    if( going_down_1 && mp.has_flag( ter_furn_flag::TFLAG_GOES_UP, pos + tripoint::below ) ) {
+    if( going_down_1 && ( mp.has_flag( ter_furn_flag::TFLAG_GOES_UP, pos + tripoint::below ) ||
+                          mp.has_flag( ter_furn_flag::TFLAG_LADDER, pos + tripoint::below ) ) ) {
         return pos + tripoint::below;
     }
     if( going_up_1 && mp.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, pos + tripoint::above ) ) {

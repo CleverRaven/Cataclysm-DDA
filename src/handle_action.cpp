@@ -2466,7 +2466,8 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             if( !player_character.in_vehicle ) {
                 // We're NOT standing on tiles with stairs, ropes, ladders etc
                 if( !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, player_character.pos_bub() ) &&
-                    !u.has_flag( json_flag_PHASE_MOVEMENT ) ) {
+                    !u.has_flag( json_flag_PHASE_MOVEMENT ) &&
+                    !here.has_flag( ter_furn_flag::TFLAG_LADDER, player_character.pos_bub() + tripoint::below ) ) {
                     std::vector<tripoint_bub_ms> pts;
 
                     // If levitating, just move straight down if possible.
