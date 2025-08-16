@@ -73,7 +73,7 @@
     "id": "t_infinite_shaft_rooved",
     "type": "terrain",
     "name": "open air",
-    "description": "An area of open air in what appears to a shaft extending into the depths of the earth.  You cannot understand how or why someone would build an eleavator shaft going into the depths of the earth like this for reasons other than mining.  It's bottom, if there is one seems to be far past where light penetrates.",
+    "description": "An area of open air in what appears to be a shaft extending into the depths of the earth.  You cannot understand how or why someone would build an eleavator shaft going into the depths of the earth like this for reasons other than mining.  It's bottom, if there is one, seems to be far past where light penetrates.",
     "symbol": " ",
     "color": "i_cyan",
     "move_cost": 2,
@@ -149,7 +149,7 @@
         }
       },
       {
-        "npc_message": "You receive an uncontrollable compulsion to step forward into the open elevator shaft.  As you step into the open air… you fall.  Then you keep falling.  The shaft you thought was only a few stories in height must be miles.  You lose count repeatedly but slowly, finally, the floor approaches… THUMP!  You feel searing final pain as every part of your body breaks as it hits the ground.",
+        "npc_message": "You receive an uncontrollable compulsion to step forward into the open elevator shaft.  As you step into the open air… you fall.  Then you keep falling.  The shaft you thought was only a few stories in height must be miles.  You lose count repeatedly but slowly, finally, the floor approaches… THUMP!  You feel searing final pain as every part of your body breaks when you hit the ground.",
         "popup": true
       },
       { "npc_teleport": { "context_val": "Lixa_teleport" }, "force": true }
@@ -202,7 +202,7 @@
         }
       },
       {
-        "u_message": "As you step into the open air… you fall.  Then you keep falling.  The shaft you thought was only a few stories in height must be miles.  You lose count repeatedly but slowly, finally, the floor approaches…  THUMP!  You feel searing final pain as every part of your body breaks as it hits the ground.",
+        "u_message": "As you step into the open air… you fall.  Then you keep falling.  The shaft you thought was only a few stories in height must be miles.  You lose count repeatedly but slowly, finally, the floor approaches…  THUMP!  You feel searing final pain as every part of your body breaks when you hit the ground.",
         "popup": true
       },
       { "u_teleport": { "context_val": "Lixa_teleport" }, "force": true }
