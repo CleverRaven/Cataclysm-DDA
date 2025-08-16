@@ -624,6 +624,12 @@ void Character::drop( const drop_locations &what, const tripoint_bub_ms &target,
 
 void Character::pick_up( const drop_locations &what )
 {
+    Pickup::pickup_constraints constraints = Pickup::pickup_constraints();
+    pick_up( what, constraints );
+}
+
+void Character::pick_up( const drop_locations &what, Pickup::pickup_constraints &constraints )
+{
     if( what.empty() ) {
         return;
     }
@@ -639,7 +645,7 @@ void Character::pick_up( const drop_locations &what )
     }
 
     last_item = item( *items.back() ).typeId();
-    assign_activity( pickup_activity_actor( items, quantities, pos_bub(), false ) );
+    assign_activity( pickup_activity_actor( items, quantities, pos_bub(), false, constraints ) );
 }
 
 invlets_bitset Character::allocated_invlets() const
