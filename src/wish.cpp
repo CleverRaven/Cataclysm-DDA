@@ -54,6 +54,7 @@
 #include "skill.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "text.h"
 #include "text_snippets.h"
 #include "translation.h"
 #include "translations.h"
@@ -1062,13 +1063,23 @@ class wish_item_callback: public uilist_callback
 
             ImGui::TextColored( c_green, "%s", msg.c_str() );
             input_context ctxt( menu->input_category, keyboard_mode::keycode );
-            ImGui::Text( _( "[%s] find, [%s] container, [%s] flag, [%s] everything, [%s] snippet, [%s] quit" ),
-                         ctxt.get_desc( "FILTER" ).c_str(),
-                         ctxt.get_desc( "CONTAINER" ).c_str(),
-                         ctxt.get_desc( "FLAG" ).c_str(),
-                         ctxt.get_desc( "EVERYTHING" ).c_str(),
-                         ctxt.get_desc( "SNIPPET" ).c_str(),
-                         ctxt.get_desc( "QUIT" ).c_str() );
+            static const std::string key_e = string_format(
+                                                 _( "[%s] find, [%s] container, [%s] flag, [%s] everything, [%s] snippet, [%s] quit" ),
+                                                 ctxt.get_desc( "FILTER" ).c_str(),
+                                                 ctxt.get_desc( "CONTAINER" ).c_str(),
+                                                 ctxt.get_desc( "FLAG" ).c_str(),
+                                                 ctxt.get_desc( "EVERYTHING" ).c_str(),
+                                                 ctxt.get_desc( "SNIPPET" ).c_str(),
+                                                 ctxt.get_desc( "QUIT" ).c_str() );
+            static const std::string key_E = string_format(
+                                                 _( "[%s] find, [%s] container, [%s] flag, [%s] <color_green>everything</color>, [%s] snippet, [%s] quit" ),
+                                                 ctxt.get_desc( "FILTER" ).c_str(),
+                                                 ctxt.get_desc( "CONTAINER" ).c_str(),
+                                                 ctxt.get_desc( "FLAG" ).c_str(),
+                                                 ctxt.get_desc( "EVERYTHING" ).c_str(),
+                                                 ctxt.get_desc( "SNIPPET" ).c_str(),
+                                                 ctxt.get_desc( "QUIT" ).c_str() );
+            cataimgui::TextColoredParagraph( c_light_gray, spawn_everything ? key_E : key_e );
         }
 };
 
@@ -1169,7 +1180,7 @@ void debug_menu::wishitem( Character *you, const tripoint_bub_ms &pos )
                 popup
                 .title( _( "How many?" ) )
                 .width( 20 )
-                .description( granted.tname() )
+                .description( cb.spawn_everything ? _( "Everything" ) : granted.tname() )
                 .edit( amount );
                 canceled = popup.canceled();
             }
