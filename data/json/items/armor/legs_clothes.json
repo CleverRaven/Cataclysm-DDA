@@ -157,7 +157,7 @@
     "id": "fishing_waders",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "pair of fishing waders", "str_pl": "pairs of fishing waders" },
+    "name": { "str_sp": "fishing waders" },
     "description": "Waterproof plastic fishing waders with a single large front pocket.",
     "weight": "1360 g",
     "volume": "9500 ml",
