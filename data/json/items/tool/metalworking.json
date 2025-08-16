@@ -90,7 +90,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "scavenger's anvil" },
-    "description": "A portion of heavy steel machinery that has been smoothed and shaped to form a very adequate anvil.",
+    "description": "A portion of heavy steel machinery that has been smoothed and shaped to form a very adequate anvil.  If it were mounted onto a good solid log, it would be adequate for any task.",
     "//": "Represents any number of heavy machinery parts that serve this purpose.",
     "weight": "50 kg",
     "volume": "30 L",
