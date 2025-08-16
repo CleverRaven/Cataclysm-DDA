@@ -157,7 +157,7 @@
     "id": "fishing_waders",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "pair of fishing waders", "str_pl": "pairs of fishing waders" },
+    "name": { "str_sp": "fishing waders" },
     "description": "Waterproof plastic fishing waders with a single large front pocket.",
     "weight": "1360 g",
     "volume": "9500 ml",
@@ -449,7 +449,7 @@
     "id": "jeans_ripped",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "ripped jeans", "str_pl": "pairs of ripped jeans" },
+    "name": { "str_sp": "ripped jeans" },
     "description": "A pair of jeans that has been ripped over the knees.  It may have been fashionable before Cataclysm, but it's just a pair of sub-par jeans now.",
     "weight": "580 g",
     "volume": "2 L",
@@ -718,7 +718,7 @@
     "id": "leggings",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "leggings", "str_pl": "pairs of leggings" },
+    "name": { "str_sp": "leggings" },
     "description": "Skin-tight nylon leggings, sometimes used when exercising, that keep your legs nice and warm.",
     "weight": "155 g",
     "volume": "500 ml",
@@ -736,7 +736,7 @@
     "variants": [
       {
         "id": "leggings_red",
-        "name": { "str": "red leggings", "str_pl": "pairs of red leggings" },
+        "name": { "str_sp": "red leggings" },
         "description": "This pair is red.",
         "color": "red",
         "append": true,
@@ -744,7 +744,7 @@
       },
       {
         "id": "leggings_blue",
-        "name": { "str": "blue leggings", "str_pl": "pairs of blue leggings" },
+        "name": { "str_sp": "blue leggings" },
         "description": "This pair is blue.",
         "color": "blue",
         "append": true,
@@ -752,7 +752,7 @@
       },
       {
         "id": "leggings_purple",
-        "name": { "str": "purple leggings", "str_pl": "pairs of purple leggings" },
+        "name": { "str_sp": "purple leggings" },
         "description": "This pair is a vibrant purple.",
         "color": "magenta",
         "append": true,
@@ -760,7 +760,7 @@
       },
       {
         "id": "leggings_olive",
-        "name": { "str": "olive leggings", "str_pl": "pairs of olive leggings" },
+        "name": { "str_sp": "olive leggings" },
         "description": "This pair is a muted olive green.",
         "color": "green",
         "append": true,
@@ -768,7 +768,7 @@
       },
       {
         "id": "leggings_brown",
-        "name": { "str": "brown leggings", "str_pl": "pairs of brown leggings" },
+        "name": { "str_sp": "brown leggings" },
         "description": "This pair is brown.",
         "color": "brown",
         "append": true,
@@ -776,7 +776,7 @@
       },
       {
         "id": "leggings_black",
-        "name": { "str": "black leggings", "str_pl": "pairs of black leggings" },
+        "name": { "str_sp": "black leggings" },
         "description": "This pair is black.",
         "color": "dark_gray",
         "append": true,
@@ -784,7 +784,7 @@
       },
       {
         "id": "leggings_fire",
-        "name": { "str": "fire leggings", "str_pl": "pairs of fire leggings" },
+        "name": { "str_sp": "fire leggings" },
         "description": "This pair has a printed flame pattern.",
         "color": "red",
         "append": true,
@@ -792,7 +792,7 @@
       },
       {
         "id": "leggings_zerba",
-        "name": { "str": "zebra leggings", "str_pl": "pairs of zebra leggings" },
+        "name": { "str_sp": "zebra leggings" },
         "description": "This pair has a zebra stripe pattern.",
         "color": "light_gray",
         "append": true,
@@ -800,7 +800,7 @@
       },
       {
         "id": "leggings_leopard",
-        "name": { "str": "leopard print leggings", "str_pl": "pairs of leopard print leggings" },
+        "name": { "str_sp": "leopard print leggings" },
         "description": "This pair has a leopard print pattern.",
         "color": "yellow",
         "append": true,
@@ -808,7 +808,7 @@
       },
       {
         "id": "leggings_tiger",
-        "name": { "str": "tiger stripe leggings", "str_pl": "pairs of tiger stripe leggings" },
+        "name": { "str_sp": "tiger stripe leggings" },
         "description": "This pair has a tiger stripe pattern.",
         "color": "yellow",
         "append": true,
@@ -816,7 +816,7 @@
       },
       {
         "id": "leggings_geometric",
-        "name": { "str": "geometric leggings", "str_pl": "pairs of geometric leggings" },
+        "name": { "str_sp": "geometric leggings" },
         "description": "This pair has a simple geometric pattern.",
         "color": "dark_gray",
         "append": true,
@@ -968,181 +968,181 @@
     "variants": [
       {
         "id": "generic_pants",
-        "name": { "str": "khaki pants", "str_pl": "pairs of khaki pants" },
+        "name": { "str_sp": "khaki pants" },
         "description": "A pair of khaki pants.  Slightly warmer than jeans.",
         "weight": 10
       },
       {
         "id": "pants_blue",
-        "name": { "str": "navy-blue pants", "str_pl": "pairs of navy-blue pants" },
+        "name": { "str_sp": "navy-blue pants" },
         "description": "A comfortable set of navy blue pants with large pockets, slightly thicker and warmer than regular jeans.",
         "color": "blue",
         "weight": 10
       },
       {
         "id": "pants_black",
-        "name": { "str": "black pants", "str_pl": "pairs of black pants" },
+        "name": { "str_sp": "black pants" },
         "description": "A snappy set of black, neatly pressed trousers, perfect for formal events or looking professional.",
         "color": "dark_gray",
         "weight": 10
       },
       {
         "id": "pants_grey",
-        "name": { "str": "gray pants", "str_pl": "pairs of gray pants" },
+        "name": { "str_sp": "gray pants" },
         "description": "A set of storm gray pants speckled with dark stains so deeply assimilated into the fabric that they're nigh-irremovable.  You vehemently hope that they're just the mortal remains of some spilled beverage.",
         "color": "dark_gray",
         "weight": 10
       },
       {
         "id": "pants_red",
-        "name": { "str": "burgundy pants", "str_pl": "pairs of burgundy pants" },
+        "name": { "str_sp": "burgundy pants" },
         "description": "A pair of soft, comfortable burgundy trousers with a button-up fly and spacious pockets.",
         "color": "red",
         "weight": 10
       },
       {
         "id": "pants_purple",
-        "name": { "str": "purple trackpants", "str_pl": "pairs of purple trackpants" },
+        "name": { "str_sp": "purple trackpants" },
         "description": "A set of rugged and comfortable trousers dyed a soft shade of violet, these pants come equipped with an adjustable waistband.",
         "color": "blue",
         "weight": 10
       },
       {
         "id": "pants_brown",
-        "name": { "str": "brown pants", "str_pl": "pairs of brown pants" },
+        "name": { "str_sp": "brown pants" },
         "description": "Boredom personified, this pair of corduroy pants is a dull hue of brown.",
         "color": "brown",
         "weight": 10
       },
       {
         "id": "pants_cream",
-        "name": { "str": "cream pants", "str_pl": "pairs of cream pants" },
+        "name": { "str_sp": "cream pants" },
         "description": "A pair of milky, off-white pants dyed a shade of soft cream.  They're slightly warmer than jeans.",
         "color": "white",
         "weight": 10
       },
       {
         "id": "pants_gray",
-        "name": { "str": "gray pants", "str_pl": "pairs of gray pants" },
+        "name": { "str_sp": "gray pants" },
         "description": "A business-like set of stone-gray trousers for business-like people, these pants are the same hue as concrete and are relatively warm.",
         "color": "light_gray",
         "weight": 10
       },
       {
         "id": "pants_british_khaki",
-        "name": { "str": "British-khaki pants", "str_pl": "pairs of British-khaki pants" },
+        "name": { "str_sp": "British-khaki pants" },
         "description": "While these pants might not be English, their color certainly is.  More specifically, these comfortable trousers are a shade of British-khaki, a type of brownish-yellow hue developed by the empire's military for use in service uniforms.",
         "color": "brown",
         "weight": 8
       },
       {
         "id": "pants_tan",
-        "name": { "str": "tan-khaki pants", "str_pl": "pairs of tan-khaki pants" },
+        "name": { "str_sp": "tan-khaki pants" },
         "description": "A pair of casual, tan-hued pants with a slight yellowish overtone, intended to contrast with one's skin color.",
         "color": "brown",
         "weight": 8
       },
       {
         "id": "pants_hot_pink",
-        "name": { "str": "hot-pink pants", "str_pl": "pairs of hot-pink pants" },
+        "name": { "str_sp": "hot-pink pants" },
         "description": "Flaunting an almost aggressively vibrant shade of bright pink, this pair of soft, plush pants is slightly warmer than far duller jeans and makes a bold statement to any onlookers: human, zombie, or otherwise.  Though, perhaps dressing up like an anthropomorphic Easter egg isn't, in retrospect, the wisest way to prolong your time on this earth.",
         "color": "pink",
         "weight": 8
       },
       {
         "id": "pants_maroon",
-        "name": { "str": "maroon sweatpants", "str_pl": "pairs of maroon sweatpants" },
+        "name": { "str_sp": "maroon sweatpants" },
         "description": "A visually appealing and subtle blend of browns and deep reds characterizes this pair of pants, which come equipped with a drawstring at the waist, elastic cuffs, and zip-up pockets.  An energetic and sporting set of pants for high-energy situations.",
         "color": "red",
         "weight": 8
       },
       {
         "id": "pants_od",
-        "name": { "str": "olive-drab pants", "str_pl": "pairs of olive-drab pants" },
+        "name": { "str_sp": "olive-drab pants" },
         "description": "While these aren't US-issued military trousers or even civilian tactical pants, this article of clothing possesses a blend of dark greens, browns, and blacks identical to the camouflage pattern of Vietnam-era army uniforms.  Slightly warmer than regular jeans, it's a decent piece of faux-military kit for those unwilling to shill out on a pair of actual BDU pants.",
         "color": "green",
         "weight": 8
       },
       {
         "id": "pants_woodland",
-        "name": { "str": "woodland-camo pants", "str_pl": "pairs of woodland-camo pants" },
+        "name": { "str_sp": "woodland-camo pants" },
         "description": "Not too dissimilar from the pattern adopted by older US Marine uniforms, this pair of otherwise conventional civilian pants is printed with a green, brown, and black woodland camouflage pattern.",
         "color": "green",
         "weight": 6
       },
       {
         "id": "pants_jungle",
-        "name": { "str": "jungle-camo pants", "str_pl": "pairs of jungle-camo pants" },
+        "name": { "str_sp": "jungle-camo pants" },
         "description": "Similar in color to the old frog skin uniforms issued to Marine Raiders during the Second World War, this pair of warm, comfortable trousers is dyed a greenish gray hue.  Completely conventional in every other respect, the patterning would be incredibly helpful if you were planning to take a trip down to the Amazon any time soon.",
         "color": "green",
         "weight": 6
       },
       {
         "id": "pants_grassland",
-        "name": { "str": "grassland-camo pants", "str_pl": "pairs of grassland-camo pants" },
+        "name": { "str_sp": "grassland-camo pants" },
         "description": "Possessing reinforced knees and a hardy construction, this set of trousers is resplendent in a camouflage pattern of mixed light greens, browns, and beige tones.  With a set of deep pockets and an insulated design, it's an ideal piece of legwear for outdoor ventures.",
         "color": "green",
         "weight": 6
       },
       {
         "id": "pants_marshland",
-        "name": { "str": "marshland-camo pants", "str_pl": "pairs of marshland-camo pants" },
+        "name": { "str_sp": "marshland-camo pants" },
         "description": "The faithful friend of waterfowl hunters, this pair of pants is printed with a brown, gray, tan, and green camouflage pattern designed to blend in with the vegetation and reeds present in swamps and marshlands.",
         "color": "brown",
         "weight": 6
       },
       {
         "id": "pants_desert",
-        "name": { "str": "desert-camo pants", "str_pl": "pairs of desert-camo pants" },
+        "name": { "str_sp": "desert-camo pants" },
         "description": "Dyed a mix of brown, tan, and yellowish beige hues, this pair of hardy trousers is designed to seamlessly blend into arid environments.  That being said, the fact that New England is famously devoid of deserts means that the pattern's only utility is in looking cool.",
         "color": "brown",
         "weight": 6
       },
       {
         "id": "pants_alpine",
-        "name": { "str": "alpine-camo pants", "str_pl": "pairs of alpine-camo pants" },
+        "name": { "str_sp": "alpine-camo pants" },
         "description": "The companion of aspiring mountaineers and alpine hunters, these brown, gray, and white dyed pants possess a network of jagged shapes and mottled lines, designed to break up the wearer's profile and better conceal them against the background landscape of mountains.",
         "color": "light_gray",
         "weight": 6
       },
       {
         "id": "pants_urban",
-        "name": { "str": "urban-camo pants", "str_pl": "pairs of urban-camo pants" },
+        "name": { "str_sp": "urban-camo pants" },
         "description": "A set of rugged yet comfortable pants dyed in various scales of gray, black, and dirty white, possessing a set of sizable pockets, and printed with squares and irregular polygons to disrupt a wearer's silhouette within man-made environments.  You would honestly not be surprised if you learned that this singular pair of trousers contains 50 shades of gray.",
         "color": "dark_gray",
         "weight": 6
       },
       {
         "id": "pants_arctic",
-        "name": { "str": "arctic-camo pants", "str_pl": "pairs of arctic-camo pants" },
+        "name": { "str_sp": "arctic-camo pants" },
         "description": "Featuring a camouflage pattern consisting of white, shades of gray, and a slight tinge of brown, this pair of rugged pants is fit for snowy tundra and polar regions—or it would be, had the garment not been only moderately warmer than jeans.  You have yet to grasp their point for existing.",
         "color": "white",
         "weight": 6
       },
       {
         "id": "pants_black_camo",
-        "name": { "str": "black-camo pants", "str_pl": "pairs of black-camo pants" },
+        "name": { "str_sp": "black-camo pants" },
         "description": "Dyed a deep hue of urban black, this pair of hardwearing pants is designed to assist a wearer in concealing themselves within nighttime environments and low-light conditions.  While they're simple civilian trousers given a stealth-black paint job and don't hold a candle to their more marshal brothers, they still look cool and are great at making you feel like you're Spetsnaz.",
         "color": "dark_gray",
         "weight": 6
       },
       {
         "id": "pants_white",
-        "name": { "str": "white pants", "str_pl": "pairs of white pants" },
+        "name": { "str_sp": "white pants" },
         "description": "Notorious for either looking fabulous or disastrous with little in between, this stylish pair of boot-cut white trousers will almost certainly gain a plethora of irremovable stains as soon as you set foot beyond the threshold of your abode.",
         "color": "white",
         "weight": 6
       },
       {
         "id": "pants_orange",
-        "name": { "str": "orange trackpants", "str_pl": "pairs of orange trackpants" },
+        "name": { "str_sp": "orange trackpants" },
         "description": "Reminiscent of the color of flames, this pair of cotton trackpants is, perhaps optimistically, dyed a muted shade of burned orange.",
         "color": "red",
         "weight": 4
       },
       {
         "id": "pants_flag",
-        "name": { "str": "liberty's pants", "str_pl": "pairs of liberty's pants" },
+        "name": { "str_sp": "liberty's pants" },
         "description": "These pair of sky blue pants are resplendent with a pair of stitched American flags, their flag poles running down each leg, and a standard flanking the trousers' front and rear.  \"Freedom\" is boldly stitched across the fly and enclosed by a ring of golden stars, while the back bears the legend, \"Liberbooty!\"",
         "color": "light_blue",
         "weight": 2
@@ -2125,7 +2125,7 @@
     "id": "technician_pants_gray",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "work pants", "str_pl": "pairs of work pants" },
+    "name": { "str_sp": "work pants" },
     "description": "A pair of gray canvas work pants.",
     "weight": "1040 g",
     "volume": "2 L",
@@ -2262,7 +2262,7 @@
     "id": "pants_hiking",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "hiking pants", "str_pl": "pairs of hiking pants" },
+    "name": { "str_sp": "hiking pants" },
     "description": "A water-resistant pair of lightweight, flexible hiking pants with a good number of pockets.",
     "weight": "250 g",
     "volume": "1750 ml",
@@ -2319,7 +2319,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "//": "Based on Vertx Cutback Technical Pants, https://vertx.com/cutback-pants",
-    "name": { "str": "tactical pants", "str_pl": "pairs of tactical pants" },
+    "name": { "str_sp": "tactical pants" },
     "description": "Coated in more pockets than is probably either necessary or healthy and looking like they belong within a SWAT locker, these rugged combat pants possess a water-repellent coating, tough double-stitched seams, reinforced belt loops, and articulated knees.",
     "weight": "720 g",
     "volume": "2500 ml",
@@ -2451,14 +2451,14 @@
     "variants": [
       {
         "id": "tactical_pants_grey",
-        "name": { "str": "wolf tactical pants", "str_pl": "pairs of wolf tactical pants" },
+        "name": { "str_sp": "wolf tactical pants" },
         "description": "This particular pair is dyed a muted, beige-like shade of wolf gray.",
         "weight": 10,
         "append": true
       },
       {
         "id": "tactical_pants_coyote",
-        "name": { "str": "coyote tactical pants", "str_pl": "pairs of coyote tactical pants" },
+        "name": { "str_sp": "coyote tactical pants" },
         "description": "This pair is predominantly an earthy shade of coyote brown.",
         "color": "brown",
         "weight": 10,
@@ -2466,7 +2466,7 @@
       },
       {
         "id": "tactical_pants_desert",
-        "name": { "str": "desert-camo tactical pants", "str_pl": "pairs of desert-camo tactical pants" },
+        "name": { "str_sp": "desert-camo tactical pants" },
         "description": "This pair sports a warm, yellowish beige desert tan hue—a bold choice, considering New England's notable lack of deserts.",
         "color": "brown",
         "weight": 10,
@@ -2474,7 +2474,7 @@
       },
       {
         "id": "tactical_pants_black",
-        "name": { "str": "black-camo tactical pants", "str_pl": "pairs of black-camo tactical pants" },
+        "name": { "str_sp": "black-camo tactical pants" },
         "description": "This worn and smoke-hued pair is completely dyed black.",
         "color": "dark_gray",
         "weight": 10,
@@ -2482,7 +2482,7 @@
       },
       {
         "id": "tactical_pants_green",
-        "name": { "str": "olive-drab tactical pants", "str_pl": "pairs of olive-drab tactical pants" },
+        "name": { "str_sp": "olive-drab tactical pants" },
         "description": "This remarkably drab, traditional camouflage pair is dyed a muted shade of OD green, much like old US Army battle dress.",
         "weight": 10,
         "color": "green",

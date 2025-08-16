@@ -139,7 +139,7 @@
     "id": "carding_paddles",
     "type": "ITEM",
     "category": "tools",
-    "name": { "str": "carding paddles", "str_pl": "pairs of carding paddles" },
+    "name": { "str_sp": "carding paddles (pair)" },
     "description": "A pair of toothy wooden paddles used to clean fibers for use in textile production.",
     "weight": "360 g",
     "volume": "500 ml",

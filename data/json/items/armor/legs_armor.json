@@ -106,7 +106,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "armor",
-    "name": { "str_sp": "chitinous scale mail leggings (pair)" },
+    "name": { "str_sp": "chitinous scale mail leggings" },
     "description": "A pair of sleeves of chitin sections overlapping with each other, secured to a leather backing.  The odd irregular shapes make full coverage impossible, not helped by how poor of a material chitin is.  Seems to be made more out of desperation than anything, and would benefit greatly from some underlying armor.",
     "weight": "3623 g",
     "volume": "2864 ml",
@@ -140,7 +140,7 @@
     "copy-from": "legguard_chitin",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str_sp": "chitinous scale mail leggings (pair)" },
+    "name": { "str_sp": "chitinous scale mail leggings" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
@@ -149,7 +149,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "legguard_chitin",
-    "name": { "str_sp": "chitinous scale mail leggings (pair)" },
+    "name": { "str_sp": "chitinous scale mail leggings" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
@@ -292,7 +292,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_legs",
-    "name": { "str": "chainmail leggings", "str_pl": "pairs of chainmail leggings", "//~": "NO_I18N" },
+    "name": { "str_sp": "chainmail leggings", "//~": "NO_I18N" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "pocket_data": [
       {
@@ -325,7 +325,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_legs",
-    "name": { "str": "chainmail leggings", "str_pl": "pairs of chainmail leggings", "//~": "NO_I18N" },
+    "name": { "str_sp": "chainmail leggings", "//~": "NO_I18N" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "pocket_data": [
       {
@@ -379,7 +379,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_half_legs",
-    "name": { "str": "chainmail half-leggings", "str_pl": "pairs of chainmail half-leggings", "//~": "NO_I18N" },
+    "name": { "str_sp": "chainmail half-leggings", "//~": "NO_I18N" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "pocket_data": [
       {
@@ -412,7 +412,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_half_legs",
-    "name": { "str": "chainmail half-leggings", "str_pl": "pairs of chainmail half-leggings", "//~": "NO_I18N" },
+    "name": { "str_sp": "chainmail half-leggings", "//~": "NO_I18N" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "pocket_data": [
       {
@@ -446,7 +446,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_legs",
     "replace_materials": { "steel": "budget_steel_chain" },
-    "name": { "str": "chainmail leggings", "str_pl": "pairs of chainmail leggings" },
+    "name": { "str_sp": "chainmail leggings" },
     "description": "Customized chainmail leggings.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.  The metal shows signs of rust and corrosion, and some chain links have fallen away."
   },
   {
@@ -455,7 +455,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_legs",
     "replace_materials": { "steel": "lc_steel_chain" },
-    "name": { "str": "mild steel chainmail leggings", "str_pl": "pairs of mild steel chainmail leggings" }
+    "name": { "str_sp": "mild steel chainmail leggings" }
   },
   {
     "id": "xl_lc_chainmail_legs",
@@ -463,7 +463,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "xl_chainmail_legs",
     "replace_materials": { "steel": "lc_steel_chain" },
-    "name": { "str": "mild steel chainmail leggings", "str_pl": "pairs of mild steel chainmail leggings" }
+    "name": { "str_sp": "mild steel chainmail leggings" }
   },
   {
     "id": "xs_lc_chainmail_legs",
@@ -471,7 +471,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "xs_chainmail_legs",
     "replace_materials": { "steel": "lc_steel_chain" },
-    "name": { "str": "mild steel chainmail leggings", "str_pl": "pairs of mild steel chainmail leggings" }
+    "name": { "str_sp": "mild steel chainmail leggings" }
   },
   {
     "id": "mc_chainmail_legs",
@@ -479,7 +479,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_legs",
     "replace_materials": { "steel": "mc_steel_chain" },
-    "name": { "str": "medium steel chainmail leggings", "str_pl": "pairs of medium steel chainmail leggings" }
+    "name": { "str_sp": "medium steel chainmail leggings" }
   },
   {
     "id": "xl_mc_chainmail_legs",
@@ -487,7 +487,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "xl_chainmail_legs",
     "replace_materials": { "steel": "mc_steel_chain" },
-    "name": { "str": "medium steel chainmail leggings", "str_pl": "pairs of medium steel chainmail leggings" }
+    "name": { "str_sp": "medium steel chainmail leggings" }
   },
   {
     "id": "xs_mc_chainmail_legs",
@@ -495,7 +495,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "xs_chainmail_legs",
     "replace_materials": { "steel": "mc_steel_chain" },
-    "name": { "str": "medium steel chainmail leggings", "str_pl": "pairs of medium steel chainmail leggings" }
+    "name": { "str_sp": "medium steel chainmail leggings" }
   },
   {
     "id": "hc_chainmail_legs",
@@ -503,7 +503,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_legs",
     "replace_materials": { "steel": "hc_steel_chain" },
-    "name": { "str": "high steel chainmail leggings", "str_pl": "pairs of high steel chainmail leggings" }
+    "name": { "str_sp": "high steel chainmail leggings" }
   },
   {
     "id": "xl_hc_chainmail_legs",
@@ -511,7 +511,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "xl_chainmail_legs",
     "replace_materials": { "steel": "hc_steel_chain" },
-    "name": { "str": "high steel chainmail leggings", "str_pl": "pairs of high steel chainmail leggings" }
+    "name": { "str_sp": "high steel chainmail leggings" }
   },
   {
     "id": "xs_hc_chainmail_legs",
@@ -519,7 +519,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "xs_chainmail_legs",
     "replace_materials": { "steel": "hc_steel_chain" },
-    "name": { "str": "high steel chainmail leggings", "str_pl": "pairs of high steel chainmail leggings" }
+    "name": { "str_sp": "high steel chainmail leggings" }
   },
   {
     "id": "ch_chainmail_legs",
@@ -527,7 +527,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_legs",
     "replace_materials": { "steel": "ch_steel_chain" },
-    "name": { "str": "hardened steel chainmail leggings", "str_pl": "pairs of hardened steel chainmail leggings" }
+    "name": { "str_sp": "hardened steel chainmail leggings" }
   },
   {
     "id": "xl_ch_chainmail_legs",
@@ -535,7 +535,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "xl_chainmail_legs",
     "replace_materials": { "steel": "ch_steel_chain" },
-    "name": { "str": "hardened steel chainmail leggings", "str_pl": "pairs of hardened steel chainmail leggings" }
+    "name": { "str_sp": "hardened steel chainmail leggings" }
   },
   {
     "id": "xs_ch_chainmail_legs",
@@ -543,7 +543,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "xs_chainmail_legs",
     "replace_materials": { "steel": "ch_steel_chain" },
-    "name": { "str": "hardened steel chainmail leggings", "str_pl": "pairs of hardened steel chainmail leggings" }
+    "name": { "str_sp": "hardened steel chainmail leggings" }
   },
   {
     "id": "qt_chainmail_legs",
@@ -551,7 +551,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_legs",
     "replace_materials": { "steel": "qt_steel_chain" },
-    "name": { "str": "tempered steel chainmail leggings", "str_pl": "pairs of tempered steel chainmail leggings" }
+    "name": { "str_sp": "tempered steel chainmail leggings" }
   },
   {
     "id": "xl_qt_chainmail_legs",
@@ -559,7 +559,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "xl_chainmail_legs",
     "replace_materials": { "steel": "qt_steel_chain" },
-    "name": { "str": "tempered steel chainmail leggings", "str_pl": "pairs of tempered steel chainmail leggings" }
+    "name": { "str_sp": "tempered steel chainmail leggings" }
   },
   {
     "id": "xs_qt_chainmail_legs",
@@ -567,7 +567,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "xs_chainmail_legs",
     "replace_materials": { "steel": "qt_steel_chain" },
-    "name": { "str": "tempered steel chainmail leggings", "str_pl": "pairs of tempered steel chainmail leggings" }
+    "name": { "str_sp": "tempered steel chainmail leggings" }
   },
   {
     "id": "lc_chainmail_half_legs",
@@ -575,7 +575,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_half_legs",
     "replace_materials": { "steel": "lc_steel_chain" },
-    "name": { "str": "mild steel chainmail half-leggings", "str_pl": "pairs of mild steel chainmail half-leggings" }
+    "name": { "str_sp": "mild steel chainmail half-leggings" }
   },
   {
     "id": "xl_lc_chainmail_half_legs",
@@ -583,7 +583,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "xl_chainmail_half_legs",
     "replace_materials": { "steel": "lc_steel_chain" },
-    "name": { "str": "mild steel chainmail half-leggings", "str_pl": "pairs of mild steel chainmail half-leggings" }
+    "name": { "str_sp": "mild steel chainmail half-leggings" }
   },
   {
     "id": "xs_lc_chainmail_half_legs",
@@ -591,7 +591,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "xs_chainmail_half_legs",
     "replace_materials": { "steel": "lc_steel_chain" },
-    "name": { "str": "mild steel chainmail half-leggings", "str_pl": "pairs of mild steel chainmail half-leggings" }
+    "name": { "str_sp": "mild steel chainmail half-leggings" }
   },
   {
     "id": "mc_chainmail_half_legs",
@@ -599,7 +599,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_half_legs",
     "replace_materials": { "steel": "mc_steel_chain" },
-    "name": { "str": "medium steel chainmail half-leggings", "str_pl": "pairs of medium steel chainmail half-leggings" }
+    "name": { "str_sp": "medium steel chainmail half-leggings" }
   },
   {
     "id": "xl_mc_chainmail_half_legs",
@@ -607,7 +607,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "xl_chainmail_half_legs",
     "replace_materials": { "steel": "mc_steel_chain" },
-    "name": { "str": "medium steel chainmail half-leggings", "str_pl": "pairs of medium steel chainmail half-leggings" }
+    "name": { "str_sp": "medium steel chainmail half-leggings" }
   },
   {
     "id": "xs_mc_chainmail_half_legs",
@@ -615,7 +615,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "xs_chainmail_half_legs",
     "replace_materials": { "steel": "mc_steel_chain" },
-    "name": { "str": "medium steel chainmail half-leggings", "str_pl": "pairs of medium steel chainmail half-leggings" }
+    "name": { "str_sp": "medium steel chainmail half-leggings" }
   },
   {
     "id": "hc_chainmail_half_legs",
@@ -623,7 +623,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_half_legs",
     "replace_materials": { "steel": "hc_steel_chain" },
-    "name": { "str": "high steel chainmail half-leggings", "str_pl": "pairs of high steel chainmail half-leggings" }
+    "name": { "str_sp": "high steel chainmail half-leggings" }
   },
   {
     "id": "xl_hc_chainmail_half_legs",
@@ -631,7 +631,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "xl_chainmail_half_legs",
     "replace_materials": { "steel": "hc_steel_chain" },
-    "name": { "str": "high steel chainmail half-leggings", "str_pl": "pairs of high steel chainmail half-leggings" }
+    "name": { "str_sp": "high steel chainmail half-leggings" }
   },
   {
     "id": "xs_hc_chainmail_half_legs",
@@ -639,7 +639,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "xs_chainmail_half_legs",
     "replace_materials": { "steel": "hc_steel_chain" },
-    "name": { "str": "high steel chainmail half-leggings", "str_pl": "pairs of high steel chainmail half-leggings" }
+    "name": { "str_sp": "high steel chainmail half-leggings" }
   },
   {
     "id": "ch_chainmail_half_legs",
@@ -647,7 +647,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_half_legs",
     "replace_materials": { "steel": "ch_steel_chain" },
-    "name": { "str": "hardened steel chainmail half-leggings", "str_pl": "pairs of hardened steel chainmail half-leggings" }
+    "name": { "str_sp": "hardened steel chainmail half-leggings" }
   },
   {
     "id": "xl_ch_chainmail_half_legs",
@@ -655,7 +655,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "xl_chainmail_half_legs",
     "replace_materials": { "steel": "ch_steel_chain" },
-    "name": { "str": "hardened steel chainmail half-leggings", "str_pl": "pairs of hardened steel chainmail half-leggings" }
+    "name": { "str_sp": "hardened steel chainmail half-leggings" }
   },
   {
     "id": "xs_ch_chainmail_half_legs",
@@ -663,7 +663,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "xs_chainmail_half_legs",
     "replace_materials": { "steel": "ch_steel_chain" },
-    "name": { "str": "hardened steel chainmail half-leggings", "str_pl": "pairs of hardened steel chainmail half-leggings" }
+    "name": { "str_sp": "hardened steel chainmail half-leggings" }
   },
   {
     "id": "qt_chainmail_half_legs",
@@ -671,7 +671,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_half_legs",
     "replace_materials": { "steel": "qt_steel_chain" },
-    "name": { "str": "tempered steel chainmail half-leggings", "str_pl": "pairs of tempered steel chainmail half-leggings" }
+    "name": { "str_sp": "tempered steel chainmail half-leggings" }
   },
   {
     "id": "xl_qt_chainmail_half_legs",
@@ -679,7 +679,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "xl_chainmail_half_legs",
     "replace_materials": { "steel": "qt_steel_chain" },
-    "name": { "str": "tempered steel chainmail half-leggings", "str_pl": "pairs of tempered steel chainmail half-leggings" }
+    "name": { "str_sp": "tempered steel chainmail half-leggings" }
   },
   {
     "id": "xs_qt_chainmail_half_legs",
@@ -687,14 +687,14 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "xs_chainmail_half_legs",
     "replace_materials": { "steel": "qt_steel_chain" },
-    "name": { "str": "tempered steel chainmail half-leggings", "str_pl": "pairs of tempered steel chainmail half-leggings" }
+    "name": { "str_sp": "tempered steel chainmail half-leggings" }
   },
   {
     "id": "leggings_thessalonian",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "armor",
-    "name": { "str": "cataphract leggings", "str_pl": "pairs of cataphract leggings" },
+    "name": { "str_sp": "cataphract leggings" },
     "description": "This leg armor, made of interlocking plates of burnished bronze, appears to be either a high-quality recreation or a genuine artifact.  Despite having an ancient design, it is in mint condition aside from some battle damage.  It covers from the upper thigh to the lower shin, and is of extremely high quality.",
     "weight": "5212 g",
     "volume": "1500 ml",
@@ -1343,7 +1343,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "armor",
-    "name": { "str": "motorcycle jeans", "str_pl": "pairs of motorcycle jeans" },
+    "name": { "str_sp": "motorcycle jeans" },
     "description": "A pair of thick jeans interwoven with Kevlar for added durability and sporting integrated kneepads and flank protection, typically worn by motorcyclists to protect from road rash.",
     "weight": "1340 g",
     "volume": "2500 ml",
@@ -1416,7 +1416,7 @@
     "id": "jeans_mod",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "armored jeans", "str_pl": "pairs of armored jeans" },
+    "name": { "str_sp": "armored jeans" },
     "description": "A pair of jeans reinforced with hard plastic knee pads and metal sheets.  The end product is not very sturdy and somewhat cumbersome, but protective.",
     "weight": "3810 g",
     "volume": "3500 ml",
@@ -1487,7 +1487,7 @@
     "id": "jeans_mod_ch",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "hardened armored jeans", "str_pl": "pairs of hardened armored jeans" },
+    "name": { "str_sp": "hardened armored jeans" },
     "copy-from": "jeans_mod",
     "description": "A pair of jeans reinforced with hard plastic knee pads and hardened steel sheets.  Although its high protection outweighs its encumbrance, it's not really sturdy.",
     "price": "150 USD",
@@ -1944,7 +1944,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "armor",
-    "name": { "str": "leather-padded pants", "str_pl": "pairs of leather-padded pants" },
+    "name": { "str_sp": "leather-padded pants" },
     "description": "A pair of tough canvas pants with sections from leather pants affixed, excluding the joints.  Offers mild protection without compromising mobility too much, but a lot of the pockets have been removed to make room for the leather.",
     "weight": "1970 g",
     "volume": "2500 ml",
@@ -1999,7 +1999,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "armor",
-    "name": { "str": "cloth-padded pants", "str_pl": "pairs of cloth-padded pants" },
+    "name": { "str_sp": "cloth-padded pants" },
     "description": "A pair of tough canvas pants with sections of cotton sewn onto it in a crossing pattern, clearly done by an amateur.",
     "weight": "1970 g",
     "volume": "2500 ml",

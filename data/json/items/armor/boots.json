@@ -207,7 +207,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "armor",
-    "name": { "str": "chitinous scale foot covers (pair)", "str_pl": "chitinous scale foot covers (pairs)" },
+    "name": { "str_sp": "chitinous scale foot covers (pair)" },
     "description": "Sections of chitin attached to a leather backing meant to drape over existing foot wear.  Due to the nature of chitin, it cannot cover everything and isn't very protective.  Seems like it was made out of desperation.",
     "weight": "239 g",
     "volume": "400 ml",
@@ -239,7 +239,7 @@
     "id": "xl_boots_chitin",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "chitinous scale foot covers (pair)", "str_pl": "chitinous scale foot covers (pairs)" },
+    "name": { "str_sp": "chitinous scale foot covers (pair)" },
     "copy-from": "boots_chitin",
     "proportional": { "weight": 1.25, "volume": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
@@ -250,7 +250,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "boots_chitin",
     "looks_like": "boots_chitin",
-    "name": { "str": "chitinous scale foot covers (pair)", "str_pl": "chitinous scale foot covers (pairs)" },
+    "name": { "str_sp": "chitinous scale foot covers (pair)" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },

@@ -163,7 +163,7 @@
   {
     "id": "rail_wheel_small_pair",
     "type": "vehicle_part",
-    "name": { "str": "pair of small rail wheels" },
+    "name": { "str": "small rail wheels (pair)" },
     "item": "wheel_rail_small_pair",
     "copy-from": "rail_wheel",
     "description": "A pair of small rail wheels.  It performs well when riding on a pair of small rails.  It performs terribly when not on a rail.  Moreover, you can't steer it.",

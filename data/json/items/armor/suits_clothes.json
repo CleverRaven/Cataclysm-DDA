@@ -190,7 +190,7 @@
     "id": "denim_overalls",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "pair of denim overalls", "str_pl": "pairs of denim overalls" },
+    "name": { "str_sp": "denim overalls" },
     "description": "The basic denim overalls that is the symbol of the Proletariat (and some hipsters).  It covers the legs and a large portion of the torso, secured around the shoulders with straps.  It has many pockets and is relatively protective.",
     "//": "16.5 oz heavy denim overalls, modeled after the work overalls despite the description.",
     "weight": "1200 g",

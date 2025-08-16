@@ -123,7 +123,7 @@
     "copy-from": "sunglasses",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "pair of strange sunglasses", "str_pl": "pairs of strange sunglasses" },
+    "name": { "str_sp": "strange sunglasses" },
     "description": "A pair of thin, round sunglasses.  The tinted glass seems to reflect the same shade of baleful orange light no matter what light it reflects.",
     "//": "delete sunglass variants",
     "variants": [  ]
@@ -133,7 +133,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "copy-from": "scissors",
-    "name": { "str": "pair of antique scissors", "str_pl": "pairs of antique scissors" },
+    "name": { "str_sp": "antique scissors" },
     "description": "A pair of ornately decorated steel scissors.  The handle is decorated with vicious-looking birds."
   },
   {

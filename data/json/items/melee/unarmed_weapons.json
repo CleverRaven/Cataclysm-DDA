@@ -313,7 +313,7 @@
     "id": "knuckle_impact",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str_sp": "impact knuckles" },
+    "name": { "str_sp": "impact knuckles (pair)" },
     "description": "A pair of thick steel plates covering your proximal phalange.  They are strapped to your hands with metal braces.",
     "weight": "500 g",
     "volume": "300 ml",
@@ -340,7 +340,7 @@
     "id": "xl_knuckle_impact",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str_sp": "impact knuckles" },
+    "name": { "str_sp": "impact knuckles (pair)" },
     "copy-from": "knuckle_impact",
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
@@ -349,7 +349,7 @@
     "id": "xs_knuckle_impact",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str_sp": "impact knuckles" },
+    "name": { "str_sp": "impact knuckles (pair)" },
     "copy-from": "knuckle_impact",
     "proportional": { "weight": 0.75, "volume": 0.75 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
@@ -358,7 +358,7 @@
     "id": "knuckle_skewer",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str_sp": "skewer knuckles" },
+    "name": { "str_sp": "skewer knuckles (pair)" },
     "description": "A pair of metal braces, each with a single sturdy spike attached.  When strapped to your hands, the spikes protrude 5 centimeters past your clenched fists.",
     "weight": "250 g",
     "volume": "300 ml",
@@ -378,7 +378,7 @@
     "id": "xl_knuckle_skewer",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str_sp": "skewer knuckles" },
+    "name": { "str_sp": "skewer knuckles (pair)" },
     "copy-from": "knuckle_skewer",
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
@@ -387,7 +387,7 @@
     "id": "xs_knuckle_skewer",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str_sp": "skewer knuckles" },
+    "name": { "str_sp": "skewer knuckles (pair)" },
     "copy-from": "knuckle_skewer",
     "proportional": { "weight": 0.75, "volume": 0.75 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
