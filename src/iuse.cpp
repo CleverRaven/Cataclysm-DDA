@@ -496,6 +496,19 @@ void remove_radio_mod( item &it, Character &p )
     it.unset_flag( flag_RADIOCARITEM );
 }
 
+// Emit a debug message if Character* is nullptr
+bool iuse::check_character_for_action( const Character *const p, const item *const it,
+                                       const std::string &action )
+{
+    if( !p ) {
+        debugmsg( "%s called action %s that requires character but no character is present",
+                  it->typeId().str(), action );
+        return false;
+    }
+    return true;
+}
+
+
 // Checks that the player can smoke
 std::optional<std::string> iuse::can_smoke( const Character &you )
 {
@@ -984,9 +997,7 @@ std::optional<int> iuse::poison( Character *p, item *it, const tripoint_bub_ms &
 
 std::optional<int> iuse::meditate( Character *p, item *it, const tripoint_bub_ms & )
 {
-    if( !p ) {
-        debugmsg( "%s called action meditate that requires character but no character is present",
-                  it->typeId().str() );
+    if( !check_character_for_action( p, it, __func__ ) ) {
         return std::nullopt;
     }
     if( p->cant_do_mounted() ) {
@@ -2437,9 +2448,7 @@ std::optional<int> iuse::pack_cbm( Character *p, item *it, const tripoint_bub_ms
 
 std::optional<int> iuse::pack_item( Character *p, item *it, const tripoint_bub_ms & )
 {
-    if( !p ) {
-        debugmsg( "%s called action pack_item that requires character but no character is present",
-                  it->typeId().str() );
+    if( !check_character_for_action( p, it, __func__ ) ) {
         return std::nullopt;
     }
     if( p->cant_do_underwater() ) {
@@ -2908,9 +2917,7 @@ std::optional<int> iuse::crowbar( Character *p, item *it, const tripoint_bub_ms 
 
 std::optional<int> iuse::makemound( Character *p, item *it, const tripoint_bub_ms & )
 {
-    if( !p ) {
-        debugmsg( "%s called action makemound that requires character but no character is present",
-                  it->typeId().str() );
+    if( !check_character_for_action( p, it, __func__ ) ) {
         return std::nullopt;
     }
     if( p->cant_do_mounted() ) {
@@ -2943,9 +2950,7 @@ std::optional<int> iuse::makemound( Character *p, item *it, const tripoint_bub_m
 
 std::optional<int> iuse::dig( Character *p, item *it, const tripoint_bub_ms & )
 {
-    if( !p ) {
-        debugmsg( "%s called action dig that requires character but no character is present",
-                  it->typeId().str() );
+    if( !check_character_for_action( p, it, __func__ ) ) {
         return std::nullopt;
     }
     if( p->cant_do_mounted() ) {
@@ -2967,9 +2972,7 @@ std::optional<int> iuse::dig( Character *p, item *it, const tripoint_bub_ms & )
 
 std::optional<int> iuse::dig_channel( Character *p, item *it, const tripoint_bub_ms & )
 {
-    if( !p ) {
-        debugmsg( "%s called action dig_channel that requires character but no character is present",
-                  it->typeId().str() );
+    if( !check_character_for_action( p, it, __func__ ) ) {
         return std::nullopt;
     }
     if( p->cant_do_mounted() ) {
@@ -2987,9 +2990,7 @@ std::optional<int> iuse::dig_channel( Character *p, item *it, const tripoint_bub
 
 std::optional<int> iuse::fill_pit( Character *p, item *it, const tripoint_bub_ms & )
 {
-    if( !p ) {
-        debugmsg( "%s called action fill_pit that requires character but no character is present",
-                  it->typeId().str() );
+    if( !check_character_for_action( p, it, __func__ ) ) {
         return std::nullopt;
     }
     if( p->cant_do_mounted() ) {
@@ -3007,9 +3008,7 @@ std::optional<int> iuse::fill_pit( Character *p, item *it, const tripoint_bub_ms
 
 std::optional<int> iuse::clear_rubble( Character *p, item *it, const tripoint_bub_ms & )
 {
-    if( !p ) {
-        debugmsg( "%s called action clear_rubble that requires character but no character is present",
-                  it->typeId().str() );
+    if( !check_character_for_action( p, it, __func__ ) ) {
         return std::nullopt;
     }
     if( p->cant_do_mounted() ) {
@@ -3795,9 +3794,7 @@ std::optional<int> iuse::tazer2( Character *p, item *it, const tripoint_bub_ms &
 
 std::optional<int> iuse::shocktonfa_off( Character *p, item *it, const tripoint_bub_ms &pos )
 {
-    if( !p ) {
-        debugmsg( "%s called action shocktonfa_off that requires character but no character is present",
-                  it->typeId().str() );
+    if( !check_character_for_action( p, it, __func__ ) ) {
     }
     int choice = uilist( _( "tactical tonfa" ), {
         _( "Zap something" ), _( "Turn on light" )
@@ -3823,10 +3820,8 @@ std::optional<int> iuse::shocktonfa_off( Character *p, item *it, const tripoint_
 
 std::optional<int> iuse::shocktonfa_on( Character *p, item *it, const tripoint_bub_ms &pos )
 {
-    if( !p ) { // Effects while simply on
-        debugmsg( "%s called action shocktonfa_on that requires character but no character is present",
-                  it->typeId().str() );
-    } else {
+    // Effects while simply on
+    if( check_character_for_action( p, it, __func__ ) ) {
         if( !it->ammo_sufficient( p ) ) {
             p->add_msg_if_player( m_info, _( "Your tactical tonfa is out of power." ) );
             it->convert( itype_shocktonfa_off, p ).active = false;
@@ -4050,9 +4045,7 @@ std::optional<int> iuse::dive_tank_activate( Character *p, item *it, const tripo
 
 std::optional<int> iuse::solarpack( Character *p, item *it, const tripoint_bub_ms & )
 {
-    if( !p ) {
-        debugmsg( "%s called action solarpack that requires character but no character is present",
-                  it->typeId().str() );
+    if( !check_character_for_action( p, it, __func__ ) ) {
         return std::nullopt;
     }
     const bionic_id rem_bid = p->get_remote_fueled_bionic();
@@ -4086,9 +4079,7 @@ std::optional<int> iuse::solarpack_off( Character *p, item *it, const tripoint_b
 {
     map &here = get_map();
 
-    if( !p ) {
-        debugmsg( "%s called action solarpack_off that requires character but no character is present",
-                  it->typeId().str() );
+    if( !check_character_for_action( p, it, __func__ ) ) {
         return std::nullopt;
     }
     if( !p->is_worn( *it ) ) {  // folding when not worn
@@ -4651,9 +4642,7 @@ void iuse::cut_log_into_planks( Character &p )
 
 std::optional<int> iuse::lumber( Character *p, item *it, const tripoint_bub_ms & )
 {
-    if( !p ) {
-        debugmsg( "%s called action lumber that requires character but no character is present",
-                  it->typeId().str() );
+    if( !check_character_for_action( p, it, __func__ ) ) {
         return std::nullopt;
     }
     if( p->cant_do_mounted() ) {
@@ -4704,9 +4693,7 @@ static int chop_moves( Character *p, item *it )
 
 std::optional<int> iuse::chop_tree( Character *p, item *it, const tripoint_bub_ms & )
 {
-    if( !p ) {
-        debugmsg( "%s called action chop_tree that requires character but no character is present",
-                  it->typeId().str() );
+    if( !check_character_for_action( p, it, __func__ ) ) {
         return std::nullopt;
     }
     if( p->cant_do_mounted() ) {
@@ -4750,9 +4737,7 @@ std::optional<int> iuse::chop_tree( Character *p, item *it, const tripoint_bub_m
 
 std::optional<int> iuse::chop_logs( Character *p, item *it, const tripoint_bub_ms & )
 {
-    if( !p ) {
-        debugmsg( "%s called action chop_logs that requires character but no character is present",
-                  it->typeId().str() );
+    if( !check_character_for_action( p, it, __func__ ) ) {
         return std::nullopt;
     }
     if( p->cant_do_mounted() ) {
@@ -4842,9 +4827,7 @@ std::optional<int> iuse::oxytorch( Character *p, item *it, const tripoint_bub_ms
 
 std::optional<int> iuse::hacksaw( Character *p, item *it, const tripoint_bub_ms &it_pnt )
 {
-    if( !p ) {
-        debugmsg( "%s called action hacksaw that requires character but no character is present",
-                  it->typeId().str() );
+    if( !check_character_for_action( p, it, __func__ ) ) {
         return std::nullopt;
     }
     if( p->cant_do_mounted() ) {
@@ -5117,9 +5100,7 @@ std::optional<int> iuse::towel( Character *p, item *it, const tripoint_bub_ms & 
 
 int iuse::towel_common( Character *p, item *it, bool )
 {
-    if( !p ) {
-        debugmsg( "%s called action towel that requires character but no character is present",
-                  it->typeId().str() );
+    if( !check_character_for_action( p, it, __func__ ) ) {
         return 0;
     }
     bool slime = p->has_effect( effect_slimed );
@@ -6615,9 +6596,7 @@ std::optional<int> iuse::camera( Character *p, item *it, const tripoint_bub_ms &
     enum {c_shot, c_view};
 
     // From item processing
-    if( !p ) {
-        debugmsg( "%s called action camera that requires character but no character is present",
-                  it->typeId().str() );
+    if( !check_character_for_action( p, it, __func__ ) ) {
         return std::nullopt;
     }
 
@@ -9002,9 +8981,7 @@ std::optional<int> iuse::change_outfit( Character *p, item *it, const tripoint_b
 
 std::optional<int> iuse::ebooksave( Character *p, item *it, const tripoint_bub_ms & )
 {
-    if( !p ) {
-        debugmsg( "%s called action ebooksave that requires character but no character is present",
-                  it->typeId().str() );
+    if( !check_character_for_action( p, it, __func__ ) ) {
         return std::nullopt;
     }
     if( !it->is_estorage() ) {

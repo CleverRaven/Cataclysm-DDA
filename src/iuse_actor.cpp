@@ -288,9 +288,7 @@ std::optional<int> iuse_transform::use( Character *p, item &it, map *,
     if( iter != it.type->ammo_scale.end() ) {
         scale = iter->second;
     }
-    if( !p ) {
-        debugmsg( "%s called action transform that requires character but no character is present",
-                  it.typeId().str() );
+    if( !iuse::check_character_for_action( p, &it, "transform" ) ) {
         return std::nullopt;
     }
 
@@ -1655,9 +1653,7 @@ std::optional<int> firestarter_actor::use( Character *p, item &it,
 std::optional<int> firestarter_actor::use( Character *p, item &it,
         map *here,  const tripoint_bub_ms &spos ) const
 {
-    if( !p ) {
-        debugmsg( "%s called action firestarter that requires character but no character is present",
-                  it.typeId().str() );
+    if( !iuse::check_character_for_action( p, &it, "firestarter" ) ) {
         return std::nullopt;
     }
 
@@ -1717,9 +1713,7 @@ std::unique_ptr<iuse_actor> salvage_actor::clone() const
 
 std::optional<int> salvage_actor::use( Character *p, item &cutter, const tripoint_bub_ms & ) const
 {
-    if( !p ) {
-        debugmsg( "%s called action salvage that requires character but no character is present",
-                  cutter.typeId().str() );
+    if( !iuse::check_character_for_action( p, &cutter, "salvage" ) ) {
         return std::nullopt;
     }
 
@@ -1747,9 +1741,7 @@ std::optional<int> salvage_actor::use( Character *p, item &cutter, const tripoin
 std::optional<int> salvage_actor::use( Character *p, item &cutter, map *,
                                        const tripoint_bub_ms & ) const
 {
-    if( !p ) {
-        debugmsg( "%s called action salvage that requires character but no character is present",
-                  cutter.typeId().str() );
+    if( !iuse::check_character_for_action( p, &cutter, "salvage" ) ) {
         return std::nullopt;
     }
 
@@ -2185,9 +2177,7 @@ std::optional<int> inscribe_actor::use( Character *p, item &it, map *here,
         return std::nullopt;
     }
 
-    if( !p ) {
-        debugmsg( "%s called action inscribe that requires character but no character is present",
-                  it.typeId().str() );
+    if( !iuse::check_character_for_action( p, &it, "inscribe" ) ) {
         return std::nullopt;
     }
 
@@ -2261,9 +2251,7 @@ std::optional<int> fireweapon_off_actor::use( Character *p, item &it,
 std::optional<int> fireweapon_off_actor::use( Character *p, item &it,
         map *, const tripoint_bub_ms & ) const
 {
-    if( !p ) {
-        debugmsg( "%s called action fireweapon_off that requires character but no character is present",
-                  it.typeId().str() );
+    if( !iuse::check_character_for_action( p, &it, "fireweapon_off" ) ) {
         return std::nullopt;
     }
 
@@ -4424,9 +4412,7 @@ std::optional<int> saw_barrel_actor::use( Character *p, item &it, const tripoint
 std::optional<int> saw_barrel_actor::use( Character *p, item &it, map *,
         const tripoint_bub_ms & ) const
 {
-    if( !p ) {
-        debugmsg( "%s called action saw_barrel that requires character but no character is present",
-                  it.typeId().str() );
+    if( !iuse::check_character_for_action( p, &it, "saw_barrel" ) ) {
         return std::nullopt;
     }
 
@@ -4491,9 +4477,7 @@ std::optional<int> saw_stock_actor::use( Character *p, item &it, const tripoint_
 std::optional<int> saw_stock_actor::use( Character *p, item &it, map *,
         const tripoint_bub_ms & ) const
 {
-    if( !p ) {
-        debugmsg( "%s called action saw_stock that requires character but no character is present",
-                  it.typeId().str() );
+    if( !iuse::check_character_for_action( p, &it, "saw_stock" ) ) {
         return std::nullopt;
     }
 
@@ -4573,9 +4557,7 @@ std::optional<int> molle_attach_actor::use( Character *p, item &it,
 std::optional<int> molle_attach_actor::use( Character *p, item &it,
         map *, const tripoint_bub_ms & ) const
 {
-    if( !p ) {
-        debugmsg( "%s called action molle_attach that requires character but no character is present",
-                  it.typeId().str() );
+    if( !iuse::check_character_for_action( p, &it, "molle_attach" ) ) {
         return std::nullopt;
     }
 
@@ -5010,9 +4992,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint_bu
 std::optional<int> link_up_actor::use( Character *p, item &it, map *here,
                                        const tripoint_bub_ms &pos ) const
 {
-    if( !p ) {
-        debugmsg( "%s called action link_up that requires character but no character is present",
-                  it.typeId().str() );
+    if( !iuse::check_character_for_action( p, &it, "link_up" ) ) {
         return std::nullopt;
     }
 
