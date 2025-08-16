@@ -20,9 +20,11 @@
 #include "creature.h"
 #include "creature_tracker.h"
 #include "game.h"
+#include "horde_entity.h"
 #include "line.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_iterator.h"
 #include "map_scale_constants.h"
 #include "mapdata.h"
 #include "monster.h"
@@ -30,7 +32,11 @@
 #include "mtype.h"
 #include "options.h"
 #include "options_helpers.h"
+#include "overmap_map_data_cache.h"
+#include "overmapbuffer.h"
 #include "point.h"
+#include "sounds.h"
+#include "submap.h"
 #include "test_statistics.h"
 #include "type_id.h"
 
@@ -38,10 +44,15 @@ class item;
 
 using move_statistics = statistics<int>;
 
+static const furn_str_id furn_f_null( "f_null" );
+
 static const mtype_id mon_dog_zombie_brute( "mon_dog_zombie_brute" );
+static const mtype_id mon_test_zombie( "mon_test_zombie" );
+static const mtype_id mon_zombie( "mon_zombie" );
 
 static const ter_str_id ter_t_fence( "t_fence" );
 static const ter_str_id ter_t_grass( "t_grass" );
+static const ter_str_id ter_t_palisade( "t_palisade" );
 static const ter_str_id ter_t_water_dp( "t_water_dp" );
 
 
@@ -724,4 +735,324 @@ TEST_CASE( "monsters_spawn_baby_groups", "[monster][reproduction]" )
     }
     CAPTURE( amount_of_iteration );
     CHECK( test_monster_spawns_baby_mongroup );
+}
+
+static void test_move_to_location( monster &test_monster, const tripoint_bub_ms &destination )
+{
+    tripoint_bub_ms old_location = test_monster.pos_bub();
+    while( test_monster.pos_bub() != destination ) {
+        test_monster.set_moves( 100 );
+        test_monster.anger = 100;
+        test_monster.wandf = 100;
+        // Monsters can do silly things like trigger a no-op special attack instead of moving.
+        // So keep trying until the monster does something meaningful.
+        while( test_monster.get_moves() >= 0 && test_monster.pos_bub() == old_location ) {
+            test_monster.move();
+        }
+        tripoint_bub_ms new_location = test_monster.pos_bub();
+        if( new_location == destination ) {
+            SUCCEED();
+            return;
+        }
+        if( new_location == old_location ) {
+            CAPTURE( destination );
+            CAPTURE( old_location );
+            CAPTURE( new_location );
+            CAPTURE( get_player_character().pos_bub() );
+            FAIL();
+        }
+        old_location = new_location;
+    }
+}
+
+
+static void monster_can_move_to_map_center( const tripoint_bub_ms &origin )
+{
+    // Head for map center?
+    const tripoint_bub_ms destination{ 11 * 6, 11 * 6, 0 };
+    clear_creatures();
+    REQUIRE( g->num_creatures() == 1 ); // the player
+    monster &test_monster = spawn_test_monster( "mon_zombie", origin );
+    map &m = get_map();
+    test_monster.anger = 100;
+    // TODO: check wander too
+    test_monster.set_dest( m.get_abs( destination ) );
+    test_move_to_location( test_monster, destination );
+}
+
+// This is a pathological test for an optimization added to mattack::parrot_at_danger because the monster
+// does a flood-fill every time it tries to move instead of reusing an existing flood fill.
+// Possibly this is because there's context that we normally set up first that this test is missing.
+TEST_CASE( "monster_can_navigate_from_anywhere_in_reality_bubble", "[monster]" )
+{
+    // Remove interacting with the player as a complication.
+    clear_map_and_put_player_underground();
+    map &m = get_map();
+    for( tripoint_bub_ms start_loc : m.points_on_zlevel( 0 ) ) {
+        monster_can_move_to_map_center( start_loc );
+    }
+}
+
+TEST_CASE( "monster_can_navigate_from_overmap_to_reality_bubble", "[monster][hordes]" )
+{
+    // Remove interacting with the player as a complication.
+    clear_map_and_put_player_underground();
+    const tripoint_bub_ms destination{ 11 * 6, 11 * 6, 0 };
+    // Place monster on the local overmap.monster_map just outside the reality bubble.
+    map &m = get_map();
+    horde_entity &test_mon = overmap_buffer.spawn_monster( m.get_abs( { -12, 66, 0 } ),
+                             mon_test_zombie );
+    // Give the monster a goal location inside the bubble.
+    test_mon.destination = m.get_abs( destination );
+    test_mon.tracking_intensity = 100;
+    // This reference will be invalidated once the monster spawns in the reality bubble,
+    // don't access it again after calling move_hordes().
+    // Process hordes and verify the monster appears on the reality bubble.
+    int num_steps = 0;
+    do {
+        num_steps++;
+        overmap_buffer.move_hordes();
+        calendar::turn += 1_turns;
+    } while( g->num_creatures() == 1 && num_steps < 100 );
+    REQUIRE( g->num_creatures() > 1 );
+    monster &local_test_monster = *g->all_monsters().items.front().lock();
+    test_move_to_location( local_test_monster, destination );
+}
+
+TEST_CASE( "monster_can_navigate_from_overmap_to_reality_bubble_following_sound",
+           "[monster][hordes][sound]" )
+{
+    // Remove interacting with the player as a complication.
+    clear_map_and_put_player_underground();
+    const tripoint_bub_ms destination{ 11 * 6, 11 * 6, 0 };
+    // Place monster on the local overmap.monster_map just outside the reality bubble.
+    map &m = get_map();
+    horde_entity &test_mon = overmap_buffer.spawn_monster( m.get_abs( { -12, 66, 0 } ),
+                             mon_test_zombie );
+    // Assert monster is not wandering
+    REQUIRE( test_mon.tracking_intensity == 0 );
+    // Give the monster a goal location inside the bubble by making a loud noise.
+    std::string test_sound( "test sound" );
+    sound( destination, 200, sounds::sound_t::combat, test_sound );
+    sounds::process_sounds();
+    // Assert monster is wandering
+    REQUIRE( test_mon.tracking_intensity > 0 );
+    // This reference will be invalidated once the monster spawns in the reality bubble,
+    // don't access it again after calling move_hordes().
+    // Process hordes and verify the monster appears on the reality bubble.
+    int num_steps = 0;
+    do {
+        num_steps++;
+        overmap_buffer.move_hordes();
+        calendar::turn += 1_turns;
+    } while( g->num_creatures() == 1 && num_steps < 100 );
+    REQUIRE( g->num_creatures() > 1 );
+    monster &local_test_monster = *g->all_monsters().items.front().lock();
+    test_move_to_location( local_test_monster, destination );
+}
+
+TEST_CASE( "monster_moved_to_overmap_after_map_shift", "[monster][hordes]" )
+{
+    clear_map();
+    map &here = get_map();
+    // Place character in the central submap of map.
+    tripoint_bub_ms player_start_pos{ 11 * 6, 11 * 6, 0 };
+    get_player_character().setpos( here, player_start_pos );
+
+    const tripoint_bub_ms destination{ 11 * 6, 11 * 6, 0 };
+    const tripoint_abs_ms abs_destination = here.get_abs( destination );
+    // Place monster on the left edge of the reality bubble.
+    monster &test_monster = spawn_test_monster( "mon_test_zombie", { 0, 11 * 6, 0 } );
+    // Give the monster a goal location targting the player.
+    test_monster.set_dest( abs_destination );
+    // Move player to right, shifting the map so the monster is no longer present.
+    int num_steps = 0;
+    while( g->num_creatures() != 1 && num_steps < 36 ) {
+        ++num_steps;
+        g->walk_move( get_player_character().pos_bub() + point::east );
+        for( monster &critter : g->all_monsters() ) {
+            if( critter.type->id != mon_test_zombie ) {
+                g->remove_zombie( critter );
+            }
+        }
+    }
+    // In case something goes wrong, just how far did we move?
+    CAPTURE( num_steps );
+    // Verify that we shifted the monster off the map.
+    REQUIRE( g->num_creatures() == 1 );
+
+    num_steps = 0;
+    do {
+        num_steps++;
+        overmap_buffer.move_hordes();
+        calendar::turn += 1_turns;
+    } while( g->num_creatures() == 1 && num_steps < 100 );
+    REQUIRE( g->num_creatures() > 1 );
+    monster &local_test_monster = *g->all_monsters().items.front().lock();
+    test_move_to_location( local_test_monster, here.get_bub( abs_destination ) );
+}
+
+
+TEST_CASE( "monster_cant_enter_reality_bubble_because_wall", "[monster][hordes]" )
+{
+    // Remove interacting with the player as a complication.
+    clear_map_and_put_player_underground();
+    const tripoint_bub_ms destination{ 11 * 6, 11 * 6, 0 };
+    // Place monster on the local overmap.monster_map just outside the reality bubble.
+    map &m = get_map();
+    horde_entity &test_mon = overmap_buffer.spawn_monster( m.get_abs( { -24, 66, 0 } ),
+                             mon_test_zombie );
+    // Give the monster a goal location inside the bubble.
+    test_mon.destination = m.get_abs( destination );
+    // Put a wall between the monster and the overmap so they can't enter.
+    for( int i = -12; i < 12; ++i ) {
+        overmap_buffer.set_passable( m.get_abs( { -12, 66 + i, 0 } ), false );
+    }
+    // This reference will be invalidated once the monster spawns in the reality bubble,
+    // don't access it again after calling move_hordes().
+    // Process hordes and verify the monster doesn't make it onto the bubble.
+    int step_attempts = 0;
+    do {
+        step_attempts++;
+        overmap_buffer.move_hordes();
+        calendar::turn += 1_turns;
+    } while( g->num_creatures() == 1 && step_attempts < 100 );
+    CAPTURE( step_attempts );
+    REQUIRE( g->num_creatures() == 1 );
+}
+
+static void walk_toward_monster_off_the_map( tripoint_bub_ms monster_spawn_location_rel,
+        point walk_direction )
+{
+    clear_map();
+    map &here = get_map();
+    // Place character in the central submap of map.
+    tripoint_bub_ms player_start_pos{ 11 * 6, 11 * 6, 0 };
+    CAPTURE( monster_spawn_location_rel );
+    tripoint_abs_ms monster_spawn_location = here.get_abs( monster_spawn_location_rel );
+    Character &test_player = get_player_character();
+    // Player spawned at known location.
+    test_player.setpos( here, player_start_pos );
+
+    // Place monster in overmap::monster_map off the edge of the reality bubble.
+    horde_entity &test_mon = overmap_buffer.spawn_monster( monster_spawn_location, mon_test_zombie );
+
+    // move player toward monster, triggering map shifts
+    int num_steps = 0;
+    while( g->num_creatures() == 1 && num_steps < 100 ) {
+        ++num_steps;
+        tripoint_bub_ms prev_loc = test_player.pos_bub();
+        test_player.set_stamina( test_player.get_stamina_max() );
+        g->walk_move( prev_loc + walk_direction );
+        tripoint_bub_ms new_loc = test_player.pos_bub();
+        CAPTURE( here.ter( prev_loc + walk_direction ) );
+        CAPTURE( here.furn( prev_loc + walk_direction ) );
+        REQUIRE( prev_loc != new_loc );
+        if( num_steps % 24 == 0 ) {
+            wipe_map_terrain();
+        }
+        for( monster &critter : g->all_monsters() ) {
+            if( critter.type->id != mon_test_zombie ) {
+                g->remove_zombie( critter );
+            } else {
+                // Zombie should not have moved much.
+                CHECK( rl_dist( critter.pos_abs(), monster_spawn_location ) <= 1 );
+                // Assert that monsters appear on edge of map when expected.
+                CHECK( rl_dist( critter.pos_abs(), test_player.pos_abs() ) >= 60 );
+            }
+        }
+    }
+    CAPTURE( test_player.pos_abs() );
+    INFO( "Never found the target monster." );
+    REQUIRE( g->num_creatures() == 2 );
+}
+
+TEST_CASE( "monsters_appear_on_map_as_expected", "[monster][map][hordes]" )
+{
+    // The goal of the variations here is to catch edge cases concerning direction of movement or
+    // which quadrant of an OMT the monster is on.
+    tripoint_bub_ms origin_of_center_of_map{ 5 * 12, 5 * 12, 0 };
+    tripoint_bub_ms omt_origin_to_east_of_map = origin_of_center_of_map + point( 12 * 8, 0 );
+    walk_toward_monster_off_the_map( omt_origin_to_east_of_map + point( 6, 6 ), point::east );
+    walk_toward_monster_off_the_map( omt_origin_to_east_of_map + point( 18, 6 ), point::east );
+    walk_toward_monster_off_the_map( omt_origin_to_east_of_map + point( 6, 18 ), point::east );
+    walk_toward_monster_off_the_map( omt_origin_to_east_of_map + point( 18, 18 ), point::east );
+    tripoint_bub_ms omt_origin_to_west_of_map = origin_of_center_of_map + point( -12 * 8, 0 );
+    walk_toward_monster_off_the_map( omt_origin_to_west_of_map + point( 6, 6 ), point::west );
+    walk_toward_monster_off_the_map( omt_origin_to_west_of_map + point( 18, 6 ), point::west );
+    walk_toward_monster_off_the_map( omt_origin_to_west_of_map + point( 6, 18 ), point::west );
+    walk_toward_monster_off_the_map( omt_origin_to_west_of_map + point( 18, 18 ), point::west );
+    tripoint_bub_ms omt_origin_to_north_of_map = origin_of_center_of_map + point( 0, -12 * 8 );
+    walk_toward_monster_off_the_map( omt_origin_to_north_of_map + point( 6, 6 ), point::north );
+    walk_toward_monster_off_the_map( omt_origin_to_north_of_map + point( 18, 6 ), point::north );
+    walk_toward_monster_off_the_map( omt_origin_to_north_of_map + point( 6, 18 ), point::north );
+    walk_toward_monster_off_the_map( omt_origin_to_north_of_map + point( 18, 18 ), point::north );
+    tripoint_bub_ms omt_origin_to_south_of_map = origin_of_center_of_map + point( 0, 12 * 8 );
+    walk_toward_monster_off_the_map( omt_origin_to_south_of_map + point( 6, 6 ), point::south );
+    walk_toward_monster_off_the_map( omt_origin_to_south_of_map + point( 18, 6 ), point::south );
+    walk_toward_monster_off_the_map( omt_origin_to_south_of_map + point( 6, 18 ), point::south );
+    walk_toward_monster_off_the_map( omt_origin_to_south_of_map + point( 18, 18 ), point::south );
+}
+
+TEST_CASE( "obstacles_placed_on_map_are_present_in_overmap", "[map][hordes]" )
+{
+    clear_map();
+    map &here = get_map();
+    tripoint_bub_ms player_start_pos{ 11 * 6, 11 * 6, 0 };
+    Character &test_player = get_player_character();
+    // Player spawned at known location.
+    test_player.setpos( here, player_start_pos );
+
+    // Place a series of obstacles on the map while recording their coordinates.
+    tripoint_bub_ms obstacle_origin{ 30, 30, 0 };
+    int obstacle_radius = 10;
+    tripoint_abs_ms obstacle_eastern_border = here.get_abs( obstacle_origin + point::east *
+            obstacle_radius );
+    std::set<tripoint_abs_omt> edited_omts;
+    std::set<tripoint_abs_ms> obstacle_locations;
+    std::set<tripoint_abs_ms> passable_locations;
+    for( const tripoint_bub_ms &candidate :
+         here.points_in_radius( obstacle_origin, obstacle_radius ) ) {
+        REQUIRE( here.passable( candidate ) );
+        tripoint_abs_ms abs_candidate = here.get_abs( candidate );
+        CHECK( overmap_buffer.passable( abs_candidate ) );
+        if( one_in( 3 ) ) {
+            here.ter_set( candidate, ter_t_palisade );
+            REQUIRE( !here.passable( candidate ) );
+            edited_omts.insert( project_to<coords::omt>( abs_candidate ) );
+            obstacle_locations.insert( abs_candidate );
+        } else {
+            passable_locations.insert( abs_candidate );
+        }
+    }
+    point_sm_ms l;
+    submap *const current_submap = map_meddler::unsafe_get_submap_at( obstacle_origin, l );
+    REQUIRE( current_submap->player_adjusted_map );
+    REQUIRE( !obstacle_locations.empty() );
+    // Navigate away from said obstacles.
+    int steps = 0;
+    while( here.inbounds( obstacle_eastern_border ) || steps < 100 ) {
+        steps++;
+        tripoint_bub_ms dest = get_player_character().pos_bub() + point::east;
+        // Clear path ahead of player.
+        here.set( dest, ter_t_grass, furn_f_null );
+        REQUIRE( here.passable( dest ) );
+        g->walk_move( dest );
+    }
+    REQUIRE( !here.inbounds( obstacle_eastern_border ) );
+    // Check that for each OMT we touched, it's marked as non-placeholder.
+    for( const tripoint_abs_omt &expected_altered_omt : edited_omts ) {
+        CHECK( !overmap_buffer.get_omt_summary( expected_altered_omt )->placeholder );
+    }
+    // Assert that obstacles are present and non-obstacles are not.
+    for( const tripoint_abs_ms &expected_obstacle : obstacle_locations ) {
+        CAPTURE( expected_obstacle );
+        REQUIRE( !here.inbounds( expected_obstacle ) );
+        CHECK( !overmap_buffer.passable( expected_obstacle ) );
+    }
+    for( const tripoint_abs_ms &expected_passable : passable_locations ) {
+        CAPTURE( expected_passable );
+        REQUIRE( !here.inbounds( expected_passable ) );
+        CHECK( overmap_buffer.passable( expected_passable ) );
+    }
 }
