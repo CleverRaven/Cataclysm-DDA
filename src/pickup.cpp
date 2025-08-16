@@ -180,9 +180,10 @@ static bool is_bulk_load( const Pickup::pick_info &lhs, const Pickup::pick_info 
 // Returns false if pickup caused a prompt and the player selected to cancel pickup
 static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &got_gas,
                          PickupMap &mapPickup, bool autopickup, bool &stash_successful, bool &got_frozen_liquid,
-                         Pickup::pick_info &info )
+                         Pickup::pick_info &info, Pickup::pickup_constraints &constraints )
 {
     Character &player_character = get_player_character();
+    const map &here = get_map();
     bool picked_up = false;
     bool crushed = false;
     Pickup::pick_info pre_info( info );
@@ -218,6 +219,11 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
         if( newit.charges > quantity ) {
             newit.charges = quantity;
         }
+    }
+
+    if( (constraints.max_volume != -1_ml && newit.volume() + constraints.picked_up_volume > constraints.max_volume) ||  ( constraints.max_mass != -1_gram && newit.weight() + constraints.picked_up_mass > constraints.max_mass ) ) {
+        stash_successful = false;
+        return false;
     }
 
     bool did_prompt = false;
@@ -316,13 +322,18 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
     if( picked_up ) {
         info.set_src( loc );
         info.total_bulk_volume += loc->volume( false, false, quantity );
+        int distance = square_dist( player_character.pos_bub(), loc.pos_bub( here ) );
+        constraints.picked_up_volume += newit.volume();
+        constraints.picked_up_mass += newit.weight();
         if( !is_bulk_load( pre_info, info ) ) {
             // Cost to take an item from a container or map
-            player_character.mod_moves( -loc.obtain_cost( player_character, quantity ) );
+            player_character.mod_moves( -( loc.obtain_cost( player_character,
+                                           quantity ) + ( distance * constraints.extra_moves_per_distance ) ) );
         } else {
             // Pure cost to handling item excluding overhead.
-            player_character.mod_moves( -std::max( player_character.item_handling_cost( *loc, true, 0, quantity,
-                                                   true ), 1 ) );
+            player_character.mod_moves( ( -std::max( player_character.item_handling_cost( *loc, true, 0,
+                                          quantity,
+                                          true ), 1 ) + ( distance * constraints.extra_moves_per_distance ) ) );
         }
         contents_change_handler handler;
         handler.unseal_pocket_containing( loc );
@@ -352,6 +363,14 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
                         bool autopickup,
                         bool &stash_successful, Pickup::pick_info &info )
 {
+    Pickup::pickup_constraints constraints = Pickup::pickup_constraints();
+    return do_pickup( targets, quantities, autopickup, stash_successful, info, constraints );
+}
+
+bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &quantities,
+                        bool autopickup,
+                        bool &stash_successful, Pickup::pick_info &info, Pickup::pickup_constraints &constraints )
+{
     bool got_water = false;
     bool got_gas = false;
     bool got_frozen_liquid = false;
@@ -376,7 +395,7 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
             continue;
         }
         problem = !pick_one_up( target, quantity, got_water, got_gas, mapPickup, autopickup,
-                                stash_successful, got_frozen_liquid, info );
+                                stash_successful, got_frozen_liquid, info, constraints );
         if( info.total_bulk_volume > 200_ml ) {
             // Bulk loading is not allowed beyond a certain volume
             info = Pickup::pick_info();

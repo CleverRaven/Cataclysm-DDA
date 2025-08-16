@@ -43,6 +43,7 @@
 #include "item_location.h"
 #include "memory_fast.h"
 #include "monster.h"
+#include "pickup.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "pocket_type.h"
@@ -2428,6 +2429,7 @@ class Character : public Creature, public visitable
          *  Requires sufficient storage; items cannot be wielded or worn from this activity.
          */
         void pick_up( const drop_locations &what );
+        void pick_up( const drop_locations &what, Pickup::pickup_constraints &constraints );
 
         bool is_wielding( const item &target ) const;
 

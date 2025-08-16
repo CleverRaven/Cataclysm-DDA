@@ -1089,6 +1089,9 @@ class pickup_selector : public inventory_multiselector
                                   const std::set<tripoint_bub_ms> &where = {} );
         drop_locations execute();
         void apply_selection( std::vector<drop_location> selection );
+
+        std::optional<units::volume> overriden_volume;
+        std::optional<units::mass> overriden_mass;
     protected:
         stats get_raw_stats() const override;
         void reassign_custom_invlets() override;

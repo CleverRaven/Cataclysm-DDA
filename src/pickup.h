@@ -3,6 +3,7 @@
 #define CATA_SRC_PICKUP_H
 
 #include <vector>
+#include <limits>
 
 #include "coordinates.h"
 #include "item_location.h"
@@ -31,12 +32,28 @@ struct pick_info {
     item_location dst;
 };
 
+/** Used to limit how much weight and / or volume may be picked up within one activity. */
+struct pickup_constraints {
+    pickup_constraints( int extra_moves_per_distance = 0, units::volume max_volume = -1_ml,
+                        units::mass max_mass = -1_gram ) : extra_moves_per_distance( extra_moves_per_distance ),
+        max_volume( max_volume ), max_mass( max_mass ) {}
+
+    int extra_moves_per_distance = 0;
+
+    units::volume picked_up_volume = 0_ml;
+    units::volume max_volume = -1_ml;
+    units::mass picked_up_mass = 0_gram;
+    units::mass max_mass = -1_gram;
+};
+
 /**
  * Returns `false` if the player was presented a prompt and decided to cancel the pickup.
  * `true` in other cases.
  */
 bool do_pickup( std::vector<item_location> &targets, std::vector<int> &quantities,
                 bool autopickup, bool &stash_successful, Pickup::pick_info &info );
+bool do_pickup( std::vector<item_location> &targets, std::vector<int> &quantities,
+                bool autopickup, bool &stash_successful, Pickup::pick_info &info, Pickup::pickup_constraints &constraints );
 bool query_thief();
 
 enum from_where : int {

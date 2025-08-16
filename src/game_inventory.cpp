@@ -2426,8 +2426,21 @@ drop_locations game_menus::inv::multidrop( Character &you )
     return inv_s.execute();
 }
 
+drop_locations game_menus::inv::pickup( const std::set<tripoint_bub_ms> &targets )
+{
+    return pickup( targets, {} );
+}
+
 drop_locations game_menus::inv::pickup( const std::set<tripoint_bub_ms> &targets,
                                         const std::vector<drop_location> &selection )
+{
+    Pickup::pickup_constraints constraints = Pickup::pickup_constraints();
+    return pickup( targets, selection, constraints );
+}
+
+drop_locations game_menus::inv::pickup( const std::set<tripoint_bub_ms> &targets,
+                                        const std::vector<drop_location> &selection,
+                                        Pickup::pickup_constraints &constraints )
 {
     avatar &you = get_avatar();
     pickup_inventory_preset preset( you, /*skip_wield_check=*/true, /*ignore_liquidcont=*/true );
@@ -2459,6 +2472,12 @@ drop_locations game_menus::inv::pickup( const std::set<tripoint_bub_ms> &targets
         pick_s.apply_selection( selection );
     }
 
+    if( constraints.max_volume != -1_ml ) {
+        pick_s.overriden_volume = constraints.max_volume;
+    }
+    if( constraints.max_mass != -1_gram ) {
+        pick_s.overriden_mass = constraints.max_mass;
+    }
     return pick_s.execute();
 }
 

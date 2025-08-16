@@ -2341,7 +2341,7 @@ void pickup_activity_actor::do_turn( player_activity &, Character &who )
 
     // False indicates that the player canceled pickup when met with some prompt
     const bool keep_going = Pickup::do_pickup( target_items, quantities, autopickup,
-                            stash_successful, info );
+                            stash_successful, info, constraints );
 
     // If there are items left we ran out of moves, so continue the activity
     // Otherwise, we are done.

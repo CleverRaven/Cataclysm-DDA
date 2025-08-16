@@ -4406,9 +4406,9 @@ inventory_selector::stats pickup_selector::get_raw_stats() const
 
     return get_weight_and_volume_and_holster_stats(
                u.weight_carried() + weight,
-               u.weight_capacity(),
+               overriden_mass.has_value() ? overriden_mass.value() : u.weight_capacity(),
                u.volume_carried() + volume,
-               u.volume_capacity(),
+               overriden_volume.has_value() ? overriden_volume.value() : u.volume_capacity(),
                u.max_single_item_length(),
                u.max_single_item_volume(),
                u.free_holster_volume(),
