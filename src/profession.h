@@ -66,7 +66,7 @@ class profession
         itype_id no_bonus; // See profession::items and class json_item_substitution in profession.cpp
 
         // does this profession require a specific achiement to unlock
-        std::optional<achievement_id> _requirement;
+        std::vector<achievement_id> _requirements;
         // does this profession require the requirement even when metaprogression is disabled?
         bool hard_requirement = false;
         bool _chargen_allow_npc = true;
@@ -140,7 +140,7 @@ class profession
 
         std::vector<std::pair<string_id<profession>, mod_id>> src;
 
-        std::optional<achievement_id> get_requirement() const;
+        std::vector<achievement_id> get_requirements() const;
 
         std::map<spell_id, int> spells() const;
         void learn_spells( avatar &you ) const;

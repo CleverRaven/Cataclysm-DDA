@@ -738,7 +738,16 @@
     "valid": false,
     "enchantments": [ "ench_ierde_stone_form" ],
     "override_look": { "id": "mon_stonegolem", "tile_category": "monster" },
-    "flags": [ "ACID_IMMUNE", "BIO_IMMUNE", "COLD_IMMUNE", "STAB_IMMUNE", "BULLET_IMMUNE" ]
+    "flags": [
+      "ACID_IMMUNE",
+      "BIO_IMMUNE",
+      "COLD_IMMUNE",
+      "STAB_IMMUNE",
+      "BULLET_IMMUNE",
+      "SUFFOCATION_IMMUNE",
+      "INHALED_TOXIN_IMMUNE",
+      "GILLS"
+    ]
   },
   {
     "type": "mutation",

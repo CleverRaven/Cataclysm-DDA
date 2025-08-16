@@ -40,39 +40,39 @@
     "category": "desk_postit_field_agent",
     "text": [
       {
-        "name": "green postit 1",
+        "name": "green post-it note",
         "id": "desk_postit_field_agent_1",
         "text": "Remember to make the mortgage payment every month by the 5th!"
       },
-      { "name": "green postit 2", "id": "desk_postit_field_agent_2", "text": "Password: J@ckboot1" },
+      { "name": "green post-it note", "id": "desk_postit_field_agent_2", "text": "Password: J@ckboot1" },
       {
-        "name": "green postit 3",
+        "name": "green post-it note",
         "id": "desk_postit_field_agent_3",
         "text": "Call neighbors and try to identify date the McFarland's went missing."
       },
       {
-        "name": "green postit 4",
+        "name": "green post-it note",
         "id": "desk_postit_field_agent_4",
         "text": "Cultists?  Foreign Agents?  Pod people?"
       },
-      { "name": "green postit 5", "id": "desk_postit_field_agent_5", "text": "Carcosa?  Leng?" },
-      { "name": "green postit 6", "id": "desk_postit_field_agent_6", "text": "Delta Green?  Majestic 12?" },
+      { "name": "green post-it note", "id": "desk_postit_field_agent_5", "text": "Carcosa?  Leng?" },
+      { "name": "green post-it note", "id": "desk_postit_field_agent_6", "text": "Delta Green?  Majestic 12?" },
       {
-        "name": "green postit 7",
+        "name": "green post-it note",
         "id": "desk_postit_field_agent_7",
         "text": "Surveillance to continue on home until Jamison returns."
       },
       {
-        "name": "green postit 8",
+        "name": "green post-it note",
         "id": "desk_postit_field_agent_8",
         "text": "Suspect appears to have hung from the ceiling waiting for the Smith's to return home."
       },
       {
-        "name": "green postit 9",
+        "name": "green post-it note",
         "id": "desk_postit_field_agent_9",
         "text": "Local doctor said it looked like viral cancer similar to some stories he'd seen out of Tazmania."
       },
-      { "name": "green postit 10", "id": "desk_postit_field_agent_10", "text": "Requisition heavier weaponry" }
+      { "name": "green post-it note", "id": "desk_postit_field_agent_10", "text": "Requisition heavier weaponry" }
     ]
   },
   {
@@ -80,48 +80,48 @@
     "category": "agent_postit_gray",
     "text": [
       {
-        "name": "gray postit 1",
+        "name": "gray post-it note",
         "id": "agent_postit_gray_1",
         "text": "Several of the victims appear to have been exsanguinated and the others were killed while they fled.  Suspicion that the first victims in the club were killed by exsanguination and only upon their death did the other club goers recognize the danger and attempt to flee."
       },
       {
-        "name": "gray postit 2",
+        "name": "gray post-it note",
         "id": "agent_postit_gray_2",
         "text": "Every scene is permeated by the smell of rosemary and mint.  All victims set on fire after their death."
       },
       {
-        "name": "gray postit 3",
+        "name": "gray post-it note",
         "id": "agent_postit_gray_3",
         "text": "Three different types of shapechangers found in the last month?  Separate successful experiments from one power or different incursions that we should expect more from each type?"
       },
       {
-        "name": "gray postit 4",
+        "name": "gray post-it note",
         "id": "agent_postit_gray_4",
         "text": "Does Danvers State have room for more guests?"
       },
       {
-        "name": "gray postit 5",
+        "name": "gray post-it note",
         "id": "agent_postit_gray_5",
         "text": "Field Office in Utah was recently hit by some kind of strike team unsure if it was a foreign squad trying to grab something specific or if they had attracted the attention of other forces that decided to cross over."
       },
-      { "name": "gray postit 6", "id": "agent_postit_gray_6", "text": "Need more armor piercing rounds." },
+      { "name": "gray post-it note", "id": "agent_postit_gray_6", "text": "Need more armor piercing rounds." },
       {
-        "name": "gray postit 7",
+        "name": "gray post-it note",
         "id": "agent_postit_gray_7",
         "text": "Victims found decapitated and staked.  Send bodies out for autopsy."
       },
       {
-        "name": "gray postit 8",
+        "name": "gray post-it note",
         "id": "agent_postit_gray_8",
         "text": "Folklore says to burn any remains and then scatter the ashes in running water."
       },
       {
-        "name": "gray postit 9",
+        "name": "gray post-it note",
         "id": "agent_postit_gray_9",
         "text": "Shapeshifter Suspect is *NOT* allergic to salt."
       },
       {
-        "name": "gray postit 10",
+        "name": "gray post-it note",
         "id": "agent_postit_gray_10",
         "text": "Call requisitions to find out about silver rounds?"
       }
@@ -132,32 +132,32 @@
     "category": "agent_postit_migo",
     "text": [
       {
-        "name": "pink postit 1",
+        "name": "pink post-it note",
         "id": "agent_postit_migo_1",
         "text": "Any missions that end up discovering 'mi-go' class aliens require approval from an external agency before engagement."
       },
       {
-        "name": "pink postit 2",
+        "name": "pink post-it note",
         "id": "agent_postit_migo_2",
         "text": "Aliens are mirrorshades territory, and you know how they feel about us. Cowboys and adventurers they call us."
       },
       {
-        "name": "pink postit 3",
+        "name": "pink post-it note",
         "id": "agent_postit_migo_3",
         "text": "Off books, there are bonuses available to any agent that is able to execute any 'mi-go' and make it disappear."
       },
       {
-        "name": "pink postit 4",
+        "name": "pink post-it note",
         "id": "agent_postit_migo_4",
         "text": "Memo: Several agents appear to have broken protocols and gone rogue in regards to mi-go interactions.  They have been missing for three weeks and became presumed dead after pieces of their bodies totalling 30% of their weight had been mailed home in individual packages."
       },
       {
-        "name": "pink postit 5",
+        "name": "pink post-it note",
         "id": "agent_postit_migo_5",
         "text": "They seem to be here to take captives and animals to go back to their homeworld/s."
       },
       {
-        "name": "pink postit 6",
+        "name": "pink post-it note",
         "id": "agent_postit_migo_6",
         "text": "Off books, we need more intel on the mirrorshades so we can avenge Tony, Martell, and Picarelli."
       }
