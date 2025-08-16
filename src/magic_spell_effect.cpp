@@ -82,8 +82,6 @@ static const json_character_flag json_flag_PRED3( "PRED3" );
 static const json_character_flag json_flag_PRED4( "PRED4" );
 
 static const morale_type morale_killed_monster( "morale_killed_monster" );
-static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
-static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
 
 static const mtype_id mon_blob( "mon_blob" );
 static const mtype_id mon_blob_brain( "mon_blob_brain" );
@@ -96,7 +94,6 @@ static const species_id species_SLIME( "SLIME" );
 
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
-static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 namespace spell_detail
 {
@@ -534,12 +531,8 @@ static void damage_targets( const spell &sp, Creature &caster,
             here.add_field( target, fd_fire, 1, 10_minutes );
 
             Character &player_character = get_player_character();
-            if( player_character.has_trait( trait_PYROMANIA ) &&
-                !player_character.has_morale( morale_pyromania_startfire ) ) {
-                player_character.add_msg_if_player( m_good,
-                                                    _( "You feel a surge of euphoria as flames burst out!" ) );
-                player_character.add_morale( morale_pyromania_startfire, 15, 15, 8_hours, 6_hours );
-                player_character.rem_morale( morale_pyromania_nofire );
+            if( player_character.has_unfulfilled_pyromania() ) {
+                player_character.fulfill_pyromania_sees( here, target );
             }
         }
         Creature *const cr = creatures.creature_at<Creature>( target );

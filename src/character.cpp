@@ -380,6 +380,8 @@ static const material_id material_steel( "steel" );
 
 static const morale_type morale_cold( "morale_cold" );
 static const morale_type morale_hot( "morale_hot" );
+static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
+static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
 
 static const move_mode_id move_mode_prone( "prone" );
 static const move_mode_id move_mode_walk( "walk" );
@@ -471,6 +473,7 @@ static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_QUILLS( "QUILLS" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
@@ -12163,6 +12166,63 @@ bool Character::empathizes_with_monster( const mtype_id &monster ) const
     }
     // used since this method is called on corpse ids, which are null for npc corpses.
     if( monster == mtype_id::NULL_ID() && empathizes_with_species( species_HUMAN ) ) {
+        return true;
+    }
+    return false;
+}
+
+bool Character::has_unfulfilled_pyromania() const
+{
+    return has_trait( trait_PYROMANIA ) && !has_morale( morale_pyromania_startfire );
+}
+
+void Character::fulfill_pyromania( int bonus, int max_bonus,
+                                   const time_duration &duration, const time_duration &decay_start )
+{
+    add_morale( morale_pyromania_startfire, bonus, max_bonus, duration, decay_start );
+    rem_morale( morale_pyromania_nofire );
+}
+
+void Character::fulfill_pyromania_msg( const std::string &message, int bonus, int max_bonus,
+                                       const time_duration &duration, const time_duration &decay_start )
+{
+    add_msg_if_player( m_good, message );
+    fulfill_pyromania( bonus, max_bonus, duration, decay_start );
+}
+
+void Character::fulfill_pyromania_msg_std( const std::string &target_name, int bonus, int max_bonus,
+        const time_duration &duration, const time_duration &decay_start )
+{
+    if( target_name.empty() ) {
+        fulfill_pyromania_msg( _( "You feel a surge of euphoria as flames burst out!" ), bonus, max_bonus,
+                               duration, decay_start );
+    } else {
+        fulfill_pyromania_msg( string_format( _( "You feel a surge of euphoria as flame engulfs %s!" ),
+                                              target_name ), bonus, max_bonus, duration, decay_start );
+    }
+}
+
+bool Character::fulfill_pyromania_sees( const map &here, const Creature &target,
+                                        int bonus, int max_bonus,
+                                        const time_duration &duration, const time_duration &decay_start )
+{
+    if( sees( here, target ) ) {
+        fulfill_pyromania_msg_std( target.get_name(), bonus, max_bonus, duration, decay_start );
+        return true;
+    }
+    return false;
+}
+
+bool Character::fulfill_pyromania_sees( const map &here, const tripoint_bub_ms &target,
+                                        const std::string &target_str, bool std_msg, int bonus, int max_bonus,
+                                        const time_duration &duration, const time_duration &decay_start )
+{
+    if( sees( here, target ) ) {
+        if( std_msg ) {
+            fulfill_pyromania_msg_std( target_str, bonus, max_bonus, duration, decay_start );
+        } else {
+            fulfill_pyromania_msg( target_str, bonus, max_bonus, duration, decay_start );
+        }
         return true;
     }
     return false;

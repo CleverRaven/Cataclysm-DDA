@@ -154,6 +154,7 @@
       "three_way_intersections": { "Highway Trumpet Interchange": 1 },
       "fallback_three_way_intersection_special": "Highway Fallback Tee",
       "bends": { "Highway Bend": 1 },
+      "interchanges": { "Highway Diamond Interchange": 1 },
       "fallback_bend_special": "Highway Bend",
       "fallback_supports": "hw_fb_supports",
       "clockwise_slant_special": "Highway Slant Minor Clockwise",

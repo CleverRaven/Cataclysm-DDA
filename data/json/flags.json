@@ -2535,6 +2535,16 @@
     "info": "You have nonhuman ancestry or are not human"
   },
   {
+    "id": "SUFFOCATION_IMMUNE",
+    "type": "json_flag",
+    "info": "You are immune to being crowd-crushed"
+  },
+  {
+    "id": "INHALED_TOXIN_IMMUNE",
+    "type": "json_flag",
+    "info": "You are immune to gaseous toxins"
+  },
+  {
     "id": "TREE_COMMUNION_PLUS",
     "type": "json_flag",
     "info": "You gain greatly enhanced effects from the Mycorrhizal Communion mutation"

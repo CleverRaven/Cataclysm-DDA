@@ -83,36 +83,36 @@
     "type": "ITEM",
     "id": "lab_postit_bio",
     "copy-from": "survnote",
-    "name": { "str": "post-it note" },
-    "description": "A bright yellow post-it note.",
+    "name": { "str": "yellow post-it note" },
+    "description": "A bright post-it note.",
     "snippet_category": "lab_postit_bio"
   },
   {
     "type": "ITEM",
     "id": "lab_postit_blob",
     "copy-from": "lab_postit_bio",
-    "name": { "str": "post-it note" },
+    "name": { "str": "gray post-it note" },
     "snippet_category": "lab_postit_blob"
   },
   {
     "type": "ITEM",
     "id": "lab_postit_migo",
     "copy-from": "lab_postit_bio",
-    "name": { "str": "post-it note" },
+    "name": { "str": "pink post-it note" },
     "snippet_category": "lab_postit_migo"
   },
   {
     "type": "ITEM",
     "id": "lab_postit_portal",
     "copy-from": "lab_postit_bio",
-    "name": { "str": "post-it note" },
+    "name": { "str": "orange post-it note" },
     "snippet_category": "lab_postit_portal"
   },
   {
     "type": "ITEM",
     "id": "lab_postit_tech",
     "copy-from": "lab_postit_bio",
-    "name": { "str": "post-it note" },
+    "name": { "str": "red post-it note" },
     "snippet_category": "lab_postit_tech"
   },
   {
