@@ -687,28 +687,41 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_impossible_shape_attack",
-    "condition": { "and": [ { "or": [ "u_can_see", { "u_has_flag": "BLIND" } ] }, { "math": [ "u_madness > 10" ] } ] },
+    "condition": { "and": [ "u_can_see", { "not": { "u_has_trait": "anti_shape" } } ] },
     "effect": [
-      { "u_add_effect": "nightmares", "duration": "18 hours" },
-      { "u_add_effect": "disrupted_sleep", "duration": "18 hours" },
       {
-        "u_add_morale": "morale_impossible_shape",
-        "bonus": -20,
-        "max_bonus": -60,
-        "duration": "36 hours",
-        "decay_start": "24 hours"
-      },
-      { "math": [ "u_pain() += 3" ] },
-      { "math": [ "u_madness = 0" ] },
-      {
-        "u_message": "Your mind lurches, the shapes and figures dance across your vision, you feel like your head is going to explode."
+        "if": { "math": [ "u_madness >= 10" ] },
+        "then": [
+          { "u_add_effect": "nightmares", "duration": "18 hours" },
+          { "u_add_effect": "disrupted_sleep", "duration": "18 hours" },
+          {
+            "u_add_morale": "morale_impossible_shape",
+            "bonus": -20,
+            "max_bonus": -60,
+            "duration": "36 hours",
+            "decay_start": "24 hours"
+          },
+          { "math": [ "u_pain() += 3" ] },
+          { "math": [ "u_madness = 0" ] },
+          {
+            "u_message": "Your mind lurches, the shapes and figures dance across your vision, you feel like your head is going to explode."
+          }
+        ],
+        "else": [
+          { "math": [ "u_pain() += 3" ] },
+          { "math": [ "u_madness++" ] },
+          {
+            "u_message": "You can't look away from the impossible shape, staring at it is making you feel sick, you have to get away!"
+          }
+        ]
       }
     ],
     "false_effect": [
-      { "math": [ "u_pain() += 3" ] },
-      { "math": [ "u_madness++" ] },
       {
-        "u_message": "You can't look away from the impossible shape, staring at it is making you feel sick, you have to get away!"
+        "if": "u_can_see",
+        "then": {
+          "u_message": "You could never describe its appearance, but you perceive the impossible shape as you would any other."
+        }
       }
     ]
   },
