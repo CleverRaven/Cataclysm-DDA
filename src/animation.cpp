@@ -1037,19 +1037,6 @@ void game::draw_vpart_override( const tripoint_bub_ms &, const vpart_id &, const
 #endif
 
 #if defined(TILES)
-void game::draw_below_override( const tripoint_bub_ms &p, const bool draw )
-{
-    if( use_tiles ) {
-        tilecontext->init_draw_below_override( p, draw );
-    }
-}
-#else
-void game::draw_below_override( const tripoint_bub_ms &, const bool )
-{
-}
-#endif
-
-#if defined(TILES)
 void game::draw_monster_override( const tripoint_bub_ms &p, const mtype_id &id, const int count,
                                   const bool more, const Creature::Attitude att )
 {
