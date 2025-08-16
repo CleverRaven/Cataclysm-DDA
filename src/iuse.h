@@ -231,6 +231,10 @@ void play_music( Character *p, const tripoint_bub_ms &source, int volume, int ma
                  bool play_sounds = true );
 std::optional<int> purify_water( Character *p, item *purifier, item_location &water );
 int towel_common( Character *, item *, bool );
+bool check_params( const Character *p, const item *it,
+                   const std::string &action = "UNKNOWN" );
+bool check_params( const Character *p, const std::string &action = "UNKNOWN " );
+bool check_params( const item *it, const std::string &action = "UNKNOWN" );
 
 // Helper for validating a potential target of robot control
 bool robotcontrol_can_target( Character *, const monster & );
