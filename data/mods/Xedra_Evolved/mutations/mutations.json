@@ -1178,7 +1178,8 @@
           { "value": "STAMINA_REGEN_MOD", "add": 0.5 },
           { "value": "METABOLISM", "multiply": -0.5 },
           { "value": "DISINFECTANT_BONUS", "multiply": -1 },
-          { "value": "BANDAGE_BONUS", "multiply": -1 }
+          { "value": "BANDAGE_BONUS", "multiply": -1 },
+          { "value": "REGEN_MANA", "multiply": -50 }
         ]
       },
       {

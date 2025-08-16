@@ -2682,8 +2682,9 @@ void known_magic::update_mana( const Character &guy, float turns )
     // mana should replenish in 8 hours.
     const double full_replenish = to_turns<double>( 8_hours );
     const double ratio = turns / full_replenish;
-    mod_mana( guy, std::floor( ratio * guy.calculate_by_enchantment( static_cast<double>( max_mana(
-                                   guy ) ), enchant_vals::mod::REGEN_MANA ) ) );
+    mod_mana( guy, std::floor( ratio * std::max( 0.0,
+                               guy.calculate_by_enchantment( static_cast<double>( max_mana(
+                                           guy ) ), enchant_vals::mod::REGEN_MANA ) ) ) );
 }
 
 std::vector<spell_id> known_magic::spells() const
