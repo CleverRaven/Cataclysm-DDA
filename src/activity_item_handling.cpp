@@ -48,6 +48,7 @@
 #include "map_scale_constants.h"
 #include "map_selector.h"
 #include "mapdata.h"
+#include "math_parser_diag_value.h"
 #include "messages.h"
 #include "mtype.h"
 #include "npc.h"
@@ -658,7 +659,9 @@ static void move_item( Character &you, item &it, const int quantity, const tripo
     }
 
     map &here = get_map();
-    // Check that we can pick it up.
+
+    // Check that we can pick it up; at this point, the item changes ownership.
+    it.handle_pickup_ownership( you );
     if( !it.made_of_from_type( phase_id::LIQUID ) ) {
         you.mod_moves( -activity_handlers::move_cost( it, src, dest ) );
         if( activity_to_restore == ACT_TIDY_UP ) {
@@ -2015,6 +2018,35 @@ static bool chop_plank_activity( Character &you, const tripoint_bub_ms &src_loc 
     return false;
 }
 
+/**
+* Returns true if the given item should be skipped while looting
+*/
+static bool loot_skip_item( const item *it, const std::vector<const item *> &crafting_items )
+{
+    // skip unpickable liquid
+    if( !it->made_of_from_type( phase_id::SOLID ) ) {
+        return true;
+    }
+
+    // don't steal disassembly in progress
+    if( it->has_var( "activity_var" ) ) {
+        return true;
+    }
+
+    // don't steal crafts in progress
+    if( std::find( crafting_items.begin(), crafting_items.end(), it ) != crafting_items.end() ) {
+        return true;
+    }
+
+    // skip items not owned by you
+    if( !it->is_owned_by( get_player_character(), true ) ) {
+        if( Pickup::check_no_stealing( *it ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 void activity_on_turn_move_loot( player_activity &act, Character &you )
 {
     enum activity_stage : int {
@@ -2180,37 +2212,21 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                 const zone_type_id zone_type_id = mgr.get_near_zone_type_for_item( *it, abspos,
                                                   MAX_VIEW_DISTANCE, _fac_id( you ) );
 
-
                 if( has_items_to_work_on ) {
                     break;
                 }
 
-                // don't steal disassembly in progress
-                if( it->has_var( "activity_var" ) ) {
+                if( loot_skip_item( it, crafting_items ) ) {
                     continue;
                 }
 
-                // don't steal crafts in progress
-                if( std::find( crafting_items.begin(), crafting_items.end(), it ) != crafting_items.end() ) {
-                    continue;
-                }
-
-                // skip items that allready sorted
+                // skip items that are already sorted
                 if( zone_type_id != zone_type_LOOT_CUSTOM && mgr.has( zone_type_id, src, _fac_id( you ) ) ) {
                     continue;
                 }
 
                 if( zone_type_id == zone_type_LOOT_CUSTOM &&
                     mgr.custom_loot_has( src, it, zone_type_LOOT_CUSTOM, _fac_id( you ) ) ) {
-                    continue;
-                }
-
-                if( !it->is_owned_by( you, true ) ) {
-                    continue;
-                }
-
-                // skip unpickable liquid
-                if( !it->made_of_from_type( phase_id::SOLID ) ) {
                     continue;
                 }
 
@@ -2339,13 +2355,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
             ++num_processed;
             item &thisitem = *it->first;
 
-            // skip items not owned by you
-            if( !thisitem.is_owned_by( you, true ) ) {
-                continue;
-            }
-
-            // skip unpickable liquid
-            if( !thisitem.made_of_from_type( phase_id::SOLID ) ) {
+            if( loot_skip_item( it->first, crafting_items ) ) {
                 continue;
             }
 
@@ -2353,16 +2363,6 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
             if( thisitem.is_favorite && mgr.has( zone_type_LOOT_IGNORE_FAVORITES, src, _fac_id( you ) ) ) {
                 continue;
             }
-
-            // don't steal disassembly in progress
-            if( thisitem.has_var( "activity_var" ) ) {
-                continue;
-            }
-            // don't steal crafts in progress
-            if( std::find( crafting_items.begin(), crafting_items.end(), it->first ) != crafting_items.end() ) {
-                continue;
-            }
-
 
             // Only if it's from a vehicle do we use the vehicle source location information.
             const std::optional<vpart_reference> vpr_src = it->second ? vpr : std::nullopt;
@@ -2526,6 +2526,9 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
 
     // If we got here without restarting the activity, it means we're done
     add_msg( m_info, _( "%s sorted out every item possible." ), you.disp_name( false, true ) );
+    if( you.get_value( "THIEF_MODE_KEEP" ).str() != "YES" ) {
+        you.set_value( "THIEF_MODE", "THIEF_ASK" );
+    }
     if( you.is_npc() ) {
         npc *guy = dynamic_cast<npc *>( &you );
         guy->revert_after_activity();

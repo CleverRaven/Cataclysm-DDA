@@ -2489,6 +2489,17 @@
   },
   {
     "type": "keybinding",
+    "id": "TOGGLE_THIEF_MODE_ZONE",
+    "category": "ZONES_MANAGER",
+    "name": "Toggle thief mode",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "l" },
+      { "input_method": "keyboard_char", "key": "L" },
+      { "input_method": "keyboard_code", "key": "l", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
     "name": "Peek around corners",
     "category": "DEFAULTMODE",
     "id": "peek",

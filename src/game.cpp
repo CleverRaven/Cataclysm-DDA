@@ -7090,6 +7090,18 @@ static void zones_manager_shortcuts( const catacurses::window &w_info, faction_i
     std::vector<std::string> act_descs;
     std::string show_zones_text = show_all_zones ? "Showing all zones" : "Hiding distant zones";
     std::string zone_faction = string_format( _( "Shown faction: %s" ), faction.str() );
+
+    std::array< std::string, 3 > thief_text_options = { _( "ASK" ), _( "ON" ), _( "OFF" ) };
+    std::string thief_text = "Steal:";
+    std::string thief_value = get_player_character().get_value( "THIEF_MODE" ).to_string();
+    if( thief_value == "THIEF_ASK" ) {
+        thief_text += thief_text_options[0];
+    } else if( thief_value == "THIEF_STEAL" ) {
+        thief_text += thief_text_options[1];
+    } else if( thief_value == "THIEF_HONEST" ) {
+        thief_text += thief_text_options[2];
+    }
+
     const auto add_action_desc = [&]( const std::string & act, const std::string & txt ) {
         act_descs.emplace_back( ctxt.get_desc( act, txt, input_context::allow_all_keys ) );
     };
@@ -7107,6 +7119,7 @@ static void zones_manager_shortcuts( const catacurses::window &w_info, faction_i
     add_action_desc( "CONFIRM", pgettext( "zones manager", "Edit" ) );
     add_action_desc( "SHOW_ALL_ZONES", pgettext( "zones manager", show_zones_text.c_str() ) );
     add_action_desc( "SHOW_ZONE_ON_MAP", pgettext( "zones manager", "Map" ) );
+    add_action_desc( "TOGGLE_THIEF_MODE_ZONE", pgettext( "zones manager", thief_text.c_str() ) );
     if( debug_mode ) {
         add_action_desc( "CHANGE_FACTION", pgettext( "zones manager", zone_faction.c_str() ) );
     }
@@ -7229,6 +7242,7 @@ void game::zones_manager()
     ctxt.register_action( "DISABLE_PERSONAL_ZONES" );
     ctxt.register_action( "SHOW_ALL_ZONES" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "TOGGLE_THIEF_MODE_ZONE" );
     if( debug_mode ) {
         ctxt.register_action( "CHANGE_FACTION" );
     }
@@ -7614,6 +7628,8 @@ void game::zones_manager()
             show_all_zones = !show_all_zones;
             zones = get_zones();
             active_index = 0;
+        } else if( action == "TOGGLE_THIEF_MODE_ZONE" ) {
+            Pickup::toggle_thief_mode( u );
         } else if( action == "CHANGE_FACTION" ) {
             ui.invalidate_ui();
             std::string facname = zones_faction.str();

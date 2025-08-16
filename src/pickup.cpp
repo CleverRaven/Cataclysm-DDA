@@ -109,19 +109,22 @@ static pickup_answer handle_problematic_pickup( const item &it, const std::strin
     return static_cast<pickup_answer>( choice );
 }
 
-bool Pickup::query_thief()
+bool Pickup::query_thief( const item &it )
 {
     Character &u = get_player_character();
     const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
     const auto &allow_key = force_uc ? input_context::disallow_lower_case_or_non_modified_letters
                             : input_context::allow_all_keys;
+    const std::string stealing_prompt = string_format(
+                                            _( "Picking up %s will be considered stealing from %s, continue?" ),
+                                            it.display_name(), it.get_owner_name() );
     std::string answer = query_popup()
                          .preferred_keyboard_mode( keyboard_mode::keycode )
                          .allow_cancel( false )
                          .context( "YES_NO_ALWAYS_NEVER" )
                          .message( "%s", force_uc && !is_keycode_mode_supported()
-                                   ? _( "Picking up this item will be considered stealing, continue?  (Case sensitive)" )
-                                   : _( "Picking up this item will be considered stealing, continue?" ) )
+                                   ? stealing_prompt + _( "  (Case sensitive)" )
+                                   : stealing_prompt )
                          .option( "YES", allow_key ) // yes, steal all items in this location that is selected
                          .option( "NO", allow_key ) // no, pick up only what is free
                          .option( "ALWAYS", allow_key ) // Yes, steal all items and stop asking me this question
@@ -197,15 +200,10 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
     //new item (copy)
     item newit = it;
 
-    if( !newit.is_owned_by( player_character, true ) ) {
-        // Has the player given input on if stealing is ok?
-        if( player_character.get_value( "THIEF_MODE" ).str() == "THIEF_ASK" ) {
-            Pickup::query_thief();
-        }
-        if( player_character.get_value( "THIEF_MODE" ).str() == "THIEF_HONEST" ) {
-            return true; // Since we are honest, return no problem before picking up
-        }
+    if( Pickup::check_no_stealing( newit ) ) {
+        return true;
     }
+
     if( newit.invlet != '\0' &&
         player_character.invlet_to_item( newit.invlet ) != nullptr ) {
         // Existing invlet is not re-usable, remove it and let the code in player.cpp/inventory.cpp
@@ -346,6 +344,21 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
     }
 
     return picked_up || !did_prompt;
+}
+
+bool Pickup::check_no_stealing( const item &it )
+{
+    Character &player_character = get_player_character();
+    if( !it.is_owned_by( player_character, true ) ) {
+        // Has the player given input on if stealing is ok?
+        if( player_character.get_value( "THIEF_MODE" ).str() == "THIEF_ASK" ) {
+            Pickup::query_thief( it );
+        }
+        if( player_character.get_value( "THIEF_MODE" ).str() == "THIEF_HONEST" ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &quantities,
@@ -511,4 +524,25 @@ void Pickup::pick_info::set_src( const item_location &src_ )
 void Pickup::pick_info::set_dst( const item_location &dst_ )
 {
     dst = dst_;
+}
+
+void Pickup::toggle_thief_mode( Character &player_character )
+{
+    // Thief mode cycles between THIEF_ASK/THIEF_HONEST/THIEF_STEAL
+    if( player_character.get_value( "THIEF_MODE" ).str() == "THIEF_ASK" ) {
+        player_character.set_value( "THIEF_MODE", "THIEF_HONEST" );
+        player_character.set_value( "THIEF_MODE_KEEP", "YES" );
+        add_msg( m_info, _( "Thief mode: OFF.  You will NEVER pick up other people's belongings." ) );
+    } else if( player_character.get_value( "THIEF_MODE" ).str() == "THIEF_HONEST" ) {
+        player_character.set_value( "THIEF_MODE", "THIEF_STEAL" );
+        player_character.set_value( "THIEF_MODE_KEEP", "YES" );
+        add_msg( m_info, _( "Thief mode: ON.  You will ALWAYS pick up other people's belongings!" ) );
+    } else if( player_character.get_value( "THIEF_MODE" ).str() == "THIEF_STEAL" ) {
+        player_character.set_value( "THIEF_MODE", "THIEF_ASK" );
+        player_character.set_value( "THIEF_MODE_KEEP", "NO" );
+        add_msg( m_info, _( "Thief mode: ASK.  You will be reminded not to steal." ) );
+    } else {
+        add_msg( _( "THIEF_MODE CONTAINED BAD VALUE [ %s ]!" ),
+                 player_character.get_value( "THIEF_MODE" ).to_string() );
+    }
 }
