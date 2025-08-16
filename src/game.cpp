@@ -13465,6 +13465,7 @@ void game::quicksave()
     static_popup popup;
     popup.message( "%s", _( "Saving game, this may take a while." ) );
     ui_manager::redraw();
+    ui_manager::redraw();
     refresh_display();
 
     time_t now = std::time( nullptr ); //timestamp for start of saving procedure
