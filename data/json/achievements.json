@@ -38,7 +38,7 @@
   {
     "id": "achievement_kill_mutant",
     "type": "achievement",
-    "name": "Ah sweet. Manmade horrors beyond my comprehension",
+    "name": "Paging Dr. Tucker!",
     "requirements": [ { "event_statistic": "num_avatar_mutant_kills", "is": ">=", "target": 1, "visible": "when_achievement_completed" } ]
   },
   {
