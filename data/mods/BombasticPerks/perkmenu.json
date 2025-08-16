@@ -1657,6 +1657,25 @@
         ],
         "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
       },
+      {
+        "condition": { "not": { "u_has_trait": "perk_dexterous_speed" } },
+        "text": "Gain [<trait_name:perk_dexterous_speed>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_dexterous_speed>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_dexterous_speed>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_dexterous_speed", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
+      },
       { "text": "Playstyle Perks: Stormwrought", "topic": "TALK_PERK_MENU_PLAYSTYLE_STORMWROUGHT" },
       { "text": "Lifestyle Perks", "topic": "TALK_PERK_MENU_MAIN" },
       { "text": "Settings", "topic": "TALK_PERK_MENU_CONFIG" },

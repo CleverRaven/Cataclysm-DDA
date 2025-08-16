@@ -1181,6 +1181,26 @@
   },
   {
     "type": "mutation",
+    "id": "perk_dexterous_speed",
+    "name": { "str": "Dexterous Speed" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "You've found that you can move just a little bit quicker the more dexterous you are.  Unfortunately, this applies comes at a loss to your max carry weight.  Gain 2 speed for every point of DEX away from 8 and lose 4 kg of carry weight.",
+    "category": [ "perk" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "SPEED", "add": { "math": [ "max( 0, u_val('dexterity') - 8 ) * 2" ] } } ]
+      },
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "CARRY_WEIGHT", "add": { "math": [ "min( 0, 8 - u_val('dexterity') ) * 4000" ] } } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_portal_storm_mutator_bird",
     "name": { "str": "Stormwrought: Bird" },
     "points": 0,
