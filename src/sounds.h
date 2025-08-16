@@ -7,6 +7,7 @@
 #include <utility>
 #include <vector>
 
+#include "calendar.h"
 #include "coords_fwd.h"
 #include "units_fwd.h"
 
@@ -159,6 +160,9 @@ void play_ambient_variant_sound( const std::string &id, const std::string &varia
 void play_activity_sound( const std::string &id, const std::string &variant, int volume );
 void play_activity_sound( const std::string &id, const std::string &variant,
                           const std::string &season, int volume );
+void play_activity_sound_repeat( const std::string &id, const std::string &variant,
+                                 const tripoint_bub_ms &p, const time_duration &once_every, int repeat_vol, sounds::sound_t category,
+                                 const std::string &description );
 void end_activity_sounds();
 void generate_gun_sound( const Character &source_arg, const item &firing );
 void generate_melee_sound( const tripoint_bub_ms &source, const tripoint_bub_ms &target, bool hit,
