@@ -41,6 +41,67 @@
     "base_casting_time": 50
   },
   {
+    "id": "xe_werewolf_smash_terrain_spell",
+    "type": "SPELL",
+    "name": "Mighty Blow",
+    "description": "No barrier can stop the hunter truly devoted to flushing out their quarry.  You can temporarily enhance your strength for the purposes of smashing through barriers.",
+    "message": "Your unleash a punishing blow.",
+    "teachable": false,
+    "valid_targets": [ "ground" ],
+    "spell_class": "WEREWOLF_SPELLS",
+    "magic_type": "xe_werewolf_powers",
+    "skill": "deduction",
+    "flags": [ "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE" ],
+    "difficulty": 2,
+    "effect": "bash",
+    "shape": "blast",
+    "min_damage": {
+      "math": [
+        "(u_val('strength') + (werewolf_tier_two_traits() * 0.1) + (werewolf_tier_three_traits() * 0.2) + (werewolf_tier_four_traits() * 0.3) + (werewolf_tier_five_traits() * 0.4) ) * 2"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "(u_val('strength') + (werewolf_tier_two_traits() * 0.1) + (werewolf_tier_three_traits() * 0.2) + (werewolf_tier_four_traits() * 0.3) + (werewolf_tier_five_traits() * 0.4) ) * 4"
+      ]
+    },
+    "min_range": 1,
+    "max_range": 1,
+    "base_energy_cost": 35,
+    "base_casting_time": 100
+  },
+  {
+    "id": "xe_werewolf_far_jump_spell",
+    "type": "SPELL",
+    "name": "Grasshopper's Leap",
+    "//": "TODO: Balance its effect and damage once issue #53511 is fixed.",
+    "description": "Gather your legs and leap.  You will leap <color_green>much further</color> if in wolf form.",
+    "message": "You make a mighty leap.",
+    "teachable": false,
+    "valid_targets": [ "ground" ],
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "NO_EXPLOSION_SFX" ],
+    "spell_class": "WEREWOLF_SPELLS",
+    "magic_type": "xe_werewolf_powers",
+    "skill": "deduction",
+    "effect": "dash",
+    "shape": "cone",
+    "min_damage": 0,
+    "max_damage": 0,
+    "damage_type": "cut",
+    "min_range": {
+      "math": [
+        "min( (3 + (werewolf_tier_three_traits() * 0.1) + (werewolf_tier_four_traits() * 0.25) + (werewolf_tier_five_traits() * 0.4) ), 8 ) * (1 + (u_has_trait('VAMPIRE_WOLF_FORM') * 0.5) )"
+      ]
+    },
+    "max_range": {
+      "math": [
+        "min( (3 + (werewolf_tier_three_traits() * 0.1) + (werewolf_tier_four_traits() * 0.25) + (werewolf_tier_five_traits() * 1.4) ), 8 ) * (1 + (u_has_trait('VAMPIRE_WOLF_FORM') * 0.5) )"
+      ]
+    },
+    "base_energy_cost": 50,
+    "base_casting_time": 50
+  },
+  {
     "id": "xe_werewolf_argent_claws_damage",
     "type": "SPELL",
     "name": { "str": "Argent Claws Damage", "//~": "NO_I18N" },
@@ -67,11 +128,11 @@
     "description": "You can cause just enough change in a machine to confuse the rigid requirements of its programming, stunning it.",
     "message": "The machine stops in its tracks.",
     "teachable": false,
-    "valid_targets": [ "ally", "hostile" ],
+    "valid_targets": [ "self" ],
     "spell_class": "WEREWOLF_SPELLS",
     "magic_type": "xe_werewolf_powers",
     "skill": "deduction",
-    "flags": [ "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 4,
     "effect": "attack",
     "effect_str": "sensor_stun",
@@ -93,6 +154,77 @@
     "targeted_monster_species": [ "ROBOT", "ROBOT_FLYING", "CYBORG" ]
   },
   {
+    "id": "xe_werewolf_summon_fog_spell",
+    "type": "SPELL",
+    "name": "Hunter's Haze",
+    "description": "You can cause just enough change in a machine to confuse the rigid requirements of its programming, stunning it.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "WEREWOLF_SPELLS",
+    "magic_type": "xe_werewolf_powers",
+    "skill": "deduction",
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "difficulty": 8,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_WEREWOLF_SUMMON_FOG",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "min( (18652 + (werewolf_tier_one_traits() * 950) + (werewolf_tier_two_traits() * 1812) + (werewolf_tier_three_traits() * 2750) + (werewolf_tier_four_traits() * 4185) + (werewolf_tier_five_traits() * 6852) ), 360000 )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "min( (31850 + (werewolf_tier_one_traits() * 2150) + (werewolf_tier_two_traits() * 3950) + (werewolf_tier_three_traits() * 5510) + (werewolf_tier_four_traits() * 9521) + (werewolf_tier_five_traits() * 15705) ), 900000)"
+      ]
+    },
+    "base_energy_cost": { "math": [ "u_effect_intensity('effect_controlling_weather_fog') > -1 ? 0 : 500" ] },
+    "base_casting_time": 250
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_SUMMON_FOG",
+    "condition": { "math": [ "magic_weather_dense_fog != 1" ] },
+    "effect": [
+      { "if": "u_is_outside", "then": { "u_message": "A thick fog begins to rise.", "type": "neutral" } },
+      { "math": [ "magic_weather_dense_fog = 1" ] },
+      { "u_add_effect": "effect_controlling_weather_fog", "duration": "6 hours" },
+      { "run_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] },
+      {
+        "math": [
+          "_lower_bound = min( (186.52 + (werewolf_tier_one_traits() * 9.50) + (werewolf_tier_two_traits() * 18.12) + (werewolf_tier_three_traits() * 27.50) + (werewolf_tier_four_traits() * 41.85) + (werewolf_tier_five_traits() * 68.52) ), 3600.00 )"
+        ]
+      },
+      {
+        "math": [
+          "_upper_bound = min( (318.50 + (werewolf_tier_one_traits() * 21.50) + (werewolf_tier_two_traits() * 39.50) + (werewolf_tier_three_traits() * 55.10) + (werewolf_tier_four_traits() * 95.21) + (werewolf_tier_five_traits() * 157.05) ), 9000.00)"
+        ]
+      },
+      {
+        "run_eocs": "EOC_WEREWOLF_SUMMON_FOG_REMOVE",
+        "time_in_future": [ { "math": [ "_lower_bound" ] }, { "math": [ "_upper_bound" ] } ]
+      }
+    ],
+    "false_effect": [
+      { "u_message": "You release your command over the fog and it begins to disperse.", "type": "neutral" },
+      { "math": [ "magic_weather_dense_fog = 0" ] },
+      { "u_lose_effect": "effect_controlling_weather_fog" },
+      { "run_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_SUMMON_FOG_REMOVE",
+    "condition": { "math": [ "magic_weather_dense_fog == 1" ] },
+    "effect": [
+      { "if": "u_is_outside", "then": { "u_message": "The thick fog begins to disperse.", "type": "neutral" } },
+      { "u_lose_effect": "effect_controlling_weather_fog" },
+      { "run_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] },
+      { "math": [ "magic_weather_dense_fog = 0" ] }
+    ]
+  },
+  {
     "id": "xe_werewolf_close_tear_in_reality_spell",
     "type": "SPELL",
     "name": "Mending Rent Veils",
@@ -107,10 +239,55 @@
     "effect_str": "ter_werewolf_close_reality_tear",
     "shape": "blast",
     "flags": [ "VERBAL", "NO_HANDS" ],
-    "max_level": 25,
+    "difficulty": 10,
     "min_range": 1,
     "max_range": 1,
-    "base_energy_cost": 2000,
+    "base_energy_cost": 1000,
     "base_casting_time": 3000
+  },
+  {
+    "id": "xe_werewolf_summon_shadow_pack_spell",
+    "type": "SPELL",
+    "name": "Summon the Shadow Pack",
+    "description": "Even death cannot always stop the Hunt.  You may summon the spirits of werewolves long dead back to join you in the Hunt.  You may only call the Shadow Pack once per night.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground" ],
+    "spell_class": "WEREWOLF_SPELLS",
+    "magic_type": "xe_werewolf_powers",
+    "skill": "deduction",
+    "effect": "summon",
+    "effect_str": "mon_werewolf_shadow_pack",
+    "condition": { "not": { "u_has_effect": "effect_xe_werewolf_summon_shadow_pack_limiter" } },
+    "extra_effects": [ { "id": "xe_werewolf_summon_shadow_pack_limiter_spell", "hit_self": true } ],
+    "shape": "blast",
+    "flags": [ "VERBAL", "NO_HANDS", "RANDOM_DAMAGE", "RANDOM_DURATION" ],
+    "difficulty": 9,
+    "min_damage": 3,
+    "max_damage": 5,
+    "min_duration": 173195,
+    "max_duration": 318512,
+    "min_aoe": 2,
+    "max_aoe": 2,
+    "base_energy_cost": 800,
+    "base_casting_time": 150
+  },
+  {
+    "id": "xe_werewolf_summon_shadow_pack_limiter_spell",
+    "type": "SPELL",
+    "name": { "str": "Summon the Shadow Pack Limiter", "//~": "NO_I18N" },
+    "description": { "str": "Limit the usage of Summon the Shadow Pack.", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "WEREWOLF_SPELLS",
+    "magic_type": "xe_werewolf_powers",
+    "skill": "deduction",
+    "effect": "attack",
+    "effect_str": "effect_xe_werewolf_summon_shadow_pack_limiter",
+    "shape": "blast",
+    "flags": [ "SILENT" ],
+    "min_duration": 4320000,
+    "max_duration": 4320000
   }
 ]

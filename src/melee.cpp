@@ -1798,11 +1798,8 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
 
         for( const effect_on_condition_id &eoc : technique.eocs ) {
             dialogue d( get_talker_for( *this ), get_talker_for( t ) );
-            if( eoc->type == eoc_type::ACTIVATION ) {
-                eoc->activate( d );
-            } else {
-                debugmsg( "Must use an activation eoc for a technique activation.  If you don't want the effect_on_condition to happen on its own (without the technique being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this technique with its condition and effects, then have a recurring one queue it." );
-            }
+            eoc->activate_activation_only( d, "a technique activation", "technique being activated",
+                                           "technique" );
         }
     }
 

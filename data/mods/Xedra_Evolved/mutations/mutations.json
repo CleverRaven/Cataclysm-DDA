@@ -1215,7 +1215,8 @@
           { "value": "REGEN_HP_AWAKE", "multiply": 1 },
           { "value": "MENDING_MODIFIER", "multiply": 12 }
         ]
-      }
+      },
+      { "ench_effects": [ { "effect": "effect_vampire_immune_to_classic_zombification", "intensity": 1 } ] }
     ]
   },
   {
@@ -1259,9 +1260,8 @@
     "valid": false,
     "name": { "str": "Facultative Breathing" },
     "description": "You do not need to breathe air to live anymore.  It prevents you from being drowned or suffocated and allows you to ignore inhaled gases.",
-    "flags": [ "GILLS" ],
-    "cancels": [ "ASTHMA" ],
-    "integrated_armor": [ "integrated_nobreathe" ]
+    "flags": [ "GILLS", "SUFFOCATION_IMMUNE", "INHALED_TOXIN_IMMUNE" ],
+    "cancels": [ "ASTHMA" ]
   },
   {
     "type": "mutation",
@@ -1314,8 +1314,16 @@
           { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 }
         ],
         "mutations": [ "ECHOLOCATION" ],
-        "ench_effects": [ { "effect": "effect_vampire_bat_form_levitation", "intensity": 1 } ],
         "skills": [ { "value": "dodge", "add": 8 } ]
+      },
+      {
+        "condition": {
+          "and": [
+            { "not": { "u_has_effect": "disabled", "bodypart": "arm_l" } },
+            { "not": { "u_has_effect": "disabled", "bodypart": "arm_r" } }
+          ]
+        },
+        "ench_effects": [ { "effect": "effect_vampire_bat_form_levitation", "intensity": 1 } ]
       },
       {
         "condition": "u_has_weapon",
@@ -1767,7 +1775,7 @@
     "id": "VAMPIRE_INSTANT_BLEED",
     "name": { "str": "Claim the Crimson Wine" },
     "points": 5,
-    "description": "You can now attract the blood within a corpse's veins, extracting it all in a second through a small cut.  In addition, you can create temporary blood containers by spending mana.",
+    "description": "You can now attract the blood within a corpse's veins, extracting it all in a second through a small cut.  In addition, you can create temporary blood containers out of some of your stolen blood.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -2158,6 +2166,7 @@
     "valid": false,
     "profession": true,
     "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ],
-    "types": [ "HERITAGE" ]
+    "types": [ "HERITAGE" ],
+    "chargen_allow_npc": false
   }
 ]

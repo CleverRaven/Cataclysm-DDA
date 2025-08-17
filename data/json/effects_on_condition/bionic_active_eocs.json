@@ -2,7 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "refund_power",
-    "effect": { "math": [ "u_val('power')", "+=", "_act_cost" ] }
+    "effect": { "math": [ "u_val('power') += _act_cost" ] }
   },
   {
     "type": "effect_on_condition",
@@ -28,11 +28,11 @@
         "if": { "one_in_chance": 3 },
         "then": [
           { "u_message": "Your muscles tear with the strain!", "type": "good" },
-          { "math": [ "u_hp('arm_l')", "-=", "rng(5, 10)" ] },
-          { "math": [ "u_hp('arm_r')", "-=", "rng(5, 10)" ] },
-          { "math": [ "u_hp('leg_l')", "-=", "rng(7, 12)" ] },
-          { "math": [ "u_hp('leg_r')", "-=", "rng(7, 12)" ] },
-          { "math": [ "u_hp('torso')", "-=", "rng(5, 15)" ] }
+          { "math": [ "u_hp('arm_l') -= rng(5, 10)" ] },
+          { "math": [ "u_hp('arm_r') -= rng(5, 10)" ] },
+          { "math": [ "u_hp('leg_l') -= rng(7, 12)" ] },
+          { "math": [ "u_hp('leg_r') -= rng(7, 12)" ] },
+          { "math": [ "u_hp('torso') -= rng(5, 15)" ] }
         ]
       },
       {

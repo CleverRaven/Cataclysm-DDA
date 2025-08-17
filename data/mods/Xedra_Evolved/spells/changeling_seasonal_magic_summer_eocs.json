@@ -319,7 +319,7 @@
       {
         "if": { "u_has_flag": "SUNDEATH" },
         "then": [
-          { "math": [ "u_val('morale')", "-=", "200" ] },
+          { "math": [ "u_val('morale') -= 200" ] },
           {
             "u_cast_spell": { "id": "changeling_summer_powerful_sunlight_spell_sundeath_self_damage", "hit_self": true }
           },

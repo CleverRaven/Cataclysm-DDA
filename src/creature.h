@@ -333,6 +333,10 @@ class Creature : public viewer
 
         /** Recreates the Creature from scratch. */
         virtual void normalize();
+    protected:
+        /** Processes effects and bonuses. */
+        void process_turn_no_moves();
+    public:
         /** Processes effects and bonuses and allocates move points based on speed. */
         virtual void process_turn();
         /** Resets the value of all bonus fields to 0. */
@@ -558,6 +562,7 @@ class Creature : public viewer
 
         virtual bool has_weapon() const = 0;
         virtual bool is_hallucination() const = 0;
+        bool hallucination_die( map *here, Creature *killer );
 
         // returns true if the creature has an electric field
         virtual bool is_electrical() const = 0;

@@ -1346,7 +1346,7 @@
     "type": "profession",
     "id": "major-general",
     "name": "Major General",
-    "requirement": "achievement_reach_military_bunker",
+    "requirement": [ "achievement_reach_military_bunker", "achievement_reach_military_base" ],
     "description": "You worked your way up through the ranks from a no-name private to a big shot Major General, respected and decorated.  On the downside, years of desk duty have left your shooting skills rusty, and all the medals in the world won't protect you now.",
     "npc_background": "BG_survival_story_SOLDIER",
     "points": 4,

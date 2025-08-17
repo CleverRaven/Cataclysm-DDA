@@ -76,8 +76,8 @@
     "id": "TALK_FREE_MERCHANTS_MERCHANT_AskedRestock",
     "type": "talk_topic",
     "dynamic_line": [
-      "Next shipment should arrive in around <interval>.",
-      "Stick around for <interval>, there will surely be something you'd like."
+      "Next shipment should arrive in around <restock_time_point>.",
+      "Stick around 'til <restock_time_point>, there will surely be something you'd like."
     ],
     "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" },
@@ -417,7 +417,7 @@
         "topic": "TALK_DONE",
         "condition": { "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ] },
         "effect": [
-          { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
+          { "math": [ "exodii_mission_wh_chance -= 1" ] },
           { "math": [ "exodii_mission_wh_chance = max( exodii_mission_wh_chance, 1 )" ] }
         ]
       }

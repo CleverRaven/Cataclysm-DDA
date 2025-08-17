@@ -59,6 +59,7 @@ static const efftype_id effect_mutation_internal_damage( "mutation_internal_dama
 static const flag_id json_flag_CANT_HEAL_EVERYONE( "CANT_HEAL_EVERYONE" );
 static const flag_id json_flag_INTEGRATED( "INTEGRATED" );
 static const flag_id json_flag_OVERSIZE( "OVERSIZE" );
+static const flag_id json_flag_UNRESTRICTED( "UNRESTRICTED" );
 
 static const itype_id itype_fake_burrowing( "fake_burrowing" );
 
@@ -600,6 +601,9 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
         if( armor.has_flag( json_flag_INTEGRATED ) ) {
             return false;
         }
+        if( armor.has_flag( json_flag_UNRESTRICTED ) ) {
+            return false;
+        }
         // initial check for rigid items to pull off, doesn't matter what else the item has you can only wear one rigid item
         if( branch.conflicts_with_item_rigid( armor ) ) {
             add_msg_player_or_npc( m_bad,
@@ -874,11 +878,7 @@ void Character::activate_cached_mutation( const trait_id &mut )
         for( const effect_on_condition_id &eoc : mut->activated_eocs ) {
             dialogue d( get_talker_for( *this ), nullptr );
             d.set_value( "this", mut.str() );
-            if( eoc->type == eoc_type::ACTIVATION ) {
-                eoc->activate( d );
-            } else {
-                debugmsg( "Must use an activation eoc for a mutation activation.  If you don't want the effect_on_condition to happen on its own (without the mutation being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this mutation with its condition and effects, then have a recurring one queue it." );
-            }
+            eoc->activate_activation_only( d, "a mutation activation", "mutation being activated", "mutation" );
         }
         // if the activation EOCs are not just setup for processing then turn the mutation off
         tdata.powered = mut->activated_is_setup;
@@ -1028,11 +1028,8 @@ void Character::deactivate_mutation( const trait_id &mut )
     for( const effect_on_condition_id &eoc : mut->deactivated_eocs ) {
         dialogue d( get_talker_for( *this ), nullptr );
         d.set_value( "this", mut.str() );
-        if( eoc->type == eoc_type::ACTIVATION ) {
-            eoc->activate( d );
-        } else {
-            debugmsg( "Must use an activation eoc for a mutation deactivation.  If you don't want the effect_on_condition to happen on its own (without the mutation being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this mutation with its condition and effects, then have a recurring one queue it." );
-        }
+        eoc->activate_activation_only( d, "a mutation deactivation", "mutation being activated",
+                                       "mutation" );
     }
 
     if( mdata.transform && !mdata.transform->msg_transform.empty() ) {

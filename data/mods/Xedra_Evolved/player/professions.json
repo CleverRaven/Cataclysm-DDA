@@ -110,7 +110,8 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -187,7 +188,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -248,7 +250,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -297,7 +300,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -342,7 +346,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -396,7 +401,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -442,7 +448,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -485,7 +492,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -522,7 +530,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -571,7 +580,8 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -599,7 +609,8 @@
       },
       "female": { "entries": [ { "item": "chestwrap" } ] }
     },
-    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ]
+    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -627,7 +638,8 @@
       },
       "female": { "entries": [ { "item": "chestwrap" } ] }
     },
-    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ]
+    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -655,7 +667,8 @@
       },
       "female": { "entries": [ { "item": "chestwrap" } ] }
     },
-    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ]
+    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -683,7 +696,8 @@
       },
       "female": { "entries": [ { "item": "chestwrap" } ] }
     },
-    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ]
+    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -711,7 +725,8 @@
       },
       "female": { "entries": [ { "item": "chestwrap" } ] }
     },
-    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ]
+    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -739,7 +754,8 @@
       },
       "female": { "entries": [ { "item": "chestwrap" } ] }
     },
-    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ]
+    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -886,7 +902,8 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -1001,6 +1018,7 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "chargen_allow_npc": false
   }
 ]

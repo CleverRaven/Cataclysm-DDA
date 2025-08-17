@@ -23,8 +23,9 @@
 #include "string_formatter.h"
 #include "translation.h"
 #include "translations.h"
-#include "uilist.h"
+#include "ui_helpers.h"
 #include "ui_manager.h"
+#include "uilist.h"
 
 namespace auto_notes
 {
@@ -305,21 +306,8 @@ void auto_note_manager_gui::show()
 
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        iContentHeight = FULL_SCREEN_HEIGHT - 2 - iHeaderHeight;
-
-        const point iOffset( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
-                             TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 );
-
-        w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                       iOffset );
-
-        w_header = catacurses::newwin( iHeaderHeight, FULL_SCREEN_WIDTH - 2,
-                                       iOffset + point::south_east );
-
-        w = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2,
-                                iOffset + point( 1, iHeaderHeight + 1 ) );
-
-        ui.position_from_window( w_border );
+        ui_helpers::full_screen_window( ui, &w, &w_border, &w_header, nullptr,
+                                        &iContentHeight, 1, iHeaderHeight, 0 );
     } );
     ui.mark_resize();
 

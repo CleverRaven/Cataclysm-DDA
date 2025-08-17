@@ -168,7 +168,7 @@
       {
         "condition": "ALWAYS",
         "values": [
-          { "value": "MAX_HP", "multiply": 0.5 },
+          { "value": "MAX_HP", "multiply": 2 },
           { "value": "SPEED", "multiply": 0.2 },
           { "value": "RANGE", "multiply": -1 },
           { "value": "DEXTERITY", "add": 2 },
@@ -176,6 +176,7 @@
           { "value": "NIGHT_VIS", "add": 5 },
           { "value": "MELEE_DAMAGE", "multiply": 0.4 },
           { "value": "CLIMATE_CONTROL_HEAT", "add": 25 },
+          { "value": "PAIN", "multiply": -0.4 },
           { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 }
         ],
         "mutations": [ "FANGS", "MUZZLE_BEAR", "TAIL_STUB", "PAWS_LARGE", "URSINE_FUR", "URSINE_EARS", "PRED3" ]
@@ -312,9 +313,17 @@
           { "value": "NIGHT_VIS", "add": 8 },
           { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 }
         ],
-        "ench_effects": [ { "effect": "effect_vampire_bat_form_levitation", "intensity": 1 } ],
         "skills": [ { "value": "dodge", "add": 4 } ],
         "mutations": [ "BIRD_EYE", "DOWN", "EAGLEEYED", "LIGHTEATER" ]
+      },
+      {
+        "condition": {
+          "and": [
+            { "not": { "u_has_effect": "disabled", "bodypart": "arm_l" } },
+            { "not": { "u_has_effect": "disabled", "bodypart": "arm_r" } }
+          ]
+        },
+        "ench_effects": [ { "effect": "effect_vampire_bat_form_levitation", "intensity": 1 } ]
       },
       {
         "condition": "u_has_weapon",
@@ -396,9 +405,17 @@
           { "value": "NIGHT_VIS", "add": 4 },
           { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 }
         ],
-        "ench_effects": [ { "effect": "effect_vampire_bat_form_levitation", "intensity": 1 } ],
         "skills": [ { "value": "dodge", "add": 6 } ],
         "mutations": [ "BIRD_EYE", "DOWN", "EAGLEEYED", "LIGHTEATER" ]
+      },
+      {
+        "condition": {
+          "and": [
+            { "not": { "u_has_effect": "disabled", "bodypart": "arm_l" } },
+            { "not": { "u_has_effect": "disabled", "bodypart": "arm_r" } }
+          ]
+        },
+        "ench_effects": [ { "effect": "effect_vampire_bat_form_levitation", "intensity": 1 } ]
       },
       {
         "condition": "u_has_weapon",

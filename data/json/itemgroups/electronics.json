@@ -7,7 +7,8 @@
       { "item": "voltmeter", "prob": 30 },
       { "item": "multimeter", "prob": 30, "charges": [ 0, 100 ] },
       [ "jumper_cable_heavy", 10 ],
-      { "group": "superglue", "prob": 30 },
+      { "group": "glue_weak_domestic", "prob": 15 },
+      { "group": "glue_strong_domestic", "prob": 15 },
       { "item": "electrohack", "prob": 3, "charges": [ 0, 100 ] },
       [ "processor", 15 ],
       [ "RAM", 22 ],
@@ -58,7 +59,7 @@
       { "item": "radiocontrol", "prob": 25, "charges": [ 0, 50 ] },
       [ "omnicamera", 7 ],
       [ "chem_nitric_acid", 1 ],
-      [ "solarpack", 10 ]
+      [ "folding_solar_panel_v2", 10 ]
     ]
   },
   {
@@ -317,5 +318,17 @@
     "type": "item_group",
     "subtype": "collection",
     "items": [ { "group": "box_of_batteries_random", "count": [ 1, 3 ] } ]
+  },
+  {
+    "id": "soldering_tool",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "item": "soldering_iron" }, { "item": "soldering_iron_portable", "charges": [ 0, 56 ] } ]
+  },
+  {
+    "id": "soldering_supplies",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "group": "soldering_tool" }, { "item": "solder_wire", "charges": [ 0, 200 ] } ]
   }
 ]

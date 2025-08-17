@@ -113,6 +113,10 @@ void set_season_length( int dur );
 
 void set_location( float latitude, float longitude );
 
+// time from the start of the year to calendar::turn_zero
+time_duration turn_zero_offset();
+int years_since_cataclysm( time_point );
+
 /// @returns relative length of game season to real life season.
 float season_ratio();
 
@@ -570,7 +574,7 @@ inline time_duration time_past_midnight( const time_point &p )
 
 inline time_duration time_past_new_year( const time_point &p )
 {
-    return ( p - calendar::turn_zero ) % calendar::year_length();
+    return ( p - calendar::turn_zero + calendar::turn_zero_offset() ) % calendar::year_length();
 }
 
 template<typename T>
@@ -602,7 +606,8 @@ std::string to_string_time_of_day( const time_point &p );
 /** Time approximation based on the player's timekeeping capability, formatted for diary pages **/
 std::string get_diary_time_str( const time_point &turn, time_accuracy acc );
 /** Time approximation based on the player's timekeeping capability, formatted for diary pages **/
-std::string get_diary_time_since_str( const time_duration &turn_diff, time_accuracy acc );
+std::string get_diary_time_since_str( const time_duration &turn_diff, time_accuracy acc,
+                                      bool include_postfix = true );
 /** Returns the default duration of a lunar month (duration between syzygies) */
 time_duration lunar_month();
 /** Returns the current phase of the moon. */
@@ -664,6 +669,27 @@ enum class weekdays : int {
 };
 
 weekdays day_of_week( const time_point &p );
+std::string to_string( const weekdays &d );
+
+enum class month : int {
+    JANUARY = 0,
+    FEBRUARY,
+    MARCH,
+    APRIL,
+    MAY,
+    JUNE,
+    JULY,
+    AUGUST,
+    SEPTEMBER,
+    OCTOBER,
+    NOVEMBER,
+    DECEMBER,
+    UNKNOWN
+};
+
+std::pair<month, int> month_and_day( time_point );
+std::string to_string( month m );
+
 
 // To support the eternal season option we create a strong typedef of timepoint
 // which is a season_effective_time.  This converts a regular time to a time

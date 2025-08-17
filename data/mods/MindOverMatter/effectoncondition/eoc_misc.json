@@ -15,7 +15,7 @@
     "condition": {
       "and": [ { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" }, { "math": [ "_success != false" ] } ]
     },
-    "effect": [ { "math": [ "u_skill_exp('metaphysics', 'format': 'raw')", "+=", "(100 * _difficulty)" ] } ]
+    "effect": [ { "math": [ "u_skill_exp('metaphysics', 'format': 'raw') += (100 * _difficulty)" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -25,7 +25,7 @@
     "condition": {
       "and": [ { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" }, { "math": [ "_success == false" ] } ]
     },
-    "effect": [ { "math": [ "u_skill_exp('metaphysics', 'format': 'raw')", "+=", "(25 * _difficulty)" ] } ]
+    "effect": [ { "math": [ "u_skill_exp('metaphysics', 'format': 'raw') += (25 * _difficulty)" ] } ]
   },
   {
     "type": "effect_on_condition",

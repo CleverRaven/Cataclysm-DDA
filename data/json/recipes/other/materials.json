@@ -90,7 +90,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "chunk_rubber", 16 ] ], [ [ "rubber_cement", 1 ] ] ]
+    "components": [ [ [ "chunk_rubber", 16 ] ], [ [ "glue_weak", 250 ] ] ]
   },
   {
     "type": "recipe",

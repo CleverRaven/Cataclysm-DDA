@@ -162,8 +162,6 @@ static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
 
 static const morale_type morale_feeling_good( "morale_feeling_good" );
-static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
-static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
 
 static const requirement_id requirement_data_anesthetic( "anesthetic" );
 
@@ -178,7 +176,6 @@ static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_NONE( "NONE" );
 static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
 static const trait_id trait_PROF_MED( "PROF_MED" );
-static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_THRESH_MEDICAL( "THRESH_MEDICAL" );
 
 struct Character::bionic_fuels {
@@ -784,11 +781,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         dialogue d( get_talker_for( *this ), nullptr );
         write_var_value( var_type::context, "act_cost", &d,
                          units::to_millijoule( bio.info().power_activate ) );
-        if( eoc->type == eoc_type::ACTIVATION ) {
-            eoc->activate( d );
-        } else {
-            debugmsg( "Must use an activation eoc for a bionic activation.  If you don't want the effect_on_condition to happen on its own (without the bionic being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this bionic with its condition and effects, then have a recurring one queue it." );
-        }
+        eoc->activate_activation_only( d, "a bionic activation", "bionic being activated", "bionic" );
     }
 
     item tmp_item;
@@ -930,10 +923,8 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         if( pnt && here.is_flammable( *pnt ) && !here.get_field( *pnt, fd_fire ) ) {
             add_msg_activate();
             here.add_field( *pnt, fd_fire, 1 );
-            if( has_trait( trait_PYROMANIA ) ) {
-                add_morale( morale_pyromania_startfire, 5, 10, 3_hours, 2_hours );
-                rem_morale( morale_pyromania_nofire );
-                add_msg_if_player( m_good, _( "You happily light a fire." ) );
+            if( has_unfulfilled_pyromania() ) {
+                fulfill_pyromania_msg( _( "You happily light a fire." ), 5, 10, 3_hours, 2_hours );
             }
             mod_moves( -100 );
         } else {
@@ -1239,11 +1230,7 @@ bool Character::deactivate_bionic( bionic &bio, bool eff_only )
 
     for( const effect_on_condition_id &eoc : bio.id->deactivated_eocs ) {
         dialogue d( get_talker_for( *this ), nullptr );
-        if( eoc->type == eoc_type::ACTIVATION ) {
-            eoc->activate( d );
-        } else {
-            debugmsg( "Must use an activation eoc for a bionic deactivation.  If you don't want the effect_on_condition to happen on its own (without the bionic being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this bionic with its condition and effects, then have a recurring one queue it." );
-        }
+        eoc->activate_activation_only( d, "a bionic deactivation", "bionic being activated", "bionic" );
     }
 
     if( bio.info().has_flag( json_flag_BIONIC_WEAPON ) ) {
@@ -1623,11 +1610,7 @@ void Character::process_bionic( bionic &bio )
 
     for( const effect_on_condition_id &eoc : bio.id->processed_eocs ) {
         dialogue d( get_talker_for( *this ), nullptr );
-        if( eoc->type == eoc_type::ACTIVATION ) {
-            eoc->activate( d );
-        } else {
-            debugmsg( "Must use an activation eoc for a bionic process.  If you don't want the effect_on_condition to happen on its own (without the bionic being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this bionic with its condition and effects, then have a recurring one queue it." );
-        }
+        eoc->activate_activation_only( d, "a bionic process", "bionic being activated", "bionic" );
     }
 
     // Bionic effects on every turn they are active go here.

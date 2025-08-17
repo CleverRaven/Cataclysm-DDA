@@ -6698,7 +6698,7 @@ int item::on_wield_cost( const Character &you ) const
     return mv;
 }
 
-void item::on_wield( Character &you )
+void item::on_wield( Character &you, bool combat )
 {
     int wield_cost = on_wield_cost( you );
     you.mod_moves( -wield_cost );
@@ -6713,7 +6713,7 @@ void item::on_wield( Character &you )
     }
     you.add_msg_if_player( m_neutral, msg, tname() );
 
-    if( !you.martial_arts_data->selected_is_none() ) {
+    if( combat && !you.martial_arts_data->selected_is_none() ) {
         you.martial_arts_data->martialart_use_message( you );
     }
 
@@ -9125,6 +9125,18 @@ bool item::has_edged_damage() const
 bool item::count_by_charges() const
 {
     return type->count_by_charges();
+}
+
+void item::compress_charges_or_liquid( int &compcount )
+{
+    if( count_by_charges() || made_of( phase_id::LIQUID ) ) {
+        charges = compcount;
+        compcount = 1;
+    } else if( !craft_has_charges() && charges > 0 ) {
+        // tools that can be unloaded should be created unloaded,
+        // tools that can't be unloaded will keep their default charges.
+        charges = 0;
+    }
 }
 
 int item::count() const

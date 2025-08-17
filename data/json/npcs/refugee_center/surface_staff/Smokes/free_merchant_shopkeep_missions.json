@@ -67,7 +67,7 @@
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 25 },
         { "u_add_var": "mission_flag_FMShopkeep_Mission1", "value": "yes" },
-        { "math": [ "u_counter_refugee_center_refugee_happiness", "+=", "3" ] }
+        { "math": [ "u_counter_refugee_center_refugee_happiness += 3" ] }
       ],
       "update_mapgen": {
         "om_terrain": "evac_center_9",
@@ -345,7 +345,7 @@
         "text": "[10 merch] How about ten merch to do it?",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 10 } },
         "effect": [
-          { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "+=", "3" ] },
+          { "math": [ "u_mission_cleanup_promises_Boris_mission_1 += 3" ] },
           { "npc_add_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" },
           { "u_consume_item": "FMCNote", "count": 10, "popup": true }
         ],

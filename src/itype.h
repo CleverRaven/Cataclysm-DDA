@@ -724,6 +724,11 @@ struct itype_variant_data {
 
     int weight = 1;
 
+    // this is only needed for delete in generic_factory, so only compares id!
+    // Not safe for general use!
+    bool operator==( const itype_variant_data &rhs ) const {
+        return id == rhs.id;
+    }
     void deserialize( const JsonObject &jo );
     void load( const JsonObject &jo );
 };
@@ -1515,7 +1520,7 @@ struct itype {
         units::money price = 0_cent;
 
         /** Value after the Cataclysm, dependent upon practical usages. Price given is for a default-sized stack. */
-        units::money price_post = 0_cent;
+        units::money price_post = -1_cent;
 
         // TODO: Add some very basic unweildiness calc for non specified to_hit?
         int m_to_hit = -2;  // To-hit bonus for melee combat, see GAME_BALANCE.md#to-hit-value

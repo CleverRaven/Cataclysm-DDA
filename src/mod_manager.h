@@ -134,6 +134,10 @@ class mod_manager
          * world.
          */
         void load_mods_list( WORLD *world ) const;
+        /**
+        * Handle mod migrations/removals
+        * Returns false if player decided to back out of loading after encountering missing mod
+        */
         void check_mods_list( WORLD *world ) const;
         const t_mod_list &get_default_mods() const;
         bool set_default_mods( const t_mod_list &mods );

@@ -40,5 +40,11 @@
     "//": "Removed in 0.I",
     "id": "speedydex",
     "removal_reason": "Does not meet repo requirements of offering a different, curated gameplay experience.  Mod can trivially be reproduced in JSON with enchantments."
+  },
+  {
+    "type": "mod_migration",
+    "//": "Removed in 0.J",
+    "id": "aftershock",
+    "removal_reason": "Aftershock has been merged with \"Aftershock: Exoplanet\" as Exoplanet's mapgen is at a level where it's no longer considered WIP.  If your world is using Exoplanet already you can remove this without issue.  Adding Exoplanet to saves without it would not work well because it drastically changes world gen, consider finishing your save on the version you were using before."
   }
 ]

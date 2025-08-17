@@ -21,6 +21,7 @@
 
 #include "cached_options.h"
 #include "calendar.h"
+#include "cata_assert.h"
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "debug.h"
@@ -635,12 +636,20 @@ data), it should throw.
 
 */
 
+// warn when relative/proportional/extend/delete is used for a member but is not read
+void warn_disabled_feature( const JsonObject &jo, std::string_view feature,
+                            std::string_view member, std::string_view reason );
+
 /** @name Implementation of `mandatory` and `optional`. */
 /**@{*/
 template<typename MemberType>
 inline void mandatory( const JsonObject &jo, const bool was_loaded, const std::string_view name,
                        MemberType &member )
 {
+    warn_disabled_feature( jo, "extend", name, "disabled for mandatory" );
+    warn_disabled_feature( jo, "delete", name, "disabled for mandatory" );
+    warn_disabled_feature( jo, "relative", name, "disabled for mandatory" );
+    warn_disabled_feature( jo, "proportional", name, "disabled for mandatory" );
     if( !jo.read( name, member ) ) {
         if( !was_loaded ) {
             if( jo.has_member( name ) ) {
@@ -669,10 +678,6 @@ inline void mandatory( const JsonObject &jo, const bool was_loaded, const std::s
         }
     }
 }
-
-// warn when relative/proportional/extend/delete is used for a member but is not read
-void warn_disabled_feature( const JsonObject &jo, std::string_view feature,
-                            std::string_view member, std::string_view reason );
 
 /*
  * Template vodoo:
@@ -913,6 +918,7 @@ template < typename MemberType, typename ReaderType, typename DefaultType = Memb
 inline void optional( const JsonObject &jo, const bool was_loaded, const std::string_view name,
                       MemberType &member, const ReaderType &reader )
 {
+    // reader handles disabled features
     if( !reader( jo, name, member, was_loaded ) ) {
         if( !was_loaded ) {
             member = MemberType();
@@ -923,6 +929,7 @@ template<typename MemberType, typename ReaderType, typename DefaultType = Member
 inline void optional( const JsonObject &jo, const bool was_loaded, const std::string_view name,
                       MemberType &member, const ReaderType &reader, const DefaultType &default_value )
 {
+    // reader handles disabled features
     if( !reader( jo, name, member, was_loaded ) ) {
         if( !was_loaded ) {
             member = default_value;
@@ -1498,6 +1505,27 @@ public:
 };
 
 /**
+ * This reader is for any object that can be read from a JsonValue,
+ * but does not otherwise need special handling in a reader.
+ * This enables using extend/delete for arbitrary types without a specialized reader,
+ * by implementing a deserialize function for the type and using this reader.
+ * The type must be constructible with no arguments, and may need to implement some operators,
+ * depending on the underlying container. (e.g. vector requires operator==() for the handler above)
+ */
+template<typename T>
+class json_read_reader : public generic_typed_reader<json_read_reader<T>>
+{
+public:
+    T get_next( const JsonValue &jv ) const {
+        T ret;
+        if( !jv.read( ret ) ) {
+            jv.throw_error( string_format( "Couldn't read %s", demangle( typeid( T ).name() ) ) );
+        }
+        return ret;
+    }
+};
+
+/**
  * Converts the JSON string to some type that must be construable from a `std::string`,
  * e.g. @ref string_id.
  * Example:
@@ -1520,50 +1548,26 @@ public:
 
 using string_reader = auto_flags_reader<>;
 
-class volume_reader : public generic_typed_reader<units::volume>
+class volume_reader : public generic_typed_reader<volume_reader>
 {
     public:
-        bool operator()( const JsonObject &jo, const std::string_view member_name,
-                         units::volume &member, bool /* was_loaded */ ) const {
-            if( !jo.has_member( member_name ) ) {
-                return false;
-            }
-            member = read_from_json_string<units::volume>( jo.get_member( member_name ), units::volume_units );
-            return true;
-        }
-        units::volume get_next( JsonValue &jv ) const {
+        units::volume get_next( const JsonValue &jv ) const {
             return read_from_json_string<units::volume>( jv, units::volume_units );
         }
 };
 
-class mass_reader : public generic_typed_reader<units::mass>
+class mass_reader : public generic_typed_reader<mass_reader>
 {
     public:
-        bool operator()( const JsonObject &jo, const std::string_view member_name,
-                         units::mass &member, bool /* was_loaded */ ) const {
-            if( !jo.has_member( member_name ) ) {
-                return false;
-            }
-            member = read_from_json_string<units::mass>( jo.get_member( member_name ), units::mass_units );
-            return true;
-        }
-        units::mass get_next( JsonValue &jv ) const {
+        units::mass get_next( const JsonValue &jv ) const {
             return read_from_json_string<units::mass>( jv, units::mass_units );
         }
 };
 
-class money_reader : public generic_typed_reader<units::money>
+class money_reader : public generic_typed_reader<money_reader>
 {
     public:
-        bool operator()( const JsonObject &jo, const std::string_view member_name,
-                         units::money &member, bool /* was_loaded */ ) const {
-            if( !jo.has_member( member_name ) ) {
-                return false;
-            }
-            member = read_from_json_string<units::money>( jo.get_member( member_name ), units::money_units );
-            return true;
-        }
-        static units::money get_next( JsonValue &jv ) {
+        units::money get_next( const JsonValue &jv ) const {
             return read_from_json_string<units::money>( jv, units::money_units );
         }
 };
@@ -1677,7 +1681,7 @@ public:
     std::pair<K, V> get_next( const JsonValue &val ) const {
         if( val.is_member() ) {
             const JsonMember &jm = dynamic_cast<const JsonMember &>( val );
-            return std::pair<K, V>( jm.name(), val.get_float() );
+            return std::pair<K, V>( jm.name(), static_cast<V>( val.get_float() ) );
         } else if( val.test_object() ) {
             JsonObject inline_pair = val.get_object();
             if( !( inline_pair.size() == 1 || inline_pair.size() == 2 ) ) {
@@ -1754,6 +1758,39 @@ public:
         ja[0].read( l, true );
         ja[1].read( h, true );
         return std::make_pair( l, h );
+    }
+};
+
+template<typename T1, typename T2>
+class named_pair_reader : public generic_typed_reader<named_pair_reader<T1, T2>>
+{
+public:
+    std::string_view key1;
+    std::string_view key2;
+    T2 default_value2;
+
+    named_pair_reader( std::string_view _key1, std::string_view _key2,
+                       T2 _default = T2() ) : key1( _key1 ), key2( _key2 ), default_value2( _default ) {
+        cata_assert( !key1.empty() );
+        cata_assert( !key2.empty() );
+        cata_assert( key1 != key2 );
+    }
+
+    std::pair<T1, T2> get_next( const JsonValue &jv ) const {
+        std::pair<T1, T2> ret;
+        if( jv.test_object() ) {
+            JsonObject jo = jv.get_object();
+            jo.read( key1, ret.first, true );
+            jo.read( key2, ret.second, true );
+            return ret;
+        }
+        // TODO: support pair format?
+        if( jv.test_array() ) {
+            jv.throw_error( "invalid format" );
+        }
+        jv.read( ret.first, true );
+        ret.second = default_value2;
+        return ret;
     }
 };
 
@@ -1910,7 +1947,7 @@ class activity_level_reader : public generic_typed_reader<activity_level_reader>
 
 struct dbl_or_var;
 
-class dbl_or_var_reader : public generic_typed_reader<dbl_or_var>
+class dbl_or_var_reader : public generic_typed_reader<dbl_or_var_reader>
 {
     public:
         bool operator()( const JsonObject &jo, std::string_view member_name,

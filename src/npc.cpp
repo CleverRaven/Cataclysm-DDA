@@ -310,6 +310,11 @@ npc &npc::operator=( npc && ) noexcept( list_is_noexcept ) = default;
 
 static std::map<string_id<npc_template>, npc_template> npc_templates;
 
+std::map<npc_template_id, npc_template> &npc_template::get_npc_templates()
+{
+    return npc_templates;
+}
+
 void npc_template::load( const JsonObject &jsobj, std::string_view src )
 {
     npc_template tem;
@@ -1809,9 +1814,8 @@ void npc::on_attacked( const Creature &attacker )
 {
     map &here = get_map();
 
-    if( is_hallucination() ) {
-        die( &here, nullptr );
-    }
+    hallucination_die( &here, nullptr );
+
     if( attacker.is_avatar() && !is_enemy() && !is_dead() && !guaranteed_hostile() ) {
         make_angry();
         hit_by_player = true;
@@ -2178,6 +2182,11 @@ void npc::shop_restock()
     distribute_items_to_npc_zones( ret, *this );
 }
 
+time_point npc::restock_time() const
+{
+    return restock + myclass->get_shop_restock_interval();
+}
+
 std::string npc::get_restock_interval() const
 {
     time_duration const restock_remaining =
@@ -2495,21 +2504,6 @@ bool npc::is_following() const
 bool npc::is_leader() const
 {
     return attitude == NPCATT_LEAD;
-}
-
-bool npc::within_boundaries_of_camp() const
-{
-    const point_abs_omt p( pos_abs_omt().xy() );
-    for( int x2 = -3; x2 < 3; x2++ ) {
-        for( int y2 = -3; y2 < 3; y2++ ) {
-            const point_abs_omt nearby = p + point( x2, y2 );
-            std::optional<basecamp *> bcp = overmap_buffer.find_camp( nearby );
-            if( bcp ) {
-                return true;
-            }
-        }
-    }
-    return false;
 }
 
 bool npc::is_enemy() const

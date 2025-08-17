@@ -1095,5 +1095,27 @@
       { "item": "rock", "count": [ 6, 12 ] }
     ],
     "variants": [ { "symbols": "o", "symbols_broken": "x" } ]
+  },
+  {
+    "id": "ap_lathe",
+    "type": "vehicle_part",
+    "categories": [ "utility" ],
+    "name": { "str": "lathe" },
+    "description": "An industrial-grade lathe, for turning chunks of metal and other hard things into round chunks of metal and other hard things.",
+    "looks_like": "f_heavy_lathe",
+    "variants": [ { "symbols": "4", "symbols_broken": "#" } ],
+    "color": "cyan_red",
+    "flags": [ "OBSTACLE", "APPLIANCE" ],
+    "pseudo_tools": [ { "id": "fake_lathe" } ],
+    "item": "lathe",
+    "damage_modifier": 10,
+    "damage_reduction": { "all": 30 },
+    "durability": 80,
+    "breaks_into": [
+      { "item": "cable", "charges": [ 0, 4 ] },
+      { "item": "scrap", "count": [ 12, 20 ] },
+      { "item": "chunk_cast_iron", "count": [ 2, 4 ] },
+      { "item": "lump_cast_iron", "count": [ 1, 2 ] }
+    ]
   }
 ]

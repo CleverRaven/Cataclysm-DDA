@@ -1060,6 +1060,13 @@ class item : public visitable
         bool count_by_charges() const;
 
         /**
+         * Compress liquids and counted-by-charges items into one item.
+         * They are added together on the map anyway and handle_liquid
+         * should only be called once to put it all into a container at once.
+         */
+        void compress_charges_or_liquid( int &compcount );
+
+        /**
          * If count_by_charges(), returns charges, otherwise 1
          */
         int count() const;
@@ -1929,9 +1936,9 @@ class item : public visitable
          * Callback when a player starts wielding the item. The item is already in the weapon
          * slot and is called from there.
          * @param p player that has started wielding item
-         * @param mv number of moves *already* spent wielding the weapon
+         * @param combat wielding for combat purposes
          */
-        void on_wield( Character &you );
+        void on_wield( Character &you, bool combat = true );
         /**
          * Callback when a player starts carrying the item. The item is already in the inventory
          * and is called from there. This is not called when the item is added to the inventory

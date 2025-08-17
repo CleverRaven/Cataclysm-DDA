@@ -74,7 +74,7 @@
     "//": "Keeps your solar panels, lights and well everything going.",
     "items": [
       [ "screwdriver_set", 20 ],
-      { "group": "superglue", "prob": 30 },
+      { "group": "glue_strong_domestic", "prob": 30 },
       [ "pliers", 10 ],
       [ "multitool", 20 ],
       [ "voltmeter", 20 ],
@@ -279,7 +279,8 @@
       { "item": "multitool", "prob": 5 },
       { "item": "screwdriver_set", "prob": 15 },
       { "item": "pliers", "prob": 5 },
-      { "group": "superglue", "prob": 5 },
+      { "group": "glue_weak_domestic", "prob": 5 },
+      { "group": "glue_strong_domestic", "prob": 5 },
       { "group": "duct_tape_roll_part", "prob": 10, "count": [ 1, 2 ] }
     ]
   },

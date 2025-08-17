@@ -272,6 +272,7 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_subaquatic_sonar( "subaquatic_sonar" );
 static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_tied( "tied" );
+static const efftype_id effect_took_thorazine( "took_thorazine" );
 static const efftype_id effect_transition_contacts( "transition_contacts" );
 static const efftype_id effect_winded( "winded" );
 
@@ -379,6 +380,8 @@ static const material_id material_steel( "steel" );
 
 static const morale_type morale_cold( "morale_cold" );
 static const morale_type morale_hot( "morale_hot" );
+static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
+static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
 
 static const move_mode_id move_mode_prone( "prone" );
 static const move_mode_id move_mode_walk( "walk" );
@@ -470,11 +473,13 @@ static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_QUILLS( "QUILLS" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SAVANT( "SAVANT" );
+static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL3( "SHELL3" );
 static const trait_id trait_SHOUT2( "SHOUT2" );
@@ -524,6 +529,17 @@ std::string enum_to_string<blood_type>( blood_type data )
 }
 
 } // namespace io
+
+void Character::queue_effects( const std::vector<effect_on_condition_id> &effects )
+{
+    for( const effect_on_condition_id &eoc_id : effects ) {
+        effect_on_condition eoc = eoc_id.obj();
+        if( is_avatar() || eoc.run_for_npcs ) {
+            queued_eoc new_eoc = queued_eoc{ eoc.id, calendar::turn_zero, {} };
+            queued_effect_on_conditions.push( new_eoc );
+        }
+    }
+}
 
 void Character::queue_effect( const std::string &name, const time_duration &delay,
                               const time_duration &effect_duration )
@@ -2441,24 +2457,9 @@ void Character::process_turn()
     for( const trait_id &mut : get_functioning_mutations() ) {
         mutation_reflex_trigger( mut );
     }
-    //Creature::process_turn() uses speed to restore moves, but for Character, speed has not yet been calculated.
-    //So Creature::process_turn() cannot be used directly here.
-    //Exposed the content of Creature::process_turn() except restore moves here,
-    //and do the reset moves later after recalc_speed_bonus().
-    //The following is the content of Creature::process_turn() except restore moves
-    decrement_summon_timer();
-    if( is_dead_state() ) {
-        return;
-    }
-    reset_bonuses();
 
-    process_effects();
-
-    process_damage_over_time();
-
-    // Call this in case any effects have changed our stats
-    reset_stats();
-    //The above is the content of Creature::process_turn() except reset moves
+    //Creature::process_turn() cannot be used directly here because Character::speed has not yet been calculated
+    Creature::process_turn_no_moves();
 
     // If we're actively handling something we can't just drop it on the ground
     // in the middle of handling it
@@ -6347,9 +6348,8 @@ float Character::get_bmi_lean() const
 {
     //strength BMIs decrease to zero as you starve (muscle atrophy)
     if( get_bmi_fat() < character_weight_category::normal ) {
-        const int str_penalty = std::floor( ( 1.0f - ( get_bmi_fat() /
-                                              character_weight_category::normal ) ) * str_max );
-        return 12.0f + get_str_base() - str_penalty;
+        const stat_mod wpen = get_weight_penalty();
+        return 12.0f + get_str_base() - wpen.strength;
     }
     return 12.0f + get_str_base();
 }
@@ -12171,6 +12171,68 @@ bool Character::empathizes_with_monster( const mtype_id &monster ) const
     return false;
 }
 
+bool Character::has_unfulfilled_pyromania() const
+{
+    return has_trait( trait_PYROMANIA ) && !has_morale( morale_pyromania_startfire );
+}
+
+void Character::fulfill_pyromania( int bonus, int max_bonus,
+                                   const time_duration &duration, const time_duration &decay_start )
+{
+    add_morale( morale_pyromania_startfire, bonus, max_bonus, duration, decay_start );
+    rem_morale( morale_pyromania_nofire );
+}
+
+void Character::fulfill_pyromania_msg( const std::string &message, int bonus, int max_bonus,
+                                       const time_duration &duration, const time_duration &decay_start )
+{
+    add_msg_if_player( m_good, message );
+    fulfill_pyromania( bonus, max_bonus, duration, decay_start );
+}
+
+void Character::fulfill_pyromania_msg_std( const std::string &target_name, int bonus, int max_bonus,
+        const time_duration &duration, const time_duration &decay_start )
+{
+    if( target_name.empty() ) {
+        fulfill_pyromania_msg( _( "You feel a surge of euphoria as flames burst out!" ), bonus, max_bonus,
+                               duration, decay_start );
+    } else {
+        fulfill_pyromania_msg( string_format( _( "You feel a surge of euphoria as flame engulfs %s!" ),
+                                              target_name ), bonus, max_bonus, duration, decay_start );
+    }
+}
+
+bool Character::fulfill_pyromania_sees( const map &here, const Creature &target,
+                                        int bonus, int max_bonus,
+                                        const time_duration &duration, const time_duration &decay_start )
+{
+    if( sees( here, target ) ) {
+        fulfill_pyromania_msg_std( target.get_name(), bonus, max_bonus, duration, decay_start );
+        return true;
+    }
+    return false;
+}
+
+bool Character::fulfill_pyromania_sees( const map &here, const tripoint_bub_ms &target,
+                                        const std::string &target_str, bool std_msg, int bonus, int max_bonus,
+                                        const time_duration &duration, const time_duration &decay_start )
+{
+    if( sees( here, target ) ) {
+        if( std_msg ) {
+            fulfill_pyromania_msg_std( target_str, bonus, max_bonus, duration, decay_start );
+        } else {
+            fulfill_pyromania_msg( target_str, bonus, max_bonus, duration, decay_start );
+        }
+        return true;
+    }
+    return false;
+}
+
+bool Character::schizo_symptoms( int chance ) const
+{
+    return has_trait( trait_SCHIZOPHRENIC ) && !has_effect( effect_took_thorazine ) && one_in( chance );
+}
+
 bool Character::is_driving() const
 {
     map &here = get_map();
@@ -12591,6 +12653,17 @@ void Character::set_underwater( bool u )
         recalc_sight_limits();
     }
 }
+
+stat_mod Character::get_weight_penalty() const
+{
+    stat_mod ret;
+    const float bmi = get_bmi_fat();
+    ret.strength = std::floor( ( 1.0f - ( bmi / character_weight_category::normal ) ) * str_max );
+    ret.dexterity = std::floor( ( character_weight_category::normal - bmi ) * 3.0f );
+    ret.intelligence = ret.dexterity;
+    return ret;
+}
+
 
 stat_mod Character::get_pain_penalty() const
 {
@@ -13103,6 +13176,7 @@ void Character::process_items( map *here )
                 continue;
             } else if( it->active && !it->ammo_sufficient( this ) ) {
                 it->deactivate();
+                add_msg_if_player( _( "Your %s shut down due to lack of power." ), it->tname() );
             } else if( available_charges - ups_used >= 1_kJ &&
                        it->ammo_remaining_linked( *here, nullptr ) < it->ammo_capacity( ammo_battery ) ) {
                 // Charge the battery in the UPS modded tool
@@ -13165,7 +13239,7 @@ void Character::search_surroundings()
     }
 }
 
-bool Character::wield( item &it, std::optional<int> obtain_cost )
+bool Character::wield( item &it, std::optional<int> obtain_cost, bool combat )
 {
     invalidate_inventory_validity_cache();
     invalidate_leak_level_cache();
@@ -13245,7 +13319,7 @@ bool Character::wield( item &it, std::optional<int> obtain_cost )
     // if fists are wielded get_wielded_item returns item_location::nowhere, which is a nullptr
     if( wielded ) {
         last_item = wielded->typeId();
-        wielded->on_wield( *this );
+        wielded->on_wield( *this, combat );
         inv->update_invlet( *wielded );
         inv->update_cache_with_item( *wielded );
         cata::event e = cata::event::make<event_type::character_wields_item>( getID(), last_item );

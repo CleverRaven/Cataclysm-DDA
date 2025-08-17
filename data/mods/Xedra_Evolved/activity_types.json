@@ -45,5 +45,15 @@
     "verb": "drinking blood",
     "based_on": "time",
     "can_resume": false
+  },
+  {
+    "type": "activity_type",
+    "id": "ACT_WEREWOLF_LEARNING_MOON_GIFT",
+    "activity_level": "NO_EXERCISE",
+    "verb": "learning a new gift",
+    "based_on": "time",
+    "can_resume": false,
+    "do_turn_eoc": "EOC_WEREWOLF_LEARNING_MOON_GIFT_MOON_CHECK",
+    "completion_eoc": "EOC_WEREWOLF_LEARNING_MOON_GIFT_END"
   }
 ]

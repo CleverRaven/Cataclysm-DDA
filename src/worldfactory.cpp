@@ -139,6 +139,18 @@ WORLD *worldfactory::add_world( std::unique_ptr<WORLD> retworld )
     if( !retworld->save() ) {
         return nullptr;
     }
+    if( get_option<bool>( "WORLD_COMPRESSION2" ) ) {
+        cata_path dictionary_folder = PATH_INFO::compression_folder_path();
+        cata_path maps_dict = dictionary_folder / "maps.dict";
+        cata_path mmr_dict = dictionary_folder / "mmr.dict";
+        cata_path overmaps_dict = dictionary_folder / "overmaps.dict";
+
+        if( !copy_file( maps_dict, retworld->folder_path() / "maps.dict" ) ||
+            !copy_file( mmr_dict, retworld->folder_path() / "mmr.dict" ) ||
+            !copy_file( overmaps_dict, retworld->folder_path() / "overmaps.dict" ) ) {
+            return nullptr;
+        }
+    }
     return ( all_worlds[ retworld->world_name ] = std::move( retworld ) ).get();
 }
 

@@ -386,6 +386,10 @@ void Item_factory::finalize_pre( itype &obj )
         obj.category_force = calc_category( obj );
     }
 
+    // use pre-Cataclysm price as default if post-cataclysm price unspecified
+    if( obj.price_post < 0_cent ) {
+        obj.price_post = obj.price;
+    }
     // use base volume if integral volume unspecified
     if( obj.integral_volume < 0_ml ) {
         obj.integral_volume = obj.volume;
@@ -2156,19 +2160,6 @@ void Item_factory::init()
     m_template_groups[Item_spawn_data_EMPTY_GROUP] =
         std::make_unique<Item_group>( Item_group::G_COLLECTION, 100, 0, 0, "EMPTY_GROUP" );
 }
-
-//reads nc_color from string
-class color_reader : public generic_typed_reader<color_reader>
-{
-    public:
-        nc_color get_next( const JsonValue &val ) const {
-            if( val.test_string() ) {
-                return nc_color( color_from_string( val.get_string() ) );
-            }
-            val.throw_error( "color must be string" );
-            return nc_color();
-        }
-};
 
 //reads snippet as array or string
 class snippet_reader : public generic_typed_reader<snippet_reader>
@@ -4069,15 +4060,15 @@ void itype::load( const JsonObject &jo, std::string_view src )
     optional( jo, was_loaded, "volume", volume );
     optional( jo, was_loaded, "longest_side", longest_side, -1_mm );
     optional( jo, was_loaded, "price", price, not_negative_money, 0_cent );
-    optional( jo, was_loaded, "price_postapoc", price_post, not_negative_money, 0_cent );
+    optional( jo, was_loaded, "price_postapoc", price_post, not_negative_money, -1_cent );
     optional( jo, was_loaded, "stackable", stackable_ );
     optional( jo, was_loaded, "integral_volume", integral_volume, not_negative_volume, -1_ml );
     optional( jo, was_loaded, "integral_longest_side", integral_longest_side, not_negative_length,
               -1_mm );
-    optional( jo, false, "variant_type", variant_kind, itype_variant_kind::generic );
-    optional( jo, false, "variants", variants );
+    optional( jo, was_loaded, "variant_type", variant_kind, itype_variant_kind::generic );
+    optional( jo, was_loaded, "variants", variants, json_read_reader<itype_variant_data> {} );
     optional( jo, was_loaded, "container", default_container );
-    optional( jo, false, "container_variant", default_container_variant );
+    optional( jo, was_loaded, "container_variant", default_container_variant );
     optional( jo, was_loaded, "sealed", default_container_sealed, true );
 
     optional( jo, was_loaded, "min_strength", min_str );
@@ -4089,12 +4080,12 @@ void itype::load( const JsonObject &jo, std::string_view src )
     optional( jo, was_loaded, "insulation", insulation_factor, 1.0f );
     optional( jo, was_loaded, "solar_efficiency", solar_efficiency );
 
-    optional( jo, false, "fall_damage_reduction", fall_damage_reduction );
+    optional( jo, was_loaded, "fall_damage_reduction", fall_damage_reduction );
     optional( jo, was_loaded, "ascii_picture", picture_id );
     optional( jo, was_loaded, "repairs_with", repairs_with, auto_flags_reader<material_id> {} );
     optional( jo, was_loaded, "ememory_size", ememory_size );
 
-    optional( jo, was_loaded, "color", color, color_reader{} );
+    optional( jo, was_loaded, "color", color, nc_color_reader{} );
 
     optional( jo, was_loaded, "repairs_like", repairs_like );
 

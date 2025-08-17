@@ -476,6 +476,17 @@ std::unique_ptr<std::istream> read_maybe_compressed_file( const std::string &pat
     return read_maybe_compressed_file( std::filesystem::u8path( path ) );
 }
 
+static bool is_gzipped( std::ifstream &fin )
+{
+    // (byte1 == 0x1f) && (byte2 == 0x8b)
+    std::array<char, 2> header;
+    fin.read( header.data(), 2 );
+    fin.clear();
+    fin.seekg( 0, std::ios::beg ); // reset read position
+
+    return ( header[0] == '\x1f' ) && ( header[1] == '\x8b' );
+}
+
 std::unique_ptr<std::istream> read_maybe_compressed_file( const std::filesystem::path &path )
 {
     try {
@@ -484,14 +495,7 @@ std::unique_ptr<std::istream> read_maybe_compressed_file( const std::filesystem:
             throw std::runtime_error( "opening file failed" );
         }
 
-        // check if file is gzipped
-        // (byte1 == 0x1f) && (byte2 == 0x8b)
-        std::array<char, 2> header;
-        fin.read( header.data(), 2 );
-        fin.clear();
-        fin.seekg( 0, std::ios::beg ); // reset read position
-
-        if( ( header[0] == '\x1f' ) && ( header[1] == '\x8b' ) ) {
+        if( is_gzipped( fin ) ) {
             std::string outstring = read_compressed_file_to_string( fin );
             std::stringstream inflated_contents_stream;
             inflated_contents_stream.write( outstring.data(), outstring.size() );
@@ -528,14 +532,7 @@ std::optional<std::string> read_whole_file( const std::filesystem::path &path )
             throw std::runtime_error( "opening file failed" );
         }
 
-        // check if file is gzipped
-        // (byte1 == 0x1f) && (byte2 == 0x8b)
-        std::array<char, 2> header;
-        fin.read( header.data(), 2 );
-        fin.clear();
-        fin.seekg( 0, std::ios::beg ); // reset read position
-
-        if( ( header[0] == '\x1f' ) && ( header[1] == '\x8b' ) ) {
+        if( is_gzipped( fin ) ) {
             outstring = read_compressed_file_to_string( fin );
         } else {
             fin.seekg( 0, std::ios_base::end );

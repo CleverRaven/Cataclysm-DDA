@@ -550,6 +550,37 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "sling_long",
+    "id_suffix": "cord",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "throw", 1 ] ],
+    "difficulty": 1,
+    "time": "45 m",
+    "reversible": true,
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_fibers", "skill_penalty": 0 } ],
+    "using": [ [ "cordage", 6 ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "sling_long",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "throw", 1 ], [ "tailor", 1 ] ],
+    "time": "20 m",
+    "reversible": true,
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "SEW", "level": 1 } ],
+    "components": [ [ [ "filament", 40, "LIST" ] ], [ [ "leather", 1 ], [ "fur", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "slingshot",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
@@ -1368,6 +1399,6 @@
     ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "tools": [ [ [ "bench_vise", -1 ] ] ],
-    "components": [ [ [ "ruger_1022", 1 ] ], [ [ "qt_wire", 1 ] ], [ [ "sheet_metal_small", 2 ] ], [ [ "super_glue", 5 ] ] ]
+    "components": [ [ [ "ruger_1022", 1 ] ], [ [ "qt_wire", 1 ] ], [ [ "sheet_metal_small", 2 ] ], [ [ "glue_strong", 5 ] ] ]
   }
 ]

@@ -42,7 +42,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_RANCH_SCAVENGER_ASK_RESTOCK",
-    "dynamic_line": "Nope, current run hasn't returned yet.  Come back in <interval>.  You might find something you like.",
+    "dynamic_line": "Nope, current run hasn't returned yet.  Come back on <restock_time_point>.  You might find something you like.",
     "responses": [ { "text": "Alright, thanks.", "topic": "TALK_RANCH_SCAVENGER_1" } ]
   },
   {

@@ -23,6 +23,10 @@ void warn_disabled_feature( const JsonObject &jo, const std::string_view feature
 bool one_char_symbol_reader( const JsonObject &jo, std::string_view member_name, int &sym,
                              bool )
 {
+    warn_disabled_feature( jo, "extend", member_name, "disabled for one_char_symbol_reader" );
+    warn_disabled_feature( jo, "delete", member_name, "disabled for one_char_symbol_reader" );
+    warn_disabled_feature( jo, "relative", member_name, "disabled for one_char_symbol_reader" );
+    warn_disabled_feature( jo, "proportional", member_name, "disabled for one_char_symbol_reader" );
     std::string sym_as_string;
     if( !jo.read( member_name, sym_as_string ) ) {
         return false;
@@ -47,6 +51,14 @@ bool one_char_symbol_reader( const JsonObject &jo, std::string_view member_name,
 bool unicode_codepoint_from_symbol_reader( const JsonObject &jo,
         std::string_view member_name, uint32_t &member, bool )
 {
+    warn_disabled_feature( jo, "extend", member_name,
+                           "disabled for unicode_codepoint_from_symbol_reader" );
+    warn_disabled_feature( jo, "delete", member_name,
+                           "disabled for unicode_codepoint_from_symbol_reader" );
+    warn_disabled_feature( jo, "relative", member_name,
+                           "disabled for unicode_codepoint_from_symbol_reader" );
+    warn_disabled_feature( jo, "proportional", member_name,
+                           "disabled for unicode_codepoint_from_symbol_reader" );
     int sym_as_int;
     std::string sym_as_string;
     if( !jo.read( member_name, sym_as_string, false ) ) {

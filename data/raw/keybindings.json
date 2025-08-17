@@ -1286,6 +1286,13 @@
   },
   {
     "type": "keybinding",
+    "name": "Define Point of Interest",
+    "category": "OVERMAP",
+    "id": "CREATE_POINT_OF_INTEREST",
+    "bindings": [ { "input_method": "keyboard_char", "key": "P" }, { "input_method": "keyboard_code", "key": "p", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "id": "ROTATE",
     "category": "OVERMAP_EDITOR",
     "name": "Rotate",

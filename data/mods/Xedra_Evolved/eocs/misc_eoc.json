@@ -44,7 +44,7 @@
         }
       ]
     },
-    "effect": [ { "math": [ "u_skill_exp('deduction', 'format': 'raw')", "+=", "250" ] } ]
+    "effect": [ { "math": [ "u_skill_exp('deduction', 'format': 'raw') += 250" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -60,10 +60,10 @@
     "required_event": "opens_spellbook",
     "condition": { "u_is_wearing": "dream_attuning_necklace" },
     "effect": [
-      { "math": [ "u_school_level_adjustment('DREAMER')", "+=", "5" ] },
-      { "math": [ "u_school_level_adjustment('EATER')", "+=", "5" ] },
-      { "math": [ "u_school_level_adjustment('DREAMSMITH')", "+=", "5" ] },
-      { "math": [ "u_school_level_adjustment('INVENTOR')", "+=", "5" ] }
+      { "math": [ "u_school_level_adjustment('DREAMER') += 5" ] },
+      { "math": [ "u_school_level_adjustment('EATER') += 5" ] },
+      { "math": [ "u_school_level_adjustment('DREAMSMITH') += 5" ] },
+      { "math": [ "u_school_level_adjustment('INVENTOR') += 5" ] }
     ]
   },
   {
@@ -473,14 +473,14 @@
       ]
     },
     "effect": [
-      { "math": [ "u_vitamin('blood')", "+=", "1000" ] },
-      { "math": [ "u_vitamin('redcells')", "+=", "1000" ] },
-      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "u_effect_intensity('bleed', 'bodypart': 'arm_l') * 5" ] },
-      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "u_effect_intensity('bleed', 'bodypart': 'arm_r') * 5" ] },
-      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "u_effect_intensity('bleed', 'bodypart': 'leg_l') * 5" ] },
-      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "u_effect_intensity('bleed', 'bodypart': 'leg_r') * 5" ] },
-      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "u_effect_intensity('bleed', 'bodypart': 'torso') * 5" ] },
-      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "u_effect_intensity('bleed', 'bodypart': 'head') * 5" ] },
+      { "math": [ "u_vitamin('blood') += 1000" ] },
+      { "math": [ "u_vitamin('redcells') += 1000" ] },
+      { "math": [ "u_vitamin('human_blood_vitamin') -= u_effect_intensity('bleed', 'bodypart': 'arm_l') * 5" ] },
+      { "math": [ "u_vitamin('human_blood_vitamin') -= u_effect_intensity('bleed', 'bodypart': 'arm_r') * 5" ] },
+      { "math": [ "u_vitamin('human_blood_vitamin') -= u_effect_intensity('bleed', 'bodypart': 'leg_l') * 5" ] },
+      { "math": [ "u_vitamin('human_blood_vitamin') -= u_effect_intensity('bleed', 'bodypart': 'leg_r') * 5" ] },
+      { "math": [ "u_vitamin('human_blood_vitamin') -= u_effect_intensity('bleed', 'bodypart': 'torso') * 5" ] },
+      { "math": [ "u_vitamin('human_blood_vitamin') -= u_effect_intensity('bleed', 'bodypart': 'head') * 5" ] },
       { "u_message": "You are losing your stolen blood through your bleeding wounds!", "type": "bad" },
       { "run_eocs": "EOC_VAMPIRE_BLEED_STOLEN_BLOOD", "time_in_future": [ "10 s", "10 s" ] }
     ]

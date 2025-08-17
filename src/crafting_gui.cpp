@@ -44,10 +44,8 @@
 #include "item_location.h"
 #include "itype.h"
 #include "localized_comparator.h"
-#include "magic_enchantment.h"
 #include "options.h"
 #include "output.h"
-#include "pimpl.h"
 #include "point.h"
 #include "popup.h"
 #include "recipe.h"
@@ -65,13 +63,8 @@
 #include "ui_manager.h"
 #include "uistate.h"
 
-static const limb_score_id limb_score_manip( "manip" );
-
-static const std::string flag_AFFECTED_BY_PAIN( "AFFECTED_BY_PAIN" );
 static const std::string flag_BLIND_EASY( "BLIND_EASY" );
 static const std::string flag_BLIND_HARD( "BLIND_HARD" );
-static const std::string flag_NO_ENCHANTMENT( "NO_ENCHANTMENT" );
-static const std::string flag_NO_MANIP( "NO_MANIP" );
 
 enum TAB_MODE {
     NORMAL,
@@ -2370,11 +2363,8 @@ static void draw_hidden_amount( const catacurses::window &w, int amount, int num
 static void draw_can_craft_indicator( const catacurses::window &w, const recipe &rec,
                                       Character &crafter )
 {
-    int limb_modifier = rec.has_flag( flag_NO_MANIP ) ? 100 : crafter.get_limb_score(
-                            limb_score_manip ) * 100;
-    int mut_multi = rec.has_flag( flag_NO_ENCHANTMENT ) ? 100 : ( 1.0 +
-                    crafter.enchantment_cache->get_value_multiply( enchant_vals::mod::CRAFTING_SPEED_MULTIPLIER ) ) *
-                    100;
+    int limb_modifier = crafter.limb_score_crafting_speed_multiplier( rec ) * 100;
+    int mut_multi = crafter.mut_crafting_speed_multiplier( rec ) * 100;
 
     std::stringstream modifiers_list;
     if( limb_modifier != 100 ) {
@@ -2398,8 +2388,7 @@ static void draw_can_craft_indicator( const catacurses::window &w, const recipe 
     } else if( crafter.crafting_speed_multiplier( rec ) < 1.0f ) {
         int morale_modifier = crafter.morale_crafting_speed_multiplier( rec ) * 100;
         int lighting_modifier = crafter.lighting_craft_speed_multiplier( rec ) * 100;
-        int pain_multi = rec.has_flag( flag_AFFECTED_BY_PAIN ) ? 100 * std::max( 0.0f,
-                         1.0f - ( crafter.get_perceived_pain() / 100.0f ) ) : 100;
+        const int pain_multi = crafter.pain_crafting_speed_multiplier( rec ) * 100;
 
         if( morale_modifier < 100 ) {
             if( !modifiers_list.str().empty() ) {

@@ -103,6 +103,7 @@
 #include "flag.h"
 #include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
+#include "flood_fill.h"
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "game_ui.h"
@@ -196,9 +197,10 @@
 #include "translation_cache.h"
 #include "translations.h"
 #include "trap.h"
-#include "uilist.h"
+#include "ui_helpers.h"
 #include "ui_extended_description.h"
 #include "ui_manager.h"
+#include "uilist.h"
 #include "uistate.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -2303,13 +2305,8 @@ int game::inventory_item_menu( item_location locThisItem,
                     }
                     addentry( 'v', pgettext( "action", "pocket settings" ), hint_rating::good );
                 }
-
-                if( oThisItem.is_favorite ) {
-                    addentry( 'f', pgettext( "action", "unfavorite" ), hint_rating::good );
-                } else {
-                    addentry( 'f', pgettext( "action", "favorite" ), hint_rating::good );
-                }
-
+                addentry( 'f', pgettext( "action", oThisItem.is_favorite ? "unfavorite" : "favorite" ),
+                          hint_rating::good );
                 addentry( 'V', pgettext( "action", "view recipe" ), rate_action_view_recipe( u, oThisItem ) );
                 addentry( '>', pgettext( "action", "hide contents" ), rate_action_collapse( oThisItem ) );
                 addentry( '<', pgettext( "action", "show contents" ), rate_action_expand( oThisItem ) );
@@ -2325,23 +2322,6 @@ int game::inventory_item_menu( item_location locThisItem,
 
                 popup_width += ImGui::CalcTextSize( " [X] " ).x + 2 * ( ImGui::GetStyle().WindowPadding.x +
                                ImGui::GetStyle().WindowBorderSize );
-                float x = 0.0;
-                switch( position ) {
-                    default:
-                    case RIGHT_TERMINAL_EDGE:
-                        x = 0.0;
-                        break;
-                    case LEFT_OF_INFO:
-                        x = ( iStartX() * ImGui::CalcTextSize( "X" ).x ) - popup_width;
-                        break;
-                    case RIGHT_OF_INFO:
-                        x = ( iStartX() + iWidth() ) * ImGui::CalcTextSize( "X" ).x;
-                        break;
-                    case LEFT_TERMINAL_EDGE:
-                        x = ImGui::GetMainViewport()->Size.x - popup_width;
-                        break;
-                }
-                action_menu.desired_bounds = { x, 0.0, popup_width, -1.0 };
                 // Filtering isn't needed, the number of entries is manageable.
                 action_menu.filtering = false;
                 // Default menu border color is different, this matches the border of the item info window.
@@ -2351,10 +2331,29 @@ int game::inventory_item_menu( item_location locThisItem,
                 data.without_getch = true;
 
                 ui = std::make_unique<ui_adaptor>();
+                float x = 0.0;
                 ui->on_screen_resize( [&]( ui_adaptor & ui ) {
                     w_info = catacurses::newwin( TERMY, iWidth(), point( iStartX(), 0 ) );
                     iScrollHeight = TERMY - 2;
                     ui.position_from_window( w_info );
+
+                    switch( position ) {
+                        default:
+                        case RIGHT_TERMINAL_EDGE:
+                            x = 0.0;
+                            break;
+                        case LEFT_OF_INFO:
+                            x = ( iStartX() * ImGui::CalcTextSize( "X" ).x ) - popup_width;
+                            break;
+                        case RIGHT_OF_INFO:
+                            x = ( iStartX() + iWidth() ) * ImGui::CalcTextSize( "X" ).x;
+                            break;
+                        case LEFT_TERMINAL_EDGE:
+                            x = ImGui::GetMainViewport()->Size.x - popup_width;
+                            break;
+                    }
+                    action_menu.desired_bounds = { x, 0.0, popup_width, -1.0 };
+                    action_menu.reposition();
                 } );
                 ui->mark_resize();
 
@@ -2371,7 +2370,7 @@ int game::inventory_item_menu( item_location locThisItem,
             }
 
             const int prev_selected = action_menu.selected;
-            action_menu.query( false );
+            action_menu.query( true );
             if( action_menu.ret >= 0 ) {
                 cMenu = action_menu.ret; /* Remember: hotkey == retval, see addentry above. */
             } else if( action_menu.ret == UILIST_UNBOUND && action_menu.ret_act == "RIGHT" ) {
@@ -3837,10 +3836,7 @@ void game::disp_NPCs()
     catacurses::window w;
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                point( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
-                                       TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) );
-        ui.position_from_window( w );
+        ui_helpers::full_screen_window( ui, &w );
     } );
     ui.mark_resize();
     ui.on_redraw( [&]( const ui_adaptor & ) {
@@ -4556,44 +4552,13 @@ std::unordered_set<tripoint_bub_ms> game::get_fishable_locations_bub( int distan
     const inclusive_cuboid<tripoint_bub_ms> fishing_boundaries(
         fishing_boundary_min, fishing_boundary_max );
 
-    const auto get_fishable_terrain = [&]( tripoint_bub_ms starting_point,
-    std::unordered_set<tripoint_bub_ms> &fishable_terrain ) {
-        std::queue<tripoint_bub_ms> to_check;
-        to_check.push( starting_point );
-        while( !to_check.empty() ) {
-            const tripoint_bub_ms current_point = to_check.front();
-            to_check.pop();
-
-            // We've been here before, so bail.
-            if( visited.find( current_point ) != visited.end() ) {
-                continue;
-            }
-
-            // This point is out of bounds, so bail.
-            if( !fishing_boundaries.contains( current_point ) ) {
-                continue;
-            }
-
-            // Mark this point as visited.
-            visited.emplace( current_point );
-
-            if( here.has_flag( ter_furn_flag::TFLAG_FISHABLE, current_point ) ) {
-                fishable_terrain.emplace( current_point );
-                to_check.push( current_point + point::south );
-                to_check.push( current_point + point::north );
-                to_check.push( current_point + point::east );
-                to_check.push( current_point + point::west );
-            }
-        }
-    };
-
     // Starting at the provided location, get our fishable terrain
     // and populate a set with those locations which we'll then use
     // to determine if any fishable monsters are in those locations.
-    std::unordered_set<tripoint_bub_ms> fishable_points;
-    get_fishable_terrain( fish_pos, fishable_points );
-
-    return fishable_points;
+    return ff::point_flood_fill_4_connected<std::unordered_set>( fish_pos, visited, [&here,
+    &fishing_boundaries]( const tripoint_bub_ms & p ) {
+        return !fishing_boundaries.contains( p ) && here.has_flag( ter_furn_flag::TFLAG_FISHABLE, p );
+    } );
 }
 
 std::vector<monster *> game::get_fishable_monsters( std::unordered_set<tripoint_abs_ms>
@@ -13492,7 +13457,7 @@ void game::init_autosave()
 void game::quicksave()
 {
     //Don't autosave if the player hasn't done anything since the last autosave/quicksave,
-    if( !moves_since_last_save ) {
+    if( !moves_since_last_save && !world_generator->active_world->world_saves.empty() ) {
         return;
     }
     add_msg( m_info, _( "Saving game, this may take a while." ) );
@@ -14447,21 +14412,13 @@ void avatar_moves( const tripoint_abs_ms &old_abs_pos, const avatar &u, const ma
         if( !past_ter->get_exit_EOC().is_null() ) {
             dialogue d( get_talker_for( get_avatar() ), nullptr );
             effect_on_condition_id eoc = cur_ter->get_exit_EOC();
-            if( eoc->type == eoc_type::ACTIVATION ) {
-                eoc->activate( d );
-            } else {
-                debugmsg( "Must use an activation eoc for OMT movement.  Otherwise, create a non-recurring effect_on_condition for this with its condition and effects, then have a recurring one queue it." );
-            }
+            eoc->activate_activation_only( d, "OMT movement" );
         }
 
         if( !cur_ter->get_entry_EOC().is_null() ) {
             dialogue d( get_talker_for( get_avatar() ), nullptr );
             effect_on_condition_id eoc = cur_ter->get_entry_EOC();
-            if( eoc->type == eoc_type::ACTIVATION ) {
-                eoc->activate( d );
-            } else {
-                debugmsg( "Must use an activation eoc for OMT movement.  Otherwise, create a non-recurring effect_on_condition for this with its condition and effects, then have a recurring one queue it." );
-            }
+            eoc->activate_activation_only( d, "OMT movement" );
         }
 
     }

@@ -3,146 +3,194 @@
     "type": "snippet",
     "category": "lab_postit_psi",
     "text": [
-      { "name": "post-it", "id": "lab_postit_psi_1", "text": "Pink for the body, grey for the eyes, green for…hmm" },
-      { "name": "post-it", "id": "lab_postit_psi_2", "text": "Don't look into the dull ones" },
-      { "name": "post-it", "id": "lab_postit_psi_3", "text": "If the mathematician asks for me, I was never here" },
       {
-        "name": "post-it",
+        "name": "yellow post-it note",
+        "id": "lab_postit_psi_1",
+        "text": "Pink for the body, grey for the eyes, green for…hmm"
+      },
+      { "name": "yellow post-it note", "id": "lab_postit_psi_2", "text": "Don't look into the dull ones" },
+      {
+        "name": "yellow post-it note",
+        "id": "lab_postit_psi_3",
+        "text": "If the mathematician asks for me, I was never here"
+      },
+      {
+        "name": "yellow post-it note",
         "id": "lab_postit_psi_4",
         "text": "Our clears keep waking up from screaming nightmares.  Higher-ups say it's nothing"
       },
       {
-        "name": "post-it",
+        "name": "yellow post-it note",
         "id": "lab_postit_psi_5",
         "text": "Subject can lift 14.82g.  15g or higher causes migraine"
       },
-      { "name": "post-it", "id": "lab_postit_psi_6", "text": "Note: order some Zener cards" },
+      { "name": "yellow post-it note", "id": "lab_postit_psi_6", "text": "Note: order some Zener cards" },
       {
-        "name": "post-it",
+        "name": "yellow post-it note",
         "id": "lab_postit_psi_7",
         "text": "ONYX LIGHTNING?  GRAY DAWN?  COLD BELOW?  VERDANT HAND?  Oh come on"
       },
-      { "name": "post-it", "id": "lab_postit_psi_8", "text": "I can't believe she wants to call them psi-cops" },
-      { "name": "post-it", "id": "lab_postit_psi_9", "text": "Two more subjects overloaded.  Need to request more" },
-      { "name": "post-it", "id": "lab_postit_psi_10", "text": "Maybe a teep can communicate with them" },
       {
-        "name": "post-it",
+        "name": "yellow post-it note",
+        "id": "lab_postit_psi_8",
+        "text": "I can't believe she wants to call them psi-cops"
+      },
+      {
+        "name": "yellow post-it note",
+        "id": "lab_postit_psi_9",
+        "text": "Two more subjects overloaded.  Need to request more"
+      },
+      { "name": "yellow post-it note", "id": "lab_postit_psi_10", "text": "Maybe a teep can communicate with them" },
+      {
+        "name": "yellow post-it note",
         "id": "lab_postit_psi_11",
         "text": "Reminder: Tell the immersion teams we need more samples"
       },
-      { "name": "post-it", "id": "lab_postit_psi_12", "text": "It won't kill you but you'll wish it had" },
-      { "name": "post-it", "id": "lab_postit_psi_13", "text": "Brains show no physical differences" },
-      { "name": "post-it", "id": "lab_postit_psi_14", "text": "Animal testing approved.  Try the TK on the mice" },
-      { "name": "post-it", "id": "lab_postit_psi_15", "text": "Can't wait for cross-testing" },
-      { "name": "post-it", "id": "lab_postit_psi_16", "text": "She tried to scan Y65-08.  Now in a coma" },
-      { "name": "post-it", "id": "lab_postit_psi_17", "text": "Scanning them doesn't work.  It's just static" },
-      { "name": "post-it", "id": "lab_postit_psi_18", "text": "Stay away from those GRAY DAWN guys.  Creepy" },
+      { "name": "yellow post-it note", "id": "lab_postit_psi_12", "text": "It won't kill you but you'll wish it had" },
+      { "name": "yellow post-it note", "id": "lab_postit_psi_13", "text": "Brains show no physical differences" },
       {
-        "name": "post-it",
+        "name": "yellow post-it note",
+        "id": "lab_postit_psi_14",
+        "text": "Animal testing approved.  Try the TK on the mice"
+      },
+      { "name": "yellow post-it note", "id": "lab_postit_psi_15", "text": "Can't wait for cross-testing" },
+      { "name": "yellow post-it note", "id": "lab_postit_psi_16", "text": "She tried to scan Y65-08.  Now in a coma" },
+      {
+        "name": "yellow post-it note",
+        "id": "lab_postit_psi_17",
+        "text": "Scanning them doesn't work.  It's just static"
+      },
+      {
+        "name": "yellow post-it note",
+        "id": "lab_postit_psi_18",
+        "text": "Stay away from those GRAY DAWN guys.  Creepy"
+      },
+      {
+        "name": "yellow post-it note",
         "id": "lab_postit_psi_19",
         "text": "Need to up monitoring of GRAY DAWN candidates.  Who watches the watchers?"
       },
       {
-        "name": "post-it",
+        "name": "yellow post-it note",
         "id": "lab_postit_psi_20",
         "text": "<given_name> is up for awakening.  Ban her from the poker game"
       },
       {
-        "name": "post-it",
+        "name": "yellow post-it note",
         "id": "lab_postit_psi_21",
         "text": "A better lightbulb.  What's next, a matrix mousetrap?"
       },
-      { "name": "post-it", "id": "lab_postit_psi_22", "text": "So does my PB still count post-awakening?" },
-      { "name": "post-it", "id": "lab_postit_psi_23", "text": "What's my dog thinking?  I should ask" },
-      { "name": "post-it", "id": "lab_postit_psi_24", "text": "COLD BELOW is a bit too on-the-nose" },
       {
-        "name": "post-it",
+        "name": "yellow post-it note",
+        "id": "lab_postit_psi_22",
+        "text": "So does my PB still count post-awakening?"
+      },
+      { "name": "yellow post-it note", "id": "lab_postit_psi_23", "text": "What's my dog thinking?  I should ask" },
+      { "name": "yellow post-it note", "id": "lab_postit_psi_24", "text": "COLD BELOW is a bit too on-the-nose" },
+      {
+        "name": "yellow post-it note",
         "id": "lab_postit_psi_25",
         "text": "\"Gentlemen, clinical immortality is within our grasp\". There, if I write it here I won't be tempted to put it in the powerpoint"
       },
-      { "name": "post-it", "id": "lab_postit_psi_26", "text": "They've done it.  Frikkin laser beams" },
+      { "name": "yellow post-it note", "id": "lab_postit_psi_26", "text": "They've done it.  Frikkin laser beams" },
       {
-        "name": "post-it",
+        "name": "yellow post-it note",
         "id": "lab_postit_psi_27",
         "text": "I get why.  But TIAMAT or SERVITOR would be much cooler than XE157, right?"
       },
-      { "name": "post-it", "id": "lab_postit_psi_28", "text": "Better than kings.  Gods" },
+      { "name": "yellow post-it note", "id": "lab_postit_psi_28", "text": "Better than kings.  Gods" },
       {
-        "name": "post-it",
+        "name": "yellow post-it note",
         "id": "lab_postit_psi_29",
         "text": "There has be more out there.  Cryokinesis?  Prescience?"
       },
       {
-        "name": "post-it",
+        "name": "yellow post-it note",
         "id": "lab_postit_psi_30",
         "text": "Be careful in subplane R82-34.  Rodriguez nearly blew the entire team up"
       },
-      { "name": "post-it", "id": "lab_postit_psi_31", "text": "SMOKE USHER can't cure zombification.  Had to try" },
-      { "name": "post-it", "id": "lab_postit_psi_32", "text": "Snapped as soon as he entered the dive" },
-      { "name": "post-it", "id": "lab_postit_psi_33", "text": "Mix with XE037 for better results?" },
-      { "name": "post-it", "id": "lab_postit_psi_34", "text": "Have we tried it with mice?" },
-      { "name": "post-it", "id": "lab_postit_psi_35", "text": "But what is the medium?" },
       {
-        "name": "post-it",
+        "name": "yellow post-it note",
+        "id": "lab_postit_psi_31",
+        "text": "SMOKE USHER can't cure zombification.  Had to try"
+      },
+      { "name": "yellow post-it note", "id": "lab_postit_psi_32", "text": "Snapped as soon as he entered the dive" },
+      { "name": "yellow post-it note", "id": "lab_postit_psi_33", "text": "Mix with XE037 for better results?" },
+      { "name": "yellow post-it note", "id": "lab_postit_psi_34", "text": "Have we tried it with mice?" },
+      { "name": "yellow post-it note", "id": "lab_postit_psi_35", "text": "But what is the medium?" },
+      {
+        "name": "yellow post-it note",
         "id": "lab_postit_psi_36",
         "text": "I am not going through that training.  Safe?  Yeah, no"
       },
       {
-        "name": "post-it",
+        "name": "yellow post-it note",
         "id": "lab_postit_psi_37",
         "text": "Why does no one else remember <family_name>?  And why isn't he in the employee roster?"
       },
       {
-        "name": "post-it",
+        "name": "yellow post-it note",
         "id": "lab_postit_psi_38",
         "text": "We finally find real superpowers and then it all goes to hell"
       },
-      { "name": "post-it", "id": "lab_postit_psi_39", "text": "Brain injections make no difference" },
+      { "name": "yellow post-it note", "id": "lab_postit_psi_39", "text": "Brain injections make no difference" },
       {
-        "name": "post-it",
+        "name": "yellow post-it note",
         "id": "lab_postit_psi_40",
         "text": "She ran a marathon on a treadmill.  That better be enough data"
       },
       {
-        "name": "post-it",
+        "name": "yellow post-it note",
         "id": "lab_postit_psi_41",
         "text": "Not meeting with that mathematician again.  Once was too much"
       },
-      { "name": "post-it", "id": "lab_postit_psi_42", "text": "All of them, witches" },
-      { "name": "post-it", "id": "lab_postit_psi_43", "text": "Need to dive again.  It's better on the other side" },
-      { "name": "post-it", "id": "lab_postit_psi_44", "text": "Those poor mice" },
-      { "name": "post-it", "id": "lab_postit_psi_45", "text": "We should have just used regular cards" },
-      { "name": "post-it", "id": "lab_postit_psi_46", "text": "Going to put \"Psi-cop\" on my resume" },
+      { "name": "yellow post-it note", "id": "lab_postit_psi_42", "text": "All of them, witches" },
       {
-        "name": "post-it",
+        "name": "yellow post-it note",
+        "id": "lab_postit_psi_43",
+        "text": "Need to dive again.  It's better on the other side"
+      },
+      { "name": "yellow post-it note", "id": "lab_postit_psi_44", "text": "Those poor mice" },
+      { "name": "yellow post-it note", "id": "lab_postit_psi_45", "text": "We should have just used regular cards" },
+      { "name": "yellow post-it note", "id": "lab_postit_psi_46", "text": "Going to put \"Psi-cop\" on my resume" },
+      {
+        "name": "yellow post-it note",
         "id": "lab_postit_psi_47",
         "text": "Five percent increase in lifting across the board.  Why?"
       },
-      { "name": "post-it", "id": "lab_postit_psi_48", "text": "Can't block them out anymore" },
-      { "name": "post-it", "id": "lab_postit_psi_49", "text": "Can they go through halfway?" },
-      { "name": "post-it", "id": "lab_postit_psi_50", "text": "Same dream, every night" },
-      { "name": "post-it", "id": "lab_postit_psi_51", "text": "Great, some of the mice escaped" },
-      { "name": "post-it", "id": "lab_postit_psi_52", "text": "It's like a shadow and it won't go away" },
+      { "name": "yellow post-it note", "id": "lab_postit_psi_48", "text": "Can't block them out anymore" },
+      { "name": "yellow post-it note", "id": "lab_postit_psi_49", "text": "Can they go through halfway?" },
+      { "name": "yellow post-it note", "id": "lab_postit_psi_50", "text": "Same dream, every night" },
+      { "name": "yellow post-it note", "id": "lab_postit_psi_51", "text": "Great, some of the mice escaped" },
+      { "name": "yellow post-it note", "id": "lab_postit_psi_52", "text": "It's like a shadow and it won't go away" },
       {
-        "name": "post-it",
+        "name": "yellow post-it note",
         "id": "lab_postit_psi_53",
         "text": "SMOKE USHER found something.  It's everywhere.  It's in us"
       },
-      { "name": "post-it", "id": "lab_postit_psi_54", "text": "Zombies can't awaken.  What a surprise" },
-      { "name": "post-it", "id": "lab_postit_psi_55", "text": "She hurled a quarter 45.8 smoots" },
-      { "name": "post-it", "id": "lab_postit_psi_56", "text": "Highest recorded temperature at 1247°C" },
-      { "name": "post-it", "id": "lab_postit_psi_57", "text": "Eyes, always watching from outside" },
-      { "name": "post-it", "id": "lab_postit_psi_58", "text": "We're definitely sailing the black seas of infinity" },
-      { "name": "post-it", "id": "lab_postit_psi_59", "text": "So how many jigawatts is that?" },
-      { "name": "post-it", "id": "lab_postit_psi_60", "text": "Never have to worry about a 3% phone again" },
-      { "name": "post-it", "id": "lab_postit_psi_61", "text": "Where does all the energy GO?" },
+      { "name": "yellow post-it note", "id": "lab_postit_psi_54", "text": "Zombies can't awaken.  What a surprise" },
+      { "name": "yellow post-it note", "id": "lab_postit_psi_55", "text": "She hurled a quarter 45.8 smoots" },
+      { "name": "yellow post-it note", "id": "lab_postit_psi_56", "text": "Highest recorded temperature at 1247°C" },
+      { "name": "yellow post-it note", "id": "lab_postit_psi_57", "text": "Eyes, always watching from outside" },
       {
-        "name": "post-it",
+        "name": "yellow post-it note",
+        "id": "lab_postit_psi_58",
+        "text": "We're definitely sailing the black seas of infinity"
+      },
+      { "name": "yellow post-it note", "id": "lab_postit_psi_59", "text": "So how many jigawatts is that?" },
+      {
+        "name": "yellow post-it note",
+        "id": "lab_postit_psi_60",
+        "text": "Never have to worry about a 3% phone again"
+      },
+      { "name": "yellow post-it note", "id": "lab_postit_psi_61", "text": "Where does all the energy GO?" },
+      {
+        "name": "yellow post-it note",
         "id": "lab_postit_psi_62",
         "text": "So is there some kind \"light dimension\" out there too?"
       },
       {
-        "name": "post-it",
+        "name": "yellow post-it note",
         "id": "lab_postit_psi_63",
         "text": "Best part of all this is I don't have to memorize passwords anymore."
       }

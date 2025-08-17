@@ -31,7 +31,7 @@
     "//": "todo: move message to snippet?",
     "effect": [
       { "u_message": "You feel an immense pain, when something within your bloodstream moves eerily.", "type": "bad" },
-      { "math": [ "u_pain('type': 'perceived')", "+=", "rng(15, 55)" ] },
+      { "math": [ "u_pain('type': 'perceived') += rng(15, 55)" ] },
       { "run_eocs": "EOC_REGEN_SERUM_PAIN_SPIKE", "time_in_future": [ "1 h", "6 h" ] }
     ]
   },

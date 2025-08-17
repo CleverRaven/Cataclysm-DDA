@@ -246,5 +246,35 @@
     "time": "2 m 30 s",
     "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "sheet_cotton", 2 ] ], [ [ "cotton_patchwork", 3 ] ], [ [ "thread", 9 ] ] ]
+  },
+  {
+    "result": "armor_chitin_vest",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "40 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "leather_belt", 1 ] ], [ [ "chitin_piece", 35 ] ], [ [ "sheet_leather_patchwork", 2 ] ] ]
+  },
+  {
+    "result": "xs_armor_chitin_vest",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "40 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "leather_belt", 1 ] ], [ [ "chitin_piece", 26 ] ], [ [ "sheet_leather_patchwork", 2 ] ] ]
+  },
+  {
+    "result": "xl_armor_chitin_vest",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "40 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "leather_belt", 1 ] ], [ [ "chitin_piece", 45 ] ], [ [ "sheet_leather_patchwork", 4 ] ] ]
   }
 ]

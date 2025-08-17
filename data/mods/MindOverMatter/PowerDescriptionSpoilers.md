@@ -309,6 +309,17 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Prerequisites*: Discern Weakness 7<br />
 </details>
 <details>
+<summary><h3>Psychometry</h3></summary>
+
+*Difficulty*: 4<br />
+*Target*: One item<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 5000<br />
+*Channeling Time*: 5 minutes<br />
+*Effects*: Examine a single object, determining hidden information about it. Current supports determining: artifact resonance.<br />
+*Prerequisites*: Aura Sight 6, Speed Reading 8 *or* Premonition 8<br />
+</details>
+<details>
 <summary><h3>Sense Hostility (C)</h3></summary>
 
 *Difficulty*: 5<br />
