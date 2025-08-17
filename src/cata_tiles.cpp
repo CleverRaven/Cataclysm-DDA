@@ -1006,7 +1006,7 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
     color_blocks = here.color_blocks_cache;
 
     // List all layers for a single z-level
-    const std::array<decltype( &cata_tiles::draw_furniture ), 11> drawing_layers = {{
+    static const std::array<decltype( &cata_tiles::draw_furniture ), 11> drawing_layers = {{
             &cata_tiles::draw_terrain, &cata_tiles::draw_furniture, &cata_tiles::draw_graffiti, &cata_tiles::draw_trap, &cata_tiles::draw_part_con,
             &cata_tiles::draw_field_or_item,
             &cata_tiles::draw_vpart_no_roof, &cata_tiles::draw_vpart_roof,
