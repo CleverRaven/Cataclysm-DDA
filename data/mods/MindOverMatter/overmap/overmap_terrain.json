@@ -334,5 +334,33 @@
     "type": "overmap_terrain",
     "id": "alien_meadow_end",
     "copy-from": "alien_meadow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "microlab_psi_phavian_biokinesis_mutation_lab_nw",
+      "microlab_psi_phavian_biokinesis_mutation_lab_ne",
+      "microlab_psi_phavian_biokinesis_mutation_lab_sw",
+      "microlab_psi_phavian_biokinesis_mutation_lab_se"
+    ],
+    "copy-from": "microlab_generic",
+    "name": "science lab",
+    "sym": "L",
+    "color": "magenta",
+    "spawns": { "group": "GROUP_LAB", "population": [ 2, 10 ], "chance": 75 },
+    "flags": [ "RISK_EXTREME", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "microlab_no_meat_generic_edge" ],
+    "copy-from": "microlab_generic",
+    "name": "science lab",
+    "sym": "L",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_no_meat_sub_station",
+    "copy-from": "microlab_sub_station"
   }
 ]

@@ -266,5 +266,19 @@
       },
       { "item": "psionic_mindsight_glasses", "prob": 2, "damage": [ 1, 4 ] }
     ]
+  },
+  {
+    "id": "mon_mutant_biokinetic_alpha_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "pipe", "prob": 100, "damage": [ 0, 2 ] },
+      { "group": "default_zombie_clothes", "prob": 100 },
+      { "group": "wallets_phavian", "damage": [ 1, 4 ] },
+      { "group": "clothing_watch", "prob": 5 },
+      { "group": "default_zombie_items_pockets", "count": [ 1, 2 ], "prob": 50 },
+      { "item": "matrix_crystal_biokinesis", "prob": 45 },
+      { "group": "psi_lab", "prob": 80 }
+    ]
   }
 ]
