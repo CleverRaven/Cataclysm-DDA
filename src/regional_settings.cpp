@@ -537,6 +537,8 @@ static void load_overmap_highway_settings( const JsonObject &jo,
                                     overmap_highway_settings.three_way_intersections );
         load_highway_special_types( "bends", overmap_highway_settings.bends );
         load_highway_special_types( "road_connections", overmap_highway_settings.road_connections );
+        load_highway_special_types( "interchanges",
+                                    overmap_highway_settings.interchanges );
 
         if( overmap_highway_settings.intersection_max_radius >=
             overmap_highway_settings.grid_column_seperation / 2 ||
@@ -1105,6 +1107,7 @@ void overmap_highway_settings::finalize()
         three_way_intersections.finalize();
         bends.finalize();
         road_connections.finalize();
+        interchanges.finalize();
 
         longest_bend_length = find_longest_special( bends );
         longest_slant_length = std::max( clockwise_slant->longest_side(),

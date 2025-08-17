@@ -168,9 +168,6 @@ static const material_id material_med_steel( "med_steel" );
 static const material_id material_steel( "steel" );
 static const material_id material_tempered_steel( "tempered_steel" );
 
-static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
-static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
-
 static const proficiency_id proficiency_prof_bow_basic( "prof_bow_basic" );
 static const proficiency_id proficiency_prof_bow_expert( "prof_bow_expert" );
 static const proficiency_id proficiency_prof_bow_master( "prof_bow_master" );
@@ -185,7 +182,6 @@ static const skill_id skill_throw( "throw" );
 
 static const trait_id trait_BRAWLER( "BRAWLER" );
 static const trait_id trait_GUNSHY( "GUNSHY" );
-static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 static const trap_str_id tr_practice_target( "tr_practice_target" );
 
@@ -1159,19 +1155,16 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
 
         const itype_id current_ammo = gun.ammo_current();
 
-        if( has_trait( trait_PYROMANIA ) && !has_morale( morale_pyromania_startfire ) ) {
+        if( has_unfulfilled_pyromania() ) {
             const std::set<ammotype> &at = gun.ammo_types();
             if( at.count( ammo_flammable ) ) {
-                add_msg_if_player( m_good, _( "You feel a surge of euphoria as flames roar out of the %s!" ),
-                                   gun.tname() );
-                add_morale( morale_pyromania_startfire, 15, 15, 8_hours, 6_hours );
-                rem_morale( morale_pyromania_nofire );
+                fulfill_pyromania_msg( string_format(
+                                           _( "You feel a surge of euphoria as flames roar out of the %s!" ),
+                                           gun.tname() ) );
             } else if( at.count( ammo_66mm ) || at.count( ammo_120mm ) || at.count( ammo_84x246mm ) ||
                        at.count( ammo_m235 ) || at.count( ammo_atgm ) || at.count( ammo_RPG_7 ) ||
                        at.count( ammo_homebrew_rocket ) ) {
-                add_msg_if_player( m_good, _( "You feel a surge of euphoria as flames burst out!" ) );
-                add_morale( morale_pyromania_startfire, 15, 15, 8_hours, 6_hours );
-                rem_morale( morale_pyromania_nofire );
+                fulfill_pyromania_msg_std();
             }
         }
 

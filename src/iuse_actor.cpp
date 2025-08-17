@@ -151,9 +151,6 @@ static const json_character_flag json_flag_MANUAL_CBM_INSTALLATION( "MANUAL_CBM_
 static const json_character_flag
 json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS( "TEMPORARY_SHAPESHIFT_NO_HANDS" );
 
-static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
-static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
-
 static const proficiency_id proficiency_prof_traps( "prof_traps" );
 static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
 static const proficiency_id proficiency_prof_wound_care( "prof_wound_care" );
@@ -170,7 +167,6 @@ static const skill_id skill_traps( "traps" );
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
-static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
@@ -319,14 +315,12 @@ std::optional<int> iuse_transform::use( Character *p, item &it, map *,
     // Uses the moves specified by iuse_actor's definition
     p->mod_moves( -moves );
 
-    if( need_fire && p->has_trait( trait_PYROMANIA ) ) {
+    if( need_fire && p->has_unfulfilled_pyromania() ) {
         if( one_in( 2 ) ) {
             p->add_msg_if_player( m_mixed,
                                   _( "You light a fire, but it isn't enough.  You need to light more." ) );
         } else {
-            p->add_msg_if_player( m_good, _( "You happily light a fire." ) );
-            p->add_morale( morale_pyromania_startfire, 5, 10, 3_hours, 2_hours );
-            p->rem_morale( morale_pyromania_nofire );
+            p->fulfill_pyromania_msg( _( "You happily light a fire." ), 5, 10, 3_hours, 2_hours );
         }
     }
 
@@ -1565,16 +1559,14 @@ void firestarter_actor::resolve_firestarter_use( Character *p, map *here,
         const tripoint_bub_ms &pos, start_type st )
 {
     if( firestarter_actor::resolve_start( p, here, pos, st ) ) {
-        if( !p->has_trait( trait_PYROMANIA ) ) {
+        if( !p->has_unfulfilled_pyromania() ) {
             p->add_msg_if_player( _( "You successfully light a fire." ) );
         } else {
             if( one_in( 4 ) ) {
                 p->add_msg_if_player( m_mixed,
                                       _( "You light a fire, but it isn't enough.  You need to light more." ) );
             } else {
-                p->add_msg_if_player( m_good, _( "You happily light a fire." ) );
-                p->add_morale( morale_pyromania_startfire, 5, 10, 6_hours, 4_hours );
-                p->rem_morale( morale_pyromania_nofire );
+                p->fulfill_pyromania_msg( _( "You happily light a fire." ), 5, 10, 6_hours, 4_hours );
             }
         }
     }

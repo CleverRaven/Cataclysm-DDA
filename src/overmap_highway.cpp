@@ -1112,3 +1112,29 @@ void overmap::place_highway_supported_special( const overmap_special_id &special
         }
     }
 }
+
+void overmap::place_highway_interchanges( std::vector<Highway_path> &highway_path )
+{
+    // slightly higher than it should realistically be for convenience's sake
+    const int HIGHWAY_INTERCHANGE_SPACING = OMAPX / 4;
+    const int HIGHWAY_INTERCHANGE_VARIANCE = HIGHWAY_INTERCHANGE_SPACING / 10;
+    for( Highway_path &path : highway_path ) {
+        int node_count = HIGHWAY_INTERCHANGE_SPACING + rng( -HIGHWAY_INTERCHANGE_VARIANCE,
+                         HIGHWAY_INTERCHANGE_VARIANCE );
+        for( intrahighway_node &node : path ) {
+            if( node.is_segment && node_count == 0 ) {
+                const overmap_special_id interchange = settings->overmap_highway.interchanges.pick();
+                const tripoint_om_omt &node_pos = node.path_node.pos;
+                const om_direction::type node_dir = node.get_effective_dir();
+                if( can_place_special( *interchange, node_pos, node_dir, false ) ) {
+                    place_special( *interchange, node_pos, node_dir, get_nearest_city( node_pos ), false, true );
+                    node.is_interchange = true;
+                    node_count = HIGHWAY_INTERCHANGE_SPACING;
+                }
+            }
+            if( node_count > 0 ) {
+                node_count--;
+            }
+        }
+    }
+}

@@ -2276,12 +2276,17 @@ static std::string assemble_profession_details( const avatar &u, const input_con
                                 profession_name ) + "\n";
     assembled += string_format( dress_switch_msg(), ctxt.get_desc( "CHANGE_OUTFIT" ) ) + "\n";
 
-    if( sorted_profs[cur_id]->get_requirement().has_value() ) {
+    if( !sorted_profs[cur_id]->get_requirements().empty() ) {
         assembled += "\n" + colorize( _( "Profession requirements:" ), COL_HEADER ) + "\n";
         ret_val<void> can_pick_prof = sorted_profs[cur_id]->can_pick();
         if( can_pick_prof.success() ) {
-            assembled += colorize( string_format( _( "Completed \"%s\"\n" ),
-                                                  sorted_profs[cur_id]->get_requirement().value()->name() ),
+            std::vector<std::string> req_names;
+            for( const auto &req : sorted_profs[cur_id]->get_requirements() ) {
+                req_names.emplace_back( req->name().translated() );
+            }
+            assembled += colorize( string_format( n_gettext( _( "Completed \"%s\"\n" ), _( "Completed: %s\n" ),
+                                                  req_names.size() ),
+                                                  enumerate_as_string( req_names ) ),
                                    c_green ) + "\n";
         } else { // fail, can't pick so display ret_val's reason
             assembled += colorize( can_pick_prof.str(), c_red ) + "\n";

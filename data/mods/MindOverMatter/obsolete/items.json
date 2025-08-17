@@ -18,5 +18,11 @@
       "electrokinetic_ups_6"
     ],
     "replace": "manual_swimming"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.J",
+    "id": [ "biokin_breathe_skin_item" ],
+    "replace": "manual_swimming"
   }
 ]

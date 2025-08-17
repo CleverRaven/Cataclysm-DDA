@@ -345,8 +345,6 @@ static const morale_type morale_game( "morale_game" );
 static const morale_type morale_game_found_kitten( "morale_game_found_kitten" );
 static const morale_type morale_marloss( "morale_marloss" );
 static const morale_type morale_music( "morale_music" );
-static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
-static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
 static const morale_type morale_wet( "morale_wet" );
 
 static const mtype_id mon_blob( "mon_blob" );
@@ -412,7 +410,6 @@ static const trait_id trait_MARLOSS_AVOID( "MARLOSS_AVOID" );
 static const trait_id trait_MARLOSS_BLUE( "MARLOSS_BLUE" );
 static const trait_id trait_MARLOSS_YELLOW( "MARLOSS_YELLOW" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
-static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_THRESH_LUPINE( "THRESH_LUPINE" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
@@ -3585,10 +3582,8 @@ std::optional<int> iuse::grenade_inc_act( Character *p, item *, const tripoint_b
     }
 
     avatar &player = get_avatar();
-    if( player.has_trait( trait_PYROMANIA ) && player.sees( here, pos ) ) {
-        player.add_morale( morale_pyromania_startfire, 15, 15, 8_hours, 6_hours );
-        player.rem_morale( morale_pyromania_nofire );
-        add_msg( m_good, _( "Fire…  Good…" ) );
+    if( player.has_unfulfilled_pyromania() ) {
+        player.fulfill_pyromania_sees( here, pos, _( "Fire…  Good…" ), false );
     }
     return 0;
 }
@@ -3604,10 +3599,8 @@ std::optional<int> iuse::molotov_lit( Character *p, item *it, const tripoint_bub
             here.add_field( pt, fd_fire, intensity );
         }
         avatar &player = get_avatar();
-        if( player.has_trait( trait_PYROMANIA ) && player.sees( here, pos ) ) {
-            player.add_morale( morale_pyromania_startfire, 15, 15, 8_hours, 6_hours );
-            player.rem_morale( morale_pyromania_nofire );
-            add_msg( m_good, _( "Fire…  Good…" ) );
+        if( player.has_unfulfilled_pyromania() ) {
+            player.fulfill_pyromania_sees( here, pos, _( "Fire…  Good…" ), false );
         }
         return 1;
     }
