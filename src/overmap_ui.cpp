@@ -582,7 +582,6 @@ static void draw_ascii( const catacurses::window &w, overmap_draw_data_t &data )
     // Target of current mission
     const tripoint_abs_omt target = player_character.get_active_mission_target();
     const bool has_target = !target.is_invalid();
-    oter_id ccur_ter = oter_str_id::NULL_ID();
     // Debug vision allows seeing everything
     const bool has_debug_vision = player_character.has_trait( trait_DEBUG_NIGHTVISION );
     // sight_points is hoisted for speed reasons.
@@ -751,17 +750,11 @@ static void draw_ascii( const catacurses::window &w, overmap_draw_data_t &data )
     for( int i = 0; i < om_map_width; ++i ) {
         for( int j = 0; j < om_map_height; ++j ) {
             const tripoint_abs_omt omp = corner + point( i, j );
-            oter_id cur_ter = oter_str_id::NULL_ID();
             nc_color ter_color = c_black;
             std::string ter_sym = " ";
 
             const om_vision_level vision = has_debug_vision ? om_vision_level::full :
                                            overmap_buffer.seen( omp );
-            if( vision == om_vision_level::unseen ) {
-                // Only load terrain if we can actually see it
-                cur_ter = overmap_buffer.ter( omp );
-            }
-
             oter_display_args oter_args( vision );
             std::tie( ter_sym, ter_color ) = oter_symbol_and_color( omp, oter_args, oter_opts, &lru_cache );
 
@@ -831,7 +824,6 @@ static void draw_ascii( const catacurses::window &w, overmap_draw_data_t &data )
             }
 
             if( omp.xy() == cursor_pos.xy() && !uistate.place_special ) {
-                ccur_ter = cur_ter;
                 mvwputch_hi( w, point( i, j ), ter_color, ter_sym );
             } else {
                 mvwputch( w, point( i, j ), ter_color, ter_sym );
@@ -2450,10 +2442,16 @@ std::pair<std::string, nc_color> oter_symbol_and_color( const tripoint_abs_omt &
         cur_ter = overmap_buffer.ter( omp );
     }
 
-    if( blink && opts.show_pc && !opts.hilite_pc && omp == get_avatar().pos_abs_omt() ) {
+    if( blink && opts.show_pc && !opts.hilite_pc && omp.xy() == opts.center.xy() ) {
         // Display player pos, should always be visible
         ret.second = player_character.symbol_color();
-        ret.first = "@";
+        if( player_character.pos_abs_omt().z() == omp.z() ) {
+            ret.first = "@";
+        } else if( player_character.pos_abs_omt().z() > omp.z() ) {
+            ret.first = "^";
+        } else {
+            ret.first = "v";
+        }
     } else if( opts.show_weather && ( uistate.overmap_debug_weather ||
                                       overmap_ui::get_and_assign_los( args.los_sky, player_character, omp, opts.sight_points * 2 ) ) ) {
         const weather_type_id type = overmap_ui::get_weather_at_point( omp );
@@ -2544,6 +2542,17 @@ std::pair<std::string, nc_color> oter_symbol_and_color( const tripoint_abs_omt &
             oter_forest->get_color( args.vision, uistate.overmap_show_land_use_codes )
         };
         if( opts.show_explored && overmap_buffer.is_explored( omp ) ) {
+            ret.second = c_dark_gray;
+        }
+    } else if( overmap_buffer.draw_below_curses( omp ) ) {
+        // 1 zlevel 3D vision roughly equivilant to map::draw_from_above's implementation
+        cur_ter = overmap_buffer.ter( omp + tripoint_rel_omt::below );
+        ret.second = lru ? lru->get_symbol_and_color( cur_ter, args.vision ).second :
+                     cur_ter->get_color( args.vision, uistate.overmap_show_land_use_codes );
+        ret.second = cyan_background( ret.second );
+        //BEFOREMERGE: For some reason the highlighted cursor tile diplays this rather than "open_air"'s symbol when looking at open_air with nothing displayable below? (but is correct otherwise)
+        ret.first = ".";
+        if( opts.show_explored && overmap_buffer.is_explored( omp + tripoint_rel_omt::below ) ) {
             ret.second = c_dark_gray;
         }
     } else {
