@@ -281,7 +281,7 @@
   {
     "type": "item_group",
     "subtype": "distribution",
-    "id": "psi_lab_rare_recipes",
+    "id": "psi_lab_recipes_rare",
     "items": [ { "group": "psi_lab", "prob": 1 }, { "group": "psi_lab_no_recipes", "prob": 5 } ]
   },
   {

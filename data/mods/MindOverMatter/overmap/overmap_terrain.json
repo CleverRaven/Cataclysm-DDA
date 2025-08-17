@@ -347,6 +347,7 @@
     "name": "science lab",
     "sym": "L",
     "color": "magenta",
+    "spawns": { "group": "GROUP_LAB", "population": [ 2, 10 ], "chance": 75 },
     "flags": [ "RISK_EXTREME", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
   },
   {

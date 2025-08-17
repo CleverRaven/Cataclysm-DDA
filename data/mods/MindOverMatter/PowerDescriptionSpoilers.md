@@ -180,7 +180,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Stamina Cost*: 8000, minus 250 per level to a minimum of 4000<br />
 *Channeling Time*: 250 moves, minus 13 moves per level to a minimum of 50<br />
 *Effects*: Whenever the psion mutates, they may choose from 1 + 0.25 extra mutations per level for which trait they want to mutate.  This power does not in of itself mutate the psion, and at high nether attunement may result in extra random mutations.<br />
-*Prerequisites*: Vitaminosis 10, Metabolic Hyperefficiency 10<br />
+*Prerequisites*: Special (must be studied from notes)<br />
 </details>
 <details>
 <summary><h3>Vitaminosis</h3></summary>
