@@ -246,6 +246,7 @@ struct intrahighway_node {
     overmap_special_id placed_special = overmap_special_id::NULL_ID();
     bool is_segment = true;
     bool is_ramp = false;
+    bool is_interchange = false;
     //whether to flip ramp direction
     bool ramp_down = false;
     explicit intrahighway_node( tripoint_om_omt pos, om_direction::type dir,
@@ -632,6 +633,10 @@ class overmap
         Highway_path place_highway_reserved_path( const tripoint_om_omt &p1,
                 const tripoint_om_omt &p2,
                 int dir1, int dir2, int base_z );
+        /**
+        * Places some guaranteed interchange specials on the given path if possible
+        */
+        void place_highway_interchanges( std::vector<Highway_path> &highway_path );
         /*
         * tries to find a point to place an intersection special where it isn't on water
         * @return point in radius of center without water; invalid if none found
@@ -707,7 +712,10 @@ class overmap
         void calculate_urbanity();
         void calculate_forestosity();
 
+        // place city centers
         void place_cities();
+        // build cities using placed centers
+        void build_cities();
         void place_building( const tripoint_om_omt &p, om_direction::type dir, const city &town,
                              std::unordered_set<overmap_special_id> &placed_unique_buildings );
 

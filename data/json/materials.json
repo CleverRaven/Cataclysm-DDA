@@ -1286,7 +1286,7 @@
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
-    "resist": { "bash": 1, "cut": 3, "acid": 5, "heat": 1, "bullet": 2, "stab": 5 },
+    "resist": { "bash": 1, "cut": 3, "acid": 5, "heat": 2, "bullet": 2, "stab": 5 },
     "repair_difficulty": 4
   },
   {

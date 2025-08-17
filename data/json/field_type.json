@@ -454,7 +454,7 @@
     "has_fume": true,
     "percent_spread": 90,
     "dirty_transparency_cache": true,
-    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] }
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ], "flags": [ "INHALED_TOXIN_IMMUNE" ] }
   },
   {
     "id": "fd_rubble",
@@ -512,7 +512,7 @@
             "intensity": 1,
             "min_duration": "2 seconds",
             "max_duration": "2 seconds",
-            "immunity_data": { "body_part_env_resistance": [ [ "mouth", 3 ] ] },
+            "immunity_data": { "body_part_env_resistance": [ [ "mouth", 3 ] ], "flags": [ "INHALED_TOXIN_IMMUNE" ] },
             "immune_inside_vehicle": true
           }
         ]
@@ -539,7 +539,7 @@
             "intensity": 2,
             "min_duration": "7 seconds",
             "max_duration": "7 seconds",
-            "immunity_data": { "body_part_env_resistance": [ [ "mouth", 5 ] ] },
+            "immunity_data": { "body_part_env_resistance": [ [ "mouth", 5 ] ], "flags": [ "INHALED_TOXIN_IMMUNE" ] },
             "immune_inside_vehicle": true
           }
         ],
@@ -566,7 +566,7 @@
             "intensity": 4,
             "min_duration": "15 seconds",
             "max_duration": "15 seconds",
-            "immunity_data": { "body_part_env_resistance": [ [ "mouth", 7 ] ] },
+            "immunity_data": { "body_part_env_resistance": [ [ "mouth", 7 ] ], "flags": [ "INHALED_TOXIN_IMMUNE" ] },
             "immune_inside_vehicle": true
           }
         ],
@@ -617,7 +617,7 @@
             "min_duration": "2 minutes",
             "max_duration": "2 minutes",
             "immune_inside_vehicle": true,
-            "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
+            "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ], "flags": [ "INHALED_TOXIN_IMMUNE" ] },
             "message": "You feel sick from inhaling the hazy cloud.",
             "message_type": "bad"
           }
@@ -648,7 +648,7 @@
             "min_duration": "3 minutes",
             "max_duration": "3 minutes",
             "immune_inside_vehicle": true,
-            "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
+            "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ], "flags": [ "INHALED_TOXIN_IMMUNE" ] },
             "message": "You feel sick from inhaling the toxic gas.",
             "message_type": "bad"
           }
@@ -692,7 +692,7 @@
             "max_duration": "3 minutes",
             "//": "won't be applied outside of vehicles, so it could apply harsher effect",
             "immune_outside_vehicle": true,
-            "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
+            "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ], "flags": [ "INHALED_TOXIN_IMMUNE" ] },
             "message": "You feel sick from inhaling the thick toxic gas.",
             "message_type": "bad"
           },
@@ -704,7 +704,7 @@
             "max_duration": "3 minutes",
             "//": "won't be applied inside of vehicles, so it could apply lesser effect",
             "immune_inside_vehicle": true,
-            "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
+            "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ], "flags": [ "INHALED_TOXIN_IMMUNE" ] },
             "message": "You feel sick from inhaling the thick toxic gas.",
             "message_type": "bad"
           }
@@ -774,7 +774,7 @@
     "outdoor_age_speedup": "3 minutes",
     "dirty_transparency_cache": true,
     "has_fume": true,
-    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ], "flags": [ "INHALED_TOXIN_IMMUNE" ] },
     "priority": 8,
     "half_life": "10 minutes",
     "phase": "gas",
@@ -808,7 +808,7 @@
           {
             "effect_id": "teargas",
             "body_part": "mouth",
-            "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
+            "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ], "flags": [ "INHALED_TOXIN_IMMUNE" ] },
             "intensity": 1,
             "min_duration": "2 minutes",
             "max_duration": "5 minutes",
@@ -840,7 +840,7 @@
           {
             "effect_id": "teargas",
             "body_part": "mouth",
-            "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
+            "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ], "flags": [ "INHALED_TOXIN_IMMUNE" ] },
             "intensity": 1,
             "min_duration": "5 minutes",
             "max_duration": "15 minutes",
@@ -871,7 +871,7 @@
           {
             "effect_id": "teargas",
             "body_part": "mouth",
-            "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
+            "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ], "flags": [ "INHALED_TOXIN_IMMUNE" ] },
             "intensity": 1,
             "min_duration": "15 minutes",
             "max_duration": "20 minutes",
@@ -941,7 +941,7 @@
     "wandering_field": "fd_toxic_gas",
     "gas_absorption_factor": "80m",
     "dirty_transparency_cache": true,
-    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ], "flags": [ "INHALED_TOXIN_IMMUNE" ] },
     "phase": "gas",
     "display_items": false,
     "display_field": true,
@@ -1484,7 +1484,7 @@
     "outdoor_age_speedup": "5 minutes",
     "dirty_transparency_cache": true,
     "has_fume": true,
-    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ], "flags": [ "INHALED_TOXIN_IMMUNE" ] },
     "priority": 8,
     "half_life": "50 minutes",
     "phase": "gas",
@@ -1506,7 +1506,7 @@
     "outdoor_age_speedup": "1 minutes",
     "dirty_transparency_cache": true,
     "has_fume": true,
-    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ], "flags": [ "INHALED_TOXIN_IMMUNE" ] },
     "priority": 8,
     "half_life": "15 minutes",
     "phase": "gas",
@@ -1550,7 +1550,10 @@
     "outdoor_age_speedup": "5 turns",
     "dirty_transparency_cache": true,
     "has_fume": true,
-    "immunity_data": { "flags": [ "MYCUS_IMMUNE" ], "body_part_env_resistance": [ [ "mouth", 15 ], [ "sensor", 15 ] ] },
+    "immunity_data": {
+      "flags": [ "MYCUS_IMMUNE", "INHALED_TOXIN_IMMUNE" ],
+      "body_part_env_resistance": [ [ "mouth", 15 ], [ "sensor", 15 ] ]
+    },
     "priority": 8,
     "half_life": "4 minutes",
     "phase": "gas",
@@ -1625,7 +1628,10 @@
     "outdoor_age_speedup": "4 minutes",
     "dirty_transparency_cache": true,
     "has_fume": true,
-    "immunity_data": { "flags": [ "MYCUS_IMMUNE" ], "body_part_env_resistance": [ [ "mouth", 15 ], [ "sensor", 15 ] ] },
+    "immunity_data": {
+      "flags": [ "MYCUS_IMMUNE", "INHALED_TOXIN_IMMUNE" ],
+      "body_part_env_resistance": [ [ "mouth", 15 ], [ "sensor", 15 ] ]
+    },
     "priority": 8,
     "half_life": "15 minutes",
     "phase": "gas",
@@ -1831,7 +1837,7 @@
     "outdoor_age_speedup": "3 minutes",
     "dirty_transparency_cache": true,
     "has_fume": true,
-    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ], "flags": [ "INHALED_TOXIN_IMMUNE" ] },
     "priority": 8,
     "half_life": "10 minutes",
     "phase": "gas"
@@ -1851,7 +1857,7 @@
     "outdoor_age_speedup": "1 minutes",
     "dirty_transparency_cache": true,
     "has_fume": true,
-    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ], "flags": [ "INHALED_TOXIN_IMMUNE" ] },
     "priority": 8,
     "half_life": "30 minutes",
     "phase": "gas",
@@ -1873,7 +1879,7 @@
     "outdoor_age_speedup": "1 minutes",
     "dirty_transparency_cache": true,
     "has_fume": true,
-    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ], "flags": [ "INHALED_TOXIN_IMMUNE" ] },
     "priority": 8,
     "half_life": "30 minutes",
     "phase": "gas",
@@ -2054,7 +2060,7 @@
     "percent_spread": 25,
     "outdoor_age_speedup": "1 minutes",
     "dirty_transparency_cache": true,
-    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ], "flags": [ "INHALED_TOXIN_IMMUNE" ] },
     "has_fume": true,
     "priority": 8,
     "half_life": "15 minutes",
