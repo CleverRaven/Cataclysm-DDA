@@ -180,6 +180,7 @@ class tileset
         std::string tileset_id;
 
         bool tile_isometric = false;
+        bool supports_overmap_transparency = false;
         // Unscaled default size of sprites. See cata_tiles::tile_(width|height)
         // for more detail.
         int tile_width = 0;
@@ -224,6 +225,9 @@ class tileset
 
         bool is_isometric() const {
             return tile_isometric;
+        }
+        bool get_supports_overmap_transparency() const {
+            return supports_overmap_transparency;
         }
         int get_tile_width() const {
             return tile_width;
@@ -742,6 +746,9 @@ class cata_tiles
 
         bool is_isometric() const {
             return tileset_ptr->is_isometric();
+        }
+        bool get_supports_overmap_transparency() const {
+            return tileset_ptr->get_supports_overmap_transparency();
         }
         int get_tile_height() const {
             return tile_height;

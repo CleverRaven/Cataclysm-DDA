@@ -794,7 +794,6 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     const int max_col = any_tile_range.p_max.x;
     const int min_row = any_tile_range.p_min.y;
     const int max_row = any_tile_range.p_max.y;
-    int height_3d = 0;
     avatar &you = get_avatar();
     const tripoint_abs_omt avatar_pos = you.pos_abs_omt();
     tripoint_abs_omt center_pos = center_abs_omt;
@@ -828,6 +827,46 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         return tripoint_abs_omt( omp.xy(), 0 );
     };
 
+    // If the tileset supports it draw lower zlevels
+    //BEFOREMERGE: Deduplicate?
+    if( override_overmap_tileset_transparency || get_supports_overmap_transparency() ) {
+        int cur_zlevel = -OVERMAP_DEPTH;
+        while( cur_zlevel < center_abs_omt.z() && !viewing_weather ) {
+            const tripoint_rel_omt dz( 0, 0, cur_zlevel - center_abs_omt.z() );
+            for( int row = min_row; row < max_row; row++ ) {
+                for( int col = min_col; col < max_col; col++ ) {
+                    tripoint_abs_omt omp = origin + point( col, row ) + dz + tripoint_rel_omt::above;
+                    //TODO: Could add some kind of check here as to whether to draw below and continue if not rather than brute force drawing everything (eg a tileset json sprite bool)
+                    omp += tripoint_rel_omt::below;
+
+                    const om_vision_level vision = overmap_buffer.seen( omp );
+                    std::string id;
+                    TILE_CATEGORY category = TILE_CATEGORY::OVERMAP_TERRAIN;
+                    int rotation = 0;
+                    int subtile = -1;
+
+                    if( vision == om_vision_level::unseen ) {
+                        id = "unknown_terrain";
+                    } else {
+                        bool is_omt = false;
+                        std::tie( id, is_omt ) = get_omt_id_rotation_and_subtile( omp, rotation, subtile );
+                        if( !is_omt ) {
+                            category = TILE_CATEGORY::OVERMAP_VISION_LEVEL;
+                        }
+                    }
+
+                    const lit_level ll = overmap_buffer.is_explored( omp ) ? lit_level::LOW : lit_level::LIT;
+                    // light level is now used for choosing between grayscale filter and normal lit tiles.
+                    draw_from_id_string( id, category,
+                                         category == TILE_CATEGORY::OVERMAP_TERRAIN ? "overmap_terrain" : "",
+                                         omp, subtile, rotation, ll, false, cur_zlevel );
+                }
+            }
+            cur_zlevel++;
+        }
+    }
+
+    int height_3d = origin.z();
     for( int row = min_row; row < max_row; row++ ) {
         for( int col = min_col; col < max_col; col++ ) {
             const tripoint_abs_omt omp = origin + point( col, row );

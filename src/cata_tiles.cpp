@@ -707,6 +707,7 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
         ts.max_tile_extent = half_open_rectangle<point>( point::zero, { ts.tile_width, ts.tile_height } );
         ts.zlevel_height = curr_info.get_int( "zlevel_height", 0 );
         ts.tile_isometric = curr_info.get_bool( "iso", false );
+        ts.supports_overmap_transparency = curr_info.get_bool( "supports_overmap_transparency", false );
         ts.tile_pixelscale = curr_info.get_float( "pixelscale", 1.0f );
         ts.prevent_occlusion_min_dist = curr_info.get_float( "retract_dist_min", -1.0f );
         ts.prevent_occlusion_max_dist = curr_info.get_float( "retract_dist_max", 0.0f );
@@ -1736,7 +1737,7 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
     color_blocks = here.color_blocks_cache;
 
     // List all layers for a single z-level
-    const std::array<decltype( &cata_tiles::draw_furniture ), 11> drawing_layers = {{
+    static const std::array<decltype( &cata_tiles::draw_furniture ), 11> drawing_layers = {{
             &cata_tiles::draw_terrain, &cata_tiles::draw_furniture, &cata_tiles::draw_graffiti, &cata_tiles::draw_trap, &cata_tiles::draw_part_con,
             &cata_tiles::draw_field_or_item,
             &cata_tiles::draw_vpart_no_roof, &cata_tiles::draw_vpart_roof,
