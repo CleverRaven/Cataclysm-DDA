@@ -107,7 +107,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "armor",
-    "name": { "str": "chitinous scale mail sleeves (pair)", "str_pl": "chitinous scale mail sleeves (pairs)" },
+    "name": { "str_sp": "chitinous scale mail sleeves (pair)" },
     "description": "A pair of sleeves of chitin sections overlapping with each other, secured to a leather backing.  The odd irregular shapes make full coverage impossible, not helped by how poor of a material chitin is.  Seems to be made more out of desperation than anything, and would benefit greatly from some underlying armor.",
     "weight": "1501 g",
     "volume": "1330 ml",
@@ -141,7 +141,7 @@
     "copy-from": "armguard_chitin",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "chitinous scale mail sleeves (pair)", "str_pl": "chitinous scale mail sleeves (pairs)" },
+    "name": { "str_sp": "chitinous scale mail sleeves (pair)" },
     "proportional": { "weight": 1.25, "volume": 1.23 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
@@ -150,7 +150,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "armguard_chitin",
-    "name": { "str": "chitinous scale mail sleeves (pair)", "str_pl": "chitinous scale mail sleeves (pairs)" },
+    "name": { "str_sp": "chitinous scale mail sleeves (pair)" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
