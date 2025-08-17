@@ -53,6 +53,7 @@ Once a consequence is selected, it has a chance to actually be applied. There is
 | [Power Surge](#power-surge)+ | 5 |
 | [Sleepiness](#sleepiness) | 5 |
 | [Nether Conduit](#nether-conduit) | 9 |
+| [Extra Weariness](#extra_weariness)+ | 7 |
 | [Feedback](#feedback) | 9 |
 | [Observed](#observed)+ | 6 |
 | [Incorporeality](#incorporeality) | 4 |
@@ -137,6 +138,12 @@ Description: You gain a random amount of sleepiness, feeling more tired
 Minimum Attunement: 3  
 Chance: 3% to 38.25%  
 Description: You gain an effect that unlocks nastier consequences and slowly increases your attunement vitamin for a random period of time based on your attunement vitamin  
+<sub>[Back to List](#attunement-consequences)</sub>
+
+### Extra Weariness
+Minimum Attunement: 3  
+Chance: 1.5% to 38%  
+Description: You immediately lose a large amount of stored calories with the attendant effect on your weariness  
 <sub>[Back to List](#attunement-consequences)</sub>
 
 ### Feedback
