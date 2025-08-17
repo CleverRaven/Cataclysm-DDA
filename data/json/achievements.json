@@ -39,6 +39,7 @@
     "id": "achievement_kill_mutant",
     "type": "achievement",
     "name": "Paging Dr. Tucker!",
+    "description": "This is how we progress.  Human experimentation is a necessary step.  I would think a scientist should understand...",
     "requirements": [ { "event_statistic": "num_avatar_mutant_kills", "is": ">=", "target": 1, "visible": "when_achievement_completed" } ]
   },
   {
@@ -2312,6 +2313,21 @@
         "target": [ "overmap_special_id", "megastore" ],
         "visible": "when_achievement_completed",
         "description": "Reach a Megastore"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_school",
+    "type": "achievement",
+    "name": "School's Out! For! Ever!",
+    "description": "No more teachers.",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "school" ],
+        "visible": "when_achievement_completed",
+        "description": "Reach a School"
       }
     ]
   },  

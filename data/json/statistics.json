@@ -85,6 +85,12 @@
     "value_constraints": { "species": { "equals": [ "species_id", "ROBOT" ] } }
   },
   {
+    "id": "avatar_mutant_kills",
+    "type": "event_transformation",
+    "event_transformation": "avatar_species_kills",
+    "value_constraints": { "species": { "equals": [ "species_id", "MUTANT" ] } }
+  },
+  {
     "id": "num_avatar_monster_kills",
     "type": "event_statistic",
     "stat_type": "count",
@@ -139,6 +145,13 @@
     "stat_type": "count",
     "event_transformation": "avatar_robot_kills",
     "description": { "str": "robot killed", "str_pl": "robots killed" }
+  },
+  {
+    "id": "num_avatar_mutant_kills",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_mutant_kills",
+    "description": { "str": "mutant human killed", "str_pl": "mutant humans killed" }
   },
   {
     "id": "avatar_melee_attacks_monster",
