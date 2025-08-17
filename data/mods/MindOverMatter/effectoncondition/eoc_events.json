@@ -1,0 +1,19 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_FIFTH_SUN_ON_SEEING_YRAX_APEIROHEDRON",
+    "condition": {
+      "and": [
+        { "u_has_trait": "FIFTH_SUN_PEOPLE" },
+        { "not": { "compare_string": [ "yes", { "u_val": "fifth_sun_and_seen_yrax_apeirohedron" } ] } }
+      ]
+    },
+    "effect": [
+      { "u_add_var": "fifth_sun_and_seen_yrax_apeirohedron", "value": "yes" },
+      {
+        "u_message": "A shiver runs down your spine as the golden shape suddenly looms out of the impenetrable abyss.  This is beyond anything possible on this primitive world.  It is beyond even anything in the huecachane civilizations known to the Ēxcan Tlahtōlōyan.  This is a thing of the First Sun, and before it you are as an ant at the feet of the gods.",
+        "type": "mixed"
+      }
+    ]
+  }
+]
