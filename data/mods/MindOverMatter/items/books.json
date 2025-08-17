@@ -165,7 +165,7 @@
     "intelligence": 8,
     "time": "12 m",
     "read_skill": "unarmed",
-    "read_fun": 1
+    "read_fun": -2
   },
   {
     "id": "phavian_psionic_control_mutations_book",
@@ -180,7 +180,7 @@
     "intelligence": 12,
     "time": "45 m",
     "read_skill": "metaphysics",
-    "read_fun": 1
+    "read_fun": -2
   },
   {
     "id": "phavian_psionic_teleportation_combat_book",
@@ -195,7 +195,7 @@
     "intelligence": 12,
     "time": "45 m",
     "read_skill": "metaphysics",
-    "read_fun": 1
+    "read_fun": -2
   },
   {
     "id": "phavian_psionic_telepathic_mental_engineering_book",
@@ -210,6 +210,6 @@
     "intelligence": 10,
     "time": "12 m",
     "read_skill": "metaphysics",
-    "read_fun": 1
+    "read_fun": -2
   }
 ]
