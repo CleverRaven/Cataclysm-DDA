@@ -412,7 +412,11 @@ static std::map<std::string, panel_layout> initialize_default_panel_layouts()
 
 panel_manager::panel_manager()
 {
+#if defined(__ANDROID__)
+    current_layout_id = "sidebar-mobile";
+#else
     current_layout_id = "legacy_labels_sidebar";
+#endif
     // Set empty layouts; these will be populated by load()
     layouts = std::map<std::string, panel_layout>();
 }
