@@ -210,7 +210,7 @@
         "id": "EOC_UNLOCK_BIOKINESIS_MUTATION_CONTROL",
         "condition": {
           "and": [
-            { "math": [ "u_spell_level('biokin_physical_enhance') >= 10" ] },
+            { "math": [ "u_spell_level('biokin_vitaminosis') >= 10" ] },
             {
               "or": [
                 { "math": [ "u_spell_level('biokin_armor_skin') >= 8" ] },

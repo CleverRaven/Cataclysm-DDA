@@ -390,6 +390,6 @@
     "locations": [ "land" ],
     "city_distance": [ 5, -1 ],
     "occurrences": [ 20, 100 ],
-    "flags": [ "LAB", "MAN_MADE", "GOBALLY_UNIQUE" ]
+    "flags": [ "LAB", "MAN_MADE", "GLOBALLY_UNIQUE" ]
   }
 ]
