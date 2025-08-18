@@ -70,6 +70,145 @@
     "bash": { "str_min": 120, "str_max": 460, "sound": "scrrrash!", "sound_fail": "whump!", "ter_set": "t_lixa_wall" }
   },
   {
+    "id": "t_infinite_shaft_rooved",
+    "type": "terrain",
+    "name": "open air",
+    "description": "An area of open air in what appears to be a shaft extending into the depths of the earth.  You cannot understand how or why someone would build an eleavator shaft going into the depths of the earth like this for reasons other than mining.  It's bottom, if there is one, seems to be far past where light penetrates.",
+    "symbol": " ",
+    "color": "i_cyan",
+    "move_cost": 2,
+    "roof": "t_flat_roof",
+    "connect_groups": "INDOORFLOOR",
+    "flags": [ "TRANSPARENT", "NO_FLOOR", "INDOORS", "FREE_TO_EXAMINE" ],
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "false_ledge",
+          "effect": [
+            {
+              "run_eoc_selector": [ "EOC_PEEK_DOWN_pseudo", "EOC_CLIMB_DOWN_pseudo", "EOC_JUMP_ACROSS_pseudo", "EOC_FALL_DOWN_pseudo" ],
+              "allow_cancel": true,
+              "names": [ "Peek down", "Climb down by lowering yourself from the ledge", "Can't jump across (need a small gap)", "Fall down" ],
+              "title": "There is a ledge here.  What do you want to do?",
+              "descriptions": [
+                "You look down as far as you can see.",
+                "You hang off the ledge to get closer to a bottom you cannot see.",
+                "Take a leap of faith.",
+                "End it all."
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PEEK_DOWN_pseudo",
+    "//": "for selector cannot pick EoCs that are failing",
+    "effect": [ { "run_eocs": "EOC_PEEK_DOWN" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLIMB_DOWN_pseudo",
+    "//": "for selector cannot pick EoCs that are failing",
+    "effect": [ { "run_eocs": "EOC_CLIMB_DOWN" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_JUMP_ACROSS_pseudo",
+    "//": "for selector cannot pick EoCs that are failing",
+    "effect": [ { "run_eocs": "EOC_JUMP_ACROSS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FALL_DOWN_pseudo",
+    "//": "for selector cannot pick EoCs that are failing",
+    "effect": [ { "run_eocs": "EOC_FALL_DOWN" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PEEK_DOWN",
+    "condition": { "math": [ "u_val('morale') < -75" ] },
+    "false_effect": [
+      {
+        "u_message": "You look down and see the elevator shaft going deeper than you expected.  Much deeper to where you can no longer see beyond."
+      }
+    ],
+    "effect": [
+      {
+        "npc_location_variable": { "context_val": "Lixa_teleport" },
+        "target_params": {
+          "om_terrain": "LIXA_entry_1",
+          "om_terrain_match_type": "CONTAINS",
+          "search_range": 12,
+          "min_distance": 1,
+          "z": 0,
+          "random": true
+        }
+      },
+      {
+        "npc_message": "You receive an uncontrollable compulsion to step forward into the open elevator shaft.  As you step into the open air… you fall.  Then you keep falling.  The shaft you thought was only a few stories in height must be miles.  You lose count repeatedly but slowly, finally, the floor approaches… THUMP!  You feel searing final pain as every part of your body breaks when you hit the ground.",
+        "popup": true
+      },
+      { "npc_teleport": { "context_val": "Lixa_teleport" }, "force": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLIMB_DOWN",
+    "effect": [
+      {
+        "u_location_variable": { "context_val": "Lixa_teleport" },
+        "target_params": {
+          "om_terrain": "LIXA_entry_1",
+          "om_terrain_match_type": "CONTAINS",
+          "search_range": 12,
+          "min_distance": 1,
+          "z": 0,
+          "random": true
+        }
+      },
+      {
+        "u_message": "You climb down as far as you can and then you let go… you fall.  Then you keep falling.  The shaft you thought was only a few stories in height must be miles.  You try to count but every so often you scrape up against the wall abrading the skin from your limbs, and bruising you to the bone.  You pass out long before you ever hit the bottom.",
+        "popup": true
+      },
+      { "u_teleport": { "context_val": "Lixa_teleport" }, "force": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_JUMP_ACROSS",
+    "effect": [
+      {
+        "u_message": "Jump where?  There's nothing to jump to.  Just the other side of the elevator shaft.  There's no ledge over there or stairs, just flat wall."
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FALL_DOWN",
+    "effect": [
+      {
+        "u_location_variable": { "context_val": "Lixa_teleport" },
+        "target_params": {
+          "om_terrain": "LIXA_entry_1",
+          "om_terrain_match_type": "CONTAINS",
+          "search_range": 12,
+          "min_distance": 1,
+          "z": 0,
+          "random": true
+        }
+      },
+      {
+        "u_message": "As you step into the open air… you fall.  Then you keep falling.  The shaft you thought was only a few stories in height must be miles.  You lose count repeatedly but slowly, finally, the floor approaches…  THUMP!  You feel searing final pain as every part of your body breaks when you hit the ground.",
+        "popup": true
+      },
+      { "u_teleport": { "context_val": "Lixa_teleport" }, "force": true }
+    ]
+  },
+  {
     "type": "terrain",
     "id": "t_LIXA_tube",
     "name": "laser chamber",

@@ -10730,5 +10730,17 @@
     "category": [ "HUMAN" ],
     "types": [ "ATTRACTIVENESS" ],
     "description": "Your attractiveness would be considered unremarkable by the average human."
+  },
+  {
+    "type": "mutation",
+    "id": "anti_shape",
+    "name": { "str": "Extradimensional Comprehension" },
+    "player_display": true,
+    "points": 0,
+    "description": "In the tunnel at LIXA, you were inside of an impossible shape, where the X, Y, and Z axis were mere suggestions.  When you put the shape out of its misery, (as much misery as a concept can have), you saw it for what it was; just a shape.  You can now visualize \"impossible\" shapes in your mind's eye, rendering them mundane to you.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 1 } ] } ]
   }
 ]
