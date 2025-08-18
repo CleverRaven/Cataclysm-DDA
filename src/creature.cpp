@@ -573,7 +573,8 @@ bool Creature::sees( const map &here, const Creature &critter ) const
 
     if( ( target_range > 2 && critter.digging() &&
           here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, critter_pos ) ) ||
-        ( !has_flag( json_flag_TRUE_SEEING ) && critter.has_flag( mon_flag_CAMOUFLAGE ) && target_range > this->get_eff_per() ) ||
+        ( !has_flag( json_flag_TRUE_SEEING ) && critter.has_flag( mon_flag_CAMOUFLAGE ) &&
+          target_range > this->get_eff_per() ) ||
         ( critter.has_flag( mon_flag_WATER_CAMOUFLAGE ) &&
           target_range > this->get_eff_per() &&
           ( critter.is_likely_underwater( here ) ||
