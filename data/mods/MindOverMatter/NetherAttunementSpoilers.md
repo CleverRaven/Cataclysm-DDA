@@ -63,6 +63,7 @@ Once a consequence is selected, it has a chance to actually be applied. There is
 | [Power Drain](#power-drain) | 5 |
 | [Weakness](#weakness) | 5 |
 | [KCal Consumption](#kcal-consumption) | 6 |
+| [Mindshock](#mindshock)+ | 6 |
 | [Attenuation](#attenuation)+ | 8 |
 | [Short of Breath](#short-of-breath) | 5 |
 | [Force Wave](#force-wave) | 5 |
@@ -199,6 +200,12 @@ Description: You have lowered strength and dexterity along with increased stamin
 Minimum Attunement: 5  
 Chance: 4% to 38%  
 Description: The KCal consumption of your powers is tripled  
+<sub>[Back to List](#attunement-consequences)</sub>
+
+### Mindshock
+Minimum Attunement: 6  
+Chance: 3% to 33.5%  
+Description: You are stunned for a few seconds, cancelling all ongoing powers.
 <sub>[Back to List](#attunement-consequences)</sub>
 
 ### Attenuation
