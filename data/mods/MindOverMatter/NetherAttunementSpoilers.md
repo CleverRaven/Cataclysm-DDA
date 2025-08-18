@@ -54,7 +54,7 @@ Once a consequence is selected, it has a chance to actually be applied. There is
 | [Power Surge](#power-surge)+ | 5 |
 | [Sleepiness](#sleepiness) | 5 |
 | [Nether Conduit](#nether-conduit) | 9 |
-| [Extra Weariness](#extra_weariness)+ | 7 |
+| [Extra Weariness](#extra-weariness)+ | 7 |
 | [Feedback](#feedback) | 9 |
 | [Observed](#observed)+ | 6 |
 | [Incorporeality](#incorporeality) | 4 |
