@@ -298,6 +298,7 @@ enum class ter_furn_flag : int {
     TFLAG_GRAZER_INEDIBLE,
     TFLAG_BROWSABLE,
     TFLAG_TREE,
+    TFLAG_FOLDED,
     TFLAG_PLOWABLE,
     TFLAG_ORGANIC,
     TFLAG_CONSOLE,

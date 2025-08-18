@@ -8644,7 +8644,9 @@ void map::cut_down_tree( tripoint_bub_ms p, point_rel_ms dir )
     std::vector<tripoint_bub_ms> tree = line_to( p, to, rng( 1, 8 ) );
     for( tripoint_bub_ms &elem : tree ) {
         batter( elem, 300, 5 );
+        if( !ter( elem ).obj().has_flag( ter_furn_flag::TFLAG_FOLDED ) ) {
         ter_set( elem, ter_t_trunk );
+}
     }
     ter_set( p, ter_t_stump );
 }
