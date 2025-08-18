@@ -152,9 +152,13 @@ static const material_id material_veggy( "veggy" );
 static const material_id material_wood( "wood" );
 static const material_id material_wool( "wool" );
 
+static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
+static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
+
 static const species_id species_ROBOT( "ROBOT" );
 
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 const std::map<std::string, creature_size> Creature::size_map = {
     {"TINY",   creature_size::tiny},
@@ -1050,8 +1054,13 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
                 target.add_effect( effect_source( source ), effect_onfire, rng( 1_turns, 2_turns ) * amount,
                                    dealt_dam.bp_hit );
             }
-            if( player_character.has_unfulfilled_pyromania() ) {
-                player_character.fulfill_pyromania_sees( here, target );
+            if( player_character.has_trait( trait_PYROMANIA ) &&
+                !player_character.has_morale( morale_pyromania_startfire ) &&
+                player_character.sees( here, target ) ) {
+                player_character.add_msg_if_player( m_good,
+                                                    _( "You feel a surge of euphoria as flame engulfs %s!" ), target.get_name() );
+                player_character.add_morale( morale_pyromania_startfire, 15, 15, 8_hours, 6_hours );
+                player_character.rem_morale( morale_pyromania_nofire );
             }
         }
     } else if( proj_effects.count( ammo_effect_IGNITE ) ) {
@@ -1061,8 +1070,13 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
             } else if( target.made_of_any( Creature::cmat_flesh ) ) {
                 target.add_effect( effect_source( source ), effect_onfire, 6_turns * amount, dealt_dam.bp_hit );
             }
-            if( player_character.has_unfulfilled_pyromania() ) {
-                player_character.fulfill_pyromania_sees( here, target );
+            if( player_character.has_trait( trait_PYROMANIA ) &&
+                !player_character.has_morale( morale_pyromania_startfire ) &&
+                player_character.sees( here, target ) ) {
+                player_character.add_msg_if_player( m_good,
+                                                    _( "You feel a surge of euphoria as flame engulfs %s!" ), target.get_name() );
+                player_character.add_morale( morale_pyromania_startfire, 15, 15, 8_hours, 6_hours );
+                player_character.rem_morale( morale_pyromania_nofire );
             }
         }
     }
@@ -1519,8 +1533,13 @@ void Creature::deal_damage_handle_type( const effect_source &source, const damag
             add_effect( source, effect_onfire, rng( 1_turns, 3_turns ), bp );
 
             Character &player_character = get_player_character();
-            if( player_character.has_unfulfilled_pyromania() ) {
-                player_character.fulfill_pyromania_sees( here, *this );
+            if( player_character.has_trait( trait_PYROMANIA ) &&
+                !player_character.has_morale( morale_pyromania_startfire ) &&
+                player_character.sees( here, *this ) ) {
+                player_character.add_msg_if_player( m_good,
+                                                    _( "You feel a surge of euphoria as flame engulfs %s!" ), this->get_name() );
+                player_character.add_morale( morale_pyromania_startfire, 15, 15, 8_hours, 6_hours );
+                player_character.rem_morale( morale_pyromania_nofire );
             }
         }
     } else if( du.type == damage_electric ) {

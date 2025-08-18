@@ -1260,8 +1260,9 @@
     "valid": false,
     "name": { "str": "Facultative Breathing" },
     "description": "You do not need to breathe air to live anymore.  It prevents you from being drowned or suffocated and allows you to ignore inhaled gases.",
-    "flags": [ "GILLS", "SUFFOCATION_IMMUNE", "INHALED_TOXIN_IMMUNE" ],
-    "cancels": [ "ASTHMA" ]
+    "flags": [ "GILLS" ],
+    "cancels": [ "ASTHMA" ],
+    "integrated_armor": [ "integrated_nobreathe" ]
   },
   {
     "type": "mutation",
@@ -1775,7 +1776,7 @@
     "id": "VAMPIRE_INSTANT_BLEED",
     "name": { "str": "Claim the Crimson Wine" },
     "points": 5,
-    "description": "You can now attract the blood within a corpse's veins, extracting it all in a second through a small cut.  In addition, you can create temporary blood containers out of some of your stolen blood.",
+    "description": "You can now attract the blood within a corpse's veins, extracting it all in a second through a small cut.  In addition, you can create temporary blood containers by spending mana.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,

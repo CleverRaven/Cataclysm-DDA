@@ -13,7 +13,6 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "character.h"
-#include "color.h"
 #include "debug.h"
 #include "effect_on_condition.h"
 #include "flag.h"
@@ -27,7 +26,6 @@
 #include "mission.h"
 #include "mutation.h"
 #include "options.h"
-#include "output.h"
 #include "past_achievements_info.h"
 #include "pimpl.h"
 #include "trait_group.h"
@@ -323,20 +321,10 @@ void profession::load( const JsonObject &jo, std::string_view )
     }
     optional( jo, was_loaded, "no_bonus", no_bonus );
 
-    if( jo.has_member( "requirement" ) ) {
-        _requirements.clear();
-        if( jo.has_string( "requirement" ) ) {
-            _requirements.emplace_back( jo.get_string( "requirement" ) );
-        } else if( jo.has_array( "requirement" ) ) {
-            mandatory( jo, was_loaded, "requirement", _requirements );
-        } else {
-            jo.throw_error_at( "requirement", "requirement must be string or array" );
-        }
-    }
-
+    optional( jo, was_loaded, "requirement", _requirement );
     optional( jo, was_loaded, "hard_requirement", hard_requirement, false );
 
-    if( hard_requirement && _requirements.empty() ) {
+    if( hard_requirement && !_requirement ) {
         jo.throw_error_at( "hard_requirement",
                            "Cannot have hard requirement when object has no requirements" );
     }
@@ -734,24 +722,17 @@ ret_val<void> profession::can_pick() const
         return ret_val<void>::make_success();
     }
 
-    if( !_requirements.empty() ) {
-        bool has_all_req = true;
-        std::vector<std::string> req_names;
-        for( const auto req : _requirements ) {
-            bool has_this_req = get_past_achievements().is_completed( req->id );
-            has_all_req &= has_this_req;
-            req_names.emplace_back( colorize( req->name().translated(), has_this_req ? c_green : c_red ) );
-        }
-        std::string fail_msg = n_gettext(
-                                   _( "You must complete the achievement \"%s\" to unlock this profession." ),
-                                   _( "You must complete these achievements to unlock this profession: %s" ), _requirements.size() );
+    if( _requirement ) {
+        const bool has_req = get_past_achievements().is_completed(
+                                 _requirement.value()->id );
+        std::string fail_msg = _( "You must complete the achievement \"%s\" to unlock this profession." );
         if( !meta_progression ) {
             fail_msg += _( "\nThis profession can only be unlocked through achievements." );
         }
-        if( !has_all_req ) {
+        if( !has_req ) {
             return ret_val<void>::make_failure(
                        fail_msg,
-                       enumerate_as_string( req_names ) );
+                       _requirement.value()->name() );
         }
     }
 
@@ -1006,7 +987,7 @@ const std::vector<mission_type_id> &profession::missions() const
     return _missions;
 }
 
-std::vector<achievement_id> profession::get_requirements() const
+std::optional<achievement_id> profession::get_requirement() const
 {
-    return _requirements;
+    return _requirement;
 }
