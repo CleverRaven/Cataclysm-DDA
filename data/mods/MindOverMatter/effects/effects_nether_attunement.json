@@ -70,25 +70,26 @@
     "name": [ "Nether Attenuation" ],
     "desc": [ "You have to work extra hard to draw enough energy to use your powers." ],
     "remove_message": "Your difficulty in drawing on the Nether fades.",
+    "rating": "bad",
     "enchantments": [ { "values": [ { "value": "CASTING_TIME_MULTIPLIER", "multiply": 4 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_nether_attunement_clair_blurred_sight",
+    "name": [ "Blurred Sight" ],
+    "desc": [ "Your vision is blurry." ],
+    "remove_message": "Your vision finally clears.",
+    "rating": "bad",
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 0.1 }, { "limb_score": "vision", "modifier": 0.2 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "HYPEROPIA", "MYOPIA" ]
   },
   {
     "type": "effect_type",
     "id": "effect_nether_attunement_extra_kcal",
     "name": [ "Gnawing Hunger" ],
     "desc": [ "Whenever you use your powers, your stomach rumbles." ],
-    "remove_message": "Your stomach finally calms down."
-  },
-  {
-    "type": "effect_type",
-    "id": "effect_nether_attunement_difficulty_breathing",
-    "name": [ "Difficulty Breathing" ],
-    "desc": [ "You're having a hard time catching your breath." ],
-    "remove_message": "You draw a full breath into your lungs.",
-    "max_intensity": 5,
-    "int_add_val": 1,
-    "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.75, "scaling": -0.1 } ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+    "remove_message": "Your stomach finally calms down.",
+    "rating": "bad"
   },
   {
     "type": "effect_type",
@@ -119,6 +120,7 @@
     "name": [ "Short of Breath" ],
     "desc": [ "You're having a hard time getting enough air." ],
     "remove_message": "You finally manage to catch your breath",
+    "rating": "bad",
     "base_mods": { "cough_chance": [ 20 ], "cough_tick": [ 120 ] },
     "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.5 }, { "limb_score": "lift", "modifier": 0.8 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
@@ -129,6 +131,7 @@
     "name": [ "Feverish" ],
     "desc": [ "You feel feverish and weak." ],
     "remove_message": "Your fever finally breaks.",
+    "rating": "bad",
     "enchantments": [
       {
         "values": [
@@ -165,13 +168,24 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_kelvinist_anti_cold",
+    "id": "effect_nether_attunement_pyrokinetic_fog",
     "//": "Hidden effect, used as a tracker",
     "name": [ "" ],
     "desc": [ "" ],
     "apply_message": "A roiling fog coalesces out of the surrounding air.",
     "remove_message": "The roiling fog surrounding you dissipates.",
+    "rating": "bad",
     "enchantments": [ { "emitter": "emit_fog_plume" } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_nether_attunement_sensory_deprivation",
+    "name": [ "Oubliette" ],
+    "desc": [ "Your are alone in darkness and silence." ],
+    "remove_message": "You suddenly can see once again.",
+    "rating": "bad",
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 0.0 }, { "limb_score": "vision", "modifier": 0.0 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "BLIND", "DEAF" ]
   },
   {
     "type": "effect_type",

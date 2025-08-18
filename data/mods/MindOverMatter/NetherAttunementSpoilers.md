@@ -50,6 +50,7 @@ Once a consequence is selected, it has a chance to actually be applied. There is
 | [Vomit](#vomit) | 9 | 
 | [Nosebleed](#nosebleed) | 12 |
 | [Stamina Loss](#stamina-loss) | 8 |
+| [Blurred Sight](#blurred-sight) | 6 |
 | [Power Surge](#power-surge)+ | 5 |
 | [Sleepiness](#sleepiness) | 5 |
 | [Nether Conduit](#nether-conduit) | 9 |
@@ -71,6 +72,7 @@ Once a consequence is selected, it has a chance to actually be applied. There is
 | [Teleport Misjump](#teleport-misjump) | 4 |
 | [EMP Blast](#emp-blast) | 3 |
 | [Lightning Blast](#lightning-blast)+ | 3 |
+| [Oubliette](#oubliette) | 4 |
 | [Crack in Reality](#crack-in-reality)+ | 2 |
 | [Nullified](#nullified) | 3 |
 | [Hounds of Tindalos](#hounds-of-tindalos)* | 2 |
@@ -123,6 +125,13 @@ Description: You develop a nosebleed
 Minimum Attunement: 2  
 Chance: 2% to 31%  
 Description: You lose a random amount of stamina  
+<sub>[Back to List](#attunement-consequences)</sub>
+
+### Blurred Sight
+Minimum Attunement: 3
+Required School/Power: Clairsentience
+Chance: 3% to 35.75%  
+Description: You have blurred sight, suffering from both farsightedness and nearsightened, for a random period of time based on your attunement vitamin  
 <sub>[Back to List](#attunement-consequences)</sub>
 
 ### Power Surge
@@ -257,6 +266,13 @@ Description: You emit an EMP blast centered on yourself
 Minimum Attunement: 9  
 Chance: 3% to 19.25%  
 Description: You emit a blast of lighting, electrocuting yourself and your surroundings  
+<sub>[Back to List](#attunement-consequences)</sub>
+
+### Oubliette
+Minimum Attunement: 9  
+Required School/Power: Clairsentience (Heightened Senses, Night Eyes, Clairvoyance, Clarity, Omniscience)
+Chance: 3% to 13%  
+Description: Your senses are all cut off from your mind, plunging you into complete silent blackness for a period of time based on your attunement vitamin 
 <sub>[Back to List](#attunement-consequences)</sub>
 
 ### Crack in Reality
