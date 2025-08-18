@@ -115,6 +115,39 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_psi_reduced_breathing",
+    "name": [ "Short of Breath" ],
+    "desc": [ "You're having a hard time getting enough air." ],
+    "remove_message": "You finally manage to catch your breath",
+    "base_mods": { "cough_chance": [ 20 ], "cough_tick": [ 120 ] },
+    "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.5 }, { "limb_score": "lift", "modifier": 0.8 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_nether_attunement_pyrokinetic_fever",
+    "name": [ "Feverish" ],
+    "desc": [ "You feel feverish and weak." ],
+    "remove_message": "Your fever finally breaks.",
+    "enchantments": [
+      {
+        "values": [
+          { "value": "STRENGTH", "add": -2 },
+          { "value": "DEXTERITY", "add": -1 },
+          { "value": "CLIMATE_CONTROL_CHILL", "add": -10 }
+        ]
+      }
+    ],
+    "limb_score_mods": [
+      { "limb_score": "grip", "modifier": 0.8 },
+      { "limb_score": "block", "modifier": 0.8 },
+      { "limb_score": "manip", "modifier": 0.8 },
+      { "limb_score": "lift", "modifier": 0.8 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_teleport_mishap_tindrift_warning",
     "name": [ "Hunted" ],
     "desc": [
