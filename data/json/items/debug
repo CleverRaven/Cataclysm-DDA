@@ -1,0 +1,66 @@
+[
+  {
+    "id": "db_longsword",
+    "copy-from": "mc_longsword",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "Debugibur" },
+    "description": "A gift from the Developer of the Github.  Allows you to slice through bugs like butter.",
+    "proportional": { "price_postapoc": 1.05, "price": 1.05 },
+    "relative": { "melee_damage": { "cut": 999999 } }
+  },
+  {
+    "type": "ITEM",
+    "id": "club_wooden_debug",
+    "copy-from": "club_wooden",
+    "name": { "str": "Debugibonk" },
+    "description": "A wooden club, hand carved by the first cave-contributor.  Use it to ruthlessly smash any bug in your path.",
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "good" },
+    "relative": { "melee_damage": { "bash": 999999 }
+  },
+  {
+    "type": "ITEM",
+    "id": "debug_kinfe",
+    "copy-from": "knife_combat",
+    "name": { "str": "Debugishank" },
+    "description": "A combat knife forged from the tears of salty players.  Use it to brutally stab bugs to death.",
+    "relative": { "melee_damage": { "stab": 999999 }
+  },
+  {
+    "id": "debug_gun",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "copy_from": "ruger1022",
+    "name": { "str": "Debug 10/22" },
+    "description": "The perfect weapon, firing target-seeking bullets that hit with the force of small nuclear warheads.  Use this to kill bugs from a distance.",
+    "to_hit": 99,
+    "material": [ "steel", "wood" ],
+    "symbol": "(",
+    "color": "brown",
+    "range": 6,
+    "ammo": [ "22" ],
+    "skill": "rifle",
+    "ranged_damage": { "damage_type": "bullet", "amount": 999999 },
+    "dispersion": 0,
+    "durability": 8,
+    "min_cycle_recoil": 39,
+    "barrel_volume": "500 ml",
+    "faults": [
+      "fault_gun_blackpowder",
+      "fault_gun_dirt",
+      "fault_gun_chamber_spent",
+      "fault_fail_to_feed",
+      "fault_stovepipe",
+      "fault_double_feed"
+    ],
+    "pocket_data": [
+      {
+        "magazine_well": "34 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [
+          "ruger1022mag_110"
+        ]
+      }
+    ]
+  }
+]
