@@ -111,7 +111,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_XE_STRANGE_EVENT_BROWNIE_CONVERSATION",
-    "condition": { "npc_has_trait": "UNKNOWING_CHANGELING_COMMONER_BROWNIE" },
+    "condition": { "npc_has_any_trait": [ "UNKNOWING_CHANGELING_NOBLE", "UNKNOWING_CHANGELING_COMMONER_BROWNIE" ] },
     "effect": [ { "open_dialogue": { "topic": "XE_STRANGE_EVENT_BROWNIE_MEETS_BROWNIE" } } ],
     "false_effect": [
       {
