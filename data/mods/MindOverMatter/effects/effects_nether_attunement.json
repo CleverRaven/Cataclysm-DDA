@@ -137,7 +137,8 @@
         "values": [
           { "value": "STRENGTH", "add": -2 },
           { "value": "DEXTERITY", "add": -1 },
-          { "value": "CLIMATE_CONTROL_CHILL", "add": -10 }
+          { "value": "CLIMATE_CONTROL_CHILL", "add": -10 },
+          { "value": "SWEAT_MULTIPLIER", "multiply": 2 }
         ]
       }
     ],
