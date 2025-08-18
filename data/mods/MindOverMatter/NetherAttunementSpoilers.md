@@ -272,7 +272,7 @@ Description: You emit a blast of lighting, electrocuting yourself and your surro
 Minimum Attunement: 9  
 Required School/Power: Clairsentience (Heightened Senses, Night Eyes, Clairvoyance, Clarity, Omniscience)
 Chance: 3% to 13%  
-Description: Your senses are all cut off from your mind, plunging you into complete silent blackness for a period of time based on your attunement vitamin 
+Description: Your senses are all cut off from your mind, plunging you into complete silent blackness for a period of time based on your attunement vitamin
 <sub>[Back to List](#attunement-consequences)</sub>
 
 ### Crack in Reality
