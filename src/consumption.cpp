@@ -1843,7 +1843,7 @@ static bool query_consume_ownership( item &target, Character &p )
     if( !target.is_owned_by( p, true ) ) {
         bool choice = true;
         if( p.get_value( "THIEF_MODE" ).str() == "THIEF_ASK" ) {
-            choice = Pickup::query_thief();
+            choice = Pickup::query_thief( target );
         }
         if( p.get_value( "THIEF_MODE" ).str() == "THIEF_HONEST" || !choice ) {
             return false;
