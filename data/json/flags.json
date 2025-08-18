@@ -2580,6 +2580,11 @@
     "info": "The character is liked by natural animals."
   },
   {
+    "id": "TRUE_SEEING",
+    "type": "json_flag",
+    "info": "The character can see through CAMOUFLAGE, NIGHT_INVISIBILITY, or the invisibility effect."
+  },
+  {
     "id": "ANIMALEMPATH2",
     "type": "json_flag",
     "info": "The character is intensely liked by natural animals."
