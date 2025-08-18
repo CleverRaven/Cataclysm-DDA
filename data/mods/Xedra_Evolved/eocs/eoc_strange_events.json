@@ -68,5 +68,42 @@
       { "u_message": "snippet_drained_by_lilit", "snippet": true, "type": "bad" },
       { "math": [ "u_lilin_ruach_drained_recently = 1" ] }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_BROWNIE_IN_YOUR_FACTION_BASE",
+    "recurrence": [ "5 days", "12 days" ],
+    "condition": {
+      "and": [
+        { "u_at_om_location": "FACTION_CAMP_ANY" },
+        { "x_in_y_chance": { "x": 1, "y": 25 } },
+        { "not": { "u_has_effect": "sleep" } },
+        { "not": { "compare_string": [ "yes", { "u_val": "xe_brownie_in_faction_event_has_run" } ] } }
+      ]
+    },
+    "effect": [
+      {
+        "u_location_variable": { "context_val": "brownie_spawn_location" },
+        "passable_only": true,
+        "min_radius": 5,
+        "max_radius": 10,
+        "true_eocs": [
+          {
+            "id": "EOC_XE_BROWNIE_IN_YOUR_FACTION_BASE_SUCCESS",
+            "condition": { "not": { "map_is_outside": { "context_val": "brownie_spawn_location" } } },
+            "effect": [
+              {
+                "u_spawn_monster": "mon_xe_strange_event_brownie",
+                "real_count": 1,
+                "indoor_only": true,
+                "target_var": { "context_val": "brownie_spawn_location" },
+                "lifespan": 30,
+                "spawn_message": "A wizened, hairy creature suddenly appears out of thin air!"
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 ]
