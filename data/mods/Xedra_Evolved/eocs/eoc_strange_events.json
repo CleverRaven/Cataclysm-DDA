@@ -78,9 +78,11 @@
         { "u_at_om_location": "FACTION_CAMP_ANY" },
         { "x_in_y_chance": { "x": 1, "y": 25 } },
         { "not": { "u_has_effect": "sleep" } },
+        { "not": { "u_has_trait": "FAE_ENMITY" } },
         { "not": { "compare_string": [ "yes", { "u_val": "xe_brownie_in_faction_event_has_run" } ] } }
       ]
     },
+    "deactivate_condition": { "u_has_trait": "FAE_ENMITY" },
     "effect": [
       {
         "u_location_variable": { "context_val": "brownie_spawn_location" },
@@ -97,7 +99,7 @@
                 "real_count": 1,
                 "indoor_only": true,
                 "target_var": { "context_val": "brownie_spawn_location" },
-                "lifespan": 30,
+                "lifespan": 150,
                 "spawn_message": "A wizened, hairy creature suddenly appears out of thin air!"
               }
             ]
