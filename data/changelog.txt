@@ -152,6 +152,9 @@ NPC AI fixes to improve fleeing in bad situations, reduce it in good ones
 Armors faults. Part 1: Steel Plate
 Show time in months/days
 Player assigned Points of interest visible as Mission markers
+Enable save compression by default for new worlds
+Enable save compression by default for new worlds
+hardcode placement of highway interchanges, cities can build over highways
 
 
 ## Content:
@@ -349,6 +352,11 @@ You can do your makeup
 Allow EOCs to read artifact resonance
 Add lathe functionality and industrial baseball bat production
 Chitin armor overhaul
+Changes the name of the achievement for finding LIXA
+Add bar stock for machining
+Place trash on highways, correct highway vision level
+Professions can have multiple achievement requirements
+Adds a trait gained after completing the LIXA finale that makes you immune to impossible shapes, as well as an achievement.
 
 
 ## Interface:
@@ -470,6 +478,9 @@ Always show clean water on top of consume menu
 Toggle haul from action menu when hauling
 Explain that degraded items are degraded
 Message to player when UPS equipment runs out of power.
+Construction interface shows prerequisite furniture/terrain flags
+Fix missing 'Saving Game' message
+Default android sidebar changed to sidebar-mobile
 
 
 ## Mods:
@@ -890,6 +901,21 @@ Aftershock: Vehicle bay City Building a mix between mechanic garage, gas station
 [Mods] When shapeshifted into a form with no hands, you don't have hands
 [Mods] Your gear doesn't protect you when you're shapeshifted
 [Mods] If you have a broken limb and are in a shapeshifted form, you can't fly
+Expanded the Magiclysm silver infuser recipe to use any silver bracelet.
+[Magiclysm] Only player goblins will try to tame wargs
+[Magiclysm] Only player goblins will try to tame wargs
+[Xedra Evolved] Switch vampires powers over to using `human_blood_vitamin`
+[MoM] Add Psychometry clairsentient power
+[DDotD/XE] Full vampires are immune to zombie bites
+[XE/DDotD] Dhampirs and pre-undead vampires are resistant to the zombie infection
+[Mods] Add `SUFFOCATION_IMMUNE` and `INHALED_TOXIN_IMMUNE` flags, apply to appropriate places in mods.
+Multi mod flag documentation
+[DDotD] Add drag down attack when you're grabbed and surrounded
+[Xedra Evolved] vampire `magic_type` work
+[DDotD] Increase incidence of meadows in DDtoD
+[MoM] Add minor bit of text if you're one of the Fifth Sun and you see the Yrax Apeirohedron
+[Xedra Evolved] Distribute new flags to Paraclesian forms
+[MoM] Add project EMERALD VANGUARD lab to MoM
 
 
 ## Balance:
@@ -991,6 +1017,8 @@ Expanded spawns for some proper melee weapons
 Adjust Precise Strike melee tech so it also cant stun what other stun-causing techs cant stun.
 Adds cuvettes to analysis kit crafting recipe, increase analysis kit weight.
 Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
+Comfortably fluid cannot be purified, and does not count towards your positive mutations.
+Migrates all solar backpacks to the solar suitcase
 
 
 ## Bugfixes:
@@ -1370,6 +1398,15 @@ AIM item menu wouldn't update window position on resize.
 Fix deserialization error with power level
 Power grid deleted on ship movement
 AIM uilist submenu shaking violently.
+Fix seasonal weather
+Wearable cameras now work
+Remove pair of and pairs of wording from the leftover clothing, and generic items
+Bagpipes are now in the music recipe category
+Allow quick saving on turn zero
+Increase base kevlar fire armor
+LMOE mission: unlock door properly
+fix zones disabling on save/load
+Finalize removal of pair of and pairs of wording from all of the clothing and items
 
 
 ## Performance:
@@ -1545,6 +1582,10 @@ Use optional/mandatory for mutation, material, mission def, move mode
 Use optional/mandatory for weather type, trap, start location, scent map, profession group, and various json loading cleanup
 Check for unused extend/delete/proportional/relative with mandatory
 Begin moving duplicated UI code to new helpers library
+Report failure to read extended features for all generic factory readers
+Document debug character/world naming for testing
+zzip.exe: a tool for manipulating compressed save 'zzip' files.
+Add json_read_reader typed reader for mandatory/optional, enabling more use of extend/delete for containers loaded from JSON
 
 
 ## Build:
