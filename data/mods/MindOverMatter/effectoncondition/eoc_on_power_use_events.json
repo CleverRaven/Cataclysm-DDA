@@ -206,11 +206,11 @@
       },
       {
         "u_add_effect": "blind_clair_overload",
-        "duration": { "math": [ "time(' 15 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
+        "duration": { "math": [ "time(' 2 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
       },
       {
         "u_add_effect": "deaf_clair_overload",
-        "duration": { "math": [ "time(' 15 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
+        "duration": { "math": [ "time(' 2 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
       }
     ]
   },

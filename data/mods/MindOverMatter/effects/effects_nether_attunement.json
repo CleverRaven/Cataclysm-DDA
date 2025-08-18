@@ -81,7 +81,7 @@
     "remove_message": "Your vision finally clears.",
     "rating": "bad",
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 0.1 }, { "limb_score": "vision", "modifier": 0.2 } ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD", "HYPEROPIA", "MYOPIA" ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "HYPEROPIC", "MYOPIC", "MYOPIC_IN_LIGHT" ]
   },
   {
     "type": "effect_type",
@@ -176,16 +176,6 @@
     "remove_message": "The roiling fog surrounding you dissipates.",
     "rating": "bad",
     "enchantments": [ { "emitter": "emit_fog_plume" } ]
-  },
-  {
-    "type": "effect_type",
-    "id": "effect_nether_attunement_sensory_deprivation",
-    "name": [ "Oubliette" ],
-    "desc": [ "Your are alone in darkness and silence." ],
-    "remove_message": "You suddenly can see once again.",
-    "rating": "bad",
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 0.0 }, { "limb_score": "vision", "modifier": 0.0 } ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD", "BLIND", "DEAF" ]
   },
   {
     "type": "effect_type",

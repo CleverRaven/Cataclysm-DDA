@@ -1064,7 +1064,11 @@
           { "u_message": "Power floods into your mind, washing away all other thought!", "type": "bad" },
           {
             "u_add_effect": "stunned",
-            "duration": { "math": [ "1 + rand( (u_vitamin('vitamin_psionic_drain') / 50 ) )" ] }
+            "duration": { "math": [ "2 + rand( (u_vitamin('vitamin_psionic_drain') / 50 ) )" ] }
+          },
+          {
+            "u_add_effect": "psi_stunned",
+            "duration": { "math": [ "2 + rand( (u_vitamin('vitamin_psionic_drain') / 50 ) )" ] }
           }
         ]
       }
