@@ -16,7 +16,7 @@
     "name": { "str": "Debugibonk" },
     "description": "A wooden club, hand carved by the first cave-contributor.  Use it to ruthlessly smash any bug in your path.",
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "good" },
-    "relative": { "melee_damage": { "bash": 999999 }
+    "relative": { "melee_damage": { "bash": 999999 } }
   },
   {
     "type": "ITEM",
@@ -24,7 +24,7 @@
     "copy-from": "knife_combat",
     "name": { "str": "Debugishank" },
     "description": "A combat knife forged from the tears of salty players.  Use it to brutally stab bugs to death.",
-    "relative": { "melee_damage": { "stab": 999999 }
+    "relative": { "melee_damage": { "stab": 999999 } }
   },
   {
     "id": "debug_gun",
