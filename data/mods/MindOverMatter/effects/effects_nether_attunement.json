@@ -81,6 +81,17 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_nether_attunement_difficulty_breathing",
+    "name": [ "Difficulty Breathing" ],
+    "desc": [ "You're having a hard time catching your breath." ],
+    "remove_message": "You draw a full breath into your lungs.",
+    "max_intensity": 5,
+    "int_add_val": 1,
+    "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.75, "scaling": -0.1 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_nether_attunement_feedback",
     "name": [ "Feedback" ],
     "desc": [ "You feel a persistent itching that will not go away." ],

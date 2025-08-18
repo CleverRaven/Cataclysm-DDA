@@ -54,6 +54,7 @@ Once a consequence is selected, it has a chance to actually be applied. There is
 | [Sleepiness](#sleepiness) | 5 |
 | [Nether Conduit](#nether-conduit) | 9 |
 | [Extra Weariness](#extra_weariness)+ | 7 |
+| [Difficulty Breathing](#difficulty_breathing) | 6 |
 | [Feedback](#feedback) | 9 |
 | [Observed](#observed)+ | 6 |
 | [Incorporeality](#incorporeality) | 4 |
@@ -144,6 +145,12 @@ Description: You gain an effect that unlocks nastier consequences and slowly inc
 Minimum Attunement: 3  
 Chance: 1.5% to 38%  
 Description: You immediately lose a large amount of stored calories with the attendant effect on your weariness  
+<sub>[Back to List](#attunement-consequences)</sub>
+
+### Difficulty Breathing
+Minimum Attunement: 4  
+Chance: 2.5% to 39%  
+Description: You suffer difficulty in breathing, reducing your stamina regeneration for a random period of time based on your attunement vitamin.  Subsequent effects stack
 <sub>[Back to List](#attunement-consequences)</sub>
 
 ### Feedback
