@@ -3,25 +3,19 @@
 #define CATA_SRC_PANELS_H
 
 #include <functional>
-#include <iosfwd>
 #include <map>
 #include <string>
 #include <vector>
 
-#include "bodypart.h"
-#include "color.h"
 #include "coords_fwd.h"
-#include "translations.h"
-#include "widget.h"
+#include "translation.h"
+#include "type_id.h"
 
 class JsonArray;
 class JsonOut;
 class avatar;
-class Character;
-class Creature;
-class mood_face;
+class widget;
 struct point;
-enum class cardinal_direction;
 
 enum face_type : int {
     face_human = 0,
@@ -41,6 +35,8 @@ namespace overmap_ui
 void draw_overmap_chunk( const catacurses::window &w_minimap, const avatar &you,
                          const tripoint_abs_omt &global_omt, const point &start, int width,
                          int height );
+void draw_overmap_chunk_imgui( const avatar &you, const tripoint_abs_omt &global_omt,
+                               int width, int height );
 } // namespace overmap_ui
 
 bool default_render();

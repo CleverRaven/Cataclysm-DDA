@@ -53,7 +53,7 @@ def gen_new(path):
                 if key not in jo:
                     continue
                 jo["extend"][key] = jo[key]
-                del(jo[key])
+                del jo[key]
 
         return json_data if change else None
 

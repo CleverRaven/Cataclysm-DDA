@@ -1,0 +1,71 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_afs_industrial_card_reader",
+    "name": "Old TSKBEM Card Reader",
+    "description": "A smartcard based lock system once fitted to TSKBEM prefab industrial facilities.  While an original key would be impossible to find, the machine is ancient and obsolete, and it can be hacked or masterkeys can be obtained to bypass it.",
+    "symbol": "6",
+    "color": "yellow",
+    "copy-from": "t_card_science_maintenance_yellow",
+    "looks_like": "t_card_science_maintenance_yellow",
+    "examine_action": {
+      "type": "cardreader",
+      "flags": [ "OLD_TSKBEM_CARD" ],
+      "consume_card": false,
+      "allow_hacking": true,
+      "despawn_monsters": false,
+      "radius": 3,
+      "terrain_changes": { "t_door_metal_locked": "t_door_metal_c" },
+      "query": true,
+      "query_msg": "Are you sure you want to open this door?",
+      "success_msg": "You opened the door!",
+      "redundant_msg": "The door is already open."
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_afs_enforcer_card_reader",
+    "name": "Old Enforcer Card Reader",
+    "description": "A smartcard based lock system once fitted to corporate police prefab facilities.  While an original key would be impossible to find, the machine is ancient and obsolete, and it can be hacked or masterkeys can be obtained to bypass it.",
+    "symbol": "6",
+    "color": "blue",
+    "copy-from": "t_card_science_maintenance_blue",
+    "looks_like": "t_card_science_maintenance_blue",
+    "examine_action": {
+      "type": "cardreader",
+      "flags": [ "OLD_ENFORCER_CARD" ],
+      "consume_card": false,
+      "allow_hacking": true,
+      "despawn_monsters": false,
+      "radius": 3,
+      "terrain_changes": { "t_door_metal_locked": "t_door_metal_c" },
+      "query": true,
+      "query_msg": "Are you sure you want to open this door?",
+      "success_msg": "You opened the door!",
+      "redundant_msg": "The door is already open."
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_afs_mercurial_card_reader",
+    "name": "Old Mercurial Card Reader",
+    "description": "A smartcard based lock system once fitted to corporate Mercurial prefab facilities.  While an original key would be impossible to find, the machine is ancient and obsolete, and it can be hacked or masterkeys can be obtained to bypass it.",
+    "symbol": "6",
+    "color": "green",
+    "copy-from": "t_card_science_maintenance_green",
+    "looks_like": "t_card_science_maintenance_green",
+    "examine_action": {
+      "type": "cardreader",
+      "flags": [ "OLD_MERCURIAL_CARD" ],
+      "consume_card": false,
+      "allow_hacking": true,
+      "despawn_monsters": false,
+      "radius": 3,
+      "terrain_changes": { "t_door_metal_locked": "t_door_metal_c" },
+      "query": true,
+      "query_msg": "Are you sure you want to open this door?",
+      "success_msg": "You opened the door!",
+      "redundant_msg": "The door is already open."
+    }
+  }
+]

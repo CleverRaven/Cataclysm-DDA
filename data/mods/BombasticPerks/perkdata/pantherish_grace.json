@@ -1,0 +1,14 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_perk_pantherish_grace",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "limb_score_mods": [
+      { "limb_score": "reaction", "modifier": 1.05 },
+      { "limb_score": "balance", "modifier": 1.05 },
+      { "limb_score": "footing", "modifier": 1.05 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  }
+]

@@ -46,5 +46,41 @@
     "id": "PSI_EXTENDED_CHANNELING_ON",
     "//": "remove after 0.I",
     "trait": "PSI_EXTENDED_CHANNELING"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "PHOTOKIN_HIDE_UGLY_01",
+    "//": "remove after 0.J",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "PHOTOKIN_HIDE_UGLY_02",
+    "//": "remove after 0.J",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "PHOTOKIN_HIDE_UGLY_03",
+    "//": "remove after 0.J",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "PHOTOKIN_HIDE_UGLY_04",
+    "//": "remove after 0.J",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "PHOTOKIN_HIDE_UGLY_05",
+    "//": "remove after 0.J",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "PHOTOKIN_HIDE_UGLY_06",
+    "//": "remove after 0.J",
+    "remove": true
   }
 ]

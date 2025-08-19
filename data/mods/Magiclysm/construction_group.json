@@ -6,6 +6,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_greater_translocator_gate",
+    "name": "Build Translocator Portal"
+  },
+  {
+    "type": "construction_group",
     "id": "build_everburning_torch_candelabra",
     "name": "Set up Everburning Candelabra"
   },

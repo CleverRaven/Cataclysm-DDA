@@ -2,20 +2,33 @@
 #ifndef CATA_SRC_MAPGENDATA_H
 #define CATA_SRC_MAPGENDATA_H
 
+#include <array>
+#include <cstddef>
+#include <string>
+#include <type_traits>
+#include <unordered_map>
+#include <utility>
+#include <vector>
+
 #include "calendar.h"
 #include "cata_variant.h"
-#include "coords_fwd.h"
+#include "coordinates.h"
 #include "cube_direction.h"
+#include "debug.h"
 #include "enum_bitset.h"
 #include "jmapgen_flags.h"
-#include "mapgen.h"
+#include "point.h"
 #include "type_id.h"
 #include "weighted_list.h"
 
+// IWYU pragma: no_forward_declare jmapgen_flags
+// IWYU pragma: no_forward_declare cube_direction
+class JsonOut;
 class JsonValue;
 class map;
 class mission;
-struct point;
+enum class direction : unsigned int;
+enum class mapgen_phase;
 struct regional_settings;
 
 namespace om_direction
@@ -47,6 +60,7 @@ struct mapgen_arguments {
     }
 
     void merge( const mapgen_arguments & );
+    void add( const std::string &param_name, const cata_variant &value );
     void serialize( JsonOut & ) const;
     void deserialize( const JsonValue &ji );
 };
@@ -101,11 +115,11 @@ inline cata_variant extract_variant_value<cata_variant>( const cata_variant &v )
 class mapgendata
 {
     private:
+        tripoint_abs_omt pos_;
         oter_id terrain_type_;
         float density_;
         time_point when_;
         ::mission *mission_;
-        int zlevel_;
         mapgen_arguments mapgen_args_;
         enum_bitset<jmapgen_flags> mapgen_flags_;
         std::vector<oter_id> predecessors_;
@@ -182,8 +196,13 @@ class mapgendata
             return mission_;
         }
         int zlevel() const {
-            // TODO: should be able to determine this from the map itself
-            return zlevel_;
+            return pos_.z();
+        }
+        const tripoint_abs_omt &pos() const {
+            return pos_;
+        }
+        const mapgen_arguments &get_args() const {
+            return mapgen_args_;
         }
         std::vector<oter_id> get_predecessors() const {
             return predecessors_;
@@ -225,7 +244,7 @@ class mapgendata
         const oter_id &neighbor_at( om_direction::type dir ) const;
         const oter_id &neighbor_at( direction ) const;
         void fill_groundcover() const;
-        void square_groundcover( const point &p1, const point &p2 ) const;
+        void square_groundcover( const point_bub_ms &p1, const point_bub_ms &p2 ) const;
         ter_id groundcover() const;
         bool is_groundcover( const ter_id &iid ) const;
 

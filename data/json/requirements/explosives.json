@@ -51,7 +51,8 @@
       [
         [ "chem_black_powder", 90 ],
         [ "gunpowder", 90 ],
-        [ "red_phosphorous", 100 ],
+        [ "red_phosphorous_small", 100 ],
+        [ "red_phosphorous", 1 ],
         [ "gunpowder_pistol", 90 ],
         [ "gunpowder_shotgun", 90 ],
         [ "gunpowder_magnum_pistol", 80 ],
@@ -81,11 +82,5 @@
     "type": "requirement",
     "//": " Gas canisters, which can be recycled to get empty canisters. containers with an internal volume of 250 ml.",
     "components": [ [ [ "canister_empty", 1 ], [ "can_drink", 1 ], [ "can_food", 1 ] ] ]
-  },
-  {
-    "id": "small_grenade_case",
-    "type": "requirement",
-    "//": "Hard containers with an internal volume of 250 ml, which can be used in all explosive recipes that call for them.",
-    "components": [ [ [ "clay_canister", 1 ], [ "small_gas_canister_case", 1, "LIST" ] ] ]
   }
 ]

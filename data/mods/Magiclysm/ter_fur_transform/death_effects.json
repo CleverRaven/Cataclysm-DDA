@@ -1,0 +1,7 @@
+[
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_rock_troll_death",
+    "furniture": [ { "result": "f_rock_troll_statue", "valid_furniture": [ "f_null", "f_straw_bed" ] } ]
+  }
+]

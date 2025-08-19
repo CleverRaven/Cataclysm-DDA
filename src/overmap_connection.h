@@ -2,14 +2,15 @@
 #ifndef CATA_SRC_OVERMAP_CONNECTION_H
 #define CATA_SRC_OVERMAP_CONNECTION_H
 
-#include <iosfwd>
 #include <list>
 #include <set>
+#include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
-#include "int_id.h"
 #include "omdata.h"
-#include "string_id.h"
+#include "type_id.h"
 
 class JsonObject;
 struct overmap_location;
@@ -22,7 +23,7 @@ class overmap_connection
                 friend overmap_connection;
 
             public:
-                enum class flag : int { orthogonal };
+                enum class flag : int { orthogonal, perpendicular_crossing };
 
                 string_id<oter_type_t> terrain;
 
@@ -35,6 +36,10 @@ class overmap_connection
 
                 bool is_orthogonal() const {
                     return flags.count( flag::orthogonal );
+                }
+
+                bool is_perpendicular_crossing() const {
+                    return flags.count( flag::perpendicular_crossing );
                 }
 
                 void load( const JsonObject &jo );

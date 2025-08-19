@@ -37,6 +37,27 @@
     "looks_like": "fd_smoke"
   },
   {
+    "id": "fd_dream_wound_shadow",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "oily sheen",
+        "color": "light_gray",
+        "sym": "*",
+        "dangerous": true,
+        "intensity_upgrade_chance": 10,
+        "intensity_upgrade_duration": "6 hours"
+      },
+      { "name": "deep shadows", "color": "dark_gray" },
+      { "name": "roiling shadows", "color": "black_green", "transparent": false }
+    ],
+    "description_affix": "under",
+    "priority": 8,
+    "display_items": true,
+    "display_field": true,
+    "looks_like": "fd_smoke"
+  },
+  {
     "id": "fd_blood_karma",
     "type": "field_type",
     "intensity_levels": [ { "name": "karma splatter", "color": "cyan" }, { "name": "karma stain" }, { "name": "puddle of karma" } ],
@@ -204,5 +225,224 @@
     "phase": "gas",
     "display_items": false,
     "display_field": true
+  },
+  {
+    "id": "fd_obscuring_fog",
+    "type": "field_type",
+    "immune_mtypes": [ "mon_wild_hunt_hound" ],
+    "intensity_levels": [
+      {
+        "name": "thick fog",
+        "sym": "~",
+        "dangerous": false,
+        "transparent": false,
+        "translucency": 8,
+        "color": "light_gray",
+        "scent_neutralization": 3
+      },
+      { "name": "very thick fog", "translucency": 12, "color": "light_gray", "scent_neutralization": 6 },
+      { "name": "impenetrable fog", "translucency": 0, "color": "dark_gray", "scent_neutralization": 9 }
+    ],
+    "decay_amount_factor": 15,
+    "percent_spread": 35,
+    "dirty_transparency_cache": true,
+    "priority": 8,
+    "half_life": "7 minutes",
+    "display_items": false,
+    "display_field": true,
+    "looks_like": "fd_smoke"
+  },
+  {
+    "id": "fd_autumn_lost_fog",
+    "type": "field_type",
+    "immune_mtypes": [ "mon_wild_hunt_hound" ],
+    "intensity_levels": [
+      {
+        "name": "obscuring fog",
+        "sym": "~",
+        "dangerous": false,
+        "transparent": false,
+        "translucency": 0,
+        "color": "dark_gray",
+        "move_cost": 50,
+        "scent_neutralization": 9,
+        "light_override": 0,
+        "effects": [
+          {
+            "effect_id": "blind",
+            "min_duration": "1 seconds",
+            "max_duration": "3 seconds",
+            "intensity": 1,
+            "body_part": "eyes",
+            "chance_outside_vehicle": 1,
+            "message": "You're lost in the fog!",
+            "message_type": "bad"
+          },
+          {
+            "effect_id": "deaf",
+            "min_duration": "1 seconds",
+            "max_duration": "3 seconds",
+            "intensity": 1,
+            "chance_outside_vehicle": 1,
+            "message": "You're lost in the fog!",
+            "message_type": "bad"
+          }
+        ]
+      }
+    ],
+    "npc_complain": { "chance": 10, "duration": "1 minutes", "speech": "I can't see a thing!" },
+    "decay_amount_factor": 15,
+    "percent_spread": 45,
+    "dirty_transparency_cache": true,
+    "priority": 8,
+    "half_life": "12 minutes",
+    "display_items": false,
+    "display_field": true,
+    "looks_like": "fd_smoke"
+  },
+  {
+    "id": "fd_winter_magic_ice",
+    "type": "field_type",
+    "//": "It will be nice when this is handled as part of weather",
+    "intensity_levels": [
+      {
+        "name": "thin ice",
+        "sym": "~",
+        "dangerous": false,
+        "transparent": true,
+        "color": "light_gray",
+        "effects": [
+          {
+            "effect_id": "downed",
+            "min_duration": "1 seconds",
+            "max_duration": "3 seconds",
+            "intensity": 1,
+            "immune_inside_vehicle": true,
+            "chance_outside_vehicle": 20,
+            "message": "You slip on the ice!",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": "medium ice",
+        "sym": "~",
+        "dangerous": false,
+        "transparent": true,
+        "color": "white",
+        "move_cost": 2,
+        "effects": [
+          {
+            "effect_id": "downed",
+            "min_duration": "1 seconds",
+            "max_duration": "3 seconds",
+            "intensity": 1,
+            "immune_inside_vehicle": true,
+            "chance_outside_vehicle": 8,
+            "message": "You slip on the ice!",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": "thick ice",
+        "sym": "~",
+        "dangerous": true,
+        "transparent": true,
+        "color": "white",
+        "move_cost": 4,
+        "effects": [
+          {
+            "effect_id": "downed",
+            "min_duration": "1 seconds",
+            "max_duration": "3 seconds",
+            "intensity": 1,
+            "immune_inside_vehicle": true,
+            "chance_outside_vehicle": 3,
+            "message": "You slip on the ice!",
+            "message_type": "bad"
+          }
+        ]
+      }
+    ],
+    "immunity_data": { "flags": [ "STEADY" ] },
+    "half_life": "15 minutes",
+    "description_affix": "on",
+    "display_items": true,
+    "display_field": true
+  },
+  {
+    "id": "fd_frozen_time",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "frozen time", "sym": "O", "color": "light_gray", "transparent": true, "move_cost": -1000 } ],
+    "priority": 100,
+    "display_items": true,
+    "display_field": true,
+    "description_affix": "in",
+    "half_life": "1 seconds",
+    "linear_half_life": true,
+    "indestructible": true,
+    "bash": { "str_min": 10000, "sound_vol": 0, "sound_fail_vol": 0, "msg_success": "Your strength is stronger than time itself!" },
+    "immunity_data": { "flags": [ "STABILIZED_TIMELINE" ] }
+  },
+  {
+    "id": "fd_frozen_time_permanent",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "stable frozen time", "sym": "O", "color": "light_gray", "transparent": true, "move_cost": -1000 } ],
+    "priority": 100,
+    "display_items": true,
+    "display_field": true,
+    "description_affix": "in",
+    "indestructible": true,
+    "bash": { "str_min": 10000, "sound_vol": 0, "sound_fail_vol": 0, "msg_success": "Your strength is stronger than time itself!" },
+    "immunity_data": { "flags": [ "STABILIZED_TIMELINE" ] }
+  },
+  {
+    "id": "fd_xedra_dreamer_accelerated_time",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "accelerated time",
+        "sym": "o",
+        "color": "light_gray",
+        "transparent": true,
+        "effects": [
+          {
+            "effect_id": "effect_xedra_dreamer_accelerated_time",
+            "min_duration": "2 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 1
+          }
+        ]
+      }
+    ],
+    "priority": 50,
+    "display_items": true,
+    "description_affix": "in",
+    "half_life": "2 seconds"
+  },
+  {
+    "id": "fd_kreck_death_debris",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "starry fragments",
+        "sym": "%",
+        "color": "brown",
+        "transparent": true,
+        "dangerous": false,
+        "concentration": 1
+      }
+    ],
+    "priority": 1,
+    "dirty_transparency_cache": false,
+    "display_items": true,
+    "display_field": true,
+    "description_affix": "covered_in",
+    "mopsafe": true,
+    "moppable": true,
+    "percent_spread": 20,
+    "phase": "gas",
+    "looks_like": "fd_dust"
   }
 ]

@@ -2,17 +2,16 @@
 #ifndef CATA_SRC_MAGIC_TELEPORTER_LIST_H
 #define CATA_SRC_MAGIC_TELEPORTER_LIST_H
 
-#include <iosfwd>
 #include <map>
 #include <optional>
 #include <set>
+#include <string>
 
 #include "coordinates.h"
 
 class Character;
 class JsonObject;
 class JsonOut;
-struct tripoint;
 
 class teleporter_list
 {
@@ -28,12 +27,12 @@ class teleporter_list
     public:
         bool knows_translocator( const tripoint_abs_omt &omt_pos ) const;
         // adds teleporter to known_teleporters and does any other activation necessary
-        bool activate_teleporter( const tripoint_abs_omt &omt_pt, const tripoint &local_pt );
-        void deactivate_teleporter( const tripoint_abs_omt &omt_pt, const tripoint &local_pt );
+        bool activate_teleporter( const tripoint_abs_omt &omt_pt, const tripoint_bub_ms &local_pt );
+        void deactivate_teleporter( const tripoint_abs_omt &omt_pt, const tripoint_bub_ms &local_pt );
 
         // calls the necessary functions to select translocator location
         // and teleports the target(s) there
-        void translocate( const std::set<tripoint> &targets );
+        void translocate( const std::set<tripoint_bub_ms> &targets );
 
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &data );

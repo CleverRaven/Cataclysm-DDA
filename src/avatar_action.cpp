@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <climits>
 #include <cstdlib>
-#include <list>
 #include <map>
 #include <memory>
 #include <ostream>
@@ -24,7 +23,6 @@
 #include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
-#include "fault.h"
 #include "flag.h"
 #include "game.h"
 #include "game_constants.h"
@@ -39,6 +37,7 @@
 #include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapdata.h"
 #include "math_defines.h"
 #include "messages.h"
@@ -50,18 +49,20 @@
 #include "output.h"
 #include "pimpl.h"
 #include "player_activity.h"
+#include "point.h"
 #include "projectile.h"
 #include "ranged.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 
 static const efftype_id effect_amigara( "amigara" );
+static const efftype_id effect_bile_irritant( "bile_irritant" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_hunger_engorged( "hunger_engorged" );
@@ -69,13 +70,22 @@ static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_psi_stunned( "psi_stunned" );
+static const efftype_id effect_quadruped_full( "quadruped_full" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_winded( "winded" );
 
 static const furn_str_id furn_f_safe_c( "f_safe_c" );
 
+static const itype_id itype_grass( "grass" );
+static const itype_id itype_small_plant( "small_plant" );
 static const itype_id itype_swim_fins( "swim_fins" );
+static const itype_id itype_underbrush( "underbrush" );
+
+static const json_character_flag json_flag_CANNOT_ATTACK( "CANNOT_ATTACK" );
+static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
+static const json_character_flag json_flag_ITEM_WATERPROOFING( "ITEM_WATERPROOFING" );
+static const json_character_flag json_flag_WATERWALKING( "WATERWALKING" );
 
 static const move_mode_id move_mode_prone( "prone" );
 
@@ -111,7 +121,9 @@ static bool check_water_affect_items( avatar &you )
     std::vector<item_location> wet;
 
     for( item_location &loc : you.all_items_loc() ) {
-        if( loc->has_flag( flag_WATER_DISSOLVE ) && !loc.protected_from_liquids() ) {
+        if( you.has_flag( json_flag_ITEM_WATERPROOFING ) ) {
+            break;
+        } else if( loc->has_flag( flag_WATER_DISSOLVE ) && !loc.protected_from_liquids() ) {
             dissolved.emplace_back( loc );
         } else if( loc->has_flag( flag_WATER_BREAK ) && !loc->is_broken()
                    && !loc.protected_from_liquids() ) {
@@ -170,8 +182,10 @@ static bool check_water_affect_items( avatar &you )
     return true;
 }
 
-bool avatar_action::move( avatar &you, map &m, const tripoint &d )
+bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
 {
+    map &here = get_map();
+
     bool in_shell = you.has_active_mutation( trait_SHELL2 ) ||
                     you.has_active_mutation( trait_SHELL3 );
     if( ( !g->check_safe_mode_allowed() ) || in_shell ) {
@@ -179,6 +193,16 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
             add_msg( m_warning, _( "You can't move while in your shell.  Deactivate it to go mobile." ) );
         }
         return false;
+    }
+
+    //TODO: Replace with dirtying vision_transparency_cache
+    //TODO: Really ugly bc we're not sure we're moving anywhere yet
+    const bool is_crouching = you.is_crouching();
+    const bool low_profile = you.has_effect( effect_quadruped_full ) &&
+                             you.is_running();
+    const bool is_prone = you.is_prone();
+    if( is_crouching || is_prone || low_profile ) {
+        m.set_transparency_cache_dirty( d.z() );
     }
 
     // If any leg broken without crutches and not already on the ground topple over
@@ -190,27 +214,29 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     }
 
     const bool is_riding = you.is_mounted();
-    tripoint dest_loc;
-    if( d.z == 0 && ( you.has_effect( effect_stunned ) || you.has_effect( effect_psi_stunned ) ) ) {
-        dest_loc.x = rng( you.posx() - 1, you.posx() + 1 );
-        dest_loc.y = rng( you.posy() - 1, you.posy() + 1 );
-        dest_loc.z = you.posz();
+    tripoint_bub_ms dest_loc;
+    const tripoint_bub_ms you_pos = you.pos_bub( here );
+
+    if( d.z() == 0 && ( you.has_effect( effect_stunned ) || you.has_effect( effect_psi_stunned ) ) ) {
+        dest_loc.x() = rng( you_pos.x() - 1, you_pos.x() + 1 );
+        dest_loc.y() = rng( you_pos.y() - 1, you_pos.y() + 1 );
+        dest_loc.z() = you.posz();
     } else {
-        dest_loc.x = you.posx() + d.x;
-        dest_loc.y = you.posy() + d.y;
-        dest_loc.z = you.posz() + d.z;
+        dest_loc.x() = you_pos.x() + d.x();
+        dest_loc.y() = you_pos.y() + d.y();
+        dest_loc.z() = you_pos.z() + d.z();
     }
 
-    if( dest_loc == you.pos() ) {
+    if( dest_loc == you.pos_bub() ) {
         // Well that sure was easy
         return true;
     }
     bool via_ramp = false;
     if( m.has_flag( ter_furn_flag::TFLAG_RAMP_UP, dest_loc ) ) {
-        dest_loc.z += 1;
+        dest_loc.z() += 1;
         via_ramp = true;
     } else if( m.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, dest_loc ) ) {
-        dest_loc.z -= 1;
+        dest_loc.z() -= 1;
         via_ramp = true;
     }
 
@@ -218,7 +244,8 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     if( m.has_flag( ter_furn_flag::TFLAG_MINEABLE, dest_loc ) && g->mostseen == 0 &&
         get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MINING" ) &&
         !m.veh_at( dest_loc ) && !you.is_underwater() && !you.has_effect( effect_stunned ) &&
-        !you.has_effect( effect_psi_stunned ) && !is_riding && !you.has_effect( effect_incorporeal ) ) {
+        !you.has_effect( effect_psi_stunned ) && !is_riding && !you.has_effect( effect_incorporeal ) &&
+        !m.impassable_field_at( dest_loc ) && !you.has_flag( json_flag_CANNOT_MOVE ) ) {
         if( weapon && weapon->has_flag( flag_DIG_TOOL ) ) {
             if( weapon->type->can_use( "JACKHAMMER" ) &&
                 weapon->ammo_sufficient( &you ) ) {
@@ -242,15 +269,15 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     }
 
     // If the player is *attempting to* move on the X axis, update facing direction of their sprite to match.
-    point new_d( dest_loc.xy() + point( -you.posx(), -you.posy() ) );
+    point_rel_ms new_d = dest_loc.xy() - you_pos.xy();
 
     if( !g->is_tileset_isometric() ) {
-        if( new_d.x > 0 ) {
+        if( new_d.x() > 0 ) {
             you.facing = FacingDirection::RIGHT;
             if( is_riding ) {
                 you.mounted_creature->facing = FacingDirection::RIGHT;
             }
-        } else if( new_d.x < 0 ) {
+        } else if( new_d.x() < 0 ) {
             you.facing = FacingDirection::LEFT;
             if( is_riding ) {
                 you.mounted_creature->facing = FacingDirection::LEFT;
@@ -287,14 +314,14 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         // y: left-up key       =>  __ -y       FacingDirection::LEFT
         // down key             =>  -x +y       ______
         //
-        if( new_d.x >= 0 && new_d.y >= 0 ) {
+        if( new_d.x() >= 0 && new_d.y() >= 0 ) {
             you.facing = FacingDirection::RIGHT;
             if( is_riding ) {
                 auto *mons = you.mounted_creature.get();
                 mons->facing = FacingDirection::RIGHT;
             }
         }
-        if( new_d.y <= 0 && new_d.x <= 0 ) {
+        if( new_d.y() <= 0 && new_d.x() <= 0 ) {
             you.facing = FacingDirection::LEFT;
             if( is_riding ) {
                 auto *mons = you.mounted_creature.get();
@@ -306,11 +333,11 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     if( you.has_effect( effect_amigara ) ) {
         int curdist = INT_MAX;
         int newdist = INT_MAX;
-        const tripoint minp = tripoint( 0, 0, you.posz() );
-        const tripoint maxp = tripoint( MAPSIZE_X, MAPSIZE_Y, you.posz() );
-        for( const tripoint &pt : m.points_in_rectangle( minp, maxp ) ) {
+        const tripoint_bub_ms minp{ 0, 0, you.posz() };
+        const tripoint_bub_ms maxp{ MAPSIZE_X, MAPSIZE_Y, you.posz() };
+        for( const tripoint_bub_ms &pt : m.points_in_rectangle( minp, maxp ) ) {
             if( m.ter( pt ) == ter_t_fault ) {
-                int dist = rl_dist( pt, you.pos() );
+                int dist = rl_dist( pt, you.pos_bub() );
                 if( dist < curdist ) {
                     curdist = dist;
                 }
@@ -327,8 +354,8 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     }
 
     dbg( D_PEDANTIC_INFO ) << "game:plmove: From (" <<
-                           you.posx() << "," << you.posy() << "," << you.posz() << ") to (" <<
-                           dest_loc.x << "," << dest_loc.y << "," << dest_loc.z << ")";
+                           you_pos.x() << "," << you_pos.y() << "," << you_pos.z() << ") to (" <<
+                           dest_loc.x() << "," << dest_loc.y() << "," << dest_loc.z() << ")";
 
     if( g->disable_robot( dest_loc ) ) {
         return false;
@@ -356,7 +383,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
             if( you.is_auto_moving() ) {
                 add_msg( m_warning, _( "Monster in the way.  Auto move canceled." ) );
                 add_msg( m_info, _( "Move into the monster to attack." ) );
-                you.clear_destination();
+                you.abort_automove();
                 return false;
             }
             if( !you.try_break_relax_gas( _( "Your willpower asserts itself, and so do you!" ),
@@ -383,12 +410,12 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
             }
             you.melee_attack( critter, true );
             if( critter.is_hallucination() ) {
-                critter.die( &you );
+                critter.die( &m, &you );
             }
             g->draw_hit_mon( dest_loc, critter, critter.is_dead() );
             return false;
         } else if( critter.has_flag( mon_flag_IMMOBILE ) || critter.has_effect( effect_harnessed ) ||
-                   critter.has_effect( effect_ridden ) ) {
+                   critter.has_effect( effect_ridden ) || critter.has_flag( json_flag_CANNOT_MOVE ) ) {
             add_msg( m_info, _( "You can't displace your %s." ), critter.name() );
             return false;
         }
@@ -400,7 +427,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         if( you.is_auto_moving() ) {
             add_msg( _( "NPC in the way, Auto move canceled." ) );
             add_msg( m_info, _( "Move into the NPC to interact or attack." ) );
-            you.clear_destination();
+            you.abort_automove();
             return false;
         }
 
@@ -414,9 +441,16 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         return false;
     }
 
+    // CANNOT_MOVE allows melee attacking
+    if( you.has_flag( json_flag_CANNOT_MOVE ) ) {
+        you.add_msg_if_player( m_bad,
+                               _( "You cannot move!" ) );
+        return false;
+    }
+
     // GRAB: pre-action checking.
     int dpart = -1;
-    const optional_vpart_position vp0 = m.veh_at( you.pos() );
+    const optional_vpart_position vp0 = m.veh_at( you.pos_bub() );
     vehicle *const veh0 = veh_pointer_or_null( vp0 );
     const optional_vpart_position vp1 = m.veh_at( dest_loc );
     vehicle *const veh1 = veh_pointer_or_null( vp1 );
@@ -446,21 +480,22 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                        !m.has_flag_furn( "BRIDGE", dest_loc );
     bool toDeepWater = m.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, dest_loc ) &&
                        !m.has_flag_furn( "BRIDGE", dest_loc );
-    bool fromSwimmable = m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, you.pos() );
-    bool fromDeepWater = m.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, you.pos() );
+    bool fromSwimmable = m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, you.pos_bub() );
+    bool fromDeepWater = m.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, you.pos_bub() );
+    bool waterWalking = you.has_flag( json_flag_WATERWALKING );
     bool fromBoat = veh0 != nullptr;
     bool toBoat = veh1 != nullptr;
     if( is_riding ) {
         if( !you.check_mount_will_move( dest_loc ) ) {
             if( you.is_auto_moving() ) {
-                you.clear_destination();
+                you.abort_automove();
             }
             you.mod_moves( -you.get_speed() * 0.2 );
             return false;
         }
     }
     // Dive into water!
-    if( toSwimmable && toDeepWater && !toBoat ) {
+    if( toSwimmable && toDeepWater && !toBoat && !waterWalking ) {
         // Requires confirmation if we were on dry land previously
         if( is_riding ) {
             auto *mon = you.mounted_creature.get();
@@ -476,7 +511,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                 add_msg( m_info, _( "%s to dive underwater." ),
                          press_x( ACTION_MOVE_DOWN ) );
             }
-            avatar_action::swim( get_map(), get_avatar(), dest_loc );
+            avatar_action::swim( here, get_avatar(), dest_loc );
         }
 
         g->on_move_effects();
@@ -490,7 +525,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     if( m.passable_ter_furn( dest_loc )
         && you.is_walking()
         && !veh_closed_door
-        && m.open_door( you, dest_loc, !m.is_outside( you.pos() ) ) ) {
+        && m.open_door( you, dest_loc, !m.is_outside( you.pos_bub() ) ) ) {
         you.mod_moves( -you.get_speed() );
         you.add_msg_if_player( _( "You open the %s." ), door_name );
         // if auto move is on, continue moving next turn
@@ -502,6 +537,10 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     if( g->walk_move( dest_loc, via_ramp ) ) {
         return true;
     }
+    if( g->phasing_move_enchant( dest_loc, you.calculate_by_enchantment( 0,
+                                 enchant_vals::mod::PHASE_DISTANCE ) ) ) {
+        return true;
+    }
     if( g->phasing_move( dest_loc ) ) {
         return true;
     }
@@ -511,9 +550,9 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         } else {
             door_name = veh1->part( dpart ).name();
             if( outside_vehicle ) {
-                veh1->open_all_at( dpart );
+                veh1->open_all_at( m, dpart );
             } else {
-                veh1->open( dpart );
+                veh1->open( m, dpart );
             }
             //~ %1$s - vehicle name, %2$s - part name
             you.add_msg_if_player( _( "You open the %1$s's %2$s." ), veh1->name, door_name );
@@ -527,7 +566,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     }
 
     if( m.furn( dest_loc ) != furn_f_safe_c &&
-        m.open_door( you, dest_loc, !m.is_outside( you.pos() ) ) ) {
+        m.open_door( you, dest_loc, !m.is_outside( you.pos_bub() ) ) ) {
         you.mod_moves( -you.get_speed() );
         if( veh1 != nullptr ) {
             //~ %1$s - vehicle name, %2$s - part name
@@ -544,79 +583,26 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
 
     // Invalid move
     const bool waste_moves = you.is_blind() || you.has_effect( effect_stunned );
-    if( waste_moves || dest_loc.z != you.posz() ) {
+    if( waste_moves || dest_loc.z() != you.posz() ) {
         add_msg( _( "You bump into the %s!" ), m.obstacle_name( dest_loc ) );
         // Only lose movement if we're blind
         if( waste_moves ) {
             you.mod_moves( -you.get_speed() );
         }
-    } else if( m.ter( dest_loc ) == ter_t_door_bar_locked ) {
+    } else if( const ter_id &t = m.ter( dest_loc ); t == ter_t_door_bar_locked ) {
         add_msg( _( "You rattle the bars but the door is locked!" ) );
     } else if( const std::unordered_set<ter_str_id> locked_doors = { ter_t_door_locked, ter_t_door_locked_peep, ter_t_door_locked_alarm, ter_t_door_locked_interior };
-               locked_doors.find( m.ter( dest_loc ).id() ) != locked_doors.end() ) {
+               locked_doors.find( t.id() ) != locked_doors.end() ) {
         // Don't drain move points for learning something you could learn just by looking
         add_msg( _( "That door is locked!" ) );
     }
     return false;
 }
 
-bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
+void avatar_action::swim( map &m, avatar &you, const tripoint_bub_ms &p )
 {
-    if( dest_loc.z != you.posz() ) {
-        // No recursive ramp_moves
-        return false;
-    }
+    map &here = get_map();
 
-    // We're moving onto a tile with no support, check if it has a ramp below
-    if( !m.has_floor_or_support( dest_loc ) ) {
-        tripoint below( dest_loc.xy(), dest_loc.z - 1 );
-        if( m.has_flag( ter_furn_flag::TFLAG_RAMP, below ) ) {
-            // But we're moving onto one from above
-            const tripoint dp = dest_loc - you.pos();
-            move( you, m, tripoint( dp.xy(), -1 ) );
-            // No penalty for misaligned stairs here
-            // Also cheaper than climbing up
-            return true;
-        }
-
-        return false;
-    }
-
-    if( !m.has_flag( ter_furn_flag::TFLAG_RAMP, you.pos() ) ||
-        m.passable( dest_loc ) ) {
-        return false;
-    }
-
-    // Try to find an aligned end of the ramp that will make our climb faster
-    // Basically, finish walking on the stairs instead of pulling self up by hand
-    bool aligned_ramps = false;
-    for( const tripoint &pt : m.points_in_radius( you.pos(), 1 ) ) {
-        if( rl_dist( pt, dest_loc ) < 2 && m.has_flag( ter_furn_flag::TFLAG_RAMP_END, pt ) ) {
-            aligned_ramps = true;
-            break;
-        }
-    }
-
-    const tripoint above_u( you.posx(), you.posy(), you.posz() + 1 );
-    if( m.has_floor_or_support( above_u ) ) {
-        add_msg( m_warning, _( "You can't climb here - there's a ceiling above." ) );
-        return false;
-    }
-
-    const tripoint dp = dest_loc - you.pos();
-    const tripoint old_pos = you.pos();
-    move( you, m, tripoint( dp.xy(), 1 ) );
-    // We can't just take the result of the above function here
-    if( you.pos() != old_pos ) {
-        const double total_move_cost = aligned_ramps ? 0.5 : 1.0;
-        you.mod_moves( -you.get_speed() * total_move_cost );
-    }
-
-    return true;
-}
-
-void avatar_action::swim( map &m, avatar &you, const tripoint &p )
-{
     if( !m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ) {
         dbg( D_ERROR ) << "game:plswim: Tried to swim in "
                        << m.tername( p ) << "!";
@@ -637,12 +623,17 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
         add_msg( _( "The water washes off the glowing goo!" ) );
         you.remove_effect( effect_glowing );
     }
+    if( you.has_effect( effect_bile_irritant ) ) {
+        add_msg( _( "The water washes off the acidic bile!" ) );
+        you.remove_effect( effect_bile_irritant );
+    }
 
     g->water_affect_items( you );
 
     int movecost = you.swim_speed();
     you.practice( skill_swimming, you.is_underwater() ? 2 : 1 );
-    if( movecost >= 500 || you.has_effect( effect_winded ) ) {
+    if( ( movecost >= 500 || you.has_effect( effect_winded ) ) &&
+        !you.has_flag( json_flag_WATERWALKING ) ) {
         if( !you.is_underwater() &&
             !( you.shoe_type_count( itype_swim_fins ) == 2 ||
                ( you.shoe_type_count( itype_swim_fins ) == 1 && one_in( 2 ) ) ) ) {
@@ -657,11 +648,12 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
             popup( _( "You need to breathe but you can't swim!  Get to dry land, quick!" ) );
         }
     }
-    bool diagonal = p.x != you.posx() && p.y != you.posy();
+    const tripoint_bub_ms you_pos = you.pos_bub( here );
+    bool diagonal = p.x() != you_pos.x() && p.y() != you_pos.y();
     if( you.in_vehicle ) {
-        m.unboard_vehicle( you.pos() );
+        m.unboard_vehicle( you.pos_bub() );
     }
-    if( you.is_mounted() && m.veh_at( you.pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
+    if( you.is_mounted() && m.veh_at( you.pos_bub() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
         add_msg( m_warning, _( "You cannot board a vehicle while mounted." ) );
         return;
     }
@@ -670,14 +662,14 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
             return;
         }
     }
-    tripoint old_abs_pos = m.getabs( you.pos() );
-    you.setpos( p );
+    tripoint_abs_ms old_abs_pos = you.pos_abs();
+    you.setpos( m, p );
     g->update_map( you );
 
     cata_event_dispatch::avatar_moves( old_abs_pos, you, m );
 
-    if( m.veh_at( you.pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
-        m.board_vehicle( you.pos(), &you );
+    if( m.veh_at( you.pos_bub() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
+        m.board_vehicle( you.pos_bub(), &you );
     }
     you.mod_moves( -( ( movecost > 200 ? 200 : movecost ) * ( trigdist && diagonal ? M_SQRT2 : 1 ) ) );
     you.inv->rust_iron_items();
@@ -702,7 +694,7 @@ static float rate_critter( const Creature &c )
     if( np != nullptr ) {
         item_location wielded = np->get_wielded_item();
         if( wielded ) {
-            return np->weapon_value( *wielded );
+            return np->evaluate_weapon( *wielded );
         } else {
             return np->unarmed_value();
         }
@@ -714,8 +706,13 @@ static float rate_critter( const Creature &c )
 
 void avatar_action::autoattack( avatar &you, map &m )
 {
+    if( you.has_flag( json_flag_CANNOT_ATTACK ) ) {
+        add_msg( m_info, _( "You are incapable of attacking!" ) );
+        return;
+    }
     const item_location weapon = you.get_wielded_item();
-    int reach = weapon ? weapon->reach_range( you ) : 1;
+    int reach = weapon ? weapon->reach_range( you ) : std::max( 1,
+                static_cast<int>( you.calculate_by_enchantment( 1, enchant_vals::mod::MELEE_RANGE_MODIFIER ) ) );
     std::vector<Creature *> critters = you.get_targetable_creatures( reach, true );
     critters.erase( std::remove_if( critters.begin(), critters.end(), [&you,
     reach]( const Creature * c ) {
@@ -740,13 +737,13 @@ void avatar_action::autoattack( avatar &you, map &m )
         return rate_critter( *l ) > rate_critter( *r );
     } );
 
-    const tripoint diff = best.pos() - you.pos();
-    if( std::abs( diff.x ) <= 1 && std::abs( diff.y ) <= 1 && diff.z == 0 ) {
-        move( you, m, tripoint( diff.xy(), 0 ) );
+    const tripoint_rel_ms diff = best.pos_bub() - you.pos_bub();
+    if( std::abs( diff.x() ) <= 1 && std::abs( diff.y() ) <= 1 && diff.z() == 0 ) {
+        move( you, m, tripoint_rel_ms( diff.xy(), 0 ) );
         return;
     }
 
-    you.reach_attack( best.pos() );
+    you.reach_attack( best.pos_bub() );
 }
 
 // TODO: Move data/functions related to targeting out of game class
@@ -794,7 +791,7 @@ void avatar_action::fire_wielded_weapon( avatar &you )
         return;
     } else if( !weapon->is_gun() ) {
         return;
-    } else if( weapon->ammo_data() &&
+    } else if( weapon->has_ammo_data() &&
                !weapon->ammo_types().count( weapon->loaded_ammo().ammo_type() ) ) {
         add_msg( m_info, _( "The %s can't be fired while loaded with incompatible ammunition %s" ),
                  weapon->tname(), weapon->ammo_current()->nname( 1 ) );
@@ -854,7 +851,7 @@ bool avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret
     target_handler::trajectory trajectory = target_handler::mode_turret_manual( you, turret );
 
     if( !trajectory.empty() ) {
-        turret.fire( you, trajectory.back() );
+        turret.fire( you, &m, trajectory.back() );
     }
     g->reenter_fullscreen();
     return true;
@@ -886,46 +883,46 @@ bool avatar_action::eat_here( avatar &you )
 {
     map &here = get_map();
     if( ( you.has_active_mutation( trait_RUMINANT ) || you.has_active_mutation( trait_GRAZER ) ) &&
-        ( here.has_flag( ter_furn_flag::TFLAG_SHRUB, you.pos() ) &&
-          !here.has_flag( ter_furn_flag::TFLAG_GRAZER_INEDIBLE, you.pos() ) ) ) {
+        ( here.has_flag( ter_furn_flag::TFLAG_SHRUB, you.pos_bub() ) &&
+          !here.has_flag( ter_furn_flag::TFLAG_GRAZER_INEDIBLE, you.pos_bub() ) ) ) {
         if( you.has_effect( effect_hunger_engorged ) ) {
-            add_msg( _( "You're too full to eat the leaves from the %s." ), here.ter( you.pos() )->name() );
+            add_msg( _( "You're too full to eat the leaves from the %s." ), here.ter( you.pos_bub() )->name() );
             return true;
         } else {
-            here.ter_set( you.pos(), ter_t_grass );
-            item food( "underbrush", calendar::turn, 1 );
+            here.ter_set( you.pos_bub(), ter_t_grass );
+            item food( itype_underbrush, calendar::turn, 1 );
             you.assign_activity( consume_activity_actor( food ) );
             return true;
         }
     }
     if( ( you.has_active_mutation( trait_RUMINANT ) || you.has_active_mutation( trait_GRAZER ) ) &&
-        ( here.has_flag( ter_furn_flag::TFLAG_FLOWER, you.pos() ) &&
-          !here.has_flag( ter_furn_flag::TFLAG_GRAZER_INEDIBLE, you.pos() ) ) ) {
+        ( here.has_flag( ter_furn_flag::TFLAG_FLOWER, you.pos_bub() ) &&
+          !here.has_flag( ter_furn_flag::TFLAG_GRAZER_INEDIBLE, you.pos_bub() ) ) ) {
         if( you.has_effect( effect_hunger_engorged ) ) {
-            add_msg( _( "You're too full to eat the %s." ), here.ter( you.pos() )->name() );
+            add_msg( _( "You're too full to eat the %s." ), here.ter( you.pos_bub() )->name() );
             return true;
         } else {
-            here.furn_set( you.pos(), furn_str_id::NULL_ID() );
-            item food( "small_plant", calendar::turn, 1 );
+            here.furn_set( you.pos_bub(), furn_str_id::NULL_ID() );
+            item food( itype_small_plant, calendar::turn, 1 );
             you.assign_activity( consume_activity_actor( food ) );
             return true;
         }
     }
     if( you.has_active_mutation( trait_GRAZER ) &&
-        ( here.has_flag( ter_furn_flag::TFLAG_GRAZABLE, you.pos() ) &&
-          !here.has_flag( ter_furn_flag::TFLAG_FUNGUS, you.pos() ) ) ) {
+        ( here.has_flag( ter_furn_flag::TFLAG_GRAZABLE, you.pos_bub() ) &&
+          !here.has_flag( ter_furn_flag::TFLAG_FUNGUS, you.pos_bub() ) ) ) {
         if( you.has_effect( effect_hunger_engorged ) ) {
             add_msg( _( "You're too full to graze." ) );
             return true;
         } else {
-            item food( item( "grass", calendar::turn, 1 ) );
+            item food( item( itype_grass, calendar::turn, 1 ) );
             you.assign_activity( consume_activity_actor( food ) );
-            here.ter_set( you.pos(), here.get_ter_transforms_into( you.pos() ) );
+            here.ter_set( you.pos_bub(), here.get_ter_transforms_into( you.pos_bub() ) );
             return true;
         }
     }
     if( you.has_active_mutation( trait_GRAZER ) ) {
-        const ter_id &ter_underfoot = here.ter( you.pos() );
+        const ter_id &ter_underfoot = here.ter( you.pos_bub() );
         if( ter_underfoot == ter_t_grass_golf || ter_underfoot == ter_t_grass ) {
             add_msg( _( "This grass is too short to graze." ) );
             return true;
@@ -959,12 +956,14 @@ void avatar_action::eat( avatar &you, item_location &loc,
                          const std::string &consume_menu_filter,
                          activity_id type )
 {
+    map &here = get_map();
+
     if( !loc ) {
         you.cancel_activity();
         add_msg( _( "Never mind." ) );
         return;
     }
-    loc.overflow();
+    loc.overflow( here );
     you.assign_activity( consume_activity_actor( loc, consume_menu_selections,
                          consume_menu_selected_items, consume_menu_filter, type ) );
     you.last_item = item( *loc ).typeId();
@@ -980,8 +979,10 @@ void avatar_action::eat_or_use( avatar &you, item_location loc )
 }
 
 void avatar_action::plthrow( avatar &you, item_location loc,
-                             const std::optional<tripoint> &blind_throw_from_pos )
+                             const std::optional<tripoint_bub_ms> &blind_throw_from_pos )
 {
+    map &here = get_map();
+
     bool in_shell = you.has_active_mutation( trait_SHELL2 ) ||
                     you.has_active_mutation( trait_SHELL3 );
     if( in_shell ) {
@@ -990,7 +991,12 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     } else if( you.has_effect( effect_incorporeal ) ) {
         add_msg( m_info, _( "You lack the substance to affect anything." ) );
         return;
+    } else if( you.has_flag( json_flag_CANNOT_ATTACK ) ) {
+        add_msg( m_info, _( "You are incapable of throwing anything!" ) );
+        return;
     }
+
+    bool in_mech = false;
     if( you.is_mounted() ) {
         monster *mons = get_player_character().mounted_creature.get();
         if( mons->has_flag( mon_flag_RIDEABLE_MECH ) ) {
@@ -999,6 +1005,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
                          mons->get_name() );
                 return;
             }
+            in_mech = true;
         }
     }
 
@@ -1012,10 +1019,13 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         return;
     }
 
-    const ret_val<void> ret = you.can_wield( *loc );
-    if( !ret.success() ) {
-        add_msg( m_info, "%s", ret.c_str() );
-        return;
+    // Bypass check for whether we can wield an item if we're inside a mech
+    if( !in_mech ) {
+        const ret_val<void> ret = you.can_wield( *loc );
+        if( !ret.success() ) {
+            add_msg( m_info, "%s", ret.c_str() );
+            return;
+        }
     }
 
     // make a copy and get the original.
@@ -1051,29 +1061,32 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         }
     }
     // you must wield the item to throw it
-    if( !you.is_wielding( *orig ) ) {
-        if( !you.wield( *orig ) ) {
-            return;
+    // if we're in the mech, let's assume the mech wields the item
+    if( !in_mech ) {
+        if( !you.is_wielding( *orig ) ) {
+            if( !you.wield( *orig ) ) {
+                return;
+            }
         }
     }
 
     // Shift our position to our "peeking" position, so that the UI
     // for picking a throw point lets us target the location we couldn't
     // otherwise see.
-    const tripoint original_player_position = you.pos();
+    const tripoint_abs_ms original_player_position = you.pos_abs();
     if( blind_throw_from_pos ) {
-        you.setpos( *blind_throw_from_pos );
+        you.setpos( here, *blind_throw_from_pos, false );
     }
 
     g->temp_exit_fullscreen();
 
-    item_location weapon = you.get_wielded_item();
+    item_location weapon = in_mech ? loc : you.get_wielded_item();
     target_handler::trajectory trajectory = target_handler::mode_throw( you, *weapon,
                                             blind_throw_from_pos.has_value() );
 
     // If we previously shifted our position, put ourselves back now that we've picked our target.
     if( blind_throw_from_pos ) {
-        you.setpos( original_player_position );
+        you.setpos( original_player_position, false );
     }
 
     if( trajectory.empty() ) {
@@ -1084,10 +1097,25 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         weapon->mod_charges( -1 );
         thrown.charges = 1;
     } else {
-        you.remove_weapon();
+        if( in_mech ) {
+            loc.remove_item();
+        } else {
+            you.remove_weapon();
+        }
     }
     you.throw_item( trajectory.back(), thrown, blind_throw_from_pos );
     g->reenter_fullscreen();
+}
+
+void avatar_action::plthrow_wielded( avatar &you,
+                                     const std::optional<tripoint_bub_ms> &blind_throw_from_pos )
+{
+    item_location weapon = you.get_wielded_item();
+    if( !weapon ) {
+        add_msg( _( "You aren't holding something you can throw." ) );
+        return;
+    }
+    avatar_action::plthrow( you, weapon, blind_throw_from_pos );
 }
 
 static void update_lum( item_location loc, bool add )
@@ -1109,6 +1137,8 @@ void avatar_action::use_item( avatar &you )
 
 void avatar_action::use_item( avatar &you, item_location &loc, std::string const &method )
 {
+    map &here = get_map();
+
     if( you.has_effect( effect_incorporeal ) ) {
         you.add_msg_if_player( m_bad, _( "You can't use anything while incorporeal." ) );
         return;
@@ -1118,7 +1148,7 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
     bool use_in_place = false;
 
     if( !loc ) {
-        loc = game_menus::inv::use( you );
+        loc = game_menus::inv::use();
 
         if( !loc ) {
             add_msg( _( "Never mind." ) );
@@ -1126,7 +1156,11 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
         }
     }
 
-    loc.overflow();
+    if( !avatar_action::check_stealing( get_player_character(), *loc.get_item() ) ) {
+        return;
+    }
+
+    loc.overflow( here );
 
     if( loc->is_comestible() && loc->is_frozen_liquid() ) {
         add_msg( _( "Try as you might, you can't consume frozen liquids." ) );
@@ -1134,12 +1168,12 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
     }
 
     if( loc->wetness && loc->has_flag( flag_WATER_BREAK_ACTIVE ) ) {
-        if( query_yn( _( "This item is still wet and it will break if you turn it on. Proceed?" ) ) ) {
+        if( query_yn( _( "This item is still wet and it will break if you turn it on.  Proceed?" ) ) ) {
             loc->deactivate();
-            loc.get_item()->set_fault( faults::random_of_type( "wet" ) );
+            loc.get_item()->set_random_fault_of_type( "wet", true );
             // An electronic item in water is also shorted.
             if( loc->has_flag( flag_ELECTRONIC ) ) {
-                loc.get_item()->set_fault( faults::random_of_type( "shorted" ) );
+                loc.get_item()->set_random_fault_of_type( "shorted", true );
             }
         } else {
             return;
@@ -1209,8 +1243,6 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
     you.invalidate_crafting_inventory();
 }
 
-// Opens up a menu to Unload a container, gun, or tool
-// If it's a gun, some gunmods can also be loaded
 void avatar_action::unload( avatar &you )
 {
     std::pair<item_location, bool> ret = game_menus::inv::unload( you );

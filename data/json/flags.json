@@ -103,7 +103,7 @@
   {
     "id": "ALLOWS_BODY_BLOCK",
     "type": "json_flag",
-    "info": "This item <info>allows to block with your body</info> when wielded as a weapon."
+    "info": "This item <info>won't prevent you from blocking with your body, such as arms or legs</info> when wielded as a weapon."
   },
   {
     "id": "ALLOWS_NATURAL_ATTACKS",
@@ -114,6 +114,11 @@
     "id": "ALLOWS_REMOTE_USE",
     "type": "json_flag",
     "info": "This item can be activated or reloaded from an adjacent tile without picking it up."
+  },
+  {
+    "id": "CAN_USE_IN_DARK",
+    "type": "json_flag",
+    "info": "This item can use all of its features in darkness."
   },
   {
     "id": "ALWAYS_AIMED",
@@ -170,6 +175,11 @@
     "info": "This item enables you to keep track of calorie intake."
   },
   {
+    "id": "CALORIE_BURN",
+    "type": "json_flag",
+    "info": "This item enables you to keep track of calorie consumption.  Includes CALORIES_INTAKE."
+  },
+  {
     "id": "CASELESS_ROUNDS",
     "type": "json_flag",
     "info": "Being caseless rounds, these <bad>cannot be disassembled or reloaded</bad>."
@@ -194,6 +204,10 @@
     "type": "json_flag",
     "info": "This gear <bad>prevents</bad> you from <info>hearing any sounds</info>.",
     "conflicts": [ "PARTIAL_DEAF" ]
+  },
+  {
+    "id": "DESTROY_ON_CHARGE_USE",
+    "type": "json_flag"
   },
   {
     "id": "OVERHEATS",
@@ -445,21 +459,9 @@
     "type": "json_flag"
   },
   {
-    "id": "ONLY_ONE",
-    "type": "json_flag",
-    "info": "You can wear <info>only one</info>."
-  },
-  {
     "id": "ONE_PER_LAYER",
     "type": "json_flag",
     "info": "<info>Only one</info> item can be worn on this clothing layer."
-  },
-  {
-    "id": "FANCY",
-    "type": "json_flag",
-    "//": "Wearing this clothing gives a morale bonus if the player has the Stylish trait.",
-    "info": "This clothing is <info>fancy</info>.",
-    "conflicts": [ "SUPER_FANCY" ]
   },
   {
     "id": "FIRE",
@@ -512,7 +514,8 @@
     "id": "FRAGILE",
     "type": "json_flag",
     "info": "This gear is <bad>fragile</bad> and <info>won't protect you for long</info>.",
-    "conflicts": [ "STURDY" ]
+    "conflicts": [ "STURDY" ],
+    "inherit": false
   },
   {
     "id": "FRAGILE_MELEE",
@@ -591,6 +594,11 @@
     "info": "You could probably <color_brown>plant</color> these."
   },
   {
+    "id": "POST_UP",
+    "type": "json_flag",
+    "info": "This item can be put up on a wall, like a poster."
+  },
+  {
     "id": "MELTS",
     "type": "json_flag",
     "info": "This food <neutral>melts when not in a very cold climate</neutral>, and tastes much <good>better</good> when <color_light_cyan>frozen</color>."
@@ -659,9 +667,14 @@
     "//": "Designates a food that is usually undesirable but gives a morale bonus to characters with predator mutations."
   },
   {
-    "id": "PRESERVE_SPAWN_OMT",
+    "id": "PRESERVE_SPAWN_LOC",
     "type": "json_flag",
-    "//": "This item will store the OMT it spawned in in the 'spawn_location_omt' var"
+    "//": "This item will store the tripoint_abs_ms it spawned in the 'spawn_location' var"
+  },
+  {
+    "id": "HINT_THE_LOCATION",
+    "type": "json_flag",
+    "//": "Same as PRESERVE_SPAWN_LOC, but also shows a snippet of how far the character from the `spawn_location`: 1 OMT or less is `(from here)`, less than 6 OMT is `(from nearby)`, less than 30 OMT is `(from this area)`, anything more is (from far away)"
   },
   {
     "id": "PROVIDES_TECHNIQUES",
@@ -920,20 +933,14 @@
     "id": "STURDY",
     "type": "json_flag",
     "info": "This clothing will <good>protect</good> you from harm and withstand <info>a lot of abuse</info>.",
-    "conflicts": [ "FRAGILE" ]
+    "conflicts": [ "FRAGILE" ],
+    "inherit": false
   },
   {
     "id": "SUN_GLASSES",
     "type": "json_flag",
     "//": "Prevents glaring when in sunlight.",
     "info": "This clothing keeps the <info>glare</info> out of your eyes."
-  },
-  {
-    "id": "SUPER_FANCY",
-    "type": "json_flag",
-    "//": "Gives an additional moral bonus over FANCY if the player has the Stylish trait.",
-    "info": "This clothing is <info>very fancy</info>.",
-    "conflicts": [ "FANCY" ]
   },
   {
     "id": "SWIM_GOGGLES",
@@ -1043,6 +1050,11 @@
     "id": "WONT_TRAIN_MARKSMANSHIP",
     "type": "json_flag",
     "//": "This gun wont train marksmanship when fired.  Used in Aftershock smart guns."
+  },
+  {
+    "id": "GENE_TECH",
+    "type": "json_flag",
+    "//": "Used in Aftershock gene editing."
   },
   {
     "id": "NANOFAB_REPAIR",
@@ -1175,9 +1187,60 @@
     "//": "Allows summoned monsters to drop their usual death drops.  Otherwise, summoned monsters drop nothing on death."
   },
   {
+    "id": "TEMPORARY_SHAPESHIFT",
+    "type": "json_flag",
+    "//": "The character is in a form other than their natural one due to some preternatural effect."
+  },
+  {
+    "id": "SHAPESHIFT_SIZE_TINY",
+    "type": "json_flag",
+    "//": "Due to shapeshifting, the character is size Tiny."
+  },
+  {
+    "id": "SHAPESHIFT_SIZE_SMALL",
+    "type": "json_flag",
+    "//": "Due to shapeshifting, the character is size Small."
+  },
+  {
+    "id": "SHAPESHIFT_SIZE_LARGE",
+    "type": "json_flag",
+    "//": "Due to shapeshifting, the character is size Large."
+  },
+  {
+    "id": "SHAPESHIFT_SIZE_HUGE",
+    "type": "json_flag",
+    "//": "Due to shapeshifting, the character is size Huge."
+  },
+  {
+    "id": "TEMPORARY_SHAPESHIFT_NO_HANDS",
+    "type": "json_flag",
+    "//": "Due to shapeshifting, the character lacks humanoid hands."
+  },
+  {
+    "id": "SHAPESHIFTED_ARMOR",
+    "type": "json_flag",
+    "//": "Used to tag armor that is part of the character's new form to apply other flags.",
+    "info": "This item is currently <good>part of your form</good> and <bad>will not protect you</bad>."
+  },
+  {
+    "id": "INTANGIBLE_ARMOR",
+    "type": "json_flag",
+    "//": "Prevents armor from protecting the character."
+  },
+  {
     "id": "NON_THRESH",
     "type": "json_flag",
     "//": "This mutation does not count toward thresholds at all."
+  },
+  {
+    "id": "ROBUST_GENETIC",
+    "type": "json_flag",
+    "//": "Applies robust genetic bonus - mutations give only 1 unit of instability for all traits instead of 1 unit for your current tree, and 2 for any outer tree."
+  },
+  {
+    "id": "SKIP_HEALTH",
+    "type": "json_flag",
+    "//": "If food gives any health bonus or penalty, having this flag would prevent you from receiving such."
   },
   {
     "id": "HIDDEN_HALLU",
@@ -1509,8 +1572,9 @@
     "info": "This is <info>integrated into the body</info>."
   },
   {
-    "id": "IR_EFFECT",
-    "type": "json_flag"
+    "id": "MORPHIC",
+    "type": "json_flag",
+    "info": "This is <info>naturally sized to the body</info>."
   },
   {
     "id": "IS_ARMOR",
@@ -1582,6 +1646,11 @@
     "id": "MUNDANE",
     "//": "For items that have relic data but aren't actually magic",
     "info": "This item is designed to have special effects",
+    "type": "json_flag"
+  },
+  {
+    "id": "RELIC_PINK",
+    "//": "For items that do not have relic data, but intended to be magical; changes the color of item to pink",
     "type": "json_flag"
   },
   {
@@ -1659,6 +1728,10 @@
   },
   {
     "id": "NO_TAKEOFF",
+    "type": "json_flag"
+  },
+  {
+    "id": "NO_TEMP",
     "type": "json_flag"
   },
   {
@@ -2079,7 +2152,7 @@
   {
     "id": "SCIENCE_CARD_SECURITY_BLACK",
     "type": "json_flag",
-    "info": "You could probably use this to get into a secured  area."
+    "info": "You could probably use this to get into a secured law enforcement area."
   },
   {
     "id": "SCIENCE_CARD_MUTAGEN_GREEN",
@@ -2127,8 +2200,8 @@
   {
     "id": "BATTERY_HEAVY",
     "type": "json_flag",
-    "info": "This item fits in items that use heavy batteries.",
-    "name": "heavy battery"
+    "info": "This item fits in items that use tool batteries.",
+    "name": "tool battery"
   },
   {
     "id": "METHANOL_TANK",
@@ -2168,74 +2241,98 @@
     "info": "Allows movement in open air."
   },
   {
+    "id": "ALL_TERRAIN_NAVIGATION",
+    "type": "json_flag",
+    "info": "Allows movement over rough and sharp terrain without penalty."
+  },
+  {
     "id": "EXO_SMALL",
     "type": "json_flag",
-    "info": "This is meant for a small exosuit hardpoint."
+    "info": "This is meant for a small exosuit hardpoint.",
+    "inherit": false
   },
   {
     "id": "EXO_LARGE",
     "type": "json_flag",
-    "info": "This is meant for a large exosuit hardpoint."
+    "info": "This is meant for a large exosuit hardpoint.",
+    "inherit": false
   },
   {
     "id": "EXO_PSU",
     "type": "json_flag",
-    "info": "This is meant for an exosuit PSU hardpoint."
+    "info": "This is meant for an exosuit PSU hardpoint.",
+    "inherit": false
   },
   {
     "id": "EXO_SMALL_GADGET",
     "type": "json_flag",
-    "info": "This is meant for small exosuit gadgets, 1 L or less."
+    "info": "This is meant for small exosuit gadgets, 1 L or less.",
+    "inherit": false
   },
   {
     "id": "EXO_HELMET_GADGET",
     "type": "json_flag",
-    "info": "This is meant for helmet-specific gadgets."
+    "info": "This is meant for helmet-specific gadgets.",
+    "inherit": false
   },
   {
     "id": "EXO_MEDIUM_GADGET",
     "type": "json_flag",
-    "info": "This is meant for medium exosuit gadgets, between 1 L and 5 L."
+    "info": "This is meant for medium exosuit gadgets, between 1 L and 5 L.",
+    "inherit": false
   },
   {
     "id": "EXO_LARGE_GADGET",
     "type": "json_flag",
-    "info": "This is meant for large exosuit gadgets, larger than 5 L."
+    "info": "This is meant for large exosuit gadgets, larger than 5 L.",
+    "inherit": false
   },
   {
     "id": "EXO_UNDERLAYER",
     "type": "json_flag",
-    "info": "This is meant for exosuit underlayers."
+    "info": "This is meant for exosuit underlayers.",
+    "inherit": false
   },
   {
     "id": "EXO_HELMET_PLATE",
     "type": "json_flag",
-    "info": "This is meant for exoskeleton helmet plating."
+    "info": "This is meant for exoskeleton helmet plating.",
+    "inherit": false
   },
   {
     "id": "EXO_TORSO_PLATE",
     "type": "json_flag",
-    "info": "This is meant for exoskeleton torso plating."
+    "info": "This is meant for exoskeleton torso plating.",
+    "inherit": false
   },
   {
     "id": "EXO_ARM_PLATE",
     "type": "json_flag",
-    "info": "This is meant for exoskeleton arm plating."
+    "info": "This is meant for exoskeleton arm plating.",
+    "inherit": false
   },
   {
     "id": "EXO_GLOVE_PLATE",
     "type": "json_flag",
-    "info": "This is meant for exoskeleton arm plating."
+    "info": "This is meant for exoskeleton arm plating.",
+    "inherit": false
   },
   {
     "id": "EXO_LEG_PLATE",
     "type": "json_flag",
-    "info": "This is meant for exoskeleton leg plating."
+    "info": "This is meant for exoskeleton leg plating.",
+    "inherit": false
   },
   {
     "id": "EXO_BOOT_PLATE",
     "type": "json_flag",
-    "info": "This is meant for exoskeleton foot plating."
+    "info": "This is meant for exoskeleton foot plating.",
+    "inherit": false
+  },
+  {
+    "id": "ENERGY_SHIELD",
+    "type": "json_flag",
+    "info": "This piece of armor is an energy barrier and will break after absorbing a certain amount of damage."
   },
   {
     "id": "ROBOFAC_ROBOT_MEDIUM",
@@ -2279,6 +2376,46 @@
   {
     "id": "ELECTRONIC",
     "type": "json_flag"
+  },
+  {
+    "id": "E_FILE_DEVICE",
+    "type": "json_flag",
+    "//": "Any item that can handle electronic files"
+  },
+  {
+    "id": "E_STORABLE",
+    "type": "json_flag",
+    "//": "Any item that can be an electronic file"
+  },
+  {
+    "id": "E_STORABLE_EXCLUSIVE",
+    "type": "json_flag",
+    "//": "Any item that can ONLY be an electronic file"
+  },
+  {
+    "id": "E_COPIABLE",
+    "type": "json_flag",
+    "//": "Any item that can be electronically copied and scanned"
+  },
+  {
+    "id": "E_FILE_COLLECTION",
+    "type": "json_flag",
+    "//": "Any item that represents a collection of electronic files; this is to avoid making a file system for electronic devices"
+  },
+  {
+    "id": "E_FILE_DEVICE_UNREAD",
+    "type": "json_flag",
+    "//": "Any item that can handle electronic files but hasn't been read yet"
+  },
+  {
+    "id": "VIEW_RECIPES",
+    "type": "json_flag",
+    "//": "Any item that can display a list of contained recipes"
+  },
+  {
+    "id": "VIEW_PHOTOS",
+    "type": "json_flag",
+    "//": "Any item that can display a list of contained photos"
   },
   {
     "id": "AFS_CS_LOCKER_CARD",
@@ -2388,6 +2525,26 @@
     "info": "You feel like you would keep all your items if you somehow became incorporeal."
   },
   {
+    "id": "CLIMB_FLYING",
+    "type": "json_flag",
+    "info": "You can ascend straight up even with no physical surface to climb on."
+  },
+  {
+    "id": "HERITAGE",
+    "type": "json_flag",
+    "info": "You have nonhuman ancestry or are not human"
+  },
+  {
+    "id": "SUFFOCATION_IMMUNE",
+    "type": "json_flag",
+    "info": "You are immune to being crowd-crushed"
+  },
+  {
+    "id": "INHALED_TOXIN_IMMUNE",
+    "type": "json_flag",
+    "info": "You are immune to gaseous toxins"
+  },
+  {
     "id": "TREE_COMMUNION_PLUS",
     "type": "json_flag",
     "info": "You gain greatly enhanced effects from the Mycorrhizal Communion mutation"
@@ -2401,6 +2558,31 @@
     "id": "ROOTS3",
     "type": "json_flag",
     "info": "The character has extensive roots, which helps with the TREE_COMMUNION mutation."
+  },
+  {
+    "id": "VINE_RAPPEL",
+    "type": "json_flag",
+    "info": "The character can use vines to safely rappel down sheer drops."
+  },
+  {
+    "id": "ANIMALDISCORD",
+    "type": "json_flag",
+    "info": "The character is disliked by natural animals."
+  },
+  {
+    "id": "ANIMALDISCORD2",
+    "type": "json_flag",
+    "info": "The character is intensely disliked by natural animals."
+  },
+  {
+    "id": "ANIMALEMPATH",
+    "type": "json_flag",
+    "info": "The character is liked by natural animals."
+  },
+  {
+    "id": "ANIMALEMPATH2",
+    "type": "json_flag",
+    "info": "The character is intensely liked by natural animals."
   },
   {
     "id": "UNDERFED",
@@ -2496,5 +2678,183 @@
     "id": "DECAYS_IN_AIR",
     "type": "json_flag",
     "info": "This will eventually <bad>go bad</bad> if left in the open air too long."
+  },
+  {
+    "id": "IRRITANT_IMMUNE",
+    "type": "json_flag",
+    "info": "This gear <good>completely protects</good> you from <info>skin irritants</info>."
+  },
+  {
+    "id": "ITEM_WATERPROOFING",
+    "type": "json_flag",
+    "info": "Something is preventing your worn and carried items from being effected by water."
+  },
+  {
+    "id": "WATERWALKING",
+    "type": "json_flag",
+    "info": "You can walk across the surface of water."
+  },
+  {
+    "id": "CRAFT_IN_DARKNESS",
+    "type": "json_flag",
+    "info": "You can craft at 100% speed in any level of light."
+  },
+  {
+    "id": "CANNOT_ATTACK",
+    "type": "json_flag",
+    "//": "Creatures and players with this flag cannot attack (includes any spellcasting)."
+  },
+  {
+    "id": "CANNOT_MOVE",
+    "type": "json_flag",
+    "//": "Creatures and players with this flag cannot naturally move."
+  },
+  {
+    "id": "CANNOT_TAKE_DAMAGE",
+    "type": "json_flag"
+  },
+  {
+    "id": "CANNOT_CHANGE_TEMPERATURE",
+    "type": "json_flag"
+  },
+  {
+    "id": "FREEZE_EFFECTS",
+    "type": "json_flag",
+    "//": "Creatures with this flag will not have their effects change in duration except for the effects that contain this flag."
+  },
+  {
+    "id": "CANNOT_GAIN_EFFECTS",
+    "type": "json_flag",
+    "//": "Creatures with this flag will not gain any new effects or gain extra time on their current ones."
+  },
+  {
+    "id": "BANK_NETWORKED",
+    "type": "json_flag",
+    "//": "Vending machines with this flag will allow purchasing items with your bank balance."
+  },
+  {
+    "id": "NATURAL_UNDERGROUND",
+    "type": "json_flag",
+    "//": "Wall tiles with this flag occur naturally underground and are not manmade."
+  },
+  {
+    "id": "INSTANT_BLEED",
+    "type": "json_flag",
+    "//": "Having this flag makes the player bleed corpses in 1 second each.  Used for a XE vampire power."
+  },
+  {
+    "id": "ONE_STORY_FALL",
+    "type": "json_flag",
+    "//": "When the character falls, the height is reduced by 1 Z level before calculating damage."
+  },
+  {
+    "id": "CYLINDER_GRENADE",
+    "type": "json_flag",
+    "//": "A flag for the large grenade bandolier to limit the type of grenades it will accept."
+  },
+  {
+    "id": "BARRICADABLE_DOOR_DAMAGED",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Damaged Barricadable Door"
+  },
+  {
+    "id": "BARRICADABLE_DOOR_REINFORCED_DAMAGED",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Damaged Barricadable Reinforced Door"
+  },
+  {
+    "id": "BARRICADABLE_DOOR_REINFORCED",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Barricadable Reinforced Door"
+  },
+  {
+    "id": "BARRICADABLE_DOOR",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Barricadable Door"
+  },
+  {
+    "id": "BARRICADABLE_WINDOW_CURTAINS",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Barricadable Window with Curtains"
+  },
+  {
+    "id": "BARRICADABLE_WINDOW",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Barricadable Window"
+  },
+  {
+    "id": "CHIP",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Chip",
+    "info": "A paint chipper can be used to remove paint from this."
+  },
+  {
+    "id": "DIGGABLE",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Diggable",
+    "info": "A hole can be dug here."
+  },
+  {
+    "id": "EASY_DECONSTRUCT",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Simple"
+  },
+  {
+    "id": "FLAT",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Flat"
+  },
+  {
+    "id": "PIT_FILLABLE",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Fillable pit"
+  },
+  {
+    "id": "PLOWABLE",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Plowable"
+  },
+  {
+    "id": "RUBBLE",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Rubble"
+  },
+  {
+    "id": "SUPPORTS_ROOF",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Supports roof",
+    "info": "A roof can be built above this without other support."
+  },
+  {
+    "id": "TREE",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Tree"
+  },
+  {
+    "id": "WALL",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Wall"
+  },
+  {
+    "id": "WIRED_WALL",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Wired Wall"
   }
 ]

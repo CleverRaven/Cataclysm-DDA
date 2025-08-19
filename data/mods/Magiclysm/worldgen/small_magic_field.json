@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "small_magic_field",
     "object": {
       "fill_ter": "t_grass",

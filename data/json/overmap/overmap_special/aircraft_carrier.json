@@ -203,6 +203,7 @@
     "city_distance": [ -1, 1000 ],
     "locations": [ "lake_surface" ],
     "occurrences": [ 75, 100 ],
-    "flags": [ "LAKE", "MAN_MADE", "GLOBALLY_UNIQUE", "MILITARY" ]
+    "priority": 1,
+    "flags": [ "LAKE", "MAN_MADE", "GLOBALLY_UNIQUE", "MILITARY", "SAFE_AT_WORLDGEN" ]
   }
 ]

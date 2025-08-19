@@ -1,6 +1,48 @@
 # Las líneas de más de 78 caracteres se ajustarán automáticamente
 # La siguiente línea es de referencia
 ##############################################################################
+(<color_cyan>0.H </color>): </color>
+<color_white>Autor original:</color>    <color_white>Jefe de Proyecto:</color>
+<color_yellow>Whales</color> (<color_dark_gray>retirado</color>)    <color_yellow>KevinGranade</color>
+
+<color_white>Desarrolladores Principales Actuales:</color>
+<color_yellow>anoobindisguise</color> - Incansable reparador de errores y pulidor de la mayoría de las areas del juego.
+<color_yellow>GuardianDll </color> - Cambios aleatorios en el juego, cambios aleatorios en los mods.
+<color_yellow>irwiss</color> - Reparador de errores másivos y reforzador del código.
+<color_yellow>Maleclyse</color> - Principal fusionador de este ciclo de versiones y muchas mejoras de Xedra Evolved.
+
+<color_white>Agradecimientos especiales a:</color>
+<color_yellow>anothersimulacrum</color> - Por resolver problemas dificiles.
+<color_yellow>akrieger </color> - El Destructor de la Lentitud.
+<color_yellow>Fris0uman</color> - Por manejar los teselados y más.
+<color_yellow>John-Candlebury</color> - Por las luchas de monstruos jefes y Isolation Protocols.
+<color_yellow>Night-Pryanik</color> - Por hacer que los resfriados y las gripes finalmente funcionen correctamente.
+<color_yellow>PatrikLundell</color> - Revisiones masivas y muy necesarias del contenido y la infraestructura de los campamentos de facción.
+<color_yellow>Procyonae</color> - Por tantas mejoras de generación de mapas y toda la retroportabilidad.
+<color_yellow>Qrox</color> - Por reparar errores, revisiones e infraestructura.
+<color_yellow>Ramza13</color>- Por hacer que muchos sueños de los modders se vuelvan realidad.
+<color_yellow>RenechCDDA</color> - Por Shadow, mejoras de campamentos y Personalidad de los PNJ.
+<color_yellow>Rivet-the-Zombie</color> - Por realizar 10.000 fusiones.
+<color_yellow>Standing-Storm</color>- Por el más rápido 0 a 100 en varios años.
+<color_yellow>Venera3</color> - Por el progreso con las extremidades.
+<color_yellow>ZhilkinSerg</color> - Por el fusionado de todas las cosas.
+<color_yellow>alef</color>,<color_yellow>andrei8l</color>, <color_yellow>Karol1223</color>, <color_yellow>mqrause</color> y <color_yellow>lipcoc</color>.
+
+<color_white>Gracias especialmente a los contribuidores de arte:</color>
+<color_yellow>Fris0uman</color>, <color_yellow>Golfavel</color>, <color_yellow>vetall812</color>,<color_yellow>Dandy-boy</color>.
+<color_yellow>gettingusedto</color> y muchos más.
+
+<color_white>Por favor para ver la lista completa de contribuidores:</color>
+<color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
+<color_cyan>https://github.com/I-am-Erk/CDDA-Tilesets/graphs/contributors</color>
+<color_cyan>https://github.com/pixel-32/CDDA-tileset/graphs/contributors</color>
+
+<color_light_cyan>Cataclysm</color>: <color_light_blue>Dark Days Ahead</color> esta liberado como <color_white>CC-BY-SA 3.0</color>:
+<color_cyan>https://creativecommons.org/licenses/by-sa/3.0/</color>
+
+******************************************************************************
+
+(<color_cyan>0.G</color>): </color>
 <color_white>Autor original:</color>    <color_white>Jefe de Proyecto:</color>
 <color_yellow>Whales</color> (<color_dark_gray>retirado</color>)    <color_yellow>KevinGranade</color>
 
@@ -16,7 +58,7 @@
 <color_yellow>jbytheway</color> - Por la generación paramétrica de mapa y los lugares mutables.
 <color_yellow>BrettDong</color> - Por las traducciones y analizar errores raros.
 <color_yellow>wapcaplet</color> - Por todo lo relacionado con la barra lateral.
-<color_yellow>ZhilkinSerg</color> - Por la mezcla de todas las cosas.
+<color_yellow>ZhilkinSerg</color> - Por el fusionado de todas las cosas.
 <color_yellow>Rivet-the-Zombie</color> - Por sostener el récord de un merge por día.
 <color_yellow>Night-Pryanik</color> - Por los incontables arreglos y mejoras.
 <color_yellow>Qrox</color> - Por hacer que la infraestructura de la interfaz sea mejor.

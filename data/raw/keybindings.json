@@ -3,25 +3,41 @@
     "type": "keybinding",
     "id": "UILIST.UP",
     "name": "Pan up",
-    "bindings": [ { "input_method": "keyboard_any", "key": "UP" } ]
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "UP" },
+      { "input_method": "keyboard_any", "key": "8" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_8" }
+    ]
   },
   {
     "type": "keybinding",
     "id": "UILIST.DOWN",
     "name": "Pan down",
-    "bindings": [ { "input_method": "keyboard_any", "key": "DOWN" } ]
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "DOWN" },
+      { "input_method": "keyboard_any", "key": "2" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_2" }
+    ]
   },
   {
     "type": "keybinding",
     "id": "UILIST.LEFT",
     "name": "Pan left",
-    "bindings": [ { "input_method": "keyboard_any", "key": "LEFT" } ]
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "LEFT" },
+      { "input_method": "keyboard_any", "key": "4" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_4" }
+    ]
   },
   {
     "type": "keybinding",
     "id": "UILIST.RIGHT",
     "name": "Pan right",
-    "bindings": [ { "input_method": "keyboard_any", "key": "RIGHT" } ]
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "RIGHT" },
+      { "input_method": "keyboard_any", "key": "6" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_6" }
+    ]
   },
   {
     "type": "keybinding",
@@ -888,6 +904,12 @@
   },
   {
     "type": "keybinding",
+    "id": "CONFIRM_MULTIPLE",
+    "name": "Confirm and continue",
+    "bindings": [ { "input_method": "keyboard_any", "key": "SPACE" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "SAVE_DEFAULT_MODS",
     "category": "MODMANAGER_DIALOG",
     "name": "Save mods as default",
@@ -1103,6 +1125,13 @@
   },
   {
     "type": "keybinding",
+    "id": "look",
+    "category": "OVERMAP",
+    "name": "Look around",
+    "bindings": [ { "input_method": "keyboard_any", "key": ";" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "DELETE_NOTE",
     "category": "OVERMAP",
     "name": "Delete note",
@@ -1194,6 +1223,13 @@
   },
   {
     "type": "keybinding",
+    "id": "TOGGLE_FAST_TRAVEL",
+    "category": "OVERMAP",
+    "name": "Toggle fast travel",
+    "bindings": [ { "input_method": "keyboard_char", "key": "x" }, { "input_method": "keyboard_code", "key": "x", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "id": "TOGGLE_EXPLORED",
     "category": "OVERMAP",
     "name": "Toggle explored",
@@ -1229,10 +1265,31 @@
   },
   {
     "type": "keybinding",
+    "id": "REVEAL_MAP",
+    "category": "OVERMAP",
+    "name": "Reveal map",
+    "bindings": [ { "input_method": "keyboard_any", "key": "r" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "MODIFY_HORDE",
+    "category": "OVERMAP",
+    "name": "Modify existing horde or place new one",
+    "bindings": [ { "input_method": "keyboard_any", "key": "p" } ]
+  },
+  {
+    "type": "keybinding",
     "name": "View missions",
     "category": "OVERMAP",
     "id": "MISSIONS",
     "bindings": [ { "input_method": "keyboard_char", "key": "M" }, { "input_method": "keyboard_code", "key": "m", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Define Point of Interest",
+    "category": "OVERMAP",
+    "id": "CREATE_POINT_OF_INTEREST",
+    "bindings": [ { "input_method": "keyboard_char", "key": "P" }, { "input_method": "keyboard_code", "key": "p", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -1594,22 +1651,22 @@
     "type": "keybinding",
     "id": "CHANGE_START_OF_CATACLYSM",
     "category": "NEW_CHAR_DESCRIPTION",
-    "name": "Change cataclysm start date",
-    "bindings": [ { "input_method": "keyboard_char", "key": "%" }, { "input_method": "keyboard_code", "key": "5", "mod": [ "shift" ] } ]
+    "name": "Change Cataclysm start date",
+    "bindings": [ { "input_method": "keyboard_char", "key": "#" }, { "input_method": "keyboard_code", "key": "3", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
     "id": "CHANGE_START_OF_GAME",
     "category": "NEW_CHAR_DESCRIPTION",
     "name": "Change game start date",
-    "bindings": [ { "input_method": "keyboard_char", "key": "^" }, { "input_method": "keyboard_code", "key": "6", "mod": [ "shift" ] } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "&" }, { "input_method": "keyboard_code", "key": "7", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
     "id": "RESET_CALENDAR",
     "category": "NEW_CHAR_DESCRIPTION",
     "name": "Reset scenario calendar",
-    "bindings": [ { "input_method": "keyboard_char", "key": "$" }, { "input_method": "keyboard_code", "key": "4", "mod": [ "shift" ] } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "~" }, { "input_method": "keyboard_code", "key": "`", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -1654,6 +1711,17 @@
   {
     "type": "keybinding",
     "id": "RANDOMIZE",
+    "category": "NEW_CHAR_TRAITS",
+    "name": "Randomize trait",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "*" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_MULTIPLY" },
+      { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "RANDOMIZE",
     "category": "NEW_CHAR_SCENARIOS",
     "name": "Randomize scenario",
     "bindings": [
@@ -1674,21 +1742,21 @@
     "id": "CHANGE_START_OF_CATACLYSM",
     "category": "NEW_CHAR_SCENARIOS",
     "name": "Change cataclysm start date",
-    "bindings": [ { "input_method": "keyboard_char", "key": "%" }, { "input_method": "keyboard_code", "key": "5", "mod": [ "shift" ] } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "#" }, { "input_method": "keyboard_code", "key": "3", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
     "id": "CHANGE_START_OF_GAME",
     "category": "NEW_CHAR_SCENARIOS",
     "name": "Change game start date",
-    "bindings": [ { "input_method": "keyboard_char", "key": "^" }, { "input_method": "keyboard_code", "key": "6", "mod": [ "shift" ] } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "&" }, { "input_method": "keyboard_code", "key": "7", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
     "id": "RESET_CALENDAR",
     "category": "NEW_CHAR_SCENARIOS",
     "name": "Reset scenario calendar",
-    "bindings": [ { "input_method": "keyboard_char", "key": "$" }, { "input_method": "keyboard_code", "key": "4", "mod": [ "shift" ] } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "~" }, { "input_method": "keyboard_code", "key": "`", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -1982,6 +2050,12 @@
   },
   {
     "type": "keybinding",
+    "id": "EDITMAP_TOGGLE_POST_PROCESS_GENERATORS",
+    "name": "Toggle post-process generators",
+    "bindings": [ { "input_method": "keyboard_any", "key": "p" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "EDITMAP_TAB",
     "name": "Switch to move point / confirm",
     "bindings": [ { "input_method": "keyboard_any", "key": "TAB" } ]
@@ -1999,6 +2073,13 @@
     "category": "EDITMAP",
     "name": "Edit fields",
     "bindings": [ { "input_method": "keyboard_any", "key": "f" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "EDIT_RADS",
+    "category": "EDITMAP",
+    "name": "Edit radiation",
+    "bindings": [ { "input_method": "keyboard_any", "key": "a" } ]
   },
   {
     "type": "keybinding",
@@ -2263,55 +2344,35 @@
     "name": "Center view",
     "category": "DEFAULTMODE",
     "id": "center",
-    "bindings": [
-      { "input_method": "keyboard_char", "key": ":" },
-      { "input_method": "keyboard_code", "key": ";", "mod": [ "shift" ] },
-      { "input_method": "gamepad", "key": "JOY_8" }
-    ]
+    "bindings": [ { "input_method": "gamepad", "key": "JOY_8" } ]
   },
   {
     "type": "keybinding",
     "name": "Move view north",
     "category": "DEFAULTMODE",
     "id": "shift_n",
-    "bindings": [
-      { "input_method": "keyboard_char", "key": "K" },
-      { "input_method": "keyboard_code", "key": "k", "mod": [ "shift" ] },
-      { "input_method": "gamepad", "key": "JOY_21" }
-    ]
+    "bindings": [ { "input_method": "gamepad", "key": "JOY_21" } ]
   },
   {
     "type": "keybinding",
     "name": "Move view east",
     "category": "DEFAULTMODE",
     "id": "shift_e",
-    "bindings": [
-      { "input_method": "keyboard_char", "key": "L" },
-      { "input_method": "keyboard_code", "key": "l", "mod": [ "shift" ] },
-      { "input_method": "gamepad", "key": "JOY_22" }
-    ]
+    "bindings": [ { "input_method": "gamepad", "key": "JOY_22" } ]
   },
   {
     "type": "keybinding",
     "name": "Move view south",
     "category": "DEFAULTMODE",
     "id": "shift_s",
-    "bindings": [
-      { "input_method": "keyboard_char", "key": "J" },
-      { "input_method": "keyboard_code", "key": "j", "mod": [ "shift" ] },
-      { "input_method": "gamepad", "key": "JOY_23" }
-    ]
+    "bindings": [ { "input_method": "gamepad", "key": "JOY_23" } ]
   },
   {
     "type": "keybinding",
     "name": "Move view west",
     "category": "DEFAULTMODE",
     "id": "shift_w",
-    "bindings": [
-      { "input_method": "keyboard_char", "key": "H" },
-      { "input_method": "keyboard_code", "key": "h", "mod": [ "shift" ] },
-      { "input_method": "gamepad", "key": "JOY_24" }
-    ]
+    "bindings": [ { "input_method": "gamepad", "key": "JOY_24" } ]
   },
   {
     "type": "keybinding",
@@ -2565,10 +2626,22 @@
   },
   {
     "type": "keybinding",
+    "name": "Throw wielded item",
+    "category": "DEFAULTMODE",
+    "id": "throw_wielded"
+  },
+  {
+    "type": "keybinding",
     "name": "Blind throw item",
     "category": "LOOK",
     "id": "throw_blind",
     "bindings": [ { "input_method": "keyboard_any", "key": "t" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Blind throw wielded item",
+    "category": "LOOK",
+    "id": "throw_blind_wielded"
   },
   {
     "type": "keybinding",
@@ -2772,6 +2845,12 @@
   },
   {
     "type": "keybinding",
+    "name": "View map",
+    "id": "map",
+    "bindings": [ { "input_method": "keyboard_any", "key": ";" } ]
+  },
+  {
+    "type": "keybinding",
     "name": "Look at the sky",
     "category": "DEFAULTMODE",
     "id": "sky"
@@ -2836,6 +2915,51 @@
   },
   {
     "type": "keybinding",
+    "id": "DEBUG_DIALOGUE_DL_CONDITIONAL",
+    "name": "Toggle debug dialogue dynamic_line conditionals",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "CTRL+C" },
+      { "input_method": "keyboard_code", "mod": [ "ctrl" ], "key": "c" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DEBUG_DIALOGUE_RESP_CONDITIONAL",
+    "name": "Toggle debug dialogue response conditionals",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "CTRL+D" },
+      { "input_method": "keyboard_code", "mod": [ "ctrl" ], "key": "d" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DEBUG_DIALOGUE_DL_EFFECT",
+    "name": "Toggle debug dialogue dynamic_line effects",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "CTRL+T" },
+      { "input_method": "keyboard_code", "mod": [ "ctrl" ], "key": "t" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DEBUG_DIALOGUE_RESP_EFFECT",
+    "name": "Toggle debug dialogue response effects",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "CTRL+Y" },
+      { "input_method": "keyboard_code", "mod": [ "ctrl" ], "key": "y" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DEBUG_DIALOGUE_SHOW_ALL_RESPONSE",
+    "name": "Toggle debug dialogue show hidden responses",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "CTRL+R" },
+      { "input_method": "keyboard_code", "mod": [ "ctrl" ], "key": "r" }
+    ]
+  },
+  {
+    "type": "keybinding",
     "id": "RESET",
     "category": "CALENDAR_UI",
     "name": "Reset time point to initial value",
@@ -2847,43 +2971,7 @@
   },
   {
     "type": "keybinding",
-    "name": "View scent map",
-    "category": "DEFAULTMODE",
-    "id": "debug_scent"
-  },
-  {
-    "type": "keybinding",
-    "name": "View scent type",
-    "category": "DEFAULTMODE",
-    "id": "debug_scent_type"
-  },
-  {
-    "type": "keybinding",
-    "name": "View temperature map (using Map font)",
-    "category": "DEFAULTMODE",
-    "id": "debug_temp"
-  },
-  {
-    "type": "keybinding",
-    "name": "View visibility map",
-    "category": "DEFAULTMODE",
-    "id": "debug_visibility"
-  },
-  {
-    "type": "keybinding",
-    "name": "View lighting map",
-    "category": "DEFAULTMODE",
-    "id": "debug_lighting"
-  },
-  {
-    "type": "keybinding",
-    "name": "View radiation map",
-    "category": "DEFAULTMODE",
-    "id": "debug_radiation"
-  },
-  {
-    "type": "keybinding",
-    "name": "Toggle hour timer",
+    "name": "Debug Toggle hour timer",
     "category": "DEFAULTMODE",
     "id": "debug_hour_timer"
   },
@@ -3162,9 +3250,15 @@
   {
     "type": "keybinding",
     "id": "cast_spell",
-    "name": "Supernatural Abilities",
+    "name": "Supernatural abilities",
     "category": "DEFAULTMODE",
     "bindings": [ { "input_method": "keyboard_any", "key": "]" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "recast_spell",
+    "name": "Repeat last supernatural ability",
+    "category": "DEFAULTMODE"
   },
   {
     "type": "keybinding",
@@ -3892,6 +3986,13 @@
   },
   {
     "type": "keybinding",
+    "id": "UNLOAD_CONTAINER",
+    "category": "ADVANCED_INVENTORY",
+    "name": "Unload item from container",
+    "bindings": [ { "input_method": "keyboard_any", "key": "u" }, { "input_method": "keyboard_any", "key": "U" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "ITEMS_CONTAINER",
     "category": "ADVANCED_INVENTORY",
     "name": "Select items in container",
@@ -4537,7 +4638,7 @@
     "type": "keybinding",
     "category": "WISH_ITEM",
     "id": "SCROLL_DESC_DOWN",
-    "name": "Scroll item description Down",
+    "name": "Scroll item description down",
     "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
   },
   {
@@ -4768,6 +4869,48 @@
       { "input_method": "keyboard_code", "mod": [ "ctrl" ], "key": "s" },
       { "input_method": "keyboard_code", "mod": [ "ctrl" ], "key": "y" }
     ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_MONSTER_GROUP",
+    "category": "SCORES_UI",
+    "name": "Toggle monster group",
+    "bindings": [ { "input_method": "keyboard_any", "key": "m" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_NPC_GROUP",
+    "category": "SCORES_UI",
+    "name": "Toggle NPC group",
+    "bindings": [ { "input_method": "keyboard_any", "key": "n" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_GENERAL_INFO_GROUP",
+    "category": "MA_DETAILS_UI",
+    "name": "Toggle general info group",
+    "bindings": [ { "input_method": "keyboard_any", "key": "g" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_BUFFS_GROUP",
+    "category": "MA_DETAILS_UI",
+    "name": "Toggle buffs group",
+    "bindings": [ { "input_method": "keyboard_any", "key": "b" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_TECHNIQUES_GROUP",
+    "category": "MA_DETAILS_UI",
+    "name": "Toggle techniques group",
+    "bindings": [ { "input_method": "keyboard_any", "key": "t" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_WEAPONS_GROUP",
+    "category": "MA_DETAILS_UI",
+    "name": "Toggle weapons group",
+    "bindings": [ { "input_method": "keyboard_any", "key": "w" } ]
   },
   {
     "type": "keybinding",

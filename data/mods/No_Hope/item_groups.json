@@ -85,7 +85,11 @@
       { "distribution": [ { "item": "socks", "prob": 10 }, { "item": "socks_wool", "prob": 90 } ] },
       { "item": "boots_combat", "prob": 70 },
       {
-        "collection": [ { "distribution": [ { "item": "balclava", "prob": 90 }, { "item": "balaclava_cut_resistant", "prob": 10 } ] } ],
+        "collection": [
+          {
+            "distribution": [ { "item": "balclava", "variant": "black", "prob": 90 }, { "item": "balaclava_cut_resistant", "prob": 10 } ]
+          }
+        ],
         "prob": 25
       },
       {
@@ -102,38 +106,6 @@
     "items": [
       { "item": "jp8", "prob": 70, "charges": [ 0, 5000 ], "container-item": "jerrycan" },
       { "item": "jp8", "prob": 30, "charges": [ 0, 5000 ], "container-item": "jerrycan_big" }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "trash_no_hope",
-    "//": "TODO: Why does this not just override the vanilla trash?",
-    "items": [
-      [ "bottle_plastic", 5 ],
-      [ "bottle_plastic_small", 5 ],
-      [ "bottle_glass", 2 ],
-      { "group": "tinware", "prob": 2 },
-      [ "can_drink", 5 ],
-      [ "plastic_shopping_bag", 5 ],
-      [ "bag_plastic", 5 ],
-      [ "wrapper", 5 ],
-      [ "flyer", 5 ],
-      [ "scorecard", 5 ],
-      [ "plastic_sheet", 5 ],
-      [ "string_6", 5 ],
-      { "item": "glass_shard", "prob": 10, "count": [ 1, 8 ] },
-      [ "ceramic_shard", 5 ],
-      [ "joint_roach", 10 ],
-      [ "bag_canvas_small", 5 ],
-      [ "can_food", 5 ],
-      [ "bubblewrap", 3 ],
-      [ "cig_butt", 15 ],
-      { "item": "cotton_patchwork", "prob": 8, "custom-flags": [ "FILTHY" ] },
-      { "item": "syringe", "prob": 5, "custom-flags": [ "FILTHY" ] },
-      { "item": "lighter", "prob": 5, "charges": [ 0, 10 ] },
-      { "item": "matches", "prob": 5, "charges": [ 0, 20 ] },
-      { "group": "newspaper", "prob": 10 },
-      [ "handflare_dead", 3 ]
     ]
   },
   {
@@ -182,13 +154,6 @@
       [ "alloy_plate", 10 ],
       [ "robot_controls", 3 ]
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "rare",
-    "subtype": "distribution",
-    "copy-from": "rare",
-    "extend": { "entries": [ { "item": "bio_blade", "prob": 10 }, { "item": "bio_speed", "prob": 10 } ] }
   },
   {
     "type": "item_group",
@@ -337,13 +302,6 @@
     "entries": [ { "item": "flamethrower", "charges": [ 0, 500 ] } ]
   },
   {
-    "type": "item_group",
-    "id": "bunker_basement_loot",
-    "subtype": "distribution",
-    "copy-from": "bunker_basement_loot",
-    "extend": { "entries": [ { "group": "bionics_mil", "prob": 1 } ] }
-  },
-  {
     "id": "necropolis_visitors",
     "type": "item_group",
     "items": [ [ "newest_newspaper", 10 ], [ "necropolis_leaflet", 50 ] ]
@@ -355,7 +313,7 @@
     "magazine": 100,
     "ammo": 90,
     "items": [
-      { "group": "guns_rare_readied", "prob": 35 },
+      { "group": "guns_common", "prob": 35 },
       { "item": "mask_filter", "prob": 20 },
       { "group": "ammo_pocket_batteries_full", "prob": 15 },
       { "item": "radio", "prob": 10 },
@@ -366,6 +324,44 @@
       { "item": "rad_monitor", "prob": 10 },
       { "item": "geiger_off", "prob": 10 },
       { "item": "tool_belt", "prob": 15 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "vault_wanderer",
+    "magazine": 100,
+    "ammo": 20,
+    "subtype": "distribution",
+    "entries": [
+      { "item": "jumpsuit", "prob": 90 },
+      { "item": "mask_filter", "prob": 10, "charges": [ 0, 100 ] },
+      { "group": "ammo_pocket_batteries_full", "prob": 10 },
+      { "item": "radio", "prob": 10, "charges": [ 10, 95 ] },
+      { "item": "boots_combat", "prob": 20 },
+      { "item": "bandages", "prob": 10, "count": [ 1, 3 ] },
+      { "prob": 30, "group": "cig_box_cigarette_1_20" },
+      { "item": "knife_combat_army", "variant": "m9bayonet", "prob": 10 },
+      { "item": "vest", "prob": 15 },
+      { "item": "glasses_safety", "prob": 15 },
+      { "item": "9mm", "prob": 15, "charges": [ 1, 50 ] },
+      { "item": "m9", "prob": 10, "charges": [ 0, 15 ] },
+      { "item": "water_clean", "prob": 10 },
+      { "item": "eyedrops", "prob": 10, "count": [ 1, 10 ] },
+      { "item": "steroid_eyedrops", "prob": 10, "count": [ 1, 10 ] },
+      { "item": "screwdriver", "prob": 10 },
+      { "group": "wallets_science", "prob": 5 },
+      { "item": "cleansuit", "prob": 10 },
+      { "item": "coat_lab", "prob": 20 },
+      { "item": "glasses_eye", "prob": 30 },
+      { "item": "rad_monitor", "prob": 10, "charges": [ 2, 20 ] },
+      { "item": "geiger_off", "prob": 10, "charges": [ 10, 95 ] },
+      { "item": "tool_belt", "prob": 15 },
+      { "item": "panties", "prob": 20 },
+      { "item": "boy_shorts", "prob": 20 },
+      { "item": "bra", "prob": 20 },
+      { "item": "undershirt", "prob": 40 },
+      { "item": "boxer_shorts", "prob": 30 },
+      { "item": "briefs", "prob": 30 }
     ]
   }
 ]

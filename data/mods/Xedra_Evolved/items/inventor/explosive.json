@@ -1,0 +1,50 @@
+[
+  {
+    "id": "portable_dark_age",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "category": "weapons",
+    "name": { "str": "portable dark age" },
+    "description": "In this device the Mad Genius creates an extremely strong magnetic field.  Then in the next step of its creation they split that field in two in such a way it is perpetually trying to reconnect.  When activated the timer counts down til the moment the two fields reconnect.  Upon reconnection, energy is released in the form of EMP.",
+    "weight": "400 g",
+    "volume": "200 ml",
+    "price": "600 USD",
+    "price_postapoc": "300 USD",
+    "to_hit": -1,
+    "material": [ "steel", "plastic" ],
+    "symbol": "0",
+    "explode_in_fire": false,
+    "color": "light_gray",
+    "use_action": {
+      "need_wielding": true,
+      "target": "portable_dark_age_apct",
+      "msg": "You activate the portable dark age.",
+      "target_timer": "50 seconds",
+      "menu_text": "Activate bomb",
+      "type": "transform"
+    },
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "WATER_BREAK" ],
+    "melee_damage": { "bash": 2 }
+  },
+  {
+    "id": "portable_dark_age_apct",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "category": "weapons",
+    "name": { "str": "active EMP bomb" },
+    "description": "The Portable Dark Age™ is now active and will soon end all electronic devices in range.  Prepare yourself for a life without mp3s and cell phones, at least in the closest 60 meters.",
+    "weight": "400 g",
+    "volume": "200 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "to_hit": -1,
+    "material": [ "steel", "plastic" ],
+    "symbol": "*",
+    "explode_in_fire": false,
+    "color": "light_gray",
+    "use_action": { "type": "message", "message": "You've already activated the %s, try throwing it instead.", "name": "Summon Dark Age" },
+    "countdown_action": { "type": "explosion", "draw_explosion_radius": 60, "draw_explosion_color": "light_blue", "emp_blast_radius": 60 },
+    "flags": [ "TRADER_AVOID", "WATER_BREAK" ],
+    "melee_damage": { "bash": 2 }
+  }
+]

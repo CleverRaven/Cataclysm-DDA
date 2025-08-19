@@ -1,15 +1,54 @@
 [
   {
     "type": "snippet",
-    "category": "XE_NIGHT_MESSAGES_1",
+    "category": "<XE_NIGHT_MESSAGES_GENERAL_1>",
     "text": [
       "The clopping of hooves pass you by with a swift breeze, yet you did not see anything except for local flora brushed by the wind.",
       "As you are walking you suddenly hear a woman singing mournfully.  As you look around trying to see where the sound is coming from you slowly realize that if you take more than a step and a half in any direction the song fades away.  Eventually you are unable to find it again.",
-      "Winged shadows cross the ground, but when you look into the sky you can't seem to see any movement or shapes at all.",
-      "There is a bright red star with a dark heart that looks like a pupil, staring down on you from the sky above.  Is that star in the sky every night?  Is it coming closer to the planet?",
-      "A helicopter passes by overhead.  All it's running lights have been blacked out and you suspect the rotors have been muffled.  If it hadn't passed right over you, you'd have never known it was there.",
       "Something roars in the night, similar sounding to one of the Kaiju you heard destroying a nearby town during the Cataclysm.",
-      "The night suddenly goes dead silent."
+      "The night suddenly goes dead silent.",
+      "You hear a wolf howl in the distance, swiftly joined by several others.  After a moment of silence, you hear another series of howls, and then another.  It's only after the third set fades that you realize the howls were all in exactly the same pattern; two long, three short.",
+      "You hear a scream in the distance.  Probably a deer or a bobcat, but it sure sounded like a human.",
+      "Disturbed by your approach, a small animal darts away into the underbrush.  It's only after it disappears that you realize it had six legs.",
+      "Your ears pop, leaving behind a high-pitched whine that fades as normal sounds slowly return.",
+      "For a moment, the air smells so strongly metallic that you can almost taste it.",
+      "You hear a rush of unfelt wind.",
+      "The wind makes a low murmur that sounds almost like words.  When you stop to pay attention to it, it falls silent."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "XE_NIGHT_MESSAGES_CLEAR_1",
+    "text": [
+      "<XE_NIGHT_MESSAGES_GENERAL_1>",
+      "<XE_NIGHT_MESSAGES_GENERAL_1>",
+      "<XE_NIGHT_MESSAGES_GENERAL_1>",
+      "<XE_NIGHT_MESSAGES_GENERAL_1>",
+      "<XE_NIGHT_MESSAGES_GENERAL_1>",
+      "Winged shadows cross the ground, but when you look into the sky you can't see any movement or shapes.",
+      "There is a bright red star with a dark heart that looks like a pupil, staring down on you from the sky above.  Is that star in the sky every night?  Is it coming closer to the planet?",
+      "A helicopter passes by overhead.  All its running lights have been blacked out and you suspect the rotors have been muffled.  If it hadn't passed right over you, you'd have never known it was there.",
+      "Something passes across the moon for a moment, completely blotting it out.",
+      "A shooting star flashes across the sky.",
+      "A pair of owls flies by, so close that they're almost wingtip to wingtip.",
+      "For a moment, all the stars turn a dim reddish color."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "XE_NIGHT_MESSAGES_CLOUDY_1",
+    "text": [
+      "<XE_NIGHT_MESSAGES_GENERAL_1>",
+      "<XE_NIGHT_MESSAGES_GENERAL_1>",
+      "<XE_NIGHT_MESSAGES_GENERAL_1>",
+      "<XE_NIGHT_MESSAGES_GENERAL_1>",
+      "A single raindrop falls on your exposed skin.  You look up, but no further droplets fall.",
+      "Something above the clouds glows, creating a hazy patch of light.  It stays in place for a few moments before speeding away to the <random_direction>.",
+      "You see the vague outlines of a humanoid figure in the distance.  As soon as you catch sight of it, there is a blur of motion and it vanishes.",
+      "You step in a small puddle, but when you bend down to look, there's nothing there.",
+      "You feel something tap on your shoulder but when you spin around to look, there's no one there.",
+      "You hear a slithering sound in the distance.  It's far enough away that whatever is making it must be very large.",
+      "You hear a cracking sound and then the night falls totally silent."
     ]
   },
   {
@@ -23,7 +62,11 @@
       "You hear a distant explosion.  You can't tell if it came from one of the tendrils of smoke at the edge of your vision or if it's new.",
       "A single shot fires in the distance then silence.",
       "The birds are no longer singing here.  It's quiet, scary quiet.",
-      "A rare plane leaves contrails high in the sky.  You wonder where it could be coming from and where it could possibly be going."
+      "A rare plane leaves contrails high in the sky.  You wonder where it could be coming from and where it could possibly be going.",
+      "The sunlight seems to dim for a moment.  When you blink, it's as bright as it was before.",
+      "Your footstep suddenly crunch loudly.  When you look down, the ground beneath you is carpeted with dead insects.",
+      "The grass nearby is trampled down in a sinuous pattern.",
+      "The air suddenly smells sickly sweet."
     ]
   },
   {
@@ -34,6 +77,69 @@
       "<color_light_blue>You hear a deep guttural howl, faintly across the way.</color>",
       "<color_light_green>In your mind you hear a voice, as if a big dog were speaking English.  'It's dangerous here, this whole world is dangerous now'.</color>",
       "<color_light_green>Scraggy-boo speaks in your mind.  'The real mystery is how to survive this place'.</color>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "XE_BOOK_LIES_CARRIED",
+    "text": [
+      "<color_light_red>You catch a small glimpse of something.  The only thing you understand is how disturbed it makes you feel.</color>",
+      "<color_light_red>You imagine yourself reading that creepy book.  Your mind reels at the idea.</color>",
+      "<color_light_red>For the smallest instant, the veil hiding the truth shows a crack.  What little you see shocks you to your very core.</color>",
+      "<color_light_red>Your proximity to this damned book is slowly melting your mind.</color>",
+      "<color_light_red>You feel a deep longing to leave a certain book behind you.</color>",
+      "<color_light_red>Your mind is on fire.  You must get rid of this book or the fire won't end.</color>",
+      "<color_light_red>How cathartic it would be to tear the pages from that cursed book.  You ache to get rid of it as soon as possible.</color>",
+      "<color_light_red>Your mind can only think about that book for a moment.  You skull fills with pressure like a balloon about to pop.</color>",
+      "<color_light_red>That book you found near a shredded corpse makes you dread being shredded in turn.</color>",
+      "<color_light_red>You suddenly feel saddened.  Maybe dropping that blood-stained book would make you feel better?</color>",
+      "<color_light_red>The Lies hate that you're carrying that book and decided to make their sentiment known.</color>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "nightmares_book_lies",
+    "text": [
+      "<color_light_red>You dream of a world of burning paper below a single intact book.</color>",
+      "<color_light_red>You awaken from a nightmare about a book eating your brain.</color>",
+      "<color_light_red>You stand on a line of letters above a bottomless pit.  They crack.  You fall.  You wake up.\nThis time.</color>",
+      "<color_light_red>You wake up knowing that you will soon pay for what you've done.</color>",
+      "<color_light_red>You dream about being torn apart by unseen claws.</color>",
+      "<color_light_red>In your dream, you had a cat.  Like the cat, curiosity killed you.  Unlike the cat, you had far less lives and died far more times.</color>",
+      "<color_light_red>You dream about white-hot nails burrowing in your head, each of them whispering things you do not want to hear.</color>",
+      "<color_light_red>You wake up with a phrase resounding in your skull over and over: CLEAVE THROUGH THE WORLD OF LIES.</color>",
+      "<color_light_red>You dream about being unraveled, the strands making you falling to the ground.</color>",
+      "<color_light_red>You dream about silent voices ordering other things to kill you.</color>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "book_lies_taint_resisted",
+    "text": [
+      "<color_light_red>The Lies are unraveling you as you dared resist them.</color>",
+      "<color_light_red>Small strands of skin and muscle are leaving your body and piling on the floor.</color>",
+      "<color_light_red>Strand by strand, you are slowly unmade by the Lies.</color>",
+      "<color_light_red>You do not know enough to avoid what is happening to you, but you know enough for it to happen.</color>",
+      "<color_light_red>Another small strand is plucked from you and discarded.</color>",
+      "<color_light_red>If you stop reading this book, you will stop unraveling.</color>",
+      "<color_light_red>Better stop provoking the Lies, before they take something important.</color>",
+      "<color_light_red>If the eyes cannot stop you from reading this, the claws will.</color>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "book_lies_claw",
+    "text": [
+      "<color_light_red>You've gone too far, and the Lies will destroy you for it.</color>",
+      "<color_light_red>An unseen claw grievously rends your flesh.</color>",
+      "<color_light_red>You notice a gaping wound you did not had a second ago.  Reading this book is killing you.</color>",
+      "<color_light_red>You know too much about the Lies, and they are trying to remedy to that.</color>",
+      "<color_light_red>Five invisible blades tear open your skin, leaving a horrible wound.</color>",
+      "<color_light_red>A horrendous wound opens on its own as you read another word from this book.</color>",
+      "<color_light_red>Reading this book feels like a dagger against your sanity.  Its effects on your body are more tangible.</color>",
+      "<color_light_red>The Lies are sending a clear message: stop reading the book or die by their hand.</color>",
+      "<color_light_red>A chunk of flesh is torn from your body by something you cannot perceive.</color>",
+      "<color_light_red>You will be cleaved before you can cleave anything unless you stop reading this book.</color>"
     ]
   }
 ]

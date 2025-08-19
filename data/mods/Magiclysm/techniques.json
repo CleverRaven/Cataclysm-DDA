@@ -9,8 +9,8 @@
     "crit_tec": true,
     "weighting": 0,
     "messages": [
-      "Snicker-snack!  You slice through %s like a hot knife slices through butter.",
-      "Snicker-snack!  <npcname> slices through %s like a hot knife slices through butter."
+      "Snicker-snack!  You slice through %s like a hot knife slices through butter",
+      "Snicker-snack!  <npcname> slices through %s like a hot knife slices through butter"
     ],
     "description": "Cut damage multiply by 2, crit only",
     "attack_vectors": [ "vector_null" ]

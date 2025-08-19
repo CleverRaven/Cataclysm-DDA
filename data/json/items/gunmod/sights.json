@@ -1,7 +1,8 @@
 [
   {
     "id": "bow_sight",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "five pin bow sight" },
     "description": "A set of adjustable optic fiber aiming pins with a bracket to mount on modern bows.  It takes more time to calibrate but can improve accuracy more effectively.",
     "//": "https://amz.run/7V0e",
@@ -23,7 +24,8 @@
   },
   {
     "id": "bow_sight_pin",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "single pin bow sight" },
     "description": "A single aluminum pin with a bracket to mount on modern bows.  Quick to use.",
     "weight": "80 g",
@@ -43,7 +45,8 @@
   },
   {
     "id": "bow_scope",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "bow scope" },
     "description": "A single magnifying scope mounted on an adjustable bracket, with accompanying clarifier peep sight.  Designed for extra long shots, but easily adjusted for short range.  Spectacularly accurate.",
     "weight": "180 g",
@@ -64,7 +67,8 @@
   },
   {
     "id": "holo_sight",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "holographic sight" },
     "//": "EOTech XPS3",
     "description": "An advanced optic with an adjustable circular hologram reticle superimposed on the field of view.  Used extensively by military forces, it increases accuracy and weight.  This is a step up from a red dot sight.",
@@ -87,9 +91,10 @@
   },
   {
     "id": "improve_sights",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str_sp": "iron sights" },
-    "description": "A basic set of iron sights",
+    "description": "A basic set of iron sights.",
     "weight": "60 g",
     "volume": "10 ml",
     "integral_volume": "0 ml",
@@ -109,7 +114,8 @@
   },
   {
     "id": "pistol_scope",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "pistol scope" },
     "description": "A small scope intended for use on a handgun.  Increases weight but improves accuracy greatly.",
     "weight": "212 g",
@@ -129,7 +135,8 @@
   },
   {
     "id": "red_dot_sight",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "red dot sight" },
     "description": "A red dot optic meant to be attached to the top of the weapon, replacing the iron sights.  Increases accuracy and weight.",
     "weight": "150 g",
@@ -150,7 +157,8 @@
   },
   {
     "id": "rifle_scope",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "rifle scope" },
     "//": "Leupold Mark 6",
     "description": "A 3-18x44 rifle scope.  It is adjustable for windage and elevation in 1/10th mrad increments and is remarkably small and light for its magnification.",
@@ -162,7 +170,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
-    "mod_targets": [ "rifle", "crossbow", "launcher" ],
+    "mod_targets": [ "rifle", "crossbow", "launcher", "shotgun" ],
     "install_time": "5 m",
     "sight_dispersion": 0,
     "aim_speed_modifier": -1,
@@ -172,7 +180,8 @@
   },
   {
     "id": "rifle_scope_high_end_mount",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "high end rifle scope" },
     "//": "Leupold Mark 6",
     "description": "A 3-18x44 rifle scope.  It is adjustable for windage and elevation in 1/10th mrad increments and is remarkably small and light for its magnification.  This one has an additional rail on the top of its ring mounts for an additional backup optic.",
@@ -184,7 +193,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
-    "mod_targets": [ "rifle", "crossbow", "launcher" ],
+    "mod_targets": [ "rifle", "crossbow", "launcher", "shotgun" ],
     "install_time": "5 m",
     "sight_dispersion": 0,
     "aim_speed_modifier": -1,
@@ -194,16 +203,9 @@
     "add_mod": [ [ "sights", 1 ] ]
   },
   {
-    "id": "rifle_scope_mod",
-    "copy-from": "rifle_scope",
-    "type": "GUNMOD",
-    "name": { "str": "modified rifle scope" },
-    "description": "A 3-18x44 rifle scope.  It is adjustable for windage and elevation in 1/10th mrad increments and is remarkably small and light for its magnification.  This one was modified and customized to mount on pretty much any weapon other than pistols and SMGs, if you so want.",
-    "mod_targets": [ "rifle", "shotgun", "launcher", "crossbow" ]
-  },
-  {
     "id": "acog_scope",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "ACOG scope" },
     "description": "A 4x32 TA01 Advanced Combat Optical Gunsight with a tritium illuminated crosshair.",
     "weight": "280 g",
@@ -214,7 +216,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
-    "mod_targets": [ "rifle", "crossbow", "launcher" ],
+    "mod_targets": [ "rifle", "crossbow", "launcher", "shotgun", "smg" ],
     "install_time": "5 m",
     "sight_dispersion": 8,
     "field_of_view": 270,
@@ -223,7 +225,8 @@
   },
   {
     "id": "holo_magnifier",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "//": "based on the EOTECH G43",
     "name": { "str": "sight magnifier" },
     "description": "A sleek compact 3x magnifier designed to sit behind a modern holographic sight.  Mounted on a lever to quickly flip in and out of the sights picture, the magnifier allows the full functionality of a high end close quarters sight while also allowing you to engage targets at range.",
@@ -245,7 +248,8 @@
   },
   {
     "id": "hybrid_sight_4x",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "copy-from": "acog_scope",
     "name": { "str": "hybrid ACOG scope" },
     "description": "A high end 4x32 military grade ACOG scope.  This one has additional mounting brackets on top for another sight.",
@@ -253,17 +257,10 @@
     "add_mod": [ [ "sights", 1 ] ]
   },
   {
-    "id": "acog_scope_mod",
-    "copy-from": "acog_scope",
-    "type": "GUNMOD",
-    "name": { "str": "modified ACOG scope" },
-    "description": "A 4x32 TA01 Advanced Combat Optical Gunsight with a tritium illuminated crosshair.  This one was modified and customized to mount on pretty much any weapon other than pistols, if you so want.",
-    "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ]
-  },
-  {
     "id": "riv_scope",
     "copy-from": "rifle_scope",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "RS1219 scope" },
     "description": "An integral component of the RM11B rifle system, the RS1219 Accipiter digital scope provides auto-adjusting focal length, a user-selectable reticle, and an offset reflex sight for close objectives.",
     "weight": "0 g",
@@ -275,7 +272,8 @@
   },
   {
     "id": "tele_sight",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "telescopic sight" },
     "description": "A simple hand-crafted telescopic sight, essentially a small telescope with crosshairs.  Not as good as the ones made before the Cataclysm.  Increases weight but improves accuracy.",
     "weight": "300 g",
@@ -298,7 +296,8 @@
   },
   {
     "id": "tele_sight_pistol",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "telescopic pistol sight" },
     "description": "A simple telescopic sight intended for use on a handgun.  Increases weight but improves accuracy greatly.",
     "weight": "220 g",
@@ -321,7 +320,8 @@
   },
   {
     "id": "type99_scope",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "copy-from": "rifle_scope",
     "name": { "str": "Nagoya 99 gun scope" },
     "//": "Kokura also made and issued 2.5x rifle scopes for the Type 99, but those are vanishingly rare when compared against Nagoya-built, non-adjustable 4x scopes. That being said, Nagoya also built a small number of 2.5x scopes and dabbled with an adjustable 4x close to the end of production, but those are also comparatively rare enough to be hand-waved away.",

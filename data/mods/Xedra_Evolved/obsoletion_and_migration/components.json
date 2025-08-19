@@ -1,0 +1,7 @@
+[
+  {
+    "id": "spell_components_human_blood",
+    "type": "requirement",
+    "components": [ [ [ "demihuman_blood", 1 ], [ "mutant_human_blood", 1 ], [ "blood", 1 ] ] ]
+  }
+]

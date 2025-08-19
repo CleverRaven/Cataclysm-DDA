@@ -1,0 +1,25 @@
+[
+  {
+    "id": "mon_secubot_balthazar",
+    "copy-from": "mon_secubot",
+    "type": "MONSTER",
+    "aggression": 9,
+    "default_faction": "balthazar",
+    "starting_ammo": { "556": 60 },
+    "path_settings": { "max_dist": 30, "avoid_traps": true },
+    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
+    "aggro_character": true,
+    "death_function": { "eoc": "EOC_BALTHAZAR_SECUBOT_DEATH" }
+  },
+  {
+    "id": "mon_turret_rifle_balthazar",
+    "copy-from": "mon_turret_rifle",
+    "type": "MONSTER",
+    "default_faction": "balthazar",
+    "aggression": 9,
+    "starting_ammo": { "556": 1600 },
+    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
+    "aggro_character": true,
+    "death_function": { "eoc": "EOC_BALTHAZAR_TURRET_DEATH" }
+  }
+]

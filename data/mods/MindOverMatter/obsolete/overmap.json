@@ -1,0 +1,12 @@
+[
+  {
+    "type": "oter_id_migration",
+    "//": "Migrated in 0.I, remove after 0.I stable",
+    "oter_ids": {
+      "psi_phavian_lab_basementD1_hidden_lab_stairs_north": "psi_phavian_lab_basementD1_hidden_psi_lab_stairs_north",
+      "psi_phavian_lab_basementD1_hidden_lab_stairs_east": "psi_phavian_lab_basementD1_hidden_psi_lab_stairs_east",
+      "psi_phavian_lab_basementD1_hidden_lab_stairs_south": "psi_phavian_lab_basementD1_hidden_psi_lab_stairs_south",
+      "psi_phavian_lab_basementD1_hidden_lab_stairs_west": "psi_phavian_lab_basementD1_hidden_psi_lab_stairs_west"
+    }
+  }
+]

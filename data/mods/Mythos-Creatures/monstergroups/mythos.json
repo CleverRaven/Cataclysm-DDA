@@ -1,6 +1,6 @@
 [
   {
-    "name": "GROUP_PARK_SCENIC",
+    "id": "GROUP_PARK_SCENIC",
     "type": "monstergroup",
     "override": true,
     "default": "mon_null",
@@ -18,14 +18,14 @@
       { "monster": "mon_feral_human_pipe", "weight": 40, "pack_size": [ 2, 3 ] },
       { "monster": "mon_feral_human_crowbar", "weight": 40, "pack_size": [ 2, 3 ] },
       { "monster": "mon_feral_human_axe", "weight": 20, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "3 days" },
-      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "7 days", "pack_size": [ 1, 2 ] },
-      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "90 days", "pack_size": [ 1, 4 ] }
+      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "12 days" },
+      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 2 ] },
+      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "112 days", "pack_size": [ 1, 3 ] },
+      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "360 days", "pack_size": [ 1, 4 ] }
     ]
   },
   {
-    "name": "GROUP_ROOF_ZOMBIE",
+    "id": "GROUP_ROOF_ZOMBIE",
     "type": "monstergroup",
     "override": true,
     "default": "mon_null",
@@ -46,7 +46,7 @@
     ]
   },
   {
-    "name": "GROUP_PARK_PLAYGROUND",
+    "id": "GROUP_PARK_PLAYGROUND",
     "type": "monstergroup",
     "override": true,
     "default": "mon_null",
@@ -58,7 +58,7 @@
     ]
   },
   {
-    "name": "GROUP_PARK_DOG",
+    "id": "GROUP_PARK_DOG",
     "type": "monstergroup",
     "override": true,
     "default": "mon_null",
@@ -79,14 +79,14 @@
     ]
   },
   {
-    "name": "GROUP_ZOMBIE_SCORCHED",
+    "id": "GROUP_ZOMBIE_SCORCHED",
     "type": "monstergroup",
     "override": true,
     "monsters": [ { "monster": "mon_null" } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_ZOMBIE",
+    "id": "GROUP_ZOMBIE",
     "override": true,
     "default": "mon_null",
     "monsters": [
@@ -105,22 +105,22 @@
       { "monster": "mon_feral_human_pipe", "weight": 40, "pack_size": [ 2, 3 ] },
       { "monster": "mon_feral_human_crowbar", "weight": 40, "pack_size": [ 2, 3 ] },
       { "monster": "mon_feral_human_axe", "weight": 20, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "3 days" },
-      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "7 days", "pack_size": [ 1, 2 ] },
-      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "90 days", "pack_size": [ 1, 4 ] }
+      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "12 days" },
+      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 2 ] },
+      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "112 days", "pack_size": [ 1, 3 ] },
+      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "360 days", "pack_size": [ 1, 4 ] }
     ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_NEMESIS",
+    "id": "GROUP_NEMESIS",
     "override": true,
     "//": "nemesis squad",
     "monsters": [ { "monster": "mon_null" } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_VANILLA",
+    "id": "GROUP_VANILLA",
     "override": true,
     "default": "mon_null",
     "monsters": [
@@ -139,15 +139,15 @@
       { "monster": "mon_feral_human_crowbar", "weight": 40, "cost_multiplier": 0 },
       { "monster": "mon_feral_human_axe", "weight": 20, "cost_multiplier": 0 },
       { "monster": "mon_shantak", "weight": 1, "cost_multiplier": 0 },
-      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "3 days" },
-      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "7 days", "pack_size": [ 1, 2 ] },
-      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "90 days", "pack_size": [ 1, 4 ] }
+      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "12 days" },
+      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 2 ] },
+      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "112 days", "pack_size": [ 1, 3 ] },
+      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "360 days", "pack_size": [ 1, 4 ] }
     ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_POLICE",
+    "id": "GROUP_POLICE",
     "override": true,
     "//": "+30% cops",
     "default": "mon_null",
@@ -167,15 +167,15 @@
       { "monster": "mon_feral_human_crowbar", "weight": 40, "cost_multiplier": 0 },
       { "monster": "mon_feral_human_axe", "weight": 20, "cost_multiplier": 0 },
       { "monster": "mon_shantak", "weight": 1, "cost_multiplier": 0 },
-      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "3 days" },
-      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "7 days", "pack_size": [ 1, 2 ] },
-      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "90 days", "pack_size": [ 1, 4 ] }
+      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "12 days" },
+      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 2 ] },
+      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "112 days", "pack_size": [ 1, 3 ] },
+      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "360 days", "pack_size": [ 1, 4 ] }
     ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_HOUSE",
+    "id": "GROUP_HOUSE",
     "override": true,
     "//": "+15% child",
     "default": "mon_null",
@@ -194,15 +194,15 @@
       { "monster": "mon_feral_human_pipe", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_crowbar", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_axe", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "3 days" },
-      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "7 days", "pack_size": [ 1, 2 ] },
-      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "90 days", "pack_size": [ 1, 4 ] }
+      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "12 days" },
+      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 2 ] },
+      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "112 days", "pack_size": [ 1, 3 ] },
+      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "360 days", "pack_size": [ 1, 4 ] }
     ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_PREPPER_HOUSE",
+    "id": "GROUP_PREPPER_HOUSE",
     "override": true,
     "default": "mon_null",
     "monsters": [
@@ -220,15 +220,15 @@
       { "monster": "mon_feral_human_pipe", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_crowbar", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_axe", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "3 days" },
-      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "7 days", "pack_size": [ 1, 2 ] },
-      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "90 days", "pack_size": [ 1, 4 ] }
+      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "12 days" },
+      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 2 ] },
+      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "112 days", "pack_size": [ 1, 3 ] },
+      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "360 days", "pack_size": [ 1, 4 ] }
     ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_PHARM",
+    "id": "GROUP_PHARM",
     "override": true,
     "//": "+13% fast",
     "default": "mon_null",
@@ -247,15 +247,15 @@
       { "monster": "mon_feral_human_pipe", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_crowbar", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_axe", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "3 days" },
-      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "7 days", "pack_size": [ 1, 2 ] },
-      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "90 days", "pack_size": [ 1, 4 ] }
+      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "12 days" },
+      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 2 ] },
+      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "112 days", "pack_size": [ 1, 3 ] },
+      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "360 days", "pack_size": [ 1, 4 ] }
     ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_ELECTRO",
+    "id": "GROUP_ELECTRO",
     "//": "+15% electric",
     "override": true,
     "default": "mon_null",
@@ -274,15 +274,15 @@
       { "monster": "mon_feral_human_pipe", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_crowbar", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_axe", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "3 days" },
-      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "7 days", "pack_size": [ 1, 2 ] },
-      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "90 days", "pack_size": [ 1, 4 ] }
+      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "12 days" },
+      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 2 ] },
+      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "112 days", "pack_size": [ 1, 3 ] },
+      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "360 days", "pack_size": [ 1, 4 ] }
     ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_GROCERY",
+    "id": "GROUP_GROCERY",
     "//": "+15% fat",
     "override": true,
     "default": "mon_null",
@@ -301,15 +301,15 @@
       { "monster": "mon_feral_human_pipe", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_crowbar", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_axe", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "3 days" },
-      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "7 days", "pack_size": [ 1, 2 ] },
-      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "90 days", "pack_size": [ 1, 4 ] }
+      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "12 days" },
+      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 2 ] },
+      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "112 days", "pack_size": [ 1, 3 ] },
+      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "360 days", "pack_size": [ 1, 4 ] }
     ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_PUBLICWORKERS",
+    "id": "GROUP_PUBLICWORKERS",
     "override": true,
     "default": "mon_null",
     "monsters": [
@@ -327,15 +327,15 @@
       { "monster": "mon_feral_human_pipe", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_crowbar", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_axe", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "3 days" },
-      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "7 days", "pack_size": [ 1, 2 ] },
-      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "90 days", "pack_size": [ 1, 4 ] }
+      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "12 days" },
+      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 2 ] },
+      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "112 days", "pack_size": [ 1, 3 ] },
+      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "360 days", "pack_size": [ 1, 4 ] }
     ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_MAYBE_ZOMBIE",
+    "id": "GROUP_MAYBE_ZOMBIE",
     "override": true,
     "//": "10% chance of a zombie",
     "default": "mon_null",
@@ -358,7 +358,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SCHOOL",
+    "id": "GROUP_SCHOOL",
     "override": true,
     "//": "School monster spawns.",
     "default": "mon_null",
@@ -377,15 +377,15 @@
       { "monster": "mon_feral_human_pipe", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_crowbar", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_axe", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "3 days" },
-      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "7 days", "pack_size": [ 1, 2 ] },
-      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "90 days", "pack_size": [ 1, 4 ] }
+      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "12 days" },
+      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 2 ] },
+      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "112 days", "pack_size": [ 1, 3 ] },
+      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "360 days", "pack_size": [ 1, 4 ] }
     ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SMALL_STATION",
+    "id": "GROUP_SMALL_STATION",
     "override": true,
     "default": "mon_null",
     "monsters": [
@@ -403,15 +403,15 @@
       { "monster": "mon_feral_human_pipe", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_crowbar", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_axe", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "3 days" },
-      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "7 days", "pack_size": [ 1, 2 ] },
-      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "90 days", "pack_size": [ 1, 4 ] }
+      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "12 days" },
+      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 2 ] },
+      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "112 days", "pack_size": [ 1, 3 ] },
+      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "360 days", "pack_size": [ 1, 4 ] }
     ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_LARGE_STATION",
+    "id": "GROUP_LARGE_STATION",
     "override": true,
     "default": "mon_null",
     "monsters": [
@@ -429,15 +429,15 @@
       { "monster": "mon_feral_human_pipe", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_crowbar", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_axe", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "3 days" },
-      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "7 days", "pack_size": [ 1, 2 ] },
-      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "90 days", "pack_size": [ 1, 4 ] }
+      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "12 days" },
+      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 2 ] },
+      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "112 days", "pack_size": [ 1, 3 ] },
+      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "360 days", "pack_size": [ 1, 4 ] }
     ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_CHURCH_ZOMBIE",
+    "id": "GROUP_CHURCH_ZOMBIE",
     "override": true,
     "default": "mon_null",
     "monsters": [
@@ -455,15 +455,15 @@
       { "monster": "mon_feral_human_pipe", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_crowbar", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_axe", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "3 days" },
-      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "7 days", "pack_size": [ 1, 2 ] },
-      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "90 days", "pack_size": [ 1, 4 ] }
+      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "12 days" },
+      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 2 ] },
+      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "112 days", "pack_size": [ 1, 3 ] },
+      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "360 days", "pack_size": [ 1, 4 ] }
     ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_ZOMBIE_PRISON",
+    "id": "GROUP_ZOMBIE_PRISON",
     "override": true,
     "default": "mon_null",
     "monsters": [
@@ -481,15 +481,15 @@
       { "monster": "mon_feral_human_pipe", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_crowbar", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_axe", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "3 days" },
-      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "7 days", "pack_size": [ 1, 2 ] },
-      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "90 days", "pack_size": [ 1, 4 ] }
+      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "12 days" },
+      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 2 ] },
+      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "112 days", "pack_size": [ 1, 3 ] },
+      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "360 days", "pack_size": [ 1, 4 ] }
     ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_ZOMBIE_COP",
+    "id": "GROUP_ZOMBIE_COP",
     "override": true,
     "default": "mon_null",
     "monsters": [
@@ -507,15 +507,15 @@
       { "monster": "mon_feral_human_pipe", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_crowbar", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_axe", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "3 days" },
-      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "7 days", "pack_size": [ 1, 2 ] },
-      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "90 days", "pack_size": [ 1, 4 ] }
+      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "12 days" },
+      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 2 ] },
+      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "112 days", "pack_size": [ 1, 3 ] },
+      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "360 days", "pack_size": [ 1, 4 ] }
     ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_HOSPITAL",
+    "id": "GROUP_HOSPITAL",
     "override": true,
     "//": "Hospital monster spawns. Same as GROUP_ZOMBIE, but without Z-dogs + 20% medical",
     "default": "mon_null",
@@ -534,15 +534,15 @@
       { "monster": "mon_feral_human_pipe", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_crowbar", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_axe", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "3 days" },
-      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "7 days", "pack_size": [ 1, 2 ] },
-      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "90 days", "pack_size": [ 1, 4 ] }
+      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "12 days" },
+      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 2 ] },
+      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "112 days", "pack_size": [ 1, 3 ] },
+      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "360 days", "pack_size": [ 1, 4 ] }
     ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_STEEL_MILL",
+    "id": "GROUP_STEEL_MILL",
     "override": true,
     "//": "Steel mill monster spawns.",
     "default": "mon_null",
@@ -561,14 +561,14 @@
       { "monster": "mon_feral_human_pipe", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_crowbar", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_axe", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "3 days" },
-      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "7 days", "pack_size": [ 1, 2 ] },
-      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "90 days", "pack_size": [ 1, 4 ] }
+      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "12 days" },
+      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 2 ] },
+      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "112 days", "pack_size": [ 1, 3 ] },
+      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "360 days", "pack_size": [ 1, 4 ] }
     ]
   },
   {
-    "name": "GROUP_MALL",
+    "id": "GROUP_MALL",
     "override": true,
     "type": "monstergroup",
     "default": "mon_null",
@@ -587,14 +587,14 @@
       { "monster": "mon_feral_human_pipe", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_crowbar", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_axe", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "3 days" },
-      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "7 days", "pack_size": [ 1, 2 ] },
-      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "90 days", "pack_size": [ 1, 4 ] }
+      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "12 days" },
+      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 2 ] },
+      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "112 days", "pack_size": [ 1, 3 ] },
+      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "360 days", "pack_size": [ 1, 4 ] }
     ]
   },
   {
-    "name": "GROUP_FIRE",
+    "id": "GROUP_FIRE",
     "override": true,
     "type": "monstergroup",
     "default": "mon_null",
@@ -613,14 +613,14 @@
       { "monster": "mon_feral_human_pipe", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_crowbar", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_axe", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "3 days" },
-      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "7 days", "pack_size": [ 1, 2 ] },
-      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "90 days", "pack_size": [ 1, 4 ] }
+      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "12 days" },
+      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 2 ] },
+      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "112 days", "pack_size": [ 1, 3 ] },
+      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "360 days", "pack_size": [ 1, 4 ] }
     ]
   },
   {
-    "name": "FERAL_HUMANS",
+    "id": "FERAL_HUMANS",
     "override": true,
     "type": "monstergroup",
     "monsters": [
@@ -633,7 +633,7 @@
   {
     "type": "monstergroup",
     "override": true,
-    "name": "DUMP_ZOMBIES",
+    "id": "DUMP_ZOMBIES",
     "default": "mon_null",
     "monsters": [
       { "monster": "mon_null", "weight": 865 },
@@ -650,14 +650,14 @@
       { "monster": "mon_feral_human_pipe", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_crowbar", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_axe", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "3 days" },
-      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "7 days", "pack_size": [ 1, 2 ] },
-      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "90 days", "pack_size": [ 1, 4 ] }
+      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "12 days" },
+      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 2 ] },
+      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "112 days", "pack_size": [ 1, 3 ] },
+      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "360 days", "pack_size": [ 1, 4 ] }
     ]
   },
   {
-    "name": "GROUP_PLAIN",
+    "id": "GROUP_PLAIN",
     "override": true,
     "type": "monstergroup",
     "default": "mon_null",
@@ -676,14 +676,14 @@
       { "monster": "mon_feral_human_pipe", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_crowbar", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_axe", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "3 days" },
-      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "7 days", "pack_size": [ 1, 2 ] },
-      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "90 days", "pack_size": [ 1, 4 ] }
+      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "12 days" },
+      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 2 ] },
+      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "112 days", "pack_size": [ 1, 3 ] },
+      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "360 days", "pack_size": [ 1, 4 ] }
     ]
   },
   {
-    "name": "GROUP_HOTEL_POOL",
+    "id": "GROUP_HOTEL_POOL",
     "type": "monstergroup",
     "override": true,
     "default": "mon_null",
@@ -702,14 +702,14 @@
       { "monster": "mon_feral_human_pipe", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_crowbar", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_axe", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "3 days" },
-      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "7 days", "pack_size": [ 1, 2 ] },
-      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "90 days", "pack_size": [ 1, 4 ] }
+      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "12 days" },
+      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 2 ] },
+      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "112 days", "pack_size": [ 1, 3 ] },
+      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "360 days", "pack_size": [ 1, 4 ] }
     ]
   },
   {
-    "name": "GROUP_HOTEL_GYM",
+    "id": "GROUP_HOTEL_GYM",
     "type": "monstergroup",
     "override": true,
     "default": "mon_null",
@@ -728,14 +728,14 @@
       { "monster": "mon_feral_human_pipe", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_crowbar", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_axe", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "3 days" },
-      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "7 days", "pack_size": [ 1, 2 ] },
-      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "90 days", "pack_size": [ 1, 4 ] }
+      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "12 days" },
+      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 2 ] },
+      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "112 days", "pack_size": [ 1, 3 ] },
+      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "360 days", "pack_size": [ 1, 4 ] }
     ]
   },
   {
-    "name": "GROUP_POOL_NOKIDS",
+    "id": "GROUP_POOL_NOKIDS",
     "override": true,
     "type": "monstergroup",
     "default": "mon_null",
@@ -754,10 +754,10 @@
       { "monster": "mon_feral_human_pipe", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_crowbar", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_axe", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "3 days" },
-      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "7 days", "pack_size": [ 1, 2 ] },
-      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "90 days", "pack_size": [ 1, 4 ] }
+      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "12 days" },
+      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 2 ] },
+      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "112 days", "pack_size": [ 1, 3 ] },
+      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "360 days", "pack_size": [ 1, 4 ] }
     ]
   }
 ]

@@ -40,6 +40,34 @@
   },
   {
     "type": "construction",
+    "id": "constr_anvil_ingot",
+    "group": "place_anvil_ingot",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "SAW_W", "level": 1 } ] ],
+    "components": [ [ [ "10l_steel", 1 ] ], [ [ "spike", 5 ] ], [ [ "log", 1 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_anvil_ingot",
+    "activity_level": "MODERATE_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_anvil_scavenged",
+    "group": "place_anvil_scavenged",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "SAW_W", "level": 1 } ] ],
+    "components": [ [ [ "anvil_scavenged", 1 ] ], [ [ "log", 1 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_anvil_scavenged",
+    "activity_level": "MODERATE_EXERCISE"
+  },
+  {
+    "type": "construction",
     "id": "constr_anvil_heavy",
     "group": "place_anvil_heavy",
     "category": "FURN",
@@ -90,7 +118,7 @@
     "time": "60m",
     "on_display": false,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "tanned_hide", 2 ] ], [ [ "scrap", 20 ] ], [ [ "wire", 8 ] ] ],
+    "components": [ [ [ "2x4", 4 ] ], [ [ "tanned_hide", 2 ] ], [ [ "scrap", 20 ] ], [ [ "lc_wire", 8 ] ] ],
     "pre_flags": [ "FLAT" ],
     "post_terrain": "f_bellows"
   },
@@ -104,7 +132,7 @@
     "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [
       [ [ "stick_long", 6 ] ],
-      [ [ "rope_natural_short", 1, "LIST" ], [ "cordage", 2, "LIST" ], [ "wire", 8 ] ],
+      [ [ "rope_natural_short", 1, "LIST" ], [ "cordage", 2, "LIST" ], [ "lc_wire", 8 ] ],
       [ [ "pointy_stick", 2 ], [ "spike", 2 ] ]
     ],
     "pre_note": "Can be deconstructed without tools.",
@@ -302,6 +330,17 @@
   },
   {
     "type": "construction",
+    "id": "constr_kiln_portable_empty",
+    "group": "place_char_kiln",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "1 m",
+    "components": [ [ [ "char_kiln", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_kiln_portable_empty"
+  },
+  {
+    "type": "construction",
     "id": "constr_place_screw_press",
     "group": "place_screw_press",
     "//": "Set up Screw Press",
@@ -314,6 +353,7 @@
       [ [ "rock_large", 2 ], [ "rock", 40 ] ],
       [ [ "wood_panel", 1 ], [ "sheet_metal", 1 ] ]
     ],
+    "pre_special": "check_empty",
     "post_terrain": "f_screw_press"
   },
   {
@@ -352,7 +392,7 @@
     "pre_note": "Must be built indoors.",
     "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
     "components": [ [ [ "rope_30", 1 ] ], [ [ "nails", 6, "LIST" ] ], [ [ "2x4", 2 ] ] ],
-    "pre_flags": [ "SUPPORTS_ROOF", "INDOORS" ],
+    "pre_special": [ "check_empty", "check_floor_above" ],
     "post_terrain": "f_hoist_rope"
   },
   {
@@ -377,7 +417,7 @@
     "pre_note": "Must be built indoors.",
     "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
     "components": [ [ [ "rope_30", 1 ] ], [ [ "block_and_tackle", 1 ] ], [ [ "spike", 1 ] ] ],
-    "pre_flags": [ "SUPPORTS_ROOF", "INDOORS" ],
+    "pre_special": [ "check_empty", "check_floor_above" ],
     "post_terrain": "f_hoist_pulley"
   },
   {
@@ -489,7 +529,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
     "using": [ [ "welding_standard", 5 ] ],
     "//1": "5cm of weld to join the faucet to the pipe",
-    "components": [ [ [ "metal_tank", 4 ] ], [ [ "water_faucet", 1 ] ] ],
+    "components": [ [ [ "metal_tank", 5 ] ], [ [ "water_faucet", 1 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_standing_tank"
   },

@@ -3,7 +3,6 @@
 #include <cstddef>
 #include <iterator>
 #include <list>
-#include <memory>
 #include <string>
 #include <vector>
 
@@ -13,15 +12,14 @@
 #include "cata_assert.h"
 #include "character.h"
 #include "character_attire.h"
+#include "enums.h"
 #include "flag.h"
 #include "item.h"
 #include "item_search.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_selector.h"
 #include "options.h"
 #include "pocket_type.h"
-#include "type_id.h"
 #include "uistate.h"
 #include "units.h"
 #include "vehicle.h"
@@ -81,8 +79,10 @@ void advanced_inventory_pane::load_settings( int saved_area_idx,
     set_area( square, show_vehicle );
     sortby = static_cast<advanced_inv_sortby>( save_state->sort_idx );
     index = save_state->selected_idx;
-    filter = save_state->filter;
-    container = save_state->container;
+    set_filter( save_state->filter );
+    if( area == AIM_CONTAINER ) {
+        container = save_state->container;
+    }
     container_base_loc = static_cast<aim_location>( save_state->container_base_loc );
 }
 
@@ -93,22 +93,13 @@ bool advanced_inventory_pane::is_filtered( const advanced_inv_listitem &it ) con
 
 bool advanced_inventory_pane::is_filtered( const item &it ) const
 {
-    if( it.has_flag( STATIC( flag_id( "HIDDEN_ITEM" ) ) ) ) {
+    if( it.has_flag( json_flag_HIDDEN_ITEM ) ) {
         return true;
     }
     if( filter.empty() ) {
         return false;
     }
-
-    const std::string str = it.tname();
-    if( filtercache.find( str ) == filtercache.end() ) {
-        const auto filter_fn = item_filter_from_string( filter );
-        filtercache[str] = filter_fn;
-
-        return !filter_fn( it );
-    }
-
-    return !filtercache[str]( it );
+    return !filter_function( it );
 }
 
 /** converts a raw list of items to "stacks" - items that are not count_by_charges that otherwise stack go into one stack */
@@ -142,6 +133,13 @@ std::vector<advanced_inv_listitem> outfit::get_AIM_inventory( size_t &item_index
         for( const std::vector<item_location> &it_stack : item_list_to_stack(
                  item_location( you, &worn_item ),
                  worn_item.all_items_top( pocket_type::CONTAINER ) ) ) {
+
+            // dont show if the content are liquids
+            if( !it_stack.empty() && it_stack.front()->made_of_from_type( phase_id::LIQUID ) &&
+                !it_stack.front()->is_frozen_liquid() ) {
+                continue;
+            }
+
             advanced_inv_listitem adv_it( it_stack, item_index++, square.id, false );
             if( !pane.is_filtered( *adv_it.items.front() ) ) {
                 square.volume += adv_it.volume;
@@ -165,6 +163,13 @@ std::vector<advanced_inv_listitem> avatar::get_AIM_inventory( const advanced_inv
     if( weapon && weapon->is_container() ) {
         for( const std::vector<item_location> &it_stack : item_list_to_stack( weapon,
                 weapon->all_items_top( pocket_type::CONTAINER ) ) ) {
+
+            // dont show if the content are liquids
+            if( !it_stack.empty() && it_stack.front()->made_of_from_type( phase_id::LIQUID ) &&
+                !it_stack.front()->is_frozen_liquid() ) {
+                continue;
+            }
+
             advanced_inv_listitem adv_it( it_stack, item_index++, square.id, false );
             if( !pane.is_filtered( *adv_it.items.front() ) ) {
                 square.volume += adv_it.volume;
@@ -248,11 +253,15 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
             square.volume = 0_ml;
             square.weight = 0_gram;
         }
+        // Should not be able to pick up items on terrain with impassable fields.
+        if( m.impassable_field_at( square.pos ) ) {
+            return;
+        }
         const advanced_inv_area::itemstack &stacks = is_in_vehicle ?
                 square.i_stacked( square.get_vehicle_stack() ) :
                 square.i_stacked( m.i_at( square.pos ) );
 
-        map_cursor loc_cursor( tripoint_bub_ms( square.pos ) );
+        map_cursor loc_cursor( square.pos );
         for( size_t x = 0; x < stacks.size(); ++x ) {
             std::vector<item_location> locs;
             locs.reserve( stacks[x].size() );
@@ -464,7 +473,7 @@ units::mass advanced_inventory_pane::free_weight_capacity() const
     } else if( area == AIM_INVENTORY || area == AIM_WORN ) {
         return get_player_character().free_weight_capacity();
     } else {
-        return units::mass_max;
+        return units::mass::max();
     }
 }
 
@@ -474,6 +483,6 @@ void advanced_inventory_pane::set_filter( const std::string &new_filter )
         return;
     }
     filter = new_filter;
-    filtercache.clear();
+    filter_function = item_filter_from_string( filter );
     recalc = true;
 }

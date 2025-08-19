@@ -30,5 +30,26 @@
     "id": "FakeSpecial_cs_market_small",
     "new_id": "cs_market_small",
     "//": "Migrated in 0.I"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "FEMA Camp",
+    "//": "Migrated in 0.I"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "FEMA_Camp2",
+    "//": "Migrated in 0.I"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "FakeSpecial_s_gas",
+    "//": "Migrated in 0.I"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "military_outpost_cross",
+    "new_id": "military_outpost",
+    "//": "Migrated in 0.I"
   }
 ]

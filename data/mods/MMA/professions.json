@@ -11,7 +11,9 @@
       "prof_unarmed_pro",
       "prof_bionic_swords_familiar",
       "prof_bionic_swords_pro",
-      "prof_bionics_familiar"
+      "prof_bionics_familiar",
+      "prof_gross_anatomy",
+      "prof_wp_cyborg"
     ],
     "skills": [ { "level": 3, "name": "unarmed" }, { "level": 3, "name": "melee" }, { "level": 1, "name": "dodge" } ],
     "items": {
@@ -43,7 +45,7 @@
     "points": 6,
     "traits": [ "ELFAEYES", "ELFA_EARS" ],
     "starting_styles": [ "style_mma_hylian" ],
-    "proficiencies": [ "prof_medium_swords_familiar", "prof_medium_swords_pro" ],
+    "proficiencies": [ "prof_medium_swords_familiar", "prof_medium_swords_pro", "prof_gross_anatomy" ],
     "skills": [ { "level": 3, "name": "cutting" }, { "level": 3, "name": "melee" }, { "level": 1, "name": "dodge" } ],
     "items": {
       "both": {

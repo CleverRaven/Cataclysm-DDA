@@ -8,6 +8,7 @@
 #include <utility>
 #include <vector>
 
+#include "calendar.h"
 #include "explosion.h"
 #include "field_type.h"
 #include "magic.h"
@@ -18,6 +19,15 @@ struct ammo_effect;
 template <typename T> class generic_factory;
 
 generic_factory<ammo_effect> &get_all_ammo_effects();
+
+struct on_hit_effect {
+    bool need_touch_skin;
+    efftype_id effect;
+    time_duration duration;
+    int intensity;
+
+    void deserialize( const JsonObject &jo );
+};
 
 struct ammo_effect {
     public:
@@ -45,6 +55,8 @@ struct ammo_effect {
         bool do_flashbang = false;
         bool do_emp_blast = false;
         bool foamcrete_build = false;
+        std::vector<effect_on_condition_id> eoc;
+        bool always_cast_spell = false;
 
         field_type_id trail_field_type = fd_null.id_or( INVALID_FIELD_TYPE_ID );
         /** used during JSON loading only */
@@ -52,6 +64,8 @@ struct ammo_effect {
         int trail_intensity_min = 0;
         int trail_intensity_max = 0;
         int trail_chance = 100;
+
+        std::vector<on_hit_effect> on_hit_effects;
 
         // Used by generic_factory
         ammo_effect_str_id id;

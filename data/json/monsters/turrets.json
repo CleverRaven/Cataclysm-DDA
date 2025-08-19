@@ -55,7 +55,7 @@
     "species": [ "ROBOT" ],
     "diff": 2,
     "volume": "108500 ml",
-    "weight": "120 kg",
+    "weight": "117 kg",
     "hp": 30,
     "speed": 100,
     "material": [ "steel" ],
@@ -68,12 +68,8 @@
     "luminance": 4,
     "revert_to_itype": "bot_turret_searchlight",
     "special_attacks": [ [ "SEARCHLIGHT", 1 ] ],
-    "death_drops": { "groups": [ [ "robots", 1 ], [ "turret_searchlight", 1 ] ] },
-    "death_function": {
-      "effect": { "id": "death_focused_beam", "hit_self": true },
-      "message": "As the final light is destroyed, it erupts in a blinding flare!",
-      "corpse_type": "NO_CORPSE"
-    },
+    "death_drops": {  },
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "BIOLOGICALPROOF", "IMMOBILE", "NO_BREATHE", "PRIORITIZE_TARGETS" ],
     "armor": { "bash": 14, "cut": 16, "bullet": 13, "stab": 16 }
   },

@@ -564,7 +564,7 @@
       [ { "id": "DRILL", "level": 1 } ]
     ],
     "components": [
-      [ [ "wire", 16 ], [ "spike", 16 ], [ "nails", 32, "LIST" ] ],
+      [ [ "lc_wire", 16 ], [ "spike", 16 ], [ "nails", 32, "LIST" ] ],
       [ [ "sheet_metal_small", 10 ], [ "scrap", 10 ] ],
       [ [ "sheet_metal", 2 ], [ "steel_plate", 2 ], [ "frame", 2 ], [ "hdframe", 1 ], [ "xlframe", 4 ] ],
       [ [ "rebar", 2 ], [ "pipe", 4 ] ]
@@ -582,7 +582,7 @@
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ] ],
     "using": [ [ "welding_standard", 400 ], [ "welding_standard", 400 ] ],
     "components": [
-      [ [ "wire", 2 ] ],
+      [ [ "lc_wire", 2 ] ],
       [ [ "sheet_metal_small", 10 ], [ "scrap", 10 ] ],
       [ [ "sheet_metal", 2 ], [ "steel_plate", 2 ], [ "frame", 2 ], [ "hdframe", 1 ], [ "xlframe", 4 ] ],
       [ [ "rebar", 2 ], [ "pipe", 4 ] ]

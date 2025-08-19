@@ -2,24 +2,23 @@
 #ifndef CATA_SRC_WEATHER_TYPE_H
 #define CATA_SRC_WEATHER_TYPE_H
 
-#include <climits>
 #include <cstdint>
-#include <iosfwd>
-#include <new>
+#include <functional>
 #include <optional>
 #include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 #include "calendar.h"
 #include "catacharset.h"
 #include "color.h"
-#include "damage.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
 class JsonObject;
+struct const_dialogue;
 template <typename E> struct enum_traits;
-struct dialogue;
 template<typename T>
 class generic_factory;
 
@@ -69,6 +68,8 @@ struct weather_animation_t {
     std::string get_symbol() const {
         return utf32_to_utf8( symbol );
     }
+
+    void deserialize( const JsonObject &jo );
 };
 
 struct weather_type {
@@ -91,6 +92,8 @@ struct weather_type {
         float sight_penalty = 0.0f;
         // Modification to ambient light.
         int light_modifier = 0;
+        // Multiplier to ambient light.
+        float light_multiplier = 1.f;
         // Multiplier to radiation from Sun.
         float sun_multiplier = 1.f;
         // Sound attenuation of a given weather type.
@@ -110,7 +113,7 @@ struct weather_type {
         // if multiple weather conditions are true the higher priority wins
         int priority = 0;
         // when this weather should happen
-        std::function<bool( dialogue & )> condition;
+        std::function<bool( const_dialogue const & )> condition;
         std::vector<weather_type_id> required_weathers;
         time_duration duration_min = 0_turns;
         time_duration duration_max = 0_turns;

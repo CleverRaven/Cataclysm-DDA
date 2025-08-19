@@ -1,0 +1,13 @@
+[
+  {
+    "id": "mx_catoblepas_lair",
+    "type": "map_extra",
+    "name": { "str": "Catoblepas Lair" },
+    "description": "There are catoblepases lairing here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_catoblepas_lair" },
+    "min_max_zlevel": [ 0, 0 ],
+    "sym": "C",
+    "color": "brown",
+    "autonote": false
+  }
+]

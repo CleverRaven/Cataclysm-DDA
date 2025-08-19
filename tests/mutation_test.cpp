@@ -1,15 +1,24 @@
+#include <algorithm>
 #include <map>
+#include <memory>
+#include <set>
 #include <sstream>
 #include <string>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
+#include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "creature.h"
+#include "dialogue.h"
 #include "effect_on_condition.h"
+#include "enum_conversions.h"
 #include "mutation.h"
 #include "npc.h"
 #include "player_helpers.h"
+#include "talker.h"
 #include "type_id.h"
 
 static const effect_on_condition_id effect_on_condition_changing_mutate2( "changing_mutate2" );
@@ -349,31 +358,31 @@ TEST_CASE( "OVERMAP_SIGHT_enchantment_affect_overmap_sight_range", "[mutations][
 
     WHEN( "character has no traits, that change overmap sight range" ) {
         THEN( "unchanged sight range" ) {
-            CHECK( dummy.overmap_sight_range( 100.0f ) == 10.0 );
+            CHECK( dummy.overmap_modified_sight_range( 100.0f ) == 10.0 );
         }
     }
 
     WHEN( "character has TEST_OVERMAP_SIGHT_5" ) {
         dummy.toggle_trait( trait_TEST_OVERMAP_SIGHT_5 );
         THEN( "they have increased overmap sight range" ) {
-            CHECK( dummy.overmap_sight_range( 100.0f ) == 15.0 );
+            CHECK( dummy.overmap_modified_sight_range( 100.0f ) == 15.0 );
         }
         // Regression test for #42853
         THEN( "having another trait does not cancel the TEST_OVERMAP_SIGHT_5 trait" ) {
             dummy.toggle_trait( trait_SMELLY );
-            CHECK( dummy.overmap_sight_range( 100.0f ) == 15.0 );
+            CHECK( dummy.overmap_modified_sight_range( 100.0f ) == 15.0 );
         }
     }
 
     WHEN( "character has TEST_OVERMAP_SIGHT_MINUS_10 trait" ) {
         dummy.toggle_trait( trait_TEST_OVERMAP_SIGHT_MINUS_10 );
         THEN( "they have reduced overmap sight range" ) {
-            CHECK( dummy.overmap_sight_range( 100.0f ) == 3.0 );
+            CHECK( dummy.overmap_modified_sight_range( 100.0f ) == 3.0 );
         }
         // Regression test for #42853
         THEN( "having another trait does not cancel the TEST_OVERMAP_SIGHT_MINUS_10 trait" ) {
             dummy.toggle_trait( trait_SMELLY );
-            CHECK( dummy.overmap_sight_range( 100.0f ) == 3.0 );
+            CHECK( dummy.overmap_modified_sight_range( 100.0f ) == 3.0 );
         }
     }
 }

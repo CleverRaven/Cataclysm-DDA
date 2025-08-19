@@ -1,35 +1,40 @@
 #include "projectile.h"
 
 #include <algorithm>
+#include <limits>
 #include <memory>
 #include <string>
-#include <type_traits>
 #include <vector>
 
 #include "ammo_effect.h"
 #include "character.h"
+#include "condition.h"
+#include "creature.h"
+#include "creature_tracker.h"
 #include "debug.h"
+#include "dialogue.h"
+#include "dialogue_helpers.h"
+#include "effect_on_condition.h"
 #include "enums.h"
 #include "explosion.h"
 #include "field.h"
+#include "field_type.h"
 #include "item.h"
+#include "magic.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "messages.h"
 #include "rng.h"
+#include "string_formatter.h"
+#include "talker.h"
 #include "translations.h"
 #include "type_id.h"
 
 static const field_type_str_id field_fd_foamcrete( "fd_foamcrete" );
 
-static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
-static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
-
 static const ter_str_id ter_t_foamcrete_floor( "t_foamcrete_floor" );
 static const ter_str_id ter_t_foamcrete_wall( "t_foamcrete_wall" );
-
-static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 projectile::projectile() :
     critical_multiplier( 2.0 ), drop( nullptr ), custom_explosion( nullptr )
@@ -50,7 +55,7 @@ projectile &projectile::operator=( const projectile &other )
     speed = other.speed;
     range = other.range;
     count = other.count;
-    multi_projectile_effects = other.multi_projectile_effects;
+    multishot = other.multishot;
     shot_spread = other.shot_spread;
     shot_impact = other.shot_impact;
     proj_effects = other.proj_effects;
@@ -114,7 +119,7 @@ void projectile::unset_custom_explosion()
     custom_explosion.reset();
 }
 
-static void foamcrete_build( const tripoint &p )
+static void foamcrete_build( const tripoint_bub_ms &p )
 {
     map &here = get_map();
 
@@ -125,7 +130,7 @@ static void foamcrete_build( const tripoint &p )
     }
 
     if( here.has_flag_ter( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
-        for( const tripoint &ep : here.points_in_radius( p, 1 ) ) {
+        for( const tripoint_bub_ms &ep : here.points_in_radius( p, 1 ) ) {
             if( here.has_flag_ter( ter_furn_flag::TFLAG_SUPPORTS_ROOF, ep ) ) {
                 here.ter_set( p, ter_t_foamcrete_floor );
                 here.add_field( p, field_fd_foamcrete, 1 );
@@ -141,8 +146,8 @@ static void foamcrete_build( const tripoint &p )
     }
 }
 
-void apply_ammo_effects( const Creature *source, const tripoint &p,
-                         const std::set<ammo_effect_str_id> &effects )
+void apply_ammo_effects( Creature *source, const tripoint_bub_ms &p,
+                         const std::set<ammo_effect_str_id> &effects, const int dealt_damage )
 {
     map &here = get_map();
     Character &player_character = get_player_character();
@@ -152,22 +157,20 @@ void apply_ammo_effects( const Creature *source, const tripoint &p,
             continue;
         }
         if( effects.count( ae.id ) > 0 ) {
-            for( const tripoint &pt : here.points_in_radius( p, ae.aoe_radius, ae.aoe_radius_z ) ) {
+            for( const tripoint_bub_ms &pt : here.points_in_radius( p, ae.aoe_radius,
+                    ae.aoe_radius_z ) ) {
                 if( x_in_y( ae.aoe_chance, 100 ) ) {
                     const bool check_sees = !ae.aoe_check_sees || here.sees( p, pt, ae.aoe_check_sees_radius );
                     const bool check_passable = !ae.aoe_check_passable || here.passable( pt );
                     if( check_sees && check_passable ) {
                         here.add_field( pt, ae.aoe_field_type, rng( ae.aoe_intensity_min, ae.aoe_intensity_max ) );
 
-                        if( player_character.has_trait( trait_PYROMANIA ) &&
-                            !player_character.has_morale( morale_pyromania_startfire ) ) {
+                        if( player_character.has_unfulfilled_pyromania() ) {
                             for( const auto &fd : here.field_at( pt ) ) {
                                 if( fd.first->has_fire ) {
-                                    player_character.add_msg_if_player( m_good,
-                                                                        _( "You feel a surge of euphoria as flames burst out!" ) );
-                                    player_character.add_morale( morale_pyromania_startfire, 15, 15, 8_hours, 6_hours );
-                                    player_character.rem_morale( morale_pyromania_nofire );
-                                    break;
+                                    if( player_character.fulfill_pyromania_sees( here, pt, "" ) ) {
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -186,11 +189,24 @@ void apply_ammo_effects( const Creature *source, const tripoint &p,
             if( ae.foamcrete_build ) {
                 foamcrete_build( p );
             }
+
+            //run EoCs
+            for( const effect_on_condition_id &eoc : ae.eoc ) {
+                Creature *critter = get_creature_tracker().creature_at( p );
+                dialogue d( get_talker_for( *source ), critter == nullptr ? nullptr : get_talker_for( critter ) );
+                // `p` is tripoint relative to the upper left corner of currently loaded overmap
+                // not very useful for player's purposes methinks, but much appreciated
+                // write_var_value( var_type::context, "proj_target_tripoint", &d, p.abs().to_string());
+                write_var_value( var_type::context, "proj_damage", &d, dealt_damage );
+                eoc->activate( d );
+            }
             //cast ammo effect spells
             const spell ammo_spell = ae.spell_data.get_spell();
             if( ammo_spell.is_valid() ) {
-                ammo_spell.cast_all_effects( *const_cast<Creature *>( source ), p );
-                ammo_spell.make_sound( p, *const_cast<Creature *>( source ) );
+                if( ae.always_cast_spell || dealt_damage > 0 ) {
+                    ammo_spell.cast_all_effects( *const_cast<Creature *>( source ), p );
+                    ammo_spell.make_sound( p, *const_cast<Creature *>( source ) );
+                }
             }
         }
     }
@@ -210,7 +226,9 @@ int max_aoe_size( const std::set<ammo_effect_str_id> &tags )
 void multi_projectile_hit_message( Creature *critter, int hit_count, int damage_taken,
                                    const std::string &projectile_name )
 {
-    if( hit_count > 0 && get_player_character().sees( *critter ) ) {
+    const map &here = get_map();
+
+    if( hit_count > 0 && get_player_character().sees( here, *critter ) ) {
         // Building a phrase to summarize the fragment effects.
         // Target, Number of impacts, total amount of damage, proportion of deflected fragments.
         std::map<int, std::string> impact_count_descriptions = {

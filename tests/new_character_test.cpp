@@ -1,9 +1,10 @@
 #include <cstddef>
 #include <functional>
-#include <list>
+#include <map>
 #include <memory>
 #include <set>
 #include <sstream>
+#include <string>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -12,7 +13,6 @@
 #include "cata_catch.h"
 #include "inventory.h"
 #include "item.h"
-#include "iuse.h"
 #include "mutation.h"
 #include "pimpl.h"
 #include "player_helpers.h"
@@ -27,6 +27,7 @@ static const trait_id trait_ANTIFRUIT( "ANTIFRUIT" );
 static const trait_id trait_ANTIJUNK( "ANTIJUNK" );
 static const trait_id trait_ANTIWHEAT( "ANTIWHEAT" );
 static const trait_id trait_ASTHMA( "ASTHMA" );
+static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_LACTOSE( "LACTOSE" );
 static const trait_id trait_MEATARIAN( "MEATARIAN" );
 static const trait_id trait_TAIL_FLUFFY( "TAIL_FLUFFY" );
@@ -226,5 +227,13 @@ TEST_CASE( "Generated_character_with_category_mutations", "[mutation]" )
         CHECK( u.has_trait( trait_TAIL_FLUFFY ) );
         u.remove_mutation( trait_TAIL_FLUFFY );
         CHECK( !u.has_trait( trait_TAIL_FLUFFY ) );
+    }
+}
+
+TEST_CASE( "cannibal_not_randomly_selected", " [character] [traits] [random]" )
+{
+    for( int i = 0; i < 1000; ++i ) {
+        trait_id random_trait = get_avatar().random_bad_trait();
+        REQUIRE( random_trait != trait_CANNIBAL );
     }
 }

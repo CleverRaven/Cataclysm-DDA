@@ -7,6 +7,7 @@
     "city_distance": [ 5, -1 ],
     "city_sizes": [ 1, -1 ],
     "occurrences": [ 35, 100 ],
+    "priority": 1,
     "flags": [ "FARM", "GLOBALLY_UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE" ],
     "check_for_locations_area": [ { "type": [ "land" ], "from": [ -10, 0, 0 ], "to": [ 7, 26, 0 ] } ],
     "joins": [
@@ -115,7 +116,7 @@
       "farm_isherwood_9_north": { "overmap": "farm_isherwood_9_north" },
       "farm_isherwood_8_north": { "overmap": "farm_isherwood_8_north" },
       "farm_isherwood_7_north": { "overmap": "farm_isherwood_7_north" },
-      "cabin_isherwood_north": { "overmap": "cabin_isherwood_north", "camp": "isherwood_family", "camp_name": "Cabin" },
+      "cabin_isherwood_north": { "overmap": "cabin_isherwood_north" },
       "cabin_lake_roof_north": { "overmap": "cabin_lake_roof_north" },
       "horse_farm_isherwood_1_north": { "overmap": "horse_farm_isherwood_1_north" },
       "horse_farm_isherwood_2_north": { "overmap": "horse_farm_isherwood_2_north" },

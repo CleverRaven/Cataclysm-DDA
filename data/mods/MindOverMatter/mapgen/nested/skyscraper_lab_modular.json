@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret skyscraper lab room north on the north side, door in the lower right. This is a meeting room.",
     "nested_mapgen_id": "phavian_skyscraper_lab_north_lrdoor",
     "object": {
@@ -28,17 +27,16 @@
         { "item": "water_clean", "x": 7, "y": 1, "chance": 30, "repeat": [ 1, 2 ] }
       ],
       "items": {
-        "d": { "item": "office_supplies", "chance": 50, "repeat": [ 1, 2 ] },
-        "t": { "item": "office_supplies", "chance": 20 },
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] },
-        ".": { "item": "office_mess", "chance": 1 }
+        "d": { "item": "SUS_office_desk", "chance": 50, "repeat": [ 1, 2 ] },
+        "t": { "item": "SUS_office_desk", "chance": 20 },
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] },
+        ".": { "item": "SUS_office_mess", "chance": 1 }
       },
       "place_monster": [ { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 0, 7 ], "y": [ 0, 7 ], "chance": 50, "repeat": [ 2, 5 ] } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret skyscraper lab room north on the north side, door in the lower left. This is a meeting room.",
     "nested_mapgen_id": "phavian_skyscraper_lab_north_lldoor",
     "object": {
@@ -65,17 +63,16 @@
         { "item": "water_clean", "x": 7, "y": 1, "chance": 30, "repeat": [ 1, 2 ] }
       ],
       "items": {
-        "d": { "item": "office_supplies", "chance": 50, "repeat": [ 1, 2 ] },
-        "t": { "item": "office_supplies", "chance": 20 },
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] },
-        ".": { "item": "office_mess", "chance": 1 }
+        "d": { "item": "SUS_office_desk", "chance": 50, "repeat": [ 1, 2 ] },
+        "t": { "item": "SUS_office_desk", "chance": 20 },
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] },
+        ".": { "item": "SUS_office_mess", "chance": 1 }
       },
       "place_monster": [ { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 0, 7 ], "y": [ 0, 7 ], "chance": 50, "repeat": [ 2, 5 ] } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret skyscraper lab room north on the north side, door in the lower right. This is a general office room for writing reports",
     "nested_mapgen_id": "phavian_skyscraper_lab_north_lrdoor",
     "object": {
@@ -103,15 +100,14 @@
         "d": [ { "item": "SUS_office_desk", "chance": 30 }, { "item": "dist_lab_file_phavian_internal", "chance": 3 } ],
         "F": { "item": "SUS_office_filing_cabinet", "chance": 80 },
         "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] },
-        ".": { "item": "office_mess", "chance": 1 }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] },
+        ".": { "item": "SUS_office_mess", "chance": 1 }
       },
       "place_monster": [ { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 1, 6 ], "y": [ 1, 6 ], "chance": 60, "repeat": [ 2, 5 ] } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room on the north side, door in the lower left.  This is a general office room for writing reports",
     "nested_mapgen_id": "phavian_skyscraper_lab_north_lldoor",
     "object": {
@@ -143,15 +139,14 @@
         ],
         "F": { "item": "SUS_office_filing_cabinet", "chance": 80 },
         "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] },
-        ".": { "item": "office_mess", "chance": 1 }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] },
+        ".": { "item": "SUS_office_mess", "chance": 1 }
       },
       "place_monster": [ { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 1, 6 ], "y": [ 1, 6 ], "chance": 60, "repeat": [ 2, 5 ] } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret skyscraper lab room north on the north side, door in the lower right. This is clairsentient location scout testing.",
     "weight": 850,
     "nested_mapgen_id": "phavian_skyscraper_lab_north_lrdoor",
@@ -169,24 +164,27 @@
         "dxdx&..y"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "palettes": [ "phavian_skyscraper_office_room_palette" ],
-      "terrain": { "t": "t_carpet_purple", "c": "t_carpet_purple", "ꞝ": "t_carpet_purple" },
+      "palettes": [ "phavian_skyscraper_office_room_palette", "parametrized_carpets_nest_palette" ],
+      "terrain": {
+        "t": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "c": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "ꞝ": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
+      },
       "furniture": { "ȼ": "f_chair" },
       "items": {
         "d": [
-          { "item": "office_supplies", "chance": 80, "repeat": [ 1, 2 ] },
+          { "item": "SUS_office_desk", "chance": 80, "repeat": [ 1, 2 ] },
           { "item": "psi_testing_materials", "chance": 50, "repeat": [ 1, 2 ] }
         ],
         "t": { "item": "dist_maps", "chance": 50, "repeat": [ 1, 3 ] },
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] },
-        ".": { "item": "office_mess", "chance": 1 }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] },
+        ".": { "item": "SUS_office_mess", "chance": 1 }
       },
       "place_monster": [ { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 0, 7 ], "y": [ 0, 7 ], "chance": 50, "repeat": [ 2, 6 ] } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret skyscraper lab room north on the north side, door in the lower left. This is clairsentient location scout testing.",
     "weight": 850,
     "nested_mapgen_id": "phavian_skyscraper_lab_north_lldoor",
@@ -204,17 +202,21 @@
         "y..&xdxd"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "palettes": [ "phavian_skyscraper_office_room_palette" ],
-      "terrain": { "t": "t_carpet_purple", "c": "t_carpet_purple", "ꞝ": "t_carpet_purple" },
+      "palettes": [ "phavian_skyscraper_office_room_palette", "parametrized_carpets_nest_palette" ],
+      "terrain": {
+        "t": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "c": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "ꞝ": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
+      },
       "furniture": { "ȼ": "f_chair" },
       "items": {
         "d": [
-          { "item": "office_supplies", "chance": 80, "repeat": [ 1, 2 ] },
+          { "item": "SUS_office_desk", "chance": 80, "repeat": [ 1, 2 ] },
           { "item": "psi_testing_materials", "chance": 50, "repeat": [ 1, 2 ] }
         ],
         "t": { "item": "dist_maps", "chance": 50, "repeat": [ 1, 3 ] },
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] },
-        ".": { "item": "office_mess", "chance": 1 }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] },
+        ".": { "item": "SUS_office_mess", "chance": 1 }
       },
       "place_monster": [ { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 0, 7 ], "y": [ 0, 7 ], "chance": 50, "repeat": [ 2, 6 ] } ]
     }
@@ -222,7 +224,6 @@
   {
     "//": "room for controlled awakening, doors in the lower right",
     "type": "mapgen",
-    "method": "json",
     "weight": 750,
     "nested_mapgen_id": "phavian_skyscraper_lab_north_lrdoor",
     "object": {
@@ -256,7 +257,6 @@
   {
     "//": "room for controlled awakening, doors in the lower left",
     "type": "mapgen",
-    "method": "json",
     "weight": 750,
     "nested_mapgen_id": "phavian_skyscraper_lab_north_lldoor",
     "object": {
@@ -290,7 +290,6 @@
   {
     "//": "room for testing blocking telepathy or clairsentience, doors in the lower left",
     "type": "mapgen",
-    "method": "json",
     "weight": 450,
     "nested_mapgen_id": "phavian_skyscraper_lab_north_lldoor",
     "object": {
@@ -351,7 +350,6 @@
   {
     "//": "room for testing blocking telepathy or clairsentience, doors in the lower right",
     "type": "mapgen",
-    "method": "json",
     "weight": 450,
     "nested_mapgen_id": "phavian_skyscraper_lab_north_lrdoor",
     "object": {
@@ -410,9 +408,104 @@
     }
   },
   {
+    "//": "room for creating matrix technology prototypes, doors in the lower left",
+    "type": "mapgen",
+    "weight": 600,
+    "nested_mapgen_id": "phavian_skyscraper_lab_north_lldoor",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "U......C",
+        "U..MM..M",
+        "U..CC..M",
+        "U..¢¢..C",
+        "&......C",
+        ":::==:::",
+        "........",
+        "&..llSĆĆ"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "furniture": { "¢": "f_counter", "M": "f_machinery_electronic", "Ć": "f_counter" },
+      "place_item": [ { "item": "schematics_matrix_crystal_ground", "x": 0, "y": 0, "chance": 75 } ],
+      "items": {
+        "¢": [
+          { "item": "supplies_electronics", "chance": 40, "repeat": [ 1, 4 ] },
+          { "item": "hardware", "chance": 20, "repeat": [ 1, 3 ] },
+          { "item": "clairsentience_telepathy_matrix_technology", "chance": 40 }
+        ],
+        "l": [
+          { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] },
+          { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] },
+          { "item": "hardware_clothing", "chance": 60, "repeat": [ 1, 5 ] },
+          { "item": "decontamination_room", "chance": 10, "repeat": [ 1, 3 ] }
+        ],
+        "C": [
+          { "item": "psi_lab_no_recipes", "chance": 10, "repeat": [ 1, 3 ] },
+          { "item": "supplies_electronics", "chance": 40, "repeat": [ 1, 4 ] },
+          { "item": "hardware", "chance": 20, "repeat": [ 1, 3 ] }
+        ],
+        "U": [
+          { "item": "psi_lab_no_recipes", "chance": 40, "repeat": [ 1, 3 ] },
+          { "item": "supplies_electronics", "chance": 60, "repeat": [ 1, 4 ] },
+          { "item": "hardware", "chance": 40, "repeat": [ 1, 5 ] }
+        ],
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
+      },
+      "place_monster": [ { "monster": "mon_zombie_technician", "x": [ 1, 6 ], "y": [ 0, 4 ], "repeat": [ 2, 4 ], "chance": 50 } ]
+    }
+  },
+  {
+    "//": "room for creating matrix technology prototypes, doors in the lower right",
+    "type": "mapgen",
+    "weight": 600,
+    "nested_mapgen_id": "phavian_skyscraper_lab_north_lrdoor",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "C......U",
+        "M..MM..U",
+        "M..CC..U",
+        "C..¢¢..U",
+        "C......&",
+        ":::==:::",
+        "........",
+        "ĆĆSll..&"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "furniture": { "¢": "f_counter", "M": "f_machinery_electronic", "Ć": "f_counter" },
+      "place_item": [ { "item": "schematics_matrix_crystal_ground", "x": 7, "y": 0, "chance": 75 } ],
+      "items": {
+        "¢": [
+          { "item": "supplies_electronics", "chance": 40, "repeat": [ 1, 4 ] },
+          { "item": "hardware", "chance": 20, "repeat": [ 1, 3 ] },
+          { "item": "clairsentience_telepathy_matrix_technology", "chance": 40 }
+        ],
+        "l": [
+          { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] },
+          { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] },
+          { "item": "hardware_clothing", "chance": 60, "repeat": [ 1, 5 ] },
+          { "item": "decontamination_room", "chance": 10, "repeat": [ 1, 3 ] }
+        ],
+        "C": [
+          { "item": "psi_lab_no_recipes", "chance": 10, "repeat": [ 1, 3 ] },
+          { "item": "supplies_electronics", "chance": 40, "repeat": [ 1, 4 ] },
+          { "item": "hardware", "chance": 20, "repeat": [ 1, 3 ] }
+        ],
+        "U": [
+          { "item": "psi_lab_no_recipes", "chance": 40, "repeat": [ 1, 3 ] },
+          { "item": "supplies_electronics", "chance": 60, "repeat": [ 1, 4 ] },
+          { "item": "hardware", "chance": 40, "repeat": [ 1, 5 ] }
+        ],
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
+      },
+      "place_monster": [ { "monster": "mon_zombie_technician", "x": [ 1, 6 ], "y": [ 0, 4 ], "repeat": [ 2, 4 ], "chance": 50 } ]
+    }
+  },
+  {
     "//": "generic office room, door in the upper left",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_south_uldoor",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -437,8 +530,8 @@
           { "item": "dist_lab_file_phavian_internal", "chance": 2 }
         ],
         "F": { "item": "SUS_office_filing_cabinet", "chance": 80 },
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] },
-        ".": { "item": "office_mess", "chance": 1 }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] },
+        ".": { "item": "SUS_office_mess", "chance": 1 }
       },
       "place_monster": [ { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 1, 6 ], "y": [ 1, 6 ], "chance": 70, "repeat": [ 3, 7 ] } ]
     }
@@ -446,7 +539,6 @@
   {
     "//": "generic office room, door in the upper right",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_south_urdoor",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -471,15 +563,14 @@
           { "item": "dist_lab_file_phavian_internal", "chance": 2 }
         ],
         "F": { "item": "SUS_office_filing_cabinet", "chance": 80 },
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] },
-        ".": { "item": "office_mess", "chance": 1 }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] },
+        ".": { "item": "SUS_office_mess", "chance": 1 }
       },
       "place_monster": [ { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 1, 6 ], "y": [ 1, 6 ], "chance": 70, "repeat": [ 3, 7 ] } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret skyscraper lab room on the south side, door in the upper right.  This room is for clairsentient/telepathic blind testing.",
     "weight": 850,
     "nested_mapgen_id": "phavian_skyscraper_lab_south_urdoor",
@@ -522,7 +613,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret skyscraper lab room on the south side, door in the upper left.  This room is for clairsentient/telepathic blind testing.",
     "weight": 850,
     "nested_mapgen_id": "phavian_skyscraper_lab_south_uldoor",
@@ -565,7 +655,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret skyscraper lab room on the south side, door in the upper right.  This is a telepathic amplifier.",
     "weight": 750,
     "nested_mapgen_id": "phavian_skyscraper_lab_south_urdoor",
@@ -587,14 +676,14 @@
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "items": {
         "d": { "item": "SUS_office_desk", "chance": 30 },
-        "F": { "item": "office", "chance": 95 },
+        "F": { "item": "SUS_office_desk", "chance": 95 },
         "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
         "U": [
           { "item": "psi_lab", "chance": 50, "repeat": [ 1, 3 ] },
           { "item": "SUS_bathroom_medicine", "chance": 20 },
           { "item": "matrix_crystal_telepath_dust_group", "chance": 50, "repeat": [ 2, 4 ] }
         ],
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [
         { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 2, 6 ], "y": [ 2, 6 ], "chance": 60, "repeat": [ 2, 5 ] },
@@ -604,7 +693,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret skyscraper lab room on the south side, door in the upper left.  This is a telepathic amplifier.",
     "weight": 750,
     "nested_mapgen_id": "phavian_skyscraper_lab_south_uldoor",
@@ -627,14 +715,14 @@
       "place_items": [ { "item": "matrix_crystal_telepath_dust_group", "x": 7, "y": 4, "chance": 40, "repeat": [ 1, 3 ] } ],
       "items": {
         "d": { "item": "SUS_office_desk", "chance": 30 },
-        "F": { "item": "office", "chance": 95 },
+        "F": { "item": "SUS_office_desk", "chance": 95 },
         "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
         "U": [
           { "item": "psi_lab", "chance": 50, "repeat": [ 1, 3 ] },
           { "item": "SUS_bathroom_medicine", "chance": 20 },
           { "item": "matrix_crystal_telepath_dust_group", "chance": 50, "repeat": [ 2, 4 ] }
         ],
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [
         { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 2, 6 ], "y": [ 2, 6 ], "chance": 60, "repeat": [ 2, 5 ] },
@@ -643,11 +731,83 @@
     }
   },
   {
-    "//": "psionic research lab, with possible matrix crystal, doors in the upper left",
+    "//": "room for researching the PATIENT MOSAIC personality-editing process, doors in the upper left",
     "type": "mapgen",
-    "method": "json",
-    "weight": 650,
+    "weight": 400,
     "nested_mapgen_id": "phavian_skyscraper_lab_south_uldoor",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "...&lSȻCC",
+        "........C",
+        ":f::=::f:",
+        "......---",
+        "C.....jcd",
+        "xc.Ş..---",
+        "C..X....C",
+        "Cc......ç",
+        "CxC.MMM.C"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "furniture": { "f": "f_air_filter", "X": "f_MRI", "Ş": "f_scan_bed", "Ȼ": "f_counter", "ç": "f_counter", "j": "f_curtain" },
+      "place_item": [
+        { "item": "lab_file_IG882_P_item", "x": 8, "y": 4, "chance": 50 },
+        { "item": "phavian_psionic_telepathic_mental_engineering_book", "x": 8, "y": 7, "chance": 85 },
+        { "item": "telepathic_focusing_tool", "x": 8, "y": 7, "chance": 50 }
+      ],
+      "items": {
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] },
+        "C": { "item": "psi_lab_no_recipes", "chance": 30, "repeat": [ 1, 3 ] },
+        "ç": { "item": "psi_lab_no_recipes", "chance": 30, "repeat": [ 1, 3 ] },
+        "Ȼ": { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
+        "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ]
+      },
+      "place_monster": [ { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 2, 6 ], "y": [ 2, 6 ], "chance": 60, "repeat": [ 1, 4 ] } ]
+    }
+  },
+  {
+    "//": "room for researching the PATIENT MOSAIC personality-editing process, doors in the upper right",
+    "type": "mapgen",
+    "weight": 400,
+    "nested_mapgen_id": "phavian_skyscraper_lab_south_urdoor",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "CCȻSl&...",
+        "C........",
+        ":f::=::f:",
+        "---......",
+        "dcj.....C",
+        "---..Ş.cx",
+        "C....X..C",
+        "ç......cC",
+        "C.MMM.CxC"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "furniture": { "f": "f_air_filter", "X": "f_MRI", "Ş": "f_scan_bed", "Ȼ": "f_counter", "ç": "f_counter", "j": "f_curtain" },
+      "place_item": [
+        { "item": "lab_file_IG882_P_item", "x": 0, "y": 4, "chance": 50 },
+        { "item": "phavian_psionic_telepathic_mental_engineering_book", "x": 0, "y": 7, "chance": 85 },
+        { "item": "telepathic_focusing_tool", "x": 0, "y": 7, "chance": 50 }
+      ],
+      "items": {
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] },
+        "C": { "item": "psi_lab_no_recipes", "chance": 30, "repeat": [ 1, 3 ] },
+        "Ȼ": { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
+        "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ]
+      },
+      "place_monster": [ { "group": "GROUP_PHAVIAN_SKYSCRAPER_LAB", "x": [ 2, 6 ], "y": [ 2, 6 ], "chance": 60, "repeat": [ 1, 4 ] } ]
+    }
+  },
+  {
+    "//": "psionic research lab, with possible matrix crystal, doors in the upper right",
+    "type": "mapgen",
+    "weight": 650,
+    "nested_mapgen_id": "phavian_skyscraper_lab_south_urdoor",
     "object": {
       "mapgensize": [ 9, 9 ],
       "rotation": [ 0, 3 ],
@@ -670,6 +830,7 @@
         { "item": "matrix_crystal_telepathy", "x": 4, "y": 7, "chance": 30 }
       ],
       "items": {
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] },
         "d": { "item": "dist_lab_file_phavian_skyscraper_lab", "chance": 5 },
         "C": { "item": "psi_lab_no_recipes", "chance": 30, "repeat": [ 1, 3 ] },
         "F": { "item": "electronics", "chance": 70, "repeat": [ 2, 5 ] },
@@ -683,7 +844,6 @@
   {
     "//": "psionic research lab, with possible matrix crystal, doors in the upper right",
     "type": "mapgen",
-    "method": "json",
     "weight": 650,
     "nested_mapgen_id": "phavian_skyscraper_lab_south_urdoor",
     "object": {
@@ -708,6 +868,7 @@
         { "item": "matrix_crystal_telepathy", "x": 4, "y": 7, "chance": 30 }
       ],
       "items": {
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] },
         "d": { "item": "dist_lab_file_phavian_skyscraper_lab", "chance": 5 },
         "C": { "item": "psi_lab_no_recipes", "chance": 30, "repeat": [ 1, 3 ] },
         "F": { "item": "electronics", "chance": 70, "repeat": [ 2, 5 ] },
@@ -720,10 +881,9 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "weight": 500,
     "//": "A nested map for the Phavian secret skyscraper lab room north on the north side, door in the upper right. This is a server room.",
-    "nested_mapgen_id": "phavian_skyscraper_lab_north_urdoor",
+    "nested_mapgen_id": "phavian_skyscraper_lab_south_urdoor",
     "object": {
       "mapgensize": [ 9, 9 ],
       "rotation": [ 0, 3 ],
@@ -745,10 +905,9 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "weight": 500,
     "//": "A nested map for the Phavian secret skyscraper lab room north on the north side, door in the upper left. This is a server room.",
-    "nested_mapgen_id": "phavian_skyscraper_lab_north_uldoor",
+    "nested_mapgen_id": "phavian_skyscraper_lab_south_uldoor",
     "object": {
       "mapgensize": [ 9, 9 ],
       "rotation": [ 0, 3 ],
@@ -771,7 +930,6 @@
   {
     "//": "psionic lab for artificial ascension-level awakening with osiris chamber, doors on the upper right",
     "type": "mapgen",
-    "method": "json",
     "weight": 400,
     "nested_mapgen_id": "phavian_skyscraper_lab_south_urdoor",
     "object": {
@@ -814,7 +972,6 @@
   {
     "//": "psionic lab for artificial ascension-level awakening with osiris chamber, doors on the upper left",
     "type": "mapgen",
-    "method": "json",
     "weight": 400,
     "nested_mapgen_id": "phavian_skyscraper_lab_south_uldoor",
     "object": {
@@ -856,7 +1013,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_osiris_chamber",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -881,7 +1037,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_osiris_chamber",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -907,7 +1062,6 @@
   {
     "//": "4x4 upstairs office with SW wall door",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_office_Wdoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -922,12 +1076,12 @@
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "items": {
         "d": [
-          { "item": "office", "chance": 25, "repeat": [ 1, 3 ] },
+          { "item": "SUS_office_desk", "chance": 25 },
           { "item": "electronics", "chance": 15 },
           { "item": "dist_lab_file_phavian_internal", "chance": 3 }
         ],
         "H": { "item": "bed", "chance": 15 },
-        "F": { "item": "office", "chance": 95 },
+        "F": { "item": "SUS_office_desk", "chance": 95 },
         "B": [
           { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
           { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
@@ -942,7 +1096,6 @@
   {
     "//": "4x4 upstairs office with SW wall door",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_office_Wdoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -957,12 +1110,12 @@
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "items": {
         "d": [
-          { "item": "office", "chance": 25, "repeat": [ 1, 3 ] },
+          { "item": "SUS_office_desk", "chance": 25 },
           { "item": "electronics", "chance": 15 },
           { "item": "dist_lab_file_phavian_internal", "chance": 3 }
         ],
         "H": { "item": "bed", "chance": 15 },
-        "F": { "item": "office", "chance": 95 },
+        "F": { "item": "SUS_office_desk", "chance": 95 },
         "B": [
           { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
           { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
@@ -977,7 +1130,6 @@
   {
     "//": "4x4 upstairs office with SW wall door",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_office_Wdoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -992,12 +1144,12 @@
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "items": {
         "d": [
-          { "item": "office", "chance": 25, "repeat": [ 1, 3 ] },
+          { "item": "SUS_office_desk", "chance": 25 },
           { "item": "electronics", "chance": 15 },
           { "item": "dist_lab_file_phavian_internal", "chance": 3 }
         ],
         "H": { "item": "bed", "chance": 15 },
-        "F": { "item": "office", "chance": 95 },
+        "F": { "item": "SUS_office_desk", "chance": 95 },
         "B": [
           { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
           { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
@@ -1012,7 +1164,6 @@
   {
     "//": "4x4 upstairs office with south wall door on west side",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_office_Wdoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1027,12 +1178,12 @@
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "items": {
         "d": [
-          { "item": "office", "chance": 25, "repeat": [ 1, 3 ] },
+          { "item": "SUS_office_desk", "chance": 25 },
           { "item": "electronics", "chance": 15 },
           { "item": "dist_lab_file_phavian_internal", "chance": 3 }
         ],
         "H": { "item": "bed", "chance": 15 },
-        "F": { "item": "office", "chance": 95 },
+        "F": { "item": "SUS_office_desk", "chance": 95 },
         "B": [
           { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
           { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
@@ -1047,7 +1198,6 @@
   {
     "//": "4x4 upstairs office with SW door",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_office_Wdoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1062,12 +1212,12 @@
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "items": {
         "d": [
-          { "item": "office", "chance": 25, "repeat": [ 1, 3 ] },
+          { "item": "SUS_office_desk", "chance": 25 },
           { "item": "electronics", "chance": 15 },
           { "item": "dist_lab_file_phavian_internal", "chance": 3 }
         ],
         "H": { "item": "bed", "chance": 15 },
-        "F": { "item": "office", "chance": 95 },
+        "F": { "item": "SUS_office_desk", "chance": 95 },
         "B": [
           { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
           { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
@@ -1082,7 +1232,6 @@
   {
     "//": "4x4 upstairs office with SW door",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_office_Wdoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1097,12 +1246,12 @@
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "items": {
         "d": [
-          { "item": "office", "chance": 25, "repeat": [ 1, 3 ] },
+          { "item": "SUS_office_desk", "chance": 25 },
           { "item": "electronics", "chance": 15 },
           { "item": "dist_lab_file_phavian_internal", "chance": 3 }
         ],
         "H": { "item": "bed", "chance": 15 },
-        "F": { "item": "office", "chance": 95 },
+        "F": { "item": "SUS_office_desk", "chance": 95 },
         "B": [
           { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
           { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
@@ -1117,7 +1266,6 @@
   {
     "//": "4x4 upstairs office with SW door",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_office_Wdoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1132,12 +1280,12 @@
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "items": {
         "d": [
-          { "item": "office", "chance": 25, "repeat": [ 1, 3 ] },
+          { "item": "SUS_office_desk", "chance": 25 },
           { "item": "electronics", "chance": 15 },
           { "item": "dist_lab_file_phavian_internal", "chance": 3 }
         ],
         "H": { "item": "bed", "chance": 15 },
-        "F": { "item": "office", "chance": 95 },
+        "F": { "item": "SUS_office_desk", "chance": 95 },
         "B": [
           { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
           { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
@@ -1152,7 +1300,6 @@
   {
     "//": "4x4 upstairs office with SW door",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_office_Wdoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1167,7 +1314,7 @@
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "items": {
         "d": [
-          { "item": "office", "chance": 25, "repeat": [ 1, 3 ] },
+          { "item": "SUS_office_desk", "chance": 25 },
           { "item": "electronics", "chance": 15 },
           { "item": "dist_lab_file_phavian_internal", "chance": 3 }
         ],
@@ -1186,7 +1333,6 @@
   {
     "//": "4x4 upstairs office with SE wall door",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_office_Edoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1201,12 +1347,12 @@
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "items": {
         "d": [
-          { "item": "office", "chance": 25, "repeat": [ 1, 3 ] },
+          { "item": "SUS_office_desk", "chance": 25 },
           { "item": "electronics", "chance": 15 },
           { "item": "dist_lab_file_phavian_internal", "chance": 3 }
         ],
         "H": { "item": "bed", "chance": 15 },
-        "F": { "item": "office", "chance": 95 },
+        "F": { "item": "SUS_office_desk", "chance": 95 },
         "B": [
           { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
           { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
@@ -1221,7 +1367,6 @@
   {
     "//": "4x4 upstairs office with SE wall door",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_office_Edoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1236,12 +1381,12 @@
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "items": {
         "d": [
-          { "item": "office", "chance": 25, "repeat": [ 1, 3 ] },
+          { "item": "SUS_office_desk", "chance": 25 },
           { "item": "electronics", "chance": 15 },
           { "item": "dist_lab_file_phavian_internal", "chance": 3 }
         ],
         "H": { "item": "bed", "chance": 15 },
-        "F": { "item": "office", "chance": 95 },
+        "F": { "item": "SUS_office_desk", "chance": 95 },
         "B": [
           { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
           { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
@@ -1256,7 +1401,6 @@
   {
     "//": "4x4 upstairs office with SE wall door",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_office_Edoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1271,12 +1415,12 @@
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "items": {
         "d": [
-          { "item": "office", "chance": 25, "repeat": [ 1, 3 ] },
+          { "item": "SUS_office_desk", "chance": 25 },
           { "item": "electronics", "chance": 15 },
           { "item": "dist_lab_file_phavian_internal", "chance": 3 }
         ],
         "H": { "item": "bed", "chance": 15 },
-        "F": { "item": "office", "chance": 95 },
+        "F": { "item": "SUS_office_desk", "chance": 95 },
         "B": [
           { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
           { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
@@ -1291,7 +1435,6 @@
   {
     "//": "4x4 upstairs office with SE wall door",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_office_Edoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1306,12 +1449,12 @@
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "items": {
         "d": [
-          { "item": "office", "chance": 25, "repeat": [ 1, 3 ] },
+          { "item": "SUS_office_desk", "chance": 25 },
           { "item": "electronics", "chance": 15 },
           { "item": "dist_lab_file_phavian_internal", "chance": 3 }
         ],
         "H": { "item": "bed", "chance": 15 },
-        "F": { "item": "office", "chance": 95 },
+        "F": { "item": "SUS_office_desk", "chance": 95 },
         "B": [
           { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
           { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
@@ -1326,7 +1469,6 @@
   {
     "//": "4x4 upstairs office with SE door",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_office_Edoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1341,12 +1483,12 @@
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "items": {
         "d": [
-          { "item": "office", "chance": 25, "repeat": [ 1, 3 ] },
+          { "item": "SUS_office_desk", "chance": 25 },
           { "item": "electronics", "chance": 15 },
           { "item": "dist_lab_file_phavian_internal", "chance": 3 }
         ],
         "H": { "item": "bed", "chance": 15 },
-        "F": { "item": "office", "chance": 95 },
+        "F": { "item": "SUS_office_desk", "chance": 95 },
         "B": [
           { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
           { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
@@ -1361,7 +1503,6 @@
   {
     "//": "4x4 upstairs office with SE door",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_office_Edoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1376,12 +1517,12 @@
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "items": {
         "d": [
-          { "item": "office", "chance": 25, "repeat": [ 1, 3 ] },
+          { "item": "SUS_office_desk", "chance": 25 },
           { "item": "electronics", "chance": 15 },
           { "item": "dist_lab_file_phavian_internal", "chance": 3 }
         ],
         "H": { "item": "bed", "chance": 15 },
-        "F": { "item": "office", "chance": 95 },
+        "F": { "item": "SUS_office_desk", "chance": 95 },
         "B": [
           { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
           { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
@@ -1396,7 +1537,6 @@
   {
     "//": "4x4 upstairs office with SE door",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_office_Edoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1411,12 +1551,12 @@
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "items": {
         "d": [
-          { "item": "office", "chance": 25, "repeat": [ 1, 3 ] },
+          { "item": "SUS_office_desk", "chance": 25 },
           { "item": "electronics", "chance": 15 },
           { "item": "dist_lab_file_phavian_internal", "chance": 3 }
         ],
         "H": { "item": "bed", "chance": 15 },
-        "F": { "item": "office", "chance": 95 },
+        "F": { "item": "SUS_office_desk", "chance": 95 },
         "B": [
           { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
           { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
@@ -1431,7 +1571,6 @@
   {
     "//": "4x4 upstairs office with SE door",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_office_Edoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1446,7 +1585,7 @@
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "items": {
         "d": [
-          { "item": "office", "chance": 25, "repeat": [ 1, 3 ] },
+          { "item": "SUS_office_desk", "chance": 25 },
           { "item": "electronics", "chance": 15 },
           { "item": "dist_lab_file_phavian_internal", "chance": 3 }
         ],
@@ -1464,7 +1603,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_store_room_3x3",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -1481,7 +1619,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_store_room_3x3",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -1499,7 +1636,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_store_room_3x3",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -1516,7 +1652,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_store_room_3x3",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -1531,14 +1666,13 @@
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "items": {
         "l": { "item": "SUS_janitors_closet", "chance": 90 },
-        ".": { "item": "office_mess", "chance": 1 },
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
+        ".": { "item": "SUS_office_mess", "chance": 1 },
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_store_room_3x3",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -1553,14 +1687,13 @@
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "items": {
         "l": { "item": "SUS_janitors_closet", "chance": 90 },
-        ".": { "item": "office_mess", "chance": 1 },
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
+        ".": { "item": "SUS_office_mess", "chance": 1 },
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_break_area_4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1571,9 +1704,15 @@
         ".t.?",
         "y..?"
       ],
-      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "terrain": { "y": "t_carpet_green", "m": "t_carpet_green", ".": "t_carpet_green", "?": "t_carpet_green", "t": "t_carpet_green" },
+      "terrain": {
+        "y": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "m": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "t": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
+      },
       "items": {
         "t": [
           { "item": "newspaper_recent", "chance": 30, "repeat": [ 1, 2 ] },
@@ -1588,7 +1727,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_break_area_4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1599,9 +1737,14 @@
         ".mtm",
         "...."
       ],
-      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "terrain": { "m": "t_carpet_green", "t": "t_carpet_green", ".": "t_carpet_green", "?": "t_carpet_green" },
+      "terrain": {
+        "m": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "t": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
+      },
       "items": {
         "t": [
           { "item": "newspaper_recent", "chance": 30, "repeat": [ 1, 2 ] },
@@ -1616,7 +1759,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_break_area_4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1627,9 +1769,13 @@
         "...?",
         ".???"
       ],
-      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "terrain": { ".": "t_carpet_red", "?": "t_carpet_red", "t": "t_carpet_red" },
+      "terrain": {
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "t": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
+      },
       "items": {
         "t": [
           { "item": "newspaper_recent", "chance": 30, "repeat": [ 1, 2 ] },
@@ -1644,7 +1790,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_break_area_4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1655,9 +1800,13 @@
         ".mm.",
         "...."
       ],
-      "palettes": [ "phavian_skyscraper_office_room_palette" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "terrain": { "t": "t_carpet_purple", "m": "t_carpet_purple", ".": "t_carpet_purple" },
+      "terrain": {
+        "t": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "m": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
+      },
       "items": {
         "t": [
           { "item": "newspaper_recent", "chance": 30, "repeat": [ 1, 2 ] },
@@ -1672,7 +1821,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_break_area_4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -1699,7 +1847,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "phavian_skyscraper_lab_break_area_4x4",
     "object": {
       "mapgensize": [ 4, 4 ],

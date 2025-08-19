@@ -1,0 +1,42 @@
+[
+  {
+    "result": "afs_plasma_torch_gun",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "electronics",
+    "difficulty": 4,
+    "byproducts": [ [ "afs_energy_storage_2" ] ],
+    "time": "50 m",
+    "autolearn": [ [ "electronics", 6 ] ],
+    "book_learn": [ [ "advanced_electronics", 3 ], [ "textbook_electronics", 3 ] ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
+    "using": [ [ "soldering_standard", 10 ], [ "electric_probing", 1 ] ],
+    "components": [ [ [ "afs_plasma_torch", 1 ] ], [ [ "cable", 20 ] ], [ [ "afs_energy_storage_3", 1 ] ], [ [ "afs_material_1", 2 ] ] ]
+  },
+  {
+    "result": "afs_makeshift_fusion_gun",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "electronics",
+    "difficulty": 7,
+    "time": "50 m",
+    "autolearn": [ [ "electronics", 6 ] ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
+    "using": [ [ "soldering_standard", 10 ], [ "electric_probing", 1 ] ],
+    "components": [
+      [ [ "afs_plasma_torch", 1 ] ],
+      [ [ "afs_fusion_engine_core", 1 ] ],
+      [ [ "cable", 20 ] ],
+      [ [ "afs_material_1", 5 ] ],
+      [ [ "afs_heat_1", 1 ] ],
+      [ [ "afs_energy_storage_3", 1 ] ],
+      [ [ "afs_magnet_4", 1 ] ],
+      [ [ "afs_heat_2", 2 ] ],
+      [ [ "afs_heat_3", 1 ] ]
+    ]
+  }
+]

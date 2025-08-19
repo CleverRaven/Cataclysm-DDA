@@ -29,7 +29,9 @@
       "sound": "smash!",
       "sound_fail": "whump!",
       "ter_set": "t_water_moving_sh",
-      "items": [ { "item": "2x4", "count": 2, "prob": 25 }, { "item": "splinter", "count": [ 2, 4 ] } ]
+      "items": [ { "item": "2x4", "count": 2, "prob": 25 }, { "item": "splinter", "count": [ 2, 4 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -42,6 +44,7 @@
     "move_cost": 8,
     "flags": [ "TRANSPARENT", "LIQUID", "SWIMMABLE", "DEEP_WATER", "FISHABLE" ],
     "connect_groups": "WATER",
+    "liquid_source": { "id": "water" },
     "examine_action": "water_source",
     "deconstruct": { "ter_set": "t_water_moving_dp", "items": [ { "item": "spike", "count": 4 }, { "item": "wood_beam", "count": 1 } ] },
     "looks_like": "t_column",
@@ -51,7 +54,9 @@
       "sound": "smash!",
       "sound_fail": "whump!",
       "ter_set": "t_water_moving_dp",
-      "items": [ { "item": "splinter", "count": [ 12, 24 ] } ]
+      "items": [ { "item": "splinter", "count": [ 12, 24 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -72,7 +77,9 @@
       "sound": "smash!",
       "sound_fail": "whump!",
       "ter_set": "t_dock_deep_pile",
-      "items": [ { "item": "log", "count": 2, "prob": 25 }, { "item": "splinter", "count": [ 4, 8 ] } ]
+      "items": [ { "item": "log", "count": 2, "prob": 25 }, { "item": "splinter", "count": [ 4, 8 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -96,7 +103,9 @@
       "sound": "smash!",
       "sound_fail": "whump!",
       "ter_set": "t_dock_deep_pile",
-      "items": [ { "item": "2x4", "count": 8, "prob": 25 }, { "item": "splinter", "count": [ 8, 24 ] } ]
+      "items": [ { "item": "2x4", "count": 8, "prob": 25 }, { "item": "splinter", "count": [ 8, 24 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -117,7 +126,9 @@
       "sound": "smash!",
       "sound_fail": "whump!",
       "ter_set": "t_water_sh",
-      "items": [ { "item": "2x4", "count": 2, "prob": 25 }, { "item": "splinter", "count": [ 2, 4 ] } ]
+      "items": [ { "item": "2x4", "count": 2, "prob": 25 }, { "item": "splinter", "count": [ 2, 4 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -141,7 +152,9 @@
       "sound": "smash!",
       "sound_fail": "whump!",
       "ter_set": "t_water_dp",
-      "items": [ { "item": "2x4", "count": 2, "prob": 25 }, { "item": "splinter", "count": [ 2, 4 ] } ]
+      "items": [ { "item": "2x4", "count": 2, "prob": 25 }, { "item": "splinter", "count": [ 2, 4 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -165,7 +178,9 @@
       "sound": "smash!",
       "sound_fail": "whump!",
       "ter_set": "t_water_moving_dp",
-      "items": [ { "item": "2x4", "count": 2, "prob": 25 }, { "item": "splinter", "count": [ 2, 4 ] } ]
+      "items": [ { "item": "2x4", "count": 2, "prob": 25 }, { "item": "splinter", "count": [ 2, 4 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {

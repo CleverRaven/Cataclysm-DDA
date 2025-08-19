@@ -87,10 +87,10 @@
             ]
           },
           {
-            "item": "miner_hat",
-            "charges": [ 50, 100 ],
+            "group": "hat_hard_flashlight",
             "damage": [ 1, 4 ],
-            "contents-group": "worker_kitted_hard_hat"
+            "contents-group": "worker_kitted_hard_hat",
+            "prob": 40
           }
         ]
       },

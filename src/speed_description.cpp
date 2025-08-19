@@ -1,8 +1,9 @@
 #include "speed_description.h"
 
+#include <algorithm>
+
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "json.h"
-#include "make_static.h"
 
 namespace
 {
@@ -32,7 +33,7 @@ void speed_description::reset()
     speed_description_factory.reset();
 }
 
-void speed_description::load( const JsonObject &jo, const std::string_view )
+void speed_description::load( const JsonObject &jo, std::string_view )
 {
     optional( jo, was_loaded, "values", values_ );
     std::sort( values_.begin(), values_.end(),

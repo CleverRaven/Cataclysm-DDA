@@ -1,25 +1,26 @@
 [
   {
     "id": "fish_trap",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "plastic fish trap" },
     "description": "A makeshift fish trap made from plastic bottles.  It's simple, even primitive, but easy to use.  The principle of action: the fish swims inside to eat the bait, but can't get out.  Not humane and prohibited by law, but there are no cops left to care.",
     "weight": "85 g",
     "volume": "2 L",
     "price": "5 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -2,
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "green",
-    "ammo": [ "fish_bait" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "fish_bait": 5 } } ],
     "qualities": [ [ "FISH_TRAP", 1 ] ],
-    "tick_action": [ "FISH_TRAP_TICK" ]
+    "tick_action": [ "FISH_TRAP_TICK" ],
+    "tool_ammo": [ "fish_bait" ]
   },
   {
     "id": "fish_trap_basket",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "basket fish trap" },
     "description": "A long wicker fish trap made from bark, reeds, cordage, or other natural materials.  It's a staple fishing tool in many pre-industrial societies.  The principle of action: the fish swims inside to eat the bait, but can't get out.",
     "weight": "800 g",
@@ -27,18 +28,17 @@
     "longest_side": "50 cm",
     "price": "5 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -2,
     "material": [ "dry_plant" ],
     "symbol": ";",
     "color": "brown",
-    "ammo": [ "fish_bait" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "fish_bait": 10 } } ],
     "qualities": [ [ "FISH_TRAP", 1 ] ],
-    "tick_action": [ "FISH_TRAP_TICK" ]
+    "tick_action": [ "FISH_TRAP_TICK" ],
+    "tool_ammo": [ "fish_bait" ]
   },
   {
     "id": "fishing_hook_basic",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "fishing hook" },
     "description": "A simple metal fishing hook.",
     "weight": "1 g",
@@ -47,12 +47,11 @@
     "price_postapoc": "25 cent",
     "material": [ "steel" ],
     "symbol": ",",
-    "color": "cyan",
-    "melee_damage": { "cut": 3 }
+    "color": "cyan"
   },
   {
     "id": "fishing_hook_bone",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "improvised fishing hook" },
     "description": "An improvised fishing hook carved from wood or bone.",
     "weight": "1 g",
@@ -61,12 +60,12 @@
     "price_postapoc": "25 cent",
     "material": [ "bone" ],
     "symbol": ",",
-    "color": "white",
-    "melee_damage": { "cut": 3 }
+    "color": "white"
   },
   {
     "id": "fishing_rod_basic",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "basic fishing rod" },
     "description": "'Fishing rod' might be a bit too charitable of a description.  In truth, this is a stick with a piece of string and a hook.",
     "weight": "1700 g",
@@ -76,15 +75,16 @@
     "price_postapoc": "10 cent",
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
     "material": [ "wood" ],
+    "flags": [ "SHEATH_SPEAR", "FRAGILE_MELEE", "FIREWOOD" ],
     "symbol": "/",
     "color": "brown",
     "qualities": [ [ "FISHING_ROD", 1 ] ],
-    "flags": [ "SHEATH_SPEAR" ],
     "melee_damage": { "bash": 12 }
   },
   {
     "id": "fishing_rod_professional",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "pro fishing rod" },
     "description": "A professional fishing rod with a matching set of weights.  With this, you should be able to catch 'em all.",
     "weight": "1000 g",
@@ -103,12 +103,13 @@
     "symbol": "/",
     "color": "brown",
     "qualities": [ [ "FISHING_ROD", 2 ] ],
-    "flags": [ "SHEATH_SPEAR" ],
-    "melee_damage": { "bash": 8 }
+    "flags": [ "SHEATH_SPEAR", "FRAGILE_MELEE", "REACH_ATTACK" ],
+    "melee_damage": { "bash": 6, "cut": 1 }
   },
   {
     "id": "fishing_rod_2pc_packed",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "two-piece fishing rod (packed)", "str_pl": "two-piece fishing rods (packed)" },
     "description": "A commercial two-piece fishing rod that has been disassembled for ease of transport and storage.",
     "weight": "1050 g",
@@ -139,14 +140,15 @@
   {
     "id": "fishing_rod_2pc",
     "copy-from": "fishing_rod_2pc_packed",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "two-piece fishing rod" },
     "description": "A commercial two-piece fishing rod, assembled and ready for use.",
     "volume": "1250 ml",
     "longest_side": "190 cm",
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "neutral" },
     "qualities": [ [ "FISHING_ROD", 2 ] ],
-    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "extend": { "flags": [ "FRAGILE_MELEE", "SHEATH_SPEAR", "REACH_ATTACK" ] },
     "looks_like": "fishing_rod_professional",
     "use_action": {
       "menu_text": "Disassemble",
@@ -154,11 +156,12 @@
       "target": "fishing_rod_2pc_packed",
       "msg": "You take apart your two-piece fishing rod."
     },
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 5, "cut": 1 }
   },
   {
     "id": "fishing_rod_tele_packed",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "telescoping fishing rod (packed)", "str_pl": "telescoping fishing rods (packed)" },
     "description": "A commercial telescoping fishing rod that has been retracted for ease of transport and storage.",
     "weight": "1150 g",
@@ -174,6 +177,7 @@
       { "type": "cotton", "portion": 4 },
       { "type": "fiberglass", "portion": 4 }
     ],
+    "flags": [ "BELT_CLIP" ],
     "symbol": "/",
     "color": "dark_gray",
     "looks_like": "PR24-retracted",
@@ -188,14 +192,15 @@
   {
     "id": "fishing_rod_tele",
     "copy-from": "fishing_rod_tele_packed",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "telescoping fishing rod" },
     "description": "A commercial telescoping fishing rod, extended and ready for use.",
     "volume": "1300 ml",
     "longest_side": "210 cm",
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "neutral" },
     "qualities": [ [ "FISHING_ROD", 2 ] ],
-    "flags": [ "SHEATH_SPEAR", "FRAGILE_MELEE" ],
+    "flags": [ "SHEATH_SPEAR", "FRAGILE_MELEE", "REACH_ATTACK" ],
     "looks_like": "fishing_rod_professional",
     "use_action": {
       "menu_text": "Retract",
@@ -203,11 +208,12 @@
       "target": "fishing_rod_tele_packed",
       "msg": "You retract your telescoping fishing rod."
     },
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 5, "cut": 1 }
   },
   {
     "id": "plastichoboreel",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "looks_like": "baton",
     "//": "based on the ka-bar kaster",
     "name": { "str": "plastic hand fishing reel" },
@@ -215,28 +221,30 @@
     "weight": "400 g",
     "volume": "400 ml",
     "longest_side": "158 mm",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
     "price": "13 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -1,
     "material": [ "plastic" ],
     "symbol": "/",
-    "color": "black",
+    "color": "dark_gray",
     "qualities": [ [ "FISHING_ROD", 1 ] ],
     "melee_damage": { "bash": 4 }
   },
   {
     "id": "hoboreel",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "looks_like": "pointy_stick",
     "name": { "str": "wooden hand fishing reel" },
     "description": "A short wooden rod with a section on one end with fishing line wrapped around it, with a notch to put the string though to help pull in fish.  It is not as effective as a normal fishing pole, but is much more compact than them.",
     "weight": "500 g",
     "volume": "380 ml",
     "longest_side": "150 mm",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
     "price": "35 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -1,
     "material": [ "wood" ],
+    "flags": [ "FIREWOOD" ],
     "symbol": "/",
     "color": "brown",
     "qualities": [ [ "FISHING_ROD", 1 ] ],

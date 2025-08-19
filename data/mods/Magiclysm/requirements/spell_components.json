@@ -203,7 +203,7 @@
     "//": "Water and soap / lye for Freshen Up",
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "water_mineral", 1 ] ],
-      [ [ "soap", 5 ], [ "detergent", 5 ], [ "liquid_soap", 3 ], [ "lye", 1 ], [ "lye_powder", 1 ] ]
+      [ [ "soap", 1 ], [ "detergent", 5 ], [ "liquid_soap", 3 ], [ "lye", 1 ], [ "lye_powder", 1 ] ]
     ]
   },
   {
@@ -294,5 +294,47 @@
     "//": "Lens, chisel, and mana focus for the Zoom Lens spell",
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "MANA_FOCUS", "level": 1 } ],
     "components": [ [ [ "lens", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_restore_crystal_mana",
+    "type": "requirement",
+    "//": "Crystallized mana for the Mana Extraction spell",
+    "components": [ [ [ "crystallized_mana", 5 ] ] ]
+  },
+  {
+    "id": "spell_components_goodberry",
+    "type": "requirement",
+    "//": "berries for the Goodberry spell",
+    "components": [
+      [
+        [ "elderberries", 1 ],
+        [ "mulberries", 1 ],
+        [ "huckleberries", 1 ],
+        [ "raspberries", 1 ],
+        [ "strawberries", 1 ],
+        [ "blueberries", 1 ],
+        [ "grapes", 1 ],
+        [ "blackberries", 1 ],
+        [ "wintergreen_berry", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "spell_components_magus_permanent_light",
+    "type": "requirement",
+    "//": "Precious metals for the Imperishable Light spell",
+    "components": [ [ [ "gold_small", 5 ] ], [ [ "silver_small", 5 ] ], [ [ "copper", 5 ] ] ]
+  },
+  {
+    "id": "spell_components_biomancer_get_more_blood",
+    "type": "requirement",
+    "//": "Water for the Carmine Infusion spell",
+    "components": [ [ [ "salt_water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_kelvinist_set_everyone_on_fire",
+    "type": "requirement",
+    "//": "Ruby for the Flames of the Apocalypse spell.  Add crimsonite once discrete chunks of it exist",
+    "components": [ [ [ "ruby", 1 ] ] ]
   }
 ]

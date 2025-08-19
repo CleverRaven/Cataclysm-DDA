@@ -57,15 +57,13 @@
         [ "atomic_light_off", -1 ],
         [ "betavoltaic", -1 ],
         [ "atomic_coffeepot", -1 ],
-        [ "huge_atomic_battery_cell", -1 ],
-        [ "light_atomic_battery_cell", -1 ],
-        [ "medium_atomic_battery_cell", -1 ],
-        [ "light_minus_atomic_battery_cell", -1 ]
+        [ "huge_atomic_battery_cell", -1 ]
       ]
     ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry", "required": false },
       { "proficiency": "prof_intro_biology", "required": false },
+      { "proficiency": "prof_psionic_minimum_requirements", "required": true },
       { "proficiency": "prof_psionic_basic", "required": true },
       { "proficiency": "prof_psionic_ritual", "required": false }
     ],
@@ -77,9 +75,9 @@
           "and": [
             { "roll_contested": { "math": [ "u_skill('metaphysics')" ] }, "difficulty": 10 },
             { "roll_contested": { "math": [ "u_skill('chemistry')" ] }, "difficulty": 8 },
-            { "math": [ "u_spell_level('clair_spot_weakness')", ">=", "6" ] },
-            { "math": [ "u_spell_level('clair_danger_sense')", ">=", "8" ] },
-            { "math": [ "u_spell_level('clair_voyance')", ">=", "5" ] }
+            { "math": [ "u_spell_level('clair_spot_weakness') >= 6" ] },
+            { "math": [ "u_spell_level('clair_danger_sense') >= 8" ] },
+            { "math": [ "u_spell_level('clair_voyance') >= 5" ] }
           ]
         },
         "effect": [
@@ -127,16 +125,14 @@
         [ "atomic_light_off", -1 ],
         [ "betavoltaic", -1 ],
         [ "atomic_coffeepot", -1 ],
-        [ "huge_atomic_battery_cell", -1 ],
-        [ "light_atomic_battery_cell", -1 ],
-        [ "medium_atomic_battery_cell", -1 ],
-        [ "light_minus_atomic_battery_cell", -1 ]
+        [ "huge_atomic_battery_cell", -1 ]
       ]
     ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry", "required": false },
       { "proficiency": "prof_intro_biology", "required": false },
       { "proficiency": "prof_pharmaceutical", "required": false },
+      { "proficiency": "prof_psionic_minimum_requirements", "required": true },
       { "proficiency": "prof_psionic_basic", "required": true },
       { "proficiency": "prof_psionic_ritual", "required": false }
     ],
@@ -148,9 +144,9 @@
           "and": [
             { "roll_contested": { "math": [ "u_skill('metaphysics')" ] }, "difficulty": 11 },
             { "roll_contested": { "math": [ "u_skill('chemistry')" ] }, "difficulty": 8 },
-            { "math": [ "u_spell_level('vita_pain_split')", ">=", "8" ] },
-            { "math": [ "u_spell_level('vita_stop_infection')", ">=", "6" ] },
-            { "math": [ "u_spell_level('vita_healing_trance')", ">=", "2" ] }
+            { "math": [ "u_spell_level('vita_concentrated_healing') >= 8" ] },
+            { "math": [ "u_spell_level('vita_stop_infection') >= 6" ] },
+            { "math": [ "u_spell_level('vita_healing_trance') >= 2" ] }
           ]
         },
         "effect": [
@@ -183,24 +179,33 @@
     "category": "CC_PSIONIC",
     "subcategory": "CSC_PSIONIC_OTHER",
     "skill_used": "metaphysics",
-    "difficulty": 3,
+    "difficulty": 1,
     "time": "6 h",
-    "autolearn": true,
     "proficiencies": [
       { "proficiency": "prof_psionic_basic", "required": false },
       { "proficiency": "prof_psionic_ritual", "required": false }
     ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_UNLOCK_EXTENDED_CHANNELING",
-        "condition": { "and": [ { "roll_contested": { "math": [ "u_skill('metaphysics')" ] }, "difficulty": 8 } ] },
+        "condition": {
+          "and": [
+            {
+              "roll_contested": {
+                "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_psionic_ritual') + u_has_proficiency('prof_psionic_basic')" ]
+              },
+              "difficulty": 9
+            }
+          ]
+        },
         "effect": [
           {
             "u_message": "You've figured it out.  The concept of \"taking more time\" wasn't exactly hard to grasp, but maintaining the images in your mind, keeping your focus on a single train of thought, that was harder.  Now you've got it down, though.  If you take meticulous care in channeling your powers, it will take much longer but you'll be more likely to succeed.",
             "type": "good"
           },
           { "u_add_trait": "PSI_EXTENDED_CHANNELING" },
+          { "give_achievement": "mom_learn_extended_channeling" },
           { "u_forget_recipe": "psi_research_extended_channeling" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -223,24 +228,33 @@
     "category": "CC_PSIONIC",
     "subcategory": "CSC_PSIONIC_OTHER",
     "skill_used": "metaphysics",
-    "difficulty": 6,
+    "difficulty": 3,
     "time": "14 h",
-    "autolearn": true,
     "proficiencies": [
       { "proficiency": "prof_psionic_basic", "required": false },
       { "proficiency": "prof_psionic_ritual", "required": false }
     ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_UNLOCK_TORRENTIAL_CHANNELING",
-        "condition": { "and": [ { "roll_contested": { "math": [ "u_skill('metaphysics')" ] }, "difficulty": 13 } ] },
+        "condition": {
+          "and": [
+            {
+              "roll_contested": {
+                "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_psionic_ritual') + u_has_proficiency('prof_psionic_basic')" ]
+              },
+              "difficulty": 15
+            }
+          ]
+        },
         "effect": [
           {
             "u_message": "You've figured it out.  Your first few attempts were overwhelming, a raging crush of power than nearly knocked you unconscious…or perhaps worse.  But after you recovered, you tried again, and again, and you gained more and more control over the flood and now you can tame its flow.  Mostly.",
             "type": "good"
           },
           { "u_add_trait": "PSI_TORRENTIAL_CHANNELING" },
+          { "give_achievement": "mom_learn_torrential_channeling" },
           { "u_forget_recipe": "psi_research_torrential_channeling" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -254,5 +268,113 @@
         ]
       }
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "use the noetic resonance detector",
+    "id": "psi_noetic_resonance_detector_usage",
+    "description": "Follow the usage instructions of the noetic resonance detector to determine your \"noetic potential\".",
+    "category": "CC_PSIONIC",
+    "subcategory": "CSC_PSIONIC_OTHER",
+    "skill_used": "computer",
+    "skills_required": [ "metaphysics", 3 ],
+    "difficulty": 3,
+    "time": "30 m",
+    "book_learn": [ [ "phavian_noetic_resonance_detector_instructions", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_matrix_technology_beginner", "required": false } ],
+    "tools": [ [ [ "psi_noetic_resonance_detector_tool", 500 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_NOETIC_RESONANCE_DETECT_PSI_POWER",
+        "effect": [
+          { "u_choose_adjacent_highlight": { "context_val": "alpha_talker" }, "message": "Select noetic testing target" },
+          {
+            "run_eocs": "EOC_NOETIC_RESONANCE_DETECT_PSI_POWER_PART_TWO",
+            "alpha_loc": { "context_val": "alpha_talker" }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NOETIC_RESONANCE_DETECT_PSI_POWER_PART_TWO",
+    "//": "I tried a switch statement below but it absolutely refused to print the messages, so if statements it is",
+    "condition": "has_alpha",
+    "effect": [
+      {
+        "if": {
+          "u_has_any_trait": [ "BIOKINETIC", "CLAIRSENTIENT", "PHOTOKINETIC", "PYROKINETIC", "TELEKINETIC", "TELEPATH", "TELEPORTER", "VITAKINETIC" ]
+        },
+        "then": { "math": [ "_already_psi = 1" ] },
+        "else": { "math": [ "_already_psi = 0" ] }
+      },
+      {
+        "if": { "u_has_trait": "ALWAYS_GAIN_PSIONICS" },
+        "then": [
+          {
+            "message": "The lights inside in the machine blink and swirl for what seems like forever until the machine beeps.  On the output screen, the words \"<color_magenta>Potential: Excellent.  Mathematician Target</color>\" are visible.",
+            "type": "neutral"
+          },
+          { "u_add_effect": "psionic_overload", "duration": "30 minutes", "target_part": "head" }
+        ]
+      },
+      {
+        "if": { "u_has_trait": "CANNOT_GAIN_PSIONICS" },
+        "then": { "math": [ "_awakening_check = -100" ] },
+        "else": { "math": [ "_awakening_check = ( 100 - (matrix_awakening_odds(u_awakening_countup)))" ] }
+      },
+      {
+        "if": { "math": [ "_awakening_check == -100" ] },
+        "then": {
+          "message": "The lights inside in the machine blink and swirl for what seems like forever until the machine beeps.  On the output screen, the words \"<color_light_red>Potential: Null</color>\" are visible.",
+          "type": "neutral"
+        }
+      },
+      {
+        "if": { "and": [ { "math": [ "_awakening_check >= 0" ] }, { "math": [ "_awakening_check <= 5" ] } ] },
+        "then": {
+          "message": "The lights inside in the machine blink and swirl for what seems like forever until the machine beeps.  On the output screen, the words \"<color_light_red>Potential: Negligible</color>\" are visible.",
+          "type": "neutral"
+        }
+      },
+      {
+        "if": { "and": [ { "math": [ "_awakening_check > 5" ] }, { "math": [ "_awakening_check <= 15" ] } ] },
+        "then": {
+          "message": "The lights inside in the machine blink and swirl for what seems like forever until the machine beeps.  On the output screen, the words \"<color_yellow>Potential: Minor</color>\" are visible.",
+          "type": "neutral"
+        }
+      },
+      {
+        "if": { "and": [ { "math": [ "_awakening_check > 15" ] }, { "math": [ "_awakening_check <= 45" ] } ] },
+        "then": {
+          "message": "The lights inside in the machine blink and swirl for what seems like forever until the machine beeps.  On the output screen, the words \"<color_light_green>Potential: Moderate</color>\" are visible.",
+          "type": "neutral"
+        }
+      },
+      {
+        "if": { "and": [ { "math": [ "_awakening_check > 45" ] }, { "math": [ "_awakening_check <= 99" ] } ] },
+        "then": {
+          "message": "The lights inside in the machine blink and swirl for what seems like forever until the machine beeps.  On the output screen, the words \"<color_light_blue>Potential: Good</color>\" are visible.",
+          "type": "neutral"
+        }
+      },
+      {
+        "if": { "math": [ "_already_psi == 1" ] },
+        "then": [
+          { "message": "Below it in red are the words: <color_light_red>WARNING: Noetic activity detected.", "type": "neutral" },
+          { "u_add_effect": "psionic_overload", "duration": "30 minutes", "target_part": "head" }
+        ],
+        "else": [
+          {
+            "if": { "not": { "u_has_trait": "CANNOT_GAIN_PSIONICS" } },
+            "then": { "u_add_effect": "psionic_overload", "duration": "30 minutes", "target_part": "head" }
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "message": "The machine requires a test subject to report any results.", "type": "neutral" } ]
   }
 ]

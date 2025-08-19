@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "ogre_mound" ],
     "object": {
       "predecessor_mapgen": "forest_water",
@@ -69,7 +68,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ogre_bed",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -83,7 +81,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ogre_loot",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -102,7 +99,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "ogre_mound_roof" ],
     "object": {
       "rows": [

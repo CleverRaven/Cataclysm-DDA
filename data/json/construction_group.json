@@ -11,6 +11,11 @@
   },
   {
     "type": "construction_group",
+    "id": "wooden_shutters",
+    "name": "Built Wooden Window Shutters"
+  },
+  {
+    "type": "construction_group",
     "id": "board_up_wood_door",
     "name": "Board Up Wood Door"
   },
@@ -38,6 +43,11 @@
     "type": "construction_group",
     "id": "build_arc_furnace",
     "name": "Build Arc Furnace"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_arc_furnace",
+    "name": "Place Arc Furnace"
   },
   {
     "type": "construction_group",
@@ -162,12 +172,13 @@
   {
     "type": "construction_group",
     "id": "build_concrete_floor",
-    "name": "Build Concrete Floor"
+    "name": "Build Concrete Floor (no roof support)"
   },
   {
     "type": "construction_group",
     "id": "build_concrete_floor_with_roof",
-    "name": "Build Concrete Floor with Roof"
+    "//": "Obsolete id. Retained for save compatibility.",
+    "name": "Build Concrete Floor (supports roof)"
   },
   {
     "type": "construction_group",
@@ -357,7 +368,7 @@
   {
     "type": "construction_group",
     "id": "build_junk_metal_floor",
-    "name": "Build Junk Metal Floor"
+    "name": "Build Junk Metal Floor (supports roof)"
   },
   {
     "type": "construction_group",
@@ -372,7 +383,8 @@
   {
     "type": "construction_group",
     "id": "build_primitive_floor_with_log_sod_roof",
-    "name": "Build Primitive Floor with Log & Sod Roof"
+    "//": "Retain obsolete id for save compatibility",
+    "name": "Build Log Floor (supports roof)"
   },
   {
     "type": "construction_group",
@@ -431,6 +443,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_char_kiln",
+    "name": "Place Metal Charcoal Kiln"
+  },
+  {
+    "type": "construction_group",
     "id": "build_metal_door",
     "name": "Build Metal Door"
   },
@@ -457,7 +474,8 @@
   {
     "type": "construction_group",
     "id": "build_scrap_floor_with_roof",
-    "name": "Build Scrap Floor with Roof"
+    "//": "Obsolete id. Retained for save compatibility.",
+    "name": "Build Scrap Floor (supports roof)"
   },
   {
     "type": "construction_group",
@@ -547,7 +565,8 @@
   {
     "type": "construction_group",
     "id": "build_reinforced_concrete_floor_with_roof",
-    "name": "Build Reinforced Concrete Floor with Roof"
+    "//": "Obsolete id. Retained for save compatibility.",
+    "name": "Build Reinforced Concrete Floor (supports roof)"
   },
   {
     "type": "construction_group",
@@ -652,12 +671,13 @@
   {
     "type": "construction_group",
     "id": "build_floor_with_treated_roof",
-    "name": "Build Floor with Treated Roof"
+    "//": "Retaining obsolete id for save compatibility",
+    "name": "Build Standard Floor (supports roof)"
   },
   {
     "type": "construction_group",
-    "id": "build_dirt_floor_with_shingle_roof",
-    "name": "Build Dirt Floor with Flat Shingle Roof"
+    "id": "build_dirt_floor",
+    "name": "Build Dirt Floor (can support roof)"
   },
   {
     "type": "construction_group",
@@ -791,6 +811,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_stone_fireplace",
+    "name": "Build Stone Fireplace"
+  },
+  {
+    "type": "construction_group",
     "id": "build_stone_wall",
     "name": "Build Stone Wall"
   },
@@ -818,11 +843,6 @@
     "type": "construction_group",
     "id": "build_tarp_lean_to",
     "name": "Build Tarp Lean-To"
-  },
-  {
-    "type": "construction_group",
-    "id": "build_dirt_floor_with_thatched_roof",
-    "name": "Build Dirt Floor with Thatched Roof"
   },
   {
     "type": "construction_group",
@@ -877,7 +897,7 @@
   {
     "type": "construction_group",
     "id": "build_wooden_floor",
-    "name": "Build Wooden Floor"
+    "name": "Build Wooden Floor (no roof support)"
   },
   {
     "type": "construction_group",
@@ -1012,12 +1032,13 @@
   {
     "type": "construction_group",
     "id": "extrude_resin_floor_and_roof",
-    "name": "Extrude Resin Floor and Roof"
+    "//": "Obsolete id. Retained for save compatibility",
+    "name": "Extrude Resin Floor (supports roof)"
   },
   {
     "type": "construction_group",
     "id": "extrude_resin_floor_no_roof",
-    "name": "Extrude Resin Floor (no roof)"
+    "name": "Extrude Resin Floor (no roof support)"
   },
   {
     "type": "construction_group",
@@ -1092,17 +1113,17 @@
   {
     "type": "construction_group",
     "id": "make_gravel_floor",
-    "name": "Make Gravel Floor"
+    "name": "Make Gravel Floor (no roof support)"
   },
   {
     "type": "construction_group",
     "id": "make_rubber_mulch",
-    "name": "Make Rubber Mulch Floor"
+    "name": "Make Rubber Mulch Floor (no roof support)"
   },
   {
     "type": "construction_group",
     "id": "make_woodchip_floor",
-    "name": "Make Woodchip Floor"
+    "name": "Make Woodchip Floor (no roof support)"
   },
   {
     "type": "construction_group",
@@ -1316,6 +1337,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_glassblowers_crucible",
+    "name": "Place Glassblower's Crucible"
+  },
+  {
+    "type": "construction_group",
     "id": "place_drill_press",
     "name": "Place Drill Press"
   },
@@ -1461,6 +1487,16 @@
   },
   {
     "type": "construction_group",
+    "id": "place_motorbike_battery",
+    "name": "Place Motorbike Battery"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_motorbike_small_battery",
+    "name": "Place Small Motorbike Battery"
+  },
+  {
+    "type": "construction_group",
     "id": "place_washing_machine",
     "name": "Place Washing Machine"
   },
@@ -1522,7 +1558,17 @@
   {
     "type": "construction_group",
     "id": "place_anvil_crude",
-    "name": "Place Crude Anvil"
+    "name": "Place Small Anvil"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_anvil_ingot",
+    "name": "Mount Ingot Anvil"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_anvil_scavenged",
+    "name": "Mount Scavenger's Anvil"
   },
   {
     "type": "construction_group",
@@ -1826,11 +1872,6 @@
   },
   {
     "type": "construction_group",
-    "id": "place_active_backup_generator",
-    "name": "Place backup generator"
-  },
-  {
-    "type": "construction_group",
     "id": "build_rope_hoist",
     "name": "Hang Simple Rope Hoist"
   },
@@ -1897,7 +1938,7 @@
   {
     "type": "construction_group",
     "id": "constr_excavate_forestfloor",
-    "name": "Turn forest floor into dirt"
+    "name": "Turn forest floor into dirt (no roof support)"
   },
   {
     "type": "construction_group",
@@ -2063,5 +2104,20 @@
     "type": "construction_group",
     "id": "build_vent_pipe",
     "name": "Build Vent Pipe"
+  },
+  {
+    "type": "construction_group",
+    "id": "cover_windowframe_with_sheet",
+    "name": "Cover Empty Window With Sheet"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_beanbag",
+    "name": "Place a bean bag"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_lathe",
+    "name": "Place a lathe"
   }
 ]

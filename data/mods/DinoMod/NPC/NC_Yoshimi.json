@@ -44,8 +44,7 @@
     "type": "talk_topic",
     "id": "TALK_Yoshimi_1",
     "dynamic_line": {
-      "u_has_var": "general_meeting_u_met_yoshimi",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "general_meeting_u_met_yoshimi" } ],
       "yes": [
         "How can I help you, survivor?",
         "Seen any interesting specimens?  I mean dinosaurs.",
@@ -58,28 +57,28 @@
       {
         "text": "You are dressed like a scientist.  Are you a scientist?  You look like a dinosaur.  Are you a dinosaur?  Are you a scientist dinosaur?",
         "effect": { "u_add_var": "general_meeting_u_met_yoshimi", "value": "yes" },
-        "condition": { "not": { "u_has_var": "general_meeting_u_met_yoshimi", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_yoshimi" } ] } },
         "topic": "TALK_yoshimi_firstmeet"
       },
       {
         "text": "Die demon mutant!",
         "effect": [ { "u_add_var": "general_meeting_u_met_yoshimi", "value": "yes" }, "insult_combat" ],
-        "condition": { "not": { "u_has_var": "general_meeting_u_met_yoshimi", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_yoshimi" } ] } },
         "topic": "TALK_DONE"
       },
       {
         "text": "How did you get here?",
-        "condition": { "and": [ { "u_has_var": "mission_flag_Yos_chemistry", "value": "yes" } ] },
+        "condition": { "and": [ { "compare_string": [ "yes", { "u_val": "mission_flag_Yos_chemistry" } ] } ] },
         "topic": "TALK_yoshimi_ask_past"
       },
       {
         "text": "How are things here?",
-        "condition": { "and": [ { "u_has_var": "general_meeting_u_met_yoshimi", "value": "yes" } ] },
+        "condition": { "and": [ { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_yoshimi" } ] } ] },
         "topic": "TALK_yoshimi_ask_mood"
       },
       {
         "text": "You look like you need help.  Can I do something for you?",
-        "condition": { "and": [ { "u_has_var": "general_meeting_u_met_yoshimi", "value": "yes" } ] },
+        "condition": { "and": [ { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_yoshimi" } ] } ] },
         "topic": "TALK_MISSION_LIST"
       },
       { "text": "Goodbye.", "topic": "TALK_DONE" }
@@ -128,13 +127,7 @@
     "value": 1000,
     "item": "chemistry_set",
     "start": {
-      "assign_mission_target": {
-        "om_special": "4x4_DinoLab_surface",
-        "om_terrain": "microlab_DinoLab_surface",
-        "reveal_radius": 1,
-        "random": true,
-        "search_range": 200
-      },
+      "assign_mission_target": { "om_special": "4x4_DinoLab_surface", "om_terrain": "microlab_DinoLab_surface", "reveal_radius": 1 },
       "update_mapgen": [
         {
           "om_terrain": "microlab_DinoLab_surface",
@@ -147,7 +140,7 @@
     "end": {
       "effect": [
         { "u_add_var": "mission_flag_Yos_chemistry", "value": "yes" },
-        { "math": [ "u_counter_DinoLab_DinoLab_power", "+=", "2" ] }
+        { "math": [ "u_counter_DinoLab_DinoLab_power += 2" ] }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -188,7 +181,7 @@
         }
       ]
     },
-    "end": { "effect": [ { "u_spawn_item": "kiernans_notes" }, { "math": [ "u_counter_DinoLab_DinoLab_power", "+=", "2" ] } ] },
+    "end": { "effect": [ { "u_spawn_item": "kiernans_notes" }, { "math": [ "u_counter_DinoLab_DinoLab_power += 2" ] } ] },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_DinoLab_Yos_3",
     "dialogue": {
@@ -215,7 +208,7 @@
     "start": {
       "assign_mission_target": { "om_terrain": "dinozoo_1_1", "om_terrain_replace": "land", "reveal_radius": 1, "random": true, "search_range": 220 }
     },
-    "end": { "effect": [ { "u_spawn_item": "mutagen_raptor" }, { "math": [ "u_counter_DinoLab_DinoLab_power", "+=", "2" ] } ] },
+    "end": { "effect": [ { "u_spawn_item": "mutagen_raptor" }, { "math": [ "u_counter_DinoLab_DinoLab_power += 2" ] } ] },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "Time for a nice relaxing trip…",

@@ -1,22 +1,25 @@
 #include <algorithm>
+#include <array>
+#include <functional>
 #include <list>
 #include <map>
 #include <memory>
-#include <sstream>
+#include <optional>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "calendar.h"
 #include "cata_catch.h"
 #include "colony.h"
 #include "construction.h"
+#include "coordinates.h"
+#include "debug.h"
 #include "field.h"
-#include "game_constants.h"
+#include "flexbuffer_json.h"
 #include "item.h"
-#include "json.h"
 #include "json_loader.h"
-#include "make_static.h"
-#include "mapdata.h"
+#include "map_scale_constants.h"
 #include "point.h"
 #include "string_formatter.h"
 #include "submap.h"
@@ -27,13 +30,27 @@
 static const construction_str_id construction_constr_ground_cable( "constr_ground_cable" );
 static const construction_str_id construction_constr_rack_coat( "constr_rack_coat" );
 
+static const field_type_str_id field_fd_acid( "fd_acid" );
+static const field_type_str_id field_fd_electricity( "fd_electricity" );
+static const field_type_str_id field_fd_laser( "fd_laser" );
+static const field_type_str_id field_fd_nuke_gas( "fd_nuke_gas" );
+static const field_type_str_id field_fd_smoke( "fd_smoke" );
+static const field_type_str_id field_fd_web( "fd_web" );
 static const field_type_str_id field_test_fd_migration_new_id( "test_fd_migration_new_id" );
 
 static const furn_str_id furn_f_bookcase( "f_bookcase" );
 static const furn_str_id furn_f_coffin_c( "f_coffin_c" );
 static const furn_str_id furn_f_crate_o( "f_crate_o" );
 static const furn_str_id furn_f_dresser( "f_dresser" );
+static const furn_str_id furn_f_gas_tank( "f_gas_tank" );
 static const furn_str_id furn_test_f_migration_new_id( "test_f_migration_new_id" );
+
+static const itype_id itype_bat_nerf( "bat_nerf" );
+static const itype_id itype_bottle_plastic( "bottle_plastic" );
+static const itype_id itype_foodperson_mask( "foodperson_mask" );
+static const itype_id itype_foon( "foon" );
+static const itype_id itype_jackhammer( "jackhammer" );
+static const itype_id itype_machete( "machete" );
 
 static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_floor( "t_floor" );
@@ -43,14 +60,20 @@ static const ter_str_id ter_t_floor_red( "t_floor_red" );
 static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
 static const ter_str_id ter_test_t_migration_new_id( "test_t_migration_new_id" );
 
+static const trap_str_id tr_beartrap( "tr_beartrap" );
+static const trap_str_id tr_bubblewrap( "tr_bubblewrap" );
+static const trap_str_id tr_funnel( "tr_funnel" );
+static const trap_str_id tr_landmine( "tr_landmine" );
+static const trap_str_id tr_rollmat( "tr_rollmat" );
+
 // NOLINTNEXTLINE(cata-static-declarations)
 extern const int savegame_version;
 
-static const point &corner_ne = point_zero;
-static const point corner_nw( SEEX - 1, 0 );
-static const point corner_se( 0, SEEY - 1 );
-static const point corner_sw( SEEX - 1, SEEY - 1 );
-static const point random_pt( 4, 7 );
+static const point_sm_ms &corner_ne = point_sm_ms::zero;
+static const point_sm_ms corner_nw( SEEX - 1, 0 );
+static const point_sm_ms corner_se( 0, SEEY - 1 );
+static const point_sm_ms corner_sw( SEEX - 1, SEEY - 1 );
+static const point_sm_ms random_pt( 4, 7 );
 
 static std::string submap_empty_ss(
     "{\n"
@@ -851,7 +874,7 @@ static JsonValue submap_fd_pre_migration = json_loader::from_string( submap_fd_p
 static void load_from_jsin( submap &sm, const JsonValue &jsin )
 {
     // Ensure that the JSON is up to date for our savegame version
-    REQUIRE( savegame_version == 33 );
+    REQUIRE( savegame_version == 36 );
     int version = 0;
     JsonObject sm_json = jsin.get_object();
     if( sm_json.has_member( "version" ) ) {
@@ -1039,12 +1062,12 @@ TEST_CASE( "submap_furniture_load", "[submap][load]" )
     REQUIRE( furn_ne == furn_f_bookcase );
     REQUIRE( furn_sw == furn_f_dresser );
     REQUIRE( furn_se == furn_f_crate_o );
-    REQUIRE( furn_ra == STATIC( furn_str_id( "f_gas_tank" ) ) );
+    REQUIRE( furn_ra == furn_f_gas_tank );
 
     // Also, check we have no other furniture
     for( int x = 0; x < SEEX; ++x ) {
         for( int y = 0; y < SEEY; ++y ) {
-            point tested{ x, y };
+            point_sm_ms tested{ x, y };
             if( tested == corner_nw || tested == corner_ne || tested == corner_sw || tested == corner_se ||
                 tested == random_pt ) {
                 continue;
@@ -1076,16 +1099,16 @@ TEST_CASE( "submap_trap_load", "[submap][load]" )
     INFO( string_format( "se: %s", trap_se.id().str() ) );
     INFO( string_format( "ra: %s", trap_ra.id().str() ) );
     // Require to prevent the lower CHECK from being spammy
-    REQUIRE( trap_nw == STATIC( trap_str_id( "tr_rollmat" ) ) );
-    REQUIRE( trap_ne == STATIC( trap_str_id( "tr_bubblewrap" ) ) );
-    REQUIRE( trap_sw == STATIC( trap_str_id( "tr_beartrap" ) ) );
-    REQUIRE( trap_se == STATIC( trap_str_id( "tr_funnel" ) ) );
-    REQUIRE( trap_ra == STATIC( trap_str_id( "tr_landmine" ) ) );
+    REQUIRE( trap_nw == tr_rollmat );
+    REQUIRE( trap_ne == tr_bubblewrap );
+    REQUIRE( trap_sw == tr_beartrap );
+    REQUIRE( trap_se == tr_funnel );
+    REQUIRE( trap_ra == tr_landmine );
 
     // Also, check we have no other traps
     for( int x = 0; x < SEEX; ++x ) {
         for( int y = 0; y < SEEY; ++y ) {
-            point tested{ x, y };
+            point_sm_ms tested{ x, y };
             if( tested == corner_nw || tested == corner_ne || tested == corner_sw || tested == corner_se ||
                 tested == random_pt ) {
                 continue;
@@ -1133,7 +1156,7 @@ TEST_CASE( "submap_rad_load", "[submap][load]" )
             rad = -1;
         }
         for( int x = 0; x < SEEX; ++x ) {
-            point tested{ x, y };
+            point_sm_ms tested{ x, y };
             if( tested == corner_nw || tested == corner_ne || tested == corner_sw || tested == corner_se ||
                 tested == random_pt ) {
                 rads[x] = sm.get_radiation( tested );
@@ -1192,17 +1215,17 @@ TEST_CASE( "submap_item_load", "[submap][load]" )
     INFO( string_format( "se: %d %s", item_se.size(), item_se[0].str() ) );
     INFO( string_format( "ra: %d %s", item_ra.size(), item_ra[0].str() ) );
     // Require to prevent the lower CHECK from being spammy
-    REQUIRE( item_nw[0] == STATIC( itype_id( "machete" ) ) );
-    REQUIRE( item_nw[1] == STATIC( itype_id( "foon" ) ) );
-    REQUIRE( item_ne[0] == STATIC( itype_id( "foodperson_mask" ) ) );
-    REQUIRE( item_sw[0] == STATIC( itype_id( "bottle_plastic" ) ) );
-    REQUIRE( item_se[0] == STATIC( itype_id( "bat_nerf" ) ) );
-    REQUIRE( item_ra[0] == STATIC( itype_id( "jackhammer" ) ) );
+    REQUIRE( item_nw[0] == itype_machete );
+    REQUIRE( item_nw[1] == itype_foon );
+    REQUIRE( item_ne[0] == itype_foodperson_mask );
+    REQUIRE( item_sw[0] == itype_bottle_plastic );
+    REQUIRE( item_se[0] == itype_bat_nerf );
+    REQUIRE( item_ra[0] == itype_jackhammer );
 
     // Also, check we have no other items
     for( int y = 0; y < SEEY; ++y ) {
         for( int x = 0; x < SEEX; ++x ) {
-            point tested{ x, y };
+            point_sm_ms tested{ x, y };
             if( tested == corner_nw || tested == corner_ne || tested == corner_sw || tested == corner_se ||
                 tested == random_pt ) {
                 continue;
@@ -1226,12 +1249,12 @@ TEST_CASE( "submap_field_load", "[submap][load]" )
     const field &field_sw = sm.get_field( corner_sw );
     const field &field_se = sm.get_field( corner_se );
     const field &field_ra = sm.get_field( random_pt );
-    const field_entry *fd_nw = field_nw.find_field( STATIC( field_type_str_id( "fd_web" ) ) );
-    const field_entry *fd_ne = field_ne.find_field( STATIC( field_type_str_id( "fd_laser" ) ) );
-    const field_entry *fd_sw = field_sw.find_field( STATIC( field_type_str_id( "fd_electricity" ) ) );
-    const field_entry *fd_se = field_se.find_field( STATIC( field_type_str_id( "fd_acid" ) ) );
-    const field_entry *fd_ra = field_ra.find_field( STATIC( field_type_str_id( "fd_nuke_gas" ) ) );
-    const field_entry *fd_ow = field_nw.find_field( STATIC( field_type_str_id( "fd_smoke" ) ) );
+    const field_entry *fd_nw = field_nw.find_field( field_fd_web );
+    const field_entry *fd_ne = field_ne.find_field( field_fd_laser );
+    const field_entry *fd_sw = field_sw.find_field( field_fd_electricity );
+    const field_entry *fd_se = field_se.find_field( field_fd_acid );
+    const field_entry *fd_ra = field_ra.find_field( field_fd_nuke_gas );
+    const field_entry *fd_ow = field_nw.find_field( field_fd_smoke );
     // No nullptrs for me
     REQUIRE( fd_nw != nullptr );
     REQUIRE( fd_ow != nullptr );
@@ -1275,7 +1298,7 @@ TEST_CASE( "submap_field_load", "[submap][load]" )
     // Also, check we have no other fields
     for( int y = 0; y < SEEY; ++y ) {
         for( int x = 0; x < SEEX; ++x ) {
-            point tested{ x, y };
+            point_sm_ms tested{ x, y };
             if( tested == corner_nw || tested == corner_ne || tested == corner_sw || tested == corner_se ||
                 tested == random_pt ) {
                 continue;
@@ -1382,15 +1405,15 @@ TEST_CASE( "submap_spawns_load", "[submap][load]" )
     } );
 
     // We placed a unique spawn in a couple of places. Check that those are correct
-    INFO( string_format( "nw: [%d, %d] %d %s %s %s", nw.pos.x, nw.pos.y, nw.count, nw.type.str(),
+    INFO( string_format( "nw: [%d, %d] %d %s %s %s", nw.pos.x(), nw.pos.y(), nw.count, nw.type.str(),
                          nw.friendly ? "friendly" : "hostile", nw.name.value_or( "NONE" ) ) );
-    INFO( string_format( "ne: [%d, %d] %d %s %s %s", ne.pos.x, ne.pos.y, ne.count, ne.type.str(),
+    INFO( string_format( "ne: [%d, %d] %d %s %s %s", ne.pos.x(), ne.pos.y(), ne.count, ne.type.str(),
                          ne.friendly ? "friendly" : "hostile", ne.name.value_or( "NONE" ) ) );
-    INFO( string_format( "sw: [%d, %d] %d %s %s %s", sw.pos.x, sw.pos.y, sw.count, sw.type.str(),
+    INFO( string_format( "sw: [%d, %d] %d %s %s %s", sw.pos.x(), sw.pos.y(), sw.count, sw.type.str(),
                          sw.friendly ? "friendly" : "hostile", sw.name.value_or( "NONE" ) ) );
-    INFO( string_format( "se: [%d, %d] %d %s %s %s", se.pos.x, se.pos.y, se.count, se.type.str(),
+    INFO( string_format( "se: [%d, %d] %d %s %s %s", se.pos.x(), se.pos.y(), se.count, se.type.str(),
                          se.friendly ? "friendly" : "hostile", se.name.value_or( "NONE" ) ) );
-    INFO( string_format( "ra: [%d, %d] %d %s %s %s", ra.pos.x, ra.pos.y, ra.count, ra.type.str(),
+    INFO( string_format( "ra: [%d, %d] %d %s %s %s", ra.pos.x(), ra.pos.y(), ra.count, ra.type.str(),
                          ra.friendly ? "friendly" : "hostile", ra.name.value_or( "NONE" ) ) );
     // Require to prevent the lower CHECK from being spammy
     CHECK( nw.count == 3 );
@@ -1464,7 +1487,7 @@ TEST_CASE( "submap_computer_load", "[submap][load]" )
     REQUIRE( is_normal_submap( sm, checks ) );
     // Just check there are computers in the right place
     // Checking more is complicated
-    REQUIRE( sm.has_computer( point_south ) );
+    REQUIRE( sm.has_computer( point_sm_ms( point::south ) ) );
     REQUIRE( sm.has_computer( {3, 5} ) );
 }
 

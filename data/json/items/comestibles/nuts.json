@@ -1,11 +1,12 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "pine_nuts",
     "name": { "str_sp": "pine nuts" },
     "weight": "15 g",
     "color": "brown",
-    "spoils_in": 1080,
+    "spoils_in": "45 days",
     "container": "bag_plastic_small",
     "comestible_type": "FOOD",
     "symbol": "%",
@@ -17,11 +18,12 @@
     "material": [ "nut" ],
     "volume": "31 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
-    "vitamins": [ [ "iron", 5 ] ],
+    "vitamins": [ [ "iron", 5 ], [ "nut_allergen", 1 ] ],
     "fun": 2
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "juniper",
     "name": { "str_sp": "junipers" },
     "weight": "122 g",
@@ -36,10 +38,11 @@
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": -2,
-    "vitamins": [ [ "vitC", 12 ], [ "calcium", 1 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", 12 ], [ "calcium", 1 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "pistachio_shelled",
     "name": { "str_sp": "shelled pistachios" },
     "weight": "30 g",
@@ -57,12 +60,14 @@
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW", "SMOKABLE" ],
     "smoking_result": "pistachio_roasted",
-    "vitamins": [ [ "vitC", 1 ], [ "calcium", 3 ], [ "iron", 7 ] ],
+    "vitamins": [ [ "vitC", 1 ], [ "calcium", 3 ], [ "iron", 7 ], [ "nut_allergen", 1 ] ],
     "fun": 1,
-    "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
+    "into": "paste_nut",
+    "recipe": "paste_nut_mill_10_1"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "pistachio_roasted",
     "name": { "str_sp": "roasted pistachios" },
     "copy-from": "pistachio_shelled",
@@ -70,10 +75,12 @@
     "price": "1 USD 50 cent",
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 3,
-    "milling": { "into": "null", "recipe": "" }
+    "into": "null",
+    "recipe": ""
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "almond_shelled",
     "name": { "str_sp": "shelled almonds" },
     "weight": "30 g",
@@ -91,12 +98,14 @@
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW", "SMOKABLE" ],
     "smoking_result": "almond_roasted",
-    "vitamins": [ [ "calcium", 6 ], [ "iron", 6 ] ],
+    "vitamins": [ [ "calcium", 6 ], [ "iron", 6 ], [ "nut_allergen", 1 ] ],
     "fun": 1,
-    "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
+    "into": "paste_nut",
+    "recipe": "paste_nut_mill_10_1"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "almond_pulp",
     "name": { "str_sp": "almond pulp" },
     "looks_like": "granola",
@@ -110,12 +119,14 @@
     "price": "10 cent",
     "price_postapoc": "50 cent",
     "material": [ "nut" ],
+    "vitamins": [ [ "nut_allergen", 1 ] ],
     "volume": "125 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": -8
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "almond_roasted",
     "name": { "str_sp": "roasted almonds" },
     "copy-from": "almond_shelled",
@@ -124,10 +135,12 @@
     "price_postapoc": "6 USD",
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 3,
-    "milling": { "into": "null", "recipe": "" }
+    "into": "null",
+    "recipe": ""
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "cashews",
     "name": { "str_sp": "cashews" },
     "weight": "30 g",
@@ -144,12 +157,14 @@
     "material": [ "nut" ],
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 12 ] ],
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 12 ], [ "nut_allergen", 1 ] ],
     "fun": 3,
-    "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
+    "into": "paste_nut",
+    "recipe": "paste_nut_mill_10_1"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "pecan_shelled",
     "name": { "str_sp": "shelled pecans" },
     "weight": "30 g",
@@ -167,12 +182,14 @@
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW", "SMOKABLE" ],
     "smoking_result": "pecan_roasted",
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ], [ "nut_allergen", 1 ] ],
     "fun": 1,
-    "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
+    "into": "paste_nut",
+    "recipe": "paste_nut_mill_10_1"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "pecan_roasted",
     "name": { "str_sp": "roasted pecans" },
     "copy-from": "pecan_shelled",
@@ -180,10 +197,12 @@
     "price": "1 USD 50 cent",
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 3,
-    "milling": { "into": "null", "recipe": "" }
+    "into": "null",
+    "recipe": ""
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "peanut_shelled",
     "name": { "str_sp": "shelled peanuts" },
     "weight": "30 g",
@@ -200,14 +219,16 @@
     "material": [ "nut" ],
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW" ],
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 3 ], [ "nut_allergen", 1 ] ],
     "fun": 3,
-    "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
+    "into": "paste_nut",
+    "recipe": "paste_nut_mill_10_1"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "beech_nuts",
-    "name": { "str_sp": "beech nuts" },
+    "name": { "str_sp": "beechnuts" },
     "weight": "30 g",
     "color": "brown",
     "spoils_in": "90 days",
@@ -221,11 +242,13 @@
     "material": [ "nut" ],
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW" ],
-    "vitamins": [ [ "vitC", 5 ], [ "iron", 9 ] ],
-    "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
+    "vitamins": [ [ "vitC", 5 ], [ "iron", 9 ], [ "nut_allergen", 1 ] ],
+    "into": "paste_nut",
+    "recipe": "paste_nut_mill_10_1"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "walnut_shelled",
     "name": { "str_sp": "shelled walnuts" },
     "weight": "30 g",
@@ -242,12 +265,35 @@
     "material": [ "nut" ],
     "volume": "62 ml",
     "smoking_result": "walnut_roasted",
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ], [ "nut_allergen", 1 ] ],
     "fun": -1,
-    "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
+    "into": "paste_nut",
+    "recipe": "paste_nut_mill_10_1"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "walnut_pulp",
+    "name": { "str_sp": "walnut pulp" },
+    "looks_like": "granola",
+    "weight": "30 g",
+    "color": "brown",
+    "spoils_in": "300 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 259,
+    "description": "Pulp left over after making walnut milk.  It's gritty and incredibly bland.",
+    "price": "10 cent",
+    "price_postapoc": "50 cent",
+    "material": [ "nut" ],
+    "vitamins": [ [ "nut_allergen", 1 ] ],
+    "volume": "125 ml",
+    "flags": [ "EDIBLE_FROZEN" ],
+    "fun": -8
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "butternut_shelled",
     "name": { "str_sp": "shelled butternuts" },
     "weight": "30 g",
@@ -264,11 +310,12 @@
     "material": [ "nut" ],
     "volume": "62 ml",
     "smoking_result": "butternut_roasted",
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ], [ "nut_allergen", 1 ] ],
     "fun": -1
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "walnut_roasted",
     "name": { "str_sp": "roasted walnuts" },
     "copy-from": "walnut_shelled",
@@ -276,10 +323,12 @@
     "price": "90 cent",
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 1,
-    "milling": { "into": "null", "recipe": "" }
+    "into": "null",
+    "recipe": ""
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "butternut_roasted",
     "name": { "str_sp": "roasted butternuts" },
     "copy-from": "butternut_shelled",
@@ -289,7 +338,8 @@
     "fun": 1
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "chestnut_shelled",
     "name": { "str_sp": "shelled chestnuts" },
     "weight": "30 g",
@@ -306,23 +356,27 @@
     "material": [ "nut" ],
     "volume": "62 ml",
     "smoking_result": "chestnut_roasted",
-    "vitamins": [ [ "vitC", 13 ], [ "iron", 1 ] ],
+    "vitamins": [ [ "vitC", 13 ], [ "iron", 1 ], [ "nut_allergen", 1 ] ],
     "fun": -10,
-    "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
+    "into": "paste_nut",
+    "recipe": "paste_nut_mill_10_1"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "chestnut_roasted",
     "name": { "str_sp": "roasted chestnuts" },
     "copy-from": "chestnut_shelled",
     "description": "A handful of roasted nuts from a chestnut tree.",
     "price": "90 cent",
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
-    "milling": { "into": "flour_wheat_free", "recipe": "flour_wheat_free_mill_4_5" },
-    "fun": 3
+    "fun": 3,
+    "into": "flour_wheat_free",
+    "recipe": "flour_wheat_free_mill_4_5"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "hazelnut_shelled",
     "name": { "str_sp": "shelled hazelnuts" },
     "weight": "30 g",
@@ -339,12 +393,14 @@
     "material": [ "nut" ],
     "volume": "62 ml",
     "smoking_result": "hazelnut_roasted",
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 3 ], [ "iron", 7 ] ],
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 3 ], [ "iron", 7 ], [ "nut_allergen", 1 ] ],
     "fun": -1,
-    "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
+    "into": "paste_nut",
+    "recipe": "paste_nut_mill_10_1"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "edamame_roasted",
     "name": { "str_sp": "roasted edamame" },
     "weight": "30 g",
@@ -360,11 +416,12 @@
     "material": [ "nut" ],
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "EATEN_HOT" ],
-    "vitamins": [ [ "calcium", 8 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "calcium", 8 ], [ "iron", 4 ], [ "nut_allergen", 1 ] ],
     "fun": 4
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "soy_nuts",
     "name": { "str_sp": "roasted soy nuts" },
     "weight": "30 g",
@@ -380,11 +437,12 @@
     "material": [ "nut" ],
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "EATEN_HOT" ],
-    "vitamins": [ [ "calcium", 8 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "calcium", 8 ], [ "iron", 4 ], [ "nut_allergen", 1 ] ],
     "fun": 4
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "hazelnut_roasted",
     "name": { "str_sp": "roasted hazelnuts" },
     "copy-from": "hazelnut_shelled",
@@ -392,10 +450,33 @@
     "price": "90 cent",
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 1,
-    "milling": { "into": "null", "recipe": "" }
+    "into": "null",
+    "recipe": ""
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "hazelnut_pulp",
+    "name": { "str_sp": "hazelnut pulp" },
+    "looks_like": "granola",
+    "weight": "30 g",
+    "color": "brown",
+    "spoils_in": "300 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 316,
+    "description": "Pulp left over after making hazelnut milk.  It's gritty and incredibly bland.",
+    "price": "10 cent",
+    "price_postapoc": "50 cent",
+    "material": [ "nut" ],
+    "vitamins": [ [ "nut_allergen", 1 ] ],
+    "volume": "125 ml",
+    "flags": [ "EDIBLE_FROZEN" ],
+    "fun": -8
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "hickory_nut_shelled",
     "name": { "str_sp": "shelled hickory nuts" },
     "weight": "30 g",
@@ -412,12 +493,14 @@
     "material": [ "nut" ],
     "volume": "62 ml",
     "smoking_result": "hickory_nut_roasted",
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 8 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 8 ], [ "nut_allergen", 1 ] ],
     "fun": -10,
-    "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
+    "into": "paste_nut",
+    "recipe": "paste_nut_mill_10_1"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "hickory_nut_roasted",
     "name": { "str_sp": "roasted hickory nuts" },
     "copy-from": "hickory_nut_shelled",
@@ -426,10 +509,12 @@
     "price_postapoc": "5 USD",
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 1,
-    "milling": { "into": "null", "recipe": "" }
+    "into": "null",
+    "recipe": ""
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "hickory_nut_ambrosia",
     "name": { "str_sp": "hickory nut ambrosia" },
     "weight": "64 g",
@@ -445,6 +530,7 @@
     "price": "1 USD",
     "price_postapoc": "4 USD",
     "material": [ "nut", "milk" ],
+    "vitamins": [ [ "nut_allergen", 1 ], [ "milk_allergen", 1 ] ],
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 4,
@@ -454,16 +540,42 @@
   },
   {
     "id": "peanutbutter",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "symbol": "~",
     "color": "brown",
     "spoils_in": "180 days",
-    "name": { "str_sp": "peanut butter" },
+    "name": { "str_sp": "nut butter" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "peanut", "name": { "str_sp": "peanut butter" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "pine", "name": { "str_sp": "pine nut butter" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "pecan", "name": { "str_sp": "pecan butter" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "cashew", "name": { "str_sp": "cashew butter" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "pistachio", "name": { "str_sp": "pistachio butter" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "almond", "name": { "str_sp": "almond butter" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "beech", "name": { "str_sp": "beechnut butter" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "hickory", "name": { "str_sp": "hickory nut butter" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "chestnut", "name": { "str_sp": "chestnut butter" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "hazelnut", "name": { "str_sp": "hazelnut butter" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "walnut", "name": { "str_sp": "walnut butter" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "butternut", "name": { "str_sp": "butternut butter" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "acorn", "name": { "str_sp": "acorn butter" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "soy", "name": { "str_sp": "soy nut butter" } }
+    ],
     "description": "A brown goo that tastes very little like its namesake.  It's not bad, but it'll stick to the roof of your mouth.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "peanutbutter_preapoc",
+        "name": { "str_sp": "peanut butter" },
+        "description": "A brown goo that tastes very little like its namesake.  It's not bad, but it'll stick to the roof of your mouth.",
+        "weight": 1
+      }
+    ],
     "price": "1 USD 95 cent",
     "price_postapoc": "10 USD",
     "//": "Two tablespoons per charge.",
-    "weight": "50 g",
+    "weight": "32 g",
     "volume": "250 ml",
     "comestible_type": "DRINK",
     "container": "jar_glass_sealed",
@@ -474,20 +586,13 @@
     "charges": 8,
     "phase": "liquid",
     "flags": [ "USE_EAT_VERB" ],
-    "vitamins": [ [ "iron", 6 ] ],
+    "vitamins": [ [ "iron", 6 ], [ "junk_allergen", 1 ], [ "nut_allergen", 1 ] ],
     "fun": 2
   },
   {
-    "id": "peanutbutter_imitation",
-    "type": "COMESTIBLE",
-    "name": { "str_sp": "imitation peanutbutter" },
-    "description": "A thick, nutty brown paste so that the peanut-allergic can enjoy PB&Js too.",
-    "copy-from": "peanutbutter",
-    "calories": 400
-  },
-  {
     "id": "spread_peanutbutter",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "symbol": "%",
     "name": { "str": "peanut butter spread" },
     "description": "Processed peanut butter spread.",
@@ -507,11 +612,12 @@
     "quench": -2,
     "calories": 190,
     "flags": [ "USE_EAT_VERB" ],
-    "vitamins": [ [ "iron", 6 ] ],
+    "vitamins": [ [ "iron", 6 ], [ "junk_allergen", 1 ], [ "nut_allergen", 1 ] ],
     "fun": 2
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "acorns",
     "name": { "str_sp": "acorns" },
     "weight": "30 g",
@@ -527,11 +633,12 @@
     "material": [ "nut" ],
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW" ],
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 2 ], [ "nut_allergen", 1 ] ],
     "fun": -20
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "acorns_cooked",
     "name": { "str_sp": "cooked acorns" },
     "copy-from": "acorns",
@@ -542,12 +649,14 @@
     "price": "22 cent",
     "price_postapoc": "75 cent",
     "flags": [ "EDIBLE_FROZEN", "SMOKABLE" ],
-    "milling": { "into": "flour_wheat_free", "recipe": "flour_wheat_free_mill_2_3" },
     "smoking_result": "acorn_roasted",
-    "fun": 0
+    "fun": 0,
+    "into": "flour_wheat_free",
+    "recipe": "flour_wheat_free_mill_2_3"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "acorn_roasted",
     "name": { "str_sp": "roasted acorns" },
     "copy-from": "acorns",
@@ -561,7 +670,8 @@
     "fun": 1
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "acorns_blanched",
     "name": { "str_sp": "blanched acorns" },
     "copy-from": "acorns",
@@ -572,10 +682,12 @@
     "flags": [ "EDIBLE_FROZEN", "SMOKABLE" ],
     "smoking_result": "acorns_cooked",
     "fun": -1,
-    "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
+    "into": "paste_nut",
+    "recipe": "paste_nut_mill_10_1"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "acorns_blanching",
     "name": { "str_sp": "blanching acorns" },
     "copy-from": "acorns",
@@ -598,5 +710,27 @@
       "transform_age": 518400,
       "not_ready_msg": "The acorns are still bitter."
     }
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "vegan_butter",
+    "name": { "str_sp": "vegan butter" },
+    "weight": "14180 mg",
+    "color": "brown",
+    "spoils_in": "18 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": -1,
+    "calories": 101,
+    "container": "wrapper",
+    "description": "A light brown butter substitute made from nuts.  Differs from other nut butters in that the fats are removed from the meat and only the fats retained.",
+    "price": "9 cent",
+    "price_postapoc": "23 cent",
+    "material": [ "nut" ],
+    "volume": "15 ml",
+    "flags": [ "NO_AUTO_CONSUME" ],
+    "fun": -1,
+    "vitamins": [ [ "nut_allergen", 1 ] ]
   }
 ]

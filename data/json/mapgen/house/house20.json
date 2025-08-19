@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": "house_20",
     "//": "normal variant",
     "type": "mapgen",
@@ -33,7 +32,11 @@
         "..[.........[...........",
         "........................"
       ],
-      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_landscaping_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [
+        "domestic_general_construction_and_variant_palette",
+        "standard_domestic_landscaping_palette",
+        "standard_domestic_lino_bathroom"
+      ],
       "terrain": {
         "K": "t_concrete",
         "G": "t_concrete",
@@ -48,7 +51,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "house_20",
     "//": "in-construction variant",
     "type": "mapgen",
@@ -87,7 +89,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_20_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -101,7 +102,7 @@
         "  -.................-   ",
         "  -.................-   ",
         "  -.................-   ",
-        "  -.................-   ",
+        "  -......1..........-   ",
         "  -.................-   ",
         "  -.................-   ",
         "  -.................-   ",

@@ -1,7 +1,8 @@
 [
   {
     "id": "talking_doll",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "talking doll" },
     "description": "This is a talking doll, meant for children.  Fortunately it still works, and you could unload the batteries out of it.",
     "//": "https://amz.run/7YNm",
@@ -9,12 +10,11 @@
     "volume": "725 ml",
     "price": "60 USD",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
     "material": [ "plastic" ],
     "symbol": "|",
     "color": "pink",
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "charges_per_use": 1,
     "turns_per_charge": 20,
     "use_action": [ "DOLLCHAT" ],
@@ -25,11 +25,13 @@
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_minus_disposable_cell"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "creepy_doll",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "talking doll" },
     "description": "This is a talking doll, meant for children.  Fortunately it still works, and you could unload the batteries out of it.",
     "copy-from": "talking_doll",
@@ -37,7 +39,7 @@
     "color": "pink"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "swimming_kickboard",
     "name": { "str": "swimming kickboard" },
     "description": "A swimming kickboard, would be a great training aid for the beach or the pool, if only they weren't full of zombies and mutant fish.",
@@ -46,16 +48,14 @@
     "longest_side": "37 cm",
     "price": "12 USD",
     "price_postapoc": "5 cent",
-    "to_hit": -1,
     "color": "blue",
     "symbol": "/",
     "material": [ "plastic" ],
-    "flags": [ "NONCONDUCTIVE", "FLOTATION" ],
-    "melee_damage": { "bash": 4 }
+    "flags": [ "NONCONDUCTIVE", "FLOTATION" ]
   },
   {
     "id": "shuttlecock",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "badminton shuttlecock", "str_pl": "shuttlecocks" },
     "description": "A high-drag projectile used in the sport of badminton.",
@@ -66,12 +66,11 @@
     "price_postapoc": "0 cent",
     "material": [ "rubber", "plastic" ],
     "symbol": "-",
-    "color": "white",
-    "to_hit": -5
+    "color": "white"
   },
   {
     "id": "golf_tee",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "golf tee" },
     "description": "A pin-shaped piece of wood meant for holding a golf ball slightly off the ground.",
@@ -86,7 +85,7 @@
   },
   {
     "id": "golf_ball",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "golf ball" },
     "description": "A small, hard plastic ball with round indentations on it.",
@@ -97,12 +96,11 @@
     "price_postapoc": "0 cent",
     "material": [ "plastic" ],
     "symbol": "*",
-    "color": "white",
-    "to_hit": -3,
-    "melee_damage": { "bash": 5 }
+    "color": "white"
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "pool_ball",
     "symbol": "*",
     "color": "blue",
@@ -117,17 +115,15 @@
     "weight": "170 g",
     "volume": "250 ml",
     "longest_side": "57 mm",
-    "damage": { "damage_type": "bash", "amount": 8 },
     "range": 10,
     "dispersion": 14,
     "loudness": 0,
-    "to_hit": -3,
-    "recovery_chance": 60,
+    "recovery_chance": 98,
     "effects": [ "NEVER_MISFIRES", "NON_FOULING" ],
-    "melee_damage": { "bash": 8 }
+    "thrown_damage": [ { "damage_type": "bash", "amount": 3 } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "bowling_ball",
     "symbol": "*",
     "color": "blue",
@@ -140,11 +136,11 @@
     "weight": "7257 g",
     "volume": "5277 ml",
     "longest_side": "216 mm",
-    "to_hit": -2,
     "melee_damage": { "bash": 18 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "baseball",
     "symbol": "*",
     "color": "white",
@@ -159,17 +155,15 @@
     "weight": "150 g",
     "volume": "250 ml",
     "longest_side": "75 mm",
-    "damage": { "damage_type": "bash", "amount": 6 },
     "range": 12,
     "dispersion": 12,
     "loudness": 0,
-    "to_hit": 3,
-    "recovery_chance": 80,
+    "recovery_chance": 99,
     "effects": [ "NEVER_MISFIRES", "NON_FOULING" ],
-    "melee_damage": { "bash": 6 }
+    "thrown_damage": [ { "damage_type": "bash", "amount": 3 } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "football",
     "symbol": "*",
     "color": "brown",
@@ -181,12 +175,10 @@
     "material": [ { "type": "leather", "portion": 9 }, { "type": "rubber" } ],
     "weight": "400 g",
     "volume": "750 ml",
-    "longest_side": "29 cm",
-    "to_hit": -1,
-    "melee_damage": { "bash": 4 }
+    "longest_side": "29 cm"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "basketball",
     "symbol": "*",
     "color": "brown",
@@ -198,12 +190,10 @@
     "material": [ "rubber" ],
     "weight": "800 g",
     "volume": "1 L",
-    "longest_side": "239 mm",
-    "to_hit": -1,
-    "melee_damage": { "bash": 6 }
+    "longest_side": "239 mm"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "indoor_volleyball",
     "symbol": "*",
     "color": "white",
@@ -215,12 +205,11 @@
     "material": [ "rubber" ],
     "weight": "260 g",
     "volume": "1 L",
-    "longest_side": "26 cm",
-    "to_hit": -1,
-    "melee_damage": { "bash": 4 }
+    "longest_side": "26 cm"
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "aim_game",
     "//": "lazerlyte trainer target was used as a reference",
     "symbol": "*",
@@ -231,7 +220,6 @@
     "price": "10 USD",
     "price_postapoc": "10 cent",
     "material": [ "plastic", "aluminum" ],
-    "ammo": [ "battery" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -243,10 +231,11 @@
     "charges_per_use": 50,
     "//2": "670 grams for the target with a bit extra for the generic laser + connectors",
     "weight": "800 g",
-    "volume": "3500 ml"
+    "volume": "3500 ml",
+    "tool_ammo": [ "battery" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "beach_volleyball",
     "symbol": "*",
     "color": "green",
@@ -259,11 +248,10 @@
     "weight": "280 g",
     "volume": "1 L",
     "longest_side": "27 cm",
-    "to_hit": -1,
-    "melee_damage": { "bash": 4 }
+    "thrown_damage": [ { "damage_type": "bash", "amount": 4 } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "puck",
     "symbol": "*",
     "color": "dark_gray",
@@ -276,11 +264,10 @@
     "weight": "170 g",
     "volume": "250 ml",
     "longest_side": "76 mm",
-    "to_hit": 2,
-    "melee_damage": { "bash": 7 }
+    "thrown_damage": [ { "damage_type": "bash", "amount": 7 } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mannequin",
     "symbol": "@",
     "color": "dark_gray",
@@ -293,12 +280,12 @@
     "weight": "81500 g",
     "volume": "62500 ml",
     "longest_side": "180 cm",
-    "to_hit": -2,
     "melee_damage": { "bash": 18 },
     "use_action": [ { "type": "deploy_furn", "furn_type": "f_mannequin" } ]
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "mannequin_decoy",
     "symbol": "@",
     "color": "light_gray",
@@ -311,9 +298,8 @@
     "weight": "81500 g",
     "volume": "62500 ml",
     "longest_side": "180 cm",
-    "to_hit": -2,
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "SINGLE_USE", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -329,8 +315,9 @@
       "hostile_msg": "Your mannequin seems to have a mind of its own!  If you see this, an error has occurred.",
       "difficulty": 0,
       "need_charges": 100,
-      "moves": 20
+      "moves": 200
     },
-    "melee_damage": { "bash": 18 }
+    "melee_damage": { "bash": 18 },
+    "tool_ammo": [ "battery" ]
   }
 ]

@@ -4,9 +4,8 @@ import os
 from optparse import OptionParser
 from sys import exit, version_info
 
-
 from string_extractor.parse import parse_json_file
-from string_extractor.pot_export import write_to_pot
+from string_extractor.pot_export import write_to_pot, sanitize
 
 
 parser = OptionParser()
@@ -14,9 +13,9 @@ parser.add_option("-i", "--include_dir", dest="include_dir",
                   action="append", type="str",
                   help="include directories")
 parser.add_option("-n", "--name", dest="name", help="POT package name")
-parser.add_option("-o", "--output", dest="output", help="output file path")
 parser.add_option("-r", "--reference", dest="reference",
-                  help="reference POT for plural collision avoidance")
+                  help="reference POT for plural collision avoidance, "
+                  "also strings from JSON are appended to this file")
 parser.add_option("-v", "--verbose", dest="verbose", help="be verbose")
 parser.add_option("-X", "--exclude", dest="exclude",
                   action="append", type="str",
@@ -24,6 +23,9 @@ parser.add_option("-X", "--exclude", dest="exclude",
 parser.add_option("-x", "--exclude_dir", dest="exclude_dir",
                   action="append", type="str",
                   help="exclude directories")
+parser.add_option("-D", "--obsolete_paths", dest="obsolete_paths",
+                  action="append", type="str",
+                  help="obsolete directories or files")
 
 (options, args) = parser.parse_args()
 
@@ -31,12 +33,13 @@ if not (version_info.major >= 3 and version_info.minor >= 7):
     print("Requires Python 3.7 or higher.")
     exit(1)
 
-if not options.output:
-    print("Have to specify output file path.")
+if not options.reference:
+    print("Have to specify reference file path.")
     exit(1)
 
 if not options.include_dir:
     print("Have to specify at least one search path.")
+    exit(1)
 
 include_dir = [os.path.normpath(i) for i in options.include_dir]
 
@@ -45,6 +48,9 @@ exclude = [os.path.normpath(i) for i in options.exclude] \
 
 exclude_dir = [os.path.normpath(i) for i in options.exclude_dir] \
     if options.exclude_dir else []
+
+obsolete_paths = [os.path.normpath(i) for i in options.obsolete_paths] \
+    if options.obsolete_paths else []
 
 
 def extract_all_from_dir(json_dir):
@@ -55,6 +61,11 @@ def extract_all_from_dir(json_dir):
     skiplist = [os.path.normpath(".gitkeep")]
     for f in allfiles:
         full_name = os.path.join(json_dir, f)
+        if full_name in [i for i in include_dir if i != json_dir]:
+            # Skip other included directories;
+            # They will be extracted later and appended to
+            # the end of the shared list of strings;
+            continue
         if os.path.isdir(full_name):
             dirs.append(f)
         elif f in skiplist or full_name in exclude:
@@ -68,11 +79,13 @@ def extract_all_from_dir(json_dir):
 
 
 def main():
-    for i in sorted(include_dir):
+    for i in include_dir:
         extract_all_from_dir(i)
 
-    with open(options.output, mode="w", encoding="utf-8") as fp:
-        write_to_pot(fp, True, options.name, sanitize=options.reference)
+    sanitize(options.reference, options.name)
+
+    with open(options.reference, mode="a", encoding="utf-8") as fp:
+        write_to_pot(fp, obsolete_paths=obsolete_paths)
 
 
 main()

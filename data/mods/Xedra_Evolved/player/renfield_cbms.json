@@ -23,7 +23,7 @@
   },
   {
     "id": "integrated_vamp_blood_bank",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "internal vampire blood bank" },
     "description": "Internal tank for vampire blood power generator bionic.",

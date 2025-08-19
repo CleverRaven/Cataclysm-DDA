@@ -17,7 +17,7 @@
     "id": "t_quietfarm_border_fence",
     "name": "chain link fence",
     "description": "A tall fence made of woven wires.  There aren't any gaps big enough for you to fit through, so you'll have to cut it, climb it, or find a way around.",
-    "symbol": "LINE_OXOX",
+    "symbol": "#",
     "color": "cyan",
     "looks_like": "t_chainfence",
     "move_cost": 0,
@@ -25,7 +25,7 @@
       "result": "t_quietfarm_border_ground",
       "duration": "5 seconds",
       "sound": "Snick, snick, gachunk!",
-      "byproducts": [ { "item": "wire", "count": 20 } ]
+      "byproducts": [ { "item": "lc_wire", "count": 20 } ]
     },
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "PERMEABLE", "UNSTABLE", "CLIMBABLE", "AUTO_WALL_SYMBOL", "BURROWABLE" ],
     "connect_groups": "CHAINFENCE",
@@ -34,13 +34,13 @@
     "oxytorch": {
       "result": "t_quietfarm_border_ground",
       "duration": "9 seconds",
-      "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "wire", "count": [ 4, 16 ] } ]
+      "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "lc_wire", "count": [ 4, 16 ] } ]
     },
     "hacksaw": {
       "result": "t_quietfarm_border_ground",
       "duration": "10 minutes",
       "message": "You finish cutting the metal.",
-      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "wire", "count": [ 4, 16 ] } ]
+      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "lc_wire", "count": [ 4, 16 ] } ]
     },
     "bash": {
       "str_min": 10,
@@ -48,7 +48,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_quietfarm_border_ground",
-      "items": [ { "item": "wire", "count": [ 8, 15 ] } ]
+      "items": [ { "item": "lc_wire", "count": [ 8, 15 ] } ]
     }
   },
   {
@@ -67,14 +67,14 @@
     "oxytorch": {
       "result": "t_quietfarm_border_ground",
       "duration": "9 seconds",
-      "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "wire", "count": [ 4, 16 ] } ]
+      "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "lc_wire", "count": [ 4, 16 ] } ]
     },
     "open": "t_quietfarm_border_fence_open",
     "hacksaw": {
       "result": "t_quietfarm_border_ground",
       "duration": "10 minutes",
       "message": "You finish cutting the metal.",
-      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "wire", "count": [ 4, 20 ] } ]
+      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "lc_wire", "count": [ 4, 20 ] } ]
     },
     "bash": {
       "str_min": 10,
@@ -85,7 +85,7 @@
       "sound_fail": "clang!",
       "ter_set": "t_quietfarm_border_ground",
       "items": [
-        { "item": "wire", "count": [ 6, 15 ] },
+        { "item": "lc_wire", "count": [ 6, 15 ] },
         { "item": "pipe", "count": [ 6, 15 ] },
         { "item": "scrap", "count": [ 0, 12 ] }
       ]
@@ -107,13 +107,13 @@
     "oxytorch": {
       "result": "t_quietfarm_border_ground",
       "duration": "9 seconds",
-      "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "wire", "count": [ 4, 16 ] } ]
+      "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "lc_wire", "count": [ 4, 16 ] } ]
     },
     "hacksaw": {
       "result": "t_quietfarm_border_ground",
       "duration": "10 minutes",
       "message": "You finish cutting the metal.",
-      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "wire", "count": [ 4, 20 ] } ]
+      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "lc_wire", "count": [ 4, 20 ] } ]
     },
     "bash": {
       "str_min": 5,
@@ -122,7 +122,7 @@
       "sound_fail": "clang!",
       "ter_set": "t_quietfarm_border_ground",
       "items": [
-        { "item": "wire", "count": [ 6, 15 ] },
+        { "item": "lc_wire", "count": [ 6, 15 ] },
         { "item": "pipe", "count": [ 6, 15 ] },
         { "item": "scrap", "count": [ 0, 12 ] }
       ]
@@ -177,7 +177,7 @@
     "id": "t_vitrified_wall",
     "name": "black glass wall",
     "description": "A heavy wall of black glass, textured with the knots and whorls of old and well-loved wood boards.",
-    "symbol": "LINE_OXOX",
+    "symbol": "#",
     "color": "dark_gray",
     "move_cost": 0,
     "connect_groups": "WALL",
@@ -227,7 +227,7 @@
     "id": "t_vitrified_chickenwire_fence",
     "name": "black fiberglass fence",
     "description": "A network of delicate glass threads strung between thicker posts.  The wind blowing across them produces a faint, eerie whine.",
-    "symbol": "LINE_OXOX",
+    "symbol": "#",
     "color": "dark_gray",
     "looks_like": "t_chainfence",
     "move_cost": 0,
@@ -269,7 +269,7 @@
     "name": "translucent black glass wall",
     "looks_like": "t_vitrified_wall",
     "description": "An area of black glass translucent enough to allow murky shapes to be seen through it.",
-    "symbol": "LINE_OXOX",
+    "symbol": "#",
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 30,
@@ -555,7 +555,7 @@
     "move_cost": 2,
     "connect_groups": "INDOORFLOOR",
     "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "INDOORS", "UNSTABLE" ],
-    "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_hole", "bash_below": true }
+    "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_null", "bash_below": true }
   },
   {
     "type": "terrain",

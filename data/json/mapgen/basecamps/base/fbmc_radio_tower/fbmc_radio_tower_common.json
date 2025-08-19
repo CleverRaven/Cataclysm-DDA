@@ -2,43 +2,36 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_radio_tower_0",
-    "method": "json",
     "object": { "set": [ { "point": "furniture", "id": "f_bulletin", "x": 9, "y": 8 } ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_radio_tower_1",
-    "method": "json",
     "object": { "set": [ { "point": "furniture", "id": "f_bulletin", "x": 9, "y": 8 } ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_radio_tower_fix_controls",
-    "method": "json",
     "object": { "set": [ { "point": "furniture", "id": "f_clear", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "faction_base_radio_tower_fix_tower",
-    "method": "json",
     "object": { "set": [ { "point": "furniture", "id": "f_clear", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_radio_tower_root_cellar",
-    "method": "json",
     "object": { "set": [ { "point": "terrain", "id": "t_rootcellar", "x": 19, "y": 9 } ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_radio_tower_water_well",
-    "method": "json",
     "object": { "set": [ { "point": "terrain", "id": "t_water_pump", "x": 19, "y": 10 } ] }
   },
   {
     "type": "mapgen",
     "nested_mapgen_id": "fbmc_radio_tower_0_prepalisade_nested",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -74,7 +67,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "fbmc_radio_tower_1_prepalisade_nested",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -110,7 +102,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "fbmc_radio_tower_0_palisade_nested",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -146,7 +137,6 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "fbmc_radio_tower_1_palisade_nested",
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -182,7 +172,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_radio_tower_0_prepalisade",
-    "method": "json",
     "object": {
       "place_nested": [ { "chunks": [ "fbmc_radio_tower_0_prepalisade_nested" ], "x": 0, "y": 0 } ],
       "place_items": [ { "x": 4, "y": 9, "item": "digging_soil_loam_50L", "chance": 99, "repeat": 870 } ]
@@ -191,7 +180,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_radio_tower_1_prepalisade",
-    "method": "json",
     "object": {
       "place_nested": [ { "chunks": [ "fbmc_radio_tower_1_prepalisade_nested" ], "x": 0, "y": 0 } ],
       "place_items": [ { "x": 4, "y": 9, "item": "digging_soil_loam_50L", "chance": 99, "repeat": 1080 } ]
@@ -200,13 +188,11 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_radio_tower_0_palisade",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmc_radio_tower_0_palisade_nested" ], "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_radio_tower_1_palisade",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmc_radio_tower_1_palisade_nested" ], "x": 0, "y": 0 } ] }
   }
 ]

@@ -105,6 +105,7 @@
       { "item": "oxygen_tank", "prob": 20 },
       { "item": "smoxygen_tank", "prob": 5 },
       { "item": "eyedrops", "prob": 35 },
+      { "item": "steroid_eyedrops", "prob": 35 },
       { "item": "nic_gum", "prob": 25 },
       { "item": "inhaler", "prob": 20, "charges": [ 10, 100 ] },
       { "item": "codeine", "prob": 25 },
@@ -119,7 +120,9 @@
       { "item": "antiparasitic", "prob": 10 },
       { "item": "survnote", "prob": 5 },
       { "item": "diazepam", "prob": 10 },
-      { "item": "syringe", "prob": 20 }
+      { "item": "syringe", "prob": 20 },
+      { "group": "birth_control", "prob": 25 },
+      { "group": "estrogen_hrt", "prob": 2 }
     ]
   }
 ]

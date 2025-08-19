@@ -260,7 +260,7 @@
     "revert_to_itype": "bot_science_bot",
     "starting_ammo": { "bot_manhack": 5 },
     "path_settings": { "max_dist": 5, "avoid_traps": true, "avoid_sharp": true },
-    "special_attacks": [ [ "SCIENCE", 16 ], [ "TAZER", 10 ] ],
+    "special_attacks": [ [ "TAZER", 10 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "skitterbot", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
     "flags": [

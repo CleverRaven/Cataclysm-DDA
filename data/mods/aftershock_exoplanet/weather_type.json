@@ -19,7 +19,7 @@
     "sun_multiplier": 0.3,
     "required_weathers": [ "cloudy" ],
     "priority": 30,
-    "condition": { "or": [ { "math": [ "weather('humidity')", ">=", "97" ] }, { "math": [ "weather('pressure')", "<", "1000" ] } ] }
+    "condition": { "or": [ { "math": [ "weather('humidity') >= 97" ] }, { "math": [ "weather('pressure') < 1000" ] } ] }
   },
   {
     "id": "afs_whiteout",
@@ -41,7 +41,7 @@
     "sun_multiplier": 0.15,
     "required_weathers": [ "cloudy", "afs_flurries" ],
     "priority": 40,
-    "condition": { "and": [ "is_day", { "math": [ "weather('windpower')", ">=", "20" ] } ] }
+    "condition": { "and": [ "is_day", { "math": [ "weather('windpower') >= 20" ] } ] }
   },
   {
     "id": "afs_snowing",
@@ -63,7 +63,7 @@
     "sun_multiplier": 0.2,
     "required_weathers": [ "afs_flurries", "afs_whiteout" ],
     "priority": 50,
-    "condition": { "or": [ { "math": [ "weather('humidity')", ">=", "98" ] }, { "math": [ "weather('pressure')", "<", "993" ] } ] }
+    "condition": { "or": [ { "math": [ "weather('humidity') >= 98" ] }, { "math": [ "weather('pressure') < 993" ] } ] }
   },
   {
     "id": "afs_thunder",
@@ -85,7 +85,7 @@
     "sun_multiplier": 0.01,
     "required_weathers": [ "afs_snowing" ],
     "priority": 60,
-    "condition": { "math": [ "weather('pressure')", "<", "990" ] }
+    "condition": { "math": [ "weather('pressure') < 990" ] }
   },
   {
     "id": "afs_lightning",
@@ -107,6 +107,6 @@
     "sun_multiplier": 0.01,
     "required_weathers": [ "afs_thunder" ],
     "priority": 70,
-    "condition": { "math": [ "weather('pressure')", "<", "980" ] }
+    "condition": { "math": [ "weather('pressure') < 980" ] }
   }
 ]

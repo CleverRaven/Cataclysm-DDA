@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "everburning_torch_candelabra",
     "name": { "str": "everburning torch candelabra" },
     "description": "A tall, homemade candelabra that holds multiple everburning torches.  You could set it up somewhere to kindle the torches and provide light.",
@@ -17,7 +17,7 @@
   },
   {
     "id": "everburning_sconce",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "everburning sconce" },
     "description": "This is a high quality engraved wooden torch, placed into a wood and metal sconce and ready to be attached to a wall.  It will burn forever with a smokeless light.  Now you can light your wizard's ritual room in the traditional fashion.",
     "weight": "1531 g",
@@ -33,7 +33,7 @@
   },
   {
     "id": "orrery_item",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "orrery", "str_pl": "orreries" },
     "description": "This is a beautiful, non-scale model of the solar system.  A complex series of gears allows the relative motions of the planets to be studied at the turn of a crank.  You could set this up somewhere to decorate.",
     "weight": "15000 g",
@@ -46,7 +46,7 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "druid_chair_item",
     "name": { "str": "gnarled chair" },
     "description": "A simple wooden chair with four legs, a seat, and a back, all seemingly grown out of a single solid piece of wood.  Despite the twisted lines, it still looks extremely comfortable.",

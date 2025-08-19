@@ -1,0 +1,73 @@
+[
+  {
+    "type": "palette",
+    "id": "welding_store_palette",
+    "terrain": {
+      "_": "t_pavement",
+      ";": "t_pavement_y",
+      "-": "t_sidewalk",
+      "c": "t_thconc_floor_no_roof",
+      "o": "t_window",
+      "s": "t_concrete",
+      "t": "t_thconc_floor_no_roof",
+      "4": "t_gutter_downspout",
+      "$": "t_privacy_fence",
+      "£": "t_privacy_fencegate_c",
+      "f": "t_concrete",
+      "Á": "t_pavement",
+      "F": "t_thconc_floor_no_roof",
+      "p": "t_concrete",
+      "S": "t_concrete",
+      "b": "t_concrete",
+      "l": "t_concrete",
+      "C": "t_thconc_floor_no_roof",
+      "g": "t_thconc_floor_no_roof",
+      "r": "t_concrete",
+      "*": [
+        [ "t_door_locked_peep", 2 ],
+        "t_door_locked_alarm",
+        [ "t_door_locked", 10 ],
+        [ "t_door_elocked_peep", 4 ],
+        "t_door_elocked_alarm",
+        [ "t_door_elocked", 15 ],
+        "t_door_c",
+        [ "t_door_o", 2 ]
+      ],
+      "+": [ [ "t_door_c", 5 ], [ "t_door_o", 5 ], [ "t_door_locked_interior", 1 ] ],
+      ",": "t_region_groundcover",
+      "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
+      "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ]
+    },
+    "furniture": {
+      "b": "f_bench",
+      "d": "f_counter",
+      "g": "f_dumpster",
+      "h": "f_chair",
+      "l": "f_locker",
+      "p": "f_hd_compressor_unit",
+      "r": "f_rack",
+      "s": "f_rack",
+      "C": [ [ "f_crate_o", 1 ], [ "f_crate_c", 1 ] ],
+      "D": "f_counter_gate_c",
+      "H": "f_counter",
+      "S": "f_rack"
+    },
+    "item": {
+      "f": { "item": "weldtank", "chance": 65, "repeat": [ 0, 3 ] },
+      "F": { "item": "weldtank", "chance": 50, "repeat": [ 0, 3 ] }
+    },
+    "items": {
+      "H": { "item": "cash_register_random" },
+      "s": { "item": "SUS_welding_gear", "chance": 65, "repeat": [ 0, 4 ] },
+      "C": { "item": "SUS_welding_gear", "chance": 40, "repeat": [ 0, 8 ] },
+      "r": { "item": "SUS_welding_gear", "chance": 50, "repeat": [ 4, 7 ] },
+      "S": { "item": "tools_common_small", "chance": 65, "repeat": [ 0, 8 ] },
+      "l": { "item": "clothing_work_set", "chance": 45, "repeat": [ 0, 1 ] }
+    },
+    "vehicles": {
+      "=": { "vehicle": "welding_cart", "chance": 35, "rotation": 0 },
+      "t": { "vehicle": "extended_pickup", "chance": 35, "rotation": 270 },
+      "Á": { "vehicle": "suburban_home_compact", "chance": 35, "rotation": 270 }
+    }
+  }
+]

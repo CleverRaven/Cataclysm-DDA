@@ -31,7 +31,7 @@
     "time": "60 m",
     "faults_removed": [ "fault_wet" ],
     "skills": { "cooking": 4 },
-    "requirements": [ { "qualities": [ { "id": "OVEN", "level": 3 } ] } ]
+    "requirements": [ { "qualities": [ { "id": "OVEN", "level": 2 } ] } ]
   },
   {
     "type": "fault_fix",

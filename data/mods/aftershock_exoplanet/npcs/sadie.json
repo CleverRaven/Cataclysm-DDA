@@ -1,0 +1,208 @@
+[
+  {
+    "type": "effect_type",
+    "id": "u_met_sadie"
+  },
+  {
+    "type": "effect_type",
+    "id": "sadie_injection",
+    "name": [ "Sadie's injection" ],
+    "desc": [ "" ],
+    "blood_analysis_description": "Several hundred lines of text list a series of complex biological molecules with unknown interactions.  Many appear to be associated with healing and immune response.  Only a few are known to be poisonous and many are known carcinogens.  Several have psychological and hormonal effects.",
+    "rating": "mixed",
+    "apply_message": "A wave of cold runs through your body and you feel dizzy",
+    "remove_message": "The effects of Sadie's injection appear to be wearing off now",
+    "removes_effects": [ "bite", "flu" ],
+    "blocks_effects": [ "bite", "cold", "flu" ],
+    "base_mods": { "str_mod": [ 1 ], "sleep_chance": [ -1003 ], "sleep_min": [ 2500 ], "sleep_max": [ 3500 ] }
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Sadie_1",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "u_val": "general_meeting_u_met_sadie" } ],
+      "yes": [
+        "Are we meeting again or did we already do that part?",
+        "You remind me of my friend Billy.",
+        "What an amazing world to be alive in, more or less.",
+        "My head always beats when I see you.  Or is that my heart?  I should check that.",
+        "It's always so nice to be seen."
+      ],
+      "no": "Hello Billy.  Back again to try and kill me?  It won't work, you should just give up."
+    },
+    "responses": [
+      {
+        "text": "What, who is Billy?",
+        "effect": { "u_add_var": "general_meeting_u_met_sadie", "value": "yes" },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_sadie" } ] } },
+        "topic": "TALK_sadie_firstmeet"
+      },
+      {
+        "text": "Die foul creature!",
+        "effect": [ { "u_add_var": "general_meeting_u_met_sadie", "value": "yes" }, "insult_combat" ],
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_sadie" } ] } },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "What did you just inject me with?",
+        "condition": { "compare_string": [ "yes", { "u_val": "general_injection_sadie_injection" } ] },
+        "topic": "TALK_sadie_injection"
+      },
+      {
+        "text": "Would you like to come with me Sadie?",
+        "topic": "TALK_sadie_follow",
+        "condition": { "and": [ { "not": "npc_following" }, { "compare_string": [ "yes", { "u_val": "general_heart_sadie_heart" } ] } ] }
+      },
+      {
+        "text": "Can you inject me with whatever that was again?",
+        "condition": { "compare_string": [ "yes", { "u_val": "general_heart_sadie_heart" } ] },
+        "topic": "TALK_sadie_injection2"
+      },
+      {
+        "text": "How did you get here?",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_sadie" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "general_heart_sadie_heart" } ] } }
+          ]
+        },
+        "topic": "TALK_sadie_ask_past"
+      },
+      {
+        "text": "How are things here?",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_sadie" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "general_heart_sadie_heart" } ] } }
+          ]
+        },
+        "topic": "TALK_sadie_ask_mood"
+      },
+      {
+        "text": "Can I do anything for you?",
+        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_sadie" } ] },
+        "topic": "TALK_MISSION_LIST"
+      },
+      { "text": "Goodbye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_sadie_firstmeet",
+    "dynamic_line": "Oh.  I see now.  You have different sexual traits than Billy, likely due to a mutation or cybernetic enhancement, useful in mating rituals, the act of reproduction, and establishing social hierarchies.  Very good, I accept that you are either not Billy or have changed enough that we can establish a new relationship beyond violence, for example based around the gathering of food, mating, or shared hobbies such as badminton or photography.  How do you wish to proceed with our relationship not-Billy?",
+    "responses": [
+      { "text": "I'd like to understand more about you first.  Are you human, more or less?", "topic": "TALK_sadie_what" },
+      { "text": "You are aware of the Cataclysm?", "topic": "TALK_sadie_cataclysm" },
+      { "text": "I am your new friend and I'm here to help you.", "topic": "TALK_Sadie_1" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_sadie_what",
+    "dynamic_line": "Yes, much of what you see is human I think.  I don't have the proper equipment to be entirely sure and I have some strange memories.  My beacon has already told you that I am Sadie.  Beyond that I don't know much to tell you.  I know a great deal about medicine.  I have some strange responses to physical stimuli that I don't completely understand.  I think I must be a medical experiment of some kind.  My chest hurts in a really yummy way.",
+    "responses": [ { "text": "Can I help you?", "topic": "TALK_MISSION_LIST" }, { "text": "I should go.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_sadie_ask_past",
+    "dynamic_line": "I have so many memories, but they feel like they belong to other people?  And animals too I think?  It makes me dizzy and I have to sit down.",
+    "responses": [ { "text": "Let's talk about something else.", "topic": "TALK_Sadie_1" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_sadie_cataclysm",
+    "dynamic_line": "I don't know her.",
+    "responses": [ { "text": "Yes.  Let's talk about something else.", "topic": "TALK_Sadie_1" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_sadie_ask_mood",
+    "dynamic_line": "Things stay pretty much the same here.  Sometimes I feel bad, and that feels good, and sometimes I feel good, and that feels good too.  Overall things are better than you might expect, but this may be a common experience, in which case things are exactly as you might expect.  Does that make sense?",
+    "responses": [ { "text": "Perfect sense.", "topic": "TALK_Sadie_1" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_sadie_injection",
+    "dynamic_line": "I hope you like it, it's one of my favorite things in the world, actually a lot of them all blended together.  It should feel really good.  Or really bad, I guess I don't know much about your body chemistry.  You're still alive, that's a really good sign!",
+    "responses": [
+      {
+        "text": "Wonderful.  Please don't inject me with anything else unless I ask for it in the future.",
+        "effect": [ { "u_lose_var": "general_injection_sadie_injection" }, { "u_add_var": "general_heart_sadie_heart", "value": "yes" } ],
+        "topic": "TALK_Sadie_1"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_sadie_injection2",
+    "dynamic_line": "I'm so glad you liked it.  It really means a lot to me that we have similar body chemistry.  That's so important for all kinds of biological and emotional compatibility for example organ transplants and the reproductive act.  This shows how I feel about you, I think.",
+    "responses": [
+      {
+        "text": "I'm glad we get along so well Sadie.",
+        "effect": [ "give_aid", { "u_add_effect": "sadie_injection", "duration": 200000 } ],
+        "topic": "TALK_Sadie_1"
+      }
+    ]
+  },
+  {
+    "id": "TALK_sadie_follow",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "u_val": "general_free_u_freed_sadie" } ],
+      "no": [
+        "I can't wait to see how wonderful the world must be.  I've heard the shrieking and moaning and cries for help and I just know it's going to be perfect if everyone out there is as sweet and loving as you and Billy."
+      ],
+      "yes": [
+        "Let's go explore.  There's still so much these eyes haven't seen.  Wait, are these new eyes?  Where did I put my old eyes?  Are they pretty?"
+      ]
+    },
+    "responses": [
+      {
+        "text": "Yes, everyone left is exactly like Billy and me, or worse.",
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_free_u_freed_sadie" } ] } },
+        "effect": [ "follow", { "u_add_var": "general_free_u_freed_sadie", "value": "yes" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "They're even better.  Let's go.",
+        "condition": { "and": [ { "compare_string": [ "yes", { "u_val": "general_free_u_freed_sadie" } ] } ] },
+        "effect": [ "follow" ],
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "MISSION_sadie_heart",
+    "type": "mission_definition",
+    "name": "Heart for Sadie",
+    "description": "Find a special organ",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 0,
+    "item": "flesh_golem_heart",
+    "count": 1,
+    "start": {
+      "assign_mission_target": { "om_terrain": "forest_thick", "reveal_radius": 1, "random": true, "search_range": 18, "min_distance": 5, "z": 0 },
+      "update_mapgen": { "place_monster": [ { "monster": "mon_flesh_golem_afs", "x": 11, "y": 11, "target": true, "name": "Billy" } ] }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "I want your organ.",
+      "offer": "I've been feeling really yummy since the last time Billy came to work on me, and I think it's because my heart is gone.  Like literally gone.  I checked.  Billy did a really good job taking it out, but I want to leave this storage unit with you and if I'm going to do that I need a working heart.  My first idea was to take yours, but you probably need it even more.  You know who has a nice big juicy heart?  Billy does.  And I bet I know where Billy is.",
+      "accepted": "Aw, I heart that you're going to help me get that big organ.",
+      "rejected": "This makes me sad.  Which makes me happy.  So thanks?  Let me know if you change your mind.  I probably shouldn't go without a heart for too too long but I'm kind of enjoying it.  It's like always being on the edge of something horrible, but in a nice way.",
+      "advice": "Please be careful cutting that heart out.  If you ruin it I don't know about another good one nearby.  Maybe practice on some friends and neighbors first, you really want to be sure and get it right.  If you break Billy's heart I can use a heart from another of whatever Billy is, but I can't use regular hearts, and I don't know where to find more Billy types.",
+      "inquire": "Do you have my heart?",
+      "success": "Ooh, Billy had a really good heart.  Can you turn away please?  I just need to do some quick open chest surgery here.  Just a quick cut here *ooh* and I need to break this and this *SNAP* *oh!* and just sew some little things together here quickly.  Not as much blood as you'd think.  I should probably look into that later, there should be more blood in there.  Ah, good enough, I can do a better job closing up later.  Kind of tingly, feeling everything moving again in there.  See, heart surgery isn't hard if you have the right attitude.  Well now, you need a good reward for everything you've done for me.  Here, let me inject you with this.",
+      "success_lie": "I don't know why, but I feel better.  Also worse.  Maybe I'm good without it.",
+      "failure": "Oh no, my heart.  Thank you for trying though, your failure gives me pleasure.  What else are you bad at?"
+    },
+    "end": {
+      "effect": [
+        "give_aid",
+        { "u_add_effect": "sadie_injection", "duration": 200000 },
+        { "u_add_var": "general_injection_sadie_injection", "value": "yes" }
+      ]
+    }
+  }
+]

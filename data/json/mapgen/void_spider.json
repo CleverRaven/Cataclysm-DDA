@@ -28,7 +28,11 @@
             "prob": 10
           },
           {
-            "collection": [ { "item": "holo_cloak" }, { "item": "standard_template_construct" }, { "item": "plasma_gun" } ],
+            "collection": [
+              { "item": "holo_cloak" },
+              { "item": "standard_template_construct" },
+              { "item": "exodii_plasma_projectile", "contents-item": [ "condenser_pristine" ] }
+            ],
             "prob": 10
           },
           {
@@ -85,9 +89,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "void_spider_lair_entrance" ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_rock_floor_no_roof",
       "rows": [
@@ -124,14 +126,11 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "void_spider_lair_entrance_shift",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "void_spider_lair_entrance_shift" ], "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "void_spider_lair_entrance_shift",
-    "weight": 250,
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -168,14 +167,11 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "void_spider_lair_corpses",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "void_spider_lair_corpses" ], "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "void_spider_lair_corpses",
-    "weight": 250,
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -222,14 +218,11 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "void_spider_lair_eggs",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "void_spider_lair_eggs" ], "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "void_spider_lair_eggs",
-    "weight": 250,
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -265,9 +258,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "void_spider_lair_a1", "void_spider_lair_a2" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_nether_glass_floor",
       "rows": [

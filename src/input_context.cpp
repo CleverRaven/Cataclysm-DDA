@@ -4,14 +4,17 @@
 #include <array>
 #include <cctype>
 #include <cstddef>
+#include <cstdint>
 #include <exception>
 #include <iterator>
 #include <memory>
 #include <optional>
 #include <set>
+#include <type_traits>
 #include <utility>
 
 #include "action.h"
+#include "cata_imgui.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
@@ -20,6 +23,7 @@
 #include "cursesdef.h"
 #include "game.h"
 #include "help.h"
+#include "imgui/imgui.h"
 #include "input.h"
 #include "map.h"
 #include "options.h"
@@ -31,8 +35,6 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"
-#include "cata_imgui.h"
-#include "imgui/imgui.h"
 
 enum class kb_menu_status {
     remove, reset, add, add_global, execute, show, filter
@@ -548,33 +550,38 @@ static void rotate_direction_cw( int &dx, int &dy )
     dy = dir_num / 3 - 1;
 }
 
-std::optional<tripoint> input_context::get_direction( const std::string &action ) const
+// This templating ensures that only coord_point with origin::relative is accepted.
+// See src/coords_fwd.h and src/coordinates.h
+template<typename Point, coords::scale Scale>
+static std::optional<coords::coord_point<Point, coords::origin::relative, Scale>>
+        get_direction( const std::string &action, bool iso_mode )
 {
-    static const auto noop = static_cast<tripoint( * )( tripoint )>( []( tripoint p ) {
+    using CoordPoint = coords::coord_point<Point, coords::origin::relative, Scale>;
+    static const auto noop = static_cast<CoordPoint( * )( CoordPoint )>( []( CoordPoint p ) {
         return p;
     } );
-    static const auto rotate = static_cast<tripoint( * )( tripoint )>( []( tripoint p ) {
-        rotate_direction_cw( p.x, p.y );
+    static const auto rotate = static_cast<CoordPoint( * )( CoordPoint )>( []( CoordPoint p ) {
+        rotate_direction_cw( p.x(), p.y() );
         return p;
     } );
     const auto transform = iso_mode && g->is_tileset_isometric() ? rotate : noop;
 
     if( action == "UP" ) {
-        return transform( tripoint_north );
+        return transform( CoordPoint::north );
     } else if( action == "DOWN" ) {
-        return transform( tripoint_south );
+        return transform( CoordPoint::south );
     } else if( action == "LEFT" ) {
-        return transform( tripoint_west );
+        return transform( CoordPoint::west );
     } else if( action == "RIGHT" ) {
-        return transform( tripoint_east );
+        return transform( CoordPoint::east );
     } else if( action == "LEFTUP" ) {
-        return transform( tripoint_north_west );
+        return transform( CoordPoint::north_west );
     } else if( action == "RIGHTUP" ) {
-        return transform( tripoint_north_east );
+        return transform( CoordPoint::north_east );
     } else if( action == "LEFTDOWN" ) {
-        return transform( tripoint_south_west );
+        return transform( CoordPoint::south_west );
     } else if( action == "RIGHTDOWN" ) {
-        return transform( tripoint_south_east );
+        return transform( CoordPoint::south_east );
     } else {
         return std::nullopt;
     }
@@ -583,36 +590,13 @@ std::optional<tripoint> input_context::get_direction( const std::string &action 
 std::optional<tripoint_rel_ms> input_context::get_direction_rel_ms( const std::string &action )
 const
 {
-    static const auto noop = static_cast<tripoint_rel_ms( * )( tripoint_rel_ms )>( [](
-    tripoint_rel_ms p ) {
-        return p;
-    } );
-    static const auto rotate = static_cast<tripoint_rel_ms( * )( tripoint_rel_ms )>( [](
-    tripoint_rel_ms p ) {
-        rotate_direction_cw( p.x(), p.y() );
-        return p;
-    } );
-    const auto transform = iso_mode && g->is_tileset_isometric() ? rotate : noop;
+    return get_direction<tripoint, coords::ms>( action, iso_mode );
+}
 
-    if( action == "UP" ) {
-        return transform( tripoint_rel_ms( tripoint_north ) );
-    } else if( action == "DOWN" ) {
-        return transform( tripoint_rel_ms( tripoint_south ) );
-    } else if( action == "LEFT" ) {
-        return transform( tripoint_rel_ms( tripoint_west ) );
-    } else if( action == "RIGHT" ) {
-        return transform( tripoint_rel_ms( tripoint_east ) );
-    } else if( action == "LEFTUP" ) {
-        return transform( tripoint_rel_ms( tripoint_north_west ) );
-    } else if( action == "RIGHTUP" ) {
-        return transform( tripoint_rel_ms( tripoint_north_east ) );
-    } else if( action == "LEFTDOWN" ) {
-        return transform( tripoint_rel_ms( tripoint_south_west ) );
-    } else if( action == "RIGHTDOWN" ) {
-        return transform( tripoint_rel_ms( tripoint_south_east ) );
-    } else {
-        return std::nullopt;
-    }
+std::optional<tripoint_rel_omt> input_context::get_direction_rel_omt( const std::string &action )
+const
+{
+    return get_direction<tripoint, coords::omt>( action, iso_mode );
 }
 
 // Custom set of hotkeys that explicitly don't include the hardcoded
@@ -640,7 +624,7 @@ static const std::map<fallback_action, int> fallback_keys = {
 };
 
 keybindings_ui::keybindings_ui( bool permit_execute_action,
-                                input_context *parent ) : cataimgui::window( "KEYBINDINGS", ImGuiWindowFlags_NoNav )
+                                input_context *parent ) : cataimgui::window( _( "KEYBINDINGS" ), ImGuiWindowFlags_NoNav )
 {
     this->ctxt = parent;
 
@@ -682,7 +666,7 @@ void keybindings_ui::draw_controls()
     scroll_offset = SIZE_MAX;
     size_t legend_idx = 0;
     for( ; legend_idx < 4; legend_idx++ ) {
-        draw_colored_text( legend[legend_idx], c_white );
+        cataimgui::draw_colored_text( legend[legend_idx], c_white );
         ImGui::SameLine();
         std::string button_text_no_color = remove_color_tags( buttons[legend_idx].second );
         ImGui::SetCursorPosX( str_width_to_pixels( width ) - ( get_text_width(
@@ -693,7 +677,7 @@ void keybindings_ui::draw_controls()
         ImGui::EndDisabled();
     }
     for( ; legend_idx < legend.size(); legend_idx++ ) {
-        draw_colored_text( legend[legend_idx], c_white );
+        cataimgui::draw_colored_text( legend[legend_idx], c_white );
     }
     draw_filter( *ctxt, status == kb_menu_status::filter );
     if( last_status != status && status == kb_menu_status::filter ) {
@@ -704,8 +688,13 @@ void keybindings_ui::draw_controls()
     if( last_status != status && status == kb_menu_status::show ) {
         ImGui::SetNextWindowFocus();
     }
-    if( ImGui::BeginTable( "KB_KEYS", 2, ImGuiTableFlags_ScrollY ) ) {
+    if( ImGui::BeginTable( "KB_KEYS", 4, ImGuiTableFlags_ScrollY ) ) {
 
+        float one_char_width = ImGui::CalcTextSize( "M" ).x;
+        ImGui::TableSetupColumn( "##invlet",
+                                 ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoSort, one_char_width );
+        ImGui::TableSetupColumn( "##modified",
+                                 ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoSort, one_char_width );
         ImGui::TableSetupColumn( "Action Name",
                                  ImGuiTableColumnFlags_WidthStretch | ImGuiTableColumnFlags_NoSort );
         float keys_col_width = str_width_to_pixels( width ) - str_width_to_pixels( TERMX >= 100 ? 62 : 52 );
@@ -714,6 +703,7 @@ void keybindings_ui::draw_controls()
         //ImGui::TableHeadersRow();
         for( size_t i = 0; i < filtered_registered_actions.size(); i++ ) {
             const std::string &action_id = filtered_registered_actions[i];
+            ImGui::PushID( action_id.c_str() );
 
             bool overwrite_default;
             const action_attributes &attributes = inp_mngr.get_action_attributes( action_id, ctxt->category,
@@ -725,11 +715,7 @@ void keybindings_ui::draw_controls()
                                          || attributes.input_events != basic_attributes.input_events;
 
             ImGui::TableNextColumn();
-            ImGui::Text( " " );
-            ImGui::SameLine( 0, 0 );
             char invlet = ' ';
-            //if( i < hotkeys.size() ) {
-            //    invlet = hotkeys[i];
             if( ImGui::IsItemVisible() ) {
                 if( scroll_offset == SIZE_MAX ) {
                     scroll_offset = i;
@@ -738,21 +724,25 @@ void keybindings_ui::draw_controls()
                     invlet = hotkeys[i - scroll_offset];
                 }
             }
-            std::string key_text;
             if( ( status == kb_menu_status::add_global && overwrite_default )
                 || ( status == kb_menu_status::reset && !customized_keybinding )
               ) {
                 // We're trying to add a global, but this action has a local
                 // defined, so gray out the invlet.
-                key_text = colorize( string_format( "%c", invlet ), c_dark_gray );
+                ImGui::TextColored( c_dark_gray, "%c", invlet );
             } else if( status == kb_menu_status::add || status == kb_menu_status::add_global ||
                        status == kb_menu_status::remove || status == kb_menu_status::reset ) {
-                key_text = colorize( string_format( "%c", invlet ), c_light_blue );
+                ImGui::TextColored( c_light_blue, "%c", invlet );
             } else if( status == kb_menu_status::execute ) {
-                key_text = colorize( string_format( "%c", invlet ), c_white );
-            } else {
-                key_text = " ";
+                ImGui::TextColored( c_white, "%c", invlet );
             }
+
+            ImGui::TableNextColumn();
+            if( customized_keybinding ) {
+                ImGui::TextUnformatted( "*" );
+            }
+
+            ImGui::TableNextColumn();
             nc_color col;
             if( attributes.input_events.empty() ) {
                 col = i == size_t( highlight_row_index ) ? h_unbound_key : unbound_key;
@@ -761,23 +751,20 @@ void keybindings_ui::draw_controls()
             } else {
                 col = i == size_t( highlight_row_index ) ? h_global_key : global_key;
             }
-            if( customized_keybinding ) {
-                key_text += "*";
-            } else {
-                key_text += " ";
-            }
-            key_text += string_format( "%s:", ctxt->get_action_name( action_id ) );
             bool is_selected = false;
             bool is_hovered = false;
-            draw_colored_text( key_text, col, 0.0f, status == kb_menu_status::show ? nullptr : &is_selected,
-                               nullptr, &is_hovered );
+            cataimgui::draw_colored_text( ctxt->get_action_name( action_id ),
+                                          col, 0.0f,
+                                          status == kb_menu_status::show ? nullptr : &is_selected,
+                                          nullptr, &is_hovered );
             if( ( is_selected || is_hovered ) && invlet != ' ' ) {
                 highlight_row_index = i;
             }
-            //ImGui::SameLine();
-            //ImGui::SetCursorPosX(str_width_to_pixels(TERMX >= 100 ? 62 : 52));
+
             ImGui::TableNextColumn();
             ImGui::Text( "%s", ctxt->get_desc( action_id ).c_str() );
+
+            ImGui::PopID();
         }
         ImGui::EndTable();
     }
@@ -842,13 +829,16 @@ bool input_context::action_reset( const std::string &action_id )
     std::vector<input_event> conflicting_events;
     std::array<std::reference_wrapper<const std::string>, 2> contexts = { default_context_id, category };
     for( const std::string &context : contexts ) {
-        const input_manager::t_actions &def = inp_mngr.basic_action_contexts.at( context );
-
-        bool is_in_def = def.find( action_id ) != def.end();
-        if( is_in_def ) {
-            for( const input_event &event : def.at( action_id ).input_events ) {
-                conflicting_events.emplace_back( event );
-            }
+        auto iter_basic = inp_mngr.basic_action_contexts.find( context );
+        if( iter_basic == inp_mngr.basic_action_contexts.end() ) {
+            continue;
+        }
+        auto iter_action = iter_basic->second.find( action_id );
+        if( iter_action == iter_basic->second.end() ) {
+            continue;
+        }
+        for( const input_event &event : iter_action->second.input_events ) {
+            conflicting_events.emplace_back( event );
         }
     }
     if( !resolve_conflicts( conflicting_events, action_id ) ) {
@@ -857,20 +847,30 @@ bool input_context::action_reset( const std::string &action_id )
 
     // RESET KEY BINDINGS
     for( const std::string &context : contexts ) {
-        const input_manager::t_actions &def = inp_mngr.basic_action_contexts.at( context );
-        const input_manager::t_actions &cus = inp_mngr.action_contexts.at( context );
-
-        bool is_in_def = def.find( action_id ) != def.end();
-        bool is_in_cus = cus.find( action_id ) != cus.end();
-
-        if( is_in_cus ) {
-            inp_mngr.remove_input_for_action( action_id, context );
+        // reset -> remove from user created keybindings
+        auto iter_cus = inp_mngr.action_contexts.find( context );
+        if( iter_cus != inp_mngr.action_contexts.end() ) {
+            if( iter_cus->second.find( action_id ) != iter_cus->second.end() ) {
+                inp_mngr.remove_input_for_action( action_id, context );
+            }
         }
 
-        if( is_in_def ) {
-            for( const input_event &event : def.at( action_id ).input_events ) {
-                inp_mngr.add_input_for_action( action_id, context, event );
-            }
+        // reset the original keybindings
+        auto iter_def = inp_mngr.basic_action_contexts.find( context );
+        if( iter_def == inp_mngr.basic_action_contexts.end() ) {
+            continue;
+        }
+        auto iter_action = iter_def->second.find( action_id );
+        if( iter_action == iter_def->second.end() ) {
+            continue;
+        }
+        if( iter_action->second.input_events.empty() ) {
+            // special case: reset to an empty local keybinding "Unbound locally!"
+            inp_mngr.get_or_create_event_list( action_id, context );
+            continue;
+        }
+        for( const input_event &event : iter_action->second.input_events ) {
+            inp_mngr.add_input_for_action( action_id, context, event );
         }
     }
     return true;
@@ -1118,7 +1118,6 @@ action_id input_context::display_menu( bool permit_execute_action )
     if( changed && query_yn( _( "Save changes?" ) ) ) {
         try {
             inp_mngr.save();
-            get_help().load();
         } catch( std::exception &err ) {
             popup( _( "saving keybindings failed: %s" ), err.what() );
         }
@@ -1134,15 +1133,15 @@ input_event input_context::get_raw_input()
     return next_action;
 }
 
-#if !(defined(TILES) || defined(_WIN32))
+#if defined(TUI)
 // Also specify that we don't have a gamepad plugged in.
 bool gamepad_available()
 {
     return false;
 }
 
-std::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win,
-        const point &offset, const bool center_cursor ) const
+std::optional<tripoint_bub_ms> input_context::get_coordinates( const catacurses::window
+        &capture_win, const point &offset, const bool center_cursor ) const
 {
     if( !coordinate_input_received ) {
         return std::nullopt;
@@ -1157,24 +1156,35 @@ std::optional<tripoint> input_context::get_coordinates( const catacurses::window
 
     point p = coordinate + offset;
     // If no offset is specified, account for the window location
-    if( offset == point_zero ) {
+    if( offset == point::zero ) {
         p -= win_min;
     }
     // Some windows (notably the overmap) want 0,0 to be the center of the screen
     if( center_cursor ) {
         p -= view_size / 2;
     }
-    return tripoint( p, get_map().get_abs_sub().z() );
+    return tripoint_bub_ms( p.x, p.y, get_map().get_abs_sub().z() );
 }
 #endif
+
+std::optional<tripoint_rel_omt> input_context::get_coordinates_rel_omt( const catacurses::window
+        &capture_win, const point &offset, const bool center_cursor ) const
+{
+    // Sometimes off by one with tiles but I think that's due to the centre changing with zoom level + tileset size so I don't think it can be easily fixed here
+    const std::optional<tripoint_bub_ms> p = get_coordinates( capture_win, offset, center_cursor );
+    if( p ) {
+        return tripoint_rel_omt( p->raw() );
+    }
+    return std::nullopt;
+}
 
 std::optional<point> input_context::get_coordinates_text( const catacurses::window
         &capture_win ) const
 {
 #if !defined( TILES )
-    std::optional<tripoint> coord3d = get_coordinates( capture_win );
+    std::optional<tripoint_bub_ms> coord3d = get_coordinates( capture_win );
     if( coord3d.has_value() ) {
-        return get_coordinates( capture_win )->xy();
+        return coord3d->xy().raw();
     } else {
         return std::nullopt;
     }
@@ -1271,7 +1281,7 @@ void input_context::set_iso( bool mode )
 }
 
 std::vector<std::string> input_context::filter_strings_by_phrase(
-    const std::vector<std::string> &strings, const std::string_view phrase ) const
+    const std::vector<std::string> &strings, std::string_view phrase ) const
 {
     std::vector<std::string> filtered_strings;
 

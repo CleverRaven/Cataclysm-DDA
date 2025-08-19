@@ -1,11 +1,19 @@
 #include "mapgendata.h"
 
+#include <algorithm>
+#include <iterator>
+#include <optional>
+
 #include "all_enum_values.h"
+#include "coordinates.h"
+#include "cube_direction.h"
 #include "debug.h"
+#include "enum_conversions.h"
+#include "flexbuffer_json.h"
 #include "hash_utils.h"
 #include "json.h"
+#include "line.h"
 #include "map.h"
-#include "mapdata.h"
 #include "omdata.h"
 #include "overmapbuffer.h"
 #include "point.h"
@@ -16,6 +24,11 @@ void mapgen_arguments::merge( const mapgen_arguments &other )
     for( const std::pair<const std::string, cata_variant> &p : other.map ) {
         map[p.first] = p.second;
     }
+}
+
+void mapgen_arguments::add( const std::string &param_name, const cata_variant &value )
+{
+    map[param_name] = value;
 }
 
 void mapgen_arguments::serialize( JsonOut &jo ) const
@@ -37,10 +50,10 @@ size_t std::hash<mapgen_arguments>::operator()( const mapgen_arguments &args ) c
 static const regional_settings dummy_regional_settings;
 
 mapgendata::mapgendata( map &mp, dummy_settings_t )
-    : density_( 0 )
+    : pos_( tripoint_abs_omt::zero )
+    , density_( 0 )
     , when_( calendar::turn )
     , mission_( nullptr )
-    , zlevel_( 0 )
     , region( dummy_regional_settings )
     , m( mp )
     , default_groundcover( region.default_groundcover )
@@ -52,14 +65,14 @@ mapgendata::mapgendata( map &mp, dummy_settings_t )
 
 mapgendata::mapgendata( const tripoint_abs_omt &over, map &mp, const float density,
                         const time_point &when, ::mission *const miss )
-    : terrain_type_( overmap_buffer.ter( over ) )
+    : pos_( over )
+    , terrain_type_( overmap_buffer.ter( over ) )
     , density_( density )
     , when_( when )
     , mission_( miss )
-    , zlevel_( over.z() )
     , predecessors_( overmap_buffer.predecessors( over ) )
-    , t_above( overmap_buffer.ter( over + tripoint_above ) )
-    , t_below( overmap_buffer.ter( over + tripoint_below ) )
+    , t_above( overmap_buffer.ter( over + tripoint::above ) )
+    , t_below( overmap_buffer.ter( over + tripoint::below ) )
     , region( overmap_buffer.get_settings( over ) )
     , m( mp )
     , default_groundcover( region.default_groundcover )
@@ -218,7 +231,7 @@ int &mapgendata::dir( int dir_in )
     }
 }
 
-void mapgendata::square_groundcover( const point &p1, const point &p2 ) const
+void mapgendata::square_groundcover( const point_bub_ms &p1, const point_bub_ms &p2 ) const
 {
     m.draw_square_ter( default_groundcover, p1, p2 );
 }

@@ -205,6 +205,7 @@
     "required_str": -1,
     "rotates_to": "INDOORFLOOR",
     "flags": [ "NOITEM", "BLOCKSDOOR", "FLAMMABLE_ASH", "ORGANIC", "EASY_DECONSTRUCT", "BLOCK_WIND", "DOOR" ],
+    "close": "f_cardboard_door",
     "deconstruct": {
       "items": [
         { "item": "box_large", "count": 1 },
@@ -890,6 +891,34 @@
   },
   {
     "type": "furniture",
+    "id": "f_plane_wreckage",
+    "name": "metal wreckage from a plane",
+    "description": "A pile of various bent and twisted metals.  Some of it looks pretty rusty, you wouldn't want to cut yourself on this.",
+    "looks_like": "t_scrap_wall_halfway",
+    "symbol": "#",
+    "color": "cyan",
+    "move_cost_mod": 6,
+    "max_volume": "750 L",
+    "required_str": -1,
+    "crafting_pseudo_item": "fake_sharp_metal_wreckage",
+    "flags": [
+      "TRANSPARENT",
+      "UNSTABLE",
+      "ROUGH",
+      "SHARP",
+      "PLACE_ITEM",
+      "MOUNTABLE",
+      "CONTAINER",
+      "SEALED",
+      "ALLOW_FIELD_EFFECT",
+      "SHORT",
+      "SMALL_HIDE",
+      "RUBBLE"
+    ],
+    "examine_action": "rubble"
+  },
+  {
+    "type": "furniture",
     "id": "f_reactor_meltdown",
     "name": "radioactive slag",
     "description": "A pile of melted slag from a destroyed nuclear reactor.  What are you doing looking at it?  Get the hell out of here, you nutcase!",
@@ -1089,7 +1118,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "steel_chunk", "count": [ 6, 15 ] },
+        { "item": "lc_steel_chunk", "count": [ 6, 15 ] },
         { "item": "scrap", "count": [ 5, 20 ] },
         { "item": "rope_6", "count": [ 1, 3 ] }
       ]
@@ -1118,7 +1147,9 @@
         { "item": "splinter", "count": [ 10, 20 ] },
         { "item": "rope_6", "count": [ 0, 2 ] },
         { "item": "string_6", "count": [ 0, 1 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1139,10 +1170,12 @@
       "items": [
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 20 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "lc_steel_chunk", "count": [ 2, 4 ] },
         { "item": "cable", "charges": [ 0, 1 ] },
         { "item": "scrap", "count": [ 3, 5 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1160,7 +1193,7 @@
         { "item": "scrap", "count": 10 },
         { "item": "sheet_metal", "count": 2 },
         { "item": "rebar", "count": 2 },
-        { "item": "wire", "count": 2 }
+        { "item": "lc_wire", "count": 2 }
       ]
     },
     "bash": {
@@ -1188,6 +1221,9 @@
     "looks_like": "f_curtain",
     "flags": [ "THIN_OBSTACLE", "TRANSPARENT", "CLIMBABLE", "BLOCKSDOOR", "NOITEM", "PERMEABLE" ],
     "examine_action": "chainfence",
+    "deconstruct": {
+      "items": [ { "item": "pipe", "count": 2 }, { "item": "scrap", "count": 4 }, { "item": "plastic_chunk", "count": 8 } ]
+    },
     "bash": {
       "str_min": 8,
       "str_max": 30,
@@ -1597,6 +1633,8 @@
     "description": "An area of heaped sand, not easily traversable.",
     "required_str": -1,
     "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "THIN_OBSTACLE", "PERMEABLE" ],
+    "connect_groups": "SANDPILE",
+    "connects_to": "SANDPILE",
     "deconstruct": { "items": [ { "item": "material_sand", "count": 4000 } ] },
     "bash": {
       "str_min": 50,
@@ -1617,6 +1655,8 @@
     "description": "An area of sand heaped up to your shoulders, not easily traversable.",
     "required_str": -1,
     "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "THIN_OBSTACLE", "PERMEABLE" ],
+    "connect_groups": "SANDPILE",
+    "connects_to": "SANDPILE",
     "deconstruct": { "items": [ { "item": "material_sand", "count": 4000 } ], "furn_set": "f_sand_mound_short" },
     "bash": {
       "str_min": 50,
@@ -1639,6 +1679,8 @@
     "description": "An area of sand heaped well above your head, difficult to climb over.",
     "required_str": -1,
     "flags": [ "NOITEM", "EASY_DECONSTRUCT", "MINEABLE", "PERMEABLE", "CLIMBABLE" ],
+    "connect_groups": "SANDPILE",
+    "connects_to": "SANDPILE",
     "deconstruct": { "items": [ { "item": "material_sand", "count": 4000 } ], "furn_set": "f_sand_mound_mid" },
     "bash": {
       "str_min": 50,
@@ -1660,6 +1702,8 @@
     "description": "An area of heaped gravel, not easily traversable.",
     "required_str": -1,
     "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "THIN_OBSTACLE", "PERMEABLE" ],
+    "connect_groups": "GRAVELPILE",
+    "connects_to": "GRAVELPILE",
     "deconstruct": { "items": [ { "item": "material_gravel", "count": 4000 } ] },
     "bash": {
       "str_min": 50,
@@ -1680,6 +1724,8 @@
     "description": "An area of gravel heaped up to your shoulders, not easily traversable.",
     "required_str": -1,
     "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "THIN_OBSTACLE", "PERMEABLE" ],
+    "connect_groups": "GRAVELPILE",
+    "connects_to": "GRAVELPILE",
     "deconstruct": { "items": [ { "item": "material_gravel", "count": 4000 } ], "furn_set": "f_gravel_mound_short" },
     "bash": {
       "str_min": 50,
@@ -1702,6 +1748,8 @@
     "description": "An area of gravel heaped well above your head, difficult to climb over.",
     "required_str": -1,
     "flags": [ "NOITEM", "EASY_DECONSTRUCT", "MINEABLE", "PERMEABLE", "CLIMBABLE" ],
+    "connect_groups": "GRAVELPILE",
+    "connects_to": "GRAVELPILE",
     "deconstruct": { "items": [ { "item": "material_gravel", "count": 4000 } ], "furn_set": "f_gravel_mound_mid" },
     "bash": {
       "str_min": 50,
@@ -1972,7 +2020,7 @@
     "color": "dark_gray",
     "move_cost_mod": 4,
     "coverage": 40,
-    "description": "An area of heaped large rocks, not easily traversable",
+    "description": "An area of heaped large rocks, not easily traversable.",
     "required_str": -1,
     "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "THIN_OBSTACLE", "PERMEABLE" ],
     "deconstruct": { "items": [ { "item": "rock_large", "count": 166 } ] },

@@ -1,19 +1,19 @@
 #include "auto_note.h"
 
 #include <cstddef>
+#include <functional>
 #include <iosfwd>
 #include <iterator>
 #include <string>
-#include <type_traits>
 
 #include "cata_utility.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "filesystem.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "input_context.h"
+#include "input_popup.h"
 #include "json.h"
 #include "map_extras.h"
 #include "options.h"
@@ -21,17 +21,17 @@
 #include "path_info.h"
 #include "point.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "translation.h"
 #include "translations.h"
-#include "ui.h"
+#include "ui_helpers.h"
 #include "ui_manager.h"
+#include "uilist.h"
 
 namespace auto_notes
 {
 cata_path auto_note_settings::build_save_path() const
 {
-    return PATH_INFO::player_base_save_path_path() + ".ano.json";
+    return PATH_INFO::player_base_save_path() + ".ano.json";
 }
 
 void auto_note_settings::clear()
@@ -42,7 +42,8 @@ void auto_note_settings::clear()
 
 bool auto_note_settings::save( bool bCharacter )
 {
-    if( bCharacter && !file_exist( PATH_INFO::player_base_save_path() + ".sav" ) ) {
+    if( bCharacter && ( !file_exist( PATH_INFO::player_base_save_path() + ".sav" ) &&
+                        !file_exist( PATH_INFO::player_base_save_path() + ".sav.zzip" ) ) ) {
         return true;
     }
     cata_path sGlobalFile = PATH_INFO::autonote();
@@ -305,21 +306,8 @@ void auto_note_manager_gui::show()
 
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        iContentHeight = FULL_SCREEN_HEIGHT - 2 - iHeaderHeight;
-
-        const point iOffset( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
-                             TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 );
-
-        w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                       iOffset );
-
-        w_header = catacurses::newwin( iHeaderHeight, FULL_SCREEN_WIDTH - 2,
-                                       iOffset + point_south_east );
-
-        w = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2,
-                                iOffset + point( 1, iHeaderHeight + 1 ) );
-
-        ui.position_from_window( w_border );
+        ui_helpers::full_screen_window( ui, &w, &w_border, &w_header, nullptr,
+                                        &iContentHeight, 1, iHeaderHeight, 0 );
     } );
     ui.mark_resize();
 
@@ -354,10 +342,12 @@ void auto_note_manager_gui::show()
     ui.on_redraw( [&]( const ui_adaptor & ) {
         // == Draw border
         draw_border( w_border, BORDER_COLOR, _( "Auto notes manager" ) );
-        mvwputch( w_border, point( 0, iHeaderHeight - 1 ), c_light_gray, LINE_XXXO );
-        mvwputch( w_border, point( 79, iHeaderHeight - 1 ), c_light_gray, LINE_XOXX );
-        mvwputch( w_border, point( 52, FULL_SCREEN_HEIGHT - 1 ), c_light_gray, LINE_XXOX );
-        mvwputch( w_border, point( 61, FULL_SCREEN_HEIGHT - 1 ), c_light_gray, LINE_XXOX );
+        wattron( w_border, c_light_gray );
+        mvwaddch( w_border, point( 0, iHeaderHeight - 1 ), LINE_XXXO );
+        mvwaddch( w_border, point( 79, iHeaderHeight - 1 ), LINE_XOXX );
+        mvwaddch( w_border, point( 52, FULL_SCREEN_HEIGHT - 1 ), LINE_XXOX );
+        mvwaddch( w_border, point( 61, FULL_SCREEN_HEIGHT - 1 ), LINE_XXOX );
+        wattroff( w_border, c_light_gray );
         wnoutrefresh( w_border );
 
         // == Draw header
@@ -367,14 +357,13 @@ void auto_note_manager_gui::show()
         shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<Enter> - Toggle" ) );
 
         // Draw horizontal line and corner pieces of the table
-        for( int x = 0; x < 78; x++ ) {
-            if( x == 51 || x == 60 ) {
-                mvwputch( w_header, point( x, iHeaderHeight - 2 ), c_light_gray, LINE_OXXX );
-                mvwputch( w_header, point( x, iHeaderHeight - 1 ), c_light_gray, LINE_XOXO );
-            } else {
-                mvwputch( w_header, point( x, iHeaderHeight - 2 ), c_light_gray, LINE_OXOX );
-            }
-        }
+        wattron( w_header, c_light_gray );
+        mvwhline( w_header, point( 0, iHeaderHeight - 2 ), LINE_OXOX, 78 );
+        mvwaddch( w_header, point( 51, iHeaderHeight - 2 ), LINE_OXXX );
+        mvwaddch( w_header, point( 51, iHeaderHeight - 1 ), LINE_XOXO );
+        mvwaddch( w_header, point( 60, iHeaderHeight - 2 ), LINE_OXXX );
+        mvwaddch( w_header, point( 60, iHeaderHeight - 1 ), LINE_XOXO );
+        wattroff( w_header, c_light_gray );
         tmpx = 17;
         tmpx += shortcut_print( w_header, point( tmpx, iHeaderHeight - 2 ),
                                 bCharacter ? hilite( c_white ) : c_white, c_light_green, _( "Character" ) ) + 2;
@@ -414,23 +403,16 @@ void auto_note_manager_gui::show()
                         _( "<Tab> to change pages." ) );
 
         // Clear table
-        for( int y = 0; y < iContentHeight; y++ ) {
-            for( int x = 0; x < 79; x++ ) {
-                // The middle beams needs special treatment
-                if( x == 51 || x == 60 ) {
-                    mvwputch( w, point( x, y ), c_light_gray, LINE_XOXO );
-                } else {
-                    mvwputch( w, point( x, y ), c_black, ' ' );
-                }
-            }
-        }
+        mvwrectf( w, point::zero, c_black, ' ', 79, iContentHeight );
+        mvwvline( w, point( 51, 0 ), c_light_gray, LINE_XOXO, iContentHeight );
+        mvwvline( w, point( 60, 0 ), c_light_gray, LINE_XOXO, iContentHeight );
         int cacheSize = bCharacter ? char_cacheSize : global_cacheSize;
         draw_scrollbar( w_border, currentLine, iContentHeight, cacheSize, point( 0, iHeaderHeight + 1 ) );
 
         if( bCharacter ? char_emptyMode : global_emptyMode ) {
             // NOLINTNEXTLINE(cata-use-named-point-constants)
-            mvwprintz( w, point( 1, 0 ), c_light_gray,
-                       _( "Discover more special encounters to populate this list" ) );
+            fold_and_print( w, point( 1, 0 ), 49, c_light_gray,
+                            _( "Discover more special encounters to populate this list" ) );
         } else {
             calcStartPos( startPosition, currentLine, iContentHeight,
                           ( bCharacter ? char_displayCache : global_displayCache ).size() );
@@ -516,16 +498,13 @@ void auto_note_manager_gui::show()
             entry.second = false;
             ( bCharacter ? charwasChanged : globalwasChanged ) = true;
         } else if( action == "CHANGE_MAPEXTRA_CHARACTER" ) {
-            string_input_popup custom_symbol_popup;
-            custom_symbol_popup
-            .title( _( "Enter a map extra custom symbol (empty to unset):" ) )
-            .width( 2 )
-            .query_string();
+            string_input_popup_imgui custom_symbol_popup( 0 );
+            custom_symbol_popup.set_label( _( "Enter a map extra custom symbol (empty to unset):" ) );
+            custom_symbol_popup.set_max_input_length( 1 );
+            const std::string &custom_symbol_str = custom_symbol_popup.query();
 
-            if( !custom_symbol_popup.canceled() ) {
-                const std::string &custom_symbol_str = custom_symbol_popup.text();
+            if( !custom_symbol_popup.cancelled() ) {
                 if( custom_symbol_str.empty() ) {
-
                     ( bCharacter ? char_custom_symbol_cache : global_custom_symbol_cache ).erase( currentItem );
                 } else {
                     uilist ui_colors;

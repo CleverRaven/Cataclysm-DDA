@@ -99,7 +99,10 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_BUILD_CAMP_3",
     "end": {
-      "update_mapgen": { "om_terrain": "homelesscamp_npc", "place_nested": [ { "chunks": [ "homeless_camp_refurb_2" ], "x": 0, "y": 0 } ] }
+      "update_mapgen": {
+        "om_terrain": "homelesscamp_npc",
+        "place_nested": [ { "chunks": [ "homeless_camp_refurb_2" ], "x": 0, "y": 0, "z": 0 } ]
+      }
     },
     "has_generic_rewards": true,
     "dialogue": {

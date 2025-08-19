@@ -26,6 +26,7 @@
     "name": { "str": "Alarm System" },
     "description": "A motion-detecting alarm system will notice almost all movement within a fifteen-foot radius, and will silently alert you.  This is very useful during sleep, or if you suspect a cloaked pursuer.",
     "occupied_bodyparts": [ [ "torso", 2 ], [ "head", 1 ] ],
+    "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "MOTION_ALARM", "add": 5 } ] } ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ],
     "act_cost": "1 J",
     "react_cost": "1 J",
@@ -56,7 +57,7 @@
   {
     "id": "bio_armor_arms",
     "type": "bionic",
-    "name": { "str": "Arms Alloy Plating" },
+    "name": { "str": "Subcutaneous Protective Mesh - Arms" },
     "description": "An advanced protective meshwork has been woven into the flesh on your arms and hands, protecting them from physical trauma.",
     "occupied_bodyparts": [ [ "arm_l", 4 ], [ "arm_r", 4 ], [ "hand_l", 1 ], [ "hand_r", 1 ] ],
     "protec": [
@@ -69,8 +70,6 @@
     "//": "cant_remove_reason removed for now as these are presently functionally obsolete and characters should be able to remove them to get with the times.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "mutation_conflicts": [
-      "THICKSKIN",
-      "THINSKIN",
       "M_SKIN",
       "M_SKIN2",
       "M_SKIN3",
@@ -119,9 +118,6 @@
       "WINGS_STUB",
       "WINGS_BAT",
       "WINGS_BUTTERFLY",
-      "PALE",
-      "SPOTS",
-      "SUNBURN",
       "SORES",
       "CHLOROMORPH",
       "ARM_FEATHERS",
@@ -155,14 +151,11 @@
       "SLIME_SPRAY",
       "MUCUS_SECRETION",
       "MUCUS_SECRETION2",
-      "SKIN_SMOOTH",
-      "SKIN_RASHY",
       "CHITIN_MOLTED",
       "CHITIN2_MOLTED",
       "CHITIN3_MOLTED",
       "CRUSTACEAN_CARAPACE_MOLTED",
-      "SPARSE_SCALES",
-      "SKIN_PEELING"
+      "SPARSE_SCALES"
     ]
   },
   {
@@ -178,7 +171,7 @@
   {
     "id": "bio_armor_head",
     "type": "bionic",
-    "name": { "str": "Head Alloy Plating" },
+    "name": { "str": "Subcutaneous Protective Mesh - Head" },
     "description": "An advanced protective meshwork has been woven into the flesh on your head and jaw region, protecting your skull from physical trauma.",
     "occupied_bodyparts": [ [ "head", 3 ], [ "mouth", 1 ] ],
     "protec": [
@@ -189,8 +182,6 @@
     "//": "cant_remove_reason removed for now as these are presently functionally obsolete and characters should be able to remove them to get with the times.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "mutation_conflicts": [
-      "THICKSKIN",
-      "THINSKIN",
       "M_SKIN",
       "M_SKIN2",
       "M_SKIN3",
@@ -231,9 +222,6 @@
       "SMALL",
       "SMALL2",
       "SMALL_OK",
-      "PALE",
-      "SPOTS",
-      "SUNBURN",
       "SORES",
       "CHLOROMORPH",
       "ACIDPROOF",
@@ -290,20 +278,17 @@
       "MUCUS_SECRETION",
       "MUCUS_SECRETION2",
       "WIDE_MOUTH",
-      "SKIN_SMOOTH",
-      "SKIN_RASHY",
       "CHITIN_MOLTED",
       "CHITIN2_MOLTED",
       "CHITIN3_MOLTED",
       "CRUSTACEAN_CARAPACE_MOLTED",
-      "SPARSE_SCALES",
-      "SKIN_PEELING"
+      "SPARSE_SCALES"
     ]
   },
   {
     "id": "bio_armor_legs",
     "type": "bionic",
-    "name": { "str": "Legs Alloy Plating" },
+    "name": { "str": "Subcutaneous Protective Mesh - Legs" },
     "description": "An advanced protective meshwork has been woven into the flesh on your legs and feet, protecting them from physical trauma.",
     "occupied_bodyparts": [ [ "leg_l", 6 ], [ "leg_r", 6 ], [ "foot_l", 1 ], [ "foot_r", 1 ] ],
     "protec": [
@@ -316,8 +301,6 @@
     "//": "cant_remove_reason removed for now as these are presently functionally obsolete and characters should be able to remove them to get with the times.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "mutation_conflicts": [
-      "THICKSKIN",
-      "THINSKIN",
       "M_SKIN",
       "M_SKIN2",
       "M_SKIN3",
@@ -361,9 +344,6 @@
       "SMALL",
       "SMALL2",
       "SMALL_OK",
-      "PALE",
-      "SPOTS",
-      "SUNBURN",
       "SORES",
       "CHLOROMORPH",
       "ACIDPROOF",
@@ -397,20 +377,17 @@
       "GASTROPOD_BALANCE",
       "MUCUS_SECRETION",
       "MUCUS_SECRETION2",
-      "SKIN_SMOOTH",
-      "SKIN_RASHY",
       "CHITIN_MOLTED",
       "CHITIN2_MOLTED",
       "CHITIN3_MOLTED",
       "CRUSTACEAN_CARAPACE_MOLTED",
-      "SPARSE_SCALES",
-      "SKIN_PEELING"
+      "SPARSE_SCALES"
     ]
   },
   {
     "id": "bio_armor_torso",
     "type": "bionic",
-    "name": { "str": "Torso Alloy Plating" },
+    "name": { "str": "Subcutaneous Protective Mesh - Torso" },
     "description": "An advanced protective meshwork has been woven into the flesh on your torso, protecting it from physical trauma.",
     "occupied_bodyparts": [ [ "torso", 10 ] ],
     "protec": [ [ "torso", { "bash": 3, "cut": 3, "bullet": 3, "stab": 3 } ] ],
@@ -419,8 +396,6 @@
     "//": "cant_remove_reason removed for now as these are presently functionally obsolete and characters should be able to remove them to get with the times.",
     "canceled_mutations": [ "VINES1", "VINES2", "VINES3" ],
     "mutation_conflicts": [
-      "THICKSKIN",
-      "THINSKIN",
       "M_SKIN",
       "M_SKIN2",
       "M_SKIN3",
@@ -464,9 +439,6 @@
       "SMALL",
       "SMALL2",
       "SMALL_OK",
-      "PALE",
-      "SPOTS",
-      "SUNBURN",
       "SORES",
       "CHLOROMORPH",
       "ACIDPROOF",
@@ -490,14 +462,11 @@
       "INSECT_RESERVOIR",
       "MUCUS_SECRETION",
       "MUCUS_SECRETION2",
-      "SKIN_SMOOTH",
-      "SKIN_RASHY",
       "CHITIN_MOLTED",
       "CHITIN2_MOLTED",
       "CHITIN3_MOLTED",
       "CRUSTACEAN_CARAPACE_MOLTED",
-      "SPARSE_SCALES",
-      "SKIN_PEELING"
+      "SPARSE_SCALES"
     ]
   },
   {
@@ -827,6 +796,29 @@
     "activated_on_install": true
   },
   {
+    "id": "bio_mp3",
+    "type": "bionic",
+    "name": { "str": "WearMan" },
+    "description": "Surgically implanted into your skull near the eardrums are two speakers, as well as a small port behind the left earlobe.  They can pick up local radio waves and play downloaded music in concert hall quality.  It came pre-installed with \"Rubik's Mickse\".",
+    "occupied_bodyparts": [ [ "head", 1 ] ],
+    "flags": [ "USES_BIONIC_POWER", "BIONIC_TOGGLED" ],
+    "act_cost": "1 J",
+    "react_cost": "1 J",
+    "time": "1 s",
+    "activated_eocs": [ "EOC_BIONIC_WEARMAN_SELECTOR" ],
+    "deactivated_eocs": [ "EOC_BIONIC_WEARMAN_REMOVAL" ]
+  },
+  {
+    "id": "bio_voice_b",
+    "type": "bionic",
+    "name": { "str": "AudioVox" },
+    "description": "Hailing from a world choked with neon smog, and appreciated by Exodii artists, the AudioVox implant allows you to change, remodulate, and even autotune your voice.  It also causes vocalizations /(such as shouts and singing/) to be much louder.  It consists of an electronic voice box, synthetic larynx and multiple speakers implanted throughout your throat.",
+    "occupied_bodyparts": [ [ "torso", 3 ], [ "mouth", 2 ] ],
+    "enchantments": [ { "values": [ { "value": "SHOUT_NOISE", "add": 25 }, { "value": "SHOUT_NOISE_STR_MULT", "add": 2 } ] } ],
+    "canceled_mutations": [ "GROWL", "SNARL", "HISS", "CROAK", "BOOMING_VOICE" ],
+    "mutation_conflicts": [ "SCREECH" ]
+  },
+  {
     "id": "bio_emp",
     "type": "bionic",
     "name": { "str": "Directional EMP" },
@@ -899,6 +891,7 @@
     "canceled_mutations": [
       "HYPEROPIC",
       "MYOPIC",
+      "MESOPIC",
       "URSINE_EYE",
       "FROG_EYES",
       "NIGHTVISION3",
@@ -947,7 +940,7 @@
       [ "foot_r", 1 ]
     ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
-    "active_flags": [ "ELECTRIC_IMMUNE" ],
+    "active_flags": [ "ELECTRIC_IMMUNE", "EMP_ENERGYDRAIN_IMMUNE" ],
     "act_cost": "5 J",
     "react_cost": "5 J",
     "time": "1 s"
@@ -966,6 +959,7 @@
     "type": "bionic",
     "name": { "str": "Calorie Tracker" },
     "description": "A module implanted in your body measures your calorie intake and expenditure at all times.",
+    "flags": [ "CALORIE_BURN" ],
     "occupied_bodyparts": [ [ "torso", 1 ] ]
   },
   {
@@ -1034,7 +1028,7 @@
     "id": "bio_gills",
     "type": "bionic",
     "name": { "str": "Respirator" },
-    "description": "A complex respiration augmentation system.  Improves respiration ability in air and allows breathing water.  Will automatically turn on when drowning.  Turn on to recharge stamina faster, at moderate power cost.  Asthmatics may also use it to stop asthma attacks.",
+    "description": "A complex respiration augmentation system.  Improves respiration ability in air and allows breathing water.  Will automatically activate when drowning.  Turn on to recharge stamina faster, at moderate power cost.  Asthmatics may also use it to stop asthma attacks.",
     "occupied_bodyparts": [ [ "torso", 8 ], [ "head", 2 ], [ "mouth", 2 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "trigger_cost": "25 kJ"
@@ -1046,6 +1040,25 @@
     "description": "Your feet are equipped with precision sonar equipment, allowing you to detect the movements of creatures below the ground, buried traps, and unstable terrain.",
     "occupied_bodyparts": [ [ "foot_l", 3 ], [ "foot_r", 3 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "special_vision": [
+          {
+            "condition": { "or": [ { "npc_has_flag": "DIGS" }, { "and": [ "npc_is_underwater", { "npc_has_flag": "CAN_DIG" } ] } ] },
+            "distance": 20,
+            "descriptions": [
+              {
+                "id": "ground_sonar_sense",
+                "symbol": "?",
+                "color": "c_green",
+                "text": "You sense some creature moving underground here."
+              }
+            ]
+          }
+        ]
+      }
+    ],
     "act_cost": "200 J",
     "react_cost": "200 J",
     "time": "1 s"
@@ -1118,7 +1131,7 @@
     "description": "Your range of vision extends into the infrared, allowing you to see warm-blooded creatures in the dark or through smoke.",
     "occupied_bodyparts": [ [ "eyes", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
-    "active_flags": [ "INFRARED" ],
+    "enchantments": [ "THERMAL_VISION_GOOD" ],
     "act_cost": "5 J",
     "react_cost": "5 J",
     "time": "1 s"
@@ -1275,13 +1288,7 @@
     "description": "When active, this bionic eliminates all light within a 2 tile radius through destructive interference.",
     "occupied_bodyparts": [ [ "torso", 16 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
-    "enchantments": [
-      {
-        "condition": "ACTIVE",
-        "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ],
-        "emitter": "emit_shadow_field"
-      }
-    ],
+    "enchantments": [ { "condition": "ACTIVE", "emitter": "emit_shadow_field" } ],
     "act_cost": "9 kJ",
     "react_cost": "9 kJ",
     "time": "1 s"
@@ -1418,7 +1425,7 @@
     "occupied_bodyparts": [ [ "hand_l", 1 ], [ "hand_r", 1 ] ],
     "passive_pseudo_items": [ "fake_razor" ],
     "flags": [ "BIONIC_NPC_USABLE" ],
-    "enchantments": [ { "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ITEM_DAMAGE_STAB", "add": 2 } ] } ]
+    "enchantments": [ { "condition": { "not": "u_has_weapon" }, "melee_damage_bonus": [ { "type": "stab", "add": 2 } ] } ]
   },
   {
     "id": "bio_recycler",
@@ -1445,7 +1452,7 @@
     "description": "A small module connected to your brain allows you to interface with nearby devices with wireless capabilities.",
     "occupied_bodyparts": [ [ "head", 2 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
-    "react_cost": 1,
+    "react_cost": "1 kJ",
     "time": "24 s"
   },
   {
@@ -1454,7 +1461,7 @@
     "name": { "str": "Sonic Resonator" },
     "description": "Your entire body may resonate at very high power, creating a short-range shockwave.  While it will not do much damage to creatures, solid objects such as walls and doors will be damaged.",
     "occupied_bodyparts": [ [ "torso", 15 ], [ "head", 1 ], [ "arm_l", 2 ], [ "arm_r", 2 ], [ "leg_l", 4 ], [ "leg_r", 4 ] ],
-    "act_cost": 100
+    "act_cost": "100 kJ"
   },
   {
     "id": "bio_scent_mask",
@@ -1464,8 +1471,8 @@
     "occupied_bodyparts": [ [ "torso", 3 ], [ "head", 1 ], [ "arm_l", 1 ], [ "arm_r", 1 ], [ "leg_l", 1 ], [ "leg_r", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "active_flags": [ "NO_SCENT" ],
-    "act_cost": 1,
-    "react_cost": 1,
+    "act_cost": "1 kJ",
+    "react_cost": "1 kJ",
     "time": "1 m"
   },
   {
@@ -1485,7 +1492,6 @@
     "flags": [ "BIONIC_TOGGLED" ],
     "active_flags": [ "STOP_SLEEP_DEPRIVATION" ],
     "occupied_bodyparts": [ [ "head", 1 ], [ "torso", 1 ] ],
-    "act_cost": 0,
     "react_cost": "1 kJ",
     "time": "100 s"
   },
@@ -1504,7 +1510,7 @@
     "name": { "str": "Shockwave Generator" },
     "description": "You generate a powerful shockwave, knocking back all nearby creatures.  Targets are stunned briefly, take damage and additional stun upon impact with impassable terrain, and knockback any creatures they collide with.",
     "occupied_bodyparts": [ [ "torso", 20 ] ],
-    "act_cost": 250
+    "act_cost": "250 kJ"
   },
   {
     "id": "bio_sleepy",
@@ -1641,7 +1647,7 @@
     "name": { "str": "Teleportation Unit" },
     "description": "This highly experimental unit folds space over short distances, instantly transporting your body up to 25 feet at the cost of much power.  Note that prolonged or frequent use may have dangerous side effects.",
     "occupied_bodyparts": [ [ "torso", 16 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "leg_l", 4 ], [ "leg_r", 4 ] ],
-    "act_cost": 250
+    "act_cost": "250 kJ"
   },
   {
     "id": "bio_thumbs",
@@ -1670,7 +1676,7 @@
       [ "foot_l", 1 ],
       [ "foot_r", 1 ]
     ],
-    "act_cost": 50
+    "act_cost": "50 kJ"
   },
   {
     "id": "bio_tools",

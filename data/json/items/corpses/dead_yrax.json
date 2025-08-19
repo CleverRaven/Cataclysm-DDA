@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_yrax_trifacet",
     "symbol": ",",
     "color": "light_gray",
@@ -11,13 +11,25 @@
     "material": [ "steel", "yrax_quartz" ],
     "volume": "119 L",
     "weight": "221 kg",
-    "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
-    "melee_damage": { "bash": 20, "cut": 15 }
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "broken_yrax_triakis",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": { "str_sp": "triakis remains" },
+    "category": "other",
+    "description": "Its broken shell reveals an interior made from a single piece of quartz, intricately carved into a series of nested tetrahedra.",
+    "price": "10 USD",
+    "material": [ "steel", "yrax_quartz" ],
+    "volume": "119 L",
+    "weight": "221 kg",
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "id": "broken_golden_monolith",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "I",
     "name": { "str": "golden monolith" },
     "description": "A large golden monolith.  Carefully carved asymmetric edges betray its artificial origin.",
@@ -26,14 +38,13 @@
     "weight": "8282 kg",
     "price": "50 USD",
     "price_postapoc": "50 USD",
-    "melee_damage": { "bash": 1000 },
     "material": [ "yrax_quartz", "gold" ],
     "color": "yellow",
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "id": "broken_yrax_delta",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": ",",
     "name": { "str": "inert delta" },
     "description": "A small piece of inscrutable alloy shaped like an arrow's broadhead.  It doesn't look like much of a robot once dead.",
@@ -53,7 +64,7 @@
   },
   {
     "id": "broken_yrax_quadraphract_leg",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "s",
     "name": { "str": "inert quadraphract leg" },
     "description": "A great sickle-shaped leg, slumped and lifeless.  The metal is cold to the touch, and its near invisible joints are locked in place.",
@@ -63,14 +74,13 @@
     "longest_side": "400 cm",
     "price": "50 USD",
     "price_postapoc": "50 USD",
-    "melee_damage": { "bash": 100 },
     "material": [ "yrax_quartz", "gold" ],
     "color": "yellow",
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "id": "broken_yrax_quadraphract",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "X",
     "name": { "str": "inert quadraphract" },
     "description": "A great carved piece of gold and crystal, slumped in the form of an unearthly arachnid.",
@@ -80,7 +90,6 @@
     "longest_side": "400 cm",
     "price": "50 USD",
     "price_postapoc": "50 USD",
-    "melee_damage": { "bash": 100 },
     "material": [ "yrax_quartz", "gold" ],
     "color": "yellow",
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]

@@ -27,6 +27,15 @@
   },
   {
     "type": "activity_type",
+    "id": "ACT_E_FILE",
+    "activity_level": "NO_EXERCISE",
+    "verb": "managing files",
+    "rooted": true,
+    "based_on": "time",
+    "auto_needs": true
+  },
+  {
+    "type": "activity_type",
     "id": "ACT_EBOOKSAVE",
     "activity_level": "NO_EXERCISE",
     "verb": "taking pictures of books",
@@ -123,6 +132,14 @@
     "multi_activity": true
   },
   {
+    "id": "ACT_BASH",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "bashing",
+    "can_resume": false,
+    "based_on": "neither"
+  },
+  {
     "id": "ACT_BIKERACK_RACKING",
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
@@ -197,7 +214,7 @@
   {
     "id": "ACT_MULTIPLE_FISH",
     "type": "activity_type",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "verb": "fishing",
     "based_on": "neither",
     "auto_needs": true
@@ -389,7 +406,7 @@
   {
     "id": "ACT_FISH",
     "type": "activity_type",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "verb": "fishing",
     "rooted": true,
     "based_on": "speed",
@@ -407,7 +424,7 @@
     "type": "activity_type",
     "activity_level": "EXTRA_EXERCISE",
     "verb": "smashing",
-    "based_on": "neither",
+    "based_on": "speed",
     "can_resume": false
   },
   {
@@ -530,14 +547,6 @@
     "based_on": "neither",
     "can_resume": false,
     "auto_needs": true
-  },
-  {
-    "id": "ACT_ADV_INVENTORY",
-    "type": "activity_type",
-    "activity_level": "MODERATE_EXERCISE",
-    "verb": "interacting with inventory",
-    "based_on": "neither",
-    "can_resume": false
   },
   {
     "id": "ACT_ARMOR_LAYERS",
@@ -926,15 +935,6 @@
     "can_resume": false
   },
   {
-    "id": "ACT_PICKUP_MENU",
-    "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
-    "verb": "picking up",
-    "rooted": true,
-    "based_on": "neither",
-    "can_resume": false
-  },
-  {
     "id": "ACT_CONSUME_FOOD_MENU",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
@@ -942,15 +942,6 @@
     "rooted": true,
     "based_on": "neither",
     "ignored_distractions": [ "hunger", "thirst" ],
-    "can_resume": false
-  },
-  {
-    "id": "ACT_VIEW_RECIPE",
-    "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
-    "verb": "viewing recipe",
-    "rooted": true,
-    "based_on": "neither",
     "can_resume": false
   },
   {
@@ -1143,5 +1134,12 @@
     "verb": "infusing saline",
     "based_on": "time",
     "do_turn_eoc": "SALINE_INFUSION_eff"
+  },
+  {
+    "id": "ACT_MORTAR_AIMING",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "based_on": "speed",
+    "verb": "aiming the artillery"
   }
 ]

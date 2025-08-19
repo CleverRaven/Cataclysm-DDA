@@ -63,12 +63,12 @@ $(PCH_P): $(PCH_H)
 TEST_BATCHES = "crafting_skill_gain" "[slow]\ ~crafting_skill_gain" "~[slow]\ ~[.]"
 
 $(TEST_BATCHES): $(TEST_TARGET)
-	cd .. && tests/$(TEST_TARGET) --min-duration 0.2 --rng-seed time $@
+	cd .. && tests/$(TEST_TARGET) --min-duration 0.2 --rng-seed time --order lex $@
 
 check: $(TEST_TARGET) $(TEST_BATCHES)
 
 check-single: $(TEST_TARGET)
-	cd .. && tests/$(TEST_TARGET) --min-duration 0.2 --rng-seed time
+	cd .. && tests/$(TEST_TARGET) --min-duration 0.2 --rng-seed time --order lex
 
 clean: clean-pch
 	rm -rf *obj *objwin

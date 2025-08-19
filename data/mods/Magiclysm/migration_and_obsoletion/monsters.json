@@ -1,0 +1,31 @@
+[
+  {
+    "id": "mon_shambling_mound",
+    "type": "MONSTER",
+    "name": "shambling mound",
+    "description": "This giant plant mess is one of the oldest magic species in the world.  They were very rare before the Cataclysm, but their population has since dramatically increased.",
+    "//": "Now only for shaman, todo: make them natural spawn, add harvest, etc",
+    "default_faction": "magical_beast",
+    "volume": "679000 ml",
+    "weight": "769 kg",
+    "hp": 800,
+    "speed": 15,
+    "symbol": "M",
+    "color": "green",
+    "aggression": 100,
+    "morale": 60,
+    "melee_skill": 0,
+    "melee_dice": 0,
+    "melee_dice_sides": 0,
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
+    "dodge": 0,
+    "vision_day": 45,
+    "vision_night": 6,
+    "special_attacks": [ { "type": "spell", "spell_data": { "id": "shambling_aoe", "min_level": 0 }, "cooldown": 1 } ],
+    "material": [ "veggy" ],
+    "death_function": { "message": "The %s dissolves.", "corpse_type": "NO_CORPSE" },
+    "//1": "PACIFIST because #55528",
+    "flags": [ "SEES", "HEARS", "WARM", "HARDTOSHOOT", "BASHES", "DESTROYS", "ATTACKMON", "PUSH_MON", "PUSH_VEH", "PACIFIST" ],
+    "armor": { "bash": 20, "cut": 20, "bullet": 20 }
+  }
+]

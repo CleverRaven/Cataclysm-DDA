@@ -1237,12 +1237,6 @@
   },
   {
     "type": "MONSTER",
-    "id": "mon_nuckalavee",
-    "copy-from": "mon_nuckalavee",
-    "extend": { "flags": [ "POISONPROOF" ] }
-  },
-  {
-    "type": "MONSTER",
     "id": "mon_cat_mutant_prism",
     "copy-from": "mon_cat_mutant_prism",
     "extend": { "armor": { "light": 20 } }
@@ -1617,12 +1611,6 @@
     "type": "MONSTER",
     "id": "mon_boomer_huge",
     "copy-from": "mon_boomer_huge",
-    "extend": { "armor": { "poison": 14 } }
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_gas_zombie",
-    "copy-from": "mon_gas_zombie",
     "extend": { "armor": { "poison": 14 } }
   },
   {

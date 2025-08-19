@@ -166,6 +166,15 @@
 #define c_cyan_cyan all_colors.get(def_c_cyan_cyan)
 #define c_light_cyan_cyan all_colors.get(def_c_light_cyan_cyan)
 
+#define c_info all_colors.get(def_c_cyan)
+#define c_stat all_colors.get(def_c_light_blue)
+#define c_header all_colors.get(def_c_magenta)
+#define c_bold all_colors.get(def_c_white)
+#define c_dark all_colors.get(def_c_dark_gray)
+#define c_good all_colors.get(def_c_green)
+#define c_bad all_colors.get(def_c_red)
+#define c_neutral all_colors.get(def_c_yellow)
+
 // def_x is a color that maps to x with default settings
 enum color_id {
     def_c_black = 0,

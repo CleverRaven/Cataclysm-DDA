@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lab_4side" ],
     "weight": 100,
     "object": {
@@ -52,7 +51,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lab_4side" ],
     "weight": 100,
     "object": {
@@ -93,7 +91,7 @@
         "G": [ "t_door_glass_lab_c" ]
       },
       "mapping": {
-        "f": { "items": [ { "item": "fridge", "chance": 30 }, { "item": "alcohol", "chance": 60 } ] },
+        "f": { "items": [ { "item": "SUS_fridge", "chance": 30 }, { "item": "alcohol", "chance": 60 } ] },
         "t": { "items": [ { "item": "magazines", "chance": 3 } ] }
       },
       "place_nested": [
@@ -107,7 +105,6 @@
   {
     "//": "electricity room, 2/3 chance of shock malfunction",
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lab_4side" ],
     "weight": 50,
     "object": {
@@ -124,13 +121,13 @@
         "...............+       |",
         "...............|       |",
         "FFFHFFFFFFFFHFF|       |",
-        "..........v....|       |",
-        "..........v....----?---|",
-        ".....PPP..v.............",
-        ".....PPP..v.............",
-        "..........v....----+---|",
+        "..........F....|       |",
+        "..........F....----?---|",
+        ".....PPP..F.............",
+        ".....PPP..F.............",
+        "..........F....----+---|",
         "..........H....|       |",
-        "..........v....|       |",
+        "..........F....|       |",
         "FFFFFHFFFFFFF|-|       |",
         ".............|r|       |",
         "r............+.|       |",
@@ -144,8 +141,7 @@
       "furniture": { "P": "f_generator_broken" },
       "terrain": {
         "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ],
-        "F": "t_chainfence_h",
-        "v": "t_chainfence_v",
+        "F": "t_chainfence",
         "H": "t_chaingate_c",
         "C": "t_gates_control_concrete_lab"
       },
@@ -162,14 +158,12 @@
   {
     "//": "Shock vent which spews electricity every ~10th turn.",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "sub_fd_shock_vent",
     "object": { "mapgensize": [ 1, 1 ], "place_fields": [ { "field": "fd_shock_vent", "x": 0, "y": 0 } ] }
   },
   {
     "//": "chemlab and conveyor belts",
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lab_4side" ],
     "weight": 100,
     "object": {
@@ -217,7 +211,6 @@
   {
     "//": "large chemlab",
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lab_4side" ],
     "weight": 100,
     "object": {
@@ -274,7 +267,6 @@
   {
     "//": "Add mutagens to a cluster of 4 lab hoods.",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_hood_windfall",
     "object": {
       "mapgensize": [ 10, 10 ],
@@ -293,7 +285,6 @@
   {
     "//": "Large chemlab: add mutagens, shift centrifuges into cloning vats, maybe secubots.",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "lab_largechem_windfall",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -327,7 +318,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lab_4side" ],
     "weight": 100,
     "object": {
@@ -373,7 +363,6 @@
   {
     "//": "rooms + reception desk",
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lab_4side" ],
     "weight": 50,
     "object": {
@@ -419,7 +408,6 @@
   {
     "//": "utility with random room",
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lab_4side" ],
     "weight": 50,
     "object": {
@@ -440,22 +428,21 @@
         "....l|         |........",
         "....l|         |........",
         "--+--|         |........",
-        ".....|         |..vFFHFF",
-        ".c.c.?         +..v.....",
-        ".c.c.|         |..vXX..X",
-        ".c.c.|         |..vXX..X",
-        ".....|         |..v....r",
-        "--+--|         |..vXX..r",
-        "RR.RR-----?-----..vXX..r",
+        ".....|         |..FFFHFF",
+        ".c.c.?         +..F.....",
+        ".c.c.|         |..FXX..X",
+        ".c.c.|         |..FXX..X",
+        ".....|         |..F....r",
+        "--+--|         |..FXX..r",
+        "RR.RR-----?-----..FXX..r",
         ".....+............H....r",
-        ".RRR.|............v.....",
-        ".....|............v.rrrr"
+        ".RRR.|............F.....",
+        ".....|............F.rrrr"
       ],
       "palettes": [ "lab_palette" ],
       "furniture": { "^": "f_indoor_plant", "R": "f_rack" },
       "terrain": {
-        "F": "t_chainfence_h",
-        "v": "t_chainfence_v",
+        "F": "t_chainfence",
         "H": "t_chaingate_c",
         "C": "t_gates_control_concrete_lab",
         "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ]
@@ -467,7 +454,7 @@
         "R": { "items": [ { "item": "cleaning", "chance": 60 } ] },
         "l": {
           "items": [
-            { "item": "office", "chance": 10 },
+            { "item": "SUS_office_filing_cabinet", "chance": 10 },
             { "item": "textbooks", "chance": 3 },
             { "item": "science", "chance": 3 },
             { "item": "harddrugs", "chance": 3 },
@@ -492,7 +479,6 @@
   {
     "//": "Autodoc operating theater",
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lab_4side" ],
     "weight": 100,
     "object": {
@@ -572,7 +558,6 @@
   {
     "//": "medical wing, Autodoc + centrifuge, monster in Autodoc room",
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lab_4side" ],
     "weight": 50,
     "object": {
@@ -644,7 +629,6 @@
   {
     "//": "alien containment.",
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lab_4side" ],
     "weight": 100,
     "object": {
@@ -680,7 +664,7 @@
       "furniture": { "7": "f_console", "C": "f_centrifuge" },
       "terrain": { "C": "t_floor_blue", "7": "t_floor_blue", ",": "t_floor_blue" },
       "mapping": {
-        "c": { "items": [ { "item": "office", "chance": 30 }, { "item": "tools_science", "chance": 15 } ] },
+        "c": { "items": [ { "item": "SUS_office_desk", "chance": 30 }, { "item": "tools_science", "chance": 15 } ] },
         "l": { "items": [ { "item": "science", "chance": 60 } ] },
         "j": { "items": [ { "item": "guns_launcher_flame_xedra", "chance": 20 } ] }
       },
@@ -712,26 +696,25 @@
   {
     "//": "operations or utility",
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lab_4side" ],
     "weight": 100,
     "object": {
       "rotation": [ 0, 3 ],
       "fill_ter": "t_thconc_floor",
       "rows": [
-        ".....|...........v.rrrrr",
-        ".lll.|...........v......",
+        ".....|...........F.rrrrr",
+        ".lll.|...........F......",
         ".....W...........H.....r",
-        "llll.|...........vXX...r",
-        "-----|FFFF|---|..vXX...r",
-        ".....v....|...|..v.....r",
-        ".pSp.v.PP.|.&.|..vXX...X",
-        ".pSp.v.PP.|.x.|..vXX...X",
-        ".....v.PP.|...|..v......",
-        ".....H....|-M-|..vFFHFFv",
-        "FFHFFv........v.........",
-        ".....v........v.........",
-        ".....vFFFHFFFFv.........",
+        "llll.|...........FXX...r",
+        "-----|FFFF|---|..FXX...r",
+        ".....F....|...|..F.....r",
+        ".pSp.F.PP.|.&.|..FXX...X",
+        ".pSp.F.PP.|.x.|..FXX...X",
+        ".....F.PP.|...|..F......",
+        ".....H....|-M-|..FFFHFFF",
+        "FFHFFF........F.........",
+        ".....F........F.........",
+        ".....FFFFHFFFFF.........",
         ".......................x",
         "x................|-g-g--",
         "-------|.........|^.....",
@@ -747,8 +730,7 @@
       "palettes": [ "lab_palette" ],
       "furniture": { "S": "f_null", "^": "f_indoor_plant", "P": "f_generator_broken" },
       "terrain": {
-        "F": "t_chainfence_h",
-        "v": "t_chainfence_v",
+        "F": "t_chainfence",
         "H": "t_chaingate_c",
         "&": "t_radio_tower",
         "S": "t_sewage_pump",
@@ -774,7 +756,6 @@
   {
     "//": "Places a crate, 25% chance of being pre-opened, with robots/science/sewage parts.",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "sub_f_crate_utility_room",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -790,7 +771,6 @@
   {
     "//": "Tribute",
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lab_4side" ],
     "weight": 50,
     "object": {
@@ -838,7 +818,6 @@
   {
     "//": "analyzer",
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lab_4side" ],
     "weight": 100,
     "object": {
@@ -872,7 +851,7 @@
       ],
       "palettes": [ "lab_palette", "lab_loot_home_office" ],
       "furniture": { "r": "f_null" },
-      "terrain": { ",": "t_floor_blue", "&": "t_radio_tower", "g": "t_wall_glass", "G": "t_door_glass_lab_c", "r": "t_railing_h" },
+      "terrain": { ",": "t_floor_blue", "&": "t_radio_tower", "g": "t_wall_glass", "G": "t_door_glass_lab_c", "r": "t_railing" },
       "computers": {
         "6": {
           "name": "Algorithmic Data Analyzer Mk. IV",
@@ -891,7 +870,6 @@
   {
     "//": "Apartments",
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "lab_4side" ],
     "weight": 100,
     "object": {
@@ -929,9 +907,9 @@
       "mapping": {
         "t": { "items": [ { "item": "livingroom", "chance": 20 } ] },
         "F": { "items": [ { "item": "livingroom", "chance": 5 } ] },
-        "f": { "items": [ { "item": "fridge", "chance": 80 } ] },
+        "f": { "items": [ { "item": "SUS_fridge", "chance": 80 } ] },
         "C": { "items": [ { "item": "kitchen", "chance": 40 } ] },
-        "O": { "items": [ { "item": "oven", "chance": 70 } ] },
+        "O": { "items": [ { "item": "SUS_oven", "chance": 70 } ] },
         "r": {
           "items": [
             { "item": "dresser", "chance": 20 },

@@ -4,15 +4,21 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstddef>
 #include <functional>
-#include <iosfwd>
+#include <string>
 #include <vector>
 
+#include "coords_fwd.h"
 #include "point.h"
-#include "units_fwd.h"
+#include "units.h"
 
-template <typename T> struct enum_traits;
+namespace coords
+{
+template <typename Point, origin Origin, scale Scale> class coord_point_ob;
+}  // namespace coords
 struct rl_vec2d;
+template <typename T> struct enum_traits;
 
 extern bool trigdist;
 
@@ -40,35 +46,35 @@ inline constexpr unsigned make_xyz_unit( const tripoint &p ) noexcept
 unsigned make_xyz( const tripoint & );
 
 enum class direction : unsigned {
-    ABOVENORTHWEST = make_xyz_unit( tripoint_above + tripoint_north_west ),
-    NORTHWEST      = make_xyz_unit( tripoint_north_west ),
-    BELOWNORTHWEST = make_xyz_unit( tripoint_below + tripoint_north_west ),
-    ABOVENORTH     = make_xyz_unit( tripoint_above + tripoint_north ),
-    NORTH          = make_xyz_unit( tripoint_north ),
-    BELOWNORTH     = make_xyz_unit( tripoint_below + tripoint_north ),
-    ABOVENORTHEAST = make_xyz_unit( tripoint_above + tripoint_north_east ),
-    NORTHEAST      = make_xyz_unit( tripoint_north_east ),
-    BELOWNORTHEAST = make_xyz_unit( tripoint_below + tripoint_north_east ),
+    ABOVENORTHWEST = make_xyz_unit( tripoint::above + tripoint::north_west ),
+    NORTHWEST      = make_xyz_unit( tripoint::north_west ),
+    BELOWNORTHWEST = make_xyz_unit( tripoint::below + tripoint::north_west ),
+    ABOVENORTH     = make_xyz_unit( tripoint::above + tripoint::north ),
+    NORTH          = make_xyz_unit( tripoint::north ),
+    BELOWNORTH     = make_xyz_unit( tripoint::below + tripoint::north ),
+    ABOVENORTHEAST = make_xyz_unit( tripoint::above + tripoint::north_east ),
+    NORTHEAST      = make_xyz_unit( tripoint::north_east ),
+    BELOWNORTHEAST = make_xyz_unit( tripoint::below + tripoint::north_east ),
 
-    ABOVEWEST      = make_xyz_unit( tripoint_above + tripoint_west ),
-    WEST           = make_xyz_unit( tripoint_west ),
-    BELOWWEST      = make_xyz_unit( tripoint_below + tripoint_west ),
-    ABOVECENTER    = make_xyz_unit( tripoint_above ),
-    CENTER         = make_xyz_unit( tripoint_zero ),
-    BELOWCENTER    = make_xyz_unit( tripoint_below ),
-    ABOVEEAST      = make_xyz_unit( tripoint_above + tripoint_east ),
-    EAST           = make_xyz_unit( tripoint_east ),
-    BELOWEAST      = make_xyz_unit( tripoint_below + tripoint_east ),
+    ABOVEWEST      = make_xyz_unit( tripoint::above + tripoint::west ),
+    WEST           = make_xyz_unit( tripoint::west ),
+    BELOWWEST      = make_xyz_unit( tripoint::below + tripoint::west ),
+    ABOVECENTER    = make_xyz_unit( tripoint::above ),
+    CENTER         = make_xyz_unit( tripoint::zero ),
+    BELOWCENTER    = make_xyz_unit( tripoint::below ),
+    ABOVEEAST      = make_xyz_unit( tripoint::above + tripoint::east ),
+    EAST           = make_xyz_unit( tripoint::east ),
+    BELOWEAST      = make_xyz_unit( tripoint::below + tripoint::east ),
 
-    ABOVESOUTHWEST = make_xyz_unit( tripoint_above + tripoint_south_west ),
-    SOUTHWEST      = make_xyz_unit( tripoint_south_west ),
-    BELOWSOUTHWEST = make_xyz_unit( tripoint_below + tripoint_south_west ),
-    ABOVESOUTH     = make_xyz_unit( tripoint_above + tripoint_south ),
-    SOUTH          = make_xyz_unit( tripoint_south ),
-    BELOWSOUTH     = make_xyz_unit( tripoint_below + tripoint_south ),
-    ABOVESOUTHEAST = make_xyz_unit( tripoint_above + tripoint_south_east ),
-    SOUTHEAST      = make_xyz_unit( tripoint_south_east ),
-    BELOWSOUTHEAST = make_xyz_unit( tripoint_below + tripoint_south_east ),
+    ABOVESOUTHWEST = make_xyz_unit( tripoint::above + tripoint::south_west ),
+    SOUTHWEST      = make_xyz_unit( tripoint::south_west ),
+    BELOWSOUTHWEST = make_xyz_unit( tripoint::below + tripoint::south_west ),
+    ABOVESOUTH     = make_xyz_unit( tripoint::above + tripoint::south ),
+    SOUTH          = make_xyz_unit( tripoint::south ),
+    BELOWSOUTH     = make_xyz_unit( tripoint::below + tripoint::south ),
+    ABOVESOUTHEAST = make_xyz_unit( tripoint::above + tripoint::south_east ),
+    SOUTHEAST      = make_xyz_unit( tripoint::south_east ),
+    BELOWSOUTHEAST = make_xyz_unit( tripoint::below + tripoint::south_east ),
 
     last = 27
 };
@@ -135,24 +141,35 @@ std::string direction_name_short( direction dir );
 std::string direction_arrow( direction dir );
 
 /* Get suffix describing vector from p to q (e.g. 1NW, 2SE) or empty string if p == q */
-std::string direction_suffix( const tripoint &p, const tripoint &q );
+std::string direction_suffix( const tripoint_bub_ms &p, const tripoint_bub_ms &q );
+std::string direction_suffix( const tripoint_abs_ms &p, const tripoint_abs_ms &q );
 
 /**
  * The actual Bresenham algorithm in 2D and 3D, everything else should call these
  * and pass in an interact functor to iterate across a line between two points.
  */
-void bresenham( const point &p1, const point &p2, int t,
-                const std::function<bool( const point & )> &interact );
-void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
-                const std::function<bool( const tripoint & )> &interact );
+void bresenham( const point_bub_ms &p1, const point_bub_ms &p2, int t,
+                const std::function<bool( const point_bub_ms & )> &interact );
+void bresenham( const tripoint_bub_ms &loc1, const tripoint_bub_ms &loc2, int t, int t2,
+                const std::function<bool( const tripoint_bub_ms & )> &interact );
 
 tripoint move_along_line( const tripoint &loc, const std::vector<tripoint> &line,
                           int distance );
+tripoint_bub_ms move_along_line( const tripoint_bub_ms &loc,
+                                 const std::vector<tripoint_bub_ms> &line, int distance );
+// line from p1 to p2, including p2 but not p1, using Bresenham's algorithm
 // The "t" value decides WHICH Bresenham line is used.
 std::vector<point> line_to( const point &p1, const point &p2, int t = 0 );
+// line from p1 to p2, including p2 but not p1, using Bresenham's algorithm
 // t and t2 decide which Bresenham line is used.
 std::vector<tripoint> line_to( const tripoint &loc1, const tripoint &loc2, int t = 0, int t2 = 0 );
 // sqrt(dX^2 + dY^2)
+
+// orthogonally-connected line from p1 to p2, for overmap generation
+// Note: reordering p1 and p2 may result in different lines
+// C++ implementation of https://www.redblobgames.com/grids/line-drawing/ algorithm
+// if needed, generalize for all point types
+std::vector<point_abs_om> orthogonal_line_to( const point_abs_om &p1, const point_abs_om &p2 );
 
 inline float trig_dist( const tripoint &loc1, const tripoint &loc2 )
 {
@@ -160,10 +177,12 @@ inline float trig_dist( const tripoint &loc1, const tripoint &loc2 )
                       ( ( loc1.y - loc2.y ) * ( loc1.y - loc2.y ) ) +
                       ( ( loc1.z - loc2.z ) * ( loc1.z - loc2.z ) ) );
 }
+float trig_dist( const tripoint_bub_ms &loc1, const tripoint_bub_ms &loc2 );
 inline float trig_dist( const point &loc1, const point &loc2 )
 {
     return trig_dist( tripoint( loc1, 0 ), tripoint( loc2, 0 ) );
 }
+float trig_dist( const point_bub_ms &loc1, const point_bub_ms &loc2 );
 
 // Roguelike distance; maximum of dX and dY
 inline int square_dist( const tripoint &loc1, const tripoint &loc2 )
@@ -188,6 +207,26 @@ inline int rl_dist( const tripoint &loc1, const tripoint &loc2 )
 inline int rl_dist( const point &a, const point &b )
 {
     return rl_dist( tripoint( a, 0 ), tripoint( b, 0 ) );
+}
+
+template< class Point >
+std::vector<Point> cubic_bezier( const Point &pa, const Point &pb,
+                                 const Point &pc, const Point &pd, const int n_segs )
+{
+    const auto cubic_bezier_single_axis = []( const int pa, const int pb, const int pc, const int pd,
+    const double t ) {
+        // a(1-t)^3 + 3bt(1-t)^2 + 3ct^2(1-t) + dt^3
+        return static_cast<int>( pow( ( 1.0 - t ), 3.0 ) * pa + ( 3.0 * t * pow( ( 1.0 - t ),
+                                 2.0 ) ) * pb + ( 3.0 * pow( t, 2.0 ) * ( 1.0 - t ) ) * pc + pow( t, 3.0 ) * pd );
+    };
+    std::vector<Point> pts;
+    for( int i = 0; i <= n_segs; ++i ) {
+        const double t = i / static_cast<double>( n_segs );
+        pts.push_back( Point{
+            cubic_bezier_single_axis( pa.x(), pb.x(), pc.x(), pd.x(), t ),
+            cubic_bezier_single_axis( pa.y(), pb.y(), pc.y(), pd.y(), t ) } );
+    }
+    return pts;
 }
 
 /**
@@ -222,29 +261,19 @@ struct FastDistanceApproximation {
         }
 };
 
-inline FastDistanceApproximation trig_dist_fast( const tripoint &loc1, const tripoint &loc2 )
-{
-    return FastDistanceApproximation(
-               ( loc1.x - loc2.x ) * ( loc1.x - loc2.x ) +
-               ( loc1.y - loc2.y ) * ( loc1.y - loc2.y ) +
-               ( loc1.z - loc2.z ) * ( loc1.z - loc2.z ) );
-}
-inline FastDistanceApproximation square_dist_fast( const tripoint &loc1, const tripoint &loc2 )
-{
-    const tripoint d = ( loc1 - loc2 ).abs();
-    return FastDistanceApproximation( std::max( { d.x, d.y, d.z } ) );
-}
-inline FastDistanceApproximation rl_dist_fast( const tripoint &loc1, const tripoint &loc2 )
+FastDistanceApproximation trig_dist_fast( const tripoint_bub_ms &loc1,
+        const tripoint_bub_ms &loc2 );
+FastDistanceApproximation square_dist_fast( const tripoint_bub_ms &loc1,
+        const tripoint_bub_ms &loc2 );
+inline FastDistanceApproximation rl_dist_fast( const tripoint_bub_ms &loc1,
+        const tripoint_bub_ms &loc2 )
 {
     if( trigdist ) {
         return trig_dist_fast( loc1, loc2 );
     }
     return square_dist_fast( loc1, loc2 );
 }
-inline FastDistanceApproximation rl_dist_fast( const point &a, const point &b )
-{
-    return rl_dist_fast( tripoint( a, 0 ), tripoint( b, 0 ) );
-}
+FastDistanceApproximation rl_dist_fast( const point_bub_ms &a, const point_bub_ms &b );
 
 float rl_dist_exact( const tripoint &loc1, const tripoint &loc2 );
 // Sum of distance in both axes
@@ -262,11 +291,22 @@ units::angle atan2( const rl_vec2d & );
 // Get the magnitude of the slope ranging from 0.0 to 1.0
 float get_normalized_angle( const point &start, const point &end );
 std::vector<tripoint> continue_line( const std::vector<tripoint> &line, int distance );
-std::vector<point> squares_in_direction( const point &p1, const point &p2 );
+std::vector<tripoint_bub_ms> continue_line( const std::vector<tripoint_bub_ms> &line,
+        int distance );
+std::vector<point_bub_ms> squares_in_direction( const point_bub_ms &p1, const point_bub_ms &p2 );
+std::vector<point_omt_ms> squares_in_direction( const point_omt_ms &p1, const point_omt_ms &p2 );
 // Returns a vector of squares adjacent to @from that are closer to @to than @from is.
 // Currently limited to the same z-level as @from.
-std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &to );
+std::vector<tripoint_bub_ms> squares_closer_to( const tripoint_bub_ms &from,
+        const tripoint_bub_ms &to );
 void calc_ray_end( units::angle, int range, const tripoint &p, tripoint &out );
+template<typename Point, coords::origin Origin, coords::scale Scale>
+void calc_ray_end( units::angle angle, int range,
+                   const coords::coord_point_ob<Point, Origin, Scale> &p,
+                   coords::coord_point_ob<Point, Origin, Scale> &out )
+{
+    calc_ray_end( angle, range, p.raw(), out.raw() );
+}
 /**
  * Calculates the horizontal angle between the lines from (0,0,0) to @p a and
  * the line from (0,0,0) to @p b.
@@ -275,6 +315,12 @@ void calc_ray_end( units::angle, int range, const tripoint &p, tripoint &out );
  * The function currently ignores the z component.
  */
 units::angle coord_to_angle( const tripoint &a, const tripoint &b );
+template<typename Point, coords::origin Origin, coords::scale Scale>
+units::angle coord_to_angle( const coords::coord_point_ob<Point, Origin, Scale> &a,
+                             const coords::coord_point_ob<Point, Origin, Scale> &b )
+{
+    return coord_to_angle( a.raw(), b.raw() );
+}
 
 // weird class for 2d vectors where dist is derived from rl_dist
 struct rl_vec2d {

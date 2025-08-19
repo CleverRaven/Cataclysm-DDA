@@ -3,15 +3,17 @@
 #define CATA_SRC_SPEED_DESCRIPTION_H
 
 #include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
+#include "translation.h"
 #include "type_id.h"
 
 class JsonObject;
-class JsonOut;
+class speed_description_value;
 template<typename T>
 class generic_factory;
-class speed_description_value;
 
 class speed_description
 {

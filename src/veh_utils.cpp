@@ -1,29 +1,36 @@
 #include "veh_utils.h"
 
 #include <algorithm>
+#include <climits>
 #include <cmath>
 #include <functional>
 #include <list>
 #include <map>
+#include <memory>
 #include <utility>
 #include <vector>
 
 #include "avatar.h"
 #include "calendar.h"
+#include "cata_imgui.h"
 #include "character.h"
-#include "craft_command.h"
+#include "coordinates.h"
+#include "debug.h"
 #include "enums.h"
 #include "game.h"
 #include "game_constants.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "inventory.h"
 #include "item.h"
 #include "map.h"
+#include "memory_fast.h"
 #include "point.h"
 #include "requirements.h"
+#include "translation.h"
 #include "translations.h"
-#include "ui.h"
-#include "units_fwd.h"
+#include "uilist.h"
+#include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -91,7 +98,7 @@ vehicle_part *most_repairable_part( vehicle &veh, Character &who )
     return vp_most_damaged != nullptr ? vp_most_damaged : vp_broken;
 }
 
-bool repair_part( vehicle &veh, vehicle_part &pt, Character &who )
+bool repair_part( map &here, vehicle &veh, vehicle_part &pt, Character &who )
 {
     const vpart_info &vp = pt.info();
 
@@ -99,12 +106,12 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who )
                                   ? vp.install_requirements()
                                   : vp.repair_requirements() * pt.get_base().repairable_levels();
 
-    const inventory &inv = who.crafting_inventory( who.pos(), PICKUP_RANGE, !who.is_npc() );
+    const inventory &inv = who.crafting_inventory( who.pos_bub(), PICKUP_RANGE, !who.is_npc() );
     inventory map_inv;
     // allow NPCs to use welding rigs they can't see ( on the other side of a vehicle )
     // as they have the handicap of not being able to use the veh interaction menu
     // or able to drag a welding cart etc.
-    map_inv.form_from_map( who.pos(), PICKUP_RANGE, &who, false, !who.is_npc() );
+    map_inv.form_from_map( who.pos_bub(), PICKUP_RANGE, &who, false, !who.is_npc() );
     if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
         who.add_msg_if_player( m_info, _( "You don't meet the requirements to repair the %s." ),
                                pt.name() );
@@ -137,18 +144,18 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who )
     const std::string startdurability = pt.get_base().damage_indicator();
     if( pt.is_broken() ) {
         const vpart_id vpid = pt.info().id;
-        const point mount = pt.mount;
+        const point_rel_ms mount = pt.mount;
         const units::angle direction = pt.direction;
         const std::string variant = pt.variant;
-        get_map().spawn_items( who.pos(), pt.pieces_for_broken_part() );
+        here.spawn_items( who.pos_bub( here ), pt.pieces_for_broken_part() );
         veh.remove_part( pt );
-        const int partnum = veh.install_part( mount, vpid, std::move( base ) );
+        const int partnum = veh.install_part( here, mount, vpid, std::move( base ) );
         if( partnum >= 0 ) {
             vehicle_part &vp = veh.part( partnum );
             vp.direction = direction;
             vp.variant = variant;
         }
-        veh.part_removal_cleanup();
+        veh.part_removal_cleanup( here );
         who.add_msg_if_player( m_good, _( "You replace the %1$s's %2$s. (was %3$s)" ),
                                veh.name, partname, startdurability );
     } else {
@@ -388,7 +395,7 @@ class veh_menu_cb : public uilist_callback
     private:
         const std::vector< tripoint > &points;
         int last; // to suppress redrawing
-        tripoint last_view; // to reposition the view after selecting
+        tripoint_rel_ms last_view; // to reposition the view after selecting
         shared_ptr_fast<game::draw_callback_t> terrain_draw_cb;
 
         void select( uilist *menu ) override {
@@ -398,24 +405,26 @@ class veh_menu_cb : public uilist_callback
             last = menu->selected;
             avatar &player_character = get_avatar();
             if( menu->selected < 0 || menu->selected >= static_cast<int>( points.size() ) ) {
-                player_character.view_offset = tripoint_zero;
+                player_character.view_offset = tripoint_rel_ms::zero;
             } else {
                 const tripoint &center = points[menu->selected];
-                player_character.view_offset = center - player_character.pos();
+                player_character.view_offset = tripoint_rel_ms( center - player_character.pos_bub().raw() );
                 // Remove next line if/when it's wanted/safe to shift view to other zlevels
-                player_character.view_offset.z = 0;
+                player_character.view_offset.z() = 0;
             }
             g->invalidate_main_ui_adaptor();
             if( on_select ) {
                 on_select();
-                map &m = get_map();
-                m.invalidate_map_cache( m.get_abs_sub().z() );
+                map &here = get_map(); // TODO: Handle getting the correct map.
+                here.invalidate_map_cache( here.get_abs_sub().z() );
             }
         }
 };
 
 bool veh_menu::query()
 {
+    map &here = get_map(); // TODO: Handle getting the correct map.
+
     if( items.empty() ) {
         debugmsg( "veh_menu::query() called with empty items" );
         return false;
@@ -432,7 +441,6 @@ bool veh_menu::query()
 
     menu.title = title;
     menu.entries = get_uilist_entries();
-    menu.desc_lines_hint = desc_lines_hint;
     menu.desc_enabled = std::any_of( menu.entries.begin(), menu.entries.end(),
     []( const uilist_entry & it ) {
         return !it.desc.empty();
@@ -450,7 +458,7 @@ bool veh_menu::query()
 
     if( locations.size() == items.size() ) { // all items have valid location attached
         menu.callback = &cb;
-        menu.w_x_setup = 4; // move menu to the left so more space around vehicle is visible
+        menu.desired_bounds = { 4.0, -1.0, -1.0, -1.0 };
     } else {
         menu.callback = nullptr;
     }
@@ -484,10 +492,9 @@ bool veh_menu::query()
 
     chosen._on_submit();
 
-    veh.refresh();
-    map &m = get_map();
-    m.invalidate_visibility_cache();
-    m.invalidate_map_cache( m.get_abs_sub().z() );
+    veh.refresh( );
+    here.invalidate_visibility_cache();
+    here.invalidate_map_cache( here.get_abs_sub().z() );
 
     return chosen._keep_menu_open;
 }

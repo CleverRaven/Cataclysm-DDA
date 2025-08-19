@@ -1,0 +1,14 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_perk_mighty_thews",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "limb_score_mods": [
+      { "limb_score": "lift", "modifier": 1.05 },
+      { "limb_score": "manip", "modifier": 1.05 },
+      { "limb_score": "grip", "modifier": 1.05 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  }
+]

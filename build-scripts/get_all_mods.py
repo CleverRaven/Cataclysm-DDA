@@ -7,18 +7,22 @@
 
 import glob
 import json
+import os
 
 mods_this_time = []
 
 exclusions = [
-    # #74443 - incompatibility between mindovermatter and aftershock due to bug
-    ('mindovermatter', 'aftershock')
+    # Tuple of (mod_id, mod_id) - these two mods will be incompatible
+    # Note that mod_id is case sensitive
 ]
 
 
 def compatible_with(mod, existing_mods):
     if mod in total_conversions and total_conversions & set(existing_mods):
         return False
+    for entry in existing_mods:
+        if mod in all_mod_conflicts[entry] or entry in all_mod_conflicts[mod]:
+            return False
     for entry in exclusions:
         if entry[0] == mod and entry[1] in existing_mods:
             return False
@@ -51,22 +55,48 @@ def print_modlist(modlist, master_list):
 
 
 all_mod_dependencies = {}
+all_mod_conflicts = {}
 total_conversions = set()
+obsolete_mods = set()
 
 for info in glob.glob('data/mods/*/modinfo.json'):
     mod_info = json.load(open(info, encoding='utf-8'))
     for e in mod_info:
-        if(e["type"] == "MOD_INFO" and
-                ("obsolete" not in e or not e["obsolete"])):
+        if (e["type"] == "MOD_INFO"):
             ident = e["id"]
+            if ("obsolete" in e and e["obsolete"]):
+                obsolete_mods.add(ident)
+                continue
             all_mod_dependencies[ident] = e.get("dependencies", [])
+            all_mod_conflicts[ident] = e.get("conflicts", [])
             if e["category"] == "total_conversion":
                 total_conversions.add(ident)
 
+for r, d, f in os.walk('data/mods'):
+    if 'mod_interactions' not in d:
+        continue
+    if 'modinfo.json' not in f:
+        continue
+    ident = ""
+    info_path = os.path.join(r, 'modinfo.json')
+    mod_info = json.load(open(info_path, encoding='utf-8'))
+    for e in mod_info:
+        if (e["type"] == "MOD_INFO" and
+                ("obsolete" not in e or not e["obsolete"])):
+            ident = e["id"]
+    if ident == "":
+        continue
+    add_mods([ident])
+    for mod in os.scandir(os.path.join(r, 'mod_interactions')):
+        ident = os.path.basename(mod.path)
+        if ident in obsolete_mods:
+            continue
+        mods_this_time.append(os.path.basename(mod.path))
+    print(','.join(mods_this_time))
+    mods_this_time.clear()
+
 mods_remaining = set(all_mod_dependencies)
 
-# Make sure aftershock can load by itself.
-add_mods(["aftershock"])
 print_modlist(mods_this_time, mods_remaining)
 
 while mods_remaining:

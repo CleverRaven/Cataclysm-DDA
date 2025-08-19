@@ -1,7 +1,8 @@
 [
   {
     "id": "nomad_bodyglove_1",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "nomad bodyglove" },
     "description": "A simple, thin, skintight layer of breathable fabric that protects your skin.  It has integrated feet and precisely placed rubberized pads to protect critical points from impact and abrasion.",
     "weight": "125 g",
@@ -38,7 +39,8 @@
   },
   {
     "id": "nomad_bodyglove_2",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "nomad bodymesh", "str_pl": "nomad bodymeshes" },
     "description": "A simple, thin, skintight layer of breathable fabric that protects your skin.  It has integrated feet and precisely placed rubberized pads to protect critical points from impact and abrasion, and has been reinforced with a loose mesh of advanced polymer threads.",
     "copy-from": "nomad_bodyglove_1",

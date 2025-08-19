@@ -1,3 +1,17 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [How You Can Help](#how-you-can-help)
+  - [Other ways to help](#other-ways-to-help)
+  - [Issue labels](#issue-labels)
+    - [Languages](#languages)
+    - [Issue Types](#issue-types)
+    - [Gameplay Categories](#gameplay-categories)
+    - [Flags](#flags)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # How You Can Help
 
 CDDA is maintained by thousands of volunteers, organized by a core development team. There are many
@@ -5,7 +19,7 @@ ways you can help, both through direct participation in the game's code and cont
 by finding or reproducing bugs, locating causes, and testing the proposed fixes.
 
 - See [ISSUES.md](../ISSUES.md) for how to report bugs or request new features
-- See [CONTRIBUTING.md](../.github/CONTRIBUTING.md) for how to make and and submit changes to the
+- See [CONTRIBUTING.md](CONTRIBUTING.md) for how to make and and submit changes to the
   game with pull requests
 - See the [Guide to adding new content to CDDA for first time
 contributors](https://github.com/CleverRaven/Cataclysm-DDA/wiki/Guide-to-adding-new-content-to-CDDA-for-first-time-contributors)
@@ -27,8 +41,8 @@ particular importance or annoyance to you, which you think should be fixed befor
 release.
 
 If you have a GitHub account, you may know you can [open issues](../ISSUES.md) and create pull
-requests to [contribute code changes](../.github/CONTRIBUTING.md). But you can also use your GitHub
-account to help manage and triage the existing issues and pull requests, and participate in
+requests to [contribute code changes](CONTRIBUTING.md). But you can also use your GitHub
+account to help [manage and triage](ISSUE_TRIAGE.md) the existing issues and pull requests, and participate in
 the discovery, discussion, and testing processes that surround game development.
 
 Ways to help with issues:

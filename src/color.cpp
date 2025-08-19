@@ -25,8 +25,9 @@
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "ui.h"
+#include "ui_helpers.h"
 #include "ui_manager.h"
+#include "uilist.h"
 #include "cata_imgui.h"
 
 nc_color::operator ImVec4()
@@ -630,7 +631,7 @@ std::string hilite_string( const std::string &text )
  * @param color The color to get, as a std::string.
  * @return The nc_color constant that matches the input.
  */
-nc_color color_from_string( const std::string_view color,
+nc_color color_from_string( std::string_view color,
                             const report_color_error color_error )
 {
     if( color.empty() ) {
@@ -713,7 +714,7 @@ nc_color bgcolor_from_string( const std::string &color )
     return i_white;
 }
 
-color_tag_parse_result get_color_from_tag( const std::string_view s,
+color_tag_parse_result get_color_from_tag( std::string_view s,
         const report_color_error color_error )
 {
     if( s.empty() || s[0] != '<' ) {
@@ -777,7 +778,7 @@ std::string get_note_string_from_color( const nc_color &color )
     return "Y";
 }
 
-nc_color get_note_color( const std::string_view note_id )
+nc_color get_note_color( std::string_view note_id )
 {
     // TODO in C++20 we can pass a string_view in directly rather than
     // constructing a string to use as the find argument
@@ -821,8 +822,10 @@ static void draw_header( const catacurses::window &w )
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 0, 2 ), c_white, _( "Some color changes may require a restart." ) );
 
+    wattron( w, BORDER_COLOR );
     mvwhline( w, point( 0, 3 ), LINE_OXOX, getmaxx( w ) ); // Draw line under header
-    mvwputch( w, point( 48, 3 ), BORDER_COLOR, LINE_OXXX ); //^|^
+    mvwaddch( w, point( 48, 3 ), LINE_OXXX ); //^|^
+    wattroff( w, BORDER_COLOR );
 
     mvwprintz( w, point( 3, 4 ), c_white, _( "Colorname" ) );
     mvwprintz( w, point( 21, 4 ), c_white, _( "Normal" ) );
@@ -836,9 +839,8 @@ void color_manager::show_gui()
     const int iHeaderHeight = 4;
     int iContentHeight = 0;
 
-    point iOffset;
-
     std::vector<int> vLines;
+    vLines.reserve( 2 );
     vLines.push_back( -1 );
     vLines.push_back( 48 );
 
@@ -848,25 +850,10 @@ void color_manager::show_gui()
     catacurses::window w_colors_header;
     catacurses::window w_colors;
 
-    const auto calc_offset_y = []() -> int {
-        return TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
-    };
-
     ui_adaptor ui;
     const auto init_windows = [&]( ui_adaptor & ui ) {
-        iContentHeight = FULL_SCREEN_HEIGHT - 2 - iHeaderHeight;
-
-        iOffset.x = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-        iOffset.y = calc_offset_y();
-
-        w_colors_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                              iOffset );
-        w_colors_header = catacurses::newwin( iHeaderHeight, FULL_SCREEN_WIDTH - 2,
-                                              iOffset + point_south_east );
-        w_colors = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2,
-                                       iOffset + point( 1, iHeaderHeight + 1 ) );
-
-        ui.position_from_window( w_colors_border );
+        ui_helpers::full_screen_window( ui, &w_colors, &w_colors_border, &w_colors_header, nullptr,
+                                        &iContentHeight, 1, iHeaderHeight, 0 );
     };
     init_windows( ui );
     ui.on_screen_resize( init_windows );
@@ -894,32 +881,25 @@ void color_manager::show_gui()
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         draw_border( w_colors_border, BORDER_COLOR, _( "Color manager" ) );
-        mvwputch( w_colors_border, point( 0, 3 ), BORDER_COLOR, LINE_XXXO ); // |-
-        mvwputch( w_colors_border, point( getmaxx( w_colors_border ) - 1, 3 ), BORDER_COLOR,
-                  LINE_XOXX ); // -|
+        wattron( w_colors_border, BORDER_COLOR );
+        mvwaddch( w_colors_border, point( 0, 4 ), LINE_XXXO ); // |-
+        mvwaddch( w_colors_border, point( getmaxx( w_colors_border ) - 1, 4 ), LINE_XOXX ); // -|
 
-        for( int &iCol : vLines ) {
+        for( const int &iCol : vLines ) {
             if( iCol > -1 ) {
-                mvwputch( w_colors_border, point( iCol + 1, FULL_SCREEN_HEIGHT - 1 ), BORDER_COLOR,
-                          LINE_XXOX ); // _|_
-                mvwputch( w_colors_header, point( iCol, 3 ), BORDER_COLOR, LINE_XOXO );
+                mvwaddch( w_colors_border, point( iCol + 1, FULL_SCREEN_HEIGHT - 1 ), LINE_XXOX ); // _|_
+                mvwaddch( w_colors_header, point( iCol, 4 ), LINE_XOXO );
             }
         }
+        wattroff( w_colors_border, BORDER_COLOR );
         wnoutrefresh( w_colors_border );
 
         draw_header( w_colors_header );
 
         // Clear all lines
-        for( int i = 0; i < iContentHeight; i++ ) {
-            for( int j = 0; j < 79; j++ ) {
-                mvwputch( w_colors, point( j, i ), c_black, ' ' );
-
-                for( int &iCol : vLines ) {
-                    if( iCol == j ) {
-                        mvwputch( w_colors, point( j, i ), BORDER_COLOR, LINE_XOXO );
-                    }
-                }
-            }
+        mvwrectf( w_colors, point::zero, c_black, ' ', 79, iContentHeight );
+        for( int &iCol : vLines ) {
+            mvwvline( w_colors, point( iCol, 0 ), BORDER_COLOR, LINE_XOXO, iContentHeight );
         }
 
         calcStartPos( iStartPos, iCurrentLine, iContentHeight, iMaxColors );
@@ -992,11 +972,6 @@ void color_manager::show_gui()
 
             if( !vFiles.empty() ) {
                 uilist ui_templates;
-                ui_templates.w_y_setup = [&]( int ) -> int {
-                    return iHeaderHeight + 1 + calc_offset_y();
-                };
-                ui_templates.w_height_setup = 18;
-
                 ui_templates.text = _( "Color templates:" );
 
                 for( const cata_path &file : vFiles ) {
@@ -1027,11 +1002,6 @@ void color_manager::show_gui()
 
             if( !vFiles.empty() ) {
                 uilist ui_templates;
-                ui_templates.w_y_setup = [&]( int ) -> int {
-                    return iHeaderHeight + 1 + calc_offset_y();
-                };
-                ui_templates.w_height_setup = 18;
-
                 ui_templates.text = _( "Color themes:" );
 
                 for( const cata_path &filename : vFiles ) {
@@ -1046,10 +1016,6 @@ void color_manager::show_gui()
             }
         } else if( action == "CONFIRM" ) {
             uilist ui_colors;
-            ui_colors.w_y_setup = [&]( int ) -> int {
-                return iHeaderHeight + 1 + calc_offset_y();
-            };
-            ui_colors.w_height_setup = 18;
 
             const color_manager::color_struct &entry = std::next( name_color_map.begin(),
                     iCurrentLine )->second;

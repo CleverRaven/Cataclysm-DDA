@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "landfill",
     "weight": 100,
     "object": {
@@ -42,11 +41,11 @@
       "furniture": { "#": "f_rubble_landfill" },
       "items": {
         "#": [
-          { "item": "trash", "chance": 25, "repeat": 2 },
+          { "item": "SUS_trash_floor", "chance": 25, "repeat": 2 },
           { "item": "road", "chance": 2 },
           { "item": "allclothes_damaged", "chance": 3 },
           { "item": "stoner", "chance": 1 },
-          { "item": "oven", "chance": 2 },
+          { "item": "SUS_oven", "chance": 2 },
           { "item": "garden_shed", "chance": 2 },
           { "item": "homebooks", "chance": 2 },
           { "item": "wheels", "chance": 1 },
@@ -56,6 +55,7 @@
           { "item": "chem_home", "chance": 1 },
           { "item": "hardware", "chance": 2 },
           { "item": "misc_smoking", "chance": 1 },
+          { "item": "protein_bar_box_small", "chance": 1 },
           { "item": "tools_home", "chance": 1 }
         ]
       }
@@ -63,7 +63,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "landfill",
     "weight": 100,
     "object": {
@@ -102,11 +101,11 @@
       "furniture": { "#": "f_rubble_landfill" },
       "items": {
         "#": [
-          { "item": "trash", "chance": 25, "repeat": 2 },
+          { "item": "SUS_trash_floor", "chance": 25, "repeat": 2 },
           { "item": "road", "chance": 2 },
           { "item": "allclothes_damaged", "chance": 3 },
           { "item": "stoner", "chance": 1 },
-          { "item": "oven", "chance": 2 },
+          { "item": "SUS_oven", "chance": 2 },
           { "item": "garden_shed", "chance": 2 },
           { "item": "homebooks", "chance": 2 },
           { "item": "electronics", "chance": 2 },
@@ -116,6 +115,7 @@
           { "item": "chem_home", "chance": 1 },
           { "item": "hardware", "chance": 2 },
           { "item": "misc_smoking", "chance": 1 },
+          { "item": "protein_bar_box_small", "chance": 1 },
           { "item": "tools_home", "chance": 1 }
         ]
       },
@@ -124,7 +124,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "landfill",
     "weight": 100,
     "object": {
@@ -165,11 +164,11 @@
       "furniture": { "#": "f_rubble_landfill" },
       "items": {
         "#": [
-          { "item": "trash", "chance": 25, "repeat": 2 },
+          { "item": "SUS_trash_floor", "chance": 25, "repeat": 2 },
           { "item": "road", "chance": 2 },
           { "item": "allclothes_damaged", "chance": 3 },
           { "item": "stoner", "chance": 1 },
-          { "item": "oven", "chance": 2 },
+          { "item": "SUS_oven", "chance": 2 },
           { "item": "garden_shed", "chance": 2 },
           { "item": "homebooks", "chance": 2 },
           { "item": "electronics", "chance": 2 },
@@ -179,6 +178,7 @@
           { "item": "chem_home", "chance": 1 },
           { "item": "hardware", "chance": 2 },
           { "item": "misc_smoking", "chance": 1 },
+          { "item": "protein_bar_box_small", "chance": 1 },
           { "item": "tools_home", "chance": 1 }
         ]
       },
@@ -187,7 +187,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "landfill",
     "weight": 100,
     "object": {
@@ -227,11 +226,11 @@
       "furniture": { "#": "f_rubble_landfill" },
       "items": {
         "#": [
-          { "item": "trash", "chance": 25, "repeat": 2 },
+          { "item": "SUS_trash_floor", "chance": 25, "repeat": 2 },
           { "item": "road", "chance": 2 },
           { "item": "allclothes_damaged", "chance": 3 },
           { "item": "stoner", "chance": 1 },
-          { "item": "oven", "chance": 2 },
+          { "item": "SUS_oven", "chance": 2 },
           { "item": "garden_shed", "chance": 2 },
           { "item": "homebooks", "chance": 2 },
           { "item": "electronics", "chance": 2 },
@@ -240,6 +239,7 @@
           { "item": "chem_home", "chance": 1 },
           { "item": "hardware", "chance": 2 },
           { "item": "misc_smoking", "chance": 1 },
+          { "item": "protein_bar_box_small", "chance": 1 },
           { "item": "tools_home", "chance": 1 }
         ]
       },
@@ -248,7 +248,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "landfill",
     "weight": 100,
     "object": {
@@ -289,11 +288,11 @@
       "furniture": { "#": "f_rubble_landfill" },
       "items": {
         "#": [
-          { "item": "trash", "chance": 25, "repeat": 2 },
+          { "item": "SUS_trash_floor", "chance": 25, "repeat": 2 },
           { "item": "road", "chance": 2 },
           { "item": "allclothes_damaged", "chance": 3 },
           { "item": "stoner", "chance": 1 },
-          { "item": "oven", "chance": 2 },
+          { "item": "SUS_oven", "chance": 2 },
           { "item": "garden_shed", "chance": 2 },
           { "item": "homebooks", "chance": 2 },
           { "item": "electronics", "chance": 2 },
@@ -303,6 +302,7 @@
           { "item": "chem_home", "chance": 1 },
           { "item": "hardware", "chance": 2 },
           { "item": "misc_smoking", "chance": 1 },
+          { "item": "protein_bar_box_small", "chance": 1 },
           { "item": "tools_home", "chance": 1 }
         ]
       }

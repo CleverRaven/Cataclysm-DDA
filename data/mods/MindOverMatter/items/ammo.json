@@ -19,7 +19,8 @@
   },
   {
     "id": "mom_pulse_rifle_ammo",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "LV429 pulse shot" },
     "description": "A charge for the LV429.",
     "weight": "1 g",
@@ -38,7 +39,8 @@
     "damage": { "damage_type": "psi_photokinetic_damage", "amount": 55, "armor_penetration": 4 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "psionic_charge_power",
     "category": "spare_parts",
     "price": "10 USD",
@@ -54,7 +56,8 @@
     "count": 100
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "noetic_charge_power",
     "copy-from": "psionic_charge_power",
     "name": { "str_sp": "noetic energy" },

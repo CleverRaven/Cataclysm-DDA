@@ -1,7 +1,7 @@
 [
   {
     "id": "serum_regen",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "drugs",
     "name": { "str_sp": "48x-\"Locutus\"" },
     "description": "Little, sealed ampule with some white, semi-transparent liquid of unknown origin.  Label on it says \"48x-\"Locutus\"\", whatever that means.",
@@ -13,12 +13,13 @@
     "use_action": [
       {
         "type": "effect_on_conditions",
+        "consume": true,
         "menu_text": "Inject",
         "description": "Inject the liquid.",
         "effect_on_conditions": [
           {
             "id": "EOC_RUN_SERUM_REGEN",
-            "effect": { "run_eoc_with": "EOC_SERUM_GENERIFIED", "variables": { "eoc": "EOC_SERUM_REGEN" } }
+            "effect": { "run_eocs": "EOC_SERUM_GENERIFIED", "variables": { "eoc": "EOC_SERUM_REGEN" } }
           }
         ]
       }

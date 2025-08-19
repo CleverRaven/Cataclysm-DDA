@@ -9,9 +9,9 @@
     "id": "shot_forming",
     "type": "requirement",
     "//": "Forming of shot from raw materials",
+    "components": [ [ [ "any_water", 1, "LIST" ] ] ],
     "tools": [
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ], [ "iron_pot", -1 ], [ "pan", -1 ], [ "pot_makeshift", -1 ] ],
-      [ [ "any_water", 1, "LIST" ] ],
       [
         [ "ladle", -1 ],
         [ "ceramic_mug", -1 ],
@@ -110,6 +110,12 @@
     ]
   },
   {
+    "id": "blacksmithing_standard_fileless",
+    "type": "requirement",
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
+    "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ], [ [ "metalworking_tongs_any", 1, "LIST" ] ] ]
+  },
+  {
     "id": "blacksmithing_scrap",
     "type": "requirement",
     "//": "Includes forging resources as well as tools needed for most blacksmithing. Per forging_scrap energy cost balanced for one scrap metal.",
@@ -203,7 +209,27 @@
     ],
     "components": [
       [ [ "welding_rod_steel", 10 ], [ "welding_wire_steel", 10 ], [ "brazing_rod_bronze", 10 ] ],
-      [ [ "steel_tiny", 1, "LIST" ] ]
+      [ [ "steel_chunk_any", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "id": "repair_welding_lc_steel",
+    "type": "requirement",
+    "//": "Repair of mild steel items - per 10 cm of weld (100 seconds each), done this way to use 1 chunk of steel per 10 cm",
+    "//1": "Arc welding is about 85% efficient, acetylene welding is about 40% efficient",
+    "qualities": [ { "id": "GLARE", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
+    "tools": [
+      [
+        [ "welder", 200 ],
+        [ "welding_kit", 200 ],
+        [ "welder_crude", 400 ],
+        [ "integrated_welder", 300 ],
+        [ "oxy_torch", 10 ]
+      ]
+    ],
+    "components": [
+      [ [ "welding_rod_steel", 10 ], [ "welding_wire_steel", 10 ], [ "brazing_rod_bronze", 10 ] ],
+      [ [ "lc_steel_chunk", 1 ] ]
     ]
   },
   {
@@ -261,8 +287,22 @@
   {
     "id": "drilling_standard",
     "type": "requirement",
-    "//": "Drilling holes in various materials, including metal",
+    "//": "Drilling holes in various materials, including steel",
     "tools": [ [ [ "cordless_drill", 2 ], [ "corded_powerdrill", 2 ], [ "drill_press_tool", 1 ], [ "hand_drill", -1 ] ] ]
+  },
+  {
+    "id": "drilling_light",
+    "type": "requirement",
+    "//": "Drilling holes in various materials other than steel",
+    "tools": [
+      [
+        [ "cordless_drill", 1 ],
+        [ "corded_powerdrill", 1 ],
+        [ "drill_press_tool", 1 ],
+        [ "hand_drill", -1 ],
+        [ "makeshift_hand_drill", -2 ]
+      ]
+    ]
   },
   {
     "id": "anesthetic",
@@ -503,5 +543,17 @@
         [ "hd_tow_cable", -1 ]
       ]
     ]
+  },
+  {
+    "id": "rivet_setting",
+    "type": "requirement",
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "DRILL", "level": 3 } ],
+    "components": [ [ [ "rivets", 1 ] ] ]
+  },
+  {
+    "id": "rivet_replacement",
+    "type": "requirement",
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "FILE", "level": 2 } ],
+    "components": [ [ [ "rivets", 1 ] ] ]
   }
 ]

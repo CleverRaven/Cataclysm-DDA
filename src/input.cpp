@@ -3,8 +3,8 @@
 #include <algorithm>
 #include <cstddef>
 #include <exception>
+#include <functional>
 #include <locale>
-#include <memory>
 #include <optional>
 #include <set>
 #include <sstream>
@@ -19,11 +19,9 @@
 #include "catacharset.h"
 #include "debug.h"
 #include "filesystem.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "input_context.h" // IWYU pragma: keep
 #include "json.h"
-#include "json_error.h"
 #include "json_loader.h"
 #include "path_info.h"
 #include "sdltiles.h" // IWYU pragma: keep
@@ -750,6 +748,19 @@ std::string input_manager::get_keyname( int ch, input_event_t inp_type, bool por
         return std::string( "UNKNOWN_" ) + int_to_str( ch );
     } else {
         return string_format( _( "unknown key %ld" ), ch );
+    }
+}
+
+void input_manager::check_keybind( const std::string &category, const std::string &keybind,
+                                   const std::string &context ) const
+{
+    if( action_contexts.find( category ) != action_contexts.end() ) {
+        const t_actions &act_cat = action_contexts.at( category );
+        if( act_cat.find( keybind ) == act_cat.end() ) {
+            debugmsg( "Invalid keybind %s in valid category %s from %s", keybind, category, context );
+        }
+    } else {
+        debugmsg( "Invalid keybind category %s for keybind %s from %s", category, keybind, context );
     }
 }
 

@@ -5,24 +5,9 @@
     "description": "In the panic of a fleeing crowd, you were bitten by what you can only describe as a zombie.  A prickling sensation and a sense of doom washes over you, and you're not sure whether it's some kind of rabies or not.  Better seek out some antivirals just in case…",
     "flags": [ "CITY_START" ],
     "id": "deadly_virus",
+    "copy-from": "infected",
     "points": -8,
     "start_name": "In Town",
-    "allowed_locs": [
-      "sloc_house",
-      "sloc_house_boarded",
-      "sloc_school",
-      "sloc_grocery_store",
-      "sloc_garage",
-      "sloc_furniture_store",
-      "sloc_library",
-      "sloc_bookstore",
-      "sloc_zoo_giftshop",
-      "sloc_zoo_cages",
-      "sloc_golfcourse_mid_course",
-      "sloc_golfcourse_clubhouse",
-      "sloc_church",
-      "sloc_cemetery"
-    ],
     "eoc": [ "scenario_deadly_virus" ]
   }
 ]

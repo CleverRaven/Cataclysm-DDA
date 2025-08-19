@@ -1,7 +1,8 @@
 [
   {
     "id": "mag_throwing",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Diskobolus", "str_pl": "issues of Diskobolus" },
     "description": "A biannual magazine devoted to the art and science of discus-throwing.",
@@ -35,15 +36,16 @@
     "symbol": "?",
     "looks_like": "mag_glam",
     "color": "pink",
-    "skill": "throw",
     "max_level": 1,
     "intelligence": 1,
     "time": "8 m",
-    "fun": 1
+    "read_skill": "throw",
+    "read_fun": 1
   },
   {
     "id": "manual_throw",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Complete Guide to Pitching", "str_pl": "copies of The Complete Guide to Pitching" },
     "description": "A detailed guide for baseball pitchers that combines time-tested techniques and information mixed with a common sense approach to pitching.",
@@ -95,9 +97,9 @@
     "symbol": "?",
     "looks_like": "manual_gun",
     "color": "green",
-    "skill": "throw",
     "max_level": 3,
     "intelligence": 3,
-    "time": "15 m"
+    "time": "15 m",
+    "read_skill": "throw"
   }
 ]

@@ -1,0 +1,36 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_perk_dice_addition_damage",
+    "effect": [
+      { "math": [ "_dice_side_nums = 0" ] },
+      {
+        "if": { "compare_string": [ { "context_val": "ammo" }, "plastic_six_dice" ] },
+        "then": { "math": [ "_dice_side_nums = 6" ] }
+      },
+      {
+        "if": { "compare_string": [ { "context_val": "ammo" }, "RPG_die", "metal_RPG_die" ] },
+        "then": { "math": [ "_dice_side_nums = ( rand( 4 ) + 2 )*2" ] }
+      },
+      { "math": [ "_dice_result = rand(_dice_side_nums-1)+1" ] },
+      { "u_message": "Damage dice result: 1D<context_val:dice_side_nums> = <context_val:dice_result>" },
+      { "npc_deal_damage": "pure", "amount": { "context_val": "dice_result" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "event_perk_dice_addition_damage_ranged_attacks_character",
+    "eoc_type": "EVENT",
+    "required_event": "character_ranged_attacks_character",
+    "condition": { "and": [ { "u_has_trait": "perk_dice_addition_damage" } ] },
+    "effect": [ { "run_eocs": [ "eoc_perk_dice_addition_damage" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "event_perk_dice_addition_damage_ranged_attacks_monster",
+    "eoc_type": "EVENT",
+    "required_event": "character_ranged_attacks_monster",
+    "condition": { "and": [ { "u_has_trait": "perk_dice_addition_damage" } ] },
+    "effect": [ { "run_eocs": [ "eoc_perk_dice_addition_damage" ] } ]
+  }
+]

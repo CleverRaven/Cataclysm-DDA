@@ -1,23 +1,27 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "bee_balm",
     "name": { "str_sp": "bee balm" },
     "description": "A snow-white flower also known as wild bergamot.  Smells faintly of mint.",
+    "//": "red variety as theres no data on Monarda fistulosa, but this is similar enough - <https://pmc.ncbi.nlm.nih.gov/articles/PMC7356345/table/plants-09-00691-t002/>",
     "comestible_type": "FOOD",
-    "calories": 2,
+    "calories": 1,
     "fun": -5,
     "weight": "10 g",
-    "to_hit": -3,
     "color": "white",
     "symbol": ",",
     "material": [ "veggy" ],
     "volume": "20 ml",
     "price": "0 cent",
-    "price_postapoc": "0 cent"
+    "price_postapoc": "0 cent",
+    "flags": [ "RABBIT", "CATTLE" ],
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "vitC", "136 μg" ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "groundnut",
     "name": { "str": "handful of ground nuts", "str_pl": "handfuls of ground nuts" },
     "comestible_type": "FOOD",
@@ -33,12 +37,13 @@
     "healthy": -1,
     "symbol": ",",
     "looks_like": "potato",
-    "flags": [ "RAW" ],
-    "vitamins": [ [ "calcium", 14 ], [ "iron", 1 ] ],
+    "flags": [ "RAW", "RAT", "MOUSE" ],
+    "vitamins": [ [ "calcium", 14 ], [ "iron", 1 ], [ "veggy_allergen", 1 ] ],
     "fun": -3
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "wild_sarsaparilla_root",
     "name": { "str": "wild sarsaparilla root" },
     "weight": "40 g",
@@ -53,12 +58,13 @@
     "description": "This aromatic rhizome can be eaten as is in an emergency, but it is much better used for making beverages.  Its taste is pleasant but it is also tough and stringy.",
     "comestible_type": "FOOD",
     "symbol": ",",
-    "flags": [ "RAW" ],
-    "vitamins": [ [ "calcium", 10 ], [ "iron", 8 ] ],
+    "flags": [ "RAW", "RAT" ],
+    "vitamins": [ [ "calcium", 10 ], [ "iron", 8 ], [ "veggy_allergen", 1 ] ],
     "fun": -3
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "jerusalem_artichoke",
     "name": { "str": "Jerusalem artichoke" },
     "weight": "40 g",
@@ -73,13 +79,14 @@
     "comestible_type": "FOOD",
     "healthy": -1,
     "symbol": ",",
-    "flags": [ "RAW" ],
+    "flags": [ "RAW", "RAT" ],
     "material": [ "veggy" ],
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 8 ], [ "vitC", 2 ] ],
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 8 ], [ "vitC", 2 ], [ "veggy_allergen", 1 ] ],
     "fun": -2
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "wild_garlic",
     "name": { "str_sp": "wild garlic" },
     "comestible_type": "FOOD",
@@ -92,13 +99,15 @@
     "spoils_in": "3 days",
     "description": "Also called ramps, this delicate leafy vegetable is healthy and a tasty ingredient for many dishes.",
     "symbol": ",",
+    "//": "no flags like CATTLE because most wildlife actually hate the onion smell",
     "flags": [ "RAW" ],
     "material": [ "veggy" ],
-    "vitamins": [ [ "vitC", 10 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitC", 10 ], [ "iron", 2 ], [ "veggy_allergen", 1 ] ],
     "fun": -2
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "broccoli",
     "name": { "str_sp": "broccoli" },
     "weight": "151 g",
@@ -112,12 +121,13 @@
     "price_postapoc": "50 cent",
     "material": [ "veggy" ],
     "volume": "180 ml",
-    "flags": [ "EATEN_HOT", "SMOKABLE", "RAW" ],
+    "flags": [ "EATEN_HOT", "SMOKABLE", "RAW", "CATTLE", "RABBIT", "MOUSE", "RAT" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", "134700 μg" ], [ "iron", "1100 μg" ], [ "calcium", "71 mg" ] ]
+    "vitamins": [ [ "vitC", "134700 μg" ], [ "iron", "1100 μg" ], [ "calcium", "71 mg" ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cabbage_head",
     "name": { "str_sp": "cabbage head" },
     "weight": "910 g",
@@ -133,12 +143,14 @@
     "material": [ "veggy" ],
     "volume": "1632 ml",
     "fun": -2,
-    "flags": [ "SMOKABLE", "RAW", "CATTLE" ],
+    "//": "Actually, not recommended for rats and mice to eat in big quantities because gas but no way to implement that yet, very minor detail though",
+    "flags": [ "SMOKABLE", "RAW", "CATTLE", "RABBIT", "RAT", "MOUSE" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", "332800 μg" ], [ "iron", "12900 μg" ], [ "calcium", "364 mg" ] ]
+    "vitamins": [ [ "vitC", "332800 μg" ], [ "iron", "12900 μg" ], [ "calcium", "364 mg" ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cabbage",
     "name": { "str": "handful of shredded cabbage", "str_pl": "handfuls of shredded cabbage" },
     "weight": "70 g",
@@ -154,12 +166,13 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "fun": -2,
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": [ "SMOKABLE", "RAW", "CATTLE", "RABBIT", "RAT", "MOUSE" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", "25600 μg" ], [ "iron", "300 μg" ], [ "calcium", "28 mg" ] ]
+    "vitamins": [ [ "vitC", "25600 μg" ], [ "iron", "300 μg" ], [ "calcium", "28 mg" ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "grape_leaves",
     "looks_like": "lettuce",
     "name": { "str_sp": "grape leaves" },
@@ -173,12 +186,33 @@
     "price": "80 cent",
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
+    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW", "CATTLE", "RABBIT", "RAT", "MOUSE" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 4 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 4 ], [ "iron", 2 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "radish_taproot",
+    "name": { "str": "handful of radish taproots", "str_pl": "handfuls of radish taproots" },
+    "weight": "100 g",
+    "color": "red",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "looks_like": "carrot",
+    "quench": 2,
+    "calories": 15,
+    "description": "A handful of crunchy red radish taproots.",
+    "price": "104 cent",
+    "price_postapoc": "104 cent",
+    "material": [ "veggy" ],
+    "volume": "325 ml",
+    "flags": [ "SMOKABLE", "RAW" ],
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "vitC", "15 mg" ], [ "iron", "3 mg" ], [ "calcium", "25 mg" ] ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "spinach",
     "name": { "str": "handful of spinach", "str_pl": "handfuls of spinach" },
     "weight": "30 g",
@@ -194,12 +228,13 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "fun": -2,
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": [ "SMOKABLE", "RAW", "CATTLE", "RABBIT", "RAT", "MOUSE" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", "8400 μg" ], [ "iron", "800 μg" ], [ "calcium", "29700 μg" ] ]
+    "vitamins": [ [ "vitC", "8400 μg" ], [ "iron", "800 μg" ], [ "calcium", "29700 μg" ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "carrot",
     "name": { "str": "carrot" },
     "weight": "72 g",
@@ -215,12 +250,14 @@
     "volume": "146 ml",
     "longest_side": "19 cm",
     "fun": 1,
-    "flags": [ "SMOKABLE", "RAW" ],
+    "//": "Carrots are somewhat high in sugar and should only be eaten sparingly by rabbits but there is no way to implement that yet",
+    "flags": [ "SMOKABLE", "RAW", "CATTLE", "RABBIT", "RAT", "MOUSE" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", "4200 μg" ], [ "iron", "200 μg" ], [ "calcium", "23800 μg" ] ]
+    "vitamins": [ [ "vitC", "4200 μg" ], [ "iron", "200 μg" ], [ "calcium", "23800 μg" ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cattail_rhizome",
     "name": { "str": "cattail rhizome" },
     "weight": "209 g",
@@ -235,11 +272,12 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "fun": -12,
-    "flags": [ "RAW" ],
-    "vitamins": [ [ "iron", 8 ] ]
+    "flags": [ "RAW", "RABBIT" ],
+    "vitamins": [ [ "iron", 8 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "lotus_rhizome",
     "name": { "str": "lotus root" },
     "weight": "200 g",
@@ -253,12 +291,13 @@
     "price_postapoc": "10 cent",
     "material": [ "veggy" ],
     "volume": "500 ml",
-    "flags": [ "SMOKABLE", "FREEZERBURN" ],
+    "flags": [ "SMOKABLE", "FREEZERBURN", "RABBIT" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 94 ], [ "calcium", 9 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "vitC", 94 ], [ "calcium", 9 ], [ "iron", 12 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cattail_stalk",
     "name": { "str": "cattail stalk" },
     "weight": "100 g",
@@ -273,19 +312,21 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "fun": -8,
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": [ "SMOKABLE", "RAW", "RABBIT", "CATTLE" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ] ]
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "plant_stalk",
     "name": { "str": "plant stalk" },
     "description": "A stiff, green stalk from a plant.  It is starchy and fibrous, but it would be much better if you cooked it.",
     "copy-from": "cattail_stalk"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "celery",
     "name": { "str_sp": "celery" },
     "weight": "40 g",
@@ -301,12 +342,14 @@
     "material": [ "veggy" ],
     "volume": "146 ml",
     "longest_side": "19 cm",
-    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
+    "//": "It appears that celery is energy-negative for rodents",
+    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW", "CATTLE", "RABBIT" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", "8400 μg" ], [ "iron", "800 μg" ], [ "calcium", "29700 μg" ] ]
+    "vitamins": [ [ "vitC", "8400 μg" ], [ "iron", "800 μg" ], [ "calcium", "29700 μg" ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cotton_boll",
     "name": { "str": "cotton boll" },
     "category": "other",
@@ -321,10 +364,12 @@
     "price_postapoc": "2 cent",
     "material": [ "veggy", "cotton" ],
     "volume": "62 ml",
-    "fun": -10
+    "fun": -10,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "chili_pepper",
     "name": { "str": "chili pepper" },
     "weight": "45 g",
@@ -338,12 +383,15 @@
     "price_postapoc": "16 cent",
     "material": [ "veggy" ],
     "volume": "70 ml",
-    "flags": [ "FREEZERBURN", "RAW" ],
-    "vitamins": [ [ "vitC", "64700 μg" ], [ "iron", "500 μg" ], [ "calcium", "6300 μg" ] ],
+    "smoking_result": "dry_chili",
+    "//": "Birds can eat spicy stuff easily due to their inability to taste spiciness",
+    "flags": [ "FREEZERBURN", "RAW", "SMOKABLE", "BIRD" ],
+    "vitamins": [ [ "vitC", "64700 μg" ], [ "iron", "500 μg" ], [ "calcium", "6300 μg" ], [ "veggy_allergen", 1 ] ],
     "fun": -2
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "chili_pepper_cut",
     "copy-from": "chili_pepper",
     "cooks_like": "chili_pepper",
@@ -354,7 +402,8 @@
     "price_postapoc": "3 cent"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cucumber",
     "name": { "str": "salad cucumber" },
     "weight": "301 g",
@@ -370,12 +419,14 @@
     "material": [ "veggy" ],
     "volume": "275 ml",
     "longest_side": "22 cm",
-    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
+    "//": "No data on cows finding cucumbers super tasty",
+    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW", "RAT", "MOUSE" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", "8400 μg" ], [ "iron", "800 μg" ], [ "calcium", "48200 μg" ] ]
+    "vitamins": [ [ "vitC", "8400 μg" ], [ "iron", "800 μg" ], [ "calcium", "48200 μg" ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cucumber_cut",
     "name": { "str": "cut salad cucumber" },
     "volume": "274 ml",
@@ -388,7 +439,8 @@
     "price_postapoc": "10 cent"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "gherkin",
     "name": { "str": "gherkin cucumber" },
     "weight": "65 g",
@@ -404,12 +456,13 @@
     "material": [ "veggy" ],
     "volume": "60 ml",
     "longest_side": "10 cm",
-    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
+    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW", "RAT", "MOUSE" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", "700 μg" ], [ "iron", "300 μg" ] ]
+    "vitamins": [ [ "vitC", "700 μg" ], [ "iron", "300 μg" ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "gherkin_cut",
     "name": { "str": "cut gherkin cucumber" },
     "copy-from": "gherkin",
@@ -420,7 +473,8 @@
     "price_postapoc": "5 cent"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "dahlia_root",
     "name": { "str": "dahlia root" },
     "weight": "190 g",
@@ -435,11 +489,13 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "fun": -4,
-    "flags": [ "RAW" ],
-    "//": "Dahlia roots contain an incredible amount of vitamin B6. This isn't a vitamin tracked in Cataclysm, but be careful of vitamin overdose when eating dahlia in real life."
+    "flags": [ "RAW", "RAT", "MOUSE" ],
+    "//": "Dahlia roots contain an incredible amount of vitamin B6. This isn't a vitamin tracked in Cataclysm, but be careful of vitamin overdose when eating dahlia in real life.",
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "salsify_raw",
     "name": { "str": "salsify root" },
     "weight": "133 g",
@@ -456,11 +512,12 @@
     "volume": "250 ml",
     "fun": -2,
     "smoking_result": "dry_veggy",
-    "flags": [ "RAW", "SMOKABLE" ],
-    "vitamins": [ [ "vitC", "10600 μg" ], [ "iron", "900 μg" ], [ "calcium", "79800 μg" ] ]
+    "flags": [ "RAW", "SMOKABLE", "RAT", "MOUSE" ],
+    "vitamins": [ [ "vitC", "10600 μg" ], [ "iron", "900 μg" ], [ "calcium", "79800 μg" ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "chicory_raw",
     "name": { "str": "chicory root" },
     "weight": "60 g",
@@ -476,24 +533,26 @@
     "volume": "135 ml",
     "fun": -8,
     "flags": [ "RAW" ],
-    "vitamins": [ [ "vitC", "3 mg" ], [ "iron", "500 μg" ], [ "calcium", "24600 μg" ] ]
+    "vitamins": [ [ "vitC", "3 mg" ], [ "iron", "500 μg" ], [ "calcium", "24600 μg" ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "carrot_wild",
     "//": "Also known as Queen Anne's Lace. It's that boring white flower that grows wild everywhere. Water hemlock looks almost exactly like wild carrot. The easiest way to tell them apart is by their scent. Please don't eat either of them at home, hemlock will kill you deader than Socrates.",
     "name": { "str": "wild root" },
     "copy-from": "carrot",
     "color": "white",
     "description": "These are often wild carrots, but beware of poisonous lookalikes.  In any case, the root is tough and is not as tasty as a real raw carrot.",
-    "flags": [ "FORAGE_POISON", "RAW", "SMOKABLE" ],
+    "extend": { "flags": [ "FORAGE_POISON" ] },
     "price": "30 cent",
     "price_postapoc": "16 cent",
     "fun": -2,
     "volume": "256 ml"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "dogbane",
     "name": { "str_sp": "dogbane" },
     "description": "A stalk of dogbane.  It has very fibrous stems and is mildly poisonous.",
@@ -503,16 +562,17 @@
     "calories": 9,
     "fun": -15,
     "weight": "40 g",
-    "to_hit": -3,
     "color": "magenta",
     "symbol": ",",
     "material": [ "veggy" ],
     "volume": "250 ml",
     "price": "0 cent",
-    "price_postapoc": "0 cent"
+    "price_postapoc": "0 cent",
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "garlic",
     "name": { "str": "garlic bulb" },
     "weight": "18 g",
@@ -529,11 +589,12 @@
     "volume": "45 ml",
     "fun": -18,
     "flags": [ "RAW", "PLANTABLE_SEED" ],
-    "vitamins": [ [ "vitC", "5400 μg" ], [ "iron", "600 μg" ], [ "calcium", "32400 μg" ] ],
+    "vitamins": [ [ "vitC", "5400 μg" ], [ "iron", "600 μg" ], [ "calcium", "32400 μg" ], [ "veggy_allergen", 1 ] ],
     "//": "Who in their right mind would eat an entire garlic bulb raw?"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "garlic_clove",
     "name": { "str": "garlic clove" },
     "weight": "3 g",
@@ -548,12 +609,18 @@
     "price_postapoc": "8 cent",
     "material": [ "garlic" ],
     "volume": "6 ml",
+    "smoking_result": "dry_garlic",
     "fun": -3,
-    "vitamins": [ [ "vitC", "900 μg" ], [ "iron", "100 μg" ], [ "calcium", "5400 μg" ] ],
-    "seed_data": { "plant_name": "garlic", "fruit": "garlic", "byproducts": [ "withered" ], "grow": "65 days" }
+    "vitamins": [ [ "vitC", "900 μg" ], [ "iron", "100 μg" ], [ "calcium", "5400 μg" ], [ "veggy_allergen", 1 ] ],
+    "flags": [ "SMOKABLE" ],
+    "plant_name": "garlic",
+    "fruit": "garlic",
+    "byproducts": [ "withered" ],
+    "grow": "65 days"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "hops",
     "name": { "str": "hops flower" },
     "weight": "92 g",
@@ -568,10 +635,12 @@
     "material": [ "veggy" ],
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
-    "fun": -15
+    "fun": -15,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "horseradish_root",
     "name": { "str": "horseradish root" },
     "weight": "250 g",
@@ -587,10 +656,11 @@
     "volume": "400 ml",
     "fun": -12,
     "flags": [ "FREEZERBURN", "RAW" ],
-    "vitamins": [ [ "vitC", "62300 μg" ], [ "iron", "1100 μg" ], [ "calcium", "140 mg" ] ]
+    "vitamins": [ [ "vitC", "62300 μg" ], [ "iron", "1100 μg" ], [ "calcium", "140 mg" ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "lettuce_head",
     "name": { "str_sp": "lettuce head" },
     "weight": "504 g",
@@ -605,12 +675,13 @@
     "price_postapoc": "132 cent",
     "material": [ "veggy" ],
     "volume": "1850 ml",
-    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW", "CATTLE" ],
+    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW", "CATTLE", "RABBIT", "RAT", "MOUSE" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", "14 mg" ], [ "iron", "2100 μg" ], [ "calcium", "91 mg" ] ]
+    "vitamins": [ [ "vitC", "14 mg" ], [ "iron", "2100 μg" ], [ "calcium", "91 mg" ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "lettuce",
     "name": { "str": "handful of shredded lettuce", "str_pl": "handfuls of shredded lettuce" },
     "weight": "72 g",
@@ -625,12 +696,13 @@
     "price_postapoc": "20 cent",
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
+    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW", "CATTLE", "RABBIT", "RAT", "MOUSE" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", "2 mg" ], [ "iron", "300 μg" ], [ "calcium", "13 mg" ] ]
+    "vitamins": [ [ "vitC", "2 mg" ], [ "iron", "300 μg" ], [ "calcium", "13 mg" ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "mugwort",
     "name": { "str_sp": "mugwort" },
     "description": "A stalk of mugwort.  Smells wonderful.",
@@ -639,16 +711,18 @@
     "calories": 9,
     "fun": -8,
     "weight": "40 g",
-    "to_hit": -3,
     "color": "magenta",
     "symbol": ",",
     "material": [ "veggy" ],
     "volume": "250 ml",
+    "flags": [ "CATTLE", "RABBIT" ],
     "price": "0 cent",
-    "price_postapoc": "10 cent"
+    "price_postapoc": "10 cent",
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "onion",
     "name": { "str": "onion" },
     "weight": "110 g",
@@ -666,10 +740,11 @@
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
     "//": "Raw onions probably aren't all that tasty to most people.",
-    "vitamins": [ [ "vitC", "8100 μg" ], [ "iron", "200 μg" ], [ "calcium", "25300 μg" ] ]
+    "vitamins": [ [ "vitC", "8100 μg" ], [ "iron", "200 μg" ], [ "calcium", "25300 μg" ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "plant_sac",
     "name": { "str": "fungal fluid sac" },
     "weight": "270 g",
@@ -688,10 +763,12 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "flags": [ "SMOKABLE", "RAW" ],
-    "smoking_result": "dry_veggy"
+    "smoking_result": "dry_veggy",
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "potato",
     "name": { "str": "raw potato", "str_pl": "raw potatoes" },
     "weight": "213 g",
@@ -707,12 +784,13 @@
     "material": [ "veggy" ],
     "volume": "232 ml",
     "fun": -3,
-    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
+    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW", "RAT", "MOUSE" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", "42 mg" ], [ "iron", "1700 μg" ], [ "calcium", "25600 μg" ] ]
+    "vitamins": [ [ "vitC", "42 mg" ], [ "iron", "1700 μg" ], [ "calcium", "25600 μg" ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "plantain",
     "name": { "str": "cooking banana" },
     "weight": "179 g",
@@ -727,12 +805,13 @@
     "material": [ "veggy" ],
     "volume": "190 ml",
     "fun": -1,
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": [ "SMOKABLE", "RAW", "CATTLE", "RAT" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", "32900 μg" ], [ "iron", "1100 μg" ], [ "calcium", "5400 μg" ] ]
+    "vitamins": [ [ "vitC", "32900 μg" ], [ "iron", "1100 μg" ], [ "calcium", "5400 μg" ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "pumpkin",
     "name": { "str": "pumpkin" },
     "weight": "2264 g",
@@ -747,12 +826,13 @@
     "material": [ "veggy" ],
     "volume": "2062 ml",
     "fun": -1,
-    "flags": [ "RAW", "INEDIBLE" ],
-    "vitamins": [ [ "vitC", "102 mg" ], [ "iron", "9200 μg" ], [ "calcium", "237600 μg" ] ],
+    "flags": [ "RAW", "INEDIBLE", "RAT", "MOUSE", "CATTLE" ],
+    "vitamins": [ [ "vitC", "102 mg" ], [ "iron", "9200 μg" ], [ "calcium", "237600 μg" ], [ "veggy_allergen", 1 ] ],
     "melee_damage": { "bash": 2 }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "pumpkin_cut",
     "name": { "str_sp": "cut pumpkin" },
     "copy-from": "pumpkin",
@@ -763,14 +843,16 @@
     "quench": 5,
     "volume": "500 ml",
     "weight": "283 g",
+    "//": "Cutting it up makes it viable for rabbits, too.",
     "price_postapoc": "60 cent",
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": [ "SMOKABLE", "RAW", "RAT", "MOUSE", "CATTLE", "RABBIT" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", "25500 μg" ], [ "iron", "2300 μg" ], [ "calcium", "59400 μg" ] ],
     "melee_damage": { "bash": 0 }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "horseradish_greens",
     "name": { "str_sp": "horseradish greens" },
     "weight": "70 g",
@@ -784,12 +866,14 @@
     "material": [ "veggy" ],
     "volume": "140 ml",
     "fun": -2,
-    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
+    "//": "Lots of negative results for cattle, apparently very much not good for them",
+    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW", "RABBIT" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 30 ], [ "calcium", 2 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "vitC", 30 ], [ "calcium", 2 ], [ "iron", 3 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "raw_dandelion",
     "name": { "str_sp": "dandelion" },
     "weight": "68 g",
@@ -804,12 +888,13 @@
     "material": [ "veggy" ],
     "volume": "107 ml",
     "fun": -12,
-    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
+    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW", "RABBIT", "CATTLE" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 23 ], [ "calcium", 11 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "vitC", 23 ], [ "calcium", 11 ], [ "iron", 10 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "raw_burdock",
     "name": { "str_sp": "burdock" },
     "weight": "72 g",
@@ -824,12 +909,14 @@
     "material": [ "veggy" ],
     "volume": "117 ml",
     "fun": -12,
-    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
+    "//": "Apparently toxic to rabbits",
+    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW", "CATTLE" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 1 ], [ "calcium", 23 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "vitC", 1 ], [ "calcium", 23 ], [ "iron", 10 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "raw_bamboo",
     "name": { "str": "handful of bamboo shoots", "str_pl": "handfuls of bamboo shoots" },
     "weight": "151 g",
@@ -847,10 +934,11 @@
     "fun": -12,
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", "6 mg" ], [ "iron", "1 mg" ], [ "calcium", "20 mg" ] ]
+    "vitamins": [ [ "vitC", "6 mg" ], [ "iron", "1 mg" ], [ "calcium", "20 mg" ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "rhubarb",
     "name": { "str": "rhubarb" },
     "weight": "51 g",
@@ -868,10 +956,11 @@
     "longest_side": "19 cm",
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", "4100 μg" ], [ "iron", "100 μg" ], [ "calcium", "43900 μg" ] ]
+    "vitamins": [ [ "vitC", "4100 μg" ], [ "iron", "100 μg" ], [ "calcium", "43900 μg" ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sugar_beet",
     "name": { "str": "sugar beet" },
     "weight": "82 g",
@@ -886,12 +975,13 @@
     "material": [ "veggy" ],
     "volume": "75 ml",
     "fun": -10,
-    "flags": [ "SMOKABLE" ],
+    "flags": [ "SMOKABLE", "RAT", "MOUSE" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", "4 mg" ], [ "iron", "1 mg" ], [ "calcium", "13 mg" ] ]
+    "vitamins": [ [ "vitC", "4 mg" ], [ "iron", "1 mg" ], [ "calcium", "13 mg" ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "tea_raw",
     "name": { "str_sp": "black tea leaves" },
     "weight": "3 g",
@@ -910,10 +1000,12 @@
     "volume": "9 ml",
     "flags": [ "EDIBLE_FROZEN", "RAW", "IRREPLACEABLE_CONSUMABLE" ],
     "//": "Tea is sold by weight not by volume. 1 kg of tea has a volume of 3,4 liters. We use smaller packs of at least 100 mg. Such a tea has a volume of 340 ml minus package makes it around 320 ml. 3 g per serving makes 33 charges.",
-    "fun": -1
+    "fun": -1,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "wintergreen_leaves",
     "name": { "str": "pile of wintergreen leaves", "str_pl": "piles of wintergreen leaves" },
     "weight": "5 g",
@@ -936,17 +1028,20 @@
     "primary_material": "dried_vegetable",
     "volume": "50 ml",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
-    "fun": -10
+    "fun": -10,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "tea_green_raw",
     "name": { "str_sp": "green tea leaves" },
     "copy-from": "tea_raw",
     "description": "Dried leaves of a tropical plant.  You can boil them into green tea, or you can just eat them raw.  They're pretty gross and not too filling that way, though."
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "tomato",
     "name": { "str": "tomato", "str_pl": "tomatoes" },
     "weight": "123 g",
@@ -961,12 +1056,13 @@
     "price_postapoc": "50 cent",
     "material": [ "tomato" ],
     "volume": "150 ml",
-    "flags": [ "SMOKABLE" ],
+    "flags": [ "SMOKABLE", "RABBIT", "CATTLE", "RAT", "MOUSE" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", "16900 μg" ], [ "iron", "300 μg" ], [ "calcium", "12300 μg" ] ]
+    "vitamins": [ [ "vitC", "16900 μg" ], [ "iron", "300 μg" ], [ "calcium", "12300 μg" ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "tomato_cut",
     "copy-from": "tomato",
     "name": { "str": "cut tomato", "str_pl": "cut tomatoes" },
@@ -975,27 +1071,30 @@
     "description": "A cut-up tomato with the seeds removed."
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "veggy",
-    "name": { "str_sp": "plant marrow" },
+    "name": { "str_sp": "triffid flesh" },
     "weight": "119 g",
     "color": "green",
     "spoils_in": "3 days 8 hours",
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 34,
-    "description": "A nutrient-rich chunk of plant matter, could be eaten raw or cooked.",
+    "description": "An weird looking chunk of plant matter that's a shade of yellow and green, with oddly thick fibers.  It smells like a mix of rotted wood and dirt, and it leaks a clear fluid.",
     "price": "6 USD",
-    "price_postapoc": "50 cent",
+    "price_postapoc": "0 cent",
     "material": [ "veggy" ],
     "flags": [ "TRADER_AVOID", "SMOKABLE", "RAW" ],
+    "fun": -3,
     "smoking_result": "dry_veggy",
     "volume": "250 ml",
     "//": "average of broccoli, cabbage, carrot, cattail_stalk, celery, chili_pepper, cucumber, lettuce, onion, pumpkin, raw_dandelion, rhubarb, sugar_beet, tomato, zucchini",
-    "vitamins": [ [ "vitC", 36 ], [ "calcium", 4 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitC", 36 ], [ "calcium", 4 ], [ "iron", 4 ], [ "veggy_allergen", 1 ], [ "triffid_fiber", 2 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "veggy_tainted",
     "//": "Note: Legacy item ID, this is not actually a vegetable at all anymore.",
     "category": "other",
@@ -1007,10 +1106,12 @@
     "description": "A chunk of fungal matter from some sort of alien mushroom creature.  Eating unfamiliar mushrooms is a bad idea.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "smoking_result": "dry_veggy_tainted"
+    "smoking_result": "dry_veggy_tainted",
+    "flags": [ "FUNGAL_VECTOR" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "veggy_wild",
     "name": { "str_sp": "wild vegetables" },
     "copy-from": "veggy",
@@ -1021,7 +1122,8 @@
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "zucchini",
     "name": { "str": "zucchini" },
     "weight": "196 g",
@@ -1036,12 +1138,13 @@
     "material": [ "veggy" ],
     "volume": "180 ml",
     "longest_side": "22 cm",
-    "flags": [ "EATEN_HOT", "SMOKABLE" ],
+    "flags": [ "EATEN_HOT", "SMOKABLE", "CATTLE", "MOUSE", "RAT", "MOUSE" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", "35100 μg" ], [ "iron", "700 μg" ], [ "calcium", "31400 μg" ] ]
+    "vitamins": [ [ "vitC", "35100 μg" ], [ "iron", "700 μg" ], [ "calcium", "31400 μg" ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "zucchini_cut",
     "name": { "str": "cut zucchini" },
     "copy-from": "zucchini",
@@ -1050,7 +1153,8 @@
     "description": "A chopped-up summer squash.  The seeds have been removed."
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "raw_beans",
     "name": { "str": "handful of raw beans", "str_pl": "handfuls of raw beans" },
     "color": "brown",
@@ -1066,13 +1170,18 @@
     "material": [ "veggy" ],
     "cooks_like": "beans_cooked",
     "smoking_result": "dry_beans",
-    "vitamins": [ [ "vitC", "71 mg" ], [ "iron", "1 mg" ], [ "calcium", "31 mg" ] ],
+    "vitamins": [ [ "vitC", "71 mg" ], [ "iron", "1 mg" ], [ "calcium", "31 mg" ], [ "veggy_allergen", 1 ] ],
     "petfood": [ "CATTLEFOOD" ],
     "flags": [ "EDIBLE_FROZEN", "SMOKABLE", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED" ],
-    "seed_data": { "plant_name": "beans", "fruit": "raw_beans", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
+    "plant_name": "beans",
+    "fruit": "raw_beans",
+    "seeds": false,
+    "byproducts": [ "withered" ],
+    "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "fiddlehead_raw",
     "name": { "str_sp": "fiddleheads" },
     "weight": "50 g",
@@ -1089,15 +1198,16 @@
     "volume": "62 ml",
     "fun": -10,
     "use_action": [ "POISON" ],
-    "//": "Fiddleheads that haven't been boiled can make you sick.",
-    "vitamins": [ [ "vitC", 6 ], [ "calcium", 4 ] ]
+    "//": "Fiddleheads that haven't been boiled can make you sick.  As they are poisonous here, they will get no CATTLE or RABBIT flag as the poison should not get nullified.",
+    "vitamins": [ [ "vitC", 6 ], [ "calcium", 4 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "young_leaves",
     "name": { "str": "handful of young leaves", "str_pl": "handfuls of young leaves" },
     "weight": "20 g",
-    "flags": [ "FREEZERBURN", "RAW" ],
+    "flags": [ "FREEZERBURN", "RAW", "CATTLE", "RABBIT" ],
     "color": "light_green",
     "spoils_in": "1 day",
     "comestible_type": "FOOD",
@@ -1109,15 +1219,16 @@
     "material": [ "veggy" ],
     "volume": "45 ml",
     "fun": -2,
-    "vitamins": [ [ "vitC", 1 ] ]
+    "vitamins": [ [ "vitC", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "chicory_leaves",
     "name": { "str": "handful of chicory greens", "str_pl": "handfuls of chicory greens" },
     "copy-from": "young_leaves",
     "description": "Some chicory greens.  They are quite bitter but high in calcium.",
-    "price_postapoc": 20,
+    "price_postapoc": "20 cent",
     "weight": "29 g",
     "volume": "250 ml",
     "fun": -8,
@@ -1125,11 +1236,12 @@
     "vitamins": [ [ "vitC", "7 mg" ], [ "iron", "300 μg" ], [ "calcium", "29 mg" ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "japanese_knotweed_stem",
     "name": { "str_sp": "Japanese knotweed stems" },
     "weight": "60 g",
-    "flags": [ "FREEZERBURN", "RAW" ],
+    "flags": [ "FREEZERBURN", "RAW", "RABBIT", "CATTLE" ],
     "color": "light_green",
     "spoils_in": "2 days",
     "comestible_type": "FOOD",
@@ -1142,10 +1254,11 @@
     "material": [ "veggy" ],
     "volume": "62 ml",
     "longest_side": "20 cm",
-    "vitamins": [ [ "vitC", 6 ] ]
+    "vitamins": [ [ "vitC", 6 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "bell_pepper",
     "name": { "str": "bell pepper" },
     "weight": "119 g",
@@ -1160,13 +1273,14 @@
     "price_postapoc": "20 cent",
     "material": [ "veggy" ],
     "volume": "221 ml",
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": [ "SMOKABLE", "RAW", "CATTLE", "RABBIT", "RAT", "MOUSE" ],
     "smoking_result": "dry_veggy",
     "fun": -5,
-    "vitamins": [ [ "vitC", "95700 μg" ], [ "iron", "400 μg" ], [ "calcium", "11900 μg" ] ]
+    "vitamins": [ [ "vitC", "95700 μg" ], [ "iron", "400 μg" ], [ "calcium", "11900 μg" ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "bell_pepper_cut",
     "name": { "str": "cut bell pepper" },
     "copy-from": "bell_pepper",
@@ -1176,7 +1290,8 @@
     "fun": 0
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "flour_wheat_free",
     "name": { "str_sp": "wheat-free flour" },
     "weight": "12400 mg",
@@ -1194,11 +1309,12 @@
     "volume": "25 ml",
     "//": "250 ml is equivalent to 1 cup of flour.  10 charges is roughly equivalent to a cup of flour for American recipes.  Nutritional data based off buckwheat flour.",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
-    "vitamins": [ [ "iron", "500 μg" ], [ "calcium", "5 mg" ] ],
+    "vitamins": [ [ "iron", "500 μg" ], [ "calcium", "5 mg" ], [ "veggy_allergen", 1 ] ],
     "fun": -5
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "raw_bottle_gourd",
     "name": { "str": "raw bottle gourd" },
     "copy-from": "cucumber",
@@ -1212,12 +1328,13 @@
     "fun": -5,
     "description": "A vegetable from the gourd family, bottle gourds were brought to the Americas by the first Native American settlers crossing the Bering strait.  It can be further prepared to produce a hard, watertight shell, usable as a biodegradable liquid container.  Eating it doesn't look worth it.",
     "volume": "4500 ml",
-    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
+    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW", "CATTLE", "RABBIT", "RAT" ],
     "smoking_result": "dry_bottle_gourd",
     "vitamins": [ [ "iron", "1 mg" ], [ "calcium", "95890 μg" ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "eggplant",
     "name": { "str": "eggplant" },
     "comestible_type": "FOOD",
@@ -1226,19 +1343,21 @@
     "longest_side": "22 cm",
     "price": "3 USD",
     "price_postapoc": "50 cent",
-    "color": "black",
+    "color": "dark_gray",
     "material": [ "veggy" ],
     "calories": 137,
     "spoils_in": "20 days",
     "description": "A normal and healthy purple eggplant.  Needs to be disassembled before being useful for cooking.",
     "healthy": -1,
     "symbol": "e",
-    "flags": [ "RAW" ],
-    "vitamins": [ [ "vitC", "12100 μg" ], [ "iron", "1300 μg" ], [ "calcium", "49300 μg" ] ],
+    "flags": [ "RAW", "SMOKABLE", "CATTLE", "RABBIT", "RAT", "MOUSE" ],
+    "smoking_result": "dry_veggy",
+    "vitamins": [ [ "vitC", "12100 μg" ], [ "iron", "1300 μg" ], [ "calcium", "49300 μg" ], [ "veggy_allergen", 1 ] ],
     "fun": -8
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "eggplant_cut",
     "name": { "str": "cut eggplant" },
     "comestible_type": "FOOD",
@@ -1246,7 +1365,7 @@
     "volume": "250 ml",
     "price": "150 cent",
     "price_postapoc": "20 cent",
-    "color": "black",
+    "color": "dark_gray",
     "material": [ "veggy" ],
     "calories": 68,
     "spoils_in": "4 days",
@@ -1254,12 +1373,14 @@
     "healthy": -1,
     "symbol": "e",
     "looks_like": "eggplant",
-    "flags": [ "RAW" ],
-    "vitamins": [ [ "vitC", "60500 μg" ], [ "iron", "650 μg" ], [ "calcium", "24650 μg" ] ],
+    "flags": [ "RAW", "SMOKABLE" ],
+    "smoking_result": "dry_veggy",
+    "vitamins": [ [ "vitC", "60500 μg" ], [ "iron", "650 μg" ], [ "calcium", "24650 μg" ], [ "veggy_allergen", 1 ] ],
     "fun": -5
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "seaweed",
     "name": { "str_sp": "seaweed" },
     "weight": "30 g",
@@ -1271,10 +1392,12 @@
     "material": [ "veggy" ],
     "volume": "30 ml",
     "flags": [ "SMOKABLE", "INEDIBLE" ],
-    "smoking_result": "dry_seaweed"
+    "smoking_result": "dry_seaweed",
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "seaweed_pile",
     "name": { "str_sp": "pile of seaweed" },
     "weight": "600 g",
@@ -1286,10 +1409,12 @@
     "material": [ "veggy" ],
     "volume": "600 ml",
     "flags": [ "SMOKABLE", "INEDIBLE" ],
-    "smoking_result": "dry_seaweed_pile"
+    "smoking_result": "dry_seaweed_pile",
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sea_lettuce",
     "name": { "str_sp": "sea lettuce" },
     "weight": "100 g",
@@ -1299,16 +1424,17 @@
     "symbol": "%",
     "calories": 12,
     "description": "A handful of edible green seaweed.  It makes a good snack as-is, but can be dried or prepared in a number of ways.",
-    "price": 10,
-    "price_postapoc": 10,
+    "price": "10 cent",
+    "price_postapoc": "10 cent",
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "flags": [ "FREEZERBURN", "SMOKABLE", "CATTLE", "RABBIT" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 3 ], [ "vitC", 1 ] ]
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 3 ], [ "vitC", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "kelp_sugar",
     "name": { "str_sp": "sugar kelp" },
     "weight": "100 g",
@@ -1318,16 +1444,17 @@
     "symbol": "%",
     "calories": 17,
     "description": "A sizable strip of new growth harvested from a sugar kelp.  While these are most often dried, it seems edible enough as is.",
-    "price": 10,
-    "price_postapoc": 10,
+    "price": "10 cent",
+    "price_postapoc": "10 cent",
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "flags": [ "FREEZERBURN", "SMOKABLE", "CATTLE", "RABBIT" ],
     "smoking_result": "kombu",
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 3 ], [ "vitC", 1 ] ]
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 3 ], [ "vitC", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "bladderwrack",
     "name": { "str_sp": "bladderwrack" },
     "weight": "100 g",
@@ -1337,12 +1464,12 @@
     "symbol": "%",
     "calories": 17,
     "description": "A leafy bunch of seaweed covered in air bladders.  Many claims are made about its health benefits, but at least as a foodstuff, it's no better or worse than other edible seaweed.",
-    "price": 10,
-    "price_postapoc": 10,
+    "price": "10 cent",
+    "price_postapoc": "10 cent",
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "flags": [ "FREEZERBURN", "SMOKABLE", "CATTLE", "RABBIT" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ], [ "vitC", 1 ] ]
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ], [ "vitC", 1 ], [ "veggy_allergen", 1 ] ]
   }
 ]

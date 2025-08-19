@@ -5,7 +5,6 @@
 #include <map>
 #include <memory>
 #include <optional>
-#include <set>
 #include <string>
 #include <utility>
 
@@ -16,11 +15,7 @@
 #include "dialogue.h"
 #include "effect_on_condition.h"
 #include "enums.h"
-#include "flexbuffer_json-inl.h"
-#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "init.h"
-#include "json_error.h"
 #include "rng.h"
 #include "talker.h"
 #include "text_snippets.h"
@@ -221,8 +216,9 @@ static bool opiate_effect( Character &u, addiction &add )
         u.mod_painkiller( -1 );
     }
     // No further effects if we're doped up.
-    if( u.get_painkiller() >= 35 ) {
+    if( u.get_painkiller() >= add.intensity ) {
         add.sated = 0_turns;
+        u.remove_effect( effect_shakes );
         return false;
     }
     u.mod_str_bonus( -1 );
@@ -361,7 +357,7 @@ bool addiction::run_effect( Character &u )
     return ret;
 }
 
-void add_type::load( const JsonObject &jo, const std::string_view )
+void add_type::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "name", _name );
     mandatory( jo, was_loaded, "type_name", _type_name );

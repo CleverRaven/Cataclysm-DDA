@@ -5,7 +5,6 @@
 #include <set>
 #include <string>
 
-#include "enums.h"
 #include "game_constants.h"
 #include "translation.h"
 #include "type_id.h"
@@ -14,9 +13,8 @@ class Character;
 class JsonObject;
 class activity_type;
 class player_activity;
+enum class distraction_type : int;
 template <typename T> struct enum_traits;
-
-using activity_id = string_id<activity_type>;
 
 /** @relates string_id */
 template<>
@@ -38,6 +36,8 @@ struct enum_traits<based_on_type> {
 class activity_type
 {
     private:
+        bool was_loaded = false;
+
         activity_id id_;
         bool rooted_ = false;
         translation verb_ = to_translation( "THIS IS A BUG" );
@@ -102,7 +102,8 @@ class activity_type
         bool call_finish( player_activity *, Character * ) const;
 
         /** JSON stuff */
-        static void load( const JsonObject &jo );
+        void load( const JsonObject &jo );
+        static void load_all( const JsonObject &jo );
         static void check_consistency();
         static void reset();
 };

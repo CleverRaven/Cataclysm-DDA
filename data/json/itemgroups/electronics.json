@@ -4,10 +4,11 @@
     "id": "electronics",
     "items": [
       [ "breadboard", 60 ],
-      { "item": "voltmeter", "prob": 30, "charges": [ 0, 100 ] },
+      { "item": "voltmeter", "prob": 30 },
       { "item": "multimeter", "prob": 30, "charges": [ 0, 100 ] },
       [ "jumper_cable_heavy", 10 ],
-      [ "superglue", 30 ],
+      { "group": "glue_weak_domestic", "prob": 15 },
+      { "group": "glue_strong_domestic", "prob": 15 },
       { "item": "electrohack", "prob": 3, "charges": [ 0, 100 ] },
       [ "processor", 15 ],
       [ "RAM", 22 ],
@@ -23,8 +24,8 @@
       [ "mask_dust", 65 ],
       [ "glasses_safety", 40 ],
       [ "goggles_welding", 70 ],
-      { "group": "ammo_any_batteries_full", "prob": 50 },
-      { "item": "plut_cell", "prob": 10, "charges": [ 1, 5 ] },
+      { "group": "box_of_batteries_random", "prob": 30 },
+      { "group": "ammo_heavy_batteries_full", "prob": 20 },
       [ "manual_electronics", 20 ],
       [ "textbook_electronics", 6 ],
       [ "radio_book", 16 ],
@@ -33,13 +34,12 @@
       [ "small_lcd_screen", 20 ],
       { "item": "polycarbonate_sheet", "prob": 39 },
       [ "battery_ups", 15 ],
-      { "item": "cell_phone", "prob": 5, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 31, "charges": [ 0, -1 ] },
+      { "group": "new_phones", "prob": 31 },
       { "item": "waterproof_smart_phone_case", "prob": 11 },
-      { "item": "eink_tablet_pc", "prob": 8, "charges": [ 0, 100 ] },
-      { "item": "laptop", "prob": 20, "charges": [ 0, 500 ] },
+      { "group": "new_eink_tablet_pcs", "prob": 8 },
+      { "group": "new_laptops", "prob": 20 },
+      { "group": "new_memory_cards", "prob": 20 },
       { "item": "smart_lamp", "prob": 5, "charges": [ 0, 100 ] },
-      [ "memory_card_unread", 20 ],
       { "item": "camera", "prob": 5, "charges": [ 0, 150 ] },
       { "item": "camera_pro", "prob": 2, "charges": [ 0, 150 ] },
       [ "cable", 30 ],
@@ -49,8 +49,8 @@
       { "item": "hotplate", "prob": 10 },
       { "item": "hotplate_induction", "prob": 3 },
       { "item": "UPS_OFF", "prob": 5, "charges": [ 0, 1000 ] },
-      [ "usb_drive", 5 ],
-      [ "software_useless", 10 ],
+      { "group": "new_usb_drives", "prob": 15 },
+      { "group": "used_usb_drives", "prob": 10, "contents-item": "software_useless" },
       { "item": "vac_sealer", "prob": 10 },
       { "group": "toy_radio_car", "prob": 3 },
       { "group": "toy_makerspace_kit", "prob": 1 },
@@ -59,7 +59,7 @@
       { "item": "radiocontrol", "prob": 25, "charges": [ 0, 50 ] },
       [ "omnicamera", 7 ],
       [ "chem_nitric_acid", 1 ],
-      [ "solarpack", 10 ]
+      [ "folding_solar_panel_v2", 10 ]
     ]
   },
   {
@@ -73,9 +73,9 @@
       [ "amplifier", 8 ],
       [ "mag_electronics", 15 ],
       [ "antenna", 18 ],
-      { "group": "ammo_any_batteries_full", "prob": 50 },
+      { "group": "box_of_batteries_random", "prob": 50 },
       [ "breadboard", 50 ],
-      { "item": "voltmeter", "prob": 10, "charges": [ 0, 100 ] },
+      { "item": "voltmeter", "prob": 10 },
       { "item": "multimeter", "prob": 10, "charges": [ 0, 100 ] },
       { "item": "soldering_iron", "prob": 70 },
       { "item": "soldering_iron_portable", "prob": 70, "charges": [ 0, 50 ] },
@@ -85,7 +85,7 @@
       [ "screwdriver_set", 40 ],
       [ "processor", 15 ],
       [ "RAM", 22 ],
-      { "item": "mp3", "prob": 18, "charges": [ 0, 100 ] },
+      { "item": "mp3", "prob": 6, "charges": [ 0, 100 ] },
       { "item": "portable_game", "prob": 12, "charges": [ 0, 100 ] },
       { "item": "game_watch", "prob": 3, "charges": [ 0, 50 ] },
       { "item": "vibrator", "prob": 10, "charges": [ 0, 100 ] },
@@ -99,16 +99,16 @@
       [ "receiver", 10 ],
       [ "transponder", 5 ],
       { "item": "tazer", "prob": 3, "charges": [ 0, 500 ] },
-      [ "usb_drive", 5 ],
       [ "manual_electronics", 20 ],
       [ "recipe_augs", 4 ],
       [ "cable", 60 ],
       { "item": "vac_sealer", "prob": 10 },
-      { "item": "smart_phone", "prob": 50, "charges": [ 0, -1 ] },
-      { "item": "eink_tablet_pc", "prob": 15, "charges": [ 0, 100 ] },
-      { "item": "laptop", "prob": 30, "charges": [ 0, 500 ] },
+      { "group": "new_phones", "prob": 50 },
+      { "group": "new_eink_tablet_pcs", "prob": 15 },
+      { "group": "new_laptops", "prob": 30 },
+      { "group": "new_usb_drives", "prob": 5 },
+      { "group": "new_memory_cards", "prob": 40 },
       { "item": "smart_lamp", "prob": 10, "charges": [ 0, 100 ] },
-      [ "memory_card_unread", 40 ],
       { "item": "camera", "prob": 15, "charges": [ 0, 150 ] },
       { "item": "camera_pro", "prob": 5, "charges": [ 0, 150 ] },
       [ "wristwatch", 15 ],
@@ -120,55 +120,215 @@
       [ "magnifying_glass", 4 ],
       [ "omnicamera", 2 ],
       { "item": "reading_light", "prob": 6, "charges": [ 0, 100 ] },
-      { "item": "inflatable_dragon", "prob": 1, "charges": [ 0, 500 ] },
-      { "item": "inflatable_ghost", "prob": 1, "charges": [ 0, 500 ] },
-      { "item": "fog_machine", "prob": 1, "charges": [ 0, 500 ] }
+      { "item": "inflatable_dragon", "prob": 1, "charges": [ 0, 56 ] },
+      { "item": "inflatable_ghost", "prob": 1, "charges": [ 0, 56 ] },
+      { "item": "fog_machine", "prob": 1, "charges": [ 0, 56 ] }
     ]
   },
   {
     "type": "item_group",
     "subtype": "distribution",
-    "id": "phones",
-    "items": [ { "group": "phones_case", "prob": 10 }, { "group": "phones_no_case", "prob": 90 } ]
+    "id": "new_usb_drives",
+    "//": "new_X e-devices are for brand-new or freshly issued e-devices, usually empty",
+    "items": [ "usb_drive" ]
   },
   {
     "type": "item_group",
     "subtype": "distribution",
-    "id": "phones_case",
+    "id": "used_usb_drives",
+    "//": "used_X e-devices are for e-devices that have previous use and should have contents",
+    "items": [ [ "usb_drive", 5 ], [ "usb_drive_older", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "civilian_usb_drives",
+    "//": "these civilian_X e-devices are pre-loaded with general files to avoid repetition; if you want more specific contents, give used_X a contents-group in its own entry",
+    "items": [
+      { "item": "usb_drive", "prob": 5, "contents-group": "civilian_portable_efiles" },
+      { "item": "usb_drive_older", "prob": 1, "contents-group": "civilian_portable_efiles" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "new_memory_cards",
+    "items": [ { "item": "memory_card" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "used_memory_cards",
+    "items": [ [ "memory_card", 5 ], [ "memory_card_older", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "civilian_memory_cards",
+    "items": [
+      { "item": "memory_card", "prob": 5, "contents-group": "civilian_portable_efiles" },
+      { "item": "memory_card", "prob": 1, "contents-group": "civilian_portable_efiles" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "new_laptops",
+    "items": [ { "item": "laptop", "charges": 200 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "used_laptops",
+    "items": [ { "item": "laptop", "charges": [ 0, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "civilian_laptops",
+    "items": [ { "item": "laptop", "charges": [ 0, -1 ], "contents-group": "civilian_laptop_efiles" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "new_eink_tablet_pcs",
+    "items": [ { "item": "eink_tablet_pc", "charges": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "used_eink_tablet_pcs",
+    "items": [ { "item": "eink_tablet_pc", "charges": [ 0, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "civilian_eink_tablet_pcs",
+    "items": [ { "item": "eink_tablet_pc", "charges": [ 0, -1 ], "contents-group": "civilian_einktablet_efiles" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "new_phones",
+    "items": [ { "group": "new_phones_case", "prob": 10 }, { "group": "new_phones_no_case", "prob": 90 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "new_phones_case",
     "container-item": "waterproof_smart_phone_case",
-    "items": [ { "item": "smart_phone", "prob": 17, "charges": [ 0, 15 ] }, { "item": "smart_phone", "prob": 1, "charges": 130 } ]
+    "items": [ { "group": "smart_phone_maybe_locked", "charges": 100 } ]
   },
   {
     "type": "item_group",
     "subtype": "distribution",
-    "id": "phones_no_case",
+    "id": "new_phones_no_case",
+    "items": [
+      { "item": "cell_phone", "prob": 1, "charges": 100 },
+      { "group": "smart_phone_maybe_locked", "prob": 17, "charges": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "civilian_phones",
+    "items": [ { "group": "civilian_phones_case", "prob": 10 }, { "group": "civilian_phones_no_case", "prob": 90 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "civilian_phones_case",
+    "container-item": "waterproof_smart_phone_case",
+    "items": [
+      {
+        "group": "smart_phone_maybe_locked",
+        "prob": 17,
+        "charges": [ 0, 15 ],
+        "contents-group": "civilian_smartphone_efiles"
+      },
+      {
+        "group": "smart_phone_maybe_locked",
+        "prob": 1,
+        "charges": 100,
+        "contents-group": "civilian_smartphone_efiles"
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "civilian_phones_no_case",
     "items": [
       { "item": "cell_phone", "prob": 2, "charges": [ 0, 15 ] },
-      { "item": "cell_phone", "prob": 1, "charges": 150 },
-      { "item": "smart_phone", "prob": 17, "charges": [ 0, 15 ] },
-      { "item": "smart_phone", "prob": 1, "charges": 130 }
+      { "item": "cell_phone", "prob": 1, "charges": 100 },
+      {
+        "group": "smart_phone_maybe_locked",
+        "prob": 17,
+        "charges": [ 0, 15 ],
+        "contents-group": "civilian_smartphone_efiles"
+      },
+      {
+        "group": "smart_phone_maybe_locked",
+        "prob": 1,
+        "charges": 100,
+        "contents-group": "civilian_smartphone_efiles"
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "smart_phone_maybe_locked",
+    "items": [
+      { "item": "smart_phone", "prob": 25, "charges": [ 0, 24 ] },
+      { "item": "smart_phone_locked", "prob": 75, "charges": [ 0, 24 ] }
+    ]
+  },
+  {
+    "id": "box_of_batteries_unopened",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "box_paper_small",
+    "items": [
+      { "item": "light_minus_battery_cell", "charges": 1000, "prob": 3, "count": 8 },
+      { "item": "light_minus_disposable_cell", "charges": 1000, "prob": 30, "count": 8 },
+      { "item": "light_battery_cell", "charges": 1000, "prob": 160, "count": 8 },
+      { "item": "light_battery_cell", "charges": 1000, "prob": 16, "count": 16 },
+      { "item": "light_cell_rechargeable", "charges": 1000, "prob": 16, "count": 8 },
+      { "item": "light_cell_rechargeable", "charges": 1000, "prob": 1, "count": 12 },
+      { "item": "medium_battery_cell", "charges": 1000, "prob": 15, "count": 4 }
+    ]
+  },
+  {
+    "id": "box_of_batteries_random",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "box_paper_small",
+    "items": [
+      { "item": "light_minus_battery_cell", "charges": 1000, "prob": 3, "count": [ 2, 8 ] },
+      { "item": "light_minus_disposable_cell", "charges": 1000, "prob": 30, "count": [ 2, 8 ] },
+      { "item": "light_battery_cell", "charges": 1000, "prob": 160, "count": [ 0, 8 ] },
+      { "item": "light_battery_cell", "charges": 1000, "prob": 16, "count": [ 0, 16 ] },
+      { "item": "light_cell_rechargeable", "charges": 1000, "prob": 16, "count": [ 0, 8 ] },
+      { "item": "light_cell_rechargeable", "charges": 1000, "prob": 1, "count": [ 0, 12 ] },
+      { "item": "medium_battery_cell", "charges": 1000, "prob": 15, "count": [ 0, 4 ] }
     ]
   },
   {
     "id": "batteries",
     "type": "item_group",
     "subtype": "collection",
-    "items": [
-      { "item": "light_minus_battery_cell", "prob": 30, "count": [ 2, 6 ] },
-      { "item": "light_minus_atomic_battery_cell", "prob": 5, "count": [ 1, 3 ] },
-      { "item": "light_minus_disposable_cell", "prob": 40, "count": [ 1, 3 ] },
-      { "item": "light_battery_cell", "prob": 30, "count": [ 1, 3 ] },
-      { "item": "light_plus_battery_cell", "prob": 15, "count": [ 1, 3 ] },
-      { "item": "light_atomic_battery_cell", "prob": 3, "count": [ 1, 3 ] },
-      { "item": "light_disposable_cell", "prob": 40, "count": [ 1, 3 ] },
-      { "item": "medium_battery_cell", "prob": 10, "count": [ 1, 3 ] },
-      { "item": "medium_plus_battery_cell", "prob": 5, "count": [ 1, 6 ] },
-      { "item": "medium_atomic_battery_cell", "prob": 3, "count": [ 1, 6 ] },
-      { "item": "medium_disposable_cell", "prob": 15, "count": [ 1, 3 ] },
-      { "item": "heavy_battery_cell", "prob": 10, "count": [ 1, 3 ] },
-      { "item": "heavy_plus_battery_cell", "prob": 5, "count": [ 1, 6 ] },
-      { "item": "heavy_atomic_battery_cell", "prob": 3, "count": [ 1, 6 ] },
-      { "item": "heavy_disposable_cell", "prob": 15, "count": [ 1, 3 ] }
-    ]
+    "items": [ { "group": "box_of_batteries_random", "count": [ 1, 3 ] } ]
+  },
+  {
+    "id": "soldering_tool",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "item": "soldering_iron" }, { "item": "soldering_iron_portable", "charges": [ 0, 56 ] } ]
+  },
+  {
+    "id": "soldering_supplies",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "group": "soldering_tool" }, { "item": "solder_wire", "charges": [ 0, 200 ] } ]
   }
 ]

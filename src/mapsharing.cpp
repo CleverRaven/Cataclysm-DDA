@@ -119,21 +119,21 @@ void ofstream_wrapper::open( const std::ios::openmode mode )
     suffix.imbue( std::locale::classic() );
 #if defined(__linux__)
     suffix << "." << getpid() << ".temp";
-    temp_path += fs::u8path( suffix.str() );
+    temp_path += std::filesystem::u8path( suffix.str() );
 #elif defined(_WIN32)
     suffix << "." << GetCurrentProcessId() << ".temp";
-    temp_path += fs::u8path( suffix.str() );
+    temp_path += std::filesystem::u8path( suffix.str() );
 #else
     // TODO: exclusive I/O for other systems
-    temp_path += fs::u8path( ".temp" );
+    temp_path += std::filesystem::u8path( ".temp" );
 #endif
     if( !is_lexically_valid( temp_path ) ) {
         throw std::runtime_error( "path has an invalid name" );
     }
 
-    if( fs::exists( temp_path ) && !fs::is_directory( temp_path ) ) {
+    if( std::filesystem::exists( temp_path ) && !std::filesystem::is_directory( temp_path ) ) {
         std::error_code ec;
-        fs::remove( temp_path, ec );
+        std::filesystem::remove( temp_path, ec );
     }
 
     file_stream.open( temp_path, mode );
@@ -155,11 +155,11 @@ void ofstream_wrapper::close()
         // Remove the incomplete or otherwise faulty file (if possible).
         // Failures from it are ignored as we can't really do anything about them.
         std::error_code ec;
-        fs::remove( temp_path, ec );
+        std::filesystem::remove( temp_path, ec );
         throw std::runtime_error( "writing to file failed" );
     }
     std::error_code ec2;
-    fs::rename( temp_path, path, ec2 );
+    std::filesystem::rename( temp_path, path, ec2 );
     if( ec2 ) {
         // Leave the temp path, so the user can move it if possible.
         throw std::runtime_error( "moving temporary file \"" + temp_path.u8string() + "\" failed" );

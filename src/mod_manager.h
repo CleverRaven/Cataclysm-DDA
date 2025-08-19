@@ -3,27 +3,30 @@
 #define CATA_SRC_MOD_MANAGER_H
 
 #include <cstddef>
-#include <iosfwd>
 #include <map>
 #include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
-#include "path_info.h"
+#include "cata_path.h"
+#include "output.h"
 #include "pimpl.h"
+#include "string_formatter.h"
+#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
-
-struct WORLD;
 
 class JsonObject;
 class dependency_tree;
 class mod_manager;
+struct WORLD;
 
 const std::vector<std::pair<std::string, translation>> &get_mod_list_categories();
 const std::vector<std::pair<std::string, translation>> &get_mod_list_tabs();
 const std::map<std::string, std::string> &get_mod_list_cat_tab();
+
+mod_id get_mod_base_id_from_src( mod_id src );
 
 struct MOD_INFORMATION {
     private:
@@ -47,11 +50,17 @@ struct MOD_INFORMATION {
          */
         std::set<std::string> maintainers;
 
+        /** Full filenames (including extension) of any loading screens this mod may have */
+        std::set<std::string> loading_images;
+
         translation description;
         std::string version;
 
         /** What other mods must be loaded prior to this one? */
         std::vector<mod_id> dependencies;
+
+        /** What other mods are incompatible with this one? */
+        std::vector<mod_id> conflicts;
 
         /** Core mods are loaded before any other mods */
         bool core = false;
@@ -60,6 +69,23 @@ struct MOD_INFORMATION {
         bool obsolete = false;
 
         std::pair<int, translation> category = { -1, translation() };
+};
+
+// Enumerates and formats the mod origin
+template<typename src_id>
+std::string get_origin( const std::vector<std::pair<src_id, mod_id>> &src )
+{
+    std::string origin_str = enumerate_as_string( src.begin(),
+    src.end(), []( const std::pair<src_id, mod_id> &source ) {
+        return string_format( "'%s'", source.second->name() );
+    }, enumeration_conjunction::arrow );
+    return string_format( _( "Origin: %s" ), origin_str );
+}
+
+struct mod_migrations {
+    static void load( const JsonObject &jo );
+    static void check();
+    static void reset();
 };
 
 class mod_manager
@@ -108,6 +134,11 @@ class mod_manager
          * world.
          */
         void load_mods_list( WORLD *world ) const;
+        /**
+        * Handle mod migrations/removals
+        * Returns false if player decided to back out of loading after encountering missing mod
+        */
+        void check_mods_list( WORLD *world ) const;
         const t_mod_list &get_default_mods() const;
         bool set_default_mods( const t_mod_list &mods );
         const std::vector<mod_id> &get_usable_mods() const {
@@ -144,9 +175,6 @@ class mod_manager
         void load_modfile( const JsonObject &jo, const cata_path &path );
 
         bool set_default_mods( const mod_id &ident );
-        void remove_mod( const mod_id &ident );
-        void remove_invalid_mods( std::vector<mod_id> &mods ) const;
-        void load_replacement_mods( const cata_path &path );
 
         pimpl<dependency_tree> tree;
 
@@ -155,8 +183,6 @@ class mod_manager
          */
         std::map<mod_id, MOD_INFORMATION> mod_map;
         t_mod_list default_mods;
-        /** Second field is optional replacement mod */
-        std::map<mod_id, mod_id> mod_replacements;
 
         std::vector<mod_id> usable_mods;
 
@@ -176,6 +202,8 @@ class mod_ui
                       std::vector<mod_id> &active_list );
         void try_rem( size_t selection, std::vector<mod_id> &active_list );
         void try_shift( char direction, size_t &selection, std::vector<mod_id> &active_list );
+
+        bool confirm_mod_compatibility( const mod_id &checked_mod, const std::vector<mod_id> &active_list );
 
         bool can_shift_up( size_t selection, const std::vector<mod_id> &active_list );
         bool can_shift_down( size_t selection, const std::vector<mod_id> &active_list );

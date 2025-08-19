@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "report_dino_exploration",
     "copy-from": "log_immersion27",
     "name": { "str": "PRELIMINARY REPORT: IMMERSION-30D" },

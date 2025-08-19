@@ -3,7 +3,7 @@
     "id": "move_mode_template",
     "type": "widget",
     "style": "clause",
-    "default_clause": { "text": "bugging out", "sym": "-", "color": "dark_gray" },
+    "default_clause": { "text": { "str": "bugging out", "//~": "NO_I18N" }, "sym": "-", "color": "dark_gray" },
     "clauses": [
       { "id": "run", "text": "running", "sym": "R", "color": "red", "condition": { "u_has_move_mode": "run" } },
       { "id": "walk", "text": "walking", "sym": "W", "color": "white", "condition": { "u_has_move_mode": "walk" } },

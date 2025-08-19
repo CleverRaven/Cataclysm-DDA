@@ -6,7 +6,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "portal_cell",
     "object": {
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "NO_UNDERLYING_ROTATE" ],
@@ -22,7 +21,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "portal_cell_roof",
     "object": {
       "set": [ { "square": "terrain", "id": "t_warped_roof", "x": 0, "y": 0, "x2": 5, "y2": 5 } ],
@@ -31,13 +29,11 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "portal_cell_cleanup",
     "object": { "set": [ { "square": "item_remove", "x": 0, "y": 0, "x2": 5, "y2": 5 } ], "flags": [ "NO_UNDERLYING_ROTATE" ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "portal_dungeon",
     "object": {
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "NO_UNDERLYING_ROTATE", "AVOID_CREATURES" ],
@@ -70,7 +66,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "portal_dungeon_roof",
     "object": {
       "set": [ { "square": "terrain", "id": "t_warped_roof", "x": 0, "y": 0, "x2": 23, "y2": 23 } ],
@@ -79,7 +74,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "portal_dungeon_cleanup",
     "object": {
       "set": [
@@ -92,7 +86,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "portal_dungeon_entrance",
     "object": {
       "rows": [
@@ -132,7 +125,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "portal_dungeon",
     "object": {
       "rows": [
@@ -169,7 +161,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "portal_dungeon_trap_change",
-    "method": "json",
     "object": {
       "set": [
         { "square": "trap_remove", "id": "tr_swirling_vortex", "x": 5, "x2": 18, "y": 3, "y2": 20 },

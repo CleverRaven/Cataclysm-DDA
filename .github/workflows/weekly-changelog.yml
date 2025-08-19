@@ -2,7 +2,7 @@ name: "Weekly changelog update"
 
 on:
   schedule:
-    - cron: "45 0 * * 1"
+    - cron: "45 2 * * 1"
   push:
     branches:
       - master
@@ -17,7 +17,7 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v4
       - name: "Get current date"
-        uses: 1466587594/get-current-time@v2
+        uses: josStorer/get-current-time@v2
         id: current-date
         with:
           format: 'YYYYMMDD'
@@ -26,8 +26,9 @@ jobs:
         env:
           CURR_DATE: ${{ steps.current-date.outputs.formattedTime }}
         run: |
+          YESTERDAY="$(date -d "@$(( $(date +%s -d $CURR_DATE) - (60*60*24*1) ))" +"%Y-%m-%d")"
           LAST_WEEK="$(date -d "@$(( $(date +%s -d $CURR_DATE) - (60*60*24*7) ))" +"%Y-%m-%d")"
-          tools/generate_changelog.py -f --by-date /tmp/changelog.txt -T "${{ secrets.GITHUB_TOKEN }}" "$LAST_WEEK"
+          tools/generate_changelog.py -f --by-date /tmp/changelog.txt --end-date "$YESTERDAY" -T "${{ secrets.GITHUB_TOKEN }}" "$LAST_WEEK"
           tac /tmp/changelog.txt > /tmp/changelog_rev.txt
           tools/merge_summaries.sh /tmp/changelog_rev.txt data/changelog.txt
           echo "date=$( date +"%Y-%m-%d" -d $CURR_DATE )" >> $GITHUB_OUTPUT

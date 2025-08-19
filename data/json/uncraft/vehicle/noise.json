@@ -7,7 +7,7 @@
     "difficulty": 1,
     "time": "48 s",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "scrap", 7 ] ], [ [ "steel_chunk", 1 ] ], [ [ "platinum_small", 1 ] ], [ [ "pipe", 2 ] ] ]
+    "components": [ [ [ "scrap", 7 ] ], [ [ "lc_steel_chunk", 1 ] ], [ [ "platinum_small", 1 ] ], [ [ "pipe", 2 ] ] ]
   },
   {
     "type": "uncraft",

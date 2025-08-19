@@ -1,6 +1,11 @@
 [
   {
     "type": "ter_furn_transform",
+    "id": "ter_arvore_tree_to_grass",
+    "terrain": [ { "result": "t_tree_young", "valid_flags": [ "TREE" ], "message": "" } ]
+  },
+  {
+    "type": "ter_furn_transform",
     "id": "ter_arvore_plant_growth",
     "terrain": [
       {
@@ -15,6 +20,8 @@
           [ "t_tree_willow", 64 ],
           [ "t_tree_hickory", 32 ],
           [ "t_tree_walnut", 16 ],
+          [ "t_tree_tupelo", 16 ],
+          [ "t_tree_nannyberry", 16 ],
           [ "t_tree_butternut", 4 ],
           [ "t_tree_chestnut", 8 ],
           [ "t_tree_hazelnut", 2 ],
@@ -63,6 +70,27 @@
   },
   {
     "type": "ter_furn_transform",
+    "id": "ter_arvore_command_grasses",
+    "terrain": [
+      {
+        "result": "t_grass_tall",
+        "valid_terrain": [ "t_grass_long" ],
+        "message": "The grass grows tall, reaching toward the sky."
+      },
+      {
+        "result": [ [ "t_grass_long", 100 ], [ "t_grass_tall", 25 ] ],
+        "valid_terrain": [ "t_grass" ],
+        "message": "The grass grows tall, reaching toward the sky."
+      },
+      {
+        "result": [ [ "t_grass", 50 ], [ "t_grass_long", 100 ], [ "t_grass_tall", 10 ] ],
+        "valid_flags": [ "DIGGABLE" ],
+        "message": "The ground churns as blades of grass push out of the soil."
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
     "id": "ter_arvore_wood_wall",
     "terrain": [
       {
@@ -73,7 +101,7 @@
       {
         "result": [ "t_triffid_wood_wall" ],
         "valid_terrain": [ "t_triffid_bark_wall" ],
-        "message": "The wooden wall shudders as as the bark peels off in sheets, eventually becoming a solid expanse of bare wood."
+        "message": "The wooden wall shudders as the bark peels off in sheets, eventually becoming a solid expanse of bare wood."
       },
       {
         "result": [ "t_triffid_bark_wall" ],
@@ -81,6 +109,11 @@
         "message": "The bare wooden wall shudders as bark sprouts and spreads over it, covering the entire surface in moments."
       }
     ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_arvore_wood_wall_top",
+    "terrain": [ { "result": [ "t_barkfloor_no_roof" ], "valid_terrain": [ "t_open_air" ] } ]
   },
   {
     "type": "ter_furn_transform",
@@ -119,7 +152,7 @@
       {
         "result": [ "t_triffid_wood_wall" ],
         "valid_terrain": [ "t_triffid_bark_wall" ],
-        "message": "The wooden wall shudders as as the bark peels off in sheets, eventually becoming a solid expanse of bare wood."
+        "message": "The wooden wall shudders as the bark peels off in sheets, eventually becoming a solid expanse of bare wood."
       },
       {
         "result": [ "t_triffid_bark_wall" ],
@@ -244,6 +277,8 @@
           [ "t_tree_willow", 64 ],
           [ "t_tree_hickory_harvested", 32 ],
           [ "t_tree_walnut_harvested", 16 ],
+          [ "t_tree_nannyberry_harvested", 16 ],
+          [ "t_tree_tupelo_harvested", 16 ],
           [ "t_tree_butternut", 4 ],
           [ "t_tree_chestnut_harvested", 8 ],
           [ "t_tree_hazelnut_harvested", 2 ],
@@ -263,11 +298,15 @@
       },
       {
         "result": [
-          [ "t_grass", 75 ],
-          [ "t_grass_long", 30 ],
-          [ "t_grass_tall", 5 ],
-          [ "t_shrub", 15 ],
-          [ "t_underbrush", 35 ],
+          [ "t_grass", 150 ],
+          [ "t_grass_long", 50 ],
+          [ "t_grass_tall", 20 ],
+          [ "t_shrub", 30 ],
+          [ "t_underbrush", 65 ],
+          [ "t_shrub_hobblebush_harvested", 10 ],
+          [ "t_shrub_autumn_olive_harvested", 10 ],
+          [ "t_shrub_spicebush_harvested", 10 ],
+          [ "t_shrub_chokeberry_harvested", 10 ],
           [ "t_shrub_rose", 5 ],
           [ "t_shrub_blackberry_harvested", 5 ],
           [ "t_shrub_grape_harvested", 5 ],
@@ -350,6 +389,8 @@
           [ "t_tree_willow", 64 ],
           [ "t_tree_hickory", 32 ],
           [ "t_tree_walnut", 16 ],
+          [ "t_tree_tupelo", 16 ],
+          [ "t_tree_nannyberry", 16 ],
           [ "t_tree_butternut", 4 ],
           [ "t_tree_chestnut", 8 ],
           [ "t_tree_hazelnut", 2 ],

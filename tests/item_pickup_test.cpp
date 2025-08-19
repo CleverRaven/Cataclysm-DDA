@@ -1,13 +1,25 @@
+#include <list>
+#include <optional>
+#include <string>
+#include <utility>
+
 #include "avatar.h"
 #include "cata_catch.h"
+#include "coordinates.h"
 #include "item.h"
+#include "item_location.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_selector.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
+#include "point.h"
+#include "ret_val.h"
 #include "rng.h"
+#include "type_id.h"
 
 static const itype_id itype_backpack_hiking( "backpack_hiking" );
-static const itype_id itype_modular_m4_carbine( "modular_m4_carbine" );
+static const itype_id itype_debug_modular_m4_carbine( "debug_modular_m4_carbine" );
 static const itype_id itype_rope_6( "rope_6" );
 
 // This test case exists by way of documenting and exhibiting some potentially unexpected behavior
@@ -28,7 +40,7 @@ TEST_CASE( "putting_items_into_inventory_with_put_in_or_i_add", "[pickup][invent
     clear_map();
 
     // Spawn items on the map at this location
-    const tripoint ground = they.pos();
+    const tripoint_bub_ms ground = they.pos_bub();
     item &rope_map = here.add_item( ground, item( itype_rope_6 ) );
     item &backpack_map = here.add_item( ground, item( itype_backpack_hiking ) );
 
@@ -141,8 +153,8 @@ TEST_CASE( "pickup_m4_with_a_rope_in_a_hiking_backpack", "[pickup][container]" )
     clear_map();
 
     // Spawn items on the map at this location
-    const tripoint ground = they.pos();
-    item &m4a1 = here.add_item( ground, item( itype_modular_m4_carbine ) );
+    const tripoint_bub_ms ground = they.pos_bub();
+    item &m4a1 = here.add_item( ground, item( itype_debug_modular_m4_carbine ) );
     item &rope_map = here.add_item( ground, item( itype_rope_6 ) );
     item &backpack_map = here.add_item( ground, item( itype_backpack_hiking ) );
 
@@ -172,7 +184,7 @@ TEST_CASE( "pickup_m4_with_a_rope_in_a_hiking_backpack", "[pickup][container]" )
 
         WHEN( "they pick up the M4" ) {
             // Get item_location for m4 on the map
-            item_location m4_loc( map_cursor( they.pos_bub() ), &m4a1 );
+            item_location m4_loc( map_cursor( they.pos_abs() ), &m4a1 );
             const drop_locations &thing = { std::make_pair( m4_loc, 1 ) };
             CHECK_FALSE( backpack.has_item( m4a1 ) );
             // Now pick up the M4

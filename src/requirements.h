@@ -2,12 +2,12 @@
 #ifndef CATA_SRC_REQUIREMENTS_H
 #define CATA_SRC_REQUIREMENTS_H
 
+#include <cstdint>
 #include <functional>
-#include <iosfwd>
-#include <list>
 #include <map>
 #include <numeric>
 #include <string>
+#include <string_view>
 #include <tuple>
 #include <type_traits>
 #include <unordered_map>
@@ -15,7 +15,7 @@
 #include <vector>
 
 #include "crafting.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
 class Character;
@@ -344,7 +344,7 @@ struct requirement_data {
          */
         bool can_make_with_inventory( const read_only_visitable &crafting_inv,
                                       const std::function<bool( const item & )> &filter, int batch = 1,
-                                      craft_flags = craft_flags::none ) const;
+                                      craft_flags = craft_flags::none, bool restrict_volume = true ) const;
 
         /** @param filter see @ref can_make_with_inventory */
         std::vector<std::string> get_folded_components_list( int width, nc_color col,
@@ -393,7 +393,8 @@ struct requirement_data {
         bool blacklisted = false;
 
         bool check_enough_materials( const read_only_visitable &crafting_inv,
-                                     const std::function<bool( const item & )> &filter, int batch = 1 ) const;
+                                     const std::function<bool( const item & )> &filter, int batch = 1,
+                                     bool restrict_volume = true ) const;
         bool check_enough_materials( const item_comp &comp, const read_only_visitable &crafting_inv,
                                      const std::function<bool( const item & )> &filter, int batch = 1 ) const;
 

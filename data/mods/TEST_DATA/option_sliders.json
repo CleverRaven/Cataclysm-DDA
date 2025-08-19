@@ -14,7 +14,7 @@
           { "option": "MONSTER_SPEED", "type": "int", "val": 95 },
           { "option": "MONSTER_RESILIENCE", "type": "int", "val": 85 },
           { "option": "SPAWN_DENSITY", "type": "float", "val": 0.9 },
-          { "option": "MONSTER_UPGRADE_FACTOR", "type": "float", "val": 6 },
+          { "option": "EVOLUTION_INVERSE_MULTIPLIER", "type": "float", "val": 1.5 },
           { "option": "ITEM_SPAWNRATE", "type": "float", "val": 1.25 },
           { "option": "ETERNAL_SEASON", "type": "bool", "val": false },
           { "option": "ETERNAL_TIME_OF_DAY", "type": "string", "val": "normal" }
@@ -27,7 +27,7 @@
           { "option": "MONSTER_SPEED", "type": "int", "val": 105 },
           { "option": "MONSTER_RESILIENCE", "type": "int", "val": 120 },
           { "option": "SPAWN_DENSITY", "type": "float", "val": 1.5 },
-          { "option": "MONSTER_UPGRADE_FACTOR", "type": "float", "val": 4 },
+          { "option": "EVOLUTION_INVERSE_MULTIPLIER", "type": "float", "val": 0.94 },
           { "option": "ITEM_SPAWNRATE", "type": "float", "val": 1 },
           { "option": "ETERNAL_SEASON", "type": "bool", "val": false },
           { "option": "ETERNAL_TIME_OF_DAY", "type": "string", "val": "normal" }
@@ -40,7 +40,7 @@
           { "option": "MONSTER_SPEED", "type": "int", "val": 90 },
           { "option": "MONSTER_RESILIENCE", "type": "int", "val": 75 },
           { "option": "SPAWN_DENSITY", "type": "float", "val": 0.8 },
-          { "option": "MONSTER_UPGRADE_FACTOR", "type": "float", "val": 8 },
+          { "option": "EVOLUTION_INVERSE_MULTIPLIER", "type": "float", "val": 2 },
           { "option": "ITEM_SPAWNRATE", "type": "float", "val": 1.5 },
           { "option": "ETERNAL_SEASON", "type": "bool", "val": false },
           { "option": "ETERNAL_TIME_OF_DAY", "type": "string", "val": "normal" }
@@ -53,7 +53,7 @@
           { "option": "MONSTER_SPEED", "type": "int", "val": 120 },
           { "option": "MONSTER_RESILIENCE", "type": "int", "val": 200 },
           { "option": "SPAWN_DENSITY", "type": "float", "val": 3 },
-          { "option": "MONSTER_UPGRADE_FACTOR", "type": "float", "val": 3 },
+          { "option": "EVOLUTION_INVERSE_MULTIPLIER", "type": "float", "val": 0.75 },
           { "option": "ITEM_SPAWNRATE", "type": "float", "val": 0.5 },
           { "option": "ETERNAL_SEASON", "type": "bool", "val": true },
           { "option": "ETERNAL_TIME_OF_DAY", "type": "string", "val": "night" }
@@ -66,7 +66,7 @@
           { "option": "MONSTER_SPEED", "type": "int", "val": 95 },
           { "option": "MONSTER_RESILIENCE", "type": "int", "val": 90 },
           { "option": "SPAWN_DENSITY", "type": "float", "val": 1 },
-          { "option": "MONSTER_UPGRADE_FACTOR", "type": "float", "val": 5 },
+          { "option": "EVOLUTION_INVERSE_MULTIPLIER", "type": "float", "val": 1.25 },
           { "option": "ITEM_SPAWNRATE", "type": "float", "val": 1 },
           { "option": "ETERNAL_SEASON", "type": "bool", "val": false },
           { "option": "ETERNAL_TIME_OF_DAY", "type": "string", "val": "normal" }
@@ -79,7 +79,7 @@
           { "option": "MONSTER_SPEED", "type": "int", "val": 100 },
           { "option": "MONSTER_RESILIENCE", "type": "int", "val": 100 },
           { "option": "SPAWN_DENSITY", "type": "float", "val": 1 },
-          { "option": "MONSTER_UPGRADE_FACTOR", "type": "float", "val": 4 },
+          { "option": "EVOLUTION_INVERSE_MULTIPLIER", "type": "float", "val": 1 },
           { "option": "ITEM_SPAWNRATE", "type": "float", "val": 1 },
           { "option": "ETERNAL_SEASON", "type": "bool", "val": false },
           { "option": "ETERNAL_TIME_OF_DAY", "type": "string", "val": "normal" }
@@ -92,7 +92,7 @@
           { "option": "MONSTER_SPEED", "type": "int", "val": 110 },
           { "option": "MONSTER_RESILIENCE", "type": "int", "val": 150 },
           { "option": "SPAWN_DENSITY", "type": "float", "val": 2 },
-          { "option": "MONSTER_UPGRADE_FACTOR", "type": "float", "val": 3.5 },
+          { "option": "EVOLUTION_INVERSE_MULTIPLIER", "type": "float", "val": 0.88 },
           { "option": "ITEM_SPAWNRATE", "type": "float", "val": 0.8 },
           { "option": "ETERNAL_SEASON", "type": "bool", "val": false },
           { "option": "ETERNAL_TIME_OF_DAY", "type": "string", "val": "normal" }

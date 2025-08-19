@@ -7,11 +7,12 @@
 #include <climits>
 #include <cstddef>
 #include <functional>
-#include <iosfwd>
 #include <limits>
 #include <list>
 #include <map>
 #include <set>
+#include <string>
+#include <tuple>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -20,7 +21,6 @@
 #include "cata_utility.h"
 #include "coords_fwd.h"
 #include "item.h"
-#include "magic_enchantment.h"
 #include "proficiency.h"
 #include "type_id.h"
 #include "units_fwd.h"
@@ -30,10 +30,10 @@ class Character;
 class JsonArray;
 class JsonOut;
 class JsonValue;
+class item_components;
 class item_stack;
 class map;
 class npc;
-struct tripoint;
 
 using invstack = std::list<std::list<item> >;
 using invslice = std::vector<std::list<item> *>;
@@ -55,6 +55,13 @@ class invlet_wrapper : private std::string
         explicit invlet_wrapper( const char *chars ) : std::string( chars ) { }
 
         bool valid( int invlet ) const;
+
+        // Get ordinal number (first, second, third, ...) of invlet.
+        // Informs sorting order.
+        int ordinal( int invlet ) const {
+            return this->find( invlet );
+        }
+
         std::string get_allowed_chars() const {
             return *this;
         }
@@ -155,13 +162,14 @@ class inventory : public visitable
         void restack( Character &p );
         void form_from_zone( map &m, std::unordered_set<tripoint_abs_ms> &zone_pts,
                              const Character *pl = nullptr, bool assign_invlet = true );
-        void form_from_map( const tripoint &origin, int range, const Character *pl = nullptr,
+        void form_from_map( const tripoint_bub_ms &origin, int range, const Character *pl = nullptr,
                             bool assign_invlet = true,
                             bool clear_path = true );
-        void form_from_map( map &m, const tripoint &origin, int range, const Character *pl = nullptr,
+        void form_from_map( map *here, const tripoint_bub_ms &origin, int range,
+                            const Character *pl = nullptr,
                             bool assign_invlet = true,
                             bool clear_path = true );
-        void form_from_map( map &m, std::vector<tripoint> pts, const Character *pl,
+        void form_from_map( map &m, std::vector<tripoint_bub_ms> pts, const Character *pl,
                             bool assign_invlet = true );
         /**
          * Remove a specific item from the inventory. The item is compared
@@ -242,9 +250,6 @@ class inventory : public visitable
         void update_cache_with_item( item &newit );
 
         void copy_invlet_of( const inventory &other );
-
-        // gets a singular enchantment that is an amalgamation of all items that have active enchantments
-        enchant_cache get_active_enchantment_cache( const Character &owner ) const;
 
         int count_item( const itype_id &item_type ) const;
 

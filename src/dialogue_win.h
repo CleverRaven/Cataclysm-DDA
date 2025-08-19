@@ -45,11 +45,21 @@ class dialogue_window
 
         void set_up_scrolling( input_context &ctxt ) const;
 
+        /** sets debug info to draw for a response */
+        void set_responses_debug( const std::vector<std::string> &responses );
+
         /** Unhighlights all messages. */
         void clear_history_highlights();
         bool is_computer = false;
         bool is_not_conversation = false;
+        bool show_dynamic_line_conditionals = true;
+        bool show_dynamic_line_effects = true;
+        bool show_response_conditionals = true;
+        bool show_response_effects = true;
+        //copy of dialogue::show_all_responses
+        bool show_all_responses = false;
         int sel_response = 0;
+        std::string debug_topic_name;
     private:
         catacurses::window d_win;
         catacurses::window history_win;
@@ -80,6 +90,7 @@ class dialogue_window
         std::vector<std::tuple<std::string, std::vector<std::string>>> folded_txt;
         std::vector<int> folded_heights;
         std::unique_ptr<multiline_list> responses_list;
+        std::vector<std::string> responses_debug;
 
         nc_color default_color() const;
         void print_header( const std::string &name ) const;

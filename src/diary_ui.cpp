@@ -1,7 +1,6 @@
 #include "game.h" // IWYU pragma: associated
 
 #include <algorithm>
-#include <initializer_list>
 #include <map>
 #include <string>
 #include <utility>
@@ -13,11 +12,12 @@
 #include "diary.h"
 #include "input_context.h"
 #include "output.h"
+#include "point.h"
 #include "scores_ui.h"
 #include "string_editor_window.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_manager.h"
 
 namespace
@@ -98,67 +98,69 @@ void mvwprintwa( const catacurses::window &win, point p, Ts... args )
              args...
          } ) {
         mvwprintw( win, p, string );
-        p += point_south;
+        p += point::south;
     }
 }
 
-void draw_diary_border( catacurses::window *win )
+void draw_diary_border( catacurses::window &win )
 {
-    const point max( getmaxx( *win ) - 1, getmaxy( *win ) - 1 );
+    const point max( getmaxx( win ) - 1, getmaxy( win ) - 1 );
     const point mid = max / 2;
+
+    wattron( win, BORDER_COLOR );
+
     // left, right vertical lines
     for( int i = 0; i < 4; i++ ) {
-        mvwvline( *win, point( 0     + i, 4 ), '|', max.y - 4 - 4 + 1 );
-        mvwvline( *win, point( max.x - i, 4 ), '|', max.y - 4 - 4 + 1 );
+        mvwvline( win, point( 0     + i, 4 ), '|', max.y - 4 - 4 + 1 );
+        mvwvline( win, point( max.x - i, 4 ), '|', max.y - 4 - 4 + 1 );
     }
     // middle vertical line
-    mvwvline( *win,     point( mid.x,     4 ), '|', max.y - 4 - 4 + 1 );
+    mvwvline( win,     point( mid.x,     4 ), '|', max.y - 4 - 4 + 1 );
     // top horizontal line
-    mvwhline( *win,     point( 4,         0 ), '_', max.x - 4 - 4 + 1 );
+    mvwhline( win,     point( 4,         0 ), '_', max.x - 4 - 4 + 1 );
     // bottom horizontal lines
-    mvwhline( *win,     point( 4, max.y - 2 ), '_', max.x - 4 - 4 + 1 );
-    mvwhline( *win,     point( 4, max.y - 1 ), '=', max.x - 4 - 4 + 1 );
-    mvwhline( *win,     point( 4, max.y - 0 ), '-', max.x - 4 - 4 + 1 );
+    mvwhline( win,     point( 4, max.y - 2 ), '_', max.x - 4 - 4 + 1 );
+    mvwhline( win,     point( 4, max.y - 1 ), '=', max.x - 4 - 4 + 1 );
+    mvwhline( win,     point( 4, max.y - 0 ), '-', max.x - 4 - 4 + 1 );
 
-    wattron( *win, BORDER_COLOR );
     //top left corner
-    mvwprintwa( *win, point_zero,
+    mvwprintwa( win, point::zero,
                 "    ",
                 ".-/|",
                 "||||",
                 "||||" );
     // bottom left corner
-    mvwprintwa( *win, point( 0, max.y - 3 ),
+    mvwprintwa( win, point( 0, max.y - 3 ),
                 "||||",
                 "||||",
                 "||/=",
                 "`'--" );
     // top right corner
-    mvwprintwa( *win, point( max.x - 3, 0 ),
+    mvwprintwa( win, point( max.x - 3, 0 ),
                 "    ",
                 "|\\-.",
                 "||||",
                 "||||" );
     // bottom right corner
-    mvwprintwa( *win, max + point( -3, -3 ),
+    mvwprintwa( win, max + point( -3, -3 ),
                 "||||",
                 "||||",
                 "=\\||",
                 "--''" );
     // top middle
-    mvwprintwa( *win, point( mid.x - 1, 0 ),
+    mvwprintwa( win, point( mid.x - 1, 0 ),
                 "   ",
                 "\\ /",
                 " | ",
                 " | " );
     // bottom middle
-    mvwprintwa( *win, point( mid.x - 1, max.y - 3 ),
+    mvwprintwa( win, point( mid.x - 1, max.y - 3 ),
                 " | ",
                 " | ",
                 "\\|/",
                 "___" );
 
-    wattroff( *win, BORDER_COLOR );
+    wattroff( win, BORDER_COLOR );
 }
 } // namespace
 
@@ -209,7 +211,7 @@ void diary::show_diary_ui( diary *c_diary )
         w_changes = catacurses::newwin( max.y - 3, midx - 1, beg + point( 0, 3 ) );
         w_text = catacurses::newwin( max.y - 3, max.x - midx - 1, beg + point( 2 + midx, 3 ) );
         w_border = catacurses::newwin( max.y + 5, max.x + 9, beg + point( -4, -2 ) );
-        w_head = catacurses::newwin( 1, max.x, beg + point_south );
+        w_head = catacurses::newwin( 1, max.x, beg + point::south );
 
         ui.position_from_window( w_border );
     } );
@@ -220,14 +222,14 @@ void diary::show_diary_ui( diary *c_diary )
         werase( w_border );
         werase( w_head );
 
-        draw_diary_border( &w_border );
+        draw_diary_border( w_border );
 
         print_list_scrollable( &w_changes, c_diary->get_change_list(), &selected[window_mode::CHANGE_WIN],
                                currwin == window_mode::CHANGE_WIN, false, report_color_error::yes );
         print_list_scrollable( &w_text, c_diary->get_page_text(), &selected[window_mode::TEXT_WIN],
                                currwin == window_mode::TEXT_WIN, false, report_color_error::no );
 
-        trim_and_print( w_head, point_south_east, getmaxx( w_head ) - 2, c_white,
+        trim_and_print( w_head, point::south_east, getmaxx( w_head ) - 2, c_white,
                         c_diary->get_head_text() );
 
         wnoutrefresh( w_border );
@@ -254,7 +256,7 @@ void diary::show_diary_ui( diary *c_diary )
         print_list_scrollable( &w_pages, c_diary->get_pages_list(), &selected[window_mode::PAGE_WIN],
                                currwin == window_mode::PAGE_WIN, true, report_color_error::yes );
         center_print( w_pages, 0, c_light_gray, string_format( _( "pages: %d" ),
-                      c_diary->get_pages_list().size() ) );
+                      c_diary->get_pages_list().size() - 1 ) );
 
         wnoutrefresh( w_pages );
     } );
@@ -309,7 +311,7 @@ void diary::show_diary_ui( diary *c_diary )
         draw_border( w_info );
         center_print( w_info, 0, c_light_gray, string_format( _( "Info" ) ) );
         if( currwin == window_mode::CHANGE_WIN || currwin == window_mode::TEXT_WIN ) {
-            fold_and_print( w_info, point_south_east, getmaxx( w_info ) - 2, c_white,
+            fold_and_print( w_info, point::south_east, getmaxx( w_info ) - 2, c_white,
                             c_diary->get_desc_map()[selected[window_mode::CHANGE_WIN]] );
         }
 
@@ -356,9 +358,9 @@ void diary::show_diary_ui( diary *c_diary )
             selected[window_mode::PAGE_WIN] = c_diary->pages.size() - 1;
             currwin = window_mode::PAGE_WIN;
         } else if( action == "VIEW_SCORES" ) {
-            show_scores_ui( g->achievements(), g->stats(), g->get_kill_tracker() );
+            show_scores_ui();
         } else if( action == "DELETE PAGE" ) {
-            if( !c_diary->pages.empty() ) {
+            if( c_diary->pages.size() > 1 ) {
                 if( query_yn( _( "Really delete Page?" ) ) ) {
                     c_diary->delete_page();
                     if( selected[window_mode::PAGE_WIN] >= static_cast<int>( c_diary->pages.size() ) ) {
@@ -380,6 +382,9 @@ void diary::show_diary_ui( diary *c_diary )
 
 void diary::edit_page_ui( const std::function<catacurses::window()> &create_window )
 {
+    if( get_page_ptr()->is_summary() ) {
+        return;
+    }
     // Modify the stored text so the new text is displayed after exiting from
     // the editor window and before confirming or canceling the y/n query.
     std::string &new_text = get_page_ptr()->m_text;

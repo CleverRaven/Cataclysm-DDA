@@ -1,41 +1,39 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "office_cubical" ],
-    "weight": 300,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
         "ssssssssssssssssssssssss",
-        "s||wwww||  ss  ||wwww||s",
-        "s|.....^|$$ss$$|III..o|s",
-        "s|.HttH.|||++|||..H..o|s",
-        "s|.HttH.w.....^|.xdd.o|s",
-        "s|.HttH.w......+..h..o|s",
-        "s|.HttH.w..cccc|Y....^|s",
-        "s|^.....+..c.h.|||||+||s",
-        "s||||||||..c...|S.T|II|s",
-        "s|I.Y...+....II|...||||s",
-        "s|I..H..|..||||||+||Sl|s",
-        "s|Ixddd^|..aVVe...+..R|s",
-        "s||||||||.........|||||s",
-        "s|Ih................hI|s",
-        "s|ddx-....IIII^...-ddx|s",
-        "s|----..--------I.----|s",
-        "s|Ih...Y-ddxddx-....hI|s",
-        "s|ddx-..-Ih..h....-ddx|s",
-        "s|----..--------..----|s",
-        "s|Ih......h..hI-....hI|s",
-        "s|ddx-^I-xddxdd-.Y-ddx|s",
-        "s|||||||||||||||D||||||s",
+        "s##wwww##  ss  ##wwww##s",
+        "s#.....^#$$ss$$#III..o#s",
+        "s#.HttH.###++###..H..o#s",
+        "s#.HttH.w.....^|.xdd.o#s",
+        "s#.HttH.w......+..h..o#s",
+        "s#.HttH.w..cccc|Y....^#s",
+        "s#^.....+..c.h.|||||+|#s",
+        "s#|||||||..c...|S.T|II#s",
+        "s#I.Y...+....II|...|||#s",
+        "s#I..H..|..||||||+||Sl#s",
+        "s#Ixddd^|..aVVe...+..R#s",
+        "s#|||||||.........||||#s",
+        "s#Ih................hI#s",
+        "s#ddx-....IIII^...-ddx#s",
+        "s#----..--------I.----#s",
+        "s#Ih...Y-ddxddx-....hI#s",
+        "s#ddx-..-Ih..h....-ddx#s",
+        "s#----..--------..----#s",
+        "s#Ih......h..hI-....hI#s",
+        "s#ddx-^I-xddxdd-.Y-ddx#s",
+        "s###############D######s",
         "ssssssssssssss$$s$$ss4ss",
         "ssssssssssssssssssssssss"
       ],
+      "palettes": [ "parametrized_highrise_walls_palette" ],
       "terrain": {
         " ": "t_region_groundcover_urban",
         "$": "t_region_shrub_decorative",
-        "|": "t_wall_w",
         "w": "t_window",
         "s": "t_concrete",
         "+": "t_door_c",
@@ -66,17 +64,17 @@
         "l": { "item": "SUS_janitors_closet", "chance": 100 },
         "d": { "item": "SUS_office_desk", "chance": 20 },
         "I": { "item": "SUS_office_filing_cabinet", "chance": 80 },
-        "R": { "item": "office_supplies", "chance": 80, "repeat": [ 1, 2 ] },
+        "R": { "item": "SUS_office_supplies", "chance": 80, "repeat": [ 1, 2 ] },
         "Y": { "item": "jackets", "chance": 33, "repeat": [ 1, 2 ] },
-        "a": { "item": "trash", "chance": 60, "repeat": [ 1, 2 ] },
-        "o": { "item": "novels", "chance": 80, "repeat": [ 4, 8 ] }
+        "a": { "item": "SUS_trash_trashcan_public", "chance": 60 },
+        "o": { "item": "novels", "chance": 80, "repeat": [ 4, 8 ] },
+        "T": { "item": "SUS_toilet", "chance": 50 }
       },
-      "vehicles": { "h": { "vehicle": "swivel_chair", "chance": 100 } }
+      "vehicles": { "h": { "vehicle": "swivel_chair" } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "office_cubical_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -87,7 +85,7 @@
         " -......--------......- ",
         " -..U.................- ",
         " -........oooo........- ",
-        " -........oooo....M...- ",
+        " -........oooo....K...- ",
         " -..Z.....oooo........- ",
         " -........oooo........- ",
         " -....................- ",
@@ -109,7 +107,7 @@
       "palettes": [ "roof_palette" ],
       "nested": {
         "U": { "chunks": [ "roof_2x2_infrastructure" ] },
-        "M": { "chunks": [ "roof_2x2_infrastructure_1" ] },
+        "K": { "chunks": [ "roof_2x2_infrastructure_1" ] },
         "Z": { "chunks": [ "roof_2x2_infrastructure_2" ] }
       },
       "place_nested": [
@@ -129,9 +127,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "office_cubical_1" ],
-    "weight": 300,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -160,14 +156,13 @@
         " ##.Id-dI..^.Id#s##ww##s",
         "  ##############ssssssss"
       ],
+      "palettes": [ "parametrized_carpets_palette", "parametrized_highrise_walls_palette" ],
       "terrain": {
         " ": "t_region_groundcover_urban",
         "$": "t_region_shrub_decorative",
-        "#": "t_brick_wall",
-        "|": "t_wall_w",
         "w": "t_window",
         "s": "t_concrete",
-        "U": "t_carpet_red",
+        "U": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "+": "t_door_c",
         "D": "t_door_locked",
         "4": "t_gutter_downspout"
@@ -197,17 +192,17 @@
         "l": { "item": "SUS_janitors_closet", "chance": 100 },
         "d": { "item": "SUS_office_desk", "chance": 20 },
         "I": { "item": "SUS_office_filing_cabinet", "chance": 80 },
-        "R": { "item": "office_supplies", "chance": 80, "repeat": [ 1, 2 ] },
+        "R": { "item": "SUS_office_supplies", "chance": 80, "repeat": [ 1, 2 ] },
         "Y": { "item": "jackets", "chance": 33, "repeat": [ 1, 2 ] },
-        "a": { "item": "trash", "chance": 60, "repeat": [ 1, 2 ] },
-        "o": { "item": "novels", "chance": 80, "repeat": [ 4, 8 ] }
+        "a": { "item": "SUS_trash_trashcan", "chance": 60 },
+        "o": { "item": "novels", "chance": 80, "repeat": [ 4, 8 ] },
+        "T": { "item": "SUS_toilet", "chance": 50 }
       },
-      "vehicles": { "h": { "vehicle": "swivel_chair", "chance": 100 } }
+      "vehicles": { "h": { "vehicle": "swivel_chair" } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "office_cubical_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -230,7 +225,7 @@
         " -....................- ",
         " -....................--",
         " -.....................-",
-        " -.................M...-",
+        " -.............K.......-",
         " -.....................-",
         " -....Z...............--",
         " -....................- ",
@@ -240,7 +235,7 @@
       "palettes": [ "roof_palette" ],
       "nested": {
         "U": { "chunks": [ "roof_2x2_infrastructure" ] },
-        "M": { "chunks": [ "roof_2x2_infrastructure_1" ] },
+        "K": { "chunks": [ "roof_2x2_infrastructure_1" ] },
         "Z": { "chunks": [ "roof_2x2_infrastructure_2" ] }
       },
       "place_nested": [

@@ -1,0 +1,197 @@
+[
+  {
+    "type": "end_screen",
+    "id": "death_tombstone",
+    "priority": 0,
+    "picture_id": "ascii_tombstone",
+    "condition": { "not": "u_is_alive" },
+    "added_info": [
+      [ [ 6, 8 ], "In memory of: <u_name>" ],
+      [ [ 13, 9 ], "Survived: <time_survived>" ],
+      [ [ 15, 10 ], "Kills: <total_kills>" ]
+    ],
+    "last_words_label": "Last Words:"
+  },
+  {
+    "type": "end_screen",
+    "id": "death_cross",
+    "priority": 100,
+    "picture_id": "ascii_rip_cross",
+    "condition": {
+      "and": [
+        { "not": "u_is_alive" },
+        {
+          "or": [ { "u_has_item": "holybook_bible1" }, { "u_has_item": "holybook_bible2" }, { "u_has_item": "holybook_bible3" } ]
+        },
+        { "not": { "and": [ { "u_has_trait": "CANNIBAL" }, { "u_has_trait": "PSYCHOPATH" } ] } }
+      ]
+    },
+    "added_info": [
+      [ [ 8, 8 ], "In memory of: <color_green><u_name></color>" ],
+      [ [ 15, 9 ], "Survived: <time_survived>" ],
+      [ [ 17, 10 ], "Kills: <total_kills>" ]
+    ],
+    "last_words_label": "Last Words:"
+  },
+  {
+    "type": "end_screen",
+    "id": "death_inverted_cross",
+    "priority": 100,
+    "picture_id": "ascii_rip_inverted_cross",
+    "condition": { "and": [ { "not": "u_is_alive" }, { "or": [ { "u_has_trait": "CANNIBAL" }, { "u_has_trait": "PSYCHOPATH" } ] } ] },
+    "added_info": [
+      [ [ 8, 14 ], "In memory of: <color_green><u_name></color>" ],
+      [ [ 15, 15 ], "Survived: <time_survived>" ],
+      [ [ 17, 16 ], "Kills: <total_kills>" ]
+    ],
+    "last_words_label": "Last Words:"
+  },
+  {
+    "type": "end_screen",
+    "id": "portal_storm_win",
+    "priority": 200,
+    "picture_id": "ascii_portal_storm_win",
+    "condition": { "and": [ { "not": "u_is_alive" }, { "u_has_effect": "a_winner_is_u" } ] },
+    "added_info": [
+      [ [ 6, 6 ], "You <color_pink>won</color>" ],
+      [ [ 8, 7 ], "<u_name>..." ],
+      [ [ 4, 10 ], "...<u_name>, who's that?" ],
+      [ [ 15, 11 ], "Not your problem anymore." ],
+      [ [ 9, 15 ], "What a <color_pink>success</color>." ],
+      [ [ 4, 21 ], "Something struggled for: <time_survived>" ]
+    ]
+  },
+  {
+    "type": "end_screen",
+    "id": "mycus_death",
+    "priority": 150,
+    "picture_id": "ascii_mycus_death",
+    "condition": { "and": [ { "not": "u_is_alive" }, { "or": [ { "u_has_trait": "THRESH_MYCUS" } ] } ] },
+    "added_info": [
+      [ [ 1, 2 ], "...<u_name>, do you feel complete?" ],
+      [ [ 3, 4 ], "Of course you do." ],
+      [ [ 4, 5 ], "It was <color_pink>beautiful</color>." ],
+      [ [ 5, 6 ], "You spread joy for: <time_survived>" ]
+    ],
+    "last_words_label": "Last Words:"
+  },
+  {
+    "type": "end_screen",
+    "id": "marloss_death",
+    "priority": 140,
+    "picture_id": "ascii_marloss_death",
+    "condition": {
+      "and": [
+        { "not": "u_is_alive" },
+        {
+          "or": [
+            { "u_has_trait": "THRESH_MARLOSS" },
+            { "u_has_trait": "MARLOSS" },
+            { "u_has_trait": "MARLOSS_BLUE" },
+            { "u_has_trait": "MARLOSS_YELLOW" }
+          ]
+        }
+      ]
+    },
+    "added_info": [
+      [ [ 1, 2 ], "...<u_name>, do you feel incomplete?" ],
+      [ [ 2, 3 ], "Of course you do." ],
+      [ [ 3, 4 ], "what a <color_red>waste</color>." ],
+      [ [ 4, 5 ], "You wandered for: <time_survived>" ]
+    ],
+    "last_words_label": "Last Words:"
+  },
+  {
+    "type": "end_screen",
+    "id": "has_mutagen_death",
+    "priority": 110,
+    "picture_id": "ascii_has_mutagen_death",
+    "condition": {
+      "and": [
+        { "not": "u_is_alive" },
+        {
+          "or": [
+            {
+              "u_has_any_effect": [
+                "mutagen",
+                "mutagen_beast",
+                "mutagen_bird",
+                "mutagen_cattle",
+                "mutagen_cephalopod",
+                "mutagen_chimera",
+                "mutagen_elfa",
+                "mutagen_feline",
+                "mutagen_fish",
+                "mutagen_insect",
+                "mutagen_lizard",
+                "mutagen_lupine",
+                "mutagen_medical",
+                "mutagen_plant",
+                "mutagen_raptor",
+                "mutagen_rat",
+                "mutagen_chiropteran",
+                "mutagen_slime",
+                "mutagen_spider",
+                "mutagen_gastropod",
+                "mutagen_batrachian",
+                "mutagen_troglobite",
+                "mutagen_ursine",
+                "mutagen_mouse",
+                "mutagen_rabbit",
+                "mutagen_crustacean",
+                "mutagen_alpha"
+              ]
+            },
+            { "u_has_item": "iv_mutagen" },
+            { "u_has_item": "iv_mutagen_flavor" }
+          ]
+        }
+      ]
+    },
+    "added_info": [
+      [ [ 10, 10 ], "Subject: <color_green><u_name></color>" ],
+      [ [ 15, 11 ], "Survived: <time_survived>" ],
+      [ [ 17, 13 ], "Kills: <total_kills>" ]
+    ],
+    "last_words_label": "Last Words:"
+  },
+  {
+    "type": "end_screen",
+    "id": "medical_death",
+    "priority": 150,
+    "picture_id": "ascii_thresh_medical_death",
+    "condition": { "and": [ { "not": "u_is_alive" }, { "or": [ { "u_has_trait": "THRESH_MEDICAL" } ] } ] },
+    "added_info": [
+      [ [ 1, 1 ], "Patient: <color_blue><u_name></color>" ],
+      [ [ 28, 4 ], "Survived: <time_survived>" ],
+      [ [ 5, 14 ], "Kills: <total_kills>" ]
+    ],
+    "last_words_label": "Last Words:"
+  },
+  {
+    "type": "end_screen",
+    "id": "lizard_death",
+    "priority": 150,
+    "picture_id": "ascii_thresh_lizard_death",
+    "condition": { "and": [ { "not": "u_is_alive" }, { "or": [ { "u_has_trait": "THRESH_LIZARD" } ] } ] },
+    "added_info": [
+      [ [ 1, 1 ], "In memory of: <color_green><u_name></color>" ],
+      [ [ 3, 2 ], "Survived: <time_survived>" ],
+      [ [ 5, 3 ], "Kills: <total_kills>" ]
+    ],
+    "last_words_label": "Last Words:"
+  },
+  {
+    "type": "end_screen",
+    "id": "bird_death",
+    "priority": 150,
+    "picture_id": "ascii_thresh_bird_death",
+    "condition": { "and": [ { "not": "u_is_alive" }, { "or": [ { "u_has_trait": "THRESH_BIRD" } ] } ] },
+    "added_info": [
+      [ [ 1, 1 ], "In memory of: <color_light_blue><u_name></color>" ],
+      [ [ 3, 2 ], "Survived: <time_survived>" ],
+      [ [ 5, 3 ], "Kills: <total_kills>" ]
+    ],
+    "last_words_label": "Last Words:"
+  }
+]

@@ -84,6 +84,18 @@
     "disease_excess": [ [ 10, 216 ] ]
   },
   {
+    "id": "vit_mme",
+    "type": "vitamin",
+    "vit_type": "drug",
+    "name": { "str": "Morphine Milligram Equivalent (percentile)" },
+    "//": "1 vit_mme is equivalent to 1% of an MME.  Need to adjust excess and rate at minimum.",
+    "excess": "opiate_eff",
+    "min": 0,
+    "max": 40000,
+    "rate": "100 s",
+    "disease_excess": [ [ 500, 1500 ], [ 1501, 5000 ], [ 5001, 18000 ], [ 18001, 30000 ], [ 30001, 39998 ], [ 39999, 40000 ] ]
+  },
+  {
     "id": "mutant_toxin",
     "type": "vitamin",
     "vit_type": "toxin",
@@ -172,7 +184,7 @@
     "id": "mutagen",
     "type": "vitamin",
     "vit_type": "counter",
-    "name": { "str": "Mutagen" },
+    "name": { "str": "Mutagenic Catalyst" },
     "excess": "mutagen",
     "min": 0,
     "max": 2500,
@@ -517,8 +529,123 @@
     "type": "vitamin",
     "vit_type": "counter",
     "name": { "str": "Consumed human flesh" },
+    "flags": [ "NO_SELL" ],
     "min": 0,
     "max": 10000,
     "rate": "1 h"
+  },
+  {
+    "id": "meat_allergen",
+    "//": "used so allergies and restrictions could be inherited in cooking process",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Meat" },
+    "min": 0,
+    "max": 1,
+    "rate": "1 h"
+  },
+  {
+    "id": "veggy_allergen",
+    "//": "used so allergies and restrictions could be inherited in cooking process",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Veggy" },
+    "min": 0,
+    "max": 1,
+    "rate": "1 h"
+  },
+  {
+    "id": "wheat_allergen",
+    "//": "used so allergies and restrictions could be inherited in cooking process",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Wheat" },
+    "min": 0,
+    "max": 1,
+    "rate": "1 h"
+  },
+  {
+    "id": "egg_allergen",
+    "//": "used so allergies and restrictions could be inherited in cooking process",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Egg" },
+    "min": 0,
+    "max": 1,
+    "rate": "1 h"
+  },
+  {
+    "id": "fruit_allergen",
+    "//": "used so allergies and restrictions could be inherited in cooking process",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Fruit" },
+    "min": 0,
+    "max": 1,
+    "rate": "1 h"
+  },
+  {
+    "id": "junk_allergen",
+    "//": "used so allergies and restrictions could be inherited in cooking process",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Junk" },
+    "min": 0,
+    "max": 1,
+    "rate": "1 h"
+  },
+  {
+    "id": "nut_allergen",
+    "//": "used so allergies and restrictions could be inherited in cooking process",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Nut" },
+    "min": 0,
+    "max": 1,
+    "rate": "1 h"
+  },
+  {
+    "id": "bread_allergen",
+    "//": "used so allergies and restrictions could be inherited in cooking process",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Bread" },
+    "min": 0,
+    "max": 1,
+    "rate": "1 h"
+  },
+  {
+    "id": "milk_allergen",
+    "//": "used so allergies and restrictions could be inherited in cooking process",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Milk" },
+    "min": 0,
+    "max": 1,
+    "rate": "1 h"
+  },
+  {
+    "id": "dermatik_larva_size",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Dermatik Larva Size" },
+    "excess": "dermatik_visible",
+    "min": 0,
+    "max": 1440,
+    "rate": "48 h",
+    "flags": [ "NO_DISPLAY" ],
+    "disease_excess": [ [ 60, 399 ], [ 400, 1079 ], [ 1080, 1440 ] ]
+  },
+  {
+    "id": "triffid_fiber",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Triffid Fiber" },
+    "excess": "triffid_fiber_indigestion",
+    "min": 0,
+    "max": 250,
+    "rate": "2 h",
+    "flags": [ "NO_DISPLAY" ],
+    "disease_excess": [ [ 15, 60 ], [ 61, 120 ], [ 121, 180 ], [ 181, 250 ] ]
   }
 ]

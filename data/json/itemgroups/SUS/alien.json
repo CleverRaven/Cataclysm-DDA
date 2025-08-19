@@ -9,16 +9,19 @@
       {
         "collection": [
           { "item": "chain", "prob": 30, "count": [ 2, 15 ] },
-          { "item": "steel_chunk", "prob": 40, "count": [ 2, 10 ] },
+          { "item": "mc_steel_chunk", "prob": 40, "count": [ 2, 10 ] },
           { "item": "spring", "prob": 20, "count": [ 2, 10 ] },
-          { "item": "steel_lump", "prob": 40, "count": [ 1, 5 ] },
+          { "item": "mc_steel_lump", "prob": 40, "count": [ 1, 5 ] },
           { "item": "frame", "prob": 10, "count": [ 1, 10 ] },
           { "item": "frame", "prob": 10, "count": [ 1, 5 ] },
           { "item": "scrap", "prob": 40, "count": [ 5, 40 ] },
           { "item": "pipe", "prob": 20, "count": [ 2, 8 ] },
           { "item": "spike", "prob": 50, "count": [ 3, 40 ] },
           { "item": "hinge", "prob": 20, "count": [ 1, 30 ] },
-          { "item": "wire", "prob": 40, "count": [ 5, 20 ] },
+          { "item": "lc_wire", "prob": 40, "count": [ 5, 20 ] },
+          { "item": "mc_wire", "prob": 10, "count": [ 5, 20 ] },
+          { "item": "hc_wire", "prob": 10, "count": [ 5, 20 ] },
+          { "item": "qt_wire", "prob": 5, "count": [ 5, 20 ] },
           { "item": "rebar", "prob": 30, "count": [ 2, 30 ] },
           { "item": "sheet_metal", "prob": 20, "count": [ 2, 30 ] },
           { "item": "sheet_metal_small", "prob": 40, "count": [ 5, 50 ] },
@@ -61,7 +64,11 @@
         "prob": 5
       },
       {
-        "collection": [ { "item": "exodiiminimag", "count": [ 2, 5 ] }, { "item": "exodiiBRmag", "count": [ 2, 3 ] } ],
+        "collection": [
+          { "item": "exodiiminimag", "count": [ 2, 5 ] },
+          { "item": "exodiiBRmag", "count": [ 2, 3 ] },
+          { "item": "exodiiBRmag_26", "count": [ 3, 5 ] }
+        ],
         "prob": 5
       },
       {
@@ -86,6 +93,8 @@
         "collection": [
           { "item": "exodiiminimag", "count": [ 2, 3 ] },
           { "item": "exodiiBRmag", "count": [ 1, 2 ] },
+          { "item": "exodiiBRmag_153", "count": [ 0, 1 ] },
+          { "item": "exodiiBRmag_26", "count": [ 2, 4 ] },
           { "item": "123ln", "count": [ 0, 100 ] }
         ],
         "prob": 5
@@ -94,7 +103,7 @@
         "distribution": [
           { "item": "exodii_ingot_aluminum", "prob": 30 },
           { "item": "exodii_ingot_plastic", "prob": 10 },
-          { "item": "exodii_ingot_steel", "prob": 50 },
+          { "item": "exodii_ingot_lc_steel", "prob": 50 },
           { "item": "exodii_ingot_copper", "prob": 50 },
           { "item": "exodii_ingot_lead", "prob": 30 },
           { "item": "exodii_ingot_tin", "prob": 10 },
@@ -111,19 +120,20 @@
     "entries": [
       {
         "collection": [
-          { "item": "flour", "prob": 50 },
-          { "item": "cornmeal", "prob": 75 },
-          { "item": "oatmeal", "prob": 90 },
-          { "item": "barley", "prob": 90 }
+          { "group": "flour_bag_paper", "prob": 50 },
+          { "item": "cornmeal", "count": [ 2, -1 ], "prob": 75 },
+          { "item": "oatmeal", "count": [ 2, -1 ], "prob": 90 },
+          { "item": "barley", "count": [ 2, -1 ], "container-item": "bag_canvas_small", "prob": 90 }
         ],
         "prob": 20
       },
       {
         "collection": [
-          { "item": "salt", "prob": 100 },
+          { "group": "salt_various", "prob": 100 },
+          { "group": "pepper_various", "prob": 95 },
           { "group": "sugar_jar_glass_sealed_10_140", "prob": 25 },
-          { "item": "chem_saltpetre", "prob": 10 },
-          { "item": "yeast", "prob": 30 }
+          { "item": "chem_saltpetre", "count": [ 2, -1 ], "prob": 10 },
+          { "group": "yeast_various", "prob": 30 }
         ],
         "prob": 50
       },
@@ -138,14 +148,18 @@
         "prob": 10
       },
       {
-        "collection": [ { "item": "dry_beans", "prob": 80 }, { "item": "dry_lentils", "prob": 80 }, { "item": "dry_rice", "prob": 50 } ],
+        "collection": [
+          { "item": "dry_beans", "count": [ 2, -1 ], "prob": 80 },
+          { "item": "dry_lentils", "count": [ 2, -1 ], "prob": 80 },
+          { "item": "dry_rice", "count": [ 2, -1 ], "prob": 50 }
+        ],
         "prob": 50
       },
       {
         "collection": [
-          { "item": "chem_agar", "prob": 20 },
-          { "item": "lye", "prob": 45 },
-          { "item": "lye_powder", "prob": 20, "charges": [ 100, 200 ] },
+          { "item": "chem_agar", "count": [ 2, -1 ], "prob": 20 },
+          { "item": "lye", "charges": [ 2, -1 ], "prob": 45 },
+          { "group": "lye_powder_bottle_part", "prob": 20 },
           { "item": "chem_sulphur", "prob": 30, "charges": [ 100, -1 ], "container-item": "bottle_plastic_small" },
           { "item": "chem_peptone_broth", "prob": 95 }
         ],
@@ -160,7 +174,7 @@
       [ "exodii_sensor", 20 ],
       [ "exodii_motor", 30 ],
       [ "spring", 50 ],
-      [ "steel_lump", 10 ],
+      [ "ch_steel_lump", 10 ],
       [ "pipe", 10 ],
       [ "frame", 20 ],
       [ "hdframe", 20 ],

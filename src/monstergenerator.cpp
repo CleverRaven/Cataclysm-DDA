@@ -2,41 +2,45 @@
 #include "monstergenerator.h" // IWYU pragma: associated
 
 #include <algorithm>
-#include <cstdlib>
-#include <limits>
-#include <new>
 #include <optional>
 #include <set>
 #include <string>
+#include <unordered_set>
 #include <utility>
 
 #include "assign.h"
-#include "bodypart.h"
 #include "cached_options.h"
 #include "calendar.h"
+#include "cata_utility.h"
 #include "catacharset.h"
+#include "condition.h"
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
-#include "enum_conversions.h"
+#include "enums.h"
 #include "field_type.h"
+#include "flexbuffer_json.h"
+#include "game_constants.h"
 #include "generic_factory.h"
 #include "item.h"
 #include "item_group.h"
-#include "json.h"
-#include "make_static.h"
+#include "magic.h"
 #include "mattack_actors.h"
 #include "monattack.h"
-#include "mondeath.h"
 #include "mondefense.h"
 #include "mongroup.h"
+#include "monster.h"
+#include "mtype.h"
 #include "options.h"
 #include "pathfinding.h"
 #include "rng.h"
-#include "translations.h"
+#include "shearing.h"
+#include "string_formatter.h"
 #include "type_id.h"
 #include "units.h"
 #include "weakpoint.h"
+
+struct itype;
 
 static const material_id material_flesh( "flesh" );
 
@@ -377,9 +381,16 @@ void MonsterGenerator::finalize_mtypes()
                 armor_diff += dt.second;
             }
         }
+        std::unordered_set<std::string> blacklisted_specials{"PARROT", "PARROT_AT_DANGER", "GRAZE", "EAT_CROP", "EAT_FOOD", "EAT_CARRION"};
+        int special_attacks_diff = 0;
+        for( const auto &special : mon.special_attacks ) {
+            if( !blacklisted_specials.count( special.first ) ) {
+                special_attacks_diff++;
+            }
+        }
         mon.difficulty = ( mon.melee_skill + 1 ) * mon.melee_dice * ( melee_dmg_total + mon.melee_sides ) *
                          0.04 + ( mon.sk_dodge + 1 ) * armor_diff * 0.04 +
-                         ( mon.difficulty_base + mon.special_attacks.size() + 8 * mon.emit_fields.size() );
+                         ( mon.difficulty_base + special_attacks_diff + 8 * mon.emit_fields.size() );
         mon.difficulty *= ( mon.hp + mon.speed - mon.attack_cost + ( mon.morale + mon.agro ) * 0.1 ) * 0.01
                           + ( mon.vision_day + 2 * mon.vision_night ) * 0.01;
 
@@ -407,6 +418,8 @@ void MonsterGenerator::finalize_mtypes()
 
         build_behavior_tree( mon );
         finalize_pathfinding_settings( mon );
+
+        mon.mdeath_effect.has_effect = mon.mdeath_effect.sp.is_valid();
 
         mon.weakpoints.clear();
         for( const weakpoints_id &wpset : mon.weakpoints_deferred ) {
@@ -559,7 +572,10 @@ void MonsterGenerator::finalize_pathfinding_settings( mtype &mon )
         mon.path_settings.bash_strength = mon.bash_skill;
     }
 
-    if( mon.has_flag( mon_flag_CLIMBS ) ) {
+    if( mon.move_skills.climb.has_value() ) {
+        mon.path_settings.climb_cost = move_skills_data::max_movemod_penalty -
+                                       ( mon.move_skills.climb.value() * ( move_skills_data::max_movemod_penalty / 10 ) );
+    } else if( mon.has_flag( mon_flag_CLIMBS ) ) {
         mon.path_settings.climb_cost = 3;
     }
 }
@@ -591,18 +607,13 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "SHRIEK_ALERT", mattack::shriek_alert );
     add_hardcoded_attack( "SHRIEK_STUN", mattack::shriek_stun );
     add_hardcoded_attack( "RATTLE", mattack::rattle );
-    add_hardcoded_attack( "HOWL", mattack::howl );
     add_hardcoded_attack( "ACID", mattack::acid );
     add_hardcoded_attack( "ACID_BARF", mattack::acid_barf );
-    add_hardcoded_attack( "ACID_ACCURATE", mattack::acid_accurate );
     add_hardcoded_attack( "SHOCKSTORM", mattack::shockstorm );
     add_hardcoded_attack( "SHOCKING_REVEAL", mattack::shocking_reveal );
     add_hardcoded_attack( "PULL_METAL_WEAPON", mattack::pull_metal_weapon );
-    add_hardcoded_attack( "BOOMER", mattack::boomer );
-    add_hardcoded_attack( "BOOMER_GLOW", mattack::boomer_glow );
     add_hardcoded_attack( "RESURRECT", mattack::resurrect );
     add_hardcoded_attack( "SMASH", mattack::smash );
-    add_hardcoded_attack( "SCIENCE", mattack::science );
     add_hardcoded_attack( "GROWPLANTS", mattack::growplants );
     add_hardcoded_attack( "GROW_VINE", mattack::grow_vine );
     add_hardcoded_attack( "VINE", mattack::vine );
@@ -617,8 +628,6 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "FUNGUS_GROWTH", mattack::fungus_growth );
     add_hardcoded_attack( "FUNGUS_SPROUT", mattack::fungus_sprout );
     add_hardcoded_attack( "FUNGUS_FORTIFY", mattack::fungus_fortify );
-    add_hardcoded_attack( "DERMATIK", mattack::dermatik );
-    add_hardcoded_attack( "DERMATIK_GROWTH", mattack::dermatik_growth );
     add_hardcoded_attack( "FUNGAL_TRAIL", mattack::fungal_trail );
     add_hardcoded_attack( "PLANT", mattack::plant );
     add_hardcoded_attack( "DISAPPEAR", mattack::disappear );
@@ -634,10 +643,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "TAZER", mattack::tazer );
     add_hardcoded_attack( "SEARCHLIGHT", mattack::searchlight );
     add_hardcoded_attack( "SPEAKER", mattack::speaker );
-    add_hardcoded_attack( "FLAMETHROWER", mattack::flamethrower );
     add_hardcoded_attack( "COPBOT", mattack::copbot );
-    add_hardcoded_attack( "CHICKENBOT", mattack::chickenbot );
-    add_hardcoded_attack( "MULTI_ROBOT", mattack::multi_robot );
     add_hardcoded_attack( "RATKING", mattack::ratking );
     add_hardcoded_attack( "GENERATOR", mattack::generator );
     add_hardcoded_attack( "UPGRADE", mattack::upgrade );
@@ -665,9 +671,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "GRENADIER", mattack::grenadier );
     add_hardcoded_attack( "GRENADIER_ELITE", mattack::grenadier_elite );
     add_hardcoded_attack( "RIOTBOT", mattack::riotbot );
-    add_hardcoded_attack( "STRETCH_ATTACK", mattack::stretch_attack );
     add_hardcoded_attack( "DOOT", mattack::doot );
-    add_hardcoded_attack( "DSA_DRONE_SCAN", mattack::dsa_drone_scan );
     add_hardcoded_attack( "ZOMBIE_FUSE", mattack::zombie_fuse );
 }
 
@@ -702,7 +706,7 @@ mon_effect_data::mon_effect_data() :
     chance( 100.0f ),
     permanent( false ),
     affect_hit_bp( false ),
-    bp( body_part_bp_null ),
+    bp( bodypart_str_id::NULL_ID() ),
     duration( 1, 1 ),
     intensity( 0, 0 ) {}
 
@@ -712,7 +716,7 @@ void mon_effect_data::load( const JsonObject &jo )
     optional( jo, false, "chance", chance, 100.f );
     optional( jo, false, "permanent", permanent, false );
     optional( jo, false, "affect_hit_bp", affect_hit_bp, false );
-    optional( jo, false, "bp", bp, body_part_bp_null );
+    optional( jo, false, "bp", bp, bodypart_str_id::NULL_ID() );
     optional( jo, false, "message", message );
     // Support shorthand for a single value.
     if( jo.has_int( "duration" ) ) {
@@ -806,6 +810,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "melee_skill", melee_skill, strict, 0 );
     assign( jo, "melee_dice", melee_dice, strict, 0 );
     assign( jo, "melee_dice_sides", melee_sides, strict, 0 );
+    optional( jo, was_loaded, "melee_dice_ap", melee_dice_ap, 0 );
 
     assign( jo, "grab_strength", grab_strength, strict, 0 );
 
@@ -956,6 +961,44 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "petfood", petfood );
 
+    if( !was_loaded || jo.has_object( "move_skills" ) ) {
+        optional( jo, was_loaded, "move_skills", move_skills );
+    } else {
+        if( jo.has_object( "extend" ) ) {
+            JsonObject tmp = jo.get_object( "extend" );
+            tmp.allow_omitted_members();
+            if( tmp.has_object( "move_skills" ) ) {
+                JsonObject skills = tmp.get_object( "move_skills" );
+                if( skills.has_member( "swim" ) ) {
+                    move_skills.swim = std::optional<int>( skills.get_int( "swim" ) );
+                }
+                if( skills.has_member( "dig" ) ) {
+                    move_skills.dig = std::optional<int>( skills.get_int( "dig" ) );
+                }
+                if( skills.has_member( "climb" ) ) {
+                    move_skills.climb = std::optional<int>( skills.get_int( "climb" ) );
+                }
+            }
+        }
+        if( jo.has_object( "delete" ) ) {
+            JsonObject tmp = jo.get_object( "delete" );
+            tmp.allow_omitted_members();
+            if( tmp.has_object( "move_skills" ) ) {
+                JsonObject skills = tmp.get_object( "move_skills" );
+                if( skills.get_member_opt( "swim" ) ) {
+                    move_skills.swim = std::optional<int>( std::nullopt );
+                }
+                if( skills.get_member_opt( "dig" ) ) {
+                    move_skills.dig = std::nullopt;
+                }
+                if( skills.get_member_opt( "climb" ) ) {
+                    move_skills.climb = std::nullopt;
+                }
+            }
+        }
+    }
+
+
     assign( jo, "vision_day", vision_day, strict, 0 );
     assign( jo, "vision_night", vision_night, strict, 0 );
 
@@ -984,6 +1027,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "starting_ammo", starting_ammo );
     assign( jo, "luminance", luminance, true );
     optional( jo, was_loaded, "revert_to_itype", revert_to_itype, itype_id() );
+    optional( jo, was_loaded, "broken_itype", broken_itype, itype_id() );
     optional( jo, was_loaded, "mech_weapon", mech_weapon, itype_id() );
     optional( jo, was_loaded, "mech_str_bonus", mech_str_bonus, 0 );
     optional( jo, was_loaded, "mech_battery", mech_battery, itype_id() );
@@ -994,6 +1038,19 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         optional( jo_mount_items, was_loaded, "tack", mount_items.tack, itype_id() );
         optional( jo_mount_items, was_loaded, "armor", mount_items.armor, itype_id() );
         optional( jo_mount_items, was_loaded, "storage", mount_items.storage, itype_id() );
+    }
+
+    if( jo.has_array( "revive_forms" ) ) {
+        revive_type foo;
+        for( JsonObject jo_form : jo.get_array( "revive_forms" ) ) {
+            read_condition( jo_form, "condition", foo.condition, true );
+            if( jo_form.has_string( "monster" ) ) {
+                mandatory( jo_form, was_loaded, "monster", foo.revive_mon );
+            } else {
+                mandatory( jo_form, was_loaded, "monster_group", foo.revive_monster_group );
+            }
+            revive_types.push_back( foo );
+        }
     }
 
     optional( jo, was_loaded, "zombify_into", zombify_into, string_id_reader<::mtype> {},
@@ -1013,51 +1070,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         }
     }
 
-    // TODO: make this work with `was_loaded`
-    if( jo.has_array( "melee_damage" ) ) {
-        melee_damage = load_damage_instance( jo.get_array( "melee_damage" ) );
-    } else if( jo.has_object( "melee_damage" ) ) {
-        melee_damage = load_damage_instance( jo.get_object( "melee_damage" ) );
-    } else if( jo.has_object( "relative" ) ) {
-        std::optional<damage_instance> tmp_dmg;
-        JsonObject rel = jo.get_object( "relative" );
-        rel.allow_omitted_members();
-        if( rel.has_array( "melee_damage" ) ) {
-            tmp_dmg = load_damage_instance( rel.get_array( "melee_damage" ) );
-        } else if( rel.has_object( "melee_damage" ) ) {
-            tmp_dmg = load_damage_instance( rel.get_object( "melee_damage" ) );
-        } else if( rel.has_int( "melee_damage" ) ) {
-            const int rel_amt = rel.get_int( "melee_damage" );
-            for( damage_unit &du : melee_damage ) {
-                du.amount += rel_amt;
-            }
-        }
-        if( !!tmp_dmg ) {
-            melee_damage.add( tmp_dmg.value() );
-        }
-    } else if( jo.has_object( "proportional" ) ) {
-        std::optional<damage_instance> tmp_dmg;
-        JsonObject prop = jo.get_object( "proportional" );
-        prop.allow_omitted_members();
-        if( prop.has_array( "melee_damage" ) ) {
-            tmp_dmg = load_damage_instance( prop.get_array( "melee_damage" ) );
-        } else if( prop.has_object( "melee_damage" ) ) {
-            tmp_dmg = load_damage_instance( prop.get_object( "melee_damage" ) );
-        } else if( prop.has_float( "melee_damage" ) ) {
-            melee_damage.mult_damage( prop.get_float( "melee_damage" ), true );
-        }
-        if( !!tmp_dmg ) {
-            for( const damage_unit &du : tmp_dmg.value() ) {
-                auto iter = std::find_if( melee_damage.begin(),
-                melee_damage.end(), [&du]( const damage_unit & mdu ) {
-                    return mdu.type == du.type;
-                } );
-                if( iter != melee_damage.end() ) {
-                    iter->amount *= du.amount;
-                }
-            }
-        }
-    }
+    optional( jo, was_loaded, "melee_damage", melee_damage );
 
     if( jo.has_array( "scents_tracked" ) ) {
         for( const std::string line : jo.get_array( "scents_tracked" ) ) {
@@ -1189,11 +1202,36 @@ void mtype::load( const JsonObject &jo, const std::string &src )
             baby_timer = read_from_json_string<time_duration>( repro.get_member( "baby_timer" ),
                          time_duration::units );
         }
-        optional( repro, was_loaded, "baby_monster", baby_monster, string_id_reader<::mtype> {},
-                  mtype_id::NULL_ID() );
-        optional( repro, was_loaded, "baby_egg", baby_egg, string_id_reader<::itype> {},
-                  itype_id::NULL_ID() );
-        reproduces = true;
+
+        if( repro.has_object( "baby_type" ) ) {
+            JsonObject jo_type = repro.get_object( "baby_type" );
+            if( jo_type.has_member( "baby_monster" ) ) {
+                mandatory( jo_type, was_loaded, "baby_monster", baby_type.baby_monster );
+                baby_type.baby_monster_group = mongroup_id::NULL_ID();
+                baby_type.baby_egg = itype_id::NULL_ID();
+                baby_type.baby_egg_group = item_group_id::NULL_ID();
+            } else if( jo_type.has_member( "baby_monster_group" ) ) {
+                mandatory( jo_type, was_loaded, "baby_monster_group", baby_type.baby_monster_group );
+                baby_type.baby_monster = mtype_id::NULL_ID();
+                baby_type.baby_egg = itype_id::NULL_ID();
+                baby_type.baby_egg_group = item_group_id::NULL_ID();
+            } else if( jo_type.has_member( "baby_egg" ) ) {
+                mandatory( jo_type, was_loaded, "baby_egg", baby_type.baby_egg );
+                baby_type.baby_monster = mtype_id::NULL_ID();
+                baby_type.baby_monster_group = mongroup_id::NULL_ID();
+                baby_type.baby_egg_group = item_group_id::NULL_ID();
+            } else if( jo_type.has_member( "baby_egg_group" ) ) {
+                mandatory( jo_type, was_loaded, "baby_egg_group", baby_type.baby_egg_group );
+                baby_type.baby_monster = mtype_id::NULL_ID();
+                baby_type.baby_monster_group = mongroup_id::NULL_ID();
+                baby_type.baby_egg = itype_id::NULL_ID();
+            }
+            if( jo_type.has_member( "baby_monster" ) + jo_type.has_member( "baby_monster_group" ) +
+                jo_type.has_member( "baby_egg" ) + jo_type.has_member( "baby_egg_group" ) > 1 ) {
+                debugmsg( "Reproduction has more than one baby_type defined, which is prohibited" );
+            }
+            reproduces = true;
+        }
     }
 
     if( jo.has_member( "baby_flags" ) ) {
@@ -1292,7 +1330,7 @@ void MonsterGenerator::load_species( const JsonObject &jo, const std::string &sr
     mon_species->load( jo, src );
 }
 
-void species_type::load( const JsonObject &jo, const std::string_view )
+void species_type::load( const JsonObject &jo, std::string_view )
 {
     optional( jo, was_loaded, "description", description );
     optional( jo, was_loaded, "footsteps", footsteps, to_translation( "footsteps." ) );
@@ -1475,7 +1513,7 @@ void mattack_actor::load( const JsonObject &jo, const std::string &src )
         assign( jo, "id", id, false );
     }
 
-    cooldown = get_dbl_or_var( jo, "cooldown", false, 0.0 );
+    mandatory( jo, was_loaded, "cooldown", cooldown, dbl_or_var_reader{} );
 
     load_internal( jo, src );
     // Set was_loaded manually because we don't have generic_factory to do it for us
@@ -1498,17 +1536,15 @@ void mtype::add_special_attack( const JsonObject &obj, const std::string &src )
         if( iter != special_attacks_names.end() ) {
             special_attacks_names.erase( iter );
         }
-        if( test_mode ) {
-            debugmsg( "%s specifies more than one attack of (sub)type %s, ignoring all but the last",
-                      id.c_str(), new_attack->id.c_str() );
-        }
+        debugmsg( "%s specifies more than one attack of (sub)type %s, ignoring all but the last.  Add different `id`s to each attack of this type to prevent this.",
+                  id.c_str(), new_attack->id.c_str() );
     }
 
     special_attacks.emplace( new_attack->id, new_attack );
     special_attacks_names.push_back( new_attack->id );
 }
 
-void mtype::add_special_attack( const JsonArray &inner, const std::string_view )
+void mtype::add_special_attack( const JsonArray &inner, std::string_view )
 {
     MonsterGenerator &gen = MonsterGenerator::generator();
     const std::string name = inner.get_string( 0 );
@@ -1530,18 +1566,16 @@ void mtype::add_special_attack( const JsonArray &inner, const std::string_view )
     }
     mtype_special_attack new_attack = mtype_special_attack( iter->second );
     if( inner.has_array( 1 ) ) {
-        new_attack.actor->cooldown.min = get_dbl_or_var_part( inner.get_array( 1 )[0],
-                                         "special attack cooldown", 0.0 );
-        new_attack.actor->cooldown.max = get_dbl_or_var_part( inner.get_array( 1 )[1],
-                                         "special attack cooldown", 0.0 );
+        new_attack.actor->cooldown.min = get_dbl_or_var_part( inner.get_array( 1 )[0] );
+        new_attack.actor->cooldown.max = get_dbl_or_var_part( inner.get_array( 1 )[1] );
     } else {
-        new_attack.actor->cooldown.min = get_dbl_or_var_part( inner[1], "special attack cooldown", 0.0 );
+        new_attack.actor->cooldown.min = get_dbl_or_var_part( inner[1] );
     }
     special_attacks.emplace( name, new_attack );
     special_attacks_names.push_back( name );
 }
 
-void mtype::add_special_attacks( const JsonObject &jo, const std::string_view member,
+void mtype::add_special_attacks( const JsonObject &jo, std::string_view member,
                                  const std::string &src )
 {
 
@@ -1560,8 +1594,8 @@ void mtype::add_special_attacks( const JsonObject &jo, const std::string_view me
     }
 }
 
-void mtype::remove_special_attacks( const JsonObject &jo, const std::string_view member_name,
-                                    const std::string_view )
+void mtype::remove_special_attacks( const JsonObject &jo, std::string_view member_name,
+                                    std::string_view )
 {
     for( const std::string &name : jo.get_tags( member_name ) ) {
         special_attacks.erase( name );
@@ -1572,7 +1606,7 @@ void mtype::remove_special_attacks( const JsonObject &jo, const std::string_view
     }
 }
 
-void mtype::add_regeneration_modifier( const JsonArray &inner, const std::string_view )
+void mtype::add_regeneration_modifier( const JsonArray &inner, std::string_view )
 {
     const std::string effect_name = inner.get_string( 0 );
     const efftype_id effect( effect_name );
@@ -1590,8 +1624,8 @@ void mtype::add_regeneration_modifier( const JsonArray &inner, const std::string
     regeneration_modifiers.emplace( effect, amount );
 }
 
-void mtype::add_regeneration_modifiers( const JsonObject &jo, const std::string_view member,
-                                        const std::string_view src )
+void mtype::add_regeneration_modifiers( const JsonObject &jo, std::string_view member,
+                                        std::string_view src )
 {
     if( !jo.has_array( member ) ) {
         return;
@@ -1609,8 +1643,8 @@ void mtype::add_regeneration_modifiers( const JsonObject &jo, const std::string_
     }
 }
 
-void mtype::remove_regeneration_modifiers( const JsonObject &jo, const std::string_view member_name,
-        const std::string_view )
+void mtype::remove_regeneration_modifiers( const JsonObject &jo, std::string_view member_name,
+        std::string_view )
 {
     for( const std::string &name : jo.get_tags( member_name ) ) {
         const efftype_id effect( name );
@@ -1660,6 +1694,10 @@ void MonsterGenerator::check_monster_definitions() const
         if( !mon.revert_to_itype.is_empty() && !item::type_is_defined( mon.revert_to_itype ) ) {
             debugmsg( "monster %s has unknown revert_to_itype: %s", mon.id.c_str(),
                       mon.revert_to_itype.c_str() );
+        }
+        if( !mon.broken_itype.is_empty() && !item::type_is_defined( mon.broken_itype ) ) {
+            debugmsg( "monster %s has unknown broken_itype: %s", mon.id.c_str(),
+                      mon.broken_itype.c_str() );
         }
         if( !mon.zombify_into.is_empty() && !mon.zombify_into.is_valid() ) {
             debugmsg( "monster %s has unknown zombify_into: %s", mon.id.c_str(),
@@ -1757,6 +1795,7 @@ void MonsterGenerator::check_monster_definitions() const
         }
 
         if( mon.reproduces ) {
+
             if( !mon.baby_timer || *mon.baby_timer <= 0_seconds ) {
                 debugmsg( "Time between reproductions (%d) is invalid for %s",
                           mon.baby_timer ? to_turns<int>( *mon.baby_timer ) : -1, mon.id.c_str() );
@@ -1765,19 +1804,30 @@ void MonsterGenerator::check_monster_definitions() const
                 debugmsg( "Number of children (%d) is invalid for %s",
                           mon.baby_count, mon.id.c_str() );
             }
-            if( !mon.baby_monster && mon.baby_egg.is_null() ) {
-                debugmsg( "No baby or egg defined for monster %s", mon.id.c_str() );
+
+            bool baby_monster = mon.baby_type.baby_monster != mtype_id::NULL_ID(); // if null then false
+            bool baby_monster_group = mon.baby_type.baby_monster_group != mongroup_id::NULL_ID();
+            bool baby_egg = mon.baby_type.baby_egg != itype_id::NULL_ID();
+            bool baby_egg_group = mon.baby_type.baby_egg_group != item_group_id::NULL_ID();
+            if( !baby_monster && !baby_monster_group && !baby_egg && !baby_egg_group ) {
+                debugmsg( "No baby_monster, baby_monster_group, baby_egg or baby_egg_group defined for monster %s",
+                          mon.id.c_str() );
             }
-            if( mon.baby_monster && !mon.baby_egg.is_null() ) {
-                debugmsg( "Both an egg and a live birth baby are defined for %s", mon.id.c_str() );
-            }
-            if( !mon.baby_monster.is_valid() ) {
+            if( !mon.baby_type.baby_monster.is_valid() ) {
                 debugmsg( "baby_monster %s of monster %s is not a valid monster id",
-                          mon.baby_monster.c_str(), mon.id.c_str() );
+                          mon.baby_type.baby_monster.c_str(), mon.id.c_str() );
             }
-            if( !item::type_is_defined( mon.baby_egg ) ) {
+            if( !mon.baby_type.baby_monster_group.is_valid() ) {
+                debugmsg( "baby_monster_group %s of monster %s is not a valid monster group id",
+                          mon.baby_type.baby_monster.c_str(), mon.id.c_str() );
+            }
+            if( !item::type_is_defined( mon.baby_type.baby_egg ) ) {
                 debugmsg( "item_id %s of monster %s is not a valid item id",
-                          mon.baby_egg.c_str(), mon.id.c_str() );
+                          mon.baby_type.baby_egg.c_str(), mon.id.c_str() );
+            }
+            if( !item_group::group_is_defined( mon.baby_type.baby_egg_group ) && baby_egg_group ) {
+                debugmsg( "item_group_id %s of monster %s is not a valid itemgroup id",
+                          mon.baby_type.baby_egg_group.c_str(), mon.id.c_str() );
             }
         }
 
@@ -1822,7 +1872,6 @@ void monster_death_effect::load( const JsonObject &jo )
 {
     optional( jo, was_loaded, "message", death_message, to_translation( "The %s dies!" ) );
     optional( jo, was_loaded, "effect", sp );
-    has_effect = sp.is_valid();
     optional( jo, was_loaded, "corpse_type", corpse_type, mdeath_type::NORMAL );
     optional( jo, was_loaded, "eoc", eoc );
 }
@@ -1840,6 +1889,31 @@ void pet_food_data::load( const JsonObject &jo )
 }
 
 void pet_food_data::deserialize( const JsonObject &data )
+{
+    load( data );
+}
+
+void move_skills_data::load( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "climb", climb );
+    optional( jo, was_loaded, "dig", dig );
+    optional( jo, was_loaded, "swim", swim );
+
+    if( climb && ( climb.value() < 0 || climb.value() > 10 ) ) {
+        debugmsg( "climb value out of range.  It has to be between 0 and 10" );
+        climb = std::max( std::min( climb.value(), 10 ), 0 );
+    }
+    if( dig && ( dig.value() < 0 || dig.value() > 10 ) ) {
+        debugmsg( "dig value out of range.  It has to be between 0 and 10" );
+        dig = std::max( std::min( dig.value(), 10 ), 0 );
+    }
+    if( dig && ( dig.value() < 0 || dig.value() > 10 ) ) {
+        debugmsg( "dig value out of range.  It has to be between 0 and 10" );
+        dig = std::max( std::min( dig.value(), 10 ), 0 );
+    }
+}
+
+void move_skills_data::deserialize( const JsonObject &data )
 {
     load( data );
 }

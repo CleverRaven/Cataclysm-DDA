@@ -148,7 +148,7 @@
         [ "reinforced_solar_panel_v2", 2 ]
       ],
       [ [ "storage_battery", 1 ], [ "medium_storage_battery", 5 ], [ "small_storage_battery", 50 ] ],
-      [ [ "sheet_metal", 2 ], [ "wire", 8 ] ],
+      [ [ "sheet_metal", 2 ], [ "lc_wire", 8 ] ],
       [ [ "pipe", 24 ] ]
     ],
     "pre_flags": [ "FLAT" ],

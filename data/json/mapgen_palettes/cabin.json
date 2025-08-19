@@ -76,9 +76,9 @@
       "&": "f_trashcan"
     },
     "items": {
-      " ": { "item": "trash", "chance": 2 },
-      ".": { "item": "trash_forest", "chance": 1 },
-      "C": { "item": "trash", "chance": 20 },
+      " ": { "item": "SUS_trash_floor", "chance": 2 },
+      ".": { "item": "SUS_trash_forest_no_manmade", "chance": 1 },
+      "C": { "item": "SUS_trash_floor", "chance": 20 },
       "1": { "item": "SUS_junk_drawer_messy", "chance": 20 },
       "2": { "item": "SUS_junk_drawer_messy", "chance": 20 },
       "3": { "item": "SUS_junk_drawer_messy", "chance": 20 },
@@ -122,7 +122,7 @@
         { "item": "manuals", "chance": 30 }
       ],
       "B": { "item": "bed", "chance": 60, "repeat": [ 1, 3 ] },
-      "d": [ { "item": "livingroom", "chance": 40 }, { "item": "office", "chance": 40 } ],
+      "d": [ { "item": "livingroom", "chance": 40 }, { "item": "SUS_office_desk", "chance": 40 } ],
       "D": [
         { "item": "SUS_dresser_mens", "chance": 50, "repeat": [ 1, 4 ] },
         { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 4 ] }
@@ -135,11 +135,10 @@
       ],
       "O": { "item": "livingroom", "chance": 20 },
       "S": { "item": "stash_wood", "chance": 60, "repeat": [ 2, 4 ] },
-      "&": { "item": "trash", "chance": 20 },
+      "&": { "item": "SUS_trash_trashcan", "chance": 20 },
       "R": [
         { "item": "camping", "chance": 50 },
         { "item": "gear_survival", "chance": 30 },
-        { "item": "cannedfood", "chance": 50, "repeat": [ 2, 4 ] },
         { "item": "stash_food", "chance": 50 }
       ],
       "s": [
@@ -147,7 +146,7 @@
         { "item": "SUS_hair_drawer", "chance": 30 },
         { "item": "SUS_bathroom_cabinet", "chance": 30 },
         { "item": "SUS_bathroom_medicine", "chance": 20 },
-        { "item": "harddrugs", "chance": 2 }
+        { "item": "harddrugs_residential", "chance": 2 }
       ],
       "t": { "item": "dining", "chance": 30, "repeat": [ 1, 2 ] },
       "U": { "item": "camping", "chance": 30, "repeat": [ 1, 4 ] },
@@ -158,8 +157,34 @@
       "2": { "item": "SUS_cookware", "chance": 100 },
       "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
       "4": [ { "item": "SUS_junk_drawer", "chance": 50 }, { "item": "SUS_spice_collection", "chance": 50 } ],
-      "5": { "item": "SUS_kitchen_sink", "chance": 100 }
+      "5": { "item": "SUS_kitchen_sink", "chance": 100 },
+      "T": { "item": "SUS_toilet", "chance": 50 }
     },
     "toilets": { "T": {  } }
+  },
+  {
+    "type": "palette",
+    "id": "cabin_cellar",
+    "parameters": {
+      "floor_types": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [ [ "t_dirtfloor", 500 ], [ "t_floor", 100 ], [ "t_concrete", 100 ], [ "t_water_sh_underground", 1 ] ]
+        }
+      },
+      "wall_types": { "type": "ter_str_id", "default": { "distribution": [ [ "t_wall_wood", 10 ], [ "t_sconc_wall", 1 ] ] } }
+    },
+    "terrain": {
+      ">": "t_wood_stairs_down",
+      "<": "t_wood_stairs_up",
+      "#": "t_soil",
+      "-": { "param": "wall_types", "fallback": "t_wall_wood" },
+      ".": { "param": "floor_types", "fallback": "t_dirtfloor" },
+      "N": { "param": "floor_types", "fallback": "t_dirtfloor" },
+      "R": { "param": "floor_types", "fallback": "t_dirtfloor" },
+      "c": { "param": "floor_types", "fallback": "t_dirtfloor" },
+      "t": { "param": "floor_types", "fallback": "t_dirtfloor" }
+    },
+    "furniture": { "R": "f_rack_wood", "t": "f_table", "c": "f_chair" }
   }
 ]

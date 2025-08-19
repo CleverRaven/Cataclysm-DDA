@@ -26,7 +26,8 @@
     "city_distance": [ 40, 90 ],
     "city_sizes": [ 0, 16 ],
     "occurrences": [ 2, 100 ],
-    "flags": [ "EXODII", "CBM", "GLOBALLY_UNIQUE" ]
+    "priority": 1,
+    "flags": [ "EXODII", "CBM", "GLOBALLY_UNIQUE", "SAFE_AT_WORLDGEN" ]
   },
   {
     "type": "overmap_special",
@@ -118,6 +119,6 @@
     "city_sizes": [ 1, 12 ],
     "occurrences": [ 1, 12 ],
     "priority": 1,
-    "flags": [ "GLOBALLY_UNIQUE", "EXODII" ]
+    "flags": [ "GLOBALLY_UNIQUE", "EXODII", "SAFE_AT_WORLDGEN" ]
   }
 ]

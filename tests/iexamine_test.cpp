@@ -1,17 +1,16 @@
-#include "cata_catch.h"
-#include "map.h"
-
-#include "action.h"
 #include "calendar.h"
-#include "game.h"
+#include "cata_catch.h"
+#include "coordinates.h"
 #include "iexamine.h"
-#include "mapdata.h"
+#include "map.h"
 #include "map_helpers.h"
+#include "mapdata.h"
 #include "point.h"
+#include "type_id.h"
 
 TEST_CASE( "mapdata_examine" )
 {
-    map_data_common_t data;
+    ter_t data;
     data.set_examine( iexamine_functions{iexamine::always_true, iexamine::water_source} );
 
     CHECK( data.has_examine( iexamine::water_source ) );
@@ -24,8 +23,8 @@ TEST_CASE( "examine_bush" )
 {
     clear_map();
     map &m = get_map();
-    const tripoint &pine_loc = tripoint_zero;
-    const tripoint &elderberry_loc = tripoint_east;
+    const tripoint_bub_ms &pine_loc = tripoint_bub_ms::zero;
+    const tripoint_bub_ms &elderberry_loc = pine_loc + tripoint::east;
 
     m.ter_set( pine_loc, ter_id( "t_tree_pine" ) );
     m.ter_set( elderberry_loc, ter_id( "t_tree_elderberry" ) );

@@ -1,7 +1,8 @@
 [
   {
     "id": "sweet_goop",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str_sp": "sweet goop" },
     "looks_like": "birdfood",
@@ -10,11 +11,10 @@
     "volume": "250 ml",
     "price": "20 cent",
     "price_postapoc": "25 cent",
-    "to_hit": -5,
     "material": [ "junk" ],
     "symbol": ";",
     "calories": 400,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 7 ] ],
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 7 ], [ "junk_allergen", 1 ] ],
     "fun": 5,
     "freezing_point": -274,
     "color": "brown",

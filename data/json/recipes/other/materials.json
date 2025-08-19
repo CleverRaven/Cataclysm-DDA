@@ -47,6 +47,7 @@
     "book_learn": [ [ "concrete_book", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "batch_time_factors": [ 75, 3 ],
+    "charges": 150,
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
     "components": [ [ [ "material_quicklime", 50 ] ], [ [ "material_sand", 50 ], [ "material_gravel", 50 ] ] ]
   },
@@ -58,10 +59,11 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "survival",
     "difficulty": 1,
-    "time": "10m",
+    "time": "1m",
     "autolearn": true,
+    "charges": 8,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 } ],
-    "components": [ [ [ "pebble", 10 ] ] ]
+    "components": [ [ [ "pebble", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -88,7 +90,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "chunk_rubber", 16 ] ], [ [ "rubber_cement", 1 ] ] ]
+    "components": [ [ [ "chunk_rubber", 16 ] ], [ [ "glue_weak", 250 ] ] ]
   },
   {
     "type": "recipe",
@@ -115,7 +117,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "40 m",
-    "autolearn": false,
+    "autolearn": true,
     "using": [ [ "forging_standard", 10 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
@@ -130,7 +132,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "30 m",
-    "autolearn": false,
+    "autolearn": true,
     "using": [ [ "forging_standard", 5 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
@@ -145,7 +147,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "20 m",
-    "autolearn": false,
+    "autolearn": true,
     "using": [ [ "forging_standard", 5 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
@@ -160,7 +162,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "40 m",
-    "autolearn": false,
+    "autolearn": true,
     "using": [ [ "forging_standard", 10 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
@@ -175,7 +177,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "30 m",
-    "autolearn": false,
+    "autolearn": true,
     "using": [ [ "forging_standard", 5 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
@@ -190,7 +192,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "20 m",
-    "autolearn": false,
+    "autolearn": true,
     "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
@@ -205,7 +207,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "40 m",
-    "autolearn": false,
+    "autolearn": true,
     "using": [ [ "forging_standard", 10 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
@@ -220,7 +222,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "30 m",
-    "autolearn": false,
+    "autolearn": true,
     "using": [ [ "forging_standard", 5 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
@@ -235,7 +237,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "20 m",
-    "autolearn": false,
+    "autolearn": true,
     "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
@@ -250,7 +252,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "40 m",
-    "autolearn": false,
+    "autolearn": true,
     "using": [ [ "forging_standard", 10 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
@@ -265,7 +267,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "30 m",
-    "autolearn": false,
+    "autolearn": true,
     "using": [ [ "forging_standard", 5 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
@@ -280,7 +282,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "20 m",
-    "autolearn": false,
+    "autolearn": true,
     "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
@@ -295,7 +297,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "40 m",
-    "autolearn": false,
+    "autolearn": true,
     "using": [ [ "forging_standard", 10 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "components": [ [ [ "5l_bronze", 2 ], [ "1l_bronze", 10 ], [ "scrap_bronze", 260 ] ] ],
@@ -310,7 +312,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "30 m",
-    "autolearn": false,
+    "autolearn": true,
     "using": [ [ "forging_standard", 5 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "components": [ [ [ "1l_bronze", 5 ], [ "scrap_bronze", 130 ] ] ],
@@ -325,7 +327,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "20 m",
-    "autolearn": false,
+    "autolearn": true,
     "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "//": "There is a slight loss here, but rounding up would mean you could create more magically.",
@@ -351,7 +353,11 @@
       [ "textbook_armschina", 4 ]
     ],
     "using": [ [ "forging_standard", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_redsmithing_adv" }
+    ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [
@@ -373,7 +379,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "40 m",
-    "autolearn": false,
+    "autolearn": true,
     "using": [ [ "forging_standard", 10 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
@@ -388,7 +394,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "30 m",
-    "autolearn": false,
+    "autolearn": true,
     "using": [ [ "forging_standard", 5 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
@@ -403,7 +409,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "20 m",
-    "autolearn": false,
+    "autolearn": true,
     "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
@@ -418,10 +424,25 @@
     "skill_used": "fabrication",
     "time": "2 h",
     "reversible": true,
-    "autolearn": false,
+    "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "copper", 50 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "copper",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "time": "1 h",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "charges": 19,
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "//": "There is a loss of approximately 4.687 grams, for the math check #74702.",
+    "components": [ [ [ "copper_wire", 21 ] ] ]
   },
   {
     "type": "recipe",
@@ -520,7 +541,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "40 m",
-    "autolearn": false,
+    "autolearn": true,
     "using": [ [ "forging_standard", 10 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
@@ -535,7 +556,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "30 m",
-    "autolearn": false,
+    "autolearn": true,
     "using": [ [ "forging_standard", 5 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
@@ -550,7 +571,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "20 m",
-    "autolearn": false,
+    "autolearn": true,
     "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
@@ -955,7 +976,8 @@
     "time": "45 m",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_polymerworking" } ],
-    "components": [ [ [ "sheet_kevlar", 16 ], [ "sheet_kevlar_layered", 1 ] ], [ [ "superglue", 1 ] ] ]
+    "using": [ [ "glue_strong", 450 ] ],
+    "components": [ [ [ "sheet_kevlar", 16 ], [ "sheet_kevlar_layered", 1 ] ] ]
   },
   {
     "result": "sheet_cotton",
@@ -970,38 +992,6 @@
     "proficiencies": [ { "proficiency": "prof_weaving" } ],
     "tools": [ [ [ "loom_frame", -1 ] ], [ [ "shed_stick", -1 ] ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "thread", 50 ] ] ]
-  },
-  {
-    "result": "sheet_cotton",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_OTHER",
-    "id_suffix": "spinningwheel",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "tailor",
-    "batch_time_factors": [ 70, 1 ],
-    "time": "50 m",
-    "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_weaving" } ],
-    "tools": [ [ [ "spinwheelitem", -1 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "thread", 50 ] ] ]
-  },
-  {
-    "result": "sheet_cotton",
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_OTHER",
-    "id_suffix": "electric_spinwheel",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "tailor",
-    "batch_time_factors": [ 70, 1 ],
-    "time": "50 m",
-    "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_weaving" } ],
-    "tools": [ [ [ "electric_spinwheel", 101 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "thread", 50 ] ] ]
   },
   {
@@ -1202,7 +1192,7 @@
     "batch_time_factors": [ 90, 4 ],
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "forging_standard", 4 ], [ "steel_tiny", 4 ] ],
+    "using": [ [ "forging_standard", 4 ], [ "steel_chunk_any", 4 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
   {
@@ -1234,7 +1224,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "40 m",
-    "autolearn": false,
+    "autolearn": true,
     "using": [ [ "forging_standard", 10 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
@@ -1249,7 +1239,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "30 m",
-    "autolearn": false,
+    "autolearn": true,
     "using": [ [ "forging_standard", 5 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
@@ -1264,7 +1254,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "20 m",
-    "autolearn": false,
+    "autolearn": true,
     "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "//": "There is a slight loss here, but rounding up would mean you could create more magically.",
@@ -1280,7 +1270,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "40 m",
-    "autolearn": false,
+    "autolearn": true,
     "using": [ [ "forging_standard", 10 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
@@ -1295,7 +1285,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "30 m",
-    "autolearn": false,
+    "autolearn": true,
     "using": [ [ "forging_standard", 5 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
@@ -1310,7 +1300,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "20 m",
-    "autolearn": false,
+    "autolearn": true,
     "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
     "tools": [ [ [ "casting_mold_small", -1 ] ] ],
@@ -1393,10 +1383,10 @@
     "time": "4 m",
     "charges": 3,
     "batch_time_factors": [ 30, 2 ],
-    "components": [ [ [ "rolling_paper", 1 ] ], [ [ "chem_black_powder", 3 ], [ "red_phosphorous", 3 ], [ "gunpowder", 30 ] ] ]
+    "components": [ [ [ "rolling_paper", 1 ] ], [ [ "chem_black_powder", 3 ], [ "red_phosphorous_small", 3 ], [ "gunpowder", 30 ] ] ]
   },
   {
-    "result": "wire",
+    "result": "lc_wire",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
@@ -1435,6 +1425,7 @@
         [ "sheet_metal", -1 ],
         [ "fire_brick", -1 ],
         [ "anvil", -1 ],
+        [ "anvil_crude", -1 ],
         [ "anvil_bronze", -1 ],
         [ "casting_mold_small", -1 ]
       ],
@@ -1534,7 +1525,11 @@
     "charges": 20,
     "autolearn": true,
     "using": [ [ "forging_standard", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_redsmithing_adv" }
+    ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "FILE", "level": 1 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "//": "The idea is that you make bas-relief prints including the holes in the clay, pour then break the clay to get the buttons and file them down.",
@@ -1552,7 +1547,7 @@
     "batch_time_factors": [ 90, 4 ],
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "forging_standard", 8 ], [ "steel_tiny", 8 ] ],
+    "using": [ [ "forging_standard", 8 ], [ "steel_chunk_any", 8 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
   {
@@ -1568,7 +1563,10 @@
     "book_learn": [ [ "reference_fabrication1", 5 ], [ "welding_book", 5 ], [ "alloy_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 500 ] ] ],
-    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "coal_lump", 64 ], [ "charcoal", 40 ] ] ]
+    "components": [
+      [ [ "budget_steel_lump", 1 ], [ "budget_steel_chunk", 4 ], [ "scrap", 20 ] ],
+      [ [ "coal_lump", 64 ], [ "charcoal", 40 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1583,7 +1581,16 @@
     "book_learn": [ [ "reference_fabrication1", 5 ], [ "welding_book", 5 ], [ "alloy_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 500 ] ] ],
-    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "coal_lump", 77 ], [ "charcoal", 48 ] ] ]
+    "components": [
+      [
+        [ "budget_steel_lump", 1 ],
+        [ "lc_steel_lump", 1 ],
+        [ "budget_steel_chunk", 4 ],
+        [ "lc_steel_chunk", 4 ],
+        [ "scrap", 20 ]
+      ],
+      [ [ "coal_lump", 77 ], [ "charcoal", 48 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1598,7 +1605,18 @@
     "book_learn": [ [ "reference_fabrication1", 5 ], [ "welding_book", 5 ], [ "alloy_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 500 ] ] ],
-    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "coal_lump", 90 ], [ "charcoal", 68 ] ] ]
+    "components": [
+      [
+        [ "budget_steel_lump", 1 ],
+        [ "lc_steel_lump", 1 ],
+        [ "mc_steel_lump", 1 ],
+        [ "budget_steel_chunk", 4 ],
+        [ "lc_steel_chunk", 4 ],
+        [ "mc_steel_chunk", 4 ],
+        [ "scrap", 20 ]
+      ],
+      [ [ "coal_lump", 90 ], [ "charcoal", 68 ] ]
+    ]
   },
   {
     "type": "recipe",

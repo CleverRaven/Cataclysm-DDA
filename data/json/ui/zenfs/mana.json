@@ -77,7 +77,7 @@
     "type": "widget",
     "style": "number",
     "var": "max_mana",
-    "label": "/",
+    "label": { "str": "/", "//~": "NO_I18N" },
     "width": 5,
     "text_align": "right",
     "colors": [ "c_blue" ],
@@ -92,15 +92,15 @@
     "clauses": [
       {
         "id": "label_invisible",
-        "text": " ",
+        "text": { "str": " ", "//~": "NO_I18N" },
         "color": "c_black",
-        "condition": { "math": [ "u_val('mana_max')", "<=", "0" ] }
+        "condition": { "math": [ "u_val('mana_max') <= 0" ] }
       },
       {
         "id": "label_visible",
         "text": "M",
         "color": "c_light_gray",
-        "condition": { "math": [ "u_val('mana_max')", ">", "0" ] }
+        "condition": { "math": [ "u_val('mana_max') > 0" ] }
       }
     ],
     "flags": [ "W_LABEL_NONE" ],
@@ -114,15 +114,15 @@
     "clauses": [
       {
         "id": "label_invisible",
-        "text": "    ",
+        "text": { "str": "    ", "//~": "NO_I18N" },
         "color": "c_black",
-        "condition": { "math": [ "u_val('mana_max')", "<=", "0" ] }
+        "condition": { "math": [ "u_val('mana_max') <= 0" ] }
       },
       {
         "id": "label_visible",
         "text": "Mana",
         "color": "c_light_gray",
-        "condition": { "math": [ "u_val('mana_max')", ">", "0" ] }
+        "condition": { "math": [ "u_val('mana_max') > 0" ] }
       }
     ],
     "flags": [ "W_LABEL_NONE" ],

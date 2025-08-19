@@ -9,6 +9,6 @@
       { "gendered_line": "Have you asked the scavenger boss if they'd have anything?", "relevant_genders": [ "u" ] },
       "Maybe the scrapper would have some spare parts?"
     ],
-    "responses": [ { "text": "OK.", "topic": "TALK_NONE" }, { "text": "I've got to go…", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "OK.", "topic": "TALK_NONE" }, { "text": "<end_talking_leave>", "topic": "TALK_DONE" } ]
   }
 ]

@@ -15,7 +15,7 @@
     "type": "effect_on_condition",
     "id": "get_m4_carbine",
     "global": true,
-    "effect": { "u_spawn_item": "modular_m4_carbine" }
+    "effect": { "u_spawn_item": "modular_m4a1", "use_item_group": true }
   },
   {
     "id": "EOC_vitrified_doll_talk",
@@ -166,7 +166,10 @@
       { "u_lose_trait": "hair_braid" },
       { "u_lose_trait": "hair_detective" },
       { "u_lose_trait": "hair_super_princess" },
-      { "u_lose_trait": "hair_twintails" }
+      { "u_lose_trait": "hair_twintails" },
+      { "u_lose_trait": "hair_bald" },
+      { "u_lose_trait": "hair_fro" },
+      { "u_lose_trait": "hair_ponytail" }
     ]
   },
   {
@@ -201,5 +204,12 @@
       { "u_lose_trait": "FACIAL_HAIR_BEARD_LONG" },
       { "u_lose_trait": "FACIAL_HAIR_BEARD_VERY_LONG" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_apply_makeup",
+    "condition": { "u_has_trait": "VANITY" },
+    "effect": { "u_message": "You apply some makeup.  The world will now get to know the true meaning of beauty." },
+    "false_effect": { "u_message": "You apply some makeup.  It feels good to take care of yourself." }
   }
 ]

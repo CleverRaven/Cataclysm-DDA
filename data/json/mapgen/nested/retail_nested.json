@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for spaces 9x9.",
     "nested_mapgen_id": "city_block_9x9_candy_shop_front",
     "object": {
@@ -34,7 +33,7 @@
       "items": {
         "?": [ { "item": "cash_register_random", "chance": 100 } ],
         "H": [ { "item": "toy_store", "chance": 30, "repeat": [ 1, 2 ] } ],
-        "Y": [ { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "Y": [ { "item": "SUS_trash_trashcan", "chance": 30 } ],
         "L": [ { "item": "candy_chocolate", "chance": 30, "repeat": [ 0, 4 ] } ],
         "w": [ { "item": "candy_chocolate", "chance": 30, "repeat": [ 0, 4 ] } ],
         "M": [
@@ -50,7 +49,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 3x3 candy shop crates.",
     "nested_mapgen_id": "city_block_3x3_backroom_crates_candy",
     "object": {
@@ -73,7 +71,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for spaces 9x9.  Beauty and cosmetics shop.",
     "nested_mapgen_id": "city_block_9x9_beauty_shop_front",
     "object": {
@@ -90,7 +87,12 @@
         "  A      ",
         "  VVV    "
       ],
-      "terrain": { " ": "t_floor", "L": "t_carpet_yellow", ".": "t_carpet_yellow" },
+      "palettes": [ "parametrized_carpets_nest_palette" ],
+      "terrain": {
+        " ": "t_floor",
+        "L": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" }
+      },
       "furniture": {
         "?": "f_counter",
         "L": "f_table",
@@ -116,7 +118,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 3x3 beauty shop crates.",
     "nested_mapgen_id": "city_block_3x3_backroom_crates_beauty",
     "object": {
@@ -134,7 +135,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 9x9 vitamin shop.",
     "nested_mapgen_id": "city_block_9x9_vitamin_shop_front",
     "object": {
@@ -151,16 +151,17 @@
         "  A      ",
         "y VVV    "
       ],
+      "palettes": [ "parametrized_linoleum_palette" ],
       "terrain": {
-        " ": "t_linoleum_white",
-        "L": "t_linoleum_white",
-        "H": "t_linoleum_white",
-        "V": "t_linoleum_white",
-        "M": "t_linoleum_white",
-        "A": "t_linoleum_white",
-        "y": "t_linoleum_white",
-        "Y": "t_linoleum_white",
-        "?": "t_linoleum_white"
+        " ": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "L": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "H": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "V": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "M": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "A": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "y": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "Y": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "?": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
       },
       "furniture": {
         "?": "f_counter",
@@ -176,16 +177,15 @@
       "items": {
         "?": [ { "item": "cash_register_random", "chance": 100 } ],
         "H": [ { "item": "vitamin_shop", "chance": 30, "repeat": [ 1, 2 ] } ],
-        "Y": [ { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "Y": [ { "item": "SUS_trash_trashcan", "chance": 30 } ],
         "L": [ { "item": "vitamin_shop", "chance": 30, "repeat": [ 0, 4 ] } ],
-        "M": [ { "item": "office", "chance": 30, "repeat": [ 0, 4 ] } ],
+        "M": [ { "item": "SUS_office_desk", "chance": 30 } ],
         "V": [ { "item": "vitamin_shop", "chance": 30, "repeat": [ 0, 4 ] } ]
       }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 3x3 vitamin shop crates.",
     "nested_mapgen_id": "city_block_3x3_backroom_crates_vitamin",
     "object": {
@@ -203,7 +203,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 9x9 cellphone shop.",
     "nested_mapgen_id": "city_block_9x9_cellphone_shop_front",
     "object": {
@@ -220,18 +219,19 @@
         "  A A    ",
         "y MMMM  y"
       ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_carpets_nest_palette" ],
       "terrain": {
-        " ": "t_linoleum_white",
-        "G": "t_linoleum_white",
-        "V": "t_linoleum_white",
-        "M": "t_linoleum_white",
-        "A": "t_linoleum_white",
-        "y": "t_linoleum_white",
-        "Y": "t_linoleum_white",
-        "?": "t_linoleum_white",
-        "H": "t_carpet_green",
-        "L": "t_carpet_green",
-        ".": "t_carpet_green"
+        " ": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "G": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "V": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "M": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "A": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "y": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "Y": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "?": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "L": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
       "furniture": {
         "?": "f_counter",
@@ -248,7 +248,7 @@
         "?": [ { "item": "cash_register_random", "chance": 100 } ],
         "H": [ { "item": "elecsto_pcs", "chance": 30, "repeat": [ 1, 2 ] } ],
         "G": [ { "item": "elecsto_persele", "chance": 30, "repeat": [ 1, 2 ] } ],
-        "Y": [ { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "Y": [ { "item": "SUS_trash_trashcan", "chance": 30 } ],
         "L": [ { "item": "cell_shop", "chance": 30, "repeat": [ 0, 4 ] } ],
         "M": [ { "item": "cell_shop", "chance": 30, "repeat": [ 0, 1 ] } ],
         "V": [ { "item": "cell_shop", "chance": 30, "repeat": [ 0, 4 ] } ]
@@ -257,7 +257,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 3x3 cellphone shop crates.",
     "nested_mapgen_id": "city_block_3x3_backroom_crates_cellphone",
     "object": {
@@ -281,7 +280,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 9x9 music shop.",
     "nested_mapgen_id": "city_block_9x9_music_shop_front",
     "object": {
@@ -298,7 +296,13 @@
         "    A    ",
         "y MMMM  Y"
       ],
-      "terrain": { " ": "t_floor", "G": "t_carpet_red", "L": "t_carpet_red", ".": "t_carpet_red" },
+      "palettes": [ "parametrized_carpets_nest_palette" ],
+      "terrain": {
+        " ": "t_floor",
+        "G": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "L": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
+      },
       "furniture": {
         "?": "f_counter",
         "L": "f_table",
@@ -314,16 +318,15 @@
         "?": [ { "item": "cash_register_random", "chance": 100 } ],
         "H": [ { "item": "musicstore_showpiece", "chance": 30, "repeat": [ 1, 2 ] } ],
         "G": [ { "item": "mussto_windinst", "chance": 30, "repeat": [ 1, 2 ] } ],
-        "Y": [ { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "Y": [ { "item": "SUS_trash_trashcan", "chance": 30 } ],
         "L": [ { "item": "mussto_stringinst", "chance": 30, "repeat": [ 0, 4 ] } ],
-        "M": [ { "item": "office", "chance": 30, "repeat": [ 0, 1 ] } ],
+        "M": [ { "item": "SUS_office_desk", "chance": 30, "repeat": [ 0, 1 ] } ],
         "V": [ { "item": "musicstore_showpiece", "chance": 30, "repeat": [ 0, 4 ] } ]
       }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 3x3 music shop crates.",
     "nested_mapgen_id": "city_block_3x3_backroom_crates_music",
     "object": {
@@ -347,7 +350,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 9x9 gift shop.",
     "nested_mapgen_id": "city_block_9x9_gift_shop_front",
     "object": {
@@ -364,15 +366,16 @@
         "MMMM?M   ",
         "Y   S   Y"
       ],
+      "palettes": [ "parametrized_carpets_nest_palette" ],
       "terrain": {
         " ": "t_floor",
         "B": "t_floor",
         "O": "t_floor",
-        "G": "t_carpet_green",
-        "P": "t_carpet_green",
-        "V": "t_carpet_green",
-        "W": "t_carpet_green",
-        ".": "t_carpet_green"
+        "G": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "P": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "V": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "W": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
       "furniture": {
         "?": "f_counter",
@@ -391,8 +394,8 @@
       "place_item": [ { "item": "citrine", "x": 2, "y": [ 2, 3 ], "chance": 100, "repeat": [ 5, 15 ] } ],
       "items": {
         "?": [ { "item": "cash_register_random", "chance": 100 } ],
-        "Y": [ { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] } ],
-        "M": [ { "item": "office", "chance": 20, "repeat": [ 0, 1 ] } ],
+        "Y": [ { "item": "SUS_trash_trashcan", "chance": 30 } ],
+        "M": [ { "item": "SUS_office_desk", "chance": 20, "repeat": [ 0, 1 ] } ],
         "A": [ { "item": "gift_shop", "chance": 80 } ],
         "P": [ { "item": "gift_shop", "chance": 80 } ],
         "O": [ { "item": "gift_shop", "chance": 80 } ],
@@ -404,7 +407,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 3x3 gift shop crates.",
     "nested_mapgen_id": "city_block_3x3_backroom_crates_gift",
     "object": {
@@ -422,7 +424,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 9x9 electronics shop.",
     "nested_mapgen_id": "city_block_9x9_electronics_shop_front",
     "object": {
@@ -439,7 +440,14 @@
         "    A    ",
         "y MMMM  Y"
       ],
-      "terrain": { " ": "t_floor", "G": "t_carpet_yellow", "L": "t_carpet_yellow", "B": "t_carpet_yellow", ".": "t_carpet_yellow" },
+      "palettes": [ "parametrized_carpets_nest_palette" ],
+      "terrain": {
+        " ": "t_floor",
+        "G": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "L": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "B": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" }
+      },
       "furniture": {
         "?": "f_counter",
         "L": "f_table",
@@ -456,10 +464,10 @@
         "?": [ { "item": "cash_register_random", "chance": 100 } ],
         "H": [ { "item": "elecsto_pcs", "chance": 30, "repeat": [ 1, 2 ] } ],
         "G": [ { "item": "elecsto_cameras", "chance": 30, "repeat": [ 1, 2 ] } ],
-        "Y": [ { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "Y": [ { "item": "SUS_trash_trashcan", "chance": 30 } ],
         "L": [ { "item": "elecsto_entapl", "chance": 30, "repeat": [ 0, 4 ] } ],
         "B": [ { "item": "elecsto_homapl", "chance": 30, "repeat": [ 0, 4 ] } ],
-        "M": [ { "item": "office", "chance": 30, "repeat": [ 0, 1 ] } ],
+        "M": [ { "item": "SUS_office_desk", "chance": 30, "repeat": [ 0, 1 ] } ],
         "V": [
           { "item": "elecsto_lights", "chance": 30, "repeat": [ 0, 4 ] },
           { "item": "elecsto_diy", "chance": 30, "repeat": [ 0, 4 ] }
@@ -469,7 +477,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 3x3 electronics shop crates.",
     "nested_mapgen_id": "city_block_3x3_backroom_crates_electronics",
     "object": {
@@ -495,7 +502,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 9x9 pizza shop.",
     "nested_mapgen_id": "city_block_9x9_pizza_shop_front",
     "object": {
@@ -512,22 +518,23 @@
         "F M  R RR",
         "Q   RLyLL"
       ],
+      "palettes": [ "parametrized_linoleum_palette" ],
       "terrain": {
-        " ": "t_linoleum_gray",
-        "L": "t_linoleum_gray",
-        "R": "t_linoleum_gray",
-        "B": "t_linoleum_gray",
-        "G": "t_linoleum_gray",
-        "M": "t_linoleum_gray",
-        "F": "t_linoleum_gray",
-        "V": "t_linoleum_gray",
-        "Q": "t_linoleum_gray",
-        "Y": "t_linoleum_gray",
-        "y": "t_linoleum_gray",
-        "A": "t_linoleum_gray",
-        "s": "t_linoleum_gray",
-        "i": "t_linoleum_gray",
-        "?": "t_linoleum_gray"
+        " ": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "L": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "R": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "B": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "G": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "M": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "F": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "V": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "Q": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "Y": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "y": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "A": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "s": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "i": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "?": { "param": "linoleum_color", "fallback": "t_linoleum_gray" }
       },
       "furniture": {
         "?": "f_counter",
@@ -550,7 +557,7 @@
         "B": [ { "item": "pizza_kitchen", "chance": 30, "repeat": [ 1, 2 ] } ],
         "G": [ { "item": "pizza_display", "chance": 30, "repeat": [ 1, 2 ] } ],
         "L": [ { "item": "pizza_table", "chance": 30, "repeat": [ 1, 2 ] } ],
-        "Y": [ { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "Y": [ { "item": "SUS_trash_trashcan", "chance": 30 } ],
         "F": [ { "item": "pizza_fridge", "chance": 30, "repeat": [ 0, 4 ] } ],
         "V": [ { "item": "pizza_display", "chance": 30, "repeat": [ 0, 4 ] } ],
         "Q": [ { "item": "pizza_kitchen", "chance": 30, "repeat": [ 0, 1 ] } ],
@@ -563,7 +570,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 3x3 pizza shop crates.",
     "nested_mapgen_id": "city_block_3x3_backroom_crates_pizza",
     "object": {
@@ -586,7 +592,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 8x8 clothing shop.",
     "nested_mapgen_id": "city_block_8x8_clothing_shop_front",
     "object": {
@@ -600,9 +605,10 @@
         "   LdL  ",
         " C     R",
         " C QQVV ",
-        "|| |||||"
+        "## #####"
       ],
-      "terrain": { " ": "t_floor", "?": "t_floor", "|": "t_brick_wall" },
+      "palettes": [ "parametrized_walls_palette" ],
+      "terrain": { " ": "t_floor", "?": "t_floor" },
       "furniture": {
         "?": "f_counter",
         "A": "f_stool",
@@ -639,7 +645,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 4x4 general clothing shop crates.",
     "nested_mapgen_id": "city_block_4x4_backroom_clothing",
     "object": {
@@ -666,7 +671,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 4x4 general clothing backroom.",
     "nested_mapgen_id": "city_block_4x4_backroom_clothing",
     "object": {
@@ -691,7 +695,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 8x8 formal clothing shop.",
     "nested_mapgen_id": "city_block_8x8_formal_clothing_shop_front",
     "object": {
@@ -705,9 +708,10 @@
         "   RCR  ",
         "       b",
         " b LLL  ",
-        "|| |||||"
+        "## #####"
       ],
-      "terrain": { " ": "t_floor", "?": "t_floor", "|": "t_brick_wall" },
+      "palettes": [ "parametrized_walls_palette" ],
+      "terrain": { " ": "t_floor", "?": "t_floor" },
       "furniture": {
         "?": "f_counter",
         "A": "f_stool",
@@ -744,7 +748,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 4x4 formal clothing shop crates.",
     "nested_mapgen_id": "city_block_4x4_backroom_clothing_formal",
     "object": {
@@ -771,7 +774,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 4x4 formal clothing backroom.",
     "nested_mapgen_id": "city_block_4x4_backroom_clothing_formal",
     "object": {
@@ -795,7 +797,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 4x4 formal clothing backroom.",
     "nested_mapgen_id": "city_block_4x4_backroom_clothing_formal",
     "object": {
@@ -830,7 +831,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 8x8 leather clothing shop.",
     "nested_mapgen_id": "city_block_8x8_leather_clothing_shop_front",
     "object": {
@@ -844,9 +844,10 @@
         " d C G  ",
         "       b",
         " b LLL  ",
-        "|| |||||"
+        "## #####"
       ],
-      "terrain": { " ": "t_floor", "?": "t_floor", "|": "t_brick_wall" },
+      "palettes": [ "parametrized_walls_palette" ],
+      "terrain": { " ": "t_floor", "?": "t_floor" },
       "furniture": {
         "?": "f_counter",
         "A": "f_stool",
@@ -878,7 +879,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 4x4 leather clothing shop crates.",
     "nested_mapgen_id": "city_block_4x4_backroom_clothing_leather",
     "object": {
@@ -903,7 +903,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 4x4 leather clothing backroom.",
     "nested_mapgen_id": "city_block_4x4_backroom_clothing_leather",
     "object": {
@@ -927,7 +926,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 4x4 leather clothing backroom.",
     "nested_mapgen_id": "city_block_4x4_backroom_clothing_leather",
     "object": {
@@ -969,7 +967,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 8x8 fur clothing shop.",
     "nested_mapgen_id": "city_block_8x8_fur_clothing_shop_front",
     "object": {
@@ -983,9 +980,10 @@
         " d C G  ",
         "       b",
         " b QQQ  ",
-        "|| |||||"
+        "## #####"
       ],
-      "terrain": { " ": "t_floor", "?": "t_floor", "|": "t_brick_wall" },
+      "palettes": [ "parametrized_walls_palette" ],
+      "terrain": { " ": "t_floor", "?": "t_floor" },
       "furniture": {
         "?": "f_counter",
         "A": "f_stool",
@@ -1017,7 +1015,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 4x4 fur clothing shop crates.",
     "nested_mapgen_id": "city_block_4x4_backroom_clothing_fur",
     "object": {
@@ -1042,7 +1039,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 4x4 fur clothing backroom.",
     "nested_mapgen_id": "city_block_4x4_backroom_clothing_fur",
     "object": {
@@ -1061,7 +1057,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 4x4 fur clothing backroom.",
     "nested_mapgen_id": "city_block_4x4_backroom_clothing_fur",
     "object": {
@@ -1098,7 +1093,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 5x5 shop backroom.",
     "nested_mapgen_id": "city_block_5x5_backroom_shop",
     "object": {
@@ -1125,16 +1119,15 @@
         "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ]
       },
       "items": {
-        "d": [ { "item": "office_paper", "chance": 25 } ],
+        "d": [ { "item": "SUS_office_filing_cabinet", "chance": 25 } ],
         "C": [ { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] } ],
-        "B": [ { "item": "office", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "B": [ { "item": "SUS_office_desk", "chance": 30, "repeat": [ 1, 2 ] } ],
         "G": [ { "item": "jackets", "chance": 30, "repeat": [ 0, 1 ] }, { "item": "bags", "chance": 30, "repeat": [ 0, 1 ] } ]
       }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 5x5 shop backroom.",
     "nested_mapgen_id": "city_block_5x5_backroom_shop",
     "object": {
@@ -1157,8 +1150,6 @@
         "b": "f_bench",
         "d": "f_filing_cabinet",
         "L": "f_shredder",
-        "D": "f_vending_c",
-        "F": "f_vending_c",
         "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
         "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ]
       },
@@ -1171,7 +1162,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 4x4 shop backroom.",
     "nested_mapgen_id": "city_block_4x4_backroom_shop",
     "object": {
@@ -1189,8 +1179,6 @@
         "G": "f_locker",
         "b": "f_bench",
         "d": "f_filing_cabinet",
-        "D": "f_vending_c",
-        "F": "f_vending_c",
         "y": [ "f_indoor_plant", "f_indoor_plant_y" ]
       },
       "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
@@ -1201,7 +1189,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 4x4 shop backroom.",
     "nested_mapgen_id": "city_block_4x4_backroom_shop",
     "object": {
@@ -1218,8 +1205,6 @@
         "C": "f_rack",
         "G": "f_sofa",
         "d": "f_filing_cabinet",
-        "D": "f_vending_c",
-        "F": "f_vending_c",
         "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
         "?": "f_console_broken"
       },
@@ -1232,7 +1217,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 4x4 shop backroom.",
     "nested_mapgen_id": "city_block_4x4_backroom_shop",
     "object": {
@@ -1257,14 +1241,13 @@
       },
       "items": {
         "C": [ { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] } ],
-        "B": [ { "item": "office", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "B": [ { "item": "SUS_office_desk", "chance": 30, "repeat": [ 1, 2 ] } ],
         "G": [ { "item": "jackets", "chance": 30, "repeat": [ 0, 1 ] }, { "item": "bags", "chance": 30, "repeat": [ 0, 1 ] } ]
       }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 5x5 shop backroom.",
     "nested_mapgen_id": "city_block_5x5_backroom_shop",
     "object": {
@@ -1286,8 +1269,6 @@
         "b": "f_bench",
         "d": "f_filing_cabinet",
         "L": "f_shredder",
-        "D": "f_vending_c",
-        "F": "f_vending_c",
         "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
         "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ],
         "?": "f_console_broken"
@@ -1301,7 +1282,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 5x5 shop backroom.",
     "nested_mapgen_id": "city_block_5x5_backroom_shop",
     "object": {
@@ -1320,8 +1300,6 @@
         "C": "f_rack",
         "G": "f_locker",
         "d": "f_filing_cabinet",
-        "D": "f_vending_c",
-        "F": "f_vending_c",
         "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
         "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ]
       },
@@ -1334,7 +1312,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for 3x3 candy shop crates.",
     "nested_mapgen_id": "city_block_3x3_backroom_crates_candy",
     "object": {
@@ -1357,7 +1334,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for restaurant spaces 14x14.",
     "nested_mapgen_id": "city_block_14x14_restaurant",
     "object": {
@@ -1379,7 +1355,8 @@
         "(      * |    ",
         "YPPQQSY| |j   "
       ],
-      "terrain": { "|": "t_brick_wall", "*": "t_door_c" },
+      "palettes": [ "parametrized_walls_palette" ],
+      "terrain": { "*": "t_door_c" },
       "furniture": {
         "?": "f_console_broken",
         "L": "f_table",
@@ -1402,7 +1379,7 @@
         "y": [ "f_indoor_plant", "f_indoor_plant_y" ]
       },
       "items": {
-        "Y": [ { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "Y": [ { "item": "SUS_trash_trashcan", "chance": 30 } ],
         "l": [ { "item": "restaur_sink", "chance": 30, "repeat": [ 1, 2 ] } ],
         "n": [ { "item": "restaur_sink", "chance": 30, "repeat": [ 1, 2 ] } ],
         "j": [ { "item": "restaur_bath", "chance": 30, "repeat": [ 1, 2 ] } ],
@@ -1433,7 +1410,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "designed for bar spaces 11x11.",
     "nested_mapgen_id": "city_block_11x11_bar",
     "object": {
@@ -1452,7 +1428,8 @@
         " * *     K ",
         "j|K|YnJK   "
       ],
-      "terrain": { "|": "t_brick_wall", "*": "t_door_c" },
+      "palettes": [ "parametrized_walls_palette" ],
+      "terrain": { "*": "t_door_c" },
       "furniture": {
         "L": "f_table",
         "x": "f_pool_table",
@@ -1470,7 +1447,7 @@
       },
       "items": {
         "K": { "item": "keg_beer", "chance": 50 },
-        "Y": [ { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "Y": [ { "item": "SUS_trash_trashcan", "chance": 30 } ],
         "x": [ { "item": "pool_table", "chance": 30, "repeat": [ 1, 2 ] } ],
         "l": [ { "item": "restaur_sink", "chance": 30, "repeat": [ 1, 2 ] } ],
         "n": [ { "item": "restaur_sink", "chance": 30, "repeat": [ 1, 2 ] } ],
@@ -1490,7 +1467,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "pizza_loot",
     "object": {
       "mapgensize": [ 18, 18 ],
@@ -1515,7 +1491,6 @@
         "   #HHH,,HHHHyHHHH"
       ],
       "palettes": [ "commercial_restaurant_palette" ],
-      "terrain": { "|": "t_wall_r" },
       "items": {
         "f": [ { "item": "dishes_dining", "chance": 30 }, { "item": "pizza_table", "chance": 10, "repeat": [ 1, 2 ] } ],
         "l": { "item": "pizza_soda", "chance": 80, "repeat": [ 1, 3 ] },
@@ -1531,13 +1506,12 @@
         "J": { "item": "pizza_table", "chance": 5, "repeat": [ 1, 3 ] },
         "K": { "item": "pizza_kitchen", "chance": 15, "repeat": [ 1, 3 ] },
         "S": [ { "item": "pizza_bathroom", "chance": 30 }, { "item": "SUS_bathroom_medicine", "chance": 10 } ],
-        "Y": { "item": "pizza_trash", "chance": 30, "repeat": [ 1, 4 ] }
+        "Y": { "item": "SUS_trash_trashcan", "chance": 30 }
       }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "diner_loot",
     "object": {
       "mapgensize": [ 18, 18 ],
@@ -1562,7 +1536,7 @@
         "   #tS|tS|Æ,,iii,y"
       ],
       "palettes": [ "commercial_restaurant_palette" ],
-      "terrain": { "|": "t_wall_y", ".": "t_thconc_floor" },
+      "terrain": { ".": "t_thconc_floor" },
       "items": {
         "f": [ { "item": "dishes_dining", "chance": 30 }, { "item": "diner_food", "chance": 20 } ],
         "l": { "item": "coffee_freezer", "chance": 80, "repeat": [ 1, 3 ] },
@@ -1577,13 +1551,12 @@
         "J": { "item": "diner_food", "chance": 5, "repeat": [ 1, 3 ] },
         "K": { "item": "diner_back", "chance": 5, "repeat": [ 1, 3 ] },
         "S": [ { "item": "pizza_bathroom", "chance": 30 }, { "item": "SUS_bathroom_medicine", "chance": 10 } ],
-        "Y": { "item": "trash", "chance": 30, "repeat": [ 1, 4 ] }
+        "Y": { "item": "SUS_trash_floor", "chance": 30, "repeat": [ 1, 4 ] }
       }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "3x3_woodcrafts_crates",
     "//": "designed for the back of the woodwork craftshop",
     "object": {
@@ -1600,7 +1573,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "4x4_woodcrafts_table_vertical",
     "//": "designed for the large workbench tables in the woodwork craftshop",
     "object": {
@@ -1619,7 +1591,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "4x4_woodcrafts_table_horizontal",
     "//": "designed for the large workbench tables in the woodwork craftshop",
     "object": {
@@ -1638,7 +1609,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "4x4_woodcrafts_display_nocanoe",
     "//": "designed for the window display of the woodwork craftshop",
     "object": {
@@ -1656,13 +1626,12 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_woodcrafts_display_canoe",
     "//": "designed for the window display of the woodwork craftshop",
     "object": {
       "mapgensize": [ 1, 1 ],
       "rotation": [ 0, 3 ],
-      "place_vehicles": [ { "vehicle": "canoe", "x": 2, "y": 0, "chance": 100, "rotation": 180, "fuel": 0, "status": 0 } ]
+      "place_vehicles": [ { "vehicle": "canoe", "x": 2, "y": 0, "rotation": 180, "fuel": 0, "status": 0 } ]
     }
   }
 ]

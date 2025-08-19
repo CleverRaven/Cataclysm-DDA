@@ -1,0 +1,865 @@
+[
+  {
+    "id": "mon_feral_human_pipe",
+    "//": "Unfortunately various individually-defined special attack entries means this has to be duplicated",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_human_pipe",
+    "extend": {
+      "special_attacks": [
+        {
+          "id": "feral_dabbler_spell_picker",
+          "type": "spell",
+          "spell_data": { "id": "feral_dabble_spell_selector_spell" },
+          "cooldown": 1,
+          "condition": { "math": [ "u_feral_dabbler_chosen_spell_number == 0" ] },
+          "monster_message": ""
+        },
+        {
+          "id": "feral_dabbler_sound_bomb",
+          "type": "spell",
+          "spell_data": { "id": "sound_bomb", "min_level": 5 },
+          "cooldown": 25,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 1" ] }
+            ]
+          },
+          "monster_message": "%1$s points at %3$s and a loud noise erupts around %3$s."
+        },
+        {
+          "id": "feral_dabbler_cure_light_wounds",
+          "type": "spell",
+          "spell_data": { "id": "light_healing", "min_level": 5, "hit_self": true },
+          "cooldown": 75,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 2" ] }
+            ]
+          },
+          "monster_message": "%1$s chants and makes a gesture trailed by glowing green lights."
+        },
+        {
+          "id": "feral_dabbler_light_target",
+          "type": "spell",
+          "spell_data": { "id": "magus_light_target", "min_level": 5 },
+          "cooldown": 30,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 3" ] }
+            ]
+          },
+          "monster_message": "%1$s screams words of magic and waves their hands toward %3$s."
+        },
+        {
+          "id": "feral_dabbler_summon_wisps",
+          "type": "spell",
+          "spell_data": { "id": "summon_wisps_monster", "min_level": 5 },
+          "cooldown": 30,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 4" ] }
+            ]
+          },
+          "monster_message": "%1$s make several expansive gestures and eerie lights appear."
+        },
+        {
+          "id": "feral_dabbler_windrunning",
+          "type": "spell",
+          "spell_data": { "id": "windrun_monster", "min_level": 5, "hit_self": true },
+          "cooldown": 50,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 5" ] },
+              { "not": { "u_has_effect": "enchant_windrun_monster" } }
+            ]
+          },
+          "monster_message": "%1$s whistles words of magic and a wind picks up around them."
+        }
+      ]
+    }
+  },
+  {
+    "id": "mon_feral_human_crowbar",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_human_crowbar",
+    "extend": {
+      "special_attacks": [
+        {
+          "id": "feral_dabbler_spell_picker",
+          "type": "spell",
+          "spell_data": { "id": "feral_dabble_spell_selector_spell" },
+          "cooldown": 1,
+          "condition": { "math": [ "u_feral_dabbler_chosen_spell_number == 0" ] },
+          "monster_message": ""
+        },
+        {
+          "id": "feral_dabbler_sound_bomb",
+          "type": "spell",
+          "spell_data": { "id": "sound_bomb", "min_level": 5 },
+          "cooldown": 25,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 1" ] }
+            ]
+          },
+          "monster_message": "%1$s points at %3$s and a loud noise erupts around %3$s."
+        },
+        {
+          "id": "feral_dabbler_cure_light_wounds",
+          "type": "spell",
+          "spell_data": { "id": "light_healing", "min_level": 5, "hit_self": true },
+          "cooldown": 75,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 2" ] }
+            ]
+          },
+          "monster_message": "%1$s chants and makes a gesture trailed by glowing green lights."
+        },
+        {
+          "id": "feral_dabbler_light_target",
+          "type": "spell",
+          "spell_data": { "id": "magus_light_target", "min_level": 5 },
+          "cooldown": 30,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 3" ] }
+            ]
+          },
+          "monster_message": "%1$s screams words of magic and waves their hands toward %3$s."
+        },
+        {
+          "id": "feral_dabbler_summon_wisps",
+          "type": "spell",
+          "spell_data": { "id": "summon_wisps_monster", "min_level": 5 },
+          "cooldown": 30,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 4" ] }
+            ]
+          },
+          "monster_message": "%1$s make several expansive gestures and eerie lights appear."
+        },
+        {
+          "id": "feral_dabbler_windrunning",
+          "type": "spell",
+          "spell_data": { "id": "windrun_monster", "min_level": 5, "hit_self": true },
+          "cooldown": 50,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 5" ] },
+              { "not": { "u_has_effect": "enchant_windrun_monster" } }
+            ]
+          },
+          "monster_message": "%1$s whistles words of magic and a wind picks up around them."
+        }
+      ]
+    }
+  },
+  {
+    "id": "mon_feral_human_axe",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_human_axe",
+    "extend": {
+      "special_attacks": [
+        {
+          "id": "feral_dabbler_spell_picker",
+          "type": "spell",
+          "spell_data": { "id": "feral_dabble_spell_selector_spell" },
+          "cooldown": 1,
+          "condition": { "math": [ "u_feral_dabbler_chosen_spell_number == 0" ] },
+          "monster_message": ""
+        },
+        {
+          "id": "feral_dabbler_sound_bomb",
+          "type": "spell",
+          "spell_data": { "id": "sound_bomb", "min_level": 5 },
+          "cooldown": 25,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 1" ] }
+            ]
+          },
+          "monster_message": "%1$s points at %3$s and a loud noise erupts around %3$s."
+        },
+        {
+          "id": "feral_dabbler_cure_light_wounds",
+          "type": "spell",
+          "spell_data": { "id": "light_healing", "min_level": 5, "hit_self": true },
+          "cooldown": 75,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 2" ] }
+            ]
+          },
+          "monster_message": "%1$s chants and makes a gesture trailed by glowing green lights."
+        },
+        {
+          "id": "feral_dabbler_light_target",
+          "type": "spell",
+          "spell_data": { "id": "magus_light_target", "min_level": 5 },
+          "cooldown": 30,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 3" ] }
+            ]
+          },
+          "monster_message": "%1$s screams words of magic and waves their hands toward %3$s."
+        },
+        {
+          "id": "feral_dabbler_summon_wisps",
+          "type": "spell",
+          "spell_data": { "id": "summon_wisps_monster", "min_level": 5 },
+          "cooldown": 30,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 4" ] }
+            ]
+          },
+          "monster_message": "%1$s make several expansive gestures and eerie lights appear."
+        },
+        {
+          "id": "feral_dabbler_windrunning",
+          "type": "spell",
+          "spell_data": { "id": "windrun_monster", "min_level": 5, "hit_self": true },
+          "cooldown": 50,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 5" ] },
+              { "not": { "u_has_effect": "enchant_windrun_monster" } }
+            ]
+          },
+          "monster_message": "%1$s whistles words of magic and a wind picks up around them."
+        }
+      ]
+    }
+  },
+  {
+    "id": "mon_feral_human_tool",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_human_tool",
+    "extend": {
+      "special_attacks": [
+        {
+          "id": "feral_dabbler_spell_picker",
+          "type": "spell",
+          "spell_data": { "id": "feral_dabble_spell_selector_spell" },
+          "cooldown": 1,
+          "condition": { "math": [ "u_feral_dabbler_chosen_spell_number == 0" ] },
+          "monster_message": ""
+        },
+        {
+          "id": "feral_dabbler_sound_bomb",
+          "type": "spell",
+          "spell_data": { "id": "sound_bomb", "min_level": 5 },
+          "cooldown": 25,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 1" ] }
+            ]
+          },
+          "monster_message": "%1$s points at %3$s and a loud noise erupts around %3$s."
+        },
+        {
+          "id": "feral_dabbler_cure_light_wounds",
+          "type": "spell",
+          "spell_data": { "id": "light_healing", "min_level": 5, "hit_self": true },
+          "cooldown": 75,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 2" ] }
+            ]
+          },
+          "monster_message": "%1$s chants and makes a gesture trailed by glowing green lights."
+        },
+        {
+          "id": "feral_dabbler_light_target",
+          "type": "spell",
+          "spell_data": { "id": "magus_light_target", "min_level": 5 },
+          "cooldown": 30,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 3" ] }
+            ]
+          },
+          "monster_message": "%1$s screams words of magic and waves their hands toward %3$s."
+        },
+        {
+          "id": "feral_dabbler_summon_wisps",
+          "type": "spell",
+          "spell_data": { "id": "summon_wisps_monster", "min_level": 5 },
+          "cooldown": 30,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 4" ] }
+            ]
+          },
+          "monster_message": "%1$s make several expansive gestures and eerie lights appear."
+        },
+        {
+          "id": "feral_dabbler_windrunning",
+          "type": "spell",
+          "spell_data": { "id": "windrun_monster", "min_level": 5, "hit_self": true },
+          "cooldown": 50,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 5" ] },
+              { "not": { "u_has_effect": "enchant_windrun_monster" } }
+            ]
+          },
+          "monster_message": "%1$s whistles words of magic and a wind picks up around them."
+        }
+      ]
+    }
+  },
+  {
+    "id": "mon_feral_scientist_scalpel",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_scientist_scalpel",
+    "extend": {
+      "special_attacks": [
+        {
+          "id": "feral_dabbler_spell_picker",
+          "type": "spell",
+          "spell_data": { "id": "feral_dabble_spell_selector_spell" },
+          "cooldown": 1,
+          "condition": { "math": [ "u_feral_dabbler_chosen_spell_number == 0" ] },
+          "monster_message": ""
+        },
+        {
+          "id": "feral_dabbler_sound_bomb",
+          "type": "spell",
+          "spell_data": { "id": "sound_bomb", "min_level": 5 },
+          "cooldown": 25,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 1" ] }
+            ]
+          },
+          "monster_message": "%1$s points at %3$s and a loud noise erupts around %3$s."
+        },
+        {
+          "id": "feral_dabbler_cure_light_wounds",
+          "type": "spell",
+          "spell_data": { "id": "light_healing", "min_level": 5, "hit_self": true },
+          "cooldown": 75,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 2" ] }
+            ]
+          },
+          "monster_message": "%1$s chants and makes a gesture trailed by glowing green lights."
+        },
+        {
+          "id": "feral_dabbler_light_target",
+          "type": "spell",
+          "spell_data": { "id": "magus_light_target", "min_level": 5 },
+          "cooldown": 30,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 3" ] }
+            ]
+          },
+          "monster_message": "%1$s screams words of magic and waves their hands toward %3$s."
+        },
+        {
+          "id": "feral_dabbler_summon_wisps",
+          "type": "spell",
+          "spell_data": { "id": "summon_wisps_monster", "min_level": 5 },
+          "cooldown": 30,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 4" ] }
+            ]
+          },
+          "monster_message": "%1$s make several expansive gestures and eerie lights appear."
+        },
+        {
+          "id": "feral_dabbler_windrunning",
+          "type": "spell",
+          "spell_data": { "id": "windrun_monster", "min_level": 5, "hit_self": true },
+          "cooldown": 50,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 5" ] },
+              { "not": { "u_has_effect": "enchant_windrun_monster" } }
+            ]
+          },
+          "monster_message": "%1$s whistles words of magic and a wind picks up around them."
+        }
+      ]
+    }
+  },
+  {
+    "id": "mon_feral_labsecurity_9mm",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_labsecurity_9mm",
+    "extend": {
+      "special_attacks": [
+        {
+          "id": "feral_dabbler_spell_picker",
+          "type": "spell",
+          "spell_data": { "id": "feral_dabble_spell_selector_spell" },
+          "cooldown": 1,
+          "condition": { "math": [ "u_feral_dabbler_chosen_spell_number == 0" ] },
+          "monster_message": ""
+        },
+        {
+          "id": "feral_dabbler_sound_bomb",
+          "type": "spell",
+          "spell_data": { "id": "sound_bomb", "min_level": 5 },
+          "cooldown": 25,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 1" ] }
+            ]
+          },
+          "monster_message": "%1$s points at %3$s and a loud noise erupts around %3$s."
+        },
+        {
+          "id": "feral_dabbler_cure_light_wounds",
+          "type": "spell",
+          "spell_data": { "id": "light_healing", "min_level": 5, "hit_self": true },
+          "cooldown": 75,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 2" ] }
+            ]
+          },
+          "monster_message": "%1$s chants and makes a gesture trailed by glowing green lights."
+        },
+        {
+          "id": "feral_dabbler_light_target",
+          "type": "spell",
+          "spell_data": { "id": "magus_light_target", "min_level": 5 },
+          "cooldown": 30,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 3" ] }
+            ]
+          },
+          "monster_message": "%1$s screams words of magic and waves their hands toward %3$s."
+        },
+        {
+          "id": "feral_dabbler_summon_wisps",
+          "type": "spell",
+          "spell_data": { "id": "summon_wisps_monster", "min_level": 5 },
+          "cooldown": 30,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 4" ] }
+            ]
+          },
+          "monster_message": "%1$s make several expansive gestures and eerie lights appear."
+        },
+        {
+          "id": "feral_dabbler_windrunning",
+          "type": "spell",
+          "spell_data": { "id": "windrun_monster", "min_level": 5, "hit_self": true },
+          "cooldown": 50,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 5" ] },
+              { "not": { "u_has_effect": "enchant_windrun_monster" } }
+            ]
+          },
+          "monster_message": "%1$s whistles words of magic and a wind picks up around them."
+        }
+      ]
+    }
+  },
+  {
+    "id": "mon_feral_labsecurity_flashlight",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_labsecurity_flashlight",
+    "extend": {
+      "special_attacks": [
+        {
+          "id": "feral_dabbler_spell_picker",
+          "type": "spell",
+          "spell_data": { "id": "feral_dabble_spell_selector_spell" },
+          "cooldown": 1,
+          "condition": { "math": [ "u_feral_dabbler_chosen_spell_number == 0" ] },
+          "monster_message": ""
+        },
+        {
+          "id": "feral_dabbler_sound_bomb",
+          "type": "spell",
+          "spell_data": { "id": "sound_bomb", "min_level": 5 },
+          "cooldown": 25,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 1" ] }
+            ]
+          },
+          "monster_message": "%1$s points at %3$s and a loud noise erupts around %3$s."
+        },
+        {
+          "id": "feral_dabbler_cure_light_wounds",
+          "type": "spell",
+          "spell_data": { "id": "light_healing", "min_level": 5, "hit_self": true },
+          "cooldown": 75,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 2" ] }
+            ]
+          },
+          "monster_message": "%1$s chants and makes a gesture trailed by glowing green lights."
+        },
+        {
+          "id": "feral_dabbler_light_target",
+          "type": "spell",
+          "spell_data": { "id": "magus_light_target", "min_level": 5 },
+          "cooldown": 30,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 3" ] }
+            ]
+          },
+          "monster_message": "%1$s screams words of magic and waves their hands toward %3$s."
+        },
+        {
+          "id": "feral_dabbler_summon_wisps",
+          "type": "spell",
+          "spell_data": { "id": "summon_wisps_monster", "min_level": 5 },
+          "cooldown": 30,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 4" ] }
+            ]
+          },
+          "monster_message": "%1$s make several expansive gestures and eerie lights appear."
+        },
+        {
+          "id": "feral_dabbler_windrunning",
+          "type": "spell",
+          "spell_data": { "id": "windrun_monster", "min_level": 5, "hit_self": true },
+          "cooldown": 50,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 5" ] },
+              { "not": { "u_has_effect": "enchant_windrun_monster" } }
+            ]
+          },
+          "monster_message": "%1$s whistles words of magic and a wind picks up around them."
+        }
+      ]
+    }
+  },
+  {
+    "id": "mon_feral_cop",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_cop",
+    "extend": {
+      "special_attacks": [
+        {
+          "id": "feral_dabbler_spell_picker",
+          "type": "spell",
+          "spell_data": { "id": "feral_dabble_spell_selector_spell" },
+          "cooldown": 1,
+          "condition": { "math": [ "u_feral_dabbler_chosen_spell_number == 0" ] },
+          "monster_message": ""
+        },
+        {
+          "id": "feral_dabbler_sound_bomb",
+          "type": "spell",
+          "spell_data": { "id": "sound_bomb", "min_level": 5 },
+          "cooldown": 25,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 1" ] }
+            ]
+          },
+          "monster_message": "%1$s points at %3$s and a loud noise erupts around %3$s."
+        },
+        {
+          "id": "feral_dabbler_cure_light_wounds",
+          "type": "spell",
+          "spell_data": { "id": "light_healing", "min_level": 5, "hit_self": true },
+          "cooldown": 75,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 2" ] }
+            ]
+          },
+          "monster_message": "%1$s chants and makes a gesture trailed by glowing green lights."
+        },
+        {
+          "id": "feral_dabbler_light_target",
+          "type": "spell",
+          "spell_data": { "id": "magus_light_target", "min_level": 5 },
+          "cooldown": 30,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 3" ] }
+            ]
+          },
+          "monster_message": "%1$s screams words of magic and waves their hands toward %3$s."
+        },
+        {
+          "id": "feral_dabbler_summon_wisps",
+          "type": "spell",
+          "spell_data": { "id": "summon_wisps_monster", "min_level": 5 },
+          "cooldown": 30,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 4" ] }
+            ]
+          },
+          "monster_message": "%1$s make several expansive gestures and eerie lights appear."
+        },
+        {
+          "id": "feral_dabbler_windrunning",
+          "type": "spell",
+          "spell_data": { "id": "windrun_monster", "min_level": 5, "hit_self": true },
+          "cooldown": 50,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 5" ] },
+              { "not": { "u_has_effect": "enchant_windrun_monster" } }
+            ]
+          },
+          "monster_message": "%1$s whistles words of magic and a wind picks up around them."
+        },
+        {
+          "type": "monster_attack",
+          "//": "soldiers might have actually known some combat magic",
+          "attack_type": "melee",
+          "id": "feral_dabbler_soldier_magicmissile",
+          "cooldown": 10,
+          "move_cost": 100,
+          "range": 12,
+          "damage_max_instance": [ { "damage_type": "nether", "amount": 7 } ],
+          "dodgeable": false,
+          "blockable": false,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 25" ] }
+            ]
+          },
+          "hit_dmg_u": "%1$s screams words of magic and an eldritch bolt impacts your %2$s!",
+          "hit_dmg_npc": "%1$s screams words of magic and an eldritch bolt impacts <npcname>'s %2$s!",
+          "miss_msg_u": "%1$s screams words of magic and you narrowly avoid an eldritch bolt!",
+          "miss_msg_npc": "%1$s screams words of magic and <npcname> narrowly avoids an eldritch bolt!",
+          "no_dmg_msg_u": "%1$s screams words of magic and your %2$s is impacted by an eldritch bolt, but it does no damage.",
+          "no_dmg_msg_npc": "%1$s screams words of magic and <npcname>'s %2$s is impacted by an eldritch bolt, but it does no damage."
+        },
+        {
+          "id": "feral_dabbler_ethereal_grasp",
+          "type": "spell",
+          "spell_data": { "id": "ethereal_grasp_monster", "min_level": 5 },
+          "cooldown": 30,
+          "condition": {
+            "and": [ { "not": { "u_has_flag": "NO_SPELLCASTING" } }, { "math": [ "u_feral_dabbler_chosen_spell_number == 26" ] } ]
+          },
+          "monster_message": "%1$s makes a grasping gesture and ethereal hands burst from the ground around %3$s."
+        }
+      ]
+    }
+  },
+  {
+    "id": "mon_feral_soldier",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_soldier",
+    "extend": {
+      "special_attacks": [
+        {
+          "id": "feral_dabbler_spell_picker",
+          "type": "spell",
+          "spell_data": { "id": "feral_dabble_spell_selector_spell" },
+          "cooldown": 1,
+          "condition": { "math": [ "u_feral_dabbler_chosen_spell_number == 0" ] },
+          "monster_message": ""
+        },
+        {
+          "id": "feral_dabbler_sound_bomb",
+          "type": "spell",
+          "spell_data": { "id": "sound_bomb", "min_level": 5 },
+          "cooldown": 25,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 1" ] }
+            ]
+          },
+          "monster_message": "%1$s points at %3$s and a loud noise erupts around %3$s."
+        },
+        {
+          "id": "feral_dabbler_cure_light_wounds",
+          "type": "spell",
+          "spell_data": { "id": "light_healing", "min_level": 5, "hit_self": true },
+          "cooldown": 75,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 2" ] }
+            ]
+          },
+          "monster_message": "%1$s chants and makes a gesture trailed by glowing green lights."
+        },
+        {
+          "id": "feral_dabbler_light_target",
+          "type": "spell",
+          "spell_data": { "id": "magus_light_target", "min_level": 5 },
+          "cooldown": 30,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 3" ] }
+            ]
+          },
+          "monster_message": "%1$s screams words of magic and waves their hands toward %3$s."
+        },
+        {
+          "id": "feral_dabbler_summon_wisps",
+          "type": "spell",
+          "spell_data": { "id": "summon_wisps_monster", "min_level": 5 },
+          "cooldown": 30,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 4" ] }
+            ]
+          },
+          "monster_message": "%1$s make several expansive gestures and eerie lights appear."
+        },
+        {
+          "id": "feral_dabbler_windrunning",
+          "type": "spell",
+          "spell_data": { "id": "windrun_monster", "min_level": 5, "hit_self": true },
+          "cooldown": 50,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 5" ] },
+              { "not": { "u_has_effect": "enchant_windrun_monster" } }
+            ]
+          },
+          "monster_message": "%1$s whistles words of magic and a wind picks up around them."
+        },
+        {
+          "type": "monster_attack",
+          "//": "soldiers might have actually known some combat magic",
+          "attack_type": "melee",
+          "id": "feral_dabbler_soldier_magicmissile",
+          "cooldown": 10,
+          "move_cost": 100,
+          "range": 12,
+          "damage_max_instance": [ { "damage_type": "nether", "amount": 7 } ],
+          "dodgeable": false,
+          "blockable": false,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 25" ] }
+            ]
+          },
+          "hit_dmg_u": "%1$s screams words of magic and an eldritch bolt impacts your %2$s!",
+          "hit_dmg_npc": "%1$s screams words of magic and an eldritch bolt impacts <npcname>'s %2$s!",
+          "miss_msg_u": "%1$s screams words of magic and you narrowly avoid an eldritch bolt!",
+          "miss_msg_npc": "%1$s screams words of magic and <npcname> narrowly avoids an eldritch bolt!",
+          "no_dmg_msg_u": "%1$s screams words of magic and your %2$s is impacted by an eldritch bolt, but it does no damage.",
+          "no_dmg_msg_npc": "%1$s screams words of magic and <npcname>'s %2$s is impacted by an eldritch bolt, but it does no damage."
+        },
+        {
+          "id": "feral_dabbler_ethereal_grasp",
+          "type": "spell",
+          "spell_data": { "id": "ethereal_grasp_monster", "min_level": 5 },
+          "cooldown": 30,
+          "condition": {
+            "and": [ { "not": { "u_has_flag": "NO_SPELLCASTING" } }, { "math": [ "u_feral_dabbler_chosen_spell_number == 26" ] } ]
+          },
+          "monster_message": "%1$s makes a grasping gesture and ethereal hands burst from the ground around %3$s."
+        }
+      ]
+    }
+  }
+]

@@ -3,11 +3,13 @@
 #include <algorithm>
 #include <climits>
 #include <cstdlib>
+#include <exception>
 #include <iterator>
 #include <limits>
 #include <list>
 #include <memory>
 #include <set>
+#include <sstream>
 #include <stack>
 #include <unordered_map>
 #include <unordered_set>
@@ -16,23 +18,30 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "color.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "debug_menu.h"
 #include "enum_traits.h"
+#include "flexbuffer_json.h"
+#include "game_constants.h"
 #include "generic_factory.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_factory.h"
+#include "item_pocket.h"
+#include "item_tname.h"
 #include "itype.h"
 #include "json.h"
 #include "localized_comparator.h"
-#include "make_static.h"
 #include "output.h"
-#include "point.h"
+#include "pocket_type.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "units.h"
 #include "value_ptr.h"
 #include "visitable.h"
+
+static const flag_id json_flag_UNRECOVERABLE( "UNRECOVERABLE" );
 
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_char_forge( "char_forge" );
@@ -104,7 +113,7 @@ void quality::load_static( const JsonObject &jo, const std::string &src )
     quality_factory.load( jo, src );
 }
 
-void quality::load( const JsonObject &jo, const std::string_view )
+void quality::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "name", name );
 
@@ -158,9 +167,9 @@ std::string tool_comp::to_string( const int batch, const int ) const
         //~ %1$s: tool name, %2$d: charge requirement
         return string_format( npgettext( "requirement", "%1$s (%2$d charge)", "%1$s (%2$d charges)",
                                          charge_total ),
-                              item::tname( type, 1, tname::item_name ), charge_total );
+                              item::tname( type, 1, tname::base_item_name ), charge_total );
     } else {
-        return item::tname( type, std::abs( count ), tname::item_name );
+        return item::tname( type, std::abs( count ), tname::base_item_name );
     }
 }
 
@@ -176,16 +185,16 @@ std::string item_comp::to_string( const int batch, const int avail ) const
             return string_format( npgettext( "requirement", "%2$d %1$s (have infinite)",
                                              "%2$d %1$s (have infinite)",
                                              c ),
-                                  item_temp.tname( 1, tname::item_name ), c );
+                                  item_temp.tname( 1, tname::base_item_name ), c );
         } else if( avail > 0 ) {
             //~ %1$s: item name, %2$d: charge requirement, %3%d: available charges
             return string_format( npgettext( "requirement", "%2$d %1$s (have %3$d)",
                                              "%2$d %1$s (have %3$d)", c ),
-                                  item_temp.tname( 1, tname::item_name ), c, avail );
+                                  item_temp.tname( 1, tname::base_item_name ), c, avail );
         } else {
             //~ %1$s: item name, %2$d: charge requirement
             return string_format( npgettext( "requirement", "%2$d %1$s", "%2$d %1$s", c ),
-                                  item_temp.tname( 1, tname::item_name ), c );
+                                  item_temp.tname( 1, tname::base_item_name ), c );
         }
     } else {
         if( avail == item::INFINITE_CHARGES ) {
@@ -193,16 +202,16 @@ std::string item_comp::to_string( const int batch, const int avail ) const
             return string_format( npgettext( "requirement", "%2$d %1$s (have infinite)",
                                              "%2$d %1$s (have infinite)",
                                              c ),
-                                  item_temp.tname( c, tname::item_name ), c );
+                                  item_temp.tname( c, tname::base_item_name ), c );
         } else if( avail > 0 ) {
             //~ %1$s: item name, %2$d: required count, %3%d: available count
             return string_format( npgettext( "requirement", "%2$d %1$s (have %3$d)",
                                              "%2$d %1$s (have %3$d)", c ),
-                                  item_temp.tname( c, tname::item_name ), c, avail );
+                                  item_temp.tname( c, tname::base_item_name ), c, avail );
         } else {
             //~ %1$s: item name, %2$d: required count
             return string_format( npgettext( "requirement", "%2$d %1$s", "%2$d %1$s", c ),
-                                  item_temp.tname( c, tname::item_name ), c );
+                                  item_temp.tname( c, tname::base_item_name ), c );
         }
     }
 }
@@ -603,13 +612,20 @@ template<typename T>
 void requirement_data::check_consistency( const std::vector< std::vector<T> > &vec,
         const std::string &display_name )
 {
+
     for( const auto &list : vec ) {
+        bool requirement_was_empty = true;
         for( const auto &comp : list ) {
+            requirement_was_empty = false;
             if( comp.requirement ) {
                 debugmsg( "Finalization failed to inline %s in %s", comp.type.c_str(), display_name );
             }
 
             comp.check_consistency( display_name );
+        }
+        if( requirement_was_empty ) {
+            debugmsg( "Requirement %s is empty, recipes using it have no valid results.  Some input must be invalid.",
+                      display_name );
         }
     }
 }
@@ -716,6 +732,10 @@ void requirement_data::finalize()
         } );
         requirement_data::alter_tool_comp_vector &vec = r.second.tools;
         for( auto &list : vec ) {
+            if( list.empty() ) {
+                debugmsg( "Requirements data %s tools vector contains impossible requirements.  Recipes using this requirement set will be impossible to make.",
+                          r.first.c_str() );
+            }
             std::vector<tool_comp> new_list;
             for( tool_comp &comp : list ) {
                 const auto replacements = item_controller->subtype_replacement( comp.type );
@@ -737,7 +757,7 @@ void requirement_data::reset()
 std::vector<std::string> requirement_data::get_folded_components_list( int width, nc_color col,
         const read_only_visitable &crafting_inv, const std::function<bool( const item & )> &filter,
         int batch,
-        const std::string_view hilite, requirement_display_flags flags ) const
+        std::string_view hilite, requirement_display_flags flags ) const
 {
     std::vector<std::string> out_buffer;
     if( components.empty() ) {
@@ -755,7 +775,7 @@ std::vector<std::string> requirement_data::get_folded_components_list( int width
 template<typename T>
 std::vector<std::string> requirement_data::get_folded_list( int width,
         const read_only_visitable &crafting_inv, const std::function<bool( const item & )> &filter,
-        const std::vector< std::vector<T> > &objs, int batch, const std::string_view hilite,
+        const std::vector< std::vector<T> > &objs, int batch, std::string_view hilite,
         requirement_display_flags flags ) const
 {
     // hack: ensure 'cached' availability is up to date
@@ -825,6 +845,7 @@ std::vector<std::string> requirement_data::get_folded_tools_list( int width, nc_
         const read_only_visitable &crafting_inv, int batch ) const
 {
     std::vector<std::string> output_buffer;
+    output_buffer.reserve( 2 );
     output_buffer.push_back( colorize( _( "Tools required:" ), col ) );
     if( tools.empty() && qualities.empty() ) {
         output_buffer.push_back( colorize( "> ", col ) + colorize( _( "NONE" ), c_green ) );
@@ -843,7 +864,8 @@ std::vector<std::string> requirement_data::get_folded_tools_list( int width, nc_
 }
 
 bool requirement_data::can_make_with_inventory( const read_only_visitable &crafting_inv,
-        const std::function<bool( const item & )> &filter, int batch, craft_flags flags ) const
+        const std::function<bool( const item & )> &filter, int batch, craft_flags flags,
+        bool restrict_volume ) const
 {
     if( get_player_character().has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -860,7 +882,7 @@ bool requirement_data::can_make_with_inventory( const read_only_visitable &craft
     if( !has_comps( crafting_inv, components, filter, batch ) ) {
         retval = false;
     }
-    if( !check_enough_materials( crafting_inv, filter, batch ) ) {
+    if( !check_enough_materials( crafting_inv, filter, batch, restrict_volume ) ) {
         retval = false;
     }
     return retval;
@@ -1028,20 +1050,36 @@ const T *requirement_data::find_by_type( const std::vector< std::vector<T> > &ve
 }
 
 bool requirement_data::check_enough_materials( const read_only_visitable &crafting_inv,
-        const std::function<bool( const item & )> &filter, int batch ) const
+        const std::function<bool( const item & )> &filter, int batch, bool restrict_volume ) const
 {
     bool retval = true;
+    units::volume total_component_volume = 0_ml;
     for( const auto &component_choices : components ) {
         bool atleast_one_available = false;
+        units::volume max_volume_of_this_comp_choice = 0_ml;
         for( const item_comp &comp : component_choices ) {
             if( check_enough_materials( comp, crafting_inv, filter, batch ) ) {
+                // we need different calculations depending on whether or not the item uses charges...
+                const double relative_amount = comp.type->count_by_charges() ?
+                                               static_cast<double>( comp.count ) / static_cast<double>( comp.type->stack_size ) : comp.count;
+                const units::volume comp_volume = comp.type->volume * relative_amount * batch;
+                // the worst case scenario is used to tally volume
+                max_volume_of_this_comp_choice = std::max( max_volume_of_this_comp_choice, comp_volume );
                 atleast_one_available = true;
             }
         }
+        total_component_volume += max_volume_of_this_comp_choice;
         if( !atleast_one_available ) {
             retval = false;
         }
     }
+
+    // This will be the volume of the resulting in-progress craft item (see item::volume), so we don't want to exceed it.
+    // TODO: Feedback? Some sort of indicator to the player that resulting volume is why it can't be crafted
+    if( restrict_volume && total_component_volume > MAX_ITEM_VOLUME ) {
+        retval = false;
+    }
+
     return retval;
 }
 
@@ -1276,7 +1314,7 @@ requirement_data requirement_data::disassembly_requirements() const
     []( std::vector<item_comp> &cov ) {
         cov.erase( std::remove_if( cov.begin(), cov.end(),
         []( const item_comp & comp ) {
-            return !comp.recoverable || item( comp.type ).has_flag( STATIC( flag_id( "UNRECOVERABLE" ) ) );
+            return !comp.recoverable || item( comp.type ).has_flag( json_flag_UNRECOVERABLE );
         } ), cov.end() );
         return cov.empty();
     } ), ret.components.end() );
@@ -1312,7 +1350,7 @@ requirement_data requirement_data::continue_requirements( const std::vector<item
             std::vector<item *> del;
             craft_components.visit_items( [&comp, &qty, &del]( item * e, item * ) {
                 std::list<item> used;
-                if( e->use_charges( comp.type, qty, used, tripoint_zero ) ) {
+                if( e->use_charges( comp.type, qty, used, tripoint_bub_ms::zero ) ) {
                     del.push_back( e );
                 }
                 return qty > 0 ? VisitResponse::SKIP : VisitResponse::ABORT;
@@ -1664,7 +1702,7 @@ deduped_requirement_data::deduped_requirement_data( const requirement_data &in,
         if( alternatives_.size() + pending.size() > max_alternatives ) {
             debugmsg( "Construction of deduped_requirement_data generated too many alternatives.  "
                       "The recipe %1s should be simplified.  See the Recipe section in "
-                      "doc/JSON_INFO.md for more details.  It has %2s alternatives.", context.str(),
+                      "doc/JSON/JSON_INFO.md for more details.  It has %2s alternatives.", context.str(),
                       alternatives_.size() + pending.size() );
             is_too_complex_ = true;
             alternatives_ = { in };

@@ -16,6 +16,7 @@
         [ "egg_torvosaurus", 1 ],
         [ "egg_allosaurus", 1 ],
         [ "egg_acrocanthosaurus", 1 ],
+        [ "egg_giganotosaurus", 1 ],
         [ "egg_siats", 1 ],
         [ "egg_dryptosaurus", 1 ],
         [ "egg_appalachiosaurus", 1 ],
@@ -24,9 +25,11 @@
         [ "egg_qianzhousaurus", 1 ],
         [ "egg_nanuqsaurus", 1 ],
         [ "egg_daspletosaurus", 1 ],
+        [ "egg_nedcolbertia", 1 ],
         [ "egg_gallimimus", 1 ],
         [ "egg_struthiomimus", 1 ],
         [ "egg_ornithomimus", 1 ],
+        [ "egg_falcarius", 1 ],
         [ "egg_therizinosaurus", 1 ],
         [ "egg_nothronychus", 1 ],
         [ "egg_anzu", 1 ],
@@ -51,6 +54,7 @@
         [ "egg_tenontosaurus", 1 ],
         [ "egg_camptosaurus", 1 ],
         [ "egg_iguanodon", 1 ],
+        [ "egg_eolambia", 1 ],
         [ "egg_hadrosaurus", 1 ],
         [ "egg_maiasaura", 1 ],
         [ "egg_gryposaurus", 1 ],
@@ -64,6 +68,7 @@
         [ "egg_pachycephalosaurus", 1 ],
         [ "egg_leptoceratops", 1 ],
         [ "egg_zuniceratops", 1 ],
+        [ "egg_lokiceratops", 1 ],
         [ "egg_styracosaurus", 1 ],
         [ "egg_centrosaurus", 1 ],
         [ "egg_einiosaurus", 1 ],
@@ -101,6 +106,7 @@
         [ "egg_stegoceras", 1 ],
         [ "egg_aquilops", 1 ],
         [ "egg_nanosaurus", 1 ],
+        [ "egg_fona", 1 ],
         [ "egg_oryctodromeus", 1 ],
         [ "egg_pteranodon", 1 ]
       ]
@@ -123,6 +129,7 @@
         [ "egg_barosaurus", 1 ],
         [ "egg_camarasaurus", 1 ],
         [ "egg_brachiosaurus", 1 ],
+        [ "egg_astrodon", 1 ],
         [ "egg_alamosaurus", 1 ]
       ]
     ]

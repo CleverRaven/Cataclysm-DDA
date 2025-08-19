@@ -249,7 +249,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_RAISE_NETHER_ATTUNEMENT_MAINTENANCE",
-    "condition": { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "15" ] },
+    "condition": { "math": [ "u_vitamin('vitamin_psionic_drain') < 15" ] },
     "effect": [ { "run_eocs": "EOC_RAISE_NETHER_ATTUNEMENT_MAINTENANCE_BELOW_THRESHOLD" } ],
     "false_effect": [ { "run_eocs": "EOC_RAISE_NETHER_ATTUNEMENT_MAINTENANCE_ABOVE_THRESHOLD" } ]
   },
@@ -259,11 +259,11 @@
     "condition": { "u_has_effect": "effect_noetic_resilience" },
     "effect": [
       { "u_message": "You feel a strange tingling sensation as you concentrate.", "type": "mixed" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(1)" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain') += rand(1)" ] }
     ],
     "false_effect": [
       { "u_message": "You feel a strange tingling sensation as you concentrate.", "type": "mixed" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(3)" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain') += rand(3)" ] }
     ]
   },
   {
@@ -272,11 +272,11 @@
     "condition": { "u_has_effect": "effect_noetic_resilience" },
     "effect": [
       { "u_message": "You feel a strange tingling sensation as you concentrate.", "type": "mixed" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(3) * u_nether_attunement_power_scaling" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain') += rand(3) * u_nether_attunement_power_scaling" ] }
     ],
     "false_effect": [
       { "u_message": "You feel a strange tingling sensation as you concentrate.", "type": "mixed" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "(rand(5) + 2) * u_nether_attunement_power_scaling" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain') += (rand(5) + 2) * u_nether_attunement_power_scaling" ] }
     ]
   },
   {

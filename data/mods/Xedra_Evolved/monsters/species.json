@@ -1,8 +1,27 @@
 [
   {
     "type": "SPECIES",
+    "id": "FISH",
+    "description": "a fish",
+    "fear_triggers": [ "HURT", "FRIEND_ATTACKED" ],
+    "bleeds": "fd_blood",
+    "flags": [ "EVIL_EYE_IMMUNE_MONSTER" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "NIGHT_CREATURE",
+    "description": "One of the children of the night"
+  },
+  {
+    "type": "SPECIES",
     "id": "CHANGELING",
     "description": "a creature from under the hill",
+    "fear_triggers": [ "HURT" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "CHANGELING_NOBLE",
+    "description": "one of the leaders of the people under the hill",
     "fear_triggers": [ "HURT" ]
   },
   {
@@ -43,14 +62,43 @@
   },
   {
     "type": "SPECIES",
-    "id": "VAMPIRE",
-    "description": "a variety of creatures that subsist off the blood of living humans",
-    "flags": [ "NO_NECRO", "VAMP_VIRUS" ],
+    "id": "THORNBEAST",
+    "description": "A magickally-animated mass of thorns, born to kill vampires"
+  },
+  {
+    "type": "SPECIES",
+    "id": "RENFIELD",
+    "description": "a variety of creatures that have partaken of the unholy blood of the vampyr",
     "fear_triggers": [ "FIRE" ]
   },
   {
     "type": "SPECIES",
+    "id": "VAMPIRE",
+    "description": "a variety of creatures that subsist off the blood of living humans",
+    "flags": [ "NO_NECRO", "VAMP_VIRUS", "DRACULIN_IMMUNE" ],
+    "fear_triggers": [ "FIRE" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "VAMPIRE_ANATHEMA",
+    "description": "a being who devoured vampires to become better at killing them.",
+    "flags": [ "NO_NECRO", "VAMP_VIRUS", "DRACULIN_IMMUNE" ]
+  },
+  {
+    "type": "SPECIES",
     "id": "NIGHTMARE",
-    "description": "creatures made from dreams, technically not alive"
+    "description": "creatures made from dreams, technically not alive",
+    "flags": [ "DRACULIN_IMMUNE" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "GRACKEN",
+    "description": "Grackens from the nether",
+    "fear_triggers": [ "HURT" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "SHAPESHIFTER",
+    "description": "A creature that can take more than one form at will"
   }
 ]

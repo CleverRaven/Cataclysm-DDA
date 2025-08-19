@@ -329,7 +329,7 @@ class Handler:
             row = int(_map.split('.')[0])
             column = int(_map.split('.')[1])
             folder = pathlib.Path.joinpath(self.maps_folder,
-                                           f'{row//32}.{column//32}.0')
+                                           f'{row // 32}.{column // 32}.0')
             if not self.dry_run:
                 folder.mkdir(parents=True, exist_ok=True)
 

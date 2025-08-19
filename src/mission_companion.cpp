@@ -1,7 +1,10 @@
 #include "mission_companion.h"
 
 #include <algorithm>
+#include <array>
+#include <cmath>
 #include <cstdlib>
+#include <functional>
 #include <list>
 #include <map>
 #include <memory>
@@ -9,6 +12,7 @@
 #include <set>
 #include <tuple>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -16,30 +20,34 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_assert.h"
+#include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
-#include "colony.h"
+#include "character_id.h"
 #include "color.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
+#include "current_map.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "enums.h"
 #include "faction.h"
 #include "faction_camp.h"
+#include "flexbuffer_json.h"
 #include "game.h"
-#include "game_constants.h"
 #include "input_context.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
-#include "item_stack.h"
 #include "itype.h"
-#include "line.h"
+#include "json.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapdata.h"
+#include "math_parser_diag_value.h"
 #include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
@@ -53,14 +61,13 @@
 #include "rng.h"
 #include "skill.h"
 #include "string_formatter.h"
+#include "translation.h"
 #include "translations.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_manager.h"
 #include "value_ptr.h"
 #include "weather.h"
 #include "weighted_list.h"
-
-class character_id;
 
 static const efftype_id effect_riding( "riding" );
 
@@ -142,13 +149,13 @@ static const trait_id trait_NPC_CONSTRUCTION_LEV_2( "NPC_CONSTRUCTION_LEV_2" );
 static const trait_id trait_NPC_MISSION_LEV_1( "NPC_MISSION_LEV_1" );
 
 static const std::string var_DOCTOR_ANESTHETIC_SCAVENGERS_HELPED =
-    "npctalk_var_mission_tacoma_ranch_doctor_anesthetic_scavengers_helped";
+    "mission_tacoma_ranch_doctor_anesthetic_scavengers_helped";
 static const std::string var_PURCHASED_FIELD_1_FENCE =
-    "npctalk_var_dialogue_tacoma_ranch_purchased_field_1_fence";
+    "dialogue_tacoma_ranch_purchased_field_1_fence";
 static const std::string var_SCAVENGER_HOSPITAL_RAID =
-    "npctalk_var_mission_tacoma_ranch_scavenger_hospital_raid";
+    "mission_tacoma_ranch_scavenger_hospital_raid";
 static const std::string var_SCAVENGER_HOSPITAL_RAID_STARTED =
-    "npctalk_var_mission_tacoma_ranch_scavenger_hospital_raid_started";
+    "mission_tacoma_ranch_scavenger_hospital_raid_started";
 
 static const std::string role_id_faction_camp = "FACTION_CAMP";
 
@@ -212,7 +219,6 @@ std::string enum_to_string<mission_kind>( mission_kind data )
         case mission_kind::Camp_Recruiting: return "Camp_Recruiting";
         case mission_kind::Camp_Scouting: return "Camp_Scouting";
         case mission_kind::Camp_Combat_Patrol: return "Camp_Combat_Patrol";
-        case mission_kind::Camp_Chop_Shop: return "Camp_Chop_Shop";
         case mission_kind::Camp_Plow: return "Camp_Plow";
         case mission_kind::Camp_Plant: return "Camp_Plant";
         case mission_kind::Camp_Harvest: return "Camp_Harvest";
@@ -367,11 +373,6 @@ static const std::array < miss_data, Camp_Harvest + 1 > miss_info = { {
         {
             "Camp_Combat Patrol",
             to_translation( "Patrolling the region.\n" )
-        },
-        {
-            //  Obsolete entry
-            "Camp_Chop_Shop",
-            to_translation( "Working at the chop shop…\n" )
         },
         {
             "Camp_Plow",
@@ -538,8 +539,6 @@ void mission_id::deserialize( const JsonValue &val )
                    camp_upgrade_expansion_npc_string ) { // blueprint + id + dir
             id = Camp_Upgrade;
             parameters = st.substr( 0, id_size - camp_upgrade_expansion_npc_string.length() );
-        } else if( st == "_faction_exp_chop_shop_" ) {        // id + dir
-            id = Camp_Chop_Shop;
         } else if( st == "_faction_exp_kitchen_cooking_" ||   // id + dir
                    st == "_faction_exp_blacksmith_crafting_" ||
                    st == "_faction_exp_farm_crafting_" ) {
@@ -598,7 +597,7 @@ void talk_function::companion_mission( npc &p )
     mission_data mission_key;
 
     std::string role_id = p.companion_mission_role_id;
-    const tripoint_abs_omt omt_pos = p.global_omt_location();
+    const tripoint_abs_omt omt_pos = p.pos_abs_omt();
     std::string title = _( "Outpost Missions" );
     if( role_id == "SCAVENGER" ) {
         title = _( "Junk Shop Missions" );
@@ -608,7 +607,7 @@ void talk_function::companion_mission( npc &p )
         }
 
         Character &player_character = get_player_character();
-        if( player_character.get_value( var_SCAVENGER_HOSPITAL_RAID ) == "yes" ) {
+        if( player_character.get_value( var_SCAVENGER_HOSPITAL_RAID ).str() == "yes" ) {
             hospital_raid( mission_key, p );
         }
     } else if( role_id == "COMMUNE CROPS" ) {
@@ -706,7 +705,7 @@ void talk_function::scavenger_raid( mission_data &mission_key, npc &p )
 void talk_function::hospital_raid( mission_data &mission_key, npc &p )
 {
     const mission_id miss_id = {Hospital_Raid_Job, "", {}, std::nullopt};
-    if( get_player_character().get_value( var_SCAVENGER_HOSPITAL_RAID_STARTED ) != "yes" ) {
+    if( get_player_character().get_value( var_SCAVENGER_HOSPITAL_RAID_STARTED ).str() != "yes" ) {
         const std::string entry_assign =
             _( "Profit: hospital equipment, some items\nDanger: High\nTime: 20 hour mission\n\n"
                "Scavenging raid targeting a hospital to search for hospital equipment and as many "
@@ -1277,7 +1276,6 @@ bool talk_function::handle_outpost_mission( const mission_entry &cur_key, npc &p
         case Camp_Recruiting:
         case Camp_Scouting:
         case Camp_Combat_Patrol:
-        case Camp_Chop_Shop:
         case Camp_Plow:
         case Camp_Plant:
         case Camp_Harvest:
@@ -1299,16 +1297,18 @@ npc_ptr talk_function::individual_mission( npc &p, const std::string &desc,
         const mission_id &miss_id, bool group, const std::vector<item *> &equipment,
         const std::map<skill_id, int> &required_skills, bool silent_failure )
 {
-    const tripoint_abs_omt omt_pos = p.global_omt_location();
+    const tripoint_abs_omt omt_pos = p.pos_abs_omt();
     return individual_mission( omt_pos, p.companion_mission_role_id, desc, miss_id, group,
                                equipment, required_skills, silent_failure );
 }
 npc_ptr talk_function::individual_mission( const tripoint_abs_omt &omt_pos,
         const std::string &role_id, const std::string &desc,
         const mission_id &miss_id, bool group, const std::vector<item *> &equipment,
-        const std::map<skill_id, int> &required_skills, bool silent_failure )
+        const std::map<skill_id, int> &required_skills, bool silent_failure,
+        const npc_ptr &preselected_choice )
 {
-    npc_ptr comp = companion_choose( required_skills, silent_failure );
+    npc_ptr comp = preselected_choice ? preselected_choice : companion_choose( required_skills,
+                   silent_failure );
     if( comp == nullptr ) {
         return comp;
     }
@@ -1327,7 +1327,7 @@ npc_ptr talk_function::individual_mission( const tripoint_abs_omt &omt_pos,
         }
     }
     if( comp->in_vehicle ) {
-        get_map().unboard_vehicle( comp->pos() );
+        get_map().unboard_vehicle( comp->pos_bub() );
     }
     popup( "%s %s", comp->get_name(), desc );
     comp->set_companion_mission( omt_pos, role_id, miss_id );
@@ -1370,8 +1370,8 @@ int talk_function::caravan_dist( const std::string &dest )
 {
     Character &player_character = get_player_character();
     const tripoint_abs_omt site =
-        overmap_buffer.find_closest( player_character.global_omt_location(), dest, 0, false );
-    int distance = rl_dist( player_character.global_omt_location(), site );
+        overmap_buffer.find_closest( player_character.pos_abs_omt(), dest, 0, false );
+    int distance = rl_dist( player_character.pos_abs_omt(), site );
     return distance;
 }
 
@@ -1546,7 +1546,7 @@ npc_ptr talk_function::temp_npc( const string_id<npc_template> &type )
 void talk_function::field_plant( npc &p, const std::string &place )
 {
     Character &player_character = get_player_character();
-    if( !warm_enough_to_plant( player_character.pos() ) ) {
+    if( !warm_enough_to_plant( player_character.pos_bub() ) ) {
         popup( _( "It is too cold to plant anything now." ) );
         return;
     }
@@ -1587,10 +1587,13 @@ void talk_function::field_plant( npc &p, const std::string &place )
 
     //Now we need to find how many free plots we have to plant in...
     const tripoint_abs_omt site = overmap_buffer.find_closest(
-                                      player_character.global_omt_location(), place, 20, false );
+                                      player_character.pos_abs_omt(), place, 20, false );
     tinymap bay;
     bay.load( site, false );
-    for( const tripoint &plot : bay.points_on_zlevel() ) {
+    // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+
+    swap_map swap( *bay.cast_to_map() );
+    for( const tripoint_omt_ms &plot : bay.points_on_zlevel() ) {
         if( bay.ter( plot ) == ter_t_dirtmound ) {
             empty_plots++;
         }
@@ -1630,7 +1633,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
     player_character.use_amount( itype_FMCNote, limiting_number );
 
     //Plant the actual seeds
-    for( const tripoint &plot : bay.points_on_zlevel() ) {
+    for( const tripoint_omt_ms &plot : bay.points_on_zlevel() ) {
         if( bay.ter( plot ) == ter_t_dirtmound && limiting_number > 0 ) {
             std::list<item> used_seed;
             if( item::count_by_charges( seed_id ) ) {
@@ -1655,14 +1658,17 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     Character &player_character = get_player_character();
     //First we need a list of plants that can be harvested...
     const tripoint_abs_omt site = overmap_buffer.find_closest(
-                                      player_character.global_omt_location(), place, 20, false );
+                                      player_character.pos_abs_omt(), place, 20, false );
     tinymap bay;
     item tmp;
     std::vector<itype_id> seed_types;
     std::vector<itype_id> plant_types;
     std::vector<std::string> plant_names;
     bay.load( site, false );
-    for( const tripoint &plot : bay.points_on_zlevel() ) {
+    // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+    swap_map swap( *bay.cast_to_map() );
+
+    for( const tripoint_omt_ms &plot : bay.points_on_zlevel() ) {
         map_stack items = bay.i_at( plot );
         if( bay.furn( plot ) == furn_f_plant_harvest && !items.empty() ) {
             // Can't use item_stack::only_item() since there might be fertilizer
@@ -1705,11 +1711,11 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     int number_seeds = 0;
     int skillLevel = 2;
     if( p.has_trait( trait_NPC_CONSTRUCTION_LEV_2 ) ||
-        p.get_value( var_PURCHASED_FIELD_1_FENCE ) == "yes" ) {
+        p.get_value( var_PURCHASED_FIELD_1_FENCE ).str() == "yes" ) {
         skillLevel += 2;
     }
 
-    for( const tripoint &plot : bay.points_on_zlevel() ) {
+    for( const tripoint_omt_ms &plot : bay.points_on_zlevel() ) {
         if( bay.furn( plot ) == furn_f_plant_harvest ) {
             // Can't use item_stack::only_item() since there might be fertilizer
             map_stack items = bay.i_at( plot );
@@ -1873,7 +1879,7 @@ bool talk_function::scavenging_raid_return( npc &p )
         }
     }
     Character &player_character = get_player_character();
-    tripoint_abs_omt loot_location = player_character.global_omt_location();
+    tripoint_abs_omt loot_location = player_character.pos_abs_omt();
     std::set<item> all_returned_items;
 
     for( int i = 0; i < rng( 2, 3 ); i++ ) {
@@ -1981,12 +1987,12 @@ bool talk_function::hospital_raid_return( npc &p )
         }
     }
     Character &player_character = get_player_character();
-    tripoint_abs_omt loot_location = player_character.global_omt_location();
+    tripoint_abs_omt loot_location = player_character.pos_abs_omt();
     std::set<item> all_returned_items;
     for( int i = 0; i < rng( 2, 3 ); i++ ) {
         tripoint_abs_omt site = overmap_buffer.find_closest(
                                     loot_location, "hospital", 0, false, ot_match_type::prefix );
-        if( site == overmap::invalid_tripoint ) {
+        if( site.is_invalid() ) {
             debugmsg( "No hospitals found." );
         } else {
             // Search the entire height of the hospital, including the roof
@@ -2480,7 +2486,7 @@ void talk_function::companion_return( npc &comp )
     for( size_t i = 0; i < comp.companion_mission_inv.size(); i++ ) {
         for( const item &it : comp.companion_mission_inv.const_stack( i ) ) {
             if( !it.count_by_charges() || it.charges > 0 ) {
-                here.add_item_or_charges( player_character.pos(), it );
+                here.add_item_or_charges( player_character.pos_bub(), it );
             }
         }
     }
@@ -2494,7 +2500,7 @@ std::vector<npc_ptr> talk_function::companion_list( const npc &p, const mission_
         bool contains )
 {
     std::vector<npc_ptr> available;
-    const tripoint_abs_omt omt_pos = p.global_omt_location();
+    const tripoint_abs_omt omt_pos = p.pos_abs_omt();
     for( const auto &elem : overmap_buffer.get_companion_mission_npcs() ) {
         npc_companion_mission c_mission = elem->get_companion_mission();
         if( c_mission.position == omt_pos && is_equal( c_mission.miss_id, miss_id ) &&
@@ -2614,10 +2620,12 @@ std::vector<comp_rank> talk_function::companion_rank( const std::vector<npc_ptr>
 npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required_skills,
         bool silent_failure )
 {
+    const map &here = get_map();
+
     Character &player_character = get_player_character();
     std::vector<npc_ptr> available;
     std::optional<basecamp *> bcp = overmap_buffer.find_camp(
-                                        player_character.global_omt_location().xy() );
+                                        player_character.pos_abs_omt().xy() );
 
     for( const character_id &elem : g->get_follower_list() ) {
         npc_ptr guy = overmap_buffer.find_npc( elem );
@@ -2628,8 +2636,8 @@ npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required
         // get non-assigned visible followers
         if( player_character.posz() == guy->posz() && !guy->has_companion_mission() &&
             !guy->is_travelling() &&
-            ( rl_dist( player_character.pos(), guy->pos() ) <= SEEX * 2 ) &&
-            player_character.sees( guy->pos() ) ) {
+            ( rl_dist( player_character.pos_abs(), guy->pos_abs() ) <= SEEX * 2 ) &&
+            player_character.sees( here, guy->pos_bub( here ) ) ) {
             available.push_back( guy );
         } else if( bcp ) {
             basecamp *player_camp = *bcp;
@@ -2641,7 +2649,7 @@ npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required
                 available.push_back( guy );
             }
         } else {
-            const tripoint_abs_omt guy_omt_pos = guy->global_omt_location();
+            const tripoint_abs_omt guy_omt_pos = guy->pos_abs_omt();
             std::optional<basecamp *> guy_camp = overmap_buffer.find_camp( guy_omt_pos.xy() );
             if( guy_camp ) {
                 // get NPCs assigned to guard a remote base
@@ -2735,7 +2743,7 @@ npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required
 npc_ptr talk_function::companion_choose_return( const npc &p, const mission_id &miss_id,
         const time_point &deadline, const bool ignore_parameters )
 {
-    const tripoint_abs_omt omt_pos = p.global_omt_location();
+    const tripoint_abs_omt omt_pos = p.pos_abs_omt();
     const std::string &role_id = p.companion_mission_role_id;
     return companion_choose_return( omt_pos, role_id, miss_id, deadline, true, ignore_parameters );
 }
@@ -2805,53 +2813,67 @@ std::set<item> talk_function::loot_building( const tripoint_abs_omt &site,
 {
     tinymap bay;
     bay.load( site, false );
+    // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+    swap_map swap( *bay.cast_to_map() );
     creature_tracker &creatures = get_creature_tracker();
     std::set<item> return_items;
-    for( const tripoint &p : bay.points_on_zlevel() ) {
-        const ter_id t = bay.ter( p );
+    for( const tripoint_omt_ms &p : bay.points_on_zlevel() ) {
+        const ter_id &t = bay.ter( p );
         //Open all the doors, doesn't need to be exhaustive
         const std::unordered_set<ter_str_id> openable_doors = {ter_t_door_c, ter_t_door_c_peep, ter_t_door_b, ter_t_door_boarded, ter_t_door_boarded_damaged, ter_t_rdoor_boarded, ter_t_rdoor_boarded_damaged, ter_t_door_boarded_peep, ter_t_door_boarded_damaged_peep };
         if( openable_doors.find( t.id() ) != openable_doors.end() ) {
             bay.ter_set( p, ter_t_door_o );
         } else if( t == ter_t_door_locked || t == ter_t_door_locked_peep || t == ter_t_door_locked_alarm ) {
-            const map_bash_info &bash = bay.ter( p ).obj().bash;
-            bay.ter_set( p, bash.ter_set );
+            const std::optional<map_ter_bash_info> &bash = bay.ter( p ).obj().bash;
+            if( bash ) {
+                bay.ter_set( p, bash->ter_set );
+            }
             // Bash doors twice
-            const map_bash_info &bash_again = bay.ter( p ).obj().bash;
-            bay.ter_set( p, bash_again.ter_set );
-            bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
-            bay.spawn_items( p, item_group::items_from( bash_again.drop_group, calendar::turn ) );
+            const std::optional <map_ter_bash_info> &bash_again = bay.ter( p ).obj().bash;
+            if( bash_again ) {
+                bay.ter_set( p, bash_again->ter_set );
+                bay.spawn_items( p, item_group::items_from( bash->drop_group, calendar::turn ) );
+                bay.spawn_items( p, item_group::items_from( bash_again->drop_group, calendar::turn ) );
+            }
         } else if( t == ter_t_door_metal_c || t == ter_t_door_metal_locked ||
                    t == ter_t_door_metal_pickable ) {
             bay.ter_set( p, ter_t_door_metal_o );
         } else if( t == ter_t_door_glass_c ) {
             bay.ter_set( p, ter_t_door_glass_o );
         } else if( t == ter_t_wall && one_in( 25 ) ) {
-            const map_bash_info &bash = bay.ter( p ).obj().bash;
-            bay.ter_set( p, bash.ter_set );
-            bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
-            bay.collapse_at( p, false );
+            const std::optional<map_ter_bash_info> &bash = bay.ter( p ).obj().bash;
+            if( bash ) {
+                bay.ter_set( p, bash->ter_set );
+                bay.spawn_items( p, item_group::items_from( bash->drop_group, calendar::turn ) );
+                bay.collapse_at( p, false );
+            }
         }
         //Smash easily breakable stuff
         else if( const std::unordered_set<ter_str_id> weak_window_ters = {ter_t_window, ter_t_window_taped, ter_t_window_domestic, ter_t_window_boarded_noglass, ter_t_window_domestic_taped, ter_t_window_alarm_taped, ter_t_window_boarded, ter_t_curtains, ter_t_window_alarm, ter_t_window_no_curtains, ter_t_window_no_curtains_taped };
                  weak_window_ters.find( t.id() ) != weak_window_ters.end() && one_in( 4 ) ) {
-            const map_bash_info &bash = bay.ter( p ).obj().bash;
-            bay.ter_set( p, bash.ter_set );
-            bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
+            const std::optional<map_ter_bash_info> &bash = bay.ter( p ).obj().bash;
+            if( bash ) {
+                bay.ter_set( p, bash->ter_set );
+                bay.spawn_items( p, item_group::items_from( bash->drop_group, calendar::turn ) );
+            }
         } else if( ( t == ter_t_wall_glass || t == ter_t_wall_glass_alarm ) && one_in( 3 ) ) {
-            const map_bash_info &bash = bay.ter( p ).obj().bash;
-            bay.ter_set( p, bash.ter_set );
-            bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
-        } else if( bay.has_furn( p ) && bay.furn( p ).obj().bash.str_max != -1 && one_in( 10 ) ) {
-            const map_bash_info &bash = bay.furn( p ).obj().bash;
-            bay.furn_set( p, bash.furn_set );
-            bay.delete_signage( p );
-            bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
+            const std::optional<map_ter_bash_info> &bash = bay.ter( p ).obj().bash;
+            if( bash ) {
+                bay.ter_set( p, bash->ter_set );
+                bay.spawn_items( p, item_group::items_from( bash->drop_group, calendar::turn ) );
+            }
+        } else if( bay.has_furn( p ) && bay.furn( p ).obj().bash && one_in( 10 ) ) {
+            const std::optional<map_furn_bash_info> &bash = bay.furn( p ).obj().bash;
+            if( bash ) {
+                bay.furn_set( p, bash->furn_set );
+                bay.delete_signage( p );
+                bay.spawn_items( p, item_group::items_from( bash->drop_group, calendar::turn ) );
+            }
         }
         //Kill zombies!  Only works against pre-spawned enemies at the moment...
-        Creature *critter = creatures.creature_at( p );
+        Creature *critter = creatures.creature_at( rebase_bub( p ) );
         if( critter != nullptr ) {
-            critter->die( nullptr );
+            critter->die( bay.cast_to_map(), nullptr );
         }
         //Hoover up tasty items!
         map_stack items = bay.i_at( p );
@@ -2888,7 +2910,7 @@ void mission_data::add( const ui_mission_id &id, const std::string &name_display
 {
     Character &player_character = get_player_character();
     std::optional<basecamp *> bcp = overmap_buffer.find_camp(
-                                        player_character.global_omt_location().xy() );
+                                        player_character.pos_abs_omt().xy() );
     if( bcp.has_value() && bcp.value()->is_hidden( id ) ) {
         return;
     }
@@ -2910,7 +2932,7 @@ void mission_data::add( const ui_mission_id &id, const std::string &name_display
     if( !possible ) {
         entries[10].push_back( miss );
     }
-    const point direction = id.id.dir ? *id.id.dir : base_camps::base_dir;
+    const point_rel_omt direction = id.id.dir ? *id.id.dir : base_camps::base_dir;
     const int tab_order = base_camps::all_directions.at( direction ).tab_order;
     entries[tab_order + 1].emplace_back( miss );
 }

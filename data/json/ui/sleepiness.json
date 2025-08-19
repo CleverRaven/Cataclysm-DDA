@@ -8,19 +8,19 @@
         "id": "tired",
         "text": "Tired",
         "color": "yellow",
-        "condition": { "and": [ { "math": [ "u_val('sleepiness')", ">=", "191" ] }, { "math": [ "u_val('sleepiness')", "<", "383" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('sleepiness') >= 191" ] }, { "math": [ "u_val('sleepiness') < 383" ] } ] }
       },
       {
         "id": "dead_tired",
         "text": "Dead Tired",
         "color": "light_red",
-        "condition": { "and": [ { "math": [ "u_val('sleepiness')", ">=", "383" ] }, { "math": [ "u_val('sleepiness')", "<", "575" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('sleepiness') >= 383" ] }, { "math": [ "u_val('sleepiness') < 575" ] } ] }
       },
       {
         "id": "exhausted",
         "text": "Exhausted",
         "color": "red",
-        "condition": { "math": [ "u_val('sleepiness')", ">=", "575" ] }
+        "condition": { "math": [ "u_val('sleepiness') >= 575" ] }
       }
     ]
   },

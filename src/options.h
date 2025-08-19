@@ -4,22 +4,22 @@
 
 #include <algorithm>
 #include <functional>
-#include <iosfwd>
 #include <map>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
 #include <vector>
 
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
-class cata_path;
 class JsonArray;
-class JsonOut;
 class JsonObject;
+class JsonOut;
+class cata_path;
 
 class options_manager
 {
@@ -237,8 +237,8 @@ class options_manager
         cOpt &get_option( const std::string &name );
 
         //add hidden external option with value
-        void add_external( const std::string &sNameIn, const std::string &sPageIn, const std::string &sType,
-                           const translation &sMenuTextIn, const translation &sTooltipIn );
+        void add_external( const std::string &sNameIn, const std::string &sPageIn,
+                           const std::string &sType );
 
         //add string select option
         void add( const std::string &sNameIn, const std::string &sPageIn,

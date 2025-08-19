@@ -1,6 +1,7 @@
 [
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "oven",
     "looks_like": "f_oven",
     "symbol": "#",
@@ -16,7 +17,7 @@
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "120 L", "max_contains_weight": "200 kg" } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "stationary_water_purifier",
     "looks_like": "f_water_purifier",
     "symbol": "W",
@@ -29,7 +30,7 @@
     "weight": "20 kg"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "arcade_machine",
     "looks_like": "f_arcade_machine",
     "symbol": "6",
@@ -42,7 +43,20 @@
     "weight": "77 kg"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
+    "id": "arc_furnace",
+    "looks_like": "f_arcfurnace_empty",
+    "symbol": "U",
+    "description": "An arc furnace designed to burn a powdery mix of coke and limestone to create calcium carbide.  Needs to be placed and plugged into a power source.",
+    "color": "blue",
+    "name": { "str": "disconnected arc furnace" },
+    "material": [ "budget_steel" ],
+    "longest_side": "200 cm",
+    "volume": "400 L",
+    "weight": "1024 kg"
+  },
+  {
+    "type": "ITEM",
     "id": "drill_press",
     "looks_like": "f_machinery_light",
     "symbol": "7",
@@ -56,7 +70,7 @@
     "weight": "114 kg"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "tablesaw",
     "looks_like": "f_machinery_light",
     "symbol": "7",
@@ -70,7 +84,7 @@
     "weight": "130 kg"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mitresaw",
     "looks_like": "f_machinery_light",
     "symbol": "7",
@@ -84,7 +98,7 @@
     "weight": "30 kg"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "bandsaw",
     "looks_like": "f_machinery_light",
     "symbol": "7",
@@ -98,7 +112,7 @@
     "weight": "225 kg"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "router",
     "looks_like": "f_machinery_light",
     "symbol": "7",
@@ -112,7 +126,7 @@
     "weight": "500 kg"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "planer",
     "looks_like": "f_machinery_light",
     "symbol": "7",
@@ -126,7 +140,7 @@
     "weight": "130 kg"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "jointer",
     "looks_like": "f_machinery_light",
     "symbol": "7",
@@ -140,7 +154,7 @@
     "weight": "300 kg"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "hydraulic_press",
     "looks_like": "f_hydraulic_press",
     "symbol": "7",
@@ -154,7 +168,7 @@
     "weight": "76 kg"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "air_compressor",
     "looks_like": "f_standing_tank",
     "symbol": "7",
@@ -169,14 +183,15 @@
   },
   {
     "id": "autoclave",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "disconnected autoclave" },
     "description": "An autoclave, used to sterilize equipment with pressurized steam.  It requires a massive amount of power, so it will need to be plugged into a power grid.",
     "weight": "34500 g",
     "volume": "76 L",
     "price": "1 kUSD 626 USD 54 cent",
     "price_postapoc": "20 USD",
-    "to_hit": -6,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": "A",
     "color": "yellow",
@@ -195,12 +210,12 @@
     "melee_damage": { "bash": 10 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "wall_light",
     "name": { "str": "disconnected wall light" },
     "description": "A wall light that provides illumination when plugged into a grid.",
     "weight": "500 g",
-    "to_hit": -1,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "plastic", "steel" ],
     "volume": "400 ml",
     "longest_side": "20 cm",
@@ -208,15 +223,15 @@
     "price_postapoc": "5 USD",
     "symbol": "L",
     "color": "white",
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 2 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "standing_lamp",
     "name": { "str": "disconnected standing lamp" },
     "description": "A tall standing lamp that provides illumination when plugged into a power outlet.",
     "weight": "2500 g",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "uneven" },
     "material": [ "plastic", "steel" ],
     "volume": "2 L",
     "longest_side": "170 cm",
@@ -228,12 +243,12 @@
     "melee_damage": { "bash": 5 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "standing_floodlight",
     "name": { "str": "disconnected standing floodlight" },
     "description": "A large, heavy light designed to illuminate wide areas when plugged into a power outlet.",
     "weight": "2750 g",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "plastic", "steel" ],
     "volume": "2 L",
     "longest_side": "170 cm",
@@ -244,12 +259,12 @@
     "melee_damage": { "bash": 5 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "standing_directed_floodlight",
     "name": { "str": "disconnected standing directed floodlight" },
     "description": "A large, heavy light designed to illuminate a wide semicircle in a chosen direction when plugged into a power outlet.",
     "weight": "2750 g",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "plastic", "steel" ],
     "volume": "2 L",
     "longest_side": "170 cm",
@@ -261,7 +276,7 @@
     "melee_damage": { "bash": 5 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "wall_wiring",
     "name": { "str": "wall wiring" },
     "description": "Electric wires used to run power through walls.",
@@ -274,7 +289,7 @@
     "color": "white"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "foot_locker_recharge_station",
     "name": { "str": "disconnected foot locker recharging station" },
@@ -291,7 +306,7 @@
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "200 L", "max_contains_weight": "400 kg" } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "box_battery_charger",
     "name": { "str": "disconnected box battery charger" },
@@ -308,7 +323,7 @@
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "50 L", "max_contains_weight": "100 kg" } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "compact_ASRG_containment",
     "name": { "str": "disconnected advanced Stirling radioisotope generator" },
@@ -317,7 +332,7 @@
     "//0": "the base unit is 39x46x76cm (136 liters) and weighs 32 kg. I am assuming that XEDRA or another org added a lot of armor as a hedge against portal fuckery",
     "//1": "being enclosed in a solid box of milcomp plating I'm assuming about another 68 kg (3 armor platings' worth + shocks etc)",
     "weight": "100 kg",
-    "to_hit": -10,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "lead", "steel" ],
     "volume": "150 L",
     "longest_side": "80 cm",
@@ -330,38 +345,7 @@
     "melee_damage": { "bash": 5 }
   },
   {
-    "type": "GENERIC",
-    "category": "other",
-    "id": "active_backup_generator",
-    "name": { "str_sp": "backup generator" },
-    "looks_like": "f_active_backup_generator",
-    "description": "A ubiquitous piece of compact machinery meant for running anything from the bathroom lights to electric stoves and other necessities when grid electricity is unavailable.  It just needs to be plugged in, fueled up, and then turned on.",
-    "weight": "200 kg",
-    "to_hit": -10,
-    "material": [ "steel" ],
-    "volume": "200 L",
-    "longest_side": "80 cm",
-    "price": "350 USD",
-    "price_postapoc": "25 USD",
-    "//1": "Steel jerrycan (jerrycan_big) values. Must have this pocket, otherwise will not have any fuel capacity as an appliance.",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "watertight": true,
-        "max_contains_volume": "20 L",
-        "max_item_volume": "32 ml",
-        "max_contains_weight": "25 kg",
-        "item_restriction": [ "diesel", "biodiesel", "jp8", "lamp_oil", "motor_oil" ]
-      }
-    ],
-    "symbol": "O",
-    "color": "green_white",
-    "//2": "Prevent loading items into the generator while it's not in appliance form.",
-    "flags": [ "NO_RELOAD" ]
-  },
-  {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "oxygen_concentrator",
     "name": { "str_sp": "oxygen concentrator" },
@@ -376,7 +360,7 @@
     "color": "light_gray"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "hd_compressor_unit",
     "name": { "str_sp": "high pressure compressor unit" },
@@ -389,5 +373,35 @@
     "price_postapoc": "20 USD",
     "symbol": "&",
     "color": "light_gray"
+  },
+  {
+    "type": "ITEM",
+    "category": "other",
+    "id": "glassblowers_crucible",
+    "name": { "str": "disconnected glassblower's crucible" },
+    "description": "An electric crucible, powered by your electric grid.  Designed for melting large quantities of glass for batch crafting and production of large items, it needs to be placed and plugged into a power source.",
+    "//": "Loosely based off Jen-Ken Kiln - Crucible 1813, but homemade",
+    "weight": "50 kg",
+    "material": [ "steel", "clay" ],
+    "volume": "62500 ml",
+    "longest_side": "100 cm",
+    "price": "2179 USD",
+    "price_postapoc": "25 USD",
+    "symbol": "o",
+    "color": "brown"
+  },
+  {
+    "type": "ITEM",
+    "id": "lathe",
+    "//": "Based off https://www.grizzly.com/products/grizzly-8-x-16-variable-speed-benchtop-metal-lathe/g0768 because its longest side is roughly 1 m long (hence it'd fit in a tile) and it seemed standard enough.",
+    "name": { "str": "disconnected lathe" },
+    "description": "An industrial-grade lathe, for turning chunks of metal and other hard things into round chunks of metal and other hard things.  Needs to be placed and plugged into a power source.",
+    "looks_like": "f_heavy_lathe",
+    "symbol": "4",
+    "color": "cyan_red",
+    "material": [ "iron" ],
+    "longest_side": "115 cm",
+    "volume": "275 L",
+    "weight": "150 kg"
   }
 ]

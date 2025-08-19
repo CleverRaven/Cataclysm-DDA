@@ -10,7 +10,7 @@
       { "text": "You're a trader?", "topic": "TALK_BUNKER_MERCHANT_TRADE" },
       { "text": "I need some supplies.", "effect": "start_trade", "topic": "TALK_BUNKER_MERCHANT" },
       { "text": "Need help with anything?", "topic": "TALK_BUNKER_MERCHANT_MISSION" },
-      { "text": "Well, bye.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {

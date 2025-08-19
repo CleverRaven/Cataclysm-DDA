@@ -43,14 +43,14 @@
     },
     "items": {
       "_": [
-        { "item": "trash", "chance": 30, "repeat": [ 1, 4 ] },
+        { "item": "SUS_trash_floor", "chance": 30, "repeat": [ 1, 4 ] },
         { "item": "sewer", "chance": 5 },
         { "item": "sewage_plant", "chance": 1 }
       ],
       "r": [ { "item": "sewage_plant", "chance": 15 }, { "item": "os_items", "chance": 45, "repeat": [ 1, 3 ] } ],
       "^": [ { "item": "vending_food_items", "chance": 75, "repeat": [ 1, 2 ] } ],
-      ".": [ { "item": "trash", "chance": 3, "repeat": [ 1, 2 ] } ],
-      "-": [ { "item": "trash", "chance": 1 } ]
+      ".": [ { "item": "SUS_trash_floor", "chance": 3, "repeat": [ 1, 2 ] } ],
+      "-": [ { "item": "SUS_trash_floor", "chance": 1 } ]
     },
     "monster": {
       "~": { "group": "GROUP_SEWER", "chance": 2 },

@@ -6,6 +6,7 @@
     "copy-from": "armor_acidchitin",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_OSTRICH ARMOR",
+    "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 } ],
     "skills_required": [ [ "survival", 4 ], [ "firstaid", 2 ], [ "fabrication", 4 ] ],
     "time": "8 h 30 m",
     "using": [ [ "cordage", 7 ] ],
@@ -23,6 +24,7 @@
     "copy-from": "armor_chitin",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_OSTRICH ARMOR",
+    "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 } ],
     "time": "8 h 30 m",
     "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
     "skills_required": [ [ "fabrication", 4 ] ],
@@ -97,6 +99,7 @@
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_OSTRICH ARMOR",
     "activity_level": "LIGHT_EXERCISE",
+    "qualities": [ { "id": "COOK", "level": 3 }, { "id": "LEATHER_AWL", "level": 1 } ],
     "skills_required": [ "tailor", 6 ],
     "time": "10 h 30 m",
     "autolearn": true,
@@ -246,6 +249,7 @@
     "copy-from": "armor_plarmor",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_OSTRICH ARMOR",
+    "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "skills_required": [ "tailor", 3 ],
     "time": "24 h",
     "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ], [ "textbook_armwest", 4 ], [ "textbook_armschina", 4 ] ],
@@ -258,7 +262,7 @@
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_articulation" }
     ],
-    "components": [ [ [ "steel_chunk", 60 ], [ "scrap", 180 ] ], [ [ "leather_armor_ostrich", 1 ] ] ]
+    "components": [ [ [ "steel_chunk_any", 60, "LIST" ], [ "scrap", 180 ] ], [ [ "leather_armor_ostrich", 1 ] ] ]
   },
   {
     "result": "bronze_armor_ostrich",
@@ -277,6 +281,7 @@
       { "proficiency": "prof_closures", "time_multiplier": 1.1 },
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_redsmithing_adv" },
       { "proficiency": "prof_articulation" }
     ]
   },

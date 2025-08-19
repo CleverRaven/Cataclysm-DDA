@@ -2,8 +2,8 @@
   {
     "type": "SPELL",
     "id": "dragon_deep_breath",
-    "name": { "str": "Take a Deep Breath" },
-    "description": "Preps for using dragon breath.",
+    "name": { "str": "Take a Deep Breath", "//~": "NO_I18N" },
+    "description": { "str": "Preps for using dragon breath.", "//~": "NO_I18N" },
     "flags": [ "VERBAL", "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
     "valid_targets": [ "hostile" ],
     "max_level": 40,
@@ -17,8 +17,8 @@
   {
     "type": "SPELL",
     "id": "dragon_deep_breath_self",
-    "name": { "str": "Took a Deep Breath" },
-    "description": "Grants the effect for a dragon to use deep breath.",
+    "name": { "str": "Took a Deep Breath", "//~": "NO_I18N" },
+    "description": { "str": "Grants the effect for a dragon to use deep breath.", "//~": "NO_I18N" },
     "flags": [ "VERBAL", "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
     "valid_targets": [ "self" ],
     "max_level": 1,
@@ -31,21 +31,20 @@
   {
     "type": "effect_type",
     "id": "effect_dragon_deep_breath",
-    "name": [ "Deep Breath" ],
-    "desc": [ "You are ready to use your breath weapon." ]
+    "name": [ { "str": "Deep Breath", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "You are ready to use your breath weapon.", "//~": "NO_I18N" } ]
   },
   {
     "type": "SPELL",
     "id": "dragon_breath_black",
-    "name": { "str": "Black Dragons' Breath" },
-    "description": "Spews a line of acid from your mouth.",
+    "name": { "str": "Black Dragons' Breath", "//~": "NO_I18N" },
+    "description": { "str": "Spews a line of acid from your mouth.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile", "ally", "ground" ],
     "damage_type": "acid",
     "max_level": 40,
-    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(6, 0.5)" ] },
-    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(240, 0.5)" ] },
-    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(6.0, 0.026)" ] },
-    "extra_effects": [ { "id": "eoc_evocation_setup" } ],
+    "min_damage": 6,
+    "max_damage": 240,
+    "damage_increment": 6.0,
     "min_range": 8,
     "max_range": 12,
     "range_increment": 0.1,
@@ -56,6 +55,6 @@
     "max_field_intensity": 4,
     "field_chance": 2,
     "field_intensity_increment": 0.1,
-    "flags": [ "VERBAL", "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ]
+    "flags": [ "VERBAL", "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN", "SPLIT_DAMAGE" ]
   }
 ]

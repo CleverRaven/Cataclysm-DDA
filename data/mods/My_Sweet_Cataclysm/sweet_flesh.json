@@ -1,7 +1,8 @@
 [
   {
     "id": "marshmallow_flesh",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "chunk of marshmallow flesh", "str_pl": "chunks of marshmallow flesh" },
     "description": "A big chunk of squishy, fluffy, puffy, delicious marshmallow flesh.",
     "weight": "53 g",
@@ -15,10 +16,12 @@
     "looks_like": "marshmallow",
     "material": [ "junk" ],
     "flags": [ "EDIBLE_FROZEN" ],
-    "fun": 10
+    "fun": 10,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "smores_flesh",
     "name": { "str": "piece of s'mores' flesh", "str_pl": "pieces of s'mores' flesh" },
     "looks_like": "smores",
@@ -33,11 +36,12 @@
     "material": [ "wheat", "junk" ],
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 6 ] ],
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 6 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ],
     "fun": 20
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "candy3_flesh",
     "name": { "str": "chunk of chewy candy flesh", "str_pl": "chunks of chewy candy flesh" },
     "weight": "127 g",
@@ -52,10 +56,12 @@
     "material": [ "junk" ],
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "fun": 3
+    "fun": 3,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "candy3gator_flesh",
     "name": { "str": "chunk of reptilian candy flesh", "str_pl": "chunks of reptilian candy flesh" },
     "copy-from": "candy3_flesh",
@@ -64,7 +70,8 @@
     "description": "A chunk of colorful fruit-flavored candy meat, this one is extra chewy."
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "grahmcrackers_shell",
     "name": { "str": "graham cracker shell" },
     "looks_like": "grahmcrackers",
@@ -80,11 +87,12 @@
     "material": [ "wheat", "junk" ],
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 6 ] ],
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 6 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ],
     "fun": 2
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cookie_flesh",
     "name": { "str": "chunk of cookie flesh", "str_pl": "chunks of cookie flesh" },
     "looks_like": "cookies",
@@ -100,12 +108,13 @@
     "material": [ "wheat", "junk" ],
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ],
     "fun": 7
   },
   {
     "id": "gum_flesh",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "looks_like": "gum",
     "name": { "str": "chunk of gum flesh", "str_pl": "chunks of gum flesh" },
@@ -120,11 +129,13 @@
     "fun": 2,
     "material": [ "junk" ],
     "flags": [ "NO_INGEST" ],
-    "use_action": [ "CHEW" ]
+    "use_action": [ "CHEW" ],
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "id": "caff_gum_flesh",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "looks_like": "caff_gum",
     "name": { "str": "chunk of caffeinated gum flesh", "str_pl": "chunks of caffeinated gum flesh" },
@@ -140,10 +151,12 @@
     "fun": 1,
     "material": [ "junk" ],
     "flags": [ "NO_INGEST" ],
-    "use_action": [ "CHEW" ]
+    "use_action": [ "CHEW" ],
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cow_candy_flesh",
     "name": { "str": "chunk of chocolate meat", "str_pl": "chunks of chocolate meat" },
     "weight": "158 g",
@@ -153,16 +166,17 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 287,
-    "description": "A chunk chocolate meat, still dripping with liquid chocolate.",
+    "description": "A chunk of chocolate meat, still dripping with liquid chocolate.",
     "price_postapoc": "4 USD",
     "material": [ "junk" ],
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "iron", 9 ] ],
+    "vitamins": [ [ "iron", 9 ], [ "junk_allergen", 1 ] ],
     "fun": 3
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "licorice_flesh",
     "name": { "str": "fillet of licorice snake", "str_pl": "fillets of licorice snake" },
     "symbol": "%",
@@ -179,6 +193,30 @@
     "calories": 270,
     "stim": 1,
     "fun": 7,
-    "flags": [ "EDIBLE_FROZEN" ]
+    "flags": [ "EDIBLE_FROZEN" ],
+    "vitamins": [ [ "junk_allergen", 1 ] ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "blood_chocolate",
+    "name": { "str_sp": "chocolate ichor" },
+    "comestible_type": "DRINK",
+    "spoils_in": "1 day",
+    "symbol": "~",
+    "color": "brown",
+    "quench": 50,
+    "healthy": -1,
+    "calories": 200,
+    "description": "Ichor harvested from the corpse of a chocolate cow.  Quite bitter and… oddly warm?",
+    "price": "20 cent",
+    "price_postapoc": "50 cent",
+    "material": [ "junk" ],
+    "volume": "250 ml",
+    "weight": "260 g",
+    "charges": 1,
+    "phase": "liquid",
+    "fun": -1,
+    "//": "will be used for chocolate-branched additions later on. currently only from cows, will be added from additional chocolate monsters."
   }
 ]

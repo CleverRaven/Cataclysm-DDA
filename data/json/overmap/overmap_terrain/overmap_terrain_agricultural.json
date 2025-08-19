@@ -4,8 +4,9 @@
     "abstract": "generic_rural_road",
     "name": "rural road",
     "color": "brown",
+    "vision_levels": "blends_till_details",
     "travel_cost_type": "dirt_road",
-    "see_cost": 2,
+    "see_cost": "none",
     "mondensity": 2,
     "extras": "agricultural"
   },
@@ -28,7 +29,19 @@
     "name": "rural building",
     "sym": "#",
     "color": "i_brown",
-    "delete": { "flags": [ "RISK_HIGH" ] },
+    "vision_levels": "isolated_building",
+    "delete": { "flags": [ "RISK_HIGH", "PP_GENERATE_RIOT_DAMAGE" ] },
+    "extend": { "flags": [ "SOURCE_FOOD", "RISK_LOW", "SOURCE_FARMING" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "abstract": "generic_rural_field",
+    "copy-from": "generic_open_land",
+    "name": "field",
+    "sym": "#",
+    "color": "i_brown",
+    "vision_levels": "farm_field",
+    "travel_cost_type": "field",
     "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ] }
   },
   {
@@ -37,7 +50,8 @@
     "copy-from": "generic_rural_building",
     "name": "sugar house",
     "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 1, 4 ], "chance": 20 },
-    "sym": "S"
+    "sym": "S",
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -62,7 +76,8 @@
     "type": "overmap_terrain",
     "id": [ "pottery_cottage_basement", "farm_stills_3_basement", "ranch_camp_68_basement" ],
     "spawns": { "group": "GROUP_BASEMENT_HOUSE", "population": [ 1, 1 ], "chance": 80 },
-    "copy-from": "generic_city_house_basement"
+    "copy-from": "generic_city_house_basement",
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -90,7 +105,7 @@
       "farm_8",
       "farm_9"
     ],
-    "copy-from": "generic_rural_building",
+    "copy-from": "generic_rural_field",
     "name": "farm field"
   },
   {
@@ -136,9 +151,8 @@
       "farmland_turn_inside",
       "farmland_U"
     ],
-    "copy-from": "generic_rural_building",
+    "copy-from": "generic_rural_field",
     "name": "farm field",
-    "see_cost": 2,
     "extras": "agricultural",
     "looks_like": "farm_5",
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 2 ], "chance": 15 }
@@ -146,10 +160,9 @@
   {
     "type": "overmap_terrain",
     "id": [ "hayfield_straight", "hayfield_turnL", "hayfield_turnR", "hayfield_end" ],
-    "copy-from": "generic_rural_building",
+    "copy-from": "generic_rural_field",
     "name": "hay field",
     "color": "brown",
-    "see_cost": 2,
     "extras": "agricultural",
     "looks_like": "ranch_camp_76",
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 2 ], "chance": 15 }
@@ -158,6 +171,7 @@
     "type": "overmap_terrain",
     "id": [ "farm_2_roof", "farm_horse_house_1_roof" ],
     "copy-from": "generic_rural_building",
+    "travel_cost_type": "roof",
     "name": "farm house roof",
     "sym": "^"
   },
@@ -183,6 +197,7 @@
     "type": "overmap_terrain",
     "id": [ "farm_3_roof" ],
     "copy-from": "farm_3",
+    "travel_cost_type": "roof",
     "name": "farm barn roof"
   },
   {
@@ -248,6 +263,7 @@
     "id": "farm_stills_11",
     "copy-from": "generic_rural_building",
     "name": "orchard",
+    "vision_levels": "isolated_building",
     "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 1, 4 ], "chance": 10 },
     "color": "brown"
   },
@@ -255,9 +271,11 @@
     "type": "overmap_terrain",
     "id": "orchard_tree_apple",
     "copy-from": "generic_rural_building",
+    "travel_cost_type": "forest",
     "name": "apple orchard",
     "sym": "T",
     "color": "light_green",
+    "vision_levels": "first_glance_forest",
     "looks_like": "forest",
     "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 1, 4 ], "chance": 5 },
     "mondensity": 3
@@ -269,6 +287,7 @@
     "name": "orchard processing",
     "sym": "T",
     "color": "i_light_green",
+    "vision_levels": "isolated_building",
     "mondensity": 3
   },
   {
@@ -278,6 +297,7 @@
     "name": "orchard stall",
     "sym": "T",
     "color": "i_light_green",
+    "vision_levels": "isolated_building",
     "mondensity": 3
   },
   {
@@ -303,7 +323,7 @@
     "name": "dairy farm",
     "sym": "w",
     "color": "brown",
-    "see_cost": 1,
+    "see_cost": "low",
     "extend": { "flags": [ "SOURCE_DRINK", "SOURCE_ANIMALS" ] }
   },
   {
@@ -324,6 +344,7 @@
     "id": [ "dairy_farm_SE_roof", "dairy_farm_SW_roof" ],
     "copy-from": "generic_rural_building",
     "name": "dairy farm roof",
+    "travel_cost_type": "roof",
     "sym": "w"
   },
   {
@@ -346,6 +367,7 @@
     "id": "smokehouse_roof",
     "type": "overmap_terrain",
     "copy-from": "generic_rural_building",
+    "travel_cost_type": "roof",
     "name": "smokehouse roof",
     "color": "brown",
     "extras": ""
@@ -373,6 +395,7 @@
     "type": "overmap_terrain",
     "id": "farm_isherwood_2_cellar",
     "copy-from": "generic_rural_building",
+    "travel_cost_type": "basement",
     "name": "farm house cellar",
     "sym": "O",
     "extras": ""
@@ -389,17 +412,25 @@
     "type": "overmap_terrain",
     "copy-from": "generic_city_building",
     "name": "small cemetery",
+    "travel_cost_type": "field",
     "sym": "C",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "orchard", "orchard_roof", "orchard_1", "orchard_roof_1" ],
+    "id": [ "orchard", "orchard_1" ],
     "copy-from": "generic_city_building",
     "name": "orchard",
     "sym": "#",
     "color": "i_green",
-    "extend": { "flags": [ "SOURCE_FOOD" ] }
+    "extend": { "flags": [ "SOURCE_FOOD" ] },
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "orchard_roof", "orchard_roof_1" ],
+    "copy-from": "orchard",
+    "travel_cost_type": "roof"
   },
   {
     "type": "overmap_terrain",
@@ -413,7 +444,7 @@
       "splitrail_fence_DR",
       "splitrail_fence_inner"
     ],
-    "copy-from": "generic_rural_building",
+    "copy-from": "generic_rural_field",
     "name": "pasture",
     "sym": "#",
     "color": "brown"
@@ -450,7 +481,7 @@
       "paddock_end_DL",
       "paddock_end_DR"
     ],
-    "copy-from": "generic_rural_building",
+    "copy-from": "generic_rural_field",
     "name": "paddock",
     "sym": "#",
     "color": "white"
@@ -459,6 +490,7 @@
     "type": "overmap_terrain",
     "id": [ "farm_horse_ring_1", "farm_horse_ring_2", "farm_horse_ring_3", "farm_horse_ring_4" ],
     "copy-from": "generic_rural_building",
+    "travel_cost_type": "dirt_road",
     "name": "ring",
     "sym": "#",
     "color": "brown"
@@ -467,6 +499,7 @@
     "type": "overmap_terrain",
     "id": [ "farm_horse_track_1", "farm_horse_track_2" ],
     "copy-from": "generic_rural_building",
+    "travel_cost_type": "dirt_road",
     "name": "track",
     "sym": "_",
     "color": "i_light_gray"
@@ -475,6 +508,7 @@
     "type": "overmap_terrain",
     "id": [ "farm_horse_track_large_1" ],
     "copy-from": "generic_rural_building",
+    "travel_cost_type": "dirt_road",
     "name": "track",
     "sym": "┌",
     "color": "i_light_gray"
@@ -483,6 +517,7 @@
     "type": "overmap_terrain",
     "id": [ "farm_horse_track_large_2" ],
     "copy-from": "generic_rural_building",
+    "travel_cost_type": "dirt_road",
     "name": "track",
     "sym": "┐",
     "color": "i_light_gray"
@@ -491,6 +526,7 @@
     "type": "overmap_terrain",
     "id": [ "farm_horse_track_large_3" ],
     "copy-from": "generic_rural_building",
+    "travel_cost_type": "dirt_road",
     "name": "track",
     "sym": "└",
     "color": "i_light_gray"
@@ -499,6 +535,7 @@
     "type": "overmap_terrain",
     "id": [ "farm_horse_track_large_4" ],
     "copy-from": "generic_rural_building",
+    "travel_cost_type": "dirt_road",
     "name": "track",
     "sym": "┘",
     "color": "i_light_gray"
@@ -507,6 +544,7 @@
     "type": "overmap_terrain",
     "id": [ "paddock_trailhead_2" ],
     "copy-from": "generic_rural_building",
+    "travel_cost_type": "dirt_road",
     "name": "trailhead",
     "sym": "T",
     "color": "brown"
@@ -515,6 +553,7 @@
     "type": "overmap_terrain",
     "id": [ "paddock_trailhead_5", "paddock_trailhead_8" ],
     "copy-from": "generic_rural_building",
+    "travel_cost_type": "trail",
     "name": "forest trail",
     "sym": "│",
     "color": "green"
@@ -524,6 +563,8 @@
     "id": [ "forest_trail_intersection" ],
     "copy-from": "generic_rural_building",
     "name": "forest trail",
+    "vision_levels": "forested",
+    "travel_cost_type": "trail",
     "sym": "O",
     "color": "green"
   },
@@ -531,6 +572,7 @@
     "type": "overmap_terrain",
     "id": [ "moonshine_still", "moonshine_still_1", "moonshine_still_2" ],
     "copy-from": "generic_rural_building",
+    "vision_levels": "blends_till_details",
     "name": "moonshine still",
     "sym": "S"
   },
@@ -538,6 +580,7 @@
     "type": "overmap_terrain",
     "id": [ "moonshine_still_roof", "moonshine_still_roof_1", "moonshine_still_roof_2" ],
     "copy-from": "generic_rural_building",
+    "travel_cost_type": "roof",
     "name": "moonshine still roof",
     "sym": "S"
   },
@@ -545,7 +588,9 @@
     "type": "overmap_terrain",
     "id": "TreeFarm_1b",
     "copy-from": "generic_rural_building",
+    "vision_levels": "forested",
     "name": "tree farm",
+    "travel_cost_type": "trail",
     "sym": "T",
     "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 1, 2 ], "chance": 20 },
     "color": "i_green"
@@ -568,6 +613,7 @@
     "id": "farm_horse_carriage_house_1_roof",
     "copy-from": "generic_rural_building",
     "name": "carriage house roof",
+    "travel_cost_type": "roof",
     "sym": "o"
   },
   {
@@ -606,6 +652,7 @@
     "type": "overmap_terrain",
     "id": "farm_horse_stable_1_roof",
     "copy-from": "generic_rural_building",
+    "travel_cost_type": "roof",
     "name": "horse stable roof",
     "sym": "&"
   },
@@ -632,8 +679,24 @@
     "type": "overmap_terrain",
     "id": [ "farm_1_greenhouse_roof", "farm_horse_greenhouse_roof" ],
     "copy-from": "generic_rural_building",
+    "travel_cost_type": "roof",
     "name": "greenhouse roof",
     "sym": "o"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "farm_1_apiary" ],
+    "copy-from": "generic_rural_building",
+    "name": "apiary",
+    "sym": "h",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "farm_1_apiary_roof" ],
+    "copy-from": "farm_1_apiary",
+    "travel_cost_type": "roof",
+    "name": "apiary roof"
   },
   {
     "type": "overmap_terrain",
@@ -659,6 +722,7 @@
     "id": "farm_1_coop_roof",
     "copy-from": "generic_rural_building",
     "name": "chicken coop roof",
+    "travel_cost_type": "roof",
     "sym": "o"
   },
   {
@@ -701,7 +765,7 @@
   {
     "type": "overmap_terrain",
     "id": "yard",
-    "copy-from": "generic_rural_building",
+    "copy-from": "generic_rural_field",
     "name": "yard",
     "color": "brown"
   },
@@ -715,22 +779,21 @@
   {
     "type": "overmap_terrain",
     "id": "house_farm_roof",
-    "copy-from": "generic_rural_building",
+    "copy-from": "house_farm",
     "name": "rural house roof",
-    "sym": "^"
+    "travel_cost_type": "roof"
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "farm_dairy_twd_1",
-      "farm_dairy_twd_2",
-      "farm_dairy_twd_3_roof",
-      "farm_dairy_twd_4_roof",
-      "farm_dairy_twd_9",
-      "farm_dairy_twd_10"
-    ],
+    "id": [ "farm_dairy_twd_1", "farm_dairy_twd_2", "farm_dairy_twd_9", "farm_dairy_twd_10" ],
     "copy-from": "generic_rural_building",
     "name": "farm"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "farm_dairy_twd_3_roof", "farm_dairy_twd_4_roof" ],
+    "copy-from": "farm_dairy_twd_1",
+    "travel_cost_type": "roof"
   },
   {
     "type": "overmap_terrain",
@@ -785,6 +848,7 @@
     "id": [ "farm_dairy_twd_second_floor_5", "farm_dairy_twd_second_floor_6", "farm_dairy_twd_second_floor_12" ],
     "copy-from": "generic_rural_building",
     "name": "barn roof",
+    "travel_cost_type": "roof",
     "sym": "^"
   },
   {
@@ -809,6 +873,7 @@
     "id": [ "farm_supply_roof_1", "farm_supply_roof_2", "farm_supply_roof_3", "farm_supply_roof_4" ],
     "copy-from": "generic_rural_building",
     "name": "farm supply store roof",
+    "travel_cost_type": "roof",
     "sym": "s",
     "color": "yellow"
   }

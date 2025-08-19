@@ -63,14 +63,24 @@
     "bonus_str": { "rng": [ 1, 2 ] },
     "common": false,
     "sells_belongings": false,
-    "shopkeeper_item_group": [
-      { "group": "lumberyard", "rigid": true },
-      {
-        "group": "NC_LUMBERJACK_tools",
-        "rigid": true,
-        "condition": { "math": [ "n_NEVER", "==", "1" ] },
-        "refusal": "<npcname> will never sell this"
-      }
+    "restock_interval": "1 day",
+    "shopkeeper_item_group": [ { "group": "LUMBERMILL_MERCHANT_trade", "rigid": true } ],
+    "shopkeeper_blacklist": "LUMBERMILL_MERCHANT_blacklist",
+    "shopkeeper_price_rules": [
+      { "item": "2x4", "price": 100 },
+      { "item": "plank_short", "price": 70 },
+      { "item": "plank_long", "price": 150 },
+      { "item": "wooden_post", "price": 100 },
+      { "item": "wooden_post_short", "price": 70 },
+      { "item": "wooden_post_long", "price": 150 },
+      { "item": "wood_panel", "price": 800 },
+      { "item": "wood_sheet", "price": 1600 },
+      { "item": "wood_beam", "price": 2500 },
+      { "item": "log", "price": 500 },
+      { "item": "long_pole", "price": 250 },
+      { "item": "wood_block", "price": 5 },
+      { "item": "stick_long", "price": 3 },
+      { "item": "stick", "price": 2 }
     ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
@@ -79,6 +89,32 @@
       { "skill": "cutting", "bonus": { "rng": [ 1, 2 ] } },
       { "skill": "dodge", "bonus": { "rng": [ 1, 2 ] } }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "LUMBERMILL_MERCHANT_trade",
+    "subtype": "collection",
+    "entries": [
+      { "item": "2x4", "prob": 100, "count": [ 10, 20 ] },
+      { "item": "plank_short", "prob": 100, "count": [ 20, 30 ] },
+      { "item": "plank_long", "prob": 100, "count": [ 5, 10 ] },
+      { "item": "wooden_post", "prob": 100, "count": [ 5, 10 ] },
+      { "item": "wooden_post_short", "prob": 100, "count": [ 5, 20 ] },
+      { "item": "wooden_post_long", "prob": 100, "count": [ 5, 10 ] },
+      { "item": "wood_panel", "prob": 100, "count": [ 5, 10 ] },
+      { "item": "wood_sheet", "prob": 100, "count": [ 1, 5 ] },
+      { "item": "wood_beam", "prob": 100, "count": [ 1, 3 ] },
+      { "item": "log", "prob": 100, "count": [ 1, 10 ] },
+      { "item": "long_pole", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "wood_block", "prob": 100, "count": [ 1, 10 ] },
+      { "item": "stick_long", "prob": 100, "count": [ 1, 20 ] },
+      { "item": "stick", "prob": 100, "count": [ 1, 20 ] }
+    ]
+  },
+  {
+    "id": "LUMBERMILL_MERCHANT_blacklist",
+    "type": "shopkeeper_blacklist",
+    "entries": [ { "group": "LUMBERMILL_MERCHANT_trade" } ]
   },
   {
     "type": "item_group",

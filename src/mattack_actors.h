@@ -3,23 +3,24 @@
 #define CATA_SRC_MATTACK_ACTORS_H
 
 #include <climits>
-#include <iosfwd>
 #include <map>
-#include <memory>
+#include <string>
 #include <utility>
 #include <vector>
 
 #include "bodypart.h"
+#include "coords_fwd.h"
 #include "damage.h"
 #include "magic.h"
 #include "mattack_common.h"
-#include "translations.h"
+#include "mtype.h"
+#include "translation.h"
+#include "type_id.h"
 #include "weighted_list.h"
 
 class Creature;
 class JsonObject;
 class monster;
-struct mon_effect_data;
 
 class leap_actor : public mattack_actor
 {
@@ -140,6 +141,8 @@ class melee_actor : public mattack_actor
         grab grab_data;
         bool is_grab = false;
 
+        std::vector<effect_on_condition_id> eoc;
+
         /**
          * If empty, regular melee roll body part selection is used.
          * If non-empty, a body part is selected from the map to be targeted,
@@ -172,7 +175,7 @@ class melee_actor : public mattack_actor
         /** Message for throwing a non-player. */
         translation throw_msg_npc;
 
-        melee_actor();
+        melee_actor() = default;
         ~melee_actor() override = default;
 
         virtual Creature *find_target( monster &z ) const;
@@ -261,7 +264,7 @@ class gun_actor : public mattack_actor
         bool require_sunlight = false;
 
         bool try_target( monster &z, Creature &target ) const;
-        bool shoot( monster &z, const tripoint &target, const gun_mode_id &mode,
+        bool shoot( monster &z, const tripoint_bub_ms &target, const gun_mode_id &mode,
                     int inital_recoil = 0 ) const;
         int get_max_range() const;
 

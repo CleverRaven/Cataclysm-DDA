@@ -6,6 +6,7 @@
     "sym": "O",
     "color": "dark_gray",
     "copy-from": "generic_city_building_no_sidewalk",
+    "travel_cost_type": "basement",
     "flags": [ "KNOWN_UP", "GENERIC_LOOT" ]
   },
   {
@@ -14,7 +15,7 @@
     "copy-from": "generic_city_building",
     "name": "house",
     "color": "light_green",
-    "see_cost": 2,
+    "see_cost": "high",
     "spawns": { "group": "GROUP_VANILLA", "population": [ 1, 4 ], "chance": 80 },
     "extend": { "flags": [ "GENERIC_LOOT" ] }
   },
@@ -30,7 +31,7 @@
     "copy-from": "generic_city_house_no_sidewalk",
     "name": "house roof",
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
-    "delete": { "flags": [ "GENERIC_LOOT" ] }
+    "delete": { "flags": [ "GENERIC_LOOT", "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -126,6 +127,19 @@
       "house_40",
       "house_41",
       "house_42",
+      "house_43",
+      "house_43_first_floor",
+      "house_43_second_floor",
+      "house_44_0_0",
+      "house_44_0_1",
+      "house_44_1_0",
+      "house_44_1_1",
+      "house_44_roof_0",
+      "house_44_roof_1",
+      "house_45_0",
+      "house_45_1",
+      "house_45_2",
+      "house_46",
       "house_crack1",
       "house_crack2",
       "house_crack3",
@@ -222,7 +236,7 @@
       "urban_22_2_roof"
     ],
     "copy-from": "generic_city_house",
-    "see_cost": 10
+    "see_cost": "full_high"
   },
   {
     "type": "overmap_terrain",
@@ -249,7 +263,7 @@
     ],
     "copy-from": "generic_city_house",
     "sym": "v",
-    "see_cost": 10
+    "see_cost": "full_high"
   },
   {
     "type": "overmap_terrain",
@@ -295,7 +309,7 @@
       "urban_18_10"
     ],
     "copy-from": "generic_city_house_no_sidewalk",
-    "see_cost": 10
+    "see_cost": "full_high"
   },
   {
     "type": "overmap_terrain",
@@ -335,7 +349,7 @@
     ],
     "copy-from": "generic_city_house_no_sidewalk",
     "sym": "v",
-    "see_cost": 10
+    "see_cost": "full_high"
   },
   {
     "type": "overmap_terrain",
@@ -355,7 +369,7 @@
     "name": "dense urban",
     "sym": "v",
     "color": "i_white",
-    "see_cost": 40
+    "see_cost": "full_high"
   },
   {
     "type": "overmap_terrain",
@@ -433,6 +447,9 @@
       "house_40_roof",
       "house_41_roof",
       "house_42_roof",
+      "house_43_roof",
+      "house_45_roof",
+      "house_46_roof",
       "house_crack1_roof",
       "house_crack3_roof",
       "house_detatched10_roof",
@@ -596,21 +613,24 @@
     "name": "apartment tower",
     "sym": "A",
     "color": "light_green",
-    "see_cost": 5,
+    "vision_levels": "large_city_building",
+    "see_cost": "full_high",
     "mondensity": 2,
     "extras": "build",
     "spawns": { "group": "GROUP_VANILLA", "population": [ 4, 10 ], "chance": 80 },
-    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
+    "flags": [ "SIDEWALK", "GENERIC_LOOT", "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
     "abstract": "apartments_tower_roof_any",
+    "vision_levels": "roof_or_air",
     "name": "apartment tower roof",
     "sym": "A",
     "color": "light_green",
-    "see_cost": 5,
+    "see_cost": "none",
     "mondensity": 2,
-    "extras": "build"
+    "extras": "build",
+    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
   },
   {
     "type": "overmap_terrain",
@@ -652,6 +672,7 @@
       "apartments_con_tower_104",
       "apartments_con_tower_114",
       "apartments_con_tower_015",
+      "apartments_con_tower_115",
       "apartments_mod_tower_003",
       "apartments_mod_tower_013",
       "apartments_mod_tower_103",
@@ -743,6 +764,7 @@
     "type": "overmap_terrain",
     "id": [ "homelesscamp", "homelesscamp_npc" ],
     "copy-from": "generic_city_building_no_sidewalk",
+    "vision_levels": "blends_till_outlines",
     "name": "homeless camp",
     "sym": "H",
     "color": "green"
@@ -769,9 +791,10 @@
     "id": "derelict_property_roof",
     "type": "overmap_terrain",
     "name": "derelict property roof",
+    "vision_levels": "roof_or_air",
     "sym": ".",
     "color": "i_brown",
-    "see_cost": 5,
+    "see_cost": "none",
     "extras": "build"
   },
   {

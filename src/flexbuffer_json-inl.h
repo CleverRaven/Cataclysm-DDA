@@ -2,6 +2,8 @@
 #ifndef CATA_SRC_FLEXBUFFER_JSON_INL_H
 #define CATA_SRC_FLEXBUFFER_JSON_INL_H
 
+// IWYU pragma: private, include "flexbuffer_json.h"
+
 #include <optional>
 #include <string>
 #include <type_traits>
@@ -229,6 +231,11 @@ inline bool JsonValue::test_array() const
 inline bool JsonValue::test_null() const
 {
     return json_.IsNull();
+}
+
+inline bool JsonValue::is_member() const
+{
+    return false;
 }
 
 inline std::string JsonValue::get_string() const
@@ -842,6 +849,11 @@ inline int JsonObject::get_int( const std::string_view key ) const
     return get_member( key );
 }
 
+inline int64_t JsonObject::get_int64( const std::string_view key ) const
+{
+    return get_member( key );
+}
+
 inline double JsonObject::get_float( const std::string_view key ) const
 {
     return get_member( key );
@@ -937,6 +949,19 @@ inline std::vector<std::string> JsonObject::get_as_string_array( const std::stri
         }
     } else {
         ret.emplace_back( get_string( name ) );
+    }
+    return ret;
+}
+inline std::set<std::string> JsonObject::get_as_string_set( const std::string &name ) const
+{
+    std::set<std::string> ret;
+    if( has_array( name ) ) {
+        JsonArray ja = get_array( name );
+        for( JsonValue jv : get_array( name ) ) {
+            ret.insert( jv );
+        }
+    } else if( has_string( name ) ) {
+        ret.insert( get_string( name ) );
     }
     return ret;
 }

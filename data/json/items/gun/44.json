@@ -2,7 +2,8 @@
   {
     "id": "modular_deagle",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
     "name": { "str_sp": "Desert Eagle pistol" },
     "description": "An icon of popular culture more than a practical weapon, this massive pistol can shoot a variety of magnum handgun rounds depending on the conversion kit and magazine used.",
@@ -26,7 +27,6 @@
         "description": "Needing little introduction, the Desert Eagle's impact on popular culture is almost as massive as the pistol itself.  The newest Mark XIX model introduced a more modern optics rail.  It was sold in multiple hard-hitting magnum calibers and can swap between them using conversion kits and the appropriate magazine.  For maximum style points (or tackiness, depending on taste), this one is plated in what appears to be 24-karat gold."
       }
     ],
-    "to_hit": -2,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
@@ -38,16 +38,23 @@
     "flags": [ "ALLOWS_BODY_BLOCK", "NO_TURRET" ],
     "//2": "NO_TURRET should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow.",
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "deaglemag" ] } ],
-    "valid_mod_locations": [ [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 2 ], [ "stock", 1 ], [ "underbarrel mount", 1 ] ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "valid_mod_locations": [ [ "bore", 1 ], [ "mechanism", 2 ], [ "rail mount", 1 ], [ "stock mount", 1 ] ],
+    "faults": [
+      { "fault": "fault_gun_blackpowder" },
+      { "fault": "fault_gun_dirt" },
+      { "fault": "fault_gun_chamber_spent" },
+      { "fault": "fault_fail_to_feed" },
+      { "fault": "fault_stovepipe" },
+      { "fault": "fault_double_feed" }
+    ],
     "melee_damage": { "bash": 12 }
   },
   {
     "id": "henry_big_boy",
-    "copy-from": "rifle_manual",
+    "copy-from": "gun_base_rifle_manual",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Henry Big Boy .44 rifle" },
     "description": "This fine lever-action rifle is chambered in the powerful .44 Magnum cartridge and features a sleek octagonal barrel with a tube fed magazine.  Go get 'em cowboy!",
     "weight": "3937 g",
@@ -55,37 +62,30 @@
     "longest_side": "98 cm",
     "barrel_length": "508 mm",
     "price": "899 USD 95 cent",
-    "price_postapoc": "35 USD",
-    "to_hit": -1,
+    "price_postapoc": "16 USD",
     "material": [ "steel", "wood" ],
-    "color": "dark_gray",
     "range": 7,
     "ammo": [ "44" ],
     "dispersion": 180,
-    "durability": 8,
-    "blackpowder_tolerance": 32,
     "clip_size": 10,
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
       [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock mount", 1 ],
       [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "NO_TURRET" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "44": 10 } } ],
-    "melee_damage": { "bash": 12 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "44": 10 } } ]
   },
   {
     "id": "rifle_44",
-    "copy-from": "gun_base",
+    "copy-from": "gun_base_rifle_manual",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": ".44 Magnum pipe rifle" },
     "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
     "ascii_picture": "lg_pipe_gun",
@@ -94,11 +94,8 @@
     "longest_side": "100 cm",
     "price": "100 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -1,
     "material": [ "steel", "wood" ],
-    "color": "brown",
     "ammo": [ "44" ],
-    "skill": "rifle",
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 550,
     "durability": 6,
@@ -108,25 +105,15 @@
     "reload": 200,
     "barrel_volume": "750 ml",
     "barrel_length": "600 mm",
-    "valid_mod_locations": [
-      [ "muzzle", 1 ],
-      [ "sling", 1 ],
-      [ "stock mount", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "RELOAD_EJECT", "EASY_CLEAN" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "44": 1 } } ],
-    "melee_damage": { "bash": 10 }
+    "valid_mod_locations": [ [ "sling", 1 ], [ "sights mount", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "44": 1 } } ]
   },
   {
     "id": "sw629",
-    "copy-from": "pistol_revolver",
+    "copy-from": "gun_base_handgun_manual",
     "looks_like": "sw_619",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": ".44 revolver" },
     "description": "A stainless steel, six-shot, double-action revolver with a matte black plastic handle manufactured by Smith & Wesson.  Though hardly the most powerful handgun in the world any more, it could still blow a zombie's head clean off.",
     "//1": "If someone makes a sw269 ascii picture, make this only the ruger's art",
@@ -152,22 +139,10 @@
     "price": "861 USD",
     "price_postapoc": "27 USD 50 cent",
     "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
     "ammo": [ "44" ],
     "dispersion": 280,
-    "durability": 8,
-    "blackpowder_tolerance": 56,
     "clip_size": 6,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
-    ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
@@ -175,7 +150,165 @@
         "ammo_restriction": { "44": 6 },
         "allowed_speedloaders": [ "44_speedloader6" ]
       }
+    ]
+  },
+  {
+    "id": "colt_anaconda_8",
+    "copy-from": "gun_base_handgun_manual",
+    "looks_like": "sw_619",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": ".44 long barrel hunting revolver" },
+    "description": "A large-frame revolver with a modern plastic handle.  Too large for law enforcement, it was mostly used by sport shooters and hunters, for the manufacturer deemed it to be the most accurate .44-caliber revolver in their line.  This one has an extended 8-inch barrel.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "colt_anaconda_8",
+        "name": { "str": "Colt Anaconda" },
+        "description": "A large-frame double-action revolver with a modern plastic handle.  Too large for law enforcement, it was mostly used by sport shooters and hunters, for Colt deemed it to be the most accurate .44-caliber revolver in their line.  This one has an extended 8-inch barrel."
+      }
     ],
-    "melee_damage": { "bash": 10 }
+    "weight": "1672 g",
+    "volume": "1384 ml",
+    "//": "350 x 153 x 70, but trimmed massively",
+    "longest_side": "350 mm",
+    "barrel_length": "203 mm",
+    "price": "1499 USD",
+    "price_postapoc": "15 USD",
+    "material": [ "steel", "plastic" ],
+    "ammo": [ "44" ],
+    "dispersion": 280,
+    "clip_size": 6,
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "ammo_restriction": { "44": 6 },
+        "allowed_speedloaders": [ "44_speedloader6" ]
+      }
+    ]
+  },
+  {
+    "id": "colt_anaconda_6",
+    "copy-from": "colt_anaconda_8",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": ".44 hunting revolver" },
+    "description": "A large-frame revolver with a modern plastic handle.  Too large for law enforcement, it was mostly used by sport shooters and hunters, for the manufacturer deemed it to be the most accurate .44-caliber revolver in their line.  This one has a 6-inch barrel.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "colt_anaconda",
+        "name": { "str": "Colt Anaconda" },
+        "description": "A large-frame double-action revolver with a modern plastic handle.  Too large for law enforcement, it was mostly used by sport shooters and hunters, for Colt deemed it to be the most accurate .44-caliber revolver in their line.  This one has a 6-inch barrel."
+      }
+    ],
+    "weight": "1499 g",
+    "volume": "1299 ml",
+    "//": "300 x 153 x 70, but trimmed massively",
+    "longest_side": "300 mm",
+    "barrel_length": "153 mm"
+  },
+  {
+    "id": "colt_anaconda_4",
+    "copy-from": "colt_anaconda_8",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": ".44 short barrel hunting revolver" },
+    "description": "A large-frame revolver with a modern plastic handle.  Too large for law enforcement, it was mostly used by sport shooters and hunters, for the manufacturer deemed it to be the most accurate .44-caliber revolver in their line.  This one has a shortened 4-inch barrel.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "colt_anaconda",
+        "name": { "str": "Colt Anaconda" },
+        "description": "A large-frame double-action revolver with a modern plastic handle.  Too large for law enforcement, it was mostly used by sport shooters and hunters, for Colt deemed it to be the most accurate .44-caliber revolver in their line.  This one has a shortened 4-inch barrel."
+      }
+    ],
+    "weight": "1499 g",
+    "volume": "1053 ml",
+    "//": "240 x 153 x 70, but trimmed massively",
+    "longest_side": "240 mm",
+    "barrel_length": "102 mm"
+  },
+  {
+    "id": "rossi_r92_44_16",
+    "copy-from": "gun_base_rifle_manual",
+    "looks_like": "modular_ar15",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": ".44 lever-action rifle" },
+    "description": "This lever-action rifle is chambered in the powerful .44 Magnum cartridge, with an 16\" barrel with a tube-fed magazine.  Go get 'em cowboy!",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "rossi_r92_44_16",
+        "name": { "str": "Rossi R92 16\"", "str_pl": "Rossi R92s 16\"" },
+        "description": "The R92 is a widely successful line of lever-action rifles from Rossi, featuring a wide array of different calibers and barrel lengths.  These aim to be less reproductions of old rifles, but rather modern takes on the lever-action formula.  This particular one features all-black furniture, a 16\" barrel, and 8 rounds of .44 Magnum, along with a large lever loop."
+      }
+    ],
+    "//": "Stats from https://rossiusa.com/rifles/lever-action-rifles/349-r92-triple-black-wood-black-cerakote-44-mag-16-in",
+    "weight": "2529 g",
+    "volume": "2076 ml",
+    "longest_side": "879 mm",
+    "barrel_length": "419 mm",
+    "price": "1060 USD 99 cent",
+    "price_postapoc": "16 USD",
+    "material": [ "steel", "wood" ],
+    "range": 5,
+    "ammo": [ "44" ],
+    "dispersion": 160,
+    "clip_size": 8,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "mechanism", 2 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "44": 8 } } ]
+  },
+  {
+    "id": "rossi_r92_44_20",
+    "copy-from": "gun_base_rifle_manual",
+    "looks_like": "modular_ar15",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "long-barreled .44 lever-action rifle" },
+    "description": "This lever-action rifle is chambered in the powerful .44 Magnum cartridge, with an 20\" barrel with a tube-fed magazine.  Go get 'em cowboy!",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "rossi_r92_44_16",
+        "name": { "str": "Rossi R92 20\"", "str_pl": "Rossi R92s 20\"" },
+        "description": "The R92 is a widely successful line of lever-action rifles from Rossi, featuring a wide array of different calibers and barrel lengths.  These aim to be less reproductions of old rifles, but rather modern takes on the lever-action formula.  This particular one features all-black furniture, a 20\" barrel, and 10 rounds of .44 Magnum."
+      }
+    ],
+    "//": "Stats from https://rossiusa.com/rifles/lever-action-rifles/368-r92-hardwood-polished-black-oxide-44-mag-20-in",
+    "weight": "2705 g",
+    "volume": "2015 ml",
+    "longest_side": "965 mm",
+    "barrel_length": "508 mm",
+    "price": "1060 USD 99 cent",
+    "price_postapoc": "16 USD",
+    "material": [ "steel", "wood" ],
+    "range": 7,
+    "ammo": [ "44" ],
+    "dispersion": 140,
+    "clip_size": 10,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "mechanism", 2 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "44": 10 } } ]
   }
 ]

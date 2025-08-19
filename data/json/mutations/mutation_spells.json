@@ -138,7 +138,7 @@
     "id": "ink_gland_spray_primer",
     "type": "SPELL",
     "name": { "str": "Blinding spray primer" },
-    "description": "Blinds a random nearby enemy for a short duration and up an ink_gland_ink status charge",
+    "description": "Blinds a random nearby enemy for a short duration and up an ink_gland_ink status charge.",
     "effect": "effect_on_condition",
     "effect_str": "EOC_ink_grand_spray",
     "shape": "blast",

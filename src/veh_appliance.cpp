@@ -1,28 +1,55 @@
+#include <cstddef>
+#include <initializer_list>
+#include <map>
+#include <memory>
+#include <set>
+#include <string>
+#include <unordered_set>
+#include <utility>
+
+#include "cached_options.h"
+#include "calendar.h"
+#include "cata_imgui.h"
+#include "cata_utility.h"
+#include "character.h"
+#include "color.h"
+#include "debug.h"
+#include "enums.h"
 #include "game.h"
 #include "handle_liquid.h"
+#include "input_enums.h"
 #include "inventory.h"
+#include "item_location.h"
 #include "itype.h"
+#include "iuse.h"
+#include "map.h"
 #include "map_iterator.h"
-#include "action.h"
 #include "messages.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "player_activity.h"
-#include "skill.h"
+#include "requirements.h"
+#include "ret_val.h"
+#include "string_formatter.h"
 #include "string_input_popup.h"
-#include "ui.h"
+#include "translations.h"
 #include "ui_manager.h"
+#include "uilist.h"
 #include "units.h"
 #include "veh_appliance.h"
 #include "veh_interact.h"
 #include "veh_type.h"
 #include "veh_utils.h"
 #include "vehicle.h"
+#include "vpart_position.h"
 #include "vpart_range.h"
+
+class uilist_impl;
 
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 
 static const itype_id fuel_type_battery( "battery" );
+static const itype_id itype_power_cord( "power_cord" );
 static const itype_id itype_wall_wiring( "wall_wiring" );
 
 static const quality_id qual_HOSE( "HOSE" );
@@ -53,16 +80,16 @@ vpart_id vpart_appliance_from_item( const itype_id &item_id )
     return vpart_ap_standing_lamp;
 }
 
-void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optional<item> &base )
+bool place_appliance( map &here, const tripoint_bub_ms &p, const vpart_id &vpart,
+                      const Character &owner, const std::optional<item> &base )
 {
 
     const vpart_info &vpinfo = vpart.obj();
-    map &here = get_map();
     vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 0_degrees, 0, 0 );
 
     if( !veh ) {
-        debugmsg( "error constructing vehicle" );
-        return;
+        debugmsg( "error constructing appliance" );
+        return false;
     }
 
     veh->add_tag( flag_APPLIANCE );
@@ -70,9 +97,18 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
     int partnum = -1;
     if( base ) {
         item copied = *base;
-        partnum = veh->install_part( point_zero, vpart, std::move( copied ) );
+        if( vpinfo.base_item != copied.typeId() ) {
+            // transform the deploying item into what it *should* be before storing it
+            copied.convert( vpinfo.base_item );
+        }
+        partnum = veh->install_part( here, point_rel_ms::zero, vpart, std::move( copied ) );
     } else {
-        partnum = veh->install_part( point_zero, vpart );
+        partnum = veh->install_part( here, point_rel_ms::zero, vpart );
+    }
+    if( partnum == -1 ) {
+        // unrecoverable, failed to be installed somehow
+        here.destroy_vehicle( veh );
+        return false;
     }
     veh->name = vpart->name();
 
@@ -88,7 +124,7 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
 
     // Connect to any neighbouring appliances or wires once
     std::unordered_set<const vehicle *> connected_vehicles;
-    for( const tripoint &trip : here.points_in_radius( p, 1 ) ) {
+    for( const tripoint_bub_ms &trip : here.points_in_radius( p, 1 ) ) {
         const optional_vpart_position vp = here.veh_at( trip );
         if( !vp ) {
             continue;
@@ -96,47 +132,35 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
         vehicle &veh_target = vp->vehicle();
         if( veh_target.has_tag( flag_APPLIANCE ) ) {
             if( veh->is_powergrid() && veh_target.is_powergrid() &&
-                veh->merge_appliance_into_grid( veh_target ) ) {
+                veh->merge_appliance_into_grid( &here, veh_target ) ) {
                 add_msg( _( "You merge it into the adjacent power grid." ) );
                 continue;
             }
             if( connected_vehicles.find( &veh_target ) == connected_vehicles.end() ) {
-                veh->connect( p, trip );
+                veh->connect( &here, p, trip );
                 connected_vehicles.insert( &veh_target );
             }
         }
     }
-    veh->part_removal_cleanup();
+    veh->part_removal_cleanup( here );
 
     // Make some lighting appliances directed
     if( vpinfo.has_flag( flag_HALF_CIRCLE_LIGHT ) && partnum != -1 ) {
-        orient_part( veh, vpinfo, partnum );
+        orient_part( here, veh, vpinfo, partnum );
     }
+    veh->set_owner( owner );
+    return true;
 }
 
-// uilist_callback whose sole responsibility is to draw the
-// connecting borders between the uilist and the info window.
-class app_uilist_handler : public uilist_callback
-{
-        void refresh( uilist *imenu ) override {
-            //NOLINTNEXTLINE(cata-use-named-point-constants)
-            mvwputch( imenu->window, point( 0, 0 ), c_white, LINE_XXXO );
-            mvwputch( imenu->window, point( win_width - 1, 0 ), c_white, LINE_XOXX );
-            wnoutrefresh( imenu->window );
-        }
-};
-
-static app_uilist_handler app_callback;
-
-player_activity veh_app_interact::run( vehicle &veh, const point &p )
+player_activity veh_app_interact::run( map &here, vehicle &veh, const point_rel_ms &p )
 {
     veh_app_interact ap( veh, p );
-    ap.app_loop();
+    ap.app_loop( here );
     return ap.act;
 }
 
 // Registers general appliance actions from keybindings
-veh_app_interact::veh_app_interact( vehicle &veh, const point &p )
+veh_app_interact::veh_app_interact( vehicle &veh, const point_rel_ms &p )
     : a_point( p ), veh( &veh ), ctxt( "APP_INTERACT", keyboard_mode::keycode )
 {
     ctxt.register_directions();
@@ -149,19 +173,19 @@ veh_app_interact::veh_app_interact( vehicle &veh, const point &p )
 }
 
 // @returns true if a battery part exists on any vehicle connected to veh
-static bool has_battery_in_grid( vehicle *veh )
+static bool has_battery_in_grid( map &here, vehicle *veh )
 {
-    return !veh->search_connected_batteries().empty();
+    return !veh->search_connected_batteries( here ).empty();
 }
 
-void veh_app_interact::init_ui_windows()
+void veh_app_interact::init_ui_windows( map &here )
 {
     imenu.reset();
-    populate_app_actions();
+    populate_app_actions( here );
 
-    int height_info = veh->get_printable_fuel_types().size() + 2;
+    int height_info = veh->get_printable_fuel_types( here ).size() + 2;
 
-    if( !has_battery_in_grid( veh ) ) {
+    if( !has_battery_in_grid( here, veh ) ) {
         height_info++;
     }
     if( !veh->batteries.empty() ) {
@@ -187,37 +211,43 @@ void veh_app_interact::init_ui_windows()
     }
     const int width_info = win_width - 2;
     const int height_input = app_actions.size();
-    const int width_input = win_width;
-    const int height = height_info + height_input + 2;
+    const int win_height = height_info + 2;
+    const int full_height = win_height + height_input;
 
     // Center the UI
-    point topleft( TERMX / 2 - win_width / 2, TERMY / 2 - height / 2 );
-    w_border = catacurses::newwin( height, win_width, topleft );
+    point topleft( TERMX / 2 - win_width / 2, TERMY / 2 - full_height / 2 );
+    w_border = catacurses::newwin( win_height, win_width, topleft );
     //NOLINTNEXTLINE(cata-use-named-point-constants)
     w_info = catacurses::newwin( height_info, width_info, topleft + point( 1, 1 ) );
 
-    // Setup modifications to the uilist to integrate it into the UI
-    imenu.w_width_setup = width_input;
-    imenu.w_x_setup = topleft.x;
-    imenu.w_y_setup = topleft.y + height_info;
+    // Try to align the imgui window to be below the header.
+    // to that end, we have some awkward math translating character positions to screen positions here:
+    ImVec2 text_metrics = { ImGui::CalcTextSize( "X" ).x, ImGui::GetTextLineHeight() };
+    ImVec2 origin = text_metrics * ImVec2{ static_cast<float>( topleft.x ), static_cast<float>( topleft.y + win_height ) };
+    ImVec2 size = text_metrics * ImVec2{ static_cast<float>( win_width ), static_cast<float>( height_input ) };
+    imenu.desired_bounds = { origin.x,
+                             origin.y,
+                             size.x,  // align the width of the input to be the same as the header
+                             -1,      // but let uilist choose the height as it pleases.
+                           };
+
     imenu.allow_cancel = true;
     imenu.border_color = c_white;
-    imenu.callback = &app_callback;
     imenu.setup();
 }
 
-void veh_app_interact::draw_info()
+void veh_app_interact::draw_info( map &here )
 {
     werase( w_info );
 
     int row = 0;
     // Fuel indicators
-    veh->print_fuel_indicators( w_info, point( 0, row ), 0, true, true, true, true );
-    row += veh->get_printable_fuel_types().size();
+    veh->print_fuel_indicators( here, w_info, point( 0, row ), 0, true, true, true, true );
+    row += veh->get_printable_fuel_types( here ).size();
 
     // Onboard battery power
     if( !veh->batteries.empty() ) {
-        std::pair<int, int> battery = veh->battery_power_level();
+        std::pair<int, int> battery = veh->battery_power_level( );
         nc_color batt_col = c_yellow;
         if( battery.second > 0 ) {
             batt_col = battery.first == 0 ? c_light_red :
@@ -243,57 +273,57 @@ void veh_app_interact::draw_info()
         wprintz( w_info, rcol, rstr );
     };
 
-    if( !has_battery_in_grid( veh ) ) {
+    if( !has_battery_in_grid( here, veh ) ) {
         mvwprintz( w_info, point( 0, row ), c_light_red, _( "Appliance has no connection to a battery." ) );
         row++;
     }
 
     // Battery power output
     units::power grid_flow = 0_W;
-    for( const std::pair<vehicle *const, float> &pair : veh->search_connected_vehicles() ) {
-        grid_flow += pair.first->net_battery_charge_rate( /* include_reactors = */ true );
+    for( const std::pair<vehicle *const, float> &pair : veh->search_connected_vehicles( here ) ) {
+        grid_flow += pair.first->net_battery_charge_rate( here, /* include_reactors = */ true );
     }
     print_charge( _( "Grid battery power flow: " ), grid_flow, row );
     row++;
 
     // Reactor power output
     if( !veh->reactors.empty() ) {
-        const units::power rate = veh->active_reactor_epower();
+        const units::power rate = veh->active_reactor_epower( here );
         print_charge( _( "Reactor power output: " ), rate, row );
         row++;
     }
 
     // Wind power output
     if( !veh->wind_turbines.empty() ) {
-        units::power rate = veh->total_wind_epower();
+        units::power rate = veh->total_wind_epower( here );
         print_charge( _( "Wind power output: " ), rate, row );
         row++;
     }
 
     // Solar power output
     if( !veh->solar_panels.empty() ) {
-        units::power rate = veh->total_solar_epower();
+        units::power rate = veh->total_solar_epower( here );
         print_charge( _( "Solar power output: " ), rate, row );
         row++;
     }
 
     // Water power output
     if( !veh->water_wheels.empty() ) {
-        units::power rate = veh->total_water_wheel_epower();
+        units::power rate = veh->total_water_wheel_epower( here );
         print_charge( _( "Water power output: " ), rate, row );
         row++;
     }
 
     // Alternator power output
     if( !veh->alternators.empty() ) {
-        units::power rate = veh->total_alternator_epower();
+        units::power rate = veh->total_alternator_epower( here );
         print_charge( _( "Alternator power output: " ), rate, row );
         row++;
     }
 
     // Other power output
-    if( !veh->accessories.empty() ) {
-        units::power rate = veh->total_accessory_epower();
+    if( !veh->accessories.empty() || veh->has_part( "RECHARGE" ) ) {
+        units::power rate = veh->total_accessory_epower() + veh->recharge_epower_this_turn;
         print_charge( _( "Appliance power consumption: " ), rate, row );
         row++;
     }
@@ -301,10 +331,10 @@ void veh_app_interact::draw_info()
     wnoutrefresh( w_info );
 }
 
-bool veh_app_interact::can_refill()
+bool veh_app_interact::can_refill( )
 {
     for( const vpart_reference &vpr : veh->get_all_parts() ) {
-        if( vpr.part().can_reload() ) {
+        if( vpr.part().can_reload( ) ) {
             return true;
         }
     }
@@ -339,9 +369,9 @@ static vehicle_part *pick_part( const std::vector<vehicle_part *> &parts,
             std::string vname = vpr->name();
             if( !vpr->ammo_current().is_null() && vpr->ammo_current() != fuel_type_battery &&
                 !vpr->get_base().empty() ) {
-                units::volume mult = units::legacy_volume_factor / item::find_type(
+                units::volume mult = 250_ml / item::find_type(
                                          vpr->ammo_current() )->stack_size;
-                double vcur = to_liter( vpr->ammo_remaining() * mult );
+                double vcur = to_liter( vpr->ammo_remaining( ) * mult );
                 double vmax = to_liter( vpr->ammo_capacity( vpr->get_base().only_item().ammo_type() ) * mult );
                 //~ Vehicle part name, capacity (current/max L) and name of contents
                 enttxt = string_format( _( "%1$s (%2$.1f/%3$.1fL %4$s)" ), vname, round_up( vcur, 1 ),
@@ -361,11 +391,11 @@ static vehicle_part *pick_part( const std::vector<vehicle_part *> &parts,
     return pt;
 }
 
-void veh_app_interact::refill()
+void veh_app_interact::refill( )
 {
     std::vector<vehicle_part *> ptlist;
     for( const vpart_reference &vpr : veh->get_all_parts() ) {
-        if( vpr.part().can_reload() ) {
+        if( vpr.part().can_reload( ) ) {
             ptlist.emplace_back( &vpr.part() );
         }
     }
@@ -398,22 +428,21 @@ void veh_app_interact::refill()
         act = player_activity( ACT_VEHICLE, 1000, static_cast<int>( 'f' ) );
         act.targets.push_back( target );
         act.str_values.push_back( pt->info().id.str() );
-        const point q = veh->coord_translate( pt->mount );
-        map &here = get_map();
-        for( const tripoint &p : veh->get_points( true ) ) {
-            act.coord_set.insert( here.getabs( p ) );
+        const point_rel_ms q = veh->coord_translate( pt->mount );
+        for( const tripoint_abs_ms &p : veh->get_points( true ) ) {
+            act.coord_set.insert( p );
         }
-        act.values.push_back( here.getabs( veh->global_pos3() ).x + q.x );
-        act.values.push_back( here.getabs( veh->global_pos3() ).y + q.y );
-        act.values.push_back( a_point.x );
-        act.values.push_back( a_point.y );
-        act.values.push_back( -a_point.x );
-        act.values.push_back( -a_point.y );
+        act.values.push_back( veh->pos_abs().x() + q.x() );
+        act.values.push_back( veh->pos_abs().y() + q.y() );
+        act.values.push_back( a_point.x() );
+        act.values.push_back( a_point.y() );
+        act.values.push_back( -a_point.x() );
+        act.values.push_back( -a_point.y() );
         act.values.push_back( veh->index_of_part( pt ) );
     }
 }
 
-void veh_app_interact::siphon()
+void veh_app_interact::siphon( map &here )
 {
     std::vector<vehicle_part *> ptlist;
     for( const vpart_reference &vpr : veh->get_any_parts( VPFLAG_FLUIDTANK ) ) {
@@ -433,8 +462,10 @@ void veh_app_interact::siphon()
     const int idx = veh->index_of_part( pt );
     item liquid( base.legacy_front() );
     const int liq_charges = liquid.charges;
-    if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {
-        veh->drain( idx, liq_charges - liquid.charges );
+    liquid_dest_opt liquid_target;
+
+    if( liquid_handler::handle_liquid( liquid, liquid_target, nullptr, 1, nullptr, veh, idx ) ) {
+        veh->drain( here, idx, liq_charges - liquid.charges );
     }
 }
 
@@ -454,13 +485,12 @@ void veh_app_interact::rename()
     }
 }
 
-void veh_app_interact::remove()
+void veh_app_interact::remove( map &here )
 {
-    map &here = get_map();
-    const tripoint a_point_bub( veh->mount_to_tripoint( a_point ) );
+    const tripoint_abs_ms a_point_abs( veh->mount_to_tripoint_abs( a_point ) );
 
     vehicle_part *vp;
-    if( auto sel_part = here.veh_at( a_point_bub ).part_with_feature( VPFLAG_APPLIANCE, false ) ) {
+    if( auto sel_part = here.veh_at( a_point_abs ).part_with_feature( VPFLAG_APPLIANCE, false ) ) {
         vp = &sel_part->part();
     } else {
         int const part = veh->part_at( veh->coord_translate( a_point ) );
@@ -489,16 +519,15 @@ void veh_app_interact::remove()
     } else if( query_yn( _( "Are you sure you want to take down the %s?" ), veh->name ) ) {
         act = player_activity( ACT_VEHICLE, to_moves<int>( time ), static_cast<int>( 'O' ) );
         act.str_values.push_back( vpinfo.id.str() );
-        for( const tripoint &p : veh->get_points( true ) ) {
-            act.coord_set.insert( here.getabs( p ) );
+        for( const tripoint_abs_ms &p : veh->get_points( true ) ) {
+            act.coord_set.insert( p );
         }
-        const tripoint a_point_abs( here.getabs( a_point_bub ) );
-        act.values.push_back( a_point_abs.x );
-        act.values.push_back( a_point_abs.y );
-        act.values.push_back( a_point.x );
-        act.values.push_back( a_point.y );
-        act.values.push_back( -a_point.x );
-        act.values.push_back( -a_point.y );
+        act.values.push_back( a_point_abs.x() );
+        act.values.push_back( a_point_abs.y() );
+        act.values.push_back( a_point.x() );
+        act.values.push_back( a_point.y() );
+        act.values.push_back( -a_point.x() );
+        act.values.push_back( -a_point.y() );
         act.values.push_back( veh->index_of_part( vp ) );
     }
 }
@@ -514,29 +543,35 @@ bool veh_app_interact::can_disconnect()
     return true;
 }
 
-void veh_app_interact::disconnect()
+void veh_app_interact::disconnect( map &here )
 {
-    veh->separate_from_grid( a_point );
+    veh->separate_from_grid( &here, a_point );
     get_player_character().pause();
 }
 
-void veh_app_interact::plug()
+void veh_app_interact::plug( map &here )
 {
     const int part = veh->part_at( veh->coord_translate( a_point ) );
-    const tripoint pos = veh->global_part_pos3( part );
-    item cord( "power_cord" );
+    const tripoint_bub_ms pos = veh->bub_part_pos( here, part );
+    item cord( itype_power_cord );
     cord.link_to( *veh, a_point, link_state::automatic );
     if( cord.get_use( "link_up" ) ) {
         cord.type->get_use( "link_up" )->call( &get_player_character(), cord, pos );
     }
 }
 
-void veh_app_interact::populate_app_actions()
+void veh_app_interact::hide()
 {
-    map &here = get_map();
+    const int part_idx = veh->part_at( veh->coord_translate( a_point ) );
+    vehicle_part &vp = veh->part( part_idx );
+    vp.hidden = !vp.hidden;
+}
+
+void veh_app_interact::populate_app_actions( map &here )
+{
     vehicle_part *vp;
-    const tripoint a_point_bub( veh->mount_to_tripoint( a_point ) );
-    if( auto sel_part = here.veh_at( a_point_bub ).part_with_feature( VPFLAG_APPLIANCE, false ) ) {
+    const tripoint_abs_ms a_point_abs( veh->mount_to_tripoint_abs( a_point ) );
+    if( auto sel_part = here.veh_at( a_point_abs ).part_with_feature( VPFLAG_APPLIANCE, false ) ) {
         vp = &sel_part->part();
     } else {
         const int part = veh->part_at( veh->coord_translate( a_point ) );
@@ -550,13 +585,13 @@ void veh_app_interact::populate_app_actions()
     /******************** General actions ********************/
     // Refill
     app_actions.emplace_back( [this]() {
-        refill();
+        refill( );
     } );
-    imenu.addentry( -1, can_refill(), ctxt.keys_bound_to( "REFILL" ).front(),
+    imenu.addentry( -1, can_refill( ), ctxt.keys_bound_to( "REFILL" ).front(),
                     ctxt.get_action_name( "REFILL" ) );
     // Siphon
-    app_actions.emplace_back( [this]() {
-        siphon();
+    app_actions.emplace_back( [&here, this]() {
+        siphon( here );
     } );
     imenu.addentry( -1, can_siphon(), ctxt.keys_bound_to( "SIPHON" ).front(),
                     ctxt.get_action_name( "SIPHON" ) );
@@ -567,24 +602,33 @@ void veh_app_interact::populate_app_actions()
     imenu.addentry( -1, true, ctxt.keys_bound_to( "RENAME" ).front(),
                     ctxt.get_action_name( "RENAME" ) );
     // Remove
-    app_actions.emplace_back( [this]() {
-        remove();
+    app_actions.emplace_back( [&here, this]() {
+        remove( here );
     } );
     imenu.addentry( -1, veh->can_unmount( *vp, true ).success(), ctxt.keys_bound_to( "REMOVE" ).front(),
                     ctxt.get_action_name( "REMOVE" ) );
     // Plug
-    app_actions.emplace_back( [this]() {
-        plug();
+    app_actions.emplace_back( [&here, this]() {
+        plug( here );
     } );
     imenu.addentry( -1, true, ctxt.keys_bound_to( "PLUG" ).front(),
                     string_format( "%s%s", ctxt.get_action_name( "PLUG" ),
                                    //~ An addendum to Plug In's description, as in: Plug in appliance / merge power grid".
                                    veh->is_powergrid() ? _( " / merge power grid" ) : "" ) );
+#if defined(TILES)
+    // Hide
+    if( use_tiles && vp->info().has_flag( flag_WIRING ) ) {
+        app_actions.emplace_back( [this]() {
+            hide();
+        } );
+        imenu.addentry( -1, true, 0, "Hide/Unhide wiring" );
+    }
+#endif
 
     if( veh->is_powergrid() && veh->part_count() > 1 && !vp->info().has_flag( VPFLAG_WALL_MOUNTED ) ) {
         // Disconnect from power grid
-        app_actions.emplace_back( [this]() {
-            disconnect();
+        app_actions.emplace_back( [&here, this]() {
+            disconnect( here );
             veh = nullptr;
         } );
         const bool can_disc = can_disconnect();
@@ -594,7 +638,7 @@ void veh_app_interact::populate_app_actions()
 
     /*************** Get part-specific actions ***************/
     veh_menu menu( veh, "IF YOU SEE THIS IT IS A BUG" );
-    veh->build_interact_menu( menu, veh->mount_to_tripoint( a_point ), false );
+    veh->build_interact_menu( menu, &here, veh->mount_to_tripoint( &here, a_point ), false );
     const std::vector<veh_menu_item> items = menu.get_items();
     for( size_t i = 0; i < items.size(); i++ ) {
         const veh_menu_item &it = items[i];
@@ -602,38 +646,37 @@ void veh_app_interact::populate_app_actions()
         imenu.addentry( -1, it._enabled, hotkey, it._text );
         app_actions.emplace_back( it._on_submit );
     }
-    imenu.setup();
 }
 
-shared_ptr_fast<ui_adaptor> veh_app_interact::create_or_get_ui_adaptor()
+shared_ptr_fast<ui_adaptor> veh_app_interact::create_or_get_ui_adaptor( map &here )
 {
     shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
     if( !current_ui ) {
         ui = current_ui = make_shared_fast<ui_adaptor>();
-        current_ui->on_screen_resize( [this]( ui_adaptor & cui ) {
-            init_ui_windows();
+        current_ui->on_screen_resize( [&here, this]( ui_adaptor & cui ) {
+            init_ui_windows( here );
             cui.position_from_window( catacurses::stdscr );
         } );
         current_ui->mark_resize();
-        current_ui->on_redraw( [this]( const ui_adaptor & ) {
+        current_ui->on_redraw( [&here, this]( const ui_adaptor & ) {
             draw_border( w_border, c_white, veh->name, c_white );
             wnoutrefresh( w_border );
-            draw_info();
+            draw_info( here );
         } );
     }
     return current_ui;
 }
 
-void veh_app_interact::app_loop()
+void veh_app_interact::app_loop( map &here )
 {
     bool done = false;
     while( !done ) {
         // scope this tighter so that this ui is hidden when app_actions[ret]() triggers
         {
             ui.reset();
-            shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
+            shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor( here );
             ui_manager::redraw();
-            shared_ptr_fast<ui_adaptor> input_ui = imenu.create_or_get_ui_adaptor();
+            shared_ptr_fast<uilist_impl> input_ui = imenu.create_or_get_ui();
             imenu.query();
         }
 
