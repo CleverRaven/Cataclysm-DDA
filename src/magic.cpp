@@ -1265,16 +1265,22 @@ bool spell::can_cast( const Character &guy ) const
     return guy.magic->has_enough_energy( guy, *this );
 }
 
-bool spell::can_cast( const Character &guy, std::set<std::string> &failure_messages )
+bool spell::can_cast( const Character &guy, std::map<magic_type_id, bool> &success_tracker )
 {
-    if( can_cast( guy ) ) {
-        return true;
-    } else if( type->magic_type.has_value() &&
-               type->magic_type.value()->cannot_cast_message.has_value() ) {
-        failure_messages.insert( type->magic_type.value()->cannot_cast_message.value() );
-        return false;
+    if( type->magic_type.has_value() &&
+        type->magic_type.value()->cannot_cast_message.has_value() ) {
+        // Insert first occurence of magic_type_id as false since only successful casts will be tracked.
+        if( success_tracker.count( type->magic_type.value() ) == 0 ) {
+            success_tracker[type->magic_type.value()] = false;
+        }
+        if( can_cast( guy ) ) {
+            success_tracker[type->magic_type.value()] = true;
+            return true;
+        } else {
+            return false;
+        }
     } else {
-        return false;
+        return can_cast( guy );
     }
 }
 

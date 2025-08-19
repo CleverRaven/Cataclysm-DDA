@@ -579,7 +579,7 @@ class spell
         bool has_components() const;
         // can the Character cast this spell?
         bool can_cast( const Character &guy ) const;
-        bool can_cast( const Character &guy, std::set<std::string> &failure_messages );
+        bool can_cast( const Character &guy, std::map<magic_type_id, bool> &success_tracker );
         // can the Character learn this spell?
         bool can_learn( const Character &guy ) const;
         // if spell shoots more than one projectile
