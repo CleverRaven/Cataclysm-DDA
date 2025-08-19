@@ -263,16 +263,6 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_psi_reduced_breathing",
-    "name": [ "Short of Breath" ],
-    "desc": [ "You're having a hard time getting enough air." ],
-    "remove_message": "You finally manage to catch your breath",
-    "base_mods": { "cough_chance": [ 20 ], "cough_tick": [ 120 ] },
-    "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.5 }, { "limb_score": "lift", "modifier": 0.8 } ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
-  },
-  {
-    "type": "effect_type",
     "id": "effect_biokin_overload",
     "name": [ "Weakened" ],
     "desc": [ "Your muscles and coordination are impaired." ],
