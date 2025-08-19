@@ -150,6 +150,11 @@
     "//": "Severely weakened in sufficient light (applies photophobia effect)"
   },
   {
+    "id": "TRUESIGHT",
+    "type": "monster_flag",
+    "//": "Monster can see creatures even when they're invisible"
+  },
+  {
     "id": "ELECTRIC",
     "type": "monster_flag",
     "//": "Shocks unarmed attackers"

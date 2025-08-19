@@ -400,7 +400,8 @@
     "remove_message": "The clouds of dust around you die down",
     "rating": "good",
     "max_duration": 2400,
-    "enchantments": [ "ench_shape_of_dust" ]
+    "enchantments": [ "ench_shape_of_dust" ],
+    "flags": [ "INVISIBLE" ]
   },
   {
     "type": "effect_type",

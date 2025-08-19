@@ -574,7 +574,7 @@ bool Creature::sees( const map &here, const Creature &critter ) const
 
     if( ( target_range > 2 && critter.digging() &&
           here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, critter_pos ) ) ||
-        ( !has_flag( json_flag_TRUE_SEEING ) && critter.has_flag( mon_flag_CAMOUFLAGE ) &&
+        ( !has_flag( json_flag_TRUE_SEEING ) && !has_flag( mon_flag_TRUESIGHT ) && critter.has_flag( mon_flag_CAMOUFLAGE ) &&
           target_range > this->get_eff_per() ) ||
         ( critter.has_flag( mon_flag_WATER_CAMOUFLAGE ) &&
           target_range > this->get_eff_per() &&
@@ -582,9 +582,9 @@ bool Creature::sees( const map &here, const Creature &critter ) const
             here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, critter_pos ) ||
             ( here.has_flag( ter_furn_flag::TFLAG_SHALLOW_WATER, critter_pos ) &&
               critter.get_size() < creature_size::medium ) ) ) ||
-        ( !has_flag( json_flag_TRUE_SEEING ) && !has_flag( mon_flag_TRUE_SEEING ) && critter.has_flag( mon_flag_NIGHT_INVISIBILITY ) &&
+        ( !has_flag( json_flag_TRUE_SEEING ) && !has_flag( mon_flag_TRUESIGHT ) && critter.has_flag( mon_flag_NIGHT_INVISIBILITY ) &&
           here.light_at( critter_pos ) <= lit_level::LOW ) ||
-        ( !has_flag( json_flag_TRUE_SEEING ) && !has_flag( mon_flag_TRUE_SEEING ) && critter.has_effect_with_flag( json_flag_INVISIBLE ) ) ||
+        ( !has_flag( json_flag_TRUE_SEEING ) && !has_flag( mon_flag_TRUESIGHT ) && critter.has_effect_with_flag( json_flag_INVISIBLE ) ) ||
         ( !is_likely_underwater( here ) && critter.is_likely_underwater( here ) &&
           majority_rule( critter.has_flag( mon_flag_WATER_CAMOUFLAGE ),
                          here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, critter_pos ),
