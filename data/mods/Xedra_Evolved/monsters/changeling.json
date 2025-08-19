@@ -278,6 +278,7 @@
       "GROUP_BASH",
       "HUMAN",
       "FAE_CREATURE",
+      "TRUESIGHT",
       "CAN_OPEN_DOORS",
       "PATH_AVOID_DANGER",
       "MAGIC_USER"
@@ -343,7 +344,7 @@
       }
     ],
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "KEENNOSE", "EATS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "TRUESIGHT", "PATH_AVOID_DANGER", "WARM", "KEENNOSE", "EATS" ],
     "armor": {
       "bash": 8,
       "cut": 10,
