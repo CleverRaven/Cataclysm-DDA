@@ -8650,6 +8650,7 @@ void map::cut_down_tree( tripoint_bub_ms p, point_rel_ms dir )
             break;
         }
     }
+    ter_set( p, ter_t_stump );
 }
 
 void map::rad_scorch( const tripoint_bub_ms &p, const time_duration &time_since_last_actualize )
