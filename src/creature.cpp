@@ -136,6 +136,7 @@ static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const json_character_flag json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMAGE" );
 static const json_character_flag json_flag_FREEZE_EFFECTS( "FREEZE_EFFECTS" );
 static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
+static const json_character_flag json_flag_INVISIBLE( "INVISIBLE" ); 
 static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
 static const json_character_flag json_flag_LIMB_UPPER( "LIMB_UPPER" );
 static const json_character_flag json_flag_TEEPSHIELD( "TEEPSHIELD" );
@@ -581,9 +582,9 @@ bool Creature::sees( const map &here, const Creature &critter ) const
             here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, critter_pos ) ||
             ( here.has_flag( ter_furn_flag::TFLAG_SHALLOW_WATER, critter_pos ) &&
               critter.get_size() < creature_size::medium ) ) ) ||
-        ( !has_flag( json_flag_TRUE_SEEING ) && critter.has_flag( mon_flag_NIGHT_INVISIBILITY ) &&
+        ( !has_flag( json_flag_TRUE_SEEING ) && !has_flag( mon_flag_TRUE_SEEING ) && critter.has_flag( mon_flag_NIGHT_INVISIBILITY ) &&
           here.light_at( critter_pos ) <= lit_level::LOW ) ||
-        ( !has_flag( json_flag_TRUE_SEEING ) && critter.has_effect( effect_invisibility ) ) ||
+        ( !has_flag( json_flag_TRUE_SEEING ) && !has_flag( mon_flag_TRUE_SEEING ) && critter.has_effect_with_flag( json_flag_INVISIBLE ) ) ||
         ( !is_likely_underwater( here ) && critter.is_likely_underwater( here ) &&
           majority_rule( critter.has_flag( mon_flag_WATER_CAMOUFLAGE ),
                          here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, critter_pos ),
