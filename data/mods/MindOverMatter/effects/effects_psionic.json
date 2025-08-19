@@ -1319,7 +1319,8 @@
       "glare",
       "snow_glare",
       "venom_blind"
-    ]
+    ],
+    "flags": [ "TRUE_SEEING" ]
   },
   {
     "type": "effect_type",
