@@ -1160,7 +1160,7 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
     bool bIsNewLine = true;
 
     for( const iteminfo &i : vItemDisplay ) {
-        if( i.sType == "DESCRIPTION" ) {
+        if( i.sType == "DESCRIPTION" || i.sType == "SPECIAL_ARMOR_GRAPH" ) {
             // Always start a new line for sType == "DESCRIPTION"
             if( !bIsNewLine ) {
                 buffer += "\n";
@@ -1268,6 +1268,62 @@ static nc_color get_comparison_color( const iteminfo &i,
     return thisColor;
 }
 
+static std::vector<std::string> delimit_armor_text( std::string raw_text )
+{
+    // The various types of text that can be passed in from item::armor_protection_info():
+    // Protection:
+    // Bash: 2.00, 8.00, 20.00
+    // Foo: 6.00, 12.00
+    //
+	// Yes that first one has no numbers.
+    // So we need multiple passes.
+    const std::vector<std::string> first_pass = string_split( raw_text, ':' );
+    const std::string mega_string = string_join( first_pass, ", " );
+    const std::vector<std::string> delimited_strings = string_split( mega_string, ',' );
+    return delimited_strings;
+}
+
+static void draw_armor_graph( const std::vector<iteminfo> &vItemDisplay, const iteminfo &i )
+{
+    const int max_columns = 4;
+    if( ImGui::BeginTable( "##ITEMINFO_ARMOR_GRAPH", max_columns,
+                           ImGuiTableFlags_BordersH | ImGuiTableFlags_BordersV ) ) {
+        auto info_iter = vItemDisplay.begin() + std::distance( vItemDisplay.data(), &i );
+        if( info_iter == vItemDisplay.end() ) {
+            // PANIC!
+            ImGui::EndTable();
+            return;
+        }
+
+        const std::vector<std::string> chopped_up = delimit_armor_text( info_iter->sName );
+        for( const std::string &cell_text : chopped_up ) {
+            ImGui::TableSetupColumn( cell_text.c_str(), ImGuiTableColumnFlags_WidthStretch );
+        }
+        ImGui::TableHeadersRow();
+        ImGui::TableNextColumn();
+
+        info_iter++;
+
+        while( info_iter != vItemDisplay.end() && info_iter->sType == "ARMOR" ) {
+            const std::string &raw_text = info_iter->sName;
+            const std::vector<std::string> delimited_strings = delimit_armor_text( raw_text );
+            for( const std::string &text : delimited_strings ) {
+                cataimgui::draw_colored_text( text, c_unset );
+                ImGui::TableNextColumn();
+            }
+            // dumb hack. if you see this, it should not be mergeable.
+            for( int i = 0; i < max_columns - delimited_strings.size(); i++ ) {
+                ImGui::TableNextRow();
+                ImGui::TableNextColumn();
+            }
+            info_iter++;
+        }
+
+
+        ImGui::EndTable();
+    }
+}
+
 void display_item_info( const std::vector<iteminfo> &vItemDisplay,
                         const std::vector<iteminfo> &vItemCompare )
 {
@@ -1276,7 +1332,9 @@ void display_item_info( const std::vector<iteminfo> &vItemDisplay,
         if( i.bIsArt ) {
             cataimgui::PushMonoFont();
         }
-        if( i.sType == "DESCRIPTION" ) {
+        if( i.sType == "SPECIAL_ARMOR_GRAPH" ) {
+            draw_armor_graph( vItemDisplay, i );
+        } else if( i.sType == "DESCRIPTION" ) {
             if( i.bDrawName ) {
                 if( i.sName == "--" ) {
                     if( !bAlreadyHasNewLine ) {
@@ -1298,7 +1356,7 @@ void display_item_info( const std::vector<iteminfo> &vItemDisplay,
                     bAlreadyHasNewLine = false;
                 }
             }
-        } else {
+        } else if( i.sType != "ARMOR" ) { // handled by draw_armor_graph()
             if( i.bDrawName ) {
                 cataimgui::TextColoredParagraph( c_light_gray, i.sName );
                 bAlreadyHasNewLine = false;

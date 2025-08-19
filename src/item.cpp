@@ -3896,15 +3896,15 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
         bool display_median = percent_best < 50 && percent_worst < 50;
 
         if( display_median ) {
-            info.emplace_back( "DESCRIPTION",
+            info.emplace_back( "SPECIAL_ARMOR_GRAPH",
                                string_format( "<bold>%s</bold>: <bad>%d%%</bad>, <color_c_yellow>Median</color>, <good>%d%%</good>",
                                               _( "Protection" ), percent_worst, percent_best ) );
         } else if( percent_worst > 0 ) {
-            info.emplace_back( "DESCRIPTION",
+            info.emplace_back( "SPECIAL_ARMOR_GRAPH",
                                string_format( "<bold>%s</bold>: <bad>%d%%</bad>, <good>%d%%</good>", _( "Protection" ),
                                               percent_worst, percent_best ) );
         } else {
-            info.emplace_back( "DESCRIPTION", string_format( "<bold>%s</bold>:", _( "Protection" ) ) );
+            info.emplace_back( "SPECIAL_ARMOR_GRAPH", string_format( "<bold>%s</bold>:", _( "Protection" ) ) );
         }
 
         for( const damage_info_order &dio : damage_info_order::get_all(
