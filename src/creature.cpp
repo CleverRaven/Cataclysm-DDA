@@ -107,7 +107,6 @@ static const efftype_id effect_eff_mind_seeing_bonus_30( "eff_mind_seeing_bonus_
 static const efftype_id effect_eff_mind_seeing_bonus_5( "eff_mind_seeing_bonus_5" );
 static const efftype_id effect_eff_monster_immune_to_telepathy( "eff_monster_immune_to_telepathy" );
 static const efftype_id effect_foamcrete_slow( "foamcrete_slow" );
-static const efftype_id effect_invisibility( "invisibility" );
 static const efftype_id effect_knockdown( "knockdown" );
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_no_sight( "no_sight" );
