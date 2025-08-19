@@ -289,7 +289,7 @@
   {
     "type": "furniture",
     "id": "f_anvil_scavenged",
-    "name": "scavenged anvil",
+    "name": "scavenger's anvil",
     "looks_like": "f_anvil",
     "description": "An old machinery part, cut and smoothed to make a serviceable anvil, and mounted to a heavy log stand.",
     "symbol": "^",

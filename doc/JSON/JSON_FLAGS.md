@@ -452,6 +452,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```THERMOMETER``` You always know what temperature it is.
 - ```TINY``` Changes your size to `creature_size::tiny`.  Checked first of the size category flags.
 - ```TREE_COMMUNION_PLUS``` Gain greatly enhanced effects from the Mycorrhizal Communion mutation.
+- ```TRUE_SEEING``` - You can see creatures normally even if they have the `CAMOUFLAGE` or `NIGHT_INVISIBILITY` flags or the `invisibility` effect
 - ```VINE_RAPPEL``` You can rappel down staircases and sheer drops of any height.
 - ```WALK_UNDERWATER``` your stamina burn is not increased when you swim, emulating you walking on the water bottom.
 - ```WALL_CLING``` You can ascend/descend sheer cliffs as long as the tile above borders at least one wall.  Chance to slip and fall each step.

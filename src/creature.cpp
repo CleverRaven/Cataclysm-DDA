@@ -139,6 +139,7 @@ static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
 static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
 static const json_character_flag json_flag_LIMB_UPPER( "LIMB_UPPER" );
 static const json_character_flag json_flag_TEEPSHIELD( "TEEPSHIELD" );
+static const json_character_flag json_flag_TRUE_SEEING( "TRUE_SEEING" );
 
 static const material_id material_cotton( "cotton" );
 static const material_id material_flesh( "flesh" );
@@ -572,16 +573,17 @@ bool Creature::sees( const map &here, const Creature &critter ) const
 
     if( ( target_range > 2 && critter.digging() &&
           here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, critter_pos ) ) ||
-        ( critter.has_flag( mon_flag_CAMOUFLAGE ) && target_range > this->get_eff_per() ) ||
+        ( !has_flag( json_flag_TRUE_SEEING ) && critter.has_flag( mon_flag_CAMOUFLAGE ) &&
+          target_range > this->get_eff_per() ) ||
         ( critter.has_flag( mon_flag_WATER_CAMOUFLAGE ) &&
           target_range > this->get_eff_per() &&
           ( critter.is_likely_underwater( here ) ||
             here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, critter_pos ) ||
             ( here.has_flag( ter_furn_flag::TFLAG_SHALLOW_WATER, critter_pos ) &&
               critter.get_size() < creature_size::medium ) ) ) ||
-        ( critter.has_flag( mon_flag_NIGHT_INVISIBILITY ) &&
+        ( !has_flag( json_flag_TRUE_SEEING ) && critter.has_flag( mon_flag_NIGHT_INVISIBILITY ) &&
           here.light_at( critter_pos ) <= lit_level::LOW ) ||
-        critter.has_effect( effect_invisibility ) ||
+        ( !has_flag( json_flag_TRUE_SEEING ) && critter.has_effect( effect_invisibility ) ) ||
         ( !is_likely_underwater( here ) && critter.is_likely_underwater( here ) &&
           majority_rule( critter.has_flag( mon_flag_WATER_CAMOUFLAGE ),
                          here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, critter_pos ),

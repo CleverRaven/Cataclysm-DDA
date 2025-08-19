@@ -1029,7 +1029,17 @@
     "threshreq": [ "THRESH_ARVORE" ],
     "//": "Healing values copied from the Regeneration mutation",
     "override_look": { "id": "t_tree", "tile_category": "terrain" },
-    "flags": [ "DEAF", "BLIND", "SEESLEEP", "NO_SCENT", "NO_SPELLCASTING", "IMMUNE_HEARING_DAMAGE", "CANNOT_MOVE" ],
+    "flags": [
+      "DEAF",
+      "BLIND",
+      "SEESLEEP",
+      "NO_SCENT",
+      "NO_SPELLCASTING",
+      "IMMUNE_HEARING_DAMAGE",
+      "CANNOT_MOVE",
+      "CANNOT_ATTACK",
+      "SUFFOCATION_IMMUNE"
+    ],
     "wet_protection": [
       { "part": "head", "ignored": 40 },
       { "part": "leg_l", "ignored": 40 },
@@ -1076,7 +1086,6 @@
     "enchantments": [
       {
         "values": [
-          { "value": "ATTACK_SPEED", "multiply": 900 },
           { "value": "METABOLISM", "multiply": -0.5 },
           { "value": "SLEEPINESS_REGEN", "multiply": 0.5 },
           { "value": "MENDING_MODIFIER", "multiply": 15 },
