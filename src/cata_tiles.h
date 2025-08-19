@@ -589,8 +589,6 @@ class cata_tiles
         void draw_square_below( const point_bub_ms &p, const nc_color &col, int sizefactor );
         bool draw_terrain( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
                            const std::array<bool, 5> &invisible, bool memorize_only );
-        bool draw_terrain_below( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
-                                 const std::array<bool, 5> &invisible, bool memorize_only );
         bool draw_furniture( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
                              const std::array<bool, 5> &invisible, bool memorize_only );
         bool draw_graffiti( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
@@ -607,12 +605,8 @@ class cata_tiles
                                  const std::array<bool, 5> &invisible, bool memorize_only );
         bool draw_vpart_roof( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
                               const std::array<bool, 5> &invisible, bool memorize_only );
-        bool draw_vpart_below( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
-                               const std::array<bool, 5> &invisible, bool memorize_only );
         bool draw_critter_at( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
                               const std::array<bool, 5> &invisible, bool memorize_only );
-        bool draw_critter_at_below( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
-                                    const std::array<bool, 5> &invisible, bool memorize_only );
         bool draw_critter_above( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
                                  const std::array<bool, 5> &invisible );
         bool draw_zone_mark( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
@@ -708,9 +702,6 @@ class cata_tiles
         void init_draw_vpart_override( const tripoint_bub_ms &p, const vpart_id &id, int part_mod,
                                        const units::angle &veh_dir, bool hilite, const point_rel_ms &mount );
         void void_vpart_override();
-
-        void init_draw_below_override( const tripoint_bub_ms &p, bool draw );
-        void void_draw_below_override();
 
         void init_draw_monster_override( const tripoint_bub_ms &p, const mtype_id &id, int count,
                                          bool more, Creature::Attitude att );
@@ -880,7 +871,6 @@ class cata_tiles
         // point represents the mount direction
         std::map<tripoint_bub_ms, std::tuple<vpart_id, int, units::angle, bool, point_rel_ms>>
                 vpart_override;
-        std::map<tripoint_bub_ms, bool> draw_below_override;
         // int represents spawn count
         std::map<tripoint_bub_ms, std::tuple<mtype_id, int, bool, Creature::Attitude>> monster_override;
 

@@ -879,6 +879,10 @@ template<typename MemberType>
 inline void optional( const JsonObject &jo, const bool was_loaded, const std::string_view name,
                       MemberType &member )
 {
+    if( !was_loaded ) {
+        warn_disabled_feature( jo, "relative", name, "no copy-from" );
+        warn_disabled_feature( jo, "proportional", name, "no copy-from" );
+    }
     if( !jo.read( name, member ) && !handle_proportional( jo, name, member ) &&
         !handle_relative( jo, name, member ) ) {
         if( !was_loaded ) {
@@ -903,6 +907,10 @@ template<typename MemberType, typename DefaultType = MemberType,
                                      inline void optional( const JsonObject &jo, const bool was_loaded, const std::string_view name,
                                              MemberType &member, const DefaultType &default_value )
 {
+    if( !was_loaded ) {
+        warn_disabled_feature( jo, "relative", name, "no copy-from" );
+        warn_disabled_feature( jo, "proportional", name, "no copy-from" );
+    }
     if( !jo.read( name, member ) && !handle_proportional( jo, name, member ) &&
         !handle_relative( jo, name, member ) ) {
         if( !was_loaded ) {
@@ -1493,14 +1501,20 @@ public:
     template < typename C, std::enable_if_t < !reader_detail::handler<C>::is_container,
                int > = 0 >
     bool operator()( const JsonObject &jo, const std::string_view member_name,
-                     C &member, bool /*was_loaded*/ ) const {
+                     C &member, bool was_loaded ) const {
         const Derived &derived = static_cast<const Derived &>( *this );
         // or no handler for the container
         warn_disabled_feature( jo, "extend", member_name, "not container" );
         warn_disabled_feature( jo, "delete", member_name, "not container" );
+        if( !was_loaded ) {
+            warn_disabled_feature( jo, "relative", member_name, "no copy-from" );
+            warn_disabled_feature( jo, "proportional", member_name, "no copy-from" );
+        }
         return derived.read_normal( jo, member_name, member ) ||
-               handle_proportional( jo, member_name, member ) || //not every reader uses proportional
-               derived.do_relative( jo, member_name, member ); //readers can override relative handling
+               // not every reader handles proportional
+               handle_proportional( jo, member_name, member ) ||
+               // readers can override relative handling
+               derived.do_relative( jo, member_name, member );
     }
 };
 
