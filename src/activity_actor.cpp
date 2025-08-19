@@ -204,7 +204,7 @@ static const efftype_id effect_worked_on( "worked_on" );
 
 static const faction_id faction_your_followers( "your_followers" );
 
-static const fault_id fault_gun_fail_to_feed( "fault_fail_to_feed" );
+static const fault_id fault_fail_to_feed( "fault_fail_to_feed" );
 
 static const flag_id json_flag_ALWAYS_AIMED( "ALWAYS_AIMED" );
 static const flag_id json_flag_NO_RELOAD( "NO_RELOAD" );
@@ -369,11 +369,11 @@ bool aim_activity_actor::check_gun_ability_to_shoot( Character &who, item &it )
         // it would be safer to limit it somewhat
         who.mod_moves( -who.get_speed() );
         who.recoil = MAX_RECOIL;
-        if( it.has_fault( fault_gun_fail_to_feed ) ) {
+        if( it.has_fault( fault_fail_to_feed ) ) {
             who.add_msg_if_player( m_good,
                                    _( "You manually cycle your %s, and load a new round." ),
                                    it.tname() );
-            it.remove_fault( fault_gun_fail_to_feed );
+            it.remove_fault( fault_fail_to_feed );
             it.set_var( "u_know_round_in_chamber", true );
         } else if( one_in( std::max( 7.0f, ( 15.0f - ( 4.0f * who.get_skill_level( skill_gun ) ) ) ) ) ) {
             who.add_msg_if_player( m_good,

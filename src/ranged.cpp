@@ -147,10 +147,10 @@ static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_on_roof( "on_roof" );
 static const efftype_id effect_quadruped_full( "quadruped_full" );
 
+static const fault_id fault_fail_to_feed( "fault_fail_to_feed" );
 static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 static const fault_id fault_gun_chamber_spent( "fault_gun_chamber_spent" );
 static const fault_id fault_gun_dirt( "fault_gun_dirt" );
-static const fault_id fault_gun_fail_to_feed( "fault_fail_to_feed" );
 static const fault_id fault_overheat_explosion( "fault_overheat_explosion" );
 static const fault_id fault_overheat_melting( "fault_overheat_melting" );
 static const fault_id fault_overheat_safety( "fault_overheat_safety" );
@@ -863,7 +863,7 @@ bool Character::handle_gun_damage( item &it )
             add_msg_player_or_npc( m_bad, _( "Your %s fails to cycle!" ),
                                    _( "<npcname>'s %s fails to cycle!" ),
                                    it.tname() );
-            it.ammo_data()->has_flag( flag_CASELESS_ROUNDS ) ? it.set_fault( fault_gun_fail_to_feed ) :
+            it.ammo_data()->has_flag( flag_CASELESS_ROUNDS ) ? it.set_fault( fault_fail_to_feed ) :
             it.set_fault( fault_gun_chamber_spent );
 
             // Don't return false in this case; this shot happens, follow-up ones won't.
