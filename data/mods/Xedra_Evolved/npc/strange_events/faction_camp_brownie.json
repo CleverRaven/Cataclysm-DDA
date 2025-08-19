@@ -5,13 +5,13 @@
     "dynamic_line": [
       {
         "concatenate": [
-          "&The brownie starts when it sees you and makes ready to vanish, then it takes a closer look at you.  ",
+          "&The brownie starts when it sees you and makes ready to vanish, then it takes a closer look at you.",
           {
             "u_has_trait": "UNKNOWING_CHANGELING_NOBLE",
             "yes": {
               "u_male": true,
-              "yes": "\"My apologies for entering your court without your leave, my lord.  I beg pardon.  Now, if you will excuse me…\"",
-              "no": "\"My apologies for entering your court without your leave, my lady.  I beg pardon.  Now, if you will excuse me…\""
+              "yes": "  \"My apologies for entering your court without your leave, my lord.  I beg pardon.  Now, if you will excuse me…\"",
+              "no": "  \"My apologies for entering your court without your leave, my lady.  I beg pardon.  Now, if you will excuse me…\""
             },
             "no": "\"Oh. Oh!  I'm terribly sorry, I didn't realize there was already one of us here.  I'll take my leave.\""
           },
