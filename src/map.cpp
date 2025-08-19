@@ -8646,6 +8646,7 @@ void map::cut_down_tree( tripoint_bub_ms p, point_rel_ms dir )
         batter( elem, 300, 5 );
         if( !ter( elem ).obj().has_flag( ter_furn_flag::TFLAG_FOLDED ) ) {
             ter_set( elem, ter_t_trunk );
+            break;
         }
     }
     ter_set( p, ter_t_stump );
