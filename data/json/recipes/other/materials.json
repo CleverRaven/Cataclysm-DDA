@@ -2627,9 +2627,7 @@
     "difficulty": 3,
     "time": "30 m",
     "batch_time_factors": [ 75, 2 ],
-    "book_learn": [
-      [ "reference_fabrication1", 4 ]
-    ],
+    "book_learn": [ [ "reference_fabrication1", 4 ] ],
     "proficiencies": [
       { "proficiency": "prof_machining_basic" },
       { "proficiency": "prof_metalworking" }
@@ -2648,9 +2646,7 @@
     "difficulty": 3,
     "time": "45 m",
     "batch_time_factors": [ 75, 2 ],
-    "book_learn": [
-      [ "reference_fabrication1", 4 ]
-    ],
+    "book_learn": [ [ "reference_fabrication1", 4 ] ],
     "proficiencies": [
       { "proficiency": "prof_machining_basic" },
       { "proficiency": "prof_metalworking" }
@@ -2669,9 +2665,7 @@
     "difficulty": 3,
     "time": "50 m",
     "batch_time_factors": [ 75, 2 ],
-    "book_learn": [
-      [ "reference_fabrication1", 4 ]
-    ],
+    "book_learn": [ [ "reference_fabrication1", 4 ] ],
     "proficiencies": [
       { "proficiency": "prof_machining_basic" },
       { "proficiency": "prof_metalworking" }
@@ -2690,9 +2684,7 @@
     "difficulty": 3,
     "time": "1 h",
     "batch_time_factors": [ 75, 2 ],
-    "book_learn": [
-      [ "reference_fabrication1", 4 ]
-    ],
+    "book_learn": [ [ "reference_fabrication1", 4 ] ],
     "proficiencies": [
       { "proficiency": "prof_machining_basic" },
       { "proficiency": "prof_metalworking" }

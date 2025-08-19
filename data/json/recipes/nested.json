@@ -2581,12 +2581,7 @@
     "name": "metal bars",
     "description": "Recipes related to processing bar stock into smaller sizes.",
     "skill_used": "fabrication",
-    "nested_category_data": [
-      "small_aluminum_bar_round",
-      "small_lc_steel_bar_round",
-      "small_mc_steel_bar_round",
-      "small_hc_steel_bar_round"
-    ],
+    "nested_category_data": [ "small_aluminum_bar_round", "small_lc_steel_bar_round", "small_mc_steel_bar_round", "small_hc_steel_bar_round" ],
     "difficulty": 5
   },
   {

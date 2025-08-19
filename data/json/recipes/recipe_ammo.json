@@ -365,7 +365,7 @@
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
     "skill_used": "fabrication",
-    "skills_required": [ [ "archery", 2 ] ],
+    "skills_required": [ [ "archery", 3 ] ],
     "difficulty": 3,
     "charges": 1,
     "time": "30 m",
@@ -382,14 +382,54 @@
         "level": 2
       }
     ],
-    "tools": [
-    [
-        [ "fake_lathe", 30 ]
-    ]],
+    "tools": [ [ [ "fake_lathe", 30 ] ] ],
     "components": [
+      [ [ "adhesive", 1, "LIST" ] ],
+      [ [ "glue_strong", 5, "LIST" ] ],
       [
-        [ "adhesive", 1, "LIST" ]
+        [ "stick", 1 ],
+        [ "broom", 1 ],
+        [ "2x4", 1 ],
+        [ "bee_sting", 1 ],
+        [ "mop", 1 ]
       ],
+      [
+        [ "small_lc_steel_bar_round", 1 ],
+        [ "small_mc_steel_bar_round", 1 ],
+        [ "small_hc_steel_bar_round", 1 ]
+      ],
+      [ [ "fletching", 1, "LIST" ] ]
+    ],
+    "byproducts": [ [ "scrap", 1 ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "arrow_field_point_fletched",
+    "id_suffix": "lathe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "archery", 3 ] ],
+    "difficulty": 3,
+    "charges": 1,
+    "time": "30 m",
+    "batch_time_factors": [ 50, 2 ],
+    "autolearn": true,
+    "book_learn": [ [ "recipe_arrows", 3 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_fletching" },
+      { "proficiency": "prof_machining_basic" }
+    ],
+    "qualities": [
+      {
+        "id": "CUT",
+        "level": 2
+      }
+    ],
+    "tools": [ [ [ "fake_lathe", 30 ] ] ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ] ],
       [ [ "glue_strong", 5, "LIST" ] ],
       [
         [ "stick", 1 ],
@@ -885,14 +925,9 @@
         "level": 2
       }
     ],
-    "tools": [
-    [
-        [ "fake_lathe", 30 ]
-    ]],
+    "tools": [ [ [ "fake_lathe", 30 ] ] ],
     "components": [
-      [
-        [ "adhesive", 1, "LIST" ]
-      ],
+      [ [ "adhesive", 1, "LIST" ] ],
       [
         [ "stick", 1 ],
         [ "broom", 1 ],
@@ -908,8 +943,8 @@
       [ [ "fletching", 1, "LIST" ] ]
     ],
     "byproducts": [
-    [ "scrap", 1 ],
-    [ "scrap_aluminum", 2 ]
+      [ "scrap", 1 ],
+      [ "scrap_aluminum", 2 ]
     ]
   },
   {
@@ -1139,13 +1174,12 @@
     "charges": 1,
     "time": "45 m",
     "autolearn": true,
-    "book_learn": [
-      [ "recipe_arrows", 3 ]
-    ],
+    "book_learn": [ [ "recipe_arrows", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_fletching" },
       { "proficiency": "prof_lathing" },
-      { "proficiency": "prof_machining_basic",
+      {
+        "proficiency": "prof_machining_basic",
         "required": true
       }
     ],
@@ -1160,12 +1194,8 @@
       }
     ],
     "components": [
-      [
-        [ "adhesive", 1, "LIST" ]
-      ],
-      [
-        [ "small_aluminum_bar_round", 6 ]
-      ],
+      [ [ "adhesive", 1, "LIST" ] ],
+      [ [ "small_aluminum_bar_round", 6 ] ],
       [
         [ "small_lc_steel_bar_round", 1 ],
         [ "small_mc_steel_bar_round", 1 ],
