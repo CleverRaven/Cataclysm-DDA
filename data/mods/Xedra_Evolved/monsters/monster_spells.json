@@ -651,5 +651,18 @@
     "shape": "blast",
     "min_duration": 600,
     "max_duration": 1800
+  },
+  {
+    "type": "SPELL",
+    "id": "mon_xe_strange_brownie_open_conversation",
+    "name": { "str": "Brownie Event Conversation", "//~": "NO_I18N" },
+    "description": { "str": "Causes the strange event brownie to open dialogue on seeing you.", "//~": "NO_I18N" },
+    "flags": [ "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN", "RANDOM_DURATION" ],
+    "valid_targets": [ "hostile" ],
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_XE_STRANGE_EVENT_BROWNIE_CONVERSATION",
+    "shape": "blast",
+    "min_range": 10
   }
 ]
