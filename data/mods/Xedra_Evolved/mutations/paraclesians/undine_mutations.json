@@ -599,7 +599,7 @@
       "ench_undine_water_form_armor",
       { "values": [ { "value": "MOVECOST_SWIM_MOD", "multiply": -0.4 } ] }
     ],
-    "flags": [ "STEADY", "WALK_UNDERWATER", "BULLET_IMMUNE" ]
+    "flags": [ "STEADY", "WALK_UNDERWATER", "BULLET_IMMUNE", "SUFFOCATION_IMMUNE", "MYCUS_IMMUNE" ]
   },
   {
     "type": "mutation",

@@ -746,6 +746,7 @@
       "BULLET_IMMUNE",
       "SUFFOCATION_IMMUNE",
       "INHALED_TOXIN_IMMUNE",
+      "MYCUS_IMMUNE",
       "GILLS"
     ]
   },
