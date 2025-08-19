@@ -2267,8 +2267,8 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
             // Both visible
             if( mdata.player_display && replace_mdata.player_display ) {
                 add_msg_player_or_npc( rating,
-                                       _( "Your %1$s mutation turns into %2$s." ),
-                                       _( "<npcname>'s %1$s mutation turns into %2$s." ),
+                                       _( "Your %1$s mutation turns into %2$s!" ),
+                                       _( "<npcname>'s %1$s mutation turns into %2$s!" ),
                                        lost_name, replace_name );
             }
             // Old trait invisible, new visible
@@ -2312,8 +2312,8 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
             // Both visible
             if( mdata.player_display && replace_mdata.player_display ) {
                 add_msg_player_or_npc( rating,
-                                       _( "Your %1$s mutation turns into %2$s." ),
-                                       _( "<npcname>'s %1$s mutation turns into %2$s." ),
+                                       _( "Your %1$s mutation turns into %2$s!" ),
+                                       _( "<npcname>'s %1$s mutation turns into %2$s!" ),
                                        lost_name, replace_name );
             }
             // Old trait invisible, new visible
@@ -2640,7 +2640,7 @@ void Character::customize_appearance( customize_appearance_choice choice )
             end_message = _( "A change in hairstyle will freshen up the mood." );
             break;
         case customize_appearance_choice::HAIR_F:
-            amenu.text = _( "Choose a new facial hairstyle" );
+            amenu.text = _( "Choose a new facial hair style" );
             traits = get_mutations_in_type( trait_type_facial_hair );
             end_message = _( "Surviving the end with style." );
             break;

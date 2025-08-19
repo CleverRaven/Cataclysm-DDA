@@ -282,7 +282,7 @@
       "psi_phavian_lab_block5E3",
       "psi_phavian_lab_block5E4"
     ],
-    "name": "research facility, roof",
+    "name": "research facility roof",
     "sym": "l",
     "looks_like": "lab_surface_brick_block5A2",
     "vision_levels": "roof_or_air",

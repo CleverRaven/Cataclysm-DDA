@@ -3084,7 +3084,7 @@ void spellcasting_callback::display_spell_info( size_t index )
     std::string target_ids;
     target_ids = sp.list_targeted_monster_names();
     if( !target_ids.empty() ) {
-        ImGui::TextWrapped( _( "Only affects the monsters: %s" ), target_ids.c_str() );
+        ImGui::TextWrapped( _( "Only affects the monsters: %1$s" ), target_ids.c_str() );
         ImGui::NewLine();
     }
 

@@ -12190,7 +12190,7 @@ ret_val<void> item::is_gunmod_compatible( const item &mod ) const
 
     for( const gunmod_location &slot : mod.type->gunmod->blacklist_slot ) {
         if( get_mod_locations().count( slot ) ) {
-            return ret_val<void>::make_failure( _( "cannot be installed on a weapon with \"%s\"" ),
+            return ret_val<void>::make_failure( _( "cannot be installed on a weapon with a \"%s\"" ),
                                                 slot.name() );
         }
     }

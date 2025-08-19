@@ -209,7 +209,7 @@
     "is_limb": true,
     "base_hp": 100,
     "smash_efficiency": 1.5,
-    "smash_message": "You smash %s with your tail."
+    "smash_message": "You smash %s with your tail!"
   },
   {
     "id": "devil_tail_tip",

@@ -876,7 +876,7 @@
     "hp": 500,
     "speed": 50,
     "attack_cost": 50,
-    "description": "Massive, long-necked, four-legged dinosaur corpse with a long, whip-like tail.  The head is still upright and the neck looks like it would still make a good, strong club.",
+    "description": "A massive, long-necked, four-legged dinosaur corpse with a long, whip-like tail.  The head is still upright and the neck looks like it would still make a good, strong club.",
     "burn_into": "mon_zamarasaurus_scorched",
     "fungalize_into": "mon_zamarasaurus_fungus",
     "upgrades": { "half_life": 120, "into_group": "GROUP_zamarasaurus_UPGRADE" }

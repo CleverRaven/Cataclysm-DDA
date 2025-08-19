@@ -1167,8 +1167,8 @@ class activatable_inventory_preset : public pickup_inventory_preset
             if( uses.size() == 1 &&
                 !it.ammo_sufficient( &you, uses.begin()->first ) ) {
                 return string_format(
-                           n_gettext( "Needs at least %d charge",
-                                      "Needs at least %d charges", loc->ammo_required() ),
+                           n_gettext( "Needs at least %d charge.",
+                                      "Needs at least %d charges.", loc->ammo_required() ),
                            loc->ammo_required() );
             }
 
@@ -1585,8 +1585,9 @@ class ebookread_inventory_preset : public read_inventory_preset
 
 item_location game_menus::inv::read( Character &you )
 {
-    const std::string msg = you.is_avatar() ? _( "You have nothing to read." ) :
-                            string_format( _( "%s has nothing to read." ), you.disp_name() );
+    const std::string msg = you.is_avatar() ?
+                            string_format( _( "%1$s have nothing to read." ), you.disp_name( false, true ) ) :
+                            string_format( _( "%1$s has nothing to read." ), you.disp_name( false, true ) );
     return inv_internal( you, read_inventory_preset( you ), _( "Read" ), 1, msg, "", item_location(),
                          true );
 }
@@ -2498,7 +2499,7 @@ drop_locations game_menus::inv::smoke_food( Character &you, units::volume total_
     smoke_s.add_character_items( you );
 
     smoke_s.set_title( _( "Insert food into smoking rack" ) );
-    smoke_s.set_hint( _( "To select x items, type a number before selecting." ) );
+    smoke_s.set_hint( _( "To select items, type a number before selecting." ) );
     smoke_s.set_invlet_type( inventory_selector::selector_invlet_type::SELECTOR_INVLET_ALPHA );
 
     if( smoke_s.empty() ) {

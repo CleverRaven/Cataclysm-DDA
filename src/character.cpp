@@ -3474,7 +3474,7 @@ ret_val<void> Character::can_unwield( const item &it ) const
         std::optional<bionic *> bio_opt = find_bionic_by_uid( get_weapon_bionic_uid() );
         if( !is_wielding( it ) || it.ethereal || !bio_opt ||
             !can_deactivate_bionic( **bio_opt ).success() ) {
-            return ret_val<void>::make_failure( _( "You cannot unwield your %s." ), it.tname() );
+            return ret_val<void>::make_failure( _( "You can't unwield your %s." ), it.tname() );
         }
     }
 
@@ -13473,7 +13473,7 @@ void Character::use( item_location loc, int pre_obtain_moves, std::string const 
         pre_obtain_moves = get_moves();
     }
     if( !loc ) {
-        add_msg( m_info, _( "You do not have that item." ) );
+        add_msg( m_info, _( "You don't have that item." ) );
         set_moves( pre_obtain_moves );
         return;
     }

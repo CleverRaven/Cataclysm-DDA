@@ -6,7 +6,7 @@
     "symbol": ";",
     "color": "light_gray",
     "name": { "str": "throwing knife", "str_pl": "throwing knives" },
-    "description": "A thin and flat knife made for throwing.  Its ineffective cutting edge and odd shape makes it unsuitable for use as a tool.",
+    "description": "A thin and flat knife made for throwing.  Its ineffective cutting edge and odd shape make it unsuitable for use as a tool.",
     "category": "spare_parts",
     "//": "Make silver-steel or some kind of changeling metal.",
     "material": [ "steel" ],

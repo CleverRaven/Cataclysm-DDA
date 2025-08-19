@@ -197,7 +197,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint_bub_ms target, boo
                                         p->has_effect_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ||
                                         p->has_effect_with_flag( json_flag_TELEPORT_LOCK ) ) ) {
         if( display_message ) {
-            p->add_msg_if_player( m_warning, _( "You feel a strange, inwards force." ) );
+            p->add_msg_if_player( m_warning, _( "You feel a strange, inward force." ) );
         }
         return false;
     }

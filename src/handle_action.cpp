@@ -663,7 +663,7 @@ static void open()
             return;
         } else if( tid.obj().close ) {
             // if the following message appears unexpectedly, the prior check was for t_door_o
-            add_msg( m_info, _( "That door is already open." ) );
+            add_msg( m_info, _( "The door is already open." ) );
             player_character.mod_moves( to_moves<int>( 1_seconds ) );
             return;
         }
@@ -892,7 +892,7 @@ static void haul()
             selector.add_map_items( player_character.pos_bub() );
             selector.apply_selection( player_character.haul_list );
             selector.set_title( _( "Select items to haul" ) );
-            selector.set_hint( _( "To select x items, type a number before selecting." ) );
+            selector.set_hint( _( "To select items, type a number before selecting." ) );
             drop_locations result = selector.execute( true );
             haulable_items.clear();
             for( const drop_location &dl : result ) {

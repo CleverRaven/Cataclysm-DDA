@@ -1049,7 +1049,7 @@
     "explosion": { "power": 100000, "shrapnel": { "casing_mass": 12600, "fragment_mass": 600 } },
     "use_action": {
       "target": "military_explosive_half_barrel_bomb_act",
-      "msg": "You activate the fuze on the barrel bomb.  Clear the area!",
+      "msg": "You activate the fuse on the barrel bomb.  Clear the area!",
       "target_timer": "100 seconds",
       "menu_text": "Activate fuze",
       "type": "transform"
@@ -1097,7 +1097,7 @@
     "explosion": { "power": 200000, "shrapnel": { "casing_mass": 12000, "fragment_mass": 600 } },
     "use_action": {
       "target": "military_explosive_full_barrel_bomb_act",
-      "msg": "You activate the fuze on the barrel bomb.  Clear the area!",
+      "msg": "You activate the fuse on the barrel bomb.  Clear the area!",
       "target_timer": "100 seconds",
       "menu_text": "Activate fuze",
       "type": "transform"

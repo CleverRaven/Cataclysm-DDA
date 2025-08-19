@@ -1555,7 +1555,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
         return itm.typeId() != itype_marloss_seed && itm.typeId() != itype_fungal_seeds;
     } );
     if( seed_inv.empty() ) {
-        popup( _( "You have no seeds to plant!" ) );
+        popup( _( "You have no seeds to plant." ) );
         return;
     }
 

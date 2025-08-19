@@ -536,7 +536,7 @@
     "techniques": [ "WBLOCK_3", "BRUTAL", "SWEEP", "CQB_BRUTAL" ],
     "use_action": {
       "type": "effect_on_conditions",
-      "description": "Activate to read the file",
+      "description": "Activate to read the file.",
       "effect_on_conditions": [ { "id": "EOC_CQC_ATTACK", "effect": [ { "u_attack": "CQB_BRUTAL" } ] } ]
     },
     "charge_info": { "recharge_type": "periodic", "time": "1 m", "regenerate_ammo": true }

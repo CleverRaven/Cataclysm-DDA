@@ -421,7 +421,7 @@
   {
     "id": "vampire_invisible_in_dark",
     "type": "SPELL",
-    "name": "Shrouded by the Shadowed Path.",
+    "name": "Shrouded by the Shadowed Path",
     "description": "Surround yourself in shadows, becoming invisible for a while.  This power <color_yellow>will fail</color> if you stand outside under the sun.\n\nYou must have <color_yellow>greater</color> than <color_red>-500</color> Stolen Blood to use this blood art.",
     "message": "You gather as many shadows as you can.",
     "teachable": false,
