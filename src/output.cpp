@@ -1268,16 +1268,21 @@ static nc_color get_comparison_color( const iteminfo &i,
     return thisColor;
 }
 
-static std::vector<std::string> delimit_armor_text( std::string raw_text )
+static std::vector<std::string> delimit_armor_text( const iteminfo &i )
 {
+    const std::string &raw_text = i.sName;
     // The various types of text that can be passed in from item::armor_protection_info():
     // Protection:
     // Bash: 2.00, 8.00, 20.00
     // Foo: 6.00, 12.00
     //
-	// Yes that first one has no numbers.
+    // Yes that first one has no numbers. It puts the value into sValue.
     // So we need multiple passes.
-    const std::vector<std::string> first_pass = string_split( raw_text, ':' );
+    std::vector<std::string> first_pass = string_split( raw_text, ':' );
+    if( first_pass.size() == 2 ) {
+        // Then the value is in sValue and we need to extract it.
+        first_pass[1] = i.sValue;
+    }
     const std::string mega_string = string_join( first_pass, ", " );
     const std::vector<std::string> delimited_strings = string_split( mega_string, ',' );
     return delimited_strings;
@@ -1295,7 +1300,7 @@ static void draw_armor_graph( const std::vector<iteminfo> &vItemDisplay, const i
             return;
         }
 
-        const std::vector<std::string> chopped_up = delimit_armor_text( info_iter->sName );
+        const std::vector<std::string> chopped_up = delimit_armor_text( *info_iter );
         for( const std::string &cell_text : chopped_up ) {
             ImGui::TableSetupColumn( cell_text.c_str(), ImGuiTableColumnFlags_WidthStretch );
         }
@@ -1305,8 +1310,7 @@ static void draw_armor_graph( const std::vector<iteminfo> &vItemDisplay, const i
         info_iter++;
 
         while( info_iter != vItemDisplay.end() && info_iter->sType == "ARMOR" ) {
-            const std::string &raw_text = info_iter->sName;
-            const std::vector<std::string> delimited_strings = delimit_armor_text( raw_text );
+            const std::vector<std::string> delimited_strings = delimit_armor_text( *info_iter );
             for( const std::string &text : delimited_strings ) {
                 cataimgui::draw_colored_text( text, c_unset );
                 ImGui::TableNextColumn();
