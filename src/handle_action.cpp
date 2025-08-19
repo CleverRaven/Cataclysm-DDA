@@ -1886,17 +1886,17 @@ static void cast_spell( bool recast_spell = false )
         return;
     }
 
-    std::set<std::string> failure_messages = {};
+    std::map<magic_type_id, bool> success_tracker = {};
     for( const spell_id &sp : spells ) {
         spell &temp_spell = player_character.magic->get_spell( sp );
-        if( temp_spell.can_cast( player_character, failure_messages ) ) {
-            break;
-        }
+        temp_spell.can_cast( player_character, success_tracker );
     }
 
-    for( const std::string &failure_message : failure_messages ) {
-        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
-                 failure_message );
+    for( auto const& [m_type, any_success] : success_tracker ) {
+        if( !any_success && m_type->cannot_cast_message.has_value() ) {
+            add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                     m_type->cannot_cast_message.value() );
+        }
     }
 
     if( recast_spell && player_character.magic->last_spell.is_null() ) {
