@@ -135,7 +135,7 @@ static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const json_character_flag json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMAGE" );
 static const json_character_flag json_flag_FREEZE_EFFECTS( "FREEZE_EFFECTS" );
 static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
-static const json_character_flag json_flag_INVISIBLE( "INVISIBLE" ); 
+static const json_character_flag json_flag_INVISIBLE( "INVISIBLE" );
 static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
 static const json_character_flag json_flag_LIMB_UPPER( "LIMB_UPPER" );
 static const json_character_flag json_flag_TEEPSHIELD( "TEEPSHIELD" );
@@ -543,8 +543,9 @@ bool Creature::sees( const map &here, const Creature &critter ) const
     }
 
     // Check means to detect invisibility here
-    if( ( has_flag( json_flag_TRUE_SEEING ) || has_flag( mon_flag_TRUESIGHT ) ) && 
-        (critter.has_flag( mon_flag_CAMOUFLAGE ) || critter.has_effect_with_flag( json_flag_INVISIBLE ) || critter.has_flag( mon_flag_NIGHT_INVISIBILITY ) ) ) {
+    if( ( has_flag( json_flag_TRUE_SEEING ) || has_flag( mon_flag_TRUESIGHT ) ) &&
+        ( critter.has_flag( mon_flag_CAMOUFLAGE ) || critter.has_effect_with_flag( json_flag_INVISIBLE ) ||
+          critter.has_flag( mon_flag_NIGHT_INVISIBILITY ) ) ) {
         return true;
     }
 
