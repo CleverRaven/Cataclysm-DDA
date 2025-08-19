@@ -793,6 +793,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_true_seeing",
+    "apply_message": "Details stand out in stark relief!",
+    "remove_message": "The world returns to its normal appearance.",
+    "rating": "good",
+    "flags": [ "TRUE_SEEING" ]
+  },
+  {
+    "type": "effect_type",
     "id": "immobilization",
     "name": [ "Immobilized" ],
     "desc": [ "You can't move!" ],
