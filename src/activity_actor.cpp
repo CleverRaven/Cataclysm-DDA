@@ -375,8 +375,7 @@ bool aim_activity_actor::check_gun_ability_to_shoot( Character &who, item &it )
                                    it.tname() );
             it.remove_fault( fault_gun_fail_to_feed );
             it.set_var( "u_know_round_in_chamber", true );
-        }
-        else if( one_in( std::max( 7.0f, ( 15.0f - ( 4.0f * who.get_skill_level( skill_gun ) ) ) ) ) ) {
+        } else if( one_in( std::max( 7.0f, ( 15.0f - ( 4.0f * who.get_skill_level( skill_gun ) ) ) ) ) ) {
             who.add_msg_if_player( m_good,
                                    _( "Your %s has some mechanical malfunction.  You tried to quickly fix it, and it works now!" ),
                                    it.tname() );
