@@ -1892,10 +1892,10 @@ static void cast_spell( bool recast_spell = false )
         temp_spell.can_cast( player_character, success_tracker );
     }
 
-    for (auto const& [m_type, any_success] : success_tracker ) {
-        if(!any_success && m_type->cannot_cast_message.has_value() ) {
-        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
-                 m_type->cannot_cast_message.value() );
+    for( auto const& [m_type, any_success] : success_tracker ) {
+        if( !any_success && m_type->cannot_cast_message.has_value() ) {
+            add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                     m_type->cannot_cast_message.value() );
         }
     }
 

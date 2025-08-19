@@ -1268,7 +1268,7 @@ bool spell::can_cast( const Character &guy ) const
 bool spell::can_cast( const Character &guy, std::map<magic_type_id, bool> &success_tracker )
 {
     if( type->magic_type.has_value() &&
-               type->magic_type.value()->cannot_cast_message.has_value() ) {
+        type->magic_type.value()->cannot_cast_message.has_value() ) {
         // Insert first occurence of magic_type_id as false since only successful casts will be tracked.
         if( success_tracker.count( type->magic_type.value() ) == 0 ) {
             success_tracker[type->magic_type.value()] = false;
