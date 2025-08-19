@@ -8646,14 +8646,10 @@ void map::cut_down_tree( tripoint_bub_ms p, point_rel_ms dir )
         batter( elem, 300, 5 );
         if( !ter( elem ).obj().has_flag( ter_furn_flag::TFLAG_FOLDED ) ) {
             ter_set( elem, ter_t_trunk );
-        if( !ter( elem ).obj().has_flag( ter_furn_flag::TFLAG_FOLDED ) ) {
-            ter_set( elem, ter_t_trunk );
-            } else { 
-            break;
-            }
+        } else {
+            break; 
         }
     }
-    ter_set( p, ter_t_stump );
 }
 
 void map::rad_scorch( const tripoint_bub_ms &p, const time_duration &time_since_last_actualize )
