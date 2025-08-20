@@ -403,6 +403,9 @@ class vpart_info
         /** base item for this part */
         itype_id base_item;
 
+        /** base furniture for this part */
+        std::optional<furn_str_id> base_furn;
+
         /** item it should be removed as */
         std::optional<itype_id> removed_item;
 
