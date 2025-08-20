@@ -243,14 +243,15 @@ class wish_mutate_callback: public uilist_callback
             ImGui::TextColored( c_green, "%s", msg.c_str() );
             msg.clear();
             input_context ctxt( menu->input_category, keyboard_mode::keycode );
-            ImGui::Text( _( "[%s] find, [%s] quit, [t] toggle base trait" ),
-                         ctxt.get_desc( "FILTER" ).c_str(), ctxt.get_desc( "QUIT" ).c_str() );
 
-            if( only_active ) {
-                ImGui::TextColored( c_green, "%s", _( "[a] show active traits (active)" ) );
-            } else {
-                ImGui::TextColored( c_white, "%s", _( "[a] show active traits" ) );
-            }
+            cataimgui::TextKeybinding( ctxt, "FILTER", _( "Find" ),
+                                       menu->filtering && ( !menu->filter.empty() ) );
+            cataimgui::TextListSeparator();
+            cataimgui::TextKeybinding( ctxt, "t",      _( "Toggle base trait" ),  false );
+            cataimgui::TextListSeparator();
+            cataimgui::TextKeybinding( ctxt, "a",      _( "Show active traits" ), only_active );
+            cataimgui::TextListSeparator();
+            cataimgui::TextKeybinding( ctxt, "QUIT",   _( "Quit" ),               false );
         }
 
         ~wish_mutate_callback() override = default;
@@ -725,9 +726,20 @@ class wish_monster_callback: public uilist_callback
                 ImGui::TextColored( c_green, "%s", msg.c_str() );
                 msg.clear();
                 input_context ctxt( menu->input_category, keyboard_mode::keycode );
-                ImGui::Text(
-                    _( "[%s] find, [f]riendly, [h]allucination, [i]ncrease group, [d]ecrease group, [%s] quit" ),
-                    ctxt.get_desc( "FILTER" ).c_str(), ctxt.get_desc( "QUIT" ).c_str() );
+
+                cataimgui::TextKeybinding( ctxt, "FILTER", _( "Find" ),
+                                           menu->filtering && ( !menu->filter.empty() ) );
+                cataimgui::TextListSeparator();
+                cataimgui::TextKeybinding( ctxt, "f",      _( "Friendly" ),       friendly );
+                cataimgui::TextListSeparator();
+                cataimgui::TextKeybinding( ctxt, "h",      _( "Hallucination" ),  hallucination );
+                cataimgui::TextListSeparator();
+                cataimgui::TextKeybinding( ctxt, "i",      _( "Increase Group" ), false );
+                cataimgui::TextListSeparator();
+                cataimgui::TextKeybinding( ctxt, "d",      _( "Decrease Group" ), false );
+                cataimgui::TextListSeparator();
+                cataimgui::TextKeybinding( ctxt, "QUIT",   _( "Quit" ),           false );
+
             }
             ImGui::EndChild();
         }
@@ -1062,13 +1074,19 @@ class wish_item_callback: public uilist_callback
 
             ImGui::TextColored( c_green, "%s", msg.c_str() );
             input_context ctxt( menu->input_category, keyboard_mode::keycode );
-            ImGui::Text( _( "[%s] find, [%s] container, [%s] flag, [%s] everything, [%s] snippet, [%s] quit" ),
-                         ctxt.get_desc( "FILTER" ).c_str(),
-                         ctxt.get_desc( "CONTAINER" ).c_str(),
-                         ctxt.get_desc( "FLAG" ).c_str(),
-                         ctxt.get_desc( "EVERYTHING" ).c_str(),
-                         ctxt.get_desc( "SNIPPET" ).c_str(),
-                         ctxt.get_desc( "QUIT" ).c_str() );
+
+            cataimgui::TextKeybinding( ctxt, "FILTER",     _( "Find" ),
+                                       menu->filtering && ( !menu->filter.empty() ) );
+            cataimgui::TextListSeparator();
+            cataimgui::TextKeybinding( ctxt, "CONTAINER",  _( "Container" ),  incontainer );
+            cataimgui::TextListSeparator();
+            cataimgui::TextKeybinding( ctxt, "FLAG",       _( "Flag" ),       !flags.empty() );
+            cataimgui::TextListSeparator();
+            cataimgui::TextKeybinding( ctxt, "EVERYTHING", _( "Everything" ), spawn_everything );
+            cataimgui::TextListSeparator();
+            cataimgui::TextKeybinding( ctxt, "SNIPPET",    _( "Snippet" ),    chosen_snippet_id.first != -1 );
+            cataimgui::TextListSeparator();
+            cataimgui::TextKeybinding( ctxt, "QUIT",       _( "Quit" ),       false );
         }
 };
 
@@ -1169,7 +1187,7 @@ void debug_menu::wishitem( Character *you, const tripoint_bub_ms &pos )
                 popup
                 .title( _( "How many?" ) )
                 .width( 20 )
-                .description( granted.tname() )
+                .description( cb.spawn_everything ? _( "Everything" ) : granted.tname() )
                 .edit( amount );
                 canceled = popup.canceled();
             }
