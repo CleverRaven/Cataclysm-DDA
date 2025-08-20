@@ -1356,7 +1356,7 @@ void display_item_info( const std::vector<iteminfo> &vItemDisplay,
                     bAlreadyHasNewLine = false;
                 }
             }
-        } else if( i.sType != "ARMOR" ) { // handled by draw_armor_table()
+        } else if( i.sType != "ARMOR" ) { // ARMOR is handled by draw_armor_table()
             if( i.bDrawName ) {
                 cataimgui::TextColoredParagraph( c_light_gray, i.sName );
                 bAlreadyHasNewLine = false;
