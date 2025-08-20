@@ -266,6 +266,11 @@ class JsonValue : Json
         template<typename T, typename U>
         bool read( std::pair<T, U> &p, bool throw_on_error = false ) const;
 
+        // single thing that was expected to be in an array ~> vector, deque, list
+        template < typename T, std::enable_if_t <
+                       !std::is_same_v<void, typename T::value_type> > * = nullptr >
+        auto read_single( T &v, bool throw_on_error = false ) const -> decltype( v.front(), true );
+
         // array ~> vector, deque, list
         template < typename T, std::enable_if_t <
                        !std::is_same_v<void, typename T::value_type> > * = nullptr

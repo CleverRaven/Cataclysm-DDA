@@ -375,25 +375,58 @@ bool JsonValue::read( std::pair<T, U> &p, bool throw_on_error ) const
     }
 }
 
+// single thing that was expected to be in an array ~> vector, deque, list
+template < typename T, std::enable_if_t <
+               !std::is_same_v<void, typename T::value_type> > * >
+auto JsonValue::read_single( T &v, bool throw_on_error ) const -> decltype( v.front(), true )
+{
+    v.clear();
+    typename T::value_type element;
+    if( read( element, throw_on_error ) ) {
+        v.emplace_back( std::move( element ) );
+        return true;
+    }
+    return false;
+}
+
 // array ~> vector, deque, list
 template < typename T, std::enable_if_t <
                !std::is_same_v<void, typename T::value_type> > * >
 auto JsonValue::read( T &v, bool throw_on_error ) const -> decltype( v.front(), true )
 {
     if( !test_array() ) {
+        if( read_single( v, false ) ) {
+            return true;
+        }
         return error_or_false( throw_on_error, "Expected json array" );
     }
+    bool any_success = false;
     try {
         v.clear();
-        for( JsonValue jv : get_array() ) {
-            typename T::value_type element;
-            if( jv.read( element, throw_on_error ) ) {
-                v.push_back( std::move( element ) );
+        const JsonArray ja = get_array();
+        if( ja.size() == 0 ) {
+            any_success = true;
+        } else {
+            for( JsonValue jv : ja ) {
+                typename T::value_type element;
+                if( jv.read( element, throw_on_error ) ) {
+                    v.emplace_back( std::move( element ) );
+                    any_success = true;
+                }
             }
         }
     } catch( const JsonError & ) {
+        if( read_single( v, false ) ) {
+            return true;
+        }
         if( throw_on_error ) {
             throw;
+        }
+        return false;
+    }
+    if( !any_success ) {
+        if( read_single( v, false ) ) {
+            return true;
         }
         return false;
     }
@@ -598,17 +631,32 @@ template < typename T, std::enable_if_t <
                !std::is_same_v<void, typename T::value_type> > * >
 auto JsonArray::read( T &v, bool throw_on_error ) const -> decltype( v.front(), true )
 {
+    bool any_success = false;
     try {
         v.clear();
-        for( JsonValue value : *this ) {
-            typename T::value_type element;
-            if( value.read( element, throw_on_error ) ) {
-                v.emplace_back( std::move( element ) );
+        if( this->size() == 0 ) {
+            any_success = true;
+        } else {
+            for( JsonValue value : *this ) {
+                typename T::value_type element;
+                if( value.read( element, throw_on_error ) ) {
+                    v.emplace_back( std::move( element ) );
+                    any_success = true;
+                }
             }
         }
     } catch( const JsonError & ) {
+        if( read_single( v, false ) ) {
+            return true;
+        }
         if( throw_on_error ) {
             throw;
+        }
+        return false;
+    }
+    if( !any_success ) {
+        if( read_single( v, false ) ) {
+            return true;
         }
         return false;
     }
