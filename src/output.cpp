@@ -1317,17 +1317,14 @@ static void draw_armor_table( const std::vector<iteminfo> &vItemDisplay, const i
             ImGui::TableSetColumnIndex( i );
             cataimgui::draw_colored_text( chopped_up[i], c_unset );
         }
-        // This advances us past the last column, which we just reiterated. Since there are no more columns, it increments to the next row. Easy, huh?
-        ImGui::TableNextColumn();
-
 
         info_iter++;
 
         while( info_iter != vItemDisplay.end() && info_iter->sType == "ARMOR" ) {
             const std::vector<std::string> delimited_strings = delimit_armor_text( *info_iter );
             for( const std::string &text : delimited_strings ) {
-                cataimgui::draw_colored_text( text, c_unset );
                 ImGui::TableNextColumn();
+                cataimgui::draw_colored_text( text, c_unset );
             }
             info_iter++;
         }
