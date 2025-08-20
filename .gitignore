@@ -96,9 +96,6 @@ Cataclysm.exe.lastcodeanalysissucceeded
 # Visual Studio 2019
 **/enc_temp_folder/*
 
-#vcpkg
-/msvc-object_creator/vcpkg_installed
-
 # PVS Studio
 /msvc-full-features/*PVS-Studio*
 
