@@ -2244,6 +2244,7 @@
       "PATH_AVOID_DANGER",
       "EATS",
       "DROPS_AMMO",
+      "TRUESIGHT",
       "CORNERED_FIGHTER",
       "RANGED_ATTACKER",
       "PRIORITIZE_TARGETS"

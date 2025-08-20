@@ -165,6 +165,7 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_SWARMS,
             mon_flag_SWIMS,
             mon_flag_TEEP_IMMUNE,
+            mon_flag_TRUESIGHT,
             mon_flag_VAMP_VIRUS,
             mon_flag_VENOM,
             mon_flag_WARM,
@@ -293,6 +294,7 @@ void set_mon_flag_ids()
     mon_flag_SWARMS = mon_flag_id( "SWARMS" );
     mon_flag_SWIMS = mon_flag_id( "SWIMS" );
     mon_flag_TEEP_IMMUNE = mon_flag_id( "TEEP_IMMUNE" );
+    mon_flag_TRUESIGHT = mon_flag_id( "TRUESIGHT" );
     mon_flag_VAMP_VIRUS = mon_flag_id( "VAMP_VIRUS" );
     mon_flag_VENOM = mon_flag_id( "VENOM" );
     mon_flag_WARM = mon_flag_id( "WARM" );
