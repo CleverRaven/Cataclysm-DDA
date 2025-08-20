@@ -235,6 +235,9 @@ struct mon_effect_data {
 
     mon_effect_data();
     void load( const JsonObject &jo );
+    void deserialize( const JsonObject &jo ) {
+        load( jo );
+    }
 };
 
 /** Pet food data */
@@ -303,6 +306,8 @@ struct mount_item_data {
      * If this monster is a rideable mount that spawns with storage bags, this is the storage item id
      */
     itype_id storage;
+
+    void deserialize( const JsonObject &jo );
 };
 
 struct reproduction_type {
@@ -316,6 +321,8 @@ struct revive_type {
     std::function<bool( const_dialogue const & )> condition;
     mtype_id revive_mon = mtype_id::NULL_ID();
     mongroup_id revive_monster_group = mongroup_id::NULL_ID();
+
+    void deserialize( const JsonObject &jo );
 };
 
 struct mtype {

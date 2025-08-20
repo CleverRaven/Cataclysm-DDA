@@ -12,7 +12,7 @@
 #include "cached_options.h"
 #include "calendar.h"
 #include "cata_utility.h"
-#include "catacharset.h"
+#include "color.h"
 #include "condition.h"
 #include "creature.h"
 #include "damage.h"
@@ -743,10 +743,27 @@ void mon_effect_data::load( const JsonObject &jo )
     }
 }
 
+void mount_item_data::deserialize( const JsonObject &jo )
+{
+    optional( jo, false, "tied", tied, itype_id() );
+    optional( jo, false, "tack", tack, itype_id() );
+    optional( jo, false, "armor", armor, itype_id() );
+    optional( jo, false, "storage", storage, itype_id() );
+}
+
+void revive_type::deserialize( const JsonObject &jo )
+{
+    // FIXME: reader for read_condition
+    read_condition( jo, "condition", condition, true );
+    if( jo.has_string( "monster" ) ) {
+        mandatory( jo, false, "monster", revive_mon );
+    } else {
+        mandatory( jo, false, "monster_group", revive_monster_group );
+    }
+}
+
 void mtype::load( const JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "dda";
-
     MonsterGenerator &gen = MonsterGenerator::generator();
 
     name.make_plural();
@@ -754,67 +771,59 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "description", description );
 
-    assign( jo, "ascii_picture", picture_id );
+    optional( jo, was_loaded, "ascii_picture", picture_id );
 
-    if( jo.has_member( "material" ) ) {
-        mat.clear();
-        for( const std::string &m : jo.get_tags( "material" ) ) {
-            mat.emplace( m, 1 );
-            mat_portion_total += 1;
-        }
+    // Assign a default "flesh" material to prevent crash (#48988)
+    optional( jo, was_loaded, "material", mat, weighted_string_id_reader<material_id, int> {1}, {{{material_flesh, 1}}} );
+    mat_portion_total = 0;
+    for( const std::pair<const material_id, int> &pr : mat ) {
+        mat_portion_total += pr.second;
     }
-    if( mat.empty() ) { // Assign a default "flesh" material to prevent crash (#48988)
-        mat.emplace( material_flesh, 1 );
-        mat_portion_total += 1;
-    }
+
     optional( jo, was_loaded, "species", species, string_id_reader<::species_type> {} );
     optional( jo, was_loaded, "categories", categories, auto_flags_reader<> {} );
 
     // See monfaction.cpp
-    if( !was_loaded || jo.has_member( "default_faction" ) ) {
-        default_faction = mfaction_str_id( jo.get_string( "default_faction" ) );
-    }
+    mandatory( jo, was_loaded, "default_faction", default_faction );
 
-    if( !was_loaded || jo.has_member( "symbol" ) ) {
-        sym = jo.get_string( "symbol" );
-        if( utf8_width( sym ) != 1 ) {
-            jo.throw_error_at( "symbol", "monster symbol should be exactly one console cell width" );
-        }
-    }
+    mandatory( jo, was_loaded, "symbol", sym, unicode_symbol_reader );
+
     if( was_loaded && jo.has_member( "copy-from" ) && looks_like.empty() ) {
         looks_like = jo.get_string( "copy-from" );
     }
-    jo.read( "looks_like", looks_like );
+    optional( jo, was_loaded, "looks_like", looks_like, looks_like );
 
-    assign( jo, "bodytype", bodytype );
-    assign( jo, "color", color );
-    assign( jo, "volume", volume, strict, 0_ml );
-    assign( jo, "weight", weight, strict, 0_gram );
+    optional( jo, was_loaded, "bodytype", bodytype );
+    optional( jo, was_loaded, "color", color, nc_color_reader{}, c_white );
+    optional( jo, was_loaded, "volume", volume, units_bound_reader<units::volume> { 0_ml } );
+    optional( jo, was_loaded, "weight", weight, units_bound_reader<units::mass> { 0_gram } );
 
     optional( jo, was_loaded, "phase", phase, make_flag_reader( gen.phase_map, "phase id" ),
               phase_id::SOLID );
 
-    assign( jo, "diff", difficulty_base, strict, 0 );
-    assign( jo, "hp", hp, strict, 1 );
-    assign( jo, "speed", speed, strict, 0 );
-    assign( jo, "aggression", agro, strict, -100, 100 );
-    assign( jo, "morale", morale, strict );
-    assign( jo, "stomach_size", stomach_size, strict );
+    optional( jo, was_loaded, "diff", difficulty_base, numeric_bound_reader<int> {0}, 0 );
+    optional( jo, was_loaded, "hp", hp, numeric_bound_reader<int> {1} );
+    optional( jo, was_loaded, "speed", speed, numeric_bound_reader<int> {0}, 0 );
+    optional( jo, was_loaded, "aggression", agro, numeric_bound_reader<int> {-100, 100}, 0 );
+    optional( jo, was_loaded, "morale", morale, 0 );
+    optional( jo, was_loaded, "stomach_size", stomach_size, 0 );
 
-    assign( jo, "tracking_distance", tracking_distance, strict, 3 );
+    optional( jo, was_loaded, "tracking_distance", tracking_distance, numeric_bound_reader<int> {3},
+              8 );
 
-    assign( jo, "mountable_weight_ratio", mountable_weight_ratio, strict );
+    optional( jo, was_loaded, "mountable_weight_ratio", mountable_weight_ratio, 0.2f );
 
-    assign( jo, "attack_cost", attack_cost, strict, 0 );
-    assign( jo, "melee_skill", melee_skill, strict, 0 );
-    assign( jo, "melee_dice", melee_dice, strict, 0 );
-    assign( jo, "melee_dice_sides", melee_sides, strict, 0 );
+    optional( jo, was_loaded, "attack_cost", attack_cost, numeric_bound_reader<int> {0}, 100 );
+    optional( jo, was_loaded, "melee_skill", melee_skill, numeric_bound_reader<int> {0}, 0 );
+    optional( jo, was_loaded, "melee_dice", melee_dice, numeric_bound_reader<int> {0}, 0 );
+    optional( jo, was_loaded, "melee_dice_sides", melee_sides, numeric_bound_reader<int> {0}, 0 );
     optional( jo, was_loaded, "melee_dice_ap", melee_dice_ap, 0 );
 
-    assign( jo, "grab_strength", grab_strength, strict, 0 );
+    optional( jo, was_loaded, "grab_strength", grab_strength, numeric_bound_reader<int> {0}, 1 );
 
-    assign( jo, "dodge", sk_dodge, strict, 0 );
+    optional( jo, was_loaded, "dodge", sk_dodge, numeric_bound_reader<int> {0} );
 
+    // FIXME: load resistances by reader class
     if( jo.has_object( "armor" ) ) {
         armor = load_resistances_instance( jo.get_object( "armor" ) );
     }
@@ -906,7 +915,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         }
     }
 
-    assign( jo, "status_chance_multiplier", status_chance_multiplier, strict, 0.0f, 5.0f );
+    optional( jo, was_loaded, "status_chance_multiplier", status_chance_multiplier, numeric_bound_reader{0.0f, 5.0f},
+              1.f );
 
     if( !was_loaded || jo.has_array( "families" ) ) {
         families.clear();
@@ -934,27 +944,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "absorb_move_cost_min", absorb_move_cost_min, 1 );
     optional( jo, was_loaded, "absorb_move_cost_max", absorb_move_cost_max, -1 );
 
-    if( jo.has_member( "absorb_material" ) ) {
-        absorb_material.clear();
-        if( jo.has_array( "absorb_material" ) ) {
-            for( std::string mat : jo.get_string_array( "absorb_material" ) ) {
-                absorb_material.emplace_back( mat );
-            }
-        } else {
-            absorb_material.emplace_back( jo.get_string( "absorb_material" ) );
-        }
-    }
-
-    if( jo.has_member( "no_absorb_material" ) ) {
-        no_absorb_material.clear();
-        if( jo.has_array( "no_absorb_material" ) ) {
-            for( std::string mat : jo.get_string_array( "no_absorb_material" ) ) {
-                no_absorb_material.emplace_back( mat );
-            }
-        } else {
-            no_absorb_material.emplace_back( jo.get_string( "no_absorb_material" ) );
-        }
-    }
+    optional( jo, was_loaded, "absorb_material", absorb_material );
+    optional( jo, was_loaded, "no_absorb_material", no_absorb_material );
 
     optional( jo, was_loaded, "bleed_rate", bleed_rate, 100 );
 
@@ -998,8 +989,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     }
 
 
-    assign( jo, "vision_day", vision_day, strict, 0 );
-    assign( jo, "vision_night", vision_night, strict, 0 );
+    optional( jo, was_loaded, "vision_day", vision_day, numeric_bound_reader{0}, 40 );
+    optional( jo, was_loaded, "vision_night", vision_night, numeric_bound_reader{0}, 1 );
 
     optional( jo, was_loaded, "regenerates", regenerates, 0 );
     optional( jo, was_loaded, "regenerates_in_dark", regenerates_in_dark, false );
@@ -1031,26 +1022,9 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "mech_str_bonus", mech_str_bonus, 0 );
     optional( jo, was_loaded, "mech_battery", mech_battery, itype_id() );
 
-    if( jo.has_object( "mount_items" ) ) {
-        JsonObject jo_mount_items = jo.get_object( "mount_items" );
-        optional( jo_mount_items, was_loaded, "tied", mount_items.tied, itype_id() );
-        optional( jo_mount_items, was_loaded, "tack", mount_items.tack, itype_id() );
-        optional( jo_mount_items, was_loaded, "armor", mount_items.armor, itype_id() );
-        optional( jo_mount_items, was_loaded, "storage", mount_items.storage, itype_id() );
-    }
+    optional( jo, was_loaded, "mount_items", mount_items );
 
-    if( jo.has_array( "revive_forms" ) ) {
-        revive_type foo;
-        for( JsonObject jo_form : jo.get_array( "revive_forms" ) ) {
-            read_condition( jo_form, "condition", foo.condition, true );
-            if( jo_form.has_string( "monster" ) ) {
-                mandatory( jo_form, was_loaded, "monster", foo.revive_mon );
-            } else {
-                mandatory( jo_form, was_loaded, "monster_group", foo.revive_monster_group );
-            }
-            revive_types.push_back( foo );
-        }
-    }
+    optional( jo, was_loaded, "revive_forms", revive_types );
 
     optional( jo, was_loaded, "zombify_into", zombify_into, string_id_reader<::mtype> {},
               mtype_id() );
@@ -1060,28 +1034,12 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "aggro_character", aggro_character, true );
 
-    if( jo.has_array( "attack_effs" ) ) {
-        atk_effs.clear();
-        for( const JsonObject effect_jo : jo.get_array( "attack_effs" ) ) {
-            mon_effect_data effect;
-            effect.load( effect_jo );
-            atk_effs.push_back( std::move( effect ) );
-        }
-    }
+    optional( jo, was_loaded, "attack_effs", atk_effs );
 
     optional( jo, was_loaded, "melee_damage", melee_damage );
 
-    if( jo.has_array( "scents_tracked" ) ) {
-        for( const std::string line : jo.get_array( "scents_tracked" ) ) {
-            scents_tracked.emplace( line );
-        }
-    }
-
-    if( jo.has_array( "scents_ignored" ) ) {
-        for( const std::string line : jo.get_array( "scents_ignored" ) ) {
-            scents_ignored.emplace( line );
-        }
-    }
+    optional( jo, was_loaded, "scents_tracked", scents_tracked );
+    optional( jo, was_loaded, "scents_ignored", scents_ignored );
 
     if( jo.has_member( "death_drops" ) ) {
         death_drops =
@@ -1090,38 +1048,19 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     }
 
     assign( jo, "harvest", harvest );
+    // FIXME: assign doesn't trigger issues that optional does???
+    //optional( jo, was_loaded, "harvest", harvest, harvest_id::NULL_ID() );
 
     optional( jo, was_loaded, "dissect", dissect );
 
     optional( jo, was_loaded, "decay", decay );
 
-    if( jo.has_array( "shearing" ) ) {
-        std::vector<shearing_entry> entries;
-        for( JsonObject shearing_entry : jo.get_array( "shearing" ) ) {
-            struct shearing_entry entry {};
-            entry.load( shearing_entry );
-            entries.emplace_back( entry );
-        }
-        shearing = shearing_data( entries );
-    }
+    optional( jo, was_loaded, "shearing", shearing );
 
     optional( jo, was_loaded, "speed_description", speed_desc, speed_description_DEFAULT );
     optional( jo, was_loaded, "death_function", mdeath_effect );
 
-    if( jo.has_array( "emit_fields" ) ) {
-        JsonArray jar = jo.get_array( "emit_fields" );
-        if( jar.has_string( 0 ) ) { // TEMPORARY until 0.F
-            for( const std::string id : jar ) {
-                emit_fields.emplace( emit_id( id ), 1_seconds );
-            }
-        } else {
-            while( jar.has_more() ) {
-                JsonObject obj = jar.next_object();
-                emit_fields.emplace( emit_id( obj.get_string( "emit_id" ) ),
-                                     read_from_json_string<time_duration>( obj.get_member( "delay" ), time_duration::units ) );
-            }
-        }
-    }
+    optional( jo, was_loaded, "emit_fields", emit_fields, named_pair_reader<emit_id, time_duration> {"emit_id", "delay"} );
 
     if( jo.has_member( "special_when_hit" ) ) {
         JsonArray jsarr = jo.get_array( "special_when_hit" );
