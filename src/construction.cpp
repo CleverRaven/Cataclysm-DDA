@@ -1877,9 +1877,12 @@ void construct::done_appliance( const tripoint_bub_ms &p, Character &who )
     }
 
     const item &base = components.front();
+    // FIXME: There might be existing/old constructions which need migration. I have no idea what to do about that.
+    /*
     const vpart_id &vpart = vpart_appliance_from_item( base.typeId() );
 
     place_appliance( here, p, vpart, who, base );
+    */
 }
 
 void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_character )

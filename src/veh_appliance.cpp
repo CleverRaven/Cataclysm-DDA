@@ -81,7 +81,7 @@ vpart_id vpart_appliance_from_furn( const furn_str_id &furn )
 }
 
 bool place_appliance( map &here, const tripoint_bub_ms &p, const vpart_id &vpart,
-                      const Character &owner, const std::optional<item> &base )
+                      const Character &owner )
 {
 
     const vpart_info &vpinfo = vpart.obj();
@@ -95,16 +95,7 @@ bool place_appliance( map &here, const tripoint_bub_ms &p, const vpart_id &vpart
     veh->add_tag( flag_APPLIANCE );
 
     int partnum = -1;
-    if( base ) {
-        item copied = *base;
-        if( vpinfo.base_item != copied.typeId() ) {
-            // transform the deploying item into what it *should* be before storing it
-            copied.convert( vpinfo.base_item );
-        }
-        partnum = veh->install_part( here, point_rel_ms::zero, vpart, std::move( copied ) );
-    } else {
-        partnum = veh->install_part( here, point_rel_ms::zero, vpart );
-    }
+    partnum = veh->install_part( here, point_rel_ms::zero, vpart );
     if( partnum == -1 ) {
         // unrecoverable, failed to be installed somehow
         here.destroy_vehicle( veh );
