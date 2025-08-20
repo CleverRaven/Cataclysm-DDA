@@ -1303,10 +1303,23 @@ static void draw_armor_table( const std::vector<iteminfo> &vItemDisplay, const i
 
         const std::vector<std::string> chopped_up = delimit_armor_text( *info_iter );
         for( const std::string &cell_text : chopped_up ) {
-            ImGui::TableSetupColumn( cell_text.c_str(), ImGuiTableColumnFlags_WidthStretch );
+            // this prefix prevents imgui from drawing the text. We still have color tags, which imgui won't parse, so we don't want those exposed to the user.
+            // But we still want proper column IDs. So we put them in, but we *hide them* with this.
+            // This results in a column with an ID of e.g.
+            // ##<color_white>Protection:</color>
+            //
+            // Not great for debugging, but better than having a column with default (randomly generated number) ID!
+            const std::string invisible_ID_label = "##" + cell_text;
+            ImGui::TableSetupColumn( invisible_ID_label.c_str(), ImGuiTableColumnFlags_WidthStretch );
         }
         ImGui::TableHeadersRow();
+        for( int i = 0; i < chopped_up.size(); i++ ) {
+            ImGui::TableSetColumnIndex( i );
+            cataimgui::draw_colored_text( chopped_up[i], c_unset );
+        }
+        // This advances us past the last column, which we just reiterated. Since there are no more columns, it increments to the next row. Easy, huh?
         ImGui::TableNextColumn();
+
 
         info_iter++;
 
