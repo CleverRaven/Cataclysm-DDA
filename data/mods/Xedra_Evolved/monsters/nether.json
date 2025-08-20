@@ -16,5 +16,15 @@
       "corpse_type": "NO_CORPSE",
       "message": "The %s stiffens and falls apart into fragments."
     }
+  },
+  {
+    "id": "mon_shoggoth",
+    "copy-from": "mon_shoggoth",
+    "type": "MONSTER",
+    "death_function": {
+      "eoc": "EOC_XE_SHOGGOTH_DEATH",
+      "corpse_type": "NO_CORPSE",
+      "message": "The %s bubbles and steams as it melts into protoplasmic ooze."
+    }
   }
 ]
