@@ -231,6 +231,27 @@ using profession_group_id = string_id<profession_group>;
 class recipe;
 using recipe_id = string_id<recipe>;
 
+struct region_settings_river;
+using region_settings_river_id = string_id<region_settings_river>;
+
+struct region_settings_lake;
+using region_settings_lake_id = string_id<region_settings_lake>;
+
+struct region_settings_ocean;
+using region_settings_ocean_id = string_id<region_settings_ocean>;
+
+struct region_settings_ravine;
+using region_settings_ravine_id = string_id<region_settings_ravine>;
+
+struct region_settings_forest;
+using region_settings_forest_id = string_id<region_settings_forest>;
+
+struct region_settings_highway;
+using region_settings_highway_id = string_id<region_settings_highway>;
+
+struct region_settings_forest_trail;
+using region_settings_forest_trail_id = string_id<region_settings_forest_trail>;
+
 struct requirement_data;
 using requirement_id = string_id<requirement_data>;
 
