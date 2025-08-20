@@ -1313,7 +1313,7 @@ static void draw_armor_table( const std::vector<iteminfo> &vItemDisplay, const i
             ImGui::TableSetupColumn( invisible_ID_label.c_str(), ImGuiTableColumnFlags_WidthStretch );
         }
         ImGui::TableHeadersRow();
-        for( int i = 0; i < chopped_up.size(); i++ ) {
+        for( size_t i = 0; i < chopped_up.size(); i++ ) {
             ImGui::TableSetColumnIndex( i );
             cataimgui::draw_colored_text( chopped_up[i], c_unset );
         }
