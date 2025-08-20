@@ -24,7 +24,7 @@ class appliance_convert_examine_actor : public iexamine_actor
     private:
         std::optional<furn_str_id> furn_set = std::nullopt;
         std::optional<ter_str_id> ter_set = std::nullopt;
-        itype_id appliance_item;
+        furn_str_id appliance_furn;
 
     public:
         explicit appliance_convert_examine_actor( const std::string &type = "appliance_convert" )

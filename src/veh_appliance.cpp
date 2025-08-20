@@ -69,14 +69,14 @@ static const std::string flag_HALF_CIRCLE_LIGHT( "HALF_CIRCLE_LIGHT" );
 // TODO: make this dynamic in the future.
 static const int win_width = 60;
 
-vpart_id vpart_appliance_from_item( const itype_id &item_id )
+vpart_id vpart_appliance_from_furn( const furn_str_id &furn )
 {
     for( const vpart_info &vpi : vehicles::parts::get_all() ) {
-        if( vpi.base_item == item_id && vpi.has_flag( flag_APPLIANCE ) ) {
+        if( vpi.base_furn == furn && vpi.has_flag( flag_APPLIANCE ) ) {
             return vpi.id;
         }
     }
-    debugmsg( "item %s is not base item of any appliance!", item_id.c_str() );
+    debugmsg( "furniture %s is not base furniture of any appliance!", furn.c_str() );
     return vpart_ap_standing_lamp;
 }
 

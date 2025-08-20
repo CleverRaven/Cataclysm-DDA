@@ -57,12 +57,12 @@ void appliance_convert_examine_actor::load( const JsonObject &jo, const std::str
 {
     optional( jo, false, "furn_set", furn_set );
     optional( jo, false, "ter_set", ter_set );
-    mandatory( jo, false, "item", appliance_item );
+    mandatory( jo, false, "furniture", appliance_furn );
 }
 
 void appliance_convert_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) const
 {
-    if( !query_yn( _( "Connect %s to grid?" ), item::nname( appliance_item ) ) ) {
+    if( !query_yn( _( "Connect %s to grid?" ), appliance_furn->name() ) ) {
         return;
     }
     map &here = get_map();
@@ -73,7 +73,7 @@ void appliance_convert_examine_actor::call( Character &you, const tripoint_bub_m
         here.ter_set( examp, *ter_set );
     }
 
-    place_appliance( here, examp, vpart_appliance_from_item( appliance_item ), you );
+    place_appliance( here, examp, vpart_appliance_from_furn( appliance_furn ), you );
 }
 
 void appliance_convert_examine_actor::finalize() const
@@ -85,12 +85,12 @@ void appliance_convert_examine_actor::finalize() const
         debugmsg( "Invalid terrain id %s in appliance_convert action", ter_set->str() );
     }
 
-    if( !appliance_item.is_valid() ) {
-        debugmsg( "Invalid appliance item %s in appliance_convert action", appliance_item.str() );
-    } else if( !vpart_appliance_from_item( appliance_item ).is_valid() ) {
+    if( !appliance_furn.is_valid() ) {
+        debugmsg( "Invalid appliance furniture %s in appliance_convert action", appliance_furn.c_str() );
+    } else if( !vpart_appliance_from_furn( appliance_furn ).is_valid() ) {
         // This will never actually trigger now, but is here if the semantics of vpart_appliance_from_item change
         debugmsg( "In appliance_convert action, %s does not correspond to an appliance",
-                  appliance_item.str() );
+                  appliance_furn.str() );
     }
 }
 
