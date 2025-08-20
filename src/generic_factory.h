@@ -960,6 +960,12 @@ bool one_char_symbol_reader( const JsonObject &jo, std::string_view member_name,
 bool unicode_codepoint_from_symbol_reader(
     const JsonObject &jo, std::string_view member_name, uint32_t &member, bool );
 
+/**
+ * unicode_codepoint_from_symbol_reader, but with a string instead of a codepoint
+ */
+bool unicode_symbol_reader( const JsonObject &jo, std::string_view member_name, std::string &member,
+                            bool was_loaded );
+
 //Reads a standard single-float "proportional" entry
 float read_proportional_entry( const JsonObject &jo, std::string_view key );
 
