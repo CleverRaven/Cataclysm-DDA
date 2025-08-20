@@ -339,7 +339,7 @@
       { "item": "mag_electronics", "prob": 25 },
       { "item": "colamdew", "prob": 50 },
       { "prob": 10, "group": "adderall_bottle_plastic_pill_prescription_10" },
-      { "item": "fries", "prob": 10 },
+      { "item": "fries", "variant": "french", "prob": 10 },
       { "item": "cheese_fries", "prob": 10 },
       { "item": "onion_rings", "prob": 10 },
       { "prob": 20, "group": "mintpatties_bag_plastic_3" },

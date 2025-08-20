@@ -1063,7 +1063,7 @@
       { "item": "cranberry_juice", "prob": 35 },
       { "group": "softdrinks_canned", "prob": 95 },
       { "item": "V8", "prob": 15 },
-      { "item": "fries", "prob": 7 },
+      { "item": "fries", "variant": "french", "prob": 7 },
       { "item": "cheese_fries", "prob": 5 },
       { "item": "onion_rings", "prob": 7 },
       { "item": "mayonnaise", "prob": 3 },
