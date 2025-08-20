@@ -2686,5 +2686,17 @@
     "type": "MIGRATION",
     "id": "super_glue",
     "replace": "glue_strong"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "fresh_fries_j",
+    "replace": "fries",
+    "variant": "french"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "fresh_fries",
+    "replace": "fries",
+    "variant": "julienne"
   }
 ]
