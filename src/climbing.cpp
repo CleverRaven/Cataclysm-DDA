@@ -109,6 +109,7 @@ void climbing_aid::finalize()
         def.down.max_height = 1;
         def.was_loaded = false;
         def.down.was_loaded = true;
+        climbing_aid_default_ptr = &def;
     }
 }
 
