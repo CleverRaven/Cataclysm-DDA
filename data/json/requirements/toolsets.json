@@ -514,7 +514,7 @@
   {
     "id": "metalworking_tongs_any",
     "type": "requirement",
-    "tools": [ [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ] ]
+    "tools": [ [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ], [ "makeshift_metalworking_tongs", -1 ] ] ]
   },
   {
     "id": "metal_file_any",
