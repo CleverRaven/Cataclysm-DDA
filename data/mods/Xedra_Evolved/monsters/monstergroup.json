@@ -123,7 +123,11 @@
   {
     "type": "monstergroup",
     "id": "GROUP_VAMPIRE_MOROI_TYPES",
-    "monsters": [ { "monster": "mon_vampire_moroi_fast", "weight": 10 }, { "monster": "mon_vampire_moroi_tough", "weight": 25 } ]
+    "monsters": [
+      { "monster": "mon_vampire_moroi_fast", "weight": 10 },
+      { "monster": "mon_vampire_moroi_tough", "weight": 25 },
+      { "monster": "mon_vampire_moroi_animalistic", "weight": 15 }
+    ]
   },
   {
     "type": "monstergroup",

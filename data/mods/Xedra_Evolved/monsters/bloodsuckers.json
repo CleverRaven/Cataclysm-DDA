@@ -29,6 +29,8 @@
     "bleed_rate": 80,
     "vision_day": 45,
     "vision_night": 15,
+    "regenerates": 0,
+    "regeneration_modifiers": [ [ "star_vampire_blood_drank", 2 ] ],
     "harvest": "vampire",
     "path_settings": { "max_dist": 5 },
     "grab_strength": 30,
@@ -132,6 +134,7 @@
     "condition": "npc_is_character",
     "effect": [
       { "math": [ "_vampire_amount_drained", "=", "400 + rand(100)" ] },
+      { "u_add_effect": "star_vampire_blood_drank", "duration": 30 },
       {
         "if": { "npc_has_flag": "BLEEDSLOW2" },
         "then": [
@@ -248,7 +251,7 @@
     "type": "MONSTER",
     "copy-from": "mon_vampire_generic",
     "name": { "str_sp": "moroi" },
-    "description": "This creature looks more aware than most of the ferals you have seen and in fact you might even suspect them of being normal if it weren't for the dried blood caked around their mouth and down the front of their clothes.  The light glints against what look to be sharp fangs in their mouth.  Their skin has a waxen appearance.",
+    "description": "This creature looks more aware than most of the ferals you have seen and in fact you might even suspect them of being normal if it weren't for the dried blood caked around their mouth and down the front of their clothes.  The light glints against what look to be sharp fangs in their mouth.  Their skin has a waxen appearance and their muscles bulge oddly.",
     "speed": 80,
     "melee_skill": 4,
     "melee_dice": 2,
@@ -265,13 +268,13 @@
         {
           "type": "monster_attack",
           "attack_type": "melee",
-          "id": "moroi_vampire_vigor_mortis_buff",
-          "cooldown": 30,
+          "id": "moroi_vampire_sanguine_resilience_buff",
+          "cooldown": 35,
           "move_cost": 10,
           "range": 10,
           "damage_max_instance": [ { "damage_type": "bash", "amount": 0 } ],
-          "self_effects_always": [ { "id": "effect_vampire_monster_strength", "duration": [ 25, 45 ] } ],
-          "condition": { "not": { "u_has_effect": "effect_vampire_monster_strength" } },
+          "self_effects_always": [ { "id": "effect_vampire_monster_resilience", "duration": [ 25, 45 ] } ],
+          "condition": { "not": { "u_has_effect": "effect_vampire_monster_resilience" } },
           "hit_dmg_u": "",
           "hit_dmg_npc": "",
           "miss_msg_u": "",
@@ -281,6 +284,31 @@
           "dodgeable": false,
           "uncanny_dodgeable": false,
           "blockable": false
+        }
+      ]
+    },
+    "death_drops": "default_moroi_death_drops"
+  },
+  {
+    "id": "mon_vampire_moroi_animalistic",
+    "looks_like": "mon_vampire_moroi",
+    "type": "MONSTER",
+    "copy-from": "mon_vampire_generic",
+    "name": { "str_sp": "moroi" },
+    "description": "This creature looks more aware than most of the ferals you have seen and in fact you might even suspect them of being normal if it weren't for the dried blood caked around their mouth and down the front of their clothes.  There is a red light in their eyes, and they hunch over almost as thought they want to drop to all fours.",
+    "speed": 80,
+    "melee_skill": 4,
+    "melee_dice": 2,
+    "melee_dice_sides": 4,
+    "vision_night": 25,
+    "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
+    "extend": {
+      "special_attacks": [
+        {
+          "id": "bite_humanoid",
+          "cooldown": 10,
+          "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.2 } ],
+          "eoc": [ "EOC_VAMPIRE_DRINK_BLOOD" ]
         },
         {
           "type": "monster_attack",
@@ -303,12 +331,12 @@
           "blockable": false
         },
         {
-          "id": "smash",
-          "move_cost": 130,
-          "cooldown": 8,
-          "min_mul": 0.8,
-          "throw_strength": 40,
-          "condition": { "u_has_effect": "effect_vampire_monster_strength" }
+          "id": "scratch",
+          "move_cost": 90,
+          "damage_max_instance": [ { "damage_type": "cut", "amount": 11 } ],
+          "cooldown": 3,
+          "min_mul": 1,
+          "max_mul": 2
         }
       ]
     },
