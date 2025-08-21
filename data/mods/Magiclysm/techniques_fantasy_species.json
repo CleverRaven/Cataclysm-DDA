@@ -27,7 +27,7 @@
     "messages": [ "You bite %s", "<npcname> bites %s" ],
     "description": "Bite someone with a goblin's naturally-sharp teeth.",
     "unarmed_allowed": true,
-    "weighting": -2,
+    "weighting": 1,
     "reach_ok": false,
     "attack_vectors": [ "vector_bite" ],
     "condition": { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] },
