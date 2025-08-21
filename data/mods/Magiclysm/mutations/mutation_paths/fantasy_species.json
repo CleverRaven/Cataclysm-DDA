@@ -655,6 +655,7 @@
     "category": [ "SPECIES_LIZARDFOLK" ],
     "enchantments": [
       { "condition": { "u_has_trait": "SLIT_NOSTRILS" }, "encumbrance_modifier": [ { "part": "mouth", "add": -10 } ] },
+      { "condition": { "u_has_trait": "SCALES" }, "encumbrance_modifier": [ { "part": "mouth", "add": -1 } ] },
       {
         "values": [
           { "value": "MOVECOST_SWIM_MOD", "multiply": -0.1 },
