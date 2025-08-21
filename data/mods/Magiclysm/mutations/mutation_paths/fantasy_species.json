@@ -654,6 +654,7 @@
     "description": "Lizardfolk are taller and stronger than humans but not much thicker and are surprisingly fast for their size (+1 STR, +1 DEX).",
     "category": [ "SPECIES_LIZARDFOLK" ],
     "enchantments": [
+      { "condition": { "u_has_trait": "SLIT_NOSTRILS" }, "encumbrance_modifier": [ { "part": "mouth", "add": -10 } ] },
       {
         "values": [
           { "value": "MOVECOST_SWIM_MOD", "multiply": -0.1 },
