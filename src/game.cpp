@@ -8671,7 +8671,7 @@ bool game::walk_move( const tripoint_bub_ms &dest_loc, const bool via_ramp,
         grabbed = false;
     }
     if( u.grab_point != tripoint_rel_ms::zero && !grabbed && !furniture_move ) {
-        add_msg( m_warning, _( "Can't find grabbed object." ) );
+        debugmsg( "Can't find grabbed object." );
         u.grab( object_type::NONE );
     }
 
@@ -9720,20 +9720,12 @@ bool game::grabbed_furn_move( const tripoint_rel_ms &dp )
         return false;
     }
 
-    int ramp_z_offset = 0;
-    // Furniture could be on a ramp at different time than player so adjust for that.
-    if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, fpos + dp.xy() ) ) {
-        ramp_z_offset = 1;
-    } else if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, fpos + dp.xy() ) ) {
-        ramp_z_offset = -1;
-    }
-
     const bool pushing_furniture = dp.xy() ==  u.grab_point.xy();
     const bool pulling_furniture = dp.xy() == -u.grab_point.xy();
     const bool shifting_furniture = !pushing_furniture && !pulling_furniture;
 
     // Intended destination of furniture.
-    const tripoint_bub_ms fdest = fpos + tripoint_rel_ms( dp.xy(), ramp_z_offset );
+    const tripoint_bub_ms fdest = fpos + dp;
 
     // Unfortunately, game::is_empty fails for tiles we're standing on,
     // which will forbid pulling, so:
@@ -9889,8 +9881,6 @@ bool game::grabbed_furn_move( const tripoint_rel_ms &dp )
         u.grab( object_type::NONE );
         return true;
     }
-
-    u.grab_point.z() += ramp_z_offset;
 
     if( shifting_furniture ) {
         // We didn't move
@@ -10420,9 +10410,6 @@ void game::vertical_move( int movez, bool force, bool peeking )
     if( force ) {
         // Let go of a grabbed cart.
         u.grab( object_type::NONE );
-    } else if( u.grab_point != tripoint_rel_ms::zero ) {
-        add_msg( m_info, _( "You can't drag things up and down stairs." ) );
-        return;
     }
 
     // TODO: Use u.posz() instead of m.abs_sub
@@ -10603,6 +10590,18 @@ void game::vertical_move( int movez, bool force, bool peeking )
         pos = pos - ms_shift;
         old_pos = old_pos - ms_shift;
         stairs = stairs - ms_shift;
+    }
+
+    if( u.grab_point != tripoint_rel_ms::zero ) {
+        u.grab_point.z() = u.grab_point.z() - movez;
+        const std::optional<tripoint_rel_ms> dir = choose_direction(
+                    _( "Select a direction to push grabbed object towards." ) );
+        if( !dir ) {
+            u.grab( object_type::NONE );
+        } else { // Try to vertically move whatever we're grabbing.
+            const tripoint_rel_ms new_rel = pos - old_pos - u.grab_point;
+            grabbed_move( new_rel + *dir, false );
+        }
     }
 
     // if an NPC or monster is on the stairs when player ascends/descends
