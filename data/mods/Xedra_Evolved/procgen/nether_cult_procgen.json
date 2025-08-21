@@ -159,6 +159,24 @@
         "increment": 0.05,
         "power_per_increment": -50,
         "ench_has": "WORN"
+      },
+      {
+        "weight": 35,
+        "min_value": -0.25,
+        "max_value": 0.25,
+        "type": "PAIN",
+        "increment": 0.025,
+        "power_per_increment": -25,
+        "ench_has": "WORN"
+      },
+      {
+        "weight": 25,
+        "min_value": -0.5,
+        "max_value": 0.5,
+        "type": "MENDING_MODIFIER",
+        "increment": 0.05,
+        "power_per_increment": -50,
+        "ench_has": "WORN"
       }
     ],
     "passive_add_procgen_values": [
@@ -271,6 +289,15 @@
         "ench_has": "WORN"
       },
       {
+        "weight": 50,
+        "min_value": 1,
+        "max_value": 1,
+        "type": "BONUS_DODGE",
+        "increment": 1,
+        "power_per_increment": 2000,
+        "ench_has": "WORN"
+      },
+      {
         "weight": 100,
         "min_value": 1,
         "max_value": 3000,
@@ -280,12 +307,21 @@
         "ench_has": "WORN"
       },
       {
-        "weight": 100,
+        "weight": 50,
         "min_value": 1,
         "max_value": 25,
         "type": "STEALTH_MODIFIER",
         "increment": 1,
         "power_per_increment": 100,
+        "ench_has": "WORN"
+      },
+      {
+        "weight": 25,
+        "min_value": 1,
+        "max_value": 8,
+        "type": "NIGHT_VIS",
+        "increment": 1,
+        "power_per_increment": 250,
         "ench_has": "WORN"
       }
     ],
@@ -483,7 +519,15 @@
       }
     ],
     "passive_add_procgen_values": [
-      { "weight": 100, "min_value": -3, "max_value": 4, "type": "STRENGTH", "increment": 1, "power_per_increment": 250 },
+      {
+        "weight": 100,
+        "min_value": -3,
+        "max_value": 4,
+        "type": "STRENGTH",
+        "increment": 1,
+        "power_per_increment": 250,
+        "ench_has": "WIELD"
+      },
       {
         "weight": 100,
         "min_value": -3,
@@ -557,7 +601,7 @@
         "ench_has": "WIELD"
       },
       {
-        "weight": 100,
+        "weight": 50,
         "min_value": 1,
         "max_value": 1,
         "type": "BONUS_BLOCK",
@@ -566,12 +610,30 @@
         "ench_has": "WIELD"
       },
       {
-        "weight": 100,
+        "weight": 50,
         "min_value": 1,
         "max_value": 500,
         "type": "MAX_MANA",
         "increment": 1,
         "power_per_increment": 6,
+        "ench_has": "WIELD"
+      },
+      {
+        "weight": 100,
+        "min_value": 10,
+        "max_value": 100,
+        "type": "LUMINATION",
+        "increment": 1,
+        "power_per_increment": 4,
+        "ench_has": "WIELD"
+      },
+      {
+        "weight": 10,
+        "min_value": 1,
+        "max_value": 2,
+        "type": "MELEE_RANGE_MODIFIER",
+        "increment": 1,
+        "power_per_increment": 2000,
         "ench_has": "WIELD"
       }
     ],
