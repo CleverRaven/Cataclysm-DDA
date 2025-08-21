@@ -139,6 +139,7 @@ class harvest_list
 
         /** Fills out the set of cached names. */
         static void finalize_all();
+        void finalize();
 
         /** Check consistency of all loaded harvest data */
         static void check_consistency();
@@ -156,7 +157,6 @@ class harvest_list
         translation message_;
         butchery_requirements_id butchery_requirements_;
 
-        void finalize();
 };
 
 #endif // CATA_SRC_HARVEST_H
