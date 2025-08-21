@@ -166,6 +166,11 @@ void oter_vision::load_oter_vision( const JsonObject &jo, const std::string &src
     oter_vision_factory.load( jo, src );
 }
 
+void oter_vision::finalize_all()
+{
+    oter_vision_factory.finalize();
+}
+
 void oter_vision::reset()
 {
     oter_vision_factory.reset();
@@ -7543,6 +7548,11 @@ std::string oter_get_rotation_string( const oter_id &oter )
 void overmap_special_migration::load_migrations( const JsonObject &jo, const std::string &src )
 {
     migrations.load( jo, src );
+}
+
+void overmap_special_migration::finalize_all()
+{
+    migrations.finalize();
 }
 
 void overmap_special_migration::reset()

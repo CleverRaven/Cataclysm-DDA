@@ -113,6 +113,11 @@ void quality::load_static( const JsonObject &jo, const std::string &src )
     quality_factory.load( jo, src );
 }
 
+void quality::finalize_all()
+{
+    quality_factory.finalize();
+}
+
 void quality::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "name", name );

@@ -103,6 +103,11 @@ void harvest_drop_type::load_harvest_drop_types( const JsonObject &jo, const std
     harvest_drop_type_factory.load( jo, src );
 }
 
+void harvest_drop_type::finalize_all()
+{
+    harvest_drop_type_factory.finalize();
+}
+
 void harvest_drop_type::reset()
 {
     harvest_drop_type_factory.reset();

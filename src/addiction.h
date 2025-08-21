@@ -28,6 +28,7 @@ struct add_type {
         static void load_add_types( const JsonObject &jo, const std::string &src );
         static void reset();
         static void check_add_types();
+        static void finalize_all();
         void load( const JsonObject &jo, std::string_view src );
         static const std::vector<add_type> &get_all();
 

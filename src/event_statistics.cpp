@@ -76,6 +76,11 @@ void event_transformation::load_transformation( const JsonObject &jo, const std:
     event_transformation_factory.load( jo, src );
 }
 
+void event_transformation::finalize_all()
+{
+    event_transformation_factory.finalize();
+}
+
 void event_transformation::check_consistency()
 {
     event_transformation_factory.check();
@@ -103,6 +108,11 @@ void event_statistic::load_statistic( const JsonObject &jo, const std::string &s
     event_statistic_factory.load( jo, src );
 }
 
+void event_statistic::finalize_all()
+{
+    event_statistic_factory.finalize();
+}
+
 void event_statistic::check_consistency()
 {
     event_statistic_factory.check();
@@ -123,6 +133,11 @@ template<>
 bool string_id<score>::is_valid() const
 {
     return score_factory.is_valid( *this );
+}
+
+void score::finalize_all()
+{
+    score_factory.finalize();
 }
 
 void score::load_score( const JsonObject &jo, const std::string &src )

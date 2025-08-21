@@ -647,6 +647,9 @@ void widget::finalize_all()
     widget_factory.finalize();
 }
 
+// finalize functions are allowed to mutate data, even if this one doesn't
+// in fact, the functions below just do a const-cast inside, so it shouldn't be const
+// NOLINTNEXTLINE(readability-make-member-function-const)
 void widget::finalize()
 {
     if( _style == "sidebar" ) {

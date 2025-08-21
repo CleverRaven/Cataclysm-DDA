@@ -157,6 +157,11 @@ void gates::load( const JsonObject &jo, const std::string &src )
     gates_data.load( jo, src );
 }
 
+void gates::finalize()
+{
+    gates_data.finalize();
+}
+
 void gates::check()
 {
     gates_data.check();
