@@ -741,8 +741,8 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     draw_border( w_info );
 
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w_info, point( 1, 0 ), c_light_gray, "< %d,%d,%d >", target.x(), target.y(),
-               target.z() );
+    mvwprintz( w_info, point( 1, 0 ), c_light_gray, "< bub_ms=%s abs_ms=%s >", target.to_string(),
+               here.get_abs( target ).to_string() );
 
     mvwputch( w_info, point( 1, off ), terrain_type.color(), terrain_type.symbol() );
     mvwprintw( w_info, point( 2, off++ ), _( "Ter: %s (%d); move cost %d" ), terrain_type.id.str(),
