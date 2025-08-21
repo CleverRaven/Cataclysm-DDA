@@ -76,6 +76,29 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "xe_nether_cult_artifact",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "group": "nether_cult_artifact",
+        "artifact": {
+          "procgen_id": "cult",
+          "rules": { "power_level": 1250, "max_attributes": 4, "max_negative_power": -1000, "resonant": true }
+        },
+        "prob": 100
+      },
+      {
+        "group": "nether_cult_artifact",
+        "artifact": {
+          "procgen_id": "cult",
+          "rules": { "power_level": 2500, "max_attributes": 6, "max_negative_power": -1500, "resonant": true }
+        },
+        "prob": 10
+      }
+    ]
+  },
+  {
     "type": "relic_procgen_data",
     "id": "spark_items",
     "//": "Needs to be adjusted and made specific to Xedra Inventor class powers that could be expected.  Remove this note after that is completed.",
