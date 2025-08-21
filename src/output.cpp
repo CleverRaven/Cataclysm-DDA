@@ -1313,6 +1313,8 @@ static void draw_armor_table( const std::vector<iteminfo> &vItemDisplay, const i
             ImGui::TableSetupColumn( invisible_ID_label.c_str(), ImGuiTableColumnFlags_WidthStretch );
         }
         ImGui::TableHeadersRow();
+        // After putting in the invisible labels in the last for-loop, this writes the actual text. Just the same text without the ## marker, and
+        // with our native functions doing the drawing. (So we parse color tags)
         for( size_t i = 0; i < chopped_up.size(); i++ ) {
             ImGui::TableSetColumnIndex( i );
             cataimgui::draw_colored_text( chopped_up[i], c_unset );
@@ -1321,6 +1323,7 @@ static void draw_armor_table( const std::vector<iteminfo> &vItemDisplay, const i
         info_iter++;
 
         while( info_iter != vItemDisplay.end() && info_iter->sType == "ARMOR" ) {
+            ImGui::TableNextRow();
             const std::vector<std::string> delimited_strings = delimit_armor_text( *info_iter );
             for( const std::string &text : delimited_strings ) {
                 ImGui::TableNextColumn();
