@@ -185,6 +185,31 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "makeshift_metalworking_tongs",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "30 m",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_welding" } ],
+    "using": [ [ "welding_standard", 60 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 3 } ],
+    "components": [
+      [ [ "pliers_locking", 1 ] ],
+      [ [ "pipe", 2 ] ],
+      [
+        [ "sheet_metal_small", 2 ],
+        [ "hc_sheet_metal_small", 2 ],
+        [ "qt_sheet_metal_small", 2 ],
+        [ "ch_sheet_metal_small", 2 ],
+        [ "mc_sheet_metal_small", 2 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "result": "chisel",
     "category": "CC_OTHER",
