@@ -1386,7 +1386,7 @@
     "name": { "str_sp": "steel bar stock" },
     "description": "A round bar of steel.  Ready to be turned on the lathe.",
     "//": "Bar is 5cm in diameter.",
-    "weight": "752   g",
+    "weight": "752 g",
     "volume": "94 ml",
     "longest_side": "5 cm",
     "price": "5 USD",
