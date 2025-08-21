@@ -456,6 +456,26 @@
     "//": "Based on https://www.amazon.com/dp/B0BGPJ5HQD"
   },
   {
+    "id": "makeshift_metalworking_tongs",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str_sp": "makeshift metalworking tongs" },
+    "description": "A pair of locking pliers whose handles are extended with pipes and small sheets of metal welded onto the gripping sides of the pliers for a larger gripping area, making a rather makeshift albeit adequate metalworking tongs.",
+    "weight": "730 g",
+    "volume": "662 ml",
+    "longest_side": "44 cm",
+    "price": "12 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "mc_steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
+    "flags": [ "BELT_CLIP", "ALLOWS_REMOTE_USE" ],
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
+    "melee_damage": { "bash": 9 }
+  },
+  {
     "id": "sandpaper",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
