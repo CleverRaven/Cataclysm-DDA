@@ -151,6 +151,9 @@ using matec_id = string_id<ma_technique>;
 class map_extra;
 using map_extra_id = string_id<map_extra>;
 
+struct map_extra_collection;
+using map_extra_collection_id = string_id<map_extra_collection>;
+
 class mapgen_palette;
 using palette_id = string_id<mapgen_palette>;
 
@@ -251,6 +254,21 @@ using region_settings_highway_id = string_id<region_settings_highway>;
 
 struct region_settings_forest_trail;
 using region_settings_forest_trail_id = string_id<region_settings_forest_trail>;
+
+struct region_settings_forest_mapgen;
+using region_settings_forest_mapgen_id = string_id<region_settings_forest_mapgen>;
+
+struct forest_biome_mapgen;
+using forest_biome_mapgen_id = string_id<forest_biome_mapgen>;
+
+struct region_settings_city;
+using region_settings_city_id = string_id<region_settings_city>;
+
+struct region_settings_map_extras;
+using region_settings_map_extras_id = string_id<region_settings_map_extras>;
+
+struct region_settings;
+using region_settings_id = string_id<region_settings>;
 
 struct requirement_data;
 using requirement_id = string_id<requirement_data>;
