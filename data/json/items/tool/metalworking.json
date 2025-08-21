@@ -473,7 +473,7 @@
     "use_action": [ "HEAT_SOLID_ITEMS" ],
     "flags": [ "BELT_CLIP", "ALLOWS_REMOTE_USE" ],
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
-    "melee_damage": { "bash": 9 }
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "sandpaper",
