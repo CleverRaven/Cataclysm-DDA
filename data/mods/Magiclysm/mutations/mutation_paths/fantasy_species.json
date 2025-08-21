@@ -755,7 +755,7 @@
     "ugliness": 8,
     "mixed_effect": true,
     "description": "Your face and jaws are those of a predatory lizard, with a set of sharp teeth to go with them.  They look NASTY--as do the bite wounds they can inflict--but prevent wearing mouthgear.",
-    "types": [ "MUZZLE" ],
+    "types": [ "TEETH" ],
     "prereqs": [ "SNOUT" ],
     "restricts_gear": [ "mouth" ],
     "social_modifiers": { "intimidate": 10 },
