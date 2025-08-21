@@ -54,7 +54,6 @@
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
-#include "magic.h"
 #include "magic_teleporter_list.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -211,7 +210,6 @@ static const itype_id itype_unfinished_cac2( "unfinished_cac2" );
 static const itype_id itype_unfinished_charcoal( "unfinished_charcoal" );
 static const itype_id itype_withered( "withered" );
 
-static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
 static const json_character_flag json_flag_GLIDE( "GLIDE" );
 static const json_character_flag json_flag_LEVITATION( "LEVITATION" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
@@ -770,101 +768,6 @@ void iexamine::gaspump( Character &you, const tripoint_bub_ms &examp )
         }
     }
     add_msg( m_info, _( "Out of order." ) );
-}
-
-static bool has_attunement_spell_prereqs( Character &you, const trait_id &attunement )
-{
-    // for each prereq we need to check that the player has 2 level 15 spells
-    for( const trait_id &prereq : attunement->prereqs ) {
-        int spells_known = 0;
-        for( const spell &sp : you.spells_known_of_class( prereq ) ) {
-            if( sp.get_level() >= 15 ) {
-                spells_known++;
-            }
-        }
-        if( spells_known < 2 ) {
-            return false;
-        }
-    }
-    return true;
-}
-
-void iexamine::attunement_altar( Character &you, const tripoint_bub_ms & )
-{
-    std::set<trait_id> attunements;
-    for( const mutation_branch &mut : mutation_branch::get_all() ) {
-        if( mut.flags.count( json_flag_ATTUNEMENT ) ) {
-            attunements.emplace( mut.id );
-        }
-    }
-    // remove the attunements the player does not have prereqs for
-    for( auto iter = attunements.begin(); iter != attunements.end(); ) {
-        bool has_prereq = true;
-        // the normal usage of prereqs only needs one, but attunements put all their prereqs into the same array
-        // each prereqs is required for it as well
-        for( const trait_id &prereq : ( *iter )->prereqs ) {
-            if( !you.has_trait( prereq ) ) {
-                has_prereq = false;
-                break;
-            }
-        }
-        if( has_prereq ) {
-            ++iter;
-        } else {
-            iter = attunements.erase( iter );
-        }
-    }
-    if( attunements.empty() ) {
-        // the player doesn't have at least two base classes
-        you.add_msg_if_player( _( "This altar gives you the creeps." ) );
-        return;
-    }
-    // remove the attunements the player has conflicts for
-    for( auto iter = attunements.begin(); iter != attunements.end(); ) {
-        if( !you.has_opposite_trait( *iter ) && you.mutation_ok( *iter, true, true, true ) ) {
-            ++iter;
-        } else {
-            iter = attunements.erase( iter );
-        }
-    }
-    if( attunements.empty() ) {
-        you.add_msg_if_player( _( "You've attained what you can for now." ) );
-        return;
-    }
-    for( auto iter = attunements.begin(); iter != attunements.end(); ) {
-        if( has_attunement_spell_prereqs( you, *iter ) ) {
-            ++iter;
-        } else {
-            iter = attunements.erase( iter );
-        }
-    }
-    if( attunements.empty() ) {
-        you.add_msg_if_player( _( "You feel that the altar does not deem you worthy, yet." ) );
-        return;
-    }
-    uilist attunement_list;
-    attunement_list.title = _( "Pick an Attunement to show the world your Worth." );
-    for( const trait_id &attunement : attunements ) {
-        // There's no way for you to have this mutation, so a variant is pointless
-        attunement_list.addentry( attunement->name() );
-    }
-    attunement_list.query();
-    if( attunement_list.ret == UILIST_CANCEL ) {
-        you.add_msg_if_player( _( "Maybe later." ) );
-        return;
-    }
-    auto attunement_iter = attunements.begin();
-    std::advance( attunement_iter, attunement_list.ret );
-    const trait_id &attunement = *attunement_iter;
-    // There's no way for you to have this mutation, so a variant is pointless
-    if( query_yn( string_format( _( "Are you sure you want to pick %s?  This selection is permanent." ),
-                                 attunement->name() ) ) ) {
-        you.toggle_trait( attunement );
-        // There's no way for you to have this mutation, so a variant is pointless
-        you.add_msg_if_player( m_info, you.mutation_desc( attunement ) );
-    } else {
-        you.add_msg_if_player( _( "Maybe later." ) );
-    }
 }
 
 void iexamine::translocator( Character &you, const tripoint_bub_ms &examp )
@@ -7764,7 +7667,6 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
 {
     static const std::map<std::string, iexamine_examine_function> function_map = {{
             { "none", &iexamine::none },
-            { "attunement_altar", &iexamine::attunement_altar },
             { "deployed_furniture", &iexamine::deployed_furniture },
             { "cvdmachine", &iexamine::cvdmachine },
             { "change_appearance", &iexamine::change_appearance },
