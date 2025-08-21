@@ -81,7 +81,7 @@
     "subtype": "distribution",
     "entries": [
       {
-        "group": "nether_cult_artifact",
+        "group": "amigara_items",
         "artifact": {
           "procgen_id": "cult",
           "rules": { "power_level": 1250, "max_attributes": 4, "max_negative_power": -1000, "resonant": true }
@@ -89,7 +89,7 @@
         "prob": 100
       },
       {
-        "group": "nether_cult_artifact",
+        "group": "amigara_items",
         "artifact": {
           "procgen_id": "cult",
           "rules": { "power_level": 2500, "max_attributes": 6, "max_negative_power": -1500, "resonant": true }
