@@ -106,6 +106,13 @@
   },
   {
     "type": "EXTERNAL_OPTION",
+    "name": "WOUND_CHANCE",
+    "//": "Probability to get a wound from taking damage.  0.25 means 25% to get a wound.",
+    "stype": "float",
+    "value": 0.25
+  },
+  {
+    "type": "EXTERNAL_OPTION",
     "name": "PAIN_PENALTY_MOD_STR",
     "//": "Scales how much pain decrease your stat.  0.005 means 0.5% of stat loss per one unit of pain.",
     "stype": "float",
