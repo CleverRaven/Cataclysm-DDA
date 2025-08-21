@@ -216,8 +216,9 @@ bool mission_type::test_goal_condition( struct dialogue &d ) const
     return true;
 }
 
-void mission_type::finalize()
+void mission_type::finalize_all()
 {
+    mission_type_factory.finalize();
 }
 
 void mission_type::check_consistency()

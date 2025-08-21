@@ -78,6 +78,11 @@ void climbing_aid::load_climbing_aid( const JsonObject &jo, const std::string &s
 
 void climbing_aid::finalize()
 {
+}
+
+void climbing_aid::finalize_all()
+{
+    climbing_aid_factory.finalize();
     // Build the climbing aids by condition lookup table
     climbing_aid_default_ptr = nullptr;
     climbing_lookup.clear();

@@ -642,15 +642,16 @@ void widget::finalize_inherited_fields_recursive( const widget_id &id,
     }
 }
 
-void widget::finalize()
+void widget::finalize_all()
 {
     widget_factory.finalize();
+}
 
-    for( const widget &wgt : widget::get_all() ) {
-        if( wgt._style == "sidebar" ) {
-            widget::finalize_inherited_fields_recursive( wgt.getId(), wgt._separator, wgt._padding );
-            widget::finalize_label_width_recursive( wgt.getId() );
-        }
+void widget::finalize()
+{
+    if( _style == "sidebar" ) {
+        widget::finalize_inherited_fields_recursive( getId(), _separator, _padding );
+        widget::finalize_label_width_recursive( getId() );
     }
 }
 
