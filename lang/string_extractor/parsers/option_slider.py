@@ -5,7 +5,7 @@ from ..write_text import write_text
 def parse_option_slider(json, origin):
     name = get_singular_name(json["name"])
     write_text(json["name"], origin,
-               comment="Name of an option slider", c_format=False)
+               comment="Name of an option slider")
     if "levels" in json:
         for level in json["levels"]:
             if "name" in level:

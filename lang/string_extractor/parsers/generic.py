@@ -16,7 +16,7 @@ def parse_generic(json, origin):
     if "name" in json:
         name = get_singular_name(json["name"])
         write_text(json["name"], origin, comment=comment + ["Item name"],
-                   plural=True, c_format=False)
+                   plural=True)
     elif "id" in json:
         name = json["id"]
 
@@ -30,7 +30,7 @@ def parse_generic(json, origin):
             parse_magazine(json, origin)
 
     if "description" in json:
-        write_text(json["description"], origin, c_format=False,
+        write_text(json["description"], origin,
                    comment=comment + ["Description of \"{}\"".format(name)])
 
     if "use_action" in json:
