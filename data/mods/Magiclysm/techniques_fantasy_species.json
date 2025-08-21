@@ -85,7 +85,7 @@
     "melee_allowed": true,
     "messages": [ "You viciously tear into %s", "<npcname> viciously tears %s" ],
     "unarmed_allowed": true,
-    "weighting": -2,
+    "weighting": 1,
     "reach_ok": false,
     "crit_tec": true,
     "attack_vectors": [ "vector_bite" ],
