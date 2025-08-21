@@ -252,7 +252,7 @@
     "copy-from": "mon_vampire_generic",
     "name": { "str_sp": "moroi" },
     "description": "This creature looks more aware than most of the ferals you have seen and in fact you might even suspect them of being normal if it weren't for the dried blood caked around their mouth and down the front of their clothes.  The light glints against what look to be sharp fangs in their mouth.  Their skin has a waxen appearance and their muscles bulge oddly.",
-    "speed": 80,
+    "hp": 145,
     "melee_skill": 4,
     "melee_dice": 2,
     "melee_dice_sides": 4,
@@ -337,6 +337,18 @@
           "cooldown": 3,
           "min_mul": 1,
           "max_mul": 2
+        },
+        {
+          "type": "spell",
+          "spell_data": { "id": "mon_vampire_fear_gaze", "min_level": 1 },
+          "cooldown": 20,
+          "condition": {
+            "and": [
+              { "or": [ "npc_is_character", { "npc_has_species": "FERAL" } ] },
+              { "not": { "npc_has_effect": "effect_vampire_fear_gazed" } }
+            ]
+          },
+          "monster_message": "%1$s bares their fangs and hisses at %3$s!"
         }
       ]
     },
