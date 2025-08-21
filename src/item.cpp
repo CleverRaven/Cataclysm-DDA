@@ -7480,7 +7480,7 @@ units::volume item::corpse_volume( const mtype *corpse ) const
     if( corpse_volume > 0_ml ) {
         return corpse_volume;
     }
-    debugmsg( "invalid monster volume for corpse" );
+    debugmsg( "invalid monster volume for corpse of %s", corpse->id.str() );
     return 0_ml;
 }
 
