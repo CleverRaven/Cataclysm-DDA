@@ -969,8 +969,6 @@ endif
 THIRD_PARTY_SOURCES := $(wildcard $(SRC_DIR)/third-party/flatbuffers/*.cpp)
 THIRD_PARTY_C_SOURCES := $(wildcard $(SRC_DIR)/third-party/zstd/common/*.c $(SRC_DIR)/third-party/zstd/compress/*.c $(SRC_DIR)/third-party/zstd/decompress/*.c)
 HEADERS := $(wildcard $(SRC_DIR)/*.h)
-OBJECT_CREATOR_SOURCES := $(wildcard $object_creator/*.cpp)
-OBJECT_CREATOR_HEADERS := $(wildcard $object_creator/*.h)
 TESTSRC := $(wildcard tests/*.cpp)
 TESTHDR := $(wildcard tests/*.h)
 JSON_FORMATTER_SOURCES := $(wildcard tools/format/*.cpp) src/wcwidth.cpp src/json.cpp
@@ -986,8 +984,6 @@ ASTYLE_SOURCES := $(sort \
   src/cldr/imgui-glyph-ranges.cpp \
   $(SOURCES) \
   $(HEADERS) \
-  $(OBJECT_CREATOR_SOURCES) \
-  $(OBJECT_CREATOR_HEADERS) \
   $(TESTSRC) \
   $(TESTHDR) \
   $(JSON_FORMATTER_SOURCES) \
@@ -1178,7 +1174,7 @@ $(CHKJSON_BIN): $(CHKJSON_SOURCES)
 json-check: $(CHKJSON_BIN)
 	./$(CHKJSON_BIN)
 
-clean: clean-tests clean-object_creator clean-pch clean-lang
+clean: clean-tests clean-pch clean-lang
 	rm -rf *$(TARGET_NAME) *$(TILES_TARGET_NAME)
 	rm -rf *$(TILES_TARGET_NAME).exe *$(TARGET_NAME).exe *$(TARGET_NAME).a
 	rm -rf *obj *objwin
@@ -1450,15 +1446,6 @@ check: version $(BUILD_PREFIX)cataclysm.a $(LOCALIZE_TEST_DEPS)
 clean-tests:
 	$(MAKE) -C tests clean
 
-object_creator: version $(BUILD_PREFIX)cataclysm.a
-	$(MAKE) -C object_creator
-
-object_creator.exe: version $(BUILD_PREFIX)cataclysm.a
-	$(MAKE) -C object_creator object_creator.exe
-
-clean-object_creator:
-	$(MAKE) -C object_creator clean
-
 clean-pch:
 	rm -f pch/*pch.hpp.gch
 	rm -f pch/*pch.hpp.pch
@@ -1468,6 +1455,6 @@ clean-pch:
 clean-lang:
 	$(MAKE) -C lang clean
 
-.PHONY: tests check ctags etags clean-tests clean-object_creator clean-pch clean-lang install lint
+.PHONY: tests check ctags etags clean-tests clean-pch clean-lang install lint
 
 -include ${OBJS:.o=.d}
