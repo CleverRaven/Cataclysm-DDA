@@ -20,6 +20,53 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 
+bool game::grabbed_veh_move_helper( const tripoint_rel_ms &dp, bool stairs_move )
+{
+    if( stairs_move ) {
+        return grabbed_veh_move_stairs( dp );
+    }
+    return grabbed_veh_move( dp );
+}
+
+bool game::grabbed_veh_move_stairs( const tripoint_rel_ms &dp )
+{
+    map &here = get_map();
+    const optional_vpart_position grabbed_vehicle_vp = here.veh_at( u.pos_bub( here ) + u.grab_point );
+    if( !grabbed_vehicle_vp ) {
+        return false;
+    }
+    vehicle *grabbed_vehicle = &grabbed_vehicle_vp->vehicle();
+    if( !grabbed_vehicle ) {
+        return false;
+    }
+
+    /*
+    if ( grabbed_vehicle->width > 1 ) { // can't drag vehicles wider than 1 in both dimensions up/down stairs
+        return false;
+    }
+    */
+
+    grabbed_vehicle->invalidate_mass();
+    const int max_str_req = grabbed_vehicle->total_mass( here ) / 10_kilogram;
+    int str = get_player_character().get_arm_str();
+    if( str < max_str_req ) {
+        get_avatar().grab( object_type::NONE );
+        return false;
+    }
+
+    // Needs to adjust dp to account for vehicle size. e.g. we don't want to put a 1x3 bike right next to us, it'll clip through us!
+    // Also we need to change rotation of the vehicle so it always faces away from our current pos. (allowing a degree of choice in how you push/pull something up stairs
+    // But we can't turn it while down there, and we can't turn it after putting it up? (I think??)
+    here.displace_vehicle( *grabbed_vehicle, dp );
+    here.rebuild_vehicle_level_caches();
+
+    // FIXME? Update our grab position instead?
+    get_avatar().grab( object_type::NONE );
+    add_msg( _( "You finish dragging the %s past the stairs.", grabbed_vehicle->disp_name() ) );
+
+    return true;
+}
+
 bool game::grabbed_veh_move( const tripoint_rel_ms &dp )
 {
     map &here = get_map();

@@ -9905,7 +9905,7 @@ bool game::grabbed_furn_move( const tripoint_rel_ms &dp )
     return false;
 }
 
-bool game::grabbed_move( const tripoint_rel_ms &dp, const bool via_ramp )
+bool game::grabbed_move( const tripoint_rel_ms &dp, const bool via_ramp, bool stairs_move )
 {
     if( u.get_grab_type() == object_type::NONE ) {
         return false;
@@ -9913,7 +9913,7 @@ bool game::grabbed_move( const tripoint_rel_ms &dp, const bool via_ramp )
 
     // vehicle: pulling, pushing, or moving around the grabbed object.
     if( u.get_grab_type() == object_type::VEHICLE ) {
-        return grabbed_veh_move( dp );
+        return grabbed_veh_move_helper( dp, stairs_move );
     }
 
     if( u.get_grab_type() == object_type::FURNITURE ) {
@@ -10600,7 +10600,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
             u.grab( object_type::NONE );
         } else { // Try to vertically move whatever we're grabbing.
             const tripoint_rel_ms new_rel = pos - old_pos - u.grab_point;
-            grabbed_move( new_rel + *dir, false );
+            grabbed_move( new_rel + *dir, false, true );
         }
     }
 
