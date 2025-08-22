@@ -520,5 +520,12 @@
     "subtypes": [ "TOOL" ],
     "name": { "str": "lathe" },
     "charges_per_use": 25
+  },
+  {
+    "id": "fake_deep_fryer",
+    "copy-from": "fake_appliance_tool",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "deep fryer" }
   }
 ]

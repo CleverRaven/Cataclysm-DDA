@@ -1117,5 +1117,29 @@
       { "item": "chunk_cast_iron", "count": [ 2, 4 ] },
       { "item": "lump_cast_iron", "count": [ 1, 2 ] }
     ]
+  },
+  {
+    "id": "ap_deep_fryer",
+    "type": "vehicle_part",
+    "categories": [ "utility" ],
+    "name": { "str": "deep fryer" },
+    "description": "An industrial deep fryer, for frying huge batches of food at once.",
+    "looks_like": "f_oven",
+    "variants": [ { "symbols": "h", "symbols_broken": "#" } ],
+    "broken_color": "dark_gray_white",
+    "flags": [ "OBSTACLE", "APPLIANCE" ],
+    "pseudo_tools": [ { "id": "fake_deep_fryer" } ],
+    "item": "deep_fryer",
+    "damage_modifier": 10,
+    "damage_reduction": { "all": 20 },
+    "durability": 60,
+    "breaks_into": [
+      { "item": "sheet_metal", "count": [ 1, 2 ] },
+      { "item": "sheet_metal_small", "count": [ 4, 6 ] },
+      { "item": "lc_steel_chunk", "count": [ 0, 2 ] },
+      { "item": "scrap", "count": [ 0, 3 ] },
+      { "item": "element", "count": [ 1, 2 ] },
+      { "item": "cable", "charges": [ 1, 2 ] }
+    ]
   }
 ]
