@@ -151,7 +151,8 @@
       "robofac",
       "passive_machine",
       "nether_player_hate",
-      "robot"
+      "robot",
+      "wonder_forge"
     ],
     "by_mood": [ "nether", "dragon_black" ]
   }
