@@ -2929,7 +2929,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             if( !here.is_outside( player_character.pos_bub() ) ) {
                 uistate.overmap_visible_weather = false;
             }
-            if( !get_timed_events().get( timed_event_type::OVERRIDE_PLACE ) ) {
+            if( you_know_where_you_are() ) {
                 ui::omap::display();
             } else {
                 add_msg( m_info, _( "You have no idea where you are." ) );
