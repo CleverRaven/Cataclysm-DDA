@@ -67,6 +67,11 @@ void construction_groups::load( const JsonObject &jo, const std::string &src )
     all_construction_groups.load( jo, src );
 }
 
+void construction_groups::finalize()
+{
+    all_construction_groups.finalize();
+}
+
 void construction_groups::reset()
 {
     all_construction_groups.reset();

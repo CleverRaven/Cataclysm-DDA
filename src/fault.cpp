@@ -81,11 +81,6 @@ void faults::finalize()
     fault_factory.finalize();
     fault_fixes_factory.finalize();
 
-    // actualize the requirements
-    for( const fault_fix &const_fix : fault_fixes_factory.get_all() ) {
-        fault_fix &fix = const_cast<fault_fix &>( const_fix );
-        fix.finalize();
-    }
     for( const fault &f : fault_factory.get_all() ) {
         if( !f.type().empty() ) {
             faults_by_type[f.type()].emplace_back( f.id.str() );

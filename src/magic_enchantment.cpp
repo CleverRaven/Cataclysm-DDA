@@ -305,6 +305,11 @@ void enchantment::load_enchantment( const JsonObject &jo, const std::string &src
     spell_factory.load( jo, src );
 }
 
+void enchantment::finalize_all()
+{
+    spell_factory.finalize();
+}
+
 void enchantment::reset()
 {
     spell_factory.reset();

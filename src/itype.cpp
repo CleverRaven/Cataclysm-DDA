@@ -505,5 +505,8 @@ void item_melee_damage::deserialize( const JsonObject &jo )
 {
     damage_map = load_damage_map( jo );
     //we can do this because items are always loaded after damage types
+    // ^this is not true, objects are loaded as they are encountered, and in mod load order
+    // Being loaded in mod load order particularly is the risk here!
+    // FIXME: call finalize in the right place
     finalize();
 }

@@ -147,6 +147,11 @@ void limb_score::load_limb_scores( const JsonObject &jo, const std::string &src 
     limb_score_factory.load( jo, src );
 }
 
+void limb_score::finalize_all()
+{
+    limb_score_factory.finalize();
+}
+
 void limb_score::reset()
 {
     limb_score_factory.reset();
