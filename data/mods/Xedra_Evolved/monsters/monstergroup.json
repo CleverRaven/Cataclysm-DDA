@@ -126,7 +126,8 @@
     "monsters": [
       { "monster": "mon_vampire_moroi_fast", "weight": 10 },
       { "monster": "mon_vampire_moroi_tough", "weight": 25 },
-      { "monster": "mon_vampire_moroi_animalistic", "weight": 15 }
+      { "monster": "mon_vampire_moroi_animalistic", "weight": 15 },
+      { "monster": "mon_vampire_moroi_stealthy", "weight": 15 }
     ]
   },
   {

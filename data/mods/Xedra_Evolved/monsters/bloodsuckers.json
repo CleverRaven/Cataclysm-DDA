@@ -189,7 +189,7 @@
     "name": { "str_sp": "moroi" },
     "description": "This creature looks more aware than most of the ferals you have seen and in fact you might even suspect them of being normal if it weren't for the dried blood caked around their mouth and down the front of their clothes.  The light glints against what look to be sharp fangs in their mouth.  They move with inhuman speed and fluidity.",
     "speed": 95,
-    "melee_skill": 3,
+    "melee_skill": 4,
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
@@ -211,12 +211,12 @@
           "damage_max_instance": [ { "damage_type": "bash", "amount": 0 } ],
           "self_effects_always": [ { "id": "effect_vampire_monster_speed", "duration": [ 25, 45 ] } ],
           "condition": { "not": { "u_has_effect": "effect_vampire_monster_speed" } },
-          "hit_dmg_u": "",
-          "hit_dmg_npc": "",
+          "hit_dmg_u": "%1$s moves with inhuman speed.",
+          "hit_dmg_npc": "%1$s moves with inhuman speed.",
           "miss_msg_u": "",
           "miss_msg_npc": "",
-          "no_dmg_msg_u": "",
-          "no_dmg_msg_npc": "",
+          "no_dmg_msg_u": "%1$s moves with inhuman speed.",
+          "no_dmg_msg_npc": "%1$s moves with inhuman speed.",
           "dodgeable": false,
           "uncanny_dodgeable": false,
           "blockable": false
@@ -231,12 +231,12 @@
           "damage_max_instance": [ { "damage_type": "bash", "amount": 0 } ],
           "self_effects_always": [ { "id": "effect_vampire_monster_agility", "duration": [ 25, 45 ] } ],
           "condition": { "not": { "u_has_effect": "effect_vampire_monster_agility" } },
-          "hit_dmg_u": "",
-          "hit_dmg_npc": "",
+          "hit_dmg_u": "%1$s begins moving with inhuman agility.",
+          "hit_dmg_npc": "%1$s begins moving with inhuman agility.",
           "miss_msg_u": "",
           "miss_msg_npc": "",
-          "no_dmg_msg_u": "",
-          "no_dmg_msg_npc": "",
+          "no_dmg_msg_u": "%1$s begins moving with inhuman agility.",
+          "no_dmg_msg_npc": "%1$s begins moving with inhuman agility.",
           "dodgeable": false,
           "uncanny_dodgeable": false,
           "blockable": false
@@ -268,6 +268,26 @@
         {
           "type": "monster_attack",
           "attack_type": "melee",
+          "id": "moroi_vampire_vigor_mortis_buff",
+          "cooldown": 30,
+          "move_cost": 10,
+          "range": 10,
+          "damage_max_instance": [ { "damage_type": "bash", "amount": 0 } ],
+          "self_effects_always": [ { "id": "effect_vampire_monster_strength", "duration": [ 25, 45 ] } ],
+          "condition": { "not": { "u_has_effect": "effect_vampire_monster_strength" } },
+          "hit_dmg_u": "%1$s flexes their fingers with an audible crack.",
+          "hit_dmg_npc": "%1$s flexes their fingers with an audible crack.",
+          "miss_msg_u": "",
+          "miss_msg_npc": "",
+          "no_dmg_msg_u": "%1$s flexes their fingers with an audible crack.",
+          "no_dmg_msg_npc": "%1$s flexes their fingers with an audible crack.",
+          "dodgeable": false,
+          "uncanny_dodgeable": false,
+          "blockable": false
+        },
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
           "id": "moroi_vampire_sanguine_resilience_buff",
           "cooldown": 35,
           "move_cost": 10,
@@ -275,15 +295,28 @@
           "damage_max_instance": [ { "damage_type": "bash", "amount": 0 } ],
           "self_effects_always": [ { "id": "effect_vampire_monster_resilience", "duration": [ 25, 45 ] } ],
           "condition": { "not": { "u_has_effect": "effect_vampire_monster_resilience" } },
-          "hit_dmg_u": "",
-          "hit_dmg_npc": "",
+          "hit_dmg_u": "%1$s' s skin takes on a waxen sheen.",
+          "hit_dmg_npc": "%1$s' s skin takes on a waxen sheen.",
           "miss_msg_u": "",
           "miss_msg_npc": "",
-          "no_dmg_msg_u": "",
-          "no_dmg_msg_npc": "",
+          "no_dmg_msg_u": "%1$s's skin takes on a waxen sheen.",
+          "no_dmg_msg_npc": "%1$s' s skin takes on a waxen sheen.",
           "dodgeable": false,
           "uncanny_dodgeable": false,
           "blockable": false
+        },
+        {
+          "id": "smash",
+          "move_cost": 130,
+          "cooldown": 8,
+          "min_mul": 0.8,
+          "throw_strength": 40,
+          "condition": { "u_has_effect": "effect_vampire_monster_strength" }
+        },
+        {
+          "id": "bio_op_takedown",
+          "cooldown": 10,
+          "condition": { "u_has_effect": "effect_vampire_monster_strength" }
         }
       ]
     },
@@ -324,8 +357,8 @@
           "hit_dmg_npc": "",
           "miss_msg_u": "",
           "miss_msg_npc": "",
-          "no_dmg_msg_u": "",
-          "no_dmg_msg_npc": "",
+          "no_dmg_msg_u": "%1$s' s skin takes on a waxen sheen.",
+          "no_dmg_msg_npc": "%1$s' s skin takes on a waxen sheen.",
           "dodgeable": false,
           "uncanny_dodgeable": false,
           "blockable": false
@@ -351,6 +384,52 @@
           "monster_message": "%1$s bares their fangs and hisses at %3$s!"
         }
       ]
+    },
+    "death_drops": "default_moroi_death_drops"
+  },
+  {
+    "id": "mon_vampire_moroi_stealthy",
+    "looks_like": "mon_vampire_moroi",
+    "type": "MONSTER",
+    "copy-from": "mon_vampire_generic",
+    "name": { "str_sp": "moroi" },
+    "description": "This creature looks more aware than most of the ferals you have seen and in fact you might even suspect them of being normal if it weren't for the dried blood caked around their mouth and down the front of their clothes.  You have to stare straight at them for your eyes to register that they're there.",
+    "speed": 80,
+    "melee_skill": 4,
+    "melee_dice": 2,
+    "melee_dice_sides": 4,
+    "vision_night": 25,
+    "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
+    "extend": {
+      "special_attacks": [
+        {
+          "id": "bite_humanoid",
+          "cooldown": 10,
+          "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.2 } ],
+          "eoc": [ "EOC_VAMPIRE_DRINK_BLOOD" ]
+        },
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "moroi_vampire_sanguine_agility_buff",
+          "cooldown": 45,
+          "move_cost": 10,
+          "range": 10,
+          "damage_max_instance": [ { "damage_type": "bash", "amount": 0 } ],
+          "self_effects_always": [ { "id": "effect_vampire_monster_agility", "duration": [ 25, 45 ] } ],
+          "condition": { "not": { "u_has_effect": "effect_vampire_monster_agility" } },
+          "hit_dmg_u": "%1$s begins moving with inhuman agility.",
+          "hit_dmg_npc": "%1$s begins moving with inhuman agility.",
+          "miss_msg_u": "",
+          "miss_msg_npc": "",
+          "no_dmg_msg_u": "%1$s begins moving with inhuman agility.",
+          "no_dmg_msg_npc": "%1$s begins moving with inhuman agility.",
+          "dodgeable": false,
+          "uncanny_dodgeable": false,
+          "blockable": false
+        }
+      ],
+      "flags": [ "NIGHT_INVISIBILITY", "SILENTMOVES" ]
     },
     "death_drops": "default_moroi_death_drops"
   },
