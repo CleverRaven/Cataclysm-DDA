@@ -1193,6 +1193,7 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```PATH_AVOID_FALL``` This monster will path around cliffs instead of off of them.
 - ```PATH_AVOID_FIRE``` This monster will path around heat-related dangers instead of through them.
 - ```PAY_BOT``` Creature can be turned into a pet for a limited time in exchange of e-money.
+- ```PERMANENT_INVISIBILITY` The monster is invisible under all circumstances and requires preternatural means to detect.  Use with caution
 - ```PET_HARNESSABLE``` Creature can be attached to a harness.
 - ```PET_MOUNTABLE``` Creature can be ridden or attached to a harness.
 - ```PET_WONT_FOLLOW``` This monster won't follow the player automatically when tamed.

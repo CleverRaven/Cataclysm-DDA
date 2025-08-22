@@ -133,6 +133,7 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_PATH_AVOID_FALL,
             mon_flag_PATH_AVOID_FIRE,
             mon_flag_PAY_BOT,
+            mon_flag_PERMANENT_INVISIBILITY,
             mon_flag_PET_HARNESSABLE,
             mon_flag_PET_MOUNTABLE,
             mon_flag_PET_WONT_FOLLOW,
@@ -264,6 +265,7 @@ void set_mon_flag_ids()
     mon_flag_PATH_AVOID_FALL = mon_flag_id( "PATH_AVOID_FALL" );
     mon_flag_PATH_AVOID_FIRE = mon_flag_id( "PATH_AVOID_FIRE" );
     mon_flag_PAY_BOT = mon_flag_id( "PAY_BOT" );
+    mon_flag_PERMANENT_INVISIBILITY = mon_flag_id( "PERMANENT_INVISIBILITY" );
     mon_flag_PET_HARNESSABLE = mon_flag_id( "PET_HARNESSABLE" );
     mon_flag_PET_MOUNTABLE = mon_flag_id( "PET_MOUNTABLE" );
     mon_flag_PET_WONT_FOLLOW = mon_flag_id( "PET_WONT_FOLLOW" );

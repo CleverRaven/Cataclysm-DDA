@@ -155,6 +155,11 @@
     "//": "Monster can see creatures even when they're invisible"
   },
   {
+    "id": "PERMANENT_INVISIBILITY",
+    "type": "monster_flag",
+    "//": "The monster is PERMANENTLY invisible.  Be careful about using this one"
+  },
+  {
     "id": "ELECTRIC",
     "type": "monster_flag",
     "//": "Shocks unarmed attackers"

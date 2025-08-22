@@ -135,5 +135,22 @@
     "name": "herbivore",
     "copy-from": "herbivore",
     "friendly": [ "forest_spirit_faction", "earth_spirit_faction" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "invisible_stalker",
+    "neutral": [
+      "small_animal",
+      "zombie",
+      "mi-go",
+      "fish",
+      "bot",
+      "aquatic_predator",
+      "triffid",
+      "robofac",
+      "passive_machine",
+      "nether_player_hate"
+    ],
+    "by_mood": [ "nether", "dragon_black" ]
   }
 ]
