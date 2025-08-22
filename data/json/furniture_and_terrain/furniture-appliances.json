@@ -580,7 +580,7 @@
     "type": "furniture",
     "id": "f_deep_fryer",
     "name": "deep fryer",
-    "description": "An industrial deep fryer, for frying huge batches of food at once. You could take this down and use it for your own purposes if you wanted.",
+    "description": "An industrial deep fryer, for frying huge batches of food at once.  You could take this down and use it for your own purposes if you wanted.",
     "looks_like": "f_oven",
     "symbol": "h",
     "color": "light_gray",
