@@ -28,10 +28,15 @@ bool game::grabbed_veh_move_helper( const tripoint_rel_ms &dp, bool stairs_move 
     return grabbed_veh_move( dp );
 }
 
+#pragma optimize( "", off )
+
 bool game::grabbed_veh_move_stairs( const tripoint_rel_ms &dp )
 {
     map &here = get_map();
-    const optional_vpart_position grabbed_vehicle_vp = here.veh_at( u.pos_bub( here ) + u.grab_point );
+    avatar &you = get_avatar();
+    tripoint_rel_ms new_dp = dp; // FIXME. We should be passed a copy not a reference.
+    const optional_vpart_position grabbed_vehicle_vp = here.veh_at( you.pos_bub(
+                here ) + you.grab_point );
     if( !grabbed_vehicle_vp ) {
         return false;
     }
@@ -40,32 +45,95 @@ bool game::grabbed_veh_move_stairs( const tripoint_rel_ms &dp )
         return false;
     }
 
-    /*
-    if ( grabbed_vehicle->width > 1 ) { // can't drag vehicles wider than 1 in both dimensions up/down stairs
-        return false;
-    }
-    */
-
     grabbed_vehicle->invalidate_mass();
     const int max_str_req = grabbed_vehicle->total_mass( here ) / 10_kilogram;
-    int str = get_player_character().get_arm_str();
-    if( str < max_str_req ) {
-        get_avatar().grab( object_type::NONE );
+    int str = you.get_arm_str();
+    const bool going_up_stairs = dp.z() > 0;
+    if( str < max_str_req && going_up_stairs ) {
+        you.grab( object_type::NONE );
+        add_msg( _( "You fail to lift the %s up the stairs." ), grabbed_vehicle->disp_name() );
         return false;
     }
+
+    // We need to adjust dp so that the vehicle is fully placed away from us, but also we need to check the tiles.
+    // So first let's see what area our vehicle even covers...
+    std::set<point_rel_ms> part_positions;
+    for( const vpart_reference &some_part : grabbed_vehicle->get_all_parts() ) {
+        part_positions.insert( some_part.mount_pos() );
+    }
+
+    // Dumb iteration for checking width. I feel like we've got better code for this...
+    bool width_greater_than_0 = false;
+    bool length_greater_than_0 = false;
+    // horrible. don't do this.
+    point maximums = {0, 0};
+    point minimums = {0, 0};
+
+    for( const point_rel_ms &checked_pos : part_positions ) {
+        int x_position = checked_pos.x();
+        int y_position = checked_pos.y();
+        maximums.x = std::max( maximums.x, x_position );
+        maximums.y = std::max( maximums.y, y_position );
+        minimums.x = std::min( minimums.x, x_position );
+        minimums.y = std::min( minimums.y, y_position );
+
+        if( x_position != 0 ) {
+            width_greater_than_0 = true;
+        }
+        if( y_position != 0 ) {
+            length_greater_than_0 = true;
+        }
+        if( width_greater_than_0 && length_greater_than_0 ) {
+            you.grab( object_type::NONE );
+            add_msg( _( "The %s is too wide to get through the stairs." ), grabbed_vehicle->disp_name() );
+            return false;
+        }
+    }
+
+    // double horrible. help, I am being written by an incompetent. You're not supposed to stuff x values into the y value!!
+    const point x_bounds = {minimums.x, maximums.x};
+    const point y_bounds = {minimums.y, maximums.y};
+    // Let's get safe: Blow the game the hell up if we've put the wrong value somewhere that matters.
+    cata_assert( maximums.x >= 0 && maximums.y >= 0 && x_bounds.y >= 0 && y_bounds.y >= 0 );
+    cata_assert( minimums.x <= 0 && minimums.y <= 0 && x_bounds.x <= 0 && y_bounds.x <= 0 );
+
+    // I **think** we can just use y for moving dp? since we're going to always orientate the vehicle facing away from the player,
+    // width will never touch us and never need us to move the center point.
+    // In fact, we can just use the minimum value. The maximum values will stick out, but can't touch us (by definition)
+    if( y_bounds.x < 0 ) {
+        point_rel_ms diff_from_player_pos = dp.xy() - you.grab_point.xy();
+        if( diff_from_player_pos.x() > 0 ) {
+            diff_from_player_pos.x() = diff_from_player_pos.x() + std::abs( y_bounds.x );
+        } else if( diff_from_player_pos.x() < 0 ) {
+            diff_from_player_pos.x() = diff_from_player_pos.x() - std::abs( y_bounds.x );
+        } else if( diff_from_player_pos.y() > 0 ) {
+            diff_from_player_pos.y() = diff_from_player_pos.y() + std::abs( y_bounds.x );
+        } else if( diff_from_player_pos.y() < 0 ) {
+            diff_from_player_pos.y() = diff_from_player_pos.y() - std::abs( y_bounds.x );
+        }
+
+        new_dp = dp + diff_from_player_pos;
+    }
+
+
+
+
 
     // Needs to adjust dp to account for vehicle size. e.g. we don't want to put a 1x3 bike right next to us, it'll clip through us!
     // Also we need to change rotation of the vehicle so it always faces away from our current pos. (allowing a degree of choice in how you push/pull something up stairs
     // But we can't turn it while down there, and we can't turn it after putting it up? (I think??)
-    here.displace_vehicle( *grabbed_vehicle, dp );
+    here.displace_vehicle( *grabbed_vehicle, new_dp );
+    grabbed_vehicle->face; // set direction. TODO: Figure out the direction :^)
     here.rebuild_vehicle_level_caches();
 
     // FIXME? Update our grab position instead?
-    get_avatar().grab( object_type::NONE );
-    add_msg( _( "You finish dragging the %s past the stairs.", grabbed_vehicle->disp_name() ) );
+    you.grab( object_type::NONE );
+    add_msg( _( "You finish dragging the %s past the stairs." ), grabbed_vehicle->disp_name() );
 
     return true;
 }
+
+#pragma optimize( "", off )
 
 bool game::grabbed_veh_move( const tripoint_rel_ms &dp )
 {
