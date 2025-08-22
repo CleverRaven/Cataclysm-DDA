@@ -654,6 +654,8 @@
     "description": "Lizardfolk are taller and stronger than humans but not much thicker and are surprisingly fast for their size (+1 STR, +1 DEX).",
     "category": [ "SPECIES_LIZARDFOLK" ],
     "enchantments": [
+      { "condition": { "u_has_trait": "SLIT_NOSTRILS" }, "encumbrance_modifier": [ { "part": "mouth", "add": -10 } ] },
+      { "condition": { "u_has_trait": "SCALES" }, "encumbrance_modifier": [ { "part": "mouth", "add": -1 } ] },
       {
         "values": [
           { "value": "MOVECOST_SWIM_MOD", "multiply": -0.1 },
@@ -755,7 +757,7 @@
     "ugliness": 8,
     "mixed_effect": true,
     "description": "Your face and jaws are those of a predatory lizard, with a set of sharp teeth to go with them.  They look NASTY--as do the bite wounds they can inflict--but prevent wearing mouthgear.",
-    "types": [ "MUZZLE" ],
+    "types": [ "TEETH" ],
     "prereqs": [ "SNOUT" ],
     "restricts_gear": [ "mouth" ],
     "social_modifiers": { "intimidate": 10 },
