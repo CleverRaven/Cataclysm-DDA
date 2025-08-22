@@ -584,6 +584,7 @@
     "looks_like": "f_oven",
     "symbol": "h",
     "color": "light_gray",
+    "rotates_to": "INDOORFLOOR",
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 4,
