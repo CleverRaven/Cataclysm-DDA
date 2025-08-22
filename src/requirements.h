@@ -53,6 +53,7 @@ struct quality {
 
     static void reset();
     static void load_static( const JsonObject &jo, const std::string &src );
+    static void finalize_all();
 };
 
 struct component {

@@ -288,6 +288,11 @@ void scent_type::load_scent_type( const JsonObject &jo, const std::string &src )
     scent_factory.load( jo, src );
 }
 
+void scent_type::finalize_all()
+{
+    scent_factory.finalize();
+}
+
 void scent_type::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "receptive_species", receptive_species );

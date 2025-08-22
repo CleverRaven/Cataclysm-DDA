@@ -92,10 +92,12 @@ class scenario
 
         // clear scenario map, every scenario pointer becomes invalid!
         static void reset();
-        /** calls @ref check_definition for each scenario */
-        static void finalize();
+
+        static void finalize_all();
+        static void check_all();
+
         /** Check that item definitions are valid */
-        void check_definition() const;
+        void check() const;
 
         const string_id<scenario> &ident() const;
         std::string gender_appropriate_name( bool male ) const;

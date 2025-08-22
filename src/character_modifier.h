@@ -25,6 +25,7 @@ struct character_modifier {
         };
 
         static void load_character_modifiers( const JsonObject &jo, const std::string &src );
+        static void finalize_all();
         static void reset();
         void load( const JsonObject &jo, std::string_view src );
         static const std::vector<character_modifier> &get_all();

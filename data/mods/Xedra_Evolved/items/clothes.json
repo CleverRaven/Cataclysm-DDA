@@ -178,7 +178,8 @@
     "proportional": { "weight": 0.6666, "price": 2 },
     "color": "white",
     "material": [ "fae_cotton" ],
-    "armor": [ { "encumbrance": 5, "coverage": 85, "covers": [ "torso", "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": 5, "coverage": 85, "covers": [ "torso", "leg_l", "leg_r" ] } ],
+    "variants": [  ]
   },
   {
     "id": "gown_gossamer",
@@ -190,7 +191,8 @@
     "proportional": { "weight": 0.6666, "price": 2 },
     "color": "white",
     "material": [ "fae_cotton" ],
-    "armor": [ { "encumbrance": 9, "coverage": 75, "covers": [ "torso", "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": 9, "coverage": 75, "covers": [ "torso", "leg_l", "leg_r" ] } ],
+    "variants": [  ]
   },
   {
     "id": "cloak_gossamer",

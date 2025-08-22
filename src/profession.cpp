@@ -158,6 +158,11 @@ void profession::load_profession( const JsonObject &jo, const std::string &src )
     all_profs.load( jo, src );
 }
 
+void profession::finalize_all()
+{
+    all_profs.finalize();
+}
+
 class skilllevel_reader : public generic_typed_reader<skilllevel_reader>
 {
     public:

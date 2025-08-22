@@ -637,12 +637,6 @@ void vehicles::parts::finalize()
     // hide the generic turret prototype
     vpart_info &vpi_turret_generic = const_cast<vpart_info &>( *vpart_turret_generic );
     vpi_turret_generic.set_flag( "NO_INSTALL_HIDDEN" );
-
-    for( const vpart_info &const_vpi : vehicles::parts::get_all() ) {
-        // const_cast hack until/if generic factory supports finalize
-        vpart_info &vpi = const_cast<vpart_info &>( const_vpi );
-        vpi.finalize();
-    }
 }
 
 void vpart_info::finalize()
