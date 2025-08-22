@@ -39,7 +39,8 @@
   },
   {
     "type": "MONSTER_FACTION",
-    "name": "robot"
+    "name": "robot",
+    "neutral": [ "aerial_assassin" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -138,7 +139,7 @@
   },
   {
     "type": "MONSTER_FACTION",
-    "name": "invisible_stalker",
+    "name": "aerial_assassin",
     "neutral": [
       "small_animal",
       "zombie",
@@ -149,7 +150,8 @@
       "triffid",
       "robofac",
       "passive_machine",
-      "nether_player_hate"
+      "nether_player_hate",
+      "robot"
     ],
     "by_mood": [ "nether", "dragon_black" ]
   }
