@@ -100,9 +100,9 @@
     "armor": { "bash": 60, "cut": 72, "acid": 18, "heat": 8, "bullet": 50, "psionic": 14 }
   },
   {
-    "id": "mon_air_lurker",
+    "id": "mon_aerial_assassin",
     "type": "MONSTER",
-    "name": { "str": "ephemeral assassin" },
+    "name": { "str": "aerial assassin" },
     "description": "A puff of wind, barely visible.  Only a few eddies in the air indicate that there is anything here at all.",
     "default_faction": "invisible_stalker",
     "species": [ "WIND_SPIRIT" ],
