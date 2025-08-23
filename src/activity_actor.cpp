@@ -4526,7 +4526,7 @@ bool workout_activity_actor::query_keep_training( player_activity &act, Characte
         act.moves_left = act.moves_total;
         return true;
     }
-    int length;
+    int length = 0;
     uilist workout_query;
     workout_query.text = _( "You have finished your training cycle, keep training?" );
     workout_query.addentry( 1, true, 'S', _( "Stop training." ) );

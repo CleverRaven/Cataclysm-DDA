@@ -11472,7 +11472,7 @@ bool Character::has_weapon() const
 int Character::get_lowest_hp() const
 {
     // Set lowest_hp to an arbitrarily large number.
-    int lowest_hp = 999;
+    int lowest_hp = INT_MAX;
     for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
         const int cur_hp = elem.second.get_hp_cur();
         if( cur_hp < lowest_hp ) {
@@ -11480,6 +11480,19 @@ int Character::get_lowest_hp() const
         }
     }
     return lowest_hp;
+}
+
+int Character::get_highest_hp() const
+{
+    // Set lowest_hp to an arbitrarily large number.
+    int highest_hp = INT_MIN;
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+        const int cur_hp = elem.second.get_hp_cur();
+        if( cur_hp > highest_hp ) {
+            highest_hp = cur_hp;
+        }
+    }
+    return highest_hp;
 }
 
 Creature::Attitude Character::attitude_to( const Creature &other ) const
