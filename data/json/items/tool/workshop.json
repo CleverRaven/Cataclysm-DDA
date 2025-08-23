@@ -1888,7 +1888,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "bronze nail header" },
-    "description": "A square hole punched through the flat end of a metal handle.  Used to form the flat end of a nail by feeding it through the header then hammering the material sticking out of it.",
+    "description": "A square hole punched through the flat end of a metal handle.  Used to form the flat end of a nail by feeding it through the header then hammering the material sticking out of it.  This one is made of bronze.",
     "proportional": { "weight": 1.1 },
     "material": [ "bronze" ],
     "color": "yellow"
