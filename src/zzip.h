@@ -151,6 +151,12 @@ class zzip
         bool compact( double bloat_factor = 1.0 );
 
         /**
+         * Removes all contents and resets to a default initialized empty zzip.
+         * Returns true on success, false on error.
+         */
+        bool clear();
+
+        /**
          * Create a zzip from a folder of existing files.
          * The files in the zzip are indexed based on their relative path inside the folder.
          * See zzip::load for documentation about dictionaries.
