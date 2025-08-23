@@ -143,10 +143,9 @@
     "time": "125 m",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_metalworking", "required": true }, { "proficiency": "prof_toolsmithing", "required": true } ],
-    "using": [ [ "forging_standard", 3 ], [ "bronze_tiny", 3 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
+    "using": [ [ "forging_standard", 3 ], [ "bronze_tiny", 3 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold_large", -1 ], [ "casting_mold_long", -1 ] ] ],
-    "components": [ [ [ "nail", 1 ], [ "crude_bronze_nail", 1 ], [ "bronze_nail", 1 ], [ "nuts_bolts", 1 ] ] ]
+    "components": [ [ [ "nail", 1 ], [ "bronze_nail", 1 ], [ "nuts_bolts", 1 ] ] ]
   },
   {
     "type": "recipe",
