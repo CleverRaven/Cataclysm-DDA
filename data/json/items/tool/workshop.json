@@ -1866,5 +1866,31 @@
     "material": [ "lc_steel" ],
     "symbol": "-",
     "color": "light_gray"
+  },
+  {
+    "id": "nail_header",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "nail header" },
+    "description": "A square hole punched through the flat end of a metal handle.  Used to form the flat end of a nail by feeding it through the header then hammering the material sticking out of it.",
+    "longest_side": "20 cm",
+    "weight": "500 g",
+    "volume": "64 ml",
+    "price": "20 USD",
+    "price_postapoc": "3 USD",
+    "material": [ "mc_steel" ],
+    "symbol": "i",
+    "color": "light_gray"
+  },
+  {
+    "id": "nail_header_bronze",
+    "copy-from": "nail_header",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "bronze nail header" },
+    "description": "A square hole punched through the flat end of a metal handle.  Used to form the flat end of a nail by feeding it through the header then hammering the material sticking out of it.  This one is made of bronze.",
+    "proportional": { "weight": 1.1 },
+    "material": [ "bronze" ],
+    "color": "yellow"
   }
 ]
