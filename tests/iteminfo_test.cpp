@@ -1542,7 +1542,7 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
             "<color_c_white>Coverage</color>: <color_c_light_blue>Close to skin</color>.\n"
             "  Default:  <color_c_yellow>100</color>\n";
         const std::string protection_str =
-            "<color_c_white>Protection</color>: <color_c_red>4%</color>, <color_c_yellow>Median</color>, <color_c_green>4%</color>\n";
+            "<color_c_white>Protection</color>: <color_c_red>4%</color> chance, <color_c_yellow>Median</color> chance, <color_c_green>4%</color> chance\n";
         const std::string bash_str =
             "  Bash:  <color_c_red>1.00</color>, <color_c_yellow>12.00</color>, <color_c_green>23.00</color>\n";
         const std::string cut_str =

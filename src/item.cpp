@@ -3770,7 +3770,7 @@ bool item::armor_full_protection_info( std::vector<iteminfo> &info,
             for( const translation &entry : to_print ) {
                 coverage += string_format( _( " The <info>%s</info>." ), entry );
             }
-            info.emplace_back( "ARMOR", coverage );
+            info.emplace_back( "DESCRIPTION", coverage );
 
             // the following function need one representative sub limb from which to query data
             armor_material_info( info, parts, 0, false, *p.sub_coverage.begin() );
@@ -3855,7 +3855,8 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
             layering += string_format( " <stat>%s</stat>.", item::layer_to_string( ll ) );
         }
         //~ Limb-specific coverage (%s = name of limb)
-        info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Coverage</bold>:%s" ), layering ) );
+        info.emplace_back( "SPECIAL_ARMOR_GRAPH", string_format( _( "<bold>Coverage</bold>:%s" ),
+                           layering ) );
         //~ Regular/Default coverage
         info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "Default:" ), space ), "",
                            iteminfo::no_flags, get_coverage( sbp ) );
@@ -3896,15 +3897,16 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
         bool display_median = percent_best < 50 && percent_worst < 50;
 
         if( display_median ) {
-            info.emplace_back( "DESCRIPTION",
-                               string_format( "<bold>%s</bold>: <bad>%d%%</bad>, <color_c_yellow>Median</color>, <good>%d%%</good>",
+            info.emplace_back( "SPECIAL_ARMOR_GRAPH",
+                               string_format( "<bold>%s</bold>: <bad>%d%%</bad> chance, <color_c_yellow>Median</color> chance, <good>%d%%</good> chance",
                                               _( "Protection" ), percent_worst, percent_best ) );
         } else if( percent_worst > 0 ) {
-            info.emplace_back( "DESCRIPTION",
-                               string_format( "<bold>%s</bold>: <bad>%d%%</bad>, <good>%d%%</good>", _( "Protection" ),
+            info.emplace_back( "SPECIAL_ARMOR_GRAPH",
+                               string_format( "<bold>%s</bold>: <bad>%d%%</bad> chance, <good>%d%%</good> chance",
+                                              _( "Protection" ),
                                               percent_worst, percent_best ) );
         } else {
-            info.emplace_back( "DESCRIPTION", string_format( "<bold>%s</bold>:", _( "Protection" ) ) );
+            info.emplace_back( "SPECIAL_ARMOR_GRAPH", string_format( "<bold>%s</bold>:", _( "Protection" ) ) );
         }
 
         for( const damage_info_order &dio : damage_info_order::get_all(
@@ -3976,7 +3978,7 @@ void item::armor_material_info( std::vector<iteminfo> &info, const iteminfo_quer
     if( parts->test( iteminfo_parts::ARMOR_MATERIALS ) ) {
         const std::string space = "  ";
         // NOLINTNEXTLINE(cata-translate-string-literal)
-        std::string bp_cat = string_format( "ARMOR" );
+        std::string bp_cat = string_format( "DESCRIPTION" );
         std::string materials_list;
         std::string units_info = pgettext( "length unit: milimeter", "mm" );
         for( const part_material *mat : armor_made_of( sbp ) ) {

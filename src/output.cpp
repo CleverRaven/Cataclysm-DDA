@@ -1160,7 +1160,7 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
     bool bIsNewLine = true;
 
     for( const iteminfo &i : vItemDisplay ) {
-        if( i.sType == "DESCRIPTION" ) {
+        if( i.sType == "DESCRIPTION" || i.sType == "SPECIAL_ARMOR_GRAPH" ) {
             // Always start a new line for sType == "DESCRIPTION"
             if( !bIsNewLine ) {
                 buffer += "\n";
@@ -1268,6 +1268,75 @@ static nc_color get_comparison_color( const iteminfo &i,
     return thisColor;
 }
 
+static std::vector<std::string> delimit_armor_text( const iteminfo &i )
+{
+    const std::string &raw_text = i.sName;
+    // The various lines of text that can be passed in from item::armor_protection_info():
+    //
+    // Protection:
+    // Bash: 2.00, 8.00, 20.00
+    // Foo: 6.00, 12.00
+    //
+    // Yes that first one has no numbers. It puts the value into sValue.
+    // So we need multiple passes.
+    std::vector<std::string> first_pass = string_split( raw_text, ':' );
+    if( first_pass.size() == 2 && i.sValue != "-999" ) {
+        // Then the value is in sValue and we need to extract it.
+        // So just overwrite the second (empty) string that we just split off.
+        first_pass[1] = i.sValue;
+    }
+    const std::string mega_string = string_join( first_pass, ", " );
+    const std::vector<std::string> delimited_strings = string_split( mega_string, ',' );
+    return delimited_strings;
+}
+
+static void draw_armor_table( const std::vector<iteminfo> &vItemDisplay, const iteminfo &i )
+{
+    if( ImGui::BeginTable( "##ITEMINFO_ARMOR_TABLE", delimit_armor_text( i ).size(),
+                           ImGuiTableFlags_BordersH | ImGuiTableFlags_BordersV ) ) {
+        auto info_iter = vItemDisplay.begin() + std::distance( vItemDisplay.data(), &i );
+        if( info_iter == vItemDisplay.end() ) {
+            // PANIC!
+            ImGui::EndTable();
+            return;
+        }
+
+        const std::vector<std::string> chopped_up = delimit_armor_text( *info_iter );
+        for( const std::string &cell_text : chopped_up ) {
+            // this prefix prevents imgui from drawing the text. We still have color tags, which imgui won't parse, so we don't want those exposed to the user.
+            // But we still want proper column IDs. So we put them in, but we *hide them* with this.
+            // This results in a column with an ID of e.g.
+            // ##<color_white>Protection:</color>
+            //
+            // Not great for debugging, but better than having a column with default (randomly generated number) ID!
+            const std::string invisible_ID_label = "##" + cell_text;
+            ImGui::TableSetupColumn( invisible_ID_label.c_str(), ImGuiTableColumnFlags_WidthStretch );
+        }
+        ImGui::TableHeadersRow();
+        // After putting in the invisible labels in the last for-loop, this writes the actual text. Just the same text without the ## marker, and
+        // with our native functions doing the drawing. (So we parse color tags)
+        for( size_t i = 0; i < chopped_up.size(); i++ ) {
+            ImGui::TableSetColumnIndex( i );
+            cataimgui::draw_colored_text( chopped_up[i], c_unset );
+        }
+
+        info_iter++;
+
+        while( info_iter != vItemDisplay.end() && info_iter->sType == "ARMOR" ) {
+            ImGui::TableNextRow();
+            const std::vector<std::string> delimited_strings = delimit_armor_text( *info_iter );
+            for( const std::string &text : delimited_strings ) {
+                ImGui::TableNextColumn();
+                cataimgui::draw_colored_text( text, c_unset );
+            }
+            info_iter++;
+        }
+
+
+        ImGui::EndTable();
+    }
+}
+
 void display_item_info( const std::vector<iteminfo> &vItemDisplay,
                         const std::vector<iteminfo> &vItemCompare )
 {
@@ -1276,7 +1345,9 @@ void display_item_info( const std::vector<iteminfo> &vItemDisplay,
         if( i.bIsArt ) {
             cataimgui::PushMonoFont();
         }
-        if( i.sType == "DESCRIPTION" ) {
+        if( i.sType == "SPECIAL_ARMOR_GRAPH" ) {
+            draw_armor_table( vItemDisplay, i );
+        } else if( i.sType == "DESCRIPTION" ) {
             if( i.bDrawName ) {
                 if( i.sName == "--" ) {
                     if( !bAlreadyHasNewLine ) {
@@ -1298,7 +1369,7 @@ void display_item_info( const std::vector<iteminfo> &vItemDisplay,
                     bAlreadyHasNewLine = false;
                 }
             }
-        } else {
+        } else if( i.sType != "ARMOR" ) { // ARMOR is handled by draw_armor_table()
             if( i.bDrawName ) {
                 cataimgui::TextColoredParagraph( c_light_gray, i.sName );
                 bAlreadyHasNewLine = false;
