@@ -34,7 +34,7 @@
       { "proficiency": "prof_redsmithing_adv" }
     ],
     "using": [ [ "blacksmithing_standard", 1 ], [ "bronze_tiny", 1 ] ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "nail_header", 1 ], [ "bronze_nail_header", 1 ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "nail_header", 1 ], [ "nail_header_bronze", 1 ] ] ]
   },
   {
     "type": "recipe",
