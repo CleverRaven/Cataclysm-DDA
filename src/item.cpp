@@ -11504,7 +11504,7 @@ units::energy item::energy_remaining( const Character *carrier, bool ignoreExter
     if( is_magazine() ) {
         ret += energy;
         for( const item *e : contents.all_items_top( pocket_type::MAGAZINE ) ) {
-            if( e->typeId() == itype_battery ) {
+            if( e->ammo_type() == ammo_battery ) {
                 ret += units::from_kilojoule( static_cast<std::int64_t>( e->charges ) );
             }
         }
