@@ -123,6 +123,7 @@ static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 static const activity_id ACT_WAIT( "ACT_WAIT" );
+static const activity_id ACT_WAIT_FOLLOWERS( "ACT_WAIT_FOLLOWERS" );
 static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
 
@@ -1236,6 +1237,10 @@ static void wait()
             as_m.addentry( 14, true, 'w', _( "Wait until you catch your breath" ) );
             durations.emplace( 14, 15_minutes ); // to hide it from showing
         }
+        if( !wait_followers_activity_actor::get_absent_followers( player_character ).empty() ) {
+            as_m.addentry( 15, true, 'f', _( "Wait for followers to catch up" ) );
+            durations.emplace( 15, 15_minutes ); // to hide it from showing(?)
+        }
         add_menu_item( 1, '1', !has_watch ? _( "Wait 20 heartbeats" ) : "", 20_seconds );
         add_menu_item( 2, '2', !has_watch ? _( "Wait 60 heartbeats" ) : "", 1_minutes );
         add_menu_item( 3, '3', !has_watch ? _( "Wait 300 heartbeats" ) : "", 5_minutes );
@@ -1310,12 +1315,16 @@ static void wait()
             actType = ACT_WAIT_WEATHER;
         } else if( as_m.ret == 14 ) {
             actType = ACT_WAIT_STAMINA;
+        } else if( as_m.ret == 15 ) {
+            actType = ACT_WAIT_FOLLOWERS;
         } else {
             actType = ACT_WAIT;
         }
 
         if( actType == ACT_WAIT_STAMINA ) {
             player_character.assign_activity( wait_stamina_activity_actor() );
+        } else if( actType == ACT_WAIT_FOLLOWERS ) {
+            player_character.assign_activity( wait_followers_activity_actor() );
         } else {
             player_activity new_act( actType, 100 * to_turns<int>( time_to_wait ), 0 );
             player_character.assign_activity( new_act );
