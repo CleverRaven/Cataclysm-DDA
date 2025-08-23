@@ -244,7 +244,7 @@ void mapgendata::fill_groundcover() const
 bool mapgendata::is_groundcover( const ter_id &iid ) const
 {
     for( const auto &pr : default_groundcover ) {
-        if( pr.obj == iid ) {
+        if( pr.first == iid ) {
             return true;
         }
     }
