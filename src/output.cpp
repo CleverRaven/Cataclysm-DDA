@@ -1153,6 +1153,42 @@ void draw_item_filter_rules( const catacurses::window &win, const int starty, co
     wnoutrefresh( win );
 }
 
+static std::string format_table( std::string_view s )
+{
+    std::string table;
+
+    std::vector<std::string> rows = string_split( s, '\n' );
+
+    if( rows.empty() ) {
+        return table;
+    }
+
+    std::vector<std::string> header = string_split( rows[0], ',' );
+    table += header[0] + ":";
+    for( size_t col = 1; col < header.size(); col++ ) {
+        table += ( col == 1 ? " " : ", " ) + header[col];
+    }
+    if( rows.size() > 1 ) {
+        table += '\n';
+    }
+
+    for( size_t row = 1; row < rows.size(); row++ ) {
+        if( rows[row].empty() ) {
+            continue;
+        }
+        std::vector<std::string> cols = string_split( rows[row], ',' );
+        table += "  " + cols[0] + ":";
+        for( size_t i = 1; i < cols.size(); i++ ) {
+            table += ( i == 1 ? " " : ", " ) + cols[i];
+        }
+        if( row + 1 < rows.size() && !rows[row + 1].empty() ) {
+            table += '\n';
+        }
+    }
+
+    return table;
+}
+
 std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
                               const std::vector<iteminfo> &vItemCompare )
 {
@@ -1160,7 +1196,9 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
     bool bIsNewLine = true;
 
     for( const iteminfo &i : vItemDisplay ) {
-        if( i.sType == "DESCRIPTION" || i.sType == "SPECIAL_ARMOR_GRAPH" ) {
+        if( i.isTable ) {
+            buffer += format_table( i.sName );
+        } else if( i.sType == "DESCRIPTION" ) {
             // Always start a new line for sType == "DESCRIPTION"
             if( !bIsNewLine ) {
                 buffer += "\n";
@@ -1268,40 +1306,29 @@ static nc_color get_comparison_color( const iteminfo &i,
     return thisColor;
 }
 
-static std::vector<std::string> delimit_armor_text( const iteminfo &i )
+static int get_num_cols( std::vector<std::string> &rows )
 {
-    const std::string &raw_text = i.sName;
-    // The various lines of text that can be passed in from item::armor_protection_info():
-    //
-    // Protection:
-    // Bash: 2.00, 8.00, 20.00
-    // Foo: 6.00, 12.00
-    //
-    // Yes that first one has no numbers. It puts the value into sValue.
-    // So we need multiple passes.
-    std::vector<std::string> first_pass = string_split( raw_text, ':' );
-    if( first_pass.size() == 2 && i.sValue != "-999" ) {
-        // Then the value is in sValue and we need to extract it.
-        // So just overwrite the second (empty) string that we just split off.
-        first_pass[1] = i.sValue;
+    int cols = 0;
+
+    for( const std::string &row : rows ) {
+        cols = std::max( cols, static_cast<int>( string_split( row, ',' ).size() ) );
     }
-    const std::string mega_string = string_join( first_pass, ", " );
-    const std::vector<std::string> delimited_strings = string_split( mega_string, ',' );
-    return delimited_strings;
+
+    return cols;
 }
 
-static void draw_armor_table( const std::vector<iteminfo> &vItemDisplay, const iteminfo &i )
+static void draw_table( std::string_view s )
 {
-    if( ImGui::BeginTable( "##ITEMINFO_ARMOR_TABLE", delimit_armor_text( i ).size(),
-                           ImGuiTableFlags_BordersH | ImGuiTableFlags_BordersV ) ) {
-        auto info_iter = vItemDisplay.begin() + std::distance( vItemDisplay.data(), &i );
-        if( info_iter == vItemDisplay.end() ) {
-            // PANIC!
-            ImGui::EndTable();
-            return;
-        }
+    std::vector<std::string> rows = string_split( s, '\n' );
+    int num_cols = get_num_cols( rows );
 
-        const std::vector<std::string> chopped_up = delimit_armor_text( *info_iter );
+    if( rows.empty() || num_cols == 0 ) {
+        return;
+    }
+
+    if( ImGui::BeginTable( "##ITEMINFO_TABLE", num_cols,
+                           ImGuiTableFlags_BordersH | ImGuiTableFlags_BordersV ) ) {
+        const std::vector<std::string> chopped_up = string_split( rows.front(), ',' );
         for( const std::string &cell_text : chopped_up ) {
             // this prefix prevents imgui from drawing the text. We still have color tags, which imgui won't parse, so we don't want those exposed to the user.
             // But we still want proper column IDs. So we put them in, but we *hide them* with this.
@@ -1320,18 +1347,17 @@ static void draw_armor_table( const std::vector<iteminfo> &vItemDisplay, const i
             cataimgui::draw_colored_text( chopped_up[i], c_unset );
         }
 
-        info_iter++;
-
-        while( info_iter != vItemDisplay.end() && info_iter->sType == "ARMOR" ) {
+        for( size_t i = 1; i < rows.size(); i++ ) {
+            if( rows[i].empty() ) {
+                continue;
+            }
             ImGui::TableNextRow();
-            const std::vector<std::string> delimited_strings = delimit_armor_text( *info_iter );
+            const std::vector<std::string> delimited_strings = string_split( rows[i], ',' );
             for( const std::string &text : delimited_strings ) {
                 ImGui::TableNextColumn();
                 cataimgui::draw_colored_text( text, c_unset );
             }
-            info_iter++;
         }
-
 
         ImGui::EndTable();
     }
@@ -1345,8 +1371,8 @@ void display_item_info( const std::vector<iteminfo> &vItemDisplay,
         if( i.bIsArt ) {
             cataimgui::PushMonoFont();
         }
-        if( i.sType == "SPECIAL_ARMOR_GRAPH" ) {
-            draw_armor_table( vItemDisplay, i );
+        if( i.isTable ) {
+            draw_table( i.sName );
         } else if( i.sType == "DESCRIPTION" ) {
             if( i.bDrawName ) {
                 if( i.sName == "--" ) {
@@ -1369,7 +1395,7 @@ void display_item_info( const std::vector<iteminfo> &vItemDisplay,
                     bAlreadyHasNewLine = false;
                 }
             }
-        } else if( i.sType != "ARMOR" ) { // ARMOR is handled by draw_armor_table()
+        } else {
             if( i.bDrawName ) {
                 cataimgui::TextColoredParagraph( c_light_gray, i.sName );
                 bAlreadyHasNewLine = false;
