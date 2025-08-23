@@ -36,6 +36,7 @@
 #include "string_formatter.h"
 #include "string_id.h"
 #include "units.h"
+#include "weighted_list.h"
 
 class quantity;
 
@@ -1245,6 +1246,78 @@ struct handler<std::vector<T>> {
         const auto iter = std::find_if( container.begin(), container.end(), predicate );
         if( iter != container.end() ) {
             container.erase( iter );
+        } else {
+            return false;
+        }
+        return true;
+    }
+    static constexpr bool is_container = true;
+};
+
+template<typename T>
+struct handler<weighted_int_list<T>> {
+    void clear( weighted_int_list<T> &container ) const {
+        container.clear();
+    }
+    bool insert( weighted_int_list<T> &container, const std::pair<T, int> &data ) const {
+        container.add( data );
+        return true;
+    }
+    bool relative( weighted_int_list<T> &, const std::pair<T, int> & ) const {
+        return false;
+    }
+    template<typename E>
+    bool erase( weighted_int_list<T> &container, const E &data ) const {
+        const auto pred = [&data]( const std::pair<T, int> &e ) {
+            return e.first == data.first;
+        };
+        if( !erase_if( container, pred ) ) {
+            debugmsg( "Did not remove %s in delete", data_string( data ) );
+            return false;
+        }
+        return true;
+    }
+    template<typename P>
+    bool erase_if( weighted_int_list<T> &container, P &predicate ) const {
+        const auto iter = std::find_if( container.begin(), container.end(), predicate );
+        if( iter != container.end() ) {
+            container.remove( iter->first );
+        } else {
+            return false;
+        }
+        return true;
+    }
+    static constexpr bool is_container = true;
+};
+
+template<typename T, typename W>
+struct handler<weighted_list<T, W>> {
+    void clear( weighted_list<T, W> &container ) const {
+        container.clear();
+    }
+    bool insert( weighted_list<T, W> &container, const std::pair<T, W> &data ) const {
+        container.add( data );
+        return true;
+    }
+    bool relative( weighted_list<T, W> &, const std::pair<T, W> & ) const {
+        return false;
+    }
+    template<typename E>
+    bool erase( weighted_list<T, W> &container, const E &data ) const {
+        const auto pred = [&data]( const T & e ) {
+            return e == data;
+        };
+        if( !erase_if( container, pred ) ) {
+            debugmsg( "Did not remove %s in delete", data_string( data ) );
+            return false;
+        }
+        return true;
+    }
+    template<typename P>
+    bool erase_if( weighted_list<T, W> &container, P &predicate ) const {
+        const auto iter = std::find_if( container.begin(), container.end(), predicate );
+        if( iter != container.end() ) {
+            container.remove( *iter.obj );
         } else {
             return false;
         }

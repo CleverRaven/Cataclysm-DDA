@@ -925,12 +925,13 @@ void Item_factory::finalize_post( itype &obj )
             const int weight_add = std::get<1>( fault_groups );
             const float weight_mult = std::get<2>( fault_groups );
             for( const auto &id_and_weight : fault_g.obj().get_weighted_list() ) {
-                obj.faults.add_or_replace( id_and_weight.obj, ( id_and_weight.weight + weight_add ) * weight_mult );
+                obj.faults.add_or_replace( id_and_weight.first,
+                                           ( id_and_weight.second + weight_add ) * weight_mult );
             }
         } else {
             // weight_override is not -1, override the weight
-            for( const weighted_object<int, fault_id> &id_and_weight : fault_g.obj().get_weighted_list() ) {
-                obj.faults.add( id_and_weight.obj, std::get<0>( fault_groups ) );
+            for( const std::pair<fault_id, int> &id_and_weight : fault_g.obj().get_weighted_list() ) {
+                obj.faults.add( id_and_weight.first, std::get<0>( fault_groups ) );
             }
         }
     }
@@ -2466,8 +2467,8 @@ void Item_factory::check_definitions() const
         }
 
         for( const auto &f : type->faults ) {
-            if( !f.obj.is_valid() ) {
-                msg += string_format( "invalid item fault %s\n", f.obj.c_str() );
+            if( !f.first.is_valid() ) {
+                msg += string_format( "invalid item fault %s\n", f.first.c_str() );
             }
         }
 
