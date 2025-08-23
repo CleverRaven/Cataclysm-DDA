@@ -1875,7 +1875,7 @@
     "description": "A square hole punched through the flat end of a metal handle.  Used to form the flat end of a nail by feeding it through the header then hammering the material sticking out of it.",
     "longest_side": "20 cm",
     "weight": "500 g",
-    "volume": "60 ml",
+    "volume": "64 ml",
     "price": "20 USD",
     "price_postapoc": "3 USD",
     "material": [ "mc_steel" ],
