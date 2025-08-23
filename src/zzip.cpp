@@ -1151,6 +1151,11 @@ bool zzip::compact( double bloat_factor )
     return true;
 }
 
+bool zzip::clear()
+{
+    return file_->resize_file( 0 ) && rewrite_footer();
+}
+
 // Can't directly increment void*, have to cast to char* first.
 void *zzip::file_base_plus( size_t offset ) const
 {

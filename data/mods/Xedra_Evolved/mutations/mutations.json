@@ -2169,5 +2169,22 @@
     "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ],
     "types": [ "HERITAGE" ],
     "chargen_allow_npc": false
+  },
+  {
+    "type": "mutation",
+    "id": "XE_FACTION_CAMP_BROWNIE_BLESSING",
+    "name": { "str": "Brownie's Blessing", "//~": "NO_I18N" },
+    "points": 1,
+    "description": { "str": "You are blessed by a brownie.  This should not be visible.", "//~": "NO_I18N" },
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "chargen_allow_npc": false,
+    "enchantments": [
+      {
+        "condition": { "u_at_om_location": "FACTION_CAMP_ANY" },
+        "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.02 } ]
+      }
+    ]
   }
 ]

@@ -76,6 +76,7 @@ struct mon_flag {
 
     void load( const JsonObject &jo, std::string_view src );
     static void load_mon_flags( const JsonObject &jo, const std::string &src );
+    static void finalize_all();
     static void reset();
     static const std::vector<mon_flag> &get_all();
 };
@@ -205,6 +206,7 @@ extern mon_flag_id mon_flag_ACIDPROOF,
        mon_flag_SWARMS,
        mon_flag_SWIMS,
        mon_flag_TEEP_IMMUNE,
+       mon_flag_TRUESIGHT,
        mon_flag_VAMP_VIRUS,
        mon_flag_VENOM,
        mon_flag_WARM,
@@ -234,6 +236,9 @@ struct mon_effect_data {
 
     mon_effect_data();
     void load( const JsonObject &jo );
+    void deserialize( const JsonObject &jo ) {
+        load( jo );
+    }
 };
 
 /** Pet food data */
@@ -302,6 +307,8 @@ struct mount_item_data {
      * If this monster is a rideable mount that spawns with storage bags, this is the storage item id
      */
     itype_id storage;
+
+    void deserialize( const JsonObject &jo );
 };
 
 struct reproduction_type {
@@ -315,6 +322,8 @@ struct revive_type {
     std::function<bool( const_dialogue const & )> condition;
     mtype_id revive_mon = mtype_id::NULL_ID();
     mongroup_id revive_monster_group = mongroup_id::NULL_ID();
+
+    void deserialize( const JsonObject &jo );
 };
 
 struct mtype {
@@ -462,7 +471,6 @@ struct mtype {
         int agro = 0;           /** chance will attack [-100,100] */
         int morale = 0;         /** initial morale level at spawn */
         int stomach_size = 0;         /** how many times this monster will eat */
-        int amount_eaten = 0;         /** how many times it has eaten */
 
         // how close the monster is willing to approach its target while under the MATT_FOLLOW attitude
         int tracking_distance = 8;

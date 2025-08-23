@@ -381,7 +381,8 @@ struct trap {
          * It also sets the trap ids of the terrain types that have built-in traps.
          * Must be called after all traps have been loaded.
          */
-        static void finalize();
+        void finalize();
+        static void finalize_all();
         /**
          * Checks internal consistency (reference to other things like item ids etc.)
          */

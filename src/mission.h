@@ -251,7 +251,7 @@ struct mission_type {
 
         static void reset();
         static void load_mission_type( const JsonObject &jo, const std::string &src );
-        static void finalize();
+        static void finalize_all();
         static void check_consistency();
 
         bool parse_funcs( const JsonObject &jo, std::string_view src,

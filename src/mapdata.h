@@ -769,7 +769,9 @@ struct furn_t : map_data_common_t {
 };
 
 void load_furniture( const JsonObject &jo, const std::string &src );
+void finalize_furniture();
 void load_terrain( const JsonObject &jo, const std::string &src );
+void finalize_terrain();
 
 class ter_furn_migrations
 {

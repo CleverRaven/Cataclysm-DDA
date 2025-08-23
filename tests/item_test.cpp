@@ -332,6 +332,7 @@ TEST_CASE( "item_length_sanity_check", "[item]" )
 TEST_CASE( "corpse_length_sanity_check", "[item]" )
 {
     for( const mtype &type : MonsterGenerator::generator().get_all_mtypes() ) {
+        INFO( type.id.str() )
         const item sample = item::make_corpse( type.id );
         assert_minimum_length_to_volume_ratio( sample );
     }

@@ -72,6 +72,7 @@ extern const flag_id flag_CANT_WEAR;
 extern const flag_id flag_CAN_USE_IN_DARK;
 extern const flag_id flag_CARNIVORE_DIET;
 extern const flag_id flag_CARNIVORE_OK;
+extern const flag_id flag_CASELESS_ROUNDS;
 extern const flag_id flag_CASING;
 extern const flag_id flag_CATTLE;
 extern const flag_id flag_CHALLENGE;

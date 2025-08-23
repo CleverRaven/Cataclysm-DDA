@@ -49,7 +49,6 @@ env:
   VCPKG_OVERLAY_TRIPLETS: ${{ github.workspace }}\.github\vcpkg_triplets
   # Also conveniently disable ccache internal compression
   CCACHE_HARDLINK: true
-  # vcpkg with object_creator deps totals ~500MB at this compression level
   ZSTD_CLEVEL: 17
 
 jobs:
