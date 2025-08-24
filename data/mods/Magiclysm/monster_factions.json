@@ -44,9 +44,9 @@
   },
   {
     "type": "MONSTER_FACTION",
-    "neutral": [ "aerial_assassin" ]
     "name": "wonder_forge",
     "hate": [ "zombie", "fungus" ],
+    "neutral": [ "aerial_assassin" ],
     "friendly": [ "forge_lords" ]
   },
   {
@@ -92,6 +92,12 @@
     "neutral": [ "fish", "yrax", "small_animal", "slime", "passive_machine" ],
     "by_mood": [ "nether" ],
     "hate": [ "zombie", "triffid", "fungus", "exodii", "isolated_artisans" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "zombie",
+    "copy-from": "zombie",
+    "extend": { "neutral": [ "aerial_assassin" ] }
   },
   {
     "type": "MONSTER_FACTION",
