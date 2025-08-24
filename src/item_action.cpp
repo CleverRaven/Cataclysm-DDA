@@ -30,6 +30,7 @@
 #include "item_pocket.h"
 #include "itype.h"
 #include "iuse.h"
+#include "map.h"
 #include "output.h"
 #include "pimpl.h"
 #include "pocket_type.h"
@@ -39,8 +40,6 @@
 #include "type_id.h"
 #include "uilist.h"
 #include "visitable.h"
-
-class map;
 
 static const std::string errstring( "ERROR" );
 
@@ -394,9 +393,15 @@ std::string use_function::get_type() const
     }
 }
 
-ret_val<void> iuse_actor::can_use( const Character &, const item &, const tripoint_bub_ms & ) const
+std::optional<int> iuse_actor::use( Character *p, item &it, const tripoint_bub_ms &pos ) const
 {
-    return ret_val<void>::make_success();
+    return use( p, it, &get_map(), pos );
+}
+
+ret_val<void> iuse_actor::can_use( const Character &p, const item &it,
+                                   const tripoint_bub_ms &pos ) const
+{
+    return can_use( p, it, &get_map(), pos );
 }
 
 ret_val<void> iuse_actor::can_use( const Character &, const item &, map *,
