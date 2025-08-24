@@ -1265,12 +1265,7 @@ void bodypart::serialize( JsonOut &json ) const
     json.member( "temp_conv", units::to_legacy_bodypart_temp( temp_conv ) );
     json.member( "frostbite_timer", frostbite_timer );
 
-    json.member( "wounds" );
-    json.start_array();
-    for( const wound &wd : wounds ) {
-        wd.serialize( json );
-    }
-    json.end_array();
+    json.member( "wounds", wounds );
 
     json.end_object();
 }
@@ -1293,11 +1288,7 @@ void bodypart::deserialize( const JsonObject &jo )
     }
     jo.read( "frostbite_timer", frostbite_timer, true );
 
-    for( JsonObject elem_wd : jo.get_array( "wounds" ) ) {
-        wound wd;
-        wd.deserialize( elem_wd );
-        wounds.push_back( wd );
-    }
+    jo.read( "wounds", wounds );
 
 }
 
