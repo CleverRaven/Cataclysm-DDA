@@ -244,6 +244,12 @@ void handle_key_blocking_activity()
             if( u.activity.is_interruptible_with_kb() ) {
                 g->cancel_activity_query( _( "Confirm:" ) );
             }
+        } else if( action == "zoom_in" ) {
+            g->zoom_in();
+            g->mark_main_ui_adaptor_resize();
+        } else if( action == "zoom_out" ) {
+            g->zoom_out();
+            g->mark_main_ui_adaptor_resize();
         } else if( action == "player_data" ) {
             u.disp_info( true );
         } else if( action == "messages" ) {
