@@ -10532,7 +10532,7 @@
     "category": [ "CEPHALOPOD" ],
     "prereqs": [ "INT_UP_4" ],
     "threshreq": [ "THRESH_CEPHALOPOD" ],
-    "strict_threshreq": true,
+    "strict_threshreq": true
   },
   {
     "type": "mutation",
