@@ -31,7 +31,6 @@
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_redsmithing", "time_multiplier": 1.5 },
-      { "proficiency": "prof_redsmithing", "time_multiplier": 1.5 },
       { "proficiency": "prof_redsmithing_adv" }
     ],
     "using": [ [ "blacksmithing_standard", 1 ], [ "bronze_tiny", 1 ] ],
