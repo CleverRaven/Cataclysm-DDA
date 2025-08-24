@@ -81,7 +81,14 @@
   },
   {
     "type": "MONSTER_FACTION",
-    "name": "magical_plant"
+    "name": "magical_plant",
+    "neutral": [ "triffid" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "triffid",
+    "copy-from": "triffid",
+    "extend": { "neutral": [ "aerial_assassin", "magical_plant" ] }
   },
   {
     "type": "MONSTER_FACTION",
