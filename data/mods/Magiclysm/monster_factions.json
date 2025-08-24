@@ -140,20 +140,8 @@
   {
     "type": "MONSTER_FACTION",
     "name": "aerial_assassin",
-    "neutral": [
-      "small_animal",
-      "zombie",
-      "mi-go",
-      "fish",
-      "bot",
-      "aquatic_predator",
-      "triffid",
-      "robofac",
-      "passive_machine",
-      "nether_player_hate",
-      "robot",
-      "wonder_forge"
-    ],
-    "by_mood": [ "nether", "dragon_black" ]
+    "base_faction": "nether_hate_humans",
+    "neutral": [ "zombie", "mi-go", "bot", "triffid", "robofac", "passive_machine", "robot", "wonder_forge" ],
+    "by_mood": [ "dragon_black" ]
   }
 ]
