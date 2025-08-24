@@ -128,7 +128,16 @@
     "name": "animal",
     "copy-from": "animal",
     "friendly": [ "attack_player_only", "forest_spirit_faction", "earth_spirit_faction" ],
-    "neutral": [ "small_animal", "fish", "bot", "aquatic_predator", "robofac", "passive_machine", "nether_player_hate", "aerial_assassin" ],
+    "neutral": [
+      "small_animal",
+      "fish",
+      "bot",
+      "aquatic_predator",
+      "robofac",
+      "passive_machine",
+      "nether_player_hate",
+      "aerial_assassin"
+    ],
     "by_mood": [ "animal" ]
   },
   {
