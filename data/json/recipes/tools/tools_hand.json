@@ -1703,7 +1703,7 @@
       [ [ "clay_lump", 1 ] ],
       [ [ "material_sand", 113 ] ],
       [ [ "2x4", 2 ], [ "stick", 2 ] ],
-      [ [ "nail", 8 ], [ "bronze_nail", 8 ], [ "glue_strong", 4 ], [ "crude_bronze_nail", 8 ] ]
+      [ [ "nail", 8 ], [ "bronze_nail", 8 ], [ "glue_strong", 4 ] ]
     ]
   },
   {
