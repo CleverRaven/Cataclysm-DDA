@@ -2686,5 +2686,10 @@
     "type": "MIGRATION",
     "id": "super_glue",
     "replace": "glue_strong"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "crude_bronze_nail",
+    "replace": "bronze_nail"
   }
 ]

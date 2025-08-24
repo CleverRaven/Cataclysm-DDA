@@ -6,6 +6,11 @@
   },
   {
     "type": "SPECIES",
+    "id": "SUMMONED_CREATURE",
+    "description": "a creature summoned by magic"
+  },
+  {
+    "type": "SPECIES",
     "id": "DRAGON",
     "description": "a dragon",
     "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK", "STALK" ]

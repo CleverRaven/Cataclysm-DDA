@@ -87,6 +87,11 @@ void move_mode::reset()
 
 void move_mode::finalize()
 {
+}
+
+void move_mode::finalize_all()
+{
+    move_mode_factory.finalize();
     for( const move_mode &mode : move_mode_factory.get_all() ) {
         move_modes_sorted.emplace_back( mode.ident() );
     }

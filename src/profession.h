@@ -102,6 +102,7 @@ class profession
         profession();
 
         static void load_profession( const JsonObject &jo, const std::string &src );
+        static void finalize_all();
         static void load_item_substitutions( const JsonObject &jo );
 
         // these should be the only ways used to get at professions

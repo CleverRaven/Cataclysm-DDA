@@ -52,6 +52,7 @@ struct damage_type {
                            double damage_taken = 0.0 ) const;
 
     static void load_damage_types( const JsonObject &jo, const std::string &src );
+    static void finalize_all();
     static void reset();
     static void check();
     void load( const JsonObject &jo, std::string_view );

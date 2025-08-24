@@ -33,6 +33,11 @@ void magic_type::load_magic_type( const JsonObject &jo, const std::string &src )
     magic_type_factory.load( jo, src );
 }
 
+void magic_type::finalize_all()
+{
+    magic_type_factory.finalize();
+}
+
 
 void magic_type::load( const JsonObject &jo, std::string_view src )
 {
