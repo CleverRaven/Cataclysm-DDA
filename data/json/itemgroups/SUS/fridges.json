@@ -60,14 +60,7 @@
           { "item": "veggy_salad", "count": [ 1, -1 ], "prob": 10, "container-item": "null", "entry-wrapper": "bowl_plastic" },
           { "item": "blt", "count": [ 1, -1 ], "prob": 10, "container-item": "null", "entry-wrapper": "wrapper" },
           { "item": "protein_shake", "charges": [ 1, -1 ], "prob": 5 },
-          {
-            "item": "fries",
-            "variant": "french",
-            "count": [ 1, -1 ],
-            "prob": 10,
-            "container-item": "null",
-            "entry-wrapper": "box_small"
-          },
+          { "item": "fries", "count": [ 1, -1 ], "prob": 10, "container-item": "null", "entry-wrapper": "box_small" },
           {
             "item": "cheese_fries",
             "count": [ 1, -1 ],
@@ -541,14 +534,7 @@
           { "item": "veggy_salad", "count": [ 1, -1 ], "prob": 10, "container-item": "null", "entry-wrapper": "bowl_plastic" },
           { "item": "blt", "count": [ 1, -1 ], "prob": 10, "container-item": "null", "entry-wrapper": "wrapper" },
           { "item": "protein_shake", "charges": [ 1, -1 ], "prob": 5 },
-          {
-            "item": "fries",
-            "variant": "french",
-            "count": [ 1, -1 ],
-            "prob": 10,
-            "container-item": "null",
-            "entry-wrapper": "box_small"
-          },
+          { "item": "fries", "count": [ 1, -1 ], "prob": 10, "container-item": "null", "entry-wrapper": "box_small" },
           {
             "item": "cheese_fries",
             "count": [ 1, -1 ],
@@ -1074,7 +1060,7 @@
       { "item": "lobster_cakes", "prob": 10 },
       { "item": "lobster_roll", "prob": 10 },
       { "item": "sloppyjoe", "prob": 10 },
-      { "item": "fries", "variant": "french", "prob": 10 },
+      { "item": "fries", "prob": 10 },
       { "item": "cheese_fries", "prob": 5 },
       { "item": "onion_rings", "prob": 10 },
       { "item": "lunchmeat", "prob": 20 },
@@ -1261,7 +1247,7 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "box_small",
-    "entries": [ { "item": "fries", "variant": "french", "container-item": "null", "count": [ 1, -1 ] } ]
+    "entries": [ { "item": "fries", "container-item": "null", "count": [ 1, -1 ] } ]
   },
   {
     "type": "item_group",

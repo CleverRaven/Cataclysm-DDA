@@ -691,6 +691,11 @@
     "subtypes": [ "COMESTIBLE" ],
     "id": "fries",
     "name": { "str_sp": "fries" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "groundnut_prepared", "name": { "str_sp": "ground nut fries" } },
+      { "type": "COMPONENT_ID", "condition": "carrot", "name": { "str_sp": "carrot fries" } },
+      { "type": "COMPONENT_ID", "condition": "carrot_wild", "name": { "str_sp": "wild carrot fries" } }
+    ],
     "weight": "71 g",
     "color": "yellow",
     "container": "box_small",
@@ -700,33 +705,14 @@
     "healthy": -1,
     "calories": 229,
     "spoils_in": "1 days",
-    "description": "Salty, deep-fried strips of tubers.",
+    "description": "Deep-fried strips of tubers with a touch of salt. Crunchy and delicious.",
     "price": "1 USD 20 cent",
     "price_postapoc": "50 cent",
     "material": [ "junk" ],
     "volume": "250 ml",
     "fun": 4,
     "vitamins": [ [ "vitC", 4 ], [ "calcium", 1 ], [ "iron", 3 ], [ "junk_allergen", 1 ] ],
-    "flags": [ "EATEN_HOT" ],
-    "variant_type": "generic",
-    "variants": [
-      {
-        "id": "homemade",
-        "name": { "str_sp": "fries" },
-        "append": true,
-        "description": "Those have been roughly cut in thick strips without removing the skin."
-      },
-      {
-        "id": "french",
-        "name": { "str_sp": "French fries" },
-        "description": "Those are your regular french fries, same as you would find in a fast-food place."
-      },
-      {
-        "id": "julienne",
-        "name": { "str_sp": "Julienne fries" },
-        "description": "These were somewhat of a fad before the world ended.  Crunchy and delicious."
-      }
-    ]
+    "flags": [ "EATEN_HOT" ]
   },
   {
     "type": "ITEM",

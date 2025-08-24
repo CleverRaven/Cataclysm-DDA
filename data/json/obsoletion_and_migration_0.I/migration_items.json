@@ -2690,13 +2690,11 @@
   {
     "type": "MIGRATION",
     "id": "fresh_fries_j",
-    "replace": "fries",
-    "variant": "french"
+    "replace": "fries"
   },
   {
     "type": "MIGRATION",
     "id": "fresh_fries",
-    "replace": "fries",
-    "variant": "julienne"
+    "replace": "fries"
   }
 ]
