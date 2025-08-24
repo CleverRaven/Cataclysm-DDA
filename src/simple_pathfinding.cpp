@@ -383,7 +383,8 @@ int omt_cost_to_cross( int base_cost, direction dir_in, direction dir_out )
         return cost_diagonal( base_cost ); // directly across diagonally
     }
     if( !is_cardinal( dir_in ) && !is_cardinal( dir_out ) ) {
-        return base_cost; // corner to adjacent corner
+        // +4 because otherwise zigzagging has equal cost to straight travel
+        return base_cost + 4; // corner to adjacent corner
     }
     // One of two remaining cases is travel between an edge and an adjacent
     // corner. The cost for that case would be base_cost / 2.
