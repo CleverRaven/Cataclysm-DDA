@@ -572,17 +572,22 @@
     "//": "This allows live reporting if any conditions, such as being slimed or being dazed etc., change your concentration limit",
     "recurrence": 1,
     "condition": {
-      "u_has_any_trait": [
-        "BIOKINETIC",
-        "CLAIRSENTIENT",
-        "ELECTROKINETIC",
-        "PHOTOKINETIC",
-        "PYROKINETIC",
-        "TELEKINETIC",
-        "TELEPATH",
-        "TELEPORTER",
-        "VITAKINETIC",
-        "PSYCHIC_KNACK"
+      "and": [
+        {
+          "u_has_any_trait": [
+            "BIOKINETIC",
+            "CLAIRSENTIENT",
+            "ELECTROKINETIC",
+            "PHOTOKINETIC",
+            "PYROKINETIC",
+            "TELEKINETIC",
+            "TELEPATH",
+            "TELEPORTER",
+            "VITAKINETIC",
+            "PSYCHIC_KNACK"
+          ]
+        },
+        { "math": [ "u_vitamin('vitamin_maintained_powers') >= 1" ] }
       ]
     },
     "deactivate_condition": {
