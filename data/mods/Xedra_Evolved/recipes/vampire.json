@@ -470,13 +470,19 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_XE_VAMPIRE_BLOOD_REFINEMENT_RESEARCH_SUCCESS",
+    "effect": { "u_add_effect": "effect_vampire_recently_learned_blood_gifts", "duration": "12 days" }
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_REFINE_VIGOR_MORTIS_SMASHING",
     "condition": {
       "and": [ { "u_has_trait": "VAMPIRIC_STRENGTH" }, { "not": { "u_has_trait": "VAMPIRIC_STRENGTH_REFINEMENT_SMASHING_TILES" } } ]
     },
     "effect": [
       { "u_add_trait": "VAMPIRIC_STRENGTH_REFINEMENT_SMASHING_TILES" },
-      { "u_message": "You learned Unholy Devastation, a new use for your Vigor Mortis Blood Art.", "type": "good" }
+      { "u_message": "You learned Unholy Devastation, a new use for your Vigor Mortis Blood Art.", "type": "good" },
+      { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_REFINEMENT_RESEARCH_SUCCESS" }
     ]
   },
   {
@@ -485,7 +491,8 @@
     "condition": { "and": [ { "u_has_trait": "BLOODHASTE" }, { "not": { "u_has_trait": "BLOODHASTE_REFINEMENT_WATER_RUN" } } ] },
     "effect": [
       { "u_add_trait": "BLOODHASTE_REFINEMENT_WATER_RUN" },
-      { "u_message": "You learned Zephyr, a new use for your Blood-driven Speed Blood Art.", "type": "good" }
+      { "u_message": "You learned Zephyr, a new use for your Blood-driven Speed Blood Art.", "type": "good" },
+      { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_REFINEMENT_RESEARCH_SUCCESS" }
     ]
   },
   {
@@ -502,7 +509,8 @@
       {
         "u_message": "You learned Flesh of Marble, a new use for your Sanguine Resilience Blood Art.",
         "type": "good"
-      }
+      },
+      { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_REFINEMENT_RESEARCH_SUCCESS" }
     ]
   }
 ]
