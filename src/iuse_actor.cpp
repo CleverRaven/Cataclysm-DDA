@@ -283,15 +283,13 @@ std::optional<int> iuse_transform::use( Character *p, item &it, const tripoint_b
 std::optional<int> iuse_transform::use( Character *p, item &it, map *,
                                         const tripoint_bub_ms & ) const
 {
+    if( !iuse::check_params( p, &it, "transform" ) ) {
+        return std::nullopt;
+    }
     int scale = 1;
     auto iter = it.type->ammo_scale.find( type );
     if( iter != it.type->ammo_scale.end() ) {
         scale = iter->second;
-    }
-    if( !p ) {
-        debugmsg( "%s called action transform that requires character but no character is present",
-                  it.typeId().str() );
-        return std::nullopt;
     }
 
     it.set_var( "last_act_by_char_id", p->getID().get_value() );
@@ -584,6 +582,9 @@ std::optional<int> unpack_actor::use( Character *p, item &it, const tripoint_bub
 std::optional<int> unpack_actor::use( Character *p, item &it, map *here,
                                       const tripoint_bub_ms & ) const
 {
+    if( !iuse::check_params( p, &it, "unpack" ) ) {
+        return std::nullopt;
+    }
     std::vector<item> items = item_group::items_from( unpack_group, calendar::turn );
     item last_armor;
 
@@ -642,7 +643,11 @@ std::optional<int> message_iuse::use( Character *p, item &it,
 std::optional<int> message_iuse::use( Character *p, item &it,
                                       map *here, const tripoint_bub_ms &pos ) const
 {
+    // p can be null when called as a countdown action, not an error
     if( !p ) {
+        return std::nullopt;
+    }
+    if( !iuse::check_params( &it, "message" ) ) {
         return std::nullopt;
     }
 
@@ -902,6 +907,9 @@ std::optional<int> consume_drug_iuse::use( Character *p, item &it,
 std::optional<int> consume_drug_iuse::use( Character *p, item &it, map *here,
         const tripoint_bub_ms & ) const
 {
+    if( !iuse::check_params( p, &it, "consume_drug" ) ) {
+        return std::nullopt;
+    }
     auto need_these = tools_needed;
 
     // Check prerequisites first.
@@ -1007,6 +1015,9 @@ std::optional<int> delayed_transform_iuse::use( Character *p, item &it,
 std::optional<int> delayed_transform_iuse::use( Character *p, item &it,
         map *here, const tripoint_bub_ms &pos ) const
 {
+    if( !iuse::check_params( p, &it, "delayed_transform" ) ) {
+        return std::nullopt;
+    }
     if( time_to_do( it ) > 0 ) {
         p->add_msg_if_player( m_info, "%s", not_ready_msg );
         return std::nullopt;
@@ -1048,6 +1059,9 @@ std::optional<int> place_monster_iuse::use( Character *p, item &it,
 std::optional<int> place_monster_iuse::use( Character *p, item &it, map *here,
         const tripoint_bub_ms & ) const
 {
+    if( !iuse::check_params( p, &it, "place_monster" ) ) {
+        return std::nullopt;
+    }
     if( here != &reality_bubble() ) { // Because of the g usage below
         debugmsg( "Not supported for maps other than the reality bubble" );
         return std::nullopt;
@@ -1153,6 +1167,9 @@ std::optional<int> place_npc_iuse::use( Character *p, item &it, const tripoint_b
 std::optional<int> place_npc_iuse::use( Character *p, item &, map *here,
                                         const tripoint_bub_ms & ) const
 {
+    if( !iuse::check_params( p, "place_npc" ) ) {
+        return std::nullopt;
+    }
     const tripoint_range<tripoint_bub_ms> target_range = place_randomly ?
             points_in_radius( p->pos_bub( *here ), radius ) :
             points_in_radius( choose_adjacent( _( "Place NPC where?" ) ).value_or( p->pos_bub( *here ) ), 0 );
@@ -1323,6 +1340,9 @@ std::optional<int> deploy_furn_actor::use( Character *p, item &it,
 std::optional<int> deploy_furn_actor::use( Character *p, item &it,
         map *here, const tripoint_bub_ms &pos ) const
 {
+    if( !iuse::check_params( p, &it, "deploy_furn" ) ) {
+        return std::nullopt;
+    }
     ret_val<tripoint_bub_ms> suitable = check_deploy_square( p, it, here, pos );
     if( !suitable.success() ) {
         p->add_msg_if_player( m_info, suitable.str() );
@@ -1362,6 +1382,9 @@ std::optional<int> deploy_appliance_actor::use( Character *p, item &it,
 std::optional<int> deploy_appliance_actor::use( Character *p, item &it,
         map *here, const tripoint_bub_ms &pos ) const
 {
+    if( !iuse::check_params( p, &it, "deploy_appliance" ) ) {
+        return std::nullopt;
+    }
     ret_val<tripoint_bub_ms> suitable = check_deploy_square( p, it, here, pos );
     if( !suitable.success() ) {
         p->add_msg_if_player( m_info, suitable.str() );
@@ -1427,6 +1450,9 @@ std::optional<int> reveal_map_actor::use( Character *p, item &it, const tripoint
 std::optional<int> reveal_map_actor::use( Character *p, item &it, map *,
         const tripoint_bub_ms & ) const
 {
+    if( !iuse::check_params( p, &it, "reveal_map" ) ) {
+        return std::nullopt;
+    }
     if( it.already_used_by_player( *p ) ) {
         p->add_msg_if_player( _( "There isn't anything new on the %s." ), it.tname() );
         return std::nullopt;
@@ -1655,9 +1681,7 @@ std::optional<int> firestarter_actor::use( Character *p, item &it,
 std::optional<int> firestarter_actor::use( Character *p, item &it,
         map *here,  const tripoint_bub_ms &spos ) const
 {
-    if( !p ) {
-        debugmsg( "%s called action firestarter that requires character but no character is present",
-                  it.typeId().str() );
+    if( !iuse::check_params( p, &it, "firestarter" ) ) {
         return std::nullopt;
     }
 
@@ -1717,9 +1741,7 @@ std::unique_ptr<iuse_actor> salvage_actor::clone() const
 
 std::optional<int> salvage_actor::use( Character *p, item &cutter, const tripoint_bub_ms & ) const
 {
-    if( !p ) {
-        debugmsg( "%s called action salvage that requires character but no character is present",
-                  cutter.typeId().str() );
+    if( !iuse::check_params( p, &cutter, "salvage" ) ) {
         return std::nullopt;
     }
 
@@ -1747,9 +1769,7 @@ std::optional<int> salvage_actor::use( Character *p, item &cutter, const tripoin
 std::optional<int> salvage_actor::use( Character *p, item &cutter, map *,
                                        const tripoint_bub_ms & ) const
 {
-    if( !p ) {
-        debugmsg( "%s called action salvage that requires character but no character is present",
-                  cutter.typeId().str() );
+    if( !iuse::check_params( p, &cutter, "salvage" ) ) {
         return std::nullopt;
     }
 
@@ -2185,9 +2205,7 @@ std::optional<int> inscribe_actor::use( Character *p, item &it, map *here,
         return std::nullopt;
     }
 
-    if( !p ) {
-        debugmsg( "%s called action inscribe that requires character but no character is present",
-                  it.typeId().str() );
+    if( !iuse::check_params( p, &it, "inscribe" ) ) {
         return std::nullopt;
     }
 
@@ -2261,9 +2279,7 @@ std::optional<int> fireweapon_off_actor::use( Character *p, item &it,
 std::optional<int> fireweapon_off_actor::use( Character *p, item &it,
         map *, const tripoint_bub_ms & ) const
 {
-    if( !p ) {
-        debugmsg( "%s called action fireweapon_off that requires character but no character is present",
-                  it.typeId().str() );
+    if( !iuse::check_params( p, &it, "fireweapon_off" ) ) {
         return std::nullopt;
     }
 
@@ -2387,6 +2403,9 @@ std::optional<int> manualnoise_actor::use( Character *p, item &it,
 std::optional<int> manualnoise_actor::use( Character *p, item &, map *,
         const tripoint_bub_ms & ) const
 {
+    if( !iuse::check_params( p, "manualnoise" ) ) {
+        return std::nullopt;
+    }
     map &bubble_map = reality_bubble();
 
     // Uses the moves specified by iuse_actor's definition
@@ -2433,6 +2452,9 @@ std::optional<int> play_instrument_iuse::use( Character *p, item &it,
 std::optional<int> play_instrument_iuse::use( Character *p, item &it,
         map *, const tripoint_bub_ms & ) const
 {
+    if( !iuse::check_params( p, &it, "play_instrument" ) ) {
+        return std::nullopt;
+    }
     if( it.active ) {
         it.active = false;
         p->remove_effect( effect_playing_instrument );
@@ -2707,6 +2729,9 @@ std::optional<int> learn_spell_actor::use( Character *p, item &it,
 std::optional<int> learn_spell_actor::use( Character *p, item &, map *,
         const tripoint_bub_ms & ) const
 {
+    if( !iuse::check_params( p, "learn_spell" ) ) {
+        return std::nullopt;
+    }
     //TODO: combine/replace the checks below with "checks for conditions" from Character::check_read_condition
 
     if( p->fine_detail_vision_mod() > 4 ) {
@@ -2849,6 +2874,9 @@ std::optional<int> cast_spell_actor::use( Character *p, item &it, const tripoint
 std::optional<int> cast_spell_actor::use( Character *p, item &it, map * /*here*/,
         const tripoint_bub_ms &pos ) const
 {
+    if( !iuse::check_params( p, &it, "cast_spell" ) ) {
+        return std::nullopt;
+    }
     if( need_worn && !p->is_worn( it ) ) {
         p->add_msg_if_player( m_info, _( "You need to wear the %1$s before activating it." ), it.tname() );
         return std::nullopt;
@@ -2940,6 +2968,9 @@ std::optional<int> holster_actor::use( Character *you, item &it, const tripoint_
 std::optional<int> holster_actor::use( Character *you, item &it, map *here,
                                        const tripoint_bub_ms &p ) const
 {
+    if( !iuse::check_params( you, &it, "holster" ) ) {
+        return std::nullopt;
+    }
     if( you->is_wielding( it ) ) {
         you->add_msg_if_player( _( "You need to unwield your %s before using it." ), it.tname() );
         return std::nullopt;
@@ -3040,6 +3071,9 @@ std::optional<int> ammobelt_actor::use( Character *p, item &it, const tripoint_b
 
 std::optional<int> ammobelt_actor::use( Character *p, item &, map *, const tripoint_bub_ms & ) const
 {
+    if( !iuse::check_params( p, "ammobelt" ) ) {
+        return std::nullopt;
+    }
     item mag( belt );
     mag.ammo_unset();
 
@@ -3130,6 +3164,9 @@ std::optional<int> repair_item_actor::use( Character *p, item &it,
 std::optional<int> repair_item_actor::use( Character *p, item &it,
         map *here, const tripoint_bub_ms &pos ) const
 {
+    if( !iuse::check_params( p, &it, "repair_item" ) ) {
+        return std::nullopt;
+    }
     if( !can_use_tool( *p, it, true ) ) {
         return std::nullopt;
     }
@@ -3720,6 +3757,9 @@ std::optional<int> heal_actor::use( Character *p, item &it, const tripoint_bub_m
 std::optional<int> heal_actor::use( Character *p, item &it, map *here,
                                     const tripoint_bub_ms &pos ) const
 {
+    if( !iuse::check_params( p, &it, "heal" ) ) {
+        return std::nullopt;
+    }
     if( p->cant_do_underwater() ) {
         return std::nullopt;
     }
@@ -4276,6 +4316,9 @@ std::optional<int> place_trap_actor::use( Character *p, item &it, const tripoint
 std::optional<int> place_trap_actor::use( Character *p, item &it, map *here,
         const tripoint_bub_ms & ) const
 {
+    if( !iuse::check_params( p, &it, "place_trap" ) ) {
+        return std::nullopt;
+    }
     map &bubble_map = reality_bubble();
 
     if( here != &bubble_map ) { // Or make 'choose_adjacent' and 'is_allowed' map aware.
@@ -4424,9 +4467,7 @@ std::optional<int> saw_barrel_actor::use( Character *p, item &it, const tripoint
 std::optional<int> saw_barrel_actor::use( Character *p, item &it, map *,
         const tripoint_bub_ms & ) const
 {
-    if( !p ) {
-        debugmsg( "%s called action saw_barrel that requires character but no character is present",
-                  it.typeId().str() );
+    if( !iuse::check_params( p, &it, "saw_barrel" ) ) {
         return std::nullopt;
     }
 
@@ -4491,9 +4532,7 @@ std::optional<int> saw_stock_actor::use( Character *p, item &it, const tripoint_
 std::optional<int> saw_stock_actor::use( Character *p, item &it, map *,
         const tripoint_bub_ms & ) const
 {
-    if( !p ) {
-        debugmsg( "%s called action saw_stock that requires character but no character is present",
-                  it.typeId().str() );
+    if( !iuse::check_params( p, &it, "saw_stock" ) ) {
         return std::nullopt;
     }
 
@@ -4573,9 +4612,7 @@ std::optional<int> molle_attach_actor::use( Character *p, item &it,
 std::optional<int> molle_attach_actor::use( Character *p, item &it,
         map *, const tripoint_bub_ms & ) const
 {
-    if( !p ) {
-        debugmsg( "%s called action molle_attach that requires character but no character is present",
-                  it.typeId().str() );
+    if( !iuse::check_params( p, &it, "molle_attach" ) ) {
         return std::nullopt;
     }
 
@@ -4611,6 +4648,9 @@ std::optional<int> molle_detach_actor::use( Character *p, item &it,
 std::optional<int> molle_detach_actor::use( Character *p, item &it,
         map *, const tripoint_bub_ms & ) const
 {
+    if( !iuse::check_params( p, &it, "molle_detach" ) ) {
+        return std::nullopt;
+    }
 
     std::vector<const item *> items_attached = it.get_contents().get_added_pockets();
     uilist prompt;
@@ -4651,6 +4691,9 @@ std::optional<int> install_bionic_actor::use( Character *p, item &it,
 std::optional<int> install_bionic_actor::use( Character *p, item &it,
         map *, const tripoint_bub_ms & ) const
 {
+    if( !iuse::check_params( p, &it, "install_bionic" ) ) {
+        return std::nullopt;
+    }
     if( p->can_install_bionics( *it.type, *p, false ) ) {
         if( !p->has_trait( trait_DEBUG_BIONICS ) && !p->has_flag( json_flag_MANUAL_CBM_INSTALLATION ) ) {
             p->consume_installation_requirement( it.type->bionic->id );
@@ -4735,6 +4778,9 @@ std::optional<int> detach_gunmods_actor::use( Character *p, item &it,
 std::optional<int> detach_gunmods_actor::use( Character *p, item &it,
         map *, const tripoint_bub_ms & ) const
 {
+    if( !iuse::check_params( p, &it, "detach_gunmods" ) ) {
+        return std::nullopt;
+    }
     auto filter_irremovable = []( std::vector<item *> &gunmods ) {
         gunmods.erase(
             std::remove_if(
@@ -4839,6 +4885,9 @@ std::optional<int> modify_gunmods_actor::use( Character *p, item &it,
 std::optional<int> modify_gunmods_actor::use( Character *p, item &it,
         map */*here*/, const tripoint_bub_ms &pos ) const
 {
+    if( !iuse::check_params( p, &it, "modify_gunmods" ) ) {
+        return std::nullopt;
+    }
 
     std::vector<item *> mods;
     for( item *mod : it.gunmods() ) {
@@ -5010,9 +5059,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint_bu
 std::optional<int> link_up_actor::use( Character *p, item &it, map *here,
                                        const tripoint_bub_ms &pos ) const
 {
-    if( !p ) {
-        debugmsg( "%s called action link_up that requires character but no character is present",
-                  it.typeId().str() );
+    if( !iuse::check_params( p, &it, "link_up" ) ) {
         return std::nullopt;
     }
 
@@ -5669,6 +5716,9 @@ std::optional<int> deploy_tent_actor::use( Character *p, item &it,
 std::optional<int> deploy_tent_actor::use( Character *p, item &it, map *here,
         const tripoint_bub_ms & ) const
 {
+    if( !iuse::check_params( p, &it, "deploy_tent" ) ) {
+        return std::nullopt;
+    }
     map &bubble_map = reality_bubble();
 
     if( here != &bubble_map ) { // Or make 'choose_direction' map aware.
@@ -5759,6 +5809,9 @@ std::optional<int> weigh_self_actor::use( Character *p, item &it, const tripoint
 std::optional<int> weigh_self_actor::use( Character *p, item &, map *,
         const tripoint_bub_ms & ) const
 {
+    if( !iuse::check_params( p, "weigh_self" ) ) {
+        return std::nullopt;
+    }
     if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot weigh yourself while mounted." ) );
         return std::nullopt;
@@ -5810,6 +5863,9 @@ std::optional<int> sew_advanced_actor::use( Character *p, item &it,
 std::optional<int> sew_advanced_actor::use( Character *p, item &it, map *here,
         const tripoint_bub_ms & ) const
 {
+    if( !iuse::check_params( p, &it, "sew_advanced" ) ) {
+        return std::nullopt;
+    }
     if( p->is_npc() ) {
         return std::nullopt;
     }
@@ -6058,6 +6114,9 @@ std::optional<int> change_scent_iuse::use( Character *p, item &it,
 std::optional<int> change_scent_iuse::use( Character *p, item &it, map *,
         const tripoint_bub_ms & ) const
 {
+    if( !iuse::check_params( p, &it, "change_scent" ) ) {
+        return std::nullopt;
+    }
     p->set_value( "prev_scent", p->get_type_of_scent().c_str() );
     if( waterproof ) {
         p->set_value( "waterproof_scent", "true" );
@@ -6118,6 +6177,9 @@ std::optional<int> effect_on_conditions_actor::use( Character *p, item &it,
 std::optional<int> effect_on_conditions_actor::use( Character *p, item &it,
         map *here, const tripoint_bub_ms &pos ) const
 {
+    if( !iuse::check_params( p, &it, "effect_on_conditions" ) ) {
+        return std::nullopt;
+    }
     if( it.type->comestible ) {
         debugmsg( "Comestibles are not properly consumed via effect_on_conditions and effect_on_conditions should not be used on items of type comestible until/unless this is resolved.  Rather than a use_action, use the consumption_effect_on_conditions JSON parameter on the comestible" );
         return 0;

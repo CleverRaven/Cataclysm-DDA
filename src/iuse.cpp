@@ -496,6 +496,42 @@ void remove_radio_mod( item &it, Character &p )
     it.unset_flag( flag_RADIOCARITEM );
 }
 
+bool iuse::check_params( const Character *const p, const item *const it, const std::string &action )
+{
+    if( !p ) {
+        if( it ) {
+            debugmsg( "%s called action %s without required character.",
+                      it->typeId().str(), action );
+        } else {
+            debugmsg( "Action %s called without required character and item.",
+                      action );
+        }
+        return false;
+    }
+    if( !it ) {
+        debugmsg( "Action %s called without required item.", action );
+    }
+    return true;
+}
+
+bool iuse::check_params( const Character *const p, const std::string &action )
+{
+    if( !p ) {
+        debugmsg( "Action %s called without required character.", action );
+        return false;
+    }
+    return true;
+}
+
+bool iuse::check_params( const item *const it, const std::string &action )
+{
+    if( !it ) {
+        debugmsg( "Action %s called without required item.", action );
+    }
+    return true;
+}
+
+
 // Checks that the player can smoke
 std::optional<std::string> iuse::can_smoke( const Character &you )
 {
@@ -515,6 +551,10 @@ std::optional<std::string> iuse::can_smoke( const Character &you )
 
 std::optional<int> iuse::sewage( Character *p, item *, const tripoint_bub_ms & )
 {
+    if( !check_params( p, __func__ ) ) {
+        return std::nullopt;
+    }
+
     if( !p->query_yn( _( "Are you sure you want to drink… this?" ) ) ) {
         return std::nullopt;
     }
@@ -526,12 +566,18 @@ std::optional<int> iuse::sewage( Character *p, item *, const tripoint_bub_ms & )
 
 std::optional<int> iuse::honeycomb( Character *p, item *, const tripoint_bub_ms & )
 {
+    if( !check_params( p, __func__ ) ) {
+        return std::nullopt;
+    }
     get_map().spawn_item( p->pos_bub(), itype_wax, 2 );
     return 1;
 }
 
 std::optional<int> iuse::xanax( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     p->add_msg_if_player( _( "You take some %s." ), it->tname() );
     p->add_effect( effect_took_xanax, 90_minutes );
     p->add_effect( effect_took_xanax_visible, rng( 70_minutes, 110_minutes ) );
@@ -569,16 +615,25 @@ static int alcohol( Character &p, const item &it, const int strength )
 
 std::optional<int> iuse::alcohol_weak( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     return alcohol( *p, *it, 0 );
 }
 
 std::optional<int> iuse::alcohol_medium( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     return alcohol( *p, *it, 1 );
 }
 
 std::optional<int> iuse::alcohol_strong( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     return alcohol( *p, *it, 2 );
 }
 
@@ -592,6 +647,9 @@ std::optional<int> iuse::alcohol_strong( Character *p, item *it, const tripoint_
  */
 std::optional<int> iuse::smoking( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     std::optional<std::string> litcig = can_smoke( *p );
     if( litcig.has_value() ) {
         p->add_msg_if_player( m_info, _( litcig.value_or( "" ) ) );
@@ -646,6 +704,9 @@ std::optional<int> iuse::smoking( Character *p, item *it, const tripoint_bub_ms 
 
 std::optional<int> iuse::ecig( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( it->typeId() == itype_ecig ) {
         p->add_msg_if_player( m_neutral, _( "You take a puff from your electronic cigarette." ) );
     } else if( it->typeId() == itype_advanced_ecig ) {
@@ -673,6 +734,9 @@ std::optional<int> iuse::ecig( Character *p, item *it, const tripoint_bub_ms & )
 
 std::optional<int> iuse::antibiotic( Character *p, item *, const tripoint_bub_ms & )
 {
+    if( !check_params( p, __func__ ) ) {
+        return std::nullopt;
+    }
     p->add_msg_player_or_npc( m_neutral,
                               _( "You take some antibiotics." ),
                               _( "<npcname> takes some antibiotics." ) );
@@ -695,6 +759,9 @@ std::optional<int> iuse::antibiotic( Character *p, item *, const tripoint_bub_ms
 
 std::optional<int> iuse::eyedrops( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->cant_do_underwater() ) {
         return std::nullopt;
     }
@@ -720,6 +787,9 @@ std::optional<int> iuse::eyedrops( Character *p, item *it, const tripoint_bub_ms
 
 std::optional<int> iuse::fungicide( Character *p, item *, const tripoint_bub_ms & )
 {
+    if( !check_params( p, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->cant_do_underwater() ) {
         return std::nullopt;
     }
@@ -777,6 +847,9 @@ std::optional<int> iuse::fungicide( Character *p, item *, const tripoint_bub_ms 
 
 std::optional<int> iuse::antifungal( Character *p, item *, const tripoint_bub_ms & )
 {
+    if( !check_params( p, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->cant_do_underwater() ) {
         return std::nullopt;
     }
@@ -795,6 +868,9 @@ std::optional<int> iuse::antifungal( Character *p, item *, const tripoint_bub_ms
 
 std::optional<int> iuse::antiparasitic( Character *p, item *, const tripoint_bub_ms & )
 {
+    if( !check_params( p, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->cant_do_underwater() ) {
         return std::nullopt;
     }
@@ -844,6 +920,9 @@ std::optional<int> iuse::antiparasitic( Character *p, item *, const tripoint_bub
 
 std::optional<int> iuse::anticonvulsant( Character *p, item *, const tripoint_bub_ms & )
 {
+    if( !check_params( p, __func__ ) ) {
+        return std::nullopt;
+    }
     p->add_msg_if_player( _( "You take some anticonvulsant medication." ) );
     /** @EFFECT_STR reduces duration of anticonvulsant medication */
     time_duration duration = 8_hours - p->str_cur * rng( 0_turns, 10_minutes );
@@ -865,6 +944,9 @@ std::optional<int> iuse::anticonvulsant( Character *p, item *, const tripoint_bu
 
 std::optional<int> iuse::weed_cake( Character *p, item *, const tripoint_bub_ms & )
 {
+    if( !check_params( p, __func__ ) ) {
+        return std::nullopt;
+    }
     p->add_msg_if_player(
         _( "You start scarfing down the delicious cake.  It tastes a little funny, though…" ) );
     time_duration duration = 12_minutes;
@@ -889,6 +971,9 @@ std::optional<int> iuse::weed_cake( Character *p, item *, const tripoint_bub_ms 
 
 std::optional<int> iuse::coke( Character *p, item *, const tripoint_bub_ms & )
 {
+    if( !check_params( p, __func__ ) ) {
+        return std::nullopt;
+    }
     p->add_msg_if_player( _( "You snort a bump of coke." ) );
     /** @EFFECT_STR reduces duration of coke */
     time_duration duration = 20_minutes - 1_seconds * p->str_cur + rng( 0_minutes, 1_minutes );
@@ -905,6 +990,9 @@ std::optional<int> iuse::coke( Character *p, item *, const tripoint_bub_ms & )
 
 std::optional<int> iuse::meth( Character *p, item *, const tripoint_bub_ms & )
 {
+    if( !check_params( p, __func__ ) ) {
+        return std::nullopt;
+    }
     /** @EFFECT_STR reduces duration of meth */
     time_duration duration = 1_minutes * ( 60 - p->str_cur );
     if( p->has_amount( itype_apparatus, 1 ) && p->use_charges_if_avail( itype_fire, 1 ) ) {
@@ -943,6 +1031,9 @@ std::optional<int> iuse::meth( Character *p, item *, const tripoint_bub_ms & )
 
 std::optional<int> iuse::flu_vaccine( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     p->add_msg_if_player( _( "You inject the vaccine." ) );
     time_point expiration_date = it->birthday() + 24_weeks;
     time_duration remaining_time = expiration_date - calendar::turn;
@@ -962,6 +1053,9 @@ std::optional<int> iuse::flu_vaccine( Character *p, item *it, const tripoint_bub
 
 std::optional<int> iuse::poison( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->has_trait( trait_EATDEAD ) ) {
         return 1;
     }
@@ -984,9 +1078,7 @@ std::optional<int> iuse::poison( Character *p, item *it, const tripoint_bub_ms &
 
 std::optional<int> iuse::meditate( Character *p, item *it, const tripoint_bub_ms & )
 {
-    if( !p ) {
-        debugmsg( "%s called action meditate that requires character but no character is present",
-                  it->typeId().str() );
+    if( !check_params( p, it, __func__ ) ) {
         return std::nullopt;
     }
     if( p->cant_do_mounted() ) {
@@ -1003,6 +1095,9 @@ std::optional<int> iuse::meditate( Character *p, item *it, const tripoint_bub_ms
 
 std::optional<int> iuse::thorazine( Character *p, item *, const tripoint_bub_ms & )
 {
+    if( !check_params( p, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->has_effect( effect_took_thorazine ) ) {
         p->remove_effect( effect_took_thorazine );
         p->mod_sleepiness( 15 );
@@ -1028,6 +1123,9 @@ std::optional<int> iuse::thorazine( Character *p, item *, const tripoint_bub_ms 
 
 std::optional<int> iuse::prozac( Character *p, item *, const tripoint_bub_ms & )
 {
+    if( !check_params( p, __func__ ) ) {
+        return std::nullopt;
+    }
     if( !p->has_effect( effect_took_prozac ) ) {
         p->add_effect( effect_took_prozac, 12_hours );
     } else {
@@ -1043,6 +1141,9 @@ std::optional<int> iuse::prozac( Character *p, item *, const tripoint_bub_ms & )
 
 std::optional<int> iuse::datura( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->is_npc() ) {
         return std::nullopt;
     }
@@ -1057,6 +1158,9 @@ std::optional<int> iuse::datura( Character *p, item *it, const tripoint_bub_ms &
 
 std::optional<int> iuse::flumed( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     p->add_effect( effect_took_flumed, 10_hours );
     p->add_msg_if_player( _( "You take some %s." ), it->tname() );
     return 1;
@@ -1064,6 +1168,9 @@ std::optional<int> iuse::flumed( Character *p, item *it, const tripoint_bub_ms &
 
 std::optional<int> iuse::flusleep( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     p->add_effect( effect_took_flumed, 12_hours );
     p->mod_sleepiness( 30 );
     p->add_msg_if_player( _( "You take some %s." ), it->tname() );
@@ -1073,6 +1180,9 @@ std::optional<int> iuse::flusleep( Character *p, item *it, const tripoint_bub_ms
 
 std::optional<int> iuse::inhaler( Character *p, item *, const tripoint_bub_ms & )
 {
+    if( !check_params( p, __func__ ) ) {
+        return std::nullopt;
+    }
     p->add_msg_player_or_npc( m_neutral, _( "You take a puff from your inhaler." ),
                               _( "<npcname> takes a puff from their inhaler." ) );
     if( !p->remove_effect( effect_asthma ) ) {
@@ -1088,6 +1198,9 @@ std::optional<int> iuse::inhaler( Character *p, item *, const tripoint_bub_ms & 
 
 std::optional<int> iuse::oxygen_bottle( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     p->mod_moves( -to_moves<int>( 10_seconds ) );
     p->add_msg_player_or_npc( m_neutral, string_format( _( "You breathe deeply from the %s." ),
                               it->tname() ),
@@ -1109,6 +1222,9 @@ std::optional<int> iuse::oxygen_bottle( Character *p, item *it, const tripoint_b
 
 std::optional<int> iuse::blech( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     // TODO: Add more effects?
     if( it->made_of( phase_id::LIQUID ) ) {
         if( !p->query_yn( _( "This looks unhealthy, sure you want to drink it?" ) ) ) {
@@ -1147,6 +1263,9 @@ std::optional<int> iuse::blech( Character *p, item *it, const tripoint_bub_ms & 
 
 std::optional<int> iuse::blech_because_unclean( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( !p->is_npc() ) {
         if( test_mode ) {
             p->add_msg_if_player( m_info,
@@ -1168,6 +1287,9 @@ std::optional<int> iuse::blech_because_unclean( Character *p, item *it, const tr
 
 std::optional<int> iuse::plantblech( Character *p, item *it, const tripoint_bub_ms &pos )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->has_trait( trait_THRESH_PLANT ) ) {
         double multiplier = -1;
         if( p->has_trait( trait_CHLOROMORPH ) ) {
@@ -1191,6 +1313,9 @@ std::optional<int> iuse::plantblech( Character *p, item *it, const tripoint_bub_
 
 std::optional<int> iuse::chew( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     // TODO: Add more effects?
     p->add_msg_if_player( _( "You chew your %s." ), it->tname() );
     return 1;
@@ -1224,6 +1349,9 @@ static void do_purify( Character &p )
 
 std::optional<int> iuse::purify_smart( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     std::vector<trait_id> valid; // Which flags the player has
     std::vector<std::string> valid_names; // Which flags the player has
     for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
@@ -1443,6 +1571,9 @@ static bool marloss_prevented( const Character &p )
 
 std::optional<int> iuse::marloss( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( marloss_prevented( *p ) ) {
         return std::nullopt;
     }
@@ -1455,6 +1586,9 @@ std::optional<int> iuse::marloss( Character *p, item *it, const tripoint_bub_ms 
 
 std::optional<int> iuse::marloss_seed( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( !query_yn( _( "Are you sure you want to eat the %s?  You could plant it in a mound of dirt." ),
                    colorize( it->tname(), it->color_in_inventory() ) ) ) {
         return std::nullopt; // Save the seed for later!
@@ -1472,6 +1606,9 @@ std::optional<int> iuse::marloss_seed( Character *p, item *it, const tripoint_bu
 
 std::optional<int> iuse::marloss_gel( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( marloss_prevented( *p ) ) {
         return std::nullopt;
     }
@@ -1484,6 +1621,9 @@ std::optional<int> iuse::marloss_gel( Character *p, item *it, const tripoint_bub
 
 std::optional<int> iuse::mycus( Character *p, item *, const tripoint_bub_ms & )
 {
+    if( !check_params( p, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->is_npc() ) {
         return 1;
     }
@@ -1585,6 +1725,9 @@ std::optional<int> iuse::mycus( Character *p, item *, const tripoint_bub_ms & )
 
 std::optional<int> iuse::petfood( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     map &here = get_map();
 
     if( !it->is_comestible() ) {
@@ -1676,6 +1819,9 @@ std::optional<int> iuse::petfood( Character *p, item *it, const tripoint_bub_ms 
 
 std::optional<int> iuse::radio_mod( Character *p, item *, const tripoint_bub_ms & )
 {
+    if( !check_params( p, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->is_npc() ) {
         // Now THAT would be kinda cruel
         return std::nullopt;
@@ -1737,7 +1883,7 @@ std::optional<int> iuse::radio_mod( Character *p, item *, const tripoint_bub_ms 
 
 std::optional<int> iuse::remove_all_mods( Character *p, item *, const tripoint_bub_ms & )
 {
-    if( !p ) {
+    if( !check_params( p, __func__ ) ) {
         return std::nullopt;
     }
 
@@ -1794,6 +1940,9 @@ static bool good_fishing_spot( const tripoint_bub_ms &pos, Character *p )
 
 std::optional<int> iuse::fishing_rod( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->is_npc() ) {
         // Long actions - NPCs don't like those yet.
         return std::nullopt;
@@ -1822,6 +1971,9 @@ std::optional<int> iuse::fishing_rod( Character *p, item *it, const tripoint_bub
 
 std::optional<int> iuse::fish_trap( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     map &here = get_map();
     // Handle deploying fish trap.
     if( it->active ) {
@@ -1867,6 +2019,9 @@ std::optional<int> iuse::fish_trap( Character *p, item *it, const tripoint_bub_m
 
 std::optional<int> iuse::fish_trap_tick( Character *p, item *it, const tripoint_bub_ms &pos )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     map &here = get_map();
     // Handle processing fish trap over time.
     if( it->ammo_remaining( ) == 0 ) {
@@ -1957,6 +2112,9 @@ std::optional<int> iuse::fish_trap_tick( Character *p, item *it, const tripoint_
 
 std::optional<int> iuse::extinguisher( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( !it->ammo_sufficient( p ) ) {
         return std::nullopt;
     }
@@ -2335,6 +2493,9 @@ class exosuit_interact
 
 std::optional<int> iuse::mace( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( !it->ammo_sufficient( p ) ) {
         return std::nullopt;
     }
@@ -2379,6 +2540,9 @@ std::optional<int> iuse::mace( Character *p, item *it, const tripoint_bub_ms & )
 
 std::optional<int> iuse::manage_exosuit( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( !p->is_avatar() ) {
         return std::nullopt;
     }
@@ -2392,6 +2556,9 @@ std::optional<int> iuse::manage_exosuit( Character *p, item *it, const tripoint_
 
 std::optional<int> iuse::unpack_item( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->cant_do_underwater() ) {
         return std::nullopt;
     }
@@ -2406,6 +2573,9 @@ std::optional<int> iuse::unpack_item( Character *p, item *it, const tripoint_bub
 
 std::optional<int> iuse::pack_cbm( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     item_location bionic = g->inv_map_splice( []( const item & e ) {
         return e.is_bionic() && e.has_flag( flag_NO_PACKED );
     }, _( "Choose CBM to pack" ), PICKUP_RANGE, _( "You don't have any CBMs." ) );
@@ -2437,9 +2607,7 @@ std::optional<int> iuse::pack_cbm( Character *p, item *it, const tripoint_bub_ms
 
 std::optional<int> iuse::pack_item( Character *p, item *it, const tripoint_bub_ms & )
 {
-    if( !p ) {
-        debugmsg( "%s called action pack_item that requires character but no character is present",
-                  it->typeId().str() );
+    if( !check_params( p, it, __func__ ) ) {
         return std::nullopt;
     }
     if( p->cant_do_underwater() ) {
@@ -2467,6 +2635,9 @@ std::optional<int> iuse::pack_item( Character *p, item *it, const tripoint_bub_m
 
 std::optional<int> iuse::water_purifier( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->cant_do_mounted() ) {
         return std::nullopt;
     }
@@ -2505,6 +2676,9 @@ std::optional<int> iuse::water_purifier( Character *p, item *it, const tripoint_
 // Part of iuse::water_tablets, but with the user interaction split out so it can be unit tested
 std::optional<int> iuse::purify_water( Character *p, item *purifier, item_location &water )
 {
+    if( !check_params( p, purifier, __func__ ) ) {
+        return std::nullopt;
+    }
     const double default_ratio = 4; // Existing pur_tablets will not have the var
     const int max_water_per_tablet = static_cast<int>( purifier->get_var( "water_per_tablet",
                                      default_ratio ) );
@@ -2557,6 +2731,9 @@ std::optional<int> iuse::purify_water( Character *p, item *purifier, item_locati
 
 std::optional<int> iuse::water_tablets( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     map &here = get_map();
 
     if( p->cant_do_mounted() ) {
@@ -2580,6 +2757,9 @@ std::optional<int> iuse::water_tablets( Character *p, item *it, const tripoint_b
 
 std::optional<int> iuse::radio_off( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( !it->ammo_sufficient( p ) ) {
         p->add_msg_if_player( _( "It's dead." ) );
     } else {
@@ -2591,6 +2771,9 @@ std::optional<int> iuse::radio_off( Character *p, item *it, const tripoint_bub_m
 
 std::optional<int> iuse::directional_antenna( Character *p, item *, const tripoint_bub_ms & )
 {
+    if( !check_params( p, __func__ ) ) {
+        return std::nullopt;
+    }
     // Find out if we have an active radio
     auto radios = p->cache_get_items_with( itype_radio_on );
     // If we don't wield the radio, also check on the ground
@@ -2646,6 +2829,9 @@ static int radio_static_chance( const radio_tower_reference &tref )
 
 std::optional<int> iuse::radio_tick( Character *, item *it, const tripoint_bub_ms &pos )
 {
+    if( !check_params( it, __func__ ) ) {
+        return std::nullopt;
+    }
     std::string message = _( "Radio: Kssssssssssssh." );
     const radio_tower_reference tref = overmap_buffer.find_radio_station( it->frequency );
     add_msg_debug( debugmode::DF_RADIO, "Set freq: %d", it->frequency );
@@ -2700,6 +2886,9 @@ std::optional<int> iuse::radio_tick( Character *, item *it, const tripoint_bub_m
 
 std::optional<int> iuse::radio_on( Character *, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( it, __func__ ) ) {
+        return std::nullopt;
+    }
 
     const auto tower_desc = []( const int noise ) {
         if( noise == 0 ) {
@@ -2810,6 +2999,9 @@ std::optional<int> iuse::emf_passive_on( Character *, item *, const tripoint_bub
 
 std::optional<int> iuse::ma_manual( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     // [CR] - should NPCs just be allowed to learn this stuff? Just like that?
 
     const matype_id style_to_learn = martial_art_learned_from( *it->type );
@@ -2824,14 +3016,19 @@ std::optional<int> iuse::ma_manual( Character *p, item *it, const tripoint_bub_m
     return 1;
 }
 
-// TODO: Why does this exist?
 std::optional<int> iuse::crowbar_weak( Character *p, item *it, const tripoint_bub_ms &pos )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     return iuse::crowbar( p, it, pos );
 }
 
 std::optional<int> iuse::crowbar( Character *p, item *it, const tripoint_bub_ms &pos )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->cant_do_mounted() ) {
         return std::nullopt;
     }
@@ -2908,9 +3105,7 @@ std::optional<int> iuse::crowbar( Character *p, item *it, const tripoint_bub_ms 
 
 std::optional<int> iuse::makemound( Character *p, item *it, const tripoint_bub_ms & )
 {
-    if( !p ) {
-        debugmsg( "%s called action makemound that requires character but no character is present",
-                  it->typeId().str() );
+    if( !check_params( p, it, __func__ ) ) {
         return std::nullopt;
     }
     if( p->cant_do_mounted() ) {
@@ -2943,9 +3138,7 @@ std::optional<int> iuse::makemound( Character *p, item *it, const tripoint_bub_m
 
 std::optional<int> iuse::dig( Character *p, item *it, const tripoint_bub_ms & )
 {
-    if( !p ) {
-        debugmsg( "%s called action dig that requires character but no character is present",
-                  it->typeId().str() );
+    if( !check_params( p, it, __func__ ) ) {
         return std::nullopt;
     }
     if( p->cant_do_mounted() ) {
@@ -2967,9 +3160,7 @@ std::optional<int> iuse::dig( Character *p, item *it, const tripoint_bub_ms & )
 
 std::optional<int> iuse::dig_channel( Character *p, item *it, const tripoint_bub_ms & )
 {
-    if( !p ) {
-        debugmsg( "%s called action dig_channel that requires character but no character is present",
-                  it->typeId().str() );
+    if( !check_params( p, it, __func__ ) ) {
         return std::nullopt;
     }
     if( p->cant_do_mounted() ) {
@@ -2987,9 +3178,7 @@ std::optional<int> iuse::dig_channel( Character *p, item *it, const tripoint_bub
 
 std::optional<int> iuse::fill_pit( Character *p, item *it, const tripoint_bub_ms & )
 {
-    if( !p ) {
-        debugmsg( "%s called action fill_pit that requires character but no character is present",
-                  it->typeId().str() );
+    if( !check_params( p, it, __func__ ) ) {
         return std::nullopt;
     }
     if( p->cant_do_mounted() ) {
@@ -3005,11 +3194,9 @@ std::optional<int> iuse::fill_pit( Character *p, item *it, const tripoint_bub_ms
     return 0;
 }
 
-std::optional<int> iuse::clear_rubble( Character *p, item *it, const tripoint_bub_ms & )
+std::optional<int> iuse::clear_rubble( Character *p, item *, const tripoint_bub_ms & )
 {
-    if( !p ) {
-        debugmsg( "%s called action clear_rubble that requires character but no character is present",
-                  it->typeId().str() );
+    if( !check_params( p, __func__ ) ) {
         return std::nullopt;
     }
     if( p->cant_do_mounted() ) {
@@ -3021,12 +3208,20 @@ std::optional<int> iuse::clear_rubble( Character *p, item *it, const tripoint_bu
         return it.str_id == construction_constr_clear_rubble;
     } );
 
+    if( build == cnstr.end() ) {
+        debugmsg( "Clear rubble construction unexpectly does not exist" );
+        return std::nullopt;
+    }
+
     place_construction( { build->group } );
     return 0;
 }
 
 std::optional<int> iuse::siphon( Character *p, item *, const tripoint_bub_ms & )
 {
+    if( !check_params( p, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->cant_do_mounted() ) {
         return std::nullopt;
     }
@@ -3077,6 +3272,9 @@ std::optional<int> iuse::siphon( Character *p, item *, const tripoint_bub_ms & )
 
 std::optional<int> iuse::change_eyes( Character *p, item *, const tripoint_bub_ms & )
 {
+    if( !check_params( p, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->is_avatar() ) {
         p->customize_appearance( customize_appearance_choice::EYES );
     }
@@ -3085,6 +3283,9 @@ std::optional<int> iuse::change_eyes( Character *p, item *, const tripoint_bub_m
 
 std::optional<int> iuse::change_skin( Character *p, item *, const tripoint_bub_ms & )
 {
+    if( !check_params( p, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->is_avatar() ) {
         p->customize_appearance( customize_appearance_choice::SKIN );
     }
@@ -3165,6 +3366,9 @@ static std::optional<int> dig_tool( Character *p, item *it, const tripoint_bub_m
 
 std::optional<int> iuse::jackhammer( Character *p, item *it, const tripoint_bub_ms &pos )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     // use has_enough_charges to check for UPS availability
     // p is assumed to exist for iuse cases
     if( !it->ammo_sufficient( p ) ) {
@@ -3179,6 +3383,9 @@ std::optional<int> iuse::jackhammer( Character *p, item *it, const tripoint_bub_
 
 std::optional<int> iuse::pick_lock( Character *p, item *it, const tripoint_bub_ms &pos )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->is_npc() ) {
         return std::nullopt;
     }
@@ -3226,6 +3433,9 @@ std::optional<int> iuse::pick_lock( Character *p, item *it, const tripoint_bub_m
 
 std::optional<int> iuse::pickaxe( Character *p, item *it, const tripoint_bub_ms &pos )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->is_npc() ) {
         // Long action
         return std::nullopt;
@@ -3241,6 +3451,9 @@ std::optional<int> iuse::pickaxe( Character *p, item *it, const tripoint_bub_ms 
 
 std::optional<int> iuse::geiger( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     map &here = get_map();
 
     int ch = uilist( _( "Geiger counter:" ), {
@@ -3324,6 +3537,9 @@ std::optional<int> iuse::geiger_active( Character *, item *, const tripoint_bub_
 
 std::optional<int> iuse::teleport( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->is_npc() ) {
         // That would be evil
         return std::nullopt;
@@ -3341,6 +3557,9 @@ std::optional<int> iuse::teleport( Character *p, item *it, const tripoint_bub_ms
 
 std::optional<int> iuse::can_goo( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     map &here = get_map();
 
     it->convert( itype_canister_empty );
@@ -3394,6 +3613,9 @@ std::optional<int> iuse::can_goo( Character *p, item *it, const tripoint_bub_ms 
 
 std::optional<int> iuse::granade_act( Character *, item *it, const tripoint_bub_ms &pos )
 {
+    if( !check_params( it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( pos.x() == -999 || pos.y() == -999 ) {
         return std::nullopt;
     }
@@ -3526,6 +3748,9 @@ std::optional<int> iuse::granade_act( Character *, item *it, const tripoint_bub_
 
 std::optional<int> iuse::c4( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     int time = 0;
     bool got_value = false;
     if( p->is_avatar() ) {
@@ -3551,6 +3776,9 @@ std::optional<int> iuse::c4( Character *p, item *it, const tripoint_bub_ms & )
 std::optional<int> iuse::acidbomb_act( Character *p, item *it, const tripoint_bub_ms &pos )
 {
     if( !p ) {
+        if( !check_params( it, __func__ ) ) {
+            return std::nullopt;
+        }
         it->charges = -1;
         map &here = get_map();
         for( const tripoint_bub_ms &tmp : here.points_in_radius( pos, 1 ) ) {
@@ -3563,6 +3791,9 @@ std::optional<int> iuse::acidbomb_act( Character *p, item *it, const tripoint_bu
 
 std::optional<int> iuse::grenade_inc_act( Character *p, item *, const tripoint_bub_ms &pos )
 {
+    if( !check_params( p, __func__ ) ) {
+        return std::nullopt;
+    }
     if( pos.x() == -999 || pos.y() == -999 ) {
         return std::nullopt;
     }
@@ -3590,6 +3821,9 @@ std::optional<int> iuse::grenade_inc_act( Character *p, item *, const tripoint_b
 
 std::optional<int> iuse::molotov_lit( Character *p, item *it, const tripoint_bub_ms &pos )
 {
+    if( !check_params( it, __func__ ) ) {
+        return std::nullopt;
+    }
 
     if( !p ) {
         // It was thrown or dropped, so burst into flames
@@ -3619,6 +3853,9 @@ std::optional<int> iuse::molotov_lit( Character *p, item *it, const tripoint_bub
 
 std::optional<int> iuse::firecracker_pack( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->cant_do_underwater() ) {
         return std::nullopt;
     }
@@ -3636,6 +3873,9 @@ std::optional<int> iuse::firecracker_pack( Character *p, item *it, const tripoin
 
 std::optional<int> iuse::firecracker_pack_act( Character *, item *it, const tripoint_bub_ms &pos )
 {
+    if( !check_params( it, __func__ ) ) {
+        return std::nullopt;
+    }
     // Two seconds of lit fuse burning
     // Followed by random number of explosions (4-6) per turn until 25 epxlosions have happened
     // Finally item despawns since countdown has ended
@@ -3656,6 +3896,9 @@ std::optional<int> iuse::firecracker_pack_act( Character *, item *it, const trip
 
 std::optional<int> iuse::firecracker( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->cant_do_underwater() ) {
         return std::nullopt;
     }
@@ -3672,6 +3915,9 @@ std::optional<int> iuse::firecracker( Character *p, item *it, const tripoint_bub
 
 std::optional<int> iuse::mininuke( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     int time;
     bool got_value = query_int( time, false, _( "Set the timer to ___ turns (0 to cancel)?" ) );
     if( !got_value || time <= 0 ) {
@@ -3689,6 +3935,9 @@ std::optional<int> iuse::mininuke( Character *p, item *it, const tripoint_bub_ms
 
 std::optional<int> iuse::portal( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     map &here = get_map();
     const tripoint_bub_ms pos = p->pos_bub( here );
 
@@ -3705,6 +3954,9 @@ std::optional<int> iuse::portal( Character *p, item *it, const tripoint_bub_ms &
 
 std::optional<int> iuse::tazer( Character *p, item *it, const tripoint_bub_ms &pos )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( !it->ammo_sufficient( p ) ) {
         return std::nullopt;
     }
@@ -3778,6 +4030,9 @@ std::optional<int> iuse::tazer( Character *p, item *it, const tripoint_bub_ms &p
 
 std::optional<int> iuse::tazer2( Character *p, item *it, const tripoint_bub_ms &pos )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     map &here = get_map();
 
     if( it->ammo_remaining_linked( here, p ) >= 2 ) {
@@ -3795,9 +4050,8 @@ std::optional<int> iuse::tazer2( Character *p, item *it, const tripoint_bub_ms &
 
 std::optional<int> iuse::shocktonfa_off( Character *p, item *it, const tripoint_bub_ms &pos )
 {
-    if( !p ) {
-        debugmsg( "%s called action shocktonfa_off that requires character but no character is present",
-                  it->typeId().str() );
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
     }
     int choice = uilist( _( "tactical tonfa" ), {
         _( "Zap something" ), _( "Turn on light" )
@@ -3823,26 +4077,25 @@ std::optional<int> iuse::shocktonfa_off( Character *p, item *it, const tripoint_
 
 std::optional<int> iuse::shocktonfa_on( Character *p, item *it, const tripoint_bub_ms &pos )
 {
-    if( !p ) { // Effects while simply on
-        debugmsg( "%s called action shocktonfa_on that requires character but no character is present",
-                  it->typeId().str() );
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
+    // Effects while simply on
+    if( !it->ammo_sufficient( p ) ) {
+        p->add_msg_if_player( m_info, _( "Your tactical tonfa is out of power." ) );
+        it->convert( itype_shocktonfa_off, p ).active = false;
     } else {
-        if( !it->ammo_sufficient( p ) ) {
-            p->add_msg_if_player( m_info, _( "Your tactical tonfa is out of power." ) );
-            it->convert( itype_shocktonfa_off, p ).active = false;
-        } else {
-            int choice = uilist( _( "tactical tonfa" ), {
-                _( "Zap something" ), _( "Turn off light" )
-            } );
+        int choice = uilist( _( "tactical tonfa" ), {
+            _( "Zap something" ), _( "Turn off light" )
+        } );
 
-            switch( choice ) {
-                case 0: {
-                    return iuse::tazer2( p, it, pos );
-                }
-                case 1: {
-                    p->add_msg_if_player( _( "You turn off the light." ) );
-                    it->convert( itype_shocktonfa_off, p ).active = false;
-                }
+        switch( choice ) {
+            case 0: {
+                return iuse::tazer2( p, it, pos );
+            }
+            case 1: {
+                p->add_msg_if_player( _( "You turn off the light." ) );
+                it->convert( itype_shocktonfa_off, p ).active = false;
             }
         }
     }
@@ -3851,6 +4104,9 @@ std::optional<int> iuse::shocktonfa_on( Character *p, item *it, const tripoint_b
 
 std::optional<int> iuse::mp3( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     // TODO: avoid item id hardcoding to make this function usable for pure json-defined devices.
     if( !it->ammo_sufficient( p ) ) {
         p->add_msg_if_player( m_info, _( "The device's batteries are dead." ) );
@@ -3907,6 +4163,9 @@ static std::string get_music_description()
 void iuse::play_music( Character *p, const tripoint_bub_ms &source, const int volume,
                        const int max_morale, bool play_sounds )
 {
+    if( !check_params( p, __func__ ) ) {
+        return;
+    }
     std::string sound = "music";
 
     auto lambda_should_do_effects = [&source, &volume]( Character * p ) {
@@ -3955,6 +4214,9 @@ void iuse::play_music( Character *p, const tripoint_bub_ms &source, const int vo
 
 std::optional<int> iuse::mp3_on( Character *p, item *, const tripoint_bub_ms &pos )
 {
+    if( !check_params( p,  __func__ ) ) {
+        return std::nullopt;
+    }
     // mp3 player in inventory, we can listen
     play_music( p, pos, 0, 20 );
     music::activate_music_id( music::music_id::mp3 );
@@ -3963,7 +4225,9 @@ std::optional<int> iuse::mp3_on( Character *p, item *, const tripoint_bub_ms &po
 
 std::optional<int> iuse::mp3_deactivate( Character *p, item *it, const tripoint_bub_ms & )
 {
-
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( it->typeId() == itype_mp3_on ) {
         p->add_msg_if_player( _( "The mp3 player turns off." ) );
         it->convert( itype_mp3, p ).active = false;
@@ -3981,11 +4245,13 @@ std::optional<int> iuse::mp3_deactivate( Character *p, item *it, const tripoint_
     music::deactivate_music_id( music::music_id::mp3 );
 
     return 0;
-
 }
 
 std::optional<int> iuse::rpgdie( Character *you, item *die, const tripoint_bub_ms & )
 {
+    if( !check_params( you, die, __func__ ) ) {
+        return std::nullopt;
+    }
     if( you->cant_do_mounted() ) {
         return std::nullopt;
     }
@@ -4008,6 +4274,9 @@ std::optional<int> iuse::rpgdie( Character *you, item *die, const tripoint_bub_m
 
 std::optional<int> iuse::dive_tank( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p && p->is_worn( *it ) ) {
         if( p->is_underwater() && p->oxygen < 10 ) {
             p->oxygen += 20;
@@ -4030,6 +4299,9 @@ std::optional<int> iuse::dive_tank( Character *p, item *it, const tripoint_bub_m
 
 std::optional<int> iuse::dive_tank_activate( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( it->ammo_remaining( ) == 0 ) {
         p->add_msg_if_player( _( "Your %s is empty." ), it->tname() );
     } else if( it->active ) { //off
@@ -4050,9 +4322,7 @@ std::optional<int> iuse::dive_tank_activate( Character *p, item *it, const tripo
 
 std::optional<int> iuse::solarpack( Character *p, item *it, const tripoint_bub_ms & )
 {
-    if( !p ) {
-        debugmsg( "%s called action solarpack that requires character but no character is present",
-                  it->typeId().str() );
+    if( !check_params( p, it, __func__ ) ) {
         return std::nullopt;
     }
     const bionic_id rem_bid = p->get_remote_fueled_bionic();
@@ -4084,13 +4354,11 @@ std::optional<int> iuse::solarpack( Character *p, item *it, const tripoint_bub_m
 
 std::optional<int> iuse::solarpack_off( Character *p, item *it, const tripoint_bub_ms & )
 {
-    map &here = get_map();
-
-    if( !p ) {
-        debugmsg( "%s called action solarpack_off that requires character but no character is present",
-                  it->typeId().str() );
+    if( !check_params( p, it, __func__ ) ) {
         return std::nullopt;
     }
+    map &here = get_map();
+
     if( !p->is_worn( *it ) ) {  // folding when not worn
         p->add_msg_if_player( _( "You fold your portable solar array into the pack." ) );
     } else {
@@ -4108,6 +4376,9 @@ std::optional<int> iuse::solarpack_off( Character *p, item *it, const tripoint_b
 
 std::optional<int> iuse::gasmask_activate( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( it->ammo_remaining( ) == 0 ) {
         p->add_msg_if_player( _( "Your %s doesn't have a filter." ), it->tname() );
     } else {
@@ -4121,6 +4392,9 @@ std::optional<int> iuse::gasmask_activate( Character *p, item *it, const tripoin
 
 std::optional<int> iuse::gasmask( Character *p, item *it, const tripoint_bub_ms &pos )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     map &here = get_map();
 
     if( p && p->is_worn( *it ) ) {
@@ -4174,6 +4448,9 @@ std::optional<int> iuse::gasmask( Character *p, item *it, const tripoint_bub_ms 
 
 std::optional<int> iuse::portable_game( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     const map &here = get_map();
 
     if( p->is_npc() ) {
@@ -4317,6 +4594,9 @@ std::optional<int> iuse::portable_game( Character *p, item *it, const tripoint_b
 
 std::optional<int> iuse::fitness_check( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->has_trait( trait_ILLITERATE ) ) {
         p->add_msg_if_player( m_info, _( "You don't know what you're looking at." ) );
         return std::nullopt;
@@ -4368,6 +4648,9 @@ std::optional<int> iuse::fitness_check( Character *p, item *it, const tripoint_b
 
 std::optional<int> iuse::hand_crank( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->is_npc() ) {
         // Long action
         return std::nullopt;
@@ -4402,6 +4685,9 @@ std::optional<int> iuse::hand_crank( Character *p, item *it, const tripoint_bub_
 
 std::optional<int> iuse::vibe( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->is_npc() ) {
         // Long action
         // Also, that would be creepy as fuck, seriously
@@ -4442,13 +4728,19 @@ std::optional<int> iuse::vibe( Character *p, item *it, const tripoint_bub_ms & )
 
 std::optional<int> iuse::vortex( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     std::vector<point_rel_ms> spawn;
-    spawn.reserve( 28 );
+    spawn.reserve( 24 );
     for( int i = -3; i <= 3; i++ ) {
         spawn.emplace_back( -3, i );
         spawn.emplace_back( +3, i );
-        spawn.emplace_back( i, -3 );
-        spawn.emplace_back( i, +3 );
+        if( i > -3 && i < 3 ) {
+            // avoid emplacing the corner positions twice
+            spawn.emplace_back( i, -3 );
+            spawn.emplace_back( i, +3 );
+        }
     }
 
     while( !spawn.empty() ) {
@@ -4471,6 +4763,9 @@ std::optional<int> iuse::vortex( Character *p, item *it, const tripoint_bub_ms &
 
 std::optional<int> iuse::dog_whistle( Character *p, item *, const tripoint_bub_ms & )
 {
+    if( !check_params( p, __func__ ) ) {
+        return std::nullopt;
+    }
     const map &here = get_map();
 
     if( !p->is_avatar() ) {
@@ -4533,6 +4828,9 @@ std::optional<int> iuse::dog_whistle( Character *p, item *, const tripoint_bub_m
 
 std::optional<int> iuse::call_of_tindalos( Character *p, item *, const tripoint_bub_ms & )
 {
+    if( !check_params( p, __func__ ) ) {
+        return std::nullopt;
+    }
     map &here = get_map();
     for( const tripoint_bub_ms &dest : here.points_in_radius( p->pos_bub(), 12 ) ) {
         if( here.is_cornerfloor( dest ) ) {
@@ -4545,6 +4843,9 @@ std::optional<int> iuse::call_of_tindalos( Character *p, item *, const tripoint_
 
 std::optional<int> iuse::blood_draw( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     map &here = get_map();
     const tripoint_bub_ms pos = p->pos_bub( here );
 
@@ -4651,9 +4952,7 @@ void iuse::cut_log_into_planks( Character &p )
 
 std::optional<int> iuse::lumber( Character *p, item *it, const tripoint_bub_ms & )
 {
-    if( !p ) {
-        debugmsg( "%s called action lumber that requires character but no character is present",
-                  it->typeId().str() );
+    if( !check_params( p, it, __func__ ) ) {
         return std::nullopt;
     }
     if( p->cant_do_mounted() ) {
@@ -4704,9 +5003,7 @@ static int chop_moves( Character *p, item *it )
 
 std::optional<int> iuse::chop_tree( Character *p, item *it, const tripoint_bub_ms & )
 {
-    if( !p ) {
-        debugmsg( "%s called action chop_tree that requires character but no character is present",
-                  it->typeId().str() );
+    if( !check_params( p, it, __func__ ) ) {
         return std::nullopt;
     }
     if( p->cant_do_mounted() ) {
@@ -4750,9 +5047,7 @@ std::optional<int> iuse::chop_tree( Character *p, item *it, const tripoint_bub_m
 
 std::optional<int> iuse::chop_logs( Character *p, item *it, const tripoint_bub_ms & )
 {
-    if( !p ) {
-        debugmsg( "%s called action chop_logs that requires character but no character is present",
-                  it->typeId().str() );
+    if( !check_params( p, it, __func__ ) ) {
         return std::nullopt;
     }
     if( p->cant_do_mounted() ) {
@@ -4795,6 +5090,9 @@ std::optional<int> iuse::chop_logs( Character *p, item *it, const tripoint_bub_m
 
 std::optional<int> iuse::oxytorch( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->is_npc() ) {
         // Long action
         return std::nullopt;
@@ -4842,9 +5140,7 @@ std::optional<int> iuse::oxytorch( Character *p, item *it, const tripoint_bub_ms
 
 std::optional<int> iuse::hacksaw( Character *p, item *it, const tripoint_bub_ms &it_pnt )
 {
-    if( !p ) {
-        debugmsg( "%s called action hacksaw that requires character but no character is present",
-                  it->typeId().str() );
+    if( !check_params( p, it, __func__ ) ) {
         return std::nullopt;
     }
     if( p->cant_do_mounted() ) {
@@ -4890,6 +5186,9 @@ std::optional<int> iuse::hacksaw( Character *p, item *it, const tripoint_bub_ms 
 
 std::optional<int> iuse::boltcutters( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->cant_do_mounted() ) {
         return std::nullopt;
     }
@@ -4929,6 +5228,9 @@ std::optional<int> iuse::boltcutters( Character *p, item *it, const tripoint_bub
 
 std::optional<int> iuse::mop( Character *p, item *, const tripoint_bub_ms & )
 {
+    if( !check_params( p, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->cant_do_mounted() ) {
         return std::nullopt;
     }
@@ -4969,6 +5271,9 @@ std::optional<int> iuse::mop( Character *p, item *, const tripoint_bub_ms & )
 
 std::optional<int> iuse::spray_can( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, __func__ ) ) {
+        return std::nullopt;
+    }
     map &here = get_map();
 
     const std::optional<tripoint_bub_ms> dest_ = choose_adjacent( _( "Spray where?" ) );
@@ -5057,6 +5362,9 @@ static bool heat_item( Character &p )
 
 std::optional<int> iuse::heatpack( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( heat_item( *p ) ) {
         it->convert( itype_heatpack_used, p );
     }
@@ -5065,6 +5373,9 @@ std::optional<int> iuse::heatpack( Character *p, item *it, const tripoint_bub_ms
 
 std::optional<int> iuse::heat_food( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( get_map().has_nearby_fire( p->pos_bub() ) ) {
         heat_item( *p );
         return 0;
@@ -5084,6 +5395,9 @@ std::optional<int> iuse::heat_food( Character *p, item *it, const tripoint_bub_m
 
 std::optional<int> iuse::hotplate( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->cant_do_mounted() ) {
         return std::nullopt;
     }
@@ -5100,6 +5414,9 @@ std::optional<int> iuse::hotplate( Character *p, item *it, const tripoint_bub_ms
 
 std::optional<int> iuse::hotplate_atomic( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->cant_do_mounted() ) {
         return std::nullopt;
     }
@@ -5112,16 +5429,14 @@ std::optional<int> iuse::hotplate_atomic( Character *p, item *it, const tripoint
 
 std::optional<int> iuse::towel( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, __func__ ) ) {
+        return std::nullopt;
+    }
     return towel_common( p, it, false );
 }
 
 int iuse::towel_common( Character *p, item *it, bool )
 {
-    if( !p ) {
-        debugmsg( "%s called action towel that requires character but no character is present",
-                  it->typeId().str() );
-        return 0;
-    }
     bool slime = p->has_effect( effect_slimed );
     bool boom = p->has_effect( effect_boomered );
     bool glow = p->has_effect( effect_glowing );
@@ -5187,6 +5502,9 @@ int iuse::towel_common( Character *p, item *it, bool )
 
 std::optional<int> iuse::unfold_generic( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     p->assign_activity( vehicle_unfolding_activity_actor( *it ) );
     p->i_rem( it );
     return 0;
@@ -5194,6 +5512,9 @@ std::optional<int> iuse::unfold_generic( Character *p, item *it, const tripoint_
 
 std::optional<int> iuse::adrenaline_injector( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->is_npc() && p->get_effect_dur( effect_adrenaline ) >= 30_minutes ) {
         return std::nullopt;
     }
@@ -5217,6 +5538,9 @@ std::optional<int> iuse::adrenaline_injector( Character *p, item *it, const trip
 
 std::optional<int> iuse::jet_injector( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( !it->ammo_sufficient( p ) ) {
         p->add_msg_if_player( m_info, _( "The jet injector is empty." ) );
         return std::nullopt;
@@ -5239,6 +5563,9 @@ std::optional<int> iuse::jet_injector( Character *p, item *it, const tripoint_bu
 
 std::optional<int> iuse::stimpack( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->get_item_position( it ) >= -1 ) {
         p->add_msg_if_player( m_info,
                               _( "You must wear the stimulant delivery system before you can activate it." ) );
@@ -5262,6 +5589,9 @@ std::optional<int> iuse::stimpack( Character *p, item *it, const tripoint_bub_ms
 
 std::optional<int> iuse::radglove( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->get_item_position( it ) >= -1 ) {
         p->add_msg_if_player( m_info,
                               _( "You must wear the radiation biomonitor before you can activate it." ) );
@@ -5290,6 +5620,9 @@ std::optional<int> iuse::radglove( Character *p, item *it, const tripoint_bub_ms
 
 std::optional<int> iuse::talking_doll( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( !it->ammo_sufficient( p ) ) {
         p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
         return std::nullopt;
@@ -5305,6 +5638,9 @@ std::optional<int> iuse::talking_doll( Character *p, item *it, const tripoint_bu
 
 std::optional<int> iuse::gun_repair( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( !it->ammo_sufficient( p ) ) {
         return std::nullopt;
     }
@@ -5331,6 +5667,9 @@ std::optional<int> iuse::gun_repair( Character *p, item *it, const tripoint_bub_
 
 std::optional<int> gun_repair( Character *p, item *, item_location &loc )
 {
+    if( !iuse::check_params( p, __func__ ) ) {
+        return std::nullopt;
+    }
     item &fix = *loc;
     if( p->fine_detail_vision_mod() > 4 ) {
         p->add_msg_if_player( m_info, _( "You can't see to do that!" ) );
@@ -5360,12 +5699,11 @@ std::optional<int> gun_repair( Character *p, item *, item_location &loc )
 
 std::optional<int> iuse::gunmod_attach( Character *p, item *it, const tripoint_bub_ms & )
 {
-    if( !it || !it->is_gunmod() ) {
-        debugmsg( "tried to attach non-gunmod" );
+    if( !check_params( p, it, __func__ ) ) {
         return std::nullopt;
     }
-
-    if( !p ) {
+    if( !it->is_gunmod() ) {
+        debugmsg( "tried to attach non-gunmod" );
         return std::nullopt;
     }
 
@@ -5397,12 +5735,11 @@ std::optional<int> iuse::gunmod_attach( Character *p, item *it, const tripoint_b
 
 std::optional<int> iuse::toolmod_attach( Character *p, item *it, const tripoint_bub_ms & )
 {
-    if( !it || !it->is_toolmod() ) {
-        debugmsg( "tried to attach non-toolmod" );
+    if( !check_params( p, it, __func__ ) ) {
         return std::nullopt;
     }
-
-    if( !p ) {
+    if( !it->is_toolmod() ) {
+        debugmsg( "tried to attach non-toolmod" );
         return std::nullopt;
     }
 
@@ -5452,6 +5789,9 @@ std::optional<int> iuse::toolmod_attach( Character *p, item *it, const tripoint_
 
 std::optional<int> iuse::bell( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( it->typeId() == itype_cow_bell ) {
         sounds::sound( p->pos_bub(), 12, sounds::sound_t::music, _( "Clank!  Clank!" ), true, "misc",
                        "cow_bell" );
@@ -5472,6 +5812,9 @@ std::optional<int> iuse::bell( Character *p, item *it, const tripoint_bub_ms & )
 
 std::optional<int> iuse::seed( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->is_npc() ||
         query_yn( _( "Are you sure you want to eat the %s?  You could plant it in a mound of dirt." ),
                   colorize( it->tname(), it->color_in_inventory() ) ) ) {
@@ -5490,6 +5833,9 @@ bool iuse::robotcontrol_can_target( Character *p, const monster &m )
 
 std::optional<int> iuse::robotcontrol( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     const map &here = get_map();
 
     bool isComputer = !it->has_flag( flag_MAGICAL );
@@ -5657,6 +6003,9 @@ void item::extended_photo_def::serialize( JsonOut &jsout ) const
 
 std::optional<int> iuse::efiledevice( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     //restrictions
     if( p->is_npc() ) {
         return std::nullopt;
@@ -6615,9 +6964,7 @@ std::optional<int> iuse::camera( Character *p, item *it, const tripoint_bub_ms &
     enum {c_shot, c_view};
 
     // From item processing
-    if( !p ) {
-        debugmsg( "%s called action camera that requires character but no character is present",
-                  it->typeId().str() );
+    if( !check_params( p, it, __func__ ) ) {
         return std::nullopt;
     }
 
@@ -6808,6 +7155,10 @@ std::optional<int> iuse::view_photos( Character *p, item *it, const tripoint_bub
 {
     enum { c_photos, c_monsters };
 
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
+
     uilist amenu;
     amenu.text = _( "View which photos?" );
     amenu.addentry( c_photos, true, 'g', _( "General" ) );
@@ -6874,6 +7225,9 @@ std::optional<int> iuse::view_photos( Character *p, item *it, const tripoint_bub
 
 std::optional<int> iuse::view_recipes( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     p->mod_moves( -to_moves<int>( 1_seconds ) * 0.5 );
 
     uilist rmenu;
@@ -6888,6 +7242,9 @@ std::optional<int> iuse::view_recipes( Character *p, item *it, const tripoint_bu
 
 std::optional<int> iuse::ehandcuffs_tick( Character *p, item *it, const tripoint_bub_ms &pos )
 {
+    if( !check_params( it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( get_map().has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos.xy() ) ) {
         it->unset_flag( flag_NO_UNWIELD );
         it->ammo_unset();
@@ -6969,6 +7326,9 @@ std::optional<int> iuse::ehandcuffs_tick( Character *p, item *it, const tripoint
 
 std::optional<int> iuse::ehandcuffs( Character *, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( it->active ) {
         add_msg( _( "The %s are clamped tightly on your wrists.  You can't take them off." ),
                  it->tname() );
@@ -6981,6 +7341,9 @@ std::optional<int> iuse::ehandcuffs( Character *, item *it, const tripoint_bub_m
 
 std::optional<int> iuse::afs_translocator( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( !it->ammo_sufficient( p ) ) {
         return std::nullopt;
     }
@@ -7019,6 +7382,9 @@ std::optional<int> iuse::foodperson_voice( Character *, item *, const tripoint_b
 
 std::optional<int> iuse::foodperson( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     // Prevent crash if battery was somehow removed.
     if( !it->magazine_current() ) {
         return std::nullopt;
@@ -7034,6 +7400,9 @@ std::optional<int> iuse::foodperson( Character *p, item *it, const tripoint_bub_
 
 std::optional<int> iuse::radiocar( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     int choice = -1;
     item *bomb_it = it->get_item_with( []( const item & c ) {
         return c.has_flag( flag_RADIOCARITEM );
@@ -7111,6 +7480,9 @@ std::optional<int> iuse::radiocar( Character *p, item *it, const tripoint_bub_ms
 
 std::optional<int> iuse::radiocaron( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( !it->ammo_sufficient( p ) ) {
         // Deactivate since other mode has an iuse too.
         it->convert( itype_radio_car, p ).active = false;
@@ -7177,6 +7549,9 @@ static void sendRadioSignal( Character &p, const flag_id &signal )
 
 std::optional<int> iuse::radiocontrol_tick( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( !p ) {
         // Player has dropped the controller
         avatar &player = get_avatar();
@@ -7196,6 +7571,9 @@ std::optional<int> iuse::radiocontrol_tick( Character *p, item *it, const tripoi
 
 std::optional<int> iuse::radiocontrol( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     const char *car_action = nullptr;
 
     if( !it->active ) {
@@ -7380,6 +7758,9 @@ static vehicle *pickveh( const tripoint_bub_ms &center, bool advanced )
 
 std::optional<int> iuse::remoteveh_tick( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     map &here = get_map();
 
     vehicle *remote = g->remoteveh();
@@ -7404,6 +7785,9 @@ std::optional<int> iuse::remoteveh_tick( Character *p, item *it, const tripoint_
 
 std::optional<int> iuse::remoteveh( Character *p, item *it, const tripoint_bub_ms &pos )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     map &here = get_map();
 
     vehicle *remote = g->remoteveh();
@@ -7518,6 +7902,9 @@ static bool multicooker_hallu( Character &p )
 
 std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint_bub_ms &pos )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     map &here = get_map();
 
     static const int charges_to_start = 50;
@@ -7808,6 +8195,10 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint_bub
 
 std::optional<int> iuse::multicooker_tick( Character *p, item *it, const tripoint_bub_ms &pos )
 {
+    // p can be null when multicooker is not carried
+    if( !check_params( it, __func__ ) ) {
+        return std::nullopt;
+    }
     map &here = get_map();
 
     const int charge_buffer = 2;
@@ -7874,6 +8265,9 @@ std::optional<int> iuse::multicooker_tick( Character *p, item *it, const tripoin
 
 std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     map &here = get_map();
 
     weather_manager &weather = get_weather();
@@ -7946,6 +8340,9 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint_bu
 
 std::optional<int> iuse::sextant( Character *p, item *, const tripoint_bub_ms &pos )
 {
+    if( !check_params( p, __func__ ) ) {
+        return std::nullopt;
+    }
     const std::pair<units::angle, units::angle> sun_position = sun_azimuth_altitude( calendar::turn );
     const float altitude = to_degrees( sun_position.second );
     if( debug_mode ) {
@@ -7965,6 +8362,9 @@ std::optional<int> iuse::sextant( Character *p, item *, const tripoint_bub_ms &p
 
 std::optional<int> iuse::lux_meter( Character *p, item *it, const tripoint_bub_ms &pos )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     p->add_msg_if_player( m_neutral, _( "The illumination is %.1f." ),
                           g->natural_light_level( pos.z() ) );
 
@@ -7973,6 +8373,9 @@ std::optional<int> iuse::lux_meter( Character *p, item *it, const tripoint_bub_m
 
 std::optional<int> iuse::dbg_lux_meter( Character *p, item *, const tripoint_bub_ms &pos )
 {
+    if( !check_params( p, __func__ ) ) {
+        return std::nullopt;
+    }
     map &here = get_map();
     const float incident_light = incident_sunlight( current_weather( here.get_abs( pos ) ),
                                  calendar::turn );
@@ -7990,6 +8393,9 @@ std::optional<int> iuse::dbg_lux_meter( Character *p, item *, const tripoint_bub
 
 std::optional<int> iuse::calories_intake_tracker( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->has_trait( trait_ILLITERATE ) ) {
         p->add_msg_if_player( m_info, _( "You don't know what you're looking at." ) );
         return std::nullopt;
@@ -8011,6 +8417,9 @@ std::optional<int> iuse::calories_intake_tracker( Character *p, item *it, const 
 
 std::optional<int> iuse::directional_hologram( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( it->is_armor() &&  !p->is_worn( *it ) ) {
         p->add_msg_if_player( m_neutral, _( "You need to wear the %1$s before activating it." ),
                               it->tname() );
@@ -8040,6 +8449,9 @@ std::optional<int> iuse::directional_hologram( Character *p, item *it, const tri
 
 std::optional<int> iuse::capture_monster_veh( Character *p, item *it, const tripoint_bub_ms &pos )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->cant_do_mounted() ) {
         return std::nullopt;
     }
@@ -8093,6 +8505,9 @@ int item::contain_monster( const tripoint_bub_ms &target )
 
 std::optional<int> iuse::capture_monster_act( Character *p, item *it, const tripoint_bub_ms &pos )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     map &here = get_map();
 
     if( p->is_mounted() ) {
@@ -8451,6 +8866,9 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
 
 std::optional<int> iuse::heat_solid_items( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->fine_detail_vision_mod() > 4 ) {
         p->add_msg_if_player( _( "You can't see to do that!" ) );
         return std::nullopt;
@@ -8471,6 +8889,9 @@ std::optional<int> iuse::heat_solid_items( Character *p, item *it, const tripoin
 
 std::optional<int> iuse::heat_liquid_items( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->fine_detail_vision_mod() > 4 ) {
         p->add_msg_if_player( _( "You can't see to do that!" ) );
         return std::nullopt;
@@ -8491,6 +8912,9 @@ std::optional<int> iuse::heat_liquid_items( Character *p, item *it, const tripoi
 
 std::optional<int> iuse::heat_all_items( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->fine_detail_vision_mod() > 4 ) {
         p->add_msg_if_player( _( "You can't see to do that!" ) );
         return std::nullopt;
@@ -8519,6 +8943,9 @@ washing_requirements washing_requirements_for_volume( const units::volume &vol )
 
 std::optional<int> iuse::wash_soft_items( Character *p, item *, const tripoint_bub_ms & )
 {
+    if( !check_params( p, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->fine_detail_vision_mod() > 4 ) {
         p->add_msg_if_player( _( "You can't see to do that!" ) );
         return std::nullopt;
@@ -8539,6 +8966,9 @@ std::optional<int> iuse::wash_soft_items( Character *p, item *, const tripoint_b
 
 std::optional<int> iuse::wash_hard_items( Character *p, item *, const tripoint_bub_ms & )
 {
+    if( !check_params( p, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->fine_detail_vision_mod() > 4 ) {
         p->add_msg_if_player( _( "You can't see to do that!" ) );
         return std::nullopt;
@@ -8559,6 +8989,9 @@ std::optional<int> iuse::wash_hard_items( Character *p, item *, const tripoint_b
 
 std::optional<int> iuse::wash_all_items( Character *p, item *, const tripoint_bub_ms & )
 {
+    if( !check_params( p, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->fine_detail_vision_mod() > 4 ) {
         p->add_msg_if_player( _( "You can't see to do that!" ) );
         return std::nullopt;
@@ -8577,6 +9010,9 @@ std::optional<int> iuse::wash_all_items( Character *p, item *, const tripoint_bu
 
 std::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_items )
 {
+    if( !check_params( p, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->cant_do_mounted() ) {
         return std::nullopt;
     }
@@ -8678,6 +9114,9 @@ std::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_it
 
 std::optional<int> iuse::break_stick( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     p->mod_moves( -to_moves<int>( 2_seconds ) );
     p->mod_stamina( static_cast<int>( 0.05f * p->get_stamina_max() ) );
 
@@ -8713,6 +9152,9 @@ std::optional<int> iuse::break_stick( Character *p, item *it, const tripoint_bub
 
 std::optional<int> iuse::weak_antibiotic( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     p->add_msg_if_player( _( "You take some %s." ), it->tname() );
     if( p->has_effect( effect_infected ) && !p->has_effect( effect_weak_antibiotic ) ) {
         p->add_msg_if_player( m_good, _( "The throbbing of the infection diminishes.  Slightly." ) );
@@ -8724,6 +9166,9 @@ std::optional<int> iuse::weak_antibiotic( Character *p, item *it, const tripoint
 
 std::optional<int> iuse::strong_antibiotic( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     p->add_msg_if_player( _( "You take some %s." ), it->tname() );
     if( p->has_effect( effect_infected ) && !p->has_effect( effect_strong_antibiotic ) ) {
         p->add_msg_if_player( m_good, _( "You feel much better - almost entirely." ) );
@@ -8754,6 +9199,9 @@ static item *wield_before_use( Character *const p, item *const it, const std::st
 
 std::optional<int> iuse::craft( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->cant_do_mounted() ) {
         return std::nullopt;
     }
@@ -8791,6 +9239,9 @@ std::optional<int> iuse::craft( Character *p, item *it, const tripoint_bub_ms & 
 
 std::optional<int> iuse::disassemble( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->cant_do_mounted() ) {
         return std::nullopt;
     }
@@ -8809,6 +9260,9 @@ std::optional<int> iuse::disassemble( Character *p, item *it, const tripoint_bub
 
 std::optional<int> iuse::post_up( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     map &here = get_map();
 
     //arbitrary limit of 10 postable items per wall
@@ -8834,6 +9288,9 @@ std::optional<int> iuse::post_up( Character *p, item *it, const tripoint_bub_ms 
 
 std::optional<int> iuse::melatonin_tablet( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     p->add_msg_if_player( _( "You pop a %s." ), it->tname() );
     if( p->has_effect( effect_melatonin ) ) {
         p->add_msg_if_player( m_warning,
@@ -8845,6 +9302,9 @@ std::optional<int> iuse::melatonin_tablet( Character *p, item *it, const tripoin
 
 std::optional<int> iuse::coin_flip( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     p->add_msg_if_player( m_info, _( "You flip a %s." ), it->tname() );
     p->add_msg_if_player( m_info, one_in( 2 ) ? _( "Heads!" ) : _( "Tails!" ) );
     return 0;
@@ -8852,6 +9312,9 @@ std::optional<int> iuse::coin_flip( Character *p, item *it, const tripoint_bub_m
 
 std::optional<int> iuse::play_game( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     const map &here = get_map();
 
     if( p->is_avatar() ) {
@@ -8902,6 +9365,9 @@ std::optional<int> iuse::play_game( Character *p, item *it, const tripoint_bub_m
 
 std::optional<int> iuse::magic_8_ball( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     p->add_msg_if_player( m_info, _( "You ask the %s, then flip it." ), it->tname() );
     int rn = rng( 0, 3 );
     std::string msg_category;
@@ -8923,6 +9389,9 @@ std::optional<int> iuse::magic_8_ball( Character *p, item *it, const tripoint_bu
 
 std::optional<int> iuse::measure_resonance( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( !it->ammo_sufficient( p ) ) {
         popup( _( "The device doesn't have enough power to function!" ) );
         return std::nullopt;
@@ -8989,6 +9458,9 @@ std::optional<int> iuse::measure_resonance( Character *p, item *it, const tripoi
 
 std::optional<int> iuse::change_outfit( Character *p, item *it, const tripoint_bub_ms & )
 {
+    if( !check_params( p, it, __func__ ) ) {
+        return std::nullopt;
+    }
     if( !p->is_avatar() ) {
         debugmsg( "NPC %s tried to swap outfit", p->get_name() );
         return std::nullopt;
@@ -9002,11 +9474,10 @@ std::optional<int> iuse::change_outfit( Character *p, item *it, const tripoint_b
 
 std::optional<int> iuse::ebooksave( Character *p, item *it, const tripoint_bub_ms & )
 {
-    if( !p ) {
-        debugmsg( "%s called action ebooksave that requires character but no character is present",
-                  it->typeId().str() );
+    if( !check_params( p, it, __func__ ) ) {
         return std::nullopt;
     }
+
     if( !it->is_estorage() ) {
         debugmsg( "EBOOKSAVE iuse called on item without ESTORAGE pocket_type" );
         return std::nullopt;
@@ -9050,6 +9521,9 @@ std::optional<int> iuse::ebooksave( Character *p, item *it, const tripoint_bub_m
 
 std::optional<int> iuse::binder_add_recipe( Character *p, item *binder, const tripoint_bub_ms & )
 {
+    if( !check_params( p, binder, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->cant_do_mounted() ) {
         return std::nullopt;
     }
@@ -9127,6 +9601,9 @@ std::optional<int> iuse::binder_add_recipe( Character *p, item *binder, const tr
 std::optional<int> iuse::binder_manage_recipe( Character *p, item *binder,
         const tripoint_bub_ms &ipos )
 {
+    if( !check_params( p, binder, __func__ ) ) {
+        return std::nullopt;
+    }
     if( p->is_underwater() ) {
         p->add_msg_if_player( m_info, _( "Doing that would ruin the %1$s." ), binder->tname() );
         return std::nullopt;
@@ -9173,6 +9650,9 @@ std::optional<int> iuse::binder_manage_recipe( Character *p, item *binder,
 
 std::optional<int> iuse::voltmeter( Character *p, item *, const tripoint_bub_ms & )
 {
+    if( !check_params( p, __func__ ) ) {
+        return std::nullopt;
+    }
     map &here = get_map();
 
     const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent( _( "Check voltage where?" ) );
