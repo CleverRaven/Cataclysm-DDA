@@ -323,7 +323,8 @@ class widget
         static void load_widget( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, std::string_view src );
         // Finalize anything that must wait until all widgets are loaded
-        static void finalize();
+        static void finalize_all();
+        void finalize();
         // Recursively derive _label_width for nested layouts in this widget
         static int finalize_label_width_recursive( const widget_id &id );
         // Recursively derive _separator for nested layouts in this widget

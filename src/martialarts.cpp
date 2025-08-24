@@ -130,6 +130,11 @@ void weapon_category::load_weapon_categories( const JsonObject &jo, const std::s
     weapon_category_factory.load( jo, src );
 }
 
+void weapon_category::finalize_all()
+{
+    weapon_category_factory.finalize();
+}
+
 void weapon_category::reset()
 {
     weapon_category_factory.reset();
@@ -178,6 +183,11 @@ matype_id martial_art_learned_from( const itype &type )
 void load_technique( const JsonObject &jo, const std::string &src )
 {
     ma_techniques.load( jo, src );
+}
+
+void ma_technique::finalize_all()
+{
+    ma_techniques.finalize();
 }
 
 // To avoid adding empty entries
@@ -402,6 +412,11 @@ bool string_id<ma_buff>::is_valid() const
 void load_martial_art( const JsonObject &jo, const std::string &src )
 {
     martialarts.load( jo, src );
+}
+
+void martialart::finalize_all()
+{
+    martialarts.finalize();
 }
 
 class ma_buff_reader : public generic_typed_reader<ma_buff_reader>
@@ -630,6 +645,7 @@ void finalize_martial_arts()
         effect_type::register_ma_buff_effect( new_eff );
     }
     attack_vector_factory.finalize();
+    ma_buffs.finalize();
     for( const attack_vector &vector : attack_vector_factory.get_all() ) {
         // Check if this vector allows substitutions in the first place
         if( vector.strict_limb_definition ) {

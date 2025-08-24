@@ -166,6 +166,11 @@ void oter_vision::load_oter_vision( const JsonObject &jo, const std::string &src
     oter_vision_factory.load( jo, src );
 }
 
+void oter_vision::finalize_all()
+{
+    oter_vision_factory.finalize();
+}
+
 void oter_vision::reset()
 {
     oter_vision_factory.reset();
@@ -500,9 +505,7 @@ void overmap_land_use_codes::load( const JsonObject &jo, const std::string &src 
 
 void overmap_land_use_codes::finalize()
 {
-    for( const overmap_land_use_code &elem : land_use_codes.get_all() ) {
-        const_cast<overmap_land_use_code &>( elem ).finalize(); // This cast is ugly, but safe.
-    }
+    land_use_codes.finalize();
 }
 
 void overmap_land_use_codes::check_consistency()
@@ -533,9 +536,7 @@ void city_buildings::load( const JsonObject &jo, const std::string &src )
 
 void overmap_specials::finalize()
 {
-    for( const overmap_special &elem : specials.get_all() ) {
-        const_cast<overmap_special &>( elem ).finalize(); // This cast is ugly, but safe.
-    }
+    specials.finalize();
 }
 
 void overmap_specials::finalize_mapgen_parameters()
@@ -1263,10 +1264,6 @@ void overmap_terrains::check_consistency()
 void overmap_terrains::finalize()
 {
     terrain_types.finalize();
-
-    for( const oter_type_t &elem : terrain_types.get_all() ) {
-        const_cast<oter_type_t &>( elem ).finalize(); // This cast is ugly, but safe.
-    }
 
     if( region_settings_map.find( "default" ) == region_settings_map.end() ) {
         debugmsg( "ERROR: can't find default overmap settings (region_map_settings 'default'), "
@@ -7551,6 +7548,11 @@ std::string oter_get_rotation_string( const oter_id &oter )
 void overmap_special_migration::load_migrations( const JsonObject &jo, const std::string &src )
 {
     migrations.load( jo, src );
+}
+
+void overmap_special_migration::finalize_all()
+{
+    migrations.finalize();
 }
 
 void overmap_special_migration::reset()

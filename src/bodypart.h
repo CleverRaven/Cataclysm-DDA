@@ -102,6 +102,7 @@ struct stat_hp_mods {
 struct limb_score {
     public:
         static void load_limb_scores( const JsonObject &jo, const std::string &src );
+        static void finalize_all();
         static void reset();
         void load( const JsonObject &jo, std::string_view src );
         static const std::vector<limb_score> &get_all();
