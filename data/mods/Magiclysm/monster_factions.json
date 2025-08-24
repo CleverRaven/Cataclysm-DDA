@@ -44,6 +44,7 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "neutral": [ "aerial_assassin" ]
     "name": "wonder_forge",
     "hate": [ "zombie", "fungus" ],
     "friendly": [ "forge_lords" ]
