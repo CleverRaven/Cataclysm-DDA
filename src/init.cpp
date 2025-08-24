@@ -422,6 +422,12 @@ void DynamicDataLoader::initialize()
          &map_extra_collection::load_map_extra_collection );
     add( "region_settings_map_extras",
          &region_settings_map_extras::load_region_settings_map_extras );
+    add( "region_settings_terrain_furniture",
+         &region_settings_terrain_furniture::load_region_settings_terrain_furniture );
+    add( "region_terrain_furniture",
+         &region_terrain_furniture::load_region_terrain_furniture );
+    add( "forest_biome_feature",
+         &forest_biome_feature::load_forest_biome_feature );
 
     add( "ITEM_BLACKLIST", []( const JsonObject & jo ) {
         item_controller->load_item_blacklist( jo );

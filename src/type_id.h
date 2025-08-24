@@ -261,6 +261,9 @@ using region_settings_forest_mapgen_id = string_id<region_settings_forest_mapgen
 struct forest_biome_mapgen;
 using forest_biome_mapgen_id = string_id<forest_biome_mapgen>;
 
+struct forest_biome_feature;
+using forest_biome_feature_id = string_id<forest_biome_feature>;
+
 struct region_settings_city;
 using region_settings_city_id = string_id<region_settings_city>;
 
@@ -269,6 +272,12 @@ using region_settings_map_extras_id = string_id<region_settings_map_extras>;
 
 struct region_settings;
 using region_settings_id = string_id<region_settings>;
+
+struct region_settings_terrain_furniture;
+using region_settings_terrain_furniture_id = string_id<region_settings_terrain_furniture>;
+
+struct region_terrain_furniture;
+using region_terrain_furniture_id = string_id<region_terrain_furniture>;
 
 struct requirement_data;
 using requirement_id = string_id<requirement_data>;

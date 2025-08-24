@@ -38,8 +38,8 @@ class building_bin
         weighted_int_list<overmap_special_id> get_all_buildings() const {
             return buildings;
         }
-        void deserialize( const JsonObject &jo ) {
-            buildings.deserialize( jo );
+        void deserialize( const JsonValue &jv ) {
+            buildings.deserialize( jv );
         }
 };
 
@@ -131,13 +131,6 @@ struct region_settings_city {
     void finalize();
 };
 
-struct ter_furn_id {
-    ter_id ter;
-    furn_id furn;
-    void deserialize( const JsonValue &jo );
-    ter_furn_id();
-};
-
 /*
  * template for random bushes and such.
  * supports occasional boost to a single ter/furn type (clustered blueberry bushes for example)
@@ -173,15 +166,18 @@ struct forest_biome_component {
 };
 
 struct forest_biome_feature {
+    forest_biome_feature_id id = forest_biome_feature_id::NULL_ID();
+
     weighted_int_list<ter_furn_id> types;
     int sequence = 0;
     int chance = 0;
-    bool clear_types = false;
 
     bool was_loaded = false;
     void finalize();
-    void deserialize( const JsonObject &jo );
+    void load( const JsonObject &jo, std::string_view );
     forest_biome_feature() = default;
+    static void load_forest_biome_feature( const JsonObject &jo, const std::string &src );
+    static void reset();
 };
 
 struct forest_biome_terrain_dependent_furniture {
@@ -231,7 +227,8 @@ struct forest_biome {
 struct forest_biome_mapgen {
     forest_biome_mapgen_id id = forest_biome_mapgen_id::NULL_ID();
 
-    std::vector<forest_biome_feature> biome_components;
+    std::vector<oter_type_str_id> terrains;
+    std::vector<forest_biome_feature_id> biome_components;
     weighted_int_list<ter_id> groundcover;
     std::map<ter_id, forest_biome_terrain_dependent_furniture_new> terrain_dependent_furniture;
 
@@ -408,8 +405,7 @@ struct region_settings_lake {
     double noise_threshold_lake = 0.25;
     int lake_size_min = 20;
     int lake_depth = -5;
-    std::vector<std::string> unfinalized_shore_extendable_overmap_terrain;
-    std::vector<oter_id> shore_extendable_overmap_terrain;
+    std::vector<oter_str_id> shore_extendable_overmap_terrain;
     std::vector<shore_extendable_overmap_terrain_alias> shore_extendable_overmap_terrain_aliases;
 
     bool was_loaded = false;
@@ -638,16 +634,36 @@ struct region_terrain_and_furniture_settings {
     region_terrain_and_furniture_settings() = default;
 };
 
-struct region_settings_terrain_and_furniture {
-    std::map<ter_id, weighted_int_list<ter_id>> terrain;
-    std::map<furn_id, weighted_int_list<furn_id>> furniture;
+/** Collection of `region_terrain_furniture` mappings */
+struct region_settings_terrain_furniture {
+    region_settings_terrain_furniture_id id = region_settings_terrain_furniture_id::NULL_ID();
+
+    std::vector<region_terrain_furniture_id> ter_furn;
 
     bool was_loaded = false;
-    void deserialize( const JsonObject &jo );
-    void finalize();
+    void load( const JsonObject &jo, std::string_view );
+    region_settings_terrain_furniture() = default;
+    static void load_region_settings_terrain_furniture( const JsonObject &jo, const std::string &src );
+    static void reset();
+};
+
+/**
+* Maps abstract region terrain/furniture (e.g. `t_region_groundcover`) to
+* actual region terrain/furniture (e.g. `t_grass`) with a weighted list
+*/
+struct region_terrain_furniture {
+    region_terrain_furniture_id id = region_terrain_furniture_id::NULL_ID();
+
+    weighted_int_list<ter_id> terrain;
+    weighted_int_list<furn_id> furniture;
+
+    bool was_loaded = false;
+    void load( const JsonObject &jo, std::string_view );
     ter_id resolve( const ter_id & ) const;
     furn_id resolve( const furn_id & ) const;
-    region_settings_terrain_and_furniture() = default;
+    region_terrain_furniture() = default;
+    static void load_region_terrain_furniture( const JsonObject &jo, const std::string &src );
+    static void reset();
 };
 
 /*
@@ -704,7 +720,7 @@ struct region_settings {
     region_settings_highway_id overmap_highway;
     region_settings_ravine_id overmap_ravine;
     region_settings_overmap_connection overmap_connection;
-    region_settings_terrain_and_furniture region_terrain_and_furniture;
+    region_settings_terrain_furniture_id region_terrain_and_furniture;
 
     region_settings_map_extras_id region_extras;
 
