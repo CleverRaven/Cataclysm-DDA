@@ -9162,7 +9162,7 @@
     "prereqs": [ "GILLS" ],
     "category": [ "FISH", "BATRACHIAN" ],
     "threshreq": [ "THRESH_FISH", "THRESH_BATRACHIAN" ],
-    "strict_threshreq": true,
+    "strict_threshreq": true
   },
   {
     "type": "mutation",
