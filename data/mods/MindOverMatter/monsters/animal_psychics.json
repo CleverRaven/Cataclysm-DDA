@@ -325,7 +325,7 @@
         "spell_data": { "id": "telepathic_fear_blast_monster", "min_level": 2 },
         "cooldown": { "math": [ "9 + rand(18)" ] },
         "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
-        "monster_message": "%1$'s third eye opens and it coos!"
+        "monster_message": "%s's third eye opens and it coos!"
       },
       { "id": "pigeon_aura", "type": "spell", "spell_data": { "id": "pigeon_aura", "min_level": 4 }, "cooldown": 200 }
     ],

@@ -7984,7 +7984,7 @@ ret_val<void> Character::can_wield( const item &it ) const
     }
 
     if( is_armed() && !can_unwield( weapon ).success() ) {
-        return ret_val<void>::make_failure( _( "The %s prevents you from wielding the %s." ),
+        return ret_val<void>::make_failure( _( "The %1$s prevents you from wielding the %2$s." ),
                                             weapname(), it.tname() );
     }
     monster *mount = mounted_creature.get();
@@ -12408,7 +12408,7 @@ const Character *Character::get_book_reader( const item &book,
         // Low morale still permits skimming
         reasons.emplace_back( is_avatar() ?
                               _( "What's the point of studying?  (Your morale is too low!)" )  :
-                              string_format( _( "What's the point of studying?  (%s)'s morale is too low!)" ), disp_name() ) );
+                              string_format( _( "What's the point of studying?  (%s's morale is too low!)" ), disp_name() ) );
         return nullptr;
     }
     if( condition & read_condition_result::CANT_UNDERSTAND ) {

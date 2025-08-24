@@ -2047,7 +2047,8 @@ static void poly_keep_speed( monster &mon, const mtype_id &id )
 
 static bool blobify( monster &blob, monster &target )
 {
-    add_msg_if_player_sees( target, m_warning, _( "%s is engulfed by %s!" ),
+    //~ %1$s and %2$s - monster names
+    add_msg_if_player_sees( target, m_warning, _( "%1$s is engulfed by %2$s!" ),
                             target.disp_name(), blob.disp_name() );
     switch( target.get_size() ) {
         case creature_size::tiny:

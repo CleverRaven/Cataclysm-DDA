@@ -776,9 +776,10 @@ static void grab()
         if( vp->has_loaded_furniture() ) {
             furn_str_id furn( vp->part_with_feature( "FURNITURE_TIEDOWN",
                               true )->part().get_base().get_var( "tied_down_furniture" ) );
-            if( query_yn( _( "Grab %s on %s?" ), furn->name(), veh_name ) ) {
+            //~ %1$s - furniture name, %2$s - vehicle name
+            if( query_yn( _( "Grab %1$s on %2$s?" ), furn->name(), veh_name ) ) {
                 you.grab( object_type::FURNITURE_ON_VEHICLE, grabp - you.pos_bub() );
-                add_msg( m_info, _( "You grab the %s loaded on the %s." ), furn->name(), veh_name );
+                add_msg( m_info, _( "You grab the %1$s loaded on the %2$s." ), furn->name(), veh_name );
                 return;
             }
         }
@@ -1074,7 +1075,8 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
             if( !best_part_to_smash.first->smash_message.empty() ) {
                 add_msg( best_part_to_smash.first->smash_message, name_to_bash );
             } else {
-                add_msg( _( "You use your %s to smash the %s." ),
+                //~ %1$s - bodypart name in accusative, %2$s - furniture/terrain name
+                add_msg( _( "You use your %1$s to smash the %2$s." ),
                          body_part_name_accusative( best_part_to_smash.first ), name_to_bash );
             }
         }
