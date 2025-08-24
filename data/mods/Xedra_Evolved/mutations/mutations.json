@@ -505,7 +505,8 @@
     "purifiable": false,
     "valid": false,
     "visibility": 7,
-    "ugliness": 6
+    "ugliness": 6,
+    "enchantments": [ { "ench_effects": [ { "effect": "effect_dhampir_corpselike_pallor_pale", "intensity": 1 } ] } ]
   },
   {
     "type": "mutation",
