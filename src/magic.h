@@ -375,7 +375,6 @@ class spell_type
 
         static void load_spell( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, std::string_view src );
-        void serialize( JsonOut &json ) const;
         /**
          * All spells in the game.
          */

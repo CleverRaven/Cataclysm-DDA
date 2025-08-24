@@ -78,17 +78,19 @@ void apply_all_to_unassigned( T &skills )
 
 void npc_class::finalize_all()
 {
-    for( const npc_class &cl_const : npc_class_factory.get_all() ) {
-        npc_class &cl = const_cast<npc_class &>( cl_const );
-        apply_all_to_unassigned( cl.skills );
-        apply_all_to_unassigned( cl.bonus_skills );
+    npc_class_factory.finalize();
+}
 
-        for( const auto &pr : cl.bonus_skills ) {
-            if( cl.skills.count( pr.first ) == 0 ) {
-                cl.skills[ pr.first ] = pr.second;
-            } else {
-                cl.skills[ pr.first ] = cl.skills[ pr.first ] + pr.second;
-            }
+void npc_class::finalize()
+{
+    apply_all_to_unassigned( skills );
+    apply_all_to_unassigned( bonus_skills );
+
+    for( const auto &pr : bonus_skills ) {
+        if( skills.count( pr.first ) == 0 ) {
+            skills[ pr.first ] = pr.second;
+        } else {
+            skills[ pr.first ] = skills[ pr.first ] + pr.second;
         }
     }
 }

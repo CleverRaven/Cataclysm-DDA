@@ -64,11 +64,7 @@ void anatomy::reset()
 
 void anatomy::finalize_all()
 {
-    // For some weird reason, generic_factory::finalize doesn't call finalize
     anatomy_factory.finalize();
-    for( const anatomy &an : anatomy_factory.get_all() ) {
-        const_cast<anatomy &>( an ).finalize();
-    }
 }
 
 void anatomy::finalize()

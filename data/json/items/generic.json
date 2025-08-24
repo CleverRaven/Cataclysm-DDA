@@ -3481,6 +3481,7 @@
   {
     "type": "ITEM",
     "id": "broken_turret_rifle_balthazar",
+    "name": { "str": "broken M249 autonomous CROWS II", "str_pl": "broken M249 autonomous CROWS II turrets" },
     "copy-from": "broken_turret_rifle"
   },
   {
@@ -3530,6 +3531,7 @@
   {
     "type": "ITEM",
     "id": "broken_secubot_balthazar",
+    "name": { "str": "broken secubot" },
     "copy-from": "broken_secubot"
   },
   {

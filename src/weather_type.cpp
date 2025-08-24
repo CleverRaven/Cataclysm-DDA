@@ -145,9 +145,6 @@ void weather_types::reset()
 void weather_types::finalize_all()
 {
     weather_type_factory.finalize();
-    for( const weather_type &wt : weather_type_factory.get_all() ) {
-        const_cast<weather_type &>( wt ).finalize();
-    }
 }
 
 const std::vector<weather_type> &weather_types::get_all()

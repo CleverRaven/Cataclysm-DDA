@@ -492,9 +492,6 @@ void effect_on_condition::finalize()
 void effect_on_conditions::finalize_all()
 {
     effect_on_condition_factory.finalize();
-    for( const effect_on_condition &eoc : effect_on_condition_factory.get_all() ) {
-        const_cast<effect_on_condition &>( eoc ).finalize();
-    }
 }
 
 void effect_on_condition::check() const

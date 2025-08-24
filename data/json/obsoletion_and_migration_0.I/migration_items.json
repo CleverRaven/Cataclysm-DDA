@@ -2697,4 +2697,9 @@
     "id": "fresh_fries",
     "replace": "fries"
   }
+  {
+    "type": "MIGRATION",
+    "id": "crude_bronze_nail",
+    "replace": "bronze_nail"
+  }
 ]

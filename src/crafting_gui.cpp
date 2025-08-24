@@ -144,6 +144,11 @@ void load_recipe_category( const JsonObject &jsobj, const std::string &src )
     craft_cat_list.load( jsobj, src );
 }
 
+void crafting_category::finalize_all()
+{
+    craft_cat_list.finalize();
+}
+
 void crafting_category::load( const JsonObject &jo, std::string_view )
 {
     // Ensure id is correct

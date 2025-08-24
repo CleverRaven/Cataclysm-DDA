@@ -610,6 +610,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_dhampir_corpselike_pallor_pale",
+    "//": "Hidden--cosmetic to make dhampirs with Corpselike Pallor more pale",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "enchantments": [ { "mutations": [ "PALE" ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_vampire_immune_to_classic_zombification",
     "//": "Hidden--does nothing in base XE, used for DDotD interactions",
     "name": [ "" ],

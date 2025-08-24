@@ -2245,17 +2245,18 @@
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "ammo_type": "components",
-    "name": { "str_sp": "weak glue" },
+    "category": "spare_parts",
     "//": "Represents all glues that can withstand <1800 psi of tensile strength, such as PVA, bone glue and rubber cement.",
     "//1": "1 charge of weak glue should cover an area of 5mm^2",
-    "category": "spare_parts",
+    "name": { "str_sp": "weak glue" },
     "description": "A weak adhesive to use in arts & crafts or other low stress applications.  You can't eat it.",
     "symbol": "~",
     "color": "white",
     "material": [ "plastic" ],
     "weight": "1 g",
-    "volume": "1 ml",
-    "price_postapoc": "50 cents",
+    "volume": "100 ml",
+    "count": 100,
+    "price_postapoc": "5 cents",
     "phase": "liquid",
     "flags": [ "UNRECOVERABLE" ]
   },
@@ -2264,9 +2265,10 @@
     "copy-from": "glue_weak",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
-    "name": { "str_sp": "strong glue" },
     "//": "Represents all glues that can withstand >1800 psi of tensile strength, such as cyanoacrylate, polyurethane and epoxy.",
     "//1": "1 charge of strong glue should cover an area of 5mm^2",
-    "description": "A strong adhesive to use for structural repairs or other high stress applications.  You can't sniff it."
+    "name": { "str_sp": "strong glue" },
+    "description": "A strong adhesive to use for structural repairs or other high stress applications.  You can't sniff it.",
+    "price_postapoc": "10 cents"
   }
 ]

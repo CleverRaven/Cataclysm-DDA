@@ -220,6 +220,14 @@ class generic_factory
         // *INDENT-ON* astyle turns templates unreadable
         // End template magic for T::handle_inheritance
 
+        template<typename U, typename = void>
+        struct T_has_finalize : std::false_type {};
+
+        // astyle, please?
+        template<typename U>
+    struct T_has_finalize<U, std::void_t<decltype( std::declval<U &>().finalize() )>> :
+        std::true_type {};
+
         /**
         * Perform JSON inheritance handling for `T def` and returns true if JsonObject is real.
         *
@@ -406,6 +414,9 @@ class generic_factory
             inc_version();
             for( size_t i = 0; i < list.size(); i++ ) {
                 list[i].id.set_cid_version( static_cast<int>( i ), version );
+                if constexpr( T_has_finalize<T>::value ) {
+                    list[i].finalize();
+                }
             }
         }
 
@@ -959,6 +970,12 @@ bool one_char_symbol_reader( const JsonObject &jo, std::string_view member_name,
  */
 bool unicode_codepoint_from_symbol_reader(
     const JsonObject &jo, std::string_view member_name, uint32_t &member, bool );
+
+/**
+ * unicode_codepoint_from_symbol_reader, but with a string instead of a codepoint
+ */
+bool unicode_symbol_reader( const JsonObject &jo, std::string_view member_name, std::string &member,
+                            bool was_loaded );
 
 //Reads a standard single-float "proportional" entry
 float read_proportional_entry( const JsonObject &jo, std::string_view key );
