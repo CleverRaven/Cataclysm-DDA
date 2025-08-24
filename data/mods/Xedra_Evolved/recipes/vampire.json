@@ -443,12 +443,13 @@
       "if": { "math": [ "( (u_val('intelligence') / 2) + u_skill('deduction') + (rand(9) + 1) + (rand(9) + 1) ) > 26" ] },
       "then": [
         {
-          "run_eoc_selector": [ "EOC_REFINE_VIGOR_MORTIS_SMASHING", "EOC_NONE" ],
+          "run_eoc_selector": [ "EOC_REFINE_VIGOR_MORTIS_SMASHING", "EOC_REFINE_BLOOD_DRIVEN_SPEED_WATER_RUNNING", "EOC_NONE" ],
           "allow_cancel": true,
-          "names": [ "Refine Vigor Mortis: Unholy Destruction", "Nothing" ],
-          "title": "Your research uncovers...",
+          "names": [ "Refine Vigor Mortis: Unholy Destruction", "Refine Blood-driven Speed: Zephyr", "Nothing" ],
+          "title": "Your research uncovers…",
           "descriptions": [
-            "From the strength boost of Vigor Mortis, you can focus that strength against inanimate objects to smash through barriers with incredibly force.",
+            "From the strength boost of Vigor Mortis, you can focus that strength against inanimate objects to smash through barriers with incredible force.",
+            "With your Blood-driven Speed, move so quickly that you can even run on water.",
             "End your research."
           ]
         }
@@ -464,7 +465,16 @@
     },
     "effect": [
       { "u_add_trait": "VAMPIRIC_STRENGTH_REFINEMENT_SMASHING_TILES" },
-      { "u_message": "You learned Unholy Devastation, a new use for your Vigor Mortis power.", "type": "good" }
+      { "u_message": "You learned Unholy Devastation, a new use for your Vigor Mortis Blood Art.", "type": "good" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REFINE_BLOOD_DRIVEN_SPEED_WATER_RUNNING",
+    "condition": { "and": [ { "u_has_trait": "BLOODHASTE" }, { "not": { "u_has_trait": "BLOODHASTE_REFINEMENT_WATER_RUN" } } ] },
+    "effect": [
+      { "u_add_trait": "BLOODHASTE_REFINEMENT_WATER_RUN" },
+      { "u_message": "You learned Zephyr, a new use for your Blood-driven Speed Blood Art.", "type": "good" }
     ]
   }
 ]

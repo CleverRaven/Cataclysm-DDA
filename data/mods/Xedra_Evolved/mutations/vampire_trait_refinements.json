@@ -9,5 +9,16 @@
     "player_display": false,
     "name": { "str": "Unholy Devastation" },
     "description": "You gain additional strength when smashing terrain when you have Vigor Mortis active."
+  },
+  {
+    "type": "mutation",
+    "id": "BLOODHASTE_REFINEMENT_WATER_RUN",
+    "points": 3,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "name": { "str": "Zephyr" },
+    "description": "You can run across water when you have Blood-driven Speed active."
   }
 ]

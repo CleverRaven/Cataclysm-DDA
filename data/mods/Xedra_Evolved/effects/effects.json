@@ -17,6 +17,14 @@
   },
   {
     "type": "effect_type",
+    "id": "haste_vampire_water_running",
+    "//": "Hidden effect_lets you run on water using Zephyr",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "ITEM_WATERPROOFING", "WATERWALKING" ]
+  },
+  {
+    "type": "effect_type",
     "id": "buoyant",
     "name": [ "Buoyant" ],
     "desc": [ "You are more buoyant than before.  This will make swimming much easier." ],
