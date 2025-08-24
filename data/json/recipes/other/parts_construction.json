@@ -25,11 +25,7 @@
     "autolearn": true,
     "difficulty": 3,
     "charges": 12,
-    "difficulty": 3,
-    "charges": 12,
     "activity_level": "MODERATE_EXERCISE",
-    "time": "12 m 30 s",
-    "batch_time_factors": [ 2, 40 ],
     "time": "12 m 30 s",
     "batch_time_factors": [ 2, 40 ],
     "proficiencies": [
