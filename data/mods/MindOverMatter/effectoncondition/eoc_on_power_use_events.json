@@ -626,7 +626,7 @@
       {
         "if": { "u_has_effect": "effect_psi_intense_concentration" },
         "then": [
-          { "u_message": "The burden on your concentration eases.  It's easier to think now.", "type": "good" },
+          { "u_message": "The pressure on your mind lightens.  It's easier to concentrate now.", "type": "good" },
           { "u_lose_effect": "effect_psi_intense_concentration" }
         ]
       }
