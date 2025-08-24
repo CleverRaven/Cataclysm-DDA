@@ -1424,7 +1424,7 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
                "--\n"
                "<color_c_white>Protection for</color>: The <color_c_cyan>arms</color>. The <color_c_cyan>torso</color>.\n"
                "<color_c_white>Coverage</color>: <color_c_light_blue>Normal</color>.\n"
-               "  Default:  <color_c_yellow>90</color>\n"
+               "  Default: <color_c_yellow>90</color>\n"
                "<color_c_white>Protection</color>:\n"
                "  Negligible Protection\n"
              );
@@ -1451,7 +1451,7 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
         };
         const std::string coverage_string =
             "<color_c_white>Coverage</color>: <color_c_light_blue>Outer</color>.\n"
-            "  Default:  <color_c_yellow>100</color>\n";
+            "  Default: <color_c_yellow>100</color>\n";
         const std::string prot_header_string = "<color_c_white>Protection</color>:\n";
         const std::string bash_string = "  Bash: <color_c_yellow>4.00</color>\n";
         const std::string cut_string = "  Cut: <color_c_yellow>4.00</color>\n";
@@ -1501,7 +1501,7 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
         };
         const std::string coverage_str =
             "<color_c_white>Coverage</color>: <color_c_light_blue>Close to skin</color>.\n"
-            "  Default:  <color_c_yellow>100</color>\n";
+            "  Default: <color_c_yellow>100</color>\n";
         const std::string prot_header_str = "<color_c_white>Protection</color>:\n";
         const std::string bash_str = "  Bash: <color_c_yellow>2.00</color>\n";
         const std::string cut_str = "  Cut: <color_c_yellow>2.00</color>\n";
@@ -1540,17 +1540,17 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
             "<color_c_white>Protection for</color>: The <color_c_cyan>torso</color>.\n";
         const std::string coverage_str =
             "<color_c_white>Coverage</color>: <color_c_light_blue>Close to skin</color>.\n"
-            "  Default:  <color_c_yellow>100</color>\n";
+            "  Default: <color_c_yellow>100</color>\n";
         const std::string protection_str =
             "<color_c_white>Protection</color>: <color_c_red>4%</color> chance, <color_c_yellow>Median</color> chance, <color_c_green>4%</color> chance\n";
         const std::string bash_str =
-            "  Bash:  <color_c_red>1.00</color>, <color_c_yellow>12.00</color>, <color_c_green>23.00</color>\n";
+            "  Bash: <color_c_red>1.00</color>, <color_c_yellow>12.00</color>, <color_c_green>23.00</color>\n";
         const std::string cut_str =
-            "  Cut:  <color_c_red>1.00</color>, <color_c_yellow>12.00</color>, <color_c_green>23.00</color>\n";
+            "  Cut: <color_c_red>1.00</color>, <color_c_yellow>12.00</color>, <color_c_green>23.00</color>\n";
         const std::string ballistic_str =
-            "  Ballistic:  <color_c_red>1.00</color>, <color_c_yellow>8.50</color>, <color_c_green>16.00</color>\n";
+            "  Ballistic: <color_c_red>1.00</color>, <color_c_yellow>8.50</color>, <color_c_green>16.00</color>\n";
         const std::string pierce_str =
-            "  Pierce:  <color_c_red>0.80</color>, <color_c_yellow>9.60</color>, <color_c_green>18.40</color>\n";
+            "  Pierce: <color_c_red>0.80</color>, <color_c_yellow>9.60</color>, <color_c_green>18.40</color>\n";
         size_t pos = 0;
         test_string( info, encumbrance_str, pos );
         test_string( info, bodyparts_str, pos );
@@ -3226,7 +3226,7 @@ TEST_CASE( "Armor_values_preserved_after_copy-from", "[iteminfo][armor][protecti
             "--\n"
             "<color_c_white>Protection for</color>: The <color_c_cyan>legs</color>. The <color_c_cyan>torso</color>.\n"
             "<color_c_white>Coverage</color>: <color_c_light_blue>Outer</color>.\n"
-            "  Default:  <color_c_yellow>90</color>\n"
+            "  Default: <color_c_yellow>90</color>\n"
             "<color_c_white>Protection</color>:\n";
         const std::string bash_string = "  Bash: <color_c_yellow>10.00</color>\n";
         const std::string cut_string = "  Cut: <color_c_yellow>12.00</color>\n";
@@ -3255,7 +3255,7 @@ TEST_CASE( "Armor_values_preserved_after_copy-from", "[iteminfo][armor][protecti
             "--\n"
             "<color_c_white>Protection for</color>: The <color_c_cyan>legs</color>. The <color_c_cyan>torso</color>.\n"
             "<color_c_white>Coverage</color>: <color_c_light_blue>Outer</color>.\n"
-            "  Default:  <color_c_yellow>90</color>\n"
+            "  Default: <color_c_yellow>90</color>\n"
             "<color_c_white>Protection</color>:\n";
         const std::string bash_str = "  Bash: <color_c_yellow>12.00</color>\n";
         const std::string cut_str = "  Cut: <color_c_yellow>14.40</color>\n";
@@ -3283,7 +3283,7 @@ TEST_CASE( "Armor_values_preserved_after_copy-from", "[iteminfo][armor][protecti
             "--\n"
             "<color_c_white>Protection for</color>: The <color_c_cyan>legs</color>. The <color_c_cyan>torso</color>.\n"
             "<color_c_white>Coverage</color>: <color_c_light_blue>Outer</color>.\n"
-            "  Default:  <color_c_yellow>90</color>\n"
+            "  Default: <color_c_yellow>90</color>\n"
             "<color_c_white>Protection</color>:\n";
         const std::string bash_str = "  Bash: <color_c_yellow>15.00</color>\n";
         const std::string cut_str = "  Cut: <color_c_yellow>18.00</color>\n";
