@@ -49,6 +49,8 @@
 #include "vpart_range.h"
 #include "wcwidth.h"
 
+class emit;
+
 namespace
 {
 generic_factory<vehicle_prototype> vehicle_prototype_factory( "vehicle", "id" );
@@ -273,29 +275,29 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
 {
     const bool strict = src == "dda";
 
-    assign( jo, "name", name_, strict );
-    assign( jo, "item", base_item, strict );
-    assign( jo, "remove_as", removed_item, strict );
-    assign( jo, "location", location, strict );
-    assign( jo, "durability", durability, strict );
-    assign( jo, "damage_modifier", dmg_mod, strict );
-    assign( jo, "energy_consumption", energy_consumption, strict );
-    assign( jo, "power", power, strict );
-    assign( jo, "epower", epower, strict );
-    assign( jo, "emissions", emissions, strict );
-    assign( jo, "exhaust", exhaust, strict );
-    assign( jo, "fuel_type", fuel_type, strict );
-    assign( jo, "default_ammo", default_ammo, strict );
-    assign( jo, "folded_volume", folded_volume, strict );
-    optional( jo, was_loaded, "size", size );
-    assign( jo, "bonus", bonus, strict );
-    assign( jo, "cargo_weight_modifier", cargo_weight_modifier, strict );
-    assign( jo, "categories", categories, strict );
-    assign( jo, "flags", flags, strict );
-    assign( jo, "description", description, strict );
-    optional( jo, was_loaded, "color", color, nc_color_reader{} );
-    optional( jo, was_loaded, "broken_color", color_broken, nc_color_reader{} );
-    assign( jo, "comfort", comfort, strict );
+    optional( jo, was_loaded, "name", name_ );
+    optional( jo, was_loaded, "item", base_item );
+    optional( jo, was_loaded, "remove_as", removed_item );
+    optional( jo, was_loaded, "location", location );
+    optional( jo, was_loaded, "durability", durability, 0 );
+    optional( jo, was_loaded, "damage_modifier", dmg_mod, 100 );
+    optional( jo, was_loaded, "energy_consumption", energy_consumption, 0_W );
+    optional( jo, was_loaded, "power", power, 0_W );
+    optional( jo, was_loaded, "epower", epower, 0_W );
+    optional( jo, was_loaded, "emissions", emissions, string_id_reader<emit> {} );
+    optional( jo, was_loaded, "exhaust", exhaust, string_id_reader<emit> {} );
+    optional( jo, was_loaded, "fuel_type", fuel_type, itype_id::NULL_ID() );
+    optional( jo, was_loaded, "default_ammo", default_ammo, itype_id::NULL_ID() );
+    optional( jo, was_loaded, "folded_volume", folded_volume, std::nullopt );
+    optional( jo, was_loaded, "size", size, 0_ml );
+    optional( jo, was_loaded, "bonus", bonus, 0 );
+    optional( jo, was_loaded, "cargo_weight_modifier", cargo_weight_modifier, 100 );
+    optional( jo, was_loaded, "categories", categories, string_reader{} );
+    optional( jo, was_loaded, "flags", flags, string_reader{} );
+    optional( jo, was_loaded, "description", description );
+    optional( jo, was_loaded, "color", color, nc_color_reader{}, c_light_gray );
+    optional( jo, was_loaded, "broken_color", color_broken, nc_color_reader{}, c_light_gray );
+    optional( jo, was_loaded, "comfort", comfort, 0 );
     int legacy_floor_bedding_warmth = units::to_legacy_bodypart_temp_delta( floor_bedding_warmth );
     assign( jo, "floor_bedding_warmth", legacy_floor_bedding_warmth, strict );
     floor_bedding_warmth = units::from_legacy_bodypart_temp_delta( legacy_floor_bedding_warmth );
@@ -343,20 +345,14 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         parse_vp_control_reqs( reqs, id, "land", control_land );
     }
 
-    assign( jo, "looks_like", looks_like, strict );
+    optional( jo, was_loaded, "looks_like", looks_like, looks_like );
 
     if( jo.has_member( "breaks_into" ) ) {
         breaks_into_group = item_group::load_item_group(
                                 jo.get_member( "breaks_into" ), "collection", "breaks_into for vpart " + id.str() );
     }
 
-    JsonArray qual = jo.get_array( "qualities" );
-    if( !qual.empty() ) {
-        qualities.clear();
-        for( JsonArray pair : qual ) {
-            qualities[ quality_id( pair.get_string( 0 ) ) ] = pair.get_int( 1 );
-        }
-    }
+    optional( jo, was_loaded, "qualities", qualities, weighted_string_id_reader<quality_id, int> {std::nullopt} );
 
     JsonArray tools = jo.get_array( "pseudo_tools" );
     if( !tools.empty() ) {
@@ -371,10 +367,10 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
             }
         }
     }
-    assign( jo, "folding_tools", folding_tools, strict );
-    assign( jo, "unfolding_tools", unfolding_tools, strict );
-    assign( jo, "folding_time", folding_time, strict );
-    assign( jo, "unfolding_time", unfolding_time, strict );
+    optional( jo, was_loaded, "folding_tools", folding_tools, string_id_reader<itype> {} );
+    optional( jo, was_loaded, "unfolding_tools", unfolding_tools, string_id_reader<itype> {} );
+    optional( jo, was_loaded, "folding_time", folding_time, 10_seconds );
+    optional( jo, was_loaded, "unfolding_time", unfolding_time, 10_seconds );
 
     if( jo.has_member( "damage_reduction" ) ) {
         JsonObject dred = jo.get_object( "damage_reduction" );
