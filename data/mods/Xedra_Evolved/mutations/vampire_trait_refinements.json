@@ -20,5 +20,16 @@
     "player_display": false,
     "name": { "str": "Zephyr" },
     "description": "You can run across water when you have Blood-driven Speed active."
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRIC_RESILIENCE_REFINEMENT_INVINCIBILITY",
+    "points": 3,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "name": { "str": "Flesh of Marble" },
+    "description": "The first attack after activating Snguine Resilience does no damage."
   }
 ]

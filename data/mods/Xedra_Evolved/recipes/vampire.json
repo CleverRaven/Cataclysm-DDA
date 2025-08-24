@@ -443,13 +443,24 @@
       "if": { "math": [ "( (u_val('intelligence') / 2) + u_skill('deduction') + (rand(9) + 1) + (rand(9) + 1) ) > 26" ] },
       "then": [
         {
-          "run_eoc_selector": [ "EOC_REFINE_VIGOR_MORTIS_SMASHING", "EOC_REFINE_BLOOD_DRIVEN_SPEED_WATER_RUNNING", "EOC_NONE" ],
+          "run_eoc_selector": [
+            "EOC_REFINE_VIGOR_MORTIS_SMASHING",
+            "EOC_REFINE_BLOOD_DRIVEN_SPEED_WATER_RUNNING",
+            "EOC_REFINE_SANGUINE_RESILIENCE_INVINCIBILITY",
+            "EOC_NONE"
+          ],
           "allow_cancel": true,
-          "names": [ "Refine Vigor Mortis: Unholy Destruction", "Refine Blood-driven Speed: Zephyr", "Nothing" ],
+          "names": [
+            "Refine Vigor Mortis: Unholy Destruction",
+            "Refine Blood-driven Speed: Zephyr",
+            "Refine Sanguine Resilience: Flesh of Marble",
+            "Nothing"
+          ],
           "title": "Your research uncovers…",
           "descriptions": [
             "From the strength boost of Vigor Mortis, you can focus that strength against inanimate objects to smash through barriers with incredible force.",
             "With your Blood-driven Speed, move so quickly that you can even run on water.",
+            "Improve Sanguine Resilience so the first attack after activating it shatters on your undead flesh.",
             "End your research."
           ]
         }
@@ -475,6 +486,23 @@
     "effect": [
       { "u_add_trait": "BLOODHASTE_REFINEMENT_WATER_RUN" },
       { "u_message": "You learned Zephyr, a new use for your Blood-driven Speed Blood Art.", "type": "good" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REFINE_SANGUINE_RESILIENCE_INVINCIBILITY",
+    "condition": {
+      "and": [
+        { "u_has_trait": "VAMPIRIC_RESILIENCE" },
+        { "not": { "u_has_trait": "VAMPIRIC_RESILIENCE_REFINEMENT_INVINCIBILITY" } }
+      ]
+    },
+    "effect": [
+      { "u_add_trait": "VAMPIRIC_RESILIENCE_REFINEMENT_INVINCIBILITY" },
+      {
+        "u_message": "You learned Flesh of Marble, a new use for your Sanguine Resilience Blood Art.",
+        "type": "good"
+      }
     ]
   }
 ]

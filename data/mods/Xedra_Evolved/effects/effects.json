@@ -25,6 +25,16 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_vampire_resilience_flesh_of_marble",
+    "name": [ "Flesh of Marble" ],
+    "desc": [ "You are invincible." ],
+    "rating": "good",
+    "show_in_info": true,
+    "remove_message": "Your undead flesh blunts the attack.",
+    "enchantments": [ { "values": [ { "value": "FORCEFIELD", "add": 1 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "buoyant",
     "name": [ "Buoyant" ],
     "desc": [ "You are more buoyant than before.  This will make swimming much easier." ],

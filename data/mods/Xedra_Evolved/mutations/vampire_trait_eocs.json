@@ -849,6 +849,10 @@
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.25 },
               { "math": [ "u_vitamin('human_blood_vitamin') -= 150" ] },
               { "u_add_effect": "effect_vampiric_resilience", "duration": "PERMANENT" },
+              {
+                "if": { "u_has_trait": "VAMPIRIC_RESILIENCE_REFINEMENT_INVINCIBILITY" },
+                "then": { "u_add_effect": "effect_vampire_resilience_flesh_of_marble", "duration": "PERMANENT" }
+              },
               { "u_message": "You feel a surge of power as blood fortifies your flesh.", "type": "good" },
               {
                 "run_eocs": [ "EOC_VAMPIRIC_RESILIENCE_maintenance" ],
@@ -874,8 +878,9 @@
             "id": "EOC_VAMPIRIC_RESILIENCE_deactivated",
             "condition": { "u_has_effect": "effect_vampiric_resilience" },
             "effect": [
-              { "u_message": "Your muscles weaken as the stolen blood leaves them.", "type": "neutral" },
-              { "u_lose_effect": "effect_vampiric_resilience" }
+              { "u_message": "Your flesh loses its resilience as the stolen blood leaves it.", "type": "neutral" },
+              { "u_lose_effect": "effect_vampiric_resilience" },
+              { "u_lose_effect": "effect_vampire_resilience_flesh_of_marble" }
             ]
           }
         ]
@@ -922,6 +927,14 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRIC_RESILIENCE_FLESH_OF_MARBLE",
+    "eoc_type": "EVENT",
+    "required_event": "character_takes_damage",
+    "condition": { "u_has_effect": "effect_vampire_resilience_flesh_of_marble" },
+    "effect": [ { "u_lose_effect": "effect_vampire_resilience_flesh_of_marble" } ]
   },
   {
     "type": "effect_on_condition",
