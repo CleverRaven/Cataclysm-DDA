@@ -505,7 +505,8 @@
     "purifiable": false,
     "valid": false,
     "visibility": 7,
-    "ugliness": 6
+    "ugliness": 6,
+    "enchantments": [ { "ench_effects": [ { "effect": "effect_dhampir_corpselike_pallor_pale", "intensity": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -1217,7 +1218,12 @@
           { "value": "MENDING_MODIFIER", "multiply": 12 }
         ]
       },
-      { "ench_effects": [ { "effect": "effect_vampire_immune_to_classic_zombification", "intensity": 1 } ] }
+      {
+        "ench_effects": [
+          { "effect": "effect_vampire_immune_to_classic_zombification", "intensity": 1 },
+          { "effect": "effect_dhampir_corpselike_pallor_pale", "intensity": 1 }
+        ]
+      }
     ]
   },
   {
