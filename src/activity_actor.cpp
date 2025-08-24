@@ -8858,7 +8858,7 @@ void pulp_activity_actor::send_final_message( Character &you ) const
 
     if( acid_corpse ) {
         you.add_msg_if_player( m_bad,
-                               _( "You cannot pulp acid-filled corpses, and need to be slowly dismembered to prevent acid spraying on your skin." ) );
+                               _( "You cannot pulp acid-filled corpses, they need to be slowly dismembered to prevent acid spraying on your skin." ) );
         return;
     }
 
