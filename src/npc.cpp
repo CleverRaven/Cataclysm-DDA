@@ -3491,14 +3491,14 @@ std::function<bool( const tripoint_bub_ms & )> npc::get_path_avoid() const
                 // Ignore if target location is on same vehicle as the avatar occupies
                 !( here.veh_at( p ).has_value() && here.veh_at( get_avatar().pos_abs() ) &&
                    here.veh_at( p ).value().vehicle().pos_abs() == here.veh_at(
-        get_avatar().pos_abs() ).value().vehicle().pos_abs() ) ) {
-        return true;
-    }
-    if( sees_dangerous_field( p ) ) {
-        return true;
-    }
-    return false;
-};
+                       get_avatar().pos_abs() ).value().vehicle().pos_abs() ) ) ) ) {
+            return true;
+        }
+        if( sees_dangerous_field( p ) ) {
+            return true;
+        }
+        return false;
+    };
 }
 
 mfaction_id npc::get_monster_faction() const
