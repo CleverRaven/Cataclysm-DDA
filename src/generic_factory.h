@@ -9,6 +9,7 @@
 #include <limits>
 #include <list>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <string_view>
@@ -1839,8 +1840,9 @@ class weighted_string_id_reader : public generic_typed_reader<weighted_string_id
 public:
     static constexpr bool read_objects = true;
 
-    V default_weight;
-    explicit weighted_string_id_reader( V default_weight ) : default_weight( default_weight ) {};
+    std::optional<V> default_weight;
+    explicit weighted_string_id_reader( std::optional<V> default_weight ) : default_weight(
+            default_weight ) {};
 
     std::pair<K, V> get_next( const JsonValue &val ) const {
         if( val.is_member() ) {
@@ -1848,11 +1850,11 @@ public:
             return std::pair<K, V>( jm.name(), static_cast<V>( val.get_float() ) );
         } else if( val.test_object() ) {
             JsonObject inline_pair = val.get_object();
-            if( !( inline_pair.size() == 1 || inline_pair.size() == 2 ) ) {
+            if( !( ( inline_pair.size() == 1 && default_weight.has_value() ) || inline_pair.size() == 2 ) ) {
                 inline_pair.throw_error( "weighted_string_id_reader failed to read object" );
             }
             K pair_key;
-            V pair_val = default_weight;
+            V pair_val = default_weight.value_or( V() );
             for( JsonMember mem : inline_pair ) {
                 if( mem.test_string() ) {
                     pair_key = K( std::move( mem.get_string() ) );
@@ -1871,12 +1873,14 @@ public:
             return std::pair<K, V>(
                        K( std::move( arr[0].get_string() ) ),
                        static_cast<V>( arr[1].get_float() ) );
-        } else {
+        } else if( default_weight.has_value() ) {
             if( val.test_string() ) {
                 return std::pair<K, V>(
-                           K( std::move( val.get_string() ) ), default_weight );
+                           K( std::move( val.get_string() ) ), *default_weight );
             }
             val.throw_error( "weighted_string_id_reader provided with invalid string_id" );
+        } else {
+            val.throw_error( "weighted_string_id_reader requires two entries" );
         }
     }
 };
