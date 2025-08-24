@@ -966,7 +966,8 @@ std::string basecamp::expansion_tab( const point_rel_omt &dir ) const
         recipe_id id( base_camps::faction_encode_abs( e->second, 0 ) );
         const auto e_type = expansion_types.find( id );
         if( e_type != expansion_types.end() ) {
-            return e_type->second + _( "Expansion" );
+            //~ A particular faction camp / basecamp expansion
+            return string_format( _( "%s Expansion" ), e_type->second );
         }
     }
     return _( "Empty Expansion" );
