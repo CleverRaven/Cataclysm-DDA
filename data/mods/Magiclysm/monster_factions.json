@@ -89,7 +89,7 @@
     "copy-from": "mi-go",
     "base_faction": "nether",
     "friendly": [ "mi-go_summon" ],
-    "neutral": [ "fish", "yrax", "small_animal", "slime", "passive_machine" ],
+    "neutral": [ "fish", "yrax", "small_animal", "slime", "passive_machine", "aerial_assassin" ],
     "by_mood": [ "nether" ],
     "hate": [ "zombie", "triffid", "fungus", "exodii", "isolated_artisans" ]
   },
@@ -97,6 +97,12 @@
     "type": "MONSTER_FACTION",
     "name": "zombie",
     "copy-from": "zombie",
+    "extend": { "neutral": [ "aerial_assassin" ] }
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "bot",
+    "copy-from": "bot",
     "extend": { "neutral": [ "aerial_assassin" ] }
   },
   {
@@ -157,7 +163,7 @@
     "type": "MONSTER_FACTION",
     "name": "aerial_assassin",
     "base_faction": "nether_hate_humans",
-    "neutral": [ "zombie", "mi-go", "bot", "triffid", "robofac", "passive_machine", "robot", "wonder_forge" ],
+    "neutral": [ "animal", "zombie", "mi-go", "bot", "triffid", "passive_machine", "robot", "wonder_forge" ],
     "by_mood": [ "dragon_black" ]
   }
 ]
