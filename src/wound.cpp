@@ -146,7 +146,7 @@ void wound::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-void wound::deserialize( JsonObject &jsin )
+void wound::deserialize( const JsonObject &jsin )
 {
     jsin.read( "type", type );
     jsin.read( "healing_time", healing_time );

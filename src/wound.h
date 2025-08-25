@@ -71,7 +71,7 @@ class wound
         wound_type_id type;
 
         void serialize( JsonOut &jsout ) const;
-        void deserialize( JsonObject &jsin );
+        void deserialize( const JsonObject &jsin );
         // returns the wound healing progress divided by healing time
         float healing_percentage() const;
         // return how much pain this specific wound gives you, reduced depending on how long the wound presented.
