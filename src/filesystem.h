@@ -68,12 +68,11 @@ const char *eol();
  * @param match_extension If true, match pattern at the end of file names. Otherwise, match anywhere
  *                        in the file name.
  */
-std::vector<std::string> get_files_from_path( const std::string &pattern,
-        const std::string &root_path = "", bool recursive_search = false,
-        bool match_extension = false );
-std::vector<cata_path> get_files_from_path( const std::string &pattern,
-        const cata_path &root_path, bool recursive_search = false,
-        bool match_extension = false );
+template<typename P>
+std::vector<P> get_files_from_path( const std::string &pattern,
+                                    const P &root_path = P(), bool recursive_search = false,
+                                    bool match_extension = false );
+
 /**
  * Returns a vector of files or directories matching pattern at @p root_path excluding those who's path matches @p pattern_clash.
  *
@@ -87,13 +86,10 @@ std::vector<cata_path> get_files_from_path( const std::string &pattern,
  * @param match_extension If true, match pattern at the end of file names. Otherwise, match anywhere
  *                        in the file name.
  */
-std::vector<std::string> get_files_from_path_with_path_exclusion( const std::string &pattern,
+template<typename P>
+std::vector<P> get_files_from_path_with_path_exclusion( const std::string &pattern,
         const std::string &pattern_clash,
-        const std::string &root_path = "", bool recursive_search = false,
-        bool match_extension = false );
-std::vector<cata_path> get_files_from_path_with_path_exclusion( const std::string &pattern,
-        const std::string &pattern_clash,
-        const cata_path &root_path, bool recursive_search = false,
+        const P &root_path = P(), bool recursive_search = false,
         bool match_extension = false );
 
 //--------------------------------------------------------------------------------------------------
@@ -103,23 +99,17 @@ std::vector<cata_path> get_files_from_path_with_path_exclusion( const std::strin
  * @param patterns A vector or patterns to match.
  * @see get_files_from_path
  */
-std::vector<std::string> get_directories_with( const std::vector<std::string> &patterns,
-        const std::string &root_path = "", bool recursive_search = false );
+template<typename P>
+std::vector<P> get_directories_with( const std::vector<std::string> &patterns,
+                                     const P &root_path = P(), bool recursive_search = false );
 
-std::vector<std::string> get_directories_with( const std::string &pattern,
-        const std::string &root_path = "", bool recursive_search = false );
+template<typename P>
+std::vector<P> get_directories_with( const std::string &pattern,
+                                     const P &root_path = P(), bool recursive_search = false );
 
-std::vector<cata_path> get_directories_with( const std::vector<std::string> &patterns,
-        const cata_path &root_path = {}, bool recursive_search = false );
-
-std::vector<cata_path> get_directories_with( const std::string &pattern,
-        const cata_path &root_path = {}, bool recursive_search = false );
-
-std::vector<std::string> get_directories( const std::string &root_path = "",
-        bool recursive_search = false );
-
-std::vector<cata_path> get_directories( const cata_path &root_path = {}, bool recursive_search =
-        false );
+template<typename P>
+std::vector<P> get_directories( const P &root_path = P(),
+                                bool recursive_search = false );
 
 bool copy_file( const std::string &source_path, const std::string &dest_path );
 bool copy_file( const cata_path &source_path, const cata_path &dest_path );
