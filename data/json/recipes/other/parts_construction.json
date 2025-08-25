@@ -13,7 +13,7 @@
     "batch_time_factors": [ 2, 10 ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing", "time_multiplier": 1.5 } ],
     "using": [ [ "blacksmithing_standard", 1 ] ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "nail_header", 1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "nail_header", -1 ] ] ],
     "components": [ [ [ "lc_steel_chunk", 1 ] ] ]
   },
   {
@@ -34,7 +34,7 @@
       { "proficiency": "prof_redsmithing_adv" }
     ],
     "using": [ [ "blacksmithing_standard", 1 ], [ "bronze_tiny", 1 ] ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "nail_header", 1 ], [ "nail_header_bronze", 1 ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "nail_header", -1 ], [ "nail_header_bronze", -1 ] ] ]
   },
   {
     "type": "recipe",
