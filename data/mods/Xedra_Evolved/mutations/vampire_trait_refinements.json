@@ -31,5 +31,17 @@
     "player_display": false,
     "name": { "str": "Flesh of Marble" },
     "description": "The first attack after activating Sanguine Resilience does no damage."
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_HEIGHTENED_SENSES_REFINEMENT_SEE_INVISIBLE",
+    "points": 3,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "name": { "str": "Soulsight" },
+    "description": "You can see invisible creatures.",
+    "flags": [ "TRUE_SEEING" ]
   }
 ]

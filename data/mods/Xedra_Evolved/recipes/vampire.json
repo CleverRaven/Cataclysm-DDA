@@ -447,6 +447,7 @@
             "EOC_REFINE_VIGOR_MORTIS_SMASHING",
             "EOC_REFINE_BLOOD_DRIVEN_SPEED_WATER_RUNNING",
             "EOC_REFINE_SANGUINE_RESILIENCE_INVINCIBILITY",
+            "EOC_REFINE_HEIGHTENED_SENSES_SEE_INVISIBLE",
             "EOC_NONE"
           ],
           "allow_cancel": true,
@@ -454,6 +455,7 @@
             "Refine Vigor Mortis: Unholy Destruction",
             "Refine Blood-driven Speed: Zephyr",
             "Refine Sanguine Resilience: Flesh of Marble",
+            "Refine Predator's Senses/Crimson Vision: Soulsight",
             "Nothing"
           ],
           "title": "Your research uncovers…",
@@ -461,6 +463,7 @@
             "From the strength boost of Vigor Mortis, you can focus that strength against inanimate objects to smash through barriers with incredible force.",
             "With your Blood-driven Speed, move so quickly that you can even run on water.",
             "Improve Sanguine Resilience so the first attack after activating it shatters on your undead flesh.",
+            "Combine your Predator's Senses with your Crimson Vision and learn to see even invisible creatures.",
             "End your research."
           ]
         }
@@ -508,6 +511,25 @@
       { "u_add_trait": "VAMPIRIC_RESILIENCE_REFINEMENT_INVINCIBILITY" },
       {
         "u_message": "You learned Flesh of Marble, a new use for your Sanguine Resilience Blood Art.",
+        "type": "good"
+      },
+      { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_REFINEMENT_RESEARCH_SUCCESS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REFINE_HEIGHTENED_SENSES_SEE_INVISIBLE",
+    "condition": {
+      "and": [
+        { "u_has_trait": "VAMPIRE_HEIGHTENED_SENSES" },
+        { "u_has_trait": "VAMPIRE_SEE_HEAT" },
+        { "not": { "u_has_trait": "VAMPIRE_HEIGHTENED_SENSES_REFINEMENT_SEE_INVISIBLE" } }
+      ]
+    },
+    "effect": [
+      { "u_add_trait": "VAMPIRE_HEIGHTENED_SENSES_REFINEMENT_SEE_INVISIBLE" },
+      {
+        "u_message": "You learned Soulsight, a new use for your Predator's Senses and Crimson Vision Blood Arts.",
         "type": "good"
       },
       { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_REFINEMENT_RESEARCH_SUCCESS" }
