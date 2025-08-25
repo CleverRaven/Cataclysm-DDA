@@ -3654,18 +3654,20 @@ talk_effect_fun_t::func f_remove_var( const JsonObject &jo, std::string_view mem
     };
 }
 
-void map_add_item( item &it, tripoint_abs_ms target_pos )
+void map_add_item( const item &it, const tripoint_abs_ms &target_pos,
+                   const tripoint_abs_ms &preferred_spill = tripoint_abs_ms::invalid )
 {
     map &here = get_map();
 
     if( here.inbounds( target_pos ) ) {
-        here.add_item_or_charges( here.get_bub( target_pos ), it );
+        here.add_item_or_charges( here.get_bub( target_pos ), it, here.get_bub( preferred_spill ) );
     } else {
         tinymap target_bay;
         target_bay.load( project_to<coords::omt>( target_pos ), false );
         // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
         swap_map swap( *target_bay.cast_to_map() );
-        target_bay.add_item_or_charges( target_bay.get_omt( target_pos ), it );
+        target_bay.add_item_or_charges( target_bay.get_omt( target_pos ), it,
+                                        target_bay.get_omt( preferred_spill ) );
     }
 }
 

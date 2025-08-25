@@ -1307,15 +1307,16 @@ void hacksaw_activity_actor::finish( player_activity &act, Character &who )
         return;
     }
 
+    const tripoint_bub_ms who_pos = who.pos_bub();
     for( const activity_byproduct &byproduct : data->byproducts() ) {
         const int amount = byproduct.roll();
         if( byproduct.item->count_by_charges() ) {
             item byproduct_item( byproduct.item, calendar::turn, amount );
-            here.add_item_or_charges( target, byproduct_item );
+            here.add_item_or_charges( target, byproduct_item, who_pos );
         } else {
             item byproduct_item( byproduct.item, calendar::turn );
             for( int i = 0; i < amount; ++i ) {
-                here.add_item_or_charges( target, byproduct_item );
+                here.add_item_or_charges( target, byproduct_item, who_pos );
             }
         }
     }
@@ -2504,15 +2505,16 @@ void boltcutting_activity_actor::finish( player_activity &act, Character &who )
                        true, "tool", "boltcutters" );
     }
 
+    const tripoint_bub_ms who_pos = who.pos_bub();
     for( const activity_byproduct &byproduct : data->byproducts() ) {
         const int amount = byproduct.roll();
         if( byproduct.item->count_by_charges() ) {
             item byproduct_item( byproduct.item, calendar::turn, amount );
-            here.add_item_or_charges( target, byproduct_item );
+            here.add_item_or_charges( target, byproduct_item, who_pos );
         } else {
             item byproduct_item( byproduct.item, calendar::turn );
             for( int i = 0; i < amount; ++i ) {
-                here.add_item_or_charges( target, byproduct_item );
+                here.add_item_or_charges( target, byproduct_item, who_pos );
             }
         }
     }
@@ -4863,15 +4865,17 @@ static void stash_on_pet( const std::list<item> &items, monster &pet, Character 
     units::mass remaining_weight = pet.weight_capacity() - pet.get_carried_weight();
     map &here = get_map();
 
+    const tripoint_bub_ms pet_pos = pet.pos_bub();
+    const tripoint_bub_ms who_pos = who.pos_bub();
     for( const item &it : items ) {
         if( it.volume() > remaining_volume ) {
             add_msg( m_bad, _( "%1$s did not fit and fell to the %2$s." ), it.display_name(),
-                     here.name( pet.pos_bub() ) );
-            here.add_item_or_charges( pet.pos_bub(), it );
+                     here.name( pet_pos ) );
+            here.add_item_or_charges( pet_pos, it, who_pos );
         } else if( it.weight() > remaining_weight ) {
             add_msg( m_bad, _( "%1$s is too heavy and fell to the %2$s." ), it.display_name(),
-                     here.name( pet.pos_bub() ) );
-            here.add_item_or_charges( pet.pos_bub(), it );
+                     here.name( pet_pos ) );
+            here.add_item_or_charges( pet_pos, it, who_pos );
         } else {
             pet.add_item( it );
             remaining_volume -= it.volume();
@@ -4955,7 +4959,7 @@ void disable_activity_actor::do_turn( player_activity &, Character &who )
     critter.add_effect( effect_worked_on, 1_turns );
 }
 
-void disable_activity_actor::finish( player_activity &act, Character &/*who*/ )
+void disable_activity_actor::finish( player_activity &act, Character &who )
 {
     map &here = get_map();
 
@@ -4977,11 +4981,12 @@ void disable_activity_actor::finish( player_activity &act, Character &/*who*/ )
             }
         }
     } else {
-        here.add_item_or_charges( target, critter.to_item() );
+        here.add_item_or_charges( target, critter.to_item(), who.pos_bub() );
         if( !critter.has_flag( mon_flag_INTERIOR_AMMO ) ) {
+            const tripoint_bub_ms who_pos = who.pos_bub();
             for( std::pair<const itype_id, int> &ammodef : critter.ammo ) {
                 if( ammodef.second > 0 ) {
-                    here.spawn_item( target.xy(), ammodef.first, 1, ammodef.second, calendar::turn );
+                    here.spawn_item( target.xy(), ammodef.first, who_pos.xy(), 1, ammodef.second, calendar::turn );
                 }
             }
         }
@@ -5594,7 +5599,7 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
                                                   _( "The %s no longer fits in your inventory so you drop it instead." ),
                                                   reloadable_name );
             }
-            here.add_item_or_charges( loc.pos_bub( here ), reloadable );
+            here.add_item_or_charges( loc.pos_bub( here ), reloadable, who.pos_bub() );
             loc.remove_item();
             break;
     }
@@ -5876,6 +5881,7 @@ void shearing_activity_actor::finish( player_activity &act, Character &who )
     }
 
     map &mp = get_map();
+    const tripoint_bub_ms who_pos = who.pos_bub( mp );
 
     add_msg_if_player_sees( who,
                             string_format(
@@ -5887,12 +5893,12 @@ void shearing_activity_actor::finish( player_activity &act, Character &who )
     for( const shearing_roll &roll : shear_roll ) {
         if( roll.result->count_by_charges() ) {
             item shear_item( roll.result, calendar::turn, roll.amount );
-            mp.add_item_or_charges( who.pos_bub(), shear_item );
+            mp.add_item_or_charges( who_pos, shear_item );
             add_msg_if_player_sees( who, shear_item.display_name() );
         } else {
             item shear_item( roll.result, calendar::turn );
             for( int i = 0; i < roll.amount; ++i ) {
-                mp.add_item_or_charges( who.pos_bub(), shear_item );
+                mp.add_item_or_charges( who_pos, shear_item );
             }
             add_msg_if_player_sees( who,
                                     //~ %1$s - item, %2$d - amount
@@ -6187,15 +6193,16 @@ void oxytorch_activity_actor::finish( player_activity &act, Character &who )
         return;
     }
 
+    const tripoint_bub_ms who_pos = who.pos_bub();
     for( const activity_byproduct &byproduct : data->byproducts() ) {
         const int amount = byproduct.roll();
         if( byproduct.item->count_by_charges() ) {
             item byproduct_item( byproduct.item, calendar::turn, amount );
-            here.add_item_or_charges( target, byproduct_item );
+            here.add_item_or_charges( target, byproduct_item, who_pos );
         } else {
             item byproduct_item( byproduct.item, calendar::turn );
             for( int i = 0; i < amount; ++i ) {
-                here.add_item_or_charges( target, byproduct_item );
+                here.add_item_or_charges( target, byproduct_item, who_pos );
             }
         }
     }
@@ -6301,13 +6308,13 @@ void tent_deconstruct_activity_actor::start( player_activity &act, Character & )
     act.moves_left = moves_total;
 }
 
-void tent_deconstruct_activity_actor::finish( player_activity &act, Character & )
+void tent_deconstruct_activity_actor::finish( player_activity &act, Character &who )
 {
     map &here = get_map();
     for( const tripoint_bub_ms &pt : here.points_in_radius( target, radius ) ) {
         here.furn_set( pt, furn_str_id::NULL_ID() );
     }
-    here.add_item_or_charges( target, item( tent, calendar::turn ) );
+    here.add_item_or_charges( target, item( tent, calendar::turn ), who.pos_bub() );
     act.set_to_null();
 }
 
@@ -6402,7 +6409,8 @@ void outfit_swap_actor::finish( player_activity &act, Character &who )
     map &here = get_map();
     // First, make a new outfit and shove all our existing clothes into it.
     item new_outfit( outfit_item->typeId() );
-    item_location ground = here.add_item_or_charges_ret_loc( who.pos_bub(), new_outfit, true );
+    item_location ground = here.add_item_or_charges_ret_loc( who.pos_bub(), new_outfit, who.pos_bub(),
+                           true );
     if( !ground ) {
         debugmsg( "Failed to swap outfits during outfit_swap_actor::finish" );
         act.set_to_null();
@@ -6704,15 +6712,16 @@ void prying_activity_actor::handle_prying( Character &who )
         return;
     }
 
+    const tripoint_bub_ms who_pos = who.pos_bub();
     for( const activity_byproduct &byproduct : data->byproducts() ) {
         const int amount = byproduct.roll();
         if( byproduct.item->count_by_charges() ) {
             item byproduct_item( byproduct.item, calendar::turn, amount );
-            here.add_item_or_charges( target, byproduct_item );
+            here.add_item_or_charges( target, byproduct_item, who_pos );
         } else {
             item byproduct_item( byproduct.item, calendar::turn );
             for( int i = 0; i < amount; ++i ) {
-                here.add_item_or_charges( target, byproduct_item );
+                here.add_item_or_charges( target, byproduct_item, who_pos );
             }
         }
     }
@@ -6783,15 +6792,16 @@ void prying_activity_actor::handle_prying_nails( Character &who )
         return;
     }
 
+    const tripoint_bub_ms who_pos = who.pos_bub();
     for( const activity_byproduct &byproduct : data->byproducts() ) {
         const int amount = byproduct.roll();
         if( byproduct.item->count_by_charges() ) {
             item byproduct_item( byproduct.item, calendar::turn, amount );
-            here.add_item_or_charges( target, byproduct_item );
+            here.add_item_or_charges( target, byproduct_item, who_pos );
         } else {
             item byproduct_item( byproduct.item, calendar::turn );
             for( int i = 0; i < amount; ++i ) {
-                here.add_item_or_charges( target, byproduct_item );
+                here.add_item_or_charges( target, byproduct_item, who_pos );
             }
         }
     }
@@ -7127,11 +7137,12 @@ void chop_logs_activity_actor::finish( player_activity &act, Character &who )
         stick_quan = 0;
         splint_quan = 0;
     }
+    const tripoint_bub_ms who_pos = who.pos_bub();
     for( int i = 0; i != log_quan; ++i ) {
         item obj( itype_log, calendar::turn );
         obj.set_var( "activity_var", who.name );
         //The item may exceed the capacity of the pos and move to another coordinate.So get loc.
-        item_location loc = here.add_item_or_charges_ret_loc( pos, obj );
+        item_location loc = here.add_item_or_charges_ret_loc( pos, obj, who_pos );
         if( loc ) {
             who.may_activity_occupancy_after_end_items_loc.push_back( loc );
         }
@@ -7141,7 +7152,7 @@ void chop_logs_activity_actor::finish( player_activity &act, Character &who )
         item obj( itype_stick_long, calendar::turn );
         obj.set_var( "activity_var", who.name );
         //The item may exceed the capacity of the pos and move to another coordinate.So get loc.
-        item_location loc = here.add_item_or_charges_ret_loc( pos, obj );
+        item_location loc = here.add_item_or_charges_ret_loc( pos, obj, who_pos );
         if( loc ) {
             who.may_activity_occupancy_after_end_items_loc.push_back( loc );
         }
@@ -7150,7 +7161,7 @@ void chop_logs_activity_actor::finish( player_activity &act, Character &who )
         item obj( itype_splinter, calendar::turn );
         obj.set_var( "activity_var", who.name );
         //The item may exceed the capacity of the pos and move to another coordinate.So get loc.
-        item_location loc = here.add_item_or_charges_ret_loc( pos, obj );
+        item_location loc = here.add_item_or_charges_ret_loc( pos, obj, who_pos );
         if( loc ) {
             who.may_activity_occupancy_after_end_items_loc.push_back( loc );
         }
@@ -7205,13 +7216,15 @@ void chop_planks_activity_actor::finish( player_activity &act, Character &who )
     planks = std::min( planks, max_planks );
 
     map &here = get_map();
+    const tripoint_bub_ms who_pos = who.pos_bub();
     if( planks > 0 ) {
-        here.spawn_item( here.get_bub( act.placement ), itype_2x4, planks, 0, calendar::turn );
+        here.spawn_item( here.get_bub( act.placement ), itype_2x4, who_pos, planks, 0, calendar::turn );
         who.add_msg_if_player( m_good, n_gettext( "You produce %d plank.", "You produce %d planks.",
                                planks ), planks );
     }
     if( scraps > 0 ) {
-        here.spawn_item( here.get_bub( act.placement ), itype_splinter, scraps, 0, calendar::turn );
+        here.spawn_item( here.get_bub( act.placement ), itype_splinter, who_pos, scraps, 0,
+                         calendar::turn );
         who.add_msg_if_player( m_good, n_gettext( "You produce %d splinter.", "You produce %d splinters.",
                                scraps ), scraps );
     }
@@ -7909,7 +7922,7 @@ static void move_item( Character &you, item &it, const int quantity, const tripo
                 debugmsg( "SortLoot: Source vehicle failed to receive leftover charges." );
             }
         } else {
-            here.add_item_or_charges( src, leftovers );
+            here.add_item_or_charges( src, leftovers, you.pos_bub() );
         }
     }
 }
@@ -8149,7 +8162,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                                         vehicle_part &vp_this = this_veh->part( this_part );
                                         this_veh->add_item( here, vp_this, link );
                                     } else {
-                                        here.add_item_or_charges( src_loc, link );
+                                        here.add_item_or_charges( src_loc, link, you.pos_bub() );
                                     }
                                 }
                             }
@@ -8266,17 +8279,19 @@ bool vehicle_folding_activity_actor::fold_vehicle( Character &p, bool check_only
 
     // Drop cargo to ground
     // TODO: make cargo shuffling add time to activity
+    const tripoint_bub_ms veh_pos = veh.pos_bub( here );
+    const tripoint_bub_ms p_pos = p.pos_bub();
     for( const vpart_reference &vpr : veh.get_any_parts( VPFLAG_CARGO ) ) {
         vehicle_stack cargo = vpr.items();
         for( const item &elem : cargo ) {
-            here.add_item_or_charges( veh.pos_bub( here ), elem );
+            here.add_item_or_charges( veh_pos, elem, p_pos );
         }
         cargo.clear();
     }
 
     veh.unboard_all( here );
     p.add_msg_if_player( _( "You fold the %s." ), veh.name );
-    here.add_item_or_charges( veh.pos_bub( here ), veh.get_folded_item( here ) );
+    here.add_item_or_charges( veh_pos, veh.get_folded_item( here ), p_pos );
     here.destroy_vehicle( &veh );
 
     return true;

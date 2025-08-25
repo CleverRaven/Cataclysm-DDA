@@ -1104,7 +1104,7 @@ void computer_session::action_data_anal()
                 if( items.only_item().typeId() == itype_black_box ) {
                     print_line( _( "Memory Bank: Military Hexron Encryption\nPrinting Transcript\n" ) );
                     item transcript( itype_black_box_transcript, calendar::turn );
-                    here.add_item_or_charges( player_character.pos_bub(), transcript );
+                    here.add_item_or_charges( player_character.pos_bub( here ), transcript );
                 } else {
                     print_line( _( "Memory Bank: Unencrypted\nNothing of interest.\n" ) );
                 }

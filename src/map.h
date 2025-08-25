@@ -1245,18 +1245,35 @@ class map
         void spawn_artifact( const tripoint_bub_ms &p, const relic_procgen_id &id, int max_attributes = 5,
                              int power_level = 1000, int max_negative_power = -2000, bool is_resonant = false );
         void spawn_item( const tripoint_bub_ms &p, const itype_id &type_id,
+                         const tripoint_bub_ms &preferred_spill = tripoint_bub_ms::invalid,
                          unsigned quantity = 1, int charges = 0,
                          const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,
                          const std::set<flag_id> &flags = {}, const std::string &variant = "",
                          const std::string &faction = "" );
+        void spawn_item( const tripoint_bub_ms &p, const itype_id &type_id,
+                         unsigned quantity, int charges = 0,
+                         const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,
+                         const std::set<flag_id> &flags = {}, const std::string &variant = "",
+                         const std::string &faction = "" ) {
+            spawn_item( p, type_id, tripoint_bub_ms::invalid, quantity, charges, birthday, damlevel, flags,
+                        variant, faction );
+        }
+        void spawn_item( const point_bub_ms &p, const itype_id &type_id,
+                         const point_bub_ms &preferred_spill,
+                         unsigned quantity = 1, int charges = 0,
+                         const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,
+                         const std::set<flag_id> &flags = {}, const std::string &variant = "",
+                         const std::string &faction = "" ) {
+            spawn_item( tripoint_bub_ms( p, abs_sub.z() ), type_id, tripoint_bub_ms( preferred_spill,
+                        abs_sub.z() ), quantity, charges, birthday, damlevel, flags, variant, faction );
+        }
         void spawn_item( const point_bub_ms &p, const itype_id &type_id,
                          unsigned quantity = 1, int charges = 0,
                          const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,
                          const std::set<flag_id> &flags = {}, const std::string &variant = "",
                          const std::string &faction = "" ) {
             spawn_item( tripoint_bub_ms( p, abs_sub.z() ), type_id, quantity, charges, birthday, damlevel,
-                        flags,
-                        variant, faction );
+                        flags, variant, faction );
         }
 
         units::volume max_volume( const tripoint_bub_ms &p );
@@ -1272,10 +1289,23 @@ class map
          *  @return reference to dropped (and possibly stacked) item or null item on failure
          *  @warning function is relatively expensive and meant for user initiated actions, not mapgen
          */
+        item_location add_item_or_charges_ret_loc( const tripoint_bub_ms &pos, item obj, bool overflow ) {
+            return add_item_or_charges_ret_loc( pos, std::move( obj ), pos, overflow );
+        }
         item_location add_item_or_charges_ret_loc( const tripoint_bub_ms &pos, item obj,
-                bool overflow = true );
-        item &add_item_or_charges( const tripoint_bub_ms &pos, item obj, bool overflow = true );
+                const tripoint_bub_ms &preferred_spill = tripoint_bub_ms::invalid, bool overflow = true );
+        item &add_item_or_charges( const tripoint_bub_ms &pos, item obj, bool overflow ) {
+            return add_item_or_charges( pos, std::move( obj ), tripoint_bub_ms::invalid, overflow );
+        }
+        item &add_item_or_charges( const tripoint_bub_ms &pos, item obj,
+                                   const tripoint_bub_ms &preferred_spill = tripoint_bub_ms::invalid, bool overflow = true );
         item &add_item_or_charges( const tripoint_bub_ms &pos, item obj, int &copies_remaining,
+                                   bool overflow ) {
+            return add_item_or_charges( pos, std::move( obj ), copies_remaining, tripoint_bub_ms::invalid,
+                                        overflow );
+        }
+        item &add_item_or_charges( const tripoint_bub_ms &pos, item obj, int &copies_remaining,
+                                   const tripoint_bub_ms &preferred_spill = tripoint_bub_ms::invalid,
                                    bool overflow = true );
 
         /**
@@ -1396,8 +1426,8 @@ class map
             const time_point &turn = calendar::start_of_cataclysm );
 
         // Places a list of items, or nothing if the list is empty.
-        std::vector<item *> spawn_items( const tripoint_bub_ms &p,
-                                         const std::vector<item> &new_items );
+        std::vector<item *> spawn_items( const tripoint_bub_ms &p, const std::vector<item> &new_items,
+                                         const tripoint_bub_ms &preferred_spill = tripoint_bub_ms::invalid );
 
         void create_anomaly( const tripoint_bub_ms &p, artifact_natural_property prop,
                              bool create_rubble = true );
@@ -1570,7 +1600,8 @@ class map
             Map &m, const tripoint_bub_ms &p, const field_type_id &type );
 
         std::pair<item *, tripoint_bub_ms> _add_item_or_charges( const tripoint_bub_ms &pos, item obj,
-                int &copies_remaining, bool overflow = true );
+                int &copies_remaining, const tripoint_bub_ms &preferred_spill = tripoint_bub_ms::invalid,
+                bool overflow = true );
     public:
 
         // Splatters of various kind
@@ -2077,7 +2108,8 @@ class map
     public:
 
         // handles all the bash results of specific terrain or furniture
-        void drop_bash_results( const map_data_common_t &ter_furn, const tripoint_bub_ms &p );
+        void drop_bash_results( const map_data_common_t &ter_furn, const tripoint_bub_ms &p,
+                                const tripoint_bub_ms &preferred_spill = tripoint_bub_ms::invalid );
 
         void process_items();
         // All active items connected to the power_grid with their connection points.
@@ -2408,16 +2440,19 @@ class tinymap : private map
             return map::add_item( rebase_bub( p ), std::move( new_item ) );
         }
         item &add_item_or_charges( const point_omt_ms &p, const item &obj,
-                                   bool overflow = true ) {
-            return map::add_item_or_charges( tripoint_bub_ms( rebase_bub( p ), abs_sub.z() ), obj, overflow );
+                                   const point_omt_ms &preferred_spill = point_omt_ms::invalid, bool overflow = true ) {
+            return map::add_item_or_charges( tripoint_bub_ms( rebase_bub( p ), abs_sub.z() ), obj,
+                                             tripoint_bub_ms( rebase_bub( preferred_spill ), abs_sub.z() ), overflow );
         }
         std::vector<item *> put_items_from_loc(
             const item_group_id &group_id, const tripoint_omt_ms &p,
             const time_point &turn = calendar::start_of_cataclysm ) {
             return map::put_items_from_loc( group_id, rebase_bub( p ), turn );
         }
-        item &add_item_or_charges( const tripoint_omt_ms &pos, item obj, bool overflow = true ) {
-            return map::add_item_or_charges( rebase_bub( pos ), std::move( obj ), overflow );
+        item &add_item_or_charges( const tripoint_omt_ms &pos, item obj,
+                                   const tripoint_omt_ms &preferred_spill = tripoint_omt_ms::invalid, bool overflow = true ) {
+            return map::add_item_or_charges( rebase_bub( pos ), std::move( obj ), rebase_bub( preferred_spill ),
+                                             overflow );
         }
         std::vector<item *> place_items(
             const item_group_id &group_id, int chance, const tripoint_omt_ms &p1, const tripoint_omt_ms &p2,

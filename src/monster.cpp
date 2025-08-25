@@ -3069,10 +3069,11 @@ void monster::die( map *here, Creature *nkiller )
             get_event_bus().send_with_talker( ch, this, e );
         }
     }
+    const tripoint_bub_ms pos = pos_bub( *here );
     creature_tracker &creatures = get_creature_tracker();
     if( has_effect_with_flag( json_flag_GRAB_FILTER ) ) {
         // Need to filter out which limb we were grabbing before death
-        for( const tripoint_bub_ms &player_pos : here->points_in_radius( pos_bub( *here ), 1,
+        for( const tripoint_bub_ms &player_pos : here->points_in_radius( pos, 1,
                 0 ) ) {
             Creature *you = creatures.creature_at( here->get_abs( player_pos ) );
             if( !you || !you->has_effect_with_flag( json_flag_GRAB ) ) {
@@ -3141,7 +3142,7 @@ void monster::die( map *here, Creature *nkiller )
             death_spell.cast_all_effects( *this,
                                           killer->pos_bub() );      // ditto, so we should feed them pos_bub().
         } else if( type->mdeath_effect.sp.self ) {
-            death_spell.cast_all_effects( *this, pos_bub() );              // ditto.
+            death_spell.cast_all_effects( *this, pos );              // ditto.
         }
     }
 
@@ -3200,6 +3201,7 @@ void monster::die( map *here, Creature *nkiller )
         spawn_dissectables_on_death( corpse.get_item() );
     }
     if( death_drops && !is_hallucination() ) {
+        const tripoint_bub_ms nk_pos = nkiller ? nkiller->pos_bub( *here ) : tripoint_bub_ms::invalid;
         for( const item &it : inv ) {
             if( it.has_var( "DESTROY_ITEM_ON_MON_DEATH" ) ) {
                 continue;
@@ -3207,14 +3209,14 @@ void monster::die( map *here, Creature *nkiller )
             if( corpse ) {
                 corpse->force_insert_item( it, pocket_type::CONTAINER );
             } else {
-                here->add_item_or_charges( pos_bub( *here ), it );
+                here->add_item_or_charges( pos, it, nk_pos );
             }
         }
         for( const item &it : dissectable_inv ) {
             if( corpse ) {
                 corpse->put_in( it, pocket_type::CORPSE );
             } else {
-                here->add_item( pos_bub( *here ), it );
+                here->add_item( pos, it );
             }
         }
     }
@@ -3336,8 +3338,9 @@ void monster::drop_items_on_death( map *here, item *corpse )
 
     // for non corpses this is much simpler
     if( !corpse ) {
+        const tripoint_bub_ms pos = pos_bub( *here );
         for( item &it : new_items ) {
-            here->add_item_or_charges( pos_bub( *here ), it );
+            here->add_item_or_charges( pos, it );
         }
         return;
     }

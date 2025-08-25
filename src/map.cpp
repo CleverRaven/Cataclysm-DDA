@@ -4354,16 +4354,18 @@ void map::bash_field( const tripoint_bub_ms &p, bash_params &params )
     }
 }
 
-void map::drop_bash_results( const map_data_common_t &ter_furn, const tripoint_bub_ms &p )
+void map::drop_bash_results( const map_data_common_t &ter_furn, const tripoint_bub_ms &p,
+                             const tripoint_bub_ms &preferred_spill )
 {
-    auto spawn_items_or_charges = []( map & here, const tripoint_bub_ms & p, const itype_id it,
+    auto spawn_items_or_charges = [&preferred_spill]( map & here, const tripoint_bub_ms & p,
+                                  const itype_id it,
     const int qty ) {
         // there seems to be some way to replace it with add_item_or_charges()
         // but it results in charges spawned in dumb ways, so i dropped it
         if( it->count_by_charges() ) {
-            here.spawn_item( p, it, 1, qty );
+            here.spawn_item( p, it, preferred_spill, 1, qty );
         } else {
-            here.spawn_item( p, it, qty );
+            here.spawn_item( p, it, preferred_spill, qty );
         }
     };
 
@@ -4436,7 +4438,7 @@ void map::drop_bash_results( const map_data_common_t &ter_furn, const tripoint_b
             } else {
                 map &here = get_map();
                 here.spawn_items( p, item_group::items_from( ter_furn.bash_info().value().drop_group,
-                                  calendar::turn ) );
+                                  calendar::turn ), preferred_spill );
             }
         }
     }
@@ -5100,7 +5102,8 @@ void map::i_clear( const tripoint_bub_ms &p )
     current_submap->get_items( l ).clear();
 }
 
-std::vector<item *> map::spawn_items( const tripoint_bub_ms &p, const std::vector<item> &new_items )
+std::vector<item *> map::spawn_items( const tripoint_bub_ms &p, const std::vector<item> &new_items,
+                                      const tripoint_bub_ms &preferred_spill )
 {
     std::vector<item *> ret;
     if( !inbounds( p ) || has_flag( ter_furn_flag::TFLAG_DESTROY_ITEM, p ) ) {
@@ -5112,7 +5115,7 @@ std::vector<item *> map::spawn_items( const tripoint_bub_ms &p, const std::vecto
         if( new_item.made_of( phase_id::LIQUID ) && swimmable ) {
             continue;
         }
-        item &it = add_item_or_charges( p, new_item );
+        item &it = add_item_or_charges( p, new_item, preferred_spill );
         if( !it.is_null() ) {
             ret.push_back( &it );
         }
@@ -5134,8 +5137,9 @@ void map::spawn_artifact( const tripoint_bub_ms &p, const relic_procgen_id &id,
     add_item_or_charges( p, id->create_item( rules ) );
 }
 
-void map::spawn_item( const tripoint_bub_ms &p, const itype_id &type_id, const unsigned quantity,
-                      const int charges, const time_point &birthday, const int damlevel, const std::set<flag_id> &flags,
+void map::spawn_item( const tripoint_bub_ms &p, const itype_id &type_id,
+                      const tripoint_bub_ms &preferred_spill, const unsigned quantity, const int charges,
+                      const time_point &birthday, const int damlevel, const std::set<flag_id> &flags,
                       const std::string &variant, const std::string &faction )
 {
     if( type_id.is_null() ) {
@@ -5147,7 +5151,7 @@ void map::spawn_item( const tripoint_bub_ms &p, const itype_id &type_id, const u
     }
     // recurse to spawn (quantity - 1) items
     for( size_t i = 1; i < quantity; i++ ) {
-        spawn_item( p, type_id, 1, charges, birthday, damlevel, flags, variant, faction );
+        spawn_item( p, type_id, preferred_spill, 1, charges, birthday, damlevel, flags, variant, faction );
     }
     // migrate and spawn the item
     itype_id mig_type_id = item_controller->migrate_id( type_id );
@@ -5175,7 +5179,7 @@ void map::spawn_item( const tripoint_bub_ms &p, const itype_id &type_id, const u
         new_item.set_flag( flag );
     }
 
-    add_item_or_charges( p, new_item );
+    add_item_or_charges( p, new_item, preferred_spill );
 }
 
 units::volume map::max_volume( const tripoint_bub_ms &p )
@@ -5196,11 +5200,11 @@ units::volume map::free_volume( const tripoint_bub_ms &p )
 }
 
 item_location map::add_item_or_charges_ret_loc( const tripoint_bub_ms &pos, item obj,
-        bool overflow )
+        const tripoint_bub_ms &preferred_spill, bool overflow )
 {
     int copies = 1;
     std::pair<item *, tripoint_bub_ms> ret = _add_item_or_charges( pos, std::move( obj ), copies,
-            overflow );
+            preferred_spill, overflow );
     if( ret.first != nullptr && !ret.first->is_null() ) {
         return item_location{ map_cursor{ get_abs( ret.second ) }, ret.first };
     }
@@ -5208,17 +5212,18 @@ item_location map::add_item_or_charges_ret_loc( const tripoint_bub_ms &pos, item
     return {};
 }
 
-item &map::add_item_or_charges( const tripoint_bub_ms &pos, item obj, bool overflow )
+item &map::add_item_or_charges( const tripoint_bub_ms &pos, item obj,
+                                const tripoint_bub_ms &preferred_spill, bool overflow )
 {
     int copies = 1;
-    return *_add_item_or_charges( pos, std::move( obj ), copies, overflow ).first;
+    return *_add_item_or_charges( pos, std::move( obj ), copies, preferred_spill, overflow ).first;
 }
 
 // clang-tidy is confused and thinks obj can be made into a const reference, but it can't
 // on_drop is not a const function
 // NOLINTNEXTLINE(performance-unnecessary-value-param)
 std::pair<item *, tripoint_bub_ms> map::_add_item_or_charges( const tripoint_bub_ms &pos, item obj,
-        int &copies_remaining, bool overflow )
+        int &copies_remaining, const tripoint_bub_ms &preferred_spill, bool overflow )
 {
     // Checks if item would not be destroyed if added to this tile
     auto valid_tile = [&]( const tripoint_bub_ms & e ) {
@@ -5295,37 +5300,49 @@ std::pair<item *, tripoint_bub_ms> map::_add_item_or_charges( const tripoint_bub
     }
     if( overflow && copies_remaining > 0 ) {
         // ...otherwise try to overflow to adjacent tiles (if permitted)
-        const int max_dist = 2;
-        std::vector<tripoint_bub_ms> tiles = closest_points_first( pos, 1, max_dist );
-        const int max_path_length = 4 * max_dist;
-        const pathfinding_settings setting( 0, max_dist, max_path_length, 0, false, false, true, false,
-                                            false, false );
-        for( const tripoint_bub_ms &e : tiles ) {
+        for( int dist = 1; dist <= 2; dist++ ) {
+            std::vector<tripoint_bub_ms> tiles = closest_points_first( pos, dist, dist );
+            std::shuffle( tiles.begin(), tiles.end(), rng_get_engine() );
+            if( dist == 1 && !preferred_spill.is_invalid() ) {
+                const auto preferred_spill_iter = std::find( tiles.begin(), tiles.end(), preferred_spill );
+                if( preferred_spill_iter != tiles.end() ) {
+                    // try to spill to the preferred location first if it's adjacent
+                    iter_swap( preferred_spill_iter, tiles.begin() );
+                }
+            }
+            const int max_path_length = 4 * dist;
+            const pathfinding_settings setting( 0, dist, max_path_length, 0, false, false, true, false,
+                                                false, false );
+            for( const tripoint_bub_ms &e : tiles ) {
+                if( copies_remaining <= 0 ) {
+                    break;
+                }
+                if( !inbounds( e ) ) {
+                    continue;
+                }
+                //must be a path to the target tile
+                if( route( pos, pathfinding_target::point( e ), setting ).empty() ) {
+                    continue;
+                }
+                if( obj.made_of( phase_id::LIQUID ) || !obj.has_flag( flag_DROP_ACTION_ONLY_IF_LIQUID ) ) {
+                    if( obj.on_drop( e, *this ) ) {
+                        return first_added ? first_added.value() : std::make_pair( &null_item_reference(),
+                                tripoint_bub_ms::invalid );
+                    }
+                }
+
+                copies_to_add_here = how_many_copies_fit( e );
+                if( !valid_tile( e ) || copies_to_add_here <= 0 ||
+                    has_flag( ter_furn_flag::TFLAG_NOITEM, e ) || has_flag( ter_furn_flag::TFLAG_SEALED, e ) ) {
+                    continue;
+                }
+                copies_remaining -= copies_to_add_here;
+                std::pair<item *, tripoint_bub_ms> new_item = { &place_item( e, copies_to_add_here ), e };
+                first_added = first_added ? first_added : new_item;
+            }
             if( copies_remaining <= 0 ) {
                 break;
             }
-            if( !inbounds( e ) ) {
-                continue;
-            }
-            //must be a path to the target tile
-            if( route( pos, pathfinding_target::point( e ), setting ).empty() ) {
-                continue;
-            }
-            if( obj.made_of( phase_id::LIQUID ) || !obj.has_flag( flag_DROP_ACTION_ONLY_IF_LIQUID ) ) {
-                if( obj.on_drop( e, *this ) ) {
-                    return first_added ? first_added.value() : std::make_pair( &null_item_reference(),
-                            tripoint_bub_ms::invalid );
-                }
-            }
-
-            copies_to_add_here = how_many_copies_fit( e );
-            if( !valid_tile( e ) || copies_to_add_here <= 0 ||
-                has_flag( ter_furn_flag::TFLAG_NOITEM, e ) || has_flag( ter_furn_flag::TFLAG_SEALED, e ) ) {
-                continue;
-            }
-            copies_remaining -= copies_to_add_here;
-            std::pair<item *, tripoint_bub_ms> new_item = { &place_item( e, copies_to_add_here ), e };
-            first_added = first_added ? first_added : new_item;
         }
     }
 
@@ -5335,9 +5352,10 @@ std::pair<item *, tripoint_bub_ms> map::_add_item_or_charges( const tripoint_bub
 }
 
 item &map::add_item_or_charges( const tripoint_bub_ms &pos, item obj, int &copies_remaining,
-                                bool overflow )
+                                const tripoint_bub_ms &preferred_spill, bool overflow )
 {
-    return *_add_item_or_charges( pos, std::move( obj ), copies_remaining, overflow ).first;
+    return *_add_item_or_charges( pos, std::move( obj ), copies_remaining, preferred_spill,
+                                  overflow ).first;
 }
 
 float map::item_category_spawn_rate( const item &itm )
@@ -8383,7 +8401,7 @@ void map::handle_decayed_corpse( const item &it, const tripoint_abs_ms &pnt )
             if( harvest.has_temperature() ) {
                 harvest.set_item_temperature( get_weather().get_temperature( project_to<coords::omt>( pnt ) ) );
             }
-            add_item_or_charges( get_bub( pnt ), harvest, false );
+            add_item_or_charges( get_bub( pnt ), harvest );
             if( anything_left && notify_player ) {
                 add_msg_if_player_sees( get_bub( pnt ),
                                         _( "You notice a %1$s has rotted away, leaving a %2$s." ),

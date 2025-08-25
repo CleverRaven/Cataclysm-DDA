@@ -880,8 +880,9 @@ bool butchery_drops_harvest( butchery_data bt, Character &you )
                 }
             } else if( drop->count_by_charges() ) {
                 std::vector<item> objs = create_charge_items( drop, roll, entry, &corpse_item, you );
+                const tripoint_bub_ms you_pos = you.pos_bub();
                 for( item &obj : objs ) {
-                    item_location loc = here.add_item_or_charges_ret_loc( corpse_loc, obj );
+                    item_location loc = here.add_item_or_charges_ret_loc( corpse_loc, obj, you_pos );
                     if( loc ) {
                         you.may_activity_occupancy_after_end_items_loc.push_back( loc );
                     }
@@ -904,8 +905,9 @@ bool butchery_drops_harvest( butchery_data bt, Character &you )
                 if( !you.backlog.empty() && you.backlog.front().id() == ACT_MULTIPLE_BUTCHER ) {
                     obj.set_var( "activity_var", you.name );
                 }
+                const tripoint_bub_ms you_pos = you.pos_bub();
                 for( int i = 0; i != roll; ++i ) {
-                    item_location loc = here.add_item_or_charges_ret_loc( corpse_loc, obj );
+                    item_location loc = here.add_item_or_charges_ret_loc( corpse_loc, obj, you_pos );
                     if( loc ) {
                         you.may_activity_occupancy_after_end_items_loc.push_back( loc );
                     }
@@ -948,8 +950,9 @@ bool butchery_drops_harvest( butchery_data bt, Character &you )
             if( !you.backlog.empty() && you.backlog.front().id() == ACT_MULTIPLE_BUTCHER ) {
                 ruined_parts.set_var( "activity_var", you.name );
             }
+            const tripoint_bub_ms you_pos = you.pos_bub();
             for( int i = 0; i < item_charges; ++i ) {
-                item_location loc = here.add_item_or_charges_ret_loc( corpse_loc, ruined_parts );
+                item_location loc = here.add_item_or_charges_ret_loc( corpse_loc, ruined_parts, you_pos );
                 if( loc ) {
                     you.may_activity_occupancy_after_end_items_loc.push_back( loc );
                 }
@@ -1026,6 +1029,7 @@ bool butchery_drops_harvest( butchery_data bt, Character &you )
     // and the liquid handling was interrupted, then the activity was canceled,
     // therefore operations on this activity's targets and values may be invalidated.
     // reveal hidden items / hidden content
+    const tripoint_bub_ms you_pos = you.pos_bub();
     if( action != butcher_type::FIELD_DRESS && action != butcher_type::SKIN &&
         action != butcher_type::BLEED && action != butcher_type:: DISMEMBER ) {
         for( item *content : corpse_item.all_items_top( pocket_type::CONTAINER ) ) {
@@ -1034,9 +1038,9 @@ bool butchery_drops_harvest( butchery_data bt, Character &you )
                 //~ %1$s - item name, %2$s - monster name
                 you.add_msg_if_player( m_good, _( "You discover a %1$s in the %2$s!" ), content->tname(),
                                        corpse_item.get_mtype()->nname() );
-                here.add_item_or_charges( you.pos_bub(), *content );
+                here.add_item_or_charges( you_pos, *content );
             } else if( content->is_bionic() ) {
-                here.spawn_item( you.pos_bub(), itype_burnt_out_bionic, 1, 0, calendar::turn );
+                here.spawn_item( you_pos, itype_burnt_out_bionic, 1, 0, calendar::turn );
             }
         }
     }
@@ -1054,9 +1058,10 @@ void butchery_quarter( item *corpse_item, const Character &you )
     map &here = get_map();
     tripoint_bub_ms pos = you.pos_bub();
 
+    const tripoint_bub_ms you_pos = you.pos_bub();
     // 4 quarters (one exists, add 3, flag does the rest)
     for( int i = 1; i <= 3; i++ ) {
-        here.add_item_or_charges( pos, *corpse_item, true );
+        here.add_item_or_charges( pos, *corpse_item, you_pos, true );
     }
 }
 

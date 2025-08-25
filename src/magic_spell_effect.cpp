@@ -1225,7 +1225,7 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster,
                 it.set_var( "ethereal", to_turns<int>( sp.duration_turns( caster ) ) );
                 it.ethereal = true;
             }
-            get_map().add_item_or_charges( center, it );
+            get_map().add_item_or_charges( center, it, caster.pos_bub() );
         }
     }
     sp.make_sound( caster.pos_bub(), caster );

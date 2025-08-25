@@ -2552,6 +2552,7 @@ bool mattack::nurse_operate( monster *z )
 }
 bool mattack::check_money_left( monster *z )
 {
+    const tripoint_bub_ms z_pos = z->pos_bub();
     if( !z->has_effect( effect_pet ) ) {
         if( z->friendly == -1 &&
             z->has_effect( effect_paid ) ) { // if the pet effect runs out we're no longer friends
@@ -2562,7 +2563,7 @@ bool mattack::check_money_left( monster *z )
                     if( it.has_var( "DESTROY_ITEM_ON_MON_DEATH" ) ) {
                         continue;
                     }
-                    get_map().add_item_or_charges( z->pos_bub(), it );
+                    get_map().add_item_or_charges( z_pos, it );
                 }
                 z->inv.clear();
                 z->remove_effect( effect_has_bag );
@@ -2572,7 +2573,7 @@ bool mattack::check_money_left( monster *z )
             }
 
             const SpeechBubble &speech_no_time = get_speech( "mon_grocerybot_friendship_done" );
-            sounds::sound( z->pos_bub(), speech_no_time.volume,
+            sounds::sound( z_pos, speech_no_time.volume,
                            sounds::sound_t::electronic_speech, speech_no_time.text );
             z->remove_effect( effect_paid );
             return true;
@@ -2582,7 +2583,7 @@ bool mattack::check_money_left( monster *z )
         if( time_left < 1_minutes ) {
             if( calendar::once_every( 20_seconds ) ) {
                 const SpeechBubble &speech_time_low = get_speech( "mon_grocerybot_running_out_of_friendship" );
-                sounds::sound( z->pos_bub(), speech_time_low.volume,
+                sounds::sound( z_pos, speech_time_low.volume,
                                sounds::sound_t::electronic_speech, speech_time_low.text );
             }
         }
@@ -2590,12 +2591,13 @@ bool mattack::check_money_left( monster *z )
     if( z->friendly == -1 && !z->has_effect( effect_paid ) ) {
         if( calendar::once_every( 3_hours ) ) {
             const SpeechBubble &speech_override_start = get_speech( "mon_grocerybot_hacked" );
-            sounds::sound( z->pos_bub(), speech_override_start.volume,
+            sounds::sound( z_pos, speech_override_start.volume,
                            sounds::sound_t::electronic_speech, speech_override_start.text );
         }
     }
     return false;
 }
+
 bool mattack::photograph( monster *z )
 {
     map &here = get_map();
@@ -4299,11 +4301,9 @@ bool mattack::bio_op_disarm( monster *z )
 
     if( my_roll >= their_roll && !it->has_flag( flag_NO_UNWIELD ) ) {
         target->add_msg_if_player( m_bad, _( "and throws it to the ground!" ) );
-        tripoint_bub_ms tp = foe->pos_bub( here ) + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
-        if( !here.can_put_items( tp ) ) {
-            tp = foe->pos_bub( here );
-        }
-        here.add_item_or_charges( tp, foe->i_rem( &*it ) );
+        const tripoint_bub_ms foe_pos = foe->pos_bub( here );
+        tripoint_bub_ms drop_pos = foe_pos + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
+        here.add_item_or_charges( drop_pos, foe->i_rem( &*it ), foe_pos );
     } else {
         target->add_msg_if_player( m_good, _( "but you break its grip!" ) );
     }

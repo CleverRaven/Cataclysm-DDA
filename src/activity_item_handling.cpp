@@ -229,6 +229,7 @@ static std::vector<item_location> try_to_put_into_vehicle( Character &c, item_dr
     int items_did_not_fit_count = 0;
     int into_vehicle_count = 0;
     const std::string part_name = vp.info().name();
+    const tripoint_bub_ms c_pos = c.pos_bub();
     // can't use constant reference here because of the spill_contents()
     for( item it : items ) {
         if( handle_spillable_contents( c, it, here ) ) {
@@ -236,7 +237,7 @@ static std::vector<item_location> try_to_put_into_vehicle( Character &c, item_dr
         }
 
         if( it.made_of( phase_id::LIQUID ) ) {
-            here.add_item_or_charges( c.pos_bub(), it );
+            here.add_item_or_charges( c_pos, it );
             it.charges = 0;
         }
 
@@ -261,7 +262,7 @@ static std::vector<item_location> try_to_put_into_vehicle( Character &c, item_dr
             } else {
                 const std::string ter_name = here.name( where );
                 add_msg( _( "The %s falls to the %s." ), it.tname(), ter_name );
-                result.push_back( here.add_item_or_charges_ret_loc( where, it ) );
+                result.push_back( here.add_item_or_charges_ret_loc( where, it, c_pos ) );
             }
         }
         it.handle_pickup_ownership( c );
@@ -435,8 +436,9 @@ std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
         }
     }
     std::vector<item_location> items_dropped;
+    const tripoint_bub_ms you_pos = you.pos_bub();
     for( const item &it : items ) {
-        item &dropped_item = here->add_item_or_charges( where, it );
+        item &dropped_item = here->add_item_or_charges( where, it, you_pos );
         items_dropped.emplace_back( map_cursor( here, where ), &dropped_item );
         item( it ).handle_pickup_ownership( you );
     }
@@ -682,7 +684,7 @@ static void move_item( Character &you, item &it, const int quantity, const tripo
                 debugmsg( "SortLoot: Source vehicle failed to receive leftover charges." );
             }
         } else {
-            here.add_item_or_charges( src, leftovers );
+            here.add_item_or_charges( src, leftovers, you.pos_bub() );
         }
     }
 }
@@ -1953,7 +1955,7 @@ static bool fetch_activity(
                     items_there.erase( item_iter );
                     // If we didn't pick up a whole stack, put the remainder back where it came from.
                     if( leftovers.charges > 0 ) {
-                        here.add_item_or_charges( src_loc, leftovers );
+                        here.add_item_or_charges( src_loc, leftovers, you.pos_bub() );
                     }
                     return true;
                 }
@@ -2423,7 +2425,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                                         if( vpr_src ) {
                                             vpr_src->vehicle().add_item( here, vpr_src->part(), link );
                                         } else {
-                                            here.add_item_or_charges( src_loc, link );
+                                            here.add_item_or_charges( src_loc, link, you.pos_bub() );
                                         }
                                     }
                                 }

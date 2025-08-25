@@ -242,11 +242,13 @@ void dump_items( monster &z )
     std::string pet_name = z.get_name();
     Character &player_character = get_player_character();
     map &here = get_map();
+    const tripoint_bub_ms pc_pos = player_character.pos_bub( here );
+    const tripoint_bub_ms z_pos = z.pos_bub( here );
     for( item &it : z.inv ) {
         if( it.has_var( "DESTROY_ITEM_ON_MON_DEATH" ) ) {
             continue;
         }
-        here.add_item_or_charges( player_character.pos_bub(), it );
+        here.add_item_or_charges( pc_pos, it, z_pos );
     }
     z.inv.clear();
     add_msg( _( "You dump the contents of the %s's bag on the ground." ), pet_name );
@@ -261,7 +263,7 @@ void remove_bag_from( monster &z )
             dump_items( z );
         }
         Character &player_character = get_player_character();
-        get_map().add_item_or_charges( player_character.pos_bub(), *z.storage_item );
+        get_map().add_item_or_charges( player_character.pos_bub(), *z.storage_item, z.pos_bub() );
         add_msg( _( "You remove the %1$s from %2$s." ), z.storage_item->display_name(), pet_name );
         z.storage_item.reset();
         player_character.mod_moves( -to_moves<int>( 2_seconds ) );
@@ -377,8 +379,10 @@ void remove_armor( monster &z )
 {
     std::string pet_name = z.get_name();
     if( z.armor_item ) {
+        Character &player_character = get_player_character();
+        map &here = get_map();
         z.armor_item->erase_var( "pet_armor" );
-        get_map().add_item_or_charges( z.pos_bub(), *z.armor_item );
+        get_map().add_item_or_charges( z.pos_bub( here ), *z.armor_item, player_character.pos_bub( here ) );
         add_msg( pgettext( "pet armor", "You remove the %1$s from %2$s." ), z.armor_item->display_name(),
                  pet_name );
         z.armor_item.reset();
@@ -598,7 +602,7 @@ void shear_animal( monster &z )
 
 void remove_battery( monster &z )
 {
-    get_map().add_item_or_charges( get_player_character().pos_bub(), *z.battery_item );
+    get_map().add_item_or_charges( get_player_character().pos_bub(), *z.battery_item, z.pos_bub() );
     z.battery_item.reset();
 }
 

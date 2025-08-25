@@ -8005,8 +8005,9 @@ void vehicle::leak_fuel( map &here, vehicle_part &pt ) const
         return;
     }
 
+    const tripoint_bub_ms pt_pos = bub_part_pos( here, pt );
     // leak in random directions but prefer closest tiles and avoid walls or other obstacles
-    std::vector<tripoint_bub_ms> tiles = closest_points_first( bub_part_pos( here, pt ), 1 );
+    std::vector<tripoint_bub_ms> tiles = closest_points_first( pt_pos, 1 );
     tiles.erase( std::remove_if( tiles.begin(), tiles.end(), [&here]( const tripoint_bub_ms & e ) {
         return !here.passable( e );
     } ), tiles.end() );
@@ -8015,9 +8016,9 @@ void vehicle::leak_fuel( map &here, vehicle_part &pt ) const
     const itype *fuel = item::find_type( pt.ammo_current() );
     while( !tiles.empty() && pt.ammo_remaining( ) ) {
         int qty = pt.ammo_consume( rng( 0, std::max( pt.ammo_remaining( ) / 3, 1 ) ),
-                                   &here, bub_part_pos( here, pt ) );
+                                   &here, pt_pos );
         if( qty > 0 ) {
-            here.add_item_or_charges( random_entry( tiles ), item( fuel, calendar::turn, qty ) );
+            here.add_item_or_charges( random_entry( tiles ), item( fuel, calendar::turn, qty ), pt_pos );
         }
     }
 

@@ -409,7 +409,8 @@ static void place_fumarole( map &m, const point_bub_ms &p1, const point_bub_ms &
     //std::set<point_bub_ms> ignited;
 
     std::vector<point_bub_ms> fumarole = line_to( p1, p2, 0 );
-    for( point_bub_ms &i : fumarole ) {
+    for( uint64_t index = 0; index < fumarole.size(); index++ ) {
+        const point_bub_ms &i = fumarole[index];
         m.ter_set( i, ter_t_lava );
 
         // Add all adjacent tiles (even on diagonals) for possible ignition
@@ -424,7 +425,16 @@ static void place_fumarole( map &m, const point_bub_ms &p1, const point_bub_ms &
         ignited.insert( ( i + point::south_east ) );
 
         if( one_in( 6 ) ) {
-            m.spawn_item( i + point::north_west, itype_chunk_sulfur );
+            // direction to next or previous point
+            point_rel_ms delta = i - fumarole[ index == fumarole.size() - 1 ? index - 1 : index + 1 ];
+            // rotate 90 degrees
+            std::swap( delta.raw().x, delta.raw().y );
+            if( one_in( 2 ) ) {
+                delta.raw().x *= -1;
+            } else {
+                delta.raw().y *= -1;
+            }
+            m.spawn_item( i + delta, itype_chunk_sulfur, i + delta * 2 );
         }
     }
 

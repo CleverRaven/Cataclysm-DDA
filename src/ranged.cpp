@@ -2364,7 +2364,7 @@ static void cycle_action( item &weap, const itype_id &ammo, map *here, const tri
             } else if( ovp_cargo ) {
                 ovp_cargo->vehicle().add_item( *here, ovp_cargo->part(), casing );
             } else {
-                here->add_item_or_charges( eject, casing );
+                here->add_item_or_charges( eject, casing, pos );
             }
 
             // TODO: Refine critera to handle overlapping maps.
@@ -2384,7 +2384,7 @@ static void cycle_action( item &weap, const itype_id &ammo, map *here, const tri
             if( ovp_cargo ) {
                 ovp_cargo->items().insert( *here, linkage );
             } else {
-                here->add_item_or_charges( eject, linkage );
+                here->add_item_or_charges( eject, linkage, pos );
             }
         }
     }

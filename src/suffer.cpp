@@ -1032,7 +1032,7 @@ void suffer::from_item_dropping( Character &you )
 void suffer::from_other_mutations( Character &you )
 {
     map &here = get_map();
-    const tripoint_bub_ms position = you.pos_bub();
+    const tripoint_bub_ms position = you.pos_bub( here );
     if( you.has_trait( trait_SHARKTEETH ) && one_turn_in( 24_hours ) ) {
         you.add_msg_if_player( m_neutral, _( "You shed a tooth!" ) );
         here.spawn_item( position, itype_bone, 1 );

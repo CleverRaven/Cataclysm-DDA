@@ -1856,7 +1856,7 @@ std::optional<int> iuse::fish_trap( Character *p, item *it, const tripoint_bub_m
     }
     it->active = true;
     it->set_age( 0_turns );
-    here.add_item_or_charges( pnt, *it );
+    here.add_item_or_charges( pnt, *it, p->pos_bub( here ) );
     p->i_rem( it );
     p->add_msg_if_player( m_info,
                           _( "You place the fish trap; in three hours or so, you may catch some fish." ) );
@@ -1915,6 +1915,7 @@ std::optional<int> iuse::fish_trap_tick( Character *p, item *it, const tripoint_
             return 0;
         }
 
+        const tripoint_bub_ms p_pos = p ? p->pos_bub( here ) : tripoint_bub_ms::invalid;
         //get the fishables around the trap's spot
         std::unordered_set<tripoint_bub_ms> fishable_locations = g->get_fishable_locations_bub( 60, pos );
         std::vector<monster *> fishables = g->get_fishable_monsters( fishable_locations );
@@ -1929,7 +1930,7 @@ std::optional<int> iuse::fish_trap_tick( Character *p, item *it, const tripoint_
                 } else {
                     here.add_item_or_charges( pos, item::make_corpse( chosen_fish->type->id,
                                               calendar::turn + rng( 0_turns,
-                                                      3_hours ) ) );
+                                                      3_hours ) ), p_pos ) ;
                 }
             } else {
                 //there will always be a chance that the player will get lucky and catch a fish
@@ -1945,7 +1946,7 @@ std::optional<int> iuse::fish_trap_tick( Character *p, item *it, const tripoint_
                     //Also: corpses and comestibles do not rot in containers like this, but on the ground they will rot.
                     //we don't know when it was caught so use a random turn
                     here.add_item_or_charges( pos, item::make_corpse( fish_mon, it->birthday() + rng( 0_turns,
-                                              3_hours ) ) );
+                                              3_hours ) ), p_pos );
                     break; //this can happen only once
                 }
             }
@@ -2255,7 +2256,7 @@ class exosuit_interact
                 } else if( ret == 0 ) {
                     // Unload existing module
                     pkt->remove_items_if( [&c, &here]( const item & i ) {
-                        here.add_item_or_charges( c.pos_bub(), i );
+                        here.add_item_or_charges( c.pos_bub( here ), i );
                         return true;
                     } );
                     return to_moves<int>( 5_seconds );
@@ -2316,7 +2317,7 @@ class exosuit_interact
             // Unload existing module
             if( not_empty ) {
                 pkt->remove_items_if( [&c, &here]( const item & i ) {
-                    here.add_item_or_charges( c.pos_bub(), i );
+                    here.add_item_or_charges( c.pos_bub( here ), i );
                     return true;
                 } );
                 moves += to_moves<int>( 5_seconds );
@@ -8696,16 +8697,16 @@ std::optional<int> iuse::break_stick( Character *p, item *it, const tripoint_bub
     map &here = get_map();
     if( chance <= 20 ) {
         p->add_msg_if_player( _( "You try to break the stick in two, but it shatters into splinters." ) );
-        here.spawn_item( p->pos_bub(), itype_splinter, 2 );
+        here.spawn_item( p->pos_bub( here ), itype_splinter, 2 );
         return 1;
     } else if( chance <= 40 ) {
         p->add_msg_if_player( _( "The stick breaks clean into two parts." ) );
-        here.spawn_item( p->pos_bub(), itype_stick, 2 );
+        here.spawn_item( p->pos_bub( here ), itype_stick, 2 );
         return 1;
     } else if( chance <= 100 ) {
         p->add_msg_if_player( _( "You break the stick, but one half shatters into splinters." ) );
-        here.spawn_item( p->pos_bub(), itype_stick, 1 );
-        here.spawn_item( p->pos_bub(), itype_splinter, 1 );
+        here.spawn_item( p->pos_bub( here ), itype_stick, 1 );
+        here.spawn_item( p->pos_bub( here ), itype_splinter, 1 );
         return 1;
     }
     return 0;

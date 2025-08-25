@@ -1474,8 +1474,9 @@ void complete_construction( Character *you )
         if( !dump_spots.empty() ) {
             tripoint_bub_ms dump_spot = random_entry( dump_spots );
             map_stack items = here.i_at( terp );
+            const tripoint_bub_ms you_pos = you->pos_bub( here );
             for( map_stack::iterator it = items.begin(); it != items.end(); ) {
-                here.add_item_or_charges( dump_spot, *it );
+                here.add_item_or_charges( dump_spot, *it, you_pos );
                 it = items.erase( it );
             }
         } else {
@@ -1494,7 +1495,7 @@ void complete_construction( Character *you )
     // Spawn byproducts
     if( built.byproduct_item_group ) {
         here.spawn_items( you->pos_bub(), item_group::items_from( *built.byproduct_item_group,
-                          calendar::turn ) );
+                          calendar::turn ), terp );
     }
 
     add_msg( m_info, _( "%s finished construction: %s." ), you->disp_name( false, true ),
@@ -1895,6 +1896,8 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
         }
     };
 
+    const tripoint_bub_ms pc_pos = player_character.pos_bub( here );
+
     // TODO: Make this the argument
     if( here.has_furn( p ) ) {
         const furn_t &f = here.furn( p ).obj();
@@ -1911,9 +1914,10 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
         item &item_here = here.i_at( p ).size() != 1 ? null_item_reference() : here.i_at( p ).only_item();
         std::vector<item *> drop;
         if( !f.base_item.is_null() ) {
-            here.spawn_item( p, f.base_item );
+            here.spawn_item( p, f.base_item, pc_pos );
         } else {
-            drop = here.spawn_items( p, item_group::items_from( f.deconstruct->drop_group, calendar::turn ) );
+            drop = here.spawn_items( p, item_group::items_from( f.deconstruct->drop_group, calendar::turn ),
+                                     pc_pos );
         }
 
         if( f.deconstruct->skill.has_value() ) {
@@ -1956,9 +1960,9 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
         add_msg( _( "The %s is disassembled." ), t.name() );
 
         if( !t.base_item.is_null() ) {
-            here.spawn_item( p, t.base_item );
+            here.spawn_item( p, t.base_item, pc_pos );
         } else {
-            here.spawn_items( p, item_group::items_from( t.deconstruct->drop_group, calendar::turn ) );
+            here.spawn_items( p, item_group::items_from( t.deconstruct->drop_group, calendar::turn ), pc_pos );
         }
 
         if( t.deconstruct->skill.has_value() ) {
@@ -1972,7 +1976,7 @@ static void unroll_digging( const int numer_of_2x4s )
     // refund components!
     item rope( itype_rope_30 );
     map &here = get_map();
-    tripoint_bub_ms avatar_pos = get_player_character().pos_bub();
+    tripoint_bub_ms avatar_pos = get_player_character().pos_bub( here );
     here.add_item_or_charges( avatar_pos, rope );
     // presuming 2x4 to conserve lumber.
     here.spawn_item( avatar_pos, itype_2x4, numer_of_2x4s );
@@ -2022,6 +2026,7 @@ void construct::done_digormine_stair( const tripoint_bub_ms &p, bool dig,
 void construct::done_dig_grave( const tripoint_bub_ms &p, Character &who )
 {
     map &here = get_map();
+    const tripoint_bub_ms who_pos = who.pos_bub( here );
     if( one_in( 10 ) ) {
         static const std::array<mtype_id, 5> monids = {
             { mon_zombie, mon_zombie_fat, mon_zombie_rot, mon_skeleton, mon_zombie_crawler }
@@ -2031,7 +2036,7 @@ void construct::done_dig_grave( const tripoint_bub_ms &p, Character &who )
         here.furn_set( p, furn_f_coffin_o );
         who.add_msg_if_player( m_warning, _( "Something crawls out of the coffin!" ) );
     } else {
-        here.spawn_item( p, itype_bone_human, rng( 5, 15 ) );
+        here.spawn_item( p, itype_bone_human, who_pos, rng( 5, 15 ) );
         here.furn_set( p, furn_f_coffin_c );
     }
     std::vector<item *> dropped =

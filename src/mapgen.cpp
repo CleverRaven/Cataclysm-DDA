@@ -7233,7 +7233,7 @@ void map::place_vending( const tripoint_bub_ms &p, const item_group_id &type, bo
         bash( p, 9999 );
         for( const tripoint_bub_ms &loc : points_in_radius( p, 1 ) ) {
             if( one_in( 4 ) ) {
-                spawn_item( loc, itype_glass_shard, rng( 1, 25 ) );
+                spawn_item( loc, itype_glass_shard, p, rng( 1, 25 ) );
             }
         }
     } else {

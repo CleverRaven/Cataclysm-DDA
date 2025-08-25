@@ -139,7 +139,7 @@ void handle_npc_liquid( item liquid, Character &who )
     std::vector<int> priorities;
 
     map &here = get_map();
-    const tripoint_bub_ms char_pos = who.pos_bub();
+    const tripoint_bub_ms char_pos = who.pos_bub( here );
     // Look for containers in adjacent tiles or in the character's inventory
     for( const tripoint_bub_ms &pos : closest_points_first( char_pos, 1 ) ) {
         for( item &it : here.i_at( pos ) ) {
@@ -478,7 +478,7 @@ static bool handle_keg_or_ground_target( Character &player_character, item &liqu
         if( target.dest_opt == LD_KEG ) {
             iexamine::pour_into_keg( target.pos, liquid, silent );
         } else {
-            get_map().add_item_or_charges( target.pos, liquid );
+            get_map().add_item_or_charges( target.pos, liquid, player_character.pos_bub() );
             liquid.charges = 0;
         }
         player_character.mod_moves( -100 );

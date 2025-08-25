@@ -1022,7 +1022,8 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
                            "smash",
                            "field" );
             here.remove_field( smashp, fd_to_smsh.first );
-            here.spawn_items( smashp, item_group::items_from( bash_info->drop_group, calendar::turn ) );
+            here.spawn_items( smashp, item_group::items_from( bash_info->drop_group, calendar::turn ),
+                              pos_bub( here ) );
             if( !bash_info->destroyed_field.first.is_null() ) {
                 here.add_field( smashp, bash_info->destroyed_field.first, bash_info->destroyed_field.second );
             }

@@ -364,10 +364,11 @@ void doors::close_door( map &m, Creature &who, const tripoint_bub_ms &closep )
                 who.mod_moves( -std::min( items_in_way.stored_volume() / ( max_nudge / 50 ), 100 ) );
 
                 if( m.has_flag( ter_furn_flag::TFLAG_NOITEM, closep ) ) {
+                    const tripoint_bub_ms who_pos = who.pos_bub();
                     // Just plopping items back on their origin square will displace them to adjacent squares
                     // since the door is closed now.
                     for( item &elem : items_in_way ) {
-                        m.add_item_or_charges( closep, elem );
+                        m.add_item_or_charges( closep, elem, who_pos );
                     }
                     m.i_clear( closep );
                 }

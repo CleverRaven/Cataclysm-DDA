@@ -85,12 +85,13 @@ static void scatter_chunks( map *here, const itype_id &chunk_name, int chunk_amt
     distance = std::abs( distance );
     const item chunk( chunk_name, calendar::turn );
     int placed_chunks = 0;
+    const tripoint_bub_ms &z_pos = z.pos_bub( *here );
     while( placed_chunks < chunk_amt ) {
         bool drop_chunks = true;
-        tripoint_bub_ms tarp( z.pos_bub( *here ) + point( rng( -distance, distance ),
-                              rng( -distance,
-                                   distance ) ) );
-        const std::vector<tripoint_bub_ms> traj = line_to( z.pos_bub( *here ), tarp );
+        tripoint_bub_ms tarp( z_pos + point( rng( -distance, distance ),
+                                             rng( -distance,
+                                                     distance ) ) );
+        const std::vector<tripoint_bub_ms> traj = line_to( z_pos, tarp );
 
         for( size_t j = 0; j < traj.size(); j++ ) {
             tarp = traj[j];
@@ -116,7 +117,7 @@ static void scatter_chunks( map *here, const itype_id &chunk_name, int chunk_amt
         }
         if( drop_chunks ) {
             for( int i = placed_chunks; i < chunk_amt && i < placed_chunks + pile_size; i++ ) {
-                here->add_item_or_charges( tarp, chunk );
+                here->add_item_or_charges( tarp, chunk, z_pos );
             }
         }
         placed_chunks += pile_size;

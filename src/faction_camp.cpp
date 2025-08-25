@@ -3732,7 +3732,7 @@ std::pair<size_t, std::string> basecamp::farm_action( const point_rel_omt &dir, 
                             int seed_cnt = std::max( 1, rng( plant_count / 4, plant_count / 2 ) );
                             for( item &i : iexamine::get_harvest_items( *seed->type, plant_count,
                                     seed_cnt, true ) ) {
-                                here.add_item_or_charges( player_character.pos_bub(), i );
+                                here.add_item_or_charges( player_character.pos_bub( here ), i );
                             }
                             farm_map.i_clear( pos );
                             farm_map.furn_set( pos, furn_str_id::NULL_ID() );

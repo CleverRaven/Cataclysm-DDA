@@ -16,6 +16,7 @@
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "basecamp.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -2483,10 +2484,11 @@ void talk_function::companion_return( npc &comp )
     comp.companion_mission_time_ret = calendar::before_time_starts;
     Character &player_character = get_player_character();
     map &here = get_map();
+    const tripoint_bub_ms you_pos = player_character.pos_bub( here );
     for( size_t i = 0; i < comp.companion_mission_inv.size(); i++ ) {
         for( const item &it : comp.companion_mission_inv.const_stack( i ) ) {
             if( !it.count_by_charges() || it.charges > 0 ) {
-                here.add_item_or_charges( player_character.pos_bub(), it );
+                here.add_item_or_charges( you_pos, it );
             }
         }
     }

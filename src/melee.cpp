@@ -319,6 +319,8 @@ bool Character::handle_melee_wear( item_location shield, float wear_multiplier )
                                _( "<npcname>'s %s breaks apart!" ),
                                str );
 
+        map &here = get_map();
+        const tripoint_bub_ms pos = pos_bub( here );
         for( item_components::type_vector_pair &tvp : temp.components ) {
             for( item &comp : tvp.second ) {
                 int break_chance = comp.typeId() == weak_comp ? 2 : 8;
@@ -331,7 +333,7 @@ bool Character::handle_melee_wear( item_location shield, float wear_multiplier )
                 if( comp.typeId() == big_comp && !has_wield_conflicts( comp ) ) {
                     wield( comp );
                 } else {
-                    get_map().add_item_or_charges( pos_bub(), comp );
+                    here.add_item_or_charges( pos, comp );
                 }
             }
         }
@@ -1916,7 +1918,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
 
     if( technique.disarms && you != nullptr && you->is_armed() && !you->is_hallucination() ) {
         item weap = you->remove_weapon();
-        here.add_item_or_charges( you->pos_bub(), weap );
+        here.add_item_or_charges( you->pos_bub( here ), weap );
         if( you->is_avatar() ) {
             add_msg_if_npc( _( "<npcname> disarms you!" ) );
         } else {
@@ -2879,8 +2881,9 @@ void avatar::disarm( npc &target )
         } else if( my_roll >= their_roll / 2 ) {
             add_msg( _( "You grab at %s and pull with all your force, but it drops nearby!" ),
                      it->tname() );
-            const tripoint_bub_ms tp = target.pos_bub() + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
-            here.add_item_or_charges( tp, target.i_rem( &*it ) );
+            const tripoint_bub_ms target_pos = target.pos_bub( here );
+            const tripoint_bub_ms drop_pos = target_pos + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
+            here.add_item_or_charges( drop_pos, target.i_rem( &*it ), target_pos );
             mod_moves( -100 );
         } else {
             add_msg( _( "You grab at %s and pull with all your force, but in vain!" ), it->tname() );
@@ -2894,8 +2897,9 @@ void avatar::disarm( npc &target )
         if( my_roll >= their_roll ) {
             add_msg( _( "You smash %s with all your might forcing their %s to drop down nearby!" ),
                      target.get_name(), it->tname() );
-            const tripoint_bub_ms tp = target.pos_bub() + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
-            here.add_item_or_charges( tp, target.i_rem( &*it ) );
+            const tripoint_bub_ms target_pos = target.pos_bub( here );
+            const tripoint_bub_ms drop_pos = target_pos + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
+            here.add_item_or_charges( drop_pos, target.i_rem( &*it ), target_pos );
         } else {
             add_msg( _( "You smash %s with all your might but %s remains in their hands!" ),
                      target.get_name(), it->tname() );

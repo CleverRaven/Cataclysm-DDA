@@ -1,4 +1,5 @@
 #include "game.h"
+#include "coords_fwd.h"
 
 #include <algorithm>
 #include <bitset>
@@ -1575,7 +1576,7 @@ void game::catch_a_monster( monster *fish, const tripoint_bub_ms &pos, Character
 
     //spawn the corpse, rotten by a part of the duration
     here.add_item_or_charges( pos, item::make_corpse( fish->type->id, calendar::turn + rng( 0_turns,
-                              catch_duration ) ) );
+                              catch_duration ) ), p ? p->pos_bub( here ) : tripoint_bub_ms::invalid );
     if( u.sees( here, pos ) ) {
         u.add_msg_if_player( m_good, _( "You caught a %s." ), fish->type->nname() );
     }
@@ -12689,7 +12690,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     }
 
     if( here.ter( stairs ) == ter_t_manhole_cover ) {
-        here.spawn_item( stairs + point( rng( -1, 1 ), rng( -1, 1 ) ), itype_manhole_cover );
+        here.spawn_item( stairs + point( rng( -1, 1 ), rng( -1, 1 ) ), itype_manhole_cover, stairs );
         here.ter_set( stairs, ter_t_manhole );
     }
 

@@ -589,6 +589,7 @@ std::optional<int> unpack_actor::use( Character *p, item &it, map *here,
 
     p->add_msg_if_player( _( "You unpack the %s." ), it.tname() );
 
+    const tripoint_bub_ms p_pos = p->pos_bub( *here );
     for( item &content : items ) {
         if( content.is_armor() ) {
             if( items_fit ) {
@@ -608,7 +609,7 @@ std::optional<int> unpack_actor::use( Character *p, item &it, map *here,
             content.set_flag( flag_FILTHY );
         }
 
-        here->add_item_or_charges( p->pos_bub( *here ), content );
+        here->add_item_or_charges( p_pos, content );
     }
 
     p->i_rem( &it );

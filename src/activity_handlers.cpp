@@ -414,7 +414,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                 if( iexamine::has_keg( here.get_bub( act_ref.coords.at( 1 ) ) ) ) {
                     iexamine::pour_into_keg( here.get_bub( act_ref.coords.at( 1 ) ), liquid, false );
                 } else {
-                    here.add_item_or_charges( here.get_bub( act_ref.coords.at( 1 ) ), liquid );
+                    here.add_item_or_charges( here.get_bub( act_ref.coords.at( 1 ) ), liquid, you->pos_bub() );
                     you->add_msg_if_player( _( "You pour %1$s onto the ground." ), liquid.tname() );
                     liquid.charges = 0;
                 }
@@ -738,7 +738,7 @@ void activity_handlers::start_fire_do_turn( player_activity *act, Character *you
                 tinder->charges--;
                 copy.charges = 1;
             }
-            here.add_item_or_charges( where, copy );
+            here.add_item_or_charges( where, copy, you->pos_bub() );
             if( !count_by_charges || tinder->charges <= 0 ) {
                 tinder.remove_item();
             }
@@ -2062,7 +2062,7 @@ void activity_handlers::plant_seed_finish( player_activity *act, Character *you 
             used_seed.front().erase_var( "activity_var" );
         }
         used_seed.front().set_flag( json_flag_HIDDEN_ITEM );
-        here.add_item_or_charges( examp, used_seed.front() );
+        here.add_item_or_charges( examp, used_seed.front(), you->pos_bub() );
         if( here.has_flag_furn( seed_id->seed->required_terrain_flag, examp ) ) {
             here.furn_set( examp, furn_str_id( here.furn( examp )->plant->transform ) );
         } else if( seed_id->seed->required_terrain_flag == ter_furn_flag::TFLAG_PLANTABLE ) {

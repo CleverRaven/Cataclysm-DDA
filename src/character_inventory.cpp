@@ -90,6 +90,8 @@ void Character::handle_contents_changed( const std::vector<item_location> &conta
         containers.begin(), containers.end() );
     map &m = get_map();
 
+    const tripoint_bub_ms pos = pos_bub( m );
+
     // unseal and handle containers, from innermost (max depth) to outermost (min depth)
     // so inner containers are always handled before outer containers are possibly removed.
     while( !sorted_containers.empty() ) {
@@ -146,12 +148,12 @@ void Character::handle_contents_changed( const std::vector<item_location> &conta
             add_msg_player_or_npc(
                 _( "To avoid spilling its contents, you set your %1$s on the %2$s." ),
                 _( "To avoid spilling its contents, <npcname> sets their %1$s on the %2$s." ),
-                loc->display_name(), m.name( pos_bub() )
+                loc->display_name(), m.name( pos )
             );
             item it_copy( *loc );
             loc.remove_item();
             // target item of `loc` is invalidated and should not be used from now on
-            m.add_item_or_charges( pos_bub(), it_copy );
+            m.add_item_or_charges( pos, it_copy );
         }
     }
 }
@@ -464,7 +466,7 @@ bool Character::i_add_or_drop( item &it, int qty, const item *avoid,
     for( int i = 0; i < qty; ++i ) {
         drop |= !can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) || !can_pickVolume( it );
         if( drop ) {
-            retval &= !here.add_item_or_charges( pos_bub(), it ).is_null();
+            retval &= !here.add_item_or_charges( pos_bub( here ), it ).is_null();
             if( !retval ) {
                 // No need to loop now, we already knew that there isn't enough room for the item.
                 break;
@@ -485,8 +487,9 @@ bool Character::i_drop_at( item &it, int qty )
 {
     bool retval = true;
     map &here = get_map();
+    const tripoint_bub_ms pos = pos_bub( here );
     for( int i = 0; i < qty; ++i ) {
-        retval &= !here.add_item_or_charges( pos_bub(), it ).is_null();
+        retval &= !here.add_item_or_charges( pos, it ).is_null();
     }
 
     return retval;
@@ -679,11 +682,12 @@ void Character::drop_invalid_inventory()
         return;
     }
     bool dropped_liquid = false;
+    const tripoint_bub_ms pos = pos_bub( here );
     for( const std::list<item> *stack : inv->const_slice() ) {
         const item &it = stack->front();
         if( it.made_of( phase_id::LIQUID ) ) {
             dropped_liquid = true;
-            here.add_item_or_charges( pos_bub( here ), it );
+            here.add_item_or_charges( pos, it );
             // must be last
             i_rem( &it );
         }

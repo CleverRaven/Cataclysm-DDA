@@ -13107,15 +13107,16 @@ void Character::on_worn_item_transform( const item &old_it, const item &new_it )
 void Character::leak_items()
 {
     map &here = get_map();
+    const tripoint_bub_ms pos = pos_bub( here );
 
     std::vector<item_location> removed_items;
     if( weapon.is_container() ) {
-        if( weapon.leak( here, this, pos_bub() ) ) {
-            weapon.spill_contents( pos_bub() );
+        if( weapon.leak( here, this, pos ) ) {
+            weapon.spill_contents( pos );
         }
     } else if( weapon.made_of( phase_id::LIQUID ) ) {
-        if( weapon.leak( here, this, pos_bub() ) ) {
-            here.add_item_or_charges( pos_bub(), weapon );
+        if( weapon.leak( here, this, pos ) ) {
+            here.add_item_or_charges( pos, weapon );
             removed_items.emplace_back( *this, &weapon );
             add_msg_if_player( m_warning, _( "%s spilled from your hand." ), weapon.tname() );
         }
@@ -13125,8 +13126,8 @@ void Character::leak_items()
         if( !it || ( !it->is_container() && !it->made_of( phase_id::LIQUID ) ) ) {
             continue;
         }
-        if( it->leak( here, this, pos_bub() ) ) {
-            it->spill_contents( pos_bub() );
+        if( it->leak( here, this, pos ) ) {
+            it->spill_contents( pos );
             removed_items.push_back( it );
         }
     }

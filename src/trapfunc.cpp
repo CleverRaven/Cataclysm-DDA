@@ -1251,15 +1251,16 @@ static bool sinkhole_safety_roll( Character &you, const itype_id &itemname, cons
     const int throwing_skill_level = round( you.get_skill_level( skill_throw ) );
     const int roll = rng( throwing_skill_level, throwing_skill_level + you.str_cur + you.dex_cur );
     map &here = get_map();
+    const tripoint_bub_ms you_pos = you.pos_bub( here );
     if( roll < diff ) {
         you.add_msg_if_player( m_bad, _( "You fail to attach it…" ) );
         you.use_amount( itemname, 1 );
-        here.spawn_item( random_neighbor( you.pos_bub() ), itemname );
+        here.spawn_item( random_neighbor( you_pos ), itemname, you_pos );
         return false;
     }
 
     std::vector<tripoint_bub_ms> safe;
-    for( const tripoint_bub_ms &tmp : here.points_in_radius( you.pos_bub(), 1 ) ) {
+    for( const tripoint_bub_ms &tmp : here.points_in_radius( you_pos, 1 ) ) {
         if( here.passable_through( tmp ) && here.tr_at( tmp ) != tr_pit ) {
             safe.push_back( tmp );
         }
@@ -1267,7 +1268,7 @@ static bool sinkhole_safety_roll( Character &you, const itype_id &itemname, cons
     if( safe.empty() ) {
         you.add_msg_if_player( m_bad, _( "There's nowhere to pull yourself to, and you sink!" ) );
         you.use_amount( itemname, 1 );
-        here.spawn_item( random_neighbor( you.pos_bub() ), itemname );
+        here.spawn_item( random_neighbor( you_pos ), itemname, you_pos );
         return false;
     } else {
         you.add_msg_player_or_npc( m_good, _( "You pull yourself to safety!" ),
