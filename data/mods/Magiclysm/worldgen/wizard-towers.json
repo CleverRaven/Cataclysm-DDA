@@ -30,7 +30,8 @@
         ",*Q_____## Y|H    A##,,,........;;;;;;;;;;;;;...........................................................................",
         ",*______*#=##ww#ww##,,,,.........;;;;;;;;;;;............................................................................"
       ],
-      "palettes": [ "wizardtower1_palette" ]
+      "palettes": [ "wizardtower1_palette" ],
+      "place_monster": [ { "monster": "mon_aerial_assassin", "x": [ 82, 85 ], "y": [ 9, 14 ], "chance": 20 } ]
     }
   },
   {
@@ -67,7 +68,8 @@
       "palettes": [ "wizardtower1_palette" ],
       "terrain": {
         ",": [ [ "t_region_groundcover_urban", 50 ], [ "t_region_groundcover_forest", 5 ], "t_region_shrub", "t_region_tree" ]
-      }
+      },
+      "place_monster": [ { "monster": "mon_aerial_assassin", "x": [ 82, 85 ], "y": [ 10, 13 ], "chance": 20 } ]
     }
   },
   {

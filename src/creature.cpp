@@ -545,7 +545,8 @@ bool Creature::sees( const map &here, const Creature &critter ) const
     // Check means to detect invisibility here
     if( ( has_flag( json_flag_TRUE_SEEING ) || has_flag( mon_flag_TRUESIGHT ) ) &&
         ( critter.has_flag( mon_flag_CAMOUFLAGE ) || critter.has_effect_with_flag( json_flag_INVISIBLE ) ||
-          critter.has_flag( mon_flag_NIGHT_INVISIBILITY ) ) ) {
+          critter.has_flag( mon_flag_NIGHT_INVISIBILITY ) ||
+          critter.has_flag( mon_flag_PERMANENT_INVISIBILITY ) ) ) {
         return true;
     }
 
@@ -556,7 +557,8 @@ bool Creature::sees( const map &here, const Creature &critter ) const
     }
 
     // Invisibility checked after stumbling and after invisibility detection methods
-    if( critter.has_effect_with_flag( json_flag_INVISIBLE ) ) {
+    if( critter.has_effect_with_flag( json_flag_INVISIBLE ) ||
+        critter.has_flag( mon_flag_PERMANENT_INVISIBILITY ) ) {
         return false;
     }
 

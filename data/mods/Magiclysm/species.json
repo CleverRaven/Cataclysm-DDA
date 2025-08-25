@@ -113,5 +113,12 @@
     "description": "A magical being of rock and stone.",
     "flags": [ "NEVER_WANDER", "NO_FUNG_DMG" ],
     "anger_triggers": [ "FRIEND_ATTACKED" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "WIND_SPIRIT",
+    "description": "A magical being of wind and gale.",
+    "flags": [ "NEVER_WANDER", "NO_FUNG_DMG" ],
+    "anger_triggers": [ "FRIEND_ATTACKED" ]
   }
 ]
