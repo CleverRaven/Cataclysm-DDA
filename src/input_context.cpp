@@ -700,8 +700,8 @@ void keybindings_ui::draw_controls()
         float keys_col_width = str_width_to_pixels( width ) - str_width_to_pixels( TERMX >= 100 ? 62 : 52 );
         ImGui::TableSetupColumn( "Assigned Key(s)",
                                  ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoSort, keys_col_width );
-        //ImGui::TableHeadersRow();
         for( size_t i = 0; i < filtered_registered_actions.size(); i++ ) {
+            ImGui::TableNextRow();
             const std::string &action_id = filtered_registered_actions[i];
             ImGui::PushID( action_id.c_str() );
 
@@ -714,7 +714,37 @@ void keybindings_ui::draw_controls()
             bool customized_keybinding = overwrite_default != basic_overwrite_default
                                          || attributes.input_events != basic_attributes.input_events;
 
-            ImGui::TableNextColumn();
+            ImGui::TableSetColumnIndex( 1 );
+            if( customized_keybinding ) {
+                ImGui::TextUnformatted( "*" );
+            }
+
+            ImGui::TableSetColumnIndex( 2 );
+            nc_color col;
+            if( attributes.input_events.empty() ) {
+                col = i == size_t( highlight_row_index ) ? h_unbound_key : unbound_key;
+            } else if( overwrite_default ) {
+                col = i == size_t( highlight_row_index ) ? h_local_key : local_key;
+            } else {
+                col = i == size_t( highlight_row_index ) ? h_global_key : global_key;
+            }
+            bool is_selected = false;
+            bool is_hovered = false;
+            cataimgui::draw_colored_text( ctxt->get_action_name( action_id ),
+                                          col, 0.0f,
+                                          status == kb_menu_status::show ? nullptr : &is_selected,
+                                          nullptr, &is_hovered );
+
+            ImGui::TableSetColumnIndex( 3 );
+            ImGui::Text( "%s", ctxt->get_desc( action_id ).c_str() );
+
+            // handle the first column last because
+            // ImGui::IsItemVisble() tells you the status of the most
+            // recent item, not the item you’re about to create. If we
+            // did this column first, then when we call it for the
+            // first row it would tell us that the headers were
+            // hidden, which is not what we want to know.
+            ImGui::TableSetColumnIndex( 0 );
             char invlet = ' ';
             if( ImGui::IsItemVisible() ) {
                 if( scroll_offset == SIZE_MAX ) {
@@ -737,44 +767,14 @@ void keybindings_ui::draw_controls()
                 ImGui::TextColored( c_white, "%c", invlet );
             }
 
-            ImGui::TableNextColumn();
-            if( customized_keybinding ) {
-                ImGui::TextUnformatted( "*" );
-            }
-
-            ImGui::TableNextColumn();
-            nc_color col;
-            if( attributes.input_events.empty() ) {
-                col = i == size_t( highlight_row_index ) ? h_unbound_key : unbound_key;
-            } else if( overwrite_default ) {
-                col = i == size_t( highlight_row_index ) ? h_local_key : local_key;
-            } else {
-                col = i == size_t( highlight_row_index ) ? h_global_key : global_key;
-            }
-            bool is_selected = false;
-            bool is_hovered = false;
-            cataimgui::draw_colored_text( ctxt->get_action_name( action_id ),
-                                          col, 0.0f,
-                                          status == kb_menu_status::show ? nullptr : &is_selected,
-                                          nullptr, &is_hovered );
             if( ( is_selected || is_hovered ) && invlet != ' ' ) {
                 highlight_row_index = i;
             }
-
-            ImGui::TableNextColumn();
-            ImGui::Text( "%s", ctxt->get_desc( action_id ).c_str() );
-
             ImGui::PopID();
         }
         ImGui::EndTable();
     }
     last_status = status;
-
-    // spopup.query_string() will call wnoutrefresh( w_help )
-    //spopup.text(filter_phrase);
-    //spopup.query_string(false, true);
-    // Record cursor immediately after spopup drawing
-    //ui.record_term_cursor();
 }
 
 void keybindings_ui::init()
