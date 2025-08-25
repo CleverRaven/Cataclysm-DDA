@@ -154,8 +154,6 @@ Show time in months/days
 Player assigned Points of interest visible as Mission markers
 display item name and owner for stealing prompt
 Monsters can now see you if you're invisible and they have the TRUESIGHT monster flag
-Caseless weapons now have a simpler fault when they fail to feed
-Player can now Wait for followers to catch up
 
 
 ## Content:
@@ -353,9 +351,6 @@ You can do your makeup
 Allow EOCs to read artifact resonance
 Add lathe functionality and industrial baseball bat production
 Chitin armor overhaul
-Add TRUE_SEEING as possible activatable artifact property
-Add uncraft recipes for turrets in aftershock
-Update nail making
 
 
 ## Interface:
@@ -477,11 +472,6 @@ Always show clean water on top of consume menu
 Toggle haul from action menu when hauling
 Explain that degraded items are degraded
 Message to player when UPS equipment runs out of power.
-UI keybind feedback when toggling options in debug menus
-Dispose item dialog defaults to lowest moves option
-Make armor value displays into a table
-Allow zooming during activities
-Genericize iteminfo table drawing
 
 
 ## Mods:
@@ -902,14 +892,6 @@ Aftershock: Vehicle bay City Building a mix between mechanic garage, gas station
 [Mods] When shapeshifted into a form with no hands, you don't have hands
 [Mods] Your gear doesn't protect you when you're shapeshifted
 [Mods] If you have a broken limb and are in a shapeshifted form, you can't fly
-[MoM] More Nether Attunement backlashes
-[Mods] Add `TRUE_SEEING` flag, apply to MoM's Clarity power
-[Xedra Evolved] Add second strange event--spotting a brownie in your faction camp
-[Xedra Evolved] Add Nether cult artifacts
-Remove attunement altar iexamine code
-[Magiclysm] Regularize goblin and lizardfolk attack techniques
-[Xedra Evolved] Moroi rework
-[Xedra Evolved] Vampires are pale, and so are dhampirs with the Corpselike Pallor flaw
 
 
 ## Balance:
@@ -1012,7 +994,6 @@ Adjust Precise Strike melee tech so it also cant stun what other stun-causing te
 Adds cuvettes to analysis kit crafting recipe, increase analysis kit weight.
 Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
 Tree bashing from being cut down is not a magic wand
-Changes pocket data for XL/XS faraday suits to match tempered chainmail armor counterparts
 
 
 ## Bugfixes:
@@ -1392,8 +1373,6 @@ AIM item menu wouldn't update window position on resize.
 Fix deserialization error with power level
 Power grid deleted on ship movement
 AIM uilist submenu shaking violently.
-[magic_type]: Fix cannot_cast_message logic
-[Magiclysm] Fix triffid vineweavers attacking their own summons
 
 
 ## Performance:
@@ -1569,10 +1548,7 @@ Use optional/mandatory for mutation, material, mission def, move mode
 Use optional/mandatory for weather type, trap, start location, scent map, profession group, and various json loading cleanup
 Check for unused extend/delete/proportional/relative with mandatory
 Begin moving duplicated UI code to new helpers library
-Update gun_variant_validator script to work with subtypes
 Remove Object Creator
-Use mandatory/optional for many mtype members
-generic_factory::finalize now calls finalize for the type if it has a finalize function
 
 
 ## Build:
