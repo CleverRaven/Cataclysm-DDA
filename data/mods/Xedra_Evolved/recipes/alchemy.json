@@ -383,7 +383,12 @@
     "book_learn": [ [ "alchemy_recipe_powder_of_revelation", 5 ] ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 120, "LIST" ] ] ],
-    "components": [ [ [ "lye", 6 ] ] ],
+    "components": [
+      [ [ "clay_lump", 1 ] ],
+      [ [ "edible_blood", 6, "LIST" ], [ "blank_blood", 1 ] ],
+      [ [ "water_clean", 5 ] ],
+      [ [ "corpse_ash", 25 ] ]
+    ],
     "flags": [ "SECRET" ]
   },
   {
