@@ -42,6 +42,22 @@ template <typename T, typename W> struct weighted_list {
             return add( obj_and_weight.first, obj_and_weight.second );
         }
 
+        /**
+        * Adds a new object to the weighted list.
+        * Does nothing if the object already exists.
+        * Returns a pointer to the added object, or nullptr if it already existed.
+        */
+        T *try_add( const T &obj, const W &weight ) {
+            if( std::find( objects.begin(), objects.end(), obj ) == objects.end() ) {
+                return add( obj, weight );
+            }
+            return nullptr;
+        }
+
+        T *try_add( const std::pair<T, W> &obj_and_weight ) {
+            return try_add( obj_and_weight.first, obj_and_weight.second );
+        }
+
         void remove( const T &obj ) {
             const auto remove_with_weight = [&obj, this]
             ( typename decltype( objects )::value_type const & itr ) {

@@ -401,7 +401,7 @@ void DynamicDataLoader::initialize()
     add( "map_extra", &MapExtras::load );
 
     add( "region_settings", &load_region_settings );
-    add( "region_overlay", &load_region_overlay );
+    add( "region_overlay", &load_region_overlay_new );
 
     add( "region_settings_new", &region_settings::load_region_settings );
     add( "region_settings_river", &region_settings_river::load_region_settings_river );
@@ -428,6 +428,7 @@ void DynamicDataLoader::initialize()
          &region_terrain_furniture::load_region_terrain_furniture );
     add( "forest_biome_feature",
          &forest_biome_feature::load_forest_biome_feature );
+    add( "region_overlay_new", &load_region_overlay_new );
 
     add( "ITEM_BLACKLIST", []( const JsonObject & jo ) {
         item_controller->load_item_blacklist( jo );

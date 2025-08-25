@@ -279,6 +279,9 @@ using region_settings_terrain_furniture_id = string_id<region_settings_terrain_f
 struct region_terrain_furniture;
 using region_terrain_furniture_id = string_id<region_terrain_furniture>;
 
+struct region_overlay;
+using region_overlay_id = string_id<region_overlay>;
+
 struct requirement_data;
 using requirement_id = string_id<requirement_data>;
 
@@ -368,6 +371,9 @@ using vpart_id = string_id<vpart_info>;
 
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
+
+struct weather_generator;
+using weather_generator_id = string_id<weather_generator>;
 
 struct weather_type;
 using weather_type_id = string_id<weather_type>;

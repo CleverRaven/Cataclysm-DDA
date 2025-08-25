@@ -41,6 +41,30 @@ constexpr double noise_magnitude_K = 8;
 weather_generator::weather_generator() = default;
 int weather_generator::current_winddir = 1000;
 
+namespace
+{
+generic_factory<weather_generator> weather_generator_factory( "weather_generator" );
+} // namespace
+template<>
+const weather_generator &string_id<weather_generator>::obj() const
+{
+    return weather_generator_factory.obj( *this );
+}
+template<>
+bool string_id<weather_generator>::is_valid() const
+{
+    return weather_generator_factory.is_valid( *this );
+}
+void weather_generator::load_weather_generator( const JsonObject &jo,
+        const std::string &src )
+{
+    weather_generator_factory.load( jo, src );
+}
+void weather_generator::reset()
+{
+    weather_generator_factory.reset();
+}
+
 struct weather_gen_common {
     double x = 0;
     double y = 0;
@@ -342,7 +366,7 @@ void weather_generator::sort_weather()
     } );
 }
 
-void weather_generator::load( const JsonObject &jo, const bool was_loaded )
+void weather_generator::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "base_temperature", base_temperature );
     mandatory( jo, was_loaded, "base_humidity", base_humidity );

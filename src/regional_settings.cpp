@@ -23,6 +23,10 @@
 
 class mapgendata;
 
+const weighted_string_id_reader<overmap_special_id, int> building_bin_reader( 1 );
+const weighted_string_id_reader<furn_id, int> furn_reader( 1 );
+const weighted_string_id_reader<ter_id, int> ter_reader( 1 );
+
 /** SETTING FACTORY */
 namespace
 {
@@ -98,6 +102,11 @@ namespace
 {
 generic_factory<forest_biome_feature>
 forest_biome_feature_factory( "forest_biome_feature" );
+} // namespace
+namespace
+{
+generic_factory<region_overlay>
+region_overlay_factory( "region_overlay_new" );
 } // namespace
 
 /** OBJ */
@@ -181,6 +190,11 @@ const forest_biome_feature &string_id<forest_biome_feature>::obj() const
 {
     return forest_biome_feature_factory.obj( *this );
 }
+template<>
+const region_overlay &string_id<region_overlay>::obj() const
+{
+    return region_overlay_factory.obj( *this );
+}
 
 /** IS_VALID */
 template<>
@@ -262,6 +276,11 @@ template<>
 bool string_id<forest_biome_feature>::is_valid() const
 {
     return forest_biome_feature_factory.is_valid( *this );
+}
+template<>
+bool string_id<region_overlay>::is_valid() const
+{
+    return region_overlay_factory.is_valid( *this );
 }
 
 /** INIT LOAD */
@@ -345,6 +364,11 @@ void forest_biome_feature::load_forest_biome_feature( const JsonObject &jo,
 {
     forest_biome_feature_factory.load( jo, src );
 }
+void region_overlay::load_region_overlay_new( const JsonObject &jo,
+        const std::string &src )
+{
+    region_overlay_factory.load( jo, src );
+}
 
 /** UNLOAD (RESET) */
 void region_settings_river::reset()
@@ -411,6 +435,10 @@ void forest_biome_feature::reset()
 {
     forest_biome_feature_factory.reset();
 }
+void region_overlay::reset()
+{
+    region_overlay_factory.reset();
+}
 
 template<typename T>
 void read_and_set_or_throw( const JsonObject &jo, const std::string &member, T &target,
@@ -453,9 +481,10 @@ static void load_forest_biome_component(
 
 void forest_biome_feature::load( const JsonObject &jo, std::string_view )
 {
+    weighted_string_id_reader<ter_furn_id, int> ter_furn_reader( 1 );
     optional( jo, was_loaded, "chance", chance );
     optional( jo, was_loaded, "sequence", sequence );
-    optional( jo, was_loaded, "types", types );
+    optional( jo, was_loaded, "types", types, ter_furn_reader );
 }
 
 static void load_forest_biome_terrain_dependent_furniture( const JsonObject &jo,
@@ -488,7 +517,7 @@ static void load_forest_biome_terrain_dependent_furniture( const JsonObject &jo,
 void forest_biome_terrain_dependent_furniture_new::deserialize( const JsonObject &jo )
 {
     optional( jo, was_loaded, "chance", chance );
-    optional( jo, was_loaded, "furniture", furniture );
+    optional( jo, was_loaded, "furniture", furniture, furn_reader );
 }
 
 static void load_forest_biome( const JsonObject &jo, forest_biome &forest_biome,
@@ -566,7 +595,7 @@ void forest_biome_mapgen::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "item_spawn_iterations", item_spawn_iterations );
 
     optional( jo, was_loaded, "components", biome_components );
-    optional( jo, was_loaded, "groundcover", groundcover );
+    optional( jo, was_loaded, "groundcover", groundcover, ter_reader );
     optional( jo, was_loaded, "terrain_furniture", terrain_dependent_furniture );
 }
 
@@ -674,19 +703,7 @@ void region_settings_forest_trail::load( const JsonObject &jo, std::string_view 
     optional( jo, was_loaded, "random_point_size_scalar", random_point_size_scalar );
     optional( jo, was_loaded, "trailhead_chance", trailhead_chance );
     optional( jo, was_loaded, "trailhead_road_distance", trailhead_road_distance );
-
-    //TODO: building bin should load through optional
-    const auto load_building_types = [&jo]( const std::string & type,
-    building_bin & dest ) {
-        for( const JsonMember member : jo.get_object( type ) ) {
-            if( member.is_comment() ) {
-                continue;
-            }
-            dest.add( overmap_special_id( member.name() ), member.get_int() );
-        }
-    };
-    load_building_types( "trailheads", trailheads );
-
+    optional( jo, was_loaded, "trailheads", trailheads.buildings, building_bin_reader );
 }
 
 static void load_overmap_feature_flag_settings( const JsonObject &jo,
@@ -1100,11 +1117,13 @@ void region_settings_highway::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "fallback_supports", fallback_supports );
     optional( jo, was_loaded, "reserved_terrain_water_id", reserved_terrain_water_id );
 
-    optional( jo, was_loaded, "four_way_intersections", four_way_intersections );
-    optional( jo, was_loaded, "three_way_intersections", three_way_intersections );
-    optional( jo, was_loaded, "bends", bends );
-    optional( jo, was_loaded, "road_connections", road_connections );
-    optional( jo, was_loaded, "interchanges", interchanges );
+    optional( jo, was_loaded, "four_way_intersections", four_way_intersections.buildings,
+              building_bin_reader );
+    optional( jo, was_loaded, "three_way_intersections", three_way_intersections.buildings,
+              building_bin_reader );
+    optional( jo, was_loaded, "bends", bends.buildings, building_bin_reader );
+    optional( jo, was_loaded, "road_connections", road_connections.buildings, building_bin_reader );
+    optional( jo, was_loaded, "interchanges", interchanges.buildings, building_bin_reader );
 }
 
 static void load_region_terrain_and_furniture_settings( const JsonObject &jo,
@@ -1167,8 +1186,10 @@ void region_settings_terrain_furniture::load( const JsonObject &jo, std::string_
 
 void region_terrain_furniture::load( const JsonObject &jo, std::string_view )
 {
-    optional( jo, was_loaded, "terrain", terrain );
-    optional( jo, was_loaded, "furniture", furniture );
+    optional( jo, was_loaded, "ter_id", replaced_ter_id );
+    optional( jo, was_loaded, "furn_id", replaced_furn_id );
+    optional( jo, was_loaded, "replace_with_terrain", terrain, ter_reader );
+    optional( jo, was_loaded, "replace_with_furniture", furniture, furn_reader );
 }
 
 void region_settings_city::load( const JsonObject &jo, std::string_view )
@@ -1177,9 +1198,9 @@ void region_settings_city::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "shop_sigma", shop_sigma );
     optional( jo, was_loaded, "park_radius", park_radius );
     optional( jo, was_loaded, "park_sigma", park_sigma );
-    optional( jo, was_loaded, "houses", houses );
-    optional( jo, was_loaded, "shops", shops );
-    optional( jo, was_loaded, "parks", parks );
+    optional( jo, was_loaded, "houses", houses.buildings, building_bin_reader );
+    optional( jo, was_loaded, "shops", shops.buildings, building_bin_reader );
+    optional( jo, was_loaded, "parks", parks.buildings, building_bin_reader );
 }
 
 void region_settings_map_extras::load( const JsonObject &jo, std::string_view )
@@ -1190,7 +1211,8 @@ void region_settings_map_extras::load( const JsonObject &jo, std::string_view )
 void map_extra_collection::load( const JsonObject &jo, std::string_view )
 {
     optional( jo, was_loaded, "chance", chance );
-    optional( jo, was_loaded, "extras", values );
+    weighted_string_id_reader<map_extra_id, int> extras_reader( 1 );
+    optional( jo, was_loaded, "extras", values, extras_reader );
 }
 
 void load_region_settings( const JsonObject &jo )
@@ -1293,7 +1315,7 @@ void load_region_settings( const JsonObject &jo )
         jo.throw_error( "\"weather\": { … } required for default" );
     } else {
         JsonObject wjo = jo.get_object( "weather" );
-        new_region.weather.load( wjo, false );
+        new_region.weather.load( wjo, "dda" );
     }
 
     load_overmap_feature_flag_settings( jo, new_region.overmap_feature_flag, strict, false );
@@ -1324,22 +1346,13 @@ void region_settings::load( const JsonObject &jo, std::string_view )
     // So the data definition goes from z = OVERMAP_HEIGHT to z = OVERMAP_DEPTH
     std::reverse( default_oter.begin(), default_oter.end() );
 
-    weighted_string_id_reader<ter_id, int> groundcover_reader( 1 );
-    optional( jo, was_loaded, "default_groundcover", default_groundcover, groundcover_reader );
+    optional( jo, was_loaded, "default_groundcover", default_groundcover, ter_reader );
     optional( jo, was_loaded, "forest_composition", forest_composition );
     optional( jo, was_loaded, "forest_trails", forest_trail );
 
     optional( jo, was_loaded, "map_extras", region_extras );
     optional( jo, was_loaded, "cities", city_spec );
-
-    // TODO: Support overwriting only some values in non default regions
-    if( !jo.has_object( "weather" ) ) {
-        jo.throw_error( "\"weather\": { … } required for default" );
-    } else {
-        JsonObject wjo = jo.get_object( "weather" );
-        weather.load( wjo, false );
-    }
-
+    optional( jo, was_loaded, "weather", weather );
     optional( jo, was_loaded, "feature_flag_settings", overmap_feature_flag );
     optional( jo, was_loaded, "forests", overmap_forest );
     optional( jo, was_loaded, "rivers", overmap_river );
@@ -1353,6 +1366,20 @@ void region_settings::load( const JsonObject &jo, std::string_view )
 
 void region_settings::finalize()
 {
+}
+
+void region_overlay::load( const JsonObject &jo, std::string_view )
+{
+    //TO-DO: region selection
+    //optional(jo, was_loaded, "regions", );
+
+    optional( jo, was_loaded, "cities", city_spec );
+    optional( jo, was_loaded, "forest_composition", forest_composition );
+    optional( jo, was_loaded, "forest_trails", forest_trail );
+    optional( jo, was_loaded, "feature_flag_settings", overmap_feature_flag );
+    optional( jo, was_loaded, "highways", overmap_highway );
+    optional( jo, was_loaded, "terrain_furniture", region_terrain_and_furniture );
+    optional( jo, was_loaded, "map_extras", region_extras );
 }
 
 void check_region_settings()
@@ -1489,7 +1516,7 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
 
     if( jo.has_object( "weather" ) ) {
         JsonObject wjo = jo.get_object( "weather" );
-        region.weather.load( wjo, true );
+        region.weather.load( wjo, "dda" );
     }
 
     load_overmap_feature_flag_settings( jo, region.overmap_feature_flag, false, true );

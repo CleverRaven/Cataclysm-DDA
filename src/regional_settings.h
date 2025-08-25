@@ -26,7 +26,6 @@ class building_bin
 {
     private:
         bool finalized = false;
-        weighted_int_list<overmap_special_id> buildings;
         std::map<overmap_special_id, int> unfinalized_buildings;
     public:
         building_bin() = default;
@@ -40,6 +39,12 @@ class building_bin
         }
         void deserialize( const JsonValue &jv ) {
             buildings.deserialize( jv );
+        }
+        weighted_int_list<overmap_special_id> buildings;
+        building_bin &operator+=( const building_bin &rhs ) {
+            for( const std::pair< overmap_special_id, int> &pr : rhs.buildings ) {
+                buildings.try_add( pr );
+            }
         }
 };
 
@@ -122,6 +127,11 @@ struct region_settings_city {
 
     weighted_int_list<overmap_special_id> get_all_parks() const {
         return parks.get_all_buildings();
+    }
+    region_settings_city &operator+=( const region_settings_city &rhs ) {
+        houses += rhs.houses;
+        shops += rhs.shops;
+        parks += rhs.parks;
     }
 
     bool was_loaded = false;
@@ -227,8 +237,8 @@ struct forest_biome {
 struct forest_biome_mapgen {
     forest_biome_mapgen_id id = forest_biome_mapgen_id::NULL_ID();
 
-    std::vector<oter_type_str_id> terrains;
-    std::vector<forest_biome_feature_id> biome_components;
+    std::set<oter_type_str_id> terrains;
+    std::set<forest_biome_feature_id> biome_components;
     weighted_int_list<ter_id> groundcover;
     std::map<ter_id, forest_biome_terrain_dependent_furniture_new> terrain_dependent_furniture;
 
@@ -236,6 +246,22 @@ struct forest_biome_mapgen {
     int item_group_chance = 0;
     int item_spawn_iterations = 0;
     item_group_id item_group;
+
+    forest_biome_mapgen &operator+=( const forest_biome_mapgen &rhs ) {
+        for( const oter_type_str_id &ter_copy : rhs.terrains ) {
+            terrains.emplace( ter_copy );
+        }
+        for( const forest_biome_feature_id &fb_copy : rhs.biome_components ) {
+            biome_components.emplace( fb_copy );
+        }
+        for( const std::pair<ter_id, int> &pr : rhs.groundcover ) {
+            groundcover.try_add( pr );
+        }
+        for( const std::pair<ter_id, forest_biome_terrain_dependent_furniture_new> &pr :
+             rhs.terrain_dependent_furniture ) {
+            terrain_dependent_furniture.emplace( pr.first, pr.second );
+        }
+    }
 
     bool was_loaded = false;
     void finalize();
@@ -257,9 +283,15 @@ struct forest_mapgen_settings {
 struct region_settings_forest_mapgen {
     region_settings_forest_mapgen_id id = region_settings_forest_mapgen_id::NULL_ID();
 
-    std::vector<forest_biome_mapgen_id> biomes;
+    std::set<forest_biome_mapgen_id> biomes;
     //TODO: map in finalize!!!
     std::map<oter_type_id, forest_biome_mapgen_id> oter_to_biomes;
+
+    forest_mapgen_settings &operator+=( const forest_mapgen_settings &rhs ) {
+        for( const std::pair< oter_type_id, forest_biome> &biome_copy : rhs.biomes ) {
+            biomes.emplace( biome_copy );
+        }
+    }
 
     bool was_loaded = false;
     void finalize();
@@ -296,6 +328,10 @@ struct region_settings_forest_trail {
     int trailhead_road_distance = 6;
     building_bin trailheads;
 
+    region_settings_forest_trail &operator+=( const region_settings_forest_trail &rhs ) {
+        trailheads += rhs.trailheads;
+    }
+
     bool was_loaded = false;
     void load( const JsonObject &jo, std::string_view );
     void finalize();
@@ -316,6 +352,15 @@ struct overmap_feature_flag_settings {
 struct region_settings_feature_flag {
     std::set<std::string> blacklist;
     std::set<std::string> whitelist;
+
+    region_settings_feature_flag &operator+=( const region_settings_feature_flag &rhs ) {
+        for( const std::string &bl_copy : rhs.blacklist ) {
+            blacklist.emplace( bl_copy );
+        }
+        for( const std::string &wl_copy : rhs.whitelist ) {
+            whitelist.emplace( wl_copy );
+        }
+    }
 
     bool was_loaded = false;
     void deserialize( const JsonObject &jo );
@@ -578,6 +623,14 @@ struct region_settings_highway {
     int longest_bend_length = 0;
     int HIGHWAY_MAX_DEVIANCE = 0;
 
+    region_settings_highway &operator+=( const region_settings_highway &rhs ) {
+        four_way_intersections += rhs.four_way_intersections;
+        three_way_intersections += rhs.three_way_intersections;
+        bends += rhs.bends;
+        interchanges += rhs.interchanges;
+        road_connections += rhs.road_connections;
+    }
+
     bool needs_finalize = false;
     bool was_loaded = false;
     void load( const JsonObject &jo, std::string_view );
@@ -614,7 +667,13 @@ struct map_extra_collection {
 
 struct region_settings_map_extras {
     region_settings_map_extras_id id = region_settings_map_extras_id::NULL_ID();
-    std::vector<map_extra_collection_id> extras;
+    std::set<map_extra_collection_id> extras;
+
+    region_settings_map_extras &operator+=( const region_settings_map_extras &rhs ) {
+        for( const map_extra_collection_id &pr : rhs.extras ) {
+            extras.emplace( pr );
+        }
+    }
 
     bool was_loaded = false;
     void load( const JsonObject &jo, std::string_view );
@@ -638,8 +697,15 @@ struct region_terrain_and_furniture_settings {
 struct region_settings_terrain_furniture {
     region_settings_terrain_furniture_id id = region_settings_terrain_furniture_id::NULL_ID();
 
-    std::vector<region_terrain_furniture_id> ter_furn;
+    std::set<region_terrain_furniture_id> ter_furn;
 
+    region_settings_terrain_furniture &operator+=( const region_settings_terrain_furniture &rhs ) {
+        for( const region_terrain_furniture_id &pr : rhs.ter_furn ) {
+            ter_furn.emplace( pr );
+        }
+    }
+
+    //TODO: finalize needs to search entries for duplicate ter/furn_id and concat weighted lists
     bool was_loaded = false;
     void load( const JsonObject &jo, std::string_view );
     region_settings_terrain_furniture() = default;
@@ -654,8 +720,19 @@ struct region_settings_terrain_furniture {
 struct region_terrain_furniture {
     region_terrain_furniture_id id = region_terrain_furniture_id::NULL_ID();
 
+    ter_id replaced_ter_id;
+    furn_id replaced_furn_id;
     weighted_int_list<ter_id> terrain;
     weighted_int_list<furn_id> furniture;
+
+    region_terrain_furniture &operator+=( const region_terrain_furniture &rhs ) {
+        for( const std::pair<ter_id, int> &pr : rhs.terrain ) {
+            terrain.try_add( pr );
+        }
+        for( const std::pair<furn_id, int> &pr : rhs.furniture ) {
+            furniture.try_add( pr );
+        }
+    }
 
     bool was_loaded = false;
     void load( const JsonObject &jo, std::string_view );
@@ -711,7 +788,7 @@ struct region_settings {
     region_settings_city_id city_spec;
     region_settings_forest_mapgen_id forest_composition;
     region_settings_forest_trail_id forest_trail;
-    weather_generator weather;
+    weather_generator_id weather;
     region_settings_feature_flag overmap_feature_flag;
     region_settings_forest_id overmap_forest;
     region_settings_river_id overmap_river;
@@ -735,6 +812,34 @@ struct region_settings {
     static void reset();
 };
 
+/**
+* Some mods do not redefine regions, but instead extend existing regions.
+* However, multiple mods that extend regions can be loaded simultaneously.
+* To solve this, we apply region_overlay.
+*
+* region_overlay will NEVER redefine or remove elements from a given setting!
+*
+* All settings defined in a loaded region_overlay are added to the
+* loaded region_settings.
+*/
+struct region_overlay {
+    //region_settings_id id = region_settings_id::NULL_ID();
+
+    region_settings_city_id city_spec;
+    region_settings_forest_mapgen_id forest_composition;
+    region_settings_forest_trail_id forest_trail;
+    region_settings_feature_flag overmap_feature_flag;
+    region_settings_highway_id overmap_highway;
+    region_settings_terrain_furniture_id region_terrain_and_furniture;
+    region_settings_map_extras_id region_extras;
+
+    region_overlay() = default;
+
+    bool was_loaded = false;
+    void load( const JsonObject &jo, std::string_view );
+    static void load_region_overlay_new( const JsonObject &jo, const std::string &src );
+    static void reset();
+};
 
 using t_regional_settings_map = std::unordered_map<std::string, regional_settings>;
 using t_regional_settings_map_citr = t_regional_settings_map::const_iterator;

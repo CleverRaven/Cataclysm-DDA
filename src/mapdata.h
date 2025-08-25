@@ -44,6 +44,11 @@ struct ter_furn_id {
     furn_id furn;
     void deserialize( const JsonValue &jo );
     ter_furn_id();
+    ter_furn_id( std::string name );
+    bool operator==( const ter_furn_id &rhs ) const {
+        return ter == rhs.ter && furn == rhs.furn;
+    }
+    void resolve( const std::string &name );
 };
 
 struct map_common_bash_info { //TODO: Half of this shouldn't be common
