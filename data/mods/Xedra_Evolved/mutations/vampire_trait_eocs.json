@@ -1477,7 +1477,12 @@
               { "math": [ "u_vitamin('human_blood_vitamin') -= 750" ] },
               { "u_add_effect": "haste_vampire", "duration": "PERMANENT" },
               {
-                "if": { "u_has_trait": "BLOODHASTE_REFINEMENT_WATER_RUN" },
+                "if": {
+                  "and": [
+                    { "u_has_trait": "BLOODHASTE_REFINEMENT_WATER_RUN" },
+                    { "not": { "u_has_trait": "VAMPIRE_WEAKNESS_VAST_WATER_BURN" } }
+                  ]
+                },
                 "then": { "u_add_effect": "haste_vampire_water_running", "duration": "PERMANENT" }
               },
               {
@@ -2808,7 +2813,7 @@
     "id": "EOC_VAMPIRE_ZEPHYR_WATER_RUN",
     "eoc_type": "EVENT",
     "required_event": "avatar_moves",
-    "condition": { "u_has_effect": "haste_vampire" },
+    "condition": { "and": [ { "u_has_effect": "haste_vampire" }, { "not": { "u_has_trait": "VAMPIRE_WEAKNESS_VAST_WATER_BURN" } } ] },
     "effect": [
       {
         "if": { "u_has_effect": "haste_vampire_water_running" },
