@@ -640,6 +640,10 @@ bool basecamp::is_hidden( ui_mission_id id )
         return false;
     }
 
+    if( !id.id.dir ) {
+        return false;
+    }
+
     const base_camps::direction_data &base_data = base_camps::all_directions.at( id.id.dir.value() );
     for( ui_mission_id &miss_id : hidden_missions[size_t( base_data.tab_order )] ) {
         if( is_equal( miss_id, id ) ) {
