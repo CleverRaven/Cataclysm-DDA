@@ -181,25 +181,11 @@ static void parse_vp_reqs( const JsonObject &obj, const vpart_id &id, const std:
     }
     JsonObject src = obj.get_object( key );
 
-    JsonArray sk = src.get_array( "skills" );
-    if( !sk.empty() ) {
-        skills.clear();
-        for( JsonArray cur : sk ) {
-            if( cur.size() != 2 ) {
-                debugmsg( "vpart '%s' has requirement with invalid skill entry", id.str() );
-                continue;
-            }
-            skills.emplace( skill_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
-        }
-    }
+    optional( src, false, "skills", skills, weighted_string_id_reader<skill_id, int> { std::nullopt } );
 
-    if( src.has_string( "time" ) ) {
-        assign( src, "time", time, /* strict = */ false );
-    } else if( src.has_int( "time" ) ) { // remove in 0.H
-        time = time_duration::from_moves( src.get_int( "time" ) );
-        debugmsg( "vpart '%s' defines requirement time as integer, use time units string", id.str() );
-    }
+    optional( src, false, "time", time, time );
 
+    // FIXME: generic typed reader for requirements
     if( src.has_string( "using" ) ) {
         reqs = { { requirement_id( src.get_string( "using" ) ), 1 } };
     } else if( src.has_array( "using" ) ) {
