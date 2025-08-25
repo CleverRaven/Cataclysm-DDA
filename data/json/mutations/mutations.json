@@ -6684,7 +6684,7 @@
     "description": "You have a pair of bumps on your skull.",
     "types": [ "HORNS" ],
     "changes_to": [ "HORNS", "ANTENNAE" ],
-    "category": [ "CATTLE", "CHIMERA", "INSECT" ]
+    "category": [ "CATTLE", "CHIMERA", "INSECT", "BEAST" ]
   },
   {
     "type": "mutation",
