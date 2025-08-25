@@ -982,15 +982,15 @@ static void handle_remove_fd_fatigue_field( const std::pair<field, tripoint_bub_
                 caster.add_effect( effect_teleglow, 5_hours );
                 break;
             case 3:
-                std::string message_prefix = "A nearby";
-
-                if( caster.sees( here, field_position ) ) {
-                    message_prefix = "The";
+                if( sees_field ) {
+                    caster.add_msg_if_player( m_bad, _( "The %s pulls you in as it closes and ejects you violently!" ),
+                                              intensity_name );
+                } else {
+                    caster.add_msg_if_player( m_bad,
+                                              _( "A nearby %s pulls you in as it closes and ejects you violently!" ),
+                                              intensity_name );
                 }
 
-                caster.add_msg_if_player( m_bad,
-                                          _( "%s %s pulls you in as it closes and ejects you violently!" ),
-                                          message_prefix, intensity_name );
                 caster.as_character()->hurtall( 10, nullptr );
                 caster.add_effect( effect_teleglow, 630_minutes );
                 teleport::teleport_creature( caster );
