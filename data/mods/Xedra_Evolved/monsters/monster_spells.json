@@ -664,5 +664,32 @@
     "effect_str": "EOC_XE_STRANGE_EVENT_BROWNIE_CONVERSATION",
     "shape": "blast",
     "min_range": 10
+  },
+  {
+    "type": "SPELL",
+    "id": "mon_vampire_fear_gaze",
+    "name": { "str": "Vampire Fear Gaze", "//~": "NO_I18N" },
+    "description": { "str": "When a vampire uses its fear gaze on you.  Bluh!.", "//~": "NO_I18N" },
+    "flags": [ "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN", "RANDOM_DURATION" ],
+    "valid_targets": [ "hostile" ],
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_XE_VAMPIRE_MONSTER_FEAR_GAZE",
+    "shape": "blast",
+    "min_range": 6
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_VAMPIRE_MONSTER_FEAR_GAZE",
+    "effect": [
+      { "u_add_effect": "effect_vampire_fear_gazed", "duration": 300 },
+      {
+        "if": { "not": { "u_has_flag": "MAGIAL_MIND_PROTECTION" } },
+        "then": [
+          { "u_add_effect": "stunned", "duration": [ 2, 5 ] },
+          { "u_message": "You freeze like a frightened rabbit!", "type": "bad" }
+        ]
+      }
+    ]
   }
 ]

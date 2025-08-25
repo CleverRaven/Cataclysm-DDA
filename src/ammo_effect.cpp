@@ -162,9 +162,6 @@ void ammo_effects::load( const JsonObject &jo, const std::string &src )
 void ammo_effects::finalize_all()
 {
     get_all_ammo_effects().finalize();
-    for( const ammo_effect &ae : get_all_ammo_effects().get_all() ) {
-        const_cast<ammo_effect &>( ae ).finalize();
-    }
 }
 
 void ammo_effects::check_consistency()

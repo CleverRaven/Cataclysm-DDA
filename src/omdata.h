@@ -282,6 +282,7 @@ class oter_vision
         const level *viewed( om_vision_level ) const;
 
         static void load_oter_vision( const JsonObject &jo, const std::string &src );
+        static void finalize_all();
         static void reset();
         static void check_oter_vision();
         static const std::vector<oter_vision> &get_all();
@@ -751,6 +752,7 @@ class overmap_special
 struct overmap_special_migration {
     public:
         static void load_migrations( const JsonObject &jo, const std::string &src );
+        static void finalize_all();
         static void reset();
         void load( const JsonObject &jo, std::string_view src );
         static void check();

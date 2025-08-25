@@ -6,6 +6,7 @@
     "copy-from": "mon_shadow",
     "name": { "str": "shadow" },
     "description": "This is an animate shadow.  Looking like nothing more than an errant patch of normal shadow, it draws your attention by the way it moves subtly and whispers softly in the back of your mind.  Strange intrusive thoughts accompany the quiet murmur, awakening your most horrific memories and fears.",
+    "species": [ "NETHER", "SUMMONED_CREATURE" ],
     "hp": 60,
     "speed": 150,
     "melee_skill": 8,
@@ -41,6 +42,7 @@
     "copy-from": "mon_magi_shadow",
     "name": { "str": "shadow" },
     "description": "This is an animate shadow.  Looking like nothing more than an errant patch of normal shadow, it draws your attention by the way it moves subtly and whispers softly in the back of your mind.  Strange intrusive thoughts accompany the quiet murmur, awakening your most horrific memories and fears.",
+    "species": [ "NETHER", "SUMMONED_CREATURE" ],
     "default_faction": "zombie"
   },
   {
@@ -48,6 +50,7 @@
     "copy-from": "mon_keeper_of_the_glades",
     "type": "MONSTER",
     "name": { "str_sp": "keeper of the glades" },
+    "species": [ "FOREST_SPIRIT", "SUMMONED_CREATURE" ],
     "extend": { "special_attacks": [  ] }
   },
   {

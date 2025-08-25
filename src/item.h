@@ -146,6 +146,9 @@ struct iteminfo {
         /** info is ASCII art (prefer monospaced font) */
         bool bIsArt;
 
+        /** info is displayed as a table */
+        bool isTable;
+
         enum flags {
             no_flags = 0,
             is_decimal = 1 << 0, ///< Print as decimal rather than integer
@@ -155,6 +158,7 @@ struct iteminfo {
             no_name = 1 << 4, ///< Do not print the name
             show_plus = 1 << 5, ///< Use a + sign for positive values
             is_art = 1 << 6, ///< is ascii art (prefer monospaced font)
+            is_table = 1 << 7, ///< is displayed as table
         };
 
         /**

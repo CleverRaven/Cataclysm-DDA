@@ -1268,6 +1268,11 @@ void MonsterGenerator::load_species( const JsonObject &jo, const std::string &sr
     mon_species->load( jo, src );
 }
 
+void species_type::finalize_all()
+{
+    MonsterGenerator::generator().mon_species->finalize();
+}
+
 void species_type::load( const JsonObject &jo, std::string_view )
 {
     optional( jo, was_loaded, "description", description );
@@ -1328,6 +1333,11 @@ void species_type::load( const JsonObject &jo, std::string_view )
 void mon_flag::load_mon_flags( const JsonObject &jo, const std::string &src )
 {
     mon_flags.load( jo, src );
+}
+
+void mon_flag::finalize_all()
+{
+    mon_flags.finalize();
 }
 
 void mon_flag::load( const JsonObject &jo, std::string_view )

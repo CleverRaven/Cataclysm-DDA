@@ -152,6 +152,7 @@ static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 static const activity_id ACT_TRY_SLEEP( "ACT_TRY_SLEEP" );
 static const activity_id ACT_VIBE( "ACT_VIBE" );
 static const activity_id ACT_WAIT( "ACT_WAIT" );
+static const activity_id ACT_WAIT_FOLLOWERS( "ACT_WAIT_FOLLOWERS" );
 static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
 static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 
@@ -9306,6 +9307,7 @@ bool Character::can_use_floor_warmth() const
 {
     return in_sleep_state() ||
            has_activity( ACT_WAIT ) ||
+           has_activity( ACT_WAIT_FOLLOWERS ) ||
            has_activity( ACT_WAIT_NPC ) ||
            has_activity( ACT_WAIT_STAMINA ) ||
            has_activity( ACT_AUTODRIVE ) ||
