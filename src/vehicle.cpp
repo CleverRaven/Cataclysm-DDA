@@ -7436,7 +7436,7 @@ void vehicle::shed_loose_parts( const trinary shed_cables, map *here, const trip
 
             if( distance > max_dist || shed_cables == trinary::ALL ) {
                 add_msg_if_player_sees( bub_part_pos( *here, vp_loose ), m_warning,
-                                        _( "The %s's %s was detached!" ), name, vp_loose.name( false ) );
+                                        _( "The %1$s's %2$s was detached!" ), name, vp_loose.name( false ) );
                 remove_remote = true;
             } else {
                 // cable still has some slack to it, so update the remote part's target and continue.
@@ -7802,7 +7802,7 @@ int vehicle::break_off( map &here, vehicle_part &vp, int dmg )
                 remove_remote_part( here, vp_here );
             } else if( vp_here.is_broken() ) {
                 // Tearing off a broken part - break it up
-                add_msg_if_player_sees( pos, m_bad, _( "The %s's %s breaks into pieces!" ), name,
+                add_msg_if_player_sees( pos, m_bad, _( "The %1$s's %2$s breaks into pieces!" ), name,
                                         vp_here.name() );
                 scatter_parts( vp_here );
             } else {

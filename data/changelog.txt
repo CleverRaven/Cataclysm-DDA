@@ -152,6 +152,8 @@ NPC AI fixes to improve fleeing in bad situations, reduce it in good ones
 Armors faults. Part 1: Steel Plate
 Show time in months/days
 Player assigned Points of interest visible as Mission markers
+display item name and owner for stealing prompt
+Monsters can now see you if you're invisible and they have the TRUESIGHT monster flag
 
 
 ## Content:
@@ -991,6 +993,7 @@ Expanded spawns for some proper melee weapons
 Adjust Precise Strike melee tech so it also cant stun what other stun-causing techs cant stun.
 Adds cuvettes to analysis kit crafting recipe, increase analysis kit weight.
 Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
+Tree bashing from being cut down is not a magic wand
 
 
 ## Bugfixes:
@@ -1545,6 +1548,7 @@ Use optional/mandatory for mutation, material, mission def, move mode
 Use optional/mandatory for weather type, trap, start location, scent map, profession group, and various json loading cleanup
 Check for unused extend/delete/proportional/relative with mandatory
 Begin moving duplicated UI code to new helpers library
+Remove Object Creator
 
 
 ## Build:

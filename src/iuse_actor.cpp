@@ -4236,7 +4236,8 @@ bool place_trap_actor::is_allowed( Character &p, const tripoint_bub_ms &pos,
         }
     }
     if( needs_neighbor_terrain && !has_neighbor( pos, needs_neighbor_terrain ) ) {
-        p.add_msg_if_player( m_info, _( "The %s needs a %s adjacent to it." ), name,
+        //~ %1$s - trap name, %2$s - terrain name
+        p.add_msg_if_player( m_info, _( "The %1$s needs a %2$s adjacent to it." ), name,
                              needs_neighbor_terrain.obj().name() );
         return false;
     }
@@ -4249,6 +4250,7 @@ bool place_trap_actor::is_allowed( Character &p, const tripoint_bub_ms &pos,
                                  : _( "You can't place a %s there.  It contains a trap already." ),
                                  name );
         } else {
+            //~ %s - trap name
             p.add_msg_if_player( m_bad, _( "You trigger a %s!" ), existing_trap.name() );
             existing_trap.trigger( pos, p );
         }
