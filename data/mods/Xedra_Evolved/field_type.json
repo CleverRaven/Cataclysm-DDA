@@ -451,14 +451,12 @@
     "intensity_levels": [
       {
         "name": "floating powder",
-        "sym": "8",
-        "dangerous": true,
+        "sym": "%",
         "translucency": 1,
         "concentration": 1,
         "effects": [
           {
             "effect_id": "effect_xe_reveal_invisibility",
-            "intensity": 1,
             "min_duration": "2 minutes",
             "max_duration": "2 minutes",
             "immune_inside_vehicle": true,
@@ -469,7 +467,6 @@
       }
     ],
     "percent_spread": 30,
-    "has_fume": true,
     "priority": 8,
     "half_life": "30 seconds",
     "phase": "gas",
