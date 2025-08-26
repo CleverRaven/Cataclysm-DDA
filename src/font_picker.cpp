@@ -353,5 +353,5 @@ void ShowFontsOptionsWindow()
     } while( loop && win->get_is_open() );
 }
 
-} // FontPicker
+} // namespace FontPicker
 #endif // IMTUI

@@ -12,6 +12,6 @@ bool PreNewFrame();
 
 // Call to draw UI
 void ShowFontsOptionsWindow();
-}
+} // namespace FontPicker
 
 #endif // IMTUI
