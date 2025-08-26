@@ -23,17 +23,18 @@
 
 namespace fs = std::filesystem;
 
+static bool WantRebuild = false;
+
 class FontPickerWindow : public cataimgui::window
 {
     private:
-        FontPicker *picker;
         std::vector<const char *> hinting_types;
         std::map<const char *, std::string> localized_hinting_types;
         bool gui_font_detail_window_open;
         bool mono_font_detail_window_open;
 
     public:
-        explicit FontPickerWindow( FontPicker *picker );
+        explicit FontPickerWindow();
     protected:
         cataimgui::bounds get_bounds() override;
         void draw_controls() override;
@@ -46,8 +47,8 @@ class FontPickerWindow : public cataimgui::window
         bool ShowFaceDetail( font_config &face, bool is_only_face );
 };
 
-FontPickerWindow::FontPickerWindow( FontPicker *picker ) : cataimgui::window(
-        _( "Font Settings" ) ), picker( picker )
+FontPickerWindow::FontPickerWindow() : cataimgui::window(
+        _( "Font Settings" ) )
 {
     force_to_back = true;
     window_flags = ImGuiWindowFlags_None;
@@ -82,39 +83,39 @@ static void HelpMarker( const char *desc )
 
 void FontPickerWindow::draw_controls()
 {
-    picker->WantRebuild |= ImGui::SliderInt( _( "GUI Font Size" ), &font_loader.gui_fontsize, 6, 48,
-                           "%d px" );
+    WantRebuild |= ImGui::SliderInt( _( "GUI Font Size" ), &font_loader.gui_fontsize, 6, 48,
+                                     "%d px" );
     HelpMarker( _( "Font size used by new ImGui‐based windows." ) );
-    picker->WantRebuild |= ImGui::SliderInt( _( "Mono Font Width" ), &fontwidth, 6,
-                           get_maximum_font_width(), "%d px" );
+    WantRebuild |= ImGui::SliderInt( _( "Mono Font Width" ), &fontwidth, 6,
+                                     get_maximum_font_width(), "%d px" );
     HelpMarker( _( "Width of the character cell for the primary monospaced font." ) );
-    picker->WantRebuild |= ImGui::SliderInt( _( "Mono Font Height" ), &fontheight, 6,
-                           get_maximum_font_height(), "%d px" );
+    WantRebuild |= ImGui::SliderInt( _( "Mono Font Height" ), &fontheight, 6,
+                                     get_maximum_font_height(), "%d px" );
     HelpMarker( _( "Height of the character cell for the primary monospaced font." ) );
-    picker->WantRebuild |= ImGui::SliderInt( _( "Mono Font Size" ), &font_loader.fontsize, 6, 48,
-                           "%d px" );
+    WantRebuild |= ImGui::SliderInt( _( "Mono Font Size" ), &font_loader.fontsize, 6, 48,
+                                     "%d px" );
     HelpMarker(
         _( "Size of the font drawn inside the character cell of the primary monospaced font." ) );
-    picker->WantRebuild |= ImGui::SliderInt( _( "Map Font Width" ), &font_loader.map_fontwidth, 6, 48,
-                           "%d px" );
+    WantRebuild |= ImGui::SliderInt( _( "Map Font Width" ), &font_loader.map_fontwidth, 6, 48,
+                                     "%d px" );
     HelpMarker( _( "Width of the character cell for the overlay text on the main map." ) );
-    picker->WantRebuild |= ImGui::SliderInt( _( "Map Font Height" ), &font_loader.map_fontheight, 6, 48,
-                           "%d px" );
+    WantRebuild |= ImGui::SliderInt( _( "Map Font Height" ), &font_loader.map_fontheight, 6, 48,
+                                     "%d px" );
     HelpMarker( _( "Height of the character cell for the overlay text on the main map." ) );
-    picker->WantRebuild |= ImGui::SliderInt( _( "Map Font Size" ), &font_loader.map_fontsize, 6, 48,
-                           "%d px" );
+    WantRebuild |= ImGui::SliderInt( _( "Map Font Size" ), &font_loader.map_fontsize, 6, 48,
+                                     "%d px" );
     HelpMarker(
         _( "Size of the font drawn inside the character cell of the overlay text on the main map." ) );
-    picker->WantRebuild |= ImGui::SliderInt( _( "Overmap Font Width" ), &font_loader.overmap_fontwidth,
-                           6, 48, "%d px" );
+    WantRebuild |= ImGui::SliderInt( _( "Overmap Font Width" ), &font_loader.overmap_fontwidth,
+                                     6, 48, "%d px" );
     HelpMarker(
         _( "Width of the character cell used to display the world map, unless you use a tileset for that." ) );
-    picker->WantRebuild |= ImGui::SliderInt( _( "Overmap Font Height" ),
-                           &font_loader.overmap_fontheight, 6, 48, "%d px" );
+    WantRebuild |= ImGui::SliderInt( _( "Overmap Font Height" ),
+                                     &font_loader.overmap_fontheight, 6, 48, "%d px" );
     HelpMarker(
         _( "Height of the character cell used to display the world map, unless you use a tileset for that." ) );
-    picker->WantRebuild |= ImGui::SliderInt( _( "Overmap Font Size" ), &font_loader.overmap_fontsize, 6,
-                           48, "%d px" );
+    WantRebuild |= ImGui::SliderInt( _( "Overmap Font Size" ), &font_loader.overmap_fontsize, 6,
+                                     48, "%d px" );
     HelpMarker(
         _( "Size of the font drawn insidet used to display the world map, unless you use a tileset for that." ) );
 
@@ -155,7 +156,7 @@ bool FontPicker::PreNewFrame()
 // Call to draw UI
 void FontPicker::ShowFontsOptionsWindow()
 {
-    std::unique_ptr<FontPickerWindow> win = std::make_unique<FontPickerWindow>( this );
+    std::unique_ptr<FontPickerWindow> win = std::make_unique<FontPickerWindow>();
     input_context ctxt = input_context();
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -260,13 +261,13 @@ void FontPickerWindow::ShowFontDetailsWindow( const char *window_name,
             typefaces.erase( std::vector<font_config>::iterator( face_to_remove ) );
 #endif
             face_to_remove = nullptr;
-            picker->WantRebuild = true;
+            WantRebuild = true;
         }
         if( drag_source && drop_target ) {
             std::swap( *drag_source, *drop_target );
             drop_target = nullptr;
             drag_source = nullptr;
-            picker->WantRebuild = true;
+            WantRebuild = true;
         }
     }
     ImGui::End();
@@ -315,7 +316,7 @@ bool FontPickerWindow::ShowFaceDetail( font_config &face, bool is_only_face )
                 const bool is_selected = fonthint_to_hint( face.hinting ) == h;
                 if( ImGui::Selectable( localized_hinting_types[h].c_str(), is_selected ) ) {
                     face.hinting = hint_to_fonthint( h );
-                    picker->WantRebuild = true;
+                    WantRebuild = true;
                 }
                 if( is_selected ) {
                     ImGui::SetItemDefaultFocus();

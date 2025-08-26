@@ -502,7 +502,7 @@ cataimgui::client::~client()
 void cataimgui::client::new_frame()
 {
 #ifdef IMGUI_ENABLE_FREETYPE
-    if( font_editor.PreNewFrame() ) {
+    if( FontPicker::PreNewFrame() ) {
         // REUPLOAD FONT TEXTURE TO GPU
         ImGui_ImplSDLRenderer2_DestroyDeviceObjects();
         ImGui_ImplSDLRenderer2_CreateDeviceObjects();

@@ -2994,7 +2994,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_FONT_OPTIONS:
 #ifndef IMTUI
-            font_editor.ShowFontsOptionsWindow();
+            FontPicker::ShowFontsOptionsWindow();
 #endif // IMTUI
             break;
 

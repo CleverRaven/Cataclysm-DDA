@@ -3723,7 +3723,6 @@ static void init_term_size_and_scaling_factor()
 }
 
 class font_loader font_loader;
-class FontPicker font_editor;
 
 //Basic Init, create the font, backbuffer, etc
 void catacurses::init_interface()

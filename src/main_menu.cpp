@@ -881,7 +881,7 @@ bool main_menu::opening_screen()
                             break;
 #ifndef IMTUI
                         case settings_menu_opts::FONTS:
-                            font_editor.ShowFontsOptionsWindow();
+                            FontPicker::ShowFontsOptionsWindow();
                             break;
 #endif // IMTUI
                         case settings_menu_opts::KEYBINDINGS: {
