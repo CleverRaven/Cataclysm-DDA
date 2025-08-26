@@ -4237,6 +4237,7 @@ void target_ui::panel_spell_info( int &text_y )
 
     std::string fail_str;
     if( no_fail ) {
+        // xgettext:no-c-format
         fail_str = colorize( _( "0.0 % Failure Chance" ), c_light_green );
     } else {
         fail_str = casting->colorized_fail_percent( *you );

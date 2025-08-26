@@ -22,8 +22,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_minus_disposable_cell"
+        "flag_restriction": [ "BATTERY_LIGHT" ],
+        "default_magazine": "light_battery_cell"
       }
     ],
     "tool_ammo": [ "battery" ]
@@ -273,7 +273,7 @@
     "color": "dark_gray",
     "name": { "str": "mannequin" },
     "category": "other",
-    "description": "A figure of an adult human, as seen in the display case at the mall.  It might be able to fool some zombies if it could attract their attention.",
+    "description": "A figure of an adult human, as seen in the display case at the mall.",
     "price": "150 USD",
     "price_postapoc": "5 USD",
     "material": [ "wood" ],
@@ -282,42 +282,5 @@
     "longest_side": "180 cm",
     "melee_damage": { "bash": 18 },
     "use_action": [ { "type": "deploy_furn", "furn_type": "f_mannequin" } ]
-  },
-  {
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "id": "mannequin_decoy",
-    "symbol": "@",
-    "color": "light_gray",
-    "name": { "str": "mannequin decoy" },
-    "category": "other",
-    "description": "A figure of an adult human, as seen in the display case at the mall.  This one is cradling a talking doll.  It can make sound when powered by batteries and can be used to distract some zombies.",
-    "price": "150 USD",
-    "price_postapoc": "5 USD",
-    "material": [ "wood" ],
-    "weight": "81500 g",
-    "volume": "62500 ml",
-    "longest_side": "180 cm",
-    "flags": [ "WATER_BREAK", "SINGLE_USE", "ELECTRONIC" ],
-    "faults": [ { "fault_group": "electronic_general" } ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_minus_disposable_cell"
-      }
-    ],
-    "use_action": {
-      "type": "place_monster",
-      "monster_id": "mon_mannequin_decoy",
-      "friendly_msg": "You activate the talking doll on the mannequin.",
-      "hostile_msg": "Your mannequin seems to have a mind of its own!  If you see this, an error has occurred.",
-      "difficulty": 0,
-      "need_charges": 100,
-      "moves": 200
-    },
-    "melee_damage": { "bash": 18 },
-    "tool_ammo": [ "battery" ]
   }
 ]

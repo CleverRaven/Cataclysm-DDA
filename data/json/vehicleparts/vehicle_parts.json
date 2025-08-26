@@ -891,7 +891,7 @@
     },
     "flags": [ "CARGO", "OBSTACLE", "FLAT_SURF", "WORKBENCH" ],
     "breaks_into": [ { "item": "2x4", "prob": 5 }, { "item": "splinter", "count": [ 4, 8 ] }, { "item": "nail", "charges": [ 4, 7 ] } ],
-    "workbench": { "multiplier": 1.1, "mass": 150000, "volume": "20 L" },
+    "workbench": { "multiplier": 1.1, "mass": "150 kg", "volume": "20 L" },
     "damage_reduction": { "all": 24 },
     "variants": [ { "symbols": "#", "symbols_broken": "#" } ]
   },
@@ -914,7 +914,7 @@
     },
     "flags": [ "CARGO", "OBSTACLE", "FLAT_SURF", "WORKBENCH" ],
     "breaks_into": [ { "item": "2x4", "prob": 5 }, { "item": "splinter", "count": [ 4, 8 ] }, { "item": "nail", "charges": [ 4, 7 ] } ],
-    "workbench": { "multiplier": 1.1, "mass": 150000, "volume": "20 L" },
+    "workbench": { "multiplier": 1.1, "mass": "150 kg", "volume": "20 L" },
     "damage_reduction": { "all": 16 },
     "variants": [ { "symbols": "#", "symbols_broken": "#" } ]
   },
@@ -968,7 +968,7 @@
       { "item": "lc_steel_chunk", "count": [ 7, 12 ] },
       { "item": "scrap", "charges": [ 15, 30 ] }
     ],
-    "workbench": { "multiplier": 1.2, "mass": 300000, "volume": "30 L" },
+    "workbench": { "multiplier": 1.2, "mass": "300 kg", "volume": "30 L" },
     "damage_reduction": { "all": 29 },
     "variants": [ { "symbols": "#", "symbols_broken": "#" } ]
   },

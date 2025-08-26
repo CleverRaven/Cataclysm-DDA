@@ -951,43 +951,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "petfood", petfood );
 
-    if( !was_loaded || jo.has_object( "move_skills" ) ) {
-        optional( jo, was_loaded, "move_skills", move_skills );
-    } else {
-        if( jo.has_object( "extend" ) ) {
-            JsonObject tmp = jo.get_object( "extend" );
-            tmp.allow_omitted_members();
-            if( tmp.has_object( "move_skills" ) ) {
-                JsonObject skills = tmp.get_object( "move_skills" );
-                if( skills.has_member( "swim" ) ) {
-                    move_skills.swim = std::optional<int>( skills.get_int( "swim" ) );
-                }
-                if( skills.has_member( "dig" ) ) {
-                    move_skills.dig = std::optional<int>( skills.get_int( "dig" ) );
-                }
-                if( skills.has_member( "climb" ) ) {
-                    move_skills.climb = std::optional<int>( skills.get_int( "climb" ) );
-                }
-            }
-        }
-        if( jo.has_object( "delete" ) ) {
-            JsonObject tmp = jo.get_object( "delete" );
-            tmp.allow_omitted_members();
-            if( tmp.has_object( "move_skills" ) ) {
-                JsonObject skills = tmp.get_object( "move_skills" );
-                if( skills.get_member_opt( "swim" ) ) {
-                    move_skills.swim = std::optional<int>( std::nullopt );
-                }
-                if( skills.get_member_opt( "dig" ) ) {
-                    move_skills.dig = std::nullopt;
-                }
-                if( skills.get_member_opt( "climb" ) ) {
-                    move_skills.climb = std::nullopt;
-                }
-            }
-        }
-    }
-
+    optional( jo, was_loaded, "move_skills", move_skills );
 
     optional( jo, was_loaded, "vision_day", vision_day, numeric_bound_reader{0}, 40 );
     optional( jo, was_loaded, "vision_night", vision_night, numeric_bound_reader{0}, 1 );
@@ -1859,6 +1823,42 @@ void move_skills_data::load( const JsonObject &jo )
         debugmsg( "dig value out of range.  It has to be between 0 and 10" );
         dig = std::max( std::min( dig.value(), 10 ), 0 );
     }
+}
+
+bool move_skills_data::handle_extend( const JsonValue &jv )
+{
+    JsonObject jo = jv.get_object();
+    // because this is extend, was_loaded is always true
+    optional( jo, true, "climb", climb );
+    optional( jo, true, "dig", dig );
+    optional( jo, true, "swim", swim );
+    return true;
+}
+
+static void check_for_delete( const JsonObject &jo, const std::string_view name,
+                              std::optional<int> &value )
+{
+    if( !jo.has_member( name ) ) {
+        return;
+    }
+    std::optional<int> scratch;
+    // because this is delete, was_loaded is always true
+    optional( jo, true, name, scratch );
+    if( value.has_value() && scratch.has_value() && *scratch == *value ) {
+        value = std::nullopt;
+        return;
+    }
+    debugmsg( "Delete value for '%s' (%d) does not match existing (%d)", name, scratch.value_or( -1 ),
+              value.value_or( -1 ) );
+}
+
+bool move_skills_data::handle_delete( const JsonValue &jv )
+{
+    JsonObject jo = jv.get_object();
+    check_for_delete( jo, "climb", climb );
+    check_for_delete( jo, "dig", dig );
+    check_for_delete( jo, "swim", swim );
+    return true;
 }
 
 void move_skills_data::deserialize( const JsonObject &data )

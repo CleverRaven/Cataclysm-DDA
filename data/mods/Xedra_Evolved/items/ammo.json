@@ -9,7 +9,7 @@
     "description": "A thin and flat knife made for throwing.  Its ineffective cutting edge and odd shape makes it unsuitable for use as a tool.",
     "category": "spare_parts",
     "//": "Make silver-steel or some kind of changeling metal.",
-    "material": [ "steel" ],
+    "material": [ "lc_steel" ],
     "ammo_type": "throwing_knives",
     "flags": [ "TRADER_AVOID", "NPC_THROWN" ],
     "volume": "100 ml",

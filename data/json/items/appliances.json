@@ -403,5 +403,19 @@
     "longest_side": "115 cm",
     "volume": "275 L",
     "weight": "150 kg"
+  },
+  {
+    "type": "ITEM",
+    "id": "deep_fryer",
+    "//": "Based off https://www.frymaster.com/product/fam_zeozpi/E4-Electric-Fryers-RE14-RE14-2.",
+    "name": { "str": "disconnected deep fryer" },
+    "description": "An industrial deep fryer, for frying huge batches of food at once.  Needs to be placed and plugged into a power source.",
+    "looks_like": "f_oven",
+    "symbol": "h",
+    "color": "light_gray",
+    "material": [ "lc_steel" ],
+    "longest_side": "115 cm",
+    "volume": "368 L",
+    "weight": "86 kg"
   }
 ]

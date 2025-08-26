@@ -553,6 +553,7 @@
     "effect": [
       { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" },
       { "u_lose_effect": "effect_clair_craft_bonus" },
+      { "u_lose_effect": "effect_clair_craft_bonus_blindness" },
       { "u_lose_trait": "CLAIR_CRAFT_BONUS_01" },
       { "u_lose_trait": "CLAIR_CRAFT_BONUS_02" },
       { "u_lose_trait": "CLAIR_CRAFT_BONUS_03" },

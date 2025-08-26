@@ -2119,5 +2119,10 @@
     "type": "construction_group",
     "id": "place_lathe",
     "name": "Place a lathe"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_deep_fryer",
+    "name": "Place a deep fryer"
   }
 ]

@@ -5564,6 +5564,7 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
             info.emplace_back( "BASE", ( stam_pct ? _( "about " ) : _( "less than " ) ), "",
                                iteminfo::no_newline | iteminfo::is_decimal | iteminfo::lower_is_better,
                                ( stam_pct > 0.1 ? stam_pct : 0.1 ) );
+            // xgettext:no-c-format
             info.emplace_back( "BASE", _( "% stamina to swing." ), "" );
         }
 
@@ -11520,7 +11521,7 @@ units::energy item::energy_remaining( const Character *carrier, bool ignoreExter
     if( is_magazine() ) {
         ret += energy;
         for( const item *e : contents.all_items_top( pocket_type::MAGAZINE ) ) {
-            if( e->typeId() == itype_battery ) {
+            if( e->ammo_type() == ammo_battery ) {
                 ret += units::from_kilojoule( static_cast<std::int64_t>( e->charges ) );
             }
         }

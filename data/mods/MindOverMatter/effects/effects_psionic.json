@@ -837,7 +837,7 @@
     "name": [ "Heightened Senses" ],
     "desc": [ "You are enhancing your mundane senses." ],
     "apply_message": "",
-    "remove_message": "Your enhance senses fade away.",
+    "remove_message": "Your enhanced senses fade away.",
     "rating": "good",
     "max_duration": "7 days",
     "enchantments": [

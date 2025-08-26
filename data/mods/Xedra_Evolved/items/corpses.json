@@ -7,7 +7,7 @@
     "name": "broken sniper bot",
     "category": "other",
     "description": "A broken sniper bot.  Total scrap, but some stuff is still useful.",
-    "material": [ "steel" ],
+    "material": [ "lc_steel" ],
     "weight": "40 kg",
     "volume": "150 L",
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
@@ -20,7 +20,7 @@
     "name": "broken shotgun bot",
     "category": "other",
     "description": "A broken shotgun bot.  Total scrap, but some stuff is still useful.",
-    "material": [ "steel" ],
+    "material": [ "lc_steel" ],
     "weight": "40 kg",
     "volume": "150 L",
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
@@ -33,7 +33,7 @@
     "name": "broken cutthroater",
     "category": "other",
     "description": "A broken cutthroater.  Total scrap, but some stuff is still useful.",
-    "material": [ "steel" ],
+    "material": [ "lc_steel" ],
     "weight": "40 kg",
     "volume": "150 L",
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
@@ -63,7 +63,7 @@
     "category": "other",
     "description": "The automaton is now much more broken than it was before.  It resembles a pile of random parts and its internals are fried beyond salvage but could be gutted for materials.",
     "price": "0 USD",
-    "material": [ "steel", "dreamstuff" ],
+    "material": [ "lc_steel", "dreamstuff" ],
     "volume": "210 L",
     "weight": "195 kg",
     "to_hit": -2,

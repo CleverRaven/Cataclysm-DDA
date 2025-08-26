@@ -58,7 +58,7 @@
     "price": "10000 USD",
     "price_postapoc": "200 USD",
     "to_hit": -1,
-    "material": [ "steel", "plastic" ],
+    "material": [ "mc_steel", "plastic" ],
     "symbol": "*",
     "color": "green",
     "use_action": {
@@ -84,7 +84,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "to_hit": -1,
-    "material": [ "steel", "plastic" ],
+    "material": [ "mc_steel", "plastic" ],
     "symbol": "*",
     "color": "green",
     "use_action": { "type": "message", "message": "You've already pulled the %s's pin, try throwing it instead.", "name": "Pull pin" },

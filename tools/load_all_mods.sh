@@ -26,8 +26,14 @@ else
     printf "Using test executable '%s'\n" "$test_exe"
 fi
 
+if ! $test_exe 'force_load_game'
+then
+	echo "Test failure with dda"
+	exit
+fi
 for mod_set in `./build-scripts/get_all_mods.py`
 do
+	printf "Running %s\n", "$mod_set"
 	if ! $test_exe --mods="$mod_set" 'force_load_game'
 	then
 		printf "Test failure with mods '%s'\n" "$mod_set"
