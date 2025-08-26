@@ -21,30 +21,29 @@
 #include <map>
 #include <vector>
 
+namespace FontPicker
+{
 namespace fs = std::filesystem;
 
 static bool WantRebuild = false;
+static std::vector<const char *> hinting_types;
+static std::map<const char *, std::string> localized_hinting_types;
+static bool gui_font_detail_window_open;
+static bool mono_font_detail_window_open;
+
+static void ShowFontOptions( const char *label, const char *window_name, bool *detail_window_open,
+                             ImFont *imfont, std::vector<font_config> &faces );
+static void ShowFontDetailsWindow( const char *window_name, std::vector<font_config> &typefaces,
+                                   bool *p_open );
+static bool ShowFaceDetail( font_config &face, bool is_only_face );
 
 class FontPickerWindow : public cataimgui::window
 {
-    private:
-        std::vector<const char *> hinting_types;
-        std::map<const char *, std::string> localized_hinting_types;
-        bool gui_font_detail_window_open;
-        bool mono_font_detail_window_open;
-
     public:
         explicit FontPickerWindow();
     protected:
         cataimgui::bounds get_bounds() override;
         void draw_controls() override;
-
-    private:
-        void ShowFontOptions( const char *label, const char *window_name, bool *detail_window_open,
-                              ImFont *imfont, std::vector<font_config> &faces );
-        void ShowFontDetailsWindow( const char *window_name, std::vector<font_config> &typefaces,
-                                    bool *p_open );
-        bool ShowFaceDetail( font_config &face, bool is_only_face );
 };
 
 FontPickerWindow::FontPickerWindow() : cataimgui::window(
@@ -52,16 +51,6 @@ FontPickerWindow::FontPickerWindow() : cataimgui::window(
 {
     force_to_back = true;
     window_flags = ImGuiWindowFlags_None;
-    hinting_types = { "Default", "Auto", "NoAuto", "Light", "None", "Bitmap", };
-    localized_hinting_types = { { "Default", _( "Default" ) },
-        { "Auto", _( "Auto" ) },
-        { "NoAuto", _( "NoAuto" ) },
-        { "Light", _( "Light" ) },
-        { "None", _( "None" ) },
-        { "Bitmap", _( "Bitmap" ) },
-    };
-    gui_font_detail_window_open = false;
-    mono_font_detail_window_open = false;
 }
 
 cataimgui::bounds FontPickerWindow::get_bounds()
@@ -128,7 +117,7 @@ void FontPickerWindow::draw_controls()
                      &mono_font_detail_window_open, imfonts[1], font_loader.typeface );
 }
 
-bool FontPicker::PreNewFrame()
+bool PreNewFrame()
 {
     if( !WantRebuild ) {
         // no changes were made, but we want to redraw everything
@@ -154,8 +143,21 @@ bool FontPicker::PreNewFrame()
 }
 
 // Call to draw UI
-void FontPicker::ShowFontsOptionsWindow()
+void ShowFontsOptionsWindow()
 {
+    if( hinting_types.empty() ) {
+        hinting_types = { "Default", "Auto", "NoAuto", "Light", "None", "Bitmap", };
+        localized_hinting_types = { { "Default", _( "Default" ) },
+            { "Auto", _( "Auto" ) },
+            { "NoAuto", _( "NoAuto" ) },
+            { "Light", _( "Light" ) },
+            { "None", _( "None" ) },
+            { "Bitmap", _( "Bitmap" ) },
+        };
+    }
+    gui_font_detail_window_open = false;
+    mono_font_detail_window_open = false;
+
     std::unique_ptr<FontPickerWindow> win = std::make_unique<FontPickerWindow>();
     input_context ctxt = input_context();
     ctxt.register_action( "QUIT" );
@@ -173,9 +175,9 @@ void FontPicker::ShowFontsOptionsWindow()
     } while( loop && win->get_is_open() );
 }
 
-void FontPickerWindow::ShowFontOptions( const char *label, const char *window_name,
-                                        bool *detail_window_open, ImFont *imfont,
-                                        std::vector<font_config> &faces )
+static void ShowFontOptions( const char *label, const char *window_name,
+                             bool *detail_window_open, ImFont *imfont,
+                             std::vector<font_config> &faces )
 {
     auto &face = faces[0];
     ImGui::PushID( &faces );
@@ -208,8 +210,8 @@ void FontPickerWindow::ShowFontOptions( const char *label, const char *window_na
     ImGui::PopID();
 }
 
-void FontPickerWindow::ShowFontDetailsWindow( const char *window_name,
-        std::vector<font_config> &typefaces, bool *p_open )
+static void ShowFontDetailsWindow( const char *window_name,
+                                   std::vector<font_config> &typefaces, bool *p_open )
 {
     if( !*p_open ) {
         return;
@@ -278,7 +280,7 @@ void FontPickerWindow::ShowFontDetailsWindow( const char *window_name,
     }
 }
 
-bool FontPickerWindow::ShowFaceDetail( font_config &face, bool is_only_face )
+static bool ShowFaceDetail( font_config &face, bool is_only_face )
 {
     fs::path filename = fs::u8path( face.path ).filename();
     ImGui::PushID( face.path.c_str() );
@@ -337,4 +339,5 @@ bool FontPickerWindow::ShowFaceDetail( font_config &face, bool is_only_face )
     return clicked;
 }
 
+} // FontPicker
 #endif // IMTUI
