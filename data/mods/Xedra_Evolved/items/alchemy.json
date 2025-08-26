@@ -166,6 +166,20 @@
     "price": "25 USD"
   },
   {
+    "id": "xe_alchemy_powder_of_revelation",
+    "name": { "str": "powder of revelation", "str_pl": "handfuls of powder of revelation" },
+    "description": "A dull grayish powder with a slight shimmering opalescence.  When thrown it will fill the air and reveal the true form and existence of any creature whose form it coats.",
+    "type": "ITEM",
+    "weight": "265 g",
+    "volume": "250 ml",
+    "symbol": ":",
+    "container": "flask_glass",
+    "color": "light_gray",
+    "material": [ "powder" ],
+    "price": "2 USD",
+    "drop_action": { "type": "emit_actor", "emits": [ "emit_powder_of_revelation" ], "scale_qty": false }
+  },
+  {
     "id": "charm_of_marzanna",
     "copy-from": "garnet_silver_pendant_necklace",
     "type": "ITEM",

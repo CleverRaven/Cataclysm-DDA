@@ -138,6 +138,7 @@ static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
 static const json_character_flag json_flag_INVISIBLE( "INVISIBLE" );
 static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
 static const json_character_flag json_flag_LIMB_UPPER( "LIMB_UPPER" );
+static const json_character_flag json_flag_SUPPRESS_INVISIBILITY( "SUPPRESS_INVISIBILITY" );
 static const json_character_flag json_flag_TEEPSHIELD( "TEEPSHIELD" );
 static const json_character_flag json_flag_TRUE_SEEING( "TRUE_SEEING" );
 
@@ -557,8 +558,9 @@ bool Creature::sees( const map &here, const Creature &critter ) const
     }
 
     // Invisibility checked after stumbling and after invisibility detection methods
-    if( critter.has_effect_with_flag( json_flag_INVISIBLE ) ||
-        critter.has_flag( mon_flag_PERMANENT_INVISIBILITY ) ) {
+    if( ( critter.has_effect_with_flag( json_flag_INVISIBLE ) ||
+          critter.has_flag( mon_flag_PERMANENT_INVISIBILITY ) ) &&
+        !critter.has_effect_with_flag( json_flag_SUPPRESS_INVISIBILITY ) ) {
         return false;
     }
 

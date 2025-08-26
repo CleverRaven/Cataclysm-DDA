@@ -179,7 +179,8 @@
       { "item": "alchemy_recipe_scorpion_periapta", "prob": 1 },
       { "item": "alchemy_recipe_butterfly_periapta", "prob": 1 },
       { "item": "alchemy_recipe_spider_periapta", "prob": 1 },
-      { "item": "alchemy_recipe_cold_iron_ingot", "prob": 1 }
+      { "item": "alchemy_recipe_cold_iron_ingot", "prob": 1 },
+      { "item": "alchemy_recipe_powder_of_revelation", "prob": 1 }
     ]
   },
   {
