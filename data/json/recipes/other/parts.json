@@ -334,7 +334,7 @@
     "result": "ch_sheet_metal_small",
     "type": "recipe",
     "copy-from": "sheet_metal_small",
-    "using": [ [ "blacksmithing_standard", 4 ], [ "carbon", 1 ] ],
+    "extend": { "using": [ [ "carbon", 1 ] ] },
     "components": [ [ [ "lc_steel_chunk", 1 ] ] ]
   },
   {
