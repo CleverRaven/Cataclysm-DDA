@@ -1255,18 +1255,6 @@
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
-    "result": "mannequin_decoy",
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "fabrication",
-    "time": "10 s",
-    "reversible": true,
-    "autolearn": true,
-    "components": [ [ [ "talking_doll", 1 ], [ "creepy_doll", 1 ] ], [ [ "mannequin", 1 ] ] ]
-  },
-  {
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "result": "kevlar_shears",

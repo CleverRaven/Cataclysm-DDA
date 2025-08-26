@@ -2228,7 +2228,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Wanna play with me?\"",
     "volume": 10
   },
@@ -2270,85 +2270,85 @@
   },
   {
     "type": "speech",
-    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Sing with me!\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"I love you!\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Please take me with you!\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"May I have a cookie?\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Let's play together!\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Time to play!\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Om nom nom!  Delicious!\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Are you my mommy?\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Oh, how fun!\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"You're my best friend!\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Heehee!\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Let's have fun!\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Let's have a tea party!\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"You're the best!\"",
     "volume": 10
   },
