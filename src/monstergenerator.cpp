@@ -870,25 +870,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "status_chance_multiplier", status_chance_multiplier, numeric_bound_reader{0.0f, 5.0f},
               1.f );
 
-    if( !was_loaded || jo.has_array( "families" ) ) {
-        families.clear();
-        families.load( jo.get_array( "families" ) );
-    } else {
-        if( jo.has_object( "extend" ) ) {
-            JsonObject tmp = jo.get_object( "extend" );
-            tmp.allow_omitted_members();
-            if( tmp.has_array( "families" ) ) {
-                families.load( tmp.get_array( "families" ) );
-            }
-        }
-        if( jo.has_object( "delete" ) ) {
-            JsonObject tmp = jo.get_object( "delete" );
-            tmp.allow_omitted_members();
-            if( tmp.has_array( "families" ) ) {
-                families.remove( tmp.get_array( "families" ) );
-            }
-        }
-    }
+    optional( jo, was_loaded, "families", families );
 
     optional( jo, was_loaded, "absorb_ml_per_hp", absorb_ml_per_hp, 250 );
     optional( jo, was_loaded, "split_move_cost", split_move_cost, 200 );

@@ -200,6 +200,26 @@ void weakpoint_families::load( const JsonArray &ja )
     }
 }
 
+void weakpoint_families::deserialize( const JsonValue &jv )
+{
+    // the load function extends, which is kinda gross, but fine
+    clear();
+    load( jv.get_array() );
+}
+
+bool weakpoint_families::handle_extend( const JsonValue &jv )
+{
+    // the load function extends, which is fine I guess
+    load( jv.get_array() );
+    return true;
+}
+
+bool weakpoint_families::handle_delete( const JsonValue &jv )
+{
+    remove( jv.get_array() );
+    return true;
+}
+
 void weakpoint_families::remove( const JsonArray &ja )
 {
     for( const JsonValue jsin : ja ) {
