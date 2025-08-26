@@ -857,8 +857,9 @@ void mtype::load( const JsonObject &jo, const std::string_view src )
 
     optional( jo, was_loaded, "bodytype", bodytype );
     optional( jo, was_loaded, "color", color, nc_color_reader{}, c_white );
-    optional( jo, was_loaded, "volume", volume, units_bound_reader<units::volume> { 0_ml } );
-    optional( jo, was_loaded, "weight", weight, units_bound_reader<units::mass> { 0_gram } );
+    optional( jo, was_loaded, "volume", volume, units_bound_reader<units::volume> { 0_ml }, 62499_ml );
+    optional( jo, was_loaded, "weight", weight, units_bound_reader<units::mass> { 0_gram },
+              81499_gram );
 
     optional( jo, was_loaded, "phase", phase, make_flag_reader( gen.phase_map, "phase id" ),
               phase_id::SOLID );
@@ -998,7 +999,7 @@ void mtype::load( const JsonObject &jo, const std::string_view src )
 
     optional( jo, was_loaded, "dissect", dissect );
 
-    optional( jo, was_loaded, "decay", decay );
+    optional( jo, was_loaded, "decay", decay, harvest_id::NULL_ID() );
 
     optional( jo, was_loaded, "shearing", shearing );
 
