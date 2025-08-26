@@ -72,6 +72,7 @@ class map_extra
         bool was_loaded = false;
         void load( const JsonObject &jo, std::string_view src );
         static void finalize_all();
+        void finalize() const;
         void check() const;
     private:
         translation name_;
