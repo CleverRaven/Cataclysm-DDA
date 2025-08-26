@@ -36,15 +36,20 @@ struct enum_traits<jarg> {
     static constexpr bool is_flag_enum = true;
 };
 
+// DEPRECATED. use mandatory/optional, deserialize, or JsonValue::read
 str_or_var get_str_or_var( const JsonValue &jv, std::string_view member, bool required = true,
                            std::string_view default_val = "" );
+// DEPRECATED. use mandatory/optional, deserialize, or JsonValue::read
 translation_or_var get_translation_or_var( const JsonValue &jv, std::string_view member,
         bool required = true, const translation &default_val = {} );
+// DEPRECATED. use mandatory/optional, deserialize, or JsonValue::read
 dbl_or_var get_dbl_or_var( const JsonObject &jo, std::string_view member, bool required = true,
                            double default_val = 0.0 );
+// DEPRECATED. use mandatory/optional, deserialize, or JsonValue::read
 duration_or_var get_duration_or_var( const JsonObject &jo, std::string_view member,
                                      bool required = true,
                                      time_duration default_val = 0_seconds );
+// DEPRECATED. use mandatory/optional, deserialize, or JsonValue::read
 var_info read_var_info( const JsonObject &jo );
 void write_var_value( var_type type, const std::string &name, dialogue *d,
                       const std::string &value );

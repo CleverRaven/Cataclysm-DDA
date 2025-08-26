@@ -607,7 +607,7 @@ void enchantment::load( const JsonObject &jo, std::string_view,
                 }
             }
 
-            _vision.range = get_dbl_or_var( vision_obj, "distance" );
+            mandatory( vision_obj, was_loaded, "distance", _vision.range );
             read_condition( vision_obj, "condition", _vision.condition, true );
             optional( vision_obj, was_loaded, "precise", _vision.precise );
             optional( vision_obj, was_loaded, "ignores_aiming_cone", _vision.ignores_aiming_cone );
