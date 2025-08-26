@@ -894,23 +894,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "regenerates_in_dark", regenerates_in_dark, false );
     optional( jo, was_loaded, "regen_morale", regen_morale, false );
 
-    if( !was_loaded || jo.has_member( "regeneration_modifiers" ) ) {
-        regeneration_modifiers.clear();
-        add_regeneration_modifiers( jo, "regeneration_modifiers", src );
-    } else {
-        // Note: regeneration_modifers left as is, new modifiers are added to it!
-        // Note: member name prefixes are compatible with those used by generic_typed_reader
-        if( jo.has_object( "extend" ) ) {
-            JsonObject tmp = jo.get_object( "extend" );
-            tmp.allow_omitted_members();
-            add_regeneration_modifiers( tmp, "regeneration_modifiers", src );
-        }
-        if( jo.has_object( "delete" ) ) {
-            JsonObject tmp = jo.get_object( "delete" );
-            tmp.allow_omitted_members();
-            remove_regeneration_modifiers( tmp, "regeneration_modifiers", src );
-        }
-    }
+    optional( jo, was_loaded, "regeneration_modifiers", regeneration_modifiers,
+              weighted_string_id_reader<efftype_id, int> { 1 } );
 
     optional( jo, was_loaded, "starting_ammo", starting_ammo );
     assign( jo, "luminance", luminance, true );
@@ -1449,52 +1434,6 @@ void mtype::remove_special_attacks( const JsonObject &jo, std::string_view membe
         if( iter != special_attacks_names.end() ) {
             special_attacks_names.erase( iter );
         }
-    }
-}
-
-void mtype::add_regeneration_modifier( const JsonArray &inner, std::string_view )
-{
-    const std::string effect_name = inner.get_string( 0 );
-    const efftype_id effect( effect_name );
-    //TODO: if invalid effect, throw error
-    //  inner.throw_error( "Invalid regeneration_modifiers" );
-
-    if( regeneration_modifiers.count( effect ) > 0 ) {
-        regeneration_modifiers.erase( effect );
-        if( test_mode ) {
-            debugmsg( "%s specifies more than one regeneration modifier for effect %s, ignoring all but the last",
-                      id.c_str(), effect_name );
-        }
-    }
-    int amount = inner.get_int( 1 );
-    regeneration_modifiers.emplace( effect, amount );
-}
-
-void mtype::add_regeneration_modifiers( const JsonObject &jo, std::string_view member,
-                                        std::string_view src )
-{
-    if( !jo.has_array( member ) ) {
-        return;
-    }
-
-    for( const JsonValue entry : jo.get_array( member ) ) {
-        if( entry.test_array() ) {
-            add_regeneration_modifier( entry.get_array(), src );
-            // TODO: add support for regeneration_modifer objects
-            //} else if ( entry.test_object() ) {
-            //    add_regeneration_modifier( entry.get_object(), src );
-        } else {
-            entry.throw_error( "array element is not an array " );
-        }
-    }
-}
-
-void mtype::remove_regeneration_modifiers( const JsonObject &jo, std::string_view member_name,
-        std::string_view )
-{
-    for( const std::string &name : jo.get_tags( member_name ) ) {
-        const efftype_id effect( name );
-        regeneration_modifiers.erase( effect );
     }
 }
 
