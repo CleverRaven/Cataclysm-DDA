@@ -5564,6 +5564,7 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
             info.emplace_back( "BASE", ( stam_pct ? _( "about " ) : _( "less than " ) ), "",
                                iteminfo::no_newline | iteminfo::is_decimal | iteminfo::lower_is_better,
                                ( stam_pct > 0.1 ? stam_pct : 0.1 ) );
+            // xgettext:no-c-format
             info.emplace_back( "BASE", _( "% stamina to swing." ), "" );
         }
 

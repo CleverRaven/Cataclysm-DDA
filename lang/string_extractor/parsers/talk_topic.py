@@ -55,7 +55,7 @@ def parse_dynamic_line(json, origin, comment=[]):
 
     elif type(json) is dict:
         if "str" in json:
-            write_text(json, origin, comment=comment, c_format=False)
+            write_text(json, origin, comment=comment)
 
         if "gendered_line" in json:
             text = json["gendered_line"]
@@ -71,7 +71,7 @@ def parse_dynamic_line(json, origin, comment=[]):
             for context_list in itertools.product(*options):
                 context = " ".join(context_list)
                 write_text(text, origin, context=context,
-                           comment=gendered_comment, c_format=False)
+                           comment=gendered_comment)
 
         for key in dynamic_line_string_keys:
             if key in json:
@@ -79,22 +79,22 @@ def parse_dynamic_line(json, origin, comment=[]):
 
     elif type(json) is str:
         if not is_tag(json):
-            write_text(json, origin, comment=comment, c_format=False)
+            write_text(json, origin, comment=comment)
 
 
 def parse_response(json, origin):
     if "text" in json:
-        write_text(json["text"], origin, c_format=False,
+        write_text(json["text"], origin,
                    comment="Response to NPC dialogue")
 
     if "truefalsetext" in json:
-        write_text(json["truefalsetext"]["true"], origin, c_format=False,
+        write_text(json["truefalsetext"]["true"], origin,
                    comment="Affirmative response to NPC dialogue")
-        write_text(json["truefalsetext"]["false"], origin, c_format=False,
+        write_text(json["truefalsetext"]["false"], origin,
                    comment="Negative response to NPC dialogue")
 
     if "failure_explanation" in json:
-        write_text(json["failure_explanation"], origin, c_format=False,
+        write_text(json["failure_explanation"], origin,
                    comment="Failure explanation for NPC dialogue response")
 
     if "success" in json:

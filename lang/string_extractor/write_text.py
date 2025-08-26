@@ -1,3 +1,5 @@
+import re
+
 from .message import Message, messages, occurrences
 
 
@@ -11,8 +13,7 @@ def append_comment(comments, new_comment):
         return comments
 
 
-def write_text(json, origin, context="", comment="",
-               plural=False, c_format=True):
+def write_text(json, origin, context="", comment="", plural=False):
     """
     Record a text for translation.
 
@@ -22,7 +23,6 @@ def write_text(json, origin, context="", comment="",
         context (str): "context" as in GNU gettext
         comment: Translation comments in either string form or list of strings
         plural (bool): Whether the text should be pluralized
-        c_format (bool): Whether the text contains C-style format string
         explicit_plural (bool): Whether the plural is specified
                                 explicitly in JSON
     """
@@ -61,12 +61,9 @@ def write_text(json, origin, context="", comment="",
     if not text or "NO_I18N" in comments:
         return
 
-    format_tag = ""
-    if "%" in text:
-        if c_format:
-            format_tag = "c-format"
-        else:
-            format_tag = "no-c-format"
+    format_tag = None
+    if re.search(r"%\w", text):
+        format_tag = "c-format"
 
     if (context, text) not in messages:
         messages[(context, text)] = list()
@@ -79,11 +76,11 @@ def write_text(json, origin, context="", comment="",
 
 # Used in parse_effect and parse_condition
 def write_translation_or_var(json, origin, context="", comment="",
-                             plural=False, c_format=True):
+                             plural=False):
     if type(json) is dict and "default_str" in json:
         write_text(json["default_str"], origin, context=context,
                    comment="default value for {}".format(comment),
-                   plural=plural, c_format=c_format)
+                   plural=plural)
     else:
         write_text(json, origin, context=context, comment=comment,
-                   plural=plural, c_format=c_format)
+                   plural=plural)
