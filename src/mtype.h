@@ -26,6 +26,7 @@
 #include "weakpoint.h"
 
 class Creature;
+class JsonValue;
 class monster;
 enum class creature_size : int;
 enum class phase_id : int;
@@ -264,6 +265,8 @@ struct move_skills_data {
     bool was_loaded = false;
     void load( const JsonObject &jo );
     void deserialize( const JsonObject &data );
+    bool handle_extend( const JsonValue &jv );
+    bool handle_delete( const JsonValue &jv );
 };
 
 enum class mdeath_type {
