@@ -374,34 +374,5 @@
     "special_attacks": [ [ "DISAPPEAR", 200 ] ],
     "death_function": { "message": "The %s disappears.", "corpse_type": "NO_CORPSE" },
     "flags": [ "FLIES", "NO_BREATHE", "NOT_HALLUCINATION", "HARDTOSHOOT" ]
-  },
-  {
-    "id": "mon_mannequin_decoy",
-    "type": "MONSTER",
-    "name": { "str": "mannequin decoy" },
-    "description": "A human-sized mannequin, speaking pre-recorded phrases.",
-    "looks_like": "mon_hallucinator",
-    "default_faction": "factionless",
-    "species": [ "UNKNOWN" ],
-    "volume": "62500 ml",
-    "weight": "81500 g",
-    "hp": 20,
-    "speed": 1,
-    "symbol": "@",
-    "material": [ "wood" ],
-    "aggression": -99,
-    "morale": 100,
-    "special_attacks": [ [ "PARROT", 1 ], [ "DISAPPEAR", 2000 ] ],
-    "death_drops": {
-      "subtype": "collection",
-      "items": [
-        { "item": "mannequin", "prob": 100, "damage": [ 2, 4 ] },
-        { "item": "talking_doll", "prob": 100, "damage": [ 2, 4 ] }
-      ]
-    },
-    "death_function": { "message": "The %s falls over!", "corpse_type": "NO_CORPSE" },
-    "harvest": "exempt",
-    "revert_to_itype": "mannequin_decoy",
-    "flags": [ "IMMOBILE", "NO_BREATHE", "NOT_HALLUCINATION" ]
   }
 ]
