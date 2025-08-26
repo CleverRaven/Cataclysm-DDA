@@ -26,10 +26,6 @@ namespace FontPicker
 namespace fs = std::filesystem;
 
 static bool WantRebuild = false;
-static std::vector<const char *> hinting_types;
-static std::map<const char *, std::string> localized_hinting_types;
-static bool gui_font_detail_window_open;
-static bool mono_font_detail_window_open;
 
 static void ShowFontOptions( const char *label, const char *window_name, bool *detail_window_open,
                              ImFont *imfont, std::vector<font_config> &faces );
@@ -37,26 +33,35 @@ static void ShowFontDetailsWindow( const char *window_name, std::vector<font_con
                                    bool *p_open );
 static bool ShowFaceDetail( font_config &face, bool is_only_face );
 
-class FontPickerWindow : public cataimgui::window
+bool PreNewFrame()
 {
-    public:
-        explicit FontPickerWindow();
-    protected:
-        cataimgui::bounds get_bounds() override;
-        void draw_controls() override;
-};
-
-FontPickerWindow::FontPickerWindow() : cataimgui::window(
-        _( "Font Settings" ) )
-{
-    force_to_back = true;
-    window_flags = ImGuiWindowFlags_None;
+    if( !WantRebuild ) {
+        // no changes were made, but we want to redraw everything
+        // anyway so that our tooltips are erased
+        ui_manager::invalidate_all_ui_adaptors();
+        return false;
+    }
+    WantRebuild = false;
+    get_options().get_option( "GUI_FONT_SIZE" ).setValue( font_loader.gui_fontsize );
+    get_options().get_option( "FONT_WIDTH" ).setValue( font_loader.fontwidth = fontwidth );
+    get_options().get_option( "FONT_HEIGHT" ).setValue( font_loader.fontheight = fontheight );
+    get_options().get_option( "FONT_SIZE" ).setValue( font_loader.fontsize );
+    get_options().get_option( "MAP_FONT_WIDTH" ).setValue( font_loader.map_fontwidth );
+    get_options().get_option( "MAP_FONT_HEIGHT" ).setValue( font_loader.map_fontheight );
+    get_options().get_option( "MAP_FONT_SIZE" ).setValue( font_loader.map_fontsize );
+    get_options().get_option( "OVERMAP_FONT_WIDTH" ).setValue( font_loader.overmap_fontwidth );
+    get_options().get_option( "OVERMAP_FONT_HEIGHT" ).setValue( font_loader.overmap_fontheight );
+    get_options().get_option( "OVERMAP_FONT_SIZE" ).setValue( font_loader.overmap_fontsize );
+    get_options().save();
+    font_loader.save( PATH_INFO::fontdata() );
+    handle_font_size_change();
+    return true;
 }
 
-cataimgui::bounds FontPickerWindow::get_bounds()
-{
-    return {0.0f, -1.0f, -1.0f, -1.0f};
-}
+static std::vector<const char *> hinting_types;
+static std::map<const char *, std::string> localized_hinting_types;
+static bool gui_font_detail_window_open;
+static bool mono_font_detail_window_open;
 
 static void HelpMarker( const char *desc )
 {
@@ -70,7 +75,7 @@ static void HelpMarker( const char *desc )
     }
 }
 
-void FontPickerWindow::draw_controls()
+static void ShowPicker()
 {
     WantRebuild |= ImGui::SliderInt( _( "GUI Font Size" ), &font_loader.gui_fontsize, 6, 48,
                                      "%d px" );
@@ -115,64 +120,6 @@ void FontPickerWindow::draw_controls()
     ImGui::Separator();
     ShowFontOptions( _( "Monospace Font" ), _( "Monospace Font Fallback Order" ),
                      &mono_font_detail_window_open, imfonts[1], font_loader.typeface );
-}
-
-bool PreNewFrame()
-{
-    if( !WantRebuild ) {
-        // no changes were made, but we want to redraw everything
-        // anyway so that our tooltips are erased
-        ui_manager::invalidate_all_ui_adaptors();
-        return false;
-    }
-    WantRebuild = false;
-    get_options().get_option( "GUI_FONT_SIZE" ).setValue( font_loader.gui_fontsize );
-    get_options().get_option( "FONT_WIDTH" ).setValue( font_loader.fontwidth = fontwidth );
-    get_options().get_option( "FONT_HEIGHT" ).setValue( font_loader.fontheight = fontheight );
-    get_options().get_option( "FONT_SIZE" ).setValue( font_loader.fontsize );
-    get_options().get_option( "MAP_FONT_WIDTH" ).setValue( font_loader.map_fontwidth );
-    get_options().get_option( "MAP_FONT_HEIGHT" ).setValue( font_loader.map_fontheight );
-    get_options().get_option( "MAP_FONT_SIZE" ).setValue( font_loader.map_fontsize );
-    get_options().get_option( "OVERMAP_FONT_WIDTH" ).setValue( font_loader.overmap_fontwidth );
-    get_options().get_option( "OVERMAP_FONT_HEIGHT" ).setValue( font_loader.overmap_fontheight );
-    get_options().get_option( "OVERMAP_FONT_SIZE" ).setValue( font_loader.overmap_fontsize );
-    get_options().save();
-    font_loader.save( PATH_INFO::fontdata() );
-    handle_font_size_change();
-    return true;
-}
-
-// Call to draw UI
-void ShowFontsOptionsWindow()
-{
-    if( hinting_types.empty() ) {
-        hinting_types = { "Default", "Auto", "NoAuto", "Light", "None", "Bitmap", };
-        localized_hinting_types = { { "Default", _( "Default" ) },
-            { "Auto", _( "Auto" ) },
-            { "NoAuto", _( "NoAuto" ) },
-            { "Light", _( "Light" ) },
-            { "None", _( "None" ) },
-            { "Bitmap", _( "Bitmap" ) },
-        };
-    }
-    gui_font_detail_window_open = false;
-    mono_font_detail_window_open = false;
-
-    std::unique_ptr<FontPickerWindow> win = std::make_unique<FontPickerWindow>();
-    input_context ctxt = input_context();
-    ctxt.register_action( "QUIT" );
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-    bool loop = true;
-    do {
-        std::string act = ctxt.handle_input( 1 );
-        if( act == "QUIT" ) {
-            // TODO(db48x): this closes all the windows at once, which is a bit jarring.
-            loop = false;
-        } else if( act == "TIMEOUT" ) {
-            loop = true;
-        }
-        ui_manager::redraw();
-    } while( loop && win->get_is_open() );
 }
 
 static void ShowFontOptions( const char *label, const char *window_name,
@@ -337,6 +284,65 @@ static bool ShowFaceDetail( font_config &face, bool is_only_face )
     ImGui::EndGroup();
     ImGui::PopID();
     return clicked;
+}
+
+class FontPickerWindow : public cataimgui::window
+{
+    public:
+        explicit FontPickerWindow();
+    protected:
+        cataimgui::bounds get_bounds() override;
+        void draw_controls() override;
+};
+
+FontPickerWindow::FontPickerWindow() : cataimgui::window(
+        _( "Font Settings" ) )
+{
+    force_to_back = true;
+    window_flags = ImGuiWindowFlags_None;
+}
+
+cataimgui::bounds FontPickerWindow::get_bounds()
+{
+    return {0.0f, -1.0f, -1.0f, -1.0f};
+}
+
+void FontPickerWindow::draw_controls()
+{
+    ShowPicker();
+}
+
+// Call to draw UI
+void ShowFontsOptionsWindow()
+{
+    if( hinting_types.empty() ) {
+        hinting_types = { "Default", "Auto", "NoAuto", "Light", "None", "Bitmap", };
+        localized_hinting_types = { { "Default", _( "Default" ) },
+            { "Auto", _( "Auto" ) },
+            { "NoAuto", _( "NoAuto" ) },
+            { "Light", _( "Light" ) },
+            { "None", _( "None" ) },
+            { "Bitmap", _( "Bitmap" ) },
+        };
+    }
+    gui_font_detail_window_open = false;
+    mono_font_detail_window_open = false;
+
+    std::unique_ptr<FontPickerWindow> win = std::make_unique<FontPickerWindow>();
+    input_context ctxt = input_context();
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    bool loop = true;
+    do {
+        std::string act = ctxt.handle_input( 1 );
+        if( act == "QUIT" ) {
+            // TODO(db48x): this closes all the windows at once, which is a bit jarring.
+            loop = false;
+        } else if( act == "TIMEOUT" ) {
+            loop = true;
+        }
+        ui_manager::redraw();
+    } while( loop && win->get_is_open() );
 }
 
 } // FontPicker
