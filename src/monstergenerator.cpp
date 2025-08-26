@@ -762,6 +762,68 @@ void revive_type::deserialize( const JsonObject &jo )
     }
 }
 
+// this is a really gross reader - special_attacks and special_attacks_names really need to be one struct
+// Then this gets a lot less gross and a lot more safe!
+struct special_attacks_reader : generic_typed_reader<special_attacks_reader> {
+    friend class MonsterGenerator;
+    // For ordering purposes, we want to also grab the names when we load a special attack
+    std::vector<std::string> &names;
+
+    // special attacks load with src
+    std::string_view src;
+    mtype_id id;
+
+    special_attacks_reader( std::vector<std::string> &name_vec, std::string_view _src,
+                            mtype_id mtype ) : names( name_vec ), src( _src ), id( mtype ) {}
+
+    void report_double_def( const std::string &name, const JsonValue &jv ) const {
+        if( std::find( names.begin(), names.end(), name ) != names.end() ) {
+            jv.throw_error(
+                string_format( "%s specifies more than one attack of (sub)type %s, ignoring all but the last.  Add different `id`s to each attack of this type to prevent this.",
+                               id.c_str(), name ) );
+        }
+    }
+
+    std::pair<std::string, mtype_special_attack> get_next( const JsonValue &jv ) const {
+        MonsterGenerator &gen = MonsterGenerator::generator();
+        // only for delete
+        if( jv.test_string() ) {
+            std::string name = jv.get_string();
+            auto it = std::find( names.begin(), names.end(), name );
+            if( it == names.end() ) {
+                jv.throw_error(
+                    string_format( "Invalid special attack format or does not exist to delete for %s on %s",
+                                   name, id.str() ) );
+            }
+            names.erase( it );
+            return std::make_pair( name, mtype_special_attack( std::make_unique<invalid_mattack_actor>() ) );
+        }
+        if( jv.test_object() ) {
+            mtype_special_attack new_attack = gen.create_actor( jv.get_object(), std::string( src ) );
+            report_double_def( new_attack->id, jv );
+            names.push_back( new_attack->id );
+            return std::make_pair( new_attack->id, new_attack );
+        }
+        JsonArray inner = jv.get_array();
+        std::string name = inner.get_string( 0 );
+        const auto iter = gen.attack_map.find( name );
+        if( iter == gen.attack_map.end() ) {
+            inner.throw_error( "Invalid special_attacks" );
+        }
+        report_double_def( name, jv );
+
+        mtype_special_attack new_attack = mtype_special_attack( iter->second );
+        if( inner.has_array( 1 ) ) {
+            new_attack.actor->cooldown.min = get_dbl_or_var_part( inner.get_array( 1 )[0] );
+            new_attack.actor->cooldown.max = get_dbl_or_var_part( inner.get_array( 1 )[1] );
+        } else {
+            new_attack.actor->cooldown.min = get_dbl_or_var_part( inner[1] );
+        }
+        names.push_back( name );
+        return std::make_pair( name, new_attack );
+    }
+};
+
 void mtype::load( const JsonObject &jo, const std::string &src )
 {
     MonsterGenerator &gen = MonsterGenerator::generator();
@@ -958,24 +1020,18 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         def_chance = 0;
     }
 
-    if( !was_loaded || jo.has_member( "special_attacks" ) ) {
-        special_attacks.clear();
+    // this is really gross, and special_attacks + special_attacks_names should be combined into one struct
+    if( jo.has_member( "special_attacks" ) ) {
         special_attacks_names.clear();
-        add_special_attacks( jo, "special_attacks", src );
-    } else {
-        // Note: special_attacks left as is, new attacks are added to it!
-        // Note: member name prefixes are compatible with those used by generic_typed_reader
-        if( jo.has_object( "extend" ) ) {
-            JsonObject tmp = jo.get_object( "extend" );
-            tmp.allow_omitted_members();
-            add_special_attacks( tmp, "special_attacks", src );
-        }
-        if( jo.has_object( "delete" ) ) {
-            JsonObject tmp = jo.get_object( "delete" );
-            tmp.allow_omitted_members();
-            remove_special_attacks( tmp, "special_attacks", src );
+    }
+    optional( jo, was_loaded, "special_attacks", special_attacks, special_attacks_reader{special_attacks_names, src, id} );
+    // to be extra safe
+    for( const std::pair<const std::string, mtype_special_attack> &atk : special_attacks ) {
+        if( dynamic_cast<const invalid_mattack_actor *>( atk.second.get() ) != nullptr ) {
+            jo.throw_error( string_format( "Invalid special attack format for %s", atk.first ) );
         }
     }
+
     optional( jo, was_loaded, "melee_training_cap", melee_training_cap, std::min( melee_skill + 2,
               MAX_SKILL ) );
     optional( jo, was_loaded, "chat_topics", chat_topics );
@@ -1326,6 +1382,8 @@ mtype_special_attack MonsterGenerator::create_actor( const JsonObject &obj,
         new_attack = std::make_unique<gun_actor>();
     } else if( attack_type == "spell" ) {
         new_attack = std::make_unique<mon_spellcasting_actor>();
+    } else if( attack_type == "invalid" ) {
+        new_attack = std::make_unique<invalid_mattack_actor>();
     } else {
         obj.throw_error_at( "attack_type", "unknown monster attack" );
     }
@@ -1354,87 +1412,6 @@ void mattack_actor::load( const JsonObject &jo, const std::string &src )
 void MonsterGenerator::load_monster_attack( const JsonObject &jo, const std::string &src )
 {
     add_attack( create_actor( jo, src ) );
-}
-
-void mtype::add_special_attack( const JsonObject &obj, const std::string &src )
-{
-    mtype_special_attack new_attack = MonsterGenerator::generator().create_actor( obj, src );
-
-    if( special_attacks.count( new_attack->id ) > 0 ) {
-        special_attacks.erase( new_attack->id );
-        const auto iter = std::find( special_attacks_names.begin(), special_attacks_names.end(),
-                                     new_attack->id );
-        if( iter != special_attacks_names.end() ) {
-            special_attacks_names.erase( iter );
-        }
-        debugmsg( "%s specifies more than one attack of (sub)type %s, ignoring all but the last.  Add different `id`s to each attack of this type to prevent this.",
-                  id.c_str(), new_attack->id.c_str() );
-    }
-
-    special_attacks.emplace( new_attack->id, new_attack );
-    special_attacks_names.push_back( new_attack->id );
-}
-
-void mtype::add_special_attack( const JsonArray &inner, std::string_view )
-{
-    MonsterGenerator &gen = MonsterGenerator::generator();
-    const std::string name = inner.get_string( 0 );
-    const auto iter = gen.attack_map.find( name );
-    if( iter == gen.attack_map.end() ) {
-        inner.throw_error( "Invalid special_attacks" );
-    }
-
-    if( special_attacks.count( name ) > 0 ) {
-        special_attacks.erase( name );
-        const auto iter = std::find( special_attacks_names.begin(), special_attacks_names.end(), name );
-        if( iter != special_attacks_names.end() ) {
-            special_attacks_names.erase( iter );
-        }
-        if( test_mode ) {
-            debugmsg( "%s specifies more than one attack of (sub)type %s, ignoring all but the last",
-                      id.c_str(), name );
-        }
-    }
-    mtype_special_attack new_attack = mtype_special_attack( iter->second );
-    if( inner.has_array( 1 ) ) {
-        new_attack.actor->cooldown.min = get_dbl_or_var_part( inner.get_array( 1 )[0] );
-        new_attack.actor->cooldown.max = get_dbl_or_var_part( inner.get_array( 1 )[1] );
-    } else {
-        new_attack.actor->cooldown.min = get_dbl_or_var_part( inner[1] );
-    }
-    special_attacks.emplace( name, new_attack );
-    special_attacks_names.push_back( name );
-}
-
-void mtype::add_special_attacks( const JsonObject &jo, std::string_view member,
-                                 const std::string &src )
-{
-
-    if( !jo.has_array( member ) ) {
-        return;
-    }
-
-    for( const JsonValue entry : jo.get_array( member ) ) {
-        if( entry.test_array() ) {
-            add_special_attack( entry.get_array(), src );
-        } else if( entry.test_object() ) {
-            add_special_attack( entry.get_object(), src );
-        } else {
-            entry.throw_error( "array element is neither array nor object." );
-        }
-    }
-}
-
-void mtype::remove_special_attacks( const JsonObject &jo, std::string_view member_name,
-                                    std::string_view )
-{
-    for( const std::string &name : jo.get_tags( member_name ) ) {
-        special_attacks.erase( name );
-        const auto iter = std::find( special_attacks_names.begin(), special_attacks_names.end(), name );
-        if( iter != special_attacks_names.end() ) {
-            special_attacks_names.erase( iter );
-        }
-    }
 }
 
 void MonsterGenerator::check_monster_definitions() const
