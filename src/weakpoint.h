@@ -198,6 +198,10 @@ struct weakpoints {
     void finalize();
     void check() const;
 
+    void deserialize( const JsonValue &jv );
+    bool handle_extend( const JsonValue &jv );
+    bool handle_delete( const JsonValue &jv );
+
     /********************* weakpoint_set handling ****************************/
     // load standalone JSON type
     void load( const JsonObject &jo, std::string_view src );

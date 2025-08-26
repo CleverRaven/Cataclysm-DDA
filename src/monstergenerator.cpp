@@ -862,58 +862,10 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     // Load each set of weakpoints.
     // Each subsequent weakpoint set overwrites
     // matching weakpoints from the previous set.
-    if( jo.has_array( "weakpoint_sets" ) ) {
-        weakpoints_deferred.clear();
-        for( JsonValue jval : jo.get_array( "weakpoint_sets" ) ) {
-            weakpoints_deferred.emplace_back( jval.get_string() );
-        }
-    }
-
+    optional( jo, was_loaded, "weakpoint_sets", weakpoints_deferred, auto_flags_reader<weakpoints_id> {} );
     // Finally, inline weakpoints overwrite
     // any matching weakpoints from the previous sets.
-    if( jo.has_array( "weakpoints" ) ) {
-        weakpoints_deferred_inline.clear();
-        ::weakpoints tmp_wp;
-        tmp_wp.load( jo.get_array( "weakpoints" ) );
-        weakpoints_deferred_inline.add_from_set( tmp_wp, true );
-    }
-
-    if( jo.has_object( "extend" ) ) {
-        JsonObject tmp = jo.get_object( "extend" );
-        tmp.allow_omitted_members();
-        if( tmp.has_array( "weakpoint_sets" ) ) {
-            for( JsonValue jval : tmp.get_array( "weakpoint_sets" ) ) {
-                weakpoints_deferred.emplace_back( jval.get_string() );
-            }
-        }
-        if( tmp.has_array( "weakpoints" ) ) {
-            ::weakpoints tmp_wp;
-            tmp_wp.load( tmp.get_array( "weakpoints" ) );
-            weakpoints_deferred_inline.add_from_set( tmp_wp, true );
-        }
-    }
-
-    if( jo.has_object( "delete" ) ) {
-        JsonObject tmp = jo.get_object( "delete" );
-        tmp.allow_omitted_members();
-        if( tmp.has_array( "weakpoint_sets" ) ) {
-            for( JsonValue jval : tmp.get_array( "weakpoint_sets" ) ) {
-                weakpoints_id set_id( jval.get_string() );
-                auto iter = std::find( weakpoints_deferred.begin(), weakpoints_deferred.end(), set_id );
-                if( iter != weakpoints_deferred.end() ) {
-                    weakpoints_deferred.erase( iter );
-                }
-            }
-        }
-        if( tmp.has_array( "weakpoints" ) ) {
-            ::weakpoints tmp_wp;
-            tmp_wp.load( tmp.get_array( "weakpoints" ) );
-            for( const weakpoint &wp_del : tmp_wp.weakpoint_list ) {
-                weakpoints_deferred_deleted.emplace( wp_del.id );
-            }
-            weakpoints_deferred_inline.del_from_set( tmp_wp );
-        }
-    }
+    optional( jo, was_loaded, "weakpoints", weakpoints_deferred_inline, weakpoints_reader{weakpoints_deferred_deleted} );
 
     optional( jo, was_loaded, "status_chance_multiplier", status_chance_multiplier, numeric_bound_reader{0.0f, 5.0f},
               1.f );
