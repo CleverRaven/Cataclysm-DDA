@@ -1137,49 +1137,7 @@ void mtype::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "burn_into", burn_into, string_id_reader<::mtype> {},
               mtype_id::NULL_ID() );
 
-    if( jo.has_member( "flags" ) ) {
-        pre_flags_.clear();
-        if( jo.has_string( "flags" ) ) {
-            pre_flags_.emplace( jo.get_string( "flags" ) );
-        } else {
-            for( JsonValue jval : jo.get_array( "flags" ) ) {
-                pre_flags_.emplace( jval.get_string() );
-            }
-        }
-    } else {
-        if( jo.has_member( "extend" ) ) {
-            JsonObject exjo = jo.get_object( "extend" );
-            exjo.allow_omitted_members();
-            if( exjo.has_member( "flags" ) ) {
-                if( exjo.has_string( "flags" ) ) {
-                    pre_flags_.emplace( exjo.get_string( "flags" ) );
-                } else {
-                    for( JsonValue jval : exjo.get_array( "flags" ) ) {
-                        pre_flags_.emplace( jval.get_string() );
-                    }
-                }
-            }
-        }
-        if( jo.has_member( "delete" ) ) {
-            JsonObject deljo = jo.get_object( "delete" );
-            deljo.allow_omitted_members();
-            if( deljo.has_member( "flags" ) ) {
-                if( deljo.has_string( "flags" ) ) {
-                    auto iter = pre_flags_.find( mon_flag_str_id( deljo.get_string( "flags" ) ) );
-                    if( iter != pre_flags_.end() ) {
-                        pre_flags_.erase( iter );
-                    }
-                } else {
-                    for( JsonValue jval : deljo.get_array( "flags" ) ) {
-                        auto iter = pre_flags_.find( mon_flag_str_id( jval.get_string() ) );
-                        if( iter != pre_flags_.end() ) {
-                            pre_flags_.erase( iter );
-                        }
-                    }
-                }
-            }
-        }
-    }
+    optional( jo, was_loaded, "flags", pre_flags_, string_id_reader<mon_flag> {} );
 
     // Can't calculate yet - we want all flags first
     optional( jo, was_loaded, "bash_skill", bash_skill, -1 );
@@ -1218,49 +1176,7 @@ void species_type::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "description", description );
     optional( jo, was_loaded, "footsteps", footsteps, to_translation( "footsteps." ) );
 
-    if( jo.has_member( "flags" ) ) {
-        flags.clear();
-        if( jo.has_string( "flags" ) ) {
-            flags.emplace( jo.get_string( "flags" ) );
-        } else {
-            for( JsonValue jval : jo.get_array( "flags" ) ) {
-                flags.emplace( jval.get_string() );
-            }
-        }
-    } else {
-        if( jo.has_member( "extend" ) ) {
-            JsonObject exjo = jo.get_object( "extend" );
-            exjo.allow_omitted_members();
-            if( exjo.has_member( "flags" ) ) {
-                if( exjo.has_string( "flags" ) ) {
-                    flags.emplace( exjo.get_string( "flags" ) );
-                } else {
-                    for( JsonValue jval : exjo.get_array( "flags" ) ) {
-                        flags.emplace( jval.get_string() );
-                    }
-                }
-            }
-        }
-        if( jo.has_member( "delete" ) ) {
-            JsonObject deljo = jo.get_object( "delete" );
-            deljo.allow_omitted_members();
-            if( deljo.has_member( "flags" ) ) {
-                if( deljo.has_string( "flags" ) ) {
-                    auto iter = flags.find( mon_flag_str_id( deljo.get_string( "flags" ) ) );
-                    if( iter != flags.end() ) {
-                        flags.erase( iter );
-                    }
-                } else {
-                    for( JsonValue jval : deljo.get_array( "flags" ) ) {
-                        auto iter = flags.find( mon_flag_str_id( jval.get_string() ) );
-                        if( iter != flags.end() ) {
-                            flags.erase( iter );
-                        }
-                    }
-                }
-            }
-        }
-    }
+    optional( jo, was_loaded, "flags", flags, string_id_reader<mon_flag> {} );
 
     const auto trigger_reader = enum_flags_reader<mon_trigger> { "monster trigger" };
     optional( jo, was_loaded, "anger_triggers", anger, trigger_reader );
