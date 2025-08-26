@@ -8899,7 +8899,7 @@ void map::spawn_monsters_submap_group( const tripoint_rel_sm &gp, mongroup &grou
         ignore_sight = true;
     }
 
-    static const auto allow_on_terrain = [&]( const tripoint_bub_ms & p ) {
+    const auto allow_on_terrain = [&]( const tripoint_bub_ms & p ) {
         // TODO: flying creatures should be allowed to spawn without a floor,
         // but the new creature is created *after* determining the terrain, so
         // we can't check for it here.
