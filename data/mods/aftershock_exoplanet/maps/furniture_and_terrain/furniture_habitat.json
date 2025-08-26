@@ -122,7 +122,7 @@
       ]
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.1, "mass": 500000, "volume": "300 L" }
+    "workbench": { "multiplier": 1.1, "mass": "500 kg", "volume": "300 L" }
   },
   {
     "type": "furniture",
@@ -193,7 +193,7 @@
       ]
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "50L" }
+    "workbench": { "multiplier": 1.1, "mass": "200 kg", "volume": "50L" }
   },
   {
     "type": "furniture",
@@ -231,7 +231,7 @@
       ]
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75L" }
+    "workbench": { "multiplier": 1.1, "mass": "200 kg", "volume": "75L" }
   },
   {
     "type": "furniture",

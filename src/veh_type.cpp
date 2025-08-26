@@ -287,14 +287,14 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     assign( jo, "fuel_type", fuel_type, strict );
     assign( jo, "default_ammo", default_ammo, strict );
     assign( jo, "folded_volume", folded_volume, strict );
-    assign( jo, "size", size, strict );
+    optional( jo, was_loaded, "size", size );
     assign( jo, "bonus", bonus, strict );
     assign( jo, "cargo_weight_modifier", cargo_weight_modifier, strict );
     assign( jo, "categories", categories, strict );
     assign( jo, "flags", flags, strict );
     assign( jo, "description", description, strict );
-    assign( jo, "color", color, strict );
-    assign( jo, "broken_color", color_broken, strict );
+    optional( jo, was_loaded, "color", color, nc_color_reader{} );
+    optional( jo, was_loaded, "broken_color", color_broken, nc_color_reader{} );
     assign( jo, "comfort", comfort, strict );
     int legacy_floor_bedding_warmth = units::to_legacy_bodypart_temp_delta( floor_bedding_warmth );
     assign( jo, "floor_bedding_warmth", legacy_floor_bedding_warmth, strict );

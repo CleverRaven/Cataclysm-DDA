@@ -484,7 +484,7 @@ void overmap_land_use_code::load( const JsonObject &jo, const std::string &src )
                                     << id.c_str() << " (" << name << ")";
     }
 
-    assign( jo, "color", color );
+    optional( jo, was_loaded, "color", color, nc_color_reader{} );
 
 }
 
@@ -860,7 +860,7 @@ void oter_vision::level::deserialize( const JsonObject &jo )
     }
     mandatory( jo, false, "name", name );
     mandatory( jo, false, "sym", symbol, unicode_codepoint_from_symbol_reader );
-    assign( jo, "color", color );
+    optional( jo, false, "color", color, nc_color_reader{} );
     optional( jo, false, "looks_like", looks_like );
 }
 
@@ -924,7 +924,7 @@ void oter_type_t::load( const JsonObject &jo, const std::string &src )
     assign( jo, "entry_eoc", entry_EOC, strict );
     assign( jo, "exit_eoc", exit_EOC, strict );
     assign( jo, "spawns", static_spawns, strict );
-    assign( jo, "color", color );
+    optional( jo, was_loaded, "color", color, nc_color_reader{} );
     assign( jo, "land_use_code", land_use_code, strict );
 
     if( jo.has_member( "looks_like" ) ) {

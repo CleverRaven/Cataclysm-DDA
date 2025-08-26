@@ -16,8 +16,6 @@
 #include "flexbuffer_json.h"
 #include "units.h"
 
-class nc_color;
-
 namespace detail
 {
 template<typename ...T>
@@ -199,40 +197,6 @@ std::enable_if_t<std::is_constructible_v<T, std::string>, bool>assign(
 {
     return details::assign_set<T, cata::flat_set<T>>( jo, name, val );
 }
-
-//TO-DO: remove specifically-typed bounded assigns
-bool assign( const JsonObject &jo, std::string_view name, units::volume &val,
-             bool strict = false,
-             units::volume lo = units::volume::min(),
-             units::volume hi = units::volume::max() );
-
-bool assign( const JsonObject &jo, std::string_view name, units::mass &val,
-             bool strict = false,
-             units::mass lo = units::mass::min(),
-             units::mass hi = units::mass::max() );
-
-bool assign( const JsonObject &jo, std::string_view name, units::length &val,
-             bool strict = false,
-             units::length lo = units::length::min(),
-             units::length hi = units::length::max() );
-
-bool assign( const JsonObject &jo, std::string_view name, units::money &val,
-             bool strict = false,
-             units::money lo = units::money::min(),
-             units::money hi = units::money::max() );
-
-bool assign( const JsonObject &jo, std::string_view name, units::energy &val,
-             bool strict = false,
-             units::energy lo = units::energy::min(),
-             units::energy hi = units::energy::max() );
-
-bool assign( const JsonObject &jo, std::string_view name, units::power &val,
-             bool strict = false,
-             units::power lo = units::power::min(),
-             units::power hi = units::power::max() );
-
-bool assign( const JsonObject &jo, const std::string &name, nc_color &val,
-             bool strict = false );
 
 template<typename T>
 inline

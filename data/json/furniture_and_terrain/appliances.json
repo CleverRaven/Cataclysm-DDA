@@ -1020,7 +1020,7 @@
       "removal": { "time": "1 m" }
     },
     "pseudo_tools": [ { "id": "microwave" } ],
-    "size": 20,
+    "size": "5 L",
     "breaks_into": [
       { "item": "plastic_chunk", "count": [ 4, 7 ] },
       { "item": "mc_steel_chunk", "count": [ 3, 6 ] },
