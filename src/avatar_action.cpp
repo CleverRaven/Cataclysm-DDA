@@ -56,7 +56,6 @@
 #include "ranged.h"
 #include "ret_val.h"
 #include "rng.h"
-#include "string_formatter.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"

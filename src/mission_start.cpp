@@ -234,7 +234,7 @@ void mission_start::place_deposit_box( mission *miss )
             }
         }
     }
-    const tripoint_omt_ms fallback( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), site.z() );
+    const tripoint_omt_ms fallback = rng_map_point<tripoint_omt_ms>( 6, site.z() );
     const tripoint_omt_ms comppoint = random_entry( valid, fallback );
     compmap.spawn_item( comppoint, itype_safe_box );
     compmap.save();

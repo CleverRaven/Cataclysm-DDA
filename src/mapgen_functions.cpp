@@ -18,11 +18,11 @@
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "cuboid_rectangle.h"
-#include "debug.h"
 #include "flood_fill.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
+#include "mapdata.h"
 #include "mapgen.h"
 #include "mapgendata.h"
 #include "mapgenformat.h"
@@ -73,38 +73,6 @@ static const ter_str_id ter_t_water_moving_sh( "t_water_moving_sh" );
 static const ter_str_id ter_t_water_sh( "t_water_sh" );
 
 static const vspawn_id VehicleSpawn_default_subway_deadend( "default_subway_deadend" );
-
-tripoint_bub_ms rotate_point( const tripoint_bub_ms &p, int rotations )
-{
-    if( p.x() < 0 || p.x() >= SEEX * 2 ||
-        p.y() < 0 || p.y() >= SEEY * 2 ) {
-        debugmsg( "Point out of range: %d,%d,%d", p.x(), p.y(), p.z() );
-        // Mapgen is vulnerable, don't supply invalid points, debugmsg is enough
-        return tripoint_bub_ms( 0, 0, p.z() );
-    }
-
-    rotations = rotations % 4;
-
-    tripoint_bub_ms ret = p;
-    switch( rotations ) {
-        case 0:
-            break;
-        case 1:
-            ret.x() = p.y();
-            ret.y() = SEEX * 2 - 1 - p.x();
-            break;
-        case 2:
-            ret.x() = SEEX * 2 - 1 - p.x();
-            ret.y() = SEEY * 2 - 1 - p.y();
-            break;
-        case 3:
-            ret.x() = SEEY * 2 - 1 - p.y();
-            ret.y() = p.x();
-            break;
-    }
-
-    return ret;
-}
 
 building_gen_pointer get_mapgen_cfunction( const std::string &ident )
 {

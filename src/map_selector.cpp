@@ -76,6 +76,12 @@ std::optional<tripoint_bub_ms> random_point( const tripoint_range<tripoint_bub_m
     return random_entry( suitable );
 }
 
+int rng_map_coord( int border )
+{
+    // this assumes SEEY==SEEX
+    return rng( border, SEEX * 2 - 1 - border );
+}
+
 map_cursor::map_cursor( const tripoint_bub_ms &pos ) : pos_abs_( g ? get_map().get_abs(
                 pos ) : tripoint_abs_ms::zero ), pos_bub_( g ? tripoint_bub_ms::zero : pos ) { }
 

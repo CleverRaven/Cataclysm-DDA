@@ -10618,7 +10618,7 @@ void Character::place_corpse( const tripoint_abs_omt &om_target )
     bay.load( om_target, false );
     // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
     swap_map swap( *bay.cast_to_map() );
-    point_omt_ms fin( rng( 1, SEEX * 2 - 2 ), rng( 1, SEEX * 2 - 2 ) );
+    point_omt_ms fin = rng_map_point<point_omt_ms>( 1 );
     // This makes no sense at all. It may find a random tile without furniture, but
     // if the first try to find one fails, it will go through all tiles of the map
     // and essentially select the last one that has no furniture.
