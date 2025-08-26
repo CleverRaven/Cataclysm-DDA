@@ -421,11 +421,7 @@ nc_color widget_clause::get_color_for_id( const std::string &clause_id, const wi
 
 void widget_custom_var::deserialize( const JsonObject &jo )
 {
-    if( jo.has_member( "value" ) ) {
-        value = get_dbl_or_var_part( jo.get_member( "value" ) );
-    } else {
-        jo.throw_error( "missing mandatory member \"value\"" );
-    }
+    mandatory( jo, false, "value", value );
 
     if( jo.has_array( "range" ) ) {
         JsonArray range = jo.get_array( "range" );
