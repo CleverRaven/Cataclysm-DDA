@@ -45,6 +45,7 @@
 #include "end_screen.h"
 #include "event_statistics.h"
 #include "faction.h"
+#include "faction_camp.h"
 #include "fault.h"
 #include "field_type.h"
 #include "filesystem.h"
@@ -464,6 +465,7 @@ void DynamicDataLoader::initialize()
     add( "damage_type", &damage_type::load_damage_types );
     add( "damage_info_order", &damage_info_order::load_damage_info_orders );
     add( "mod_migration", &mod_migrations::load );
+    add( "faction_mission", &faction_mission::load_faction_missions );
 #if defined(TILES)
     add( "mod_tileset", &load_mod_tileset );
 #else
@@ -627,6 +629,7 @@ void DynamicDataLoader::unload_data()
     event_statistic::reset();
     effect_on_conditions::reset();
     event_transformation::reset();
+    faction_mission::reset();
     faction_template::reset();
     faults::reset();
     field_types::reset();
@@ -953,7 +956,8 @@ void DynamicDataLoader::check_consistency()
             { _( "Achievements" ), &achievement::check_consistency },
             { _( "Disease types" ), &disease_type::check_disease_consistency },
             { _( "Factions" ), &faction_template::check_consistency },
-            { _( "Damage types" ), &damage_type::check }
+            { _( "Damage types" ), &damage_type::check },
+            { _( "Faction missions" ), &faction_mission::check_consistency }
         }
     };
 
