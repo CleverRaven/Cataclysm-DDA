@@ -263,6 +263,12 @@ const memorized_tile &avatar::get_memorized_tile( const tripoint_abs_ms &p ) con
     return mm_submap::default_tile;
 }
 
+bool avatar::has_memory_at( const tripoint_abs_ms &p ) const
+{
+    const memorized_tile &mt = get_memorized_tile( p );
+    return !mt.get_ter_id().empty() || !mt.get_dec_id().empty();
+}
+
 void avatar::memorize_terrain( const tripoint_abs_ms &p, std::string_view id,
                                int subtile, int rotation )
 {

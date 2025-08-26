@@ -1520,22 +1520,26 @@ firestarter_actor::start_type firestarter_actor::prep_firestarter_use( Character
             return start_type::NONE;
         }
     }
-    // Check for an adjacent fire container
-    for( const tripoint_bub_ms &query : here->points_in_radius( pos, 1 ) ) {
-        // Don't ask if we're setting a fire on top of a fireplace
-        if( here->has_flag_furn( "FIRE_CONTAINER", pos ) ) {
-            break;
-        }
-        // Skip the position we're trying to light on fire
-        if( query == pos ) {
-            continue;
-        }
-        if( here->has_flag_furn( "FIRE_CONTAINER", query ) ) {
-            if( !query_yn( _( "Are you sure you want to start fire here?  There's a fireplace adjacent." ) ) ) {
-                return start_type::NONE;
-            } else {
-                // Don't ask multiple times if they say no and there are multiple fireplaces
-                break;
+    // Don't check if we're setting a fire on top of a fireplace
+    if( !here->has_flag_furn( "FIRE_CONTAINER", pos ) ) {
+        // Check for an adjacent fire container
+        for( const tripoint_bub_ms &query : here->points_in_radius( pos, 1 ) ) {
+            // Skip the position we're trying to light on fire
+            if( query == pos ) {
+                continue;
+            }
+            // Skip positions we've never seen
+            if( p.is_avatar() && !p.as_avatar()->has_memory_at( here->get_abs( query ) ) ) {
+                continue;
+            }
+            if( here->has_flag_ter_or_furn( "FIRE_CONTAINER", query ) ) {
+                if( !query_yn(
+                        _( "Are you sure you want to start fire here?  There's a much more appropriate spot adjacent." ) ) ) {
+                    return start_type::NONE;
+                } else {
+                    // Don't ask multiple times if they say no and there are multiple fireplaces
+                    break;
+                }
             }
         }
     }
