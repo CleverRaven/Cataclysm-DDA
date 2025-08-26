@@ -111,7 +111,7 @@ static void ShowPicker()
     WantRebuild |= ImGui::SliderInt( _( "Overmap Font Size" ), &font_loader.overmap_fontsize, 6,
                                      48, "%d px" );
     HelpMarker(
-        _( "Size of the font drawn insidet used to display the world map, unless you use a tileset for that." ) );
+        _( "Size of the font used to display the world map, unless you use a tileset for that." ) );
 
     ImGui::Separator();
     auto imfonts = ImGui::GetIO().Fonts->Fonts;
@@ -190,6 +190,7 @@ static void ShowFontDetailsWindow( const char *window_name,
         ImGui::AlignTextToFramePadding();
         ImGui::TextWrapped( "%s", _( "Later fonts are used as fallbacks when a glyph "
                                      "cannot be found in an earlier font." ) );
+        HelpMarker( _( "Drag and drop to reorder the list." ) );
 
         ImGui::Separator();
         ImGui::Indent();
@@ -231,14 +232,11 @@ static bool ShowFaceDetail( font_config &face, bool is_only_face )
 {
     fs::path filename = fs::u8path( face.path ).filename();
     ImGui::PushID( face.path.c_str() );
+    ImGui::SetNextItemAllowOverlap();
     ImGui::BeginGroup();
     ImGui::AlignTextToFramePadding();
     ImVec2 pos = ImGui::GetCursorScreenPos();
-    ImGui::SetNextItemAllowOverlap();
     ImGui::TextDisabled( "%s", ICON_IGFD_FILE_LIST );
-    ImGui::SetCursorScreenPos( pos );
-    ImVec2 grab_size = ImGui::CalcTextSize( ICON_IGFD_FILE_LIST );
-    ImGui::InvisibleButton( "grab", grab_size );
     ImGui::SameLine();
     ImGui::BeginDisabled( is_only_face );
     bool clicked = ImGui::Button( ICON_IGFD_REMOVE );
@@ -282,6 +280,16 @@ static bool ShowFaceDetail( font_config &face, bool is_only_face )
         ImGui::TextUnformatted( _( "Warning: the specified file does not exist; ignoring it." ) );
     }
     ImGui::EndGroup();
+    ImVec2 min = ImGui::GetItemRectMin();
+    ImVec2 max = ImGui::GetItemRectMax();
+    ImGui::SetCursorScreenPos( pos );
+    ImVec2 grab_size = max - min;
+    ImGui::InvisibleButton( "grab", grab_size );
+    if( ImGui::IsItemHovered() ) {
+        ImVec2 spacing = ImGui::GetStyle().ItemSpacing;
+        ImU32 color = ImGui::GetColorU32( ImGuiCol_TextSelectedBg );
+        ImGui::GetWindowDrawList()->AddRect( min - spacing, max + spacing, color );
+    }
     ImGui::PopID();
     return clicked;
 }
