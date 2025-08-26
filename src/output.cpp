@@ -1163,7 +1163,7 @@ static std::string format_table( std::string_view s )
         return table;
     }
 
-    std::vector<std::string> header = string_split( rows[0], ',' );
+    std::vector<std::string> header = string_split( rows[0], ';' );
     table += header[0] + ":";
     for( size_t col = 1; col < header.size(); col++ ) {
         table += ( col == 1 ? " " : ", " ) + header[col];
@@ -1176,7 +1176,7 @@ static std::string format_table( std::string_view s )
         if( rows[row].empty() ) {
             continue;
         }
-        std::vector<std::string> cols = string_split( rows[row], ',' );
+        std::vector<std::string> cols = string_split( rows[row], ';' );
         table += "  " + cols[0] + ":";
         for( size_t i = 1; i < cols.size(); i++ ) {
             table += ( i == 1 ? " " : ", " ) + cols[i];
@@ -1311,7 +1311,7 @@ static int get_num_cols( std::vector<std::string> &rows )
     int cols = 0;
 
     for( const std::string &row : rows ) {
-        cols = std::max( cols, static_cast<int>( string_split( row, ',' ).size() ) );
+        cols = std::max( cols, static_cast<int>( string_split( row, ';' ).size() ) );
     }
 
     return cols;
@@ -1328,7 +1328,7 @@ static void draw_table( std::string_view s )
 
     if( ImGui::BeginTable( "##ITEMINFO_TABLE", num_cols,
                            ImGuiTableFlags_BordersH | ImGuiTableFlags_BordersV ) ) {
-        const std::vector<std::string> chopped_up = string_split( rows.front(), ',' );
+        const std::vector<std::string> chopped_up = string_split( rows.front(), ';' );
         for( const std::string &cell_text : chopped_up ) {
             // this prefix prevents imgui from drawing the text. We still have color tags, which imgui won't parse, so we don't want those exposed to the user.
             // But we still want proper column IDs. So we put them in, but we *hide them* with this.
@@ -1352,7 +1352,7 @@ static void draw_table( std::string_view s )
                 continue;
             }
             ImGui::TableNextRow();
-            const std::vector<std::string> delimited_strings = string_split( rows[i], ',' );
+            const std::vector<std::string> delimited_strings = string_split( rows[i], ';' );
             for( const std::string &text : delimited_strings ) {
                 ImGui::TableNextColumn();
                 cataimgui::draw_colored_text( text, c_unset );
