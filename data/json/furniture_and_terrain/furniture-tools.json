@@ -1693,10 +1693,10 @@
   },
   {
     "type": "furniture",
-    "id": "f_oil_press_electric",
+    "id": "f_oil_press_industrial",
     "name": "industrial oil press",
     "looks_like": "f_machinery_light",
-    "description": "A heavy-duty press used to create vegetable oil from nuts or seeds. You could take this down and use it for your own purposes if you wanted.",
+    "description": "A heavy-duty press used to create vegetable oil from nuts or seeds.  You could take this down and use it for your own purposes if you wanted.",
     "symbol": "Y",
     "color": "green",
     "move_cost_mod": -1,
