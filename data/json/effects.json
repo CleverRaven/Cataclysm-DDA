@@ -5071,8 +5071,8 @@
     "name": [ "Drank blood" ],
     "desc": [ "The star vampire has drunk blood and is now visible." ],
     "rating": "good",
-    "removes_effects": [ "invisibility" ],
-    "show_in_info": true
+    "show_in_info": true,
+    "flags": [ "SUPPRESS_INVISIBILITY" ]
   },
   {
     "id": "star_vampire_blood_drink_feral",
