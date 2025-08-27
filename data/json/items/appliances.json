@@ -417,5 +417,21 @@
     "longest_side": "115 cm",
     "volume": "368 L",
     "weight": "86 kg"
+  },
+  {
+    "type": "ITEM",
+    "id": "oil_press_electric",
+    "//": "based on YZS-68 oil press: http://www.oilpressmachine.com/6yl-68-oil-press.html",
+    "name": { "str": "disconnected industrial oil press", "str_pl": "disconnected industrial oil presses" },
+    "description": "A heavy-duty press used to create vegetable oil from nuts or seeds.  Needs to be placed and plugged into a power source.",
+    "looks_like": "f_machinery_light",
+    "symbol": "Y",
+    "color": "green",
+    "material": [ "iron" ],
+    "longest_side": "88 cm",
+    "volume": "370 L",
+    "weight": "140 kg",
+    "price": "1 kUSD",
+    "price_postapoc": "10 USD"
   }
 ]
