@@ -3858,6 +3858,8 @@ class Character : public Creature, public visitable
 
         // used in debugging all health
         int get_lowest_hp() const;
+        // used in debugging all health
+        int get_highest_hp() const;
         bool has_weapon() const override;
         void shift_destination( const point_rel_ms &shift );
         // Auto move methods

@@ -1818,8 +1818,7 @@ static void modify_horde_func( tripoint_abs_omt &curs )
     switch( smenu.ret ) {
         case 0:
             new_value = chosen_group.interest;
-            if( query_int( new_value, false, _( "Set interest to what value?  Currently %d" ),
-                           chosen_group.interest ) ) {
+            if( query_int( new_value, true, _( "Set interest to what value?" ) ) ) {
                 chosen_group.set_interest( new_value );
             }
             break;
@@ -1833,8 +1832,7 @@ static void modify_horde_func( tripoint_abs_omt &curs )
             break;
         case 2:
             new_value = chosen_group.population;
-            if( query_int( new_value, false, _( "Set population to what value?  Currently %d" ),
-                           chosen_group.population ) ) {
+            if( query_int( new_value, true, _( "Set population to what value?" ) ) ) {
                 chosen_group.population = new_value;
             }
             break;
@@ -1844,9 +1842,8 @@ static void modify_horde_func( tripoint_abs_omt &curs )
         case 4:
             new_value = static_cast<int>( chosen_group.behaviour );
             // Screw it we hardcode a popup, if you really want to use this you're welcome to improve it
-            popup( _( "Set behavior to which enum value?  Currently %d.  \nAccepted values:\n0 = none,\n1 = city,\n2=roam,\n3=nemesis" ),
-                   static_cast<int>( chosen_group.behaviour ) );
-            query_int( new_value, false, "" );
+            query_int( new_value, true,
+                       _( "Set behavior to which enum value?\nAccepted values:\n0 = none,\n1 = city,\n2=roam,\n3=nemesis" ) );
             chosen_group.behaviour = static_cast<mongroup::horde_behaviour>( new_value );
             break;
         case 5:

@@ -3672,8 +3672,8 @@ std::optional<int> iuse::firecracker( Character *p, item *it, const tripoint_bub
 
 std::optional<int> iuse::mininuke( Character *p, item *it, const tripoint_bub_ms & )
 {
-    int time;
-    bool got_value = query_int( time, false, _( "Set the timer to ___ turns (0 to cancel)?" ) );
+    int time = 0;
+    bool got_value = query_int( time, false, _( "Set the timer to how many seconds (0 to cancel)?" ) );
     if( !got_value || time <= 0 ) {
         p->add_msg_if_player( _( "Never mind." ) );
         return std::nullopt;

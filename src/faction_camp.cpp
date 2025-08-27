@@ -2458,13 +2458,13 @@ void basecamp::job_assignment_ui()
                     if( smenu.ret == 0 ) {
                         cur_npc->job.clear_all_priorities();
                     } else if( smenu.ret == 1 ) {
-                        int priority;
+                        int priority = 0;
                         query_int( priority, false, _( "Priority for all jobs " ) );
                         cur_npc->job.set_all_priorities( priority );
                     } else if( smenu.ret > 1 && smenu.ret <= static_cast<int>( job_vec.size() ) + 1 ) {
                         activity_id sel_job = job_vec[size_t( smenu.ret - 2 )];
                         player_activity test_act = player_activity( sel_job );
-                        int priority;
+                        int priority = 0;
                         query_int( priority, false, _( "Priority for %s " ), test_act.get_verb() );
                         cur_npc->job.set_task_priority( sel_job, priority );
                     } else {
