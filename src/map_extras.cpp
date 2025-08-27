@@ -1538,6 +1538,13 @@ void map_extra::load( const JsonObject &jo, std::string_view )
     }
 }
 
+void map_extra::finalize() const
+{
+    if( generator_method != map_extra_method::null ) {
+        MapExtras::all_function_names.push_back( id );
+    }
+}
+
 void map_extra::check() const
 {
     switch( generator_method ) {
@@ -1545,13 +1552,7 @@ void map_extra::check() const
             const map_extra_pointer mx_func = MapExtras::get_function( map_extra_id( generator_id ) );
             if( mx_func == nullptr ) {
                 debugmsg( "invalid map extra function (%s) defined for map extra (%s)", generator_id, id.str() );
-                break;
             }
-            MapExtras::all_function_names.push_back( id );
-            break;
-        }
-        case map_extra_method::mapgen: {
-            MapExtras::all_function_names.push_back( id );
             break;
         }
         case map_extra_method::update_mapgen: {
@@ -1560,11 +1561,10 @@ void map_extra::check() const
                 update_mapgen_func->second.funcs().empty() ) {
                 debugmsg( "invalid update mapgen function (%s) defined for map extra (%s)", generator_id,
                           id.str() );
-                break;
             }
-            MapExtras::all_function_names.push_back( id );
             break;
         }
+        case map_extra_method::mapgen:
         case map_extra_method::null:
         default:
             break;
