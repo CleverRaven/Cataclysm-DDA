@@ -535,6 +535,17 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
         return true;
     }
     if( g->walk_move( dest_loc, via_ramp ) ) {
+        // If safe mode would be triggered after the move, move back and peek
+        if( g->safe_mode == SAFE_MODE_ON && !you.is_running() ) {
+            here.build_map_cache ( dest_loc.z() );
+            here.update_visibility_cache( dest_loc.z() );
+            g->mon_info_update();
+            if( g->safe_mode == SAFE_MODE_STOP ) {
+                g->look_around();
+                g->walk_move( you_pos, via_ramp );
+                return false; // cancel automove
+            }
+        }
         return true;
     }
     if( g->phasing_move_enchant( dest_loc, you.calculate_by_enchantment( 0,
