@@ -1208,6 +1208,7 @@
     "effect_str": "effect_animist_see_invisibility",
     "shape": "blast",
     "magic_type": "magiclysm_generic_magic",
+    "components": "spell_components_animist_see_invisibility",
     "difficulty": 6,
     "max_level": 15,
     "base_energy_cost": 350,
