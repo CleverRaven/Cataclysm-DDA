@@ -1632,8 +1632,9 @@
     "description": "A large brick oven that could make several pizzas at once.",
     "color": "red",
     "move_cost": 0,
-    "flags": [ "REDUCE_SCENT", "NOITEM", "PERMEABLE", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE" ],
+    "flags": [ "REDUCE_SCENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PERMEABLE", "FIRE_CONTAINER" ],
     "deconstruct": { "ter_set": "t_dirt", "items": [ { "item": "fire_brick", "count": 90 } ] },
+    "examine_action": "fireplace",
     "bash": {
       "str_min": 25,
       "str_max": 50,
