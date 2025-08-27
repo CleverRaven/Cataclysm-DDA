@@ -9088,6 +9088,9 @@ bool butchery_activity_actor::initiate_butchery( player_activity &act, Character
 
 const activity_id &butchery_activity_actor::get_type() const
 {
+    if( bd.empty() ) {
+        return ACT_BUTCHER;
+    }
     switch( bd.back().b_type ) {
         case butcher_type::BLEED: {
             return ACT_BLEED;
@@ -9177,6 +9180,9 @@ void butchery_activity_actor::finish( player_activity &act, Character & /* you *
 
 void butchery_activity_actor::canceled( player_activity &, Character & )
 {
+    if( bd.empty() ) {
+        return;
+    }
     butchery_data *this_bd = &bd.back();
     item_location &target = this_bd->corpse;
     item &corpse_item = *target;
