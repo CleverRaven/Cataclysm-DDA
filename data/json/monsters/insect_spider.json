@@ -2370,7 +2370,7 @@
     "weakpoints": [ { "id": "abdomen", "name": "the abdomen", "coverage": 30 } ],
     "vision_night": 8,
     "zombify_into": "mon_meat_cocoon_tiny",
-    "delete": { "weakpoints": [ { "id": "stinger" } ], "flags": [ "FLIES" ], "special_attacks": [ "DERMATIK" ] }
+    "delete": { "weakpoints": [ { "id": "stinger" } ], "flags": [ "FLIES" ], "special_attacks": [ "dermatik_impale" ] }
   },
   {
     "id": "mon_dermatik_incubator_deer",
