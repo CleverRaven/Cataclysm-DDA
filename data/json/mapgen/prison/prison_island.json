@@ -103,6 +103,7 @@
         { "item": "pliers", "x": 81, "y": 54, "chance": 100 },
         { "item": "hammer", "x": 59, "y": 32, "chance": 100 },
         { "item": "id_industrial", "x": 42, "y": 61, "chance": 100 },
+        { "item": "contraband", "x": 42, "y": 61, "chance": 100, "repeat": [ 3, 6 ] },
         { "item": "id_military", "x": 79, "y": 50, "chance": 100 },
         { "item": "holster", "x": 79, "y": 50, "chance": 100 },
         { "item": "m9", "x": 79, "y": 50, "chance": 100 },
