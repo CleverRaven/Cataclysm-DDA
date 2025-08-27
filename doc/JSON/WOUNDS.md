@@ -14,7 +14,7 @@ Wound is a type, that affects specific bodyparts. It's similar in this to effect
     "damage_types": [ "cut", "bash" ], // only taking these type of damage can apply wound. Mandatory
     "damage_required": [ 1, 1000 ], // smallest and highest damage that is required for this wound to be applied. Mandatory
     "pain": [ 1, 10 ], // when wound is applied, it would give character this random amount of pain rolled between this two numbers. Default 0
-    "healing_time": [ "2 hours", "25 days" ], // how long this wound need time to be fully healed. Rolled randomly when applied, supposed to be adjacted by wound_fix.
+    "healing_time": [ "2 hours", "25 days" ], // how long this wound need time to be fully healed. Rolled randomly when applied, supposed to be adjusted by wound_fix.
             // Default infinite duration
     "whitelist_bp_with_flag": "LIMB_UPPER", // only body parts with this flag can receive the wound.
     "blacklist_bp_with_flag": "CYBERNETIC_OR_WHATEVER_IT_DOESNT_EXIST_YET", // Bodyparts with this flag cannot receive this wound.
