@@ -3861,24 +3861,24 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
 
         std::string coverage_table;
         //~ Limb-specific coverage (%s = name of limb)
-        coverage_table += string_format( _( "<bold>Coverage</bold>,%s\n" ), layering );
+        coverage_table += string_format( _( "<bold>Coverage</bold>;%s\n" ), layering );
         //~ Regular/Default coverage
-        coverage_table += string_format( "%s,<color_c_yellow>%d</color>\n", _( "Default" ),
+        coverage_table += string_format( "%s;<color_c_yellow>%d</color>\n", _( "Default" ),
                                          get_coverage( sbp ) );
         if( get_coverage( sbp ) != get_coverage( sbp, item::cover_type::COVER_MELEE ) ) {
             //~ Melee coverage
-            coverage_table += string_format( "%s,<color_c_yellow>%d</color>\n", _( "Melee" ), get_coverage( sbp,
+            coverage_table += string_format( "%s;<color_c_yellow>%d</color>\n", _( "Melee" ), get_coverage( sbp,
                                              item::cover_type::COVER_MELEE ) );
         }
         if( get_coverage( sbp ) != get_coverage( sbp, item::cover_type::COVER_RANGED ) ) {
             //~ Ranged coverage
-            coverage_table += string_format( "%s,<color_c_yellow>%d</color>\n", _( "Ranged" ),
+            coverage_table += string_format( "%s;<color_c_yellow>%d</color>\n", _( "Ranged" ),
                                              get_coverage( sbp,
                                                      item::cover_type::COVER_RANGED ) );
         }
         if( get_coverage( sbp, item::cover_type::COVER_VITALS ) > 0 ) {
             //~ Vitals coverage
-            coverage_table += string_format( "%s,<color_c_yellow>%d</color>\n", _( "Vitals" ),
+            coverage_table += string_format( "%s;<color_c_yellow>%d</color>\n", _( "Vitals" ),
                                              get_coverage( sbp,
                                                      item::cover_type::COVER_VITALS ) );
         }
@@ -3908,11 +3908,11 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
         std::string protection_table;
         if( display_median ) {
             protection_table +=
-                string_format( "<bold>%s</bold>,<bad>%d%%</bad> chance,<color_c_yellow>Median</color> chance,<good>%d%%</good> chance\n",
+                string_format( "<bold>%s</bold>;<bad>%d%%</bad> chance;<color_c_yellow>Median</color> chance;<good>%d%%</good> chance\n",
                                _( "Protection" ), percent_worst, percent_best );
         } else if( percent_worst > 0 ) {
             protection_table +=
-                string_format( "<bold>%s</bold>,<bad>%d%%</bad> chance,<good>%d%%</good> chance\n",
+                string_format( "<bold>%s</bold>;<bad>%d%%</bad> chance;<good>%d%%</good> chance\n",
                                _( "Protection" ), percent_worst, percent_best );
         } else {
             protection_table += string_format( "<bold>%s</bold>\n", _( "Protection" ) );
@@ -3928,12 +3928,12 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
             if( dio.info_display == damage_info_order::info_disp::DETAILED ) {
                 if( display_median ) {
                     protection_table +=
-                        string_format( "%s,<bad>%.2f</bad>,<color_c_yellow>%.2f</color>,<good>%.2f</good>\n",
+                        string_format( "%s;<bad>%.2f</bad>;<color_c_yellow>%.2f</color>;<good>%.2f</good>\n",
                                        uppercase_first_letter( dio.dmg_type->name.translated() ), worst_res.type_resist( dio.dmg_type ),
                                        median_res.type_resist( dio.dmg_type ), best_res.type_resist( dio.dmg_type ) );
                     printed_any = true;
                 } else if( percent_worst > 0 ) {
-                    protection_table += string_format( "%s,<bad>%.2f</bad>,<good>%.2f</good>\n",
+                    protection_table += string_format( "%s;<bad>%.2f</bad>;<good>%.2f</good>\n",
                                                        uppercase_first_letter( dio.dmg_type->name.translated() ), worst_res.type_resist( dio.dmg_type ),
                                                        best_res.type_resist( dio.dmg_type ) );
                     printed_any = true;
@@ -3942,14 +3942,14 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
                 }
             }
             if( skipped_detailed || dio.info_display == damage_info_order::info_disp::BASIC ) {
-                protection_table += string_format( "%s,<color_c_yellow>%.2f</color>\n",
+                protection_table += string_format( "%s;<color_c_yellow>%.2f</color>\n",
                                                    uppercase_first_letter( dio.dmg_type->name.translated() ),
                                                    best_res.type_resist( dio.dmg_type ) );
                 printed_any = true;
             }
         }
         if( get_base_env_resist( *this ) >= 1 ) {
-            protection_table += string_format( "%s,<color_c_yellow>%d</color>\n", _( "Environmental" ),
+            protection_table += string_format( "%s;<color_c_yellow>%d</color>\n", _( "Environmental" ),
                                                get_base_env_resist( *this ) );
             printed_any = true;
         }
