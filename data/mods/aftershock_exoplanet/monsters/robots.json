@@ -1212,7 +1212,7 @@
     "id": "mon_old_imaginifer_laser",
     "type": "MONSTER",
     "copy-from": "mon_wraitheon_imaginifer",
-    "name": "Parallax-3E venator",
+    "name": { "str": "Parallax-3E veles", "str_pl": "velites" },
     "description": "It walks heavily, each step resonating with the weight of its rust-bitten frame.  A single azure eye scans its surroundings with predatory hunger, and any movement is met by the destructive gaze of a grafted light-cannon.",
     "speed": 60,
     "delete": { "flags": [ "DROPS_AMMO" ] },
