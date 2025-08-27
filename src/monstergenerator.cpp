@@ -824,7 +824,7 @@ struct special_attacks_reader : generic_typed_reader<special_attacks_reader> {
     }
 };
 
-void mtype::load( const JsonObject &jo, const std::string &src )
+void mtype::load( const JsonObject &jo, const std::string_view src )
 {
     MonsterGenerator &gen = MonsterGenerator::generator();
 

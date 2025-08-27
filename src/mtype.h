@@ -605,7 +605,7 @@ struct mtype {
         void faction_display( catacurses::window &w, const point &top_left, int width ) const;
 
         // Historically located in monstergenerator.cpp
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
 };
 
 #endif // CATA_SRC_MTYPE_H
