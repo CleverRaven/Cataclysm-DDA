@@ -3089,7 +3089,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
-    "using": [ [ "marking_hard", 1, "LIST" ] ],
+    "using": [ [ "marking_hard", 1 ] ],
     "components": [
       [ [ "wood_panel", 1 ] ],
       [ [ "2x4", 2 ] ],
@@ -3245,7 +3245,7 @@
     "skill_used": "fabrication",
     "time": "8 m",
     "autolearn": true,
-    "using": [ [ "fabric_standard", 200 ], [ "marking_hard", 1, "LIST" ] ],
+    "using": [ [ "fabric_standard", 200 ], [ "marking_hard", 1 ] ],
     "components": [ [ [ "box_medium", 1 ] ] ]
   },
   {
@@ -3296,7 +3296,7 @@
     "//1": "80 cm weld",
     "qualities": [ { "id": "SAW_M", "level": 2 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "using": [ [ "steel_standard", 2 ], [ "welding_standard", 80, "LIST" ], [ "blacksmithing_standard", 8 ] ],
+    "using": [ [ "steel_standard", 2 ], [ "welding_standard", 80 ], [ "blacksmithing_standard", 8 ] ],
     "components": [ [ [ "pipe", 2 ] ], [ [ "grip_hook", 1 ] ], [ [ "sheet_metal_small", 8 ] ] ]
   },
   {

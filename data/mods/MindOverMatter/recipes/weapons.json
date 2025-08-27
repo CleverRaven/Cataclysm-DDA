@@ -14,7 +14,7 @@
     "book_learn": [ [ "schematics_grenade_inferno", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_matrix_technology_beginner", "required": false }, { "proficiency": "prof_handloading" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "using": [ [ "volatile_explosive", 20, "LIST" ] ],
+    "using": [ [ "volatile_explosive", 20 ] ],
     "components": [
       [ [ "fuse", 1 ] ],
       [ [ "glue_strong", 4 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
