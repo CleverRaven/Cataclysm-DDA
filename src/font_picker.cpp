@@ -205,7 +205,7 @@ static void ShowFontDetailsWindow( const char *window_name,
             }
         }
         if( face_to_remove ) {
-#if defined(_WIN32) or defined(__APPLE__)
+#if defined(_WIN32) or defined(__APPLE__) or defined(__ANDROID__)
             typefaces.erase( typefaces.begin() + ( face_to_remove - typefaces.data() ) );
 #else
             typefaces.erase( std::vector<font_config>::iterator( face_to_remove ) );
