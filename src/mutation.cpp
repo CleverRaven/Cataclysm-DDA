@@ -1347,7 +1347,7 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
                 int sub_count = count_threshold_substitute_traits();
                 if( sub_count > 2 ) {
                     int chance = sub_count - 2;
-                    if( !has_trait( trait_CHAOTIC ) ) && !has_trait( trait_CHAOTIC_BAD ) {
+                    if( !has_trait( trait_CHAOTIC ) && !has_trait( trait_CHAOTIC_BAD ) ) {
                         if( rng( 1, 100 ) <= chance ) {
                             mutate_towards( trait_CHAOTIC );
                         }
