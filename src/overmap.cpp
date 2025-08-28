@@ -18,7 +18,6 @@
 #include <vector>
 
 #include "all_enum_values.h"
-#include "assign.h"
 #include "auto_note.h"
 #include "avatar.h"
 #include "cached_options.h"
@@ -470,22 +469,19 @@ std::string overmap_land_use_code::get_symbol() const
     return utf32_to_utf8( symbol );
 }
 
-void overmap_land_use_code::load( const JsonObject &jo, const std::string &src )
+void overmap_land_use_code::load( const JsonObject &jo, const std::string_view )
 {
-    const bool strict = src == "dda";
-    assign( jo, "land_use_code", land_use_code, strict );
-    assign( jo, "name", name, strict );
-    assign( jo, "detailed_definition", detailed_definition, strict );
+    optional( jo, was_loaded, "land_use_code", land_use_code );
+    optional( jo, was_loaded, "name", name );
+    optional( jo, was_loaded, "detailed_definition", detailed_definition );
 
     optional( jo, was_loaded, "sym", symbol, unicode_codepoint_from_symbol_reader, NULL_UNICODE );
-
     if( symbol == NULL_UNICODE ) {
         DebugLog( D_ERROR, D_GAME ) << "`sym` node is not defined properly for `land_use_code`: "
                                     << id.c_str() << " (" << name << ")";
     }
 
-    optional( jo, was_loaded, "color", color, nc_color_reader{} );
-
+    optional( jo, was_loaded, "color", color, nc_color_reader{}, c_black );
 }
 
 void overmap_land_use_code::finalize()
@@ -860,7 +856,7 @@ void oter_vision::level::deserialize( const JsonObject &jo )
     }
     mandatory( jo, false, "name", name );
     mandatory( jo, false, "sym", symbol, unicode_codepoint_from_symbol_reader );
-    optional( jo, false, "color", color, nc_color_reader{} );
+    mandatory( jo, false, "color", color, nc_color_reader{} );
     optional( jo, false, "looks_like", looks_like );
 }
 
@@ -907,35 +903,32 @@ void oter_vision::check() const
 }
 
 
-void oter_type_t::load( const JsonObject &jo, const std::string &src )
+void oter_type_t::load( const JsonObject &jo, const std::string_view )
 {
-    const bool strict = src == "dda";
-
     optional( jo, was_loaded, "sym", symbol, unicode_codepoint_from_symbol_reader, NULL_UNICODE );
 
-    assign( jo, "name", name, strict );
+    optional( jo, was_loaded, "name", name );
     // For some reason an enum can be read as a number??
     if( jo.has_number( "see_cost" ) ) {
         jo.throw_error( string_format( "In %s: See cost uses invalid number format", id.str() ) );
     }
     mandatory( jo, was_loaded, "see_cost", see_cost );
-    assign( jo, "extras", extras, strict );
-    assign( jo, "mondensity", mondensity, strict );
-    assign( jo, "entry_eoc", entry_EOC, strict );
-    assign( jo, "exit_eoc", exit_EOC, strict );
-    assign( jo, "spawns", static_spawns, strict );
+    optional( jo, was_loaded, "extras", extras, "none" );
+    optional( jo, was_loaded, "mondensity", mondensity, 0 );
+    optional( jo, was_loaded, "entry_eoc", entry_EOC );
+    optional( jo, was_loaded, "exit_eoc", exit_EOC );
+    optional( jo, was_loaded, "spawns", static_spawns );
     optional( jo, was_loaded, "color", color, nc_color_reader{} );
-    assign( jo, "land_use_code", land_use_code, strict );
+    optional( jo, was_loaded, "land_use_code", land_use_code, overmap_land_use_code_id::NULL_ID() );
 
     if( jo.has_member( "looks_like" ) ) {
-        std::vector<std::string> ll;
         if( jo.has_array( "looks_like" ) ) {
-            jo.read( "looks_like", ll );
-        } else if( jo.has_string( "looks_like" ) ) {
-            const std::string one_look = jo.get_string( "looks_like" );
-            ll.push_back( one_look );
+            mandatory( jo, was_loaded, "looks_like", looks_like );
+        } else {
+            std::string one_look;
+            mandatory( jo, was_loaded, "looks_like", one_look );
+            looks_like = { one_look };
         }
-        looks_like = ll;
     } else if( jo.has_member( "copy-from" ) ) {
         looks_like.insert( looks_like.begin(), jo.get_string( "copy-from" ) );
     }
@@ -1394,6 +1387,15 @@ tripoint displace( cube_direction d )
             break;
     }
     cata_fatal( "Invalid cube_direction" );
+}
+
+void overmap_special_connection::deserialize( const JsonObject &jo )
+{
+    optional( jo, false, "point", p );
+    optional( jo, false, "terrain", terrain );
+    optional( jo, false, "existing", existing, false );
+    optional( jo, false, "connection", connection );
+    optional( jo, false, "from", from );
 }
 
 struct special_placement_result {
@@ -2909,6 +2911,46 @@ struct mutable_overmap_special_data : overmap_special_data {
 
         return { result, unresolved.all_used() };
     }
+
+    void load( const JsonObject &jo, bool was_loaded ) {
+        optional( jo, was_loaded, "check_for_locations", check_for_locations );
+        if( jo.has_array( "check_for_locations_area" ) ) {
+            JsonArray jar = jo.get_array( "check_for_locations_area" );
+            while( jar.has_more() ) {
+                JsonObject joc = jar.next_object();
+
+                cata::flat_set<string_id<overmap_location>> type;
+                tripoint_rel_omt from;
+                tripoint_rel_omt to;
+                mandatory( joc, was_loaded, "type", type );
+                mandatory( joc, was_loaded, "from", from );
+                mandatory( joc, was_loaded, "to", to );
+                if( from.x() > to.x() ) {
+                    std::swap( from.x(), to.x() );
+                }
+                if( from.y() > to.y() ) {
+                    std::swap( from.y(), to.y() );
+                }
+                if( from.z() > to.z() ) {
+                    std::swap( from.z(), to.z() );
+                }
+                for( int x = from.x(); x <= to.x(); x++ ) {
+                    for( int y = from.y(); y <= to.y(); y++ ) {
+                        for( int z = from.z(); z <= to.z(); z++ ) {
+                            overmap_special_locations loc;
+                            loc.p = tripoint_rel_omt( x, y, z );
+                            loc.locations = type;
+                            check_for_locations.push_back( loc );
+                        }
+                    }
+                }
+            }
+        }
+        mandatory( jo, was_loaded, "joins", joins_vec );
+        mandatory( jo, was_loaded, "overmaps", overmaps );
+        mandatory( jo, was_loaded, "root", root );
+        mandatory( jo, was_loaded, "phases", phases );
+    }
 };
 
 overmap_special::overmap_special( const overmap_special_id &i, const overmap_special_terrain &ter )
@@ -3020,15 +3062,15 @@ mapgen_arguments overmap_special::get_args( const mapgendata &md ) const
     return mapgen_params_.get_args( md, mapgen_parameter_scope::overmap_special );
 }
 
-void overmap_special::load( const JsonObject &jo, const std::string &src )
+void overmap_special::load( const JsonObject &jo, const std::string_view src )
 {
-    const bool strict = src == "dda";
     // city_building is just an alias of overmap_special
     // TODO: This comparison is a hack. Separate them properly.
     const bool is_special = jo.get_string( "type", "" ) == "overmap_special";
 
     optional( jo, was_loaded, "subtype", subtype_, overmap_special_subtype::fixed );
     optional( jo, was_loaded, "locations", default_locations_ );
+    // FIXME: eoc reader for generic factory
     if( jo.has_member( "eoc" ) ) {
         eoc = effect_on_conditions::load_inline_eoc( jo.get_member( "eoc" ), src );
         has_eoc_ = true;
@@ -3047,45 +3089,7 @@ void overmap_special::load( const JsonObject &jo, const std::string &src )
         case overmap_special_subtype::mutable_: {
             shared_ptr_fast<mutable_overmap_special_data> mutable_data =
                 make_shared_fast<mutable_overmap_special_data>( id );
-            std::vector<overmap_special_locations> check_for_locations_merged_data;
-            optional( jo, was_loaded, "check_for_locations", check_for_locations_merged_data );
-            if( jo.has_array( "check_for_locations_area" ) ) {
-                JsonArray jar = jo.get_array( "check_for_locations_area" );
-                while( jar.has_more() ) {
-                    JsonObject joc = jar.next_object();
-
-                    cata::flat_set<string_id<overmap_location>> type;
-                    tripoint_rel_omt from;
-                    tripoint_rel_omt to;
-                    mandatory( joc, was_loaded, "type", type );
-                    mandatory( joc, was_loaded, "from", from );
-                    mandatory( joc, was_loaded, "to", to );
-                    if( from.x() > to.x() ) {
-                        std::swap( from.x(), to.x() );
-                    }
-                    if( from.y() > to.y() ) {
-                        std::swap( from.y(), to.y() );
-                    }
-                    if( from.z() > to.z() ) {
-                        std::swap( from.z(), to.z() );
-                    }
-                    for( int x = from.x(); x <= to.x(); x++ ) {
-                        for( int y = from.y(); y <= to.y(); y++ ) {
-                            for( int z = from.z(); z <= to.z(); z++ ) {
-                                overmap_special_locations loc;
-                                loc.p = tripoint_rel_omt( x, y, z );
-                                loc.locations = type;
-                                check_for_locations_merged_data.push_back( loc );
-                            }
-                        }
-                    }
-                }
-            }
-            mutable_data->check_for_locations = check_for_locations_merged_data;
-            mandatory( jo, was_loaded, "joins", mutable_data->joins_vec );
-            mandatory( jo, was_loaded, "overmaps", mutable_data->overmaps );
-            mandatory( jo, was_loaded, "root", mutable_data->root );
-            mandatory( jo, was_loaded, "phases", mutable_data->phases );
+            mutable_data->load( jo, was_loaded );
             data_ = std::move( mutable_data );
             break;
         }
@@ -3094,18 +3098,18 @@ void overmap_special::load( const JsonObject &jo, const std::string &src )
                                            io::enum_to_string( subtype_ ) ) );
     }
 
-    assign( jo, "city_sizes", constraints_.city_size, strict );
+    optional( jo, was_loaded, "city_sizes", constraints_.city_size, { 0, INT_MAX } );
 
     if( is_special ) {
         mandatory( jo, was_loaded, "occurrences", constraints_.occurrences );
-        assign( jo, "city_distance", constraints_.city_distance, strict );
-        assign( jo, "priority", priority_, strict );
+        optional( jo, was_loaded, "city_distance", constraints_.city_distance, { 0, INT_MAX } );
+        optional( jo, was_loaded, "priority", priority_, 0 );
     }
 
-    assign( jo, "spawns", monster_spawns_, strict );
+    optional( jo, was_loaded, "spawns", monster_spawns_ );
 
-    assign( jo, "rotate", rotatable_, strict );
-    assign( jo, "flags", flags_, strict );
+    optional( jo, was_loaded, "rotate", rotatable_, true );
+    optional( jo, was_loaded, "flags", flags_, string_reader{} );
 }
 
 void overmap_special::finalize()
