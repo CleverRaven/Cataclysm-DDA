@@ -174,10 +174,16 @@ struct vpslot_workbench {
     // Mass/volume allowed before a crafting speed penalty is applied
     units::mass allowed_mass = 0_gram;
     units::volume allowed_volume = 0_ml;
+
+    void deserialize( const JsonObject &jo );
 };
 
 struct vpslot_toolkit {
+    bool was_loaded = false;
+
     std::set<itype_id> allowed_types;
+
+    void deserialize( const JsonObject &jo );
 };
 
 struct vpslot_terrain_transform {

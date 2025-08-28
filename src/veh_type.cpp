@@ -386,21 +386,14 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     }
 
     if( has_flag( "WORKBENCH" ) ) {
-        if( !workbench_info ) {
-            workbench_info.emplace();
-        }
-
-        JsonObject wb_jo = jo.get_object( "workbench" );
-        assign( wb_jo, "multiplier", workbench_info->multiplier, strict );
-        assign( wb_jo, "mass", workbench_info->allowed_mass, strict );
-        assign( wb_jo, "volume", workbench_info->allowed_volume, strict );
+        mandatory( jo, was_loaded, "workbench", workbench_info );
     }
 
     if( has_flag( "VEH_TOOLS" ) ) {
         if( !toolkit_info ) {
             toolkit_info.emplace();
         }
-        assign( jo, "allowed_tools", toolkit_info->allowed_types, strict );
+        toolkit_info->deserialize( jo );
     }
 
     if( has_flag( "TRANSFORM_TERRAIN" ) || has_flag( "CRASH_TERRAIN_AROUND" ) ) {
@@ -462,6 +455,20 @@ void vpslot_wheel::deserialize( const JsonObject &jo )
 void vpslot_rotor::deserialize( const JsonObject &jo )
 {
     optional( jo, was_loaded, "rotor_diameter", rotor_diameter, 1 );
+
+    was_loaded = true;
+}
+
+void vpslot_workbench::deserialize( const JsonObject &jo )
+{
+    optional( jo, false, "multiplier", multiplier, 1.f );
+    optional( jo, false, "mass", allowed_mass, 0_gram );
+    optional( jo, false, "volume", allowed_volume, 0_ml );
+}
+
+void vpslot_toolkit::deserialize( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "allowed_tools", allowed_types, string_id_reader<itype> {} );
 
     was_loaded = true;
 }
