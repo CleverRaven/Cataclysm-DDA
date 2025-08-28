@@ -87,6 +87,7 @@ static const mutation_category_id mutation_category_ANY( "ANY" );
 static const trait_id trait_ARVORE_FOREST_MAPPING( "ARVORE_FOREST_MAPPING" );
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
+static const trait_id trait_CHAOTIC( "CHAOTIC" );
 static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
 static const trait_id trait_ECHOLOCATION( "ECHOLOCATION" );
 static const trait_id trait_GASTROPOD_EXTREMITY2( "GASTROPOD_EXTREMITY2" );
@@ -1346,13 +1347,13 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
                 int sub_count = count_threshold_substitute_traits();
                 if( sub_count > 2 ) {
                     int chance = sub_count - 2;
-                    if( !has_trait( trait_id( "CHAOTIC" ) ) && !has_trait( trait_id( "CHAOTIC_BAD" ) ) ) {
+                    if( !has_trait( trait_CHAOTIC ) ) && !has_trait( trait_CHAOTIC_BAD ) {
                         if( rng( 1, 100 ) <= chance ) {
-                            mutate_towards( trait_id( "CHAOTIC" ) );
+                            mutate_towards( trait_CHAOTIC );
                         }
-                    } else if( has_trait( trait_id( "CHAOTIC" ) ) && !has_trait( trait_id( "CHAOTIC_BAD" ) ) ) {
+                    } else if( has_trait( trait_CHAOTIC ) ) && !has_trait( trait_CHAOTIC_BAD ) {
                         if( rng( 1, 100 ) <= chance ) {
-                            mutate_towards( trait_id( "CHAOTIC_BAD" ) );
+                            mutate_towards( trait_CHAOTIC_BAD );
                         }
                     }
                 }
