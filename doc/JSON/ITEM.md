@@ -66,6 +66,7 @@ Items are any entity in the game you can pick up.  They all share a set of JSON 
 - BOOK - can be read
 - PET_ARMOR - defines pet armor
 - BIONIC_ITEM - item is a CBM, if installed, you get the bionic effect with the same id as the item name
+- ARTIFACT - can define the passive_effects parameter and carry enchantments
 - TOOLMOD - this is a toolmod, and can be installed to modify tool in some way (mainly battery slot changes)
 - ENGINE - defines the properties of a vehicle engine if installed in a transport
 - WHEEL - defines the properties of a vehicle wheel if installed in a transport
