@@ -477,5 +477,130 @@
       { "math": [ "u_changeling_advancement_dreams_counter++" ] },
       { "math": [ "u_changeling_advancement_pooka_condition_kill_triffid_heart = 1" ] }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLAYABLE_CHANGELING_ADVANCEMENT_SELKIE_REACH_LEVEL_SEVEN_ATHLETICS",
+    "eoc_type": "EVENT",
+    "required_event": "gains_skill_level",
+    "condition": {
+      "and": [
+        { "u_has_trait": "UNKNOWING_CHANGELING_NOBLE" },
+        { "compare_string": [ { "context_val": "skill" }, "swimming" ] },
+        { "math": [ "_new_level >= 7" ] },
+        { "math": [ "u_changeling_advancement_selkie_condition_reach_level_seven_athletics != 1" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_changeling_advancement_dreams_counter++" ] },
+      { "math": [ "u_changeling_advancement_selkie_condition_reach_level_seven_athletics = 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLAYABLE_CHANGELING_ADVANCEMENT_SELKIE_STAND_OUT_IN_RAIN",
+    "recurrence": 1,
+    "condition": {
+      "and": [
+        { "u_has_trait": "UNKNOWING_CHANGELING_COMMONER_SELKIE" },
+        {
+          "or": [
+            { "is_weather": "weather_rain" },
+            { "is_weather": "weather_rainstorm" },
+            { "is_weather": "weather_thunder" },
+            { "is_weather": "weather_lightning" }
+          ]
+        },
+        { "math": [ "u_changeling_advancement_selkie_condition_stand_in_rain != 1" ] }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [
+        { "not": { "u_has_trait": "UNKNOWING_CHANGELING_COMMONER_SELKIE" } },
+        { "math": [ "u_changeling_advancement_selkie_condition_stand_in_rain = 1" ] },
+        {
+          "not": {
+            "or": [
+              { "is_weather": "weather_rain" },
+              { "is_weather": "weather_rainstorm" },
+              { "is_weather": "weather_thunder" },
+              { "is_weather": "weather_lightning" }
+            ]
+          }
+        }
+      ]
+    },
+    "effect": [
+      {
+        "if": { "math": [ "u_effect_intensity('effect_changeling_advancement_selkie_stand_in_rain_counter') > 900" ] },
+        "then": [
+          { "math": [ "u_changeling_advancement_dreams_counter++" ] },
+          { "math": [ "u_changeling_advancement_selkie_condition_stand_in_rain = 1" ] }
+        ]
+      },
+      { "u_add_effect": "effect_changeling_advancement_selkie_stand_in_rain_counter", "duration": "16 minutes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLAYABLE_CHANGELING_ADVANCEMENT_SELKIE_GO_TO_RIVER",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_enters_omt",
+    "condition": {
+      "and": [
+        { "u_has_trait": "UNKNOWING_CHANGELING_COMMONER_SELKIE" },
+        {
+          "or": [
+            { "u_at_om_location": "generic_river_bank" },
+            { "u_at_om_location": "generic_river" },
+            { "u_at_om_location": "river_center" },
+            { "u_at_om_location": "river" },
+            { "u_at_om_location": "river_c_not_ne" },
+            { "u_at_om_location": "river_c_not_nw" },
+            { "u_at_om_location": "river_c_not_se" },
+            { "u_at_om_location": "river_c_not_sw" }
+          ]
+        },
+        { "math": [ "u_changeling_advancement_selkie_condition_go_near_river != 1" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_changeling_advancement_dreams_counter++" ] },
+      { "math": [ "u_changeling_advancement_selkie_condition_go_near_river = 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLAYABLE_CHANGELING_ADVANCEMENT_SELKIE_GO_TO_LAKE",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_enters_omt",
+    "condition": {
+      "and": [
+        { "u_has_trait": "UNKNOWING_CHANGELING_COMMONER_SELKIE" },
+        { "or": [ { "u_at_om_location": "lake_shore" }, { "u_at_om_location": "lake_surface" } ] },
+        { "math": [ "u_changeling_advancement_selkie_condition_go_near_lake != 1" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_changeling_advancement_dreams_counter++" ] },
+      { "math": [ "u_changeling_advancement_selkie_condition_go_near_lake = 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLAYABLE_CHANGELING_ADVANCEMENT_SELKIE_GO_TO_OCEAN",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_enters_omt",
+    "condition": {
+      "and": [
+        { "u_has_trait": "UNKNOWING_CHANGELING_COMMONER_SELKIE" },
+        { "or": [ { "u_at_om_location": "ocean_water_cube" }, { "u_at_om_location": "ocean_surface" } ] },
+        { "math": [ "u_changeling_advancement_selkie_condition_go_near_ocean != 1" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_changeling_advancement_dreams_counter += 2" ] },
+      { "math": [ "u_changeling_advancement_selkie_condition_go_near_ocean = 1" ] }
+    ]
   }
 ]
