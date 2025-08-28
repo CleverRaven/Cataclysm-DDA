@@ -1222,6 +1222,17 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_animist_see_invisibility",
+    "name": [ "Seeing the Unseen" ],
+    "desc": [ "You can detect nearby invisible creatures." ],
+    "apply_message": "",
+    "remove_message": "Your awareness of the invisible fades.",
+    "rating": "good",
+    "max_duration": 19200,
+    "flags": [ "TRUE_SEEING" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_animist_add_evasion",
     "name": [ "Guardian Spirit" ],
     "desc": [ "A protective spirit is looking out for you." ],
