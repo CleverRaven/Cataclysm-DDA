@@ -2906,6 +2906,13 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_advancement_selkie_stand_in_rain_counter",
+    "//": "Hidden effect, used as a counter",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_selkie_fog_cloak",
     "name": [ "Cloak of Fog" ],
     "desc": [ "The fog shields you from sight." ],
@@ -4034,13 +4041,6 @@
     "show_in_info": true,
     "max_intensity": 300,
     "flags": [ "CANNOT_MOVE" ]
-  },
-  {
-    "type": "effect_type",
-    "id": "effect_changeling_advancement_selkie_stand_in_rain_counter",
-    "//": "Hidden effect, used as a counter",
-    "name": [ "" ],
-    "desc": [ "" ]
   },
   {
     "type": "effect_type",

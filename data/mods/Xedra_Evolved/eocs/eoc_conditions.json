@@ -53,6 +53,7 @@
     "effect": [  ]
   },
   {
+    "type": "effect_on_condition",
     "id": "EOC_CONDITIONS_YOU_ARE_A_PLAYABLE_CHANGELING",
     "condition": {
       "u_has_any_trait": [

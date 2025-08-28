@@ -296,7 +296,7 @@
     "deactivate_condition": {
       "or": [
         { "not": { "u_has_trait": "UNKNOWING_CHANGELING_NOBLE" } },
-        { "math": [ "u_changeling_advancement_noble_condition_you_have_one_follower = 1" ] }
+        { "math": [ "u_changeling_advancement_noble_condition_you_have_one_follower == 1" ] }
       ]
     },
     "effect": [
@@ -318,7 +318,7 @@
     "deactivate_condition": {
       "or": [
         { "not": { "u_has_trait": "UNKNOWING_CHANGELING_NOBLE" } },
-        { "math": [ "u_changeling_advancement_noble_condition_you_have_seven_followers = 1" ] }
+        { "math": [ "u_changeling_advancement_noble_condition_you_have_seven_followers == 1" ] }
       ]
     },
     "effect": [
@@ -472,7 +472,7 @@
     "deactivate_condition": {
       "or": [
         { "not": { "u_has_trait": "UNKNOWING_CHANGELING_COMMONER_SELKIE" } },
-        { "math": [ "u_changeling_advancement_selkie_condition_stand_in_rain = 1" ] },
+        { "math": [ "u_changeling_advancement_selkie_condition_stand_in_rain == 1" ] },
         {
           "not": {
             "or": [
@@ -579,7 +579,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_PLAYABLE_CHANGELING_ADVANCEMENT_SELKIE_REACH_LEVEL_SEVEN_ATHLETICS",
+    "id": "EOC_PLAYABLE_CHANGELING_ADVANCEMENT_TWO_REACH_LEVEL_SEVEN_FABRICATION",
     "eoc_type": "EVENT",
     "required_event": "gains_skill_level",
     "condition": {
