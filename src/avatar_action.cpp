@@ -50,6 +50,7 @@
 #include "output.h"
 #include "pimpl.h"
 #include "player_activity.h"
+#include "popup.h"
 #include "point.h"
 #include "projectile.h"
 #include "ranged.h"
@@ -57,6 +58,7 @@
 #include "rng.h"
 #include "translations.h"
 #include "type_id.h"
+#include "ui_manager.h"
 #include "uilist.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -536,21 +538,23 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
         return true;
     }
     if( g->walk_move( dest_loc, via_ramp ) ) {
-        // If safe mode would be triggered after the move, move back and peek
-        if( g->safe_mode == SAFE_MODE_ON && !you.is_running() && !you.is_hauling() ) {
+        // AUTOPEEK: If safe mode would be triggered after the move, look around and move back
+        if( get_option<bool>( "SAFEMODEAUTOPEEK" ) && g->safe_mode == SAFE_MODE_ON && !you.is_running() ) {
             here.build_map_cache( dest_loc.z() );
             here.update_visibility_cache( dest_loc.z() );
-            // Need to get bub coords again after build_map_cache
-            const tripoint_bub_ms new_pos = you.pos_bub( here );
-            const tripoint_bub_ms src_loc = new_pos - d;
-            tripoint_bub_ms center = src_loc;
             g->mon_info_update();
-
-            if( !g->check_safe_mode_allowed() ) {
+            if( !g->check_safe_mode_allowed() && !you.is_hauling() ) {
                 input_context ctxt( "LOOK" );
-                add_msg( game_message_params{ m_info, gmf_bypass_cooldown },
-                         _( "Press %s to move here anyway." ),
-                         ctxt.get_desc( "CONFIRM" ) );
+                static_popup popup;
+                popup.message( "%s " + colorize( _( "to go back." ), c_light_gray ) +
+                               "\n%s " + colorize( _( "to move anyway." ), c_light_gray ),
+                               ctxt.get_desc( "QUIT" ),
+                               ctxt.get_desc( "CONFIRM" ) ).on_top( true );
+                ui_manager::redraw();
+                // Get bub coords again after build_map_cache
+                const tripoint_bub_ms new_pos = you.pos_bub( here );
+                const tripoint_bub_ms src_loc = new_pos - d;
+                tripoint_bub_ms center = src_loc;
                 const look_around_result result = g->look_around( false, center, center, false, false, true );
                 if( result.peek_action != PA_MOVE ) {
                     g->walk_move( src_loc, via_ramp );

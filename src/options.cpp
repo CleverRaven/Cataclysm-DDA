@@ -1634,6 +1634,11 @@ void options_manager::add_options_general()
              to_translation( "Number of turns an ignored monster stays ignored after it is no longer seen.  0 disables this option and monsters are permanently ignored." ),
              0, 3600, 200
            );
+
+        add( "SAFEMODEAUTOPEEK", page_id, to_translation( "Safe mode auto peek" ),
+             to_translation( "If true, safe mode preemptively peeks the next tile when not running. This option doesn't negatively impact speed." ),
+             true
+           );
     } );
 
     add_empty_line();
