@@ -736,7 +736,9 @@ int Character::count_threshold_substitute_traits() const
     for( const mutation_branch &mut : mutation_branch::get_all() ) {
         if( !mut.threshold_substitutes.empty() && has_trait( mut.id ) &&
             std::find_if( mut.threshold_substitutes.begin(), mut.threshold_substitutes.end(),
-                          [this](const trait_id &t) { return has_trait( t ); } ) != mut.threshold_substitutes.end() ) {
+        [this]( const trait_id & t ) {
+        return has_trait( t );
+        } ) != mut.threshold_substitutes.end() ) {
             ++count;
             break;
         }
