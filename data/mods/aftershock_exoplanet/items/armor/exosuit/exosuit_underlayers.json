@@ -14,6 +14,7 @@
     "environmental_protection": 5,
     "charges_per_use": 1,
     "tool_ammo": "battery",
+    "variants": [  ],
     "use_action": {
       "type": "transform",
       "msg": "You activate your %s.",
@@ -92,6 +93,7 @@
     "charges_per_use": 1,
     "tool_ammo": "battery",
     "environmental_protection": 5,
+    "variants": [  ],
     "use_action": {
       "type": "transform",
       "msg": "You activate your %s.",
@@ -170,6 +172,7 @@
     "charges_per_use": 1,
     "tool_ammo": "battery",
     "environmental_protection": 100,
+    "variants": [  ],
     "use_action": {
       "type": "transform",
       "msg": "You activate your %s.",
@@ -250,6 +253,7 @@
     "charges_per_use": 1,
     "tool_ammo": "battery",
     "environmental_protection": 16,
+    "variants": [  ],
     "use_action": {
       "type": "transform",
       "msg": "You activate your %s.",
