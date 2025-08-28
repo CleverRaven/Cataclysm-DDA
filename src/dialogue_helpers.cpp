@@ -76,6 +76,7 @@ std::string str_or_var::evaluate( const_dialogue const &d, bool convert ) const
         if( default_val.has_value() ) {
             return default_val.value();
         }
+        debugmsg( "var %s used unitialized.  %s", var_val.value().name, d.get_callstack() );
         return {};
     }
     debugmsg( "No valid value for str_or_var_part.  %s", d.get_callstack() );
@@ -102,6 +103,7 @@ std::string translation_or_var::evaluate( const_dialogue const &d, bool convert 
         if( default_val.has_value() ) {
             return default_val.value().translated();
         }
+        debugmsg( "var %s used unitialized.  %s", var_val.value().name, d.get_callstack() );
         return {};
     }
     debugmsg( "No valid value for str_or_var_part.  %s", d.get_callstack() );
@@ -128,6 +130,7 @@ double dbl_or_var_part::evaluate( const_dialogue const &d ) const
         if( default_val.has_value() ) {
             return default_val.value();
         }
+        debugmsg( "var %s used unitialized.  %s", var_val.value().name, d.get_callstack() );
         return 0;
     }
     if( math_val ) {
@@ -158,6 +161,7 @@ time_duration duration_or_var_part::evaluate( const_dialogue const &d ) const
         if( default_val.has_value() ) {
             return default_val.value();
         }
+        debugmsg( "var %s used unitialized.  %s", var_val.value().name, d.get_callstack() );
         return 0_seconds;
     }
     if( math_val ) {

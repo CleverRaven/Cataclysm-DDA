@@ -287,6 +287,7 @@ double var::eval( const_dialogue const &d ) const
                 ret->to_string(), ex.what() );
         }
     }
+    debugmsg( "%s used unitialized.  %s", varinfo.name, d.get_callstack() );
     return 0;
 }
 
