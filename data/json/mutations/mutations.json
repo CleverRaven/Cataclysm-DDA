@@ -2208,7 +2208,7 @@
     "valid": false,
     "vitamin_rates": [ [ "instability", -60 ] ],
     "category": [ "CHIMERA" ],
-    "threshreq": [ "CHIMERA" ]
+    "threshreq": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
