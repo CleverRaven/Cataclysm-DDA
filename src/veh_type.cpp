@@ -375,25 +375,14 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         if( !wheel_info ) {
             wheel_info.emplace();
         }
-
-        assign( jo, "rolling_resistance", wheel_info->rolling_resistance, strict );
-        assign( jo, "contact_area", wheel_info->contact_area, strict );
-        assign( jo, "wheel_offroad_rating", wheel_info->offroad_rating, strict );
-        if( const std::optional<JsonValue> jo_termod = jo.get_member_opt( "wheel_terrain_modifiers" ) ) {
-            wheel_info->terrain_modifiers.clear();
-            for( const JsonMember jo_mod : static_cast<JsonObject>( *jo_termod ) ) {
-                const JsonArray jo_mod_values = jo_mod.get_array();
-                veh_ter_mod mod { jo_mod.name(), jo_mod_values.get_int( 0 ), jo_mod_values.get_int( 1 ) };
-                wheel_info->terrain_modifiers.emplace_back( std::move( mod ) );
-            }
-        }
+        wheel_info->deserialize( jo );
     }
 
     if( has_flag( "ROTOR" ) ) {
         if( !rotor_info ) {
             rotor_info.emplace();
         }
-        assign( jo, "rotor_diameter", rotor_info->rotor_diameter, strict );
+        rotor_info->deserialize( jo );
     }
 
     if( has_flag( "WORKBENCH" ) ) {
@@ -441,6 +430,38 @@ void vpslot_engine::deserialize( const JsonObject &jo )
     optional( jo, was_loaded, "muscle_power_factor", muscle_power_factor, 0 );
     optional( jo, was_loaded, "exclusions", exclusions, string_reader{} );
     optional( jo, was_loaded, "fuel_options", fuel_opts, string_id_reader<itype> {} );
+
+    was_loaded = true;
+}
+
+void veh_ter_mod::deserialize( const JsonValue &jv )
+{
+    if( !jv.is_member() ) {
+        jv.throw_error( "Invalid format" );
+    }
+
+    const JsonMember &jm = dynamic_cast<const JsonMember &>( jv );
+    JsonArray ja = jm.get_array();
+
+    terrain_flag = jm.name();
+    move_override = ja.get_int( 0 );
+    move_penalty = ja.get_int( 1 );
+}
+
+void vpslot_wheel::deserialize( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "rolling_resistance", rolling_resistance, 1.f );
+    optional( jo, was_loaded, "contact_area", contact_area, 1 );
+    optional( jo, was_loaded, "wheel_offroad_rating", offroad_rating, 0.5f );
+    optional( jo, was_loaded, "wheel_terrain_modifiers", terrain_modifiers,
+              json_read_reader<veh_ter_mod> {} );
+
+    was_loaded = true;
+}
+
+void vpslot_rotor::deserialize( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "rotor_diameter", rotor_diameter, 1 );
 
     was_loaded = true;
 }

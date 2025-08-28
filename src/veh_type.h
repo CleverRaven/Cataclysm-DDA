@@ -27,6 +27,7 @@
 class Character;
 class JsonObject;
 class JsonOut;
+class JsonValue;
 class vehicle;
 class vpart_info;
 struct vehicle_prototype;
@@ -140,17 +141,31 @@ struct veh_ter_mod {
     std::string terrain_flag; // terrain flag this mod block applies to
     int move_override;        // override when on flagged terrain, ignored if 0
     int move_penalty;         // penalty added when not on flagged terrain, ignored if 0
+
+    void deserialize( const JsonValue &jv );
+    // for generic_factory delete/extend
+    bool operator==( const veh_ter_mod &rhs ) const {
+        return terrain_flag == rhs.terrain_flag;
+    }
 };
 
 struct vpslot_wheel {
+    bool was_loaded = false;
+
     float rolling_resistance = 1.0f;
     int contact_area = 1;
     std::vector<veh_ter_mod> terrain_modifiers;
     float offroad_rating = 0.5f;
+
+    void deserialize( const JsonObject &jo );
 };
 
 struct vpslot_rotor {
+    bool was_loaded = false;
+
     int rotor_diameter = 1;
+
+    void deserialize( const JsonObject &jo );
 };
 
 struct vpslot_workbench {
