@@ -1350,16 +1350,16 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
                     if( !has_trait( trait_CHAOTIC ) && !has_trait( trait_CHAOTIC_BAD ) ) {
                         if( rng( 1, 100 ) <= chance ) {
                             mutate_towards( trait_CHAOTIC );
-                        }
-                   else if( has_trait( trait_CHAOTIC ) && !has_trait( trait_CHAOTIC_BAD ) ) {
-                        if( rng( 1, 100 ) <= chance ) {
-                            mutate_towards( trait_CHAOTIC_BAD );
+                        } else if( has_trait( trait_CHAOTIC ) && !has_trait( trait_CHAOTIC_BAD ) ) {
+                            if( rng( 1, 100 ) <= chance ) {
+                                mutate_towards( trait_CHAOTIC_BAD );
+                            }
                         }
                     }
+                    return;
                 }
                 return;
             }
-            return;
         }
     } while( valid.empty() );
 }
@@ -1429,13 +1429,8 @@ void Character::mutate_category( const mutation_category_id &cat )
     mutate_category( cat, !mutation_category_trait::get_category( cat ).vitamin.is_null() );
 }
 
-bool Character::mutation_selector( const std::vector<trait_id> &prospective_traits,
-                                   const mutation_category_id &cat, const bool &use_vitamins )
-{
-    if( has_trait( trait_CHAOTIC ) || has_trait( trait_CHAOTIC_BAD ) ) {
-        add_msg_if_player( m_bad,
-                           _( "Your genetic degeneration prevents you from selecting a mutation directly!" ) );
-        return false;
+    void Character::mutate_category( const mutation_category_id & cat ) {
+        mutate_category( cat, !mutation_category_trait::get_category( cat ).vitamin.is_null() );
     }
     // Setup menu
     uilist mmenu;
