@@ -546,8 +546,14 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
             g->mon_info_update();
 
             if( !g->check_safe_mode_allowed() ) {
-                g->look_around( false, center, center, false, false, true );
-                g->walk_move( src_loc, via_ramp );
+                input_context ctxt( "LOOK" );
+                add_msg( game_message_params{ m_info, gmf_bypass_cooldown },
+                         _( "Press %s to move here anyway." ),
+                         ctxt.get_desc( "CONFIRM" ) );
+                const look_around_result result = g->look_around( false, center, center, false, false, true );
+                if( result.peek_action != PA_MOVE ) {
+                    g->walk_move( src_loc, via_ramp );
+                }
                 return false; // cancel automove
             }
         }
