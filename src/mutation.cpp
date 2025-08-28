@@ -1343,17 +1343,16 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
             }
             if( mutate_towards( valid, cat, 2, use_vitamins ) ) {
                 add_msg_if_player( m_mixed, mutation_category_trait::get_category( cat ).mutagen_message() );
-                
                 int sub_count = count_threshold_substitute_traits();
                 if( sub_count > 2 ) {
                     int chance = sub_count - 2;
-                    if( !has_trait(trait_id("CHAOTIC")) && !has_trait(trait_id("CHAOTIC_BAD")) ) {
-                        if( rng(1, 100) <= chance ) {
-                            mutate_towards(trait_id("CHAOTIC"));
+                    if( !has_trait( trait_id( "CHAOTIC" ) ) && !has_trait( trait_id( "CHAOTIC_BAD" ) ) ) {
+                        if( rng( 1, 100 ) <= chance ) {
+                            mutate_towards( trait_id( "CHAOTIC" ) );
                         }
-                    } else if( has_trait(trait_id("CHAOTIC")) && !has_trait(trait_id("CHAOTIC_BAD")) ) {
-                        if( rng(1, 100) <= chance ) {
-                            mutate_towards(trait_id("CHAOTIC_BAD"));
+                    } else if( has_trait( trait_id( "CHAOTIC" ) ) && !has_trait( trait_id( "CHAOTIC_BAD" ) ) ) {
+                        if( rng( 1, 100 ) <= chance ) {
+                            mutate_towards( trait_id( "CHAOTIC_BAD" ) );
                         }
                     }
                 }
