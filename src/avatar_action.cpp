@@ -537,12 +537,17 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
     if( g->walk_move( dest_loc, via_ramp ) ) {
         // If safe mode would be triggered after the move, move back and peek
         if( g->safe_mode == SAFE_MODE_ON && !you.is_running() ) {
-            here.build_map_cache ( dest_loc.z() );
+            here.build_map_cache( dest_loc.z() );
             here.update_visibility_cache( dest_loc.z() );
+            // Need to get bub coords again after build_map_cache
+            const tripoint_bub_ms new_pos = you.pos_bub( here );
+            const tripoint_bub_ms src_loc = new_pos - d;
+            tripoint_bub_ms center = src_loc;
             g->mon_info_update();
-            if( g->safe_mode == SAFE_MODE_STOP ) {
-                g->look_around();
-                g->walk_move( you_pos, via_ramp );
+
+            if( !g->check_safe_mode_allowed() ) {
+                g->look_around( false, center, center, false, false, true );
+                g->walk_move( src_loc, via_ramp );
                 return false; // cancel automove
             }
         }
