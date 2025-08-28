@@ -28,6 +28,7 @@
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "gun_mode.h"
+#include "input_context.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
