@@ -537,7 +537,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
     }
     if( g->walk_move( dest_loc, via_ramp ) ) {
         // If safe mode would be triggered after the move, move back and peek
-        if( g->safe_mode == SAFE_MODE_ON && !you.is_running() ) {
+        if( g->safe_mode == SAFE_MODE_ON && !you.is_running() && !you.is_hauling() ) {
             here.build_map_cache( dest_loc.z() );
             here.update_visibility_cache( dest_loc.z() );
             // Need to get bub coords again after build_map_cache
