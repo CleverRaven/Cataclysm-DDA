@@ -1434,7 +1434,7 @@ bool Character::mutation_selector( const std::vector<trait_id> &prospective_trai
 {
     if( has_trait( trait_CHAOTIC ) || has_trait( trait_CHAOTIC_BAD ) ) {
         add_msg_if_player( m_bad,
-                           _( "Your genetic degeneration prevent you from selecting a mutation directly!" ) );
+                           _( "Your genetic degeneration prevents you from selecting a mutation directly!" ) );
         return false;
     }
     // Setup menu
