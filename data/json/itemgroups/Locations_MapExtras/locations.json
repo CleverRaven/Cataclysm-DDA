@@ -1623,6 +1623,7 @@
       { "item": "mp3", "prob": 9, "charges": [ 0, 100 ] },
       { "item": "cell_phone", "prob": 80, "charges": [ 0, 150 ] },
       { "group": "civilian_phones", "prob": 10 },
+      { "group": "used_usb_drives", "prob": 20, "contents-group": "efiles_contraband" },
       { "group": "used_eink_tablet_pcs", "prob": 5, "contents-group": "efiles_contraband" },
       { "item": "camera", "prob": 3, "charges": [ 0, 150 ] },
       { "item": "camera_pro", "prob": 1, "charges": [ 0, 150 ] },
