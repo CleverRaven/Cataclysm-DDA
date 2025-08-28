@@ -389,5 +389,33 @@
     "price_postapoc": "25 USD",
     "symbol": "o",
     "color": "brown"
+  },
+  {
+    "type": "ITEM",
+    "id": "lathe",
+    "//": "Based off https://www.grizzly.com/products/grizzly-8-x-16-variable-speed-benchtop-metal-lathe/g0768 because its longest side is roughly 1 m long (hence it'd fit in a tile) and it seemed standard enough.",
+    "name": { "str": "disconnected lathe" },
+    "description": "An industrial-grade lathe, for turning chunks of metal and other hard things into round chunks of metal and other hard things.  Needs to be placed and plugged into a power source.",
+    "looks_like": "f_heavy_lathe",
+    "symbol": "4",
+    "color": "cyan_red",
+    "material": [ "iron" ],
+    "longest_side": "115 cm",
+    "volume": "275 L",
+    "weight": "150 kg"
+  },
+  {
+    "type": "ITEM",
+    "id": "deep_fryer",
+    "//": "Based off https://www.frymaster.com/product/fam_zeozpi/E4-Electric-Fryers-RE14-RE14-2.",
+    "name": { "str": "disconnected deep fryer" },
+    "description": "An industrial deep fryer, for frying huge batches of food at once.  Needs to be placed and plugged into a power source.",
+    "looks_like": "f_oven",
+    "symbol": "h",
+    "color": "light_gray",
+    "material": [ "lc_steel" ],
+    "longest_side": "115 cm",
+    "volume": "368 L",
+    "weight": "86 kg"
   }
 ]

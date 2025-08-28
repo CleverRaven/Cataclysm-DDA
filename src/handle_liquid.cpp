@@ -224,6 +224,15 @@ void handle_npc_liquid( item liquid, Character &who )
     who.invalidate_weight_carried_cache();
 }
 
+void handle_all_or_npc_liquid( Character &p, item &newit, int radius, const item *avoid )
+{
+    if( p.is_avatar() ) {
+        liquid_handler::handle_all_liquid( newit, radius, avoid );
+    } else {
+        liquid_handler::handle_npc_liquid( newit, p );
+    }
+}
+
 bool consume_liquid( item &liquid, const int radius, const item *const avoid )
 {
     const int original_charges = liquid.charges;

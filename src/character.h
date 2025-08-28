@@ -413,6 +413,7 @@ struct consumption_event {
     void deserialize( const JsonObject &jo );
 };
 
+//* Modifiers to stats and speed. Positive/negative values are contextual; expected penalties are stored as positive values */
 struct stat_mod {
     int strength = 0;
     int dexterity = 0;
@@ -921,7 +922,9 @@ class Character : public Creature, public visitable
         bool has_mind() const override;
         /** Returns the penalty to speed from thirst */
         static int thirst_speed_penalty( int thirst );
-        /** Returns the effect of pain on stats */
+        /** Returns the effect of weight on stats, with positive penalties representing negative bonuses */
+        stat_mod get_weight_penalty() const;
+        /** Returns the effect of pain on stats, with positive penalties representing negative bonuses */
         stat_mod get_pain_penalty() const;
         stat_mod read_pain_penalty() const;
         /** returns players strength adjusted by any traits that affect strength during lifting jobs */
@@ -1197,7 +1200,7 @@ class Character : public Creature, public visitable
         bool can_attack_high() const override;
 
         /** NPC-related item rating functions */
-        double weapon_value( const item &weap, int ammo = 10 ) const; // Evaluates item as a weapon
+        double evaluate_weapon( const item &maybe_weapon, bool pretend_have_ammo = false ) const;
         double gun_value( const item &weap, int ammo = 10 ) const; // Evaluates item as a gun
         double melee_value( const item &weap ) const; // As above, but only as melee
         double unarmed_value() const; // Evaluate yourself!
@@ -1220,6 +1223,8 @@ class Character : public Creature, public visitable
         bool is_dead_state() const override;
 
     private:
+        double evaluate_weapon_internal( const item &maybe_weapon, bool can_use_gun,
+                                         bool use_silent, int pretend_ammo = 0 ) const;
         mutable std::optional<bool> cached_dead_state;
     public:
         void set_part_hp_cur( const bodypart_id &id, int set ) override;
@@ -1304,6 +1309,8 @@ class Character : public Creature, public visitable
         float melee_weakpoint_skill( const item &weapon ) const;
         float ranged_weakpoint_skill( const item &weapon ) const;
         float throw_weakpoint_skill() const;
+        /** Consumes power from power armor or deactivates without enough power */
+        void armor_use_power_when_hit( damage_unit &du, item &armor ) const;
         /**
          * Reduces and mutates du, prints messages about armor taking damage.
          * Requires a roll out of 100
@@ -1334,9 +1341,9 @@ class Character : public Creature, public visitable
         int mabuff_armor_bonus( const damage_type_id &type ) const;
         // --------------- Mutation Stuff ---------------
         // In newcharacter.cpp
-        /** Returns the id of a random starting trait that costs >= 0 points */
+        /** Returns the id of a random starting chargen trait that costs >= 0 points */
         trait_id random_good_trait();
-        /** Returns the id of a random starting trait that costs < 0 points */
+        /** Returns the id of a random starting chargen trait that costs < 0 points */
         trait_id random_bad_trait();
         /** Returns the id of a random trait matching the given predicate */
         trait_id get_random_trait( const std::function<bool( const mutation_branch & )> &func );
@@ -1407,6 +1414,29 @@ class Character : public Creature, public visitable
         bool empathizes_with_species( const species_id &species ) const;
         /** Whether the character feels significant empathy for the given monster.  HUMAN is empathized with by default */
         bool empathizes_with_monster( const mtype_id &monster ) const;
+        /** Whether the character is a pyromaniac who hasn't seen a fire in a while */
+        bool has_unfulfilled_pyromania() const;
+        /** Fulfill the character's pyromaniacal urges */
+        void fulfill_pyromania( int bonus = 15, int max_bonus = 15,
+                                const time_duration &duration = 8_hours, const time_duration &decay_start = 6_hours );
+        /** Fulfill the character's pyromaniacal urges, with a message */
+        void fulfill_pyromania_msg( const std::string &message, int bonus = 15, int max_bonus = 15,
+                                    const time_duration &duration = 8_hours, const time_duration &decay_start = 6_hours );
+        /** Fulfill the character's pyromaniacal urges, with a standard message */
+        void fulfill_pyromania_msg_std( const std::string &target_name = "",
+                                        int bonus = 15, int max_bonus = 15,
+                                        const time_duration &duration = 8_hours, const time_duration &decay_start = 6_hours );
+        /** Fulfill the character's pyromaniacal urges, if they can see the creature on fire */
+        bool fulfill_pyromania_sees( const map &here, const Creature &target,
+                                     int bonus = 15, int max_bonus = 15,
+                                     const time_duration &duration = 8_hours, const time_duration &decay_start = 6_hours );
+        /** Fulfill the character's pyromaniacal urges, if they can see the location on fire */
+        bool fulfill_pyromania_sees( const map &here, const tripoint_bub_ms &target,
+                                     const std::string &target_str = "", bool std_msg = true, int bonus = 15, int max_bonus = 15,
+                                     const time_duration &duration = 8_hours, const time_duration &decay_start = 6_hours );
+
+        /** Whether the character suffers schizophrenic symptoms, with odds 1 in chance */
+        bool schizo_symptoms( int chance = 1 ) const;
 
     private:
         // Cache if character has a flag on their mutations. It is cleared whenever my_mutations is modified.
@@ -2390,9 +2420,11 @@ class Character : public Creature, public visitable
          * Wield an item, unwielding currently wielded item (if any).
          * If moving from a location, use provide item_location instead of item for more accurate move-cost.
          * @param it item to be wielded.
+         * @param obtain_cost value to override move cost calculation
+         * @param combat wielding for combat purposes
          * @return whether both removal and replacement were successful (they are performed atomically)
          */
-        bool wield( item &it, std::optional<int> obtain_cost = std::nullopt );
+        bool wield( item &it, std::optional<int> obtain_cost = std::nullopt, bool combat = true );
         /**
          * Check player capable of unwielding an item.
          * @param it Thing to be unwielded
@@ -2841,6 +2873,8 @@ class Character : public Creature, public visitable
         std::vector<effect_on_condition_id> inactive_effect_on_condition_vector;
         queued_eocs queued_effect_on_conditions;
 
+        /** Queue mutliple EOCs without delay */
+        void queue_effects( const std::vector<effect_on_condition_id> &effects );
         /** Queue an EOC to add effect after a delay */
         void queue_effect( const std::string &name, const time_duration &delay,
                            const time_duration &duration );
@@ -3605,6 +3639,9 @@ class Character : public Creature, public visitable
         float crafting_speed_multiplier( const recipe &rec ) const;
         float workbench_crafting_speed_multiplier( const item &craft,
                 const std::optional<tripoint_bub_ms> &loc )const;
+        float limb_score_crafting_speed_multiplier( const recipe &rec ) const;
+        float pain_crafting_speed_multiplier( const recipe &rec ) const;
+        float mut_crafting_speed_multiplier( const recipe &rec ) const;
         /** For use with in progress crafts.
          *  Workbench multiplier calculation (especially finding lifters nearby)
          *  is expensive when numorous items are around.
@@ -3733,7 +3770,8 @@ class Character : public Creature, public visitable
         // Selects one entry in components using select_item_component and consumes those items.
         std::list<item> consume_items( const std::vector<item_comp> &components, int batch = 1,
                                        const std::function<bool( const item & )> &filter = return_true<item>,
-                                       const std::function<bool( const itype_id & )> &select_ind = return_false<itype_id> );
+                                       const std::function<bool( const itype_id & )> &select_ind = return_false<itype_id>,
+                                       bool can_cancel = false );
         bool consume_software_container( const itype_id &software_id );
         comp_selection<tool_comp>
         select_tool_component( const std::vector<tool_comp> &tools, int batch, read_only_visitable &map_inv,

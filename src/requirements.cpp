@@ -33,7 +33,6 @@
 #include "itype.h"
 #include "json.h"
 #include "localized_comparator.h"
-#include "make_static.h"
 #include "output.h"
 #include "pocket_type.h"
 #include "string_formatter.h"
@@ -41,6 +40,8 @@
 #include "units.h"
 #include "value_ptr.h"
 #include "visitable.h"
+
+static const flag_id json_flag_UNRECOVERABLE( "UNRECOVERABLE" );
 
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_char_forge( "char_forge" );
@@ -110,6 +111,11 @@ void quality::reset()
 void quality::load_static( const JsonObject &jo, const std::string &src )
 {
     quality_factory.load( jo, src );
+}
+
+void quality::finalize_all()
+{
+    quality_factory.finalize();
 }
 
 void quality::load( const JsonObject &jo, std::string_view )
@@ -1313,7 +1319,7 @@ requirement_data requirement_data::disassembly_requirements() const
     []( std::vector<item_comp> &cov ) {
         cov.erase( std::remove_if( cov.begin(), cov.end(),
         []( const item_comp & comp ) {
-            return !comp.recoverable || item( comp.type ).has_flag( STATIC( flag_id( "UNRECOVERABLE" ) ) );
+            return !comp.recoverable || item( comp.type ).has_flag( json_flag_UNRECOVERABLE );
         } ), cov.end() );
         return cov.empty();
     } ), ret.components.end() );

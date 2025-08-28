@@ -140,37 +140,26 @@ static time_duration next_recurrence( const effect_on_condition_id &eoc, dialogu
 void effect_on_conditions::load_new_character( Character &you )
 {
     bool is_avatar = you.is_avatar();
-    for( const effect_on_condition_id &eoc_id : get_scenario()->eoc() ) {
-        effect_on_condition eoc = eoc_id.obj();
-        if( is_avatar || eoc.run_for_npcs ) {
-            queued_eoc new_eoc = queued_eoc{ eoc.id, calendar::turn_zero, {} };
-            you.queued_effect_on_conditions.push( new_eoc );
-        }
+
+    // npcs do not have scenario, so check for that
+    const scenario *scen = get_scenario();
+    if( scen ) {
+        you.queue_effects( scen->eoc() );
     }
 
-    if( you.get_profession() ) {
-        for( const effect_on_condition_id &eoc_id : you.get_profession()->get_eocs() ) {
-            effect_on_condition eoc = eoc_id.obj();
-            if( is_avatar || eoc.run_for_npcs ) {
-                queued_eoc new_eoc = queued_eoc{ eoc.id, calendar::turn_zero, {} };
-                you.queued_effect_on_conditions.push( new_eoc );
-            }
-        }
+    const profession *prof = you.get_profession();
+    if( prof ) {
+        you.queue_effects( prof->get_eocs() );
     }
 
-    for( const effect_on_condition &eoc : effect_on_conditions::get_all() ) {
+    for( const effect_on_condition &eoc : get_all() ) {
         if( eoc.type == eoc_type::RECURRING && ( ( is_avatar && eoc.global ) || !eoc.global ) ) {
             dialogue d( get_talker_for( you ), nullptr );
-            queued_eoc new_eoc = queued_eoc{ eoc.id, calendar::turn + next_recurrence( eoc.id, d ), {} };
-            if( eoc.global ) {
-                g->queued_global_effect_on_conditions.push( new_eoc );
-            } else {
-                you.queued_effect_on_conditions.push( new_eoc );
-            }
+            queue_effect_on_condition( next_recurrence( eoc.id, d ), eoc.id, you, {} );
         }
     }
 
-    effect_on_conditions::process_effect_on_conditions( you );
+    process_effect_on_conditions( you );
 }
 
 static void process_new_eocs( queued_eocs &eoc_queue,
@@ -205,7 +194,7 @@ void effect_on_conditions::load_existing_character( Character &you )
 {
     bool is_avatar = you.is_avatar();
     std::map<effect_on_condition_id, bool> new_eocs;
-    for( const effect_on_condition &eoc : effect_on_conditions::get_all() ) {
+    for( const effect_on_condition &eoc : get_all() ) {
         if( eoc.type == eoc_type::RECURRING && ( is_avatar || !eoc.global ) ) {
             new_eocs[eoc.id] = true;
         }
@@ -357,6 +346,24 @@ bool effect_on_condition::activate( dialogue &d, bool require_callstack_check ) 
     return retval;
 }
 
+bool effect_on_condition::activate_activation_only( dialogue &d, const std::string &text1,
+        const std::string &text2, const std::string &text3, bool require_callstack_check ) const
+{
+    if( type == eoc_type::ACTIVATION ) {
+        return activate( d, require_callstack_check );
+    }
+    debugmsg(
+        "Must use an activation eoc for %s%s%s%s.  Otherwise, create a non-recurring effect_on_condition for this %s%swith its condition and effects, then have a recurring one queue it.",
+        text1,
+        text2.empty() ? "" :
+        ".  If you don't want the effect_on_condition to happen on its own (without the ",
+        text2,
+        text2.empty() ? "" : "), remove the recurrence min and max.",
+        text3,
+        text3.empty() ? "" : " " );
+    return false;
+}
+
 bool effect_on_condition::check_deactivate( const_dialogue const &d ) const
 {
     if( !has_deactivate_condition || has_false_effect ) {
@@ -451,7 +458,7 @@ void effect_on_conditions::prevent_death()
 {
     avatar &player_character = get_avatar();
     dialogue d( get_talker_for( player_character ), nullptr );
-    for( const effect_on_condition &eoc : effect_on_conditions::get_all() ) {
+    for( const effect_on_condition &eoc : get_all() ) {
         if( eoc.type == eoc_type::PREVENT_DEATH ) {
             eoc.activate( d );
         }
@@ -471,7 +478,7 @@ void effect_on_conditions::avatar_death()
         return klr == &c;
     } );
     dialogue d( get_talker_for( get_avatar() ), klr == nullptr ? nullptr : get_talker_for( klr ) );
-    for( const effect_on_condition &eoc : effect_on_conditions::get_all() ) {
+    for( const effect_on_condition &eoc : get_all() ) {
         if( eoc.type == eoc_type::AVATAR_DEATH ) {
             eoc.activate( d );
         }
@@ -485,9 +492,6 @@ void effect_on_condition::finalize()
 void effect_on_conditions::finalize_all()
 {
     effect_on_condition_factory.finalize();
-    for( const effect_on_condition &eoc : effect_on_condition_factory.get_all() ) {
-        const_cast<effect_on_condition &>( eoc ).finalize();
-    }
 }
 
 void effect_on_condition::check() const

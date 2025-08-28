@@ -21,7 +21,6 @@
 #include "faction.h"
 #include "game.h"
 #include "game_constants.h"
-#include "make_static.h"
 #include "map.h"
 #include "mood_face.h"
 #include "move_mode.h"
@@ -142,7 +141,7 @@ std::string display::get_temp( const Character &u )
 {
     std::string temp;
     if( u.cache_has_item_with( json_flag_THERMOMETER ) ||
-        u.has_flag( STATIC( json_character_flag( "THERMOMETER" ) ) ) ) {
+        u.has_flag( json_flag_THERMOMETER ) ) {
         temp = print_temperature( get_weather().get_temperature( u.pos_bub() ) );
     }
     if( temp.empty() ) {
@@ -187,9 +186,16 @@ std::string display::time_approx()
 
 std::string display::date_string()
 {
-    const std::string season = calendar::name_season( season_of_year( calendar::turn ) );
-    const int day_num = day_of_season<int>( calendar::turn ) + 1;
-    return string_format( _( "%s, day %d" ), season, day_num );
+    if( calendar::year_length() != 364_days || !get_option<bool>( "SHOW_MONTHS" ) ) {
+        const std::string season = calendar::name_season( season_of_year( calendar::turn ) );
+        const int day_num = day_of_season<int>( calendar::turn ) + 1;
+        return string_format( _( "%s, day %d" ), season, day_num );
+    }
+    const std::pair<month, int> month_day = month_and_day( calendar::turn );
+    const weekdays day = day_of_week( calendar::turn );
+    //~ 1: day (Monday,Tuesday,etc) 2: Month, 3: day of Month .e.g. Thursday, March 8
+    return string_format( _( "%1$s, %2$s %3$d" ), to_string( day ), to_string( month_day.first ),
+                          month_day.second );
 }
 
 std::string display::time_string( const Character &u )
@@ -946,10 +952,11 @@ std::pair<std::string, nc_color> display::vehicle_cruise_text_color( const Chara
     // Text color indicates how much the engine is straining beyond its safe velocity.
     vehicle *veh = display::vehicle_driven( u );
     if( veh ) {
-        int target = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
-        int current = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
+        const double target = convert_velocity( veh->cruise_velocity, VU_VEHICLE );
+        const double current = convert_velocity( veh->velocity, VU_VEHICLE );
         const std::string units = get_option<std::string> ( "USE_METRIC_SPEEDS" );
-        vel_text = string_format( "%d < %d %s", target, current, units );
+        vel_text = string_format( "%s < %s %s", three_digit_display( target ),
+                                  three_digit_display( current ), units );
 
         const float strain = veh->strain( here );
         if( strain <= 0 ) {

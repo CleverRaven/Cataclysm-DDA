@@ -95,7 +95,7 @@ Format:
 - `"condition"` : (_optional_) Checked alongside trust with the avatar as alpha and the evaluating NPC as beta. See [Player or NPC conditions](#player-or-npc-conditions).
 - `"strict"` : (_optional_) If true, items in this group will not be available for restocking unless the conditions are met. (Defaults to false)
 - `"rigid"` : (_optional_) By default, item groups will be continually iterated until they reach a certain value or size threshold for the NPC. Rigid groups are instead guaranteed to populate a single time if they can, and will not include duplicate reruns. (Defaults to false)
-- `"refusal"` : (_optional_) message to display in UIs (ex: trade UI) when conditions are not met. Defaults to `"<npcname> does not trust you enough"`
+- `"refusal"` : (_optional_) message to display in UIs (ex: trade UI) when conditions are not met. Defaults to `"<npc_faction> faction does not trust you enough."`
 
 #### Shopkeeper consumption rates
 Controls consumption of shopkeeper's stock of items (simulates purchase by other people besides they player).
@@ -346,35 +346,39 @@ Field | Default messages/snippets | Used for...
 
 ### Special Custom Entries
 
-Certain entries like the snippets above are taken from the game state as opposed to JSON; they are found in the npctalk function parse_tags. They are as follows:
+Certain entries like the snippets above are taken from the game state as opposed to JSON; they are found in the npctalk function parse_tags. In dialogue the alpha talker is the avatar and the beta talker is the NPC.
 
-Field | Used for...
----|---
-`<yrwp>` | displays avatar's wielded item
-`<mywp>` | displays npc's wielded item
-`<u_name>` | displays avatar's name
-`<npc_name>` | displays npc's name
-`<ammo>` | displays avatar's ammo
-`<current_activity>` | displays npc's current activity
-`<punc>` | displays a random punctuation from: `.`, `…`, `!`
-`<mypronoun>` | displays npc's pronoun
-`<total_kills>` | total kills of the Player
-`<time_survived>` | time since start of the game
-`<topic_item>` | referenced item
-`<topic_item_price>` | referenced item unit price
-`<topic_item_my_total_price>` | TODO Add
-`<topic_item_your_total_price>` | TODO Add
-`<interval>` | displays the time remaining until restock
-`<u_val:VAR>` | The user variable VAR
-`<npc_val:VAR>` | The npc variable VAR
-`<context_val:VAR>` | The context variable VAR
-`<global_val:VAR>` | The global variable VAR
-`<item_name:ID>` | The name of the item from ID
-`<item_description:ID>` | The description of the item from ID
-`<trait_name:ID>` | The name of the trait from ID
-`<trait_description:ID>` | The description of the trait from ID
-`<spell_name:ID>` | The description of the name from ID
-`<spell_description:ID>` | The description of the trait from ID
+| Field                                         | Expects talker | Description
+| --------------------------------------------- | -------------- | -----------------------------------
+| `<yrwp>`                                      | alpha          | gets replaced with alpha talker's wielded item
+| `<mywp>`                                      | beta           | gets replaced with beta talker's wielded item or "fists" if they aren't wielding anything
+| `<u_name>`                                    | alpha          | gets replaced with alpha talker's name
+| `<npc_name>`                                  | beta           | gets replaced with beta talker's name
+| `<npcname>`                                   | N/A            | DO NOT USE, DEPRECATED - This will not work in parse_tags! It is listed here so you don't confuse it with with the very similar <npc_name>.
+| `<ammo>`                                      | beta           | gets replaced with beta talker's ammo or "BADAMMO" if it can't be determined
+| `<current_activity>`                          | beta           | gets replaced with beta talker's current activity or "doing this and that" if they don't have one assigned
+| `<mypronoun>`                                 | beta           | gets replaced with capitalised beta talker's pronoun (just "He" or "She" as of writing)
+| `<mypossesivepronoun>`                        | beta           | gets replaced with lowercase beta talker's possesive pronoun (just "his" or "her" as of writing)
+| `<topic_item>`                                | N/A            | gets replaced with talk_topic's referenced item's name
+| `<topic_item_price>`                          | N/A            | gets replaced with talk_topic's referenced item's unit price before modifiers
+| `<topic_item_my_total_price>`                 | beta           | gets replaced with the total price for talk_topic's referenced item in beta talker's inventory
+| `<topic_item_your_total_price>`               | alpha          | gets replaced with the total price for talk_topic's referenced item in alpha talker's inventory
+| `<interval>`                                  | beta           | gets replaced with the time remaining until the beta talker restocks
+| `<restock_time_point>`                        | beta           | displays the date of next restock of the beta talker
+| `<u_val:VAR>`                                 | alpha          | gets replaced with the user variable VAR
+| `<npc_val:VAR>`                               | beta           | gets replaced with the npc variable VAR
+| `<context_val:VAR>`                           | N/A            | gets replaced with the context variable VAR
+| `<global_val:VAR>`                            | N/A            | gets replaced with the global variable VAR
+| `<item_name:ID>`                              | N/A            | gets replaced with the name of the item from ID
+| `<item_description:ID>`                       | N/A            | gets replaced with the description of the item from ID
+| `<trait_name:ID>`                             | N/A            | gets replaced with the name of the trait from ID
+| `<trait_description:ID>`                      | beta           | gets replaced with the description of the trait from ID (uses beta talker to grab the description)
+| `<spell_name:ID>`                             | N/A            | gets replaced with the description of the name from ID
+| `<spell_description:ID>`                      | N/A            | gets replaced with the description of the trait from ID
+| `<keybind:ID>` and `<keybind:CATEGORY_ID:ID>` | N/A            | gets replaced with the keys bound to a specific `"type": "keybind"` found in data/raw or "Unbound globally/locally! (<keybind_name> in keybind category CATEGORY_ID)" if unbound.
+| `<city>`                                      | N/A            | gets replaced with the name of the closest city to the avatar
+| `<time_survived>`                             | N/A            | gets replaced with time since start of the game
+| `<total_kills>`                               | N/A            | gets replaced with total kills of the avatar
 
 item_name and similar tags, that parse the text out of the id, are able to parse the tags of variables, so it is possible to use `<item_name:<global_val:VAR>>`
 
@@ -1346,7 +1350,7 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | encumbrance(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters total encumbrance of a body part.<br/>Argument is bodypart ID. <br/> For items, returns typical encumbrance of the item. <br/><br/>Example:<br/>`"condition": { "math": [ "u_encumbrance('torso') > 0"] }`|
 | health(`d`/`v`)    |  ✅   |   ✅  | u, n  | Return character current health .<br/><br/>Example:<br/>`{ "math": [ "u_health() -= 1" ] }`|
 | energy(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return a numeric value (in millijoules) for an energy string (see [Units](JSON_INFO.md#units)).<br/><br/>Example:<br/>`{ "math": [ "u_val('power') -= energy('25 kJ')" ] }`|
-| faction_like(`s`/`v`)<br/>faction_respect(`s`/`v`)<br/>faction_trust(`s`/`v`)<br/>faction_food_supply(`s`/`v`)<br/>faction_wealth(`s`/`v`)<br/>faction_power(`s`/`v`)<br/>faction_size(`s`/`v`)    |   ✅   |   ✅  | N/A<br/>(global)  | Return the like/respect/trust/fac_food_supply/wealth/power/size value a faction has for the avatar.<br/>Argument is faction ID.<br/>`faction_food_supply` has an optional second argument(kwarg) for getting/setting vitamins.<br/><br/>Example:<br/>`"condition": { "math": [ "faction_like('hells_raiders') < -60" ] }`<br/><br/>`{ "math": [ "calcium_amount", "=", "faction_food_supply('your_followers', 'vitamin':'calcium')" ] },`<br/>`{ "u_message": "Calcium stored is <global_val:calcium_amount>", "type": "good" },`|
+| faction_like(`s`/`v`)<br/>faction_respect(`s`/`v`)<br/>faction_trust(`s`/`v`)<br/>faction_food_supply(`s`/`v`)<br/>faction_wealth(`s`/`v`)<br/>faction_power(`s`/`v`)<br/>faction_size(`s`/`v`)    |   ✅   |   ✅  | N/A<br/>(global)  | Return the like/respect/trust/fac_food_supply/wealth/power/size value a faction has for the avatar.<br/>Argument is faction ID.<br/>`faction_food_supply` has an optional second argument(kwarg) for getting/setting vitamins.<br/><br/>Example:<br/>`"condition": { "math": [ "faction_like('hells_raiders') < -60" ] }`<br/><br/>`{ "math": [ "calcium_amount = faction_food_supply('your_followers', 'vitamin':'calcium')" ] },`<br/>`{ "u_message": "Calcium stored is <global_val:calcium_amount>", "type": "good" },`|
 | field_strength(`s`/`v`)    |   ✅   |   ❌  | u, n, global  | Return the strength of a field on the tile.<br/>Argument is field ID.<br/><br/>Optional kwargs:<br/> `location`: `v` - center search on this location<br/><br/>The `location` kwarg is mandatory in the global scope.<br/><br/>Examples:<br/>`"condition": { "math": [ "u_field_strength('fd_blood') > 5" ] }`<br/><br/>`"condition": { "math": [ "field_strength('fd_blood_insect', 'location': u_search_loc) > 5" ] }`|
 | has_flag(`s`/`v`) | ✅ | ❌ | u, n | Check whether the actor has a flag. Meant to be used as condition for ternaries. Argument is trait ID.<br/><br/> Example:<br/>`"condition": { "math": [ "u_blorg = u_has_flag('MUTATION_TRESHOLD') ? 100 : 15" ] }`|
 | has_trait(`s`/`v`)    |  ✅   |   ❌  | u, n  | Check whether the actor has a trait. Meant to be used as condition for ternaries. Argument is trait ID.<br/><br/> Example:<br/>`"condition": { "math": [ "u_blorg = u_has_trait('FEEBLE') ? 100 : 15" ] }`|
@@ -1361,7 +1365,7 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | item_count(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the number of a given item in the character's inventory.<br/>Argument is item ID.<br/><br/>Example:<br/>`"condition": { "math": [ "u_item_count('backpack') >= 1"] }`|
 | item_rad(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return irradiation of worn items with the specified flag.<br/>Argument is flag ID.<br/><br/>Optional kwargs:<br/>`aggregate`: `s`/`v` - Specify the aggregation function to run, in case there's more than one item. Valid values are `min`/`max`/`sum`/`average`/`first`/`last`. Defaults to `min` if not specified. <br/><br/>Example:<br/>`"condition": { "math": [ "u_item_rad('RAD_DETECT') >= 1"] }`|
 | melee_damage(`s`/`v`)     |  ✅  |   ❌   | u, n  | Return the item's melee damage. Argument is damage type. For special value `ALL`, return sum for all damage types. <br/><br/>Actor must be an item.<br/><br/>Example:<br/>`{ "math": [ "mymelee = n_melee_damage('ALL')" ] }`<br/>See `EOC_test_weapon_damage` for a complete example|
-| monsters_nearby(`s`/`v`...)     |  ✅  |   ❌   | u, n, global  | Return the number of nearby monsters. Takes any number of `s`tring or `v`ariable positional parameters as monster IDs. <br/><br/>Optional kwargs:<br/>`radius`: `d`/`v` - limit to radius (rl_dist)<br/>`location`: `v` - center search on this location<br/>`attitude`: `s`/`v` - attitude filter. Must be one of `hostile`, `friendly`, `both`. Assumes `hostile` if not specified<br/><br/>The `location` kwarg is mandatory in the global scope.<br/><br/>Examples:<br/>`"condition": { "math": [ "u_monsters_nearby('radius': u_search_radius * 3) > 5" ] }`<br/><br/>`"condition": { "math": [ "monsters_nearby('mon_void_maw', 'mon_void_limb', mon_fotm_var, 'radius': u_search_radius * 3, 'location': u_search_loc)", ">", "5" ] }`|
+| monsters_nearby(`s`/`v`...)     |  ✅  |   ❌   | u, n, global  | Return the number of nearby monsters. Takes any number of `s`tring or `v`ariable positional parameters as monster IDs. <br/><br/>Optional kwargs:<br/>`radius`: `d`/`v` - limit to radius (rl_dist)<br/>`location`: `v` - center search on this location<br/>`attitude`: `s`/`v` - attitude filter. Must be one of `hostile`, `friendly`, `both`. Assumes `hostile` if not specified<br/><br/>The `location` kwarg is mandatory in the global scope.<br/><br/>Examples:<br/>`"condition": { "math": [ "u_monsters_nearby('radius': u_search_radius * 3) > 5" ] }`<br/><br/>`"condition": { "math": [ "monsters_nearby('mon_void_maw', 'mon_void_limb', 'mon_fotm_var', 'radius': u_search_radius * 3, 'location': u_search_loc)", ">", "5" ] }`|
 | mod_load_order(`s`/`v`)  |  ✅   |   ❌  | N/A<br/>(global)  | Returns the load order of specified mod. Argument is mod id. Returns -1 is the mod is not loaded. |
 | mon_species_nearby(`s`/`v`...)     |  ✅  |   ❌   | u, n, global  | Same as `monsters_nearby()`, but arguments are monster species |
 | mon_groups_nearby(`s`/`v`...)     |  ✅  |   ❌   | u, n, global  | Same as `monsters_nearby()`, but arguments are monster groups |
@@ -1402,6 +1406,7 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | climate_control_str_heat()    |  ✅   |   ❌  | u, n  | return amount of heat climate control that character currently has (character feels better in warm places with it), in warmth points; default 0, affected by CLIMATE_CONTROL_HEAT enchantment.<br/><br/>Example:<br/>`"condition": { "math": [ "u_climate_control_str_heat() < 0" ] }`|
 | climate_control_str_chill()    |  ✅   |   ❌  | u, n  | return amount of chill climate control that character currently has (character feels better in cold places with it), in warmth points; default 0, affected by CLIMATE_CONTROL_HEAT enchantment.<br/><br/>Example:<br/>`"condition": { "math": [ "n_climate_control_str_chill() < 0" ] }`|
 | calories()    |  ✅   |   ✅  | u, n  | Return amount of calories character has. If used on item, return amount of calories this item gives when consumed (not affected by enchantments or mutations).  Optional kwargs:<br/>`format`: `s`/`v` - return the value in specific format.  Can be `percent` (return percent to the healthy amount of calories, `100` being the target, bmi 25, or 110000 kcal) or `raw`.  If now used, `raw` is used by default.<br/>`dont_affect_weariness`: `true`/`false` (default false) When assigning value, whether the gained/spent calories should be tracked by weariness.<br/><br/>Example:<br/>`"condition": { "math": [ "u_calories() < 0" ] }`<br/>`"condition": { "math": [ "u_calories('format': 'percent') > 0" ] }`<br/>`"condition": { "math": [ "u_calories() = 110000" ] }`|
+| artifact_resonance()    |  ✅   |   ❌  | u, n  | Return amount of total artifact resonance character has. If used on item, return resonance of that item only. <br/><br/>Example:<br/>`"condition": { "math": [ "u_artifact_resonance() > 0" ] }`<br/>|
 | get_calories_daily()  |  ✅   |   ❌  | g  | Return amount of calories character consumed before, up to 30 days, in kcal. Calorie diary is something only character has, so it can't be used with NPCs. Optional kwargs:<br/>`day`: `d/v` - picks the date the value would be pulled from, from 0 to 30. Default 0, meaning amount of calories you consumed today.<br/>`type`: `s/v` - picks the data that would be pulled. Possible values are: `spent` - how much calories character spent in different activities throughout the day; `gained` - how much calories character ate that day; `ingested` - how much calories character processed that day; `total` - `gained` minus `spent`. Default is `total`;<br/><br/>Example:<br/>`"condition": { "math": [ "get_calories_daily() > 1000" ] }`<br/> `{ "math": [ "foo = get_calories_daily('type':'gained', 'day':'1')" ] }`|
 | quality( `s` / `v` )  |  ✅   |   ❌  | u, n | Return the level of a specified item tool quality. Only usable on item talkers.<br/>Argument is the quality ID. Returns the lowest integer value if the item lacks the specified quality.<br/>Optional kwargs:<br/>`strict`: `true` / `false` (default false) When true the item must be empty to have the boiling quality.<br/><br/>Example<br/>`"condition: { "math": [ " u_quality('HACK') > 0 " ] }`<br/>`{ "math": [ "_cut_quality = u_quality('CUT') " ] }`<br/>`condition: { "math": [ " u_quality('BOIL', 'strict': true ) > 0" ] }`
 

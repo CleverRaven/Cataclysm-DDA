@@ -469,6 +469,10 @@ bool zzip::add_file( std::filesystem::path const &zzip_relative_path, std::strin
 bool zzip::copy_files( std::vector<std::filesystem::path> const &zzip_relative_paths,
                        std::shared_ptr<zzip> const &from )
 {
+    if( zzip_relative_paths.empty() ) {
+        return true;
+    }
+
     zzip_footer other_footer{ from->footer_ };
     JsonObject original_footer = copy_footer();
     original_footer.allow_omitted_members();
@@ -1145,6 +1149,11 @@ bool zzip::compact( double bloat_factor )
     }
     reset_on_failure.cancel();
     return true;
+}
+
+bool zzip::clear()
+{
+    return file_->resize_file( 0 ) && rewrite_footer();
 }
 
 // Can't directly increment void*, have to cast to char* first.

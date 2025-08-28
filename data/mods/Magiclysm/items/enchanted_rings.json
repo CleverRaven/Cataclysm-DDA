@@ -590,8 +590,8 @@
           "id": "EOC_MAGICLYSM_WEARING_RING_OF_SUSTENANCE_FOLLOW_UP_TRUE",
           "condition": { "math": [ "u_effect_intensity('effect_mring_sustenance') >= 25" ] },
           "effect": [
-            { "if": { "math": [ "u_calories() <= 74999" ] }, "then": { "math": [ "u_calories()", "+=", "5" ] } },
-            { "if": { "math": [ "u_calories() <= 118000" ] }, "then": { "math": [ "u_calories()", "+=", "7" ] } },
+            { "if": { "math": [ "u_calories() <= 74999" ] }, "then": { "math": [ "u_calories() += 5" ] } },
+            { "if": { "math": [ "u_calories() <= 118000" ] }, "then": { "math": [ "u_calories() += 7" ] } },
             { "run_eocs": "EOC_MAGICLYSM_WEARING_RING_OF_SUSTENANCE_FOLLOW_UP", "time_in_future": 60 }
           ],
           "false_effect": [ { "run_eocs": "EOC_MAGICLYSM_WEARING_RING_OF_SUSTENANCE_FOLLOW_UP", "time_in_future": 60 } ]

@@ -155,11 +155,11 @@
   {
     "type": "effect_type",
     "id": "effect_biokin_breathe_skin",
-    "//": "effect used as tracker",
     "name": [ "Oxygen Absorption" ],
     "desc": [ "You can absorb oxygen through your skin." ],
     "rating": "good",
-    "max_duration": "7 days"
+    "max_duration": "7 days",
+    "flags": [ "GILLS", "SUFFOCATION_IMMUNE" ]
   },
   {
     "type": "effect_type",
@@ -428,23 +428,10 @@
     "max_intensity": 50,
     "dur_add_perc": 10,
     "int_dur_factor": "9 s",
-    "blocks_effects": [
-      "smoke_eyes",
-      "smoke_lungs",
-      "teargas",
-      "boomered",
-      "migo_atmosphere",
-      "fetid_goop",
-      "relax_gas",
-      "spores",
-      "dermatik",
-      "tpollen",
-      "poison",
-      "badpoison"
-    ],
+    "blocks_effects": [ "smoke_eyes", "teargas", "boomered", "fetid_goop", "spores", "dermatik" ],
     "removes_effects": [ "bleed" ],
     "//": "Gills here because they're holding their breath",
-    "flags": [ "NO_SCENT", "ELECTRIC_IMMUNE", "RAD_RESIST", "GILLS", "WALK_UNDERWATER" ]
+    "flags": [ "NO_SCENT", "ELECTRIC_IMMUNE", "RAD_RESIST", "GILLS", "WALK_UNDERWATER", "INHALED_TOXIN_IMMUNE" ]
   },
   {
     "type": "effect_type",
@@ -850,7 +837,7 @@
     "name": [ "Heightened Senses" ],
     "desc": [ "You are enhancing your mundane senses." ],
     "apply_message": "",
-    "remove_message": "Your enhance senses fade away.",
+    "remove_message": "Your enhanced senses fade away.",
     "rating": "good",
     "max_duration": "7 days",
     "enchantments": [
@@ -1009,7 +996,8 @@
               "math": [
                 "(u_spell_level('clair_better_senses') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling) >= 8"
               ]
-            }
+            },
+            { "math": [ "u_val('fine_detail_vision_mod') <= 7" ] }
           ]
         },
         "ench_effects": [ { "effect": "effect_clair_craft_in_darkness", "intensity": 1 } ]
@@ -1331,7 +1319,8 @@
       "glare",
       "snow_glare",
       "venom_blind"
-    ]
+    ],
+    "flags": [ "TRUE_SEEING" ]
   },
   {
     "type": "effect_type",
@@ -2679,6 +2668,7 @@
     "rating": "bad",
     "max_duration": 3000,
     "dur_add_perc": 5,
+    "show_in_info": true,
     "enchantments": [ { "values": [ { "value": "SPEED", "multiply": -0.25 } ] } ],
     "immune_flags": [ "DIMENSIONAL_ANCHOR", "TELESTOP", "TELEPORT_IMMUNE" ]
   },
@@ -2986,7 +2976,7 @@
     "type": "effect_type",
     "id": "effect_vitakin_hurt",
     "name": [ "Enervating Touch" ],
-    "desc": [ "This reduces monsters' regeneration.  It's a bug if you have it." ],
+    "desc": [ { "str": "This reduces monsters' regeneration.  It's a bug if you have it.", "//~": "NO_I18N" } ],
     "rating": "bad",
     "max_duration": "300 minutes",
     "show_in_info": true,

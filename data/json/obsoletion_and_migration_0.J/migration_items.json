@@ -1,0 +1,107 @@
+[
+  {
+    "type": "MIGRATION",
+    "id": "shot_he",
+    "replace": "shot_dragon"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "hk_mp7",
+    "replace": "fn_p90"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "hk46bigmag",
+    "replace": "fnp90mag"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "hk46mag",
+    "replace": "fnp90mag"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "reloaded_46mm",
+    "replace": "reloaded_57mm"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "46mm",
+    "replace": "57mm"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bp_46mm",
+    "replace": "bp_57mm"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "robofac_gun_46",
+    "replace": "robofac_gun_57"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "unprimed_46mm_casing",
+    "replace": "unprimed_57mm_casing"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "46mm_casing",
+    "replace": "57mm_casing"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "combatsaw_off",
+    "replace": "chainsaw_off"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "combatsaw_on",
+    "replace": "chainsaw_on"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "e_combatsaw_off",
+    "replace": "elec_chainsaw_off"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "e_combatsaw_on",
+    "replace": "elec_chainsaw_on"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "long_duffelbag",
+    "replace": "duffelbag"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "helmet_chitin_light",
+    "replace": "helmet_chitin"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_helmet_chitin_light",
+    "replace": "xl_helmet_chitin"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "helmet_chitin_light_xs",
+    "replace": "helmet_chitin_xs"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "helmet_acidchitin_light",
+    "replace": "helmet_acidchitin"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_helmet_acidchitin_light",
+    "replace": "xl_helmet_acidchitin"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "helmet_acidchitin_light_xs",
+    "replace": "helmet_acidchitin_xs"
+  }
+]

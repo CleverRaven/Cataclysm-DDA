@@ -1,12 +1,13 @@
 #include "computer_session.h"
 
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <cstdlib>
-#include <functional>
 #include <memory>
 #include <optional>
 #include <string>
+#include <unordered_set>
 #include <utility>
 
 #include "avatar.h"
@@ -25,6 +26,7 @@
 #include "explosion.h"
 #include "field_type.h"
 #include "flag.h"
+#include "flood_fill.h"
 #include "game.h"
 #include "game_inventory.h"
 #include "input.h"
@@ -383,6 +385,17 @@ computer_session::computer_action_functions = {
     { COMPACT_UNLOCK_DISARM, &computer_session::action_unlock_disarm },
 };
 
+//* Is the given position a specimen chamber eligible for termination */
+static bool has_terminate_terrain( const map &here, const tripoint_bub_ms &p )
+{
+    const ter_id &t_north = here.ter( p + tripoint::north );
+    const ter_id &t_south = here.ter( p + tripoint::south );
+    return ( t_north == ter_t_reinforced_glass_lab &&
+             t_south == ter_t_concrete_wall ) ||
+           ( t_south == ter_t_reinforced_glass_lab &&
+             t_north == ter_t_concrete_wall );
+}
+
 bool computer_session::can_activate( computer_action action )
 {
     map &here = get_map();
@@ -406,12 +419,7 @@ bool computer_session::can_activate( computer_action action )
                 if( !mon ) {
                     continue;
                 }
-                const ter_id &t_north = here.ter( p + tripoint::north );
-                const ter_id &t_south = here.ter( p + tripoint::south );
-                if( ( t_north == ter_t_reinforced_glass_lab &&
-                      t_south == ter_t_concrete_wall ) ||
-                    ( t_south == ter_t_reinforced_glass_lab &&
-                      t_north == ter_t_concrete_wall ) ) {
+                if( has_terminate_terrain( here, p ) ) {
                     return true;
                 }
             }
@@ -544,18 +552,24 @@ void computer_session::action_sample()
     }
 }
 
-void computer_session::action_release()
+void computer_session::helper_release( float radius )
 {
-    get_event_bus().send<event_type::releases_subspace_specimens>();
     Character &player_character = get_player_character();
     sounds::sound( player_character.pos_bub(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ),
                    false,
                    "environment",
                    "alarm" );
-    get_map().translate_radius( ter_t_reinforced_glass_lab, ter_t_thconc_floor, 25.0,
+    get_map().translate_radius( ter_t_reinforced_glass_lab, ter_t_thconc_floor, radius,
                                 player_character.pos_bub(),
                                 true );
     query_any( _( "Containment shields opened.  Press any key…" ) );
+}
+
+
+void computer_session::action_release()
+{
+    get_event_bus().send<event_type::releases_subspace_specimens>();
+    helper_release( 25.0 );
 }
 
 void computer_session::action_release_disarm()
@@ -566,15 +580,7 @@ void computer_session::action_release_disarm()
 
 void computer_session::action_release_bionics()
 {
-    Character &player_character = get_player_character();
-    sounds::sound( player_character.pos_bub(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ),
-                   false,
-                   "environment",
-                   "alarm" );
-    get_map().translate_radius( ter_t_reinforced_glass_lab, ter_t_thconc_floor, 3.0,
-                                player_character.pos_bub(),
-                                true );
-    query_any( _( "Containment shields opened.  Press any key…" ) );
+    helper_release( 3.0 );
 }
 
 void computer_session::action_terminate()
@@ -588,12 +594,7 @@ void computer_session::action_terminate()
         if( !mon ) {
             continue;
         }
-        const ter_id &t_north = here.ter( p + tripoint::north );
-        const ter_id &t_south = here.ter( p + tripoint::south );
-        if( ( t_north == ter_t_reinforced_glass_lab &&
-              t_south == ter_t_concrete_wall ) ||
-            ( t_south == ter_t_reinforced_glass_lab &&
-              t_north == ter_t_concrete_wall ) ) {
+        if( has_terminate_terrain( here, p ) ) {
             mon->die( &here, &player_character );
         }
     }
@@ -693,42 +694,42 @@ void computer_session::action_maps()
     comp.alerts ++;
 }
 
-void computer_session::action_map_sewer()
+void computer_session::helper_map( bool ( *func )( const oter_id & ), const char *query,
+                                   enum computer_action action )
 {
     Character &player_character = get_player_character();
     player_character.mod_moves( -to_moves<int>( 1_seconds ) * 0.3 );
     const tripoint_abs_omt center = player_character.pos_abs_omt();
-    for( int i = -60; i <= 60; i++ ) {
-        for( int j = -60; j <= 60; j++ ) {
-            point offset( i, j );
-            const oter_id &oter = overmap_buffer.ter( center + offset );
-            if( ( oter->get_type_id() == oter_type_sewer ) ||
-                is_ot_match( "sewage", oter, ot_match_type::prefix ) ) {
-                overmap_buffer.set_seen( center + offset, om_vision_level::details );
-            }
-        }
+    std::unordered_set<tripoint_abs_omt> visited;
+    const auto pred = [&center, &func]( const tripoint_abs_omt & p ) {
+        const oter_id &oter = overmap_buffer.ter( p );
+        return square_dist( center, p ) <= 90 && func( oter );
+    };
+    for( const auto p : ff::point_flood_fill_4_connected<std::vector>( center, visited, pred ) ) {
+        overmap_buffer.set_seen( p, om_vision_level::details );
     }
-    query_any( _( "Sewage map data downloaded.  Press any key…" ) );
-    comp.remove_option( COMPACT_MAP_SEWER );
+    query_any( query );
+    comp.remove_option( action );
+}
+
+void computer_session::action_map_sewer()
+{
+    helper_map(
+    []( const oter_id & oter ) {
+        return ( oter->get_type_id() == oter_type_sewer ) ||
+               is_ot_match( "sewage", oter, ot_match_type::prefix );
+    },
+    _( "Sewage map data downloaded.  Press any key…" ), COMPACT_MAP_SEWER );
 }
 
 void computer_session::action_map_subway()
 {
-    Character &player_character = get_player_character();
-    player_character.mod_moves( -to_moves<int>( 1_seconds ) * 0.3 );
-    const tripoint_abs_omt center = player_character.pos_abs_omt();
-    for( int i = -60; i <= 60; i++ ) {
-        for( int j = -60; j <= 60; j++ ) {
-            point offset( i, j );
-            const oter_id &oter = overmap_buffer.ter( center + offset );
-            if( ( oter->get_type_id() == oter_type_subway ) ||
-                is_ot_match( "lab_train_depot", oter, ot_match_type::contains ) ) {
-                overmap_buffer.set_seen( center + offset, om_vision_level::details );
-            }
-        }
-    }
-    query_any( _( "Subway map data downloaded.  Press any key…" ) );
-    comp.remove_option( COMPACT_MAP_SUBWAY );
+    helper_map(
+    []( const oter_id & oter ) {
+        return ( oter->get_type_id() == oter_type_subway ) ||
+               is_ot_match( "lab_train_depot", oter, ot_match_type::contains );
+    },
+    _( "Subway map data downloaded.  Press any key…" ), COMPACT_MAP_SUBWAY );
 }
 
 void computer_session::action_miss_disarm()
@@ -906,31 +907,19 @@ void computer_session::action_amigara_log()
     get_timed_events().add( timed_event_type::AMIGARA_WHISPERS, calendar::turn + 5_minutes );
 
     Character &player_character = get_player_character();
-    player_character.mod_moves( -to_moves<int>( 1_seconds ) * 0.3 );
-    reset_terminal();
     tripoint_abs_sm abs_loc = get_map().get_abs_sub();
     point_abs_sm abs_sub = abs_loc.xy();
-    print_line( _( "NEPower Mine%s Log" ), abs_sub.to_string() );
-    print_text( "%s", SNIPPET.random_from_category( "amigara1" ).value_or( translation() ) );
 
-    if( !query_bool( _( "Continue reading?" ) ) ) {
-        return;
-    }
-    player_character.mod_moves( -to_moves<int>( 1_seconds ) * 0.3 );
-    reset_terminal();
-    print_line( _( "NEPower Mine%s Log" ), abs_sub.to_string() );
-    print_text( "%s", SNIPPET.random_from_category( "amigara2" ).value_or( translation() ) );
+    constexpr std::array amigara_categories = { "amigara1", "amigara2", "amigara3" };
+    for( const std::string category : amigara_categories ) {
+        player_character.mod_moves( -to_moves<int>( 1_seconds ) * 0.3 );
+        reset_terminal();
+        print_line( _( "NEPower Mine%s Log" ), abs_sub.to_string() );
+        print_text( "%s", SNIPPET.random_from_category( category ).value_or( translation() ) );
 
-    if( !query_bool( _( "Continue reading?" ) ) ) {
-        return;
-    }
-    player_character.mod_moves( -to_moves<int>( 1_seconds ) * 0.3 );
-    reset_terminal();
-    print_line( _( "NEPower Mine%s Log" ), abs_sub.to_string() );
-    print_text( "%s", SNIPPET.random_from_category( "amigara3" ).value_or( translation() ) );
-
-    if( !query_bool( _( "Continue reading?" ) ) ) {
-        return;
+        if( !query_bool( _( "Continue reading?" ) ) ) {
+            return;
+        }
     }
     reset_terminal();
     for( int i = 0; i < 10; i++ ) {
@@ -999,16 +988,8 @@ void computer_session::action_repeater_mod()
             query_any();
         }
         for( mission *miss : pc.get_active_missions() ) {
-            if( miss->mission_id() == commo_3 || miss->mission_id() == commo_4 ) {
-                miss->step_complete( 1 );
-                print_line( _( "Repeater mod installed…" ) );
-                print_line( _( "Mission Complete!" ) );
-                pc.use_amount( itype_radio_repeater_mod, 1 );
-                query_any();
-                comp.options.clear();
-                activate_failure( COMPFAIL_SHUTDOWN );
-                break;
-            } else if( miss->mission_id() == repeat || miss->mission_id() == repeatb ) {
+            const mission_type_id id = miss->mission_id();
+            if( id == commo_3 || id == commo_4 || id == repeat || id == repeatb ) {
                 miss->step_complete( 1 );
                 print_line( _( "Repeater mod installed…" ) );
                 print_line( _( "Mission Complete!" ) );

@@ -150,6 +150,16 @@
     "//": "Severely weakened in sufficient light (applies photophobia effect)"
   },
   {
+    "id": "TRUESIGHT",
+    "type": "monster_flag",
+    "//": "Monster can see creatures even when they're invisible"
+  },
+  {
+    "id": "PERMANENT_INVISIBILITY",
+    "type": "monster_flag",
+    "//": "The monster is PERMANENTLY invisible.  Be careful about using this one"
+  },
+  {
     "id": "ELECTRIC",
     "type": "monster_flag",
     "//": "Shocks unarmed attackers"
@@ -223,6 +233,11 @@
     "id": "FIREY",
     "type": "monster_flag",
     "//": "Burns stuff and is immune to fire"
+  },
+  {
+    "id": "FLASHBANGPROOF",
+    "type": "monster_flag",
+    "//": "Cannot be flashbanged"
   },
   {
     "id": "QUEEN",

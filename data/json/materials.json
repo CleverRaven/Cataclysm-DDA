@@ -481,7 +481,7 @@
       { "fuel": 0.35, "smoke": 5, "burn": 0.015, "volume_per_turn": "200 ml" }
     ],
     "burn_products": [ [ "corpse_ash", 0.035 ] ],
-    "resist": { "bash": 2.5, "cut": 4, "acid": 6, "heat": 2.5, "bullet": 1.4 },
+    "resist": { "bash": 2.5, "cut": 3, "acid": 6, "heat": 2.5, "bullet": 1.4 },
     "repair_difficulty": 5
   },
   {
@@ -601,7 +601,7 @@
     "type": "material",
     "id": "cotton",
     "name": "Cotton",
-    "density": 1.6,
+    "density": 0.5,
     "specific_heat_liquid": 0.02,
     "specific_heat_solid": 0.02,
     "latent_heat": 205,
@@ -1286,7 +1286,7 @@
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
-    "resist": { "bash": 1, "cut": 3, "acid": 5, "heat": 1, "bullet": 2, "stab": 5 },
+    "resist": { "bash": 1, "cut": 3, "acid": 5, "heat": 2, "bullet": 2, "stab": 5 },
     "repair_difficulty": 4
   },
   {

@@ -1,3 +1,14 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Testing Cataclysm](#testing-cataclysm)
+  - [Guidelines](#guidelines)
+  - [Writing test cases](#writing-test-cases)
+  - [Requiring or Checking](#requiring-or-checking)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Testing Cataclysm
 
 When you `make` Cataclysm from source, an executable `tests/cata_test` is built

@@ -115,7 +115,7 @@
         "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('salamander_make_fire')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('salamander_make_fire') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -133,7 +133,7 @@
         "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('salamander_dash_boom_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('salamander_dash_boom_spell') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -151,7 +151,7 @@
         "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('salamander_explosion_trap_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('salamander_explosion_trap_spell') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -169,7 +169,7 @@
         "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('salamander_smoke_teleport_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('salamander_smoke_teleport_spell') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -187,7 +187,7 @@
         "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('salamander_flame_punch_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('salamander_flame_punch_spell') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -205,7 +205,7 @@
         "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('salamander_summon_fire_spirit')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('salamander_summon_fire_spirit') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -223,7 +223,7 @@
         "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('salamander_ash_breath_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('salamander_ash_breath_spell') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -241,7 +241,7 @@
         "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('salamander_fire_breath')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('salamander_fire_breath') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -259,7 +259,7 @@
         "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('salamander_summon_firebird_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('salamander_summon_firebird_spell') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -277,7 +277,7 @@
         "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('salamander_increase_speed_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('salamander_increase_speed_spell') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -295,7 +295,7 @@
         "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('salamander_flaming_whip_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('salamander_flaming_whip_spell') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -313,7 +313,7 @@
         "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('salamander_emit_heat')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('salamander_emit_heat') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -331,7 +331,7 @@
         "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('salamander_cure_conditions')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('salamander_cure_conditions') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -349,7 +349,7 @@
         "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('salamander_fire_dot_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('salamander_fire_dot_spell') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -367,7 +367,7 @@
         "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('create_light_salamander')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('create_light_salamander') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -385,7 +385,7 @@
         "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('salamander_fire_fly')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('salamander_fire_fly') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -403,7 +403,7 @@
         "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('salamander_ally_flame_immune_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('salamander_ally_flame_immune_spell') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -421,7 +421,7 @@
         "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('salamander_explosion_and_heal_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('salamander_explosion_and_heal_spell') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -439,7 +439,7 @@
         "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('salamander_cultivate_goblin_fruit')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('salamander_cultivate_goblin_fruit') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -457,7 +457,7 @@
         "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('paraclesian_spell_make_gossamer')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('paraclesian_spell_make_gossamer') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   }

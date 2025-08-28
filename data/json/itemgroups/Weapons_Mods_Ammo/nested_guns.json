@@ -1408,19 +1408,6 @@
     ]
   },
   {
-    "id": "nested_hk_mp7",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "hk_mp7", "charges": [ 0, 20 ] },
-      { "item": "hk46mag" },
-      { "item": "hk46mag", "prob": 50 },
-      { "group": "on_hand_46" }
-    ]
-  },
-  {
     "id": "nested_rm2000_smg",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -3000,5 +2987,21 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [ { "item": "taurus_judge", "charges": [ 0, 5 ] }, { "group": "on_hand_410shot" } ]
+  },
+  {
+    "id": "nested_winchester_94_3030",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "winchester_94_3030", "charges": [ 0, 8 ] }, { "group": "on_hand_3030" } ]
+  },
+  {
+    "id": "nested_marlin_336_3030",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "marlin_336_3030", "charges": [ 0, 6 ] }, { "group": "on_hand_3030" } ]
   }
 ]

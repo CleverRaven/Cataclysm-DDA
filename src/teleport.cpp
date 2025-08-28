@@ -35,6 +35,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "veh_type.h"
 #include "vehicle.h"
 #include "viewer.h"
 #include "ui_manager.h"
@@ -47,6 +48,9 @@ static const flag_id json_flag_DIMENSIONAL_ANCHOR( "DIMENSIONAL_ANCHOR" );
 static const flag_id json_flag_GRAB( "GRAB" );
 static const flag_id json_flag_TELEPORT_LOCK( "TELEPORT_LOCK" );
 
+static const itype_id itype_power_cord( "power_cord" );
+
+static const std::string flag_WIRING( "WIRING" );
 
 static bool TestForVehicleTeleportCollision( vehicle &veh, map &here, map *dest,
         const tripoint_abs_ms &dp )
@@ -57,6 +61,11 @@ static bool TestForVehicleTeleportCollision( vehicle &veh, map &here, map *dest,
             dest->load( project_to<coords::sm>( dp + rel_pos ), false );
         }
 
+        if( part.info().has_flag( flag_WIRING ) ||
+            part.info().base_item == itype_power_cord
+          ) {
+            continue;
+        }
         veh_collision coll = veh.part_collision( *dest, part.part_index(), dp + rel_pos, true, false );
         if( coll.type != veh_coll_nothing ) {
             tripoint_abs_ms point = dp + rel_pos;
@@ -389,7 +398,7 @@ bool teleport::teleport_vehicle( vehicle &veh, const tripoint_abs_ms &dp )
     tileray facing;
     facing.init( veh.turn_dir );
 
-    veh.precalc_mounts( 1, veh.skidding ? veh.turn_dir : facing.dir(), point_rel_ms( 0, 0 ) );
+    veh.precalc_mounts( 1, veh.skidding ? veh.turn_dir : facing.dir(), veh.pivot_anchor[0] );
 
     Character &player_character = get_player_character();
     tripoint_bub_ms src = veh.pos_bub( here );

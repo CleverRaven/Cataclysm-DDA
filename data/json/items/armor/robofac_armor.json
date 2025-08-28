@@ -93,8 +93,7 @@
           "robofac_gun_shotgun",
           "robofac_gun_shotgun_breach",
           "robofac_gun_exodii",
-          "robofac_gun_57",
-          "robofac_gun_46"
+          "robofac_gun_57"
         ]
       }
     ],
@@ -196,8 +195,7 @@
           "robofac_gun_shotgun",
           "robofac_gun_shotgun_breach",
           "robofac_gun_exodii",
-          "robofac_gun_57",
-          "robofac_gun_46"
+          "robofac_gun_57"
         ]
       },
       {
@@ -557,7 +555,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "armor",
-    "name": { "str": "pair of abstract armored vambraces", "str_pl": "pairs of abstract armored vambraces", "//~": "NO_I18N" },
+    "name": { "str_sp": "abstract armored vambraces (pair)" },
     "looks_like": "armguard_hard",
     "weight": "845 g",
     "volume": "4000 ml",
@@ -585,7 +583,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "armor",
-    "name": { "str": "pair of abstract armored greaves", "str_pl": "pairs of abstract armored greaves", "//~": "NO_I18N" },
+    "name": { "str_sp": "abstract armored greaves (pair)" },
     "looks_like": "legguard_hard",
     "weight": "1295 g",
     "volume": "5000 ml",
@@ -759,7 +757,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_vambraces",
-    "name": { "str": "pair of Hub 01 prototype vambraces", "str_pl": "pairs of Hub 01 prototype vambraces" },
+    "name": { "str_sp": "Hub 01 prototype vambraces (pair)" },
     "description": "3D printed arm guards, made of large and flexible polymer sheets wrapped around the forearm.  The end of each sheet features a clip and drawstring, to fit the armor to any size.  Despite the rough finish, it fits securely, and feels quite comfortable.",
     "material": [ { "type": "plastic", "portion": 5 }, { "type": "aluminum", "portion": 2 } ]
   },
@@ -769,7 +767,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_vambraces",
-    "name": { "str": "pair of Hub 01 kinetic vambraces", "str_pl": "pairs of Hub 01 kinetic vambraces" },
+    "name": { "str_sp": "Hub 01 kinetic vambraces (pair)" },
     "description": "3D printed arm guards, made of large and flexible polymer sheets wrapped around the forearm.  These ones are built in an overlapping pattern that diffuses impacts and provides excellent protection from blunt trauma.",
     "material": [ { "type": "plastic", "portion": 2 }, { "type": "qt_steel", "portion": 1 }, { "type": "rubber", "portion": 4 } ],
     "proportional": { "weight": 1.576 }
@@ -780,7 +778,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_vambraces",
-    "name": { "str": "pair of Hub 01 turnout vambraces", "str_pl": "pairs of Hub 01 turnout vambraces" },
+    "name": { "str_sp": "Hub 01 turnout vambraces (pair)" },
     "description": "3D printed arm guards, made of large and flexible polymer sheets wrapped around the forearm.  These ones include Nomex sleeves to protect your arms from extreme heat.",
     "material": [ { "type": "plastic", "portion": 2 }, { "type": "qt_steel", "portion": 1 }, { "type": "nomex", "portion": 4 } ],
     "proportional": { "weight": 1.365 }
@@ -791,7 +789,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_vambraces",
-    "name": { "str": "pair of Hub 01 ballistic vambraces", "str_pl": "pairs of Hub 01 ballistic vambraces" },
+    "name": { "str_sp": "Hub 01 ballistic vambraces (pair)" },
     "description": "3D printed arm guards, made of large and flexible polymer sheets wrapped around the forearm.  These ones include aramid arm sleeves that do a great job of slowing down bullets and preventing them from shredding your arms.",
     "material": [
       { "type": "plastic", "portion": 2 },
@@ -806,7 +804,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_vambraces",
-    "name": { "str": "pair of Hub 01 soldier vambraces", "str_pl": "pairs of Hub 01 soldier vambraces" },
+    "name": { "str_sp": "Hub 01 soldier vambraces (pair)" },
     "description": "3D printed arm guards, sporting a professional finish and stellar ergonomics.  With thick bullet-resistant arm sleeves, flexible but extremely tough thermoplastic plates, and special attention given to areas reflexively used to protect the face from attacks, it provides first-rate protection against all the horrors that the apocalypse has brought to bear.",
     "material": [
       { "type": "thermo_resin", "portion": 2 },
@@ -822,7 +820,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_greaves",
-    "name": { "str": "pair of Hub 01 prototype greaves", "str_pl": "pairs of Hub 01 prototype greaves" },
+    "name": { "str_sp": "Hub 01 prototype greaves (pair)" },
     "description": "3D printed leg guards, consisting of thick knee pads and a pair of large, flexible polymer plates for securing around the calves to protect the tibias of each leg.  Two straps on each plate can be tightened or loosened to fit different leg sizes.  Despite the rough finish, it doesn't impede your movement, and fits comfortably against your body.",
     "material": [ { "type": "plastic", "portion": 5 }, { "type": "aluminum", "portion": 2 } ]
   },
@@ -832,7 +830,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_greaves",
-    "name": { "str": "pair of Hub 01 kinetic greaves", "str_pl": "pairs of Hub 01 kinetic greaves" },
+    "name": { "str_sp": "Hub 01 kinetic greaves (pair)" },
     "description": "3D printed leg guards, consisting of thick knee pads and a pair of large, flexible polymer plates for securing around the calves to protect the tibias of each leg.  Thick padding and rubber lining provide excellent protection from blunt trauma.",
     "material": [ { "type": "plastic", "portion": 2 }, { "type": "qt_steel", "portion": 1 }, { "type": "rubber", "portion": 4 } ],
     "proportional": { "weight": 1.576 }
@@ -843,7 +841,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_greaves",
-    "name": { "str": "pair of Hub 01 turnout greaves", "str_pl": "pairs of Hub 01 turnout greaves" },
+    "name": { "str_sp": "Hub 01 turnout greaves (pair)" },
     "description": "3D printed leg guards, consisting of thick knee pads and a pair of large, flexible polymer plates for securing around the calves to protect the tibias of each leg.  Heat-resistant leg sleeves and a breathable design provide adequate protection from extreme heat without sacrificing your mobility or core protection.",
     "material": [ { "type": "plastic", "portion": 2 }, { "type": "qt_steel", "portion": 1 }, { "type": "nomex", "portion": 4 } ],
     "proportional": { "weight": 1.365 }
@@ -854,7 +852,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_greaves",
-    "name": { "str": "pair of Hub 01 ballistic greaves", "str_pl": "pairs of Hub 01 ballistic greaves" },
+    "name": { "str_sp": "Hub 01 ballistic greaves (pair)" },
     "description": "3D printed leg guards, consisting of thick knee pads and a pair of large, flexible polymer plates for securing around the calves to protect the tibias of each leg.  This model features leggings made of durable aramid and a reinforced plate design; combined, they do a good job of mitigating damage from small-arms fire.",
     "material": [
       { "type": "plastic", "portion": 2 },
@@ -869,7 +867,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_greaves",
-    "name": { "str": "pair of Hub 01 soldier greaves", "str_pl": "pairs of Hub 01 soldier greaves" },
+    "name": { "str_sp": "Hub 01 soldier greaves (pair)" },
     "description": "3D printed leg guards, sporting a professional finish and stellar ergonomics.  Layered UHMW thermoplastic plates and bullet-resistant aramid padding combine to keep your lower leg bones protected and unbroken, even when knee-deep in the dead.",
     "material": [
       { "type": "thermo_resin", "portion": 2 },

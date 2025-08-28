@@ -1,191 +1,14 @@
 #include "mission.h" // IWYU pragma: associated
 
 #include <algorithm>
-#include <set>
 
-#include "assign.h"
 #include "condition.h"
 #include "debug.h"
 #include "dialogue.h"
-#include "enum_conversions.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "item.h"
 #include "rng.h"
-
-static const mission_type_id mission_MISSION_EXPLORE_SARCOPHAGUS( "MISSION_EXPLORE_SARCOPHAGUS" );
-static const mission_type_id
-mission_MISSION_FREE_MERCHANTS_EVAC_1( "MISSION_FREE_MERCHANTS_EVAC_1" );
-static const mission_type_id
-mission_MISSION_FREE_MERCHANTS_EVAC_2( "MISSION_FREE_MERCHANTS_EVAC_2" );
-static const mission_type_id
-mission_MISSION_FREE_MERCHANTS_EVAC_3( "MISSION_FREE_MERCHANTS_EVAC_3" );
-static const mission_type_id
-mission_MISSION_FREE_MERCHANTS_EVAC_4( "MISSION_FREE_MERCHANTS_EVAC_4" );
-static const mission_type_id mission_MISSION_GET_ANTIBIOTICS( "MISSION_GET_ANTIBIOTICS" );
-static const mission_type_id mission_MISSION_GET_BLACK_BOX( "MISSION_GET_BLACK_BOX" );
-static const mission_type_id
-mission_MISSION_GET_BLACK_BOX_TRANSCRIPT( "MISSION_GET_BLACK_BOX_TRANSCRIPT" );
-static const mission_type_id mission_MISSION_GET_DEPUTY_BADGE( "MISSION_GET_DEPUTY_BADGE" );
-static const mission_type_id mission_MISSION_GET_FLAG( "MISSION_GET_FLAG" );
-static const mission_type_id
-mission_MISSION_GET_RECORD_ACCOUNTING( "MISSION_GET_RECORD_ACCOUNTING" );
-static const mission_type_id mission_MISSION_GET_RECORD_PATIENT( "MISSION_GET_RECORD_PATIENT" );
-static const mission_type_id mission_MISSION_GET_RECORD_WEATHER( "MISSION_GET_RECORD_WEATHER" );
-static const mission_type_id mission_MISSION_GET_RELIC( "MISSION_GET_RELIC" );
-static const mission_type_id mission_MISSION_GET_SAFE_BOX( "MISSION_GET_SAFE_BOX" );
-static const mission_type_id mission_MISSION_GET_SOFTWARE( "MISSION_GET_SOFTWARE" );
-static const mission_type_id
-mission_MISSION_GET_ZOMBIE_BLOOD_ANAL( "MISSION_GET_ZOMBIE_BLOOD_ANAL" );
-static const mission_type_id mission_MISSION_INVESTIGATE_CULT( "MISSION_INVESTIGATE_CULT" );
-static const mission_type_id
-mission_MISSION_INVESTIGATE_PRISON_VISIONARY( "MISSION_INVESTIGATE_PRISON_VISIONARY" );
-static const mission_type_id mission_MISSION_JOIN_TRACKER( "MISSION_JOIN_TRACKER" );
-static const mission_type_id mission_MISSION_KILL_100_Z( "MISSION_KILL_100_Z" );
-static const mission_type_id mission_MISSION_KILL_HORDE_MASTER( "MISSION_KILL_HORDE_MASTER" );
-static const mission_type_id mission_MISSION_KILL_JABBERWOCK( "MISSION_KILL_JABBERWOCK" );
-static const mission_type_id mission_MISSION_KILL_NEMESIS( "MISSION_KILL_NEMESIS" );
-static const mission_type_id mission_MISSION_KILL_ZOMBIE_MOM( "MISSION_KILL_ZOMBIE_MOM" );
-static const mission_type_id mission_MISSION_NULL( "MISSION_NULL" );
-static const mission_type_id mission_MISSION_OLD_GUARD_NEC_1( "MISSION_OLD_GUARD_NEC_1" );
-static const mission_type_id mission_MISSION_OLD_GUARD_NEC_2( "MISSION_OLD_GUARD_NEC_2" );
-static const mission_type_id
-mission_MISSION_OLD_GUARD_NEC_COMMO_1( "MISSION_OLD_GUARD_NEC_COMMO_1" );
-static const mission_type_id
-mission_MISSION_OLD_GUARD_NEC_COMMO_2( "MISSION_OLD_GUARD_NEC_COMMO_2" );
-static const mission_type_id
-mission_MISSION_OLD_GUARD_NEC_COMMO_3( "MISSION_OLD_GUARD_NEC_COMMO_3" );
-static const mission_type_id
-mission_MISSION_OLD_GUARD_NEC_COMMO_4( "MISSION_OLD_GUARD_NEC_COMMO_4" );
-static const mission_type_id mission_MISSION_OLD_GUARD_REP_1( "MISSION_OLD_GUARD_REP_1" );
-static const mission_type_id mission_MISSION_OLD_GUARD_REP_2( "MISSION_OLD_GUARD_REP_2" );
-static const mission_type_id mission_MISSION_OLD_GUARD_REP_3( "MISSION_OLD_GUARD_REP_3" );
-static const mission_type_id mission_MISSION_OLD_GUARD_REP_4( "MISSION_OLD_GUARD_REP_4" );
-static const mission_type_id mission_MISSION_RANCH_BARTENDER_1( "MISSION_RANCH_BARTENDER_1" );
-static const mission_type_id mission_MISSION_RANCH_BARTENDER_2( "MISSION_RANCH_BARTENDER_2" );
-static const mission_type_id mission_MISSION_RANCH_BARTENDER_3( "MISSION_RANCH_BARTENDER_3" );
-static const mission_type_id mission_MISSION_RANCH_BARTENDER_4( "MISSION_RANCH_BARTENDER_4" );
-static const mission_type_id mission_MISSION_RANCH_BARTENDER_5( "MISSION_RANCH_BARTENDER_5" );
-static const mission_type_id mission_MISSION_RANCH_FOREMAN_1( "MISSION_RANCH_FOREMAN_1" );
-static const mission_type_id mission_MISSION_RANCH_FOREMAN_10( "MISSION_RANCH_FOREMAN_10" );
-static const mission_type_id mission_MISSION_RANCH_FOREMAN_11( "MISSION_RANCH_FOREMAN_11" );
-static const mission_type_id mission_MISSION_RANCH_FOREMAN_12( "MISSION_RANCH_FOREMAN_12" );
-static const mission_type_id mission_MISSION_RANCH_FOREMAN_13( "MISSION_RANCH_FOREMAN_13" );
-static const mission_type_id mission_MISSION_RANCH_FOREMAN_14( "MISSION_RANCH_FOREMAN_14" );
-static const mission_type_id mission_MISSION_RANCH_FOREMAN_15( "MISSION_RANCH_FOREMAN_15" );
-static const mission_type_id mission_MISSION_RANCH_FOREMAN_16( "MISSION_RANCH_FOREMAN_16" );
-static const mission_type_id mission_MISSION_RANCH_FOREMAN_17( "MISSION_RANCH_FOREMAN_17" );
-static const mission_type_id mission_MISSION_RANCH_FOREMAN_2( "MISSION_RANCH_FOREMAN_2" );
-static const mission_type_id mission_MISSION_RANCH_FOREMAN_3( "MISSION_RANCH_FOREMAN_3" );
-static const mission_type_id mission_MISSION_RANCH_FOREMAN_4( "MISSION_RANCH_FOREMAN_4" );
-static const mission_type_id mission_MISSION_RANCH_FOREMAN_5( "MISSION_RANCH_FOREMAN_5" );
-static const mission_type_id mission_MISSION_RANCH_FOREMAN_6( "MISSION_RANCH_FOREMAN_6" );
-static const mission_type_id mission_MISSION_RANCH_FOREMAN_7( "MISSION_RANCH_FOREMAN_7" );
-static const mission_type_id mission_MISSION_RANCH_FOREMAN_8( "MISSION_RANCH_FOREMAN_8" );
-static const mission_type_id mission_MISSION_RANCH_FOREMAN_9( "MISSION_RANCH_FOREMAN_9" );
-static const mission_type_id mission_MISSION_RANCH_NURSE_1( "MISSION_RANCH_NURSE_1" );
-static const mission_type_id mission_MISSION_RANCH_NURSE_10( "MISSION_RANCH_NURSE_10" );
-static const mission_type_id mission_MISSION_RANCH_NURSE_11( "MISSION_RANCH_NURSE_11" );
-static const mission_type_id mission_MISSION_RANCH_NURSE_2( "MISSION_RANCH_NURSE_2" );
-static const mission_type_id mission_MISSION_RANCH_NURSE_3( "MISSION_RANCH_NURSE_3" );
-static const mission_type_id mission_MISSION_RANCH_NURSE_4( "MISSION_RANCH_NURSE_4" );
-static const mission_type_id mission_MISSION_RANCH_NURSE_5( "MISSION_RANCH_NURSE_5" );
-static const mission_type_id mission_MISSION_RANCH_NURSE_6( "MISSION_RANCH_NURSE_6" );
-static const mission_type_id mission_MISSION_RANCH_NURSE_7( "MISSION_RANCH_NURSE_7" );
-static const mission_type_id mission_MISSION_RANCH_NURSE_8( "MISSION_RANCH_NURSE_8" );
-static const mission_type_id mission_MISSION_RANCH_NURSE_9( "MISSION_RANCH_NURSE_9" );
-static const mission_type_id mission_MISSION_RANCH_SCAVENGER_1( "MISSION_RANCH_SCAVENGER_1" );
-static const mission_type_id mission_MISSION_RANCH_SCAVENGER_2( "MISSION_RANCH_SCAVENGER_2" );
-static const mission_type_id mission_MISSION_RANCH_SCAVENGER_3( "MISSION_RANCH_SCAVENGER_3" );
-static const mission_type_id mission_MISSION_RANCH_SCAVENGER_4( "MISSION_RANCH_SCAVENGER_4" );
-static const mission_type_id mission_MISSION_REACH_FARM_HOUSE( "MISSION_REACH_FARM_HOUSE" );
-static const mission_type_id mission_MISSION_REACH_FEMA_CAMP( "MISSION_REACH_FEMA_CAMP" );
-static const mission_type_id mission_MISSION_REACH_SAFETY( "MISSION_REACH_SAFETY" );
-static const mission_type_id mission_MISSION_RECOVER_PRIEST_DIARY( "MISSION_RECOVER_PRIEST_DIARY" );
-static const mission_type_id mission_MISSION_RECRUIT_TRACKER( "MISSION_RECRUIT_TRACKER" );
-static const mission_type_id mission_MISSION_RESCUE_DOG( "MISSION_RESCUE_DOG" );
-
-enum legacy_mission_type_id {
-    MISSION_NULL,
-    MISSION_GET_ANTIBIOTICS,
-    MISSION_GET_SOFTWARE,
-    MISSION_GET_ZOMBIE_BLOOD_ANAL,
-    MISSION_RESCUE_DOG,
-    MISSION_KILL_ZOMBIE_MOM,
-    MISSION_REACH_SAFETY,
-    MISSION_GET_FLAG,                      //patriot 1
-    MISSION_GET_BLACK_BOX,                 //patriot 2
-    MISSION_GET_BLACK_BOX_TRANSCRIPT,      //patriot 3
-    MISSION_EXPLORE_SARCOPHAGUS,           //patriot 4
-    MISSION_GET_RELIC,                     //martyr 1
-    MISSION_RECOVER_PRIEST_DIARY,          //martyr 2
-    MISSION_INVESTIGATE_CULT,              //martyr 3
-    MISSION_INVESTIGATE_PRISON_VISIONARY,  //martyr 4
-    MISSION_GET_RECORD_WEATHER,            //scientist 1
-    MISSION_GET_RECORD_PATIENT,            //humanitarian 1
-    MISSION_REACH_FEMA_CAMP,               //humanitarian 2
-    MISSION_REACH_FARM_HOUSE,              //humanitarian 3
-    MISSION_GET_RECORD_ACCOUNTING,         //vigilante 1
-    MISSION_GET_SAFE_BOX,                  //vigilante 2
-    MISSION_GET_DEPUTY_BADGE,              //vigilante 3
-    MISSION_KILL_JABBERWOCK,               //demon slayer 1
-    MISSION_KILL_100_Z,                    //demon slayer 2
-    MISSION_KILL_HORDE_MASTER,             //demon slayer 3
-    MISSION_RECRUIT_TRACKER,               //demon slayer 4
-    MISSION_JOIN_TRACKER,                  //demon slayer 4b
-    MISSION_FREE_MERCHANTS_EVAC_1,         //Clear Back Bay
-    MISSION_FREE_MERCHANTS_EVAC_2,         //Kill Raiders
-    MISSION_FREE_MERCHANTS_EVAC_4,         //Acquire Plutonium Cells
-    MISSION_OLD_GUARD_REP_1,               //Bandit Pair
-    MISSION_OLD_GUARD_REP_2,               //Raider Informant
-    MISSION_OLD_GUARD_REP_3,               //Missing without a trace
-    MISSION_OLD_GUARD_REP_4,               //Raider Camp
-    MISSION_OLD_GUARD_NEC_1,               //Locate Commo team for Necropolis Commander
-    MISSION_OLD_GUARD_NEC_2,               //Cull Nightmares
-    MISSION_OLD_GUARD_NEC_COMMO_1,         //Build a radio repeater mod
-    MISSION_OLD_GUARD_NEC_COMMO_2,         //Disable external power connection
-    MISSION_OLD_GUARD_NEC_COMMO_3,         //Install repeater mod in local radio station
-    MISSION_OLD_GUARD_NEC_COMMO_4,         //Cyclical mission to install repeater mods
-    MISSION_RANCH_FOREMAN_1,               //Rebuild civilization one 2x4 at a time
-    MISSION_RANCH_FOREMAN_2,               //Beds need blankets to make
-    MISSION_RANCH_FOREMAN_3,               //You can never have enough nails!
-    MISSION_RANCH_FOREMAN_4,               //Need salt to trade for seed
-    MISSION_RANCH_FOREMAN_5,               //Need liquid fertilizer
-    MISSION_RANCH_FOREMAN_6,               //Need stone for well and fireplaces
-    MISSION_RANCH_FOREMAN_7,               //Need pipes to finish well and parts for lumberyard
-    MISSION_RANCH_FOREMAN_8,               //Need motors to finish sawmill
-    MISSION_RANCH_FOREMAN_9,               //Need bleach to sterilize for clinic
-    MISSION_RANCH_FOREMAN_10,              //Need first aid kits for clinic
-    MISSION_RANCH_FOREMAN_11,              //Need welders for chop-shop
-    MISSION_RANCH_FOREMAN_12,              //Need car batteries to power equipment
-    MISSION_RANCH_FOREMAN_13,              //Need pair of two-way radios for scavengers
-    MISSION_RANCH_FOREMAN_14,              //Need 5 backpacks for scavengers
-    MISSION_RANCH_FOREMAN_15,              //Need Homebrewer's Bible for Bar
-    MISSION_RANCH_FOREMAN_16,              //Need Sugar for Bar
-    MISSION_RANCH_FOREMAN_17,              //Need glass sheets for 1st greenhouse
-    MISSION_RANCH_NURSE_1,                 //Need aspirin
-    MISSION_RANCH_NURSE_2,                 //Need hotplates
-    MISSION_RANCH_NURSE_3,                 //Need multivitamins
-    MISSION_RANCH_NURSE_4,                 //Need charcoal water filters
-    MISSION_RANCH_NURSE_5,                 //Need chemistry set
-    MISSION_RANCH_NURSE_6,                 //Need filter masks
-    MISSION_RANCH_NURSE_7,                 //Need rubber gloves
-    MISSION_RANCH_NURSE_8,                 //Need X-Acto
-    MISSION_RANCH_NURSE_9,                 //Need Guide to Advanced Emergency Care
-    MISSION_RANCH_NURSE_10,                //Need flu shot
-    MISSION_RANCH_NURSE_11,                //Need empty syringes
-    MISSION_RANCH_SCAVENGER_1,             //Need knife spears
-    MISSION_RANCH_SCAVENGER_2,             //Need wearable flashlights
-    MISSION_RANCH_SCAVENGER_3,             //Need leather body armor
-    MISSION_RANCH_SCAVENGER_4,             //Need Molotov cocktails
-    MISSION_RANCH_BARTENDER_1,             //Need Stills
-    MISSION_RANCH_BARTENDER_2,             //Need Yeast
-    MISSION_RANCH_BARTENDER_3,             //Need Sugar Beet Seeds
-    MISSION_RANCH_BARTENDER_4,             //Need Metal Tanks
-    MISSION_RANCH_BARTENDER_5,             //Need 55-Gallon Drums
-    MISSION_FREE_MERCHANTS_EVAC_3,         //Info from Commune
-    NUM_MISSION_IDS
-};
 
 static const std::map<std::string, std::function<void( mission * )>> mission_function_map = {{
         // Starts
@@ -304,21 +127,14 @@ void assign_function( const JsonObject &jo, const std::string &id, Fun &target,
     }
 }
 
-bool mission_type::load( const JsonObject &jo, const std::string &src )
+bool mission_type::load( const JsonObject &jo, const std::string_view src )
 {
-    const bool strict = src == "dda";
-
     mandatory( jo, was_loaded, "name", name );
 
     mandatory( jo, was_loaded, "difficulty", difficulty );
     mandatory( jo, was_loaded, "value", value );
 
-    if( jo.has_member( "origins" ) ) {
-        origins.clear();
-        for( const std::string &m : jo.get_tags( "origins" ) ) {
-            origins.emplace_back( io::string_to_enum<mission_origin>( m ) );
-        }
-    }
+    optional( jo, was_loaded, "origins", origins, enum_flags_reader<mission_origin> { "mission_origin" } );
 
     if( std::any_of( origins.begin(), origins.end(), []( mission_origin origin ) {
     return origin == ORIGIN_ANY_NPC || origin == ORIGIN_OPENER_NPC || origin == ORIGIN_SECONDARY;
@@ -347,7 +163,7 @@ bool mission_type::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "empty_container", empty_container );
     optional( jo, was_loaded, "has_generic_rewards", has_generic_rewards, true );
 
-    goal = jo.get_enum_value<decltype( goal )>( "goal" );
+    mandatory( jo, was_loaded, "goal", goal, enum_flags_reader<mission_goal> { "mission_goal" } );
 
     assign_function( jo, "place", place, tripoint_function_map );
     const auto parse_phase = [&]( const std::string & phase,
@@ -373,25 +189,16 @@ bool mission_type::load( const JsonObject &jo, const std::string &src )
         return false;
     }
 
+    // FIXME: duration_or_var generic factory reader
     deadline = get_duration_or_var( jo, "deadline", false );
 
-    if( jo.has_member( "followup" ) ) {
-        follow_up = mission_type_id( jo.get_string( "followup" ) );
-    }
+    optional( jo, was_loaded, "followup", follow_up, mission_type_id::NULL_ID() );
+    optional( jo, was_loaded, "monster_species", monster_species );
+    optional( jo, was_loaded, "monster_type", monster_type, mtype_id::NULL_ID() );
+    optional( jo, was_loaded, "monster_kill_goal", monster_kill_goal, -1 );
+    optional( jo, was_loaded, "destination", target_id );
 
-    if( jo.has_member( "monster_species" ) ) {
-        monster_species = species_id( jo.get_string( "monster_species" ) );
-    }
-    if( jo.has_member( "monster_type" ) ) {
-        monster_type = mtype_id( jo.get_string( "monster_type" ) );
-    }
-
-    if( jo.has_member( "monster_kill_goal" ) ) {
-        monster_kill_goal = jo.get_int( "monster_kill_goal" );
-    }
-
-    assign( jo, "destination", target_id, strict );
-
+    // FIXME: reader for condition
     if( jo.has_member( "goal_condition" ) ) {
         read_condition( jo, "goal_condition", goal_condition, true );
     }
@@ -409,8 +216,9 @@ bool mission_type::test_goal_condition( struct dialogue &d ) const
     return true;
 }
 
-void mission_type::finalize()
+void mission_type::finalize_all()
 {
+    mission_type_factory.finalize();
 }
 
 void mission_type::check_consistency()
@@ -420,101 +228,6 @@ void mission_type::check_consistency()
             debugmsg( "Mission %s has undefined item id %s", m.id.c_str(), m.item_id.c_str() );
         }
     }
-}
-
-mission_type_id mission_type::from_legacy( int old_id )
-{
-    static const std::vector<mission_type_id> old_id_vec = {{
-            mission_MISSION_NULL,
-            mission_MISSION_GET_ANTIBIOTICS,
-            mission_MISSION_GET_SOFTWARE,
-            mission_MISSION_GET_ZOMBIE_BLOOD_ANAL,
-            mission_MISSION_RESCUE_DOG,
-            mission_MISSION_KILL_ZOMBIE_MOM,
-            mission_MISSION_REACH_SAFETY,
-            mission_MISSION_GET_FLAG,
-            mission_MISSION_GET_BLACK_BOX,
-            mission_MISSION_GET_BLACK_BOX_TRANSCRIPT,
-            mission_MISSION_EXPLORE_SARCOPHAGUS,
-            mission_MISSION_GET_RELIC,
-            mission_MISSION_RECOVER_PRIEST_DIARY,
-            mission_MISSION_INVESTIGATE_CULT,
-            mission_MISSION_INVESTIGATE_PRISON_VISIONARY,
-            mission_MISSION_GET_RECORD_WEATHER,
-            mission_MISSION_GET_RECORD_PATIENT,
-            mission_MISSION_REACH_FEMA_CAMP,
-            mission_MISSION_REACH_FARM_HOUSE,
-            mission_MISSION_GET_RECORD_ACCOUNTING,
-            mission_MISSION_GET_SAFE_BOX,
-            mission_MISSION_GET_DEPUTY_BADGE,
-            mission_MISSION_KILL_JABBERWOCK,
-            mission_MISSION_KILL_100_Z,
-            mission_MISSION_KILL_HORDE_MASTER,
-            mission_MISSION_KILL_NEMESIS,
-            mission_MISSION_RECRUIT_TRACKER,
-            mission_MISSION_JOIN_TRACKER,
-            mission_MISSION_FREE_MERCHANTS_EVAC_1,
-            mission_MISSION_FREE_MERCHANTS_EVAC_2,
-            mission_MISSION_FREE_MERCHANTS_EVAC_4,
-            mission_MISSION_OLD_GUARD_REP_1,
-            mission_MISSION_OLD_GUARD_REP_2,
-            mission_MISSION_OLD_GUARD_REP_3,
-            mission_MISSION_OLD_GUARD_REP_4,
-            mission_MISSION_OLD_GUARD_NEC_1,
-            mission_MISSION_OLD_GUARD_NEC_2,
-            mission_MISSION_OLD_GUARD_NEC_COMMO_1,
-            mission_MISSION_OLD_GUARD_NEC_COMMO_2,
-            mission_MISSION_OLD_GUARD_NEC_COMMO_3,
-            mission_MISSION_OLD_GUARD_NEC_COMMO_4,
-            mission_MISSION_RANCH_FOREMAN_1,
-            mission_MISSION_RANCH_FOREMAN_2,
-            mission_MISSION_RANCH_FOREMAN_3,
-            mission_MISSION_RANCH_FOREMAN_4,
-            mission_MISSION_RANCH_FOREMAN_5,
-            mission_MISSION_RANCH_FOREMAN_6,
-            mission_MISSION_RANCH_FOREMAN_7,
-            mission_MISSION_RANCH_FOREMAN_8,
-            mission_MISSION_RANCH_FOREMAN_9,
-            mission_MISSION_RANCH_FOREMAN_10,
-            mission_MISSION_RANCH_FOREMAN_11,
-            mission_MISSION_RANCH_FOREMAN_12,
-            mission_MISSION_RANCH_FOREMAN_13,
-            mission_MISSION_RANCH_FOREMAN_14,
-            mission_MISSION_RANCH_FOREMAN_15,
-            mission_MISSION_RANCH_FOREMAN_16,
-            mission_MISSION_RANCH_FOREMAN_17,
-            mission_MISSION_RANCH_NURSE_1,
-            mission_MISSION_RANCH_NURSE_2,
-            mission_MISSION_RANCH_NURSE_3,
-            mission_MISSION_RANCH_NURSE_4,
-            mission_MISSION_RANCH_NURSE_5,
-            mission_MISSION_RANCH_NURSE_6,
-            mission_MISSION_RANCH_NURSE_7,
-            mission_MISSION_RANCH_NURSE_8,
-            mission_MISSION_RANCH_NURSE_9,
-            mission_MISSION_RANCH_NURSE_10,
-            mission_MISSION_RANCH_NURSE_11,
-            mission_MISSION_RANCH_SCAVENGER_1,
-            mission_MISSION_RANCH_SCAVENGER_2,
-            mission_MISSION_RANCH_SCAVENGER_3,
-            mission_MISSION_RANCH_SCAVENGER_4,
-            mission_MISSION_RANCH_BARTENDER_1,
-            mission_MISSION_RANCH_BARTENDER_2,
-            mission_MISSION_RANCH_BARTENDER_3,
-            mission_MISSION_RANCH_BARTENDER_4,
-            mission_MISSION_RANCH_BARTENDER_5,
-            mission_MISSION_FREE_MERCHANTS_EVAC_3,
-            // This is to help with the bugged find book mission
-            mission_MISSION_NULL
-        }
-    };
-
-    if( old_id >= 0 && old_id < static_cast<int>( old_id_vec.size() ) ) {
-        return old_id_vec[ old_id ];
-    }
-
-    debugmsg( "Invalid legacy mission id: %d", old_id );
-    return mission_MISSION_NULL;
 }
 
 const mission_type *mission_type::get( const mission_type_id &id )

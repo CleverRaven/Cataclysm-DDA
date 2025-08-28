@@ -12,7 +12,7 @@
               "id": "EOC_LILIN_TEMPORARY_GLORIOUS_activated_2",
               "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 60 * lilin_has_ruach_efficiency()" ] },
               "effect": [
-                { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "60 * lilin_has_ruach_efficiency()" ] },
+                { "math": [ "u_vitamin('lilin_ruach_vitamin') -= 60 * lilin_has_ruach_efficiency()" ] },
                 { "u_add_trait": "BEAUTIFUL3" },
                 { "u_add_effect": "effect_lilin_temporary_glorious", "duration": "PERMANENT" },
                 { "u_message": "You spin a beguiling web of illusion around yourself.", "type": "good" },
@@ -67,7 +67,7 @@
             "id": "EOC_LILIN_TEMPORARY_GLORIOUS_maintenance_2",
             "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 60 * lilin_has_ruach_efficiency()" ] },
             "effect": [
-              { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "60 * lilin_has_ruach_efficiency()" ] },
+              { "math": [ "u_vitamin('lilin_ruach_vitamin') -= 60 * lilin_has_ruach_efficiency()" ] },
               {
                 "u_message": "You feel a chill on your skin as you maintain your web of pleasing illusions.",
                 "type": "mixed"
@@ -110,7 +110,7 @@
             "id": "EOC_LILIN_ATTRIBUTE_BONUSES_activated_2",
             "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 80 * lilin_has_ruach_efficiency()" ] },
             "effect": [
-              { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "80 * lilin_has_ruach_efficiency()" ] },
+              { "math": [ "u_vitamin('lilin_ruach_vitamin') -= 80 * lilin_has_ruach_efficiency()" ] },
               { "u_add_effect": "effect_lilin_attribute_bonuses", "duration": "PERMANENT" },
               { "u_message": "You draw on your ruach to enhance your physical abilities.", "type": "good" },
               {
@@ -162,7 +162,7 @@
             "id": "EOC_LILIN_ATTRIBUTE_BONUSES_maintenance_2",
             "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 60 * lilin_has_ruach_efficiency()" ] },
             "effect": [
-              { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "60 * lilin_has_ruach_efficiency()" ] },
+              { "math": [ "u_vitamin('lilin_ruach_vitamin') -= 60 * lilin_has_ruach_efficiency()" ] },
               {
                 "u_message": "You feel a chill on your skin as you maintain your enhanced physical abilities.",
                 "type": "mixed"
@@ -197,13 +197,14 @@
             "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 360 * lilin_has_ruach_efficiency()" ] },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
-              { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "360 * lilin_has_ruach_efficiency()" ] },
+              { "math": [ "u_vitamin('lilin_ruach_vitamin') -= 360 * lilin_has_ruach_efficiency()" ] },
+              { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
               { "u_add_trait": "TURN_INTO_OWL_TRAITS" },
               {
                 "if": { "u_has_trait": "LILIN_OWL_FORM_PASS_THROUGH_WALLS" },
                 "then": { "u_add_effect": "effect_lilin_owl_form_pass_through_walls", "duration": "PERMANENT" }
               },
-              { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "4" ] },
+              { "math": [ "u_calories('dont_affect_weariness': true) /= 4" ] },
               {
                 "u_message": "Your eyes grow wide as feathers sprout from your arms and you take to the air on silent wings.",
                 "type": "good"
@@ -227,7 +228,8 @@
               { "u_message": "Your wings recede and you land on now-humanoid legs.", "type": "neutral" },
               { "u_lose_trait": "TURN_INTO_OWL_TRAITS" },
               { "u_lose_effect": "effect_lilin_owl_form_pass_through_walls" },
-              { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "4" ] }
+              { "math": [ "u_calories('dont_affect_weariness': true) *= 4" ] },
+              { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_RETURN_ARMOR_TO_NORMAL" }
             ]
           }
         ]
@@ -251,7 +253,7 @@
             "id": "EOC_LILIN_BONUS_HEALING_ACTIVE_activated_2",
             "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 100 * lilin_has_ruach_efficiency()" ] },
             "effect": [
-              { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "100 * lilin_has_ruach_efficiency()" ] },
+              { "math": [ "u_vitamin('lilin_ruach_vitamin') -= 100 * lilin_has_ruach_efficiency()" ] },
               { "u_add_effect": "effect_lilin_bonus_healing_active", "duration": "PERMANENT" },
               { "u_message": "You pour ruach into your wounds and your body begins healing.", "type": "good" },
               { "run_eocs": [ "EOC_LILIN_BONUS_HEALING_ACTIVE_maintenance" ], "time_in_future": [ 8, 15 ] }
@@ -296,7 +298,7 @@
             "id": "EOC_LILIN_BONUS_HEALING_ACTIVE_maintenance_2",
             "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 100 * lilin_has_ruach_efficiency()" ] },
             "effect": [
-              { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "100 * lilin_has_ruach_efficiency()" ] },
+              { "math": [ "u_vitamin('lilin_ruach_vitamin') -= 100 * lilin_has_ruach_efficiency()" ] },
               { "u_message": "You feel icy pinpricks on your skin as your wounds heal.", "type": "mixed" },
               { "if": { "math": [ "u_hp('torso') < u_hp_max('torso')" ] }, "then": { "math": [ "u_hp('torso')++" ] } },
               { "if": { "math": [ "u_hp('head') < u_hp_max('head')" ] }, "then": { "math": [ "u_hp('head')++" ] } },
@@ -389,10 +391,10 @@
             "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 480 * lilin_has_ruach_efficiency()" ] },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
-              { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "480 * lilin_has_ruach_efficiency()" ] },
+              { "math": [ "u_vitamin('lilin_ruach_vitamin') -= 480 * lilin_has_ruach_efficiency()" ] },
               { "u_add_trait": "LILIN_WAR_OWL_FORM_TRAITS" },
               { "u_add_trait": "LILIN_WAR_OWL_FORM_LEAPER" },
-              { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "1.5" ] },
+              { "math": [ "u_calories('dont_affect_weariness': true) *= 1.5" ] },
               {
                 "u_message": "Wings erupt from your shoulders and talons grow from your fingers as you assume the strix form.",
                 "type": "good"
@@ -416,7 +418,7 @@
               { "u_message": "Your wings, feathers, and talons all vanish as you return to your human form.", "type": "neutral" },
               { "u_lose_trait": "LILIN_WAR_OWL_FORM_TRAITS" },
               { "u_lose_trait": "LILIN_WAR_OWL_FORM_LEAPER" },
-              { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "1.5" ] }
+              { "math": [ "u_calories('dont_affect_weariness': true) /= 1.5" ] }
             ]
           }
         ]
@@ -507,7 +509,7 @@
     "effect": [
       {
         "if": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">", "3000 * lilin_has_ruach_efficiency()" ] },
-        "then": { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "3000 * lilin_has_ruach_efficiency()" ] },
+        "then": { "math": [ "u_vitamin('lilin_ruach_vitamin') -= 3000 * lilin_has_ruach_efficiency()" ] },
         "else": { "math": [ "u_vitamin('lilin_ruach_vitamin') = 0" ] }
       },
       { "math": [ "u_hp('ALL_MINOR') = 999" ] },
@@ -538,7 +540,7 @@
       },
       { "u_add_effect": "lilit_prevent_death_escape", "duration": 15 },
       { "u_add_effect": "lilit_prevent_death_cooldown", "duration": 300 },
-      { "math": [ "u_vitamin('lilin_ruach_vitamin')", "+=", "360 * lilin_has_ruach_efficiency()" ] },
+      { "math": [ "u_vitamin('lilin_ruach_vitamin') += 360 * lilin_has_ruach_efficiency()" ] },
       { "u_activate_trait": "LILIN_TURN_INTO_OWL" }
     ]
   }

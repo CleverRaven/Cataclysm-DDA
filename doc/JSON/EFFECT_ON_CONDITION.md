@@ -1281,6 +1281,10 @@ Runs a query, allowing you to pick specific tile around. When picked, stores coo
 - type: location string or [variable object](#variable-object)
 - return true if the location is in the bounds of a city at or above z-1
 
+### `map_is_outside`
+- type: location string or [variable object](#variable-object)
+- return true if the location is outside. Currently always returns false if the location is outside the reality bubble.
+
 #### Valid talkers:
 
 No talker is needed.
@@ -2231,7 +2235,7 @@ In three hours, you will be given five AR-15
   {
     "type": "effect_on_condition",
     "id": "EOC_until_nested",
-    "effect": [ { "u_spawn_item": "knife_combat" }, { "math": [ "my_variable", "++" ] } ]
+    "effect": [ { "u_spawn_item": "knife_combat" }, { "math": [ "my_variable++" ] } ]
   }
 ```
 
@@ -2396,7 +2400,7 @@ Resets all of your vitamins.
   "foreach": "ids",
   "var": { "context_val": "id" },
   "target": "vitamin",
-  "effect": [ { "math": [ "u_vitamin(_id)", "=", "0" ] } ]
+  "effect": [ { "math": [ "u_vitamin(_id) = 0" ] } ]
 }
 ```
 
@@ -3373,7 +3377,7 @@ For example:
 ```
 could be moved to:
 ```json  
-[ "u_number_artisans_gunsmith_ammo_amount", "=", "800" ]
+[ "u_number_artisans_gunsmith_ammo_amount = 800" ]
 ```
 
 Setting and checking monster vars via `math`.  The first spell targets a monster and forces it to run the effect on condition to apply a custom var, which the second spell checks to deal additional effects:
@@ -3394,7 +3398,7 @@ Setting and checking monster vars via `math`.  The first spell targets a monster
   {
     "id": "spell_tag_eoc",
     "type": "effect_on_condition",
-    "effect": [ { "math": [ "u_var_tagged", "+=", "1" ] } ]
+    "effect": [ { "math": [ "u_var_tagged += 1" ] } ]
   }
 ...
   {
@@ -4309,8 +4313,11 @@ Creates an explosion at talker position or at passed coordinate
 | --- | --- | --- | --- | 
 | "u_explosion", / "npc_explosion" | **mandatory** | explosion_data | copies the `explosion` field from `"type": "ammo_effect"`, but allows to use variables; defines what type of explosion is occuring. |
 | "target_var" | optional | [variable object](#variable-object) | if used, explosion will occur where the variable point to | 
-| "emp_blast" | optional | bool | if used, the emp blast would appear at the center of the explosion (only at the center, no matter the size of explosion.  If you want the explosion to have an area, see examples below) | 
-| "scrambler_blast" | optional | bool | if used, the scrambler blast would appear at the center of the explosion (only at the center, no matter the size of explosion) |
+| "emp_blast" | optional | bool | if used, the emp blast would appear at the center of the explosion (only at the center, no matter the size of explosion.  If you want the explosion to have an area, see examples below). Default false | 
+| "scrambler_blast" | optional | bool | if used, the scrambler blast would appear at the center of the explosion (only at the center, no matter the size of explosion). Default false |
+| "flashbang" | optional | bool | if used, the flashbang explosion happens. Default false |
+| "flashbang_avatar_is_immune" | optional | bool | if used with `flashbang`, the flashbang explosion won't affect the avatar (to protect alpha/beta talker, if they are not an avatar, other means need to be used, like FLASH_PROTECTION flag for character and FLASHBANGPROOF flag for monster ) |
+| "flashbang_radius" | optional | int, duration or [variable object](#variable-object) | if used with `flashbang`, the flashbang explosion would be this big. Doesn't affect flashbang loudness. Default is 8 |
 
 ##### Valid talkers:
 
@@ -4334,6 +4341,27 @@ You pick a tile using u_query_omt, then the explosion is caused at this position
       }
     ]
   }
+```
+
+You pick a tile using `u_query_tile`, pass it to `u_explosion`, with a flashbang on and `flashbang_radius` being input manually
+```jsonc
+  {
+    "type": "effect_on_condition",
+    "id": "AAAAAAAAAAAA",
+    "effect": [
+      { "u_query_tile": "anywhere", "target_var": { "context_val": "pos" }, "message": "Select point to detonate." },
+      {
+        "if": { "math": [ "has_var(_pos)" ] },
+        "then": {
+          "u_explosion": { },
+          "flashbang": true,
+          "flashbang_radius": { "math": [ "num_input('flashbang radius?', 8)" ] },
+          "target_var": { "context_val": "pos" }
+        },
+        "else": { "u_message": "Canceled" }
+      }
+    ]
+  },
 ```
 
 `u_map_run_eocs` runs 5 tiles around alpha talker, applying EMP effect on all the tiles

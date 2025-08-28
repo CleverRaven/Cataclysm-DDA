@@ -59,7 +59,7 @@
       {
         "text": "Well, that was a mistake.",
         "topic": "TALK_PORTAL_STORM_CONVERSATION",
-        "effect": [ { "math": [ "u_pain()", "+=", "5" ] } ]
+        "effect": [ { "math": [ "u_pain() += 5" ] } ]
       }
     ]
   },

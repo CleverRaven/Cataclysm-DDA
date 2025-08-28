@@ -16,6 +16,7 @@
 #include "debug.h"
 #include "enum_conversions.h"
 #include "flexbuffer_json.h"
+#include "flag.h"
 #include "generic_factory.h"
 #include "harvest.h"
 #include "iexamine.h"
@@ -33,6 +34,12 @@
 #include "type_id.h"
 
 static furn_id f_null;
+
+static const flag_id json_flag_DIGGABLE( "DIGGABLE" );
+static const flag_id json_flag_EASY_DECONSTRUCT( "EASY_DECONSTRUCT" );
+static const flag_id json_flag_FLAT( "FLAT" );
+static const flag_id json_flag_PLOWABLE( "PLOWABLE" );
+
 static const furn_str_id furn_f_null( "f_null" );
 
 static const item_group_id Item_spawn_data_EMPTY_GROUP( "EMPTY_GROUP" );
@@ -396,13 +403,24 @@ void map_fd_bash_info::load( const JsonObject &jo, const bool was_loaded,
 std::string map_common_bash_info::potential_bash_items( const map_data_common_t &ter_furn ) const
 {
     //TODO: Add a descriptive indicator of vaguely how hard it is to bash?
+
+    std::string ret;
     if( !ter_furn.base_item.is_null() && drop_group == Item_spawn_data_EMPTY_GROUP ) {
-        std::string ret;
         for( const item_comp &comp : ter_furn.get_uncraft_components() ) {
             ret += string_format( "- <color_cyan>%d %s</color>\n", comp.count, item::nname( comp.type ) );
         }
-        return string_format( _( "Bashing the %s may yield:\n%s" ),
-                              ter_furn.name(), ret );
+        ret += string_format( _( "Bashing the %s may yield:\n%s" ), ter_furn.name(), ret );
+        ret += "\n";
+        ret += _( "Or whatever remains of that which you manage to not destroy" );
+        return ret;
+    } else if( ter_furn.deconstruct_info().has_value()
+               && ter_furn.deconstruct_info().value().drop_group != Item_spawn_data_EMPTY_GROUP
+               && drop_group == Item_spawn_data_EMPTY_GROUP ) {
+        ret += string_format( _( "Bashing the %s would yield:\n%s" ),
+                              ter_furn.name(), item_group::potential_items( ter_furn.deconstruct_info().value().drop_group ) );
+        ret += "\n";
+        ret += _( "Or whatever remains of that which you manage to not destroy" );
+        return ret;
     } else {
         return string_format( _( "Bashing the %s would yield:\n%s" ),
                               ter_furn.name(), item_group::potential_items( drop_group ) );
@@ -814,13 +832,13 @@ std::vector<std::string> map_data_common_t::extended_description() const
             add( text );
         }
     };
-    add_if( has_flag( ter_furn_flag::TFLAG_DIGGABLE ), _( "Diggable." ) );
-    add_if( has_flag( ter_furn_flag::TFLAG_PLOWABLE ), _( "Plowable." ) );
+    add_if( has_flag( ter_furn_flag::TFLAG_DIGGABLE ), json_flag_DIGGABLE->name() );
+    add_if( has_flag( ter_furn_flag::TFLAG_PLOWABLE ), json_flag_PLOWABLE->name() );
     add_if( has_flag( ter_furn_flag::TFLAG_ROUGH ), _( "Rough." ) );
     add_if( has_flag( ter_furn_flag::TFLAG_UNSTABLE ), _( "Unstable." ) );
     add_if( has_flag( ter_furn_flag::TFLAG_SHARP ), _( "Sharp." ) );
-    add_if( has_flag( ter_furn_flag::TFLAG_FLAT ), _( "Flat." ) );
-    add_if( has_flag( ter_furn_flag::TFLAG_EASY_DECONSTRUCT ), _( "Simple." ) );
+    add_if( has_flag( ter_furn_flag::TFLAG_FLAT ), json_flag_FLAT->name() );
+    add_if( has_flag( ter_furn_flag::TFLAG_EASY_DECONSTRUCT ), json_flag_EASY_DECONSTRUCT->name() );
     add_if( has_flag( ter_furn_flag::TFLAG_MOUNTABLE ), _( "Mountable." ) );
     add_if( is_flammable(), _( "Flammable." ) );
     if( !result.empty() ) {
@@ -844,12 +862,22 @@ void load_furniture( const JsonObject &jo, const std::string &src )
     furniture_data.load( jo, src );
 }
 
+void finalize_furniture( )
+{
+    furniture_data.finalize();
+}
+
 void load_terrain( const JsonObject &jo, const std::string &src )
 {
     if( terrain_data.empty() ) { // TODO: This shouldn't live here
         terrain_data.insert( null_terrain_t() );
     }
     terrain_data.load( jo, src );
+}
+
+void finalize_terrain( )
+{
+    terrain_data.finalize();
 }
 
 void map_data_common_t::set_flag( const std::string &flag )

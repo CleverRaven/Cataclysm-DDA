@@ -68,13 +68,13 @@
   {
     "id": "GROUP_PARK_SCENIC",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_vampire_moroi", "weight": 10 }, { "monster": "mon_vampire_strigoi", "weight": 1 } ]
+    "monsters": [ { "group": "GROUP_VAMPIRE_MOROI_TYPES", "weight": 10 }, { "monster": "mon_vampire_strigoi", "weight": 1 } ]
   },
   {
     "id": "GROUP_PARK_PLAYGROUND",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_vampire_moroi", "weight": 10 },
+      { "group": "GROUP_VAMPIRE_MOROI_TYPES", "weight": 10 },
       { "monster": "mon_vampire_strigoi", "weight": 1 },
       { "monster": "mon_mi_go_stalking_warper", "weight": 5, "cost_multiplier": 2, "starts": "40 days" }
     ]
@@ -82,32 +82,35 @@
   {
     "id": "GROUP_HOUSE",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_vampire_moroi", "weight": 5 }, { "monster": "mon_vampire_strigoi", "weight": 1 } ]
+    "monsters": [ { "group": "GROUP_VAMPIRE_MOROI_TYPES", "weight": 5 }, { "monster": "mon_vampire_strigoi", "weight": 1 } ]
   },
   {
     "id": "GROUP_MANSION_START",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_vampire_moroi", "weight": 80 } ]
+    "monsters": [ { "group": "GROUP_VAMPIRE_MOROI_TYPES", "weight": 80 } ]
   },
   {
     "id": "GROUP_HOSPITAL",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_vampire_moroi", "weight": 5 }, { "monster": "mon_vampire_strigoi", "weight": 1 } ]
+    "monsters": [ { "group": "GROUP_VAMPIRE_MOROI_TYPES", "weight": 5 }, { "monster": "mon_vampire_strigoi", "weight": 1 } ]
   },
   {
     "id": "FERAL_HUMANS",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_vampire_moroi", "weight": 5 }, { "monster": "mon_vampire_strigoi", "weight": 1 } ]
+    "monsters": [ { "group": "GROUP_VAMPIRE_MOROI_TYPES", "weight": 5 }, { "monster": "mon_vampire_strigoi", "weight": 1 } ]
   },
   {
     "id": "GROUP_RETIREMENT_COMMUNITY",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_vampire_moroi", "weight": 5 }, { "monster": "mon_vampire_strigoi", "weight": 1 } ]
+    "monsters": [ { "group": "GROUP_VAMPIRE_MOROI_TYPES", "weight": 5 }, { "monster": "mon_vampire_strigoi", "weight": 1 } ]
   },
   {
     "type": "monstergroup",
     "id": "GROUP_MOROI",
-    "monsters": [ { "monster": "mon_vampire_moroi", "weight": 35 }, { "monster": "mon_renfield", "weight": 50, "pack_size": [ 1, 2 ] } ]
+    "monsters": [
+      { "group": "GROUP_VAMPIRE_MOROI_TYPES", "weight": 35 },
+      { "monster": "mon_renfield", "weight": 50, "pack_size": [ 1, 2 ] }
+    ]
   },
   {
     "type": "monstergroup",
@@ -115,6 +118,16 @@
     "monsters": [
       { "monster": "mon_bat_giant", "weight": 35, "pack_size": [ 1, 2 ] },
       { "monster": "mon_renfield", "weight": 50, "pack_size": [ 1, 3 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_VAMPIRE_MOROI_TYPES",
+    "monsters": [
+      { "monster": "mon_vampire_moroi_fast", "weight": 10 },
+      { "monster": "mon_vampire_moroi_tough", "weight": 25 },
+      { "monster": "mon_vampire_moroi_animalistic", "weight": 15 },
+      { "monster": "mon_vampire_moroi_stealthy", "weight": 15 }
     ]
   },
   {
@@ -132,7 +145,7 @@
     "id": "GROUP_VAMPIRES_MIXED",
     "monsters": [
       { "monster": "mon_renfield", "weight": 50, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_vampire_moroi", "weight": 25 },
+      { "group": "GROUP_VAMPIRE_MOROI_TYPES", "weight": 25 },
       { "monster": "mon_vampire_strigoi", "weight": 15 }
     ]
   },
@@ -347,7 +360,10 @@
   {
     "type": "monstergroup",
     "id": "GROUP_MI-GO_BASE_COMMON",
-    "monsters": [ { "monster": "mon_mi_go_stalking_warper", "weight": 50, "cost_multiplier": 2, "starts": "35 days" } ]
+    "monsters": [
+      { "monster": "mon_mi_go_stalking_warper", "weight": 50, "cost_multiplier": 2, "starts": "35 days" },
+      { "monster": "mon_mi_go_humanoid", "weight": 50, "cost_multiplier": 2, "starts": "35 days" }
+    ]
   },
   {
     "type": "monstergroup",
@@ -430,6 +446,25 @@
       { "monster": "mon_zombie_monochrome", "weight": 450 },
       { "monster": "mon_zombie_monochrome_2", "weight": 225 },
       { "monster": "mon_zombie_monochrome_3", "weight": 100 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_XE_MIGO_EVO",
+    "monsters": [ { "monster": "mon_mi_go" }, { "monster": "mon_mi_go_humanoid" }, { "monster": "mon_mi_go_stalking_warper" } ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_NETHER_CULT",
+    "default": "mon_blank",
+    "monsters": [
+      { "monster": "mon_blank", "weight": 200, "cost_multiplier": 0 },
+      { "monster": "mon_hunting_horror", "weight": 150, "cost_multiplier": 0 },
+      { "monster": "mon_unseen_hunter", "weight": 50, "cost_multiplier": 0, "starts": "120 days" },
+      { "monster": "mon_gelatin", "weight": 120, "cost_multiplier": 0 },
+      { "monster": "mon_kreck", "weight": 210, "cost_multiplier": 0 },
+      { "monster": "mon_gozu", "weight": 25, "cost_multiplier": 0 },
+      { "monster": "mon_nether_huntsman", "weight": 15, "cost_multiplier": 0 }
     ]
   }
 ]

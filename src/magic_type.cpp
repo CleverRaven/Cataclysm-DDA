@@ -33,6 +33,11 @@ void magic_type::load_magic_type( const JsonObject &jo, const std::string &src )
     magic_type_factory.load( jo, src );
 }
 
+void magic_type::finalize_all()
+{
+    magic_type_factory.finalize();
+}
+
 
 void magic_type::load( const JsonObject &jo, std::string_view src )
 {
@@ -47,7 +52,14 @@ void magic_type::load( const JsonObject &jo, std::string_view src )
     }
     optional( jo, was_loaded, "casting_xp_formula_id", casting_xp_formula_id );
     optional( jo, was_loaded, "failure_chance_formula_id", failure_chance_formula_id );
-    optional( jo, was_loaded, "energy_source", energy_source );
+    if( jo.has_string( "energy_source" ) ) {
+        mandatory( jo, was_loaded, "energy_source", energy_source );
+    } else if( jo.has_object( "energy_source" ) ) {
+        const JsonObject jo_energy = jo.get_object( "energy_source" );
+        mandatory( jo_energy, was_loaded, "type", energy_source );
+        optional( jo_energy, was_loaded, "vitamin", vitamin_energy_source_ );
+        optional( jo_energy, was_loaded, "color", energy_color_, nc_color_reader{}, c_cyan );
+    }
     if( jo.has_array( "cannot_cast_flags" ) ) {
         for( auto &cannot_cast_flag : jo.get_string_array( "cannot_cast_flags" ) ) {
             cannot_cast_flags.insert( cannot_cast_flag );

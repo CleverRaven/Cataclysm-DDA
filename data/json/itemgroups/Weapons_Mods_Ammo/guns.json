@@ -159,7 +159,6 @@
     "id": "guns_smg_milspec",
     "//": "Military specification SMGs only ever found at military sites.",
     "items": [
-      { "group": "nested_hk_mp7", "prob": 5 },
       { "group": "nested_hk_mp5", "prob": 100 },
       { "group": "nested_hk_mp5k", "prob": 10 },
       { "group": "nested_hk_mp5sd", "prob": 5 }
@@ -191,6 +190,7 @@
       { "group": "guns_rifle_common_3006", "prob": 149 },
       { "group": "guns_rifle_common_357", "prob": 108 },
       { "group": "guns_rifle_common_44", "prob": 81 },
+      { "group": "guns_rifle_common_3030", "prob": 76 },
       { "group": "guns_rifle_common_762R", "prob": 70 },
       { "group": "guns_rifle_common_270win", "prob": 57 },
       { "group": "guns_rifle_common_300winmag", "prob": 32 },
@@ -229,6 +229,7 @@
       { "group": "guns_rifle_common_display_3006", "prob": 149 },
       { "group": "guns_rifle_common_display_357", "prob": 108 },
       { "group": "guns_rifle_common_display_44", "prob": 81 },
+      { "group": "guns_rifle_common_display_3030", "prob": 76 },
       { "group": "guns_rifle_common_display_762R", "prob": 70 },
       { "group": "guns_rifle_common_display_270win", "prob": 57 },
       { "group": "guns_rifle_common_display_300winmag", "prob": 32 },
@@ -288,6 +289,7 @@
       { "group": "guns_rifle_common_display_762", "prob": 115 },
       { "group": "guns_rifle_common_display_3006", "prob": 149 },
       { "group": "guns_rifle_common_display_44", "prob": 8 },
+      { "group": "guns_rifle_common_display_3030", "prob": 76 },
       { "group": "guns_rifle_common_display_762R", "prob": 70 },
       { "group": "guns_rifle_common_display_270win", "prob": 57 },
       { "group": "guns_rifle_common_display_300winmag", "prob": 32 },
@@ -1120,13 +1122,6 @@
         "collection": [
           { "item": "fn_p90", "charges": [ 0, 50 ], "contents-item": "shoulder_strap", "damage": [ 0, 3 ], "dirt": [ 0, 7050 ] },
           { "group": "field_p90" }
-        ],
-        "prob": 1
-      },
-      {
-        "collection": [
-          { "item": "hk_mp7", "charges": [ 0, 20 ], "contents-item": "shoulder_strap", "damage": [ 0, 3 ], "dirt": [ 0, 7050 ] },
-          { "group": "field_mp7" }
         ],
         "prob": 1
       },

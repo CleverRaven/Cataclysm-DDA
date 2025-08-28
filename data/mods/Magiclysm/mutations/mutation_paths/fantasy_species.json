@@ -4,6 +4,18 @@
     "id": "HERITAGE"
   },
   {
+    "type": "mutation",
+    "id": "HUMAN_BUILD",
+    "name": { "str": "Human" },
+    "types": [ "HERITAGE" ],
+    "purifiable": false,
+    "mixed_effect": false,
+    "points": 1,
+    "visibility": 2,
+    "description": "Elves might say you are short-lived, and goblins might say you are strong, but the one thing humans really are is tenacious.  Hopefully that will serve you well after the Cataclysm.",
+    "flags": [ "HERITAGE" ]
+  },
+  {
     "type": "mutation_category",
     "id": "SPECIES_DWARF",
     "name": "Dwarf",
@@ -347,10 +359,43 @@
     "id": "ELVEN_SIGHT",
     "name": { "str": "Elvensight" },
     "points": 2,
-    "description": "Like a cat, elven eyes are well-attuned to low levels of light, able to pick up even the slightest glimmer.  You have greatly-enhanced night vision.",
+    "description": "Like a cat, elven eyes are well-attuned to low levels of light, able to pick up even the slightest glimmer.  You have greatly-enhanced night vision.  However, you have no additional vision while in complete darkness.",
     "types": [ "EYES" ],
     "category": [ "SPECIES_ELF" ],
-    "enchantments": [ { "values": [ { "value": "NIGHT_VIS", "add": 5 } ] } ]
+    "enchantments": [
+      {
+        "condition": { "and": [ "u_is_outside", { "or": [ { "is_weather": "clear" }, { "is_weather": "sunny" } ] } ] },
+        "values": [ { "value": "NIGHT_VIS", "add": 20 }, { "value": "OVERMAP_SIGHT", "add": 6 } ],
+        "ench_effects": [ { "effect": "effect_magiclysm_craft_in_darkness", "intensity": 1 } ]
+      },
+      {
+        "condition": {
+          "and": [
+            "u_is_outside",
+            { "not": { "is_weather": "clear" } },
+            { "not": { "is_weather": "sunny" } },
+            { "and": [ { "math": [ "moon_phase() >= 2" ] }, { "math": [ "moon_phase() < 7" ] } ] }
+          ]
+        },
+        "values": [ { "value": "NIGHT_VIS", "add": 10 }, { "value": "OVERMAP_SIGHT", "add": 2 } ]
+      },
+      {
+        "condition": {
+          "and": [
+            "u_is_outside",
+            { "not": { "is_weather": "clear" } },
+            { "not": { "is_weather": "sunny" } },
+            { "or": [ { "math": [ "moon_phase() <= 1" ] }, { "math": [ "moon_phase() == 7" ] } ] }
+          ]
+        },
+        "values": [ { "value": "NIGHT_VIS", "add": 2 } ]
+      },
+      {
+        "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_val('fine_detail_vision_mod') <= 7" ] } ] },
+        "values": [ { "value": "NIGHT_VIS", "add": 6 } ],
+        "ench_effects": [ { "effect": "effect_magiclysm_craft_in_darkness", "intensity": 1 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -399,7 +444,6 @@
             { "u_is_on_terrain": "t_grass_long" },
             { "u_is_on_terrain": "t_bamboo" },
             { "u_is_on_terrain": "t_bamboo_harvested" },
-            { "u_is_on_terrain": "t_underbrush_harvested_winter" },
             { "u_is_on_terrain": "t_grass" },
             { "u_is_on_terrain": "t_grass_white" },
             { "u_is_on_terrain": "t_moss" },
@@ -610,6 +654,8 @@
     "description": "Lizardfolk are taller and stronger than humans but not much thicker and are surprisingly fast for their size (+1 STR, +1 DEX).",
     "category": [ "SPECIES_LIZARDFOLK" ],
     "enchantments": [
+      { "condition": { "u_has_trait": "SLIT_NOSTRILS" }, "encumbrance_modifier": [ { "part": "mouth", "add": -10 } ] },
+      { "condition": { "u_has_trait": "SCALES" }, "encumbrance_modifier": [ { "part": "mouth", "add": -1 } ] },
       {
         "values": [
           { "value": "MOVECOST_SWIM_MOD", "multiply": -0.1 },
@@ -711,7 +757,7 @@
     "ugliness": 8,
     "mixed_effect": true,
     "description": "Your face and jaws are those of a predatory lizard, with a set of sharp teeth to go with them.  They look NASTY--as do the bite wounds they can inflict--but prevent wearing mouthgear.",
-    "types": [ "MUZZLE" ],
+    "types": [ "TEETH" ],
     "prereqs": [ "SNOUT" ],
     "restricts_gear": [ "mouth" ],
     "social_modifiers": { "intimidate": 10 },

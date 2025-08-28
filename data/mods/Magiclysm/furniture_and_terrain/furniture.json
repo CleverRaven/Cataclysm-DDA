@@ -119,7 +119,7 @@
       "destroyed_field": [ "fd_splinters", 1 ]
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.15, "mass": 300000, "volume": "100L" }
+    "workbench": { "multiplier": 1.15, "mass": "300 kg", "volume": "100L" }
   },
   {
     "type": "furniture",
@@ -392,7 +392,7 @@
     "crafting_pseudo_item": "boulder_anvil",
     "examine_action": "workbench",
     "flags": [ "TRANSPARENT", "MINEABLE", "FLAT_SURF", "MOUNTABLE", "PLACE_ITEM", "SHORT" ],
-    "workbench": { "multiplier": 1.1, "mass": 300000, "volume": "100L" },
+    "workbench": { "multiplier": 1.1, "mass": "300 kg", "volume": "100L" },
     "bash": { "str_min": 0, "str_max": 0, "sound": "The boulder recedes into the ground.", "sound_fail": "thump." }
   },
   {

@@ -676,8 +676,6 @@ void editmap::draw_main_ui_overlay()
                     } else {
                         g->draw_vpart_override( map_p, vpart_id::NULL_ID(), 0, 0_degrees, false, point_rel_ms::zero );
                     }
-                    g->draw_below_override( tripoint_bub_ms( map_p ),
-                                            tmpmap.ter( tmp_p ).obj().has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) );
                 }
             }
             // int: count, bool: more than 1 spawn data
@@ -743,8 +741,8 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     draw_border( w_info );
 
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w_info, point( 1, 0 ), c_light_gray, "< %d,%d,%d >", target.x(), target.y(),
-               target.z() );
+    mvwprintz( w_info, point( 1, 0 ), c_light_gray, "< bub_ms=%s abs_ms=%s >", target.to_string(),
+               here.get_abs( target ).to_string() );
 
     mvwputch( w_info, point( 1, off ), terrain_type.color(), terrain_type.symbol() );
     mvwprintw( w_info, point( 2, off++ ), _( "Ter: %s (%d); move cost %d" ), terrain_type.id.str(),
@@ -1154,7 +1152,7 @@ void editmap::edit_feature()
         info_title_curr = info_title<T_t>();
         do_ui_invalidation();
 
-        emenu.query( false, get_option<int>( "BLINK_SPEED" ) );
+        emenu.query( true, get_option<int>( "BLINK_SPEED" ) );
         if( emenu.ret == UILIST_CANCEL ) {
             quit = true;
         } else if( ( emenu.ret >= 0 && static_cast<size_t>( emenu.ret ) < T_t::count() ) ||
@@ -1280,7 +1278,7 @@ void editmap::edit_fld()
         info_title_curr = pgettext( "Map editor: Editing field effects", "Field effects" );
         do_ui_invalidation();
 
-        fmenu.query( false, get_option<int>( "BLINK_SPEED" ) );
+        fmenu.query( true, get_option<int>( "BLINK_SPEED" ) );
         if( ( fmenu.ret > 0 && static_cast<size_t>( fmenu.ret ) < field_type::count() ) ||
             ( fmenu.ret == UILIST_ADDITIONAL && ( fmenu.ret_act == "LEFT" || fmenu.ret_act == "RIGHT" ) ) ) {
 
@@ -1893,7 +1891,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
                                          oter_id( gmenu.selected ).id().str() );
         do_ui_invalidation();
 
-        gpmenu.query( false, get_option<int>( "BLINK_SPEED" ) * 3 );
+        gpmenu.query( true, get_option<int>( "BLINK_SPEED" ) * 3 );
 
         if( gpmenu.ret == 0 ) {
             cleartmpmap( tmpmap );

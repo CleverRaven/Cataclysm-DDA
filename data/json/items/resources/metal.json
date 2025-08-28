@@ -248,8 +248,8 @@
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "category": "spare_parts",
-    "name": { "str": "small metal sheet" },
-    "description": "A small sheet of metal.",
+    "name": { "str": "small mild steel sheet" },
+    "description": "A small sheet of mild steel.",
     "looks_like": "sheet_metal",
     "weight": "250 g",
     "volume": "250 ml",
@@ -264,6 +264,38 @@
     "color": "light_cyan",
     "ammo_type": "components",
     "melee_damage": { "bash": 5 }
+  },
+  {
+    "id": "mc_sheet_metal_small",
+    "type": "ITEM",
+    "copy-from": "sheet_metal_small",
+    "name": { "str": "small medium steel sheet" },
+    "description": "A small sheet of medium steel.",
+    "material": [ "mc_steel" ]
+  },
+  {
+    "id": "hc_sheet_metal_small",
+    "type": "ITEM",
+    "copy-from": "sheet_metal_small",
+    "name": { "str": "small high steel sheet" },
+    "description": "A small sheet of high steel.",
+    "material": [ "hc_steel" ]
+  },
+  {
+    "id": "ch_sheet_metal_small",
+    "type": "ITEM",
+    "copy-from": "sheet_metal_small",
+    "name": { "str": "small hardened steel sheet" },
+    "description": "A small sheet of hardened steel.",
+    "material": [ "ch_steel" ]
+  },
+  {
+    "id": "qt_sheet_metal_small",
+    "type": "ITEM",
+    "copy-from": "sheet_metal_small",
+    "name": { "str": "small tempered steel sheet" },
+    "description": "A small sheet of tempered steel.",
+    "material": [ "qt_steel" ]
   },
   {
     "id": "steel_chunk",
@@ -1229,6 +1261,42 @@
     "melee_damage": { "bash": 1 }
   },
   {
+    "id": "sheet_aluminum_small",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "small aluminum sheet" },
+    "description": "A small sheet of aluminum.",
+    "looks_like": "sheet_metal",
+    "weight": "85 g",
+    "volume": "32 ml",
+    "longest_side": "20 cm",
+    "//": "Roughly in the 15cm x 15cm to 20cm x 20cm range.",
+    "price": "30 USD",
+    "price_postapoc": "10 cent",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "material": [ "aluminum" ],
+    "symbol": "]",
+    "color": "light_cyan"
+  },
+  {
+    "type": "ITEM",
+    "id": "sheet_aluminum",
+    "name": { "str_sp": "aluminum sheet" },
+    "description": "A large sheet of aluminum.",
+    "//": "Roughly in the 70 cm x 70 cm x 1.5 mm to 1 m x 1 m x 0.75 mm range.",
+    "weight": "1984 g",
+    "longest_side": "100 cm",
+    "color": "light_cyan",
+    "symbol": "]",
+    "material": [ "aluminum" ],
+    "volume": "735 ml",
+    "category": "spare_parts",
+    "price_postapoc": "1 USD",
+    "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
+    "melee_damage": { "bash": 5 }
+  },
+  {
     "type": "ITEM",
     "id": "scrap_cast_iron",
     "symbol": ",",
@@ -1274,5 +1342,119 @@
     "weight": "1 kg",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "aluminum_bar_round",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str_sp": "aluminum bar stock" },
+    "description": "A round bar of aluminum.  Ready to be turned on the lathe.",
+    "//": "Bar is 5cm in diameter.",
+    "weight": "2538 mg",
+    "volume": "94 ml",
+    "longest_side": "5 cm",
+    "price": "2 USD",
+    "price_postapoc": "10 cent",
+    "material": [ "aluminum" ],
+    "symbol": "-",
+    "color": "light_cyan",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 4 }
+  },
+  {
+    "id": "small_aluminum_bar_round",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str_sp": "small aluminum bar stock" },
+    "description": "A small round bar of aluminum.  Ready to be turned on the lathe.",
+    "//": "Bar is 3cm in diameter.",
+    "weight": "945 mg",
+    "volume": "35 ml",
+    "longest_side": "5 cm",
+    "price": "1 USD",
+    "price_postapoc": "5 cent",
+    "material": [ "aluminum" ],
+    "symbol": "-",
+    "color": "light_cyan",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 2 }
+  },
+  {
+    "id": "steel_bar_round",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str_sp": "steel bar stock" },
+    "description": "A round bar of steel.  Ready to be turned on the lathe.",
+    "//": "Bar is 5cm in diameter.",
+    "weight": "752 g",
+    "volume": "94 ml",
+    "longest_side": "5 cm",
+    "price": "5 USD",
+    "price_postapoc": "20 cent",
+    "material": [ "steel" ],
+    "symbol": "-",
+    "color": "light_gray",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "lc_steel_bar_round",
+    "type": "ITEM",
+    "copy-from": "steel_bar_round",
+    "name": { "str_sp": "low steel bar stock" },
+    "material": [ "lc_steel" ]
+  },
+  {
+    "id": "mc_steel_bar_round",
+    "type": "ITEM",
+    "copy-from": "steel_bar_round",
+    "name": { "str_sp": "medium steel bar stock" },
+    "material": [ "mc_steel" ]
+  },
+  {
+    "id": "hc_steel_bar_round",
+    "type": "ITEM",
+    "copy-from": "steel_bar_round",
+    "name": { "str_sp": "high steel bar stock" },
+    "material": [ "hc_steel" ]
+  },
+  {
+    "id": "small_steel_bar_round",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str_sp": "small steel bar stock" },
+    "description": "A small round bar of steel.  Ready to be turned on the lathe.",
+    "//": "Bar is 3cm in diameter.",
+    "weight": "280 g",
+    "volume": "35 ml",
+    "longest_side": "5 cm",
+    "price": "5 USD",
+    "price_postapoc": "10 cent",
+    "material": [ "steel" ],
+    "symbol": "-",
+    "color": "light_gray",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 4 }
+  },
+  {
+    "id": "small_lc_steel_bar_round",
+    "type": "ITEM",
+    "copy-from": "small_steel_bar_round",
+    "name": { "str_sp": "small low steel bar stock" },
+    "material": [ "lc_steel" ]
+  },
+  {
+    "id": "small_mc_steel_bar_round",
+    "type": "ITEM",
+    "copy-from": "small_steel_bar_round",
+    "name": { "str_sp": "small medium steel bar stock" },
+    "material": [ "mc_steel" ]
+  },
+  {
+    "id": "small_hc_steel_bar_round",
+    "type": "ITEM",
+    "copy-from": "small_steel_bar_round",
+    "name": { "str_sp": "small high steel bar stock" },
+    "material": [ "hc_steel" ]
   }
 ]

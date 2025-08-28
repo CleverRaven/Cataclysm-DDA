@@ -65,7 +65,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "needle_bone", "prob": 40 },
-      { "item": "bone_glue", "prob": 20 },
+      { "group": "glue_weak_domestic", "prob": 20 },
       { "item": "bone_flute", "prob": 10 },
       { "item": "bone_human", "prob": 10 },
       { "item": "broth_bone", "prob": 60 },

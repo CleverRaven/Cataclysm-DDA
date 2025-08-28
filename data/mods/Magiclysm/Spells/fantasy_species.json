@@ -19,6 +19,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_GOBLIN_WARG_TAMING",
+    "condition": "u_is_avatar",
     "effect": [
       { "u_spawn_item": "warg_food", "suppress_message": true },
       { "run_eocs": "EOC_GOBLIN_WARG_TAMING_01" },

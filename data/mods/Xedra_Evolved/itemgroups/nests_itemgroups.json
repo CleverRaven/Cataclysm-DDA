@@ -2,6 +2,64 @@
   {
     "type": "item_group",
     "subtype": "distribution",
+    "id": "hedge_magick_materials",
+    "items": [
+      { "item": "mortar_pestle", "prob": 40 },
+      {
+        "item": "corpse_ash",
+        "prob": 15,
+        "container-item": "null",
+        "entry-wrapper": "jug_plastic",
+        "count": [ 5, 10 ]
+      },
+      { "item": "ash", "prob": 15, "container-item": "null", "entry-wrapper": "jug_plastic", "count": [ 10, 20 ] },
+      {
+        "item": "wild_herbs",
+        "prob": 75,
+        "container-item": "null",
+        "entry-wrapper": "bag_zipper",
+        "count": [ 20, 80 ]
+      },
+      {
+        "distribution": [
+          { "item": "alder_bark", "prob": 1, "count": [ 2, 5 ] },
+          { "item": "tanbark", "prob": 1, "count": [ 2, 5 ] },
+          { "item": "birchbark", "prob": 1, "count": [ 2, 5 ] },
+          { "item": "willowbark", "prob": 1, "count": [ 2, 5 ] }
+        ],
+        "prob": 40
+      },
+      {
+        "distribution": [
+          { "item": "leaves", "prob": 1, "count": [ 5, 10 ] },
+          { "item": "grape_leaves", "prob": 1, "count": [ 5, 10 ] },
+          { "item": "young_leaves", "prob": 1, "count": [ 5, 10 ] },
+          { "item": "chicory_leaves", "prob": 1, "count": [ 5, 10 ] },
+          { "item": "wintergreen_leaves", "prob": 1, "count": [ 5, 10 ] }
+        ],
+        "prob": 40
+      },
+      {
+        "distribution": [
+          { "item": "leather", "prob": 2, "count": [ 1, 5 ] },
+          { "item": "thread", "prob": 5, "count": [ 5, 50 ] },
+          { "item": "sinew", "prob": 1, "count": [ 2, 20 ] },
+          { "item": "plant_fibre", "prob": 1, "count": [ 3, 30 ] },
+          { "item": "yarn", "prob": 5, "count": [ 5, 50 ] },
+          { "item": "plant_fibre", "prob": 1, "count": [ 5, 50 ] },
+          { "item": "yarn", "prob": 5, "count": [ 5, 50 ] }
+        ],
+        "prob": 25
+      },
+      { "item": "salt", "count": [ 10, 50 ], "prob": 15, "entry-wrapper": "bag_zipper", "container-item": "null" },
+      { "item": "candle", "prob": 75, "charges": [ 10, -1 ] },
+      { "item": "copper", "prob": 15, "count": [ 5, 10 ] },
+      { "item": "scrap_dreamdross", "prob": 10, "count": [ 5, 10 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
     "id": "alchemical_materials",
     "items": [
       { "item": "chemistry_set", "prob": 25 },
@@ -121,7 +179,8 @@
       { "item": "alchemy_recipe_scorpion_periapta", "prob": 1 },
       { "item": "alchemy_recipe_butterfly_periapta", "prob": 1 },
       { "item": "alchemy_recipe_spider_periapta", "prob": 1 },
-      { "item": "alchemy_recipe_cold_iron_ingot", "prob": 1 }
+      { "item": "alchemy_recipe_cold_iron_ingot", "prob": 1 },
+      { "item": "alchemy_recipe_powder_of_revelation", "prob": 1 }
     ]
   },
   {

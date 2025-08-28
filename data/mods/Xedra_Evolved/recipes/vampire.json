@@ -40,7 +40,7 @@
         "id": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_BEGIN",
         "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= 500" ] },
         "effect": [
-          { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "3000" ] },
+          { "math": [ "u_vitamin('human_blood_vitamin') -= 3000" ] },
           { "u_add_effect": "effect_vampire_studying_blood_gifts", "duration": "8 hours" },
           { "u_assign_activity": "ACT_VAMPIRE_STUDYING_BLOOD_GIFTS", "duration": "8 hours" },
           { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_SWITCHER", "time_in_future": [ "120 minutes", "180 minutes" ] }
@@ -273,7 +273,7 @@
         "id": "EOC_XE_VAMPIRE_WEAKNESS_RESHUFFLE_BEGIN",
         "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= 500" ] },
         "effect": [
-          { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "3000" ] },
+          { "math": [ "u_vitamin('human_blood_vitamin') -= 3000" ] },
           { "u_add_effect": "effect_vampire_reshuffling_weaknesses", "duration": "8 hours" },
           { "u_assign_activity": "ACT_VAMPIRE_RESHUFFLING_WEAKNESSES", "duration": "8 hours" },
           {

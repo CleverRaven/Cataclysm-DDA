@@ -433,6 +433,7 @@ class uilist // NOLINT(cata-xy)
         std::optional<cataimgui::bounds> desired_bounds;
         bool desc_enabled = false;
 
+        std::string filter;
         bool filtering = false;
         bool filtering_nocase = false;
 
@@ -477,7 +478,6 @@ class uilist // NOLINT(cata-xy)
         weak_ptr_fast<uilist_impl> ui;
 
         std::unique_ptr<string_input_popup_imgui> filter_popup;
-        std::string filter;
 
         int max_entry_len = 0;
         int max_column_len = 0;

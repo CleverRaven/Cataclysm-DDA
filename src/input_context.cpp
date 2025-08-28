@@ -61,7 +61,7 @@ class keybindings_ui : public cataimgui::window
         std::vector<std::string> filtered_registered_actions;
         std::string hotkeys;
         int highlight_row_index = -1;
-        size_t scroll_offset = 0;
+        int scroll_offset = 0;
         //std::string filter_text;
         keybindings_ui( bool permit_execute_action, input_context *parent );
         void init();
@@ -663,7 +663,7 @@ cataimgui::bounds keybindings_ui::get_bounds()
 
 void keybindings_ui::draw_controls()
 {
-    scroll_offset = SIZE_MAX;
+    scroll_offset = INT_MAX;
     size_t legend_idx = 0;
     for( ; legend_idx < 4; legend_idx++ ) {
         cataimgui::draw_colored_text( legend[legend_idx], c_white );
@@ -688,91 +688,98 @@ void keybindings_ui::draw_controls()
     if( last_status != status && status == kb_menu_status::show ) {
         ImGui::SetNextWindowFocus();
     }
-    if( ImGui::BeginTable( "KB_KEYS", 2, ImGuiTableFlags_ScrollY ) ) {
+    if( ImGui::BeginTable( "KB_KEYS", 4, ImGuiTableFlags_ScrollY ) ) {
 
+        float one_char_width = ImGui::CalcTextSize( "M" ).x;
+        ImGui::TableSetupColumn( "##invlet",
+                                 ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoSort, one_char_width );
+        ImGui::TableSetupColumn( "##modified",
+                                 ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoSort, one_char_width );
         ImGui::TableSetupColumn( "Action Name",
                                  ImGuiTableColumnFlags_WidthStretch | ImGuiTableColumnFlags_NoSort );
         float keys_col_width = str_width_to_pixels( width ) - str_width_to_pixels( TERMX >= 100 ? 62 : 52 );
         ImGui::TableSetupColumn( "Assigned Key(s)",
                                  ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoSort, keys_col_width );
-        //ImGui::TableHeadersRow();
-        for( size_t i = 0; i < filtered_registered_actions.size(); i++ ) {
-            const std::string &action_id = filtered_registered_actions[i];
+        float row_height = ImGui::GetTextLineHeightWithSpacing();
+        ImGuiListClipper clipper;
+        clipper.Begin( filtered_registered_actions.size(), row_height );
+        while( clipper.Step() ) {
+            for( int i = clipper.DisplayStart; i < clipper.DisplayEnd; i++ ) {
+                ImGui::TableNextRow();
+                const std::string &action_id = filtered_registered_actions[i];
+                ImGui::PushID( action_id.c_str() );
 
-            bool overwrite_default;
-            const action_attributes &attributes = inp_mngr.get_action_attributes( action_id, ctxt->category,
-                                                  &overwrite_default );
-            bool basic_overwrite_default;
-            const action_attributes &basic_attributes = inp_mngr.get_action_attributes( action_id,
-                    ctxt->category, &basic_overwrite_default, true );
-            bool customized_keybinding = overwrite_default != basic_overwrite_default
-                                         || attributes.input_events != basic_attributes.input_events;
+                bool overwrite_default;
+                const action_attributes &attributes = inp_mngr.get_action_attributes( action_id, ctxt->category,
+                                                      &overwrite_default );
+                bool basic_overwrite_default;
+                const action_attributes &basic_attributes = inp_mngr.get_action_attributes( action_id,
+                        ctxt->category, &basic_overwrite_default, true );
+                bool customized_keybinding = overwrite_default != basic_overwrite_default
+                                             || attributes.input_events != basic_attributes.input_events;
 
-            ImGui::TableNextColumn();
-            ImGui::Text( " " );
-            ImGui::SameLine( 0, 0 );
-            char invlet = ' ';
-            //if( i < hotkeys.size() ) {
-            //    invlet = hotkeys[i];
-            if( ImGui::IsItemVisible() ) {
-                if( scroll_offset == SIZE_MAX ) {
-                    scroll_offset = i;
+                ImGui::TableSetColumnIndex( 1 );
+                if( customized_keybinding ) {
+                    ImGui::TextUnformatted( "*" );
                 }
-                if( i >= scroll_offset && ( i - scroll_offset ) < hotkeys.size() ) {
-                    invlet = hotkeys[i - scroll_offset];
+
+                ImGui::TableSetColumnIndex( 2 );
+                nc_color col;
+                if( attributes.input_events.empty() ) {
+                    col = i == highlight_row_index ? h_unbound_key : unbound_key;
+                } else if( overwrite_default ) {
+                    col = i == highlight_row_index ? h_local_key : local_key;
+                } else {
+                    col = i == highlight_row_index ? h_global_key : global_key;
                 }
+                bool is_selected = false;
+                bool is_hovered = false;
+                cataimgui::draw_colored_text( ctxt->get_action_name( action_id ),
+                                              col, 0.0f,
+                                              status == kb_menu_status::show ? nullptr : &is_selected,
+                                              nullptr, &is_hovered );
+
+                ImGui::TableSetColumnIndex( 3 );
+                ImGui::Text( "%s", ctxt->get_desc( action_id ).c_str() );
+
+                // handle the first column last because
+                // ImGui::IsItemVisble() tells you the status of the most
+                // recent item, not the item you’re about to create. If we
+                // did this column first, then when we call it for the
+                // first row it would tell us that the headers were
+                // hidden, which is not what we want to know.
+                ImGui::TableSetColumnIndex( 0 );
+                char invlet = ' ';
+                if( ImGui::IsItemVisible() ) {
+                    if( scroll_offset == INT_MAX ) {
+                        scroll_offset = i;
+                    }
+                    if( i >= scroll_offset && size_t( i - scroll_offset ) < hotkeys.size() ) {
+                        invlet = hotkeys[i - scroll_offset];
+                    }
+                }
+                if( ( status == kb_menu_status::add_global && overwrite_default )
+                    || ( status == kb_menu_status::reset && !customized_keybinding )
+                  ) {
+                    // We're trying to add a global, but this action has a local
+                    // defined, so gray out the invlet.
+                    ImGui::TextColored( c_dark_gray, "%c", invlet );
+                } else if( status == kb_menu_status::add || status == kb_menu_status::add_global ||
+                           status == kb_menu_status::remove || status == kb_menu_status::reset ) {
+                    ImGui::TextColored( c_light_blue, "%c", invlet );
+                } else if( status == kb_menu_status::execute ) {
+                    ImGui::TextColored( c_white, "%c", invlet );
+                }
+
+                if( ( is_selected || is_hovered ) && invlet != ' ' ) {
+                    highlight_row_index = i;
+                }
+                ImGui::PopID();
             }
-            std::string key_text;
-            if( ( status == kb_menu_status::add_global && overwrite_default )
-                || ( status == kb_menu_status::reset && !customized_keybinding )
-              ) {
-                // We're trying to add a global, but this action has a local
-                // defined, so gray out the invlet.
-                key_text = colorize( string_format( "%c", invlet ), c_dark_gray );
-            } else if( status == kb_menu_status::add || status == kb_menu_status::add_global ||
-                       status == kb_menu_status::remove || status == kb_menu_status::reset ) {
-                key_text = colorize( string_format( "%c", invlet ), c_light_blue );
-            } else if( status == kb_menu_status::execute ) {
-                key_text = colorize( string_format( "%c", invlet ), c_white );
-            } else {
-                key_text = " ";
-            }
-            nc_color col;
-            if( attributes.input_events.empty() ) {
-                col = i == size_t( highlight_row_index ) ? h_unbound_key : unbound_key;
-            } else if( overwrite_default ) {
-                col = i == size_t( highlight_row_index ) ? h_local_key : local_key;
-            } else {
-                col = i == size_t( highlight_row_index ) ? h_global_key : global_key;
-            }
-            if( customized_keybinding ) {
-                key_text += "*";
-            } else {
-                key_text += " ";
-            }
-            key_text += string_format( "%s:", ctxt->get_action_name( action_id ) );
-            bool is_selected = false;
-            bool is_hovered = false;
-            cataimgui::draw_colored_text( key_text, col, 0.0f,
-                                          status == kb_menu_status::show ? nullptr : &is_selected,
-                                          nullptr, &is_hovered );
-            if( ( is_selected || is_hovered ) && invlet != ' ' ) {
-                highlight_row_index = i;
-            }
-            //ImGui::SameLine();
-            //ImGui::SetCursorPosX(str_width_to_pixels(TERMX >= 100 ? 62 : 52));
-            ImGui::TableNextColumn();
-            ImGui::Text( "%s", ctxt->get_desc( action_id ).c_str() );
         }
         ImGui::EndTable();
     }
     last_status = status;
-
-    // spopup.query_string() will call wnoutrefresh( w_help )
-    //spopup.text(filter_phrase);
-    //spopup.query_string(false, true);
-    // Record cursor immediately after spopup drawing
-    //ui.record_term_cursor();
 }
 
 void keybindings_ui::init()

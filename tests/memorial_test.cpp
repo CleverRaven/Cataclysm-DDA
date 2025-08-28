@@ -15,12 +15,13 @@
 #include "event.h"
 #include "event_bus.h"
 #include "filesystem.h"
-#include "make_static.h"
 #include "memorial_logger.h"
 #include "mutation.h"
 #include "player_helpers.h"
 #include "stats_tracker.h"
 #include "type_id.h"
+
+static const addiction_id addiction_alcohol( "alcohol" );
 
 static const matype_id style_aikido( "style_aikido" );
 
@@ -210,7 +211,7 @@ TEST_CASE( "memorials", "[memorial]" )
         m, b, "The fuel tank of the vehicle_name exploded!", "vehicle_name" );
 
     check_memorial<event_type::gains_addiction>(
-        m, b, "Became addicted to alcohol.", ch, STATIC( addiction_id( "alcohol" ) ) );
+        m, b, "Became addicted to alcohol.", ch, addiction_alcohol );
 
     check_memorial<event_type::gains_mutation>(
         m, b, "Gained the mutation 'Carnivore'.", ch, mut );
@@ -238,7 +239,7 @@ TEST_CASE( "memorials", "[memorial]" )
         m, b, "Learned Aikido.", ch, style_aikido );
 
     check_memorial<event_type::loses_addiction>(
-        m, b, "Overcame addiction to alcohol.", ch, STATIC( addiction_id( "alcohol" ) ) );
+        m, b, "Overcame addiction to alcohol.", ch, addiction_alcohol );
 
     check_memorial<event_type::npc_becomes_hostile>(
         m, b, "npc_name became hostile.", ch2, "npc_name" );
@@ -334,7 +335,7 @@ TEST_CASE( "memorial_log_dumping", "[memorial]" )
     const std::string expected_output =
         "| Year 1, Spring, day 0 0800.00 | refugee center | "
         "Apolonia Trout began their journey into the Cataclysm." + eol +
-        "| Year 1, Spring, day 1 4:20:14 AM | forest | Used the debug menu (ENABLE_ACHIEVEMENTS)."
+        "| Year 1, Mar 21 4:20:14 AM | forest | Used the debug menu (ENABLE_ACHIEVEMENTS)."
         + eol;
 
     memorial_logger logger;

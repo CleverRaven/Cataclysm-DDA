@@ -1,3 +1,18 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Getting Mods Into The Repository](#getting-mods-into-the-repository)
+  - [Why have in-repo mods?](#why-have-in-repo-mods)
+  - [What kind of mods can be in the CleverRaven repository?](#what-kind-of-mods-can-be-in-the-cleverraven-repository)
+  - [What is necessary for a mod to be included in the repository?](#what-is-necessary-for-a-mod-to-be-included-in-the-repository)
+  - [What are the responsibilities of a mod curator?](#what-are-the-responsibilities-of-a-mod-curator)
+  - [When do mods get removed?](#when-do-mods-get-removed)
+  - [Why do mods get removed?](#why-do-mods-get-removed)
+  - [How can mods be rescued from removal?](#how-can-mods-be-rescued-from-removal)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Getting Mods Into The Repository
 
 Cataclysm: Dark Days Ahead is not only moddable, but ships with a number of mods available for users to select from even without having to obtain mods from a third party source.

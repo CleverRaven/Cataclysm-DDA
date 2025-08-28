@@ -1,0 +1,45 @@
+[
+  {
+    "type": "ITEM",
+    "id": "corpse_yugg_jade_fragments",
+    "symbol": ",",
+    "color": "light_green",
+    "name": { "str": "jade shard" },
+    "category": "other",
+    "description": "A shard of jade that fell away from the petrified corpse of a yugg.  The edges are rounded and sinuous, and when you look at it out of the corner of your eye it almost seems to be trying to crawl away.",
+    "material": [ "glass" ],
+    "weight": "75 g",
+    "volume": "30 ml",
+    "flags": [ "TRADER_AVOID", "ALLOWS_BODY_BLOCK" ],
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "point", "balance": "neutral" },
+    "melee_damage": { "bash": 2 },
+    "weapon_category": [ "SHIVS" ]
+  },
+  {
+    "id": "blank_blood",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "copy-from": "demihuman_blood",
+    "name": { "str_sp": "blank blood" },
+    "description": "Blood extracted from a blank body.  It's a pale red color with none of the luster of human blood.",
+    "spoils_in": "9000 days",
+    "parasites": 0,
+    "vitamins": [ [ "calcium", 0 ], [ "iron", 0 ], [ "meat_allergen", 0 ], [ "human_flesh_vitamin", 0 ] ],
+    "calories": 0
+  },
+  {
+    "id": "kreck_loot_star_stone",
+    "type": "ITEM",
+    "name": { "str": "star-stone" },
+    "description": "A strange chunk of what looks like stone in the shape of a seven-pointed star.  Its surface is smooth with thin lines in it, like driftwood, but despite that it doesn't seem to reflect any light.",
+    "material": [ "stone" ],
+    "flags": [ "TRADER_AVOID" ],
+    "symbol": "*",
+    "color": "white",
+    "weight": "657 g",
+    "volume": "250 ml",
+    "longest_side": "8 cm",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
+    "melee_damage": { "bash": 3 }
+  }
+]

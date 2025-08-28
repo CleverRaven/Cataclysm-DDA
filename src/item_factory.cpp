@@ -14,7 +14,6 @@
 #include <variant>
 
 #include "ammo.h"
-#include "assign.h"
 #include "body_part_set.h"
 #include "bodypart.h"
 #include "cached_options.h"
@@ -44,7 +43,6 @@
 #include "item_pocket.h"
 #include "itype.h"
 #include "iuse_actor.h"
-#include "make_static.h"
 #include "mapdata.h"
 #include "material.h"
 #include "math_parser_diag_value.h"
@@ -104,6 +102,8 @@ static const item_category_id item_category_veh_parts( "veh_parts" );
 static const item_category_id item_category_weapons( "weapons" );
 
 static const item_group_id Item_spawn_data_EMPTY_GROUP( "EMPTY_GROUP" );
+
+static const itype_id itype_debug_backpack( "debug_backpack" );
 
 static const material_id material_bean( "bean" );
 static const material_id material_blood( "blood" );
@@ -1976,7 +1976,6 @@ void Item_factory::init()
     add_iuse( "ECIG", &iuse::ecig );
     add_iuse( "EHANDCUFFS", &iuse::ehandcuffs );
     add_iuse( "EHANDCUFFS_TICK", &iuse::ehandcuffs_tick );
-    add_iuse( "EPIC_MUSIC", &iuse::epic_music );
     add_iuse( "EBOOKSAVE", &iuse::ebooksave );
     add_iuse( "EMF_PASSIVE_ON", &iuse::emf_passive_on );
     add_iuse( "EXTINGUISHER", &iuse::extinguisher );
@@ -2161,19 +2160,6 @@ void Item_factory::init()
     m_template_groups[Item_spawn_data_EMPTY_GROUP] =
         std::make_unique<Item_group>( Item_group::G_COLLECTION, 100, 0, 0, "EMPTY_GROUP" );
 }
-
-//reads nc_color from string
-class color_reader : public generic_typed_reader<color_reader>
-{
-    public:
-        nc_color get_next( const JsonValue &val ) const {
-            if( val.test_string() ) {
-                return nc_color( color_from_string( val.get_string() ) );
-            }
-            val.throw_error( "color must be string" );
-            return nc_color();
-        }
-};
 
 //reads snippet as array or string
 class snippet_reader : public generic_typed_reader<snippet_reader>
@@ -2976,7 +2962,6 @@ void islot_ammo::deserialize( const JsonObject &jo )
     optional( jo, was_loaded, "projectile_count", count, 1 );
     optional( jo, was_loaded, "shot_spread", shot_spread, not_negative );
     optional( jo, was_loaded, "shot_damage", shot_damage );
-    // Damage instance assign reader handles pierce and prop_damage
     optional( jo, was_loaded, "damage", damage );
     optional( jo, was_loaded, "range", range, not_negative );
     optional( jo, was_loaded, "range_multiplier", range_multiplier, positive_float,
@@ -3420,7 +3405,7 @@ void islot_comestible::deserialize( const JsonObject &jo )
     optional( jo, was_loaded, "spoils_in", spoils, time_bound_reader{0_seconds} );
     optional( jo, was_loaded, "cooks_like", cooks_like );
     optional( jo, was_loaded, "smoking_result", smoking_result );
-    optional( jo, was_loaded, "petfood", petfood );
+    optional( jo, was_loaded, "petfood", petfood, string_reader{} );
     optional( jo, was_loaded, "monotony_penalty", monotony_penalty, -1 );
     optional( jo, was_loaded, "calories", default_nutrition.calories );
 
@@ -3466,7 +3451,7 @@ void islot_compostable::deserialize( const JsonObject &jo )
 
 void islot_seed::deserialize( const JsonObject &jo )
 {
-    assign( jo, "grow", grow, false, 1_days );
+    optional( jo, was_loaded, "grow", grow, 1_days );
     optional( jo, was_loaded, "fruit_div", fruit_div, 1 );
     mandatory( jo, was_loaded, "plant_name", plant_name );
     mandatory( jo, was_loaded, "fruit", fruit_id );
@@ -4080,10 +4065,10 @@ void itype::load( const JsonObject &jo, std::string_view src )
     optional( jo, was_loaded, "integral_volume", integral_volume, not_negative_volume, -1_ml );
     optional( jo, was_loaded, "integral_longest_side", integral_longest_side, not_negative_length,
               -1_mm );
-    optional( jo, false, "variant_type", variant_kind, itype_variant_kind::generic );
-    optional( jo, false, "variants", variants );
+    optional( jo, was_loaded, "variant_type", variant_kind, itype_variant_kind::generic );
+    optional( jo, was_loaded, "variants", variants, json_read_reader<itype_variant_data> {} );
     optional( jo, was_loaded, "container", default_container );
-    optional( jo, false, "container_variant", default_container_variant );
+    optional( jo, was_loaded, "container_variant", default_container_variant );
     optional( jo, was_loaded, "sealed", default_container_sealed, true );
 
     optional( jo, was_loaded, "min_strength", min_str );
@@ -4095,12 +4080,12 @@ void itype::load( const JsonObject &jo, std::string_view src )
     optional( jo, was_loaded, "insulation", insulation_factor, 1.0f );
     optional( jo, was_loaded, "solar_efficiency", solar_efficiency );
 
-    optional( jo, false, "fall_damage_reduction", fall_damage_reduction );
+    optional( jo, was_loaded, "fall_damage_reduction", fall_damage_reduction );
     optional( jo, was_loaded, "ascii_picture", picture_id );
     optional( jo, was_loaded, "repairs_with", repairs_with, auto_flags_reader<material_id> {} );
     optional( jo, was_loaded, "ememory_size", ememory_size );
 
-    optional( jo, was_loaded, "color", color, color_reader{} );
+    optional( jo, was_loaded, "color", color, nc_color_reader{} );
 
     optional( jo, was_loaded, "repairs_like", repairs_like );
 
@@ -4250,14 +4235,14 @@ void Item_factory::add_migration( const migration &m )
 void Item_factory::load_migration( const JsonObject &jo )
 {
     migration m;
-    assign( jo, "replace", m.replace );
-    assign( jo, "variant", m.variant );
-    assign( jo, "from_variant", m.from_variant );
-    assign( jo, "flags", m.flags );
-    assign( jo, "charges", m.charges );
-    assign( jo, "contents", m.contents );
-    assign( jo, "sealed", m.sealed );
-    assign( jo, "reset_item_vars", m.reset_item_vars );
+    optional( jo, false, "replace", m.replace );
+    optional( jo, false, "variant", m.variant );
+    optional( jo, false, "from_variant", m.from_variant );
+    optional( jo, false, "flags", m.flags );
+    optional( jo, false, "charges", m.charges, 0 );
+    optional( jo, false, "contents", m.contents );
+    optional( jo, false, "sealed", m.sealed, true );
+    optional( jo, false, "reset_item_vars", m.reset_item_vars, false );
 
     std::vector<itype_id> ids;
     if( jo.has_string( "id" ) ) {
@@ -4921,9 +4906,7 @@ Item_factory::get_armor_containers( units::volume min_volume ) const
         using item_volumes = std::tuple<item, units::volume>;
         std::vector<item_volumes> vols;
         for( const itype *ity : all() ) {
-            if( item_is_blacklisted( ity->get_id() )
-                || ity->get_id() == STATIC( itype_id( "debug_backpack" ) )
-              ) {
+            if( item_is_blacklisted( ity->get_id() ) || ity->get_id() == itype_debug_backpack ) {
                 continue;
             }
             item itm = item( ity );

@@ -1,3 +1,26 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Lore - Background Story](#lore---background-story)
+      - [Seriously, spoiler alert.](#seriously-spoiler-alert)
+    - [Summary](#summary)
+    - [Timeline](#timeline)
+      - [YEAR -35 or so](#year--35-or-so)
+      - [YEAR -25 (+/- 5 years)](#year--25---5-years)
+      - [YEAR -20 (+/- 5 years)](#year--20---5-years)
+      - [YEAR -15 (+/- 5 years)](#year--15---5-years)
+      - [YEAR -8](#year--8)
+      - [YEAR -7](#year--7)
+      - [YEAR -6](#year--6)
+      - [YEAR -4](#year--4)
+      - [YEAR -3](#year--3)
+      - [Year -2](#year--2)
+      - [Year -1](#year--1)
+      - [Year 0 (the current IRL year +1)](#year-0-the-current-irl-year-1)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Lore - Background Story
 
 #### Seriously, spoiler alert.

@@ -21,7 +21,6 @@
 #include "game_constants.h"
 #include "itype.h" // IWYU pragma: keep
 #include "line.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "messages.h"
@@ -91,6 +90,7 @@ static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_wind( "wind" );
 static const itype_id itype_weapon_fire_suppressed( "weapon_fire_suppressed" );
 
+static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 static const json_character_flag json_flag_HEARING_PROTECTION( "HEARING_PROTECTION" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 
@@ -175,10 +175,7 @@ static const ter_str_id ter_t_slide( "t_slide" );
 static const ter_str_id ter_t_stump( "t_stump" );
 static const ter_str_id ter_t_trunk( "t_trunk" );
 static const ter_str_id ter_t_underbrush( "t_underbrush" );
-static const ter_str_id ter_t_underbrush_harvested_autumn( "t_underbrush_harvested_autumn" );
-static const ter_str_id ter_t_underbrush_harvested_spring( "t_underbrush_harvested_spring" );
-static const ter_str_id ter_t_underbrush_harvested_summer( "t_underbrush_harvested_summer" );
-static const ter_str_id ter_t_underbrush_harvested_winter( "t_underbrush_harvested_winter" );
+static const ter_str_id ter_t_underbrush_harvested( "t_underbrush_harvested" );
 
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
@@ -689,7 +686,7 @@ void sounds::process_sound_markers( Character *you )
         }
 
         if( !you->has_effect( effect_sleep ) && you->has_effect( effect_alarm_clock ) &&
-            !you->has_flag( STATIC( json_character_flag( "ALARMCLOCK" ) ) ) ) {
+            !you->has_flag( json_flag_ALARMCLOCK ) ) {
             // if we don't have effect_sleep but we're in_sleep_state, either
             // we were trying to fall asleep for so long our alarm is now going
             // off or something disturbed us while trying to sleep
@@ -1768,10 +1765,7 @@ void sfx::do_footstep()
             ter_t_shrub_lilac,
             ter_t_shrub_lilac_harvested,
             ter_t_underbrush,
-            ter_t_underbrush_harvested_spring,
-            ter_t_underbrush_harvested_summer,
-            ter_t_underbrush_harvested_autumn,
-            ter_t_underbrush_harvested_winter,
+            ter_t_underbrush_harvested,
             ter_t_moss,
             ter_t_grass_white,
             ter_t_grass_long,

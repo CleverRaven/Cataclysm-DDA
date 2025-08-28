@@ -17,12 +17,15 @@
 #include "generic_factory.h"
 #include "item.h"
 #include "json.h"
-#include "make_static.h"
 #include "monster.h"
 #include "mtype.h"
 #include "subbodypart.h"
 #include "talker.h"
 #include "units.h"
+
+static const damage_type_id damage_all( "all" );
+static const damage_type_id damage_non_physical( "non_physical" );
+static const damage_type_id damage_physical( "physical" );
 
 static std::map<damage_info_order::info_type, std::vector<damage_info_order>> sorted_order_lists;
 
@@ -65,6 +68,11 @@ bool string_id<damage_info_order>::is_valid() const
 void damage_type::load_damage_types( const JsonObject &jo, const std::string &src )
 {
     damage_type_factory.load( jo, src );
+}
+
+void damage_type::finalize_all()
+{
+    damage_type_factory.finalize();
 }
 
 void damage_type::reset()
@@ -391,11 +399,8 @@ void damage_type::onhit_effects( Creature *source, Creature *target ) const
         dialogue d( source == nullptr ? nullptr : get_talker_for( source ),
                     target == nullptr ? nullptr : get_talker_for( target ) );
 
-        if( eoc->type == eoc_type::ACTIVATION ) {
-            eoc->activate( d );
-        } else {
-            debugmsg( "Must use an activation eoc for a damage type effect.  If you don't want the effect_on_condition to happen on its own (without the damage type effect being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this damage type with its condition and effects, then have a recurring one queue it." );
-        }
+        eoc->activate_activation_only( d, "a damage type effect", "damage type effect being activated",
+                                       "damage type" );
     }
 }
 
@@ -436,11 +441,8 @@ void damage_type::ondamage_effects( Creature *source, Creature *target, bodypart
         d.set_value( "total_damage", total_damage );
         d.set_value( "bp", bp.str() );
 
-        if( eoc->type == eoc_type::ACTIVATION ) {
-            eoc->activate( d );
-        } else {
-            debugmsg( "Must use an activation eoc for a damage type effect.  If you don't want the effect_on_condition to happen on its own (without the damage type effect being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this damage type with its condition and effects, then have a recurring one queue it." );
-        }
+        eoc->activate_activation_only( d, "a damage type effect", "damage type effect being activated",
+                                       "damage type" );
     }
 }
 
@@ -805,9 +807,9 @@ void finalize_damage_map( std::unordered_map<damage_type_id, float> &damage_map,
         return val;
     };
 
-    const float all = get_and_erase( STATIC( damage_type_id( "all" ) ), default_value );
-    const float physical = get_and_erase( STATIC( damage_type_id( "physical" ) ), all );
-    const float non_phys = get_and_erase( STATIC( damage_type_id( "non_physical" ) ), all );
+    const float all = get_and_erase( damage_all, default_value );
+    const float physical = get_and_erase( damage_physical, all );
+    const float non_phys = get_and_erase( damage_non_physical, all );
 
     std::vector<damage_type_id> to_derive;
     for( const damage_type &dam : dams ) {

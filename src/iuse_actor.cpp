@@ -148,9 +148,8 @@ static const itype_id itype_syringe( "syringe" );
 
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 static const json_character_flag json_flag_MANUAL_CBM_INSTALLATION( "MANUAL_CBM_INSTALLATION" );
-
-static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
-static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
+static const json_character_flag
+json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS( "TEMPORARY_SHAPESHIFT_NO_HANDS" );
 
 static const proficiency_id proficiency_prof_traps( "prof_traps" );
 static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
@@ -168,7 +167,6 @@ static const skill_id skill_traps( "traps" );
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
-static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
@@ -317,14 +315,12 @@ std::optional<int> iuse_transform::use( Character *p, item &it, map *,
     // Uses the moves specified by iuse_actor's definition
     p->mod_moves( -moves );
 
-    if( need_fire && p->has_trait( trait_PYROMANIA ) ) {
+    if( need_fire && p->has_unfulfilled_pyromania() ) {
         if( one_in( 2 ) ) {
             p->add_msg_if_player( m_mixed,
                                   _( "You light a fire, but it isn't enough.  You need to light more." ) );
         } else {
-            p->add_msg_if_player( m_good, _( "You happily light a fire." ) );
-            p->add_morale( morale_pyromania_startfire, 5, 10, 3_hours, 2_hours );
-            p->rem_morale( morale_pyromania_nofire );
+            p->fulfill_pyromania_msg( _( "You happily light a fire." ), 5, 10, 3_hours, 2_hours );
         }
     }
 
@@ -1524,22 +1520,26 @@ firestarter_actor::start_type firestarter_actor::prep_firestarter_use( Character
             return start_type::NONE;
         }
     }
-    // Check for an adjacent fire container
-    for( const tripoint_bub_ms &query : here->points_in_radius( pos, 1 ) ) {
-        // Don't ask if we're setting a fire on top of a fireplace
-        if( here->has_flag_furn( "FIRE_CONTAINER", pos ) ) {
-            break;
-        }
-        // Skip the position we're trying to light on fire
-        if( query == pos ) {
-            continue;
-        }
-        if( here->has_flag_furn( "FIRE_CONTAINER", query ) ) {
-            if( !query_yn( _( "Are you sure you want to start fire here?  There's a fireplace adjacent." ) ) ) {
-                return start_type::NONE;
-            } else {
-                // Don't ask multiple times if they say no and there are multiple fireplaces
-                break;
+    // Don't check if we're setting a fire on top of a fireplace
+    if( !here->has_flag_furn( "FIRE_CONTAINER", pos ) ) {
+        // Check for an adjacent fire container
+        for( const tripoint_bub_ms &query : here->points_in_radius( pos, 1 ) ) {
+            // Skip the position we're trying to light on fire
+            if( query == pos ) {
+                continue;
+            }
+            // Skip positions we've never seen
+            if( p.is_avatar() && !p.as_avatar()->has_memory_at( here->get_abs( query ) ) ) {
+                continue;
+            }
+            if( here->has_flag_ter_or_furn( "FIRE_CONTAINER", query ) ) {
+                if( !query_yn(
+                        _( "Are you sure you want to start fire here?  There's a much more appropriate spot adjacent." ) ) ) {
+                    return start_type::NONE;
+                } else {
+                    // Don't ask multiple times if they say no and there are multiple fireplaces
+                    break;
+                }
             }
         }
     }
@@ -1563,16 +1563,14 @@ void firestarter_actor::resolve_firestarter_use( Character *p, map *here,
         const tripoint_bub_ms &pos, start_type st )
 {
     if( firestarter_actor::resolve_start( p, here, pos, st ) ) {
-        if( !p->has_trait( trait_PYROMANIA ) ) {
+        if( !p->has_unfulfilled_pyromania() ) {
             p->add_msg_if_player( _( "You successfully light a fire." ) );
         } else {
             if( one_in( 4 ) ) {
                 p->add_msg_if_player( m_mixed,
                                       _( "You light a fire, but it isn't enough.  You need to light more." ) );
             } else {
-                p->add_msg_if_player( m_good, _( "You happily light a fire." ) );
-                p->add_morale( morale_pyromania_startfire, 5, 10, 6_hours, 4_hours );
-                p->rem_morale( morale_pyromania_nofire );
+                p->fulfill_pyromania_msg( _( "You happily light a fire." ), 5, 10, 6_hours, 4_hours );
             }
         }
     }
@@ -2366,7 +2364,7 @@ std::optional<int> fireweapon_on_actor::use( Character *p, item &it,
         p->add_msg_if_player( "%s", noise_message );
     }
 
-    return 1;
+    return 0;
 }
 
 void manualnoise_actor::load( const JsonObject &obj, const std::string & )
@@ -3099,6 +3097,15 @@ bool repair_item_actor::can_use_tool( const Character &p, const item &tool, bool
     if( p.cant_do_underwater( print_msg ) ) {
         return false;
     }
+    if( p.has_flag( json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS ) ) {
+        if( print_msg ) {
+            p.add_msg_player_or_npc( m_bad, _( "You don't have proper hands to do that." ),
+                                     _( "<npcname> doesn't have proper hands to do that." ) );
+        }
+        return false;
+
+    }
+
     if( p.cant_do_mounted( print_msg ) ) {
         return false;
     }
@@ -4233,7 +4240,8 @@ bool place_trap_actor::is_allowed( Character &p, const tripoint_bub_ms &pos,
         }
     }
     if( needs_neighbor_terrain && !has_neighbor( pos, needs_neighbor_terrain ) ) {
-        p.add_msg_if_player( m_info, _( "The %s needs a %s adjacent to it." ), name,
+        //~ %1$s - trap name, %2$s - terrain name
+        p.add_msg_if_player( m_info, _( "The %1$s needs a %2$s adjacent to it." ), name,
                              needs_neighbor_terrain.obj().name() );
         return false;
     }
@@ -4246,6 +4254,7 @@ bool place_trap_actor::is_allowed( Character &p, const tripoint_bub_ms &pos,
                                  : _( "You can't place a %s there.  It contains a trap already." ),
                                  name );
         } else {
+            //~ %s - trap name
             p.add_msg_if_player( m_bad, _( "You trigger a %s!" ), existing_trap.name() );
             existing_trap.trigger( pos, p );
         }
@@ -6083,6 +6092,7 @@ std::unique_ptr<iuse_actor> effect_on_conditions_actor::clone() const
 
 void effect_on_conditions_actor::load( const JsonObject &obj, const std::string &src )
 {
+    optional( obj, false, "consume", consume, false );
     obj.read( "description", description );
     obj.read( "menu_text", menu_text );
     need_worn = obj.get_bool( "need_worn", false );
@@ -6143,19 +6153,18 @@ std::optional<int> effect_on_conditions_actor::use( Character *p, item &it,
     dialogue d( ( char_ptr == nullptr ? nullptr : get_talker_for( char_ptr ) ), get_talker_for( loc ) );
     write_var_value( var_type::context, "id", &d, it.typeId().str() );
     for( const effect_on_condition_id &eoc : eocs ) {
-        if( eoc->type == eoc_type::ACTIVATION ) {
-            eoc->activate( d );
-        } else {
-            debugmsg( "Must use an activation eoc for activation.  If you don't want the effect_on_condition to happen on its own (without the item's involvement), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this item with its condition and effects, then have a recurring one queue it." );
-        }
+        eoc->activate_activation_only( d, "activation", "item's involvement", "item" );
     }
     // Prevents crash from trying to spend charge with item removed
     // NOTE: Because this section and/or calling stack does not check if the item exists in the surrounding tiles
     // it will not properly decrement any item of type `comestible` if consumed via the `E` `Consume item` menu.
     // Therefore, it is not advised to use items of type `comestible` with a `use_action` of type
     // `effect_on_conditions` until/unless this section is properly updated to actually consume said item.
-    if( p && !p->has_item( it ) ) {
-        return 0;
+    if( consume ) {
+        if( p && !p->has_item( it ) ) {
+            return 0;
+        }
+        return 1;
     }
-    return 1;
+    return 0;
 }

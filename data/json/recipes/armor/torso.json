@@ -5308,6 +5308,41 @@
     ]
   },
   {
+    "result": "armor_chitin_vest",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 7,
+    "skills_required": [ [ "fabrication", 3 ] ],
+    "time": "440 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ], [ "textbook_arthropod", 6 ] ],
+    "byproducts": [ [ "scrap_leather", 7 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_chitinworking" },
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_leatherworking_basic" }
+    ],
+    "using": [ [ "armor_chitin", 35 ], [ "tailoring_leather_patchwork", 2 ] ],
+    "components": [ [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "police_belt", 1 ], [ "fireman_belt", 1 ] ] ]
+  },
+  {
+    "result": "xs_armor_chitin_vest",
+    "type": "recipe",
+    "copy-from": "armor_chitin_vest",
+    "time": "345 m",
+    "using": [ [ "armor_chitin", 26 ], [ "tailoring_leather_patchwork", 2 ] ]
+  },
+  {
+    "result": "xl_armor_chitin_vest",
+    "type": "recipe",
+    "copy-from": "armor_chitin_vest",
+    "time": "613 m",
+    "using": [ [ "armor_chitin", 45 ], [ "tailoring_leather_patchwork", 4 ] ]
+  },
+  {
     "copy-from": "sundress",
     "result": "cheongsam",
     "type": "recipe",

@@ -18,6 +18,8 @@
 #include <set>
 #include <sstream>
 #include <string>
+#include <system_error>
+#include <thread>
 #include <tuple>
 #include <unordered_map>
 #include <unordered_set>
@@ -135,6 +137,8 @@
 #include "weather_type.h"
 #include "weighted_list.h"
 #include "worldfactory.h"
+#include "zzip.h"
+#include "zzip_stack.h"
 
 static const achievement_id achievement_achievement_arcade_mode( "achievement_arcade_mode" );
 
@@ -168,6 +172,7 @@ static const trait_id trait_DEBUG_MANA( "DEBUG_MANA" );
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
+static const trait_id trait_DEBUG_PHASE_MOVEMENT( "DEBUG_PHASE_MOVEMENT" );
 static const trait_id trait_DEBUG_SPEED( "DEBUG_SPEED" );
 static const trait_id trait_DEBUG_STAMINA( "DEBUG_STAMINA" );
 static const trait_id trait_NONE( "NONE" );
@@ -381,9 +386,15 @@ bool _trim_mapbuffer( std::filesystem::path const &dep, rdi_t &iter,
                       tripoint_range<tripoint> const &regs )
 {
     // discard map memory outside of current region and adjacent regions
-    if( dep.parent_path().extension() == std::filesystem::u8path( ".mm1" ) &&
-        !regs.is_point_inside( tripoint{ _from_map_string( dep.stem().string() ).xy(), 0 } ) ) {
-        return false;
+    if( dep.parent_path().extension() == std::filesystem::u8path( ".mm1" ) ) {
+        if( dep.has_extension() && dep.extension() == ".zzip" ) { // NOLINT(cata-u8-path)
+            // Compressed map memory has to be handled separately
+            return false;
+        }
+        if( !regs.is_point_inside( tripoint{ _from_map_string( dep.stem().string() ).xy(), 0 } ) ) {
+            return false;
+        }
+        return true;
     }
     // discard map buffer outside of current and adjacent segments
     if( dep.parent_path().filename() == std::filesystem::u8path( "maps" ) ) {
@@ -404,7 +415,9 @@ bool _trim_mapbuffer( std::filesystem::path const &dep, rdi_t &iter,
 
 bool _trim_overmapbuffer( std::filesystem::path const &dep, tripoint_range<tripoint> const &oms )
 {
-    std::string const fname = dep.filename().generic_u8string();
+    std::string const fname = dep.extension() == ".zzip" ?  // NOLINT(cata-u8-path)
+                              dep.filename().replace_extension( "" ).generic_u8string() : // NOLINT(cata-u8-path)
+                              dep.filename().generic_u8string();
 
     std::string::size_type const seenpos = fname.find( ".seen." );
     if( seenpos != std::string::npos ) {
@@ -441,11 +454,59 @@ void write_min_archive()
                _trim_overmapbuffer( dep, oms );
     };
 
-    if( _add_dir( tgz, save_root, mb_validate ) &&
-        _add_dir( tgz, std::filesystem::path( PATH_INFO::config_dir_path() ) ) ) {
-        tgz.finalize();
-        popup( string_format( _( "Minimized archive saved to %s" ), ofile ) );
+    if( !_add_dir( tgz, save_root, mb_validate ) ||
+        !_add_dir( tgz, std::filesystem::path( PATH_INFO::config_dir_path() ) ) ) {
+        return;
     }
+
+    // Map memory needs special handling.
+    std::filesystem::path mmr_dict = ( PATH_INFO::world_base_save_path() /
+                                       "mmr.dict" ).get_unrelative_path();
+    if( file_exist( mmr_dict ) ) {
+        for( const std::filesystem::directory_entry &entry : std::filesystem::directory_iterator(
+                 PATH_INFO::world_base_save_path().get_unrelative_path() ) ) {
+            std::filesystem::path entry_filename = entry.path().filename();
+            if( entry_filename.extension() == ".mm1" ) {  // NOLINT(cata-u8-path)
+                std::shared_ptr<zzip_stack> mmr_stack = zzip_stack::load( ( PATH_INFO::world_base_save_path() /
+                                                        entry_filename ).get_unrelative_path(), mmr_dict );
+                std::vector<std::filesystem::path> trimmed_mmr_entries;
+                for( const std::filesystem::path &mmr_entry : mmr_stack->get_entries() ) {
+                    if( regs.is_point_inside( tripoint{ _from_map_string( mmr_entry.stem().string() ).xy(), 0 } ) ) {
+                        trimmed_mmr_entries.push_back( mmr_entry );
+                    }
+                }
+                std::filesystem::path min_mmr_save_rel = ( std::filesystem::path{ entry_filename } / // NOLINT(cata-u8-path)
+                        entry_filename ).concat( ".cold.zzip" ); // NOLINT(cata-u8-path)
+                std::filesystem::path min_mmr_temp_zzip_path = ( PATH_INFO::world_base_save_path() /
+                        min_mmr_save_rel +
+                        ".temp" ).get_unrelative_path();
+                {
+                    std::shared_ptr<zzip> min_mmr_temp_zzip = zzip::load( min_mmr_temp_zzip_path, mmr_dict );
+                    if( !min_mmr_temp_zzip ||
+                        !mmr_stack->copy_files_to( trimmed_mmr_entries, min_mmr_temp_zzip ) ||
+                        !min_mmr_temp_zzip->compact( 0 ) ) {
+                        popup( _( "Failed to create minimized archive" ) );
+                        return;
+                    }
+                }
+                if( !tgz.add_file( min_mmr_temp_zzip_path, save_root.filename() / min_mmr_save_rel ) ) {
+                    popup( _( "Failed to create minimized archive" ) );
+                    return;
+                }
+                size_t attempts = 0;
+                do {
+                    std::error_code ec;
+                    std::filesystem::remove( min_mmr_temp_zzip_path, ec );
+                    if( !ec ) {
+                        break;
+                    }
+                    std::this_thread::sleep_for( std::chrono::milliseconds( 200 ) );
+                } while( ++attempts < 3 );
+            }
+        }
+    }
+    tgz.finalize();
+    popup( string_format( _( "Minimized archive saved to %s" ), ofile ) );
 }
 
 } // namespace
@@ -469,7 +530,7 @@ class mission_debug
 // Used for quick setup
 static std::vector<trait_id> setup_traits{trait_DEBUG_BIONICS, trait_DEBUG_CLAIRVOYANCE, trait_DEBUG_CLOAK,
            trait_DEBUG_HS, trait_DEBUG_LIGHT, trait_DEBUG_LS, trait_DEBUG_MANA, trait_DEBUG_MIND_CONTROL,
-           trait_DEBUG_NODMG, trait_DEBUG_NOTEMP, trait_DEBUG_STAMINA, trait_DEBUG_SPEED};
+           trait_DEBUG_NODMG, trait_DEBUG_NOTEMP, trait_DEBUG_PHASE_MOVEMENT, trait_DEBUG_STAMINA, trait_DEBUG_SPEED};
 
 static std::string first_word( const std::string &str )
 {
@@ -3672,30 +3733,43 @@ static void spawn_npc()
 
 static void spawn_named_npc()
 {
-    const std::string input = string_input_popup()
-                              .title( _( "Enter NPC template" ) )
-                              .width( 20 )
-                              .query_string();
+    uilist npc_menu;
 
-    if( input.empty() ) {
-        return;
+    npc_menu.text = _( "Choose NPC:" );
+
+    std::vector<npc_template_id> npc_list;
+
+    for( const auto &e : npc_template::get_npc_templates() ) {
+        npc_list.emplace_back( e.first );
     }
 
-    const npc_template_id npc_template = npc_template_id( input );
-    if( !npc_template.is_valid() ) {
-        popup( "Invalid template id" );
-        return;
+    std::sort( npc_list.begin(), npc_list.end(), localized_compare );
+    int index = 0;
+
+    for( auto &e : npc_list ) {
+        npc_menu.addentry( index++, true, MENU_AUTOASSIGN, e.str().c_str() );
     }
 
-    avatar &player_character = get_avatar();
-    shared_ptr_fast<npc> temp = make_shared_fast<npc>();
-    temp->normalize();
-    temp->load_npc_template( npc_template );
-    temp->spawn_at_precise( player_character.pos_abs() + point( -4, -4 ) );
-    overmap_buffer.insert_npc( temp );
-    temp->form_opinion( player_character );
+    npc_menu.query();
 
-    g->load_npcs();
+    if( npc_menu.ret >= 0 && npc_menu.ret < static_cast<int>( npc_list.size() ) ) {
+        const auto &chosen = npc_list.at( npc_menu.ret );
+        if( !chosen.is_valid() ) {
+            popup( _( "Invalid NPC template" ) );
+            return;
+        }
+
+        avatar &player_character = get_avatar();
+        shared_ptr_fast<npc> temp = make_shared_fast<npc>();
+        temp->normalize();
+        temp->load_npc_template( chosen );
+        temp->spawn_at_precise( player_character.pos_abs() + point( -4, -4 ) );
+        overmap_buffer.insert_npc( temp );
+        temp->form_opinion( player_character );
+
+        g->load_npcs();
+    }
+
 }
 
 static void unlock_all()
@@ -4204,9 +4278,11 @@ void debug()
             ui::omap::display_scents();
             break;
         case debug_menu_index::DISPLAY_SCENTS_LOCAL:
-            g->display_toggle_overlay( ACTION_DISPLAY_SCENT );
+            g->display_scent(); // sets anything that needs to be set
+            g->display_toggle_overlay( ACTION_DISPLAY_SCENT ); // turns it on.
             break;
         case debug_menu_index::DISPLAY_SCENTS_TYPE_LOCAL:
+            g->display_scent();
             g->display_toggle_overlay( ACTION_DISPLAY_SCENT_TYPE );
             break;
         case debug_menu_index::DISPLAY_NPC_ATTACK:
@@ -4219,10 +4295,10 @@ void debug()
             g->display_toggle_overlay( ACTION_DISPLAY_VEHICLE_AI );
             break;
         case debug_menu_index::DISPLAY_VISIBILITY:
-            g->display_toggle_overlay( ACTION_DISPLAY_VISIBILITY );
+            g->display_visibility();
             break;
         case debug_menu_index::DISPLAY_LIGHTING:
-            g->display_toggle_overlay( ACTION_DISPLAY_LIGHTING );
+            g->display_lighting();
             break;
         case debug_menu_index::DISPLAY_RADIATION:
             g->display_toggle_overlay( ACTION_DISPLAY_RADIATION );

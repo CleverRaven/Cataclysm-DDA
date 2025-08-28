@@ -50,17 +50,22 @@ Once a consequence is selected, it has a chance to actually be applied. There is
 | [Vomit](#vomit) | 9 | 
 | [Nosebleed](#nosebleed) | 12 |
 | [Stamina Loss](#stamina-loss) | 8 |
+| [Blurred Sight](#blurred-sight) | 6 |
 | [Power Surge](#power-surge)+ | 5 |
 | [Sleepiness](#sleepiness) | 5 |
 | [Nether Conduit](#nether-conduit) | 9 |
+| [Extra Weariness](#extra-weariness)+ | 7 |
 | [Feedback](#feedback) | 9 |
 | [Observed](#observed)+ | 6 |
 | [Incorporeality](#incorporeality) | 4 |
 | [Teleport Lock](#teleport-lock) | 5 |
 | [Metabolic Inversion](#metabolic-inversion) | 5 |
 | [Power Drain](#power-drain) | 5 |
+| [Pyrokinetic Fever](#pyrokinetic-fever) | 7 |
 | [Weakness](#weakness) | 5 |
+| [Pyrokinetic Fog](#pyrokinetic-fog) | 4 |
 | [KCal Consumption](#kcal-consumption) | 6 |
+| [Mindshock](#mindshock)+ | 6 |
 | [Attenuation](#attenuation)+ | 8 |
 | [Short of Breath](#short-of-breath) | 5 |
 | [Force Wave](#force-wave) | 5 |
@@ -121,6 +126,13 @@ Chance: 2% to 31%
 Description: You lose a random amount of stamina  
 <sub>[Back to List](#attunement-consequences)</sub>
 
+### Blurred Sight
+Minimum Attunement: 3
+Required School/Power: Clairsentience
+Chance: 3% to 35.75%  
+Description: You have blurred sight, suffering from both farsightedness and nearsightened, for a random period of time based on your attunement vitamin  
+<sub>[Back to List](#attunement-consequences)</sub>
+
 ### Power Surge
 Minimum Attunement: 4  
 Chance: 1.5% to 38%  
@@ -139,6 +151,12 @@ Chance: 3% to 38.25%
 Description: You gain an effect that unlocks nastier consequences and slowly increases your attunement vitamin for a random period of time based on your attunement vitamin  
 <sub>[Back to List](#attunement-consequences)</sub>
 
+### Extra Weariness
+Minimum Attunement: 3  
+Chance: 1.5% to 38%  
+Description: You immediately lose a large amount of stored calories with the attendant effect on your weariness  
+<sub>[Back to List](#attunement-consequences)</sub>
+
 ### Feedback
 Minimum Attunement: 5  
 Chance: 3% to 39.5%  
@@ -153,26 +171,37 @@ Description: You gain an effect that unlocks nastier consequences, comes with ni
 
 ### Incorporeality
 Minimum Attunement: 4  
+Required School/Power: Teleportation (Ephemeral Walk)
 Chance: 4% to 37%  
-Description: When using the ephemeral walk power, you become incorporeal for a brief period based on your attunement vitamin  
+Description: You become incorporeal for a brief period based on your attunement vitamin  
 <sub>[Back to List](#attunement-consequences)</sub>
 
 ### Teleport Lock
 Minimum Attunement: 4  
+Required School/Power: Teleporter
 Chance: 2% to 33.5%  
 Description: You are unable to teleport yourself for a brief period based on your attunement vitamin  
 <sub>[Back to List](#attunement-consequences)</sub>
 
 ### Metabolic Inversion
 Minimum Attunement: 4  
+Required School/Power: Biokinesis
 Chance: 1% to 29%  
-Description: Only applicable if you have the Biokinetic power path. The effects of the Efficient System trait and Metabolic Hyperefficiency power are inverted for a random length of time based on your attunement vitamin  
+Description: The effects of the Efficient System trait and Metabolic Hyperefficiency power are inverted for a random length of time based on your attunement vitamin  
 <sub>[Back to List](#attunement-consequences)</sub>
 
 ### Power Drain
 Minimum Attunement: 4  
+Required School/Power: Electrokinesis
 Chance: 1% to 29%  
 Description: Your electronics slowly lose power and you cannot activate Electron Overflow for a random period of time based on your attunement vitamin  
+<sub>[Back to List](#attunement-consequences)</sub>
+
+### Pyrokinetic Fever
+Minimum Attunement: 4
+Required School/Power: Pyrokinesis
+Chance: 2.5% to 32.5%  
+Description: You sweat more, have reduced lifting and balance limb scores, and have a higer internal body temperature for a random period of time based on your attunement vitamin  
 <sub>[Back to List](#attunement-consequences)</sub>
 
 ### Weakness
@@ -181,10 +210,23 @@ Chance: 2% to 31%
 Description: You have lowered strength and dexterity along with increased stamina usage in melee for a short period based on your attunement vitamin  
 <sub>[Back to List](#attunement-consequences)</sub>
 
+### Pyrokinetic Fog
+Minimum Attunement: 5
+Required School/Power: Pyrokinesis
+Chance: 1% to 29%  
+Description: Fog condenses out of the air around you for a random period based on your attunement vitamin  
+<sub>[Back to List](#attunement-consequences)</sub>
+
 ### KCal Consumption
 Minimum Attunement: 5  
 Chance: 4% to 38%  
 Description: The KCal consumption of your powers is tripled  
+<sub>[Back to List](#attunement-consequences)</sub>
+
+### Mindshock
+Minimum Attunement: 6  
+Chance: 3% to 33.5%  
+Description: You are stunned for a few seconds, cancelling all ongoing powers.
 <sub>[Back to List](#attunement-consequences)</sub>
 
 ### Attenuation
@@ -207,14 +249,16 @@ Description: When using a telekinetic power, a wave of force knocks you and ever
 
 ### Teleport Misjump
 Minimum Attunement: 7  
+Required School/Power: Teleporter (Blink, Phase, Transposition, Farstep, Loci Technique, Gateway, Dialated Gateway)
 Chance: 3% to 21%  
 Description: When using a power that teleports you, you get sent somewhere far away and gain an effect that will summon the hounds of tindalos if you use a teleportation power before it wears off  
 <sub>[Back to List](#attunement-consequences)</sub>
 
 ### EMP Blast
 Minimum Attunement: 8  
+Required School/Power: Photokinesis
 Chance: 2% to 18.75%  
-Description: Only applicable if you have the Photokinetic power path. You emit an EMP blast centered on yourself  
+Description: You emit an EMP blast centered on yourself  
 <sub>[Back to List](#attunement-consequences)</sub>
 
 ### Lightning Blast

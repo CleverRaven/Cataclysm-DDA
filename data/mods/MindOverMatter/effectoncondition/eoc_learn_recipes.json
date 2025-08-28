@@ -150,6 +150,7 @@
           "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_SPOT_WEAKNESS",
           "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_AURA_SIGHT",
           "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_RANGED_ENHANCE",
+          "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_EXAMINE_ITEMS",
           "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_SENSE_HOSTILE_CREATURES",
           "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_VOYANCE",
           "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_DODGE_POWER",
@@ -204,6 +205,12 @@
     "id": "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_RANGED_ENHANCE",
     "condition": { "and": [ { "u_has_trait": "CLAIRSENTIENT" }, { "math": [ "u_spell_level('clair_ranged_enhance') >= 0" ] } ] },
     "effect": [ { "u_learn_recipe": "practice_clair_ranged_enhance" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_EXAMINE_ITEMS",
+    "condition": { "and": [ { "u_has_trait": "CLAIRSENTIENT" }, { "math": [ "u_spell_level('clair_examine_item') >= 0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_clair_examine_item" } ]
   },
   {
     "type": "effect_on_condition",
@@ -433,6 +440,7 @@
           "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_RAD_IMMUNITY",
           "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_LIGHT_ARMS",
           "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_HIDE_UGLY",
+          "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_FLASH_BANG",
           "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_LIGHT_IMAGE",
           "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_RADIO",
           "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_STERILIZE_FOOD",
@@ -499,6 +507,12 @@
     "id": "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_HIDE_UGLY",
     "condition": { "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_hide_ugly') >= 0" ] } ] },
     "effect": [ { "u_learn_recipe": "practice_photokinetic_hide_ugly" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_FLASH_BANG",
+    "condition": { "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_flash_bang') >= 0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_photokinetic_flash_bang" } ]
   },
   {
     "type": "effect_on_condition",
@@ -1222,7 +1236,7 @@
         ]
       }
     },
-    "effect": [ { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "+=", "1" ] } ]
+    "effect": [ { "math": [ "u_vitamin('vitamin_psi_learning_counter') += 1" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -1291,7 +1305,14 @@
         { "not": { "u_know_recipe": "psi_research_torrential_channeling" } },
         { "math": [ "u_vitamin('vitamin_psionic_drain') >= 135" ] },
         {
-          "x_in_y_chance": { "x": 1, "y": { "math": [ "max( (1000 - (u_skill('metaphysics') * 50) - (u_val('intelligence') * 25) ),1)" ] } }
+          "x_in_y_chance": {
+            "x": 1,
+            "y": {
+              "math": [
+                "max( ( (1000 - (u_skill('metaphysics') * 50) - (u_val('intelligence') * 25) ) * (1 - (clamp( ( (u_vitamin('vitamin_psionic_drain') - 155) / 200 ),0, 0.5 ) ) ) ),1)"
+              ]
+            }
+          }
         },
         { "math": [ "_success != false" ] }
       ]

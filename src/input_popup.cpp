@@ -175,7 +175,26 @@ static int input_callback( ImGuiInputTextCallbackData *data )
         }
     }
 
+    if( data->EventFlag == ImGuiInputTextFlags_CallbackAlways && popup->want_clear_text() ) {
+        // Only called when popup->text is empty
+        data->BufTextLen = 0;
+        data->SelectionStart = 0;
+        data->SelectionEnd = 0;
+        data->CursorPos = 0;
+        data->Buf[0] = '\000';
+        data->BufDirty = true;
+    }
+
     return 0;
+}
+
+bool string_input_popup_imgui::want_clear_text()
+{
+    if( do_clear_text ) {
+        do_clear_text = false;
+        return true;
+    }
+    return false;
 }
 
 void string_input_popup_imgui::draw_input_control()
@@ -184,6 +203,10 @@ void string_input_popup_imgui::draw_input_control()
 
     if( !is_uilist_history ) {
         flags |= ImGuiInputTextFlags_CallbackHistory;
+    }
+
+    if( do_clear_text ) {
+        flags |= ImGuiInputTextFlags_CallbackAlways;
     }
 
     // shrink width of input field if we only allow short inputs
@@ -328,7 +351,7 @@ std::string string_input_popup_imgui::query()
             // non-uilist history is handled inside input callback
             show_history();
         } else if( action == "TEXT.CLEAR" ) {
-            text.clear();
+            do_clear_text = true;
         }
 
         // mouse click on x to close leads here

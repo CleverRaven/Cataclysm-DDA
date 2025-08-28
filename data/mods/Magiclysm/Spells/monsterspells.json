@@ -732,8 +732,8 @@
     "condition": "u_is_character",
     "effect": [
       { "math": [ "_attack_value = (100 + rand(100))" ] },
-      { "math": [ "u_calories()", "-=", "_attack_value" ] },
-      { "math": [ "u_calories('dont_affect_weariness': true)", "+=", "_attack_value" ] }
+      { "math": [ "u_calories() -= _attack_value" ] },
+      { "math": [ "u_calories('dont_affect_weariness': true) += _attack_value" ] }
     ],
     "false_effect": [ { "u_add_effect": "effect_will_o_wisp_draining_monsters", "duration": [ 7200, 360000 ] } ]
   }

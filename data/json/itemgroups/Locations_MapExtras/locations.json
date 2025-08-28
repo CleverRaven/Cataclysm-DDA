@@ -282,7 +282,8 @@
       { "item": "liq_bandage_spray", "prob": 5, "charges": [ 1, -1 ] },
       { "group": "adhesive_bandages_box_used", "prob": 15 },
       { "group": "duct_tape_roll_part", "prob": 20 },
-      { "group": "superglue", "prob": 10 },
+      { "group": "glue_weak_domestic", "prob": 5 },
+      { "group": "glue_strong_domestic", "prob": 5 },
       { "item": "sewing_kit", "prob": 10, "charges": [ 0, -1 ] },
       { "item": "mouthpiece", "prob": 10 },
       { "item": "cigar", "prob": 20, "count": [ 1, 5 ] },
@@ -348,7 +349,8 @@
       { "item": "cell_phone", "prob": 10, "charges": [ 0, 150 ] },
       [ "file", 40 ],
       [ "mag_mechanics", 20 ],
-      [ "manual_mechanics", 10 ]
+      [ "manual_mechanics", 10 ],
+      [ "manual_driving", 10 ]
     ]
   },
   {
@@ -370,7 +372,8 @@
       [ "stereo", 10 ],
       [ "wrench", 10 ],
       [ "screwdriver", 15 ],
-      { "group": "superglue", "prob": 5 },
+      { "group": "glue_weak_domestic", "prob": 5 },
+      { "group": "glue_strong_domestic", "prob": 5 },
       [ "boots", 70 ],
       [ "boots_steel", 50 ],
       [ "sneakers_steel", 35 ],
@@ -519,6 +522,7 @@
       { "item": "mc_wire", "prob": 20, "count": [ 0, 40 ] },
       { "item": "hc_wire", "prob": 20, "count": [ 0, 40 ] },
       { "item": "qt_wire", "prob": 10, "count": [ 0, 40 ] },
+      { "group": "supplies_machining", "prob": 50, "count": [ 3, -1 ] },
       [ "chain", 35 ],
       [ "rebar", 35 ],
       [ "pipe", 40 ],
@@ -543,7 +547,8 @@
       [ "pipe", 40 ],
       { "item": "sheet_metal", "prob": 5 },
       { "item": "sheet_metal_small", "prob": 5, "count": [ 2, 4 ] },
-      { "item": "material_aluminium_ingot", "prob": 10, "count": [ 1, 5 ] }
+      { "item": "material_aluminium_ingot", "prob": 10, "count": [ 1, 5 ] },
+      { "group": "supplies_machining", "prob": 70, "count": [ 1, 5 ] }
     ]
   },
   {
@@ -1385,7 +1390,8 @@
     "items": [
       { "group": "ammo_casings", "prob": 20 },
       { "group": "everyday_corpse", "prob": 1 },
-      { "group": "SUS_trash_floor", "prob": 60 },
+      { "group": "SUS_trash_floor", "prob": 30 },
+      { "group": "SUS_trash_trashcan", "prob": 30 },
       [ "jumper_cable", 5 ],
       [ "pipe", 10 ],
       [ "stereo", 6 ],
@@ -1425,7 +1431,9 @@
       [ "battery_car", 6 ],
       [ "one_year_old_newspaper", 2 ],
       { "item": "foodperson_mask", "prob": 1, "charges": [ 0, 500 ] },
-      [ "survnote", 1 ]
+      [ "survnote", 1 ],
+      [ "2x4", 5 ],
+      [ "splinter", 10 ]
     ]
   },
   {
@@ -1665,6 +1673,7 @@
     "subtype": "distribution",
     "entries": [
       { "group": "tools_medical", "prob": 100 },
+      { "item": "bag_body_bag", "prob": 5 },
       { "group": "drugs_emergency", "prob": 50 },
       { "prob": 10, "group": "quikclot_bag_plastic_1_6" },
       { "item": "badge_doctor", "prob": 2 }
@@ -2010,6 +2019,7 @@
       [ "baseball", 20 ],
       [ "shuttlecock", 5 ],
       [ "manual_mechanics", 35 ],
+      [ "manual_driving", 5 ],
       [ "manual_speech", 50 ],
       [ "manual_business", 40 ],
       [ "manual_first_aid", 40 ],
@@ -2116,7 +2126,8 @@
       { "item": "chem_calcium_chloride", "prob": 2 },
       { "prob": 3, "group": "yeast_bag_plastic" },
       { "prob": 1, "group": "yogurt_starter_culture_bag_plastic_4" },
-      { "group": "superglue", "prob": 30 },
+      { "group": "glue_weak_domestic", "prob": 15 },
+      { "group": "glue_strong_domestic", "prob": 15 },
       { "item": "bottle_glass", "prob": 10 },
       { "item": "syringe", "prob": 1 },
       { "item": "adrenaline_injector", "prob": 1 },
@@ -2167,6 +2178,7 @@
       [ "fun_survival", 5 ],
       [ "howto_traps", 10 ],
       [ "decoy_anarch", 8 ],
+      [ "manual_driving", 5 ],
       [ "recipe_augs", 8 ],
       { "prob": 85, "group": "bottle_otc_painkiller_1_20" },
       [ "junk_burrito", 25 ],
@@ -2227,6 +2239,7 @@
       { "item": "fun_survival", "prob": 10 },
       { "item": "recipe_augs", "prob": 1 },
       { "item": "decoy_anarch", "prob": 10 },
+      { "item": "manual_driving", "prob": 5 },
       { "prob": 85, "group": "bottle_otc_painkiller_1_20" },
       { "prob": 30, "group": "maltballs_box_snack_4" },
       { "group": "cigar_box_opened", "prob": 20 },
@@ -2437,7 +2450,8 @@
       [ "screwdriver", 40 ],
       [ "screwdriver_set", 10 ],
       { "group": "duct_tape_roll_part", "prob": 10 },
-      { "group": "superglue", "prob": 5 },
+      { "group": "glue_weak_domestic", "prob": 5 },
+      { "group": "glue_strong_domestic", "prob": 5 },
       [ "boots", 70 ],
       [ "boots_winter", 60 ],
       [ "boots_hiking", 30 ],

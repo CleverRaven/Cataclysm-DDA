@@ -696,7 +696,7 @@
     "description": "You are a telepath, able to sense minds and influence thoughts.  You aren't entirely sure how you got your powers, but you seem to have an instinctive sense of how to use them.  That's not sinister at all, right?",
     "points": 7,
     "starting_cash": 1120000,
-    "traits": [ "AFS_TELEPATH" ],
+    "traits": [ "AFS_TELEPATH", "ESPER_STARTER_ADVANCEMENT_OKAY" ],
     "flags": [ "SCEN_ONLY" ],
     "skills": [ { "level": 4, "name": "metaphysics" } ],
     "spells": [
@@ -733,7 +733,7 @@
     "description": "You are an electrokinetic, able to control electricity with your mind.  You aren't entirely sure how you got your powers, but you seem to have an instinctive sense of how to use them.  That's not sinister at all, right?",
     "points": 7,
     "starting_cash": 1120000,
-    "traits": [ "AFS_ELECTROKINETIC" ],
+    "traits": [ "AFS_ELECTROKINETIC", "ESPER_STARTER_ADVANCEMENT_OKAY" ],
     "flags": [ "SCEN_ONLY" ],
     "skills": [ { "level": 4, "name": "metaphysics" } ],
     "spells": [
@@ -770,7 +770,7 @@
     "description": "You are a telekinetic, able to move objects without touching them.  You aren't entirely sure how you got your powers, but you seem to have an instinctive sense of how to use them.  That's not sinister at all, right?",
     "points": 7,
     "starting_cash": 1120000,
-    "traits": [ "AFS_TELEKINETIC" ],
+    "traits": [ "AFS_TELEKINETIC", "ESPER_STARTER_ADVANCEMENT_OKAY" ],
     "flags": [ "SCEN_ONLY" ],
     "skills": [ { "level": 4, "name": "metaphysics" } ],
     "spells": [

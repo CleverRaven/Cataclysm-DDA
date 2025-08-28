@@ -109,22 +109,22 @@
     "category": "lab_postit_portal",
     "text": [
       {
-        "name": "purple postit 1",
+        "name": "orange post-it note",
         "id": "lab_postit_portal_psi_1",
         "text": "When you collect the crystals, use sampling tongs.  Do not touch!"
       },
       {
-        "name": "purple postit 2",
+        "name": "orange post-it note",
         "id": "lab_postit_portal_psi_2",
         "text": "Do not calibrate to sub-plane 305PG.  It knows"
       },
       {
-        "name": "purple postit 3",
+        "name": "orange post-it note",
         "id": "lab_postit_portal_psi_3",
         "text": "The \"mathematician\" from upstairs wants to watch the immersion today.  Ugh"
       },
       {
-        "name": "purple postit 4",
+        "name": "orange post-it note",
         "id": "lab_postit_portal_psi_4",
         "text": "Accidentally touched a sample, now my head's all fuzzy"
       }

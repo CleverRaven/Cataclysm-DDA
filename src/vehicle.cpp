@@ -32,7 +32,6 @@
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
-#include "cuboid_rectangle.h"
 #include "damage.h"
 #include "debug.h"
 #include "effect_source.h"
@@ -52,7 +51,6 @@
 #include "itype.h"
 #include "json.h"
 #include "json_loader.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
@@ -147,9 +145,9 @@ static const vproto_id vehicle_prototype_none( "none" );
 
 static const zone_type_id zone_type_VEHICLE_PATROL( "VEHICLE_PATROL" );
 
-static const std::string flag_E_COMBUSTION( "E_COMBUSTION" );
 
 static const std::string flag_APPLIANCE( "APPLIANCE" );
+static const std::string flag_E_COMBUSTION( "E_COMBUSTION" );
 static const std::string flag_WIRING( "WIRING" );
 
 //~ Name for an array of electronic power grid appliances, like batteries and solar panels
@@ -5103,21 +5101,32 @@ bool vehicle::handle_potential_theft( Character const &you, bool check_only, boo
 
 bool vehicle::balanced_wheel_config( map &here ) const
 {
-    point_rel_ms min = point_rel_ms::max;
-    point_rel_ms max = point_rel_ms::min;
-    // find the bounding box of the wheels
+    // Check center of mass inside wheels convex hull
+    const point_rel_ms &com = local_center_of_mass( here );
+
+    // Calculate angle from COM to each wheel
+    std::vector<double> angles;
     for( const int &w : wheelcache ) {
         const point_rel_ms &pt = parts[ w ].mount;
-        min.x() = std::min( min.x(), pt.x() );
-        min.y() = std::min( min.y(), pt.y() );
-        max.x() = std::max( max.x(), pt.x() );
-        max.y() = std::max( max.y(), pt.y() );
+        if( pt == com ) {
+            // if com coincides with a wheel position, it's on the convex hull
+            return true;
+        }
+        angles.push_back( std::atan2( pt.y() - com.y(), pt.x() - com.x() ) );
     }
 
-    // Check center of mass inside support of wheels (roughly)
-    const point_rel_ms &com = local_center_of_mass( here );
-    const inclusive_rectangle<point_rel_ms> support( min, max );
-    return support.contains( com );
+    // Find gaps between angles
+    std::sort( angles.begin(), angles.end() );
+    double max_angle_gap = 0;
+    const size_t count = angles.size();
+    for( size_t i = 0; i < count; i++ ) {
+        const double angle_gap = ( ( i == count - 1 ) ? ( angles[ 0 ] + M_PI * 2 ) : angles[i + 1] ) -
+                                 angles[i];
+        max_angle_gap = std::max( max_angle_gap, angle_gap );
+    }
+
+    // Any gap greater than 180 degrees means the COM is outside the convex hull of the wheels
+    return max_angle_gap <= M_PI;
 }
 
 bool vehicle::valid_wheel_config( map &here ) const
@@ -5535,7 +5544,7 @@ units::power vehicle::active_reactor_epower( map &here ) const
     for( const int p : reactors ) {
         const vehicle_part &vp = parts[p];
         if( vp.enabled && vp.is_available() &&
-            ( vp.info().has_flag( STATIC( std::string( "PERPETUAL" ) ) ) || vp.ammo_remaining( ) ) ) {
+            ( vp.info().has_flag( flag_PERPETUAL.str() ) || vp.ammo_remaining( ) ) ) {
             reactors_flow += part_epower( vp );
         }
     }
@@ -5635,7 +5644,7 @@ void vehicle::power_parts( map &here )
                 const int gen_energy_bat = power_to_energy_bat( part_epower( vp ), 1_turns );
                 if( vp.is_unavailable() ) {
                     continue;
-                } else if( vp.info().has_flag( STATIC( std::string( "PERPETUAL" ) ) ) ) {
+                } else if( vp.info().has_flag( flag_PERPETUAL.str() ) ) {
                     reactor_working = true;
                     delta_energy_bat += std::min( storage_deficit_bat, gen_energy_bat );
                 } else if( vp.ammo_remaining( ) > 0 ) {
@@ -7427,7 +7436,7 @@ void vehicle::shed_loose_parts( const trinary shed_cables, map *here, const trip
 
             if( distance > max_dist || shed_cables == trinary::ALL ) {
                 add_msg_if_player_sees( bub_part_pos( *here, vp_loose ), m_warning,
-                                        _( "The %s's %s was detached!" ), name, vp_loose.name( false ) );
+                                        _( "The %1$s's %2$s was detached!" ), name, vp_loose.name( false ) );
                 remove_remote = true;
             } else {
                 // cable still has some slack to it, so update the remote part's target and continue.
@@ -7793,7 +7802,7 @@ int vehicle::break_off( map &here, vehicle_part &vp, int dmg )
                 remove_remote_part( here, vp_here );
             } else if( vp_here.is_broken() ) {
                 // Tearing off a broken part - break it up
-                add_msg_if_player_sees( pos, m_bad, _( "The %s's %s breaks into pieces!" ), name,
+                add_msg_if_player_sees( pos, m_bad, _( "The %1$s's %2$s breaks into pieces!" ), name,
                                         vp_here.name() );
                 scatter_parts( vp_here );
             } else {

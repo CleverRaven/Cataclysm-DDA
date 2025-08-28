@@ -371,6 +371,7 @@
       { "item": "fairy_tales", "prob": 20 },
       { "item": "child_book", "prob": 50 },
       { "item": "manual_dodge_kid", "prob": 20 },
+      { "item": "manual_driving", "prob": 2 },
       { "item": "book_nonf_soft_wedding_coolring", "prob": 1 },
       { "item": "mag_comic", "prob": 20 },
       { "item": "arduino_experiments", "prob": 3 },
@@ -384,11 +385,11 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "group": "magazines", "prob": 580 },
-      { "group": "novels", "prob": 424 },
+      { "group": "magazines", "prob": 980 },
+      { "group": "novels", "prob": 624 },
       { "group": "kids_books", "prob": 50 },
       { "group": "SUS_book_fict_soft_ya", "prob": 50 },
-      { "group": "book_martial", "prob": 40 },
+      { "group": "book_martial", "prob": 4 },
       { "group": "religious_books", "prob": 40 },
       { "group": "literature", "prob": 30 },
       { "group": "SUS_book_nonf_hard_homemk", "prob": 26 },
@@ -403,6 +404,7 @@
       { "item": "manual_sealing", "prob": 40 },
       { "item": "manual_canning", "prob": 30 },
       { "item": "manual_mechanics", "prob": 25 },
+      { "item": "manual_driving", "prob": 5 },
       { "item": "manual_computer", "prob": 20 },
       { "item": "webbasics_computer", "prob": 20 },
       { "item": "hackerman_computer", "prob": 20 },
@@ -522,6 +524,7 @@
       { "item": "manual_throw", "variant": "manual_throw", "prob": 6 },
       { "item": "manual_throw", "variant": "manual_throw_4", "prob": 6 },
       { "item": "manual_mechanics", "prob": 25 },
+      { "item": "manual_driving", "prob": 5 },
       { "item": "book_pneumatics", "prob": 5 },
       { "item": "manual_speech", "prob": 40 },
       { "item": "textbook_speech", "prob": 10 },
@@ -726,6 +729,7 @@
     "//": "These are books that are hard to find or esoteric, mostly.",
     "subtype": "distribution",
     "entries": [
+      { "group": "esoteric_books", "prob": 40 },
       { "group": "book_martial_rare", "prob": 44 },
       { "group": "book_martial_common", "prob": 7 },
       { "item": "textbook_weapwest", "prob": 15 },
@@ -763,8 +767,26 @@
       { "item": "textbook_botany", "prob": 5 },
       { "item": "book_lockpick", "prob": 1 },
       { "item": "scots_tailor", "prob": 30 },
-      { "item": "necronomicon", "prob": 1 },
       { "item": "ballista_book", "prob": 6 }
+    ]
+  },
+  {
+    "id": "esoteric_books",
+    "type": "item_group",
+    "//": "Magic, esoteric, new age and mystic books for your average superstitious or believer of all magical.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "SUS_book_nonf_pulp_newage", "prob": 54 },
+      { "item": "holybook_wicca", "prob": 5 },
+      { "item": "holybook_wicca1", "prob": 5 },
+      { "item": "holybook_wicca2", "prob": 5 },
+      { "item": "holybook_satanic", "prob": 5 },
+      { "item": "holybook_egypt", "prob": 5 },
+      { "item": "holybook_egypt1", "prob": 5 },
+      { "item": "holybook_egypt2", "prob": 5 },
+      { "item": "holybook_maya", "prob": 5 },
+      { "item": "holybook_corpus", "prob": 5 },
+      { "item": "necronomicon", "prob": 1 }
     ]
   },
   {
@@ -1110,6 +1132,7 @@
     "entries": [
       { "group": "missing_poster_all", "prob": 30 },
       { "item": "flyer", "prob": 70, "count": [ 1, 2 ] },
+      { "item": "flyer_evac", "prob": 70, "count": [ 1, 2 ] },
       { "item": "buylocalpamphlet", "prob": 15 }
     ]
   },

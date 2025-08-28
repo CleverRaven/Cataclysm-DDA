@@ -21,7 +21,6 @@
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
-#include "make_static.h"
 #include "memory_fast.h"
 #include "messages.h"
 #include "mission.h"
@@ -49,6 +48,10 @@ static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
 static const efftype_id effect_sleep( "sleep" );
+
+static const flag_id json_flag_INTEGRATED( "INTEGRATED" );
+static const flag_id json_flag_NO_TAKEOFF( "NO_TAKEOFF" );
+static const flag_id json_flag_NO_UNWIELD( "NO_UNWIELD" );
 
 static const itype_id itype_foodperson_mask( "foodperson_mask" );
 static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
@@ -415,10 +418,10 @@ std::string talker_npc::give_item_to( const bool to_use )
     item &given = *loc;
 
     if( ( loc == player_character.get_wielded_item() &&
-          given.has_flag( STATIC( flag_id( "NO_UNWIELD" ) ) ) ) ||
+          given.has_flag( json_flag_NO_UNWIELD ) ) ||
         ( player_character.is_worn( given ) &&
-          ( given.has_flag( STATIC( flag_id( "NO_TAKEOFF" ) ) ) ||
-            given.has_flag( STATIC( flag_id( "INTEGRATED" ) ) ) ) ) ) {
+          ( given.has_flag( json_flag_NO_TAKEOFF ) ||
+            given.has_flag( json_flag_INTEGRATED ) ) ) ) {
         // Integrated item or shackles
         return _( "How?" );
     }
@@ -430,15 +433,13 @@ std::string talker_npc::give_item_to( const bool to_use )
     bool taken = false;
     std::string reason = me_npc->chat_snippets().snip_give_nope.translated();
     const item_location weapon = me_npc->get_wielded_item();
-    int our_ammo = me_npc->ammo_count_for( weapon );
-    int new_ammo = me_npc->ammo_count_for( loc );
-    const double new_weapon_value = me_npc->weapon_value( given, new_ammo );
+    const double new_weapon_value = me_npc->evaluate_weapon( given );
     const item &weap = weapon ? *weapon : null_item_reference();
-    const double cur_weapon_value = me_npc->weapon_value( weap, our_ammo );
-    add_msg_debug( debugmode::DF_TALKER, "NPC evaluates own %s (%d ammo): %0.1f",
-                   weap.typeId().str(), our_ammo, cur_weapon_value );
-    add_msg_debug( debugmode::DF_TALKER, "NPC evaluates your %s (%d ammo): %0.1f",
-                   given.typeId().str(), new_ammo, new_weapon_value );
+    const double cur_weapon_value = me_npc->evaluate_weapon( weap );
+    add_msg_debug( debugmode::DF_TALKER, "NPC evaluates own %s: %0.1f",
+                   weap.typeId().str(), cur_weapon_value );
+    add_msg_debug( debugmode::DF_TALKER, "NPC evaluates your %s: %0.1f",
+                   given.typeId().str(), new_weapon_value );
     if( to_use ) {
         // Eating first, to avoid evaluating bread as a weapon
         const consumption_result consume_res = try_consume( *me_npc, given, reason );

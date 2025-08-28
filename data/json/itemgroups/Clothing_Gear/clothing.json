@@ -562,12 +562,12 @@
       { "item": "gold_watch", "prob": 40 },
       { "item": "platinum_watch", "prob": 10 },
       { "item": "sf_watch", "prob": 5 },
-      { "item": "pocketwatch", "prob": 30 },
+      { "item": "pocketwatch", "prob": 5 },
       { "item": "diving_watch", "prob": 20 },
-      { "item": "game_watch", "prob": 20, "charges": [ 0, 50 ] },
-      { "item": "fitness_band", "prob": 10 },
-      { "item": "smart_watch", "prob": 10, "charges": [ 0, 80 ] },
-      { "item": "smart_watch_adv", "prob": 5, "charges": [ 0, 40 ] }
+      { "item": "game_watch", "prob": 5, "charges": [ 0, 50 ] },
+      { "item": "fitness_band", "prob": 35 },
+      { "item": "smart_watch", "prob": 50, "charges": [ 0, 80 ] },
+      { "item": "smart_watch_adv", "prob": 25, "charges": [ 0, 40 ] }
     ]
   },
   {
@@ -903,7 +903,7 @@
       { "item": "water_clean", "prob": 30 },
       { "item": "sports_drink", "prob": 30 },
       { "group": "used_1st_aid", "prob": 20 },
-      { "item": "fitness_band", "prob": 5 }
+      { "item": "fitness_band", "prob": 25 }
     ]
   },
   {
@@ -1595,7 +1595,7 @@
       [ "10gal_hat", 3 ],
       [ "glasses_monocle", 2 ],
       { "group": "duct_tape_roll_part", "prob": 60 },
-      { "group": "superglue", "prob": 20 },
+      { "group": "glue_weak_domestic", "prob": 20 },
       [ "firecracker_pack", 5 ],
       [ "firecracker", 5 ],
       [ "fursuit", 5 ],
@@ -2963,7 +2963,7 @@
       [ "beret_wool", 40 ],
       [ "elbow_pads", 50 ],
       [ "knee_pads", 50 ],
-      [ "solarpack", 5 ]
+      [ "folding_solar_panel_v2", 5 ]
     ]
   },
   {
@@ -3002,7 +3002,6 @@
       [ "shoulder_holster", 1 ],
       [ "bandolier_shotgun", 8 ],
       [ "torso_bandolier_grenade", 8 ],
-      [ "solarpack", 5 ],
       [ "chem_hexamine", 3 ],
       { "item": "esbit_stove", "prob": 6, "charges": [ 0, 50 ] },
       { "group": "full_survival_kit", "prob": 4 }
@@ -4094,7 +4093,6 @@
           { "item": "nylon_quiver", "prob": 12 },
           { "item": "quiver", "prob": 8 },
           { "item": "quiver_large", "prob": 15 },
-          { "item": "solarpack", "prob": 5 },
           { "item": "ammo_satchel", "prob": 10 },
           { "item": "ammo_pouch", "prob": 10 },
           { "item": "chestrig", "prob": 20 },
@@ -4156,7 +4154,6 @@
           { "item": "nylon_quiver", "prob": 12 },
           { "item": "quiver", "prob": 8 },
           { "item": "quiver_large", "prob": 15 },
-          { "item": "solarpack", "prob": 5 },
           { "item": "ammo_satchel", "prob": 10 },
           { "item": "ammo_pouch", "prob": 10 },
           { "item": "chestrig", "prob": 20 },

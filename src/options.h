@@ -430,6 +430,7 @@ struct option_slider {
         static void finalize_all();
         static void check_consistency();
         void load( const JsonObject &jo, std::string_view src );
+        void finalize();
         void check() const;
         static const std::vector<option_slider> &get_all();
 

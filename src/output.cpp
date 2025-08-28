@@ -1153,6 +1153,42 @@ void draw_item_filter_rules( const catacurses::window &win, const int starty, co
     wnoutrefresh( win );
 }
 
+static std::string format_table( std::string_view s )
+{
+    std::string table;
+
+    std::vector<std::string> rows = string_split( s, '\n' );
+
+    if( rows.empty() ) {
+        return table;
+    }
+
+    std::vector<std::string> header = string_split( rows[0], ';' );
+    table += header[0] + ":";
+    for( size_t col = 1; col < header.size(); col++ ) {
+        table += ( col == 1 ? " " : ", " ) + header[col];
+    }
+    if( rows.size() > 1 ) {
+        table += '\n';
+    }
+
+    for( size_t row = 1; row < rows.size(); row++ ) {
+        if( rows[row].empty() ) {
+            continue;
+        }
+        std::vector<std::string> cols = string_split( rows[row], ';' );
+        table += "  " + cols[0] + ":";
+        for( size_t i = 1; i < cols.size(); i++ ) {
+            table += ( i == 1 ? " " : ", " ) + cols[i];
+        }
+        if( row + 1 < rows.size() && !rows[row + 1].empty() ) {
+            table += '\n';
+        }
+    }
+
+    return table;
+}
+
 std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
                               const std::vector<iteminfo> &vItemCompare )
 {
@@ -1160,7 +1196,9 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
     bool bIsNewLine = true;
 
     for( const iteminfo &i : vItemDisplay ) {
-        if( i.sType == "DESCRIPTION" ) {
+        if( i.isTable ) {
+            buffer += format_table( i.sName );
+        } else if( i.sType == "DESCRIPTION" ) {
             // Always start a new line for sType == "DESCRIPTION"
             if( !bIsNewLine ) {
                 buffer += "\n";
@@ -1268,6 +1306,63 @@ static nc_color get_comparison_color( const iteminfo &i,
     return thisColor;
 }
 
+static int get_num_cols( std::vector<std::string> &rows )
+{
+    int cols = 0;
+
+    for( const std::string &row : rows ) {
+        cols = std::max( cols, static_cast<int>( string_split( row, ';' ).size() ) );
+    }
+
+    return cols;
+}
+
+static void draw_table( std::string_view s )
+{
+    std::vector<std::string> rows = string_split( s, '\n' );
+    int num_cols = get_num_cols( rows );
+
+    if( rows.empty() || num_cols == 0 ) {
+        return;
+    }
+
+    if( ImGui::BeginTable( "##ITEMINFO_TABLE", num_cols,
+                           ImGuiTableFlags_BordersH | ImGuiTableFlags_BordersV ) ) {
+        const std::vector<std::string> chopped_up = string_split( rows.front(), ';' );
+        for( const std::string &cell_text : chopped_up ) {
+            // this prefix prevents imgui from drawing the text. We still have color tags, which imgui won't parse, so we don't want those exposed to the user.
+            // But we still want proper column IDs. So we put them in, but we *hide them* with this.
+            // This results in a column with an ID of e.g.
+            // ##<color_white>Protection:</color>
+            //
+            // Not great for debugging, but better than having a column with default (randomly generated number) ID!
+            const std::string invisible_ID_label = "##" + cell_text;
+            ImGui::TableSetupColumn( invisible_ID_label.c_str(), ImGuiTableColumnFlags_WidthStretch );
+        }
+        ImGui::TableHeadersRow();
+        // After putting in the invisible labels in the last for-loop, this writes the actual text. Just the same text without the ## marker, and
+        // with our native functions doing the drawing. (So we parse color tags)
+        for( size_t i = 0; i < chopped_up.size(); i++ ) {
+            ImGui::TableSetColumnIndex( i );
+            cataimgui::draw_colored_text( chopped_up[i], c_unset );
+        }
+
+        for( size_t i = 1; i < rows.size(); i++ ) {
+            if( rows[i].empty() ) {
+                continue;
+            }
+            ImGui::TableNextRow();
+            const std::vector<std::string> delimited_strings = string_split( rows[i], ';' );
+            for( const std::string &text : delimited_strings ) {
+                ImGui::TableNextColumn();
+                cataimgui::draw_colored_text( text, c_unset );
+            }
+        }
+
+        ImGui::EndTable();
+    }
+}
+
 void display_item_info( const std::vector<iteminfo> &vItemDisplay,
                         const std::vector<iteminfo> &vItemCompare )
 {
@@ -1276,7 +1371,9 @@ void display_item_info( const std::vector<iteminfo> &vItemDisplay,
         if( i.bIsArt ) {
             cataimgui::PushMonoFont();
         }
-        if( i.sType == "DESCRIPTION" ) {
+        if( i.isTable ) {
+            draw_table( i.sName );
+        } else if( i.sType == "DESCRIPTION" ) {
             if( i.bDrawName ) {
                 if( i.sName == "--" ) {
                     if( !bAlreadyHasNewLine ) {
@@ -1535,6 +1632,14 @@ std::string to_upper_case( const std::string &s )
     const auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
     std::wstring wstr = utf8_to_wstr( s );
     f.toupper( wstr.data(), wstr.data() + wstr.size() );
+    return wstr_to_utf8( wstr );
+}
+
+std::string to_lower_case( const std::string &s )
+{
+    const auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
+    std::wstring wstr = utf8_to_wstr( s );
+    f.tolower( wstr.data(), wstr.data() + wstr.size() );
     return wstr_to_utf8( wstr );
 }
 
@@ -2628,54 +2733,6 @@ std::string cata::string_formatter::raw_string_format( const char *format, ... )
 void replace_city_tag( std::string &input, const std::string &name )
 {
     replace_substring( input, "<city>", name, true );
-}
-
-// Legacy, moved to parse_tags
-void replace_keybind_tag( std::string &input )
-{
-    std::string keybind_tag_start = "<keybind:";
-    size_t keybind_length = keybind_tag_start.length();
-    std::string keybind_tag_end = ">";
-
-    size_t pos = input.find( keybind_tag_start );
-    while( pos != std::string::npos ) {
-        size_t pos_end = input.find( keybind_tag_end, pos );
-        if( pos_end == std::string::npos ) {
-            debugmsg( "Mismatched keybind tag in string: '%s'", input );
-            break;
-        }
-        size_t pos_keybind = pos + keybind_length;
-        std::string keybind_full = input.substr( pos_keybind, pos_end - pos_keybind );
-        std::string keybind = keybind_full;
-
-        size_t pos_category_split = keybind_full.find( ':' );
-
-        std::string category = "DEFAULTMODE";
-        if( pos_category_split != std::string::npos ) {
-            category = keybind_full.substr( 0, pos_category_split );
-            keybind = keybind_full.substr( pos_category_split + 1 );
-        }
-        input_context ctxt( category );
-
-        std::string keybind_desc;
-        std::vector<input_event> keys = ctxt.keys_bound_to( keybind, -1, false, false );
-        if( keys.empty() ) { // Display description for unbound keys
-            keybind_desc = colorize( '<' + ctxt.get_desc( keybind ) + '>', c_red );
-
-            if( !ctxt.is_registered_action( keybind ) ) {
-                debugmsg( "Invalid/Missing <keybind>: '%s'", keybind_full );
-            }
-        } else {
-            keybind_desc = enumerate_as_string( keys.begin(), keys.end(), []( const input_event & k ) {
-                return colorize( '\'' + k.long_description() + '\'', c_yellow );
-            }, enumeration_conjunction::or_ );
-        }
-        std::string to_replace = string_format( "%s%s%s", keybind_tag_start, keybind_full,
-                                                keybind_tag_end );
-        replace_substring( input, to_replace, keybind_desc, true );
-
-        pos = input.find( keybind_tag_start );
-    }
 }
 
 void replace_substring( std::string &input, const std::string &substring,

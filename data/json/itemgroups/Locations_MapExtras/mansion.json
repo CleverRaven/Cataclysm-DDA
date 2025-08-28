@@ -647,6 +647,7 @@
       [ "vampire_fangs", 5 ],
       [ "cloak_vampire", 5 ],
       [ "cloak_black", 5 ],
+      { "group": "esoteric_books", "prob": 40 },
       { "group": "costume_jewelry_dark", "prob": 20 },
       { "group": "costume_jewelry_vampire", "prob": 20 },
       [ "sinister_cane", 5 ],

@@ -1,25 +1,40 @@
 [
   {
     "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
-    "id": "afs_synthetic_meat",
+    "id": "meat",
     "copy-from": "meat",
-    "name": { "str_sp": "synthetic meat" },
-    "description": "A cut of vat grown lean meat, genetically similar to beef.  Conspicuously uniform in both looks and texture.",
+    "subtypes": [ "COMESTIBLE" ],
+    "comestible_type": "FOOD",
+    "variants": [
+      {
+        "id": "synth",
+        "name": { "str_sp": "synthetic meat" },
+        "description": "A cut of vat grown lean meat, genetically similar to beef.  Conspicuously uniform in both looks and texture."
+      }
+    ],
     "parasites": 0
   },
   {
     "type": "ITEM",
+    "id": "jerky",
     "subtypes": [ "COMESTIBLE" ],
-    "id": "afs_jerky",
+    "comestible_type": "FOOD",
     "copy-from": "jerky",
-    "name": { "str_sp": "meat flakes" },
-    "description": "Transparent thin hexagonal cuts of dried meat.  Conspicuously uniform in both looks and texture."
+    "price_postapoc": "1 USD 25 cent",
+    "variants": [
+      {
+        "id": "synth",
+        "name": { "str_sp": "meat flakes" },
+        "description": "Transparent thin hexagonal cuts of dried meat.  Conspicuously uniform in both looks and texture."
+      }
+    ]
   },
   {
     "type": "ITEM",
     "id": "fish",
     "copy-from": "fish",
+    "subtypes": [ "COMESTIBLE" ],
+    "comestible_type": "FOOD",
     "variants": [
       {
         "id": "synth",
@@ -35,8 +50,20 @@
   },
   {
     "type": "ITEM",
+    "id": "alien_jerky",
+    "copy-from": "jerky",
     "subtypes": [ "COMESTIBLE" ],
-    "id": "curry_meat",
+    "comestible_type": "FOOD",
+    "name": { "str_sp": "dried alien meat" },
+    "price_postapoc": "1 USD 50 cent",
+    "description": "Thin and long strips of white, almost sickly pale meat, clearly belonging to some sort of alien creature.  It has a very strong taste, and is quite chewy.",
+    "fun": 0,
+    "quench": -7
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "afs_soup_meat",
     "looks_like": "soup_meat",
     "name": { "str_sp": "ramen" },
     "conditional_names": [ { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "frontier ramen" } } ],
@@ -50,7 +77,7 @@
     "calories": 381,
     "description": "Ramen's adaptability to dried and preserved ingredients make it a staple in the culinary landscapes of frontier outposts and shipping crews alike.  Any spaceport worth visiting has a local ramen tradition of its own, and here the dish is slightly acidic, with a sweet aftertaste produced by the break-down of alien proteins.",
     "price": "14 USD",
-    "price_postapoc": "14 USD",
+    "price_postapoc": "2 USD 25 cent",
     "material": [ { "type": "water", "portion": 50 }, { "type": "flesh", "portion": 25 }, { "type": "veggy", "portion": 25 } ],
     "volume": "250 ml",
     "phase": "liquid",
@@ -58,6 +85,25 @@
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "vitC", 30 ], [ "calcium", 5 ], [ "iron", 28 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ],
     "fun": 8
+  },
+  {
+    "id": "afs_streetfood_meat",
+    "copy-from": "flesh",
+    "weight": "275 g",
+    "volume": "250 ml",
+    "spoils_in": "1 day",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "comestible_type": "FOOD",
+    "name": { "str_sp": "starport roast" },
+    "description": "Streetfood from the Salus spaceport.  White strips of meat, grilled and served with a heavy dressing of sour sauce.  Who knows where it came from, but it tastes pretty good.",
+    "price": "8 USD",
+    "price_postapoc": "3 USD 50 cent",
+    "fun": 5,
+    "parasites": 0,
+    "calories": 652,
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ], [ "meat_allergen", 1 ] ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
   },
   {
     "type": "ITEM",

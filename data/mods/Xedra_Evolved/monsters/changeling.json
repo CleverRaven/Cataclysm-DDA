@@ -278,6 +278,7 @@
       "GROUP_BASH",
       "HUMAN",
       "FAE_CREATURE",
+      "TRUESIGHT",
       "CAN_OPEN_DOORS",
       "PATH_AVOID_DANGER",
       "MAGIC_USER"
@@ -343,7 +344,7 @@
       }
     ],
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "KEENNOSE", "EATS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "TRUESIGHT", "PATH_AVOID_DANGER", "WARM", "KEENNOSE", "EATS" ],
     "armor": {
       "bash": 8,
       "cut": 10,
@@ -823,5 +824,40 @@
       "NO_BREATHE",
       "SWARMS"
     ]
+  },
+  {
+    "id": "mon_xe_strange_event_brownie",
+    "type": "MONSTER",
+    "name": { "str": "household brownie" },
+    "description": "A small humanoid wearing old-fashioned clothing and seemingly covered in thick hair.  It looks at you in shock.",
+    "copy-from": "mon_changeling",
+    "chat_topics": [ "XE_STRANGE_EVENT_BROWNIE_MEETS_BROWNIE" ],
+    "symbol": "B",
+    "volume": "32500 ml",
+    "weight": "41500 g",
+    "hp": 62,
+    "speed": 120,
+    "melee_dice": 3,
+    "melee_dice_sides": 6,
+    "dodge": 6,
+    "special_attacks": [
+      {
+        "id": "mon_xe_strange_brownie_open_conversation",
+        "type": "spell",
+        "spell_data": { "id": "mon_xe_strange_brownie_open_conversation" },
+        "cooldown": 1,
+        "condition": "npc_is_avatar",
+        "monster_message": "%1$s looks at you in shock."
+      }
+    ],
+    "armor": {
+      "stab": 3,
+      "bash": 6,
+      "cut": 2,
+      "xe_cold_iron_cut_damage": 0,
+      "xe_cold_iron_bash_damage": 0,
+      "xe_cold_iron_stab_damage": 0
+    },
+    "extend": { "flags": [ "PACIFIST", "CAMOUFLAGE" ] }
   }
 ]

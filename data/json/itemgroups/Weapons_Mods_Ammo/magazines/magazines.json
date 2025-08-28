@@ -51,7 +51,6 @@
       { "item": "fn57mag", "prob": 15, "charges": [ 0, 20 ] },
       { "item": "glockmag", "prob": 40, "charges": [ 0, 15 ] },
       { "item": "glock40mag", "prob": 30, "charges": [ 0, 15 ] },
-      { "item": "hk46mag", "prob": 5, "charges": [ 0, 20 ] },
       { "item": "m9mag", "prob": 5, "charges": [ 0, 15 ] },
       { "item": "mp5mag", "prob": 10, "charges": [ 0, 30 ] },
       { "item": "sig40mag", "prob": 20, "charges": [ 0, 12 ] },
@@ -71,7 +70,6 @@
       { "item": "fnp90mag", "prob": 20, "charges": [ 0, 50 ] },
       { "item": "glockbigmag", "prob": 10, "charges": [ 0, 30 ] },
       { "item": "glock40bigmag", "prob": 10, "charges": [ 0, 22 ] },
-      { "item": "hk46bigmag", "prob": 5, "charges": [ 0, 40 ] },
       { "item": "m9bigmag", "prob": 10, "charges": [ 0, 30 ] },
       { "item": "mp5bigmag", "prob": 20, "charges": [ 0, 50 ] },
       { "item": "stanag30ranger", "prob": 5, "charges": [ 0, 30 ] },
@@ -189,8 +187,6 @@
       { "group": "rare_magazines_9mm", "prob": 209 },
       { "group": "rare_magazines_45", "prob": 49 },
       { "item": "ump40mag", "prob": 3 },
-      { "item": "hk46mag", "prob": 8 },
-      { "item": "hk46bigmag", "prob": 1 },
       { "item": "mac11mag", "prob": 35 }
     ]
   },

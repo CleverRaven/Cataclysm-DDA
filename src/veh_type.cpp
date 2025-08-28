@@ -287,14 +287,14 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     assign( jo, "fuel_type", fuel_type, strict );
     assign( jo, "default_ammo", default_ammo, strict );
     assign( jo, "folded_volume", folded_volume, strict );
-    assign( jo, "size", size, strict );
+    optional( jo, was_loaded, "size", size );
     assign( jo, "bonus", bonus, strict );
     assign( jo, "cargo_weight_modifier", cargo_weight_modifier, strict );
     assign( jo, "categories", categories, strict );
     assign( jo, "flags", flags, strict );
     assign( jo, "description", description, strict );
-    assign( jo, "color", color, strict );
-    assign( jo, "broken_color", color_broken, strict );
+    optional( jo, was_loaded, "color", color, nc_color_reader{} );
+    optional( jo, was_loaded, "broken_color", color_broken, nc_color_reader{} );
     assign( jo, "comfort", comfort, strict );
     int legacy_floor_bedding_warmth = units::to_legacy_bodypart_temp_delta( floor_bedding_warmth );
     assign( jo, "floor_bedding_warmth", legacy_floor_bedding_warmth, strict );
@@ -637,12 +637,6 @@ void vehicles::parts::finalize()
     // hide the generic turret prototype
     vpart_info &vpi_turret_generic = const_cast<vpart_info &>( *vpart_turret_generic );
     vpi_turret_generic.set_flag( "NO_INSTALL_HIDDEN" );
-
-    for( const vpart_info &const_vpi : vehicles::parts::get_all() ) {
-        // const_cast hack until/if generic factory supports finalize
-        vpart_info &vpi = const_cast<vpart_info &>( const_vpi );
-        vpi.finalize();
-    }
 }
 
 void vpart_info::finalize()

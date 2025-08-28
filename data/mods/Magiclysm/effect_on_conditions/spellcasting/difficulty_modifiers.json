@@ -43,6 +43,39 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_MAGICLYSM_BROKEN_LIMBS_MAKES_SOMATIC_SPELLS_HARDER",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_effect": "disabled", "bodypart": "arm_r" }, { "u_has_effect": "disabled", "bodypart": "arm_l" } ] },
+        { "not": { "u_has_flag": "SUBTLE_SPELL" } }
+      ]
+    },
+    "effect": [
+      {
+        "if": {
+          "and": [
+            { "or": [ { "u_has_effect": "disabled", "bodypart": "arm_r" }, { "u_has_effect": "disabled", "bodypart": "arm_l" } ] },
+            {
+              "not": { "and": [ { "u_has_effect": "disabled", "bodypart": "arm_r" }, { "u_has_effect": "disabled", "bodypart": "arm_l" } ] }
+            }
+          ]
+        },
+        "then": [
+          { "math": [ "u_spellcasting_adjustment('difficulty', 'mod': 'magiclysm', 'flag_whitelist': 'SOMATIC' )", "=", "10" ] }
+        ]
+      },
+      {
+        "if": { "and": [ { "u_has_effect": "disabled", "bodypart": "arm_r" }, { "u_has_effect": "disabled", "bodypart": "arm_l" } ] },
+        "then": [
+          { "math": [ "u_spellcasting_adjustment('difficulty', 'mod': 'magiclysm', 'flag_whitelist': 'SOMATIC' )", "=", "30" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_THAUMIC_ZOMBIES_INCREASE_DIFFICULTY",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",

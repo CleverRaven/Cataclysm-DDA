@@ -64,7 +64,7 @@
     "type": "jmath_function",
     "id": "xedra_dream_casting_xp_formula",
     "num_args": 0,
-    "return": "100"
+    "return": "100 * (u_has_trait('VAMPIRE') ? 0 : 1)"
   },
   {
     "type": "jmath_function",
@@ -304,13 +304,6 @@
   },
   {
     "type": "jmath_function",
-    "id": "lilin_has_ruach_efficiency_beta",
-    "//": "For use when the lilit is the beta talker of the spell EoC, such as when it's targeting someone else",
-    "num_args": 0,
-    "return": "1 - min( ( (n_has_trait('LILIN_RUACH_EFFICIENCY') * 0.15) + (n_has_trait('LILIN_RUACH_EFFICIENCY_UPGRADE') * 0.15) + ( n_has_trait('LILIN_RUACH_EFFICIENCY_UPGRADE') * max( ( (n_vitamin('lilin_ruach_vitamin') - 3500 ) / 12000 ), 0) ) ), 0.33)"
-  },
-  {
-    "type": "jmath_function",
     "id": "bloodthorn_druid_traits_sum",
     "num_args": 0,
     "return": "u_has_trait('BLOODTHORNE_DRUID_SYMBIOTIC_PLANT') + u_has_trait('BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP') + u_has_trait('BLOODTHORNE_DRUID_REGAIN_BLOOD') + u_has_trait('BLOODTHORNE_DRUID_BONUS_MANA_REGEN') + u_has_trait('BLOODTHORNE_DRUID_STOP_BLEEDING') + u_has_trait('BLOODTHORNE_DRUID_WHIP_TARGETS_IN_NATURE') + u_has_trait('BLOODTHORNE_DRUID_REDUCED_PAIN_PENALTIES') + u_has_trait('BLOODTHORNE_DRUID_HEAL_FROM_SPILLED_BLOOD') + u_has_trait('BLOODTHORNE_DRUID_SUMMON_THORNHOUND') + u_has_trait('BLOODTHORNE_DRUID_SLOWER_BLEEDING') + u_has_trait('BLOODTHORNE_DRUID_CREATE_THORN_PRISON')"
@@ -327,5 +320,41 @@
     "id": "xe_bloodthorne_sorcery_failure_chance",
     "num_args": 0,
     "return": "(global_what_is_the_season == 4 ? 0.2 : 0 ) + (u_arvore_is_in_wilderness == 0 ? 0.25 : 0) + (u_arvore_is_in_forest == 0 ? 0.1 : 0) + (u_skill('deduction') * -0.03) + (u_pain() / 200 * ( u_has_trait('BLOODTHORNE_DRUID_REDUCED_PAIN_PENALTIES') ? 0.66666 : 1) )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "werewolf_power_failure_chance",
+    "num_args": 0,
+    "return": "0"
+  },
+  {
+    "type": "jmath_function",
+    "id": "werewolf_tier_one_traits",
+    "num_args": 0,
+    "return": "u_has_trait('WEREWOLF_SMELL_NEARBY_ENEMIES') + u_has_trait('WEREWOLF_NO_SCENT') + u_has_trait('WEREWOLF_ILLUMINATE_TARGET') + u_has_trait('WEREWOLF_FRIEND_TO_ANIMALS') + u_has_trait('WEREWOLF_SMASH_TERRAIN') + u_has_trait('WEREWOLF_CLIMB_IN_WOLF_FORM')"
+  },
+  {
+    "type": "jmath_function",
+    "id": "werewolf_tier_two_traits",
+    "num_args": 0,
+    "return": "u_has_trait('WEREWOLF_SENSE_SPIRITS_AND_ALIENS') + u_has_trait('WEREWOLF_STUN_MACHINE') + u_has_trait('WEREWOLF_EXTRA_WEAKPOINT_HITS') + u_has_trait('WEREWOLF_FAR_JUMP') + u_has_trait('WEREWOLF_CAMOUFLAGE_COAT')"
+  },
+  {
+    "type": "jmath_function",
+    "id": "werewolf_tier_three_traits",
+    "num_args": 0,
+    "return": "u_has_trait('WEREWOLF_PARTIAL_SHIFT') + u_has_trait('WEREWOLF_SILVER_CLAWS') + u_has_trait('WEREWOLF_MANA_BONUS_AFTER_KILL') + u_has_trait('WEREWOLF_STRENGTH_BONUS') + u_has_trait('WEREWOLF_BATTLE_FURY')"
+  },
+  {
+    "type": "jmath_function",
+    "id": "werewolf_tier_four_traits",
+    "num_args": 0,
+    "return": "u_has_trait('WEREWOLF_SUPER_FAST_REGENERATION') + u_has_trait('WEREWOLF_SUMMON_FOG') + u_has_trait('WEREWOLF_MOON_ARMOR')"
+  },
+  {
+    "type": "jmath_function",
+    "id": "werewolf_tier_five_traits",
+    "num_args": 0,
+    "return": "u_has_trait('WEREWOLF_TRANSFORM_INTO_PRIMAL_FORM') + u_has_trait('WEREWOLF_CLOSE_TEAR_IN_REALITY') + u_has_trait('WEREWOLF_WALK_THROUGH_WALLS') + u_has_trait('WEREWOLF_SUMMON_SHADOW_PACK')"
   }
 ]

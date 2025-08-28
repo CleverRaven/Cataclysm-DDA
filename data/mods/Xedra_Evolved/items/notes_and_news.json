@@ -19,24 +19,24 @@
     "type": "ITEM",
     "id": "green_postit_field_agent",
     "copy-from": "survnote",
-    "name": { "str": "post-it note" },
-    "description": "A bright green post-it note.",
+    "name": { "str": "green post-it note" },
+    "description": "A bright post-it note.",
     "snippet_category": "desk_postit_field_agent"
   },
   {
     "type": "ITEM",
     "id": "agent_postit_gray",
     "copy-from": "lab_postit_bio",
-    "name": { "str": "post-it note" },
-    "description": "A bright gray post-it note.",
+    "name": { "str": "gray post-it note" },
+    "description": "A bright post-it note.",
     "snippet_category": "agent_postit_gray"
   },
   {
     "type": "ITEM",
     "id": "agent_postit_migo",
     "copy-from": "lab_postit_bio",
-    "name": { "str": "post-it note" },
-    "description": "A bright pink post-it note.",
+    "name": { "str": "pink post-it note" },
+    "description": "A bright post-it note.",
     "snippet_category": "agent_postit_migo"
   },
   {

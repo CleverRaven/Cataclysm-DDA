@@ -6,7 +6,7 @@
     "eoc_type": "EVENT",
     "required_event": "game_start",
     "condition": { "u_has_trait": "LILIN_TRAITS" },
-    "effect": [ { "math": [ "u_vitamin('lilin_ruach_vitamin')", "+=", "rng(550,850) " ] } ]
+    "effect": [ { "math": [ "u_vitamin('lilin_ruach_vitamin') += rng(550,850) " ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -15,13 +15,13 @@
     "required_event": "game_start",
     "condition": { "u_has_any_trait": [ "IERDE", "UNDINE", "SALAMANDER", "SYLPH", "HOMULLUS", "ARVORE" ] },
     "effect": [
-      { "math": [ "u_vitamin('mutagen')", "+=", "550" ] },
-      { "if": { "u_has_trait": "IERDE" }, "then": { "math": [ "u_vitamin('mutagen_earthkin')", "+=", "550 " ] } },
-      { "if": { "u_has_trait": "UNDINE" }, "then": { "math": [ "u_vitamin('mutagen_waterkin')", "+=", "550 " ] } },
-      { "if": { "u_has_trait": "SALAMANDER" }, "then": { "math": [ "u_vitamin('mutagen_flamekin')", "+=", "550 " ] } },
-      { "if": { "u_has_trait": "SYLPH" }, "then": { "math": [ "u_vitamin('mutagen_airkin')", "+=", "550 " ] } },
-      { "if": { "u_has_trait": "HOMULLUS" }, "then": { "math": [ "u_vitamin('mutagen_dollkin')", "+=", "550 " ] } },
-      { "if": { "u_has_trait": "ARVORE" }, "then": { "math": [ "u_vitamin('mutagen_plantkin')", "+=", "550 " ] } }
+      { "math": [ "u_vitamin('mutagen') += 550" ] },
+      { "if": { "u_has_trait": "IERDE" }, "then": { "math": [ "u_vitamin('mutagen_earthkin') += 550 " ] } },
+      { "if": { "u_has_trait": "UNDINE" }, "then": { "math": [ "u_vitamin('mutagen_waterkin') += 550 " ] } },
+      { "if": { "u_has_trait": "SALAMANDER" }, "then": { "math": [ "u_vitamin('mutagen_flamekin') += 550 " ] } },
+      { "if": { "u_has_trait": "SYLPH" }, "then": { "math": [ "u_vitamin('mutagen_airkin') += 550 " ] } },
+      { "if": { "u_has_trait": "HOMULLUS" }, "then": { "math": [ "u_vitamin('mutagen_dollkin') += 550 " ] } },
+      { "if": { "u_has_trait": "ARVORE" }, "then": { "math": [ "u_vitamin('mutagen_plantkin') += 550 " ] } }
     ]
   },
   {
@@ -32,10 +32,10 @@
       {
         "if": { "not": { "u_has_effect": "effect_si_lilin_no_ruach_upgrades" } },
         "then": [
-          { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "240" ] },
-          { "math": [ "u_lilin_amount_of_ruach_spent_for_powers_increaser", "+=", "0.75" ] },
+          { "math": [ "u_vitamin('lilin_ruach_vitamin') -= 240" ] },
+          { "math": [ "u_lilin_amount_of_ruach_spent_for_powers_increaser += 0.75" ] },
           {
-            "math": [ "u_lilin_amount_of_ruach_spent_for_powers", "+=", "u_lilin_amount_of_ruach_spent_for_powers_increaser" ]
+            "math": [ "u_lilin_amount_of_ruach_spent_for_powers += u_lilin_amount_of_ruach_spent_for_powers_increaser" ]
           }
         ],
         "else": [
@@ -143,7 +143,25 @@
       { "u_remove_item_with": "upgradekey_bloodgift_research" },
       { "u_forget_recipe": "upgradekey_bloodgift_research" },
       { "u_learn_recipe": "xe_vampire_blood_gift_research" },
-      { "u_message": "You learn how to expand your blood gifts.", "type": "good" }
+      { "u_learn_recipe": "xe_vampire_blood_weaknesses_reshuffle" },
+      { "u_message": "You learn how to expand your blood gifts and reshuffle your weaknesses.", "type": "good" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UPDATE_KNOWN_RECIPES",
+    "eoc_type": "EVENT",
+    "required_event": "game_load",
+    "//": "If a player only has the learn recipe, they also gain the reshuffle.  They're always gained together and this will ensure those who update aren't locked out of reshuffling.",
+    "condition": {
+      "and": [
+        { "u_know_recipe": "xe_vampire_blood_gift_research" },
+        { "not": { "u_know_recipe": "xe_vampire_blood_weaknesses_reshuffle" } }
+      ]
+    },
+    "effect": [
+      { "u_learn_recipe": "xe_vampire_blood_weaknesses_reshuffle" },
+      { "u_message": "You can now reshuffle your weaknesses.", "type": "popup" }
     ]
   }
 ]

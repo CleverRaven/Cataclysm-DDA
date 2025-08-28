@@ -206,6 +206,10 @@
     "conflicts": [ "PARTIAL_DEAF" ]
   },
   {
+    "id": "DESTROY_ON_CHARGE_USE",
+    "type": "json_flag"
+  },
+  {
     "id": "OVERHEATS",
     "type": "json_flag",
     "info": "Continuously firing this weapon will cause it to <bad>overheat</bad> and <info>can potentially damage it</info>."
@@ -1208,6 +1212,22 @@
     "//": "Due to shapeshifting, the character is size Huge."
   },
   {
+    "id": "TEMPORARY_SHAPESHIFT_NO_HANDS",
+    "type": "json_flag",
+    "//": "Due to shapeshifting, the character lacks humanoid hands."
+  },
+  {
+    "id": "SHAPESHIFTED_ARMOR",
+    "type": "json_flag",
+    "//": "Used to tag armor that is part of the character's new form to apply other flags.",
+    "info": "This item is currently <good>part of your form</good> and <bad>will not protect you</bad>."
+  },
+  {
+    "id": "INTANGIBLE_ARMOR",
+    "type": "json_flag",
+    "//": "Prevents armor from protecting the character."
+  },
+  {
     "id": "NON_THRESH",
     "type": "json_flag",
     "//": "This mutation does not count toward thresholds at all."
@@ -1216,6 +1236,11 @@
     "id": "ROBUST_GENETIC",
     "type": "json_flag",
     "//": "Applies robust genetic bonus - mutations give only 1 unit of instability for all traits instead of 1 unit for your current tree, and 2 for any outer tree."
+  },
+  {
+    "id": "SKIP_HEALTH",
+    "type": "json_flag",
+    "//": "If food gives any health bonus or penalty, having this flag would prevent you from receiving such."
   },
   {
     "id": "HIDDEN_HALLU",
@@ -2363,6 +2388,11 @@
     "//": "Any item that can be an electronic file"
   },
   {
+    "id": "E_STORABLE_EXCLUSIVE",
+    "type": "json_flag",
+    "//": "Any item that can ONLY be an electronic file"
+  },
+  {
     "id": "E_COPIABLE",
     "type": "json_flag",
     "//": "Any item that can be electronically copied and scanned"
@@ -2505,6 +2535,16 @@
     "info": "You have nonhuman ancestry or are not human"
   },
   {
+    "id": "SUFFOCATION_IMMUNE",
+    "type": "json_flag",
+    "info": "You are immune to being crowd-crushed"
+  },
+  {
+    "id": "INHALED_TOXIN_IMMUNE",
+    "type": "json_flag",
+    "info": "You are immune to gaseous toxins"
+  },
+  {
     "id": "TREE_COMMUNION_PLUS",
     "type": "json_flag",
     "info": "You gain greatly enhanced effects from the Mycorrhizal Communion mutation"
@@ -2538,6 +2578,16 @@
     "id": "ANIMALEMPATH",
     "type": "json_flag",
     "info": "The character is liked by natural animals."
+  },
+  {
+    "id": "TRUE_SEEING",
+    "type": "json_flag",
+    "info": "The character can see through CAMOUFLAGE, NIGHT_INVISIBILITY, or the invisibility effect."
+  },
+  {
+    "id": "SUPPRESS_INVISIBILITY",
+    "type": "json_flag",
+    "info": "If you're invisible, now you're not"
   },
   {
     "id": "ANIMALEMPATH2",
@@ -2706,5 +2756,115 @@
     "id": "ONE_STORY_FALL",
     "type": "json_flag",
     "//": "When the character falls, the height is reduced by 1 Z level before calculating damage."
+  },
+  {
+    "id": "CYLINDER_GRENADE",
+    "type": "json_flag",
+    "//": "A flag for the large grenade bandolier to limit the type of grenades it will accept."
+  },
+  {
+    "id": "BARRICADABLE_DOOR_DAMAGED",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Damaged Barricadable Door"
+  },
+  {
+    "id": "BARRICADABLE_DOOR_REINFORCED_DAMAGED",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Damaged Barricadable Reinforced Door"
+  },
+  {
+    "id": "BARRICADABLE_DOOR_REINFORCED",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Barricadable Reinforced Door"
+  },
+  {
+    "id": "BARRICADABLE_DOOR",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Barricadable Door"
+  },
+  {
+    "id": "BARRICADABLE_WINDOW_CURTAINS",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Barricadable Window with Curtains"
+  },
+  {
+    "id": "BARRICADABLE_WINDOW",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Barricadable Window"
+  },
+  {
+    "id": "CHIP",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Chip",
+    "info": "A paint chipper can be used to remove paint from this."
+  },
+  {
+    "id": "DIGGABLE",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Diggable",
+    "info": "A hole can be dug here."
+  },
+  {
+    "id": "EASY_DECONSTRUCT",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Simple"
+  },
+  {
+    "id": "FLAT",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Flat"
+  },
+  {
+    "id": "PIT_FILLABLE",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Fillable pit"
+  },
+  {
+    "id": "PLOWABLE",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Plowable"
+  },
+  {
+    "id": "RUBBLE",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Rubble"
+  },
+  {
+    "id": "SUPPORTS_ROOF",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Supports roof",
+    "info": "A roof can be built above this without other support."
+  },
+  {
+    "id": "TREE",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Tree"
+  },
+  {
+    "id": "WALL",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Wall"
+  },
+  {
+    "id": "WIRED_WALL",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag used in Construction pre_flags field",
+    "name": "Wired Wall"
   }
 ]

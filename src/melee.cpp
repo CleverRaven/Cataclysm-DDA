@@ -49,7 +49,6 @@
 #include "itype.h"
 #include "line.h"
 #include "magic_enchantment.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -98,7 +97,10 @@ static const character_modifier_id
 character_modifier_melee_thrown_move_lift_mod( "melee_thrown_move_lift_mod" );
 
 static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_cold( "cold" );
 static const damage_type_id damage_cut( "cut" );
+static const damage_type_id damage_electric( "electric" );
+static const damage_type_id damage_heat( "heat" );
 static const damage_type_id damage_stab( "stab" );
 
 static const efftype_id effect_amigara( "amigara" );
@@ -412,6 +414,19 @@ float Character::hit_roll() const
         hit -= 2.0f;
     }
 
+    // Greatly impaired accuracy when in a vehicle.
+    // TODO: mitigating factors like "standing on top of a vehicle" instead of "in a vehicle".
+    map &here = get_map();
+    const optional_vpart_position vp_there = here.veh_at( pos_abs() );
+    if( vp_there ) {
+        hit -= 10;
+        vehicle &boarded_vehicle = vp_there->vehicle();
+        if( boarded_vehicle.player_in_control( here, *this ) ) {
+            hit -= 10;
+        }
+        hit -= std::abs( boarded_vehicle.forward_velocity() );
+    }
+
     hit *= get_modifier( character_modifier_melee_attack_roll_mod );
 
     return melee::melee_hit_range( hit );
@@ -668,6 +683,13 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
     const int skill_training_cap = t.is_monster() ? t.as_monster()->type->melee_training_cap :
                                    MAX_SKILL;
+    // Practice melee and relevant weapon skill (if any) except when using CQB bionic, if the creature is a hallucination, if the creature cannot move,
+    // if the creature cannot take damage, or if the monster has already trained someone an excessive number of times.
+    const bool can_train_melee = !has_active_bionic( bio_cqb ) &&
+                                 !t.is_hallucination() &&
+                                 !t.has_flag( json_flag_CANNOT_MOVE ) &&
+                                 !t.has_flag( json_flag_CANNOT_TAKE_DAMAGE ) &&
+                                 t.times_combatted_player <= 100;
     Character &player_character = get_player_character();
     if( !hits ) {
         int stumble_pen = stumble( *this, cur_weapon );
@@ -705,10 +727,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             }
         }
 
-        // Practice melee and relevant weapon skill (if any) except when using CQB bionic, if the creature is a hallucination, or if the creature cannot move and take damage.
-        if( !has_active_bionic( bio_cqb ) && !t.is_hallucination() &&
-            !( t.has_flag( json_flag_CANNOT_MOVE ) &&
-               t.has_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) ) {
+        if( can_train_melee ) {
+            t.times_combatted_player++;
             melee_train( *this, 2, std::min( 5, skill_training_cap ), cur_weap, attack_vector_id::NULL_ID() );
         }
 
@@ -887,10 +907,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             int dam = dealt_dam.total_damage();
             melee::melee_stats.damage_amount += dam;
 
-            // Practice melee and relevant weapon skill (if any) except when using CQB bionic, if the creature is a hallucination, or if the creature cannot move and take damage.
-            if( !has_active_bionic( bio_cqb ) && !t.is_hallucination() &&
-                !( t.has_flag( json_flag_CANNOT_MOVE ) &&
-                   t.has_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) ) {
+            if( can_train_melee ) {
+                t.times_combatted_player++;
                 melee_train( *this, 5, std::min( 10, skill_training_cap ), cur_weap, vector_id );
             }
 
@@ -1780,11 +1798,8 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
 
         for( const effect_on_condition_id &eoc : technique.eocs ) {
             dialogue d( get_talker_for( *this ), get_talker_for( t ) );
-            if( eoc->type == eoc_type::ACTIVATION ) {
-                eoc->activate( d );
-            } else {
-                debugmsg( "Must use an activation eoc for a technique activation.  If you don't want the effect_on_condition to happen on its own (without the technique being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this technique with its condition and effects, then have a recurring one queue it." );
-            }
+            eoc->activate_activation_only( d, "a technique activation", "technique being activated",
+                                           "technique" );
         }
     }
 
@@ -2134,7 +2149,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
             // electrical damage deals full damage if unarmed OR wielding a conductive weapon
             // non-electrical "elemental" damage types do their full damage if unarmed,
             // but severely mitigated damage if not
-            bool can_block = elem.type == STATIC( damage_type_id( "electric" ) ) ? !conductive_shield : true;
+            bool can_block = elem.type == damage_electric ? !conductive_shield : true;
             // Unarmed weapons won't block those
             if( item_blocking && can_block ) {
                 float previous_amount = elem.amount;
@@ -2239,7 +2254,7 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
     if( has_active_bionic( bio_shock ) && get_power_level() >= bio_shock->power_trigger &&
         ( weap.is_null() || weap.conductive() || weapon.conductive() ) ) {
         mod_power_level( -bio_shock->power_trigger );
-        d.add_damage( STATIC( damage_type_id( "electric" ) ), rng( 2, 10 ) );
+        d.add_damage( damage_electric, rng( 2, 10 ) );
 
         if( is_avatar() ) {
             dump += string_format( _( "You shock %s." ), target ) + "\n";
@@ -2250,7 +2265,7 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
 
     if( has_active_bionic( bio_heat_absorb ) && weap.is_null() && t.is_warm() ) {
         mod_power_level( bio_heat_absorb->power_trigger );
-        d.add_damage( STATIC( damage_type_id( "cold" ) ), 3 );
+        d.add_damage( damage_cold, 3 );
         if( is_avatar() ) {
             dump += string_format( _( "You drain %s's body heat." ), target ) + "\n";
         } else {
@@ -2259,7 +2274,7 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
     }
 
     if( weap.has_flag( flag_FLAMING ) ) {
-        d.add_damage( STATIC( damage_type_id( "heat" ) ), rng( 1, 8 ) );
+        d.add_damage( damage_heat, rng( 1, 8 ) );
 
         if( is_avatar() ) {
             dump += string_format( _( "You burn %s." ), target ) + "\n";
@@ -2708,37 +2723,72 @@ int Character::attack_speed( const item &weap ) const
     return std::round( move_cost );
 }
 
-double Character::weapon_value( const item &weap, int ammo ) const
+double Character::evaluate_weapon( const item &maybe_weapon, const bool pretend_have_ammo ) const
 {
-    if( is_wielding( weap ) || ( !get_wielded_item() && weap.is_null() ) ) {
+    bool can_use_gun = true;
+    bool use_silent = false;
+    const npc *me_as_npc = dynamic_cast<const npc *>( this );
+    if( me_as_npc ) {
+        if( me_as_npc->is_player_ally() && !me_as_npc->rules.has_flag( ally_rule::use_guns ) ) {
+            can_use_gun = false;
+        }
+        if( me_as_npc->is_player_ally() && me_as_npc->rules.has_flag( ally_rule::use_silent ) ) {
+            use_silent = true;
+        }
+    }
+    // ABSOLUTELY disgusting fake gun assembly for character creation
+    int pretend_ammo = 0;
+    if( pretend_have_ammo && maybe_weapon.is_gun() ) {
+        itype_id ammo_id = itype_id::NULL_ID();
+        if( maybe_weapon.ammo_default().is_null() ) {
+            ammo_id = item( maybe_weapon.magazine_default() ).ammo_default();
+        } else {
+            ammo_id = maybe_weapon.ammo_default();
+        }
+        const ammotype &type_of_ammo = item::find_type( ammo_id )->ammo->type;
+        if( maybe_weapon.magazine_integral() ) {
+            pretend_ammo = maybe_weapon.ammo_capacity( type_of_ammo );
+        } else {
+            pretend_ammo = item( maybe_weapon.magazine_default() ).ammo_capacity( type_of_ammo );
+        }
+    }
+    return evaluate_weapon_internal( maybe_weapon, can_use_gun, use_silent, pretend_ammo );
+}
+
+double Character::evaluate_weapon_internal( const item &maybe_weapon, bool can_use_gun,
+        bool use_silent, const int pretend_ammo ) const
+{
+    if( is_wielding( maybe_weapon ) || ( !get_wielded_item() && maybe_weapon.is_null() ) ) {
         auto cached_value = cached_info.find( "weapon_value" );
         if( cached_value != cached_info.end() ) {
             return cached_value->second;
         }
     }
-    double val_gun = gun_value( weap, ammo );
-    val_gun = val_gun /
-              5.0f; // This is an emergency patch to get melee and ranged in approximate parity, if you're looking at it in 2025 or later and it's still here... I'm sorry.  Kill it with fire.  Tear it all down, and rebuild a glorious castle from the ashes.
-    add_msg_debug( debugmode::DF_NPC_ITEMAI,
-                   "<color_magenta>weapon_value</color>%s %s valued at <color_light_cyan>%1.2f as a ranged weapon</color>.",
-                   disp_name( true ), weap.type->get_id().str(), val_gun );
-    double val_melee = melee_value( weap );
-    val_melee *=
-        val_melee; // Same emergency patch.  Same purple prose descriptors, you already saw them above.
-    add_msg_debug( debugmode::DF_NPC_ITEMAI,
-                   "%s %s valued at <color_light_cyan>%1.2f as a melee weapon</color>.", disp_name( true ),
-                   weap.type->get_id().str(), val_melee );
-    const double more = std::max( val_gun, val_melee );
-    const double less = std::min( val_gun, val_melee );
+    // Needed because evaluation includes electricity via linked cables.
+    const map &here = get_map();
 
-    // A small bonus for guns you can also use to hit stuff with (bayonets etc.)
-    const double my_val = more + ( less / 2.0 );
-    add_msg_debug( debugmode::DF_MELEE, "%s (%ld ammo) sum value: %.1f", weap.type->get_id().str(),
-                   ammo, my_val );
-    if( is_wielding( weap ) || ( !get_wielded_item() && weap.is_null() ) ) {
-        cached_info.emplace( "weapon_value", my_val );
+    bool allowed = can_use_gun && maybe_weapon.is_gun() && ( !use_silent || maybe_weapon.is_silent() );
+    // According to unmodified evaluation score, NPCs almost always prioritize wielding guns if they have one.
+    // This is relatively reasonable, as players can issue commands to NPCs when we do not want them to use ranged weapons.
+    // Conversely, we cannot directly issue commands when we want NPCs to prioritize ranged weapons.
+    // Note that the scoring method here is different from the 'weapon_value' used elsewhere.
+    double val_gun = allowed ? gun_value( maybe_weapon,
+                                          std::max( maybe_weapon.shots_remaining( here, this ), pretend_ammo )
+                                        ) : 0;
+    add_msg_debug( debugmode::DF_NPC_ITEMAI,
+                   "%s %s valued at <color_light_cyan>%1.2f as a ranged weapon to wield</color>.",
+                   disp_name( true ), maybe_weapon.type->get_id().str(), val_gun );
+    double val_melee = melee_value( maybe_weapon );
+    add_msg_debug( debugmode::DF_NPC_ITEMAI,
+                   "%s %s valued at <color_light_cyan>%1.2f as a melee weapon to wield</color>.", disp_name( true ),
+                   maybe_weapon.type->get_id().str(), val_melee );
+    double val = std::max( val_gun, val_melee );
+
+
+    if( is_wielding( maybe_weapon ) || ( !get_wielded_item() && maybe_weapon.is_null() ) ) {
+        cached_info.emplace( "weapon_value", val );
     }
-    return my_val;
+    return val;
 }
 
 double Character::melee_value( const item &weap ) const

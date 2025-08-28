@@ -9,6 +9,7 @@
     "purifiable": false,
     "valid": false,
     "cancels": [ "PSYCHIC_KNACK" ],
+    "flags": [ "ATTUNEMENT" ],
     "spells_learned": [
       [ "biokin_physical_enhance", 2 ],
       [ "biokin_overcome_pain", 2 ],
@@ -26,6 +27,7 @@
     "purifiable": false,
     "valid": false,
     "cancels": [ "PSYCHIC_KNACK" ],
+    "flags": [ "ATTUNEMENT" ],
     "spells_learned": [
       [ "clair_better_senses", 2 ],
       [ "clair_speed_reading", 2 ],
@@ -48,7 +50,8 @@
       [ "electrokinetic_shock_touch", 2 ],
       [ "classless_toggleable_concentration_end", 1 ],
       [ "classless_specific_concentration_end", 1 ]
-    ]
+    ],
+    "flags": [ "ATTUNEMENT" ]
   },
   {
     "type": "mutation",
@@ -60,7 +63,7 @@
     "purifiable": false,
     "valid": false,
     "cancels": [ "PSYCHIC_KNACK" ],
-    "flags": [ "PHOTOKINETIC" ],
+    "flags": [ "PHOTOKINETIC", "ATTUNEMENT" ],
     "spells_learned": [
       [ "photokinetic_create_light", 2 ],
       [ "photokinetic_light_local", 2 ],
@@ -78,6 +81,7 @@
     "purifiable": false,
     "valid": false,
     "cancels": [ "PSYCHIC_KNACK" ],
+    "flags": [ "ATTUNEMENT" ],
     "spells_learned": [
       [ "pyrokinetic_eruption", 2 ],
       [ "pyrokinetic_flash", 2 ],
@@ -95,6 +99,7 @@
     "purifiable": false,
     "valid": false,
     "cancels": [ "PSYCHIC_KNACK" ],
+    "flags": [ "ATTUNEMENT" ],
     "spells_learned": [
       [ "telepathic_concentration", 2 ],
       [ "telepathic_mind_sense", 2 ],
@@ -112,6 +117,7 @@
     "purifiable": false,
     "valid": false,
     "cancels": [ "PSYCHIC_KNACK" ],
+    "flags": [ "ATTUNEMENT" ],
     "spells_learned": [
       [ "telekinetic_pull", 2 ],
       [ "telekinetic_push", 2 ],
@@ -129,6 +135,7 @@
     "purifiable": false,
     "valid": false,
     "cancels": [ "PSYCHIC_KNACK" ],
+    "flags": [ "ATTUNEMENT" ],
     "spells_learned": [
       [ "teleport_blink", 2 ],
       [ "teleport_slow", 2 ],
@@ -146,6 +153,7 @@
     "purifiable": false,
     "valid": false,
     "cancels": [ "PSYCHIC_KNACK" ],
+    "flags": [ "ATTUNEMENT" ],
     "spells_learned": [
       [ "vita_slow_bleeding", 2 ],
       [ "vita_health_power", 2 ],
@@ -243,10 +251,10 @@
     "id": "FIFTH_SUN_PEOPLE",
     "name": { "str": "Fifth Sun People" },
     "points": 0,
-    "description": "You aren't from this universe and hopefully someday you can go home.  This is a hidden trait, used for dialogue.",
+    "description": "You were born in the Ēxcān Tlahtōlōyān, maybe on Tlalticpactli, perhaps even in Anáhuac, or maybe on one of the colony worlds like Demeter or Yathrib or Tài Suì.  You enlisted in the Imperial Navy for your own reasons.  Perhaps you are a scion of the Huey Calpulli following in your ancestors' footsteps, or perhaps you are one of the mācēhualtin seeking the social benefits of a completed tour of military service.  Regardless, now you are here, in the ashes of a dying world, and have to find a way to survive.",
     "valid": false,
-    "player_display": false,
-    "purifiable": false
+    "purifiable": false,
+    "flags": [ "HERITAGE" ]
   },
   {
     "type": "mutation",
@@ -326,9 +334,9 @@
   {
     "type": "mutation",
     "id": "PSI_EXTENDED_CHANNELING_active",
-    "name": { "str": "Extended Channeling Active" },
+    "name": { "str": "Extended Channeling Active", "//~": "NO_I18N" },
     "points": 0,
-    "description": "The active trait for Extended Channeling.  It's a bug if you can see it.",
+    "description": { "str": "The active trait for Extended Channeling.  It's a bug if you can see it.", "//~": "NO_I18N" },
     "valid": false,
     "player_display": false
   },
@@ -348,9 +356,9 @@
   {
     "type": "mutation",
     "id": "PSI_TORRENTIAL_CHANNELING_active",
-    "name": { "str": "Torrential Channeling Active" },
+    "name": { "str": "Torrential Channeling Active", "//~": "NO_I18N" },
     "points": 0,
-    "description": "The active trait for Torrential Channeling.  It's a bug if you can see it.",
+    "description": { "str": "The active trait for Torrential Channeling.  It's a bug if you can see it.", "//~": "NO_I18N" },
     "valid": false,
     "player_display": false
   }

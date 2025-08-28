@@ -27,7 +27,6 @@
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
@@ -45,6 +44,8 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "type_id.h"
+
+static const flag_id json_flag_PSEUDO( "PSEUDO" );
 
 static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 
@@ -132,6 +133,7 @@ basecamp_map &basecamp_map::operator=( const basecamp_map & )
 basecamp::basecamp( const std::string &name_, const tripoint_abs_omt &omt_pos_ ): name( name_ ),
     omt_pos( omt_pos_ )
 {
+    parse_tags( name, get_player_character(), get_player_character() );
 }
 
 basecamp::basecamp( const std::string &name_, const tripoint_abs_ms &bb_pos_,
@@ -139,6 +141,7 @@ basecamp::basecamp( const std::string &name_, const tripoint_abs_ms &bb_pos_,
                     const std::map<point_rel_omt, expansion_data> &expansions_ )
     : directions( directions_ ), name( name_ ), bb_pos( bb_pos_ ), expansions( expansions_ )
 {
+    parse_tags( name, get_player_character(), get_player_character() );
 }
 
 std::string basecamp::board_name() const
@@ -637,6 +640,10 @@ bool basecamp::is_hidden( ui_mission_id id )
         return false;
     }
 
+    if( !id.id.dir ) {
+        return false;
+    }
+
     const base_camps::direction_data &base_data = base_camps::all_directions.at( id.id.dir.value() );
     for( ui_mission_id &miss_id : hidden_missions[size_t( base_data.tab_order )] ) {
         if( is_equal( miss_id, id ) ) {
@@ -689,6 +696,7 @@ void basecamp::query_new_name( bool force )
 void basecamp::set_name( const std::string &new_name )
 {
     name = new_name;
+    parse_tags( name, get_player_character(), get_player_character() );
 }
 
 /*
@@ -801,7 +809,7 @@ void basecamp::form_crafting_inventory( map &target_map )
     for( basecamp_resource &bcp_r : resources ) {
         bcp_r.consumed = 0;
         item camp_item( bcp_r.fake_id, calendar::turn_zero );
-        camp_item.set_flag( STATIC( flag_id( "PSEUDO" ) ) );
+        camp_item.set_flag( json_flag_PSEUDO );
         if( !bcp_r.ammo_id.is_null() ) {
             for( basecamp_fuel &bcp_f : fuels ) {
                 if( bcp_f.ammo_id == bcp_r.ammo_id ) {
@@ -905,7 +913,7 @@ void basecamp::handle_takeover_by( faction_id new_owner, bool violent_takeover )
         if( checked_camp->get_owner() == get_owner() ) {
             add_msg_debug( debugmode::DF_CAMPS,
                            "Camp %s at %s is owned by %s, adding it to plunder calculations.",
-                           checked_camp->name, checked_camp->camp_omt_pos().to_string_writable(), get_owner()->name );
+                           checked_camp->camp_name(), checked_camp->camp_omt_pos().to_string_writable(), get_owner()->name );
             num_of_owned_camps++;
         }
     }
@@ -962,7 +970,8 @@ std::string basecamp::expansion_tab( const point_rel_omt &dir ) const
         recipe_id id( base_camps::faction_encode_abs( e->second, 0 ) );
         const auto e_type = expansion_types.find( id );
         if( e_type != expansion_types.end() ) {
-            return e_type->second + _( "Expansion" );
+            //~ A particular faction camp / basecamp expansion
+            return string_format( _( "%s Expansion" ), e_type->second );
         }
     }
     return _( "Empty Expansion" );

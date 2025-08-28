@@ -464,7 +464,7 @@
     "responses": [ { "text": "OK, let's get to work.", "topic": "TALK_DONE" } ],
     "speaker_effect": {
       "effect": [
-        { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "+=", "3" ] },
+        { "math": [ "u_mission_cleanup_promises_Boris_mission_1 += 3" ] },
         { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "300 minutes" },
         { "npc_add_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" }
       ]
@@ -480,7 +480,7 @@
     "responses": [ { "text": "OK, let's get to work.", "topic": "TALK_DONE" } ],
     "speaker_effect": {
       "effect": [
-        { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "+=", "2" ] },
+        { "math": [ "u_mission_cleanup_promises_Boris_mission_1 += 2" ] },
         { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "240 minutes" },
         { "npc_add_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" }
       ]
@@ -530,7 +530,7 @@
         { "u_add_var": "mission_completed_Boris_mission_1", "value": "yes" },
         { "npc_first_topic": "TALK_REFUGEE_Boris_1b" },
         { "u_add_var": "proven_worth_to_old_guard_representative", "value": "yes" },
-        { "math": [ "u_counter_refugee_center_refugee_happiness", "+=", "3" ] },
+        { "math": [ "u_counter_refugee_center_refugee_happiness += 3" ] },
         { "mapgen_update": "boris_cleanup_garage", "om_terrain": "evac_center_8" },
         { "mapgen_update": "boris_cleanup_back_bay", "om_terrain": "evac_center_9" }
       ]
@@ -563,7 +563,7 @@
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 5 },
         { "u_add_var": "mission_completed_Boris_mission_2", "value": "yes" },
-        { "math": [ "u_counter_refugee_center_refugee_happiness", "+=", "2" ] }
+        { "math": [ "u_counter_refugee_center_refugee_happiness += 2" ] }
       ]
     },
     "//": "TK add update mapgen."
@@ -580,13 +580,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "start": {
-      "assign_mission_target": {
-        "om_terrain": "shelter_2_vandal",
-        "om_special": "Evac Shelter Vandalized 3",
-        "reveal_radius": 1,
-        "random": true,
-        "search_range": 120
-      },
+      "assign_mission_target": { "om_terrain": "shelter", "om_special": "Evac Shelter", "reveal_radius": 1, "random": true, "search_range": 120 },
       "update_mapgen": { "place_item": [ { "item": "laptop_boris", "x": 15, "y": 12 }, { "item": "mbag", "x": 15, "y": 12 } ] }
     },
     "dialogue": {
@@ -604,7 +598,7 @@
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 5 },
         { "u_add_var": "mission_completed_Boris_mission_3", "value": "yes" },
-        { "math": [ "u_counter_refugee_center_refugee_happiness", "+=", "2" ] }
+        { "math": [ "u_counter_refugee_center_refugee_happiness += 2" ] }
       ]
     }
   },

@@ -4,7 +4,7 @@ Use the `Home` key to return to the top.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**
+*Contents*
 
 - [Introduction](#introduction)
   - [Overall structure](#overall-structure)
@@ -893,7 +893,7 @@ Each turn, the player's addictions are processed using either the given `effect_
     "effect": [
       { "u_add_morale": "morale_craving_marloss", "bonus": -5, "max_bonus": -30 },
       { "u_message": "You daydream about luscious pink berries as big as your fist.", "type": "info" },
-      { "if": { "math": [ "u_val('focus') > 40" ] }, "then": { "math": [ "u_val('focus')", "--" ] } }
+      { "if": { "math": [ "u_val('focus') > 40" ] }, "then": { "math": [ "u_val('focus')--" ] } }
     ]
   },
 ```
@@ -1636,7 +1636,7 @@ Fault fixes are methods to fix faults, the fixes can optionally add other faults
   "requirements": [ [ "gun_cleaning", 1 ] ], // requirements array, see below
   "mod_damage": 1000, // damage to modify on item when fix is applied, can be negative to repair
   "mod_degradation": 50, // degradation to modify on item when fix is applied, can be negative to reduce degradation
-  "time_save_profs": { "prof_gun_cleaning": 0.5 }, // this prof change how fast you fix the item
+  "time_save_profs": { "prof_gun_cleaning": 0.5, "prof_welding": 0.5, }, // those proficiencies change how fast you fix the item
   "time_save_flags": { "EASY_CLEAN": 0.5 } // This flag on the item change how fast you fix this item
 }
 ```
@@ -1936,6 +1936,7 @@ The following properties (mandatory, except if noted otherwise) are supported:
     "points": 0,                                               // Point cost of profession. Positive values cost points and negative values grant points. Has no effect as of 0.G
     "starting_cash": 500000,                                   // (optional) Int value for the starting bank balance.
     "npc_background": "BG_survival_story_LAB",                 // (optional) BG_trait_group ID, provides list of background stories. (see BG_trait_groups.json)
+	"chargen_allow_npc": false,                                // (optional) when false, removes this profession as an option for generated NPCs (default: true)
     "addictions": [ { "intensity": 10, "type": "nicotine" } ], // (optional) Array of addictions. Requires "type" as the string ID of the addiction (see JSON_FLAGS.md) and "intensity"
     "skills": [ { "name": "archery", "level": 2 } ],           // (optional) Array of starting skills. Requires "name" as the string ID of the skill (see skills.json) and "level", which is a value added to the skill level after character creation
     "missions": [ "MISSION_LAST_DELIVERY" ],                   // (optional) Array of starting mission IDs
@@ -1964,7 +1965,7 @@ The following properties (mandatory, except if noted otherwise) are supported:
     "flags": [ "SCEN_ONLY", "NO_BONUS_ITEMS" ],                // (optional) Array of flags applied to the character, for character creation purposes
     "CBMs": [ "bio_fuel_cell_blood" ],                         // (optional) Array of starting implanted CMBs
     "traits": [ "PROF_CHURL", "ILLITERATE" ],                  // (optional) Array of starting traits/mutations. For further information, see mutations.json and MUTATIONS.md. Note: "trait" is also supported, used for a single trait/mutation ID (legacy!)
-    "requirement": "achievement_survive_28_days",              // (optional) String of an achievement ID required to unlock this profession
+    "requirement": "achievement_survive_28_days",              // (optional) String or Array of String of achievement ID(s) required to unlock this profession
     "hard_requirement": true,                                  // (optional) Defaults false. Whether or not the requirement ignores the metaprogression setting and is always required. Intended for use by mods.
     "effect_on_conditions": [ "scenario_assassin_conv" ],      // (optional) eoc id, inline eoc, or multiple of them, that would run when scenario starts
     "spells": [                                                // (optional) Array of starting spell IDs the character knows upon creation. For further information, see MAGIC.md
@@ -2074,7 +2075,7 @@ The array of hobbies (listed as professions) is whitelisted to all characters.  
 "components": [ [ [ "spear_wood", 4 ], [ "pointy_stick", 4 ] ] ],   // Items used in construction
 "pre_special": [ "check_empty", "check_up_OK" ],                    // Required something that isn't terrain. The syntax also allows for a square bracket enclosed list of specials which all have to be fulfilled
 "pre_terrain": "t_pit",                                             // Alternative to pre_special; Required terrain to build on
-"pre_flags": [ "WALL", { "flag": "DIGGABLE", "force_terrain": true } ], // Flags beginning furniture/terrain must have. force_ter forces the flag to apply to the underlying terrain
+"pre_flags": [ "WALL", { "flag": "DIGGABLE", "force_terrain": true } ], // Flags beginning furniture/terrain must have. force_ter forces the flag to apply to the underlying terrain. Must be defined in flags.json
 "post_terrain": "t_pit_spiked",                                     // Terrain type after construction is complete
 "post_special": "done_mine_upstairs",                               // Required to do something beyond setting the post terrain. The syntax also allows for a square bracket enclosed list of specials which all have to be fulfilled
 "pre_note": "Build a spikes on a diggable terrain",                 // Create an annotation to this recipe
@@ -2159,9 +2160,11 @@ specification for it in `event.h`:
 
 <!-- {% raw %} -->
 ```cpp
+using event_field = std::pair<const char *, cata_variant_type>;
+//...
 template<>
 struct event_spec<event_type::gains_skill_level> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 3> fields = {{
+    static constexpr std::array<event_field, 3> fields = {{
             { "character", cata_variant_type::character_id },
             { "skill", cata_variant_type::skill_id },
             { "new_level", cata_variant_type::int_ },
@@ -3148,33 +3151,13 @@ Harvest drop types are used in harvest drop entries to control how the drop is p
 
 Connect groups can be used by id in terrain and furniture `connect_groups`, `connects_to` and `rotates_to` properties.
 
-Examples from the actual definitions:
-
-**`group_flags`**: Flags that imply that terrain or furniture is added to this group.
-
-**`connects_to_flags`**: Flags that imply that terrain or furniture connects to this group.
-
-**`rotates_to_flags`**: Flags that imply that terrain or furniture rotates to this group.
+Example
 
 ```jsonc
-[
   {
     "type": "connect_group",
-    "id": "WALL",
-    "group_flags": [ "WALL", "CONNECT_WITH_WALL" ],
-    "connects_to_flags": [ "WALL", "CONNECT_WITH_WALL" ]
-  },
-  {
-    "type": "connect_group",
-    "id": "CHAINFENCE"
-  },
-  {
-    "type": "connect_group",
-    "id": "INDOORFLOOR",
-    "group_flags": [ "INDOORS" ],
-    "rotates_to_flags": [ "WINDOW", "DOOR" ]
+    "id": "WALL"
   }
-]
 ```
 
 ### Furniture
@@ -3691,8 +3674,6 @@ MARBLEFLOOR          BEACH_FORMATIONS
 GRAVELPILE           LIXATUBE
 ```
 
-`WALL` is implied by the flags `WALL` and `CONNECT_WITH_WALL`.
-`INDOORFLOOR` is implied by the flag `INDOORS`.
 Implicit groups can be removed be using tilde `~` as prefix of the group name.
 
 #### `connects_to`
@@ -3807,7 +3788,7 @@ Defines the various things that happen when the player or something else bashes 
     "destroy_only": true,
     "bash_below": true,
     "tent_centers": ["f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet"],
-    "items": "bashed_item_result_group"
+    "items": "bashed_item_result_group" // if terrain or furniture uses `item`, you can omit this field, the game would pick the bash from item uncraft recipe, with some items bashed down to it's components. Alternatively, the game would pick it from the item deconstruction, with, again, some items bashed down to it's components.
 }
 ```
 
@@ -3857,7 +3838,7 @@ This terrain is the roof of the tile below it, try to destroy that too. Further 
     "furn_set": "f_safe",
     "ter_set": "t_dirt",
     "skill": { "skill": "electronics", "multiplier": 0.5, "min": 1, "max": 8 },
-    "items": "deconstructed_item_result_group"
+    "items": "deconstructed_item_result_group" // if terrain or furniture uses `item`, you can omit this field, the game would then assign the base item to drop for deconstruction
 }
 ```
 

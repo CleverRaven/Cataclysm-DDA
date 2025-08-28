@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <array>
 #include <memory>
-#include <system_error>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -44,6 +43,22 @@ bool zzip_stack::add_file( std::filesystem::path const &zzip_relative_path,
     return ret;
 }
 
+bool zzip_stack::copy_files_to( std::vector<std::filesystem::path> const &zzip_relative_paths,
+                                std::shared_ptr<zzip> const &to )
+{
+    std::unordered_map<file_temp, std::vector<std::filesystem::path>> temp_to_paths;
+    for( std::filesystem::path const &zzip_relative_path : zzip_relative_paths ) {
+        file_temp temp = temp_of_file( zzip_relative_path );
+        if( temp == file_temp::unknown ) {
+            continue;
+        }
+        temp_to_paths[temp].emplace_back( zzip_relative_path );
+    }
+    return to->copy_files( temp_to_paths[file_temp::cold], cold() ) &&
+           to->copy_files( temp_to_paths[file_temp::warm], warm() ) &&
+           to->copy_files( temp_to_paths[file_temp::hot], hot() );
+}
+
 bool zzip_stack::has_file( std::filesystem::path const &zzip_relative_path ) const
 {
     return temp_of_file( zzip_relative_path ) != file_temp::unknown;
@@ -56,6 +71,19 @@ size_t zzip_stack::get_file_size( std::filesystem::path const &zzip_relative_pat
         return 0;
     }
     return zzip_of_temp( temp )->get_file_size( zzip_relative_path );
+}
+
+std::vector<std::filesystem::path> zzip_stack::get_entries() const
+{
+    std::vector<std::filesystem::path> entries;
+    cold();
+    warm();
+    hot();
+    entries.reserve( path_temp_map_.size() );
+    for( const auto& [entry_path, temp] : path_temp_map_ ) {
+        entries.emplace_back( entry_path );
+    }
+    return entries;
 }
 
 std::vector<std::byte> zzip_stack::get_file( std::filesystem::path const &zzip_relative_path ) const
@@ -190,38 +218,24 @@ bool zzip_stack::compact( double bloat_factor )
                 files_to_demote.emplace_back( entry );
             }
         }
-        cold_->copy_files( files_to_demote, warm_ );
-        std::filesystem::path warm_path = warm_->get_path();
-        warm_.reset();
-        std::error_code ec;
-        size_t attempts = 0;
-        do {
-            std::filesystem::remove( warm_path, ec );
-        } while( ec && ++attempts < 3 );
-        if( ec ) {
+        if( !( cold_->copy_files( files_to_demote, warm_ ) && warm_->clear() ) ) {
             return false;
         }
-        // Recreate an empty zzip to copy entries from hot.
-        warm();
-        files_to_demote.clear();
+        for( std::filesystem::path const &entry : files_to_demote ) {
+            path_temp_map_[entry] = file_temp::cold;
+        }
     }
 
     // Then copy hot to warm.
     if( hot_->get_content_size() > warm_hot_max_size ) {
         // Definitionally, all hot files are the most recent versions.
-        warm_->copy_files( hot_->get_entries(), hot_ );
-        std::filesystem::path hot_path = hot_->get_path();
-        hot_.reset();
-        std::error_code ec;
-        size_t attempts = 0;
-        do {
-            std::filesystem::remove( hot_path, ec );
-        } while( ec && ++attempts < 3 );
-        if( ec ) {
+        files_to_demote = hot_->get_entries();
+        if( !( warm_->copy_files( files_to_demote, hot_ ) && hot_->clear() ) ) {
             return false;
         }
-        // Recreate an empty zzip to copy entries from hot.
-        hot();
+        for( std::filesystem::path const &entry : files_to_demote ) {
+            path_temp_map_[entry] = file_temp::warm;
+        }
     }
 
     // Finally normal compact on cold.

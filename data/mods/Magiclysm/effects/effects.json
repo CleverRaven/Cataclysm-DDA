@@ -400,7 +400,8 @@
     "remove_message": "The clouds of dust around you die down",
     "rating": "good",
     "max_duration": 2400,
-    "enchantments": [ "ench_shape_of_dust" ]
+    "enchantments": [ "ench_shape_of_dust" ],
+    "flags": [ "INVISIBLE" ]
   },
   {
     "type": "effect_type",
@@ -1857,6 +1858,19 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_feral_druid_thornskin",
+    "name": [ { "str": "Thornskin" } ],
+    "desc": [ { "str": "You are a feral druid with the Thornskin spell on." } ],
+    "show_in_info": true,
+    "enchantments": [
+      {
+        "hit_me_effect": [ { "id": "druid_thorn_skin_attacked", "hit_self": false, "once_in": 2 } ],
+        "incoming_damage_mod": [ { "type": "bash", "multiply": -0.2 }, { "type": "cut", "multiply": -0.1 }, { "type": "stab", "multiply": -0.2 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_feral_stormshaper_stormhammer",
     "name": [ { "str": "Wielding Stormhammer", "//~": "NO_I18N" } ],
     "desc": [ { "str": "You are a monster wielding a stormhammer, as this effect indicates.", "//~": "NO_I18N" } ],
@@ -2196,7 +2210,8 @@
       "effect_feral_technomancer_bless",
       "enchant_windrun_monster",
       "effect_feral_animist_guardian_spirit",
-      "effect_feral_animist_inner_voice"
+      "effect_feral_animist_inner_voice",
+      "effect_feral_druid_thornskin"
     ]
   },
   {
@@ -2338,6 +2353,13 @@
     "desc": [ "" ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 20 } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_magiclysm_craft_in_darkness",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "CRAFT_IN_DARKNESS" ]
   },
   {
     "type": "effect_type",

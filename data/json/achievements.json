@@ -2326,7 +2326,7 @@
   {
     "id": "achievement_reach_LIXA",
     "type": "achievement",
-    "name": "Brilliant!",
+    "name": "She Blinded Me… With SCIENCE!",
     "requirements": [
       {
         "event_statistic": "num_avatar_enters_LIXA",
@@ -2336,5 +2336,13 @@
         "description": "Reach a research lab"
       }
     ]
+  },
+  {
+    "id": "achievement_LIXA_finale",
+    "type": "achievement",
+    "name": { "str": "Trigintaduonion" },
+    "manually_given": true,
+    "description": "Defeat a being from a higher dimension, and free the damned souls trapped inside",
+    "requirements": [  ]
   }
 ]

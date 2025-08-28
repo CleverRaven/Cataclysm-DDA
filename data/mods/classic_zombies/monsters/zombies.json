@@ -1,0 +1,81 @@
+[
+  {
+    "id": "mon_zombie",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie",
+    "extend": {
+      "special_attacks": [
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "zombie_drag_down",
+          "cooldown": 15,
+          "accuracy": 5,
+          "move_cost": 100,
+          "dodgeable": true,
+          "blockable": false,
+          "condition": {
+            "and": [
+              {
+                "or": [
+                  { "npc_has_effect": "grabbed", "bodypart": "arm_r" },
+                  { "npc_has_effect": "grabbed", "bodypart": "arm_l" },
+                  { "npc_has_effect": "grabbed", "bodypart": "head" },
+                  { "npc_has_effect": "grabbed", "bodypart": "torso" },
+                  { "npc_has_effect": "grabbed", "bodypart": "leg_l" },
+                  { "npc_has_effect": "grabbed", "bodypart": "leg_r" }
+                ]
+              },
+              { "math": [ "n_mon_species_nearby('ZOMBIE', 'radius': 1) >= 3" ] },
+              { "not": { "npc_has_effect": "downed" } }
+            ]
+          },
+          "damage_max_instance": [ { "damage_type": "bash", "amount": 0 } ],
+          "effects": [ { "id": "downed", "duration": 3 } ],
+          "effects_require_dmg": false,
+          "hit_dmg_u": "%1$s drags you down to the ground!",
+          "hit_dmg_npc": "%1$s drags <npcname> down to the ground!",
+          "no_dmg_msg_u": "%1$s drags you down to the ground!",
+          "no_dmg_msg_npc": "%1$s drags <npcname> down to the ground!",
+          "miss_msg_u": "",
+          "miss_msg_npc": ""
+        },
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "zombie_pile_on",
+          "cooldown": 15,
+          "accuracy": 5,
+          "move_cost": 100,
+          "dodgeable": true,
+          "blockable": false,
+          "condition": {
+            "and": [
+              {
+                "or": [
+                  { "npc_has_effect": "grabbed", "bodypart": "arm_r" },
+                  { "npc_has_effect": "grabbed", "bodypart": "arm_l" },
+                  { "npc_has_effect": "grabbed", "bodypart": "head" },
+                  { "npc_has_effect": "grabbed", "bodypart": "torso" },
+                  { "npc_has_effect": "grabbed", "bodypart": "leg_l" },
+                  { "npc_has_effect": "grabbed", "bodypart": "leg_r" }
+                ]
+              },
+              { "npc_has_effect": "downed" }
+            ]
+          },
+          "damage_max_instance": [ { "damage_type": "bash", "amount": 0 } ],
+          "effects": [ { "id": "downed", "duration": 3 }, { "id": "effect_zombie_pile_on", "duration": 10 } ],
+          "self_effects_always": [ { "id": "downed", "duration": 3 } ],
+          "effects_require_dmg": false,
+          "hit_dmg_u": "%1$s piles on while you're down!",
+          "hit_dmg_npc": "%1$s piles on <npcname> while they're down!",
+          "no_dmg_msg_u": "%1$s piles on while you're down!",
+          "no_dmg_msg_npc": "%1$s piles on <npcname> while they're down!",
+          "miss_msg_u": "",
+          "miss_msg_npc": ""
+        }
+      ]
+    }
+  }
+]

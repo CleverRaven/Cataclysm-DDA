@@ -505,7 +505,8 @@
     "purifiable": false,
     "valid": false,
     "visibility": 7,
-    "ugliness": 6
+    "ugliness": 6,
+    "enchantments": [ { "ench_effects": [ { "effect": "effect_dhampir_corpselike_pallor_pale", "intensity": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -558,7 +559,27 @@
     "vitamin_rates": [ [ "human_blood_vitamin", 720 ], [ "mutagen", 300 ] ],
     "no_empathize_with": [ "HUMAN" ],
     "flags": [ "CANNIBAL", "HEMOVORE" ],
-    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ]
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ],
+    "//": "Unless you attack them or are the ultimate vampire killer, vampires and renfields won't attack you as your blood holds no interest for them.",
+    "enchantments": [
+      {
+        "condition": {
+          "not": { "or": [ { "u_has_effect": "vampire_attacked_vampire_or_renfield" }, { "u_has_trait": "VAMPIRE_ANATHEMA" } ] }
+        },
+        "mutations": [ "VAMPIRE_TRUCE" ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_TRUCE",
+    "name": { "str": "Vampire's Truce", "//~": "NO_I18N" },
+    "description": { "str": "The hidden trait that makes other vampires not attack you first.  It should be hidden.", "//~": "NO_I18N" },
+    "points": 1,
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "ignored_by": [ "VAMPIRE", "RENFIELD" ]
   },
   {
     "type": "mutation",
@@ -691,7 +712,46 @@
     "name": { "str": "Predator's Senses" },
     "description": "Your senses are heightened, allowing you to see more clearly, hear even tiny sounds, and smell nearby fresh human blood.",
     "spells_learned": [ [ "vampire_smell_nearby_blood_spell", 1 ] ],
-    "enchantments": [ "ench_vampire_heightened_senses_hearing", "ench_vampire_heightened_senses_perception" ]
+    "enchantments": [
+      "ench_vampire_heightened_senses_hearing",
+      "ench_vampire_heightened_senses_perception",
+      {
+        "special_vision": [
+          {
+            "condition": {
+              "and": [
+                { "math": [ "vampire_total_tier_three_traits() >= 1" ] },
+                { "math": [ "u_val('perception') >= 16" ] },
+                {
+                  "or": [
+                    { "npc_has_effect": "bleed" },
+                    {
+                      "and": [
+                        "npc_is_character",
+                        {
+                          "or": [
+                            { "npc_has_effect": "bleed", "bodypart": "head" },
+                            { "npc_has_effect": "bleed", "bodypart": "torso" },
+                            { "npc_has_effect": "bleed", "bodypart": "arm_l" },
+                            { "npc_has_effect": "bleed", "bodypart": "arm_r" },
+                            { "npc_has_effect": "bleed", "bodypart": "leg_l" },
+                            { "npc_has_effect": "bleed", "bodypart": "leg_r" }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "distance": { "math": [ "u_val('perception') * 2" ] },
+            "descriptions": [
+              { "id": "infrared_creature_medium", "symbol": "?", "color": "c_red", "text": "You can smell something bleeding here." }
+            ]
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -1113,14 +1173,14 @@
     "purifiable": false,
     "valid": false,
     "flags": [ "CANNIBAL", "SUNBURN", "DAYFEAR", "HEMOVORE", "MEND_ALL" ],
-    "anger_relations": [ [ "VAMPIRE", -95 ], [ "RENFIELD", -95 ] ],
     "enchantments": [
       {
         "values": [
           { "value": "STAMINA_REGEN_MOD", "add": 0.5 },
           { "value": "METABOLISM", "multiply": -0.5 },
           { "value": "DISINFECTANT_BONUS", "multiply": -1 },
-          { "value": "BANDAGE_BONUS", "multiply": -1 }
+          { "value": "BANDAGE_BONUS", "multiply": -1 },
+          { "value": "REGEN_MANA", "multiply": -50 }
         ]
       },
       {
@@ -1156,6 +1216,12 @@
           { "value": "REGEN_HP", "multiply": { "math": [ "19 + ((u_vitamin('human_blood_vitamin') - 4400 ) / 600)" ] } },
           { "value": "REGEN_HP_AWAKE", "multiply": 1 },
           { "value": "MENDING_MODIFIER", "multiply": 12 }
+        ]
+      },
+      {
+        "ench_effects": [
+          { "effect": "effect_vampire_immune_to_classic_zombification", "intensity": 1 },
+          { "effect": "effect_dhampir_corpselike_pallor_pale", "intensity": 1 }
         ]
       }
     ]
@@ -1201,9 +1267,8 @@
     "valid": false,
     "name": { "str": "Facultative Breathing" },
     "description": "You do not need to breathe air to live anymore.  It prevents you from being drowned or suffocated and allows you to ignore inhaled gases.",
-    "flags": [ "GILLS" ],
-    "cancels": [ "ASTHMA" ],
-    "integrated_armor": [ "integrated_nobreathe" ]
+    "flags": [ "GILLS", "SUFFOCATION_IMMUNE", "INHALED_TOXIN_IMMUNE" ],
+    "cancels": [ "ASTHMA" ]
   },
   {
     "type": "mutation",
@@ -1256,8 +1321,16 @@
           { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 }
         ],
         "mutations": [ "ECHOLOCATION" ],
-        "ench_effects": [ { "effect": "effect_vampire_bat_form_levitation", "intensity": 1 } ],
         "skills": [ { "value": "dodge", "add": 8 } ]
+      },
+      {
+        "condition": {
+          "and": [
+            { "not": { "u_has_effect": "disabled", "bodypart": "arm_l" } },
+            { "not": { "u_has_effect": "disabled", "bodypart": "arm_r" } }
+          ]
+        },
+        "ench_effects": [ { "effect": "effect_vampire_bat_form_levitation", "intensity": 1 } ]
       },
       {
         "condition": "u_has_weapon",
@@ -1265,7 +1338,7 @@
       },
       { "condition": { "u_is_on_terrain": "t_open_air" }, "values": [ { "value": "MOVE_COST", "multiply": -0.6 } ] }
     ],
-    "flags": [ "DRACULIN_VENOM", "LEVITATION", "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_TINY" ],
+    "flags": [ "DRACULIN_VENOM", "LEVITATION", "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_TINY", "TEMPORARY_SHAPESHIFT_NO_HANDS" ],
     "override_look": { "id": "mon_bat", "tile_category": "monster" }
   },
   {
@@ -1319,7 +1392,7 @@
         "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
       }
     ],
-    "flags": [ "MUTE", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT" ],
+    "flags": [ "MUTE", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT", "TEMPORARY_SHAPESHIFT_NO_HANDS" ],
     "override_look": { "id": "mon_wolf", "tile_category": "monster" }
   },
   {
@@ -1503,7 +1576,7 @@
     "player_display": false,
     "purifiable": false,
     "valid": false,
-    "anger_relations": [ [ "VAMPIRE", -150 ], [ "RENFIELD", -150 ] ],
+    "ignored_by": [ "VAMPIRE", "RENFIELD" ],
     "enchantments": [
       {
         "condition": "ALWAYS",
@@ -1709,7 +1782,7 @@
     "id": "VAMPIRE_INSTANT_BLEED",
     "name": { "str": "Claim the Crimson Wine" },
     "points": 5,
-    "description": "You can now attract the blood within a corpse's veins, extracting it all in a second through a small cut.  In addition, you can create temporary blood containers by spending mana.",
+    "description": "You can now attract the blood within a corpse's veins, extracting it all in a second through a small cut.  In addition, you can create temporary blood containers out of some of your stolen blood.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -2099,6 +2172,25 @@
     "purifiable": false,
     "valid": false,
     "profession": true,
-    "types": [ "HERITAGE" ]
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ],
+    "types": [ "HERITAGE" ],
+    "chargen_allow_npc": false
+  },
+  {
+    "type": "mutation",
+    "id": "XE_FACTION_CAMP_BROWNIE_BLESSING",
+    "name": { "str": "Brownie's Blessing", "//~": "NO_I18N" },
+    "points": 1,
+    "description": { "str": "You are blessed by a brownie.  This should not be visible.", "//~": "NO_I18N" },
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "chargen_allow_npc": false,
+    "enchantments": [
+      {
+        "condition": { "u_at_om_location": "FACTION_CAMP_ANY" },
+        "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.02 } ]
+      }
+    ]
   }
 ]

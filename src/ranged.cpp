@@ -99,6 +99,7 @@ static const ammo_effect_str_id ammo_effect_HEAVY_HIT( "HEAVY_HIT" );
 static const ammo_effect_str_id ammo_effect_IGNITE( "IGNITE" );
 static const ammo_effect_str_id ammo_effect_LASER( "LASER" );
 static const ammo_effect_str_id ammo_effect_LIGHTNING( "LIGHTNING" );
+static const ammo_effect_str_id ammo_effect_LIQUID( "LIQUID" );
 static const ammo_effect_str_id ammo_effect_MATCHHEAD( "MATCHHEAD" );
 static const ammo_effect_str_id ammo_effect_NON_FOULING( "NON_FOULING" );
 static const ammo_effect_str_id ammo_effect_NO_EMBED( "NO_EMBED" );
@@ -146,6 +147,7 @@ static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_on_roof( "on_roof" );
 static const efftype_id effect_quadruped_full( "quadruped_full" );
 
+static const fault_id fault_fail_to_feed( "fault_fail_to_feed" );
 static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 static const fault_id fault_gun_chamber_spent( "fault_gun_chamber_spent" );
 static const fault_id fault_gun_dirt( "fault_gun_dirt" );
@@ -167,9 +169,6 @@ static const material_id material_med_steel( "med_steel" );
 static const material_id material_steel( "steel" );
 static const material_id material_tempered_steel( "tempered_steel" );
 
-static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
-static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
-
 static const proficiency_id proficiency_prof_bow_basic( "prof_bow_basic" );
 static const proficiency_id proficiency_prof_bow_expert( "prof_bow_expert" );
 static const proficiency_id proficiency_prof_bow_master( "prof_bow_master" );
@@ -184,7 +183,6 @@ static const skill_id skill_throw( "throw" );
 
 static const trait_id trait_BRAWLER( "BRAWLER" );
 static const trait_id trait_GUNSHY( "GUNSHY" );
-static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 static const trap_str_id tr_practice_target( "tr_practice_target" );
 
@@ -698,6 +696,11 @@ bool Character::handle_gun_damage( item &it )
         return false;
     }
 
+    // This causes subsequent rounds in a burst to fail if any of the shots apply a failure to feed error.
+    if( it.has_fault_of_type( gun_mechanical_simple ) ) {
+        return false;
+    }
+
     int dirt = it.get_var( "dirt", 0 );
     int dirtadder = 0;
     double dirt_dbl = static_cast<double>( dirt );
@@ -856,7 +859,9 @@ bool Character::handle_gun_damage( item &it )
             add_msg_player_or_npc( m_bad, _( "Your %s fails to cycle!" ),
                                    _( "<npcname>'s %s fails to cycle!" ),
                                    it.tname() );
+            it.ammo_data()->has_flag( flag_CASELESS_ROUNDS ) ? it.set_fault( fault_fail_to_feed ) :
             it.set_fault( fault_gun_chamber_spent );
+
             // Don't return false in this case; this shot happens, follow-up ones won't.
         }
         // These are the dirtying/fouling mechanics
@@ -1146,25 +1151,28 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
 
         int qty = gun.gun_recoil( *this, bipod );
         delay  += qty * absorb;
-        // Temporarily scale by 5x as we adjust MAX_RECOIL, factoring in the recoil enchantment also.
-        recoil += enchantment_cache->modify_value( enchant_vals::mod::RECOIL_MODIFIER, 5.0 ) *
-                  ( qty * ( 1.0 - absorb ) );
+        // if shoots multiple barrels simultaneously, do not apply the recoil just yet
+        if( gun.gun_current_mode().flags.count( "VOLLEY" ) ) {
+            delay += enchantment_cache->modify_value( enchant_vals::mod::RECOIL_MODIFIER, 5.0 ) *
+                     ( qty * ( 1.0 - absorb ) );
+        } else {
+            // Temporarily scale by 5x as we adjust MAX_RECOIL, factoring in the recoil enchantment also.
+            recoil += enchantment_cache->modify_value( enchant_vals::mod::RECOIL_MODIFIER, 5.0 ) *
+                      ( qty * ( 1.0 - absorb ) );
+        }
 
         const itype_id current_ammo = gun.ammo_current();
 
-        if( has_trait( trait_PYROMANIA ) && !has_morale( morale_pyromania_startfire ) ) {
+        if( has_unfulfilled_pyromania() ) {
             const std::set<ammotype> &at = gun.ammo_types();
             if( at.count( ammo_flammable ) ) {
-                add_msg_if_player( m_good, _( "You feel a surge of euphoria as flames roar out of the %s!" ),
-                                   gun.tname() );
-                add_morale( morale_pyromania_startfire, 15, 15, 8_hours, 6_hours );
-                rem_morale( morale_pyromania_nofire );
+                fulfill_pyromania_msg( string_format(
+                                           _( "You feel a surge of euphoria as flames roar out of the %s!" ),
+                                           gun.tname() ) );
             } else if( at.count( ammo_66mm ) || at.count( ammo_120mm ) || at.count( ammo_84x246mm ) ||
                        at.count( ammo_m235 ) || at.count( ammo_atgm ) || at.count( ammo_RPG_7 ) ||
                        at.count( ammo_homebrew_rocket ) ) {
-                add_msg_if_player( m_good, _( "You feel a surge of euphoria as flames burst out!" ) );
-                add_morale( morale_pyromania_startfire, 15, 15, 8_hours, 6_hours );
-                rem_morale( morale_pyromania_nofire );
+                fulfill_pyromania_msg_std();
             }
         }
 
@@ -2257,6 +2265,10 @@ static projectile make_gun_projectile( const item &gun )
     proj.range = gun.gun_range();
     proj.proj_effects = gun.ammo_effects();
 
+    if( gun.has_ammo_data() && gun.ammo_data()->phase == phase_id::LIQUID ) {
+        proj.proj_effects.insert( ammo_effect_LIQUID );
+    }
+
     auto &fx = proj.proj_effects;
 
     if( ( gun.has_ammo_data() && gun.ammo_data()->phase == phase_id::LIQUID ) ||
@@ -2458,6 +2470,9 @@ item::sound_data item::gun_noise( const bool burst ) const
 
     } else if( fx.count( ammo_effect_WHIP ) ) {
         return { noise, _( "Crack!" ) };
+
+    } else if( fx.count( ammo_effect_LIQUID ) ) {
+        return { noise, _( "Splash!" ) };
 
     } else if( noise > 0 ) {
         if( noise < 10 ) {
@@ -2740,6 +2755,12 @@ target_handler::trajectory target_ui::run()
     src = you->pos_bub();
     update_target_list();
 
+    if( mode == TargetMode::Reach && targets.empty() ) {
+        add_msg( m_info, _( "No hostile creature in reach." ) );
+        traj.clear();
+        return traj; // nothing to attack.
+    }
+
     if( activity && activity->abort_if_no_targets && targets.empty() ) {
         // this branch is taken when already shot once and re-entered
         // aiming, if no targets are available we want to abort so
@@ -2981,7 +3002,9 @@ void target_ui::init_window_and_input()
     ctxt.register_action( "NEXT_TARGET" );
     ctxt.register_action( "PREV_TARGET" );
     ctxt.register_action( "CENTER" );
-    ctxt.register_action( "TOGGLE_UNLOAD_RAS_WEAPON" );
+    if( mode == TargetMode::Fire && relevant->has_flag( flag_RELOAD_AND_SHOOT ) ) {
+        ctxt.register_action( "TOGGLE_UNLOAD_RAS_WEAPON" );
+    }
     ctxt.register_action( "TOGGLE_SNAP_TO_TARGET" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
@@ -4067,12 +4090,12 @@ void target_ui::draw_controls_list( int text_y )
                              } );
         } else {
             if( !unload_RAS_weapon ) {
-                std::string unload = string_format( _( "[%s] Unload the %s after quitting." ),
+                std::string unload = string_format( _( "[%s] to unload the %s after quitting." ),
                                                     bound_key( "TOGGLE_UNLOAD_RAS_WEAPON" ).short_description(),
                                                     relevant->tname() );
-                lines.push_back( {3, colored( col_disabled, unload )} );
+                lines.push_back( {3, colored( col_enabled, unload )} );
             } else {
-                std::string unload = string_format( _( "[%s] Keep the %s loaded after quitting." ),
+                std::string unload = string_format( _( "[%s] to keep the %s loaded after quitting." ),
                                                     bound_key( "TOGGLE_UNLOAD_RAS_WEAPON" ).short_description(),
                                                     relevant->tname() );
                 lines.push_back( {3, colored( col_enabled, unload )} );
@@ -4214,11 +4237,18 @@ void target_ui::panel_spell_info( int &text_y )
 
     std::string fail_str;
     if( no_fail ) {
+        // xgettext:no-c-format
         fail_str = colorize( _( "0.0 % Failure Chance" ), c_light_green );
     } else {
         fail_str = casting->colorized_fail_percent( *you );
     }
     print_colored_text( w_target, point( 1, text_y++ ), clr, clr, fail_str );
+
+    if( dst_critter != nullptr && !casting->valid_by_condition( *you, *dst_critter ) ) {
+        nc_color red_color = c_red;
+        print_colored_text( w_target, point( 1, text_y++ ), red_color, red_color,
+                            casting->failed_condition_message() );
+    }
 
     if( casting->aoe( get_player_character() ) > 0 ) {
         nc_color color = c_light_gray;

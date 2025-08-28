@@ -59,9 +59,10 @@ class achievement
         achievement() = default;
 
         void load( const JsonObject &, std::string_view );
+        void finalize();
         void check() const;
         static void load_achievement( const JsonObject &, const std::string & );
-        static void finalize();
+        static void finalize_all();
         static void check_consistency();
         static const std::vector<achievement> &get_all();
         static void reset();

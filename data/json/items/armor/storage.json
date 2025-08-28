@@ -1446,7 +1446,7 @@
     "id": "legrig_wetsuit",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "pair of diving pouches", "str_pl": "pairs of diving pouches" },
+    "name": { "str_sp": "diving pouches (pair)" },
     "description": "A set of pouches that can be worn on the thighs using buckled neoprene rig.  This variety is favored by the divers.",
     "//": "Based on skeletonized version of these https://fourthelement.com/product/technical-shorts/ with added lower buckles like here https://www.divegarage.com/neoprene-tech-shorts.html",
     "weight": "305 g",
@@ -2971,37 +2971,6 @@
     "armor": [ { "encumbrance": [ 0, 0 ], "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
-    "id": "long_duffelbag",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "name": { "str": "longarm bag" },
-    "description": "A long duffel bag.  Provides storage for long arms and rifles.  Quite cumbersome.",
-    "weight": "1203 g",
-    "volume": "12 L",
-    "price": "180 USD",
-    "price_postapoc": "8 USD",
-    "material": [ "canvas" ],
-    "symbol": "[",
-    "looks_like": "rucksack",
-    "color": "green",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "50 L",
-        "max_contains_weight": "80 kg",
-        "max_item_length": "150 cm",
-        "magazine_well": "10 L",
-        "moves": 300
-      }
-    ],
-    "warmth": 8,
-    "material_thickness": 1,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ],
-    "armor": [
-      { "encumbrance": [ 8, 42 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
-    ]
-  },
-  {
     "id": "rifle_case_soft",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
@@ -3293,7 +3262,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "loop of rope", "str_pl": "loops of rope" },
     "description": "A length of rope tied with a sliding knot into a loop.  You can slip all sorts of large objects in and carry them as a bundle; if you want to tie a single item more securely you'd have to disassemble this loop.  It takes a while to untie it and get things out, and attackers might pull the whole thing undone if you're not careful.",
-    "weight": "216 g",
+    "weight": "180 g",
     "volume": "360 ml",
     "price": "3 USD 60 cent",
     "price_postapoc": "10 cent",
@@ -3416,7 +3385,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "big pack frame" },
-    "description": "A sturdy L-shaped wooden frame with leather straps to secure an oversized item to it. It has straps to wear it on your back.",
+    "description": "A sturdy L-shaped wooden frame with leather straps to secure an oversized item to it.  It has straps to wear it on your back.",
     "weight": "10 kg",
     "volume": "45 L",
     "price": "8 USD",
@@ -3441,6 +3410,70 @@
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
     "armor": [
       { "encumbrance": [ 30, 250 ], "coverage": 70, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
+    ]
+  },
+  {
+    "id": "seabag",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "//": "based off of USMC seabag",
+    "name": { "str": "military seabag" },
+    "description": "A massive, watertight, olive drab duffel bag used to move soft goods like uniforms when being redeployed.  While it has straps to be worn like a backpack, it is extremely cumbersome to do so.",
+    "weight": "1000 g",
+    "volume": "5 L",
+    "price": "65 USD",
+    "price_postapoc": "10 USD",
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "duffelbag",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "80 L",
+        "max_contains_weight": "90 kg",
+        "max_item_length": "92 cm",
+        "watertight": true,
+        "rigid": false,
+        "magazine_well": "4 L",
+        "moves": 450
+      },
+      {
+        "//": "Small pocket for ID, etc",
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "250 g",
+        "max_item_length": "8 cm",
+        "watertight": true,
+        "moves": 150
+      },
+      {
+        "//": "tucked against back",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "150 cm",
+        "min_item_length": "60 cm",
+        "moves": 200,
+        "rigid": false,
+        "extra_encumbrance": 10,
+        "description": "Tucked between your back and the seabag.",
+        "ripoff": 3,
+        "transparent": true
+      }
+    ],
+    "warmth": 10,
+    "material_thickness": 1,
+    "flags": [ "FLOTATION", "BELTED", "WATER_FRIENDLY", "OVERSIZE" ],
+    "armor": [
+      {
+        "encumbrance": 10,
+        "volume_encumber_modifier": 0.3,
+        "coverage": 100,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
     ]
   }
 ]

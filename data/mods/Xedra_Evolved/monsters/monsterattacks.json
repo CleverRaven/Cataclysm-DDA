@@ -320,7 +320,10 @@
     "id": "xedra_monster_erosion_attack",
     "type": "SPELL",
     "name": { "str": "Monster Erosion - Attack", "//~": "NO_I18N" },
-    "description": "This causes the dot when attacking targets with the erosion buff.  Having the spell is a bug.  Monster version",
+    "description": {
+      "str": "This causes the dot when attacking targets with the erosion buff.  Having the spell is a bug.  Monster version",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "hostile", "ground", "none" ],
     "flags": [ "SILENT", "NO_PROJECTILE", "NO_EXPLOSION_SFX", "RANDOM_DAMAGE", "RANDOM_DURATION", "SPLIT_DAMAGE" ],
     "message": "monster erosion attack",
@@ -338,7 +341,7 @@
     "id": "xedra_monster_erosion_buff",
     "type": "SPELL",
     "name": { "str": "Monster Erosion - Buff", "//~": "NO_I18N" },
-    "description": "This gives the monster the erosion buff.  Having the spell is a bug.  Monster version",
+    "description": { "str": "This gives the monster the erosion buff.  Having the spell is a bug.  Monster version", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "SILENT", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "effect": "attack",

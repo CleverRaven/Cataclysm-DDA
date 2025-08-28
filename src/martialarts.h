@@ -34,6 +34,7 @@ class weapon_category
     public:
         static void load_weapon_categories( const JsonObject &jo, const std::string &src );
         static void verify_weapon_categories();
+        static void finalize_all();
         static void reset();
 
         void load( const JsonObject &jo, std::string_view src );
@@ -166,6 +167,7 @@ class ma_technique
 
         void load( const JsonObject &jo, std::string_view src );
         static void verify_ma_techniques();
+        static void finalize_all();
         void check() const;
 
         matec_id id;
@@ -320,12 +322,15 @@ class ma_buff
         bool stealthy = false; // do we make less noise when moving?
 
         void load( const JsonObject &jo, std::string_view src );
+        static void finalize_all();
 };
 
 class martialart
 {
     public:
         martialart();
+
+        static void finalize_all();
 
         void load( const JsonObject &jo, std::string_view src );
 

@@ -1,77 +1,40 @@
 [
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
     "result": "nail",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": "3 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_chunk_any", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
+    "difficulty": 3,
+    "charges": 83,
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "55 m",
+    "batch_time_factors": [ 2, 10 ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing", "time_multiplier": 1.5 } ],
+    "using": [ [ "blacksmithing_standard", 1 ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "nail_header", -1 ] ] ],
+    "components": [ [ [ "lc_steel_chunk", 1 ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "crude_bronze_nail",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "fabrication",
-    "difficulty": 2,
-    "charges": 30,
-    "time": "4 h",
-    "autolearn": true,
-    "using": [ [ "bronze_tiny", 1 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_redsmithing" },
-      { "proficiency": "prof_redsmithing_adv" }
-    ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "bronze_nail",
-    "id_suffix": "simple",
-    "charges": 30,
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "fabrication",
-    "difficulty": 2,
-    "time": "2 h",
-    "autolearn": true,
-    "using": [ [ "bronze_tiny", 1 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
-    "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_redsmithing" },
-      { "proficiency": "prof_redsmithing_adv" }
-    ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
     "result": "bronze_nail",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
-    "difficulty": 1,
-    "//": "Bronze is typically easier to work than steel/iron",
-    "time": "2 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ], [ "bronze_tiny", 1 ] ],
+    "difficulty": 3,
+    "charges": 12,
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "12 m 30 s",
+    "batch_time_factors": [ 2, 40 ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_redsmithing", "time_multiplier": 1.5 },
       { "proficiency": "prof_redsmithing_adv" }
     ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
+    "using": [ [ "blacksmithing_standard", 1 ], [ "bronze_tiny", 1 ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "nail_header", -1 ], [ "nail_header_bronze", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -722,5 +685,11 @@
     "using": [ [ "power_saw_long", 5 ] ],
     "result_mult": 8,
     "components": [ [ [ "log", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "copy-from": "nail",
+    "result": "rivets",
+    "extend": { "tools": [ [ [ "monkey_tool", -1 ] ] ] }
   }
 ]

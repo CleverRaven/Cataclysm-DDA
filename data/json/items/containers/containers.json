@@ -643,6 +643,15 @@
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
+    "id": "bottle_plastic_glue",
+    "copy-from": "bottle_plastic",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "plastic glue bottle" },
+    "description": "A watertight plastic bottle, holds 500 mL of glue.  Cannot be reused or refilled.",
+    "extend": { "flags": [ "NO_RELOAD", "NO_UNLOAD" ] }
+  },
+  {
     "id": "condiment_bottle_sealed",
     "type": "ITEM",
     "category": "container",
@@ -705,6 +714,15 @@
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
+    "id": "bottle_plastic_small_glue",
+    "copy-from": "bottle_plastic_small",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "small plastic glue bottle" },
+    "description": "A watertight plastic bottle, holds 250 mL of glue.  Cannot be reused or refilled.",
+    "extend": { "flags": [ "NO_RELOAD", "NO_UNLOAD" ] }
+  },
+  {
     "id": "bottle_plastic_tiny",
     "type": "ITEM",
     "category": "container",
@@ -740,26 +758,16 @@
     "type": "ITEM",
     "copy-from": "bottle_plastic_tiny",
     "name": { "str": "tiny plastic glue bottle" },
-    "description": "A watertight plastic bottle, holds 30 mL of liquid.  Due to the design of the tip, it cannot be refilled.",
+    "description": "A watertight plastic bottle, holds 30 mL of glue.  Cannot be reused or refilled.",
     "longest_side": "120 mm",
-    "extend": { "flags": [ "NO_RELOAD", "NO_UNLOAD" ] },
-    "variant_type": "generic",
-    "variants": [
-      {
-        "id": "bottle_plastic_tiny_superglue",
-        "name": { "str": "large superglue bottle" },
-        "description": "This one reads \"Super Glue - All Purpose!\", with directions and cautions below.",
-        "weight": 1,
-        "append": true
-      }
-    ]
+    "extend": { "flags": [ "NO_RELOAD", "NO_UNLOAD" ] }
   },
   {
     "id": "small_squeeze_tube",
     "type": "ITEM",
     "category": "container",
-    "name": { "str": "small squeeze tube" },
-    "description": "A small squeeze tube, holds 4 mL of liquid.  It cannot be refilled after it's empty.",
+    "name": { "str": "small glue squeeze tube" },
+    "description": "A small squeeze tube, holds 4 mL of glue.  Cannot be reused or refilled.",
     "ascii_picture": "bottle_plastic_small",
     "weight": "2 g",
     "volume": "11 ml",
@@ -781,17 +789,7 @@
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "white",
-    "flags": [ "NO_RELOAD", "NO_UNLOAD" ],
-    "variant_type": "generic",
-    "variants": [
-      {
-        "id": "small_squeeze_tube_superglue",
-        "name": { "str": "superglue tube" },
-        "description": "This one reads \"Super Glue - All Purpose!\", with directions and cautions below.",
-        "weight": 1,
-        "append": true
-      }
-    ]
+    "flags": [ "NO_RELOAD", "NO_UNLOAD" ]
   },
   {
     "id": "bottle_plastic_pill_prescription",
@@ -992,6 +990,16 @@
       }
     ],
     "flags": [ "COLLAPSE_CONTENTS" ]
+  },
+  {
+    "id": "bottle_twoliter_glue",
+    "copy-from": "bottle_twoliter",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "large plastic glue bottle" },
+    "looks_like": "bottle_plastic",
+    "description": "A two-liter plastic bottle that can hold 2 L of glue.  Cannot be reused or refilled.",
+    "extend": { "flags": [ "NO_RELOAD", "NO_UNLOAD" ] }
   },
   {
     "id": "bowl_clay",
@@ -1861,7 +1869,7 @@
     "looks_like": "runner_bag",
     "description": "A slim and lightweight insulated plastic bladder worn on the back or within a hydration pouch in a backpack.  It has a large pocket and a capped mouth for filling with liquid, with a hose that allows the wearer to drink hands-free.",
     "ascii_picture": "camelbak",
-    "weight": "286 g",
+    "weight": "185 g",
     "volume": "250 ml",
     "price": "100 USD",
     "price_postapoc": "2 USD 50 cent",
@@ -2159,8 +2167,8 @@
     "looks_like": "bowl_clay",
     "description": "A fragile clay vessel with a waterproofed hide lid.  It can be used to make crude impact grenades or to store liquid.",
     "ascii_picture": "clay_canister",
-    "weight": "268 g",
-    "volume": "295 ml",
+    "weight": "536 g",
+    "volume": "590 ml",
     "price": "10 USD",
     "price_postapoc": "10 cent",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
@@ -2172,8 +2180,8 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
-        "max_contains_volume": "250 ml",
-        "max_contains_weight": "1 kg"
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg"
       }
     ],
     "use_action": [ "HEAT_LIQUID_ITEMS" ],
@@ -2769,6 +2777,16 @@
     ],
     "flags": [ "COLLAPSE_CONTENTS" ],
     "//2": "Based on https://www.amazon.com/dp/B07GC1VJ9T"
+  },
+  {
+    "id": "jug_plastic_glue",
+    "copy-from": "jug_plastic",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "gallon glue jug" },
+    "looks_like": "bottle_plastic",
+    "description": "A standard plastic jug that can hold 3750 mL of glue.  Cannot be reused or refilled.",
+    "extend": { "flags": [ "NO_RELOAD", "NO_UNLOAD" ] }
   },
   {
     "id": "fuel_tin",
@@ -3461,6 +3479,7 @@
   {
     "id": "wrapper_pr",
     "type": "ITEM",
+    "name": { "str": "wrapper" },
     "copy-from": "wrapper_bar",
     "ascii_picture": "wrapper_pr",
     "description": {
@@ -3660,6 +3679,8 @@
     "looks_like": "condom",
     "name": { "str": "balloon" },
     "description": "A deflated balloon.  This could be used as a makeshift water container.",
+    "//": "delete condom variants",
+    "variants": [  ],
     "ascii_picture": "balloon",
     "copy-from": "condom"
   },

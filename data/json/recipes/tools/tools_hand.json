@@ -143,10 +143,9 @@
     "time": "125 m",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_metalworking", "required": true }, { "proficiency": "prof_toolsmithing", "required": true } ],
-    "using": [ [ "forging_standard", 3 ], [ "bronze_tiny", 3 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
+    "using": [ [ "forging_standard", 3 ], [ "bronze_tiny", 3 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold_large", -1 ], [ "casting_mold_long", -1 ] ] ],
-    "components": [ [ [ "nail", 1 ], [ "crude_bronze_nail", 1 ], [ "bronze_nail", 1 ], [ "nuts_bolts", 1 ] ] ]
+    "components": [ [ [ "nail", 1 ], [ "bronze_nail", 1 ], [ "nuts_bolts", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1704,7 +1703,7 @@
       [ [ "clay_lump", 1 ] ],
       [ [ "material_sand", 113 ] ],
       [ [ "2x4", 2 ], [ "stick", 2 ] ],
-      [ [ "nail", 8 ], [ "bronze_nail", 8 ], [ "super_glue", 4 ], [ "crude_bronze_nail", 8 ] ]
+      [ [ "nail", 8 ], [ "bronze_nail", 8 ], [ "glue_strong", 4 ] ]
     ]
   },
   {
@@ -1723,7 +1722,7 @@
       [ [ "clay_lump", 32 ] ],
       [ [ "material_sand", 9000 ] ],
       [ [ "2x4", 8 ] ],
-      [ [ "nail", 16 ], [ "bronze_nail", 16 ], [ "super_glue", 8 ] ]
+      [ [ "nail", 16 ], [ "bronze_nail", 16 ], [ "glue_strong", 8 ] ]
     ]
   },
   {
@@ -1742,7 +1741,7 @@
       [ [ "clay_lump", 9 ] ],
       [ [ "material_sand", 2532 ] ],
       [ [ "2x4", 8 ] ],
-      [ [ "nail", 16 ], [ "bronze_nail", 16 ], [ "super_glue", 8 ] ]
+      [ [ "nail", 16 ], [ "bronze_nail", 16 ], [ "glue_strong", 8 ] ]
     ]
   },
   {
@@ -1761,7 +1760,7 @@
       [ [ "clay_lump", 5 ] ],
       [ [ "material_sand", 1350 ] ],
       [ [ "2x4", 4 ], [ "stick", 4 ] ],
-      [ [ "nails", 8, "LIST" ], [ "super_glue", 4 ] ]
+      [ [ "nails", 8, "LIST" ], [ "glue_strong", 4 ] ]
     ]
   },
   {

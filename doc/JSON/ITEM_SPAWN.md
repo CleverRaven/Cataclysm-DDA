@@ -1,3 +1,21 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Item spawn system](#item-spawn-system)
+  - [Collection or Distribution](#collection-or-distribution)
+  - [Format](#format)
+    - [Entries array](#entries-array)
+    - [Ammo and Magazines](#ammo-and-magazines)
+  - [Shortcuts](#shortcuts)
+  - [Adding to item groups](#adding-to-item-groups)
+  - [Inlined item groups](#inlined-item-groups)
+    - [Notes](#notes)
+      - [Testing](#testing)
+      - [SUS](#sus)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Item spawn system
 
 ## Collection or Distribution

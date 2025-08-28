@@ -111,7 +111,9 @@
       "or": [
         { "u_is_on_terrain_with_flag": "SHRUB" },
         { "u_is_on_terrain_with_flag": "DIGGABLE" },
-        { "u_is_on_terrain_with_flag": "YOUNG" }
+        { "u_is_on_terrain_with_flag": "YOUNG" },
+        { "u_is_on_terrain": "t_barkfloor" },
+        { "u_is_on_terrain": "t_barkfloor_noroof" }
       ]
     },
     "effect": [  ]
@@ -151,7 +153,7 @@
     "id": "EOC_ARVORE_BRIARS_SELECTOR",
     "effect": [
       {
-        "run_eoc_selector": [ "EOC_ARVORE_BRIARS_SELECTOR_ARC", "EOC_ARVORE_BRIARS_SELECTOR_LINE", "EOC_NULL" ],
+        "run_eoc_selector": [ "EOC_ARVORE_BRIARS_SELECTOR_ARC", "EOC_ARVORE_BRIARS_SELECTOR_LINE", "EOC_NONE" ],
         "names": [ "Thorny Arc", "Wall of Brambles", "Do nothing" ],
         "keys": [ "1", "2", "3" ],
         "descriptions": [ "Summon a spray of brambles to entrap an enemy.", "Summon a wall of thorns to fortify a location.", "Do nothing." ]
@@ -443,7 +445,7 @@
           "EOC_GROWING_WOOD_FLOORS",
           "EOC_GROWING_WOOD_DOORS",
           "EOC_GROWING_WOOD_BRANCHES",
-          "EOC_NULL"
+          "EOC_NONE"
         ],
         "names": [ "Grow Wooden Wall", "Grow Wooden Floor", "Grow Wooden Door", "Grow Leafy Branch", "Do nothing" ],
         "keys": [ "1", "2", "3", "4", "5" ],
@@ -476,11 +478,6 @@
     "type": "effect_on_condition",
     "id": "EOC_GROWING_WOOD_DOORS",
     "effect": [ { "u_cast_spell": { "id": "arvore_growing_wood_walls_door" }, "targeted": true } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_NULL",
-    "effect": [  ]
   },
   {
     "type": "effect_on_condition",
@@ -663,8 +660,8 @@
         "if": {
           "and": [ { "math": [ "u_calories('dont_affect_weariness': true) <= 179999" ] }, { "math": [ "u_calories() >= 75000" ] } ]
         },
-        "then": { "math": [ "u_calories('dont_affect_weariness': true)", "+=", "7" ] },
-        "else": { "if": { "math": [ "u_calories() <= 74999" ] }, "then": { "math": [ "u_calories()", "+=", "12" ] } }
+        "then": { "math": [ "u_calories('dont_affect_weariness': true) += 7" ] },
+        "else": { "if": { "math": [ "u_calories() <= 74999" ] }, "then": { "math": [ "u_calories() += 12" ] } }
       }
     ]
   },
@@ -935,7 +932,7 @@
     "recurrence": [ "3 minutes", "3 minutes" ],
     "condition": { "u_has_trait": "ARVORE_TREE_FORM_TRAITS" },
     "deactivate_condition": { "not": { "u_has_trait": "ARVORE_TREE_FORM_TRAITS" } },
-    "effect": [ { "if": { "math": [ "u_val('thirst') >= -50" ] }, "then": { "math": [ "u_val('thirst')", "-=", "1" ] } } ]
+    "effect": [ { "if": { "math": [ "u_val('thirst') >= -50" ] }, "then": { "math": [ "u_val('thirst') -= 1" ] } } ]
   },
   {
     "type": "effect_on_condition",
@@ -959,7 +956,7 @@
       },
       { "u_cast_spell": { "id": "arvore_turn_into_tree_banish", "message": "" } },
       {
-        "run_eocs": "EOC_NULL",
+        "run_eocs": "EOC_NONE",
         "beta_loc": { "global_val": "arvore_tree_transform_target" },
         "false_eocs": "EOC_ARVORE_VERDANT_IMPRISONMENT_SUCCESS"
       }
@@ -996,7 +993,7 @@
             "true_eocs": [ { "id": "EOC_ARVORE_VERDANT_IMPRISONMENT_DELETE_NPC_ITEMS", "effect": [ "npc_die" ] } ]
           },
           {
-            "run_eocs": "EOC_NULL",
+            "run_eocs": "EOC_NONE",
             "beta_loc": { "global_val": "arvore_tree_transform_target" },
             "false_eocs": "EOC_ARVORE_VERDANT_IMPRISONMENT_SUCCESS"
           }

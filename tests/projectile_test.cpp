@@ -1,5 +1,8 @@
+#include <algorithm>
+#include <functional>
 #include <memory>
 #include <set>
+#include <string>
 #include <vector>
 
 #include "ballistics.h"
@@ -8,20 +11,36 @@
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "damage.h"
+#include "debug.h"
 #include "dispersion.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "mutation.h"
+#include "npc.h"
+#include "player_helpers.h"
 #include "pocket_type.h"
 #include "point.h"
+#include "profession.h"
 #include "projectile.h"
 #include "ret_val.h"
 #include "type_id.h"
 #include "value_ptr.h"
+#include "worldfactory.h"
+
+static const efftype_id effect_bile_stink( "bile_stink" );
 
 static const itype_id itype_308( "308" );
+static const itype_id itype_boomer_head( "boomer_head" );
+static const itype_id itype_hazmat_suit( "hazmat_suit" );
 static const itype_id itype_m1a( "m1a" );
+
+static const mod_id MOD_INFORMATION_magiclysm( "magiclysm" );
+
+static const profession_id profession_hobby_species_goblin( "hobby_species_goblin" );
+
 
 static tripoint_bub_ms projectile_end_point( const std::vector<tripoint_bub_ms> &range,
         const item &gun, int speed, int proj_range )
@@ -80,4 +99,84 @@ TEST_CASE( "projectiles_through_obstacles", "[projectile]" )
 
     // But that a bullet without the correct amount cannot
     CHECK( projectile_end_point( range, gun, 10, 3 ) == range[0] );
+}
+
+static npc &liquid_projectiles_setup( Character &player )
+{
+    clear_avatar();
+    clear_npcs();
+    clear_map();
+
+    arm_shooter( player, itype_boomer_head );
+    const tripoint_bub_ms next_to = player.adjacent_tile();
+
+    npc &dummy = spawn_npc( next_to.xy(), "mi-go_prisoner" );
+    dummy.clear_worn();
+    dummy.clear_mutations();
+
+    return dummy;
+}
+
+TEST_CASE( "liquid_projectiles_applies_effect", "[projectile_effect]" )
+{
+    map &here = get_map();
+    Character &player = get_player_character();
+    npc &dummy = liquid_projectiles_setup( player );
+    const item hazmat( itype_hazmat_suit );
+
+    REQUIRE( dummy.top_items_loc().empty() );
+
+    //Fire on naked NPC and check that it got the effect
+    SECTION( "Naked NPC gets the effect" ) {
+        player.fire_gun( here, dummy.pos_bub(), 100, *player.get_wielded_item() );
+        CHECK( dummy.has_effect( effect_bile_stink ) );
+    }
+
+    dummy.clear_effects();
+
+    //Fire on NPC with hazmat suit and check that it didn't get the effect
+    SECTION( "Hazmat NPC doesn't get the effect" ) {
+        dummy.wear_item( hazmat );
+        player.fire_gun( here, dummy.pos_bub(), 100, *player.get_wielded_item() );
+        CHECK( !dummy.has_effect( effect_bile_stink ) );
+    }
+}
+
+// we can't figure out why, but the goblin background causes a debugmsg when applying the effect, as it is applied with duration zero
+TEST_CASE( "liquid_projectiles_applies_effect_debugmsg", "[projectile_effect][!shouldfail]" )
+{
+    const std::vector<mod_id> &loaded_mods = world_generator->active_world->active_mod_order;
+    REQUIRE( std::find( loaded_mods.begin(), loaded_mods.end(),
+                        MOD_INFORMATION_magiclysm ) != loaded_mods.end() );
+
+    map &here = get_map();
+    Character &player = get_player_character();
+    npc &dummy = liquid_projectiles_setup( player );
+    const item hazmat( itype_hazmat_suit );
+
+    for( const trait_and_var &trait : profession_hobby_species_goblin->get_locked_traits() ) {
+        dummy.toggle_trait( trait.trait );
+    }
+    // must happen after because one of the traits gives an item
+    dummy.clear_worn();
+
+    REQUIRE( dummy.top_items_loc().empty() );
+
+    //Fire on naked NPC and check that it got the effect
+    SECTION( "Naked NPC gets the effect" ) {
+        const std::string debug_msg = capture_debugmsg_during( [&]() {
+            player.fire_gun( here, dummy.pos_bub(), 100, *player.get_wielded_item() );
+            CHECK( dummy.has_effect( effect_bile_stink ) );
+        } );
+        CHECK( debug_msg.empty() );
+    }
+
+    dummy.clear_effects();
+
+    //Fire on NPC with hazmat suit and check that it didn't get the effect
+    SECTION( "Hazmat NPC doesn't get the effect" ) {
+        dummy.wear_item( hazmat );
+        player.fire_gun( here, dummy.pos_bub(), 100, *player.get_wielded_item() );
+        CHECK( !dummy.has_effect( effect_bile_stink ) );
+    }
 }

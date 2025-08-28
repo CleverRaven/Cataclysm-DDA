@@ -27,7 +27,6 @@
 #include "game.h"
 #include "item.h"
 #include "line.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
@@ -56,6 +55,7 @@
 #include "viewer.h"
 #include "vpart_position.h"
 
+static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_cut( "cut" );
 
 static const efftype_id effect_bouldering( "bouldering" );
@@ -89,6 +89,8 @@ static const itype_id itype_napalm( "napalm" );
 static const itype_id itype_pressurized_tank( "pressurized_tank" );
 
 static const material_id material_iflesh( "iflesh" );
+
+static const mfaction_str_id monfaction_player( "player" );
 
 static const species_id species_FUNGUS( "FUNGUS" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
@@ -640,7 +642,7 @@ void monster::plan()
 
     // Friendly monsters here
     // Avoid for hordes of same-faction stuff or it could get expensive
-    const mfaction_id actual_faction = friendly == 0 ? faction : STATIC( mfaction_str_id( "player" ) );
+    const mfaction_id actual_faction = friendly == 0 ? faction : monfaction_player;
     mon_plan.swarms = mon_plan.swarms && mon_plan.target == nullptr; // Only swarm if we have no target
     if( mon_plan.group_morale || mon_plan.swarms ) {
         tracker.for_each_reachable( *this, [actual_faction]( const mfaction_id & other ) {
@@ -1759,8 +1761,10 @@ bool monster::bash_at( const tripoint_bub_ms &p )
         return false;
     }
 
+    // Note: Cramped space preventing movement is currently 'turned off', so the chance for them bashing is purposefully low
+    // This variable remains for maintenance purposes and the 1-in-1000 chance to prevent clang from complaining.
     const bool cramped = will_be_cramped_in_vehicle_tile( here, here.get_abs( p ) );
-    bool try_bash = !can_move_to( p ) || one_in( 3 ) || cramped;
+    bool try_bash = !can_move_to( p ) || one_in( 3 ) || ( cramped && one_in( 1000 ) );
     if( !try_bash ) {
         return false;
     }
@@ -1769,7 +1773,7 @@ bool monster::bash_at( const tripoint_bub_ms &p )
         return false;
     }
 
-    if( !( here.is_bashable_furn( p ) || here.veh_at( p ).obstacle_at_part() || cramped ) ) {
+    if( !( here.is_bashable_furn( p ) || here.veh_at( p ).obstacle_at_part() ) ) {
         // if the only thing here is road or flat, rarely bash it
         bool flat_ground = here.has_flag( ter_furn_flag::TFLAG_ROAD, p ) ||
                            here.has_flag( ter_furn_flag::TFLAG_FLAT, p );
@@ -2340,8 +2344,7 @@ void monster::knock_back_to( const tripoint_bub_ms &to )
         return; // No effect
     }
 
-    if( is_hallucination() ) {
-        die( &here, nullptr );
+    if( hallucination_die( &here, nullptr ) ) {
         return;
     }
 
@@ -2373,7 +2376,7 @@ void monster::knock_back_to( const tripoint_bub_ms &to )
         apply_damage( p, bodypart_id( "torso" ), 3 );
         add_effect( effect_stunned, 1_turns );
         p->deal_damage( this, bodypart_id( "torso" ),
-                        damage_instance( STATIC( damage_type_id( "bash" ) ), static_cast<float>( type->size ) ) );
+                        damage_instance( damage_bash, static_cast<float>( type->size ) ) );
         if( u_see ) {
             add_msg( _( "The %1$s bounces off %2$s!" ), name(), p->get_name() );
         }

@@ -12,116 +12,125 @@
     "type": "effect_on_condition",
     "id": "EOC_PSI_AWAKENING_BIOKINESIS_FINALIZATION",
     "effect": [
-      { "math": [ "u_awakening_countup", "+=", "1" ] },
+      { "math": [ "u_awakening_countup += 1" ] },
+      { "math": [ "u_awakening_reducer = (matrix_awakening_odds(u_awakening_countup))" ] },
       { "u_lose_trait": "ALWAYS_GAIN_PSIONICS" },
       { "u_add_trait": "BIOKINETIC" },
       { "u_add_trait": "BIOKIN_NEEDS" },
       { "run_eocs": "EOC_TEACH_BIOKIN_CONTEMPLATE_RECIPES" },
       { "run_eocs": "EOC_BIOKINETIC_AWAKENING_KNACK_HANDLING" },
-      { "give_achievement": "mom_psi_awakening_biokinesis" }
+      { "if": "u_is_avatar", "then": { "give_achievement": "mom_psi_awakening_biokinesis" } }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PSI_AWAKENING_CLAIRSENTIENCE_FINALIZATION",
     "effect": [
-      { "math": [ "u_awakening_countup", "+=", "1" ] },
+      { "math": [ "u_awakening_countup += 1" ] },
+      { "math": [ "u_awakening_reducer = (matrix_awakening_odds(u_awakening_countup))" ] },
       { "u_lose_trait": "ALWAYS_GAIN_PSIONICS" },
       { "u_add_trait": "CLAIRSENTIENT" },
       { "u_add_trait": "CLAIR_SENSES" },
       { "run_eocs": "EOC_TEACH_CLAIR_CONTEMPLATE_RECIPES" },
       { "run_eocs": "EOC_CLAIRSENTIENT_AWAKENING_KNACK_HANDLING" },
-      { "give_achievement": "mom_psi_awakening_clairsentience" }
+      { "if": "u_is_avatar", "then": { "give_achievement": "mom_psi_awakening_clairsentience" } }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PSI_AWAKENING_ELECTROKINESIS_FINALIZATION",
     "effect": [
-      { "math": [ "u_awakening_countup", "+=", "1" ] },
+      { "math": [ "u_awakening_countup += 1" ] },
+      { "math": [ "u_awakening_reducer = (matrix_awakening_odds(u_awakening_countup))" ] },
       { "u_lose_trait": "ALWAYS_GAIN_PSIONICS" },
       { "u_add_trait": "ELECTROKINETIC" },
       { "u_add_trait": "ELECTRO_SHIELD" },
       { "run_eocs": "EOC_TEACH_ELECTROKIN_CONTEMPLATE_RECIPES" },
       { "run_eocs": "EOC_ELECTROKINETIC_AWAKENING_KNACK_HANDLING" },
-      { "give_achievement": "mom_psi_awakening_electrokinesis" }
+      { "if": "u_is_avatar", "then": { "give_achievement": "mom_psi_awakening_electrokinesis" } }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PSI_AWAKENING_PHOTOKINESIS_FINALIZATION",
     "effect": [
-      { "math": [ "u_awakening_countup", "+=", "1" ] },
+      { "math": [ "u_awakening_countup += 1" ] },
+      { "math": [ "u_awakening_reducer = (matrix_awakening_odds(u_awakening_countup))" ] },
       { "u_lose_trait": "ALWAYS_GAIN_PSIONICS" },
       { "u_add_trait": "PHOTOKINETIC" },
       { "u_add_trait": "PHOTO_EYES" },
       { "run_eocs": "EOC_TEACH_PHOTOKIN_CONTEMPLATE_RECIPES" },
       { "run_eocs": "EOC_PHOTOKINETIC_AWAKENING_KNACK_HANDLING" },
-      { "give_achievement": "mom_psi_awakening_photokinesis" }
+      { "if": "u_is_avatar", "then": { "give_achievement": "mom_psi_awakening_photokinesis" } }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PSI_AWAKENING_PYROKINESIS_FINALIZATION",
     "effect": [
-      { "math": [ "u_awakening_countup", "+=", "1" ] },
+      { "math": [ "u_awakening_countup += 1" ] },
+      { "math": [ "u_awakening_reducer = (matrix_awakening_odds(u_awakening_countup))" ] },
       { "u_lose_trait": "ALWAYS_GAIN_PSIONICS" },
       { "u_add_trait": "PYROKINETIC" },
       { "u_add_trait": "PYROKIN_ADAPTATION" },
       { "run_eocs": "EOC_TEACH_PYROKIN_CONTEMPLATE_RECIPES" },
       { "run_eocs": "EOC_PYROKINETIC_AWAKENING_KNACK_HANDLING" },
-      { "give_achievement": "mom_psi_awakening_pyrokinesis" }
+      { "if": "u_is_avatar", "then": { "give_achievement": "mom_psi_awakening_pyrokinesis" } }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PSI_AWAKENING_TELEKINESIS_FINALIZATION",
     "effect": [
-      { "math": [ "u_awakening_countup", "+=", "1" ] },
+      { "math": [ "u_awakening_countup += 1" ] },
+      { "math": [ "u_awakening_reducer = (matrix_awakening_odds(u_awakening_countup))" ] },
       { "u_lose_trait": "ALWAYS_GAIN_PSIONICS" },
       { "u_add_trait": "TELEKINETIC" },
       { "u_add_trait": "TELEKINETIC_GRAB_POCKETS" },
       { "run_eocs": "EOC_TEACH_TELEKIN_CONTEMPLATE_RECIPES" },
       { "run_eocs": "EOC_TELEKINETIC_AWAKENING_KNACK_HANDLING" },
-      { "give_achievement": "mom_psi_awakening_telekinesis" }
+      { "if": "u_is_avatar", "then": { "give_achievement": "mom_psi_awakening_telekinesis" } }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PSI_AWAKENING_TELEPATHY_FINALIZATION",
     "effect": [
-      { "math": [ "u_awakening_countup", "+=", "1" ] },
+      { "math": [ "u_awakening_countup += 1" ] },
+      { "math": [ "u_awakening_reducer = (matrix_awakening_odds(u_awakening_countup))" ] },
       { "u_lose_trait": "ALWAYS_GAIN_PSIONICS" },
       { "u_add_trait": "TELEPATH" },
       { "u_add_trait": "TELEPATHIC_SUGGESTION" },
       { "run_eocs": "EOC_TEACH_TELEPATH_CONTEMPLATE_RECIPES" },
       { "run_eocs": "EOC_TELEPATHIC_AWAKENING_KNACK_HANDLING" },
-      { "give_achievement": "mom_psi_awakening_telepathy" }
+      { "if": "u_is_avatar", "then": { "give_achievement": "mom_psi_awakening_telepathy" } }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PSI_AWAKENING_TELEPORTATION_FINALIZATION",
     "effect": [
-      { "math": [ "u_awakening_countup", "+=", "1" ] },
+      { "math": [ "u_awakening_countup += 1" ] },
+      { "math": [ "u_awakening_reducer = (matrix_awakening_odds(u_awakening_countup))" ] },
       { "u_lose_trait": "ALWAYS_GAIN_PSIONICS" },
       { "u_add_trait": "TELEPORTER" },
       { "u_add_trait": "TELEPORTER_PROTECT" },
       { "run_eocs": "EOC_TEACH_TELEPORT_CONTEMPLATE_RECIPES" },
-      { "give_achievement": "mom_psi_awakening_teleportation" }
+      { "if": "u_is_avatar", "then": { "give_achievement": "mom_psi_awakening_teleportation" } }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PSI_AWAKENING_VITAKINESIS_FINALIZATION",
     "effect": [
-      { "math": [ "u_awakening_countup", "+=", "1" ] },
+      { "math": [ "u_awakening_countup += 1" ] },
+      { "math": [ "u_awakening_reducer = (matrix_awakening_odds(u_awakening_countup))" ] },
       { "u_lose_trait": "ALWAYS_GAIN_PSIONICS" },
       { "u_add_trait": "VITAKINETIC" },
       { "u_add_trait": "VITAKINETIC_HEALTH" },
       { "run_eocs": "EOC_TEACH_VITAKIN_CONTEMPLATE_RECIPES" },
       { "run_eocs": "EOC_VITAKINETIC_AWAKENING_KNACK_HANDLING" },
-      { "give_achievement": "mom_psi_awakening_vitakinesis" }
+      { "if": "u_is_avatar", "then": { "give_achievement": "mom_psi_awakening_vitakinesis" } }
     ]
   },
   {
@@ -827,7 +836,7 @@
       { "u_add_effect": "effect_biokin_overload", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
       { "u_add_effect": "downed", "duration": { "math": [ "ps_str * time(' 5 s')" ] } },
       { "u_add_effect": "motor_seizure", "duration": { "math": [ "ps_str * time(' 5 s')" ] } },
-      { "math": [ "u_val('stamina')", "-=", "4000" ] }
+      { "math": [ "u_val('stamina') -= 4000" ] }
     ]
   },
   {
@@ -857,7 +866,7 @@
       { "u_add_effect": "hallu", "duration": { "math": [ "ps_str * time(' 3 h')" ] } },
       { "u_add_effect": "blind_clair_overload", "duration": { "math": [ "ps_str * time(' 15 s')" ] } },
       { "u_add_effect": "deaf_clair_overload", "duration": { "math": [ "ps_str * time(' 15 s')" ] } },
-      { "math": [ "u_val('stamina')", "-=", "4000" ] }
+      { "math": [ "u_val('stamina') -= 4000" ] }
     ]
   },
   {
@@ -886,7 +895,7 @@
       { "u_add_effect": "psionic_overload", "duration": { "math": [ "ps_str * time(' 1 h')" ] } },
       { "u_add_effect": "effect_electrokin_overload", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
       { "run_eocs": "EOC_ELECTRO_OVERLOAD_ZAP" },
-      { "math": [ "u_val('stamina')", "-=", "4000" ] }
+      { "math": [ "u_val('stamina') -= 4000" ] }
     ]
   },
   {
@@ -918,7 +927,7 @@
       { "u_add_effect": "downed", "duration": { "math": [ "ps_str * time(' 3 s')" ] } },
       { "u_add_effect": "effect_photokin_myopia_overload", "duration": { "math": [ "ps_str * time(' 10 m')" ] } },
       { "u_add_effect": "effect_photokin_lumination_overload", "duration": { "math": [ "ps_str * time(' 20 m')" ] } },
-      { "math": [ "u_val('stamina')", "-=", "4000" ] }
+      { "math": [ "u_val('stamina') -= 4000" ] }
     ]
   },
   {
@@ -951,7 +960,7 @@
       { "u_add_effect": "effect_pyrokin_overload", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
       { "u_add_effect": "downed", "duration": { "math": [ "ps_str * time(' 1 s')" ] } },
       { "u_set_field": "fd_hot_air3", "outdoor_only": true },
-      { "math": [ "u_val('stamina')", "-=", "4000" ] }
+      { "math": [ "u_val('stamina') -= 4000" ] }
     ]
   },
   {
@@ -981,7 +990,7 @@
       { "u_add_effect": "psionic_overload", "duration": { "math": [ "ps_str * time(' 1 h')" ] } },
       { "u_add_effect": "effect_telekin_overload", "duration": { "math": [ "ps_str * time(' 30 m')" ] } },
       { "u_add_effect": "downed", "duration": { "math": [ "ps_str * time(' 1 s')" ] } },
-      { "math": [ "u_val('stamina')", "-=", "4000" ] }
+      { "math": [ "u_val('stamina') -= 4000" ] }
     ]
   },
   {
@@ -1012,7 +1021,7 @@
       { "u_add_effect": "nightmares", "duration": { "math": [ "ps_str * time(' 4 h')" ] } },
       { "u_add_effect": "disrupted_sleep", "duration": { "math": [ "ps_str * time(' 4 h')" ] } },
       { "u_add_effect": "downed", "duration": { "math": [ "ps_str * time(' 1 s')" ] } },
-      { "math": [ "u_val('stamina')", "-=", "4000" ] }
+      { "math": [ "u_val('stamina') -= 4000" ] }
     ]
   },
   {
@@ -1042,7 +1051,7 @@
       { "u_add_effect": "effect_portal_storm_teleport", "duration": { "math": [ "ps_str * time(' 20 s')" ] } },
       { "u_add_effect": "effect_teleporter_overload", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
       { "u_add_effect": "downed", "duration": { "math": [ "ps_str * time(' 1 s')" ] } },
-      { "math": [ "u_val('stamina')", "-=", "4000" ] }
+      { "math": [ "u_val('stamina') -= 4000" ] }
     ]
   },
   {
@@ -1072,7 +1081,7 @@
       { "u_add_effect": "flu", "duration": { "math": [ "ps_str * time(' 4 h')" ] } },
       { "u_add_effect": "effect_vitakin_overload", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
       { "u_add_effect": "downed", "duration": { "math": [ "ps_str * time(' 3 s')" ] } },
-      { "math": [ "u_val('stamina')", "-=", "4000" ] }
+      { "math": [ "u_val('stamina') -= 4000" ] }
     ]
   },
   {

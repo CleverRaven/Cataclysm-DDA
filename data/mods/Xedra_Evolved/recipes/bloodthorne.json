@@ -108,7 +108,7 @@
             "effect": [
               {
                 "if": { "math": [ "u_bloodthorn_druid_vampires_killed_to_upgrade", "<", "16" ] },
-                "then": { "math": [ "u_bloodthorn_druid_vampires_killed_to_upgrade", "+=", "2" ] },
+                "then": { "math": [ "u_bloodthorn_druid_vampires_killed_to_upgrade += 2" ] },
                 "else": { "math": [ "u_bloodthorn_druid_vampires_killed_to_upgrade", "=", "16" ] }
               },
               { "math": [ "u_bloodthorn_druid_required_arvore_traits ++" ] },

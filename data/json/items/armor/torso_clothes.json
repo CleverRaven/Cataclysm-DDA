@@ -11,7 +11,6 @@
     "price": "10 USD",
     "material": [ "cotton" ],
     "color": "white",
-    "delete": { "flags": [ "WATER_FRIENDLY" ] },
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ], "coverage": 100, "encumbrance": [ 1, 1 ] },
       {
@@ -147,7 +146,6 @@
     "price": "25 USD",
     "material": [ "cotton" ],
     "color": "white",
-    "delete": { "flags": [ "WATER_FRIENDLY" ] },
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ], "coverage": 80, "encumbrance": [ 0, 0 ] },
       {
@@ -777,6 +775,8 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "pocket shirt" },
     "description": "A white button-down shirt with long sleeves and a pocket on the front.  Looks professional!",
+    "//": "delete button shirt variants",
+    "variants": [  ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -793,7 +793,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "wedding dress", "str_pl": "wedding dresses" },
     "description": "A beautiful white wedding dress.  What good will it be now?",
-    "weight": "9333 g",
+    "weight": "9 kg",
     "volume": "18 L",
     "price": "590 USD",
     "price_postapoc": "50 cent",
@@ -1263,7 +1263,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "French maid clothes" },
     "description": "The French maid dress, blue with a frilly white apron.",
-    "weight": "250 g",
+    "weight": "125 g",
     "volume": "250 ml",
     "price": "50 USD",
     "price_postapoc": "50 cent",
@@ -1321,7 +1321,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "short French maid clothes" },
     "description": "The French maid dress, black with a frilly white apron.  This version is much lighter and shorter than normal.",
-    "weight": "150 g",
+    "weight": "125 g",
     "volume": "250 ml",
     "price": "50 USD",
     "price_postapoc": "50 cent",

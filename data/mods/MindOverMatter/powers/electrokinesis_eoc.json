@@ -66,7 +66,7 @@
     "condition": { "u_has_effect": "effect_electrokinetic_pain_immune" },
     "effect": [
       { "u_lose_effect": "effect_electrokinetic_pain_immune" },
-      { "math": [ "u_pain('type': 'perceived')", "+=", "(u_electrokin_pain_value * 1.1)" ] }
+      { "math": [ "u_pain('type': 'perceived') += (u_electrokin_pain_value * 1.1)" ] }
     ]
   },
   {

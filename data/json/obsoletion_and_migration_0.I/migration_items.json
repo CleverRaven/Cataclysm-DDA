@@ -1925,7 +1925,7 @@
     "id": "superglue",
     "type": "MIGRATION",
     "replace": "small_squeeze_tube",
-    "contents": [ { "id": "super_glue", "count": 40 } ]
+    "contents": [ { "id": "glue_strong", "count": 40 } ]
   },
   {
     "id": "egg_goose_golden",
@@ -2621,5 +2621,85 @@
     "type": "MIGRATION",
     "id": "shot_he",
     "replace": "shot_dragon"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "hk_mp7",
+    "replace": "fn_p90"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "hk46bigmag",
+    "replace": "fnp90mag"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "hk46mag",
+    "replace": "fnp90mag"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "reloaded_46mm",
+    "replace": "reloaded_57mm"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "46mm",
+    "replace": "57mm"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bp_46mm",
+    "replace": "bp_57mm"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "robofac_gun_46",
+    "replace": "robofac_gun_57"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "unprimed_46mm_casing",
+    "replace": "unprimed_57mm_casing"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "46mm_casing",
+    "replace": "57mm_casing"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "solarpack",
+    "replace": "folding_solar_panel_v2"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "solarpack_on",
+    "replace": "folding_solar_panel_v2"
+  },
+  {
+    "type": "MIGRATION",
+    "id": [ "bone_glue", "rubber_cement" ],
+    "replace": "glue_weak"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "super_glue",
+    "replace": "glue_strong"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "fresh_fries_j",
+    "replace": "fries"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "fresh_fries",
+    "replace": "fries"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "crude_bronze_nail",
+    "replace": "bronze_nail"
   }
 ]

@@ -36,7 +36,6 @@
 #include "activity_actor_definitions.h"
 #include "activity_type.h"
 #include "addiction.h"
-#include "assign.h"
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "basecamp.h"
@@ -84,7 +83,6 @@
 #include "lru_cache.h"
 #include "magic.h"
 #include "magic_teleporter_list.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_memory.h"
 #include "mapdata.h"
@@ -131,7 +129,25 @@ struct oter_type_t;
 static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
 static const activity_id ACT_MIGRATION_CANCEL( "ACT_MIGRATION_CANCEL" );
 
+static const addiction_id addiction_alcohol( "alcohol" );
+static const addiction_id addiction_amphetamine( "amphetamine" );
+static const addiction_id addiction_caffeine( "caffeine" );
+static const addiction_id addiction_cocaine( "cocaine" );
+static const addiction_id addiction_crack( "crack" );
+static const addiction_id addiction_diazepam( "diazepam" );
+static const addiction_id addiction_marloss_b( "marloss_b" );
+static const addiction_id addiction_marloss_r( "marloss_r" );
+static const addiction_id addiction_marloss_y( "marloss_y" );
+static const addiction_id addiction_mutagen( "mutagen" );
+static const addiction_id addiction_nicotine( "nicotine" );
+static const addiction_id addiction_opiate( "opiate" );
+static const addiction_id addiction_sleeping_pill( "sleeping pill" );
+
 static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
+
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_bullet( "bullet" );
+static const damage_type_id damage_cut( "cut" );
 
 static const efftype_id effect_riding( "riding" );
 
@@ -1078,8 +1094,18 @@ void Character::load( const JsonObject &data )
     recalc_sight_limits();
     calc_encumbrance();
 
-    assign( data, "power_level", power_level, false, 0_kJ );
-    assign( data, "max_power_level_modifier", max_power_level_modifier, false, units::energy::min() );
+    // migration code, added in early 0.J
+    if( data.has_int( "power_level" ) ) {
+        power_level = units::from_kilojoule( data.get_int64( "power_level" ) );
+    } else {
+        data.read( "power_level", power_level );
+    }
+    // migration code, added in early 0.J
+    if( data.has_int( "max_power_level_modifier" ) ) {
+        max_power_level_modifier = units::from_kilojoule( data.get_int64( "max_power_level_modifier" ) );
+    } else {
+        data.read( "max_power_level_modifier", max_power_level_modifier );
+    }
 
     // Bionic power should not be negative!
     if( power_level < 0_mJ ) {
@@ -1444,14 +1470,8 @@ void Character::store( JsonOut &json ) const
     json.member( "proficiencies", _proficiencies );
 
     // npc; unimplemented
-    if( power_level < 1_J ) {
-        json.member( "power_level", std::to_string( units::to_millijoule( power_level ) ) + " mJ" );
-    } else if( power_level < 1_kJ ) {
-        json.member( "power_level", std::to_string( units::to_joule( power_level ) ) + " J" );
-    } else {
-        json.member( "power_level", units::to_kilojoule( power_level ) );
-    }
-    json.member( "max_power_level_modifier", units::to_kilojoule( max_power_level_modifier ) );
+    json.member( "power_level", power_level );
+    json.member( "max_power_level_modifier", max_power_level_modifier );
 
     if( !overmap_time.empty() ) {
         json.member( "overmap_time" );
@@ -1619,10 +1639,23 @@ void avatar::store( JsonOut &json ) const
 
     // mission stuff
     json.member( "active_mission", active_mission == nullptr ? -1 : active_mission->get_id() );
+    json.member( "active_point_of_interest_pos", active_point_of_interest.pos );
+    json.member( "active_point_of_interest_text",
+                 active_point_of_interest.pos == tripoint_abs_omt::invalid ? "" : active_point_of_interest.text );
 
     json.member( "active_missions", mission::to_uid_vector( active_missions ) );
     json.member( "completed_missions", mission::to_uid_vector( completed_missions ) );
     json.member( "failed_missions", mission::to_uid_vector( failed_missions ) );
+
+    json.member( "points_of_interest" );
+    json.start_array();
+    for( const point_of_interest &entry : points_of_interest ) {
+        json.start_object();
+        json.member( "pos", entry.pos );
+        json.member( "text", entry.text );
+        json.end_object();
+    }
+    json.end_array();
 
     json.member( "show_map_memory", show_map_memory );
 
@@ -1737,11 +1770,24 @@ void avatar::load( const JsonObject &data )
         completed_missions = mission::to_ptr_vector( tmpmissions );
     }
 
+    for( JsonObject object : data.get_array( "points_of_interest" ) ) {
+        point_of_interest poi;
+        object.read( "pos", poi.pos );
+        object.read( "text", poi.text );
+        points_of_interest.push_back( poi );
+    }
+
     int tmpactive_mission = 0;
     if( data.read( "active_mission", tmpactive_mission ) ) {
         if( tmpactive_mission != -1 ) {
             active_mission = mission::find( tmpactive_mission );
         }
+    }
+    if( !data.read( "active_point_of_interest_pos", active_point_of_interest.pos ) ) {
+        active_point_of_interest.pos = tripoint_abs_omt::invalid;
+        active_point_of_interest.text = "";
+    } else {
+        data.read( "active_point_of_interest_text", active_point_of_interest.text );
     }
 
     // Normally there is only one player character loaded, so if a mission that is assigned to
@@ -1755,11 +1801,7 @@ void avatar::load( const JsonObject &data )
     std::copy( last, active_missions.end(), std::back_inserter( failed_missions ) );
     active_missions.erase( last, active_missions.end() );
     if( active_mission && active_mission->has_failed() ) {
-        if( active_missions.empty() ) {
-            active_mission = nullptr;
-        } else {
-            active_mission = active_missions.front();
-        }
+        update_active_mission();
     }
 
     data.read( "show_map_memory", show_map_memory );
@@ -2598,6 +2640,7 @@ void monster::load( const JsonObject &data )
     biosig_timer = time_point( data.get_int( "biosig_timer", -1 ) );
 
     data.read( "udder_timer", udder_timer );
+    data.read( "times_combatted_player", times_combatted_player );
 
     horde_attraction = static_cast<monster_horde_attraction>( data.get_int( "horde_attraction", 0 ) );
 
@@ -2684,6 +2727,7 @@ void monster::store( JsonOut &json ) const
     json.member( "biosignatures", biosignatures );
     json.member( "biosig_timer", biosig_timer );
     json.member( "udder_timer", udder_timer );
+    json.member( "times_combatted_player", times_combatted_player );
 
     if( horde_attraction > MHA_NULL && horde_attraction < NUM_MONSTER_HORDE_ATTRACTION ) {
         json.member( "horde_attraction", horde_attraction );
@@ -3638,9 +3682,7 @@ void mission::deserialize( const JsonObject &jo )
 {
     jo.allow_omitted_members();
 
-    if( jo.has_int( "type_id" ) ) {
-        type = &mission_type::from_legacy( jo.get_int( "type_id" ) ).obj();
-    } else if( jo.has_string( "type_id" ) ) {
+    if( jo.has_string( "type_id" ) ) {
         type = &mission_type_id( jo.get_string( "type_id" ) ).obj();
     } else {
         debugmsg( "Saved mission has no type" );
@@ -3676,9 +3718,7 @@ void mission::deserialize( const JsonObject &jo )
         target.y() = ja.get_int( 1 );
     }
 
-    if( jo.has_int( "follow_up" ) ) {
-        follow_up = mission_type::from_legacy( jo.get_int( "follow_up" ) );
-    } else if( jo.has_string( "follow_up" ) ) {
+    if( jo.has_string( "follow_up" ) ) {
         follow_up = mission_type_id( jo.get_string( "follow_up" ) );
     }
 
@@ -3932,9 +3972,9 @@ void Creature::load( const JsonObject &jsin )
         jsin.read( "armor_cut_bonus", cut_bonus );
         jsin.read( "armor_bullet_bonus", bullet_bonus );
         armor_bonus.clear();
-        armor_bonus.emplace( STATIC( damage_type_id( "bash" ) ), bash_bonus );
-        armor_bonus.emplace( STATIC( damage_type_id( "cut" ) ), cut_bonus );
-        armor_bonus.emplace( STATIC( damage_type_id( "bullet" ) ), bullet_bonus );
+        armor_bonus.emplace( damage_bash, bash_bonus );
+        armor_bonus.emplace( damage_cut, cut_bonus );
+        armor_bonus.emplace( damage_bullet, bullet_bonus );
     }
 
     jsin.read( "speed", speed_base );
@@ -4238,43 +4278,43 @@ void addiction::deserialize( const JsonObject &jo )
         };
         switch( static_cast<add_type_legacy>( jo.get_int( "type_enum" ) ) ) {
             case add_type_legacy::CAFFEINE:
-                type = STATIC( addiction_id( "caffeine" ) );
+                type = addiction_caffeine;
                 break;
             case add_type_legacy::ALCOHOL:
-                type = STATIC( addiction_id( "alcohol" ) );
+                type = addiction_alcohol;
                 break;
             case add_type_legacy::SLEEP:
-                type = STATIC( addiction_id( "sleeping pill" ) );
+                type = addiction_sleeping_pill;
                 break;
             case add_type_legacy::PKILLER:
-                type = STATIC( addiction_id( "opiate" ) );
+                type = addiction_opiate;
                 break;
             case add_type_legacy::SPEED:
-                type = STATIC( addiction_id( "amphetamine" ) );
+                type = addiction_amphetamine;
                 break;
             case add_type_legacy::CIG:
-                type = STATIC( addiction_id( "nicotine" ) );
+                type = addiction_nicotine;
                 break;
             case add_type_legacy::COKE:
-                type = STATIC( addiction_id( "cocaine" ) );
+                type = addiction_cocaine;
                 break;
             case add_type_legacy::CRACK:
-                type = STATIC( addiction_id( "crack" ) );
+                type = addiction_crack;
                 break;
             case add_type_legacy::MUTAGEN:
-                type = STATIC( addiction_id( "mutagen" ) );
+                type = addiction_mutagen;
                 break;
             case add_type_legacy::DIAZEPAM:
-                type = STATIC( addiction_id( "diazepam" ) );
+                type = addiction_diazepam;
                 break;
             case add_type_legacy::MARLOSS_R:
-                type = STATIC( addiction_id( "marloss_r" ) );
+                type = addiction_marloss_r;
                 break;
             case add_type_legacy::MARLOSS_B:
-                type = STATIC( addiction_id( "marloss_b" ) );
+                type = addiction_marloss_b;
                 break;
             case add_type_legacy::MARLOSS_Y:
-                type = STATIC( addiction_id( "marloss_y" ) );
+                type = addiction_marloss_y;
                 break;
             case add_type_legacy::NONE:
             case add_type_legacy::NUM_ADD_TYPES:

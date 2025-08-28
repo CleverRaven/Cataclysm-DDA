@@ -6,12 +6,12 @@
 #include <set>
 #include <unordered_map>
 
-#include "assign.h"
 #include "debug.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "item.h"
-#include "make_static.h"
+
+static const damage_type_id damage_heat( "heat" );
 
 namespace
 {
@@ -67,21 +67,20 @@ material_type::material_type() :
     _dmg_adj = { to_translation( "lightly damaged" ), to_translation( "damaged" ), to_translation( "very damaged" ), to_translation( "thoroughly damaged" ) };
 }
 
-static mat_burn_data load_mat_burn_data( const JsonObject &jsobj )
+void mat_burn_data::deserialize( const JsonObject &jo )
 {
-    mat_burn_data bd;
-    assign( jsobj, "immune", bd.immune );
-    assign( jsobj, "volume_per_turn", bd.volume_per_turn );
-    jsobj.read( "fuel", bd.fuel );
-    jsobj.read( "smoke", bd.smoke );
-    jsobj.read( "burn", bd.burn );
-    return bd;
+    optional( jo, false, "immune", immune, false );
+    optional( jo, false, "volume_per_turn", volume_per_turn, 0_ml );
+    optional( jo, false, "fuel", fuel, 0.f );
+    optional( jo, false, "smoke", smoke, 0.f );
+    optional( jo, false, "burn", burn, 0.f );
 }
 
 void material_type::load( const JsonObject &jsobj, std::string_view )
 {
     mandatory( jsobj, was_loaded, "name", _name );
 
+    // FIXME: load resistances by deserialize or reader class
     if( jsobj.has_object( "resist" ) ) {
         _res_was_loaded.clear();
         JsonObject jo = jsobj.get_object( "resist" );
@@ -107,47 +106,36 @@ void material_type::load( const JsonObject &jsobj, std::string_view )
 
     optional( jsobj, was_loaded, "breathability", _breathability, breathability_rating::IMPERMEABLE );
 
-    assign( jsobj, "salvaged_into", _salvaged_into );
+    optional( jsobj, was_loaded, "salvaged_into", _salvaged_into );
     optional( jsobj, was_loaded, "repaired_with", _repaired_with, itype_id::NULL_ID() );
     optional( jsobj, was_loaded, "rotting", _rotting, false );
     optional( jsobj, was_loaded, "soft", _soft, false );
     optional( jsobj, was_loaded, "uncomfortable", _uncomfortable, false );
 
-    for( JsonArray pair : jsobj.get_array( "vitamins" ) ) {
-        _vitamins.emplace( vitamin_id( pair.get_string( 0 ) ), pair.get_float( 1 ) );
-    }
+    optional( jsobj, was_loaded, "vitamins", _vitamins, weighted_string_id_reader<vitamin_id, double> { 1 } );
 
     mandatory( jsobj, was_loaded, "bash_dmg_verb", _bash_dmg_verb );
     mandatory( jsobj, was_loaded, "cut_dmg_verb", _cut_dmg_verb );
 
     mandatory( jsobj, was_loaded, "dmg_adj", _dmg_adj );
 
-    if( jsobj.has_array( "burn_data" ) ) {
-        for( JsonObject brn : jsobj.get_array( "burn_data" ) ) {
-            _burn_data.emplace_back( load_mat_burn_data( brn ) );
-        }
-    }
-    if( _burn_data.empty() ) {
-        // If not specified, supply default
-        mat_burn_data mbd;
-        if( _resistances.type_resist( STATIC( damage_type_id( "heat" ) ) ) <= 0.f ) {
-            mbd.burn = 1;
-        }
-        _burn_data.emplace_back( mbd );
-    }
+    mat_burn_data default_burn_data;
+    default_burn_data.burn = _resistances.type_resist( damage_heat ) <= 0.f;
+    optional( jsobj, was_loaded, "burn_data", _burn_data, { default_burn_data } );
 
     optional( jsobj, was_loaded, "fuel_data", fuel );
 
-    jsobj.read( "burn_products", _burn_products, true );
+    optional( jsobj, was_loaded, "burn_products", _burn_products );
+}
+
+void material_type::finalize()
+{
+    finalize_damage_map( _resistances.resist_vals );
 }
 
 void material_type::finalize_all()
 {
     material_data.finalize();
-    for( const material_type &mtype : material_data.get_all() ) {
-        material_type &mt = const_cast<material_type &>( mtype );
-        finalize_damage_map( mt._resistances.resist_vals );
-    }
 }
 
 void material_type::check() const

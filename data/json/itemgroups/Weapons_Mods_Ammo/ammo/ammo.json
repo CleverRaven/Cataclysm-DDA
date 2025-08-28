@@ -20,6 +20,7 @@
       { "group": "boxed_44", "prob": 993 },
       { "group": "boxed_3006", "prob": 378 },
       { "group": "boxed_45colt", "prob": 340 },
+      { "group": "boxed_3030", "prob": 334 },
       { "group": "boxed_762R", "prob": 175 },
       { "group": "boxed_270", "prob": 167 },
       { "group": "boxed_410", "prob": 678 },
@@ -67,6 +68,7 @@
       { "group": "boxed_44_used", "prob": 993 },
       { "group": "boxed_3006_used", "prob": 378 },
       { "group": "boxed_45colt_used", "prob": 340 },
+      { "group": "boxed_3030_used", "prob": 334 },
       { "group": "boxed_762R_used", "prob": 175 },
       { "group": "boxed_270_used", "prob": 167 },
       { "group": "boxed_410_used", "prob": 678 },
@@ -114,6 +116,7 @@
       { "group": "boxed_44_looted", "prob": 993 },
       { "group": "boxed_3006_looted", "prob": 378 },
       { "group": "boxed_45colt_looted", "prob": 340 },
+      { "group": "boxed_3030_looted", "prob": 334 },
       { "group": "boxed_762R_looted", "prob": 175 },
       { "group": "boxed_270_looted", "prob": 167 },
       { "group": "boxed_410_looted", "prob": 678 },
@@ -161,6 +164,7 @@
       { "group": "44_loose", "prob": 15 },
       { "group": "3006_loose", "prob": 8 },
       { "group": "45colt_loose", "prob": 8 },
+      { "item": "3030", "charges": [ 1, 10 ], "prob": 5 },
       { "item": "762_54R", "charges": [ 1, 10 ], "prob": 4 },
       { "item": "270win_jsp", "charges": [ 1, 10 ], "prob": 3 },
       { "group": "410_loose", "prob": 3 },
@@ -201,6 +205,7 @@
       { "group": "boxed_308", "prob": 742 },
       { "group": "boxed_44", "prob": 993 },
       { "group": "boxed_3006", "prob": 378 },
+      { "group": "boxed_3030", "prob": 334 },
       { "group": "boxed_762R", "prob": 175 },
       { "group": "boxed_270", "prob": 167 },
       { "group": "boxed_410", "prob": 678 },
@@ -223,7 +228,7 @@
     "id": "ammo_pistol_milspec",
     "//": "Military specification pistol ammo found at military sites.",
     "subtype": "distribution",
-    "entries": [ { "item": "46mm", "prob": 70 }, { "item": "9mmfmj", "prob": 100 } ]
+    "entries": [ { "item": "9mmfmj", "prob": 100 } ]
   },
   {
     "type": "item_group",

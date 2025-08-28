@@ -335,6 +335,16 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "cabin_cellar" ],
+    "vision_levels": "underground_dirt",
+    "name": "cabin cellar",
+    "looks_like": "special_earth",
+    "sym": "C",
+    "color": "brown",
+    "see_cost": "opaque"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "cabin_lakeside", "cabin_lakeside1", "cabin_lakeside2", "cabin_lakeside3", "cabin_lakeside4", "cabin_lakeside5" ],
     "name": "lakeside cabin",
     "copy-from": "cabin"

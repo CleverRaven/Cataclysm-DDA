@@ -65,6 +65,7 @@
 #include "translations.h"
 #include "uilist.h"
 #include "units.h"
+#include "vitamin.h"
 #include "vpart_position.h"
 
 struct species_type;
@@ -204,6 +205,7 @@ std::string enum_to_string<magic_energy_type>( magic_energy_type data )
     case magic_energy_type::mana: return "MANA";
     case magic_energy_type::none: return "NONE";
     case magic_energy_type::stamina: return "STAMINA";
+    case magic_energy_type::vitamin: return "VITAMIN";
     case magic_energy_type::last: break;
     }
     cata_fatal( "Invalid magic_energy_type" );
@@ -356,6 +358,7 @@ void spell_type::load( const JsonObject &jo, std::string_view src )
         read_condition( jo, "condition", condition, false );
         has_condition = true;
     }
+    optional( jo, was_loaded, "condition_fail_message", condition_fail_message_ );
 
     optional( jo, was_loaded, "extra_effects", additional_spells );
 
@@ -508,7 +511,14 @@ void spell_type::load( const JsonObject &jo, std::string_view src )
     }
 
     optional( jo, was_loaded, "spell_class", spell_class, spell_class_default );
-    optional( jo, was_loaded, "energy_source", energy_source );
+    if( jo.has_string( "energy_source" ) ) {
+        mandatory( jo, was_loaded, "energy_source", energy_source );
+    } else if( jo.has_object( "energy_source" ) ) {
+        const JsonObject jo_energy = jo.get_object( "energy_source" );
+        mandatory( jo_energy, was_loaded, "type", energy_source );
+        optional( jo_energy, was_loaded, "vitamin", vitamin_energy_source_ );
+        optional( jo_energy, was_loaded, "color", energy_color_, nc_color_reader{}, c_cyan );
+    }
     optional( jo, was_loaded, "damage_type", dmg_type, dmg_type_default );
     optional( jo, was_loaded, "get_level_formula_id", get_level_formula_id );
     optional( jo, was_loaded, "exp_for_level_formula_id", exp_for_level_formula_id );
@@ -552,131 +562,6 @@ void spell_type::load( const JsonObject &jo, std::string_view src )
     }
 }
 
-void spell_type::serialize( JsonOut &json ) const
-{
-    json.start_object();
-
-    json.member( "type", "SPELL" );
-    json.member( "id", id );
-    json.member( "src_mod", src_mod );
-    json.member( "name", name.translated() );
-    json.member( "description", description.translated() );
-    json.member( "effect", effect_name );
-    json.member( "shape", io::enum_to_string( spell_area ) );
-    json.member( "valid_targets", valid_targets, enum_bitset<spell_target> {} );
-    json.member( "effect_str", effect_str, effect_str_default );
-    json.member( "skill", skill, skill_default );
-    json.member( "teachable", teachable, true );
-    json.member( "components", spell_components, spell_components_default );
-    json.member( "message", message.translated(), message_default.translated() );
-    json.member( "sound_description", sound_description.translated(),
-                 sound_description_default.translated() );
-    json.member( "sound_type", io::enum_to_string( sound_type ),
-                 io::enum_to_string( sound_type_default ) );
-    json.member( "sound_ambient", sound_ambient, sound_ambient_default );
-    json.member( "sound_id", sound_id, sound_id_default );
-    json.member( "sound_variant", sound_variant, sound_variant_default );
-    json.member( "targeted_monster_ids", targeted_monster_ids, std::set<mtype_id> {} );
-    json.member( "targeted_monster_species", targeted_species_ids, std::set<species_id> {} );
-    json.member( "ignored_monster_species", ignored_species_ids, std::set<species_id> {} );
-    json.member( "extra_effects", additional_spells, std::vector<fake_spell> {} );
-    if( !affected_bps.none() ) {
-        json.member( "affected_body_parts", affected_bps );
-    }
-    json.member( "flags", flags, std::set<std::string> {} );
-    if( field ) {
-        json.member( "field_id", field->id().str() );
-        json.member( "field_chance", static_cast<int>( field_chance.min.dbl_val.value() ),
-                     field_chance_default );
-        json.member( "max_field_intensity", static_cast<int>( max_field_intensity.min.dbl_val.value() ),
-                     max_field_intensity_default );
-        json.member( "min_field_intensity", static_cast<int>( min_field_intensity.min.dbl_val.value() ),
-                     min_field_intensity_default );
-        json.member( "field_intensity_increment",
-                     static_cast<float>( field_intensity_increment.min.dbl_val.value() ),
-                     field_intensity_increment_default );
-        json.member( "field_intensity_variance",
-                     static_cast<float>( field_intensity_variance.min.dbl_val.value() ),
-                     field_intensity_variance_default );
-    }
-    json.member( "min_damage", static_cast<int>( min_damage.min.dbl_val.value() ), min_damage_default );
-    json.member( "max_damage", static_cast<int>( max_damage.min.dbl_val.value() ), max_damage_default );
-    json.member( "damage_increment", static_cast<float>( damage_increment.min.dbl_val.value() ),
-                 damage_increment_default );
-    json.member( "min_accuracy", static_cast<int>( min_accuracy.min.dbl_val.value() ),
-                 min_accuracy_default );
-    json.member( "accuracy_increment", static_cast<float>( accuracy_increment.min.dbl_val.value() ),
-                 accuracy_increment_default );
-    json.member( "max_accuracy", static_cast<int>( max_accuracy.min.dbl_val.value() ),
-                 max_accuracy_default );
-    json.member( "min_range", static_cast<int>( min_range.min.dbl_val.value() ), min_range_default );
-    json.member( "max_range", static_cast<int>( max_range.min.dbl_val.value() ), min_range_default );
-    json.member( "range_increment", static_cast<float>( range_increment.min.dbl_val.value() ),
-                 range_increment_default );
-    json.member( "min_aoe", static_cast<int>( min_aoe.min.dbl_val.value() ), min_aoe_default );
-    json.member( "max_aoe", static_cast<int>( max_aoe.min.dbl_val.value() ), max_aoe_default );
-    json.member( "aoe_increment", static_cast<float>( aoe_increment.min.dbl_val.value() ),
-                 aoe_increment_default );
-    json.member( "min_dot", static_cast<int>( min_dot.min.dbl_val.value() ), min_dot_default );
-    json.member( "max_dot", static_cast<int>( max_dot.min.dbl_val.value() ), max_dot_default );
-    json.member( "dot_increment", static_cast<float>( dot_increment.min.dbl_val.value() ),
-                 dot_increment_default );
-    json.member( "min_duration", static_cast<int>( min_duration.min.dbl_val.value() ),
-                 min_duration_default );
-    json.member( "max_duration", static_cast<int>( max_duration.min.dbl_val.value() ),
-                 max_duration_default );
-    json.member( "duration_increment", static_cast<int>( duration_increment.min.dbl_val.value() ),
-                 duration_increment_default );
-    json.member( "min_pierce", static_cast<int>( min_pierce.min.dbl_val.value() ), min_pierce_default );
-    json.member( "max_pierce", static_cast<int>( max_pierce.min.dbl_val.value() ), max_pierce_default );
-    json.member( "pierce_increment", static_cast<float>( pierce_increment.min.dbl_val.value() ),
-                 pierce_increment_default );
-    json.member( "min_bash_scaling", static_cast<float>( min_bash_scaling.min.dbl_val.value() ),
-                 min_bash_scaling_default );
-    json.member( "max_bash_scaling", static_cast<float>( max_bash_scaling.min.dbl_val.value() ),
-                 max_bash_scaling_default );
-    json.member( "bash_scaling_increment",
-                 static_cast<float>( bash_scaling_increment.min.dbl_val.value() ), bash_scaling_increment_default );
-    json.member( "base_energy_cost", static_cast<int>( base_energy_cost.min.dbl_val.value() ),
-                 base_energy_cost_default );
-    json.member( "final_energy_cost", static_cast<int>( final_energy_cost.min.dbl_val.value() ),
-                 static_cast<int>( base_energy_cost.min.dbl_val.value() ) );
-    json.member( "energy_increment", static_cast<float>( energy_increment.min.dbl_val.value() ),
-                 energy_increment_default );
-    json.member( "spell_class", spell_class, spell_class_default );
-    if( energy_source.has_value() ) {
-        json.member( "energy_source", io::enum_to_string( energy_source.value() ) );
-    }
-    json.member( "damage_type", dmg_type, dmg_type_default );
-    json.member( "difficulty", static_cast<int>( difficulty.min.dbl_val.value() ), difficulty_default );
-    json.member( "multiple_projectiles", static_cast<int>( multiple_projectiles.min.dbl_val.value() ),
-                 multiple_projectiles_default );
-    json.member( "max_level", static_cast<int>( max_level.min.dbl_val.value() ), max_level_default );
-    json.member( "base_casting_time", static_cast<int>( base_casting_time.min.dbl_val.value() ),
-                 base_casting_time_default );
-    json.member( "final_casting_time", static_cast<int>( final_casting_time.min.dbl_val.value() ),
-                 static_cast<int>( base_casting_time.min.dbl_val.value() ) );
-    json.member( "casting_time_increment",
-                 static_cast<float>( casting_time_increment.min.dbl_val.value() ), casting_time_increment_default );
-    json.member( "get_level_formula_id", get_level_formula_id );
-    json.member( "exp_for_level_formula_id", exp_for_level_formula_id );
-    json.member( "magic_type", magic_type );
-    json.member( "max_book_level", max_book_level );
-
-    if( !learn_spells.empty() ) {
-        json.member( "learn_spells" );
-        json.start_object();
-
-        for( const std::pair<const std::string, int> &sp : learn_spells ) {
-            json.member( sp.first, sp.second );
-        }
-
-        json.end_object();
-    }
-
-    json.end_object();
-}
-
 static bool spell_infinite_loop_check( std::set<spell_id> spell_effects, const spell_id &sp )
 {
     if( spell_effects.count( sp ) ) {
@@ -713,6 +598,17 @@ void spell_type::check_consistency()
         if( sp_t.spell_tags[spell_flag::WONDER] && sp_t.additional_spells.empty() ) {
             debugmsg( "ERROR: %s has WONDER flag but no spells to choose from!", sp_t.id.c_str() );
         }
+        if( sp_t.get_energy_source() == magic_energy_type::vitamin &&
+            sp_t.vitamin_energy_source() == vitamin_id::NULL_ID() ) {
+            debugmsg( R"(spell %s uses energy_source "VITAMIN", but doesn't specify the "vitamin" id)",
+                      sp_t.id.c_str() );
+        }
+        if( sp_t.get_energy_source() != magic_energy_type::vitamin &&
+            sp_t.vitamin_energy_source() != vitamin_id::NULL_ID() ) {
+            debugmsg( R"(spell %s specifies "vitamin" field, but doesn't use the vitamin energy source)",
+                      sp_t.id.c_str() );
+        }
+
         if( sp_t.exp_for_level_formula_id.has_value() &&
             sp_t.exp_for_level_formula_id.value()->num_params != 1 ) {
             debugmsg( "ERROR: %s exp_for_level_formula_id has params that != 1!", sp_t.id.c_str() );
@@ -1244,16 +1140,22 @@ bool spell::can_cast( const Character &guy ) const
     return guy.magic->has_enough_energy( guy, *this );
 }
 
-bool spell::can_cast( const Character &guy, std::set<std::string> &failure_messages )
+bool spell::can_cast( const Character &guy, std::map<magic_type_id, bool> &success_tracker )
 {
-    if( can_cast( guy ) ) {
-        return true;
-    } else if( type->magic_type.has_value() &&
-               type->magic_type.value()->cannot_cast_message.has_value() ) {
-        failure_messages.insert( type->magic_type.value()->cannot_cast_message.value() );
-        return false;
+    if( type->magic_type.has_value() &&
+        type->magic_type.value()->cannot_cast_message.has_value() ) {
+        // Insert first occurence of magic_type_id as false since only successful casts will be tracked.
+        if( success_tracker.count( type->magic_type.value() ) == 0 ) {
+            success_tracker[type->magic_type.value()] = false;
+        }
+        if( can_cast( guy ) ) {
+            success_tracker[type->magic_type.value()] = true;
+            return true;
+        } else {
+            return false;
+        }
     } else {
-        return false;
+        return can_cast( guy );
     }
 }
 
@@ -1533,6 +1435,8 @@ std::string spell::energy_string() const
             return _( "stamina" );
         case magic_energy_type::bionic:
             return _( "kJ" );
+        case magic_energy_type::vitamin:
+            return to_lower_case( vitamin_energy_source().value().obj().name() );
         default:
             return "";
     }
@@ -1554,6 +1458,9 @@ std::string spell::energy_cost_string( const Character &guy ) const
         auto pair = get_hp_bar( energy_cost( guy ), guy.get_stamina_max() );
         return colorize( pair.first, pair.second );
     }
+    if( energy_source() == magic_energy_type::vitamin ) {
+        return colorize( std::to_string( energy_cost( guy ) ), energy_color() );
+    }
     debugmsg( "ERROR: Spell %s has invalid energy source.", id().c_str() );
     return _( "error: energy_type" );
 }
@@ -1572,6 +1479,10 @@ std::string spell::energy_cur_string( const Character &guy ) const
     if( energy_source() == magic_energy_type::stamina ) {
         auto pair = get_hp_bar( guy.get_stamina(), guy.get_stamina_max() );
         return colorize( pair.first, pair.second );
+    }
+    if( energy_source() == magic_energy_type::vitamin ) {
+        return colorize( std::to_string( guy.vitamin_get( vitamin_energy_source().value() ) ),
+                         energy_color() );
     }
     if( energy_source() == magic_energy_type::hp ) {
         return "";
@@ -1654,6 +1565,16 @@ magic_energy_type spell::energy_source() const
     return type->get_energy_source();
 }
 
+std::optional<vitamin_id> spell::vitamin_energy_source() const
+{
+    return type->vitamin_energy_source();
+}
+
+nc_color spell::energy_color() const
+{
+    return type->energy_color();
+}
+
 bool spell::is_target_in_range( const Creature &caster, const tripoint_bub_ms &p ) const
 {
     return rl_dist( caster.pos_bub(), p ) <= range( caster );
@@ -1684,6 +1605,10 @@ bool spell::valid_by_condition( const Creature &caster ) const
     }
 }
 
+std::string spell::failed_condition_message() const
+{
+    return type->condition_fail_message_.translated();
+}
 
 bool spell::is_valid_target( const Creature &caster, const tripoint_bub_ms &p ) const
 {
@@ -1810,6 +1735,29 @@ magic_energy_type spell_type::get_energy_source() const
     }
 }
 
+vitamin_id spell_type::vitamin_energy_source() const
+{
+    if( vitamin_energy_source_.has_value() ) {
+        return vitamin_energy_source_.value();
+    } else if( magic_type.has_value() && magic_type.value()->vitamin_energy_source_.has_value() ) {
+        return magic_type.value()->vitamin_energy_source_.value();
+    } else {
+        // should happen only at check_consistency()
+        return vitamin_id::NULL_ID();
+    }
+}
+
+nc_color spell_type::energy_color() const
+{
+    if( energy_color_.has_value() ) {
+        return energy_color_.value();
+    } else if( magic_type.has_value() && magic_type.value()->energy_color_.has_value() ) {
+        return magic_type.value()->energy_color_.value();
+    } else {
+        return c_cyan;
+    }
+}
+
 std::optional<jmath_func_id> spell_type::overall_get_level_formula_id() const
 {
     if( get_level_formula_id.has_value() ) {
@@ -1889,6 +1837,9 @@ void spell::consume_spell_cost( Character &caster, bool cast_success ) const
             break;
         case magic_energy_type::stamina:
             caster.mod_stamina( -cost );
+            break;
+        case magic_energy_type::vitamin:
+            caster.vitamin_mod( vitamin_energy_source().value(), -cost );
             break;
         case magic_energy_type::bionic:
             caster.mod_power_level( -units::from_kilojoule( static_cast<std::int64_t>( cost ) ) );
@@ -2612,8 +2563,9 @@ void known_magic::update_mana( const Character &guy, float turns )
     // mana should replenish in 8 hours.
     const double full_replenish = to_turns<double>( 8_hours );
     const double ratio = turns / full_replenish;
-    mod_mana( guy, std::floor( ratio * guy.calculate_by_enchantment( static_cast<double>( max_mana(
-                                   guy ) ), enchant_vals::mod::REGEN_MANA ) ) );
+    mod_mana( guy, std::floor( ratio * std::max( 0.0,
+                               guy.calculate_by_enchantment( static_cast<double>( max_mana(
+                                           guy ) ), enchant_vals::mod::REGEN_MANA ) ) ) );
 }
 
 std::vector<spell_id> known_magic::spells() const
@@ -2637,6 +2589,12 @@ bool known_magic::has_enough_energy( const Character &guy, const spell &sp ) con
             return guy.get_power_level() >= units::from_kilojoule( static_cast<std::int64_t>( cost ) );
         case magic_energy_type::stamina:
             return guy.get_stamina() >= cost;
+        case magic_energy_type::vitamin: {
+            const int min_vitamin_level = sp.vitamin_energy_source().value().obj().min();
+            const int current_vitamin_level = guy.vitamin_get( sp.vitamin_energy_source().value() );
+            // in case the vitamin can go into negative, check min also
+            return current_vitamin_level >= cost + min_vitamin_level;
+        }
         case magic_energy_type::hp:
             for( const std::pair<const bodypart_str_id, bodypart> &elem : guy.get_body() ) {
                 if( elem.second.get_hp_cur() > cost ) {

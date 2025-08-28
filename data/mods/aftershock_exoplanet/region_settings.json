@@ -41,7 +41,7 @@
         "afs_habitat_block_2": 100,
         "afs_habitat_block_3": 200
       },
-      "parks": { "afs_city_ruinfield": 100, "afs_shuttle_pad": 10, "afs_enclosed_park": 30 },
+      "parks": { "afs_city_ruinfield": 70, "afs_shuttle_pad": 10, "afs_enclosed_park": 30, "afs_vehicle_bay": 50 },
       "shops": {
         "afs_augmentation_clinic_1": 400,
         "afs_gene_clinic_1": 400,
@@ -154,6 +154,7 @@
       "three_way_intersections": { "Highway Trumpet Interchange": 1 },
       "fallback_three_way_intersection_special": "Highway Fallback Tee",
       "bends": { "Highway Bend": 1 },
+      "interchanges": { "Highway Diamond Interchange": 1 },
       "fallback_bend_special": "Highway Bend",
       "fallback_supports": "hw_fb_supports",
       "clockwise_slant_special": "Highway Slant Minor Clockwise",

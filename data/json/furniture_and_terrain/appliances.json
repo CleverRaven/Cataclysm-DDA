@@ -1020,7 +1020,7 @@
       "removal": { "time": "1 m" }
     },
     "pseudo_tools": [ { "id": "microwave" } ],
-    "size": 20,
+    "size": "5 L",
     "breaks_into": [
       { "item": "plastic_chunk", "count": [ 4, 7 ] },
       { "item": "mc_steel_chunk", "count": [ 3, 6 ] },
@@ -1095,5 +1095,51 @@
       { "item": "rock", "count": [ 6, 12 ] }
     ],
     "variants": [ { "symbols": "o", "symbols_broken": "x" } ]
+  },
+  {
+    "id": "ap_lathe",
+    "type": "vehicle_part",
+    "categories": [ "utility" ],
+    "name": { "str": "lathe" },
+    "description": "An industrial-grade lathe, for turning chunks of metal and other hard things into round chunks of metal and other hard things.",
+    "looks_like": "f_heavy_lathe",
+    "variants": [ { "symbols": "4", "symbols_broken": "#" } ],
+    "color": "cyan_red",
+    "flags": [ "OBSTACLE", "APPLIANCE" ],
+    "pseudo_tools": [ { "id": "fake_lathe" } ],
+    "item": "lathe",
+    "damage_modifier": 10,
+    "damage_reduction": { "all": 30 },
+    "durability": 80,
+    "breaks_into": [
+      { "item": "cable", "charges": [ 0, 4 ] },
+      { "item": "scrap", "count": [ 12, 20 ] },
+      { "item": "chunk_cast_iron", "count": [ 2, 4 ] },
+      { "item": "lump_cast_iron", "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "id": "ap_deep_fryer",
+    "type": "vehicle_part",
+    "categories": [ "utility" ],
+    "name": { "str": "deep fryer" },
+    "description": "An industrial deep fryer, for frying huge batches of food at once.",
+    "looks_like": "f_oven",
+    "variants": [ { "symbols": "h", "symbols_broken": "#" } ],
+    "broken_color": "dark_gray_white",
+    "flags": [ "OBSTACLE", "APPLIANCE" ],
+    "pseudo_tools": [ { "id": "fake_deep_fryer" } ],
+    "item": "deep_fryer",
+    "damage_modifier": 10,
+    "damage_reduction": { "all": 20 },
+    "durability": 60,
+    "breaks_into": [
+      { "item": "sheet_metal", "count": [ 1, 2 ] },
+      { "item": "sheet_metal_small", "count": [ 4, 6 ] },
+      { "item": "lc_steel_chunk", "count": [ 0, 2 ] },
+      { "item": "scrap", "count": [ 0, 3 ] },
+      { "item": "element", "count": [ 1, 2 ] },
+      { "item": "cable", "charges": [ 1, 2 ] }
+    ]
   }
 ]

@@ -157,6 +157,7 @@ class npc_class
 
         static void reset_npc_classes();
 
+        void finalize();
         static void finalize_all();
 
         static void check_consistency();
