@@ -1389,6 +1389,9 @@ void Character::mutate_category( const mutation_category_id &cat, const bool use
     bool allow_bad = false;
     bool allow_neutral = true;
 
+    if (has_trait(trait_id("CHAOTIC")) || has_trait(trait_id("CHAOTIC_BAD"))) {
+        add_msg_if_player(m_bad, _("Your genetic degeneration prevent you from selecting a mutation directly!"));
+        return;
     if( select_mutation || true_random ) {
         // Mutation selector and true_random overrides good / bad mutation rolls
         allow_good = true;
