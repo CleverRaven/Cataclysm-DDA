@@ -1363,7 +1363,7 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
                 return;
             }
         }
-        } while( valid.empty() );
+    } while( valid.empty() );
 }
 
 void Character::mutate( )
