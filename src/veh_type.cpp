@@ -363,18 +363,12 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         damage_reduction = load_damage_map( dred );
     }
 
+    // TODO?: move this into an object?
     if( has_flag( "ENGINE" ) ) {
         if( !engine_info ) {
             engine_info.emplace();
         }
-        assign( jo, "backfire_threshold", engine_info->backfire_threshold, strict );
-        assign( jo, "backfire_freq", engine_info->backfire_freq, strict );
-        assign( jo, "noise_factor", engine_info->noise_factor, strict );
-        assign( jo, "damaged_power_factor", engine_info->damaged_power_factor, strict );
-        assign( jo, "m2c", engine_info->m2c, strict );
-        assign( jo, "muscle_power_factor", engine_info->muscle_power_factor, strict );
-        assign( jo, "exclusions", engine_info->exclusions, strict );
-        assign( jo, "fuel_options", engine_info->fuel_opts, strict );
+        engine_info->deserialize( jo );
     }
 
     if( has_flag( "WHEEL" ) ) {
@@ -435,6 +429,20 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
             mandatory( jttd, was_loaded, "post_field_age", vtt.post_field_age );
         }
     }
+}
+
+void vpslot_engine::deserialize( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "backfire_threshold", backfire_threshold, 0.f );
+    optional( jo, was_loaded, "backfire_freq", backfire_freq, 1 );
+    optional( jo, was_loaded, "noise_factor", noise_factor, 0 );
+    optional( jo, was_loaded, "damaged_power_factor", damaged_power_factor, 0.f );
+    optional( jo, was_loaded, "m2c", m2c, 100 );
+    optional( jo, was_loaded, "muscle_power_factor", muscle_power_factor, 0 );
+    optional( jo, was_loaded, "exclusions", exclusions, string_reader{} );
+    optional( jo, was_loaded, "fuel_options", fuel_opts, string_id_reader<itype> {} );
+
+    was_loaded = true;
 }
 
 void vpart_info::set_flag( const std::string &flag )
