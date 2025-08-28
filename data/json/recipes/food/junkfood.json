@@ -166,7 +166,6 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "fries",
-    "charges": 3,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
@@ -174,7 +173,7 @@
     "time": "16 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "frying_oil", 4, "LIST" ] ] ],
     "proficiencies": [
       { "proficiency": "prof_food_prep" },
       { "proficiency": "prof_knife_skills", "time_multiplier": 2 },
@@ -183,7 +182,7 @@
     "components": [
       [ [ "veggy_potatolike", 1, "LIST" ], [ "carrot", 3 ], [ "carrot_wild", 2 ] ],
       [ [ "salt", 2 ], [ "seasoning_salt", 2 ] ],
-      [ [ "fry_oil", 4, "LIST" ] ]
+      [ [ "fry_oil", 1, "LIST" ] ]
     ]
   },
   {
