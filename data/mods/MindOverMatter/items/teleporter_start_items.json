@@ -683,6 +683,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "Imperial Church holy symbol" },
     "description": "A necklace made of fine gold chain, bearing an image of Jesucristo as the Ultimate Sacrifice as a pendant, his heart clearly visible through his chest.  Under his left hand is a raindrop, representing the Aeon Tláloc, and under his right hand is a sun disc, representing the Aeon Huītzilōpōchtli.",
-    "extend": { "flags": [ "FIFTH_SUN_TECHNOLOGY" ] }
+    "extend": { "flags": [ "FIFTH_SUN_TECHNOLOGY" ] },
+    "variants": [  ]
   }
 ]

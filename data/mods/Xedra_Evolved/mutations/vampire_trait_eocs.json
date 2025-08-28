@@ -849,6 +849,10 @@
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.25 },
               { "math": [ "u_vitamin('human_blood_vitamin') -= 150" ] },
               { "u_add_effect": "effect_vampiric_resilience", "duration": "PERMANENT" },
+              {
+                "if": { "u_has_trait": "VAMPIRIC_RESILIENCE_REFINEMENT_INVINCIBILITY" },
+                "then": { "u_add_effect": "effect_vampire_resilience_flesh_of_marble", "duration": "PERMANENT" }
+              },
               { "u_message": "You feel a surge of power as blood fortifies your flesh.", "type": "good" },
               {
                 "run_eocs": [ "EOC_VAMPIRIC_RESILIENCE_maintenance" ],
@@ -874,8 +878,9 @@
             "id": "EOC_VAMPIRIC_RESILIENCE_deactivated",
             "condition": { "u_has_effect": "effect_vampiric_resilience" },
             "effect": [
-              { "u_message": "Your muscles weaken as the stolen blood leaves them.", "type": "neutral" },
-              { "u_lose_effect": "effect_vampiric_resilience" }
+              { "u_message": "Your flesh loses its resilience as the stolen blood leaves it.", "type": "neutral" },
+              { "u_lose_effect": "effect_vampiric_resilience" },
+              { "u_lose_effect": "effect_vampire_resilience_flesh_of_marble" }
             ]
           }
         ]
@@ -922,6 +927,14 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRIC_RESILIENCE_FLESH_OF_MARBLE",
+    "eoc_type": "EVENT",
+    "required_event": "character_takes_damage",
+    "condition": { "u_has_effect": "effect_vampire_resilience_flesh_of_marble" },
+    "effect": [ { "u_lose_effect": "effect_vampire_resilience_flesh_of_marble" } ]
   },
   {
     "type": "effect_on_condition",
@@ -1464,6 +1477,15 @@
               { "math": [ "u_vitamin('human_blood_vitamin') -= 750" ] },
               { "u_add_effect": "haste_vampire", "duration": "PERMANENT" },
               {
+                "if": {
+                  "and": [
+                    { "u_has_trait": "BLOODHASTE_REFINEMENT_WATER_RUN" },
+                    { "not": { "u_has_trait": "VAMPIRE_WEAKNESS_VAST_WATER_BURN" } }
+                  ]
+                },
+                "then": { "u_add_effect": "haste_vampire_water_running", "duration": "PERMANENT" }
+              },
+              {
                 "run_eocs": [ "EOC_BLOODHASTE_maintenance" ],
                 "time_in_future": {
                   "math": [
@@ -1486,7 +1508,7 @@
           {
             "id": "EOC_BLOODHASTE_deactivated",
             "condition": { "u_has_effect": "haste_vampire" },
-            "effect": [ { "u_lose_effect": "haste" }, { "u_lose_effect": "haste_vampire" } ]
+            "effect": [ { "u_lose_effect": "haste_vampire_water_running" }, { "u_lose_effect": "haste_vampire" } ]
           }
         ]
       }
@@ -1523,7 +1545,7 @@
             "false_effect": [
               { "u_message": "You don't have enough blood to maintain your blood-driven speed.", "type": "bad" },
               { "u_lose_effect": "haste_vampire" },
-              { "u_lose_effect": "haste" },
+              { "u_lose_effect": "haste_vampire_water_running" },
               { "u_deactivate_trait": "BLOODHASTE" }
             ]
           }
@@ -2767,6 +2789,61 @@
       {
         "u_message": "You're not a mentor, so you're not supposed to see this.  Please open a Github bug report.",
         "type": "popup"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_UNHOLY_DEVASTATION_BONUSES",
+    "eoc_type": "EVENT",
+    "required_event": "character_smashes_tile",
+    "condition": { "u_has_trait": "VAMPIRIC_STRENGTH_REFINEMENT_SMASHING_TILES" },
+    "effect": [ { "u_add_effect": "effect_vampire_unholy_devastation", "duration": 2 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_UNHOLY_DEVASTATION_BONUSES_REMOVE",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": { "u_has_effect": "effect_vampire_unholy_devastation" },
+    "effect": [ { "u_lose_effect": "effect_vampire_unholy_devastation" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_ZEPHYR_WATER_RUN",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": { "and": [ { "u_has_effect": "haste_vampire" }, { "not": { "u_has_trait": "VAMPIRE_WEAKNESS_VAST_WATER_BURN" } } ] },
+    "effect": [
+      {
+        "if": { "u_has_effect": "haste_vampire_water_running" },
+        "then": {
+          "run_eocs": [
+            {
+              "id": "EOC_VAMPIRE_ZEPHYR_WATER_RUN_FOLLOWUP",
+              "condition": {
+                "and": [
+                  { "u_is_on_terrain_with_flag": "SWIMMABLE" },
+                  {
+                    "or": [
+                      { "compare_string": [ "walk", { "context_val": "movement_mode" } ] },
+                      { "compare_string": [ "crouch", { "context_val": "movement_mode" } ] },
+                      { "compare_string": [ "prone", { "context_val": "movement_mode" } ] }
+                    ]
+                  }
+                ]
+              },
+              "effect": [
+                { "u_message": "You are moving too slowly and fall into the water.", "type": "bad" },
+                { "u_lose_effect": "haste_vampire_water_running" }
+              ]
+            }
+          ]
+        },
+        "else": {
+          "if": { "not": { "u_is_on_terrain_with_flag": "SWIMMABLE" } },
+          "then": { "u_add_effect": "haste_vampire_water_running", "duration": "PERMANENT" }
+        }
       }
     ]
   }

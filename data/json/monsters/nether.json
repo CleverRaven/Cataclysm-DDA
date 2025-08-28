@@ -690,15 +690,6 @@
         "miss_msg_npc": "%1$s tries to fasten onto <npcname>, but they dodge!",
         "no_dmg_msg_u": "%1$s tries to fasten onto your %2$s, but can't penetrate your armor.",
         "no_dmg_msg_npc": "%1$s tries to fasten onto <npcname>'s %2$s, but can't penetrate their armor."
-      },
-      {
-        "id": "star_vampire_invisibility",
-        "type": "spell",
-        "spell_data": { "id": "star_vampire_invisibility_spell", "min_level": 3 },
-        "cooldown": 1,
-        "allow_no_target": true,
-        "condition": { "or": [ { "not": { "u_has_effect": "invisibility" } }, { "not": { "u_has_effect": "star_vampire_blood_drank" } } ] },
-        "monster_message": ""
       }
     ],
     "bleed_rate": 40,
@@ -721,7 +712,8 @@
       "PLASTIC",
       "NO_BREATHE",
       "HARDTOSHOOT",
-      "NOGIB"
+      "NOGIB",
+      "PERMANENT_INVISIBILITY"
     ],
     "armor": { "bash": 8, "electric": 3 }
   },
@@ -886,15 +878,6 @@
         "miss_msg_npc": "%1$s tries to clutch onto you <npcname>, but they dodge!",
         "no_dmg_msg_u": "%1$s tries to clutch onto your %2$s, but can't penetrate your armor.",
         "no_dmg_msg_npc": "%1$s tries to clutch onto <npcname>'s %2$s, but can't penetrate their armor."
-      },
-      {
-        "id": "star_vampire_invisibility",
-        "type": "spell",
-        "spell_data": { "id": "star_vampire_invisibility_spell", "min_level": 3 },
-        "cooldown": 1,
-        "allow_no_target": true,
-        "condition": { "or": [ { "not": { "u_has_effect": "invisibility" } }, { "not": { "u_has_effect": "star_vampire_blood_drank" } } ] },
-        "monster_message": ""
       }
     ]
   },

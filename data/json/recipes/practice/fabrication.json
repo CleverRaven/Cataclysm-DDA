@@ -368,7 +368,7 @@
     "name": "lathe turning (steel)",
     "description": "Practice turning steel bar stock into basic parts.",
     "skill_used": "fabrication",
-    "practice_data": { "min_difficulty": 2, "max_difficulty": 3, "skill_limit": 3 },
+    "practice_data": { "min_difficulty": 3, "max_difficulty": 4, "skill_limit": 4 },
     "proficiencies": [
       { "proficiency": "prof_metalworking", "time_multiplier": 1, "skill_penalty": 0 },
       { "proficiency": "prof_machining_basic", "time_multiplier": 1.5, "skill_penalty": 1.25 }

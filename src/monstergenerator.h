@@ -82,6 +82,7 @@ class MonsterGenerator
         const std::vector<mtype> &get_all_mtypes() const;
         mtype_id get_valid_hallucination() const;
         friend struct mtype;
+        friend struct special_attacks_reader;
         friend struct species_type;
         friend class mattack_actor;
 

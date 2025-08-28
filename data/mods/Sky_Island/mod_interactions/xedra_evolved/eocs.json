@@ -143,6 +143,7 @@
       { "u_remove_item_with": "upgradekey_bloodgift_research" },
       { "u_forget_recipe": "upgradekey_bloodgift_research" },
       { "u_learn_recipe": "xe_vampire_blood_gift_research" },
+      { "u_learn_recipe": "xe_vampire_blood_gift_refinement_research" },
       { "u_learn_recipe": "xe_vampire_blood_weaknesses_reshuffle" },
       { "u_message": "You learn how to expand your blood gifts and reshuffle your weaknesses.", "type": "good" }
     ]

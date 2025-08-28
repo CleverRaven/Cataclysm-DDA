@@ -1389,6 +1389,7 @@ template<typename Derived>
 class generic_typed_reader
 {
     static constexpr bool read_objects = false;
+    static constexpr bool check_extend_delete_copy_from = true;
 public:
     template<typename C, typename Fn>
     // I tried using a member function pointer and couldn't work it out
@@ -1619,8 +1620,11 @@ public:
         const Derived &derived = static_cast<const Derived &>( *this );
         // or no handler for the container
         if( !was_loaded ) {
-            warn_disabled_feature( jo, "extend", member_name, "no copy-from" );
-            warn_disabled_feature( jo, "delete", member_name, "no copy-from" );
+            // this is gross, but some JSON wants to delete from things loaded by a different member on the same entity
+            if( Derived::check_extend_delete_copy_from ) {
+                warn_disabled_feature( jo, "extend", member_name, "no copy-from" );
+                warn_disabled_feature( jo, "delete", member_name, "no copy-from" );
+            }
             warn_disabled_feature( jo, "relative", member_name, "no copy-from" );
             warn_disabled_feature( jo, "proportional", member_name, "no copy-from" );
         }
@@ -2081,6 +2085,20 @@ public:
         bound_reader<T>::low = low;
         bound_reader<T>::high = high;
     };
+};
+
+struct weakpoints;
+
+struct weakpoints_reader : generic_typed_reader<weakpoints_reader> {
+    static constexpr bool check_extend_delete_copy_from = false;
+
+    std::set<std::string> &deleted;
+
+    explicit weakpoints_reader( std::set<std::string> &del ) : deleted( del ) {}
+
+    weakpoints get_next( const JsonValue &jv ) const;
+    bool do_extend( const JsonObject &jo, std::string_view name, weakpoints &member ) const;
+    bool do_delete( const JsonObject &jo, std::string_view name, weakpoints &member ) const;
 };
 
 /**
