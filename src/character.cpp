@@ -734,15 +734,11 @@ int Character::count_threshold_substitute_traits() const
 {
     int count = 0;
     for( const mutation_branch &mut : mutation_branch::get_all() ) {
-        if( !mut.threshold_substitutes.empty() ) {
-            if( has_trait( mut.id ) ) {
-                for( const trait_id &thresh_sub : mut.threshold_substitutes ) {
-                    if( has_trait( thresh_sub ) ) {
-                        ++count;
-                        break;
-                    }
-                }
-            }
+        if( !mut.threshold_substitutes.empty() && has_trait( mut.id ) &&
+            std::find_if( mut.threshold_substitutes.begin(), mut.threshold_substitutes.end(),
+                          [this](const trait_id &t) { return has_trait( t ); } ) != mut.threshold_substitutes.end() ) {
+            ++count;
+            break;
         }
     }
     return count;
