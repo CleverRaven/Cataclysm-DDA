@@ -3253,6 +3253,9 @@ void veh_interact::complete_vehicle( map &here, Character &you )
             // This will be a list of all the items which arise from this removal.
             std::list<item> resulting_items;
 
+            const bool should_make_furn = veh.is_appliance() && vp->info().base_furn;
+            const furn_str_id furn_to_make = *vp->info().base_furn;
+
             // First we get all the contents of the part
             vehicle_stack contents = veh.get_items( *vp );
             resulting_items.insert( resulting_items.end(), contents.begin(), contents.end() );
@@ -3278,7 +3281,7 @@ void veh_interact::complete_vehicle( map &here, Character &you )
                 if( smash_remove ) {
                     item_group::ItemList pieces = vp->pieces_for_broken_part();
                     resulting_items.insert( resulting_items.end(), pieces.begin(), pieces.end() );
-                } else {
+                } else if( !veh.is_appliance() ) { // appliances never have a base item to remove, only furniture.
                     resulting_items.push_back( veh.removed_part( here, *vp ) );
 
                     // damage reduces chance of success (0.8^damage_level)
@@ -3375,6 +3378,9 @@ void veh_interact::complete_vehicle( map &here, Character &you )
             std::vector<item_location> locs = put_into_vehicle_or_drop_ret_locs( you,
                                               item_drop_reason::deliberate,
                                               resulting_items );
+            if( should_make_furn ) {
+                here.furn_set( part_pos, furn_to_make );
+            }
             if( you.is_npc() ) {
                 for( const item_location &itl : locs ) {
                     you.may_activity_occupancy_after_end_items_loc.push_back( itl );

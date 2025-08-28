@@ -69,19 +69,19 @@ static const std::string flag_HALF_CIRCLE_LIGHT( "HALF_CIRCLE_LIGHT" );
 // TODO: make this dynamic in the future.
 static const int win_width = 60;
 
-vpart_id vpart_appliance_from_item( const itype_id &item_id )
+vpart_id vpart_appliance_from_furn( const furn_str_id &furn )
 {
     for( const vpart_info &vpi : vehicles::parts::get_all() ) {
-        if( vpi.base_item == item_id && vpi.has_flag( flag_APPLIANCE ) ) {
+        if( vpi.base_furn == furn && vpi.has_flag( flag_APPLIANCE ) ) {
             return vpi.id;
         }
     }
-    debugmsg( "item %s is not base item of any appliance!", item_id.c_str() );
+    debugmsg( "furniture %s is not base furniture of any appliance!", furn.c_str() );
     return vpart_ap_standing_lamp;
 }
 
 bool place_appliance( map &here, const tripoint_bub_ms &p, const vpart_id &vpart,
-                      const Character &owner, const std::optional<item> &base )
+                      const Character &owner )
 {
 
     const vpart_info &vpinfo = vpart.obj();
@@ -95,16 +95,7 @@ bool place_appliance( map &here, const tripoint_bub_ms &p, const vpart_id &vpart
     veh->add_tag( flag_APPLIANCE );
 
     int partnum = -1;
-    if( base ) {
-        item copied = *base;
-        if( vpinfo.base_item != copied.typeId() ) {
-            // transform the deploying item into what it *should* be before storing it
-            copied.convert( vpinfo.base_item );
-        }
-        partnum = veh->install_part( here, point_rel_ms::zero, vpart, std::move( copied ) );
-    } else {
-        partnum = veh->install_part( here, point_rel_ms::zero, vpart );
-    }
+    partnum = veh->install_part( here, point_rel_ms::zero, vpart );
     if( partnum == -1 ) {
         // unrecoverable, failed to be installed somehow
         here.destroy_vehicle( veh );

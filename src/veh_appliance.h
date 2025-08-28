@@ -21,9 +21,9 @@ class map;
 class ui_adaptor;
 class vehicle;
 
-vpart_id vpart_appliance_from_item( const itype_id &item_id );
+vpart_id vpart_appliance_from_furn( const furn_str_id &furn );
 bool place_appliance( map &here, const tripoint_bub_ms &p, const vpart_id &vpart,
-                      const Character &owner, const std::optional<item> &base = std::nullopt );
+                      const Character &owner );
 
 /**
  * Appliance interaction UI. Works similarly to veh_interact, but has

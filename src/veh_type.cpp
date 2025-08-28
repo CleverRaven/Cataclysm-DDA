@@ -275,6 +275,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
 
     assign( jo, "name", name_, strict );
     assign( jo, "item", base_item, strict );
+    assign( jo, "furniture", base_furn, strict );
     assign( jo, "remove_as", removed_item, strict );
     assign( jo, "location", location, strict );
     assign( jo, "durability", durability, strict );
@@ -888,6 +889,10 @@ void vpart_info::check() const
     }
     if( !item::type_is_defined( base_item ) ) {
         debugmsg( "vehicle part %s uses undefined item %s", id.str(), base_item.str() );
+    }
+
+    if( base_furn && !base_furn->is_valid() ) {
+        debugmsg( "vehicle part %s uses undefined furn %s", id.str(), base_furn->str() );
     }
 
     if( has_flag( "TURRET" ) && !base_item->gun ) {

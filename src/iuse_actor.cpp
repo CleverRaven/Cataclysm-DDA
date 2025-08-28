@@ -1336,49 +1336,6 @@ std::optional<int> deploy_furn_actor::use( Character *p, item &it,
     return 0;
 }
 
-std::unique_ptr<iuse_actor> deploy_appliance_actor::clone() const
-{
-    return std::make_unique<deploy_appliance_actor>( *this );
-}
-
-void deploy_appliance_actor::info( const item &, std::vector<iteminfo> &dump ) const
-{
-    dump.emplace_back( "DESCRIPTION",
-                       string_format( _( "Can be <info>activated</info> to deploy as an appliance (<stat>%s</stat>)." ),
-                                      vpart_appliance_from_item( appliance_base )->name() ) );
-}
-
-void deploy_appliance_actor::load( const JsonObject &obj, const std::string & )
-{
-    mandatory( obj, false, "base", appliance_base );
-}
-
-std::optional<int> deploy_appliance_actor::use( Character *p, item &it,
-        const tripoint_bub_ms &pos ) const
-{
-    return deploy_appliance_actor::use( p, it, &get_map(), pos );
-}
-
-std::optional<int> deploy_appliance_actor::use( Character *p, item &it,
-        map *here, const tripoint_bub_ms &pos ) const
-{
-    ret_val<tripoint_bub_ms> suitable = check_deploy_square( p, it, here, pos );
-    if( !suitable.success() ) {
-        p->add_msg_if_player( m_info, suitable.str() );
-        return std::nullopt;
-    }
-
-    // TODO: Use map aware operation when available
-    it.spill_contents( suitable.value() );
-    // TODO: Use map aware operation when available
-    if( place_appliance( *here, suitable.value(),
-                         vpart_appliance_from_item( appliance_base ), *p, it ) ) {
-        form_loc( *p, here, pos, it ).remove_item();
-        p->mod_moves( -to_moves<int>( 2_seconds ) );
-    }
-    return 0;
-}
-
 std::unique_ptr<iuse_actor> reveal_map_actor::clone() const
 {
     return std::make_unique<reveal_map_actor>( *this );
