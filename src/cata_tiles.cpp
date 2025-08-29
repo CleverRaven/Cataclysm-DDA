@@ -1104,6 +1104,7 @@ void tileset_cache::loader::load_ascii_set( const JsonObject &entry )
             continue;
         }
         const std::string id = get_ascii_tile_id( ascii_char, FG, -1 );
+        const std::string id_background = get_ascii_tile_id( ascii_char, FG, catacurses::black + 8 );
         tile_type curr_tile;
         curr_tile.offset = sprite_offset;
         curr_tile.offset_retracted = sprite_offset_retracted;
@@ -1165,7 +1166,12 @@ void tileset_cache::loader::load_ascii_set( const JsonObject &entry )
             add_ascii_subtile( curr_tile, id, 210 + base_offset, "end_piece" );
             add_ascii_subtile( curr_tile, id, 219 + base_offset, "unconnected" );
         }
+        tile_type curr_tile_bg = curr_tile;
+        // Use bold black █ for overmap bg when using 3D vision. If fallback.png order is changed this will need updating.
+        static const int bg_index_in_image = 219 + ( 256 * 3 );
+        curr_tile_bg.bg.add( std::vector<int>( {bg_index_in_image + offset} ), 1 );
         ts.create_tile_type( id, std::move( curr_tile ) );
+        ts.create_tile_type( id_background, std::move( curr_tile_bg ) );
     }
 }
 
@@ -2753,7 +2759,9 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
             // What about isBlink?
             const bool isBold = col.is_bold();
             const int FG = colorpair.FG + ( isBold ? 8 : 0 );
-            std::string generic_id = get_ascii_tile_id( sym, FG, -1 );
+            const int BG = ( override_overmap_tileset_transparency || get_supports_overmap_transparency() ) &&
+                           category == TILE_CATEGORY::OVERMAP_TERRAIN ? catacurses::black + 8 : -1;
+            std::string generic_id = get_ascii_tile_id( sym, FG, BG );
 
             // do not rotate fallback tiles!
             if( sym != LINE_XOXO_C && sym != LINE_OXOX_C ) {
