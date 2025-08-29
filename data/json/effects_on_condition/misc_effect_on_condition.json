@@ -304,7 +304,7 @@
             "u_add_morale": "morale_bile",
             "bonus": { "math": [ "MORALE_MULTIPLIER" ] },
             "max_bonus": { "math": [ "MORALE_MULTIPLIER * 2" ] },
-            "duration": { "global_val": "BILE_STINK_DURATION / 2" },
+            "duration": { "math": [ "BILE_STINK_DURATION / 2" ] },
             "decay_start": { "math": [ "BILE_STINK_DURATION / 4" ] }
           }
         ]
