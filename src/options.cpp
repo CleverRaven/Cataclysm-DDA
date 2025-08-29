@@ -1636,7 +1636,7 @@ void options_manager::add_options_general()
            );
 
         add( "SAFEMODEAUTOPEEK", page_id, to_translation( "Safe mode auto peek" ),
-             to_translation( "If true, safe mode preemptively peeks the next tile when not running. This option doesn't negatively impact speed." ),
+             to_translation( "If true, safe mode preemptively peeks the next tile when not running.  This option doesn't negatively impact speed." ),
              true
            );
     } );
