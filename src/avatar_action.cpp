@@ -538,9 +538,13 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
         }
         return true;
     }
+
+    const tripoint_abs_ms old_abs_pos = you.pos_abs();
+    const tripoint_abs_ms abs_dest_loc = here.get_abs( dest_loc );
     if( g->walk_move( dest_loc, via_ramp ) ) {
         // AUTOPEEK: If safe mode would be triggered after the move, look around and move back
-        if( get_option<bool>( "SAFEMODEAUTOPEEK" ) && g->safe_mode == SAFE_MODE_ON && !you.is_running() ) {
+        if( get_option<bool>( "SAFEMODEAUTOPEEK" ) && g->safe_mode == SAFE_MODE_ON && !you.is_running() &&
+            you.pos_abs() == abs_dest_loc ) {
             here.build_map_cache( dest_loc.z() );
             here.update_visibility_cache( dest_loc.z() );
             g->mon_info_update();
@@ -553,9 +557,8 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
                                ctxt.get_desc( "CONFIRM" ) ).on_top( true );
                 ui_manager::redraw();
                 // Get bub coords again after build_map_cache
-                const tripoint_bub_ms new_pos = you.pos_bub( here );
-                const tripoint_bub_ms src_loc = new_pos - d;
-                tripoint_bub_ms center = src_loc;
+                const tripoint_bub_ms src_loc = here.get_bub( old_abs_pos );
+                tripoint_bub_ms center( src_loc.x(), src_loc.y(), dest_loc.z() );
                 const look_around_result result = g->look_around( false, center, center, false, false, true );
                 if( result.peek_action != PA_MOVE ) {
                     g->walk_move( src_loc, via_ramp );
