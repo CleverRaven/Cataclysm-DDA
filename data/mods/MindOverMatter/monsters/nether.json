@@ -74,6 +74,7 @@
   },
   {
     "id": "mon_nether_silent_one_passive",
+    "looks_like": "mon_darkman",
     "type": "MONSTER",
     "name": { "str": "silent one" },
     "description": "A patch of gray cloud that sometimes collapses into the distinct form of a robed and cowled figure.  The depths of the cowl are empty, and no hands or legs extend out of the robe.  It floats above the ground, the cowl never looking to the left or the right, but you have the uncanny sense that it's watching you.",
@@ -159,6 +160,7 @@
   },
   {
     "id": "mon_nether_silent_one_aggressive",
+    "looks_like": "mon_darkman",
     "copy-from": "mon_nether_silent_one_passive",
     "type": "MONSTER",
     "name": { "str": "silent one" },
