@@ -293,7 +293,7 @@ void enchant_cache::save_add_and_multiply( JsonOut &jsout, const std::string_vie
             continue;
         }
         jsout.start_object();
-        jsout.member( "value", type );
+        jsout.member( type_key, type );
         jsout.member( "multiply", multiply );
         jsout.end_object();
     }
