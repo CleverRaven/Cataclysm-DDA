@@ -1,4 +1,3 @@
-#include <set>
 #include <sstream>
 #include <string>
 #include <utility>
@@ -19,11 +18,6 @@
 #include "vehicle.h"
 
 static const vproto_id vehicle_prototype_veh_export_test( "veh_export_test" );
-
-static bool operator==( const vehicle_prototype::zone_def &l, const vehicle_prototype::zone_def &r )
-{
-    return l.filter == r.filter && l.name == r.name && l.pt == r.pt && l.zone_type == r.zone_type;
-}
 
 static bool operator==( const vehicle_item_spawn &l, const vehicle_item_spawn &r )
 {
