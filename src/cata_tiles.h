@@ -546,7 +546,6 @@ class tileset_cache
         tilesets_;
 };
 
-
 enum class text_alignment : int {
     left,
     center,
