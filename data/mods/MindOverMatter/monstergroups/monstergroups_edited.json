@@ -146,7 +146,8 @@
     "monsters": [
       { "monster": "mon_feral_scientist_psychic", "weight": 20, "cost_multiplier": 1 },
       { "monster": "mon_feral_human_porter3", "weight": 35, "cost_multiplier": 1 },
-      { "monster": "mon_nether_eater", "weight": 60, "cost_multiplier": 1 }
+      { "monster": "mon_nether_eater", "weight": 60, "cost_multiplier": 1 },
+      { "monster": "mon_nether_silent_one_passive", "weight": 30, "cost_multiplier": 2 }
     ]
   },
   {
@@ -197,17 +198,26 @@
   {
     "type": "monstergroup",
     "id": "GROUP_NETHER_REALITY_TEAR_FIELD",
-    "monsters": [ { "monster": "mon_nether_eater", "weight": 100, "cost_multiplier": 0 } ]
+    "monsters": [
+      { "monster": "mon_nether_eater", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_nether_silent_one_passive", "weight": 100, "cost_multiplier": 0 }
+    ]
   },
   {
     "type": "monstergroup",
     "id": "GROUP_NETHER",
-    "monsters": [ { "monster": "mon_nether_eater", "weight": 120, "cost_multiplier": 0 } ]
+    "monsters": [
+      { "monster": "mon_nether_eater", "weight": 120, "cost_multiplier": 0 },
+      { "monster": "mon_nether_silent_one_passive", "weight": 50, "cost_multiplier": 2 }
+    ]
   },
   {
     "type": "monstergroup",
     "id": "GROUP_NETHER_PORTAL",
-    "monsters": [ { "monster": "mon_nether_eater", "weight": 200, "cost_multiplier": 0 } ]
+    "monsters": [
+      { "monster": "mon_nether_eater", "weight": 200, "cost_multiplier": 0 },
+      { "monster": "mon_nether_silent_one_passive", "weight": 200, "cost_multiplier": 0 }
+    ]
   },
   {
     "id": "GROUP_CIVILIANS_STANDARD",

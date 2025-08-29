@@ -4,6 +4,7 @@
     "type": "MONSTER",
     "copy-from": "mon_feral_human_pipe",
     "//": "interstitial copy-from to edit flags and special attacks appropriately",
+    "default_faction": "feral_psychic",
     "special_attacks": [ [ "BROWSE", 100 ], [ "EAT_FOOD", 100 ] ],
     "flags": [
       "SEES",

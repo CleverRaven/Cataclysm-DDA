@@ -248,6 +248,7 @@
       { "monster": "mon_star_vampire", "weight": 25, "cost_multiplier": 0 },
       { "monster": "mon_star_vampire_coiling", "weight": 25, "cost_multiplier": 0 },
       { "monster": "mon_gozu", "weight": 120, "cost_multiplier": 0 },
+      { "monster": "mon_nether_silent_one_aggressive", "weight": 15, "cost_multiplier": 0 },
       { "monster": "mon_darkman", "weight": 15, "cost_multiplier": 0 },
       { "monster": "mon_shoggoth", "weight": 5, "cost_multiplier": 0 }
     ]
