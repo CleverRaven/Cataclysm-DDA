@@ -199,11 +199,11 @@ bool string_id<enchantment>::is_valid() const
 }
 
 template<typename TKey>
-void load_add_and_multiply( const JsonObject &jo, const bool &is_child,
-                            std::string_view array_key, const std::string &type_key, std::map<TKey, dbl_or_var> &add_map,
-                            std::map<TKey, dbl_or_var> &mult_map )
+void load_add_and_multiply_dbl_or_var( const JsonObject &jo, std::string_view array_key,
+                                       const std::string &type_key, std::map<TKey, dbl_or_var> &add_map,
+                                       std::map<TKey, dbl_or_var> &mult_map )
 {
-    if( !is_child && jo.has_array( array_key ) ) {
+    if( jo.has_array( array_key ) ) {
         for( const JsonObject value_obj : jo.get_array( array_key ) ) {
 
             TKey value;
@@ -568,25 +568,29 @@ void enchantment::load( const JsonObject &jo, std::string_view,
     optional( jo, was_loaded, "name", name );
     optional( jo, was_loaded, "description", description );
 
-    load_add_and_multiply<enchant_vals::mod>( jo, is_child, "values", "value", values_add,
+    if( is_child ) {
+        return;
+    }
+
+    load_add_and_multiply_dbl_or_var<enchant_vals::mod>( jo, "values", "value", values_add,
             values_multiply );
 
-    load_add_and_multiply<skill_id>( jo, is_child, "skills", "value",
-                                     skill_values_add, skill_values_multiply );
+    load_add_and_multiply_dbl_or_var<skill_id>( jo, "skills", "value", skill_values_add,
+            skill_values_multiply );
 
-    load_add_and_multiply<bodypart_str_id>( jo, is_child, "encumbrance_modifier", "part",
-                                            encumbrance_values_add, encumbrance_values_multiply );
+    load_add_and_multiply_dbl_or_var<bodypart_str_id>( jo, "encumbrance_modifier", "part",
+            encumbrance_values_add, encumbrance_values_multiply );
 
-    load_add_and_multiply<damage_type_id>( jo, is_child, "melee_damage_bonus", "type",
-                                           damage_values_add, damage_values_multiply );
+    load_add_and_multiply_dbl_or_var<damage_type_id>( jo, "melee_damage_bonus", "type",
+            damage_values_add, damage_values_multiply );
 
-    load_add_and_multiply<damage_type_id>( jo, is_child, "incoming_damage_mod", "type",
-                                           armor_values_add, armor_values_multiply );
+    load_add_and_multiply_dbl_or_var<damage_type_id>( jo, "incoming_damage_mod", "type",
+            armor_values_add, armor_values_multiply );
 
-    load_add_and_multiply<damage_type_id>( jo, is_child, "incoming_damage_mod_post_absorbed", "type",
-                                           extra_damage_add, extra_damage_multiply );
+    load_add_and_multiply_dbl_or_var<damage_type_id>( jo, "incoming_damage_mod_post_absorbed", "type",
+            extra_damage_add, extra_damage_multiply );
 
-    if( !is_child && jo.has_array( "special_vision" ) ) {
+    if( jo.has_array( "special_vision" ) ) {
         for( const JsonObject vision_obj : jo.get_array( "special_vision" ) ) {
             special_vision _vision;
             special_vision_descriptions _desc;
