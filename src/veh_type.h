@@ -201,6 +201,8 @@ struct vpslot_terrain_transform {
 struct vp_control_req {
     std::set<std::pair<skill_id, int>> skills;
     std::set<proficiency_id> proficiencies;
+
+    void deserialize( const JsonObject &jo );
 };
 
 class vpart_category

@@ -50,6 +50,7 @@
 #include "wcwidth.h"
 
 class emit;
+class proficiency;
 
 namespace
 {
@@ -204,28 +205,10 @@ static void parse_vp_reqs( const JsonObject &obj, const vpart_id &id, const std:
     }
 }
 
-static void parse_vp_control_reqs( const JsonObject &obj, const vpart_id &id,
-                                   std::string_view key,
-                                   vp_control_req &req )
+void vp_control_req::deserialize( const JsonObject &jo )
 {
-    if( !obj.has_object( key ) ) {
-        return;
-    }
-    JsonObject src = obj.get_object( key );
-
-    JsonArray sk = src.get_array( "skills" );
-    if( !sk.empty() ) {
-        req.skills.clear();
-        for( JsonArray cur : sk ) {
-            if( cur.size() != 2 ) {
-                debugmsg( "vpart '%s' has requirement with invalid skill entry", id.str() );
-                continue;
-            }
-            req.skills.emplace( skill_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
-        }
-    }
-
-    optional( src, false, "proficiencies", req.proficiencies );
+    optional( jo, false, "skills", skills, weighted_string_id_reader<skill_id, int> { std::nullopt} );
+    optional( jo, false, "proficiencies", proficiencies, string_id_reader<proficiency> {} );
 }
 
 void vehicles::parts::load( const JsonObject &jo, const std::string &src )
@@ -327,8 +310,8 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     if( jo.has_member( "control_requirements" ) ) {
         JsonObject reqs = jo.get_object( "control_requirements" );
 
-        parse_vp_control_reqs( reqs, id, "air", control_air );
-        parse_vp_control_reqs( reqs, id, "land", control_land );
+        optional( reqs, false, "air", control_air );
+        optional( reqs, false, "land", control_land );
     }
 
     optional( jo, was_loaded, "looks_like", looks_like, looks_like );
