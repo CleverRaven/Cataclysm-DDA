@@ -1297,59 +1297,58 @@ static std::pair<std::string, std::string> get_vpart_str_variant( const std::str
            : std::make_pair( vpid.substr( 0, loc ), vpid.substr( loc + 1 ) );
 }
 
+struct veh_proto_part_def_reader : generic_typed_reader<veh_proto_part_def_reader> {
+    point_rel_ms pos;
+
+    explicit veh_proto_part_def_reader( const point_rel_ms &p ) : pos( p ) {}
+
+    vehicle_prototype::part_def get_next( const JsonValue &jv ) const {
+        vehicle_prototype::part_def ret;
+        if( jv.test_string() ) {
+            const auto [id, variant] = get_vpart_str_variant( jv.get_string() );
+            ret.part = vpart_id( id );
+            ret.variant = variant;
+            ret.pos = pos;
+            return ret;
+        }
+        JsonObject jo = jv.get_object();
+        const auto [id, variant] = get_vpart_str_variant( jo.get_string( "part" ) );
+        ret.part = vpart_id( id );
+        ret.variant = variant;
+        ret.pos = pos;
+
+        optional( jo, false, "ammo", ret.with_ammo, numeric_bound_reader{0, 100}, 0 );
+        optional( jo, false, "ammo_types", ret.ammo_types, string_id_reader<itype> {} );
+        optional( jo, false, "ammo_qty", ret.ammo_qty, { -1, -1 } );
+        optional( jo, false, "fuel", ret.fuel, itype_id::NULL_ID() );
+        optional( jo, false, "tools", ret.tools, string_id_reader<itype> {} );
+        return ret;
+    }
+
+};
+
 void vehicle_prototype::load( const JsonObject &jo, std::string_view )
 {
     vgroups[vgroup_id( id.str() )].add_vehicle( id, 100 );
     optional( jo, was_loaded, "name", name );
 
-    const auto add_part_obj = [&]( const JsonObject & part, point_rel_ms pos ) {
-        const auto [id, variant] = get_vpart_str_variant( part.get_string( "part" ) );
-        part_def pt;
-        pt.part = vpart_id( id );
-        pt.variant = variant;
-        pt.pos = pos;
 
-        assign( part, "ammo", pt.with_ammo, true, 0, 100 );
-        assign( part, "ammo_types", pt.ammo_types, true );
-        assign( part, "ammo_qty", pt.ammo_qty, true, 0 );
-        assign( part, "fuel", pt.fuel, true );
-        assign( part, "tools", pt.tools, true );
 
-        parts.emplace_back( pt );
-    };
 
-    const auto add_part_string = [&]( const std::string & part, point_rel_ms pos ) {
-        const auto [id, variant] = get_vpart_str_variant( part );
-        part_def pt;
-        pt.part = vpart_id( id );
-        pt.variant = variant;
-        pt.pos = pos;
-        parts.emplace_back( pt );
-    };
 
     if( jo.has_member( "blueprint" ) ) {
         // currently unused, read to suppress unvisited members warning
         jo.get_array( "blueprint" );
     }
 
+    std::vector<part_def> tmp;
     for( JsonObject part : jo.get_array( "parts" ) ) {
-        point_rel_ms pos{ part.get_int( "x" ), part.get_int( "y" ) };
-
-        if( part.has_string( "part" ) ) {
-            add_part_obj( part, pos );
-            debugmsg( "vehicle prototype '%s' uses deprecated string definition for part"
-                      " '%s', use 'parts' array instead", id.str(), part.get_string( "part" ) );
-        } else if( part.has_array( "parts" ) ) {
-            for( const JsonValue entry : part.get_array( "parts" ) ) {
-                if( entry.test_string() ) {
-                    std::string part_name = entry.get_string();
-                    add_part_string( part_name, pos );
-                } else {
-                    JsonObject subpart = entry.get_object();
-                    add_part_obj( subpart, pos );
-                }
-            }
-        }
+        point_rel_ms pos;
+        mandatory( part, false, "x", pos.x() );
+        mandatory( part, false, "y", pos.y() );
+        mandatory( part, false, "parts", tmp, veh_proto_part_def_reader{ pos } );
+        // gross
+        parts.insert( parts.end(), tmp.begin(), tmp.end() );
     }
 
     for( JsonObject spawn_info : jo.get_array( "items" ) ) {

@@ -527,6 +527,12 @@ struct vehicle_prototype {
             std::pair<int, int> ammo_qty = { -1, -1 };
             itype_id fuel = itype_id::NULL_ID();
             std::vector<itype_id> tools;
+
+            bool operator==( const part_def &other ) const {
+                return pos == other.pos && part == other.part && variant == other.variant &&
+                       with_ammo == other.with_ammo && ammo_types == other.ammo_types && ammo_qty == other.ammo_qty &&
+                       fuel == other.fuel && tools == other.tools;
+            }
         };
 
         struct zone_def {
