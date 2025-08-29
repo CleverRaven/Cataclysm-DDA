@@ -220,9 +220,9 @@ TEST_CASE( "character_should_lose_moves_when_opening_or_closing_doors_or_windows
         REQUIRE( here.ter_set( pos, ter_concrete_floor ) );
         REQUIRE( here.ter_set( pos + tripoint::above, ter_flat_roof ) );
 
-        // mark map cache as dirty and rebuild it so that map starts
+        // rebuild map cache so that map starts
         // recognizing that tile player is standing on is indoors
-        here.set_outside_cache_dirty( pos.z() );
+        here.build_floor_cache( pos.z() + 1 );
         here.build_outside_cache( pos.z() );
         REQUIRE_FALSE( here.is_outside( pos ) );
 
