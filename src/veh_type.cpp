@@ -12,7 +12,6 @@
 #include <unordered_set>
 
 #include "ammo.h"
-#include "assign.h"
 #include "cata_assert.h"
 #include "catacharset.h"
 #include "character.h"
@@ -240,10 +239,8 @@ void vpart_info::handle_inheritance( const vpart_info &copy_from,
     }
 }
 
-void vpart_info::load( const JsonObject &jo, const std::string &src )
+void vpart_info::load( const JsonObject &jo, const std::string_view src )
 {
-    const bool strict = src == "dda";
-
     optional( jo, was_loaded, "name", name_ );
     optional( jo, was_loaded, "item", base_item );
     optional( jo, was_loaded, "remove_as", removed_item );
@@ -267,12 +264,8 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "color", color, nc_color_reader{}, c_light_gray );
     optional( jo, was_loaded, "broken_color", color_broken, nc_color_reader{}, c_light_gray );
     optional( jo, was_loaded, "comfort", comfort, 0 );
-    int legacy_floor_bedding_warmth = units::to_legacy_bodypart_temp_delta( floor_bedding_warmth );
-    assign( jo, "floor_bedding_warmth", legacy_floor_bedding_warmth, strict );
-    floor_bedding_warmth = units::from_legacy_bodypart_temp_delta( legacy_floor_bedding_warmth );
-    int legacy_bonus_fire_warmth_feet = units::to_legacy_bodypart_temp_delta( bonus_fire_warmth_feet );
-    assign( jo, "bonus_fire_warmth_feet", legacy_bonus_fire_warmth_feet, strict );
-    bonus_fire_warmth_feet = units::from_legacy_bodypart_temp_delta( legacy_bonus_fire_warmth_feet );
+    optional( jo, was_loaded, "floor_bedding_warmth", floor_bedding_warmth, 0_C_delta );
+    optional( jo, was_loaded, "bonus_fire_warmth_feet", bonus_fire_warmth_feet, 0.6_C_delta );
 
     int enchant_num = 0;
     for( JsonValue jv : jo.get_array( "enchantments" ) ) {
@@ -1687,19 +1680,22 @@ const std::vector<vpart_category> &vpart_category::all()
     return vpart_categories_all;
 }
 
-void vpart_category::load( const JsonObject &jo )
+void vpart_category::load_all( const JsonObject &jo )
 {
     vpart_category def;
-
-    assign( jo, "id", def.id_ );
-    assign( jo, "name", def.name_ );
-    assign( jo, "short_name", def.short_name_ );
-    assign( jo, "priority", def.priority_ );
-
+    def.load( jo );
     vpart_categories_all.push_back( def );
 }
 
-void vpart_category::finalize()
+void vpart_category::load( const JsonObject &jo )
+{
+    mandatory( jo, false, "id", id_ );
+    mandatory( jo, false, "name", name_ );
+    mandatory( jo, false, "short_name", short_name_ );
+    mandatory( jo, false, "priority", priority_ );
+}
+
+void vpart_category::finalize_all()
 {
     std::sort( vpart_categories_all.begin(), vpart_categories_all.end() );
 }
