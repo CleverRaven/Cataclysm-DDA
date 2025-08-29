@@ -830,8 +830,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
 
     // If the tileset supports it draw lower zlevels
     //BEFOREMERGE: Deduplicate?
-    if( !viewing_weather && ( override_overmap_tileset_transparency ||
-                              get_supports_overmap_transparency() ) ) {
+    if( !viewing_weather && get_supports_overmap_transparency() ) {
         for( int cur_zlevel = -OVERMAP_DEPTH; cur_zlevel < center_abs_omt.z(); cur_zlevel++ ) {
             const tripoint_rel_omt dz( 0, 0, cur_zlevel - center_abs_omt.z() );
             for( int row = min_row; row < max_row; row++ ) {

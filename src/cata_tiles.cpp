@@ -2759,7 +2759,7 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
             // What about isBlink?
             const bool isBold = col.is_bold();
             const int FG = colorpair.FG + ( isBold ? 8 : 0 );
-            const int BG = ( override_overmap_tileset_transparency || get_supports_overmap_transparency() ) &&
+            const int BG = get_supports_overmap_transparency() &&
                            category == TILE_CATEGORY::OVERMAP_TERRAIN ? catacurses::black + 8 : -1;
             std::string generic_id = get_ascii_tile_id( sym, FG, BG );
 

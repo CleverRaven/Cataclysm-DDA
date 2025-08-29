@@ -2893,14 +2893,6 @@ void options_manager::add_options_debug()
 
     add_empty_line();
 
-    add( "OVERRIDE_OVERMAP_TILESET_TRANSPARENCY", "debug",
-         to_translation( "Override overmap tileset's transparency support" ),
-         to_translation( "If true all overmap z-levels below the current will render regardless of explicit support for testing." ),
-         false
-       );
-
-    add_empty_line();
-
     add( "SKIP_VERIFICATION", "debug", to_translation( "Skip verification step during loading" ),
          to_translation( "If enabled, this skips the JSON verification step during loading.  This may give a faster loading time, but risks JSON errors not being caught until runtime." ),
 #if defined(EMSCRIPTEN)
@@ -4045,8 +4037,6 @@ void options_manager::update_options_cache()
     prevent_occlusion_transp = ::get_option<bool>( "PREVENT_OCCLUSION_TRANSP" );
     prevent_occlusion_min_dist = ::get_option<float>( "PREVENT_OCCLUSION_MIN_DIST" );
     prevent_occlusion_max_dist = ::get_option<float>( "PREVENT_OCCLUSION_MAX_DIST" );
-    override_overmap_tileset_transparency
-        = ::get_option<bool>( "OVERRIDE_OVERMAP_TILESET_TRANSPARENCY" );
     show_creature_overlay_icons = ::get_option<bool>( "CREATURE_OVERLAY_ICONS" );
 
     // if the tilesets are identical don't duplicate
