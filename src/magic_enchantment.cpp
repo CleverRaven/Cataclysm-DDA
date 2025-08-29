@@ -246,7 +246,11 @@ void load_add_and_multiply( const JsonObject &jo, std::string_view array_key,
     if( jo.has_array( array_key ) ) {
         for( const JsonObject value_obj : jo.get_array( array_key ) ) {
 
-            const TKey value = TKey( value_obj.get_string( type_key ) );
+            // Migration from accidental corruption, remove after 0.J
+            const TKey value = !value_obj.has_string( type_key ) && value_obj.has_string( "value" ) ?
+                               TKey( value_obj.get_string( "value" ) ) :
+                               TKey( value_obj.get_string( type_key ) );
+            // Values of 0 used to be serialised exist (removed in 0.J exp) so for now load based on != 0 rather than on member existance
             const double add = value_obj.get_float( "add", 0.0 );
             const double mult = value_obj.get_float( "multiply", 0.0 );
 
