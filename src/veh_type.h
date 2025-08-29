@@ -194,6 +194,8 @@ struct vpslot_terrain_transform {
     //Both only defined if(post_field)
     int post_field_intensity;
     time_duration post_field_age;
+
+    void deserialize( const JsonObject &jo );
 };
 
 struct vp_control_req {

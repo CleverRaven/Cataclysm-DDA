@@ -400,16 +400,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         if( !transform_terrain_info ) {
             transform_terrain_info.emplace();
         }
-        JsonObject jttd = jo.get_object( "transform_terrain" );
-        vpslot_terrain_transform &vtt = *transform_terrain_info;
-        optional( jttd, was_loaded, "pre_flags", vtt.pre_flags, {} );
-        optional( jttd, was_loaded, "post_terrain", vtt.post_terrain );
-        optional( jttd, was_loaded, "post_furniture", vtt.post_furniture );
-        if( jttd.has_string( "post_field" ) ) {
-            mandatory( jttd, was_loaded, "post_field", vtt.post_field );
-            mandatory( jttd, was_loaded, "post_field_intensity", vtt.post_field_intensity );
-            mandatory( jttd, was_loaded, "post_field_age", vtt.post_field_age );
-        }
+        mandatory( jo, was_loaded, "transform_terrain", transform_terrain_info );
     }
 }
 
@@ -471,6 +462,18 @@ void vpslot_toolkit::deserialize( const JsonObject &jo )
     optional( jo, was_loaded, "allowed_tools", allowed_types, string_id_reader<itype> {} );
 
     was_loaded = true;
+}
+
+void vpslot_terrain_transform::deserialize( const JsonObject &jo )
+{
+    optional( jo, false, "pre_flags", pre_flags, {} );
+    optional( jo, false, "post_terrain", post_terrain );
+    optional( jo, false, "post_furniture", post_furniture );
+    if( jo.has_string( "post_field" ) ) {
+        mandatory( jo, false, "post_field", post_field );
+        mandatory( jo, false, "post_field_intensity", post_field_intensity );
+        mandatory( jo, false, "post_field_age", post_field_age );
+    }
 }
 
 void vpart_info::set_flag( const std::string &flag )
