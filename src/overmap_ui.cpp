@@ -2545,16 +2545,17 @@ std::pair<std::string, nc_color> oter_symbol_and_color( const tripoint_abs_omt &
             ret.second = c_dark_gray;
         }
     } else if( overmap_buffer.draw_below_curses( omp ) ) {
-        // 1 zlevel 3D vision roughly equivilant to map::draw_from_above's implementation
-        cur_ter = overmap_buffer.ter( omp + tripoint_rel_omt::below );
+        // 1 z-level 3D vision roughly equivilant to map::draw_from_above's implementation
+        const tripoint_abs_omt below = omp + tripoint_rel_omt::below;
+        cur_ter = overmap_buffer.ter( below );
+        // Most of the time just "." is fine as for air the fg colour == bg colour but if the colour is changed after this eg cursor highlighting using " " is better
+        ret.first = overmap_buffer.draw_below_curses( below ) ? " " : ".";
         ret.second = lru ? lru->get_symbol_and_color( cur_ter, args.vision ).second :
                      cur_ter->get_color( args.vision, uistate.overmap_show_land_use_codes );
-        ret.second = cyan_background( ret.second );
-        //BEFOREMERGE: For some reason the highlighted cursor tile diplays this rather than "open_air"'s symbol when looking at open_air with nothing displayable below? (but is correct otherwise)
-        ret.first = ".";
-        if( opts.show_explored && overmap_buffer.is_explored( omp + tripoint_rel_omt::below ) ) {
+        if( opts.show_explored && overmap_buffer.is_explored( below ) ) {
             ret.second = c_dark_gray;
         }
+        ret.second = cyan_background( ret.second );
     } else {
         // Nothing special, but is visible to the player.
         ret = lru ? lru->get_symbol_and_color( cur_ter, args.vision ) : std::pair<std::string, nc_color> {

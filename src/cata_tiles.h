@@ -339,8 +339,6 @@ class tileset_cache::loader
 
         void process_variations_after_loading( weighted_int_list<std::vector<int>> &v ) const;
 
-        void add_ascii_subtile( tile_type &curr_tile, const std::string &t_id, int sprite_id,
-                                const std::string &s_id );
         void load_ascii_set( const JsonObject &entry );
         /**
          * Create a new tile_type, add it to tile_ids (using <B>id</B>).
