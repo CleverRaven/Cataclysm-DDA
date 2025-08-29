@@ -317,7 +317,6 @@
     "skill_used": "cooking",
     "skills_required": [ "survival", 2 ],
     "time": "15 m",
-    "charges": 2,
     "book_learn": [ [ "cookbook", 1 ], [ "scots_cookbook", 2 ] ],
     "difficulty": 3,
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
