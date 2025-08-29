@@ -490,18 +490,9 @@ bool overmapbuffer::has_horde( const tripoint_abs_omt &p )
 int overmapbuffer::get_horde_size( const tripoint_abs_omt &p )
 {
     int horde_size = 0;
-    for( mongroup * const &m : overmap_buffer.monsters_at( p ) ) {
-        if( m->horde ) {
-            if( !m->monsters.empty() ) {
-                horde_size += m->monsters.size();
-            } else {
-                // We don't know how large this will actually be, because
-                // population "1" can still result in a zombie pack.
-                // So we double the population as an estimate to make
-                // hordes more likely to be visible on the overmap.
-                horde_size += m->population * 2;
-            }
-        }
+    std::vector<std::map<tripoint_abs_ms, horde_entity>*> hordes = overmap_buffer.hordes_at( p );
+    for( std::map<tripoint_abs_ms, horde_entity> *horde_group : hordes ) {
+        horde_size += horde_group->size();
     }
 
     return horde_size;
