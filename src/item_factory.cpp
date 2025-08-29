@@ -1614,7 +1614,10 @@ void Item_factory::finalize_item_blacklist()
         vehicle_prototype &prototype = const_cast<vehicle_prototype &>( const_prototype );
         for( vehicle_item_spawn &vis : prototype.item_spawns ) {
             auto &vec = vis.item_ids;
-            const auto iter = std::remove_if( vec.begin(), vec.end(), item_is_blacklisted );
+            auto is_blacklisted = []( const std::pair<itype_id, std::string> &pair ) {
+                return item_is_blacklisted( pair.first );
+            };
+            const auto iter = std::remove_if( vec.begin(), vec.end(), is_blacklisted );
             vec.erase( iter, vec.end() );
         }
     }
@@ -1716,7 +1719,8 @@ void Item_factory::finalize_item_blacklist()
     for( const vehicle_prototype &const_prototype : vehicles::get_all_prototypes() ) {
         vehicle_prototype &prototype = const_cast<vehicle_prototype &>( const_prototype );
         for( vehicle_item_spawn &vis : prototype.item_spawns ) {
-            for( itype_id &type_to_spawn : vis.item_ids ) {
+            for( std::pair<itype_id, std::string> &spawn_pair : vis.item_ids ) {
+                itype_id &type_to_spawn = spawn_pair.first;
                 std::map<itype_id, std::vector<migration>>::iterator replacement =
                         migrations.find( type_to_spawn );
                 if( replacement == migrations.end() ) {
