@@ -1037,17 +1037,6 @@ void tileset_cache::loader::process_variations_after_loading(
     vs.precalc();
 }
 
-void tileset_cache::loader::add_ascii_subtile( tile_type &curr_tile, const std::string &t_id,
-        int sprite_id, const std::string &s_id )
-{
-    const std::string m_id = t_id + "_" + s_id;
-    tile_type curr_subtile;
-    curr_subtile.fg.add( std::vector<int>( {sprite_id} ), 1 );
-    curr_subtile.rotates = true;
-    curr_tile.available_subtiles.push_back( s_id );
-    ts.create_tile_type( m_id, std::move( curr_subtile ) );
-}
-
 void tileset_cache::loader::load_ascii( const JsonObject &config )
 {
     if( !config.has_member( "ascii" ) ) {
@@ -1156,19 +1145,33 @@ void tileset_cache::loader::load_ascii_set( const JsonObject &entry )
                 sprites[0] = 184 + base_offset;
                 break;
         }
+        // Use bold black █ for overmap bg when using 3D vision. If fallback.png order is changed this will need updating.
+        static const int bg_index_in_image = 219 + ( 256 * 3 );
         if( ascii_char == LINE_XOXO_C || ascii_char == LINE_OXOX_C ) {
             curr_tile.rotates = false;
             curr_tile.multitile = true;
-            add_ascii_subtile( curr_tile, id, 206 + base_offset, "center" );
-            add_ascii_subtile( curr_tile, id, 201 + base_offset, "corner" );
-            add_ascii_subtile( curr_tile, id, 186 + base_offset, "edge" );
-            add_ascii_subtile( curr_tile, id, 203 + base_offset, "t_connection" );
-            add_ascii_subtile( curr_tile, id, 210 + base_offset, "end_piece" );
-            add_ascii_subtile( curr_tile, id, 219 + base_offset, "unconnected" );
+
+            auto add_ascii_subtile = [&]( const int &index_in_image, const std::string & subtile_id_suffix ) {
+                tile_type curr_subtile;
+                curr_subtile.fg.add( std::vector<int>( {index_in_image + base_offset} ), 1 );
+                curr_subtile.rotates = true;
+                curr_tile.available_subtiles.push_back( subtile_id_suffix );
+                tile_type curr_subtile_bg = curr_subtile;
+                curr_subtile_bg.bg.add( std::vector<int>( {bg_index_in_image + offset} ), 1 );
+                const std::string m_id = id + "_" + subtile_id_suffix;
+                ts.create_tile_type( m_id, std::move( curr_subtile ) );
+                const std::string m_id_background = id_background + "_" + subtile_id_suffix;
+                ts.create_tile_type( m_id_background, std::move( curr_subtile_bg ) );
+            };
+
+            add_ascii_subtile( 206, "center" );
+            add_ascii_subtile( 201, "corner" );
+            add_ascii_subtile( 186, "edge" );
+            add_ascii_subtile( 203, "t_connection" );
+            add_ascii_subtile( 210, "end_piece" );
+            add_ascii_subtile( 219, "unconnected" );
         }
         tile_type curr_tile_bg = curr_tile;
-        // Use bold black █ for overmap bg when using 3D vision. If fallback.png order is changed this will need updating.
-        static const int bg_index_in_image = 219 + ( 256 * 3 );
         curr_tile_bg.bg.add( std::vector<int>( {bg_index_in_image + offset} ), 1 );
         ts.create_tile_type( id, std::move( curr_tile ) );
         ts.create_tile_type( id_background, std::move( curr_tile_bg ) );
