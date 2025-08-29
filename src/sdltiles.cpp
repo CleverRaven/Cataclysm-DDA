@@ -802,6 +802,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         center_pos = you.pos_abs_omt();
     }
     const tripoint_abs_omt origin = center_pos - point( s.x / 2, s.y / 2 );
+    int height_3d = 0; // Offsetting the height_3d doesn't work well in the context of the overmap
     const tripoint_abs_omt corner_NW = origin + any_tile_range.p_min;
     const tripoint_abs_omt corner_SE = origin + any_tile_range.p_max + point::north_west;
     const inclusive_cuboid<tripoint_abs_omt> overmap_area( corner_NW, corner_SE );
@@ -829,9 +830,9 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
 
     // If the tileset supports it draw lower zlevels
     //BEFOREMERGE: Deduplicate?
-    if( override_overmap_tileset_transparency || get_supports_overmap_transparency() ) {
-        int cur_zlevel = -OVERMAP_DEPTH;
-        while( cur_zlevel < center_abs_omt.z() && !viewing_weather ) {
+    if( !viewing_weather && ( override_overmap_tileset_transparency ||
+                              get_supports_overmap_transparency() ) ) {
+        for( int cur_zlevel = -OVERMAP_DEPTH; cur_zlevel < center_abs_omt.z(); cur_zlevel++ ) {
             const tripoint_rel_omt dz( 0, 0, cur_zlevel - center_abs_omt.z() );
             for( int row = min_row; row < max_row; row++ ) {
                 for( int col = min_col; col < max_col; col++ ) {
@@ -859,14 +860,12 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                     // light level is now used for choosing between grayscale filter and normal lit tiles.
                     draw_from_id_string( id, category,
                                          category == TILE_CATEGORY::OVERMAP_TERRAIN ? "overmap_terrain" : "",
-                                         omp, subtile, rotation, ll, false, cur_zlevel );
+                                         omp, subtile, rotation, ll, false, height_3d );
                 }
             }
-            cur_zlevel++;
         }
     }
 
-    int height_3d = origin.z();
     for( int row = min_row; row < max_row; row++ ) {
         for( int col = min_col; col < max_col; col++ ) {
             const tripoint_abs_omt omp = origin + point( col, row );
