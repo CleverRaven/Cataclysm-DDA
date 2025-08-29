@@ -258,8 +258,16 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_PLAYABLE_CHANGELING_ADVANCEMENT_CLEAR_ABYSSAL_HUNGER",
-    "condition": { "test_eoc": "EOC_CONDITIONS_YOU_ARE_A_PLAYABLE_CHANGELING" },
+    "//": "Kill quickling shadow for now, but clear the wound later",
+    "id": "EOC_PLAYABLE_CHANGELING_ADVANCEMENT_CLEAR_SHADOW_WOUND",
+    "eoc_type": "EVENT",
+    "required_event": "character_kills_monster",
+    "condition": {
+      "and": [
+        { "test_eoc": "EOC_CONDITIONS_YOU_ARE_A_PLAYABLE_CHANGELING" },
+        { "compare_string": [ { "context_val": "victim_type" }, "mon_dream_shadowman" ] }
+      ]
+    },
     "effect": [ { "math": [ "u_changeling_advancement_dreams_counter++" ] } ]
   },
   {
