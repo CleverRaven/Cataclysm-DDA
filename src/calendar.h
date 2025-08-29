@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_CALENDAR_H
 #define CATA_SRC_CALENDAR_H
 
+#include <limits>
 #include <optional>
 #include <string>
 #include <utility>
@@ -91,16 +92,6 @@ bool once_every( const time_duration &event_frequency );
  */
 extern const int INDEFINITELY_LONG;
 
-/**
- * The expected duration of the cataclysm
- *
- * Large duration that can be used to approximate infinite amounts of time.
- *
- * This number can't be safely converted to a number of moves without causing
- * an integer overflow.
- */
-extern const time_duration INDEFINITELY_LONG_DURATION;
-
 /// @returns Whether the eternal season is enabled.
 bool eternal_season();
 void set_eternal_season( bool is_eternal_season );
@@ -121,6 +112,10 @@ time_duration season_length();
 void set_season_length( int dur );
 
 void set_location( float latitude, float longitude );
+
+// time from the start of the year to calendar::turn_zero
+time_duration turn_zero_offset();
+int years_since_cataclysm( time_point );
 
 /// @returns relative length of game season to real life season.
 float season_ratio();
@@ -520,11 +515,36 @@ class time_point
             return lhs = time_point::from_turn( to_turn<int>( lhs ) - to_turns<int>( rhs ) );
         }
 
+        // kinda gross
+        friend constexpr inline time_point operator/( const time_point &lhs, const time_duration &rhs ) {
+            return time_point::from_turn( to_turn<int>( lhs ) / to_turns<int>( rhs ) );
+        }
+        friend constexpr inline time_point operator*( const time_point &lhs, const time_duration &rhs ) {
+            return time_point::from_turn( to_turn<int>( lhs ) * to_turns<int>( rhs ) );
+        }
+        friend time_point inline &operator/=( time_point &lhs, const time_duration &rhs ) {
+            return lhs = time_point::from_turn( to_turn<int>( lhs ) / to_turns<int>( rhs ) );
+        }
+        friend time_point inline &operator*=( time_point &lhs, const time_duration &rhs ) {
+            return lhs = time_point::from_turn( to_turn<int>( lhs ) * to_turns<int>( rhs ) );
+        }
+
         // TODO: implement minutes_of_hour and so on and use it.
 };
 
 namespace calendar
 {
+
+/**
+ * The expected duration of the cataclysm
+ *
+ * Large duration that can be used to approximate infinite amounts of time.
+ *
+ * This number can't be safely converted to a number of moves without causing
+ * an integer overflow.
+ */
+inline constexpr time_duration INDEFINITELY_LONG_DURATION(
+    time_duration::from_turns( std::numeric_limits<int>::max() ) );
 
 /**
  * A time point that is always before the current turn, even when the game has
@@ -554,7 +574,7 @@ inline time_duration time_past_midnight( const time_point &p )
 
 inline time_duration time_past_new_year( const time_point &p )
 {
-    return ( p - calendar::turn_zero ) % calendar::year_length();
+    return ( p - calendar::turn_zero + calendar::turn_zero_offset() ) % calendar::year_length();
 }
 
 template<typename T>
@@ -586,7 +606,8 @@ std::string to_string_time_of_day( const time_point &p );
 /** Time approximation based on the player's timekeeping capability, formatted for diary pages **/
 std::string get_diary_time_str( const time_point &turn, time_accuracy acc );
 /** Time approximation based on the player's timekeeping capability, formatted for diary pages **/
-std::string get_diary_time_since_str( const time_duration &turn_diff, time_accuracy acc );
+std::string get_diary_time_since_str( const time_duration &turn_diff, time_accuracy acc,
+                                      bool include_postfix = true );
 /** Returns the default duration of a lunar month (duration between syzygies) */
 time_duration lunar_month();
 /** Returns the current phase of the moon. */
@@ -648,6 +669,27 @@ enum class weekdays : int {
 };
 
 weekdays day_of_week( const time_point &p );
+std::string to_string( const weekdays &d );
+
+enum class month : int {
+    JANUARY = 0,
+    FEBRUARY,
+    MARCH,
+    APRIL,
+    MAY,
+    JUNE,
+    JULY,
+    AUGUST,
+    SEPTEMBER,
+    OCTOBER,
+    NOVEMBER,
+    DECEMBER,
+    UNKNOWN
+};
+
+std::pair<month, int> month_and_day( time_point );
+std::string to_string( month m );
+
 
 // To support the eternal season option we create a strong typedef of timepoint
 // which is a season_effective_time.  This converts a regular time to a time

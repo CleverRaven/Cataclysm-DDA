@@ -1,7 +1,8 @@
 [
   {
     "id": "antivirals",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "antivirals" },
     "description": "An anti-viral medication that inhibits the development of certain viruses.  One dose lasts 16 hours.  Could this, by some miracle, work against whatever the zombies are carrying?",
@@ -14,6 +15,7 @@
     "container": "bottle_plastic_pill_prescription",
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "description": "Reduces the effect of certain viral infections.",
       "effect_on_conditions": [ "EOC_CONSUMED_ANTIVIRAL" ]
     },

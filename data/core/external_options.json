@@ -176,20 +176,6 @@
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "SPEEDYDEX_MIN_DEX",
-    "//": "The minimum dex required for speedydex mod to add speed",
-    "stype": "int",
-    "value": 0
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "SPEEDYDEX_DEX_SPEED",
-    "//": "The amount of moves gained per dex above SPEEDYDEX_MIN_DEX",
-    "stype": "int",
-    "value": 0
-  },
-  {
-    "type": "EXTERNAL_OPTION",
     "name": "DISABLE_ROBOT_RESPONSE",
     "//": "Disables robot spawning from alerts and from being wanted.",
     "stype": "bool",
@@ -393,6 +379,13 @@
   },
   {
     "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_HIGHWAYS",
+    "//": "Allows to place fixed distance highways during overmap generation.",
+    "stype": "bool",
+    "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
     "name": "OVERMAP_PLACE_ROADS",
     "//": "Allows to place procgen roads during overmap generation.",
     "stype": "bool",
@@ -491,10 +484,10 @@
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "EMP_DISABLE_ELECTRONICS",
-    "//": "Whether EMP effects will permanently disable items.",
+    "name": "GAME_EMP",
+    "//": "EMP will disable electonics for a short period of ~60 seconds, instead of permanently.  Theres a 5% chance of items shorting out permanently.",
     "stype": "bool",
-    "value": true
+    "value": false
   },
   {
     "type": "EXTERNAL_OPTION",
@@ -565,5 +558,93 @@
     "//": "Sets the longitude used for sunrise/sunset times.  Defaults to Boston.",
     "stype": "float",
     "value": -71.06
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "DEFAULT_REGION",
+    "//": "(WIP feature) Determines terrain, shops, plants, and more.",
+    "stype": "string_input",
+    "value": "default"
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "RAD_MUTATION",
+    "//": "If true, radiation causes the player to mutate.",
+    "stype": "bool",
+    "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "INITIAL_STAT_POINTS",
+    "//": "Initial points available to spend on stats on character generation.",
+    "stype": "int",
+    "value": 6
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "INITIAL_TRAIT_POINTS",
+    "//": "Initial points available to spend on traits on character generation.",
+    "stype": "int",
+    "value": 0
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "INITIAL_SKILL_POINTS",
+    "//": "Initial points available to spend on skills on character generation.",
+    "stype": "int",
+    "value": 2
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "MAX_TRAIT_POINTS",
+    "//": "Maximum trait points available for character generation.",
+    "stype": "int",
+    "value": 12
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "SKILL_TRAINING_SPEED",
+    "//": "Scales experience gained from practicing skills and reading books.  0.5 is half as fast as default, 2.0 is twice as fast, 0.0 disables skill training except for NPC training.",
+    "stype": "float",
+    "value": 1.0
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PROFICIENCY_TRAINING_SPEED",
+    "//": "Scales experience gained from practicing proficiencies.  0.5 is half as fast as default, 2.0 is twice as fast, 0.0 disables proficiency training except for NPC training.",
+    "stype": "float",
+    "value": 1.0
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "SEASON_LENGTH",
+    "//": "Season length, in days.  Warning: Very little other than the duration of seasons scales with this value, so adjusting it may cause nonsensical results.",
+    "stub": true,
+    "stype": "int",
+    "value": 91
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "CONSTRUCTION_SCALING",
+    "//": "Sets the time of construction in percents.  '50' is two times faster than default, '200' is two times longer.  '0' automatically scales construction time to match the world's season length.",
+    "stub": true,
+    "stype": "int",
+    "value": 100
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "ETERNAL_SEASON",
+    "//": "If true, keep the initial season for ever.",
+    "stub": true,
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "ETERNAL_TIME_OF_DAY",
+    "//": "Day/night cycle settings.  'normal' sets a normal cycle.  'day' sets eternal day.  'night' sets eternal night.",
+    "stub": true,
+    "stype": "string_input",
+    "value": "normal"
   }
 ]

@@ -2,33 +2,41 @@
 
 #include <algorithm>
 #include <cmath>
-#include <limits>
 #include <memory>
 #include <numeric>
 #include <optional>
 #include <sstream>
+#include <unordered_map>
 
 #include "assign.h"
 #include "cached_options.h"
 #include "calendar.h"
 #include "cartesian_product.h"
+#include "cata_assert.h"
 #include "cata_utility.h"
+#include "cata_variant.h"
 #include "character.h"
 #include "color.h"
 #include "crafting_gui.h"
 #include "debug.h"
-#include "enum_traits.h"
 #include "effect_on_condition.h"
+#include "enum_traits.h"
 #include "flag.h"
+#include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "generic_factory.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_components.h"
 #include "item_group.h"
+#include "item_tname.h"
 #include "itype.h"
 #include "json.h"
+#include "mapgen.h"
 #include "mapgen_functions.h"
-#include "npc.h"
+#include "mapgen_parameter.h"
+#include "mapgendata.h"
+#include "math_defines.h"
 #include "output.h"
 #include "proficiency.h"
 #include "recipe_dictionary.h"
@@ -43,7 +51,6 @@
 
 static const itype_id itype_atomic_coffeepot( "atomic_coffeepot" );
 static const itype_id itype_hotplate( "hotplate" );
-static const itype_id itype_null( "null" );
 
 static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
 
@@ -192,6 +199,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                 id = recipe_id( jo.get_string( "id" ) );
             }
         } else {
+            optional( jo, false, "name", name_ );
             id = recipe_id( result_.str() );
         }
     }
@@ -275,19 +283,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     }
 
     // Mandatory: This recipe's exertion level
-    mandatory( jo, was_loaded, "activity_level", exertion_str );
-    // Remove after 0.H
-    if( exertion_str == "fake" ) {
-        debugmsg( "Depreciated activity level \"fake\" found in recipe %s from source %s. Setting activity level to MODERATE_EXERCISE.",
-                  id.c_str(), src );
-        exertion_str = "MODERATE_EXERCISE";
-    }
-    const auto it = activity_levels_map.find( exertion_str );
-    if( it == activity_levels_map.end() ) {
-        jo.throw_error_at(
-            "activity_level", string_format( "Invalid activity level %s", exertion_str ) );
-    }
-    exertion = it->second;
+    mandatory( jo, was_loaded, "activity_level", exertion, activity_level_reader{} );
 
     // Never let the player have a debug or NPC recipe
     if( jo.has_bool( "never_learn" ) ) {
@@ -325,16 +321,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         flags_to_delete = jo.get_tags<flag_id>( "delete_flags" );
     }
 
-    // recipes not specifying any external requirements inherit from their parent recipe (if any)
-    if( jo.has_string( "using" ) ) {
-        reqs_external = { { requirement_id( jo.get_string( "using" ) ), 1 } };
-
-    } else if( jo.has_array( "using" ) ) {
-        reqs_external.clear();
-        for( JsonArray cur : jo.get_array( "using" ) ) {
-            reqs_external.emplace_back( requirement_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
-        }
-    }
+    optional( jo, was_loaded, "using", reqs_external, weighted_string_id_reader<requirement_id, int> { 1 } );
 
     // inline requirements are always replaced (cannot be inherited)
     reqs_internal.clear();
@@ -600,7 +587,7 @@ void recipe::finalize()
     }
 
     if( contained && container.is_null() ) {
-        container = item::find_type( result_ )->default_container.value_or( itype_null );
+        container = item::find_type( result_ )->default_container.value_or( itype_id::NULL_ID() );
         if( item::find_type( result_ )->default_container_variant.has_value() ) {
             container_variant = item::find_type( result_ )->default_container_variant.value();
         }
@@ -653,6 +640,11 @@ void recipe::finalize()
         if( skill_used ) {
             autolearn_requirements[ skill_used ] = difficulty;
         }
+    }
+
+    // ensure result name is always in front of the name for searching in crafting menu
+    if( !name_.empty() && !is_practice() && !is_nested() && result_ ) {
+        name_ = translation::to_translation( string_format( name_, result_->nname( makes_amount() ) ) );
     }
 }
 
@@ -1218,17 +1210,21 @@ std::string recipe::result_name( const bool decorated ) const
 {
     std::string name;
     if( !name_.empty() ) {
+        // if the recipe has an explicit name (such as for proficiency training) - use that
         name = name_.translated();
-    } else if( !variant().empty() ) {
-        auto iter_var = std::find_if( result_->variants.begin(), result_->variants.end(),
-        [this]( const itype_variant_data & itvar ) {
-            return itvar.id == variant();
-        } );
-        if( iter_var != result_->variants.end() ) {
-            name = iter_var->alt_name.translated();
-        }
     } else {
-        name = item::tname( result_, 1, tname::item_name );
+        // Names are tricky, so we have to create a temporary fake result item to get one.
+        // As of 2025-01-01 there's no better way around this.
+        item temp_item( result_ );
+        // Use generic item name by default.
+        tname::segment_bitset segs = tname::base_item_name;
+        if( !variant().empty() ) {
+            // ..but if the recipe calls for a specific varaint - then use that variant.
+            // Note that `temp_item` is likely to already have a random variant set at the time of creation.
+            temp_item.set_itype_variant( variant() );
+            segs = tname::item_identity_name;
+        }
+        name = temp_item.tname( 1, segs );
     }
     if( decorated &&
         uistate.favorite_recipes.find( this->ident() ) != uistate.favorite_recipes.end() ) {
@@ -1297,11 +1293,12 @@ std::function<bool( const item & )> recipe::get_component_filter(
     std::function<bool( const item & )> magazine_filter = return_true<item>;
     if( has_flag( "NEED_FULL_MAGAZINE" ) ) {
         magazine_filter = []( const item & component ) {
-            if( component.ammo_remaining() == 0 ) {
+            if( component.ammo_remaining( ) == 0 ) {
                 return false;
             }
             return !component.is_magazine() ||
-                   ( component.ammo_remaining() >= component.ammo_capacity( component.ammo_data()->ammo->type ) );
+                   ( component.ammo_remaining( ) >= component.ammo_capacity(
+                         component.ammo_data()->ammo->type ) );
         };
     }
 
@@ -1315,22 +1312,8 @@ std::function<bool( const item & )> recipe::get_component_filter(
     };
 }
 
-bool recipe::npc_can_craft( std::string &reason ) const
+bool recipe::npc_can_craft( std::string & ) const
 {
-    if( is_practice() ) {
-        reason = _( "Ordering NPC to practice is not implemented yet." );
-        return false;
-    }
-    if( result()->phase != phase_id::SOLID ) {
-        reason = _( "Ordering NPC to craft non-solid item is not implemented yet." );
-        return false;
-    }
-    for( const auto& [bp, _] : get_byproducts() ) {
-        if( bp->phase != phase_id::SOLID ) {
-            reason = _( "Ordering NPC to craft non-solid item is not implemented yet." );
-            return false;
-        }
-    }
     return true;
 }
 

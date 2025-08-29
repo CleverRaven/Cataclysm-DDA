@@ -78,7 +78,7 @@
     "folded_volume": "2500 ml",
     "folding_time": "1 minute",
     "unfolding_time": "1 minute",
-    "breaks_into": [ { "item": "steel_chunk", "count": [ 0, 2 ] }, { "item": "scrap", "count": [ 1, 2 ] } ],
+    "breaks_into": [ { "item": "lc_steel_chunk", "count": [ 0, 2 ] }, { "item": "scrap", "count": [ 1, 2 ] } ],
     "//": "welds would likely occur along the circumference of the pipe, where they screw into the fittings - that's 8 ends for 4 pipes, about 5 cm each. repairing is more expensive than installing unlike most welds.",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "20 m", "using": [ [ "welding_standard", 40 ] ] },

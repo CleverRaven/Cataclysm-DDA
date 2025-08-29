@@ -33,9 +33,7 @@
     "description": "This is where the island I agreed to a strange deal is.  I wonder if they're still there.",
     "goal": "MGOAL_CONDITION",
     "difficulty": 3,
-    "start": {
-      "assign_mission_target": { "om_terrain": "boann_sidhe_island", "om_special": "Boann's Island", "reveal_radius": 6, "search_range": 360 }
-    },
+    "start": { "assign_mission_target": { "om_terrain": "boann_sidhe_island", "om_special": "Boann's Island", "reveal_radius": 6 } },
     "goal_condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_boann_sidhe" } ] },
     "value": 5000,
     "origins": [ "ORIGIN_SECONDARY" ],

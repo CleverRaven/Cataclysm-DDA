@@ -5,7 +5,7 @@
     "condition": { "math": [ "u_vitamin('dreamer_vit') >= 600" ] },
     "effect": [
       { "u_spawn_item": "dreamer_artifact", "use_item_group": true, "suppress_message": true },
-      { "math": [ "u_vitamin('dreamer_vit')", "-=", "600" ] },
+      { "math": [ "u_vitamin('dreamer_vit') -= 600" ] },
       {
         "u_message": "You pull your power into this world, and something outside of it places an object in your hand.",
         "type": "info"
@@ -89,7 +89,7 @@
       "and": [ { "u_has_effect": "effect_xedra_dreamer_generate_accelerated_time" }, { "math": [ "u_val('mana') >= 200" ] } ]
     },
     "effect": [
-      { "math": [ "u_val('mana')", "-=", "200" ] },
+      { "math": [ "u_val('mana') -= 200" ] },
       { "u_message": "The grayscale starts to recede from your vision before it quickly reverts.", "type": "good" },
       {
         "run_eocs": "EOC_GENERATE_ACCELERATED_TIME_CONTINUE",
@@ -99,7 +99,7 @@
         "math": [
           "u_spell_exp('xedra_dreamer_generate_accelerated_time')",
           "+=",
-          "spell_exp_diff(u_spell_level('xedra_dreamer_generate_accelerated_time'))/spell_train_factor(200)"
+          "(spell_exp_for_level('xedra_dreamer_generate_accelerated_time', u_spell_level('xedra_dreamer_generate_accelerated_time')+1) - spell_exp_for_level('xedra_dreamer_generate_accelerated_time', u_spell_level('xedra_dreamer_generate_accelerated_time')))/spell_train_factor(200)"
         ]
       }
     ],
@@ -130,7 +130,7 @@
     "id": "EOC_ETHEREAL_WINGS_CONTINUE",
     "condition": { "and": [ { "u_has_trait": "ethereal_wings" }, { "math": [ "u_val('mana') >= 200" ] } ] },
     "effect": [
-      { "math": [ "u_val('mana')", "-=", "200" ] },
+      { "math": [ "u_val('mana') -= 200" ] },
       {
         "u_message": "The wings behind you grow slightly more transparent, but they quickly revert back to normal.",
         "type": "good"
@@ -143,7 +143,7 @@
         "math": [
           "u_spell_exp('spell_ethereal_wings')",
           "+=",
-          "spell_exp_diff(u_spell_level('spell_ethereal_wings'))/spell_train_factor(200)"
+          "(spell_exp_for_level('spell_ethereal_wings', u_spell_level('spell_ethereal_wings')+1) - spell_exp_for_level('spell_ethereal_wings', u_spell_level('spell_ethereal_wings')))/spell_train_factor(200)"
         ]
       }
     ],
@@ -174,7 +174,7 @@
     "id": "EOC_KARMA_ARMS_CONTINUE",
     "condition": { "and": [ { "u_has_trait": "karma_arms" }, { "math": [ "u_val('mana') >= 200" ] } ] },
     "effect": [
-      { "math": [ "u_val('mana')", "-=", "200" ] },
+      { "math": [ "u_val('mana') -= 200" ] },
       {
         "u_message": "The floating arms behind you slightly flicker, but they soon resume their steady glow.",
         "type": "good"
@@ -184,7 +184,11 @@
         "time_in_future": { "math": [ "((u_spell_level('spell_karma_arms')+1)*500)" ] }
       },
       {
-        "math": [ "u_spell_exp('spell_karma_arms')", "+=", "spell_exp_diff(u_spell_level('spell_karma_arms'))/spell_train_factor(200)" ]
+        "math": [
+          "u_spell_exp('spell_karma_arms')",
+          "+=",
+          "(spell_exp_for_level('spell_karma_arms', u_spell_level('spell_karma_arms')+1) - spell_exp_for_level('spell_karma_arms', u_spell_level('spell_karma_arms')))/spell_train_factor(200)"
+        ]
       }
     ],
     "false_effect": [
@@ -211,14 +215,18 @@
     "id": "EOC_DEVIL_TAIL_CONTINUE",
     "condition": { "and": [ { "u_has_trait": "devil_tail" }, { "math": [ "u_val('mana') >= 100" ] } ] },
     "effect": [
-      { "math": [ "u_val('mana')", "-=", "100" ] },
+      { "math": [ "u_val('mana') -= 100" ] },
       { "u_message": "Your devilish tail stretches and twists playfully.", "type": "good" },
       {
         "run_eocs": "EOC_DEVIL_TAIL_CONTINUE",
         "time_in_future": { "math": [ "((u_spell_level('spell_devil_tail')+1)*900)" ] }
       },
       {
-        "math": [ "u_spell_exp('spell_devil_tail')", "+=", "spell_exp_diff(u_spell_level('spell_devil_tail'))/spell_train_factor(100)" ]
+        "math": [
+          "u_spell_exp('spell_devil_tail')",
+          "+=",
+          "(spell_exp_for_level('spell_devil_tail', u_spell_level('spell_devil_tail')+1) - spell_exp_for_level('spell_devil_tail', u_spell_level('spell_devil_tail')))/spell_train_factor(100)"
+        ]
       }
     ],
     "false_effect": [ { "u_lose_trait": "devil_tail" }, { "u_message": "Your devil tail fades away.", "type": "neutral" } ]
@@ -248,7 +256,7 @@
     "id": "EOC_STALKER_EYES_CONTINUE",
     "condition": { "and": [ { "u_has_trait": "stalker_eyes" }, { "math": [ "u_val('mana') >= 200" ] } ] },
     "effect": [
-      { "math": [ "u_val('mana')", "-=", "200" ] },
+      { "math": [ "u_val('mana') -= 200" ] },
       { "u_message": "Your sight darkens for a second, but it quickly turns back.", "type": "good" },
       {
         "run_eocs": "EOC_STALKER_EYES_CONTINUE",
@@ -258,7 +266,7 @@
         "math": [
           "u_spell_exp('spell_stalker_eyes')",
           "+=",
-          "spell_exp_diff(u_spell_level('spell_stalker_eyes'))/spell_train_factor(200)"
+          "(spell_exp_for_level('spell_stalker_eyes', u_spell_level('spell_stalker_eyes')+1) - spell_exp_for_level('spell_stalker_eyes', u_spell_level('spell_stalker_eyes')))/spell_train_factor(200)"
         ]
       }
     ],

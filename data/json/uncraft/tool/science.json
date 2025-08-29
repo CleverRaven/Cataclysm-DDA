@@ -5,6 +5,6 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "steel_chunk", 3 ], [ "scrap", 7 ] ] ]
+    "components": [ [ [ "lc_steel_chunk", 3 ], [ "scrap", 7 ] ] ]
   }
 ]

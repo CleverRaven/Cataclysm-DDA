@@ -6,7 +6,22 @@
     "description": { "str": "Eater's draining attack.  It's a bug if you have it.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "message": "",
-    "flags": [ "CONCENTRATE", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "flags": [ "NO_EXPLOSION_SFX" ],
+    "difficulty": 1,
+    "max_level": 20,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_EATER_DRAIN",
+    "shape": "blast",
+    "min_range": 30
+  },
+  {
+    "id": "eater_drain_monster_close_range",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Essence Drain", "//~": "NO_I18N" },
+    "description": { "str": "Eater's draining attack.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "valid_targets": [ "hostile" ],
+    "message": "",
+    "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "difficulty": 1,
     "max_level": 20,
     "effect": "effect_on_condition",
@@ -103,7 +118,7 @@
     "type": "effect_on_condition",
     "id": "pigeon_aura",
     "condition": "u_is_character",
-    "effect": [ { "math": [ "u_vitamin('passenger_pigeon_aura')", "+=", "400 + rand(100)" ] } ]
+    "effect": [ { "math": [ "u_vitamin('passenger_pigeon_aura') += 400 + rand(100)" ] } ]
   },
   {
     "id": "null_break_concentration_spell",
@@ -153,21 +168,15 @@
                     },
                     "effect": [
                       { "u_message": "An icy dagger seems to stab into your brain.", "type": "bad" },
-                      { "math": [ "u_pain()", "+=", "rand(3) + 1" ] },
+                      { "math": [ "u_pain() += rand(3) + 1" ] },
                       { "run_eocs": "EOC_END_PSI_POWERS_MAINTAINED" }
                     ],
-                    "false_effect": [
-                      { "u_message": "Icy fingers crawl across your brain for a moment.", "type": "bad" },
-                      { "math": [ "u_pain()", "+=", "1" ] }
-                    ]
+                    "false_effect": [ { "u_message": "Icy fingers crawl across your brain for a moment.", "type": "bad" }, { "math": [ "u_pain() += 1" ] } ]
                   }
                 ]
               }
             ],
-            "false_effect": [
-              { "u_message": "Icy fingers crawl across your brain for a moment.", "type": "bad" },
-              { "math": [ "u_pain()", "+=", "1" ] }
-            ]
+            "false_effect": [ { "u_message": "Icy fingers crawl across your brain for a moment.", "type": "bad" }, { "math": [ "u_pain() += 1" ] } ]
           }
         ]
       }
@@ -245,6 +254,45 @@
     ]
   },
   {
+    "id": "electrokinetic_paralysis_monster",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Neural Spasms Monster", "//~": "NO_I18N" },
+    "description": { "str": "Cause an electrical burst in the target's nervous system, stunning them briefly.", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "hostile", "ally" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "max_level": 20,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ELECTROKIN_MONSTER_PARALYSIS",
+    "shape": "blast",
+    "min_duration": 150,
+    "max_duration": 400,
+    "min_range": 3,
+    "max_range": 23,
+    "range_increment": 1
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_MONSTER_PARALYSIS",
+    "effect": [
+      { "math": [ "_duration = rng(1.5, 4)" ] },
+      {
+        "if": {
+          "not": {
+            "u_has_any_effect": [ "effect_electrokinetic_speed_boost", "effect_monster_neuro_acceleration", "effect_monster_neuro_acceleration" ]
+          }
+        },
+        "then": [
+          { "u_add_effect": "downed", "duration": { "math": [ "_duration" ] } },
+          { "u_add_effect": "psi_dazed", "duration": { "math": [ "_duration" ] } },
+          { "u_add_effect": "effect_electrokin_paralysis", "duration": { "math": [ "_duration" ] } }
+        ],
+        "else": { "u_message": "Your control over your own nerve impulses prevent the attack from taking hold.", "type": "good" }
+      }
+    ]
+  },
+  {
     "id": "electrokinetic_power_draining",
     "type": "SPELL",
     "name": { "str": "[Ψ]Electrokinetic Power Draining Spell", "//~": "NO_I18N" },
@@ -298,15 +346,15 @@
                     "condition": { "not": { "u_has_effect": "effect_electrokin_personal_battery" } },
                     "effect": {
                       "u_run_inv_eocs": "random",
-                      "search_data": [ { "uses_energy": true } ],
+                      "search_data": [ { "uses_energy": true, "excluded_flags": [ "USES_BIONIC_POWER", "IS_UPS" ] } ],
                       "true_eocs": [
                         {
                           "id": "EOC_ELECTRONKINETIC_MONSTER_POWER_DRAINING_INV_RESULT",
-                          "effect": [ { "math": [ "n_val('power')", "-=", "rand(200) + 50" ] } ]
+                          "effect": [ { "math": [ "n_val('power') -= rand(200) + 50" ] } ]
                         }
                       ]
                     },
-                    "false_effect": [ { "math": [ "u_val('stamina')", "-=", "rand(350) + 300" ] } ]
+                    "false_effect": [ { "math": [ "u_val('stamina') -= rand(350) + 300" ] } ]
                   }
                 ]
               }
@@ -437,6 +485,123 @@
     ]
   },
   {
+    "id": "teleporter_breach_lab_devourer",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Breach Melded Task Force", "//~": "NO_I18N" },
+    "description": {
+      "str": "Open a portal to the Nether and summon monsters, if you're also a monster.  This will not end badly for you because they're all on your side.",
+      "//~": "NO_I18N"
+    },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self", "hostile" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "max_level": 30,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_SUMMON_LAB_DEVOURER",
+    "shape": "blast",
+    "min_damage": 1,
+    "min_range": 5,
+    "max_range": 80,
+    "range_increment": 1
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_SUMMON_LAB_DEVOURER",
+    "effect": [
+      {
+        "u_spawn_monster": "GROUP_NETHER_LAB_DEVOURER_BREACH",
+        "group": true,
+        "real_count": [ 1, 3 ],
+        "min_radius": 1,
+        "max_radius": 3
+      }
+    ]
+  },
+  {
+    "type": "SPELL",
+    "id": "whispering_amalgamation_apply_mindsight",
+    "name": { "str": "Eater apply mindsight", "//~": "NO_I18N" },
+    "description": "Add the effect to give the whispering_amalgamation mindsight.",
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE", "NO_EXPLOSION_SFX", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "valid_targets": [ "self" ],
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_WHISPERING_AMALGAMATION_MINDSIGHT",
+    "shape": "blast",
+    "min_range": 0,
+    "max_range": 0,
+    "min_duration": 900000,
+    "max_duration": 900000
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WHISPERING_AMALGAMATION_MINDSIGHT",
+    "effect": [
+      { "u_add_effect": "eff_mind_seeing_bonus_30", "duration": 9000 },
+      { "u_add_effect": "eff_mind_seeing_bonus_10", "duration": 9000 }
+    ]
+  },
+  {
+    "type": "SPELL",
+    "id": "amalgamation_telekinetic_shielder_shield_other_spell",
+    "name": { "str": "Inertial Barrier Guardian Amalgamation Shield Detector", "//~": "NO_I18N" },
+    "description": { "str": "Preps for using Inertial Barrier when a hostile target is detected.", "//~": "NO_I18N" },
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "valid_targets": [ "hostile" ],
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_AMALGAMATION_TELEKINETIC_SHIELDER_APPLICATION",
+    "shape": "blast",
+    "min_damage": 0,
+    "max_damage": 0,
+    "min_range": 20,
+    "max_range": 20
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AMALGAMATION_TELEKINETIC_SHIELDER_APPLICATION",
+    "condition": { "math": [ "u_mon_species_nearby('ZOMBIE', 'FERAL', 'radius': 25, 'attitude': 'both') > 0" ] },
+    "//": "Until monsters can actually use spells on allies, the buff has to check from the target's location.",
+    "effect": [
+      { "u_cast_spell": { "id": "amalgamation_telekinetic_shielder_shield_other_spell_self_casting", "hit_self": true } },
+      { "npc_add_effect": "effect_amalgamation_telekinetic_shielder_counter", "duration": 60 }
+    ]
+  },
+  {
+    "id": "amalgamation_telekinetic_shielder_shield_other_spell_self_casting",
+    "type": "SPELL",
+    "name": { "str": "Inertial Barrier Guardian Amalgamation Random Self Spell", "//~": "NO_I18N" },
+    "description": { "str": "I don't know why this spell is necessary, but it is.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "flags": [ "NO_EXPLOSION_SFX", "SILENT" ],
+    "effect": "noise",
+    "min_damage": 0,
+    "max_damage": 0,
+    "shape": "blast",
+    "extra_effects": [ { "id": "amalgamation_telekinetic_shielder_shield_other_spell_apply_shield" } ]
+  },
+  {
+    "type": "SPELL",
+    "id": "amalgamation_telekinetic_shielder_shield_other_spell_apply_shield",
+    "name": { "str": "Inertial Barrier Guardian Amalgamation Shield Applicator", "//~": "NO_I18N" },
+    "description": { "str": "The actual power that applies Inertial Barrier to an ally.", "//~": "NO_I18N" },
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE", "RANDOM_TARGET", "RANDOM_DURATION" ],
+    "valid_targets": [ "hostile" ],
+    "max_level": 1,
+    "effect": "attack",
+    "effect_str": "effect_monster_inertial_barrier",
+    "shape": "blast",
+    "min_range": 25,
+    "max_range": 25,
+    "min_duration": 4500,
+    "max_duration": 7500,
+    "targeted_monster_species": [ "ZOMBIE", "FERAL" ],
+    "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
     "id": "silent_one_drain_monster",
     "type": "SPELL",
     "name": { "str": "[Ψ]Silent One Draining attack", "//~": "NO_I18N" },
@@ -454,7 +619,6 @@
     "id": "EOC_SILENT_ONE_DRAINING_POWER",
     "condition": "u_is_character",
     "effect": [
-      { "math": [ "u_val('focus')", "-=", "2" ] },
       {
         "u_add_morale": "morale_silent_one_drain",
         "bonus": -5,
@@ -471,8 +635,7 @@
     "false_effect": [
       { "math": [ "u_val('anger')", "-=", "rand(5) + 3" ] },
       { "math": [ "u_val('morale')", "-=", "rand(10) + 5" ] },
-      { "u_add_effect": "effect_silent_one_monster_drain", "duration": 1800 },
-      { "math": [ "n_val('anger')", "-=", "rand(3) + 1" ] }
+      { "u_add_effect": "effect_silent_one_monster_drain", "duration": 1800 }
     ]
   },
   {
@@ -508,8 +671,8 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_SILENT_ONE_DETECT_PSIONIC_ACTIVITY",
     "shape": "blast",
-    "min_aoe": 45,
-    "max_aoe": 45
+    "min_range": 45,
+    "max_range": 45
   },
   {
     "type": "effect_on_condition",

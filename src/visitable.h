@@ -5,13 +5,14 @@
 #include <climits>
 #include <functional>
 #include <list>
+#include <utility>
 #include <vector>
 
 #include "cata_utility.h"
 #include "type_id.h"
 
-class item;
 class Character;
+class item;
 
 enum class VisitResponse : int {
     ABORT, // Stop processing after this node

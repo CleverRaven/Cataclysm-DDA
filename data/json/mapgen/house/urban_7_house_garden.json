@@ -1,9 +1,7 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "urban_7_1", "urban_7_2" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -78,9 +76,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "urban_7_3", "urban_7_4" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -124,9 +120,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "urban_7_5", "urban_7_6" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
@@ -161,19 +155,17 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "urban_7_1_basement", "urban_7_2_basement" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
         "                                                ",
         "        |||||||||||||||||||||||||               ",
-        "        |2.......z....%..UUU..F.|               ",
-        "        |.............%.........|               ",
+        "        |2.......z....|..UUU..â.|               ",
+        "        |.............|.........|               ",
         "        |..........z..+.......zz|               ",
-        "        |.........z...%..<...z..|               ",
-        "        |%%%%%%%+%%%%%|||||||||||               ",
+        "        |.........z...|..<...z..|               ",
+        "        ||||||||+||||||||||||||||               ",
         "        |1............|                         ",
         "        |.............|                         ",
         "        |.............|                         ",
@@ -192,7 +184,7 @@
         "                                                ",
         "                                                "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "nested": {
         "1": {
           "chunks": [

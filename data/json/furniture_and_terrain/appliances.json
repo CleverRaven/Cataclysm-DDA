@@ -14,6 +14,13 @@
     "extend": { "flags": [ "APPLIANCE" ] }
   },
   {
+    "type": "vehicle_part",
+    "id": "ap_workbench_with_recharger",
+    "name": "kitchen station",
+    "copy-from": "workbench_with_recharger",
+    "extend": { "flags": [ "APPLIANCE" ] }
+  },
+  {
     "id": "ap_oven",
     "name": { "str": "oven" },
     "categories": [ "utility" ],
@@ -30,7 +37,7 @@
     "breaks_into": [
       { "item": "sheet_metal", "count": [ 1, 4 ] },
       { "item": "sheet_metal_small", "count": [ 8, 12 ] },
-      { "item": "steel_chunk", "count": [ 0, 3 ] },
+      { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
       { "item": "scrap", "count": [ 0, 6 ] },
       { "item": "element", "count": [ 1, 3 ] },
       { "item": "cable", "charges": [ 1, 3 ] }
@@ -54,7 +61,7 @@
     "looks_like": "f_water_purifier",
     "breaks_into": [
       { "item": "scrap", "count": [ 2, 7 ] },
-      { "item": "steel_chunk", "count": [ 0, 3 ] },
+      { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
       { "item": "sheet_metal", "count": [ 2, 6 ] },
       { "item": "cable", "charges": [ 1, 15 ] },
       { "item": "hose", "count": [ 0, 2 ] },
@@ -97,7 +104,7 @@
     "type": "vehicle_part",
     "id": "ap_arc_furnace",
     "name": { "str": "arc furnace" },
-    "looks_like": "f_arc_furnace",
+    "looks_like": "f_arcfurnace_empty",
     "color": "blue",
     "categories": [ "utility" ],
     "description": "An arc furnace designed to burn a powdery mix of coke and limestone to create calcium carbide.  Plugged in and ready to go.",
@@ -110,7 +117,7 @@
     "item": "arc_furnace",
     "breaks_into": [
       { "item": "scrap", "count": [ 2, 4 ] },
-      { "item": "steel_chunk", "count": [ 0, 3 ] },
+      { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
       { "item": "pipe", "count": [ 0, 4 ] }
     ],
     "variants": [ { "symbols": "U", "symbols_broken": "x" } ]
@@ -157,7 +164,7 @@
     "breaks_into": [
       { "item": "cable", "charges": [ 0, 4 ] },
       { "item": "scrap", "count": [ 8, 12 ] },
-      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
       { "item": "plastic_chunk", "count": [ 4, 10 ] },
       { "item": "steel_plate", "count": [ 2, 4 ] }
     ],
@@ -181,7 +188,7 @@
     "breaks_into": [
       { "item": "cable", "charges": [ 0, 4 ] },
       { "item": "scrap", "count": [ 8, 12 ] },
-      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
       { "item": "plastic_chunk", "count": [ 4, 10 ] },
       { "item": "steel_plate", "count": [ 2, 4 ] }
     ],
@@ -205,7 +212,7 @@
     "breaks_into": [
       { "item": "cable", "charges": [ 0, 4 ] },
       { "item": "scrap", "count": [ 8, 12 ] },
-      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
       { "item": "plastic_chunk", "count": [ 4, 10 ] },
       { "item": "steel_plate", "count": [ 2, 4 ] }
     ],
@@ -229,7 +236,7 @@
     "breaks_into": [
       { "item": "cable", "charges": [ 0, 4 ] },
       { "item": "scrap", "count": [ 8, 12 ] },
-      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
       { "item": "plastic_chunk", "count": [ 4, 10 ] },
       { "item": "steel_plate", "count": [ 2, 4 ] }
     ],
@@ -253,7 +260,7 @@
     "breaks_into": [
       { "item": "cable", "charges": [ 0, 4 ] },
       { "item": "scrap", "count": [ 8, 12 ] },
-      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
       { "item": "plastic_chunk", "count": [ 4, 10 ] },
       { "item": "steel_plate", "count": [ 2, 4 ] }
     ],
@@ -277,7 +284,7 @@
     "breaks_into": [
       { "item": "cable", "charges": [ 0, 4 ] },
       { "item": "scrap", "count": [ 8, 12 ] },
-      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
       { "item": "plastic_chunk", "count": [ 4, 10 ] },
       { "item": "steel_plate", "count": [ 2, 4 ] }
     ],
@@ -301,7 +308,7 @@
     "breaks_into": [
       { "item": "cable", "charges": [ 0, 4 ] },
       { "item": "scrap", "count": [ 8, 12 ] },
-      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
       { "item": "plastic_chunk", "count": [ 4, 10 ] },
       { "item": "steel_plate", "count": [ 2, 4 ] }
     ],
@@ -350,8 +357,8 @@
     "breaks_into": [
       { "item": "cable", "charges": [ 0, 4 ] },
       { "item": "scrap", "count": [ 8, 12 ] },
-      { "item": "steel_chunk", "count": [ 2, 4 ] },
-      { "item": "steel_lump", "count": [ 1, 2 ] },
+      { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
+      { "item": "mc_steel_lump", "count": [ 1, 2 ] },
       { "item": "steel_plate", "count": [ 1, 2 ] }
     ],
     "variants": [ { "symbols": "7", "symbols_broken": "#" } ]
@@ -373,7 +380,7 @@
     "breaks_into": [
       { "item": "cable", "charges": [ 0, 4 ] },
       { "item": "scrap", "count": [ 8, 12 ] },
-      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
       { "item": "plastic_chunk", "count": [ 4, 10 ] },
       { "item": "steel_plate", "count": [ 2, 4 ] }
     ],
@@ -412,7 +419,7 @@
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "pseudo_tools": [ { "id": "electrolyzer_makeshift" } ],
     "breaks_into": [
-      { "item": "steel_chunk", "count": [ 2, 6 ] },
+      { "item": "mc_steel_chunk", "count": [ 2, 6 ] },
       { "item": "scrap", "count": [ 8, 13 ] },
       { "item": "glass_shard", "count": [ 16, 24 ] },
       { "item": "sheet_metal_small", "count": [ 4, 8 ] },
@@ -436,8 +443,8 @@
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "pseudo_tools": [ { "id": "ammonia_machine_reactor" } ],
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 15, 25 ] },
-      { "item": "steel_chunk", "count": [ 15, 25 ] },
+      { "item": "mc_steel_lump", "count": [ 15, 25 ] },
+      { "item": "mc_steel_chunk", "count": [ 15, 25 ] },
       { "item": "scrap", "count": [ 15, 25 ] },
       { "item": "pyrometer", "prob": 25 },
       { "item": "hd_valve", "count": [ 0, 2 ] },
@@ -463,8 +470,8 @@
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "pseudo_tools": [ { "id": "ammonia_machine_pipework" } ],
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 8 ] },
-      { "item": "steel_chunk", "count": [ 4, 8 ] },
+      { "item": "mc_steel_lump", "count": [ 4, 8 ] },
+      { "item": "mc_steel_chunk", "count": [ 4, 8 ] },
       { "item": "scrap", "count": [ 4, 8 ] },
       { "item": "hd_pipe", "count": [ 6, 10 ] },
       { "item": "pipe", "count": [ 1, 2 ] },
@@ -495,8 +502,8 @@
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "pseudo_tools": [ { "id": "nitrogen_generator" } ],
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 8, 13 ] },
-      { "item": "steel_chunk", "count": [ 8, 13 ] },
+      { "item": "mc_steel_lump", "count": [ 8, 13 ] },
+      { "item": "mc_steel_chunk", "count": [ 8, 13 ] },
       { "item": "scrap", "count": [ 8, 13 ] },
       { "item": "sheet_cotton", "count": [ 5, 10 ] },
       { "item": "pipe", "count": [ 0, 1 ] },
@@ -540,7 +547,7 @@
     "looks_like": "ap_standing_directed_floodlight",
     "breaks_into": [
       { "item": "cable", "charges": [ 1, 4 ] },
-      { "item": "steel_chunk", "count": [ 0, 2 ] },
+      { "item": "mc_steel_chunk", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
     "flags": [ "WALL_MOUNTED", "HALF_CIRCLE_LIGHT", "APPLIANCE", "ENABLED_DRAINS_EPOWER", "CTRL_ELECTRONIC", "OBSTACLE" ],
@@ -563,7 +570,7 @@
     "looks_like": "f_floor_lamp",
     "breaks_into": [
       { "item": "cable", "charges": [ 1, 4 ] },
-      { "item": "steel_chunk", "count": [ 0, 2 ] },
+      { "item": "mc_steel_chunk", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
     "flags": [ "CIRCLE_LIGHT", "APPLIANCE", "ENABLED_DRAINS_EPOWER", "CTRL_ELECTRONIC" ],
@@ -661,8 +668,8 @@
       }
     },
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 8, 32 ] },
-      { "item": "steel_chunk", "count": [ 8, 32 ] },
+      { "item": "mc_steel_lump", "count": [ 8, 32 ] },
+      { "item": "mc_steel_chunk", "count": [ 8, 32 ] },
       { "item": "scrap", "count": [ 8, 32 ] },
       { "item": "solar_cell", "count": [ 4, 16 ] }
     ],
@@ -707,8 +714,8 @@
       }
     },
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 8, 16 ] },
-      { "item": "steel_chunk", "count": [ 8, 16 ] },
+      { "item": "mc_steel_lump", "count": [ 8, 16 ] },
+      { "item": "mc_steel_chunk", "count": [ 8, 16 ] },
       { "item": "scrap", "count": [ 8, 16 ] },
       { "item": "solar_cell_v2", "count": [ 4, 24 ] }
     ]
@@ -924,8 +931,8 @@
     "flags": [ "CARGO", "OBSTACLE", "RECHARGE", "COVERED", "APPLIANCE", "CTRL_ELECTRONIC" ],
     "breaks_into": [
       { "item": "cable", "charges": [ 1, 3 ] },
-      { "item": "steel_lump", "count": [ 4, 6 ] },
-      { "item": "steel_chunk", "count": [ 4, 8 ] },
+      { "item": "mc_steel_lump", "count": [ 4, 6 ] },
+      { "item": "mc_steel_chunk", "count": [ 4, 8 ] },
       { "item": "scrap", "count": [ 5, 7 ] }
     ],
     "damage_reduction": { "all": 10 },
@@ -982,48 +989,10 @@
     "flags": [ "OBSTACLE", "RADIOACTIVE", "COVERED", "APPLIANCE", "PERPETUAL", "REACTOR" ],
     "breaks_into": [
       { "item": "scrap", "count": [ 4, 16 ] },
-      { "item": "steel_chunk", "count": [ 1, 6 ] },
+      { "item": "mc_steel_chunk", "count": [ 1, 6 ] },
       { "item": "plutonium", "count": [ 0, 2 ] },
       { "item": "lead", "charges": [ 12, 18 ] }
     ],
-    "damage_reduction": { "all": 60 },
-    "variants": [ { "symbols": "0", "symbols_broken": "#" } ]
-  },
-  {
-    "type": "vehicle_part",
-    "id": "ap_active_backup_generator",
-    "name": { "str": "active backup generator" },
-    "looks_like": "f_active_backup_generator",
-    "categories": [ "energy" ],
-    "color": "green_white",
-    "broken_color": "blue",
-    "location": "structure",
-    "damage_modifier": 80,
-    "durability": 400,
-    "description": "A ubiquitous piece of compact machinery meant for running anything from the bathroom lights to electric stoves and other necessities when grid electricity is unavailable.",
-    "//1": "BIZARRE FIELD NAMES HERE! Weird stuff happening! Epower determines how fast it is converted, power determines the ratio of diesel(mL) to battery charges output. In other words, *power* is *fuel efficiency*.",
-    "//2": "On a normal vehicle 250mL of diesel in an I4 with a truck alternator (what the active backup gen uses) should provide ~1692 charges (kW?) of power in about 24 minutes based on a test setup. That's a little less than 7W power, rounded up as I assume a larger dedicated generator is more efficient.",
-    "power": "7 W",
-    "//3": "7.5 kW alternator value, minus power consumption of the engine",
-    "epower": "7300 W",
-    "//4": "This value doesn't seem to do anything for the appliance version? Let's keep it commented out for future reference.",
-    "//energy_consumption": "1000 W",
-    "m2c": 5,
-    "//5": "Actually accepts any diesel-type fuel but does NOT account for their relative fuel values! For diesel this is not a huge deal, only a few % inaccuracy, but for e.g. gas turbines this would be very bad!",
-    "fuel_type": "diesel",
-    "//6": "Appliance engine does NOT accept having these fields.",
-    "//fuel_options": [ "diesel", "biodiesel", "lamp_oil", "motor_oil", "jp8" ],
-    "//damaged_power_factor": 0.25,
-    "item": "active_backup_generator",
-    "requirements": {
-      "repair": {
-        "skills": [ [ "mechanics", 4 ] ],
-        "time": "60 m",
-        "using": [ [ "repair_welding_standard", 5 ], [ "soldering_standard", 5 ] ]
-      }
-    },
-    "flags": [ "ENGINE", "E_DIESEL_FUEL", "OBSTACLE", "COVERED", "APPLIANCE", "REACTOR", "FLUIDTANK" ],
-    "breaks_into": [ { "item": "scrap", "count": [ 4, 16 ] }, { "item": "steel_chunk", "count": [ 1, 6 ] } ],
     "damage_reduction": { "all": 60 },
     "variants": [ { "symbols": "0", "symbols_broken": "#" } ]
   },
@@ -1051,10 +1020,10 @@
       "removal": { "time": "1 m" }
     },
     "pseudo_tools": [ { "id": "microwave" } ],
-    "size": 20,
+    "size": "5 L",
     "breaks_into": [
       { "item": "plastic_chunk", "count": [ 4, 7 ] },
-      { "item": "steel_chunk", "count": [ 3, 6 ] },
+      { "item": "mc_steel_chunk", "count": [ 3, 6 ] },
       { "item": "sheet_metal_small", "count": [ 4, 8 ] },
       { "item": "scrap", "count": [ 4, 7 ] },
       { "item": "element", "count": [ 0, 2 ] },
@@ -1078,7 +1047,7 @@
     "breaks_into": [
       { "item": "plastic_chunk", "count": [ 4, 8 ] },
       { "item": "scrap", "count": [ 4, 8 ] },
-      { "item": "steel_chunk", "count": [ 5, 10 ] }
+      { "item": "mc_steel_chunk", "count": [ 5, 10 ] }
     ],
     "damage_reduction": { "all": 40 },
     "variants": [ { "symbols": "&", "symbols_broken": "#" } ]
@@ -1098,7 +1067,7 @@
     "breaks_into": [
       { "item": "plastic_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 6, 12 ] },
-      { "item": "steel_chunk", "count": [ 8, 16 ] },
+      { "item": "mc_steel_chunk", "count": [ 8, 16 ] },
       { "item": "sheet_metal_small", "count": [ 1, 4 ] }
     ],
     "damage_reduction": { "all": 50 },
@@ -1121,10 +1090,56 @@
     "breaks_into": [
       { "item": "cable", "charges": [ 0, 4 ] },
       { "item": "scrap", "count": [ 8, 12 ] },
-      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
       { "item": "ceramic_shard", "count": [ 21, 42 ] },
       { "item": "rock", "count": [ 6, 12 ] }
     ],
     "variants": [ { "symbols": "o", "symbols_broken": "x" } ]
+  },
+  {
+    "id": "ap_lathe",
+    "type": "vehicle_part",
+    "categories": [ "utility" ],
+    "name": { "str": "lathe" },
+    "description": "An industrial-grade lathe, for turning chunks of metal and other hard things into round chunks of metal and other hard things.",
+    "looks_like": "f_heavy_lathe",
+    "variants": [ { "symbols": "4", "symbols_broken": "#" } ],
+    "color": "cyan_red",
+    "flags": [ "OBSTACLE", "APPLIANCE" ],
+    "pseudo_tools": [ { "id": "fake_lathe" } ],
+    "item": "lathe",
+    "damage_modifier": 10,
+    "damage_reduction": { "all": 30 },
+    "durability": 80,
+    "breaks_into": [
+      { "item": "cable", "charges": [ 0, 4 ] },
+      { "item": "scrap", "count": [ 12, 20 ] },
+      { "item": "chunk_cast_iron", "count": [ 2, 4 ] },
+      { "item": "lump_cast_iron", "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "id": "ap_deep_fryer",
+    "type": "vehicle_part",
+    "categories": [ "utility" ],
+    "name": { "str": "deep fryer" },
+    "description": "An industrial deep fryer, for frying huge batches of food at once.",
+    "looks_like": "f_oven",
+    "variants": [ { "symbols": "h", "symbols_broken": "#" } ],
+    "broken_color": "dark_gray_white",
+    "flags": [ "OBSTACLE", "APPLIANCE" ],
+    "pseudo_tools": [ { "id": "fake_deep_fryer" } ],
+    "item": "deep_fryer",
+    "damage_modifier": 10,
+    "damage_reduction": { "all": 20 },
+    "durability": 60,
+    "breaks_into": [
+      { "item": "sheet_metal", "count": [ 1, 2 ] },
+      { "item": "sheet_metal_small", "count": [ 4, 6 ] },
+      { "item": "lc_steel_chunk", "count": [ 0, 2 ] },
+      { "item": "scrap", "count": [ 0, 3 ] },
+      { "item": "element", "count": [ 1, 2 ] },
+      { "item": "cable", "charges": [ 1, 2 ] }
+    ]
   }
 ]

@@ -1,0 +1,10 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_NETHER_SORCERY_REQUIRES_UNLOCK_SETUP",
+    "recurrence": 1,
+    "condition": { "not": { "u_has_trait": "XE_NETHER_SORCERY" } },
+    "deactivate_condition": { "or": [ { "u_has_any_trait": [ "XE_NO_NETHER_SORCERY", "XE_NETHER_SORCERY" ] } ] },
+    "effect": [ { "u_add_trait": "XE_NO_NETHER_SORCERY" } ]
+  }
+]

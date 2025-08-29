@@ -2,8 +2,8 @@
 #ifndef CATA_SRC_TEMP_CRAFTING_INVENTORY_H
 #define CATA_SRC_TEMP_CRAFTING_INVENTORY_H
 
+// IWYU pragma: no_include <memory>  // IWYU being silly
 #include <cstddef>
-#include <functional>
 
 #include "colony.h"
 #include "item.h"

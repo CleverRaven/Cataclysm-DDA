@@ -94,5 +94,14 @@
     "id": "ARVORE_ROOTS_SPELL",
     "trait": "ARVORE_SUMMON_GRASS_FIELD",
     "//": "remove after 0.I"
+  },
+  {
+    "type": "mutation",
+    "id": "WIND_BLOWS_WILLOW_BENDS",
+    "name": { "str": "The Wind Blows, the Willow Bends" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability, you gain the ability to enhance your dodge capabilities."
   }
 ]

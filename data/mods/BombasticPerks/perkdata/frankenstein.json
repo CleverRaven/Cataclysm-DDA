@@ -25,7 +25,8 @@
   },
   {
     "id": "meat_hunk",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "homunculus", "str_pl": "homunculi" },
     "description": "A stitched together monstrosity of meat and bone, with limbs as wide as trash cans.  This one is still sleeping.  It would require a master's touch to bring it to life.",
     "volume": "875000 ml",
@@ -72,8 +73,8 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "weakpoints": [
-      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+      { "name": "the head", "is_head": true, "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "is_head": true, "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_zombie", "prof_wp_hulk" ],
     "bleed_rate": 0,

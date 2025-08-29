@@ -1,7 +1,8 @@
 [
   {
     "id": "void_spider_test_item",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "void weaver effigy" },
     "description": "The severed leg of a void weaver, turned into some macabre ornament.",
     "weight": "1 g",
@@ -20,7 +21,7 @@
             { "u_message": "The world warps." },
             {
               "u_location_variable": { "global_val": "spider_map" },
-              "target_params": { "om_terrain": "void_spider_lair_entrance", "z": -5, "search_range": 400, "min_distance": 1 }
+              "target_params": { "om_terrain": "void_spider_lair_entrance", "z": -5, "min_distance": 1 }
             },
             { "u_teleport": { "global_val": "spider_map" }, "force": true }
           ]
@@ -174,7 +175,7 @@
       }
     },
     "effect": [
-      { "place_override": { "global_val": "place_name", "default_str": "strange cavern" }, "length": "10 seconds" },
+      { "place_override": { "global_val": "place_name", "default": "strange cavern" }, "length": "10 seconds" },
       { "run_eocs": "EOC_IN_VOID_SPIDER_LAIR", "time_in_future": "1 seconds" },
       {
         "run_eocs": [
@@ -359,7 +360,7 @@
       { "u_message": "The cavern folds itself beyond perception.", "popup": true },
       {
         "u_location_variable": { "global_val": "nether_glass" },
-        "target_params": { "om_terrain": "nether_glass_deep", "z": -10, "search_range": 400, "min_distance": 1 }
+        "target_params": { "om_terrain": "nether_glass_deep", "z": -10, "min_distance": 1 }
       },
       { "u_teleport": { "global_val": "nether_glass" }, "force": true },
       {

@@ -254,7 +254,7 @@
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE", "LIQUIDCONT" ],
     "max_volume": "200 L",
     "examine_action": "keg",
-    "keg_capacity": 600,
+    "keg_capacity": "150 L",
     "bash": {
       "str_min": 12,
       "str_max": 50,
@@ -370,7 +370,7 @@
       "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 0.7, "mass": 2000, "volume": "75 L" }
+    "workbench": { "multiplier": 0.7, "mass": "2 kg", "volume": "75 L" }
   },
   {
     "type": "furniture",
@@ -520,7 +520,7 @@
       "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.1, "mass": 2000, "volume": "75 L" }
+    "workbench": { "multiplier": 1.1, "mass": "2 kg", "volume": "75 L" }
   },
   {
     "type": "furniture",
@@ -658,7 +658,7 @@
       "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75 L" }
+    "workbench": { "multiplier": 1.1, "mass": "200 kg", "volume": "75 L" }
   },
   {
     "type": "furniture",
@@ -680,7 +680,7 @@
       "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75 L" }
+    "workbench": { "multiplier": 1.1, "mass": "200 kg", "volume": "75 L" }
   },
   {
     "type": "furniture",

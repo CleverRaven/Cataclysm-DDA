@@ -1,9 +1,7 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_petstore" ],
-    "weight": 500,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -73,8 +71,9 @@
         "G": { "item": "cleaning", "chance": 70, "repeat": [ 1, 4 ] },
         "C": { "item": "petstore_misc", "chance": 70, "repeat": [ 2, 8 ] },
         "K": { "item": "petstore_misc", "chance": 70, "repeat": [ 2, 8 ] },
-        "d": { "item": "office", "chance": 50, "repeat": [ 2, 4 ] },
-        "U": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] }
+        "d": { "item": "SUS_office_desk", "chance": 50 },
+        "U": { "item": "SUS_trash_dumpster", "chance": 50 },
+        "B": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_loot": [
         { "group": "cash_register_random", "x": [ 11, 13 ], "y": 15 },
@@ -84,7 +83,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_petstore_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -137,7 +135,6 @@
     }
   },
   {
-    "method": "json",
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "place_item": [
@@ -163,7 +160,7 @@
       ],
       "items": {
         "l": { "item": "cleaning", "chance": 30 },
-        "T": { "item": "softdrugs", "chance": 30 },
+        "T": [ { "item": "softdrugs", "chance": 30 }, { "item": "SUS_toilet", "chance": 50 } ],
         "{": { "item": "petstore_shelves", "chance": 70, "repeat": [ 2, 8 ] }
       },
       "place_monster": [
@@ -219,12 +216,10 @@
       }
     },
     "om_terrain": "s_petstore_1",
-    "type": "mapgen",
-    "weight": 100
+    "type": "mapgen"
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_petstore_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -274,7 +269,6 @@
     }
   },
   {
-    "method": "json",
     "object": {
       "fill_ter": "t_thconc_floor",
       "furniture": {
@@ -296,8 +290,10 @@
       "place_items": [
         { "chance": 55, "item": "clothing_outdoor_torso", "x": [ 5, 6 ], "y": 21 },
         { "chance": 70, "repeat": [ 1, 2 ], "item": "vet_softdrug", "x": 2, "y": [ 8, 10 ] },
-        { "chance": 55, "item": "trash", "x": 6, "y": 14 },
-        { "chance": 55, "item": "trash", "x": 12, "y": 5 },
+        { "chance": 55, "item": "SUS_trash_trashcan_public", "x": 6, "y": 14 },
+        { "chance": 55, "item": "SUS_trash_trashcan_public", "x": 12, "y": 5 },
+        { "chance": 55, "item": "SUS_trash_trashcan_public", "x": 9, "y": 19 },
+        { "chance": 55, "item": "SUS_trash_trashcan_public", "x": 22, "y": 5 },
         { "chance": 20, "item": "vet_hardrug", "x": 2, "y": 11 },
         { "chance": 85, "repeat": [ 1, 4 ], "item": "vet_utility", "x": 14, "y": 14 },
         { "chance": 85, "repeat": [ 1, 4 ], "item": "vet_utility", "x": 14, "y": 12 },
@@ -368,12 +364,10 @@
       }
     },
     "om_terrain": "s_petstore_2",
-    "type": "mapgen",
-    "weight": 100
+    "type": "mapgen"
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_petstore_roof_2",
     "object": {
       "fill_ter": "t_flat_roof",

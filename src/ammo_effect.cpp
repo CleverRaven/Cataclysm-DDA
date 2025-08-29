@@ -1,12 +1,8 @@
 #include "ammo_effect.h"
 
-#include <set>
-
 #include "debug.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "init.h"
 
 generic_factory<ammo_effect> &get_all_ammo_effects()
 {
@@ -62,7 +58,15 @@ int_id<ammo_effect>::int_id( const ammo_effect_str_id &id ) : _id( id.id() )
 {
 }
 
-void ammo_effect::load( const JsonObject &jo, const std::string_view )
+void on_hit_effect::deserialize( const JsonObject &jo )
+{
+    optional( jo, false, "need_touch_skin", need_touch_skin, false );
+    mandatory( jo, false, "duration", duration );
+    mandatory( jo, false, "effect", effect );
+    mandatory( jo, false, "intensity", intensity );
+}
+
+void ammo_effect::load( const JsonObject &jo, std::string_view )
 {
     optional( jo, was_loaded, "trigger_chance", trigger_chance, 1 );
 
@@ -86,10 +90,8 @@ void ammo_effect::load( const JsonObject &jo, const std::string_view )
         optional( joa, was_loaded, "intensity_max", trail_intensity_max, 0 );
         optional( joa, was_loaded, "chance", trail_chance, 100 );
     }
-    if( jo.has_member( "explosion" ) ) {
-        JsonObject joe = jo.get_object( "explosion" );
-        aoe_explosion_data = load_explosion_data( joe );
-    }
+    optional( jo, was_loaded, "on_hit_effects", on_hit_effects );
+    optional( jo, was_loaded, "explosion", aoe_explosion_data );
     optional( jo, was_loaded, "do_flashbang", do_flashbang, false );
     optional( jo, was_loaded, "do_emp_blast", do_emp_blast, false );
     optional( jo, was_loaded, "foamcrete_build", foamcrete_build, false );
@@ -160,9 +162,6 @@ void ammo_effects::load( const JsonObject &jo, const std::string &src )
 void ammo_effects::finalize_all()
 {
     get_all_ammo_effects().finalize();
-    for( const ammo_effect &ae : get_all_ammo_effects().get_all() ) {
-        const_cast<ammo_effect &>( ae ).finalize();
-    }
 }
 
 void ammo_effects::check_consistency()

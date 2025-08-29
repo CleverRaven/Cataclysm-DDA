@@ -1,7 +1,8 @@
 [
   {
     "id": "bot_sniperbot",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive sniper bot" },
     "description": "A compressed sniper sentry.  Ludicrous, physical law violating compression allows you to fit them into a small metal cylinder, but the weight compression is not as effective.",
     "weight": "5 kg",
@@ -19,7 +20,8 @@
   },
   {
     "id": "bot_shotgunbot",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive shotgun bot" },
     "description": "A compressed shotgun sentry.  Ludicrous, physical law violating compression allows you to fit them into a small metal cylinder, but the weight compression is not as effective.",
     "weight": "5 kg",
@@ -37,7 +39,8 @@
   },
   {
     "id": "bot_meleebot",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive melee bot" },
     "description": "A compressed melee sentry.  Ludicrous, physical law violating compression allows you to fit them into a small metal cylinder, but the weight compression is not as effective.",
     "weight": "5 kg",

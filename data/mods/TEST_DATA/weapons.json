@@ -5,7 +5,7 @@
     "name": "Test Category"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "test_weapon1",
     "name": { "str": "test melee weapon 1" },
     "description": "Test melee weapon 1.",
@@ -17,7 +17,7 @@
     "symbol": ";"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "test_weapon2",
     "name": { "str": "test melee weapon 2" },
     "description": "Test melee weapon 2.",
@@ -31,7 +31,8 @@
   },
   {
     "id": "reach_bow",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "(",
     "color": "yellow",
     "name": { "str": "reach bow" },

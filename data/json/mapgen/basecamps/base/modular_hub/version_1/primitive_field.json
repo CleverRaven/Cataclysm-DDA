@@ -2,13 +2,11 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "faction_hide_site_0",
-    "method": "json",
     "object": { "set": [ { "point": "terrain", "id": "t_improvised_shelter", "x": 11, "y": 10 } ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "faction_wall_level_N_0",
-    "method": "json",
     "object": {
       "set": [
         { "line": "terrain", "id": "t_pit", "x": 12, "y": 0, "x2": 12, "y2": 2 },
@@ -22,7 +20,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "faction_wall_level_N_1",
-    "method": "json",
     "object": {
       "set": [
         { "line": "terrain", "id": "t_pit_spiked", "x": 12, "y": 0, "x2": 12, "y2": 2 },
@@ -36,7 +33,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "faction_wall_level_S_0",
-    "method": "json",
     "object": {
       "set": [
         { "line": "terrain", "id": "t_pit", "x": 12, "y": 22, "x2": 12, "y2": 23 },
@@ -50,7 +46,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "faction_wall_level_S_1",
-    "method": "json",
     "object": {
       "set": [
         { "line": "terrain", "id": "t_pit_spiked", "x": 12, "y": 22, "x2": 12, "y2": 23 },
@@ -64,7 +59,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "faction_wall_level_E_0",
-    "method": "json",
     "object": {
       "set": [
         { "line": "terrain", "id": "t_pit", "x": 11, "y": 12, "x2": 13, "y2": 12 },
@@ -78,7 +72,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "faction_wall_level_E_1",
-    "method": "json",
     "object": {
       "set": [
         { "line": "terrain", "id": "t_pit_spiked", "x": 11, "y": 12, "x2": 13, "y2": 12 },
@@ -92,7 +85,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "faction_wall_level_W_0",
-    "method": "json",
     "object": {
       "set": [
         { "line": "terrain", "id": "t_pit", "x": 0, "y": 12, "x2": 2, "y2": 12 },
@@ -106,7 +98,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "faction_wall_level_W_1",
-    "method": "json",
     "object": {
       "set": [
         { "line": "terrain", "id": "t_pit_spiked", "x": 0, "y": 12, "x2": 2, "y2": 12 },

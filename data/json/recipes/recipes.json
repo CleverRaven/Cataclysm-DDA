@@ -93,6 +93,11 @@
   },
   {
     "type": "recipe_category",
+    "id": "CC_CAMP",
+    "recipe_subcategories": [ "CSC_ALL", "CSC_CAMP_BASIC", "CSC_CAMP_EXPANSIONS" ]
+  },
+  {
+    "type": "recipe_category",
     "id": "CC_OTHER",
     "recipe_subcategories": [
       "CSC_ALL",

@@ -25,19 +25,6 @@
   },
   {
     "type": "construction",
-    "id": "app_active_backup_generator",
-    "group": "place_active_backup_generator",
-    "category": "APPLIANCE",
-    "required_skills": [ [ "mechanics", 1 ] ],
-    "time": "5 m",
-    "qualities": [ [ { "id": "WRENCH", "level": 1 } ] ],
-    "components": [ [ [ "active_backup_generator", 1 ] ] ],
-    "pre_special": "check_empty",
-    "post_special": "done_appliance",
-    "activity_level": "LIGHT_EXERCISE"
-  },
-  {
-    "type": "construction",
     "id": "app_air_compressor",
     "group": "place_air_compressor",
     "category": "APPLIANCE",
@@ -309,6 +296,18 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "5 m",
     "components": [ [ [ "drill_press", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_arc_furnace",
+    "group": "place_arc_furnace",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "arc_furnace", 1 ] ] ],
     "pre_special": "check_empty",
     "post_special": "done_appliance",
     "activity_level": "BRISK_EXERCISE"
@@ -876,5 +875,29 @@
     "pre_special": "check_empty",
     "post_special": "done_appliance",
     "activity_level": "MODERATE_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_lathe",
+    "group": "place_lathe",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "lathe", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_deep_fryer",
+    "group": "place_deep_fryer",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "deep_fryer", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
   }
 ]

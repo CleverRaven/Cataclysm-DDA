@@ -2,8 +2,12 @@
 #ifndef CATA_SRC_DEBUG_H
 #define CATA_SRC_DEBUG_H
 
-#include "string_formatter.h"
+#include <cstdlib>
+#include <string>
 #include <unordered_set>
+#include <utility>
+
+#include "string_formatter.h"
 
 /**
  *      debugmsg(msg, ...)
@@ -66,7 +70,7 @@
  * a printf style format string.
  */
 
-#define debugmsg(...) realDebugmsg(__FILE__, STRING(__LINE__), CATA_FUNCTION_NAME, __VA_ARGS__)
+#define debugmsg(...) realDebugmsg(__FILE__, STRING(__LINE__), CATA_FUNCTION_NAME, __VA_ARGS__) // NOLINT(bugprone-lambda-function-name)
 
 // Don't use this, use debugmsg instead.
 void realDebugmsg( const char *filename, const char *line, const char *funcname,
@@ -257,6 +261,7 @@ enum debug_filter : int {
     DF_EXPLOSION, // explosion generic
     DF_FOOD, // food generic
     DF_GAME, // game generic
+    DF_HIGHWAY, // highway overmap generation
     DF_IEXAMINE, // iexamine generic
     DF_IUSE, // iuse generic
     DF_MAP, // map generic

@@ -1,0 +1,126 @@
+[
+  {
+    "type": "item_group",
+    "id": "bed",
+    "subtype": "distribution",
+    "entries": [ { "item": "grass_blanket", "prob": 2500 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "midden_heap",
+    "//": "a large pile of trash, made for goblin encampments.",
+    "subtype": "collection",
+    "items": [
+      { "group": "trash_forest", "prob": 95 },
+      { "group": "trash_forest", "prob": 70 },
+      { "group": "trash_forest", "prob": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "feral_goblin_death_drops",
+    "entries": [
+      { "group": "shoes_unisex", "prob": 40, "damage": [ 1, 4 ], "custom-flags": [ "UNDERSIZE" ] },
+      { "group": "npc_hat", "prob": 10, "damage": [ 1, 4 ], "custom-flags": [ "UNDERSIZE" ] },
+      { "group": "male_underwear_bottom", "prob": 100, "damage": [ 1, 4 ], "custom-flags": [ "UNDERSIZE" ] },
+      { "group": "female_underwear_top", "prob": 100, "damage": [ 1, 4 ], "custom-flags": [ "UNDERSIZE" ] },
+      { "item": "chestwrap_leather", "prob": 20, "damage": [ 1, 4 ], "custom-flags": [ "UNDERSIZE" ] },
+      { "group": "pants_male", "prob": 75, "damage": [ 1, 4 ], "custom-flags": [ "UNDERSIZE" ] },
+      { "group": "npc_coat", "prob": 2, "damage": [ 1, 4 ], "custom-flags": [ "UNDERSIZE" ] },
+      { "group": "npc_gloves", "prob": 50, "damage": [ 1, 4 ], "custom-flags": [ "UNDERSIZE" ] },
+      { "item": "wicker_backpack", "prob": 1, "damage": [ 1, 4 ] }
+    ]
+  },
+  {
+    "id": "goblin_armor_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "helmet_larmor_xs", "prob": 40 },
+      { "item": "xs_legguard_larmor", "prob": 40 },
+      { "item": "xs_boots_larmor", "prob": 40 },
+      { "item": "xs_armguard_larmor", "prob": 40 },
+      { "item": "xs_gauntlets_larmor", "prob": 40 },
+      { "item": "armor_larmor_chest_xs", "prob": 40 }
+    ]
+  },
+  {
+    "id": "goblin_chieftan_weapon_drops",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "group": "survivor_stabbing", "prob": 99 }, { "item": "rune_biomancer_weapon", "prob": 1 } ]
+  },
+  {
+    "id": "bugbear_weapon_drops",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "group": "survivor_cutting", "prob": 100 } ]
+  },
+  {
+    "id": "bugbear_stalker_weapon_drops",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "group": "survivor_stabbing", "prob": 100 } ]
+  },
+  {
+    "id": "bugbear_armor_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "xl_helmet_larmor", "prob": 20 },
+      { "item": "xl_gauntlets_larmor", "prob": 20 },
+      { "item": "xl_boots_larmor", "prob": 20 },
+      { "item": "xl_armguard_larmor", "prob": 20 },
+      { "item": "xl_legguard_larmor", "prob": 20 },
+      { "item": "xl_armor_larmor_chest", "prob": 10 }
+    ]
+  },
+  {
+    "id": "orc_warrior_weapon_drops",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "survivor_machete", "prob": 96 },
+      { "item": "arming_sword_plus_one", "prob": 2 },
+      { "item": "broadsword_plus_one", "prob": 2 }
+    ]
+  },
+  {
+    "id": "orc_armor_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "helmet_larmor", "prob": 40 },
+      { "item": "legguard_larmor", "prob": 40 },
+      { "item": "boots_larmor", "prob": 40 },
+      { "item": "armguard_larmor", "prob": 40 },
+      { "item": "gauntlets_larmor", "prob": 40 },
+      { "item": "armor_larmor_chest", "prob": 40 }
+    ]
+  },
+  {
+    "id": "orc_archer_melee_weapon_drops",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "sheath", "contents-item": "primitive_knife", "prob": 100 } ]
+  },
+  {
+    "id": "orc_archer_ranged_weapon_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "longbow", "prob": 85 }, { "item": "quiver_large", "contents-group": "quiver_orc_archer", "prob": 50 } ]
+  },
+  {
+    "id": "orc_blood_warrior_weapon_drops",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "lizardfolk_club", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "quiver_orc_archer",
+    "entries": [ { "item": "arrow_heavy_fire_hardened_fletched", "count": [ 1, 6 ], "charges": [ 1, 10 ] } ]
+  }
+]

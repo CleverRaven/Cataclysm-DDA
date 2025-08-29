@@ -1,9 +1,10 @@
 [
   {
     "type": "test_data",
-    "//": "Uncategoried improvised weapons",
+    "//": "Uncategorized improvised weapons",
     "expected_dps": {
-      "shock_epee": 5.59,
+      "shock_epee": 8.6,
+      "shock_sabre": 7.4,
       "pointy_stick_long": 5.83,
       "pointy_stick": 5.89,
       "fencing_sabre_sharpened": 8.03,
@@ -15,26 +16,20 @@
     "type": "test_data",
     "//": "Just junk items",
     "expected_dps": {
-      "banjo": 5.53,
-      "saxophone": 5.55,
       "knuckle_skewer": 5.58,
       "rock_sock": 5.63,
       "2x4": 5.66,
       "tazer": 5.69,
       "violin": 5.71,
-      "fighter_sting": 5.72,
       "fishing_rod_2pc_packed": 5.77,
-      "flint": 5.78,
-      "rock_flaking": 5.78,
+      "flint": 5.25,
+      "rock_flaking": 5.25,
       "nailboard": 5.83,
-      "bone_plaster": 5.98,
-      "bone_fossil": 5.98,
       "grinder_blade": 6.01,
       "circsaw_blade": 6.01,
       "recoil_stock": 6.22,
       "guitar_electric": 6.3,
       "fishing_rod_tele_packed": 6.47,
-      "bee_sting": 6.52,
       "qt_steel_chunk": 6.59,
       "budget_steel_chunk": 6.59,
       "hc_steel_chunk": 6.59,
@@ -56,11 +51,10 @@
       "landough_calrisean": 5.49,
       "flask_yeast": 5.49,
       "fishing_rod_basic": 7.52,
-      "torch": 7.54,
-      "torch_lit": 7.54,
+      "torch": 5.4,
+      "torch_lit": 5.4,
       "pipe_quiver_large": 5.83,
       "bipod_handguard": 7.69,
-      "bipod_mod": 7.69,
       "bipod": 7.69,
       "bipod_handguard_deployed": 7.69,
       "wizard_cane": 7.86,
@@ -78,8 +72,9 @@
       "arisaka_monopod": 8.66,
       "stick": 9.04,
       "bolt_ballista_steel": 7.64,
-      "chain": 9.64,
-      "pastaextruder": 5.89
+      "chain": 4.53,
+      "pastaextruder": 5.89,
+      "bike_basket": 6.82
     }
   }
 ]

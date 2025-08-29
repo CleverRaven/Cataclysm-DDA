@@ -1,14 +1,8 @@
 #include "morale_types.h"
 
-#include <cstddef>
-#include <set>
-#include <vector>
-
 #include "generic_factory.h"
 #include "itype.h"
-#include "json.h"
 #include "string_formatter.h"
-#include "debug.h"
 
 namespace
 {
@@ -34,6 +28,11 @@ void morale_type_data::load_type( const JsonObject &jo, const std::string &src )
     morale_data.load( jo, src );
 }
 
+void morale_type_data::finalize_all()
+{
+    morale_data.finalize();
+}
+
 void morale_type_data::check_all()
 {
     morale_data.check();
@@ -44,7 +43,7 @@ void morale_type_data::reset()
     morale_data.reset();
 }
 
-void morale_type_data::load( const JsonObject &jo, const std::string_view )
+void morale_type_data::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "text", text );

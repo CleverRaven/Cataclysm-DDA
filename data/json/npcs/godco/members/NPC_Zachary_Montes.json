@@ -90,7 +90,7 @@
     "id": "TALK_GODCO_Zachary_Story0",
     "type": "talk_topic",
     "dynamic_line": {
-      "gendered_line": "That ain't the point here, chum.  Don'tcha get it?  This was MY territory, but they took it away from me.  Now they think of us as nothin' but a <swear> nuisance.",
+      "gendered_line": "That ain't the point here, chum.  Don'tcha get it?  This was MY territory, but they took it away from me.  Now they think of us as nothin' but a <freaking> nuisance.",
       "relevant_genders": [ "u" ]
     },
     "responses": [
@@ -102,7 +102,7 @@
   {
     "id": "TALK_GODCO_Zachary_Background",
     "type": "talk_topic",
-    "dynamic_line": "Who I was is gone, dead… died when I put down the monsters wearing the face of my friends.  Ever since then, I've felt nothing but disgust for myself.  Let's not <swear> reminisce.",
+    "dynamic_line": "Who I was is gone, dead… died when I put down the monsters wearing the face of my friends.  Ever since then, I've felt nothing but disgust for myself.  Let's not fuckin' reminisce.",
     "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
@@ -158,7 +158,7 @@
       {
         "text": "I'll see what I can do.",
         "topic": "TALK_NONE",
-        "effect": { "assign_mission": "MISSION_GODCO_ZACHARY_KILL_NIGHTMARE" }
+        "effect": { "add_mission": "MISSION_GODCO_ZACHARY_KILL_NIGHTMARE" }
       },
       { "text": "I'm sorry to hear that <name_g>, but I don't feel like facing it either.", "topic": "TALK_DONE" }
     ]
@@ -172,7 +172,7 @@
         "gendered_line": "After what you did for me, I'll follow you to the ends of the Earth!  No one around here's stood up for me like that, I owe ya one.",
         "relevant_genders": [ "u" ]
       },
-      "no": "No chance!  Its not you, its the world out there I'm worried about.  All those <swear> monsters really give me the creeps, and as far as I know this church is the last bastion of humanity in the <the_cataclysm>."
+      "no": "No chance!  Its not you, its the world out there I'm worried about.  All those <freaking> monsters really give me the creeps, and as far as I know this church is the last bastion of humanity in the <the_cataclysm>."
     },
     "responses": [
       {
@@ -183,7 +183,12 @@
       {
         "text": "<lets_go>",
         "condition": { "compare_string": [ "yes", { "u_val": "mission_meeting_zachary_willing_to_follow" } ] },
-        "effect": "follow",
+        "effect": [
+          "follow",
+          { "npc_lose_trait": "RETURN_TO_START_POS" },
+          { "npc_lose_trait": "NO_BASH" },
+          { "npc_lose_trait": "IGNORE_SOUND" }
+        ],
         "topic": "TALK_DONE"
       }
     ]

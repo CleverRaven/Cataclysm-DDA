@@ -6,6 +6,11 @@
   },
   {
     "type": "SPECIES",
+    "id": "SUMMONED_CREATURE",
+    "description": "a creature summoned by magic"
+  },
+  {
+    "type": "SPECIES",
     "id": "DRAGON",
     "description": "a dragon",
     "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK", "STALK" ]
@@ -34,6 +39,13 @@
     "id": "GOBLIN_FORGE",
     "description": "a short and entrepreneurial humanoid",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "WARG",
+    "description": "a gigantic lupine beast",
+    "fear_triggers": [ "HURT", "FIRE", "FRIEND_DIED" ],
+    "bleeds": "fd_blood"
   },
   {
     "type": "SPECIES",
@@ -99,6 +111,13 @@
     "type": "SPECIES",
     "id": "EARTH_SPIRIT",
     "description": "A magical being of rock and stone.",
+    "flags": [ "NEVER_WANDER", "NO_FUNG_DMG" ],
+    "anger_triggers": [ "FRIEND_ATTACKED" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "WIND_SPIRIT",
+    "description": "A magical being of wind and gale.",
     "flags": [ "NEVER_WANDER", "NO_FUNG_DMG" ],
     "anger_triggers": [ "FRIEND_ATTACKED" ]
   }

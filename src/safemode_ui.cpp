@@ -1,16 +1,22 @@
 #include "safemode_ui.h"
 
 #include <algorithm>
+#include <filesystem>
+#include <fstream>
+#include <functional>
 #include <map>
 #include <string>
 #include <utility>
 
+#include "cata_path.h"
 #include "cata_utility.h"
+#include "catacharset.h"
 #include "character.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "filesystem.h"
+#include "flexbuffer_json.h"
 #include "input_context.h"
 #include "json.h"
 #include "json_loader.h"
@@ -22,7 +28,9 @@
 #include "point.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "translation.h"
 #include "translations.h"
+#include "uilist.h"
 #include "ui_manager.h"
 
 safemode &get_safemode()
@@ -608,7 +616,7 @@ void safemode::add_rule( const std::string &rule_in, const Creature::Attitude at
     }
 }
 
-bool safemode::has_rule( const std::string_view rule_in, const Creature::Attitude attitude_in )
+bool safemode::has_rule( std::string_view rule_in, const Creature::Attitude attitude_in )
 {
     for( safemode::rules_class &elem : character_rules ) {
         if( rule_in.length() == elem.rule.length()
@@ -620,7 +628,7 @@ bool safemode::has_rule( const std::string_view rule_in, const Creature::Attitud
     return false;
 }
 
-void safemode::remove_rule( const std::string_view rule_in, const Creature::Attitude attitude_in )
+void safemode::remove_rule( std::string_view rule_in, const Creature::Attitude attitude_in )
 {
     for( auto it = character_rules.begin();
          it != character_rules.end(); ++it ) {
@@ -779,8 +787,9 @@ bool safemode::save( const bool is_character_in )
     cata_path file = PATH_INFO::safemode();
 
     if( is_character ) {
-        file = PATH_INFO::player_base_save_path_path() + ".sfm.json";
-        if( !file_exist( PATH_INFO::player_base_save_path_path() + ".sav" ) ) {
+        file = PATH_INFO::player_base_save_path() + ".sfm.json";
+        if( !file_exist( PATH_INFO::player_base_save_path() + ".sav" ) ||
+            !file_exist( PATH_INFO::player_base_save_path() + ".sav.zzip" ) ) {
             return true; //Character not saved yet.
         }
     }
@@ -812,10 +821,10 @@ void safemode::load( const bool is_character_in )
     std::ifstream fin;
     cata_path file = PATH_INFO::safemode();
     if( is_character ) {
-        file = PATH_INFO::player_base_save_path_path() + ".sfm.json";
+        file = PATH_INFO::player_base_save_path() + ".sfm.json";
     }
 
-    fs::path file_path = file.get_unrelative_path();
+    std::filesystem::path file_path = file.get_unrelative_path();
     fin.open( file_path, std::ifstream::in | std::ifstream::binary );
 
     if( fin.good() ) {

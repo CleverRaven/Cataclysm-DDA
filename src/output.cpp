@@ -9,6 +9,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <cwctype>
 #include <map>
 #include <sstream>
 #include <stack>
@@ -37,6 +38,7 @@
 #include "sdltiles.h" // IWYU pragma: keep
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "uilist.h"
 #include "ui_manager.h"
 #include "unicode.h"
 #include "units_utility.h"
@@ -182,7 +184,7 @@ std::vector<std::string> foldstring( const std::string &str, int width, const ch
     return lines;
 }
 
-std::vector<std::string> split_by_color( const std::string_view s )
+std::vector<std::string> split_by_color( std::string_view s )
 {
     std::vector<std::string> ret;
     std::vector<size_t> tag_positions = get_tag_positions( s );
@@ -196,7 +198,7 @@ std::vector<std::string> split_by_color( const std::string_view s )
     return ret;
 }
 
-std::string remove_color_tags( const std::string_view s )
+std::string remove_color_tags( std::string_view s )
 {
     std::string ret;
     std::vector<size_t> tag_positions = get_tag_positions( s );
@@ -215,7 +217,7 @@ std::string remove_color_tags( const std::string_view s )
 }
 
 color_tag_parse_result::tag_type update_color_stack(
-    std::stack<nc_color> &color_stack, const std::string_view seg,
+    std::stack<nc_color> &color_stack, std::string_view seg,
     const report_color_error color_error )
 {
     color_tag_parse_result tag = get_color_from_tag( seg, color_error );
@@ -236,7 +238,7 @@ color_tag_parse_result::tag_type update_color_stack(
 }
 
 void print_colored_text( const catacurses::window &w, const point &p, nc_color &color,
-                         const nc_color &base_color, const std::string_view text,
+                         const nc_color &base_color, std::string_view text,
                          const report_color_error color_error )
 {
     if( p.y > -1 && p.x > -1 ) {
@@ -907,20 +909,20 @@ query_ynq_result query_ynq( const std::string &text )
     return query_ynq_result::quit;
 }
 
-bool query_int( int &result, const std::string &text )
+bool query_int( int &result, bool show_default, const std::string &text )
 {
     string_input_popup popup;
     popup.title( text );
-    popup.text( "" ).only_digits( true );
-    int temp = popup.query_int();
-    if( popup.canceled() ) {
+    popup.text( show_default ? std::to_string( result ) : "" ).only_digits( true );
+    std::optional<int> temp = popup.query_int();
+    if( popup.canceled() || !temp ) {
         return false;
     }
-    result = temp;
+    result = *temp;
     return true;
 }
 
-std::vector<std::string> get_hotkeys( const std::string_view s )
+std::vector<std::string> get_hotkeys( std::string_view s )
 {
     std::vector<std::string> hotkeys;
     size_t start = s.find_first_of( '<' );
@@ -1040,14 +1042,14 @@ std::string string_replace( std::string text, const std::string &before, const s
 std::string replace_colors( std::string text )
 {
     static const std::vector<std::pair<std::string, std::string>> info_colors = {
-        {"info", get_all_colors().get_name( c_cyan )},
-        {"stat", get_all_colors().get_name( c_light_blue )},
-        {"header", get_all_colors().get_name( c_magenta )},
-        {"bold", get_all_colors().get_name( c_white )},
-        {"dark", get_all_colors().get_name( c_dark_gray )},
-        {"good", get_all_colors().get_name( c_green )},
-        {"bad", get_all_colors().get_name( c_red )},
-        {"neutral", get_all_colors().get_name( c_yellow )}
+        {"info", get_all_colors().get_name( c_info ) },
+        {"stat", get_all_colors().get_name( c_stat ) },
+        {"header", get_all_colors().get_name( c_header ) },
+        {"bold", get_all_colors().get_name( c_bold ) },
+        {"dark", get_all_colors().get_name( c_dark ) },
+        {"good", get_all_colors().get_name( c_good ) },
+        {"bad", get_all_colors().get_name( c_bad ) },
+        {"neutral", get_all_colors().get_name( c_neutral ) },
     };
 
     for( const auto &elem : info_colors ) {
@@ -1081,7 +1083,11 @@ static const std::vector<ItemFilterPrefix> item_filter_prefixes = {
     { 'f', to_translation( "freezerburn" ), to_translation( "<color_cyan>hidden flags</color> of an item" ) },
     { 's', to_translation( "devices" ), to_translation( "<color_cyan>skill</color> taught by books" ) },
     { 'd', to_translation( "pipe" ), to_translation( "<color_cyan>disassembled</color> components" ) },
+    { 'L', to_translation( "122 cm" ), to_translation( "can contain item of <color_cyan>length</color>" ) },
+    { 'V', to_translation( "450 ml" ), to_translation( "can contain item of <color_cyan>volume</color>" ) },
+    { 'M', to_translation( "250 kg" ), to_translation( "can contain item of <color_cyan>mass</color>" ) },
     { 'v', to_translation( "hand" ), to_translation( "covers <color_cyan>body part</color>" ) },
+    { 'e', to_translation( "close to skin" ), to_translation( "covers <color_cyan>layer</color>" ) },
     { 'b', to_translation( "mre;sealed" ), to_translation( "items satisfying <color_cyan>both</color> conditions" ) }
 };
 
@@ -1147,6 +1153,42 @@ void draw_item_filter_rules( const catacurses::window &win, const int starty, co
     wnoutrefresh( win );
 }
 
+static std::string format_table( std::string_view s )
+{
+    std::string table;
+
+    std::vector<std::string> rows = string_split( s, '\n' );
+
+    if( rows.empty() ) {
+        return table;
+    }
+
+    std::vector<std::string> header = string_split( rows[0], ';' );
+    table += header[0] + ":";
+    for( size_t col = 1; col < header.size(); col++ ) {
+        table += ( col == 1 ? " " : ", " ) + header[col];
+    }
+    if( rows.size() > 1 ) {
+        table += '\n';
+    }
+
+    for( size_t row = 1; row < rows.size(); row++ ) {
+        if( rows[row].empty() ) {
+            continue;
+        }
+        std::vector<std::string> cols = string_split( rows[row], ';' );
+        table += "  " + cols[0] + ":";
+        for( size_t i = 1; i < cols.size(); i++ ) {
+            table += ( i == 1 ? " " : ", " ) + cols[i];
+        }
+        if( row + 1 < rows.size() && !rows[row + 1].empty() ) {
+            table += '\n';
+        }
+    }
+
+    return table;
+}
+
 std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
                               const std::vector<iteminfo> &vItemCompare )
 {
@@ -1154,7 +1196,9 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
     bool bIsNewLine = true;
 
     for( const iteminfo &i : vItemDisplay ) {
-        if( i.sType == "DESCRIPTION" ) {
+        if( i.isTable ) {
+            buffer += format_table( i.sName );
+        } else if( i.sType == "DESCRIPTION" ) {
             // Always start a new line for sType == "DESCRIPTION"
             if( !bIsNewLine ) {
                 buffer += "\n";
@@ -1262,6 +1306,63 @@ static nc_color get_comparison_color( const iteminfo &i,
     return thisColor;
 }
 
+static int get_num_cols( std::vector<std::string> &rows )
+{
+    int cols = 0;
+
+    for( const std::string &row : rows ) {
+        cols = std::max( cols, static_cast<int>( string_split( row, ';' ).size() ) );
+    }
+
+    return cols;
+}
+
+static void draw_table( std::string_view s )
+{
+    std::vector<std::string> rows = string_split( s, '\n' );
+    int num_cols = get_num_cols( rows );
+
+    if( rows.empty() || num_cols == 0 ) {
+        return;
+    }
+
+    if( ImGui::BeginTable( "##ITEMINFO_TABLE", num_cols,
+                           ImGuiTableFlags_BordersH | ImGuiTableFlags_BordersV ) ) {
+        const std::vector<std::string> chopped_up = string_split( rows.front(), ';' );
+        for( const std::string &cell_text : chopped_up ) {
+            // this prefix prevents imgui from drawing the text. We still have color tags, which imgui won't parse, so we don't want those exposed to the user.
+            // But we still want proper column IDs. So we put them in, but we *hide them* with this.
+            // This results in a column with an ID of e.g.
+            // ##<color_white>Protection:</color>
+            //
+            // Not great for debugging, but better than having a column with default (randomly generated number) ID!
+            const std::string invisible_ID_label = "##" + cell_text;
+            ImGui::TableSetupColumn( invisible_ID_label.c_str(), ImGuiTableColumnFlags_WidthStretch );
+        }
+        ImGui::TableHeadersRow();
+        // After putting in the invisible labels in the last for-loop, this writes the actual text. Just the same text without the ## marker, and
+        // with our native functions doing the drawing. (So we parse color tags)
+        for( size_t i = 0; i < chopped_up.size(); i++ ) {
+            ImGui::TableSetColumnIndex( i );
+            cataimgui::draw_colored_text( chopped_up[i], c_unset );
+        }
+
+        for( size_t i = 1; i < rows.size(); i++ ) {
+            if( rows[i].empty() ) {
+                continue;
+            }
+            ImGui::TableNextRow();
+            const std::vector<std::string> delimited_strings = string_split( rows[i], ';' );
+            for( const std::string &text : delimited_strings ) {
+                ImGui::TableNextColumn();
+                cataimgui::draw_colored_text( text, c_unset );
+            }
+        }
+
+        ImGui::EndTable();
+    }
+}
+
 void display_item_info( const std::vector<iteminfo> &vItemDisplay,
                         const std::vector<iteminfo> &vItemCompare )
 {
@@ -1270,7 +1371,9 @@ void display_item_info( const std::vector<iteminfo> &vItemDisplay,
         if( i.bIsArt ) {
             cataimgui::PushMonoFont();
         }
-        if( i.sType == "DESCRIPTION" ) {
+        if( i.isTable ) {
+            draw_table( i.sName );
+        } else if( i.sType == "DESCRIPTION" ) {
             if( i.bDrawName ) {
                 if( i.sName == "--" ) {
                     if( !bAlreadyHasNewLine ) {
@@ -1489,7 +1592,7 @@ static std::string trim( std::string_view s, Predicate pred )
 }
 
 template<typename Prep>
-std::string trim_trailing( const std::string_view s, Prep prep )
+std::string trim_trailing( std::string_view s, Prep prep )
 {
     return std::string( s.begin(), std::find_if_not(
     s.rbegin(), s.rend(), [&prep]( int c ) {
@@ -1497,14 +1600,14 @@ std::string trim_trailing( const std::string_view s, Prep prep )
     } ).base() );
 }
 
-std::string trim( const std::string_view s )
+std::string trim( std::string_view s )
 {
     return trim( s, []( int c ) {
         return isspace( c );
     } );
 }
 
-std::string trim_trailing_punctuations( const std::string_view s )
+std::string trim_trailing_punctuations( std::string_view s )
 {
     return trim_trailing( s, []( int c ) {
         // '<' and '>' are used for tags and should not be removed
@@ -1512,14 +1615,15 @@ std::string trim_trailing_punctuations( const std::string_view s )
     } );
 }
 
-std::string remove_punctuations( const std::string_view s )
+std::string remove_punctuations( const std::string &s )
 {
-    std::string result;
-    std::remove_copy_if( s.begin(), s.end(), std::back_inserter( result ),
-    []( unsigned char ch ) {
-        return std::ispunct( ch ) && ch != '_';
+    std::wstring ws = utf8_to_wstr( s );
+    std::wstring result;
+    std::remove_copy_if( ws.begin(), ws.end(), std::back_inserter( result ),
+    []( wchar_t ch ) {
+        return std::iswpunct( ch ) && ch != '_';
     } );
-    return result;
+    return wstr_to_utf8( result );
 }
 
 using char_t = std::string::value_type;
@@ -1531,8 +1635,16 @@ std::string to_upper_case( const std::string &s )
     return wstr_to_utf8( wstr );
 }
 
+std::string to_lower_case( const std::string &s )
+{
+    const auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
+    std::wstring wstr = utf8_to_wstr( s );
+    f.tolower( wstr.data(), wstr.data() + wstr.size() );
+    return wstr_to_utf8( wstr );
+}
+
 // find the position of each non-printing tag in a string
-std::vector<size_t> get_tag_positions( const std::string_view s )
+std::vector<size_t> get_tag_positions( std::string_view s )
 {
     std::vector<size_t> ret;
     size_t pos = s.find( "<color_", 0, 7 );
@@ -1629,7 +1741,7 @@ std::string word_rewrap( const std::string &in, int width, const uint32_t split 
     return o;
 }
 
-void draw_tab( const catacurses::window &w, int iOffsetX, const std::string_view sText,
+void draw_tab( const catacurses::window &w, int iOffsetX, std::string_view sText,
                bool bSelected )
 {
     int iOffsetXRight = iOffsetX + utf8_width( sText, true ) + 1;
@@ -2623,54 +2735,6 @@ void replace_city_tag( std::string &input, const std::string &name )
     replace_substring( input, "<city>", name, true );
 }
 
-// Legacy, moved to parse_tags
-void replace_keybind_tag( std::string &input )
-{
-    std::string keybind_tag_start = "<keybind:";
-    size_t keybind_length = keybind_tag_start.length();
-    std::string keybind_tag_end = ">";
-
-    size_t pos = input.find( keybind_tag_start );
-    while( pos != std::string::npos ) {
-        size_t pos_end = input.find( keybind_tag_end, pos );
-        if( pos_end == std::string::npos ) {
-            debugmsg( "Mismatched keybind tag in string: '%s'", input );
-            break;
-        }
-        size_t pos_keybind = pos + keybind_length;
-        std::string keybind_full = input.substr( pos_keybind, pos_end - pos_keybind );
-        std::string keybind = keybind_full;
-
-        size_t pos_category_split = keybind_full.find( ':' );
-
-        std::string category = "DEFAULTMODE";
-        if( pos_category_split != std::string::npos ) {
-            category = keybind_full.substr( 0, pos_category_split );
-            keybind = keybind_full.substr( pos_category_split + 1 );
-        }
-        input_context ctxt( category );
-
-        std::string keybind_desc;
-        std::vector<input_event> keys = ctxt.keys_bound_to( keybind, -1, false, false );
-        if( keys.empty() ) { // Display description for unbound keys
-            keybind_desc = colorize( '<' + ctxt.get_desc( keybind ) + '>', c_red );
-
-            if( !ctxt.is_registered_action( keybind ) ) {
-                debugmsg( "Invalid/Missing <keybind>: '%s'", keybind_full );
-            }
-        } else {
-            keybind_desc = enumerate_as_string( keys.begin(), keys.end(), []( const input_event & k ) {
-                return colorize( '\'' + k.long_description() + '\'', c_yellow );
-            }, enumeration_conjunction::or_ );
-        }
-        std::string to_replace = string_format( "%s%s%s", keybind_tag_start, keybind_full,
-                                                keybind_tag_end );
-        replace_substring( input, to_replace, keybind_desc, true );
-
-        pos = input.find( keybind_tag_start );
-    }
-}
-
 void replace_substring( std::string &input, const std::string &substring,
                         const std::string &replacement, bool all )
 {
@@ -3342,7 +3406,7 @@ std::string wildcard_trim_rule( const std::string &pattern_in )
 }
 
 // find substring (case insensitive)
-int ci_find_substr( const std::string_view str1, const std::string_view str2,
+int ci_find_substr( std::string_view str1, std::string_view str2,
                     const std::locale &loc )
 {
     std::string_view::const_iterator it =
@@ -3432,4 +3496,9 @@ void wprintz( const catacurses::window &w, const nc_color &FG, const std::string
     wattron( w, FG );
     wprintw( w, text );
     wattroff( w, FG );
+}
+
+std::string wrap60( const std::string &text )
+{
+    return string_join( foldstring( text, 60 ), "\n" );
 }

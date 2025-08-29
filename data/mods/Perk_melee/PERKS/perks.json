@@ -16,9 +16,9 @@
   {
     "type": "mutation",
     "id": "MELEE_PERK_BASE",
-    "name": { "str": "Melee Perk" },
+    "name": { "str": "Melee Perk", "//~": "NO_I18N" },
     "points": 0,
-    "description": "We copy from this one.",
+    "description": { "str": "We copy from this one.", "//~": "NO_I18N" },
     "valid": false,
     "purifiable": false
   },
@@ -29,6 +29,14 @@
     "name": { "str": "Carefree Stance" },
     "description": "You aren't even trying.\nYou clear all combat buffs whenever you wait.",
     "flags": "MELEE_PERK_CAREFREE_STANCE"
+  },
+  {
+    "type": "mutation",
+    "id": "MELEE_PERK_PRESSURE_STRIKES",
+    "copy-from": "MELEE_PERK_BASE",
+    "name": { "str": "Pressure Points" },
+    "description": "Your unarmed melee attacks will redeal damage to their targets after 4 turns.",
+    "flags": "MELEE_PERK_PRESSURE_STRIKES"
   },
   {
     "type": "mutation",

@@ -105,7 +105,9 @@
       "str_max": 20,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "splinter", "count": [ 15, 30 ] } ]
+      "items": [ { "item": "splinter", "count": [ 15, 30 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -172,7 +174,7 @@
     "light_emitted": 4,
     "crafting_pseudo_item": "sacrifice_table",
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75L" },
+    "workbench": { "multiplier": 1.1, "mass": "200 kg", "volume": "75L" },
     "description": "This is a dramatic stone altar, it glows faintly in the dark.  Each of the four corners has a place for one of the cardinal elements as well as several recessed spaces around the center of the altar.",
     "bash": {
       "str_min": 30,
@@ -198,7 +200,9 @@
       "str_min": 50,
       "str_max": 400,
       "str_min_supported": 100,
-      "items": [ { "item": "splinter", "count": [ 2, 8 ] } ]
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -232,7 +236,7 @@
     "color": "brown",
     "required_str": -1,
     "move_cost_mod": 0,
-    "flags": [ "TRANSLOCATOR", "MOUNTABLE", "TRANSPARENT", "ALLOW_FIELD_EFFECT", "EASY_DECONSTRUCT" ],
+    "flags": [ "TRANSLOCATOR", "MOUNTABLE", "TRANSPARENT", "ALLOW_FIELD_EFFECT", "EASY_DECONSTRUCT", "FREE_TO_EXAMINE" ],
     "examine_action": "translocator",
     "deconstruct": { "items": [  ] }
   },
@@ -245,7 +249,7 @@
     "color": "light_gray",
     "required_str": -1,
     "move_cost_mod": 0,
-    "flags": [ "TRANSLOCATOR", "MOUNTABLE", "TRANSPARENT", "ALLOW_FIELD_EFFECT", "EASY_DECONSTRUCT" ],
+    "flags": [ "TRANSLOCATOR", "MOUNTABLE", "TRANSPARENT", "ALLOW_FIELD_EFFECT", "EASY_DECONSTRUCT", "FREE_TO_EXAMINE" ],
     "examine_action": "translocator",
     "deconstruct": { "items": [  ] }
   },
@@ -254,11 +258,24 @@
     "id": "f_sylph_translocator_location",
     "name": "open to the sky",
     "symbol": "+",
-    "description": "The rock of the living earth.  You could travel here in moments as long as you are high above the earth or surrounded by the blowing wind.",
+    "description": "Above the base earth and beneath the firmament.  You could travel here in moments as long as you are high above the earth or surrounded by the blowing wind.",
     "color": "white",
     "required_str": -1,
     "move_cost_mod": 0,
-    "flags": [ "TRANSLOCATOR", "MOUNTABLE", "TRANSPARENT", "ALLOW_FIELD_EFFECT", "EASY_DECONSTRUCT" ],
+    "flags": [ "TRANSLOCATOR", "MOUNTABLE", "TRANSPARENT", "ALLOW_FIELD_EFFECT", "EASY_DECONSTRUCT", "FREE_TO_EXAMINE" ],
+    "examine_action": "translocator",
+    "deconstruct": { "items": [  ] }
+  },
+  {
+    "type": "furniture",
+    "id": "xedra_chronomancer_memorized_terrain",
+    "name": "memorized location",
+    "symbol": "+",
+    "description": "You remember the exact moment of time your were at this spot.",
+    "color": "light_gray",
+    "required_str": -1,
+    "move_cost_mod": 0,
+    "flags": [ "TRANSLOCATOR", "MOUNTABLE", "TRANSPARENT", "ALLOW_FIELD_EFFECT", "EASY_DECONSTRUCT", "FREE_TO_EXAMINE" ],
     "examine_action": "translocator",
     "deconstruct": { "items": [  ] }
   },
@@ -336,5 +353,65 @@
         }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_xedra_frozen_person_dead",
+    "name": "unmoving figure",
+    "looks_like": "f_statue",
+    "description": "A person stands before you, completely motionless in spite of the horrific wound marring their body.  Every part of their figure is leeched of color, and you are completely incapable of affecting them in any way.",
+    "symbol": "@",
+    "color": "dark_gray",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": -1
+  },
+  {
+    "type": "furniture",
+    "id": "f_alembic",
+    "//": "Just a copy from the Magiclysm one",
+    "name": "standing alembic",
+    "looks_like": "f_alembic",
+    "description": "A large glass and copper alembic for distilling alchemical concoctions.  It consists of a copper pot with rising spires of twisted glass draining into various removable bottles.",
+    "symbol": "&",
+    "color": "light_blue",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "crafting_pseudo_item": "still_lab",
+    "flags": [ "TRANSPARENT", "NOITEM" ],
+    "deconstruct": {
+      "items": [
+        { "item": "pot_copper", "count": 1 },
+        { "item": "pipe_glass", "count": [ 1, 4 ] },
+        { "item": "glass_tube_small", "count": [ 5, 10 ] },
+        { "item": "stopcock", "count": [ 1, 5 ] },
+        { "item": "flask_glass", "count": [ 1, 3 ] }
+      ]
+    },
+    "max_volume": "1750 L",
+    "bash": {
+      "str_min": 4,
+      "str_max": 10,
+      "sound": "glass breaking!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap_copper", "count": [ 10, 20 ] },
+        { "item": "stopcock", "count": [ 1, 5 ] },
+        { "item": "glass_shard", "count": [ 25, 50 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_xe_magic_circle",
+    "name": "magick circle",
+    "looks_like": "f_magic_circle",
+    "move_cost_mod": 0,
+    "symbol": "O",
+    "color": "red",
+    "required_str": -1,
+    "flags": [ "ALLOW_FIELD_EFFECT", "TRANSPARENT" ],
+    "description": "This is a rough magic circle, carved into the ground and decorated with blood, candles, and other small knick-knacks."
   }
 ]

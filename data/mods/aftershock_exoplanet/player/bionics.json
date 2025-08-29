@@ -1,0 +1,449 @@
+[
+  {
+    "id": "bn_bio_solar",
+    "type": "bionic",
+    "name": { "str": "Solar Panels" },
+    "description": "Installed on your back is a set of retractable, reinforced solar panels resembling angular butterfly wings.  When in direct sunlight, they will automatically deploy and slowly recharge your power level.",
+    "occupied_bodyparts": [ [ "torso", 10 ] ],
+    "fuel_options": [ "sunlight" ],
+    "fuel_efficiency": 1.0,
+    "time": "1 s",
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED" ]
+  },
+  {
+    "id": "bio_microgen",
+    "type": "bionic",
+    "name": { "str": "Microfusion Generator" },
+    "description": "An implanted fusion reactor with its own internal nuclear fuel reservoir.  It will last over a century without servicing.",
+    "occupied_bodyparts": [ [ "torso", 7 ] ],
+    "dupes_allowed": true,
+    "enchantments": [ { "values": [ { "value": "POWER_TRICKLE", "add": 6 } ] } ],
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
+  },
+  {
+    "id": "bio_shock_absorber",
+    "type": "bionic",
+    "name": { "str": "Archeotech Grav Chute" },
+    "description": "Pre-Discontinuity bionic module that was implanted into elite drop troops who could jump from their insertion vehicle during the radar disruption of reentry.  Clenching your fist allows you to activate what scientists call a grav chute that allows a safe fall; while active, the field will prevent damage to your body from severe impacts, at the cost of impaired movement.  It's best not to think about how many bodies this has been in before yours.",
+    "occupied_bodyparts": [ [ "torso", 2 ], [ "arm_l", 1 ], [ "arm_r", 1 ], [ "leg_l", 2 ], [ "leg_r", 2 ] ],
+    "flags": [ "BIONIC_TOGGLED" ],
+    "act_cost": "2 kJ",
+    "react_cost": "2 kJ",
+    "time": "10 s"
+  },
+  {
+    "id": "afs_bio_missiles",
+    "type": "bionic",
+    "//": "Watch those wrist rockets!",
+    "name": { "str": "Deployable Grenade Launcher" },
+    "description": "Your right hand can fold inward to reveal a mechanism capable of igniting and firing 40mm grenades across medium distances.",
+    "occupied_bodyparts": [ [ "hand_r", 3 ] ],
+    "fake_weapon": "afs_bionic_rocket",
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "NO_UNWIELD" ],
+    "act_cost": "35 J"
+  },
+  {
+    "type": "bionic",
+    "id": "afs_bio_monowhip",
+    "name": { "str": "Monofilament Whip" },
+    "description": "A carbon nanotube wire covertly installed in your right arm.  When activated, it extends to its full length and can be used to strike enemies both at close and long range.",
+    "occupied_bodyparts": [ [ "arm_r", 4 ], [ "hand_r", 1 ] ],
+    "act_cost": "50 J",
+    "fake_weapon": "afs_bio_whip_weapon",
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "BIONIC_NPC_USABLE" ]
+  },
+  {
+    "id": "afs_bio_linguistic_coprocessor",
+    "type": "bionic",
+    "name": { "str": "Linguistic Coprocessor" },
+    "description": "The left hemisphere of your brain has been augmented with a microcomputer that moderately increases the speed that language and written words are processed, granting a 15% increase to reading speed.",
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "READING_SPEED_MULTIPLIER", "multiply": -0.15 } ] } ],
+    "occupied_bodyparts": [ [ "head", 2 ] ]
+  },
+  {
+    "id": "afs_bio_dopamine_stimulators",
+    "type": "bionic",
+    "name": { "str": "Dopamine Stimulators" },
+    "description": "Tiny cybernetic stimulators have been installed throughout your ventral tegmental area, and trigger at set intervals using bionic power.  This slowly releases a stream of reward chemicals and hormones into your brain, inducing a state of euphoria that notably elevates mood.",
+    "occupied_bodyparts": [ [ "head", 5 ] ],
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ],
+    "act_cost": "5 J",
+    "react_cost": "5 J",
+    "time": "200 s"
+  },
+  {
+    "id": "afs_bio_melee_counteraction",
+    "type": "bionic",
+    "name": { "str": "Counteractive Reflexes" },
+    "description": "Cybernetic stimulators installed across your nervous system boost your reflexes whenever you are hit in melee, granting you an extra action.  This bionic must be active to function.",
+    "occupied_bodyparts": [ [ "head", 4 ], [ "arm_l", 5 ], [ "arm_r", 5 ], [ "leg_l", 6 ], [ "leg_r", 6 ] ],
+    "flags": [ "BIONIC_TOGGLED" ],
+    "enchantments": [ "melee_counteraction" ],
+    "act_cost": "12 kJ",
+    "react_cost": "12 kJ",
+    "time": "1 s"
+  },
+  {
+    "id": "afs_bio_blood_plus",
+    "type": "bionic",
+    "name": { "str": "Synthetic Marrow" },
+    "description": "The interior of your femurs have been scrapped clean, the marrow replaced with a Mercurial brand bio-factory that produces high efficiency blood analogues.  The blood substitutes are fine-tuned for combat, increasing stamina, disease resistance and clotting speed.",
+    "cant_remove_reason": "The biofactory has perfectly integrated with your body, removing it would be pointless and potentially fatal.",
+    "occupied_bodyparts": [ [ "leg_l", 2 ], [ "leg_r", 2 ] ],
+    "enchantments": [
+      {
+        "ench_effects": [ { "effect": "synth_blood_permanent", "intensity": 2 } ],
+        "values": [ { "value": "CARDIO_MULTIPLIER", "multiply": 1.2 } ]
+      }
+    ]
+  },
+  {
+    "id": "afs_bio_deck",
+    "type": "bionic",
+    "name": { "str": "Military Infolink" },
+    "description": "An implanted miniaturized computer isolated from the rest of your systems by military-grade firewalls.  An accompanying jack allows you to interface with external computer systems with minimal risk.  Skill in computers is important, and a failed use may damage your circuits.",
+    "occupied_bodyparts": [ [ "arm_l", 1 ], [ "arm_r", 1 ] ],
+    "passive_pseudo_items": [ "afs_bio_deck_jack" ]
+  },
+  {
+    "id": "afs_bio_beavy_batteries",
+    "type": "bionic",
+    "name": { "str": "High-Voltage Battery System" },
+    "description": "A high voltage battery port compatible with the power cartridges normally used in military weaponry.  Intended to supplement internally installed power generation and storage.",
+    "occupied_bodyparts": [ [ "torso", 20 ] ],
+    "fuel_options": [ "battery" ],
+    "fuel_efficiency": 2,
+    "time": "1 s",
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_SHOCKPROOF", "BIONIC_TOGGLED" ],
+    "passive_pseudo_items": [ "afs_internal_battery_compartment" ]
+  },
+  {
+    "id": "afs_bio_blood_brain",
+    "type": "bionic",
+    "name": { "str": "Blood Neurology" },
+    "description": "Your blood is laced with neuron-analogue nanites, allowing your entire circulatory system to function as a secondary brain.  This radical modification increases your intelligence, reflexes and perception by 4, increases your pain tolerance and allows you to survive brain damage that would otherwise prove fatal.",
+    "occupied_bodyparts": [ [ "leg_l", 2 ], [ "leg_r", 2 ] ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "INTELLIGENCE", "add": 4 },
+          { "value": "PERCEPTION", "add": 4 },
+          { "value": "DEXTERITY", "add": 4 },
+          { "value": "PAIN", "multiply": -0.33 },
+          { "value": "PAIN_PENALTY_MOD_INT", "add": -4 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "afs_bio_melee_optimization_unit",
+    "type": "bionic",
+    "name": { "str": "Melee Optimization Unit" },
+    "description": "An implanted AI module calculates the optimal followup to each of your melee strikes, allowing you to chain them with unnatural speed and grace.  This bionic must be active to function.",
+    "occupied_bodyparts": [ [ "head", 10 ], [ "arm_l", 5 ], [ "arm_r", 5 ], [ "leg_l", 10 ], [ "leg_r", 10 ] ],
+    "flags": [ "BIONIC_TOGGLED" ],
+    "enchantments": [ "melee_optimization" ],
+    "act_cost": "12 kJ",
+    "react_cost": "12 kJ",
+    "time": "1 s"
+  },
+  {
+    "id": "afs_bio_chemical_enhancement_rig",
+    "type": "bionic",
+    "name": { "str": "Chemical Enhancement Rig and computer" },
+    "description": "An implanted AI module and medication dispenser calculates the optimal chemical mix to keep you on your toes and ready for combat.  This bionic must be active to function and while it functions your body is at a heightened performance but if it turns off it will take you several days to get back to normal.  There are a significant number of baseline bonuses granted by this setup but people around will notice your junkie behavior.",
+    "occupied_bodyparts": [ [ "head", 5 ], [ "torso", 10 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "leg_l", 3 ], [ "leg_r", 3 ] ],
+    "flags": [ "BIONIC_TOGGLED" ],
+    "activated_eocs": [ "afs_eoc_chembaseline" ],
+    "activated_on_install": true,
+    "enchantments": [ "heightened_performance" ],
+    "included_bionics": [ "afs_speed_injection", "afs_healing_injection", "afs_strength_injection" ],
+    "deactivated_eocs": [ "afs_eoc_hangover_baseline" ],
+    "act_cost": "100 J",
+    "react_cost": "20 J",
+    "time": "1 m"
+  },
+  {
+    "id": "afs_speed_injection",
+    "type": "bionic",
+    "name": { "str": "Speed Injection System" },
+    "description": "The chemical injection system and microcomputer that when activated greatly enhances your reaction times and overall speed.  Upon deactivation, the user may experience dizziness, heart palpitations and ravenous appetites.",
+    "flags": [ "BIONIC_TOGGLED" ],
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "values": [
+          { "value": "HUNGER", "multiply": 2 },
+          { "value": "SPEED", "multiply": 1.75 },
+          { "value": "MAX_STAMINA", "multiply": 1.35 },
+          { "value": "THIRST", "multiply": 2.5 },
+          { "value": "METABOLISM", "multiply": 2.5 },
+          { "value": "REGEN_STAMINA", "multiply": 1.15 },
+          { "value": "BONUS_DODGE", "add": 2 }
+        ]
+      }
+    ],
+    "activated_eocs": [ "afs_eoc_chemspeed" ],
+    "deactivated_eocs": [ "afs_eoc_hangover_speed" ],
+    "act_cost": "100 J",
+    "react_cost": "20 J",
+    "time": "1 m"
+  },
+  {
+    "id": "afs_healing_injection",
+    "type": "bionic",
+    "name": { "str": "Pain Suppression Injection System" },
+    "description": "The chemical injection system and microcomputer that when activated gives a burst of chemicals that allows your blood to work a little harder at stabilizing the body and then flushes your system with a powerful anesthetic that allows you to continue operating at high capacity.  Upon deactivation, the user may experience extreme lethargy, sudden loss of consciousness, among other symptoms that may prove potentially fatal if not in a safe location.",
+    "flags": [ "BIONIC_TOGGLED" ],
+    "//": "Pain enchantment doesn't work currently.  Remove spell and this comment once it does.",
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "incoming_damage_mod": [ { "type": "biological", "add": -7 }, { "type": "cold", "add": -5 } ],
+        "values": [
+          { "value": "PAIN_REMOVE", "add": 45 },
+          { "value": "METABOLISM", "multiply": 1.5 },
+          { "value": "REGEN_HP", "multiply": 2 }
+        ]
+      }
+    ],
+    "activated_eocs": [ "afs_eoc_chemhealing" ],
+    "processed_eocs": [ "afs_eoc_chemhealing_pkill" ],
+    "deactivated_eocs": [ "afs_eoc_hangover_healing" ],
+    "act_cost": "100 J",
+    "react_cost": "20 J",
+    "time": "1 m"
+  },
+  {
+    "id": "afs_strength_injection",
+    "type": "bionic",
+    "name": { "str": "Strength Injection System" },
+    "description": "The chemical injection system and microcomputer that when activated greatly enhances your reaction times and overall speed.  Upon deactivation, the user may experience dizziness, heart palpitations and ravenous appetites.",
+    "flags": [ "BIONIC_TOGGLED" ],
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "values": [
+          { "value": "STRENGTH", "add": 3 },
+          { "value": "MAX_HP", "add": 17 },
+          { "value": "BONUS_BLOCK", "add": 3 },
+          { "value": "MAX_STAMINA", "multiply": 1.25 },
+          { "value": "THIRST", "multiply": 2.5 },
+          { "value": "METABOLISM", "multiply": 2.5 },
+          { "value": "REGEN_STAMINA", "multiply": 1.05 },
+          { "value": "FOOTSTEP_NOISE", "add": 4 }
+        ]
+      }
+    ],
+    "activated_eocs": [ "afs_eoc_chemstrength" ],
+    "deactivated_eocs": [ "afs_eoc_hangover_strength" ],
+    "act_cost": "100 J",
+    "react_cost": "20 J",
+    "time": "1 m"
+  },
+  {
+    "id": "bio_power_storage_salvaged",
+    "type": "bionic",
+    "name": { "str": "Power Storage, salvaged" },
+    "capacity": "50 kJ",
+    "dupes_allowed": true,
+    "description": "A battered and used Compact Bionics Module that increases your power capacity by 50 kJ.  Having at least one of these is a prerequisite to using powered bionics.  You will also need a power supply, found in various CBMs.",
+    "flags": [ "BIONIC_NPC_USABLE" ]
+  },
+  {
+    "id": "bio_shield_weak",
+    "type": "bionic",
+    "name": { "str": "HawkingCorps Mark I Shield" },
+    "description": "Imagine a computer inside your body playing pong against the universe.  The paddles are made of -color glass condensate- and any and all of their specific functions are the intellectual property of the Hawking Corporation and/or its local subsidiaries.\n-From the owners manual of HawkingCorps Mark I Shield.\n\nActivating the shield will create an energy shield capable of negating a modest amount of damage from weak or improvised weapons.",
+    "occupied_bodyparts": [ [ "torso", 8 ] ],
+    "available_upgrades": [ "bio_shield_medium", "bio_shield_heavy" ],
+    "active_flags": [ "BIO_SHIELD_ACTIVE" ],
+    "act_cost": "10 kJ",
+    "react_cost": "1 kJ",
+    "time": "1 s",
+    "flags": [ "BIONIC_TOGGLED" ],
+    "activated_eocs": [
+      {
+        "id": "bio_shield_weak_activate",
+        "effect": {
+          "run_eocs": "EOC_bio_start_shield",
+          "variables": {
+            "shield_max_hp": "120",
+            "shield_regen": "1",
+            "shield_regen_rate": "2",
+            "success_message": "The shield activates.",
+            "failure_message": "Your implant vibrates uncomfortably as the shield fails to activate."
+          }
+        }
+      }
+    ],
+    "processed_eocs": [ "EOC_bio_update_ui" ],
+    "deactivated_eocs": [ "EOC_bio_stop_shield" ]
+  },
+  {
+    "id": "bio_shield_medium",
+    "type": "bionic",
+    "name": { "str": "HawkingCorps Mark V Shield" },
+    "description": "Powerful and covert, the Mark V Shield is a military-grade shielding system developed for use within UICA's special service branches.  Although much more effective than anything that could be conceived with current technology, it remains a pale imitation of the Hyperspace Age systems it was reverse-engineered from.  A.\n\nActivating the shield will create an energy barrier capable of withstanding a modest amount of melee and ranged damage.",
+    "occupied_bodyparts": [ [ "torso", 12 ] ],
+    "upgraded_bionic": "bio_shield_weak",
+    "available_upgrades": [ "bio_shield_heavy" ],
+    "active_flags": [ "BIO_SHIELD_ACTIVE" ],
+    "act_cost": "10 kJ",
+    "react_cost": "2 kJ",
+    "time": "1 s",
+    "flags": [ "BIONIC_TOGGLED" ],
+    "activated_eocs": [
+      {
+        "id": "bio_shield_medium_activate",
+        "effect": {
+          "run_eocs": "EOC_bio_start_shield",
+          "variables": {
+            "shield_max_hp": "550",
+            "shield_regen": "2",
+            "shield_regen_rate": "1",
+            "success_message": "The shield activates.",
+            "failure_message": "Your implant vibrates uncomfortably as the shield fails to activate."
+          }
+        }
+      }
+    ],
+    "processed_eocs": [ "EOC_bio_update_ui" ],
+    "deactivated_eocs": [ "EOC_bio_stop_shield" ]
+  },
+  {
+    "id": "bio_shield_heavy",
+    "type": "bionic",
+    "name": { "str": "Kinetic Annulment System" },
+    "description": "A powerful shielding system salvaged from a pre-Discontinuity robotic warframe, crudely adapted for compatibility with biological hosts.  Powerful enough to withstand prolonged assault from anti-vehicle weaponry.",
+    "occupied_bodyparts": [ [ "torso", 14 ] ],
+    "upgraded_bionic": "bio_shield_medium",
+    "active_flags": [ "BIO_SHIELD_ACTIVE" ],
+    "act_cost": "1500 kJ",
+    "react_cost": "100 kJ",
+    "time": "1 s",
+    "flags": [ "BIONIC_TOGGLED", "DEAF" ],
+    "activated_eocs": [
+      {
+        "id": "bio_shield_heavy_activate",
+        "effect": {
+          "run_eocs": "EOC_bio_start_shield",
+          "variables": {
+            "shield_max_hp": "10000",
+            "shield_regen": "20",
+            "shield_regen_rate": "1",
+            "success_message": "All surrounding noise is muted as the barrier coalesces.",
+            "failure_message": "Your implant vibrates uncomfortably as the shield fails to activate."
+          }
+        }
+      }
+    ],
+    "processed_eocs": [ "EOC_bio_update_ui" ],
+    "deactivated_eocs": [ "EOC_bio_stop_shield" ]
+  },
+  {
+    "id": "afs_bio_neurosoft_aeronautics",
+    "type": "bionic",
+    "name": { "str": "Neurosoft: Aeronautics" },
+    "description": "A brain implant that grants instinctual knowledge about the operation of flying machines.",
+    "occupied_bodyparts": [ [ "head", 2 ] ],
+    "learned_proficiencies": [ "prof_helicopter_pilot" ]
+  },
+  {
+    "id": "afs_bio_translocator",
+    "type": "bionic",
+    "name": { "str": "Implanted Translocator" },
+    "description": "An experimental teleportation system carefully weaved into bone marrow and alongside your skeletal system.  Allows you to safely and readily teleport toward previously activated telepads.",
+    "occupied_bodyparts": [ [ "torso", 10 ], [ "head", 2 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "leg_l", 3 ], [ "leg_r", 3 ] ],
+    "act_cost": "12 kJ",
+    "spell_on_activation": { "id": "afs_translocation", "hit_self": true },
+    "time": "5 s"
+  },
+  {
+    "id": "afs_bio_cranialbomb",
+    "type": "bionic",
+    "name": { "str": "Cranium Bomb" },
+    "description": "You've worked for some nasty people.  People who installed a bomb at the top of your spine.  They are all dead now but there is unfortunately a dead man switch if you don't check in roughly every thirty days.  Those thirty days are almost up but you can't remember exactly how many are left.  You need this out and fast.",
+    "occupied_bodyparts": [ [ "head", 2 ] ],
+    "enchantments": [ "cranial_explosion" ]
+  },
+  {
+    "id": "bio_cold_absorber",
+    "type": "bionic",
+    "name": { "str": "Emergency Insulation" },
+    "description": "Described in design documents as emergency insulation to protect against exposure to hard vacuum, this CBM is also useful in any encounter that causes instant frostbite.",
+    "occupied_bodyparts": [ [ "torso", 5 ], [ "head", 1 ], [ "arm_l", 1 ], [ "arm_r", 1 ], [ "leg_l", 1 ], [ "leg_r", 1 ] ],
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
+    "enchantments": [ "protect_cold" ],
+    "act_cost": "1 kJ",
+    "react_cost": "1 kJ",
+    "time": "10 s"
+  },
+  {
+    "id": "afs_bio_blade_fire",
+    "type": "bionic",
+    "name": { "str": "Bioweapon Thermal Conduits" },
+    "description": "An improved ulnar sheath equipped with thermal inductors allows for the super heating of all types of implanted bladed weaponry.  While this bionic is active, any deployed bionic blades will deal additional fire damage to targets.",
+    "occupied_bodyparts": [ [ "arm_r", 7 ] ],
+    "encumbrance": [ [ "arm_r", 2 ] ],
+    "act_cost": "1500 J",
+    "react_cost": "250 J",
+    "activated_eocs": [ "eoc_bio_superheater_on" ],
+    "deactivated_eocs": [ "eoc_bio_superheater_off" ],
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
+    "enchantments": [
+      {
+        "name": { "str": "Super Heated Bionic Weapon" },
+        "description": "The superheated bionic weapon cuts and burns with ease.",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "bio_superheater_on" } ] },
+            { "u_has_wielded_with_flag": "BIONIC_WEAPON_MELEE" }
+          ]
+        },
+        "melee_damage_bonus": [ { "type": "heat", "add": 35 } ]
+      }
+    ]
+  },
+  {
+    "id": "afs_bio_blade_electric",
+    "type": "bionic",
+    "name": { "str": "Bioweapon Superconductive Channels" },
+    "description": "Paired capacitor banks maintain implanted bladed weaponry under constant electrical charge.  While this bionic is active, any deployed bionic blades will deal additional electric damage with a chance of the damage arcing to other nearby targets.",
+    "occupied_bodyparts": [ [ "arm_r", 7 ] ],
+    "encumbrance": [ [ "arm_r", 2 ] ],
+    "act_cost": "1500 J",
+    "react_cost": "1000 J",
+    "activated_eocs": [ "eoc_bio_blade_electric_on" ],
+    "deactivated_eocs": [ "eoc_bio_blade_electric_off" ],
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
+    "enchantments": [
+      {
+        "name": { "str": "Charged Bionic Weapon" },
+        "description": "Your bionic weapon sparks under constant electrical charge.",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "bio_blade_electric_on" } ] },
+            { "u_has_wielded_with_flag": "BIONIC_WEAPON_MELEE" }
+          ]
+        },
+        "hit_you_effect": [ { "id": "bio_blade_electric_arc" } ],
+        "melee_damage_bonus": [ { "type": "electric", "add": 10 } ]
+      }
+    ]
+  },
+  {
+    "type": "bionic",
+    "id": "afs_bio_skullgun",
+    "name": { "str": "Skullgun" },
+    "description": "Concealed in your head is a single shot 10mm pistol.  Activate the bionic to fire and reload the skullgun.",
+    "occupied_bodyparts": [ [ "head", 5 ] ],
+    "encumbrance": [ [ "head", 5 ] ],
+    "fake_weapon": "bio_skullgun_gun",
+    "flags": [ "BIONIC_GUN" ],
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": -4 }, { "value": "PERCEPTION", "add": -2 } ] } ],
+    "canceled_mutations": [ "INT_UP", "INT_UP_2", "INT_UP_3", "INT_UP_4", "INT_ALPHA", "SKULLGUN_STUPID" ],
+    "give_mut_on_removal": [ "SKULLGUN_STUPID" ],
+    "activated_close_ui": true
+  }
+]

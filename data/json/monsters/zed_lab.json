@@ -9,7 +9,8 @@
     "//": "zombie scientists are recognised as friendly by the lab's defense system",
     "categories": [ "CLASSIC" ],
     "color": "white_cyan",
-    "death_drops": "mon_zombie_scientist_death_drops"
+    "death_drops": "mon_zombie_scientist_death_drops",
+    "delete": { "flags": [ "GROUP_BASH" ] }
   },
   {
     "id": "mon_zombie_labsecurity",
@@ -32,7 +33,7 @@
       { "id": "scratch_humanoid" }
     ],
     "death_drops": "mon_zombie_labsecurity_death_drops",
-    "upgrades": { "half_life": 35, "into_group": "GROUP_SOLDIER_UPGRADE" },
+    "upgrades": { "half_life": 140, "into_group": "GROUP_SOLDIER_UPGRADE" },
     "armor": { "bash": 4, "cut": 6, "stab": 4, "bullet": 4, "electric": 2 },
     "extend": { "weakpoint_sets": [ "wps_humanoid_body_armor" ], "families": [ "prof_wp_syn_armored" ] }
   },
@@ -63,7 +64,7 @@
     "weakpoints": [
       { "name": "the leg", "armor_mult": { "physical": 0.5 }, "coverage": 10 },
       { "name": "the arm", "armor_mult": { "physical": 0.5 }, "coverage": 5 },
-      { "name": "the face", "armor_mult": { "physical": 0 }, "coverage": 2 },
+      { "name": "the face", "is_head": true, "armor_mult": { "physical": 0 }, "coverage": 2 },
       { "name": "a gap in the armor", "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_demihuman" ],
@@ -72,7 +73,7 @@
     "luminance": 8,
     "harvest": "zombie_humanoid",
     "decay": "zombie_decay_bone_human_skull",
-    "upgrades": { "half_life": 42, "into": "mon_zombie_phase_shrike" },
+    "upgrades": { "half_life": 168, "into": "mon_zombie_phase_shrike" },
     "grab_strength": 20,
     "special_attacks": [
       { "id": "grab" },
@@ -114,8 +115,8 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 10,
     "weakpoints": [
-      { "name": "the face", "armor_mult": { "physical": 0.25 }, "coverage": 4 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 },
+      { "name": "the face", "is_head": true, "armor_mult": { "physical": 0.25 }, "coverage": 4 },
+      { "name": "the eye", "is_head": true, "armor_mult": { "physical": 0 }, "coverage": 1 },
       { "name": "a gap in the armor", "armor_mult": { "physical": 0 }, "coverage": 3 }
     ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_demihuman", "prof_wp_skeleton" ],

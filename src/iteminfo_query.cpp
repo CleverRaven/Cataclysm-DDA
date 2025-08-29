@@ -68,7 +68,7 @@ std::vector<iteminfo_parts> {
     iteminfo_parts::DESCRIPTION_COMPOSTABLE_DURATION,
     iteminfo_parts::DESCRIPTION_COMPOSTABLE_PRODUCTS,
     iteminfo_parts::DESCRIPTION_FAULTS,
-    iteminfo_parts::DESCRIPTION_HOLSTERS,
+    iteminfo_parts::DESCRIPTION_ARMOR_CONTAINERS,
     iteminfo_parts::DESCRIPTION_ACTIVATABLE_TRANSFORMATION,
     iteminfo_parts::DESCRIPTION_NOTES,
     iteminfo_parts::DESCRIPTION_CONTENTS,

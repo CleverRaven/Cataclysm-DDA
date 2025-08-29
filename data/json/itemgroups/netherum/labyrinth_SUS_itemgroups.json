@@ -1,0 +1,159 @@
+[
+  {
+    "type": "item_group",
+    "id": "LS_SUS_crate_tier0_supplies",
+    "//": "Filler.  Things to keep you going in the dungeon.",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "//": "first aid items based on what would be in an autodoc suite" },
+          { "item": "bandages", "prob": 40, "count": [ 1, 3 ] },
+          { "item": "liq_bandage_spray", "prob": 10, "charges": [ 1, -1 ] },
+          { "item": "medical_gauze", "prob": 40, "count": [ 1, 6 ] },
+          { "item": "disinfectant", "prob": 60 },
+          { "item": "towel", "prob": 40 },
+          { "item": "blood", "prob": 40 },
+          { "item": "bleach", "prob": 20, "charges": [ 6, -1 ] },
+          { "group": "saline_bottle_random", "prob": 20 },
+          { "group": "cotton_ball_bag_used", "prob": 50 },
+          { "item": "chem_nitric_acid", "prob": 10, "charges": [ 1, -1 ] },
+          { "item": "chem_hydrogen_peroxide_conc", "prob": 10, "charges": [ 1, -1 ] },
+          { "item": "denat_alcohol", "prob": 6, "charges": [ 250, -1 ] },
+          { "item": "methed_alcohol", "prob": 4, "charges": [ 250, -1 ] }
+        ]
+      },
+      {
+        "collection": [
+          { "//": "edibles based on exodii food.  Will need new definitions." },
+          { "item": "dry_meat", "prob": 20 },
+          { "item": "dry_fish", "prob": 30 },
+          { "item": "dry_veggy", "prob": 40 },
+          { "item": "dry_corn", "prob": 40 },
+          { "item": "dry_fruit", "prob": 30 },
+          { "item": "salt", "prob": 30 },
+          { "item": "flour", "prob": 20 },
+          { "item": "cornmeal", "prob": 25 },
+          { "item": "oatmeal", "prob": 40 },
+          { "item": "barley", "prob": 20 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "LS_SUS_crate_tier0_materials",
+    "//": "Filler.  This should actually be a distribution of different collections and should contain a little weird stuff.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "chain", "prob": 30, "count": [ 2, 15 ] },
+      { "item": "steel_chunk", "prob": 40, "count": [ 2, 10 ] },
+      { "item": "spring", "prob": 20, "count": [ 2, 10 ] },
+      { "item": "steel_lump", "prob": 40, "count": [ 1, 5 ] },
+      { "item": "frame", "prob": 10, "count": [ 1, 10 ] },
+      { "item": "frame", "prob": 10, "count": [ 1, 5 ] },
+      { "item": "scrap", "prob": 40, "count": [ 5, 40 ] },
+      { "item": "pipe", "prob": 20, "count": [ 2, 8 ] },
+      { "item": "spike", "prob": 50, "count": [ 3, 40 ] },
+      { "item": "hinge", "prob": 20, "count": [ 1, 30 ] },
+      { "item": "wire", "prob": 40, "count": [ 5, 20 ] },
+      { "item": "rebar", "prob": 30, "count": [ 2, 30 ] },
+      { "item": "sheet_metal", "prob": 20, "count": [ 2, 30 ] },
+      { "item": "sheet_metal_small", "prob": 40, "count": [ 5, 50 ] },
+      { "item": "bolt_steel", "prob": 50, "count": [ 5, 70 ], "charges": [ 1, 100 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "LS_SUS_crate_tier0_machineparts",
+    "//": "Filler.  Pieces to repair stuff within the dungeon.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "scrap", "prob": 40, "count": [ 5, 40 ] },
+      { "item": "e_scrap", "prob": 40, "count": [ 5, 40 ] },
+      { "item": "wire", "prob": 40, "count": [ 5, 40 ] },
+      { "item": "bone", "prob": 40, "count": [ 5, 40 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "LS_SUS_shelf_tier0_food",
+    "//": "Filler.  Should contain several boxes of food and foodlike objects.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "dry_meat", "prob": 20 },
+      { "item": "dry_fish", "prob": 30 },
+      { "item": "dry_veggy", "prob": 40 },
+      { "item": "dry_corn", "prob": 40 },
+      { "item": "dry_fruit", "prob": 30 },
+      { "item": "salt", "prob": 30 },
+      { "item": "flour", "prob": 20 },
+      { "item": "cornmeal", "prob": 25 },
+      { "item": "oatmeal", "prob": 40 },
+      { "item": "barley", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "LS_SUS_shelf_tier0_tools",
+    "//": "Filler.  Should contain tools you might need to survive down here.",
+    "subtype": "collection",
+    "entries": [ { "group": "tools_common_small", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "LS_SUS_table_items_workspace",
+    "//": "Incomplete.  Make tables look interesting.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "scrap", "prob": 40 },
+      { "item": "e_scrap", "prob": 40 },
+      { "item": "bone", "prob": 40 },
+      { "group": "tools_common_small", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "LS_SUS_table_items_mess",
+    "//": "Incomplete.  Make tables look interesting.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "knife_butter" },
+      { "item": "knife_steak" },
+      { "item": "knife_paring" },
+      { "item": "fork" },
+      { "item": "spoon" },
+      { "item": "bowl_pewter" },
+      { "item": "ceramic_plate" },
+      { "item": "ceramic_bowl" },
+      { "item": "wine_glass" },
+      { "item": "ceramic_mug" },
+      { "item": "pot" },
+      { "item": "bone" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "LS_SUS_table_items_bunk_room",
+    "//": "Incomplete.  Make tables look interesting.",
+    "subtype": "distribution",
+    "entries": [ { "item": "emer_blanket" }, { "item": "scrap" }, { "item": "ceramic_mug" }, { "item": "bone" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "LS_SUS_bunk_room",
+    "//": "Filler.  Not totally sure what would be in a locker in an imperfect copy of an exodii bedroom.  Huh.  I'll add a welding blanket, not because I think it actually goes in a bedroom, but because I think it's very funny.",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [ { "item": "scrap", "prob": 40 }, { "item": "e_scrap", "prob": 40 }, { "item": "bone", "prob": 40 } ],
+        "prob": 60
+      },
+      {
+        "distribution": [ { "item": "emer_blanket", "prob": 40 }, { "item": "welding_blanket", "prob": 40 } ],
+        "prob": 80
+      },
+      { "group": "games_basic", "prob": 10 }
+    ]
+  }
+]

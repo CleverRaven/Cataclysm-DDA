@@ -110,7 +110,8 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -187,7 +188,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -220,6 +222,7 @@
     "points": 7,
     "proficiencies": [ "prof_wp_netherium_abomination", "prof_unarmed_familiar", "prof_traps" ],
     "skills": [ { "level": 2, "name": "gun" }, { "level": 3, "name": "rifle" }, { "level": 1, "name": "survival" } ],
+    "flags": [ "SKIP_DEFAULT_BACKGROUND" ],
     "items": {
       "both": {
         "entries": [
@@ -247,7 +250,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -296,7 +300,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -341,7 +346,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -395,7 +401,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -441,7 +448,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -484,7 +492,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -521,7 +530,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -570,7 +580,8 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -578,6 +589,7 @@
     "name": { "male": "Ierde", "female": "Ierda" },
     "description": "With the dimensional spillage that preceded the Cataclysm you are the spirit of a place that slowly gained sentience, a genius loci.  As the world reshapes itself you have decided to wander from your birthplace and determine where you will end up.\n\nAs a spirit of the earth, your powers are strengthened by contact with the soil and the rock and weakened by separation from the living earth.",
     "points": 5,
+    "starting_cash": 0,
     "traits": [ "IERDE" ],
     "pets": [ { "name": "mon_stoneling", "amount": 1 } ],
     "recipes": [ "mutagen_earthkin", "cthonic_poultice" ],
@@ -597,7 +609,8 @@
       },
       "female": { "entries": [ { "item": "chestwrap" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -605,6 +618,7 @@
     "name": { "male": "Arvi", "female": "Arvori" },
     "description": "With the dimensional spillage that preceded the Cataclysm you are the spirit of a place that slowly gained sentience, a genius loci.  As the world reshapes itself you have decided to wander from your birthplace and determine where you will end up.\n\nAs a spirit of the forest, your powers are strengthened by the wild places and weakened within the constructs of humanity.",
     "points": 5,
+    "starting_cash": 0,
     "traits": [ "ARVORE" ],
     "pets": [ { "name": "mon_vineling", "amount": 1 } ],
     "recipes": [ "mutagen_plantkin", "verdant_poultice" ],
@@ -624,7 +638,8 @@
       },
       "female": { "entries": [ { "item": "chestwrap" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -632,6 +647,7 @@
     "name": { "male": "Onduine", "female": "Ondua" },
     "description": "With the dimensional spillage that preceded the Cataclysm you are the spirit of a place that slowly gained sentience, a genius loci.  As the world reshapes itself you have decided to wander from your birthplace and determine where you will end up.\n\nAs a spirit of the lakes and rivers, your powers are strengthened when you are surrounded by water and weakened when you spend too long away from the water.",
     "points": 5,
+    "starting_cash": 0,
     "traits": [ "UNDINE" ],
     "pets": [ { "name": "mon_spitting_lizard", "amount": 1 } ],
     "recipes": [ "mutagen_waterkin", "cerulean_poultice" ],
@@ -651,7 +667,8 @@
       },
       "female": { "entries": [ { "item": "chestwrap" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -659,6 +676,7 @@
     "name": { "male": "Kéményseprő", "female": "Bejárónő" },
     "description": "With the dimensional spillage that preceded the Cataclysm you are the spirit of a place that slowly gained sentience, a genius loci.  As the world reshapes itself you have decided to wander from your birthplace and determine where you will end up.\n\nAs a spirit of the flames, your powers are strengthened when among heat and fire and weakened by the cold.",
     "points": 5,
+    "starting_cash": 0,
     "traits": [ "SALAMANDER" ],
     "pets": [ { "name": "mon_salamander_tiny", "amount": 1 } ],
     "recipes": [ "mutagen_flamekin", "charred_sacrifice" ],
@@ -678,7 +696,8 @@
       },
       "female": { "entries": [ { "item": "chestwrap" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -686,6 +705,7 @@
     "name": { "male": "Dúln", "female": "Dúkka" },
     "description": "With the dimensional spillage that preceded the Cataclysm you are the spirit of a place that slowly gained sentience, a genius loci.  As the world reshapes itself you have decided to wander from your birthplace and determine where you will end up.\n\nAs a spirit of humanity, your powers are strengthened when among humankind or in the remnants of civilization and weakened when in the wilderness.",
     "points": 5,
+    "starting_cash": 0,
     "traits": [ "HOMULLUS", "HOMULLUS_MINIMIZED_MUTATIONS" ],
     "pets": [ { "name": "mon_zoomorphic_figure_small", "amount": 1 } ],
     "recipes": [ "mutagen_dollkin", "doll_repair_paste" ],
@@ -705,7 +725,8 @@
       },
       "female": { "entries": [ { "item": "chestwrap" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -713,6 +734,7 @@
     "name": { "male": "Silvestris", "female": "Silvestra" },
     "description": "With the dimensional spillage that preceded the Cataclysm you are the spirit of a place that slowly gained sentience, a genius loci.  As the world reshapes itself you have decided to wander from your birthplace and determine where you will end up.\n\nAs a spirit of the winds, your powers are strengthened when under the open sky and weakened when indoors or underground.",
     "points": 5,
+    "starting_cash": 0,
     "traits": [ "SYLPH" ],
     "pets": [ { "name": "mon_dragonfly_fae", "amount": 1 } ],
     "recipes": [ "mutagen_airkin", "ethereal_draught" ],
@@ -732,7 +754,8 @@
       },
       "female": { "entries": [ { "item": "chestwrap" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "profession",
@@ -853,6 +876,87 @@
     }
   },
   {
+    "type": "profession",
+    "id": "xedra_chronomancer_profession",
+    "name": "Paradox Survivor",
+    "description": "Some would say that there's nothing particularly notable about you, but you've survived, and that's more than most could say right now.",
+    "points": 0,
+    "skills": [ { "level": 3, "name": "deduction" } ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "jeans" },
+          { "item": "longshirt" },
+          { "item": "sweatshirt" },
+          { "item": "socks" },
+          { "item": "sneakers" },
+          { "item": "mbag" },
+          { "item": "pockknife" },
+          { "item": "water_clean" },
+          { "item": "wristwatch" },
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
+          { "group": "charged_matches" }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "chargen_allow_npc": false
+  },
+  {
+    "type": "profession",
+    "id": "archaeologist",
+    "name": "Archaeologist",
+    "description": "You've traveled the world, discovering ancient relics, unknown ruins, and all manner of things that belong in a museum.  Even though you don't believe in the supernatural, you've seen enough to know when something can't easily be explained by science, and right now, you've got a bad feeling about this.",
+    "npc_background": "BG_survival_story_WORKER_COMMERCIAL",
+    "points": 3,
+    "skills": [
+      { "level": 4, "name": "survival" },
+      { "level": 3, "name": "gun" },
+      { "level": 3, "name": "pistol" },
+      { "level": 5, "name": "melee" },
+      { "level": 5, "name": "bashing" },
+      { "level": 5, "name": "unarmed" },
+      { "level": 5, "name": "deduction" }
+    ],
+    "proficiencies": [
+      "prof_athlete_basic",
+      "prof_gun_cleaning",
+      "prof_auto_pistols_familiar",
+      "prof_whips_familiar",
+      "prof_whips_pro",
+      "prof_spotting",
+      "prof_unarmed_familiar",
+      "prof_unarmed_pro"
+    ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "undershirt" },
+          { "item": "leather_belt" },
+          { "item": "socks" },
+          { "item": "boots" },
+          { "item": "jacket_leather" },
+          { "item": "knit_scarf" },
+          { "item": "bullwhip" },
+          { "item": "mbag" },
+          { "item": "fedora" },
+          { "item": "wristwatch" },
+          { "item": "petrified_eye" },
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
+          { "group": "speedloaders_s&w619_special" },
+          { "item": "sw_619", "ammo-item": "38_special", "charges": 7, "container-item": "holster" },
+          { "item": "pants", "variant": "generic_pants" }
+        ]
+      },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    }
+  },
+  {
     "type": "item_group",
     "id": "random_cryptid_map",
     "//": "This item group gives a random cryptid map and the associated notes when starting as a cryptid hunter.  The probabilities are intended to be equal with each other.",
@@ -870,5 +974,51 @@
     "subtype": "collection",
     "id": "sevenoclock_map",
     "entries": [ { "item": "sevenoclock_map" }, { "item": "sevenoclock_note" } ]
+  },
+  {
+    "type": "profession",
+    "id": "xedra_bloodthorne_druid_profession",
+    "name": "Bloodthorne Druid",
+    "description": "You had just been inducted into the order and gone on a few vampire hunts when the Cataclysm happened, though you had never personally killed a vampire yourself.  As the sky broke and reality twisted you ran, and you survived, but you know that some of the vampires did too.  Your oaths still hold; the blood-drinkers must be destroyed.",
+    "points": 0,
+    "skills": [
+      { "level": 3, "name": "deduction" },
+      { "level": 3, "name": "survival" },
+      { "level": 1, "name": "dodge" },
+      { "level": 2, "name": "melee" }
+    ],
+    "traits": [
+      "BLOODTHORNE_SORCERY",
+      "BLOODTHORNE_DRUID",
+      "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT",
+      "JAUNDICE_ARVORE_ALCHEMY",
+      "ARVORE_BLOOD",
+      "ARVORE_SUMMON_BRIARS",
+      "ARVORE_SUMMON_GRASS_FIELD",
+      "FALSE_ARVORE_HATRED"
+    ],
+    "recipes": [ "plant_imbuement" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "jeans" },
+          { "item": "longshirt" },
+          { "item": "sweatshirt" },
+          { "item": "socks" },
+          { "item": "boots_combat" },
+          { "item": "mbag" },
+          { "item": "pockknife" },
+          { "item": "water_clean" },
+          { "item": "wristwatch" },
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
+          { "item": "knife_combat", "container-item": "sheath" }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "chargen_allow_npc": false
   }
 ]

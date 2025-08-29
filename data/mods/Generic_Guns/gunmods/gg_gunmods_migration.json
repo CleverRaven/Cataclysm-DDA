@@ -15,7 +15,7 @@
     "replace": "shotgun_under"
   },
   {
-    "id": [ "masterkey_mod", "rm121aux_mod", "u_shotgun_mod" ],
+    "id": [ "masterkey_mod", "rm121aux_mod" ],
     "type": "MIGRATION",
     "replace": "shotgun_under_mod"
   },

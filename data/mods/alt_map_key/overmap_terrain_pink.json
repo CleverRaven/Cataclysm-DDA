@@ -1,0 +1,651 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": [ "shipwreck_river_1", "shipwreck_river_2", "shipwreck_river_3", "shipwreck_river_4" ],
+    "copy-from": "shipwreck_river_1",
+    "name": "shipwreck",
+    "sym": "S",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "irradiator_1_1",
+      "irradiator_1_2",
+      "irradiator_1_3",
+      "irradiator_1_4",
+      "irradiator_1_5",
+      "irradiator_1_6",
+      "irradiator_1_7",
+      "irradiator_1_9"
+    ],
+    "copy-from": "irradiator_1_1",
+    "name": "irradiation plant",
+    "sym": "I",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "irradiator_1_8",
+    "copy-from": "irradiator_1_8",
+    "name": "irradiation plant",
+    "sym": "I",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "irradiator_1_1_roof",
+      "irradiator_1_2_roof",
+      "irradiator_1_3_roof",
+      "irradiator_1_4_roof",
+      "irradiator_1_5_roof",
+      "irradiator_1_6_roof",
+      "irradiator_1_7_roof",
+      "irradiator_1_9_roof"
+    ],
+    "copy-from": "irradiator_1_1_roof",
+    "name": "irradiation plant",
+    "sym": "I",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "irradiator_1_8_roof",
+    "copy-from": "irradiator_1_8_roof",
+    "name": "irradiation plant",
+    "sym": "I",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "corpse_surface",
+    "copy-from": "corpse_surface",
+    "name": "monster corpse",
+    "sym": "M",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "corpse_tentacle_surface_entry",
+    "copy-from": "corpse_tentacle_surface_entry",
+    "name": "monster corpse",
+    "sym": "M",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "corpse_tentacle_entry",
+    "copy-from": "corpse_bowels_empty_edge",
+    "name": "monster corpse tentacle",
+    "sym": "M",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "corpse_bowels_neck_right",
+      "corpse_bowels_neck_left",
+      "corpse_bowels_neck_edge_center",
+      "corpse_bowels_rcorner",
+      "corpse_bowels_lcorner",
+      "corpse_bowels_empty_edge"
+    ],
+    "copy-from": "corpse_bowels_neck_right",
+    "name": "monster corpse bowels",
+    "sym": "B",
+    "color": "light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "corpse_bowels_mid" ],
+    "copy-from": "corpse_bowels_mid",
+    "name": "monster corpse bowels",
+    "sym": "B",
+    "color": "light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "corpse_bowels_tentacle_edge",
+    "copy-from": "corpse_bowels_tentacle_edge",
+    "name": "monster corpse bowels",
+    "sym": "E",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "corpse_neck", "corpse_neck_center" ],
+    "copy-from": "corpse_neck",
+    "name": "monster corpse neck",
+    "sym": "N",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "corpse_head",
+      "corpse_brain",
+      "corpse_under_brain",
+      "corpse_head_edge",
+      "corpse_head_fin",
+      "corpse_head_lcorner",
+      "corpse_head_rcorner",
+      "corpse_head_neck_l",
+      "corpse_head_neck_r",
+      "corpse_head_neck_center",
+      "corpse_head_neck_l_decap",
+      "corpse_head_neck_r_decap",
+      "corpse_head_neck_center_decap"
+    ],
+    "copy-from": "corpse_head",
+    "name": "monster corpse head",
+    "sym": "H",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "sealab_small_roof",
+      "sealab_small_surface",
+      "sealab_small_-1",
+      "sealab_small_-2",
+      "sealab_small_-3",
+      "sealab_small_-4",
+      "sealab_small_-5"
+    ],
+    "copy-from": "sealab_small_roof",
+    "name": "freshwater research station",
+    "sym": "F",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "robofachq_roof_a1",
+      "robofachq_roof_a2",
+      "robofachq_surface_entrance",
+      "robofachq_surface_car_entrance",
+      "robofachq_surface_a3",
+      "robofachq_surface_b0",
+      "robofachq_surface_b1",
+      "robofachq_surface_b2",
+      "robofachq_surface_b3",
+      "robofachq_foyer1",
+      "robofachq_foyer2",
+      "robofachq_foyer4",
+      "robofachq_exe_a0",
+      "robofachq_exe_a1",
+      "robofachq_exe_a2",
+      "robofachq_exe_a3",
+      "robofachq_exe_b0",
+      "robofachq_exe_b1",
+      "robofachq_exe_b2",
+      "robofachq_exe_b3",
+      "robofachq_hab_a0",
+      "robofachq_hab_a1",
+      "robofachq_hab_a2",
+      "robofachq_hab_a3",
+      "robofachq_hab_b0",
+      "robofachq_hab_b1",
+      "robofachq_hab_b2",
+      "robofachq_hab_b3",
+      "robofachq_sub_a0",
+      "robofachq_sub_a1",
+      "robofachq_sub_a2",
+      "robofachq_sub_a3",
+      "robofachq_res_a0",
+      "robofachq_res_a1",
+      "robofachq_res_a2",
+      "robofachq_res_a3",
+      "robofachq_res_b0",
+      "robofachq_res_b1",
+      "robofachq_res_b2",
+      "robofachq_res_b3",
+      "robofachq_ai_a0",
+      "robofachq_ai_a1",
+      "robofachq_ai_a2",
+      "robofachq_ai_a3",
+      "robofachq_ai_b0",
+      "robofachq_ai_b1",
+      "robofachq_ai_b2",
+      "robofachq_ai_b3",
+      "robofachq_aiutl_a0",
+      "robofachq_aiutl_a1",
+      "robofachq_aiutl_a2",
+      "robofachq_aiutl_a3",
+      "robofachq_aiutl_b0",
+      "robofachq_aiutl_b1",
+      "robofachq_aiutl_b2",
+      "robofachq_aiutl_b3"
+    ],
+    "copy-from": "robofachq_roof_a1",
+    "name": "hub 01",
+    "sym": "H",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "nursing_home_lab1",
+      "nursing_home_lab2",
+      "nursing_home_lab3",
+      "nursing_home_lab4",
+      "nursing_home_lab5",
+      "nursing_home_lab6",
+      "nursing_home_lab7",
+      "nursing_home_lab8",
+      "nursing_home_lab9",
+      "nursing_home_lab10",
+      "nursing_home_lab11",
+      "nursing_home_lab12"
+    ],
+    "copy-from": "nursing_home_lab1",
+    "name": "nursing home lab",
+    "sym": "N",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mi-go_camp1", "mi-go_camp1-1" ],
+    "copy-from": "mi-go_camp1",
+    "name": "mi-go encampment",
+    "sym": "M",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mi-go_camp2",
+    "copy-from": "mi-go_camp2",
+    "sym": "M",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mi-go_camp2-1",
+    "copy-from": "mi-go_camp2-1",
+    "name": "mi-go spire",
+    "sym": "M",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mi-go_camp2-2",
+    "copy-from": "mi-go_camp2-2",
+    "name": "mi-go landing platform",
+    "sym": "M",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mi-go_camp2-3",
+    "copy-from": "mi-go_camp2-3",
+    "name": "mi-go landing roof",
+    "sym": "M",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "barry_mi-go_scout_tower_1",
+      "barry_mi-go_scout_tower_2",
+      "barry_mi-go_scout_tower_3",
+      "barry_mi-go_scout_tower_4",
+      "mi-go_scout_tower_1",
+      "mi-go_scout_tower_2",
+      "mi-go_scout_tower_3",
+      "mi-go_scout_tower_4"
+    ],
+    "copy-from": "barry_mi-go_scout_tower_1",
+    "name": "mi-go scout tower",
+    "sym": "M",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mi-go_portal",
+    "copy-from": "mi-go_portal",
+    "name": "mi-go structure",
+    "sym": "M",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mi-go_portal_roof",
+    "copy-from": "mi-go_portal_roof",
+    "name": "mi-go structure roof",
+    "sym": "M",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "temple_stairs", "temple_underground_1", "temple_underground_2", "temple_underground_3", "temple_underground_4" ],
+    "copy-from": "temple_stairs",
+    "name": "strange temple",
+    "sym": "S",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "temple_finale",
+    "copy-from": "temple_finale",
+    "name": "strange temple",
+    "sym": "S",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "toxic_dump", "toxic_dump_roof" ],
+    "copy-from": "toxic_dump",
+    "name": "toxic waste dump",
+    "sym": "T",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "haz_sar_1_1",
+      "haz_sar_1_2",
+      "haz_sar_1_3",
+      "haz_sar_1_4",
+      "haz_sar_1_1_2",
+      "haz_sar_1_2_2",
+      "haz_sar_1_3_2",
+      "haz_sar_1_4_2",
+      "haz_sar_b_1",
+      "haz_sar_b_2",
+      "haz_sar_b_3",
+      "haz_sar_b_4"
+    ],
+    "copy-from": "haz_sar_1_1",
+    "name": "hazardous waste sarcophagus",
+    "sym": "H",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "c_cave_entrance",
+    "copy-from": "c_cave_entrance",
+    "name": "river cave entrance",
+    "sym": "R",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "hive_edge_00",
+      "hive_edge_10",
+      "hive_edge_20",
+      "hive_edge_01",
+      "hive",
+      "hive_edge_21",
+      "hive_edge_02",
+      "hive_edge_12",
+      "hive_edge_22",
+      "hive_edge_00_roof",
+      "hive_edge_10_roof",
+      "hive_edge_20_roof",
+      "hive_edge_01_roof",
+      "hive_roof",
+      "hive_edge_21_roof",
+      "hive_edge_02_roof",
+      "hive_edge_12_roof",
+      "hive_edge_22_roof"
+    ],
+    "copy-from": "hive_edge_00",
+    "name": "bee hive",
+    "sym": "B",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "fungal_bloom",
+    "copy-from": "fungal_bloom",
+    "name": "fungal bloom",
+    "sym": "F",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "fungal_tower",
+    "copy-from": "fungal_tower",
+    "name": "fungal tower",
+    "sym": "F",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "fungal_flowers",
+    "copy-from": "fungal_flowers",
+    "name": "fungal flowers",
+    "sym": "F",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "anthill",
+    "copy-from": "anthill",
+    "name": "anthill",
+    "sym": "A",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "exo_safehouse_stone_0",
+    "copy-from": "exo_safehouse_stone_0",
+    "name": "unusual stone barn",
+    "sym": "U",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "exo_safehouse_stone_1",
+    "copy-from": "exo_safehouse_stone_1",
+    "name": "unusual stone barn",
+    "sym": "U",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "exo_safehouse_stone_2",
+    "copy-from": "exo_safehouse_stone_2",
+    "name": "unusual stone barn roof",
+    "sym": "U",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "exo_warehouse_1",
+    "copy-from": "exo_warehouse_1",
+    "name": "strange warehouse",
+    "sym": "S",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "exo_warehouse_2",
+    "copy-from": "exo_warehouse_2",
+    "name": "strange warehouse",
+    "sym": "S",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "exodii_base_x0y0z0",
+      "exodii_base_x1y0z0",
+      "exodii_base_x2y0z0",
+      "exodii_base_x3y0z0",
+      "exodii_base_x0y1z0",
+      "exodii_base_x1y1z0",
+      "exodii_base_x2y1z0",
+      "exodii_base_x3y1z0",
+      "exodii_base_x0y2z0",
+      "exodii_base_x1y2z0",
+      "exodii_base_x2y2z0",
+      "exodii_base_x3y2z0",
+      "exodii_base_x1y3z0",
+      "exodii_base_x2y3z0",
+      "exodii_base_x3y3z0"
+    ],
+    "copy-from": "exodii_base_x0y0z0",
+    "name": "rocky butte",
+    "sym": "R",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "exodii_base_x0y3z0",
+    "copy-from": "exodii_base_x0y3z0",
+    "vision_levels": "large_outcropping",
+    "name": "ground-level entrance",
+    "sym": "G",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "exodii_base_x0y0z1",
+      "exodii_base_x1y0z1",
+      "exodii_base_x2y0z1",
+      "exodii_base_x3y0z1",
+      "exodii_base_x0y1z1",
+      "exodii_base_x1y1z1",
+      "exodii_base_x2y1z1",
+      "exodii_base_x3y1z1",
+      "exodii_base_x0y2z1",
+      "exodii_base_x1y2z1",
+      "exodii_base_x2y2z1",
+      "exodii_base_x3y2z1",
+      "exodii_base_x0y3z1",
+      "exodii_base_x1y3z1",
+      "exodii_base_x2y3z1",
+      "exodii_base_x3y3z1",
+      "exodii_base_x0y0z2",
+      "exodii_base_x1y0z2",
+      "exodii_base_x2y0z2",
+      "exodii_base_x3y0z2",
+      "exodii_base_x0y1z2",
+      "exodii_base_x1y1z2",
+      "exodii_base_x2y1z2",
+      "exodii_base_x3y1z2",
+      "exodii_base_x0y2z2",
+      "exodii_base_x1y2z2",
+      "exodii_base_x2y2z2",
+      "exodii_base_x3y2z2",
+      "exodii_base_x0y3z2",
+      "exodii_base_x1y3z2",
+      "exodii_base_x2y3z2",
+      "exodii_base_x3y3z2",
+      "exodii_base_x0y0z3",
+      "exodii_base_x1y0z3",
+      "exodii_base_x2y0z3",
+      "exodii_base_x3y0z3",
+      "exodii_base_x0y1z3",
+      "exodii_base_x1y1z3",
+      "exodii_base_x2y1z3",
+      "exodii_base_x3y1z3",
+      "exodii_base_x0y2z3",
+      "exodii_base_x1y2z3",
+      "exodii_base_x2y2z3",
+      "exodii_base_x3y2z3",
+      "exodii_base_x0y3z3",
+      "exodii_base_x1y3z3",
+      "exodii_base_x2y3z3",
+      "exodii_base_x3y3z3",
+      "exodii_base_x0y0z4",
+      "exodii_base_x1y0z4",
+      "exodii_base_x2y0z4",
+      "exodii_base_x3y0z4",
+      "exodii_base_x0y1z4",
+      "exodii_base_x1y1z4",
+      "exodii_base_x2y1z4",
+      "exodii_base_x3y1z4",
+      "exodii_base_x0y2z4",
+      "exodii_base_x1y2z4",
+      "exodii_base_x2y2z4",
+      "exodii_base_x3y2z4",
+      "exodii_base_x0y3z4",
+      "exodii_base_x1y3z4",
+      "exodii_base_x2y3z4",
+      "exodii_base_x3y3z4"
+    ],
+    "copy-from": "exodii_base_x0y0z1",
+    "name": "scrap metal encampment",
+    "sym": "S",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "slimepit_z0",
+    "copy-from": "slimepit_z0",
+    "name": "slime pit",
+    "sym": "S",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "slimepit_z-1",
+    "copy-from": "slimepit_z-1",
+    "name": "slime pit",
+    "sym": "S",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "slimepit_z-2",
+    "copy-from": "slimepit_z-2",
+    "name": "slime pit",
+    "sym": "S",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "triffid_grove",
+    "copy-from": "triffid_grove",
+    "name": "triffid grove",
+    "sym": "T",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "triffid_roots",
+      "triffid_rootss",
+      "triffid_rootsn",
+      "triffid_rootse",
+      "triffid_rootsw",
+      "triffid_rootsen",
+      "triffid_rootsnw",
+      "triffid_rootssw",
+      "triffid_rootsse"
+    ],
+    "copy-from": "triffid_roots",
+    "name": "triffid roots",
+    "sym": "T",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "triffid_finale",
+    "copy-from": "triffid_finale",
+    "name": "triffid heart",
+    "sym": "T",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "triffid_grove_z3", "triffid_grove_z2" ],
+    "copy-from": "triffid_grove_z3",
+    "name": "triffid grove trunk",
+    "sym": "T",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "triffid_grove_roof",
+    "copy-from": "triffid_grove_roof",
+    "name": "triffid grove roof",
+    "sym": "T",
+    "color": "pink"
+  }
+]

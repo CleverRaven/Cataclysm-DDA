@@ -4,24 +4,22 @@
 
 #include <functional>
 #include <map>
-#include <memory>
 #include <string>
 #include <string_view>
-#include <unordered_map>
 #include <utility>
 #include <vector>
 
 #include "dialogue.h"
 #include "dialogue_helpers.h"
-#include "event.h"
 #include "event_subscriber.h"
+#include "global_vars.h"
 #include "type_id.h"
 
 class Character;
 class JsonObject;
 class JsonValue;
-class talker;
 class time_duration;
+enum class event_type : int;
 struct effect_on_condition;
 template <typename E> struct enum_traits;
 template <typename T> class generic_factory;
@@ -29,7 +27,6 @@ template <typename T> class generic_factory;
 enum eoc_type {
     ACTIVATION,
     RECURRING,
-    SCENARIO_SPECIFIC,
     AVATAR_DEATH,
     NPC_DEATH,
     PREVENT_DEATH,
@@ -70,6 +67,8 @@ struct effect_on_condition {
         event_type required_event;
         duration_or_var recurrence;
         bool activate( dialogue &d, bool require_callstack_check = true ) const;
+        bool activate_activation_only( dialogue &d, const std::string &text1, const std::string &text2 = "",
+                                       const std::string &text3 = "", bool require_callstack_check = true ) const;
         bool check_deactivate( const_dialogue const &d ) const;
         bool test_condition( const_dialogue const &d ) const;
         void apply_true_effects( dialogue &d ) const;
@@ -98,7 +97,7 @@ void load_existing_character( Character &you );
 effect_on_condition_id load_inline_eoc( const JsonValue &jv, std::string_view src );
 /** queue an eoc to happen in the future */
 void queue_effect_on_condition( time_duration duration, effect_on_condition_id eoc,
-                                Character &you, const std::unordered_map<std::string, std::string> &context );
+                                Character &you, global_variables::impl_t const &context );
 /** called every turn to process the queued eocs */
 void process_effect_on_conditions( Character &you );
 /** called after certain events to test whether to reactivate eocs */

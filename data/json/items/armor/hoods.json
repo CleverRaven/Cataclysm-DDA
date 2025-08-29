@@ -1,7 +1,8 @@
 [
   {
     "id": "beekeeping_hood",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "beekeeping hood" },
     "description": "A beekeeping hood.  Keeps the bees out, but lets fresh air in.",
     "weight": "260 g",
@@ -23,7 +24,8 @@
   },
   {
     "id": "chainmail_junk_hood",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "chainmail coif" },
     "description": "A customized chainmail hood.  Can be worn comfortably under helmets.",
@@ -50,7 +52,8 @@
   },
   {
     "id": "lc_chainmail_hood",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "mild steel chainmail coif" },
     "description": "A customized chainmail hood.  Can be worn comfortably under helmets.",
@@ -76,7 +79,8 @@
   },
   {
     "id": "xl_lc_chainmail_hood",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_chainmail_hood",
     "name": { "str": "mild steel chainmail coif" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
@@ -84,7 +88,8 @@
   },
   {
     "id": "xs_lc_chainmail_hood",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_chainmail_hood",
     "name": { "str": "mild steel chainmail coif" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -92,14 +97,16 @@
   },
   {
     "id": "mc_chainmail_hood",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_chainmail_hood",
     "name": { "str": "medium steel chainmail coif" },
     "replace_materials": { "lc_steel_chain": "mc_steel_chain" }
   },
   {
     "id": "xl_mc_chainmail_hood",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "mc_chainmail_hood",
     "name": { "str": "medium steel chainmail coif" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
@@ -107,7 +114,8 @@
   },
   {
     "id": "xs_mc_chainmail_hood",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "mc_chainmail_hood",
     "name": { "str": "medium steel chainmail coif" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -115,14 +123,16 @@
   },
   {
     "id": "hc_chainmail_hood",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_chainmail_hood",
     "name": { "str": "high steel chainmail coif" },
     "replace_materials": { "lc_steel_chain": "hc_steel_chain" }
   },
   {
     "id": "xl_hc_chainmail_hood",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hc_chainmail_hood",
     "name": { "str": "high steel chainmail coif" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
@@ -130,7 +140,8 @@
   },
   {
     "id": "xs_hc_chainmail_hood",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hc_chainmail_hood",
     "name": { "str": "high steel chainmail coif" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -138,14 +149,16 @@
   },
   {
     "id": "ch_chainmail_hood",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_chainmail_hood",
     "name": { "str": "hardened steel chainmail coif" },
     "replace_materials": { "lc_steel_chain": "ch_steel_chain" }
   },
   {
     "id": "xl_ch_chainmail_hood",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "ch_chainmail_hood",
     "name": { "str": "hardened steel chainmail coif" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
@@ -153,7 +166,8 @@
   },
   {
     "id": "xs_ch_chainmail_hood",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "ch_chainmail_hood",
     "name": { "str": "hardened steel chainmail coif" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -161,14 +175,16 @@
   },
   {
     "id": "qt_chainmail_hood",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_chainmail_hood",
     "name": { "str": "tempered steel chainmail coif" },
     "replace_materials": { "lc_steel_chain": "qt_steel_chain" }
   },
   {
     "id": "xl_qt_chainmail_hood",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "qt_chainmail_hood",
     "name": { "str": "tempered steel chainmail coif" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
@@ -176,7 +192,8 @@
   },
   {
     "id": "xs_qt_chainmail_hood",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "qt_chainmail_hood",
     "name": { "str": "tempered steel chainmail coif" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -184,7 +201,8 @@
   },
   {
     "id": "hood_rain",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "rain hood" },
     "description": "A waterproof hood made to be worn in bad weather.",
     "weight": "160 g",
@@ -203,7 +221,8 @@
   },
   {
     "id": "nomex_hood",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "flame-resistant hood" },
     "description": "A snug fitting garment that protects your head and neck, made from lightweight Nomex fire-resistant fabric.  Tough yet breathable, it is light and comfortable to wear under clothing.",
     "weight": "210 g",
@@ -222,7 +241,8 @@
   },
   {
     "id": "hood_gut",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "gutskin hood" },
     "description": "A hood sewn from treated and split intestines, the perfect companion for a gutskin parka.",
     "weight": "40 g",
@@ -241,7 +261,8 @@
   },
   {
     "id": "hood_ninja",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "ninja hood" },
     "description": "A black hood commonly used by ninja.",
     "weight": "80 g",

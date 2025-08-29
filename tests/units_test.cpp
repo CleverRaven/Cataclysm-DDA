@@ -1,11 +1,9 @@
-#include <sstream>
 #include <string>
-#include <vector>
 
 #include "calendar.h"
-#include "cata_utility.h"
 #include "cata_catch.h"
-#include "json.h"
+#include "cata_utility.h"
+#include "flexbuffer_json.h"
 #include "json_loader.h"
 #include "math_defines.h"
 #include "options_helpers.h"

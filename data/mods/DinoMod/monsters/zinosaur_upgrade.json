@@ -18,8 +18,7 @@
     "bleed_rate": 50,
     "upgrades": false,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -41,8 +40,7 @@
     "bleed_rate": 50,
     "upgrades": false,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -63,8 +61,7 @@
     "bleed_rate": 50,
     "upgrades": false,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -85,8 +82,7 @@
     "bleed_rate": 50,
     "upgrades": false,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -105,10 +101,9 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zallosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zallosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -127,10 +122,9 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zallosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zallosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -149,10 +143,9 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zallosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zallosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -171,10 +164,9 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zallosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zallosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -194,10 +186,9 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zyrannosaurus_BRUTE" },
     "special_attacks": [ { "id": "bite_grab", "cooldown": 7 }, [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -217,10 +208,9 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zyrannosaurus_BRUTE" },
     "special_attacks": [ { "id": "bite_grab", "cooldown": 7 }, [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -240,10 +230,9 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zyrannosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ], { "id": "bite_grab", "cooldown": 7 } ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -263,10 +252,9 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zyrannosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ], { "id": "bite_grab", "cooldown": 7 } ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -286,10 +274,9 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zyrannosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ], { "id": "bite_grab", "cooldown": 7 } ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -307,10 +294,9 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zyrannosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ], { "id": "bite_grab", "cooldown": 7 } ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -330,10 +316,9 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zyrannosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ], { "id": "bite_grab", "cooldown": 7 } ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -353,17 +338,16 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zyrannosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
-    "id": "mon_zallimimus_brute",
-    "name": { "str_sp": "Gruesome Gallimimus" },
-    "copy-from": "mon_zallimimus",
-    "description": "The shuffling corpse of a medium-sized bipedal dinosaur covered with tattered feathers and black, putrid liquid.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "id": "mon_zedcolbertia_brute",
+    "name": { "str_sp": "Nedcolbertia Knuckles" },
+    "copy-from": "mon_zedcolbertia",
+    "description": "The shuffling corpse of a bipedal dinosaur covered with tattered feathers and black, putrid liquid.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
@@ -378,8 +362,29 @@
     "bleed_rate": 50,
     "upgrades": false,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zallimimus_brute",
+    "name": { "str_sp": "Gruesome Gallimimus" },
+    "copy-from": "mon_zallimimus",
+    "description": "The shuffling corpse of a bipedal beaked dinosaur covered with tattered feathers and black, putrid liquid.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "diff": 2,
+    "color": "red",
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "attack_cost": 202,
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
+    },
+    "bleed_rate": 50,
+    "upgrades": false,
+    "special_attacks": [ [ "SMASH", 30 ] ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -427,8 +432,7 @@
     "bleed_rate": 50,
     "upgrades": false,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -449,8 +453,7 @@
     "bleed_rate": 50,
     "upgrades": false,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -471,8 +474,7 @@
     "bleed_rate": 50,
     "upgrades": false,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -493,8 +495,7 @@
     "bleed_rate": 50,
     "upgrades": false,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -515,8 +516,7 @@
     "bleed_rate": 50,
     "upgrades": false,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -538,8 +538,7 @@
     "bleed_rate": 50,
     "upgrades": false,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -560,8 +559,7 @@
     "bleed_rate": 50,
     "upgrades": false,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -582,8 +580,7 @@
     "bleed_rate": 50,
     "upgrades": false,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -604,8 +601,28 @@
     "bleed_rate": 50,
     "upgrades": false,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zoabosaurus_brute",
+    "name": { "str": "Moab Masher" },
+    "copy-from": "mon_zoabosaurus",
+    "description": "Huge, long-necked, four-legged dinosaur corpse with a long tail.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "diff": 2,
+    "color": "red",
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
+    },
+    "bleed_rate": 50,
+    "upgrades": false,
+    "special_attacks": [ [ "SMASH", 30 ] ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -626,8 +643,7 @@
     "bleed_rate": 50,
     "upgrades": false,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -648,8 +664,7 @@
     "bleed_rate": 50,
     "upgrades": false,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -670,8 +685,7 @@
     "bleed_rate": 50,
     "upgrades": false,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -690,10 +704,9 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zapatosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -712,10 +725,9 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zapatosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -734,10 +746,9 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zapatosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -756,10 +767,9 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zapatosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -778,10 +788,9 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zapatosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -800,10 +809,9 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zapatosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -822,10 +830,9 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zapatosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -846,8 +853,7 @@
     "bleed_rate": 50,
     "upgrades": false,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -868,8 +874,7 @@
     "bleed_rate": 50,
     "upgrades": false,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -888,10 +893,9 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zankylosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -910,10 +914,9 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zankylosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -932,10 +935,9 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zankylosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -954,10 +956,9 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zankylosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -976,10 +977,9 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zankylosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -998,10 +998,9 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zankylosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -1020,10 +1019,9 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zankylosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -1042,10 +1040,9 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zankylosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -1064,10 +1061,9 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zankylosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -1086,10 +1082,9 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zankylosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -1108,10 +1103,9 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zankylosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -1132,8 +1126,7 @@
     "bleed_rate": 50,
     "upgrades": false,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -1154,8 +1147,7 @@
     "bleed_rate": 50,
     "upgrades": false,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -1176,8 +1168,7 @@
     "bleed_rate": 50,
     "upgrades": false,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -1198,8 +1189,7 @@
     "bleed_rate": 50,
     "upgrades": false,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -1220,8 +1210,7 @@
     "bleed_rate": 50,
     "upgrades": false,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -1242,8 +1231,7 @@
     "bleed_rate": 50,
     "upgrades": false,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -1264,8 +1252,7 @@
     "bleed_rate": 50,
     "upgrades": false,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -1286,8 +1273,7 @@
     "bleed_rate": 50,
     "upgrades": false,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -1308,8 +1294,7 @@
     "bleed_rate": 50,
     "upgrades": false,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -1330,8 +1315,7 @@
     "bleed_rate": 50,
     "upgrades": false,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -1352,8 +1336,7 @@
     "bleed_rate": 50,
     "upgrades": false,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -1374,8 +1357,7 @@
     "bleed_rate": 50,
     "upgrades": false,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -1396,8 +1378,7 @@
     "bleed_rate": 50,
     "upgrades": false,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -1418,8 +1399,7 @@
     "bleed_rate": 50,
     "upgrades": false,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -1440,8 +1420,7 @@
     "bleed_rate": 50,
     "upgrades": false,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -1462,8 +1441,7 @@
     "bleed_rate": 50,
     "upgrades": false,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -1482,10 +1460,9 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ], { "type": "leap", "cooldown": 20, "max_range": 5, "allow_no_target": true } ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -1504,10 +1481,9 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -1526,10 +1502,9 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -1548,10 +1523,9 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -1570,10 +1544,9 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -1592,10 +1565,9 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -1614,10 +1586,9 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -1636,15 +1607,14 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
     "id": "mon_zasmosaurus_brute",
-    "name": { "str": "Crashing Chasm", "str_pl": "Five Horn Death Punches" },
+    "name": { "str": "Crashing Chasm" },
     "copy-from": "mon_zasmosaurus",
     "description": "A massive, four-legged dinosaur corpse with a tall bony crest from which three short horns emerge above the eyes and beak.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
@@ -1658,15 +1628,14 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
     "id": "mon_zentaceratops_brute",
-    "name": { "str": "Five Horn Death Punch", "str_pl": "Five Horn Death Punches" },
+    "name": { "str": "Pentapanic" },
     "copy-from": "mon_zentaceratops",
     "description": "A massive, shambling, rhino-like dinosaur corpse with a tall bony crest from which four long horns and a short nose horn emerge.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
@@ -1680,10 +1649,9 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -1702,10 +1670,9 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -1724,10 +1691,9 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -1746,15 +1712,36 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zona_brute",
+    "name": { "str": "Fona Fury", "str_pl": "Fona Furies" },
+    "copy-from": "mon_zona",
+    "description": "The shuffling corpse of a bipedal dinosaur covered with tattered feathers and black, putrid liquid.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "diff": 2,
+    "color": "red",
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "attack_cost": 120,
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
+    },
+    "bleed_rate": 50,
+    "upgrades": false,
+    "special_attacks": [ [ "SMASH", 30 ] ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
     "id": "mon_zescelosaurus_brute",
-    "name": { "str_sp": "Godlike Goliath" },
+    "name": { "str": "Godlike Goliath" },
     "copy-from": "mon_zescelosaurus",
     "description": "The shuffling corpse of a beaked bipedal dinosaur covered with tattered feathers and black, putrid liquid.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
@@ -1771,8 +1758,7 @@
     "bleed_rate": 50,
     "upgrades": false,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
@@ -1793,702 +1779,365 @@
     "bleed_rate": 50,
     "upgrades": false,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "type": "MONSTER",
     "id": "mon_zilophosaurus_shady",
     "name": { "str": "shady dilophosaurus zombie" },
-    "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bipedal dinosaur with sharp teeth and bulges on the head.",
-    "upgrades": { "half_life": 15, "into": "mon_zilophosaurus_nightstalker" },
-    "copy-from": "mon_zallimimus_shady",
+    "copy-from": "mon_zilophosaurus",
     "looks_like": "mon_dilophosaurus",
-    "volume": "400 L",
-    "weight": "400 kg",
-    "speed": 75,
-    "attack_cost": 75,
-    "melee_skill": 4,
-    "melee_dice": 2,
-    "melee_dice_sides": 3,
-    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie" ],
-    "weakpoint_sets": [ "wps_dinosaur_body" ],
-    "hp": 120,
-    "burn_into": "mon_zilophosaurus_scorched",
-    "fungalize_into": "mon_zilophosaurus_fungus",
-    "categories": [ "DINOSAUR" ],
-    "armor": { "bash": 4, "cut": 4, "bullet": 2 }
+    "upgrades": { "half_life": 60, "into": "mon_zilophosaurus_nightstalker" },
+    "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bipedal dinosaur with sharp teeth and bulges on the head.",
+    "color": "light_gray",
+    "vision_day": 3,
+    "vision_night": 40,
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] }
   },
   {
     "type": "MONSTER",
     "id": "mon_zeratosaurus_shady",
     "name": { "str": "shady ceratosaurus zombie" },
-    "copy-from": "mon_zilophosaurus_shady",
+    "copy-from": "mon_zeratosaurus",
+    "upgrades": { "half_life": 60, "into": "mon_zeratosaurus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of an enormous, bipedal dinosaur with horns, spikes, and big sharp teeth.",
-    "upgrades": { "half_life": 15, "into": "mon_zeratosaurus_nightstalker" },
-    "volume": "540 L",
-    "weight": "540 kg",
-    "speed": 65,
-    "attack_cost": 65,
-    "melee_dice_sides": 2,
-    "hp": 135,
-    "burn_into": "mon_zeratosaurus_scorched",
-    "fungalize_into": "mon_zeratosaurus_fungus",
-    "armor": { "bash": 2, "bullet": 2, "cut": 5 }
+    "color": "light_gray",
+    "vision_day": 3,
+    "vision_night": 40,
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] }
   },
   {
     "type": "MONSTER",
     "id": "mon_zpinosaurus_shady",
     "name": { "str": "shady spinosaurus zombie" },
-    "color": "light_gray",
+    "copy-from": "mon_zpinosaurus",
+    "upgrades": { "half_life": 60, "into": "mon_zpinosaurus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bipedal dinosaur with a tattered sail.  The head is long and narrow, with a V-shaped snout.",
-    "upgrades": { "half_life": 15, "into": "mon_zpinosaurus_nightstalker" },
+    "color": "light_gray",
     "vision_day": 3,
-    "vision_night": 30,
-    "looks_like": "mon_spinosaurus",
-    "species": [ "ZOMBIE" ],
-    "default_faction": "zombie",
-    "symbol": "Z",
-    "volume": "1000 L",
-    "weight": "1000 kg",
-    "bodytype": "elephant",
-    "material": [ "flesh" ],
-    "aggression": 100,
-    "morale": 100,
-    "speed": 40,
-    "attack_cost": 40,
-    "melee_skill": 4,
-    "melee_dice": 4,
-    "melee_dice_sides": 5,
-    "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie" ],
-    "weakpoint_sets": [ "wps_dinosaur_body" ],
-    "hp": 430,
-    "special_attacks": [ [ "scratch", 10 ], { "id": "bite_grab", "cooldown": 7 }, { "id": "teeth_zino_max", "cooldown": 5 } ],
-    "burn_into": "mon_zpinosaurus_scorched",
-    "fungalize_into": "mon_zpinosaurus_fungus",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "POISON",
-      "STUMBLES",
-      "BASHES",
-      "DESTROYS",
-      "NO_BREATHE",
-      "REVIVES",
-      "FILTHY",
-      "WARM",
-      "SWIMS",
-      "NIGHT_INVISIBILITY"
-    ],
-    "harvest": "zed_dino_leather",
-    "dissect": "dissect_dino_large_pred",
-    "categories": [ "DINOSAUR" ],
-    "armor": { "bash": 6, "cut": 8 }
+    "vision_night": 40,
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] }
   },
   {
     "type": "MONSTER",
     "id": "mon_zorvosaurus_shady",
     "name": { "str": "shady torvosaurus zombie" },
-    "color": "light_gray",
+    "copy-from": "mon_zorvosaurus",
+    "upgrades": { "half_life": 60, "into": "mon_zorvosaurus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, bipedal dinosaur with a large head and a tail.",
-    "upgrades": { "half_life": 15, "into": "mon_zorvosaurus_nightstalker" },
+    "color": "light_gray",
     "vision_day": 3,
-    "vision_night": 30,
-    "looks_like": "mon_torvosaurus",
-    "species": [ "ZOMBIE" ],
-    "default_faction": "zombie",
-    "symbol": "Z",
-    "volume": "1000 L",
-    "weight": "1000 kg",
-    "bodytype": "ostrich",
-    "material": [ "flesh" ],
-    "aggression": 100,
-    "morale": 100,
-    "speed": 40,
-    "attack_cost": 40,
-    "melee_skill": 4,
-    "melee_dice": 4,
-    "melee_dice_sides": 7,
-    "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie" ],
-    "weakpoint_sets": [ "wps_dinosaur_body" ],
-    "hp": 260,
-    "special_attacks": [ [ "scratch", 10 ], { "id": "bite_grab", "cooldown": 7 }, { "id": "teeth_zino_mid", "cooldown": 5 } ],
-    "burn_into": "mon_zorvosaurus_scorched",
-    "fungalize_into": "mon_zorvosaurus_fungus",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "POISON",
-      "STUMBLES",
-      "BASHES",
-      "DESTROYS",
-      "NO_BREATHE",
-      "REVIVES",
-      "FILTHY",
-      "WARM",
-      "NIGHT_INVISIBILITY"
-    ],
-    "harvest": "zed_dino_leather",
-    "dissect": "dissect_dino_large_pred",
-    "categories": [ "DINOSAUR" ],
-    "armor": { "bash": 4, "cut": 3, "bullet": 2 }
+    "vision_night": 40,
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] }
   },
   {
     "type": "MONSTER",
     "id": "mon_zallosaurus_shady",
     "name": { "str": "shady allosaurus zombie" },
-    "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, bipedal dinosaur with big, sharp teeth.",
-    "upgrades": { "half_life": 15, "into": "mon_zallosaurus_nightstalker" },
-    "copy-from": "mon_zyrannosaurus_shady",
+    "copy-from": "mon_zallosaurus",
     "looks_like": "mon_allosaurus",
-    "speed": 90,
-    "attack_cost": 90,
-    "melee_dice": 2,
-    "melee_dice_sides": 2,
-    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie" ],
-    "weakpoint_sets": [ "wps_dinosaur_body" ],
-    "hp": 190,
-    "special_attacks": [ [ "scratch", 10 ], { "id": "bite_grab" }, { "id": "teeth_zino_mid", "cooldown": 5 } ],
-    "burn_into": "mon_zallosaurus_scorched",
-    "fungalize_into": "mon_zallosaurus_fungus",
-    "flags": [ "SEES", "HEARS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM", "NIGHT_INVISIBILITY" ],
-    "armor": { "bash": 4, "cut": 4, "bullet": 2 }
+    "upgrades": { "half_life": 60, "into": "mon_zallosaurus_nightstalker" },
+    "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, bipedal dinosaur with big, sharp teeth.",
+    "color": "light_gray",
+    "vision_day": 3,
+    "vision_night": 40,
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] }
   },
   {
     "type": "MONSTER",
     "id": "mon_zacrocanthosaurus_shady",
     "name": { "str": "shady acrocanthosaurus zombie" },
-    "copy-from": "mon_zallosaurus_shady",
+    "copy-from": "mon_zacrocanthosaurus",
+    "upgrades": { "half_life": 60, "into": "mon_zacrocanthosaurus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, bipedal dinosaur with big, sharp teeth.",
-    "upgrades": { "half_life": 15, "into": "mon_zacrocanthosaurus_nightstalker" },
-    "speed": 60,
-    "attack_cost": 60,
-    "melee_dice": 4,
-    "melee_dice_sides": 5,
-    "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
-    "hp": 270,
-    "special_attacks": [ { "id": "bite_grab" }, { "id": "teeth_zino_mid", "cooldown": 10 }, [ "LUNGE", 20 ] ],
-    "burn_into": "mon_zacrocanthosaurus_scorched",
-    "fungalize_into": "mon_zacrocanthosaurus_fungus",
-    "armor": { "cut": 4, "bullet": 2, "bash": 11 }
+    "color": "light_gray",
+    "vision_day": 3,
+    "vision_night": 40,
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] }
   },
   {
     "type": "MONSTER",
     "id": "mon_ziganotosaurus_shady",
     "name": { "str": "shady giganotosaurus zombie" },
-    "copy-from": "mon_zallosaurus_shady",
+    "copy-from": "mon_ziganotosaurus",
+    "upgrades": { "half_life": 60, "into": "mon_ziganotosaurus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bipedal dinosaur with big, sharp teeth.",
-    "upgrades": { "half_life": 15, "into": "mon_ziganotosaurus_nightstalker" },
-    "speed": 90,
-    "attack_cost": 90,
-    "melee_dice": 4,
-    "melee_dice_sides": 5,
-    "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
-    "hp": 400,
-    "special_attacks": [ { "id": "bite_grab" }, { "id": "teeth_zino_mid", "cooldown": 10 }, [ "LUNGE", 20 ] ],
-    "burn_into": "mon_ziganotosaurus_scorched",
-    "fungalize_into": "mon_ziganotosaurus_fungus",
-    "armor": { "cut": 4, "bullet": 2, "bash": 4 }
+    "color": "light_gray",
+    "vision_day": 3,
+    "vision_night": 40,
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] }
   },
   {
     "type": "MONSTER",
     "id": "mon_ziats_shady",
     "name": { "str": "shady siats zombie" },
-    "copy-from": "mon_zallosaurus_shady",
+    "copy-from": "mon_ziats",
+    "upgrades": { "half_life": 60, "into": "mon_ziats_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, bipedal dinosaur with big, sharp teeth.",
-    "upgrades": { "half_life": 15, "into": "mon_ziats_nightstalker" },
-    "speed": 60,
-    "attack_cost": 60,
-    "hp": 365,
-    "special_attacks": [
-      { "id": "bio_op_takedown", "cooldown": 20 },
-      { "id": "ranged_pull", "cooldown": 20 },
-      { "id": "grab_drag" },
-      { "id": "drag_followup" }
-    ],
-    "burn_into": "mon_ziats_scorched",
-    "fungalize_into": "mon_ziats_fungus",
-    "categories": [ "DINOSAUR" ]
+    "color": "light_gray",
+    "vision_day": 3,
+    "vision_night": 40,
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] }
   },
   {
     "type": "MONSTER",
     "id": "mon_zryptosaurus_shady",
     "name": { "str": "shady dryptosaurus zombie" },
-    "copy-from": "mon_zappalachiosaurus_shady",
+    "copy-from": "mon_zryptosaurus",
+    "upgrades": { "half_life": 60, "into": "mon_zryptosaurus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, bipedal dinosaur with feathery edges.  The head looks big and the claws look long.",
-    "upgrades": { "half_life": 15, "into": "mon_zryptosaurus_nightstalker" },
-    "hp": 200,
-    "special_attacks": [
-      { "id": "teeth_zino_mid", "cooldown": 15 },
-      { "id": "bite_grab", "cooldown": 15 },
-      { "type": "leap", "cooldown": 20, "max_range": 5, "allow_no_target": true }
-    ],
-    "burn_into": "mon_zryptosaurus_scorched",
-    "fungalize_into": "mon_zryptosaurus_fungus",
-    "categories": [ "DINOSAUR" ]
+    "color": "light_gray",
+    "vision_day": 3,
+    "vision_night": 40,
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] }
   },
   {
     "type": "MONSTER",
     "id": "mon_zappalachiosaurus_shady",
     "name": { "str": "shady appalachiosaurus zombie" },
-    "copy-from": "mon_zorgosaurus_shady",
+    "copy-from": "mon_zappalachiosaurus",
+    "upgrades": { "half_life": 60, "into": "mon_zappalachiosaurus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bipedal dinosaur with feathery edges.  The head looks big, like it could hold many enormous sharp teeth.",
-    "upgrades": { "half_life": 15, "into": "mon_zappalachiosaurus_nightstalker" },
-    "speed": 100,
-    "melee_damage": [ { "damage_type": "cut", "amount": 14 } ],
-    "hp": 220,
-    "special_attacks": [
-      { "id": "teeth_zino_mid", "cooldown": 15 },
-      { "id": "bite_grab", "cooldown": 15 },
-      [ "scratch", 20 ],
-      [ "LUNGE", 20 ]
-    ],
-    "burn_into": "mon_zappalachiosaurus_scorched",
-    "fungalize_into": "mon_zappalachiosaurus_fungus",
-    "categories": [ "DINOSAUR" ]
+    "color": "light_gray",
+    "vision_day": 3,
+    "vision_night": 40,
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] }
   },
   {
     "type": "MONSTER",
     "id": "mon_zorgosaurus_shady",
     "name": { "str": "shady gorgosaurus zombie" },
-    "copy-from": "mon_zalbertosaurus_shady",
+    "copy-from": "mon_zorgosaurus",
+    "upgrades": { "half_life": 60, "into": "mon_zorgosaurus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bipedal dinosaur with feathery edges.  The head looks big, like it could hold many enormous sharp teeth.",
-    "upgrades": { "half_life": 15, "into": "mon_zorgosaurus_nightstalker" },
-    "speed": 50,
-    "attack_cost": 50,
-    "melee_damage": [ { "damage_type": "cut", "amount": 13 } ],
-    "hp": 250,
-    "special_attacks": [
-      { "id": "teeth_zino_mid", "cooldown": 10 },
-      { "id": "bite_grab", "cooldown": 15 },
-      [ "scratch", 20 ],
-      [ "LUNGE", 15 ]
-    ],
-    "burn_into": "mon_zorgosaurus_scorched",
-    "fungalize_into": "mon_zorgosaurus_fungus",
-    "categories": [ "DINOSAUR" ]
+    "color": "light_gray",
+    "vision_day": 3,
+    "vision_night": 40,
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] }
   },
   {
     "type": "MONSTER",
     "id": "mon_zalbertosaurus_shady",
     "name": { "str": "shady albertosaurus zombie" },
-    "copy-from": "mon_zyrannosaurus_shady",
+    "copy-from": "mon_zalbertosaurus",
+    "upgrades": { "half_life": 60, "into": "mon_zalbertosaurus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bipedal dinosaur with feathery edges.  The head looks big, and below are long, grasping claws.",
-    "upgrades": { "half_life": 15, "into": "mon_zalbertosaurus_nightstalker" },
-    "melee_dice": 3,
-    "melee_dice_sides": 4,
-    "melee_damage": [ { "damage_type": "cut", "amount": 14 } ],
-    "hp": 270,
-    "special_attacks": [
-      { "id": "teeth_zino_mid", "cooldown": 5 },
-      { "id": "bite_grab", "cooldown": 7 },
-      [ "scratch", 20 ],
-      [ "LUNGE", 5 ],
-      { "id": "longswipe", "cooldown": 25 }
-    ],
-    "burn_into": "mon_zalbertosaurus_scorched",
-    "fungalize_into": "mon_zalbertosaurus_fungus",
-    "categories": [ "DINOSAUR" ],
-    "armor": { "bash": 5, "cut": 5, "bullet": 3 }
+    "color": "light_gray",
+    "vision_day": 3,
+    "vision_night": 40,
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] }
   },
   {
     "type": "MONSTER",
     "id": "mon_zianzhousaurus_shady",
     "name": { "str": "shady qianzhousaurus zombie" },
-    "copy-from": "mon_zyrannosaurus_shady",
+    "copy-from": "mon_zianzhousaurus",
+    "upgrades": { "half_life": 60, "into": "mon_zianzhousaurus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bipedal dinosaur with feathery edges and a large head.",
-    "special_attacks": [ [ "scratch", 10 ], { "id": "bite_grab", "cooldown": 7 }, { "id": "teeth_zino_mid", "cooldown": 5 } ],
-    "upgrades": { "half_life": 15, "into": "mon_zianzhousaurus_nightstalker" },
-    "volume": "550 L",
-    "weight": "770 kg",
-    "speed": 60,
-    "attack_cost": 60,
-    "melee_dice": 3,
-    "melee_dice_sides": 4,
-    "melee_damage": [ { "damage_type": "cut", "amount": 13 } ],
-    "hp": 160,
-    "burn_into": "mon_zianzhousaurus_scorched",
-    "fungalize_into": "mon_zianzhousaurus_fungus",
-    "categories": [ "DINOSAUR" ],
-    "armor": { "bash": 5, "cut": 5, "bullet": 3 }
+    "color": "light_gray",
+    "vision_day": 3,
+    "vision_night": 40,
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] }
   },
   {
     "type": "MONSTER",
     "id": "mon_zanuqsaurus_shady",
-    "name": { "str_sp": "shady nanuqsaurus zombie" },
-    "copy-from": "mon_zyrannosaurus_shady",
-    "special_attacks": [ [ "scratch", 10 ], { "id": "bite_grab", "cooldown": 7 }, { "id": "teeth_zino_mid", "cooldown": 5 } ],
-    "upgrades": { "half_life": 15, "into": "mon_zanuqsaurus_nightstalker" },
-    "melee_dice": 4,
-    "melee_dice_sides": 5,
-    "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
-    "hp": 270,
-    "burn_into": "mon_zanuqsaurus_scorched",
-    "fungalize_into": "mon_zanuqsaurus_fungus",
-    "categories": [ "DINOSAUR" ]
+    "name": { "str": "shady nanuqsaurus zombie" },
+    "copy-from": "mon_zanuqsaurus",
+    "upgrades": { "half_life": 60, "into": "mon_zanuqsaurus_nightstalker" },
+    "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bipedal dinosaur with feathery edges and a large head.",
+    "color": "light_gray",
+    "vision_day": 3,
+    "vision_night": 40,
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] }
   },
   {
     "type": "MONSTER",
     "id": "mon_zaspletosaurus_shady",
-    "name": { "str_sp": "shady daspletosaurus zombie" },
-    "copy-from": "mon_zyrannosaurus_shady",
+    "name": { "str": "shady daspletosaurus zombie" },
+    "copy-from": "mon_zaspletosaurus",
+    "upgrades": { "half_life": 60, "into": "mon_zaspletosaurus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bipedal dinosaur with feathery edges and a large head.",
-    "upgrades": { "half_life": 15, "into": "mon_zaspletosaurus_nightstalker" },
-    "melee_dice": 4,
-    "melee_dice_sides": 5,
-    "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
-    "hp": 300,
-    "burn_into": "mon_zaspletosaurus_scorched",
-    "fungalize_into": "mon_zaspletosaurus_fungus",
-    "categories": [ "DINOSAUR" ]
+    "color": "light_gray",
+    "vision_day": 3,
+    "vision_night": 40,
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] }
   },
   {
     "type": "MONSTER",
     "id": "mon_zyrannosaurus_shady",
-    "name": { "str": "shady T-Rex zombie" },
-    "looks_like": "mon_zyrannosaurus",
-    "color": "light_gray",
+    "name": { "str": "shady tyrannosaurus zombie" },
+    "copy-from": "mon_zyrannosaurus",
+    "upgrades": { "half_life": 60, "into": "mon_zyrannosaurus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bipedal dinosaur with feathery edges.  The head looks large - lots of big teeth would fit in it.",
-    "upgrades": { "half_life": 15, "into": "mon_zyrannosaurus_nightstalker" },
+    "color": "light_gray",
     "vision_day": 3,
-    "vision_night": 30,
-    "species": [ "ZOMBIE" ],
-    "default_faction": "zombie",
-    "symbol": "Z",
-    "volume": "1000 L",
-    "weight": "1000 kg",
-    "bodytype": "ostrich",
-    "material": [ "flesh" ],
-    "aggression": 100,
-    "morale": 100,
-    "speed": 40,
-    "attack_cost": 40,
-    "melee_skill": 5,
-    "melee_dice": 5,
-    "melee_dice_sides": 8,
-    "melee_damage": [ { "damage_type": "cut", "amount": 10 } ],
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie" ],
-    "weakpoint_sets": [ "wps_lg_theropod_body" ],
-    "hp": 400,
-    "special_attacks": [ [ "scratch", 10 ], { "id": "bite_grab", "cooldown": 7 }, { "id": "teeth_zino_max", "cooldown": 5 } ],
-    "burn_into": "mon_zyrannosaurus_scorched",
-    "fungalize_into": "mon_zyrannosaurus_fungus",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "PET_MOUNTABLE",
-      "POISON",
-      "GRABS",
-      "STUMBLES",
-      "BASHES",
-      "DESTROYS",
-      "NO_BREATHE",
-      "REVIVES",
-      "FILTHY",
-      "WARM",
-      "NIGHT_INVISIBILITY"
-    ],
-    "harvest": "zed_dino_feather",
-    "dissect": "dissect_dino_large_pred",
-    "categories": [ "DINOSAUR" ],
-    "armor": { "bash": 6, "cut": 8 }
+    "vision_night": 40,
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zedcolbertia_shady",
+    "name": { "str": "shady nedcolbertia zombie" },
+    "copy-from": "mon_zedcolbertia",
+    "upgrades": { "half_life": 60, "into": "mon_zedcolbertia_nightstalker" },
+    "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bipedal dinosaur with feathery edges.",
+    "color": "light_gray",
+    "vision_day": 3,
+    "vision_night": 40,
+    "looks_like": "mon_zallimimus_shady",
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] }
   },
   {
     "type": "MONSTER",
     "id": "mon_zallimimus_shady",
     "name": { "str": "shady gallimimus zombie" },
-    "color": "light_gray",
+    "copy-from": "mon_zallimimus",
+    "upgrades": { "half_life": 60, "into": "mon_zallimimus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bipedal dinosaur with feathery edges and a beak.",
-    "upgrades": { "half_life": 15, "into": "mon_zallimimus_nightstalker" },
+    "color": "light_gray",
     "vision_day": 3,
     "vision_night": 40,
     "looks_like": "mon_gallimimus",
-    "species": [ "ZOMBIE" ],
-    "default_faction": "zombie",
-    "symbol": "Z",
-    "volume": "440 L",
-    "weight": "440 kg",
-    "bodytype": "ostrich",
-    "material": [ "flesh" ],
-    "aggression": 100,
-    "morale": 100,
-    "speed": 135,
-    "attack_cost": 135,
-    "melee_skill": 3,
-    "melee_dice": 1,
-    "melee_dice_sides": 4,
-    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie" ],
-    "weakpoint_sets": [ "wps_dinosaur_body" ],
-    "hp": 120,
-    "special_attacks": [ [ "scratch", 10 ], { "id": "bite_grab" }, { "type": "bite", "cooldown": 5 } ],
-    "burn_into": "mon_zallimimus_scorched",
-    "fungalize_into": "mon_zallimimus_fungus",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "GRABS",
-      "PET_MOUNTABLE",
-      "POISON",
-      "STUMBLES",
-      "NO_BREATHE",
-      "REVIVES",
-      "FILTHY",
-      "WARM",
-      "NIGHT_INVISIBILITY"
-    ],
-    "harvest": "zed_dino_feather",
-    "categories": [ "DINOSAUR" ],
-    "armor": { "bash": 2, "cut": 4, "bullet": 2 }
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] }
   },
   {
     "type": "MONSTER",
     "id": "mon_ztruthiomimus_shady",
-    "name": { "str_sp": "shady struthiomimus zombie" },
-    "copy-from": "mon_zallimimus_shady",
-    "upgrades": { "half_life": 15, "into": "mon_ztruthiomimus_nightstalker" },
-    "volume": "420 L",
-    "weight": "420 kg",
-    "speed": 140,
-    "attack_cost": 140,
-    "burn_into": "mon_ztruthiomimus_scorched",
-    "fungalize_into": "mon_ztruthiomimus_fungus",
-    "categories": [ "DINOSAUR" ]
+    "name": { "str": "shady struthiomimus zombie" },
+    "copy-from": "mon_ztruthiomimus",
+    "looks_like": "mon_gallimimus",
+    "upgrades": { "half_life": 60, "into": "mon_ztruthiomimus_nightstalker" },
+    "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bipedal dinosaur with feathery edges and a beak.",
+    "color": "light_gray",
+    "vision_day": 3,
+    "vision_night": 40,
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] }
   },
   {
     "type": "MONSTER",
     "id": "mon_zornithomimus_shady",
-    "name": { "str_sp": "shady ornithomimus zombie" },
-    "copy-from": "mon_zallimimus_shady",
-    "upgrades": { "half_life": 15, "into": "mon_zornithomimus_nightstalker" },
-    "volume": "170 L",
-    "weight": "170 kg",
-    "speed": 125,
-    "attack_cost": 125,
-    "burn_into": "mon_zornithomimus_scorched",
-    "fungalize_into": "mon_zornithomimus_fungus",
-    "extend": { "flags": [ "CLIMBS" ] },
-    "categories": [ "DINOSAUR" ]
+    "name": { "str": "shady ornithomimus zombie" },
+    "copy-from": "mon_zornithomimus",
+    "upgrades": { "half_life": 60, "into": "mon_zornithomimus_nightstalker" },
+    "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bipedal dinosaur with feathery edges and a beak.",
+    "color": "light_gray",
+    "vision_day": 3,
+    "vision_night": 40,
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] }
   },
   {
     "type": "MONSTER",
     "id": "mon_zalcarius_shady",
     "name": { "str": "shady falcarius zombie" },
-    "copy-from": "mon_zeinonychus_shady",
+    "copy-from": "mon_zalcarius",
+    "upgrades": { "half_life": 60, "into": "mon_zalcarius_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bipedal dinosaur with feathery edges.  Long claws protrude from its hands.",
-    "upgrades": { "half_life": 15, "into": "mon_zalcarius_nightstalker" },
-    "volume": "100 L",
-    "weight": "100 kg",
-    "speed": 100,
-    "attack_cost": 100,
-    "melee_skill": 3,
-    "melee_dice": 2,
-    "melee_dice_sides": 6,
-    "hp": 120,
-    "special_attacks": [ [ "scratch", 10 ], { "id": "bite_grab" }, { "type": "bite", "cooldown": 10 }, { "id": "longswipe", "cooldown": 40 } ],
-    "burn_into": "mon_zalcarius_scorched",
-    "fungalize_into": "mon_zalcarius_fungus",
-    "categories": [ "DINOSAUR" ]
+    "color": "light_gray",
+    "vision_day": 3,
+    "vision_night": 40,
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] }
   },
   {
     "type": "MONSTER",
     "id": "mon_zerizinosaurus_shady",
     "name": { "str": "shady therizinosaurus zombie" },
-    "copy-from": "mon_zeinonychus_shady",
+    "copy-from": "mon_zerizinosaurus",
+    "upgrades": { "half_life": 60, "into": "mon_zerizinosaurus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bipedal dinosaur with feathery edges.  Long claws protrude from its hands.",
-    "upgrades": { "half_life": 15, "into": "mon_zerizinosaurus_nightstalker" },
-    "volume": "1000 L",
-    "weight": "1000 kg",
-    "//": "When large weights and volumes are fixed this should be 4000 L and 4000 kg",
-    "speed": 120,
-    "attack_cost": 120,
-    "melee_skill": 3,
-    "melee_dice": 3,
-    "melee_dice_sides": 6,
-    "hp": 320,
-    "special_attacks": [ [ "scratch", 10 ], { "id": "bite_grab" }, { "type": "bite", "cooldown": 10 }, { "id": "longswipe", "cooldown": 20 } ],
-    "burn_into": "mon_zerizinosaurus_scorched",
-    "fungalize_into": "mon_zerizinosaurus_fungus",
-    "categories": [ "DINOSAUR" ]
+    "color": "light_gray",
+    "vision_day": 3,
+    "vision_night": 40,
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] }
   },
   {
     "type": "MONSTER",
     "id": "mon_zothronychus_shady",
     "name": { "str": "shady nothronychus zombie" },
-    "copy-from": "mon_zeinonychus_shady",
+    "copy-from": "mon_zothronychus",
+    "upgrades": { "half_life": 60, "into": "mon_zothronychus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bipedal dinosaur with feathery edges.  Long curved claws protrude from its hands.",
-    "upgrades": { "half_life": 15, "into": "mon_zothronychus_nightstalker" },
-    "volume": "800 L",
-    "weight": "800 kg",
-    "speed": 50,
-    "attack_cost": 50,
-    "melee_skill": 3,
-    "melee_dice": 4,
-    "melee_dice_sides": 4,
-    "hp": 160,
-    "special_attacks": [ [ "scratch", 10 ], { "id": "bite_grab" }, { "type": "bite", "cooldown": 5 }, { "id": "longswipe", "cooldown": 30 } ],
-    "burn_into": "mon_zothronychus_scorched",
-    "fungalize_into": "mon_zothronychus_fungus",
-    "categories": [ "DINOSAUR" ],
-    "armor": { "bash": 4, "cut": 4, "bullet": 2 }
+    "color": "light_gray",
+    "vision_day": 3,
+    "vision_night": 40,
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] }
   },
   {
     "type": "MONSTER",
     "id": "mon_zanzu_shady",
     "name": { "str": "shady anzu zombie" },
-    "copy-from": "mon_zeinonychus_shady",
+    "copy-from": "mon_zanzu",
+    "upgrades": { "half_life": 60, "into": "mon_zanzu_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large bipedal dinosaur with feathery edges.  Long claws protrude from its hands.",
-    "upgrades": { "half_life": 15, "into": "mon_zanzu_nightstalker" },
-    "volume": "250 L",
-    "weight": "250 kg",
-    "speed": 100,
-    "melee_skill": 3,
-    "melee_dice": 4,
-    "melee_dice_sides": 4,
-    "hp": 120,
-    "special_attacks": [ [ "scratch", 10 ], { "id": "bite_grab" }, { "type": "bite", "cooldown": 5 }, { "id": "longswipe", "cooldown": 30 } ],
-    "burn_into": "mon_zanzu_scorched",
-    "fungalize_into": "mon_zanzu_fungus",
-    "categories": [ "DINOSAUR" ],
-    "armor": { "bash": 4, "cut": 4, "bullet": 2 }
+    "color": "light_gray",
+    "vision_day": 3,
+    "vision_night": 40,
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] }
   },
   {
     "type": "MONSTER",
     "id": "mon_zeinonychus_shady",
-    "name": { "str_sp": "shady deinonychus zombie" },
-    "color": "light_gray",
+    "name": { "str": "shady deinonychus zombie" },
+    "copy-from": "mon_zeinonychus",
+    "upgrades": { "half_life": 60, "into": "mon_zeinonychus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bipedal dinosaur with feathery edges.  Both feet brandish a large, sickle-shaped claw.",
-    "upgrades": { "half_life": 15, "into": "mon_zeinonychus_nightstalker" },
+    "color": "light_gray",
     "vision_day": 3,
     "vision_night": 40,
-    "species": [ "ZOMBIE" ],
-    "default_faction": "zombie",
-    "symbol": "Z",
-    "volume": "70 L",
-    "weight": "70 kg",
-    "bodytype": "ostrich",
-    "material": [ "flesh" ],
-    "aggression": 100,
-    "morale": 100,
-    "speed": 65,
-    "attack_cost": 65,
-    "melee_skill": 5,
-    "melee_dice": 1,
-    "melee_dice_sides": 8,
-    "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie" ],
-    "weakpoint_sets": [ "wps_dinosaur_body" ],
-    "hp": 45,
-    "special_attacks": [
-      { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true },
-      [ "scratch", 10 ],
-      { "id": "bite_grab" },
-      { "id": "teeth_zino_mid", "cooldown": 5 }
-    ],
-    "burn_into": "mon_zeinonychus_scorched",
-    "fungalize_into": "mon_zeinonychus_fungus",
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "KEENNOSE",
-      "POISON",
-      "STUMBLES",
-      "NO_BREATHE",
-      "REVIVES",
-      "FILTHY",
-      "WARM",
-      "NIGHT_INVISIBILITY"
-    ],
-    "harvest": "zed_dino_feather",
-    "categories": [ "DINOSAUR" ],
-    "armor": { "bash": 4, "cut": 4, "bullet": 2 }
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] }
   },
   {
     "type": "MONSTER",
     "id": "mon_zutahraptor_shady",
     "name": { "str": "shady utahraptor zombie" },
-    "copy-from": "mon_zeinonychus_shady",
+    "copy-from": "mon_zutahraptor",
+    "upgrades": { "half_life": 60, "into": "mon_zutahraptor_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a big, bipedal dinosaur with feathery edges.  Both feet brandish a large, sickle-shaped claw.",
-    "upgrades": { "half_life": 15, "into": "mon_zutahraptor_nightstalker" },
-    "volume": "500 L",
-    "weight": "500 kg",
-    "speed": 65,
-    "attack_cost": 65,
-    "melee_skill": 5,
-    "melee_dice": 2,
-    "melee_dice_sides": 6,
-    "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
-    "hp": 130,
-    "burn_into": "mon_zutahraptor_scorched",
-    "fungalize_into": "mon_zutahraptor_fungus",
-    "categories": [ "DINOSAUR" ],
-    "armor": { "bash": 3, "cut": 4, "bullet": 2 }
+    "color": "light_gray",
+    "vision_day": 3,
+    "vision_night": 40,
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] }
   },
   {
     "type": "MONSTER",
     "id": "mon_zankylosaurus_shady",
     "name": { "str": "shady ankylosaurus zombie" },
-    "color": "light_gray",
+    "copy-from": "mon_zankylosaurus",
+    "upgrades": { "half_life": 60, "into": "mon_zankylosaurus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, heavily-armored, four-legged dinosaur with a spiked tail.",
-    "upgrades": { "half_life": 15, "into": "mon_zankylosaurus_nightstalker" },
+    "color": "light_gray",
     "vision_day": 3,
     "vision_night": 40,
-    "species": [ "ZOMBIE" ],
-    "default_faction": "zombie",
-    "symbol": "Z",
-    "volume": "1000 L",
-    "weight": "1000 kg",
-    "bodytype": "elephant",
-    "material": [ "flesh" ],
-    "aggression": 100,
-    "morale": 100,
-    "speed": 20,
-    "melee_skill": 3,
-    "melee_dice": 2,
-    "melee_dice_sides": 4,
-    "melee_damage": [ { "damage_type": "stab", "amount": 1 } ],
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_nat_armored" ],
-    "weakpoint_sets": [ "wps_ankylosaurid_body" ],
-    "hp": 375,
-    "special_attacks": [ [ "scratch", 10 ], { "id": "bite_grab" }, { "type": "bite", "cooldown": 5 }, [ "tailsmash_DinoMod", 30 ] ],
-    "burn_into": "mon_zankylosaurus_scorched",
-    "fungalize_into": "mon_zankylosaurus_fungus",
-    "flags": [ "SEES", "HEARS", "GRABS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "BASHES", "NIGHT_INVISIBILITY" ],
-    "harvest": "zed_dino_leather",
-    "categories": [ "DINOSAUR" ],
-    "armor": { "bash": 16, "cut": 21, "bullet": 7 }
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zona_shady",
+    "name": { "str": "shady fona zombie" },
+    "copy-from": "mon_zona",
+    "upgrades": { "half_life": 60, "into": "mon_zona_nightstalker" },
+    "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bipedal dinosaur with feathery edges and a long tail.",
+    "color": "light_gray",
+    "vision_day": 3,
+    "vision_night": 40,
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] }
   },
   {
     "type": "MONSTER",
     "id": "mon_zescelosaurus_shady",
     "name": { "str": "shady thescelosaurus zombie" },
-    "copy-from": "mon_zallimimus_shady",
-    "looks_like": "mon_zallimimus_shady",
-    "volume": "250 L",
-    "weight": "250 kg",
-    "speed": 120,
-    "attack_cost": 120,
-    "melee_skill": 4,
-    "melee_dice": 2,
-    "melee_dice_sides": 6,
-    "melee_damage": [ { "damage_type": "stab", "amount": 1 } ],
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie" ],
-    "weakpoint_sets": [ "wps_dinosaur_body" ],
-    "hp": 135,
-    "burn_into": "mon_zescelosaurus_scorched",
-    "fungalize_into": "mon_zescelosaurus_fungus",
-    "upgrades": { "half_life": 15, "into": "mon_zescelosaurus_nightstalker" },
-    "armor": { "bash": 5, "cut": 7, "bullet": 3 }
+    "copy-from": "mon_zescelosaurus",
+    "upgrades": { "half_life": 60, "into": "mon_zescelosaurus_nightstalker" },
+    "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bipedal dinosaur with feathery edges and a beak.",
+    "color": "light_gray",
+    "vision_day": 3,
+    "vision_night": 40,
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] }
   },
   {
     "type": "MONSTER",
     "id": "mon_zilophosaurus_nightstalker",
-    "name": { "str_sp": "dilophosaurus nightstalker" },
+    "name": { "str": "dilophosaurus nightstalker" },
     "copy-from": "mon_zilophosaurus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bulky bipedal dinosaur with sharp teeth and bulges on the head.",
     "diff": 2,
@@ -2503,13 +2152,12 @@
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
-    "upgrades": false,
-    "categories": [ "DINOSAUR" ]
+    "upgrades": false
   },
   {
     "type": "MONSTER",
     "id": "mon_zeratosaurus_nightstalker",
-    "name": { "str_sp": "ceratosaurus nightstalker" },
+    "name": { "str": "ceratosaurus nightstalker" },
     "copy-from": "mon_zeratosaurus_shady",
     "looks_like": "mon_zeratosaurus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of an enormous, bulky bipedal dinosaur with horns, spikes, and big sharp teeth.",
@@ -2525,8 +2173,7 @@
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
-    "upgrades": false,
-    "categories": [ "DINOSAUR" ]
+    "upgrades": false
   },
   {
     "type": "MONSTER",
@@ -2547,8 +2194,7 @@
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
-    "upgrades": false,
-    "categories": [ "DINOSAUR" ]
+    "upgrades": false
   },
   {
     "type": "MONSTER",
@@ -2569,13 +2215,12 @@
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
-    "upgrades": false,
-    "categories": [ "DINOSAUR" ]
+    "upgrades": false
   },
   {
     "type": "MONSTER",
     "id": "mon_zallosaurus_nightstalker",
-    "name": { "str_sp": "allosaurus nightstalker" },
+    "name": { "str": "allosaurus nightstalker" },
     "copy-from": "mon_zallosaurus_shady",
     "looks_like": "mon_zallosaurus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, bulky bipedal dinosaur with big, sharp teeth.",
@@ -2591,13 +2236,12 @@
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
-    "upgrades": false,
-    "categories": [ "DINOSAUR" ]
+    "upgrades": false
   },
   {
     "type": "MONSTER",
     "id": "mon_zacrocanthosaurus_nightstalker",
-    "name": { "str_sp": "acrocanthosaurus nightstalker" },
+    "name": { "str": "acrocanthosaurus nightstalker" },
     "copy-from": "mon_zacrocanthosaurus_shady",
     "looks_like": "mon_zacrocanthosaurus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, bipedal dinosaur with big, sharp teeth.",
@@ -2613,13 +2257,12 @@
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
-    "upgrades": false,
-    "categories": [ "DINOSAUR" ]
+    "upgrades": false
   },
   {
     "type": "MONSTER",
     "id": "mon_ziganotosaurus_nightstalker",
-    "name": { "str_sp": "giganotosaurus nightstalker" },
+    "name": { "str": "giganotosaurus nightstalker" },
     "copy-from": "mon_ziganotosaurus_shady",
     "looks_like": "mon_ziganotosaurus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bipedal dinosaur with big, sharp teeth.",
@@ -2635,13 +2278,12 @@
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
-    "upgrades": false,
-    "categories": [ "DINOSAUR" ]
+    "upgrades": false
   },
   {
     "type": "MONSTER",
     "id": "mon_ziats_nightstalker",
-    "name": { "str_sp": "siats nightstalker" },
+    "name": { "str": "siats nightstalker" },
     "copy-from": "mon_ziats_shady",
     "looks_like": "mon_ziats_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, bulky bipedal dinosaur with big, sharp teeth.",
@@ -2657,13 +2299,12 @@
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
-    "upgrades": false,
-    "categories": [ "DINOSAUR" ]
+    "upgrades": false
   },
   {
     "type": "MONSTER",
     "id": "mon_zryptosaurus_nightstalker",
-    "name": { "str_sp": "dryptosaurus nightstalker" },
+    "name": { "str": "dryptosaurus nightstalker" },
     "copy-from": "mon_zryptosaurus_shady",
     "looks_like": "mon_zryptosaurus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, bulky bipedal dinosaur with feathery edges.  The head looks big and the claws look long.",
@@ -2679,13 +2320,12 @@
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
-    "upgrades": false,
-    "categories": [ "DINOSAUR" ]
+    "upgrades": false
   },
   {
     "type": "MONSTER",
     "id": "mon_zappalachiosaurus_nightstalker",
-    "name": { "str_sp": "appalachiosaurus nightstalker" },
+    "name": { "str": "appalachiosaurus nightstalker" },
     "copy-from": "mon_zappalachiosaurus_shady",
     "looks_like": "mon_zappalachiosaurus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bulky bipedal dinosaur with feathery edges.  The head looks big, like it could hold many enormous sharp teeth.",
@@ -2701,13 +2341,12 @@
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
-    "upgrades": false,
-    "categories": [ "DINOSAUR" ]
+    "upgrades": false
   },
   {
     "type": "MONSTER",
     "id": "mon_zorgosaurus_nightstalker",
-    "name": { "str_sp": "gorgosaurus nightstalker" },
+    "name": { "str": "gorgosaurus nightstalker" },
     "copy-from": "mon_zorgosaurus_shady",
     "looks_like": "mon_zorgosaurus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bulky bipedal dinosaur with feathery edges.  The head looks big, like it could hold many enormous sharp teeth.",
@@ -2723,13 +2362,12 @@
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
-    "upgrades": false,
-    "categories": [ "DINOSAUR" ]
+    "upgrades": false
   },
   {
     "type": "MONSTER",
     "id": "mon_zalbertosaurus_nightstalker",
-    "name": { "str_sp": "albertosaurus nightstalker" },
+    "name": { "str": "albertosaurus nightstalker" },
     "copy-from": "mon_zalbertosaurus_shady",
     "looks_like": "mon_zalbertosaurus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bulky bipedal dinosaur with feathery edges.  The head looks big, and below are long, grasping claws.",
@@ -2745,13 +2383,12 @@
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
-    "upgrades": false,
-    "categories": [ "DINOSAUR" ]
+    "upgrades": false
   },
   {
     "type": "MONSTER",
     "id": "mon_zianzhousaurus_nightstalker",
-    "name": { "str_sp": "qianzhousaurus nightstalker" },
+    "name": { "str": "qianzhousaurus nightstalker" },
     "copy-from": "mon_zianzhousaurus_shady",
     "looks_like": "mon_zianzhousaurus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bulky bipedal dinosaur with feathery edges and a large head.",
@@ -2767,13 +2404,12 @@
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
-    "upgrades": false,
-    "categories": [ "DINOSAUR" ]
+    "upgrades": false
   },
   {
     "type": "MONSTER",
     "id": "mon_zanuqsaurus_nightstalker",
-    "name": { "str_sp": "nanuqsaurus nightstalker" },
+    "name": { "str": "nanuqsaurus nightstalker" },
     "copy-from": "mon_zanuqsaurus_shady",
     "looks_like": "mon_zanuqsaurus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bulky bipedal dinosaur with feathery edges and a large head.",
@@ -2789,13 +2425,12 @@
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
-    "upgrades": false,
-    "categories": [ "DINOSAUR" ]
+    "upgrades": false
   },
   {
     "type": "MONSTER",
     "id": "mon_zaspletosaurus_nightstalker",
-    "name": { "str_sp": "daspletosaurus nightstalker" },
+    "name": { "str": "daspletosaurus nightstalker" },
     "copy-from": "mon_zaspletosaurus_shady",
     "looks_like": "mon_zaspletosaurus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bulky bipedal dinosaur with feathery edges and a large head.",
@@ -2811,13 +2446,12 @@
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
-    "upgrades": false,
-    "categories": [ "DINOSAUR" ]
+    "upgrades": false
   },
   {
     "type": "MONSTER",
     "id": "mon_zyrannosaurus_nightstalker",
-    "name": { "str_sp": "tyrannosaurus nightstalker" },
+    "name": { "str": "tyrannosaurus nightstalker" },
     "copy-from": "mon_zyrannosaurus_shady",
     "looks_like": "mon_zyrannosaurus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bulky bipedal dinosaur with feathery edges.  The head looks large - lots of big teeth would fit in it.",
@@ -2833,13 +2467,31 @@
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
-    "upgrades": false,
-    "categories": [ "DINOSAUR" ]
+    "upgrades": false
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zedcolbertia_nightstalker",
+    "name": { "str": "nedcolbertia nightstalker" },
+    "copy-from": "mon_zedcolbertia_shady",
+    "diff": 2,
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
+    },
+    "bleed_rate": 50,
+    "special_attacks": [ [ "SMASH", 30 ] ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
+    "upgrades": false
   },
   {
     "type": "MONSTER",
     "id": "mon_zallimimus_nightstalker",
-    "name": { "str_sp": "gallimimus nightstalker" },
+    "name": { "str": "gallimimus nightstalker" },
     "copy-from": "mon_zallimimus_shady",
     "diff": 2,
     "proportional": { "hp": 1.5, "speed": 1.5 },
@@ -2853,13 +2505,12 @@
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
-    "upgrades": false,
-    "categories": [ "DINOSAUR" ]
+    "upgrades": false
   },
   {
     "type": "MONSTER",
     "id": "mon_ztruthiomimus_nightstalker",
-    "name": { "str_sp": "struthiomimus nightstalker" },
+    "name": { "str": "struthiomimus nightstalker" },
     "copy-from": "mon_ztruthiomimus_shady",
     "looks_like": "mon_ztruthiomimus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bulky bipedal dinosaur with feathery edges and a beak.",
@@ -2875,13 +2526,12 @@
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
-    "upgrades": false,
-    "categories": [ "DINOSAUR" ]
+    "upgrades": false
   },
   {
     "type": "MONSTER",
     "id": "mon_zornithomimus_nightstalker",
-    "name": { "str_sp": "ornithomimus nightstalker" },
+    "name": { "str": "ornithomimus nightstalker" },
     "copy-from": "mon_zornithomimus_shady",
     "looks_like": "mon_zornithomimus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bulky bipedal dinosaur with feathery edges and a beak.",
@@ -2897,13 +2547,12 @@
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
-    "upgrades": false,
-    "categories": [ "DINOSAUR" ]
+    "upgrades": false
   },
   {
     "type": "MONSTER",
     "id": "mon_zalcarius_nightstalker",
-    "name": { "str_sp": "falcarius nightstalker" },
+    "name": { "str": "falcarius nightstalker" },
     "copy-from": "mon_zalcarius_shady",
     "looks_like": "mon_zalcarius_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bulky bipedal dinosaur with feathery edges.  Long claws protrude from its hands.",
@@ -2919,13 +2568,12 @@
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
-    "upgrades": false,
-    "categories": [ "DINOSAUR" ]
+    "upgrades": false
   },
   {
     "type": "MONSTER",
     "id": "mon_zerizinosaurus_nightstalker",
-    "name": { "str_sp": "therizinosaurus nightstalker" },
+    "name": { "str": "therizinosaurus nightstalker" },
     "copy-from": "mon_zerizinosaurus_shady",
     "looks_like": "mon_zerizinosaurus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bulky bipedal dinosaur with feathery edges.  Long claws protrude from its hands.",
@@ -2941,13 +2589,12 @@
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
-    "upgrades": false,
-    "categories": [ "DINOSAUR" ]
+    "upgrades": false
   },
   {
     "type": "MONSTER",
     "id": "mon_zothronychus_nightstalker",
-    "name": { "str_sp": "nothronychus nightstalker" },
+    "name": { "str": "nothronychus nightstalker" },
     "copy-from": "mon_zothronychus_shady",
     "looks_like": "mon_zothronychus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bulky bipedal dinosaur with feathery edges.  Long curved claws protrude from its hands.",
@@ -2963,13 +2610,12 @@
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
-    "upgrades": false,
-    "categories": [ "DINOSAUR" ]
+    "upgrades": false
   },
   {
     "type": "MONSTER",
     "id": "mon_zanzu_nightstalker",
-    "name": { "str_sp": "anzu nightstalker" },
+    "name": { "str": "anzu nightstalker" },
     "copy-from": "mon_zanzu_shady",
     "looks_like": "mon_zanzu_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, bulky bipedal dinosaur with feathery edges.  Long claws protrude from its hands.",
@@ -2985,13 +2631,12 @@
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
-    "upgrades": false,
-    "categories": [ "DINOSAUR" ]
+    "upgrades": false
   },
   {
     "type": "MONSTER",
     "id": "mon_zeinonychus_nightstalker",
-    "name": { "str_sp": "deinonychus nightstalker" },
+    "name": { "str": "deinonychus nightstalker" },
     "copy-from": "mon_zeinonychus_shady",
     "looks_like": "mon_zeinonychus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bulky bipedal dinosaur with feathery edges.  Both feet brandish a large, sickle-shaped claw.",
@@ -3007,13 +2652,12 @@
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "upgrades": false,
-    "categories": [ "DINOSAUR" ]
+    "upgrades": false
   },
   {
     "type": "MONSTER",
     "id": "mon_zutahraptor_nightstalker",
-    "name": { "str_sp": "utahraptor nightstalker" },
+    "name": { "str": "utahraptor nightstalker" },
     "copy-from": "mon_zutahraptor_shady",
     "looks_like": "mon_zutahraptor_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a big, bulky bipedal dinosaur with feathery edges.  Both feet brandish a large, sickle-shaped claw.",
@@ -3029,13 +2673,12 @@
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "upgrades": false,
-    "categories": [ "DINOSAUR" ]
+    "upgrades": false
   },
   {
     "type": "MONSTER",
     "id": "mon_zankylosaurus_nightstalker",
-    "name": { "str_sp": "ankylosaurus nightstalker" },
+    "name": { "str": "ankylosaurus nightstalker" },
     "copy-from": "mon_zankylosaurus_shady",
     "looks_like": "mon_zankylosaurus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, heavily-armored, four-legged dinosaur with a spiked tail.",
@@ -3051,13 +2694,34 @@
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
-    "upgrades": false,
-    "categories": [ "DINOSAUR" ]
+    "upgrades": false
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zona_nightstalker",
+    "name": { "str": "fona nightstalker" },
+    "copy-from": "mon_zona_shady",
+    "looks_like": "mon_zona_shady",
+    "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bulky bipedal dinosaur with feathery edges and a long tail.",
+    "diff": 2,
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "attack_cost": 120,
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
+    },
+    "bleed_rate": 50,
+    "special_attacks": [ [ "SMASH", 30 ] ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
+    "upgrades": false
   },
   {
     "type": "MONSTER",
     "id": "mon_zescelosaurus_nightstalker",
-    "name": { "str_sp": "thescelosaurus nightstalker" },
+    "name": { "str": "thescelosaurus nightstalker" },
     "copy-from": "mon_zescelosaurus_shady",
     "looks_like": "mon_zescelosaurus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bulky bipedal dinosaur with feathery edges and a beak.",
@@ -3073,8 +2737,7 @@
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
-    "upgrades": false,
-    "categories": [ "DINOSAUR" ]
+    "upgrades": false
   },
   {
     "type": "MONSTER",
@@ -3103,7 +2766,7 @@
     "vision_day": 30,
     "vision_night": 3,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": { "half_life": 15, "into": "mon_silophosaurus_brute" },
+    "upgrades": { "half_life": 60, "into": "mon_silophosaurus_brute" },
     "special_attacks": [ [ "scratch", 10 ], { "id": "teeth_zino_mid", "cooldown": 10 } ],
     "flags": [ "SEES", "HEARS", "PET_MOUNTABLE", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
     "harvest": "mr_bones",
@@ -3132,7 +2795,8 @@
     "looks_like": "mon_zpinosaurus",
     "description": "Monstrous columns of dense bone lifting enormous, sharp, pointed teeth dripping with black goo.  There is a ridge of long spikes on the back.",
     "volume": "1000 L",
-    "weight": "1000 kg",
+    "weight": "15000 kg",
+    "//": "When large volumes are fixed this should be 15000 L",
     "bodytype": "elephant",
     "speed": 35,
     "attack_cost": 35,
@@ -3140,7 +2804,7 @@
     "melee_dice": 5,
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
-    "upgrades": { "half_life": 15, "into": "mon_skinosaurus_brute" },
+    "upgrades": { "half_life": 60, "into": "mon_skinosaurus_brute" },
     "extend": { "flags": [ "DESTROYS" ] }
   },
   {
@@ -3153,7 +2817,7 @@
     "hp": 105,
     "melee_dice_sides": 10,
     "melee_damage": [ { "damage_type": "cut", "amount": 16 } ],
-    "upgrades": { "half_life": 15, "into": "mon_sorvosaurus_brute" },
+    "upgrades": { "half_life": 60, "into": "mon_sorvosaurus_brute" },
     "flags": [ "SEES", "HEARS", "POISON", "BASHES", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
   {
@@ -3169,7 +2833,7 @@
     "melee_dice": 3,
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
-    "upgrades": { "half_life": 15, "into": "mon_sallosaurus_brute" }
+    "upgrades": { "half_life": 60, "into": "mon_sallosaurus_brute" }
   },
   {
     "type": "MONSTER",
@@ -3182,7 +2846,7 @@
     "hp": 105,
     "melee_dice": 5,
     "melee_dice_sides": 8,
-    "upgrades": { "half_life": 15, "into": "mon_sallosaurus_brute" }
+    "upgrades": { "half_life": 60, "into": "mon_sallosaurus_brute" }
   },
   {
     "type": "MONSTER",
@@ -3195,7 +2859,7 @@
     "hp": 350,
     "melee_dice": 5,
     "melee_dice_sides": 8,
-    "upgrades": { "half_life": 15, "into": "mon_sallosaurus_brute" }
+    "upgrades": { "half_life": 60, "into": "mon_sallosaurus_brute" }
   },
   {
     "type": "MONSTER",
@@ -3213,7 +2877,7 @@
       { "id": "grab_drag" },
       { "id": "drag_followup" }
     ],
-    "upgrades": { "half_life": 15, "into": "mon_sallosaurus_brute" }
+    "upgrades": { "half_life": 60, "into": "mon_sallosaurus_brute" }
   },
   {
     "type": "MONSTER",
@@ -3231,7 +2895,7 @@
       { "id": "bite_grab", "cooldown": 15 },
       { "type": "leap", "cooldown": 20, "max_range": 5, "allow_no_target": true }
     ],
-    "upgrades": { "half_life": 15, "into": "mon_syrannosaurus_brute" }
+    "upgrades": { "half_life": 60, "into": "mon_syrannosaurus_brute" }
   },
   {
     "type": "MONSTER",
@@ -3329,6 +2993,23 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_sedcolbertia",
+    "name": { "str_sp": "skeletal nedcolbertia" },
+    "copy-from": "mon_silophosaurus",
+    "description": "Monstrous columns of dense bone covering feathers and claws, cracks dripping black goo.",
+    "volume": "50 L",
+    "weight": "50 kg",
+    "speed": 120,
+    "attack_cost": 118,
+    "hp": 50,
+    "melee_skill": 3,
+    "melee_dice": 2,
+    "melee_dice_sides": 7,
+    "melee_damage": [ { "damage_type": "bash", "amount": 6 } ],
+    "upgrades": { "half_life": 60, "into": "mon_sallimimus_brute" }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_sallimimus",
     "name": { "str_sp": "skeletal gallimimus" },
     "copy-from": "mon_silophosaurus",
@@ -3342,7 +3023,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 7,
     "melee_damage": [ { "damage_type": "bash", "amount": 6 } ],
-    "upgrades": { "half_life": 15, "into": "mon_sallimimus_brute" }
+    "upgrades": { "half_life": 60, "into": "mon_sallimimus_brute" }
   },
   {
     "type": "MONSTER",
@@ -3380,7 +3061,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
-    "upgrades": { "half_life": 15, "into": "mon_salcarius_brute" }
+    "upgrades": { "half_life": 60, "into": "mon_salcarius_brute" }
   },
   {
     "type": "MONSTER",
@@ -3389,14 +3070,14 @@
     "copy-from": "mon_sallimimus",
     "description": "Monstrous columns of dense bone lifting a twisted bony beak dripping with black goo.  Long, sharp claws extend from its hands",
     "volume": "1000 L",
-    "weight": "1000 kg",
-    "//": "When large weights and volumes are fixed this should be 4000 L and 4000 kg",
+    "weight": "4000 kg",
+    "//": "When large volumes are fixed this should be 4000 L",
     "speed": 100,
     "melee_skill": 3,
     "melee_dice": 3,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
-    "upgrades": { "half_life": 15, "into": "mon_serizinosaurus_brute" }
+    "upgrades": { "half_life": 60, "into": "mon_serizinosaurus_brute" }
   },
   {
     "type": "MONSTER",
@@ -3411,7 +3092,7 @@
     "melee_dice": 5,
     "melee_dice_sides": 7,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
-    "upgrades": { "half_life": 15, "into": "mon_sothronychus_brute" }
+    "upgrades": { "half_life": 60, "into": "mon_sothronychus_brute" }
   },
   {
     "type": "MONSTER",
@@ -3422,7 +3103,7 @@
     "weight": "250 kg",
     "speed": 85,
     "attack_cost": 85,
-    "upgrades": { "half_life": 15, "into": "mon_sanzu_brute" }
+    "upgrades": { "half_life": 60, "into": "mon_sanzu_brute" }
   },
   {
     "type": "MONSTER",
@@ -3439,7 +3120,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 11,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
-    "upgrades": { "half_life": 15, "into": "mon_sutahraptor_brute" },
+    "upgrades": { "half_life": 60, "into": "mon_sutahraptor_brute" },
     "special_attacks": [
       { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true },
       [ "scratch", 10 ],
@@ -3461,7 +3142,7 @@
     "melee_dice": 3,
     "melee_dice_sides": 9,
     "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
-    "upgrades": { "half_life": 15, "into": "mon_sutahraptor_brute" }
+    "upgrades": { "half_life": 60, "into": "mon_sutahraptor_brute" }
   },
   {
     "type": "MONSTER",
@@ -3483,7 +3164,6 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 8, "bullet": 6, "bash": 0 }
   },
   {
@@ -3506,7 +3186,6 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 8, "bullet": 6, "bash": 0 }
   },
   {
@@ -3529,8 +3208,29 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 8, "bullet": 6, "bash": 0 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_soabosaurus",
+    "name": { "str_sp": "armored moabosaurus" },
+    "copy-from": "mon_zoabosaurus",
+    "color": "white",
+    "material": [ "bone" ],
+    "description": "This zombified sauropod has grown dense bone armor, completely covering the huge, four-legged body and long neck and tail.",
+    "proportional": { "hp": 0.4, "speed": 0.875 },
+    "relative": {
+      "melee_dice": 9,
+      "melee_dice_sides": 5,
+      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
+    },
+    "bleed_rate": 50,
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
+    "upgrades": false,
+    "harvest": "mr_bones",
+    "armor": { "cut": 4, "bullet": 2, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -3552,7 +3252,6 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 4, "bullet": 2, "bash": 0 }
   },
   {
@@ -3575,7 +3274,6 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 8, "bullet": 6, "bash": 0 }
   },
   {
@@ -3598,7 +3296,6 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 4, "bullet": 2, "bash": 0 }
   },
   {
@@ -3629,7 +3326,6 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 4, "bullet": 2, "bash": 0 }
   },
   {
@@ -3652,7 +3348,6 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 4, "bullet": 2, "bash": 0 }
   },
   {
@@ -3699,7 +3394,6 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 19, "bullet": 3, "bash": 0 }
   },
   {
@@ -3729,7 +3423,6 @@
     ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 13, "bullet": 2, "bash": 0 }
   },
   {
@@ -3759,7 +3452,6 @@
     ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 15, "bullet": 2, "bash": 0 }
   },
   {
@@ -3789,7 +3481,6 @@
     ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 23, "bullet": 11, "bash": 0 }
   },
   {
@@ -3819,7 +3510,6 @@
     ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 13, "bullet": 6, "bash": 0 }
   },
   {
@@ -3849,7 +3539,6 @@
     ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 23, "bullet": 11, "bash": 0 }
   },
   {
@@ -3879,7 +3568,6 @@
     ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 23, "bullet": 11, "bash": 0 }
   },
   {
@@ -3909,7 +3597,6 @@
     ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 23, "bullet": 11, "bash": 0 }
   },
   {
@@ -3939,7 +3626,6 @@
     ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 23, "bullet": 11, "bash": 0 }
   },
   {
@@ -3969,7 +3655,6 @@
     ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 21, "bullet": 7, "bash": 0 }
   },
   {
@@ -3999,7 +3684,6 @@
     ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 21, "bullet": 7, "bash": 0 }
   },
   {
@@ -4030,7 +3714,6 @@
     ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 23, "bullet": 11, "bash": 0 }
   },
   {
@@ -4060,7 +3743,6 @@
     ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 21, "bullet": 7, "bash": 0 }
   },
   {
@@ -4090,7 +3772,6 @@
     ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 21, "bullet": 7, "bash": 0 }
   },
   {
@@ -4113,7 +3794,6 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 4, "bullet": 2, "bash": 0 }
   },
   {
@@ -4136,7 +3816,6 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 4, "bullet": 2, "bash": 0 }
   },
   {
@@ -4159,7 +3838,6 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 4, "bullet": 2, "bash": 0 }
   },
   {
@@ -4182,7 +3860,6 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 7, "bullet": 4, "bash": 0 }
   },
   {
@@ -4205,7 +3882,6 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 7, "bullet": 4, "bash": 0 }
   },
   {
@@ -4228,7 +3904,6 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 7, "bullet": 4, "bash": 0 }
   },
   {
@@ -4251,7 +3926,6 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 7, "bullet": 4, "bash": 0 }
   },
   {
@@ -4274,7 +3948,6 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 6, "bullet": 4, "bash": 0 }
   },
   {
@@ -4297,7 +3970,6 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 6, "bullet": 4, "bash": 0 }
   },
   {
@@ -4320,7 +3992,6 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 6, "bullet": 4, "bash": 0 }
   },
   {
@@ -4343,7 +4014,6 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 6, "bullet": 4, "bash": 0 }
   },
   {
@@ -4366,7 +4036,6 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 7, "bullet": 4, "bash": 0 }
   },
   {
@@ -4389,7 +4058,6 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 6, "bullet": 4, "bash": 0 }
   },
   {
@@ -4412,7 +4080,6 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 6, "bullet": 4, "bash": 0 }
   },
   {
@@ -4435,7 +4102,6 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 6, "bullet": 4, "bash": 0 }
   },
   {
@@ -4458,7 +4124,6 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 4, "bash": 0 }
   },
   {
@@ -4481,7 +4146,6 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 7, "bullet": 3, "bash": 0 }
   },
   {
@@ -4504,7 +4168,6 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 7, "bullet": 3, "bash": 0 }
   },
   {
@@ -4527,7 +4190,6 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 7, "bullet": 3, "bash": 0 }
   },
   {
@@ -4550,7 +4212,6 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 7, "bullet": 3, "bash": 0 }
   },
   {
@@ -4573,7 +4234,6 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 7, "bullet": 3, "bash": 0 }
   },
   {
@@ -4596,7 +4256,6 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 7, "bullet": 3, "bash": 0 }
   },
   {
@@ -4619,7 +4278,6 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 7, "bullet": 3, "bash": 0 }
   },
   {
@@ -4642,7 +4300,6 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 7, "bullet": 3, "bash": 0 }
   },
   {
@@ -4665,7 +4322,6 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 9, "bullet": 3, "bash": 0 }
   },
   {
@@ -4688,7 +4344,6 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 9, "bullet": 3, "bash": 0 }
   },
   {
@@ -4711,7 +4366,6 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 7, "bullet": 4, "bash": 0 }
   },
   {
@@ -4734,7 +4388,6 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 9, "bullet": 3, "bash": 0 }
   },
   {
@@ -4757,8 +4410,21 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": false,
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ],
     "armor": { "cut": 7, "bullet": 3, "bash": 0 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_sona",
+    "name": { "str_sp": "skeletal fona" },
+    "copy-from": "mon_sescelosaurus",
+    "description": "Monstrous columns of dense bone covering feathers and clawed arms, cracks dripping black goo.",
+    "volume": "50 L",
+    "weight": "50 kg",
+    "speed": 75,
+    "attack_cost": 75,
+    "hp": 60,
+    "melee_dice": 1,
+    "upgrades": { "half_life": 60, "into": "mon_sona_brute" }
   },
   {
     "type": "MONSTER",
@@ -4775,7 +4441,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 7,
     "melee_damage": [ { "damage_type": "bash", "amount": 6 } ],
-    "upgrades": { "half_life": 15, "into": "mon_sescelosaurus_brute" }
+    "upgrades": { "half_life": 60, "into": "mon_sescelosaurus_brute" }
   },
   {
     "type": "MONSTER",
@@ -5004,14 +4670,18 @@
   {
     "type": "MONSTER",
     "id": "mon_zallosaurus_hulk",
-    "name": { "str_sp": "allosaurus hulk" },
+    "name": { "str": "allosaurus hulk" },
     "copy-from": "mon_zallosaurus_brute",
     "looks_like": "mon_zallosaurus",
     "description": "A hideously swollen zombified allosaurid theropod body towering into the sky.  Its massive body bulges with distended muscles and swollen, festering wounds.",
     "diff": 5,
     "color": "white_magenta",
     "proportional": { "hp": 4, "speed": 1.25 },
-    "relative": { "melee_dice": 1, "melee_damage": -4, "armor": { "bash": 4, "cut": 6, "bullet": 5 } },
+    "relative": {
+      "melee_dice": 1,
+      "melee_damage": { "damage_type": "cut", "amount": -4 },
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
+    },
     "bleed_rate": 0,
     "special_attacks": [ [ "SMASH", 20 ] ],
     "upgrades": false
@@ -5026,7 +4696,11 @@
     "diff": 5,
     "color": "white_magenta",
     "proportional": { "hp": 4, "speed": 1.25 },
-    "relative": { "melee_dice": 1, "melee_damage": -4, "armor": { "bash": 4, "cut": 6, "bullet": 5 } },
+    "relative": {
+      "melee_dice": 1,
+      "melee_damage": { "damage_type": "cut", "amount": -4 },
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
+    },
     "bleed_rate": 0,
     "special_attacks": [ [ "SMASH", 20 ] ],
     "upgrades": false
@@ -5034,14 +4708,18 @@
   {
     "type": "MONSTER",
     "id": "mon_zapatosaurus_hulk",
-    "name": { "str_sp": "sauropod hulk" },
+    "name": { "str": "sauropod hulk" },
     "copy-from": "mon_zapatosaurus_brute",
     "looks_like": "mon_zapatosaurus",
     "description": "A hideously swollen zombified sauropod body towering into the sky even more than usual.  Its massive body bulges with distended muscles and swollen, festering wounds.",
     "diff": 5,
     "color": "white_magenta",
     "proportional": { "hp": 4, "speed": 1.25 },
-    "relative": { "melee_dice": 1, "melee_damage": -4, "armor": { "bash": 4, "cut": 6, "bullet": 5 } },
+    "relative": {
+      "melee_dice": 1,
+      "melee_damage": { "damage_type": "bash", "amount": -4 },
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
+    },
     "bleed_rate": 0,
     "special_attacks": [ [ "SMASH", 20 ] ],
     "upgrades": false
@@ -5049,14 +4727,18 @@
   {
     "type": "MONSTER",
     "id": "mon_zankylosaurus_hulk",
-    "name": { "str_sp": "ankylosaurid hulk" },
+    "name": { "str": "ankylosaurid hulk" },
     "copy-from": "mon_zankylosaurus_brute",
     "looks_like": "mon_ankylosaurus",
     "description": "A hideously swollen zombified ankylosaurid body towering into the sky.  Its massive body bulges with distended muscles and enormous bony armor.",
     "diff": 5,
     "color": "white_magenta",
     "proportional": { "hp": 4, "speed": 1.25 },
-    "relative": { "melee_dice": 1, "melee_damage": -4, "armor": { "bash": 4, "cut": 6, "bullet": 5 } },
+    "relative": {
+      "melee_dice": 1,
+      "melee_damage": { "damage_type": "stab", "amount": -4 },
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
+    },
     "bleed_rate": 0,
     "special_attacks": [ [ "SMASH", 20 ] ],
     "upgrades": false
@@ -5064,14 +4746,18 @@
   {
     "type": "MONSTER",
     "id": "mon_zriceratops_hulk",
-    "name": { "str_sp": "ceratopsian hulk" },
+    "name": { "str": "ceratopsian hulk" },
     "copy-from": "mon_zriceratops_brute",
     "looks_like": "mon_zriceratops",
     "description": "A hideously swollen zombified ceratopsian body towering into the sky.  Its massive body bulges with distended muscles and swollen, festering wound.",
     "diff": 5,
     "color": "white_magenta",
     "proportional": { "hp": 4, "speed": 1.25 },
-    "relative": { "melee_dice": 1, "melee_damage": -4, "armor": { "bash": 4, "cut": 6, "bullet": 5 } },
+    "relative": {
+      "melee_dice": 1,
+      "melee_damage": { "damage_type": "stab", "amount": -4 },
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
+    },
     "bleed_rate": 0,
     "special_attacks": [ [ "SMASH", 20 ] ],
     "upgrades": false
@@ -5092,7 +4778,7 @@
       "armor": { "bash": 12, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
-    "upgrades": { "half_life": 12, "into": "mon_silophosaurus_hulk" },
+    "upgrades": { "half_life": 48, "into": "mon_silophosaurus_hulk" },
     "special_attacks": [
       { "id": "smash", "throw_strength": 56, "cooldown": 45 },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
@@ -5101,7 +4787,7 @@
   {
     "type": "MONSTER",
     "id": "mon_silophosaurus_hulk",
-    "name": { "str_sp": "skeletal theropod juggernaut" },
+    "name": { "str": "skeletal theropod juggernaut" },
     "copy-from": "mon_silophosaurus_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisted pointed teeth suggest some kind of predator dinosaur.",
     "diff": 5,
@@ -5120,7 +4806,8 @@
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ],
     "volume": "1000 L",
-    "weight": "1000 kg"
+    "weight": "4000 kg",
+    "//": "When large volumes are fixed this should be 3500 L"
   },
   {
     "type": "MONSTER",
@@ -5138,7 +4825,7 @@
       "armor": { "bash": 12, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
-    "upgrades": { "half_life": 12, "into": "mon_skinosaurus_hulk" },
+    "upgrades": { "half_life": 48, "into": "mon_skinosaurus_hulk" },
     "special_attacks": [
       { "id": "smash", "throw_strength": 56, "cooldown": 45 },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
@@ -5147,7 +4834,7 @@
   {
     "type": "MONSTER",
     "id": "mon_skinosaurus_hulk",
-    "name": { "str_sp": "skeletal spinosaurus juggernaut" },
+    "name": { "str": "skeletal spinosaurus juggernaut" },
     "copy-from": "mon_skinosaurus_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The twisted back sail means it must have been a spinosaurus once.",
     "diff": 5,
@@ -5182,7 +4869,7 @@
       "armor": { "bash": 12, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
-    "upgrades": { "half_life": 12, "into": "mon_sorvosaurus_hulk" },
+    "upgrades": { "half_life": 48, "into": "mon_sorvosaurus_hulk" },
     "special_attacks": [
       { "id": "smash", "throw_strength": 56, "cooldown": 45 },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
@@ -5191,7 +4878,7 @@
   {
     "type": "MONSTER",
     "id": "mon_sorvosaurus_hulk",
-    "name": { "str_sp": "skeletal theropod juggernaut" },
+    "name": { "str": "skeletal theropod juggernaut" },
     "copy-from": "mon_sorvosaurus_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisted pointed teeth suggest some kind of predator dinosaur.",
     "diff": 5,
@@ -5226,7 +4913,7 @@
       "armor": { "bash": 12, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
-    "upgrades": { "half_life": 12, "into": "mon_sallosaurus_hulk" },
+    "upgrades": { "half_life": 48, "into": "mon_sallosaurus_hulk" },
     "special_attacks": [
       { "id": "smash", "throw_strength": 56, "cooldown": 45 },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
@@ -5235,7 +4922,7 @@
   {
     "type": "MONSTER",
     "id": "mon_sallosaurus_hulk",
-    "name": { "str_sp": "skeletal theropod juggernaut" },
+    "name": { "str": "skeletal theropod juggernaut" },
     "copy-from": "mon_sallosaurus_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisted pointed teeth suggest some kind of predator dinosaur.",
     "diff": 5,
@@ -5266,7 +4953,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 30 } ],
     "relative": { "vision_day": 35, "vision_night": 3, "armor": { "bash": 12, "cut": 15, "bullet": 6 } },
     "bleed_rate": 0,
-    "upgrades": { "half_life": 12, "into": "mon_syrannosaurus_hulk" },
+    "upgrades": { "half_life": 48, "into": "mon_syrannosaurus_hulk" },
     "special_attacks": [
       { "id": "smash", "throw_strength": 56, "cooldown": 45 },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
@@ -5275,7 +4962,7 @@
   {
     "type": "MONSTER",
     "id": "mon_syrannosaurus_hulk",
-    "name": { "str_sp": "skeletal theropod juggernaut" },
+    "name": { "str": "skeletal theropod juggernaut" },
     "copy-from": "mon_syrannosaurus_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisted pointed teeth suggest some kind of predator dinosaur.",
     "diff": 5,
@@ -5309,7 +4996,7 @@
       "armor": { "bash": 12, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
-    "upgrades": { "half_life": 12, "into": "mon_sallimimus_hulk" },
+    "upgrades": { "half_life": 48, "into": "mon_sallimimus_hulk" },
     "special_attacks": [
       { "id": "smash", "throw_strength": 56, "cooldown": 45 },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
@@ -5318,7 +5005,7 @@
   {
     "type": "MONSTER",
     "id": "mon_sallimimus_hulk",
-    "name": { "str_sp": "skeletal beaked juggernaut" },
+    "name": { "str": "skeletal beaked juggernaut" },
     "copy-from": "mon_sallimimus_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisting pointed beak suggest some kind of beaked, two legged dinosaur.",
     "diff": 5,
@@ -5337,7 +5024,8 @@
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ],
     "volume": "1000 L",
-    "weight": "1000 kg"
+    "weight": "4400 kg",
+    "//": "When large volumes are fixed this should be 3850 L"
   },
   {
     "type": "MONSTER",
@@ -5355,7 +5043,7 @@
       "armor": { "bash": 12, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
-    "upgrades": { "half_life": 12, "into": "mon_salcarius_hulk" },
+    "upgrades": { "half_life": 48, "into": "mon_salcarius_hulk" },
     "special_attacks": [
       { "id": "smash", "throw_strength": 56, "cooldown": 45 },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
@@ -5364,7 +5052,7 @@
   {
     "type": "MONSTER",
     "id": "mon_salcarius_hulk",
-    "name": { "str_sp": "skeletal theropod juggernaut" },
+    "name": { "str": "skeletal theropod juggernaut" },
     "copy-from": "mon_salcarius_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisting clawed arms suggest some kind of two legged dinosaur.",
     "diff": 5,
@@ -5382,7 +5070,7 @@
       { "id": "cut_throat" },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ],
-    "volume": "1000 L",
+    "volume": "875 L",
     "weight": "1000 kg"
   },
   {
@@ -5401,7 +5089,7 @@
       "armor": { "bash": 12, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
-    "upgrades": { "half_life": 12, "into": "mon_serizinosaurus_hulk" },
+    "upgrades": { "half_life": 48, "into": "mon_serizinosaurus_hulk" },
     "special_attacks": [
       { "id": "smash", "throw_strength": 56, "cooldown": 45 },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
@@ -5410,7 +5098,7 @@
   {
     "type": "MONSTER",
     "id": "mon_serizinosaurus_hulk",
-    "name": { "str_sp": "skeletal theropod juggernaut" },
+    "name": { "str": "skeletal theropod juggernaut" },
     "copy-from": "mon_serizinosaurus_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisting clawed arms suggest some kind of two legged dinosaur.",
     "diff": 5,
@@ -5429,7 +5117,8 @@
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ],
     "volume": "1000 L",
-    "weight": "1000 kg"
+    "weight": "40000 kg",
+    "//": "When large volumes are fixed this should be 35000 L"
   },
   {
     "type": "MONSTER",
@@ -5447,7 +5136,7 @@
       "armor": { "bash": 12, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
-    "upgrades": { "half_life": 12, "into": "mon_sothronychus_hulk" },
+    "upgrades": { "half_life": 48, "into": "mon_sothronychus_hulk" },
     "special_attacks": [
       { "id": "smash", "throw_strength": 56, "cooldown": 45 },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
@@ -5456,7 +5145,7 @@
   {
     "type": "MONSTER",
     "id": "mon_sothronychus_hulk",
-    "name": { "str_sp": "skeletal theropod juggernaut" },
+    "name": { "str": "skeletal theropod juggernaut" },
     "copy-from": "mon_sallimimus_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisting clawed arms suggest some kind of two legged dinosaur.",
     "diff": 5,
@@ -5475,7 +5164,8 @@
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ],
     "volume": "1000 L",
-    "weight": "1000 kg"
+    "weight": "8000 kg",
+    "//": "When large volumes are fixed this should be 7000 L"
   },
   {
     "type": "MONSTER",
@@ -5493,7 +5183,7 @@
       "armor": { "bash": 12, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
-    "upgrades": { "half_life": 12, "into": "mon_sanzu_hulk" },
+    "upgrades": { "half_life": 48, "into": "mon_sanzu_hulk" },
     "special_attacks": [
       { "id": "smash", "throw_strength": 56, "cooldown": 45 },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
@@ -5502,7 +5192,7 @@
   {
     "type": "MONSTER",
     "id": "mon_sanzu_hulk",
-    "name": { "str_sp": "skeletal beaked juggernaut" },
+    "name": { "str": "skeletal beaked juggernaut" },
     "copy-from": "mon_sanzu_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisting beak suggest some kind of two legged beaked dinosaur.",
     "diff": 5,
@@ -5521,7 +5211,8 @@
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ],
     "volume": "1000 L",
-    "weight": "1000 kg"
+    "weight": "2500 kg",
+    "//": "When large volumes are fixed this should be 2200 L"
   },
   {
     "type": "MONSTER",
@@ -5539,7 +5230,7 @@
       "armor": { "bash": 12, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
-    "upgrades": { "half_life": 12, "into": "mon_sutahraptor_hulk" },
+    "upgrades": { "half_life": 48, "into": "mon_sutahraptor_hulk" },
     "special_attacks": [
       { "id": "smash", "throw_strength": 56, "cooldown": 45 },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
@@ -5548,7 +5239,7 @@
   {
     "type": "MONSTER",
     "id": "mon_sutahraptor_hulk",
-    "name": { "str_sp": "skeletal theropod juggernaut" },
+    "name": { "str": "skeletal theropod juggernaut" },
     "copy-from": "mon_sutahraptor_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisting claws and sharp teeth suggest some kind of two legged dinosaur.",
     "diff": 5,
@@ -5567,13 +5258,36 @@
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ],
     "volume": "1000 L",
-    "weight": "1000 kg"
+    "weight": "5000 kg",
+    "//": "When large volumes are fixed this should be 4400 L"
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_sona_brute",
+    "name": { "str": "skeletal fona brute" },
+    "copy-from": "mon_sona",
+    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's feathers and long tail.  Joints and cracks around its body ooze with black goo.",
+    "proportional": { "hp": 5 },
+    "relative": {
+      "melee_dice": -1,
+      "melee_dice_sides": 2,
+      "melee_damage": [ { "damage_type": "bash", "amount": 6 } ],
+      "vision_day": 35,
+      "vision_night": 3,
+      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
+    },
+    "bleed_rate": 0,
+    "upgrades": { "half_life": 48, "into": "mon_sescelosaurus_hulk" },
+    "special_attacks": [
+      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
+      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
+    ]
   },
   {
     "type": "MONSTER",
     "id": "mon_sescelosaurus_brute",
     "name": { "str": "skeletal thescelosaurus brute" },
-    "copy-from": "mon_sallimimus",
+    "copy-from": "mon_sescelosaurus",
     "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's beak and feathers.  Joints and cracks around its body ooze with black goo.",
     "proportional": { "hp": 5 },
     "relative": {
@@ -5585,7 +5299,7 @@
       "armor": { "bash": 12, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
-    "upgrades": { "half_life": 12, "into": "mon_sescelosaurus_hulk" },
+    "upgrades": { "half_life": 48, "into": "mon_sescelosaurus_hulk" },
     "special_attacks": [
       { "id": "smash", "throw_strength": 56, "cooldown": 45 },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
@@ -5594,8 +5308,8 @@
   {
     "type": "MONSTER",
     "id": "mon_sescelosaurus_hulk",
-    "name": { "str_sp": "skeletal beaked juggernaut" },
-    "copy-from": "mon_sallimimus_brute",
+    "name": { "str": "skeletal beaked juggernaut" },
+    "copy-from": "mon_sescelosaurus_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisting pointed beak suggest some kind of beaked, two legged dinosaur.",
     "diff": 5,
     "proportional": { "hp": 2.5 },
@@ -5613,12 +5327,13 @@
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ],
     "volume": "1000 L",
-    "weight": "1000 kg"
+    "weight": "2500 kg",
+    "//": "When large volumes are fixed this should be 2200 L"
   },
   {
     "type": "MONSTER",
     "id": "mon_zilophosaurus_acid",
-    "name": { "str": "dilophosaurus acidic zombie" },
+    "name": { "str_sp": "acid dilophosaurus" },
     "species": [ "ZOMBIE" ],
     "default_faction": "zombie",
     "symbol": "Z",
@@ -5669,7 +5384,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zeratosaurus_acid",
-    "name": { "str": "ceratosaurus acidic zombie" },
+    "name": { "str_sp": "acid ceratosaurus" },
     "species": [ "ZOMBIE" ],
     "default_faction": "zombie",
     "symbol": "Z",

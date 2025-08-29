@@ -2,12 +2,12 @@
   {
     "type": "mutation",
     "id": "CHANGING",
-    "name": { "str": "Changing" },
+    "name": { "str": "Changing", "//~": "NO_I18N" },
     "points": 0,
     "player_display": false,
     "purifiable": false,
     "valid": false,
-    "description": "You shouldn't see this.  This makes you mutate.",
+    "description": { "str": "You shouldn't see this.  This makes you mutate.", "//~": "NO_I18N" },
     "flags": [ "CHANGING" ]
   },
   {
@@ -67,7 +67,7 @@
     "dummy": true,
     "category": [ "HUMAN" ],
     "types": [ "EYES", "VISION" ],
-    "cancels": [ "EAGLEEYED", "EYEBULGE", "INFRARED", "MEMBRANE", "MYOPIC", "SEESLEEP" ],
+    "cancels": [ "EAGLEEYED", "EYEBULGE", "INFRARED", "MEMBRANE", "MYOPIC", "HYPEROPIC", "MESOPIC", "SEESLEEP" ],
     "description": "You have human eyes."
   },
   {
@@ -152,7 +152,7 @@
     "player_display": false,
     "dummy": true,
     "category": [ "HUMAN" ],
-    "types": [ "ATTRACTIVENESS", "MUZZLE", "TEETH", "TONGUE" ],
+    "types": [ "MUZZLE", "TEETH", "TONGUE" ],
     "cancels": [ "SLIT_NOSTRILS", "LEAFNOSE", "BLOODLETTER" ],
     "description": "You have a human mouth with human teeth."
   },
@@ -239,6 +239,7 @@
       "RESISTWARM",
       "ROBUST",
       "RESTRICTED",
+      "RESISTANT_GENETICS",
       "STOCKY_TROGLO",
       "STRONGBACK",
       "TUNNEL_FIGHTER",
@@ -306,7 +307,14 @@
     "player_display": false,
     "dummy": true,
     "category": [ "HUMAN" ],
-    "cancels": [ "STRONGER_RESISTCHILL", "STRONGER_RESISTWARM" ],
+    "cancels": [
+      "STRONGER_RESISTCHILL",
+      "STRONGER_RESISTWARM",
+      "STRONGER_VULNERABLEWARM",
+      "STRONGER_VULNERABLECHILL",
+      "VULNERABLECHILL",
+      "VULNERABLEWARM"
+    ],
     "description": "Your temperature tolerance is more or less normal for a human."
   },
   {
@@ -982,7 +990,7 @@
     "enchantments": [ { "values": [ { "value": "CONSUME_TIME_MOD", "multiply": 0.5 } ] } ],
     "description": "You've been taught proper table manners from your early childhood on; now, you can't even think about eating without being seated at a table and taking your time.  Eating without a table and chair frustrates you, but eating like a civilized person gives you a bigger morale bonus.",
     "starting_trait": true,
-    "random_at_chargen": false,
+    "chargen_allow_npc": false,
     "valid": false
   },
   {
@@ -1219,16 +1227,6 @@
   },
   {
     "type": "mutation",
-    "id": "STYLISH",
-    "name": { "str": "Stylish" },
-    "points": 2,
-    "description": "Practicality is far less important than style.  Your morale is improved by wearing fashionable and attractive clothing.",
-    "starting_trait": true,
-    "random_at_chargen": false,
-    "valid": false
-  },
-  {
-    "type": "mutation",
     "id": "LIGHTSTEP",
     "name": { "str": "Light Step" },
     "points": 1,
@@ -1248,16 +1246,50 @@
     "description": "Your genome has rapidly adapted to the Cataclysm and can handle the strain of mutation better.  Taking different kinds of mutagen won't result in more defective mutations than normal.",
     "starting_trait": true,
     "flags": [ "ROBUST_GENETIC" ],
-    "cancels": [ "CHAOTIC_BAD", "RESTRICTED" ],
+    "cancels": [ "CHAOTIC_BAD", "RESTRICTED", "RESISTANT_GENETICS" ],
     "category": [ "FISH", "SLIME", "MEDICAL", "PLANT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "RESISTANT_GENETICS",
+    "name": { "str": "Resistant Genetics" },
+    "points": -1,
+    "vitamin_cost": 60,
+    "description": "Your body eats up lesser mutagens faster than normal.  Exotic and esoteric mutagens will still affect you normally.",
+    "vitamin_rates": [
+      [ "mutagen_batrachian", 600 ],
+      [ "mutagen_beast", 600 ],
+      [ "mutagen_bird", 600 ],
+      [ "mutagen_cattle", 600 ],
+      [ "mutagen_cephalopod", 600 ],
+      [ "mutagen_crustacean", 600 ],
+      [ "mutagen_feline", 600 ],
+      [ "mutagen_fish", 600 ],
+      [ "mutagen_gastropod", 600 ],
+      [ "mutagen_human", 600 ],
+      [ "mutagen_insect", 600 ],
+      [ "mutagen_lizard", 600 ],
+      [ "mutagen_lupine", 600 ],
+      [ "mutagen_mouse", 600 ],
+      [ "mutagen_plant", 600 ],
+      [ "mutagen_rabbit", 600 ],
+      [ "mutagen_rat", 600 ],
+      [ "mutagen_slime", 600 ],
+      [ "mutagen_spider", 600 ],
+      [ "mutagen_troglobite", 600 ],
+      [ "mutagen_ursine", 600 ]
+    ],
+    "changes_to": [ "RESTRICTED" ],
+    "cancels": [ "CHAOTIC_BAD", "ROBUST" ],
+    "category": [ "ALPHA" ]
   },
   {
     "type": "mutation",
     "id": "RESTRICTED",
     "name": { "str": "Restricted Genetics" },
-    "points": 3,
+    "points": -3,
     "vitamin_cost": 160,
-    "description": "Your genome has become an impregnable fortress to lesser genetic deviations.  You are no longer able to mutate traits that are outside of the Alpha category.  Any that you previously developed are safe, for now.",
+    "description": "Your genome has become an impregnable fortress to lesser genetic deviations.  You are no longer able to mutate traits that are outside of the Alpha category or regress to unremarkable humanity.  Any other mutations that you previously developed are safe for now.",
     "allowed_category": [ "ALPHA" ],
     "cancels": [ "CHAOTIC_BAD", "ROBUST" ],
     "category": [ "ALPHA" ]
@@ -1293,7 +1325,7 @@
     "points": 2,
     "description": "For your whole life you've been forbidden from indulging in your peculiar tastes.  Now the world's ended, and you'll be damned if anyone is going to tell you that you can't eat people.",
     "starting_trait": true,
-    "random_at_chargen": false,
+    "chargen_allow_npc": false,
     "valid": false,
     "cancels": [ "VEGETARIAN", "VEGAN", "HERBIVORE", "RUMINANT", "GRAZER" ],
     "flags": [ "CANNIBAL" ]
@@ -1305,7 +1337,7 @@
     "points": 1,
     "description": "You're convinced that these things that look vaguely human from elsewhere are definitely not people.  Therefore it's okay to eat them, right?",
     "starting_trait": true,
-    "random_at_chargen": false,
+    "chargen_allow_npc": false,
     "valid": false,
     "cancels": [ "VEGETARIAN", "VEGAN", "HERBIVORE", "RUMINANT", "GRAZER", "CANNIBAL" ],
     "flags": [ "STRICT_HUMANITARIAN" ]
@@ -1315,26 +1347,12 @@
     "id": "PSYCHOPATH",
     "name": { "str": "Uncaring" },
     "points": 2,
-    "description": "You don't feel any remorse or guilt for harming your fellow man.",
+    "description": "You don't feel any strong feelings for your fellow man.",
     "starting_trait": true,
-    "random_at_chargen": false,
+    "chargen_allow_npc": false,
     "valid": false,
-    "social_modifiers": { "intimidate": 5 },
+    "social_modifiers": { "lie": -5, "persuade": -5 },
     "types": [ "HUMAN_EMPATHY" ],
-    "flags": [ "PSYCHOPATH" ]
-  },
-  {
-    "type": "mutation",
-    "id": "KILLER",
-    "name": { "str": "Killer Drive" },
-    "points": 2,
-    "description": "You derive enjoyment from killing things.  Putting end to life seem to spark some dark satisfaction and thrill, and you crave it every moment.",
-    "starting_trait": true,
-    "random_at_chargen": false,
-    "valid": false,
-    "social_modifiers": { "intimidate": 10 },
-    "types": [ "HUMAN_EMPATHY" ],
-    "prereqs": [ "PSYCHOPATH" ],
     "flags": [ "PSYCHOPATH" ]
   },
   {
@@ -1515,7 +1533,7 @@
     "vitamin_cost": 160,
     "description": "Without glasses, your seeing radius is severely reduced!  However, you are guaranteed to start with a pair of glasses.",
     "starting_trait": true,
-    "cancels": [ "URSINE_EYE" ],
+    "cancels": [ "URSINE_EYE", "MESOPIC" ],
     "category": [ "BEAST" ],
     "flags": [ "MYOPIC" ]
   },
@@ -1572,6 +1590,7 @@
     "points": -2,
     "description": "Without reading glasses, you are unable to read anything, and take penalties on melee accuracy and electronics/tailoring crafting.  However, you are guaranteed to start with a pair of reading glasses.",
     "starting_trait": true,
+    "cancels": [ "MESOPIC" ],
     "flags": [ "HYPEROPIC" ]
   },
   {
@@ -1597,15 +1616,6 @@
     "types": [ "SLEEP" ],
     "category": [ "BEAST", "CHIMERA", "MOUSE", "RABBIT", "FELINE", "RAT" ],
     "enchantments": [ { "values": [ { "value": "SLEEPINESS_REGEN", "multiply": 0.333 }, { "value": "SLEEPINESS", "multiply": 0.333 } ] } ]
-  },
-  {
-    "type": "mutation",
-    "id": "PROF_ASSASSIN_CONVICT",
-    "name": { "str": "Assassin Convict" },
-    "points": 0,
-    "description": "You have a target to kill.  Search it, find it, and eliminate whatever it is now.",
-    "valid": false,
-    "purifiable": false
   },
   {
     "type": "mutation",
@@ -1817,6 +1827,7 @@
     "vitamin_cost": 160,
     "description": "You *adore* the taste of junk food, and find it preferable to everything else!",
     "purifiable": false,
+    "flags": [ "SKIP_HEALTH" ],
     "prereqs": [ "PROJUNK" ],
     "cancels": [ "ANTIJUNK" ],
     "threshreq": [ "THRESH_MOUSE" ],
@@ -1903,7 +1914,7 @@
     "vitamin_cost": 160,
     "description": "You suffer from a minor chemical imbalance, whether mental or physical.  Minor changes to your internal chemistry will manifest themselves on occasion, such as hunger, sleepiness, narcotic effects, etc.",
     "starting_trait": true,
-    "random_at_chargen": false,
+    "chargen_allow_npc": false,
     "category": [ "SLIME", "MEDICAL", "CHIMERA", "ELFA" ]
   },
   {
@@ -1950,7 +1961,7 @@
     "vitamin_cost": 160,
     "description": "Ever since the sky first broke, you have felt unwell, your head split by alien thoughts.  You will periodically suffer from delusions, ranging from minor effects to full visual hallucinations.  Some of these effects may be controlled through the use of antipsychotics.",
     "starting_trait": true,
-    "random_at_chargen": false,
+    "chargen_allow_npc": false,
     "category": [ "MEDICAL" ]
   },
   {
@@ -1961,7 +1972,7 @@
     "vitamin_cost": 160,
     "description": "You randomly fall asleep without any reason.",
     "starting_trait": true,
-    "random_at_chargen": false,
+    "chargen_allow_npc": false,
     "category": [ "MEDICAL" ]
   },
   {
@@ -2193,7 +2204,7 @@
     "purifiable": false,
     "description": "The events of the Cataclysm have damaged your DNA beyond repair.  You mutate frequently, all mutations you receive (from any source) are negative, and your instability is rapidly growing out of control.",
     "starting_trait": true,
-    "cancels": [ "ROBUST", "RESTRICTED" ],
+    "cancels": [ "ROBUST", "RESTRICTED", "RESISTANT_GENETICS" ],
     "valid": false,
     "vitamin_rates": [ [ "instability", -60 ] ]
   },
@@ -2443,8 +2454,8 @@
     "points": -1,
     "vitamin_cost": 60,
     "description": "You find it difficult to see very far in bright light.  On its own, this doesn't necessarily make you any better in the dark.",
-    "types": [ "EYES", "VISION" ],
-    "cancels": [ "MYOPIC" ],
+    "starting_trait": true,
+    "cancels": [ "MYOPIC", "HYPEROPIC" ],
     "category": [ "CHIROPTERAN", "TROGLOBITE" ],
     "flags": [ "MYOPIC_IN_LIGHT" ]
   },
@@ -2903,8 +2914,8 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
+        "incoming_damage_mod_post_absorbed": [ { "type": "bash", "multiply": 0.4 } ],
         "values": [
-          { "value": "EXTRA_BASH", "multiply": 0.4 },
           { "value": "MOVE_COST", "multiply": -0.1 },
           { "value": "ATTACK_SPEED", "multiply": -0.1 },
           { "value": "CARRY_WEIGHT", "multiply": -0.2 }
@@ -2931,7 +2942,7 @@
   {
     "type": "mutation",
     "id": "DOWN",
-    "name": { "str": "Down" },
+    "name": { "str": "Down", "ctxt": "mutation" },
     "points": 0,
     "vitamin_cost": 60,
     "visibility": 4,
@@ -4714,7 +4725,8 @@
       "THRESH_RAT",
       "THRESH_MOUSE",
       "THRESH_BATRACHIAN",
-      "THRESH_CRUSTACEAN"
+      "THRESH_CRUSTACEAN",
+      "THRESH_GASTROPOD"
     ],
     "vitamins_absorb_multi": [ [ "all", [ [ "mutant_toxin", 0.25 ] ] ] ],
     "category": [ "TROGLOBITE", "RAPTOR", "RAT", "CHIMERA", "BATRACHIAN", "GASTROPOD", "CRUSTACEAN" ]
@@ -4920,7 +4932,18 @@
     "active": true,
     "starts_active": true,
     "restricts_gear": [ "head_crown" ],
-    "allow_soft_gear": true
+    "allow_soft_gear": true,
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "special_vision": [
+          {
+            "distance": 3,
+            "descriptions": [ { "id": "antennae_sense", "symbol": "?", "color": "c_white", "text": "You sense something here." } ]
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -5221,7 +5244,7 @@
     "recurrence": "1 m",
     "condition": { "and": [ { "math": [ "u_pain() > 0" ] }, { "u_has_trait": "PAINREC1" } ] },
     "deactivate_condition": { "not": { "u_has_trait": "PAINREC1" } },
-    "effect": [ { "math": [ "u_pain()", "-=", "3" ] } ]
+    "effect": [ { "math": [ "u_pain() -= 3" ] } ]
   },
   {
     "type": "mutation",
@@ -5241,7 +5264,7 @@
     "recurrence": "1 m",
     "condition": { "and": [ { "math": [ "u_pain() > 0" ] }, { "u_has_trait": "PAINREC2" } ] },
     "deactivate_condition": { "not": { "u_has_trait": "PAINREC2" } },
-    "effect": [ { "math": [ "u_pain()", "-=", "4" ] } ]
+    "effect": [ { "math": [ "u_pain() -= 4" ] } ]
   },
   {
     "type": "mutation",
@@ -5260,7 +5283,7 @@
     "recurrence": "1 m",
     "condition": { "and": [ { "math": [ "u_pain() > 0" ] }, { "u_has_trait": "PAINREC3" } ] },
     "deactivate_condition": { "not": { "u_has_trait": "PAINREC3" } },
-    "effect": [ { "math": [ "u_pain()", "-=", "5" ] } ]
+    "effect": [ { "math": [ "u_pain() -= 5" ] } ]
   },
   {
     "type": "mutation",
@@ -7162,8 +7185,8 @@
     "category": [ "BIRD", "SLIME", "ELFA" ],
     "enchantments": [
       {
+        "incoming_damage_mod_post_absorbed": [ { "type": "bash", "multiply": 0.8 } ],
         "values": [
-          { "value": "EXTRA_BASH", "multiply": 0.8 },
           { "value": "MOVE_COST", "multiply": -0.2 },
           { "value": "ATTACK_SPEED", "multiply": -0.2 },
           { "value": "CARRY_WEIGHT", "multiply": -0.4 }
@@ -7837,6 +7860,7 @@
     "prereqs2": [ "BENDY2", "SLIME_HANDS" ],
     "threshreq": [ "THRESH_SLIME" ],
     "category": [ "SLIME" ],
+    "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
     "armor": [
       {
         "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
@@ -7875,6 +7899,7 @@
     "description": "Your body's ability to digest meat is severely hampered.  Eating meat has a good chance of making you vomit it back up; even if you manage to keep it down, its nutritional value is greatly reduced.",
     "types": [ "DIET" ],
     "prereqs": [ "VEGETARIAN", "VEGAN" ],
+    "flags": "HERBIVORE_DIET",
     "leads_to": [ "RUMINANT" ],
     "category": [ "CATTLE", "RABBIT" ]
   },
@@ -7888,6 +7913,7 @@
     "types": [ "DIET" ],
     "cancels": [ "VEGAN" ],
     "category": [ "LIZARD", "SPIDER", "CHIMERA", "RAPTOR", "FELINE", "BATRACHIAN", "BEAST", "LUPINE" ],
+    "flags": [ "CARNIVORE_DIET" ],
     "vitamin_rates": [ [ "vitC", -1200 ] ]
   },
   {
@@ -9037,7 +9063,7 @@
     "vitamin_cost": 160,
     "description": "You have an unhealthy obsession with fire, and you get anxious if you don't light them every now and then or stand near them often.  However, you gain a mood bonus from doing so.",
     "starting_trait": true,
-    "random_at_chargen": false
+    "chargen_allow_npc": false
   },
   {
     "type": "mutation",
@@ -9333,9 +9359,9 @@
   {
     "type": "mutation",
     "id": "NPC_BRANDY",
-    "name": { "str": "Carries Brandy" },
+    "name": { "str": "Carries Brandy", "//~": "NO_I18N" },
     "points": 0,
-    "description": "This Bartender now carries brandy!",
+    "description": { "str": "This Bartender now carries brandy!", "//~": "NO_I18N" },
     "player_display": false,
     "valid": false,
     "purifiable": false
@@ -9343,9 +9369,9 @@
   {
     "type": "mutation",
     "id": "NPC_RUM",
-    "name": { "str": "Carries Rum" },
+    "name": { "str": "Carries Rum", "//~": "NO_I18N" },
     "points": 0,
-    "description": "This Bartender now carries rum!",
+    "description": { "str": "This Bartender now carries rum!", "//~": "NO_I18N" },
     "player_display": false,
     "valid": false,
     "purifiable": false
@@ -9353,9 +9379,9 @@
   {
     "type": "mutation",
     "id": "NPC_WHISKEY",
-    "name": { "str": "Carries Whiskey" },
+    "name": { "str": "Carries Whiskey", "//~": "NO_I18N" },
     "points": 0,
-    "description": "This Bartender now carries whiskey!",
+    "description": { "str": "This Bartender now carries whiskey!", "//~": "NO_I18N" },
     "player_display": false,
     "valid": false,
     "purifiable": false
@@ -9363,9 +9389,9 @@
   {
     "type": "mutation",
     "id": "NPC_MISSION_LEV_1",
-    "name": { "str": "Has Level 1 Companion Missions" },
+    "name": { "str": "Has Level 1 Companion Missions", "//~": "NO_I18N" },
     "points": 0,
-    "description": "New mission options have become available!",
+    "description": { "str": "New mission options have become available!", "//~": "NO_I18N" },
     "player_display": false,
     "valid": false,
     "purifiable": false
@@ -9373,9 +9399,9 @@
   {
     "type": "mutation",
     "id": "NPC_CONSTRUCTION_LEV_1",
-    "name": { "str": "Has Level 1 Construction Built" },
+    "name": { "str": "Has Level 1 Construction Built", "//~": "NO_I18N" },
     "points": 0,
-    "description": "New options may have become available!",
+    "description": { "str": "New options may have become available!", "//~": "NO_I18N" },
     "player_display": false,
     "valid": false,
     "purifiable": false
@@ -9383,9 +9409,9 @@
   {
     "type": "mutation",
     "id": "NPC_CONSTRUCTION_LEV_2",
-    "name": { "str": "Has Level 2 Construction Built" },
+    "name": { "str": "Has Level 2 Construction Built", "//~": "NO_I18N" },
     "points": 0,
-    "description": "New options may have become available!",
+    "description": { "str": "New options may have become available!", "//~": "NO_I18N" },
     "player_display": false,
     "valid": false,
     "purifiable": false
@@ -9393,9 +9419,9 @@
   {
     "type": "mutation",
     "id": "NPC_STARTING_NPC",
-    "name": { "str": "Starting NPC" },
+    "name": { "str": "Starting NPC", "//~": "NO_I18N" },
     "points": 0,
-    "description": "Marker for starting NPCs",
+    "description": { "str": "Marker for starting NPCs", "//~": "NO_I18N" },
     "player_display": false,
     "valid": false,
     "purifiable": false
@@ -9403,9 +9429,9 @@
   {
     "type": "mutation",
     "id": "NPC_STATIC_NPC",
-    "name": { "str": "Static NPC" },
+    "name": { "str": "Static NPC", "//~": "NO_I18N" },
     "points": 0,
-    "description": "Marker for static NPCs",
+    "description": { "str": "Marker for static NPCs", "//~": "NO_I18N" },
     "player_display": false,
     "valid": false,
     "purifiable": false
@@ -9413,45 +9439,48 @@
   {
     "type": "mutation",
     "id": "HALLUCINATION",
-    "name": { "str": "Hallucination" },
+    "name": { "str": "Hallucination", "//~": "NO_I18N" },
     "points": 0,
     "valid": false,
-    "description": "NPC trait that makes them be hallucination.  It is a bug if you have it.",
+    "description": { "str": "NPC trait that makes them be hallucination.  It is a bug if you have it.", "//~": "NO_I18N" },
     "player_display": false,
     "threshold": true
   },
   {
     "type": "mutation",
     "id": "IGNORE_SOUND",
-    "name": { "str": "Ignores Sounds" },
+    "name": { "str": "Ignores Sounds", "//~": "NO_I18N" },
     "points": 99,
     "valid": false,
-    "description": "NPC ignores sounds and does not investigate them.  If you see this, it's is a bug.",
+    "description": { "str": "NPC ignores sounds and does not investigate them.  If you see this, it's is a bug.", "//~": "NO_I18N" },
+    "player_display": false,
     "purifiable": false
   },
   {
     "type": "mutation",
     "id": "NO_BASH",
-    "name": { "str": "Will Not Bash" },
+    "name": { "str": "Will Not Bash", "//~": "NO_I18N" },
     "points": 99,
     "valid": false,
-    "description": "NPC will not bash to reach things.  If you see this, it's a bug.",
+    "description": { "str": "NPC will not bash to reach things.  If you see this, it's a bug.", "//~": "NO_I18N" },
+    "player_display": false,
     "purifiable": false
   },
   {
     "type": "mutation",
     "id": "RETURN_TO_START_POS",
-    "name": { "str": "Returns to Start POS" },
+    "name": { "str": "Returns to Start POS", "//~": "NO_I18N" },
     "points": 99,
     "valid": false,
-    "description": "NPC will return to its spawn position on idle.",
+    "description": { "str": "NPC will return to its spawn position on idle.", "//~": "NO_I18N" },
+    "player_display": false,
     "purifiable": false
   },
   {
     "id": "GETS_RANDOM_MISSION",
     "type": "mutation",
-    "name": { "str": "Assign Random Mission" },
-    "description": "This is an AI tag to give a static NPC a random mission.  If you see this, it's a bug.",
+    "name": { "str": "Assign Random Mission", "//~": "NO_I18N" },
+    "description": { "str": "This is an AI tag to give a static NPC a random mission.  If you see this, it's a bug.", "//~": "NO_I18N" },
     "points": 0,
     "valid": false,
     "purifiable": false,
@@ -9462,8 +9491,11 @@
   {
     "id": "GETS_RANDOM_MISSION_NOMOVE",
     "type": "mutation",
-    "name": { "str": "Assign Random No-move Mission" },
-    "description": "This is an AI tag to give a static NPC a random mission that doesn't involve them following you.  If you see this, it's a bug.",
+    "name": { "str": "Assign Random No-move Mission", "//~": "NO_I18N" },
+    "description": {
+      "str": "This is an AI tag to give a static NPC a random mission that doesn't involve them following you.  If you see this, it's a bug.",
+      "//~": "NO_I18N"
+    },
     "points": 0,
     "valid": false,
     "purifiable": false,
@@ -9499,6 +9531,16 @@
     "valid": false,
     "description": "They said college what make me smart, this is a lot to lug around!",
     "enchantments": [ "ENCH_DEBUG_BIG_HEAD" ],
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_WEIGHT_MULT",
+    "name": { "str": "Debug Half Weight" },
+    "points": 99,
+    "valid": false,
+    "description": "Better than GLP1 drugs!",
+    "enchantments": [ "ENCH_DEBUG_WEIGHT_MODIFIER" ],
     "debug": true
   },
   {
@@ -9539,6 +9581,16 @@
     "valid": false,
     "description": "Much bigger range than the other Debug Clairvoyance trait.  Unsure which one to use?  Use them both!  You can see all the bugs with this one.",
     "flags": [ "SUPER_CLAIRVOYANCE" ],
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_PHASE_MOVEMENT",
+    "name": { "str": "Debug Phase Movement" },
+    "points": 99,
+    "valid": false,
+    "description": "You can walk anywhere, do anything.  Neither walls nor gravity can stop you.",
+    "flags": [ "PHASE_MOVEMENT" ],
     "debug": true
   },
   {
@@ -9647,7 +9699,7 @@
   {
     "type": "mutation",
     "id": "DEBUG_MANA_FURNACE_active",
-    "name": { "str": "Debug Mana Furnace (ON) " },
+    "name": { "str": "Debug Mana Furnace (ON)" },
     "description": "You're burning mana like crazy to burn of all bugs, also making you glow softly.",
     "copy-from": "DEBUG_MANA_FURNACE",
     "cost": 100,
@@ -9774,20 +9826,20 @@
   {
     "type": "mutation",
     "id": "BEE",
-    "name": { "str": "Bee" },
+    "name": { "str": "Bee", "//~": "NO_I18N" },
     "points": 0,
     "valid": false,
-    "description": "NPC trait that makes monsters see it as a bee.  It is a bug (heh) if you have it.",
+    "description": { "str": "NPC trait that makes monsters see it as a bee.  It is a bug (heh) if you have it.", "//~": "NO_I18N" },
     "player_display": false,
     "threshold": true
   },
   {
     "type": "mutation",
     "id": "MYCUS_FRIEND",
-    "name": { "str": "Mycus friend" },
+    "name": { "str": "Mycus friend", "//~": "NO_I18N" },
     "points": 0,
     "valid": false,
-    "description": "NPC trait that makes fungaloid monsters see this NPC as a friend.",
+    "description": { "str": "NPC trait that makes fungaloid monsters see this NPC as a friend.", "//~": "NO_I18N" },
     "player_display": false
   },
   {
@@ -10105,7 +10157,7 @@
     "description": "Your feet have grown into strong and large rabbit feet.  This makes your kicks pack a little more oomph.  Emphasis on little.  It also offers some warmth, and the lucky part is but superstition.  The downside is you are unable to wear shoes.",
     "types": [ "FEET" ],
     "category": [ "RABBIT" ],
-    "flags": [ "QUADRUPED_RUN" ],
+    "flags": [ "QUADRUPED_RUN", "TOUGH_FEET" ],
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ],
     "restricts_gear": [ "foot_l", "foot_r" ],
     "destroys_gear": true,
@@ -10236,10 +10288,13 @@
   {
     "type": "mutation",
     "id": "CARNIVORE_FAKE",
-    "name": { "str": "Imitation Carnivore" },
+    "name": { "str": "Imitation Carnivore", "//~": "NO_I18N" },
     "points": 0,
     "vitamin_cost": 160,
-    "description": "Fake mutation to allow post-threshold Ursine mutants access to mutations normally gated behind Carnivore.  This is not meant to be visible in-game.",
+    "description": {
+      "str": "Fake mutation to allow post-threshold Ursine mutants access to mutations normally gated behind Carnivore.  This is not meant to be visible in-game.",
+      "//~": "NO_I18N"
+    },
     "category": [ "URSINE" ],
     "threshreq": [ "THRESH_URSINE" ],
     "player_display": false
@@ -10275,8 +10330,8 @@
   {
     "type": "mutation",
     "id": "TAINTED_SHADOW",
-    "name": { "str": "Tainted Shadow" },
-    "description": "You shouldn't see this.  This makes you spawn tainted shadows.",
+    "name": { "str": "Tainted Shadow", "//~": "NO_I18N" },
+    "description": { "str": "You shouldn't see this.  This makes you spawn tainted shadows.", "//~": "NO_I18N" },
     "points": 0,
     "player_display": false,
     "purifiable": false,
@@ -10292,6 +10347,35 @@
     "purifiable": false,
     "starting_trait": true,
     "flags": [ "NYCTOPHOBIA" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VULNERABLECHILL",
+    "name": { "str": "Cold Intolerance" },
+    "points": -1,
+    "vitamin_cost": 60,
+    "description": "You fare worse than most in colder climates and are more bothered by lower temperatures.  Note that while it will take less cold and exposure for you to suffer the effects of frostbite, you aren't any worse at dealing with the symptoms.",
+    "starting_trait": true,
+    "changes_to": [ "STRONGER_VULNERABLECHILL" ],
+    "cancels": [ "STRONGER_RESISTCHILL", "RESISTCHILL" ],
+    "types": [ "ACCLIMATIZATION", "ECTOTHERMIC" ],
+    "category": [ "ELFA", "SLIME" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": -10 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "STRONGER_VULNERABLECHILL",
+    "name": { "str": "High Cold Intolerance" },
+    "points": -3,
+    "vitamin_cost": 160,
+    "valid": true,
+    "description": "You are now even more bothered by the cold and it is easier for you to freeze or to even get chilly.  When you do though, it'll hit just as hard as it did before.",
+    "prereqs": [ "VULNERABLECHILL" ],
+    "cancels": [ "STRONGER_RESISTCHILL", "STRONGER_RESISTWARM", "HUMAN_ACCLIMATIZATION", "RESISTCHILL" ],
+    "category": [ "SLIME" ],
+    "types": [ "ACCLIMATIZATION", "ECTOTHERMIC" ],
+    "threshreq": [ "THRESH_SLIME" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": -25 } ] } ]
   },
   {
     "type": "mutation",
@@ -10319,6 +10403,34 @@
     "types": [ "ACCLIMATIZATION", "ECTOTHERMIC" ],
     "threshreq": [ "THRESH_LUPINE", "THRESH_URSINE", "THRESH_CATTLE", "THRESH_FELINE", "THRESH_RABBIT", "THRESH_MOUSE", "THRESH_BEAST" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 25 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "VULNERABLEWARM",
+    "name": { "str": "Heat Intolerance" },
+    "points": -1,
+    "vitamin_cost": 60,
+    "description": "You fare worse than most in warmer climates and are more bothered by hotter temperatures.  Note that while it will take less heat and exposure for you to suffer the effects of sunstroke, you aren't any worse at dealing with the symptoms.",
+    "starting_trait": true,
+    "changes_to": [ "STRONGER_VULNERABLEWARM" ],
+    "cancels": [ "STRONGER_RESISTWARM", "RESISTWARM" ],
+    "category": [ "CHIMERA" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": -10 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "STRONGER_VULNERABLEWARM",
+    "name": { "str": "High Heat Intolerance" },
+    "points": -3,
+    "vitamin_cost": 160,
+    "valid": true,
+    "description": "You are now even more bothered by the heat and it is easier for you to overheat or even sweat.  When you do though, it'll hit just as hard as it did before.",
+    "prereqs": [ "VULNERABLEWARM" ],
+    "cancels": [ "STRONGER_RESISTWARM", "RESISTWARM", "HUMAN_ACCLIMATIZATION" ],
+    "types": [ "ACCLIMATIZATION" ],
+    "category": [ "CHIMERA" ],
+    "threshreq": [ "THRESH_CHIMERA" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": -25 } ] } ]
   },
   {
     "type": "mutation",
@@ -10462,19 +10574,28 @@
     "type": "mutation",
     "id": "AMOG",
     "name": { "str": "Alpha Member of the Group" },
-    "points": 1,
+    "points": 0,
+    "mixed_effect": true,
     "vitamin_cost": 160,
     "types": [ "SOCIAL" ],
     "cancels": [ "ASOCIAL1", "ASOCIAL2", "SOCIAL1", "SOCIAL2" ],
     "description": "You are the natural leader of any group.  It's just part of who you are, groups naturally form around you and you need these groups to energize you.  Sometimes however, you give in to your worst impulses and this trait will flip.",
-    "mixed_effect": true,
-    "purifiable": false,
     "flags": [ "SOCIAL2" ],
     "category": [ "ALPHA" ],
     "social_modifiers": { "intimidate": 5, "persuade": 15, "lie": 10 },
     "triggers": [
-      [ { "condition": { "or": [ { "math": [ "u_val('morale') < -75" ] }, { "math": [ "u_val('morale') < 75" ] } ] } } ],
-      [ { "condition": { "or": [ { "math": [ "u_val('stim') < -50" ] }, { "math": [ "u_val('stim') < 50" ] } ] } } ]
+      [
+        {
+          "condition": {
+            "or": [
+              { "math": [ "u_val('morale') < -75" ] },
+              { "math": [ "u_val('morale') > 75" ] },
+              { "math": [ "u_val('stim') < -50" ] },
+              { "math": [ "u_val('stim') > 50" ] }
+            ]
+          }
+        }
+      ]
     ],
     "transform": { "target": "DARK_TRIAD", "msg_transform": "You give in to your worst instincts.", "active": false, "moves": 10 }
   },
@@ -10484,9 +10605,8 @@
     "name": { "str": "Dark Triad" },
     "types": [ "SOCIAL" ],
     "cancels": [ "ASOCIAL1", "ASOCIAL2", "SOCIAL1", "SOCIAL2" ],
-    "description": "You are a god among mortals and they are all so very dissapointing.  Why should you even bother to hide your dissapointment in their failures?",
+    "description": "You are a god among mortals and they are all so very disappointing.  Why should you even bother to hide your disappointment in their failures?",
     "valid": false,
-    "mixed_effect": true,
     "points": -1,
     "flags": [ "ASOCIAL2" ],
     "category": [ "ALPHA" ],
@@ -10542,9 +10662,10 @@
     "id": "NOT_GLASS",
     "name": { "str": "Comfortably Fluid" },
     "player_display": true,
-    "points": 1,
+    "points": 0,
     "description": "You can hear your heartbeat in your ears, feel the blood sloshing around in your veins.  The uneven hitches in your breath, the aches in your joints, the rumbling of your stomach.  It's nasty and messy and ugly.  And you are extremely grateful for that.",
     "starting_trait": false,
+    "purifiable": false,
     "valid": false,
     "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 1 } ] } ]
   },
@@ -10598,5 +10719,28 @@
     "threshreq": [ "THRESH_CHIROPTERAN" ],
     "category": [ "CHIROPTERAN" ],
     "integrated_armor": [ "integrated_vampire_fangs" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HUMAN_APPEAL",
+    "name": { "str": "Human Appeal" },
+    "points": 0,
+    "player_display": false,
+    "dummy": true,
+    "category": [ "HUMAN" ],
+    "types": [ "ATTRACTIVENESS" ],
+    "description": "Your attractiveness would be considered unremarkable by the average human."
+  },
+  {
+    "type": "mutation",
+    "id": "anti_shape",
+    "name": { "str": "Extradimensional Comprehension" },
+    "player_display": true,
+    "points": 0,
+    "description": "In the tunnel at LIXA, you were inside of an impossible shape, where the X, Y, and Z axis were mere suggestions.  When you put the shape out of its misery, (as much misery as a concept can have), you saw it for what it was; just a shape.  You can now visualize \"impossible\" shapes in your mind's eye, rendering them mundane to you.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 1 } ] } ]
   }
 ]

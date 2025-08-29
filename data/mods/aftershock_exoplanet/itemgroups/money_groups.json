@@ -1,0 +1,64 @@
+[
+  {
+    "id": "augustmoon_shop_money",
+    "type": "item_group",
+    "subtype": "collection",
+    "ammo": 100,
+    "items": [
+      { "item": "UICA_10000d", "count": 5 },
+      { "item": "UICA_1000d", "count": 5 },
+      { "item": "UICA_100d", "count": 20 },
+      { "item": "UICA_10d", "count": 10 },
+      { "item": "UICA_50d", "count": 10 },
+      { "item": "UICA_1d", "count": 10 }
+    ]
+  },
+  {
+    "id": "afs_uica_quartermaster_money",
+    "type": "item_group",
+    "subtype": "collection",
+    "ammo": 100,
+    "items": [
+      { "item": "UICA_1000d", "count": 8 },
+      { "item": "UICA_100d", "count": 15 },
+      { "item": "UICA_50d", "count": 20 },
+      { "item": "UICA_10d", "count": 20 },
+      { "item": "UICA_1d", "count": 10 }
+    ]
+  },
+  {
+    "id": "afs_banknotes",
+    "type": "item_group",
+    "items": [
+      { "item": "UICA_1000d", "prob": 1 },
+      { "item": "UICA_100d", "prob": 5 },
+      { "item": "UICA_10d", "prob": 10 },
+      { "item": "UICA_50d", "prob": 7 },
+      { "item": "UICA_1d", "prob": 25 }
+    ]
+  },
+  {
+    "id": "afs_cash_safe",
+    "type": "item_group",
+    "items": [ { "group": "afs_banknotes", "count": [ 33, 55 ] } ]
+  },
+  {
+    "id": "afs_register_full",
+    "type": "item_group",
+    "container-item": "cash_register",
+    "items": [ { "group": "afs_banknotes", "count": [ 5, 33 ] } ]
+  },
+  {
+    "id": "afs_register_looted",
+    "type": "item_group",
+    "//": "If aftershock adds it's own lore correct survivor notes this could be a place to put one",
+    "container-item": "cash_register",
+    "items": [ { "group": "afs_banknotes", "prob": 15, "count": [ 1, 2 ] } ]
+  },
+  {
+    "id": "afs_register_random",
+    "subtype": "distribution",
+    "type": "item_group",
+    "items": [ { "group": "afs_register_full", "prob": 45 }, { "group": "afs_register_looted", "prob": 55 } ]
+  }
+]

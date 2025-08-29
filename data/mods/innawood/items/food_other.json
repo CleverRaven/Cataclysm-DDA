@@ -1,6 +1,7 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "fresh_honeydew",
     "name": { "str_sp": "fresh honeydew" },
     "description": "Turgid, but still liquid honeydew, fresh from the… bug.",

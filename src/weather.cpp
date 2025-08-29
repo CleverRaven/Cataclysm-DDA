@@ -4,37 +4,39 @@
 #include <array>
 #include <cmath>
 #include <functional>
+#include <map>
 #include <memory>
-#include <set>
 #include <string>
 #include <vector>
 
-#include "activity_type.h"
+#include "body_part_set.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "cata_utility.h"
 #include "character.h"
+#include "character_attire.h"
 #include "city.h"
-#include "colony.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "debug.h"
 #include "effect_on_condition.h"
 #include "enums.h"
 #include "game.h"
-#include "game_constants.h"
 #include "item.h"
+#include "item_contents.h"
+#include "item_location.h"
 #include "line.h"
 #include "map.h"
-#include "map_iterator.h"
+#include "map_scale_constants.h"
+#include "mapdata.h"
 #include "math_defines.h"
 #include "messages.h"
-#include "monster.h"
-#include "mtype.h"
+#include "omdata.h"
 #include "options.h"
 #include "overmap.h"
+#include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "pocket_type.h"
+#include "point.h"
 #include "regional_settings.h"
 #include "ret_val.h"
 #include "rng.h"
@@ -74,7 +76,9 @@ static const trait_id trait_FEATHERS( "FEATHERS" );
 bool is_creature_outside( const Creature &target )
 {
     map &here = get_map();
-    return here.is_outside( tripoint_bub_ms( target.posx(), target.posy(), here.get_abs_sub().z() ) ) &&
+    const tripoint_bub_ms pos = target.pos_bub( here );
+
+    return here.is_outside( tripoint_bub_ms( pos.xy(), here.get_abs_sub().z() ) ) &&
            here.get_abs_sub().z() >= 0;
 }
 
@@ -98,7 +102,7 @@ void glare( const weather_type_id &w )
 {
     Character &player_character = get_player_character();//todo npcs, also
     //General prerequisites for glare
-    if( g->is_sheltered( player_character.pos() ) ||
+    if( g->is_sheltered( player_character.pos_bub() ) ||
         player_character.in_sleep_state() ||
         player_character.worn_with_flag( json_flag_SUN_GLASSES ) ||
         player_character.has_flag( json_flag_GLARE_RESIST ) ||
@@ -137,7 +141,7 @@ void glare( const weather_type_id &w )
 
 float incident_sunlight( const weather_type_id &wtype, const time_point &t )
 {
-    return std::max<float>( 0.0f, sun_light_at( t ) + wtype->light_modifier );
+    return std::max<float>( 0.0f, sun_light_at( t ) * wtype->light_multiplier + wtype->light_modifier );
 }
 
 float incident_sun_irradiance( const weather_type_id &wtype, const time_point &t )
@@ -241,7 +245,7 @@ void item::add_rain_to_container( int charges )
     if( charges <= 0 ) {
         return;
     }
-    item ret( "water", calendar::turn );
+    item ret( itype_water, calendar::turn );
     const int capa = get_remaining_capacity_for_liquid( ret, true );
     ret.charges = std::min( charges, capa );
     if( contents.can_contain( ret ).success() ) {
@@ -276,7 +280,7 @@ double funnel_charges_per_turn( const double surface_area_mm2, const double rain
     }
 
     // Calculate once, because that part is expensive
-    static const item water( "water", calendar::turn_zero );
+    static const item water( itype_water, calendar::turn_zero );
     // 250ml
     static const double charge_ml = static_cast<double>( to_gram( water.weight() ) ) /
                                     water.charges;
@@ -465,12 +469,12 @@ void handle_weather_effects( const weather_type_id &w )
     get_weather().lightning_active = false;
 }
 
-static std::string to_string( const weekdays &d )
+std::string to_string( const weekdays &d )
 {
     static const std::array<std::string, 7> weekday_names = {{
-            translate_marker( "Sunday" ), translate_marker( "Monday" )
-            translate_marker( "Tuesday" ), translate_marker( "Wednesday" )
-            translate_marker( "Thursday" ), translate_marker( "Friday" )
+            translate_marker( "Sunday" ), translate_marker( "Monday" ),
+            translate_marker( "Tuesday" ), translate_marker( "Wednesday" ),
+            translate_marker( "Thursday" ), translate_marker( "Friday" ),
             translate_marker( "Saturday" )
         }
     };
@@ -788,7 +792,7 @@ int get_local_windpower( int windpower, const oter_id &omter, const tripoint_abs
         return 0;
     }
     rl_vec2d windvec = convert_wind_to_coord( winddirection );
-    const tripoint_bub_ms triblocker( get_map().bub_from_abs( location ) + point( windvec.x,
+    const tripoint_bub_ms triblocker( get_map().get_bub( location ) + point( windvec.x,
                                       windvec.y ) );
     // Over map terrain may modify the effect of wind.
     if( ( omter->get_type_id() == oter_type_forest ) ||
@@ -870,7 +874,7 @@ rl_vec2d convert_wind_to_coord( const int angle )
 bool warm_enough_to_plant( const tripoint_bub_ms &pos )
 {
     // semi-appropriate temperature for most plants
-    return get_weather().get_temperature( pos.raw() ) >= units::from_fahrenheit( 50 );
+    return get_weather().get_temperature( pos ) >= units::from_fahrenheit( 50 );
 }
 
 bool warm_enough_to_plant( const tripoint_abs_omt &pos )
@@ -900,7 +904,7 @@ void weather_manager::update_weather()
     if( weather_id == WEATHER_NULL || calendar::turn >= nextweather ) {
         w_point &w = *weather_precise;
         const weather_generator &weather_gen = get_cur_weather_gen();
-        w = weather_gen.get_weather( player_character.get_location(), calendar::turn,
+        w = weather_gen.get_weather( player_character.pos_abs(), calendar::turn,
                                      g->get_seed() );
         weather_type_id old_weather = weather_id;
         std::string eternal_weather_option = get_option<std::string>( "ETERNAL_WEATHER" );
@@ -949,7 +953,7 @@ void weather_manager::set_nextweather( time_point t )
     update_weather();
 }
 
-units::temperature weather_manager::get_temperature( const tripoint &location )
+units::temperature weather_manager::get_temperature( const tripoint_bub_ms &location )
 {
     if( forced_temperature ) {
         return *forced_temperature;
@@ -961,7 +965,8 @@ units::temperature weather_manager::get_temperature( const tripoint &location )
     }
 
     //underground temperature = average New England temperature = 43F/6C
-    units::temperature temp = location.z < 0 ? AVERAGE_ANNUAL_TEMPERATURE : temperature;
+    units::temperature temp = location.z() < 0 ? units::from_celsius(
+                                  get_cur_weather_gen().base_temperature ) : temperature;
 
     if( !g->new_game ) {
         units::temperature_delta temp_mod;
@@ -978,7 +983,8 @@ units::temperature weather_manager::get_temperature( const tripoint &location )
 
 units::temperature weather_manager::get_temperature( const tripoint_abs_omt &location ) const
 {
-    return location.z() < 0 ? AVERAGE_ANNUAL_TEMPERATURE : temperature;
+    return location.z() < 0 ? units::from_celsius(
+               get_weather().get_cur_weather_gen().base_temperature ) : temperature;
 }
 
 void weather_manager::clear_temp_cache()

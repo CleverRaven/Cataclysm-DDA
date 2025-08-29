@@ -2,11 +2,19 @@
 #ifndef CATA_SRC_SHOP_CONS_RATE_H
 #define CATA_SRC_SHOP_CONS_RATE_H
 
+#include <functional>
+#include <string>
+#include <string_view>
+#include <vector>
+
 #include "generic_factory.h"
+#include "translation.h"
 #include "type_id.h"
 #include "units.h"
 
 class JsonObject;
+class JsonValue;
+class item;
 class npc;
 struct const_dialogue;
 
@@ -54,6 +62,7 @@ struct shopkeeper_cons_rates {
     static void reset();
     static const std::vector<shopkeeper_cons_rates> &get_all();
     static void load_rate( const JsonObject &jo, std::string const &src );
+    static void finalize_all();
     static void check_all();
     void load( const JsonObject &jo, std::string_view src );
     void check() const;
@@ -71,6 +80,7 @@ struct shopkeeper_blacklist {
     static void reset();
     static const std::vector<shopkeeper_blacklist> &get_all();
     static void load_blacklist( const JsonObject &jo, std::string const &src );
+    static void finalize_all();
     void load( const JsonObject &jo, std::string_view src );
     icg_entry const *matches( item const &it, npc const &beta ) const;
 };

@@ -5,7 +5,7 @@
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "faction_base_bare_bones_NPC_camp_0",
-    "description": "NPC-only.  If you see this it's a bug",
+    "description": "NPC-only.  If you see this it's a bug.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "skill_used": "fabrication",

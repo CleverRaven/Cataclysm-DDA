@@ -1,7 +1,7 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_FUNGI",
+    "id": "GROUP_FUNGI",
     "default": "mon_spore",
     "monsters": [
       { "monster": "mon_spore", "weight": 200, "cost_multiplier": 0 },
@@ -18,7 +18,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_FUNGI_FUNGALOID",
+    "id": "GROUP_FUNGI_FUNGALOID",
     "monsters": [
       { "monster": "mon_fungaloid", "weight": 500, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid_shambler", "weight": 250, "cost_multiplier": 0 },
@@ -28,7 +28,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_FUNGI_TOWER",
+    "id": "GROUP_FUNGI_TOWER",
     "monsters": [
       { "monster": "mon_fungal_tendril", "weight": 755, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid", "weight": 10, "cost_multiplier": 0 },
@@ -44,7 +44,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_FUNGI_FLOWERS",
+    "id": "GROUP_FUNGI_FLOWERS",
     "monsters": [
       { "monster": "mon_fungal_blossom", "weight": 680, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid", "weight": 20, "cost_multiplier": 0 },
@@ -59,7 +59,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_FUNGI_ZOMBIE",
+    "id": "GROUP_FUNGI_ZOMBIE",
     "monsters": [
       { "monster": "mon_fungal_blossom", "weight": 200, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid", "weight": 100, "cost_multiplier": 0 },

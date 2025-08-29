@@ -25,10 +25,7 @@
   {
     "type": "snippet",
     "category": "<triffid_harvest>",
-    "text": [
-      { "text": { "str": "<triffid_harvest>", "//~": "NO_I18N" } },
-      { "text": { "str": "<triffid_harvest_deeper>", "//~": "NO_I18N" } },
-      { "text": { "str": "<triffid_harvest>  <triffid_harvest_deeper>", "//~": "NO_I18N" } }
-    ]
+    "//": "NO_I18N",
+    "text": [ "<triffid_harvest>", "<triffid_harvest_deeper>", "<triffid_harvest>  <triffid_harvest_deeper>" ]
   }
 ]

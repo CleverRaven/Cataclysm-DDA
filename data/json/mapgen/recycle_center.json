@@ -1,18 +1,11 @@
 [
   {
-    "method": "json",
+    "type": "mapgen",
+    "om_terrain": "recyclecenter",
     "object": {
       "fill_ter": "t_thconc_floor",
-      "furniture": {
-        "#": "f_table",
-        "&": "f_trashcan",
-        "P": "f_sign",
-        "c": "f_chair",
-        "d": "f_desk",
-        "t": "f_table",
-        "{": "f_recycle_bin",
-        "S": "f_sink"
-      },
+      "furniture": { "&": "f_trashcan", "P": "f_sign", "c": "f_chair", "d": "f_desk", "t": "f_table", "{": "f_recycle_bin", "S": "f_sink" },
+      "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "T": {  } },
       "place_items": [
         { "chance": 50, "repeat": [ 120, 220 ], "item": "recycle_iron", "x": [ 10, 14 ], "y": [ 15, 16 ] },
@@ -22,9 +15,9 @@
         { "chance": 50, "repeat": [ 30, 100 ], "item": "recycle_battery", "x": [ 18, 19 ], "y": [ 17, 19 ] },
         { "chance": 50, "repeat": [ 80, 180 ], "item": "recycle_glass", "x": [ 18, 19 ], "y": [ 7, 9 ] },
         { "chance": 50, "repeat": [ 150, 250 ], "item": "recycle_steel", "x": [ 10, 14 ], "y": [ 18, 19 ] },
-        { "chance": 25, "item": "office_mess", "x": 6, "y": 7 },
-        { "chance": 25, "item": "office_mess", "x": 3, "y": 7 },
-        { "chance": 35, "repeat": 2, "item": "trash", "x": 3, "y": 5 },
+        { "chance": 75, "item": "SUS_office_mess", "x": 6, "y": 7 },
+        { "chance": 75, "item": "SUS_office_mess", "x": 3, "y": 7 },
+        { "chance": 35, "item": "SUS_trash_trashcan", "x": 3, "y": 5 },
         { "chance": 50, "repeat": [ 80, 180 ], "item": "recycle_aluminum", "x": [ 10, 14 ], "y": [ 9, 10 ] },
         { "chance": 50, "repeat": [ 180, 350 ], "item": "recycle_plastic", "x": [ 7, 8 ], "y": [ 11, 19 ] }
       ],
@@ -34,12 +27,12 @@
         "         s              ",
         "         s              ",
         "  #w#+###+###w##w#####  ",
-        "  #&fff||__||_RR_____#  ",
+        "  #&fff|______RR_____#  ",
         "  #fcffD__________P__#  ",
-        "###ddft||_________{{_#  ",
-        "#T|||||||_________{{_#  ",
+        "###ddft|__________{{_#  ",
+        "#T||||||__________{{_#  ",
         "#_D_______{{{{{P__{{_#  ",
-        "#S#__P__P_{{{{{______#  ",
+        "#S|__P__P_{{{{{______#  ",
         "###_{{_{{_________P__#  ",
         " 4#_{{_{{_{{{{{P__{{_#  ",
         "  #_{{_{{_{{{{{___{{_#  ",
@@ -81,14 +74,10 @@
         { "signage": "BATTERIES", "x": 18, "y": 16 },
         { "signage": "STEEL", "x": 15, "y": 18 }
       ]
-    },
-    "om_terrain": "recyclecenter",
-    "type": "mapgen",
-    "weight": 100
+    }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "recyclecenter_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -136,7 +125,6 @@
     }
   },
   {
-    "method": "json",
     "object": {
       "fill_ter": "t_thconc_floor",
       "furniture": {
@@ -156,12 +144,12 @@
         { "chance": 50, "repeat": [ 20, 60 ], "item": "recycle_copper", "x": [ 8, 9 ], "y": 19 },
         { "chance": 50, "repeat": [ 80, 220 ], "item": "recycle_plastic", "x": [ 4, 5 ], "y": [ 6, 11 ] },
         { "chance": 50, "repeat": [ 80, 220 ], "item": "recycle_iron", "x": [ 8, 9 ], "y": [ 6, 11 ] },
-        { "chance": 30, "repeat": 2, "item": "trash", "x": 12, "y": 7 },
-        { "chance": 30, "repeat": 2, "item": "trash", "x": 13, "y": 5 },
+        { "chance": 30, "item": "SUS_trash_trashcan", "x": 12, "y": 7 },
+        { "chance": 30, "item": "SUS_trash_trashcan", "x": 13, "y": 5 },
         { "chance": 50, "repeat": [ 100, 350 ], "item": "recycle_paper", "x": [ 18, 19 ], "y": [ 9, 19 ] },
         { "chance": 50, "repeat": [ 20, 120 ], "item": "recycle_battery", "x": [ 13, 15 ], "y": [ 18, 19 ] },
-        { "chance": 25, "item": "office", "x": 14, "y": 5 },
-        { "chance": 25, "item": "office", "x": 12, "y": 5 },
+        { "chance": 25, "item": "SUS_office_desk", "x": 14, "y": 5 },
+        { "chance": 75, "item": "SUS_office_desk", "x": 12, "y": 5 },
         { "chance": 50, "repeat": [ 80, 250 ], "item": "recycle_steel", "x": [ 4, 5 ], "y": [ 14, 19 ] },
         { "chance": 50, "repeat": [ 20, 100 ], "item": "recycle_aluminum", "x": [ 8, 9 ], "y": [ 14, 15 ] },
         { "chance": 50, "repeat": [ 20, 120 ], "item": "recycle_electronic", "x": [ 13, 15 ], "y": [ 14, 15 ] },
@@ -210,6 +198,7 @@
         "4": "t_gutter_downspout",
         "=": "t_door_c"
       },
+      "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "T": {  } },
       "place_signs": [
         { "signage": "GLASS", "x": 15, "y": 9 },
@@ -226,12 +215,10 @@
       ]
     },
     "om_terrain": "recyclecenter_1",
-    "type": "mapgen",
-    "weight": 100
+    "type": "mapgen"
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "recyclecenter_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -279,7 +266,6 @@
     }
   },
   {
-    "method": "json",
     "object": {
       "fill_ter": "t_thconc_floor",
       "furniture": {
@@ -292,10 +278,11 @@
         "{": "f_recycle_bin",
         "S": "f_sink"
       },
+      "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "T": {  } },
       "place_items": [
-        { "chance": 15, "item": "office", "x": [ 4, 5 ], "y": 14 },
-        { "chance": 30, "item": "trash", "x": 3, "y": 14 },
+        { "chance": 80, "item": "SUS_office_desk", "x": [ 4, 5 ], "y": 14 },
+        { "chance": 30, "item": "SUS_trash_trashcan", "x": 3, "y": 14 },
         { "chance": 20, "item": "tools_home", "x": 3, "y": [ 19, 20 ] },
         { "chance": 50, "repeat": [ 80, 280 ], "item": "recycle_plastic", "x": [ 15, 16 ], "y": [ 7, 12 ] },
         { "chance": 50, "repeat": [ 80, 280 ], "item": "recycle_glass", "x": [ 19, 20 ], "y": [ 7, 12 ] },
@@ -367,12 +354,10 @@
       ]
     },
     "om_terrain": "recyclecenter_2",
-    "type": "mapgen",
-    "weight": 100
+    "type": "mapgen"
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "recyclecenter_roof_2",
     "object": {
       "fill_ter": "t_tar_flat_roof",

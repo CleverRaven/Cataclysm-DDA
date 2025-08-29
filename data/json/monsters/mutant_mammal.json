@@ -271,7 +271,7 @@
     "stomach_size": 400,
     "armor": { "bash": 1, "cut": 1 },
     "extend": {
-      "flags": [ "CLIMBS" ],
+      "move_skills": { "climb": 6 },
       "special_attacks": [ [ "LUNGE", 5 ], { "type": "leap", "cooldown": 35, "move_cost": 100, "max_range": 3, "min_consider_range": 2 } ]
     }
   },

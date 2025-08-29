@@ -1,7 +1,6 @@
 #include "diary.h"
 
 #include <algorithm>
-#include <filesystem>
 #include <fstream>
 #include <string>
 #include <utility>
@@ -13,18 +12,16 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
+#include "enum_conversions.h"
 #include "filesystem.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "game.h"
 #include "json.h"
-#include "json_error.h"
 #include "kill_tracker.h"
 #include "magic.h"
 #include "mission.h"
 #include "mtype.h"
 #include "mutation.h"
-#include "npc.h"
 #include "output.h"
 #include "path_info.h"
 #include "pimpl.h"
@@ -38,12 +35,22 @@
 
 diary_page::diary_page() = default;
 
+std::string diary_page::entry_name() const
+{
+    return get_diary_time_str( turn, time_acc );
+}
+
+std::string diary_page_summary::entry_name() const
+{
+    return _( "Summary" );
+}
+
 std::vector<std::string> diary::get_pages_list()
 {
     std::vector<std::string> result;
     result.reserve( pages.size() );
     for( std::unique_ptr<diary_page> &n : pages ) {
-        result.push_back( get_diary_time_str( n->turn, n->time_acc ) );
+        result.push_back( n->entry_name() );
     }
     return result;
 }
@@ -58,6 +65,9 @@ int diary::set_opened_page( int pagenum )
         opened_page = - 1;
     } else if( pagenum < 0 ) {
         opened_page = pages.size() - 1;
+    } else if( pagenum == 0 && pagenum != opened_page ) {
+        opened_page = 0;
+        open_summary_page();
     } else {
         opened_page = pagenum % pages.size();
     }
@@ -84,6 +94,24 @@ void diary::add_to_change_list( const std::string &entry, const std::string &des
         desc_map[change_list.size()] = desc;
     }
     change_list.push_back( entry );
+}
+
+void diary::open_summary_page()
+{
+    add_to_change_list( _( "It is currently:" ) );
+    add_to_change_list( get_diary_time_str( calendar::turn, time_acc() ) );
+    add_to_change_list( "" );
+    add_to_change_list( _( "You have survived:" ) );
+    add_to_change_list( get_diary_time_since_str( calendar::turn - calendar::start_of_cataclysm,
+                        time_acc(), false ) );
+    add_to_change_list( _( "You have been playing for:" ) );
+    add_to_change_list( get_diary_time_since_str( calendar::turn - calendar::start_of_game,
+                        time_acc(), false ) );
+    add_to_change_list( "" );
+    const std::string season_name = calendar::name_season( season_of_year( calendar::turn ) );
+    add_to_change_list( string_format( _( "It is currently %s." ), season_name ) );
+    add_to_change_list( string_format( _( "%s will last for %d more days." ), season_name,
+                                       to_days<int>( calendar::season_length() ) - day_of_season<int>( calendar::turn ) ) );
 }
 
 void diary::spell_changes()
@@ -616,13 +644,29 @@ void diary::death_entry()
     export_to_txt( true );
 }
 
+void diary::add_summary_page()
+{
+    std::unique_ptr<diary_page> summary( new diary_page_summary() );
+    summary->turn = calendar::start_of_cataclysm;
+    summary->time_acc = time_accuracy::FULL;
+    diary::pages.push_back( std::move( summary ) );
+}
+
 diary::diary()
 {
     owner = get_avatar().name;
+    add_summary_page();
 }
 void diary::set_page_text( std::string text )
 {
     get_page_ptr()->m_text = std::move( text );
+}
+
+time_accuracy diary::time_acc() const
+{
+    avatar *u = &get_avatar();
+    return u->has_watch() ? time_accuracy::FULL : is_creature_outside( *u ) ? time_accuracy::PARTIAL :
+           time_accuracy::NONE;
 }
 
 void diary::new_page()
@@ -633,8 +677,7 @@ void diary::new_page()
     page -> kills = g ->get_kill_tracker().kills;
     page -> npc_kills = g->get_kill_tracker().npc_kills;
     avatar *u = &get_avatar();
-    page -> time_acc = u->has_watch() ? time_accuracy::FULL :
-                       is_creature_outside( *u ) ? time_accuracy::PARTIAL : time_accuracy::NONE;
+    page -> time_acc = time_acc();
     page -> mission_completed = mission::to_uid_vector( u->get_completed_missions() );
     page -> mission_active = mission::to_uid_vector( u->get_active_missions() );
     page -> mission_failed = mission::to_uid_vector( u->get_failed_missions() );
@@ -664,7 +707,7 @@ void diary::new_page()
 
 void diary::delete_page()
 {
-    if( opened_page < static_cast<int>( pages.size() ) ) {
+    if( opened_page > 0 && opened_page < static_cast<int>( pages.size() ) ) {
         pages.erase( pages.begin() + opened_page );
         set_opened_page( opened_page - 1 );
     }
@@ -673,9 +716,10 @@ void diary::delete_page()
 void diary::export_to_txt( bool lastexport )
 {
     std::ofstream myfile;
-    std::string path = lastexport ? PATH_INFO::memorialdir() : PATH_INFO::world_base_save_path();
-    path += "/" + owner + "s_diary.txt";
-    myfile.open( fs::u8path( path ) );
+    cata_path path = lastexport ? PATH_INFO::memorialdir_path() :
+                     PATH_INFO::world_base_save_path();
+    path = path / ( owner + "s_diary.txt" );
+    myfile.open( path.get_unrelative_path() );
 
     for( int i = 0; i < static_cast<int>( pages.size() ); i++ ) {
         set_opened_page( i );
@@ -696,7 +740,7 @@ void diary::export_to_txt( bool lastexport )
 bool diary::store()
 {
     std::string name = base64_encode( get_avatar().get_save_id() + "_diary" );
-    std::string path = PATH_INFO::world_base_save_path() +  "/" + name + ".json";
+    cata_path path = PATH_INFO::world_base_save_path() / ( name + ".json" );
     const bool iswriten = write_to_file( path, [&]( std::ostream & fout ) {
         serialize( fout );
     }, _( "diary data" ) );
@@ -717,6 +761,9 @@ void diary::serialize( JsonOut &jsout )
     jsout.member( "pages" );
     jsout.start_array();
     for( std::unique_ptr<diary_page> &n : pages ) {
+        if( n->is_summary() ) {
+            continue;
+        }
         jsout.start_object();
         jsout.member( "text", n->m_text );
         jsout.member( "turn", n->turn );
@@ -747,7 +794,7 @@ void diary::serialize( JsonOut &jsout )
 void diary::load()
 {
     std::string name = base64_encode( get_avatar().get_save_id() + "_diary" );
-    cata_path path = PATH_INFO::world_base_save_path_path() / ( name + ".json" );
+    cata_path path = PATH_INFO::world_base_save_path() / ( name + ".json" );
     if( file_exist( path ) ) {
         read_from_file_json( path, [&]( const JsonValue & jv ) {
             deserialize( jv );
@@ -762,6 +809,7 @@ void diary::deserialize( const JsonValue &jsin )
 
         data.read( "owner", owner );
         pages.clear();
+        add_summary_page();
         for( JsonObject elem : data.get_array( "pages" ) ) {
             std::unique_ptr<diary_page> page( new diary_page() );
             page->m_text = elem.get_string( "text" );

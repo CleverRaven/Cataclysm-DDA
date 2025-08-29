@@ -16,6 +16,7 @@
 
 #include "action.h"
 #include "activity_actor_definitions.h"
+#include "avatar_action.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_assert.h"
@@ -34,8 +35,6 @@
 #include "event.h"
 #include "event_bus.h"
 #include "faction.h"
-#include "field_type.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
@@ -47,41 +46,35 @@
 #include "itype.h"
 #include "iuse.h"
 #include "json.h"
-#include "line.h"
 #include "map.h"
 #include "map_memory.h"
-#include "mapdata.h"
+#include "map_scale_constants.h"
 #include "martialarts.h"
 #include "messages.h"
 #include "mission.h"
 #include "move_mode.h"
-#include "mutation.h"
 #include "npc.h"
+#include "npc_opinion.h"
 #include "output.h"
-#include "overmap.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "pimpl.h"
-#include "profession.h"
+#include "point.h"
 #include "ranged.h"
 #include "recipe.h"
 #include "ret_val.h"
 #include "rng.h"
-#include "scenario.h"
 #include "skill.h"
-#include "sleep.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "talker.h"
 #include "talker_avatar.h"
 #include "timed_event.h"
 #include "translations.h"
-#include "trap.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 #include "units.h"
 #include "value_ptr.h"
-#include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 
@@ -189,9 +182,8 @@ void avatar::control_npc( npc &np, const bool debug )
     g->update_map( *this, z_level_changed );
     character_mood_face( true );
 
-    profession_id prof_id = prof ? prof->ident() : profession::generic()->ident();
-    get_event_bus().send<event_type::game_avatar_new>( /*is_new_game=*/false, debug,
-            getID(), name, male, prof_id, custom_profession );
+    get_event_bus().send<event_type::game_avatar_new>( /*is_new_game=*/false, debug, getID(), name,
+            custom_profession );
 }
 
 void avatar::control_npc_menu( const bool debug )
@@ -250,12 +242,12 @@ bool avatar::should_show_map_memory() const
 
 bool avatar::save_map_memory()
 {
-    return player_map_memory->save( get_map().getglobal( pos_bub() ) );
+    return player_map_memory->save( pos_abs() );
 }
 
 void avatar::load_map_memory()
 {
-    player_map_memory->load( get_map().getglobal( pos_bub() ) );
+    player_map_memory->load( pos_abs() );
 }
 
 void avatar::prepare_map_memory_region( const tripoint_abs_ms &p1, const tripoint_abs_ms &p2 )
@@ -271,13 +263,19 @@ const memorized_tile &avatar::get_memorized_tile( const tripoint_abs_ms &p ) con
     return mm_submap::default_tile;
 }
 
-void avatar::memorize_terrain( const tripoint_abs_ms &p, const std::string_view id,
+bool avatar::has_memory_at( const tripoint_abs_ms &p ) const
+{
+    const memorized_tile &mt = get_memorized_tile( p );
+    return !mt.get_ter_id().empty() || !mt.get_dec_id().empty();
+}
+
+void avatar::memorize_terrain( const tripoint_abs_ms &p, std::string_view id,
                                int subtile, int rotation )
 {
     player_map_memory->set_tile_terrain( p, id, subtile, rotation );
 }
 
-void avatar::memorize_decoration( const tripoint_abs_ms &p, const std::string_view id,
+void avatar::memorize_decoration( const tripoint_abs_ms &p, std::string_view id,
                                   int subtile, int rotation )
 {
     player_map_memory->set_tile_decoration( p, id, subtile, rotation );
@@ -308,9 +306,19 @@ std::vector<mission *> avatar::get_failed_missions() const
     return failed_missions;
 }
 
+std::vector<point_of_interest> avatar::get_points_of_interest() const
+{
+    return points_of_interest;
+}
+
 mission *avatar::get_active_mission() const
 {
     return active_mission;
+}
+
+point_of_interest avatar::get_active_point_of_interest() const
+{
+    return active_point_of_interest;
 }
 
 void avatar::reset_all_missions()
@@ -323,10 +331,12 @@ void avatar::reset_all_missions()
 
 tripoint_abs_omt avatar::get_active_mission_target() const
 {
-    if( active_mission == nullptr ) {
-        return tripoint_abs_omt::invalid;
+    if( active_mission != nullptr ) {
+        return active_mission->get_target();
+    } else {
+        // It's tripoint_abs_invalid if not active.
+        return active_point_of_interest.pos;
     }
-    return active_mission->get_target();
 }
 
 void avatar::set_active_mission( mission &cur_mission )
@@ -337,6 +347,33 @@ void avatar::set_active_mission( mission &cur_mission )
                   cur_mission.mission_id().c_str() );
     } else {
         active_mission = &cur_mission;
+        active_point_of_interest.pos = tripoint_abs_omt::invalid;
+    }
+}
+
+void avatar::set_active_point_of_interest( const point_of_interest &active_point_of_interest )
+{
+    for( const point_of_interest &iter : points_of_interest ) {
+        // It's really sufficient to only check the position as used...
+        if( iter.pos == active_point_of_interest.pos &&
+            iter.text == active_point_of_interest.text ) {
+            this->active_point_of_interest = active_point_of_interest;
+            active_mission = nullptr;
+            return;
+        }
+
+    }
+
+    debugmsg( "active point of interest %s is not in the points_of_interest list",
+              active_point_of_interest.text.c_str() );
+}
+
+void avatar::update_active_mission()
+{
+    if( active_missions.empty() ) {
+        active_mission = nullptr;
+    } else {
+        active_mission = active_missions.front();
     }
 }
 
@@ -368,11 +405,7 @@ void avatar::on_mission_finished( mission &cur_mission )
         active_missions.erase( iter );
     }
     if( &cur_mission == active_mission ) {
-        if( active_missions.empty() ) {
-            active_mission = nullptr;
-        } else {
-            active_mission = active_missions.front();
-        }
+        update_active_mission();
     }
 }
 
@@ -398,12 +431,46 @@ void avatar::remove_active_mission( mission &cur_mission )
     }
 
     if( &cur_mission == active_mission ) {
-        if( active_missions.empty() ) {
+        update_active_mission();
+    }
+}
+
+void avatar::add_point_of_interest( const point_of_interest &new_point_of_interest )
+{
+    for( point_of_interest &existing_point_of_interest : points_of_interest ) {
+        if( new_point_of_interest.pos == existing_point_of_interest.pos ) {
+            existing_point_of_interest.text = new_point_of_interest.text;
             active_mission = nullptr;
-        } else {
-            active_mission = active_missions.front();
+            active_point_of_interest = new_point_of_interest;
+            return;
         }
     }
+
+    points_of_interest.push_back( new_point_of_interest );
+    active_mission = nullptr;
+    active_point_of_interest = new_point_of_interest;
+}
+
+void avatar::delete_point_of_interest( tripoint_abs_omt pos )
+{
+    for( auto iter = points_of_interest.begin(); iter != points_of_interest.end(); iter++ ) {
+        if( iter->pos == pos ) {
+            points_of_interest.erase( iter );
+
+            if( active_point_of_interest.pos == pos ) {
+                active_point_of_interest.pos = tripoint_abs_omt::invalid;
+
+                if( !active_missions.empty() ) {
+                    active_mission = active_missions.front();
+                }
+            }
+
+            return;
+        }
+    }
+
+    debugmsg( "removed point of interest at %s was not in the points_of_interest list",
+              pos.to_string().c_str() );
 }
 
 diary *avatar::get_avatar_diary()
@@ -434,7 +501,7 @@ bool avatar::read( item_location &book, item_location ereader )
     // spells are handled in a different place
     // src/iuse_actor.cpp -> learn_spell_actor::use
     if( book->get_use( "learn_spell" ) ) {
-        book->get_use( "learn_spell" )->call( this, *book, pos() );
+        book->get_use( "learn_spell" )->call( this, *book, pos_bub() );
         return true;
     }
 
@@ -688,16 +755,16 @@ void avatar::grab( object_type grab_type_new, const tripoint_rel_ms &grab_point_
         map &m = get_map();
         if( gtype == object_type::VEHICLE ) {
             if( const optional_vpart_position ovp = m.veh_at( pos_bub() + gpoint ) ) {
-                for( const tripoint_bub_ms &target : ovp->vehicle().get_points() ) {
+                for( const tripoint_abs_ms &target : ovp->vehicle().get_points() ) {
                     if( erase ) {
-                        memorize_clear_decoration( m.getglobal( target ), /* prefix = */ "vp_" );
+                        memorize_clear_decoration( target, /* prefix = */ "vp_" );
                     }
-                    m.memory_cache_dec_set_dirty( target, true );
+                    m.memory_cache_dec_set_dirty( m.get_bub( target ), true );
                 }
             }
         } else if( gtype != object_type::NONE ) {
             if( erase ) {
-                memorize_clear_decoration( m.getglobal( pos_bub() + gpoint ) );
+                memorize_clear_decoration( m.get_abs( pos_bub() + gpoint ) );
             }
             m.memory_cache_dec_set_dirty( pos_bub() + gpoint, true );
         }
@@ -730,7 +797,7 @@ void avatar::identify( const item &item )
     if( has_identified( item.typeId() ) ) {
         return;
     }
-    if( !item.is_book() ) {
+    if( !item.is_identifiable() ) {
         debugmsg( "tried to identify non-book item" );
         return;
     }
@@ -1023,14 +1090,12 @@ void avatar::reset_stats()
     // Starvation
     const float bmi = get_bmi_fat();
     if( bmi < character_weight_category::normal ) {
-        const int str_penalty = std::floor( ( 1.0f - ( get_bmi_fat() /
-                                              character_weight_category::normal ) ) * str_max );
-        const int dexint_penalty = std::floor( ( character_weight_category::normal - bmi ) * 3.0f );
+        const stat_mod wpen = get_weight_penalty();
         add_miss_reason( _( "You're weak from hunger." ),
                          static_cast<unsigned>( ( get_starvation() + 300 ) / 1000 ) );
-        mod_str_bonus( -1 * str_penalty );
-        mod_dex_bonus( -1 * dexint_penalty );
-        mod_int_bonus( -1 * dexint_penalty );
+        mod_str_bonus( -wpen.strength );
+        mod_dex_bonus( -wpen.dexterity );
+        mod_int_bonus( -wpen.intelligence );
     }
     // Thirst
     if( get_thirst() >= 200 ) {
@@ -1097,7 +1162,6 @@ void avatar::reset_stats()
     Character::reset_stats();
 
     recalc_sight_limits();
-    recalc_speed_bonus();
 
 }
 
@@ -1209,11 +1273,6 @@ bool avatar::is_obeying( const Character &p ) const
     return guy.is_obeying( *this );
 }
 
-bool avatar::cant_see( const tripoint &p ) const
-{
-    return cant_see( tripoint_bub_ms( p ) );
-}
-
 bool avatar::cant_see( const tripoint_bub_ms &p ) const
 {
 
@@ -1231,16 +1290,18 @@ bool avatar::cant_see( const tripoint_bub_ms &p ) const
 
 void avatar::rebuild_aim_cache() const
 {
+    map &here = get_map();
+
     aim_cache_dirty =
         false; // Can trigger recursive death spiral if still set when calc_steadiness is called.
 
     double pi = 2 * acos( 0.0 );
 
-    const tripoint_bub_ms local_last_target = get_map().bub_from_abs( tripoint_abs_ms(
-                last_target_pos.value() ) );
-
-    float base_angle = atan2f( local_last_target.y() - posy(),
-                               local_last_target.x() - posx() );
+    const tripoint_bub_ms local_last_target = here.get_bub(
+                last_target_pos.value() );
+    const tripoint_bub_ms pos = pos_bub( here );
+    float base_angle = atan2f( local_last_target.y() - pos.y(),
+                               local_last_target.x() - pos.x() );
 
     // move from -pi to pi, to 0 to 2pi for angles
     if( base_angle < 0 ) {
@@ -1268,7 +1329,7 @@ void avatar::rebuild_aim_cache() const
     for( int smx = 0; smx < MAPSIZE_X; ++smx ) {
         for( int smy = 0; smy < MAPSIZE_Y; ++smy ) {
 
-            float current_angle = atan2f( smy - posy(), smx - posx() );
+            float current_angle = atan2f( smy - pos.y(), smx - pos.x() );
 
             // move from -pi to pi, to 0 to 2pi for angles
             if( current_angle < 0 ) {
@@ -1276,7 +1337,7 @@ void avatar::rebuild_aim_cache() const
             }
 
             // some basic angle inclusion math, but also everything with 15 is still seen
-            if( rl_dist( tripoint_bub_ms( smx, smy, pos_bub().z() ), pos_bub() ) < 15 ) {
+            if( rl_dist( tripoint_bub_ms( smx, smy, posz() ), pos ) < 15 ) {
                 aim_cache[smx][smy] = false;
             } else if( lower_bound > upper_bound ) {
                 aim_cache[smx][smy] = !( current_angle >= lower_bound ||
@@ -1293,6 +1354,8 @@ void avatar::rebuild_aim_cache() const
 
 void avatar::set_movement_mode( const move_mode_id &new_mode )
 {
+    map &here = get_map();
+
     if( can_switch_to( new_mode ) ) {
         if( is_hauling() && new_mode->stop_hauling() ) {
             stop_hauling();
@@ -1303,8 +1366,8 @@ void avatar::set_movement_mode( const move_mode_id &new_mode )
         recalculate_enchantment_cache();
         // crouching affects visibility
         //TODO: Replace with dirtying vision_transparency_cache
-        get_map().set_transparency_cache_dirty( pos_bub() );
-        get_map().set_seen_cache_dirty( pos_bub().z() );
+        here.set_transparency_cache_dirty( pos_bub() );
+        here.set_seen_cache_dirty( posz() );
         recoil = MAX_RECOIL;
     } else {
         add_msg( new_mode->change_message( false, get_steed_type() ) );
@@ -1371,91 +1434,21 @@ void avatar::cycle_move_mode_reverse()
     }
 }
 
-bool avatar::wield( item_location target )
+
+bool avatar::wield( item &it )
 {
-    return wield( *target, target.obtain_cost( *this ) );
+    if( !avatar_action::check_stealing( *this, it ) ) {
+        return false;
+    }
+    return Character::wield( it );
 }
 
-bool avatar::wield( item &target )
+bool avatar::wield( item_location loc, bool remove_old )
 {
-    invalidate_inventory_validity_cache();
-    invalidate_leak_level_cache();
-    return wield( target,
-                  item_handling_cost( target, true,
-                                      is_worn( target ) ? INVENTORY_HANDLING_PENALTY / 2 :
-                                      INVENTORY_HANDLING_PENALTY ) );
-}
-
-bool avatar::wield( item &target, const int obtain_cost )
-{
-    if( is_wielding( target ) ) {
-        return true;
-    }
-
-    item_location weapon = get_wielded_item();
-    if( weapon && weapon->has_item( target ) ) {
-        add_msg( m_info, _( "You need to put the bag away before trying to wield something from it." ) );
+    if( !avatar_action::check_stealing( *this, *loc ) ) {
         return false;
     }
-
-    if( !can_wield( target ).success() ) {
-        return false;
-    }
-
-    bool combine_stacks = weapon && target.can_combine( *weapon );
-    if( !combine_stacks && !unwield() ) {
-        return false;
-    }
-    cached_info.erase( "weapon_value" );
-    if( target.is_null() ) {
-        return true;
-    }
-
-    // Wielding from inventory is relatively slow and does not improve with increasing weapon skill.
-    // Worn items (including guns with shoulder straps) are faster but still slower
-    // than a skilled player with a holster.
-    // There is an additional penalty when wielding items from the inventory whilst currently grabbed.
-
-    bool worn = is_worn( target );
-    const int mv = obtain_cost;
-
-    if( worn ) {
-        target.on_takeoff( *this );
-    }
-
-    add_msg_debug( debugmode::DF_AVATAR, "wielding took %d moves", mv );
-    mod_moves( -mv );
-
-    if( has_item( target ) ) {
-        item removed = i_rem( &target );
-        if( combine_stacks ) {
-            weapon->combine( removed );
-        } else {
-            set_wielded_item( removed );
-
-        }
-    } else {
-        if( combine_stacks ) {
-            weapon->combine( target );
-        } else {
-            set_wielded_item( target );
-        }
-    }
-
-    // set_wielded_item invalidates the weapon item_location, so get it again
-    weapon = get_wielded_item();
-    last_item = weapon->typeId();
-    recoil = MAX_RECOIL;
-
-    weapon->on_wield( *this );
-
-    cata::event e = cata::event::make<event_type::character_wields_item>( getID(), last_item );
-    get_event_bus().send_with_talker( this, &weapon, e );
-
-    inv->update_invlet( *weapon );
-    inv->update_cache_with_item( *weapon );
-
-    return true;
+    return Character::wield( loc, remove_old );
 }
 
 item::reload_option avatar::select_ammo( const item_location &base, bool prompt,
@@ -1479,7 +1472,7 @@ bool avatar::invoke_item( item *used, const tripoint_bub_ms &pt, int pre_obtain_
     } else if( num_methods == 1 && !has_relic ) {
         return invoke_item( used, use_methods.begin()->first, pt, pre_obtain_moves );
     } else if( num_methods == 0 && has_relic ) {
-        return used->use_relic( *this, pt.raw() );
+        return used->use_relic( *this, pt );
     }
 
     uilist umenu;
@@ -1488,7 +1481,7 @@ bool avatar::invoke_item( item *used, const tripoint_bub_ms &pt, int pre_obtain_
     umenu.hilight_disabled = true;
 
     for( const auto &e : use_methods ) {
-        const auto res = e.second.can_call( *this, *used, pt.raw() );
+        const auto res = e.second.can_call( *this, *used, pt );
         umenu.addentry_desc( MENU_AUTOASSIGN, res.success(), MENU_AUTOASSIGN, e.second.get_name(),
                              res.str() );
     }
@@ -1507,7 +1500,7 @@ bool avatar::invoke_item( item *used, const tripoint_bub_ms &pt, int pre_obtain_
     int choice = umenu.ret;
     // Use the relic
     if( choice == num_methods ) {
-        return used->use_relic( *this, pt.raw() );
+        return used->use_relic( *this, pt );
     }
     if( choice < 0 || choice >= num_methods ) {
         return false;
@@ -1845,7 +1838,7 @@ void avatar::add_pain_msg( int val, const bodypart_id &bp ) const
     if( has_flag( json_flag_PAIN_IMMUNE ) ) {
         return;
     }
-    if( bp == bodypart_id( "bp_null" ) ) {
+    if( bp == bodypart_str_id::NULL_ID() ) {
         if( val > 20 ) {
             add_msg_if_player( _( "Your body is wracked with excruciating pain!" ) );
         } else if( val > 10 ) {
@@ -1922,9 +1915,9 @@ bool avatar::query_yn( const std::string &mes ) const
     return ::query_yn( mes );
 }
 
-void avatar::set_location( const tripoint_abs_ms &loc )
+void avatar::set_pos_abs_only( const tripoint_abs_ms &loc )
 {
-    Creature::set_location( loc );
+    Creature::set_pos_abs_only( loc );
 }
 
 npc &avatar::get_shadow_npc()

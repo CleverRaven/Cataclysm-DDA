@@ -1,7 +1,7 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_DEFENSE_MODE_EXODII",
+    "id": "GROUP_DEFENSE_MODE_EXODII",
     "//": "A small Exodii hunter/killer unit or party, respecialized for Defense Mode.",
     "monsters": [
       { "monster": "mon_dm_exodii_quad_jotunn", "weight": 20 },
@@ -11,7 +11,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_DEFENSE_MODE_XEDRA",
+    "id": "GROUP_DEFENSE_MODE_XEDRA",
     "monsters": [
       { "monster": "mon_dm_changeling", "weight": 100, "cost_multiplier": 1 },
       { "monster": "mon_dm_fetch_child", "weight": 400, "cost_multiplier": 0 },

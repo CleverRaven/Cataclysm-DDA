@@ -3,7 +3,7 @@
     "id": "BGSS_CONFUSED_1_STORY1",
     "type": "talk_topic",
     "dynamic_line": {
-      "gendered_line": "I don't even <swear> know anymore.  I have no <swear> idea what is going on.  I'm just doing what I can to stay alive.  The world ended and I bungled along not dying, until I met you.",
+      "gendered_line": "I don't even fucking know anymore.  I have no freaking idea what is going on.  I'm just doing what I can to stay alive.  The world ended and I bungled along not dying, until I met you.",
       "relevant_genders": [ "npc" ]
     },
     "responses": [ { "text": "Huh.", "topic": "TALK_FRIEND_CONVERSATION" } ]

@@ -7,6 +7,8 @@
 #undef IMGUI_DEFINE_MATH_OPERATORS
 #include <imgui/imgui_freetype.h>
 
+#include "catacharset.h"
+#include "cached_options.h"
 #include "color.h"
 #include "input.h"
 #include "output.h"
@@ -70,7 +72,7 @@ static ImVec4 compute_color( uint8_t index )
     }
 }
 
-ImVec4 cataimgui::imvec4_from_color( nc_color &color )
+ImVec4 cataimgui::imvec4_from_color( const nc_color &color )
 {
     int pair_id = color.get_index();
     pairs &pair = colorpairs[pair_id];
@@ -237,7 +239,7 @@ RGBTuple color_loader<RGBTuple>::from_rgb( const int r, const int g, const int b
 #include <imgui/imgui_impl_sdl2.h>
 #include <imgui/imgui_impl_sdlrenderer2.h>
 
-ImVec4 cataimgui::imvec4_from_color( nc_color &color )
+ImVec4 cataimgui::imvec4_from_color( const nc_color &color )
 {
     SDL_Color c = curses_color_to_SDL( color );
     return { static_cast<float>( c.r / 255. ),
@@ -345,9 +347,9 @@ static void AddGlyphRangesFromCLDR( ImFontGlyphRangesBuilder *b, const std::stri
     } else if( lang == "uk_UA" ) {
         AddGlyphRangesFromCLDRForUK_UA( b );
     } else if( lang == "zh_CN" ) {
-        AddGlyphRangesFromCLDRForZH_HANT( b );
-    } else if( lang == "zh_TW" ) {
         AddGlyphRangesFromCLDRForZH_HANS( b );
+    } else if( lang == "zh_TW" ) {
+        AddGlyphRangesFromCLDRForZH_HANT( b );
     }
     // NOLINTEND(bugprone-branch-clone)
 }
@@ -365,27 +367,32 @@ static void AddGlyphRangesMisc( UNUSED ImFontGlyphRangesBuilder *b )
     b->AddRanges( &superscripts[0] );
 }
 
-static void load_font( ImGuiIO &io, const std::vector<std::string> &typefaces,
+
+// Load all fonts that exist in typefaces list
+// - typefaces is a list of paths.
+static void load_font( ImGuiIO &io, const std::vector<font_config> &typefaces,
                        const ImWchar *ranges )
 {
-    std::vector<std::string> io_typefaces{ typefaces };
+    std::vector<font_config> io_typefaces{ typefaces };
     ensure_unifont_loaded( io_typefaces );
 
-    auto it = std::find_if( io_typefaces.begin(),
-                            io_typefaces.end(),
-    []( const std::string & io_typeface ) {
-        return file_exist( io_typeface );
-    } );
-    std::string existing_typeface = *it;
     ImFontConfig config = ImFontConfig();
-#ifdef IMGUI_ENABLE_FREETYPE
-    if( existing_typeface.find( "Terminus.ttf" ) != std::string::npos ||
-        existing_typeface.find( "unifont.ttf" ) != std::string::npos ) {
-        config.FontBuilderFlags = ImGuiFreeTypeBuilderFlags_ForceAutoHint;
-    }
-#endif
 
-    io.Fonts->AddFontFromFileTTF( existing_typeface.c_str(), fontheight, &config, ranges );
+    bool first = true;
+    auto it = std::begin( io_typefaces );
+    for( ; it != std::end( io_typefaces ); ++it ) {
+        if( !file_exist( it->path ) ) {
+            printf( "Font file '%s' does not exist.\n", it->path.c_str() );
+        } else {
+            config.MergeMode = !first;
+            config.FontBuilderFlags = it->imgui_config();
+            io.Fonts->AddFontFromFileTTF( it->path.c_str(), fontheight, &config, ranges );
+            first = false;
+        }
+    }
+    if( first ) {
+        debugmsg( "No fonts were found in the fontdata file." );
+    }
 }
 
 static void check_font( const ImFont *font )
@@ -405,7 +412,7 @@ static void check_font( const ImFont *font )
 void cataimgui::client::load_fonts( UNUSED const Font_Ptr &gui_font,
                                     const Font_Ptr &mono_font,
                                     const std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> &windowsPalette,
-                                    const std::vector<std::string> &gui_typefaces, const std::vector<std::string> &mono_typefaces )
+                                    const std::vector<font_config> &gui_typefaces, const std::vector<font_config> &mono_typefaces )
 {
     ImGuiIO &io = ImGui::GetIO();
     if( ImGui::GetIO().FontDefault == nullptr ) {
@@ -423,6 +430,9 @@ void cataimgui::client::load_fonts( UNUSED const Font_Ptr &gui_font,
         b.AddRanges( io.Fonts->GetGlyphRangesDefault() );
         AddGlyphRangesFromCLDR( &b, lang );
         AddGlyphRangesMisc( &b );
+        if( get_option<bool>( "IMGUI_LOAD_CHINESE" ) ) {
+            b.AddRanges( io.Fonts->GetGlyphRangesChineseFull() );
+        }
         ImVector<ImWchar> ranges;
         b.BuildRanges( &ranges );
 
@@ -576,7 +586,18 @@ void cataimgui::client::end_frame()
 void cataimgui::client::process_input( void *input )
 {
     if( any_window_shown() ) {
-        ImGui_ImplSDL2_ProcessEvent( static_cast<const SDL_Event *>( input ) );
+        const SDL_Event *evt = static_cast<const SDL_Event *>( input );
+        bool no_mouse = ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_NoMouse;
+        if( no_mouse ) {
+            switch( evt->type ) {
+                case SDL_MOUSEMOTION:
+                case SDL_MOUSEWHEEL:
+                case SDL_MOUSEBUTTONDOWN:
+                case SDL_MOUSEBUTTONUP:
+                    return;
+            }
+        }
+        ImGui_ImplSDL2_ProcessEvent( evt );
     }
 }
 
@@ -658,7 +679,7 @@ void cataimgui::imvec2_to_point( ImVec2 *src, point *dest )
     }
 }
 
-static void PushOrPopColor( const std::string_view seg, int minimumColorStackSize )
+static void PushOrPopColor( std::string_view seg, int minimumColorStackSize )
 {
     color_tag_parse_result tag = get_color_from_tag( seg, report_color_error::yes );
     switch( tag.type ) {
@@ -684,12 +705,19 @@ static void PushOrPopColor( const std::string_view seg, int minimumColorStackSiz
  */
 void cataimgui::set_scroll( scroll &s )
 {
+    int scroll_px_begin = ImGui::GetScrollY();
     int scroll_px = 0;
     int line_height = ImGui::GetTextLineHeightWithSpacing();
-    int page_height = ImGui::GetContentRegionAvail().y;
+    int page_height = ImGui::GetWindowSize().y;
 
     switch( s ) {
         case scroll::none:
+            break;
+        case scroll::begin:
+            scroll_px_begin = 0;
+            break;
+        case scroll::end:
+            scroll_px_begin = ImGui::GetScrollMaxY();
             break;
         case scroll::line_up:
             scroll_px = -line_height;
@@ -705,35 +733,36 @@ void cataimgui::set_scroll( scroll &s )
             break;
     }
 
-    ImGui::SetScrollY( ImGui::GetScrollY() + scroll_px );
+    ImGui::SetScrollY( scroll_px_begin + scroll_px );
 
     s = scroll::none;
 }
 
-void cataimgui::draw_colored_text( std::string const &text, const nc_color &color,
+void cataimgui::draw_colored_text( const std::string &original_text, const nc_color &color,
                                    float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
 {
     nc_color color_cpy = color;
     ImGui::PushStyleColor( ImGuiCol_Text, color_cpy );
-    draw_colored_text( text, wrap_width, is_selected, is_focused, is_hovered );
+    draw_colored_text( original_text, wrap_width, is_selected, is_focused, is_hovered );
     ImGui::PopStyleColor();
 }
 
-void cataimgui::draw_colored_text( std::string const &text, nc_color &color,
+void cataimgui::draw_colored_text( const std::string &original_text, nc_color &color,
                                    float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
 {
     ImGui::PushStyleColor( ImGuiCol_Text, color );
-    draw_colored_text( text, wrap_width, is_selected, is_focused, is_hovered );
+    draw_colored_text( original_text, wrap_width, is_selected, is_focused, is_hovered );
     ImGui::PopStyleColor();
 }
 
-void cataimgui::draw_colored_text( std::string const &text,
+void cataimgui::draw_colored_text( const std::string &original_text,
                                    float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
 {
-    if( text.empty() ) {
+    if( original_text.empty() ) {
         ImGui::NewLine();
         return;
     }
+    const std::string &text = replace_colors( original_text );
 
     ImGui::PushID( text.c_str() );
     int startColorStackCount = GImGui->ColorStack.Size;
@@ -1027,6 +1056,14 @@ void cataimgui::window::clear_filter()
     }
 }
 
+bool cataimgui::InputFloat( const char *label, float *v, float step, float step_fast,
+                            const char *format, ImGuiInputTextFlags flags )
+{
+    return ImGui::InputScalar( label, ImGuiDataType_Float, static_cast<void *>( v ),
+                               static_cast<void *>( step > 0.0f ? &step : nullptr ),
+                               static_cast<void *>( step_fast > 0.0f ? &step_fast : nullptr ), format, flags );
+}
+
 void cataimgui::PushGuiFont()
 {
 #ifdef TILES
@@ -1066,7 +1103,7 @@ static void inherit_base_colors()
     ImGuiStyle &style = ImGui::GetStyle();
 
     style.Colors[ImGuiCol_Text] = c_white;
-    style.Colors[ImGuiCol_TextDisabled] = c_dark_gray;
+    style.Colors[ImGuiCol_TextDisabled] = c_unset;
     style.Colors[ImGuiCol_WindowBg] = c_black;
     style.Colors[ImGuiCol_ChildBg] = c_black;
     style.Colors[ImGuiCol_PopupBg] = c_black;
@@ -1076,7 +1113,7 @@ static void inherit_base_colors()
     style.Colors[ImGuiCol_FrameBgHovered] = c_black;
     style.Colors[ImGuiCol_FrameBgActive] = c_dark_gray;
     style.Colors[ImGuiCol_TitleBg] = c_dark_gray;
-    style.Colors[ImGuiCol_TitleBgActive] = c_light_blue;
+    style.Colors[ImGuiCol_TitleBgActive] = c_black;
     style.Colors[ImGuiCol_TitleBgCollapsed] = c_dark_gray;
     style.Colors[ImGuiCol_MenuBarBg] = c_black;
     style.Colors[ImGuiCol_ScrollbarBg] = c_black;
@@ -1089,7 +1126,7 @@ static void inherit_base_colors()
     style.Colors[ImGuiCol_Button] = c_dark_gray;
     style.Colors[ImGuiCol_ButtonHovered] = c_dark_gray;
     style.Colors[ImGuiCol_ButtonActive] = c_blue;
-    style.Colors[ImGuiCol_Header] = c_blue;
+    style.Colors[ImGuiCol_Header] = h_blue;
     style.Colors[ImGuiCol_HeaderHovered] = c_black;
     style.Colors[ImGuiCol_HeaderActive] = c_dark_gray;
     style.Colors[ImGuiCol_Separator] = c_dark_gray;
@@ -1110,6 +1147,8 @@ static void inherit_base_colors()
 static void load_imgui_style_file( const cata_path &style_path )
 {
     ImGuiStyle &style = ImGui::GetStyle();
+    // reset style first to unset colors
+    ImGui::StyleColorsDark( &style );
 
     JsonValue jsin = json_loader::from_path( style_path );
 
@@ -1198,7 +1237,8 @@ static void load_imgui_style_file( const cata_path &style_path )
 
 void cataimgui::init_colors()
 {
-    const cata_path default_style_path = PATH_INFO::datadir_path() / "raw" / "imgui_style.json";
+    const cata_path default_style_path = PATH_INFO::datadir_path() / "raw" / "imgui_styles" /
+                                         "default_style.json";
     const cata_path style_path = PATH_INFO::config_dir_path() / "imgui_style.json";
     if( !file_exist( style_path ) ) {
         assure_dir_exist( PATH_INFO::config_dir() );
@@ -1213,3 +1253,27 @@ void cataimgui::init_colors()
     }
 }
 
+void cataimgui::TextKeybinding( const input_context &ctxt,
+                                const char *action, const char *description, bool active,
+                                int max_limit, const nc_color &default_color )
+{
+    const nc_color color = active ? ACTIVE_HOTKEY_COLOR : default_color;
+    ImGui::TextColored( default_color, "[" );
+    ImGui::SameLine( 0, 0 );
+    ImGui::TextColored( color, "%s",
+                        // strlen(action) <= 1 // for non-action explicit keys
+                        ( *action == 0 || *( action + 1 ) == 0 ) ?
+                        action :
+                        ctxt.get_desc( action, max_limit ).c_str() );
+    ImGui::SameLine( 0, 0 );
+    ImGui::TextColored( default_color, "] " );
+    ImGui::SameLine( 0, 0 );
+    ImGui::TextColored( color, "%s", description );
+}
+
+void cataimgui::TextListSeparator( const nc_color &color )
+{
+    ImGui::SameLine( 0, 0 );
+    ImGui::TextColored( color, ", " );
+    ImGui::SameLine( 0, 0 );
+}

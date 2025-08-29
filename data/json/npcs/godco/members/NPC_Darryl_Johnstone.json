@@ -37,7 +37,7 @@
     "id": "TALK_GODCO_Darryl_1",
     "dynamic_line": {
       "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
-      "yes": { "gendered_line": "What the <swear> are you, sinner?  Get away from me.", "relevant_genders": [ "u" ] },
+      "yes": { "gendered_line": "What the hell are you, sinner?  Get away from me.", "relevant_genders": [ "u" ] },
       "no": {
         "math": [ "n_npc_anger() >= 5" ],
         "yes": "Shove off, we've got no good words for each other.",
@@ -349,7 +349,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Darryl_Angry",
-    "dynamic_line": "No, I <swear> well don't, not with you at least.  I ain't interested in whatever you've got to say.",
+    "dynamic_line": "No, I fucking well don't, not with you at least.  I ain't interested in whatever you've got to say.",
     "responses": [ { "text": "See you later then.", "topic": "TALK_DONE" } ]
   }
 ]

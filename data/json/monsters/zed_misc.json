@@ -15,8 +15,8 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 3,
     "weakpoints": [
-      { "name": "the inside of its mouth", "armor_mult": { "physical": 0 }, "coverage": 2 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+      { "name": "the inside of its mouth", "is_head": true, "armor_mult": { "physical": 0 }, "coverage": 2 },
+      { "name": "the eye", "is_head": true, "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
     "bleed_rate": 0,
     "vision_day": 15,
@@ -56,7 +56,7 @@
     "weakpoint_sets": [ "wps_humanoid_body_headless" ],
     "harvest": "zombie_humanoid_headless",
     "decay": "zombie_decay_bone",
-    "upgrades": { "half_life": 24, "into_group": "GROUP_ZOMBIE_BRAINLESS_UPGRADE" },
+    "upgrades": { "half_life": 96, "into_group": "GROUP_ZOMBIE_BRAINLESS_UPGRADE" },
     "extend": { "flags": [ "NOHEAD", "GEN_DORMANT" ] },
     "delete": { "flags": [ "SEES" ], "special_attacks": [ "bite_humanoid" ] },
     "//3": "Removed Bite attack to reflect damage to mouth.",
@@ -103,8 +103,8 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "bleed_rate": 80,
     "grab_strength": 15,
-    "upgrades": { "half_life": 24, "into": "mon_zombie_brute" },
-    "fungalize_into": "mon_zombie_tough_fungal",
+    "upgrades": { "half_life": 96, "into": "mon_zombie_brute" },
+    "fungalize_into": "mon_zombie_tough_dusted",
     "armor": { "bash": 3, "cut": 2, "bullet": 2, "electric": 2 },
     "extend": {
       "flags": [ "SMELLS", "PUSH_VEH" ],
@@ -132,19 +132,26 @@
     "scents_tracked": [ "sc_human", "sc_fetid" ],
     "melee_dice": 3,
     "melee_dice_sides": 8,
-    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "bleed_rate": 50,
     "vision_night": 4,
     "grab_strength": 30,
     "burn_into": "mon_zombie_scorched_brute",
-    "upgrades": { "half_life": 42, "into_group": "GROUP_ZOMBIE_BRUTE" },
-    "fungalize_into": "mon_zombie_brute_fungal",
+    "upgrades": { "half_life": 168, "into_group": "GROUP_ZOMBIE_BRUTE" },
+    "fungalize_into": "mon_zombie_brute_dusted",
     "armor": { "bash": 4, "cut": 6, "bullet": 5, "electric": 2 },
     "extend": {
       "flags": [ "SMELLS", "PUSH_VEH" ],
       "weakpoint_sets": [ "wps_humanoid_head_small" ],
       "special_attacks": [ { "id": "smash", "throw_strength": 72, "cooldown": 30 } ]
-    }
+    },
+    "delete": { "flags": [ "STUMBLES" ] },
+    "revive_forms": [
+      {
+        "condition": { "map_terrain_with_flag": "FUNGUS", "loc": { "context_val": "loc" } },
+        "monster": "mon_fungal_mound_large"
+      }
+    ]
   },
   {
     "id": "mon_zombie_brute_grappler",
@@ -152,6 +159,7 @@
     "name": { "str": "zombie wrestler" },
     "description": "A slab of festering muscle the size of a well-toned bodybuilder.  With popping and cracking sounds its arm muscles constantly lengthen and contract as it reaches out with deformed muscular hands the size of dinner plates.",
     "copy-from": "mon_zombie_brute",
+    "species": [ "ZOMBIE" ],
     "diff": 3,
     "volume": "108500 ml",
     "weight": "94500 g",
@@ -210,10 +218,12 @@
     "name": { "str": "zombie prowler" },
     "description": "Enveloped in darkness is the outline of what used to be a person, quick and spindly - and nigh invisible in the shadows.  Even with the unnatural camouflage hiding its features you can make out large teeth and even larger claws.",
     "copy-from": "mon_zombie_base",
+    "species": [ "ZOMBIE" ],
     "looks_like": "mon_zombie_brute_ninja",
     "diff": 2,
     "hp": 160,
     "speed": 115,
+    "move_skills": { "climb": 7 },
     "color": "dark_gray_red",
     "scents_tracked": [ "sc_human", "sc_fetid" ],
     "melee_skill": 8,
@@ -222,8 +232,8 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "dodge": 7,
     "weakpoints": [
-      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+      { "name": "the head", "is_head": true, "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "is_head": true, "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
     "weakpoint_sets": [  ],
     "bleed_rate": 0,
@@ -240,7 +250,7 @@
     ],
     "upgrades": false,
     "armor": { "bash": 5, "cut": 5, "bullet": 4, "electric": 1 },
-    "extend": { "flags": [ "SMELLS", "CLIMBS", "NIGHT_INVISIBILITY" ] }
+    "extend": { "flags": [ "SMELLS", "NIGHT_INVISIBILITY" ] }
   },
   {
     "id": "mon_zombie_ears",
@@ -249,6 +259,7 @@
     "//": "Upgraded version of brainless.  Regenerating Skull with huge ears.",
     "description": "This zombie's head was once obviously destroyed, the gaps in its scraps of face now filling with a peculiar gray goo.  Human ears hang from the sides, enormous and unsettling.  Thin slits at the front suggest it may have a (very limited) sense of sight.",
     "copy-from": "mon_zombie_base",
+    "species": [ "ZOMBIE" ],
     "volume": "62275 ml",
     "weight": "79800 g",
     "//2": "Weight and volume changed to reflect a (mostly) lack of head.",
@@ -260,7 +271,7 @@
     "weakpoint_sets": [ "wps_humanoid_body_headless" ],
     "harvest": "zombie_humanoid_headless",
     "decay": "zombie_decay_bone",
-    "upgrades": { "half_life": 28, "into": "mon_zombie_skull" },
+    "upgrades": { "half_life": 112, "into": "mon_zombie_skull" },
     "extend": { "flags": [ "GOODHEARING", "NOHEAD" ] },
     "delete": { "special_attacks": [ "bite_humanoid" ] },
     "//3": "Removed Bite as this creature does not have a 'mouth'."
@@ -271,6 +282,7 @@
     "name": { "str": "relentless hulk" },
     "description": "A hulking zombie swollen to the size of six men.  Its inky black eyes are locked on you.  No matter how far you run, it always seems to find you.",
     "copy-from": "mon_zombie_base",
+    "species": [ "ZOMBIE" ],
     "diff": 5,
     "volume": "875000 ml",
     "weight": "1000 kg",
@@ -292,7 +304,7 @@
     "death_function": { "eoc": "EOC_NEMESIS_DIED" },
     "upgrades": false,
     "armor": { "bash": 15, "cut": 15, "bullet": 15, "electric": 6 },
-    "fungalize_into": "mon_zombie_hulk_fungal",
+    "fungalize_into": "mon_zombie_hulk_dusted",
     "extend": {
       "flags": [ "ALL_SEEING", "GOODHEARING", "SMELLS", "KEENNOSE", "DESTROYS", "PUSH_VEH", "NEMESIS", "LOUDMOVES" ],
       "weakpoint_sets": [ "wps_humanoid_head_small" ],
@@ -302,7 +314,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_NEMESIS_DIED",
-    "effect": [ { "math": [ "Nemesis_iteration", "+=", "1" ] } ]
+    "effect": [ { "math": [ "Nemesis_iteration += 1" ] } ]
   },
   {
     "id": "mon_zombie_grabber",
@@ -323,7 +335,7 @@
     "grab_strength": 50,
     "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "bite_humanoid", "cooldown": 5 }, { "id": "scratch_humanoid" } ],
     "burn_into": "mon_zombie_scorched_lasher",
-    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_GRAB" },
+    "upgrades": { "half_life": 120, "into_group": "GROUP_ZOMBIE_GRAB" },
     "extend": { "flags": [ "SMELLS" ] }
   },
   {
@@ -361,6 +373,7 @@
     "name": { "str": "zombie hollow" },
     "description": "This zombie's hollow black eyes survey its surroundings as it stretches and bends in ways that whoever the original body belonged to never could.  The only things that seem solid on this flexible, black-veined body are the rows of sharp, black teeth.  You get the feeling that the only human thing remaining is the skin, worn as one might wear clothes.",
     "copy-from": "mon_zombie_base",
+    "species": [ "ZOMBIE" ],
     "hp": 100,
     "color": "black_white",
     "scents_tracked": [ "sc_human", "sc_fetid" ],
@@ -388,6 +401,7 @@
     "name": { "str": "zombie hulk" },
     "description": "A human corpse swollen to the size of six men, with arms as wide as trash cans.",
     "copy-from": "mon_zombie_base",
+    "species": [ "ZOMBIE" ],
     "diff": 5,
     "volume": "875 L",
     "weight": "1000 kg",
@@ -406,14 +420,21 @@
     "special_attacks": [ { "id": "grab" }, { "id": "scratch_humanoid" }, { "id": "bite_humanoid" }, { "id": "smash", "throw_strength": 96 } ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "burn_into": "mon_zombie_fiend",
-    "fungalize_into": "mon_zombie_hulk_fungal",
+    "fungalize_into": "mon_zombie_hulk_dusted",
     "upgrades": false,
     "armor": { "bash": 8, "cut": 12, "bullet": 10, "electric": 5 },
     "extend": {
       "flags": [ "SMELLS", "PUSH_VEH", "DESTROYS" ],
       "weakpoint_sets": [ "wps_humanoid_head_small" ],
       "families": [ "prof_wp_hulk" ]
-    }
+    },
+    "delete": { "flags": [ "STUMBLES" ] },
+    "revive_forms": [
+      {
+        "condition": { "map_terrain_with_flag": "FUNGUS", "loc": { "context_val": "loc" } },
+        "monster": "mon_fungal_mound_massive"
+      }
+    ]
   },
   {
     "id": "mon_zombie_hunter",
@@ -421,6 +442,7 @@
     "name": { "str": "zombie hunter" },
     "description": "You're barely able to believe this thing was ever human; it scrambles about on all fours, its nails and teeth sharpened into dangerous-looking spikes.",
     "copy-from": "mon_zombie_base",
+    "species": [ "ZOMBIE" ],
     "hp": 90,
     "speed": 110,
     "color": "brown",
@@ -432,8 +454,8 @@
     "vision_night": 5,
     "//": "Legs are important to this monster as he needs them to climb and leap.",
     "weakpoints": [
-      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 },
+      { "name": "the head", "is_head": true, "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "is_head": true, "armor_mult": { "physical": 0 }, "coverage": 1 },
       { "name": "the leg", "armor_mult": { "physical": 0.75 }, "coverage": 3 }
     ],
     "weakpoint_sets": [  ],
@@ -446,8 +468,8 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 12, "armor_multiplier": 0.7 } ]
       }
     ],
-    "upgrades": { "half_life": 42, "into": "mon_zombie_predator" },
-    "extend": { "flags": [ "SMELLS", "CLIMBS" ] }
+    "upgrades": { "half_life": 168, "into": "mon_zombie_predator" },
+    "extend": { "move_skills": { "climb": 8 }, "flags": [ "SMELLS" ] }
   },
   {
     "id": "mon_zombie_mancroc",
@@ -455,8 +477,10 @@
     "name": { "str": "zombie snapper" },
     "description": "With a crocodile-like snout and rows of protruding teeth, this swimwear-clad zombie lurks in the water.",
     "copy-from": "mon_zombie_base",
+    "species": [ "ZOMBIE" ],
     "hp": 120,
     "speed": 100,
+    "move_skills": { "swim": 8 },
     "color": "light_green_cyan",
     "scents_tracked": [ "sc_human", "sc_fetid" ],
     "melee_dice": 3,
@@ -464,8 +488,8 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 2,
     "weakpoints": [
-      { "name": "the inside of the mouth", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+      { "name": "the inside of its mouth", "is_head": true, "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "is_head": true, "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
     "weakpoint_sets": [  ],
     "bleed_rate": 0,
@@ -488,7 +512,7 @@
     "burn_into": "mon_zombie_scorched",
     "upgrades": false,
     "armor": { "bash": 8, "cut": 10, "bullet": 8, "electric": 1 },
-    "extend": { "flags": [ "SMELLS", "SWIMS", "WATER_CAMOUFLAGE" ] }
+    "extend": { "flags": [ "SMELLS", "WATER_CAMOUFLAGE" ] }
   },
   {
     "id": "mon_zombie_master",
@@ -522,6 +546,7 @@
     "name": { "str": "zombie necromancer" },
     "description": "A twisted mockery of the human form, emaciated, with jet-black skin and glowing red eyes.  It is somehow painful to look at, awakening fears deep within your psyche, and even the surrounding air seems more sinister, somehow darker and more dangerous.",
     "copy-from": "mon_zombie_base",
+    "species": [ "ZOMBIE" ],
     "diff": 20,
     "hp": 100,
     "speed": 100,
@@ -579,8 +604,8 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.7 } ]
       }
     ],
-    "upgrades": { "half_life": 35, "into": "mon_zombie_hunter" },
-    "fungalize_into": "mon_zombie_runner_fungal"
+    "upgrades": { "half_life": 140, "into": "mon_zombie_hunter" },
+    "fungalize_into": "mon_zombie_runner_dusted"
   },
   {
     "id": "mon_zombie_regenerating",
@@ -596,7 +621,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 1,
     "regenerates": 12,
-    "upgrades": { "half_life": 35, "into": "mon_zombie_regenerating_hunter" },
+    "upgrades": { "half_life": 140, "into": "mon_zombie_regenerating_hunter" },
     "extend": { "flags": [ "SMELLS", "REVIVES_HEALTHY", "NO_NECRO" ] }
   },
   {
@@ -605,10 +630,11 @@
     "name": { "str": "fleshy hunter" },
     "description": "A zombie prowling around on all fours; its exposed muscles churn and snake, unraveling before restitching themselves elsewhere along its red-raw figure.",
     "copy-from": "mon_zombie_hunter",
+    "species": [ "ZOMBIE" ],
     "regenerates": 12,
     "color": "red_cyan",
-    "upgrades": { "half_life": 35, "into": "mon_zombie_regenerating_final" },
-    "extend": { "flags": [ "SMELLS", "CLIMBS", "REVIVES_HEALTHY", "NO_NECRO" ] }
+    "upgrades": { "half_life": 140, "into": "mon_zombie_regenerating_final" },
+    "extend": { "move_skills": { "climb": 4 }, "flags": [ "SMELLS", "REVIVES_HEALTHY", "NO_NECRO" ] }
   },
   {
     "id": "mon_zombie_regenerating_final",
@@ -647,6 +673,7 @@
     "name": { "str": "zombie predator" },
     "description": "With its joints in odd places and angles, this humanoid creature prowls across the landscape with surprising speed.  Its teeth and arms are sharpened into fine points, and black ooze seeps out from cuts between its muscles.",
     "copy-from": "mon_zombie_hunter",
+    "species": [ "ZOMBIE" ],
     "speed": 140,
     "color": "brown_green",
     "melee_skill": 5,
@@ -654,8 +681,8 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
     "dodge": 5,
     "weakpoints": [
-      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+      { "name": "the head", "is_head": true, "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "is_head": true, "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
     "bleed_rate": 0,
     "vision_day": 45,
@@ -704,12 +731,13 @@
     "name": { "str": "shady zombie" },
     "description": "An uncanny shadow envelops this creature, as if light itself were too repulsed to touch it.  All you can make out is its shambling, human-shaped outline.",
     "copy-from": "mon_zombie_base",
+    "species": [ "ZOMBIE" ],
     "color": "light_gray",
     "scents_tracked": [ "sc_human", "sc_fetid" ],
     "vision_day": 3,
     "vision_night": 40,
     "harvest": "zombie_humanoid_shadow",
-    "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_SHADY_UPGRADES" },
+    "upgrades": { "half_life": 112, "into_group": "GROUP_ZOMBIE_SHADY_UPGRADES" },
     "extend": { "flags": [ "SMELLS", "NIGHT_INVISIBILITY" ] }
   },
   {
@@ -730,7 +758,7 @@
     "vision_night": 4,
     "harvest": "zombie_screamer",
     "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid" }, [ "SHRIEK", 10 ] ],
-    "upgrades": { "half_life": 26, "into": "mon_zombie_screecher" },
+    "upgrades": { "half_life": 104, "into": "mon_zombie_screecher" },
     "extend": { "flags": [ "SMELLS" ] }
   },
   {
@@ -799,8 +827,8 @@
     "vision_day": 50,
     "emit_fields": [ { "emit_id": "emit_smoke_stream", "delay": "1 s" } ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "The %s explodes!" },
-    "fungalize_into": "mon_zombie_smoker_fungus",
-    "upgrades": { "half_life": 30, "into": "mon_smoker_brute" },
+    "fungalize_into": "mon_zombie_smoker_dusted",
+    "upgrades": { "half_life": 120, "into": "mon_smoker_brute" },
     "armor": { "heat": 5, "electric": 1 },
     "extend": { "flags": [ "HARDTOSHOOT" ] }
   },
@@ -849,7 +877,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "dodge": 1,
     "death_drops": "mon_zombie_swimmer_death_drops",
-    "upgrades": { "half_life": 30, "into": "mon_zombie_swimmer" },
+    "upgrades": { "half_life": 120, "into": "mon_zombie_swimmer" },
     "categories": [ "CLASSIC" ]
   },
   {
@@ -860,6 +888,7 @@
     "copy-from": "mon_zombie_base",
     "hp": 70,
     "speed": 95,
+    "move_skills": { "swim": 10 },
     "color": "light_blue",
     "melee_skill": 3,
     "melee_dice_sides": 6,
@@ -867,8 +896,8 @@
     "dodge": 2,
     "//grab": "Tier 2 mob, but webbed hands don't sound very grabby",
     "death_drops": "mon_zombie_swimmer_death_drops",
-    "upgrades": { "half_life": 42, "into": "mon_zombie_mancroc" },
-    "extend": { "flags": [ "SWIMS", "WATER_CAMOUFLAGE" ] }
+    "upgrades": { "half_life": 168, "into": "mon_zombie_mancroc" },
+    "extend": { "flags": [ "WATER_CAMOUFLAGE" ] }
   },
   {
     "id": "mon_zombie_technician",
@@ -900,7 +929,7 @@
     "vision_day": 15,
     "vision_night": 2,
     "death_drops": "mon_zombie_miner_death_drops",
-    "upgrades": { "half_life": 35, "into_group": "GROUP_ZOMBIE_MINER_UPGRADE" },
+    "upgrades": { "half_life": 140, "into_group": "GROUP_ZOMBIE_MINER_UPGRADE" },
     "armor": { "bash": 2, "cut": 2, "bullet": 2, "electric": 1 },
     "extend": { "weakpoint_sets": [ "wps_humanoid_open_helmet" ] }
   },
@@ -938,8 +967,7 @@
   {
     "id": "mon_zombie_fursuit",
     "type": "MONSTER",
-    "name": { "str": "malicious mane" },
-    "//": "A pun. 'Mane' being an archaic synonym of zombie, which also refers hair on the back of an animals neck.",
+    "name": { "str": "fursuited zombie" },
     "description": "A human body, swaying awkwardly in a torn cloth suit of an anthropomorphized animal.  Black goo and blood cakes the suit, and it gives off a foul, rotting odor.",
     "copy-from": "mon_zombie",
     "speed": 50,
@@ -949,6 +977,6 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_clothes", 100 ], [ "zombie_fursuits", 100 ] ] },
     "armor": { "bash": 5, "cut": 5, "bullet": 1, "electric": 1 },
-    "//1": "The torn fursuit offers slightly more protection."
+    "//": "The torn fursuit offers slightly more protection."
   }
 ]

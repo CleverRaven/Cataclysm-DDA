@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": "overtakenlot",
     "weight": 1000,
@@ -25,8 +24,8 @@
         { "chance": 1, "item": "creepy", "x": 10, "y": 16 },
         { "chance": 15, "item": "forest", "x": 21, "y": 19 },
         { "chance": 15, "item": "forest", "x": 4, "y": 19 },
-        { "chance": 10, "item": "trash", "x": 20, "y": 12 },
-        { "chance": 10, "item": "trash", "x": 4, "y": 8 },
+        { "chance": 10, "item": "SUS_trash_floor", "x": 20, "y": 12 },
+        { "chance": 10, "item": "SUS_trash_floor", "x": 4, "y": 8 },
         { "chance": 8, "item": "forage_mushroom", "x": 16, "y": 21 }
       ],
       "rows": [
@@ -78,7 +77,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": "overtakenlot",
     "weight": 1000,
@@ -126,7 +124,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": "overtakenlot",
     "weight": 1000,
@@ -144,10 +141,10 @@
         "|": "f_null"
       },
       "place_items": [
-        { "chance": 15, "item": "trash", "x": 13, "y": 20 },
-        { "chance": 15, "item": "trash", "x": 6, "y": 19 },
-        { "chance": 15, "item": "trash", "x": 6, "y": 16 },
-        { "chance": 15, "item": "trash", "x": 4, "y": 12 }
+        { "chance": 15, "item": "SUS_trash_floor", "x": 13, "y": 20 },
+        { "chance": 15, "item": "SUS_trash_floor", "x": 6, "y": 19 },
+        { "chance": 15, "item": "SUS_trash_floor", "x": 6, "y": 16 },
+        { "chance": 15, "item": "SUS_trash_floor", "x": 4, "y": 12 }
       ],
       "rows": [
         "________________________",
@@ -194,7 +191,6 @@
     }
   },
   {
-    "method": "json",
     "type": "mapgen",
     "om_terrain": "overtakenlot",
     "weight": 1000,
@@ -208,11 +204,11 @@
       },
       "items": {
         "^": [
-          { "item": "trash", "chance": 25, "repeat": 2 },
+          { "item": "SUS_trash_floor", "chance": 25, "repeat": 2 },
           { "item": "road", "chance": 2 },
           { "item": "allclothes_damaged", "chance": 2 },
           { "item": "stoner", "chance": 1 },
-          { "item": "oven", "chance": 1 },
+          { "item": "SUS_oven", "chance": 1 },
           { "item": "garden_shed", "chance": 1 },
           { "item": "homebooks", "chance": 1 },
           { "item": "electronics", "chance": 1 },

@@ -2,12 +2,22 @@
 #ifndef CATA_SRC_IEXAMINE_ACTORS_H
 #define CATA_SRC_IEXAMINE_ACTORS_H
 
-#include "iexamine.h"
-
 #include <map>
+#include <optional>
+#include <string>
+#include <vector>
+#include <functional>
+
+#include "coords_fwd.h"
+#include "iexamine.h"
+#include "dialogue_helpers.h"
+#include "type_id.h"
+#include "translation.h"
 
 class Character;
 class item_location;
+
+struct const_dialogue;
 
 class appliance_convert_examine_actor : public iexamine_actor
 {
@@ -74,6 +84,29 @@ class eoc_examine_actor : public iexamine_actor
     public:
         explicit eoc_examine_actor( const std::string &type = "effect_on_condition" )
             : iexamine_actor( type ) {}
+
+        void load( const JsonObject &jo, const std::string &src ) override;
+        void call( Character &you, const tripoint_bub_ms &examp ) const override;
+        void finalize() const override;
+
+        std::unique_ptr<iexamine_actor> clone() const override;
+};
+
+class mortar_examine_actor : public iexamine_actor
+{
+    private:
+        std::vector<ammotype> ammo_type;
+        int range;
+        std::function<bool( const_dialogue const & )> condition;
+        bool has_condition = false;
+        translation condition_fail_msg;
+        dbl_or_var aim_deviation;
+        duration_or_var aim_duration;
+        duration_or_var flight_time;
+        std::vector<effect_on_condition_id> eocs;
+
+    public:
+        explicit mortar_examine_actor( const std::string &type = "mortar" ): iexamine_actor( type ) {}
 
         void load( const JsonObject &jo, const std::string &src ) override;
         void call( Character &you, const tripoint_bub_ms &examp ) const override;

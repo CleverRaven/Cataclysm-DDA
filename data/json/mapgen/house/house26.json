@@ -1,10 +1,8 @@
 [
   {
-    "method": "json",
     "om_terrain": "house_26",
     "//": "used by basement_survival",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -33,13 +31,16 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_landscaping_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [
+        "domestic_general_construction_and_variant_palette",
+        "standard_domestic_landscaping_palette",
+        "standard_domestic_lino_bathroom"
+      ],
       "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 12, "y": 0 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_26_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",

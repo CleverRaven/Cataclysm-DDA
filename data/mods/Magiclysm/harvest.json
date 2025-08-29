@@ -29,6 +29,25 @@
     }
   },
   {
+    "id": "large_bird_flightless",
+    "//": "a large non-mutant flightless bird: more fat, feathers & bone, since weight matters less for them",
+    "type": "harvest",
+    "entries": [
+      { "drop": "poultry", "type": "flesh", "mass_ratio": 0.3 },
+      { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "poultry_scrap", "type": "flesh", "mass_ratio": 0.02 },
+      { "drop": "lung", "type": "offal", "mass_ratio": 0.0035 },
+      { "drop": "heart", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "brain", "type": "offal", "mass_ratio": 0.003 },
+      { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "fat", "type": "flesh", "mass_ratio": 0.18 },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "feather", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "down_feather", "type": "skin", "mass_ratio": 0.01 }
+    ]
+  },
+  {
     "id": "bulette",
     "type": "harvest",
     "copy-from": "mammal_large_leather",
@@ -281,6 +300,20 @@
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.07 },
       { "drop": "feather", "type": "skin", "mass_ratio": 0.005 },
       { "drop": "adrenal_gland_large", "type": "bionic", "max": 2 }
+    ]
+  },
+  {
+    "id": "large_bird_flightless_zombie",
+    "type": "harvest",
+    "entries": [
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.3 },
+      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "poultry_scrap", "type": "flesh", "mass_ratio": 0.02 },
+      { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.03 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.18 },
+      { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "feather", "type": "skin", "mass_ratio": 0.013 },
+      { "drop": "down_feather", "type": "skin", "mass_ratio": 0.005 }
     ]
   },
   {

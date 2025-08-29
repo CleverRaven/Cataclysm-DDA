@@ -24,7 +24,7 @@
   {
     "id": "BGSS_PREPPER_1_STORY3",
     "type": "talk_topic",
-    "dynamic_line": "No, I barely got two miles.  I ran into some kind of hell-spawn bio-weapon, a crazy screeching <monster> made of arms and legs and heads from all sorts of creatures, humans too.  I think I killed it.  Grabbed my stuff and ran, after putting a couple bullets into it.  I hope I never see something like that again.",
+    "dynamic_line": "No, I barely got two miles.  I ran into some kind of hell-spawn bio-weapon, a crazy screeching nightmarish thing made of arms and legs and heads from all sorts of creatures, humans too.  I think I killed it.  Grabbed my stuff and ran, after putting a couple bullets into it.  I hope I never see something like that again.",
     "responses": [
       { "text": "What about your shelter?", "topic": "BGSS_PREPPER_1_LMOE" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },

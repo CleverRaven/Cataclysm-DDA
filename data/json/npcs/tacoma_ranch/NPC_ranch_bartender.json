@@ -254,8 +254,8 @@
         "place_nested": [ { "chunks": [ "tacoma_commune_bar_bartender_1" ], "x": 0, "y": 0 } ],
         "place_items": [
           { "item": "cleaning", "x": 11, "y": [ 7, 8 ], "chance": 100, "repeat": [ 1, 2 ], "faction": "tacoma_commune" },
-          { "item": "trash", "x": 13, "y": 10, "chance": 80, "repeat": [ 1, 2 ] },
-          { "item": "trash", "x": 4, "y": 16, "chance": 80, "repeat": [ 1, 2 ] }
+          { "item": "SUS_trash_floor", "x": 13, "y": 10, "chance": 80, "repeat": [ 1, 2 ] },
+          { "item": "SUS_trash_floor", "x": 4, "y": 16, "chance": 80, "repeat": [ 1, 2 ] }
         ]
       }
     }
@@ -290,8 +290,8 @@
         "place_nested": [ { "chunks": [ "tacoma_commune_bar_bartender_2" ], "x": 0, "y": 0 } ],
         "place_items": [
           { "item": "cleaning", "x": 11, "y": [ 7, 8 ], "chance": 100, "repeat": [ 1, 2 ], "faction": "tacoma_commune" },
-          { "item": "trash", "x": 13, "y": 10, "chance": 80, "repeat": [ 1, 2 ] },
-          { "item": "trash", "x": 4, "y": 16, "chance": 80, "repeat": [ 1, 2 ] }
+          { "item": "SUS_trash_floor", "x": 13, "y": 10, "chance": 80, "repeat": [ 1, 2 ] },
+          { "item": "SUS_trash_floor", "x": 4, "y": 16, "chance": 80, "repeat": [ 1, 2 ] }
         ]
       }
     }
@@ -326,8 +326,8 @@
           "om_terrain": "ranch_camp_51",
           "place_nested": [ { "chunks": [ "tacoma_commune_bar_bartender_3" ], "x": 0, "y": 0 } ],
           "place_items": [
-            { "item": "trash", "x": 13, "y": 10, "chance": 80, "repeat": [ 1, 2 ] },
-            { "item": "trash", "x": 4, "y": 16, "chance": 80, "repeat": [ 1, 2 ] }
+            { "item": "SUS_trash_floor", "x": 13, "y": 10, "chance": 80, "repeat": [ 1, 2 ] },
+            { "item": "SUS_trash_floor", "x": 4, "y": 16, "chance": 80, "repeat": [ 1, 2 ] }
           ]
         },
         {
@@ -366,8 +366,8 @@
         "om_terrain": "ranch_camp_51",
         "place_nested": [ { "chunks": [ "tacoma_commune_bar_bartender_4" ], "x": 3, "y": 1 } ],
         "place_items": [
-          { "item": "trash", "x": 13, "y": 10, "chance": 80, "repeat": [ 1, 2 ] },
-          { "item": "trash", "x": 4, "y": 16, "chance": 80, "repeat": [ 1, 2 ] }
+          { "item": "SUS_trash_floor", "x": 13, "y": 10, "chance": 80, "repeat": [ 1, 2 ] },
+          { "item": "SUS_trash_floor", "x": 4, "y": 16, "chance": 80, "repeat": [ 1, 2 ] }
         ]
       }
     }
@@ -401,8 +401,8 @@
         "om_terrain": "ranch_camp_51",
         "place_item": [ { "item": "55gal_drum", "x": 18, "y": 3, "repeat": 2, "faction": "tacoma_commune" } ],
         "place_items": [
-          { "item": "trash", "x": 13, "y": 10, "chance": 80, "repeat": [ 1, 2 ] },
-          { "item": "trash", "x": 4, "y": 16, "chance": 80, "repeat": [ 1, 2 ] }
+          { "item": "SUS_trash_floor", "x": 13, "y": 10, "chance": 80, "repeat": [ 1, 2 ] },
+          { "item": "SUS_trash_floor", "x": 4, "y": 16, "chance": 80, "repeat": [ 1, 2 ] }
         ]
       }
     }

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "gunshow_0", "gunshow_1" ] ],
     "object": {
       "fill_ter": "t_region_soil",
@@ -61,7 +60,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "gunshow_0_roof", "gunshow_1_roof" ] ],
     "object": {
       "fill_ter": "t_open_air",
@@ -96,7 +94,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "gunshow_table_0",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -112,7 +109,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "gunshow_table_1",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -128,7 +124,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "gunshow_table_2",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -144,7 +139,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "gunshow_table_3",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -160,7 +154,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "gunshow_table_4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -176,7 +169,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "gunshow_table_5",
     "object": {
       "mapgensize": [ 4, 4 ],

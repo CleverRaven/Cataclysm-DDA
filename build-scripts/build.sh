@@ -40,7 +40,7 @@ fi
 
 ccache --zero-stats
 # Increase cache size because debug builds generate large object files
-ccache -M 5G
+ccache -M 20G
 ccache --show-stats --verbose
 
 function run_test
@@ -51,7 +51,7 @@ function run_test
     prefix=$2
     shift 2
 
-    $WINE "$test_bin" --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS "$@" 2>&1 | sed -E 's/^(::(warning|error|debug)[^:]*::)?/\1'"$prefix"'/' || test_exit_code="${PIPESTATUS[0]}" sed_exit_code="${PIPESTATUS[1]}"
+    $WINE "$test_bin" --min-duration 0.2 --use-colour yes --rng-seed time --order lex $EXTRA_TEST_OPTS "$@" 2>&1 | sed -E 's/^(::(warning|error|debug)[^:]*::)?/\1'"$prefix"'/' || test_exit_code="${PIPESTATUS[0]}" sed_exit_code="${PIPESTATUS[1]}"
     if [ "$test_exit_code" -ne "0" ]
     then
         echo "$3test exited with code $test_exit_code"

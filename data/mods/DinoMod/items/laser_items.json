@@ -1,7 +1,8 @@
 [
   {
     "id": "laser_rifle_dino2",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "(",
     "color": "yellow",
     "looks_like": "ar15",

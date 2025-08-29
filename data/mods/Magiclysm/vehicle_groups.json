@@ -2,27 +2,27 @@
   {
     "type": "vehicle_group",
     "id": "city_vehicles",
-    "vehicles": [ [ "bicycle_orichalcum", 300 ] ]
+    "vehicles": [ [ "bicycle_orichalcum", 300 ], [ "dwarf_supercompact_car", 1000 ] ]
   },
   {
     "type": "vehicle_group",
     "id": "suburban_home",
-    "vehicles": [ [ "bicycle_orichalcum", 100 ] ]
+    "vehicles": [ [ "bicycle_orichalcum", 100 ], [ "dwarf_supercompact_car", 100 ] ]
   },
   {
     "type": "vehicle_group",
     "id": "dirtlot",
-    "vehicles": [ [ "bicycle_orichalcum", 50 ] ]
+    "vehicles": [ [ "bicycle_orichalcum", 50 ], [ "dwarf_supercompact_car", 50 ] ]
   },
   {
     "type": "vehicle_group",
     "id": "parkinglot",
-    "vehicles": [ [ "bicycle_orichalcum", 350 ] ]
+    "vehicles": [ [ "bicycle_orichalcum", 350 ], [ "dwarf_supercompact_car", 350 ] ]
   },
   {
     "type": "vehicle_group",
     "id": "campground_vehicles",
-    "vehicles": [ [ "bicycle_orichalcum", 75 ] ]
+    "vehicles": [ [ "bicycle_orichalcum", 75 ], [ "dwarf_supercompact_car", 350 ] ]
   },
   {
     "type": "vehicle_group",

@@ -117,6 +117,10 @@
   },
   {
     "type": "connect_group",
+    "id": "PLANTER"
+  },
+  {
+    "type": "connect_group",
     "id": "ROCKFLOOR"
   },
   {
@@ -134,5 +138,9 @@
   {
     "type": "connect_group",
     "id": "INDOORFLOOR"
+  },
+  {
+    "type": "connect_group",
+    "id": "BEACH_FORMATIONS"
   }
 ]

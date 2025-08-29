@@ -2,7 +2,8 @@
   {
     "id": "rifle_huge_amr",
     "copy-from": "m107a1",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "anti-materiel rifle" },
     "ammo": [ "ammo_rifle_huge" ],
     "description": "Large, intimidating, and overbuilt, this hefty rifle fires huge projectiles with relative precision.  Though it resembles a sniper rifle, this anti-material weapon is best suited for blinding tanks, shooting at aircraft, or destroying explosives.  It feeds from comically oversized magazines.",
@@ -20,7 +21,8 @@
   {
     "id": "rifle_huge_double",
     "copy-from": "bfg50",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "elephant rifle" },
     "ammo": [ "ammo_rifle_huge" ],
     "description": "Elegantly engraved, with deep glossy blued steel and figured wood, this break-action double rifle is almost too nice to shoot.  Your shoulder might beg you not to; the chambers are almost wide enough for two fingers and the recoil is monstrous.  You could probably kill anything with this, especially if you were to fire both barrels at once.",
@@ -32,7 +34,8 @@
   {
     "id": "rifle_huge_hmg",
     "copy-from": "m2browning",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "heavy machine gun" },
     "ammo": [ "ammo_rifle_huge" ],
     "description": "This large, ungainly  belt-fed machine gun fires huge projectiles, originally intended for turn of the century anti-vehicular use.  While no longer suitable for modern tanks or aircraft, thinner skinned vehicles or drones are just as susceptible, as are any other 'smaller' threats.  Slow to reload, incredibly loud, and must be mounted to be fired.",

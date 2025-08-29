@@ -7,7 +7,7 @@
     "name": { "str": "black rat" },
     "description": "The black rat, an omnivorous rodent with sheer black fur and a long, rough tail.  Harbinger of pestilence, famine, and mange, it will sometimes swarm over the dead or dying.",
     "default_faction": "ratkin",
-    "upgrades": { "half_life": 15, "into": "mon_big_rat" }
+    "upgrades": { "half_life": 60, "into": "mon_big_rat" }
   },
   {
     "id": "mon_lab_ratkin",
@@ -16,13 +16,14 @@
     "//": "Duplicate rats created to prevent all rats from evolving into mutant rats, any monster ending in ratkin should only appear in places where mutant rats can evolve.",
     "description": "The albino Norway rat, an omnivorous rodent with sleek white fur and a long, rough tail.  While its ancestors were harbingers of plague, these clever animals are omnipresent in modern biomedical research.",
     "default_faction": "ratkin",
-    "upgrades": { "half_life": 15, "into": "mon_big_rat" },
+    "upgrades": { "half_life": 60, "into": "mon_big_rat" },
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
     "volume": "320 ml",
     "weight": "320 g",
     "hp": 6,
     "speed": 100,
+    "move_skills": { "swim": 4 },
     "material": [ "flesh" ],
     "symbol": "r",
     "color": "white",
@@ -43,19 +44,7 @@
     "stomach_size": 30,
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "special_attacks": [ [ "EAT_FOOD", 120 ] ],
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "KEENNOSE",
-      "CANPLAY",
-      "WARM",
-      "SWIMS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER",
-      "EATS",
-      "SMALL_HIDER"
-    ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "KEENNOSE", "CANPLAY", "WARM", "ANIMAL", "PATH_AVOID_DANGER", "EATS", "SMALL_HIDER" ]
   },
   {
     "id": "mon_big_rat",
@@ -70,6 +59,7 @@
     "weight": "2 kg",
     "hp": 25,
     "speed": 100,
+    "move_skills": { "swim": 4 },
     "attack_cost": 95,
     "material": [ "flesh" ],
     "symbol": "R",
@@ -83,7 +73,7 @@
     "vision_day": 30,
     "vision_night": 10,
     "path_settings": { "max_dist": 50, "avoid_sharp": true },
-    "upgrades": { "half_life": 30, "into_group": "GROUP_RATKIN_EVOLVED" },
+    "upgrades": { "half_life": 120, "into_group": "GROUP_RATKIN_EVOLVED" },
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "fear_triggers": [ "HURT", "FIRE" ],
     "regen_morale": true,
@@ -99,7 +89,7 @@
       [ "EAT_CARRION", 120 ]
     ],
     "attack_effs": [ { "id": "rat_bite_fever", "duration": 400, "chance": 10 } ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER", "EATS", "SMALL_HIDER" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "ANIMAL", "PATH_AVOID_DANGER", "EATS", "SMALL_HIDER" ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "harvest": "mutant_mammal_small_fur",
     "dissect": "dissect_rat_sample_single"
@@ -121,7 +111,7 @@
     "special_attacks": [ [ "EAT_FOOD", 120 ], [ "EAT_CARRION", 120 ] ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_electromagnetics" ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ELECTRIC", "ANIMAL", "PATH_AVOID_DANGER", "EATS", "SMALL_HIDER" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "ELECTRIC", "ANIMAL", "PATH_AVOID_DANGER", "EATS", "SMALL_HIDER" ],
     "emit_fields": [ { "emit_id": "emit_shock_burst_rat", "delay": "5 s" } ]
   },
   {
@@ -162,7 +152,7 @@
     ],
     "attack_effs": [ { "id": "rat_bite_fever", "duration": 400, "chance": 20 } ],
     "zombify_into": "mon_meat_cocoon_tiny",
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "PATH_AVOID_DANGER", "CAN_DIG", "EATS" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "PATH_AVOID_DANGER", "CAN_DIG", "EATS" ],
     "dissect": "dissect_rat_sample_small",
     "armor": { "bash": 5, "cut": 6, "bullet": 2 }
   },
@@ -205,7 +195,7 @@
       [ "EAT_CARRION", 120 ]
     ],
     "attack_effs": [ { "id": "rat_bite_fever", "duration": 400, "chance": 20 } ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "PATH_AVOID_DANGER", "CAN_DIG", "EATS" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "PATH_AVOID_DANGER", "CAN_DIG", "EATS" ],
     "armor": { "bash": 5, "cut": 6, "bullet": 2 }
   },
   {
@@ -274,7 +264,7 @@
     ],
     "zombify_into": "mon_meat_cocoon_tiny",
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "PATH_AVOID_DANGER", "EATS" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "PATH_AVOID_DANGER", "EATS" ],
     "dissect": "dissect_rat_sample_small",
     "armor": { "bash": 10, "cut": 10, "bullet": 6 }
   }

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "s_air_runway_l", "s_air_runway_B", "s_air_runway_term", "s_air_runway", "s_air_runway_hangars", "s_air_runway_r" ]
     ],
@@ -38,7 +37,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_air_helicopter_pad" ],
     "object": {
       "fill_ter": "t_pavement",

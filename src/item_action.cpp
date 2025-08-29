@@ -1,40 +1,52 @@
 #include "item_action.h"
 
 #include <algorithm>
+#include <functional>
 #include <iterator>
 #include <list>
 #include <memory>
 #include <optional>
 #include <set>
 #include <tuple>
+#include <type_traits>
 #include <unordered_set>
 #include <utility>
 
 #include "avatar.h"
-#include "catacharset.h"
 #include "character.h"
 #include "clone_ptr.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "flag.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
 #include "item_factory.h"
+#include "item_location.h"
 #include "item_pocket.h"
 #include "itype.h"
 #include "iuse.h"
-#include "make_static.h"
 #include "output.h"
 #include "pimpl.h"
+#include "pocket_type.h"
 #include "ret_val.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
+#include "visitable.h"
+
+class map;
 
 static const std::string errstring( "ERROR" );
+
+static const flag_id json_flag_IRREMOVABLE( "IRREMOVABLE" );
+
+static const item_action_id item_action_TOOLMOD_ATTACH( "TOOLMOD_ATTACH" );
 
 static item_action nullaction;
 
@@ -147,7 +159,7 @@ item_action_map item_action_generator::map_actions_to_items( Character &you,
 
             const use_function *func = actual_item->get_use( use );
             if( !( func && func->get_actor_ptr() &&
-                   func->get_actor_ptr()->can_use( you, *actual_item, you.pos() ).success() ) ) {
+                   func->get_actor_ptr()->can_use( you, *actual_item, you.pos_bub() ).success() ) ) {
                 continue;
             }
 
@@ -156,8 +168,8 @@ item_action_map item_action_generator::map_actions_to_items( Character &you,
             }
 
             // Don't try to remove 'irremovable' toolmods
-            if( actual_item->is_toolmod() && use == STATIC( item_action_id( "TOOLMOD_ATTACH" ) ) &&
-                actual_item->has_flag( STATIC( flag_id( "IRREMOVABLE" ) ) ) ) {
+            if( actual_item->is_toolmod() && use == item_action_TOOLMOD_ATTACH &&
+                actual_item->has_flag( json_flag_IRREMOVABLE ) ) {
                 continue;
             }
 
@@ -176,7 +188,7 @@ item_action_map item_action_generator::map_actions_to_items( Character &you,
                     continue; // Other item consumes less charges
                 }
 
-                if( found->second->ammo_remaining() > actual_item->ammo_remaining() ) {
+                if( found->second->ammo_remaining( ) > actual_item->ammo_remaining( ) ) {
                     better = true; // Items with less charges preferred
                 }
             }
@@ -382,7 +394,13 @@ std::string use_function::get_type() const
     }
 }
 
-ret_val<void> iuse_actor::can_use( const Character &, const item &, const tripoint & ) const
+ret_val<void> iuse_actor::can_use( const Character &, const item &, const tripoint_bub_ms & ) const
+{
+    return ret_val<void>::make_success();
+}
+
+ret_val<void> iuse_actor::can_use( const Character &, const item &, map *,
+                                   const tripoint_bub_ms & ) const
 {
     return ret_val<void>::make_success();
 }

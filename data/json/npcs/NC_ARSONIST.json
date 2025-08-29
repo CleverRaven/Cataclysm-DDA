@@ -154,12 +154,7 @@
     "type": "item_group",
     "id": "NC_ARSONIST_stabbing",
     "subtype": "distribution",
-    "entries": [
-      { "item": "spear_knife", "prob": 50 },
-      { "item": "spear_steel", "prob": 10 },
-      { "item": "spear_forked", "prob": 10 },
-      { "item": "spear_rebar", "prob": 5 }
-    ]
+    "entries": [ { "item": "spear_knife", "prob": 50 }, { "item": "spear_steel", "prob": 10 }, { "item": "spear_rebar", "prob": 5 } ]
   },
   {
     "type": "item_group",

@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "cached_options.h"
+#include "calendar.h"
 #include "character.h"
 #include "inventory.h"
 #include "item.h"
@@ -142,7 +143,7 @@ recipe_subset Character::get_recipes_from_ebooks( const inventory &crafting_inv 
 
     for( const std::list<item> *&stack : crafting_inv.const_slice() ) {
         const item &ereader = stack->front();
-        if( !ereader.is_ebook_storage() || !ereader.ammo_sufficient( this ) ||
+        if( !ereader.is_estorage() || !ereader.ammo_sufficient( this ) ||
             ereader.is_broken_on_active() ) {
             continue;
         }
@@ -182,7 +183,7 @@ recipe_subset Character::get_available_recipes( const inventory &crafting_inv,
     return res;
 }
 
-recipe_subset &Character::get_group_available_recipes() const
+recipe_subset &Character::get_group_available_recipes( inventory *inventory_override ) const
 {
     if( !test_mode && calendar::turn == cached_recipe_turn && cached_recipe_subset->size() > 0 ) {
         return *cached_recipe_subset;
@@ -190,6 +191,11 @@ recipe_subset &Character::get_group_available_recipes() const
 
     cached_recipe_turn = calendar::turn;
     cached_recipe_subset->clear();
+
+    if( inventory_override ) {
+        cached_recipe_subset->include( get_available_recipes( *inventory_override ) );
+        return *cached_recipe_subset;
+    }
 
     for( const Character *guy : get_crafting_group() ) {
         cached_recipe_subset->include( guy->get_available_recipes( crafting_inventory() ) );

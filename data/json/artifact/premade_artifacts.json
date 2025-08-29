@@ -1,25 +1,27 @@
 [
   {
     "id": "architect_cube",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARTIFACT" ],
     "name": { "str": "The Architect's Cube" },
     "description": "This is a solid cube that is much heavier than its size suggests.  When you look at it, it pulls your gaze inward until you fall through the sky, showing you a top-down view of your position with the surroundings revealed.",
     "weight": "2 kg",
     "volume": "100 ml",
     "material": [ "iron" ],
     "symbol": "]",
-    "relic_data": { "passive_effects": [ { "mutations": [ "DEBUG_CLAIRVOYANCE" ] } ] },
     "color": "light_gray",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID" ],
+    "passive_effects": [ { "mutations": [ "DEBUG_CLAIRVOYANCE" ] } ]
   },
   {
     "id": "DEBUG_stabbing",
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "name": { "str": "stone of stabbing", "str_pl": "stones of stabbing" },
     "description": "A debug item to make sure that skills can be modified by enchantments.",
     "weight": "1 kg",
     "volume": "100 ml",
     "symbol": ".",
-    "relic_data": { "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "skills": [ { "value": "stabbing", "add": 10 } ] } ] }
+    "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "skills": [ { "value": "stabbing", "add": 10 } ] } ]
   }
 ]

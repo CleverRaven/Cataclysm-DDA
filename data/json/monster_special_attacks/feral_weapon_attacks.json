@@ -517,5 +517,22 @@
     "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
     "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
     "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "feral_weapon_shiv",
+    "cooldown": 1,
+    "move_cost": 69,
+    "accuracy": 3,
+    "//": "Feral melee skill + weapon's to hit, so 5-2=3",
+    "damage_max_instance": [ { "damage_type": "cut", "amount": 6 } ],
+    "condition": { "test_eoc": "is_disarmed" },
+    "hit_dmg_u": "%1$s hits your %2$s with a shiv!",
+    "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with a shiv!",
+    "miss_msg_u": "%1$s tries to hit you, but you dodge!",
+    "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
+    "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
   }
 ]

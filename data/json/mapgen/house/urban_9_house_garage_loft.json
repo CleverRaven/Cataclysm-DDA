@@ -1,9 +1,7 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "urban_9_1", "urban_9_2" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -80,15 +78,13 @@
         { "item": "lawnmower", "x": 33, "y": 18, "chance": 100 },
         { "item": "basket_laundry", "x": 31, "y": 18, "chance": 100 }
       ],
-      "place_vehicles": [ { "vehicle": "suburban_home_compact", "x": 39, "y": 19, "chance": 100, "rotation": 270 } ],
+      "place_vehicles": [ { "vehicle": "suburban_home_compact", "x": 39, "y": 19, "rotation": 270 } ],
       "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 9, "y": 1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "urban_9_3", "urban_9_4" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -133,9 +129,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "urban_9_5", "urban_9_6" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [

@@ -61,55 +61,55 @@
       },
       {
         "id": "nine_left",
-        "text": "+-+-+-+-+-+-+-+-+",
+        "text": { "str": "+-+-+-+-+-+-+-+-+", "//~": "NO_I18N" },
         "color": "light_blue",
         "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "timeawayfromhome == 0" ] } ] }
       },
       {
         "id": "eight_left",
-        "text": "+-+-+-+-+-+-+-+",
+        "text": { "str": "+-+-+-+-+-+-+-+", "//~": "NO_I18N" },
         "color": "green",
         "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "readablepulsesleft >= 8" ] } ] }
       },
       {
         "id": "seven_left",
-        "text": "+-+-+-+-+-+-+",
+        "text": { "str": "+-+-+-+-+-+-+", "//~": "NO_I18N" },
         "color": "light_green",
         "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "readablepulsesleft == 7" ] } ] }
       },
       {
         "id": "six_left",
-        "text": "+-+-+-+-+-+",
+        "text": { "str": "+-+-+-+-+-+", "//~": "NO_I18N" },
         "color": "light_green",
         "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "readablepulsesleft == 6" ] } ] }
       },
       {
         "id": "five_left",
-        "text": "+-+-+-+-+",
+        "text": { "str": "+-+-+-+-+", "//~": "NO_I18N" },
         "color": "yellow",
         "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "readablepulsesleft == 5" ] } ] }
       },
       {
         "id": "four_left",
-        "text": "+-+-+-+",
+        "text": { "str": "+-+-+-+", "//~": "NO_I18N" },
         "color": "yellow",
         "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "readablepulsesleft == 4" ] } ] }
       },
       {
         "id": "three_left",
-        "text": "+-+-+",
+        "text": { "str": "+-+-+", "//~": "NO_I18N" },
         "color": "yellow",
         "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "readablepulsesleft == 3" ] } ] }
       },
       {
         "id": "two_left",
-        "text": "+-+",
+        "text": { "str": "+-+", "//~": "NO_I18N" },
         "color": "light_red",
         "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "readablepulsesleft == 2" ] } ] }
       },
       {
         "id": "one_left",
-        "text": "+",
+        "text": { "str": "+", "//~": "NO_I18N" },
         "color": "light_red",
         "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "readablepulsesleft == 1" ] } ] }
       },

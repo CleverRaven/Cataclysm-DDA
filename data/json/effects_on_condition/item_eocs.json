@@ -204,5 +204,12 @@
       { "u_lose_trait": "FACIAL_HAIR_BEARD_LONG" },
       { "u_lose_trait": "FACIAL_HAIR_BEARD_VERY_LONG" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_apply_makeup",
+    "condition": { "u_has_trait": "VANITY" },
+    "effect": { "u_message": "You apply some makeup.  The world will now get to know the true meaning of beauty." },
+    "false_effect": { "u_message": "You apply some makeup.  It feels good to take care of yourself." }
   }
 ]

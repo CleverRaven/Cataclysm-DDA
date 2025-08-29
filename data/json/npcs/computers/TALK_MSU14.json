@@ -114,7 +114,7 @@
         "effect": [
           { "run_eocs": [ "capture_generic_nre_anomaly" ] },
           { "u_spawn_item": "melchior_science_doc", "count": 1 },
-          { "math": [ "u_counter_robofac_knowledge_dimensional_heuristics", "++" ] }
+          { "math": [ "u_counter_robofac_knowledge_dimensional_heuristics++" ] }
         ],
         "topic": "TALK_DONE"
       }

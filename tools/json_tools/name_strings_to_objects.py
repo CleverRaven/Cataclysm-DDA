@@ -28,7 +28,7 @@ def gen_new(path):
                 continue
             if not jo.get('name'):
                 continue
-            if type(jo['name']) == dict:
+            if type(jo['name']) is dict:
                 continue
             if jo.get('type') not in ['AMMO', 'ARMOR', 'BATTERY', 'bionic',
                                       'BIONIC_ITEM', 'BIONIC_ITEM', 'BOOK',

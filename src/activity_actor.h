@@ -37,7 +37,7 @@ class activity_actor
         /**
          * Should return the activity id of the corresponding activity
          */
-        virtual activity_id get_type() const = 0;
+        virtual const activity_id &get_type() const = 0;
 
         /**
          * Called once at the start of the activity.

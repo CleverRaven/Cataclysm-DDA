@@ -2,26 +2,20 @@
   {
     "type": "snippet",
     "category": "<backer_name>",
-    "text": [
-      { "text": { "str": "<female_backer_name>", "//~": "NO_I18N" } },
-      { "text": { "str": "<male_backer_name>", "//~": "NO_I18N" } }
-    ]
+    "//": "NO_I18N",
+    "text": [ "<female_backer_name>", "<male_backer_name>" ]
   },
   {
     "type": "snippet",
     "category": "<given_name>",
-    "text": [
-      { "text": { "str": "<female_given_name>", "//~": "NO_I18N" } },
-      { "text": { "str": "<male_given_name>", "//~": "NO_I18N" } }
-    ]
+    "//": "NO_I18N",
+    "text": [ "<female_given_name>", "<male_given_name>" ]
   },
   {
     "type": "snippet",
     "category": "<full_name>",
-    "text": [
-      { "text": { "str": "<female_full_name>", "//~": "NO_I18N" } },
-      { "text": { "str": "<male_full_name>", "//~": "NO_I18N" } }
-    ]
+    "//": "NO_I18N",
+    "text": [ "<female_full_name>", "<male_full_name>" ]
   },
   {
     "type": "snippet",

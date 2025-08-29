@@ -112,5 +112,9 @@
     "id": "PHOTOKIN_IRRADIATION_READY",
     "type": "json_flag",
     "//": "Used to tag foods to be radiation sterilized"
+  },
+  {
+    "id": "FIFTH_SUN_TECHNOLOGY",
+    "type": "json_flag"
   }
 ]

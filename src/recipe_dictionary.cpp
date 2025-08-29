@@ -1,31 +1,50 @@
 #include "recipe_dictionary.h"
 
 #include <algorithm>
+#include <array>
+#include <cctype>
 #include <chrono>
+#include <climits>
 #include <iterator>
+#include <list>
 #include <memory>
+#include <optional>
 #include <unordered_map>
 #include <utility>
 
+#include "bodypart.h"
+#include "calendar.h"
 #include "cata_algo.h"
 #include "cata_utility.h"
 #include "crafting_gui.h"
-#include "display.h"
 #include "debug.h"
+#include "display.h"
+#include "enums.h"
+#include "flag.h"
+#include "flexbuffer_json.h"
 #include "init.h"
 #include "input.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
-#include "make_static.h"
 #include "mapgen.h"
-#include "mod_manager.h"
+#include "math_parser_type.h"
+#include "mod_tracker.h"
 #include "output.h"
 #include "requirements.h"
+#include "ret_val.h"
 #include "skill.h"
+#include "string_formatter.h"
+#include "subbodypart.h"
+#include "translation.h"
+#include "translations.h"
 #include "uistate.h"
 #include "units.h"
 #include "value_ptr.h"
+
+static const flag_id json_flag_NUTRIENT_OVERRIDE( "NUTRIENT_OVERRIDE" );
+
+static const itype_id itype_debug_item_search( "debug_item_search" );
 
 static const requirement_id requirement_data_uncraft_book( "uncraft_book" );
 
@@ -89,7 +108,7 @@ const recipe &recipe_dictionary::get_craft( const itype_id &id )
 
 // searches for left-anchored partial match in the relevant recipe requirements set
 template <class group>
-bool search_reqs( const group &gp, const std::string_view txt )
+bool search_reqs( const group &gp, std::string_view txt )
 {
     return std::any_of( gp.begin(), gp.end(), [&]( const typename group::value_type & opts ) {
         return std::any_of( opts.begin(),
@@ -101,7 +120,7 @@ bool search_reqs( const group &gp, const std::string_view txt )
 // template specialization to make component searches easier
 template<>
 bool search_reqs( const std::vector<std::vector<item_comp> > &gp,
-                  const std::string_view txt )
+                  std::string_view txt )
 {
     return std::any_of( gp.begin(), gp.end(), [&]( const std::vector<item_comp> &opts ) {
         return std::any_of( opts.begin(), opts.end(), [&]( const item_comp & ic ) {
@@ -185,8 +204,34 @@ static std::string cached_item_info( const itype_id &item_type )
     return item_info_cache.at( item_type );
 }
 
+// keep data for one search cycle
+static itype filtered_fake_itype;
+static item filtered_fake_item;
+static std::unordered_set<bodypart_id> filtered_bodyparts;
+static std::unordered_set<sub_bodypart_id> filtered_sub_bodyparts;
+static std::unordered_set<layer_level> filtered_layers;
+
+template<typename Unit>
+static Unit can_contain_filter( std::string_view hint, std::string_view txt, Unit max,
+                                std::vector<std::pair<std::string, Unit>> units )
+{
+    auto const error = [hint, txt]( char const *, size_t /* offset */ ) {
+        throw math::runtime_error( _( string_format( hint, txt ) ) );
+    };
+    // Start at max. On convert failure: results are empty and user knows it is unusable.
+    Unit uni = max;
+    try {
+        uni = detail::read_from_json_string_common<Unit>( txt, units, error );
+    } catch( math::runtime_error &err ) {
+        popup( err.what() );
+    }
+    // copy the debug item template (itype)
+    filtered_fake_itype = itype( *item_controller->find_template( itype_debug_item_search ) );
+    return uni;
+}
+
 std::vector<const recipe *> recipe_subset::search(
-    const std::string_view txt, const search_type key,
+    std::string_view txt, const search_type key,
     const std::function<void( size_t, size_t )> &progress_callback ) const
 {
     auto predicate = [&]( const recipe * r ) {
@@ -224,6 +269,30 @@ std::vector<const recipe *> recipe_subset::search(
 
             case search_type::quality_result: {
                 return item::find_type( r->result() )->has_any_quality( txt );
+            }
+
+            case search_type::length:
+            case search_type::volume:
+            case search_type::mass:
+                return item( r->result() ).can_contain( filtered_fake_item ).success();
+
+            case search_type::covers: {
+                const item result_item( r->result() );
+                return std::any_of( filtered_bodyparts.begin(), filtered_bodyparts.end(),
+                [&result_item]( const bodypart_id & bp ) {
+                    return result_item.covers( bp );
+                } )
+                || std::any_of( filtered_sub_bodyparts.begin(), filtered_sub_bodyparts.end(),
+                [&result_item]( const sub_bodypart_id & sbp ) {
+                    return result_item.covers( sbp );
+                } );
+            }
+
+            case search_type::layer: {
+                const std::vector<layer_level> layers = item( r->result() ).get_layer();
+                return std::any_of( layers.begin(), layers.end(), []( layer_level l ) {
+                    return filtered_layers.count( l );
+                } );
             }
 
             case search_type::description_result: {
@@ -302,6 +371,69 @@ std::vector<const recipe *> recipe_subset::search(
         }
     };
 
+    // prepare search
+    switch( key ) {
+        case search_type::length: {
+            units::length len = can_contain_filter(
+                                    "Failed to convert '%s' to length.\nValid examples:\n122 cm\n1101mm\n2   meter",
+                                    txt, units::length::max(), units::length_units );
+
+            filtered_fake_itype.longest_side = len;
+            filtered_fake_item = item( &filtered_fake_itype );
+            // make the item hard, otherwise longest_side is ignored
+            filtered_fake_item.set_flag( flag_HARD );
+            break;
+        }
+        case search_type::volume: {
+            units::volume vol = can_contain_filter(
+                                    "Failed to convert '%s' to volume.\nValid examples:\n750 ml\n4L",
+                                    txt, units::volume::max(), units::volume_units );
+
+            filtered_fake_itype.volume = vol;
+            filtered_fake_item = item( &filtered_fake_itype );
+            break;
+        }
+        case search_type::mass: {
+            units::mass mas = can_contain_filter(
+                                  "Failed to convert '%s' to mass.\nValid examples:\n12 mg\n400g\n25  kg",
+                                  txt, units::mass::max(), units::mass_units );
+
+            filtered_fake_itype.weight = mas;
+            filtered_fake_item = item( &filtered_fake_itype );
+            break;
+        }
+        case search_type::covers: {
+            filtered_bodyparts.clear();
+            filtered_sub_bodyparts.clear();
+            for( const body_part &bp : all_body_parts ) {
+                const bodypart_str_id &bp_str_id = convert_bp( bp );
+                if( lcmatch( body_part_name( bp_str_id, 1 ), txt )
+                    || lcmatch( body_part_name( bp_str_id, 2 ), txt ) ) {
+                    filtered_bodyparts.insert( bp_str_id->id );
+                }
+                for( const sub_bodypart_str_id &sbp : bp_str_id->sub_parts ) {
+                    if( lcmatch( sbp->name.translated(), txt )
+                        || lcmatch( sbp->name_multiple.translated(), txt ) ) {
+                        filtered_sub_bodyparts.insert( sbp->id );
+                    }
+                }
+            }
+            break;
+        }
+        case search_type::layer: {
+            filtered_layers.clear();
+            for( layer_level layer = layer_level( 0 ); layer != layer_level::NUM_LAYER_LEVELS; ++layer ) {
+                if( lcmatch( item::layer_to_string( layer ), txt ) ) {
+                    filtered_layers.insert( layer );
+                }
+            }
+            break;
+        }
+        default:
+            break;
+    }
+
+    // search
     std::vector<const recipe *> res;
     size_t i = 0;
     ctxt.register_action( "QUIT" );
@@ -333,7 +465,7 @@ recipe_subset::recipe_subset( const recipe_subset &src, const std::vector<const 
 }
 
 recipe_subset recipe_subset::reduce(
-    const std::string_view txt, const search_type key,
+    std::string_view txt, const search_type key,
     const std::function<void( size_t, size_t )> &progress_callback ) const
 {
     return recipe_subset( *this, search( txt, key, progress_callback ) );
@@ -547,7 +679,7 @@ void recipe_dictionary::find_items_on_loops()
     items_on_loops.clear();
     std::unordered_map<itype_id, std::vector<itype_id>> potential_components_of;
     for( const itype *i : item_controller->all() ) {
-        if( !i->comestible || i->has_flag( STATIC( flag_id( "NUTRIENT_OVERRIDE" ) ) ) ) {
+        if( !i->comestible || i->has_flag( json_flag_NUTRIENT_OVERRIDE ) ) {
             continue;
         }
         std::vector<itype_id> &potential_components = potential_components_of[i->get_id()];

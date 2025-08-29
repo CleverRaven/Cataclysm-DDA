@@ -115,7 +115,7 @@
       [ [ "cable", 2 ] ],
       [ [ "amplifier", 1 ] ],
       [ [ "lightstrip_inactive", 1 ], [ "light_bulb", 1 ] ],
-      [ [ "steel_chunk", 1 ] ],
+      [ [ "steel_chunk_any", 1, "LIST" ] ],
       [ [ "scrap", 3 ] ]
     ]
   },
@@ -138,7 +138,7 @@
       [ [ "cable", 2 ] ],
       [ [ "amplifier", 1 ] ],
       [ [ "lightstrip_inactive", 1 ], [ "light_bulb", 1 ] ],
-      [ [ "steel_lump", 1 ] ],
+      [ [ "steel_lump_any", 1, "LIST" ] ],
       [ [ "pipe_fittings", 1 ] ],
       [ [ "pipe", 2 ] ]
     ]
@@ -162,7 +162,7 @@
       [ [ "cable", 2 ] ],
       [ [ "amplifier", 1 ] ],
       [ [ "floodlight", 1 ] ],
-      [ [ "steel_lump", 1 ] ],
+      [ [ "steel_lump_any", 1, "LIST" ] ],
       [ [ "pipe_fittings", 1 ] ],
       [ [ "pipe", 2 ] ]
     ]
@@ -186,7 +186,7 @@
       [ [ "cable", 2 ] ],
       [ [ "amplifier", 1 ] ],
       [ [ "directed_floodlight", 1 ] ],
-      [ [ "steel_lump", 1 ] ],
+      [ [ "steel_lump_any", 1, "LIST" ] ],
       [ [ "pipe_fittings", 1 ] ],
       [ [ "pipe", 2 ] ]
     ]
@@ -224,20 +224,5 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_appliance_repair" } ],
     "components": [ [ [ "frame_wood", 1 ] ], [ [ "battery_charger", 1 ] ] ]
-  },
-  {
-    "result": "active_backup_generator",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "reversible": true,
-    "skill_used": "mechanics",
-    "difficulty": 3,
-    "//": "combined install requirements for placing frame+alternator+engine as if you were putting together a vehicle with these 3 parts",
-    "time": "90 m",
-    "autolearn": true,
-    "category": "CC_APPLIANCE",
-    "subcategory": "CSC_APPLIANCE_UTILITY",
-    "using": [ [ "vehicle_wrench_2", 1 ] ],
-    "components": [ [ [ "generator_7500w", 1 ] ], [ [ "engine_1cyl_diesel_large", 1 ] ], [ [ "frame", 1 ] ], [ [ "jerrycan_big", 1 ] ] ]
   }
 ]

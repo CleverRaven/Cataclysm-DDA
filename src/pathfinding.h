@@ -2,12 +2,15 @@
 #ifndef CATA_SRC_PATHFINDING_H
 #define CATA_SRC_PATHFINDING_H
 
+#include <cstdint>
 #include <optional>
+#include <unordered_set>
 
-#include "coords_fwd.h"
-#include "game_constants.h"
+#include "coordinates.h"
 #include "mdarray.h"
-#include "character.h"
+#include "point.h"
+
+enum class creature_size : int;
 
 // An attribute of a particular map square that is of interest in pathfinding.
 // Has a maximum of 32 members. For more, the datatype underlying PathfindingFlags
@@ -161,6 +164,27 @@ struct pathfinding_settings {
           avoid_rough_terrain( art ), avoid_sharp( as ), size( sz )  {}
 
     pathfinding_settings &operator=( const pathfinding_settings & ) = default;
+};
+
+struct pathfinding_target {
+    const tripoint_bub_ms center;
+    const int r;
+    bool contains( const tripoint_bub_ms &p ) const;
+
+    // Finds a path that ends on a specific tile
+    static pathfinding_target point( const tripoint_bub_ms &p ) {
+        return { p, 0 };
+    }
+
+    // Finds a path that ends on either the given tile, or one of the tiles directly adjacent to it
+    static pathfinding_target adjacent( const tripoint_bub_ms &p ) {
+        return { p, 1 };
+    }
+
+    // Finds a path that ends on any tile within the given radius of the specified tile, calculated by square distance
+    static pathfinding_target radius( const tripoint_bub_ms &p, int radius ) {
+        return { p, radius };
+    }
 };
 
 #endif // CATA_SRC_PATHFINDING_H

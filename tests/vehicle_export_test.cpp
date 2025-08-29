@@ -1,12 +1,22 @@
-#include <optional>
+#include <set>
+#include <sstream>
+#include <string>
+#include <utility>
 #include <vector>
 
 #include "cata_catch.h"
 #include "character.h"
+#include "coordinates.h"
+#include "flexbuffer_json.h"
+#include "json.h"
 #include "json_loader.h"
+#include "map.h"
 #include "map_helpers.h"
-#include "vehicle.h"
+#include "point.h"
+#include "type_id.h"
+#include "units.h"
 #include "veh_type.h"
+#include "vehicle.h"
 
 static const vproto_id vehicle_prototype_veh_export_test( "veh_export_test" );
 
@@ -33,6 +43,7 @@ static bool operator==( const vehicle_item_spawn &l, const vehicle_item_spawn &r
 TEST_CASE( "export_vehicle_test" )
 {
     clear_map();
+    map &here = get_map();
     // Spawn the vehicle with fuel.
     vehicle *veh_ptr = get_map().add_vehicle( vehicle_prototype_veh_export_test, tripoint_bub_ms::zero,
                        0_degrees, -1, 0 );
@@ -40,8 +51,8 @@ TEST_CASE( "export_vehicle_test" )
 
     // To ensure the zones get placed.
     veh_ptr->set_owner( get_player_character() );
-    veh_ptr->place_zones( get_map() );
-    veh_ptr->refresh();
+    veh_ptr->place_zones( here );
+    veh_ptr->refresh( );
     veh_ptr->refresh_zones();
 
     std::ostringstream os;

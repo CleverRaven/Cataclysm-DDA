@@ -1,6 +1,6 @@
 [
   {
-    "name": "GROUP_FERAL_PSYCHIC_DM",
+    "id": "GROUP_FERAL_PSYCHIC_DM",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_feral_human_bio_dm", "weight": 1, "cost_multiplier": 2 },

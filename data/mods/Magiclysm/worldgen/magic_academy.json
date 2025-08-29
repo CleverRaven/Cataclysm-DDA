@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "magic_academy_ground",
     "object": {
       "fill_ter": "t_floor",
@@ -85,7 +84,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "magic_academy_basement",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -147,7 +145,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "magic_academy_2nd",
     "object": {
       "fill_ter": "t_floor",
@@ -227,7 +224,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "magic_academy_3rd",
     "object": {
       "fill_ter": "t_floor",
@@ -273,7 +269,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "magic_academy_4th",
     "object": {
       "fill_ter": "t_floor",
@@ -319,7 +314,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "magic_academy_5th",
     "object": {
       "fill_ter": "t_floor",
@@ -367,7 +361,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "magic_academy_6th",
     "object": {
       "fill_ter": "t_floor",
@@ -418,7 +411,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "magic_academy_7th",
     "object": {
       "fill_ter": "t_floor",
@@ -465,7 +457,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "magic_academy_8th",
     "object": {
       "fill_ter": "t_floor",
@@ -511,7 +502,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "magic_academy_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",

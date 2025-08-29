@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": [ [ "urban_16_1", "urban_16_2" ] ],
     "type": "mapgen",
     "object": {
@@ -56,11 +55,10 @@
       },
       "furniture": { "0": "f_chair" },
       "place_loot": [ { "item": "television", "x": 18, "y": 6, "chance": 100 }, { "item": "stereo", "x": 24, "y": 5, "chance": 50 } ],
-      "place_vehicles": [ { "vehicle": "suburban_home", "x": 10, "y": 5, "chance": 100, "rotation": 270 } ]
+      "place_vehicles": [ { "vehicle": "suburban_home", "x": 10, "y": 5, "rotation": 270 } ]
     }
   },
   {
-    "method": "json",
     "om_terrain": [ [ "urban_16_3", "urban_16_4" ] ],
     "type": "mapgen",
     "object": {

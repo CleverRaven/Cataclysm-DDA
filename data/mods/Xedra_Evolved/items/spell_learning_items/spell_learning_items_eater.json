@@ -1,7 +1,7 @@
 [
   {
     "id": "deck_of_tarot_cards",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "looks_like": "deck_of_cards",
     "name": { "str": "deck of tarot cards", "str_pl": "decks of tarot cards" },
@@ -17,7 +17,7 @@
   },
   {
     "id": "occult_seal",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "name": { "str": "occult seal" },
     "description": "An intricate occult seal.  When you glance at the bottom left corner you hear the sound of the ocean and smell the salty air of the sea, and sense a river flowing through each point of the seal.",
@@ -32,7 +32,7 @@
   },
   {
     "id": "hurricane_lamp_thorns",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "looks_like": "oil_lamp",
     "name": { "str": "hurricane lamp with thorns", "str_pl": "hurricane lamps with thorns" },
@@ -48,7 +48,7 @@
   },
   {
     "id": "glass_berries",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "looks_like": "marble",
     "name": { "str": "box of glass berries", "str_pl": "boxes of glass berries" },
@@ -64,7 +64,7 @@
   },
   {
     "id": "polaroid_of_missing_person",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "looks_like": "polaroid_photo",
     "name": { "str": "polaroid of a missing person", "str_pl": "polaroids of a missing person" },
@@ -80,7 +80,7 @@
   },
   {
     "id": "strange_coffee",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "looks_like": "ceramic_mug",
     "name": { "str": "strange cup of coffee", "str_pl": "strange cups of coffee" },
@@ -96,7 +96,8 @@
   },
   {
     "id": "blindfold_artifact",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "blindfold",
     "name": { "str": "red devil blindfold" },
     "description": "A red fabric blindfold with a cartoonish devil over the eyes.  You feel some anger when you put it on.  Did that devil just wink at you?",
@@ -104,7 +105,7 @@
   },
   {
     "id": "artifact_heart",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "looks_like": "jabberwock_heart",
     "name": { "str": "mother of pearl heart" },
@@ -121,7 +122,7 @@
   },
   {
     "id": "artifact_eye_right",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "looks_like": "petrified_eye",
     "name": { "str": "right eye" },
@@ -137,7 +138,7 @@
   },
   {
     "id": "artifact_cerebellum",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "looks_like": "human_brain",
     "name": { "str": "cerebellum" },
@@ -153,7 +154,7 @@
   },
   {
     "id": "artifact_skull",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "looks_like": "skull_human",
     "name": { "str": "skull" },
@@ -169,7 +170,8 @@
   },
   {
     "id": "ring_artifact",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "ring of Gyges", "str_pl": "rings of Gyges" },
     "description": "A small ring.  There is nothing special about it, except the word \"Republic\" embossed on it.",
     "weight": "9 g",
@@ -194,7 +196,7 @@
   },
   {
     "id": "artifact_eye_left",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "looks_like": "petrified_eye",
     "name": { "str": "left eye" },
@@ -210,7 +212,8 @@
   },
   {
     "id": "eater_book_artifact",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Enemy of the World", "str_pl": "copies of Enemy of the World" },
     "description": "A small Korean novel that describes the journey of an incredibly strong protagonist attempting to save the world.",
     "weight": "460 g",
@@ -224,7 +227,7 @@
   },
   {
     "id": "artifact_horn",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "name": { "str": "horn" },
     "looks_like": "bone",
@@ -246,7 +249,7 @@
   },
   {
     "id": "artifact_muscle",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "looks_like": "arm",
     "name": { "str_sp": "muscles" },
@@ -262,7 +265,7 @@
   },
   {
     "id": "artifact_weakening",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "name": { "str": "pile of pain" },
     "description": "There is nothing here.  It's uncomfortable to hold it.",
@@ -277,7 +280,7 @@
   },
   {
     "id": "artifact_unbreakable",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "name": { "str": "pair of spheres", "str_pl": "pairs of spheres" },
     "looks_like": "marble",
@@ -294,7 +297,7 @@
   },
   {
     "id": "artifact_point_blank",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "looks_like": "ch_mitten_gaunt",
     "name": { "str": "fist" },
@@ -310,7 +313,7 @@
   },
   {
     "id": "artifact_anchor",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "name": { "str": "anchor" },
     "description": "A miniature anchor with an earthly sheen.  You feel more stable looking at it.",
@@ -325,7 +328,7 @@
   },
   {
     "id": "artifact_sand",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "name": { "str": "clumped sand" },
     "description": "A pile of gray sand that is clumped together.  When you separate the pieces they seem to flow back together.",

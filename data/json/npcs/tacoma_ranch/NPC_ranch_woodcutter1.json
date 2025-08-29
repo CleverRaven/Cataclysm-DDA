@@ -54,16 +54,9 @@
         "topic": "TALK_DONE",
         "effect": [
           { "u_consume_item": "FMCNote", "count": 800 },
-          {
-            "run_eocs": {
-              "id": "EOC_10_logs",
-              "effect": [
-                { "mapgen_update": "tacoma_commune_woodcutter_10_logs", "om_terrain": "ranch_camp_67" },
-                { "u_message": "<npc_name> drops the logs off in the garage…", "type": "good", "popup": true },
-                { "npc_add_effect": "currently_busy", "duration": "24 h" }
-              ]
-            }
-          }
+          { "mapgen_update": "tacoma_commune_woodcutter_10_logs", "om_terrain": "ranch_camp_67" },
+          { "u_message": "<npc_name> drops the logs off in the garage…", "type": "good", "popup": true },
+          { "npc_add_effect": "currently_busy", "duration": "24 h" }
         ],
         "condition": { "u_has_items": { "item": "FMCNote", "count": 800 } }
       },
@@ -72,16 +65,9 @@
         "topic": "TALK_DONE",
         "effect": [
           { "u_consume_item": "FMCNote", "count": 4800 },
-          {
-            "run_eocs": {
-              "id": "EOC_100_logs",
-              "effect": [
-                { "mapgen_update": "tacoma_commune_woodcutter_100_logs", "om_terrain": "ranch_camp_67" },
-                { "u_message": "<npc_name> drops the logs off in the garage…", "type": "good", "popup": true },
-                { "npc_add_effect": "currently_busy", "duration": "168 h" }
-              ]
-            }
-          }
+          { "mapgen_update": "tacoma_commune_woodcutter_100_logs", "om_terrain": "ranch_camp_67" },
+          { "u_message": "<npc_name> drops the logs off in the garage…", "type": "good", "popup": true },
+          { "npc_add_effect": "currently_busy", "duration": "168 h" }
         ],
         "condition": { "u_has_items": { "item": "FMCNote", "count": 4800 } }
       },

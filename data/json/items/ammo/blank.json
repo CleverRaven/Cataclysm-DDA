@@ -2,7 +2,8 @@
   {
     "id": "22_blank",
     "copy-from": "22_lr",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".22 blank" },
     "description": "A powder load .22 blank used for powder-actuated tools.",
     "ascii_picture": "22_blank",

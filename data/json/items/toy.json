@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "teddy_bear",
     "name": { "str": "plush toy" },
     "description": "A manufactured plush toy.  This is the default variant, if you see it something went wrong.",
@@ -18,30 +18,7 @@
       {
         "id": "toy_plush_teddy",
         "name": { "str": "teddy bear" },
-        "description": "A mass-produced plush teddy bear.  It is wearing a little red t-shirt but no pants."
-      },
-      {
-        "id": "toy_plush_gteddy",
-        "name": { "str": "grizzly teddy bear" },
-        "description": "A mass-produced plush brown teddy bear.  It is wearing a little red t-shirt but no pants.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_pteddy",
-        "name": { "str": "polar teddy bear" },
-        "description": "A mass-produced plush white teddy bear.  It is wearing a little white puffer jacket, holding a glass of soda, but is wearing no pants.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_bteddy",
-        "name": { "str": "black teddy bear" },
-        "description": "A mass-produced plush black teddy bear.  It is wearing a little white t-shirt, but no pants.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_steddy",
-        "name": { "str": "sun teddy bear" },
-        "description": "A mass-produced plush brown teddy bear with a yellowish snout.  It is wearing a little white t-shirt with a small sun printed on it, but no pants.",
+        "description": "A mass-produced plush teddy bear.  It is wearing a little red t-shirt but no pants.",
         "weight": 1
       },
       {
@@ -57,16 +34,17 @@
         "weight": 1
       },
       {
-        "id": "toy_plush_teddy_zombie",
-        "name": { "str": "zombie teddy bear" },
-        "description": "A dark green teddy bear with stylized stitches all over and X's for eyes.  The perfect size for a small child to hug the unlife out of.  Looks like the zombie apocalypse hit the toy store shelves first."
-      },
-      {
         "id": "toy_plush_ferret",
         "name": { "str": "ferret plushie" },
-        "description": "A large plush ferret with cute beady eyes."
+        "description": "A large plush ferret with cute beady eyes.",
+        "weight": 1
       },
-      { "id": "toy_plush_trex", "name": { "str": "T-rex plushie" }, "description": "A large plush t-rex." },
+      {
+        "id": "toy_plush_trex",
+        "name": { "str": "T-rex plushie" },
+        "description": "A large plush t-rex.",
+        "weight": 1
+      },
       {
         "id": "toy_plush_trice",
         "name": { "str": "triceratops plushie" },
@@ -80,199 +58,27 @@
         "weight": 1
       },
       {
-        "id": "toy_plush_ankylo",
-        "name": { "str": "ankylosaurus plushie" },
-        "description": "A cute, squat ankylosaurus plushie with a spiky tail and soft plating.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_vel",
-        "name": { "str": "velociraptor plushie" },
-        "description": "A furry velociraptor plushie with oversized eyes and little claws.  It has a very friendly demeanor.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_diplo",
-        "name": { "str": "diplodocus plushie" },
-        "description": "A long and floppy diplodocus plushie with a gentle expression and wrinkled skin.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_brachio",
-        "name": { "str": "brachiosaurus plushie" },
-        "description": "A sweet-faced brachiosaurus plushie with a long neck and oversized head.  It looks very wise!",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_spino",
-        "name": { "str": "spinosaurus plushie" },
-        "description": "A spiky spinosaurus plushie with big claws and a friendly demeanor, he is holding a fish, probably saving it for later.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_pteranodon",
-        "name": { "str": "pteranodon plushie" },
-        "description": "A large pteranodon plushie with big wings and adorable eyes.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_allo",
-        "name": { "str": "allosaurus plushie" },
-        "description": "A fierce-looking allosaurus plushie with a soft, huggable body and clean white teeth.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_compo",
-        "name": { "str": "compsognathus plushie" },
-        "description": "A soft compsognathus plushie, with a cute and bright appearance like that of a baby dinosaur.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_archaeo",
-        "name": { "str": "archaeopteryx plushie" },
-        "description": "A large, soft, fuzzy and colorful archaeopteryx plushie with bird-like features.  His feathers apparently are individually designed and placed.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_deyno",
-        "name": { "str": "deinonychus plushie" },
-        "description": "A reddish, cuddly deinonychus plushie with white, clean teeth and soft claws.  Apparently, it is smiling.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_iguano",
-        "name": { "str": "iguanodon plushie" },
-        "description": "A earth-brown, huggable and soft iguanodon plushie with a friendly smile and soft, round features.",
-        "weight": 1
-      },
-      {
         "id": "toy_plush_bronto",
         "name": { "str": "brontosaurus plushie" },
         "description": "A silly, oversized and soft brontosaurus plushie with a long tail, a long neck and a small head with a friendly smile.",
         "weight": 1
       },
       {
-        "id": "toy_plush_para",
-        "name": { "str": "parasaurolophus plushie" },
-        "description": "A soft, yellowish parasaurolophus plushie with a big crest in the head and cute puppy-dog eyes.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_carno",
-        "name": { "str": "carnotaurus plushie" },
-        "description": "A fierce-looking, but extremely soft carnotaurus plushie with a brightly-colored snout and a pair of round, soft horns.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_plateo",
-        "name": { "str": "plateosaurus plushie" },
-        "description": "A squat, chubby, cute and very huggable plateosaurus plushie with a prominent belly and a soft stubby tail.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_dilopho",
-        "name": { "str": "dilophosaurus plushie" },
-        "description": "A greenish, playful, smiling dilophosaurus plushie with a cute frilled collar and a long, curly and soft tail.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_elasmo",
-        "name": { "str": "elasmosaurus plushie" },
-        "description": "A blueish, large, long-necked elasmosaurus plushie with a cute and friendly expression.  It is very soft and huggable.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_mosa",
-        "name": { "str": "mosasaurus plushie" },
-        "description": "A blue-grayish, large, chubby mosasaurus plushie with a friendly smile, big eyes and soft flippers.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_krono",
-        "name": { "str": "kronosaurus plushie" },
-        "description": "A sleek-looking, soft kronosaurus plushie with white dinosaur smile smooth texturized skin and large, cute eyes.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_tylo",
-        "name": { "str": "tylosaurus plushie" },
-        "description": "A large, chubby and huggable tylosaurus plushie with a big head and soft fins.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_plesio",
-        "name": { "str": "plesiosaurus plushie" },
-        "description": "A blueish, soft and friendly plesiosaurus plushie with big floppy flippers, a long neck and a cute, gentle expression.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_sucho",
-        "name": { "str": "suchomimus plushie" },
-        "description": "A playful and very soft suchomimus plushie with a funny, toothy grin and floppy, soft arms.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_baryo",
-        "name": { "str": "baryonyx plushie" },
-        "description": "A grayish, soft and cute baryonyx plushie with a big head and small arms, it is holding a fish, probably saving it for later.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_irri",
-        "name": { "str": "irritator plushie" },
-        "description": "A large, soft and colorful reddish orange irritator plushie with a long snout and playful expression.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_sarco",
-        "name": { "str": "sarcosuchus plushie" },
-        "description": "A large, chubby sarcosuchus plushie with a friendly, toothy grin and adorable snout.  It resembles a crocodile.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_tik",
-        "name": { "str": "tiktaalik plushie" },
-        "description": "A large plushie of your ancestor, the tiktaalik!  It has a soft, huggable fish-like body, stubby legs, and paddle-like soft fins.  Its color is a mix of blue-gray soft scales pattern on the back and a plush beige belly.  It has large eyes and a friendly expression.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_ichth",
-        "name": { "str": "ichthyostega plushie" },
-        "description": "A large plushie of your ancestor, the ichthyostega!  It has a long, sturdy, soft body, four soft, fat legs, and a soft fish-like tail.  Its body is extremely soft and fluffy, and has bumpy green skin with lighter green stripes as details.  It presents a cute expression with big, wise eyes.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_sancta",
-        "name": { "str": "sanctacaris plushie" },
-        "description": "A fluffy and colorful sanctacaris plushie, the great great grandfather of all arthropods.  It has a soft, chubby body, multiple soft legs, and eyes on stalks.  Its plush is light blue colored, with accents of shimmering purple on its legs and details on the body.  It has big, round eyes with a cute and friendly expression.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_opal",
-        "name": { "str": "opabinia plushie" },
-        "description": "A fluffy and colorful opabinia plushie with a cute, unconventional design, with a lengthy hollow proboscis ending in a single, long and soft 'claw' extending out of its head that's topped with five eyes on stalks.  Its segmented body is colored a mix of light pink and white while its tail bears purple stripes.",
-        "weight": 1
-      },
-      {
         "id": "toy_plush_penguin",
         "name": { "str": "penguin plushie" },
-        "description": "A velvety-soft plush penguin.  It makes a funny noise when you hug it."
+        "description": "A velvety-soft plush penguin.  It makes a funny noise when you hug it.",
+        "weight": 1
       },
-      { "id": "toy_plush_rabbit", "name": { "str": "rabbit plushie" }, "description": "A large plush rabbit." },
       {
-        "id": "toy_plush_remora",
-        "name": { "str": "remora plushie" },
-        "description": "A large plush remora, a fish commonly seen alongside sharks.  Wait, wasn't there a shark plushie somewhere here…"
+        "id": "toy_plush_rabbit",
+        "name": { "str": "rabbit plushie" },
+        "description": "A large plush rabbit.",
+        "weight": 1
       },
       {
         "id": "toy_plush_fox",
         "name": { "str": "fox plushie" },
-        "description": "A large plush fox.  It isn't realistic enough to trick a zombie into going after it, but it's very cute and makes a comforting bedtime companion."
-      },
-      {
-        "id": "toy_plush_rfox",
-        "name": { "str": "red fox plushie" },
-        "description": "A large plush red fox.  It isn't realistic enough to trick a zombie into going after it, but it's very cute and makes a comforting bedtime companion.",
+        "description": "A large plush fox.  It isn't realistic enough to trick a zombie into going after it, but it's very cute and makes a comforting bedtime companion.",
         "weight": 1
       },
       {
@@ -282,50 +88,32 @@
         "weight": 1
       },
       {
-        "id": "toy_plush_blackbear",
-        "name": { "str": "black bear plushie" },
-        "description": "A somewhat realistic, but still childish black bear plushie with soft, black fur, round ears, and a sweet expression.  It has a warm and fuzzy texture that makes it the perfect companion for snuggles during evenings.",
-        "weight": 1
-      },
-      {
         "id": "toy_plush_bobcat",
         "name": { "str": "bobcat plushie" },
         "description": "A soft, cute bobcat plushie with a cute, tufted pair of ears, a fluffy tail and soft brown fur.  It has embroidered both soft whiskers and claws that add a touch of realism to its cute and playful design.",
         "weight": 1
       },
       {
-        "id": "toy_plush_balde",
-        "name": { "str": "bald eagle plushie" },
+        "id": "toy_plush_eagle",
+        "name": { "str": "eagle plushie" },
         "description": "A cuddly and majestic bald eagle plushie with soft, brown and white cotton faux feathers, a hooked, soft beak, and a patriotic expression.  It has a pair of special eyes that glow as brightly as the stars and stripes of Old Glory, the perfect partner to fend off your enemies in the Cataclysm.",
         "weight": 1
       },
       {
-        "id": "toy_plush_gfox",
-        "name": { "str": "gray fox plushie" },
-        "description": "A large and cute plush gray fox, with soft, gray fur and big, bat-like ears.  It has a special scent that mimics the wild and earthy aroma of the New England wilderness.",
+        "id": "toy_plushhseal",
+        "name": { "str": "seal plushie" },
+        "description": "A cuddly seal plushie with soft, grayish fur and big, soulful eyes.  It features a realistic texture that mimics the soft and textural quality of real seals' fur.",
         "weight": 1
       },
       {
-        "id": "toy_plush_hseal",
-        "name": { "str": "harbor seal plushie" },
-        "description": "A cuddly harbor seal plushie with soft, grayish fur and big, soulful eyes.  It features a realistic texture that mimics the soft and textural quality of real seals' fur.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_rotter",
-        "name": { "str": "river otter plushie" },
+        "id": "toy_plush_otter",
+        "name": { "str": "otter plushie" },
         "description": "A playful and fuzzy northern river otter plushie with brown fur and a curious expression.  It has a special, state-of-the-art semi-waterproof finish that makes it the perfect bathtub companion for those who love to play with their toys while they get clean.",
         "weight": 1
       },
       {
-        "id": "toy_plush_clynx",
-        "name": { "str": "Canadian lynx plushie" },
-        "description": "A beautiful, cute and cuddly hypoallergenic Canadian lynx plushie with a ruff of fur around the neck, big whiskers, and a playful attitude.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_pfalcon",
-        "name": { "str": "peregrine falcon plushie" },
+        "id": "toy_plush_falcon",
+        "name": { "str": "falcon plushie" },
         "description": "A cuddly peregrine falcon plushie with soft, brown and white cotton faux feathers, a soft hooked beak, and an alert expression.  With a speedy and sleek plushie design, this toy plushie is sure to take imaginative people on make-believe high-flying chase scenes!",
         "weight": 1
       },
@@ -343,26 +131,8 @@
       },
       {
         "id": "toy_plush_skunk",
-        "name": { "str": "striped skunk plushie" },
+        "name": { "str": "skunk plushie" },
         "description": "A cute striped skunk plushie with soft, black-and-white fur and a playful expression.  Ironically, it has a weak, pleasant pine scent.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_fsquirell",
-        "name": { "str": "flying squirrel plushie" },
-        "description": "A soft, playful and fuzzy flying squirrel plushie with brown fur and oversized pair of armwings.  This plushie features almost undetectable special suction cups on its paws that makes it possible to 'climb' and stick to smooth surfaces, mimicking the cuddly creature's real-life abilities.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_cloon",
-        "name": { "str": "common loon plushie" },
-        "description": "A cuddly common loon plushie with soft, black-and-white cotton faux feathers and a pleasing expression.  Its head can bob and turn to mimic the loon's distinctive courtship calls.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_ecoyote",
-        "name": { "str": "coyote plushie" },
-        "description": "A playful eastern coyote plushie with soft, gray and brown fur and a big, curled tail.  It is extremely huggable, but is not realistic enough to trick anyone, yet, it is very cute.",
         "weight": 1
       },
       {
@@ -372,15 +142,9 @@
         "weight": 1
       },
       {
-        "id": "toy_plush_scowl",
-        "name": { "str": "screech owl plushie" },
-        "description": "A cute and wise-looking eastern screech owl plushie with big, round eyes and soft, tan cotton faux feathers.  It has a soft and silky texture, making it an excellent sensory object for people, specially children, to play and explore while they navigate the world around them.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_snowl",
-        "name": { "str": "snowy owl plushie" },
-        "description": "A cuddly and wise-looking snowy owl plushie with fluffy white cotton faux feathers, orange eyes, and a cute expression.  .It features a special light-up effect, mimicking the way the snowy owl's eyes glow brightly in the dark.",
+        "id": "toy_plush_owl",
+        "name": { "str": "owl plushie" },
+        "description": "A cuddly and wise-looking owl plushie with fluffy white cotton faux feathers, orange eyes, and a cute expression.",
         "weight": 1
       },
       {
@@ -392,37 +156,7 @@
       {
         "id": "toy_plush_crocodile",
         "name": { "str": "crocodile plushie" },
-        "description": "A soft and cuddly crocodile plushie with soft green scales, a big smile, and a long snout.  When squeezed or touched, this plushie produces authentic hissing and growling sounds, just like a real crocodile.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_alligator",
-        "name": { "str": "alligator plushie" },
-        "description": "A cute alligator plushie with soft green skin, big round eyes, and a playful expression.  This plushie features glowing eyes that change color in the dark, adding an eerie and mysterious touch to its playful design.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_gavial",
-        "name": { "str": "gavial plushie" },
-        "description": "A cuddling gavial plushie with a soft body and long snout, with a playful expression.  It has a chomping action when the tail is pulled, letting people, specially children, playfully recreate the gavial's hunting tactics.  Don't worry, it is a complex system of cotton ligaments.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_yacare",
-        "name": { "str": "jacare plushie" },
-        "description": "A jacare (or yacare, kind of a South American crocodile) plushie with soft sandy brown scales, a soft plush belly, and an adorable expression.  This plushies has a special scented feature that makes it smell just like a warm and tropical Brazilian jungle.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_cayman",
-        "name": { "str": "cayman plushie" },
-        "description": "A cayman (some kind of dwarf crocodile) plushie with soft, light green skin, big, playful eyes, and a cute smile.  This plushie has superior cuddly and fluffy features, making it the perfect companion for bedtime snuggles.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_komodo",
-        "name": { "str": "komodo dragon plushie" },
-        "description": "A big komodo dragon plushie with textured yet soft light brown scales, big, friendly eyes, and an adorable snout.  Extremely huggable.",
+        "description": "A soft and cuddly crocodile plushie with soft green scales, a big smile, and a long snout.  When squeezed or touched, this plushie produces authentic hissing and growling sounds, just like a real crocodile.  Or is it an alligator?  It's hard to tell.",
         "weight": 1
       },
       {
@@ -462,14 +196,8 @@
         "weight": 1
       },
       {
-        "id": "toy_plush_rooster",
-        "name": { "str": "rooster plushie" },
-        "description": "A fun and colorful rooster plushie with soft, vibrantly colored cotton faux feathers, a long rooster tail, and a bold expression.",
-        "weight": 1
-      },
-      {
         "id": "toy_plush_muttpuppy",
-        "name": { "str": "mutt puppy plushie" },
+        "name": { "str": "puppy plushie" },
         "description": "A fluffy and cuddly plushie of a mutt puppy with soft, fuzzy fur, big, round eyes, and a playful expression.",
         "weight": 1
       },
@@ -493,26 +221,14 @@
       },
       {
         "id": "toy_plush_bullfrog",
-        "name": { "str": "bullfrog plushie" },
-        "description": "A bullfrog plushie with soft, green, and bumpy skin, big, playful eyes, and typical frog legs.  This plushie produces realistic croaking sounds when squeezed and a special texture that makes it fun to squeeze and manipulate.",
+        "name": { "str": "frog plushie" },
+        "description": "A frog plushie with soft, green, and bumpy skin, big, playful eyes, and typical frog legs.  This plushie produces realistic croaking sounds when squeezed and a special texture that makes it fun to squeeze and manipulate.  Or is it a frog?  You can't really tell.",
         "weight": 1
       },
       {
-        "id": "toy_plush_toad",
-        "name": { "str": "toad plushie" },
-        "description": "A cute and cuddly toad plushie with soft, bumpy green skin, big eyes, and a gentle expression.  This plushie features a special scent that captures the earthy and musky aroma of a damp forest floor, not that everyone will like it.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_cbat",
-        "name": { "str": "cave bat plushie" },
-        "description": "A precious cave bat plushie with soft, black fur, big ears, and somewhat small, curious eyes.  It produces a special squeaker sound effect when squeezed.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_fbat",
-        "name": { "str": "fruit bat plushie" },
-        "description": "This fruit bat plushie is tan in color, with soft, fuzzy fur.  It has delicate pointed ears and a sweet, friendly expression with big, brown eyes.  This plushie has special hanging capabilities that let it cling to objects using its feet, simulating the playful behavior of a real fruit bat.  It also come with a removable plush red fruit, probably a berry of some kind, that it can 'eat'.",
+        "id": "toy_plush_bat",
+        "name": { "str": "bat plushie" },
+        "description": "A precious bat plushie with soft, black fur, big ears, and somewhat small, curious eyes.  It produces a special squeaker sound effect when squeezed.",
         "weight": 1
       },
       {
@@ -534,51 +250,9 @@
         "weight": 1
       },
       {
-        "id": "toy_plush_baboon",
-        "name": { "str": "baboon plushie" },
-        "description": "A fun and playful baboon plushie with soft, brown fur and big, colorful feet and cute expression.  Like almost all baboons, this one has a red butt and can grip and hold small objects with its soft, plush hands.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_smonkey",
-        "name": { "str": "spider monkey plushie" },
-        "description": "A huggable and cute spider monkey plushie with soft, brown fur and long, playful arms with big, curious eyes.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_jmonkey",
-        "name": { "str": "Japanese macaque plushie" },
-        "description": "This Japanese macaque plushie features a soft, brown grayish fur, with a reddish-brown face and hands.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_tamarin",
-        "name": { "str": "golden lion tamarin plushie" },
-        "description": "This bright, extremely cute golden lion tamarin plushie features long, soft, and golden-colored fur and a extremely playful demeanor.  On the label it says that it is an ambassador of its species, and that the amounts collected in the sales of the plushies were donated to help the conservation of the species.  Surely now, without many humans, maybe these animals don't have to worry so much about their habitat being destroyed.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_btamarin",
-        "name": { "str": "black lion tamarin plushie plushie" },
-        "description": "This extremely cute black lion tamarin plushie features a soft black fur, bright orange hands and feet along with expressive, friendly eyes.  On the label it says that it is an ambassador of its species, and that the amounts collected in the sales of the plushies were donated to help the conservation of the species.  Surely now, without many humans, maybe these animals don't have to worry so much about their habitat being destroyed.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_mandrill",
-        "name": { "str": "mandrill monkey plushie" },
-        "description": "This mandrill monkey plushie is striking due to the bright colorful features present in its face (mandrills are known for that, after all).  This plushie has a movable jaw that reveals soft plush teeth when opened, giving it a realistic appearance.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_howlerm",
-        "name": { "str": "howler monkey plushie" },
-        "description": "This cute and cuddling howler monkey plushie has soft, brown fur, and produces a sound that mimics the howler monkey's signature hooting noise when hugged properly.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_marmoset",
-        "name": { "str": "marmoset plushie" },
-        "description": "This precious and cute marmoset plushie features a fluffy and dense brown fur, and a long fluffy tail like the real animal.",
+        "id": "toy_plush_lion",
+        "name": { "str": "lion plushie" },
+        "description": "This bright, extremely cute lion plushie features long, soft, and golden-colored fur and a extremely playful demeanor.  On the label it says that it is an ambassador of its species, and that the amounts collected in the sales of the plushies were donated to help the conservation of the species.  Surely now, without many humans, maybe these animals don't have to worry so much about their habitat being destroyed.",
         "weight": 1
       },
       {
@@ -594,33 +268,9 @@
         "weight": 1
       },
       {
-        "id": "toy_plush_termite",
-        "name": { "str": "termite plushie" },
-        "description": "A fun and colorful termite plushie with big, curious eyes and furry antenna.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_scarab",
-        "name": { "str": "scarab beetle plushie" },
-        "description": "A cuddly and adorable scarab plushie with soft, brown fur and big, friendly eyes.  This plushie features a special iridescent finish that makes it faintly sparkle and shimmer like a real scarab beetle.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_centipede",
-        "name": { "str": "centipede plushie" },
-        "description": "A centipede plushie with soft, colorful segments and big, playful eyes.  This plushie has a special climbing mechanism that lets it crawl over and cling to objects.",
-        "weight": 1
-      },
-      {
         "id": "toy_plush_ladybug",
         "name": { "str": "ladybug plushie" },
         "description": "A cute and lovable ladybug plushie with soft, red and black polkadotted wings and big, friendly eyes.  This plushie features a special retractable spotted soft wing mechanic sewed directly into the body that gives it the authentic appearance of a ladybug about to fly.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_aphid",
-        "name": { "str": "aphid plushie" },
-        "description": "A giant aphid plushie with soft, textured green skin and big, curious eyes.  This plushie features a special attachment mechanism that lets it cling and crawl on flat surfaces, just like a real aphid.",
         "weight": 1
       },
       {
@@ -630,39 +280,15 @@
         "weight": 1
       },
       {
-        "id": "toy_plush_lobster",
-        "name": { "str": "lobster plushie" },
-        "description": "A cuddly red lobster plushie with a soft, red shell mimic, and big, playful eyes.",
-        "weight": 1
-      },
-      {
         "id": "toy_plush_bwhale",
-        "name": { "str": "blue whale plushie" },
-        "description": "A large, funny, cuddly blue whale plushie with soft, blue-gray fur, big, friendly eyes, and a playful expression.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_hwhale",
-        "name": { "str": "humpback whale plushie" },
-        "description": "A large, lovable and huggable humpback whale plushie with soft, gray and white fur and big, friendly eyes.",
+        "name": { "str": "whale plushie" },
+        "description": "A large, funny, cuddly whale plushie with soft, blue-gray fur, big, friendly eyes, and a playful expression.",
         "weight": 1
       },
       {
         "id": "toy_plush_camel",
         "name": { "str": "camel plushie" },
         "description": "A cuddly and sweet camel plushie with two soft humps, tan fur and big, soulful eyes.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_dromedary",
-        "name": { "str": "dromedary plushie" },
-        "description": "A cute and cuddly plushie with soft brown fur, a big, single hump, and friendly eyes.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_llama",
-        "name": { "str": "llama plushie" },
-        "description": "A precious llama plushie with soft, fluffy fur in grayish white.  It has expressive eyes, a tuft of fur on its head, long, delicate legs, and has a selection of detachable accessories, such as a saddle, a blanket, and even a hat!",
         "weight": 1
       },
       {
@@ -684,42 +310,21 @@
         "weight": 1
       },
       {
-        "id": "toy_plush_bsheep",
-        "name": { "str": "black sheep plushie" },
-        "description": "This loving and fluffy sheep plushie features soft, woolly fur in black, with cute floppy ears and somewhat careless, bored eyes.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_psheep",
-        "name": { "str": "pink sheep plushie" },
-        "description": "This loving and fluffy sheep plushie features soft, woolly fur in pink, with cute floppy ears and square-pixeled eyes, for some reason.",
-        "weight": 1
-      },
-      {
-        "id": "toy_plush_boar",
-        "name": { "str": "wild boar plushie" },
-        "description": "This big wild boar plushie features a soft tuft of coarse, dark fur along its spine, with a soft and plushy body.  It also has a pair of soft tusks protruding from its snout and has a fierce expression.",
-        "weight": 1
-      },
-      {
         "id": "toy_plush_pig",
         "name": { "str": "pig plushie" },
-        "description": "This loving, precious pig plushie has a soft pink fur, with endearing floppy ears and bright eyes.  It also has a plush snout with brown fur on its legs and paws.  Its nose is somewhat long and black, and its eyes are large and expressive."
+        "description": "This loving, precious pig plushie has a soft pink fur, with endearing floppy ears and bright eyes.  It also has a plush snout with brown fur on its legs and paws.  Its nose is somewhat long and black, and its eyes are large and expressive.",
+        "weight": 1
       },
       {
-        "id": "toy_plush_wunicorn",
-        "name": { "str": "white unicorn plushie" },
-        "description": "This majestic unicorn plushie features a soft white body and horn, with tufts of white hair on its neck and tail.  Its black eyes are adorably large and round."
-      },
-      {
-        "id": "toy_plush_municorn",
-        "name": { "str": "white unicorn plushie" },
-        "description": "This majestic unicorn plushie features a soft white body and horn, with tufts of white hair on its neck and tail.  Its black eyes are adorably large and round.  For some odd reason, this one is wielding a plush knife with its forehooves."
+        "id": "toy_plush_unicorn",
+        "name": { "str": "unicorn plushie" },
+        "description": "This majestic unicorn plushie features a soft white body and horn, with tufts of white hair on its neck and tail.  Its black eyes are adorably large and round.",
+        "weight": 1
       }
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "shark_plushie",
     "name": { "str": "shark plushie" },
     "description": "A somewhat large, mass produced shark plushie.  Meant to provide comfort to people of all ages.",
@@ -735,7 +340,7 @@
     "flags": [ "SLEEP_AID" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "toy_figurine_large",
     "name": { "str": "large figurine" },
     "description": "A large manufactured figurine.  This is the default variant, if you see it something went wrong.",
@@ -798,7 +403,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "toy_figurine",
     "name": { "str": "figurine" },
     "description": "A normal-sized manufactured figurine.  This is the default variant, if you see it something went wrong.",
@@ -860,7 +465,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "yoyo",
     "name": { "str": "yoyo" },
     "description": "A simple yoyo on a string.  Now you can be bored with style.",
@@ -875,7 +480,7 @@
     "color": "light_gray"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "fidget_spinner",
     "name": { "str": "fidget spinner" },
     "description": "A fidget spinner.  An artifact from when the times were simpler.",
@@ -896,7 +501,7 @@
   },
   {
     "id": "imperfect_doll_complete",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "imperfect doll" },
     "description": "Its legs are mismatched, its arms misshapen, its eyes more crooked than its smile.  Everywhere, it sparkles with the golden thread that has put it back together.  It's beautiful.",
     "category": "other",
@@ -915,7 +520,7 @@
   },
   {
     "id": "imperfect_doll_legs",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "floppy cotton legs" },
     "description": "They're different colors and different lengths.  It would be hard to run away with these.",
     "category": "other",
@@ -928,7 +533,7 @@
   },
   {
     "id": "imperfect_doll_arms",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "threadbare cotton arms" },
     "description": "The spun cloth fingers are fraying away.  There's nothing that they could hold on to.",
     "category": "other",
@@ -941,7 +546,7 @@
   },
   {
     "id": "imperfect_doll_features",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "buttons and thread" },
     "description": "A pair of mismatched buttons and some dull yellow thread, to put on a brave face with.",
     "category": "other",

@@ -1,36 +1,43 @@
 #include "item_group.h"
 
 #include <algorithm>
-#include <cstdlib>
-#include <new>
+#include <functional>
+#include <iterator>
 #include <set>
 #include <string>
-#include <type_traits>
 #include <unordered_map>
 
 #include "calendar.h"
 #include "cata_assert.h"
+#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "debug.h"
 #include "enum_traits.h"
 #include "enums.h"
 #include "flag.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "item.h"
+#include "item_components.h"
+#include "item_contents.h"
 #include "item_factory.h"
+#include "item_pocket.h"
 #include "itype.h"
+#include "iuse.h"
 #include "iuse_actor.h"
-#include "json.h"
-#include "make_static.h"
 #include "options.h"
 #include "pocket_type.h"
 #include "relic.h"
 #include "ret_val.h"
 #include "rng.h"
+#include "string_formatter.h"
 #include "type_id.h"
 #include "units.h"
 
-static const std::string null_item_id( "null" );
+static const fault_id fault_gun_dirt( "fault_gun_dirt" );
+static const fault_id fault_gun_unlubricated( "fault_gun_unlubricated" );
+
+static const flag_id json_flag_MISSION_ITEM( "MISSION_ITEM" );
 
 std::size_t Item_spawn_data::create( ItemList &list,
                                      const time_point &birthday, spawn_flags flags ) const
@@ -92,12 +99,12 @@ std::string enum_to_string<Item_spawn_data::overflow_behaviour>(
 
 static pocket_type guess_pocket_for( const item &container, const item &payload )
 {
+    if( container.is_estorage() && payload.is_estorable() ) {
+        return pocket_type::E_FILE_STORAGE;
+    }
     if( ( container.is_gun() && payload.is_gunmod() ) || ( container.is_tool() &&
             payload.is_toolmod() ) ) {
         return pocket_type::MOD;
-    }
-    if( container.is_software_storage() && payload.is_software() ) {
-        return pocket_type::SOFTWARE;
     }
     if( ( container.is_gun() || container.is_tool() ) && payload.is_magazine() ) {
         return pocket_type::MAGAZINE_WELL;
@@ -190,20 +197,20 @@ item Single_item_creator::create_single_without_container( const time_point &bir
 {
     // Check direct return conditions first.
     if( type == S_NONE ) {
-        return item( null_item_id, birthday );
+        return item( itype_id::NULL_ID(), birthday );
     }
     Item_spawn_data *isd = nullptr;
     if( type == S_ITEM_GROUP ) {
         item_group_id group_id( id );
         if( std::find( rec.begin(), rec.end(), group_id ) != rec.end() ) {
             debugmsg( "recursion in item spawn list %s", id.c_str() );
-            return item( null_item_id, birthday );
+            return item( itype_id::NULL_ID(), birthday );
         }
         rec.push_back( group_id );
         isd = item_controller->get_group( group_id );
         if( isd == nullptr ) {
             debugmsg( "unknown item spawn list %s", id.c_str() );
-            return item( null_item_id, birthday );
+            return item( itype_id::NULL_ID(), birthday );
         }
     }
 
@@ -221,7 +228,7 @@ item Single_item_creator::create_single_without_container( const time_point &bir
             if( id == "corpse" ) {
                 return item::make_corpse( mtype_id::NULL_ID(), birthday );
             } else {
-                return item( id, birthday );
+                return item( itype_id( id ), birthday );
             }
         }
     } )();
@@ -281,7 +288,7 @@ std::size_t Single_item_creator::create( ItemList &list,
     for( ; cnt > 0; cnt-- ) {
         if( type == S_ITEM ) {
             item itm = create_single_without_container( birthday, rec );
-            if( flags & spawn_flags::use_spawn_rate && !itm.has_flag( STATIC( flag_id( "MISSION_ITEM" ) ) ) &&
+            if( flags & spawn_flags::use_spawn_rate && !itm.has_flag( json_flag_MISSION_ITEM ) &&
                 rng_float( 0, 1 ) > spawn_rate ) {
                 continue;
             }
@@ -503,14 +510,22 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
         // if gun RNG is dirty, must add dirt fault to allow cleaning
         if( random_dirt > 0 ) {
             new_item.set_var( "dirt", random_dirt );
-            new_item.faults.emplace( "fault_gun_dirt" );
+            new_item.set_fault( fault_gun_dirt );
             // chance to be unlubed, but only if it's not a laser or something
         } else if( one_in( 10 ) && !new_item.has_flag( flag_NEEDS_NO_LUBE ) ) {
-            new_item.faults.emplace( "fault_gun_unlubricated" );
+            new_item.faults.emplace( fault_gun_unlubricated );
         }
     }
 
     new_item.set_itype_variant( variant );
+
+    if( !faults.empty() ) {
+        for( const std::pair<fault_id, int> &f : faults ) {
+            if( x_in_y( f.second, 100 ) ) {
+                new_item.set_fault( f.first, false, false );
+            }
+        }
+    }
 
     {
         // create container here from modifier or from default to get max charges later
@@ -635,8 +650,7 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
 
         if( new_item.is_magazine() ||
             new_item.has_pocket_type( pocket_type::MAGAZINE_WELL ) ) {
-            bool spawn_ammo = rng( 0, 99 ) < with_ammo && new_item.ammo_remaining() == 0 && ch == -1 &&
-                              ( !new_item.is_tool() || new_item.type->tool->rand_charges.empty() );
+            bool spawn_ammo = rng( 0, 99 ) < with_ammo && new_item.ammo_remaining() == 0 && ch == -1;
             bool spawn_mag = rng( 0, 99 ) < with_magazine && !new_item.magazine_integral() &&
                              !new_item.magazine_current();
 
@@ -689,7 +703,22 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
                 new_item.put_in( it, pk_type );
             }
         }
-        if( sealed ) {
+        // sealed is true by default, but it gives nothing to seal ammunition or glue (at least yet)
+        if( sealed && new_item.is_comestible() ) {
+            // I don't like we validate sealing at itemgroup spawn
+            // but i do not see where to fit it elsewhere
+
+            bool any_sealed = false;
+            for( const item_pocket *pocket : new_item.get_contents().get_all_contained_pockets() ) {
+                if( pocket->sealable() ) {
+                    any_sealed = true;
+                    break;
+                }
+            }
+            if( !any_sealed ) {
+                debugmsg( "in %s: item %s tries to spawn sealed, but has no sealed_data to actually be sealed.",
+                          context, new_item.typeId().c_str() );
+            }
             new_item.seal();
         }
     }
@@ -708,6 +737,9 @@ void Item_modifier::check_consistency( const std::string &context ) const
     if( ammo != nullptr ) {
         ammo->check_consistency( true );
     }
+    if( contents != nullptr ) {
+        contents->check_consistency( true );
+    }
     if( container != nullptr ) {
         container->check_consistency( true );
     }
@@ -725,6 +757,11 @@ bool Item_modifier::remove_item( const itype_id &itemid )
     if( ammo != nullptr ) {
         if( ammo->remove_item( itemid ) ) {
             ammo.reset();
+        }
+    }
+    if( contents != nullptr ) {
+        if( contents->remove_item( itemid ) ) {
+            contents.reset();
         }
     }
     if( container != nullptr ) {
@@ -863,7 +900,7 @@ item Item_group::create_single( const time_point &birthday, RecursionList &rec )
             return elem->create_single( birthday, rec );
         }
     }
-    return item( null_item_id, birthday );
+    return item( itype_id::NULL_ID(), birthday );
 }
 
 void Item_group::check_consistency( bool actually_spawn ) const
@@ -909,6 +946,10 @@ bool Item_group::remove_item( const itype_id &itemid )
         } else {
             ++a;
         }
+    }
+    if( container_item && ( *container_item == itemid ) ) {
+        container_item = std::nullopt;
+        on_overflow = overflow_behaviour::none;
     }
     return items.empty();
 }
@@ -956,6 +997,27 @@ std::map<const itype *, std::pair<int, int>> Item_group::every_item_min_max() co
         }
     }
     return result;
+}
+
+std::string item_group::potential_items( const item_group_id &group_id )
+{
+    std::string ret;
+    const Item_spawn_data *spawn_data = spawn_data_from_group( group_id );
+    if( spawn_data ) {
+        const std::map<const itype *, std::pair<int, int>> items_min_max =
+                    spawn_data->every_item_min_max();
+        for( const auto &item_min_max : items_min_max ) {
+            const int &min = item_min_max.second.first;
+            const int &max = item_min_max.second.second;
+            if( min != max ) {
+                ret += string_format( "- <color_cyan>%d-%d %s</color>\n", min, max,
+                                      item_min_max.first->nname( max ) );
+            } else {
+                ret += string_format( "- <color_cyan>%d %s</color>\n", max, item_min_max.first->nname( max ) );
+            }
+        }
+    }
+    return ret;
 }
 
 item_group::ItemList item_group::items_from( const item_group_id &group_id,

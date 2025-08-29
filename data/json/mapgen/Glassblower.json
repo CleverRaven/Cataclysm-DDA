@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "craft_shop" ],
     "object": {
       "fill_ter": "t_floor",
@@ -22,7 +21,7 @@
         "______s 5 551 11 55  1 5",
         "_____s42   41 1 4  2 5  ",
         "_____s4||||||=|||x||  4 ",
-        "_____s4|L??|'''qNmY|    ",
+        "_____s4|L??|o''qNmY|    ",
         "_____ss='''='''''A'| 2  ",
         "______ |fLm|''qqq''|6   ",
         "______4|||v|Q'''''m| 2  ",
@@ -56,6 +55,7 @@
         "L": "t_thconc_floor",
         "'": "t_thconc_floor",
         "Q": "t_thconc_floor",
+        "o": "t_thconc_floor",
         "Y": "t_thconc_floor",
         "q": "t_thconc_floor",
         "f": "t_thconc_floor",
@@ -81,6 +81,7 @@
         "R": "f_trashcan",
         "Y": "f_forge_rock",
         "N": "f_kiln_empty",
+        "o": "f_oxygen_concentrator",
         "Q": "f_rack",
         "q": [ "f_crate_c", "f_crate_o", "f_cardboard_box" ],
         "E": "f_displaycase",
@@ -97,8 +98,9 @@
         "B": { "item": "glass_shop", "chance": 70, "repeat": [ 2, 10 ] },
         "Q": { "item": "glass_shop", "chance": 50, "repeat": [ 2, 10 ] },
         "q": { "item": "glass_workroom", "chance": 75, "repeat": [ 2, 5 ] },
-        "R": { "item": "trash", "chance": 66, "repeat": [ 1, 3 ] },
-        "U": { "item": "trash", "chance": 80, "repeat": [ 1, 5 ] }
+        "t": { "item": "SUS_toilet", "chance": 50 },
+        "R": { "item": "SUS_trash_trashcan", "chance": 66 },
+        "U": { "item": "SUS_trash_dumpster", "chance": 80 }
       },
       "place_items": [
         { "item": "car_misc", "x": [ 11, 13 ], "y": [ 9, 9 ], "chance": 50, "repeat": [ 2, 10 ] },
@@ -115,7 +117,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "craft_shop_roof",
     "object": {
       "fill_ter": "t_floor",
@@ -166,7 +167,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "craft_shop_upper_roof",
     "object": {
       "fill_ter": "t_flat_roof",

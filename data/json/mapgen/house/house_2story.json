@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "house_2story_base" ],
     "object": {
       "fill_ter": "t_floor",
@@ -14,7 +13,7 @@
         "..o   yiiis     |++|-o..",
         "..o  ||||||||   +----#..",
         "..#  |F457O2|   |8S8b#..",
-        "..#<>|3     |   |||||#..",
+        "..#<>|3    é|   |||||#..",
         "..#|||n    y|        #..",
         "..#66|1        hfh  y#..",
         "..o  +         hfh  ro..",
@@ -54,7 +53,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "house_2story_second" ],
     "object": {
       "fill_ter": "t_floor",
@@ -103,7 +101,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_2story_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -139,7 +136,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_2story_basement",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -148,7 +144,7 @@
         "                        ",
         "                        ",
         "  ||||||||||||||||||||  ",
-        "  |U..F.g...WJZ......|  ",
+        "  |U..â.g...WJZ......|  ",
         "  |...........J......|  ",
         "  |...........J.z.z.z|  ",
         "  |.......z..z..z..zz|  ",
@@ -169,7 +165,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "nested": {
         "1": { "chunks": [ [ "null", 25 ], [ "recroom_12x12", 25 ], [ "tvroom_12x12", 25 ], [ "workoutroom_12x12", 25 ] ] },
         "2": { "chunks": [ [ "null", 25 ], [ "room_6x6_woodworker", 25 ], [ "room_6x6_junk", 25 ], [ "room_6x6_bike", 25 ] ] }

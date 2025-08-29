@@ -1,9 +1,7 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "house_garage3" ],
-    "weight": 200,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -20,7 +18,7 @@
         "........``!!!!```````.%.",
         ".^!!!!.%``%%%%```````.%.",
         ".######o**o#####*######.",
-        ".#B  S|L  T|Y     66F7#.",
+        ".#B  S|L  T|Y     é6F7#.",
         ".oB  t|    |  hfh    Oo.",
         ".oy   |    +  hfh    5o.",
         ".#Q88 +    |A     4321#.",
@@ -32,7 +30,7 @@
         "!$$$$$##oo#######oo####.",
         "!!!!!!!................."
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ],
+      "palettes": [ "domestic_general_construction_and_variant_palette" ],
       "terrain": {
         "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
         "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
@@ -57,7 +55,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_garage3_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -93,7 +90,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_garage3_basement",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -115,7 +111,7 @@
         " |...........1......z.| ",
         " |....................| ",
         " |....................| ",
-        " |...................F| ",
+        " |...................â| ",
         " |....................| ",
         " |...................g| ",
         " |....................| ",
@@ -123,7 +119,7 @@
         " |||||||||||||||||||||| ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "nested": {
         "1": {
           "chunks": [

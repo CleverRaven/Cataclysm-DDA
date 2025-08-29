@@ -1,6 +1,7 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "hawthorn_petals",
     "name": { "str_sp": "hawthorn petals" },
     "weight": "90 g",
@@ -20,7 +21,8 @@
     "vitamins": [ [ "vitC", 4 ], [ "calcium", 1 ], [ "iron", 2 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "hawthorn_berries",
     "name": { "str_sp": "hawthorn berries" },
     "weight": "40 g",
@@ -41,7 +43,8 @@
     "vitamins": [ [ "vitC", 16 ], [ "calcium", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "fig",
     "name": { "str": "fig" },
     "weight": "40 g",
@@ -61,7 +64,7 @@
     "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "xe_elder_ginseng",
     "name": { "str": "elder ginseng", "str_pl": "several elder ginseng" },
     "//": "magical poisons, 'death' and 'bio' related",

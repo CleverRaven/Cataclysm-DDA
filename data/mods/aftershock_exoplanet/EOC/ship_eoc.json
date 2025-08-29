@@ -1,0 +1,303 @@
+[
+  {
+    "id": "MISSION_thi_location",
+    "type": "mission_definition",
+    "name": { "str": "Vanishing Arc's transponder" },
+    "goal": "MGOAL_NULL",
+    "description": "The location of your ship, the Vanishing Arc.",
+    "difficulty": 0,
+    "value": 0,
+    "invisible_on_complete": true,
+    "start": { "assign_mission_target": { "var": { "global_val": "ship_new" } } }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SHIP_RAMP",
+    "effect": [
+      {
+        "if": { "not": { "u_at_om_location": "high_orbit_salus_4tp" } },
+        "then": [
+          {
+            "if": { "math": [ "your_ship_ramp_up == 1" ] },
+            "then": [
+              { "u_location_variable": { "context_val": "ramp" } },
+              {
+                "u_transform_radius": 20,
+                "ter_furn_transform": "your_ship_ramp_down",
+                "target_var": { "context_val": "ramp" }
+              },
+              { "location_variable_adjust": { "context_val": "ramp" }, "z_adjust": -1 },
+              { "mapgen_update": "your_ship_ramp_deployed", "target_var": { "context_val": "ramp" } },
+              { "u_message": "The bay ramp hydraulics whine as the ramp extends downwards." },
+              { "math": [ "your_ship_ramp_up = 0" ] }
+            ],
+            "else": [
+              { "u_location_variable": { "context_val": "ramp" } },
+              { "mapgen_update": "your_ship_ramp_closed", "target_var": { "context_val": "ramp" } },
+              {
+                "u_location_variable": { "context_val": "find_open" },
+                "terrain": "t_open_air_bay",
+                "target_max_radius": 24
+              },
+              {
+                "if": { "math": [ "has_var(_find_open)" ] },
+                "then": [ { "u_message": "You must clear all vehicles near the ramp before raising it" } ],
+                "else": [
+                  { "location_variable_adjust": { "context_val": "ramp" }, "z_adjust": -1 },
+                  { "mapgen_update": "your_ship_ramp_retract", "target_var": { "context_val": "ramp" } },
+                  { "u_message": "The ramp rises into position, sealing the bay." },
+                  { "math": [ "your_ship_ramp_up = 1" ] }
+                ]
+              }
+            ]
+          }
+        ],
+        "else": [ { "u_message": "You cant deploy the ramp while in space." } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SHIP_STAIRS",
+    "effect": [
+      {
+        "if": { "not": { "u_at_om_location": "high_orbit_salus_4tp" } },
+        "then": [
+          {
+            "if": { "math": [ "your_ship_stairs_up == 1" ] },
+            "then": [
+              { "u_location_variable": { "context_val": "stairs" } },
+              {
+                "u_transform_radius": 20,
+                "ter_furn_transform": "your_ship_stairs_down",
+                "target_var": { "context_val": "stairs" }
+              },
+              { "location_variable_adjust": { "context_val": "stairs" }, "z_adjust": -1 },
+              { "mapgen_update": "your_ship_stairs_deployed", "target_var": { "context_val": "stairs" } },
+              { "u_message": "The boarding stairs descend" },
+              { "math": [ "your_ship_stairs_up = 0" ] }
+            ],
+            "else": [
+              { "u_location_variable": { "context_val": "stairs" } },
+              {
+                "u_transform_radius": 20,
+                "ter_furn_transform": "your_ship_stairs_up",
+                "target_var": { "context_val": "stairs" }
+              },
+              { "location_variable_adjust": { "context_val": "stairs" }, "z_adjust": -1 },
+              { "mapgen_update": "your_ship_stairs_retract", "target_var": { "context_val": "stairs" } },
+              { "u_message": "The boarding stairs retract upward." },
+              { "math": [ "your_ship_stairs_up = 1" ] }
+            ]
+          }
+        ],
+        "else": [ { "u_message": "You cant deploy the stairs while in space." } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SHIP_AUTO_CONTROL",
+    "effect": [
+      { "turn_cost": "4 s" },
+      { "u_add_effect": "blind_no_msg", "duration": "3s" },
+      { "u_location_variable": { "global_val": "ship" } },
+      {
+        "if": { "and": [ { "math": [ "has_var(ship_new)" ] } ] },
+        "then": [
+          { "remove_active_mission": "MISSION_thi_location" },
+          { "assign_mission": "MISSION_thi_location" },
+          {
+            "copy_location": { "global_val": "ship" },
+            "new_loc": { "global_val": "ship_new" },
+            "time_in_future": "infinite",
+            "key": "tp_key"
+          },
+          { "alter_timed_events": "tp_key" },
+          { "run_eocs": "EOC_SHIP_TELEPORTS", "time_in_future": "1s" }
+        ],
+        "else": [ { "u_message": "You can only plot a course to an empty field at least 5 map tiles away.", "type": "warning" } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SHIP_THI_MANUAL_CONTROL",
+    "effect": [
+      { "turn_cost": "4 s" },
+      { "u_add_effect": "blind_no_msg", "duration": "3s" },
+      { "u_query_omt": { "global_val": "ship_new" }, "message": "Select Destination:" },
+      { "u_location_variable": { "global_val": "ship" } },
+      { "math": [ "ship_new.z = 0" ] },
+      {
+        "if": {
+          "and": [
+            { "math": [ "has_var(ship_new)" ] },
+            { "overmap_at_point": "field", "point": { "global_val": "ship_new" } },
+            { "math": [ "distance('u', ship_new) >= 190" ] }
+          ]
+        },
+        "then": [
+          { "remove_active_mission": "MISSION_thi_location" },
+          { "assign_mission": "MISSION_thi_location" },
+          { "math": [ "ship_new.z = 1" ] },
+          {
+            "copy_location": { "global_val": "ship" },
+            "new_loc": { "global_val": "ship_new" },
+            "time_in_future": "infinite",
+            "key": "tp_key"
+          },
+          { "alter_timed_events": "tp_key" },
+          { "run_eocs": "EOC_SHIP_TELEPORTS", "time_in_future": "1s" }
+        ],
+        "else": [ { "u_message": "You can only plot a course to an empty field at least 5 map tiles away.", "type": "warning" } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SHIP_TELEPORTS",
+    "effect": [
+      { "run_eocs": "EOC_SHIP_veh" },
+      { "run_eocs": "EOC_SHIP_npc" },
+      { "run_eocs": "EOC_SHIP_mon" },
+      { "run_eocs": "EOC_SHIP_TP" },
+      { "run_eocs": "EOC_SHIP_CLEANUP", "time_in_future": "1s" },
+      { "run_eocs": "EOC_SHIP_VER", "time_in_future": "1s" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SHIP_veh",
+    "effect": [ { "u_run_vehicle_eocs": [ "EOC_SHIP_TP" ], "vehicle_range": 24 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SHIP_npc",
+    "effect": [ { "u_run_npc_eocs": [ "EOC_SHIP_TP" ], "npc_range": 24, "local": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SHIP_mon",
+    "effect": [ { "u_run_monster_eocs": [ "EOC_SHIP_TP" ], "monster_range": 24 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "//": "This calculates everything's position relative to the current ships location 0,0 tile (northwest corner of the overmap) and then adds that offset to the 0.0 tile of the new ship location. We need the true modulus for this (_my_pos.x%24 + 24)%24 to get the proper offsets for negative coordinates.",
+    "id": "EOC_SHIP_TP",
+    "effect": [
+      { "u_location_variable": { "context_val": "my_pos" } },
+      { "math": [ "_new_ship_x = 12*round(ship_new.x/ 12) - _my_pos.x + ( (_my_pos.x%24 + 24)%24 -12 )" ] },
+      { "math": [ "_new_ship_y = 12*round(ship_new.y/ 12) - _my_pos.y + ( (_my_pos.y%24 + 24)%24 - 12)" ] },
+      { "math": [ "_my_pos.z = ship_new.z" ] },
+      { "math": [ "_my_pos.x += _new_ship_x" ] },
+      { "math": [ "_my_pos.y += _new_ship_y" ] },
+      { "u_teleport": { "context_val": "my_pos" }, "force": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SHIP_VER",
+    "//": "Trigger a submap shift to load npcs?  Scary stuff.",
+    "effect": [
+      { "u_location_variable": { "context_val": "my_pos" } },
+      { "u_location_variable": { "context_val": "my_pos2" }, "target_params": { "var": { "context_val": "my_pos" } } },
+      { "location_variable_adjust": { "context_val": "my_pos2" }, "x_adjust": 12, "y_adjust": 3 },
+      { "u_teleport": { "context_val": "my_pos2" } },
+      { "u_teleport": { "context_val": "my_pos" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SHIP_CLEANUP",
+    "//": "In this order: Close the landing stairs, place the gear and roof in the new location, remove the ship from the old location, and then remove the location variables.",
+    "effect": [
+      { "u_transform_radius": 20, "ter_furn_transform": "your_ship_stairs_up", "target_var": { "global_val": "ship_new" } },
+      { "math": [ "your_ship_stairs_up = 1" ] },
+      { "math": [ "ship_new.z -= 1" ] },
+      { "mapgen_update": "your_ship_gear", "target_var": { "global_val": "ship_new" } },
+      { "math": [ "ship_new.z += 2" ] },
+      { "mapgen_update": "your_ship_roof", "target_var": { "global_val": "ship_new" } },
+      { "mapgen_update": "your_ship_left", "target_var": { "global_val": "ship" } },
+      { "math": [ "ship.z -= 1" ] },
+      { "mapgen_update": "your_ship_landing_left", "target_var": { "global_val": "ship" } },
+      { "mapgen_update": "your_ship_stairs_retract", "target_var": { "global_val": "ship" } },
+      { "math": [ "ship.z += 2" ] },
+      { "mapgen_update": "your_ship_left", "target_var": { "global_val": "ship" } },
+      { "u_lose_var": "ship_new" },
+      { "u_lose_var": "ship" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SHIP_VANISHING_ARC_START",
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "ship_new" },
+        "target_params": { "om_terrain": "afs_shuttlepad_salvors_old_pad", "z": 0 }
+      },
+      { "mapgen_update": "your_ship_stairs_deployed", "target_var": { "global_val": "ship_new" } },
+      { "mapgen_update": "your_ship_ramp_deployed", "target_var": { "global_val": "ship_new" } },
+      { "math": [ "ship_new.z = 1" ] },
+      { "mapgen_update": "your_ship", "target_var": { "global_val": "ship_new" } },
+      { "math": [ "your_ship_stairs_up = 0" ] },
+      { "math": [ "your_ship_ramp_up = 0" ] },
+      { "assign_mission": "MISSION_thi_location" },
+      { "u_lose_var": "ship_new" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SHIP_THI_TO_SALUS_ORBIT",
+    "effect": [
+      {
+        "if": { "math": [ "has_var(salus_4_orbit_pos)" ] },
+        "then": [
+          { "math": [ "ship_new.x = salus_4_orbit_pos.x" ] },
+          { "math": [ "ship_new.y = salus_4_orbit_pos.y" ] },
+          { "math": [ "ship_new.z = salus_4_orbit_pos.z" ] },
+          { "run_eocs": "EOC_SHIP_AUTO_CONTROL" }
+        ],
+        "else": [
+          {
+            "u_location_variable": { "global_val": "salus_4_orbit_pos" },
+            "target_params": { "om_terrain": "high_orbit_salus_4tp", "z": -9 },
+            "x_adjust": 12,
+            "y_adjust": 12
+          },
+          { "math": [ "ship_new.x = salus_4_orbit_pos.x" ] },
+          { "math": [ "ship_new.y = salus_4_orbit_pos.y" ] },
+          { "math": [ "ship_new.z = salus_4_orbit_pos.z" ] },
+          { "run_eocs": "EOC_SHIP_AUTO_CONTROL" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SHIP_THI_TO_SPACEPORT",
+    "effect": [
+      {
+        "if": { "math": [ "has_var(salus_old_pad_pos)" ] },
+        "then": [
+          { "math": [ "ship_new.x = salus_old_pad_pos.x" ] },
+          { "math": [ "ship_new.y = salus_old_pad_pos.y" ] },
+          { "math": [ "ship_new.z = salus_old_pad_pos.z + 1" ] },
+          { "run_eocs": "EOC_SHIP_AUTO_CONTROL" }
+        ],
+        "else": [
+          {
+            "u_location_variable": { "global_val": "salus_old_pad_pos" },
+            "target_params": { "om_terrain": "afs_shuttlepad_salvors_old_pad", "z": 0 },
+            "x_adjust": 12,
+            "y_adjust": 12
+          },
+          { "math": [ "ship_new.x = salus_old_pad_pos.x" ] },
+          { "math": [ "ship_new.y = salus_old_pad_pos.y" ] },
+          { "math": [ "ship_new.z = salus_old_pad_pos.z + 1" ] },
+          { "run_eocs": "EOC_SHIP_AUTO_CONTROL" }
+        ]
+      }
+    ]
+  }
+]

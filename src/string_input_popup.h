@@ -5,21 +5,26 @@
 #include <cstddef>
 #include <cstdint>
 #include <functional>
-#include <iosfwd>
-#include <map>
 #include <memory>
+#include <optional>
+#include <string>
+#include <tuple>
+#include <utility>
 #include <vector>
 
 #include "color.h"
+#include "coordinates.h"
 #include "cursesdef.h"
-#include "condition.h"
+#include "dialogue_helpers.h"
 
+class JsonObject;
 class input_context;
 class scrolling_text_view;
+class translation;
 class ui_adaptor;
 class utf8_wrapper;
 struct point;
-class JsonObject;
+
 /**
  * Shows a window querying the user for input.
  *
@@ -244,9 +249,11 @@ class string_input_popup // NOLINT(cata-xy)
          */
         /**@{*/
         void query( bool loop = true, bool draw_only = false );
-        int query_int( bool loop = true, bool draw_only = false );
-        int64_t query_int64_t( bool loop = true, bool draw_only = false );
+        std::optional<int> query_int( bool loop = true, bool draw_only = false );
+        std::optional<int64_t> query_int64_t( bool loop = true, bool draw_only = false );
         const std::string &query_string( bool loop = true, bool draw_only = false );
+        std::optional<tripoint_abs_omt> query_coordinate_abs_impl( bool loop = true,
+                bool draw_only = false );
         /**@}*/
         /**
          * Whether the input box was canceled via the ESCAPE key (or similar)

@@ -189,7 +189,7 @@
     "id": "EOC_LIXA_UNFOLD_ENTRY",
     "effect": [
       {
-        "place_override": { "global_val": "place_name", "default_str": "Infinite Corridor" },
+        "place_override": { "global_val": "place_name", "default": "Infinite Corridor" },
         "length": "1 day",
         "key": "LIXA_escape_key"
       },
@@ -223,79 +223,79 @@
       { "math": [ "u_LIXA_hallway_direction = 2" ] },
       {
         "u_location_variable": { "global_val": "LIXA_unfold_A" },
-        "target_params": { "om_terrain": "LIXA_device_unfolded_A", "search_range": 400, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "LIXA_device_unfolded_A", "min_distance": 0, "z": 0 },
         "z_adjust": -8,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "LIXA_unfold_B" },
-        "target_params": { "om_terrain": "LIXA_device_unfolded_B", "search_range": 400, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "LIXA_device_unfolded_B", "min_distance": 0, "z": 0 },
         "z_adjust": -8,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "LIXA_chamber_1" },
-        "target_params": { "om_terrain": "LIXA_device_1", "search_range": 400, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "LIXA_device_1", "min_distance": 0, "z": 0 },
         "z_adjust": -4,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "LIXA_chamber_2" },
-        "target_params": { "om_terrain": "LIXA_device_2", "search_range": 400, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "LIXA_device_2", "min_distance": 0, "z": 0 },
         "z_adjust": -4,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "LIXA_chamber_3" },
-        "target_params": { "om_terrain": "LIXA_device_3", "search_range": 400, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "LIXA_device_3", "min_distance": 0, "z": 0 },
         "z_adjust": -4,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "LIXA_workfloor_NW" },
-        "target_params": { "om_terrain": "LIXA_workfloor_1a", "search_range": 400, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "LIXA_workfloor_1a", "min_distance": 0, "z": 0 },
         "z_adjust": -4,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "LIXA_workfloor_NE" },
-        "target_params": { "om_terrain": "LIXA_workfloor_2a", "search_range": 400, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "LIXA_workfloor_2a", "min_distance": 0, "z": 0 },
         "z_adjust": -3,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "LIXA_workfloor_SW" },
-        "target_params": { "om_terrain": "LIXA_workfloor_1b", "search_range": 400, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "LIXA_workfloor_1b", "min_distance": 0, "z": 0 },
         "z_adjust": -3,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "LIXA_workfloor_SE" },
-        "target_params": { "om_terrain": "LIXA_workfloor_2b", "search_range": 400, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "LIXA_workfloor_2b", "min_distance": 0, "z": 0 },
         "z_adjust": -3,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "LIXA_surface_NW" },
-        "target_params": { "om_terrain": "LIXA_surface_1a", "search_range": 400, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "LIXA_surface_1a", "min_distance": 0, "z": 0 },
         "z_adjust": 0,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "LIXA_surface_NE" },
-        "target_params": { "om_terrain": "LIXA_surface_1b", "search_range": 400, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "LIXA_surface_1b", "min_distance": 0, "z": 0 },
         "z_adjust": 0,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "LIXA_surface_SW" },
-        "target_params": { "om_terrain": "LIXA_surface_2a", "search_range": 400, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "LIXA_surface_2a", "min_distance": 0, "z": 0 },
         "z_adjust": 0,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "LIXA_surface_SE" },
-        "target_params": { "om_terrain": "LIXA_surface_2b", "search_range": 400, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "LIXA_surface_2b", "min_distance": 0, "z": 0 },
         "z_adjust": 0,
         "z_override": true
       }
@@ -1642,6 +1642,7 @@
       { "run_eocs": "EOC_LIXA_unfold_spawn_goodbye_cards", "time_in_future": "0 seconds" },
       { "alter_timed_events": "LIXA_escape_key" },
       { "u_lose_effect": "LIXA_unfolded_eff" },
+      { "u_add_trait": "anti_shape" },
       { "mapgen_update": "turn_off_LIXA", "target_var": { "global_val": "LIXA_chamber_1" } },
       { "mapgen_update": "turn_off_LIXA", "target_var": { "global_val": "LIXA_chamber_2" } },
       { "mapgen_update": "turn_off_LIXA", "target_var": { "global_val": "LIXA_chamber_3" } },
@@ -1654,10 +1655,11 @@
       { "mapgen_update": "turn_off_LIXA", "target_var": { "global_val": "LIXA_surface_2a" } },
       { "mapgen_update": "turn_off_LIXA", "target_var": { "global_val": "LIXA_surface_2b" } },
       {
-        "u_message": "There is a soft sound, like a champagne cork popping in an empty concert hall.  The world is as it was again.  The LIXA device still hums quietly as it finishes powering down.",
+        "u_message": "There is a soft sound, like a champagne cork popping in an empty concert hall.  The world is almost as it was again, aside from a brief strange feeling.  The LIXA device still hums quietly as it finishes powering down.",
         "popup": true
       },
-      { "u_teleport": { "global_val": "LIXA_return_tp" }, "force": true }
+      { "u_teleport": { "global_val": "LIXA_return_tp" }, "force": true },
+      { "give_achievement": "achievement_LIXA_finale" }
     ]
   },
   {

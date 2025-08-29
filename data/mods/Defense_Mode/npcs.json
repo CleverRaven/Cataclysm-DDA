@@ -233,18 +233,7 @@
       { "group": "guns_shotgun_improvised", "prob": 90 },
       { "group": "guns_smg_improvised", "prob": 90 },
       { "group": "guns_rifle_common", "prob": 105 },
-      { "group": "ammo_pistol_common", "prob": 75 },
-      { "group": "ammo_pistol_rare", "prob": 50 },
-      { "group": "ammo_pistol_obscure", "prob": 30 },
-      { "group": "ammo_shotgun_common", "prob": 75 },
-      { "group": "ammo_shotgun_rare", "prob": 50 },
-      { "group": "ammo_shotgun_milspec", "prob": 95 },
-      { "group": "ammo_shotgun_reloaded", "prob": 90 },
-      { "group": "ammo_smg_common", "prob": 70 },
-      { "group": "ammo_smg_rare", "prob": 50 },
-      { "group": "ammo_smg_obscure", "prob": 10 },
-      { "group": "ammo_rifle_common", "prob": 65 },
-      { "group": "ammo_rifle_rare", "prob": 40 }
+      { "group": "ammo_common_boxed", "prob": 500 }
     ]
   },
   {

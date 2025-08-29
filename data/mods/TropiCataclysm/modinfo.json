@@ -7,6 +7,7 @@
     "maintainers": [ "Karol1223" ],
     "description": "Changes the setting from New England to an undisclosed region in Brazil.  Initially based out of Desert Region mod.",
     "category": "content",
+    "conflicts": [ "backrooms", "desertpack" ],
     "dependencies": [ "dda" ],
     "version": "0.80"
   },
@@ -22,5 +23,11 @@
     "name": "LONGITUDE",
     "stype": "float",
     "value": -50.18
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_HIGHWAYS",
+    "stype": "bool",
+    "value": false
   }
 ]

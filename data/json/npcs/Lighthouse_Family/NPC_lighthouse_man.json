@@ -92,7 +92,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_lighthouse_man_hay",
-    "dynamic_line": "You know, <very> good.  It is cozy here, there is a lot of space, and most importantly, it's safe.  We even started considering this place as our new home.  By the way, while I was fishing, a bottle with a piece of paper came to the shore of our island.  Here, take a look.\", he gave you a piece of paper, something was written on it: '0030045-0030045-35321700', with something similar to lightning scribbled nearby.  \"I wonder what it could mean…"
+    "dynamic_line": "You know, pretty good.  It is cozy here, there is a lot of space, and most importantly, it's safe.  We even started considering this place as our new home.  By the way, while I was fishing, a bottle with a piece of paper came to the shore of our island.  Here, take a look.\", he gave you a piece of paper, something was written on it: '0030045-0030045-35321700', with something similar to lightning scribbled nearby.  \"I wonder what it could mean…"
   },
   {
     "type": "talk_topic",
@@ -134,78 +134,58 @@
             { "npc_at_om_location": "lighthouse_ground" }
           ]
         },
-        "effect": { "math": [ "n_count_cleaning_lighthouse_man", "++" ] }
+        "effect": { "math": [ "n_count_cleaning_lighthouse_man++" ] }
       },
       {
         "text": "Yes.  First floor is clear.",
         "topic": "TALK_lighthouse_man_cleaned",
         "condition": {
-          "and": [
-            { "compare_string": [ "1", { "npc_val": "count_cleaning_lighthouse_man" } ] },
-            "at_safe_space",
-            { "npc_at_om_location": "lighthouse_z1" }
-          ]
+          "and": [ { "math": [ "n_count_cleaning_lighthouse_man == 1 " ] }, "at_safe_space", { "npc_at_om_location": "lighthouse_z1" } ]
         },
-        "effect": { "math": [ "n_count_cleaning_lighthouse_man", "++" ] }
+        "effect": { "math": [ "n_count_cleaning_lighthouse_man++" ] }
       },
       {
         "text": "Yes.  Second floor is clear.",
         "topic": "TALK_lighthouse_man_cleaned",
         "condition": {
-          "and": [
-            { "compare_string": [ "2", { "npc_val": "count_cleaning_lighthouse_man" } ] },
-            "at_safe_space",
-            { "npc_at_om_location": "lighthouse_z2" }
-          ]
+          "and": [ { "math": [ "n_count_cleaning_lighthouse_man == 2 " ] }, "at_safe_space", { "npc_at_om_location": "lighthouse_z2" } ]
         },
-        "effect": { "math": [ "n_count_cleaning_lighthouse_man", "++" ] }
+        "effect": { "math": [ "n_count_cleaning_lighthouse_man++" ] }
       },
       {
         "text": "Yes.  Third floor is clear.",
         "topic": "TALK_lighthouse_man_cleaned",
         "condition": {
-          "and": [
-            { "compare_string": [ "3", { "npc_val": "count_cleaning_lighthouse_man" } ] },
-            "at_safe_space",
-            { "npc_at_om_location": "lighthouse_z3" }
-          ]
+          "and": [ { "math": [ "n_count_cleaning_lighthouse_man == 3 " ] }, "at_safe_space", { "npc_at_om_location": "lighthouse_z3" } ]
         },
-        "effect": { "math": [ "n_count_cleaning_lighthouse_man", "++" ] }
+        "effect": { "math": [ "n_count_cleaning_lighthouse_man++" ] }
       },
       {
         "text": "Yes.  Fourth floor is clear.",
         "topic": "TALK_lighthouse_man_cleaned",
         "condition": {
-          "and": [
-            { "compare_string": [ "4", { "npc_val": "count_cleaning_lighthouse_man" } ] },
-            "at_safe_space",
-            { "npc_at_om_location": "lighthouse_z4" }
-          ]
+          "and": [ { "math": [ "n_count_cleaning_lighthouse_man == 4 " ] }, "at_safe_space", { "npc_at_om_location": "lighthouse_z4" } ]
         },
-        "effect": { "math": [ "n_count_cleaning_lighthouse_man", "++" ] }
+        "effect": { "math": [ "n_count_cleaning_lighthouse_man++" ] }
       },
       {
         "text": "Yes.  Top floor is clear.",
         "condition": {
-          "and": [
-            { "compare_string": [ "5", { "npc_val": "count_cleaning_lighthouse_man" } ] },
-            "at_safe_space",
-            { "npc_at_om_location": "lighthouse_z5" }
-          ]
+          "and": [ { "math": [ "n_count_cleaning_lighthouse_man == 5 " ] }, "at_safe_space", { "npc_at_om_location": "lighthouse_z5" } ]
         },
-        "effect": { "math": [ "n_count_cleaning_lighthouse_man", "++" ] },
+        "effect": { "math": [ "n_count_cleaning_lighthouse_man++" ] },
         "topic": "TALK_lighthouse_man_cleaned_done"
       },
       {
         "text": "Looks like that's over.",
         "condition": {
           "and": [
-            { "compare_string": [ "6", { "npc_val": "count_cleaning_lighthouse_man" } ] },
+            { "math": [ "n_count_cleaning_lighthouse_man == 6 " ] },
             "at_safe_space",
             { "npc_at_om_location": "lighthouse_ground" }
           ]
         },
-        "effect": { "math": [ "n_count_cleaning_lighthouse_man", "++" ] },
+        "effect": { "math": [ "n_count_cleaning_lighthouse_man++" ] },
         "topic": "TALK_MISSION_INQUIRE"
       },
       { "text": "Not yet.", "topic": "TALK_DONE" }
@@ -289,13 +269,7 @@
     "difficulty": 0,
     "value": 5000,
     "start": {
-      "assign_mission_target": {
-        "om_terrain": "lighthouse_ground",
-        "om_special": "Lighthouse Island",
-        "reveal_radius": 10,
-        "search_range": 360,
-        "cant_see": true
-      },
+      "assign_mission_target": { "om_terrain": "lighthouse_ground", "om_special": "Lighthouse Island", "reveal_radius": 10, "cant_see": true },
       "update_mapgen": [
         {
           "om_terrain": "lighthouse_ground",
@@ -346,7 +320,7 @@
     "name": { "str": "House cleaning" },
     "description": "Clean lighthouse from <zombies> with Mikhail.",
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "compare_string": [ "7", { "npc_val": "count_cleaning_lighthouse_man" } ] },
+    "goal_condition": { "math": [ "n_count_cleaning_lighthouse_man == 7 " ] },
     "difficulty": 0,
     "value": 5000,
     "start": {
@@ -376,9 +350,9 @@
       "offer": "So, we found the lighthouse.  Now, I need to clean it.  Want to help me with it?",
       "accepted": "Great.  Let's do it together.  I'll be right behind you.  We will clean floor by floor.  If you decide that the floor is clean, tell me about it, and we will move on to the next, and so on to the very top.",
       "rejected": "Well, it's your choice.",
-      "advice": "Be <very> careful.  These <name_b>s are most dangerous in tight spaces.",
+      "advice": "Be careful.  These <name_b>s are most dangerous in tight spaces.",
       "inquire": "<its_safe>",
-      "success": "Great, <very> great.  All that remains is to wash all the floors…",
+      "success": "Great, incredibly great.  All that remains is to wash all the floors…",
       "success_lie": "-",
       "failure": "-"
     }
@@ -443,7 +417,7 @@
       "rejected": "Well, it's your choice.",
       "advice": "Please, if you can, don't disassemble furniture here.  It can still be useful.",
       "inquire": "Did you find it?",
-      "success": "<very> good, <name_g>, thank you!  Now we are not afraid of hunger, rain, or other bad weather, he-he.  By the way, I have a small supply of fish, tackle, baits and rods.  If you are interested, I can share some with you.",
+      "success": "Very good, <name_g>, thank you!  Now we are not afraid of hunger, rain, or other bad weather, he-he.  By the way, I have a small supply of fish, tackle, baits and rods.  If you are interested, I can share some with you.",
       "success_lie": "-",
       "failure": "-"
     }
@@ -484,7 +458,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "lighthouse_man_survivor",
-    "method": "json",
     "object": { "place_npcs": [ { "class": "NPC_survivor_lighthouse", "x": [ 7, 17 ], "y": [ 10, 15 ] } ] }
   }
 ]

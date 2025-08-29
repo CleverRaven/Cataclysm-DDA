@@ -2,19 +2,22 @@
 #ifndef CATA_SRC_RECIPE_GROUPS_H
 #define CATA_SRC_RECIPE_GROUPS_H
 
-#include <iosfwd>
+#include <cstddef>
 #include <map>
+#include <optional>
+#include <string>
 
 #include "type_id.h"
-#include "mapgendata.h"
 
 class JsonObject;
 class translation;
+struct mapgen_arguments;
 
 namespace recipe_group
 {
 
 void load( const JsonObject &jo, const std::string &src );
+void finalize();
 void check();
 void reset();
 

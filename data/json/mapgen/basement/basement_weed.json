@@ -11,7 +11,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "cannabis_extraction_equipment_nested_1x1",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -28,7 +27,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "basement_weed" ],
     "//": "matches house_28",
     "object": {
@@ -103,7 +101,7 @@
           { "item": "office_breakroom", "chance": 30 },
           { "item": "homeguns", "chance": 5 }
         ],
-        "G": [ { "item": "office_paper", "chance": 40 }, { "item": "dollar_books", "chance": 40 } ],
+        "G": [ { "item": "SUS_office_desk", "chance": 40 }, { "item": "dollar_books", "chance": 40 } ],
         "U": [ { "item": "home_hw", "chance": 50 } ],
         "X": [
           { "item": "supplies_farming", "chance": 50 },

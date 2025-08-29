@@ -1,14 +1,18 @@
 #include "main_menu.h"
 
 #include <algorithm>
+#include <array>
+#include <chrono>
 #include <cmath>
 #include <cstdint>
-#include <cstdio>
+#include <cstdlib>
 #include <cstring>
-#include <ctime>
 #include <exception>
 #include <functional>
+#include <initializer_list>
 #include <istream>
+#include <locale>
+#include <map>
 #include <memory>
 #include <optional>
 #include <string>
@@ -19,7 +23,7 @@
 
 #include "auto_pickup.h"
 #include "avatar.h"
-#include "cata_imgui.h"
+#include "cata_path.h"
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -32,6 +36,7 @@
 #include "gamemode.h"
 #include "get_version.h"
 #include "help.h"
+#include "imgui_demo.h"
 #include "localized_comparator.h"
 #include "mapbuffer.h"
 #include "mapsharing.h"
@@ -48,156 +53,14 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
+#include "translation.h"
 #include "translations.h"
+#include "type_id.h"
+#include "uilist.h"
 #include "ui_manager.h"
+#include "ui_style_picker.h"
 #include "wcwidth.h"
 #include "worldfactory.h"
-
-#include "imgui/imgui.h"
-
-class demo_ui : public cataimgui::window
-{
-    public:
-        demo_ui();
-        void init();
-        void run();
-
-    protected:
-        void draw_controls() override;
-        cataimgui::bounds get_bounds() override;
-        void on_resized() override {
-            init();
-        };
-
-    private:
-        std::shared_ptr<cataimgui::Paragraph> stuff;
-};
-
-demo_ui::demo_ui() : cataimgui::window( _( "ImGui Demo Screen" ) )
-{
-    // char *text = "Some long text that will wrap around nicely. </color> <color_green><color_red>Some red text in the </color>middle.</color>  Some long text that will <color_light_blue_yellow>wrap around nicely.";
-    std::string text =
-        "Some long text that will wrap around nicely.  <color_red>Some red text in the middle.</color>  Some long text that will wrap around nicely.";
-    stuff = std::make_shared<cataimgui::Paragraph>();
-    stuff->append_colored_text( text, c_white );
-}
-
-cataimgui::bounds demo_ui::get_bounds()
-{
-    return { -1.f, -1.f, float( str_width_to_pixels( TERMX ) ), float( str_height_to_pixels( TERMY ) ) };
-}
-
-void demo_ui::draw_controls()
-{
-#ifndef TUI
-    ImGui::ShowDemoWindow();
-#endif
-
-#ifdef TUI
-    ImGui::SetNextWindowPos( { 0, 0 }, ImGuiCond_Once );
-    ImGui::SetNextWindowSize( { 60, 40 }, ImGuiCond_Once );
-#else
-    ImGui::SetNextWindowSize( { 620, 900 }, ImGuiCond_Once );
-#endif
-    if( ImGui::Begin( "test" ) ) {
-#ifdef TUI
-        static float wrap_width = 50.0f;
-        ImGui::SliderFloat( "Wrap width", &wrap_width, 1, 60, "%.0f" );
-        float marker_size = 0.0f;
-#else
-        static float wrap_width = 200.0f;
-        ImGui::SliderFloat( "Wrap width", &wrap_width, -20, 600, "%.0f" );
-        float marker_size = ImGui::GetTextLineHeight();
-#endif
-
-#define WRAP_START()                                                           \
-    ImDrawList *draw_list = ImGui::GetWindowDrawList();                        \
-    ImVec2 pos = ImGui::GetCursorScreenPos();                                  \
-    ImVec2 marker_min = ImVec2(pos.x + wrap_width, pos.y);                     \
-    ImVec2 marker_max =                                                        \
-            ImVec2(pos.x + wrap_width + marker_size, pos.y + marker_size);         \
-    ImGui::PushTextWrapPos(ImGui::GetCursorPos().x + wrap_width);
-
-#define WRAP_END()                                                             \
-    draw_list->AddRectFilled(marker_min, marker_max,                           \
-                             IM_COL32(255, 0, 255, 255));                      \
-    ImGui::PopTextWrapPos();
-
-        // three sentences in a nicely–wrapped paragraph
-        if( ImGui::CollapsingHeader( "Plain wrapped text" ) ) {
-            WRAP_START();
-            ImGui::TextWrapped( "%s",
-                                "Some long text that will wrap around nicely.  Some red text in the middle.  Some long text that will wrap around nicely." );
-            WRAP_END();
-            ImGui::NewLine();
-        }
-
-        if( ImGui::CollapsingHeader( "Styled Paragraph" ) ) {
-            WRAP_START();
-            cataimgui::TextStyled( stuff, wrap_width );
-            WRAP_END();
-            ImGui::NewLine();
-        }
-
-        if( ImGui::CollapsingHeader( "Unstyled Paragraph" ) ) {
-            WRAP_START();
-            cataimgui::TextUnstyled( stuff, wrap_width );
-            WRAP_END();
-            ImGui::NewLine();
-        }
-
-        if( ImGui::CollapsingHeader( "Styled Paragraph, no allocations" ) ) {
-            WRAP_START();
-            cataimgui::TextParagraph( c_white, "Some long text that will wrap around nicely.", wrap_width );
-            cataimgui::TextParagraph( c_red, "  Some red text in the middle.", wrap_width );
-            cataimgui::TextParagraph( c_white, "  Some long text that will wrap around nicely.", wrap_width );
-            ImGui::NewLine();
-            WRAP_END();
-            ImGui::NewLine();
-        }
-
-        if( ImGui::CollapsingHeader( "Naive attempt" ) ) {
-            WRAP_START();
-            // same three sentences, but the color breaks the wrapping
-            ImGui::TextUnformatted( "Some long text that will wrap around nicely." );
-            ImGui::SameLine();
-            ImGui::TextColored( c_red, "%s", "Some red text in the middle." );
-            ImGui::SameLine();
-            ImGui::TextUnformatted( "Some long text that will wrap around nicely." );
-            WRAP_END();
-        }
-    }
-    ImGui::End();
-}
-
-void demo_ui::init()
-{
-    // The demo makes it's own screen.  Don't get in the way
-    force_to_back = true;
-}
-
-void demo_ui::run()
-{
-    init();
-
-    input_context ctxt( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "QUIT" );
-    ctxt.register_action( "SELECT" );
-    ctxt.register_action( "MOUSE_MOVE" );
-    ctxt.register_action( "ANY_INPUT" );
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-    std::string action;
-
-    ui_manager::redraw();
-
-    while( is_open ) {
-        ui_manager::redraw();
-        action = ctxt.handle_input( 5 );
-        if( action == "QUIT" ) {
-            break;
-        }
-    }
-}
 
 static const mod_id MOD_INFORMATION_dda( "dda" );
 static const mod_id MOD_INFORMATION_dda_tutorial( "dda_tutorial" );
@@ -641,6 +504,7 @@ void main_menu::init_strings()
     vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Sh<o|O>w World Mods" ) );
     vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Copy World Sett<i|I>ngs" ) );
     vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Character to Tem<p|P>late" ) );
+    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Toggle World <C|c>ompression" ) );
     vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "<D|d>elete World" ) );
     vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "<R|r>eset World" ) );
 
@@ -655,6 +519,7 @@ void main_menu::init_strings()
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "A<u|U>topickup" ) );
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "Sa<f|F>emode" ) );
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "Colo<r|R>s" ) );
+    vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "ImGui <S|s>tyles" ) );
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "<I|i>mGui Demo Screen" ) );
 
     vSettingsHotkeys.clear();
@@ -791,10 +656,6 @@ bool main_menu::opening_screen()
 #endif
 
     while( !start ) {
-        if( are_we_quitting() ) {
-            return false;
-        }
-
         ui_manager::redraw();
         std::string action = ctxt.handle_input();
         input_event sInput = ctxt.get_raw_input();
@@ -884,12 +745,9 @@ bool main_menu::opening_screen()
         // also check special keys
         if( action == "QUIT" ) {
 #if !defined(EMSCRIPTEN)
-            g->uquit = QUIT_EXIT_PENDING;
             if( query_yn( _( "Really quit?" ) ) ) {
-                g->uquit = QUIT_EXIT;
                 return false;
             }
-            g->uquit = QUIT_NO;
 #endif
         } else if( action == "LEFT" || action == "PREV_TAB" || action == "RIGHT" || action == "NEXT_TAB" ) {
             sel_line = 0;
@@ -1008,8 +866,11 @@ bool main_menu::opening_screen()
                         get_safemode().show();
                     } else if( sel2 == 4 ) { /// Colors
                         all_colors.show_gui();
-                    } else if( sel2 == 5 ) { /// ImGui demo
-                        demo_ui demo;
+                    } else if( sel2 == 5 ) {
+                        style_picker picker;
+                        picker.show();
+                    } else if( sel2 == 6 ) { /// ImGui demo
+                        imgui_demo_ui demo;
                         demo.run();
                     }
                     break;
@@ -1151,8 +1012,6 @@ bool main_menu::new_character_tab()
         world_generator->set_active_world( world );
         try {
             g->setup();
-        } catch( const game::exit_exception &ex ) {
-            throw ex; // re-throw to main loop
         } catch( const std::exception &err ) {
             debugmsg( "Error: %s", err.what() );
             return false;
@@ -1205,8 +1064,6 @@ bool main_menu::load_game( std::string const &worldname, save_t const &savegame 
 
     try {
         g->setup();
-    } catch( game::exit_exception const &/* ex */ ) {
-        return false;
     } catch( const std::exception &err ) {
         debugmsg( "Error: %s", err.what() );
         return false;
@@ -1223,7 +1080,7 @@ bool main_menu::load_game( std::string const &worldname, save_t const &savegame 
 static std::optional<std::chrono::seconds> get_playtime_from_save( const WORLD *world,
         const save_t &save )
 {
-    cata_path playtime_file = world->folder_path_path() / ( save.base_path() + ".pt" );
+    cata_path playtime_file = world->folder_path() / ( save.base_path() + ".pt" );
     std::optional<std::chrono::seconds> pt_seconds;
     if( file_exist( playtime_file ) ) {
         read_from_file( playtime_file, [&pt_seconds]( std::istream & fin ) {
@@ -1301,7 +1158,7 @@ void main_menu::world_tab( const std::string &worldname )
     uilist mmenu( string_format( _( "Manage world \"%s\"" ), worldname ), {} );
     mmenu.border_color = c_white;
     int opt_val = 0;
-    std::array<char, 5> hotkeys = { 'm', 's', 't', 'd', 'r' };
+    std::array<char, 6> hotkeys = { 'm', 's', 't', 'c', 'd', 'r' };
     for( const std::string &it : vWorldSubItems ) {
         mmenu.entries.emplace_back( opt_val, true, hotkeys[opt_val],
                                     remove_color_tags( shortcut_text( c_white, it ) ) );
@@ -1348,12 +1205,23 @@ void main_menu::world_tab( const std::string &worldname )
                 load_char_templates();
             }
             break;
-        case 3: // Delete World
+        case 3: // Toggle save compression
+            if( world_generator->get_world( worldname )->has_compression_enabled() ) {
+                if( query_yn( _( "Disable save compression?" ) ) ) {
+                    world_generator->get_world( worldname )->set_compression_enabled( false );
+                }
+            } else {
+                if( query_yn( _( "Enable save compression?" ) ) ) {
+                    world_generator->get_world( worldname )->set_compression_enabled( true );
+                }
+            }
+            break;
+        case 4: // Delete World
             if( query_yn( _( "Delete the world and all saves within?" ) ) ) {
                 clear_world( true );
             }
             break;
-        case 4: // Reset World
+        case 5: // Reset World
             if( query_yn( _( "Remove all saves and regenerate world?" ) ) ) {
                 clear_world( false );
             }

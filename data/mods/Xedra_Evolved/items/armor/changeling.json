@@ -1,7 +1,8 @@
 [
   {
     "id": "banner_dark_forest",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str": "banner of the dark forest", "str_pl": "banners of the dark forest" },
     "description": "A back mounted flag identifying the loyalties of troops.  The heraldry on this banner is of a dark and gloomy forest with red eyes staring out from between the trees.",
     "weight": "633 g",
@@ -15,12 +16,13 @@
     "warmth": 6,
     "material_thickness": 2,
     "flags": [ "BELTED" ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 1 } ] } ] },
-    "armor": [ { "encumbrance": [ 2, 25 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": [ 2, 25 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 1 } ] } ]
   },
   {
     "id": "banner_butterfly_knight",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str": "banner of the butterfly knight", "str_pl": "banners of the butterfly knight" },
     "description": "A back mounted flag identifying the loyalties of troops.  The heraldry on this banner is of a brilliantly colored butterfly in flight, ridden by a knight in armor.  The knight is striking down a foe with a scythe while the butterfly appears to have bitten the head off a different opponent.",
     "weight": "633 g",
@@ -34,12 +36,13 @@
     "warmth": 6,
     "material_thickness": 2,
     "flags": [ "BELTED" ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "DEXTERITY", "add": 1 } ] } ] },
-    "armor": [ { "encumbrance": [ 2, 25 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": [ 2, 25 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "DEXTERITY", "add": 1 } ] } ]
   },
   {
     "id": "banner_angry_darkness",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str": "banner of the angry darkness", "str_pl": "banners of the angry darkness" },
     "description": "A back mounted flag identifying the loyalties of troops.  The heraldry on this banner is of, well you aren't quite sure.  It's a dark cloud, or blackness.  You feel hate radiating from this banner.",
     "weight": "633 g",
@@ -53,12 +56,13 @@
     "warmth": 6,
     "material_thickness": 2,
     "flags": [ "BELTED" ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "add": 1 } ] } ] },
-    "armor": [ { "encumbrance": [ 2, 25 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": [ 2, 25 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "add": 1 } ] } ]
   },
   {
     "id": "banner_starry_wisdom",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str": "banner of starry wisdom", "str_pl": "banners of starry wisdom" },
     "description": "A back mounted flag identifying the loyalties of troops.  The heraldry on this banner is of the night sky shining with ancient wisdom, full of stars.",
     "weight": "633 g",
@@ -72,8 +76,8 @@
     "warmth": 6,
     "material_thickness": 2,
     "flags": [ "BELTED" ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "skills": [ { "value": "deduction", "add": 1 } ] } ] },
-    "armor": [ { "encumbrance": [ 2, 25 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": [ 2, 25 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "skills": [ { "value": "deduction", "add": 1 } ] } ]
   },
   {
     "type": "enchantment",
@@ -83,7 +87,8 @@
   },
   {
     "id": "banner_thunderous_rush",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str": "banner of thunderous rush", "str_pl": "banners of thunderous rush" },
     "description": "A back mounted flag identifying the loyalties of troops.  The heraldry on this banner is of lightning striking a tower that is falling.",
     "weight": "633 g",
@@ -97,7 +102,28 @@
     "warmth": 6,
     "material_thickness": 2,
     "flags": [ "BELTED" ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "id": "thunder_rush" } ] },
-    "armor": [ { "encumbrance": [ 2, 25 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": [ 2, 25 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "id": "thunder_rush" } ]
+  },
+  {
+    "id": "gown_gossamer_boann_unique",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
+    "name": { "str": "aegis gown" },
+    "copy-from": "gown_gossamer",
+    "looks_like": "gown_gossamer",
+    "extend": { "flags": [ "RELIC_PINK" ] },
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "incoming_damage_mod": [
+          { "type": "bash", "add": -10 },
+          { "type": "cut", "add": -20 },
+          { "type": "stab", "add": -30 },
+          { "type": "bullet", "multiply": -0.75 }
+        ]
+      }
+    ]
   }
 ]

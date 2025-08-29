@@ -1,9 +1,10 @@
 [
   {
     "id": "sw_500",
-    "copy-from": "pistol_revolver",
+    "copy-from": "gun_base_handgun_manual",
     "looks_like": "sw_619",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": ".500 Magnum revolver" },
     "description": "The definition of 'overkill', this behemoth handgun puts large .44 caliber revolvers to shame with its sheer size, power, and immense chambering.  Firing the appropriately named .500 Magnum cartridge, the most powerful handgun round in the world, the weapon has seen work in both sport shooting and hunting roles.  A pistol for those of the 'bigger is better' mentality, a high recoil junky's personal dream, and an all-around useless military sidearm, should the urge to assault the Cataclysm in fine style grip you, this giant provides you with 5 rounds with which to reduce a zombie into an afterthought.",
     "variant_type": "gun",
@@ -22,14 +23,10 @@
     "barrel_length": "147 mm",
     "//": "88.9mm + 58mm max OAL for 500mag. Revolvers just built different.",
     "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "light_gray",
     "ammo": [ "500" ],
     "dispersion": 280,
-    "durability": 8,
-    "blackpowder_tolerance": 56,
     "clip_size": 5,
-    "valid_mod_locations": [ [ "grip", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock mount", 1 ], [ "underbarrel mount", 1 ] ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
@@ -37,7 +34,6 @@
         "ammo_restriction": { "500": 5 },
         "allowed_speedloaders": [ "500_speedloader5" ]
       }
-    ],
-    "melee_damage": { "bash": 12 }
+    ]
   }
 ]

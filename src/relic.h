@@ -4,15 +4,17 @@
 
 #include <climits>
 #include <cmath>
-#include <iosfwd>
+#include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
 #include "calendar.h"
+#include "coords_fwd.h"
 #include "item.h"
 #include "magic.h"
 #include "magic_enchantment.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 #include "weighted_list.h"
 
@@ -21,12 +23,8 @@ class Creature;
 class JsonObject;
 class JsonOut;
 class relic;
-class relic_procgen_data;
 struct relic_charge_info;
 struct relic_charge_template;
-struct tripoint;
-
-using relic_procgen_id = string_id<relic_procgen_data>;
 
 class relic_procgen_data
 {
@@ -133,6 +131,7 @@ class relic_procgen_data
 
         static const std::vector<relic_procgen_data> &get_all();
         static void load_relic_procgen_data( const JsonObject &jo, const std::string &src );
+        static void finalize_all();
         static void reset();
         void load( const JsonObject &jo, std::string_view = {} );
         void deserialize( const JsonObject &jobj );
@@ -216,9 +215,11 @@ class relic
         // passive enchantments to add by id in finalize once we can guarantee that they have loaded
         std::vector<enchantment_id> passive_enchant_ids; // NOLINT(cata-serialize)
     public:
+        ~relic();
+
         std::string name() const;
         // returns number of charges that should be consumed
-        int activate( Creature &caster, const tripoint &target );
+        int activate( Creature &caster, const tripoint_bub_ms &target );
         int charges() const;
         int charges_per_use() const;
         int max_charges() const;
@@ -227,7 +228,7 @@ class relic
         // has a recharge type (which needs to be actively processed)
         bool has_recharge() const;
 
-        void try_recharge( item &parent, Character *carrier, const tripoint &pos );
+        void try_recharge( item &parent, Character *carrier, const tripoint_bub_ms &pos );
 
         bool can_recharge( item &parent, Character *carrier ) const;
 
@@ -236,6 +237,7 @@ class relic
         void finalize();
 
         void serialize( JsonOut &jsout ) const;
+        bool was_loaded = false;
         void deserialize( const JsonObject &jobj );
 
         void add_passive_effect( const enchant_cache &ench );

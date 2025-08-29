@@ -210,7 +210,7 @@ Token TranslationPluralRulesEvaluator::GetNextToken( const char *&p )
     }
 }
 
-std::vector<Token> TranslationPluralRulesEvaluator::Lexer( const std::string_view expr )
+std::vector<Token> TranslationPluralRulesEvaluator::Lexer( std::string_view expr )
 {
     std::vector<ExprToken> tokens;
     const char *p = expr.data();

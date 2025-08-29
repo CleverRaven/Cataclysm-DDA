@@ -96,7 +96,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CARAVAN_MERCHANT_PREDATORY_askinterval",
-    "dynamic_line": "Well, not right now.  Try again after around <interval>.",
+    "dynamic_line": "Well, not right now.  Try again after around <restock_time_point>.",
     "responses": [ { "text": "Okay.  About other things…", "topic": "TALK_CARAVAN_MERCHANT_PREDATORY_2" } ]
   },
   {
@@ -131,7 +131,7 @@
     "responses": [
       { "text": "50 merch and you have a deal.", "effect": { "u_spawn_item": "FMCNote", "count": 50 }, "topic": "TALK_DONE" },
       {
-        "text": "You know what, I don't want your <swear> dirty money.  Go fuck yourself.",
+        "text": "You know what, I don't want your <freaking> dirty money.  Go fuck yourself.",
         "topic": "TALK_DONE",
         "effect": "hostile"
       }

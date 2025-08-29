@@ -4,7 +4,7 @@
     "id": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD_ON_OMT_ENTER",
     "eoc_type": "EVENT",
     "required_event": "avatar_enters_omt",
-    "condition": { "u_has_trait": "ARVORE" },
+    "condition": { "u_has_any_trait": [ "ARVORE", "FALSE_ARVORE_HATRED", "FAE_ENMITY", "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT" ] },
     "effect": [
       {
         "run_eocs": [
@@ -23,7 +23,7 @@
     "id": "EOC_CONDITION_CHECK_ARVORE_IS_IN_FOREST_ON_OMT_ENTER",
     "eoc_type": "EVENT",
     "required_event": "avatar_enters_omt",
-    "condition": { "u_has_trait": "ARVORE" },
+    "condition": { "u_has_any_trait": [ "ARVORE", "FALSE_ARVORE_HATRED", "FAE_ENMITY", "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT" ] },
     "effect": [
       {
         "run_eocs": [
@@ -78,7 +78,9 @@
       "or": [
         { "u_is_on_terrain_with_flag": "SHRUB" },
         { "u_is_on_terrain_with_flag": "DIGGABLE" },
-        { "u_is_on_terrain_with_flag": "YOUNG" }
+        { "u_is_on_terrain_with_flag": "YOUNG" },
+        { "u_is_on_terrain": "t_barkfloor" },
+        { "u_is_on_terrain": "t_barkfloor_noroof" }
       ]
     },
     "effect": [  ]
@@ -95,10 +97,30 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_ARVORE_LOSE_PACT_OF_GREEN_IF_ATTACKING_TRIFFID",
+    "eoc_type": "EVENT",
+    "required_event": "monster_takes_damage",
+    "condition": { "and": [ { "u_has_species": "PLANT" }, "has_beta" ] },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_ARVORE_LOSE_PACT_OF_GREEN_IF_ATTACKING_TRIFFID_2",
+            "condition": {
+              "and": [ { "npc_has_trait": "ARVORE_TRIFFID_NEUTRALITY" }, { "not": { "npc_has_trait": "effect_arvore_attacked_a_triffid" } } ]
+            },
+            "effect": [ { "npc_add_effect": "effect_arvore_attacked_a_triffid", "duration": { "math": [ "10800 + rand(43200)" ] } } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_ARVORE_BRIARS_SELECTOR",
     "effect": [
       {
-        "run_eoc_selector": [ "EOC_ARVORE_BRIARS_SELECTOR_ARC", "EOC_ARVORE_BRIARS_SELECTOR_LINE", "EOC_NULL" ],
+        "run_eoc_selector": [ "EOC_ARVORE_BRIARS_SELECTOR_ARC", "EOC_ARVORE_BRIARS_SELECTOR_LINE", "EOC_NONE" ],
         "names": [ "Thorny Arc", "Wall of Brambles", "Do nothing" ],
         "keys": [ "1", "2", "3" ],
         "descriptions": [ "Summon a spray of brambles to entrap an enemy.", "Summon a wall of thorns to fortify a location.", "Do nothing." ]
@@ -249,24 +271,25 @@
             "id": "EOC_ARVORE_WALK_WILDS_TELEPORT_ACTION",
             "effect": [
               {
-                "if": {
-                  "u_query_tile": "line_of_sight",
-                  "target_var": { "global_val": "arvore_walk_wilds_location" },
-                  "range": {
-                    "math": [ "( ( (u_spell_level('arvore_traverse_the_wilds') * 1.5) + 5) * (scaling_factor(u_val('perception') ) ) )" ]
-                  },
-                  "z_level": false,
-                  "message": "Select tree to step to."
+                "u_query_tile": "line_of_sight",
+                "target_var": { "context_val": "arvore_walk_wilds_location" },
+                "range": {
+                  "math": [ "( ( (u_spell_level('arvore_traverse_the_wilds') * 1.5) + 5) * (scaling_factor(u_val('perception') ) ) )" ]
                 },
+                "z_level": false,
+                "message": "Select tree to step to."
+              },
+              {
+                "if": { "math": [ "has_var(_arvore_walk_wilds_location)" ] },
                 "then": {
                   "if": {
                     "or": [
-                      { "map_terrain_with_flag": "TREE", "loc": { "global_val": "arvore_walk_wilds_location" } },
-                      { "map_terrain_with_flag": "YOUNG", "loc": { "global_val": "arvore_walk_wilds_location" } }
+                      { "map_terrain_with_flag": "TREE", "loc": { "context_val": "arvore_walk_wilds_location" } },
+                      { "map_terrain_with_flag": "YOUNG", "loc": { "context_val": "arvore_walk_wilds_location" } }
                     ]
                   },
                   "then": [
-                    { "u_teleport": { "global_val": "arvore_walk_wilds_location" }, "force": true },
+                    { "u_teleport": { "context_val": "arvore_walk_wilds_location" }, "force": true },
                     { "u_message": "You step into the tree and step out of another one nearby.", "type": "neutral" }
                   ],
                   "else": { "u_message": "You must select a tree to step to." }
@@ -281,6 +304,30 @@
         "store_coordinates_in": { "context_val": "arvore_walk_wilds_origin" },
         "stop_at_first": true,
         "condition": { "map_terrain_with_flag": "TREE", "loc": { "context_val": "arvore_walk_wilds_origin" } }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_SUMMON_FLORAL_BOAT_CHECK",
+    "effect": [
+      {
+        "u_map_run_eocs": [
+          {
+            "id": "EOC_ARVORE_SUMMON_FLORAL_BOAT_ACTION",
+            "effect": [ { "u_cast_spell": { "id": "arvore_summon_floral_boat_real" }, "targeted": true } ],
+            "false_effect": { "u_message": "You need a nearby tree to transform it into the viridescent vessel.", "type": "bad" }
+          }
+        ],
+        "range": 1,
+        "store_coordinates_in": { "context_val": "arvore_floral_boat_tree" },
+        "stop_at_first": true,
+        "condition": { "map_terrain_with_flag": "TREE", "loc": { "context_val": "arvore_floral_boat_tree" } }
+      },
+      {
+        "u_transform_radius": 0,
+        "target_var": { "context_val": "arvore_floral_boat_tree" },
+        "ter_furn_transform": "ter_arvore_tree_to_grass"
       }
     ]
   },
@@ -352,7 +399,7 @@
         { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD" }
       ]
     },
-    "effect": [ { "u_cast_spell": { "id": "cultivate_goblin_fruit_real" } } ],
+    "effect": { "u_spawn_item": "spell_spawned_goblin_fruit_arvore", "use_item_group": true, "suppress_message": true },
     "false_effect": [ { "u_message": "You must be surrounded by the wild to call forth a goblin fruit.", "type": "bad" } ]
   },
   {
@@ -365,7 +412,7 @@
           "EOC_GROWING_WOOD_FLOORS",
           "EOC_GROWING_WOOD_DOORS",
           "EOC_GROWING_WOOD_BRANCHES",
-          "EOC_NULL"
+          "EOC_NONE"
         ],
         "names": [ "Grow Wooden Wall", "Grow Wooden Floor", "Grow Wooden Door", "Grow Leafy Branch", "Do nothing" ],
         "keys": [ "1", "2", "3", "4", "5" ],
@@ -398,11 +445,6 @@
     "type": "effect_on_condition",
     "id": "EOC_GROWING_WOOD_DOORS",
     "effect": [ { "u_cast_spell": { "id": "arvore_growing_wood_walls_door" }, "targeted": true } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_NULL",
-    "effect": [  ]
   },
   {
     "type": "effect_on_condition",
@@ -521,22 +563,26 @@
       { "math": [ "u_vitamin('instability') = 0" ] },
       { "math": [ "u_pain() = 0" ] },
       { "math": [ "u_val('rad') = 0" ] },
-      { "u_lose_effect": "corroding" },
-      { "u_lose_effect": "onfire" },
-      { "u_lose_effect": "dazed" },
-      { "u_lose_effect": "stunned" },
-      { "u_lose_effect": "venom_blind" },
-      { "u_lose_effect": "formication" },
-      { "u_lose_effect": "blisters" },
-      { "u_lose_effect": "frostbite" },
-      { "u_lose_effect": "frostbite_recovery" },
-      { "u_lose_effect": "wet" },
-      { "u_lose_effect": "slimed" },
-      { "u_lose_effect": "migo_atmosphere" },
-      { "u_lose_effect": "fetid_goop" },
-      { "u_lose_effect": "sap" },
-      { "u_lose_effect": "nausea" },
-      { "u_lose_effect": "bleed" }
+      {
+        "u_lose_effect": [
+          "corroding",
+          "onfire",
+          "dazed",
+          "stunned",
+          "venom_blind",
+          "formication",
+          "blisters",
+          "frostbite",
+          "frostbite_recovery",
+          "wet",
+          "slimed",
+          "migo_atmosphere",
+          "fetid_goop",
+          "sap",
+          "nausea",
+          "bleed"
+        ]
+      }
     ]
   },
   {
@@ -581,8 +627,8 @@
         "if": {
           "and": [ { "math": [ "u_calories('dont_affect_weariness': true) <= 179999" ] }, { "math": [ "u_calories() >= 75000" ] } ]
         },
-        "then": { "math": [ "u_calories('dont_affect_weariness': true)", "+=", "7" ] },
-        "else": { "if": { "math": [ "u_calories() <= 74999" ] }, "then": { "math": [ "u_calories()", "+=", "12" ] } }
+        "then": { "math": [ "u_calories('dont_affect_weariness': true) += 7" ] },
+        "else": { "if": { "math": [ "u_calories() <= 74999" ] }, "then": { "math": [ "u_calories() += 12" ] } }
       }
     ]
   },
@@ -709,17 +755,14 @@
     "id": "EOC_ARVORE_TREE_SINGING",
     "effect": [
       {
-        "if": {
-          "u_query_tile": "around",
-          "target_var": { "global_val": "arvore_treesung_location" },
-          "message": "Select nearby tree"
-        },
-        "then": {
-          "if": { "map_terrain_with_flag": "TREE", "loc": { "global_val": "arvore_treesung_location" } },
-          "then": { "u_assign_activity": "ACT_ARVORE_TREESINGING", "duration": "45 minutes" },
-          "else": { "u_message": "You must be near a tree to treesing to it." }
-        },
-        "else": { "u_message": "Canceled" }
+        "u_choose_adjacent_highlight": { "context_val": "arvore_treesung_location" },
+        "condition": { "map_terrain_with_flag": "TREE", "loc": { "context_val": "loc" } },
+        "message": "Select nearby tree",
+        "failure_message": "You must be near a tree to treesing to it"
+      },
+      {
+        "if": { "math": [ "has_var(_arvore_treesung_location)" ] },
+        "then": { "u_assign_activity": "ACT_ARVORE_TREESINGING", "duration": "45 minutes" }
       }
     ]
   },
@@ -761,8 +804,18 @@
             { "not": { "u_know_recipe": "create_verdant_helm" } },
             { "not": { "u_know_recipe": "create_verdant_cuirass" } },
             { "not": { "u_know_recipe": "create_verdant_gauntlets" } },
+            { "not": { "u_know_recipe": "create_verdant_leg_guards" } },
             { "not": { "u_know_recipe": "create_verdant_boots" } },
-            { "not": { "u_know_recipe": "create_verdant_cloak" } }
+            { "not": { "u_know_recipe": "create_verdant_cloak" } },
+            { "not": { "u_know_recipe": "create_shortbow_treesung" } },
+            { "not": { "u_know_recipe": "create_greatbow_treesung" } },
+            { "not": { "u_know_recipe": "create_arrow_treesung" } },
+            { "not": { "u_know_recipe": "create_spear_treesung" } },
+            { "not": { "u_know_recipe": "create_pike_treesung" } },
+            { "not": { "u_know_recipe": "create_mace_treesung" } },
+            { "not": { "u_know_recipe": "create_q_staff_treesung" } },
+            { "not": { "u_know_recipe": "create_naginata_treesung" } },
+            { "not": { "u_know_recipe": "create_baselard_treesung" } }
           ]
         },
         {
@@ -800,8 +853,18 @@
           "create_verdant_helm",
           "create_verdant_cuirass",
           "create_verdant_gauntlets",
+          "create_verdant_leg_guards",
           "create_verdant_boots",
-          "create_verdant_cloak"
+          "create_verdant_cloak",
+          "create_shortbow_treesung",
+          "create_greatbow_treesung",
+          "create_arrow_treesung",
+          "create_spear_treesung",
+          "create_pike_treesung",
+          "create_mace_treesung",
+          "create_q_staff_treesung",
+          "create_naginata_treesung",
+          "create_baselard_treesung"
         ],
         "type": "recipe"
       },
@@ -812,12 +875,7 @@
     "type": "effect_on_condition",
     "id": "EOC_ARVORE_TREE_FORM_ON",
     "condition": { "and": [ "u_is_outside", { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" } ] },
-    "effect": [
-      { "u_add_trait": "CHLOROMORPH" },
-      { "u_add_trait": "LEAVES3" },
-      { "u_add_trait": "ARVORE_TREE_FORM_TRAITS" },
-      { "u_add_effect": "effect_arvore_tree_immobility", "duration": 86400, "intensity": 100 }
-    ],
+    "effect": [ { "u_add_trait": "CHLOROMORPH" }, { "u_add_trait": "LEAVES3" }, { "u_add_trait": "ARVORE_TREE_FORM_TRAITS" } ],
     "false_effect": [ { "u_message": "You must be outside on diggable ground to become one with the forest.", "type": "bad" } ]
   },
   {
@@ -841,7 +899,7 @@
     "recurrence": [ "3 minutes", "3 minutes" ],
     "condition": { "u_has_trait": "ARVORE_TREE_FORM_TRAITS" },
     "deactivate_condition": { "not": { "u_has_trait": "ARVORE_TREE_FORM_TRAITS" } },
-    "effect": [ { "if": { "math": [ "u_val('thirst') >= -50" ] }, "then": { "math": [ "u_val('thirst')", "-=", "1" ] } } ]
+    "effect": [ { "if": { "math": [ "u_val('thirst') >= -50" ] }, "then": { "math": [ "u_val('thirst') -= 1" ] } } ]
   },
   {
     "type": "effect_on_condition",
@@ -865,7 +923,7 @@
       },
       { "u_cast_spell": { "id": "arvore_turn_into_tree_banish", "message": "" } },
       {
-        "run_eocs": "EOC_NULL",
+        "run_eocs": "EOC_NONE",
         "beta_loc": { "global_val": "arvore_tree_transform_target" },
         "false_eocs": "EOC_ARVORE_VERDANT_IMPRISONMENT_SUCCESS"
       }
@@ -902,7 +960,7 @@
             "true_eocs": [ { "id": "EOC_ARVORE_VERDANT_IMPRISONMENT_DELETE_NPC_ITEMS", "effect": [ "npc_die" ] } ]
           },
           {
-            "run_eocs": "EOC_NULL",
+            "run_eocs": "EOC_NONE",
             "beta_loc": { "global_val": "arvore_tree_transform_target" },
             "false_eocs": "EOC_ARVORE_VERDANT_IMPRISONMENT_SUCCESS"
           }

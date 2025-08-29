@@ -1,9 +1,7 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "house_library" ],
-    "weight": 200,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -17,7 +15,7 @@
         ".o    ffh     |  EE  r#.",
         ".oc h      |>>|R     Ho.",
         ".#|||||||  ||||R     Ho.",
-        ".#y666        |RRR RRR#.",
+        ".#y666é       |RRR RRR#.",
         ".#7           ||||+|||#.",
         ".#4 JA               T#.",
         ".#O J A   HHHHHs     E#.",
@@ -32,7 +30,7 @@
         ".#########oo###########.",
         "............^..........."
       ],
-      "palettes": [ "parametrized_linoleum_palette", "domestic_general_and_variant_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "domestic_general_construction_and_variant_palette" ],
       "terrain": {
         "!": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "8": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },

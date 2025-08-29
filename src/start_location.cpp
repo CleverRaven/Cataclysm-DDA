@@ -2,32 +2,39 @@
 
 #include <algorithm>
 #include <climits>
+#include <functional>
+#include <optional>
 
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "cata_variant.h"
+#include "character.h"
 #include "city.h"
 #include "clzones.h"
-#include "colony.h"
 #include "coordinates.h"
 #include "creature.h"
+#include "current_map.h"
 #include "debug.h"
-#include "effect_source.h"
-#include "enum_conversions.h"
+#include "enums.h"
 #include "field_type.h"
-#include "game_constants.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "json.h"
 #include "map.h"
 #include "map_extras.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapdata.h"
-#include "options.h"
+#include "mapgen_parameter.h"
+#include "mapgendata.h"
+#include "mdarray.h"
+#include "omdata.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "point.h"
 #include "rng.h"
+#include "translations.h"
 
 class item;
 
@@ -110,39 +117,27 @@ const std::set<std::string> &start_location::flags() const
     return _flags;
 }
 
-void start_location::load( const JsonObject &jo, const std::string &src )
+void omt_types_parameters::deserialize( const JsonValue &jv )
 {
-    const bool strict = src == "dda";
+    if( jv.test_string() ) {
+        jv.read( omt, true );
+        omt_type = ot_match_type::type;
+        return;
+    }
+    JsonObject jo = jv.get_object();
+    mandatory( jo, false, "om_terrain", omt );
+    optional( jo, false, "om_terrain_match_type", omt_type, ot_match_type::type );
+    optional( jo, false, "parameters", parameters );
+}
 
+void start_location::load( const JsonObject &jo, const std::string_view )
+{
     mandatory( jo, was_loaded, "name", _name );
-    std::string ter;
-    for( const JsonValue entry : jo.get_array( "terrain" ) ) {
-        ot_match_type ter_match_type = ot_match_type::type;
-        std::unordered_map<std::string, std::string> parameter_map;
-        if( entry.test_string() ) {
-            ter = entry.get_string();
-        } else {
-            JsonObject jot = entry.get_object();
-            ter = jot.get_string( "om_terrain" );
-            if( jot.has_string( "om_terrain_match_type" ) ) {
-                ter_match_type = jot.get_enum_value<ot_match_type>( "om_terrain_match_type", ter_match_type );
-            }
-            if( jot.has_object( "parameters" ) ) {
-                std::unordered_map<std::string, std::string> parameter_map;
-                jot.read( "parameters", parameter_map );
-            }
-        }
-        _locations.emplace_back( omt_types_parameters{ ter, ter_match_type, parameter_map } );
-    }
-    if( jo.has_array( "city_sizes" ) ) {
-        assign( jo, "city_sizes", constraints_.city_size, strict );
-    }
-    if( jo.has_array( "city_distance" ) ) {
-        assign( jo, "city_distance", constraints_.city_distance, strict );
-    }
-    if( jo.has_array( "allowed_z_levels" ) ) {
-        assign( jo, "allowed_z_levels", constraints_.allowed_z_levels, strict );
-    }
+    optional( jo, was_loaded, "terrain", _locations );
+    optional( jo, was_loaded, "city_sizes", constraints_.city_size, { 0, INT_MAX } );
+    optional( jo, was_loaded, "city_distance", constraints_.city_distance, { 0, INT_MAX } );
+    optional( jo, was_loaded, "allowed_z_levels", constraints_.allowed_z_levels,
+    { -OVERMAP_DEPTH, OVERMAP_HEIGHT} );
     optional( jo, was_loaded, "flags", _flags, auto_flags_reader<> {} );
 }
 
@@ -155,7 +150,8 @@ void start_location::finalize()
 }
 
 // check if tile at p should be boarded with some kind of furniture.
-static void add_boardable( const tinymap &m, const tripoint &p, std::vector<tripoint> &vec )
+static void add_boardable( const tinymap &m, const tripoint_omt_ms &p,
+                           std::vector<tripoint_omt_ms> &vec )
 {
     if( m.has_furn( p ) ) {
         // Don't need to board this up, is already occupied
@@ -176,12 +172,12 @@ static void add_boardable( const tinymap &m, const tripoint &p, std::vector<trip
     vec.push_back( p );
 }
 
-static void board_up( tinymap &m, const tripoint_range<tripoint> &range )
+static void board_up( tinymap &m, const tripoint_range<tripoint_omt_ms> &range )
 {
-    std::vector<tripoint> furnitures1;
-    std::vector<tripoint> furnitures2;
-    std::vector<tripoint> boardables;
-    for( const tripoint &p : range ) {
+    std::vector<tripoint_omt_ms> furnitures1;
+    std::vector<tripoint_omt_ms> furnitures2;
+    std::vector<tripoint_omt_ms> boardables;
+    for( const tripoint_omt_ms &p : range ) {
         bool must_board_around = false;
         const ter_id &t = m.ter( p );
         if( t == ter_t_window_domestic || t == ter_t_window || t == ter_t_window_no_curtains ) {
@@ -201,7 +197,7 @@ static void board_up( tinymap &m, const tripoint_range<tripoint> &range )
         }
         if( must_board_around ) {
             // Board up the surroundings of the door/window
-            for( const tripoint &neigh : points_in_radius( p, 1 ) ) {
+            for( const tripoint_omt_ms &neigh : points_in_radius( p, 1 ) ) {
                 if( neigh == p ) {
                     continue;
                 }
@@ -210,7 +206,7 @@ static void board_up( tinymap &m, const tripoint_range<tripoint> &range )
         }
     }
     // Find all furniture that can be used to board up some place
-    for( const tripoint &p : range ) {
+    for( const tripoint_omt_ms &p : range ) {
         if( std::find( boardables.begin(), boardables.end(), p ) != boardables.end() ) {
             continue;
         }
@@ -232,8 +228,8 @@ static void board_up( tinymap &m, const tripoint_range<tripoint> &range )
         }
     }
     while( ( !furnitures1.empty() || !furnitures2.empty() ) && !boardables.empty() ) {
-        const tripoint fp = random_entry_removed( furnitures1.empty() ? furnitures2 : furnitures1 );
-        const tripoint bp = random_entry_removed( boardables );
+        const tripoint_omt_ms fp = random_entry_removed( furnitures1.empty() ? furnitures2 : furnitures1 );
+        const tripoint_omt_ms bp = random_entry_removed( boardables );
         m.furn_set( bp, m.furn( fp ) );
         m.furn_set( fp, furn_str_id::NULL_ID() );
         map_stack destination_items = m.i_at( bp );
@@ -250,7 +246,7 @@ void start_location::prepare_map( tinymap &m ) const
     if( flags().count( "BOARDED" ) > 0 ) {
         m.build_outside_cache( z );
         const tripoint_range <tripoint_omt_ms> temp = m.points_on_zlevel( z );
-        board_up( m, { temp.min().raw(), temp.max().raw() } );
+        board_up( m, { temp.min(), temp.max() } );
     } else {
         m.translate( ter_t_window_domestic, ter_t_curtains );
     }
@@ -301,7 +297,7 @@ std::pair<tripoint_abs_omt, std::unordered_map<std::string, std::string>>
     const std::pair<tripoint_om_omt, omt_types_parameters> random_valid = random_entry( valid,
             std::make_pair( tripoint_om_omt::invalid, omt_types_parameters() ) );
     const tripoint_om_omt omtstart = random_valid.first;
-    if( omtstart.raw() != tripoint::min ) {
+    if( omtstart != tripoint_om_omt::min ) {
         return std::make_pair( project_combine( origin.pos_om, omtstart ), random_valid.second.parameters );
     }
     // Should never happen, if it does we messed up.
@@ -366,6 +362,8 @@ void start_location::prepare_map( const tripoint_abs_omt &omtstart ) const
     // Now prepare the initial map (change terrain etc.)
     tinymap player_start;
     player_start.load( omtstart, false );
+    // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+    swap_map swap( *player_start.cast_to_map() );
     prepare_map( player_start );
     player_start.save();
 }
@@ -378,36 +376,36 @@ void start_location::prepare_map( const tripoint_abs_omt &omtstart ) const
  * Maybe TODO: Allow "picking up" items or parts of bashable furniture
  *             and using them to help with bash attempts.
  */
-static int rate_location( map &m, const tripoint &p,
+static int rate_location( map &m, const tripoint_bub_ms &p,
                           const bool must_be_inside, const bool accommodate_npc,
                           const int bash_str, const int attempt,
                           cata::mdarray<int, point_bub_ms> &checked )
 {
-    const auto invalid_char_pos = [&]( const tripoint & tp ) -> bool {
+    const auto invalid_char_pos = [&]( const tripoint_bub_ms & tp ) -> bool {
         return ( must_be_inside && m.is_outside( tp ) ) ||
         m.impassable( tp ) || m.is_divable( tp ) ||
         m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, tp );
     };
 
-    if( checked[p.x][p.y] > 0 || invalid_char_pos( p ) ||
+    if( checked[p.x()][p.y()] > 0 || invalid_char_pos( p ) ||
         ( accommodate_npc && invalid_char_pos( p + point::north_west ) ) ) {
         return 0;
     }
 
     // Vector that will be used as a stack
-    std::vector<tripoint> st;
+    std::vector<tripoint_bub_ms> st;
     st.reserve( MAPSIZE_X * MAPSIZE_Y );
     st.push_back( p );
 
     // If not checked yet and either can be moved into, can be bashed down or opened,
     // add it on the top of the stack.
-    const auto maybe_add = [&]( const point & add_p, const tripoint & from ) {
-        if( checked[add_p.x][add_p.y] >= attempt ) {
+    const auto maybe_add = [&]( const point_bub_ms & add_p, const tripoint_bub_ms & from ) {
+        if( checked[add_p.x()][add_p.y()] >= attempt ) {
             return;
         }
 
-        const tripoint pt( add_p, p.z );
-        if( m.passable( pt ) ||
+        const tripoint_bub_ms pt( add_p, p.z() );
+        if( m.passable_through( pt ) ||
             m.bash_resistance( pt ) <= bash_str ||
             m.open_door( get_avatar(), pt, !m.is_outside( from ), true ) ) {
             st.push_back( pt );
@@ -417,12 +415,12 @@ static int rate_location( map &m, const tripoint &p,
     int area = 0;
     while( !st.empty() ) {
         area++;
-        const tripoint cur = st.back();
+        const tripoint_bub_ms cur = st.back();
         st.pop_back();
 
-        checked[cur.x][cur.y] = attempt;
-        if( cur.x == 0 || cur.x == MAPSIZE_X - 1 ||
-            cur.y == 0 || cur.y == MAPSIZE_Y - 1 ||
+        checked[cur.x()][cur.y()] = attempt;
+        if( cur.x() == 0 || cur.x() == MAPSIZE_X - 1 ||
+            cur.y() == 0 || cur.y() == MAPSIZE_Y - 1 ||
             m.has_flag( ter_furn_flag::TFLAG_GOES_UP, cur ) ) {
             return INT_MAX;
         }
@@ -445,7 +443,7 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
     // Need the "real" map with it's inside/outside cache and the like.
     map &here = get_map();
     // Start us off somewhere in the center of the map
-    you.move_to( midpoint( project_bounds<coords::ms>( omtstart ) ) );
+    you.set_pos_abs_only( midpoint( project_bounds<coords::ms>( omtstart ) ) );
     here.invalidate_map_cache( here.get_abs_sub().z() );
     here.build_map_cache( here.get_abs_sub().z() );
     const bool must_be_inside = flags().count( "ALLOW_OUTSIDE" ) == 0;
@@ -472,7 +470,7 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
         if( zone.get_type() == zone_type_ZONE_START_POINT ) {
             if( here.inbounds( zone.get_center_point() ) ) {
                 found_good_spot = true;
-                best_spot = here.bub_from_abs( zone.get_center_point() );
+                best_spot = here.get_bub( zone.get_center_point() );
                 break;
             }
         }
@@ -483,7 +481,7 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
     int tries = 0;
     const auto check_spot = [&]( const tripoint_bub_ms & pt ) {
         ++tries;
-        const int rate = rate_location( here, pt.raw(), must_be_inside, accommodate_npc, bash, tries,
+        const int rate = rate_location( here, pt, must_be_inside, accommodate_npc, bash, tries,
                                         checked );
         if( best_rate < rate ) {
             best_rate = rate;
@@ -514,7 +512,7 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
         }
     }
 
-    you.setpos( best_spot );
+    you.setpos( here, best_spot );
 
     if( !found_good_spot ) {
         debugmsg( "Could not find a good starting place for character" );
@@ -526,15 +524,18 @@ void start_location::burn( const tripoint_abs_omt &omtstart, const size_t count,
 {
     tinymap m;
     m.load( omtstart, false );
+    // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+    swap_map swap( *m.cast_to_map() );
     m.build_outside_cache( m.get_abs_sub().z() );
-    point player_pos = get_player_character().pos().xy();
-    const point u( player_pos.x % HALF_MAPSIZE_X, player_pos.y % HALF_MAPSIZE_Y );
+    point_bub_ms player_pos = get_player_character().pos_bub().xy();
+    const point_bub_ms u( player_pos.x() % HALF_MAPSIZE_X, player_pos.y() % HALF_MAPSIZE_Y );
     std::vector<tripoint_omt_ms> valid;
     for( const tripoint_omt_ms &p : m.points_on_zlevel() ) {
         if( !( m.has_flag_ter( ter_furn_flag::TFLAG_DOOR, p ) ||
                m.has_flag_ter( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE, p ) ||
                m.is_outside( p ) ||
-               ( p.x() >= u.x - rad && p.x() <= u.x + rad && p.y() >= u.y - rad && p.y() <= u.y + rad ) ) ) {
+               ( p.x() >= u.x() - rad && p.x() <= u.x() + rad && p.y() >= u.y() - rad &&
+                 p.y() <= u.y() + rad ) ) ) {
             if( m.has_flag( ter_furn_flag::TFLAG_FLAMMABLE, p ) ||
                 m.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH, p ) ) {
                 valid.push_back( p );
@@ -620,9 +621,6 @@ void start_locations::load( const JsonObject &jo, const std::string &src )
 void start_locations::finalize_all()
 {
     all_start_locations.finalize();
-    for( const start_location &start_loc : all_start_locations.get_all() ) {
-        const_cast<start_location &>( start_loc ).finalize();
-    }
 }
 
 void start_locations::check_consistency()

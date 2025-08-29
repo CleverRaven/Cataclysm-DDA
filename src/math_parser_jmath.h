@@ -4,13 +4,14 @@
 
 #include <string>
 #include <string_view>
+#include <utility>
 #include <vector>
 
 #include "math_parser.h"
 #include "type_id.h"
 
 class JsonObject;
-struct dialogue;
+struct const_dialogue;
 
 struct jmath_func {
     jmath_func_id id;
@@ -23,9 +24,10 @@ struct jmath_func {
 
     void load( const JsonObject &jo, std::string_view src );
     static void load_func( const JsonObject &jo, std::string const &src );
-    static void finalize();
+    static void finalize_all();
     static void reset();
     static const std::vector<jmath_func> &get_all();
+    void finalize();
 
     mutable std::string _str;
     mutable math_exp _exp;

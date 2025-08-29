@@ -3,15 +3,14 @@
 #define CATA_SRC_WEAKPOINT_H
 
 #include <array>
-#include <map>
-#include <unordered_map>
+#include <functional>
 #include <optional>
 #include <string>
+#include <string_view>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
-#include "condition.h"
-#include "damage.h"
 #include "translation.h"
 #include "type_id.h"
 
@@ -20,6 +19,11 @@ class Creature;
 class JsonArray;
 class JsonObject;
 class JsonValue;
+class item;
+class time_duration;
+struct const_dialogue;
+struct damage_instance;
+struct resistances;
 
 // Information about an attack on a weak point.
 struct weakpoint_attack {
@@ -43,6 +47,11 @@ struct weakpoint_attack {
     attack_type type;
     // Whether the attack from a thrown object.
     bool is_thrown;
+    /**
+    * How accurate the ranged attack is.
+    * -1.0 means not a ranged attack.
+    */
+    double accuracy = -1.0;
     // Whether the attack a critical hit.
     bool is_crit;
     // The Creature's skill in hitting weak points.
@@ -80,6 +89,9 @@ struct weakpoint_effect {
     // Maybe apply an effect to the target.
     void apply_to( Creature &target, int total_damage, const weakpoint_attack &attack ) const;
     void load( const JsonObject &jo );
+    void deserialize( const JsonObject &jo ) {
+        load( jo );
+    }
 };
 
 struct weakpoint_difficulty {
@@ -88,6 +100,9 @@ struct weakpoint_difficulty {
     explicit weakpoint_difficulty( float default_value );
     float of( const weakpoint_attack &attack ) const;
     void load( const JsonObject &jo );
+    void deserialize( const JsonObject &jo ) {
+        load( jo );
+    }
 };
 
 struct weakpoint_family {
@@ -102,6 +117,9 @@ struct weakpoint_family {
 
     float modifier( const Character &attacker ) const;
     void load( const JsonValue &jsin );
+    void deserialize( const JsonValue &jsin ) {
+        load( jsin );
+    }
 };
 
 struct weakpoint_families {
@@ -118,6 +136,10 @@ struct weakpoint_families {
     void clear();
     void load( const JsonArray &ja );
     void remove( const JsonArray &ja );
+
+    void deserialize( const JsonValue &jv );
+    bool handle_extend( const JsonValue &jv );
+    bool handle_delete( const JsonValue &jv );
 };
 
 struct weakpoint {
@@ -146,6 +168,7 @@ struct weakpoint {
     weakpoint_difficulty coverage_mult;
     // Difficulty gates, varying by the attack type.
     weakpoint_difficulty difficulty;
+    bool is_head = false;
 
     weakpoint();
     // Gets translated name
@@ -181,6 +204,10 @@ struct weakpoints {
     void remove( const JsonArray &ja );
     void finalize();
     void check() const;
+
+    void deserialize( const JsonValue &jv );
+    bool handle_extend( const JsonValue &jv );
+    bool handle_delete( const JsonValue &jv );
 
     /********************* weakpoint_set handling ****************************/
     // load standalone JSON type

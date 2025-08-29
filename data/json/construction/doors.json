@@ -167,7 +167,7 @@
     "time": "120 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ], [ { "id": "WRENCH", "level": 1 } ] ],
     "components": [
-      [ [ "steel_lump", 4 ], [ "steel_chunk", 12 ], [ "scrap", 36 ] ],
+      [ [ "steel_lump_any", 4, "LIST" ], [ "steel_chunk_any", 12, "LIST" ], [ "scrap", 36 ] ],
       [ [ "steel_plate", 2 ], [ "sheet_metal", 8 ] ],
       [ [ "hinge", 3 ] ]
     ],
@@ -222,7 +222,7 @@
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "90 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "spike", 8 ] ], [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ] ],
+    "components": [ [ [ "spike", 8 ] ], [ [ "steel_chunk_any", 4, "LIST" ], [ "scrap", 12 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "t_mdoor_frame"
   },
@@ -235,7 +235,7 @@
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "90 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "spike", 8 ] ], [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ] ],
+    "components": [ [ [ "spike", 8 ] ], [ [ "steel_chunk_any", 4, "LIST" ], [ "scrap", 12 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "t_mdoor_frame"
   },
@@ -249,7 +249,7 @@
     "tools": [ [ [ "oxy_torch", 10 ], [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ] ] ],
     "qualities": [ [ { "id": "SAW_M", "level": 2 } ], [ { "id": "GLARE", "level": 1 } ] ],
     "components": [
-      [ [ "steel_lump", 8 ], [ "steel_chunk", 24 ], [ "scrap", 72 ] ],
+      [ [ "steel_lump_any", 8, "LIST" ], [ "steel_chunk_any", 24, "LIST" ], [ "scrap", 72 ] ],
       [ [ "sheet_metal", 16 ] ],
       [ [ "frame", 4 ], [ "spike", 24 ] ]
     ],

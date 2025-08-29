@@ -72,7 +72,7 @@
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.5 }, { "stat": "movecost", "scale": 1.4 } ],
     "condition": { "and": [ { "math": [ "u_val('size') -1 <= n_val('size')" ] } ] },
     "condition_desc": "* Only works on target of <info>similar or bigger</info> size",
-    "messages": [ "You send %s reeling!", "<npcname> sends %s reeling!" ],
+    "messages": [ "You send %s reeling", "<npcname> sends %s reeling" ],
     "description": "Down 4 turns, knockback 3 tiles, 250% damage, 140% move, crit only, min 3 melee",
     "attack_vectors": [ "vector_null", "vector_punch" ]
   },
@@ -89,8 +89,8 @@
     "condition": { "and": [ { "math": [ "u_val('size') -1 <= n_val('size')" ] } ] },
     "condition_desc": "* Only works on target of <info>similar or bigger</info> size",
     "messages": [
-      "In an instant you melt %s and those nearby with a sprawling attack!",
-      "In an instant <npcname> melts %s and those nearby with a sprawling attack!"
+      "In an instant you melt %s and those nearby with a sprawling attack",
+      "In an instant <npcname> melts %s and those nearby with a sprawling attack"
     ],
     "description": "150% damage, 120% move, attack multiple enemies, crit only, min 4 melee",
     "attack_vectors": [ "vector_null" ]

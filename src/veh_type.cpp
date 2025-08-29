@@ -1,30 +1,39 @@
 #include "veh_type.h"
 
 #include <algorithm>
+#include <cmath>
 #include <cstddef>
-#include <limits>
+#include <functional>
+#include <iterator>
+#include <list>
 #include <memory>
 #include <numeric>
-#include <tuple>
-#include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
 
 #include "ammo.h"
 #include "assign.h"
 #include "cata_assert.h"
+#include "catacharset.h"
 #include "character.h"
+#include "clzones.h"
 #include "color.h"
+#include "damage.h"
 #include "debug.h"
+#include "enums.h"
 #include "flag.h"
+#include "flat_set.h"
+#include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "generic_factory.h"
-#include "init.h"
 #include "item.h"
 #include "item_factory.h"
 #include "item_group.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
+#include "magic_enchantment.h"
+#include "map.h"
 #include "output.h"
 #include "pocket_type.h"
 #include "requirements.h"
@@ -36,9 +45,9 @@
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vehicle_group.h"
+#include "vpart_position.h"
+#include "vpart_range.h"
 #include "wcwidth.h"
-
-class npc;
 
 namespace
 {
@@ -49,8 +58,6 @@ generic_factory<vpart_info> vpart_info_factory( "vehicle_part", "id" );
 static const ammotype ammo_battery( "battery" );
 
 static const itype_id fuel_type_animal( "animal" );
-
-static const itype_id itype_null( "null" );
 
 static const quality_id qual_JACK( "JACK" );
 static const quality_id qual_LIFT( "LIFT" );
@@ -210,7 +217,7 @@ static void parse_vp_reqs( const JsonObject &obj, const vpart_id &id, const std:
 }
 
 static void parse_vp_control_reqs( const JsonObject &obj, const vpart_id &id,
-                                   const std::string_view &key,
+                                   std::string_view key,
                                    vp_control_req &req )
 {
     if( !obj.has_object( key ) ) {
@@ -280,14 +287,14 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     assign( jo, "fuel_type", fuel_type, strict );
     assign( jo, "default_ammo", default_ammo, strict );
     assign( jo, "folded_volume", folded_volume, strict );
-    assign( jo, "size", size, strict );
+    optional( jo, was_loaded, "size", size );
     assign( jo, "bonus", bonus, strict );
     assign( jo, "cargo_weight_modifier", cargo_weight_modifier, strict );
     assign( jo, "categories", categories, strict );
     assign( jo, "flags", flags, strict );
     assign( jo, "description", description, strict );
-    assign( jo, "color", color, strict );
-    assign( jo, "broken_color", color_broken, strict );
+    optional( jo, was_loaded, "color", color, nc_color_reader{} );
+    optional( jo, was_loaded, "broken_color", color_broken, nc_color_reader{} );
     assign( jo, "comfort", comfort, strict );
     int legacy_floor_bedding_warmth = units::to_legacy_bodypart_temp_delta( floor_bedding_warmth );
     assign( jo, "floor_bedding_warmth", legacy_floor_bedding_warmth, strict );
@@ -295,6 +302,12 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     int legacy_bonus_fire_warmth_feet = units::to_legacy_bodypart_temp_delta( bonus_fire_warmth_feet );
     assign( jo, "bonus_fire_warmth_feet", legacy_bonus_fire_warmth_feet, strict );
     bonus_fire_warmth_feet = units::from_legacy_bodypart_temp_delta( legacy_bonus_fire_warmth_feet );
+
+    int enchant_num = 0;
+    for( JsonValue jv : jo.get_array( "enchantments" ) ) {
+        std::string enchant_name = "INLINE_ENCH_" + name_ + "_" + std::to_string( enchant_num++ );
+        enchantments.push_back( enchantment::load_inline_enchantment( jv, src, enchant_name ) );
+    }
 
     if( jo.has_array( "variants" ) ) {
         variants.clear();
@@ -624,17 +637,11 @@ void vehicles::parts::finalize()
     // hide the generic turret prototype
     vpart_info &vpi_turret_generic = const_cast<vpart_info &>( *vpart_turret_generic );
     vpi_turret_generic.set_flag( "NO_INSTALL_HIDDEN" );
-
-    for( const vpart_info &const_vpi : vehicles::parts::get_all() ) {
-        // const_cast hack until/if generic factory supports finalize
-        vpart_info &vpi = const_cast<vpart_info &>( const_vpi );
-        vpi.finalize();
-    }
 }
 
 void vpart_info::finalize()
 {
-    if( engine_info && engine_info->fuel_opts.empty() && fuel_type != itype_null ) {
+    if( engine_info && engine_info->fuel_opts.empty() && !fuel_type.is_null() ) {
         engine_info->fuel_opts.push_back( fuel_type );
     }
 
@@ -1023,7 +1030,7 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
     }
     if( has_flag( "TURRET" ) ) {
         class::item base( base_item );
-        if( base.ammo_required() && !base.ammo_remaining() ) {
+        if( base.ammo_required() && !base.ammo_remaining( ) ) {
             itype_id default_ammo = base.magazine_current() ? base.common_ammo_default() : base.ammo_default();
             if( !default_ammo.is_null() ) {
                 base.ammo_set( default_ammo );
@@ -1383,7 +1390,8 @@ void vehicle_prototype::load( const JsonObject &jo, std::string_view )
     }
 }
 
-void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &json )
+void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh,
+        JsonOut &json )
 {
     static const std::string part_location_structure( "structure" );
     json.start_object();
@@ -1452,14 +1460,14 @@ void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &
         json.member( "parts" );
         json.start_array();
         for( const vehicle_part *vp : vp_pos.second ) {
-            if( vp->is_tank() && vp->ammo_remaining() ) {
+            if( vp->is_tank() && vp->ammo_remaining( ) ) {
                 json.start_object();
                 json.member( "part" );
                 print_vp_with_variant( *vp );
                 json.member( "fuel", vp->ammo_current().str() );
                 json.end_object();
                 continue;
-            } else if( vp->is_turret() && vp->ammo_remaining() ) {
+            } else if( vp->is_turret() && vp->ammo_remaining( ) ) {
                 json.start_object();
                 json.member( "part" );
                 print_vp_with_variant( *vp );
@@ -1467,7 +1475,7 @@ void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &
                 json.member( "ammo_types", vp->ammo_current().str() );
                 json.member( "ammo_qty" );
                 json.start_array();
-                int ammo_qty = vp->ammo_remaining();
+                int ammo_qty = vp->ammo_remaining( );
                 json.write( ammo_qty );
                 json.write( ammo_qty );
                 json.end_array();
@@ -1537,6 +1545,7 @@ void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &
  */
 void vehicles::finalize_prototypes()
 {
+    map &here = get_map(); // TODO: Determine if this is good enough.
     vehicle_prototype_factory.finalize();
     for( const vehicle_prototype &const_proto : vehicles::get_all_prototypes() ) {
         vehicle_prototype &proto = const_cast<vehicle_prototype &>( const_proto );
@@ -1562,7 +1571,7 @@ void vehicles::finalize_prototypes()
                 continue;
             }
 
-            const int part_idx = blueprint.install_part( pt.pos, pt.part );
+            const int part_idx = blueprint.install_part( here, pt.pos, pt.part );
             if( part_idx < 0 ) {
                 debugmsg( "init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d",
                           blueprint.name, pt.part.c_str(),

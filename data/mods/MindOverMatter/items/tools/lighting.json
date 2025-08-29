@@ -2,7 +2,8 @@
   {
     "id": "pyrokinetic_flashlight",
     "//": "ids are legacy, they're actually electrokinetic",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "everglow matrix flashlight (off)", "str_pl": "everglow matrix flashlights (off)" },
     "description": "A household flashlight enhanced with matrix technology.  It is slightly dimmer but will last significantly longer.",
     "material": [ "plastic", "aluminum", "nether_crystal" ],
@@ -14,7 +15,6 @@
     "price": "15 USD",
     "price_postapoc": "5 USD",
     "charges_per_use": 1,
-    "ammo": [ "battery" ],
     "flags": [ "BELT_CLIP", "WATER_BREAK_ACTIVE" ],
     "use_action": {
       "type": "transform",
@@ -31,12 +31,14 @@
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_battery_cell"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "pyrokinetic_flashlight_on",
     "copy-from": "pyrokinetic_flashlight",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "everglow matrix flashlight (on)", "str_pl": "everglow matrix flashlights (on)" },
     "power_draw": "390 mW",
     "revert_to": "pyrokinetic_flashlight",
@@ -51,7 +53,8 @@
   },
   {
     "id": "pyrokinetic_lamp",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "everglow matrix lamp (covered)", "str_pl": "everglow matrix lamps (covered)" },
     "description": "Powered by matrix technology, this lamp will shed a bluish light for far longer than a standard battery-powered lamp.  Activate to open the lid.",
     "weight": "1438 g",
@@ -83,7 +86,8 @@
   },
   {
     "id": "pyrokinetic_lamp_on",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "everglow matrix lamp (uncovered)", "str_pl": "everglow matrix lamps (uncovered)" },
     "copy-from": "pyrokinetic_lamp",
     "description": "Powered by matrix technology, this lamp will shed a reddish light for far longer than a standard battery-powered lamp.  Activate to close the lid.",
@@ -92,7 +96,7 @@
     "flags": [ "LIGHT_150", "LEAK_DAM", "ALLOWS_REMOTE_USE", "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "standing_pyrokinetic_lamp",
     "name": { "str": "disconnected standing matrix lamp" },
     "description": "A tall floor lamp that provides illumination when plugged into a power outlet.  This lamp is enhanced with matrix technology, making it far more power efficient.",

@@ -123,7 +123,7 @@
     "//2": "Currently beard changes traits every 14 days",
     "recurrence": { "math": [ "time('14 d')" ] },
     "global": false,
-    "condition": { "u_has_trait": "natural_hair_growth" },
+    "condition": { "u_has_trait": "natural_beard_growth" },
     "effect": [
       {
         "if": { "u_has_trait": "FACIAL_HAIR_NONE" },

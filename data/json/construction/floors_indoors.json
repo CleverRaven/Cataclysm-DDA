@@ -452,11 +452,14 @@
     "id": "constr_dirtfloor",
     "group": "build_dirt_floor",
     "category": "CONSTRUCT",
-    "required_skills": [ [ "fabrication", 3 ] ],
+    "required_skills": [ [ "survival", 1 ] ],
     "time": "15 m",
+    "qualities": [ { "id": "DIG", "level": 1 } ],
+    "pre_flags": [ "DIGGABLE", "PLOWABLE" ],
     "pre_note": "Must be supported on at least two sides.",
-    "pre_special": "check_support",
-    "post_terrain": "t_dirtfloor"
+    "pre_special": [ "check_support", "check_unblocked" ],
+    "post_terrain": "t_dirtfloor",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",

@@ -464,7 +464,7 @@
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
     "autolearn": [ [ "cutting", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_hand_axes_familiar", "time_multiplier": 1.5, "skill_penalty": 0 } ],
-    "tools": [ [ [ "basic_axes", 1, "LIST" ], [ "real_axes", 1, "LIST" ] ] ]
+    "tools": [ [ [ "handaxes_axes", 1, "LIST" ] ] ]
   },
   {
     "id": "prac_cutting_int_hand_axe",
@@ -483,7 +483,7 @@
       { "proficiency": "prof_hand_axes_familiar", "required": true },
       { "proficiency": "prof_hand_axes_pro", "time_multiplier": 2, "skill_penalty": 0 }
     ],
-    "tools": [ [ [ "real_axes", 1, "LIST" ] ], [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ] ]
+    "tools": [ [ [ "handaxes_axes", 1, "LIST" ] ], [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ] ]
   },
   {
     "id": "prac_bashing_beg_great_hammer",
@@ -1148,5 +1148,44 @@
       { "proficiency": "prof_bionics_pro", "time_multiplier": 2, "skill_penalty": 0 }
     ],
     "tools": [ [ "bio_blade_weapon", "bio_claws_weapon" ], [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ] ]
+  },
+  {
+    "id": "prac_whipping_beg",
+    "type": "practice",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_MELEE",
+    "name": "whips (beginner)",
+    "description": "Practice the basics of fighting with whips by swinging one around.  Familiarize yourself with the length and accuracy of your unwieldy choice of weapon.",
+    "skill_used": "cutting",
+    "skills_required": [ [ "melee", 1 ] ],
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
+    "autolearn": [ [ "cutting", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_whips_familiar", "time_multiplier": 1.5, "skill_penalty": 0 } ],
+    "tools": [ [ [ "whips", 1, "LIST" ] ] ]
+  },
+  {
+    "id": "prac_whipping_int",
+    "type": "practice",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_MELEE",
+    "name": "whips (intermediate)",
+    "description": "Improve your accuracy with a whip by attempting to extinguish a candle without damaging the wax.",
+    "skill_used": "cutting",
+    "skills_required": [ [ "melee", 1 ] ],
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 2, "max_difficulty": 3, "skill_limit": 4 },
+    "autolearn": [ [ "cutting", 4 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_whips_familiar", "required": true },
+      { "proficiency": "prof_whips_pro", "time_multiplier": 2, "skill_penalty": 0 }
+    ],
+    "tools": [
+      [ [ "whips", 1, "LIST" ] ],
+      [ [ "candle", 10 ] ],
+      [ [ "lighter", 1 ], [ "ref_lighter", 1 ], [ "survival_match", 1 ], [ "match", 1 ] ]
+    ]
   }
 ]

@@ -3,7 +3,7 @@
     "id": "BGSS_CRIMINAL_1_STORY1",
     "type": "talk_topic",
     "dynamic_line": {
-      "gendered_line": "I was just sittin' in lockup.  They took me in the night before, for a bullshit parole violation.  Assholes.  I was stuck in my cell when the cops all started yelling about an emergency, geared up, and left me in there havin' a <swear> staring contest with a security cam that probably wasn't even on.  I was stuck in there for two god-damn days, with no food and only a little water.  Then this big-ass zombie busted in.  I didn't know what the fuck to think, but if my cam wasn't working, the one in the hall sure was.  Tripped a motion sensor or some shit, alarm started going, and the big dumb fuck turned around to get at it while its arms were still stuck in the cell bars.  Ripped the whole door out.",
+      "gendered_line": "I was just sittin' in lockup.  They took me in the night before, for a bullshit parole violation.  Assholes.  I was stuck in my cell when the cops all started yelling about an emergency, geared up, and left me in there havin' a <freaking> staring contest with a security cam that probably wasn't even on.  I was stuck in there for two god-damn days, with no food and only a little water.  Then this big-ass zombie busted in.  I didn't know what the fuck to think, but if my cam wasn't working, the one in the hall sure was.  Tripped a motion sensor or some shit, alarm started going, and the big dumb fuck turned around to get at it while its arms were still stuck in the cell bars.  Ripped the whole door out.",
       "relevant_genders": [ "npc" ]
     },
     "responses": [
@@ -15,7 +15,7 @@
   {
     "id": "BGSS_CRIMINAL_1_STORY2",
     "type": "talk_topic",
-    "dynamic_line": "It was just <swear> chaos on the streets, man.  But I'm used to chaos.  You don't live as long as I've lived and not know how to keep away from a fight you can't win.  Biggest worry wasn't the zombies and the monsters, honestly.  But I swear, some cops got a nightstick so far up their ass…  I didn't have time to ditch my orange when stuff kept swipin' at me, and I swear, cops got a look at me, they decided I was the big problem.  Goddamn walking corpse next to me, who do they pick to shoot at?  Pricks.",
+    "dynamic_line": "It was just <freaking> chaos on the streets, man.  But I'm used to chaos.  You don't live as long as I've lived and not know how to keep away from a fight you can't win.  Biggest worry wasn't the zombies and the monsters, honestly.  But I swear, some cops got a nightstick so far up their ass…  I didn't have time to ditch my orange when stuff kept swipin' at me, and I swear, cops got a look at me, they decided I was the big problem.  Goddamn walking corpse next to me, who do they pick to shoot at?  Pricks.",
     "responses": [
       { "text": "How did you keep from getting arrested?", "topic": "BGSS_CRIMINAL_1_STORY3" },
       { "text": "What were you in for in the first place?", "topic": "BGSS_CRIMINAL_1_PAROLE" },
@@ -40,7 +40,7 @@
     "id": "BGSS_CRIMINAL_1_PAROLE",
     "type": "talk_topic",
     "dynamic_line": {
-      "gendered_line": "Bullshit, that's what.  The assholes busted me on possession, wasn't even my fuckin' stash.  I don't do crack, man, that shit's nasty, I was just carryin' it for my buddy Johnny.  Y'know, this might be a <swear> hellhole now, but if I've seen the last power-trippin' asshole cop, it might all be worth it.",
+      "gendered_line": "Bullshit, that's what.  The assholes busted me on possession, wasn't even my fuckin' stash.  I don't do crack, man, that shit's nasty, I was just carryin' it for my buddy Johnny.  Y'know, this might be a <freaking> hellhole now, but if I've seen the last power-trippin' asshole cop, it might all be worth it.",
       "relevant_genders": [ "npc" ]
     },
     "responses": [

@@ -31,7 +31,7 @@ class nc_color;
 
 struct partial_con {
     int counter = 0;
-    std::list<item> components = {};
+    std::list<item> components;
     construction_id id = construction_id( -1 );
 };
 
@@ -124,7 +124,7 @@ void load_construction( const JsonObject &jo );
 void reset_constructions();
 construction_id construction_menu( bool blueprint );
 void complete_construction( Character *you );
-bool can_construct_furn_ter( const construction &con, furn_id const &furn, ter_id const &ter );
+bool has_pre_flags( const construction &con, furn_id const &f, ter_id const &t );
 bool can_construct( const construction &con, const tripoint_bub_ms &p );
 bool player_can_build( Character &you, const read_only_visitable &inv, const construction &con,
                        bool can_construct_skip = false );
@@ -133,5 +133,7 @@ std::vector<construction *> constructions_by_filter( std::function<bool( constru
         const &filter );
 void check_constructions();
 void finalize_constructions();
-
+std::vector<construction_id> find_build_sequence( const std::string &target_id,
+        std::function<bool( construction const & )> const &filter,
+        std::function<bool( construction const & )> const &can_build );
 #endif // CATA_SRC_CONSTRUCTION_H

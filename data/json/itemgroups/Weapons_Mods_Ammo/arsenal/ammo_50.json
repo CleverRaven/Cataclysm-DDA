@@ -53,7 +53,7 @@
   {
     "type": "item_group",
     "id": "ammo_box_50bmg",
-    "container-item": "ammo_box_army_10_50bmg",
+    "container-item": { "item": "12_ammo_box_25", "variant": "ammo_box_army_10_50bmg" },
     "items": [ { "item": "50bmg", "count": 1, "charges": 10 } ]
   },
   {

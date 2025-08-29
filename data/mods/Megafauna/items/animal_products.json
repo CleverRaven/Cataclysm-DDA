@@ -1,6 +1,7 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "mammoth_tusk",
     "category": "spare_parts",
     "name": { "str": "mammoth tusk" },
@@ -19,7 +20,8 @@
     "melee_damage": { "bash": 45 }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_auk",
     "name": { "str": "great auk egg" },
     "copy-from": "egg_chicken",
@@ -30,7 +32,8 @@
     "rot_spawn": { "group": "GROUP_EGG_AUK" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_titanis_walleri",
     "name": { "str": "titanis walleri egg" },
     "copy-from": "egg_chicken",
@@ -41,7 +44,8 @@
     "rot_spawn": { "group": "GROUP_EGG_TITANIS_WALLERI" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "id": "glypto_shell",
     "category": "spare_parts",
@@ -58,7 +62,8 @@
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "large_bone",
     "category": "spare_parts",
     "name": { "str": "large bone" },

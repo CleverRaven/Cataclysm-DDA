@@ -43,9 +43,10 @@
       { "item": "boxer_shorts" },
       { "item": "socks" },
       { "item": "tshirt" },
-      { "item": "jeans_red" },
+      { "item": "jeans" },
       { "item": "turban" },
-      { "item": "sneakers" }
+      { "item": "sneakers" },
+      { "item": "scabbard" }
     ]
   },
   {
@@ -58,10 +59,7 @@
     "type": "item_group",
     "id": "REFUGEE_Guneet_wield",
     "subtype": "distribution",
-    "entries": [
-      { "item": "scimitar_inferior", "container-item": "scabbard", "prob": 3 },
-      { "item": "scimitar", "container-item": "scabbard", "prob": 2 }
-    ]
+    "entries": [ { "item": "scimitar_inferior", "prob": 3 }, { "item": "scimitar", "prob": 2 } ]
   },
   {
     "type": "talk_topic",

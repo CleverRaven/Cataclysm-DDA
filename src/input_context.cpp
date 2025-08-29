@@ -4,14 +4,17 @@
 #include <array>
 #include <cctype>
 #include <cstddef>
+#include <cstdint>
 #include <exception>
 #include <iterator>
 #include <memory>
 #include <optional>
 #include <set>
+#include <type_traits>
 #include <utility>
 
 #include "action.h"
+#include "cata_imgui.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
@@ -20,6 +23,7 @@
 #include "cursesdef.h"
 #include "game.h"
 #include "help.h"
+#include "imgui/imgui.h"
 #include "input.h"
 #include "map.h"
 #include "options.h"
@@ -31,8 +35,6 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"
-#include "cata_imgui.h"
-#include "imgui/imgui.h"
 
 enum class kb_menu_status {
     remove, reset, add, add_global, execute, show, filter
@@ -59,7 +61,7 @@ class keybindings_ui : public cataimgui::window
         std::vector<std::string> filtered_registered_actions;
         std::string hotkeys;
         int highlight_row_index = -1;
-        size_t scroll_offset = 0;
+        int scroll_offset = 0;
         //std::string filter_text;
         keybindings_ui( bool permit_execute_action, input_context *parent );
         void init();
@@ -134,7 +136,6 @@ static const std::string ANY_INPUT = "ANY_INPUT";
 static const std::string HELP_KEYBINDINGS = "HELP_KEYBINDINGS";
 static const std::string COORDINATE = "COORDINATE";
 static const std::string TIMEOUT = "TIMEOUT";
-static const std::string QUIT = "QUIT";
 
 const std::string &input_context::input_to_action( const input_event &inp ) const
 {
@@ -446,11 +447,6 @@ const std::string &input_context::handle_input( const int timeout )
             break;
         }
 
-        if( g->uquit == QUIT_EXIT ) {
-            g->uquit = QUIT_EXIT_PENDING;
-            result = &QUIT;
-            break;
-        }
         const std::string &action = input_to_action( next_action );
 
         //Special global key to toggle language to english and back
@@ -554,33 +550,38 @@ static void rotate_direction_cw( int &dx, int &dy )
     dy = dir_num / 3 - 1;
 }
 
-std::optional<tripoint> input_context::get_direction( const std::string &action ) const
+// This templating ensures that only coord_point with origin::relative is accepted.
+// See src/coords_fwd.h and src/coordinates.h
+template<typename Point, coords::scale Scale>
+static std::optional<coords::coord_point<Point, coords::origin::relative, Scale>>
+        get_direction( const std::string &action, bool iso_mode )
 {
-    static const auto noop = static_cast<tripoint( * )( tripoint )>( []( tripoint p ) {
+    using CoordPoint = coords::coord_point<Point, coords::origin::relative, Scale>;
+    static const auto noop = static_cast<CoordPoint( * )( CoordPoint )>( []( CoordPoint p ) {
         return p;
     } );
-    static const auto rotate = static_cast<tripoint( * )( tripoint )>( []( tripoint p ) {
-        rotate_direction_cw( p.x, p.y );
+    static const auto rotate = static_cast<CoordPoint( * )( CoordPoint )>( []( CoordPoint p ) {
+        rotate_direction_cw( p.x(), p.y() );
         return p;
     } );
     const auto transform = iso_mode && g->is_tileset_isometric() ? rotate : noop;
 
     if( action == "UP" ) {
-        return transform( tripoint::north );
+        return transform( CoordPoint::north );
     } else if( action == "DOWN" ) {
-        return transform( tripoint::south );
+        return transform( CoordPoint::south );
     } else if( action == "LEFT" ) {
-        return transform( tripoint::west );
+        return transform( CoordPoint::west );
     } else if( action == "RIGHT" ) {
-        return transform( tripoint::east );
+        return transform( CoordPoint::east );
     } else if( action == "LEFTUP" ) {
-        return transform( tripoint::north_west );
+        return transform( CoordPoint::north_west );
     } else if( action == "RIGHTUP" ) {
-        return transform( tripoint::north_east );
+        return transform( CoordPoint::north_east );
     } else if( action == "LEFTDOWN" ) {
-        return transform( tripoint::south_west );
+        return transform( CoordPoint::south_west );
     } else if( action == "RIGHTDOWN" ) {
-        return transform( tripoint::south_east );
+        return transform( CoordPoint::south_east );
     } else {
         return std::nullopt;
     }
@@ -589,36 +590,13 @@ std::optional<tripoint> input_context::get_direction( const std::string &action 
 std::optional<tripoint_rel_ms> input_context::get_direction_rel_ms( const std::string &action )
 const
 {
-    static const auto noop = static_cast<tripoint_rel_ms( * )( tripoint_rel_ms )>( [](
-    tripoint_rel_ms p ) {
-        return p;
-    } );
-    static const auto rotate = static_cast<tripoint_rel_ms( * )( tripoint_rel_ms )>( [](
-    tripoint_rel_ms p ) {
-        rotate_direction_cw( p.x(), p.y() );
-        return p;
-    } );
-    const auto transform = iso_mode && g->is_tileset_isometric() ? rotate : noop;
+    return get_direction<tripoint, coords::ms>( action, iso_mode );
+}
 
-    if( action == "UP" ) {
-        return transform( tripoint_rel_ms::north );
-    } else if( action == "DOWN" ) {
-        return transform( tripoint_rel_ms::south );
-    } else if( action == "LEFT" ) {
-        return transform( tripoint_rel_ms::west );
-    } else if( action == "RIGHT" ) {
-        return transform( tripoint_rel_ms::east );
-    } else if( action == "LEFTUP" ) {
-        return transform( tripoint_rel_ms::north_west );
-    } else if( action == "RIGHTUP" ) {
-        return transform( tripoint_rel_ms::north_east );
-    } else if( action == "LEFTDOWN" ) {
-        return transform( tripoint_rel_ms::south_west );
-    } else if( action == "RIGHTDOWN" ) {
-        return transform( tripoint_rel_ms::south_east );
-    } else {
-        return std::nullopt;
-    }
+std::optional<tripoint_rel_omt> input_context::get_direction_rel_omt( const std::string &action )
+const
+{
+    return get_direction<tripoint, coords::omt>( action, iso_mode );
 }
 
 // Custom set of hotkeys that explicitly don't include the hardcoded
@@ -685,7 +663,7 @@ cataimgui::bounds keybindings_ui::get_bounds()
 
 void keybindings_ui::draw_controls()
 {
-    scroll_offset = SIZE_MAX;
+    scroll_offset = INT_MAX;
     size_t legend_idx = 0;
     for( ; legend_idx < 4; legend_idx++ ) {
         cataimgui::draw_colored_text( legend[legend_idx], c_white );
@@ -710,91 +688,98 @@ void keybindings_ui::draw_controls()
     if( last_status != status && status == kb_menu_status::show ) {
         ImGui::SetNextWindowFocus();
     }
-    if( ImGui::BeginTable( "KB_KEYS", 2, ImGuiTableFlags_ScrollY ) ) {
+    if( ImGui::BeginTable( "KB_KEYS", 4, ImGuiTableFlags_ScrollY ) ) {
 
+        float one_char_width = ImGui::CalcTextSize( "M" ).x;
+        ImGui::TableSetupColumn( "##invlet",
+                                 ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoSort, one_char_width );
+        ImGui::TableSetupColumn( "##modified",
+                                 ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoSort, one_char_width );
         ImGui::TableSetupColumn( "Action Name",
                                  ImGuiTableColumnFlags_WidthStretch | ImGuiTableColumnFlags_NoSort );
         float keys_col_width = str_width_to_pixels( width ) - str_width_to_pixels( TERMX >= 100 ? 62 : 52 );
         ImGui::TableSetupColumn( "Assigned Key(s)",
                                  ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoSort, keys_col_width );
-        //ImGui::TableHeadersRow();
-        for( size_t i = 0; i < filtered_registered_actions.size(); i++ ) {
-            const std::string &action_id = filtered_registered_actions[i];
+        float row_height = ImGui::GetTextLineHeightWithSpacing();
+        ImGuiListClipper clipper;
+        clipper.Begin( filtered_registered_actions.size(), row_height );
+        while( clipper.Step() ) {
+            for( int i = clipper.DisplayStart; i < clipper.DisplayEnd; i++ ) {
+                ImGui::TableNextRow();
+                const std::string &action_id = filtered_registered_actions[i];
+                ImGui::PushID( action_id.c_str() );
 
-            bool overwrite_default;
-            const action_attributes &attributes = inp_mngr.get_action_attributes( action_id, ctxt->category,
-                                                  &overwrite_default );
-            bool basic_overwrite_default;
-            const action_attributes &basic_attributes = inp_mngr.get_action_attributes( action_id,
-                    ctxt->category, &basic_overwrite_default, true );
-            bool customized_keybinding = overwrite_default != basic_overwrite_default
-                                         || attributes.input_events != basic_attributes.input_events;
+                bool overwrite_default;
+                const action_attributes &attributes = inp_mngr.get_action_attributes( action_id, ctxt->category,
+                                                      &overwrite_default );
+                bool basic_overwrite_default;
+                const action_attributes &basic_attributes = inp_mngr.get_action_attributes( action_id,
+                        ctxt->category, &basic_overwrite_default, true );
+                bool customized_keybinding = overwrite_default != basic_overwrite_default
+                                             || attributes.input_events != basic_attributes.input_events;
 
-            ImGui::TableNextColumn();
-            ImGui::Text( " " );
-            ImGui::SameLine( 0, 0 );
-            char invlet = ' ';
-            //if( i < hotkeys.size() ) {
-            //    invlet = hotkeys[i];
-            if( ImGui::IsItemVisible() ) {
-                if( scroll_offset == SIZE_MAX ) {
-                    scroll_offset = i;
+                ImGui::TableSetColumnIndex( 1 );
+                if( customized_keybinding ) {
+                    ImGui::TextUnformatted( "*" );
                 }
-                if( i >= scroll_offset && ( i - scroll_offset ) < hotkeys.size() ) {
-                    invlet = hotkeys[i - scroll_offset];
+
+                ImGui::TableSetColumnIndex( 2 );
+                nc_color col;
+                if( attributes.input_events.empty() ) {
+                    col = i == highlight_row_index ? h_unbound_key : unbound_key;
+                } else if( overwrite_default ) {
+                    col = i == highlight_row_index ? h_local_key : local_key;
+                } else {
+                    col = i == highlight_row_index ? h_global_key : global_key;
                 }
+                bool is_selected = false;
+                bool is_hovered = false;
+                cataimgui::draw_colored_text( ctxt->get_action_name( action_id ),
+                                              col, 0.0f,
+                                              status == kb_menu_status::show ? nullptr : &is_selected,
+                                              nullptr, &is_hovered );
+
+                ImGui::TableSetColumnIndex( 3 );
+                ImGui::Text( "%s", ctxt->get_desc( action_id ).c_str() );
+
+                // handle the first column last because
+                // ImGui::IsItemVisble() tells you the status of the most
+                // recent item, not the item you’re about to create. If we
+                // did this column first, then when we call it for the
+                // first row it would tell us that the headers were
+                // hidden, which is not what we want to know.
+                ImGui::TableSetColumnIndex( 0 );
+                char invlet = ' ';
+                if( ImGui::IsItemVisible() ) {
+                    if( scroll_offset == INT_MAX ) {
+                        scroll_offset = i;
+                    }
+                    if( i >= scroll_offset && size_t( i - scroll_offset ) < hotkeys.size() ) {
+                        invlet = hotkeys[i - scroll_offset];
+                    }
+                }
+                if( ( status == kb_menu_status::add_global && overwrite_default )
+                    || ( status == kb_menu_status::reset && !customized_keybinding )
+                  ) {
+                    // We're trying to add a global, but this action has a local
+                    // defined, so gray out the invlet.
+                    ImGui::TextColored( c_dark_gray, "%c", invlet );
+                } else if( status == kb_menu_status::add || status == kb_menu_status::add_global ||
+                           status == kb_menu_status::remove || status == kb_menu_status::reset ) {
+                    ImGui::TextColored( c_light_blue, "%c", invlet );
+                } else if( status == kb_menu_status::execute ) {
+                    ImGui::TextColored( c_white, "%c", invlet );
+                }
+
+                if( ( is_selected || is_hovered ) && invlet != ' ' ) {
+                    highlight_row_index = i;
+                }
+                ImGui::PopID();
             }
-            std::string key_text;
-            if( ( status == kb_menu_status::add_global && overwrite_default )
-                || ( status == kb_menu_status::reset && !customized_keybinding )
-              ) {
-                // We're trying to add a global, but this action has a local
-                // defined, so gray out the invlet.
-                key_text = colorize( string_format( "%c", invlet ), c_dark_gray );
-            } else if( status == kb_menu_status::add || status == kb_menu_status::add_global ||
-                       status == kb_menu_status::remove || status == kb_menu_status::reset ) {
-                key_text = colorize( string_format( "%c", invlet ), c_light_blue );
-            } else if( status == kb_menu_status::execute ) {
-                key_text = colorize( string_format( "%c", invlet ), c_white );
-            } else {
-                key_text = " ";
-            }
-            nc_color col;
-            if( attributes.input_events.empty() ) {
-                col = i == size_t( highlight_row_index ) ? h_unbound_key : unbound_key;
-            } else if( overwrite_default ) {
-                col = i == size_t( highlight_row_index ) ? h_local_key : local_key;
-            } else {
-                col = i == size_t( highlight_row_index ) ? h_global_key : global_key;
-            }
-            if( customized_keybinding ) {
-                key_text += "*";
-            } else {
-                key_text += " ";
-            }
-            key_text += string_format( "%s:", ctxt->get_action_name( action_id ) );
-            bool is_selected = false;
-            bool is_hovered = false;
-            cataimgui::draw_colored_text( key_text, col, 0.0f,
-                                          status == kb_menu_status::show ? nullptr : &is_selected,
-                                          nullptr, &is_hovered );
-            if( ( is_selected || is_hovered ) && invlet != ' ' ) {
-                highlight_row_index = i;
-            }
-            //ImGui::SameLine();
-            //ImGui::SetCursorPosX(str_width_to_pixels(TERMX >= 100 ? 62 : 52));
-            ImGui::TableNextColumn();
-            ImGui::Text( "%s", ctxt->get_desc( action_id ).c_str() );
         }
         ImGui::EndTable();
     }
     last_status = status;
-
-    // spopup.query_string() will call wnoutrefresh( w_help )
-    //spopup.text(filter_phrase);
-    //spopup.query_string(false, true);
-    // Record cursor immediately after spopup drawing
-    //ui.record_term_cursor();
 }
 
 void keybindings_ui::init()
@@ -1187,6 +1172,17 @@ std::optional<tripoint_bub_ms> input_context::get_coordinates( const catacurses:
 }
 #endif
 
+std::optional<tripoint_rel_omt> input_context::get_coordinates_rel_omt( const catacurses::window
+        &capture_win, const point &offset, const bool center_cursor ) const
+{
+    // Sometimes off by one with tiles but I think that's due to the centre changing with zoom level + tileset size so I don't think it can be easily fixed here
+    const std::optional<tripoint_bub_ms> p = get_coordinates( capture_win, offset, center_cursor );
+    if( p ) {
+        return tripoint_rel_omt( p->raw() );
+    }
+    return std::nullopt;
+}
+
 std::optional<point> input_context::get_coordinates_text( const catacurses::window
         &capture_win ) const
 {
@@ -1290,7 +1286,7 @@ void input_context::set_iso( bool mode )
 }
 
 std::vector<std::string> input_context::filter_strings_by_phrase(
-    const std::vector<std::string> &strings, const std::string_view phrase ) const
+    const std::vector<std::string> &strings, std::string_view phrase ) const
 {
     std::vector<std::string> filtered_strings;
 

@@ -1,11 +1,11 @@
 #include <algorithm>
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <list>
 #include <map>
 #include <memory>
 #include <optional>
-#include <set>
 #include <string>
 #include <utility>
 #include <vector>
@@ -29,8 +29,7 @@
 #include "item.h"
 #include "item_location.h"
 #include "localized_comparator.h"
-#include "make_static.h"
-#include "npc.h"
+#include "map.h"
 #include "options.h"
 #include "output.h"
 #include "pimpl.h"
@@ -39,8 +38,8 @@
 #include "translation.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui.h"
 #include "ui_manager.h"
+#include "uilist.h"
 #include "uistate.h"
 #include "units.h"
 #include "vehicle.h"
@@ -48,6 +47,8 @@
 static const itype_id itype_battery( "battery" );
 
 static const json_character_flag json_flag_BIONIC_GUN( "BIONIC_GUN" );
+static const json_character_flag json_flag_BIONIC_POWER_SOURCE( "BIONIC_POWER_SOURCE" );
+static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 
 // '!', '-' and '=' are uses as default bindings in the menu
 static const invlet_wrapper
@@ -212,6 +213,8 @@ char get_free_invlet( Character &p )
 static void draw_bionics_titlebar( const catacurses::window &window, avatar *p,
                                    bionic_menu_mode mode )
 {
+    map &here = get_map();
+
     input_context ctxt( "BIONICS", keyboard_mode::keychar );
 
     werase( window );
@@ -221,7 +224,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, avatar *p,
     for( const bionic &bio : *p->my_bionics ) {
         for( const item *fuel_source : p->get_bionic_fuels( bio.id ) ) {
             const item *fuel;
-            if( fuel_source->ammo_remaining() ) {
+            if( fuel_source->ammo_remaining( ) ) {
                 fuel = &fuel_source->first_ammo();
             } else {
                 fuel = *fuel_source->all_items_top().begin();
@@ -236,7 +239,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, avatar *p,
         fuel_string += fuel->tname() + ": " + colorize( std::to_string( fuel->charges ), c_green ) + " ";
     }
     for( vehicle *veh : p->get_cable_vehicle() ) {
-        int64_t charges = veh->connected_battery_power_level().first;
+        int64_t charges = veh->connected_battery_power_level( here ).first;
         if( charges > 0 ) {
             found_fuel = true;
             fuel_string += item( itype_battery ).tname() + ": " + colorize( std::to_string( charges ),
@@ -335,7 +338,7 @@ static std::string build_bionic_poweronly_string( const bionic &bio, avatar *p )
                               : string_format( _( "%s/%d turns" ), units::display( bio_data.power_over_time ),
                                                to_turns<int>( bio_data.charge_time ) ) );
     }
-    if( bio_data.has_flag( STATIC( json_character_flag( "BIONIC_TOGGLED" ) ) ) ) {
+    if( bio_data.has_flag( json_flag_BIONIC_TOGGLED ) ) {
         properties.emplace_back( bio.powered ? _( "ON" ) : _( "OFF" ) );
     }
     if( bio.incapacitated_time > 0_turns ) {
@@ -529,7 +532,7 @@ static void draw_connectors( const catacurses::window &win, const point &start,
 static nc_color get_bionic_text_color( const bionic &bio, const bool isHighlightedBionic )
 {
     nc_color type = c_white;
-    bool is_power_source = bio.id->has_flag( STATIC( json_character_flag( "BIONIC_POWER_SOURCE" ) ) );
+    bool is_power_source = bio.id->has_flag( json_flag_BIONIC_POWER_SOURCE );
     if( bio.id->activated ) {
         if( isHighlightedBionic ) {
             if( bio.powered && !is_power_source ) {
@@ -572,6 +575,9 @@ static nc_color get_bionic_text_color( const bionic &bio, const bool isHighlight
 
 void avatar::power_bionics()
 {
+    // Required because available power includes electricity via cables.
+    const map &here = get_map();
+
     sorted_bionics passive = filtered_bionics( *my_bionics, TAB_PASSIVE );
     sorted_bionics active = filtered_bionics( *my_bionics, TAB_ACTIVE );
     bionic *bio_last = nullptr;
@@ -988,7 +994,7 @@ void avatar::power_bionics()
                             } else {
                                 activate_bionic( bio, false, &close_ui );
                                 // Exit this ui if we are firing a complex bionic
-                                if( close_ui && tmp->get_weapon().shots_remaining( this ) > 0 ) {
+                                if( close_ui && tmp->get_weapon().shots_remaining( here, this ) > 0 ) {
                                     break;
                                 }
                             }

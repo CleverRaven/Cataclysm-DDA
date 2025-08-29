@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_apt_2" ],
     "object": {
       "fill_ter": "t_floor",
@@ -74,7 +73,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_apt_2_2ndfloor" ],
     "object": {
       "fill_ter": "t_floor",
@@ -137,7 +135,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_apt_2_roof" ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -173,7 +170,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_apt_2_upper_roof" ],
     "object": {
       "fill_ter": "t_flat_roof",

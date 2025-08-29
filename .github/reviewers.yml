@@ -2,6 +2,9 @@ files:
   'data/mods/Aftershock/**':
     - Maleclypse
     - John-Candlebury
+  'data/mods/aftershock_exoplanet/**':
+    - Maleclypse
+    - John-Candlebury
   'data/mods/Backrooms/**':
     - onura46
   'data/mods/DinoMod/**':
@@ -20,8 +23,6 @@ files:
     - Fris0uman
   'data/mods/ruralbiome/**':
     - I-am-Erk
-  'data/mods/speedydex/**':
-    - KorGgenT
   'data/mods/stats_through_kills/**':
     - KorGgenT
   'data/mods/Xedra_Evolved/**':
@@ -32,17 +33,22 @@ files:
     - Light-Wave
   'data/mods/MA/**':
     - ZhilkinSerg
-  'data/mods/No_Hope/**':
-    - Night-Pryanik
   'data/mods/Tamable_Wildlife/**':
     - Termineitor244
   'data/mods/Limb_WIP/**':
     - Venera3
+  'data/mods/alt_map_key/**':
+    - thaelina
+  'data/json/overmap/overmap_terrain/**':
+    - thaelina
   'tools/json_tools/gun_variant_validator.py':
     - anothersimulacrum
-  'data/changelog.txt':
-    - Procyonae
-
+  '.github/workflows/iwyu.yml':
+    - moxian
+  'build-scripts/ci-iwyu-run.py':
+    - moxian
+  'tools/iwyu/bad_files.txt':
+    - moxian
   '**/.clang-tidy':
     - jbytheway
   '**/magic*.cpp':

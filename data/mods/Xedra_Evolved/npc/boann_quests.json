@@ -105,13 +105,7 @@
     "monster_type": "mon_mi_go_guard",
     "monster_kill_goal": 5,
     "start": {
-      "assign_mission_target": {
-        "om_terrain": "mi-go_camp1",
-        "om_special": "Mi-Go Encampment",
-        "reveal_radius": 3,
-        "cant_see": true,
-        "search_range": 200
-      }
+      "assign_mission_target": { "om_terrain": "mi-go_camp1", "om_special": "Mi-Go Encampment", "reveal_radius": 3, "cant_see": true }
     },
     "end": {
       "opinion": { "trust": 2, "value": 2 },
@@ -199,13 +193,7 @@
     "value": 0,
     "item": "triffid_heart_chunk",
     "start": {
-      "assign_mission_target": {
-        "om_terrain": "triffid_grove",
-        "om_special": "Triffid Grove",
-        "reveal_radius": 3,
-        "cant_see": true,
-        "search_range": 580
-      }
+      "assign_mission_target": { "om_terrain": "triffid_grove", "om_special": "Triffid Grove", "reveal_radius": 3, "cant_see": true }
     },
     "end": { "opinion": { "trust": 2, "value": 2 } },
     "has_generic_rewards": false,

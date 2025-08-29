@@ -1,5 +1,14 @@
 [
   {
+    "id": "xe_vampire_blood_powers",
+    "type": "magic_type",
+    "energy_source": { "type": "VITAMIN", "vitamin": "human_blood_vitamin", "color": "c_red" },
+    "cannot_cast_flags": [ "NO_VAMPIRE_BLOOD_POWERS" ],
+    "cannot_cast_message": "Your blood will not respond to you!",
+    "failure_cost_percent": 0.75,
+    "max_book_level": 0
+  },
+  {
     "type": "enchantment",
     "id": "ench_vampire_heightened_senses_hearing",
     "condition": "ALWAYS",
@@ -17,7 +26,11 @@
     "values": [
       {
         "value": "PERCEPTION",
-        "multiply": { "math": [ "1 + (u_has_trait('VAMPIRE2') * 1) + (u_has_trait('VAMPIRE3') * 2)" ] }
+        "add": {
+          "math": [
+            "1 + (vampire_total_tier_one_traits() * 0.20) + (vampire_total_tier_two_traits() * 0.3) + (vampire_total_tier_three_traits() * 0.45) + (vampire_total_tier_four_traits_plus_potence() * 0.6)"
+          ]
+        }
       }
     ]
   },
@@ -28,47 +41,117 @@
     "description": "You can smell even the faintest traces of living human, or nearly-human, blood.",
     "message": "",
     "teachable": false,
+    "magic_type": "xe_vampire_blood_powers",
     "effect": "effect_on_condition",
     "effect_str": "EOC_VAMPIRE_SCENT_BLOOD_activated",
     "shape": "blast",
     "valid_targets": [ "self" ],
     "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
     "skill": "deduction",
-    "spell_class": "VAMPIRE",
+    "spell_class": "VAMPIRE_BLOOD_ARTS",
+    "base_energy_cost": 0,
     "base_casting_time": 25,
     "difficulty": 1
+  },
+  {
+    "id": "vampire_drink_blood_with_fangs_spell",
+    "type": "SPELL",
+    "name": "Drink Blood",
+    "description": "Your fangs allow you to drink blood from an incapacitated or sleeping target.",
+    "message": "",
+    "teachable": false,
+    "magic_type": "xe_vampire_blood_powers",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VAMPIRE_DRINK_BLOOD_WITH_FANGS_activated",
+    "shape": "blast",
+    "valid_targets": [ "ally", "hostile" ],
+    "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
+    "skill": "deduction",
+    "spell_class": "VAMPIRE_BLOOD_ARTS",
+    "base_casting_time": 0,
+    "difficulty": 1,
+    "min_range": 1
   },
   {
     "id": "vampire_stamina_for_blood_spell",
     "type": "SPELL",
     "name": "Unholy Endurance",
-    "description": "You focus on sending the blood in your veins to where it can do the most good for your immediate stamina.",
+    "description": "You focus on sending the blood in your veins to where it can do the most good for your immediate stamina.\n\nYou must have <color_yellow>greater</color> than <color_red>-500</color> Stolen Blood to use this blood art.",
+    "message": "Your veins pulse as your body pushes some of your blood reserves to exhaustion and early dissolution.",
+    "teachable": false,
+    "magic_type": "xe_vampire_blood_powers",
+    "effect": "recover_energy",
+    "effect_str": "STAMINA",
+    "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
+    "condition_fail_message": "You do not have enough stolen blood.",
+    "shape": "blast",
+    "valid_targets": [ "self" ],
+    "min_damage": {
+      "math": [
+        "min((1500 + (vampire_total_tier_one_traits_plus_potency() * 200) + (vampire_total_tier_two_traits() * 450) + (vampire_total_tier_three_traits() * 900) + (vampire_total_tier_four_traits_plus_potence() * 1500) + (vampire_total_tier_five_traits_plus_cauldron() * 2000)), 15000) * 0.75"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "min((1500 + (vampire_total_tier_one_traits_plus_potency() * 200) + (vampire_total_tier_two_traits() * 450) + (vampire_total_tier_three_traits() * 900) + (vampire_total_tier_four_traits_plus_potence() * 1500) + (vampire_total_tier_five_traits_plus_cauldron() * 2000)), 15000) * 1.25"
+      ]
+    },
+    "flags": [ "NO_HANDS", "SILENT", "NO_FAIL", "RANDOM_DAMAGE" ],
+    "skill": "deduction",
+    "spell_class": "VAMPIRE_BLOOD_ARTS",
+    "base_energy_cost": 100,
+    "base_casting_time": 100,
+    "difficulty": 5
+  },
+  {
+    "id": "vampire_commune_with_night_spell",
+    "type": "SPELL",
+    "name": "Learn from the Children of the Night",
+    "description": "Speak to nearby night-creatures; rats, bats, wolves, and so on.  They will tell you the layout of your surrounding area.\n\nYou must have <color_yellow>greater</color> than <color_red>-500</color> Stolen Blood to use this blood art.  It only works <color_yellow>outside at night</color>.",
     "message": "",
     "teachable": false,
+    "magic_type": "xe_vampire_blood_powers",
     "effect": "effect_on_condition",
-    "effect_str": "EOC_STAMINAFORBLOOD_activated",
+    "effect_str": "EOC_COMMUNE_NIGHT_MAP",
+    "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
+    "condition_fail_message": "You do not have enough stolen blood.",
     "shape": "blast",
     "valid_targets": [ "self" ],
     "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
     "skill": "deduction",
-    "spell_class": "VAMPIRE",
-    "base_casting_time": 100,
+    "spell_class": "VAMPIRE_BLOOD_ARTS",
+    "base_energy_cost": 100,
+    "base_casting_time": 12000,
     "difficulty": 5
   },
   {
     "id": "vampire_magic_for_blood_spell",
     "type": "SPELL",
     "name": "Blood-Fueled Magic",
-    "description": "You consume some of the blood in your veins, turning it into magical power.",
-    "message": "",
+    "description": "You consume some of the blood in your veins, turning it into magical power.\n\nYou must have <color_yellow>greater</color> than <color_red>-500</color> Stolen Blood to use this blood art.",
+    "message": "Your veins pulse as your body pushes some of your blood reserves to exhaustion and early dissolution.",
     "teachable": false,
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_MAGICFORBLOOD_activated",
+    "magic_type": "xe_vampire_blood_powers",
+    "effect": "recover_energy",
+    "effect_str": "MANA",
+    "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
+    "condition_fail_message": "You do not have enough stolen blood.",
     "shape": "blast",
     "valid_targets": [ "self" ],
-    "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
+    "min_damage": {
+      "math": [
+        "min((150 + (vampire_total_tier_one_traits_plus_potency() * 20) + (vampire_total_tier_two_traits() * 45) + (vampire_total_tier_three_traits() * 90) + (vampire_total_tier_four_traits_plus_potence() * 150) + (vampire_total_tier_five_traits_plus_cauldron() * 200)), 1500) * 0.75"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "min((150 + (vampire_total_tier_one_traits_plus_potency() * 20) + (vampire_total_tier_two_traits() * 45) + (vampire_total_tier_three_traits() * 90) + (vampire_total_tier_four_traits_plus_potence() * 150) + (vampire_total_tier_five_traits_plus_cauldron() * 200)), 1500) * 1.25"
+      ]
+    },
+    "flags": [ "NO_HANDS", "SILENT", "NO_FAIL", "RANDOM_DAMAGE" ],
     "skill": "deduction",
-    "spell_class": "VAMPIRE",
+    "spell_class": "VAMPIRE_BLOOD_ARTS",
+    "base_energy_cost": 200,
     "base_casting_time": 100,
     "difficulty": 5
   },
@@ -76,33 +159,40 @@
     "id": "spell_blood_heal",
     "type": "SPELL",
     "name": "Sanguine Restoration",
-    "description": "Heal your wounds with the power of stolen blood.",
-    "message": "",
+    "description": "Heal your wounds with the power of stolen blood.\n\nYou must have <color_yellow>greater</color> than <color_red>-500</color> Stolen Blood to use this blood art.",
+    "message": "Blood suffuses your flesh, repairing any damage it comes across.",
     "teachable": false,
+    "magic_type": "xe_vampire_blood_powers",
     "valid_targets": [ "self" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_BLOODHEAL_activated",
+    "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
+    "condition_fail_message": "You do not have enough stolen blood.",
     "shape": "blast",
-    "base_casting_time": 20,
     "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
     "skill": "deduction",
-    "spell_class": "VAMPIRE",
+    "spell_class": "VAMPIRE_BLOOD_ARTS",
+    "base_energy_cost": 750,
+    "base_casting_time": 20,
     "difficulty": 2
   },
   {
     "id": "vampire_fear_gaze_spell",
     "type": "SPELL",
     "name": { "str": "Predator's Mien" },
-    "description": "With a bit of stolen blood and a savage expression, you can send your enemies fleeing.  This power only works on enemies capable of feeling fear.",
+    "description": "With a bit of stolen blood and a savage expression, you can send your enemies fleeing.  This power only works on enemies capable of feeling fear.\n\nYou must have <color_yellow>greater</color> than <color_red>-500</color> Stolen Blood to use this blood art.",
     "message": "",
     "teachable": false,
+    "magic_type": "xe_vampire_blood_powers",
     "effect": "effect_on_condition",
     "effect_str": "EOC_VAMPIRE_FEAR_GAZE_activated",
+    "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
+    "condition_fail_message": "You do not have enough stolen blood.",
     "shape": "blast",
     "valid_targets": [ "ally", "hostile" ],
     "flags": [ "NO_HANDS", "SILENT", "NO_FAIL", "NO_PROJECTILE" ],
     "skill": "deduction",
-    "spell_class": "VAMPIRE",
+    "spell_class": "VAMPIRE_BLOOD_ARTS",
     "min_range": {
       "math": [
         "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits() * 0.75)), 12)"
@@ -113,24 +203,28 @@
         "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits() * 0.75)), 12)"
       ]
     },
+    "base_energy_cost": 150,
+    "base_casting_time": 25,
     "ignored_monster_species": [ "ZOMBIE", "ROBOT", "ROBOT_FLYING", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME" ]
   },
   {
     "id": "spell_hypnotic_gaze",
     "type": "SPELL",
     "name": "Hypnotic Gaze",
-    "description": "Stare into the eyes of your victim and wills them to pause.  This power does not work on unliving targets.",
+    "description": "Stare into the eyes of your victim and will them to pause.  This power does not work on unliving targets.\n\nYou must have <color_yellow>greater</color> than <color_red>-500</color> Stolen Blood to use this blood art.",
     "message": "",
     "teachable": false,
+    "magic_type": "xe_vampire_blood_powers",
     "skill": "deduction",
-    "spell_class": "VAMPIRE",
+    "spell_class": "VAMPIRE_BLOOD_ARTS",
     "valid_targets": [ "ally", "hostile" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_HYPNOTIC_GAZE_activated",
+    "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
+    "condition_fail_message": "You do not have enough stolen blood.",
     "shape": "blast",
     "flags": [ "NO_HANDS", "SILENT", "NO_FAIL", "NO_PROJECTILE" ],
     "difficulty": 3,
-    "base_casting_time": 100,
     "min_range": {
       "math": [
         "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits() * 0.75)), 12)"
@@ -141,24 +235,47 @@
         "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits() * 0.75)), 12)"
       ]
     },
+    "base_energy_cost": 150,
+    "base_casting_time": 100,
     "ignored_monster_species": [ "ZOMBIE", "ROBOT", "ROBOT_FLYING", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME" ]
   },
   {
     "id": "vampire_command_beast_spell",
     "type": "SPELL",
     "name": "Cowing the Beast",
-    "description": "Exert command over a predatory wild animal like a wolf or a rat, making it your ally for a time.",
+    "description": "Exert command over a predatory wild animal like a wolf or a rat, making it your ally for a time.\n\nYou must have <color_yellow>greater</color> than <color_red>-500</color> Stolen Blood to use this blood art.",
     "message": "",
     "teachable": false,
+    "magic_type": "xe_vampire_blood_powers",
     "valid_targets": [ "hostile" ],
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_VAMPIRE_COMMAND_BEAST_activated",
+    "effect": "charm_monster",
+    "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
+    "condition_fail_message": "You do not have enough stolen blood.",
     "shape": "blast",
-    "base_casting_time": 75,
-    "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
+    "flags": [ "NO_HANDS", "SILENT", "NO_FAIL", "RECHARM", "RANDOM_DAMAGE", "RANDOM_DURATION" ],
     "skill": "deduction",
-    "spell_class": "VAMPIRE",
+    "spell_class": "VAMPIRE_BLOOD_ARTS",
     "difficulty": 7,
+    "min_damage": {
+      "math": [
+        "(50 + (vampire_total_tier_one_traits()  * 5) + (vampire_total_tier_two_traits() * 12) + (vampire_total_tier_three_traits() * 20) + (vampire_total_tier_three_traits() * 35))* 0.75"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "(50 + (vampire_total_tier_one_traits()  * 5) + (vampire_total_tier_two_traits() * 12) + (vampire_total_tier_three_traits() * 20) + (vampire_total_tier_three_traits() * 35)) * 1.25"
+      ]
+    },
+    "min_duration": {
+      "math": [
+        "(6000 + (vampire_total_tier_one_traits()  * 1000) + (vampire_total_tier_two_traits() * 1800) + (vampire_total_tier_three_traits() * 2700) + (vampire_total_tier_three_traits() * 4500)) * 0.75"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "(6000 + (vampire_total_tier_one_traits()  * 1000) + (vampire_total_tier_two_traits() * 1800) + (vampire_total_tier_three_traits() * 2700) + (vampire_total_tier_three_traits() * 4500)) * 1.25"
+      ]
+    },
     "min_range": {
       "math": [
         "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits() * 0.75)), 12)"
@@ -169,62 +286,9 @@
         "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits() * 0.75)), 12)"
       ]
     },
-    "targeted_monster_ids": [
-      "mon_wolf",
-      "mon_wolf_pup",
-      "mon_coyote",
-      "mon_coyote_mutant_shark",
-      "mon_coyote_mutant_venom",
-      "mon_bear",
-      "mon_bear_cub",
-      "mon_bear_mutant_3headed",
-      "mon_big_rat",
-      "mon_pack_rat",
-      "mon_sewer_rat",
-      "mon_black_ratkin",
-      "mon_black_rat",
-      "mon_bat",
-      "xe_mon_bat",
-      "mon_vampire_bat",
-      "mon_bat_giant"
-    ]
-  },
-  {
-    "id": "vampire_command_beast_spell_real",
-    "type": "SPELL",
-    "name": { "str": "Cowing the Beast Real", "//~": "NO_I18N" },
-    "description": { "str": "The actual power that lets you command a beast.  If you see this, it's a bug.", "//~": "NO_I18N" },
-    "message": "",
-    "teachable": false,
-    "valid_targets": [ "hostile" ],
-    "effect": "charm_monster",
-    "shape": "blast",
-    "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
-    "spell_class": "VAMPIRE",
-    "difficulty": 7,
-    "max_level": 1,
-    "min_range": 60,
-    "max_range": 60,
-    "min_damage": {
-      "math": [
-        "rng (0.75,1.25) * (50 + (vampire_total_tier_one_traits()  * 5) + (vampire_total_tier_two_traits() * 12) + (vampire_total_tier_three_traits() * 20) + (vampire_total_tier_three_traits() * 35))"
-      ]
-    },
-    "max_damage": {
-      "math": [
-        "rng (0.75,1.25) * (50 + (vampire_total_tier_one_traits()  * 5) + (vampire_total_tier_two_traits() * 12) + (vampire_total_tier_three_traits() * 20) + (vampire_total_tier_three_traits() * 35))"
-      ]
-    },
-    "min_duration": {
-      "math": [
-        "rng (0.75,1.25) * (6000 + (vampire_total_tier_one_traits()  * 1000) + (vampire_total_tier_two_traits() * 1800) + (vampire_total_tier_three_traits() * 2700) + (vampire_total_tier_three_traits() * 4500))"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "rng (0.75,1.25) * (6000 + (vampire_total_tier_one_traits()  * 1000) + (vampire_total_tier_two_traits() * 1800) + (vampire_total_tier_three_traits() * 2700) + (vampire_total_tier_three_traits() * 4500))"
-      ]
-    }
+    "base_energy_cost": 500,
+    "base_casting_time": 75,
+    "targeted_monster_species": [ "NIGHT_CREATURE" ]
   },
   {
     "id": "vampire_earth_slumber_spell",
@@ -233,14 +297,16 @@
     "description": "You can sleep within the earth itself, avoiding the hateful light of the sun.  This power must be used on diggable soil.",
     "message": "",
     "teachable": false,
+    "magic_type": "xe_vampire_blood_powers",
     "valid_targets": [ "self" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_VAMPIRE_EARTH_SLUMBER_activated",
     "shape": "blast",
-    "base_casting_time": 150,
     "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
     "skill": "deduction",
-    "spell_class": "VAMPIRE",
+    "spell_class": "VAMPIRE_BLOOD_ARTS",
+    "base_energy_cost": 0,
+    "base_casting_time": 150,
     "difficulty": 2
   },
   {
@@ -250,13 +316,15 @@
     "description": "Enter a deathlike slumber and recover from your wounds and fatigue.  Preferably while somewhere nobody could attack you while you sleep.",
     "message": "You enter torpor.",
     "teachable": false,
+    "magic_type": "xe_vampire_blood_powers",
     "valid_targets": [ "self" ],
     "skill": "deduction",
-    "spell_class": "VAMPIRE",
+    "spell_class": "VAMPIRE_BLOOD_ARTS",
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_VAMPIRE_TORPOR_activated",
     "shape": "blast",
+    "base_energy_cost": 0,
     "base_casting_time": 100,
     "difficulty": 2
   },
@@ -264,18 +332,39 @@
     "id": "vampire_dominate",
     "type": "SPELL",
     "name": "Dominating Gaze",
-    "description": "Take control of a mind.  Only works on targets that have weak minds.",
-    "message": "You look for a mind to control.",
+    "description": "Take control of a mind.  Only works on targets that have weak minds.\n\nYou must have <color_yellow>greater</color> than <color_red>-500</color> Stolen Blood to use this blood art.",
+    "message": "You focus your gaze on your target's mind, attempting to take control of it.",
     "teachable": false,
+    "magic_type": "xe_vampire_blood_powers",
     "valid_targets": [ "hostile" ],
     "skill": "deduction",
-    "spell_class": "VAMPIRE",
-    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL" ],
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_VAMPIRE_DOMINATE_activated",
+    "spell_class": "VAMPIRE_BLOOD_ARTS",
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL", "RANDOM_DURATION" ],
+    "effect": "charm_monster",
+    "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
+    "condition_fail_message": "You do not have enough stolen blood.",
     "shape": "blast",
-    "base_casting_time": 100,
     "difficulty": 8,
+    "min_damage": {
+      "math": [
+        "(20 + (vampire_total_tier_one_traits()  * 4) + (vampire_total_tier_two_traits() * 10) + (vampire_total_tier_three_traits() * 16) + (vampire_total_tier_four_traits() * 30)) * 0.75"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "(20 + (vampire_total_tier_one_traits()  * 4) + (vampire_total_tier_two_traits() * 10) + (vampire_total_tier_three_traits() * 16) + (vampire_total_tier_four_traits() * 30)) * 1.25"
+      ]
+    },
+    "min_duration": {
+      "math": [
+        "(2500 + (vampire_total_tier_one_traits()  * 400) + (vampire_total_tier_two_traits() * 800) + (vampire_total_tier_three_traits() * 1150) + (vampire_total_tier_four_traits() * 2050)) * 0.75"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "(2500 + (vampire_total_tier_one_traits()  * 400) + (vampire_total_tier_two_traits() * 800) + (vampire_total_tier_three_traits() * 1150) + (vampire_total_tier_four_traits() * 2050)) * 1.25"
+      ]
+    },
     "min_range": {
       "math": [
         "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits() * 0.75)), 12)"
@@ -286,45 +375,8 @@
         "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits() * 0.75)), 12)"
       ]
     },
-    "targeted_monster_species": [ "HUMAN", "FERAL", "CYBORG" ]
-  },
-  {
-    "id": "vampire_dominate_real",
-    "type": "SPELL",
-    "name": { "str": "Dominating Gaze real", "//~": "NO_I18N" },
-    "description": { "str": "The actual power that lets you take over a mind.  If you see this, it's a bug.", "//~": "NO_I18N" },
-    "message": "",
-    "teachable": false,
-    "valid_targets": [ "hostile" ],
-    "effect": "charm_monster",
-    "shape": "blast",
-    "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
-    "spell_class": "VAMPIRE",
-    "skill": "deduction",
-    "difficulty": 8,
-    "max_level": 1,
-    "min_range": 60,
-    "max_range": 60,
-    "min_damage": {
-      "math": [
-        "rng (0.75,1.25) * (20 + (vampire_total_tier_one_traits()  * 4) + (vampire_total_tier_two_traits() * 10) + (vampire_total_tier_three_traits() * 16) + (vampire_total_tier_four_traits() * 30))"
-      ]
-    },
-    "max_damage": {
-      "math": [
-        "rng (0.75,1.25) * (20 + (vampire_total_tier_one_traits()  * 4) + (vampire_total_tier_two_traits() * 10) + (vampire_total_tier_three_traits() * 16) + (vampire_total_tier_four_traits() * 30))"
-      ]
-    },
-    "min_duration": {
-      "math": [
-        "rng (0.75,1.25) * (2500 + (vampire_total_tier_one_traits()  * 400) + (vampire_total_tier_two_traits() * 800) + (vampire_total_tier_three_traits() * 1150) + (vampire_total_tier_four_traits() * 2050))"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "rng (0.75,1.25) * (2500 + (vampire_total_tier_one_traits()  * 400) + (vampire_total_tier_two_traits() * 800) + (vampire_total_tier_three_traits() * 1150) + (vampire_total_tier_four_traits() * 2050))"
-      ]
-    },
+    "base_energy_cost": 700,
+    "base_casting_time": 100,
     "targeted_monster_species": [ "HUMAN", "FERAL", "CYBORG" ]
   },
   {
@@ -334,29 +386,74 @@
     "description": "Seep through a door or a window.",
     "message": "",
     "teachable": false,
+    "magic_type": "xe_vampire_blood_powers",
     "valid_targets": [ "self" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_VAMPIRE_MIST_FORM_SEEP_THROUGH_DOOR_WINDOW",
     "shape": "blast",
     "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
-    "spell_class": "VAMPIRE",
+    "spell_class": "VAMPIRE_BLOOD_ARTS",
     "skill": "deduction",
     "base_casting_time": 500
   },
   {
-    "id": "vampire_mist_form_pass_through_doors_and_windows_teleport",
+    "id": "vampire_summon_blood_container",
     "type": "SPELL",
-    "name": { "str": "(Mist Form) Pass Through Barrier Real", "//~": "NO_I18N" },
-    "description": { "str": "The actual spell that lets you seep through a barrier.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "name": "Vintner's Vessel",
+    "description": "Create a magical sphere that will contain any blood you will put in it until the power ends.\n\nYou must have <color_yellow>greater</color> than <color_red>-500</color> Stolen Blood to use this blood art.",
+    "message": "You spin a crimson sphere out of blood to store blood.  Like calls to like.",
+    "teachable": false,
+    "magic_type": "xe_vampire_blood_powers",
+    "valid_targets": [ "self" ],
+    "effect": "spawn_item",
+    "effect_str": "vampire_blood_ball",
+    "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
+    "condition_fail_message": "You do not have enough stolen blood.",
+    "shape": "blast",
+    "base_casting_time": 75,
+    "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
+    "skill": "deduction",
+    "spell_class": "VAMPIRE_BLOOD_ARTS",
+    "difficulty": 0,
+    "min_duration": 16640000,
+    "base_energy_cost": 150
+  },
+  {
+    "id": "vampire_invisible_in_dark",
+    "type": "SPELL",
+    "name": "Shrouded by the Shadowed Path.",
+    "description": "Surround yourself in shadows, becoming invisible for a while.  This power <color_yellow>will fail</color> if you stand outside under the sun.\n\nYou must have <color_yellow>greater</color> than <color_red>-500</color> Stolen Blood to use this blood art.",
+    "message": "You gather as many shadows as you can.",
+    "teachable": false,
+    "magic_type": "xe_vampire_blood_powers",
+    "valid_targets": [ "self" ],
+    "skill": "deduction",
+    "spell_class": "VAMPIRE_BLOOD_ARTS",
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VAMPIRE_INVISIBLE_IN_DARK",
+    "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
+    "condition_fail_message": "You do not have enough stolen blood.",
+    "shape": "blast",
+    "base_energy_cost": 300,
+    "base_casting_time": 50,
+    "difficulty": 5
+  },
+  {
+    "id": "mentor_vanish",
+    "type": "SPELL",
+    "name": { "str": "Vanish in mist.", "//~": "NO_I18N" },
+    "description": { "str": "Vanish in mist and stay away until things are better.  This will likely be forever.", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
-    "valid_targets": [ "ground" ],
-    "spell_class": "VAMPIRE",
+    "magic_type": "xe_vampire_blood_powers",
+    "valid_targets": [ "self" ],
     "skill": "deduction",
-    "flags": [ "NO_HANDS", "NO_LEGS", "TARGET_TELEPORT", "NO_FAIL", "IGNORE_WALLS" ],
-    "effect": "short_range_teleport",
+    "spell_class": "VAMPIRE_BLOOD_ARTS",
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_MENTOR_VANISH",
     "shape": "blast",
-    "min_range": 2,
-    "max_range": 2
+    "difficulty": 0
   }
 ]

@@ -2,19 +2,19 @@
   {
     "type": "item_group",
     "id": "ammo_can_300_full",
-    "container-item": { "item": "ammunition_can_30", "variant": "ammunition_can_30_300jhp_240" },
+    "container-item": { "item": "ammunition_can_50", "variant": "ammunition_can_50_300jhp_240" },
     "items": [ { "group": "ammo_box_300", "count": 12 } ]
   },
   {
     "type": "item_group",
     "id": "ammo_can_300_part",
-    "container-item": { "item": "ammunition_can_30", "variant": "ammunition_can_30_300jhp_240" },
+    "container-item": { "item": "ammunition_can_50", "variant": "ammunition_can_50_300jhp_240" },
     "items": [ { "group": "ammo_box_300", "count": [ 1, 10 ] } ]
   },
   {
     "type": "item_group",
     "id": "ammo_box_300",
-    "container-item": "ammo_box_army_20_300wm",
-    "items": [ { "item": "300_winmag", "count": 1, "charges": 20 } ]
+    "container-item": { "item": "300_ammo_box_20", "variant": "ammo_box_army_20_300wm" },
+    "items": [ { "item": "300_winmag", "charges": 20 } ]
   }
 ]

@@ -8,6 +8,7 @@
     "see_cost": "all_clear",
     "vision_levels": "roof_or_air",
     "travel_cost_type": "air",
+    "uniform_terrain": "t_open_air",
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -47,7 +48,7 @@
     "see_cost": "spaced_high",
     "extras": "forest_thick",
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 6 ], "chance": 15 },
-    "mapgen": [ { "method": "builtin", "name": "forest" } ],
+    "mapgen": [ { "builtin": "forest" } ],
     "flags": [ "NO_ROTATE", "SOURCE_FORAGE" ]
   },
   {
@@ -61,7 +62,7 @@
     "see_cost": "spaced_high",
     "extras": "forest_water",
     "spawns": { "group": "GROUP_SWAMP", "population": [ 2, 6 ], "chance": 50 },
-    "mapgen": [ { "method": "builtin", "name": "forest" } ],
+    "mapgen": [ { "builtin": "forest" } ],
     "travel_cost_type": "swamp",
     "flags": [ "NO_ROTATE", "SOURCE_FORAGE", "RISK_HIGH" ]
   },
@@ -141,13 +142,15 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "empty_rock",
+    "//": "deep_rock is a placeholder solution to differentiate between subway tunnels, remove if per-special connection subtyping is implemented.",
+    "id": [ "empty_rock", "deep_rock" ],
     "name": "solid rock",
     "vision_levels": "always_full",
     "sym": "%",
     "color": "dark_gray",
     "see_cost": "opaque",
     "travel_cost_type": "impassable",
+    "uniform_terrain": "t_rock",
     "flags": [ "NO_ROTATE" ]
   }
 ]

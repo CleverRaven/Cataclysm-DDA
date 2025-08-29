@@ -1,12 +1,6 @@
 [
   {
     "type": "attack_vector",
-    "id": "vector_null",
-    "//": "Fallback weapon vector, unarmed attacks always go through techs",
-    "weapon": true
-  },
-  {
-    "type": "attack_vector",
     "id": "test_test",
     "limbs": [ "debug_tail" ],
     "encumbrance_limit": 33,

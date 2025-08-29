@@ -3,25 +3,21 @@
 #define CATA_SRC_MISSION_H
 
 #include <functional>
-#include <iosfwd>
 #include <map>
-#include <memory>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
 #include "calendar.h"
 #include "character_id.h"
-#include "coords_fwd.h"
-#include "dialogue.h"
+#include "coordinates.h"
+#include "dialogue_helpers.h"
 #include "enums.h"
-#include "game_constants.h"
 #include "npc_favor.h"
-#include "omdata.h"
-#include "overmap.h"
-#include "talker.h"
-#include "translations.h"
+#include "point.h"
+#include "translation.h"
 #include "type_id.h"
 
 class Creature;
@@ -33,9 +29,10 @@ class item;
 class mission;
 class npc;
 class overmapbuffer;
+struct const_dialogue;
+struct dialogue;
+struct oter_type_t;
 template<typename T> struct enum_traits;
-
-enum npc_mission : int;
 
 namespace debug_menu
 {
@@ -240,10 +237,6 @@ struct mission_type {
          */
         static const mission_type *get( const mission_type_id &id );
         /**
-         * Converts the legacy int id to a string_id.
-         */
-        static mission_type_id from_legacy( int old_id );
-        /**
          * Returns a random id of a mission type that can be started at the defined origin
          * around tripoint p, see @ref mission_start.
          * Returns @ref MISSION_NULL if no suitable type could be found.
@@ -258,12 +251,12 @@ struct mission_type {
 
         static void reset();
         static void load_mission_type( const JsonObject &jo, const std::string &src );
-        static void finalize();
+        static void finalize_all();
         static void check_consistency();
 
         bool parse_funcs( const JsonObject &jo, std::string_view src,
                           std::function<void( mission * )> &phase_func );
-        void load( const JsonObject &jo, const std::string &src );
+        bool load( const JsonObject &jo, std::string_view src );
 
         /**
          * Returns the translated name

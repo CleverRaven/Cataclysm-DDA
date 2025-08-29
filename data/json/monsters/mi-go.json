@@ -27,7 +27,7 @@
     "weakpoint_sets": [ "wps_mi-go", "wps_natural_armor" ],
     "families": [ "prof_wp_mi-go_basic", "prof_wp_mi-go_advanced", "prof_wp_nat_armored" ],
     "harvest": "mi-go",
-    "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "avoid_dangerous_fields": true },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
       [ "PARROT", 100 ],
@@ -79,7 +79,7 @@
     "harvest": "mi-go",
     "weakpoint_sets": [ "wps_mi-go", "wps_natural_armor" ],
     "families": [ "prof_wp_mi-go_basic", "prof_wp_mi-go_advanced", "prof_wp_nat_armored" ],
-    "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "avoid_dangerous_fields": true },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
       [ "PARROT", 100 ],
@@ -137,7 +137,7 @@
     "harvest": "mi-go",
     "weakpoint_sets": [ "wps_mi-go", "wps_natural_armor" ],
     "families": [ "prof_wp_mi-go_basic", "prof_wp_mi-go_advanced", "prof_wp_nat_armored" ],
-    "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "avoid_dangerous_fields": true },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
       [ "PARROT", 100 ],
@@ -189,7 +189,7 @@
     "harvest": "mi-go",
     "weakpoint_sets": [ "wps_mi-go", "wps_natural_armor" ],
     "families": [ "prof_wp_mi-go_basic", "prof_wp_mi-go_advanced", "prof_wp_nat_armored" ],
-    "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "avoid_dangerous_fields": true },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
       [ "PARROT", 100 ],
@@ -250,7 +250,7 @@
     "harvest": "mi-go",
     "weakpoint_sets": [ "wps_mi-go", "wps_natural_armor" ],
     "families": [ "prof_wp_mi-go_basic", "prof_wp_mi-go_advanced", "prof_wp_nat_armored" ],
-    "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "avoid_dangerous_fields": true },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
       [ "PARROT", 100 ],
@@ -349,7 +349,7 @@
     "harvest": "mi-go",
     "weakpoint_sets": [ "wps_mi-go", "wps_natural_armor" ],
     "families": [ "prof_wp_mi-go_basic", "prof_wp_mi-go_advanced", "prof_wp_nat_armored" ],
-    "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "avoid_dangerous_fields": true },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
       {

@@ -1,58 +1,69 @@
 [
   {
     "type": "overmap_terrain",
-    "id": [ "fema_entrance", "fema_entrance_roof" ],
-    "vision_levels": "isolated_building",
-    "name": "FEMA camp",
-    "sym": "+",
-    "color": "blue",
-    "see_cost": "high",
-    "extras": "build",
-    "flags": [ "RISK_EXTREME", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
+    "id": "fema_road",
+    "vision_levels": "large_pavement",
+    "name": "FEMA camp road",
+    "color": "dark_gray",
+    "see_cost": "none",
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 6, 12 ], "chance": 100 },
+    "travel_cost_type": "road",
+    "flags": [ "LINEAR", "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "fema",
-      "fema_1_3",
-      "fema_2_1",
-      "fema_2_2",
-      "fema_2_3",
-      "fema_3_1",
-      "fema_3_2",
-      "fema_3_3",
-      "fema_roof",
-      "fema_1_3_roof"
-    ],
+    "id": "fema_housing",
     "vision_levels": "isolated_camp",
-    "name": "FEMA camp",
-    "sym": "F",
-    "color": "i_blue",
-    "see_cost": "spaced_high",
-    "extras": "build",
-    "flags": [ "RISK_EXTREME", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "FEMA_tlc", "FEMA_te", "FEMA_trc", "FEMA_le", "FEMA_mid", "FEMA_re", "FEMA_blc", "FEMA_brc" ],
-    "name": "FEMA refugee camp",
-    "vision_levels": "isolated_camp",
-    "sym": "F",
-    "color": "i_blue",
-    "extras": "build",
-    "see_cost": "spaced_high",
-    "spawns": { "group": "GROUP_VANILLA", "population": [ 4, 12 ], "chance": 90 }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "FEMA_entrance",
-    "vision_levels": "isolated_building",
-    "name": "FEMA refugee camp",
-    "sym": "+",
+    "name": "FEMA camp housing",
+    "sym": "H",
     "color": "blue",
-    "extras": "build",
-    "see_cost": "spaced_high",
-    "spawns": { "group": "GROUP_VANILLA", "population": [ 4, 12 ], "chance": 90 }
+    "see_cost": "medium",
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 6, 12 ], "chance": 100 },
+    "flags": [ "SOURCE_FOOD", "RISK_EXTREME", "GENERIC_LOOT", "SOURCE_COOKING", "PP_GENERATE_RIOT_DAMAGE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "fema_military_building",
+    "vision_levels": "isolated_building",
+    "name": "FEMA camp outpost",
+    "sym": "M",
+    "color": "red",
+    "see_cost": "medium",
+    "spawns": { "group": "GROUP_MIL_BASE", "population": [ 8, 14 ], "chance": 100 },
+    "flags": [ "RISK_EXTREME", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD", "PP_GENERATE_RIOT_DAMAGE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "fema_storage",
+    "vision_levels": "isolated_building",
+    "name": "FEMA camp storage",
+    "sym": "S",
+    "color": "light_blue",
+    "see_cost": "medium",
+    "spawns": { "group": "GROUP_VANILLA_DORMANT", "population": [ 3, 8 ], "chance": 100 },
+    "flags": [ "RISK_EXTREME", "GENERIC_LOOT", "SOURCE_COOKING", "SOURCE_FOOD", "PP_GENERATE_RIOT_DAMAGE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "fema_entrance",
+    "vision_levels": "isolated_building",
+    "name": "FEMA camp entrance checkpoint",
+    "sym": "S",
+    "color": "light_blue",
+    "see_cost": "medium",
+    "spawns": { "group": "GROUP_MIL_BASE", "population": [ 6, 16 ], "chance": 100 },
+    "flags": [ "RISK_EXTREME", "PP_GENERATE_RIOT_DAMAGE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "fema_bus",
+    "vision_levels": "large_pavement",
+    "name": "FEMA camp bus stop",
+    "sym": "B",
+    "color": "dark_gray",
+    "see_cost": "medium",
+    "spawns": { "group": "GROUP_VANILLA_DORMANT", "population": [ 6, 16 ], "chance": 100 },
+    "flags": [ "RISK_EXTREME", "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
@@ -64,105 +75,21 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "shelter", "shelter_vandal", "shelter_unfinished", "shelter_survivor" ],
+    "id": [ "shelter", "shelter_unfinished" ],
     "name": "evac shelter A-23",
     "copy-from": "shelter_abstract",
     "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
-    "id": [ "shelter_infested" ],
-    "copy-from": "shelter",
-    "flags": [ "KNOWN_DOWN", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_1", "shelter_1_vandal", "shelter_1_unfinished", "shelter_1_survivor" ],
-    "name": "evac shelter B-05",
-    "copy-from": "shelter_abstract",
-    "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_1_infested" ],
-    "copy-from": "shelter_1",
-    "flags": [ "KNOWN_DOWN", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_1b", "shelter_1b_vandal", "shelter_1b_unfinished", "shelter_1b_survivor" ],
-    "copy-from": "shelter_abstract",
-    "name": "evac shelter B-19",
-    "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_1b_infested" ],
-    "copy-from": "shelter_1b",
-    "flags": [ "KNOWN_DOWN", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_2", "shelter_2_vandal", "shelter_2_unfinished", "shelter_2_survivor" ],
-    "name": "evac shelter C-41",
-    "copy-from": "shelter_abstract",
-    "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_2_infested" ],
-    "copy-from": "shelter_2",
-    "flags": [ "KNOWN_DOWN", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_roof" ],
+    "id": "shelter_roof",
     "name": "evac shelter roof A-23",
     "copy-from": "shelter_abstract"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "shelter_roof_1" ],
-    "name": "evac shelter roof B-05",
-    "copy-from": "shelter_abstract"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_roof_1b" ],
-    "name": "evac shelter roof B-19",
-    "copy-from": "shelter_abstract"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_roof_2" ],
-    "name": "evac shelter roof C-41",
-    "copy-from": "shelter_abstract"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_under", "shelter_under_vandal", "shelter_under_unfinished", "shelter_under_infested" ],
+    "id": [ "shelter_under", "shelter_under_unfinished" ],
     "name": "evac shelter basement A-23",
-    "copy-from": "shelter_abstract",
-    "flags": [ "KNOWN_UP" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_under_1b", "shelter_under_1b_vandal", "shelter_under_1b_unfinished", "shelter_under_1b_infested" ],
-    "name": "evac shelter basement B-19",
-    "copy-from": "shelter_abstract",
-    "flags": [ "KNOWN_UP" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_under_2", "shelter_under_2_vandal", "shelter_under_2_unfinished", "shelter_under_2_infested" ],
-    "name": "evac shelter basement C-41",
-    "copy-from": "shelter_abstract",
-    "flags": [ "KNOWN_UP" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "shelter_under_1", "shelter_under_1_vandal", "shelter_under_1_unfinished", "shelter_under_1_infested" ],
-    "name": "evac shelter basement B-05",
     "copy-from": "shelter_abstract",
     "flags": [ "KNOWN_UP" ]
   },
@@ -288,29 +215,18 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "outpost",
+    "id": [ "outpost", "outpost_parking" ],
     "name": "military outpost",
     "sym": "M",
     "color": "red",
     "vision_levels": "isolated_building",
     "see_cost": "high",
     "extras": "build",
-    "flags": [ "RISK_EXTREME", "SOURCE_WEAPON", "SOURCE_AMMO" ]
+    "flags": [ "RISK_EXTREME", "SOURCE_WEAPON", "SOURCE_AMMO", "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
-    "id": "outpost_cross",
-    "name": "military outpost",
-    "sym": "M",
-    "color": "red",
-    "vision_levels": "isolated_building",
-    "see_cost": "high",
-    "extras": "build",
-    "flags": [ "RISK_EXTREME", "SOURCE_WEAPON", "SOURCE_AMMO" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "outpost_roof", "outpost_cross_roof" ],
+    "id": [ "outpost_roof" ],
     "name": "military outpost roof",
     "sym": "M",
     "color": "red",
@@ -326,7 +242,7 @@
     "color": "red",
     "vision_levels": "open_land",
     "see_cost": "medium",
-    "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
+    "flags": [ "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -590,7 +506,7 @@
   {
     "type": "overmap_terrain",
     "abstract": "generic_mil_base_minefield",
-    "name": "military base minefield",
+    "name": "military base perimeter",
     "vision_levels": "open_land",
     "color": "light_gray",
     "see_cost": "none"
@@ -630,5 +546,17 @@
     "id": "mil_base_minefield_sw",
     "copy-from": "generic_mil_base_minefield",
     "sym": "└"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_minefield_gate_right",
+    "copy-from": "generic_mil_base_minefield",
+    "sym": "┐"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_minefield_gate_left",
+    "copy-from": "generic_mil_base_minefield",
+    "sym": "┌"
   }
 ]

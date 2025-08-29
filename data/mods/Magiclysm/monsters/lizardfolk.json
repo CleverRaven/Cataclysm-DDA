@@ -45,6 +45,7 @@
       "SWIMS",
       "PUSH_MON",
       "SWARMS",
+      "HUMAN",
       "CAN_OPEN_DOORS",
       "NO_BREATHE",
       "WIELDED_WEAPON"
@@ -110,7 +111,8 @@
         { "item": "robe", "prob": 40 },
         { "item": "leather_belt", "prob": 20 }
       ]
-    }
+    },
+    "extend": { "flags": [ "MAGIC_USER" ] }
   },
   {
     "id": "mon_lizardfolk_chieftan",

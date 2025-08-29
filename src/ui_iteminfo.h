@@ -3,15 +3,16 @@
 #define CATA_SRC_UI_ITEMINFO_H
 
 #include "cata_imgui.h"
+#include "imgui/imgui.h"
 #include "input_context.h"
 #include "output.h"
-#include "imgui/imgui.h"
+#include "point.h"
 
 class iteminfo_window : public cataimgui::window
 {
     public:
         iteminfo_window( item_info_data &info, point pos, int width, int height,
-                         ImGuiWindowFlags flags = ImGuiWindowFlags_None );
+                         ImGuiWindowFlags flags = ImGuiWindowFlags_NoNavInputs );
         void execute();
 
     protected:

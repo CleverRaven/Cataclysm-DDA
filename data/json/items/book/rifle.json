@@ -1,7 +1,8 @@
 [
   {
     "id": "mag_rifle",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Modern Rifleman", "str_pl": "issues of Modern Rifleman" },
     "description": "An informative magazine all about rifles and shooting.  There is an excellent article about proper maintenance in this issue.",
@@ -35,15 +36,16 @@
     "symbol": "?",
     "looks_like": "mag_guns",
     "color": "pink",
-    "skill": "rifle",
     "max_level": 1,
     "intelligence": 5,
     "time": "8 m",
-    "fun": 1
+    "read_skill": "rifle",
+    "read_fun": 1
   },
   {
     "id": "manual_rifle",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "FM 23-16 Army marksmanship manual" },
     "description": "A hefty military field manual about automatic rifle usage and techniques which improve marksmanship and proper weapons-handling.",
@@ -156,14 +158,15 @@
     "symbol": "?",
     "looks_like": "mag_guns",
     "color": "green",
-    "skill": "rifle",
     "max_level": 3,
     "intelligence": 4,
-    "time": "18 m"
+    "time": "18 m",
+    "read_skill": "rifle"
   },
   {
     "id": "retool_instructions",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "retool instructions", "str_pl": "copies of retool instructions" },
     "description": "This is a small booklet, containing several diagrams and clearly worded instructions for assisting one in assembling, installing, and using their newly purchased weapon conversion kit.  The flyer's rear is covered in neatly printed rows of advertisements, displaying other products by the same manufacturer.  All in all, it, strangely enough, brings to mind nostalgic images of the instructions for assembling Legos—a very angry, explosive Lego construct that goes boom.",
@@ -175,9 +178,9 @@
     "symbol": "?",
     "looks_like": "mag_guns",
     "color": "pink",
-    "skill": "rifle",
     "max_level": 1,
     "intelligence": 5,
-    "time": "8 m"
+    "time": "8 m",
+    "read_skill": "rifle"
   }
 ]

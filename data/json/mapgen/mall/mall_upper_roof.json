@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "mall_upper_roof_3", "mall_upper_roof_4" ], [ "mall_upper_roof_12", "mall_upper_roof_13" ] ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -60,7 +59,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "mall_upper_roof_34", "mall_upper_roof_35" ] ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -95,7 +93,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "mall_upper_roof_48", "mall_upper_roof_49", "mall_upper_roof_50", "mall_upper_roof_51" ] ],
     "object": {
       "fill_ter": "t_flat_roof",

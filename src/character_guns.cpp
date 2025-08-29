@@ -10,21 +10,24 @@
 #include <vector>
 
 #include "activity_actor_definitions.h"
+#include "calendar.h"
 #include "character.h"
 #include "color.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "enums.h"
 #include "flag.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
+#include "map.h"
 #include "map_selector.h"
 #include "player_activity.h"
 #include "ret_val.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 #include "value_ptr.h"
 #include "vehicle_selector.h"
 #include "visitable.h"
@@ -65,13 +68,13 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
         }
 
         // Do not consider empty mags unless specified
-        if( node->is_magazine() && !node->ammo_remaining() && !empty ) {
+        if( node->is_magazine() && !node->ammo_remaining( ) && !empty ) {
             return VisitResponse::SKIP;
         }
 
         if( node->has_flag( flag_SPEEDLOADER ) && obj.magazine_integral() ) {
             // Can't reload with empty speedloaders
-            if( !node->ammo_remaining() ) {
+            if( !node->ammo_remaining( ) ) {
                 return VisitResponse::SKIP;
             }
             // All speedloaders are accepted.
@@ -110,6 +113,8 @@ std::vector<const item *> Character::get_ammo( const ammotype &at ) const
 
 std::vector<item_location> Character::find_ammo( const item &obj, bool empty, int radius ) const
 {
+    map &here = get_map();
+
     std::vector<item_location> res;
 
     find_ammo_helper( const_cast<Character &>( *this ), obj, empty, std::back_inserter( res ), true );
@@ -118,7 +123,7 @@ std::vector<item_location> Character::find_ammo( const item &obj, bool empty, in
         for( map_cursor &cursor : map_selector( pos_bub(), radius ) ) {
             find_ammo_helper( cursor, obj, empty, std::back_inserter( res ), false );
         }
-        for( vehicle_cursor &cursor : vehicle_selector( pos_bub(), radius ) ) {
+        for( vehicle_cursor &cursor : vehicle_selector( here, pos_bub( here ), radius ) ) {
             find_ammo_helper( cursor, obj, empty, std::back_inserter( res ), false );
         }
     }
@@ -180,7 +185,7 @@ void Character::gunmod_add( item &gun, item &mod )
     itype_id mod_type = mod.typeId();
     std::string mod_name = mod.tname();
 
-    if( !wield( gun ) ) {
+    if( !is_wielding( gun ) && !wield( gun ) ) {
         add_msg_if_player( _( "You can't wield the %1$s." ), gun.tname() );
         return;
     }
@@ -254,7 +259,8 @@ void Character::gunmod_add( item &gun, item &mod )
         actions[prompt.ret]();
     }
 
-    const int moves = !has_trait( trait_DEBUG_HS ) ? moved_mod.type->gunmod->install_time : 0;
+    const int moves = !has_trait( trait_DEBUG_HS ) ? to_moves<int>
+                      ( moved_mod.type->gunmod->install_time ) : 0;
 
     assign_activity( gunmod_add_activity_actor( moves, tool ) );
     activity.targets.emplace_back( wielded_gun );
@@ -285,7 +291,8 @@ bool Character::gunmod_remove( item &gun, item &mod )
     }
 
     // Removing gunmod takes only half as much time as installing it
-    const int moves = has_trait( trait_DEBUG_HS ) ? 0 : mod.type->gunmod->install_time / 2;
+    const int moves = has_trait( trait_DEBUG_HS ) ? 0 : to_moves<int>
+                      ( mod.type->gunmod->install_time ) / 2;
     item_location gun_loc = item_location( *this, &gun );
     assign_activity( gunmod_remove_activity_actor( moves, gun_loc, static_cast<int>( gunmod_idx ) ) );
     return true;

@@ -1,15 +1,10 @@
 #include "ascii_art.h"
 
-#include <set>
 #include <string>
 
-#include "assign.h"
 #include "catacharset.h"
 #include "debug.h"
-#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "init.h"
-#include "json_error.h"
 #include "output.h"
 
 static const int ascii_art_width = 41;
@@ -36,11 +31,14 @@ void ascii_art::load_ascii_art( const JsonObject &jo, const std::string &src )
     ascii_art_factory.load( jo, src );
 }
 
-void ascii_art::load( const JsonObject &jo, const std::string_view )
+void ascii_art::finalize_all()
 {
-    assign( jo, "id", id );
+    ascii_art_factory.finalize();
+}
 
-    assign( jo, "picture", picture );
+void ascii_art::load( const JsonObject &jo, std::string_view )
+{
+    mandatory( jo, was_loaded, "picture", picture );
     for( std::string &line : picture ) {
         if( utf8_width( remove_color_tags( line ) ) > ascii_art_width ) {
             line = trim_by_length( line, ascii_art_width );

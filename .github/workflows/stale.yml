@@ -28,7 +28,7 @@ jobs:
           operations-per-run: 110
           exempt-issue-labels: 'Accessibility,<Bug>,<Bugfix>,<Crash / Freeze>,Organization: Bounty,Good First Issue,Help Wanted,(P1 - Critical),(P2 - High),(P3 - Medium),(P4 - Low),(P5 - Long-term),(S2 - Confirmed),0.G String Freeze,0.G Feature Freeze,0.G Content Freeze'
           exempt-pr-labels: '<Bug>,<Bugfix>,<Crash / Freeze>,Organization: Bounty,Good First Issue,(P1 - Critical),(P2 - High),(P3 - Medium),(P4 - Low),(P5 - Long-term),(S2 - Confirmed),0.G String Freeze,0.G Feature Freeze,0.G Content Freeze'
-          any-of-labels: ${{ contains(fromJson('["01", "02", "03", "04", "05", "06"]'), env.time) && "" || "<Suggestion / Discussion>" }}
+          any-of-labels: ${{ contains(fromJson('["01", "02", "03", "04", "05", "06"]'), env.time) && '' || '<Suggestion / Discussion>' }}
           exempt-all-milestones: true
           exempt-all-assignees: true
       - name: Print outputs

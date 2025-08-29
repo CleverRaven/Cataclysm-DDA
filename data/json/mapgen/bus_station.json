@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "bus_stat_0", "bus_stat_1" ] ],
     "object": {
       "fill_ter": "t_floor",
@@ -76,9 +75,10 @@
         "d": { "item": "SUS_office_desk", "chance": 25 },
         "Y": { "item": "jackets", "chance": 55, "repeat": [ 1, 6 ] },
         "l": { "item": "SUS_janitors_closet", "chance": 100 },
-        "r": { "item": "trash", "chance": 60, "repeat": [ 1, 2 ] },
+        "r": { "item": "SUS_trash_trashcan_public", "chance": 60 },
         "B": [ { "item": "novels", "chance": 10 }, { "item": "jackets", "chance": 5 } ],
-        "F": { "item": "SUS_office_filing_cabinet", "chance": 70, "repeat": [ 1, 3 ] }
+        "F": { "item": "SUS_office_filing_cabinet", "chance": 70, "repeat": [ 1, 3 ] },
+        "T": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 3, 17 ], "y": [ 13, 15 ], "repeat": [ 1, 4 ] } ],
       "place_vehicles": [
@@ -92,7 +92,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "bus_stat_0_roof", "bus_stat_1_roof" ] ],
     "object": {
       "fill_ter": "t_flat_roof",

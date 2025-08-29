@@ -1,65 +1,40 @@
 [
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
     "result": "nail",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": "3 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
+    "difficulty": 3,
+    "charges": 83,
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "55 m",
+    "batch_time_factors": [ 2, 10 ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing", "time_multiplier": 1.5 } ],
+    "using": [ [ "blacksmithing_standard", 1 ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "nail_header", -1 ] ] ],
+    "components": [ [ [ "lc_steel_chunk", 1 ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "crude_bronze_nail",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "fabrication",
-    "difficulty": 2,
-    "charges": 30,
-    "time": "4 h",
-    "autolearn": true,
-    "using": [ [ "bronze_tiny", 1 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "bronze_nail",
-    "id_suffix": "simple",
-    "charges": 30,
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "fabrication",
-    "difficulty": 2,
-    "time": "2 h",
-    "autolearn": true,
-    "using": [ [ "bronze_tiny", 1 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
-    "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
     "result": "bronze_nail",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
-    "difficulty": 1,
-    "//": "Bronze is typically easier to work than steel/iron",
-    "time": "2 h",
     "autolearn": true,
+    "difficulty": 3,
+    "charges": 12,
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "12 m 30 s",
+    "batch_time_factors": [ 2, 40 ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_redsmithing", "time_multiplier": 1.5 },
+      { "proficiency": "prof_redsmithing_adv" }
+    ],
     "using": [ [ "blacksmithing_standard", 1 ], [ "bronze_tiny", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "nail_header", -1 ], [ "nail_header_bronze", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -119,7 +94,8 @@
     "skill_used": "fabrication",
     "time": "2 h",
     "autolearn": true,
-    "byproducts": [ [ "splinter", 7 ], [ "wood_panel", 3 ] ],
+    "result_mult": 4,
+    "byproducts": [ [ "splinter", 7 ] ],
     "qualities": [ { "id": "SAW_W", "level": 2 } ],
     "components": [ [ [ "wood_beam", 1 ] ] ],
     "//": "I am assuming here that you actually get more than 4 smaller-than-represented wood panels, but any application that requires panels means you'll be putting these side by side to get the effect of a single panel."
@@ -134,7 +110,7 @@
     "skill_used": "fabrication",
     "time": "10 m",
     "autolearn": true,
-    "byproducts": [ [ "wood_panel", 1 ] ],
+    "result_mult": 2,
     "qualities": [ { "id": "SAW_W", "level": 2 } ],
     "components": [ [ [ "wood_sheet", 1 ] ] ]
   },
@@ -365,19 +341,19 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "long_pole",
-    "byproducts": [ [ "splinter", 30 ] ],
+    "result": "soaking_long_pole",
+    "byproducts": [ [ "splinter", 60 ] ],
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
     "difficulty": 5,
-    "time": "5 h 40 m",
+    "time": "2 h 40 m",
     "book_learn": [ [ "textbook_weapeast", 4 ] ],
     "autolearn": true,
     "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "//": "a long pole is a single piece of wood, and the stout branch just isn't large enough.",
     "components": [
-      [ [ "wood_beam", 1 ] ],
+      [ [ "wooden_post_long", 1 ] ],
       [
         [ "any_tallow", 4, "LIST" ],
         [ "cooking_oil", 32 ],
@@ -458,7 +434,7 @@
     "difficulty": 4,
     "time": "2 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_chunk_any", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
@@ -472,7 +448,7 @@
     "difficulty": 2,
     "time": "1 h 30 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_chunk_any", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
@@ -486,7 +462,7 @@
     "difficulty": 5,
     "time": "210 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_chunk_any", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -555,25 +531,6 @@
   },
   {
     "type": "recipe",
-    "activity_level": "ACTIVE_EXERCISE",
-    "result": "reinforced_glass_pane",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "fabrication",
-    "difficulty": 2,
-    "time": "40 m",
-    "book_learn": [ [ "textbook_fabrication", 3 ], [ "textbook_mechanics", 3 ], [ "welding_book", 5 ] ],
-    "using": [ [ "welding_standard", 80 ], [ "glue_strong", 250 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
-      { "proficiency": "prof_welding" }
-    ],
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "glass_sheet", 1 ] ], [ [ "mc_wire", 8 ] ] ]
-  },
-  {
-    "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "pipe_fittings",
     "category": "CC_OTHER",
@@ -582,7 +539,7 @@
     "difficulty": 5,
     "time": "3 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_chunk_any", 2 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -693,10 +650,9 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "fabrication",
-    "difficulty": 2,
     "time": "10 m",
     "autolearn": false,
-    "book_learn": [ [ "concrete_book", 2 ] ],
+    "book_learn": [ [ "concrete_book", 2 ], [ "bag_durasack_cement", 1 ] ],
     "tools": [ [ [ "concrete_mix_tool", 50 ] ] ],
     "components": [ [ [ "material_cement", 50 ] ], [ [ "material_sand", 150 ] ] ]
   },
@@ -729,5 +685,11 @@
     "using": [ [ "power_saw_long", 5 ] ],
     "result_mult": 8,
     "components": [ [ [ "log", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "copy-from": "nail",
+    "result": "rivets",
+    "extend": { "tools": [ [ [ "monkey_tool", -1 ] ] ] }
   }
 ]

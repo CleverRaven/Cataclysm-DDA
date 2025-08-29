@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": "house_detatched4",
     "type": "mapgen",
     "weight": 200,
@@ -76,7 +75,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": "house_detatched4",
     "//": "suicide variant",
     "type": "mapgen",
@@ -155,7 +153,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_detatched4_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -191,7 +188,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "house_detatched4_basement",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -204,11 +200,11 @@
         "    |.................| ",
         "    |.................| ",
         "    |.................| ",
-        "    |%%%%<............| ",
+        "    |||||<............| ",
         "    |U..+.............| ",
-        "    |U.U%z............| ",
-        "    |.AJ%.z...........| ",
-        "    |WZJ%zFg..........| ",
+        "    |U.U|z............| ",
+        "    |.AJ|.z...........| ",
+        "    |WZJ|zâg..........| ",
         "    ||||||||||||||||||| ",
         "                        ",
         "                        ",
@@ -221,7 +217,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "nested": {
         "1": {
           "chunks": [

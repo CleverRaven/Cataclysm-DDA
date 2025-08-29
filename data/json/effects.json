@@ -302,12 +302,6 @@
   },
   {
     "type": "effect_type",
-    "id": "bounced",
-    "name": [ { "str": "Bounced", "//~": "NO_I18N" } ],
-    "desc": [ { "str": "AI tag used for bouncing ammo targeting.  This is a bug if you have it.", "//~": "NO_I18N" } ]
-  },
-  {
-    "type": "effect_type",
     "id": "npc_value_interaction_timer_short",
     "//2": "This prevents you from building value with NPCs too quickly by just talking to them constantly."
   },
@@ -407,6 +401,14 @@
     "name": [ "Maimed Acid Glands" ],
     "//": "Disables special attacks where specified",
     "desc": [ { "str": "Your acid glands got all leaky.", "//~": "NO_I18N" } ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "maimed_huntsman_arm",
+    "name": [ "Broken Appendage" ],
+    "//": "Disables javelin throwing.",
+    "desc": [ { "str": "Your long grotesque throwing appendage has been compromised.", "//~": "NO_I18N" } ],
     "show_in_info": true
   },
   {
@@ -570,13 +572,13 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [
-          { "value": "SPEED", "multiply": -0.5 },
-          { "value": "ARMOR_BASH", "add": 15 },
-          { "value": "ARMOR_STAB", "add": 15 },
-          { "value": "ARMOR_CUT", "add": 15 },
-          { "value": "ARMOR_BULLET", "add": 50 }
-        ]
+        "incoming_damage_mod": [
+          { "type": "bash", "add": 15 },
+          { "type": "stab", "add": 15 },
+          { "type": "cut", "add": 15 },
+          { "type": "bullet", "add": 50 }
+        ],
+        "values": [ { "value": "SPEED", "multiply": -0.5 } ]
       }
     ]
   },
@@ -591,12 +593,13 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [
-          { "value": "SPEED", "multiply": { "math": [ "Nemesis_iteration * 0.01" ] } },
-          { "value": "ARMOR_BASH", "add": { "math": [ "Nemesis_iteration * -1" ] } },
-          { "value": "ARMOR_STAB", "add": { "math": [ "Nemesis_iteration * -1" ] } },
-          { "value": "ARMOR_CUT", "add": { "math": [ "Nemesis_iteration * -1" ] } }
-        ]
+        "incoming_damage_mod": [
+          { "type": "bash", "add": { "math": [ "Nemesis_iteration * -1" ] } },
+          { "type": "stab", "add": { "math": [ "Nemesis_iteration * -1" ] } },
+          { "type": "cut", "add": { "math": [ "Nemesis_iteration * -1" ] } },
+          { "type": "bullet", "add": { "math": [ "Nemesis_iteration * -1" ] } }
+        ],
+        "values": [ { "value": "SPEED", "multiply": { "math": [ "Nemesis_iteration * 0.01" ] } } ]
       }
     ]
   },
@@ -787,6 +790,14 @@
       { "limb_score": "night_vis", "modifier": 0.1, "resist_modifier": 1.0 }
     ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_true_seeing",
+    "apply_message": "Details stand out in stark relief!",
+    "remove_message": "The world returns to its normal appearance.",
+    "rating": "good",
+    "flags": [ "TRUE_SEEING" ]
   },
   {
     "type": "effect_type",
@@ -984,6 +995,28 @@
       "hurt_min": [ 1 ],
       "hurt_chance": [ 450, 2700 ]
     },
+    "max_intensity": 10,
+    "limb_score_mods": [
+      { "limb_score": "manip", "modifier": 0.85, "resist_modifier": 0.92, "scaling": -0.05, "resist_scaling": -0.016 },
+      { "limb_score": "lift", "modifier": 0.85, "resist_modifier": 0.92, "scaling": -0.05, "resist_scaling": -0.016 },
+      { "limb_score": "grip", "modifier": 0.85, "resist_modifier": 0.92, "scaling": -0.05, "resist_scaling": -0.016 },
+      { "limb_score": "block", "modifier": 0.85, "resist_modifier": 0.92, "scaling": -0.05, "resist_scaling": -0.016 },
+      {
+        "limb_score": "reaction",
+        "modifier": 0.85,
+        "resist_modifier": 0.92,
+        "scaling": -0.05,
+        "resist_scaling": -0.016
+      },
+      {
+        "limb_score": "balance",
+        "modifier": 0.85,
+        "resist_modifier": 0.92,
+        "scaling": -0.05,
+        "resist_scaling": -0.016
+      }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
     "show_in_info": true,
     "blood_analysis_description": "Poison"
   },
@@ -2249,14 +2282,13 @@
     "desc": [ "Your vision is obscured by a disgusting splatter of bile." ],
     "apply_message": "You're covered in bile!",
     "rating": "bad",
-    "base_mods": { "per_mod": [ -3 ] },
     "max_duration": "30 s",
     "limb_score_mods": [
       { "limb_score": "vision", "modifier": 0.1 },
       { "limb_score": "night_vis", "modifier": 0.0 },
       { "limb_score": "reaction", "modifier": 0.2 }
     ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD_LOCAL" ],
     "show_in_info": true
   },
   {
@@ -2704,6 +2736,12 @@
     "name": [ "Spore Dusted", "Spore Covered", "Spore Coated" ],
     "speed_name": "Spore Covered",
     "desc": [ "You can feel the tiny spores sinking directly into your flesh." ],
+    "apply_message": [
+      [
+        "You feel your skin prickle with an uncomfortable feeling, and as you try to rub away the specks of dust you realize they've started to embed themselves, sinking into your skin.",
+        "bad"
+      ]
+    ],
     "max_intensity": 3,
     "int_decay_tick": 720,
     "int_add_val": 1,
@@ -3245,6 +3283,7 @@
     "apply_message": "You feel a sickness coming on…",
     "rating": "bad",
     "resist_effects": [ "took_flumed" ],
+    "immune_flags": [ "NO_DISEASE" ],
     "base_mods": {
       "thirst_tick": [ 3600 ],
       "thirst_min": [ 1 ],
@@ -3266,6 +3305,7 @@
     "apply_message": "You feel a sickness coming on…",
     "rating": "bad",
     "resist_effects": [ "took_flumed" ],
+    "immune_flags": [ "NO_DISEASE" ],
     "base_mods": {
       "thirst_tick": [ 3600 ],
       "thirst_min": [ 1 ],
@@ -3575,8 +3615,11 @@
   {
     "type": "effect_type",
     "id": "cig",
-    "name": [ "Nicotine" ],
-    "desc": [ "You had a puff or two.", "You smoked too much." ],
+    "name": [ "Nicotine Buzz", "Nic Sick" ],
+    "desc": [
+      "You had a reasonable amount of nicotine and are experiencing a pleasant buzz.",
+      "You had way too much nicotine and feel awful."
+    ],
     "max_intensity": 2,
     "int_dur_factor": "10 m",
     "scaling_mods": { "vomit_chance": [ 500 ] },
@@ -4047,6 +4090,46 @@
   },
   {
     "type": "effect_type",
+    "id": "mutation_internal_damage",
+    "max_intensity": 3,
+    "name": [ "Botched Mutation", "Botched Mutation", "Destroyed Bionic" ],
+    "desc": [ "Your changing body did not cope well with your bionics." ],
+    "apply_message": [
+      [ "Your twisting flesh strains against the bionics invading your body.", "bad" ],
+      [ "Your twisting flesh strains against the bionics invading your body.", "bad" ],
+      [ "Your twisting flesh strains against the bionics invading your body.", "bad" ]
+    ],
+    "apply_memorial_log": "Had a mutation botched due to their installed bionics.",
+    "int_decay_tick": 25200,
+    "int_decay_remove": true,
+    "show_intensity": false,
+    "main_parts_only": true,
+    "//": "Internal bleeding",
+    "vitamins": [
+      { "vitamin": "redcells", "rate": [ [ -2, -5 ], [ -2, -5 ], [ -4, -8 ] ], "tick": [ "30s", "30s", "15s" ] },
+      { "vitamin": "blood", "rate": [ [ -2, -5 ], [ -2, -5 ], [ -4, -8 ] ], "tick": [ "30s", "30s", "15s" ] }
+    ],
+    "base_mods": {
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 24 ],
+      "pain_tick": [ 36 ],
+      "hurt_max": [ 1 ],
+      "hurt_chance": [ 24 ],
+      "hurt_tick": [ 40 ]
+    },
+    "scaling_mods": {
+      "pain_min": [ 1 ],
+      "pain_max": [ 4 ],
+      "pain_chance": [ -8 ],
+      "pain_tick": [ -15 ],
+      "hurt_max": [ 0 ],
+      "hurt_chance": [ -8 ],
+      "hurt_tick": [ 40 ]
+    }
+  },
+  {
+    "type": "effect_type",
     "id": "anemia",
     "name": [ "Early Iron Deficiency", "Iron Deficiency", "Acute Iron Deficiency" ],
     "desc": [
@@ -4206,6 +4289,29 @@
   },
   {
     "type": "effect_type",
+    "id": "opiate_eff",
+    "//": "Gives Status warnings of danger levels only.  Significant chance that death occurs well before or after this scale suggests.  As Pkill is vitaminized move opiates to this scale for effects.",
+    "name": [
+      "Mild Opiate Euphoria",
+      "Moderate Opiate Euphoria",
+      "Significant Opiate Euphoria",
+      "Opiate Intoxication",
+      "Opiate Debilitation",
+      "Death"
+    ],
+    "desc": [
+      "Mild euphoric feelings from the Opiates you've taken.",
+      "Moderate euphoria, likely sedative effects.",
+      "Significant euphoria, heavy sedative effects.",
+      "Some incapacitation, sedation, nausea, numbness.",
+      "Significant chance of death, incapable of many tasks, narcolepsy.",
+      "Terminal Dosage achieved."
+    ],
+    "blood_analysis_description": "Sample contains opiate based painkillers.",
+    "max_intensity": 6
+  },
+  {
+    "type": "effect_type",
     "id": "bad_food_ennui",
     "name": [ "Gross Food", "Demoralizing Food", "Depressing Food" ],
     "desc": [
@@ -4225,7 +4331,7 @@
       "You've lost some blood and look somewhat pale.",
       "You've lost a large amount of blood, and you're not feeling well.",
       "You've lost an awful lot of blood, and your condition is severe.  Seek medical attention.",
-      "You've lost tremendous amount of blood, and you're standing on death's door.  Transfusion might save you."
+      "You've lost tremendous amount of blood, and you're standing on death's door.  Saline infusion might save you."
     ],
     "apply_message": "You have lost a lot of blood, and your condition worsens.",
     "remove_message": "You are no longer in shock.",
@@ -4307,7 +4413,7 @@
   {
     "type": "effect_type",
     "id": "sad",
-    "name": [ "Unhappy", "Unhappy", "Unhappy", "Unhappy", "Unhappy", "Sad", "Sad", "Sad", "Sad", "Sad", "Depressed" ],
+    "name": [ "Unhappy", "Unhappy", "Unhappy", "Unhappy", "Unhappy", "Sad", "Sad", "Sad", "Sad", "Sad", "Depressed", "Depressed" ],
     "desc": [
       "You are not content with your life.",
       "You are not content with your life.",
@@ -4319,12 +4425,13 @@
       "This is not what you planned for your life.",
       "This is not what you planned for your life.",
       "This is not what you planned for your life.",
+      "You wonder what's the point of fighting?",
       "When will all your suffering end?"
     ],
     "max_intensity": 1000,
     "int_dur_factor": "10 s",
     "scaling_mods": { "speed_mod": [ -0.42 ], "str_mod": [ -0.06 ], "dex_mod": [ -0.05 ], "int_mod": [ -0.084 ], "per_mod": [ -0.1 ] },
-    "miss_messages": [ [ "What's the point of fighting?", 1 ] ]
+    "miss_messages": [ [ "You dejectedly consider the pointlessness of it all.", 1 ] ]
   },
   {
     "type": "effect_type",
@@ -4849,11 +4956,7 @@
     "rating": "bad",
     "show_intensity": false,
     "enchantments": [
-      {
-        "values": [
-          { "value": "CARRY_WEIGHT", "add": { "global_val": "var", "var_name": "portal_dungeon_carry_strength", "default": -1 } }
-        ]
-      }
+      { "values": [ { "value": "CARRY_WEIGHT", "add": { "global_val": "portal_dungeon_carry_strength", "default": -1 } } ] }
     ]
   },
   {
@@ -4865,11 +4968,7 @@
     "remove_message": "Reality reasserts itself and your time returns to normal.",
     "rating": "bad",
     "show_intensity": false,
-    "enchantments": [
-      {
-        "values": [ { "value": "SPEED", "add": { "global_val": "var", "var_name": "portal_dungeon_slow_strength", "default": -1 } } ]
-      }
-    ]
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": { "global_val": "portal_dungeon_slow_strength", "default": -1 } } ] } ]
   },
   {
     "type": "effect_type",
@@ -4972,42 +5071,8 @@
     "name": [ "Drank blood" ],
     "desc": [ "The star vampire has drunk blood and is now visible." ],
     "rating": "good",
-    "removes_effects": [ "invisibility" ],
-    "show_in_info": true
-  },
-  {
-    "id": "star_vampire_blood_drink",
-    "type": "effect_type",
-    "name": [ "Exsanguination" ],
-    "desc": [ "The monster is greedily drinking your blood!" ],
-    "rating": "bad",
-    "resist_traits": [ "BLEED_IMMUNE" ],
     "show_in_info": true,
-    "max_intensity": 2,
-    "show_intensity": false,
-    "int_decay_step": -2,
-    "int_decay_tick": 1,
-    "vitamins": [
-      { "vitamin": "blood", "rate": [ [ -250, -650 ] ], "tick": [ "1 s" ] },
-      { "vitamin": "redcells", "rate": [ [ -250, -650 ] ], "tick": [ "1 s" ] }
-    ]
-  },
-  {
-    "id": "star_vampire_blood_drink",
-    "type": "effect_type",
-    "name": [ "Hemorrhage" ],
-    "desc": [ "The monster is sucking up your blood!" ],
-    "rating": "bad",
-    "resist_traits": [ "BLEED_IMMUNE" ],
-    "show_in_info": true,
-    "max_intensity": 2,
-    "show_intensity": false,
-    "int_decay_step": -2,
-    "int_decay_tick": 1,
-    "vitamins": [
-      { "vitamin": "blood", "rate": [ [ -125, -325 ] ], "tick": [ "1 s" ] },
-      { "vitamin": "redcells", "rate": [ [ -125, -325 ] ], "tick": [ "1 s" ] }
-    ]
+    "flags": [ "SUPPRESS_INVISIBILITY" ]
   },
   {
     "id": "star_vampire_blood_drink_feral",
@@ -5195,5 +5260,31 @@
     "id": "eff_mind_seeing_bonus_30",
     "name": [ "" ],
     "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "aimed_60mm",
+    "max_duration": "3 m",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "triffid_fiber_indigestion",
+    "name": [ "Uneasy stomach", "Bloated stomach", "Strained stomach", "Overloaded stomach" ],
+    "desc": [ "Your stomach constantly feels like it's full, even when you haven't eaten in awhile." ],
+    "apply_message": "Your stomach starts to feel strange and bloated.",
+    "remove_message": "Your stomach feels normal again.",
+    "decay_messages": [ [ "Your gut feels less bloated.", "good" ], [ "You feel the strain in your stomach lessen.", "good" ] ],
+    "max_intensity": 4,
+    "base_mods": { "vomit_chance": [ 6000 ] },
+    "scaling_mods": { "vomit_chance": [ -300 ], "pain_min": [ 1 ], "pain_max_val": [ 4 ] },
+    "enchantments": [
+      {
+        "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": { "math": [ "u_vitamin('triffid_fiber') / -275" ] } } ]
+      },
+      { "condition": "ALWAYS", "values": [ { "value": "THIRST", "multiply": 0.2 } ] }
+    ],
+    "rating": "bad"
   }
 ]

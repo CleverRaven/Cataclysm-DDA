@@ -3,29 +3,29 @@
 #define CATA_SRC_MARTIALARTS_H
 
 #include <cstddef>
-#include <iosfwd>
+#include <functional>
 #include <set>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
 #include "bodypart.h"
 #include "bonuses.h"
-#include "effect_on_condition.h"
 #include "calendar.h"
 #include "flat_set.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
-#include "ui.h"
-
-class input_context;
-struct input_event;
+#include "uilist.h"
 
 class Character;
 class JsonObject;
 class effect;
 class item;
+class item_location;
+struct const_dialogue;
 struct itype;
+template <typename T> class generic_factory;
 
 const matec_id tec_none( "tec_none" );
 
@@ -34,6 +34,7 @@ class weapon_category
     public:
         static void load_weapon_categories( const JsonObject &jo, const std::string &src );
         static void verify_weapon_categories();
+        static void finalize_all();
         static void reset();
 
         void load( const JsonObject &jo, std::string_view src );
@@ -166,6 +167,7 @@ class ma_technique
 
         void load( const JsonObject &jo, std::string_view src );
         static void verify_ma_techniques();
+        static void finalize_all();
         void check() const;
 
         matec_id id;
@@ -320,12 +322,15 @@ class ma_buff
         bool stealthy = false; // do we make less noise when moving?
 
         void load( const JsonObject &jo, std::string_view src );
+        static void finalize_all();
 };
 
 class martialart
 {
     public:
         martialart();
+
+        static void finalize_all();
 
         void load( const JsonObject &jo, std::string_view src );
 

@@ -17,11 +17,10 @@
     "id": "JAY_RUCKERS_trade",
     "subtype": "collection",
     "entries": [
-      { "group": "ammo_rifle_common", "count": 1, "prob": 100 },
+      { "group": "ammo_common_boxed", "count": 1, "prob": 100 },
       { "group": "guns_rifle_milspec", "count": 1, "prob": 100 },
       { "group": "gunsmith_basic_ammo", "count": [ 4, 16 ], "prob": 100 },
-      { "group": "gunsmith_repack_ammo", "count": [ 9, 18 ], "prob": 100 },
-      { "group": "ammo_rifle_obscure", "count": 1, "prob": 5 }
+      { "group": "gunsmith_repack_ammo", "count": [ 9, 18 ], "prob": 100 }
     ]
   },
   {
@@ -191,7 +190,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "blacksmith_prototypes",
     "category": "books",
     "symbol": ",",

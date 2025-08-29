@@ -744,123 +744,138 @@
   {
     "type": "snippet",
     "category": "<arachnid_harvest>",
+    "//": "NO_I18N",
     "text": [
-      "<bug_harvest_general_chitin>.",
-      "<bug_harvest_general_chitin>.  <bug_harvest_general_deeper>.",
-      "<bug_harvest_general_chitin>.  <bug_harvest_general_deeper>.  <bug_harvest_general_descriptive>."
+      "<bug_harvest_general_chitin><punc.>",
+      "<bug_harvest_general_chitin><punc.>  <bug_harvest_general_deeper><punc.>",
+      "<bug_harvest_general_chitin><punc.>  <bug_harvest_general_deeper><punc.>  <bug_harvest_general_descriptive><punc.>"
     ]
   },
   {
     "type": "snippet",
     "category": "<centipede_harvest>",
+    "//": "NO_I18N",
     "text": [
-      "<bug_harvest_centipede_chitin>.",
-      "<bug_harvest_general_chitin>.  <bug_harvest_general_deeper>.",
-      "<bug_harvest_centipede_chitin>.  <bug_harvest_general_deeper>.  <bug_harvest_centipede_descriptive>."
+      "<bug_harvest_general_chitin><punc.>  <bug_harvest_general_deeper><punc.>",
+      "<bug_harvest_centipede_chitin><punc.>",
+      "<bug_harvest_centipede_chitin><punc.>  <bug_harvest_general_deeper><punc.>  <bug_harvest_centipede_descriptive><punc.>"
     ]
   },
   {
     "type": "snippet",
     "category": "<centipede_mom_harvest>",
-    "text": [ "<centipede_harvest>", "<centipede_harvest>  <bug_harvest_centipede_mom>." ]
+    "//": "NO_I18N",
+    "text": [ "<centipede_harvest>", "<centipede_harvest>  <bug_harvest_centipede_mom><punc.>" ]
   },
   {
     "type": "snippet",
     "category": "<centipede_mega_harvest>",
-    "text": [ "<centipede_harvest>", "<centipede_harvest>  <bug_harvest_centipede_mega>." ]
+    "//": "NO_I18N",
+    "text": [ "<centipede_harvest>", "<centipede_harvest>  <bug_harvest_centipede_mega><punc.>" ]
   },
   {
     "type": "snippet",
     "category": "<ground_beetle_harvest>",
+    "//": "NO_I18N",
     "text": [
-      "<bug_harvest_ground_beetle_exterior>.",
-      "<bug_harvest_ground_beetle_exterior>.  <bug_harvest_ground_beetle_interior>."
+      "<bug_harvest_ground_beetle_exterior><punc.>",
+      "<bug_harvest_ground_beetle_exterior><punc.>  <bug_harvest_ground_beetle_interior><punc.>"
     ]
   },
   {
     "type": "snippet",
     "category": "<ground_beetle_mega_harvest>",
-    "text": [ "<ground_beetle_harvest>", "<ground_beetle_harvest>  <bug_harvest_ground_beetle_mega>." ]
+    "//": "NO_I18N",
+    "text": [ "<ground_beetle_harvest>", "<ground_beetle_harvest>  <bug_harvest_ground_beetle_mega><punc.>" ]
   },
   {
     "type": "snippet",
     "category": "<arachnid_flying_harvest>",
+    "//": "NO_I18N",
     "text": [
-      "<bug_harvest_flying_chitin>.",
-      "<bug_harvest_flying_chitin>. <bug_harvest_general_descriptive>.",
-      "<bug_harvest_flying_chitin>. <bug_harvest_general_descriptive>. <bug_harvest_flying_deeper>."
+      "<bug_harvest_flying_chitin><punc.>",
+      "<bug_harvest_flying_chitin><punc.>  <bug_harvest_general_descriptive><punc.>",
+      "<bug_harvest_flying_chitin><punc.>  <bug_harvest_general_descriptive><punc.>  <bug_harvest_flying_deeper><punc.>"
     ]
   },
   {
     "type": "snippet",
     "category": "<spider_harvest>",
+    "//": "NO_I18N",
     "text": [
       "<bug_harvest_spider_chitin>",
-      "<bug_harvest_spider_chitin>. <bug_harvest_general_descriptive>.",
-      "<bug_harvest_spider_chitin>. <bug_harvest_general_descriptive>.  <bug_harvest_spider_deeper>."
+      "<bug_harvest_spider_chitin><punc.>  <bug_harvest_general_descriptive><punc.>",
+      "<bug_harvest_spider_chitin><punc.>  <bug_harvest_general_descriptive><punc.>  <bug_harvest_spider_deeper><punc.>"
     ]
   },
   {
     "type": "snippet",
     "category": "<wasp_harvest>",
+    "//": "NO_I18N",
     "text": [
-      "<arachnid_flying_harvest> <bug_harvest_wasp_deeper>.",
-      "<bug_harvest_wasp_chitin>.",
-      "<bug_harvest_wasp_chitin>. <bug_harvest_general_descriptive>. ",
-      "<bug_harvest_wasp_chitin>. <bug_harvest_general_descriptive>. <bug_harvest_wasp_deeper>."
+      "<arachnid_flying_harvest>  <bug_harvest_wasp_deeper><punc.>",
+      "<bug_harvest_wasp_chitin><punc.>",
+      "<bug_harvest_wasp_chitin><punc.>  <bug_harvest_general_descriptive><punc.>",
+      "<bug_harvest_wasp_chitin><punc.>  <bug_harvest_general_descriptive><punc.>  <bug_harvest_wasp_deeper><punc.>"
     ]
   },
   {
     "type": "snippet",
     "category": "<wasp_queen_harvest>",
+    "//": "NO_I18N",
     "text": [
-      "<bug_harvest_wasp_chitin>. <bug_harvest_wasp_queen>.",
-      "<bug_harvest_flying_chitin>. <bug_harvest_wasp_queen>.",
-      "<bug_harvest_wasp_chitin>. <bug_harvest_wasp_deeper>. <bug_harvest_wasp_queen>."
+      "<bug_harvest_flying_chitin><punc.>  <bug_harvest_wasp_queen><punc.>",
+      "<bug_harvest_wasp_chitin><punc.>  <bug_harvest_wasp_queen><punc.>",
+      "<bug_harvest_wasp_chitin><punc.>  <bug_harvest_wasp_deeper><punc.>  <bug_harvest_wasp_queen><punc.>"
     ]
   },
   {
     "type": "snippet",
     "category": "<firefly_harvest>",
+    "//": "NO_I18N",
     "text": [
-      "<bug_harvest_flying_chitin>.",
-      "<bug_harvest_flying_chitin>.  <bug_harvest_general_descriptive>.  <bug_harvest_firefly>."
+      "<bug_harvest_flying_chitin><punc.>",
+      "<bug_harvest_flying_chitin><punc.>  <bug_harvest_general_descriptive><punc.>  <bug_harvest_firefly><punc.>"
     ]
   },
   {
     "type": "snippet",
     "category": "<acidant_harvest>",
+    "//": "NO_I18N",
     "text": [
-      "<bug_harvest_acid_chitin>.",
-      "<bug_harvest_acid_chitin>.  <bug_harvest_acid_deeper>.",
-      "<bug_harvest_acid_chitin>.  <bug_harvest_acid_deeper>.  <bug_harvest_acid_descriptive>."
+      "<bug_harvest_acid_chitin><punc.>",
+      "<bug_harvest_acid_chitin><punc.>  <bug_harvest_acid_deeper><punc.>",
+      "<bug_harvest_acid_chitin><punc.>  <bug_harvest_acid_deeper><punc.>  <bug_harvest_acid_descriptive><punc.>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_amalgamation_harvest>",
+    "//": "NO_I18N",
     "text": [
-      "<zombie_amalgamation_outer>.",
-      "<zombie_amalgamation_inner>.",
-      "<zombie_amalgamation_outer>.  <zombie_amalgamation_inner>."
+      "<zombie_amalgamation_outer><punc.>",
+      "<zombie_amalgamation_inner><punc.>",
+      "<zombie_amalgamation_outer><punc.>  <zombie_amalgamation_inner><punc.>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_amalgamation_harvest_acid>",
+    "//": "NO_I18N",
     "text": [
-      "<zombie_amalgamation_acid_outer>.",
-      "<zombie_amalgamation_acid_inner>.",
-      "<zombie_amalgamation_acid_outer>.  <zombie_amalgamation_acid_inner>."
+      "<zombie_amalgamation_acid_outer><punc.>",
+      "<zombie_amalgamation_acid_inner><punc.>",
+      "<zombie_amalgamation_acid_outer><punc.>  <zombie_amalgamation_acid_inner><punc.>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_amalgamation_harvest_electric>",
+    "//": "NO_I18N",
     "text": [
-      "<zombie_amalgamation_electric_outer>.",
-      "<zombie_amalgamation_electric_inner>.",
-      "<zombie_amalgamation_electric_outer>.  <zombie_amalgamation_electric_inner>."
+      "<zombie_amalgamation_electric_outer><punc.>",
+      "<zombie_amalgamation_electric_inner><punc.>",
+      "<zombie_amalgamation_electric_outer><punc.>  <zombie_amalgamation_electric_inner><punc.>"
     ]
   }
 ]

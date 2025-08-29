@@ -53,6 +53,7 @@
       {
         "id": "head",
         "name": "the head",
+        "is_head": true,
         "coverage": 5,
         "crit_mult": { "all": 1.1 },
         "armor_mult": { "physical": 0.75 },
@@ -84,6 +85,7 @@
       {
         "id": "eye",
         "name": "the eye",
+        "is_head": true,
         "armor_mult": { "physical": 0 },
         "coverage": 1,
         "crit_mult": { "all": 1.25 },
@@ -109,6 +111,7 @@
       {
         "id": "head",
         "name": "the head",
+        "is_head": true,
         "coverage": 6,
         "crit_mult": { "all": 1.1 },
         "armor_mult": { "physical": 0.75 },
@@ -140,6 +143,7 @@
       {
         "id": "eye",
         "name": "the eye",
+        "is_head": true,
         "armor_mult": { "physical": 0 },
         "coverage": 1,
         "crit_mult": { "all": 1.25 },
@@ -165,6 +169,7 @@
       {
         "id": "head",
         "name": "the head",
+        "is_head": true,
         "coverage": 3,
         "crit_mult": { "all": 1.1 },
         "armor_mult": { "physical": 0.75 },
@@ -196,6 +201,7 @@
       {
         "id": "eye",
         "name": "the eye",
+        "is_head": true,
         "armor_mult": { "physical": 0 },
         "coverage": 1,
         "crit_mult": { "all": 1.25 },
@@ -457,6 +463,7 @@
       {
         "id": "head",
         "name": "the face",
+        "is_head": true,
         "armor_mult": { "physical": 0 },
         "crit_mult": { "all": 1.1 },
         "difficulty": { "melee": 3, "ranged": 7 },
@@ -489,6 +496,7 @@
       {
         "id": "eye",
         "name": "the eye",
+        "is_head": true,
         "armor_mult": { "physical": 0 },
         "coverage": 1,
         "crit_mult": { "all": 1.25 },
@@ -508,6 +516,7 @@
       {
         "id": "neck",
         "name": "the neck",
+        "is_head": true,
         "armor_mult": { "physical": 0.25 },
         "difficulty": { "melee": 4, "ranged": 6 },
         "coverage_mult": { "broad": 0.5 },
@@ -532,6 +541,7 @@
       {
         "id": "head",
         "name": "the face shield",
+        "is_head": true,
         "crit_mult": { "all": 1.1 },
         "difficulty": { "melee": 3, "ranged": 7 },
         "coverage_mult": { "ranged": 0.5 },
@@ -563,6 +573,7 @@
       {
         "id": "eye",
         "name": "the goggles",
+        "is_head": true,
         "armor_mult": { "physical": 1 },
         "coverage": 1,
         "coverage_mult": { "ranged": 0.5 },
@@ -587,6 +598,7 @@
       {
         "id": "eye",
         "name": "the goggles",
+        "is_head": true,
         "armor_mult": { "physical": 1 },
         "coverage": 1,
         "coverage_mult": { "ranged": 0.5 },

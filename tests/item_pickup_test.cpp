@@ -1,10 +1,22 @@
+#include <list>
+#include <optional>
+#include <string>
+#include <utility>
+
 #include "avatar.h"
 #include "cata_catch.h"
+#include "coordinates.h"
 #include "item.h"
+#include "item_location.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_selector.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
+#include "point.h"
+#include "ret_val.h"
 #include "rng.h"
+#include "type_id.h"
 
 static const itype_id itype_backpack_hiking( "backpack_hiking" );
 static const itype_id itype_debug_modular_m4_carbine( "debug_modular_m4_carbine" );
@@ -172,7 +184,7 @@ TEST_CASE( "pickup_m4_with_a_rope_in_a_hiking_backpack", "[pickup][container]" )
 
         WHEN( "they pick up the M4" ) {
             // Get item_location for m4 on the map
-            item_location m4_loc( map_cursor( they.get_location() ), &m4a1 );
+            item_location m4_loc( map_cursor( they.pos_abs() ), &m4a1 );
             const drop_locations &thing = { std::make_pair( m4_loc, 1 ) };
             CHECK_FALSE( backpack.has_item( m4a1 ) );
             // Now pick up the M4

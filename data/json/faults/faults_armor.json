@@ -1,0 +1,120 @@
+[
+  {
+    "type": "fault",
+    "id": "fault_armor_lc_dented",
+    "name": { "str": "Dented" },
+    "description": "A metal plate was dented.",
+    "item_prefix": "dented",
+    "message": "%s was dented!",
+    "degradation_mod": 5,
+    "price_modifier": 0.8,
+    "armor_mod": [
+      { "damage_id": "bash", "multiply": 0.8 },
+      { "damage_id": "cut", "multiply": 0.9 },
+      { "damage_id": "stab", "multiply": 0.8 }
+    ]
+  },
+  {
+    "type": "fault",
+    "copy-from": "fault_armor_lc_dented",
+    "id": "fault_armor_mc_dented",
+    "name": { "str": "Dented" },
+    "description": "A metal plate was dented."
+  },
+  {
+    "type": "fault",
+    "copy-from": "fault_armor_lc_dented",
+    "id": "fault_armor_hc_dented",
+    "name": { "str": "Dented" },
+    "description": "A metal plate was dented."
+  },
+  {
+    "type": "fault",
+    "copy-from": "fault_armor_lc_dented",
+    "id": "fault_armor_ch_dented",
+    "name": { "str": "Dented" },
+    "description": "A metal plate was dented."
+  },
+  {
+    "type": "fault",
+    "copy-from": "fault_armor_lc_dented",
+    "id": "fault_armor_qt_dented",
+    "name": { "str": "Dented" },
+    "description": "A metal plate was dented."
+  },
+  {
+    "type": "fault",
+    "id": "fault_armor_lc_punctured",
+    "name": { "str": "Punctured" },
+    "description": "A metal plate was punctured.",
+    "item_prefix": "punctured",
+    "message": "%s was punctured!",
+    "degradation_mod": 5,
+    "price_modifier": 0.8,
+    "armor_mod": [
+      { "damage_id": "bash", "multiply": 0.8 },
+      { "damage_id": "cut", "multiply": 0.9 },
+      { "damage_id": "stab", "multiply": 0.7 }
+    ]
+  },
+  {
+    "type": "fault",
+    "copy-from": "fault_armor_lc_punctured",
+    "id": "fault_armor_mc_punctured",
+    "name": { "str": "Punctured" },
+    "description": "A metal plate was punctured."
+  },
+  {
+    "type": "fault",
+    "copy-from": "fault_armor_lc_punctured",
+    "id": "fault_armor_hc_punctured",
+    "name": { "str": "Punctured" },
+    "description": "A metal plate was punctured."
+  },
+  {
+    "type": "fault",
+    "copy-from": "fault_armor_lc_punctured",
+    "id": "fault_armor_ch_punctured",
+    "name": { "str": "Punctured" },
+    "description": "A metal plate was punctured."
+  },
+  {
+    "type": "fault",
+    "copy-from": "fault_armor_lc_punctured",
+    "id": "fault_armor_qt_punctured",
+    "name": { "str": "Punctured" },
+    "description": "A metal plate was punctured."
+  },
+  {
+    "type": "fault",
+    "id": "fault_armor_rivets_broken",
+    "name": { "str": "Damaged rivets" },
+    "description": "Some of the rivets were broken.",
+    "item_prefix": "damaged",
+    "message": "%s's rivets were broken!",
+    "degradation_mod": 5,
+    "price_modifier": 0.9,
+    "encumbrance_mult": 1.5,
+    "armor_mod": [
+      { "damage_id": "bash", "multiply": 0.9 },
+      { "damage_id": "cut", "multiply": 0.9 },
+      { "damage_id": "stab", "multiply": 0.9 }
+    ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_armor_straps_cut",
+    "name": { "str": "Cut straps" },
+    "description": "Some of the straps were cut.",
+    "item_prefix": "damaged",
+    "message": "%s's straps were cut!",
+    "degradation_mod": 5,
+    "price_modifier": 0.9,
+    "encumbrance_mult": 1.5,
+    "armor_mod": [
+      { "damage_id": "bash", "multiply": 0.9 },
+      { "damage_id": "cut", "multiply": 0.9 },
+      { "damage_id": "stab", "multiply": 0.9 }
+    ]
+  }
+]

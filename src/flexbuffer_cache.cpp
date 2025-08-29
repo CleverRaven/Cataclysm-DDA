@@ -23,6 +23,7 @@
 #include "filesystem.h"
 #include "json.h"
 #include "mmap_file.h"
+#include "options.h"
 
 namespace
 {
@@ -42,15 +43,16 @@ void try_find_and_throw_json_error( TextJsonValue &jv )
     }
 }
 
-fs::file_time_type get_file_mtime_millis( const fs::path &path, std::error_code &ec )
+std::filesystem::file_time_type get_file_mtime_millis( const std::filesystem::path &path,
+        std::error_code &ec )
 {
-    fs::file_time_type ret = fs::last_write_time( path, ec );
+    std::filesystem::file_time_type ret = std::filesystem::last_write_time( path, ec );
     if( ec ) {
         return ret;
     }
     // Truncate to nearest millisecond.
-    ret = fs::file_time_type( std::chrono::milliseconds(
-                                  std::chrono::duration_cast<std::chrono::milliseconds>( ret.time_since_epoch() ).count() ) );
+    ret = std::filesystem::file_time_type( std::chrono::milliseconds(
+            std::chrono::duration_cast<std::chrono::milliseconds>( ret.time_since_epoch() ).count() ) );
     return ret;
 }
 
@@ -143,15 +145,15 @@ struct flexbuffer_vector_storage : flexbuffer_storage {
 };
 
 struct flexbuffer_mmap_storage : flexbuffer_storage {
-    std::shared_ptr<mmap_file> mmap_handle_;
+    std::shared_ptr<const mmap_file> mmap_handle_;
 
-    explicit flexbuffer_mmap_storage( std::shared_ptr<mmap_file> mmap_handle ) : mmap_handle_{ std::move( mmap_handle ) } {}
+    explicit flexbuffer_mmap_storage( std::shared_ptr<const mmap_file> mmap_handle ) : mmap_handle_{ std::move( mmap_handle ) } {}
 
     const uint8_t *data() const override {
-        return mmap_handle_->base;
+        return static_cast<const uint8_t *>( mmap_handle_->base() );
     }
     size_t size() const override {
-        return mmap_handle_->len;
+        return mmap_handle_->len();
     }
 };
 
@@ -164,8 +166,8 @@ parsed_flexbuffer::parsed_flexbuffer( std::shared_ptr<flexbuffer_storage> storag
 struct file_flexbuffer : parsed_flexbuffer {
         file_flexbuffer(
             std::shared_ptr<flexbuffer_storage> &&storage,
-            fs::path &&source_file_path,
-            fs::file_time_type mtime,
+            std::filesystem::path &&source_file_path,
+            std::filesystem::file_time_type mtime,
             size_t offset )
             : parsed_flexbuffer( std::move( storage ) ),
               source_file_path_{ std::move( source_file_path ) },
@@ -176,7 +178,7 @@ struct file_flexbuffer : parsed_flexbuffer {
 
         bool is_stale() const override {
             std::error_code ec;
-            fs::file_time_type mtime = get_file_mtime_millis( source_file_path_, ec );
+            std::filesystem::file_time_type mtime = get_file_mtime_millis( source_file_path_, ec );
             if( ec ) {
                 // Assume yes out of date.
                 return true;
@@ -193,13 +195,13 @@ struct file_flexbuffer : parsed_flexbuffer {
             return ifs;
         }
 
-        fs::path get_source_path() const noexcept override {
+        std::filesystem::path get_source_path() const noexcept override {
             return source_file_path_;
         }
 
     private:
-        fs::path source_file_path_;
-        fs::file_time_type mtime_;
+        std::filesystem::path source_file_path_;
+        std::filesystem::file_time_type mtime_;
         std::streampos offset_;
 };
 
@@ -220,7 +222,7 @@ struct string_flexbuffer : parsed_flexbuffer {
             return std::make_unique<std::istringstream>( source_ );
         }
 
-        fs::path get_source_path() const noexcept override {
+        std::filesystem::path get_source_path() const noexcept override {
             return {};
         }
 
@@ -231,8 +233,9 @@ struct string_flexbuffer : parsed_flexbuffer {
 class flexbuffer_disk_cache
 {
     public:
-        static std::unique_ptr<flexbuffer_disk_cache> init_from_folder( const fs::path &cache_path,
-                const fs::path &root_path ) {
+        static std::unique_ptr<flexbuffer_disk_cache> init_from_folder( const std::filesystem::path
+                &cache_path,
+                const std::filesystem::path &root_path ) {
             // Private constructor, make_unique doesn't have access.
             std::unique_ptr<flexbuffer_disk_cache> cache{ new flexbuffer_disk_cache( cache_path, root_path ) };
 
@@ -246,10 +249,10 @@ class flexbuffer_disk_cache
             for( const std::string &cached_flexbuffer : all_cached_flexbuffers ) {
                 // The file path format is <input file>.<mtime>.fb
                 // So find the second-to-last-dot
-                fs::path cached_flexbuffer_path = fs::u8path( cached_flexbuffer );
-                fs::path json_with_mtime = cached_flexbuffer_path.stem();
+                std::filesystem::path cached_flexbuffer_path = std::filesystem::u8path( cached_flexbuffer );
+                std::filesystem::path json_with_mtime = cached_flexbuffer_path.stem();
                 std::string mtime_str = json_with_mtime.extension().u8string();
-                fs::path original_json_file_name = json_with_mtime.stem();
+                std::filesystem::path original_json_file_name = json_with_mtime.stem();
                 if( mtime_str.empty() || original_json_file_name.empty() ) {
                     // Not a recognized flexbuffer filename.
                     remove_file( cached_flexbuffer );
@@ -257,13 +260,15 @@ class flexbuffer_disk_cache
                 }
 
                 // Explicit constructor from milliseconds to file_time_type.
-                fs::file_time_type cached_mtime = fs::file_time_type( std::chrono::milliseconds( std::strtoull(
-                                                      // extension() returns a string with the leading .
-                                                      mtime_str.c_str() + 1,
-                                                      nullptr, 0 ) ) );
+                std::filesystem::file_time_type cached_mtime = std::filesystem::file_time_type(
+                            std::chrono::milliseconds( std::strtoull(
+                                    // extension() returns a string with the leading .
+                                    mtime_str.c_str() + 1,
+                                    nullptr, 0 ) ) );
 
-                fs::path root_relative_json_path = cached_flexbuffer_path.parent_path().lexically_relative(
-                                                       cache_path ) / original_json_file_name;
+                std::filesystem::path root_relative_json_path =
+                    cached_flexbuffer_path.parent_path().lexically_relative(
+                        cache_path ) / original_json_file_name;
                 std::string root_relative_json_path_string = root_relative_json_path.u8string();
 
                 // Don't just blindly insert, we may end up in a situation with multiple flexbuffers for the same input json
@@ -285,11 +290,12 @@ class flexbuffer_disk_cache
             return cache;
         }
 
-        bool has_cached_flexbuffer_for_json( const fs::path &json_source_path ) {
+        bool has_cached_flexbuffer_for_json( const std::filesystem::path &json_source_path ) {
             return cached_flexbuffers_.count( json_source_path.u8string() ) > 0;
         }
 
-        fs::file_time_type cached_mtime_for_json( const fs::path &json_source_path ) {
+        std::filesystem::file_time_type cached_mtime_for_json( const std::filesystem::path
+                &json_source_path ) {
             auto it = cached_flexbuffers_.find( json_source_path.u8string() );
             if( it != cached_flexbuffers_.end() ) {
                 return it->second.mtime;
@@ -298,10 +304,11 @@ class flexbuffer_disk_cache
         }
 
         std::shared_ptr<flexbuffer_mmap_storage> load_flexbuffer_if_not_stale(
-            const fs::path &lexically_normal_json_source_path ) {
+            const std::filesystem::path &lexically_normal_json_source_path ) {
             std::shared_ptr<flexbuffer_mmap_storage> storage;
 
-            fs::path root_relative_source_path = lexically_normal_json_source_path.lexically_relative(
+            std::filesystem::path root_relative_source_path =
+                lexically_normal_json_source_path.lexically_relative(
                     root_path_ ).lexically_normal();
 
             // Is there even a potential cached flexbuffer for this file.
@@ -311,13 +318,31 @@ class flexbuffer_disk_cache
             }
 
             std::error_code ec;
-            fs::file_time_type source_mtime = get_file_mtime_millis( lexically_normal_json_source_path, ec );
+            std::filesystem::file_time_type source_mtime = get_file_mtime_millis(
+                        lexically_normal_json_source_path, ec );
             if( ec ) {
                 return storage;
             }
 
             // Does the source file's mtime match what we cached previously
             if( source_mtime != disk_entry->second.mtime ) {
+#ifndef NO_STALE_DATA_WARN
+                std::string filepath_and_name = disk_entry->first;
+                // we use this as an exclusion condition. Configuration options can be changed all the time, we don't want to warn over those. Same for achievements.
+                bool stale_game_data = *root_relative_source_path.begin() != std::filesystem::u8path( "config" ) &&
+                                       *root_relative_source_path.begin() != std::filesystem::u8path( "achievements" ) &&
+                                       *root_relative_source_path.begin() != std::filesystem::u8path( "templates" );
+                if( stale_game_data ) {
+                    if( get_option<bool>( "WARN_ON_MODIFIED" ) ) {
+                        debugmsg( "Stale game data detected at %s, did you overwrite old files?  When updating the game you must install to a fresh folder, overwriting old files will cause errors.",
+                                  filepath_and_name );
+                    } else {
+                        // we still log the modification warning even if the option is disabled, for sifting bug reports
+                        DebugLog( D_WARNING, D_MAIN ) << "Stale game data detected (error disabled by user): " <<
+                                                      filepath_and_name;
+                    }
+                }
+#endif
                 // Cached flexbuffer on disk is out of date, remove it.
                 remove_file( disk_entry->second.flexbuffer_path.u8string() );
                 cached_flexbuffers_.erase( disk_entry );
@@ -325,8 +350,8 @@ class flexbuffer_disk_cache
             }
 
             // Try to mmap the cached flexbuffer
-            std::shared_ptr<mmap_file> mmap_handle = mmap_file::map_file(
-                        disk_entry->second.flexbuffer_path.u8string() );
+            std::shared_ptr<const mmap_file> mmap_handle = mmap_file::map_file(
+                        disk_entry->second.flexbuffer_path );
             if( !mmap_handle ) {
                 return storage;
             }
@@ -336,11 +361,12 @@ class flexbuffer_disk_cache
             return storage;
         }
 
-        bool save_to_disk( const fs::path &lexically_normal_json_source_path,
+        bool save_to_disk( const std::filesystem::path &lexically_normal_json_source_path,
                            const std::vector<uint8_t> &flexbuffer_binary ) {
             std::error_code ec;
             std::string json_source_path_string = lexically_normal_json_source_path.u8string();
-            fs::file_time_type mtime = get_file_mtime_millis( lexically_normal_json_source_path, ec );
+            std::filesystem::file_time_type mtime = get_file_mtime_millis( lexically_normal_json_source_path,
+                                                    ec );
             if( ec ) {
                 return false;
             }
@@ -349,13 +375,14 @@ class flexbuffer_disk_cache
                                ( mtime.time_since_epoch() ).count();
 
             // Doing some variable reuse to avoid copies.
-            fs::path flexbuffer_path = ( cache_path_ / lexically_normal_json_source_path.lexically_relative(
-                                             root_path_ ) ).remove_filename();
+            std::filesystem::path flexbuffer_path = ( cache_path_ /
+                                                    lexically_normal_json_source_path.lexically_relative(
+                                                            root_path_ ) ).remove_filename();
 
             assure_dir_exist( flexbuffer_path );
 
-            fs::path flexbuffer_filename = lexically_normal_json_source_path.filename();
-            flexbuffer_filename += fs::u8path( "." + std::to_string( mtime_ms ) + ".fb" );
+            std::filesystem::path flexbuffer_filename = lexically_normal_json_source_path.filename();
+            flexbuffer_filename += std::filesystem::u8path( "." + std::to_string( mtime_ms ) + ".fb" );
             flexbuffer_path /= flexbuffer_filename;
             std::ofstream fb( flexbuffer_path, std::ofstream::binary );
             if( !fb.good() ) {
@@ -374,22 +401,23 @@ class flexbuffer_disk_cache
         }
 
     private:
-        explicit flexbuffer_disk_cache( fs::path cache_path, fs::path root_path ) : cache_path_{ std::move( cache_path ) },
+        explicit flexbuffer_disk_cache( std::filesystem::path cache_path,
+                                        std::filesystem::path root_path ) : cache_path_{ std::move( cache_path ) },
             root_path_{ std::move( root_path ) } {}
 
-        fs::path cache_path_;
-        fs::path root_path_;
+        std::filesystem::path cache_path_;
+        std::filesystem::path root_path_;
 
         struct disk_cache_entry {
-            fs::path flexbuffer_path;
-            fs::file_time_type mtime;
+            std::filesystem::path flexbuffer_path;
+            std::filesystem::file_time_type mtime;
         };
         // Maps game root relative json source path to the most recent cached flexbuffer we have on disk for it.
         std::unordered_map<std::string, disk_cache_entry> cached_flexbuffers_;
 };
 
-flexbuffer_cache::flexbuffer_cache( const fs::path &cache_directory,
-                                    const fs::path &root_directory )
+flexbuffer_cache::flexbuffer_cache( const std::filesystem::path &cache_directory,
+                                    const std::filesystem::path &root_directory )
 {
     if( !cache_directory.empty() ) {
         disk_cache_ = flexbuffer_disk_cache::init_from_folder( cache_directory, root_directory );
@@ -398,16 +426,16 @@ flexbuffer_cache::flexbuffer_cache( const fs::path &cache_directory,
 
 flexbuffer_cache::~flexbuffer_cache() = default;
 
-std::shared_ptr<parsed_flexbuffer> flexbuffer_cache::parse( fs::path json_source_path,
+std::shared_ptr<parsed_flexbuffer> flexbuffer_cache::parse( std::filesystem::path json_source_path,
         size_t offset )
 {
     std::string json_source_path_string = json_source_path.generic_u8string();
-    std::shared_ptr<mmap_file> json_source = mmap_file::map_file( json_source_path );
+    std::shared_ptr<const mmap_file> json_source = mmap_file::map_file( json_source_path );
     if( !json_source ) {
         throw std::runtime_error( "Failed to mmap " + json_source_path_string );
     }
 
-    const char *json_text = reinterpret_cast<const char *>( json_source->base ) + offset;
+    const char *json_text = reinterpret_cast<const char *>( json_source->base() ) + offset;
 
     std::vector<uint8_t> fb = parse_json_to_flexbuffer_( json_text, json_source_path_string.c_str() );
 
@@ -415,7 +443,7 @@ std::shared_ptr<parsed_flexbuffer> flexbuffer_cache::parse( fs::path json_source
 
     std::error_code ec;
     // If we got this far we can get the mtime.
-    fs::file_time_type mtime = get_file_mtime_millis( json_source_path, ec );
+    std::filesystem::file_time_type mtime = get_file_mtime_millis( json_source_path, ec );
     ( void )ec;
 
     return std::make_shared<file_flexbuffer>(
@@ -426,7 +454,7 @@ std::shared_ptr<parsed_flexbuffer> flexbuffer_cache::parse( fs::path json_source
 }
 
 std::shared_ptr<parsed_flexbuffer> flexbuffer_cache::parse_and_cache(
-    fs::path lexically_normal_json_source_path, size_t offset )
+    std::filesystem::path lexically_normal_json_source_path, size_t offset )
 {
 
     // Is our cache potentially stale?
@@ -435,7 +463,8 @@ std::shared_ptr<parsed_flexbuffer> flexbuffer_cache::parse_and_cache(
                     lexically_normal_json_source_path );
         if( cached_storage ) {
             std::error_code ec;
-            fs::file_time_type mtime = get_file_mtime_millis( lexically_normal_json_source_path, ec );
+            std::filesystem::file_time_type mtime = get_file_mtime_millis( lexically_normal_json_source_path,
+                                                    ec );
             ( void )ec;
 
             return std::make_shared<file_flexbuffer>( std::move( cached_storage ),
@@ -461,7 +490,8 @@ std::shared_ptr<parsed_flexbuffer> flexbuffer_cache::parse_and_cache(
     auto storage = std::make_shared<flexbuffer_vector_storage>( std::move( fb ) );
 
     std::error_code ec;
-    fs::file_time_type mtime = fs::last_write_time( lexically_normal_json_source_path, ec );
+    std::filesystem::file_time_type mtime = std::filesystem::last_write_time(
+            lexically_normal_json_source_path, ec );
     if( ec ) {
         // Whatever.
     }

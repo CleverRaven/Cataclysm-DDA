@@ -31,6 +31,21 @@
   },
   {
     "type": "mutation",
+    "id": "GOBLIN_FRUIT_MUSIC",
+    "name": { "str": "The fruit's song" },
+    "//": "Until the day EOCs can spawn equiped items, the fruit will give a mutation that holds the music player.",
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "player_display": false,
+    "points": 2,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": { "str": "Gives the integrated music player.  Should not be player-visible.", "//~": "NO_I18N" },
+    "integrated_armor": [ "internal_mp3_fruit" ]
+  },
+  {
+    "type": "mutation",
     "id": "ethereal_wings",
     "name": { "str": "Ethereal Wings" },
     "active": true,
@@ -149,12 +164,11 @@
     "starting_trait": false,
     "purifiable": false,
     "player_display": false,
-    "//": "The second enchantment takes into account the effects of the mutations added by the first enchantment, whose own enchantments do not transfer over due to bug #74994.  If that bug is fixed, it can be deleted.",
     "enchantments": [
       {
         "condition": "ALWAYS",
         "values": [
-          { "value": "MAX_HP", "multiply": 0.5 },
+          { "value": "MAX_HP", "multiply": 2 },
           { "value": "SPEED", "multiply": 0.2 },
           { "value": "RANGE", "multiply": -1 },
           { "value": "DEXTERITY", "add": 2 },
@@ -162,11 +176,11 @@
           { "value": "NIGHT_VIS", "add": 5 },
           { "value": "MELEE_DAMAGE", "multiply": 0.4 },
           { "value": "CLIMATE_CONTROL_HEAT", "add": 25 },
+          { "value": "PAIN", "multiply": -0.4 },
           { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 }
         ],
         "mutations": [ "FANGS", "MUZZLE_BEAR", "TAIL_STUB", "PAWS_LARGE", "URSINE_FUR", "URSINE_EARS", "PRED3" ]
       },
-      { "condition": "ALWAYS", "values": [ { "value": "HEARING_MULT", "multiply": 0.25 } ] },
       {
         "condition": { "and": [ { "u_has_flag": "QUADRUPED_CROUCH" }, { "u_has_flag": "QUADRUPED_RUN" }, { "not": "u_can_drop_weapon" } ] },
         "values": [ { "value": "MOVE_COST", "multiply": -0.15 } ],
@@ -180,17 +194,14 @@
     ],
     "flags": [
       "MUTE",
-      "MYOPIC_IN_LIGHT",
       "NO_SPELLCASTING",
-      "PRED3",
-      "QUADRUPED_CROUCH",
       "QUADRUPED_RUN",
       "TOUGH_FEET",
       "TEMPORARY_SHAPESHIFT",
-      "SHAPESHIFT_SIZE_HUGE"
+      "SHAPESHIFT_SIZE_HUGE",
+      "TEMPORARY_SHAPESHIFT_NO_HANDS"
     ],
-    "override_look": { "id": "mon_bear", "tile_category": "monster" },
-    "integrated_armor": [ "integrated_claws_st", "integrated_fangs", "integrated_ursine_fur" ]
+    "override_look": { "id": "mon_bear", "tile_category": "monster" }
   },
   {
     "type": "mutation",
@@ -229,15 +240,9 @@
         "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
       }
     ],
-    "attacks": {
-      "attack_text_u": "You kick %s with your hooves!",
-      "attack_text_npc": "%1$s kicks %2$s with their hooves!",
-      "chance": 15,
-      "strength_damage": { "damage_type": "bash", "amount": 3 }
-    },
-    "flags": [ "MUTE", "NO_SPELLCASTING", "QUADRUPED_CROUCH", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT" ],
-    "override_look": { "id": "mon_deer", "tile_category": "monster" },
-    "integrated_armor": [ "integrated_antlers", "integrated_feline_fur" ]
+    "integrated_armor": [ "integrated_antlers", "integrated_feline_fur" ],
+    "flags": [ "MUTE", "NO_SPELLCASTING", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT", "TEMPORARY_SHAPESHIFT_NO_HANDS" ],
+    "override_look": { "id": "mon_deer", "tile_category": "monster" }
   },
   {
     "type": "mutation",
@@ -252,7 +257,6 @@
     "purifiable": false,
     "valid": false,
     "player_display": false,
-    "//": "The second enchantment takes into account the effects of the mutations added by the first enchantment, whose own enchantments do not transfer over due to bug #74994.  If that bug is fixed, it can be deleted.",
     "enchantments": [
       {
         "condition": "ALWAYS",
@@ -270,14 +274,6 @@
         "mutations": [ "FANGS", "TAIL_LONG", "PAWS", "FELINE_FUR", "FELINE_EARS", "PRED3", "WHISKERS", "FELINE_LEAP" ]
       },
       {
-        "condition": "ALWAYS",
-        "values": [
-          { "value": "HEARING_MULT", "multiply": 0.25 },
-          { "value": "COMBAT_CATCHUP", "multiply": 2 },
-          { "value": "DODGE_CHANCE", "add": 5 }
-        ]
-      },
-      {
         "condition": { "and": [ { "u_has_flag": "QUADRUPED_CROUCH" }, { "u_has_flag": "QUADRUPED_RUN" }, { "not": "u_can_drop_weapon" } ] },
         "values": [ { "value": "MOVE_COST", "multiply": -0.15 } ],
         "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "quadruped_full", "intensity": 1 } ]
@@ -288,9 +284,8 @@
         "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
       }
     ],
-    "flags": [ "MUTE", "NO_SPELLCASTING", "PRED3", "QUADRUPED_CROUCH", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT" ],
-    "override_look": { "id": "mon_cougar", "tile_category": "monster" },
-    "integrated_armor": [ "integrated_fangs", "integrated_feline_fur", "integrated_claws" ]
+    "flags": [ "MUTE", "NO_SPELLCASTING", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT", "TEMPORARY_SHAPESHIFT_NO_HANDS" ],
+    "override_look": { "id": "mon_cougar", "tile_category": "monster" }
   },
   {
     "type": "mutation",
@@ -305,7 +300,6 @@
     "purifiable": false,
     "valid": false,
     "player_display": false,
-    "//": "The second enchantment, as well as bodytemp modifiers, takes into account the effects of the mutations added by the first enchantment, whose own enchantments do not transfer over due to bug #74994.  If that bug is fixed, it can be deleted.",
     "bodytemp_modifiers": [ 500, 1200 ],
     "enchantments": [
       {
@@ -319,18 +313,17 @@
           { "value": "NIGHT_VIS", "add": 8 },
           { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 }
         ],
-        "ench_effects": [ { "effect": "effect_vampire_bat_form_levitation", "intensity": 1 } ],
         "skills": [ { "value": "dodge", "add": 4 } ],
         "mutations": [ "BIRD_EYE", "DOWN", "EAGLEEYED", "LIGHTEATER" ]
       },
       {
-        "condition": "ALWAYS",
-        "values": [
-          { "value": "PERCEPTION", "add": 4 },
-          { "value": "BODYTEMP_SLEEP", "add": 0.5 },
-          { "value": "OVERMAP_SIGHT", "add": 4 },
-          { "value": "METABOLISM", "multiply": -0.333 }
-        ]
+        "condition": {
+          "and": [
+            { "not": { "u_has_effect": "disabled", "bodypart": "arm_l" } },
+            { "not": { "u_has_effect": "disabled", "bodypart": "arm_r" } }
+          ]
+        },
+        "ench_effects": [ { "effect": "effect_vampire_bat_form_levitation", "intensity": 1 } ]
       },
       {
         "condition": "u_has_weapon",
@@ -341,7 +334,14 @@
         "values": [ { "value": "MOVE_COST", "multiply": -0.6 }, { "value": "FOOTSTEP_NOISE", "multiply": -1 } ]
       }
     ],
-    "flags": [ "LEVITATION", "MUTE", "NO_SPELLCASTING", "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_TINY" ],
+    "flags": [
+      "LEVITATION",
+      "MUTE",
+      "NO_SPELLCASTING",
+      "TEMPORARY_SHAPESHIFT",
+      "SHAPESHIFT_SIZE_TINY",
+      "TEMPORARY_SHAPESHIFT_NO_HANDS"
+    ],
     "//2": "override below is because apparently we have no owls in the game",
     "override_look": { "id": "mon_albino_penguin", "tile_category": "monster" }
   },
@@ -360,7 +360,6 @@
     "purifiable": false,
     "valid": false,
     "player_display": false,
-    "//": "The second enchantment, as well as bodytemp modifiers, takes into account the effects of the mutations added by the first enchantment, whose own enchantments do not transfer over due to bug #74994.  If that bug is fixed, it can be deleted.",
     "bodytemp_modifiers": [ 500, 1200 ],
     "enchantments": [
       {
@@ -376,33 +375,9 @@
         ],
         "skills": [ { "value": "dodge", "add": 4 }, { "value": "unarmed", "add": 1 } ],
         "mutations": [ "BEAK", "BIRD_EYE", "BIRD_LEGS", "DOWN", "EAGLEEYED", "HOLLOW_BONES", "LIGHTEATER", "SCREECH", "WINGS_BIRD" ]
-      },
-      {
-        "condition": "ALWAYS",
-        "values": [
-          { "value": "PERCEPTION", "add": 4 },
-          { "value": "BODYTEMP_SLEEP", "add": 0.5 },
-          { "value": "OVERMAP_SIGHT", "add": 4 },
-          { "value": "METABOLISM", "multiply": -0.2 },
-          { "value": "EXTRA_BASH", "multiply": 0.8 },
-          { "value": "MOVE_COST", "multiply": -0.2 },
-          { "value": "ATTACK_SPEED", "multiply": -0.2 },
-          { "value": "CARRY_WEIGHT", "multiply": -0.1 },
-          { "value": "SOCIAL_INTIMIDATE", "add": 10 },
-          { "value": "SOCIAL_LIE", "add": -20 },
-          { "value": "SOCIAL_PERSUADE", "add": -10 }
-        ]
       }
     ],
-    "attacks": {
-      "attack_text_u": "You rip into %s with your beak!",
-      "attack_text_npc": "%1$s rips into %2$s with their beak!",
-      "body_part": "mouth",
-      "chance": 15,
-      "strength_damage": { "damage_type": "cut", "amount": 3 }
-    },
-    "flags": [ "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_LARGE", "WINGS_2", "WING_GLIDE" ],
-    "integrated_armor": [ "integrated_feathers", "integrated_talons" ]
+    "flags": [ "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_LARGE" ]
   },
   {
     "type": "mutation",
@@ -417,7 +392,6 @@
     "purifiable": false,
     "valid": false,
     "player_display": false,
-    "//": "The second enchantment, as well as bodytemp modifiers, takes into account the effects of the mutations added by the first enchantment, whose own enchantments do not transfer over due to bug #74994.  If that bug is fixed, it can be deleted.",
     "bodytemp_modifiers": [ 300, 800 ],
     "enchantments": [
       {
@@ -431,18 +405,17 @@
           { "value": "NIGHT_VIS", "add": 4 },
           { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 }
         ],
-        "ench_effects": [ { "effect": "effect_vampire_bat_form_levitation", "intensity": 1 } ],
         "skills": [ { "value": "dodge", "add": 6 } ],
         "mutations": [ "BIRD_EYE", "DOWN", "EAGLEEYED", "LIGHTEATER" ]
       },
       {
-        "condition": "ALWAYS",
-        "values": [
-          { "value": "PERCEPTION", "add": 4 },
-          { "value": "BODYTEMP_SLEEP", "add": 0.5 },
-          { "value": "OVERMAP_SIGHT", "add": 4 },
-          { "value": "METABOLISM", "multiply": -0.333 }
-        ]
+        "condition": {
+          "and": [
+            { "not": { "u_has_effect": "disabled", "bodypart": "arm_l" } },
+            { "not": { "u_has_effect": "disabled", "bodypart": "arm_r" } }
+          ]
+        },
+        "ench_effects": [ { "effect": "effect_vampire_bat_form_levitation", "intensity": 1 } ]
       },
       {
         "condition": "u_has_weapon",
@@ -453,7 +426,14 @@
         "values": [ { "value": "MOVE_COST", "multiply": -0.6 }, { "value": "FOOTSTEP_NOISE", "multiply": -1 } ]
       }
     ],
-    "flags": [ "LEVITATION", "MUTE", "NO_SPELLCASTING", "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_TINY" ],
+    "flags": [
+      "LEVITATION",
+      "MUTE",
+      "NO_SPELLCASTING",
+      "TEMPORARY_SHAPESHIFT",
+      "SHAPESHIFT_SIZE_TINY",
+      "TEMPORARY_SHAPESHIFT_NO_HANDS"
+    ],
     "override_look": { "id": "mon_raven", "tile_category": "monster" }
   },
   {
@@ -496,5 +476,71 @@
     "copy-from": "CHANGELING_DISGUISE_AS_NATURE_BUSH",
     "name": { "str": "Changeling Rock disguise", "//~": "NO_I18N" },
     "override_look": { "id": "f_boulder_medium", "tile_category": "furniture" }
+  },
+  {
+    "type": "mutation",
+    "id": "GOBLIN_FRUIT_ANIMAL_IGNORE",
+    "name": { "str": "Effect of furry fruit", "//~": "NO_I18N" },
+    "description": { "str": "What makes the furry fruit work.  You should never see this.", "//~": "NO_I18N" },
+    "valid": false,
+    "player_display": false,
+    "points": 0,
+    "ignored_by": [ "MAMMAL", "AMPHIBIAN", "BIRD", "REPTILE", "FISH", "KRAKEN", "INSECT", "CENTIPEDE", "INSECT_FLYING", "SPIDER" ]
+  },
+  {
+    "type": "mutation",
+    "id": "WINTER_FEIGN_DEATH_TRAITS",
+    "//": "Also used by vampires",
+    "name": { "str": "Stillness of the Tomb", "//~": "NO_I18N" },
+    "description": { "str": "You are feigning death.  Shhhhhhh!", "//~": "NO_I18N" },
+    "valid": false,
+    "player_display": false,
+    "points": 0,
+    "ignored_by": [
+      "MAMMAL",
+      "AMPHIBIAN",
+      "MUTANT",
+      "CYBORG",
+      "REPTILE",
+      "FISH",
+      "KRAKEN",
+      "MIGO",
+      "SLIME",
+      "LEECH_PLANT",
+      "INSECT",
+      "CENTIPEDE",
+      "INSECT_FLYING",
+      "SPIDER",
+      "BIRD",
+      "MOLLUSK",
+      "WORM",
+      "ZOMBIE",
+      "NETHER",
+      "PLANT",
+      "FERAL",
+      "ROBOT",
+      "HORROR",
+      "ABERRATION",
+      "HUMAN",
+      "VAMPIRE",
+      "NIGHTMARE",
+      "CHANGELING",
+      "ARVORE",
+      "HOMULLUS",
+      "IERDE",
+      "SALAMANDER",
+      "SYLPH",
+      "UNDINE"
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "ASTRAL_PROJECTION_APPEARANCE",
+    "name": { "str": "Astral Form", "//~": "NO_I18N" },
+    "description": { "str": "You're a disembodied mind so you're all glowy and blue.  Spooky!", "//~": "NO_I18N" },
+    "points": 0,
+    "valid": false,
+    "player_display": false,
+    "override_look": { "id": "mon_hologram", "tile_category": "monster" }
   }
 ]

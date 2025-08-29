@@ -166,8 +166,7 @@
     "id": "EOC_WEATHER_CONTROL_ABOVE_FREEZING_DOWNGRADE",
     "condition": { "not": { "u_has_effect": "effect_controlling_weather" } },
     "effect": [
-      { "u_lose_effect": "effect_controlling_weather_rains" },
-      { "u_lose_effect": "effect_controlling_weather_rainstorm" },
+      { "u_lose_effect": [ "effect_controlling_weather_rains", "effect_controlling_weather_rainstorm" ] },
       {
         "if": { "is_weather": "magic_weather_light_drizzle" },
         "then": { "run_eocs": "EOC_WEATHER_CONTROL_LIGHT_DRIZZLE_TO_NOTHING" },

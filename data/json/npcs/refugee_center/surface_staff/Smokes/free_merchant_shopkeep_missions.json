@@ -9,13 +9,7 @@
     "difficulty": 5,
     "start": {
       "effect": [ { "u_spawn_item": "fema_data", "count": 1 } ],
-      "assign_mission_target": {
-        "om_terrain": "robofachq_surface_entrance",
-        "om_special": "hub_01",
-        "reveal_radius": 1,
-        "random": true,
-        "search_range": 1000
-      }
+      "assign_mission_target": { "om_terrain": "robofachq_surface_entrance", "om_special": "hub_01", "reveal_radius": 1 }
     },
     "end": { "effect": { "math": [ "free_merchants_hub_trade_route = 1" ] } },
     "goal_condition": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_free_merchants_hub_delivery_1" } ] },
@@ -37,7 +31,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "smokes_take_down_back_bay_barricade",
-    "method": "json",
     "object": {
       "set": [
         { "square": "furniture", "id": "f_clear", "x": 6, "y": 3, "x2": 17, "y2": 3 },
@@ -74,7 +67,7 @@
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 25 },
         { "u_add_var": "mission_flag_FMShopkeep_Mission1", "value": "yes" },
-        { "math": [ "u_counter_refugee_center_refugee_happiness", "+=", "3" ] }
+        { "math": [ "u_counter_refugee_center_refugee_happiness += 3" ] }
       ],
       "update_mapgen": {
         "om_terrain": "evac_center_9",
@@ -148,7 +141,7 @@
         "place_loot": [
           { "group": "cannedfood", "x": [ 6, 18 ], "y": [ 3, 15 ], "chance": 100 },
           { "group": "alcohol_bottled_canned", "x": [ 6, 18 ], "y": [ 3, 15 ], "repeat": 2, "chance": 75 },
-          { "group": "trash_forest", "x": [ 6, 18 ], "y": [ 3, 15 ], "repeat": 2, "chance": 75 },
+          { "group": "SUS_trash_forest_manmade", "x": [ 6, 18 ], "y": [ 3, 15 ], "repeat": 2, "chance": 75 },
           { "group": "stash_drugs", "x": [ 6, 18 ], "y": [ 3, 15 ], "chance": 75 },
           { "group": "dresser", "x": [ 9, 10 ], "y": [ 10, 14 ], "chance": 75 },
           { "group": "softdrugs", "x": [ 9, 10 ], "y": [ 10, 14 ], "chance": 50 },
@@ -198,7 +191,7 @@
     "value": 50000,
     "item": "commune_prospectus",
     "start": {
-      "assign_mission_target": { "om_terrain": "ranch_camp_67", "om_special": "ranch_camp", "reveal_radius": 1, "search_range": 540 },
+      "assign_mission_target": { "om_terrain": "ranch_camp_67", "om_special": "ranch_camp", "reveal_radius": 1 },
       "update_mapgen": {
         "place_npcs": [
           { "class": "ranch_foreman", "x": 16, "y": 15, "target": true, "add_trait": "NPC_MISSION_LEV_1" },
@@ -342,7 +335,7 @@
         "text": "[5 merch] Five merch for someone sounds fair to me.",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 5 } },
         "effect": [
-          { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "++" ] },
+          { "math": [ "u_mission_cleanup_promises_Boris_mission_1++" ] },
           { "npc_add_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" },
           { "u_consume_item": "FMCNote", "count": 5, "popup": true }
         ],
@@ -352,7 +345,7 @@
         "text": "[10 merch] How about ten merch to do it?",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 10 } },
         "effect": [
-          { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "+=", "3" ] },
+          { "math": [ "u_mission_cleanup_promises_Boris_mission_1 += 3" ] },
           { "npc_add_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" },
           { "u_consume_item": "FMCNote", "count": 10, "popup": true }
         ],

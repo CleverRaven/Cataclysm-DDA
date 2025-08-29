@@ -1,6 +1,6 @@
 [
   {
-    "name": "GROUP_BACKROOMS",
+    "id": "GROUP_BACKROOMS",
     "type": "monstergroup",
     "monsters": [
       { "group": "GROUP_ZOMBIE", "pack_size": [ 1, 2 ], "weight": 920 },

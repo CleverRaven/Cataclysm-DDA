@@ -1,6 +1,7 @@
 #include "iuse_software_lightson.h"
 
 #include <algorithm>
+#include <cstddef>
 #include <optional>
 #include <string>
 #include <vector>
@@ -8,12 +9,14 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
+#include "coordinates.h"
 #include "cursesdef.h"
 #include "input_context.h"
 #include "output.h"
 #include "point.h"
 #include "rng.h"
 #include "translations.h"
+#include "ui_helpers.h"
 #include "ui_manager.h"
 
 void lightson_game::new_level()
@@ -129,15 +132,9 @@ void lightson_game::toggle_lights_at( const point &pt )
 
 int lightson_game::start_game()
 {
-    const int w_height = 15;
-
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        const point iOffset( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
-                             TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 );
-        w_border = catacurses::newwin( w_height, FULL_SCREEN_WIDTH, iOffset );
-        w = catacurses::newwin( w_height - 6, FULL_SCREEN_WIDTH - 2, iOffset + point::south_east );
-        ui.position_from_window( w_border );
+        ui_helpers::full_screen_window( ui, &w, &w_border, nullptr, nullptr, nullptr, 1, 0, 4 );
     } );
     ui.mark_resize();
 
@@ -172,7 +169,7 @@ int lightson_game::start_game()
         }
 
         mvwputch( w_border, point( 2, 0 ), hilite( c_white ), _( "Lights on!" ) );
-        fold_and_print( w_border, point( 2, w_height - 5 ), FULL_SCREEN_WIDTH - 4, c_light_gray,
+        fold_and_print( w_border, point( 2, getmaxy( w_border ) - 5 ), FULL_SCREEN_WIDTH - 4, c_light_gray,
                         "%s\n%s\n%s", _( "<color_white>Game goal:</color> Switch all the lights on." ),
                         _( "<color_white>Legend: #</color> on, <color_dark_gray>-</color> off." ),
                         _( "Toggle lights switches selected light and 4 its neighbors." ) );
@@ -191,9 +188,9 @@ int lightson_game::start_game()
         }
         ui_manager::redraw();
         std::string action = ctxt.handle_input();
-        if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-            position.y = clamp( position.y + vec->y, 0, level_size.y - 1 );
-            position.x = clamp( position.x + vec->x, 0, level_size.x - 1 );
+        if( const std::optional<tripoint_rel_ms> vec = ctxt.get_direction_rel_ms( action ) ) {
+            position.y = clamp( position.y + vec->y(), 0, level_size.y - 1 );
+            position.x = clamp( position.x + vec->x(), 0, level_size.x - 1 );
         } else if( action == "TOGGLE_SPACE" || action == "TOGGLE_5" ) {
             toggle_lights();
             win = check_win();

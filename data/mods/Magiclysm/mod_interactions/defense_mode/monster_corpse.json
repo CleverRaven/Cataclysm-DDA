@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_claygolem_dm",
     "symbol": "x",
     "color": "brown",
@@ -16,7 +16,7 @@
     "melee_damage": { "bash": 4, "cut": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_plasticgolem_dm",
     "symbol": "x",
     "color": "light_gray",
@@ -32,7 +32,7 @@
     "melee_damage": { "bash": 4, "cut": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_stonegolem_dm",
     "symbol": "x",
     "color": "light_gray",
@@ -48,7 +48,7 @@
     "melee_damage": { "bash": 4, "cut": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_irongolem_dm",
     "symbol": "x",
     "color": "dark_gray",

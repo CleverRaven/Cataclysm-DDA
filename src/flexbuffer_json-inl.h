@@ -2,6 +2,8 @@
 #ifndef CATA_SRC_FLEXBUFFER_JSON_INL_H
 #define CATA_SRC_FLEXBUFFER_JSON_INL_H
 
+// IWYU pragma: private, include "flexbuffer_json.h"
+
 #include <optional>
 #include <string>
 #include <type_traits>
@@ -229,6 +231,11 @@ inline bool JsonValue::test_array() const
 inline bool JsonValue::test_null() const
 {
     return json_.IsNull();
+}
+
+inline bool JsonValue::is_member() const
+{
+    return false;
 }
 
 inline std::string JsonValue::get_string() const
@@ -838,6 +845,11 @@ std::string JsonObject::get_string( const char *key, T &&fallback ) const
 
 // Vanilla accessors. Just return the named member and use it's conversion function.
 inline int JsonObject::get_int( const std::string_view key ) const
+{
+    return get_member( key );
+}
+
+inline int64_t JsonObject::get_int64( const std::string_view key ) const
 {
     return get_member( key );
 }

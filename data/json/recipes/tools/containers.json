@@ -219,7 +219,7 @@
     "difficulty": 6,
     "time": "45 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_chunk_any", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ]
   },
@@ -233,7 +233,7 @@
     "difficulty": 6,
     "time": "30 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_chunk_any", 2 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -251,7 +251,7 @@
     "difficulty": 6,
     "time": "20 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_chunk_any", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -269,7 +269,7 @@
     "difficulty": 6,
     "time": "30 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_chunk_any", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -663,7 +663,7 @@
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 4 ] ], [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ] ]
+    "components": [ [ [ "sheet_metal_small", 4 ] ], [ [ "steel_chunk_any", 3, "LIST" ], [ "scrap", 9 ] ] ]
   },
   {
     "type": "recipe",
@@ -1565,7 +1565,7 @@
     "difficulty": 2,
     "time": "1 m",
     "autolearn": true,
-    "components": [ [ [ "large_biogas_tank", 1 ] ] ]
+    "components": [ [ [ "large_propane_tank", 1 ] ] ]
   },
   {
     "result": "xl_biogas_tank",

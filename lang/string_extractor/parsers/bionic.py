@@ -1,3 +1,4 @@
+from .enchant import parse_enchant
 from ..helper import get_singular_name
 from ..write_text import write_text
 
@@ -9,5 +10,9 @@ def parse_bionic(json, origin):
         write_text(json["name"], origin, comment="Name of a bionic")
 
     if "description" in json:
-        write_text(json["description"], origin, c_format=False,
+        write_text(json["description"], origin,
                    comment="Description of bionic \"{}\"".format(name))
+
+    if "enchantments" in json:
+        for enchantment in json["enchantments"]:
+            parse_enchant(enchantment, origin)

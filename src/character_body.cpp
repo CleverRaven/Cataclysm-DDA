@@ -17,6 +17,7 @@
 #include "character.h"
 #include "character_attire.h"
 #include "color.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "display.h"
 #include "effect.h"
@@ -26,7 +27,7 @@
 #include "game_constants.h"
 #include "magic.h"
 #include "magic_enchantment.h"
-#include "make_static.h"
+#include "math_parser_diag_value.h"
 #include "map.h"
 #include "mapdata.h"
 #include "messages.h"
@@ -39,7 +40,7 @@
 #include "translation.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 #include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -49,12 +50,15 @@
 #include "weather_gen.h"
 
 class item;
-struct mutation_branch;
+
+static const addiction_id addiction_nicotine( "nicotine" );
 
 static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
 
 static const character_modifier_id
 character_modifier_stamina_recovery_breathing_mod( "stamina_recovery_breathing_mod" );
+
+static const damage_type_id damage_heat( "heat" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_bandaged( "bandaged" );
@@ -249,7 +253,6 @@ void Character::update_body( const time_point &from, const time_point &to )
     }
     update_stomach( from, to );
     recalculate_enchantment_cache();
-    update_enchantment_mutations();
     if( ticks_between( from, to, 3_minutes ) > 0 ) {
         magic->update_mana( *this, to_turns<float>( 3_minutes ) );
     }
@@ -268,7 +271,7 @@ void Character::update_body( const time_point &from, const time_point &to )
         mend( five_mins * to_turns<int>( 5_minutes ) );
         activity_history.reset_activity_level();
     }
-    bool was_sleeping = get_value( "was_sleeping" ) == "true";
+    bool was_sleeping = get_value( "was_sleeping" ).str() == "true";
     if( in_sleep_state() && was_sleeping ) {
         needs_rates tmp_rates;
         calc_sleep_recovery_rate( tmp_rates );
@@ -279,14 +282,14 @@ void Character::update_body( const time_point &from, const time_point &to )
     }
     if( was_sleeping && !in_sleep_state() ) {
         if( get_continuous_sleep() >= 6_hours ) {
-            set_value( "sleep_health_mult", "2" );
+            set_value( "sleep_health_mult", 2 );
         }
         reset_continuous_sleep();
     }
     if( calendar::once_every( 12_hours ) ) {
-        const int sleep_health_mult = get_value( "sleep_health_mult" ) == "2" ? 2 : 1;
+        const int sleep_health_mult = get_value( "sleep_health_mult" ).dbl();
         mod_daily_health( sleep_health_mult * to_hours<int>( get_daily_sleep() ), 10 );
-        set_value( "sleep_health_mult", "1" );
+        set_value( "sleep_health_mult", 1 );
     }
     if( calendar::once_every( 1_days ) ) {
         reset_daily_sleep();
@@ -298,13 +301,13 @@ void Character::update_body( const time_point &from, const time_point &to )
     // Cardio related health stuff
     if( calendar::once_every( 1_days ) ) {
         // not getting below half stamina even once in a whole day is not healthy
-        if( get_value( "got_to_half_stam" ).empty() ) {
+        if( get_value( "got_to_half_stam" ).is_empty() ) {
             mod_daily_health( -4, -200 );
         } else {
             remove_value( "got_to_half_stam" );
         }
         // reset counter for number of time going below quarter stamina
-        set_value( "quarter_stam_counter", "0" );
+        set_value( "quarter_stam_counter", 0 );
 
         int cardio_accumultor = get_cardio_acc();
         if( cardio_accumultor > 0 ) {
@@ -381,31 +384,6 @@ void Character::update_body( const time_point &from, const time_point &to )
     }
 }
 
-void Character::update_enchantment_mutations()
-{
-    // after recalcing the enchantment cache can properly remove and add mutations
-    const std::vector<trait_id> &current_traits = get_mutations();
-    for( const trait_id &mut : mutations_to_remove ) {
-        // check if the player still has a mutation
-        // since a trait from an item might be provided by another item as well
-        auto it = std::find( current_traits.begin(), current_traits.end(), mut );
-        if( it == current_traits.end() ) {
-            const mutation_branch &mut_b = *mut;
-            cached_mutations.erase( std::remove( cached_mutations.begin(), cached_mutations.end(), &mut_b ),
-                                    cached_mutations.end() );
-            mutation_loss_effect( mut );
-            enchantment_wear_change();
-        }
-    }
-    for( const trait_id &mut : mutations_to_add ) {
-        cached_mutations.push_back( &mut.obj() );
-        mutation_effect( mut, true );
-        enchantment_wear_change();
-    }
-    mutations_to_add.clear();
-    mutations_to_remove.clear();
-}
-
 /* Here lies the intended effects of body temperature
 
 Assumption 1 : a naked person is comfortable at 19C/66.2F (31C/87.8F at rest).
@@ -452,7 +430,7 @@ void Character::update_bodytemp()
     }
     weather_manager &weather_man = get_weather();
     /* Cache calls to g->get_temperature( player position ), used in several places in function */
-    const units::temperature player_local_temp = weather_man.get_temperature( pos() );
+    const units::temperature player_local_temp = weather_man.get_temperature( pos_bub() );
     const w_point weather = *weather_man.weather_precise;
     int vehwindspeed = 0;
     map &here = get_map();
@@ -460,10 +438,10 @@ void Character::update_bodytemp()
     if( vp ) {
         vehwindspeed = std::abs( vp->vehicle().velocity / 100 ); // vehicle velocity in mph
     }
-    const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
+    const oter_id &cur_om_ter = overmap_buffer.ter( pos_abs_omt() );
     bool sheltered = g->is_sheltered( pos_bub() );
     int bp_windpower = get_local_windpower( weather_man.windspeed + vehwindspeed, cur_om_ter,
-                                            get_location(), weather_man.winddirection, sheltered );
+                                            pos_abs(), weather_man.winddirection, sheltered );
     // Let's cache this not to check it for every bodyparts
     const bool has_bark = has_flag( json_flag_BARKY );
     const bool has_sleep = has_effect( effect_sleep );
@@ -503,12 +481,13 @@ void Character::update_bodytemp()
     // Sunlight
     const float scaled_sun_irradiance = incident_sun_irradiance( get_weather().weather_id,
                                         calendar::turn ) / max_sun_irradiance();
-    const units::temperature_delta sunlight_warmth = !g->is_sheltered( pos() ) ? 3_C_delta *
+    const units::temperature_delta sunlight_warmth = !g->is_sheltered( pos_bub() ) ? 3_C_delta *
             scaled_sun_irradiance :
             0_C_delta;
-    const int best_fire = get_best_fire( pos() );
+    const int best_fire = get_best_fire( pos_bub() );
 
-    const units::temperature_delta lying_warmth = use_floor_warmth ? floor_warmth( pos() ) : 0_C_delta;
+    const units::temperature_delta lying_warmth = use_floor_warmth ? floor_warmth(
+                pos_bub() ) : 0_C_delta;
     const units::temperature water_temperature =
         get_weather().get_cur_weather_gen().get_water_temperature();
 
@@ -519,7 +498,7 @@ void Character::update_bodytemp()
     // Difference between high and low is the "safe" heat - one we only apply if it's beneficial
     const units::temperature_delta mutation_heat_bonus = mutation_heat_high - mutation_heat_low;
 
-    const units::temperature_delta h_radiation = get_heat_radiation( pos() );
+    const units::temperature_delta h_radiation = get_heat_radiation( pos_bub() );
 
     // 111F (44C) is a temperature in which proteins break down: https://en.wikipedia.org/wiki/Burn
     // Blisters arbitrarily scale with the sqrt of the temperature difference in fahrenheit.
@@ -626,7 +605,7 @@ void Character::update_bodytemp()
             blister_count -= 20;
         }
         if( fire_armor_per_bp.empty() && blister_count > 0 ) {
-            fire_armor_per_bp = get_all_armor_type( STATIC( damage_type_id( "heat" ) ), clothing_map );
+            fire_armor_per_bp = get_all_armor_type( damage_heat, clothing_map );
         }
         if( blister_count - fire_armor_per_bp[bp] > 0 ) {
             add_effect( effect_blisters, 1_turns, bp );
@@ -836,7 +815,7 @@ void Character::update_bodytemp()
             add_msg( m_bad,
                      _( "The wind is very strong; you should find some more wind-resistant clothing for your %s." ),
                      body_part_name( bp ) );
-        } else if( conv_temp <= BODYTEMP_COLD && windchill < units::from_kelvin_delta( -30 ) &&
+        } else if( conv_temp <= BODYTEMP_COLD && windchill < units::from_fahrenheit_delta( -30 ) &&
                    one_in( 50 ) ) {
             add_msg( m_bad, _( "Your clothing is not providing enough protection from the wind for your %s!" ),
                      body_part_name( bp ) );
@@ -874,7 +853,7 @@ void Character::update_frostbite( const bodypart_id &bp, const int FBwindPower,
     Less than -35F, more than 10 mp
     **/
 
-    const float player_local_temp = units::to_fahrenheit( get_weather().get_temperature( pos() ) );
+    const float player_local_temp = units::to_fahrenheit( get_weather().get_temperature( pos_bub() ) );
     const units::temperature temp_after = get_part_temp_cur( bp );
 
     if( bp == body_part_mouth || bp == body_part_foot_r ||
@@ -1326,8 +1305,9 @@ bodypart_id Character::body_window( const std::string &menu_header,
                                                  static_cast<int>( infect * 100 ) ), c_light_green ) + "\n";
                 treatment_rank += 60 + infect * 10;
             } else {
-                desc += colorize( _( "It has a deep wound that looks infected.  Antibiotics might be required." ),
-                                  c_red );
+                desc += colorize(
+                            _( "It has a deep wound that looks to have a septic infection.  Antibiotics might be required." ),
+                            c_red );
             }
             desc += "\n";
         }
@@ -1393,7 +1373,7 @@ void Character::update_heartrate_index()
     // The following code was adapted from the heartrate function, which will now probably need to be rewritten to be based on the heartrate index.
 
     //COLDBLOOD dependencies, works almost same way as temperature effect for speed.
-    const float player_local_temp = units::to_fahrenheit( get_weather().get_temperature( pos() ) );
+    const float player_local_temp = units::to_fahrenheit( get_weather().get_temperature( pos_bub() ) );
     float temperature_modifier = 0.0f;
     if( has_flag( json_flag_COLDBLOOD ) ) {
         temperature_modifier = 0.002f;
@@ -1421,7 +1401,7 @@ void Character::update_heartrate_index()
     if( get_effect_dur( effect_cig ) > 0_turns ) {
         //Nicotine-induced tachycardia
         if( get_effect_dur( effect_cig ) >
-            10_minutes * ( addiction_level( STATIC( addiction_id( "nicotine" ) ) ) + 1 ) ) {
+            10_minutes * ( addiction_level( addiction_nicotine ) + 1 ) ) {
             hr_nicotine_mod = 0.2f;
         } else {
             hr_nicotine_mod = 0.1f;

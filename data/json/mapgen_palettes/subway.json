@@ -59,7 +59,7 @@
     "signs": { "M": { "signage": "Subway Map: <city> stop" } },
     "items": {
       "N": { "item": "tools_construction", "chance": 90, "repeat": 3 },
-      "Q": { "item": "office_paper", "chance": 90, "repeat": 5 }
+      "Q": { "item": "SUS_office_desk", "chance": 90, "repeat": 5 }
     }
   }
 ]

@@ -131,6 +131,56 @@
     "items": [ { "item": "paint_can_steel" }, { "item": "paint_can_plastic" } ]
   },
   {
+    "id": "duct_tape_roll",
+    "type": "item_group",
+    "container-item": "cardboard_roll",
+    "//1": "200 charges = 25 m. One charge = 125 mm.",
+    "items": [ { "item": "duct_tape", "charges": 200 } ]
+  },
+  {
+    "id": "duct_tape_roll_part",
+    "type": "item_group",
+    "container-item": "cardboard_roll",
+    "items": [ { "item": "duct_tape", "charges": [ 20, 200 ] } ]
+  },
+  {
+    "id": "medical_tape_roll",
+    "type": "item_group",
+    "container-item": "cardboard_roll",
+    "//1": "25 charges = 5 m. One charge = 200 mm.",
+    "items": [ { "item": "medical_tape", "count": 25 } ]
+  },
+  {
+    "id": "medical_tape_roll_part",
+    "type": "item_group",
+    "container-item": "cardboard_roll",
+    "items": [ { "item": "medical_tape", "count": [ 3, 25 ] } ]
+  },
+  {
+    "id": "oxy_powder_bottle_part",
+    "type": "item_group",
+    "container-item": "bottle_plastic_small",
+    "items": [ { "item": "oxy_powder", "charges": [ 30, -1 ] } ]
+  },
+  {
+    "id": "lye_powder_bottle_part",
+    "type": "item_group",
+    "container-item": "bottle_plastic_small",
+    "items": [ { "item": "lye_powder", "charges": [ 30, -1 ] } ]
+  },
+  {
+    "id": "charcoal_bag_part",
+    "type": "item_group",
+    "container-item": "bag_paper_charcoal",
+    "items": [ { "item": "charcoal", "charges": [ 200, 5000 ] } ]
+  },
+  {
+    "id": "nicotine_liquid_bottle_part",
+    "type": "item_group",
+    "container-item": "bottle_plastic_tiny",
+    "items": [ { "item": "nicotine_liquid", "charges": [ 5, -1 ] } ]
+  },
+  {
     "id": "paint",
     "type": "item_group",
     "items": [
@@ -201,25 +251,6 @@
     ]
   },
   {
-    "id": "hardware_trash",
-    "type": "item_group",
-    "items": [
-      { "item": "nuts_bolts", "prob": 20, "charges": [ 1, 3 ], "container-item": "box_small" },
-      [ "wrapper", 50 ],
-      [ "wrapper_foil", 5 ],
-      { "item": "wrapper_foil_roll", "prob": 2 },
-      [ "bottle_glass", 50 ],
-      [ "bottle_plastic", 70 ],
-      [ "can_drink", 60 ],
-      [ "flyer", 30 ],
-      [ "box_small", 30 ],
-      [ "cotton_patchwork", 20 ],
-      [ "bag_plastic", 20 ],
-      [ "news_regional", 15 ],
-      [ "mag_news", 15 ]
-    ]
-  },
-  {
     "id": "supplies_plumbing",
     "type": "item_group",
     "//": "Common plumbing supplies. These are more likely to be found on jobsites and work spaces, rather than store shelves. Use bulk for store shelves.",
@@ -233,13 +264,14 @@
       [ "jerrycan", 5 ],
       { "item": "scrap_copper", "prob": 15, "count": [ 1, 2 ] },
       [ "lc_wire", 10 ],
-      { "group": "ammo_pocket_batteries_full", "prob": 50 },
+      { "group": "box_of_batteries_random", "prob": 50 },
       [ "pilot_light", 50 ],
-      { "item": "duct_tape", "prob": 200, "charges": [ 50, 200 ] },
-      { "group": "superglue", "prob": 100 },
+      { "group": "duct_tape_roll_part", "prob": 200 },
+      { "group": "glue_weak_domestic" },
+      { "group": "glue_strong_domestic" },
       [ "string_6", 100 ],
       [ "string_36", 100 ],
-      [ "rubber_cement", 50 ],
+      { "group": "glue_weak_professional_full", "count": [ 6, 10 ] },
       [ "rope_6", 100 ],
       [ "rope_30", 50 ],
       [ "water_faucet", 100 ],
@@ -249,7 +281,8 @@
       [ "plastic_sheet", 20 ],
       [ "recharge_station", 20 ],
       [ "plunger_toilet", 75 ],
-      [ "plunger_futuristic", 25 ]
+      [ "plunger_futuristic", 25 ],
+      [ "pipe_fittings", 70 ]
     ]
   },
   {
@@ -267,12 +300,13 @@
       { "item": "metal_tank_little", "prob": 50, "count": [ 1, 2 ] },
       [ "metal_tank", 10 ],
       [ "jerrycan", 10 ],
-      [ "rubber_cement", 50 ],
+      [ "glue_weak", 50 ],
       [ "pump_complex", 10 ],
       [ "well_pump", 10 ],
       { "item": "scrap_copper", "prob": 15, "count": [ 1, 12 ] },
       { "item": "plunger_toilet", "prob": 90, "count": [ 1, 2 ] },
-      [ "plunger_futuristic", 50 ]
+      [ "plunger_futuristic", 50 ],
+      [ "pipe_fittings", 70 ]
     ]
   },
   {
@@ -337,7 +371,50 @@
   {
     "type": "item_group",
     "id": "supplies_woodcrafts",
-    "items": [ { "group": "superglue", "prob": 40 }, [ "sandpaper", 40 ], [ "screwdriver", 5 ], [ "chisel", 10 ], [ "hammer", 5 ] ]
+    "items": [
+      { "group": "glue_weak_professional", "prob": 30 },
+      { "group": "glue_strong_professional", "prob": 10 },
+      [ "sandpaper", 40 ],
+      [ "screwdriver", 5 ],
+      [ "chisel", 10 ],
+      [ "hammer", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "concrete_bag_any",
+    "subtype": "distribution",
+    "items": [
+      { "group": "concrete_bag", "prob": 30 },
+      { "group": "concrete_bag_part", "prob": 50 },
+      { "item": "bag_durasack_cement", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "cement_bag_any",
+    "subtype": "distribution",
+    "items": [
+      { "group": "cement_bag", "prob": 30 },
+      { "group": "cement_bag_part", "prob": 50 },
+      { "item": "bag_durasack", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "sandbag_any",
+    "subtype": "distribution",
+    "items": [ { "group": "sandbag", "prob": 30 }, { "group": "sandbag_part", "prob": 50 }, { "item": "bag_durasack", "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "gravelbag_any",
+    "subtype": "distribution",
+    "items": [
+      { "group": "gravelbag", "prob": 30 },
+      { "group": "gravelbag_part", "prob": 50 },
+      { "item": "bag_durasack", "prob": 20 }
+    ]
   },
   {
     "id": "supplies_hardware",
@@ -349,10 +426,10 @@
       { "item": "brazing_rod_bronze", "prob": 15, "charges": 1500 },
       { "item": "welding_rod_steel", "prob": 20, "charges": 1500 },
       { "item": "welding_wire_steel", "prob": 20, "charges": 1500 },
-      { "group": "concrete_bag", "prob": 40 },
-      { "group": "cement_bag", "prob": 50 },
-      { "group": "sandbag", "prob": 50 },
-      { "group": "gravelbag", "prob": 50 },
+      { "group": "concrete_bag_any", "prob": 40 },
+      { "group": "cement_bag_any", "prob": 50 },
+      { "group": "sandbag_any", "prob": 50 },
+      { "group": "gravelbag_any", "prob": 50 },
       {
         "collection": [
           { "distribution": [ { "item": "rope_30", "prob": 70 }, { "item": "chain", "prob": 30 } ], "prob": 75 },
@@ -364,8 +441,9 @@
       { "item": "brick", "prob": 20, "count": [ 5, 10 ] },
       { "group": "wrapped_gasmask_filter", "count": [ 2, 6 ], "prob": 20 },
       [ "solder_wire", 20 ],
-      { "group": "superglue", "prob": 30 },
-      [ "rubber_cement", 25 ],
+      { "group": "glue_weak_professional_full", "prob": 15 },
+      { "group": "glue_strong_professional_full", "prob": 15 },
+      [ "glue_weak", 25 ],
       [ "magnet", 10 ],
       [ "chain", 20 ],
       [ "rope_6", 4 ],
@@ -394,7 +472,7 @@
       [ "wood_panel", 10 ],
       { "item": "lc_wire", "prob": 50, "count": [ 1, 10 ] },
       { "item": "wire_barbed", "prob": 20, "count": [ 1, 10 ] },
-      [ "duct_tape", 60 ],
+      { "group": "duct_tape_roll", "prob": 60 },
       [ "compressor", 5 ],
       [ "foot_crank", 10 ],
       [ "spray_can", 50 ],
@@ -413,8 +491,9 @@
       [ "cu_pipe", 50 ],
       [ "fungicide", 5 ],
       { "group": "insecticide_bag_plastic", "prob": 5 },
-      { "item": "charcoal", "prob": 5, "charges": [ 200, 400 ] },
-      { "group": "ammo_pocket_batteries_full", "prob": 50 },
+      { "group": "charcoal_bag_part", "prob": 5 },
+      { "group": "box_of_batteries_unopened", "prob": 25 },
+      { "group": "ammo_heavy_batteries_full", "prob": 25 },
       [ "solar_cell", 5 ],
       { "group": "fertilizer_commercial_bag_canvas_60", "prob": 30 },
       [ "chem_sulphuric_acid", 30 ],
@@ -447,13 +526,13 @@
       { "item": "ammonia_liquid", "prob": 20, "charges": [ 6, -1 ] },
       { "item": "ammonia_hydroxide", "prob": 10, "charges": [ 10, -1 ] },
       { "prob": 10, "group": "iodine_bottle_plastic_pill_supplement_1_10" },
-      [ "oxy_powder", 10 ],
+      { "group": "oxy_powder_bottle_part", "prob": 10 },
       [ "ash", 5 ],
       [ "lye", 5 ],
       [ "lye_potassium", 5 ],
-      { "item": "lye_powder", "prob": 10, "charges": [ 100, 200 ] },
+      { "group": "lye_powder_bottle_part", "prob": 10 },
       { "item": "magnesium", "prob": 10, "charges": [ 50, 100 ] },
-      { "item": "charcoal", "prob": 10, "charges": [ 200, 400 ] },
+      { "group": "charcoal_bag_part", "prob": 10 },
       { "prob": 10, "group": "chem_sulphur_bottle_plastic_small_100_inf" },
       [ "chunk_sulfur", 5 ],
       [ "chem_aluminium_powder", 10 ],
@@ -598,8 +677,6 @@
     "items": [
       { "item": "sheet_metal", "prob": 5 },
       { "item": "sheet_metal_small", "prob": 5, "count": [ 2, 4 ] },
-      { "item": "steel_lump", "prob": 5, "count": [ 1, 3 ] },
-      { "item": "steel_chunk", "prob": 15, "count": [ 1, 5 ] },
       { "item": "copper", "prob": 10, "count": [ 1, 5 ] },
       { "item": "tin", "prob": 10, "count": [ 1, 5 ] },
       { "item": "material_aluminium_ingot", "prob": 10, "count": [ 1, 5 ] },
@@ -614,7 +691,26 @@
       { "item": "mc_steel_lump", "prob": 5, "count": [ 1, 3 ] },
       { "item": "mc_steel_chunk", "prob": 15, "count": [ 1, 5 ] },
       { "item": "hc_steel_lump", "prob": 5, "count": [ 1, 3 ] },
-      { "item": "hc_steel_chunk", "prob": 15, "count": [ 1, 5 ] }
+      { "item": "hc_steel_chunk", "prob": 15, "count": [ 1, 5 ] },
+      { "item": "aluminum_bar_round", "prob": 15, "count": [ 1, 25 ] },
+      { "item": "lc_steel_bar_round", "prob": 15, "count": [ 1, 25 ] },
+      { "item": "mc_steel_bar_round", "prob": 10, "count": [ 1, 15 ] },
+      { "item": "hc_steel_bar_round", "prob": 5, "count": [ 1, 10 ] }
+    ]
+  },
+  {
+    "id": "supplies_machining",
+    "type": "item_group",
+    "//": "untouched bar stock for machine shops, steel mills, etc.",
+    "items": [
+      { "item": "aluminum_bar_round", "prob": 30, "count": [ 5, 30 ] },
+      { "item": "lc_steel_bar_round", "prob": 30, "count": [ 5, 25 ] },
+      { "item": "mc_steel_bar_round", "prob": 10, "count": [ 1, 10 ] },
+      { "item": "hc_steel_bar_round", "prob": 5, "count": [ 1, 10 ] },
+      { "item": "small_aluminum_bar_round", "prob": 20, "count": [ 5, 30 ] },
+      { "item": "small_lc_steel_bar_round", "prob": 20, "count": [ 5, 25 ] },
+      { "item": "small_mc_steel_bar_round", "prob": 5, "count": [ 1, 15 ] },
+      { "item": "small_hc_steel_bar_round", "prob": 5, "count": [ 1, 10 ] }
     ]
   },
   {
@@ -648,7 +744,7 @@
       { "item": "polycarbonate_sheet", "prob": 4, "count": [ 1, 3 ] },
       { "item": "seatbelt", "prob": 10, "count": [ 3, 10 ] },
       { "item": "five-point_harness", "prob": 3, "count": [ 2, 4 ] },
-      { "item": "rubber_cement", "prob": 15, "count": [ 3, 9 ] },
+      { "item": "glue_weak", "prob": 15, "count": [ 3, 9 ] },
       [ "vac_mold", 1 ],
       [ "wheel_wide", 10 ],
       [ "wheel_bicycle", 10 ],
@@ -714,7 +810,6 @@
       [ "alternator_truck", 6 ],
       [ "alternator_bicycle", 4 ],
       [ "hd_tow_cable", 1 ],
-      [ "generator_7500w", 3 ],
       [ "storage_battery", 6 ],
       [ "motor_oil", 100 ],
       [ "solar_panel", 3 ],
@@ -734,84 +829,10 @@
       [ "filter_air", 60 ],
       [ "filter_liquid", 60 ],
       [ "glowplug", 10 ],
-      [ "rubber_cement", 25 ],
+      [ "glue_weak", 25 ],
       [ "motor_small", 20 ],
       [ "pump_complex", 10 ],
       [ "well_pump", 50 ]
-    ]
-  },
-  {
-    "id": "file_room",
-    "type": "item_group",
-    "items": [ [ "file", 99 ], [ "file", 99 ], [ "record_accounting", 10 ], [ "paper", 80 ], [ "safe_box", 1 ] ]
-  },
-  {
-    "id": "office_mess",
-    "type": "item_group",
-    "items": [
-      [ "file", 99 ],
-      { "item": "laptop", "prob": 2, "charges": [ 0, 500 ] },
-      { "item": "paper", "prob": 60, "count": [ 20, 50 ] },
-      { "item": "inhaler", "prob": 1, "charges": [ 10, 100 ] },
-      [ "mbag", 2 ],
-      [ "mop", 3 ],
-      [ "mop_folded", 2 ],
-      [ "rubber_band", 5 ],
-      { "item": "cell_phone", "prob": 3, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 18, "charges": [ 0, -1 ] },
-      { "item": "duct_tape", "prob": 5, "charges": [ 50, 200 ] },
-      { "group": "superglue", "prob": 5 },
-      { "group": "ammo_pocket_batteries", "prob": 5 },
-      { "item": "flashlight", "prob": 10, "charges": [ 0, 300 ] },
-      [ "office_holepunch", 10 ],
-      [ "umbrella", 5 ],
-      [ "teleumbrella", 10 ],
-      [ "survnote", 1 ],
-      [ "clock", 2 ],
-      { "item": "coffeemaker", "prob": 2 },
-      [ "bubblewrap", 10 ],
-      [ "box_small", 3 ],
-      [ "box_medium", 3 ],
-      [ "box_large", 2 ],
-      [ "box_oversize", 2 ],
-      [ "box_small_folded", 3 ],
-      [ "box_medium_folded", 3 ],
-      [ "box_large_folded", 2 ],
-      [ "box_oversize_folded", 2 ],
-      [ "plastic_sheet", 3 ],
-      { "item": "glowstick", "prob": 10, "charges": 1400 },
-      [ "radio", 2 ],
-      [ "fan", 5 ],
-      [ "fan", 5 ],
-      [ "cola", 10 ],
-      [ "can_drink", 5 ],
-      { "prob": 5, "group": "cig_box_cigarette_1_20" },
-      [ "purse", 2 ],
-      [ "pipe_tobacco", 1 ],
-      { "group": "writing_utensils", "prob": 35 }
-    ]
-  },
-  {
-    "id": "office_supplies",
-    "type": "item_group",
-    "items": [
-      [ "paper", 100 ],
-      { "group": "writing_utensils", "prob": 35 },
-      [ "file", 15 ],
-      { "item": "duct_tape", "prob": 15, "charges": [ 50, 200 ] },
-      { "group": "superglue", "prob": 15 },
-      [ "file", 15 ],
-      [ "office_holepunch", 15 ],
-      [ "bubblewrap", 15 ],
-      [ "rubber_band", 15 ],
-      { "group": "ammo_pocket_batteries_full", "prob": 10 },
-      { "item": "flashlight", "prob": 7, "charges": [ 0, 300 ] },
-      { "item": "laptop", "prob": 7, "charges": [ 0, 500 ] },
-      { "item": "eink_tablet_pc", "prob": 7, "charges": [ 0, 100 ] },
-      [ "usb_drive", 5 ],
-      { "item": "cash_card", "prob": 5, "charges": [ 0, 50000 ] },
-      [ "record_accounting", 1 ],
-      [ "money_strap_twenty", 1 ]
     ]
   },
   {
@@ -841,6 +862,38 @@
       [ "heatpack", 10 ],
       [ "whistle", 5 ],
       [ "airhorn", 2 ]
+    ]
+  },
+  {
+    "id": "shelter_supplies",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "now used for shelters that have been looted by kids, see SUS groups for general shelter supplies",
+    "items": [
+      [ "wrapper", 90 ],
+      [ "evac_pamphlet", 80 ],
+      [ "glass_shard", 80 ],
+      [ "emer_blanket", 40 ],
+      [ "bottle_plastic", 30 ],
+      [ "plastic_knife", 20 ],
+      [ "plastic_spoon", 20 ],
+      [ "plastic_fork", 20 ],
+      [ "bowl_plastic", 10 ],
+      [ "jacket_evac", 15 ],
+      [ "folding_poncho", 10 ],
+      [ "sponge", 10 ],
+      [ "mask_dust", 9 ],
+      [ "handflare_dead", 9 ],
+      [ "whistle", 7 ],
+      [ "teddy_bear", 7 ],
+      { "item": "vinegar", "prob": 6, "charges-min": 1 },
+      [ "candle", 5 ],
+      [ "pliers", 4 ],
+      [ "mirror", 4 ],
+      [ "wearable_light", 2 ],
+      [ "calcium_tablet", 1 ],
+      [ "vitamins", 1 ],
+      { "item": "protein_bar_evac", "count": [ 0, 3 ] }
     ]
   },
   {
@@ -947,7 +1000,13 @@
   {
     "id": "hair_dye_display",
     "type": "item_group",
-    "subtype": "distribution",
-    "entries": [ { "item": "hair_dye_kit", "prob": 100 }, { "group": "hair_dye", "prob": 90 } ]
+    "subtype": "collection",
+    "entries": [ { "item": "hair_dye_kit", "prob": 100 }, { "group": "hair_dye", "prob": 90, "count": [ 1, 4 ] } ]
+  },
+  {
+    "id": "bathroom_hair_dye_kit",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "hair_dye", "prob": 70 }, { "item": "hair_dye_kit", "prob": 75 } ]
   }
 ]

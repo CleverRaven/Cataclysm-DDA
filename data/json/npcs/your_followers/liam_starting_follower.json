@@ -116,7 +116,10 @@
       "no": "*, your old friend, stares at you with blank, confused eyes.  He is standing over a freshly mangled corpse, a smoking shotgun at his feet.  \"Holy shit dude.\"  He blinks.  \"Is this about Chris?  If you're here to kill me, just get it over with man.  I don't know what the fuck is happening but I can't take you out too.\"",
       "yes": "<talk_snippet_modded_liam_meeting1>"
     },
-    "speaker_effect": { "effect": { "u_add_var": "talked_liam", "value": "yes" } },
+    "speaker_effect": {
+      "effect": { "u_add_var": "talked_liam", "value": "yes" },
+      "opinion": { "trust": 5, "value": 10, "fear": -4, "anger": -6 }
+    },
     "responses": [
       {
         "text": "Get ahold of yourself, man.  What's happening?  Chris?",
@@ -170,7 +173,7 @@
     "goal": "MGOAL_CONDITION",
     "goal_condition": { "compare_string": [ "yes", { "u_val": "talked_liam" } ] },
     "start": {
-      "assign_mission_target": { "om_terrain": "cabin_liam", "om_special": "cabin_liam", "reveal_radius": 1, "random": false, "search_range": 10 }
+      "assign_mission_target": { "om_terrain": "cabin_liam", "om_special": "cabin_liam", "reveal_radius": 1, "random": false }
     },
     "difficulty": 0,
     "value": 0,

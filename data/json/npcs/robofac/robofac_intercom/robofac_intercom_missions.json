@@ -246,7 +246,7 @@
         "monster": { "M": { "monster": "mon_robofac_prototype" } }
       }
     },
-    "end": { "effect": { "math": [ "u_hub01_completed_missions", "++" ] } },
+    "end": { "effect": { "math": [ "u_hub01_completed_missions++" ] } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
@@ -367,7 +367,7 @@
       "effect": [
         { "u_spawn_item": "RobofacCoin", "count": 4 },
         { "u_add_var": "dialogue_intercom_completed_robofac_intercom_2", "value": "yes" },
-        { "math": [ "u_hub01_completed_missions", "++" ] }
+        { "math": [ "u_hub01_completed_missions++" ] }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -425,7 +425,7 @@
   {
     "id": [ "MISSION_ROBOFAC_INTERCOM_2_COMPLETE", "MISSION_ROBOFAC_INTERCOM_2_COMPLETE_Hardcase" ],
     "type": "talk_topic",
-    "dynamic_line": "&The intercom's tray slides shut.\n\n\"This is the case; thank you.  Transferring the stipulated amount now.\"  The tray slides back open with your payment.  \"As an additional form of payment, you have been given clearance to receive a map of the area around this site, to assist in your work.  The standing price is 1 HGC; please inform us if you'd like to follow up on that offer going forward.",
+    "dynamic_line": "&The intercom's tray slides shut.\n\n\"This is the case; thank you.  Transferring the stipulated amount now.\"  The tray slides back open with your payment.  \"As an additional form of payment, you have been given clearance to receive a map of the area around this site, to assist in your work.  The standing price is 1 HGC; please inform us if you'd like to follow up on that offer going forward.\"",
     "responses": [
       {
         "text": "[PER 8] The original markings on that case had been scratched out.  Who did it really belong to?",
@@ -464,7 +464,7 @@
       "effect": [
         { "u_spawn_item": "RobofacCoin", "count": 8 },
         { "u_add_var": "dialogue_intercom_completed_robofac_intercom_3", "value": "yes" },
-        { "math": [ "u_hub01_completed_missions", "++" ] }
+        { "math": [ "u_hub01_completed_missions++" ] }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -708,7 +708,7 @@
     "end": {
       "effect": [
         { "u_add_var": "dialogue_intercom_completed_robofac_intercom_robot_sm_1", "value": "yes" },
-        { "math": [ "u_hub01_completed_missions", "++" ] }
+        { "math": [ "u_hub01_completed_missions++" ] }
       ]
     },
     "fail": { "effect": [ { "u_add_var": "dialogue_intercom_completed_robofac_intercom_robot_sm_1", "value": "no" } ] },
@@ -819,7 +819,7 @@
     "end": {
       "effect": [
         { "u_add_var": "dialogue_intercom_completed_robofac_intercom_portal_sm_1", "value": "yes" },
-        { "math": [ "u_hub01_completed_missions", "++" ] }
+        { "math": [ "u_hub01_completed_missions++" ] }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -906,20 +906,13 @@
     "difficulty": 5,
     "value": 0,
     "start": {
-      "assign_mission_target": {
-        "om_terrain": "LIXA_road_guard",
-        "om_special": "physics_lab_LIXA",
-        "reveal_radius": 1,
-        "random": true,
-        "search_range": 800,
-        "z": 0
-      }
+      "assign_mission_target": { "om_terrain": "LIXA_road_guard", "om_special": "physics_lab_LIXA", "reveal_radius": 1, "z": 0 }
     },
     "end": {
       "effect": [
         { "u_spawn_item": "RobofacCoin", "count": 5 },
         { "u_add_var": "dialogue_intercom_completed_robofac_intercom_lixa_sm_1", "value": "yes" },
-        { "math": [ "u_hub01_completed_missions", "++" ] }
+        { "math": [ "u_hub01_completed_missions++" ] }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -1084,7 +1077,7 @@
     "goal": "MGOAL_NULL",
     "difficulty": 1,
     "value": 0,
-    "fail": { "effect": { "math": [ "faction_trust('robofac')", "-=", "20" ] } },
+    "fail": { "effect": { "math": [ "faction_trust('robofac') -= 20" ] } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "deadline": [ "20 days", "20 days" ],

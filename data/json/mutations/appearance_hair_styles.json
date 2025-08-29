@@ -961,8 +961,13 @@
         "description": "Short purple hair style.",
         "weight": 1
       },
-      { "id": "red", "name": { "str": "Hair: red, short" }, "description": "Short red hair style", "weight": 1 },
-      { "id": "white", "name": { "str": "Hair: white, short" }, "description": "Short white hair style", "weight": 1 }
+      { "id": "red", "name": { "str": "Hair: red, short" }, "description": "Short red hair style.", "weight": 1 },
+      {
+        "id": "white",
+        "name": { "str": "Hair: white, short" },
+        "description": "Short white hair style.",
+        "weight": 1
+      }
     ],
     "types": [ "hair_style" ]
   },
@@ -1949,6 +1954,18 @@
     "id": "natural_hair_growth",
     "name": { "str": "Natural Hair Growth" },
     "description": "Your hair will naturally grow out into various forms, getting longer over time.  Turning this off will prevent it from growing and changing.",
+    "points": 0,
+    "starting_trait": true,
+    "valid": true,
+    "purifiable": false,
+    "player_display": true,
+    "vanity": true
+  },
+  {
+    "type": "mutation",
+    "id": "natural_beard_growth",
+    "name": { "str": "Natural Beard Growth" },
+    "description": "Your beard will naturally grow out into various forms, getting longer over time.  Turning this off will prevent it from growing and changing.",
     "points": 0,
     "starting_trait": true,
     "valid": true,

@@ -8,10 +8,6 @@
   {
     "type": "overmap_terrain",
     "id": "lmoe_under_full",
-    "name": "LMOE shelter",
-    "sym": "+",
-    "color": "red",
-    "see_cost": "full_high",
-    "flags": [ "KNOWN_UP", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
+    "copy-from": "lmoe_under_empty"
   }
 ]

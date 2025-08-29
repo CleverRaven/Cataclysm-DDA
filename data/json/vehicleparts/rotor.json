@@ -22,7 +22,7 @@
     "description": "A set of four military-grade helicopter rotor blades, used to provide lift by rotation.",
     "damage_modifier": 80,
     "requirements": { "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "1 h", "using": "vehicle_weld_removal" } },
-    "breaks_into": [ { "item": "scrap", "count": [ 15, 30 ] }, { "item": "steel_chunk", "count": [ 8, 16 ] } ],
+    "breaks_into": [ { "item": "scrap", "count": [ 15, 30 ] }, { "item": "ch_steel_chunk", "count": [ 8, 16 ] } ],
     "damage_reduction": { "all": 66 }
   },
   {
@@ -37,7 +37,7 @@
     "description": "A set of four military-grade helicopter rotor blades, used to provide lift by rotation.",
     "damage_modifier": 80,
     "requirements": { "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "1 h", "using": "vehicle_weld_removal" } },
-    "breaks_into": [ { "item": "scrap", "count": [ 8, 15 ] }, { "item": "steel_chunk", "count": [ 2, 8 ] } ],
+    "breaks_into": [ { "item": "scrap", "count": [ 8, 15 ] }, { "item": "ch_steel_chunk", "count": [ 2, 8 ] } ],
     "damage_reduction": { "all": 22 }
   },
   {

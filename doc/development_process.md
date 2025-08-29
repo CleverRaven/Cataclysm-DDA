@@ -1,3 +1,35 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [The DDA Development Process](#the-dda-development-process)
+  - [Table of Contents](#table-of-contents)
+  - [The basic concept](#the-basic-concept)
+    - [Experimental/Stable](#experimentalstable)
+      - [Why this format?](#why-this-format)
+    - [Mainline, in-repo mods, third party mods, and forks](#mainline-in-repo-mods-third-party-mods-and-forks)
+    - [Project roles](#project-roles)
+  - [FAQ for prospective contributors](#faq-for-prospective-contributors)
+    - [How can I make sure my contribution will be accepted?](#how-can-i-make-sure-my-contribution-will-be-accepted)
+      - [What if different people have different opinions of my idea?](#what-if-different-people-have-different-opinions-of-my-idea)
+      - [My idea was rejected, changed beyond recognition, or requires a lot more than I expected.](#my-idea-was-rejected-changed-beyond-recognition-or-requires-a-lot-more-than-i-expected)
+      - [Do a lot of things get merged to the project, then reverted?](#do-a-lot-of-things-get-merged-to-the-project-then-reverted)
+      - [How do I deal with a ton of comments and suggestions to my idea?](#how-do-i-deal-with-a-ton-of-comments-and-suggestions-to-my-idea)
+      - [Am I allowed to do what I want with an existing NPC/faction/feature?](#am-i-allowed-to-do-what-i-want-with-an-existing-npcfactionfeature)
+    - [Is the Discord strict?](#is-the-discord-strict)
+    - [How does player feedback affect the project's development?](#how-does-player-feedback-affect-the-projects-development)
+      - [Do we care about the players?](#do-we-care-about-the-players)
+        - [So wait, it sounds like you're just going to do whatever you want and you don't care what the players say.](#so-wait-it-sounds-like-youre-just-going-to-do-whatever-you-want-and-you-dont-care-what-the-players-say)
+  - [Supplemental Material](#supplemental-material)
+    - [A Very Brief History of DDA](#a-very-brief-history-of-dda)
+      - [Why did Kevin do this to me?](#why-did-kevin-do-this-to-me)
+    - [Realism as a design goal](#realism-as-a-design-goal)
+    - [Why did X system get worked on while the more important Y system didn't?](#why-did-x-system-get-worked-on-while-the-more-important-y-system-didnt)
+      - [Why did X system get implemented with Y, but not Z?](#why-did-x-system-get-implemented-with-y-but-not-z)
+  - [The Bottom Line](#the-bottom-line)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # The DDA Development Process
 
 **A guide for new and prospective contributors, or just for people curious about how the devs understand the project to work.**
@@ -32,7 +64,7 @@ This document assumes you have a basic understanding how GitHub works.  Please s
 
 ## The basic concept 
 
-At its core, CDDA is a survival simulation game.  [The design doc outlines what we mean by this](./Lore/design-doc.md).  The project is led by Kevin Granade, who owns CleverRaven and therefore this fork of the code.  As lead developer, Kevin's main job in the project is to be the *last word* if one is needed.  Most of the time, we don't need his final arbitration to know if something is going to fit or not.[^code]  The rest of the project's structure is organized chaos, and understanding it is daunting at first.
+At its core, CDDA is a survival simulation game.  [The design doc outlines what we mean by this](./design-balance-lore/design-doc.md).  The project is led by Kevin Granade, who owns CleverRaven and therefore this fork of the code.  As lead developer, Kevin's main job in the project is to be the *last word* if one is needed.  Most of the time, we don't need his final arbitration to know if something is going to fit or not.[^code]  The rest of the project's structure is organized chaos, and understanding it is daunting at first.
 
 ### Experimental/Stable
 
@@ -183,7 +215,7 @@ As a classic example, when we first added the mod inclusion criteria and set a b
 
 ### Realism as a design goal
 
-Any prospective contributor should understand that we do not consider realism to be the goal of the design.  Rather, we are aiming for *verisimilitude*.  That is to say, most of the time, things should work the way you would expect them to work.[^movies]  Many things that would be more realistic may be nixed because of problems with play experience or play balance.  You can find a lot more detail about this in [the design document](./Lore/design-balance.md).
+Any prospective contributor should understand that we do not consider realism to be the goal of the design.  Rather, we are aiming for *verisimilitude*.  That is to say, most of the time, things should work the way you would expect them to work.[^movies]  Many things that would be more realistic may be nixed because of problems with play experience or play balance.  You can find a lot more detail about this in [the design document](./design-balance-lore/design-balance.md).
 
 In general, the most common citation of "realism" online comes when glitches in experimental are mistaken for intended design.  An example was when `charges` were being removed as a part of a major *code infrastructure change* with no intended player impact at all.  This caused several months of glitches, like players having to move salt in individual pinches.  This was frequently called a "realism change", not a bug, in certain circles.  While funny, this attitude can be actively harmful to the project, deterring people from fixing bugs because they get the impression it's intended play.  If someone has said that a seemingly hostile and illogical game mechanic is the way it is due to "realism", they're probably wrong, either because the mechanic is bugged or because QoL improvements are desired to make it less frustrating.
 

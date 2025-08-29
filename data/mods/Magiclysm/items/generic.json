@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "parabolan_felt_patch",
     "symbol": ",",
     "color": "dark_gray",
@@ -16,7 +16,8 @@
     "to_hit": -1
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "parabolan_yarn",
     "category": "spare_parts",
     "price": "0 cent",
@@ -34,7 +35,7 @@
     "stack_size": 200
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "triffid_spellbook",
     "name": { "str": "chunk of plant matter", "str_pl": "chunks of plant matter" },
     "description": "This strange plant feels slightly oily and smells odd.  The smell seems to change slowly, from loamy earth to a rich vegetal smell to something acrid that burns your nose to an herbal scent, with no discernable pattern.  You're not sure what this is.",

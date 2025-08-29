@@ -1,0 +1,19 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_INSTANT_DEATH",
+    "condition": "has_beta",
+    "effect": [ "npc_die" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_REACTOR_MELTDOWN",
+    "condition": "has_beta",
+    "effect": [
+      { "npc_location_variable": { "context_val": "loc" } },
+      { "map_spawn_item": "afs_reactor_unstable", "loc": { "context_val": "loc" } },
+      { "npc_add_effect": "effect_robot_immobilized", "duration": "PERMANENT" },
+      { "u_message": "The malfunctioning reactor is ejected." }
+    ]
+  }
+]

@@ -4,6 +4,8 @@ AAC
 AAR
 AB
 Abanaderly
+abaya
+abayas
 Abbie
 Abby
 ABC
@@ -703,6 +705,7 @@ bloodhunting
 bloodletter
 bloodlust
 bloodthirst
+Bloodthorne
 bloomeries
 blowback
 BLR
@@ -994,6 +997,7 @@ Cassidy
 Cassiopeia
 castable
 Castanea
+casted
 Casterbridge
 Casull
 cataphract
@@ -1071,6 +1075,8 @@ Chelmsford
 Chelsea
 chemtrails
 Chen
+cheongsam
+cheongsams
 Cherokee
 Cheshire
 Chester
@@ -1117,6 +1123,9 @@ Christmas
 Christopher
 chromatographer
 chromoelectric
+chronal
+chronomancy
+chronomantic
 Chu
 Chuang
 chucklefuck
@@ -1490,6 +1499,8 @@ devs
 dex
 Dhamma
 Dhammapada
+dhampir
+dhampirs
 dharmachakra
 diaspora
 dichloroisocyanurate
@@ -1735,6 +1746,7 @@ electrolyzer
 electrolyzers
 electromagnetics
 electromancy
+electronoetic
 electroreceptors
 elephantry
 Elish
@@ -2045,6 +2057,8 @@ FLDSMDFR
 flechette
 flechettes
 flensing
+fleshborg
+fleshborgs
 Fleshmender
 fleshmonger
 fleshwarp
@@ -2059,7 +2073,9 @@ flockshot
 floorplan
 Florida
 Florunner
+fluffernutter
 fluffies
+Fluffycats
 fluidic
 fluorescents
 fluoxetine
@@ -2071,6 +2087,7 @@ foamcrete
 foie
 Foily
 Folsom
+fona
 Fonzie
 foodborne
 foodburger
@@ -2163,6 +2180,7 @@ Fuji
 fulleroclathrate
 fullscreen
 fumarolic
+fungalizing
 fungaloid
 fungaloids
 fungideer
@@ -2546,6 +2564,9 @@ Heartfires
 heartlike
 Heartseed
 Heartseeds
+heartvine
+heartvines
+heartwhip
 Heathrow
 heatsink
 heatsinks
@@ -2610,6 +2631,7 @@ Hiep
 Higgins
 highschool
 hijab
+hijabs
 Himalayan
 Hindu
 Hinduism
@@ -3057,6 +3079,7 @@ Justo
 Justus
 Kabura
 kabuto
+kabutos
 Kaczynski
 Kadambawa
 Kafka
@@ -3957,6 +3980,7 @@ MMA
 mmm
 Mo
 mo
+moabosaurus
 moar
 mobbings
 Mobius
@@ -4202,6 +4226,7 @@ necrowolf
 nectivore
 Ned
 Nedarim
+nedcolbertia
 Needham
 needlelike
 Needletip
@@ -4299,6 +4324,8 @@ Ninhursag
 ninjutsu
 niño
 Nipâta
+niqab
+niqabs
 Nishan
 Niten
 Nitron
@@ -4465,6 +4492,7 @@ Orleans
 Orley
 ornithomimid
 ornithomimus
+ouroboros
 Orpheus
 Orphic
 Orson
@@ -4645,6 +4673,8 @@ Pennsylvania
 Pennywise
 Penobscot
 pentaceratops
+Pentapanic
+Pentapanics
 Pentecost
 Pentecostal
 Pepeha
@@ -4773,6 +4803,7 @@ Plympton
 PM
 pm
 PMC
+pocketless
 podling
 podlings
 pokeball
@@ -4840,6 +4871,7 @@ precombined
 predatorially
 premade
 premeasured
+premotion
 preoptic
 prepended
 PrepNet
@@ -4917,6 +4949,7 @@ Qatari
 QDSS
 qiang
 qianzhousaurus
+qipao
 QOL
 Qolastā
 QR
@@ -5291,6 +5324,7 @@ Samoyed
 Samoyeds
 Samuel
 Samuels
+Samurais
 Sanatsugâtîya
 Sanchez
 sanctacaris
@@ -5490,6 +5524,7 @@ shantak
 Shaolin
 shapechangers
 shapeshift
+shapeshifted
 shapeshifting
 shapeshifts
 shapeshifter
@@ -5559,6 +5594,7 @@ shoggoth
 shoggoths
 shogi
 Shoki
+shonisaurus
 shootable
 shopkeep
 shorthair
@@ -5864,6 +5900,8 @@ Steyr
 STI
 Stig
 Stillwater
+stiltwalker
+stiltwalkers
 stim
 stimpack
 stims
@@ -6257,7 +6295,9 @@ Tilly
 tilmàtli
 Tim
 timelapse
+timeloops
 timestamp
+timestream
 timey
 Timmy
 Timorese
@@ -6349,6 +6389,7 @@ travelpack
 travelpacks
 Travers
 travois
+treaded
 treecutting
 treefrog
 treefrogs
@@ -6521,6 +6562,7 @@ Unicode
 unitard
 unitards
 unjacketed
+unknowable
 unlife
 unlively
 unlockable
@@ -6621,6 +6663,7 @@ valhallists
 valknut
 valkyries
 Valzain
+vampiric
 VanBuren
 Vancian
 Vaneigem
@@ -6801,6 +6844,7 @@ weaponized
 weaponizing
 weaponsmith
 weaponsmiths
+wearables
 Weatherby
 Webber
 WebbStar

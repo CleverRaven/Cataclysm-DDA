@@ -1,3 +1,4 @@
+from .enchant import parse_enchant
 from ..helper import get_singular_name
 from ..write_text import write_text
 
@@ -9,7 +10,7 @@ def parse_mutation(json, origin):
         write_text(json["name"], origin, comment="Mutation name")
 
     if "description" in json:
-        write_text(json["description"], origin, c_format=False,
+        write_text(json["description"], origin,
                    comment="Description of mutation \"{}\"".format(name))
 
     if "attacks" in json:
@@ -65,3 +66,7 @@ def parse_mutation(json, origin):
                    comment="Message when transforming from mutation "
                    " \"{}\" to \"{}\""
                    .format(name, json["transform"]["target"]))
+
+    if "enchantments" in json:
+        for enchantment in json["enchantments"]:
+            parse_enchant(enchantment, origin)

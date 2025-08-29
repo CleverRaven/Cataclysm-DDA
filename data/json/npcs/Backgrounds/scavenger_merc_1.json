@@ -20,7 +20,7 @@
         "failure": { "topic": "BGSS_SCAVENGER_MERC_1_FUCKOFF" }
       },
       {
-        "text": "Don't mouth off to me.  I know where everyone else working for me comes from.  If I'm going to let you stand behind me with a loaded gun, you're going to toe the <swear> line too.",
+        "text": "Don't mouth off to me.  I know where everyone else working for me comes from.  If I'm going to let you stand behind me with a loaded gun, you're going to toe the <freaking> line too.",
         "condition": { "not": { "or": [ { "npc_has_effect": "player_BGSS_SAIDNO" }, { "npc_has_effect": "player_BGSS_SAIDYES" } ] } },
         "//": "This guy is more likely to respond to a show of strength.",
         "trial": { "type": "INTIMIDATE", "difficulty": 50, "mod": [ [ "TRUST", -1 ], [ "FEAR", -1 ] ] },
@@ -77,7 +77,7 @@
   {
     "id": "BGSS_SCAVENGER_MERC_1_STORY2_BADGERME",
     "type": "talk_topic",
-    "dynamic_line": "<swear!>, you're just gonna keep badgering me about this forever, aintcha.  Fine.  Bring me a bottle of single malt, we share a drink, I tell you the story.",
+    "dynamic_line": "<swear!>  You're just gonna keep badgering me about this forever, aintcha.  Fine.  Bring me a bottle of single malt, we share a drink, I tell you the story.",
     "responses": [
       {
         "text": "I'll get looking for that.  <done_conversation_section>",

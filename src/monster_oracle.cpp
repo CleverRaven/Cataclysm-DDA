@@ -1,21 +1,27 @@
+#include <algorithm>
+#include <string>
+#include <vector>
+
 #include "behavior.h"
+#include "coordinates.h"
+#include "item.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "material.h"
 #include "monster.h"
 #include "monster_oracle.h"
-
-struct tripoint;
+#include "type_id.h"
 
 namespace behavior
 {
 
-status_t monster_oracle_t::not_hallucination( const std::string_view ) const
+status_t monster_oracle_t::not_hallucination( std::string_view ) const
 {
     return subject->is_hallucination() ? status_t::failure : status_t::running;
 }
 
-status_t monster_oracle_t::split_possible( const std::string_view ) const
+status_t monster_oracle_t::split_possible( std::string_view ) const
 {
     // check if subject has split to support inverting this predicate for absorb monsters without split
     if( subject->has_special( "SPLIT" ) && ( subject->get_hp() / 2 ) > subject->get_hp_max() ) {
@@ -24,10 +30,12 @@ status_t monster_oracle_t::split_possible( const std::string_view ) const
     return status_t::failure;
 }
 
-status_t monster_oracle_t::items_available( const std::string_view ) const
+status_t monster_oracle_t::items_available( std::string_view ) const
 {
-    if( !get_map().has_flag( ter_furn_flag::TFLAG_SEALED, subject->pos_bub() ) &&
-        get_map().has_items( subject->pos_bub() ) ) {
+    map &here = get_map();
+
+    if( !here.has_flag( ter_furn_flag::TFLAG_SEALED, subject->pos_bub() ) &&
+        here.has_items( subject->pos_bub() ) ) {
         std::vector<material_id> absorb_material = subject->get_absorb_material();
         std::vector<material_id> no_absorb_material = subject->get_no_absorb_material();
 
@@ -38,7 +46,7 @@ status_t monster_oracle_t::items_available( const std::string_view ) const
         // case 2: no whitelist specified (it is approved for everything) but a blacklist specified
         if( absorb_material.empty() && !no_absorb_material.empty() ) {
             bool found = false;
-            for( item &it : get_map().i_at( subject->pos_bub() ) ) {
+            for( item &it : here.i_at( subject->pos_bub() ) ) {
                 for( const material_type *mat_type : it.made_of_types() ) {
                     if( !( std::find( no_absorb_material.begin(), no_absorb_material.end(),
                                       mat_type->id ) != no_absorb_material.end() ) ) {
@@ -55,7 +63,7 @@ status_t monster_oracle_t::items_available( const std::string_view ) const
         }
         // Case 3: there is a whitelist but no blacklist, so only allow the whitelisted ones
         if( !absorb_material.empty() && no_absorb_material.empty() ) {
-            for( item &it : get_map().i_at( subject->pos_bub() ) ) {
+            for( item &it : here.i_at( subject->pos_bub() ) ) {
                 for( const material_type *mat_type : it.made_of_types() ) {
                     if( std::find( absorb_material.begin(), absorb_material.end(),
                                    mat_type->id ) != absorb_material.end() ) {
@@ -66,7 +74,7 @@ status_t monster_oracle_t::items_available( const std::string_view ) const
         }
         // case 4: no whitelist specified (it is approved for everything) but a blacklist specified
         if( !absorb_material.empty() && !no_absorb_material.empty() ) {
-            for( item &it : get_map().i_at( subject->pos_bub() ) ) {
+            for( item &it : here.i_at( subject->pos_bub() ) ) {
                 for( const material_type *mat_type : it.made_of_types() ) {
                     if( !( std::find( no_absorb_material.begin(), no_absorb_material.end(),
                                       mat_type->id ) != no_absorb_material.end() ) ) {
@@ -84,17 +92,19 @@ status_t monster_oracle_t::items_available( const std::string_view ) const
 }
 
 // TODO: Have it select a target and stash it somewhere.
-status_t monster_oracle_t::adjacent_plants( const std::string_view ) const
+status_t monster_oracle_t::adjacent_plants( std::string_view ) const
 {
-    for( const tripoint_bub_ms &p : get_map().points_in_radius( subject->pos_bub(), 1 ) ) {
-        if( get_map().has_flag( ter_furn_flag::TFLAG_PLANT, p ) ) {
+    map &here = get_map();
+
+    for( const tripoint_bub_ms &p : here.points_in_radius( subject->pos_bub(), 1 ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_PLANT, p ) ) {
             return status_t::running;
         }
     }
     return status_t::failure;
 }
 
-status_t monster_oracle_t::special_available( const std::string_view special_name ) const
+status_t monster_oracle_t::special_available( std::string_view special_name ) const
 {
     bool only_if_present = false;
     std::string mspecial_name;

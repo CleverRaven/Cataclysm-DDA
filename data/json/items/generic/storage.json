@@ -1,7 +1,8 @@
 [
   {
     "id": "clothes_hanger",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "clothes hanger" },
     "description": "A plastic clothes hanger with a metal hook to hang something on a rail.",
     "weight": "100 g",
@@ -14,7 +15,7 @@
   },
   {
     "id": "storage_line",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "storage line" },
     "description": "A four foot long collection of carabiners for hanging items while camping.",
