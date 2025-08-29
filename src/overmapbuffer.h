@@ -318,6 +318,12 @@ class overmapbuffer
          * Searches all loaded overmaps.
          */
         shared_ptr_fast<npc> find_npc( character_id id );
+        /**
+         * Clear and fill a vector with NPCs who are your followers.
+         * Optionally only include is_following() or exclude is_hallucination()
+         */
+        void populate_followers_vec( std::vector<npc *> &followers, bool only_following = false,
+                                     bool ignore_hallu = false ) const;
         void foreach_npc( const std::function<void( npc & )> &callback );
         shared_ptr_fast<npc> find_npc_by_unique_id( const std::string &unique_id );
         /**
