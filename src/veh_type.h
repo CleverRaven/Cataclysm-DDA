@@ -210,8 +210,9 @@ class vpart_category
     public:
         static const std::vector<vpart_category> &all();
 
-        static void load( const JsonObject &jo );
-        static void finalize();
+        static void load_all( const JsonObject &jo );
+        static void finalize_all();
+        void load( const JsonObject &jo );
         static void reset();
 
         std::string get_id() const {
@@ -272,7 +273,7 @@ class vpart_info
     public:
         vpart_id id;
 
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         void check() const;
         void finalize();
         void handle_inheritance( const vpart_info &copy_from,
