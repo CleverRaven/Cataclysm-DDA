@@ -1355,6 +1355,15 @@ void vehicle_item_spawn::deserialize( const JsonObject &jo )
     optional( jo, false, "item_groups", item_groups, string_id_reader<Item_spawn_data> {} );
 }
 
+void vehicle_prototype::zone_def::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "type", zone_type );
+    mandatory( jo, false, "x", pt.x() );
+    mandatory( jo, false, "y", pt.y() );
+    optional( jo, false, "name", name );
+    optional( jo, false, "filter", filter );
+}
+
 void vehicle_prototype::load( const JsonObject &jo, std::string_view )
 {
     vgroups[vgroup_id( id.str() )].add_vehicle( id, 100 );
@@ -1376,21 +1385,7 @@ void vehicle_prototype::load( const JsonObject &jo, std::string_view )
     }
 
     optional( jo, was_loaded, "items", item_spawns );
-
-    for( JsonObject jzi : jo.get_array( "zones" ) ) {
-        zone_type_id zone_type( jzi.get_member( "type" ).get_string() );
-        std::string name;
-        std::string filter;
-        point_rel_ms pt( jzi.get_member( "x" ).get_int(), jzi.get_member( "y" ).get_int() );
-
-        if( jzi.has_string( "name" ) ) {
-            name = jzi.get_string( "name" );
-        }
-        if( jzi.has_string( "filter" ) ) {
-            filter = jzi.get_string( "filter" );
-        }
-        zone_defs.emplace_back( zone_def{ zone_type, name, filter, pt } );
-    }
+    optional( jo, was_loaded, "zones", zone_defs, json_read_reader<zone_def> {} );
 }
 
 void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh,

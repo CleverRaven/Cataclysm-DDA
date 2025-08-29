@@ -541,6 +541,11 @@ struct vehicle_prototype {
             std::string name;
             std::string filter;
             point_rel_ms pt;
+
+            void deserialize( const JsonObject &jo );
+            bool operator==( const zone_def &other ) const {
+                return zone_type == other.zone_type && name == other.name && filter == other.name && pt == other.pt;
+            }
         };
 
         vproto_id id;
