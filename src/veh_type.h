@@ -506,10 +506,11 @@ struct vehicle_item_spawn {
     int with_ammo = 0;
     /** Chance [0-100%] for items to spawn with their default magazine (if any) */
     int with_magazine = 0;
-    std::vector<itype_id> item_ids;
-    // item_ids, but for items with variants specified
-    std::vector<std::pair<itype_id, std::string>> variant_ids;
+    // item_ids, with variants specified (empty is ignored)
+    std::vector<std::pair<itype_id, std::string>> item_ids;
     std::vector<item_group_id> item_groups;
+
+    void deserialize( const JsonObject &jo );
 };
 
 /**

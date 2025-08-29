@@ -1327,14 +1327,38 @@ struct veh_proto_part_def_reader : generic_typed_reader<veh_proto_part_def_reade
 
 };
 
+struct veh_spawn_item_reader : generic_typed_reader<veh_spawn_item_reader> {
+    std::pair<itype_id, std::string> get_next( const JsonValue &jv ) const {
+        if( jv.test_string() ) {
+            return std::make_pair( itype_id( jv.get_string() ), "" );
+        }
+        JsonObject jo = jv.get_object();
+        std::pair<itype_id, std::string> ret;
+        mandatory( jo, false, "id", ret.first );
+        optional( jo, false, "variant", ret.second );
+        return ret;
+    }
+};
+
+void vehicle_item_spawn::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "x", pos.x() );
+    mandatory( jo, false, "y", pos.y() );
+
+    mandatory( jo, false, "chance", chance, numeric_bound_reader{ 0, 100 } );
+
+    // constrain both with_magazine and with_ammo to [0-100]
+    optional( jo, false, "magazine", with_magazine, numeric_bound_reader{ 0, 100 }, 0 );
+    optional( jo, false, "ammo", with_ammo, numeric_bound_reader{ 0, 100 }, 0 );
+
+    optional( jo, false, "items", item_ids, veh_spawn_item_reader{} );
+    optional( jo, false, "item_groups", item_groups, string_id_reader<Item_spawn_data> {} );
+}
+
 void vehicle_prototype::load( const JsonObject &jo, std::string_view )
 {
     vgroups[vgroup_id( id.str() )].add_vehicle( id, 100 );
     optional( jo, was_loaded, "name", name );
-
-
-
-
 
     if( jo.has_member( "blueprint" ) ) {
         // currently unused, read to suppress unvisited members warning
@@ -1351,46 +1375,7 @@ void vehicle_prototype::load( const JsonObject &jo, std::string_view )
         parts.insert( parts.end(), tmp.begin(), tmp.end() );
     }
 
-    for( JsonObject spawn_info : jo.get_array( "items" ) ) {
-        vehicle_item_spawn next_spawn;
-        next_spawn.pos.x() = spawn_info.get_int( "x" );
-        next_spawn.pos.y() = spawn_info.get_int( "y" );
-
-        next_spawn.chance = spawn_info.get_int( "chance" );
-        if( next_spawn.chance <= 0 || next_spawn.chance > 100 ) {
-            debugmsg( "Invalid spawn chance in %s (%d, %d): %d%%",
-                      name, next_spawn.pos.x(), next_spawn.pos.y(), next_spawn.chance );
-        }
-
-        // constrain both with_magazine and with_ammo to [0-100]
-        next_spawn.with_magazine = std::max( std::min( spawn_info.get_int( "magazine",
-                                             next_spawn.with_magazine ), 100 ), 0 );
-        next_spawn.with_ammo = std::max( std::min( spawn_info.get_int( "ammo",
-                                         next_spawn.with_ammo ), 100 ), 0 );
-
-        if( spawn_info.has_array( "items" ) ) {
-            //Array of items that all spawn together (i.e. jack+tire)
-            spawn_info.read( "items", next_spawn.item_ids, true );
-        } else if( spawn_info.has_string( "items" ) ) {
-            //Treat single item as array
-            // And read the gun variant (if it exists)
-            if( spawn_info.has_string( "variant" ) ) {
-                const std::string variant = spawn_info.get_string( "variant" );
-                next_spawn.variant_ids.emplace_back( itype_id( spawn_info.get_string( "items" ) ), variant );
-            } else {
-                next_spawn.item_ids.emplace_back( spawn_info.get_string( "items" ) );
-            }
-        }
-        if( spawn_info.has_array( "item_groups" ) ) {
-            //Pick from a group of items, just like map::place_items
-            for( const std::string line : spawn_info.get_array( "item_groups" ) ) {
-                next_spawn.item_groups.emplace_back( line );
-            }
-        } else if( spawn_info.has_string( "item_groups" ) ) {
-            next_spawn.item_groups.emplace_back( spawn_info.get_string( "item_groups" ) );
-        }
-        item_spawns.push_back( std::move( next_spawn ) );
-    }
+    optional( jo, was_loaded, "items", item_spawns );
 
     for( JsonObject jzi : jo.get_array( "zones" ) ) {
         zone_type_id zone_type( jzi.get_member( "type" ).get_string() );
@@ -1687,8 +1672,8 @@ void vehicles::finalize_prototypes()
                           proto.name, i.pos.x(), i.pos.y(), i.chance );
             }
             for( auto &j : i.item_ids ) {
-                if( !item::type_is_defined( j ) ) {
-                    debugmsg( "unknown item %s in spawn list of %s", j.c_str(), proto.id.str() );
+                if( !item::type_is_defined( j.first ) ) {
+                    debugmsg( "unknown item %s in spawn list of %s", j.first.c_str(), proto.id.str() );
                 }
             }
             for( auto &j : i.item_groups ) {
