@@ -196,6 +196,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::SHORT_TELEPORT: return "SHORT_TELEPORT";
         case debug_menu::debug_menu_index::LONG_TELEPORT: return "LONG_TELEPORT";
         case debug_menu::debug_menu_index::SPAWN_NPC: return "SPAWN_NPC";
+        case debug_menu::debug_menu_index::SPAWN_NPC_FOLLOWER: return "SPAWN_NPC_FOLLOWER";
         case debug_menu::debug_menu_index::SPAWN_NAMED_NPC: return "SPAWN_NAMED_NPC";
         case debug_menu::debug_menu_index::SPAWN_OM_NPC: return "SPAWN_OM_NPC";
         case debug_menu::debug_menu_index::SPAWN_MON: return "SPAWN_MON";
@@ -1040,6 +1041,7 @@ static int spawning_uilist()
         { uilist_entry( debug_menu_index::WISH, true, 'w', _( "Spawn an item" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_ITEM_GROUP, true, 'W', _( "Spawn an item group" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_NPC, true, 'n', _( "Spawn NPC" ) ) },
+        { uilist_entry( debug_menu_index::SPAWN_NPC_FOLLOWER, true, 'f', _( "Spawn NPC follower" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_NAMED_NPC, true, 'p', _( "Spawn named NPC" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_OM_NPC, true, 'N', _( "Spawn random NPC on overmap" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_MON, true, 'm', _( "Spawn monster" ) ) },
@@ -3731,6 +3733,23 @@ static void spawn_npc()
     g->load_npcs();
 }
 
+static void spawn_npc_follower()
+{
+    avatar &player_character = get_avatar();
+    shared_ptr_fast<npc> temp = make_shared_fast<npc>();
+    temp->normalize();
+    temp->randomize();
+    temp->spawn_at_precise( player_character.pos_abs() + point( -4, -4 ) );
+    overmap_buffer.insert_npc( temp );
+    temp->form_opinion( player_character );
+    temp->set_attitude( NPCATT_FOLLOW );
+    temp->set_fac( faction_your_followers );
+    temp->mission = NPC_MISSION_NULL;
+    temp->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC, temp->pos_abs_omt(),
+                           temp->getID() ) );
+    g->load_npcs();
+}
+
 static void spawn_named_npc()
 {
     uilist npc_menu;
@@ -4097,6 +4116,10 @@ void debug()
 
         case debug_menu_index::SPAWN_NPC:
             spawn_npc();
+            break;
+
+        case debug_menu_index::SPAWN_NPC_FOLLOWER:
+            spawn_npc_follower();
             break;
 
         case debug_menu_index::SPAWN_NAMED_NPC:
