@@ -1350,9 +1350,11 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
                     if( !has_trait( trait_CHAOTIC ) && !has_trait( trait_CHAOTIC_BAD ) ) {
                         if( rng( 1, 100 ) <= chance ) {
                             mutate_towards( trait_CHAOTIC );
+                            add_msg_if_player( m_bad, _( "You will mutate uncontrollably from now on!" ) );
                         } else if( has_trait( trait_CHAOTIC ) && !has_trait( trait_CHAOTIC_BAD ) ) {
                             if( rng( 1, 100 ) <= chance ) {
                                 mutate_towards( trait_CHAOTIC_BAD );
+                                add_msg_if_player( m_bad, _( "Your genetics have become irreparably damaged!" ) );
                             }
                         }
                     }
