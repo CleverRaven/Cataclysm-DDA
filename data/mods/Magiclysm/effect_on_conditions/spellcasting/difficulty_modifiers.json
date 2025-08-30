@@ -180,8 +180,8 @@
     "required_event": "opens_spellbook",
     "condition": { "u_has_trait": "MAGIC_EMPTY" },
     "effect": [
-      { "math": [ "u_spellcasting_adjustment('difficulty', 'flag_blacklist': 'PSIONIC') = 999" ] },
-      { "math": [ "u_spellcasting_adjustment('cost', 'flag_blacklist': 'PSIONIC') = 999" ] }
+      { "math": [ "u_spellcasting_adjustment('difficulty', 'mod': 'magiclysm',  'flag_blacklist': 'PSIONIC') = 999" ] },
+      { "math": [ "u_spellcasting_adjustment('cost',  'mod': 'magiclysm', 'flag_blacklist': 'PSIONIC') = 999" ] }
     ]
   }
 ]
