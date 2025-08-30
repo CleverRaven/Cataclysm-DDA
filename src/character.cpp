@@ -730,6 +730,22 @@ bool Character::has_martialart( const matype_id &m ) const
     return martial_arts_data->has_martialart( m );
 }
 
+int Character::count_threshold_substitute_traits() const
+{
+    int count = 0;
+    for( const mutation_branch &mut : mutation_branch::get_all() ) {
+        if( !mut.threshold_substitutes.empty() && has_trait( mut.id ) &&
+            std::find_if( mut.threshold_substitutes.begin(), mut.threshold_substitutes.end(),
+        [this]( const trait_id & t ) {
+        return has_trait( t );
+        } ) != mut.threshold_substitutes.end() ) {
+            ++count;
+            break;
+        }
+    }
+    return count;
+}
+
 int Character::get_oxygen_max() const
 {
     return 30 + ( has_bionic( bio_synlungs ) ? 30 : 2 * str_cur );

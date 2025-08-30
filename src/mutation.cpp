@@ -87,6 +87,7 @@ static const mutation_category_id mutation_category_ANY( "ANY" );
 static const trait_id trait_ARVORE_FOREST_MAPPING( "ARVORE_FOREST_MAPPING" );
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
+static const trait_id trait_CHAOTIC( "CHAOTIC" );
 static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
 static const trait_id trait_ECHOLOCATION( "ECHOLOCATION" );
 static const trait_id trait_GASTROPOD_EXTREMITY2( "GASTROPOD_EXTREMITY2" );
@@ -1343,8 +1344,24 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
             }
             if( mutate_towards( valid, cat, 2, use_vitamins ) ) {
                 add_msg_if_player( m_mixed, mutation_category_trait::get_category( cat ).mutagen_message() );
+                int sub_count = count_threshold_substitute_traits();
+                if( sub_count > 2 ) {
+                    int chance = sub_count - 2;
+                    if( !has_trait( trait_CHAOTIC ) && !has_trait( trait_CHAOTIC_BAD ) ) {
+                        if( rng( 1, 100 ) <= chance ) {
+                            mutate_towards( trait_CHAOTIC );
+                            add_msg_if_player( m_bad, _( "You will mutate uncontrollably from now on!" ) );
+                        } else if( has_trait( trait_CHAOTIC ) && !has_trait( trait_CHAOTIC_BAD ) ) {
+                            if( rng( 1, 100 ) <= chance ) {
+                                mutate_towards( trait_CHAOTIC_BAD );
+                                add_msg_if_player( m_bad, _( "Your genetics have become irreparably damaged!" ) );
+                            }
+                        }
+                    }
+                    return;
+                }
+                return;
             }
-            return;
         }
     } while( valid.empty() );
 }
@@ -1417,6 +1434,12 @@ void Character::mutate_category( const mutation_category_id &cat )
 bool Character::mutation_selector( const std::vector<trait_id> &prospective_traits,
                                    const mutation_category_id &cat, const bool &use_vitamins )
 {
+    if( has_trait( trait_CHAOTIC ) || has_trait( trait_CHAOTIC_BAD ) ) {
+        add_msg_if_player( m_bad,
+                           _( "Your genetic degeneration prevents you from selecting a mutation directly!" ) );
+        return false;
+    }
+
     // Setup menu
     uilist mmenu;
     mmenu.text =

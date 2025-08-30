@@ -648,6 +648,8 @@ class Character : public Creature, public visitable
         int get_arm_str() const;
         // Defines distance from which CAMOUFLAGE mobs are visible
         int get_eff_per() const override;
+        // Counts how many traits a character has via threshold substitution
+        int count_threshold_substitute_traits() const;
 
         // Penalty modifiers applied for ranged attacks due to low stats
         int ranged_dex_mod() const;
