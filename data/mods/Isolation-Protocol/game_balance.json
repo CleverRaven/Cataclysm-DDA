@@ -16,5 +16,11 @@
     "name": "WEARY_RECOVERY_MULT",
     "stype": "float",
     "value": 2
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "WOUND_CHANCE",
+    "stype": "float",
+    "value": 0.0
   }
 ]
