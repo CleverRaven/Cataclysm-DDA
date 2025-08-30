@@ -159,6 +159,7 @@ constexpr size_t kDefaultFooterSize = 1024;
 constexpr size_t kFixedSizeOverhead = kFooterChecksumFrameSize + kDefaultFooterSize;
 
 constexpr uint64_t kCheckumSeed = 0x1337C0DE;
+constexpr uint64_t kDeletedChecksumTombstone = 0xDE1337ED;
 
 constexpr const std::string_view kEntriesKey = "entries";
 constexpr const std::string_view kEntryOffsetKey = "offset";
@@ -662,7 +663,8 @@ size_t zzip::ensure_capacity_for( size_t bytes )
 }
 
 // Actually performs the compression and encoding of a file into the zzip.
-size_t zzip::write_file_at( std::string_view filename, std::string_view content, size_t offset )
+size_t zzip::write_file_at( std::string_view filename, std::string_view content, size_t offset,
+                            std::optional<uint64_t> force_checksum )
 {
     // The format of a compressed entry is a series of zstd frames.
     // There are an unbounded number of leading skippable frames of unspecified content.
@@ -700,7 +702,12 @@ size_t zzip::write_file_at( std::string_view filename, std::string_view content,
     if( ZSTD_isError( file_size ) ) {
         return file_size;
     }
-    uint64_t checksum = XXH64( file_base_plus( offset ), file_size, kCheckumSeed );
+    uint64_t checksum = 0;
+    if( force_checksum.has_value() ) {
+        checksum = force_checksum.value();
+    } else {
+        checksum = XXH64( file_base_plus( offset ), file_size, kCheckumSeed );
+    }
     uint64_t checksum_le = 0;
     MEM_writeLE64( &checksum_le, checksum );
     size_t checksum_size = ZSTD_writeSkippableFrame(
@@ -876,6 +883,13 @@ bool zzip::rewrite_footer()
             break;
         }
 
+        if( checksum_opt == kDeletedChecksumTombstone &&
+            ZSTD_findDecompressedSize( file_ptr, file_frame_size ) == 0 ) {
+            entries_map.erase( *filename_opt );
+            scan_offset = file_offset + file_frame_size;
+            continue;
+        }
+
         uint64_t checksum = XXH64( file_ptr, file_frame_size, kCheckumSeed );
         if( checksum != checksum_opt ) {
             // Corruption in the compressed frame. Don't try to recover it, assume
@@ -1035,29 +1049,60 @@ bool zzip::extract_to_folder( std::filesystem::path const &path,
 bool zzip::delete_files( std::unordered_set<std::filesystem::path, std_fs_path_hash> const
                          &zzip_relative_paths )
 {
-    zzip_footer footer{ footer_ };
-    std::vector<compressed_entry> compressed_entries = footer.get_entries();
+    size_t empty_estimated_size = ZSTD_compressBound( 0 );
 
-    bool did_erase = false;
+    JsonObject footer_copy = copy_footer();
+    footer_copy.allow_omitted_members();
+    zzip_footer footer{ footer_copy };
+
+    std::optional<zzip_meta> meta_opt = footer.get_meta();
+    size_t content_end = 0;
+    if( meta_opt.has_value() ) {
+        content_end = meta_opt->content_end;
+    }
+
+    size_t filename_lengths = 0;
+    for( const std::filesystem::path &f : zzip_relative_paths ) {
+        filename_lengths += f.generic_u8string().size();
+    }
+
+    if( !ensure_capacity_for(
+            content_end +
+            filename_lengths +
+            zzip_relative_paths.size() * ( ZSTD_SKIPPABLEHEADERSIZE +
+                                           kEntryChecksumFrameSize +
+                                           empty_estimated_size ) +
+            kFixedSizeOverhead ) ) {
+        return false;
+    }
+
+    bool errored = false;
+    std::vector<compressed_entry> compressed_entries = footer.get_entries();
     compressed_entries.erase(
         std::remove_if(
             compressed_entries.begin(),
             compressed_entries.end(),
     [&]( const compressed_entry & entry ) {
-        bool found = zzip_relative_paths.count( entry.path ) != 0; // NOLINT(cata-u8-path)
-        did_erase = did_erase || found;
-        return found;
-    }
-        ),
-    compressed_entries.end()
-    );
+        if( !errored && zzip_relative_paths.count( std::filesystem::u8path( entry.path ) ) != 0 ) {
+            size_t tombstone_size = write_file_at( entry.path, "", content_end, kDeletedChecksumTombstone );
 
-    if( !did_erase ) {
+            if( ZSTD_isError( tombstone_size ) ) {
+                errored = true;
+            } else {
+                content_end += tombstone_size;
+            }
+            return errored;
+        }
+        return false;
+    } ),
+    compressed_entries.end() );
+
+    // If we errored partway through we should still update the footer with what we did erase.
+    if( !update_footer( JsonObject{}, content_end, compressed_entries ) ) {
         return false;
     }
 
-    // Rewrite the footer from scratch, with all entries but the removed one.
-    return update_footer( JsonObject{}, 0, compressed_entries );
+    return errored;
 }
 
 bool zzip::compact( double bloat_factor )
