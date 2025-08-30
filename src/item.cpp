@@ -2605,10 +2605,10 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             }
 
             std::string faults;
-            for( const weighted_object<int, fault_id> &fault : type->faults ) {
-                const int weight_percent = static_cast<float>( fault.weight ) / type->faults.get_weight() * 100;
-                faults += colorize( fault.obj.str() + string_format( " (%d, %d%%)\n", fault.weight,
-                                    weight_percent ), has_fault( fault.obj ) ? c_yellow : c_white );
+            for( const std::pair<fault_id, int> &fault : type->faults ) {
+                const int weight_percent = static_cast<float>( fault.second ) / type->faults.get_weight() * 100;
+                faults += colorize( fault.first.str() + string_format( " (%d, %d%%)\n", fault.second,
+                                    weight_percent ), has_fault( fault.first ) ? c_yellow : c_white );
             }
             info.emplace_back( "BASE", string_format( "faults: %s", faults ) );
         }
@@ -7878,9 +7878,9 @@ void item::set_random_fault_of_type( const std::string &fault_type, bool force, 
     }
 
     weighted_int_list<fault_id> faults_by_type;
-    for( const weighted_object<int, fault_id> &f : type->faults ) {
-        if( f.obj.obj().type() == fault_type && can_have_fault( f.obj ) ) {
-            faults_by_type.add( f.obj, f.weight );
+    for( const std::pair<fault_id, int> &f : type->faults ) {
+        if( f.first.obj().type() == fault_type && can_have_fault( f.first ) ) {
+            faults_by_type.add( f.first, f.second );
         }
 
     }
@@ -10439,8 +10439,8 @@ int item::wind_resist() const
 std::set<fault_id> item::faults_potential() const
 {
     std::set<fault_id> res;
-    for( const weighted_object<int, fault_id> &fault_pair : type->faults ) {
-        res.insert( fault_pair.obj );
+    for( const std::pair<fault_id, int> &fault_pair : type->faults ) {
+        res.insert( fault_pair.first );
     }
     return res;
 }
@@ -10448,9 +10448,9 @@ std::set<fault_id> item::faults_potential() const
 std::set<fault_id> item::faults_potential_of_type( const std::string &fault_type ) const
 {
     std::set<fault_id> res;
-    for( const weighted_object<int, fault_id> &some_fault : type->faults ) {
-        if( some_fault.obj->type() == fault_type ) {
-            res.emplace( some_fault.obj );
+    for( const std::pair<fault_id, int> &some_fault : type->faults ) {
+        if( some_fault.first->type() == fault_type ) {
+            res.emplace( some_fault.first );
         }
     }
     return res;
