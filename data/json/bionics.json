@@ -1895,7 +1895,7 @@
     "name": { "str": "Electromagnetic Leak" },
     "capacity": "-25 kJ",
     "dupes_allowed": true,
-    "description": "A broken implant that sends electromagnetic impulses that reduce other implants capacity to store charge.",
+    "description": "A broken implant that sends electromagnetic impulses that reduce other implants' capacity to store charge.",
     "flags": [ "BIONIC_FAULTY" ]
   },
   {

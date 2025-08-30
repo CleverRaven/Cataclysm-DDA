@@ -71,7 +71,7 @@
     "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "fake_item",
     "name": { "str": "Integrated AR System" },
-    "description": "Extremely thin lenses provides user with augmented reality overlay allowing the user to zoom, and it displays handy information about local topology.",
+    "description": "Extremely thin lenses provide user with augmented reality overlay allowing the user to zoom, and it displays handy information about local topology.",
     "charges_per_use": 1,
     "use_action": [ "CAMERA", "PORTABLE_GAME", "EBOOKSAVE", "E_FILE_DEVICE" ],
     "etransfer_rate": "140 MB",

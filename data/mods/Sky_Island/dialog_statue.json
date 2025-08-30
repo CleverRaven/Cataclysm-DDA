@@ -458,7 +458,7 @@
         "topic": "SKYISLAND_UPGRADES_FEATURES"
       },
       {
-        "text": "Upgrade: Scouting Clairvoyance",
+        "text": "Upgrade: Scouting Clairvoyance 1",
         "condition": {
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_scoutingclairvoyance1" } },

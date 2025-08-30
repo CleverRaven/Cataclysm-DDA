@@ -6930,7 +6930,7 @@ std::optional<int> iuse::ehandcuffs_tick( Character *p, item *it, const tripoint
     }
 
     if( calendar::once_every( 1_minutes ) ) {
-        sounds::sound( pos, 10, sounds::sound_t::alarm, _( "a police siren, whoop WHOOP." ), true,
+        sounds::sound( pos, 10, sounds::sound_t::alarm, _( "a police siren, whoop WHOOP" ), true,
                        "environment", "police_siren" );
     }
 

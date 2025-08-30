@@ -1193,11 +1193,11 @@ veh_collision vehicle::part_collision( map &here, int part, const tripoint_abs_m
         if( player_is_driving_this_veh( &here ) ) {
             if( !snd.empty() ) {
                 //~ 1$s - vehicle name, 2$s - part name, 3$s - collision object name, 4$s - sound message
-                add_msg( m_warning, _( "Your %1$s's %2$s rams into %3$s with a %4$s" ),
+                add_msg( m_warning, _( "Your %1$s's %2$s rams into %3$s with a %4$s!" ),
                          name, vp.name(), ret.target_name, snd );
             } else {
                 //~ 1$s - vehicle name, 2$s - part name, 3$s - collision object name
-                add_msg( m_warning, _( "Your %1$s's %2$s rams into %3$s." ),
+                add_msg( m_warning, _( "Your %1$s's %2$s rams into %3$s!" ),
                          name, vp.name(), ret.target_name );
             }
         }

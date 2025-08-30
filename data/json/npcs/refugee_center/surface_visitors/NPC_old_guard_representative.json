@@ -185,7 +185,7 @@
     "type": "talk_topic",
     "dynamic_line": "I'm sorry, but I can't leave my post here, and I just don't have the human resources even for a project like that.",
     "speaker_effect": { "effect": { "npc_add_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } },
-    "responses": [ { "text": "Well, thanks anyway…", "topic": "TALK_OLD_GUARD_REP" } ]
+    "responses": [ { "text": "Well, thanks anyway.", "topic": "TALK_OLD_GUARD_REP" } ]
   },
   {
     "id": "TALK_OLD_GUARD_REP_Accept_Boris_Mission_1",

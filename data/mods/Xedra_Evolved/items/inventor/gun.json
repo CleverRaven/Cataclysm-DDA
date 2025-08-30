@@ -681,7 +681,7 @@
       "need_wielding": true,
       "target": "inventor_grenade_noise_fire_act",
       "menu_text": "Activate",
-      "msg": "You trigger the mechanism, and it start to whistle!",
+      "msg": "You trigger the mechanism, and it starts to whistle!",
       "target_timer": "70 seconds",
       "type": "transform"
     }

@@ -330,7 +330,7 @@
         "failure": { "topic": "TALK_REFUGEE_JENNY_Teach2_Sorry" },
         "success": { "topic": "TALK_REFUGEE_JENNY_Teach2" }
       },
-      { "text": "Um, you know what?  Nevermind.  What were you saying?", "topic": "TALK_NONE" },
+      { "text": "Um, you know what?  Never mind.  What were you saying?", "topic": "TALK_NONE" },
       { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
