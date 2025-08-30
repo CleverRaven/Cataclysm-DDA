@@ -8,6 +8,14 @@
       { "monster": "mon_uplifted_ape_zed", "weight": 8, "cost_multiplier": 10, "starts": "181 days" }
     ]
   },
+    {
+    "type": "monstergroup",
+    "id": "GROUP_CRYO_LAB",
+    "monsters": [
+      { "monster": "mon_mutant_cryo", "weight": 940, "cost_multiplier": 2 },
+      { "monster": "mon_cryokinetic", "weight": 8, "cost_multiplier": 10 }
+    ]
+  },
   {
     "type": "monstergroup",
     "id": "GROUP_ZOMBIE_MID",
