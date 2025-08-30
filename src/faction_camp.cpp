@@ -725,10 +725,15 @@ void talk_function::start_camp( npc &p )
 
     for( const auto &om_near : om_building_region( omt_pos, 3 ) ) {
         const oter_id &om_type = oter_id( om_near.first );
-        if( is_ot_match( "faction_base", om_type, ot_match_type::contains ) ||
-            overmap_buffer.has_camp( om_near.second ) ) {
-            popup( _( "You are too close to another camp!" ) );
-            return;
+        if( is_ot_match( "faction_base", om_type, ot_match_type::contains ) ) {
+            tripoint_abs_omt const &building_omt_pos = om_near.second;
+            std::vector<basecamp> const &camps = overmap_buffer.get_om_global( building_omt_pos ).om->camps;
+            if( std::any_of( camps.cbegin(), camps.cend(), [&building_omt_pos]( const basecamp & camp ) {
+            return camp.camp_omt_pos() == building_omt_pos;
+            } ) ) {
+                popup( _( "You are too close to another camp!" ) );
+                return;
+            }
         }
     }
     const recipe &making = camp_type.obj();
@@ -2151,28 +2156,19 @@ void basecamp::start_upgrade( const mission_id &miss_id )
     }
 }
 
-void basecamp::remove_camp( bool remove_from_overmap ) const
+void basecamp::remove_camp( const tripoint_abs_omt &omt_pos ) const
 {
     std::set<tripoint_abs_omt> &known_camps = get_player_character().camps;
     known_camps.erase( omt_pos );
 
-    if( remove_from_overmap ) {
-        overmap_buffer.remove_camp( omt_pos.xy() );
-    }
+    overmap_buffer.remove_camp( *this );
 
     map &here = get_map();
-    tripoint_bub_ms pos_bub;
-    // bb_pos may be {0,0,0} if you haven't examined the bulletin board on camp ever
-    if( bb_pos != tripoint_abs_ms::zero ) {
-        pos_bub = here.get_bub( bb_pos );
-    } else {
-        const tripoint_abs_sm sm_pos = coords::project_to<coords::sm>( omt_pos );
-        const tripoint_abs_ms ms_pos = coords::project_to<coords::ms>( sm_pos );
-        pos_bub = here.get_bub( ms_pos );
-    }
-    if( here.inbounds( pos_bub ) ) {
-        here.remove_submap_camp( pos_bub );
-    }
+    const tripoint_abs_sm sm_pos = coords::project_to<coords::sm>( omt_pos );
+    const tripoint_abs_ms ms_pos = coords::project_to<coords::ms>( sm_pos );
+    // We cannot use bb_pos here, because bb_pos may be {0,0,0} if you haven't examined the bulletin board on camp ever.
+    // here.remove_submap_camp( here.getlocal( bb_pos ) );
+    here.remove_submap_camp( here.get_bub( ms_pos ) );
 }
 
 void basecamp::abandon_camp()
@@ -2191,7 +2187,7 @@ void basecamp::abandon_camp()
     }
     // We must send this message early, before the name is erased.
     add_msg( m_info, _( "You abandon %s." ), name );
-    remove_camp();
+    remove_camp( omt_pos );
 }
 
 void basecamp::scan_pseudo_items()

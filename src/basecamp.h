@@ -204,8 +204,7 @@ class basecamp
         void set_name( const std::string &new_name );
         void query_new_name( bool force = false );
         // remove the camp without safety checks; use abandon_camp() for in-game
-        // normally always removes from overmap, but when mass-removing via overmap::clear_camps() we don't so we can iterate it properly
-        void remove_camp( bool remove_from_overmap = true ) const;
+        void remove_camp( const tripoint_abs_omt &omt_pos ) const;
         // remove the camp from an in-game context
         void abandon_camp();
         void scan_pseudo_items();

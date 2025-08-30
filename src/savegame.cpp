@@ -673,7 +673,7 @@ void overmap::unserialize( const JsonObject &jsobj )
             for( JsonObject camp_json : camps_json ) {
                 basecamp new_camp;
                 new_camp.deserialize( camp_json );
-                add_camp( new_camp.camp_omt_pos().xy(), new_camp );
+                camps.push_back( new_camp );
             }
         } else if( name == "overmap_special_placements" ) {
             JsonArray special_placements_json = om_member;
@@ -1384,8 +1384,8 @@ void overmap::serialize( std::ostream &fout ) const
 
     json.member( "camps" );
     json.start_array();
-    for( const auto &i : camps ) {
-        json.write( i.second );
+    for( const basecamp &i : camps ) {
+        json.write( i );
     }
     json.end_array();
     fout << std::endl;
