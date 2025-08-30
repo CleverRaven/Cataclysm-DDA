@@ -108,6 +108,7 @@ using item_location_filter = std::function<bool ( const item_location & )>;
 enum peek_act : int {
     PA_BLIND_THROW,
     PA_BLIND_THROW_WIELDED,
+    PA_MOVE,
     // obvious future additional value is PA_BLIND_FIRE
 };
 
