@@ -51,6 +51,7 @@
 #include "game_constants.h"
 #include "game_ui.h"
 #include "hash_utils.h"
+#include "horde_entity.h"
 #include "input.h"
 #include "json.h"
 #include "line.h"
@@ -882,12 +883,9 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
 
             if( vision != om_vision_level::unseen ) {
                 if( draw_overlays && uistate.overmap_debug_mongroup ) {
-                    const std::vector<mongroup *> mgroups = overmap_buffer.monsters_at( omp );
-                    if( !mgroups.empty() ) {
-                        auto mgroup_iter = mgroups.begin();
-                        std::advance( mgroup_iter, rng( 0, mgroups.size() - 1 ) );
-                        draw_from_id_string( ( *mgroup_iter )->type->defaultMonster.str(),
-                                             omp, 0, 0, lit_level::LIT, false );
+                    std::vector<std::map<tripoint_abs_ms, horde_entity>*> hordes = overmap_buffer.hordes_at( omp );
+                    if( !hordes.empty() ) {
+                        draw_from_id_string( "mon_zombie", omp, 0, 0, lit_level::LIT, false );
                     }
                 }
                 if( showhordes && los ) {
@@ -896,40 +894,32 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                         // a little bit of hardcoded fallbacks for hordes
                         if( find_tile_with_season( id ) ) {
                             // NOLINTNEXTLINE(cata-translate-string-literal)
-                            draw_from_id_string( string_format( "overmap_horde_%d", horde_size < 10 ? horde_size : 10 ),
+                            draw_from_id_string( string_format( "overmap_horde_%d", horde_size < 32 ? horde_size : 10 ),
                                                  omp, 0, 0, lit_level::LIT, false );
                         } else {
-                            switch( horde_size ) {
-                                case HORDE_VISIBILITY_SIZE:
-                                    draw_from_id_string( "mon_zombie", omp, 0, 0, lit_level::LIT,
-                                                         false );
-                                    break;
-                                case HORDE_VISIBILITY_SIZE + 1:
-                                    draw_from_id_string( "mon_zombie_tough", omp, 0, 0,
-                                                         lit_level::LIT, false );
-                                    break;
-                                case HORDE_VISIBILITY_SIZE + 2:
-                                    draw_from_id_string( "mon_zombie_brute", omp, 0, 0,
-                                                         lit_level::LIT, false );
-                                    break;
-                                case HORDE_VISIBILITY_SIZE + 3:
-                                    draw_from_id_string( "mon_zombie_hulk", omp, 0, 0,
-                                                         lit_level::LIT, false );
-                                    break;
-                                case HORDE_VISIBILITY_SIZE + 4:
-                                    draw_from_id_string( "mon_zombie_necro", omp, 0, 0,
-                                                         lit_level::LIT, false );
-                                    break;
-                                default:
-                                    draw_from_id_string( "mon_zombie_master", omp, 0, 0,
-                                                         lit_level::LIT, false );
-                                    break;
+                            if( horde_size == HORDE_VISIBILITY_SIZE ) {
+                                draw_from_id_string( "mon_zombie", omp, 0, 0, lit_level::LIT,
+                                                     false );
+                            } else if( horde_size > HORDE_VISIBILITY_SIZE ) {
+                                draw_from_id_string( "mon_zombie_tough", omp, 0, 0,
+                                                     lit_level::LIT, false );
+                            } else if( horde_size > HORDE_VISIBILITY_SIZE * 2 ) {
+                                draw_from_id_string( "mon_zombie_brute", omp, 0, 0,
+                                                     lit_level::LIT, false );
+                            } else if( horde_size > HORDE_VISIBILITY_SIZE * 4 ) {
+                                draw_from_id_string( "mon_zombie_hulk", omp, 0, 0,
+                                                     lit_level::LIT, false );
+                            } else if( horde_size > HORDE_VISIBILITY_SIZE * 6 ) {
+                                draw_from_id_string( "mon_zombie_necro", omp, 0, 0,
+                                                     lit_level::LIT, false );
+                            } else {
+                                draw_from_id_string( "mon_zombie_master", omp, 0, 0,
+                                                     lit_level::LIT, false );
                             }
                         }
                     }
                 }
             }
-
             if( ( uistate.place_terrain || uistate.place_special ) &&
                 overmap_ui::is_generated_omt( omp.xy() ) ) {
                 // Highlight areas that already have been generated

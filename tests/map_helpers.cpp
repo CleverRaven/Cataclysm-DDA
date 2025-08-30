@@ -1,5 +1,6 @@
 #include "map_helpers.h"
 
+#include <bitset>
 #include <memory>
 #include <vector>
 
@@ -131,6 +132,9 @@ void clear_basecamps()
     overmap_buffer.clear_camps( get_avatar().pos_abs_omt().xy() );
 }
 
+static std::bitset<24 * 24> impassable_omt;
+static std::bitset<24 * 24> passable_omt{ ~impassable_omt };
+
 void clear_map( int zmin, int zmax )
 {
     map &here = get_map();
@@ -153,6 +157,16 @@ void clear_map( int zmin, int zmax )
     }
     here.process_items();
     clear_basecamps();
+    // Set a chunk of overmap passability cache to all passable.
+    const tripoint_abs_sm &abs_sub = here.get_abs_sub();
+    const tripoint_abs_omt abs_omt = project_to<coords::omt>( abs_sub );
+    overmap_buffer.clear_mongroups();
+    for( int y = -4; y < 10; ++y ) {
+        for( int x = -4; x < 10; ++x ) {
+            tripoint_abs_omt this_omt{ abs_omt.x() + x, abs_omt.y() + y, 0 };
+            overmap_buffer.set_passable( this_omt, passable_omt );
+        }
+    }
 }
 
 void clear_map_and_put_player_underground()
@@ -264,4 +278,19 @@ void set_time( const time_point &time )
     here.update_visibility_cache( z );
     here.invalidate_map_cache( z );
     here.build_map_cache( z );
+}
+
+bool map_meddler::has_altered_submaps( map &m )
+{
+    for( submap *sm : m.grid ) {
+        if( sm->player_adjusted_map ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+submap *map_meddler::unsafe_get_submap_at( tripoint_bub_ms &p, point_sm_ms &l )
+{
+    return get_map().unsafe_get_submap_at( p, l );
 }
