@@ -308,7 +308,7 @@
       "corpse_type": "NO_CORPSE",
       "message": "The %s shatters like pane of glass."
     },
-    "delete": { "flags": [ "ATTACKMON", "ALWAYS_SEES_YOU", "HIT_AND_RUN" ] },
+    "delete": { "flags": [ "ALWAYS_SEES_YOU" ] },
     "extend": { "flags": [ "SILENT_DISAPPEAR" ] }
   },
   {
@@ -331,7 +331,7 @@
       "corpse_type": "NO_CORPSE",
       "message": "The %s shatters like pane of glass."
     },
-    "delete": { "flags": [ "ATTACKMON", "ALWAYS_SEES_YOU", "HIT_AND_RUN" ] },
+    "delete": { "flags": [ "ALWAYS_SEES_YOU" ] },
     "extend": { "flags": [ "SILENT_DISAPPEAR" ] }
   },
   {
@@ -356,7 +356,7 @@
       { "id": "drag_followup", "grab_data": { "drag_distance": 1 } }
     ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s shatters like pane of glass." },
-    "delete": { "flags": [ "ATTACKMON", "ALWAYS_SEES_YOU", "HIT_AND_RUN" ] },
+    "delete": { "flags": [ "ALWAYS_SEES_YOU" ] },
     "extend": { "flags": [ "SILENT_DISAPPEAR" ] }
   },
   {

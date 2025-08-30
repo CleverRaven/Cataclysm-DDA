@@ -15,13 +15,6 @@
     "special_attacks": [ [ "SHOCKING_REVEAL", 25 ] ]
   },
   {
-    "id": "halloween_dragon",
-    "type": "MONSTER",
-    "name": { "str": "inflatable dragon" },
-    "copy-from": "mon_dragon_dummy",
-    "delete": { "flags": [ "NOT_HALLUCINATION" ] }
-  },
-  {
     "id": "halloween_ghost",
     "type": "MONSTER",
     "name": { "str": "inflatable ghost" },
