@@ -390,7 +390,7 @@ std::shared_ptr<zzip> zzip::load( std::filesystem::path const &path,
     if( dictionary_path.empty() ) {
         cctx = ZSTD_createCCtx();
         dctx = ZSTD_createDCtx();
-    } else if( auto it = cached_contexts.find( dictionary_path.string() );
+    } else if( auto it = cached_contexts.find( dictionary_path.generic_u8string() );
                it != cached_contexts.end() ) {
         cctx = it->second.cctx;
         dctx = it->second.dctx;
@@ -408,7 +408,7 @@ std::shared_ptr<zzip> zzip::load( std::filesystem::path const &path,
             ZSTD_DCtx_loadDictionary_byReference( dctx, dictionary.data(), dictionary.size() );
         }
 
-        cached_contexts.emplace( dictionary_path.string(), cached_zstd_context{ std::move( dictionary ), cctx, dctx } );
+        cached_contexts.emplace( dictionary_path.generic_u8string(), cached_zstd_context{ std::move( dictionary ), cctx, dctx } );
     }
 
     zip->ctx_ = std::make_unique<zzip::context>( cctx, dctx );
