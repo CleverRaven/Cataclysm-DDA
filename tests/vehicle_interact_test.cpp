@@ -38,6 +38,8 @@ static const skill_id skill_mechanics( "mechanics" );
 
 static const vpart_id vpart_ap_test_storage_battery( "ap_test_storage_battery" );
 
+static const vpart_location_id vpart_location_structure( "structure" );
+
 static const vproto_id vehicle_prototype_car( "car" );
 
 static void test_repair( const std::vector<item> &tools, bool plug_in_tools, bool expect_craftable )
@@ -75,7 +77,7 @@ static void test_repair( const std::vector<item> &tools, bool plug_in_tools, boo
     vehicle_part *origin_frame = nullptr;
     for( vehicle_part *part : veh_ptr->get_parts_at( &here, vehicle_origin, "",
             part_status_flag::any ) ) {
-        if( part->info().location == "structure" ) {
+        if( part->info().location == vpart_location_structure ) {
             origin_frame = part;
             break;
         }
