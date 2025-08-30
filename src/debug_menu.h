@@ -24,6 +24,7 @@ enum class debug_menu_index : int {
     SHORT_TELEPORT,
     LONG_TELEPORT,
     SPAWN_NPC,
+    SPAWN_NPC_FOLLOWER,
     SPAWN_NAMED_NPC,
     SPAWN_OM_NPC,
     SPAWN_MON,
