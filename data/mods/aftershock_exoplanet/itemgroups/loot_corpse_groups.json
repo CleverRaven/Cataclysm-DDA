@@ -65,5 +65,17 @@
       { "item": "afs_triple_stacker_pouch" },
       { "item": "bot_wraitheon_kaburaya", "prob": 20, "count": [ 1, 2 ] }
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "dead_old_imaginifer_laser",
+    "entries": [ { "group": "afs_any_laser_mag", "prob": 90 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "dead_old_imaginifer",
+    "entries": [ { "group": "afs_any_laser_mag", "prob": 10 } ]
   }
 ]
