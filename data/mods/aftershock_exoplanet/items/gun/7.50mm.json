@@ -21,6 +21,7 @@
     "min_strength": 16,
     "clip_size": 9,
     "flags": [ "WATERPROOF_GUN", "RELOAD_ONE", "NEVER_JAMS" ],
+    "variants": [  ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
@@ -60,6 +61,7 @@
     "durability": 5,
     "blackpowder_tolerance": 60,
     "ammo": [ "afs_7.50mm" ],
+    "variants": [  ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_7.50mm": 1 } } ],
     "faults": [ { "fault": "fault_gun_blackpowder" }, { "fault": "fault_gun_dirt" } ]
   },
@@ -86,6 +88,7 @@
     "reload": 400,
     "modes": [ [ "DEFAULT", "burst", 4 ] ],
     "built_in_mods": [ "bipod" ],
+    "variants": [  ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
@@ -132,6 +135,7 @@
     "dispersion": 150,
     "durability": 10,
     "min_cycle_recoil": 1350,
+    "variants": [  ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -245,6 +249,7 @@
     "blackpowder_tolerance": 0,
     "min_cycle_recoil": 0,
     "handling": 25,
+    "variants": [  ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

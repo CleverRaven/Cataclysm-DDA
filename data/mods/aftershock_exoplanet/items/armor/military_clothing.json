@@ -8,6 +8,7 @@
     "name": { "str_sp": "military overalls" },
     "description": "A sturdy Nomex jumpsuit, normally worn by armed forces during transit or beneath combat armor while in the field.",
     "material": [ { "type": "nylon", "portion": 7 }, { "type": "nomex", "portion": 3 } ],
+    "variants": [  ],
     "material_thickness": 0.4,
     "color": "light_gray"
   },
@@ -29,6 +30,7 @@
         "volume_encumber_modifier": 0.25
       }
     ],
+    "variants": [  ],
     "pocket_data": [
       {
         "description": "Rifle attachment point.",
