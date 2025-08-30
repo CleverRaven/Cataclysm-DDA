@@ -38,9 +38,8 @@
     "default": "mon_advbot_laser",
     "monsters": [
       { "monster": "mon_advbot_laser", "weight": 100, "cost_multiplier": 40 },
-      { "monster": "afs_mon_sentinel_lx", "weight": 100, "cost_multiplier": 30 },
-      { "monster": "mon_wraitheon_imaginifer", "weight": 100, "cost_multiplier": 100 },
-      { "monster": "mon_wraitheon_imaginifer_stealth", "weight": 100, "cost_multiplier": 100 }
+      { "monster": "mon_old_imaginifer_laser", "weight": 100, "cost_multiplier": 100 },
+      { "monster": "mon_old_imaginifer", "weight": 100, "cost_multiplier": 100 }
     ]
   },
   {
