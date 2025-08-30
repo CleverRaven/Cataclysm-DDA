@@ -359,7 +359,6 @@ struct body_part_type {
 
         static void load_bp( const JsonObject &jo, const std::string &src );
         static const std::vector<body_part_type> &get_all();
-        static std::vector<body_part_type> &get_all_mod();
 
         // Clears all bps
         static void reset();

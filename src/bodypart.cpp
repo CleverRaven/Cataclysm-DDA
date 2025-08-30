@@ -292,11 +292,6 @@ const std::vector<body_part_type> &body_part_type::get_all()
     return body_part_factory.get_all();
 }
 
-std::vector<body_part_type> &body_part_type::get_all_mod()
-{
-    return body_part_factory.get_all_mod();
-}
-
 class encumbrance_per_weight_reader : public generic_typed_reader<encumbrance_per_weight_reader>
 {
     public:
@@ -515,9 +510,6 @@ void body_part_type::reset()
 void body_part_type::finalize_all()
 {
     body_part_factory.finalize();
-    for( body_part_type &an : body_part_factory.get_all_mod() ) {
-        an.finalize();
-    }
 }
 
 void body_part_type::finalize()
