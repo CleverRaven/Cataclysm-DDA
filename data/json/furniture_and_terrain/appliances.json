@@ -2,21 +2,18 @@
   {
     "type": "vehicle_part",
     "id": "ap_veh_tools_kitchen",
-    "name": "kitchen station",
     "copy-from": "veh_tools_kitchen",
     "extend": { "flags": [ "APPLIANCE" ] }
   },
   {
     "type": "vehicle_part",
     "id": "ap_veh_tools_workshop",
-    "name": "workshop station",
     "copy-from": "veh_tools_workshop",
     "extend": { "flags": [ "APPLIANCE" ] }
   },
   {
     "type": "vehicle_part",
     "id": "ap_workbench_with_recharger",
-    "name": "kitchen station",
     "copy-from": "workbench_with_recharger",
     "extend": { "flags": [ "APPLIANCE" ] }
   },
