@@ -27,6 +27,7 @@
 class Character;
 class JsonObject;
 class JsonOut;
+class JsonValue;
 class vehicle;
 class vpart_info;
 struct vehicle_prototype;
@@ -122,6 +123,8 @@ enum vpart_bitflags : int {
 };
 
 struct vpslot_engine {
+    bool was_loaded = false;
+
     float backfire_threshold = 0.0f;
     int backfire_freq = 1;
     int muscle_power_factor = 0;
@@ -130,23 +133,39 @@ struct vpslot_engine {
     int m2c = 100;
     std::vector<std::string> exclusions;
     std::vector<itype_id> fuel_opts;
+
+    void deserialize( const JsonObject &jo );
 };
 
 struct veh_ter_mod {
     std::string terrain_flag; // terrain flag this mod block applies to
     int move_override;        // override when on flagged terrain, ignored if 0
     int move_penalty;         // penalty added when not on flagged terrain, ignored if 0
+
+    void deserialize( const JsonValue &jv );
+    // for generic_factory delete/extend
+    bool operator==( const veh_ter_mod &rhs ) const {
+        return terrain_flag == rhs.terrain_flag;
+    }
 };
 
 struct vpslot_wheel {
+    bool was_loaded = false;
+
     float rolling_resistance = 1.0f;
     int contact_area = 1;
     std::vector<veh_ter_mod> terrain_modifiers;
     float offroad_rating = 0.5f;
+
+    void deserialize( const JsonObject &jo );
 };
 
 struct vpslot_rotor {
+    bool was_loaded = false;
+
     int rotor_diameter = 1;
+
+    void deserialize( const JsonObject &jo );
 };
 
 struct vpslot_workbench {
@@ -155,10 +174,16 @@ struct vpslot_workbench {
     // Mass/volume allowed before a crafting speed penalty is applied
     units::mass allowed_mass = 0_gram;
     units::volume allowed_volume = 0_ml;
+
+    void deserialize( const JsonObject &jo );
 };
 
 struct vpslot_toolkit {
+    bool was_loaded = false;
+
     std::set<itype_id> allowed_types;
+
+    void deserialize( const JsonObject &jo );
 };
 
 struct vpslot_terrain_transform {
@@ -169,11 +194,15 @@ struct vpslot_terrain_transform {
     //Both only defined if(post_field)
     int post_field_intensity;
     time_duration post_field_age;
+
+    void deserialize( const JsonObject &jo );
 };
 
 struct vp_control_req {
     std::set<std::pair<skill_id, int>> skills;
     std::set<proficiency_id> proficiencies;
+
+    void deserialize( const JsonObject &jo );
 };
 
 class vpart_category
