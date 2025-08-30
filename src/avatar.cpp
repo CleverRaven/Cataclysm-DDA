@@ -234,7 +234,7 @@ bool avatar::is_map_memory_valid() const
 
 bool avatar::should_show_map_memory() const
 {
-    if( get_timed_events().get( timed_event_type::OVERRIDE_PLACE ) ) {
+    if( !you_know_where_you_are() ) {
         return false;
     }
     return show_map_memory;

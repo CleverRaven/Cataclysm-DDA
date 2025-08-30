@@ -11,9 +11,11 @@
 #include "color.h"
 #include "dialogue.h"
 #include "dialogue_helpers.h"
+#include "display.h"
 #include "game_constants.h"
 #include "imgui/imgui.h"
 #include "input_context.h"
+#include "line.h"
 #include "mission.h"
 #include "npc.h"
 #include "faction.h"
@@ -21,11 +23,14 @@
 #include "point.h"
 #include "string_formatter.h"
 #include "talker.h"
+#include "timed_event.h"
 #include "translation.h"
 #include "translations.h"
 #include "ui_manager.h"
 #include "units.h"
 #include "units_utility.h"
+
+static const faction_id faction_no_faction( "no_faction" );
 
 enum class mission_ui_tab_enum : int {
     ACTIVE = 0,
@@ -77,6 +82,8 @@ class mission_ui_impl : public cataimgui::window
         void draw_selected_description( std::vector<mission *> missions, int &selected_mission );
         void draw_selected_description( std::vector<point_of_interest> points_of_interest,
                                         const int &selected_mission ) const;
+        void draw_label_with_value( const std::string &label, const std::string &value ) const;
+        void draw_location( const std::string &label, const tripoint_abs_omt &loc ) const;
 
         mission_ui_tab_enum selected_tab = mission_ui_tab_enum::ACTIVE;
         mission_ui_tab_enum switch_tab = mission_ui_tab_enum::num_tabs;
@@ -352,6 +359,15 @@ void mission_ui_impl::draw_point_of_interest_names( std::vector<point_of_interes
     }
 }
 
+void mission_ui_impl::draw_label_with_value( const std::string &label,
+        const std::string &value ) const
+{
+    ImGui::TextColored( c_white, "%s", label.c_str() );
+    const float label_width = table_column_width * 0.3f;
+    ImGui::SameLine( label_width );
+    ImGui::TextColored( c_light_gray, "%s", value.c_str() );
+}
+
 void mission_ui_impl::draw_selected_description( std::vector<mission *> missions,
         int &selected_mission )
 {
@@ -360,12 +376,12 @@ void mission_ui_impl::draw_selected_description( std::vector<mission *> missions
     if( miss->get_npc_id().is_valid() ) {
         npc *guy = g->find_npc( miss->get_npc_id() );
         if( guy ) {
-            ImGui::TextWrapped( _( "Given by: %s" ), guy->disp_name().c_str() );
-            if( guy->get_faction() ) {
-                ImGui::TextWrapped( _( "Faction: %s" ), guy->get_faction()->name.c_str() );
+            draw_label_with_value( _( "Given by:" ), guy->disp_name() );
+            if( guy->get_faction() && guy->get_fac_id() != faction_no_faction ) {
+                draw_label_with_value( _( "Faction:" ), guy->get_faction()->name );
             }
             const tripoint_abs_omt npc_location = guy->pos_abs_omt();
-            ImGui::TextWrapped( _( "Map location: %s" ), npc_location.to_string().c_str() );
+            draw_location( _( "Map location:" ), npc_location );
         }
     }
     ImGui::Separator();
@@ -423,20 +439,7 @@ void mission_ui_impl::draw_selected_description( std::vector<mission *> missions
     }
     if( miss->has_target() ) {
         // TODO: target does not contain a z-component, targets are assumed to be on z=0
-        const tripoint_abs_omt pos = get_player_character().pos_abs_omt();
-        cataimgui::draw_colored_text( string_format( _( "Target: %s" ), miss->get_target().to_string() ),
-                                      c_white );
-        // Below is done instead of a table for the benefit of right-to-left languages
-        //~Extra padding spaces in the English text are so that the replaced string vertically aligns with the one above
-        cataimgui::draw_colored_text( string_format( _( "You:    %s" ), pos.to_string() ), c_white );
-        int omt_distance = rl_dist( pos, miss->get_target() );
-        if( omt_distance > 0 ) {
-            // One OMT is 24 tiles across, at 1x1 meters each, so we can simply do number of OMTs * 24
-            units::length actual_distance = omt_distance * 24_meter;
-            //~Parenthesis is a real-world value for distance. Example string: "Distance: 223 tiles (5352 m)"
-            cataimgui::draw_colored_text( string_format( _( "Distance: %1$s tiles (%2$s)" ),
-                                          omt_distance, length_to_string_approx( actual_distance ) ), c_white );
-        }
+        draw_location( _( "Target:" ), miss->get_target() );
     }
 }
 
@@ -451,20 +454,27 @@ void mission_ui_impl::draw_selected_description( std::vector<point_of_interest> 
     // Avoid replacing expanded snippets with other valid snippet text on redraw
     cataimgui::draw_colored_text( parsed_description, c_unset, table_column_width * 1.15 );
     // TODO: target does not contain a z-component, targets are assumed to be on z=0
+    draw_location( _( "Target:" ), selected_point_of_interest.pos );
+}
+
+void mission_ui_impl::draw_location( const std::string &label,
+                                     const tripoint_abs_omt &loc ) const
+{
     const tripoint_abs_omt pos = get_player_character().pos_abs_omt();
-    cataimgui::draw_colored_text( string_format( _( "Target: %s" ),
-                                  selected_point_of_interest.pos.to_string() ),
-                                  c_white );
-    // Below is done instead of a table for the benefit of right-to-left languages
-    //~Extra padding spaces in the English text are so that the replaced string vertically aligns with the one above
-    cataimgui::draw_colored_text( string_format( _( "You:    %s" ), pos.to_string() ), c_white );
-    int omt_distance = rl_dist( pos, selected_point_of_interest.pos );
+    draw_label_with_value( label, display::overmap_position_text( loc ) );
+    if( !you_know_where_you_are() ) {
+        // Don't display "Distance:" or direction arrow if we don't know where we are
+        return;
+    }
+    int omt_distance = rl_dist( pos, loc );
     if( omt_distance > 0 ) {
         // One OMT is 24 tiles across, at 1x1 meters each, so we can simply do number of OMTs * 24
         units::length actual_distance = omt_distance * 24_meter;
-        //~Parenthesis is a real-world value for distance. Example string: "Distance: 223 tiles (5352 m)"
-        cataimgui::draw_colored_text( string_format( _( "Distance: %1$s tiles (%2$s)" ),
-                                      omt_distance, length_to_string_approx( actual_distance ) ), c_white );
+        const std::string dir_arrow = direction_arrow( direction_from( pos.xy(), loc.xy() ) );
+        //~Parenthesis is a real-world value for distance. Example string: "223 tiles (5.35km) ⇗"
+        const std::string distance_str = string_format( _( "%1$s tiles (%2$s) %3$s" ),
+                                         omt_distance, length_to_string_approx( actual_distance ), dir_arrow );
+        draw_label_with_value( _( "Distance:" ), distance_str );
     }
 }
 
