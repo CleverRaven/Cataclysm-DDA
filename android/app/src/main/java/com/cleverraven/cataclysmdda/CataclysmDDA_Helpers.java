@@ -10,6 +10,7 @@ import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.content.pm.ServiceInfo;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 public class CataclysmDDA_Helpers {
@@ -22,7 +23,7 @@ public class CataclysmDDA_Helpers {
     public static String getEnabledAccessibilityServiceNames(Context context) {
         List<AccessibilityServiceInfo> enabledServicesInfo = getEnabledAccessibilityServiceInfo( context );
         String service_names = "";
-        Set<String> false_positives = context.getSharedPreferences("accessibility_service_info", Context.MODE_PRIVATE).getStringSet("accessibility_service_info_false_positives", new HashSet<String>());
+        Set<String> false_positives = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext()).getStringSet("Accessibility Service Info False Positives", new HashSet<String>());
         for (AccessibilityServiceInfo enabledService : enabledServicesInfo) {
             ServiceInfo enabledServiceInfo = enabledService.getResolveInfo().serviceInfo;
             String service_name = enabledServiceInfo.name;
@@ -35,14 +36,15 @@ public class CataclysmDDA_Helpers {
 
     public static void saveAccessibilityServiceInfoFalsePositives(Context context) {
         List<AccessibilityServiceInfo> enabledServicesInfo = getEnabledAccessibilityServiceInfo( context );
-        SharedPreferences preferences = context.getSharedPreferences("accessibility_service_info", Context.MODE_PRIVATE);
-        Set<String> false_positives = preferences.getStringSet("accessibility_service_info_false_positives", new HashSet<String>());
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        // Purposeful copy to avoid some nonsense
+        Set<String> false_positives = new HashSet<String>(preferences.getStringSet("Accessibility Service Info False Positives", new HashSet<String>()));
         for (AccessibilityServiceInfo enabledService : enabledServicesInfo) {
             ServiceInfo enabledServiceInfo = enabledService.getResolveInfo().serviceInfo;
             false_positives.add( enabledServiceInfo.name );
         }
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putStringSet("accessibility_service_info_false_positives", false_positives);
+        editor.putStringSet("Accessibility Service Info False Positives", false_positives);
         editor.commit();        
     }
 }
