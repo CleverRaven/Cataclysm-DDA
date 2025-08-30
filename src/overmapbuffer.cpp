@@ -777,7 +777,7 @@ void overmapbuffer::add_camp( const basecamp &camp )
 {
     const point_abs_omt omt = camp.camp_omt_pos().xy();
     const overmap_with_local_coords om_loc = get_om_global( omt );
-    om_loc.om->camps.push_back( camp );
+    om_loc.om->add_camp( omt, camp );
 }
 
 om_vision_level overmapbuffer::seen( const tripoint_abs_omt &p )

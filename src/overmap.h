@@ -401,6 +401,7 @@ class overmap
         std::vector<city> cities;
         std::vector<overmap_river_node> rivers;
         std::map<string_id<overmap_connection>, std::vector<tripoint_om_omt>> connections_out;
+        void add_camp( const point_abs_omt &p, const basecamp &camp );
         std::optional<basecamp *> find_camp( const point_abs_omt &p );
         /// Adds the npc to the contained list of npcs ( @ref npcs ).
         void insert_npc( const shared_ptr_fast<npc> &who );

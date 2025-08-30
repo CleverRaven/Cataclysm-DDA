@@ -8013,6 +8013,15 @@ shared_ptr_fast<npc> overmap::find_npc_by_unique_id( const std::string &id ) con
     return nullptr;
 }
 
+void overmap::add_camp( const point_abs_omt &p, const basecamp &camp )
+{
+    if( std::find_if( camps.begin(), camps.end(), [&p]( const basecamp & existing ) {
+    return existing.camp_omt_pos().xy() == p;
+    } ) == camps.end() ) {
+        camps.push_back( camp );
+    }
+}
+
 std::optional<basecamp *> overmap::find_camp( const point_abs_omt &p )
 {
     for( basecamp &v : camps ) {

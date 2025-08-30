@@ -673,7 +673,7 @@ void overmap::unserialize( const JsonObject &jsobj )
             for( JsonObject camp_json : camps_json ) {
                 basecamp new_camp;
                 new_camp.deserialize( camp_json );
-                camps.push_back( new_camp );
+                add_camp( new_camp.camp_omt_pos().xy(), new_camp );
             }
         } else if( name == "overmap_special_placements" ) {
             JsonArray special_placements_json = om_member;
