@@ -1270,7 +1270,10 @@ std::string spell::message() const
     if( !alt_message.empty() ) {
         return alt_message.translated();
     }
-    return type->message.translated();
+    if( !type->message.empty() ) {
+        type->message.translated();
+    }
+    return {};
 }
 
 float spell::spell_fail( const Character &guy ) const
