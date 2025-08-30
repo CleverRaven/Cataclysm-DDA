@@ -1466,6 +1466,13 @@ bool Character::mutation_selector( const std::vector<trait_id> &prospective_trai
             if( has_permanent_trait( threshreq[i] ) ) {
                 c_has_threshreq = true;
             }
+            if( !mdata.strict_threshreq ) {
+                for( const trait_id &subst : threshreq[i]->threshold_substitutes ) {
+                    if( has_permanent_trait( subst ) ) {
+                        c_has_threshreq = true;
+                    }
+                }
+            }
         }
         if( !c_has_threshreq ) {
             continue;
