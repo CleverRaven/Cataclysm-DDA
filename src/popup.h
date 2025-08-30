@@ -13,6 +13,7 @@
 #include "color.h"
 #include "input_enums.h"
 #include "point.h"
+#include "string_formatter.h"
 
 class query_popup_impl;
 

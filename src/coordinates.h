@@ -265,6 +265,10 @@ class coord_point_ob : public
             return coord_point_ob( this->raw().rotate( turns, dim ) );
         }
 
+        constexpr auto rotate_in_map( int turns ) const {
+            return coord_point_ob( this->raw().rotate_in_map( turns ) );
+        }
+
         friend inline this_as_ob operator+( const coord_point_ob &l, const point &r ) {
             return this_as_ob( l.raw() + r );
         }
