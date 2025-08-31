@@ -409,13 +409,6 @@
       }
     ],
     "false_effect": [ { "run_eocs": [ "EOC_FEED_HORSE_FAMILIAR_FAIL_MESSAGE" ] } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_ATTEMPT_HORSE_FAMILIAR_FAIL_MESSAGE",
-    "effect": {
-      "u_message": "You lack the excess blood needed, you must be flush or even engorged before you can attempt this.",
-      "type": "bad"
-    }
+  }
   }
 ]
