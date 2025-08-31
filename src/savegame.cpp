@@ -1384,8 +1384,8 @@ void overmap::serialize( std::ostream &fout ) const
 
     json.member( "camps" );
     json.start_array();
-    for( const auto &i : camps ) {
-        json.write( i.second );
+    for( const basecamp &i : camps ) {
+        json.write( i );
     }
     json.end_array();
     fout << std::endl;
