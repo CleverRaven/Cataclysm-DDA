@@ -144,12 +144,6 @@ extern template struct value_or_var<translation, string_mutator<translation>>;
 using str_or_var = value_or_var<std::string, string_mutator<std::string>>;
 using translation_or_var = value_or_var<translation, string_mutator<translation>>;
 
-struct str_translation_or_var {
-    std::variant<str_or_var, translation_or_var> val;
-    std::string evaluate( const_dialogue const &, bool convert = false ) const;
-    void deserialize( JsonValue const &jv );
-};
-
 struct talk_effect_fun_t {
     public:
         using likely_reward_t = std::pair<dbl_or_var, str_or_var>;

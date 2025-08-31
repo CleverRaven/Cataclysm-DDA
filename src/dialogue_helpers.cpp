@@ -64,21 +64,6 @@ var_info process_variable( const std::string &type )
     return { vt, ret_str };
 }
 
-std::string str_translation_or_var::evaluate( const_dialogue const &d, bool /* convert */ ) const
-{
-    return std::visit( overloaded{
-        [&d]( str_or_var const & tv ) -> std::string
-        {
-            return tv.evaluate( d );
-        },
-        [&d]( translation_or_var const & tv ) -> std::string
-        {
-            return tv.evaluate( d ).translated();
-        },
-    },
-    val );
-}
-
 namespace
 {
 

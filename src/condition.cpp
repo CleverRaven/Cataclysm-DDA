@@ -240,27 +240,6 @@ translation_or_var get_translation_or_var( const JsonValue &jv, std::string_view
     return ret;
 }
 
-void str_translation_or_var::deserialize( JsonValue const &jv )
-{
-    if( jv.test_object() ) {
-        const JsonObject &jo = jv.get_object();
-        if( jo.get_bool( "i18n", false ) ) {
-            translation tov;
-            mandatory( jo, false, "str", tov );
-            val = translation_or_var{ tov };
-        } else {
-            jo.allow_omitted_members();
-            str_or_var sov;
-            sov.deserialize( jv );
-            val = sov;
-        }
-    } else {
-        str_or_var sov;
-        sov.deserialize( jv );
-        val = sov;
-    }
-}
-
 void var_info::deserialize( JsonValue const &jsin )
 {
     _deserialize( jsin.get_object() );
