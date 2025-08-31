@@ -833,11 +833,10 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         return tripoint_abs_omt( omp.xy(), 0 );
     };
 
-    for( int cur_z = draw_3D ? -OVERMAP_DEPTH : origin_z; cur_z <= origin_z; cur_z++ ) {
-        const tripoint_rel_omt dz( 0, 0, cur_z - origin_z );
-        for( int row = min_row; row < max_row; row++ ) {
-            for( int col = min_col; col < max_col; col++ ) {
-                const tripoint_abs_omt omp = origin + point_rel_omt( col, row ) + dz;
+    for( int row = min_row; row < max_row; row++ ) {
+        for( int col = min_col; col < max_col; col++ ) {
+            for( int cur_z = draw_3D ? -OVERMAP_DEPTH : origin_z; cur_z <= origin_z; cur_z++ ) {
+                const tripoint_abs_omt omp = origin + tripoint_rel_omt( col, row, cur_z - origin_z );
                 //TODO: Could add some kind of check as to whether to draw below and continue if not rather than brute force drawing everything (eg a tileset json sprite bool)
 
                 const om_vision_level vision = overmap_buffer.seen( omp );
