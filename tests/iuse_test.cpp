@@ -8,9 +8,11 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "character_id.h"
 #include "character_attire.h"
 #include "coordinates.h"
 #include "flag.h"
+#include "game.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
@@ -19,10 +21,13 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "map_selector.h"
+#include "mod_manager.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
 #include "point.h"
+#include "profession.h"
 #include "ret_val.h"
+#include "trait_group.h"
 #include "type_id.h"
 #include "value_ptr.h"
 
@@ -1076,4 +1081,39 @@ TEST_CASE( "water_tablet_purification_test", "[iuse][pur_tablets]" )
         }
 
     }
+}
+
+static void use_item_by_type( avatar &you, const itype_id &id ) {
+    for( item &it : you.inv_dump() ) {
+        if( it.typeId() == id ) {
+            you.use( you.get_item_position( &it ) );
+            break;
+        }
+    }
+}
+
+TEST_CASE( "gracken_strong_arms_trait_change", "[gracken][traits][mutation][item_use]" )
+{
+    set_game_mods({ "dda", "Xedra_Evolved" });
+
+    clear_avatar();
+
+    const profession *prof = profession::prof("xe_gracken_hunter");
+    REQUIRE( prof != nullptr );
+    avatar &you = get_avatar();
+    prof->apply( you );
+
+    REQUIRE( you.has_trait( trait_id( "SHADE_ARMS" ) ) );
+
+    item strong_arms( "gracken_strong_arms" );
+    you.i_add( strong_arms );
+    REQUIRE( you.has_amount( "gracken_strong_arms", 1 ) );
+
+    use_item_by_type( you, itype_id( "gracken_strong_arms" ) );
+
+    REQUIRE_FALSE( you.has_amount( "gracken_strong_arms", 1 ) );
+
+    REQUIRE_FALSE( you.has_trait( trait_id( "SHADE_ARMS" ) ) );
+
+    REQUIRE( you.has_trait( trait_id( "SHADE_STRONG_ARMS" ) ) );
 }
