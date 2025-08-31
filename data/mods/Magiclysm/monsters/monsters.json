@@ -963,7 +963,7 @@
   {
     "id": "mon_rust_monster",
     "type": "MONSTER",
-    "name": { "str": "rust monster", "str_pl": "rust monster" },
+    "name": { "str": "rust monster" },
     "description": "A strange creature, like a cross between a crustacean and an armadillo, with a long tail that ends in a paddle-like club.  It walks on four insectile legs, occasionally stopping and seeming to sniff the air.  Two long, feather-like antennae extend from either side of its mouth.",
     "default_faction": "magical_beast",
     "bodytype": "dog",
