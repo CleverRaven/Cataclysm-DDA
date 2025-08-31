@@ -1007,7 +1007,7 @@
         "hit_dmg_u": "",
         "hit_dmg_npc": "%1$s antennae touch <npcname>",
         "miss_msg_u": "",
-        "miss_msg_npc": "%1$s aentennae bend toward <npcname>, but they dodge!",
+        "miss_msg_npc": "%1$s antennae bend toward <npcname>, but they dodge!",
         "no_dmg_msg_u": "",
         "no_dmg_msg_npc": "%1$s antennae touch <npcname>"
       }
@@ -1037,7 +1037,7 @@
         "hit_dmg_u": "",
         "hit_dmg_npc": "%1$s antennae touch <npcname>",
         "miss_msg_u": "",
-        "miss_msg_npc": "%1$s aentennae bend toward <npcname>, but they dodge!",
+        "miss_msg_npc": "%1$s antennae bend toward <npcname>, but they dodge!",
         "no_dmg_msg_u": "",
         "no_dmg_msg_npc": "%1$s antennae touch <npcname>"
       },
@@ -1053,8 +1053,8 @@
         "blockable": false,
         "hit_dmg_u": "%1$s's antennae touch you!",
         "hit_dmg_npc": "%1$s antennae touch <npcname>",
-        "miss_msg_u": "%1$s aentennae bend toward you, but you dodge!",
-        "miss_msg_npc": "%1$s aentennae bend toward <npcname>, but they dodge!",
+        "miss_msg_u": "%1$s antennae bend toward you, but you dodge!",
+        "miss_msg_npc": "%1$s antennae bend toward <npcname>, but they dodge!",
         "no_dmg_msg_u": "%1$s's antennae touch you!",
         "no_dmg_msg_npc": "%1$s antennae touch <npcname>"
       }
