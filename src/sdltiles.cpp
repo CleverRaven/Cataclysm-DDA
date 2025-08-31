@@ -692,43 +692,46 @@ std::pair<std::string, bool> cata_tiles::get_omt_id_rotation_and_subtile(
     const oter_t &ot = *ot_id;
     oter_type_id ot_type_id = ot.get_type_id();
     const oter_type_t &ot_type = *ot_type_id;
+    const bool connects = ot_type.has_connections();
+    const bool is_water = ot_type.has_flag( oter_flags::water );
 
-    // get terrain neighborhood
-    const std::array<oter_type_id, 4> neighborhood = {
-        oter_at( omp + point::south )->get_type_id(),
-        oter_at( omp + point::east )->get_type_id(),
-        oter_at( omp + point::west )->get_type_id(),
-        oter_at( omp + point::north )->get_type_id()
-    };
-
-    if( ot_type.has_connections() ) {
-        // This would be for connected terrain
-        char val = 0;
-
-        // populate connection information
-        for( int i = 0; i < 4; ++i ) {
-            if( ot_type.connects_to( neighborhood[i] ) ) {
-                val += 1 << i;
-            }
-        }
-
-        get_rotation_and_subtile( val, -1, rota, subtile );
-    } else if( ot_type.has_flag( oter_flags::water ) ) {
-        // water looks nicer if it connects together
-        char val = 0;
-
-        // populate connection information
-        for( int i = 0; i < 4; ++i ) {
-            if( neighborhood[i]->has_flag( oter_flags::water ) ) {
-                val += 1 << i;
-            }
-        }
-
-        get_rotation_and_subtile( val, -1, rota, subtile );
-    } else {
+    if( !connects && !is_water ) {
         // 'Regular', nonlinear terrain only needs to worry about rotation, not
         // subtile
         ot.get_rotation_and_subtile( rota, subtile );
+    } else {
+        const std::array<oter_type_id, 4> neighborhood = {
+            oter_at( omp + tripoint_rel_omt::south )->get_type_id(),
+            oter_at( omp + tripoint_rel_omt::east )->get_type_id(),
+            oter_at( omp + tripoint_rel_omt::west )->get_type_id(),
+            oter_at( omp + tripoint_rel_omt::north )->get_type_id()
+        };
+        if( connects ) {
+            // This would be for connected terrain
+            char val = 0;
+
+            // populate connection information
+            for( int i = 0; i < 4; ++i ) {
+                if( ot_type.connects_to( neighborhood[i] ) ) {
+                    val += 1 << i;
+                }
+            }
+
+            get_rotation_and_subtile( val, -1, rota, subtile );
+        } else if( is_water ) {
+            // TODO: Why isn't water just a connects_group?
+            // water looks nicer if it connects together
+            char val = 0;
+
+            // populate connection information
+            for( int i = 0; i < 4; ++i ) {
+                if( neighborhood[i]->has_flag( oter_flags::water ) ) {
+                    val += 1 << i;
+                }
+            }
+
+            get_rotation_and_subtile( val, -1, rota, subtile );
+        }
     }
 
     om_vision_level vision = overmap_buffer.seen( omp );
