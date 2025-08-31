@@ -379,7 +379,7 @@
     "id": "EOC_ATTEMPT_HORSE_FAMILIAR",
     "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= 2400" ] },
     "effect": [
-      { "u_cast_spell": { "dhampir_horse_familiar_spell" } },
+      { "u_cast_spell": { "id": "dhampir_horse_familiar_spell" } },
       { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "2000" ] },
       {
         "u_message": "You feed your blood and will into this once docile horse, transforming it into a familiar worthy of a hunter of monsters and men.",
