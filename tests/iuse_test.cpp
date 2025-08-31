@@ -1083,7 +1083,8 @@ TEST_CASE( "water_tablet_purification_test", "[iuse][pur_tablets]" )
     }
 }
 
-static void use_item_by_type( avatar &you, const itype_id &id ) {
+static void use_item_by_type( avatar &you, const itype_id &id )
+{
     for( item &it : you.inv_dump() ) {
         if( it.typeId() == id ) {
             you.use( you.get_item_position( &it ) );
@@ -1094,11 +1095,11 @@ static void use_item_by_type( avatar &you, const itype_id &id ) {
 
 TEST_CASE( "gracken_strong_arms_trait_change", "[gracken][traits][mutation][item_use]" )
 {
-    set_game_mods({ "dda", "Xedra_Evolved" });
+    set_game_mods( { "dda", "Xedra_Evolved" } );
 
     clear_avatar();
 
-    const profession *prof = profession::prof("xe_gracken_hunter");
+    const profession *prof = profession::prof( "xe_gracken_hunter" );
     REQUIRE( prof != nullptr );
     avatar &you = get_avatar();
     prof->apply( you );

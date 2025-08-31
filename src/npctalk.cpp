@@ -3502,15 +3502,15 @@ talk_effect_fun_t::func f_add_trait( const JsonObject &jo, std::string_view memb
         for( const std::string &t : existing_types ) {
             bool match = false;
             if constexpr( std::is_same_v<decltype( new_types ), const std::set<std::string> & > ) {
-        match = new_types.count( t ) > 0;
+                match = new_types.count( t ) > 0;
             } else {
-        match = new_types.count( t ) > 0; 
+                match = new_types.count( t ) > 0;
             }
             if( match ) {
-        guy->unset_mutation( existing );
-        break;
-    }
-}
+                guy->unset_mutation( existing );
+                break;
+            }
+        }
 
         d.actor( is_npc )->set_mutation( trait, variant );
     };
