@@ -35,8 +35,8 @@
     "type": "ITEM",
     "id": "afs_circuitry_5",
     "copy-from": "afs_scrap_5",
-    "name": { "str": "acausal logic permutator" },
-    "description": "It has given you an answer, but you are yet to ask anything.",
+    "name": { "str": "acausal permutator" },
+    "description": "Time is drowned within its complex depths, and whatever wisdom surfaces is beyond the comprehension of the unaided mind.  Maybe once it had fruitful applications, but such eras are long past.",
     "looks_like": "scrap"
   }
 ]
