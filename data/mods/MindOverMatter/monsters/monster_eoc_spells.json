@@ -745,7 +745,7 @@
         "if": { "math": [ "u_vitamin('vitamin_maintained_powers') >= 1" ] },
         "then": [
           { "math": [ "n_val('anger')", "+=", "rand(10) + 2" ] },
-          { "u_message": "A chill aura enamates from the silent one.", "type": "bad" }
+          { "u_message": "A chill aura emanates from the silent one.", "type": "bad" }
         ],
         "else": [ { "math": [ "n_val('anger')", "-=", "rand(25) + 25" ] } ]
       }
