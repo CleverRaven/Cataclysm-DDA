@@ -275,6 +275,9 @@ class vpart_info
         /** Installation requirements for this component */
         requirement_data install_requirements() const;
 
+        // needed for setting turret requirements, possibly not for general use
+        void set_install_requirements( const std::vector<std::pair<requirement_id, int>> &reqs );
+
         /** Installation time (in moves) for this component accounting for player skills */
         time_duration install_time( const Character &you ) const;
 
