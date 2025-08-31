@@ -67,6 +67,17 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "rust_monster",
+    "hate": [ "iron_golem" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "iron_golem",
+    "base_faction": "robot",
+    "by_mood": [ "rust_monster" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "earth_spirit_faction",
     "base_faction": "animal",
     "friendly": [ "animal", "herbivore" ],
