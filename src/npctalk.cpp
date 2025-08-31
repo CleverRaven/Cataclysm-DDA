@@ -3491,6 +3491,33 @@ talk_effect_fun_t::func f_add_trait( const JsonObject &jo, std::string_view memb
         const trait_id trait = trait_id( new_trait.evaluate( d ) );
         const mutation_variant *variant = trait->variant( new_variant.evaluate( d ) );
 
+        Character *guy = d.actor( is_npc )->get_character();
+        if( !guy ) {
+            debugmsg( "f_add_trait: No valid character." );
+            return;
+        }
+
+        const auto &new_types = trait->types;
+
+        for( const trait_id &existing : guy->get_mutations() ) {
+            if( existing == trait ) {
+                continue;
+            }
+            const auto &existing_types = existing->types;
+            for( const std::string &t : existing_types ) {
+                bool match = false;
+                if constexpr( std::is_same<decltype(new_types), const std::set<std::string> &>::value ) {
+                    match = new_types.count( t ) > 0;
+                } else {
+                    match = std::find( new_types.begin(), new_types.end(), t ) != new_types.end();
+                }
+                if( match ) {
+                    guy->unset_mutation( existing );
+                    break;
+                }
+            }
+        }
+
         d.actor( is_npc )->set_mutation( trait, variant );
     };
 }
