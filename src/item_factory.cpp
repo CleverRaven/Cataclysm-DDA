@@ -3410,7 +3410,7 @@ void islot_comestible::deserialize( const JsonObject &jo )
     optional( jo, was_loaded, "calories", default_nutrition.calories );
 
     optional( jo, was_loaded, "contamination", contamination,
-              weighted_string_id_reader<diseasetype_id, float> {1.0} );
+              weighted_string_id_reader<diseasetype_id, float> { 1.0f } );
     optional( jo, was_loaded, "primary_material", primary_material, material_id::NULL_ID() );
     optional( jo, was_loaded, "vitamins", default_nutrition.vitamins_,
               vitamins_reader {} );
