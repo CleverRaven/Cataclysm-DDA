@@ -849,8 +849,8 @@ void DynamicDataLoader::finalize_loaded_data()
             { _( "Widgets" ), &widget::finalize_all },
             { _( "Weakpoint Families" ), &weakpoints::finalize_all },
             { _( "Weapon Categories" ), &weapon_category::finalize_all },
-            { _( "Zone Types" ), &zone_type::finalize_all },
             { _( "Wounds" ), &wound_type::finalize_all },
+            { _( "Zone Types" ), &zone_type::finalize_all },
 #if defined(TILES)
             { _( "Tileset" ), &load_tileset },
 #endif
