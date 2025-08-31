@@ -301,9 +301,9 @@ class string_input_popup // NOLINT(cata-xy)
 };
 
 struct string_input_params {
-    std::optional<str_translation_or_var> title;
-    std::optional<str_translation_or_var> description;
-    std::optional<str_translation_or_var> default_text;
+    std::optional<translation_or_var> title;
+    std::optional<translation_or_var> description;
+    std::optional<translation_or_var> default_text;
     int width{};
     std::optional<str_or_var> identifier;
     static string_input_params parse_string_input_params( const JsonObject &jo );

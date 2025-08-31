@@ -5718,15 +5718,15 @@ talk_effect_fun_t::func f_set_string_var( const JsonObject &jo, std::string_view
         if( input_params.has_value() ) {
             string_input_popup popup;
             popup
-            .title( input_params.value().title ? input_params.value().title->evaluate( d ) : "" )
+            .title( input_params.value().title ? input_params.value().title->evaluate( d ).translated() : "" )
             .description( input_params.value().description ? input_params.value().description->evaluate(
-                              d ) : "" )
+                              d ).translated() : "" )
             .width( input_params.value().width )
             .identifier( input_params.value().identifier ? input_params.value().identifier->evaluate(
                              d ) : "" );
 
             std::string str_temp = input_params.value().default_text ?
-                                   input_params.value().default_text->evaluate( d ) : "";
+                                   input_params.value().default_text->evaluate( d ).translated() : "";
             popup.edit( str_temp );
             if( !popup.canceled() ) {
                 str = str_temp;
