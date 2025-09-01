@@ -2673,10 +2673,10 @@ void Character::recalc_sight_limits()
         sight_max = 2;
     } else if( has_trait( trait_PER_SLIME ) ) {
         sight_max = 8;
-    } else if( ( has_flag( json_flag_MYOPIC ) || ( in_light &&
+    } else if( ( ( has_flag( json_flag_MYOPIC ) || ( in_light &&
                  has_flag( json_flag_MYOPIC_IN_LIGHT ) ) ) &&
                !worn_with_flag( flag_FIX_NEARSIGHT ) && !has_effect( effect_contacts ) &&
-               !has_effect( effect_transition_contacts ) || 
+               !has_effect( effect_transition_contacts ) ) || 
                ( in_light &&
                  has_flag( json_flag_MYOPIC_IN_LIGHT_SUPERNATURAL) ) ||
                has_flag( json_flag_MYOPIC_SUPERNATURAL ) 
