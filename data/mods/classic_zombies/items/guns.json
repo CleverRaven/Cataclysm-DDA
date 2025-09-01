@@ -28,7 +28,7 @@
     "subtypes": [ "GUN" ],
     "id": "modular_m4_carbine",
     "copy-from": "modular_m4_carbine",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "name": { "str": "C8 carbine" },
     "description": "A carbine variant of the C7A1, recently introduced by the Canadian armed forces.  Though accurate, small, and lightweight, it is infamous for its unreliability when not properly maintained.  It is chambered in 5.56x45mm and accepts STANAG magazines.",
     "variants": [
