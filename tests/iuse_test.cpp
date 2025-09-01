@@ -71,6 +71,7 @@ static const itype_id itype_atomic_coffee( "atomic_coffee" );
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_coffee( "coffee" );
 static const itype_id itype_diazepam( "diazepam" );
+static const itype_id itype_gracken_strong_arms( "gracken_strong_arms" );
 static const itype_id itype_inhaler( "inhaler" );
 static const itype_id itype_oxygen( "oxygen" );
 static const itype_id itype_oxygen_tank( "oxygen_tank" );
