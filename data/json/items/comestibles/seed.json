@@ -1330,6 +1330,7 @@
   {
     "type": "ITEM",
     "subtypes": [ "SEED", "COMESTIBLE" ],
+    "category": "seeds",
     "id": "seed_popcorn",
     "copy-from": "kernels",
     "name": { "str_sp": "seed popcorn" },

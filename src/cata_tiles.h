@@ -577,7 +577,6 @@ class cata_tiles
         static int get_rotation_edge_ew( char rot_to );
 
         /** Map memory */
-        bool has_memory_at( const tripoint_abs_ms &p ) const;
         const memorized_tile &get_terrain_memory_at( const tripoint_abs_ms &p ) const;
         const memorized_tile &get_furniture_memory_at( const tripoint_abs_ms &p ) const;
         const memorized_tile &get_trap_memory_at( const tripoint_abs_ms &p ) const;

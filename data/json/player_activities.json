@@ -708,6 +708,15 @@
     "can_resume": false
   },
   {
+    "id": "ACT_WAIT_FOLLOWERS",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "waiting for followers to catch up",
+    "rooted": true,
+    "based_on": "time",
+    "can_resume": false
+  },
+  {
     "id": "ACT_WAIT_NPC",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",

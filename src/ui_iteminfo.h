@@ -12,7 +12,7 @@ class iteminfo_window : public cataimgui::window
 {
     public:
         iteminfo_window( item_info_data &info, point pos, int width, int height,
-                         ImGuiWindowFlags flags = ImGuiWindowFlags_None );
+                         ImGuiWindowFlags flags = ImGuiWindowFlags_NoNavInputs );
         void execute();
 
     protected:

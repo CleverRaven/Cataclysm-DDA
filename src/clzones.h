@@ -60,6 +60,7 @@ class zone_type
         bool hidden = false;
 
         static void load_zones( const JsonObject &jo, const std::string &src );
+        static void finalize_all();
         static void reset();
         void load( const JsonObject &jo, std::string_view );
         /**

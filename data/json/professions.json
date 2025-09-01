@@ -4707,7 +4707,6 @@
       "both": {
         "entries": [
           { "item": "jumpsuit_pocketless", "variant": "orange" },
-          { "item": "striped_pants" },
           { "item": "sneakers" },
           { "item": "socks" },
           { "item": "gum" },

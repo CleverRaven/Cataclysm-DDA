@@ -289,6 +289,7 @@
     "diff": 100,
     "hp": 50,
     "speed": 140,
+    "volume": "100 L",
     "material": [ "steel" ],
     "symbol": "@",
     "color": "red",

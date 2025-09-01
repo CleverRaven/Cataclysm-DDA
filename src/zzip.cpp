@@ -390,7 +390,7 @@ std::shared_ptr<zzip> zzip::load( std::filesystem::path const &path,
     if( dictionary_path.empty() ) {
         cctx = ZSTD_createCCtx();
         dctx = ZSTD_createDCtx();
-    } else if( auto it = cached_contexts.find( dictionary_path.string() );
+    } else if( auto it = cached_contexts.find( dictionary_path.generic_u8string() );
                it != cached_contexts.end() ) {
         cctx = it->second.cctx;
         dctx = it->second.dctx;
@@ -408,7 +408,7 @@ std::shared_ptr<zzip> zzip::load( std::filesystem::path const &path,
             ZSTD_DCtx_loadDictionary_byReference( dctx, dictionary.data(), dictionary.size() );
         }
 
-        cached_contexts.emplace( dictionary_path.string(), cached_zstd_context{ std::move( dictionary ), cctx, dctx } );
+        cached_contexts.emplace( dictionary_path.generic_u8string(), cached_zstd_context{ std::move( dictionary ), cctx, dctx } );
     }
 
     zip->ctx_ = std::make_unique<zzip::context>( cctx, dctx );
@@ -854,36 +854,29 @@ bool zzip::rewrite_footer()
         size_t zzip_remaining = zzip_len - scan_offset;
 
         // For each entry we expect at least a filename and checksum header.
-        void *file_ptr = nullptr; ;
-        size_t file_len = 0;
-        std::tie( file_ptr, file_len ) = read_and_skip_entry_metadata(
-                                             file_base_plus( scan_offset ),
-                                             zzip_remaining,
-                                             &filename_opt,
-                                             &checksum_opt );
-        if( file_ptr == nullptr || file_len == 0 || file_len > zzip_remaining ) {
+        void *file_ptr = nullptr;
+        std::tie( file_ptr, zzip_remaining ) = read_and_skip_entry_metadata(
+                file_base_plus( scan_offset ),
+                zzip_remaining,
+                &filename_opt,
+                &checksum_opt );
+        if( file_ptr == nullptr || zzip_remaining == 0 ) {
             break;
         }
-        // zzip_remaining = length of zzip from start of entry
-        // file_len = length of zzip from start of compressed file frame
-        // -> offset of file from start of entry = zzip_remaining - file_len
-        file_offset = scan_offset + ( zzip_remaining - file_len );
+
+        file_offset = zzip_len - zzip_remaining;
 
         if( !filename_opt.has_value() || !checksum_opt.has_value() ) {
             // Missing required metadata.
             break;
         }
-        if( file_offset >= file_len ) {
-            // We've run off the end of the file and read past the original footer.
-            break;
-        }
 
-        void *file_frame_begin = file_base_plus( file_offset );
-        size_t file_frame_size = ZSTD_findFrameCompressedSize( file_frame_begin, file_len );
+        size_t file_frame_size = ZSTD_findFrameCompressedSize( file_ptr, zzip_remaining );
         if( ZSTD_isError( file_frame_size ) ) {
             break;
         }
-        uint64_t checksum = XXH64( file_frame_begin, file_frame_size, kCheckumSeed );
+
+        uint64_t checksum = XXH64( file_ptr, file_frame_size, kCheckumSeed );
         if( checksum != checksum_opt ) {
             // Corruption in the compressed frame. Don't try to recover it, assume
             // everything after is lost.
@@ -1149,6 +1142,11 @@ bool zzip::compact( double bloat_factor )
     }
     reset_on_failure.cancel();
     return true;
+}
+
+bool zzip::clear()
+{
+    return file_->resize_file( 0 ) && rewrite_footer();
 }
 
 // Can't directly increment void*, have to cast to char* first.

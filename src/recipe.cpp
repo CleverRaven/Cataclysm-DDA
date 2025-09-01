@@ -321,16 +321,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         flags_to_delete = jo.get_tags<flag_id>( "delete_flags" );
     }
 
-    // recipes not specifying any external requirements inherit from their parent recipe (if any)
-    if( jo.has_string( "using" ) ) {
-        reqs_external = { { requirement_id( jo.get_string( "using" ) ), 1 } };
-
-    } else if( jo.has_array( "using" ) ) {
-        reqs_external.clear();
-        for( JsonArray cur : jo.get_array( "using" ) ) {
-            reqs_external.emplace_back( requirement_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
-        }
-    }
+    optional( jo, was_loaded, "using", reqs_external, weighted_string_id_reader<requirement_id, int> { 1 } );
 
     // inline requirements are always replaced (cannot be inherited)
     reqs_internal.clear();

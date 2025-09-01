@@ -123,6 +123,7 @@ static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 static const activity_id ACT_WAIT( "ACT_WAIT" );
+static const activity_id ACT_WAIT_FOLLOWERS( "ACT_WAIT_FOLLOWERS" );
 static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
 
@@ -776,9 +777,10 @@ static void grab()
         if( vp->has_loaded_furniture() ) {
             furn_str_id furn( vp->part_with_feature( "FURNITURE_TIEDOWN",
                               true )->part().get_base().get_var( "tied_down_furniture" ) );
-            if( query_yn( _( "Grab %s on %s?" ), furn->name(), veh_name ) ) {
+            //~ %1$s - furniture name, %2$s - vehicle name
+            if( query_yn( _( "Grab %1$s on %2$s?" ), furn->name(), veh_name ) ) {
                 you.grab( object_type::FURNITURE_ON_VEHICLE, grabp - you.pos_bub() );
-                add_msg( m_info, _( "You grab the %s loaded on the %s." ), furn->name(), veh_name );
+                add_msg( m_info, _( "You grab the %1$s loaded on the %2$s." ), furn->name(), veh_name );
                 return;
             }
         }
@@ -1074,7 +1076,8 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
             if( !best_part_to_smash.first->smash_message.empty() ) {
                 add_msg( best_part_to_smash.first->smash_message, name_to_bash );
             } else {
-                add_msg( _( "You use your %s to smash the %s." ),
+                //~ %1$s - bodypart name in accusative, %2$s - furniture/terrain name
+                add_msg( _( "You use your %1$s to smash the %2$s." ),
                          body_part_name_accusative( best_part_to_smash.first ), name_to_bash );
             }
         }
@@ -1236,6 +1239,10 @@ static void wait()
             as_m.addentry( 14, true, 'w', _( "Wait until you catch your breath" ) );
             durations.emplace( 14, 15_minutes ); // to hide it from showing
         }
+        if( !wait_followers_activity_actor::get_absent_followers( player_character ).empty() ) {
+            as_m.addentry( 15, true, 'f', _( "Wait for followers to catch up" ) );
+            durations.emplace( 15, 15_minutes ); // to hide it from showing(?)
+        }
         add_menu_item( 1, '1', !has_watch ? _( "Wait 20 heartbeats" ) : "", 20_seconds );
         add_menu_item( 2, '2', !has_watch ? _( "Wait 60 heartbeats" ) : "", 1_minutes );
         add_menu_item( 3, '3', !has_watch ? _( "Wait 300 heartbeats" ) : "", 5_minutes );
@@ -1310,12 +1317,16 @@ static void wait()
             actType = ACT_WAIT_WEATHER;
         } else if( as_m.ret == 14 ) {
             actType = ACT_WAIT_STAMINA;
+        } else if( as_m.ret == 15 ) {
+            actType = ACT_WAIT_FOLLOWERS;
         } else {
             actType = ACT_WAIT;
         }
 
         if( actType == ACT_WAIT_STAMINA ) {
             player_character.assign_activity( wait_stamina_activity_actor() );
+        } else if( actType == ACT_WAIT_FOLLOWERS ) {
+            player_character.assign_activity( wait_followers_activity_actor() );
         } else {
             player_activity new_act( actType, 100 * to_turns<int>( time_to_wait ), 0 );
             player_character.assign_activity( new_act );
@@ -1886,17 +1897,17 @@ static void cast_spell( bool recast_spell = false )
         return;
     }
 
-    std::set<std::string> failure_messages = {};
+    std::map<magic_type_id, bool> success_tracker = {};
     for( const spell_id &sp : spells ) {
         spell &temp_spell = player_character.magic->get_spell( sp );
-        if( temp_spell.can_cast( player_character, failure_messages ) ) {
-            break;
-        }
+        temp_spell.can_cast( player_character, success_tracker );
     }
 
-    for( const std::string &failure_message : failure_messages ) {
-        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
-                 failure_message );
+    for( auto const& [m_type, any_success] : success_tracker ) {
+        if( !any_success && m_type->cannot_cast_message.has_value() ) {
+            add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                     m_type->cannot_cast_message.value() );
+        }
     }
 
     if( recast_spell && player_character.magic->last_spell.is_null() ) {

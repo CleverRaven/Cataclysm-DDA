@@ -9,7 +9,7 @@ def parse_technique(json, origin):
         write_text(json["name"], origin, comment="Martial technique name")
 
     if "description" in json:
-        write_text(json["description"], origin, c_format=False,
+        write_text(json["description"], origin,
                    comment="Description of martial technique \"{}\""
                    .format(name))
 
@@ -18,6 +18,6 @@ def parse_technique(json, origin):
                    comment="Message of martial technique \"{}\"".format(name))
 
     if "condition_desc" in json:
-        write_text(json["condition_desc"], origin, c_format=False,
+        write_text(json["condition_desc"], origin,
                    comment="Condition description of martial technique \"{}\""
                    .format(name))

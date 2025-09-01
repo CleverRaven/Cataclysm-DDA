@@ -842,7 +842,7 @@
     "book_learn": [ [ "vacuum_sealing", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "proficiencies": [ { "proficiency": "prof_preservation" } ],
-    "using": [ [ "vacuum_sealing_standard", 1, "LIST" ] ],
+    "using": [ [ "vacuum_sealing_standard", 1 ] ],
     "components": [ [ [ "veggy_any_uncooked", 2, "LIST" ] ], [ [ "salt_preservation", 2, "LIST" ] ] ]
   },
   {
@@ -1410,7 +1410,7 @@
       { "proficiency": "prof_forage_cooking" }
     ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ], [ [ "bag_canvas", -1 ], [ "pillowcase", -1 ], [ "sheet", -1 ] ] ],
-    "components": [ [ [ "water", 10 ], [ "water_clean", 10 ] ], [ [ "butternut", 20 ] ] ]
+    "components": [ [ [ "water", 10 ], [ "water_clean", 10 ] ], [ [ "butternut_shelled", 20 ] ] ]
   },
   {
     "type": "recipe",

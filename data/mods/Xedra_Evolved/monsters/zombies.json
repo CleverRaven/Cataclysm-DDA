@@ -96,7 +96,7 @@
       "corpse_type": "NO_CORPSE"
     },
     "emit_fields": [ { "emit_id": "xedra_monochrome_boomer_frozen_time", "delay": "1 s" } ],
-    "delete": { "special_attacks": [ "BOOMER" ] },
+    "delete": { "special_attacks": [ "boomer_bile" ] },
     "extend": { "flags": [ "STABILIZED_TIMELINE" ] },
     "upgrades": false
   }

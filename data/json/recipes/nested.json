@@ -2573,6 +2573,18 @@
     "difficulty": 5
   },
   {
+    "id": "nested_metal_bars",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "name": "metal bars",
+    "description": "Recipes related to processing bar stock into smaller sizes.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "small_aluminum_bar_round", "small_lc_steel_bar_round", "small_mc_steel_bar_round", "small_hc_steel_bar_round" ],
+    "difficulty": 3
+  },
+  {
     "id": "nested_lc_sabatons",
     "type": "nested_category",
     "activity_level": "MODERATE_EXERCISE",

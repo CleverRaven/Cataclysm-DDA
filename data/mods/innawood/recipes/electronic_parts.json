@@ -11,7 +11,7 @@
     "time": "30 m",
     "autolearn": true,
     "flags": [ "FULL_MAGAZINE" ],
-    "using": [ [ "surface_heat", 10, "LIST" ], [ "glazing", 2 ], [ "earthenware_firing", 120 ] ],
+    "using": [ [ "surface_heat", 10 ], [ "glazing", 2 ], [ "earthenware_firing", 120 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [

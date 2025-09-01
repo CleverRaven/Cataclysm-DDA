@@ -9,6 +9,7 @@
 #include <limits>
 #include <list>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <string_view>
@@ -220,6 +221,14 @@ class generic_factory
         // *INDENT-ON* astyle turns templates unreadable
         // End template magic for T::handle_inheritance
 
+        template<typename U, typename = void>
+        struct T_has_finalize : std::false_type {};
+
+        // astyle, please?
+        template<typename U>
+    struct T_has_finalize<U, std::void_t<decltype( std::declval<U &>().finalize() )>> :
+        std::true_type {};
+
         /**
         * Perform JSON inheritance handling for `T def` and returns true if JsonObject is real.
         *
@@ -406,6 +415,9 @@ class generic_factory
             inc_version();
             for( size_t i = 0; i < list.size(); i++ ) {
                 list[i].id.set_cid_version( static_cast<int>( i ), version );
+                if constexpr( T_has_finalize<T>::value ) {
+                    list[i].finalize();
+                }
             }
         }
 
@@ -711,6 +723,18 @@ template<typename T>
 struct supports_relative < T, std::void_t < decltype( std::declval<T &>() += std::declval<T &>() )
 >> : std::true_type {};
 
+template<typename T, typename = void>
+struct supports_extend_handler : std::false_type {};
+
+template<typename T>
+struct supports_extend_handler<T, std::void_t<decltype( &T::handle_extend )>> : std::true_type {};
+
+template<typename T, typename = void>
+struct supports_delete_handler : std::false_type {};
+
+template<typename T>
+struct supports_delete_handler<T, std::void_t<decltype( &T::handle_delete )>> : std::true_type {};
+
 // Explicitly specialize these templates for a couple types
 // So the compiler does not attempt to use a template that it should not
 template<>
@@ -874,6 +898,44 @@ inline bool handle_relative( const JsonObject &jo, const std::string_view name, 
     return false;
 }
 
+template<typename MemberType>
+void handle_extend( const JsonObject &jo, const std::string_view name, MemberType &member )
+{
+    if constexpr( supports_extend_handler<MemberType>::value ) {
+        if( jo.has_object( "extend" ) ) {
+            JsonObject tmp = jo.get_object( "extend" );
+            tmp.allow_omitted_members();
+            if( tmp.has_member( name ) ) {
+                member.handle_extend( tmp.get_member( name ) );
+            }
+        }
+    } else {
+        // the most common reason to see this is because you're trying to use this feature on
+        // something that is in a container, but is not using a reader.
+        // If the type is not in a container, it should implement a handle_feature function
+        warn_disabled_feature( jo, "extend", name, "does not use reader" );
+    }
+}
+
+template<typename MemberType>
+void handle_delete( const JsonObject &jo, const std::string_view name, MemberType &member )
+{
+    if constexpr( supports_delete_handler<MemberType>::value ) {
+        if( jo.has_object( "delete" ) ) {
+            JsonObject tmp = jo.get_object( "delete" );
+            tmp.allow_omitted_members();
+            if( tmp.has_member( name ) ) {
+                member.handle_delete( tmp.get_member( name ) );
+            }
+        }
+    } else {
+        // the most common reason to see this is because you're trying to use this feature on
+        // something that is in a container, but is not using a reader.
+        // If the type is not in a container, it should implement a handle_feature function
+        warn_disabled_feature( jo, "delete", name, "does not use reader" );
+    }
+}
+
 // No template magic here, yay!
 template<typename MemberType>
 inline void optional( const JsonObject &jo, const bool was_loaded, const std::string_view name,
@@ -882,6 +944,8 @@ inline void optional( const JsonObject &jo, const bool was_loaded, const std::st
     if( !was_loaded ) {
         warn_disabled_feature( jo, "relative", name, "no copy-from" );
         warn_disabled_feature( jo, "proportional", name, "no copy-from" );
+        warn_disabled_feature( jo, "extend", name, "no copy-from" );
+        warn_disabled_feature( jo, "delete", name, "no copy-from" );
     }
     if( !jo.read( name, member ) && !handle_proportional( jo, name, member ) &&
         !handle_relative( jo, name, member ) ) {
@@ -889,8 +953,8 @@ inline void optional( const JsonObject &jo, const bool was_loaded, const std::st
             member = MemberType();
         }
     }
-    warn_disabled_feature( jo, "extend", name, "does not use reader" );
-    warn_disabled_feature( jo, "delete", name, "does not use reader" );
+    handle_extend( jo, name, member );
+    handle_delete( jo, name, member );
 }
 /*
 Template trickery, not for the faint of heart. It is required because there are two functions
@@ -910,6 +974,8 @@ template<typename MemberType, typename DefaultType = MemberType,
     if( !was_loaded ) {
         warn_disabled_feature( jo, "relative", name, "no copy-from" );
         warn_disabled_feature( jo, "proportional", name, "no copy-from" );
+        warn_disabled_feature( jo, "extend", name, "no copy-from" );
+        warn_disabled_feature( jo, "delete", name, "no copy-from" );
     }
     if( !jo.read( name, member ) && !handle_proportional( jo, name, member ) &&
         !handle_relative( jo, name, member ) ) {
@@ -917,8 +983,8 @@ template<typename MemberType, typename DefaultType = MemberType,
             member = default_value;
         }
     }
-    warn_disabled_feature( jo, "extend", name, "does not use reader" );
-    warn_disabled_feature( jo, "delete", name, "does not use reader" );
+    handle_extend( jo, name, member );
+    handle_delete( jo, name, member );
 }
 template < typename MemberType, typename ReaderType, typename DefaultType = MemberType,
            typename = std::enable_if_t <
@@ -959,6 +1025,12 @@ bool one_char_symbol_reader( const JsonObject &jo, std::string_view member_name,
  */
 bool unicode_codepoint_from_symbol_reader(
     const JsonObject &jo, std::string_view member_name, uint32_t &member, bool );
+
+/**
+ * unicode_codepoint_from_symbol_reader, but with a string instead of a codepoint
+ */
+bool unicode_symbol_reader( const JsonObject &jo, std::string_view member_name, std::string &member,
+                            bool was_loaded );
 
 //Reads a standard single-float "proportional" entry
 float read_proportional_entry( const JsonObject &jo, std::string_view key );
@@ -1268,6 +1340,18 @@ struct handler<std::unordered_map<Key, Val>> {
 };
 } // namespace reader_detail
 
+template<typename T, typename = void>
+struct T_has_do_extend : std::false_type {};
+
+template<typename T>
+struct T_has_do_extend<T, std::void_t<decltype( &T::do_extend )>> : std::true_type {};
+
+template<typename T, typename = void>
+struct T_has_do_delete : std::false_type {};
+
+template<typename T>
+struct T_has_do_delete<T, std::void_t<decltype( &T::do_delete )>> : std::true_type {};
+
 /**
  * Base class for reading generic objects from JSON.
  * It can load members being certain containers or being a single value.
@@ -1306,6 +1390,7 @@ template<typename Derived>
 class generic_typed_reader
 {
     static constexpr bool read_objects = false;
+    static constexpr bool check_extend_delete_copy_from = true;
 public:
     template<typename C, typename Fn>
     // I tried using a member function pointer and couldn't work it out
@@ -1483,6 +1568,37 @@ public:
         return false;
     }
 
+    // These functions enable readers for non-container types to implement extend/delete functions
+    template<typename T>
+    bool do_extend( const JsonObject &jo, const std::string_view name, T &member ) const {
+        if( !jo.has_member( name ) ) {
+            return false;
+        }
+        if constexpr( T_has_do_extend<Derived>::value ) {
+            const Derived &derived = static_cast<const Derived &>( *this );
+            return derived.do_extend( jo, name, member );
+        } else {
+            jo.throw_error( string_format( "%s (reader %s) does not support extend outside of a container",
+                                           name, demangle( typeid( Derived ).name() ) ) );
+        }
+        return false;
+    }
+
+    template<typename T>
+    bool do_delete( const JsonObject &jo, const std::string_view name, T &member ) const {
+        if( !jo.has_member( name ) ) {
+            return false;
+        }
+        if constexpr( T_has_do_delete<Derived>::value ) {
+            const Derived &derived = static_cast<const Derived &>( *this );
+            return derived.do_delete( jo, name, member );
+        } else {
+            jo.throw_error( string_format( "%s (reader %s) does not support delete outside of a container",
+                                           name, demangle( typeid( Derived ).name() ) ) );
+        }
+        return false;
+    }
+
     template<typename C>
     bool read_normal( const JsonObject &jo, const std::string_view name, C &member ) const {
         if( jo.has_member( name ) ) {
@@ -1504,11 +1620,24 @@ public:
                      C &member, bool was_loaded ) const {
         const Derived &derived = static_cast<const Derived &>( *this );
         // or no handler for the container
-        warn_disabled_feature( jo, "extend", member_name, "not container" );
-        warn_disabled_feature( jo, "delete", member_name, "not container" );
         if( !was_loaded ) {
+            // this is gross, but some JSON wants to delete from things loaded by a different member on the same entity
+            if( Derived::check_extend_delete_copy_from ) {
+                warn_disabled_feature( jo, "extend", member_name, "no copy-from" );
+                warn_disabled_feature( jo, "delete", member_name, "no copy-from" );
+            }
             warn_disabled_feature( jo, "relative", member_name, "no copy-from" );
             warn_disabled_feature( jo, "proportional", member_name, "no copy-from" );
+        }
+        if( jo.has_object( "extend" ) ) {
+            JsonObject tmp = jo.get_object( "extend" );
+            tmp.allow_omitted_members();
+            do_extend( tmp, member_name, member );
+        }
+        if( jo.has_object( "delete" ) ) {
+            JsonObject tmp = jo.get_object( "delete" );
+            tmp.allow_omitted_members();
+            do_delete( tmp, member_name, member );
         }
         return derived.read_normal( jo, member_name, member ) ||
                // not every reader handles proportional
@@ -1536,6 +1665,32 @@ public:
             jv.throw_error( string_format( "Couldn't read %s", demangle( typeid( T ).name() ) ) );
         }
         return ret;
+    }
+
+    bool do_extend( const JsonObject &jo, const std::string_view name, T &member ) const {
+        if( !jo.has_member( name ) ) {
+            return false;
+        }
+        if constexpr( supports_extend_handler<T>::value ) {
+            return member.handle_extend( jo.get_member( name ) );
+        } else {
+            jo.throw_error( string_format( "%s (type %s) does not implement handle_extend", name,
+                                           demangle( typeid( T ).name() ) ) );
+        }
+        return false;
+    }
+
+    bool do_delete( const JsonObject &jo, const std::string_view name, T &member ) const {
+        if( !jo.has_member( name ) ) {
+            return false;
+        }
+        if constexpr( supports_delete_handler<T>::value ) {
+            return member.handle_delete( jo.get_member( name ) );
+        } else {
+            jo.throw_error( string_format( "%s (type %s) does not implement handle_delete", name,
+                                           demangle( typeid( T ).name() ) ) );
+        }
+        return false;
     }
 };
 
@@ -1689,8 +1844,9 @@ class weighted_string_id_reader : public generic_typed_reader<weighted_string_id
 public:
     static constexpr bool read_objects = true;
 
-    V default_weight;
-    explicit weighted_string_id_reader( V default_weight ) : default_weight( default_weight ) {};
+    std::optional<V> default_weight;
+    explicit weighted_string_id_reader( std::optional<V> default_weight ) : default_weight(
+            default_weight ) {};
 
     std::pair<K, V> get_next( const JsonValue &val ) const {
         if( val.is_member() ) {
@@ -1698,11 +1854,11 @@ public:
             return std::pair<K, V>( jm.name(), static_cast<V>( val.get_float() ) );
         } else if( val.test_object() ) {
             JsonObject inline_pair = val.get_object();
-            if( !( inline_pair.size() == 1 || inline_pair.size() == 2 ) ) {
+            if( !( ( inline_pair.size() == 1 && default_weight.has_value() ) || inline_pair.size() == 2 ) ) {
                 inline_pair.throw_error( "weighted_string_id_reader failed to read object" );
             }
             K pair_key;
-            V pair_val = default_weight;
+            V pair_val = default_weight.value_or( V() );
             for( JsonMember mem : inline_pair ) {
                 if( mem.test_string() ) {
                     pair_key = K( std::move( mem.get_string() ) );
@@ -1721,12 +1877,14 @@ public:
             return std::pair<K, V>(
                        K( std::move( arr[0].get_string() ) ),
                        static_cast<V>( arr[1].get_float() ) );
-        } else {
+        } else if( default_weight.has_value() ) {
             if( val.test_string() ) {
                 return std::pair<K, V>(
-                           K( std::move( val.get_string() ) ), default_weight );
+                           K( std::move( val.get_string() ) ), *default_weight );
             }
             val.throw_error( "weighted_string_id_reader provided with invalid string_id" );
+        } else {
+            val.throw_error( "weighted_string_id_reader requires two entries" );
         }
     }
 };
@@ -1931,6 +2089,20 @@ public:
         bound_reader<T>::low = low;
         bound_reader<T>::high = high;
     };
+};
+
+struct weakpoints;
+
+struct weakpoints_reader : generic_typed_reader<weakpoints_reader> {
+    static constexpr bool check_extend_delete_copy_from = false;
+
+    std::set<std::string> &deleted;
+
+    explicit weakpoints_reader( std::set<std::string> &del ) : deleted( del ) {}
+
+    weakpoints get_next( const JsonValue &jv ) const;
+    bool do_extend( const JsonObject &jo, std::string_view name, weakpoints &member ) const;
+    bool do_delete( const JsonObject &jo, std::string_view name, weakpoints &member ) const;
 };
 
 /**

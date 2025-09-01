@@ -93,12 +93,14 @@ void option_slider::load_option_sliders( const JsonObject &jo, const std::string
     option_slider_factory.load( jo, src );
 }
 
+void option_slider::finalize()
+{
+    reorder_opts();
+}
+
 void option_slider::finalize_all()
 {
-    for( const option_slider &opt : option_slider::get_all() ) {
-        option_slider &o = const_cast<option_slider &>( opt );
-        o.reorder_opts();
-    }
+    option_slider_factory.finalize();
 }
 
 void option_slider::check_consistency()
@@ -2889,11 +2891,13 @@ void options_manager::add_options_debug()
 
     add_empty_line();
 
+#ifndef NO_STALE_DATA_WARN
     add( "WARN_ON_MODIFIED", "debug", to_translation( "Warn if file integrity check fails" ),
          to_translation( "This option controls whether the game will warn when it detects that the game's data has been modified." ),
          true );
 
     add_empty_line();
+#endif
 
     add( "SKIP_VERIFICATION", "debug", to_translation( "Skip verification step during loading" ),
          to_translation( "If enabled, this skips the JSON verification step during loading.  This may give a faster loading time, but risks JSON errors not being caught until runtime." ),

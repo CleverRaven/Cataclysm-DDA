@@ -152,6 +152,7 @@ static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 static const activity_id ACT_TRY_SLEEP( "ACT_TRY_SLEEP" );
 static const activity_id ACT_VIBE( "ACT_VIBE" );
 static const activity_id ACT_WAIT( "ACT_WAIT" );
+static const activity_id ACT_WAIT_FOLLOWERS( "ACT_WAIT_FOLLOWERS" );
 static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
 static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 
@@ -7984,7 +7985,7 @@ ret_val<void> Character::can_wield( const item &it ) const
     }
 
     if( is_armed() && !can_unwield( weapon ).success() ) {
-        return ret_val<void>::make_failure( _( "The %s prevents you from wielding the %s." ),
+        return ret_val<void>::make_failure( _( "The %1$s prevents you from wielding the %2$s." ),
                                             weapname(), it.tname() );
     }
     monster *mount = mounted_creature.get();
@@ -9306,6 +9307,7 @@ bool Character::can_use_floor_warmth() const
 {
     return in_sleep_state() ||
            has_activity( ACT_WAIT ) ||
+           has_activity( ACT_WAIT_FOLLOWERS ) ||
            has_activity( ACT_WAIT_NPC ) ||
            has_activity( ACT_WAIT_STAMINA ) ||
            has_activity( ACT_AUTODRIVE ) ||
@@ -11472,7 +11474,7 @@ bool Character::has_weapon() const
 int Character::get_lowest_hp() const
 {
     // Set lowest_hp to an arbitrarily large number.
-    int lowest_hp = 999;
+    int lowest_hp = INT_MAX;
     for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
         const int cur_hp = elem.second.get_hp_cur();
         if( cur_hp < lowest_hp ) {
@@ -11480,6 +11482,19 @@ int Character::get_lowest_hp() const
         }
     }
     return lowest_hp;
+}
+
+int Character::get_highest_hp() const
+{
+    // Set lowest_hp to an arbitrarily large number.
+    int highest_hp = INT_MIN;
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+        const int cur_hp = elem.second.get_hp_cur();
+        if( cur_hp > highest_hp ) {
+            highest_hp = cur_hp;
+        }
+    }
+    return highest_hp;
 }
 
 Creature::Attitude Character::attitude_to( const Creature &other ) const
@@ -12408,7 +12423,7 @@ const Character *Character::get_book_reader( const item &book,
         // Low morale still permits skimming
         reasons.emplace_back( is_avatar() ?
                               _( "What's the point of studying?  (Your morale is too low!)" )  :
-                              string_format( _( "What's the point of studying?  (%s)'s morale is too low!)" ), disp_name() ) );
+                              string_format( _( "What's the point of studying?  (%s's morale is too low!)" ), disp_name() ) );
         return nullptr;
     }
     if( condition & read_condition_result::CANT_UNDERSTAND ) {

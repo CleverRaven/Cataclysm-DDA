@@ -95,7 +95,12 @@
         "condition": {
           "and": [
             { "not": { "u_has_any_trait": [ "VAMPIRE_ANATHEMA", "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT" ] } },
-            { "not": { "u_know_recipe": "xe_vampire_blood_gift_research" } },
+            {
+              "or": [
+                { "not": { "u_know_recipe": "xe_vampire_blood_gift_research" } },
+                { "not": { "u_know_recipe": "xe_vampire_blood_gift_refinement_research" } }
+              ]
+            },
             { "compare_string": [ "yes", { "u_val": "told_about_trueness" } ] }
           ]
         }
@@ -302,6 +307,7 @@
         "text": "Yes.  I want more power.",
         "effect": [
           { "u_learn_recipe": "xe_vampire_blood_gift_research" },
+          { "u_learn_recipe": "xe_vampire_blood_gift_refinement_research" },
           { "u_learn_recipe": "xe_vampire_blood_weaknesses_reshuffle" }
         ],
         "topic": "TALK_VAMPIRE_MENTOR_BLOOD_GIFT_RESEARCH_LEARNED"

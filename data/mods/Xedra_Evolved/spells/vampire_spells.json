@@ -211,7 +211,7 @@
     "id": "spell_hypnotic_gaze",
     "type": "SPELL",
     "name": "Hypnotic Gaze",
-    "description": "Stare into the eyes of your victim and wills them to pause.  This power does not work on unliving targets.\n\nYou must have <color_yellow>greater</color> than <color_red>-500</color> Stolen Blood to use this blood art.",
+    "description": "Stare into the eyes of your victim and will them to pause.  This power does not work on unliving targets.\n\nYou must have <color_yellow>greater</color> than <color_red>-500</color> Stolen Blood to use this blood art.",
     "message": "",
     "teachable": false,
     "magic_type": "xe_vampire_blood_powers",

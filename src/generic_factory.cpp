@@ -78,6 +78,18 @@ bool unicode_codepoint_from_symbol_reader( const JsonObject &jo,
     return true;
 }
 
+bool unicode_symbol_reader( const JsonObject &jo, const std::string_view member_name,
+                            std::string &member, bool was_loaded )
+{
+    uint32_t codepoint;
+    bool read = unicode_codepoint_from_symbol_reader( jo, member_name, codepoint, was_loaded );
+    if( read ) {
+        member = utf32_to_utf8( codepoint );
+        return true;
+    }
+    return false;
+}
+
 float read_proportional_entry( const JsonObject &jo, std::string_view key )
 {
     if( jo.has_float( key ) ) {

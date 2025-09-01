@@ -907,12 +907,13 @@
     "price": "160 USD",
     "price_postapoc": "12 USD 50 cent",
     "to_hit": { "grip": "solid", "length": "short", "surface": "point", "balance": "uneven" },
-    "material": [ "wood", "steel" ],
+    "material": [ "wood", "hc_steel" ],
     "symbol": "/",
     "color": "dark_gray",
     "use_action": [ "PICKAXE" ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "DIG_TOOL", "SHEATH_AXE", "NO_SALVAGE" ],
+    "faults": [ { "fault_group": "handle_short" } ],
     "weapon_category": [ "HOOKING_WEAPONRY" ],
     "melee_damage": { "bash": 30, "stab": 15 }
   },
@@ -1866,5 +1867,31 @@
     "material": [ "lc_steel" ],
     "symbol": "-",
     "color": "light_gray"
+  },
+  {
+    "id": "nail_header",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "nail header" },
+    "description": "A square hole punched through the flat end of a metal handle.  Used to form the flat end of a nail by feeding it through the header then hammering the material sticking out of it.",
+    "longest_side": "20 cm",
+    "weight": "500 g",
+    "volume": "64 ml",
+    "price": "20 USD",
+    "price_postapoc": "3 USD",
+    "material": [ "mc_steel" ],
+    "symbol": "i",
+    "color": "light_gray"
+  },
+  {
+    "id": "nail_header_bronze",
+    "copy-from": "nail_header",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "bronze nail header" },
+    "description": "A square hole punched through the flat end of a metal handle.  Used to form the flat end of a nail by feeding it through the header then hammering the material sticking out of it.  This one is made of bronze.",
+    "proportional": { "weight": 1.1 },
+    "material": [ "bronze" ],
+    "color": "yellow"
   }
 ]

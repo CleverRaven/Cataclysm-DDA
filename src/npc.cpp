@@ -13,6 +13,7 @@
 #include "activity_handlers.h"
 #include "activity_type.h"
 #include "auto_pickup.h"
+#include "avatar.h"
 #include "basecamp.h"
 #include "bodypart.h"
 #include "cata_assert.h"
@@ -3484,8 +3485,13 @@ std::function<bool( const tripoint_bub_ms & )> npc::get_path_avoid() const
             return true;
         }
         if( rules.has_flag( ally_rule::hold_the_line ) &&
+            rl_dist( p, get_avatar().pos_bub() ) == 1 &&
             ( here.close_door( p, true, true ) ||
-              here.move_cost( p ) > 2 ) ) {
+              ( here.move_cost( p ) > 2  &&
+                // Ignore if target location is on same vehicle as the avatar occupies
+                !( here.veh_at( p ).has_value() && here.veh_at( get_avatar().pos_abs() ) &&
+                   here.veh_at( p ).value().vehicle().pos_abs() == here.veh_at(
+                       get_avatar().pos_abs() ).value().vehicle().pos_abs() ) ) ) ) {
             return true;
         }
         if( sees_dangerous_field( p ) ) {

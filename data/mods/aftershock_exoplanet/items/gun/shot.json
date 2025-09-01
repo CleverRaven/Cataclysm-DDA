@@ -54,6 +54,7 @@
       [ "sights", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "variants": [  ],
     "price": "4 kUSD",
     "price_postapoc": "4 kUSD",
     "built_in_mods": [ "afs_magnetic_choke", "afs_shotgun_gauss" ]

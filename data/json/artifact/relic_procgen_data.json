@@ -33,6 +33,7 @@
       { "weight": 100, "spell_id": "AEA_DIM", "base_power": 0 },
       { "weight": 100, "spell_id": "AEA_SLEEPINESS", "base_power": -300 },
       { "weight": 100, "spell_id": "AEA_FLASH", "base_power": 150 },
+      { "weight": 100, "spell_id": "AO_TRUESIGHT_EFFECT", "base_power": 100 },
       { "weight": 100, "spell_id": "AEA_PARALYZE", "base_power": -250 },
       { "weight": 100, "spell_id": "AEA_MAP", "base_power": 500 },
       { "weight": 100, "spell_id": "AEA_FIRESTORM", "base_power": -500 },
@@ -491,7 +492,8 @@
       { "weight": 100, "spell_id": "AEA_STORM", "base_power": -100 },
       { "weight": 100, "spell_id": "AEA_ENTRANCE", "base_power": 500 },
       { "weight": 100, "spell_id": "AEA_SCREAM", "base_power": -75 },
-      { "weight": 100, "spell_id": "AEA_PULSE", "base_power": 75 }
+      { "weight": 100, "spell_id": "AEA_PULSE", "base_power": 75 },
+      { "weight": 100, "spell_id": "AO_TRUESIGHT_EFFECT", "base_power": 100 }
     ],
     "passive_mult_procgen_values": [
       { "weight": 100, "min_value": -0.5, "max_value": 1, "type": "METABOLISM", "increment": 0.1, "power_per_increment": -50 },
@@ -820,6 +822,7 @@
       { "weight": 100, "spell_id": "AO_SLOW", "base_power": -150 },
       { "weight": 100, "spell_id": "AO_TIME_STOP", "base_power": 1000 },
       { "weight": 100, "spell_id": "AO_DARKNESS_EFFECT", "base_power": -50 },
+      { "weight": 100, "spell_id": "AO_TRUESIGHT_EFFECT", "base_power": 100 },
       { "weight": 100, "spell_id": "AEA_SHADOWS", "base_power": -50 },
       { "weight": 100, "spell_id": "AEA_LIGHT", "base_power": 100 },
       { "weight": 100, "spell_id": "AEA_DIM", "base_power": 100 },

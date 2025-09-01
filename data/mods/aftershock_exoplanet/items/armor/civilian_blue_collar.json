@@ -93,6 +93,7 @@
     "copy-from": "vest",
     "looks_like": "vest",
     "name": { "str": "hi-vis vest" },
+    "variants": [  ],
     "description": "A bright orange winter vest with several front facing pockets.  Not even close to warm enough.",
     "material": [ "cotton", "plastic" ],
     "warmth": 70,
@@ -106,6 +107,7 @@
     "copy-from": "jacket_windbreaker",
     "looks_like": "jacket_windbreaker",
     "name": { "str": "company jacket" },
+    "variants": [  ],
     "description": "A synthetic jacket adorned with the logos and colors of some interstellar corporation.  Impermeable, but not very warm.",
     "color": "blue"
   },
@@ -116,6 +118,7 @@
     "copy-from": "jacket_windbreaker",
     "looks_like": "jacket_windbreaker",
     "name": { "str": "supervisor jacket" },
+    "variants": [  ],
     "description": "A variant company jacket tailored to slightly recall a business suit, often issued to low level managers.  Some might think it looks nicer, but it's just as cheaply made.",
     "color": "blue"
   },
@@ -126,6 +129,7 @@
     "copy-from": "tie_skinny",
     "looks_like": "tie_skinny",
     "name": { "str": "worker's tie" },
+    "variants": [  ],
     "description": "Calling this thin strip of dark fabric a tie would do it a favor."
   },
   {
@@ -136,6 +140,7 @@
     "looks_like": "jumpsuit",
     "name": { "str": "crew jumpsuit" },
     "description": "A lightweight cloth jumpsuit adorned with the faded corporate regalia of some freight hauling association or another.  This one is a standard design favored by spacers, with ample, easy access pockets.",
+    "variants": [  ],
     "color": "brown"
   },
   {
@@ -192,6 +197,7 @@
     "copy-from": "hat_cotton",
     "material": [ "plastic", "cotton" ],
     "looks_like": "powered_earmuffs",
+    "variants": [  ],
     "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "PARTIAL_DEAF" ],
     "name": { "str": "communications cap" },
     "description": "A padded cotton cap built around an augmented reality headset.  During normal operation it would provide visual information about a ship subsystems and a communications link with the rest of the crew, but severed from a spaceship, only their hearing protection function retains any utility.",

@@ -568,7 +568,7 @@
       [ "foon", 1 ],
       [ "football", 1 ],
       [ "fork", 1 ],
-      [ "fries", 1 ],
+      { "item": "fries", "prob": 1 },
       [ "junk_burrito", 3 ],
       [ "frozen_dinner", 3 ],
       [ "fruit_leather", 3 ],

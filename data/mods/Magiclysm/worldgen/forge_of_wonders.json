@@ -147,7 +147,7 @@
         { "monster": "GROUP_FORGE_DWARVES", "x": [ 58, 60 ], "y": [ 19, 21 ], "density": 0.1 },
         { "monster": "GROUP_FORGE_AUTOMATA", "x": [ 42, 47 ], "y": [ 9, 14 ], "density": 0.1 }
       ],
-      "monster": { "ö": { "monster": "mon_forgedemons" } },
+      "monster": { "ö": { "monster": "mon_forgedemons" }, "÷": { "monster": "mon_aerial_assassin", "chance": 1 } },
       "place_zones": [
         { "type": "LOOT_ITEM_GROUP", "filter": "NC_FORGE_LORD_SHOP", "faction": "forge_lords", "x": [ 43, 46 ], "y": 13 },
         {

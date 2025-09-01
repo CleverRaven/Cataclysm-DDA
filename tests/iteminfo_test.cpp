@@ -1424,7 +1424,7 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
                "--\n"
                "<color_c_white>Protection for</color>: The <color_c_cyan>arms</color>. The <color_c_cyan>torso</color>.\n"
                "<color_c_white>Coverage</color>: <color_c_light_blue>Normal</color>.\n"
-               "  Default:  <color_c_yellow>90</color>\n"
+               "  Default: <color_c_yellow>90</color>\n"
                "<color_c_white>Protection</color>:\n"
                "  Negligible Protection\n"
              );
@@ -1451,7 +1451,7 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
         };
         const std::string coverage_string =
             "<color_c_white>Coverage</color>: <color_c_light_blue>Outer</color>.\n"
-            "  Default:  <color_c_yellow>100</color>\n";
+            "  Default: <color_c_yellow>100</color>\n";
         const std::string prot_header_string = "<color_c_white>Protection</color>:\n";
         const std::string bash_string = "  Bash: <color_c_yellow>4.00</color>\n";
         const std::string cut_string = "  Cut: <color_c_yellow>4.00</color>\n";
@@ -1501,7 +1501,7 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
         };
         const std::string coverage_str =
             "<color_c_white>Coverage</color>: <color_c_light_blue>Close to skin</color>.\n"
-            "  Default:  <color_c_yellow>100</color>\n";
+            "  Default: <color_c_yellow>100</color>\n";
         const std::string prot_header_str = "<color_c_white>Protection</color>:\n";
         const std::string bash_str = "  Bash: <color_c_yellow>2.00</color>\n";
         const std::string cut_str = "  Cut: <color_c_yellow>2.00</color>\n";
@@ -1540,17 +1540,17 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
             "<color_c_white>Protection for</color>: The <color_c_cyan>torso</color>.\n";
         const std::string coverage_str =
             "<color_c_white>Coverage</color>: <color_c_light_blue>Close to skin</color>.\n"
-            "  Default:  <color_c_yellow>100</color>\n";
+            "  Default: <color_c_yellow>100</color>\n";
         const std::string protection_str =
-            "<color_c_white>Protection</color>: <color_c_red>4%</color>, <color_c_yellow>Median</color>, <color_c_green>4%</color>\n";
+            "<color_c_white>Protection</color>: <color_c_red>4%</color> chance, <color_c_yellow>Median</color> chance, <color_c_green>4%</color> chance\n";
         const std::string bash_str =
-            "  Bash:  <color_c_red>1.00</color>, <color_c_yellow>12.00</color>, <color_c_green>23.00</color>\n";
+            "  Bash: <color_c_red>1.00</color>, <color_c_yellow>12.00</color>, <color_c_green>23.00</color>\n";
         const std::string cut_str =
-            "  Cut:  <color_c_red>1.00</color>, <color_c_yellow>12.00</color>, <color_c_green>23.00</color>\n";
+            "  Cut: <color_c_red>1.00</color>, <color_c_yellow>12.00</color>, <color_c_green>23.00</color>\n";
         const std::string ballistic_str =
-            "  Ballistic:  <color_c_red>1.00</color>, <color_c_yellow>8.50</color>, <color_c_green>16.00</color>\n";
+            "  Ballistic: <color_c_red>1.00</color>, <color_c_yellow>8.50</color>, <color_c_green>16.00</color>\n";
         const std::string pierce_str =
-            "  Pierce:  <color_c_red>0.80</color>, <color_c_yellow>9.60</color>, <color_c_green>18.40</color>\n";
+            "  Pierce: <color_c_red>0.80</color>, <color_c_yellow>9.60</color>, <color_c_green>18.40</color>\n";
         size_t pos = 0;
         test_string( info, encumbrance_str, pos );
         test_string( info, bodyparts_str, pos );
@@ -1816,7 +1816,7 @@ TEST_CASE( "gun_or_other_ranged_weapon_attributes", "[iteminfo][weapon][gun]" )
 
         CHECK( item_info_str( glock, recoil ) ==
                "--\n"
-               "Effective recoil: <color_c_yellow>312</color>\n" );
+               "Effective recoil: <color_c_yellow>3.12</color> MOA\n" );
     }
 
     SECTION( "gun type and current magazine" ) {
@@ -1907,7 +1907,7 @@ TEST_CASE( "gun_or_other_ranged_weapon_attributes", "[iteminfo][weapon][gun]" )
     SECTION( "weapon dispersion" ) {
         CHECK( item_info_str( compbow, { iteminfo_parts::GUN_DISPERSION } ) ==
                "--\n"
-               "Dispersion: <color_c_yellow>850</color>\n" );
+               "Dispersion: <color_c_yellow>8.50</color>\n" );
     }
 
     SECTION( "needing two hands to fire" ) {
@@ -1949,15 +1949,15 @@ TEST_CASE( "gun_armor_piercing_dispersion_and_other_stats", "[iteminfo][gun][mis
            "--\n = <color_c_yellow>0</color>\n" );
 
     CHECK( item_info_str( glock, disp_loaded ) ==
-           "--\n<color_c_yellow>+60</color>\n" );
+           "--\n<color_c_yellow>+0.60</color>\n" );
     CHECK( item_info_str( glock, disp_total ) ==
-           "--\n = <color_c_yellow>540</color>\n" );
+           "--\n = <color_c_yellow>5.40</color> MOA\n" );
 
     CHECK( item_info_str( glock, disp_sight ) ==
            "--\n"
-           "Sight dispersion: <color_c_yellow>30</color>"
-           "<color_c_yellow>+14</color>"
-           " = <color_c_yellow>44</color>\n" );
+           "Sight dispersion: <color_c_yellow>0.30</color>"
+           "<color_c_yellow>+0.14</color>"
+           " = <color_c_yellow>0.44</color> MOA\n" );
 
     // TODO: Add a test gun with thest attributes
     //CHECK( item_info_str( glock, recoil_bipod ).empty() );
@@ -2031,7 +2031,7 @@ TEST_CASE( "gunmod_info", "[iteminfo][gunmod]" )
 
     CHECK( item_info_str( supp, disp_sight ) ==
            "--\n"
-           "Sight dispersion: <color_c_yellow>11</color>\n" );
+           "Sight dispersion: <color_c_yellow>0.11</color> MOA\n" );
 
     CHECK( item_info_str( supp, field_of_view ) ==
            "--\n"
@@ -2086,8 +2086,8 @@ TEST_CASE( "ammunition", "[iteminfo][ammo]" )
                "--\n"
                "<color_c_white>Ammunition type</color>: rocks\n"
                "Damage: <color_c_yellow>7</color>  Armor-pierce: <color_c_yellow>0</color>\n"
-               "Range: <color_c_yellow>10</color>  Dispersion: <color_c_yellow>14</color>\n"
-               "Recoil: <color_c_yellow>0</color>  Critical multiplier: <color_c_yellow>2</color>\n" );
+               "Range: <color_c_yellow>10</color>  Dispersion: <color_c_yellow>0.14</color> MOA\n"
+               "Recoil: <color_c_yellow>0.00</color> MOA  Critical multiplier: <color_c_yellow>2</color>\n" );
     }
 
     SECTION( "batteries" ) {
@@ -3226,7 +3226,7 @@ TEST_CASE( "Armor_values_preserved_after_copy-from", "[iteminfo][armor][protecti
             "--\n"
             "<color_c_white>Protection for</color>: The <color_c_cyan>legs</color>. The <color_c_cyan>torso</color>.\n"
             "<color_c_white>Coverage</color>: <color_c_light_blue>Outer</color>.\n"
-            "  Default:  <color_c_yellow>90</color>\n"
+            "  Default: <color_c_yellow>90</color>\n"
             "<color_c_white>Protection</color>:\n";
         const std::string bash_string = "  Bash: <color_c_yellow>10.00</color>\n";
         const std::string cut_string = "  Cut: <color_c_yellow>12.00</color>\n";
@@ -3255,7 +3255,7 @@ TEST_CASE( "Armor_values_preserved_after_copy-from", "[iteminfo][armor][protecti
             "--\n"
             "<color_c_white>Protection for</color>: The <color_c_cyan>legs</color>. The <color_c_cyan>torso</color>.\n"
             "<color_c_white>Coverage</color>: <color_c_light_blue>Outer</color>.\n"
-            "  Default:  <color_c_yellow>90</color>\n"
+            "  Default: <color_c_yellow>90</color>\n"
             "<color_c_white>Protection</color>:\n";
         const std::string bash_str = "  Bash: <color_c_yellow>12.00</color>\n";
         const std::string cut_str = "  Cut: <color_c_yellow>14.40</color>\n";
@@ -3283,7 +3283,7 @@ TEST_CASE( "Armor_values_preserved_after_copy-from", "[iteminfo][armor][protecti
             "--\n"
             "<color_c_white>Protection for</color>: The <color_c_cyan>legs</color>. The <color_c_cyan>torso</color>.\n"
             "<color_c_white>Coverage</color>: <color_c_light_blue>Outer</color>.\n"
-            "  Default:  <color_c_yellow>90</color>\n"
+            "  Default: <color_c_yellow>90</color>\n"
             "<color_c_white>Protection</color>:\n";
         const std::string bash_str = "  Bash: <color_c_yellow>15.00</color>\n";
         const std::string cut_str = "  Cut: <color_c_yellow>18.00</color>\n";

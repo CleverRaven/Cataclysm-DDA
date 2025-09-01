@@ -4,10 +4,10 @@
 #include <array>
 #include <cmath>
 #include <cstdlib>
-#include <functional>
 #include <memory>
 #include <optional>
 #include <string>
+#include <unordered_set>
 #include <utility>
 
 #include "avatar.h"
@@ -26,6 +26,7 @@
 #include "explosion.h"
 #include "field_type.h"
 #include "flag.h"
+#include "flood_fill.h"
 #include "game.h"
 #include "game_inventory.h"
 #include "input.h"
@@ -699,14 +700,13 @@ void computer_session::helper_map( bool ( *func )( const oter_id & ), const char
     Character &player_character = get_player_character();
     player_character.mod_moves( -to_moves<int>( 1_seconds ) * 0.3 );
     const tripoint_abs_omt center = player_character.pos_abs_omt();
-    for( int i = -60; i <= 60; i++ ) {
-        for( int j = -60; j <= 60; j++ ) {
-            point offset( i, j );
-            const oter_id &oter = overmap_buffer.ter( center + offset );
-            if( func( oter ) ) {
-                overmap_buffer.set_seen( center + offset, om_vision_level::details );
-            }
-        }
+    std::unordered_set<tripoint_abs_omt> visited;
+    const auto pred = [&center, &func]( const tripoint_abs_omt & p ) {
+        const oter_id &oter = overmap_buffer.ter( p );
+        return square_dist( center, p ) <= 90 && func( oter );
+    };
+    for( const auto p : ff::point_flood_fill_4_connected<std::vector>( center, visited, pred ) ) {
+        overmap_buffer.set_seen( p, om_vision_level::details );
     }
     query_any( query );
     comp.remove_option( action );

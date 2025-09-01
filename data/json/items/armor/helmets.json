@@ -832,7 +832,8 @@
         ],
         "covers": [ "head" ],
         "specifically_covers": [ "head_crown", "head_forehead", "head_ear_l", "head_ear_r", "head_nape", "head_throat" ],
-        "coverage": 95
+        "coverage": 95,
+        "encumbrance_modifiers": [ "NONE" ]
       }
     ],
     "warmth": 20,

@@ -64,7 +64,7 @@
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_matrix_technology_beginner", "required": false } ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "MATRIX_CHANNEL", "level": 1 } ],
-    "using": [ [ "volatile_explosive", 20, "LIST" ], [ "explosives_casting_standard", 1 ] ],
+    "using": [ [ "volatile_explosive", 20 ], [ "explosives_casting_standard", 1 ] ],
     "components": [
       [ [ "fuse", 1 ] ],
       [ [ "glue_strong", 4 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],

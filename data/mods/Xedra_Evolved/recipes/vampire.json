@@ -234,7 +234,9 @@
     "effect": [
       { "u_lose_effect": "effect_vampire_studying_blood_gifts" },
       { "u_lose_effect": "effect_vampire_all_gift_check" },
-      { "u_message": "You possess every single gift of the blood.  Nothing will be gained from further attempts." }
+      {
+        "u_message": "You possess every single gift of the blood.  Nothing will be gained from further attempts.  However, there may still be further refinements of your existing gifts to discover."
+      }
     ],
     "false_effect": [
       { "u_lose_effect": "effect_vampire_studying_blood_gifts" },
@@ -395,6 +397,142 @@
         [ "conc_paralytic", 3 ]
       ],
       [ [ "nicotine_liquid", 100 ], [ "datura_seed", 10 ], [ "chem_toluene", 50 ], [ "leech_flower", 5 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "research blood gift refinements",
+    "id": "xe_vampire_blood_gift_refinement_research",
+    "description": "With the expenditure of a large amount of blood and time, attempt to discover new applications of your existing gifts of the blood.",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_RESEARCH",
+    "skill_used": "deduction",
+    "difficulty": 0,
+    "time": "30 s",
+    "autolearn": false,
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_XE_VAMPIRE_BLOOD_REFINEMENT_RESEARCH_BEGIN",
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= 500" ] },
+        "effect": [
+          { "math": [ "u_vitamin('human_blood_vitamin') -= 4500" ] },
+          { "u_add_effect": "effect_vampire_studying_blood_gifts", "duration": "8 hours" },
+          { "u_assign_activity": "ACT_VAMPIRE_STUDYING_BLOOD_GIFTS", "duration": "8 hours" },
+          {
+            "run_eocs": "EOC_XE_VAMPIRE_BLOOD_REFINEMENT_RESEARCH_SWITCHER",
+            "time_in_future": [ "240 minutes", "360 minutes" ]
+          }
+        ],
+        "false_effect": [ { "u_message": "You do not have enough blood to experiment with your gifts.", "type": "bad" } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_VAMPIRE_BLOOD_REFINEMENT_RESEARCH_SWITCHER",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_vampire_studying_blood_gifts" },
+        { "not": { "u_has_effect": "effect_vampire_recently_learned_blood_gifts" } }
+      ]
+    },
+    "//": "See the comment under EOC_XE_VAMPIRE_BLOOD_RESEARCH_SWITCHER for the explanation of the math.  Refining blood gifts is more difficult than discovering ones that the disease could naturally unlock, hence the correspondingly higher difficulty.",
+    "effect": {
+      "if": { "math": [ "( (u_val('intelligence') / 2) + u_skill('deduction') + (rand(9) + 1) + (rand(9) + 1) ) > 26" ] },
+      "then": [
+        {
+          "run_eoc_selector": [
+            "EOC_REFINE_VIGOR_MORTIS_SMASHING",
+            "EOC_REFINE_BLOOD_DRIVEN_SPEED_WATER_RUNNING",
+            "EOC_REFINE_SANGUINE_RESILIENCE_INVINCIBILITY",
+            "EOC_REFINE_HEIGHTENED_SENSES_SEE_INVISIBLE",
+            "EOC_NONE"
+          ],
+          "allow_cancel": true,
+          "names": [
+            "Refine Vigor Mortis: Unholy Destruction",
+            "Refine Blood-driven Speed: Zephyr",
+            "Refine Sanguine Resilience: Flesh of Marble",
+            "Refine Predator's Senses/Crimson Vision: Soulsight",
+            "Nothing"
+          ],
+          "title": "Your research uncovers…",
+          "descriptions": [
+            "From the strength boost of Vigor Mortis, you can focus that strength against inanimate objects to smash through barriers with incredible force.",
+            "With your Blood-driven Speed, move so quickly that you can even run on water.",
+            "Improve Sanguine Resilience so the first attack after activating it shatters on your undead flesh.",
+            "Combine your Predator's Senses with your Crimson Vision and learn to see even invisible creatures.",
+            "End your research."
+          ]
+        }
+      ],
+      "else": [ { "u_message": "Your experiments are fruitless.  You'll have to try again.", "type": "bad" } ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_VAMPIRE_BLOOD_REFINEMENT_RESEARCH_SUCCESS",
+    "effect": { "u_add_effect": "effect_vampire_recently_learned_blood_gifts", "duration": "12 days" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REFINE_VIGOR_MORTIS_SMASHING",
+    "condition": {
+      "and": [ { "u_has_trait": "VAMPIRIC_STRENGTH" }, { "not": { "u_has_trait": "VAMPIRIC_STRENGTH_REFINEMENT_SMASHING_TILES" } } ]
+    },
+    "effect": [
+      { "u_add_trait": "VAMPIRIC_STRENGTH_REFINEMENT_SMASHING_TILES" },
+      { "u_message": "You learned Unholy Devastation, a new use for your Vigor Mortis Blood Art.", "type": "good" },
+      { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_REFINEMENT_RESEARCH_SUCCESS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REFINE_BLOOD_DRIVEN_SPEED_WATER_RUNNING",
+    "condition": { "and": [ { "u_has_trait": "BLOODHASTE" }, { "not": { "u_has_trait": "BLOODHASTE_REFINEMENT_WATER_RUN" } } ] },
+    "effect": [
+      { "u_add_trait": "BLOODHASTE_REFINEMENT_WATER_RUN" },
+      { "u_message": "You learned Zephyr, a new use for your Blood-driven Speed Blood Art.", "type": "good" },
+      { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_REFINEMENT_RESEARCH_SUCCESS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REFINE_SANGUINE_RESILIENCE_INVINCIBILITY",
+    "condition": {
+      "and": [
+        { "u_has_trait": "VAMPIRIC_RESILIENCE" },
+        { "not": { "u_has_trait": "VAMPIRIC_RESILIENCE_REFINEMENT_INVINCIBILITY" } }
+      ]
+    },
+    "effect": [
+      { "u_add_trait": "VAMPIRIC_RESILIENCE_REFINEMENT_INVINCIBILITY" },
+      {
+        "u_message": "You learned Flesh of Marble, a new use for your Sanguine Resilience Blood Art.",
+        "type": "good"
+      },
+      { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_REFINEMENT_RESEARCH_SUCCESS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REFINE_HEIGHTENED_SENSES_SEE_INVISIBLE",
+    "condition": {
+      "and": [
+        { "u_has_trait": "VAMPIRE_HEIGHTENED_SENSES" },
+        { "u_has_trait": "VAMPIRE_SEE_HEAT" },
+        { "not": { "u_has_trait": "VAMPIRE_HEIGHTENED_SENSES_REFINEMENT_SEE_INVISIBLE" } }
+      ]
+    },
+    "effect": [
+      { "u_add_trait": "VAMPIRE_HEIGHTENED_SENSES_REFINEMENT_SEE_INVISIBLE" },
+      {
+        "u_message": "You learned Soulsight, a new use for your Predator's Senses and Crimson Vision Blood Arts.",
+        "type": "good"
+      },
+      { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_REFINEMENT_RESEARCH_SUCCESS" }
     ]
   }
 ]

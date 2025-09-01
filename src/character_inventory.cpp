@@ -813,10 +813,20 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
     menu.text += std::string( w + 2 - utf8_width( menu.text, true ), ' ' );
     menu.text += _( " | Moves  " );
 
+    int min_moves = INT_MAX;
+    int min_moves_i = 0;
+    int index = 0;
     for( const dispose_option &e : opts ) {
+        if( e.moves > 0 && e.moves < min_moves ) {
+            min_moves = e.moves;
+            min_moves_i = index;
+        }
         menu.addentry( -1, e.enabled, e.invlet, string_format( e.enabled ? "%s | %-7d" : "%s |",
                        e.prompt, e.moves ) );
+        index++;
     }
+
+    menu.set_selected( min_moves_i );
 
     menu.query();
     if( menu.ret >= 0 ) {

@@ -70,6 +70,11 @@ void damage_type::load_damage_types( const JsonObject &jo, const std::string &sr
     damage_type_factory.load( jo, src );
 }
 
+void damage_type::finalize_all()
+{
+    damage_type_factory.finalize();
+}
+
 void damage_type::reset()
 {
     damage_type_factory.reset();
