@@ -81,7 +81,7 @@
     "remove_message": "Your vision finally clears.",
     "rating": "bad",
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 0.1 }, { "limb_score": "vision", "modifier": 0.2 } ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD", "HYPEROPIC", "MYOPIC", "MYOPIC_IN_LIGHT" ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "HYPEROPIC", "MYOPIC_SUPERNATURAL" ]
   },
   {
     "type": "effect_type",
