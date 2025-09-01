@@ -2671,8 +2671,8 @@ void Character::recalc_sight_limits()
         sight_max = 8;
     } else if( ( has_flag( json_flag_MYOPIC ) &&
                  !worn_with_flag( flag_FIX_NEARSIGHT ) && !has_effect( effect_contacts ) &&
-                 !has_effect( effect_transition_contacts ) ) || ( in_light 
-                    && has_flag( json_flag_MYOPIC_IN_LIGHT ) ) ) {
+                 !has_effect( effect_transition_contacts ) ) || ( in_light
+                         && has_flag( json_flag_MYOPIC_IN_LIGHT ) ) ) {
         sight_max = 12;
     } else if( has_effect( effect_darkness ) ) {
         vision_mode_cache.set( DARKNESS );
