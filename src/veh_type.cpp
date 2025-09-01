@@ -588,6 +588,16 @@ void vehicles::parts::finalize()
             new_part.folded_volume = item->volume;
         }
 
+        // override install requirements
+        std::vector<std::vector<tool_comp>> tools;
+        std::vector<std::vector<quality_requirement>> qualities;
+        std::vector<std::vector<item_comp>> components = { { { new_part.base_item, 1 } } };
+        requirement_data ins( tools, qualities, components );
+
+        const requirement_id ins_id( std::string( "inline_vehins_base_" ) + new_part.id.str() );
+        requirement_data::save_requirement( ins, ins_id );
+        new_part.set_install_requirements( { {ins_id, 1} } );
+
         // cap all skills at 8
         primary_req = std::min( 8, primary_req );
         mechanics_req = std::min( 8, mechanics_req );
@@ -1069,6 +1079,11 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
 requirement_data vpart_info::install_requirements() const
 {
     return requirement_data( install_reqs );
+}
+
+void vpart_info::set_install_requirements( const std::vector<std::pair<requirement_id, int>> &reqs )
+{
+    install_reqs = reqs;
 }
 
 requirement_data vpart_info::removal_requirements() const
