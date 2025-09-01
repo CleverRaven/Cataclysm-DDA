@@ -1461,7 +1461,7 @@ bool Character::sight_impaired() const
              !has_effect( effect_transition_contacts ) &&
              !has_flag( json_flag_ENHANCED_VISION ) ) ||
            ( in_light && has_flag( json_flag_MYOPIC_IN_LIGHT_SUPERNATURAL ) ) ||
-             has_flag( json_flag_MYOPIC_SUPERNATURAL ) ||
+           has_flag( json_flag_MYOPIC_SUPERNATURAL ) ||
            has_trait( trait_PER_SLIME ) || is_blind();
 }
 
