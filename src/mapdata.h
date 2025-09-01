@@ -39,6 +39,18 @@ connect_group get_connect_group( const std::string &name );
 template <typename E> struct enum_traits;
 struct map_data_common_t;
 
+struct ter_furn_id {
+    ter_id ter;
+    furn_id furn;
+    void deserialize( const JsonValue &jo );
+    ter_furn_id();
+    ter_furn_id( std::string name );
+    bool operator==( const ter_furn_id &rhs ) const {
+        return ter == rhs.ter && furn == rhs.furn;
+    }
+    void resolve( const std::string &name );
+};
+
 struct map_common_bash_info { //TODO: Half of this shouldn't be common
         // min str(*) required to bash
         int str_min = -1;
