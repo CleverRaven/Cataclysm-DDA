@@ -2679,8 +2679,8 @@ void Character::recalc_sight_limits()
                !worn_with_flag( flag_FIX_NEARSIGHT ) && !has_effect( effect_contacts ) &&
                !has_effect( effect_transition_contacts ) ||
                ( in_light &&
-                 has_flag( json_flag_MYOPIC_IN_LIGHT_SUPERNATURAL) ) ||
-               has_flag( json_flag_MYOPIC_SUPERNATURAL ) 
+                 has_flag( json_flag_MYOPIC_IN_LIGHT_SUPERNATURAL ) ) ||
+               has_flag( json_flag_MYOPIC_SUPERNATURAL )
              ) {
         sight_max = 12;
     } else if( has_effect( effect_darkness ) ) {
