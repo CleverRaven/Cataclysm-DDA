@@ -16,7 +16,6 @@
 #include "action.h"
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
-#include "assign.h"
 #include "avatar.h" // IWYU pragma: keep
 #include "bionics.h"
 #include "bodypart.h"
@@ -150,6 +149,17 @@ static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 static const json_character_flag json_flag_MANUAL_CBM_INSTALLATION( "MANUAL_CBM_INSTALLATION" );
 static const json_character_flag
 json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS( "TEMPORARY_SHAPESHIFT_NO_HANDS" );
+
+static const material_id material_bone( "bone" );
+static const material_id material_chitin( "chitin" );
+static const material_id material_clay( "clay" );
+static const material_id material_glass( "glass" );
+static const material_id material_iron( "iron" );
+static const material_id material_plastic( "plastic" );
+static const material_id material_porcelain( "porcelain" );
+static const material_id material_silver( "silver" );
+static const material_id material_steel( "steel" );
+static const material_id material_wood( "wood" );
 
 static const proficiency_id proficiency_prof_traps( "prof_traps" );
 static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
@@ -816,40 +826,50 @@ std::unique_ptr<iuse_actor> consume_drug_iuse::clone() const
     return std::make_unique<consume_drug_iuse>( *this );
 }
 
-static effect_data load_effect_data( const JsonObject &e )
+namespace iuse
 {
-    time_duration time;
-    if( e.has_string( "duration" ) ) {
-        time = read_from_json_string<time_duration>( e.get_member( "duration" ), time_duration::units );
-    } else {
-        time = time_duration::from_turns( e.get_int( "duration", 0 ) );
-    }
-    return effect_data( efftype_id( e.get_string( "id" ) ), time,
-                        bodypart_id( e.get_string( "bp", "bp_null" ) ), e.get_bool( "permanent", false ) );
+
+void effect_data::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "id", id );
+    optional( jo, false, "duration", duration, 0_seconds );
+    optional( jo, false, "bp", bp, bodypart_str_id::NULL_ID() );
+    optional( jo, false, "permanent", permanent, false );
 }
+
+} // namespace iuse
+
+class drug_vitamin_reader : public generic_typed_reader<drug_vitamin_reader>
+{
+    public:
+        std::pair<vitamin_id, std::pair<int, int>> get_next( const JsonValue &jv ) const {
+            if( !jv.test_array() ) {
+                jv.throw_error( "invalid format" );
+            }
+            JsonArray ja = jv.get_array();
+            if( ja.size() != 2 && ja.size() != 3 ) {
+                ja.throw_error( "Too few/many elements" );
+            }
+            int lo = ja.get_int( 1 );
+            int hi = ja.size() == 3 ? ja.get_int( 2 ) : lo;
+            return std::pair<vitamin_id, std::pair<int, int>>( ja.get_string( 0 ), std::make_pair( lo, hi ) );
+        }
+};
 
 void consume_drug_iuse::load( const JsonObject &obj, const std::string & )
 {
-    obj.read( "activation_message", activation_message );
-    obj.read( "charges_needed", charges_needed );
-    obj.read( "tools_needed", tools_needed );
+    optional( obj, false, "activation_message", activation_message );
+    optional( obj, false, "charges_needed", charges_needed );
+    optional( obj, false, "tools_needed", tools_needed );
 
-    if( obj.has_array( "effects" ) ) {
-        for( const JsonObject e : obj.get_array( "effects" ) ) {
-            effects.push_back( load_effect_data( e ) );
-        }
-    }
+    optional( obj, false, "effects", effects );
     optional( obj, false, "damage_over_time", damage_over_time );
-    obj.read( "stat_adjustments", stat_adjustments );
-    obj.read( "fields_produced", fields_produced );
-    obj.read( "moves", moves );
-    obj.read( "used_up_item", used_up_item );
+    optional( obj, false, "stat_adjustments", stat_adjustments );
+    optional( obj, false, "fields_produced", fields_produced );
+    optional( obj, false, "moves", moves, 100 );
+    optional( obj, false, "used_up_item", used_up_item, itype_id::NULL_ID() );
 
-    for( JsonArray vit : obj.get_array( "vitamins" ) ) {
-        int lo = vit.get_int( 1 );
-        int hi = vit.size() >= 3 ? vit.get_int( 2 ) : lo;
-        vitamins.emplace( vitamin_id( vit.get_string( 0 ) ), std::make_pair( lo, hi ) );
-    }
+    optional( obj, false, "vitamins", vitamins, drug_vitamin_reader{} );
 }
 
 void consume_drug_iuse::info( const item &, std::vector<iteminfo> &dump ) const
@@ -912,7 +932,7 @@ std::optional<int> consume_drug_iuse::use( Character *p, item &it, map *here,
         }
     }
     // Apply the various effects.
-    for( const effect_data &eff : effects ) {
+    for( const iuse::effect_data &eff : effects ) {
         time_duration dur = eff.duration;
         if( p->has_trait( trait_TOLERANCE ) ) {
             dur *= .8;
@@ -974,8 +994,8 @@ std::unique_ptr<iuse_actor> delayed_transform_iuse::clone() const
 void delayed_transform_iuse::load( const JsonObject &obj, const std::string &src )
 {
     iuse_transform::load( obj, src );
-    obj.get_member( "not_ready_msg" ).read( not_ready_msg );
-    transform_age = obj.get_int( "transform_age" );
+    mandatory( obj, false, "not_ready_msg", not_ready_msg );
+    mandatory( obj, false, "transform_age", transform_age );
 }
 
 int delayed_transform_iuse::time_to_do( const item &it ) const
@@ -1007,22 +1027,16 @@ std::unique_ptr<iuse_actor> place_monster_iuse::clone() const
 
 void place_monster_iuse::load( const JsonObject &obj, const std::string & )
 {
-    mtypeid = mtype_id( obj.get_string( "monster_id" ) );
-    obj.read( "friendly_msg", friendly_msg );
-    obj.read( "hostile_msg", hostile_msg );
-    obj.read( "difficulty", difficulty );
-    obj.read( "moves", moves );
-    obj.read( "place_randomly", place_randomly );
-    obj.read( "is_pet", is_pet );
-    obj.read( "need_charges", need_charges );
-    need_charges = std::max( need_charges, 0 );
+    mandatory( obj, false, "monster_id", mtypeid );
+    optional( obj, false, "friendly_msg", friendly_msg );
+    optional( obj, false, "hostile_msg", hostile_msg );
+    optional( obj, false, "difficulty", difficulty, 0 );
+    optional( obj, false, "moves", moves, 100 );
+    optional( obj, false, "place_randomly", place_randomly, false );
+    optional( obj, false, "is_pet", is_pet, false );
+    optional( obj, false, "need_charges", need_charges, numeric_bound_reader{ 0 }, 0 );
 
-    if( obj.has_array( "skills" ) ) {
-        JsonArray skills_ja = obj.get_array( "skills" );
-        for( JsonValue s : skills_ja ) {
-            skills.emplace( s.get_string() );
-        }
-    }
+    optional( obj, false, "skills", skills );
 }
 
 std::optional<int> place_monster_iuse::use( Character *p, item &it,
@@ -1125,10 +1139,10 @@ std::unique_ptr<iuse_actor> place_npc_iuse::clone() const
 
 void place_npc_iuse::load( const JsonObject &obj, const std::string & )
 {
-    npc_class_id = string_id<npc_template>( obj.get_string( "npc_class_id" ) );
-    obj.read( "summon_msg", summon_msg );
-    obj.read( "moves", moves );
-    obj.read( "place_randomly", place_randomly );
+    mandatory( obj, false, "npc_class_id", npc_class_id );
+    optional( obj, false, "summon_msg", summon_msg );
+    optional( obj, false, "moves", moves, 100 );
+    optional( obj, false, "place_randomly", place_randomly, false );
 }
 
 std::optional<int> place_npc_iuse::use( Character *p, item &it, const tripoint_bub_ms &pos ) const
@@ -1210,7 +1224,7 @@ void deploy_furn_actor::info( const item &, std::vector<iteminfo> &dump ) const
 
 void deploy_furn_actor::load( const JsonObject &obj, const std::string & )
 {
-    furn_type = furn_str_id( obj.get_string( "furn_type" ) );
+    mandatory( obj, false, "furn_type", furn_type );
 }
 
 
@@ -1370,24 +1384,27 @@ std::unique_ptr<iuse_actor> reveal_map_actor::clone() const
     return std::make_unique<reveal_map_actor>( *this );
 }
 
+class omt_reveal_type_reader : public generic_typed_reader<omt_reveal_type_reader>
+{
+    public:
+        std::pair<std::string, ot_match_type> get_next( const JsonValue &jv ) const {
+            if( jv.test_string() ) {
+                return std::make_pair( jv.get_string(), ot_match_type::contains );
+            }
+            if( !jv.test_object() ) {
+                jv.throw_error( "Invalid format" );
+            }
+            JsonObject jo = jv.get_object();
+            return std::make_pair( jo.get_string( "om_terrain" ),
+                                   jo.get_enum_value<ot_match_type>( "om_terrain_match_type", ot_match_type::contains ) );
+        }
+};
+
 void reveal_map_actor::load( const JsonObject &obj, const std::string & )
 {
-    radius = obj.get_int( "radius" );
-    obj.get_member( "message" ).read( message );
-    std::string ter;
-    ot_match_type ter_match_type;
-    for( const JsonValue entry : obj.get_array( "terrain" ) ) {
-        if( entry.test_string() ) {
-            ter = entry.get_string();
-            ter_match_type = ot_match_type::contains;
-        } else {
-            JsonObject jo = entry.get_object();
-            ter = jo.get_string( "om_terrain" );
-            ter_match_type = jo.get_enum_value<ot_match_type>( "om_terrain_match_type",
-                             ot_match_type::contains );
-        }
-        omt_types.emplace_back( ter, ter_match_type );
-    }
+    mandatory( obj, false, "radius", radius );
+    optional( obj, false, "message", message );
+    optional( obj, false, "terrain", omt_types, omt_reveal_type_reader{} );
 }
 
 void reveal_map_actor::reveal_targets( const tripoint_abs_omt &center,
@@ -1441,9 +1458,9 @@ std::optional<int> reveal_map_actor::use( Character *p, item &it, map *,
 
 void firestarter_actor::load( const JsonObject &obj, const std::string & )
 {
-    moves_cost_fast = obj.get_int( "moves", moves_cost_fast );
-    moves_cost_slow = obj.get_int( "moves_slow", moves_cost_fast * 10 );
-    need_sunlight = obj.get_bool( "need_sunlight", false );
+    optional( obj, false, "moves", moves_cost_fast, 100 );
+    optional( obj, false, "moves_slow", moves_cost_slow, 1000 );
+    optional( obj, false, "need_sunlight", need_sunlight, false );
 }
 
 std::unique_ptr<iuse_actor> firestarter_actor::clone() const
@@ -1696,8 +1713,8 @@ std::optional<int> firestarter_actor::use( Character *p, item &it,
 
 void salvage_actor::load( const JsonObject &obj, const std::string & )
 {
-    assign( obj, "cost", cost );
-    assign( obj, "moves_per_part", moves_per_part );
+    optional( obj, false, "cost", cost );
+    optional( obj, false, "moves_per_part", moves_per_part, 25 );
 }
 
 std::unique_ptr<iuse_actor> salvage_actor::clone() const
@@ -2067,18 +2084,28 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
 
 void inscribe_actor::load( const JsonObject &obj, const std::string & )
 {
-    assign( obj, "cost", cost );
-    assign( obj, "on_items", on_items );
-    assign( obj, "on_terrain", on_terrain );
-    assign( obj, "material_restricted", material_restricted );
+    static const std::set<material_id> default_material_whitelist = {
+        material_wood,
+        material_clay,
+        material_porcelain,
+        material_plastic,
+        material_glass,
+        material_chitin,
+        material_iron,
+        material_steel,
+        material_silver,
+        material_bone
+    };
 
-    if( obj.has_array( "material_whitelist" ) ) {
-        material_whitelist.clear();
-        assign( obj, "material_whitelist", material_whitelist );
-    }
+    optional( obj, false, "cost", cost );
+    optional( obj, false, "on_items", on_items, true );
+    optional( obj, false, "on_terrain", on_terrain, false );
+    optional( obj, false, "material_restricted", material_restricted, true );
 
-    assign( obj, "verb", verb );
-    assign( obj, "gerund", gerund );
+    optional( obj, false, "material_whitelist", material_whitelist, default_material_whitelist );
+
+    optional( obj, false, "verb", verb, to_translation( "Carve" ) );
+    optional( obj, false, "gerund", gerund, to_translation( "Carved" ) );
 
     if( !on_items && !on_terrain ) {
         obj.throw_error(
@@ -2229,12 +2256,12 @@ std::optional<int> inscribe_actor::use( Character *p, item &it, map *here,
 
 void fireweapon_off_actor::load( const JsonObject &obj, const std::string & )
 {
-    obj.read( "target_id", target_id, true );
-    obj.read( "success_message", success_message );
-    obj.read( "failure_message", failure_message );
-    noise               = obj.get_int( "noise", 0 );
-    moves               = obj.get_int( "moves", 0 );
-    success_chance      = obj.get_int( "success_chance", INT_MIN );
+    optional( obj, false, "target_id", target_id );
+    optional( obj, false, "success_message", success_message, to_translation( "hsss" ) );
+    optional( obj, false, "failure_message", failure_message, to_translation( "hsss" ) );
+    optional( obj, false, "noise", noise, 0 );
+    optional( obj, false, "moves", moves, 0 );
+    optional( obj, false, "success_chance", success_chance, INT_MIN );
 }
 
 std::unique_ptr<iuse_actor> fireweapon_off_actor::clone() const
@@ -2302,10 +2329,10 @@ ret_val<void> fireweapon_off_actor::can_use( const Character &p, const item &it,
 
 void fireweapon_on_actor::load( const JsonObject &obj, const std::string & )
 {
-    obj.read( "noise_message", noise_message );
-    obj.get_member( "charges_extinguish_message" ).read( charges_extinguish_message );
-    obj.get_member( "water_extinguish_message" ).read( water_extinguish_message );
-    noise_chance                    = obj.get_int( "noise_chance", 1 );
+    optional( obj, false, "noise_message", noise_message, to_translation( "hsss" ) );
+    optional( obj, false, "charges_extinguish_message", charges_extinguish_message );
+    optional( obj, false, "water_extinguish_message", water_extinguish_message );
+    optional( obj, false, "noise_chance", noise_chance, 1 );
 }
 
 std::unique_ptr<iuse_actor> fireweapon_on_actor::clone() const
@@ -2355,12 +2382,12 @@ std::optional<int> fireweapon_on_actor::use( Character *p, item &it,
 
 void manualnoise_actor::load( const JsonObject &obj, const std::string & )
 {
-    obj.get_member( "use_message" ).read( use_message );
-    obj.read( "noise_message", noise_message );
-    noise_id            = obj.get_string( "noise_id", "misc" );
-    noise_variant       = obj.get_string( "noise_variant", "default" );
-    noise               = obj.get_int( "noise", 0 );
-    moves               = obj.get_int( "moves", 0 );
+    optional( obj, false, "use_message", use_message );
+    optional( obj, false, "noise_message", noise_message, to_translation( "hsss" ) );
+    optional( obj, false, "noise_id", noise_id, "misc" );
+    optional( obj, false, "noise_variant", noise_variant, "default" );
+    optional( obj, false, "noise", noise, 0 );
+    optional( obj, false, "moves", moves, 0 );
 }
 
 std::unique_ptr<iuse_actor> manualnoise_actor::clone() const
@@ -2477,16 +2504,13 @@ std::unique_ptr<iuse_actor> musical_instrument_actor::clone() const
 
 void musical_instrument_actor::load( const JsonObject &obj, const std::string & )
 {
-    speed_penalty = obj.get_int( "speed_penalty", 10 );
-    volume = obj.get_int( "volume" );
-    fun = obj.get_int( "fun" );
-    fun_bonus = obj.get_int( "fun_bonus", 0 );
-    description_frequency = time_duration::from_turns( obj.get_int( "description_frequency", 0 ) );
-    if( !obj.read( "description_frequency", description_frequency ) ) {
-        obj.throw_error( "missing member \"description_frequency\"" );
-    }
-    obj.read( "player_descriptions", player_descriptions );
-    obj.read( "npc_descriptions", npc_descriptions );
+    optional( obj, false, "speed_penalty", speed_penalty, 10 );
+    mandatory( obj, false, "volume", volume );
+    mandatory( obj, false, "fun", fun );
+    optional( obj, false, "fun_bonus", fun_bonus, 0 );
+    mandatory( obj, false, "description_frequency", description_frequency );
+    optional( obj, false, "player_descriptions", player_descriptions );
+    optional( obj, false, "npc_descriptions", npc_descriptions );
 }
 
 std::optional<int> musical_instrument_actor::use( Character *p, item &it,
@@ -2646,7 +2670,7 @@ std::unique_ptr<iuse_actor> learn_spell_actor::clone() const
 
 void learn_spell_actor::load( const JsonObject &obj, const std::string & )
 {
-    spells = obj.get_string_array( "spells" );
+    mandatory( obj, false, "spells", spells );
 }
 
 void learn_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
@@ -2801,12 +2825,12 @@ std::unique_ptr<iuse_actor> cast_spell_actor::clone() const
 
 void cast_spell_actor::load( const JsonObject &obj, const std::string & )
 {
-    no_fail = obj.get_bool( "no_fail" );
-    item_spell = spell_id( obj.get_string( "spell_id" ) );
-    spell_level = obj.get_int( "level" );
-    need_worn = obj.get_bool( "need_worn", false );
-    need_wielding = obj.get_bool( "need_wielding", false );
-    mundane = obj.get_bool( "mundane", false );
+    mandatory( obj, false, "no_fail", no_fail );
+    mandatory( obj, false, "spell_id", item_spell );
+    mandatory( obj, false, "level", spell_level );
+    optional( obj, false, "need_worn", need_worn, false );
+    optional( obj, false, "need_wielding", need_wielding, false );
+    optional( obj, false, "mundane", mundane, false );
 }
 
 void cast_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
@@ -2888,8 +2912,8 @@ std::unique_ptr<iuse_actor> holster_actor::clone() const
 
 void holster_actor::load( const JsonObject &obj, const std::string & )
 {
-    obj.read( "holster_prompt", holster_prompt );
-    obj.read( "holster_msg", holster_msg );
+    optional( obj, false, "holster_prompt", holster_prompt );
+    optional( obj, false, "holster_msg", holster_msg );
 }
 
 bool holster_actor::can_holster( const item &holster, const item &obj ) const
@@ -3014,7 +3038,7 @@ std::unique_ptr<iuse_actor> ammobelt_actor::clone() const
 
 void ammobelt_actor::load( const JsonObject &obj, const std::string & )
 {
-    belt = itype_id( obj.get_string( "belt" ) );
+    mandatory( obj, false, "belt", belt );
 }
 
 void ammobelt_actor::info( const item &, std::vector<iteminfo> &dump ) const
@@ -3051,24 +3075,20 @@ std::optional<int> ammobelt_actor::use( Character *p, item &, map *, const tripo
 
 void repair_item_actor::load( const JsonObject &obj, const std::string & )
 {
-    // Mandatory:
-    for( const std::string line : obj.get_array( "materials" ) ) {
-        materials.emplace( line );
-    }
+    mandatory( obj, false, "materials", materials );
 
-    // TODO: Make skill non-mandatory while still erroring on invalid skill
-    const std::string skill_string = obj.get_string( "skill" );
-    used_skill = skill_id( skill_string );
-    if( !used_skill.is_valid() ) {
+    optional( obj, false, "skill", used_skill );
+    if( !used_skill.is_empty() && !used_skill.is_valid() ) {
         obj.throw_error_at( "skill", "Invalid skill" );
     }
 
-    cost_scaling = obj.get_float( "cost_scaling" );
+    mandatory( obj, false, "cost_scaling", cost_scaling );
 
-    // Optional
-    tool_quality = obj.get_int( "tool_quality", 0 );
-    move_cost    = obj.get_int( "move_cost", 500 );
-    trains_skill_to = obj.get_int( "trains_skill_to", 5 ) - 1;
+    optional( obj, false, "tool_quality", tool_quality, 0 );
+    optional( obj, false, "move_cost", move_cost, 500 );
+    optional( obj, false, "trains_skill_to", trains_skill_to, 5 );
+    // gross
+    trains_skill_to -= 1;
 }
 
 bool repair_item_actor::can_use_tool( const Character &p, const item &tool, bool print_msg ) const
@@ -3635,34 +3655,28 @@ std::string repair_item_actor::get_description() const
 
 void heal_actor::load( const JsonObject &obj, const std::string & )
 {
-    // Mandatory
-    move_cost = obj.get_int( "move_cost" );
+    mandatory( obj, false, "move_cost", move_cost );
 
-    // Optional
-    limb_power = obj.get_float( "limb_power", 0 );
-    bandages_power = obj.get_float( "bandages_power", 0 );
-    bandages_scaling = obj.get_float( "bandages_scaling", 0.25f * bandages_power );
-    disinfectant_power = obj.get_float( "disinfectant_power", 0 );
-    disinfectant_scaling = obj.get_float( "disinfectant_scaling", 0.25f * disinfectant_power );
+    optional( obj, false, "limb_power", limb_power, 0 );
+    optional( obj, false, "bandages_power", bandages_power, 0 );
+    optional( obj, false, "bandages_scaling", bandages_scaling, 0.25f * bandages_power );
+    optional( obj, false, "disinfectant_power", disinfectant_power, 0 );
+    optional( obj, false, "disinfectant_scaling", disinfectant_scaling, 0.25f * disinfectant_power );
 
-    head_power = obj.get_float( "head_power", 0.8f * limb_power );
-    torso_power = obj.get_float( "torso_power", 1.5f * limb_power );
+    optional( obj, false, "head_power", head_power, 0.8f * limb_power );
+    optional( obj, false, "torso_power", torso_power, 1.5f * limb_power );
 
-    limb_scaling = obj.get_float( "limb_scaling", 0.25f * limb_power );
+    optional( obj, false, "limb_scaling", limb_scaling, 0.25f * limb_power );
     double scaling_ratio = limb_power < 0.0001f ? 0.0 :
                            static_cast<double>( limb_scaling / limb_power );
-    head_scaling = obj.get_float( "head_scaling", scaling_ratio * head_power );
-    torso_scaling = obj.get_float( "torso_scaling", scaling_ratio * torso_power );
+    optional( obj, false, "head_scaling", head_scaling, scaling_ratio * head_power );
+    optional( obj, false, "torso_scaling", torso_scaling, scaling_ratio * torso_power );
 
-    bleed = obj.get_int( "bleed", 0 );
-    bite = obj.get_float( "bite", 0.0f );
-    infect = obj.get_float( "infect", 0.0f );
+    optional( obj, false, "bleed", bleed, 0 );
+    optional( obj, false, "bite", bite, 0.0f );
+    optional( obj, false, "infect", infect, 0.0f );
 
-    if( obj.has_array( "effects" ) ) {
-        for( const JsonObject e : obj.get_array( "effects" ) ) {
-            effects.push_back( load_effect_data( e ) );
-        }
-    }
+    optional( obj, false, "effects", effects );
 
     const bool does_instant_healing = limb_power || head_power || torso_power;
     const bool heal_over_time = bandages_power;
@@ -3675,13 +3689,13 @@ void heal_actor::load( const JsonObject &obj, const std::string & )
     }
 
     if( obj.has_string( "used_up_item" ) ) {
-        obj.read( "used_up_item", used_up_item_id, true );
+        mandatory( obj, false, "used_up_item", used_up_item_id );
     } else if( obj.has_object( "used_up_item" ) ) {
         JsonObject u = obj.get_object( "used_up_item" );
-        u.read( "id", used_up_item_id, true );
-        used_up_item_quantity = u.get_int( "quantity", used_up_item_quantity );
-        used_up_item_charges = u.get_int( "charges", used_up_item_charges );
-        used_up_item_flags = u.get_tags<flag_id>( "flags" );
+        mandatory( u, false, "id", used_up_item_id );
+        optional( u, false, "quantity", used_up_item_quantity, 1 );
+        optional( u, false, "charges", used_up_item_charges, 1 );
+        optional( u, false, "flags", used_up_item_flags );
     }
 }
 
@@ -3915,7 +3929,7 @@ int heal_actor::finish_using( Character &healer, Character &patient, item &it,
         add_msg( _( "%1$s finishes using the %2$s." ), healer.disp_name(), it.tname() );
     }
 
-    for( const effect_data &eff : effects ) {
+    for( const iuse::effect_data &eff : effects ) {
         patient.add_effect( eff.id, eff.duration, eff.bp, eff.permanent );
     }
 
@@ -4158,25 +4172,24 @@ place_trap_actor::data::data() : trap( trap_str_id::NULL_ID() ) {}
 
 void place_trap_actor::data::load( const JsonObject &obj )
 {
-    assign( obj, "trap", trap );
-    assign( obj, "done_message", done_message );
-    assign( obj, "practice", practice );
-    assign( obj, "moves", moves );
+    optional( obj, false, "trap", trap );
+    optional( obj, false, "done_message", done_message );
+    optional( obj, false, "practice", practice, 0 );
+    optional( obj, false, "moves", moves, 100 );
 }
 
 void place_trap_actor::load( const JsonObject &obj, const std::string & )
 {
-    assign( obj, "allow_underwater", allow_underwater );
-    assign( obj, "allow_under_player", allow_under_player );
-    assign( obj, "needs_solid_neighbor", needs_solid_neighbor );
-    assign( obj, "needs_neighbor_terrain", needs_neighbor_terrain );
-    assign( obj, "bury_question", bury_question );
+    optional( obj, false, "allow_underwater", allow_underwater, false );
+    optional( obj, false, "allow_under_player", allow_under_player, false );
+    optional( obj, false, "needs_solid_neighbor", needs_solid_neighbor, false );
+    optional( obj, false, "needs_neighbor_terrain", needs_neighbor_terrain );
+    optional( obj, false, "bury_question", bury_question );
     if( !bury_question.empty() ) {
-        JsonObject buried_json = obj.get_object( "bury" );
-        buried_data.load( buried_json );
+        optional( obj, false, "bury", buried_data );
     }
     unburied_data.load( obj );
-    assign( obj, "outer_layer_trap", outer_layer_trap );
+    optional( obj, false, "outer_layer_trap", outer_layer_trap );
 }
 
 std::unique_ptr<iuse_actor> place_trap_actor::clone() const
@@ -4359,8 +4372,8 @@ std::optional<int> place_trap_actor::use( Character *p, item &it, map *here,
 
 void emit_actor::load( const JsonObject &obj, const std::string & )
 {
-    assign( obj, "emits", emits );
-    assign( obj, "scale_qty", scale_qty );
+    optional( obj, false, "emits", emits );
+    optional( obj, false, "scale_qty", scale_qty, false );
 }
 
 std::optional<int> emit_actor::use( Character *p, item &it, const tripoint_bub_ms &pos ) const
@@ -4404,7 +4417,7 @@ void emit_actor::finalize( const itype_id &my_item_type )
 
 void saw_barrel_actor::load( const JsonObject &jo, const std::string & )
 {
-    assign( jo, "cost", cost );
+    optional( jo, false, "cost", cost );
 }
 
 //Todo: Make this consume charges if performed with a tool that uses charges.
@@ -4471,7 +4484,7 @@ std::unique_ptr<iuse_actor> saw_barrel_actor::clone() const
 
 void saw_stock_actor::load( const JsonObject &jo, const std::string & )
 {
-    assign( jo, "cost", cost );
+    optional( jo, false, "cost", cost );
 }
 
 //Todo: Make this consume charges if performed with a tool that uses charges.
@@ -4552,8 +4565,8 @@ std::unique_ptr<iuse_actor> saw_stock_actor::clone() const
 
 void molle_attach_actor::load( const JsonObject &jo, const std::string & )
 {
-    assign( jo, "size", size );
-    assign( jo, "moves", moves );
+    mandatory( jo, false, "size", size );
+    optional( jo, false, "moves", moves );
 }
 
 std::optional<int> molle_attach_actor::use( Character *p, item &it,
@@ -4631,7 +4644,7 @@ std::unique_ptr<iuse_actor> molle_detach_actor::clone() const
 
 void molle_detach_actor::load( const JsonObject &jo, const std::string & )
 {
-    assign( jo, "moves", moves );
+    optional( jo, false, "moves", moves );
 }
 
 std::optional<int> install_bionic_actor::use( Character *p, item &it,
@@ -4911,13 +4924,13 @@ void modify_gunmods_actor::finalize( const itype_id &my_item_type )
 
 void link_up_actor::load( const JsonObject &jo, const std::string & )
 {
-    jo.read( "cable_length", cable_length );
-    jo.read( "charge_rate", charge_rate );
-    jo.read( "efficiency", efficiency );
-    jo.read( "move_cost", move_cost );
-    jo.read( "menu_text", menu_text );
-    jo.read( "targets", targets );
-    jo.read( "can_extend", can_extend );
+    optional( jo, false, "cable_length", cable_length, -1 );
+    optional( jo, false, "charge_rate", charge_rate, 0_W );
+    optional( jo, false, "efficiency", efficiency, 0.85f );
+    optional( jo, false, "move_cost", move_cost, 5 );
+    optional( jo, false, "menu_text", menu_text );
+    optional( jo, false, "targets", targets, { link_state::no_link, link_state::vehicle_port } );
+    optional( jo, false, "can_extend", can_extend );
 }
 
 std::unique_ptr<iuse_actor> link_up_actor::clone() const
@@ -5643,13 +5656,13 @@ std::unique_ptr<iuse_actor> deploy_tent_actor::clone() const
 
 void deploy_tent_actor::load( const JsonObject &obj, const std::string & )
 {
-    assign( obj, "radius", radius );
-    assign( obj, "wall", wall );
-    assign( obj, "floor", floor );
-    assign( obj, "floor_center", floor_center );
-    assign( obj, "door_opened", door_opened );
-    assign( obj, "door_closed", door_closed );
-    assign( obj, "broken_type", broken_type );
+    optional( obj, false, "radius", radius, 1 );
+    optional( obj, false, "wall", wall );
+    optional( obj, false, "floor", floor );
+    optional( obj, false, "floor_center", floor_center );
+    optional( obj, false, "door_opened", door_opened );
+    optional( obj, false, "door_closed", door_closed );
+    optional( obj, false, "broken_type", broken_type );
 }
 
 std::optional<int> deploy_tent_actor::use( Character *p, item &it,
@@ -5767,7 +5780,7 @@ std::optional<int> weigh_self_actor::use( Character *p, item &, map *,
 
 void weigh_self_actor::load( const JsonObject &jo, const std::string & )
 {
-    assign( jo, "max_weight", max_weight );
+    mandatory( jo, false, "max_weight", max_weight );
 }
 
 std::unique_ptr<iuse_actor> weigh_self_actor::clone() const
@@ -5777,18 +5790,11 @@ std::unique_ptr<iuse_actor> weigh_self_actor::clone() const
 
 void sew_advanced_actor::load( const JsonObject &obj, const std::string & )
 {
-    // Mandatory:
-    for( const std::string line : obj.get_array( "materials" ) ) {
-        materials.emplace( line );
-    }
-    for( const std::string line : obj.get_array( "clothing_mods" ) ) {
-        clothing_mods.emplace_back( line );
-    }
+    mandatory( obj, false, "materials", materials );
+    mandatory( obj, false, "clothing_mods", materials );
 
-    // TODO: Make skill non-mandatory while still erroring on invalid skill
-    const std::string skill_string = obj.get_string( "skill" );
-    used_skill = skill_id( skill_string );
-    if( !used_skill.is_valid() ) {
+    optional( obj, false, "skill", used_skill );
+    if( !used_skill.is_empty() && !used_skill.is_valid() ) {
         obj.throw_error_at( "skill", "Invalid skill" );
     }
 }
@@ -6029,16 +6035,12 @@ void change_scent_iuse::load( const JsonObject &obj, const std::string & )
     if( !scenttypeid.is_valid() ) {
         obj.throw_error_at( "scent_typeid", "Invalid scent type id." );
     }
-    if( obj.has_array( "effects" ) ) {
-        for( JsonObject e : obj.get_array( "effects" ) ) {
-            effects.push_back( load_effect_data( e ) );
-        }
-    }
-    assign( obj, "moves", moves );
-    assign( obj, "charges_to_use", charges_to_use );
-    assign( obj, "scent_mod", scent_mod );
-    assign( obj, "duration", duration );
-    assign( obj, "waterproof", waterproof );
+    optional( obj, false, "effects", effects );
+    optional( obj, false, "moves", moves, 100 );
+    optional( obj, false, "charges_to_use", charges_to_use, 1 );
+    optional( obj, false, "scent_mod", scent_mod, 0 );
+    optional( obj, false, "duration", duration );
+    optional( obj, false, "waterproof", waterproof, false );
 }
 
 std::optional<int> change_scent_iuse::use( Character *p, item &it,
@@ -6060,7 +6062,7 @@ std::optional<int> change_scent_iuse::use( Character *p, item &it, map *,
     add_msg( m_info, _( "You use the %s to mask your scent" ), it.tname() );
 
     // Apply the various effects.
-    for( const effect_data &eff : effects ) {
+    for( const iuse::effect_data &eff : effects ) {
         p->add_effect( eff.id, eff.duration, eff.bp, eff.permanent );
     }
     return charges_to_use;
@@ -6079,10 +6081,11 @@ std::unique_ptr<iuse_actor> effect_on_conditions_actor::clone() const
 void effect_on_conditions_actor::load( const JsonObject &obj, const std::string &src )
 {
     optional( obj, false, "consume", consume, false );
-    obj.read( "description", description );
-    obj.read( "menu_text", menu_text );
-    need_worn = obj.get_bool( "need_worn", false );
-    need_wielding = obj.get_bool( "need_wielding", false );
+    optional( obj, false, "description", description );
+    optional( obj, false, "menu_text", menu_text );
+    optional( obj, false, "need_worn", need_worn, false );
+    optional( obj, false, "need_wielding", need_wielding, false );
+    // FIXME: eoc loading to generic factory
     for( JsonValue jv : obj.get_array( "effect_on_conditions" ) ) {
         eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
