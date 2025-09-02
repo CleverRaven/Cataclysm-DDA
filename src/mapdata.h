@@ -364,6 +364,7 @@ enum class ter_furn_flag : int {
     TFLAG_NATURAL_UNDERGROUND,
     TFLAG_WIRED_WALL,
     TFLAG_MON_AVOID_STRICT,
+    TFLAG_REGION_PSEUDO,
 
     NUM_TFLAG_FLAGS
 };
