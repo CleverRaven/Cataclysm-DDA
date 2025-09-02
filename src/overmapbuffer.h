@@ -466,6 +466,12 @@ class overmapbuffer
          */
         void signal_hordes( const tripoint_abs_sm &center, int sig_power );
         /**
+         * Directly alert one horde entity at the target location to head toward the destination.
+         * Intensity is essentially how many turns to keep going.
+         */
+        void alert_entity( const tripoint_abs_ms &location, const tripoint_abs_ms &destination,
+                           int intensity );
+        /**
           * Clear all the mongroups, intended for test code only.
         */
         void clear_mongroups();
@@ -520,7 +526,9 @@ class overmapbuffer
          */
         void despawn_monster( const monster &critter );
         void spawn_mongroup( const tripoint_abs_sm &p, const mongroup_id &type, int count );
-        std::vector<std::map<tripoint_abs_ms, horde_entity>*> hordes_at( const tripoint_abs_omt &p );
+        horde_entity *entity_at( const tripoint_abs_ms &p );
+        std::vector<std::unordered_map<tripoint_abs_ms, horde_entity>*> hordes_at(
+            const tripoint_abs_omt &p );
         /**
          * Find radio station with given frequency, search an unspecified area around
          * the current player location.

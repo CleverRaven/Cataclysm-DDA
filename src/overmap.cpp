@@ -2825,6 +2825,7 @@ overmap::overmap( const point_abs_om &p ) : loc( p )
 {
     settings = &overmap_buffer.get_default_settings( p );
     init_layers();
+    hordes.set_location( loc );
 }
 
 overmap::~overmap() = default;
@@ -3039,19 +3040,6 @@ bool overmap::mongroup_check( const mongroup &candidate ) const
                candidate.dying == match.second.dying &&
                candidate.horde == match.second.horde;
     } ) != matching_range.second;
-}
-
-bool overmap::monster_check( const std::pair<tripoint_om_sm, monster> &candidate ) const
-{
-    const auto bucket = monster_map.find( candidate.first );
-    if( bucket == monster_map.end() ) {
-        return false;
-    }
-    return std::find_if( bucket->second.begin(), bucket->second.end(),
-    [&candidate]( const std::pair<const tripoint_abs_ms, horde_entity> &match ) {
-        return candidate.second.pos_abs() == match.first &&
-               candidate.second.type == match.second.type_id;
-    } ) != bucket->second.end();
 }
 
 void overmap::insert_npc( const shared_ptr_fast<npc> &who )
@@ -3371,17 +3359,7 @@ bool overmap::passable( const tripoint_om_ms &p )
     if( !ptr->passable[index.y() * 24 + index.x()] ) {
         return false;
     }
-    tripoint_om_sm submap_offset = project_to<coords::sm>( p );
-    std::unordered_map<tripoint_om_sm, std::map<tripoint_abs_ms, horde_entity>>::iterator monster_submap
-            =
-                monster_map.find( submap_offset );
-    if( monster_submap == monster_map.end() || monster_submap->second.empty() ) {
-        // No monsters present means no blocking.
-        return true;
-    }
-    // TODO reconsider pruning p down to tripoint_om_ms in the first place.
-    tripoint_abs_ms potential_blocking_monster_loc = project_combine( pos(), p );
-    return !monster_submap->second.count( potential_blocking_monster_loc );
+    return hordes.entity_at( p ) == nullptr;
 }
 
 std::shared_ptr<map_data_summary> overmap::get_omt_summary( const tripoint_om_omt &p )
@@ -4239,15 +4217,7 @@ void mongroup::wander( const overmap &om )
 
 horde_entity &overmap::spawn_monster( const tripoint_abs_ms &p, mtype_id id )
 {
-    point_abs_om omp;
-    tripoint_om_sm sm;
-    std::tie( omp, sm ) = project_remain<coords::om>( project_to<coords::sm>( p ) );
-    // The [] operator creates a nested std::map if not present already.
-    std::map<const tripoint_abs_ms, horde_entity>::iterator result;
-    bool inserted;
-    std::tie( result, inserted ) =
-        monster_map[sm].emplace( p, id );
-    return result->second;
+    return hordes.spawn_entity( p, id )->second;
 }
 
 // Seeks through the submap looking for open areas.
@@ -4284,7 +4254,7 @@ void overmap::spawn_monsters( const tripoint_om_sm &p, std::vector<monster> &mon
             // Ran out of space on the submap!
             return;
         }
-        monster_map[p].emplace( project_combine( pos(), *open_space ), mon_to_spawn );
+        hordes.spawn_entity( project_combine( pos(), *open_space ), mon_to_spawn );
     }
 }
 
@@ -4302,25 +4272,23 @@ void overmap::spawn_mongroup( const tripoint_om_sm &p, const mongroup_id &type, 
                     // Ran out of space on the submap!
                     return;
                 }
-                monster_map[p].emplace( project_combine( pos(), *open_space ), result.id );
+                hordes.spawn_entity( project_combine( pos(), *open_space ), result.id );
             }
         }
     }
 }
 
-std::vector<std::map<tripoint_abs_ms, horde_entity>*> overmap::hordes_at( const tripoint_om_omt &p )
+horde_entity *overmap::entity_at( const tripoint_om_ms &p )
 {
-    std::vector<std::map<tripoint_abs_ms, horde_entity>*> hordes;
-    // TODO: Find all 4 submaps work and return them.
-    for( int y = 0; y <= 1; ++y ) {
-        for( int x = 0; x <= 1; ++x ) {
-            auto monster_map_iter = monster_map.find( project_to<coords::sm>( p ) + point{ x, y } );
-            if( monster_map_iter != monster_map.end() ) {
-                hordes.push_back( &monster_map_iter->second );
-            }
-        }
-    }
-    return hordes;
+    return hordes.entity_at( p );
+}
+
+
+// This should really be const but I don't want to mess with it right now.
+std::vector<std::unordered_map<tripoint_abs_ms, horde_entity>*> overmap::hordes_at(
+    const tripoint_om_omt &p )
+{
+    return hordes.entity_group_at( p );
 }
 
 /**
@@ -4331,89 +4299,85 @@ void overmap::move_hordes()
 {
     // TODO: throttle processing of monsters.
     // Specifically for throttling, only a process a subset of the eligible monster buckets per invocation.
-    for( std::pair<const tripoint_om_sm, std::map<tripoint_abs_ms, horde_entity>> &monster_submap :
-         monster_map ) {
-        for( std::map<tripoint_abs_ms, horde_entity>::iterator mon = monster_submap.second.begin();
-             mon != monster_submap.second.end(); ) {
-            // This might have an issue where a monster prevented from acting possibly should
-            // get another chance to act?
-            if( mon->second.last_processed == calendar::turn ||
-                mon->second.get_type()->has_flag( mon_flag_DORMANT ) ) {
+    std::unordered_map<tripoint_abs_ms, horde_entity> migrating_hordes;
+    for( horde_map::iterator mon = hordes.get_view( horde_map_flavors::active ).begin(),
+         mon_end = hordes.end(); mon != mon_end; ) {
+        // This might have an issue where a monster prevented from acting possibly should
+        // get another chance to act?
+        if( mon->second.last_processed == calendar::turn ||
+            mon->second.get_type()->has_flag( mon_flag_DORMANT ) ) {
+            mon++;
+            continue;
+        }
+        mon->second.last_processed = calendar::turn;
+        // If we have a goal, proceed toward it.
+        if( mon->second.tracking_intensity > 0 && mon->first != mon->second.destination ) {
+            mon->second.tracking_intensity--;
+            mon->second.moves += mon->second.type_id->speed;
+            if( mon->second.moves <= 0 ) {
                 mon++;
                 continue;
             }
-            mon->second.last_processed = calendar::turn;
-            // If we have a goal, proceed toward it.
-            if( mon->second.tracking_intensity > 0 && mon->first != mon->second.destination ) {
-                mon->second.tracking_intensity--;
-                mon->second.moves += mon->second.type_id->speed;
-                if( mon->second.moves <= 0 ) {
-                    mon++;
-                    continue;
-                }
-                std::vector<tripoint_abs_ms> viable_candidates;
-                // TODO: wandering, pathing.
-                tripoint_abs_ms candidate = line_to( mon->first, mon->second.destination ).front();
-                // Call up to overmapbuffer in case it needs to dispatch to an adjacent overmap.
-                if( overmap_buffer.passable( candidate ) ) {
-                    viable_candidates.push_back( candidate );
-                }
-                if( viable_candidates.empty() ) {
-                    // We're stuck.
-                    // TODO: try to wander to get around obstacles, or smash.
-                    mon++;
-                    continue;
-                }
-                // TODO: nuanced move costs.
-                mon->second.moves -= 100;
-                if( viable_candidates.front() == mon->second.destination ) {
-                    mon->second.tracking_intensity = 0;
-                }
-                if( get_map().inbounds( viable_candidates.front() ) ) {
-                    monster *placed_monster = nullptr;
-                    if( mon->second.monster_data ) {
-                        placed_monster = g->place_critter_around( make_shared_fast<monster>( *mon->second.monster_data ),
-                                         get_map().get_bub( viable_candidates.front() ), 1 );
-                    } else {
-                        placed_monster = g->place_critter_around( mon->second.type_id->id,
-                                         get_map().get_bub( viable_candidates.front() ), 1 );
-                    }
-                    if( placed_monster == nullptr ) {
-                        // If the tile is occupied it can't enter, just don't move for now.
-                        continue;
-                    }
-                    // TODO: this should be bundled into a constructor.
-                    if( mon->second.tracking_intensity > 0 ) {
-                        placed_monster->wander_to( mon->second.destination, mon->second.tracking_intensity );
-                    }
-                    mon = monster_submap.second.erase( mon );
-                    // Do we need to delete the current tree if it's empty, or not bother and
-                    // just remove it on reserialize? Not bothering now because this loop
-                    // structure will be overhauled shortly.
-                    continue;
-                }
-                point_abs_om dest_omp;
-                tripoint_om_sm dest_sm;
-                std::tie( dest_omp, dest_sm ) = project_remain<coords::om>( project_to<coords::sm>
-                                                ( viable_candidates.front() ) );
-                std::map<tripoint_abs_ms, horde_entity> *destination_submap = &monster_submap.second;
-                // Handle shifting to a new submap bucket, also handles shifting to new overmap.
-                if( dest_sm != monster_submap.first ) {
-                    overmap *dest_om = overmap_buffer.get_existing( dest_omp );
-                    if( dest_om == nullptr ) {
-                        mon++;
-                        continue;
-                    }
-                    destination_submap = &dest_om->monster_map[dest_sm];
-                }
-                std::map<tripoint_abs_ms, horde_entity>::iterator moving_mon = mon;
-                // Advance the loop iterator past the current node, which we will be removing.
-                mon++;
-                auto monster_node = monster_submap.second.extract( moving_mon );
-                monster_node.key() = viable_candidates.front();
-                destination_submap->insert( std::move( monster_node ) );
+            std::vector<tripoint_abs_ms> viable_candidates;
+            // TODO: wandering, pathing.
+            tripoint_abs_ms candidate = line_to( mon->first, mon->second.destination ).front();
+            // Call up to overmapbuffer in case it needs to dispatch to an adjacent overmap.
+            if( overmap_buffer.passable( candidate ) ) {
+                viable_candidates.push_back( candidate );
             }
+            if( viable_candidates.empty() ) {
+                // We're stuck.
+                // TODO: try to wander to get around obstacles, or smash.
+                mon++;
+                continue;
+            }
+            // TODO: nuanced move costs.
+            mon->second.moves -= 100;
+            if( viable_candidates.front() == mon->second.destination ) {
+                mon->second.tracking_intensity = 0;
+            }
+            if( get_map().inbounds( viable_candidates.front() ) ) {
+                monster *placed_monster = nullptr;
+                if( mon->second.monster_data ) {
+                    placed_monster = g->place_critter_around( make_shared_fast<monster>( *mon->second.monster_data ),
+                                     get_map().get_bub( viable_candidates.front() ), 1 );
+                } else {
+                    placed_monster = g->place_critter_around( mon->second.type_id->id,
+                                     get_map().get_bub( viable_candidates.front() ), 1 );
+                }
+                if( placed_monster == nullptr ) {
+                    // If the tile is occupied it can't enter, just don't move for now.
+                    mon++;
+                    continue;
+                }
+                // TODO: this should be bundled into a constructor.
+                if( mon->second.tracking_intensity > 0 ) {
+                    placed_monster->wander_to( mon->second.destination, mon->second.tracking_intensity );
+                }
+                mon = hordes.erase( mon );
+                continue;
+            }
+
+            horde_map::iterator moving_mon = mon;
+            // Advance the loop iterator past the current node, which we will be removing.
+            mon++;
+            auto monster_node = hordes.extract( moving_mon );
+            monster_node.key() = viable_candidates.front();
+            migrating_hordes.insert( std::move( monster_node ) );
         }
+    }
+    while( !migrating_hordes.empty() ) {
+        auto monster_node = migrating_hordes.extract( migrating_hordes.begin() );
+        point_abs_om dest_omp;
+        tripoint_om_sm dest_sm;
+        std::tie( dest_omp, dest_sm ) = project_remain<coords::om>( project_to<coords::sm>
+                                        ( monster_node.key() ) );
+        overmap *dest_om = overmap_buffer.get_existing( dest_omp );
+        if( dest_om == nullptr ) {
+            debugmsg( "A horde entity tried to wander into a non-existent overmap." );
+            continue;
+        }
+        dest_om->hordes.insert( std::move( monster_node ) );
     }
 }
 
@@ -4556,21 +4520,46 @@ void overmap::signal_hordes( const tripoint_rel_sm &p_rel, const int sig_power )
             }
         }
     }
-    for( std::pair<const tripoint_om_sm, std::map<tripoint_abs_ms, horde_entity>> &monster_submap :
-         monster_map ) {
-        for( std::pair<const tripoint_abs_ms, horde_entity> &mon : monster_submap.second ) {
-            tripoint_abs_ms origin = project_to<coords::ms>( absp ) + point{ 6, 6 };
-            const int dist = rl_dist( origin, mon.first );
-            // Sound intensity is scaled down by SEEX earlier in sound processing, scale it back up.
-            int eff_power = sig_power * SEEX - dist;
-            if( eff_power <= 0 ) {
-                continue;
-            }
-            if( mon.second.tracking_intensity < eff_power ) {
-                mon.second.destination = origin;
-                mon.second.tracking_intensity = eff_power;
-            }
+    std::unordered_map<tripoint_abs_ms, horde_entity> migrating_hordes;
+    for( horde_map::iterator mon = hordes.begin(), mon_end = hordes.end(); mon != mon_end; ) {
+        tripoint_abs_ms origin = project_to<coords::ms>( absp ) + point{ 6, 6 };
+        bool already_active = mon->second.is_active();
+        const int dist = rl_dist( origin, mon->first );
+        // Sound intensity is scaled down by SEEX earlier in sound processing, scale it back up.
+        int eff_power = sig_power * SEEX - dist;
+        if( eff_power <= 0 ) {
+            continue;
         }
+        if( mon->second.tracking_intensity < eff_power ) {
+            mon->second.destination = origin;
+            mon->second.tracking_intensity = eff_power;
+        }
+        // Avoid unecessary extract/insert for already-active horde entities.
+        if( !already_active ) {
+            horde_map::iterator moving_mon = mon;
+            // Advance the loop iterator past the current node, which we will be removing.
+            mon++;
+            auto monster_node = hordes.extract( moving_mon );
+            migrating_hordes.insert( std::move( monster_node ) );
+        } else {
+            ++mon;
+        }
+    }
+    while( !migrating_hordes.empty() ) {
+        auto monster_node = migrating_hordes.extract( migrating_hordes.begin() );
+        hordes.insert( std::move( monster_node ) );
+    }
+}
+
+void overmap::alert_entity( const tripoint_om_ms &location, const tripoint_abs_ms &destination,
+                            int intensity )
+{
+    horde_map::iterator target = hordes.find( location );
+    if( target != hordes.end() && intensity > target->second.tracking_intensity ) {
+        auto monster_node = hordes.extract( target );
+        monster_node.mapped().tracking_intensity = intensity;
+        monster_node.mapped().destination = destination;
+        hordes.insert( std::move( monster_node ) );
     }
 }
 

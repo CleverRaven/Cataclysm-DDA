@@ -749,7 +749,8 @@ static void draw_ascii( const catacurses::window &w, overmap_draw_data_t &data )
             // Are we debugging monster groups?
             if( blink && uistate.overmap_debug_mongroup ) {
                 // TODO Check if this tile is a target of the currently highlighted horde.
-                std::vector<std::map<tripoint_abs_ms, horde_entity>*> hordes = overmap_buffer.hordes_at( omp );
+                std::vector<std::unordered_map<tripoint_abs_ms, horde_entity>*> hordes = overmap_buffer.hordes_at(
+                            omp );
                 if( !hordes.empty() ) {
                     ter_sym = "+";
                 } else {
@@ -960,7 +961,7 @@ static void draw_om_sidebar( ui_adaptor &ui,
     const bool viewing_weather = uistate.overmap_debug_weather || uistate.overmap_visible_weather;
 
     // If we're debugging hordes, find the monsters we've selected
-    std::vector<std::map<tripoint_abs_ms, horde_entity>*> hordes;
+    std::vector<std::unordered_map<tripoint_abs_ms, horde_entity>*> hordes;
     if( uistate.overmap_debug_mongroup ) {
         hordes = overmap_buffer.hordes_at( cursor_pos );
     }
@@ -980,7 +981,7 @@ static void draw_om_sidebar( ui_adaptor &ui,
             ui.set_cursor( wbar, desc_pos );
             int line_number = 0;
             int horde_size = 0;
-            for( std::map<tripoint_abs_ms, horde_entity> *horde : hordes ) {
+            for( std::unordered_map<tripoint_abs_ms, horde_entity> *horde : hordes ) {
                 horde_size += horde->size();
                 // TODO: This overruns the sidebar, need to display better somehow, maybe a popup?
 #if 0
@@ -1111,7 +1112,8 @@ static void draw_om_sidebar( ui_adaptor &ui,
         wattron( wbar, c_red );
         int monster_count = 0;
         std::set<std::string> monster_types;
-        for( std::map<tripoint_abs_ms, horde_entity> *horde : overmap_buffer.hordes_at( cursor_pos ) ) {
+        for( std::unordered_map<tripoint_abs_ms, horde_entity> *horde : overmap_buffer.hordes_at(
+                 cursor_pos ) ) {
             for( std::pair<const tripoint_abs_ms, horde_entity> &entity : *horde ) {
                 monster_count++;
                 const mtype *entity_type = entity.second.get_type();
