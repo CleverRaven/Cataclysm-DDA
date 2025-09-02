@@ -351,6 +351,11 @@ You can do your makeup
 Allow EOCs to read artifact resonance
 Add lathe functionality and industrial baseball bat production
 Chitin armor overhaul
+Add `SUPPRESS_INVISIBILITY` flag, add an item in XE that uses it
+Computer maps only reveal contiguous subway/sewer
+Add deep fryers
+Adds Arrow Recipes for Lathes
+Add uncraft recipes for turrets in aftershock
 
 
 ## Interface:
@@ -472,6 +477,7 @@ Always show clean water on top of consume menu
 Toggle haul from action menu when hauling
 Explain that degraded items are degraded
 Message to player when UPS equipment runs out of power.
+Present dispersion as MOA in item UI
 
 
 ## Mods:
@@ -892,6 +898,18 @@ Aftershock: Vehicle bay City Building a mix between mechanic garage, gas station
 [Mods] When shapeshifted into a form with no hands, you don't have hands
 [Mods] Your gear doesn't protect you when you're shapeshifted
 [Mods] If you have a broken limb and are in a shapeshifted form, you can't fly
+[Magiclysm] Add Aerial Assassin monster and `PERMANENT_INVISIBILITY` flag to go with it
+[XEDRA] Replace steel material in items with updated steel types to allow repairing
+[Sky Island] Stop running bunker climate control if you're immune to temperature on the island
+[MoM] Update concentration message every second
+[Xedra Evolved] Add Blood Art Refinements and way to research them
+[Magiclysm] Add Seeing the Unseen animist spell
+[Xedra Evolved] Add more ways for changelings to gain their powers
+[MoM] Add the Silent One
+[Magiclysm] Limit Empty to affect only in-mod spells
+Aftershock: Replace remaining vanilla robots with more setting appropriate ones
+[Magiclysm] Limit Empty to affect only in-mod spells
+[Magiclysm] Add the rust monster
 
 
 ## Balance:
@@ -994,6 +1012,7 @@ Adjust Precise Strike melee tech so it also cant stun what other stun-causing te
 Adds cuvettes to analysis kit crafting recipe, increase analysis kit weight.
 Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
 Tree bashing from being cut down is not a magic wand
+Star vampires have `PERMANENT_INVISIBILITY`, when they drink blood it applies `SUPPRESS_INVISIBILITY`
 
 
 ## Bugfixes:
@@ -1373,6 +1392,26 @@ AIM item menu wouldn't update window position on resize.
 Fix deserialization error with power level
 Power grid deleted on ship movement
 AIM uilist submenu shaking violently.
+Fix wrong type usage in jmath function
+Energy remaining now looks for battery ammo_types
+Prevent detecting fireplaces through walls
+Crash in Tacoma mission dialogue
+assign an invlet to the first visible key binding in the key bindings window
+Prevent segfault when cancelling completed butchery
+Energy remaining now looks for battery ammo_types
+Prevent segfault when purifying water with connected vehicles
+Prevent segfault from teleport trap
+Prevent segfault when purifying water with connected vehicles
+Prevent segfault when cancelling completed butchery
+Map extra debug menu and tile report work with json checks disabled
+Prevent segfault from teleport trap
+Fix boomer bile EOC
+[MoM] Remove Imperial Church holy symbol variants
+Fix boomer bile EOC
+Fix enchantment cache load issue (If your save didn't load right hopefully it will now)
+Account for threshold_substitutes in the mutation selector
+[Magiclysm/XE] Fix shapeshifted gear that's subsumed into your form still being damaged
+[MoM] Fix Vitakinetic enervation debuff duration
 
 
 ## Performance:
@@ -1549,6 +1588,12 @@ Use optional/mandatory for weather type, trap, start location, scent map, profes
 Check for unused extend/delete/proportional/relative with mandatory
 Begin moving duplicated UI code to new helpers library
 Remove Object Creator
+Remove mostly-unused typed assign readers
+Allow using extend/delete on non-container types with optional/mandatory
+Allow extend/delete on using in recipes
+Use optional for monster weakpoints, regeneration modifiers, and special attacks
+Move vpart_info to mostly use optional/mandatory instead of assign
+Use optional/mandatory for overmap data
 
 
 ## Build:
@@ -1600,6 +1645,7 @@ Restructure the template file
 Miscellaneous NO_I18N additions
 Translate martial art condition text and cable notification text
 Add documentation for C++ translation context comments
+Fix c-format in translation files
 
 
 # 0.H (Herbert)
