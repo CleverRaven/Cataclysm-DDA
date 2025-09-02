@@ -650,7 +650,7 @@ static void load_forest_mapgen_settings( const JsonObject &jo,
 
 void region_settings_forest_mapgen::load( const JsonObject &jo, std::string_view )
 {
-    optional( jo, was_loaded, "biomes", biomes );
+    optional( jo, was_loaded, "biomes", biomes, auto_flags_reader<forest_biome_mapgen_id> {} );
 }
 
 static void load_forest_trail_settings( const JsonObject &jo,
@@ -1183,7 +1183,41 @@ static void load_region_terrain_and_furniture_settings( const JsonObject &jo,
 
 void region_settings_terrain_furniture::load( const JsonObject &jo, std::string_view )
 {
-    optional( jo, was_loaded, "ter_furn", ter_furn );
+    optional( jo, was_loaded, "ter_furn", ter_furn, auto_flags_reader<region_terrain_furniture_id> {} );
+}
+
+region_settings_terrain_furniture &region_settings_terrain_furniture::operator+=
+( const region_settings_terrain_furniture &rhs )
+{
+    for( const region_terrain_furniture_id &rtf : rhs.ter_furn ) {
+        /**
+        * This is a copy of the templated apply_region_overlay
+        * it is necessary because terrain_furniture objects don't map with an overlay_id
+        */
+        furn_id f_overlay( rtf->replaced_furn_id );
+        ter_id t_overlay( rtf->replaced_ter_id );
+        bool valid_furniture = !f_overlay.id().is_null();
+        bool valid_terrain = !t_overlay.id().is_null();
+        auto predicate = [&valid_terrain, &valid_furniture, &f_overlay,
+                        &t_overlay]( const region_terrain_furniture_id & this_rtf ) {
+            if( valid_furniture ) {
+                return this_rtf->replaced_furn_id == f_overlay;
+            }
+            if( valid_terrain ) {
+                return this_rtf->replaced_ter_id == t_overlay;
+            }
+            return false;
+        };
+        auto find_collection = std::find_if( ter_furn.begin(), ter_furn.end(), predicate );
+        //found existing regional terrain/furniture, combine the objects
+        if( find_collection != ter_furn.end() ) {
+            const_cast<region_terrain_furniture &>( find_collection->obj() ) += *rtf;
+        } else {
+            debugmsg( "region_terrain_furniture replaced ter/furn_id %s/%s does not exist in DDA",
+                      t_overlay.id().str(), f_overlay.id().str() );
+        }
+    }
+    return *this;
 }
 
 void region_terrain_furniture::load( const JsonObject &jo, std::string_view )
@@ -1207,7 +1241,18 @@ void region_settings_city::load( const JsonObject &jo, std::string_view )
 
 void region_settings_map_extras::load( const JsonObject &jo, std::string_view )
 {
-    optional( jo, was_loaded, "extras", extras );
+    optional( jo, was_loaded, "extras", extras, auto_flags_reader<map_extra_collection_id> {} );
+}
+
+std::set<map_extra_id> region_settings_map_extras::get_all_map_extras() const
+{
+    std::set<map_extra_id> all_mx;
+    for( const map_extra_collection_id &region_extra : extras ) {
+        for( const std::pair<map_extra_id, int> &mx_entry : ( *region_extra ).values ) {
+            all_mx.emplace( mx_entry.first );
+        }
+    }
+    return all_mx;
 }
 
 void map_extra_collection::load( const JsonObject &jo, std::string_view )
@@ -1340,14 +1385,13 @@ void load_region_settings( const JsonObject &jo )
     load_region_terrain_and_furniture_settings( jo, new_region.region_terrain_and_furniture, strict,
             false );
 
-    region_settings_map[new_region.id] = new_region;
+    //region_settings_map[new_region.id] = new_region;
 }
 
 void region_settings::load( const JsonObject &jo, std::string_view )
 {
+    optional( jo, was_loaded, "tags", tags, auto_flags_reader{} );
     optional( jo, was_loaded, "default_oter", default_oter );
-    // So the data definition goes from z = OVERMAP_HEIGHT to z = OVERMAP_DEPTH
-    std::reverse( default_oter.begin(), default_oter.end() );
 
     optional( jo, was_loaded, "default_groundcover", default_groundcover, ter_reader );
     optional( jo, was_loaded, "forest_composition", forest_composition );
@@ -1365,6 +1409,12 @@ void region_settings::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "ravines", overmap_ravine );
     optional( jo, was_loaded, "connections", overmap_connection );
     optional( jo, was_loaded, "terrain_furniture", region_terrain_and_furniture );
+}
+
+void region_settings::finalize()
+{
+    // So the data definition goes from z = OVERMAP_HEIGHT to z = OVERMAP_DEPTH
+    std::reverse( default_oter.begin(), default_oter.end() );
 }
 
 void region_settings::finalize_all()
@@ -1388,14 +1438,47 @@ void region_settings::finalize_all()
     region_settings_terrain_furniture_factory.finalize();
 
     region_settings_factory.finalize();
+
+    if( !region_settings_id( "default" ).is_valid() ) {
+        ;
+        debugmsg( "id: `default` region settings were not loaded or failed to load" );
+    }
+}
+
+#pragma optimize("", off)
+region_settings &region_settings::operator+=( const region_settings &rhs )
+{
+    if( rhs.city_spec.is_valid() ) {
+        const_cast<region_settings_city &>( *city_spec ) += *rhs.city_spec;
+    }
+    if( rhs.overmap_highway.is_valid() ) {
+        const_cast<region_settings_highway &>( *overmap_highway ) += *rhs.overmap_highway;
+    }
+    if( rhs.forest_trail.is_valid() ) {
+        const_cast<region_settings_forest_trail &>( *forest_trail ) += *rhs.forest_trail;
+    }
+    if( rhs.region_extras.is_valid() ) {
+        const_cast<region_settings_map_extras &>( *region_extras ) += *rhs.region_extras;
+    }
+    if( rhs.region_terrain_and_furniture.is_valid() ) {
+        const_cast<region_settings_terrain_furniture &>( *region_terrain_and_furniture ) +=
+            *rhs.region_terrain_and_furniture;
+    }
+    if( rhs.forest_composition.is_valid() ) {
+        const_cast<region_settings_forest_mapgen &>( *forest_composition ) += *rhs.forest_composition;
+    }
+    return *this;
 }
 
 void region_overlay_new::finalize()
 {
     for( region_settings &region : region_settings_factory.get_all_mod() ) {
-        if( apply_to_all_regions ||
-            std::find( region_ids.begin(), region_ids.end(), region.id ) != region_ids.end() ) {
-            region += overlay;
+        for( const std::string &tag : apply_to_tags ) {
+            if( apply_to_tags.count( "all" ) > 0 ||
+                std::find( region.tags.begin(), region.tags.end(), tag ) != region.tags.end() ) {
+                region += overlay;
+                break;
+            }
         }
     }
 }
@@ -1421,6 +1504,7 @@ void region_overlay::load( const JsonObject &jo, std::string_view )
 
 void check_region_settings()
 {
+    /*
     for( const std::pair<const std::string, regional_settings> &p : region_settings_map ) {
         const std::string &region_name = p.first;
         const regional_settings &region = p.second;
@@ -1450,18 +1534,18 @@ void check_region_settings()
             }
         }
     }
+    */
 }
 
 void reset_region_settings()
 {
-    region_settings_map.clear();
+    region_settings_factory.reset();
 }
 
 void region_overlay_new::load( const JsonObject &jo, std::string_view )
 {
     overlay.load( jo, std::string_view() );
-    mandatory( jo, false, "regions", region_ids );
-    optional( jo, false, "apply_to_all_regions", apply_to_all_regions );
+    optional( jo, false, "apply_to_tags", apply_to_tags );
 }
 
 /*
@@ -1470,6 +1554,8 @@ void region_overlay_new::load( const JsonObject &jo, std::string_view )
  */
 void load_region_overlay( const JsonObject &jo )
 {
+    jo.allow_omitted_members();
+    /*
     if( jo.has_array( "regions" ) ) {
         JsonArray regions = jo.get_array( "regions" );
         for( const std::string regionid : regions ) {
@@ -1493,6 +1579,7 @@ void load_region_overlay( const JsonObject &jo )
     } else {
         jo.throw_error( "\"regions\" is required and must be an array" );
     }
+    */
 }
 
 void apply_region_overlay( const JsonObject &jo, regional_settings &region )
@@ -1722,6 +1809,27 @@ ter_furn_id forest_biome::pick() const
     return *result;
 }
 
+ter_furn_id forest_biome_mapgen::pick() const
+{
+    // Iterate through the biome components (which have already been put into sequence), roll for the
+    // one_in chance that component contributes a feature, and if so pick that feature and return it.
+    // If a given component does not roll as success, proceed to the next feature in sequence until
+    // a feature is picked or none are picked, in which case an empty feature is returned.
+    const ter_furn_id *result = nullptr;
+    for( const forest_biome_feature_id &pr : biome_components ) {
+        if( one_in( pr->chance ) ) {
+            result = pr->types.pick();
+            break;
+        }
+    }
+
+    if( result == nullptr ) {
+        return ter_furn_id();
+    }
+
+    return *result;
+}
+
 void forest_biome::finalize()
 {
     for( auto &pr : unfinalized_biome_components ) {
@@ -1776,9 +1884,11 @@ void forest_mapgen_settings::finalize()
 
 void region_settings_forest_mapgen::finalize()
 {
-    /*for( forest_biome_mapgen_id &biome : biomes ) {
-        biome.obj().finalize();
-    }*/
+    for( const forest_biome_mapgen_id &biome_id : biomes ) {
+        for( const oter_type_id &ott_id : biome_id->terrains ) {
+            oter_to_biomes[ott_id] = biome_id;
+        }
+    }
 }
 
 void forest_trail_settings::finalize()
@@ -1810,10 +1920,14 @@ void overmap_lake_settings::finalize()
 
 void region_settings_forest_trail::finalize()
 {
+    trailheads.finalize();
 }
 
 void region_settings_city::finalize()
 {
+    houses.finalize();
+    shops.finalize();
+    parks.finalize();
 }
 
 void region_settings_river::finalize()
@@ -1822,6 +1936,7 @@ void region_settings_river::finalize()
 
 void region_settings_lake::finalize()
 {
+
 }
 
 void region_settings_ocean::finalize()
@@ -1867,11 +1982,50 @@ void overmap_highway_settings::finalize()
 
 void region_settings_highway::finalize()
 {
+    //finds longest special in a building collection
+    auto find_longest_special = []( const building_bin & b ) {
+        int longest_length = 0;
+        for( const auto &weighted_pair : b.get_all_buildings() ) {
+            const overmap_special_id &special = weighted_pair.first;
+            int spec_length = special.obj().longest_side();
+            if( spec_length > longest_length ) {
+                longest_length = spec_length;
+            }
+        }
+        return longest_length;
+    };
+
+    four_way_intersections.finalize();
+    three_way_intersections.finalize();
+    bends.finalize();
+    road_connections.finalize();
+    interchanges.finalize();
+
+    longest_bend_length = find_longest_special( bends );
+    longest_slant_length = std::max( clockwise_slant->longest_side(),
+                                     counterclockwise_slant->longest_side() );
+    HIGHWAY_MAX_DEVIANCE = ( longest_bend_length + 1 ) * 2;
 }
 
 map_extras map_extras::filtered_by( const mapgendata &dat ) const
 {
     map_extras result( chance );
+    for( const std::pair<map_extra_id, int> &obj : values ) {
+        const map_extra_id &extra_id = obj.first;
+        if( extra_id->is_valid_for( dat ) ) {
+            result.values.add( extra_id, obj.second );
+        }
+    }
+    if( !values.empty() && result.values.empty() ) {
+        // OMT is too tall / too deep for all map extras. Skip map extra generation.
+        result.chance = 0;
+    }
+    return result;
+}
+
+map_extra_collection map_extra_collection::filtered_by( const mapgendata &dat ) const
+{
+    map_extra_collection result( chance );
     for( const std::pair<map_extra_id, int> &obj : values ) {
         const map_extra_id &extra_id = obj.first;
         if( extra_id->is_valid_for( dat ) ) {
@@ -1946,6 +2100,42 @@ furn_id region_terrain_and_furniture_settings::resolve( const furn_id &fid ) con
     return result;
 }
 
+ter_id region_settings_terrain_furniture::resolve( const ter_id &tid ) const
+{
+    if( tid.id().is_null() ) {
+        return tid;
+    }
+    ter_id result = tid;
+    auto predicate = [&result]( const region_terrain_furniture_id & tid_r ) {
+        return tid_r->replaced_ter_id == result;
+    };
+    auto found_tfid = std::find_if( ter_furn.begin(), ter_furn.end(), predicate );
+    while( found_tfid != ter_furn.end() ) {
+        const region_terrain_furniture_id &rtf_id = *found_tfid;
+        result = *rtf_id->terrain.pick();
+        found_tfid = std::find_if( ter_furn.begin(), ter_furn.end(), predicate );
+    }
+    return result;
+}
+
+furn_id region_settings_terrain_furniture::resolve( const furn_id &fid ) const
+{
+    if( fid.id().is_null() ) {
+        return fid;
+    }
+    furn_id result = fid;
+    auto predicate = [&result]( const region_terrain_furniture_id & fid_r ) {
+        return fid_r->replaced_furn_id == result;
+    };
+    auto found_tfid = std::find_if( ter_furn.begin(), ter_furn.end(), predicate );
+    while( found_tfid != ter_furn.end() ) {
+        const region_terrain_furniture_id &rtf_id = *found_tfid;
+        result = *rtf_id->furniture.pick();
+        found_tfid = std::find_if( ter_furn.begin(), ter_furn.end(), predicate );
+    }
+    return result;
+}
+
 void regional_settings::finalize()
 {
     if( default_groundcover_str != nullptr ) {
@@ -1961,9 +2151,11 @@ void regional_settings::finalize()
         overmap_lake.finalize();
         region_terrain_and_furniture.finalize();
         get_options().add_value( "DEFAULT_REGION", id, no_translation( id ) );
+        /*
         for( std::pair<const std::string, regional_settings> &p : region_settings_map ) {
             p.second.weather.sort_weather();
         }
+        */
     }
 }
 
@@ -1981,7 +2173,7 @@ void building_bin::add( const overmap_special_id &building, int weight )
         return;
     }
 
-    unfinalized_buildings[ building ] = weight;
+    buildings.add( building, weight );
 }
 
 overmap_special_id building_bin::pick() const
@@ -1999,8 +2191,6 @@ void building_bin::clear()
 {
     finalized = false;
     buildings.clear();
-    unfinalized_buildings.clear();
-    all.clear();
 }
 
 void building_bin::finalize()
@@ -2009,12 +2199,9 @@ void building_bin::finalize()
         debugmsg( "Tried to finalize a finalized bin (that's a code-side error which can't be fixed with jsons)" );
         return;
     }
-    if( unfinalized_buildings.empty() ) {
-        debugmsg( "There must be at least one entry in this building bin." );
-        return;
-    }
 
-    for( const std::pair<const overmap_special_id, int> &pr : unfinalized_buildings ) {
+    weighted_int_list< overmap_special_id> new_buildings;
+    for( const std::pair<const overmap_special_id, int> &pr : buildings ) {
         overmap_special_id current_id = pr.first;
         if( !current_id.is_valid() ) {
             // First, try to convert oter to special
@@ -2023,13 +2210,12 @@ void building_bin::finalize()
                 debugmsg( "Tried to add city building %s, but it is neither a special nor a terrain type",
                           pr.first.c_str() );
                 continue;
-            } else {
-                all.emplace_back( pr.first.str() );
             }
             current_id = overmap_specials::create_building_from( converted_id );
         }
-        buildings.add( current_id, pr.second );
+        new_buildings.add( current_id, pr.second );
     }
 
+    buildings = new_buildings;
     finalized = true;
 }

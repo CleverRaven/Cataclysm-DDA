@@ -22,13 +22,15 @@
 class JsonObject;
 class mapgendata;
 
+const region_settings_id DEFAULT_REGION( "default" );
+
 class building_bin
 {
     private:
         bool finalized = false;
-        std::map<overmap_special_id, int> unfinalized_buildings;
     public:
         building_bin() = default;
+        //TODO: remove add
         void add( const overmap_special_id &building, int weight );
         overmap_special_id pick() const;
         std::vector<std::string> all;
@@ -126,15 +128,15 @@ struct region_settings_city {
     building_bin parks;
 
     overmap_special_id pick_house() const {
-        return houses.pick()->id;
+        return houses.pick();
     }
 
     overmap_special_id pick_shop() const {
-        return shops.pick()->id;
+        return shops.pick();
     }
 
     overmap_special_id pick_park() const {
-        return parks.pick()->id;
+        return parks.pick();
     }
 
     weighted_int_list<overmap_special_id> get_all_houses() const {
@@ -296,6 +298,7 @@ struct forest_biome_mapgen {
         return *this;
     }
 
+    ter_furn_id pick() const;
     bool was_loaded = false;
     void finalize();
     void load( const JsonObject &jo, std::string_view );
@@ -317,7 +320,7 @@ struct region_settings_forest_mapgen {
     region_settings_forest_mapgen_id id = region_settings_forest_mapgen_id::NULL_ID();
 
     std::set<forest_biome_mapgen_id> biomes;
-    //TODO: map in finalize!!!
+    //use for convenience
     std::map<oter_type_id, forest_biome_mapgen_id> oter_to_biomes;
 
     region_settings_forest_mapgen &operator+=( const region_settings_forest_mapgen &rhs ) {
@@ -668,7 +671,6 @@ struct region_settings_highway {
         return *this;
     }
 
-    bool needs_finalize = false;
     bool was_loaded = false;
     void load( const JsonObject &jo, std::string_view );
     void finalize();
@@ -695,8 +697,9 @@ struct map_extra_collection {
     unsigned int chance = 1;
     weighted_int_list<map_extra_id> values;
 
-    map_extra_collection() = default;
-    map_extras filtered_by( const mapgendata & ) const;
+    map_extra_collection() : chance( 0 ) {}
+    explicit map_extra_collection( const unsigned int embellished ) : chance( embellished ) {}
+    map_extra_collection filtered_by( const mapgendata & ) const;
 
     map_extra_collection &operator+=( const map_extra_collection &rhs ) {
         for( const std::pair<map_extra_id, int> &val : rhs.values ) {
@@ -722,6 +725,9 @@ struct region_settings_map_extras {
         return *this;
     }
 
+    //returns every map extra in this collection regardless of weight
+    std::set<map_extra_id> get_all_map_extras() const;
+
     bool was_loaded = false;
     void load( const JsonObject &jo, std::string_view );
     static void load_region_settings_map_extras( const JsonObject &jo, const std::string &src );
@@ -746,12 +752,10 @@ struct region_settings_terrain_furniture {
 
     std::set<region_terrain_furniture_id> ter_furn;
 
-    region_settings_terrain_furniture &operator+=( const region_settings_terrain_furniture &rhs ) {
+    region_settings_terrain_furniture &operator+=( const region_settings_terrain_furniture &rhs );
 
-        for( const region_terrain_furniture_id &rtf : rhs.ter_furn ) {
-            apply_region_overlay<region_terrain_furniture>( ter_furn, rtf );
-        }
-    }
+    ter_id resolve( const ter_id & ) const;
+    furn_id resolve( const furn_id & ) const;
 
     //TODO: finalize needs to search entries for duplicate ter/furn_id and concat weighted lists
     bool was_loaded = false;
@@ -767,7 +771,6 @@ struct region_settings_terrain_furniture {
 */
 struct region_terrain_furniture {
     region_terrain_furniture_id id = region_terrain_furniture_id::NULL_ID();
-    std::string overlay_id;
 
     ter_id replaced_ter_id;
     furn_id replaced_furn_id;
@@ -855,19 +858,51 @@ struct region_settings {
         default_groundcover.add( t_null, 0 );
     }
 
-    region_settings &operator+=( const region_settings &rhs ) {
-        const_cast<region_settings_city &>( *city_spec ) += *rhs.city_spec;
-        const_cast<region_settings_highway &>( *overmap_highway ) += *rhs.overmap_highway;
-        const_cast<region_settings_forest_trail &>( *forest_trail ) += *rhs.forest_trail;
-        const_cast<region_settings_map_extras &>( *region_extras ) += *rhs.region_extras;
-        const_cast<region_settings_terrain_furniture &>( *region_terrain_and_furniture ) +=
-            *rhs.region_terrain_and_furniture;
-        const_cast<region_settings_forest_mapgen &>( *forest_composition ) += *rhs.forest_composition;
-        return *this;
+    const region_settings_city &get_settings_city() const {
+        return *city_spec;
     }
+    const region_settings_forest_mapgen &get_settings_forest_composition() const {
+        return *forest_composition;
+    }
+    const region_settings_forest_trail &get_settings_forest_trail() const {
+        return *forest_trail;
+    }
+    const weather_generator &get_settings_weather() const {
+        return *weather;
+    }
+    const region_settings_forest &get_settings_forest() const {
+        return *overmap_forest;
+    }
+    const region_settings_river &get_settings_river() const {
+        return *overmap_river;
+    }
+    const region_settings_lake &get_settings_lake() const {
+        return *overmap_lake;
+    }
+    const region_settings_ocean &get_settings_ocean() const {
+        return *overmap_ocean;
+    }
+    const region_settings_highway &get_settings_highway() const {
+        return *overmap_highway;
+    }
+    const region_settings_ravine &get_settings_ravine() const {
+        return *overmap_ravine;
+    }
+    const region_settings_terrain_furniture &get_settings_terrain_furniture() const {
+        return *region_terrain_and_furniture;
+    }
+    const region_settings_map_extras &get_settings_map_extras() const {
+        return *region_extras;
+    }
+
+    region_settings &operator+=( const region_settings &rhs );
+
+    //region overlays can apply to only selected tags
+    std::set<std::string> tags;
 
     bool was_loaded = false;
     void load( const JsonObject &jo, std::string_view );
+    void finalize();
     static void finalize_all();
     static void load_region_settings( const JsonObject &jo, const std::string &src );
     static void reset();
@@ -902,7 +937,7 @@ struct region_overlay {
 
 struct region_overlay_new {
     region_overlay_new_id id = region_overlay_new_id::NULL_ID();
-    std::vector<region_settings_id> region_ids;
+    std::set<std::string> apply_to_tags;
     region_settings overlay;
     bool apply_to_all_regions = false;
 
@@ -920,10 +955,6 @@ struct region_overlay_new {
 struct world_region_settings {
 
 };
-
-using t_regional_settings_map = std::unordered_map<std::string, regional_settings>;
-using t_regional_settings_map_citr = t_regional_settings_map::const_iterator;
-extern t_regional_settings_map region_settings_map;
 
 void load_region_settings( const JsonObject &jo );
 void check_region_settings();

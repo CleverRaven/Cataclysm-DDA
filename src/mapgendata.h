@@ -141,7 +141,7 @@ class mapgendata
 
         std::unordered_map<cube_direction, std::string> joins;
 
-        const regional_settings &region;
+        const region_settings &region;
 
         map &m;
 

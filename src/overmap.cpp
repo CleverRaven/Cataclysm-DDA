@@ -336,7 +336,7 @@ static size_t from_dir( om_direction::type dir )
 } // namespace om_lines
 
 //const regional_settings default_region_settings;
-t_regional_settings_map region_settings_map;
+//t_regional_settings_map region_settings_map;
 
 namespace
 {
@@ -1265,15 +1265,15 @@ void overmap_terrains::finalize()
 {
     terrain_types.finalize();
 
+    /*
     if( region_settings_map.find( "default" ) == region_settings_map.end() ) {
         debugmsg( "ERROR: can't find default overmap settings (region_map_settings 'default'), "
                   "Cataclysm pending.  And not the fun kind." );
     }
-
     for( auto &elem : region_settings_map ) {
         elem.second.finalize();
     }
-
+    */
     set_oter_ids();
 }
 
@@ -3148,7 +3148,7 @@ void overmap::populate( overmap_special_batch &enabled_specials )
 void overmap::populate()
 {
     overmap_special_batch enabled_specials = overmap_specials::get_default_batch( loc );
-    const overmap_feature_flag_settings &overmap_feature_flag = settings->overmap_feature_flag;
+    const region_settings_feature_flag &overmap_feature_flag = settings->overmap_feature_flag;
 
     const bool should_blacklist = !overmap_feature_flag.blacklist.empty();
     const bool should_whitelist = !overmap_feature_flag.whitelist.empty();
@@ -4878,7 +4878,7 @@ void overmap::place_forest_trails()
         return current_terrain == oter_forest || current_terrain == oter_forest_thick ||
                current_terrain == oter_forest_water;
     };
-    const forest_trail_settings &forest_trail = settings->forest_trail;
+    const region_settings_forest_trail &forest_trail = settings->get_settings_forest_trail();
 
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
@@ -4999,6 +4999,8 @@ void overmap::place_forest_trailheads()
         return;
     }
 
+    const region_settings_forest_trail &settings_forest_trail = settings->get_settings_forest_trail();
+
     // Trailheads may be placed if all of the following are true:
     // 1. we're at a forest_trail_end_north/south/west/east,
     // 2. we're within trailhead_road_distance from an existing road
@@ -5009,7 +5011,7 @@ void overmap::place_forest_trailheads()
         bool close = false;
         for( const tripoint_om_omt &nearby_point : closest_points_first(
                  trailhead,
-                 settings->forest_trail.trailhead_road_distance
+                 settings_forest_trail.trailhead_road_distance
              ) ) {
             if( check_ot( "road", ot_match_type::contains, nearby_point ) ) {
                 close = true;
@@ -5020,8 +5022,8 @@ void overmap::place_forest_trailheads()
 
     const auto try_place_trailhead_special = [&]( const tripoint_om_omt & trail_end,
     const om_direction::type & dir ) {
-        overmap_special_id trailhead = settings->forest_trail.trailheads.pick();
-        if( one_in( settings->forest_trail.trailhead_chance ) &&
+        overmap_special_id trailhead = settings_forest_trail.trailheads.pick();
+        if( one_in( settings_forest_trail.trailhead_chance ) &&
             trailhead_close_to_road( trail_end ) &&
             can_place_special( *trailhead, trail_end, dir, false ) ) {
             const city &nearest_city = get_nearest_city( trail_end );
@@ -5042,6 +5044,7 @@ void overmap::place_forest_trailheads()
 
 void overmap::place_forests()
 {
+    const region_settings_forest &settings_forest = settings->get_settings_forest();
     const oter_id default_oter_id( settings->default_oter[OVERMAP_DEPTH] );
     const om_noise::om_noise_layer_forest f( global_base_point(), g->get_seed() );
 
@@ -5059,9 +5062,9 @@ void overmap::place_forests()
             const float n = f.noise_at( p.xy() );
 
             // If the noise here meets our threshold, turn it into a forest.
-            if( n + forest_size_adjust > settings->overmap_forest.noise_threshold_forest_thick ) {
+            if( n + forest_size_adjust > settings_forest.noise_threshold_forest_thick ) {
                 ter_set( p, oter_forest_thick );
-            } else if( n + forest_size_adjust > settings->overmap_forest.noise_threshold_forest ) {
+            } else if( n + forest_size_adjust > settings_forest.noise_threshold_forest ) {
                 ter_set( p, oter_forest );
             }
         }
@@ -5101,6 +5104,7 @@ bool overmap::guess_has_lake( const point_abs_om &p, const double noise_threshol
 
 void overmap::place_swamps()
 {
+    const region_settings_forest &settings_forest = settings->get_settings_forest();
     // Buffer our river terrains by a variable radius and increment a counter for the location each
     // time it's included in a buffer. It's a floodplain that we'll then intersect later with some
     // noise to adjust how frequently it occurs.
@@ -5115,8 +5119,8 @@ void overmap::place_swamps()
                 std::vector<point_om_omt> buffered_points =
                     closest_points_first(
                         pos.xy(),
-                        rng( settings->overmap_forest.river_floodplain_buffer_distance_min,
-                             settings->overmap_forest.river_floodplain_buffer_distance_max ) );
+                        rng( settings_forest.river_floodplain_buffer_distance_min,
+                             settings_forest.river_floodplain_buffer_distance_max ) );
                 for( const point_om_omt &p : buffered_points )  {
                     if( !inbounds( p ) ) {
                         continue;
@@ -5142,12 +5146,12 @@ void overmap::place_swamps()
             // If this was a part of our buffered floodplain, and the noise here meets the threshold, and the one_in rng
             // triggers, then we should flood this location and make it a swamp.
             const bool should_flood = ( floodplain[x][y] > 0 && !one_in( floodplain[x][y] ) && f.noise_at( { x, y } )
-                                        > settings->overmap_forest.noise_threshold_swamp_adjacent_water );
+                                        > settings_forest.noise_threshold_swamp_adjacent_water );
 
             // If this location meets our isolated swamp threshold, regardless of floodplain values, we'll make it
             // into a swamp.
             const bool should_isolated_swamp = f.noise_at( pos.xy() ) >
-                                               settings->overmap_forest.noise_threshold_swamp_isolated;
+                                               settings_forest.noise_threshold_swamp_isolated;
             if( should_flood || should_isolated_swamp )  {
                 ter_set( pos, oter_forest_water );
             }
@@ -5329,6 +5333,7 @@ std::vector<tripoint_om_omt> overmap::get_border( const point_rel_om &direction,
 
 void overmap::calculate_forestosity()
 {
+    const region_settings_forest &settings_forest = settings->get_settings_forest();
     float northern_forest_increase = get_option<float>( "OVERMAP_FOREST_INCREASE_NORTH" );
     float eastern_forest_increase = get_option<float>( "OVERMAP_FOREST_INCREASE_EAST" );
     float western_forest_increase = get_option<float>( "OVERMAP_FOREST_INCREASE_WEST" );
@@ -5351,7 +5356,7 @@ void overmap::calculate_forestosity()
     // make sure forest size never totally overwhelms the map
     forest_size_adjust = std::min( forest_size_adjust,
                                    get_option<float>( "OVERMAP_FOREST_LIMIT" ) - static_cast<float>
-                                   ( settings->overmap_forest.noise_threshold_forest ) );
+                                   ( settings_forest.noise_threshold_forest ) );
 }
 
 void overmap::calculate_urbanity()
@@ -5567,7 +5572,7 @@ void overmap::build_cities()
 overmap_special_id overmap::pick_random_building_to_place( int town_dist, int town_size,
         const std::unordered_set<overmap_special_id> &placed_unique_buildings ) const
 {
-    const city_settings &city_spec = settings->city_spec;
+    const region_settings_city &city_spec = settings->get_settings_city();
     int shop_radius = city_spec.shop_radius;
     int park_radius = city_spec.park_radius;
 
@@ -5587,11 +5592,11 @@ overmap_special_id overmap::pick_random_building_to_place( int town_dist, int to
     }
     auto building_type_to_pick = [&]() {
         if( shop_normal > town_dist ) {
-            return std::mem_fn( &city_settings::pick_shop );
+            return std::mem_fn( &region_settings_city::pick_shop );
         } else if( park_normal > town_dist ) {
-            return std::mem_fn( &city_settings::pick_park );
+            return std::mem_fn( &region_settings_city::pick_park );
         } else {
-            return std::mem_fn( &city_settings::pick_house );
+            return std::mem_fn( &region_settings_city::pick_house );
         }
     };
     auto pick_building = building_type_to_pick();
@@ -5885,7 +5890,8 @@ bool overmap::build_lab(
 
 void overmap::place_ravines()
 {
-    if( settings->overmap_ravine.num_ravines == 0 ) {
+    const region_settings_ravine &settings_ravine = settings->get_settings_ravine();
+    if( settings_ravine.num_ravines == 0 ) {
         return;
     }
 
@@ -5905,20 +5911,24 @@ void overmap::place_ravines()
     // A path is generated for each of ravine, and all its constituent points are stored within the
     // rift_points set. In the code block below, the set is then used to determine edges and place the
     // actual terrain pieces of the ravine.
-    for( int n = 0; n < settings->overmap_ravine.num_ravines; n++ ) {
-        const point_rel_omt offset( rng( -settings->overmap_ravine.ravine_range,
-                                         settings->overmap_ravine.ravine_range ),
-                                    rng( -settings->overmap_ravine.ravine_range, settings->overmap_ravine.ravine_range ) );
+    const int ravine_range = settings_ravine.ravine_range;
+    const int ravine_width = settings_ravine.ravine_width;
+    const int ravine_depth = settings_ravine.ravine_depth;
+
+    for( int n = 0; n < settings_ravine.num_ravines; n++ ) {
+        const point_rel_omt offset( rng( -ravine_range,
+                                         ravine_range ),
+                                    rng( -ravine_range, ravine_range ) );
         const point_om_omt origin( rng( 0, OMAPX ), rng( 0, OMAPY ) );
         const point_om_omt destination = origin + offset;
-        if( !inbounds( destination, settings->overmap_ravine.ravine_width * 3 ) ) {
+        if( !inbounds( destination, ravine_width * 3 ) ) {
             continue;
         }
         const auto path = pf::greedy_path( origin, destination, point_om_omt( OMAPX, OMAPY ), estimate );
         for( const auto &node : path.nodes ) {
-            for( int i = 1 - settings->overmap_ravine.ravine_width; i < settings->overmap_ravine.ravine_width;
+            for( int i = 1 - ravine_width; i < ravine_width;
                  i++ ) {
-                for( int j = 1 - settings->overmap_ravine.ravine_width; j < settings->overmap_ravine.ravine_width;
+                for( int j = 1 - ravine_width; j < ravine_width;
                      j++ ) {
                     const point_om_omt n = node.pos + point( j, i );
                     if( inbounds( n, 1 ) ) {
@@ -5942,8 +5952,8 @@ void overmap::place_ravines()
                 }
             }
         }
-        for( int z = 0; z >= settings->overmap_ravine.ravine_depth; z-- ) {
-            if( z == settings->overmap_ravine.ravine_depth ) {
+        for( int z = 0; z >= ravine_depth; z-- ) {
+            if( z == ravine_depth ) {
                 ter_set( tripoint_om_omt( p, z ), edge ? rift_floor_edge : rift_floor );
             } else {
                 ter_set( tripoint_om_omt( p, z ), edge ? rift_edge : rift );
@@ -6033,6 +6043,8 @@ static pf::directed_path<point_om_omt> straight_path( const point_om_omt &source
 pf::directed_path<point_om_omt> overmap::lay_out_street( const overmap_connection &connection,
         const point_om_omt &source, om_direction::type dir, size_t len )
 {
+    const region_settings_highway &settings_highway = settings->get_settings_highway();
+
     auto valid_placement = [this]( const overmap_connection & connection, const tripoint_om_omt pos,
     om_direction::type dir ) {
         if( !inbounds( pos, 1 ) ) {
@@ -6084,7 +6096,7 @@ pf::directed_path<point_om_omt> overmap::lay_out_street( const overmap_connectio
                 if( are_parallel( dir, ter_id.obj().get_dir() ) ) {
                     break;
                 }
-                const int &highway_width = settings->overmap_highway.width_of_segments;
+                const int &highway_width = settings_highway.width_of_segments;
                 const tripoint_om_omt pos_after_highway = pos + om_direction::displace( dir, highway_width );
                 // Ensure we can pass fully through
                 if( !valid_placement( connection, pos_after_highway, dir ) ) {
@@ -7055,12 +7067,13 @@ void overmap::place_mongroups()
     }
     if( get_option<bool>( "OVERMAP_PLACE_OCEANS" ) ) {
         // Now place ocean mongroup. Weights may need to be altered.
+        const region_settings_ocean &settings_ocean = settings->get_settings_ocean();
         const om_noise::om_noise_layer_ocean f( global_base_point(), g->get_seed() );
         const point_abs_om this_om = pos();
-        const int northern_ocean = settings->overmap_ocean.ocean_start_north;
-        const int eastern_ocean = settings->overmap_ocean.ocean_start_east;
-        const int western_ocean = settings->overmap_ocean.ocean_start_west;
-        const int southern_ocean = settings->overmap_ocean.ocean_start_south;
+        const int northern_ocean = settings_ocean.ocean_start_north;
+        const int eastern_ocean = settings_ocean.ocean_start_east;
+        const int western_ocean = settings_ocean.ocean_start_west;
+        const int southern_ocean = settings_ocean.ocean_start_south;
 
         // noise threshold adjuster for deep ocean. Increase to make deep ocean move further from the shore.
         constexpr float DEEP_OCEAN_THRESHOLD_ADJUST = 1.25;
@@ -7081,7 +7094,7 @@ void overmap::place_mongroups()
                 // It's too soon!  Too soon for an ocean!!  ABORT!!!
                 return false;
             }
-            return f.noise_at( p ) + ocean_adjust > settings->overmap_ocean.noise_threshold_ocean *
+            return f.noise_at( p ) + ocean_adjust > settings_ocean.noise_threshold_ocean *
                    DEEP_OCEAN_THRESHOLD_ADJUST;
         };
 
