@@ -799,18 +799,22 @@ TEST_CASE( "monster_can_navigate_from_anywhere_in_reality_bubble", "[monster]" )
 
 TEST_CASE( "monster_can_navigate_from_overmap_to_reality_bubble", "[monster][hordes]" )
 {
+    map &m = get_map();
     // Remove interacting with the player as a complication.
     clear_map_and_put_player_underground();
     const tripoint_bub_ms destination{ 11 * 6, 11 * 6, 0 };
+    const tripoint_abs_ms spawn_location = m.get_abs( { -12, 66, 0 } );
     // Place monster on the local overmap.monster_map just outside the reality bubble.
-    map &m = get_map();
-    horde_entity &test_mon = overmap_buffer.spawn_monster( m.get_abs( { -12, 66, 0 } ),
-                             mon_test_zombie );
+    overmap_buffer.spawn_monster( spawn_location, mon_test_zombie );
     // Give the monster a goal location inside the bubble.
-    test_mon.destination = m.get_abs( destination );
-    test_mon.tracking_intensity = 100;
+    overmap_buffer.alert_entity( spawn_location, m.get_abs( destination ), 100 );
     // This reference will be invalidated once the monster spawns in the reality bubble,
     // don't access it again after calling move_hordes().
+    horde_entity *test_entity = overmap_buffer.entity_at( spawn_location );
+    REQUIRE( test_entity != nullptr );
+    REQUIRE( test_entity->is_active() );
+    REQUIRE( test_entity->destination == m.get_abs( destination ) );
+    REQUIRE( test_entity->tracking_intensity > 0 );
     // Process hordes and verify the monster appears on the reality bubble.
     int num_steps = 0;
     do {
@@ -831,16 +835,19 @@ TEST_CASE( "monster_can_navigate_from_overmap_to_reality_bubble_following_sound"
     const tripoint_bub_ms destination{ 11 * 6, 11 * 6, 0 };
     // Place monster on the local overmap.monster_map just outside the reality bubble.
     map &m = get_map();
-    horde_entity &test_mon = overmap_buffer.spawn_monster( m.get_abs( { -12, 66, 0 } ),
-                             mon_test_zombie );
+    tripoint_abs_ms entity_spawn_location( m.get_abs( { -12, 66, 0 } ) );
+    horde_entity &test_mon_initial = overmap_buffer.spawn_monster( entity_spawn_location,
+                                     mon_test_zombie );
     // Assert monster is not wandering
-    REQUIRE( test_mon.tracking_intensity == 0 );
+    REQUIRE( test_mon_initial.tracking_intensity == 0 );
     // Give the monster a goal location inside the bubble by making a loud noise.
     std::string test_sound( "test sound" );
     sound( destination, 200, sounds::sound_t::combat, test_sound );
     sounds::process_sounds();
     // Assert monster is wandering
-    REQUIRE( test_mon.tracking_intensity > 0 );
+    horde_entity *test_mon = overmap_buffer.entity_at( entity_spawn_location );
+    REQUIRE( test_mon != nullptr );
+    REQUIRE( test_mon->tracking_intensity > 0 );
     // This reference will be invalidated once the monster spawns in the reality bubble,
     // don't access it again after calling move_hordes().
     // Process hordes and verify the monster appears on the reality bubble.
@@ -904,10 +911,11 @@ TEST_CASE( "monster_cant_enter_reality_bubble_because_wall", "[monster][hordes]"
     const tripoint_bub_ms destination{ 11 * 6, 11 * 6, 0 };
     // Place monster on the local overmap.monster_map just outside the reality bubble.
     map &m = get_map();
-    horde_entity &test_mon = overmap_buffer.spawn_monster( m.get_abs( { -24, 66, 0 } ),
-                             mon_test_zombie );
-    // Give the monster a goal location inside the bubble.
-    test_mon.destination = m.get_abs( destination );
+    overmap_buffer.spawn_monster( m.get_abs( { -24, 66, 0 } ), mon_test_zombie );
+    // Give the monster a goal location inside the bubble by making a loud noise.
+    std::string test_sound( "test sound" );
+    sound( destination, 200, sounds::sound_t::combat, test_sound );
+    sounds::process_sounds();
     // Put a wall between the monster and the overmap so they can't enter.
     for( int i = -12; i < 12; ++i ) {
         overmap_buffer.set_passable( m.get_abs( { -12, 66 + i, 0 } ), false );

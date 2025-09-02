@@ -2249,29 +2249,27 @@ bool talk_function::companion_om_combat_check( const std::vector<npc_ptr> &group
         //return true;
     }
 
-    tripoint_abs_sm sm_tgt = project_to<coords::sm>( om_tgt );
-
     tinymap target_bay;
     target_bay.load( om_tgt, false );
     std::vector< monster * > monsters_around;
     for( int x = 0; x < 2; x++ ) {
         for( int y = 0; y < 2; y++ ) {
-            tripoint_abs_sm sm = sm_tgt + point( x, y );
             point_abs_om omp;
-            tripoint_om_sm local_sm;
-            std::tie( omp, local_sm ) = project_remain<coords::om>( sm );
+            tripoint_om_omt local_omt;
+            std::tie( omp, local_omt ) = project_remain<coords::om>( om_tgt );
             overmap &omi = overmap_buffer.get( omp );
 
-            auto monster_bucket = omi.monster_map.find( local_sm );
-            std::for_each( monster_bucket->second.begin(),
-                           monster_bucket->second.end(), [&monsters_around]( std::pair<const tripoint_abs_ms, horde_entity>
-            &monster_entry ) {
-                // TODO: figure out hwat to do if this involves lightweight horde entities?
-                if( monster_entry.second.monster_data ) {
-                    monster &this_monster = *monster_entry.second.monster_data;
-                    monsters_around.push_back( &this_monster );
+            // TODO: Interact with dormant horde monsters as well?
+            for( std::unordered_map<tripoint_abs_ms, horde_entity> *bucket :
+                 omi.hordes.entity_group_at( local_omt ) ) {
+                for( std::pair<const tripoint_abs_ms, horde_entity> &monster_entry : *bucket ) {
+                    // TODO: figure out hwat to do if this involves lightweight horde entities?
+                    if( monster_entry.second.monster_data ) {
+                        monster &this_monster = *monster_entry.second.monster_data;
+                        monsters_around.push_back( &this_monster );
+                    }
                 }
-            } );
+            }
         }
     }
     float avg_survival = 0.0f;

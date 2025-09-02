@@ -883,7 +883,8 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
 
             if( vision != om_vision_level::unseen ) {
                 if( draw_overlays && uistate.overmap_debug_mongroup ) {
-                    std::vector<std::map<tripoint_abs_ms, horde_entity>*> hordes = overmap_buffer.hordes_at( omp );
+                    std::vector<std::unordered_map<tripoint_abs_ms, horde_entity>*> hordes = overmap_buffer.hordes_at(
+                                omp );
                     if( !hordes.empty() ) {
                         draw_from_id_string( "mon_zombie", omp, 0, 0, lit_level::LIT, false );
                     }

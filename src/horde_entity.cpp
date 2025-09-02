@@ -27,3 +27,8 @@ const mtype *horde_entity::get_type() const
 {
     return type_id ? type_id : monster_data->type;
 }
+
+bool horde_entity::is_active() const
+{
+    return tracking_intensity > 0;
+}

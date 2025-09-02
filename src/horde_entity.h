@@ -22,6 +22,7 @@ struct horde_entity {
     horde_entity( const mtype_id &original );
     // Retrieve the mtype whether it's a light or heavy entity.
     const mtype *get_type() const;
+    bool is_active() const;
 
     // Data here related to processing while acting as a horde entity.
     // a glaring omission is location, the parent horde container knows that.

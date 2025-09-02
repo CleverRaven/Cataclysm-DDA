@@ -31,6 +31,7 @@
 #include "cube_direction.h"
 #include "enums.h"
 #include "hash_utils.h"
+#include "horde_map.h"
 #include "map_scale_constants.h"
 #include "mapgendata.h"
 #include "mdarray.h"
@@ -377,7 +378,9 @@ class overmap
         void spawn_monsters( const tripoint_om_sm &p, std::vector<monster> &monsters );
         // Spawn monsters from a mongroup on a specified submap.
         void spawn_mongroup( const tripoint_om_sm &p, const mongroup_id &type, int count );
-        std::vector<std::map<tripoint_abs_ms, horde_entity>*> hordes_at( const tripoint_om_omt &p );
+        horde_entity *entity_at( const tripoint_om_ms &p );
+        std::vector<std::unordered_map<tripoint_abs_ms, horde_entity>*> hordes_at(
+            const tripoint_om_omt &p );
         /**
          * Getter for overmap scents.
          * @returns a reference to a scent_trace from the requested location.
@@ -459,7 +462,6 @@ class overmap
     public:
         /** Unit test enablers to check if a given mongroup is present. */
         bool mongroup_check( const mongroup &candidate ) const;
-        bool monster_check( const std::pair<tripoint_om_sm, monster> &candidate ) const;
 
         // TODO: make private
         std::vector<radio_tower> radios;
@@ -554,12 +556,7 @@ class overmap
          * (adding it to the creature tracker and putting it onto the map).
          * This stores each submap worth of monsters in a seperate tree.
          */
-        // As this container holds a large number of entries (many thousands per overmap),
-        // there are a number of optimizations that are worth investigating.
-        // One is minimizing the sizes of the keys.  The outer key could be tripoint_om_sm<byte>
-        // and the inner key could be a point_omt_ms<byte>, shrinking their memory footprint from
-        // 12 bytes each to 3 and two bytes each respectively.
-        std::unordered_map <tripoint_om_sm, std::map<tripoint_abs_ms, horde_entity>> monster_map;
+        horde_map hordes;
 
         // parse data in an opened overmap file
         void unserialize( const cata_path &file_name, std::istream &fin );
@@ -589,6 +586,8 @@ class overmap
         const city &get_invalid_city() const;
 
         void signal_hordes( const tripoint_rel_sm &p, int sig_power );
+        void alert_entity( const tripoint_om_ms &location, const tripoint_abs_ms &destination,
+                           int intensity );
         void process_mongroups();
         void move_hordes();
 
