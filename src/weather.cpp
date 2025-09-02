@@ -924,8 +924,8 @@ weather_manager::weather_manager()
 const weather_generator &weather_manager::get_cur_weather_gen() const
 {
     const overmap &om = g->get_cur_om();
-    const regional_settings &settings = om.get_settings();
-    return settings.weather;
+    const region_settings &settings = om.get_settings();
+    return *settings.weather;
 }
 
 void weather_manager::update_weather()
