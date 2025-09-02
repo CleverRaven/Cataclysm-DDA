@@ -2206,7 +2206,9 @@
     "starting_trait": true,
     "cancels": [ "ROBUST", "RESTRICTED", "RESISTANT_GENETICS" ],
     "valid": false,
-    "vitamin_rates": [ [ "instability", -60 ] ]
+    "vitamin_rates": [ [ "instability", -60 ] ],
+    "category": [ "CHIMERA" ],
+    "threshreq": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -7778,6 +7780,7 @@
     "purifiable": false,
     "description": "Your body alters itself rapidly, and without your intervention or conscious control.",
     "prereqs": [ "UNSTABLE", "MUT_JUNKIE" ],
+    "changes_to": [ "CHAOTIC_BAD" ],
     "category": [ "CHIMERA" ]
   },
   {
