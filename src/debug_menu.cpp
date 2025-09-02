@@ -4305,9 +4305,9 @@ void debug()
                         // Accumulate monster group counts
                         mongroup_counts[mgp->type] += mgp->population;
                     }
-                    std::vector<std::map<tripoint_abs_ms, horde_entity>*> hordes = overmap_buffer.hordes_at(
+                    std::vector<std::unordered_map<tripoint_abs_ms, horde_entity>*> hordes = overmap_buffer.hordes_at(
                                 omt_cursor );
-                    for( std::map<tripoint_abs_ms, horde_entity> *horde_in_omt : hordes ) {
+                    for( std::unordered_map<tripoint_abs_ms, horde_entity> *horde_in_omt : hordes ) {
                         for( std::pair<const tripoint_abs_ms, horde_entity> &monster_entry : *horde_in_omt ) {
                             horde_counts[monster_entry.second.get_type()->id]++;
                         }
