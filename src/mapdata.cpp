@@ -150,6 +150,34 @@ int_id<furn_t>::int_id( const string_id<furn_t> &id ) : _id( id.id() )
 {
 }
 
+ter_furn_id::ter_furn_id() : ter( ter_str_id::NULL_ID().id() ),
+    furn( furn_str_id::NULL_ID().id() )
+{
+}
+
+ter_furn_id::ter_furn_id( std::string name )
+{
+    resolve( name );
+}
+
+void ter_furn_id::resolve( const std::string &name )
+{
+    ter_str_id temp_ter( name );
+    furn_str_id temp_furn( name );
+    if( temp_ter.is_valid() ) {
+        ter = ter_id( name );
+    }
+    if( temp_furn.is_valid() ) {
+        furn = furn_id( name );
+    }
+}
+
+void ter_furn_id::deserialize( const JsonValue &jo )
+{
+    std::string name = jo.get_string();
+    resolve( name );
+}
+
 namespace io
 {
 

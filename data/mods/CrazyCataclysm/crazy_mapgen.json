@@ -40,5 +40,36 @@
       "field": { "extras": { "mx_shia": 1 } },
       "road": { "extras": { "mx_jackson": 1 } }
     }
+  },
+  {
+    "type": "region_overlay_new",
+    "id": "default_crazy",
+    "regions": [ "all" ],
+    "map_extras": "default_crazy"
+  },
+  {
+    "type": "region_settings_map_extras",
+    "id": "default_crazy",
+    "extras": [ "forest_crazy", "forest_thick_crazy", "field_crazy", "road_crazy" ]
+  },
+  {
+    "type": "map_extra_collection",
+    "id": "forest_crazy",
+    "extras": [ [ "mx_shia", 1 ] ]
+  },
+  {
+    "type": "map_extra_collection",
+    "id": "forest_thick_crazy",
+    "extras": [ [ "mx_shia", 1 ] ]
+  },
+  {
+    "type": "map_extra_collection",
+    "id": "field_crazy",
+    "extras": [ [ "mx_shia", 1 ] ]
+  },
+  {
+    "type": "map_extra_collection",
+    "id": "road_crazy",
+    "extras": [ [ "mx_jackson", 1 ] ]
   }
 ]

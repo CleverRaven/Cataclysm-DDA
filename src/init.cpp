@@ -401,7 +401,35 @@ void DynamicDataLoader::initialize()
     add( "map_extra", &MapExtras::load );
 
     add( "region_settings", &load_region_settings );
-    add( "region_overlay", &load_region_overlay );
+    add( "region_overlay", &load_region_overlay_new );
+
+    add( "region_settings_new", &region_settings::load_region_settings );
+    add( "region_settings_river", &region_settings_river::load_region_settings_river );
+    add( "region_settings_lake", &region_settings_lake::load_region_settings_lake );
+    add( "region_settings_ocean", &region_settings_ocean::load_region_settings_ocean );
+    add( "region_settings_ravine", &region_settings_ravine::load_region_settings_ravine );
+    add( "region_settings_forest", &region_settings_forest::load_region_settings_forest );
+    add( "region_settings_highway", &region_settings_highway::load_region_settings_highway );
+    add( "region_settings_forest_trail",
+         &region_settings_forest_trail::load_region_settings_forest_trail );
+    add( "region_settings_forest_mapgen",
+         &region_settings_forest_mapgen::load_region_settings_forest_mapgen );
+    add( "forest_biome_mapgen",
+         &forest_biome_mapgen::load_forest_biome_mapgen );
+    add( "region_settings_city",
+         &region_settings_city::load_region_settings_city );
+    add( "map_extra_collection",
+         &map_extra_collection::load_map_extra_collection );
+    add( "region_settings_map_extras",
+         &region_settings_map_extras::load_region_settings_map_extras );
+    add( "region_settings_terrain_furniture",
+         &region_settings_terrain_furniture::load_region_settings_terrain_furniture );
+    add( "region_terrain_furniture",
+         &region_terrain_furniture::load_region_terrain_furniture );
+    add( "forest_biome_feature",
+         &forest_biome_feature::load_forest_biome_feature );
+    add( "region_overlay_new", &load_region_overlay_new );
+
     add( "ITEM_BLACKLIST", []( const JsonObject & jo ) {
         item_controller->load_item_blacklist( jo );
     } );
@@ -673,6 +701,16 @@ void DynamicDataLoader::unload_data()
     mood_face::reset();
     speed_description::reset();
     quality::reset();
+    region_settings_forest::reset();
+    region_settings_river::reset();
+    region_settings_lake::reset();
+    region_settings_ocean::reset();
+    region_settings_highway::reset();
+    region_settings_forest_trail::reset();
+    region_settings_forest_mapgen::reset();
+    forest_biome_mapgen::reset();
+    region_settings_city::reset();
+    map_extra_collection::reset();
     reset_monster_adjustment();
     recipe_dictionary::reset();
     recipe_group::reset();
