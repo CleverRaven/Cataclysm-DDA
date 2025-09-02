@@ -1091,7 +1091,7 @@ bool zzip::delete_files( std::unordered_set<std::filesystem::path, std_fs_path_h
             } else {
                 content_end += tombstone_size;
             }
-            return errored;
+            return !errored;
         }
         return false;
     } ),
@@ -1102,7 +1102,7 @@ bool zzip::delete_files( std::unordered_set<std::filesystem::path, std_fs_path_h
         return false;
     }
 
-    return errored;
+    return !errored;
 }
 
 bool zzip::compact( double bloat_factor )
