@@ -177,7 +177,9 @@ bool rename_file( const std::filesystem::path &old_path, const std::filesystem::
 {
     setFsNeedsSync();
     std::error_code ec;
-    std::filesystem::rename( old_path, new_path, ec );
+    for( int attempts = 0; !ec && attempts < 3; ++attempts ) {
+        std::filesystem::rename( old_path, new_path, ec );
+    }
     return !ec;
 }
 
