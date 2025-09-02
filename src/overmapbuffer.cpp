@@ -490,8 +490,9 @@ bool overmapbuffer::has_horde( const tripoint_abs_omt &p )
 int overmapbuffer::get_horde_size( const tripoint_abs_omt &p )
 {
     int horde_size = 0;
-    std::vector<std::map<tripoint_abs_ms, horde_entity>*> hordes = overmap_buffer.hordes_at( p );
-    for( std::map<tripoint_abs_ms, horde_entity> *horde_group : hordes ) {
+    std::vector<std::unordered_map<tripoint_abs_ms, horde_entity>*> hordes = overmap_buffer.hordes_at(
+                p );
+    for( std::unordered_map<tripoint_abs_ms, horde_entity> *horde_group : hordes ) {
         horde_size += horde_group->size();
     }
 
@@ -642,6 +643,19 @@ void overmapbuffer::signal_hordes( const tripoint_abs_sm &center, const int sig_
     }
 }
 
+void overmapbuffer:: alert_entity( const tripoint_abs_ms &location,
+                                   const tripoint_abs_ms &destination, int intensity )
+{
+    point_abs_om loc;
+    tripoint_om_ms offset;
+    std::tie( loc, offset ) = project_remain<coords::om>( location );
+    overmap *om = get_existing( loc );
+    if( om == nullptr ) {
+        return;
+    }
+    om->alert_entity( offset, destination, intensity );
+}
+
 void overmapbuffer::signal_nemesis( const tripoint_abs_sm &p )
 {
 
@@ -665,7 +679,7 @@ void overmapbuffer::clear_mongroups()
 {
     for( std::pair<const point_abs_om, std::unique_ptr<overmap>> &omp : overmaps ) {
         omp.second->clear_mon_groups();
-        omp.second->monster_map.clear();
+        omp.second->hordes.clear();
     }
 }
 
@@ -1937,33 +1951,35 @@ void overmapbuffer::spawn_monster( const tripoint_abs_sm &p, bool spawn_nonlocal
     tripoint_om_sm current_submap_loc;
     std::tie( omp, current_submap_loc ) = project_remain<coords::om>( p );
     overmap &om = get( omp );
-    auto monster_bucket = om.monster_map.find( current_submap_loc );
-    if( monster_bucket == om.monster_map.end() ) {
+    std::vector<std::unordered_map<tripoint_abs_ms, horde_entity>*> monster_bucket =
+        om.hordes.entity_group_at( current_submap_loc );
+    if( monster_bucket.empty() ) {
         return;
     }
-    std::for_each( monster_bucket->second.begin(), monster_bucket->second.end(),
-    [&]( std::pair<const tripoint_abs_ms, horde_entity> &monster_entry ) {
-        map &here = get_map();
-        const tripoint_bub_ms local = here.get_bub( monster_entry.first );
-        // The monster position must be local to the main map when added to the game
-        if( !spawn_nonlocal ) {
-            cata_assert( here.inbounds( local ) );
+    map &here = get_map();
+    for( std::unordered_map<tripoint_abs_ms, horde_entity> *monster_tree : monster_bucket ) {
+        for( std::pair<const tripoint_abs_ms, horde_entity> &monster_entry : *monster_tree ) {
+            const tripoint_bub_ms local = here.get_bub( monster_entry.first );
+            // The monster position must be local to the main map when added to the game
+            if( !spawn_nonlocal ) {
+                cata_assert( here.inbounds( local ) );
+            }
+            // TODO: This needs to verify that the monster can be placed, otherwise it will fail with a debugmsg in creature_tracker::add()
+            monster *placed = nullptr;
+            if( monster_entry.second.monster_data ) {
+                placed = g->place_critter_around( make_shared_fast<monster>
+                                                  ( *monster_entry.second.monster_data ),
+                                                  local, 1, true );
+                // TODO: make sure entity data such as destination is synched
+            } else {
+                placed = g->place_critter_around( monster_entry.second.type_id->id, local, 1 );
+            }
+            if( placed ) {
+                placed->on_load();
+            }
         }
-        // This needs to verify that the monster can be placed, otherwise it will fail with a debugmsg in creature_tracker::add()
-        monster *placed = nullptr;
-        if( monster_entry.second.monster_data ) {
-            placed = g->place_critter_around( make_shared_fast<monster>
-                                              ( *monster_entry.second.monster_data ),
-                                              local, 1, true );
-            // TODO: make sure entity data such as destination is synched
-        } else {
-            placed = g->place_critter_around( monster_entry.second.type_id->id, local, 1 );
-        }
-        if( placed ) {
-            placed->on_load();
-        }
-    } );
-    om.monster_map.erase( monster_bucket );
+    }
+    om.hordes.clear_chunk( current_submap_loc );
 }
 
 void overmapbuffer::spawn_mongroup( const tripoint_abs_sm &p, const mongroup_id &type, int count )
@@ -1977,23 +1993,28 @@ void overmapbuffer::spawn_mongroup( const tripoint_abs_sm &p, const mongroup_id 
 
 void overmapbuffer::despawn_monster( const monster &critter )
 {
-    // Get the overmap coordinates and get the overmap, sm is now local to that overmap
-    point_abs_om omp;
-    tripoint_om_sm sm;
-    std::tie( omp, sm ) = project_remain<coords::om>( critter.pos_abs_sm() );
-    overmap &om = get( omp );
+    tripoint_abs_om omp = project_to<coords::om>( critter.pos_abs() );
+    overmap &om = get( omp.xy() );
     // Store the monster using coordinates local to the overmap
 
     if( critter.is_nemesis() ) {
         //if the monster is the 'hunted' trait's nemesis, it becomes an overmap horde
         om.place_nemesis( critter.pos_abs_omt() );
     } else {
-        // TODO, this should be emplace?
-        om.monster_map[sm].insert( std::make_pair( critter.pos_abs(), horde_entity( critter ) ) );
+        om.hordes.spawn_entity( critter.pos_abs(), critter );
     }
 }
 
-std::vector<std::map<tripoint_abs_ms, horde_entity>*> overmapbuffer::hordes_at(
+horde_entity *overmapbuffer::entity_at( const tripoint_abs_ms &p )
+{
+    point_abs_om omp;
+    tripoint_om_ms oms;
+    std::tie( omp, oms ) = project_remain<coords::om>( p );
+    overmap &om = get( omp );
+    return om.entity_at( oms );
+}
+
+std::vector<std::unordered_map<tripoint_abs_ms, horde_entity>*> overmapbuffer::hordes_at(
     const tripoint_abs_omt &p )
 {
     point_abs_om omp;

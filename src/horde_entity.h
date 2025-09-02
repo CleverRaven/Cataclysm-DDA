@@ -17,11 +17,12 @@ struct mtype;
 // Need to investigate reducing the size of members pretty agresively.
 struct horde_entity {
     // Create a heavy entity based on an existing monster.
-    horde_entity( const monster &original );
+    explicit horde_entity( const monster &original );
     // Create a lightweight entity based on a monster id.
-    horde_entity( const mtype_id &original );
+    explicit horde_entity( const mtype_id &original );
     // Retrieve the mtype whether it's a light or heavy entity.
     const mtype *get_type() const;
+    bool is_active() const;
 
     // Data here related to processing while acting as a horde entity.
     // a glaring omission is location, the parent horde container knows that.

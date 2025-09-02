@@ -682,14 +682,13 @@ void overmap::unserialize( const JsonObject &jsobj )
                 monster new_monster;
                 monster_location.deserialize( monster_map_json.next_value() );
                 new_monster.deserialize( monster_map_json.next_object(), project_combine( loc, monster_location ) );
-                monster_map[monster_location].emplace( new_monster.pos_abs(), new_monster );
+                hordes.spawn_entity( new_monster.pos_abs(), new_monster );
             }
         } else if( name == "horde_map" ) {
             JsonArray monster_map_json = om_member;
             while( monster_map_json.has_more() ) {
                 tripoint_abs_ms monster_location;
-                std::map<const tripoint_abs_ms, horde_entity>::iterator result;
-                bool inserted;
+                std::unordered_map<tripoint_abs_ms, horde_entity>::iterator result;
                 monster_location.deserialize( monster_map_json.next_value() );
                 point_abs_om omp;
                 tripoint_om_sm monster_submap;
@@ -697,11 +696,11 @@ void overmap::unserialize( const JsonObject &jsobj )
                                                   ( monster_location ) );
                 if( monster_map_json.test_string() ) {
                     mtype_id monster_id( monster_map_json.next_string() );
-                    std::tie( result, inserted ) = monster_map[monster_submap].emplace( monster_location, monster_id );
+                    result = hordes.spawn_entity( monster_location, monster_id );
                 } else {
                     monster new_monster;
                     new_monster.deserialize( monster_map_json.next_object() );
-                    std::tie( result, inserted ) = monster_map[monster_submap].emplace( monster_location, new_monster );
+                    result = hordes.spawn_entity( monster_location, new_monster );
                 }
 
                 result->second.destination.deserialize( monster_map_json.next_value() );
@@ -1462,20 +1461,18 @@ void overmap::serialize( std::ostream &fout ) const
 
     json.member( "horde_map" );
     json.start_array();
-    for( auto &monster_submap : monster_map ) {
-        for( auto &monster_entry : monster_submap.second ) {
-            // Consider projecting this to tripoint_om_ms which will be slightly smaller.
-            monster_entry.first.serialize( json );
-            if( monster_entry.second.monster_data ) {
-                monster_entry.second.monster_data->serialize( json );
-            } else {
-                json.write( monster_entry.second.type_id->id.str() );
-            }
-            monster_entry.second.destination.serialize( json );
-            json.write( monster_entry.second.tracking_intensity );
-            monster_entry.second.last_processed.serialize( json );
-            json.write( monster_entry.second.moves );
+    for( const auto &monster_entry : hordes ) {
+        // Consider projecting this to tripoint_om_ms which will be slightly smaller.
+        monster_entry.first.serialize( json );
+        if( monster_entry.second.monster_data ) {
+            monster_entry.second.monster_data->serialize( json );
+        } else {
+            json.write( monster_entry.second.type_id->id.str() );
         }
+        monster_entry.second.destination.serialize( json );
+        json.write( monster_entry.second.tracking_intensity );
+        monster_entry.second.last_processed.serialize( json );
+        json.write( monster_entry.second.moves );
     }
     json.end_array();
     fout << std::endl;
