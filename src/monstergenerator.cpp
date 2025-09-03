@@ -8,7 +8,6 @@
 #include <unordered_set>
 #include <utility>
 
-#include "assign.h"
 #include "cached_options.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -41,6 +40,8 @@
 #include "weakpoint.h"
 
 struct itype;
+
+static const harvest_id harvest_list_human( "human" );
 
 static const material_id material_flesh( "flesh" );
 
@@ -852,8 +853,9 @@ void mtype::load( const JsonObject &jo, const std::string_view src )
 
     optional( jo, was_loaded, "bodytype", bodytype );
     optional( jo, was_loaded, "color", color, nc_color_reader{}, c_white );
-    optional( jo, was_loaded, "volume", volume, units_bound_reader<units::volume> { 0_ml } );
-    optional( jo, was_loaded, "weight", weight, units_bound_reader<units::mass> { 0_gram } );
+    optional( jo, was_loaded, "volume", volume, units_bound_reader<units::volume> { 0_ml }, 62499_ml );
+    optional( jo, was_loaded, "weight", weight, units_bound_reader<units::mass> { 0_gram },
+              81499_gram );
 
     optional( jo, was_loaded, "phase", phase, make_flag_reader( gen.phase_map, "phase id" ),
               phase_id::SOLID );
@@ -955,7 +957,7 @@ void mtype::load( const JsonObject &jo, const std::string_view src )
               weighted_string_id_reader<efftype_id, int> { 1 } );
 
     optional( jo, was_loaded, "starting_ammo", starting_ammo );
-    assign( jo, "luminance", luminance, true );
+    optional( jo, was_loaded, "luminance", luminance, 0 );
     optional( jo, was_loaded, "revert_to_itype", revert_to_itype, itype_id() );
     optional( jo, was_loaded, "broken_itype", broken_itype, itype_id() );
     optional( jo, was_loaded, "mech_weapon", mech_weapon, itype_id() );
@@ -987,13 +989,12 @@ void mtype::load( const JsonObject &jo, const std::string_view src )
                                          "death_drops for mtype " + id.str() );
     }
 
-    assign( jo, "harvest", harvest );
-    // FIXME: assign doesn't trigger issues that optional does???
-    //optional( jo, was_loaded, "harvest", harvest, harvest_id::NULL_ID() );
+    // FIXME: there's code to check if harvest is null, which will never trigger as it defaults to human
+    optional( jo, was_loaded, "harvest", harvest, harvest_list_human );
 
     optional( jo, was_loaded, "dissect", dissect );
 
-    optional( jo, was_loaded, "decay", decay );
+    optional( jo, was_loaded, "decay", decay, harvest_id::NULL_ID() );
 
     optional( jo, was_loaded, "shearing", shearing );
 
@@ -1131,49 +1132,7 @@ void mtype::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "burn_into", burn_into, string_id_reader<::mtype> {},
               mtype_id::NULL_ID() );
 
-    if( jo.has_member( "flags" ) ) {
-        pre_flags_.clear();
-        if( jo.has_string( "flags" ) ) {
-            pre_flags_.emplace( jo.get_string( "flags" ) );
-        } else {
-            for( JsonValue jval : jo.get_array( "flags" ) ) {
-                pre_flags_.emplace( jval.get_string() );
-            }
-        }
-    } else {
-        if( jo.has_member( "extend" ) ) {
-            JsonObject exjo = jo.get_object( "extend" );
-            exjo.allow_omitted_members();
-            if( exjo.has_member( "flags" ) ) {
-                if( exjo.has_string( "flags" ) ) {
-                    pre_flags_.emplace( exjo.get_string( "flags" ) );
-                } else {
-                    for( JsonValue jval : exjo.get_array( "flags" ) ) {
-                        pre_flags_.emplace( jval.get_string() );
-                    }
-                }
-            }
-        }
-        if( jo.has_member( "delete" ) ) {
-            JsonObject deljo = jo.get_object( "delete" );
-            deljo.allow_omitted_members();
-            if( deljo.has_member( "flags" ) ) {
-                if( deljo.has_string( "flags" ) ) {
-                    auto iter = pre_flags_.find( mon_flag_str_id( deljo.get_string( "flags" ) ) );
-                    if( iter != pre_flags_.end() ) {
-                        pre_flags_.erase( iter );
-                    }
-                } else {
-                    for( JsonValue jval : deljo.get_array( "flags" ) ) {
-                        auto iter = pre_flags_.find( mon_flag_str_id( jval.get_string() ) );
-                        if( iter != pre_flags_.end() ) {
-                            pre_flags_.erase( iter );
-                        }
-                    }
-                }
-            }
-        }
-    }
+    optional( jo, was_loaded, "flags", pre_flags_, string_id_reader<mon_flag> {} );
 
     // Can't calculate yet - we want all flags first
     optional( jo, was_loaded, "bash_skill", bash_skill, -1 );
@@ -1212,49 +1171,7 @@ void species_type::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "description", description );
     optional( jo, was_loaded, "footsteps", footsteps, to_translation( "footsteps." ) );
 
-    if( jo.has_member( "flags" ) ) {
-        flags.clear();
-        if( jo.has_string( "flags" ) ) {
-            flags.emplace( jo.get_string( "flags" ) );
-        } else {
-            for( JsonValue jval : jo.get_array( "flags" ) ) {
-                flags.emplace( jval.get_string() );
-            }
-        }
-    } else {
-        if( jo.has_member( "extend" ) ) {
-            JsonObject exjo = jo.get_object( "extend" );
-            exjo.allow_omitted_members();
-            if( exjo.has_member( "flags" ) ) {
-                if( exjo.has_string( "flags" ) ) {
-                    flags.emplace( exjo.get_string( "flags" ) );
-                } else {
-                    for( JsonValue jval : exjo.get_array( "flags" ) ) {
-                        flags.emplace( jval.get_string() );
-                    }
-                }
-            }
-        }
-        if( jo.has_member( "delete" ) ) {
-            JsonObject deljo = jo.get_object( "delete" );
-            deljo.allow_omitted_members();
-            if( deljo.has_member( "flags" ) ) {
-                if( deljo.has_string( "flags" ) ) {
-                    auto iter = flags.find( mon_flag_str_id( deljo.get_string( "flags" ) ) );
-                    if( iter != flags.end() ) {
-                        flags.erase( iter );
-                    }
-                } else {
-                    for( JsonValue jval : deljo.get_array( "flags" ) ) {
-                        auto iter = flags.find( mon_flag_str_id( jval.get_string() ) );
-                        if( iter != flags.end() ) {
-                            flags.erase( iter );
-                        }
-                    }
-                }
-            }
-        }
-    }
+    optional( jo, was_loaded, "flags", flags, string_id_reader<mon_flag> {} );
 
     const auto trigger_reader = enum_flags_reader<mon_trigger> { "monster trigger" };
     optional( jo, was_loaded, "anger_triggers", anger, trigger_reader );
@@ -1389,12 +1306,10 @@ mtype_special_attack MonsterGenerator::create_actor( const JsonObject &obj,
 
 void mattack_actor::load( const JsonObject &jo, const std::string &src )
 {
-    // Legacy support
-    if( !jo.has_string( "id" ) ) {
-        id = jo.get_string( "type" );
+    if( jo.has_string( "id" ) ) {
+        mandatory( jo, false, "id", id );
     } else {
-        // Loading ids can't be strict at the moment, since it has to match the stored version
-        assign( jo, "id", id, false );
+        mandatory( jo, false, "type", id );
     }
 
     mandatory( jo, was_loaded, "cooldown", cooldown );
