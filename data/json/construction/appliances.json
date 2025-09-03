@@ -899,5 +899,17 @@
     "pre_special": "check_empty",
     "post_special": "done_appliance",
     "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_oil_press_industrial",
+    "group": "place_oil_press_industrial",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "oil_press_electric", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
   }
 ]

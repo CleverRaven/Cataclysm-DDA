@@ -527,5 +527,12 @@
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "deep fryer" }
+  },
+  {
+    "id": "fake_oil_press_industrial",
+    "copy-from": "fake_appliance_tool",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "industrial oil press", "str_pl": "industrial oil presses" }
   }
 ]

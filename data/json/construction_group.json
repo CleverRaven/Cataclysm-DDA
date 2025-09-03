@@ -2124,5 +2124,10 @@
     "type": "construction_group",
     "id": "place_deep_fryer",
     "name": "Place a deep fryer"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_oil_press_industrial",
+    "name": "Place an industrial oil press"
   }
 ]
