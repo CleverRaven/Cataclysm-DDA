@@ -37,7 +37,7 @@ struct pick_info {
  */
 bool do_pickup( std::vector<item_location> &targets, std::vector<int> &quantities,
                 bool autopickup, bool &stash_successful, Pickup::pick_info &info );
-bool query_thief();
+bool query_thief( const item &it );
 
 enum from_where : int {
     from_cargo = 0,

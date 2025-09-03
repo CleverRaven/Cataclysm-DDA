@@ -207,46 +207,39 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "armor",
-    "name": { "str_sp": "chitinous boots (pair)" },
-    "description": "Boots made from the exoskeletons of insects.",
-    "weight": "1620 g",
-    "volume": "4250 ml",
+    "name": { "str_sp": "chitinous scale foot covers (pair)" },
+    "description": "Sections of chitin attached to a leather backing meant to drape over existing foot wear.  Due to the nature of chitin, it cannot cover everything and isn't very protective.  Seems like it was made out of desperation.",
+    "weight": "239 g",
+    "volume": "400 ml",
+    "//": "Human surface area is roughly 18600 cm^2, based off of rules of 9 the feet are 3% leaving us with 558 cm^2.",
+    "//1": "Chitin has a density of 1.37g/cm^3, thickness of 0.32 cm, coverage of 80% leaves us with 196 grams.",
+    "//2": "Leather has a density of 1.1g/cm^3, thickness of 0.07 cm, coverage of 100% leaves us with 43 grams.",
+    "//3": "Totalled up this is 239 grams with some rounding",
     "price": "135 USD",
-    "price_postapoc": "12 USD 50 cent",
-    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
-    "material": [ "chitin" ],
+    "price_postapoc": "50 cent",
+    "material": [ { "type": "chitin", "portion": 35 }, { "type": "leather", "portion": 1 } ],
     "symbol": "[",
-    "looks_like": "boots_bone",
     "color": "green",
     "warmth": 10,
-    "material_thickness": 4,
-    "environmental_protection": 3,
-    "flags": [ "STURDY", "VARSIZE", "WATERPROOF" ],
+    "flags": [ "OUTER" ],
     "armor": [
       {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [
-          "foot_heel_r",
-          "foot_heel_l",
-          "foot_arch_r",
-          "foot_arch_l",
-          "foot_toes_l",
-          "foot_toes_r",
-          "foot_sole_l",
-          "foot_sole_r"
+        "material": [
+          { "type": "chitin", "covered_by_mat": 80, "thickness": 3.2 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.7 }
         ],
-        "encumbrance": 14,
-        "coverage": 95
-      },
-      { "coverage": 75, "covers": [ "foot_l", "foot_r" ], "specifically_covers": [ "foot_ankle_l", "foot_ankle_r" ] }
-    ],
-    "melee_damage": { "bash": 2 }
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_r", "foot_ankle_l", "foot_toes_l", "foot_toes_r" ],
+        "encumbrance": 9,
+        "coverage": 100
+      }
+    ]
   },
   {
     "id": "xl_boots_chitin",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str_sp": "chitinous boots (pair)" },
+    "name": { "str_sp": "chitinous scale foot covers (pair)" },
     "copy-from": "boots_chitin",
     "proportional": { "weight": 1.25, "volume": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
@@ -257,7 +250,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "boots_chitin",
     "looks_like": "boots_chitin",
-    "name": { "str_sp": "chitinous boots (pair)" },
+    "name": { "str_sp": "chitinous scale foot covers (pair)" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
@@ -1932,7 +1925,7 @@
     "category": "armor",
     "name": { "str_sp": "motorcycle boots (pair)" },
     "description": "A pair of durable boots used by dirt bikers and motorcyclists.",
-    "weight": "2125 g",
+    "weight": "1800 g",
     "volume": "2 L",
     "price": "80 USD",
     "price_postapoc": "7 USD 50 cent",
@@ -3449,7 +3442,7 @@
     "symbol": "[",
     "material": "cotton",
     "volume": "600 ml",
-    "weight": "500 g",
+    "weight": "300 g",
     "flags": [ "VARSIZE" ],
     "warmth": 2,
     "armor": [

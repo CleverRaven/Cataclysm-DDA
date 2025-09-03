@@ -6,7 +6,7 @@
     "required_event": "monster_takes_damage",
     "condition": { "and": [ "has_beta", "has_alpha", { "npc_has_flag": "MELEE_PERK_PRESSURE_STRIKES" }, { "not": "npc_has_weapon" } ] },
     "effect": [
-      { "math": [ "u_pressure_redeal_damage", "+=", "_damage" ] },
+      { "math": [ "u_pressure_redeal_damage += _damage" ] },
       {
         "if": { "math": [ "u_pressure_redeal_queued", "!=", "1" ] },
         "then": [ { "math": [ "u_pressure_redeal_queued = 1" ] }, { "math": [ "u_timer_pressure_redeal = time('now')" ] } ]

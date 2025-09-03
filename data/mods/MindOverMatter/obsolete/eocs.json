@@ -84,5 +84,10 @@
     "type": "effect_on_condition",
     "id": "EOC_LIEUTENANT_SPAWN_SHADOW_ACTUAL",
     "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_LEARNING_GUIDED_EVOLUTION",
+    "effect": [  ]
   }
 ]

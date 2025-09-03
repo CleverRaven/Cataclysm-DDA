@@ -309,57 +309,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
-    "id": "super_glue",
-    "category": "spare_parts",
-    "symbol": ",",
-    "phase": "liquid",
-    "color": "white",
-    "name": { "str_sp": "superglue" },
-    "description": "Cyanoacrylate, more commonly known as superglue, is a strong, quick curing glue with many applications.  It was a favorite of many post-Cataclysm hobbyists, but has become a sought-after trade good due to its wide applications, and the fact it has become essentially impossible to manufacture.",
-    "price": "1 USD",
-    "price_postapoc": "1 USD",
-    "material": [ "plastic" ],
-    "weight": "26 mg",
-    "volume": "1 ml",
-    "ammo_type": "superglue",
-    "//": "1 charge of superglue should cover an area of 5mm^2",
-    "count": 40,
-    "flags": [ "UNRECOVERABLE" ]
-  },
-  {
-    "type": "ITEM",
-    "id": "rubber_cement",
-    "category": "spare_parts",
-    "symbol": ",",
-    "color": "white",
-    "name": { "str_sp": "rubber cement" },
-    "looks_like": "super_glue",
-    "description": "A tin of adhesive typically used to glue rubber together.  It forms a less rigid bond than typical superglue, making it ideal for projects requiring flexibility.  Typically smelly and toxic.",
-    "price": "18 USD",
-    "price_postapoc": "80 cent",
-    "material": [ "plastic" ],
-    "weight": "52 g",
-    "volume": "250 ml",
-    "flags": [ "UNRECOVERABLE" ]
-  },
-  {
-    "type": "ITEM",
-    "id": "bone_glue",
-    "symbol": ",",
-    "category": "spare_parts",
-    "color": "brown",
-    "name": { "str": "bone glue" },
-    "description": "Glue made from boiling animal bones.  The adhesive isn't strong enough for heavy-duty usages, but it can be used as a varnish or holding together small items.",
-    "price": "18 USD",
-    "price_postapoc": "50 cent",
-    "material": [ "bone" ],
-    "weight": "45 g",
-    "volume": "150 ml",
-    "flags": [ "UNRECOVERABLE", "NO_SALVAGE" ]
-  },
-  {
-    "type": "ITEM",
     "id": "fertilizer",
     "symbol": "*",
     "color": "green",
@@ -470,7 +419,7 @@
     "category": "spare_parts",
     "name": { "str": "bundle of cotton patches", "str_pl": "bundles of cotton patches" },
     "description": "A hundred cotton patches, bundled tightly together for storage.  Disassemble to unpack.",
-    "weight": "500 g",
+    "weight": "250 g",
     "volume": "500 ml",
     "price": "200 USD",
     "price_postapoc": "2 USD",
@@ -484,7 +433,7 @@
     "category": "spare_parts",
     "name": { "str": "bundle of cotton sheets", "str_pl": "bundles of cotton sheets" },
     "description": "Twenty-five cotton sheets, bundled tightly together for storage.  Disassemble to unpack.",
-    "weight": "950 g",
+    "weight": "500 g",
     "volume": "1000 ml",
     "price": "200 USD",
     "price_postapoc": "2 USD",
@@ -1088,6 +1037,7 @@
     "color": "light_gray",
     "name": { "str": "rebar" },
     "description": "A rod of rebar, makes a nice melee weapon, and could be handy in constructing tougher walls and such.",
+    "//": "80 cm x 16mm diameter",
     "category": "spare_parts",
     "price": "75 USD",
     "price_postapoc": "25 cent",
@@ -1959,7 +1909,7 @@
     "id": "glass_tinted",
     "symbol": ".",
     "color": "dark_gray",
-    "name": { "str": "pair of tinted glass lenses", "str_pl": "pairs of tinted glass lenses" },
+    "name": { "str_sp": "tinted glass lenses (pair)" },
     "category": "spare_parts",
     "description": "A pair of small, darkened glass lenses, like the ones used in sunglasses.",
     "price": "10 USD",
@@ -3003,8 +2953,9 @@
     "category": "drugs",
     "emits": [ "emit_tobacco_trail" ],
     "revert_to": "cigar_butt",
+    "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
     "use_action": [
-      { "type": "firestarter", "moves": 200, "moves_slow": 2000 },
+      { "type": "firestarter", "moves": 500, "moves_slow": 6000 },
       {
         "target": "cigar_butt",
         "msg": "You extinguish the cigar.",
@@ -3050,8 +3001,9 @@
     "category": "drugs",
     "emits": [ "emit_tobacco_trail" ],
     "revert_to": "cig_butt",
+    "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
     "use_action": [
-      { "type": "firestarter", "moves": 200, "moves_slow": 2000 },
+      { "type": "firestarter", "moves": 500, "moves_slow": 6000 },
       {
         "target": "cig_butt",
         "msg": "You extinguish the cigarette.",
@@ -3097,8 +3049,9 @@
     "category": "drugs",
     "emits": [ "emit_joint_trail" ],
     "revert_to": "joint_roach",
+    "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
     "use_action": [
-      { "type": "firestarter", "moves": 200, "moves_slow": 2000 },
+      { "type": "firestarter", "moves": 500, "moves_slow": 6000 },
       {
         "target": "joint_roach",
         "msg": "You extinguish the joint.",
@@ -3528,6 +3481,7 @@
   {
     "type": "ITEM",
     "id": "broken_turret_rifle_balthazar",
+    "name": { "str": "broken M249 autonomous CROWS II", "str_pl": "broken M249 autonomous CROWS II turrets" },
     "copy-from": "broken_turret_rifle"
   },
   {
@@ -3577,6 +3531,7 @@
   {
     "type": "ITEM",
     "id": "broken_secubot_balthazar",
+    "name": { "str": "broken secubot" },
     "copy-from": "broken_secubot"
   },
   {
@@ -4057,5 +4012,21 @@
     ],
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 5 }
+  },
+  {
+    "type": "ITEM",
+    "id": "helmet_mounting_brackets",
+    "//": "Based on https://www.cadexdefence.com/products/helmet-electro-optic-mount/ach-side-mounted-helmet-bracket/ + https://www.cadexdefence.com/products/helmet-electro-optic-mount/universal-helmet-strap-kit/",
+    "symbol": "+",
+    "color": "dark_gray",
+    "name": { "str_sp": "helmet mounting brackets" },
+    "category": "other",
+    "description": "An assortment of mounting brackets designed to allow stuff such as NV goggles or flashlights to be mounted to army helmets.  These can be attached to other types of helmets, providing it's properly modified.",
+    "price": "90 USD",
+    "price_postapoc": "2 USD",
+    "material": [ { "type": "plastic", "portion": 9 }, { "type": "mc_steel", "portion": 6 } ],
+    "weight": "230 g",
+    "volume": "100 ml",
+    "longest_side": "5 cm"
   }
 ]

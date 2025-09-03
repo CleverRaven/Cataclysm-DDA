@@ -120,7 +120,7 @@
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "nails", 1, "LIST" ], [ "crude_bronze_nail", 1 ] ] ]
+    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "nails", 1, "LIST" ], [ "bronze_nail", 1 ] ] ]
   },
   {
     "result": "shed_stick",
@@ -1255,18 +1255,6 @@
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
-    "result": "mannequin_decoy",
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "fabrication",
-    "time": "10 s",
-    "reversible": true,
-    "autolearn": true,
-    "components": [ [ [ "talking_doll", 1 ], [ "creepy_doll", 1 ] ], [ [ "mannequin", 1 ] ] ]
-  },
-  {
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "result": "kevlar_shears",
@@ -1416,5 +1404,49 @@
     "reversible": true,
     "autolearn": true,
     "components": [ [ [ "hairbrush", 1 ] ], [ [ "box_small", 1 ] ], [ [ "comb_pocket", 1 ] ], [ [ "gloves_medical", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "monkey_tool",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "15 m",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_toolsmithing" } ],
+    "qualities": [ { "id": "DRILL", "level": 3 } ],
+    "components": [ [ [ "lc_steel_lump", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "nail_header",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "10 m",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_toolsmithing", "time_multiplier": 1.5 } ],
+    "using": [ [ "blacksmithing_standard", 1 ] ],
+    "tools": [ [ [ "drift", -1 ] ] ],
+    "components": [ [ [ "mc_steel_chunk", 1 ], [ "hc_steel_chunk", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "nail_header_bronze",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "30 m",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_redsmithing" } ],
+    "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
+    "tools": [ [ [ "casting_mold_large", -1 ], [ "casting_mold_long", -1 ] ] ],
+    "components": [ [ [ "bronze_tiny", 2, "LIST" ] ] ]
   }
 ]

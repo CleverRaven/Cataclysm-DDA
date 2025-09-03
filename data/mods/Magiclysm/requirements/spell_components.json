@@ -336,5 +336,11 @@
     "type": "requirement",
     "//": "Ruby for the Flames of the Apocalypse spell.  Add crimsonite once discrete chunks of it exist",
     "components": [ [ [ "ruby", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_animist_see_invisibility",
+    "type": "requirement",
+    "//": "Silver for the Seeing the Unseen spell",
+    "components": [ [ [ "silver_small", 5 ] ] ]
   }
 ]

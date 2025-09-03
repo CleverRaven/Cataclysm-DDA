@@ -1371,7 +1371,7 @@
           "condition": { "not": { "one_in_chance": 100 } },
           "effect": [
             { "u_message": "You have an intense feeling of being watched." },
-            { "math": [ "u_migo_interest_interest_migo_interest", "+=", "10" ] }
+            { "math": [ "u_migo_interest_interest_migo_interest += 10" ] }
           ]
         },
         {
@@ -1399,20 +1399,17 @@
         {
           "id": "EOC_MIGO_BIO_TECH_FOCUS",
           "condition": { "compare_string": [ "focus", { "npc_val": "mbt_f_function" } ] },
-          "effect": [
-            { "u_message": "You feel incredibly focused!" },
-            { "math": [ "u_val('focus')", "+=", "min( u_val('focus') + 30, 130)" ] }
-          ]
+          "effect": [ { "u_message": "You feel incredibly focused!" }, { "math": [ "u_val('focus') += min( u_val('focus') + 30, 130)" ] } ]
         },
         {
           "id": "EOC_MIGO_BIO_TECH_PAIN",
           "condition": { "compare_string": [ "pain", { "npc_val": "mbt_f_function" } ] },
-          "effect": [ { "u_message": "You feel your aches and pains fade away!" }, { "math": [ "u_pain()", "-=", "30" ] } ]
+          "effect": [ { "u_message": "You feel your aches and pains fade away!" }, { "math": [ "u_pain() -= 30" ] } ]
         },
         {
           "id": "EOC_MIGO_BIO_TECH_SLEEPINESS",
           "condition": { "compare_string": [ "sleepiness", { "npc_val": "mbt_f_function" } ] },
-          "effect": [ { "u_message": "You instantly feel more awake!" }, { "math": [ "u_val('sleepiness')", "-=", "30" ] } ]
+          "effect": [ { "u_message": "You instantly feel more awake!" }, { "math": [ "u_val('sleepiness') -= 30" ] } ]
         }
       ]
     }

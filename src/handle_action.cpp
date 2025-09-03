@@ -123,6 +123,7 @@ static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 static const activity_id ACT_WAIT( "ACT_WAIT" );
+static const activity_id ACT_WAIT_FOLLOWERS( "ACT_WAIT_FOLLOWERS" );
 static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
 
@@ -149,7 +150,10 @@ static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 static const json_character_flag json_flag_BIONIC_SLEEP_FRIENDLY( "BIONIC_SLEEP_FRIENDLY" );
 static const json_character_flag json_flag_CANNOT_ATTACK( "CANNOT_ATTACK" );
 static const json_character_flag json_flag_LEVITATION( "LEVITATION" );
+static const json_character_flag json_flag_PHASE_MOVEMENT( "PHASE_MOVEMENT" );
 static const json_character_flag json_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
+static const json_character_flag
+json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS( "TEMPORARY_SHAPESHIFT_NO_HANDS" );
 
 static const material_id material_glass( "glass" );
 
@@ -773,9 +777,10 @@ static void grab()
         if( vp->has_loaded_furniture() ) {
             furn_str_id furn( vp->part_with_feature( "FURNITURE_TIEDOWN",
                               true )->part().get_base().get_var( "tied_down_furniture" ) );
-            if( query_yn( _( "Grab %s on %s?" ), furn->name(), veh_name ) ) {
+            //~ %1$s - furniture name, %2$s - vehicle name
+            if( query_yn( _( "Grab %1$s on %2$s?" ), furn->name(), veh_name ) ) {
                 you.grab( object_type::FURNITURE_ON_VEHICLE, grabp - you.pos_bub() );
-                add_msg( m_info, _( "You grab the %s loaded on the %s." ), furn->name(), veh_name );
+                add_msg( m_info, _( "You grab the %1$s loaded on the %2$s." ), furn->name(), veh_name );
                 return;
             }
         }
@@ -1071,7 +1076,8 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
             if( !best_part_to_smash.first->smash_message.empty() ) {
                 add_msg( best_part_to_smash.first->smash_message, name_to_bash );
             } else {
-                add_msg( _( "You use your %s to smash the %s." ),
+                //~ %1$s - bodypart name in accusative, %2$s - furniture/terrain name
+                add_msg( _( "You use your %1$s to smash the %2$s." ),
                          body_part_name_accusative( best_part_to_smash.first ), name_to_bash );
             }
         }
@@ -1233,6 +1239,10 @@ static void wait()
             as_m.addentry( 14, true, 'w', _( "Wait until you catch your breath" ) );
             durations.emplace( 14, 15_minutes ); // to hide it from showing
         }
+        if( !wait_followers_activity_actor::get_absent_followers( player_character ).empty() ) {
+            as_m.addentry( 15, true, 'f', _( "Wait for followers to catch up" ) );
+            durations.emplace( 15, 15_minutes ); // to hide it from showing(?)
+        }
         add_menu_item( 1, '1', !has_watch ? _( "Wait 20 heartbeats" ) : "", 20_seconds );
         add_menu_item( 2, '2', !has_watch ? _( "Wait 60 heartbeats" ) : "", 1_minutes );
         add_menu_item( 3, '3', !has_watch ? _( "Wait 300 heartbeats" ) : "", 5_minutes );
@@ -1307,12 +1317,16 @@ static void wait()
             actType = ACT_WAIT_WEATHER;
         } else if( as_m.ret == 14 ) {
             actType = ACT_WAIT_STAMINA;
+        } else if( as_m.ret == 15 ) {
+            actType = ACT_WAIT_FOLLOWERS;
         } else {
             actType = ACT_WAIT;
         }
 
         if( actType == ACT_WAIT_STAMINA ) {
             player_character.assign_activity( wait_stamina_activity_actor() );
+        } else if( actType == ACT_WAIT_FOLLOWERS ) {
+            player_character.assign_activity( wait_followers_activity_actor() );
         } else {
             player_activity new_act( actType, 100 * to_turns<int>( time_to_wait ), 0 );
             player_character.assign_activity( new_act );
@@ -1883,17 +1897,17 @@ static void cast_spell( bool recast_spell = false )
         return;
     }
 
-    std::set<std::string> failure_messages = {};
+    std::map<magic_type_id, bool> success_tracker = {};
     for( const spell_id &sp : spells ) {
         spell &temp_spell = player_character.magic->get_spell( sp );
-        if( temp_spell.can_cast( player_character, failure_messages ) ) {
-            break;
-        }
+        temp_spell.can_cast( player_character, success_tracker );
     }
 
-    for( const std::string &failure_message : failure_messages ) {
-        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
-                 failure_message );
+    for( auto const& [m_type, any_success] : success_tracker ) {
+        if( !any_success && m_type->cannot_cast_message.has_value() ) {
+            add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                     m_type->cannot_cast_message.value() );
+        }
     }
 
     if( recast_spell && player_character.magic->last_spell.is_null() ) {
@@ -2252,6 +2266,28 @@ static const std::set<action_id> actions_disabled_in_incorporeal {
     ACTION_CONTROL_VEHICLE,
 };
 
+static std::map<action_id, std::string> get_actions_disabled_in_handless_temporary_shapeshift()
+{
+    return std::map<action_id, std::string> {
+        { ACTION_OPEN,               _( "You can't open things while shapeshifted." ) },
+        { ACTION_CLOSE,              _( "You can't close things while shapeshifted." ) },
+        { ACTION_ADVANCEDINV,        _( "You can't move mass quantities while shapeshifted." ) },
+        { ACTION_PICKUP,             _( "You can't pick anything up while shapeshifted." ) },
+        { ACTION_PICKUP_ALL,         _( "You can't pick anything up while shapeshifted." ) },
+        { ACTION_GRAB,               _( "You can't grab things while shapeshifted." ) },
+        { ACTION_HAUL,               _( "You can't haul things while shapeshifted." ) },
+        { ACTION_HAUL_TOGGLE,        _( "You can't haul things while shapeshifted." ) },
+        { ACTION_BUTCHER,            _( "You can't butcher while shapeshifted." ) },
+        { ACTION_DROP,               _( "You can't drop things while shapeshifted." ) },
+        { ACTION_CRAFT,              _( "You can't craft while shapeshifted." ) },
+        { ACTION_RECRAFT,            _( "You can't craft while shapeshifted." ) },
+        { ACTION_LONGCRAFT,          _( "You can't craft while shapeshifted." ) },
+        { ACTION_DISASSEMBLE,        _( "You can't disassemble while shapeshifted." ) },
+        { ACTION_CONSTRUCT,          _( "You can't construct while shapeshifted." ) },
+        { ACTION_CONTROL_VEHICLE,    _( "You can't operate a vehicle while shapeshifted." ) },
+    };
+}
+
 static std::map<action_id, std::string> get_actions_disabled_mounted()
 {
     return std::map<action_id, std::string> {
@@ -2283,6 +2319,8 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
     const std::map<action_id, std::string> actions_disabled_mounted = get_actions_disabled_mounted();
     const std::map<action_id, std::string> actions_disabled_in_shell = get_actions_disabled_in_shell();
+    const std::map<action_id, std::string> actions_disabled_while_handless_shapeshifted =
+        get_actions_disabled_in_handless_temporary_shapeshift();
 
     if( in_shell && actions_disabled_in_shell.count( act ) > 0 ) {
         add_msg( m_info, actions_disabled_in_shell.at( act ) );
@@ -2291,6 +2329,12 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
     if( u.has_effect( effect_incorporeal ) && actions_disabled_in_incorporeal.count( act ) > 0 ) {
         add_msg( m_info, _( "You lack the substance to affect anything." ) );
+        return true;
+    }
+
+    if( u.has_flag( json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS ) &&
+        actions_disabled_while_handless_shapeshifted.count( act ) > 0 ) {
+        add_msg( m_info, _( "You can't do that while shapeshifted." ) );
         return true;
     }
 
@@ -2432,7 +2476,8 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
             if( !player_character.in_vehicle ) {
                 // We're NOT standing on tiles with stairs, ropes, ladders etc
-                if( !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, player_character.pos_bub() ) ) {
+                if( !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, player_character.pos_bub() ) &&
+                    !u.has_flag( json_flag_PHASE_MOVEMENT ) ) {
                     std::vector<tripoint_bub_ms> pts;
 
                     // If levitating, just move straight down if possible.
@@ -2465,7 +2510,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
                 // If we're here, we might or might not be standing on tiles with stairs, ropes, ladders etc
                 // In any case, attempt a descend
-                vertical_move( -1, false );
+                vertical_move( -1, u.has_flag( json_flag_PHASE_MOVEMENT ) );
             }
             break;
         }
@@ -2479,7 +2524,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 }
             }
             if( !player_character.in_vehicle ) {
-                vertical_move( 1, false );
+                vertical_move( 1, u.has_flag( json_flag_PHASE_MOVEMENT ) );
             } else if( has_vehicle_control( player_character ) ) {
                 const optional_vpart_position vp = here.veh_at( player_character.pos_bub() );
                 if( vp->vehicle().is_rotorcraft( here ) ) {
@@ -3044,56 +3089,8 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             set_next_option( "AUTO_PICKUP" );
             break;
 
-        case ACTION_DISPLAY_SCENT:
-        case ACTION_DISPLAY_SCENT_TYPE:
-            if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
-                break;    //don't do anything when sharing and not debugger
-            }
-            display_scent();
-            break;
-
-        case ACTION_DISPLAY_TEMPERATURE:
-            if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
-                break;    //don't do anything when sharing and not debugger
-            }
-            display_temperature();
-            break;
-        case ACTION_DISPLAY_VEHICLE_AI:
-            if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
-                break;    //don't do anything when sharing and not debugger
-            }
-            display_vehicle_ai();
-            break;
-        case ACTION_DISPLAY_VISIBILITY:
-            if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
-                break;    //don't do anything when sharing and not debugger
-            }
-            display_visibility();
-            break;
-
-        case ACTION_DISPLAY_LIGHTING:
-            if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
-                break;    //don't do anything when sharing and not debugger
-            }
-            display_lighting();
-            break;
-
-        case ACTION_DISPLAY_RADIATION:
-            if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
-                break;    //don't do anything when sharing and not debugger
-            }
-            display_radiation();
-            break;
-
         case ACTION_TOGGLE_HOUR_TIMER:
             toggle_debug_hour_timer();
-            break;
-
-        case ACTION_DISPLAY_TRANSPARENCY:
-            if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
-                break;    //don't do anything when sharing and not debugger
-            }
-            display_transparency();
             break;
 
         case ACTION_TOGGLE_DEBUG_MODE:

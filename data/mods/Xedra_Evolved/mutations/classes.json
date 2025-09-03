@@ -74,5 +74,45 @@
     "valid": false,
     "spells_learned": [ [ "hedge_luck_spell", 0 ] ],
     "flags": [ "ATTUNEMENT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "WEREWOLF_SPELLS",
+    "name": "Gifts of the Moon",
+    "points": 0,
+    "description": "The People gain many powers from the Moon, to better survive and hunt the wilds for their prey.\n\nActivate at the appropriate time to learn a new Gift of the Moon when under the moon.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_eocs": [ "EOC_WEREWOLVES_GAIN_MORE_POWERS" ],
+    "activation_msg": "",
+    "flags": [ "ATTUNEMENT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "XE_NETHER_SORCERY",
+    "name": "Nether Sorcery",
+    "points": 0,
+    "description": "There is power in the Nether for those with the will and the strength to seize it, and you are such a one.  Hopefully you won't fly too close to the void.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "flags": [ "ATTUNEMENT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "XE_NO_NETHER_SORCERY",
+    "name": { "str": "Not a Nether Sorcerer", "//~": "NO_I18N" },
+    "points": 0,
+    "description": {
+      "str": "You can't use Nether Sorcery, which makes you pretty much the same as anyone else, to be honest.  This trait blocks using Nether Sorcery grimoires as spellbooks and is not player-visible.",
+      "//~": "NO_I18N"
+    },
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "cancels": [ "XE_NETHER_SORCERY" ]
   }
 ]

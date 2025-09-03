@@ -1,0 +1,22 @@
+[
+  {
+    "type": "ter_furn_migration",
+    "from_ter": "t_underbrush_harvested_spring",
+    "to_ter": "t_underbrush_harvested"
+  },
+  {
+    "type": "ter_furn_migration",
+    "from_ter": "t_underbrush_harvested_summer",
+    "to_ter": "t_underbrush_harvested"
+  },
+  {
+    "type": "ter_furn_migration",
+    "from_ter": "t_underbrush_harvested_autumn",
+    "to_ter": "t_underbrush_harvested"
+  },
+  {
+    "type": "ter_furn_migration",
+    "from_ter": "t_underbrush_harvested_winter",
+    "to_ter": "t_underbrush_harvested"
+  }
+]

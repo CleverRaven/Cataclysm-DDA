@@ -260,7 +260,8 @@ static std::vector<item_location> try_to_put_into_vehicle( Character &c, item_dr
                 result.emplace_back( c.get_wielded_item() );
             } else {
                 const std::string ter_name = here.name( where );
-                add_msg( _( "The %s falls to the %s." ), it.tname(), ter_name );
+                //~ %1$s - item name, %2$s - terrain name
+                add_msg( _( "The %1$s falls to the %2$s." ), it.tname(), ter_name );
                 result.push_back( here.add_item_or_charges_ret_loc( where, it ) );
             }
         }
@@ -295,24 +296,24 @@ static std::vector<item_location> try_to_put_into_vehicle( Character &c, item_dr
             case item_drop_reason::too_large:
                 c.add_msg_if_player(
                     n_gettext(
-                        "There's no room in your inventory for the %s, so you drop it into the %s's %s.",
-                        "There's no room in your inventory for the %s, so you drop them into the %s's %s.",
+                        "There's no room in your inventory for the %1$s, so you drop it into the %2$s's %3$s.",
+                        "There's no room in your inventory for the %1$s, so you drop them into the %2$s's %3$s.",
                         dropcount ),
                     it_name, veh.name, part_name
                 );
                 break;
             case item_drop_reason::too_heavy:
                 c.add_msg_if_player(
-                    n_gettext( "The %s is too heavy to carry, so you drop it into the %s's %s.",
-                               "The %s are too heavy to carry, so you drop them into the %s's %s.", dropcount ),
+                    n_gettext( "The %1$s is too heavy to carry, so you drop it into the %2$s's %3$s.",
+                               "The %1$s are too heavy to carry, so you drop them into the %2$s's %3$s.", dropcount ),
                     it_name, veh.name, part_name
                 );
                 break;
             case item_drop_reason::tumbling:
                 c.add_msg_if_player(
                     m_bad,
-                    n_gettext( "Your %s tumbles into the %s's %s.",
-                               "Your %s tumble into the %s's %s.", dropcount ),
+                    n_gettext( "Your %1$s tumbles into the %2$s's %3$s.",
+                               "Your %1$s tumble into the %2$s's %3$s.", dropcount ),
                     it_name, veh.name, part_name
                 );
                 break;
@@ -836,7 +837,7 @@ construction const *_find_prereq( tripoint_bub_ms const &loc, construction_id co
                ( idx->pre_terrain.find( it.post_terrain ) != idx->pre_terrain.end() )  &&
                // don't get stuck building and deconstructing the top level post_terrain
                ( it.pre_terrain.find( top_idx->post_terrain ) == it.pre_terrain.end() )  &&
-               ( it.pre_flags.empty() || !can_construct_furn_ter( it, f, t ) );
+               ( it.pre_flags.empty() || !has_pre_flags( it, f, t ) );
     } );
 
     for( construction const *gcon : cons ) {
@@ -3503,7 +3504,7 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
     if( !check_only && you.is_npc() ) {
         if( src_sorted.empty() ) {
             add_msg( m_neutral,
-                     _( "%1s failed to perform the %2$s activity because no suitable locations were found." ),
+                     _( "%1$s failed to perform the %2$s activity because no suitable locations were found." ),
                      you.disp_name(), activity_to_restore.c_str() );
         } else if( reason.no_path ) {
             add_msg( m_neutral,

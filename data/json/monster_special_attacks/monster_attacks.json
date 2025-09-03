@@ -704,12 +704,12 @@
     "effects": [ { "id": "dermatik", "duration": 86400, "affect_hit_bp": true } ],
     "cooldown": 25,
     "move_cost": 300,
-    "hit_dmg_u": "The %1$s sinks its ovipositor into your %2$s!",
-    "hit_dmg_npc": "The %1$s sinks its ovipositor into <npcname>'s %2$s!",
-    "miss_msg_u": "The %s tries to land on you, but you dodge!",
-    "miss_msg_npc": "The %1$s tries to land on <npcname>, but they dodge!",
-    "no_dmg_msg_u": "The %1$s lands on your %2$s, but can't penetrate your armor!",
-    "no_dmg_msg_npc": "The %1$s lands on <npcname>'s %2$s, but can't penetrate their armor!"
+    "hit_dmg_u": "%1$s sinks its ovipositor into your %2$s!",
+    "hit_dmg_npc": "%1$s sinks its ovipositor into <npcname>'s %2$s!",
+    "miss_msg_u": "%s tries to land on you, but you dodge!",
+    "miss_msg_npc": "%s tries to land on <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s lands on your %2$s, but can't penetrate your armor!",
+    "no_dmg_msg_npc": "%1$s lands on <npcname>'s %2$s, but can't penetrate their armor!"
   },
   {
     "type": "monster_attack",
@@ -732,12 +732,12 @@
       ]
     },
     "effects": [ { "id": "venom_pain", "duration": 54000, "affect_hit_bp": true } ],
-    "hit_dmg_u": "Using its filaments, the %s pulls you close.",
-    "hit_dmg_npc": "Using its filaments, the %s pulls <npcname> close.",
-    "miss_msg_u": "The %s spews filaments at you but misses.",
-    "miss_msg_npc": "The %s spews filaments at <npcname> but misses.",
-    "no_dmg_msg_u": "Using its filaments, the %s pulls you close but can't penetrate your armor.",
-    "no_dmg_msg_npc": "Using its filaments, the %s pulls <npcname> close but can't penetrate their armor."
+    "hit_dmg_u": "%s pulls you close using its filaments.",
+    "hit_dmg_npc": "%s pulls <npcname> close using its filaments.",
+    "miss_msg_u": "%s spews filaments at you but misses.",
+    "miss_msg_npc": "%s spews filaments at <npcname> but misses.",
+    "no_dmg_msg_u": "%s pulls you close using its filaments, but can't penetrate your armor.",
+    "no_dmg_msg_npc": "%s pulls <npcname> close using its filaments, but can't penetrate their armor."
   },
   {
     "type": "monster_attack",
@@ -752,12 +752,12 @@
     "max_mul": 1.5,
     "condition": { "not": { "u_has_effect": "sectioned_filaments" } },
     "effects": [ { "id": "venom_pain", "duration": 54000, "affect_hit_bp": true } ],
-    "hit_dmg_u": "The %s lashes at your %2$s.",
-    "hit_dmg_npc": "The %s lashes at <npcname> %2$s.",
-    "miss_msg_u": "The %s lashes at your %2$s but misses.",
-    "miss_msg_npc": "The %s lashes at <npcname> %2$s but misses.",
-    "no_dmg_msg_u": "The %s lashes at your %2$s but can't penetrate your armor.",
-    "no_dmg_msg_npc": "The %s lashes at <npcname> %2$s but can't penetrate their armor."
+    "hit_dmg_u": "%1$s lashes at your %2$s.",
+    "hit_dmg_npc": "%1$s lashes at <npcname>'s %2$s.",
+    "miss_msg_u": "%1$s lashes at your %2$s but misses.",
+    "miss_msg_npc": "%1$s lashes at <npcname>'s %2$s but misses.",
+    "no_dmg_msg_u": "%1$s lashes at your %2$s, but can't penetrate your armor.",
+    "no_dmg_msg_npc": "%1$s lashes at <npcname>'s %2$s, but can't penetrate their armor."
   },
   {
     "type": "monster_attack",
@@ -779,12 +779,12 @@
       ]
     },
     "effects": [ { "id": "venom_pain", "duration": 54000, "affect_hit_bp": true } ],
-    "hit_dmg_u": "The %s wraps its filaments around your %2$s.",
-    "hit_dmg_npc": "The %s wraps its filaments around <npcname>'s %2$s.",
-    "miss_msg_u": "The %s tries to wrap its filaments around your %2$s but misses.",
-    "miss_msg_npc": "The %s tries to wrap its filaments around <npcname> %2$s but misses.",
-    "no_dmg_msg_u": "The %s wraps its filaments around your %2$s but can't penetrate your armor.",
-    "no_dmg_msg_npc": "The %s wraps its filaments around <npcname>'s %2$s but can't penetrate their armor."
+    "hit_dmg_u": "%1$s wraps its filaments around your %2$s.",
+    "hit_dmg_npc": "%1$s wraps its filaments around <npcname>'s %2$s.",
+    "miss_msg_u": "%1$s tries to wrap its filaments around your %2$s but misses.",
+    "miss_msg_npc": "%1$s tries to wrap its filaments around <npcname>'s %2$s but misses.",
+    "no_dmg_msg_u": "%1$s wraps its filaments around your %2$s, but can't penetrate your armor.",
+    "no_dmg_msg_npc": "%1$s wraps its filaments around <npcname>'s %2$s, but can't penetrate their armor."
   },
   {
     "type": "monster_attack",
@@ -801,11 +801,11 @@
     "condition": {
       "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" }, { "not": { "u_has_effect": "sectioned_filaments" } } ]
     },
-    "hit_dmg_u": "The %s pulls your %2$s in its orifice and starts crushing it.",
-    "hit_dmg_npc": "The %s pulls <npcname>'s %2$s in its orifice and starts crushing it.",
-    "miss_msg_u": "The %s tries to pulls your %2$s in its orifice but misses.",
-    "miss_msg_npc": "The %s tries to pulls <npcname>'s %2$s in its orifice but misses.",
-    "no_dmg_msg_u": "The %s pulls your %2$s in its orifice and starts crushing it but can't penetrate your armor.",
-    "no_dmg_msg_npc": "The %s pulls <npcname>'s %2$s in its orifice and starts crushing it but can't penetrate their armor."
+    "hit_dmg_u": "%1$s pulls your %2$s in its orifice and starts crushing it.",
+    "hit_dmg_npc": "%1$s pulls <npcname>'s %2$s in its orifice and starts crushing it.",
+    "miss_msg_u": "%1$s tries to pulls your %2$s in its orifice but misses.",
+    "miss_msg_npc": "%1$s tries to pulls <npcname>'s %2$s in its orifice but misses.",
+    "no_dmg_msg_u": "%1$s pulls your %2$s in its orifice and starts crushing it, but can't penetrate your armor.",
+    "no_dmg_msg_npc": "%1$s pulls <npcname>'s %2$s in its orifice and starts crushing it, but can't penetrate their armor."
   }
 ]

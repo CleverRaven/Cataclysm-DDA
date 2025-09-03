@@ -49,6 +49,8 @@
 static const oter_type_str_id oter_type_bridgehead_ground( "bridgehead_ground" );
 static const oter_type_str_id oter_type_bridgehead_ramp( "bridgehead_ramp" );
 
+static const int default_search_range = OMAPX * 5;
+
 // Moved from obsolete coordinate_conversions.h to its only remaining user.
 static int omt_to_sm_copy( int a )
 {
@@ -507,18 +509,8 @@ bool overmapbuffer::has_camp( const tripoint_abs_omt &p )
         return false;
     }
 
-    const overmap_with_local_coords om_loc = get_existing_om_global( p );
-    if( !om_loc ) {
-        return false;
-    }
-
-    for( const basecamp &v : om_loc.om->camps ) {
-        if( v.camp_omt_pos().xy() == p.xy() ) {
-            return true;
-        }
-    }
-
-    return false;
+    const auto camp = find_camp( p.xy() );
+    return !!camp;
 }
 
 bool overmapbuffer::has_vehicle( const tripoint_abs_omt &p )
@@ -747,16 +739,11 @@ void overmapbuffer::move_vehicle( vehicle *veh, const point_abs_ms &old_msp )
     }
 }
 
-void overmapbuffer::remove_camp( const basecamp &camp )
+void overmapbuffer::remove_camp( const point_abs_omt &p )
 {
-    const point_abs_omt omt = camp.camp_omt_pos().xy();
-    const overmap_with_local_coords om_loc = get_om_global( omt );
-    std::vector<basecamp> &camps = om_loc.om->camps;
-    for( auto it = camps.begin(); it != camps.end(); ++it ) {
-        if( it->camp_omt_pos().xy() == omt ) {
-            camps.erase( it );
-            return;
-        }
+    const overmap_with_local_coords om_loc = get_existing_om_global( p );
+    if( !!om_loc.om ) {
+        om_loc.om->remove_camp( p );
     }
 }
 
@@ -794,7 +781,7 @@ void overmapbuffer::add_camp( const basecamp &camp )
 {
     const point_abs_omt omt = camp.camp_omt_pos().xy();
     const overmap_with_local_coords om_loc = get_om_global( omt );
-    om_loc.om->camps.push_back( camp );
+    om_loc.om->add_camp( omt, camp );
 }
 
 om_vision_level overmapbuffer::seen( const tripoint_abs_omt &p )
@@ -953,6 +940,7 @@ overmap_path_params overmap_path_params::for_land_vehicle( float offroad_coeff, 
         ret.set_cost( oter_travel_cost_type::water, boat_params.get_cost( oter_travel_cost_type::water ) );
         ret.set_cost( oter_travel_cost_type::shore, boat_params.get_cost( oter_travel_cost_type::shore ) );
     }
+    ret.allow_diagonal = false;
     return ret;
 }
 
@@ -961,6 +949,7 @@ overmap_path_params overmap_path_params::for_watercraft()
     overmap_path_params ret;
     ret.set_cost( oter_travel_cost_type::water, 8 ); // limited by vehicle autodrive speed
     ret.set_cost( oter_travel_cost_type::shore, 16 );
+    ret.allow_diagonal = true;
     return ret;
 }
 
@@ -968,6 +957,7 @@ overmap_path_params overmap_path_params::for_aircraft()
 {
     overmap_path_params ret;
     ret.set_cost( oter_travel_cost_type::air, 8 ); // limited by vehicle autodrive speed
+    ret.allow_diagonal = false;
     return ret;
 }
 
@@ -1232,7 +1222,7 @@ tripoint_abs_omt overmapbuffer::find_closest( const tripoint_abs_omt &origin,
     // range.  The actual number is 5 because 1 covers the current overmap,
     // and each additional one expends the search to the next concentric circle of overmaps.
     const int min_dist = params.min_distance;
-    const int max_dist = params.search_range ? params.search_range : OMAPX * 5;
+    const int max_dist = params.search_range ? params.search_range : default_search_range;
 
     std::vector<tripoint_abs_omt> result;
     int found_dist = std::numeric_limits<int>::max();
@@ -1447,17 +1437,22 @@ shared_ptr_fast<npc> overmapbuffer::find_npc_by_unique_id( const std::string &un
 
 std::optional<basecamp *> overmapbuffer::find_camp( const point_abs_omt &p )
 {
-    for( auto &it : overmaps ) {
-        const point_abs_omt p2( p );
-        for( int x2 = p2.x() - 3; x2 < p2.x() + 3; x2++ ) {
-            for( int y2 = p2.y() - 3; y2 < p2.y() + 3; y2++ ) {
-                if( std::optional<basecamp *> camp = it.second->find_camp( point_abs_omt( x2, y2 ) ) ) {
-                    return camp;
-                }
-            }
+    const overmap_with_local_coords om_loc = get_existing_om_global( p );
+    if( !!om_loc.om ) {
+        std::optional<basecamp *> camp = om_loc.om->find_camp( p );
+        if( !!camp ) {
+            return camp;
         }
     }
     return std::nullopt;
+}
+
+void overmapbuffer::clear_camps( const point_abs_omt &p )
+{
+    const overmap_with_local_coords om_loc = get_existing_om_global( p );
+    if( !!om_loc.om ) {
+        om_loc.om->clear_camps();
+    }
 }
 
 void overmapbuffer::insert_npc( const shared_ptr_fast<npc> &who )
@@ -1607,15 +1602,15 @@ std::vector<camp_reference> overmapbuffer::get_camps_near( const tripoint_abs_sm
 {
     std::vector<camp_reference> result;
     for( overmap *om : get_overmaps_near( location, radius ) ) {
-        result.reserve( result.size() + om->camps.size() );
-        std::transform( om->camps.begin(), om->camps.end(), std::back_inserter( result ),
-        [&]( basecamp & element ) {
-            const tripoint_abs_omt camp_pt = element.camp_omt_pos();
+        for( const std::pair<const point_abs_omt, basecamp> &camp : om->get_camps() ) {
+            const tripoint_abs_omt camp_pt = camp.second.camp_omt_pos();
             const tripoint_abs_sm camp_sm = project_to<coords::sm>( camp_pt );
             const int distance = rl_dist( camp_sm, location );
-
-            return camp_reference{ &element, camp_sm, distance };
-        } );
+            if( distance <= radius ) {
+                //This is very ugly but camp.second is const and camps should be private and the overmap can't pass back a camp_reference as it would be a circular include
+                result.push_back( camp_reference{ om->find_camp( camp_pt.xy() ).value(), camp_sm, distance } );
+            }
+        }
     }
     std::sort( result.begin(), result.end(), []( const camp_reference & lhs,
     const camp_reference & rhs ) {
@@ -2010,6 +2005,8 @@ std::optional<std::vector<tripoint_abs_omt>> overmapbuffer::place_special(
 bool overmapbuffer::place_special( const overmap_special_id &special_id,
                                    const tripoint_abs_omt &center, int radius )
 {
+    const int rad = radius ? radius : default_search_range;
+
     // First find the requested special. If it doesn't exist, we're done here.
     bool found = false;
     overmap_special special;
@@ -2035,7 +2032,7 @@ bool overmapbuffer::place_special( const overmap_special_id &special_id,
 
     // Get all of the overmaps within the defined radius of the center.
     for( overmap * const &om : get_overmaps_near(
-             project_to<coords::sm>( center ), omt_to_sm_copy( radius ) ) ) {
+             project_to<coords::sm>( center ), omt_to_sm_copy( rad ) ) ) {
 
         // Build an overmap_special_batch for the special on this overmap.
         std::vector<const overmap_special *> specials;
@@ -2055,7 +2052,7 @@ bool overmapbuffer::place_special( const overmap_special_id &special_id,
             // rest of it is outside the radius (due to size, rotation, etc), which would
             // then result in us placing the special but then not finding it later if we
             // search using the same radius value we used in placing it.
-            return square_dist( global_sector_point, center.xy() ) <= radius - longest_side;
+            return square_dist( global_sector_point, center.xy() ) <= rad - longest_side;
         } );
         om_special_sectors sectors_in_range {sector_points_in_range, sectors.sector_width};
 

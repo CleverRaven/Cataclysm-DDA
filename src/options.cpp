@@ -93,12 +93,14 @@ void option_slider::load_option_sliders( const JsonObject &jo, const std::string
     option_slider_factory.load( jo, src );
 }
 
+void option_slider::finalize()
+{
+    reorder_opts();
+}
+
 void option_slider::finalize_all()
 {
-    for( const option_slider &opt : option_slider::get_all() ) {
-        option_slider &o = const_cast<option_slider &>( opt );
-        o.reorder_opts();
-    }
+    option_slider_factory.finalize();
 }
 
 void option_slider::check_consistency()
@@ -1368,7 +1370,7 @@ std::vector<options_manager::id_and_option> options_manager::get_lang_options()
             { "sr", R"(Српски)" },
             { "tr", R"(Türkçe)" },
             { "uk_UA", R"(Українська)" },
-            { "zh_CN", R"(中文 (天朝))" },
+            { "zh_CN", R"(中文 (中国))" },
             { "zh_TW", R"(中文 (台灣))" },
         }
     };
@@ -1770,6 +1772,13 @@ void options_manager::add_options_general()
 
         get_option( "AMBIENT_SOUND_VOLUME" ).setPrerequisite( "SOUND_ENABLED" );
     } );
+
+    add_empty_line();
+
+    add( "WORLD_COMPRESSION2", "general", to_translation( "World data compression" ),
+         to_translation( "If true, new worlds store data in a compressed format." ),
+         true
+       );
 }
 
 void options_manager::add_options_interface()
@@ -1828,6 +1837,9 @@ void options_manager::add_options_interface()
             { "24h", to_translation( "24h" ) }
         },
         "12h" );
+        add( "SHOW_MONTHS", page_id, to_translation( "Show day/month" ),
+             to_translation( "Show day/month instead of season in time displays." ),
+             true );
         add( "SHOW_VITAMIN_MASS", page_id, to_translation( "Show vitamin masses" ),
              to_translation( "Display the masses of vitamins in addition to units/RDA values in item descriptions." ),
              true );
@@ -2750,11 +2762,6 @@ void options_manager::add_options_world_default()
     }, "reset"
        );
 
-    add( "WORLD_COMPRESSION", "world_default", to_translation( "World data compression" ),
-         to_translation( "If true, new worlds store data in a compressed format." ),
-         false
-       );
-
     add_empty_line();
 
     // These optiosn are purposefully and permanently hidden. It can only be modified through the sliders when creating a new world.
@@ -2884,11 +2891,13 @@ void options_manager::add_options_debug()
 
     add_empty_line();
 
+#ifndef NO_STALE_DATA_WARN
     add( "WARN_ON_MODIFIED", "debug", to_translation( "Warn if file integrity check fails" ),
          to_translation( "This option controls whether the game will warn when it detects that the game's data has been modified." ),
          true );
 
     add_empty_line();
+#endif
 
     add( "SKIP_VERIFICATION", "debug", to_translation( "Skip verification step during loading" ),
          to_translation( "If enabled, this skips the JSON verification step during loading.  This may give a faster loading time, but risks JSON errors not being caught until runtime." ),
@@ -3975,7 +3984,17 @@ void options_manager::deserialize( const JsonArray &ja )
     for( JsonObject joOptions : ja ) {
         joOptions.allow_omitted_members();
 
+        // yay hardcoded list! remove after 0.J
+        std::vector<std::string> removed_options = { "DISTANCE_INITIAL_VISIBILITY", "FOV_3D_Z_RANGE",
+                                                     "INITIAL_STAT_POINTS", "INITIAL_TRAIT_POINTS", "INITIAL_SKILL_POINTS", "MAX_TRAIT_POINTS",
+                                                     "SKILL_TRAINING_SPEED", "PROFICIENCY_TRAINING_SPEED"
+                                                   };
+
         const std::string name = migrateOptionName( joOptions.get_string( "name" ) );
+
+        if( std::find( removed_options.begin(), removed_options.end(), name ) != removed_options.end() ) {
+            continue; // option was removed so we just don't do anything here.
+        }
         const std::string value = migrateOptionValue( joOptions.get_string( "name" ),
                                   joOptions.get_string( "value" ) );
 

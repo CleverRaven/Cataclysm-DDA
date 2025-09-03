@@ -1568,7 +1568,7 @@
   {
     "type": "construction_group",
     "id": "place_anvil_scavenged",
-    "name": "Mount Scavenged Anvil"
+    "name": "Mount Scavenger's Anvil"
   },
   {
     "type": "construction_group",
@@ -2114,5 +2114,15 @@
     "type": "construction_group",
     "id": "build_beanbag",
     "name": "Place a bean bag"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_lathe",
+    "name": "Place a lathe"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_deep_fryer",
+    "name": "Place a deep fryer"
   }
 ]

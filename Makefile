@@ -175,6 +175,11 @@ IMTUI_DIR = $(SRC_DIR)/third-party/imtui
 LOCALIZE = 1
 ASTYLE_BINARY = astyle
 
+# Disable stale game data warning by default
+ifndef WARN_STALE_DATA
+    WARN_STALE_DATA = 0
+endif
+
 # Enable debug by default
 ifndef RELEASE
   RELEASE = 0
@@ -295,6 +300,15 @@ ifneq (,$(findstring mingw32,$(CROSS)))
   JSON_FORMATTER_BIN=tools/format/json_formatter.exe
 endif
 
+# Determine JSON formatter binary name
+ZZIP_BIN=zzip
+ifeq ($(MSYS2), 1)
+  ZZIP_BIN=zzip.exe
+endif
+ifneq (,$(findstring mingw32,$(CROSS)))
+  ZZIP_BIN=zzip.exe
+endif
+
 # Enable backtrace by default
 ifndef BACKTRACE
   # ...except not on native Windows builds, because the relevant headers are
@@ -339,6 +353,10 @@ endif
 
 ifeq ($(STRING_ID_DEBUG), 1)
 	DEFINES += -DCATA_STRING_ID_DEBUGGING
+endif
+
+ifeq ($(WARN_STALE_DATA), 0)
+    DEFINES += -DNO_STALE_DATA_WARN
 endif
 
 # This sets CXX and so must be up here
@@ -960,12 +978,11 @@ endif
 THIRD_PARTY_SOURCES := $(wildcard $(SRC_DIR)/third-party/flatbuffers/*.cpp)
 THIRD_PARTY_C_SOURCES := $(wildcard $(SRC_DIR)/third-party/zstd/common/*.c $(SRC_DIR)/third-party/zstd/compress/*.c $(SRC_DIR)/third-party/zstd/decompress/*.c)
 HEADERS := $(wildcard $(SRC_DIR)/*.h)
-OBJECT_CREATOR_SOURCES := $(wildcard $object_creator/*.cpp)
-OBJECT_CREATOR_HEADERS := $(wildcard $object_creator/*.h)
 TESTSRC := $(wildcard tests/*.cpp)
 TESTHDR := $(wildcard tests/*.h)
 JSON_FORMATTER_SOURCES := $(wildcard tools/format/*.cpp) src/wcwidth.cpp src/json.cpp
 JSON_FORMATTER_HEADERS := $(wildcard tools/format/*.h)
+ZZIP_SOURCES := tools/save/zzip_main.cpp
 CHKJSON_SOURCES := $(wildcard src/chkjson/*.cpp) src/wcwidth.cpp src/json.cpp
 CLANG_TIDY_PLUGIN_SOURCES := \
   $(wildcard tools/clang-tidy-plugin/*.cpp tools/clang-tidy-plugin/*/*.cpp)
@@ -976,12 +993,11 @@ ASTYLE_SOURCES := $(sort \
   src/cldr/imgui-glyph-ranges.cpp \
   $(SOURCES) \
   $(HEADERS) \
-  $(OBJECT_CREATOR_SOURCES) \
-  $(OBJECT_CREATOR_HEADERS) \
   $(TESTSRC) \
   $(TESTHDR) \
   $(JSON_FORMATTER_SOURCES) \
   $(JSON_FORMATTER_HEADERS) \
+  $(ZZIP_SOURCES) \
   $(CHKJSON_SOURCES) \
   $(CLANG_TIDY_PLUGIN_SOURCES) \
   $(CLANG_TIDY_PLUGIN_HEADERS))
@@ -1109,7 +1125,7 @@ version:
 
 prefix:
 	@( PREFIX_STRING=$(PREFIX) ; \
-            [ -e "$(SRC_DIR)/prefix.h" ] && OLDPREFIX=$$(grep PREFIX $(SRC_DIR)/PREFIX.h|cut -d '"' -f2) ; \
+            [ -e "$(SRC_DIR)/prefix.h" ] && OLDPREFIX=$$(grep -s PREFIX $(SRC_DIR)/PREFIX.h|cut -d '"' -f2) ; \
             if [ "x$$PREFIX_STRING" != "x$$OLDPREFIX" ]; then printf '// NOLINT(cata-header-guard)\n#define PREFIX "%s"\n' "$$PREFIX_STRING" | tee $(SRC_DIR)/prefix.h ; fi \
          )
 
@@ -1167,7 +1183,7 @@ $(CHKJSON_BIN): $(CHKJSON_SOURCES)
 json-check: $(CHKJSON_BIN)
 	./$(CHKJSON_BIN)
 
-clean: clean-tests clean-object_creator clean-pch clean-lang
+clean: clean-tests clean-pch clean-lang
 	rm -rf *$(TARGET_NAME) *$(TILES_TARGET_NAME)
 	rm -rf *$(TILES_TARGET_NAME).exe *$(TARGET_NAME).exe *$(TARGET_NAME).a
 	rm -rf *obj *objwin
@@ -1192,10 +1208,11 @@ DATA_PREFIX=$(DESTDIR)$(PREFIX)/share/cataclysm-dda/
 BIN_PREFIX=$(DESTDIR)$(PREFIX)/bin
 LOCALE_DIR=$(DESTDIR)$(PREFIX)/share/locale
 SHARE_DIR=$(DESTDIR)$(PREFIX)/share
-install: version $(TARGET)
+install: version $(TARGET) $(ZZIP_BIN)
 	mkdir -p $(DATA_PREFIX)
 	mkdir -p $(BIN_PREFIX)
 	install --mode=755 $(TARGET) $(BIN_PREFIX)
+	install --mode=755 $(ZZIP_BIN) $(BIN_PREFIX)
 	cp -R --no-preserve=ownership data/core $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/font $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/json $(DATA_PREFIX)
@@ -1275,9 +1292,9 @@ build-data/osx/AppIcon.icns: build-data/osx/AppIcon.iconset
 	iconutil -c icns $<
 
 ifdef OSXCROSS
-app: appclean version $(APPTARGET)
+app: appclean version $(APPTARGET) $(ZZIP_BIN)
 else
-app: appclean version build-data/osx/AppIcon.icns $(APPTARGET)
+app: appclean version build-data/osx/AppIcon.icns $(APPTARGET) $(ZZIP_BIN)
 endif
 	mkdir -p $(APPTARGETDIR)/Contents
 	cp build-data/osx/Info.plist $(APPTARGETDIR)/Contents/
@@ -1285,6 +1302,7 @@ endif
 	cp build-data/osx/Cataclysm.sh $(APPTARGETDIR)/Contents/MacOS/
 	mkdir -p $(APPRESOURCESDIR)
 	cp $(APPTARGET) $(APPRESOURCESDIR)/
+	cp $(ZZIP_BIN) $(APPRESOURCESDIR)/
 	cp build-data/osx/AppIcon.icns $(APPRESOURCESDIR)/
 	mkdir -p $(APPDATADIR)
 	cp data/fontdata.json $(APPDATADIR)
@@ -1338,9 +1356,9 @@ endif
 
 endif  # ifeq ($(NATIVE), osx)
 
-$(BINDIST): distclean version $(TARGET) $(L10N) $(BINDIST_EXTRAS) $(BINDIST_LOCALE)
+$(BINDIST): distclean version $(TARGET) $(ZZIP_BIN) $(L10N) $(BINDIST_EXTRAS) $(BINDIST_LOCALE)
 	mkdir -p $(BINDIST_DIR)
-	cp -R $(TARGET) $(BINDIST_EXTRAS) $(BINDIST_DIR)
+	cp -R $(TARGET) $(ZZIP_BIN) $(BINDIST_EXTRAS) $(BINDIST_DIR)
 	$(foreach lib,$(INSTALL_EXTRAS), install --strip $(lib) $(BINDIST_DIR))
 ifdef LANGUAGES
 	cp -R --parents lang/mo $(BINDIST_DIR)
@@ -1419,6 +1437,12 @@ $(JSON_FORMATTER_BIN): $(JSON_FORMATTER_SOURCES)
 	$(CXX) $(CXXFLAGS) -MMD -MP $(TOOL_CXXFLAGS) -Itools/format -Isrc -isystem src/third-party \
 	  $(JSON_FORMATTER_SOURCES) -o $(JSON_FORMATTER_BIN)
 
+$(BUILD_PREFIX)zstd.a: $(filter $(ODIR)/third-party/zstd/%.o,$(OBJS))
+	$(AR) rcs $(AR_FLAGS) $(BUILD_PREFIX)zstd.a $^
+
+$(ZZIP_BIN): $(ZZIP_SOURCES) $(BUILD_PREFIX)zstd.a
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -MMD -MP $(ZZIP_SOURCES) $(BUILD_PREFIX)zstd.a -isystem src/third-party -o $(ZZIP_BIN)
+
 python-check:
 	flake8
 
@@ -1431,15 +1455,6 @@ check: version $(BUILD_PREFIX)cataclysm.a $(LOCALIZE_TEST_DEPS)
 clean-tests:
 	$(MAKE) -C tests clean
 
-object_creator: version $(BUILD_PREFIX)cataclysm.a
-	$(MAKE) -C object_creator
-
-object_creator.exe: version $(BUILD_PREFIX)cataclysm.a
-	$(MAKE) -C object_creator object_creator.exe
-
-clean-object_creator:
-	$(MAKE) -C object_creator clean
-
 clean-pch:
 	rm -f pch/*pch.hpp.gch
 	rm -f pch/*pch.hpp.pch
@@ -1449,6 +1464,6 @@ clean-pch:
 clean-lang:
 	$(MAKE) -C lang clean
 
-.PHONY: tests check ctags etags clean-tests clean-object_creator clean-pch clean-lang install lint
+.PHONY: tests check ctags etags clean-tests clean-pch clean-lang install lint
 
 -include ${OBJS:.o=.d}

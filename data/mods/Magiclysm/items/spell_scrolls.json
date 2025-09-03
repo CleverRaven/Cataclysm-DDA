@@ -2456,7 +2456,17 @@
     "id": "spell_scroll_magus_push_nearby_enemies_back",
     "//": "Magus spell",
     "name": { "str": "Scroll of Repulsion Wave", "str_pl": "Scrolls of Repulsion Wave" },
-    "description": "Unless a wave of force to hurl anyone nearby backwards.  Great for the commute.",
+    "description": "Unleash a wave of force to hurl anyone nearby backwards.  Great for the commute.",
     "use_action": { "type": "learn_spell", "spells": [ "magus_push_nearby_enemies_back" ] }
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_animist_see_invisibility",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Seeing the Unseen", "str_pl": "Scrolls of Seeing the Unseen" },
+    "description": "Detect nearby beings with your soul rather than your eyes, allowing you to see invisible creatures.",
+    "use_action": { "type": "learn_spell", "spells": [ "animist_see_invisibility" ] }
   }
 ]

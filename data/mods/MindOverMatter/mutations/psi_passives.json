@@ -232,13 +232,10 @@
     "enchantments": [
       {
         "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
-        "values": [
-          { "value": "REGEN_HP", "multiply": { "math": [ "(0.1 + (0.0005 * u_spell_level_sum('school': 'VITAKINETIC')))" ] } },
-          {
-            "value": "MAX_HP",
-            "multiply": { "math": [ "(0.05 + (0.0005 * u_spell_level_sum('school': 'VITAKINETIC')))" ] }
-          }
-        ]
+        "values": [ { "value": "REGEN_HP", "multiply": { "math": [ "(0.1 + (0.0005 * u_spell_level_sum('school': 'VITAKINETIC')))" ] } } ]
+      },
+      {
+        "values": [ { "value": "MAX_HP", "multiply": { "math": [ "(0.05 + (0.0005 * u_spell_level_sum('school': 'VITAKINETIC')))" ] } } ]
       }
     ],
     "flags": [ "MEND_ALL" ]

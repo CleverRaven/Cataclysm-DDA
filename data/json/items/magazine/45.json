@@ -360,6 +360,14 @@
     "subtypes": [ "MAGAZINE" ],
     "name": { "str": "Glock .45 10-round magazine" },
     "description": "A 10-round magazine for use with Glock firearms chambered in .45 ACP.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "glock_21mag_10",
+        "name": { "str": "Glock 21 10-round magazine" },
+        "description": "A 10-round magazine for use with the Glock 21."
+      }
+    ],
     "copy-from": "glock_21mag",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 10 } } ]
   },
@@ -398,6 +406,8 @@
     "subtypes": [ "MAGAZINE" ],
     "name": { "str": "Glock 36 magazine" },
     "description": "A 6-round magazine for the Glock 36. Incompatible with other .45 Glocks",
+    "//": "delete variants from glock 21 mag",
+    "variants": [  ],
     "weight": "70 g",
     "volume": "72 ml",
     "copy-from": "glock_21mag",

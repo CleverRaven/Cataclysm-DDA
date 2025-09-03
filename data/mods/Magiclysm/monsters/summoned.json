@@ -6,6 +6,7 @@
     "copy-from": "mon_shadow",
     "name": { "str": "shadow" },
     "description": "This is an animate shadow.  Looking like nothing more than an errant patch of normal shadow, it draws your attention by the way it moves subtly and whispers softly in the back of your mind.  Strange intrusive thoughts accompany the quiet murmur, awakening your most horrific memories and fears.",
+    "species": [ "NETHER", "SUMMONED_CREATURE" ],
     "hp": 60,
     "speed": 150,
     "melee_skill": 8,
@@ -41,6 +42,7 @@
     "copy-from": "mon_magi_shadow",
     "name": { "str": "shadow" },
     "description": "This is an animate shadow.  Looking like nothing more than an errant patch of normal shadow, it draws your attention by the way it moves subtly and whispers softly in the back of your mind.  Strange intrusive thoughts accompany the quiet murmur, awakening your most horrific memories and fears.",
+    "species": [ "NETHER", "SUMMONED_CREATURE" ],
     "default_faction": "zombie"
   },
   {
@@ -48,6 +50,7 @@
     "copy-from": "mon_keeper_of_the_glades",
     "type": "MONSTER",
     "name": { "str_sp": "keeper of the glades" },
+    "species": [ "FOREST_SPIRIT", "SUMMONED_CREATURE" ],
     "extend": { "special_attacks": [  ] }
   },
   {
@@ -98,5 +101,68 @@
       "EATS"
     ],
     "armor": { "bash": 60, "cut": 72, "acid": 18, "heat": 8, "bullet": 50, "psionic": 14 }
+  },
+  {
+    "id": "mon_aerial_assassin",
+    "type": "MONSTER",
+    "name": { "str": "aerial assassin" },
+    "description": "A puff of wind, barely visible.  Only a few eddies in the air indicate that there is anything here at all.",
+    "default_faction": "aerial_assassin",
+    "species": [ "WIND_SPIRIT" ],
+    "diff": 2,
+    "volume": "750 ml",
+    "weight": "1 kg",
+    "hp": 60,
+    "speed": 90,
+    "symbol": "I",
+    "color": "white",
+    "aggression": 20,
+    "morale": 100,
+    "melee_skill": 6,
+    "melee_dice": 1,
+    "melee_dice_sides": 8,
+    "melee_damage": [ { "damage_type": "bash", "amount": 3 } ],
+    "dodge": 4,
+    "vision_day": 25,
+    "vision_night": 8,
+    "families": [ "prof_wp_netherium_abomination" ],
+    "harvest": "exempt",
+    "special_attacks": [
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "smash",
+        "move_cost": 150,
+        "cooldown": 35,
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 3 } ],
+        "throw_strength": 20,
+        "hit_dmg_u": "A blast of wind hurls you off your feet!",
+        "hit_dmg_npc": "A blast of wind hurls <npcname> off their feet!",
+        "no_dmg_msg_u": "A blast of wind whips your clothes as it flies past.",
+        "no_dmg_msg_npc": "A blast of wind whips <npcname>'s clothes as it flies past.",
+        "miss_msg_u": "A blast of wind hurls you off your feet!",
+        "miss_msg_npc": "A blast of wind hurls <npcname> off their feet!"
+      }
+    ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s blows away." },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "GOODHEARING",
+      "NOHEAD",
+      "HARDTOSHOOT",
+      "WEBWALK",
+      "FLIES",
+      "PLASTIC",
+      "ACIDPROOF",
+      "STUN_IMMUNE",
+      "COLDPROOF",
+      "BIOLOGICALPROOF",
+      "BULLETPROOF",
+      "HIT_AND_RUN",
+      "NO_BREATHE",
+      "NOGIB",
+      "PERMANENT_INVISIBILITY"
+    ]
   }
 ]

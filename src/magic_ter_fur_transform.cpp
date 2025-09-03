@@ -44,6 +44,11 @@ void ter_furn_transform::load_transform( const JsonObject &jo, const std::string
     ter_furn_transform_factory.load( jo, src );
 }
 
+void ter_furn_transform::finalize_all()
+{
+    ter_furn_transform_factory.finalize();
+}
+
 void ter_furn_transform::reset_all()
 {
     ter_furn_transform_factory.reset();

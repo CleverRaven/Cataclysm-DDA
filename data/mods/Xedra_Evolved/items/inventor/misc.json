@@ -60,7 +60,7 @@
     "description": "A lightweight, battery-powered tool to weld metal pieces together using a plasma-inducted electric arc.  A decent tool, but you think you can do more with some modifications.",
     "weight": "2000 g",
     "volume": "2500 ml",
-    "material": [ "steel", "plastic" ],
+    "material": [ "lc_steel", "plastic" ],
     "extend": { "flags": [ "INVENTOR_CRAFTED" ] },
     "pocket_data": [
       {
@@ -134,7 +134,7 @@
     "looks_like": "box_large_metal",
     "description": "An enormous industrial press shaped device, covered in sensors, circuits, and other doodads.  Two inverted teleporters are located on each side of the hammers, poised to perfectly align at the end of a strike.  Doing so will smoothen the overall local barrier between Earth and other realities, filling in any holes at the expense of weakening it in a much wider area.  This is an overall positive effect, allowing you to heal tears that would never naturally close, but expect large temporary side-effects.",
     "longest_side": "1495 mm",
-    "material": [ "steel" ],
+    "material": [ "mc_steel" ],
     "symbol": "#",
     "volume": "601475 ml",
     "weight": "226 kg",
@@ -173,7 +173,7 @@
     "weight": "300 g",
     "volume": "400 ml",
     "longest_side": "30 cm",
-    "material": [ "aluminum", "steel" ],
+    "material": [ "aluminum", "mc_steel" ],
     "symbol": ";",
     "color": "white",
     "flags": [ "ELECTRONIC", "INVENTOR_CRAFTED", "TRADER_AVOID" ],

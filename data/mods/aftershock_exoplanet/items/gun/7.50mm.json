@@ -7,7 +7,7 @@
     "name": { "str": "MarSec. T72" },
     "description": "A massive, unwieldy revolver, using combined magnetic and chemical propulsion to fire 7.50mm rounds at energies that rival a sniping platform.  It additionally features a secondary barrel for a single 00 shot shell.\n\nThe T72 remains a relic of the early hyperspace era, meant to be used by and against the posthuman.  Its perhaps most notable for its use by fictional rebel figures than for any sort of actual combat effectiveness.",
     "weight": "2204 g",
-    "volume": "1750 ml",
+    "volume": "1250 ml",
     "longest_side": "25 cm",
     "price": "6400 USD",
     "price_postapoc": "6400 USD",
@@ -21,6 +21,7 @@
     "min_strength": 16,
     "clip_size": 9,
     "flags": [ "WATERPROOF_GUN", "RELOAD_ONE", "NEVER_JAMS" ],
+    "variants": [  ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
@@ -60,13 +61,14 @@
     "durability": 5,
     "blackpowder_tolerance": 60,
     "ammo": [ "afs_7.50mm" ],
+    "variants": [  ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_7.50mm": 1 } } ],
     "faults": [ { "fault": "fault_gun_blackpowder" }, { "fault": "fault_gun_dirt" } ]
   },
   {
     "id": "afs_Accipitermg",
     "copy-from": "rifle_auto",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "Accipiter Hawk-00" },
@@ -86,6 +88,7 @@
     "reload": 400,
     "modes": [ [ "DEFAULT", "burst", 4 ] ],
     "built_in_mods": [ "bipod" ],
+    "variants": [  ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
@@ -113,7 +116,7 @@
   {
     "id": "afs_gibrifle",
     "copy-from": "rifle_semi",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "G&W SR-P9" },
@@ -132,6 +135,7 @@
     "dispersion": 150,
     "durability": 10,
     "min_cycle_recoil": 1350,
+    "variants": [  ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -197,7 +201,7 @@
     "dispersion": 260,
     "durability": 10,
     "min_cycle_recoil": 1350,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "burst", 5 ], [ "AUTO", "auto", 15 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "burst", 5 ], [ "AUTO", "auto", 15 ] ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
@@ -222,7 +226,7 @@
   {
     "id": "afs_vahagn_smartgun",
     "copy-from": "rifle_semi",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "ARTIFACT", "GUN" ],
     "name": { "str": "Wraitheon Vahagn 10XR" },
@@ -245,6 +249,7 @@
     "blackpowder_tolerance": 0,
     "min_cycle_recoil": 0,
     "handling": 25,
+    "variants": [  ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

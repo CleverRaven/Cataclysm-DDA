@@ -90,6 +90,7 @@ class string_input_popup_imgui : public input_popup
         void set_text( const std::string &txt );
         void use_uilist_history( bool use_uilist );
         void update_input_history( ImGuiInputTextCallbackData *data );
+        bool want_clear_text();
     protected:
         void draw_input_control() override;
     private:
@@ -103,6 +104,7 @@ class string_input_popup_imgui : public input_popup
         bool is_uilist_history = true;
         uint64_t max_history_size = 100;
         int history_index = 0;
+        bool do_clear_text = false;
 };
 
 // todo: make generic for any numeric type?

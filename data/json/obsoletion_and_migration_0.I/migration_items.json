@@ -1925,7 +1925,7 @@
     "id": "superglue",
     "type": "MIGRATION",
     "replace": "small_squeeze_tube",
-    "contents": [ { "id": "super_glue", "count": 40 } ]
+    "contents": [ { "id": "glue_strong", "count": 40 } ]
   },
   {
     "id": "egg_goose_golden",
@@ -2669,27 +2669,37 @@
   },
   {
     "type": "MIGRATION",
-    "id": "combatsaw_off",
-    "replace": "chainsaw_off"
+    "id": "solarpack",
+    "replace": "folding_solar_panel_v2"
   },
   {
     "type": "MIGRATION",
-    "id": "combatsaw_on",
-    "replace": "chainsaw_on"
+    "id": "solarpack_on",
+    "replace": "folding_solar_panel_v2"
   },
   {
     "type": "MIGRATION",
-    "id": "e_combatsaw_off",
-    "replace": "elec_chainsaw_off"
+    "id": [ "bone_glue", "rubber_cement" ],
+    "replace": "glue_weak"
   },
   {
     "type": "MIGRATION",
-    "id": "e_combatsaw_on",
-    "replace": "elec_chainsaw_on"
+    "id": "super_glue",
+    "replace": "glue_strong"
   },
   {
     "type": "MIGRATION",
-    "id": "long_duffelbag",
-    "replace": "duffelbag"
+    "id": "fresh_fries_j",
+    "replace": "fries"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "fresh_fries",
+    "replace": "fries"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "crude_bronze_nail",
+    "replace": "bronze_nail"
   }
 ]

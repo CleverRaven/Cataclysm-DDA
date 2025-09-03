@@ -590,7 +590,7 @@
     "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str": "overcharge burn" },
     "description": "Ouch, this really smarts!  It'll go away soon, maybe?",
-    "weight": "1 g",
+    "weight": "500 mg",
     "volume": "1 ml",
     "symbol": "~",
     "color": "light_red",
@@ -605,7 +605,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "aura of protection", "str_pl": "auras of protection" },
     "description": "An all-encompassing, invisible layer of magical aura that protects you from the environment.",
-    "weight": "1 g",
+    "weight": "500 mg",
     "volume": "1 ml",
     "symbol": "o",
     "color": "blue",
@@ -637,7 +637,7 @@
     "name": "feral aura",
     "//": "Needs to remain an item instead of an effect until enchantment mutations from effects are fixed.",
     "description": "The manifestation of your rage.  It won't disappear until you calm down.",
-    "weight": "1 g",
+    "weight": "500 mg",
     "volume": "1 ml",
     "price": "36 USD 46 cent",
     "symbol": "o",
@@ -654,7 +654,7 @@
     "name": "enhanced feral aura",
     "//": "Needs to remain an item instead of an effect until enchantment mutations from effects are fixed.",
     "description": "The manifestation of your rage.  It won't disappear until you calm down.",
-    "weight": "1 g",
+    "weight": "500 mg",
     "volume": "1 ml",
     "price": "36 USD 46 cent",
     "symbol": "o",
@@ -753,7 +753,7 @@
     "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": "werewolf aura",
     "description": "You have become the werewolf.  Boys becoming men, men becoming wolves.",
-    "weight": "1 g",
+    "weight": "500 mg",
     "volume": "1 ml",
     "price": "36 USD 46 cent",
     "symbol": "o",
@@ -1809,12 +1809,12 @@
     "id": "EOC_DRUID_EAT_THE_GOODBERRY",
     "//": "Will not unbreak your limbs, but heals you.",
     "effect": [
-      { "if": { "math": [ "u_hp('head') > 0" ] }, "then": { "math": [ "u_hp('head')", "+=", "3" ] } },
-      { "if": { "math": [ "u_hp('torso') > 0" ] }, "then": { "math": [ "u_hp('torso')", "+=", "3" ] } },
-      { "if": { "math": [ "u_hp('arm_l') > 0" ] }, "then": { "math": [ "u_hp('arm_l')", "+=", "3" ] } },
-      { "if": { "math": [ "u_hp('arm_r') > 0" ] }, "then": { "math": [ "u_hp('arm_r')", "+=", "3" ] } },
-      { "if": { "math": [ "u_hp('leg_l') > 0" ] }, "then": { "math": [ "u_hp('leg_l')", "+=", "3" ] } },
-      { "if": { "math": [ "u_hp('leg_r') > 0" ] }, "then": { "math": [ "u_hp('leg_r')", "+=", "3" ] } }
+      { "if": { "math": [ "u_hp('head') > 0" ] }, "then": { "math": [ "u_hp('head') += 3" ] } },
+      { "if": { "math": [ "u_hp('torso') > 0" ] }, "then": { "math": [ "u_hp('torso') += 3" ] } },
+      { "if": { "math": [ "u_hp('arm_l') > 0" ] }, "then": { "math": [ "u_hp('arm_l') += 3" ] } },
+      { "if": { "math": [ "u_hp('arm_r') > 0" ] }, "then": { "math": [ "u_hp('arm_r') += 3" ] } },
+      { "if": { "math": [ "u_hp('leg_l') > 0" ] }, "then": { "math": [ "u_hp('leg_l') += 3" ] } },
+      { "if": { "math": [ "u_hp('leg_r') > 0" ] }, "then": { "math": [ "u_hp('leg_r') += 3" ] } }
     ]
   }
 ]

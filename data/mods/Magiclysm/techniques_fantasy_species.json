@@ -11,11 +11,10 @@
     "reach_ok": false,
     "attack_vectors": [ "vector_bite" ],
     "condition": { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] },
-    "//": "The bonuses below are based on the natural anatomy of a non-human creature and should not be used for mutant attack scaling.",
     "flat_bonuses": [
-      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.1 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.8 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.065 },
+      { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.06 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]
@@ -28,15 +27,14 @@
     "messages": [ "You bite %s", "<npcname> bites %s" ],
     "description": "Bite someone with a goblin's naturally-sharp teeth.",
     "unarmed_allowed": true,
-    "weighting": -2,
+    "weighting": 1,
     "reach_ok": false,
     "attack_vectors": [ "vector_bite" ],
     "condition": { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] },
-    "//": "The bonuses below are based on the natural anatomy of a non-human creature and should not be used for mutant attack scaling.",
     "flat_bonuses": [
-      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.1 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.8 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.065 },
+      { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.06 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]
@@ -69,14 +67,13 @@
     "messages": [ "You bite %s", "<npcname> bites %s" ],
     "description": "Bite someone with a lizardfolk's naturally-sharp teeth.",
     "unarmed_allowed": true,
-    "weighting": -2,
+    "weighting": -1,
     "reach_ok": false,
     "attack_vectors": [ "vector_bite" ],
-    "//": "The bonuses below are based on the natural anatomy of a non-human creature and should not be used for mutant attack scaling.",
     "flat_bonuses": [
-      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.1 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.8 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.065 },
+      { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.06 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]
@@ -88,12 +85,11 @@
     "melee_allowed": true,
     "messages": [ "You viciously tear into %s", "<npcname> viciously tears %s" ],
     "unarmed_allowed": true,
-    "weighting": -2,
+    "weighting": 1,
     "reach_ok": false,
     "crit_tec": true,
     "attack_vectors": [ "vector_bite" ],
     "condition": { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] },
-    "//": "The bonuses below are based on the natural anatomy of a non-human creature and should not be used for mutant attack scaling.",
     "flat_bonuses": [
       { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 4.4 },
       { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },

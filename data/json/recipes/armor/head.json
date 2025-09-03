@@ -528,62 +528,30 @@
     "skill_used": "tailor",
     "difficulty": 6,
     "skills_required": [ [ "fabrication", 3 ] ],
-    "time": "2 h",
+    "time": "170 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_arthropod", 5 ] ],
-    "using": [ [ "armor_chitin", 12 ] ],
+    "byproducts": [ [ "leather", 3 ], [ "scrap_leather", 4 ] ],
+    "using": [ [ "armor_chitin", 9 ], [ "tailoring_leather_patchwork", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_chitinworking" },
-      { "proficiency": "prof_fibers" }
+      { "proficiency": "prof_closures" }
     ]
   },
   {
     "result": "helmet_chitin_xs",
     "type": "recipe",
     "copy-from": "helmet_chitin",
-    "time": "1 h 30 m",
-    "using": [ [ "armor_chitin", 9 ] ]
+    "time": "130 m",
+    "using": [ [ "armor_chitin", 6 ], [ "tailoring_leather_patchwork", 1 ] ]
   },
   {
     "result": "xl_helmet_chitin",
     "type": "recipe",
     "copy-from": "helmet_chitin",
-    "time": "2 h 50 m",
-    "using": [ [ "armor_chitin", 17 ] ]
-  },
-  {
-    "result": "helmet_chitin_light",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "tailor",
-    "difficulty": 6,
-    "skills_required": [ [ "fabrication", 3 ] ],
-    "time": "1 h 30 m",
-    "autolearn": true,
-    "book_learn": [ [ "textbook_arthropod", 5 ] ],
-    "using": [ [ "armor_chitin", 10 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_chitinworking" },
-      { "proficiency": "prof_fibers" }
-    ]
-  },
-  {
-    "result": "helmet_chitin_light_xs",
-    "type": "recipe",
-    "copy-from": "helmet_chitin_light",
-    "time": "1 h",
-    "using": [ [ "armor_chitin", 7 ] ]
-  },
-  {
-    "result": "xl_helmet_chitin_light",
-    "type": "recipe",
-    "copy-from": "helmet_chitin_light",
-    "time": "2 h 20 m",
-    "using": [ [ "armor_chitin", 15 ] ]
+    "time": "200 m",
+    "using": [ [ "armor_chitin", 12 ], [ "tailoring_leather_patchwork", 2 ] ]
   },
   {
     "result": "helmet_conical",
@@ -659,42 +627,6 @@
     "type": "recipe",
     "copy-from": "helmet_acidchitin",
     "time": "3 h 20 m",
-    "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "cordage_superior", 2, "LIST" ] ], [ [ "acidchitin_piece", 17 ] ] ]
-  },
-  {
-    "result": "helmet_acidchitin_light",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "tailor",
-    "difficulty": 7,
-    "book_learn": [ [ "textbook_arthropod", 6 ] ],
-    "skills_required": [ [ "fabrication", 4 ], [ "chemistry", 2 ] ],
-    "time": "2 h 30 m",
-    "autolearn": true,
-    "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "acidchitin_piece", 10 ] ] ],
-    "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_chitinworking" },
-      { "proficiency": "prof_fibers" }
-    ]
-  },
-  {
-    "result": "helmet_acidchitin_light_xs",
-    "type": "recipe",
-    "copy-from": "helmet_acidchitin",
-    "time": "2 h 30 m",
-    "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "acidchitin_piece", 7 ] ] ]
-  },
-  {
-    "result": "xl_helmet_acidchitin_light",
-    "type": "recipe",
-    "copy-from": "helmet_acidchitin",
-    "time": "2 h 50 m",
     "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "cordage_superior", 2, "LIST" ] ], [ [ "acidchitin_piece", 17 ] ] ]
   },
@@ -1126,7 +1058,7 @@
     "time": "7 h",
     "autolearn": true,
     "using": [ [ "tailoring_nylon_patchwork", 1 ], [ "tailoring_neoprene_patchwork", 4 ], [ "tailoring_kevlar_fabric", 10 ] ],
-    "components": [ [ [ "wetsuit_hood", 1 ] ], [ [ "rubber_cement", 1 ] ] ],
+    "components": [ [ [ "wetsuit_hood", 1 ] ], [ [ "glue_weak", 250 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_millinery" },
       { "proficiency": "prof_closures" },
@@ -1178,7 +1110,7 @@
     "time": "12 h",
     "autolearn": true,
     "using": [ [ "tailoring_nylon_patchwork", 1 ], [ "tailoring_neoprene_patchwork", 1 ], [ "tailoring_kevlar_fabric", 20 ] ],
-    "components": [ [ [ "wetsuit_hood_thick", 1 ] ], [ [ "rubber_cement", 1 ] ] ]
+    "components": [ [ [ "wetsuit_hood_thick", 1 ] ], [ [ "glue_weak", 250 ] ] ]
   },
   {
     "result": "xs_hood_h20survivor_thick",
@@ -4260,5 +4192,33 @@
     "autolearn": true,
     "reversible": { "time": "10 m" },
     "using": [ [ "tailoring_cotton_patchwork", 2 ] ]
+  },
+  {
+    "result": "hat_hard_modified",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "1 h",
+    "autolearn": true,
+    "using": [ [ "welding_standard", 20 ] ],
+    "components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "nuts_bolts", 12 ] ], [ [ "hat_hard", 1 ], [ "hat_hard_hooded", 1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
+    "qualities": [ { "id": "DRILL", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "WRENCH", "level": 2 } ]
+  },
+  {
+    "result": "helmet_motor_modified",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 m",
+    "autolearn": true,
+    "components": [ [ [ "helmet_mounting_brackets", 1 ] ], [ [ "helmet_motor", 1 ], [ "helmet_motor_raised", 1 ] ] ],
+    "qualities": [ { "id": "DRILL", "level": 2 }, { "id": "THREAD_CUT", "level": 2 }, { "id": "SCREW", "level": 1 } ]
   }
 ]

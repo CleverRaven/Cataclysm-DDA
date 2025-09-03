@@ -180,7 +180,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Stamina Cost*: 8000, minus 250 per level to a minimum of 4000<br />
 *Channeling Time*: 250 moves, minus 13 moves per level to a minimum of 50<br />
 *Effects*: Whenever the psion mutates, they may choose from 1 + 0.25 extra mutations per level for which trait they want to mutate.  This power does not in of itself mutate the psion, and at high nether attunement may result in extra random mutations.<br />
-*Prerequisites*: Vitaminosis 10, Metabolic Hyperefficiency 10<br />
+*Prerequisites*: Special (must be studied from notes)<br />
 </details>
 <details>
 <summary><h3>Vitaminosis</h3></summary>
@@ -308,6 +308,18 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: Increase the psion's range with ranged weapons by 1 square per 4 power levels, reduces weapon dispersion by 2.5% per power level to a maximum of 60%, and increases your chance to hit weakpoints with ranged weapons by 10% plus 8% per power level.<br />
 *Prerequisites*: Discern Weakness 7<br />
 </details>
+<details>
+<summary><h3>Psychometry</h3></summary>
+
+*Difficulty*: 4<br />
+*Target*: One item<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 5000<br />
+*Channeling Time*: 5 minutes<br />
+*Effects*: Examine a single object, determining hidden information about it. Current supports determining: artifact resonance.<br />
+*Prerequisites*: Aura Sight 6, Speed Reading 8 *or* Premonition 8<br />
+</details>
+<details>
 <summary><h3>Sense Hostility (C)</h3></summary>
 
 *Difficulty*: 5<br />
@@ -381,7 +393,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 2 minutes and 30 seconds to 7 minutes and 30 seconds, plus 12 seconds to 25 seconds per level<br />
 *Stamina Cost*: 8000, minus 150 per level to a minimum of 4500<br />
 *Channeling Time*: 75 moves, minus 3.5 moves per level to a minimum of 25<br />
-*Effects*: The psion prevents anything from interfering with their senses, becoming immune to being Dazed, Stunned (either physically or psionically), blinded, made to hallucinate, deafened, Blinding Venom, and also cannot get high or drunk.<br />
+*Effects*: The psion prevents anything from interfering with their senses, becoming immune to being Dazed, Stunned (either physically or psionically), blinded, made to hallucinate, deafened, Blinding Venom, and also cannot get high or drunk.  In addition, the psion can see creatures that are supernaturally hard to perceive.  This does not stop enemy telepaths from hiding their presence.<br />
 *Prerequisites*: Night Eyes 10, Speed Reader 8 *or* Aura Sight 8 *or* Combat Sense 5<br />
 </details>
 <details>
@@ -728,6 +740,17 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Prerequisites*: Chameleoflage 8, Lucent Barrier 5<br />
 </details>
 <details>
+<summary><h3>Flashbang</h3></summary>
+
+*Difficulty*: 4<br />
+*Target*: An area of effect with radius 2 squares, plus 1 square per 2 power levels to a maximum of 30 squares, at a range of 3 squares plus 0.7 squares per power level to a maximum of 50 squares<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 4500, minus 120 per level to a minimum of 1750<br />
+*Channeling Time*: 135 moves, minus 5.5 moves per level to a minimum of 50<br />
+*Effects*: Wrap the psion in illusions, concealing any mutations or visible bionics they may have. NPCs will react to them better, and certain people who might refuse to talk to a mutant will be happy to talk to them.  Their total Ugliness is reduced by 60% plus 1.5% per level, to a maximum of 100% Ugliness reduction.<br />
+*Prerequisites*: Field of Light 9 *or* Photon Beam 5, Illuminate 6<br />
+</details>
+<details>
 <summary><h3>Lucid Shadows</h3></summary>
 
 *Difficulty*: 5<br />
@@ -802,7 +825,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Stamina Cost*: 6500, minus 95 per level to a minimum of 3250<br />
 *Channeling Time*: 125 moves, minus 7.5 moves per level to a minimum of 25<br />
 *Effects*: Begin glowing brighter than a floodlight, illuminating the ground out to XXXX squares and gaining a +4 dodge bonus as enemies have a hard time targeting the psion.  When hit or when attacking enemies, there is a 33% chance the psion will unleash an even brighter flash that blinds everyone within 5 squares plus 1.2 squares per power level for between 5 and 20 seconds.<br />
-*Prerequisites*: Field of Light 12, Star Flash 6 *or* Lucent Barrier 10<br />
+*Prerequisites*: Field of Light 12 *or* Flashbang 7, Star Flash 6 *or* Lucent Barrier 10<br />
 </details>
 <details>
 <summary><h3>Luminous Disintegration</h3></summary>
@@ -815,6 +838,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Effects*: Focus electromagnetic radiation onto a single point, doing immense damage to the target there.  This power does 45 to 135 photokinetic damage plus 5.5 to 17 photokinetic damage per power level<br />
 *Prerequisites*: Star Flash 8 *or* Photon Beam 14, Blinding Radiance 5<br />
 </details>
+<details>
 <summary><h3>Phantom Legion (C)</h3></summary>
 
 *Difficulty*: 9<br />

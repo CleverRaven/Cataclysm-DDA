@@ -70,6 +70,11 @@ void damage_type::load_damage_types( const JsonObject &jo, const std::string &sr
     damage_type_factory.load( jo, src );
 }
 
+void damage_type::finalize_all()
+{
+    damage_type_factory.finalize();
+}
+
 void damage_type::reset()
 {
     damage_type_factory.reset();
@@ -394,11 +399,8 @@ void damage_type::onhit_effects( Creature *source, Creature *target ) const
         dialogue d( source == nullptr ? nullptr : get_talker_for( source ),
                     target == nullptr ? nullptr : get_talker_for( target ) );
 
-        if( eoc->type == eoc_type::ACTIVATION ) {
-            eoc->activate( d );
-        } else {
-            debugmsg( "Must use an activation eoc for a damage type effect.  If you don't want the effect_on_condition to happen on its own (without the damage type effect being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this damage type with its condition and effects, then have a recurring one queue it." );
-        }
+        eoc->activate_activation_only( d, "a damage type effect", "damage type effect being activated",
+                                       "damage type" );
     }
 }
 
@@ -439,11 +441,8 @@ void damage_type::ondamage_effects( Creature *source, Creature *target, bodypart
         d.set_value( "total_damage", total_damage );
         d.set_value( "bp", bp.str() );
 
-        if( eoc->type == eoc_type::ACTIVATION ) {
-            eoc->activate( d );
-        } else {
-            debugmsg( "Must use an activation eoc for a damage type effect.  If you don't want the effect_on_condition to happen on its own (without the damage type effect being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this damage type with its condition and effects, then have a recurring one queue it." );
-        }
+        eoc->activate_activation_only( d, "a damage type effect", "damage type effect being activated",
+                                       "damage type" );
     }
 }
 

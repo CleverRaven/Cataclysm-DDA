@@ -80,13 +80,7 @@ std::vector<item> vehicle_part::get_salvageable() const
         item newit( comp.type, calendar::turn );
         if( base.typeId() != comp.type && !newit.has_flag( flag_UNRECOVERABLE ) ) {
             int compcount = comp.count;
-            const bool is_liquid = newit.made_of( phase_id::LIQUID );
-            if( newit.count_by_charges() || is_liquid ) {
-                newit.charges = compcount;
-                compcount = 1;
-            } else if( !newit.craft_has_charges() && newit.charges > 0 ) {
-                newit.charges = 0;
-            }
+            newit.compress_charges_or_liquid( compcount );
             for( ; compcount > 0; compcount-- ) {
                 tmp.push_back( newit );
             }

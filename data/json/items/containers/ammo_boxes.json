@@ -13,6 +13,7 @@
     "color": "brown",
     "looks_like": "box_small",
     "variant_type": "generic",
+    "//": "These variants must remain 0 weight, as most ammo boxes copy from this and inherit variants",
     "variants": [
       {
         "id": "22lr_ammo_box_50",
@@ -84,7 +85,16 @@
     "weight": "5 g",
     "volume": "46 ml",
     "material": [ "plastic" ],
-    "pocket_data": [ { "ammo_restriction": { "22": 50 }, "rigid": true } ]
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "26 mm",
+        "max_contains_volume": "33 ml",
+        "max_item_volume": "1 ml",
+        "max_contains_weight": "200 g",
+        "rigid": true
+      }
+    ]
   },
   {
     "id": "22lr_ammo_box_100",
@@ -904,5 +914,25 @@
     "weight": "17 g",
     "volume": "189 ml",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "135 ml", "max_contains_weight": "750 g", "rigid": true } ]
+  },
+  {
+    "id": "3030_ammo_box_20",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".30-30 Winchester ammo box", "str_pl": ".30-30 Winchester ammo boxes" },
+    "description": "This box holds 20 rounds of .30-30 Winchester ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "10 g",
+    "volume": "164 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "117 ml", "max_contains_weight": "750 g", "rigid": true } ]
+  },
+  {
+    "id": "3030_ammo_box_200",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".30-30 Winchester ammo box", "str_pl": ".30-30 Winchester ammo boxes" },
+    "description": "This box holds 200 rounds of .30-30 Winchester ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "100 g",
+    "volume": "1640 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1170 ml", "max_contains_weight": "7500 g", "rigid": true } ]
   }
 ]

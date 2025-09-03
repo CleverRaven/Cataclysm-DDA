@@ -1,29 +1,32 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
 - [Subtypes](#subtypes)
 - [Generic Items](#generic-items)
-   * [To hit object](#to-hit-object)
+  - [To hit object](#to-hit-object)
 - [Ammo](#ammo)
 - [Ammo Effects](#ammo-effects)
 - [Magazine](#magazine)
-- [Ammunition Type](#ammunition-type)
+- [Ammunition type](#ammunition-type)
 - [Armor](#armor)
-   * [Armor Portion Data](#armor-portion-data)
-      + [Encumbrance](#encumbrance)
-      + [Encumbrance_modifiers](#encumbrance_modifiers)
-      + [breathability](#breathability)
-      + [Layers](#layers)
-      + [rigid_layer_only](#rigid_layer_only)
-      + [Coverage](#coverage)
-      + [Covers](#covers)
-      + [Specifically Covers](#specifically-covers)
-      + [Part Materials](#part-materials)
-      + [Armor Data](#armor-data)
-   * [Guidelines for thickness: ####](#guidelines-for-thickness-)
-   * [Armor inheritance](#armor-inheritance)
+  - [Armor Portion Data](#armor-portion-data)
+    - [Encumbrance](#encumbrance)
+    - [Encumbrance_modifiers](#encumbrance_modifiers)
+    - [breathability](#breathability)
+    - [Layers](#layers)
+    - [rigid_layer_only](#rigid_layer_only)
+    - [Coverage](#coverage)
+    - [Covers](#covers)
+    - [Specifically Covers](#specifically-covers)
+    - [Part Materials](#part-materials)
+  - [Guidelines for thickness:](#guidelines-for-thickness)
+  - [Armor inheritance](#armor-inheritance)
 - [Pet Armor](#pet-armor)
 - [Books](#books)
-   * [Conditional Naming](#conditional-naming)
-   * [Color Key](#color-key)
-   * [CBMs](#cbms)
+  - [Conditional Naming](#conditional-naming)
+  - [Color Key](#color-key)
+  - [CBMs](#cbms)
 - [Comestibles](#comestibles)
 - [Containers](#containers)
 - [Melee](#melee)
@@ -32,18 +35,22 @@
 - [Gunmod](#gunmod)
 - [Batteries](#batteries)
 - [Tools](#tools)
-- [Seed](#seeds)
+- [Seed](#seed)
 - [Brewables](#brewables)
-   * [`Effects_carried`](#effects_carried)
-   * [`effects_worn`](#effects_worn)
-   * [`effects_wielded`](#effects_wielded)
-   * [`effects_activated`](#effects_activated)
 - [Compostables](#compostables)
 - [Milling](#milling)
+  - [`Effects_carried`](#effects_carried)
+  - [`effects_worn`](#effects_worn)
+  - [`effects_wielded`](#effects_wielded)
+  - [`effects_activated`](#effects_activated)
 - [Use Actions](#use-actions)
 - [Drop Actions](#drop-actions)
 - [Tick Actions](#tick-actions)
-   * [Delayed Item Actions](#delayed-item-actions)
+  - [Delayed Item Actions](#delayed-item-actions)
+- [Item Properties](#item-properties)
+- [Item Variables](#item-variables)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ### Subtypes
 
@@ -59,6 +66,7 @@ Items are any entity in the game you can pick up.  They all share a set of JSON 
 - BOOK - can be read
 - PET_ARMOR - defines pet armor
 - BIONIC_ITEM - item is a CBM, if installed, you get the bionic effect with the same id as the item name
+- ARTIFACT - can define the passive_effects parameter and carry enchantments
 - TOOLMOD - this is a toolmod, and can be installed to modify tool in some way (mainly battery slot changes)
 - ENGINE - defines the properties of a vehicle engine if installed in a transport
 - WHEEL - defines the properties of a vehicle wheel if installed in a transport
@@ -825,7 +833,13 @@ Guns can be defined like this:
 "cooling_value": 3,        // Amount of heat value, that is reduced every turn
 "overheat_threshold": 100, // Heat value, at which fault may occur, see #Item faults; values below zero mean item won't be able to fault
 "ammo_to_fire" 1,          // Amount of ammo used
-"modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ], // Firing modes on this gun, DEFAULT,AUTO, or MELEE followed by the name of the mode displayed in game, and finally the number of shots of the mod.
+"modes": [                        // Firing modes on this gun
+  [ "DEFAULT", "semi-auto", 1 ],  // First value is id of a fire more, and generally used for NPC stuff. Consider using AUTO, BURST or DEFAULT for modes intended for NPCs
+  [ "AUTO", "auto", 4 ]           // Second value is a name of a fire mod, that would be printed in the menu
+  [ "RANDOM_ID", "Mag dump", 30 ] // Third value is amount of rounds this fire mode will shoot
+  [ "FOOBAR", "Volley", 2, "VOLLEY" ] // Fourth value is an optional flags. Possible flags are:
+  [ "FOOBAR2", "alternative_notation", 3, [ "VOLLEY" ] ] // VOLLEY - all rounds shot by this mode would shoot at once, 
+],                                                       // in that the recoil would be applied not after each shot, but only in the end
 "reload": 450,             // Amount of time to reload, 100 = 1 second = 1 "turn"
 "reload_noise": "Ping!",   // Sound, that would be produced, when the gun is reloaded; seems to not work
 "reload_noise_volume": 4,  // how loud the reloading is

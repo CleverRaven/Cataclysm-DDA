@@ -99,6 +99,20 @@
   },
   {
     "type": "SPELL",
+    "id": "AO_TRUESIGHT_EFFECT",
+    "name": { "str": "Artifact Truesight" },
+    "description": "Grants you the TRUE_SEEING flag.",
+    "message": "You see movement in the corners of your vision..",
+    "valid_targets": [ "self" ],
+    "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "effect_str": "effect_true_seeing",
+    "shape": "blast",
+    "min_duration": 6800,
+    "max_duration": 6800
+  },
+  {
+    "type": "SPELL",
     "id": "AO_DARKNESS_EFFECT",
     "name": { "str": "Artifact Darkness" },
     "description": "Grants you the Darkness effect.",

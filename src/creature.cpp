@@ -107,7 +107,6 @@ static const efftype_id effect_eff_mind_seeing_bonus_30( "eff_mind_seeing_bonus_
 static const efftype_id effect_eff_mind_seeing_bonus_5( "eff_mind_seeing_bonus_5" );
 static const efftype_id effect_eff_monster_immune_to_telepathy( "eff_monster_immune_to_telepathy" );
 static const efftype_id effect_foamcrete_slow( "foamcrete_slow" );
-static const efftype_id effect_invisibility( "invisibility" );
 static const efftype_id effect_knockdown( "knockdown" );
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_no_sight( "no_sight" );
@@ -136,9 +135,12 @@ static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const json_character_flag json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMAGE" );
 static const json_character_flag json_flag_FREEZE_EFFECTS( "FREEZE_EFFECTS" );
 static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
+static const json_character_flag json_flag_INVISIBLE( "INVISIBLE" );
 static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
 static const json_character_flag json_flag_LIMB_UPPER( "LIMB_UPPER" );
+static const json_character_flag json_flag_SUPPRESS_INVISIBILITY( "SUPPRESS_INVISIBILITY" );
 static const json_character_flag json_flag_TEEPSHIELD( "TEEPSHIELD" );
+static const json_character_flag json_flag_TRUE_SEEING( "TRUE_SEEING" );
 
 static const material_id material_cotton( "cotton" );
 static const material_id material_flesh( "flesh" );
@@ -152,13 +154,9 @@ static const material_id material_veggy( "veggy" );
 static const material_id material_wood( "wood" );
 static const material_id material_wool( "wool" );
 
-static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
-static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
-
 static const species_id species_ROBOT( "ROBOT" );
 
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
-static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 const std::map<std::string, creature_size> Creature::size_map = {
     {"TINY",   creature_size::tiny},
@@ -370,7 +368,7 @@ void Creature::reset_bonuses()
     throw_resist = 0;
 }
 
-void Creature::process_turn()
+void Creature::process_turn_no_moves()
 {
     decrement_summon_timer();
     if( is_dead_state() ) {
@@ -384,6 +382,12 @@ void Creature::process_turn()
 
     // Call this in case any effects have changed our stats
     reset_stats();
+
+}
+
+void Creature::process_turn()
+{
+    process_turn_no_moves();
 
     // add an appropriate number of moves
     if( !has_effect( effect_ridden ) ) {
@@ -413,6 +417,15 @@ bool Creature::is_likely_underwater( const map &here ) const
     return is_underwater() ||
            ( has_flag( mon_flag_AQUATIC ) &&
              here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub( here ) ) );
+}
+
+bool Creature::hallucination_die( map *here, Creature *killer )
+{
+    const bool h = is_hallucination();
+    if( h ) {
+        die( here, killer );
+    }
+    return h;
 }
 
 // Detects whether a target is sapient or not (or barely sapient, since ferals count)
@@ -530,10 +543,25 @@ bool Creature::sees( const map &here, const Creature &critter ) const
         return false;
     }
 
+    // Check means to detect invisibility here
+    if( ( has_flag( json_flag_TRUE_SEEING ) || has_flag( mon_flag_TRUESIGHT ) ) &&
+        ( critter.has_flag( mon_flag_CAMOUFLAGE ) || critter.has_effect_with_flag( json_flag_INVISIBLE ) ||
+          critter.has_flag( mon_flag_NIGHT_INVISIBILITY ) ||
+          critter.has_flag( mon_flag_PERMANENT_INVISIBILITY ) ) ) {
+        return true;
+    }
+
     // Creature has stumbled into an invisible player and is now aware of them
     if( has_effect( effect_stumbled_into_invisible ) &&
         here.has_field_at( critter_pos, field_fd_last_known ) && critter.is_avatar() ) {
         return true;
+    }
+
+    // Invisibility checked after stumbling and after invisibility detection methods
+    if( ( critter.has_effect_with_flag( json_flag_INVISIBLE ) ||
+          critter.has_flag( mon_flag_PERMANENT_INVISIBILITY ) ) &&
+        !critter.has_effect_with_flag( json_flag_SUPPRESS_INVISIBILITY ) ) {
+        return false;
     }
 
     // This check is ridiculously expensive so defer it to after everything else.
@@ -570,7 +598,6 @@ bool Creature::sees( const map &here, const Creature &critter ) const
               critter.get_size() < creature_size::medium ) ) ) ||
         ( critter.has_flag( mon_flag_NIGHT_INVISIBILITY ) &&
           here.light_at( critter_pos ) <= lit_level::LOW ) ||
-        critter.has_effect( effect_invisibility ) ||
         ( !is_likely_underwater( here ) && critter.is_likely_underwater( here ) &&
           majority_rule( critter.has_flag( mon_flag_WATER_CAMOUFLAGE ),
                          here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, critter_pos ),
@@ -1039,13 +1066,8 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
                 target.add_effect( effect_source( source ), effect_onfire, rng( 1_turns, 2_turns ) * amount,
                                    dealt_dam.bp_hit );
             }
-            if( player_character.has_trait( trait_PYROMANIA ) &&
-                !player_character.has_morale( morale_pyromania_startfire ) &&
-                player_character.sees( here, target ) ) {
-                player_character.add_msg_if_player( m_good,
-                                                    _( "You feel a surge of euphoria as flame engulfs %s!" ), target.get_name() );
-                player_character.add_morale( morale_pyromania_startfire, 15, 15, 8_hours, 6_hours );
-                player_character.rem_morale( morale_pyromania_nofire );
+            if( player_character.has_unfulfilled_pyromania() ) {
+                player_character.fulfill_pyromania_sees( here, target );
             }
         }
     } else if( proj_effects.count( ammo_effect_IGNITE ) ) {
@@ -1055,13 +1077,8 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
             } else if( target.made_of_any( Creature::cmat_flesh ) ) {
                 target.add_effect( effect_source( source ), effect_onfire, 6_turns * amount, dealt_dam.bp_hit );
             }
-            if( player_character.has_trait( trait_PYROMANIA ) &&
-                !player_character.has_morale( morale_pyromania_startfire ) &&
-                player_character.sees( here, target ) ) {
-                player_character.add_msg_if_player( m_good,
-                                                    _( "You feel a surge of euphoria as flame engulfs %s!" ), target.get_name() );
-                player_character.add_morale( morale_pyromania_startfire, 15, 15, 8_hours, 6_hours );
-                player_character.rem_morale( morale_pyromania_nofire );
+            if( player_character.has_unfulfilled_pyromania() ) {
+                player_character.fulfill_pyromania_sees( here, target );
             }
         }
     }
@@ -1518,13 +1535,8 @@ void Creature::deal_damage_handle_type( const effect_source &source, const damag
             add_effect( source, effect_onfire, rng( 1_turns, 3_turns ), bp );
 
             Character &player_character = get_player_character();
-            if( player_character.has_trait( trait_PYROMANIA ) &&
-                !player_character.has_morale( morale_pyromania_startfire ) &&
-                player_character.sees( here, *this ) ) {
-                player_character.add_msg_if_player( m_good,
-                                                    _( "You feel a surge of euphoria as flame engulfs %s!" ), this->get_name() );
-                player_character.add_morale( morale_pyromania_startfire, 15, 15, 8_hours, 6_hours );
-                player_character.rem_morale( morale_pyromania_nofire );
+            if( player_character.has_unfulfilled_pyromania() ) {
+                player_character.fulfill_pyromania_sees( here, *this );
             }
         }
     } else if( du.type == damage_electric ) {
@@ -3452,8 +3464,7 @@ void Creature::knock_back_from( const tripoint_bub_ms &p )
     if( p == pos ) {
         return; // No effect
     }
-    if( is_hallucination() ) {
-        die( &here, nullptr );
+    if( hallucination_die( &here, nullptr ) ) {
         return;
     }
     tripoint_bub_ms to = pos;

@@ -8,7 +8,7 @@
     "volume": "2 L",
     "weight": "10 kg",
     "color": "yellow",
-    "material": [ "steel" ],
+    "material": [ "lc_steel" ],
     "price": "8 kUSD"
   },
   {

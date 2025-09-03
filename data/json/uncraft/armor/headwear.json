@@ -1,5 +1,35 @@
 [
   {
+    "result": "helmet_chitin",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "25 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "leather", 7 ] ], [ [ "chitin_piece", 9 ] ] ]
+  },
+  {
+    "result": "helmet_chitin_xs",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "25 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "leather", 7 ] ], [ [ "chitin_piece", 6 ] ] ]
+  },
+  {
+    "result": "xl_helmet_chitin",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "25 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "leather", 7 ] ], [ [ "chitin_piece", 12 ] ] ]
+  },
+  {
     "result": "cowboy_hat",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -8,5 +38,31 @@
     "time": "4 m",
     "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "leather", 14 ] ], [ [ "thread", 40 ] ] ]
+  },
+  {
+    "result": "hat_hard_modified",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 m",
+    "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "WRENCH", "level": 2 } ],
+    "components": [ [ [ "scrap", 8 ] ], [ [ "hat_hard", 1 ] ], [ [ "nuts_bolts", 12 ] ] ]
+  },
+  {
+    "result": "helmet_army",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 m",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "helmet_army_stripped", 1 ] ], [ [ "helmet_mounting_brackets", 1 ] ] ]
+  },
+  {
+    "result": "airsoft_helmet",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 m",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "airsoft_helmet_stripped", 1 ] ], [ [ "helmet_mounting_brackets", 1 ] ] ]
   }
 ]

@@ -18,6 +18,7 @@ class disease_type
 {
     public:
         static void load_disease_type( const JsonObject &jo, const std::string &src );
+        static void finalize_all();
         static void reset();
         void load( const JsonObject &jo, std::string_view );
         static const std::vector<disease_type> &get_all();

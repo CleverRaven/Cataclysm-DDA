@@ -284,6 +284,7 @@ struct overmap_highway_settings {
     building_bin four_way_intersections;
     building_bin three_way_intersections;
     building_bin bends;
+    building_bin interchanges;
     building_bin road_connections;
 
     int longest_slant_length = 0;

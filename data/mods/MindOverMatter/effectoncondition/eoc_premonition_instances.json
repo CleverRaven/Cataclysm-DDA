@@ -457,7 +457,7 @@
         "spawn_message": "A professional-looking individual steps out of hiding and begins rapidly approaching you.",
         "spawn_message_plural": "Professional-looking individuals step out of hiding and begin rapidly approaching you."
       },
-      { "math": [ "u_government_assassins_sent", "+=", "2" ] }
+      { "math": [ "u_government_assassins_sent += 2" ] }
     ]
   },
   {
@@ -473,7 +473,7 @@
         "spawn_message": "A professional-looking individual steps out of hiding and begins rapidly approaching you.",
         "spawn_message_plural": "Professional-looking individuals step out of hiding and begin rapidly approaching you."
       },
-      { "math": [ "u_government_assassins_sent", "+=", "2" ] }
+      { "math": [ "u_government_assassins_sent += 2" ] }
     ]
   }
 ]

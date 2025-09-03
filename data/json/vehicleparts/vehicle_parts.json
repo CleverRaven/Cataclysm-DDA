@@ -891,7 +891,7 @@
     },
     "flags": [ "CARGO", "OBSTACLE", "FLAT_SURF", "WORKBENCH" ],
     "breaks_into": [ { "item": "2x4", "prob": 5 }, { "item": "splinter", "count": [ 4, 8 ] }, { "item": "nail", "charges": [ 4, 7 ] } ],
-    "workbench": { "multiplier": 1.1, "mass": 150000, "volume": "20 L" },
+    "workbench": { "multiplier": 1.1, "mass": "150 kg", "volume": "20 L" },
     "damage_reduction": { "all": 24 },
     "variants": [ { "symbols": "#", "symbols_broken": "#" } ]
   },
@@ -914,7 +914,7 @@
     },
     "flags": [ "CARGO", "OBSTACLE", "FLAT_SURF", "WORKBENCH" ],
     "breaks_into": [ { "item": "2x4", "prob": 5 }, { "item": "splinter", "count": [ 4, 8 ] }, { "item": "nail", "charges": [ 4, 7 ] } ],
-    "workbench": { "multiplier": 1.1, "mass": 150000, "volume": "20 L" },
+    "workbench": { "multiplier": 1.1, "mass": "150 kg", "volume": "20 L" },
     "damage_reduction": { "all": 16 },
     "variants": [ { "symbols": "#", "symbols_broken": "#" } ]
   },
@@ -968,7 +968,7 @@
       { "item": "lc_steel_chunk", "count": [ 7, 12 ] },
       { "item": "scrap", "charges": [ 15, 30 ] }
     ],
-    "workbench": { "multiplier": 1.2, "mass": 300000, "volume": "30 L" },
+    "workbench": { "multiplier": 1.2, "mass": "300 kg", "volume": "30 L" },
     "damage_reduction": { "all": 29 },
     "variants": [ { "symbols": "#", "symbols_broken": "#" } ]
   },
@@ -1060,7 +1060,7 @@
     "item": "plastic_boat_hull",
     "location": "under",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "40 m", "using": [ [ "vehicle_screw", 1 ], [ "drilling_standard", 40 ] ] },
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "40 m", "using": [ [ "vehicle_screw", 1 ], [ "drilling_light", 40 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "soldering_standard", 15 ] ] }
     },
@@ -1113,7 +1113,7 @@
     "item": "carbonfiber_boat_hull",
     "location": "under",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 6 ] ], "time": "40 m", "using": [ [ "vehicle_screw", 1 ], [ "drilling_standard", 40 ] ] },
+      "install": { "skills": [ [ "mechanics", 6 ] ], "time": "40 m", "using": [ [ "vehicle_screw", 1 ], [ "drilling_light", 40 ] ] },
       "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "adhesive", 3 ] ] }
     },
@@ -1138,7 +1138,7 @@
     "unfolding_tools": [ "hand_pump" ],
     "unfolding_time": "150 seconds",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ], [ "drilling_standard", 10 ] ] },
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ], [ "drilling_light", 10 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "adhesive", 2 ] ] }
     },
@@ -1162,7 +1162,7 @@
     "unfolding_tools": [ "hand_pump" ],
     "unfolding_time": "150 seconds",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ], [ "drilling_standard", 10 ] ] },
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ], [ "drilling_light", 10 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "adhesive_rubber", 2 ], [ "tire_rubber", 2 ] ] }
     },

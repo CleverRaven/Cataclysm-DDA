@@ -1,5 +1,4 @@
 #include <memory>
-#include <optional>
 #include <string>
 
 #include "avatar.h"
@@ -86,7 +85,7 @@ TEST_CASE( "spell_level", "[magic][spell][level]" )
     spell_id pew_id( "test_spell_pew" );
 
     const spell_type &pew_type = pew_id.obj();
-    REQUIRE( pew_type.max_level.min.dbl_val.value() == 10 );
+    REQUIRE( pew_type.max_level.constant() == 10 );
 
     GIVEN( "spell level 0" ) {
         spell pew_spell( pew_id );
@@ -100,15 +99,15 @@ TEST_CASE( "spell_level", "[magic][spell][level]" )
             }
 
             AND_WHEN( "spell levels up to max_level" ) {
-                pew_spell.set_level( guy, pew_type.max_level.min.dbl_val.value() );
+                pew_spell.set_level( guy, pew_type.max_level.constant() );
 
                 THEN( "it is maximum level" ) {
-                    CHECK( pew_spell.get_level() == pew_type.max_level.min.dbl_val.value() );
+                    CHECK( pew_spell.get_level() == pew_type.max_level.constant() );
                 }
 
                 AND_THEN( "it cannot level up beyond max_level" ) {
-                    pew_spell.set_level( guy, pew_type.max_level.min.dbl_val.value() + 1 );
-                    CHECK( pew_spell.get_level() == pew_type.max_level.min.dbl_val.value() );
+                    pew_spell.set_level( guy, pew_type.max_level.constant() + 1 );
+                    CHECK( pew_spell.get_level() == pew_type.max_level.constant() );
                 }
             }
         }
@@ -413,17 +412,17 @@ TEST_CASE( "spell_damage", "[magic][spell][damage]" )
     const spell_type &pew_type = pew_id.obj();
 
     // Level 0 damage for this spell is 1
-    REQUIRE( pew_type.min_damage.min.dbl_val.value() == 1 );
+    REQUIRE( pew_type.min_damage.constant() == 1 );
     // and 1 damage is added at each level
-    REQUIRE( pew_type.damage_increment.min.dbl_val.value() == 1 );
+    REQUIRE( pew_type.damage_increment.constant() == 1 );
     // however, maximum damage is 5
-    REQUIRE( pew_type.max_damage.min.dbl_val.value() == 5 );
+    REQUIRE( pew_type.max_damage.constant() == 5 );
     // so maximum damage will be reached at level 4, when
     //
     // Lv4 damage = 1 + 4 * 1 = 5
     //            min lvl inc max
     // Because this spell has a maximum level of 10
-    REQUIRE( pew_type.max_level.min.dbl_val.value() == 10 );
+    REQUIRE( pew_type.max_level.constant() == 10 );
     // damage from level 5-10 remains at 5.
 
     SECTION( "spell damage varies from min_damage to max_damage as level increases" ) {
@@ -466,17 +465,17 @@ TEST_CASE( "spell_duration", "[magic][spell][duration]" )
     const spell_type &lava_type = lava_id.obj();
 
     // Level 0 duration for this spell is 100 seconds
-    REQUIRE( lava_type.min_duration.min.dbl_val.value() == 10000 );
+    REQUIRE( lava_type.min_duration.constant() == 10000 );
     // and 10 seconds are added at each level
-    REQUIRE( lava_type.duration_increment.min.dbl_val.value() == 1000 );
+    REQUIRE( lava_type.duration_increment.constant() == 1000 );
     // however, maximum duration is 250 seconds
-    REQUIRE( lava_type.max_duration.min.dbl_val.value() == 25000 );
+    REQUIRE( lava_type.max_duration.constant() == 25000 );
     // maximum duration will be reached at level 15, when
     //
     // Lv15 duration = 100 + 15 * 10 = 250
     //                 min  lvl  inc   max
     // Because this spell has a maximum level of 20
-    REQUIRE( lava_type.max_level.min.dbl_val.value() == 20 );
+    REQUIRE( lava_type.max_level.constant() == 20 );
     // duration from level 16-20 remains 250 seconds.
 
     SECTION( "spell duration varies from min_duration to max_duration as level increases" ) {
@@ -517,9 +516,9 @@ TEST_CASE( "permanent_spell_duration_depends_on_effect_and_level", "[magic][spel
         const spell_type &box_type = spell_test_spell_box.obj();
         const spell box_spell( spell_test_spell_box );
         REQUIRE( box_type.effect_name == "spawn_item" );
-        REQUIRE( box_type.duration_increment.min.dbl_val.value() > 0 );
-        REQUIRE( box_type.min_duration.min.dbl_val.value() > 0 );
-        REQUIRE( box_type.max_duration.min.dbl_val.value() > 0 );
+        REQUIRE( box_type.duration_increment.constant() > 0 );
+        REQUIRE( box_type.min_duration.constant() > 0 );
+        REQUIRE( box_type.max_duration.constant() > 0 );
         REQUIRE( box_spell.has_flag( spell_flag::PERMANENT ) );
         REQUIRE( box_spell.get_max_level( guy ) > 9 );
 
@@ -546,8 +545,8 @@ TEST_CASE( "permanent_spell_duration_depends_on_effect_and_level", "[magic][spel
         const spell_type &mummy_type = spell_test_spell_tp_mummy.obj();
         const spell mummy_spell( spell_test_spell_tp_mummy );
         REQUIRE( mummy_type.effect_name == "summon" );
-        REQUIRE( mummy_type.min_duration.min.dbl_val.value() == 0 );
-        REQUIRE( mummy_type.max_duration.min.dbl_val.value() == 0 );
+        REQUIRE( mummy_type.min_duration.constant() == 0 );
+        REQUIRE( mummy_type.max_duration.constant() == 0 );
         REQUIRE( mummy_spell.has_flag( spell_flag::PERMANENT ) );
         REQUIRE( mummy_spell.get_max_level( guy ) > 0 );
 
@@ -588,17 +587,17 @@ TEST_CASE( "spell_range", "[magic][spell][range]" )
     const spell_type &pew_type = pew_id.obj();
 
     // Level 0 range for this spell is 10
-    REQUIRE( pew_type.min_range.min.dbl_val.value() == 10 );
+    REQUIRE( pew_type.min_range.constant() == 10 );
     // with 2.0 added at each level
-    REQUIRE( pew_type.range_increment.min.dbl_val.value() == 2 );
+    REQUIRE( pew_type.range_increment.constant() == 2 );
     // reaching a maximum range of 30
-    REQUIRE( pew_type.max_range.min.dbl_val.value() == 30 );
+    REQUIRE( pew_type.max_range.constant() == 30 );
     // maximum range will be reached at level 10, when
     //
     // Lv10 range = 10 + 10 * 2.0 = 30
     //             min  lvl   inc  max
     // This coincides with the maximum level of the spell
-    REQUIRE( pew_type.max_level.min.dbl_val.value() == 10 );
+    REQUIRE( pew_type.max_level.constant() == 10 );
     // giving an even spread of ranges across all levels.
 
     SECTION( "spell range varies from min_range to max_range as level increases" ) {
@@ -643,17 +642,17 @@ TEST_CASE( "spell_area_of_effect", "[magic][spell][aoe]" )
     const spell_type &lava_type = lava_id.obj();
 
     // Level 0 AOE for this spell is 4
-    REQUIRE( lava_type.min_aoe.min.dbl_val.value() == 4 );
+    REQUIRE( lava_type.min_aoe.constant() == 4 );
     // with 1.0 added at each level
-    REQUIRE( lava_type.aoe_increment.min.dbl_val.value() == 1 );
+    REQUIRE( lava_type.aoe_increment.constant() == 1 );
     // however, maximum AOE is 15
-    REQUIRE( lava_type.max_aoe.min.dbl_val.value() == 15 );
+    REQUIRE( lava_type.max_aoe.constant() == 15 );
     // so maximum AOE will be reached at level 11, when
     //
     // Lv11 aoe = 4 + 11 * 1.0 = 15
     //          min  lvl   inc  max
     // Because this spell has a maximum level of 20
-    REQUIRE( lava_type.max_level.min.dbl_val.value() == 20 );
+    REQUIRE( lava_type.max_level.constant() == 20 );
     // AOE from level 12-20 remains 15.
 
     SECTION( "spell area of effect varies from min_aoe to max_aoe as level increases" ) {
@@ -723,8 +722,8 @@ TEST_CASE( "spell_effect_-_target_attack", "[magic][spell][effect][target_attack
     // Ensure the spell has the needed attributes
     const spell_type &pew_type = pew_id.obj();
     REQUIRE( pew_type.effect_name == "attack" );
-    REQUIRE( pew_type.min_damage.min.dbl_val.value() > 0 );
-    REQUIRE( pew_type.min_range.min.dbl_val.value() >= 2 );
+    REQUIRE( pew_type.min_damage.constant() > 0 );
+    REQUIRE( pew_type.min_range.constant() >= 2 );
 
     // The spell itself
     spell pew_spell( pew_id );
@@ -831,13 +830,13 @@ TEST_CASE( "spell_effect_-_recover_energy", "[magic][spell][effect][recover_ener
         REQUIRE( montage_type.effect_name == "recover_energy" );
         REQUIRE( montage_type.effect_str == "STAMINA" );
         // at the cost of a substantial amount of mana
-        REQUIRE( montage_type.base_energy_cost.min.dbl_val.value() == 800 );
+        REQUIRE( montage_type.base_energy_cost.constant() == 800 );
         REQUIRE( montage_type.get_energy_source() == magic_energy_type::mana );
 
         // At level 0, recovers 1000 stamina (10% of maximum)
-        REQUIRE( montage_type.min_damage.min.dbl_val.value() == 1000 );
+        REQUIRE( montage_type.min_damage.constant() == 1000 );
         // and at level 10, recovers 10000 stamina (all of it)
-        REQUIRE( montage_type.max_damage.min.dbl_val.value() == 10000 );
+        REQUIRE( montage_type.max_damage.constant() == 10000 );
 
         // Ensure avatar needs some stamina
         int start_stamina = dummy.get_stamina_max() / 2;
@@ -849,7 +848,7 @@ TEST_CASE( "spell_effect_-_recover_energy", "[magic][spell][effect][recover_ener
         montage_spell.cast_spell_effect( dummy, dummy.pos_bub() );
 
         // Get stamina back equal to min_damage (at level 0)
-        CHECK( dummy.get_stamina() == start_stamina + montage_type.min_damage.min.dbl_val.value() );
+        CHECK( dummy.get_stamina() == start_stamina + montage_type.min_damage.constant() );
     }
 
     SECTION( "reduce pain" ) {
@@ -859,9 +858,9 @@ TEST_CASE( "spell_effect_-_recover_energy", "[magic][spell][effect][recover_ener
         REQUIRE( kiss_type.effect_name == "recover_energy" );
         REQUIRE( kiss_type.effect_str == "PAIN" );
         // Positive "damage" for pain gives relief from pain
-        REQUIRE( kiss_type.min_damage.min.dbl_val.value() == 1 );
-        REQUIRE( kiss_type.max_damage.min.dbl_val.value() == 10 );
-        REQUIRE( kiss_type.damage_increment.min.dbl_val.value() == 1 );
+        REQUIRE( kiss_type.min_damage.constant() == 1 );
+        REQUIRE( kiss_type.max_damage.constant() == 10 );
+        REQUIRE( kiss_type.damage_increment.constant() == 1 );
 
         spell kiss_spell( kiss_id );
 

@@ -246,6 +246,7 @@ struct intrahighway_node {
     overmap_special_id placed_special = overmap_special_id::NULL_ID();
     bool is_segment = true;
     bool is_ramp = false;
+    bool is_interchange = false;
     //whether to flip ramp direction
     bool ramp_down = false;
     explicit intrahighway_node( tripoint_om_omt pos, om_direction::type dir,
@@ -447,6 +448,7 @@ class overmap
         // Fill in any gaps in city_tiles that don't connect to the map edge
         void flood_fill_city_tiles();
         std::multimap<tripoint_om_sm, mongroup> zg; // NOLINT(cata-serialize)
+        std::map<point_abs_omt, basecamp> camps;
     public:
         /** Unit test enablers to check if a given mongroup is present. */
         bool mongroup_check( const mongroup &candidate ) const;
@@ -455,11 +457,16 @@ class overmap
         // TODO: make private
         std::vector<radio_tower> radios;
         std::map<int, om_vehicle> vehicles;
-        std::vector<basecamp> camps;
         std::vector<city> cities;
         std::vector<overmap_river_node> rivers;
         std::map<string_id<overmap_connection>, std::vector<tripoint_om_omt>> connections_out;
+        void add_camp( const point_abs_omt &p, const basecamp &camp );
         std::optional<basecamp *> find_camp( const point_abs_omt &p );
+        void clear_camps();
+        const std::map<point_abs_omt, basecamp> &get_camps() const {
+            return camps;
+        }
+        void remove_camp( const point_abs_omt &p );
         /// Adds the npc to the contained list of npcs ( @ref npcs ).
         void insert_npc( const shared_ptr_fast<npc> &who );
         /// Removes the npc and returns it ( or returns nullptr if not found ).
@@ -626,6 +633,10 @@ class overmap
         Highway_path place_highway_reserved_path( const tripoint_om_omt &p1,
                 const tripoint_om_omt &p2,
                 int dir1, int dir2, int base_z );
+        /**
+        * Places some guaranteed interchange specials on the given path if possible
+        */
+        void place_highway_interchanges( std::vector<Highway_path> &highway_path );
         /*
         * tries to find a point to place an intersection special where it isn't on water
         * @return point in radius of center without water; invalid if none found
@@ -701,7 +712,10 @@ class overmap
         void calculate_urbanity();
         void calculate_forestosity();
 
+        // place city centers
         void place_cities();
+        // build cities using placed centers
+        void build_cities();
         void place_building( const tripoint_om_omt &p, om_direction::type dir, const city &town,
                              std::unordered_set<overmap_special_id> &placed_unique_buildings );
 

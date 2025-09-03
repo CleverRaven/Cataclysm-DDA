@@ -263,6 +263,12 @@ const memorized_tile &avatar::get_memorized_tile( const tripoint_abs_ms &p ) con
     return mm_submap::default_tile;
 }
 
+bool avatar::has_memory_at( const tripoint_abs_ms &p ) const
+{
+    const memorized_tile &mt = get_memorized_tile( p );
+    return !mt.get_ter_id().empty() || !mt.get_dec_id().empty();
+}
+
 void avatar::memorize_terrain( const tripoint_abs_ms &p, std::string_view id,
                                int subtile, int rotation )
 {
@@ -300,9 +306,19 @@ std::vector<mission *> avatar::get_failed_missions() const
     return failed_missions;
 }
 
+std::vector<point_of_interest> avatar::get_points_of_interest() const
+{
+    return points_of_interest;
+}
+
 mission *avatar::get_active_mission() const
 {
     return active_mission;
+}
+
+point_of_interest avatar::get_active_point_of_interest() const
+{
+    return active_point_of_interest;
 }
 
 void avatar::reset_all_missions()
@@ -315,10 +331,12 @@ void avatar::reset_all_missions()
 
 tripoint_abs_omt avatar::get_active_mission_target() const
 {
-    if( active_mission == nullptr ) {
-        return tripoint_abs_omt::invalid;
+    if( active_mission != nullptr ) {
+        return active_mission->get_target();
+    } else {
+        // It's tripoint_abs_invalid if not active.
+        return active_point_of_interest.pos;
     }
-    return active_mission->get_target();
 }
 
 void avatar::set_active_mission( mission &cur_mission )
@@ -329,6 +347,33 @@ void avatar::set_active_mission( mission &cur_mission )
                   cur_mission.mission_id().c_str() );
     } else {
         active_mission = &cur_mission;
+        active_point_of_interest.pos = tripoint_abs_omt::invalid;
+    }
+}
+
+void avatar::set_active_point_of_interest( const point_of_interest &active_point_of_interest )
+{
+    for( const point_of_interest &iter : points_of_interest ) {
+        // It's really sufficient to only check the position as used...
+        if( iter.pos == active_point_of_interest.pos &&
+            iter.text == active_point_of_interest.text ) {
+            this->active_point_of_interest = active_point_of_interest;
+            active_mission = nullptr;
+            return;
+        }
+
+    }
+
+    debugmsg( "active point of interest %s is not in the points_of_interest list",
+              active_point_of_interest.text.c_str() );
+}
+
+void avatar::update_active_mission()
+{
+    if( active_missions.empty() ) {
+        active_mission = nullptr;
+    } else {
+        active_mission = active_missions.front();
     }
 }
 
@@ -360,11 +405,7 @@ void avatar::on_mission_finished( mission &cur_mission )
         active_missions.erase( iter );
     }
     if( &cur_mission == active_mission ) {
-        if( active_missions.empty() ) {
-            active_mission = nullptr;
-        } else {
-            active_mission = active_missions.front();
-        }
+        update_active_mission();
     }
 }
 
@@ -390,12 +431,46 @@ void avatar::remove_active_mission( mission &cur_mission )
     }
 
     if( &cur_mission == active_mission ) {
-        if( active_missions.empty() ) {
+        update_active_mission();
+    }
+}
+
+void avatar::add_point_of_interest( const point_of_interest &new_point_of_interest )
+{
+    for( point_of_interest &existing_point_of_interest : points_of_interest ) {
+        if( new_point_of_interest.pos == existing_point_of_interest.pos ) {
+            existing_point_of_interest.text = new_point_of_interest.text;
             active_mission = nullptr;
-        } else {
-            active_mission = active_missions.front();
+            active_point_of_interest = new_point_of_interest;
+            return;
         }
     }
+
+    points_of_interest.push_back( new_point_of_interest );
+    active_mission = nullptr;
+    active_point_of_interest = new_point_of_interest;
+}
+
+void avatar::delete_point_of_interest( tripoint_abs_omt pos )
+{
+    for( auto iter = points_of_interest.begin(); iter != points_of_interest.end(); iter++ ) {
+        if( iter->pos == pos ) {
+            points_of_interest.erase( iter );
+
+            if( active_point_of_interest.pos == pos ) {
+                active_point_of_interest.pos = tripoint_abs_omt::invalid;
+
+                if( !active_missions.empty() ) {
+                    active_mission = active_missions.front();
+                }
+            }
+
+            return;
+        }
+    }
+
+    debugmsg( "removed point of interest at %s was not in the points_of_interest list",
+              pos.to_string().c_str() );
 }
 
 diary *avatar::get_avatar_diary()
@@ -1015,14 +1090,12 @@ void avatar::reset_stats()
     // Starvation
     const float bmi = get_bmi_fat();
     if( bmi < character_weight_category::normal ) {
-        const int str_penalty = std::floor( ( 1.0f - ( get_bmi_fat() /
-                                              character_weight_category::normal ) ) * str_max );
-        const int dexint_penalty = std::floor( ( character_weight_category::normal - bmi ) * 3.0f );
+        const stat_mod wpen = get_weight_penalty();
         add_miss_reason( _( "You're weak from hunger." ),
                          static_cast<unsigned>( ( get_starvation() + 300 ) / 1000 ) );
-        mod_str_bonus( -1 * str_penalty );
-        mod_dex_bonus( -1 * dexint_penalty );
-        mod_int_bonus( -1 * dexint_penalty );
+        mod_str_bonus( -wpen.strength );
+        mod_dex_bonus( -wpen.dexterity );
+        mod_int_bonus( -wpen.intelligence );
     }
     // Thirst
     if( get_thirst() >= 200 ) {

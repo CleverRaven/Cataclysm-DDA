@@ -13,8 +13,10 @@
 #include "activity_handlers.h"
 #include "activity_type.h"
 #include "auto_pickup.h"
+#include "avatar.h"
 #include "basecamp.h"
 #include "bodypart.h"
+#include "cata_assert.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_attire.h"
@@ -308,6 +310,11 @@ npc::npc( npc && ) noexcept( map_is_noexcept ) = default;
 npc &npc::operator=( npc && ) noexcept( list_is_noexcept ) = default;
 
 static std::map<string_id<npc_template>, npc_template> npc_templates;
+
+std::map<npc_template_id, npc_template> &npc_template::get_npc_templates()
+{
+    return npc_templates;
+}
 
 void npc_template::load( const JsonObject &jsobj, std::string_view src )
 {
@@ -1621,7 +1628,7 @@ npc_opinion npc::get_opinion_values( const Character &you ) const
         } else {
             npc_values.fear += 6;
         }
-    } else if( you.weapon_value( *weapon ) > 20 ) {
+    } else if( you.evaluate_weapon( *weapon ) > 20 ) {
         npc_values.fear += 2;
     }
 
@@ -1808,9 +1815,8 @@ void npc::on_attacked( const Creature &attacker )
 {
     map &here = get_map();
 
-    if( is_hallucination() ) {
-        die( &here, nullptr );
-    }
+    hallucination_die( &here, nullptr );
+
     if( attacker.is_avatar() && !is_enemy() && !is_dead() && !guaranteed_hostile() ) {
         make_angry();
         hit_by_player = true;
@@ -1851,7 +1857,7 @@ void npc::decide_needs()
     }
 
     const item &weap = weapon ? *weapon : null_item_reference();
-    needrank[need_weapon] = weapon_value( weap );
+    needrank[need_weapon] = evaluate_weapon( weap );
     needrank[need_food] = 15 - get_hunger();
     needrank[need_drink] = 15 - get_thirst();
     cache_visit_items_with( "is_food", &item::is_food, [&]( const item & it ) {
@@ -2177,6 +2183,11 @@ void npc::shop_restock()
     distribute_items_to_npc_zones( ret, *this );
 }
 
+time_point npc::restock_time() const
+{
+    return restock + myclass->get_shop_restock_interval();
+}
+
 std::string npc::get_restock_interval() const
 {
     time_duration const restock_remaining =
@@ -2230,8 +2241,8 @@ double npc::value( const item &it, double market_price ) const
     float ret = 1;
     if( it.is_maybe_melee_weapon() || it.is_gun() ) {
         // todo: remove when weapon_value takes an item_location
-        double wield_val = weapon ? weapon_value( *weapon ) : weapon_value( null_item_reference() );
-        double weapon_val = weapon_value( it ) - wield_val;
+        double wield_val = weapon ? evaluate_weapon( *weapon ) : evaluate_weapon( null_item_reference() );
+        double weapon_val = evaluate_weapon( it ) - wield_val;
 
         if( weapon_val > 0 ) {
             ret += weapon_val * 0.0002;
@@ -2494,21 +2505,6 @@ bool npc::is_following() const
 bool npc::is_leader() const
 {
     return attitude == NPCATT_LEAD;
-}
-
-bool npc::within_boundaries_of_camp() const
-{
-    const point_abs_omt p( pos_abs_omt().xy() );
-    for( int x2 = -3; x2 < 3; x2++ ) {
-        for( int y2 = -3; y2 < 3; y2++ ) {
-            const point_abs_omt nearby = p + point( x2, y2 );
-            std::optional<basecamp *> bcp = overmap_buffer.find_camp( nearby );
-            if( bcp ) {
-                return true;
-            }
-        }
-    }
-    return false;
 }
 
 bool npc::is_enemy() const
@@ -3045,23 +3041,16 @@ void npc::die( map *here, Creature *nkiller )
             if( player_character.has_flag( json_flag_SPIRITUAL ) &&
                 !player_character.has_flag( json_flag_PSYCHOPATH ) &&
                 !player_character.has_flag( json_flag_SAPIOVORE ) ) {
-                if( morale_effect < 0 ) {
-                    add_msg( _( "You feel ashamed of your actions." ) );
-                    morale_effect -= 10;
-                } // skulls for the skull throne
-                if( morale_effect > 0 ) {
-                    add_msg( _( "You feel a sense of righteous purpose." ) );
-                    morale_effect += 5;
-                }
+                add_msg( _( "You feel ashamed of your actions." ) );
+                morale_effect -= 10;
             }
+            cata_assert( morale_effect <= 0 );
             if( morale_effect == 0 ) {
                 // No morale effect
             } else if( morale_effect <= -50 ) {
                 player_character.add_morale( morale_killed_innocent, morale_effect, 0, 14_days, 7_days );
             } else if( morale_effect > -50 && morale_effect < 0 ) {
                 player_character.add_morale( morale_killed_innocent, morale_effect, 0, 10_days, 7_days );
-            } else {
-                player_character.add_morale( morale_killed_innocent, morale_effect, 0, 7_days, 4_days );
             }
         }
     }
@@ -3496,8 +3485,13 @@ std::function<bool( const tripoint_bub_ms & )> npc::get_path_avoid() const
             return true;
         }
         if( rules.has_flag( ally_rule::hold_the_line ) &&
+            rl_dist( p, get_avatar().pos_bub() ) == 1 &&
             ( here.close_door( p, true, true ) ||
-              here.move_cost( p ) > 2 ) ) {
+              ( here.move_cost( p ) > 2  &&
+                // Ignore if target location is on same vehicle as the avatar occupies
+                !( here.veh_at( p ).has_value() && here.veh_at( get_avatar().pos_abs() ) &&
+                   here.veh_at( p ).value().vehicle().pos_abs() == here.veh_at(
+                       get_avatar().pos_abs() ).value().vehicle().pos_abs() ) ) ) ) {
             return true;
         }
         if( sees_dangerous_field( p ) ) {

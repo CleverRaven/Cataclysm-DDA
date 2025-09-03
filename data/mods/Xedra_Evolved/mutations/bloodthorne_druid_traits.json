@@ -23,7 +23,8 @@
     ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
     "anger_relations": [ [ "THORNBEAST", -100 ] ],
-    "flags": [ "ATTUNEMENT", "TREE_COMMUNION_PLUS" ]
+    "flags": [ "ATTUNEMENT", "TREE_COMMUNION_PLUS" ],
+    "chargen_allow_npc": false
   },
   {
     "type": "mutation",

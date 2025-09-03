@@ -283,19 +283,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     }
 
     // Mandatory: This recipe's exertion level
-    mandatory( jo, was_loaded, "activity_level", exertion_str );
-    // Remove after 0.H
-    if( exertion_str == "fake" ) {
-        debugmsg( "Depreciated activity level \"fake\" found in recipe %s from source %s. Setting activity level to MODERATE_EXERCISE.",
-                  id.c_str(), src );
-        exertion_str = "MODERATE_EXERCISE";
-    }
-    const auto it = activity_levels_map.find( exertion_str );
-    if( it == activity_levels_map.end() ) {
-        jo.throw_error_at(
-            "activity_level", string_format( "Invalid activity level %s", exertion_str ) );
-    }
-    exertion = it->second;
+    mandatory( jo, was_loaded, "activity_level", exertion, activity_level_reader{} );
 
     // Never let the player have a debug or NPC recipe
     if( jo.has_bool( "never_learn" ) ) {
@@ -333,16 +321,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         flags_to_delete = jo.get_tags<flag_id>( "delete_flags" );
     }
 
-    // recipes not specifying any external requirements inherit from their parent recipe (if any)
-    if( jo.has_string( "using" ) ) {
-        reqs_external = { { requirement_id( jo.get_string( "using" ) ), 1 } };
-
-    } else if( jo.has_array( "using" ) ) {
-        reqs_external.clear();
-        for( JsonArray cur : jo.get_array( "using" ) ) {
-            reqs_external.emplace_back( requirement_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
-        }
-    }
+    optional( jo, was_loaded, "using", reqs_external, weighted_string_id_reader<requirement_id, int> { 1 } );
 
     // inline requirements are always replaced (cannot be inherited)
     reqs_internal.clear();

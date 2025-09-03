@@ -28,6 +28,13 @@
     "difficulty": { "math": [ "ceil(max( (u_spell_difficulty('clair_danger_sense') / 2), 1) )" ] }
   },
   {
+    "id": "clair_examine_item_knack",
+    "copy-from": "clair_examine_item",
+    "type": "SPELL",
+    "spell_class": "PSYCHIC_KNACK",
+    "difficulty": { "math": [ "ceil(max( (u_spell_difficulty('clair_examine_item') / 2), 1) )" ] }
+  },
+  {
     "id": "clair_astral_projection_knack",
     "copy-from": "clair_astral_projection",
     "type": "SPELL",

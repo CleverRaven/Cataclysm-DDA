@@ -133,6 +133,7 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_PATH_AVOID_FALL,
             mon_flag_PATH_AVOID_FIRE,
             mon_flag_PAY_BOT,
+            mon_flag_PERMANENT_INVISIBILITY,
             mon_flag_PET_HARNESSABLE,
             mon_flag_PET_MOUNTABLE,
             mon_flag_PET_WONT_FOLLOW,
@@ -165,6 +166,7 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_SWARMS,
             mon_flag_SWIMS,
             mon_flag_TEEP_IMMUNE,
+            mon_flag_TRUESIGHT,
             mon_flag_VAMP_VIRUS,
             mon_flag_VENOM,
             mon_flag_WARM,
@@ -263,6 +265,7 @@ void set_mon_flag_ids()
     mon_flag_PATH_AVOID_FALL = mon_flag_id( "PATH_AVOID_FALL" );
     mon_flag_PATH_AVOID_FIRE = mon_flag_id( "PATH_AVOID_FIRE" );
     mon_flag_PAY_BOT = mon_flag_id( "PAY_BOT" );
+    mon_flag_PERMANENT_INVISIBILITY = mon_flag_id( "PERMANENT_INVISIBILITY" );
     mon_flag_PET_HARNESSABLE = mon_flag_id( "PET_HARNESSABLE" );
     mon_flag_PET_MOUNTABLE = mon_flag_id( "PET_MOUNTABLE" );
     mon_flag_PET_WONT_FOLLOW = mon_flag_id( "PET_WONT_FOLLOW" );
@@ -293,6 +296,7 @@ void set_mon_flag_ids()
     mon_flag_SWARMS = mon_flag_id( "SWARMS" );
     mon_flag_SWIMS = mon_flag_id( "SWIMS" );
     mon_flag_TEEP_IMMUNE = mon_flag_id( "TEEP_IMMUNE" );
+    mon_flag_TRUESIGHT = mon_flag_id( "TRUESIGHT" );
     mon_flag_VAMP_VIRUS = mon_flag_id( "VAMP_VIRUS" );
     mon_flag_VENOM = mon_flag_id( "VENOM" );
     mon_flag_WARM = mon_flag_id( "WARM" );

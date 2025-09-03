@@ -1,15 +1,28 @@
 # Translating Cataclysm: DDA
 
-* [Translators](#translators)
-  * [Getting Started](#getting-started)
-  * [Glossary](#glossary)
-  * [Grammatical gender](#grammatical-gender)
-  * [Tips](#tips)
-* [Developers](#developers)
-  * [Translation Functions](#translation-functions)
-  * [`translation`](#translation)
-  * [Recommendations](#recommendations)
-* [Maintainers](#maintainers)
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Translators](#translators)
+  - [Getting Started](#getting-started)
+  - [Glossary](#glossary)
+  - [Grammatical gender](#grammatical-gender)
+  - [Tips](#tips)
+- [Developers](#developers)
+  - [Translation Functions](#translation-functions)
+    - [`_()`](#_)
+    - [`pgettext()`](#pgettext)
+    - [`n_gettext()`](#n_gettext)
+  - [`translation`](#translation)
+  - [Static string variables](#static-string-variables)
+  - [Recommendations](#recommendations)
+- [Maintainers](#maintainers)
+  - [Automated updates](#automated-updates)
+  - [Manual updates](#manual-updates)
+  - [Language stats](#language-stats)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Translators
 
@@ -295,7 +308,11 @@ the singular form + "s". However, `"str_pl"` may still be needed if the unit
 test cannot determine whether the correct plural form can be formed by simply
 appending "s".
 
-You can also add comments for translators by writing it like below (the order
+### Translation Context Comments
+
+#### JSON
+
+JSON objects can add comments for translators by writing it like below (the order
 of the entries does not matter):
 
 ```jsonc
@@ -320,6 +337,16 @@ If a string doesn't need to be translated, you can write `"NO_I18N"` in the
     "//~": "NO_I18N",
     "str": "Fake Monster-Only Spell"
 }
+```
+
+#### C++
+
+C++ code can add comments for translators by including a ~ in a comment on the
+previous line of the file containing the string to be translated.
+
+```C++
+//~ foo
+some.function( _( "translators get 'foo' for context translating this string" ) );
 ```
 
 ### Static string variables

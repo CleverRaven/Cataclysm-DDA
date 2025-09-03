@@ -82,8 +82,6 @@ static const json_character_flag json_flag_PRED3( "PRED3" );
 static const json_character_flag json_flag_PRED4( "PRED4" );
 
 static const morale_type morale_killed_monster( "morale_killed_monster" );
-static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
-static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
 
 static const mtype_id mon_blob( "mon_blob" );
 static const mtype_id mon_blob_brain( "mon_blob_brain" );
@@ -96,7 +94,6 @@ static const species_id species_SLIME( "SLIME" );
 
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
-static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 namespace spell_detail
 {
@@ -534,12 +531,8 @@ static void damage_targets( const spell &sp, Creature &caster,
             here.add_field( target, fd_fire, 1, 10_minutes );
 
             Character &player_character = get_player_character();
-            if( player_character.has_trait( trait_PYROMANIA ) &&
-                !player_character.has_morale( morale_pyromania_startfire ) ) {
-                player_character.add_msg_if_player( m_good,
-                                                    _( "You feel a surge of euphoria as flames burst out!" ) );
-                player_character.add_morale( morale_pyromania_startfire, 15, 15, 8_hours, 6_hours );
-                player_character.rem_morale( morale_pyromania_nofire );
+            if( player_character.has_unfulfilled_pyromania() ) {
+                player_character.fulfill_pyromania_sees( here, target );
             }
         }
         Creature *const cr = creatures.creature_at<Creature>( target );
@@ -989,15 +982,15 @@ static void handle_remove_fd_fatigue_field( const std::pair<field, tripoint_bub_
                 caster.add_effect( effect_teleglow, 5_hours );
                 break;
             case 3:
-                std::string message_prefix = "A nearby";
-
-                if( caster.sees( here, field_position ) ) {
-                    message_prefix = "The";
+                if( sees_field ) {
+                    caster.add_msg_if_player( m_bad, _( "The %s pulls you in as it closes and ejects you violently!" ),
+                                              intensity_name );
+                } else {
+                    caster.add_msg_if_player( m_bad,
+                                              _( "A nearby %s pulls you in as it closes and ejects you violently!" ),
+                                              intensity_name );
                 }
 
-                caster.add_msg_if_player( m_bad,
-                                          _( "%s %s pulls you in as it closes and ejects you violently!" ),
-                                          message_prefix, intensity_name );
                 caster.as_character()->hurtall( 10, nullptr );
                 caster.add_effect( effect_teleglow, 630_minutes );
                 teleport::teleport_creature( caster );
@@ -1469,7 +1462,7 @@ void spell_effect::explosion( const spell &sp, Creature &caster, const tripoint_
 void spell_effect::flashbang( const spell &sp, Creature &caster, const tripoint_bub_ms &target )
 {
     explosion_handler::flashbang( target, caster.is_avatar() &&
-                                  !sp.is_valid_target( spell_target::self ) );
+                                  !sp.is_valid_target( spell_target::self ), sp.aoe( caster ) );
 }
 
 void spell_effect::mod_moves( const spell &sp, Creature &caster, const tripoint_bub_ms &target )
@@ -1934,11 +1927,7 @@ void spell_effect::effect_on_condition( const spell &sp, Creature &caster,
         write_var_value( var_type::context, "spell_location", &d, target_abs );
         d.amend_callstack( string_format( "Spell: %s Caster: %s", sp.id().c_str(), caster.disp_name() ) );
         effect_on_condition_id eoc = effect_on_condition_id( sp.effect_data() );
-        if( eoc->type == eoc_type::ACTIVATION ) {
-            eoc->activate( d );
-        } else {
-            debugmsg( "Must use an activation eoc for a spell.  If you don't want the effect_on_condition to happen on its own (without the spell being cast), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this spell with its condition and effects, then have a recurring one queue it." );
-        }
+        eoc->activate_activation_only( d, "a spell", "spell being cast", "spell" );
     }
 }
 

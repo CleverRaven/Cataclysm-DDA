@@ -20,6 +20,7 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "npc.h"
 #include "pocket_type.h"
 #include "point.h"
 #include "profession.h"
@@ -382,6 +383,6 @@ void tutorial_game::add_message( tut_lesson lesson )
     g->invalidate_main_ui_adaptor();
     std::string translated_lesson = SNIPPET.get_snippet_by_id( snippet_id(
                                         io::enum_to_string<tut_lesson>( lesson ) ) ).value_or( translation() ).translated();
-    replace_keybind_tag( translated_lesson );
+    parse_tags( translated_lesson, get_player_character(), get_player_character() );
     popup( translated_lesson, PF_ON_TOP );
 }

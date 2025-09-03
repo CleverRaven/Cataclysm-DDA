@@ -1,33 +1,40 @@
 # Magic, Spells, and Enchantments
 
-  - [Spells](#spells)
-  - [The template spell](#the-template-spell)
-  - [Mandatory fields](#mandatory-fields)
-    - [Spell effects](#spell-effects)
-    - [Spell shape](#spell-shape)
-  - [Common fields](#common-fields)
-    - [Spell Flags](#spell-flags)
-    - [Damage Types](#damage-types)
-    - [Spell level](#spell-level)
-    - [Learning Spells](#learning-spells)
-    - [Extra spell effects](#extra-spell-effects)
-  - [Adding spells to professions and NPCs](#adding-spells-to-professions-and-npcs)
-  - [Examples](#examples)
-    - [Summon spell](#summon-spell)
-    - [Typical attack](#typical-attack)
-    - [Consecutive spell casting](#consecutive-spell-casting)
-    - [Random spell casting](#random-spell-casting)
-    - [Repeatedly cast the same spell](#repeatedly-cast-the-same-spell)
-    - [A spell that casts a note on the target and an effect on the caster](#a-spell-that-casts-a-note-on-the-target-and-an-effect-on-the-caster)
-    - [Monster spells](#monster-spells)
-    - [Custom Spell Experience Requirements](#custom-spell-experience-requirements)
-  - [Enchantments](#enchantments)
-    - [The `relic_data` field](#the-relic_data-field)
-    - [Variables](#variables)
-    - [ID values](#id-values)
-	- [Enchantments on monsters](#enchantments-on-monsters)
-    - [Enchantment value examples](#enchantment-value-examples)
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
 
+- [Spells](#spells)
+- [The template spell](#the-template-spell)
+- [Mandatory fields](#mandatory-fields)
+  - [Spell effects](#spell-effects)
+  - [Spell shape](#spell-shape)
+- [Common fields](#common-fields)
+  - [Spell Flags](#spell-flags)
+  - [Damage Types](#damage-types)
+  - [Spell level](#spell-level)
+  - [Learning Spells](#learning-spells)
+  - [Extra spell effects](#extra-spell-effects)
+- [Adding spells to professions and NPCs](#adding-spells-to-professions-and-npcs)
+- [Examples](#examples)
+  - [Summon spell](#summon-spell)
+  - [Typical attack](#typical-attack)
+  - [Consecutive spell casting](#consecutive-spell-casting)
+  - [Random spell casting](#random-spell-casting)
+  - [Repeatedly cast the same spell](#repeatedly-cast-the-same-spell)
+  - [A spell that casts a note on the target and an effect on the caster](#a-spell-that-casts-a-note-on-the-target-and-an-effect-on-the-caster)
+  - [Monster spells](#monster-spells)
+  - [Custom Spell Experience Requirements](#custom-spell-experience-requirements)
+  - [Magic Type](#magic-type)
+- [Enchantments](#enchantments)
+  - [The `relic_data` field](#the-relic_data-field)
+  - [Variables](#variables)
+  - [ID values](#id-values)
+  - [Enchantments on monsters](#enchantments-on-monsters)
+  - [Enchantments on vehicles](#enchantments-on-vehicles)
+  - [Enchantment value examples](#enchantment-value-examples)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Spells
 
@@ -64,7 +71,7 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
     "base_energy_cost": 30,                                   // the amount of energy (of the requisite type) to cast the spell
     "final_energy_cost": 100,
     "energy_increment": -6,
-    "energy_source": "MANA",                                  // the type of energy used to cast the spell. types are: MANA, BIONIC, HP, STAMINA, NONE (none will not use mana)
+    "energy_source": "MANA",                                  // the type of energy used to cast the spell. types are: MANA, BIONIC, HP, STAMINA, NONE. Alternative notation can be used for spell consuming vitamins, see example below
     "components": [ /* requirement_id */],                    // an id from a requirement, like the ones you use for crafting. spell components require to cast.
     "difficulty": 12,                                         // the difficulty to learn/cast the spell
     "max_level": 10,                                          // maximum level you can achieve in the spell
@@ -103,7 +110,17 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
     "sound_ambient": true,                                    // whether or not this is treated as an ambient sound or not
     "sound_id": "misc",                                       // the sound id
     "sound_variant": "shockwave",                             // the sound variant
-    "learn_spells": { "create_atomic_light": 5, "megablast": 10 }   // the caster will learn these spells when the current spell reaches the specified level. should be a map of spell_type_id and the level at which the new spell is learned.
+    "learn_spells": { "create_atomic_light": 5, "megablast": 10 },   // the caster will learn these spells when the current spell reaches the specified level. should be a map of spell_type_id and the level at which the new spell is learned.
+    "condition": {                                            // if valid_targets, targeted_monster_ids, targeted_monster_species and ignored_monster_species is not enough,
+      "and": [                                                // you can place more conditions to check both the caster (alpha/u_) and target (beta/npc/n_).
+        { "not": { "npc_has_worn_with_flag": "DIMENSIONAL_ANCHOR" } }, // If it return false, you cannot cast this spell against creature you are aiming at
+        { "not": { "npc_has_worn_with_flag": "STABILIZED_TIMELINE" } }
+      ]
+    },
+    "condition_fail_message": "Cannot be used against time or space anchored." // if `condition` fails, this message would be printed.
+                                                                               // because `condition` is designed to evaluate both alpha and beta,
+                                                                               // the only place where this message can be rendered is at aiming menu
+                                                                               // which i consider a bug that needs to be resovled
   }
 ```
 The template spell above shows every JSON field that spells can have.  Most of these values can be set at 0 or "NONE", so you may leave out most of these fields if they do not pertain to your spell.
@@ -179,7 +196,7 @@ Effect                 | Description
 `effect_on_condition`  | Runs the `effect_on_condition` from `effect_str` on all valid targets.  The EOC will be centered on the player, with the NPC as caster and a context val location variable `spell_location` for the target primarily useful if the target isn't a creature.
 `emit`                 | Causes an `emit` at the target.
 `explosion`            | Causes an explosion centered on the target.  Uses damage() for power and factor aoe()/10.
-`flashbang`            | Causes a flashbang effect is centered on the target.  Uses damage() for power and factor aoe()/10.
+`flashbang`            | Causes a flashbang effect, centered on the target.  AoE affects the flashbang radius.
 `fungalize`            | Fungalizes the target.
 `guilt`                | Target gets the guilt morale as if it killed the caster.
 `map`                  | Maps out the overmap centered on the player, to a radius of aoe().
@@ -190,7 +207,7 @@ Effect                 | Description
 `pain_split`           | Evens out all of your limbs' damage.
 `pull_target`          | Attempts to pull the target towards the caster in a straight line.  If the path is blocked by impassable furniture or terrain, the effect fails.
 `recharge_vehicle`     | Increases or decreases the battery charge of a vehicle or battery-connected power grid. Damage is equal to the charge (negative decreases).
-`recover_energy`       | Recovers an energy source equal to damage of the spell.  The energy source is defined in `effect_str` and may be one of `BIONIC`, `SLEEPINESS`, `PAIN`, `MANA` or `STAMINA`.
+`recover_energy`       | Recovers an energy source equal to damage of the spell and may be one of `BIONIC`, `SLEEPINESS`, `PAIN`, `MANA` or `STAMINA`. Alternative notation can be used for spell consuming vitamins, see example below
 `remove_effect`        | Removes `effect_str` effects from all creatures in the aoe.
 `remove_field`         | Removes a `effect_str` field in the aoe.  Causes teleglow of varying intensity and potentially teleportation depending on field density, if the field removed is `fd_reality_tear`.  (see `ter_transform` for more versatility)
 `revive`               | Revives a monster like a zombie necromancer.  The monster must have the `REVIVES` flag.
@@ -315,20 +332,26 @@ Flag                       | Description
 
 ### Damage Types
 
-The following are the available damage types, for those spells that have a damaging component:
+Any damage type can be used, see [JSON_INFO.md#damage-types](JSON_INFO.md#damage-types) for how they are defined and their specific property
 
-Damage type  | Description
----          |---
-`acid`       | 
-`bash`       | 
-`biological` | Internal damage such as poison.
-`cold`       | 
-`cut`        | 
-`electric`   | 
-`heat`       | 
-`pure`       | This damage type goes through armor altogether.  Set by default.
-`stab`       | 
+### Energy Type
 
+`energy_source` responds for the type of energy consumed, and as of now, can look like:
+
+`BIONIC`, `SLEEPINESS`, `PAIN`, `MANA` or `STAMINA`
+
+```jsonc
+"energy_source": "MANA",
+"energy_source": "STAMINA",
+"energy_source": "BIONIC",  // consumes MJ from your CBM batteries
+"energy_source": "NONE",
+"energy_source": "HP",      // Require a tool with CUT 1, and allow to pick the limb to be damaged
+"energy_source": { 
+  "type": "VITAMIN",
+  "vitamin": "vitamin_id",
+  "color": "c_red"          // default color is c_cyan
+  } 
+```
 
 ### Spell level
 

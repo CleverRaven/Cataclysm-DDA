@@ -139,8 +139,7 @@ namespace event_detail
 {
 
 #define DEFINE_EVENT_HELPER_FIELDS(type) \
-    constexpr std::array<std::pair<const char *, cata_variant_type>, \
-    type::fields.size()> type::fields;
+    constexpr std::array<event_field, type::fields.size()> type::fields;
 
 DEFINE_EVENT_HELPER_FIELDS( event_spec_empty )
 DEFINE_EVENT_HELPER_FIELDS( event_spec_character )
@@ -152,7 +151,7 @@ static_assert( static_cast<int>( event_type::num_event_types ) == 107,
                "its fields definition then you probably don't need a definition here." );
 
 #define DEFINE_EVENT_FIELDS(type) \
-    constexpr std::array<std::pair<const char *, cata_variant_type>, \
+    constexpr std::array<event_field, \
     event_spec<event_type::type>::fields.size()> \
     event_spec<event_type::type>::fields;
 

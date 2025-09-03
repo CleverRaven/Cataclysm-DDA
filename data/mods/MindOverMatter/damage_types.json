@@ -277,7 +277,7 @@
     "id": "EOC_ENERVATION_DRAIN_2",
     "condition": { "math": [ "n_val('mana') >= 150" ] },
     "effect": [
-      { "math": [ "n_val('mana')", "-=", "rng( 100,200 )" ] },
+      { "math": [ "n_val('mana') -= rng( 100,200 )" ] },
       { "npc_message": "You feel a sudden sense of loss.", "type": "bad" }
     ],
     "false_effect": [ { "run_eocs": "EOC_ENERVATION_DRAIN_3" } ]
@@ -287,7 +287,7 @@
     "id": "EOC_ENERVATION_DRAIN_3",
     "condition": { "math": [ "n_val('stamina') >= 200" ] },
     "effect": [
-      { "math": [ "n_val('stamina')", "-=", "rng( 100,300 )" ] },
+      { "math": [ "n_val('stamina') -= rng( 100,300 )" ] },
       { "npc_message": "For a moment, you feel exhausted.", "type": "bad" }
     ],
     "false_effect": [
