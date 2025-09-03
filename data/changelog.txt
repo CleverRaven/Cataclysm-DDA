@@ -152,8 +152,10 @@ NPC AI fixes to improve fleeing in bad situations, reduce it in good ones
 Armors faults. Part 1: Steel Plate
 Show time in months/days
 Player assigned Points of interest visible as Mission markers
+Enable save compression by default for new worlds
 display item name and owner for stealing prompt
 Monsters can now see you if you're invisible and they have the TRUESIGHT monster flag
+
 
 
 ## Content:
@@ -472,6 +474,8 @@ Always show clean water on top of consume menu
 Toggle haul from action menu when hauling
 Explain that degraded items are degraded
 Message to player when UPS equipment runs out of power.
+Construction interface shows prerequisite furniture/terrain flags
+Default android sidebar changed to sidebar-mobile
 
 
 ## Mods:
@@ -892,6 +896,7 @@ Aftershock: Vehicle bay City Building a mix between mechanic garage, gas station
 [Mods] When shapeshifted into a form with no hands, you don't have hands
 [Mods] Your gear doesn't protect you when you're shapeshifted
 [Mods] If you have a broken limb and are in a shapeshifted form, you can't fly
+[DDotD] Add drag down attack when you're grabbed and surrounded
 
 
 ## Balance:
@@ -1373,6 +1378,7 @@ AIM item menu wouldn't update window position on resize.
 Fix deserialization error with power level
 Power grid deleted on ship movement
 AIM uilist submenu shaking violently.
+fix zones disabling on save/load
 
 
 ## Performance:
@@ -1548,7 +1554,7 @@ Use optional/mandatory for mutation, material, mission def, move mode
 Use optional/mandatory for weather type, trap, start location, scent map, profession group, and various json loading cleanup
 Check for unused extend/delete/proportional/relative with mandatory
 Begin moving duplicated UI code to new helpers library
-Remove Object Creator
+zzip.exe: a tool for manipulating compressed save 'zzip' files.
 
 
 ## Build:
