@@ -10,5 +10,11 @@
     "dependencies": [ "dda" ],
     "conflicts": [ "mindovermatter", "generic_guns", "skyisland" ],
     "loading_images": [ "aftershock.png" ]
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "DEFAULT_REGION",
+    "stype": "string_input",
+    "value": "default_aftershock"
   }
 ]
