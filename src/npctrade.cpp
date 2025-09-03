@@ -33,6 +33,7 @@
 #include "type_id.h"
 #include "units.h"
 
+static const flag_id json_flag_FILTHY( "FILTHY" );
 static const flag_id json_flag_NO_UNWIELD( "NO_UNWIELD" );
 static const skill_id skill_speech( "speech" );
 
@@ -188,6 +189,10 @@ int npc_trading::adjusted_price( item const *it, int amount, Character const &bu
         price = buyer.as_npc()->value( *it, price );
     } else if( seller.is_npc() ) {
         price = seller.as_npc()->value( *it, price );
+    }
+
+    if( it->has_flag( json_flag_FILTHY ) {
+        price = 0;
     }
 
     if( fpr != nullptr && fpr->fixed_adj.has_value() ) {
