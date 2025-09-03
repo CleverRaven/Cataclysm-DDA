@@ -1440,10 +1440,6 @@ bool Character::mutation_selector( const std::vector<trait_id> &prospective_trai
         return false;
     }
 
-    void Character::mutate_category( const mutation_category_id & cat ) {
-        mutate_category( cat, !mutation_category_trait::get_category( cat ).vitamin.is_null() );
-    }
-
     // Setup menu
     uilist mmenu;
     mmenu.text =
