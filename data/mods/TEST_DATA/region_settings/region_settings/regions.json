@@ -1,0 +1,392 @@
+[
+  {
+    "type": "region_settings",
+    "id": "desert_test",
+    "default_oter": [
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "field",
+      "solid_earth",
+      "empty_rock",
+      "empty_rock",
+      "empty_rock",
+      "empty_rock",
+      "empty_rock",
+      "empty_rock",
+      "empty_rock",
+      "empty_rock",
+      "empty_rock"
+    ],
+    "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
+    "region_terrain_and_furniture": {
+      "terrain": {
+        "t_region_groundcover": { "t_searth_test": 3, "t_sand": 1 },
+        "t_region_shrub": { "t_shrub": 1 },
+        "t_region_tree": { "t_tree_willow": 1, "t_tree_dead": 1 }
+      },
+      "furniture": { "f_region_flower": { "f_mutcactus_test": 1 } }
+    },
+    "overmap_lake_settings": {
+      "noise_threshold_lake": 0.25,
+      "lake_size_min": 20,
+      "lake_depth": -5,
+      "shore_extendable_overmap_terrain": [ "forest", "forest_thick", "forest_water", "field" ],
+      "shore_extendable_overmap_terrain_aliases": [  ]
+    },
+    "overmap_forest_settings": {
+      "noise_threshold_forest": 0.6,
+      "noise_threshold_forest_thick": 0.7,
+      "noise_threshold_swamp_adjacent_water": 0.4,
+      "noise_threshold_swamp_isolated": 0.7,
+      "river_floodplain_buffer_distance_min": 1,
+      "river_floodplain_buffer_distance_max": 6
+    },
+    "overmap_connection_settings": {
+      "intra_city_road_connection": "local_road",
+      "inter_city_road_connection": "local_road",
+      "trail_connection": "forest_trail",
+      "sewer_connection": "sewer_tunnel",
+      "subway_connection": "subway_tunnel",
+      "rail_connection": "local_railroad"
+    },
+    "forest_mapgen_settings": {
+      "forest": {
+        "sparseness_adjacency_factor": 3,
+        "item_group": "forest",
+        "item_group_chance": 1,
+        "item_spawn_iterations": 1,
+        "clear_groundcover": false,
+        "groundcover": {  },
+        "clear_components": false,
+        "components": {
+          "trees": {
+            "sequence": 0,
+            "chance": 20,
+            "clear_types": false,
+            "types": { "t_tree_willow": 1, "t_tree_dead": 1, "f_mutcactus_test": 200 }
+          },
+          "other": { "sequence": 1, "chance": 20, "clear_types": false, "types": { "t_shrub": 1 } },
+          "water": { "sequence": 2, "chance": 1, "clear_types": false, "types": {  } }
+        },
+        "clear_terrain_furniture": false,
+        "terrain_furniture": {  }
+      },
+      "forest_thick": {
+        "sparseness_adjacency_factor": 4,
+        "item_group": "forest",
+        "item_group_chance": 1,
+        "item_spawn_iterations": 1,
+        "clear_groundcover": false,
+        "groundcover": {  },
+        "clear_components": false,
+        "components": {
+          "trees": { "sequence": 0, "chance": 20, "clear_types": false, "types": { "f_mutcactus_test": 4, "t_tree_dead": 1 } },
+          "other": { "sequence": 1, "chance": 10, "clear_types": false, "types": { "t_shrub": 16, "t_pit": 1 } },
+          "water": { "sequence": 2, "chance": 1, "clear_types": false, "types": {  } }
+        },
+        "clear_terrain_furniture": false,
+        "terrain_furniture": {  }
+      },
+      "forest_water": {
+        "sparseness_adjacency_factor": 2,
+        "item_group": "forest",
+        "item_group_chance": 1,
+        "item_spawn_iterations": 1,
+        "clear_groundcover": false,
+        "groundcover": {  },
+        "clear_components": false,
+        "components": {
+          "trees": { "sequence": 0, "chance": 100, "clear_types": false, "types": { "t_tree_willow": 2, "t_tree_dead": 1 } },
+          "other": { "sequence": 1, "chance": 10, "clear_types": false, "types": { "t_grass": 2, "t_shrub": 2, "t_dirt": 1 } },
+          "water": { "sequence": 2, "chance": 20, "clear_types": false, "types": { "t_water_sh": 1 } }
+        },
+        "clear_terrain_furniture": false,
+        "terrain_furniture": {  }
+      }
+    },
+    "forest_trail_settings": {
+      "chance": 0,
+      "border_point_chance": 2,
+      "minimum_forest_size": 100,
+      "random_point_min": 4,
+      "random_point_max": 50,
+      "random_point_size_scalar": 100,
+      "trailhead_chance": 1,
+      "trailhead_road_distance": 6,
+      "trailheads": { "trailhead_basic": 1, "trailhead_outhouse": 1, "trailhead_shack": 1 }
+    },
+    "city": {
+      "shop_radius": 30,
+      "shop_sigma": 50,
+      "park_radius": 20,
+      "park_sigma": 80,
+      "houses": { "house_w_1": 1, "duplex": 1 },
+      "parks": { "park": 2, "pool": 1 },
+      "shops": {
+        "Gas Station": 5,
+        "s_liquor": 5,
+        "s_gun_a": 5,
+        "s_restaurant_deserted_test": 5,
+        "abstorefront": 15,
+        "station_radio": 5,
+        "office_doctor": 2,
+        "s_hardware": 2,
+        "police": 1,
+        "s_lot": 6
+      }
+    },
+    "weather": {
+      "base_temperature": 8.0,
+      "base_humidity": 40.0,
+      "base_pressure": 1015.0,
+      "base_wind": 0,
+      "base_wind_distrib_peaks": 0,
+      "base_wind_season_variation": 0
+    },
+    "overmap_feature_flag_settings": { "clear_blacklist": false, "blacklist": [  ], "clear_whitelist": false, "whitelist": [  ] }
+  },
+  {
+    "type": "region_settings_lake",
+    "id": "default_test",
+    "copy-from": "default",
+    "noise_threshold_lake": 0.25,
+    "lake_size_min": 20,
+    "lake_depth": -5,
+    "shore_extendable_overmap_terrain": [ "forest", "forest_thick", "forest_water", "field" ],
+    "shore_extendable_overmap_terrain_aliases": [  ]
+  },
+  {
+    "type": "region_settings_forest",
+    "id": "default_test",
+    "copy-from": "default",
+    "noise_threshold_forest": 0.6,
+    "noise_threshold_forest_thick": 0.7,
+    "noise_threshold_swamp_adjacent_water": 0.4,
+    "noise_threshold_swamp_isolated": 0.7,
+    "river_floodplain_buffer_distance_min": 1,
+    "river_floodplain_buffer_distance_max": 6
+  },
+  {
+    "type": "region_settings_city",
+    "id": "default_test",
+    "copy-from": "default",
+    "shop_radius": 30,
+    "shop_sigma": 50,
+    "park_radius": 20,
+    "park_sigma": 80,
+    "houses": [ [ "house_w_1", 1 ], [ "duplex", 1 ] ],
+    "parks": [ [ "park", 2 ], [ "pool", 1 ] ],
+    "shops": [
+      [ "Gas Station", 5 ],
+      [ "s_liquor", 5 ],
+      [ "s_gun_a", 5 ],
+      [ "s_restaurant_deserted_test", 5 ],
+      [ "abstorefront", 15 ],
+      [ "station_radio", 5 ],
+      [ "office_doctor", 2 ],
+      [ "s_hardware", 2 ],
+      [ "police", 1 ],
+      [ "s_lot", 6 ]
+    ]
+  },
+  {
+    "type": "weather_generator",
+    "id": "default_test",
+    "copy-from": "default",
+    "base_temperature": 8.0,
+    "base_humidity": 40.0,
+    "base_pressure": 1015.0,
+    "base_wind": 0,
+    "base_wind_distrib_peaks": 0,
+    "base_wind_season_variation": 0
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_groundcover",
+    "ter_id": "t_region_groundcover",
+    "replace_with_terrain": [ [ "t_searth_test", 3 ], [ "t_sand", 1 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_shrub",
+    "ter_id": "t_region_shrub",
+    "replace_with_terrain": [ [ "t_shrub", 1 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_tree",
+    "ter_id": "t_region_tree",
+    "replace_with_terrain": [ [ "t_tree_willow", 1 ], [ "t_tree_dead", 1 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_f_region_flower",
+    "furn_id": "f_region_flower",
+    "replace_with_furniture": [ [ "f_mutcactus_test", 1 ] ]
+  },
+  {
+    "type": "region_settings_terrain_furniture",
+    "id": "default_test",
+    "copy-from": "default",
+    "ter_furn": [ "default_t_region_groundcover", "default_t_region_shrub", "default_t_region_tree", "default_f_region_flower" ]
+  },
+  {
+    "type": "forest_biome_mapgen",
+    "id": "biome_forest_test",
+    "copy-from": "biome_forest_default",
+    "sparseness_adjacency_factor": 3,
+    "item_group": "forest",
+    "item_group_chance": 1,
+    "item_spawn_iterations": 1,
+    "groundcover": {  },
+    "components": [ "trees_forest_test", "other_forest_test", "water_forest_test" ],
+    "terrain_furniture": {  }
+  },
+  {
+    "type": "forest_biome_feature",
+    "id": "trees_forest_test",
+    "copy-from": "trees_forest",
+    "sequence": 0,
+    "chance": 20,
+    "types": [ [ "t_tree_willow", 1 ], [ "t_tree_dead", 1 ], [ "f_mutcactus_test", 200 ] ]
+  },
+  {
+    "type": "forest_biome_feature",
+    "id": "other_forest_test",
+    "copy-from": "other_forest",
+    "sequence": 1,
+    "chance": 20,
+    "types": [ [ "t_shrub", 1 ] ]
+  },
+  {
+    "type": "forest_biome_feature",
+    "id": "water_forest_test",
+    "copy-from": "water_forest",
+    "sequence": 2,
+    "chance": 1,
+    "types": [  ]
+  },
+  {
+    "type": "forest_biome_mapgen",
+    "id": "biome_forest_thick_test",
+    "copy-from": "biome_forest_thick_default",
+    "sparseness_adjacency_factor": 4,
+    "item_group": "forest",
+    "item_group_chance": 1,
+    "item_spawn_iterations": 1,
+    "groundcover": {  },
+    "components": [ "trees_forest_thick_test", "other_forest_thick_test", "water_forest_thick_test" ],
+    "terrain_furniture": {  }
+  },
+  {
+    "type": "forest_biome_feature",
+    "id": "trees_forest_thick_test",
+    "copy-from": "trees_forest_thick",
+    "sequence": 0,
+    "chance": 20,
+    "types": [ [ "f_mutcactus_test", 4 ], [ "t_tree_dead", 1 ] ]
+  },
+  {
+    "type": "forest_biome_feature",
+    "id": "other_forest_thick_test",
+    "copy-from": "other_forest_thick",
+    "sequence": 1,
+    "chance": 10,
+    "types": [ [ "t_shrub", 16 ], [ "t_pit", 1 ] ]
+  },
+  {
+    "type": "forest_biome_feature",
+    "id": "water_forest_thick_test",
+    "copy-from": "water_forest_thick",
+    "sequence": 2,
+    "chance": 1,
+    "types": [  ]
+  },
+  {
+    "type": "forest_biome_mapgen",
+    "id": "biome_forest_water_test",
+    "copy-from": "biome_forest_water_default",
+    "sparseness_adjacency_factor": 2,
+    "item_group": "forest",
+    "item_group_chance": 1,
+    "item_spawn_iterations": 1,
+    "groundcover": {  },
+    "components": [ "trees_forest_water_test", "other_forest_water_test", "water_forest_water_test" ],
+    "terrain_furniture": {  }
+  },
+  {
+    "type": "forest_biome_feature",
+    "id": "trees_forest_water_test",
+    "copy-from": "trees_forest_water",
+    "sequence": 0,
+    "chance": 100,
+    "types": [ [ "t_tree_willow", 2 ], [ "t_tree_dead", 1 ] ]
+  },
+  {
+    "type": "forest_biome_feature",
+    "id": "other_forest_water_test",
+    "copy-from": "other_forest_water",
+    "sequence": 1,
+    "chance": 10,
+    "types": [ [ "t_grass", 2 ], [ "t_shrub", 2 ], [ "t_dirt", 1 ] ]
+  },
+  {
+    "type": "forest_biome_feature",
+    "id": "water_forest_water_test",
+    "copy-from": "water_forest_water",
+    "sequence": 2,
+    "chance": 20,
+    "types": [ [ "t_water_sh", 1 ] ]
+  },
+  {
+    "type": "region_settings_forest_mapgen",
+    "id": "default_test",
+    "copy-from": "default",
+    "biomes": [ "biome_forest_test", "biome_forest_thick_test", "biome_forest_water_test" ]
+  },
+  {
+    "type": "region_settings_new",
+    "id": "default_test",
+    "copy-from": "default",
+    "lakes": "default_test",
+    "forests": "default_test",
+    "forest_trails": "no_forest_trails",
+    "forest_composition": "default_test",
+    "cities": "default_test",
+    "terrain_furniture": "default_test",
+    "weather": "default_test",
+    "default_oter": [
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "field",
+      "solid_earth",
+      "empty_rock",
+      "empty_rock",
+      "empty_rock",
+      "empty_rock",
+      "empty_rock",
+      "empty_rock",
+      "empty_rock",
+      "empty_rock",
+      "empty_rock"
+    ],
+    "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
+    "feature_flag_settings": { "blacklist": [  ], "whitelist": [  ] }
+  }
+]
