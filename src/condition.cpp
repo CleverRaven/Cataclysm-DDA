@@ -184,237 +184,91 @@ std::string get_talk_var_basename( const JsonObject &jo, std::string_view member
     return var_basename;
 }
 
-dbl_or_var_part get_dbl_or_var_part( const JsonValue &jv )
+namespace
 {
-    dbl_or_var_part ret_val;
-    if( jv.test_float() ) {
-        ret_val.dbl_val = jv.get_float();
-    } else if( jv.test_object() ) {
-        JsonObject jo = jv.get_object();
-        if( jo.has_array( "math" ) ) {
-            ret_val.math_val.emplace();
-            ret_val.math_val->from_json( jo, "math", math_type_t::ret );
-        } else {
-            ret_val.var_val = read_var_info( jo );
-            optional( jo, false, "default", ret_val.default_val );
-        }
+
+template<typename valueT, typename funcT>
+value_or_var_pair<valueT, funcT> get_value_or_var_pair( const JsonValue &jv )
+{
+    value_or_var_pair<valueT, funcT> ret_val;
+    ret_val.deserialize( jv );
+    return ret_val;
+}
+
+template<typename retT, typename funcT>
+value_or_var_pair<retT, funcT> get_value_or_var_pair( const JsonObject &jo,
+        std::string_view member, bool required, retT default_val )
+{
+    value_or_var_pair<retT, funcT> ret_val;
+    if( required ) {
+        mandatory( jo, false, member, ret_val );
     } else {
-        jv.throw_error( "Value must be a float or a variable object" );
+        optional( jo, false, member, ret_val, default_val );
     }
     return ret_val;
 }
+
+} // namespace
 
 dbl_or_var get_dbl_or_var( const JsonObject &jo, std::string_view member, bool required,
                            double default_val )
 {
-    dbl_or_var ret_val;
-    if( jo.has_array( member ) ) {
-        JsonArray ja = jo.get_array( member );
-        ret_val.min = get_dbl_or_var_part( ja.next_value() );
-        ret_val.max = get_dbl_or_var_part( ja.next_value() );
-        ret_val.pair = true;
-    } else if( jo.has_member( member ) ) {
-        ret_val.min = get_dbl_or_var_part( jo.get_member( member ) );
-    } else if( required ) {
-        jo.throw_error( "No valid value for " + std::string( member ) );
-    } else {
-        ret_val.min.dbl_val = default_val;
-    }
-    return ret_val;
-}
-
-dbl_or_var get_dbl_or_var( const JsonValue &jv )
-{
-    dbl_or_var ret_val;
-    if( jv.test_array() ) {
-        JsonArray ja = jv.get_array();
-        ret_val.min = get_dbl_or_var_part( ja.next_value() );
-        ret_val.max = get_dbl_or_var_part( ja.next_value() );
-        ret_val.pair = true;
-    } else {
-        ret_val.min = get_dbl_or_var_part( jv );
-    }
-    return ret_val;
-}
-
-dbl_or_var dbl_or_var_reader::get_next( const JsonValue &jv ) const
-{
-    return get_dbl_or_var( jv );
-}
-
-bool dbl_or_var_reader::operator()( const JsonObject &jo, const std::string_view member_name,
-                                    dbl_or_var &member, bool /*was_loaded*/ ) const
-{
-    warn_disabled_feature( jo, "extend", member_name, "disabled for dbl_or_var_reader" );
-    warn_disabled_feature( jo, "delete", member_name, "disabled for dbl_or_var_reader" );
-    warn_disabled_feature( jo, "relative", member_name, "disabled for dbl_or_var_reader" );
-    warn_disabled_feature( jo, "proportional", member_name, "disabled for dbl_or_var_reader" );
-    if( !jo.has_member( member_name ) ) {
-        return false;
-    }
-    member = get_dbl_or_var( jo, member_name );
-    return true;
-}
-
-duration_or_var_part get_duration_or_var_part( const JsonValue &jv )
-{
-    duration_or_var_part ret_val;
-    if( jv.test_string() ) {
-        if( jv.get_string() == "infinite" ) {
-            ret_val.dur_val = time_duration::from_turns( calendar::INDEFINITELY_LONG );
-        } else {
-            ret_val.dur_val = read_from_json_string<time_duration>( jv, time_duration::units );
-        }
-    } else if( jv.test_int() ) {
-        ret_val.dur_val = time_duration::from_turns( jv.get_float() );
-    } else if( jv.test_object() ) {
-        JsonObject jo = jv.get_object();
-        if( jo.has_array( "math" ) ) {
-            ret_val.math_val.emplace();
-            ret_val.math_val->from_json( jo, "math", math_type_t::ret );
-        } else {
-            ret_val.var_val = read_var_info( jo );
-            if( jo.has_int( "default" ) ) {
-                ret_val.default_val = time_duration::from_turns( jo.get_int( "default" ) );
-            } else if( jo.has_string( "default" ) ) {
-                std::string const &def_str = jo.get_string( "default" );
-                if( def_str == "infinite" ) {
-                    ret_val.default_val = time_duration::from_turns( calendar::INDEFINITELY_LONG );
-                } else {
-                    JsonValue const &jv_def = jo.get_member( "default" );
-                    ret_val.default_val = read_from_json_string<time_duration>( jv_def, time_duration::units );
-                }
-            }
-        }
-    } else {
-        jv.throw_error( "Value must be a time string, or an integer, or a variable object" );
-    }
-    return ret_val;
+    return get_value_or_var_pair<double, eoc_math>( jo, member, required, default_val );
 }
 
 duration_or_var get_duration_or_var( const JsonObject &jo, std::string_view member,
                                      bool required,
                                      time_duration default_val )
 {
-    duration_or_var ret_val;
-    if( jo.has_array( member ) ) {
-        JsonArray ja = jo.get_array( member );
-        ret_val.min = get_duration_or_var_part( ja.next_value() );
-        ret_val.max = get_duration_or_var_part( ja.next_value() );
-        ret_val.pair = true;
-    } else if( jo.has_member( member ) ) {
-        ret_val.min = get_duration_or_var_part( jo.get_member( member ) );
-    } else if( required ) {
-        jo.throw_error( "No valid value for " + std::string( member ) );
-    } else {
-        ret_val.min.dur_val = default_val;
-    }
-    return ret_val;
+    return get_value_or_var_pair<time_duration, eoc_math>( jo, member, required, default_val );
 }
 
-str_or_var get_str_or_var( const JsonValue &jv, std::string_view member, bool required,
-                           std::string_view default_val )
+str_or_var get_str_or_var( const JsonValue &jv, std::string_view /* member */, bool /* required */,
+                           std::string_view /* default_val */ )
 {
-    str_or_var ret_val;
-    if( jv.test_string() ) {
-        ret_val.str_val = jv.get_string();
-    } else if( jv.test_object() ) {
-        ret_val = get_str_or_var_part( jv.get_object() );
-    } else if( required ) {
-        jv.throw_error( "No valid value for " + std::string( member ) );
-    } else {
-        ret_val.str_val = default_val;
-    }
-    return ret_val;
+
+    str_or_var ret;
+    ret.deserialize( jv );
+    return ret;
+
 }
 
-str_or_var get_str_or_var_part( const JsonObject &jo )
+translation_or_var get_translation_or_var( const JsonValue &jv, std::string_view /* member */,
+        bool /* required */, const translation &/* default_val */ )
 {
-    str_or_var ret_val;
-    if( jo.has_member( "mutator" ) ) {
-        // if we have a mutator then process that here.
-        ret_val.function = conditional_t::get_get_string( jo );
-    } else {
-        ret_val.var_val = read_var_info( jo );
-        if( jo.has_string( "default" ) ) {
-            ret_val.default_val = jo.get_string( "default" );
-        }
-    }
-    return ret_val;
+    translation_or_var ret;
+    ret.deserialize( jv );
+    return ret;
 }
 
-static bool json_object_read( const JsonObject &jo, translation &v )
+void str_translation_or_var::deserialize( JsonValue const &jv )
 {
-    try {
-        v.deserialize( jo );
-        return true;
-    } catch( const JsonError & ) {
-        return false;
-    }
-}
-
-translation_or_var get_translation_or_var( const JsonValue &jv, std::string_view member,
-        bool required, const translation &default_val )
-{
-    translation_or_var ret_val;
-    if( jv.test_object() ) {
-        ret_val = get_translation_or_var( jv.get_object() );
-    } else {
-        translation str_val;
-        if( jv.read( str_val ) ) {
-            ret_val.str_val = str_val;
-        } else if( required ) {
-            jv.throw_error( "No valid value for " + std::string( member ) );
-        } else {
-            ret_val.str_val = default_val;
-        }
-    }
-    return ret_val;
-}
-
-translation_or_var get_translation_or_var( const JsonObject &jo )
-{
-    translation_or_var ret_val;
-    translation str_val;
-    if( json_object_read( jo, str_val ) ) {
-        ret_val.str_val = str_val;
-    } else {
-        if( jo.has_member( "mutator" ) ) {
-            // if we have a mutator then process that here.
-            ret_val.function = conditional_t::get_get_translation( jo );
-        } else {
-            ret_val.var_val = read_var_info( jo );
-            if( jo.has_string( "default" ) ) {
-                // NOLINTNEXTLINE(cata-json-translation-input)
-                ret_val.default_val = to_translation( jo.get_string( "default" ) );
-            }
-        }
-    }
-    return ret_val;
-}
-
-str_translation_or_var get_str_translation_or_var(
-    const JsonValue &jv, std::string_view member, bool required )
-{
-    str_translation_or_var ret_val;
     if( jv.test_object() ) {
         const JsonObject &jo = jv.get_object();
         if( jo.get_bool( "i18n", false ) ) {
-            ret_val.val = get_translation_or_var( jo );
+            translation tov;
+            mandatory( jo, false, "str", tov );
+            val = translation_or_var{ tov };
         } else {
-            ret_val.val = get_str_or_var_part( jo );
+            jo.allow_omitted_members();
+            str_or_var sov;
+            sov.deserialize( jv );
+            val = sov;
         }
     } else {
-        ret_val.val = get_str_or_var( jv, member, required );
+        str_or_var sov;
+        sov.deserialize( jv );
+        val = sov;
     }
-    return ret_val;
 }
 
-var_info read_var_info( const JsonObject &jo )
+void var_info::deserialize( JsonValue const &jsin )
 {
-    var_type type{ var_type::last };
-    std::string name;
+    _deserialize( jsin.get_object() );
+}
 
+void var_info::_deserialize( JsonObject const &jo )
+{
     if( jo.has_member( "u_val" ) ) {
         type = var_type::u;
         name = get_talk_varname( jo, "u_val" );
@@ -431,9 +285,21 @@ var_info read_var_info( const JsonObject &jo )
         type = var_type::context;
         name = get_talk_varname( jo, "context_val" );
     } else {
-        jo.throw_error( "Invalid variable type." );
+        jo.allow_omitted_members();
+        jo.throw_error( "invalid variable type: expected u/npc/global/var/context_val" );
     }
-    return { type, name };
+
+    if( jo.has_member( "default" ) ) {
+        // loaded in value_or_var
+        static_cast<void>( jo.get_member( "default" ) );
+    }
+}
+
+var_info read_var_info( const JsonObject &jo )
+{
+    var_info temp;
+    temp._deserialize( jo );
+    return temp;
 }
 
 namespace
@@ -965,11 +831,8 @@ conditional_t::func f_has_any_effect( const JsonObject &jo, std::string_view mem
     }
     dbl_or_var intensity = get_dbl_or_var( jo, "intensity", false, -1 );
     str_or_var bp;
-    if( jo.has_member( "bodypart" ) ) {
-        bp = get_str_or_var( jo.get_member( "bodypart" ), "bodypart", true );
-    } else {
-        bp.str_val = "";
-    }
+    optional( jo, false, "bodypart", bp );
+
     return [effects_to_check, intensity, bp, is_npc]( const_dialogue const & d ) {
         bodypart_id bid = bp.evaluate( d ).empty() ? get_bp_from_str( d.reason ) :
                           bodypart_id( bp.evaluate( d ) );
@@ -989,11 +852,8 @@ conditional_t::func f_has_effect( const JsonObject &jo, std::string_view member,
     str_or_var effect_id = get_str_or_var( jo.get_member( member ), member, true );
     dbl_or_var intensity = get_dbl_or_var( jo, "intensity", false, -1 );
     str_or_var bp;
-    if( jo.has_member( "bodypart" ) ) {
-        bp = get_str_or_var( jo.get_member( "bodypart" ), "bodypart", true );
-    } else {
-        bp.str_val = "";
-    }
+    optional( jo, false, "bodypart", bp );
+
     return [effect_id, intensity, bp, is_npc]( const_dialogue const & d ) {
         bodypart_id bid = bp.evaluate( d ).empty() ? get_bp_from_str( d.reason ) :
                           bodypart_id( bp.evaluate( d ) );
@@ -1006,15 +866,13 @@ conditional_t::func f_need( const JsonObject &jo, std::string_view member, bool 
 {
     str_or_var need = get_str_or_var( jo.get_member( member ), member, true );
     dbl_or_var dov;
-    if( jo.has_int( "amount" ) ) {
-        dov.min.dbl_val = jo.get_int( "amount" );
-    } else if( jo.has_object( "amount" ) ) {
-        dov = get_dbl_or_var( jo, "amount" );
+    if( jo.has_member( "amount" ) ) {
+        mandatory( jo, false, "amount", dov );
     } else if( jo.has_string( "level" ) ) {
         const std::string &level = jo.get_string( "level" );
         auto flevel = sleepiness_level_strs.find( level );
         if( flevel != sleepiness_level_strs.end() ) {
-            dov.min.dbl_val = static_cast<int>( flevel->second );
+            dov = static_cast<int>( flevel->second );
         }
     }
     return [need, dov, is_npc]( const_dialogue const & d ) {
@@ -1058,9 +916,7 @@ conditional_t::func f_overmap_at_point( const JsonObject &jo, std::string_view m
     str_or_var location = get_str_or_var( jo.get_member( member ), member, true );
 
     std::optional<var_info> loc_var;
-    if( jo.has_object( "point" ) ) {
-        loc_var = read_var_info( jo.get_object( "point" ) );
-    }
+    optional( jo, false, "point", loc_var );
 
     return [loc_var, location]( const_dialogue const & d ) {
         tripoint_abs_ms target_location;
@@ -1738,9 +1594,7 @@ conditional_t::func f_is_outside( bool is_npc )
 conditional_t::func f_tile_is_outside( const JsonObject &jo, std::string_view member )
 {
     std::optional<var_info> loc_var;
-    if( jo.has_object( member ) ) {
-        loc_var = read_var_info( jo.get_object( member ) );
-    }
+    optional( jo, false, member, loc_var );
 
     return [loc_var]( const_dialogue const & d ) {
         map &here = get_map();
@@ -1796,7 +1650,7 @@ conditional_t::func f_query( const JsonObject &jo, std::string_view member, bool
     return [message, default_val, is_npc]( const_dialogue const & d ) {
         const_talker const *actor = d.const_actor( is_npc );
         if( actor->get_const_character() && actor->get_const_character()->is_avatar() ) {
-            std::string translated_message = message.evaluate( d );
+            std::string translated_message = message.evaluate( d ).translated();
             return query_yn( translated_message );
         } else {
             return default_val;
@@ -2217,6 +2071,9 @@ template<class T>
 static std::function<T( const_dialogue const & )> get_get_str_( const JsonObject &jo,
         std::function<T( const std::string & )> ret_func )
 {
+    if( !jo.has_string( "mutator" ) ) {
+        return nullptr;
+    }
     const std::string &mutator = jo.get_string( "mutator" );
     if( mutator == "mon_faction" ) {
         str_or_var mtypeid = get_str_or_var( jo.get_member( "mtype_id" ), "mtype_id" );
@@ -2263,6 +2120,9 @@ template<class T>
 static std::function<T( const_dialogue const & )> get_get_translation_( const JsonObject &jo,
         std::function<T( const translation & )> ret_func )
 {
+    if( !jo.has_string( "mutator" ) ) {
+        return nullptr;
+    }
     if( jo.get_string( "mutator" ) == "ma_technique_description" ) {
         str_or_var ma = get_str_or_var( jo.get_member( "matec_id" ), "matec_id" );
 
@@ -2280,10 +2140,14 @@ static std::function<T( const_dialogue const & )> get_get_translation_( const Js
     return nullptr;
 }
 
-std::function<translation( const_dialogue const & )> conditional_t::get_get_translation(
-    const JsonObject &jo )
+template struct string_mutator<std::string>;
+template struct string_mutator<translation>;
+
+template<>
+void string_mutator<translation>::deserialize( JsonValue const &jsin )
 {
-    auto ret_func = get_get_str_<translation>( jo, []( const std::string & s ) {
+    JsonObject const &jo = jsin.get_object();
+    ret_func = get_get_str_<translation>( jo, []( const std::string & s ) {
         return no_translation( s );
     } );
 
@@ -2292,20 +2156,17 @@ std::function<translation( const_dialogue const & )> conditional_t::get_get_tran
             return t;
         } );
         if( !ret_func ) {
+            jo.allow_omitted_members();
             jo.throw_error( "unrecognized string mutator in " + jo.str() );
-            return []( const_dialogue const & ) {
-                return translation();
-            };
         }
     }
-
-    return ret_func;
 }
 
-std::function<std::string( const_dialogue const & )> conditional_t::get_get_string(
-    const JsonObject &jo )
+template<>
+void string_mutator<std::string>::deserialize( JsonValue const &jsin )
 {
-    auto ret_func = get_get_str_<std::string>( jo, []( const std::string & s ) {
+    JsonObject const &jo = jsin.get_object();
+    ret_func = get_get_str_<std::string>( jo, []( const std::string & s ) {
         return s;
     } );
 
@@ -2314,14 +2175,10 @@ std::function<std::string( const_dialogue const & )> conditional_t::get_get_stri
             return t.translated();
         } );
         if( !ret_func ) {
+            jo.allow_omitted_members();
             jo.throw_error( "unrecognized string mutator in " + jo.str() );
-            return []( const_dialogue const & ) {
-                return "INVALID";
-            };
         }
     }
-
-    return ret_func;
 }
 
 namespace
@@ -2513,12 +2370,20 @@ void deferred_math::_validate_type() const
 
 void eoc_math::from_json( const JsonObject &jo, std::string_view member, math_type_t type_ )
 {
+    if( !jo.has_array( member ) ) {
+        jo.throw_error( "invalid math object" );
+    }
     JsonArray const objects = jo.get_array( member );
     std::string combined;
     for( size_t i = 0; i < objects.size(); i++ ) {
         combined.append( objects.get_string( i ) );
     }
     exp = defer_math( jo, combined, type_ );
+}
+
+void eoc_math::deserialize( JsonValue const &jsin )
+{
+    from_json( jsin.get_object(), "math", math_type_t::ret );
 }
 
 template<typename D>

@@ -84,7 +84,7 @@ void effect_on_condition::load( const JsonObject &jo, std::string_view src )
             jo.throw_error( "A recurring effect_on_condition must be of type RECURRING." );
         }
         type = eoc_type::RECURRING;
-        recurrence = get_duration_or_var( jo, "recurrence", false );
+        optional( jo, was_loaded, "recurrence", recurrence );
     }
     if( type == eoc_type::NUM_EOC_TYPES ) {
         type = eoc_type::ACTIVATION;
