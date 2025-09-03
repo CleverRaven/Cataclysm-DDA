@@ -1388,6 +1388,7 @@ void Character::mutate_category( const mutation_category_id &cat, const bool use
     bool allow_good = false;
     bool allow_bad = false;
     bool allow_neutral = true;
+
     if( select_mutation || true_random ) {
         // Mutation selector and true_random overrides good / bad mutation rolls
         allow_good = true;
