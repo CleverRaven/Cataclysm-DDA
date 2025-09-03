@@ -210,7 +210,7 @@
             "sequence": 0,
             "chance": 10,
             "clear_types": false,
-            "types": { "f_boulder_small": 8, "f_boulder_medium": 3, "f_rubble_rock": 425, "f_boulder_largee": 2, "t_outcrop": 5 }
+            "types": { "f_boulder_small": 8, "f_boulder_medium": 3, "f_rubble_rock": 425, "f_boulder_large": 2, "t_outcrop": 5 }
           },
           "shrubs_and_flowers": { "sequence": 1, "chance": 400, "clear_types": false, "types": { "t_region_shrub": 80, "f_region_weed": 30 } },
           "trees": { "sequence": 2, "chance": 6500, "clear_types": false, "types": { "t_region_tree": 1 } },
@@ -221,7 +221,7 @@
           "t_region_groundcover_swamp": {
             "chance": 125,
             "clear_furniture": false,
-            "furniture": { "f_boulder_small": 7, "f_boulder_medium": 3, "f_rubble_rock": 50, "f_boulder_largee": 2 }
+            "furniture": { "f_boulder_small": 7, "f_boulder_medium": 3, "f_rubble_rock": 50, "f_boulder_large": 2 }
           }
         }
       }
