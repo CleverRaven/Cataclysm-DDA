@@ -34,7 +34,6 @@
 #include "effect_on_condition.h"
 #include "enum_traits.h"
 #include "enums.h"
-#include "explosion.h"
 #include "faction.h"
 #include "flag.h"
 #include "game.h"
@@ -120,7 +119,6 @@ static const trait_id trait_INT_ALPHA( "INT_ALPHA" );
 static const std::string flag_AFFECTED_BY_PAIN( "AFFECTED_BY_PAIN" );
 static const std::string flag_BLIND_EASY( "BLIND_EASY" );
 static const std::string flag_BLIND_HARD( "BLIND_HARD" );
-static const std::string flag_EXPLOSIVE( "EXPLOSIVE" );
 static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
 static const std::string flag_NO_BENCH( "NO_BENCH" );
 static const std::string flag_NO_ENCHANTMENT( "NO_ENCHANTMENT" );
@@ -1363,55 +1361,6 @@ static void destroy_random_component( item &craft, const Character &crafter )
     crafter.add_msg_player_or_npc( game_message_params( game_message_type::m_bad ),
                                    _( "You mess up and destroy the %s." ),
                                    _( "<npcname> messes up and destroys the %s" ), destroyed.tname() );
-
-    // Explosive failure chance reduced by proficiency ratio
-    if( craft.has_flag( flag_EXPLOSIVE ) ) {
-        const recipe &rec = craft.get_making();
-        const std::vector<recipe_proficiency> &profs = rec.proficiencies;
-        int num_required = 0;
-        int num_known = 0;
-
-        for( const recipe_proficiency &prof : profs ) {
-            if( prof.required ) {
-                num_required++;
-                if( crafter.has_proficiency( prof.id ) ) {
-                    num_known++;
-                }
-            }
-        }
-        double reduction = ( num_required > 0 ) ? ( static_cast<double>( num_known ) / num_required ) : 0.0;
-        const double base_explosion_chance = 0.4; // 40%
-        double explosion_chance = base_explosion_chance * ( 1.0 - reduction );
-
-        int missing = num_required - num_known;
-        if( missing <= 0 ) {
-            missing = 1; 
-        }
-
-        int batch_size = craft.get_making_batch_size();
-        if( batch_size <= 0 ) {
-            batch_size = 1;
-        }
-
-        if( x_in_y( explosion_chance * 100, 100 ) ) {
-            const int weight_grams = units::to_gram(craft.weight()); 
-            const int explosion_power = 2 * weight_grams * missing * batch_size;
-            const double casing_mass = static_cast<double>(weight_grams * missing * batch_size);
-            const double fragment_mass = 0.1;
-
-            explosion_data exp;
-            exp.power = explosion_power;
-            exp.shrapnel = cata::make_value<explosion_shrapnel_data>();
-            exp.shrapnel->casing_mass = casing_mass;
-            exp.shrapnel->fragment_mass = fragment_mass;
-
-            crafter.add_msg_player_or_npc( m_bad,
-                _( "The explosive craft explodes violently!" ),
-                _( "The explosive craft explodes violently near <npcname>!" )
-            );
-            explosion( crafter.pos(), exp );
-        }
-    }
 }
 
 bool item::handle_craft_failure( Character &crafter )
