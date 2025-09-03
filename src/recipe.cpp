@@ -8,7 +8,6 @@
 #include <sstream>
 #include <unordered_map>
 
-#include "assign.h"
 #include "cached_options.h"
 #include "calendar.h"
 #include "cartesian_product.h"
@@ -54,8 +53,6 @@ static const itype_id itype_hotplate( "hotplate" );
 
 static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
 
-
-recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
 int recipe::get_difficulty( const Character &crafter ) const
 {
@@ -155,10 +152,8 @@ bool recipe::has_flag( const std::string &flag_name ) const
     return flags.count( flag_name );
 }
 
-void recipe::load( const JsonObject &jo, const std::string &src )
+void recipe::load( const JsonObject &jo, const std::string_view src )
 {
-    bool strict = src == "dda";
-
     abstract = jo.has_string( "abstract" );
 
     const std::string type = jo.get_string( "type" );
@@ -218,7 +213,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_bool( "obsolete" ) ) {
-        assign( jo, "obsolete", obsolete );
+        mandatory( jo, was_loaded, "obsolete", obsolete );
     }
 
     // If it's an obsolete recipe, we don't need any more data, skip loading
@@ -230,14 +225,17 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         time = to_moves<int>( read_from_json_string<time_duration>( jo.get_member( "time" ),
                               time_duration::units ) );
     }
-    assign( jo, "difficulty", difficulty, strict, 0, MAX_SKILL );
-    assign( jo, "flags", flags );
+    optional( jo, was_loaded, "difficulty", difficulty, numeric_bound_reader<int> {0, MAX_SKILL} );
+    optional( jo, was_loaded, "flags", flags );
 
     // automatically set contained if we specify as container
-    assign( jo, "contained", contained, strict );
-    contained |= assign( jo, "container", container, strict );
+    optional( jo, was_loaded, "contained", contained, false );
+    if( jo.has_member( "container" ) ) {
+        contained = true;
+        optional( jo, was_loaded, "container", container, itype_id::NULL_ID() );
+    }
     optional( jo, false, "container_variant", container_variant );
-    assign( jo, "sealed", sealed, strict );
+    optional( jo, was_loaded, "sealed", sealed, true );
 
     if( jo.has_array( "batch_time_factors" ) ) {
         JsonArray batch = jo.get_array( "batch_time_factors" );
@@ -245,10 +243,10 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         batch_rsize  = batch.get_int( 1 );
     }
 
-    assign( jo, "charges", charges );
-    assign( jo, "result_mult", result_mult );
+    optional( jo, was_loaded, "charges", charges );
+    optional( jo, was_loaded, "result_mult", result_mult, 1 );
 
-    assign( jo, "skill_used", skill_used, strict );
+    optional( jo, was_loaded, "skill_used", skill_used, skill_id::NULL_ID() );
 
     if( jo.has_member( "skills_required" ) ) {
         JsonArray sk = jo.get_array( "skills_required" );
@@ -273,7 +271,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
 
     // simplified autolearn sets requirements equal to required skills at finalization
     if( jo.has_bool( "autolearn" ) ) {
-        assign( jo, "autolearn", autolearn );
+        optional( jo, was_loaded, "autolearn", autolearn, false );
 
     } else if( jo.has_array( "autolearn" ) ) {
         autolearn = true;
@@ -286,9 +284,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     mandatory( jo, was_loaded, "activity_level", exertion, activity_level_reader{} );
 
     // Never let the player have a debug or NPC recipe
-    if( jo.has_bool( "never_learn" ) ) {
-        assign( jo, "never_learn", never_learn );
-    }
+    optional( jo, was_loaded, "never_learn", never_learn, false );
 
     if( jo.has_member( "decomp_learn" ) ) {
         learn_by_disassembly.clear();
@@ -297,7 +293,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
             if( !skill_used ) {
                 jo.throw_error( "decomp_learn specified with no skill_used" );
             }
-            assign( jo, "decomp_learn", learn_by_disassembly[skill_used] );
+            optional( jo, false, "decomp_learn", learn_by_disassembly[skill_used] );
 
         } else if( jo.has_array( "decomp_learn" ) ) {
             for( JsonArray arr : jo.get_array( "decomp_learn" ) ) {
@@ -335,10 +331,10 @@ void recipe::load( const JsonObject &jo, const std::string &src )
 
         mandatory( jo, was_loaded, "category", category );
         mandatory( jo, was_loaded, "subcategory", subcategory );
-        assign( jo, "description", description, strict );
+        optional( jo, was_loaded, "description", description );
 
         if( jo.has_bool( "reversible" ) ) {
-            assign( jo, "reversible", reversible, strict );
+            mandatory( jo, was_loaded, "reversible", reversible );
         } else if( jo.has_object( "reversible" ) ) {
             reversible = true;
             // Convert duration to time in moves
@@ -363,10 +359,10 @@ void recipe::load( const JsonObject &jo, const std::string &src )
             byproduct_group = item_group::load_item_group( jo.get_member( "byproduct_group" ),
                               "collection", "byproducts of recipe " + id.str() );
         }
-        assign( jo, "construction_blueprint", blueprint );
+        optional( jo, was_loaded, "construction_blueprint", blueprint );
         if( !blueprint.is_empty() ) {
-            assign( jo, "blueprint_name", bp_name );
-            assign( jo, "blueprint_parameter_names", bp_parameter_names );
+            optional( jo, was_loaded, "blueprint_name", bp_name );
+            optional( jo, was_loaded, "blueprint_parameter_names", bp_parameter_names );
             bp_resources.clear();
             for( const std::string resource : jo.get_array( "blueprint_resources" ) ) {
                 bp_resources.emplace_back( resource );
@@ -423,7 +419,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         mandatory( jo, false, "name", name_ );
         mandatory( jo, was_loaded, "category", category );
         mandatory( jo, was_loaded, "subcategory", subcategory );
-        assign( jo, "description", description, strict );
+        optional( jo, was_loaded, "description", description );
         mandatory( jo, was_loaded, "practice_data", practice_data );
 
         if( jo.has_member( "byproducts" ) ) {
@@ -446,7 +442,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         mandatory( jo, false, "name", name_ );
         mandatory( jo, was_loaded, "category", category );
         mandatory( jo, was_loaded, "subcategory", subcategory );
-        assign( jo, "description", description, strict );
+        optional( jo, was_loaded, "description", description );
         mandatory( jo, was_loaded, "nested_category_data", nested_category_data );
 
     } else {
