@@ -50,6 +50,7 @@
 #include "wcwidth.h"
 
 class emit;
+class proficiency;
 
 namespace
 {
@@ -204,28 +205,10 @@ static void parse_vp_reqs( const JsonObject &obj, const vpart_id &id, const std:
     }
 }
 
-static void parse_vp_control_reqs( const JsonObject &obj, const vpart_id &id,
-                                   std::string_view key,
-                                   vp_control_req &req )
+void vp_control_req::deserialize( const JsonObject &jo )
 {
-    if( !obj.has_object( key ) ) {
-        return;
-    }
-    JsonObject src = obj.get_object( key );
-
-    JsonArray sk = src.get_array( "skills" );
-    if( !sk.empty() ) {
-        req.skills.clear();
-        for( JsonArray cur : sk ) {
-            if( cur.size() != 2 ) {
-                debugmsg( "vpart '%s' has requirement with invalid skill entry", id.str() );
-                continue;
-            }
-            req.skills.emplace( skill_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
-        }
-    }
-
-    optional( src, false, "proficiencies", req.proficiencies );
+    optional( jo, false, "skills", skills, weighted_string_id_reader<skill_id, int> { std::nullopt} );
+    optional( jo, false, "proficiencies", proficiencies, string_id_reader<proficiency> {} );
 }
 
 void vehicles::parts::load( const JsonObject &jo, const std::string &src )
@@ -327,8 +310,8 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     if( jo.has_member( "control_requirements" ) ) {
         JsonObject reqs = jo.get_object( "control_requirements" );
 
-        parse_vp_control_reqs( reqs, id, "air", control_air );
-        parse_vp_control_reqs( reqs, id, "land", control_land );
+        optional( reqs, false, "air", control_air );
+        optional( reqs, false, "land", control_land );
     }
 
     optional( jo, was_loaded, "looks_like", looks_like, looks_like );
@@ -363,77 +346,116 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         damage_reduction = load_damage_map( dred );
     }
 
+    // TODO?: move this into an object?
     if( has_flag( "ENGINE" ) ) {
         if( !engine_info ) {
             engine_info.emplace();
         }
-        assign( jo, "backfire_threshold", engine_info->backfire_threshold, strict );
-        assign( jo, "backfire_freq", engine_info->backfire_freq, strict );
-        assign( jo, "noise_factor", engine_info->noise_factor, strict );
-        assign( jo, "damaged_power_factor", engine_info->damaged_power_factor, strict );
-        assign( jo, "m2c", engine_info->m2c, strict );
-        assign( jo, "muscle_power_factor", engine_info->muscle_power_factor, strict );
-        assign( jo, "exclusions", engine_info->exclusions, strict );
-        assign( jo, "fuel_options", engine_info->fuel_opts, strict );
+        engine_info->deserialize( jo );
     }
 
     if( has_flag( "WHEEL" ) ) {
         if( !wheel_info ) {
             wheel_info.emplace();
         }
-
-        assign( jo, "rolling_resistance", wheel_info->rolling_resistance, strict );
-        assign( jo, "contact_area", wheel_info->contact_area, strict );
-        assign( jo, "wheel_offroad_rating", wheel_info->offroad_rating, strict );
-        if( const std::optional<JsonValue> jo_termod = jo.get_member_opt( "wheel_terrain_modifiers" ) ) {
-            wheel_info->terrain_modifiers.clear();
-            for( const JsonMember jo_mod : static_cast<JsonObject>( *jo_termod ) ) {
-                const JsonArray jo_mod_values = jo_mod.get_array();
-                veh_ter_mod mod { jo_mod.name(), jo_mod_values.get_int( 0 ), jo_mod_values.get_int( 1 ) };
-                wheel_info->terrain_modifiers.emplace_back( std::move( mod ) );
-            }
-        }
+        wheel_info->deserialize( jo );
     }
 
     if( has_flag( "ROTOR" ) ) {
         if( !rotor_info ) {
             rotor_info.emplace();
         }
-        assign( jo, "rotor_diameter", rotor_info->rotor_diameter, strict );
+        rotor_info->deserialize( jo );
     }
 
     if( has_flag( "WORKBENCH" ) ) {
-        if( !workbench_info ) {
-            workbench_info.emplace();
-        }
-
-        JsonObject wb_jo = jo.get_object( "workbench" );
-        assign( wb_jo, "multiplier", workbench_info->multiplier, strict );
-        assign( wb_jo, "mass", workbench_info->allowed_mass, strict );
-        assign( wb_jo, "volume", workbench_info->allowed_volume, strict );
+        mandatory( jo, was_loaded, "workbench", workbench_info );
     }
 
     if( has_flag( "VEH_TOOLS" ) ) {
         if( !toolkit_info ) {
             toolkit_info.emplace();
         }
-        assign( jo, "allowed_tools", toolkit_info->allowed_types, strict );
+        toolkit_info->deserialize( jo );
     }
 
     if( has_flag( "TRANSFORM_TERRAIN" ) || has_flag( "CRASH_TERRAIN_AROUND" ) ) {
         if( !transform_terrain_info ) {
             transform_terrain_info.emplace();
         }
-        JsonObject jttd = jo.get_object( "transform_terrain" );
-        vpslot_terrain_transform &vtt = *transform_terrain_info;
-        optional( jttd, was_loaded, "pre_flags", vtt.pre_flags, {} );
-        optional( jttd, was_loaded, "post_terrain", vtt.post_terrain );
-        optional( jttd, was_loaded, "post_furniture", vtt.post_furniture );
-        if( jttd.has_string( "post_field" ) ) {
-            mandatory( jttd, was_loaded, "post_field", vtt.post_field );
-            mandatory( jttd, was_loaded, "post_field_intensity", vtt.post_field_intensity );
-            mandatory( jttd, was_loaded, "post_field_age", vtt.post_field_age );
-        }
+        mandatory( jo, was_loaded, "transform_terrain", transform_terrain_info );
+    }
+}
+
+void vpslot_engine::deserialize( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "backfire_threshold", backfire_threshold, 0.f );
+    optional( jo, was_loaded, "backfire_freq", backfire_freq, 1 );
+    optional( jo, was_loaded, "noise_factor", noise_factor, 0 );
+    optional( jo, was_loaded, "damaged_power_factor", damaged_power_factor, 0.f );
+    optional( jo, was_loaded, "m2c", m2c, 100 );
+    optional( jo, was_loaded, "muscle_power_factor", muscle_power_factor, 0 );
+    optional( jo, was_loaded, "exclusions", exclusions, string_reader{} );
+    optional( jo, was_loaded, "fuel_options", fuel_opts, string_id_reader<itype> {} );
+
+    was_loaded = true;
+}
+
+void veh_ter_mod::deserialize( const JsonValue &jv )
+{
+    if( !jv.is_member() ) {
+        jv.throw_error( "Invalid format" );
+    }
+
+    const JsonMember &jm = dynamic_cast<const JsonMember &>( jv );
+    JsonArray ja = jm.get_array();
+
+    terrain_flag = jm.name();
+    move_override = ja.get_int( 0 );
+    move_penalty = ja.get_int( 1 );
+}
+
+void vpslot_wheel::deserialize( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "rolling_resistance", rolling_resistance, 1.f );
+    optional( jo, was_loaded, "contact_area", contact_area, 1 );
+    optional( jo, was_loaded, "wheel_offroad_rating", offroad_rating, 0.5f );
+    optional( jo, was_loaded, "wheel_terrain_modifiers", terrain_modifiers,
+              json_read_reader<veh_ter_mod> {} );
+
+    was_loaded = true;
+}
+
+void vpslot_rotor::deserialize( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "rotor_diameter", rotor_diameter, 1 );
+
+    was_loaded = true;
+}
+
+void vpslot_workbench::deserialize( const JsonObject &jo )
+{
+    optional( jo, false, "multiplier", multiplier, 1.f );
+    optional( jo, false, "mass", allowed_mass, 0_gram );
+    optional( jo, false, "volume", allowed_volume, 0_ml );
+}
+
+void vpslot_toolkit::deserialize( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "allowed_tools", allowed_types, string_id_reader<itype> {} );
+
+    was_loaded = true;
+}
+
+void vpslot_terrain_transform::deserialize( const JsonObject &jo )
+{
+    optional( jo, false, "pre_flags", pre_flags, {} );
+    optional( jo, false, "post_terrain", post_terrain );
+    optional( jo, false, "post_furniture", post_furniture );
+    if( jo.has_string( "post_field" ) ) {
+        mandatory( jo, false, "post_field", post_field );
+        mandatory( jo, false, "post_field_intensity", post_field_intensity );
+        mandatory( jo, false, "post_field_age", post_field_age );
     }
 }
 
