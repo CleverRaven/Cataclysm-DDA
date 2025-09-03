@@ -101,5 +101,11 @@
     "name": "OVERMAP_URBAN_INCREASE_SOUTH",
     "stype": "int",
     "value": 0
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "DEFAULT_REGION",
+    "stype": "string_input",
+    "value": "default_classiczombies"
   }
 ]
