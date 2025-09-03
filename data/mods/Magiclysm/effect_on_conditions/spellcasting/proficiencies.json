@@ -1,6 +1,16 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_MAGICLYSM_CAPTURE_DIFFICULTY_AND_CASTING_TIME",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "effect": [
+      { "math": [ "u_last_spell_cast_difficulty = _difficulty" ] },
+      { "math": [ "u_last_spell_cast_casting_time = _cast_time" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_SPELLCASTING_EVOCATION_PROFICIENCY_ADD",
     "global": false,
     "eoc_type": "ACTIVATION",
