@@ -41,6 +41,52 @@
     ]
   },
   {
+    "id": "g_shovel",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "copy-from": "g_shovel",
+    "name": { "str": "trowel" },
+    "description": "A small, sharp shovel, perfect for breaking off chunks of ice.",
+    "material": [ "mc_steel", "plastic" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "ammo_scale": 1,
+      "menu_text": "Harvest ice",
+      "effect_on_conditions": [ "EOC_SHOVEL_SNOW" ]
+    }
+  },
+  {
+    "id": "shovel",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "copy-from": "shovel",
+    "name": { "str": "shovel" },
+    "description": "A shovel with a steel blade.",
+    "material": [ "mc_steel", "plastic" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "ammo_scale": 1,
+      "menu_text": "Harvest ice",
+      "effect_on_conditions": [ "EOC_SHOVEL_SNOW" ]
+    }
+  },
+  {
+    "id": "shovel_snow",
+    "looks_like": "shovel",
+    "type": "ITEM",
+    "copy-from": "shovel_snow",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "snow shovel" },
+    "description": "A sturdy metal shovel used for picking up snow and moving it somewhere else.",
+    "material": [ "mc_steel", "plastic" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "ammo_scale": 1,
+      "menu_text": "Harvest ice",
+      "effect_on_conditions": [ "EOC_SHOVEL_SNOW" ]
+    }
+  },
+  {
     "id": "afs_imager",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
