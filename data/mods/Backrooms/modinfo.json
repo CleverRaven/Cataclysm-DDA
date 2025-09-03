@@ -10,5 +10,11 @@
     "conflicts": [ "desertpack", "tropicata" ],
     "dependencies": [ "dda" ],
     "version": "0.1"
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "DEFAULT_REGION",
+    "stype": "string_input",
+    "value": "default_backrooms"
   }
 ]
