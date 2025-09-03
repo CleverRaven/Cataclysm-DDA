@@ -1084,38 +1084,26 @@ TEST_CASE( "water_tablet_purification_test", "[iuse][pur_tablets]" )
     }
 }
 
-static void use_item_by_type( avatar &you, const itype_id &id )
-{
-    for( item &it : you.inv_dump() ) {
-        if( it.typeId() == id ) {
-            you.use( you.get_item_position( &it ) );
-            break;
-        }
-    }
-}
 
 TEST_CASE( "gracken_strong_arms_trait_change", "[gracken][traits][mutation][item_use]" )
 {
     set_game_mods( { "dda", "Xedra_Evolved" } );
-
     clear_avatar();
 
-    const profession *prof = profession::prof( "xe_gracken_hunter" );
-    REQUIRE( prof != nullptr );
     avatar &you = get_avatar();
-    prof->apply( you );
+    you.set_profession( profession_id( "xe_gracken_hunter" ) );
 
     REQUIRE( you.has_trait( trait_id( "SHADE_ARMS" ) ) );
 
-    item strong_arms( "gracken_strong_arms" );
+    item strong_arms( itype_gracken_strong_arms, calendar::turn_zero );
     you.i_add( strong_arms );
     REQUIRE( you.has_amount( "gracken_strong_arms", 1 ) );
 
-    use_item_by_type( you, itype_id( "gracken_strong_arms" ) );
+    int pos = you.inv->position_by_type( itype_gracken_strong_arms );
+    REQUIRE( pos != INT_MIN );
+    you.use( pos );
 
     REQUIRE_FALSE( you.has_amount( "gracken_strong_arms", 1 ) );
-
     REQUIRE_FALSE( you.has_trait( trait_id( "SHADE_ARMS" ) ) );
-
     REQUIRE( you.has_trait( trait_id( "SHADE_STRONG_ARMS" ) ) );
 }
