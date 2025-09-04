@@ -104,6 +104,12 @@
         }
       },
       "place_item": [ { "item": "microwave", "x": 41, "y": 33, "chance": 1 }, { "item": "id_LIXA", "x": 14, "y": 14, "chance": 1 } ],
+      "place_monster": [
+        { "monster": "mon_zombie_soldier_lixa_police", "x": [ 1, 13 ], "y": [ 14, 23 ], "chance": 50 },
+        { "monster": "mon_zombie_soldier_lixa_police", "x": [ 35, 45 ], "y": [ 4, 15 ], "chance": 50 },
+        { "monster": "mon_zombie_soldier_lixa_police", "x": [ 25, 37 ], "y": [ 25, 42 ], "chance": 50 },
+        { "monster": "mon_zombie_soldier_lixa_police", "x": [ 40, 46 ], "y": [ 25, 32 ], "chance": 50 }
+      ],
       "place_monsters": [
         { "monster": "GROUP_MIL_STRONG", "x": [ 1, 13 ], "y": [ 14, 23 ], "density": 0.1 },
         { "monster": "GROUP_MIL_STRONG", "x": [ 35, 45 ], "y": [ 4, 15 ], "density": 0.1 },
