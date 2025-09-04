@@ -169,7 +169,8 @@
     "volume": "875 L",
     "weight": "850 kg",
     "hp": 450,
-    "speed": 90,
+    "speed": 105,
+    "diff": 15,
     "material": [ "flesh" ],
     "symbol": "T",
     "color": "brown",
@@ -191,11 +192,12 @@
         "type": "monster_attack",
         "attack_type": "melee",
         "id": "troll_weapon_club",
-        "cooldown": 2,
-        "move_cost": 150,
+        "cooldown": 3,
+        "move_cost": 200,
         "accuracy": 5,
         "damage_max_instance": [ { "damage_type": "bash", "amount": 40 } ],
         "condition": { "test_eoc": "is_disarmed" },
+        "eoc": [ "EOC_XE_TROLL_HITS_YOU_WITH_GIANT_CLUB" ],
         "hit_dmg_u": "%1$s hits your %2$s with an enormous club!",
         "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with an enormous club!",
         "miss_msg_u": "%1$s tries to hit you, but you dodge!",
@@ -210,20 +212,24 @@
   },
   {
     "id": "mon_xe_troll_full_armor",
+    "copy-from": "mon_xe_troll",
     "type": "MONSTER",
     "name": { "str": "troll manbreaker" },
     "description": "An enormous man-like form, over twice as tall as a human and clad in a suit of faintly-shimmering armor that looks like it could stop an anti-tank round.  It carries a warhammer made of the same material that looks like it could destroy a brick wall in a single swing.",
+    "speed": 90,
     "melee_skill": 7,
+    "diff": 25,
     "special_attacks": [
       { "id": "grab", "condition": { "u_has_effect": "disarmed" } },
       {
         "type": "monster_attack",
         "attack_type": "melee",
         "id": "troll_weapon_warhammer",
-        "cooldown": 2,
+        "cooldown": 4,
         "move_cost": 250,
         "damage_max_instance": [ { "damage_type": "bash", "amount": 65 } ],
         "condition": { "test_eoc": "is_disarmed" },
+        "eoc": [ "EOC_XE_TROLL_HITS_YOU_WITH_GIANT_CLUB" ],
         "hit_dmg_u": "%1$s hits your %2$s with a gigantic hammer!",
         "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with a gigantic hammer!",
         "miss_msg_u": "%1$s tries to hit you, but you dodge!",
@@ -247,6 +253,46 @@
       "xe_cold_iron_bash_damage": 0,
       "xe_cold_iron_stab_damage": 0
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_TROLL_HITS_YOU_WITH_GIANT_CLUB",
+    "effect": [
+      {
+        "switch": { "math": [ "n_val('size')" ] },
+        "cases": [
+          {
+            "case": 1,
+            "effect": [ { "npc_add_effect": "downed", "duration": [ 2, 5 ] }, { "npc_add_effect": "stunned", "duration": [ 2, 5 ] } ]
+          },
+          {
+            "case": 2,
+            "effect": [
+              { "npc_add_effect": "downed", "duration": [ 2, 4 ] },
+              { "if": { "math": [ "rand(4) >= 1" ] }, "then": { "npc_add_effect": "stunned", "duration": [ 1, 4 ] } }
+            ]
+          },
+          {
+            "case": 3,
+            "effect": [
+              { "npc_add_effect": "downed", "duration": [ 1, 4 ] },
+              { "if": { "math": [ "rand(4) >= 2" ] }, "then": { "npc_add_effect": "stunned", "duration": [ 1, 3 ] } }
+            ]
+          },
+          {
+            "case": 4,
+            "effect": [
+              { "if": { "math": [ "rand(1) >= 1" ] }, "then": { "npc_add_effect": "downed", "duration": [ 1, 3 ] } },
+              { "if": { "math": [ "rand(4) >= 3" ] }, "then": { "npc_add_effect": "stunned", "duration": [ 1, 4 ] } }
+            ]
+          },
+          {
+            "case": 5,
+            "effect": [ { "if": { "math": [ "rand(4) >= 4" ] }, "then": { "npc_add_effect": "stunned", "duration": [ 1, 4 ] } } ]
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "mon_march_lord",
