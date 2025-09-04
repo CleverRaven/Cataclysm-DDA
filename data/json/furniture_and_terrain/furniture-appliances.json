@@ -380,18 +380,20 @@
     "symbol": "M",
     "color": "light_gray",
     "rotates_to": "INDOORFLOOR",
-    "move_cost_mod": -1,
+    "move_cost_mod": 2,
     "coverage": 40,
     "required_str": 20,
     "flags": [
       "TRANSPARENT",
       "PLACE_ITEM",
       "BLOCKSDOOR",
-      "LIQUIDCONT",
       "EASY_DECONSTRUCT"
     ],
-    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "mill_vertical" },
-    "item": "mill_vertical"
+    "examine_action": {
+      "type": "appliance_convert",
+      "furn_set": "f_null",
+      "item": "mill_vertical"
+      "item": "mill_vertical"
   },
   {
     "type": "furniture",
