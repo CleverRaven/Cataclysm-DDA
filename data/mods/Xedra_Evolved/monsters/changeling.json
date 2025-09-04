@@ -203,9 +203,10 @@
         "miss_msg_u": "%1$s tries to hit you, but you dodge!",
         "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
         "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
-        "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
+        "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor.",
+        "blockable": false
       },
-      { "id": "smash", "throw_strength": 80 },
+      { "id": "smash", "throw_strength": 80, "blockable": false },
       [ "EAT_FOOD", 120 ]
     ],
     "path_settings": { "avoid_traps": true, "avoid_sharp": true }
@@ -235,9 +236,10 @@
         "miss_msg_u": "%1$s tries to hit you, but you dodge!",
         "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
         "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
-        "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
+        "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor.",
+        "blockable": false
       },
-      { "id": "smash", "throw_strength": 80 },
+      { "id": "smash", "throw_strength": 80, "blockable": false },
       [ "EAT_FOOD", 120 ]
     ],
     "death_drops": "changeling_troll_manbreaker_death_drops",
