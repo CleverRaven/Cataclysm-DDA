@@ -1,18 +1,16 @@
 [
   {
     "type": "overmap_terrain",
-    "id": [
-      "bandit_camp_1",
-      "bandit_camp_2",
-      "bandit_camp_3",
-      "bandit_camp_4",
-      "bandit_camp_1_roof",
-      "bandit_camp_2_roof",
-      "bandit_camp_3_roof",
-      "bandit_camp_4_roof"
-    ],
+    "id": [ "bandit_camp_1", "bandit_camp_2", "bandit_camp_3", "bandit_camp_4" ],
     "copy-from": "bandit_camp_1",
     "name": "wooden fort",
+    "sym": "W",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "bandit_camp_1_roof", "bandit_camp_2_roof", "bandit_camp_3_roof", "bandit_camp_4_roof" ],
+    "copy-from": "bandit_camp_1_roof",
     "sym": "W",
     "color": "brown"
   },
@@ -603,18 +601,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "riverside_dwelling",
-      "riverside_dwelling1",
-      "riverside_dwelling2",
-      "riverside_dwelling3",
-      "riverside_dwelling_roof",
-      "riverside_dwelling1_roof",
-      "riverside_dwelling2_roof",
-      "riverside_dwelling3_roof"
-    ],
+    "id": [ "riverside_dwelling", "riverside_dwelling1", "riverside_dwelling2", "riverside_dwelling3" ],
     "copy-from": "riverside_dwelling",
     "name": "riverside dwelling",
+    "sym": "R",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "riverside_dwelling_roof", "riverside_dwelling1_roof", "riverside_dwelling2_roof", "riverside_dwelling3_roof" ],
+    "copy-from": "riverside_dwelling_roof",
     "sym": "R",
     "color": "brown"
   },
