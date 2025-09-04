@@ -315,6 +315,30 @@
   },
   {
     "type": "terrain",
+    "id": "t_roof_fan_industrial",
+    "name": "roof ventilation unit",
+    "description": "A large metal box and accompanying fan, built to circulate air within a building.  If you destroy it, you could gain access to the large ventilation shaft below.",
+    "looks_like": "f_machinery_heavy",
+    "symbol": "&",
+    "color": "blue",
+    "move_cost": 0,
+    "max_volume": "2000 L",
+    "flags": [ "TRANSPARENT", "REDUCE_SCENT", "PERMEABLE" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_open_air",
+      "items": [
+        { "item": "steel_lump", "count": [ 0, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_missile",
     "name": "missile",
     "description": "A section of an ICBM, an Intercontinental Ballistic Missile.  This isn't the kind of rocket that goes to the moon.",
