@@ -200,6 +200,7 @@ enum class oter_flags : int {
     ravine,
     ravine_edge,
     pp_generate_riot_damage,
+    pp_generate_ruined,
     generic_loot,
     risk_extreme,
     risk_high,
