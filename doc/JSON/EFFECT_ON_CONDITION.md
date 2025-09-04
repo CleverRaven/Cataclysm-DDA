@@ -3531,8 +3531,8 @@ Get the user input
     {
       "set_string_var": "",
       "string_input": {
-        "title": { "i18n": true, "str": "Input a value:" },
-        "description": { "i18n": true, "str": "Just say something" },
+        "title": "Input a value:",
+        "description": "Just say something",
         "width": 30
       },
       "target_var": { "context_val": "str" }

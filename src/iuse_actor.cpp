@@ -213,66 +213,55 @@ std::unique_ptr<iuse_actor> iuse_transform::clone() const
 
 void iuse_transform::load( const JsonObject &obj, const std::string & )
 {
-    obj.read( "target", target, true );
-    obj.read( "target_group", target_group, true );
+    optional( obj, false, "target", target );
+    optional( obj, false, "target_group", target_group );
 
     if( !target.is_empty() && !target_group.is_empty() ) {
         obj.throw_error_at( "target_group", "Cannot use both target and target_group at once" );
     }
 
-    obj.read( "msg", msg_transform );
-    obj.read( "variant_type", variant_type );
-    obj.read( "container", container );
-    obj.read( "sealed", sealed );
+    optional( obj, false, "msg", msg_transform );
+    optional( obj, false, "msg", msg_transform );
+    optional( obj, false, "variant_type", variant_type, "<any>" );
+    optional( obj, false, "container", container );
+    optional( obj, false, "sealed", sealed, true );
     if( obj.has_member( "target_charges" ) && obj.has_member( "rand_target_charges" ) ) {
         obj.throw_error_at( "target_charges",
                             "Transform actor specified both fixed and random target charges" );
     }
-    obj.read( "target_charges", ammo_qty );
-    if( obj.has_array( "rand_target_charges" ) ) {
-        for( const int charge : obj.get_array( "rand_target_charges" ) ) {
-            random_ammo_qty.push_back( charge );
-        }
-        if( random_ammo_qty.size() < 2 ) {
-            obj.throw_error_at( "rand_target_charges",
-                                "You must specify two or more values to choose between" );
-        }
+    optional( obj, false, "target_charges", ammo_qty, -1 );
+    optional( obj, false, "rand_target_charges", random_ammo_qty );
+    if( random_ammo_qty.size() == 1 ) {
+        obj.throw_error_at( "rand_target_charges",
+                            "You must specify two or more values to choose between" );
     }
-    obj.read( "target_ammo", ammo_type );
+    optional( obj, false, "target_ammo", ammo_type );
 
-    obj.read( "target_timer", target_timer );
+    optional( obj, false, "target_timer", target_timer, 0_seconds );
 
     if( !ammo_type.is_empty() && !container.is_empty() ) {
         obj.throw_error_at( "target_ammo", "Transform actor specified both ammo type and container type" );
     }
 
-    obj.read( "active", active );
+    optional( obj, false, "active", active, false );
 
-    obj.read( "moves", moves );
-    if( moves < 0 ) {
-        obj.throw_error_at( "moves", "transform actor specified negative moves" );
-    }
+    optional( obj, false, "moves", moves, numeric_bound_reader<int> { 0 }, 0 );
 
-    obj.read( "need_fire", need_fire );
-    need_fire = std::max( need_fire, 0 );
-    if( !obj.read( "need_charges_msg", need_charges_msg ) ) {
-        need_charges_msg = to_translation( "The %s is empty!" );
-    }
+    optional( obj, false, "need_fire", need_fire, numeric_bound_reader<int> { 0 }, 0 );
+    optional( obj, false, "need_charges_msg", need_charges_msg, to_translation( "The %s is empty!" ) );
 
-    obj.read( "need_charges", need_charges );
-    need_charges = std::max( need_charges, 0 );
-    if( !obj.read( "need_fire_msg", need_fire_msg ) ) {
-        need_fire_msg = to_translation( "You need a source of fire!" );
-    }
+    optional( obj, false, "need_charges", need_charges, numeric_bound_reader<int> { 0 }, 0 );
+    optional( obj, false, "need_fire_msg", need_fire_msg,
+              to_translation( "You need a source of fire!" ) );
 
-    obj.read( "need_worn", need_worn );
-    obj.read( "need_wielding", need_wielding );
+    optional( obj, false, "need_worn", need_worn, false );
+    optional( obj, false, "need_wielding", need_wielding, false );
 
-    obj.read( "need_empty", need_empty );
+    optional( obj, false, "need_empty", need_empty, false );
 
-    obj.read( "qualities_needed", qualities_needed );
+    optional( obj, false, "qualities_needed", qualities_needed );
 
-    obj.read( "menu_text", menu_text );
+    optional( obj, false, "menu_text", menu_text );
 }
 
 std::optional<int> iuse_transform::use( Character *p, item &it, const tripoint_bub_ms &pos ) const
@@ -572,9 +561,9 @@ std::unique_ptr<iuse_actor> unpack_actor::clone() const
 
 void unpack_actor::load( const JsonObject &obj, const std::string & )
 {
-    obj.read( "group", unpack_group );
-    obj.read( "items_fit", items_fit );
-    assign( obj, "filthy_volume_threshold", filthy_vol_threshold );
+    optional( obj, false, "group", unpack_group );
+    optional( obj, false, "items_fit", items_fit, false );
+    optional( obj, false, "filthy_volume_threshold", filthy_vol_threshold, 0_ml );
 }
 
 std::optional<int> unpack_actor::use( Character *p, item &it, const tripoint_bub_ms &pos ) const
@@ -629,8 +618,8 @@ std::unique_ptr<iuse_actor> message_iuse::clone() const
 
 void message_iuse::load( const JsonObject &obj, const std::string & )
 {
-    obj.read( "name", name );
-    obj.read( "message", message );
+    optional( obj, false, "name", name );
+    optional( obj, false, "message", message );
 }
 
 std::optional<int> message_iuse::use( Character *p, item &it,
@@ -669,11 +658,11 @@ std::unique_ptr<iuse_actor> sound_iuse::clone() const
 
 void sound_iuse::load( const JsonObject &obj, const std::string & )
 {
-    obj.read( "name", name );
-    obj.read( "sound_message", sound_message );
-    obj.read( "sound_volume", sound_volume );
-    obj.read( "sound_id", sound_id );
-    obj.read( "sound_variant", sound_variant );
+    optional( obj, false, "name", name );
+    optional( obj, false, "sound_message", sound_message );
+    optional( obj, false, "sound_volume", sound_volume, 0 );
+    optional( obj, false, "sound_id", sound_id, "misc" );
+    optional( obj, false, "sound_variant", sound_variant, "default" );
 }
 
 std::optional<int> sound_iuse::use( Character *, item &,
@@ -738,23 +727,20 @@ static std::vector<tripoint_bub_ms> points_for_gas_cloud( map *here, const tripo
 void explosion_iuse::load( const JsonObject &obj, const std::string & )
 {
     optional( obj, false, "explosion", explosion );
-    obj.read( "draw_explosion_radius", draw_explosion_radius );
-    if( obj.has_member( "draw_explosion_color" ) ) {
-        draw_explosion_color = color_from_string( obj.get_string( "draw_explosion_color" ) );
-    }
-    obj.read( "do_flashbang", do_flashbang );
-    obj.read( "flashbang_player_immune", flashbang_player_immune );
-    obj.read( "fields_radius", fields_radius );
+    optional( obj, false, "draw_explosion_radius", draw_explosion_radius, -1 );
+    optional( obj, false, "draw_explosion_color", draw_explosion_color, nc_color_reader{}, c_white );
+    optional( obj, false, "do_flashbang", do_flashbang, false );
+    optional( obj, false, "flashbang_player_immune", flashbang_player_immune, false );
+    optional( obj, false, "fields_radius", fields_radius, -1 );
     if( obj.has_member( "fields_type" ) || fields_radius > 0 ) {
-        fields_type = field_type_id( obj.get_string( "fields_type" ) );
+        mandatory( obj, false, "fields_type", fields_type );
     }
-    obj.read( "fields_min_intensity", fields_min_intensity );
-    obj.read( "fields_max_intensity", fields_max_intensity );
-    if( fields_max_intensity == 0 ) {
-        fields_max_intensity = fields_type.obj().get_max_intensity();
-    }
-    obj.read( "emp_blast_radius", emp_blast_radius );
-    obj.read( "scrambler_blast_radius", scrambler_blast_radius );
+    optional( obj, false, "fields_min_intensity", fields_min_intensity, 1 );
+    // this should happen in finalize, fields_type is not necessarily loaded
+    optional( obj, false, "fields_max_intensity", fields_max_intensity,
+              fields_type->get_max_intensity() );
+    optional( obj, false, "emp_blast_radius", emp_blast_radius, -1 );
+    optional( obj, false, "scrambler_blast_radius", scrambler_blast_radius, -1 );
 }
 
 std::optional<int> explosion_iuse::use( Character *p, item &it, const tripoint_bub_ms &pos ) const

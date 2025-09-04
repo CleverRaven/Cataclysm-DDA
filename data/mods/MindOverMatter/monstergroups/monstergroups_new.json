@@ -119,6 +119,24 @@
   },
   {
     "type": "monstergroup",
+    "id": "GROUP_MI-GO_PSIONS",
+    "monsters": [
+      { "monster": "mon_mi_go_telepath", "weight": 50, "cost_multiplier": 20, "starts": "35 days" },
+      { "monster": "mon_mi_go_photokinetic", "weight": 50, "cost_multiplier": 2, "starts": "35 days" },
+      { "monster": "mon_mi_go_biokinetic", "weight": 20, "cost_multiplier": 70, "starts": "35 days" }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_TRIFFID_PSIONS",
+    "monsters": [
+      { "monster": "mon_triffid_clairsentient", "weight": 400 },
+      { "monster": "mon_triffid_pyrokinetic", "weight": 400 },
+      { "monster": "mon_triffid_teleporter", "weight": 200 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "id": "GROUP_LAB_RESEARCH",
     "default": "mon_zombie_scientist_phavian",
     "monsters": [

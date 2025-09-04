@@ -6,8 +6,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 0, 20 ],
-    "occurrences": [ 0, 2 ],
-    "spawns": { "group": "GROUP_CRYSTAL_FIELD", "population": [ 1, 4 ], "radius": [ 1, 3 ] }
+    "occurrences": [ 0, 2 ]
   },
   {
     "type": "overmap_special",

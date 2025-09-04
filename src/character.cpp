@@ -330,6 +330,9 @@ static const json_character_flag json_flag_INVERTEBRATEBLOOD( "INVERTEBRATEBLOOD
 static const json_character_flag json_flag_INVISIBLE( "INVISIBLE" );
 static const json_character_flag json_flag_MYOPIC( "MYOPIC" );
 static const json_character_flag json_flag_MYOPIC_IN_LIGHT( "MYOPIC_IN_LIGHT" );
+static const json_character_flag
+json_flag_MYOPIC_IN_LIGHT_SUPERNATURAL( "MYOPIC_IN_LIGHT_SUPERNATURAL" );
+static const json_character_flag json_flag_MYOPIC_SUPERNATURAL( "MYOPIC_SUPERNATURAL" );
 static const json_character_flag json_flag_NIGHT_VISION( "NIGHT_VISION" );
 static const json_character_flag json_flag_NON_THRESH( "NON_THRESH" );
 static const json_character_flag json_flag_NO_RADIATION( "NO_RADIATION" );
@@ -728,6 +731,22 @@ std::vector<matype_id> Character::known_styles( bool teachable_only ) const
 bool Character::has_martialart( const matype_id &m ) const
 {
     return martial_arts_data->has_martialart( m );
+}
+
+int Character::count_threshold_substitute_traits() const
+{
+    int count = 0;
+    for( const mutation_branch &mut : mutation_branch::get_all() ) {
+        if( !mut.threshold_substitutes.empty() && has_trait( mut.id ) &&
+            std::find_if( mut.threshold_substitutes.begin(), mut.threshold_substitutes.end(),
+        [this]( const trait_id & t ) {
+        return has_trait( t );
+        } ) != mut.threshold_substitutes.end() ) {
+            ++count;
+            break;
+        }
+    }
+    return count;
 }
 
 int Character::get_oxygen_max() const
@@ -1457,6 +1476,8 @@ bool Character::sight_impaired() const
              !has_effect( effect_contacts ) &&
              !has_effect( effect_transition_contacts ) &&
              !has_flag( json_flag_ENHANCED_VISION ) ) ||
+           ( in_light && has_flag( json_flag_MYOPIC_IN_LIGHT_SUPERNATURAL ) ) ||
+           has_flag( json_flag_MYOPIC_SUPERNATURAL ) ||
            has_trait( trait_PER_SLIME ) || is_blind();
 }
 
@@ -2669,10 +2690,13 @@ void Character::recalc_sight_limits()
         sight_max = 2;
     } else if( has_trait( trait_PER_SLIME ) ) {
         sight_max = 8;
-    } else if( ( has_flag( json_flag_MYOPIC ) || ( in_light &&
-                 has_flag( json_flag_MYOPIC_IN_LIGHT ) ) ) &&
-               !worn_with_flag( flag_FIX_NEARSIGHT ) && !has_effect( effect_contacts ) &&
-               !has_effect( effect_transition_contacts ) ) {
+    } else if( ( ( has_flag( json_flag_MYOPIC ) || ( in_light &&
+                   has_flag( json_flag_MYOPIC_IN_LIGHT ) ) ) &&
+                 !worn_with_flag( flag_FIX_NEARSIGHT ) && !has_effect( effect_contacts ) &&
+                 !has_effect( effect_transition_contacts ) ) ||
+               ( in_light && has_flag( json_flag_MYOPIC_IN_LIGHT_SUPERNATURAL ) ) ||
+               has_flag( json_flag_MYOPIC_SUPERNATURAL )
+             ) {
         sight_max = 12;
     } else if( has_effect( effect_darkness ) ) {
         vision_mode_cache.set( DARKNESS );
@@ -11474,7 +11498,7 @@ bool Character::has_weapon() const
 int Character::get_lowest_hp() const
 {
     // Set lowest_hp to an arbitrarily large number.
-    int lowest_hp = 999;
+    int lowest_hp = INT_MAX;
     for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
         const int cur_hp = elem.second.get_hp_cur();
         if( cur_hp < lowest_hp ) {
@@ -11482,6 +11506,19 @@ int Character::get_lowest_hp() const
         }
     }
     return lowest_hp;
+}
+
+int Character::get_highest_hp() const
+{
+    // Set lowest_hp to an arbitrarily large number.
+    int highest_hp = INT_MIN;
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+        const int cur_hp = elem.second.get_hp_cur();
+        if( cur_hp > highest_hp ) {
+            highest_hp = cur_hp;
+        }
+    }
+    return highest_hp;
 }
 
 Creature::Attitude Character::attitude_to( const Creature &other ) const

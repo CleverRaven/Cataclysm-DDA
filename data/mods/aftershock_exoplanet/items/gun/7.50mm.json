@@ -68,7 +68,7 @@
   {
     "id": "afs_Accipitermg",
     "copy-from": "rifle_auto",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "Accipiter Hawk-00" },
@@ -116,7 +116,7 @@
   {
     "id": "afs_gibrifle",
     "copy-from": "rifle_semi",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "G&W SR-P9" },
@@ -226,7 +226,7 @@
   {
     "id": "afs_vahagn_smartgun",
     "copy-from": "rifle_semi",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "ARTIFACT", "GUN" ],
     "name": { "str": "Wraitheon Vahagn 10XR" },

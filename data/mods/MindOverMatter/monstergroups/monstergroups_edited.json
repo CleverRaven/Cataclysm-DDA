@@ -341,7 +341,7 @@
   },
   {
     "type": "monstergroup",
-    "id": "GROUP_MI-GO_CAMP_OM",
+    "id": "GO_CAMP_OM",
     "monsters": [
       { "monster": "mon_mi_go_telepath", "weight": 50, "cost_multiplier": 20, "starts": "35 days" },
       { "monster": "mon_mi_go_photokinetic", "weight": 50, "cost_multiplier": 2, "starts": "35 days" },
@@ -395,14 +395,5 @@
     "id": "GROUP_TRIFFID_HEARTGUARDS",
     "default": "mon_triffid",
     "monsters": [ { "group": "GROUP_TRIFFID_PSIONS", "weight": 150, "cost_multiplier": 2 } ]
-  },
-  {
-    "type": "monstergroup",
-    "id": "GROUP_TRIFFID_PSIONS",
-    "monsters": [
-      { "monster": "mon_triffid_clairsentient", "weight": 400 },
-      { "monster": "mon_triffid_pyrokinetic", "weight": 400 },
-      { "monster": "mon_triffid_teleporter", "weight": 200 }
-    ]
   }
 ]

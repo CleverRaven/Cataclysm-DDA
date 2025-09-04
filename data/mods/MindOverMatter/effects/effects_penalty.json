@@ -357,7 +357,7 @@
     "show_in_info": true,
     "limb_score_mods": [ { "limb_score": "vision", "modifier": 0.5 }, { "limb_score": "night_vis", "modifier": 0.5 } ],
     "base_mods": { "hit_mod": [ -2 ] },
-    "flags": [ "MYOPIC_IN_LIGHT", "EFFECT_LIMB_SCORE_MOD" ]
+    "flags": [ "MYOPIC_SUPERNATURAL", "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
