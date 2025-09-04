@@ -526,7 +526,7 @@
     "copy-from": "fake_appliance_tool",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
-    "name": { "str": "lathe" },
+    "name": { "str": "vertical mill" },
     "charges_per_use": 25
   },
   {
