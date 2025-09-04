@@ -383,17 +383,8 @@
     "move_cost_mod": 2,
     "coverage": 40,
     "required_str": 20,
-    "flags": [
-      "TRANSPARENT",
-      "PLACE_ITEM",
-      "BLOCKSDOOR",
-      "EASY_DECONSTRUCT"
-    ],
-    "examine_action": {
-      "type": "appliance_convert",
-      "furn_set": "f_null",
-      "item": "mill_vertical"
-    }
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "mill_vertical" }
   },
   {
     "type": "furniture",

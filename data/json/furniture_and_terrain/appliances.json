@@ -1138,7 +1138,7 @@
       { "item": "scrap", "count": [ 12, 20 ] },
       { "item": "chunk_cast_iron", "count": [ 2, 4 ] },
       { "item": "lump_cast_iron", "count": [ 1, 2 ] },
-      {"item": "motor_small", "count": [ 0, 1 ] }
+      { "item": "motor_small", "count": [ 0, 1 ] }
     ]
   },
   {
