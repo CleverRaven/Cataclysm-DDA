@@ -187,6 +187,7 @@
         ],
         "prob": 100
       },
+      { "item": "xl_armor_troll_moons_tears", "prob": 100, "damage": [ 1, 3 ] },
       { "item": "xe_troll_giant_mace", "prob": 100, "damage": [ 1, 2 ] }
     ]
   },

@@ -838,7 +838,14 @@
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
-    "replace_materials": { "lc_steel": "qt_steel", "lc_steel_chain": "qt_steel_chain" }
+    "id": "xl_armor_troll_moons_tears",
+    "copy-from": "xl_armor_ch_heavyplate",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "moon tears troll armor" },
+    "description": "An enormous suit of plate armor once worn by a troll, made of moon's tears almost 15 mm thick.",
+    "proportional": { "weight": 2, "volume": 2, "price": 0.5 },
+    "replace_materials": { "lc_steel": "moon_tears", "ch_steel_chain": "moon_tears_fine_chain" }
   },
   {
     "id": "dreamforged_ballistic_plate",
