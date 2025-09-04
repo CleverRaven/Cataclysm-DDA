@@ -354,7 +354,7 @@ void diag_value::deserialize( const JsonValue &jsin )
             tripoint_abs_ms t;
             jo.read( "tripoint", t );
             data = t;
-        } else if( jo.has_member( "str" ) ) {
+        } else if( jo.has_member( "str" ) && !jo.get_bool( "i18n", false ) ) {
             std::string str;
             jo.read( "str", str );
             data = str;
@@ -363,6 +363,9 @@ void diag_value::deserialize( const JsonValue &jsin )
             std::string str;
             jo.read( "dbl", str );
             data = std::stof( str );
+        } else {
+            jo.allow_omitted_members();
+            throw JsonError( "invalid diag_value object" );
         }
     }
 }
