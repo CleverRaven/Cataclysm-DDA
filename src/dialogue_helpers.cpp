@@ -140,7 +140,7 @@ bool deserialize_variant( V &v, JsonValue const &jsin )
 template<typename valueT, typename... funcT>
 void value_or_var<valueT, funcT...>::deserialize( JsonValue const &jsin )
 {
-    if( deserialize_variant<decltype( val ), funcT..., var_info, valueT>( val, jsin ) ) {
+    if( deserialize_variant<decltype( val ), valueT, var_info, funcT...>( val, jsin ) ) {
 
         if( std::holds_alternative<var_info>( val ) ) {
             JsonObject const &jo_vi = jsin.get_object();
