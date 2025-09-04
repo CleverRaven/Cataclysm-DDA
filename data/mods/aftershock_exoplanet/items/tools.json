@@ -46,6 +46,7 @@
     "subtypes": [ "TOOL" ],
     "copy-from": "g_shovel",
     "name": { "str": "trowel" },
+    "price": "6 USD",
     "description": "A small, sharp shovel, perfect for breaking off chunks of ice.",
     "material": [ "mc_steel", "plastic" ],
     "use_action": {
