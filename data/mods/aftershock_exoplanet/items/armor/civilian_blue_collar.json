@@ -216,14 +216,32 @@
     "weight": "600 g",
     "volume": "10 L",
     "looks_like": "tacvest",
-    "price": "74 USD",
-    "price_postapoc": "50 USD",
+    "price": "1200 USD",
+    "price_postapoc": "1200 USD",
     "material": [ "steel", "plastic" ],
     "symbol": "[",
     "color": "dark_gray",
     "material_thickness": 2,
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "pocket_data": [
+      {
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "90 cm",
+        "moves": 40,
+        "flag_restriction": [ "BELT_CLIP" ],
+        "holster": true,
+        "transparent": true
+      },
+      {
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "90 cm",
+        "moves": 40,
+        "flag_restriction": [ "BELT_CLIP" ],
+        "holster": true,
+        "transparent": true
+      },
       {
         "max_contains_volume": "5 L",
         "max_contains_weight": "6 kg",
