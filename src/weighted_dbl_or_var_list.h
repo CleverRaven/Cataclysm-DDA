@@ -257,7 +257,7 @@ template <typename T> struct weighted_dbl_or_var_list {
             size_t i;
             if( is_constant() ) {
                 for( i = 0; i < objects.size(); i++ ) {
-                    accumulated_weight += objects[i].second.min.dbl_val.value();
+                    accumulated_weight += objects[i].second.constant();
                     if( accumulated_weight >= picked ) {
                         break;
                     }
