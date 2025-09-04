@@ -8,7 +8,10 @@
       { "math": [ "u_last_spell_cast_difficulty = _difficulty" ] },
       { "math": [ "u_last_spell_cast_casting_time = _cast_time" ] },
       {
-        "u_message": "Your last spell was Difficulty <u_val:last_spell_cast_difficulty> with casting time <u_val:last_spell_cast_casting_time>.",
+        "math": [ "_adjustments = ( u_last_spell_cast_difficulty * (sqrt(u_last_spell_cast_casting_time / 100) ) )" ]
+      },
+      {
+        "u_message": "Your last spell was Difficulty <u_val:last_spell_cast_difficulty> with casting time <u_val:last_spell_cast_casting_time>.  The adjustments value is <context_val:adjustments>.",
         "type": "debug"
       }
     ]
