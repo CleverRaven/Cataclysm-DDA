@@ -58,6 +58,7 @@
       "FAE_CREATURE",
       "CAN_OPEN_DOORS",
       "PATH_AVOID_DANGER",
+      "PATH_AVOID_FIRE",
       "DROPS_AMMO"
     ],
     "armor": {
@@ -195,6 +196,7 @@
         "cooldown": 3,
         "move_cost": 200,
         "accuracy": 5,
+        "range": 2,
         "damage_max_instance": [ { "damage_type": "bash", "amount": 40 } ],
         "condition": { "test_eoc": "is_disarmed" },
         "eoc": [ "EOC_XE_TROLL_HITS_YOU_WITH_GIANT_CLUB" ],
@@ -206,10 +208,23 @@
         "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor.",
         "blockable": false
       },
-      { "id": "smash", "throw_strength": 80, "blockable": false },
+      {
+        "id": "smash",
+        "range": 2,
+        "condition": { "test_eoc": "is_disarmed" },
+        "throw_strength": 100,
+        "blockable": false
+      },
+      {
+        "id": "smash",
+        "condition": { "not": { "test_eoc": "is_disarmed" } },
+        "throw_strength": 80,
+        "blockable": false
+      },
       [ "EAT_FOOD", 120 ]
     ],
-    "path_settings": { "avoid_traps": true, "avoid_sharp": true }
+    "path_settings": { "avoid_traps": true, "avoid_sharp": true },
+    "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "id": "mon_xe_troll_full_armor",
@@ -228,6 +243,7 @@
         "id": "troll_weapon_warhammer",
         "cooldown": 4,
         "move_cost": 250,
+        "range": 2,
         "damage_max_instance": [ { "damage_type": "bash", "amount": 65 } ],
         "condition": { "test_eoc": "is_disarmed" },
         "eoc": [ "EOC_XE_TROLL_HITS_YOU_WITH_GIANT_CLUB" ],
@@ -239,7 +255,19 @@
         "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor.",
         "blockable": false
       },
-      { "id": "smash", "throw_strength": 80, "blockable": false },
+      {
+        "id": "smash",
+        "range": 2,
+        "condition": { "test_eoc": "is_disarmed" },
+        "throw_strength": 100,
+        "blockable": false
+      },
+      {
+        "id": "smash",
+        "condition": { "not": { "test_eoc": "is_disarmed" } },
+        "throw_strength": 80,
+        "blockable": false
+      },
       [ "EAT_FOOD", 120 ]
     ],
     "death_drops": "changeling_troll_manbreaker_death_drops",

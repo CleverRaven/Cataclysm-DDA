@@ -838,6 +838,9 @@
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
+    "replace_materials": { "lc_steel": "qt_steel", "lc_steel_chain": "qt_steel_chain" }
+  },
+  {
     "id": "dreamforged_ballistic_plate",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
