@@ -33,7 +33,6 @@
 #include "type_id.h"
 #include "units.h"
 
-static const flag_id json_flag_FILTHY( "FILTHY" );
 static const flag_id json_flag_NO_UNWIELD( "NO_UNWIELD" );
 static const skill_id skill_speech( "speech" );
 
