@@ -91,8 +91,7 @@
         { "item": "plastic_knife", "x": 13, "y": 50, "repeat": [ 1, 20 ] },
         { "item": "plastic_fork", "x": 13, "y": 50, "repeat": [ 1, 20 ] },
         { "item": "tin_cup", "x": 14, "y": 50, "repeat": [ 1, 20 ] },
-        { "item": "napkin", "x": 15, "y": 50, "repeat": [ 1, 20 ] },
-        { "item": "contraband", "x": 42, "y": 61, "chance": 100, "repeat": [ 3, 6 ] }
+        { "item": "napkin", "x": 15, "y": 50, "repeat": [ 1, 20 ] }
       ],
       "place_item": [
         { "item": "stethoscope", "x": 82, "y": 56, "chance": 100 },
@@ -112,7 +111,8 @@
       ],
       "place_items": [
         { "item": "table_destruction", "x": 16, "y": 40, "chance": 100 },
-        { "item": "table_destruction", "x": 17, "y": 40, "chance": 100 }
+        { "item": "table_destruction", "x": 17, "y": 40, "chance": 100 },
+        { "item": "contraband", "x": 42, "y": 61, "chance": 100, "repeat": [ 3, 6 ] }
       ],
       "place_monster": [
         { "monster": "mon_zombie_brute_shocker", "x": 65, "y": 36, "name": "The Foreman" },
