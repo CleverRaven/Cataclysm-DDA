@@ -1389,9 +1389,10 @@ struct T_has_do_delete<T, std::void_t<decltype( &T::do_delete )>> : std::true_ty
 template<typename Derived>
 class generic_typed_reader
 {
+public:
     static constexpr bool read_objects = false;
     static constexpr bool check_extend_delete_copy_from = true;
-public:
+
     template<typename C, typename Fn>
     // I tried using a member function pointer and couldn't work it out
     void apply_all_values( JsonValue &jv, C &container, Fn apply ) const {
@@ -1659,6 +1660,8 @@ template<typename T>
 class json_read_reader : public generic_typed_reader<json_read_reader<T>>
 {
 public:
+    static constexpr bool read_objects = true;
+
     T get_next( const JsonValue &jv ) const {
         T ret;
         if( !jv.read( ret ) ) {
@@ -2129,17 +2132,6 @@ class activity_level_reader : public generic_typed_reader<activity_level_reader>
 {
     public:
         float get_next( const JsonValue &jv ) const;
-};
-
-struct dbl_or_var;
-
-class dbl_or_var_reader : public generic_typed_reader<dbl_or_var_reader>
-{
-    public:
-        bool operator()( const JsonObject &jo, std::string_view member_name,
-                         dbl_or_var &member, bool /*was_loaded*/ ) const;
-    private:
-        dbl_or_var get_next( const JsonValue &jv ) const;
 };
 
 #endif // CATA_SRC_GENERIC_FACTORY_H

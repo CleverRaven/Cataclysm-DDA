@@ -335,7 +335,7 @@
   {
     "id": "inventor_sniper",
     "copy-from": "modular_m27_assault_rifle",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str_sp": "\"Repeater\"" },
@@ -416,7 +416,7 @@
   {
     "id": "inventor_glauncher",
     "copy-from": "rifle_semi",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "inventor's grenade launcher" },

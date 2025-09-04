@@ -1222,8 +1222,8 @@ void editmap::setup_fmenu( uilist &fmenu )
 void editmap::edit_rads() const
 {
     map &here = get_map();
-    int value = 0;
-    if( query_int( value, false, _( "Set rads to?  Currently: %d" ), here.get_radiation( target ) ) ) {
+    int value = here.get_radiation( target );
+    if( query_int( value, true, _( "Set rads to?" ) ) ) {
         here.set_radiation( target, value );
     }
 }

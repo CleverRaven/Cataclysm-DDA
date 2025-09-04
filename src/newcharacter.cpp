@@ -4757,14 +4757,14 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                 }
                 case char_creation::AGE: {
                     int result = you.base_age();
-                    if( query_int( result, false, _( "Enter age in years.  Minimum 16, maximum 55" ) ) && result > 0 ) {
+                    if( query_int( result, true, _( "Enter age in years.  Minimum 16, maximum 55" ) ) && result > 0 ) {
                         you.set_base_age( clamp( result, 16, 55 ) );
                     }
                     break;
                 }
                 case char_creation::HEIGHT: {
                     int result = you.base_height();
-                    if( query_int( result, false, _( "Enter height in centimeters.  Minimum %d, maximum %d" ),
+                    if( query_int( result, true, _( "Enter height in centimeters.  Minimum %d, maximum %d" ),
                                    min_allowed_height, max_allowed_height ) && result > 0 ) {
                         you.set_base_height( clamp( result, min_allowed_height, max_allowed_height ) );
                     }

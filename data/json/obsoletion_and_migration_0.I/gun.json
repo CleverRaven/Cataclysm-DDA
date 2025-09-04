@@ -51,7 +51,7 @@
   },
   {
     "id": "plasma_gun",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
@@ -89,7 +89,7 @@
   },
   {
     "id": "plasma_rifle",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
