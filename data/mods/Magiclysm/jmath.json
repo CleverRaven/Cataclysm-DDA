@@ -64,5 +64,5 @@
     "id": "casting_proficiency_adjustments",
     "num_args": 0,
     "return": "u_last_spell_cast_difficulty * (log(u_last_spell_cast_casting_time) + 1)"
-  },
+  }
 ]
