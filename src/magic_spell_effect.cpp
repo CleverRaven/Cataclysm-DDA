@@ -94,6 +94,7 @@ static const species_id species_SLIME( "SLIME" );
 
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_NUMB( "NUMB" );
 
 namespace spell_detail
 {
@@ -1638,7 +1639,7 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint_bub_
         guilt_thresholds[max_kills] = _( "You feel uneasy about killing %s." );
 
         Character &guy = *guilt_target;
-        if( guy.has_trait( trait_PSYCHOPATH ) ||
+        if( guy.has_trait( trait_PSYCHOPATH ) || guy.has_trait( trait_NUMB ) ||
             guy.has_flag( json_flag_PRED3 ) || guy.has_flag( json_flag_PRED4 ) ) {
             // specially immune.
             return;
