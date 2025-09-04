@@ -4640,7 +4640,7 @@
     "name": "lathe turning",
     "description": "Recipes for practicing with a manual lathe/mill.",
     "skill_used": "fabrication",
-    "nested_category_data": [ 
+    "nested_category_data": [
       "prac_machining_lathe_aluminum",
       "prac_machining_lathe_steel",
       "prac_machining_mill_aluminum",

@@ -177,7 +177,7 @@
         "2": "f_hydraulic_press",
         "3": "f_air_compressor",
         "4": "f_drill_press",
-        "9": [ ["f_heavy_lathe", 50 ], ["f_mill_vertical", 50 ] ],
+        "9": [ [ "f_heavy_lathe", 50 ], [ "f_mill_vertical", 50 ] ],
         "K": "f_beverly_shear",
         "C": "f_crate_c"
       },
