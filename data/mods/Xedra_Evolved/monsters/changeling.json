@@ -209,16 +209,41 @@
         "blockable": false
       },
       {
-        "id": "smash",
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "troll_smash_with_weapon",
+        "move_cost": 400,
+        "cooldown": 20,
         "range": 2,
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 30 } ],
         "condition": { "test_eoc": "is_disarmed" },
+        "hitsize_min": 12,
         "throw_strength": 100,
+        "hit_dmg_u": "%1$s takes a powerful swing at your %2$s, pulverizing it!",
+        "hit_dmg_npc": "%1$s takes a powerful swing at <npcname>!",
+        "no_dmg_msg_u": "%s takes a swing at you, but it's blunted by your armor.",
+        "no_dmg_msg_npc": "%s takes a swing at <npcname>, but they appear unharmed.",
+        "miss_msg_u": "%s takes a powerful swing at you, but you dodge it!",
+        "miss_msg_npc": "%s takes a powerful swing at <npcname>, who dodges it!",
         "blockable": false
       },
       {
-        "id": "smash",
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "troll_smash_without_weapon",
+        "move_cost": 400,
+        "cooldown": 20,
+        "range": 2,
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 30 } ],
         "condition": { "not": { "test_eoc": "is_disarmed" } },
-        "throw_strength": 80,
+        "hitsize_min": 12,
+        "throw_strength": 70,
+        "hit_dmg_u": "%1$s takes a powerful swing at your %2$s, pulverizing it!",
+        "hit_dmg_npc": "%1$s takes a powerful swing at <npcname>!",
+        "no_dmg_msg_u": "%s takes a swing at you, but it's blunted by your armor.",
+        "no_dmg_msg_npc": "%s takes a swing at <npcname>, but they appear unharmed.",
+        "miss_msg_u": "%s takes a powerful swing at you, but you dodge it!",
+        "miss_msg_npc": "%s takes a powerful swing at <npcname>, who dodges it!",
         "blockable": false
       },
       [ "EAT_FOOD", 120 ]
@@ -256,16 +281,41 @@
         "blockable": false
       },
       {
-        "id": "smash",
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "troll_smash_with_weapon",
+        "move_cost": 400,
+        "cooldown": 20,
         "range": 2,
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 30 } ],
         "condition": { "test_eoc": "is_disarmed" },
+        "hitsize_min": 12,
         "throw_strength": 100,
+        "hit_dmg_u": "%1$s takes a powerful swing at your %2$s, pulverizing it!",
+        "hit_dmg_npc": "%1$s takes a powerful swing at <npcname>!",
+        "no_dmg_msg_u": "%s takes a swing at you, but it's blunted by your armor.",
+        "no_dmg_msg_npc": "%s takes a swing at <npcname>, but they appear unharmed.",
+        "miss_msg_u": "%s takes a powerful swing at you, but you dodge it!",
+        "miss_msg_npc": "%s takes a powerful swing at <npcname>, who dodges it!",
         "blockable": false
       },
       {
-        "id": "smash",
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "troll_smash_without_weapon",
+        "move_cost": 400,
+        "cooldown": 20,
+        "range": 2,
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 30 } ],
         "condition": { "not": { "test_eoc": "is_disarmed" } },
-        "throw_strength": 80,
+        "hitsize_min": 12,
+        "throw_strength": 70,
+        "hit_dmg_u": "%1$s takes a powerful swing at your %2$s, pulverizing it!",
+        "hit_dmg_npc": "%1$s takes a powerful swing at <npcname>!",
+        "no_dmg_msg_u": "%s takes a swing at you, but it's blunted by your armor.",
+        "no_dmg_msg_npc": "%s takes a swing at <npcname>, but they appear unharmed.",
+        "miss_msg_u": "%s takes a powerful swing at you, but you dodge it!",
+        "miss_msg_npc": "%s takes a powerful swing at <npcname>, who dodges it!",
         "blockable": false
       },
       [ "EAT_FOOD", 120 ]
@@ -305,20 +355,20 @@
           {
             "case": 3,
             "effect": [
-              { "npc_add_effect": "downed", "duration": [ 1, 4 ] },
+              { "if": { "math": [ "rand(2) >= 1" ] }, "then": { "npc_add_effect": "downed", "duration": [ 1, 4 ] } },
               { "if": { "math": [ "rand(4) >= 2" ] }, "then": { "npc_add_effect": "stunned", "duration": [ 1, 3 ] } }
             ]
           },
           {
             "case": 4,
             "effect": [
-              { "if": { "math": [ "rand(1) >= 1" ] }, "then": { "npc_add_effect": "downed", "duration": [ 1, 3 ] } },
-              { "if": { "math": [ "rand(4) >= 3" ] }, "then": { "npc_add_effect": "stunned", "duration": [ 1, 4 ] } }
+              { "if": { "math": [ "rand(2) >= 2" ] }, "then": { "npc_add_effect": "downed", "duration": [ 1, 3 ] } },
+              { "if": { "math": [ "rand(4) >= 3" ] }, "then": { "npc_add_effect": "stunned", "duration": [ 1, 2 ] } }
             ]
           },
           {
             "case": 5,
-            "effect": [ { "if": { "math": [ "rand(4) >= 4" ] }, "then": { "npc_add_effect": "stunned", "duration": [ 1, 4 ] } } ]
+            "effect": [ { "if": { "math": [ "rand(4) >= 4" ] }, "then": { "npc_add_effect": "stunned", "duration": [ 1, 2 ] } } ]
           }
         ]
       }
