@@ -191,10 +191,6 @@ int npc_trading::adjusted_price( item const *it, int amount, Character const &bu
         price = seller.as_npc()->value( *it, price );
     }
 
-    if( it->has_flag( json_flag_FILTHY ) ) {
-        price = 0;
-    }
-
     if( fpr != nullptr && fpr->fixed_adj.has_value() ) {
         double const fixed_adj = fpr->fixed_adj.value();
         price *= 1 + ( seller.is_npc() ? fixed_adj : -fixed_adj );
