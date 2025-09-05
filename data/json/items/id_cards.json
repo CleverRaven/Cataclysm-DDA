@@ -120,7 +120,7 @@
     "use_action": {
       "type": "reveal_map",
       "radius": 300,
-      "message": "You add the facilities to your map",
+      "message": "You add the facilities to your map.",
       "terrain": [
         "lab_res_8_SWD_ground",
         "lab_res_8_SED_ground",

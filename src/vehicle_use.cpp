@@ -2049,7 +2049,7 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
             .hotkey( "TOGGLE_ALARM" )
             .on_submit( [this] {
                 is_alarm_on = true;
-                add_msg( _( "You trigger the alarm" ) );
+                add_msg( _( "You trigger the alarm!" ) );
             } );
         }
     }

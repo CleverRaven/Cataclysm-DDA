@@ -4018,8 +4018,8 @@ static std::string assemble_description_help( const input_context &ctxt, const b
                             "<color_light_green>%s</color> to randomize all description values." ),
                          ctxt.get_desc( "RANDOMIZE_CHAR_NAME" ), ctxt.get_desc( "RANDOMIZE_CHAR_DESCRIPTION" ) );
     }
-    help_text += string_format(
-                     _( "\nPress <color_light_green>%1$s</color> to change cataclysm start date, "
+    help_text += "\n" + string_format(
+                     _( "Press <color_light_green>%1$s</color> to change cataclysm start date, "
                         "<color_light_green>%2$s</color> to change game start date, "
                         "<color_light_green>%3$s</color> to reset calendar." ),
                      ctxt.get_desc( "CHANGE_START_OF_CATACLYSM" ), ctxt.get_desc( "CHANGE_START_OF_GAME" ),

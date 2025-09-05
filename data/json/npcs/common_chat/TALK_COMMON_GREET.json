@@ -35,7 +35,7 @@
         "condition": "u_can_drop_weapon"
       },
       {
-        "text": "Don't worry, I'm not going to hurt you",
+        "text": "Don't worry, I'm not going to hurt you.",
         "trial": { "type": "PERSUADE", "difficulty": 50, "mod": [ [ "BRAVERY", 2 ], [ "FEAR", -2 ], [ "TRUST", 2 ] ] },
         "success": { "topic": "TALK_STRANGER_NEUTRAL", "effect": "stranger_neutral", "opinion": { "trust": 1, "fear": -1 } },
         "failure": { "topic": "TALK_DONE", "effect": "flee" }

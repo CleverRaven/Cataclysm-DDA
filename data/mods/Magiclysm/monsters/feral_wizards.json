@@ -1069,7 +1069,7 @@
           "condition": { "and": [ { "u_has_effect": "effect_feral_stormshaper_stormhammer" }, { "not": { "u_has_effect": "maimed_arm" } } ] },
           "hit_dmg_u": "%1$s stormhammers your %2$s!",
           "hit_dmg_npc": "%1$s stormhammers <npcname>'s %2$s!",
-          "miss_msg_u": "%1$s tries to stormhammers you, but you dodge!",
+          "miss_msg_u": "%1$s tries to stormhammer you, but you dodge!",
           "miss_msg_npc": "%1$s tries to stormhammer <npcname>, but they dodge!",
           "no_dmg_msg_u": "%1$s stormhammers your %2$s, but they do no damage.",
           "no_dmg_msg_npc": "%1$s stormhammers <npcname>'s %2$s, but they do no damage."
@@ -1107,8 +1107,8 @@
           "hit_dmg_npc": "%1$s gestures and sparks impact <npcname>'s %2$s!",
           "miss_msg_u": "%1$s gestures and you narrowly avoid a shower of sparks!",
           "miss_msg_npc": "%1$s gestures and <npcname> narrowly avoids a shower of sparks!",
-          "no_dmg_msg_u": "%1$s gestures and your %2$s is impacted by a shower of sparks bolt, but they do no damage.",
-          "no_dmg_msg_npc": "%1$s gestures and <npcname>'s %2$s is impacted by a shower of sparks bolt, but they do no damage."
+          "no_dmg_msg_u": "%1$s gestures and your %2$s is impacted by a shower of spark bolts, but they do no damage.",
+          "no_dmg_msg_npc": "%1$s gestures and <npcname>'s %2$s is impacted by a shower of spark bolts, but they do no damage."
         },
         [ "SHOCKSTORM", 25 ],
         {

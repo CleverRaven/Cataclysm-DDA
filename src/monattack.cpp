@@ -1636,7 +1636,7 @@ bool mattack::fungus_haze( monster *z )
 {
     //~ That spore sound again
     sounds::sound( z->pos_bub(), 10, sounds::sound_t::combat, _( "Pouf!" ), true, "misc", "puff" );
-    add_msg_if_player_sees( *z, m_info, _( "The %s pulses, and fresh fungal material bursts forth." ),
+    add_msg_if_player_sees( *z, m_info, _( "The %s pulses, and fresh fungal material bursts forth!" ),
                             z->name() );
     z->mod_moves( -to_moves<int>( 1_seconds ) * 1.5 );
     map &here = get_map();

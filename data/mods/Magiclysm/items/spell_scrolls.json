@@ -388,7 +388,7 @@
     "id": "spell_scroll_summon_wolf",
     "//": "Druid spell",
     "name": { "str": "Scroll of Summon Wolf", "str_pl": "Scrolls of Summon Wolf" },
-    "description": "Call to the wild for aid from some wolves.",
+    "description": "Call to the wilds for aid from some wolves.",
     "use_action": { "type": "learn_spell", "spells": [ "summon_wolf_druid" ] }
   },
   {
@@ -1361,7 +1361,7 @@
     "id": "spell_scroll_summon_wisps",
     "//": "Animist spell",
     "name": { "str": "Scroll of Ignus Fatuus", "str_pl": "Scrolls of Ignus Fatuus" },
-    "description": "Summons ghostly foxfire worked from living marsh vapor, to lead your enemies astray.  With more experience, this spell can conjure multiple ghost lights.",
+    "description": "Summons ghostly foxfire worked from living marsh vapor to lead your enemies astray.  With more experience, this spell can conjure multiple ghost lights.",
     "use_action": { "type": "learn_spell", "spells": [ "summon_wisps" ] }
   },
   {

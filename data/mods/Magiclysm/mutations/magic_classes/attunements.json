@@ -360,7 +360,7 @@
         "hit_me_effect": [
           {
             "id": "FIRE_ELEMENTAL_BURNBACK",
-            "message": "Flame and heat flash out from where you've been hit.",
+            "message": "Flames and heat flash out from where you've been hit.",
             "npc_message": "%1$s's body jets fire and heat out from the wound."
           }
         ]

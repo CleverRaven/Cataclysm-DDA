@@ -495,7 +495,7 @@ ret_val<void> Character::can_takeoff( const item &it, const std::list<item> *res
 {
     if( !worn.is_worn( it ) ) {
         return ret_val<void>::make_failure( !is_npc() ? _( "You are not wearing that item." ) :
-                                            _( "<npcname> is not wearing that item." ) );
+                                            _( "<npcname> isn't wearing that item." ) );
     }
 
     if( it.has_flag( flag_INTEGRATED ) ) {
