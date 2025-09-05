@@ -3631,8 +3631,8 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     }
     if( mod.loudness_multiplier != 1.0 && parts->test( iteminfo_parts::GUNMOD_LOUDNESS_MULTIPLIER ) ) {
         info.emplace_back( "GUNMOD", _( "Loudness multiplier: " ), "",
-                           iteminfo::lower_is_better | iteminfo::show_plus,
-                           mod.loudness );
+                           iteminfo::lower_is_better | iteminfo::is_decimal,
+                           mod.loudness_multiplier );
     }
     if( !type->mod->ammo_modifier.empty() && parts->test( iteminfo_parts::GUNMOD_AMMO ) ) {
         for( const ammotype &at : type->mod->ammo_modifier ) {
