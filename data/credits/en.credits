@@ -6,41 +6,24 @@
 <color_yellow>Whales</color> (<color_dark_gray>retired</color>)    <color_yellow>KevinGranade</color>
 
 <color_white>Current Main Developers:</color>
-fill me in :)))
+<color_yellow>RenechCDDA</color> - Improvements to NPC factions, basecamps, and vehicles.
 
 <color_white>Special thanks to:</color>
-top 30 contributors **BY COMMIT COUNT** - format me, prettify me, and figure out who to prune/add
-1026Standing-Storm
-515	Procyonae
-464	PatrikLundell
-410	Anton Simakov (GuardianDll)
-409	RenechCDDA
-345	Maleclypse
-296	Karol1223
-236	Holli
-206	b3brodie
-197	Milopetilo
-165	alef
-141	ShnitzelX2
-134	Jeremy Rose (Nornagon)
-131	Brambor
-127	GuardianDll
-101	osuphobia
-99	John Candlebury
-98	Daniel Brooks (db48x)
-95	moxian
-90	Valiant (Night-Pyranik??)
-86	LyleSY
-85	ehughsbaird
-78	Andrew Krieger (akrieger)
-76	Qrox
-73	TheMurderUnicorn
-72	marilynias
-67	SariusSkelrets
-66	I-am-Erk
-63	BalthazarArgall
-63	mqrause
-
+<color_yellow>Standing-Storm</color> - Creator and maintainer of the enormous 'Mind over Matter' mod.
+<color_yellow>Procyonae</color> - Highways!!!
+<color_yellow>PatrikLundell</color> - An absurd amount of bugfixes and important safety changes to mapgen, tripoint infrastructure, and other critical systems.
+<color_yellow>Anton Simakov 'GuardianDll'</color> - CDDA's newest merger, somehow they've also found the time to learn C++ and still be a big-time contributor.
+<color_yellow>RenechCDDA</color> - Improvements to NPC factions, basecamps, and vehicles.
+<color_yellow>Maleclypse</color> - Xedra Evolved maintainer and merger
+<color_yellow>Holli</color> - For their dedicated work on guns, guns, and more guns!
+<color_yellow>b3brodie</color> - Tons of infrastructure support for spells, bettering both mods and the base game.
+<color_yellow>Milopetilo</color> - Awesome work on new mapgen, paramaters for existing mapgen, item group overhauls, and more.
+<color_yellow>ShnitzelX2</color> - Electronic storage for items and cleaning up 10 years of technical debt by moving items to be loaded with generic_factory. (Don't be jealous, but they're my favorite.)
+<color_yellow>alef</color> - Keeping the game building so we can keep developing and playing.
+<color_yellow>John Candlebury</color> - Aftershock. Did you know you can own and fly a colossal spaceship in Aftershock now? Yeah.
+<color_yellow>Daniel Brooks 'db48x'</color> - For fundamental work on our beautiful new ImGui windows, the UI we've always wanted.
+<color_yellow>moxian</color> - Mission-critical work on build and IWYU infrastructure. They've made every developer's life easier.
+<color_yellow>ehughsbaird</color>, <color_yellow>Karol1223</color>, <color_yellow>Andrew Krieger 'akrieger'</color>, <color_yellow>mqrause</color>, and <color_yellow>SariusSkelrets</color>.
 
 <color_white>Special thanks for art contributions:</color>
 Ask Fris0uman/Erk/Harakka/GUT for tileset contributors
@@ -52,6 +35,7 @@ Ask Fris0uman/Erk/Harakka/GUT for tileset contributors
 
 <color_light_cyan>Cataclysm</color>: <color_light_blue>Dark Days Ahead</color> is released under <color_white>CC-BY-SA 3.0</color>:
 <color_cyan>https://creativecommons.org/licenses/by-sa/3.0/</color>
+
 
 ******************************************************************************
 
