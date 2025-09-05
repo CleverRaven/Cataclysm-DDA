@@ -5,14 +5,11 @@
 <color_white>Original author:</color>    <color_white>Project Manager:</color>
 <color_yellow>Whales</color> (<color_dark_gray>retired</color>)    <color_yellow>KevinGranade</color>
 
-<color_white>Current Main Developers:</color>
+<color_white>Special thanks to:</color>
 <color_yellow>Standing-Storm</color> - Creator and maintainer of the enormous 'Mind over Matter' mod and numerous contributions to other mods (fair folk and espers and wizards, oh my!)
 <color_yellow>Maleclypse</color> - Xedra Evolved maintainer and merger, clocking in at over 2,000 (thousand!!!) merges this release cycle.
 <color_yellow>GuardianDll</color> - Merging, non-specific json and c++ changes, memorizing and quoting documentation for everyone needed.  "I don't remember making so many PRs, what the hell?" - GuardianDll
 <color_yellow>RenechCDDA</color> - Improvements to NPC factions, basecamps, and vehicles.
-
-
-<color_white>Special thanks to:</color>
 <color_yellow>Procyonae</color> - Ludicrous amount of infrastructure PRs, mapgen code is thriving under their watch.
 <color_yellow>PatrikLundell</color> - An absurd amount of bugfixes and important safety changes to mapgen, tripoint infrastructure, and other critical systems.
 <color_yellow>Holli</color> - For their dedicated work on all things gun and gun related.
