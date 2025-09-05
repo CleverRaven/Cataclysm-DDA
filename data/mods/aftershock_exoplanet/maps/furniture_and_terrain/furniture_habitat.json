@@ -415,7 +415,7 @@
             { "math": [ "_t_delay = time('20 m')" ] },
             {
               "run_eocs": "EOC_start_lock_hack",
-              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": "9", "t_radius": "0" },
+              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": 9, "t_radius": 0 },
               "alpha_talker": "avatar"
             }
           ]
@@ -481,7 +481,7 @@
             { "math": [ "_t_delay = time('20 m')" ] },
             {
               "run_eocs": "EOC_start_lock_hack",
-              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": "10", "t_radius": "0" },
+              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": 10, "t_radius": 0 },
               "alpha_talker": "avatar"
             }
           ]
@@ -680,7 +680,7 @@
             { "math": [ "_t_delay = time('20 m')" ] },
             {
               "run_eocs": "EOC_start_lock_hack",
-              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": "10", "t_radius": "6" },
+              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": 10, "t_radius": 6 },
               "alpha_talker": "avatar"
             }
           ]
@@ -714,7 +714,7 @@
             { "math": [ "_t_delay = time('20 m')" ] },
             {
               "run_eocs": "EOC_start_lock_hack",
-              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": "10", "t_radius": "10" },
+              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": 10, "t_radius": 10 },
               "alpha_talker": "avatar"
             }
           ]
@@ -795,7 +795,7 @@
             { "math": [ "_t_delay = time('1 h')" ] },
             {
               "run_eocs": "EOC_start_lock_hack",
-              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": "13", "t_radius": "1" },
+              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": 13, "t_radius": 1 },
               "alpha_talker": "avatar"
             }
           ]

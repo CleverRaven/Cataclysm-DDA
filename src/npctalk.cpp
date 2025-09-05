@@ -183,6 +183,9 @@ static std::map<std::string, json_talk_topic> json_talk_topics;
 using item_menu = std::function<item_location( const item_location_filter & )>;
 using item_menu_mul = std::function<drop_locations( const item_location_filter & )>;
 
+extern template struct value_or_var<diag_value, eoc_math, string_mutator<translation>>;
+using diag_value_or_var = value_or_var<diag_value, eoc_math, string_mutator<translation>>;
+
 struct sub_effect_parser {
     using f_t = talk_effect_fun_t::func( * )( const JsonObject &, std::string_view,
                 std::string_view src );
@@ -6202,13 +6205,13 @@ talk_effect_fun_t::func f_run_eocs( const JsonObject &jo, std::string_view membe
         random_time = jo.get_bool( "randomize_time_in_future", false );
     }
 
-    std::unordered_map<std::string, str_translation_or_var> context;
+    std::unordered_map<std::string, diag_value_or_var> context;
     if( jo.has_object( "variables" ) ) {
         const JsonObject &variables = jo.get_object( "variables" );
         for( const JsonMember &jv : variables ) {
-            str_translation_or_var stov;
-            stov.deserialize( jv );
-            context[jv.name()] = stov;
+            diag_value_or_var vov;
+            mandatory( variables, false, jv.name(), vov );
+            context[jv.name()] = vov;
         }
     }
 
@@ -6245,8 +6248,7 @@ talk_effect_fun_t::func f_run_eocs( const JsonObject &jo, std::string_view membe
                             d.get_context() };
 
         for( const auto &val : context ) {
-            // FXIXME: typed variables
-            newDialog.set_value( val.first, diag_value::legacy_value{ val.second.evaluate( d, true ) } );
+            newDialog.set_value( val.first, val.second.evaluate( d ) );
         }
 
         if( dov_time ) {
@@ -6304,15 +6306,15 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
         jo.throw_error( "Invalid input for run_eoc_selector, size of eocs and keys needs to be identical, or keys need to be empty." );
     }
 
-    std::vector<std::unordered_map<std::string, str_translation_or_var>> context;
+    std::vector<std::unordered_map<std::string, diag_value_or_var>> context;
     if( jo.has_array( "variables" ) ) {
         for( const JsonValue &member : jo.get_array( "variables" ) ) {
             const JsonObject &variables = member.get_object();
-            std::unordered_map<std::string, str_translation_or_var> temp_context;
+            std::unordered_map<std::string, diag_value_or_var> temp_context;
             for( const JsonMember &jv : variables ) {
-                str_translation_or_var stov;
-                stov.deserialize( jv );
-                temp_context[jv.name()] = stov;
+                diag_value_or_var vov;
+                mandatory( variables, false, jv.name(), vov );
+                temp_context[jv.name()] = vov;
             }
             context.emplace_back( temp_context );
         }
@@ -6407,8 +6409,7 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
         }
         if( !context.empty() ) {
             for( const auto &val : context[contextIndex] ) {
-                // FIXME: typed variables
-                newDialog.set_value( val.first, diag_value::legacy_value{ val.second.evaluate( d, true ) } );
+                newDialog.set_value( val.first, val.second.evaluate( d ) );
             }
         }
 
@@ -7136,11 +7137,13 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
     dbl_or_var dov_max_radius = get_dbl_or_var( jo, "max_radius", false, 10 );
     bool summoner_is_alpha = jo.get_bool( "summoner_is_alpha", false );
     bool summoner_is_beta = jo.get_bool( "summoner_is_beta", false );
-    std::unordered_map<std::string, str_or_var> set_mon_var;
+    std::unordered_map<std::string, diag_value_or_var> set_mon_var;
     if( jo.has_object( "mon_variables" ) ) {
         const JsonObject &variables = jo.get_object( "mon_variables" );
         for( const JsonMember &jv : variables ) {
-            set_mon_var[jv.name()] = get_str_or_var( jv, jv.name(), true );
+            diag_value_or_var vov;
+            mandatory( variables, false, jv.name(), vov );
+            set_mon_var[jv.name()] = vov;
         }
     }
 
@@ -7292,8 +7295,7 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
                     }
                     if( !set_mon_var.empty() ) {
                         for( const auto &val : set_mon_var ) {
-                            // FIXME: typed variables
-                            spawned->set_value( val.first, diag_value::legacy_value{ val.second.evaluate( d ) } );
+                            spawned->set_value( val.first, val.second.evaluate( d ) );
                         }
                     }
                     spawns++;
