@@ -2307,15 +2307,7 @@ void basecamp::worker_assignment_ui()
 
     while( true ) {
         // create a list of npcs stationed at this camp
-        followers.clear();
-        for( const character_id &elem : g->get_follower_list() ) {
-            shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
-            if( !npc_to_get || !npc_to_get->is_following() || npc_to_get->is_hallucination() ) {
-                continue;
-            }
-            npc *npc_to_add = npc_to_get.get();
-            followers.push_back( npc_to_add );
-        }
+        overmap_buffer.populate_followers_vec( followers, true, true );
         cur_npc = nullptr;
         if( !followers.empty() ) {
             cur_npc = followers[selection];
