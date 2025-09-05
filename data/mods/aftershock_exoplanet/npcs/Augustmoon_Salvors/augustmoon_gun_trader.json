@@ -42,6 +42,7 @@
       { "item": "UPS_OFF", "charges": 1000, "count": 1 },
       { "item": "small_repairkit", "count": 1 },
       { "item": "large_repairkit", "count": 1 },
+      { "group": "afs_augustmoon_guntrader_energy_cells" },
       { "item": "chem_acetone", "count": [ 1, 2 ] }
     ]
   },
@@ -52,6 +53,14 @@
     "magazine": 100,
     "ammo": 100,
     "items": [ { "item": "afs_seyfert_84K" }, { "item": "afs_84k_20mag" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_augustmoon_guntrader_energy_cells",
+    "subtype": "collection",
+    "magazine": 100,
+    "ammo": 100,
+    "items": [ { "item": "afs_voltaic_cartridge", "count": 2 }, { "item": "afs_bootleg_cartridge", "count": 2 } ]
   },
   {
     "type": "item_group",
