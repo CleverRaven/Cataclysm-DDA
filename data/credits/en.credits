@@ -1,6 +1,61 @@
 # Lines longer than 78 characters will be wrapped automatically
 # The following line is for reference
 ##############################################################################
+(<color_cyan>0.I</color>):</color>
+<color_white>Original author:</color>    <color_white>Project Manager:</color>
+<color_yellow>Whales</color> (<color_dark_gray>retired</color>)    <color_yellow>KevinGranade</color>
+
+<color_white>Current Main Developers:</color>
+fill me in :)))
+
+<color_white>Special thanks to:</color>
+top 30 contributors **BY COMMIT COUNT** - format me, prettify me, and figure out who to prune/add
+1026Standing-Storm
+515	Procyonae
+464	PatrikLundell
+410	Anton Simakov (GuardianDll)
+409	RenechCDDA
+345	Maleclypse
+296	Karol1223
+276	Kevin Granade
+236	Holli
+206	b3brodie
+197	Milopetilo
+165	alef
+141	ShnitzelX2
+134	Jeremy Rose (Nornagon)
+131	Brambor
+127	GuardianDll
+101	osuphobia
+99	John Candlebury
+98	Daniel Brooks (db48x)
+95	moxian
+90	Valiant (Night-Pyranik??)
+86	LyleSY
+85	ehughsbaird
+78	Andrew Krieger (akrieger)
+76	Qrox
+73	TheMurderUnicorn
+72	marilynias
+67	SariusSkelrets
+66	I-am-Erk
+63	BalthazarArgall
+63	mqrause
+
+
+<color_white>Special thanks for art contributions:</color>
+Ask Fris0uman/Erk/Harakka/GUT for tileset contributors
+
+<color_white>For a full list of contributors please see:</color>
+<color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
+<color_cyan>https://github.com/I-am-Erk/CDDA-Tilesets/graphs/contributors</color>
+<color_cyan>https://github.com/pixel-32/CDDA-tileset/graphs/contributors</color>
+
+<color_light_cyan>Cataclysm</color>: <color_light_blue>Dark Days Ahead</color> is released under <color_white>CC-BY-SA 3.0</color>:
+<color_cyan>https://creativecommons.org/licenses/by-sa/3.0/</color>
+
+******************************************************************************
+
 (<color_cyan>0.H</color>):</color>
 <color_white>Original author:</color>    <color_white>Project Manager:</color>
 <color_yellow>Whales</color> (<color_dark_gray>retired</color>)    <color_yellow>KevinGranade</color>
