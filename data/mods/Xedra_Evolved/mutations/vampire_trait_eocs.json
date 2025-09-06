@@ -262,7 +262,14 @@
           { "u_add_effect": "dazed", "duration": { "math": [ "rng(3,4)" ] } },
           { "npc_add_effect": "effect_vampire_blood_drinking", "duration": 4 },
           { "npc_assign_activity": "ACT_VAMPIRE_DRINKING_BLOOD", "duration": "3 seconds" },
-          { "message": "You are drinking from an NPC.", "type": "debug" }
+          { "message": "You are drinking from an NPC.", "type": "debug" },
+          {
+            "if": { "or": [ { "math": [ "u_vitamin('blood') <= -40000" ] }, { "math": [ "u_vitamin('redcells') <= 40000" ] } ] },
+            "then": [
+              { "u_add_effect": "bleed", "intensity": 1, "target_part": "head", "duration": "5 minutes" },
+              { "math": [ "u_hp('head') -= 1" ] }
+            ]
+          }
         ],
         "else": [
           {
