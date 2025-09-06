@@ -337,8 +337,7 @@
                         { "u_has_species": "CENTIPEDE" },
                         { "u_has_species": "SPIDER" },
                         { "u_has_species": "MOLLUSK" },
-                        { "u_has_species": "WORM" },
-                        { "u_has_trait": "BLOOD_OF_SAINTS" }
+                        { "u_has_species": "WORM" }
                       ]
                     },
                     "then": [
