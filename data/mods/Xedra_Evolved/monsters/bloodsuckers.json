@@ -53,14 +53,16 @@
         {
           "id": "bite_humanoid",
           "cooldown": 3,
-          "condition": { "not": { "or": [ { "u_has_species": "VAMPIRE" }, { "u_has_trait": "VAMPIRE" } ] } },
+          "condition": {
+            "not": { "or": [ { "u_has_species": "VAMPIRE" }, { "u_has_trait": "VAMPIRE" }, { "u_has_trait": "BLOOD_OF_SAINTS" } ] }
+          },
           "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.2 } ],
           "eoc": [ "EOC_VAMPIRE_DRINK_BLOOD", "EOC_FERAL_VAMPIRE_GAIN_RANDOM_BUFF" ]
         },
         {
           "id": "bite_humanoid",
           "cooldown": 3,
-          "condition": { "or": [ { "u_has_species": "VAMPIRE" }, { "u_has_trait": "VAMPIRE" } ] },
+          "condition": { "or": [ { "u_has_species": "VAMPIRE" }, { "u_has_trait": "VAMPIRE" }, { "u_has_trait": "BLOOD_OF_SAINTS" } ] },
           "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.2 } ]
         },
         {
@@ -205,14 +207,16 @@
         {
           "id": "bite_humanoid",
           "cooldown": 10,
-          "condition": { "not": { "or": [ { "u_has_species": "VAMPIRE" }, { "u_has_trait": "VAMPIRE" } ] } },
+          "condition": {
+            "not": { "or": [ { "u_has_species": "VAMPIRE" }, { "u_has_trait": "VAMPIRE" }, { "u_has_trait": "BLOOD_OF_SAINTS" } ] }
+          },
           "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.2 } ],
           "eoc": [ "EOC_VAMPIRE_DRINK_BLOOD" ]
         },
         {
           "id": "bite_humanoid",
           "cooldown": 10,
-          "condition": { "or": [ { "u_has_species": "VAMPIRE" }, { "u_has_trait": "VAMPIRE" } ] },
+          "condition": { "or": [ { "u_has_species": "VAMPIRE" }, { "u_has_trait": "VAMPIRE" }, { "u_has_trait": "BLOOD_OF_SAINTS" } ] },
           "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.2 } ]
         },
         {
@@ -276,14 +280,16 @@
         {
           "id": "bite_humanoid",
           "cooldown": 10,
-          "condition": { "not": { "or": [ { "u_has_species": "VAMPIRE" }, { "u_has_trait": "VAMPIRE" } ] } },
+          "condition": {
+            "not": { "or": [ { "u_has_species": "VAMPIRE" }, { "u_has_trait": "VAMPIRE" }, { "u_has_trait": "BLOOD_OF_SAINTS" } ] }
+          },
           "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.2 } ],
           "eoc": [ "EOC_VAMPIRE_DRINK_BLOOD" ]
         },
         {
           "id": "bite_humanoid",
           "cooldown": 10,
-          "condition": { "or": [ { "u_has_species": "VAMPIRE" }, { "u_has_trait": "VAMPIRE" } ] },
+          "condition": { "or": [ { "u_has_species": "VAMPIRE" }, { "u_has_trait": "VAMPIRE" }, { "u_has_trait": "BLOOD_OF_SAINTS" } ] },
           "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.2 } ]
         },
         {
@@ -361,14 +367,16 @@
         {
           "id": "bite_humanoid",
           "cooldown": 10,
-          "condition": { "not": { "or": [ { "u_has_species": "VAMPIRE" }, { "u_has_trait": "VAMPIRE" } ] } },
+          "condition": {
+            "not": { "or": [ { "u_has_species": "VAMPIRE" }, { "u_has_trait": "VAMPIRE" }, { "u_has_trait": "BLOOD_OF_SAINTS" } ] }
+          },
           "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.2 } ],
           "eoc": [ "EOC_VAMPIRE_DRINK_BLOOD" ]
         },
         {
           "id": "bite_humanoid",
           "cooldown": 10,
-          "condition": { "or": [ { "u_has_species": "VAMPIRE" }, { "u_has_trait": "VAMPIRE" } ] },
+          "condition": { "or": [ { "u_has_species": "VAMPIRE" }, { "u_has_trait": "VAMPIRE" }, { "u_has_trait": "BLOOD_OF_SAINTS" } ] },
           "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.2 } ]
         },
         {
@@ -433,14 +441,16 @@
         {
           "id": "bite_humanoid",
           "cooldown": 10,
-          "condition": { "not": { "or": [ { "u_has_species": "VAMPIRE" }, { "u_has_trait": "VAMPIRE" } ] } },
+          "condition": {
+            "not": { "or": [ { "u_has_species": "VAMPIRE" }, { "u_has_trait": "VAMPIRE" }, { "u_has_trait": "BLOOD_OF_SAINTS" } ] }
+          },
           "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.2 } ],
           "eoc": [ "EOC_VAMPIRE_DRINK_BLOOD" ]
         },
         {
           "id": "bite_humanoid",
           "cooldown": 10,
-          "condition": { "or": [ { "u_has_species": "VAMPIRE" }, { "u_has_trait": "VAMPIRE" } ] },
+          "condition": { "or": [ { "u_has_species": "VAMPIRE" }, { "u_has_trait": "VAMPIRE" }, { "u_has_trait": "BLOOD_OF_SAINTS" } ] },
           "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.2 } ]
         },
         {

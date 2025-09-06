@@ -68,7 +68,8 @@
             { "npc_has_species": "ABERRATION" },
             { "npc_has_species": "VAMPIRE" },
             { "npc_has_species": "VAMPIRE_ANATHEMA" },
-            { "npc_has_trait": "VAMPIRE" }
+            { "npc_has_trait": "VAMPIRE" },
+            { "npc_has_trait": "BLOOD_OF_SAINTS" }
           ]
         },
         "hit_dmg_u": "%1$s bites your %2$s with its fang-filled maw!",
@@ -123,7 +124,8 @@
                 { "not": { "npc_has_species": "FERAL" } },
                 { "not": { "npc_has_species": "VAMPIRE" } },
                 { "not": { "npc_has_species": "VAMPIRE_ANATHEMA" } },
-                { "not": { "npc_has_trait": "VAMPIRE" } }
+                { "not": { "npc_has_trait": "VAMPIRE" } },
+                { "not": { "npc_has_trait": "BLOOD_OF_SAINTS" } }
               ]
             }
           ]
@@ -209,7 +211,8 @@
             { "npc_has_species": "ABERRATION" },
             { "npc_has_species": "VAMPIRE" },
             { "npc_has_species": "VAMPIRE_ANATHEMA" },
-            { "npc_has_trait": "VAMPIRE" }
+            { "npc_has_trait": "VAMPIRE" },
+            { "npc_has_trait": "BLOOD_OF_SAINTS" }
           ]
         },
         "hit_dmg_u": "%1$s bites your %2$s with its maw!",
@@ -264,7 +267,8 @@
                 { "not": { "npc_has_species": "FERAL" } },
                 { "not": { "npc_has_species": "VAMPIRE" } },
                 { "not": { "npc_has_species": "VAMPIRE_ANATHEMA" } },
-                { "not": { "npc_has_trait": "VAMPIRE" } }
+                { "not": { "npc_has_trait": "VAMPIRE" } },
+                { "not": { "npc_has_trait": "BLOOD_OF_SAINTS" } }
               ]
             }
           ]
