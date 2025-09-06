@@ -637,7 +637,6 @@ static input_context make_crafting_context( bool highlight_unread_recipes )
     ctxt.register_action( "HELP_RECIPE" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "CYCLE_BATCH" );
-    ctxt.register_action( "TOGGLE_BATCH_MULTIPLIER" );
     ctxt.register_action( "CHOOSE_CRAFTER" );
     ctxt.register_action( "RELATED_RECIPES" );
     ctxt.register_action( "HIDE_SHOW_RECIPE" );
@@ -1305,7 +1304,6 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
         add_action_desc( "RELATED_RECIPES", pgettext( "crafting gui", "Related" ) );
         add_action_desc( "TOGGLE_FAVORITE", pgettext( "crafting gui", "Favorite" ) );
         add_action_desc( "CYCLE_BATCH", pgettext( "crafting gui", "Batch" ) );
-        add_action_desc( "TOGGLE_BATCH_MULTIPLIER", pgettext( "crafting gui", "Toggle Batch Multiplier" ) );
         add_action_desc( "CHOOSE_CRAFTER", pgettext( "crafting gui", "Choose crafter" ) );
         add_action_desc( "HELP_KEYBINDINGS", pgettext( "crafting gui", "Keybindings" ) );
         keybinding_x = isWide ? 5 : 2;
@@ -1369,7 +1367,6 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
     bool keepline = false;
     bool done = false;
     bool batch = false;
-    int batch_multiplier = 1;
     bool show_hidden = false;
     size_t num_hidden = 0;
     int num_recipe = 0;
@@ -1500,7 +1497,7 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
             std::string tmp_name = std::string( indent[i],
                                                 ' ' ) + current[i]->result_name( /*decorated=*/true );
             if( batch ) {
-                tmp_name = string_format( _( "%3dx %s" ), ( i + 1 ) * batch_multiplier, tmp_name );
+                tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name );
             }
             const bool rcp_read = !highlight_unread_recipes ||
                                   uistate.read_recipes.count( current[i]->ident() );
@@ -1521,7 +1518,7 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                               i - istart ) ) );
         }
 
-        const int batch_size = batch ? ( line + 1 ) * batch_multiplier : 1;
+        const int batch_size = batch ? line + 1 : 1;
         if( !current.empty() ) {
             const recipe &recp = *current[line];
 
@@ -1619,7 +1616,7 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                 current.clear();
                 for( int i = 1; i <= 50; i++ ) {
                     current.push_back( chosen );
-                    available.emplace_back( *crafter, chosen, i * batch_multiplier, camp_crafting, inventory_override );
+                    available.emplace_back( *crafter, chosen, i, camp_crafting, inventory_override );
                 }
                 indent.assign( current.size(), 0 );
             } else {
@@ -1891,14 +1888,13 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                        !available[line].crafter_has_primary_skill ) {
                 popup( _( "Crafter can't craft that!" ) );
             } else if( available[line].inv_override == nullptr &&
-                       !crafter->check_eligible_containers_for_crafting( *current[line],
-                               batch ? ( line + 1 ) * batch_multiplier : 1 ) ) {
+                       !crafter->check_eligible_containers_for_crafting( *current[line], batch ? line + 1 : 1 ) ) {
                 // popup is already inside check
             } else if( crafter->lighting_craft_speed_multiplier( *current[line] ) <= 0.0f ) {
                 popup( _( "Crafter can't see!" ) );
             } else {
                 chosen = current[line];
-                batch_size_out = batch ? ( line + 1 ) * batch_multiplier : 1;
+                batch_size_out = batch ? line + 1 : 1;
                 done = true;
                 uistate.read_recipes.insert( chosen->ident() );
             }
@@ -1988,12 +1984,6 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                 keepline = true;
             }
             recalc = true;
-        } else if( action == "TOGGLE_BATCH_MULTIPLIER" ) {
-            if( batch_multiplier == 1 ) {
-                batch_multiplier = 10;
-            } else {
-                batch_multiplier = 1;
-            }
         } else if( action == "CHOOSE_CRAFTER" ) {
             // allow for switching crafter when no recipes are shown (e.g. filter)
             bool rec_valid = !current.empty();

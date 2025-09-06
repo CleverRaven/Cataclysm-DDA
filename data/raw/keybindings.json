@@ -772,13 +772,6 @@
   },
   {
     "type": "keybinding",
-    "id": "TOGGLE_BATCH_MULTIPLIER",
-    "category": "CRAFTING",
-    "name": "Toggle size of batch selection steps between 1 and 10",
-    "bindings": [ { "input_method": "keyboard_any", "key": [ "b" ] } ]
-  },
-  {
-    "type": "keybinding",
     "id": "SCROLL_ITEM_INFO_UP",
     "category": "CRAFTING",
     "name": "Scroll item info up",
