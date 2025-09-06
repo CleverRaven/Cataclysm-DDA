@@ -242,7 +242,14 @@
     },
     "effect": [
       {
-        "if": { "and": [ "u_is_npc", { "not": { "u_has_trait": "FAE_CREATURE" } }, { "not": { "u_has_trait": "VAMPIRE" } } ] },
+        "if": {
+          "and": [
+            "u_is_npc",
+            { "not": { "u_has_trait": "FAE_CREATURE" } },
+            { "not": { "u_has_trait": "VAMPIRE" } },
+            { "not": { "u_has_trait": "BLOOD_OF_SAINTS" } }
+          ]
+        },
         "then": [
           { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN_IN_COMBAT", "alpha_talker": "npc", "time_in_future": 2 },
           { "math": [ "u_vitamin('blood') -= 750  + rand(450)" ] },
@@ -257,13 +264,14 @@
           {
             "if": {
               "or": [
-                { "and": [ { "u_has_species": "HUMAN" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+                {
+                  "and": [ { "u_has_species": "HUMAN" }, { "not": { "u_has_species": "ZOMBIE" } }, { "not": { "u_has_species": "VAMPIRE" } } ]
+                },
                 { "u_has_species": "FERAL" },
                 { "u_has_species": "RENFIELD" },
                 { "and": [ { "u_has_species": "CHANGELING" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
                 { "u_has_species": "HOMULLUS" },
-                { "u_has_trait": "FAE_CREATURE" },
-                { "not": { "u_has_trait": "VAMPIRE" } }
+                { "u_has_trait": "FAE_CREATURE" }
               ]
             },
             "then": [
@@ -320,7 +328,8 @@
                         { "u_has_species": "CENTIPEDE" },
                         { "u_has_species": "SPIDER" },
                         { "u_has_species": "MOLLUSK" },
-                        { "u_has_species": "WORM" }
+                        { "u_has_species": "WORM" },
+                        { "u_has_trait": "BLOOD_OF_SAINTS" }
                       ]
                     },
                     "then": [
