@@ -152,6 +152,14 @@ bool recipe::has_flag( const std::string &flag_name ) const
     return flags.count( flag_name );
 }
 
+struct time_duration_as_moves_reader : public generic_typed_reader<time_duration_as_moves_reader> {
+    int64_t get_next( const JsonValue &jv ) const {
+        time_duration ret;
+        jv.read( ret );
+        return to_moves<int64_t>( ret );
+    }
+};
+
 void recipe::load( const JsonObject &jo, const std::string_view src )
 {
     abstract = jo.has_string( "abstract" );
@@ -221,10 +229,7 @@ void recipe::load( const JsonObject &jo, const std::string_view src )
         return;
     }
 
-    if( jo.has_string( "time" ) ) {
-        time = to_moves<int>( read_from_json_string<time_duration>( jo.get_member( "time" ),
-                              time_duration::units ) );
-    }
+    optional( jo, was_loaded, "time", time, time_duration_as_moves_reader{}, 0 );
     optional( jo, was_loaded, "difficulty", difficulty, numeric_bound_reader<int> {0, MAX_SKILL} );
     optional( jo, was_loaded, "flags", flags );
 
