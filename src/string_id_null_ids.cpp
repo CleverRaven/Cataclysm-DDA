@@ -53,6 +53,7 @@ MAKE_NULL_ID( update_mapgen, "null" )
 MAKE_NULL_ID( VehicleGroup, "null" )
 MAKE_NULL_ID( vitamin, "null" )
 MAKE_NULL_ID( vpart_info, "null" )
+MAKE_NULL_ID( weather_generator, "" )
 MAKE_NULL_ID( widget, "null" )
 MAKE_NULL_ID( zone_type, "null" )
 
