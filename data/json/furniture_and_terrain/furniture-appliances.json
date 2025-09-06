@@ -375,7 +375,7 @@
     "type": "furniture",
     "id": "f_mill_vertical",
     "name": "vertical mill",
-    "description": "A one knee vertical milling machine, commonly known as a Bridgeport. Used to shape blocks of metal into useful parts. You can disconnect it to install somewhere else.",
+    "description": "A one knee vertical milling machine, commonly known as a Bridgeport.  Used to shape blocks of metal into useful parts.  You can disconnect it to install somewhere else.",
     "looks_like": "f_machinery_light",
     "symbol": "M",
     "color": "light_gray",
