@@ -4016,6 +4016,7 @@
     "description": "Your flesh has developed a unique reaction to radiation that lets you sense when ambient radiation is abnormally high.  Turn off to ignore messages.",
     "prereqs": [ "RADIOGENIC" ],
     "category": [ "SLIME", "MEDICAL" ],
+    "purifiable": false,
     "active": true,
     "starts_active": true
   },
