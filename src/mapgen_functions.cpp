@@ -11,6 +11,7 @@
 #include <string>
 #include <unordered_set>
 #include <utility>
+#include <variant>
 #include <vector>
 
 #include "calendar.h"
@@ -1038,7 +1039,7 @@ void mapgen_forest( mapgendata &dat )
     * @param p the point to check to place a feature at.
     */
     const auto get_feathered_feature = [&no_ter_furn, &max_factor, &factor, &self_biome,
-                                                      &adjacent_biomes, &nesw_weights, &get_feathered_groundcover, &unify_all_borders,
+                                                      &adjacent_biomes, &nesw_weights, &unify_all_borders,
                   &dat]( const point & p ) {
         std::array<float, 4> adj_weights;
         float net_weight = nesw_weights( p, factor, adj_weights );
@@ -1079,9 +1080,6 @@ void mapgen_forest( mapgendata &dat )
                 }
                 break;
         }
-        if( feature.ter == no_ter_furn.ter ) {
-            feature.ter = get_feathered_groundcover( p );
-        }
         return feature;
     };
 
@@ -1118,10 +1116,24 @@ void mapgen_forest( mapgendata &dat )
     // Lay groundcover, place a feature, and place terrain dependent furniture.
     for( int x = 0; x < SEEX * 2; x++ ) {
         for( int y = 0; y < SEEY * 2; y++ ) {
-            const ter_furn_id feature = get_feathered_feature( point( x, y ) );
-            m->ter_set( point_bub_ms( x, y ), feature.ter );
-            m->furn_set( point_bub_ms( x, y ), feature.furn );
-            set_terrain_dependent_furniture( feature.ter, point_bub_ms( x, y ) );
+            const point pos_raw = point( x, y );
+            const point_bub_ms pos = point_bub_ms( x, y );
+
+            ter_furn_id feature = get_feathered_feature( pos_raw );
+            ter_id groundcover = get_feathered_groundcover( pos_raw );
+
+            const ter_id *is_ter = std::get_if<ter_id>( &feature.ter_furn );
+            const furn_id *is_furniture = std::get_if<furn_id>( &feature.ter_furn );
+            ter_id resolved_ter = is_ter == nullptr ? groundcover : *is_ter;
+            const furn_id resolved_furn = is_furniture == nullptr ? furn_str_id::NULL_ID().id() : *is_furniture;
+
+            if( resolved_ter == ter_str_id::NULL_ID().id() ) {
+                resolved_ter = groundcover;
+            }
+
+            m->ter_set( pos, resolved_ter );
+            m->furn_set( pos, resolved_furn );
+            set_terrain_dependent_furniture( resolved_ter, pos );
         }
     }
 

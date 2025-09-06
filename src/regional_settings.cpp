@@ -8,11 +8,13 @@
 #include <string>
 #include <string_view>
 #include <utility>
+#include <variant>
 
 #include "debug.h"
 #include "enum_conversions.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
+#include "mapdata.h"
 #include "map_extras.h"
 #include "options.h"
 #include "output.h"
@@ -22,8 +24,6 @@
 
 class mapgendata;
 
-ter_furn_id::ter_furn_id() : ter( ter_str_id::NULL_ID().id() ),
-    furn( furn_str_id::NULL_ID().id() ) { }
 
 template<typename T>
 void read_and_set_or_throw( const JsonObject &jo, const std::string &member, T &target,
@@ -894,18 +894,14 @@ void groundcover_extra::finalize()   // FIXME: return bool for failure
 
     for( std::map<std::string, double>::const_iterator it = percent_str.begin();
          it != percent_str.end(); ++it ) {
-        tf_id.ter = ter_str_id::NULL_ID().id();
-        tf_id.furn = furn_str_id::NULL_ID();
+        tf_id = ter_furn_id();
         if( it->second < 0.0001 ) {
             continue;
         }
-        const ter_str_id tid( it->first );
-        const furn_str_id fid( it->first );
-        if( tid.is_valid() ) {
-            tf_id.ter = tid.id();
-        } else if( fid.is_valid() ) {
-            tf_id.furn = fid.id();
-        } else {
+
+        bool resolved = tf_id.resolve( it->first );
+
+        if( !resolved ) {
             debugmsg( "No clue what '%s' is!  No such terrain or furniture", it->first.c_str() );
             continue;
         }
@@ -915,19 +911,15 @@ void groundcover_extra::finalize()   // FIXME: return bool for failure
 
     for( std::map<std::string, double>::const_iterator it = boosted_percent_str.begin();
          it != boosted_percent_str.end(); ++it ) {
-        tf_id.ter = ter_str_id::NULL_ID().id();
-        tf_id.furn = furn_str_id::NULL_ID();
+        tf_id = ter_furn_id();
         if( it->second < 0.0001 ) {
             continue;
         }
         const ter_str_id tid( it->first );
         const furn_str_id fid( it->first );
 
-        if( tid.is_valid() ) {
-            tf_id.ter = tid.id();
-        } else if( fid.is_valid() ) {
-            tf_id.furn = fid.id();
-        } else {
+        bool resolved = tf_id.resolve( it->first );
+        if( !resolved ) {
             debugmsg( "No clue what '%s' is!  No such terrain or furniture", it->first.c_str() );
             continue;
         }
@@ -956,8 +948,7 @@ void groundcover_extra::finalize()   // FIXME: return bool for failure
         debugmsg( "boosted plant coverage total (%s=%de-4) exceeds 100%%", ss.str(), btotal );
     }
 
-    tf_id.furn = furn_str_id::NULL_ID();
-    tf_id.ter = default_ter;
+    tf_id.ter_furn = default_ter;
     weightlist[ 1000000 ] = tf_id;
     boosted_weightlist[ 1000000 ] = tf_id;
 
@@ -977,15 +968,8 @@ void forest_biome_component::finalize()
 {
     for( const std::pair<const std::string, int> &pr : unfinalized_types ) {
         ter_furn_id tf_id;
-        tf_id.ter = ter_str_id::NULL_ID().id();
-        tf_id.furn = furn_str_id::NULL_ID();
-        const ter_str_id tid( pr.first );
-        const furn_str_id fid( pr.first );
-        if( tid.is_valid() ) {
-            tf_id.ter = tid.id();
-        } else if( fid.is_valid() ) {
-            tf_id.furn = fid.id();
-        } else {
+        bool resolved = tf_id.resolve( pr.first );
+        if( !resolved ) {
             continue;
         }
         types.add( tf_id, pr.second );
