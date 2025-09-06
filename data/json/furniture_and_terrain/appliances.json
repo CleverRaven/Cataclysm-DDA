@@ -1124,7 +1124,7 @@
     "categories": [ "utility" ],
     "name": { "str": "vertical mill" },
     "description": "A machinist's one knee vertical mill, commonly known as a Bridgeport.  Used to shape blocks of metal into various parts.",
-    "looks_like": "f_heavy_lathe",
+    "looks_like": "f_machinery_light",
     "variants": [ { "symbols": "M", "symbols_broken": "#" } ],
     "color": "cyan_red",
     "flags": [ "OBSTACLE", "APPLIANCE" ],
