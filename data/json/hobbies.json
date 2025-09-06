@@ -1190,6 +1190,16 @@
   },
   {
     "type": "profession",
+    "subtype": "hobby",
+    "id": "machinist_beginner",
+    "name": "Machinist (Beginner)",
+    "points": 2,
+    "description": "You can cut metal, and drill holes without snapping your tools in the process.  At least the undead don't care about quality control.",
+    "skills": [ { "level": 3, "name": "fabrication" }, { "level": 1, "name": "mechanics" } ],
+    "proficiencies": [ "prof_machining_basic", "prof_metalworking" ]
+  },
+  {
+    "type": "profession",
     "id": "fishing",
     "subtype": "hobby",
     "name": "Fishing",

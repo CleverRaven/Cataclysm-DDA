@@ -1119,6 +1119,29 @@
     ]
   },
   {
+    "id": "ap_mill",
+    "type": "vehicle_part",
+    "categories": [ "utility" ],
+    "name": { "str": "vertical mill" },
+    "description": "A machinist's one knee vertical mill, commonly known as a Bridgeport.  Used to shape blocks of metal into various parts.",
+    "looks_like": "f_machinery_light",
+    "variants": [ { "symbols": "M", "symbols_broken": "#" } ],
+    "color": "cyan_red",
+    "flags": [ "OBSTACLE", "APPLIANCE" ],
+    "pseudo_tools": [ { "id": "fake_mill_vertical" } ],
+    "item": "mill_vertical",
+    "damage_modifier": 10,
+    "damage_reduction": { "all": 30 },
+    "durability": 80,
+    "breaks_into": [
+      { "item": "cable", "charges": [ 0, 4 ] },
+      { "item": "scrap", "count": [ 12, 20 ] },
+      { "item": "chunk_cast_iron", "count": [ 2, 4 ] },
+      { "item": "lump_cast_iron", "count": [ 1, 2 ] },
+      { "item": "motor_small", "count": [ 0, 1 ] }
+    ]
+  },
+  {
     "id": "ap_deep_fryer",
     "type": "vehicle_part",
     "categories": [ "utility" ],

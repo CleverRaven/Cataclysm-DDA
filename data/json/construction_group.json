@@ -2118,7 +2118,7 @@
   {
     "type": "construction_group",
     "id": "place_lathe",
-    "name": "Place a lathe"
+    "name": "Place a Lathe/Mill"
   },
   {
     "type": "construction_group",

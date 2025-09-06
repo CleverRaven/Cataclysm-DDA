@@ -406,6 +406,20 @@
   },
   {
     "type": "ITEM",
+    "id": "mill_vertical",
+    "//": "",
+    "name": { "str": "disconnected vertical mill" },
+    "description": "A vertical milling machine commonly known as a Bridgeport.  Needs to be placed and plugged into a power source.",
+    "looks_like": "f_heavy_lathe",
+    "symbol": "M",
+    "color": "cyan_red",
+    "material": [ "iron" ],
+    "longest_side": "107cm",
+    "volume": "275 L",
+    "weight": "1134 kg"
+  },
+  {
+    "type": "ITEM",
     "id": "deep_fryer",
     "//": "Based off https://www.frymaster.com/product/fam_zeozpi/E4-Electric-Fryers-RE14-RE14-2.",
     "name": { "str": "disconnected deep fryer" },

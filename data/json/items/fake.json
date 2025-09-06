@@ -522,6 +522,14 @@
     "charges_per_use": 25
   },
   {
+    "id": "fake_mill_vertical",
+    "copy-from": "fake_appliance_tool",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "vertical mill" },
+    "charges_per_use": 25
+  },
+  {
     "id": "fake_deep_fryer",
     "copy-from": "fake_appliance_tool",
     "type": "ITEM",
