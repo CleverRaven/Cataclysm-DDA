@@ -160,6 +160,33 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "changeling_troll_death_drops",
+    "subtype": "collection",
+    "entries": [
+      { "item": "footrags_leather", "prob": 70, "damage": [ 1, 4 ], "custom-flags": [ "OVERSIZE", "PREFIX_XL" ] },
+      { "item": "loincloth", "prob": 70, "damage": [ 1, 4 ], "custom-flags": [ "OVERSIZE", "PREFIX_XL" ] },
+      { "item": "pants_leather", "prob": 55, "damage": [ 1, 4 ], "custom-flags": [ "OVERSIZE", "PREFIX_XL" ] },
+      { "item": "xe_troll_club", "prob": 100, "damage": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "changeling_troll_manbreaker_death_drops",
+    "subtype": "collection",
+    "entries": [
+      { "item": "footrags_leather", "prob": 70, "damage": [ 1, 4 ], "custom-flags": [ "OVERSIZE", "PREFIX_XL" ] },
+      { "item": "loincloth", "prob": 70, "damage": [ 1, 4 ], "custom-flags": [ "OVERSIZE", "PREFIX_XL" ] },
+      { "item": "pants_leather", "prob": 55, "damage": [ 1, 4 ], "custom-flags": [ "OVERSIZE", "PREFIX_XL" ] },
+      { "item": "chestwrap", "prob": 55, "damage": [ 1, 4 ], "custom-flags": [ "OVERSIZE", "PREFIX_XL" ] },
+      { "item": "xl_armor_troll_moons_tears", "prob": 100, "damage": [ 1, 3 ] },
+      { "item": "xl_helm_troll_moons_tears", "prob": 75, "damage": [ 1, 3 ] },
+      { "item": "xl_gauntlets_troll_moons_tears", "prob": 75, "damage": [ 1, 3 ] },
+      { "item": "xl_boots_troll_moons_tears", "prob": 75, "damage": [ 1, 3 ] },
+      { "item": "xe_troll_giant_mace", "prob": 100, "damage": [ 1, 2 ] }
+    ]
+  },
+  {
     "id": "changeling_lord_death_drops",
     "type": "item_group",
     "//": "high chance of Faerie clothes, low chance of Earthly clothes",
