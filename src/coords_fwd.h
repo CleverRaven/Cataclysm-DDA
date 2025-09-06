@@ -99,6 +99,7 @@ using tripoint_bub_sm_ib =
 using tripoint_rel_omt = coords::coord_point<tripoint, coords::origin::relative, coords::omt>;
 using tripoint_abs_omt = coords::coord_point<tripoint, coords::origin::abs, coords::omt>;
 using tripoint_om_omt = coords::coord_point<tripoint, coords::origin::overmap, coords::omt>;
+using tripoint_om_ms = coords::coord_point<tripoint, coords::origin::overmap, coords::ms>;
 using tripoint_abs_seg = coords::coord_point<tripoint, coords::origin::abs, coords::seg>;
 using tripoint_abs_om = coords::coord_point<tripoint, coords::origin::abs, coords::om>;
 /*@}*/
