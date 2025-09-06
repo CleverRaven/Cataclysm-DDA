@@ -235,6 +235,8 @@ template <typename T, typename W> struct weighted_list {
         }
 
         void deserialize( const JsonValue &jv ) {
+            // this function does things in a way that makes clang-tidy unhappy
+            // CATA_DO_NOT_CHECK_SERIALIZE
             if( jv.test_array() ) {
                 for( const JsonValue entry : jv.get_array() ) {
                     if( entry.test_array() ) {
@@ -248,7 +250,7 @@ template <typename T, typename W> struct weighted_list {
                     }
                 }
             } else {
-                jv.throw_error( "weighted list must be in format [[a, b], ...]" );
+                jv.throw_error( "weighted list must be in format [[a, b], …]" );
             }
         }
 
@@ -264,7 +266,7 @@ template <typename T, typename W> struct weighted_list {
 template <typename T> struct weighted_int_list : public weighted_list<T, int> {
 
         weighted_int_list() = default;
-        weighted_int_list( int default_weight ) : default_weight( default_weight ) {};
+        explicit weighted_int_list( int default_weight ) : default_weight( default_weight ) {};
         // populate the precalc_array for O(1) lookups
         void precalc() {
             precalc_array.clear();
@@ -314,7 +316,7 @@ template <typename T> struct weighted_float_list : public weighted_list<T, doubl
 
         // TODO: precalc using alias method
         weighted_float_list() = default;
-        weighted_float_list( int default_weight ) : default_weight( default_weight ) {};
+        explicit weighted_float_list( int default_weight ) : default_weight( default_weight ) {};
 
     protected:
 
