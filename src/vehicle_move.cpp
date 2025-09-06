@@ -78,7 +78,7 @@ static const ter_str_id ter_t_railroad_track_v_on_tie( "t_railroad_track_v_on_ti
 static const trait_id trait_DEFT( "DEFT" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
 
-static const std::string part_location_structure( "structure" );
+static const vpart_location_id vpart_location_structure( "structure" );
 
 // tile height in meters
 static const float tile_height = 4.0f;
@@ -750,7 +750,7 @@ bool vehicle::collision( map &here, std::vector<veh_collision> &colls,
         }
 
         const vpart_info &info = vp.info();
-        if( !vp.is_fake && info.location != part_location_structure && !info.has_flag( VPFLAG_ROTOR ) ) {
+        if( !vp.is_fake && info.location != vpart_location_structure && !info.has_flag( VPFLAG_ROTOR ) ) {
             continue;
         }
         empty = false;
@@ -2010,7 +2010,7 @@ bool vehicle::level_vehicle( map &here )
     // make sure that all parts are either supported across levels or on the same level
     std::map<int, bool> no_support;
     for( vehicle_part &prt : parts ) {
-        if( prt.info().location != part_location_structure ) {
+        if( prt.info().location != vpart_location_structure ) {
             continue;
         }
         const tripoint_bub_ms part_pos = bub_part_pos( here, prt );

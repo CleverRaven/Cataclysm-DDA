@@ -117,6 +117,7 @@
 #include "type_id.h"
 #include "veh_type.h"
 #include "vehicle_group.h"
+#include "vehicle_part_location.h"
 #include "vitamin.h"
 #include "weakpoint.h"
 #include "weather_type.h"
@@ -336,6 +337,7 @@ void DynamicDataLoader::initialize()
 
     add( "vehicle_part",  &vehicles::parts::load );
     add( "vehicle_part_category",  &vpart_category::load );
+    add( "vehicle_part_location",  &vpart_location::load_vehicle_part_locations );
     add( "vehicle_part_migration", &vpart_migration::load );
     add( "vehicle", &vehicles::load_prototype );
     add( "vehicle_group",  &VehicleGroup::load );
@@ -713,6 +715,7 @@ void DynamicDataLoader::unload_data()
     vitamin::reset();
     vehicles::parts::reset();
     vpart_category::reset();
+    vpart_location::reset();
     vpart_migration::reset();
     weakpoints::reset();
     weather_types::reset();
@@ -792,6 +795,7 @@ void DynamicDataLoader::finalize_loaded_data()
             { _( "Cities" ), &city::finalize_all },
             { _( "Math functions" ), &jmath_func::finalize_all },
             { _( "Start locations" ), &start_locations::finalize_all },
+            { _( "Vehicle part locations" ), &vpart_location::finalize_all },
             { _( "Vehicle part migrations" ), &vpart_migration::finalize },
             { _( "Vehicle prototypes" ), &vehicles::finalize_prototypes },
             { _( "Map Extras" ), &map_extra::finalize_all },
@@ -893,6 +897,7 @@ void DynamicDataLoader::check_consistency()
             { _( "Materials" ), &materials::check },
             { _( "Faults" ), &faults::check_consistency },
             { _( "Vehicle parts" ), &vehicles::parts::check },
+            { _( "Vehicle part locations" ), &vpart_location::check_all },
             { _( "Vehicle part migrations" ), &vpart_migration::check },
             { _( "Mapgen definitions" ), &check_mapgen_definitions },
             { _( "Mapgen palettes" ), &mapgen_palette::check_definitions },

@@ -88,7 +88,6 @@
     "durability": 50,
     "description": "Binoculars secured near the seat.",
     "item": "binoculars",
-    "location": "internal",
     "folded_volume": "500 ml",
     "flags": [ "ENHANCED_VISION", "SIMPLE_PART" ],
     "requirements": {

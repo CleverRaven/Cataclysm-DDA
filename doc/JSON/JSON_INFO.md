@@ -521,6 +521,7 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 | `tutorial.json`               | messages for the tutorial (that is out of date)
 | `vehicle_groups.json`         | vehicle spawn groups
 | `vehicle_parts.json`          | vehicle parts, does NOT affect flag effects
+| `vehicle_part_locations.json` | locations on vehicles where parts are installed
 | `vitamin.json`                | vitamins and their deficiencies
 
 selected subfolders
@@ -2701,6 +2702,7 @@ Vehicle components when installed on a vehicle.
 "location": "fuel_source",    // Optional. One of the checks used when determining if a part 
                               // can be installed on a given tile. A part cannot be installed
                               // if any existing part occupies the same location.
+                              // See "Vehicle Part Locations" below.
 "damage_modifier": 50,        // (Optional, default = 100) Dealt damage multiplier when this
                               // part hits something, as a percentage. Higher = more damage to
                               // creature struck
@@ -2893,6 +2895,21 @@ It also has a hotplate that can be activated by examining it with `e` then `h` o
   { "id": "hotplate", "hotkey": "h" },
   { "id": "pot" }
 ],
+```
+
+### Vehicle Part Locations
+
+The `"location"` field for a Vehicle Part must be a `vehicle_part_location` defined in [data/json/vehicle_part_locations.json](../../data/json/vehicle_part_locations.json)
+
+```jsonc
+  {
+    "type": "vehicle_part_location",
+    "id": "structure",        // Unique identifier
+    "name": "Structure",      // Displayed name
+    "desc": "Frames etc",     // Description of the location and what goes in it
+    "z_order": 5,             // The highest Z part on a tile gets drawn, -1 never gets drawn, default 0
+    "list_order": 1           // Sort order for part lists, lowest first, default 5
+  },
 ```
 
 ### Part Resistance
