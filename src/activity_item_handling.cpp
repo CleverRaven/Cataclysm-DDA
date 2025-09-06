@@ -43,6 +43,7 @@
 #include "item_pocket.h"
 #include "item_stack.h"
 #include "itype.h"
+#include "iuse.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
@@ -76,13 +77,10 @@
 #include "vpart_position.h"
 #include "weather.h"
 
-struct use_function;
-
 static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
 static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
 static const activity_id ACT_FISH( "ACT_FISH" );
-static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
@@ -95,15 +93,12 @@ static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
-static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 
 static const addiction_id addiction_alcohol( "alcohol" );
-
-static const efftype_id effect_incorporeal( "incorporeal" );
 
 static const flag_id json_flag_CUT_HARVEST( "CUT_HARVEST" );
 static const flag_id json_flag_MOP( "MOP" );
@@ -2550,16 +2545,20 @@ static int chop_moves( Character &you, item &it )
 
 static bool mine_activity( Character &you, const tripoint_bub_ms &src_loc )
 {
-    std::vector<item *> mining_inv = you.items_with( [&you]( const item & itm ) {
-        return ( itm.has_flag( flag_DIG_TOOL ) && !itm.type->can_use( "JACKHAMMER" ) ) ||
-               ( itm.type->can_use( "JACKHAMMER" ) && itm.ammo_sufficient( &you ) );
-    } );
     map &here = get_map();
-    if( mining_inv.empty() || you.is_mounted() || you.is_underwater() || here.veh_at( src_loc ) ||
-        !here.has_flag( ter_furn_flag::TFLAG_MINEABLE, src_loc ) || you.has_effect( effect_incorporeal ) ||
-        here.impassable_field_at( src_loc ) ) {
+    // We pre-exclude jackhammers for wall mining here, just in case the character is carrying both a jackhammer and a pickaxe.
+    // If we don't then our iteration will preferentially select the (powered) jackhammer and always fail in subsequent calls to dig_tool(). Very troublesome!
+    const bool is_wall_mining = here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_WALL, src_loc );
+    std::vector<item *> mining_inv = you.items_with( [&you, is_wall_mining]( const item & itm ) {
+        return ( itm.has_flag( flag_DIG_TOOL ) && !itm.type->can_use( "JACKHAMMER" ) ) ||
+               ( !is_wall_mining && ( itm.type->can_use( "JACKHAMMER" ) && itm.ammo_sufficient( &you ) ) );
+    } );
+    // All other failure conditions are handled in subsequent calls to dig_tool() with specific messaging for the player. This is just an early short circuit.
+    if( mining_inv.empty() ) {
         return false;
     }
+
+
     item *chosen_item = nullptr;
     bool powered = false;
     // is it a pickaxe or jackhammer?
@@ -2581,20 +2580,14 @@ static bool mine_activity( Character &you, const tripoint_bub_ms &src_loc )
     if( chosen_item == nullptr ) {
         return false;
     }
-    int moves = to_moves<int>( powered ? 30_minutes : 20_minutes );
-    if( !powered ) {
-        moves += ( ( MAX_STAT + 4 ) - std::min( you.get_arm_str(),
-                                                MAX_STAT ) ) * to_moves<int>( 5_minutes );
+    std::optional<int> did_we_mine = std::nullopt;
+    if( powered ) {
+        did_we_mine = iuse::jackhammer( &you, chosen_item, src_loc );
+    } else {
+        did_we_mine = iuse::pickaxe( &you, chosen_item, src_loc );
     }
-    if( here.move_cost( src_loc ) == 2 ) {
-        // We're breaking up some flat surface like pavement, which is much easier
-        moves /= 2;
-    }
-    you.assign_activity( powered ? ACT_JACKHAMMER : ACT_PICKAXE, moves );
-    you.activity.targets.emplace_back( you, chosen_item );
-    you.activity.placement = here.get_abs( src_loc );
-    return true;
-
+    // Any value at all means that we succeeded and started the activity. Actual contained value will be 0 on success, for iuse's normal returns.
+    return did_we_mine.has_value();
 }
 
 // Not really an activity like the others; relies on zone activity alerting on enemies

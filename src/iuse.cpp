@@ -3091,13 +3091,14 @@ std::optional<int> iuse::change_skin( Character *p, item *, const tripoint_bub_m
     return std::nullopt;
 }
 
-static std::optional<int> dig_tool( Character *p, item *it, const tripoint_bub_ms &pos,
+static std::optional<int> dig_tool( Character *p, item *it, const tripoint_bub_ms &target,
                                     const activity_id activity,
-                                    const std::string &prompt, const std::string &fail, const std::string &success,
-                                    int extra_moves = 0 )
+                                    const std::string &prompt, const std::string &fail, const std::string &success )
 {
-    // use has_enough_charges to check for UPS availability
-    // p is assumed to exist for iuse cases
+    if( !p || !it ) {
+        debugmsg( "Misconfigured call to dig_tool, invalid character or item pointer" );
+        return std::nullopt;
+    }
     if( !it->ammo_sufficient( p ) ) {
         return std::nullopt;
     }
@@ -3108,8 +3109,9 @@ static std::optional<int> dig_tool( Character *p, item *it, const tripoint_bub_m
         return std::nullopt;
     }
 
-    tripoint_bub_ms pnt( pos );
-    if( pos == p->pos_bub() ) {
+    tripoint_bub_ms pnt( target );
+    // This should only be true when called through activating the item directly. That is, the player activated it.
+    if( target == p->pos_bub() ) {
         const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent( prompt );
         if( !pnt_ ) {
             return std::nullopt;
@@ -3118,16 +3120,16 @@ static std::optional<int> dig_tool( Character *p, item *it, const tripoint_bub_m
     }
 
     map &here = get_map();
+    if( here.impassable_field_at( pnt ) ) {
+        std::optional<field_entry> null_zone = here.get_impassable_field_at( pnt );
+        p->add_msg_if_player( m_warning, _( "You can't make it through the %s there." ),
+                              null_zone->name() );
+        return std::nullopt;
+    }
     const bool mineable_furn = here.has_flag_furn( ter_furn_flag::TFLAG_MINEABLE, pnt );
     const bool mineable_ter = here.has_flag_ter( ter_furn_flag::TFLAG_MINEABLE, pnt );
-    const bool impassable_fields = here.impassable_field_at( pnt );
-    const int max_mining_ability = 70;
-    if( ( !mineable_furn && !mineable_ter ) || impassable_fields ) {
+    if( !mineable_furn && !mineable_ter ) {
         p->add_msg_if_player( m_info, fail );
-        if( here.bash_resistance( pnt ) > max_mining_ability ) {
-            p->add_msg_if_player( m_info,
-                                  _( "The material is too hard for you to even make a dent." ) );
-        }
         return std::nullopt;
     }
     if( here.veh_at( pnt ) ) {
@@ -3135,23 +3137,21 @@ static std::optional<int> dig_tool( Character *p, item *it, const tripoint_bub_m
         return std::nullopt;
     }
 
-    int moves = to_moves<int>( 30_minutes );
-
-    const std::vector<Character *> helpers = p->get_crafting_helpers();
-    const std::size_t helpersize = p->get_num_crafting_helpers( 3 );
-    moves *= ( 1.0f - ( helpersize / 10.0f ) );
-    for( std::size_t i = 0; i < helpersize; i++ ) {
-        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
+    const bool using_jackhammer = it->type->can_use( "JACKHAMMER" );
+    if( using_jackhammer && here.has_flag_ter( ter_furn_flag::TFLAG_WALL, pnt ) ) {
+        p->add_msg_if_player( _( "You can't mine a wall with a %s!" ), it->tname() );
+        return std::nullopt;
     }
 
-    moves += extra_moves;
+    // FIXME: Activity is interruptable but progress is not saved!
+    time_duration digging_time = 30_minutes;
 
-    if( here.move_cost( pnt ) == 2 ) {
+    if( here.has_flag( ter_furn_flag::TFLAG_FLAT, pnt ) ) {
         // We're breaking up some flat surface like pavement, which is much easier
-        moves /= 2;
+        digging_time /= 2;
     }
 
-    p->assign_activity( activity, moves );
+    p->assign_activity( activity, to_moves<int>( digging_time ) );
     p->activity.targets.emplace_back( *p, it );
     p->activity.placement = here.get_abs( pnt );
 
@@ -3165,12 +3165,6 @@ static std::optional<int> dig_tool( Character *p, item *it, const tripoint_bub_m
 
 std::optional<int> iuse::jackhammer( Character *p, item *it, const tripoint_bub_ms &pos )
 {
-    // use has_enough_charges to check for UPS availability
-    // p is assumed to exist for iuse cases
-    if( !it->ammo_sufficient( p ) ) {
-        return std::nullopt;
-    }
-
     return dig_tool( p, it, pos, ACT_JACKHAMMER,
                      _( "Drill where?" ), _( "You can't drill there." ),
                      _( "You start drilling into the %1$s with your %2$s." ) );
@@ -3226,16 +3220,8 @@ std::optional<int> iuse::pick_lock( Character *p, item *it, const tripoint_bub_m
 
 std::optional<int> iuse::pickaxe( Character *p, item *it, const tripoint_bub_ms &pos )
 {
-    if( p->is_npc() ) {
-        // Long action
-        return std::nullopt;
-    }
-    /** @EFFECT_STR decreases time to dig with a pickaxe */
-    int extra_moves = ( ( MAX_STAT + 4 ) -
-                        std::min( p->get_arm_str(), MAX_STAT ) ) * to_moves<int>( 5_minutes );
     return dig_tool( p, it, pos, ACT_PICKAXE,
-                     _( "Mine where?" ), _( "You can't mine there." ), _( "You strike the %1$s with your %2$s." ),
-                     extra_moves );
+                     _( "Mine where?" ), _( "You can't mine there." ), _( "You strike the %1$s with your %2$s." ) );
 
 }
 
