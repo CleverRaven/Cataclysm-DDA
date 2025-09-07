@@ -48,6 +48,7 @@
         "u_set_field": "fd_tear_in_reality_temporary",
         "radius": 0,
         "intensity": 3,
+        "outdoor_only": true,
         "target_var": { "context_val": "loc" }
       },
       { "message": "The nearby air cracks.", "type": "bad" },
