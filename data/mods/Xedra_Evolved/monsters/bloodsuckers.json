@@ -54,7 +54,7 @@
           "id": "bite_humanoid",
           "cooldown": 3,
           "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.2 } ],
-          "eoc": [ "EOC_VAMPIRE_DRINK_BLOOD", "EOC_FERAL_VAMPIRE_GAIN_RANDOM_BUFF" ]
+          "eoc": [ "EOC_VAMPIRE_DRINK_BLOOD", "EOC_FERAL_VAMPIRE_DRINK_GAIN_RANDOM_BUFF" ]
         },
         {
           "type": "monster_attack",
@@ -131,7 +131,19 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_DRINK_BLOOD",
-    "condition": "npc_is_character",
+    "condition": {
+      "and": [
+        "npc_is_character",
+        { "not": { "npc_has_trait": "ACIDBLOOD" } },
+        { "not": { "npc_has_trait": "THRESH_CRUSTACEAN" } },
+        { "not": { "npc_has_trait": "THRESH_INSECT" } },
+        { "not": { "npc_has_trait": "THRESH_CEPHALOPOD" } },
+        { "not": { "npc_has_trait": "THRESH_GASTROPOD" } },
+        { "not": { "npc_has_flag": "BLEED_IMMUNE" } },
+        { "not": { "npc_has_trait": "VAMPIRE" } },
+        { "not": { "npc_has_trait": "BLOOD_OF_SAINTS" } }
+      ]
+    },
     "effect": [
       { "math": [ "_vampire_amount_drained", "=", "400 + rand(100)" ] },
       { "u_add_effect": "star_vampire_blood_drank", "duration": 30 },
@@ -158,7 +170,50 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_FERAL_VAMPIRE_GAIN_RANDOM_BUFF",
-    "condition": { "or": [ "npc_is_character", { "npc_has_species": "HUMAN" }, { "npc_has_species": "FERAL" } ] },
+    "effect": {
+      "switch": { "math": [ "rand(6)" ] },
+      "cases": [
+        {
+          "case": 0,
+          "effect": [ { "u_add_effect": "effect_vampire_monster_strength", "duration": { "math": [ "rng(15,45)" ] } } ]
+        },
+        {
+          "case": 2,
+          "effect": [ { "u_add_effect": "effect_vampire_monster_agility", "duration": { "math": [ "rng(15,45)" ] } } ]
+        },
+        {
+          "case": 4,
+          "effect": [ { "u_add_effect": "effect_vampire_monster_resilience", "duration": { "math": [ "rng(15,45)" ] } } ]
+        },
+        {
+          "case": 6,
+          "effect": [ { "u_add_effect": "effect_vampire_monster_speed", "duration": { "math": [ "rng(15,45)" ] } } ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FERAL_VAMPIRE_DRINK_GAIN_RANDOM_BUFF",
+    "condition": {
+      "or": [
+        { "and": [ { "npc_has_species": "HUMAN" }, { "not": { "npc_has_species": "VAMPIRE" } } ] },
+        { "and": [ { "npc_has_species": "FERAL" }, { "not": { "npc_has_species": "VAMPIRE" } } ] },
+        {
+          "and": [
+            "npc_is_character",
+            { "not": { "npc_has_trait": "ACIDBLOOD" } },
+            { "not": { "npc_has_trait": "THRESH_CRUSTACEAN" } },
+            { "not": { "npc_has_trait": "THRESH_INSECT" } },
+            { "not": { "npc_has_trait": "THRESH_CEPHALOPOD" } },
+            { "not": { "npc_has_trait": "THRESH_GASTROPOD" } },
+            { "not": { "npc_has_flag": "BLEED_IMMUNE" } },
+            { "not": { "npc_has_trait": "VAMPIRE" } },
+            { "not": { "npc_has_trait": "BLOOD_OF_SAINTS" } }
+          ]
+        }
+      ]
+    },
     "effect": {
       "switch": { "math": [ "rand(6)" ] },
       "cases": [
