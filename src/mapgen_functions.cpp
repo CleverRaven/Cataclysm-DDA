@@ -2244,14 +2244,18 @@ void resolve_regional_terrain_and_furniture( const mapgendata &dat )
 {
     for( const tripoint_bub_ms &p : dat.m.points_on_zlevel() ) {
         const ter_id &tid_before = dat.m.ter( p );
-        const ter_id &tid_after = dat.region.region_terrain_and_furniture.resolve( tid_before );
-        if( tid_after != tid_before ) {
-            dat.m.ter_set( p, tid_after );
+        if( !tid_before.id().is_null() && tid_before->has_flag( ter_furn_flag::TFLAG_REGION_PSEUDO ) ) {
+            const ter_id &tid_after = dat.region.region_terrain_and_furniture.resolve( tid_before );
+            if( tid_after != tid_before ) {
+                dat.m.ter_set( p, tid_after );
+            }
         }
         const furn_id &fid_before = dat.m.furn( p );
-        const furn_id &fid_after = dat.region.region_terrain_and_furniture.resolve( fid_before );
-        if( fid_after != fid_before ) {
-            dat.m.furn_set( p, fid_after );
+        if( !fid_before.id().is_null() && fid_before->has_flag( ter_furn_flag::TFLAG_REGION_PSEUDO ) ) {
+            const furn_id &fid_after = dat.region.region_terrain_and_furniture.resolve( fid_before );
+            if( fid_after != fid_before ) {
+                dat.m.furn_set( p, fid_after );
+            }
         }
     }
 }

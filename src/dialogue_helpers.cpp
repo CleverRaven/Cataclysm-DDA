@@ -64,21 +64,6 @@ var_info process_variable( const std::string &type )
     return { vt, ret_str };
 }
 
-std::string str_translation_or_var::evaluate( const_dialogue const &d, bool /* convert */ ) const
-{
-    return std::visit( overloaded{
-        [&d]( str_or_var const & tv ) -> std::string
-        {
-            return tv.evaluate( d );
-        },
-        [&d]( translation_or_var const & tv ) -> std::string
-        {
-            return tv.evaluate( d ).translated();
-        },
-    },
-    val );
-}
-
 namespace
 {
 
@@ -86,6 +71,18 @@ template<typename valueT, typename funcT>
 valueT _evaluate_func( const_dialogue const &d, funcT const &arg )
 {
     return arg( d );
+}
+
+template<>
+diag_value _evaluate_func( const_dialogue const &d, string_mutator<translation> const &arg )
+{
+    return diag_value{ arg( d ).translated() };
+}
+
+template<>
+diag_value _evaluate_func( const_dialogue const &d, eoc_math const &arg )
+{
+    return diag_value{ arg.act( d ) };
 }
 
 template<>
@@ -106,21 +103,31 @@ valueT dv_to_T( diag_value const &dv )
     if constexpr( std::is_same_v<valueT, diag_value> ) {
         return dv;
     } else if constexpr( std::is_same_v<valueT, std::string> ) {
-        return dv.to_string();
+        return dv.str();
     } else if constexpr( std::is_same_v<valueT, double> ) {
         return dv.dbl();
     } else if constexpr( std::is_same_v<valueT, time_duration> ) {
         return time_duration::from_turns( dv.dbl() );
     } else if constexpr( std::is_same_v<valueT, translation> ) {
         // translated when set
-        return translation::no_translation( dv.to_string() );
+        return translation::no_translation( dv.str() );
     }
 }
 
 template<typename V, typename T>
 bool try_deserialize_type( V &v, JsonValue const &jsin )
 {
-    if( T t; jsin.read( t, false ) ) {
+    if constexpr( std::is_same_v<T, diag_value> ) {
+        // ~copy of JsonValue::read() since we need to pass an extra arg to deserialize
+        diag_value dv;
+        try {
+            dv._deserialize( jsin, false );
+        } catch( JsonError const &/* je */ ) {
+            return false;
+        }
+        v = dv;
+        return true;
+    } else if( T t; jsin.read( t, false ) ) {
         v = t;
         return true;
     }
@@ -231,3 +238,4 @@ template struct value_or_var<time_duration, eoc_math>;
 template struct value_or_var_pair<time_duration, eoc_math>;
 template struct value_or_var<std::string, string_mutator<std::string>>;
 template struct value_or_var<translation, string_mutator<translation>>;
+template struct value_or_var<diag_value, eoc_math, string_mutator<translation>>;

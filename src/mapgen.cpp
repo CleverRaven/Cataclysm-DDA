@@ -1031,25 +1031,25 @@ class mapgen_basic_container
         }
         void finalize_parameters() {
             for( auto &mapgen_function_ptr : weights_ ) {
-                mapgen_function_ptr.obj->finalize_parameters();
+                mapgen_function_ptr.first->finalize_parameters();
             }
         }
         void check_consistency() const {
             for( const auto &mapgen_function_ptr : weights_ ) {
-                mapgen_function_ptr.obj->check();
+                mapgen_function_ptr.first->check();
             }
         }
         void check_consistency_with( const oter_t &ter ) const {
             for( const auto &mapgen_function_ptr : weights_ ) {
-                mapgen_function_ptr.obj->check_consistent_with( ter );
+                mapgen_function_ptr.first->check_consistent_with( ter );
             }
         }
 
         mapgen_parameters get_mapgen_params( mapgen_parameter_scope scope,
                                              const std::string &context ) const {
             mapgen_parameters result;
-            for( const weighted_object<int, std::shared_ptr<mapgen_function>> &p : weights_ ) {
-                result.check_and_merge( p.obj->get_mapgen_params( scope ), context );
+            for( const std::pair<std::shared_ptr<mapgen_function>, int> &p : weights_ ) {
+                result.check_and_merge( p.first->get_mapgen_params( scope ), context );
             }
             return result;
         }
@@ -1200,9 +1200,9 @@ void calculate_mapgen_weights()   // TODO: rename as it runs jsonfunction setup 
     oter_mapgen.setup();
     // Not really calculate weights, but let's keep it here for now
     for( auto &pr : nested_mapgens ) {
-        for( const weighted_object<int, std::shared_ptr<mapgen_function_json_nested>> &ptr :
+        for( const std::pair<std::shared_ptr<mapgen_function_json_nested>, int> &ptr :
              pr.second.funcs() ) {
-            ptr.obj->setup();
+            ptr.first->setup();
             inp_mngr.pump_events();
         }
     }
@@ -1216,9 +1216,9 @@ void calculate_mapgen_weights()   // TODO: rename as it runs jsonfunction setup 
     // pass of finalizing their parameters
     oter_mapgen.finalize_parameters();
     for( auto &pr : nested_mapgens ) {
-        for( const weighted_object<int, std::shared_ptr<mapgen_function_json_nested>> &ptr :
+        for( const std::pair<std::shared_ptr<mapgen_function_json_nested>, int> &ptr :
              pr.second.funcs() ) {
-            ptr.obj->finalize_parameters();
+            ptr.first->finalize_parameters();
             inp_mngr.pump_events();
         }
     }
@@ -1235,7 +1235,7 @@ void check_mapgen_definitions()
     oter_mapgen.check_consistency();
     for( const auto &oter_definition : nested_mapgens ) {
         for( const auto &mapgen_function_ptr : oter_definition.second.funcs() ) {
-            mapgen_function_ptr.obj->check();
+            mapgen_function_ptr.first->check();
         }
     }
     for( const auto &oter_definition : update_mapgens ) {
@@ -1973,7 +1973,7 @@ class mapgen_value
             weighted_int_list<StringId> list;
 
             explicit distribution_source( const JsonObject &jo ) {
-                load_weighted_list( jo.get_member( "distribution" ), list, 1 );
+                list.deserialize( jo.get_member( "distribution" ) );
             }
 
             Id get( const mapgendata & ) const override {
@@ -1981,10 +1981,10 @@ class mapgen_value
             }
 
             void check( const std::string &context, const mapgen_parameters & ) const override {
-                for( const weighted_object<int, StringId> &wo : list ) {
-                    if( !is_valid_helper( wo.obj ) ) {
+                for( const std::pair<StringId, int> &wo : list ) {
+                    if( !is_valid_helper( wo.first ) ) {
                         debugmsg( "mapgen '%s' uses invalid entry '%s' in weighted list",
-                                  context, cata_variant( wo.obj ).get_string() );
+                                  context, cata_variant( wo.first ).get_string() );
                     }
                 }
             }
@@ -2006,8 +2006,8 @@ class mapgen_value
 
             std::vector<StringId> all_possible_results( const mapgen_parameters & ) const override {
                 std::vector<StringId> result;
-                for( const weighted_object<int, StringId> &wo : list ) {
-                    result.push_back( wo.obj );
+                for( const std::pair<StringId, int> &wo : list ) {
+                    result.push_back( wo.first );
                 }
                 return result;
             }
@@ -3071,10 +3071,12 @@ class jmapgen_monster : public jmapgen_piece
                 }
             }
 
+            ids = weighted_int_list<mapgen_value<mtype_id>>( 100 );
+
             if( jsi.has_member( "group" ) ) {
                 jsi.read( "group", m_id );
             } else if( jsi.has_array( "monster" ) ) {
-                load_weighted_list( jsi.get_member( "monster" ), ids, 100 );
+                ids.deserialize( jsi.get_member( "monster" ) );
             } else {
                 mapgen_value<mtype_id> id( jsi.get_member( "monster" ) );
                 ids.add( id, 100 );
@@ -3091,8 +3093,8 @@ class jmapgen_monster : public jmapgen_piece
         void check( const std::string &oter_name, const mapgen_parameters &parameters,
                     const jmapgen_int &/*x*/, const jmapgen_int &/*y*/, const jmapgen_int &/*z*/
                   ) const override {
-            for( const weighted_object<int, mapgen_value<mtype_id>> &id : ids ) {
-                id.obj.check( oter_name, parameters );
+            for( const std::pair<mapgen_value<mtype_id>, int> &id : ids ) {
+                id.first.check( oter_name, parameters );
             }
             m_id.check( oter_name, parameters );
         }
@@ -4357,17 +4359,17 @@ class jmapgen_nested : public jmapgen_piece
                         debugmsg( "Unknown nested mapgen function id '%s'", id.str() );
                         return;
                     }
-                    using Obj = weighted_object<int, std::shared_ptr<mapgen_function_json_nested>>;
+                    using Obj = std::pair<std::shared_ptr<mapgen_function_json_nested>, int>;
                     for( const Obj &nested : iter->second.funcs() ) {
-                        nested.obj->merge_non_nest_parameters_into( params, outer_context );
+                        nested.first->merge_non_nest_parameters_into( params, outer_context );
                     }
                 }
             };
-            for( const weighted_object<dbl_or_var, mapgen_value<nested_mapgen_id>> &name : entries ) {
-                merge_from( name.obj );
+            for( const std::pair<mapgen_value<nested_mapgen_id>, dbl_or_var> &name : entries ) {
+                merge_from( name.first );
             }
-            for( const weighted_object<dbl_or_var, mapgen_value<nested_mapgen_id>> &name : else_entries ) {
-                merge_from( name.obj );
+            for( const std::pair<mapgen_value<nested_mapgen_id>, dbl_or_var> &name : else_entries ) {
+                merge_from( name.first );
             }
         }
         const weighted_dbl_or_var_list<mapgen_value<nested_mapgen_id>> &get_entries(
@@ -4409,11 +4411,11 @@ class jmapgen_nested : public jmapgen_piece
         void check( const std::string &oter_name, const mapgen_parameters &parameters,
                     const jmapgen_int &x, const jmapgen_int &y, const jmapgen_int &z
                   ) const override {
-            for( const weighted_object<dbl_or_var, mapgen_value<nested_mapgen_id>> &p : entries ) {
-                p.obj.check( oter_name, parameters );
+            for( const std::pair<mapgen_value<nested_mapgen_id>, dbl_or_var> &p : entries ) {
+                p.first.check( oter_name, parameters );
             }
-            for( const weighted_object<dbl_or_var, mapgen_value<nested_mapgen_id>> &p : entries ) {
-                p.obj.check( oter_name, parameters );
+            for( const std::pair<mapgen_value<nested_mapgen_id>, dbl_or_var> &p : entries ) {
+                p.first.check( oter_name, parameters );
             }
             neighbor_joins.check( oter_name, parameters );
 
@@ -4431,11 +4433,11 @@ class jmapgen_nested : public jmapgen_piece
                     }
                 }
             };
-            for( const weighted_object<dbl_or_var, mapgen_value<nested_mapgen_id>> &p : entries ) {
-                add_coords_from( p.obj );
+            for( const std::pair<mapgen_value<nested_mapgen_id>, dbl_or_var> &p : entries ) {
+                add_coords_from( p.first );
             }
-            for( const weighted_object<dbl_or_var, mapgen_value<nested_mapgen_id>> &p : else_entries ) {
-                add_coords_from( p.obj );
+            for( const std::pair<mapgen_value<nested_mapgen_id>, dbl_or_var> &p : else_entries ) {
+                add_coords_from( p.first );
             }
 
             point max_relative;
@@ -4486,7 +4488,7 @@ class jmapgen_nested : public jmapgen_piece
             }
 
             for( const auto &entry : selected_entries ) {
-                nested_mapgen_id id = entry.obj.get( dat );
+                nested_mapgen_id id = entry.first.get( dat );
                 if( id.is_null() ) {
                     continue;
                 }
@@ -4495,7 +4497,7 @@ class jmapgen_nested : public jmapgen_piece
                     return ret_val<void>::make_success();
                 }
                 for( const auto &nest : iter->second.funcs() ) {
-                    const ret_val<void> has_vehicle_collision = nest.obj->has_vehicle_collision( dat, p );
+                    const ret_val<void> has_vehicle_collision = nest.first->has_vehicle_collision( dat, p );
                     if( !has_vehicle_collision.success() ) {
                         return has_vehicle_collision;
                     }
@@ -5416,8 +5418,8 @@ const
 std::unordered_set<point_rel_ms> nested_mapgen::all_placement_coords() const
 {
     std::unordered_set<point_rel_ms> result;
-    for( const weighted_object<int, std::shared_ptr<mapgen_function_json_nested>> &o : funcs_ ) {
-        o.obj->add_placement_coords_to( result );
+    for( const std::pair<std::shared_ptr<mapgen_function_json_nested>, int> &o : funcs_ ) {
+        o.first->add_placement_coords_to( result );
     }
     return result;
 }

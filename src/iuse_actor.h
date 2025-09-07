@@ -15,7 +15,6 @@
 #include "color.h"
 #include "coords_fwd.h"
 #include "damage.h"
-#include "enums.h"
 #include "explosion.h"
 #include "iuse.h"
 #include "ret_val.h"
@@ -30,6 +29,9 @@ class item_location;
 class map;
 class npc_template;
 struct furn_t;
+
+enum class link_state : int;
+enum class ot_match_type : int;
 
 /**
  * Transform an item into a specific type.
@@ -230,16 +232,24 @@ class explosion_iuse : public iuse_actor
         void info( const item &, std::vector<iteminfo> & ) const override;
 };
 
+namespace iuse
+{
+
 /** Used in consume_drug_iuse for storing effect data. */
 struct effect_data {
     efftype_id id;
-    time_duration duration;
-    bodypart_id bp;
-    bool permanent;
+    time_duration duration = 0_seconds;
+    bodypart_id bp = bodypart_id( "bp_null" );
+    bool permanent = false;
 
+    void deserialize( const JsonObject &jo );
+
+    effect_data() = default;
     effect_data( const efftype_id &nid, const time_duration &dur, bodypart_id nbp, bool perm ) :
         id( nid ), duration( dur ), bp( nbp ), permanent( perm ) {}
 };
+
+} // namespace iuse
 
 /**
  * This iuse encapsulates the effects of taking a drug.
@@ -256,7 +266,7 @@ class consume_drug_iuse : public iuse_actor
         /** Tools needed, but not consumed, e.g. "smoking apparatus". **/
         std::map<itype_id, int> tools_needed;
         /** An effect or effects (conditions) to give the player for the stated duration. **/
-        std::vector<effect_data> effects;
+        std::vector<iuse::effect_data> effects;
         /** A list of stats and adjustments to them. **/
         std::map<std::string, int> stat_adjustments;
 
@@ -368,7 +378,7 @@ class change_scent_iuse : public iuse_actor
         /**Is the scent mask waterproof*/
         bool waterproof = false;
         /**Side effect of using the item*/
-        std::vector<effect_data> effects;
+        std::vector<iuse::effect_data> effects;
 
         change_scent_iuse() : iuse_actor( "change_scent" ) { }
         ~change_scent_iuse() override = default;
@@ -567,22 +577,11 @@ class inscribe_actor : public iuse_actor
         bool material_restricted = true;
 
         // Materials it can write on
-        std::set<material_id> material_whitelist = {
-            material_id( "wood" ),
-            material_id( "clay" ),
-            material_id( "porcelain" ),
-            material_id( "plastic" ),
-            material_id( "glass" ),
-            material_id( "chitin" ),
-            material_id( "iron" ),
-            material_id( "steel" ),
-            material_id( "silver" ),
-            material_id( "bone" )
-        };
+        std::set<material_id> material_whitelist;
 
         // How will the inscription be described
-        translation verb = to_translation( "Carve" );
-        translation gerund = to_translation( "Carved" );
+        translation verb;
+        translation gerund;
 
         bool item_inscription( item &tool, item &cut ) const;
 
@@ -603,8 +602,8 @@ class fireweapon_off_actor : public iuse_actor
 {
     public:
         itype_id target_id;
-        translation success_message = to_translation( "hsss" );
-        translation failure_message = to_translation( "hsss" ); // Due to bad roll
+        translation success_message;
+        translation failure_message; // Due to bad roll
         int noise = 0; // If > 0 success message is a success sound instead
         int moves = 0;
         // Lower is better: rng(0, 10) - item.damage_level() > this variable
@@ -629,7 +628,7 @@ class fireweapon_off_actor : public iuse_actor
 class fireweapon_on_actor : public iuse_actor
 {
     public:
-        translation noise_message = to_translation( "hsss" ); // If noise is 0, message content instead
+        translation noise_message; // If noise is 0, message content instead
         translation charges_extinguish_message;
         translation water_extinguish_message;
         translation auto_extinguish_message;
@@ -651,7 +650,7 @@ class manualnoise_actor : public iuse_actor
 {
     public:
         translation use_message;
-        translation noise_message = to_translation( "hsss" );
+        translation noise_message;
         std::string noise_id;
         std::string noise_variant;
         int noise = 0; // Should work even with no volume, even if it seems impossible
@@ -954,7 +953,7 @@ class heal_actor : public iuse_actor
         /** Extra hp gained per skill level when healing torso. */
         float torso_scaling = 0.0f;
         /** Effects to apply to patient on finished healing. */
-        std::vector<effect_data> effects;
+        std::vector<iuse::effect_data> effects;
         /**
          * Item produced on finished healing. For example, bloody rag.
          * If the used item is a tool it, it will be turned into the used up item.
@@ -1002,6 +1001,9 @@ class place_trap_actor : public iuse_actor
             /** Move points that are used when placing the trap. */
             int moves = 100;
             void load( const JsonObject &obj );
+            void deserialize( const JsonObject &obj ) {
+                load( obj );
+            }
         };
         /** Whether one can place the trap when underwater. */
         bool allow_underwater = false;
@@ -1171,7 +1173,7 @@ class link_up_actor : public iuse_actor
         /** (Optional) Text displayed in the activation screen, defaults to "Plug in / Manage cables". */
         translation menu_text;
 
-        std::set<link_state> targets = { link_state::no_link, link_state::vehicle_port };
+        std::set<link_state> targets;
         std::set<std::string> can_extend;
 
         std::optional<int> link_to_veh_app( Character *p, item &it, bool to_ports ) const;
