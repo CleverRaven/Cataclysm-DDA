@@ -93,8 +93,8 @@ static const species_id species_HALLUCINATION( "HALLUCINATION" );
 static const species_id species_SLIME( "SLIME" );
 
 static const trait_id trait_PACIFIST( "PACIFIST" );
-static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_NUMB( "NUMB" );
+static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 
 namespace spell_detail
 {
