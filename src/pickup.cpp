@@ -454,8 +454,14 @@ void Pickup::autopickup( const tripoint_bub_ms &p )
     quantities.reserve( selected_items.size() );
     for( drop_location selected : selected_items ) {
         item *it = selected.first.get_item();
-        target_items.push_back( selected.first );
-        quantities.push_back( it->count_by_charges() ? it->charges : 0 );
+        if( player.can_pickWeight_partial( *it, false ) &&
+            player.can_stash_partial( *it, false ) ) {
+            target_items.push_back( selected.first );
+            quantities.push_back( it->count_by_charges() ? it->charges : 0 );
+        }
+    }
+    if( target_items.empty() ) {
+        return;
     }
     pickup_activity_actor actor( target_items, quantities, player.pos_bub(), true );
     player.assign_activity( actor );
