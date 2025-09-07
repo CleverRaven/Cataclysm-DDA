@@ -22,7 +22,6 @@
 #include "debug.h"
 #include "flood_fill.h"
 #include "map.h"
-#include "mapdata.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
 #include "mapgen.h"
