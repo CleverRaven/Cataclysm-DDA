@@ -43,7 +43,7 @@
     "id": "EOC_PORTAL_TEMPORARY_TEARS_IN_REALITY",
     "condition": { "one_in_chance": 10 },
     "effect": [
-      { "u_location_variable": { "context_val": "loc" }, "min_radius": 2, "max_radius": 8 },
+      { "u_location_variable": { "context_val": "loc" }, "min_radius": 2, "max_radius": 8, "outdoor_only": true },
       {
         "u_set_field": "fd_tear_in_reality_temporary",
         "radius": 0,
