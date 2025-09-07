@@ -587,7 +587,7 @@
     "id": "xe_troll_giant_mace",
     "looks_like": "mace_pipe",
     "name": { "str": "gigantic mace" },
-    "description": "A weapon consisting of a wood handle with a heavy metal head.  This one was once wielded by a troll and is as long as a spear, with an enormous knob of metal thicker than your torso on the end.  You could probably smash down a door in a single blow with this, if you could wield it without collapsing under its weight.",
+    "description": "A weapon consisting of a wood handle with a heavy metal head.  This one was once wielded by a troll and is as long as a spear, with an enormous knob of metal thicker than a human body on the end.  You could probably smash down a door in a single blow with this, if you could wield it without collapsing under its weight.",
     "weight": "15000 g",
     "color": "dark_gray",
     "symbol": "/",
