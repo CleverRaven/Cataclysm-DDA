@@ -1539,8 +1539,8 @@ void spell_effect::charm_monster( const spell &sp, Creature &caster, const tripo
             mon->unset_dest();
             mon->friendly += sp.duration( caster ) / 100;
             if( mon->friendly != -1 && sp.has_flag( spell_flag::CHARM_PET ) ) {
-              mon->friendly = -1;
-              mon->add_effect( effect_pet, 1_turns, true );
+                mon->friendly = -1;
+                mon->add_effect( effect_pet, 1_turns, true );
             }
         }
     
