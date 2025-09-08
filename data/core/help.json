@@ -20,7 +20,7 @@
       "Each step will take 100 movement points (or more, depending on the terrain); you will then replenish a variable amount of movement points, depending on many factors (press <press_player_data> to see the exact amount).",
       "To attempt to hit a monster with your weapon, simply move into it.",
       "You may find doors, ('+'); these may be opened with <press_open> or closed with <press_close>.  Some doors are locked.  Locked doors, windows, and some other obstacles can be destroyed by smashing them (<press_smash>, then choose a direction).  Smashing down obstacles is much easier with a good weapon or a strong character.",
-      "There may be times when you want to move more quickly by holding down a movement key.  However, fast movement in this fashion may lead to the player getting into a dangerous situation or even killed before they have a chance to react.  Pressing <press_safemode> will toggle \"safe mode.\"  While this is on, any movement will be ignored if new monsters enter the player's view."
+      "There may be times when you want to move more quickly by holding down a movement key.  However, fast movement in this fashion may quickly put you in a dangerous situation, or even kill you before you've had a chance to react.  Pressing <press_safemode> will toggle \"safe mode.\"  While this is on, the game will stop you from moving further if you've spotted an enemy, and let you step back unnoticed if you weren't running."
     ]
   },
   {

@@ -8228,6 +8228,8 @@ look_around_result game::look_around(
             result.peek_action = PA_BLIND_THROW;
         } else if( action == "throw_blind_wielded" ) {
             result.peek_action = PA_BLIND_THROW_WIELDED;
+        } else if( action == "CONFIRM" && peeking ) {
+            result.peek_action = PA_MOVE;
         } else if( action == "zoom_in" ) {
             center.xy() = lp.xy();
             zoom_in();

@@ -748,8 +748,8 @@ void check_region_settings()
                 } else {
                     std::string list_of_values =
                         enumerate_as_string( values,
-                    []( const weighted_object<int, map_extra_id> &w ) {
-                        return '"' + w.obj.str() + '"';
+                    []( const std::pair<map_extra_id, int> &w ) {
+                        return '"' + w.first.str() + '"';
                     } );
                     debugmsg( "Invalid map extras for region \"%s\", extras \"%s\".  "
                               "Extras %s are listed, but all have zero weight.",
@@ -1093,7 +1093,7 @@ void overmap_highway_settings::finalize()
     auto find_longest_special = []( const building_bin & b ) {
         int longest_length = 0;
         for( const auto &weighted_pair : b.get_all_buildings() ) {
-            const overmap_special_id &special = weighted_pair.obj;
+            const overmap_special_id &special = weighted_pair.first;
             int spec_length = special.obj().longest_side();
             if( spec_length > longest_length ) {
                 longest_length = spec_length;
@@ -1119,10 +1119,10 @@ void overmap_highway_settings::finalize()
 map_extras map_extras::filtered_by( const mapgendata &dat ) const
 {
     map_extras result( chance );
-    for( const weighted_object<int, map_extra_id> &obj : values ) {
-        const map_extra_id &extra_id = obj.obj;
+    for( const std::pair<map_extra_id, int> &obj : values ) {
+        const map_extra_id &extra_id = obj.first;
         if( extra_id->is_valid_for( dat ) ) {
-            result.values.add( extra_id, obj.weight );
+            result.values.add( extra_id, obj.second );
         }
     }
     if( !values.empty() && result.values.empty() ) {
@@ -1197,7 +1197,7 @@ void regional_settings::finalize()
 {
     if( default_groundcover_str != nullptr ) {
         for( const auto &pr : *default_groundcover_str ) {
-            default_groundcover.add( pr.obj.id(), pr.weight );
+            default_groundcover.add( pr.first.id(), pr.second );
         }
 
         default_groundcover_str.reset();
