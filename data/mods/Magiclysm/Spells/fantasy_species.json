@@ -7,7 +7,7 @@
     "message": "You feed some meat to the warg and it seems friendly.",
     "teachable": false,
     "valid_targets": [ "hostile", "ally" ],
-    "flags": [ "NON_MAGICAL", "NO_FAIL", "CHARM_PET", "RANDOM_DURATION", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "NON_MAGICAL", "NO_FAIL", "CHARM_PET", "RECHARM", "RANDOM_DURATION", "SILENT", "NO_HANDS", "NO_LEGS" ],
     "max_level": 1,
     "spell_class": "GOBLIN_BUILD",
     "effect": "charm_monster",
