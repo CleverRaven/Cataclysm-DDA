@@ -170,7 +170,6 @@ static const trait_id trait_HALLUCINATION( "HALLUCINATION" );
 static const trait_id trait_NO_BASH( "NO_BASH" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
-static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
 static const trait_id trait_TERRIFYING( "TERRIFYING" );
 
 static void starting_clothes( npc &who, const npc_class_id &type, bool male );
@@ -2008,6 +2007,7 @@ ret_val<void> npc::wants_to_sell( const item_location &it, int at_price ) const
 
 bool npc::wants_to_buy( const item &it ) const
 {
+
     return wants_to_buy( it, value( it ) ).success();
 }
 
@@ -2021,11 +2021,12 @@ ret_val<void> npc::wants_to_buy( const item &it, int at_price ) const
         return ret_val<void>::make_success();
     }
 
+
     if( it.has_flag( flag_TRADER_AVOID ) || it.has_var( VAR_TRADE_IGNORE ) ) {
         return ret_val<void>::make_failure( _( "Will never buy this" ) );
     }
 
-    if( !is_shopkeeper() && has_trait( trait_SQUEAMISH ) && it.is_filthy() ) {
+    if( it.is_filthy() ) {
         return ret_val<void>::make_failure( _( "Will not buy filthy items" ) );
     }
 

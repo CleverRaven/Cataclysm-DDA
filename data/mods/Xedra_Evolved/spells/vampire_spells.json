@@ -180,7 +180,7 @@
     "id": "vampire_fear_gaze_spell",
     "type": "SPELL",
     "name": { "str": "Predator's Mien" },
-    "description": "With a bit of stolen blood and a savage expression, you can send your enemies fleeing.  This power only works on enemies capable of feeling fear.\n\nYou must have <color_yellow>greater</color> than <color_red>-500</color> Stolen Blood to use this blood art.",
+    "description": "With a bit of stolen blood and a savage expression, you can send your enemies fleeing.  This power only works on enemies capable of feeling fear and cannot affect vampires.\n\nYou must have <color_yellow>greater</color> than <color_red>-500</color> Stolen Blood to use this blood art.",
     "message": "",
     "teachable": false,
     "magic_type": "xe_vampire_blood_powers",
@@ -205,7 +205,19 @@
     },
     "base_energy_cost": 150,
     "base_casting_time": 25,
-    "ignored_monster_species": [ "ZOMBIE", "ROBOT", "ROBOT_FLYING", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME" ]
+    "ignored_monster_species": [
+      "ZOMBIE",
+      "ROBOT",
+      "ROBOT_FLYING",
+      "NETHER",
+      "NETHER_EMANATION",
+      "LEECH_PLANT",
+      "WORM",
+      "FUNGUS",
+      "SLIME",
+      "VAMPIRE",
+      "VAMPIRE_ANATHEMA"
+    ]
   },
   {
     "id": "spell_hypnotic_gaze",
@@ -237,7 +249,19 @@
     },
     "base_energy_cost": 150,
     "base_casting_time": 100,
-    "ignored_monster_species": [ "ZOMBIE", "ROBOT", "ROBOT_FLYING", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME" ]
+    "ignored_monster_species": [
+      "ZOMBIE",
+      "ROBOT",
+      "ROBOT_FLYING",
+      "NETHER",
+      "NETHER_EMANATION",
+      "LEECH_PLANT",
+      "WORM",
+      "FUNGUS",
+      "SLIME",
+      "VAMPIRE",
+      "VAMPIRE_ANATHEMA"
+    ]
   },
   {
     "id": "vampire_command_beast_spell",
@@ -377,7 +401,8 @@
     },
     "base_energy_cost": 700,
     "base_casting_time": 100,
-    "targeted_monster_species": [ "HUMAN", "FERAL", "CYBORG" ]
+    "targeted_monster_species": [ "HUMAN", "FERAL", "CYBORG" ],
+    "ignored_monster_species": [ "VAMPIRE", "VAMPIRE_ANATHEMA" ]
   },
   {
     "id": "vampire_mist_form_pass_through_doors_and_windows",

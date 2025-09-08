@@ -1999,8 +1999,25 @@ Runs another EoC. It can be a separate EoC, or an inline EoC inside `run_eocs` e
 | "alpha_loc","beta_loc" | optional | [variable object](#variable-object) | Allows to swap talker by defining `u_location_variable`, where the EoC should be run. Set the alpha/beta talker to the creature at the location. |
 | "alpha_talker","beta_talker" | optional (If you use both "alpha_loc" and "alpha_talker", "alpha_talker" will be ignored, same for beta.) | string, [variable object](#variable-object) | Set alpha/beta talker. This can be either a `character_id` (you can get from [EOC event](#event-eocs) or result of [u_set_talker](#u_set_talkernpc_set_talker) ), or some hard-coded values: <br> `""`: null talker <br> `"u"/"npc": the alpha/beta talker of the EOC`(Should be Avatar/Character/NPC/Monster) <br> `"avatar"`: your avatar|
 | "false_eocs" | optional | string, [variable object](#variable-object), inline EoC, or range of all of them | false EOCs will run if<br>1. there is no creature at "alpha_loc"/"beta_loc",or<br>2. "alpha_talker" or "beta_talker" doesn't exist in the game (eg. dead NPC),or<br>3. alpha and beta talker are both null |
-| "variables" | optional | pair of `"variable_name": "variable"` | context variables, that would be passed to the EoC; numeric values should be specified as strings; when a variable is an object and has the `i18n` member set to true, the variable will be localized; `expects_vars` condition can be used inside running eoc to ensure every variable exist before the EoC is run | 
+| "variables" | optional | pair of `"variable_name": "variable"` | context variables, that would be passed to the EoC; can be either a [variable object](#variable-object), or an [inline variable](#inline-variables) ;<br/><br/> `expects_vars` condition can be used inside running eoc to ensure every variable exist before the EoC is run | 
 
+##### Inline Variables
+Variable values can be declared inline and must use the correct type:
+
+```jsonc
+        "variables": {
+          "dbl_val": 8,
+          "str_val": "blorg",
+          "i18n_val": { "i18n": true, "str": "battery" },
+          "tripoint_val": { "tripoint": [ 0, 10, 0 ] },
+          // quick maths
+          "math_val": { "math": [ "2 + 2 - 1" ] },
+          // inf and nan are not allowed in JSON so they're wrapped in a "dbl" object
+          "inf_val": { "dbl": "+inf" },
+          "nan_val": { "dbl": "-nan" },
+          "copied_val": { "context_val": "blorgyvar" }
+        }
+```
 
 ##### Valid talkers:
 
@@ -2081,7 +2098,7 @@ Second EoC `EOC_I_NEED_AN_AK47` aslo run `EOC_GIVE_A_GUN` with the same variable
       "run_eocs": "EOC_GIVE_A_GUN",
       "variables": {
         "gun_name": "ar15_223medium",
-        "amount_of_guns": "5"
+        "amount_of_guns": 5
       }
     }
   ]
@@ -2094,7 +2111,7 @@ Second EoC `EOC_I_NEED_AN_AK47` aslo run `EOC_GIVE_A_GUN` with the same variable
       "run_eocs": "EOC_GIVE_A_GUN",
       "variables": {
         "gun_name": "ak47",
-        "amount_of_guns": "3"
+        "amount_of_guns": 3
       }
     }
   ]
@@ -2908,7 +2925,7 @@ Open a menu, that allow to select one of multiple options
 | "hide_failing" | optional | boolean | if true, the options, that fail their check, would be completely removed from the list, instead of being grayed out | 
 | "allow_cancel" | optional | boolean | if true, you can quit the menu without selecting an option, no effect will occur | 
 | "hilight_disabled" | optional | boolean | if true, the option, that fail their check, would still be navigateable, meaning you can highlight it and read it's description. If `allow_cancel` is true, picking it would be considered same as quitting | 
-| "variables" | optional | pair of `"variable_name": "variable"` | variables, that would be passed to the EoCs; numeric values should be specified as strings; when a variable is an object and has the `i18n` member set to true, the variable will be localized; `expects_vars` condition can be used to ensure every variable exist before the EoC is run | 
+| "variables" | optional | pair of `"variable_name": "variable"` | variables, that would be passed to the EoCs; can be either a [variable object](#variable-object), or an [inline variable](#inline-variables); `expects_vars` condition can be used to ensure every variable exist before the EoC is run | 
 ##### Valid talkers:
 
 | Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
@@ -5101,7 +5118,7 @@ Spawn some monsters around you, NPC or `target_var`
 | "lifespan" | optional | int, duration, [variable object](#variable-object) or value between two | if used, critters would live that amount of time, and disappear in the end | 
 | "target_var" | optional | [variable object](#variable-object) | if used, the monster would spawn from this location instead of you or NPC | 
 | "temporary_drop_items" | optional | boolean | default false; if true, monsters summoned with a lifespan will still drop items and leave a corpse.
-| "mon_variables" | optional | string or [variable object](#variable-object) | if used, the monster would have this variables when spawned.
+| "mon_variables" | optional | [variable object](#variable-object) or [inline variables](#inline-variables) | if used, the monster would have this variables when spawned.
 | "summoner_is_alpha", "summoner_is_beta" | optional | bool | if used, the monster would define alpha/beta talker as it's summoner
 | "spawn_message", "spawn_message_plural" | optional | string or [variable object](#variable-object) | if you see monster or monsters that was spawned, related message would be printed | 
 | "true_eocs", "false_eocs" | optional | string, [variable object](#variable-object), inline EoC, or range of all of them | if at least 1 monster was spawned, all EoCs from `true_eocs` are run, otherwise all EoCs from `false_eocs` are run | 

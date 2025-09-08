@@ -11,7 +11,7 @@
         "names": [ "name_1", "name_2", "<context_val:name>", "should_fail" ],
         "keys": [ "a", "b", "c", "d" ],
         "descriptions": [ "option 1", "option 2", "<context_val:description>", "should not be available" ],
-        "variables": [ { "val": "8" } ],
+        "variables": [ { "val": 8 } ],
         "title": "<context_val:title>",
         "allow_cancel": true
       }
@@ -47,7 +47,7 @@
         "names": [ "name_1", "name_2", "name_3", "should_fail" ],
         "keys": [ "a", "b", "c", "d" ],
         "descriptions": [ "option 1", "option 2", "option 3", "should not be available" ],
-        "variables": [ { "val": "8" } ],
+        "variables": [ { "val": 8 } ],
         "hide_failing": true
       }
     ]

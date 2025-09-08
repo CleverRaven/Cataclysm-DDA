@@ -28,6 +28,7 @@
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "gun_mode.h"
+#include "input_context.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
@@ -49,13 +50,16 @@
 #include "output.h"
 #include "pimpl.h"
 #include "player_activity.h"
+#include "popup.h"
 #include "point.h"
 #include "projectile.h"
 #include "ranged.h"
 #include "ret_val.h"
 #include "rng.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "type_id.h"
+#include "ui_manager.h"
 #include "uilist.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -534,7 +538,34 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
         }
         return true;
     }
+
+    const tripoint_abs_ms old_abs_pos = you.pos_abs();
+    const tripoint_abs_ms abs_dest_loc = here.get_abs( dest_loc );
     if( g->walk_move( dest_loc, via_ramp ) ) {
+        // AUTOPEEK: If safe mode would be triggered after the move, look around and move back
+        if( g->safe_mode == SAFE_MODE_ON && !you.is_running() &&
+            you.pos_abs() == abs_dest_loc ) {
+            here.build_map_cache( dest_loc.z() );
+            here.update_visibility_cache( dest_loc.z() );
+            g->mon_info_update();
+            if( !g->check_safe_mode_allowed() && !you.is_hauling() ) {
+                input_context ctxt( "LOOK" );
+                static_popup popup;
+                popup.message( "%s " + colorize( _( "to go back." ), c_light_gray ) +
+                               "\n%s " + colorize( _( "to move anyway." ), c_light_gray ),
+                               ctxt.get_desc( "QUIT" ),
+                               ctxt.get_desc( "CONFIRM" ) ).on_top( true );
+                ui_manager::redraw();
+                // Get bub coords again after build_map_cache
+                const tripoint_bub_ms src_loc = here.get_bub( old_abs_pos );
+                tripoint_bub_ms center( src_loc.x(), src_loc.y(), dest_loc.z() );
+                const look_around_result result = g->look_around( false, center, center, false, false, true );
+                if( result.peek_action != PA_MOVE ) {
+                    g->walk_move( src_loc, via_ramp );
+                }
+                return false; // cancel automove
+            }
+        }
         return true;
     }
     if( g->phasing_move_enchant( dest_loc, you.calculate_by_enchantment( 0,
