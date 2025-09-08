@@ -33,6 +33,7 @@ static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_none( "null" );
 
 static const itype_id itype_battery( "battery" );
+static const itype_id itype_seed_buckwheat( "seed_buckwheat" );
 
 /*-----------------------------------------------------------------------------
  *                              VEHICLE_PART
@@ -726,9 +727,11 @@ bool vehicle::can_enable( map &here, const vehicle_part &pt, bool alert ) const
         return false;
     }
 
-    if( pt.info().has_flag( "PLANTER" ) && !warm_enough_to_plant( get_player_character().pos_bub() ) ) {
+    // FIXME/HACK: Always checks buckwheat seeds!
+    if( pt.info().has_flag( "PLANTER" ) &&
+        !warm_enough_to_plant( get_player_character().pos_bub(), itype_seed_buckwheat ) ) {
         if( alert ) {
-            add_msg( m_bad, _( "It is too cold to plant anything now." ) );
+            add_msg( m_bad, _( "It is too cold to plant most things now." ) );
         }
         return false;
     }

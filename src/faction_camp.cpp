@@ -131,6 +131,7 @@ static const itype_id itype_duffelbag( "duffelbag" );
 static const itype_id itype_fungal_seeds( "fungal_seeds" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_marloss_seed( "marloss_seed" );
+static const itype_id itype_seed_buckwheat( "seed_buckwheat" );
 static const itype_id itype_stick_long( "stick_long" );
 
 static const mongroup_id GROUP_CAMP_HUNTING( "GROUP_CAMP_HUNTING" );
@@ -1344,9 +1345,10 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
                        "Intensity: Moderate\n"
                        "Time: 1 Min / Plot\n"
                        "Positions: 0/1\n" );
+            // FIXME/HACK: Always checks buckwheat seeds!
             mission_key.add_start( miss_id,
                                    name_display_of( miss_id ), entry,
-                                   plots > 0 && warm_enough_to_plant( omt_pos + dir ) );
+                                   plots > 0 && warm_enough_to_plant( omt_pos + dir, itype_seed_buckwheat ) );
         } else {
             entry = action_of( miss_id.id );
             bool avail = update_time_left( entry, npc_list );

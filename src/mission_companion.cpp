@@ -1546,10 +1546,6 @@ npc_ptr talk_function::temp_npc( const string_id<npc_template> &type )
 void talk_function::field_plant( npc &p, const std::string &place )
 {
     Character &player_character = get_player_character();
-    if( !warm_enough_to_plant( player_character.pos_bub() ) ) {
-        popup( _( "It is too cold to plant anything now." ) );
-        return;
-    }
     std::vector<item *> seed_inv = player_character.cache_get_items_with( "is_seed", &item::is_seed,
     []( const item & itm ) {
         return itm.typeId() != itype_marloss_seed && itm.typeId() != itype_fungal_seeds;
@@ -1578,7 +1574,11 @@ void talk_function::field_plant( npc &p, const std::string &place )
         return;
     }
 
-    const auto &seed_id = seed_types[seed_index];
+    const itype_id &seed_id = seed_types[seed_index];
+    if( !warm_enough_to_plant( player_character.pos_bub(), seed_id ) ) {
+        popup( _( "It is too cold to plant that now." ) );
+        return;
+    }
     if( item::count_by_charges( seed_id ) ) {
         free_seeds = player_character.charges_of( seed_id );
     } else {
