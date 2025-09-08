@@ -21,6 +21,60 @@
   },
   {
     "type": "mapgen",
+    "nested_mapgen_id": "shelter_3x3_staff_room",
+    "object": { "mapgensize": [ 3, 3 ], "rows": [
+        "..l",
+        "...",
+        "r#r"
+      ], "palettes": [ "shelter" ] }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shelter_3x3_office",
+    "object": { "mapgensize": [ 3, 3 ], "rows": [
+        "...",
+        "..h",
+        "6%d"
+      ], "palettes": [ "shelter" ] }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shelter_3x3_office2",
+    "object": { "mapgensize": [ 3, 3 ], "rows": [
+        ".hd",
+        "..y",
+        ".hd"
+      ], "palettes": [ "shelter" ] }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shelter_3x3_office3",
+    "object": { "mapgensize": [ 3, 3 ], "rows": [
+        "..E",
+        "..y",
+        ".hd"
+      ], "palettes": [ "shelter" ] }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shelter_3x3_kitchen",
+    "object": { "mapgensize": [ 3, 3 ], "rows": [
+        ".ht",
+        "..h",
+        "Fc."
+      ], "palettes": [ "shelter" ] }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shelter_3x3_storage",
+    "object": { "mapgensize": [ 3, 3 ], "rows": [
+        "..B",
+        "..U",
+        "R.R"
+      ], "palettes": [ "shelter" ] }
+  },
+  {
+    "type": "mapgen",
     "nested_mapgen_id": "4x4_planksandtools",
     "object": {
       "mapgensize": [ 4, 4 ],
