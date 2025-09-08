@@ -768,6 +768,7 @@ std::vector<std::string> map_data_common_t::extended_description() const
 {
     std::vector<std::string> tmp;
 
+    // FIXME: Does not show map damage.
     tmp.emplace_back( string_format( _( "<header>That is a %s.</header>" ), name() ) );
     tmp.emplace_back( description.translated() );
 

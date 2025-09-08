@@ -6756,6 +6756,17 @@ void game::print_visibility_info( const catacurses::window &w_look, int column, 
     line += 2;
 }
 
+static int percent_terfurn_damage( const tripoint_bub_ms &lp )
+{
+    const map &here = get_map();
+    const double damage_range =
+        std::max( here.bash_strength( lp, true ) - here.bash_resistance( lp, true ), 1 );
+    const double existing_damage = here.get_map_damage( lp );
+    const int percent_damage = std::min( std::round( ( existing_damage / damage_range ) * 100.0 ),
+                                         100.0 );
+    return percent_damage;
+}
+
 void game::print_terrain_info( const tripoint_bub_ms &lp, const catacurses::window &w_look,
                                const std::string &area_name, int column, int &line )
 {
@@ -6763,9 +6774,18 @@ void game::print_terrain_info( const tripoint_bub_ms &lp, const catacurses::wind
 
     const int max_width = getmaxx( w_look ) - column - 1;
 
-    // Print OMT type and terrain type on first two lines
-    // if can't fit in one line.
     std::string tile = uppercase_first_letter( here.tername( lp ) );
+    // Show saved bash damage.
+    // Furniture takes priority, so we don't even check for map damage if a furniture is present.
+    if( !here.has_furn( lp ) ) {
+
+        const int percent_existing_damage = percent_terfurn_damage( lp );
+        if( percent_existing_damage > 0 ) {
+            //~Terrain name (% damaged)
+            tile = string_format( _( "%s (%d%% damaged)" ),
+                                  uppercase_first_letter( here.tername( lp ) ), percent_existing_damage );
+        }
+    }
     std::string area = uppercase_first_letter( area_name );
     if( const timed_event *e = get_timed_events().get( timed_event_type::OVERRIDE_PLACE ) ) {
         area = e->string_id;
@@ -6862,6 +6882,13 @@ void game::print_furniture_info( const tripoint_bub_ms &lp, const catacurses::wi
 
     // Print furniture name in white
     std::string desc = uppercase_first_letter( here.furnname( lp ) );
+    // Show saved bash damage.
+    const int percent_existing_damage = percent_terfurn_damage( lp );
+    if( percent_existing_damage > 0 ) {
+        //~Furniture name (% damaged)
+        desc = string_format( _( "%s (%d%% damaged)" ),
+                              uppercase_first_letter( here.furnname( lp ) ), percent_existing_damage );
+    }
     mvwprintz( w_look, point( column, line++ ), c_white, desc );
 
     // Print each line of furniture description in gray
