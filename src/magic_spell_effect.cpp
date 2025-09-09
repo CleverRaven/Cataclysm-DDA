@@ -660,6 +660,31 @@ static void damage_targets( const spell &sp, Creature &caster,
     }
 }
 
+static void pulp_corpse( item &corpse, int spell_bash_damage, tripoint_bub_ms pos, map &here )
+{
+    if( spell_bash_damage <= 0 || !corpse.can_revive() ) {
+        return;
+    }
+
+    const mtype *corpse_mtype = corpse.get_mtype();
+    if( corpse_mtype == nullptr ) {
+        debugmsg( string_format( "Tried to pulp not-a-corpse (id %s)", corpse.typeId().c_str() ) );
+        return;
+    }
+    int m_health = corpse_mtype->hp;
+    float proportion_to_damage = static_cast<float>( spell_bash_damage ) / static_cast<float>( m_health );
+    // Item max HP is 4000.  Not sure of a good non-magic number source for this.
+    int corpse_damage = proportion_to_damage * 4000;
+    corpse.mod_damage( corpse_damage );
+
+    const int radius = 1 + proportion_to_damage;
+    const tripoint_bub_ms dest( pos + point( rng( -radius, radius ), rng( -radius, radius ) ) );
+    const field_type_id type_blood = proportion_to_damage > 1 ?
+                                         corpse.get_mtype()->gibType() :
+                                         corpse.get_mtype()->bloodType();
+    here.add_splatter_trail( type_blood, pos, dest ); // needs adjustment for one-off rather than many many punches
+}
+
 void spell_effect::attack( const spell &sp, Creature &caster, const tripoint_bub_ms &epicenter )
 {
     const std::set<tripoint_bub_ms> area = spell_effect_area( sp, epicenter, caster );
@@ -668,15 +693,20 @@ void spell_effect::attack( const spell &sp, Creature &caster, const tripoint_bub
         swap_pos( caster, epicenter );
     }
     const double bash_scaling = sp.bash_scaling( caster );
+    // refactor bash spell_effect to just be called here to deduplicate code
     if( bash_scaling > 0 ) {
         ::map &here = get_map();
         for( const tripoint_bub_ms &potential_target : area ) {
-            if( !sp.is_valid_target( caster, potential_target ) ) {
-                continue;
-            }
+            int spell_bash_damage = sp.damage( caster ) * bash_scaling;
             // the bash already makes noise, so no need for spell::make_sound()
-            here.bash( potential_target, sp.damage( caster ) * bash_scaling,
+            here.bash( potential_target, spell_bash_damage,
                        sp.has_flag( spell_flag::SILENT ) );
+            
+            for(item &potential_corpse : here.i_at( potential_target ) ) {
+                if( potential_corpse.can_revive() ) {
+                    pulp_corpse( potential_corpse, spell_bash_damage, potential_target, here );
+                }
+            }
         }
     }
 }
