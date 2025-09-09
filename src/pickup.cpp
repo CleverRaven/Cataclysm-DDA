@@ -221,7 +221,8 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
         }
     }
 
-    if( (info.max_volume != -1_ml && newit.volume() + info.picked_up_volume > info.max_volume) ||  ( info.max_mass != -1_gram && newit.weight() + info.picked_up_mass > info.max_mass ) ) {
+    if( ( info.max_volume != -1_ml && newit.volume() + info.picked_up_volume > info.max_volume ) ||
+        ( info.max_mass != -1_gram && newit.weight() + info.picked_up_mass > info.max_mass ) ) {
         stash_successful = false;
         return false;
     }

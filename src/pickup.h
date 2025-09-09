@@ -20,7 +20,7 @@ namespace Pickup
 /** Pick up information */
 struct pick_info {
     pick_info( int extra_moves_per_distance = 0, units::volume max_volume = -1_ml,
-                        units::mass max_mass = -1_gram ) : extra_moves_per_distance( extra_moves_per_distance ),
+               units::mass max_mass = -1_gram ) : extra_moves_per_distance( extra_moves_per_distance ),
         max_volume( max_volume ), max_mass( max_mass ) {}
 
     void serialize( JsonOut &jsout ) const;
