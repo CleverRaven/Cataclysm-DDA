@@ -7693,7 +7693,7 @@ talk_effect_fun_t::func f_closest_city( const JsonObject &jo, std::string_view m
 }
 
 talk_effect_fun_t::func f_pickup_items( const JsonObject &jo, std::string_view member,
-                                        std::string_view &, bool is_npc )
+                                        std::string_view, bool is_npc )
 {
     var_info target_var = read_var_info( jo.get_object( member ) );
     int extra_moves_per_item = 0;
