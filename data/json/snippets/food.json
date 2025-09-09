@@ -3,7 +3,31 @@
     "type": "snippet",
     "category": "<mixed_chips_flavor>",
     "text": [
-      { "id": "salsa", "text": "Salsa-flavored <shaped_chips>, mildly spicy, with a blend of tomatoes, peppers and onions." },
+      { "id": "barbecue", "text": "Barbecue-flavored <shaped_chips>, spicy, sweet and tangy, taste of paprika and garlic." },
+      {
+        "id": "onion",
+        "text": "Sour cream and onion-flavored <shaped_chips>, sour and tangy, the onion flavor is subtle."
+      },
+      {
+        "id": "cheddar",
+        "text": "Sour cream and cheddar-flavored <shaped_chips>, sour and tangy, the cheddar comes through surprisingly well."
+      },
+      {
+        "id": "vinegar",
+        "text": "Salt and vinegar-flavored <shaped_chips>, the vinegar brings a surprisingly nice, acidic taste."
+      },
+      {
+        "id": "paprika",
+        "text": "Paprika-flavored <shaped_chips>, a classic snack to pair with a bottle of 'Spezi'."
+      },
+      {
+        "id": "alldressed",
+        "text": "'All-dressed' <shaped_chips>, a uniquely Canadian combination of ketchup, BBQ, sour cream & onion, and salt & vinegar flavors.  Better than it sounds."
+      },
+      {
+        "id": "salsa",
+        "text": "Salsa-flavored <shaped_chips>, mildly spicy, with a blend of tomatoes, peppers and onions."
+      },
       { "id": "ketchup", "text": "Ketchup-flavored <shaped_chips>, tangy with a salty punch.  A Canadian classic." },
       {
         "id": "prawn",
