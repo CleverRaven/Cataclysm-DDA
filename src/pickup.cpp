@@ -180,7 +180,7 @@ static bool is_bulk_load( const Pickup::pick_info &lhs, const Pickup::pick_info 
 // Returns false if pickup caused a prompt and the player selected to cancel pickup
 static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &got_gas,
                          PickupMap &mapPickup, bool autopickup, bool &stash_successful, bool &got_frozen_liquid,
-                         Pickup::pick_info &info, Pickup::pickup_constraints &constraints )
+                         Pickup::pick_info &info )
 {
     Character &player_character = get_player_character();
     const map &here = get_map();
@@ -221,7 +221,7 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
         }
     }
 
-    if( (constraints.max_volume != -1_ml && newit.volume() + constraints.picked_up_volume > constraints.max_volume) ||  ( constraints.max_mass != -1_gram && newit.weight() + constraints.picked_up_mass > constraints.max_mass ) ) {
+    if( (info.max_volume != -1_ml && newit.volume() + info.picked_up_volume > info.max_volume) ||  ( info.max_mass != -1_gram && newit.weight() + info.picked_up_mass > info.max_mass ) ) {
         stash_successful = false;
         return false;
     }
@@ -323,17 +323,17 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
         info.set_src( loc );
         info.total_bulk_volume += loc->volume( false, false, quantity );
         int distance = square_dist( player_character.pos_bub(), loc.pos_bub( here ) );
-        constraints.picked_up_volume += newit.volume();
-        constraints.picked_up_mass += newit.weight();
+        info.picked_up_volume += newit.volume();
+        info.picked_up_mass += newit.weight();
         if( !is_bulk_load( pre_info, info ) ) {
             // Cost to take an item from a container or map
             player_character.mod_moves( -( loc.obtain_cost( player_character,
-                                           quantity ) + ( distance * constraints.extra_moves_per_distance ) ) );
+                                           quantity ) + ( distance * info.extra_moves_per_distance ) ) );
         } else {
             // Pure cost to handling item excluding overhead.
             player_character.mod_moves( ( -std::max( player_character.item_handling_cost( *loc, true, 0,
                                           quantity,
-                                          true ), 1 ) + ( distance * constraints.extra_moves_per_distance ) ) );
+                                          true ), 1 ) + ( distance * info.extra_moves_per_distance ) ) );
         }
         contents_change_handler handler;
         handler.unseal_pocket_containing( loc );
@@ -363,14 +363,6 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
                         bool autopickup,
                         bool &stash_successful, Pickup::pick_info &info )
 {
-    Pickup::pickup_constraints constraints = Pickup::pickup_constraints();
-    return do_pickup( targets, quantities, autopickup, stash_successful, info, constraints );
-}
-
-bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &quantities,
-                        bool autopickup,
-                        bool &stash_successful, Pickup::pick_info &info, Pickup::pickup_constraints &constraints )
-{
     bool got_water = false;
     bool got_gas = false;
     bool got_frozen_liquid = false;
@@ -395,7 +387,7 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
             continue;
         }
         problem = !pick_one_up( target, quantity, got_water, got_gas, mapPickup, autopickup,
-                                stash_successful, got_frozen_liquid, info, constraints );
+                                stash_successful, got_frozen_liquid, info );
         if( info.total_bulk_volume > 200_ml ) {
             // Bulk loading is not allowed beyond a certain volume
             info = Pickup::pick_info();
@@ -504,6 +496,11 @@ void Pickup::pick_info::serialize( JsonOut &jsout ) const
     jsout.member( "src_pos", src_pos );
     jsout.member( "src_container", src_container );
     jsout.member( "dst", dst );
+    jsout.member( "extra_moves_per_distance", extra_moves_per_distance );
+    jsout.member( "picked_up_volume", picked_up_volume );
+    jsout.member( "max_volume", max_volume );
+    jsout.member( "picked_up_mass", picked_up_mass );
+    jsout.member( "max_mass", max_mass );
     jsout.end_object();
 }
 
@@ -516,6 +513,11 @@ void Pickup::pick_info::deserialize( const JsonObject &jsobj )
     jsobj.read( "src_pos", src_pos );
     jsobj.read( "src_container", src_container );
     jsobj.read( "dst", dst );
+    jsobj.read( "extra_moves_per_distance", extra_moves_per_distance );
+    jsobj.read( "picked_up_volume", picked_up_volume );
+    jsobj.read( "max_volume", max_volume );
+    jsobj.read( "picked_up_mass", picked_up_mass );
+    jsobj.read( "max_mass", max_mass );
 }
 
 void Pickup::pick_info::set_src( const item_location &src_ )

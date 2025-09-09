@@ -119,7 +119,7 @@ drop_locations pickup( const std::set<tripoint_bub_ms> &targets,
                        const std::vector<drop_location> &selection );
 drop_locations pickup( const std::set<tripoint_bub_ms> &targets,
                        const std::vector<drop_location> &selection,
-                       Pickup::pickup_constraints &constraints );
+                       Pickup::pick_info &info );
 
 drop_locations smoke_food( Character &you, units::volume total_capacity,
                            units::volume used_capacity );

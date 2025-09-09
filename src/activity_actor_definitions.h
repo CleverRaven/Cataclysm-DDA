@@ -540,7 +540,6 @@ class pickup_activity_actor : public activity_actor
         std::vector<item_location> target_items;
         std::vector<int> quantities;
         Pickup::pick_info info;
-        Pickup::pickup_constraints constraints;
 
         /**
          * Position of the character when the activity is started. This is
@@ -556,14 +555,14 @@ class pickup_activity_actor : public activity_actor
                                const std::optional<tripoint_bub_ms> &starting_pos, bool autopickup ) : target_items( target_items ),
             quantities( quantities ), starting_pos( starting_pos ), stash_successful( true ),
             autopickup( autopickup ) {
-                constraints = Pickup::pickup_constraints();
+                info = Pickup::pick_info();
             }
         pickup_activity_actor( const std::vector<item_location> &target_items,
                                const std::vector<int> &quantities,
                                const std::optional<tripoint_bub_ms> &starting_pos,
-                               bool autopickup, Pickup::pickup_constraints constraints ) : target_items( target_items ),
+                               bool autopickup, Pickup::pick_info info ) : target_items( target_items ),
             quantities( quantities ), starting_pos( starting_pos ), stash_successful( true ),
-            autopickup( autopickup ), constraints( constraints ) {}
+            autopickup( autopickup ), info( info ) {}
 
         /**
           * Used to check at the end of a pickup activity if the character was able
