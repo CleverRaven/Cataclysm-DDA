@@ -2168,6 +2168,19 @@ public:
     };
 };
 
+struct percentile_reader : public generic_typed_reader<percentile_reader> {
+    double lower;
+    double upper;
+
+    explicit percentile_reader( double l = std::numeric_limits<double>::max(),
+                                double h = std::numeric_limits<double>::max() ) : lower( l ), upper( h ) {}
+
+    double get_next( const JsonValue &jv ) const {
+        double ret = jv.get_float() / 100.0;
+        return bound_check( lower, upper, jv, ret );
+    }
+};
+
 struct weakpoints;
 
 struct weakpoints_reader : generic_typed_reader<weakpoints_reader> {
