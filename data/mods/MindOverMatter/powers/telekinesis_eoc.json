@@ -85,10 +85,8 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_TELEKINETIC_FAR_HAND_GET_ITEMS",
-    "effect": [
-      { "npc_pickup_items": { "context_val": "spell_location" } }
-    ]
+    "id": "EOC_TELEKINETIC_FAR_HAND_SELECTOR_PULL",
+    "effect": { "u_cast_spell": { "id": "telekinetic_item_pull_real" }, "targeted": true }
   },
   {
     "type": "effect_on_condition",
