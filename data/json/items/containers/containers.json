@@ -5194,56 +5194,56 @@
     "variants": [
       {
         "id": "plain",
-        "name": "small bag of plain chips",
+        "name": "small plain chips bag",
         "expand_snippets": true,
         "description": "A <color>-colored bag of chips with <color_yellow>'Classic'</color> on the front, along with pictures of chips printed on it.",
         "weight": 33
       },
       {
         "id": "barbecue",
-        "name": "small bag of barbecue-flavored chips",
+        "name": "small barbecue-flavored chips bag",
         "expand_snippets": true,
         "description": "A <color>-colored bag of chips with <color_yellow>'Barbecue'</color> on the front, along with pictures of chips, brochettes and a grill printed on it.",
         "weight": 21
       },
       {
         "id": "onion",
-        "name": "small bag of sourcream & onion-flavored chips",
+        "name": "small sour cream & onion-flavored chips bag",
         "expand_snippets": true,
-        "description": "A <color>-colored bag of chips with <color_yellow>'Sourcream & Onion'</color> on the front, along with pictures of chips, a cup of white sauce and an onion printed on it.",
+        "description": "A <color>-colored bag of chips with <color_yellow>'Sour cream & Onion'</color> on the front, along with pictures of chips, a cup of white sauce and an onion printed on it.",
         "weight": 12
       },
       {
         "id": "cheddar",
-        "name": "small bag of sourcream & cheddar-flavored chips",
+        "name": "small sour cream & cheddar-flavored chips bag",
         "expand_snippets": true,
-        "description": "A <color>-colored bag of chips with <color_yellow>'Sourcream & Cheddar'</color> on the front, along with pictures of chips, a cup of white sauce and a block of cheddar.",
+        "description": "A <color>-colored bag of chips with <color_yellow>'Sour cream & Cheddar'</color> on the front, along with pictures of chips, a cup of white sauce and a block of cheddar.",
         "weight": 10
       },
       {
         "id": "vinegar",
-        "name": "small bag of salt & vinegar-flavored chips",
+        "name": "small salt & vinegar-flavored chips bag",
         "expand_snippets": true,
         "description": "A <color>-colored bag of chips with <color_yellow>'Salt & Vinegar'</color> on the front, along with pictures of chips, a salt shaker and a pepper shaker printed on it.",
         "weight": 9
       },
       {
         "id": "paprika",
-        "name": "small bag of paprika-flavored chips",
+        "name": "small paprika-flavored chips bag",
         "expand_snippets": true,
         "description": "A <color>-colored bag of chips with <color_yellow>'Paprika'</color> on the front, along with pictures of chips and a cup of red spice printed on it.",
         "weight": 6
       },
       {
         "id": "alldressed",
-        "name": "small bag of all-dressed-flavored chips",
+        "name": "small all-dressed-flavored chips bag",
         "expand_snippets": true,
         "description": "A <color>-colored bag of chips with <color_yellow>'All Dressed'</color> on the front, along with pictures of chips, and a bunch of different ingredients printed on it.",
         "weight": 6
       },
       {
         "id": "mixed",
-        "name": "small bag of mixed chips",
+        "name": "small mixed chips bag",
         "expand_snippets": true,
         "description": "A <color>-colored bag of chips with <color_yellow>'All mixed up'</color> on the front, along with pictures of a bunch of different chips and ingredients printed on it.",
         "weight": 5
@@ -5267,56 +5267,56 @@
     "variants": [
       {
         "id": "plain",
-        "name": "bag of plain chips",
+        "name": "plain chips bag",
         "expand_snippets": true,
         "description": "A <color>-colored bag of chips with <color_yellow>'Classic'</color> on the front, along with pictures of chips printed on it.",
         "weight": 33
       },
       {
         "id": "barbecue",
-        "name": "bag of barbecue-flavored chips",
+        "name": "barbecue-flavored chips bag",
         "expand_snippets": true,
         "description": "A <color>-colored bag of chips with <color_yellow>'Barbecue'</color> on the front, along with pictures of chips, brochettes and a grill printed on it.",
         "weight": 21
       },
       {
         "id": "onion",
-        "name": "bag of sourcream & onion-flavored chips",
+        "name": "sour cream & onion-flavored chips bag",
         "expand_snippets": true,
-        "description": "A <color>-colored bag of chips with <color_yellow>'Sourcream & Onion'</color> on the front, along with pictures of chips, a cup of white sauce and an onion printed on it.",
+        "description": "A <color>-colored bag of chips with <color_yellow>'Sour cream & Onion'</color> on the front, along with pictures of chips, a cup of white sauce and an onion printed on it.",
         "weight": 12
       },
       {
         "id": "cheddar",
-        "name": "bag of sourcream & cheddar-flavored chips",
+        "name": "sour cream & cheddar-flavored chips bag",
         "expand_snippets": true,
-        "description": "A <color>-colored bag of chips with <color_yellow>'Sourcream & Cheddar'</color> on the front, along with pictures of chips, a cup of white sauce and a block of cheddar.",
+        "description": "A <color>-colored bag of chips with <color_yellow>'Sour cream & Cheddar'</color> on the front, along with pictures of chips, a cup of white sauce and a block of cheddar.",
         "weight": 10
       },
       {
         "id": "vinegar",
-        "name": "bag of salt & vinegar-flavored chips",
+        "name": "salt & vinegar-flavored chips bag",
         "expand_snippets": true,
         "description": "A <color>-colored bag of chips with <color_yellow>'Salt & Vinegar'</color> on the front, along with pictures of chips, a salt shaker and a pepper shaker printed on it.",
         "weight": 9
       },
       {
         "id": "paprika",
-        "name": "bag of paprika-flavored chips",
+        "name": "paprika-flavored chips bag",
         "expand_snippets": true,
         "description": "A <color>-colored bag of chips with <color_yellow>'Paprika'</color> on the front, along with pictures of chips and a cup of red spice printed on it.",
         "weight": 6
       },
       {
         "id": "alldressed",
-        "name": "bag of all-dressed-flavored chips",
+        "name": "all-dressed-flavored chips bag",
         "expand_snippets": true,
         "description": "A <color>-colored bag of chips with <color_yellow>'All Dressed'</color> on the front, along with pictures of chips, and a bunch of different ingredients printed on it.",
         "weight": 6
       },
       {
         "id": "mixed",
-        "name": "bag of mixed chips",
+        "name": "mixed chips bag",
         "expand_snippets": true,
         "description": "A <color>-colored bag of chips with <color_yellow>'All mixed up'</color> on the front, along with pictures of a bunch of different chips and ingredients printed on it.",
         "weight": 5
@@ -5340,56 +5340,56 @@
     "variants": [
       {
         "id": "plain",
-        "name": "large bag of plain chips",
+        "name": "large plain chips bag",
         "expand_snippets": true,
         "description": "A <color>-colored bag of chips with <color_yellow>'Classic'</color> on the front, along with pictures of chips printed on it.",
         "weight": 33
       },
       {
         "id": "barbecue",
-        "name": "large bag of barbecue-flavored chips",
+        "name": "large barbecue-flavored chips bag",
         "expand_snippets": true,
         "description": "A <color>-colored bag of chips with <color_yellow>'Barbecue'</color> on the front, along with pictures of chips, brochettes and a grill printed on it.",
         "weight": 21
       },
       {
         "id": "onion",
-        "name": "large bag of sourcream & onion-flavored chips",
+        "name": "large sour cream & onion-flavored chips bag",
         "expand_snippets": true,
-        "description": "A <color>-colored bag of chips with <color_yellow>'Sourcream & Onion'</color> on the front, along with pictures of chips, a cup of white sauce and an onion printed on it.",
+        "description": "A <color>-colored bag of chips with <color_yellow>'Sour cream & Onion'</color> on the front, along with pictures of chips, a cup of white sauce and an onion printed on it.",
         "weight": 12
       },
       {
         "id": "cheddar",
-        "name": "large bag of sourcream & cheddar-flavored chips",
+        "name": "large sour cream & cheddar-flavored chips bag",
         "expand_snippets": true,
-        "description": "A <color>-colored bag of chips with <color_yellow>'Sourcream & Cheddar'</color> on the front, along with pictures of chips, a cup of white sauce and a block of cheddar.",
+        "description": "A <color>-colored bag of chips with <color_yellow>'Sour cream & Cheddar'</color> on the front, along with pictures of chips, a cup of white sauce and a block of cheddar.",
         "weight": 10
       },
       {
         "id": "vinegar",
-        "name": "large bag of salt & vinegar-flavored chips",
+        "name": "large salt & vinegar-flavored chips bag",
         "expand_snippets": true,
         "description": "A <color>-colored bag of chips with <color_yellow>'Salt & Vinegar'</color> on the front, along with pictures of chips, a salt shaker and a pepper shaker printed on it.",
         "weight": 9
       },
       {
         "id": "paprika",
-        "name": "large bag of paprika-flavored chips",
+        "name": "large paprika-flavored chips bag",
         "expand_snippets": true,
         "description": "A <color>-colored bag of chips with <color_yellow>'Paprika'</color> on the front, along with pictures of chips and a cup of red spice printed on it.",
         "weight": 6
       },
       {
         "id": "alldressed",
-        "name": "large bag of all-dressed-flavored chips",
+        "name": "large all-dressed-flavored chips bag",
         "expand_snippets": true,
         "description": "A <color>-colored bag of chips with <color_yellow>'All Dressed'</color> on the front, along with pictures of chips, and a bunch of different ingredients printed on it.",
         "weight": 6
       },
       {
         "id": "mixed",
-        "name": "large bag of mixed chips",
+        "name": "large mixed chips bag",
         "expand_snippets": true,
         "description": "A <color>-colored bag of chips with <color_yellow>'All mixed up'</color> on the front, along with pictures of a bunch of different chips and ingredients printed on it.",
         "weight": 5

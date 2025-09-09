@@ -862,16 +862,16 @@
       },
       {
         "id": "onion",
-        "name": { "str_sp": "sourcream & onion-flavored chips" },
+        "name": { "str_sp": "sour cream & onion-flavored chips" },
         "expand_snippets": true,
-        "description": "Sourcream and onion-flavored <shaped_chips> chips, sour and tangy, the onion flavor is subtle.",
+        "description": "Sour cream and onion-flavored <shaped_chips> chips, sour and tangy, the onion flavor is subtle.",
         "weight": 12
       },
       {
         "id": "cheddar",
-        "name": { "str_sp": "sourcream & cheddar-flavored chips" },
+        "name": { "str_sp": "sour cream & cheddar-flavored chips" },
         "expand_snippets": true,
-        "description": "Sourcream and cheddar-flavored <shaped_chips> chips, sour and tangy, the cheddar comes through surprisingly well.",
+        "description": "Sour cream and cheddar-flavored <shaped_chips> chips, sour and tangy, the cheddar comes through surprisingly well.",
         "weight": 10
       },
       {
