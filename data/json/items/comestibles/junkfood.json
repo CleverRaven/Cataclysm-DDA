@@ -892,7 +892,7 @@
         "id": "alldressed",
         "name": { "str_sp": "all-dressed-flavored chips" },
         "expand_snippets": true,
-        "description": "'All-dressed' <shaped_chips> chips, a uniquely Canadian combination of ketchup, BBQ, sour cream & onion, and salt & vinegar flavors. Better than it sounds.",
+        "description": "'All-dressed' <shaped_chips> chips, a uniquely Canadian combination of ketchup, BBQ, sour cream & onion, and salt & vinegar flavors.  Better than it sounds.",
         "weight": 6
       },
       {
