@@ -4362,7 +4362,6 @@ void pickup_selector::reopen_menu()
 {
     // copy the member variables to still be valid on call
     uistate.open_menu = [where = where, to_use = to_use]() {
-        std::optional<tripoint_bub_ms> temp;
         get_player_character().pick_up( game_menus::inv::pickup( where, to_use ) );
     };
 }
