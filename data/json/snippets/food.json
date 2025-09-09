@@ -1,0 +1,34 @@
+[
+  {
+    "type": "snippet",
+    "category": "<mixed_chips_flavor>",
+    "text": [
+      { "id": "salsa", "text": "Salsa-flavored <shaped_chips>, mildly spicy, with a blend of tomatoes, peppers and onions." },
+      { "id": "ketchup", "text": "Ketchup-flavored <shaped_chips>, tangy with a salty punch.  A Canadian classic." },
+      {
+        "id": "prawn",
+        "text": "Neither prawn nor cocktail, these tangy tomato, mayo and condiment flavored <shaped_chips> taste like nothing you'd eat in food form."
+      },
+      { "id": "jalapeño", "text": "Jalapeño-flavored <shaped_chips>, spicy and slightly pickle-y." },
+      { "id": "sriracha", "text": "Sriracha-flavored <shaped_chips>, tangy and sweet, with a lingering heat." },
+      {
+        "id": "herbs",
+        "text": "Yoghurt and herbs-flavored <shaped_chips> with a creamy taste and fresh notes of dill and parsley."
+      },
+      {
+        "id": "aspic",
+        "text": "Aspic and horseradish-flavored <shaped_chips>, meaty with a pungent horseradish taste."
+      },
+      {
+        "id": "dickle",
+        "text": "Dill and pickle-flavored <shaped_chips>, sour with a crisp vinegar bite, very divisive."
+      },
+      { "id": "chili", "text": "Chili-flavored <shaped_chips>, spicy, sweet and smoky, tasting of pepper and cumin." }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<shaped_chips>",
+    "text": [ "wavy chips", "chips" ]
+  }
+]

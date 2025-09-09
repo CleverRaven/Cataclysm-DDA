@@ -5176,5 +5176,100 @@
     "symbol": "o",
     "color": "white",
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "45 ml", "max_contains_weight": "30 g" } ]
+  },
+  {
+    "id": "bag_chips_small",
+    "copy-from": "bag_plastic_small",
+    "type": "ITEM",
+    "name": "small chips bag",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "200 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 400
+      }
+    ],
+    "variants": [
+      {
+        "id": "plain",
+        "expand_snippets": true,
+        "description": "A <color>-colored bag of chips with <color_yellow>'Classic'</color> on the front, along with pictures of chips printed on it.",
+        "weight": 33
+      },
+      {
+        "id": "barbecue",
+        "expand_snippets": true,
+        "description": "A <color>-colored bag of chips with <color_yellow>'Barbecue'</color> on the front, along with pictures of chips, brochettes and a grill printed on it.",
+        "weight": 21
+      },
+      {
+        "id": "onion",
+        "expand_snippets": true,
+        "description": "A <color>-colored bag of chips with <color_yellow>'Sourcream & Onion'</color> on the front, along with pictures of chips, a cup of white sauce and an onion printed on it.",
+        "weight": 12
+      },
+      {
+        "id": "cheddar",
+        "expand_snippets": true,
+        "description": "A <color>-colored bag of chips with <color_yellow>'Sourcream & Cheddar'</color> on the front, along with pictures of chips, a cup of white sauce and a block of cheddar.",
+        "weight": 10
+      },
+      {
+        "id": "vinegar",
+        "expand_snippets": true,
+        "description": "A <color>-colored bag of chips with <color_yellow>'Salt & Vinegar'</color> on the front, along with pictures of chips, a salt shaker and a pepper shaker printed on it.",
+        "weight": 9
+      },
+      {
+        "id": "paprika",
+        "expand_snippets": true,
+        "description": "A <color>-colored bag of chips with <color_yellow>'Paprika'</color> on the front, along with pictures of chips and a cup of red spice printed on it.",
+        "weight": 6
+      },
+      {
+        "id": "alldressed",
+        "expand_snippets": true,
+        "description": "A <color>-colored bag of chips with <color_yellow>'All Dressed'</color> on the front, along with pictures of chips, and a bunch of different ingredients printed on it.",
+        "weight": 6
+      },
+      {
+        "id": "mixed",
+        "expand_snippets": true,
+        "description": "      A <color>-colored bag of chips with <color_yellow>'All mixed up'</color> on the front, along with pictures of a bunch of different chips and ingredients printed on it.",
+        "weight": 5
+      }
+    ]
+  },
+  {
+    "id": "bag_chips_medium",
+    "copy-from": "bag_chips_small",
+    "type": "ITEM",
+    "name": { "str": "chips bag" },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 400
+      }
+    ]
+  },
+  {
+    "id": "bag_chips_large",
+    "copy-from": "bag_chips_small",
+    "type": "ITEM",
+    "name": { "str": "large chips bag" },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "600 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 400
+      }
+    ]
   }
 ]
