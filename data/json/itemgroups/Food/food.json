@@ -1532,144 +1532,168 @@
   },
   {
     "type": "item_group",
+    "subtype": "distribution",
     "id": "bag_chips_small_plain",
     "container-item": { "item": "bag_chips_small", "variant": "plain" },
     "items": [ { "item": "chips", "variant": "plain", "count": 1 } ]
   },
   {
     "type": "item_group",
+    "subtype": "distribution",
     "id": "bag_chips_medium_plain",
     "container-item": { "item": "bag_chips_medium", "variant": "plain" },
     "items": [ { "item": "chips", "variant": "plain", "count": 2 } ]
   },
   {
     "type": "item_group",
+    "subtype": "distribution",
     "id": "bag_chips_large_plain",
     "container-item": { "item": "bag_chips_large", "variant": "plain" },
     "items": [ { "item": "chips", "variant": "plain", "count": 3 } ]
   },
   {
     "type": "item_group",
+    "subtype": "distribution",
     "id": "bag_chips_small_barbecue",
     "container-item": { "item": "bag_chips_small", "variant": "barbecue" },
     "items": [ { "item": "chips", "variant": "barbecue", "count": 1 } ]
   },
   {
     "type": "item_group",
+    "subtype": "distribution",
     "id": "bag_chips_medium_barbecue",
     "container-item": { "item": "bag_chips_medium", "variant": "barbecue" },
     "items": [ { "item": "chips", "variant": "barbecue", "count": 2 } ]
   },
   {
     "type": "item_group",
+    "subtype": "distribution",
     "id": "bag_chips_large_barbecue",
     "container-item": { "item": "bag_chips_large", "variant": "barbecue" },
     "items": [ { "item": "chips", "variant": "barbecue", "count": 3 } ]
   },
   {
     "type": "item_group",
+    "subtype": "distribution",
     "id": "bag_chips_small_onion",
     "container-item": { "item": "bag_chips_small", "variant": "onion" },
     "items": [ { "item": "chips", "variant": "onion", "count": 1 } ]
   },
   {
     "type": "item_group",
+    "subtype": "distribution",
     "id": "bag_chips_medium_onion",
     "container-item": { "item": "bag_chips_medium", "variant": "onion" },
     "items": [ { "item": "chips", "variant": "onion", "count": 2 } ]
   },
   {
     "type": "item_group",
+    "subtype": "distribution",
     "id": "bag_chips_large_onion",
     "container-item": { "item": "bag_chips_large", "variant": "onion" },
     "items": [ { "item": "chips", "variant": "onion", "count": 3 } ]
   },
   {
     "type": "item_group",
+    "subtype": "distribution",
     "id": "bag_chips_small_cheddar",
     "container-item": { "item": "bag_chips_small", "variant": "cheddar" },
     "items": [ { "item": "chips", "variant": "cheddar", "count": 1 } ]
   },
   {
     "type": "item_group",
+    "subtype": "distribution",
     "id": "bag_chips_medium_cheddar",
     "container-item": { "item": "bag_chips_medium", "variant": "cheddar" },
     "items": [ { "item": "chips", "variant": "cheddar", "count": 2 } ]
   },
   {
     "type": "item_group",
+    "subtype": "distribution",
     "id": "bag_chips_large_cheddar",
     "container-item": { "item": "bag_chips_large", "variant": "cheddar" },
     "items": [ { "item": "chips", "variant": "cheddar", "count": 3 } ]
   },
   {
     "type": "item_group",
+    "subtype": "distribution",
     "id": "bag_chips_small_vinegar",
     "container-item": { "item": "bag_chips_small", "variant": "vinegar" },
     "items": [ { "item": "chips", "variant": "vinegar", "count": 1 } ]
   },
   {
     "type": "item_group",
+    "subtype": "distribution",
     "id": "bag_chips_medium_vinegar",
     "container-item": { "item": "bag_chips_medium", "variant": "vinegar" },
     "items": [ { "item": "chips", "variant": "vinegar", "count": 2 } ]
   },
   {
     "type": "item_group",
+    "subtype": "distribution",
     "id": "bag_chips_large_vinegar",
     "container-item": { "item": "bag_chips_large", "variant": "vinegar" },
     "items": [ { "item": "chips", "variant": "vinegar", "count": 3 } ]
   },
   {
     "type": "item_group",
+    "subtype": "distribution",
     "id": "bag_chips_small_paprika",
     "container-item": { "item": "bag_chips_small", "variant": "paprika" },
     "items": [ { "item": "chips", "variant": "paprika", "count": 1 } ]
   },
   {
     "type": "item_group",
+    "subtype": "distribution",
     "id": "bag_chips_medium_paprika",
     "container-item": { "item": "bag_chips_medium", "variant": "paprika" },
     "items": [ { "item": "chips", "variant": "paprika", "count": 2 } ]
   },
   {
     "type": "item_group",
+    "subtype": "distribution",
     "id": "bag_chips_large_paprika",
     "container-item": { "item": "bag_chips_large", "variant": "paprika" },
     "items": [ { "item": "chips", "variant": "paprika", "count": 3 } ]
   },
   {
     "type": "item_group",
+    "subtype": "distribution",
     "id": "bag_chips_small_alldressed",
     "container-item": { "item": "bag_chips_small", "variant": "alldressed" },
     "items": [ { "item": "chips", "variant": "alldressed", "count": 1 } ]
   },
   {
     "type": "item_group",
+    "subtype": "distribution",
     "id": "bag_chips_medium_alldressed",
     "container-item": { "item": "bag_chips_medium", "variant": "alldressed" },
     "items": [ { "item": "chips", "variant": "alldressed", "count": 2 } ]
   },
   {
     "type": "item_group",
+    "subtype": "distribution",
     "id": "bag_chips_large_alldressed",
     "container-item": { "item": "bag_chips_large", "variant": "alldressed" },
     "items": [ { "item": "chips", "variant": "alldressed", "count": 3 } ]
   },
   {
     "type": "item_group",
+    "subtype": "distribution",
     "id": "bag_chips_small_mixed",
     "container-item": { "item": "bag_chips_small", "variant": "mixed" },
     "items": [ { "item": "chips", "variant": "mixed", "count": 1 } ]
   },
   {
     "type": "item_group",
+    "subtype": "distribution",
     "id": "bag_chips_medium_mixed",
     "container-item": { "item": "bag_chips_medium", "variant": "mixed" },
     "items": [ { "item": "chips", "variant": "mixed", "count": 2 } ]
   },
   {
     "type": "item_group",
+    "subtype": "distribution",
     "id": "bag_chips_large_mixed",
     "container-item": { "item": "bag_chips_large", "variant": "mixed" },
     "items": [ { "item": "chips", "variant": "mixed", "count": 3 } ]
