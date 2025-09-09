@@ -857,42 +857,42 @@
         "id": "barbecue",
         "name": { "str_sp": "barbecue-flavored chips" },
         "expand_snippets": true,
-        "description": "Barbecue-flavored <shaped_chips> chips, spicy, sweet and tangy, taste of paprika and garlic.",
+        "description": "Barbecue-flavored <shaped_chips>, spicy, sweet and tangy, taste of paprika and garlic.",
         "weight": 21
       },
       {
         "id": "onion",
         "name": { "str_sp": "sour cream & onion-flavored chips" },
         "expand_snippets": true,
-        "description": "Sour cream and onion-flavored <shaped_chips> chips, sour and tangy, the onion flavor is subtle.",
+        "description": "Sour cream and onion-flavored <shaped_chips>, sour and tangy, the onion flavor is subtle.",
         "weight": 12
       },
       {
         "id": "cheddar",
         "name": { "str_sp": "sour cream & cheddar-flavored chips" },
         "expand_snippets": true,
-        "description": "Sour cream and cheddar-flavored <shaped_chips> chips, sour and tangy, the cheddar comes through surprisingly well.",
+        "description": "Sour cream and cheddar-flavored <shaped_chips>, sour and tangy, the cheddar comes through surprisingly well.",
         "weight": 10
       },
       {
         "id": "vinegar",
         "name": { "str_sp": "salt & vinegar-flavored chips" },
         "expand_snippets": true,
-        "description": "Salt and vinegar-flavored <shaped_chips> chips, the vinegar brings a surprisingly nice, acidic taste.",
+        "description": "Salt and vinegar-flavored <shaped_chips>, the vinegar brings a surprisingly nice, acidic taste.",
         "weight": 9
       },
       {
         "id": "paprika",
         "name": { "str_sp": "paprika-flavored chips" },
         "expand_snippets": true,
-        "description": "Paprika-flavored <shaped_chips> chips, a classic snack to pair with a bottle of 'Spezi'.",
+        "description": "Paprika-flavored <shaped_chips>, a classic snack to pair with a bottle of 'Spezi'.",
         "weight": 6
       },
       {
         "id": "alldressed",
         "name": { "str_sp": "all-dressed-flavored chips" },
         "expand_snippets": true,
-        "description": "'All-dressed' <shaped_chips> chips, a uniquely Canadian combination of ketchup, BBQ, sour cream & onion, and salt & vinegar flavors.  Better than it sounds.",
+        "description": "'All-dressed' <shaped_chips>, a uniquely Canadian combination of ketchup, BBQ, sour cream & onion, and salt & vinegar flavors.  Better than it sounds.",
         "weight": 6
       },
       {
