@@ -183,9 +183,9 @@
     "components": [
       [ [ "veggy_potatolike", 1, "LIST" ], [ "carrot", 3 ], [ "carrot_wild", 3 ] ],
       [ [ "salt", 2 ], [ "seasoning_salt", 2 ] ],
-      [ [ "cooking_oil", 30 ] ]
+      [ [ "cooking_oil", 60 ] ]
     ],
-    "byproducts": [ [ "cooking_oil", 27 ] ],
+    "byproducts": [ [ "cooking_oil", 57 ] ],
     "charges": 3
   },
   {
