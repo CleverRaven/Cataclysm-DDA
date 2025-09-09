@@ -7696,12 +7696,25 @@ talk_effect_fun_t::func f_pickup_items( const JsonObject &jo, std::string_view m
                                       std::string_view src, bool is_npc )
 {
     var_info target_var = read_var_info( jo.get_object( member ) );
-    return [is_npc, target_var] ( dialogue const & d ) {
+    int extra_moves_per_item = 0;
+    units::volume max_volume = -1_ml;
+    units::mass max_mass = -1_gram;
+    if( jo.has_int( "extra_moves_per_item" ) ) {
+        extra_moves_per_item = jo.get_int( "extra_moves_per_item" );
+    }
+    if( jo.has_float( "max_volume" ) ) {
+        max_volume =  units::from_liter( jo.get_float( "max_volume" ));
+    }
+    if( jo.has_float( "max_mass" ) ) {
+        max_mass = units::from_gram( jo.has_float( "max_mass" ) );
+    }
+    return [is_npc, target_var, extra_moves_per_item, max_volume, max_mass] ( dialogue const & d ) {
         tripoint_abs_ms target_pos_abs = read_var_value( target_var, d ).tripoint();
         tripoint_bub_ms target_pos = get_map().get_bub( target_pos_abs );
         Character *c = d.actor( is_npc )->get_character();
+        Pickup::pick_info info = Pickup::pick_info( extra_moves_per_item, max_volume, max_mass );
         if( c ) {
-            (*c).pick_up( game_menus::inv::pickup( {target_pos} ) );
+            (*c).pick_up( game_menus::inv::pickup( {target_pos}, {}, info ) );
         }
     };
 }
