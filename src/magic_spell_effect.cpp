@@ -1923,7 +1923,9 @@ void spell_effect::pickup( const spell &sp, Creature &caster,
             valid_targets.emplace( potential_target );
         }
     }
-    Pickup::pick_info pickup_info = Pickup::pick_info( 75, -1_ml, 1_gram );
+
+    int extra_moves_per_pickup = sp.damage( caster );
+    Pickup::pick_info pickup_info = Pickup::pick_info( extra_moves_per_pickup >= 0 ? extra_moves_per_pickup : 0, -1_ml, -1_gram );
     (*c).pick_up( game_menus::inv::pickup( valid_targets, {}, pickup_info ), pickup_info );
 
 }
