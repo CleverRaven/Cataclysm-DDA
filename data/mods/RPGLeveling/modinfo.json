@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "rpg_leveling",
+    "name": "RPG Leveling (formerly Stats Through Kills)",
+    "authors": [ "KamikazieBoater" ],
+    "maintainers": [ "KamikazieBoater" ],
+    "description": "Modernization of the Stats Through Kills mod, taking design inspiration from Bombastic Perks, while avoiding using mutations to modify attributes, instead using math functions to modify base stats. Perhaps expansion could add enchantment data to the primary mutation, allowing for more than simple stat changes on level up without bloating traits.",
+    "category": "misc_additions",
+    "dependencies": [ "dda" ]
+  }
+]

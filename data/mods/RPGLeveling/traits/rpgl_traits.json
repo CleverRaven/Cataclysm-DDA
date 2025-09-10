@@ -1,0 +1,13 @@
+[
+  {
+    "type": "mutation",
+    "id": "rpgl_container",
+    "name": { "str": "RPG Leveling" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Container trait for RPG leveling mechanics. Activate to access the main RPG leveling menu.",
+    "active": true,
+    "activated_eocs": [ "EOC_rpgl_open_menu" ]
+  }
+]

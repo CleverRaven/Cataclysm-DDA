@@ -1,0 +1,128 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_RPGL_MENU_MAIN",
+    "dynamic_line": "Level: <u_val:rpgl_level> (Max: <u_val:rpgl_max_level>)\nPoints: <u_val:rpgl_points>\nEXP: <u_val:rpgl_exp_current>.\nEXP for next level: <u_val:rpgl_exp_to_level>",
+    "responses": [
+      {
+        "condition": { "and": [ { "math": [ "u_rpgl_points > 0" ] }, { "math": [ "u_val('strength_base') < 20" ] } ] },
+        "text": "Gain Strength",
+        "failure_explanation": "Requirements: at least 1 point, base stat < 20",
+        "failure_topic": "TALK_RPGL_MENU_FAIL",
+        "effect": [ { "math": [ "u_val('strength_base')++" ] }, { "math": [ "u_rpgl_points--" ] } ],
+        "topic": "TALK_RPGL_MENU_MAIN"
+      },
+      {
+        "condition": { "and": [ { "math": [ "u_rpgl_points > 0" ] }, { "math": [ "u_val('dexterity_base') < 20" ] } ] },
+        "text": "Gain Dexterity",
+        "failure_explanation": "Requirements: at least 1 point, base stat < 20",
+        "failure_topic": "TALK_RPGL_MENU_FAIL",
+        "effect": [ { "math": [ "u_val('dexterity_base')++" ] }, { "math": [ "u_rpgl_points--" ] } ],
+        "topic": "TALK_RPGL_MENU_MAIN"
+      },
+      {
+        "condition": { "and": [ { "math": [ "u_rpgl_points > 0" ] }, { "math": [ "u_val('intelligence_base') < 20" ] } ] },
+        "text": "Gain Intelligence",
+        "failure_explanation": "Requirements: at least 1 point, base stat < 20",
+        "failure_topic": "TALK_RPGL_MENU_FAIL",
+        "effect": [ { "math": [ "u_val('intelligence_base')++" ] }, { "math": [ "u_rpgl_points--" ] } ],
+        "topic": "TALK_RPGL_MENU_MAIN"
+      },
+      {
+        "condition": { "and": [ { "math": [ "u_rpgl_points > 0" ] }, { "math": [ "u_val('perception_base') < 20" ] } ] },
+        "text": "Gain Perception",
+        "failure_explanation": "Requirements: at least 1 point, base stat < 20",
+        "failure_topic": "TALK_RPGL_MENU_FAIL",
+        "effect": [ { "math": [ "u_val('perception_base')++" ] }, { "math": [ "u_rpgl_points--" ] } ],
+        "topic": "TALK_RPGL_MENU_MAIN"
+      },
+      { "text": "Settings", "topic": "TALK_RPGL_MENU_CONFIG" },
+      { "text": "Quit", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RPGL_MENU_CONFIG",
+    "dynamic_line": "Choose settings to modify",
+    "responses": [
+      { "text": "Notifications", "topic": "TALK_RPGL_MENU_LEVEL_NOTIFICATIONS" },
+      { "text": "Max Level", "topic": "TALK_RPGL_MENU_MAX_LEVEL" },
+      { "text": "Exp Formula", "topic": "TALK_RPGL_MENU_EXP_FORMULA" },
+      { "text": "Back", "topic": "TALK_RPGL_MENU_MAIN" },
+      { "text": "Quit", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RPGL_MENU_LEVEL_NOTIFICATIONS",
+    "dynamic_line": "Should the menu pop up on level up?",
+    "responses": [
+      {
+        "text": "Yes",
+        "effect": { "math": [ "u_rpgl_silent = 0" ] },
+        "condition": { "math": [ "u_rpgl_silent != 0" ] },
+        "failure_explanation": "Pop-up already enabled",
+        "failure_topic": "TALK_RPGL_MENU_CONFIG",
+        "topic": "TALK_RPGL_MENU_CONFIG"
+      },
+      {
+        "text": "No",
+        "effect": { "math": [ "u_rpgl_silent = 1" ] },
+        "condition": { "math": [ "u_rpgl_silent != 1" ] },
+        "failure_explanation": "Pop-up already disabled",
+        "failure_topic": "TALK_RPGL_MENU_CONFIG",
+        "topic": "TALK_RPGL_MENU_CONFIG"
+      },
+      { "text": "Back", "topic": "TALK_RPGL_MENU_CONFIG" },
+      { "text": "Quit", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RPGL_MENU_MAX_LEVEL",
+    "dynamic_line": "Set max level for RPG leveling (-1 = disabled). (Default: 20; Current: <u_val:rpgl_max_level>)",
+    "responses": [
+      {
+        "text": "Disable",
+        "effect": { "math": [ "u_rpgl_max_level = -1" ] },
+        "condition": { "math": [ "u_rpgl_max_level >= 0" ] },
+        "failure_explanation": "Max level aready disabled",
+        "failure_topic": "TALK_RPGL_MENU_MAX_LEVEL",
+        "topic": "TALK_RPGL_MENU_MAX_LEVEL"
+      },
+      {
+        "text": "Enter custom value",
+        "effect": { "math": [ "u_rpgl_max_level = max(num_input('Enter max level', 20), 0)" ] },
+        "topic": "TALK_RPGL_MENU_MAX_LEVEL"
+      },
+      { "text": "Back", "topic": "TALK_RPGL_MENU_CONFIG" },
+      { "text": "Quit", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RPGL_MENU_EXP_FORMULA",
+    "dynamic_line": "Edit exp formula for leveling. Format: (constant) * (level + 1).\nDefault: 1000\nCurrent Formula: (<u_val:rpgl_exp_const>) * (<u_val:rpgl_level> + 1)\nEXP: <u_val:rpgl_exp_current>.\nEXP for next level: <u_val:rpgl_exp_to_level>\nNote: any changes to the formula will not affect levels already earned, and future levels are only determined on exp gain.",
+    "responses": [
+      {
+        "text": "Enter custom value",
+        "effect": [
+          { "math": [ "u_rpgl_exp_const = max(num_input('Enter constant multiplier for exp to next level', 1000), 0)" ] },
+          { "run_eocs": "EOC_rpgl_exp_to_level" }
+        ],
+        "condition": { "math": [ "u_rpgl_exp_const >= 0" ] },
+        "failure_explanation": "Cannot set a constant multiplier below 0",
+        "failure_topic": "TALK_RPGL_MENU_EXP_FORMULA",
+        "topic": "TALK_RPGL_MENU_EXP_FORMULA"
+      },
+      { "text": "Back", "topic": "TALK_RPGL_MENU_CONFIG" },
+      { "text": "Quit", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RPGL_MENU_FAIL",
+    "dynamic_line": "You don't have a level point, or don't meet the requirements for this upgrade.",
+    "responses": [ { "text": "Back", "topic": "TALK_RPGL_MENU_MAIN" }, { "text": "Quit", "topic": "TALK_DONE" } ]
+  }
+]

@@ -1,0 +1,71 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_rpgl_open_menu",
+    "effect": [ { "open_dialogue": { "topic": "TALK_RPGL_MENU_MAIN" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_rpgl_game_start",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "condition": { "and": [ { "not": { "u_has_trait": "rpgl_container" } } ] },
+    "effect": [
+      {
+        "u_message": "RPG Leveling loaded!  You should now have a mutation called \"RPG Leveling\" that can be activated at any time to access the level-up and configuration menus.  If you do not, you can enable the mod manually by activating the \"EOC_rpgl_init\" EOC in debug."
+      },
+      { "run_eocs": "EOC_rpgl_init" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_rpgl_init",
+    "condition": { "and": [ { "not": { "u_has_trait": "rpgl_container" } } ] },
+    "effect": [
+      { "math": [ "u_rpgl_exp_to_level = 1000" ] },
+      { "math": [ "u_rpgl_exp_const = 1000" ] },
+      { "math": [ "u_rpgl_exp_current = 0" ] },
+      { "math": [ "u_rpgl_exp_spent = 0" ] },
+      { "math": [ "u_rpgl_level = 0" ] },
+      { "math": [ "u_rpgl_max_level = 20" ] },
+      { "math": [ "u_rpgl_points = 0" ] },
+      { "math": [ "u_rpgl_silent = 0" ] },
+      { "u_add_trait": "rpgl_container" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_rpgl_on_kill_update",
+    "eoc_type": "EVENT",
+    "required_event": "character_kills_monster",
+    "effect": [ { "math": [ "u_rpgl_exp_current = u_val('exp') - u_rpgl_exp_spent" ] }, { "run_eocs": "EOC_rpgl_level_up" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_rpgl_exp_to_level",
+    "effect": [ { "math": [ "u_rpgl_exp_to_level = u_rpgl_exp_const * (u_rpgl_level + 1)" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_rpgl_level_up",
+    "condition": {
+      "and": [
+        { "math": [ "u_rpgl_exp_current >= u_rpgl_exp_to_level" ] },
+        { "or": [ { "math": [ "u_rpgl_level < u_rpgl_max_level" ] }, { "math": [ "u_rpgl_max_level < 0" ] } ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_rpgl_points++" ] },
+      { "math": [ "u_rpgl_level++" ] },
+      { "math": [ "u_rpgl_exp_spent += u_rpgl_exp_to_level" ] },
+      { "math": [ "u_rpgl_exp_current -= u_rpgl_exp_to_level" ] },
+      { "run_eocs": [ "EOC_rpgl_exp_to_level", "EOC_rpgl_level_up_notification" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_rpgl_level_up_notification",
+    "condition": { "math": [ "u_rpgl_silent != 1" ] },
+    "effect": [ { "open_dialogue": { "topic": "TALK_RPGL_MENU_MAIN" } } ]
+  }
+]
