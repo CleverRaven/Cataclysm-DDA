@@ -473,7 +473,7 @@ std::set<tripoint_bub_ms> calculate_spell_effect_area( const spell &sp,
     return targets;
 }
 
-static std::set<tripoint_bub_ms> spell_effect_area( const spell &sp, const tripoint_bub_ms &target,
+std::set<tripoint_bub_ms> spell_effect::spell_effect_area( const spell &sp, const tripoint_bub_ms &target,
         const Creature &caster )
 {
     // calculate spell's effect area

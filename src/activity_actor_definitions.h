@@ -2450,6 +2450,36 @@ class unload_loot_activity_actor : public activity_actor
         tripoint_abs_ms placement;
 };
 
+class assisted_pulp_activity_actor : public activity_actor
+{
+    public:
+        enum class assisted_pulp_type : int { spell };
+
+        assisted_pulp_activity_actor() = default;
+        assisted_pulp_activity_actor( const tripoint_bub_ms &target, spell &sp ) : assist_type( assisted_pulp_type::spell ), target( target ), sp( sp ) {}
+        const activity_id &get_type() const override {
+            static const activity_id ACT_ASSISTED_PULP( "ACT_ASSISTED_PULP" );
+            return ACT_ASSISTED_PULP;
+        }
+
+        void start( player_activity &act, Character &you ) override;
+        void do_turn( player_activity &act, Character &you ) override;
+        void finish( player_activity &, Character & ) override;
+
+
+    private:
+        // recalculates the corpses set.  Returns if there are any pulpable corpses left.
+        bool calculate_corpses_in_area( Character &you );
+
+        tripoint_bub_ms target;
+        assisted_pulp_type assist_type;
+        std::set<item> corpses;
+        int num_corpses = 0;
+
+        // spell pulping
+        spell &sp;
+};
+
 class pulp_activity_actor : public activity_actor
 {
     public:

@@ -109,6 +109,7 @@
 #include "vpart_range.h"
 
 static const activity_id ACT_AIM( "ACT_AIM" );
+static const activity_id ACT_ASSISTED_PULP( "ASSISTED_PULP" );
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
 static const activity_id ACT_BASH( "ACT_BASH" );
 static const activity_id ACT_BIKERACK_RACKING( "ACT_BIKERACK_RACKING" );
@@ -8689,6 +8690,68 @@ std::unique_ptr<activity_actor> wash_activity_actor::deserialize( JsonValue &jsi
     data.read( "water", actor.requirements.water );
     data.read( "cleanser", actor.requirements.cleanser );
     return actor.clone();
+}
+
+bool assisted_pulp_activity_actor::calculate_corpses_in_area( Character &you )
+{
+    map &here = get_map();
+    corpses = {};
+    if( assist_type == assisted_pulp_type::spell ) {
+        const std::set<tripoint_bub_ms> area = spell_effect::spell_effect_area( sp, target, you );
+
+        for( const tripoint_bub_ms &potential_target : area ) {
+            if( !sp.is_valid_target( you, potential_target ) ) {
+                continue;
+            }
+            for( item &potential_corpse : here.i_at( potential_target ) ) {
+                if( potential_corpse.can_revive() ) {
+                    corpses.insert( potential_corpse );
+                }
+            }
+        }
+    }
+    return !corpses.empty();
+}
+
+void assisted_pulp_activity_actor::start( player_activity &act, Character &you )
+{
+    // indefinitely long so activity won't end until we pulp all the corpses
+    // we then end the activity manually
+    act.moves_total = calendar::INDEFINITELY_LONG;
+    act.moves_left = calendar::INDEFINITELY_LONG;
+
+    if( assist_type == assisted_pulp_type::spell) {
+        if( !calculate_corpses_in_area( you ) ) { // Immediately stop activity if no corpses to pulp
+            act.set_to_null();
+            return;
+        }
+    } else {
+        debugmsg("%s tried assisted pulping without a valid assisted pulp type!", you.name );
+        act.set_to_null();
+        return;
+    }
+}
+
+void assisted_pulp_activity_actor::do_turn( player_activity &act, Character &you )
+{
+
+    if( assist_type == assisted_pulp_type::spell ) {
+        you.cast_spell( sp, false, target );
+    }
+
+    // If nothing to pulp, stop the activity.
+    if( !calculate_corpses_in_area( you ) ) {
+        act.moves_total = 0;
+        act.moves_left = 0;
+    }
+}
+
+void assisted_pulp_activity_actor::finish( player_activity &act, Character &you )
+{
+    act.moves_total = 0;
+    act.moves_left = 0;
+
+    act.set_to_null();
 }
 
 void pulp_activity_actor::start( player_activity &act, Character &you )
