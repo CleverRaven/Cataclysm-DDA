@@ -1799,9 +1799,7 @@ void spell_effect::mutate( const spell &sp, Creature &caster, const tripoint_bub
 
 void spell_effect::bash( const spell &sp, Creature &caster, const tripoint_bub_ms &target )
 {
-    ::map &here = get_map();
-    const std::set<tripoint_bub_ms> area = spell_effect_area( sp, target, caster );
-    spell_bash_area( sp, caster, area, 1.0 );
+    spell_bash_area( sp, caster, spell_effect_area( sp, target, caster ), 1.0 );
 }
 
 void spell_effect::dash( const spell &sp, Creature &caster, const tripoint_bub_ms &target )
