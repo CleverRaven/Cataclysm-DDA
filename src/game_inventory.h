@@ -27,7 +27,10 @@ enum efile_action : int;
 using item_filter = std::function<bool( const item & )>;
 using item_location_filter = std::function<bool ( const item_location & )>;
 
-namespace Pickup { struct pick_info; }
+namespace Pickup
+{
+struct pick_info;
+}
 
 /**
 * A boiled-down shortcut for inventory_selector_preset.

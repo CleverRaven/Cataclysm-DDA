@@ -91,7 +91,10 @@ namespace catacurses
 {
 class window;
 }  // namespace catacurses
-namespace Pickup { struct pick_info; }
+namespace Pickup
+{
+struct pick_info;
+}
 
 enum action_id : int;
 enum class proficiency_bonus_type : int;
