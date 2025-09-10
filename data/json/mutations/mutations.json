@@ -5792,6 +5792,7 @@
     "points": 1,
     "vitamin_cost": 80,
     "visibility": 4,
+    "ugliness": 1,
     "description": "Your ears have extended into long, pointed, velvety ones, like those of a feline.  You find it easier to tune in on sounds from afar.",
     "types": [ "EARS" ],
     "category": [ "FELINE" ],
