@@ -660,16 +660,16 @@ static void damage_targets( const spell &sp, Creature &caster,
     }
 }
 
-static void pulp_corpse( item &corpse, int spell_bash_damage, tripoint_bub_ms pos, map &here )
+static bool pulp_corpse( item &corpse, int spell_bash_damage, tripoint_bub_ms pos, map &here )
 {
     if( spell_bash_damage <= 0 || !corpse.can_revive() ) {
-        return;
+        return false;
     }
 
     const mtype *corpse_mtype = corpse.get_mtype();
     if( corpse_mtype == nullptr ) {
         debugmsg( string_format( "Tried to pulp not-a-corpse (id %s)", corpse.typeId().c_str() ) );
-        return;
+        return false;
     }
     int m_health = corpse_mtype->hp;
     float proportion_to_damage = static_cast<float>( spell_bash_damage ) / static_cast<float>( m_health );
@@ -677,12 +677,15 @@ static void pulp_corpse( item &corpse, int spell_bash_damage, tripoint_bub_ms po
     int corpse_damage = proportion_to_damage * 4000;
     corpse.mod_damage( corpse_damage );
 
-    const int radius = 1 + proportion_to_damage;
+    const int radius = 1 + std::min(2.0f, proportion_to_damage / 2);
     const tripoint_bub_ms dest( pos + point( rng( -radius, radius ), rng( -radius, radius ) ) );
     const field_type_id type_blood = proportion_to_damage > 1 ?
                                          corpse.get_mtype()->gibType() :
                                          corpse.get_mtype()->bloodType();
-    here.add_splatter_trail( type_blood, pos, dest ); // needs adjustment for one-off rather than many many punches
+    // here.add_splatter_trail( type_blood, pos, dest ); // needs adjustment for one-off rather than many many punches
+    here.add_splash( type_blood, pos, radius, 2 );
+
+    return !corpse.can_revive();
 }
 
 static void spell_bash_area( const spell &sp, Creature &caster, const std::set<tripoint_bub_ms> area, double damage_modifier = 1.0 )
