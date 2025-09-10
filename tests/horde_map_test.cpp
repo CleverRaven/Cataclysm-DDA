@@ -31,7 +31,8 @@ static tripoint_om_ms pick_available_location( horde_map &test_horde )
 static int count_entities( horde_map &test_horde, int filter )
 {
     int entity_count = 0;
-    for( std::pair<const tripoint_abs_ms, horde_entity> &entity : test_horde.get_view( filter ) ) {
+    for( [[maybe_unused]]std::pair<const tripoint_abs_ms, horde_entity> &entity : test_horde.get_view(
+             filter ) ) {
         entity_count++;
     }
     return entity_count;
@@ -81,7 +82,7 @@ TEST_CASE( "horde_map_insertion_and_retrieval", "[hordes]" )
     place_entity( test_horde, mon_pseudo_dormant_zombie );
 
     int entity_count = 0;
-    for( std::pair<const tripoint_abs_ms, horde_entity> &entity : test_horde ) {
+    for( [[maybe_unused]]std::pair<const tripoint_abs_ms, horde_entity> &entity : test_horde ) {
         entity_count++;
     }
     CHECK( entity_count == 6 );
@@ -107,7 +108,7 @@ TEST_CASE( "horde_map_insertion_and_retrieval", "[hordes]" )
     test_horde.insert( std::move( idle_node ) );
 
     entity_count = 0;
-    for( std::pair<const tripoint_abs_ms, horde_entity> &entity : test_horde ) {
+    for( [[maybe_unused]]std::pair<const tripoint_abs_ms, horde_entity> &entity : test_horde ) {
         entity_count++;
     }
     CHECK( entity_count == 6 );
@@ -123,12 +124,12 @@ TEST_CASE( "horde_map_corner_cases", "[hordes]" )
 {
     // Make sure iterator handling is ok with empty container.
     horde_map test_horde;
-    for( std::pair<const tripoint_abs_ms, horde_entity> &entity : test_horde ) {
+    for( [[maybe_unused]]std::pair<const tripoint_abs_ms, horde_entity> &entity : test_horde ) {
         FAIL( "Unreachable loop entered, should not happen with empty horde_map." );
     }
     // Populated container but accessed in a way that filters out everything.
     place_entity( test_horde, mon_zombie );
-    for( std::pair<const tripoint_abs_ms, horde_entity> &entity : test_horde.get_view(
+    for( [[maybe_unused]]std::pair<const tripoint_abs_ms, horde_entity> &entity : test_horde.get_view(
              horde_map_flavors::active ) ) {
         FAIL( "Unreachable loop entered, should not happen with empty horde_map." );
     }
