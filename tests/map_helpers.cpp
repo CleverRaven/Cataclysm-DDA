@@ -185,6 +185,11 @@ monster &spawn_test_monster( const std::string &monster_type, const tripoint_bub
     REQUIRE( !type.is_null() );
     REQUIRE( get_creature_tracker().creature_at( start ) == nullptr );
     monster mon( type );
+    map &here = get_map();
+    CAPTURE( here.ter( start ) );
+    CAPTURE( here.furn( start ) );
+    CAPTURE( here.tr_at( start ) );
+    CAPTURE( here.move_cost( start ) );
     REQUIRE( mon.will_move_to( start ) );
     REQUIRE( mon.know_danger_at( start ) );
 
