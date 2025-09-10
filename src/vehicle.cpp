@@ -122,6 +122,7 @@ static const itype_id itype_battery( "battery" );
 static const itype_id itype_generic_folded_vehicle( "generic_folded_vehicle" );
 static const itype_id itype_plut_cell( "plut_cell" );
 static const itype_id itype_plut_slurry_dense( "plut_slurry_dense" );
+static const itype_id itype_seed_buckwheat( "seed_buckwheat" );
 static const itype_id itype_wall_wiring( "wall_wiring" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
@@ -6071,7 +6072,8 @@ void vehicle::idle( map &here, bool on_map )
         engine_on = false;
     }
 
-    if( !warm_enough_to_plant( player_character.pos_bub( here ) ) ) {
+    // FIXME/HACK: Always checks buckwheat seeds!
+    if( !warm_enough_to_plant( player_character.pos_bub( here ), itype_seed_buckwheat ) ) {
         for( int i : planters ) {
             vehicle_part &vp = parts[ i ];
             if( vp.enabled ) {
