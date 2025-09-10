@@ -678,11 +678,9 @@ static bool pulp_corpse( item &corpse, int spell_bash_damage, tripoint_bub_ms po
     corpse.mod_damage( corpse_damage );
 
     const int radius = 1 + std::min(2.0f, proportion_to_damage / 2);
-    const tripoint_bub_ms dest( pos + point( rng( -radius, radius ), rng( -radius, radius ) ) );
     const field_type_id type_blood = proportion_to_damage > 1 ?
                                          corpse.get_mtype()->gibType() :
                                          corpse.get_mtype()->bloodType();
-    // here.add_splatter_trail( type_blood, pos, dest ); // needs adjustment for one-off rather than many many punches
     here.add_splash( type_blood, pos, radius, 2 );
 
     return !corpse.can_revive();
