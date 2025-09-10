@@ -561,7 +561,7 @@ class pickup_activity_actor : public activity_actor
         pickup_activity_actor( const std::vector<item_location> &target_items,
                                const std::vector<int> &quantities,
                                const std::optional<tripoint_bub_ms> &starting_pos,
-                               bool autopickup, Pickup::pick_info info ) : target_items( target_items ),
+                               bool autopickup, Pickup::pick_info &info ) : target_items( target_items ),
             quantities( quantities ), info( info ), starting_pos( starting_pos ), stash_successful( true ),
             autopickup( autopickup ) {}
 
