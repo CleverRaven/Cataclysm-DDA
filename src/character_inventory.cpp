@@ -34,6 +34,7 @@
 #include "map.h"
 #include "map_selector.h"
 #include "options.h"
+#include "pickup.h"
 #include "pimpl.h"
 #include "pocket_type.h"
 #include "ret_val.h"

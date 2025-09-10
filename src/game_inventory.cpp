@@ -48,6 +48,7 @@
 #include "npctrade.h"
 #include "options.h"
 #include "output.h"
+#include "pickup.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "pocket_type.h"

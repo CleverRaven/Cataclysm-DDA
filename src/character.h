@@ -43,7 +43,6 @@
 #include "item_location.h"
 #include "memory_fast.h"
 #include "monster.h"
-#include "pickup.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "pocket_type.h"
@@ -92,6 +91,8 @@ namespace catacurses
 {
 class window;
 }  // namespace catacurses
+namespace Pickup { struct pick_info; }
+
 enum action_id : int;
 enum class proficiency_bonus_type : int;
 enum class recipe_filter_flags : int;

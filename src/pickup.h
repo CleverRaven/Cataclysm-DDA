@@ -3,7 +3,6 @@
 #define CATA_SRC_PICKUP_H
 
 #include <vector>
-#include <limits>
 
 #include "coordinates.h"
 #include "item_location.h"

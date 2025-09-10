@@ -106,6 +106,7 @@
 #include "output.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
+#include "pickup.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "pocket_type.h"

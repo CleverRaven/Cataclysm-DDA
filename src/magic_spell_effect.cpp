@@ -55,6 +55,7 @@
 #include "mtype.h"
 #include "npc.h"
 #include "overmapbuffer.h"
+#include "pickup.h"
 #include "pimpl.h"
 #include "point.h"
 #include "projectile.h"

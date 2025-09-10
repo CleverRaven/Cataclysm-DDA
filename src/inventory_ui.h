@@ -11,6 +11,7 @@
 #include <list>
 #include <memory>
 #include <optional>
+#include <set>
 #include <string>
 #include <string_view>
 #include <utility>
@@ -28,7 +29,7 @@
 #include "pocket_type.h"
 #include "point.h"
 #include "translations.h"
-#include "units_fwd.h"
+#include "units.h"
 
 class Character;
 class JsonObject;
