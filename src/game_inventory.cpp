@@ -2461,7 +2461,7 @@ drop_locations game_menus::inv::pickup( const std::set<tripoint_bub_ms> &targets
     pick_s.set_title( _( "Pickup" ) );
 
     if( pick_s.empty() ) {
-        if( targets.size() > 0 ) {
+        if( !targets.empty() ) {
             add_msg( _( "There is nothing to pick up." ) );
         } else {
             add_msg( _( "There is nothing to pick up nearby." ) );

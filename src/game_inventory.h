@@ -30,7 +30,7 @@ using item_location_filter = std::function<bool ( const item_location & )>;
 namespace Pickup
 {
 struct pick_info;
-}
+} // namespace Pickup
 
 /**
 * A boiled-down shortcut for inventory_selector_preset.

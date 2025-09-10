@@ -94,7 +94,7 @@ class window;
 namespace Pickup
 {
 struct pick_info;
-}
+} // namespace Pickup
 
 enum action_id : int;
 enum class proficiency_bonus_type : int;
