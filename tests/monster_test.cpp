@@ -48,6 +48,7 @@ static const furn_str_id furn_f_null( "f_null" );
 
 static const mtype_id mon_dog_zombie_brute( "mon_dog_zombie_brute" );
 static const mtype_id mon_test_zombie( "mon_test_zombie" );
+static const mtype_id mon_pseudo_dormant_zombie( "mon_pseudo_dormant_zombie" );
 static const mtype_id mon_zombie( "mon_zombie" );
 
 static const ter_str_id ter_t_fence( "t_fence" );
@@ -934,7 +935,7 @@ TEST_CASE( "monster_cant_enter_reality_bubble_because_wall", "[monster][hordes]"
 }
 
 static void walk_toward_monster_off_the_map( tripoint_bub_ms monster_spawn_location_rel,
-        point walk_direction )
+        point walk_direction, mtype_id id = mon_test_zombie )
 {
     clear_map();
     map &here = get_map();
@@ -942,12 +943,15 @@ static void walk_toward_monster_off_the_map( tripoint_bub_ms monster_spawn_locat
     tripoint_bub_ms player_start_pos{ 11 * 6, 11 * 6, 0 };
     CAPTURE( monster_spawn_location_rel );
     tripoint_abs_ms monster_spawn_location = here.get_abs( monster_spawn_location_rel );
+    CAPTURE( monster_spawn_location );
     Character &test_player = get_player_character();
     // Player spawned at known location.
     test_player.setpos( here, player_start_pos );
 
     // Place monster in overmap::monster_map off the edge of the reality bubble.
-    overmap_buffer.spawn_monster( monster_spawn_location, mon_test_zombie );
+    REQUIRE( nullptr == overmap_buffer.entity_at( monster_spawn_location ) );
+    overmap_buffer.spawn_monster( monster_spawn_location, id );
+    REQUIRE( nullptr != overmap_buffer.entity_at( monster_spawn_location ) );
 
     // move player toward monster, triggering map shifts
     int num_steps = 0;
@@ -964,7 +968,7 @@ static void walk_toward_monster_off_the_map( tripoint_bub_ms monster_spawn_locat
             wipe_map_terrain();
         }
         for( monster &critter : g->all_monsters() ) {
-            if( critter.type->id != mon_test_zombie ) {
+            if( critter.type->id != id ) {
                 g->remove_zombie( critter );
             } else {
                 // Zombie should not have moved much.
@@ -1067,4 +1071,39 @@ TEST_CASE( "obstacles_placed_on_map_are_present_in_overmap", "[map][hordes]" )
         REQUIRE( !here.inbounds( expected_passable ) );
         CHECK( overmap_buffer.passable( expected_passable ) );
     }
+}
+
+TEST_CASE( "dormant_zombies_spawn_correctly", "[hordes][monster][map]" )
+{
+    map &here = get_map();
+    tripoint_bub_ms origin_of_center_of_map{ 5 * 12, 5 * 12, 0 };
+    tripoint_bub_ms omt_origin_to_east_of_map = origin_of_center_of_map + point( 12 * 8, 0 );
+    tripoint_bub_ms spawn_location_bub = omt_origin_to_east_of_map + point( 6, 6 );
+    tripoint_abs_ms expected_monster_location = here.get_abs( spawn_location_bub );
+    walk_toward_monster_off_the_map( spawn_location_bub, point::east, mon_pseudo_dormant_zombie );
+    // Verify it places the special dormant monster trap and corpse
+    // In case it places them on an obstacle, might need to scan around for it
+    creature_tracker &creatures = get_creature_tracker();
+    for( shared_ptr_fast<monster> creature : creatures.get_monsters_list() ) {
+        // We've asserted that there is only one already, so this should be it.
+        CHECK( creature->type->id == mon_pseudo_dormant_zombie );
+        CHECK( creature->pos_abs() == expected_monster_location );
+        // Give the monster a chance to act.
+        creature->move();
+    }
+    g->cleanup_dead();
+    // Check in a radius?
+    tripoint_bub_ms monster_location = here.get_bub( expected_monster_location );
+    CHECK( here.tr_at( monster_location ) == trap_id( "tr_dormant_corpse" ) );
+    bool found_corpse = false;
+    for( item &itm : here.i_at( monster_location ) ) {
+        // Can be multiples_kist need one corpse.
+        if( itm.is_corpse() ) {
+            found_corpse = true;
+            break;
+        }
+    }
+    CHECK( found_corpse );
+    // The monster should be replaced by the trap and corpse.
+    CHECK( g->num_creatures() == 1 );
 }
