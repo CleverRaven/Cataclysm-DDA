@@ -477,8 +477,6 @@ Explain that degraded items are degraded
 Message to player when UPS equipment runs out of power.
 Construction interface shows prerequisite furniture/terrain flags
 Default android sidebar changed to sidebar-mobile
-Most prompts for a number now default to the current or target value
-Mission UI: Update how locations are displayed
 
 
 ## Mods:
@@ -900,18 +898,6 @@ Aftershock: Vehicle bay City Building a mix between mechanic garage, gas station
 [Mods] Your gear doesn't protect you when you're shapeshifted
 [Mods] If you have a broken limb and are in a shapeshifted form, you can't fly
 [DDotD] Add drag down attack when you're grabbed and surrounded
-[MoM] Rework crystal field spawns
-[MoM] Silent One adjustments
-Aftershock: Replace remaining vanilla robots with more setting appropriate ones
-[MoM] Reduce incidence of meditation books in esoteric_books
-Manually update 0.I for 82706
-Aftershock: Harvest snow with shovels
-Add MYOPIC_SUPERNATURAL and MYOPIC_IN_LIGHT_SUPERNATURAL flags
-[Magiclysm] The Forge Lords won't take clothes
-Aftershock: Harvest snow with shovels
-[Magiclysm] Spellcasting profs adjustments
-[MoM] Silent Ones can detect active channeling too
-[XE] Vampire drinking and gazes adjustments.
 
 
 ## Balance:
@@ -1014,11 +1000,6 @@ Adjust Precise Strike melee tech so it also cant stun what other stun-causing te
 Adds cuvettes to analysis kit crafting recipe, increase analysis kit weight.
 Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
 Tree bashing from being cut down is not a magic wand
-Chimera should live up to it's research notes
-Worthless scraps are now worthless
-Change "The first day of the rest of their unlives" achievement time passed requirement from 24h to 16h
-No one will buy `FILTHY` clothing
-LIXA adjustments
 
 
 ## Bugfixes:
@@ -1399,12 +1380,6 @@ Fix deserialization error with power level
 Power grid deleted on ship movement
 AIM uilist submenu shaking violently.
 fix zones disabling on save/load
-Fix chitinous scale mail hoods having 0 encumbrance
-Fix turret install requirements
-fix desert_region typo
-Lixa orientation migration
-[Xedra Evolved/Innawood] Homullus camp needs the MAN_MADE flag
-[MoM] Cracks in reality are outdoor only
 
 
 ## Performance:
@@ -1581,13 +1556,6 @@ Use optional/mandatory for weather type, trap, start location, scent map, profes
 Check for unused extend/delete/proportional/relative with mandatory
 Begin moving duplicated UI code to new helpers library
 zzip.exe: a tool for manipulating compressed save 'zzip' files.
-Use optional/mandatory for some iuse actors
-Add debug menu entry to spawn npc in player faction
-Move vpslots to use optional/mandatory
-Use optional/mandatory in place of assign in monstergenerator.cpp
-Weighted list improvements
-add TFLAG_REGION_PSEUDO flag for region terrain/furniture
-Use optional/mandatory for all iuse actors
 
 
 ## Build:
