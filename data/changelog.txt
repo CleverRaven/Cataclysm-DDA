@@ -155,6 +155,7 @@ Player assigned Points of interest visible as Mission markers
 Enable save compression by default for new worlds
 display item name and owner for stealing prompt
 Monsters can now see you if you're invisible and they have the TRUESIGHT monster flag
+Make player go back to previous position when safemode is triggered
 
 
 
