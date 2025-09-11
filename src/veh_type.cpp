@@ -12,7 +12,6 @@
 #include <unordered_set>
 
 #include "ammo.h"
-#include "assign.h"
 #include "cata_assert.h"
 #include "catacharset.h"
 #include "character.h"
@@ -240,10 +239,8 @@ void vpart_info::handle_inheritance( const vpart_info &copy_from,
     }
 }
 
-void vpart_info::load( const JsonObject &jo, const std::string &src )
+void vpart_info::load( const JsonObject &jo, const std::string_view src )
 {
-    const bool strict = src == "dda";
-
     optional( jo, was_loaded, "name", name_ );
     optional( jo, was_loaded, "item", base_item );
     optional( jo, was_loaded, "remove_as", removed_item );
@@ -267,12 +264,8 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "color", color, nc_color_reader{}, c_light_gray );
     optional( jo, was_loaded, "broken_color", color_broken, nc_color_reader{}, c_light_gray );
     optional( jo, was_loaded, "comfort", comfort, 0 );
-    int legacy_floor_bedding_warmth = units::to_legacy_bodypart_temp_delta( floor_bedding_warmth );
-    assign( jo, "floor_bedding_warmth", legacy_floor_bedding_warmth, strict );
-    floor_bedding_warmth = units::from_legacy_bodypart_temp_delta( legacy_floor_bedding_warmth );
-    int legacy_bonus_fire_warmth_feet = units::to_legacy_bodypart_temp_delta( bonus_fire_warmth_feet );
-    assign( jo, "bonus_fire_warmth_feet", legacy_bonus_fire_warmth_feet, strict );
-    bonus_fire_warmth_feet = units::from_legacy_bodypart_temp_delta( legacy_bonus_fire_warmth_feet );
+    optional( jo, was_loaded, "floor_bedding_warmth", floor_bedding_warmth, 0_C_delta );
+    optional( jo, was_loaded, "bonus_fire_warmth_feet", bonus_fire_warmth_feet, 0.6_C_delta );
 
     int enchant_num = 0;
     for( JsonValue jv : jo.get_array( "enchantments" ) ) {
@@ -1297,116 +1290,95 @@ static std::pair<std::string, std::string> get_vpart_str_variant( const std::str
            : std::make_pair( vpid.substr( 0, loc ), vpid.substr( loc + 1 ) );
 }
 
+struct veh_proto_part_def_reader : generic_typed_reader<veh_proto_part_def_reader> {
+    point_rel_ms pos;
+
+    explicit veh_proto_part_def_reader( const point_rel_ms &p ) : pos( p ) {}
+
+    vehicle_prototype::part_def get_next( const JsonValue &jv ) const {
+        vehicle_prototype::part_def ret;
+        if( jv.test_string() ) {
+            const auto [id, variant] = get_vpart_str_variant( jv.get_string() );
+            ret.part = vpart_id( id );
+            ret.variant = variant;
+            ret.pos = pos;
+            return ret;
+        }
+        JsonObject jo = jv.get_object();
+        const auto [id, variant] = get_vpart_str_variant( jo.get_string( "part" ) );
+        ret.part = vpart_id( id );
+        ret.variant = variant;
+        ret.pos = pos;
+
+        optional( jo, false, "ammo", ret.with_ammo, numeric_bound_reader{0, 100}, 0 );
+        optional( jo, false, "ammo_types", ret.ammo_types, string_id_reader<itype> {} );
+        optional( jo, false, "ammo_qty", ret.ammo_qty, { -1, -1 } );
+        optional( jo, false, "fuel", ret.fuel, itype_id::NULL_ID() );
+        optional( jo, false, "tools", ret.tools, string_id_reader<itype> {} );
+        return ret;
+    }
+
+};
+
+struct veh_spawn_item_reader : generic_typed_reader<veh_spawn_item_reader> {
+    std::pair<itype_id, std::string> get_next( const JsonValue &jv ) const {
+        if( jv.test_string() ) {
+            return std::make_pair( itype_id( jv.get_string() ), "" );
+        }
+        JsonObject jo = jv.get_object();
+        std::pair<itype_id, std::string> ret;
+        mandatory( jo, false, "id", ret.first );
+        optional( jo, false, "variant", ret.second );
+        return ret;
+    }
+};
+
+void vehicle_item_spawn::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "x", pos.x() );
+    mandatory( jo, false, "y", pos.y() );
+
+    mandatory( jo, false, "chance", chance, numeric_bound_reader{ 0, 100 } );
+
+    // constrain both with_magazine and with_ammo to [0-100]
+    optional( jo, false, "magazine", with_magazine, numeric_bound_reader{ 0, 100 }, 0 );
+    optional( jo, false, "ammo", with_ammo, numeric_bound_reader{ 0, 100 }, 0 );
+
+    optional( jo, false, "items", item_ids, veh_spawn_item_reader{} );
+    optional( jo, false, "item_groups", item_groups, string_id_reader<Item_spawn_data> {} );
+}
+
+void vehicle_prototype::zone_def::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "type", zone_type );
+    mandatory( jo, false, "x", pt.x() );
+    mandatory( jo, false, "y", pt.y() );
+    optional( jo, false, "name", name );
+    optional( jo, false, "filter", filter );
+}
+
 void vehicle_prototype::load( const JsonObject &jo, std::string_view )
 {
     vgroups[vgroup_id( id.str() )].add_vehicle( id, 100 );
     optional( jo, was_loaded, "name", name );
-
-    const auto add_part_obj = [&]( const JsonObject & part, point_rel_ms pos ) {
-        const auto [id, variant] = get_vpart_str_variant( part.get_string( "part" ) );
-        part_def pt;
-        pt.part = vpart_id( id );
-        pt.variant = variant;
-        pt.pos = pos;
-
-        assign( part, "ammo", pt.with_ammo, true, 0, 100 );
-        assign( part, "ammo_types", pt.ammo_types, true );
-        assign( part, "ammo_qty", pt.ammo_qty, true, 0 );
-        assign( part, "fuel", pt.fuel, true );
-        assign( part, "tools", pt.tools, true );
-
-        parts.emplace_back( pt );
-    };
-
-    const auto add_part_string = [&]( const std::string & part, point_rel_ms pos ) {
-        const auto [id, variant] = get_vpart_str_variant( part );
-        part_def pt;
-        pt.part = vpart_id( id );
-        pt.variant = variant;
-        pt.pos = pos;
-        parts.emplace_back( pt );
-    };
 
     if( jo.has_member( "blueprint" ) ) {
         // currently unused, read to suppress unvisited members warning
         jo.get_array( "blueprint" );
     }
 
+    std::vector<part_def> tmp;
     for( JsonObject part : jo.get_array( "parts" ) ) {
-        point_rel_ms pos{ part.get_int( "x" ), part.get_int( "y" ) };
-
-        if( part.has_string( "part" ) ) {
-            add_part_obj( part, pos );
-            debugmsg( "vehicle prototype '%s' uses deprecated string definition for part"
-                      " '%s', use 'parts' array instead", id.str(), part.get_string( "part" ) );
-        } else if( part.has_array( "parts" ) ) {
-            for( const JsonValue entry : part.get_array( "parts" ) ) {
-                if( entry.test_string() ) {
-                    std::string part_name = entry.get_string();
-                    add_part_string( part_name, pos );
-                } else {
-                    JsonObject subpart = entry.get_object();
-                    add_part_obj( subpart, pos );
-                }
-            }
-        }
+        point_rel_ms pos;
+        mandatory( part, false, "x", pos.x() );
+        mandatory( part, false, "y", pos.y() );
+        mandatory( part, false, "parts", tmp, veh_proto_part_def_reader{ pos } );
+        // gross
+        parts.insert( parts.end(), tmp.begin(), tmp.end() );
     }
 
-    for( JsonObject spawn_info : jo.get_array( "items" ) ) {
-        vehicle_item_spawn next_spawn;
-        next_spawn.pos.x() = spawn_info.get_int( "x" );
-        next_spawn.pos.y() = spawn_info.get_int( "y" );
-
-        next_spawn.chance = spawn_info.get_int( "chance" );
-        if( next_spawn.chance <= 0 || next_spawn.chance > 100 ) {
-            debugmsg( "Invalid spawn chance in %s (%d, %d): %d%%",
-                      name, next_spawn.pos.x(), next_spawn.pos.y(), next_spawn.chance );
-        }
-
-        // constrain both with_magazine and with_ammo to [0-100]
-        next_spawn.with_magazine = std::max( std::min( spawn_info.get_int( "magazine",
-                                             next_spawn.with_magazine ), 100 ), 0 );
-        next_spawn.with_ammo = std::max( std::min( spawn_info.get_int( "ammo",
-                                         next_spawn.with_ammo ), 100 ), 0 );
-
-        if( spawn_info.has_array( "items" ) ) {
-            //Array of items that all spawn together (i.e. jack+tire)
-            spawn_info.read( "items", next_spawn.item_ids, true );
-        } else if( spawn_info.has_string( "items" ) ) {
-            //Treat single item as array
-            // And read the gun variant (if it exists)
-            if( spawn_info.has_string( "variant" ) ) {
-                const std::string variant = spawn_info.get_string( "variant" );
-                next_spawn.variant_ids.emplace_back( itype_id( spawn_info.get_string( "items" ) ), variant );
-            } else {
-                next_spawn.item_ids.emplace_back( spawn_info.get_string( "items" ) );
-            }
-        }
-        if( spawn_info.has_array( "item_groups" ) ) {
-            //Pick from a group of items, just like map::place_items
-            for( const std::string line : spawn_info.get_array( "item_groups" ) ) {
-                next_spawn.item_groups.emplace_back( line );
-            }
-        } else if( spawn_info.has_string( "item_groups" ) ) {
-            next_spawn.item_groups.emplace_back( spawn_info.get_string( "item_groups" ) );
-        }
-        item_spawns.push_back( std::move( next_spawn ) );
-    }
-
-    for( JsonObject jzi : jo.get_array( "zones" ) ) {
-        zone_type_id zone_type( jzi.get_member( "type" ).get_string() );
-        std::string name;
-        std::string filter;
-        point_rel_ms pt( jzi.get_member( "x" ).get_int(), jzi.get_member( "y" ).get_int() );
-
-        if( jzi.has_string( "name" ) ) {
-            name = jzi.get_string( "name" );
-        }
-        if( jzi.has_string( "filter" ) ) {
-            filter = jzi.get_string( "filter" );
-        }
-        zone_defs.emplace_back( zone_def{ zone_type, name, filter, pt } );
-    }
+    optional( jo, was_loaded, "items", item_spawns );
+    optional( jo, was_loaded, "zones", zone_defs, json_read_reader<zone_def> {} );
 }
 
 void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh,
@@ -1688,8 +1660,8 @@ void vehicles::finalize_prototypes()
                           proto.name, i.pos.x(), i.pos.y(), i.chance );
             }
             for( auto &j : i.item_ids ) {
-                if( !item::type_is_defined( j ) ) {
-                    debugmsg( "unknown item %s in spawn list of %s", j.c_str(), proto.id.str() );
+                if( !item::type_is_defined( j.first ) ) {
+                    debugmsg( "unknown item %s in spawn list of %s", j.first.c_str(), proto.id.str() );
                 }
             }
             for( auto &j : i.item_groups ) {
@@ -1708,19 +1680,22 @@ const std::vector<vpart_category> &vpart_category::all()
     return vpart_categories_all;
 }
 
-void vpart_category::load( const JsonObject &jo )
+void vpart_category::load_all( const JsonObject &jo )
 {
     vpart_category def;
-
-    assign( jo, "id", def.id_ );
-    assign( jo, "name", def.name_ );
-    assign( jo, "short_name", def.short_name_ );
-    assign( jo, "priority", def.priority_ );
-
+    def.load( jo );
     vpart_categories_all.push_back( def );
 }
 
-void vpart_category::finalize()
+void vpart_category::load( const JsonObject &jo )
+{
+    mandatory( jo, false, "id", id_ );
+    mandatory( jo, false, "name", name_ );
+    mandatory( jo, false, "short_name", short_name_ );
+    mandatory( jo, false, "priority", priority_ );
+}
+
+void vpart_category::finalize_all()
 {
     std::sort( vpart_categories_all.begin(), vpart_categories_all.end() );
 }
