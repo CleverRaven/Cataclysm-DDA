@@ -80,7 +80,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_RPGL_MENU_MAX_LEVEL",
-    "dynamic_line": "Set max level for RPG leveling (-1 = disabled). (Default: 20; Current: <u_val:rpgl_max_level>)",
+    "dynamic_line": "Set max level for RPG leveling (-1 = disabled).  (Default: 20; Current: <u_val:rpgl_max_level>)",
     "responses": [
       {
         "text": "Disable",
@@ -102,7 +102,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_RPGL_MENU_EXP_FORMULA",
-    "dynamic_line": "Edit exp formula for leveling. Format: (constant) * (level + 1).\nDefault: 1000\nCurrent Formula: (<u_val:rpgl_exp_const>) * (<u_val:rpgl_level> + 1)\nEXP: <u_val:rpgl_exp_current>.\nEXP for next level: <u_val:rpgl_exp_to_level>\nNote: any changes to the formula will not affect levels already earned, and future levels are only determined on exp gain.",
+    "dynamic_line": "Edit exp formula for leveling.  Format: (constant) * (level + 1)\nDefault: 1000\nCurrent Formula: (<u_val:rpgl_exp_const>) * (<u_val:rpgl_level> + 1)\nEXP: <u_val:rpgl_exp_current>.\nEXP for next level: <u_val:rpgl_exp_to_level>\nNote: any changes to the formula will not affect levels already earned, and future levels are only determined on exp gain.",
     "responses": [
       {
         "text": "Enter custom value",
