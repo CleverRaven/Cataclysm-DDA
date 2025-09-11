@@ -48,6 +48,7 @@
 #include "npctrade.h"
 #include "options.h"
 #include "output.h"
+#include "pickup.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "pocket_type.h"
@@ -2426,26 +2427,41 @@ drop_locations game_menus::inv::multidrop( Character &you )
     return inv_s.execute();
 }
 
-drop_locations game_menus::inv::pickup( const std::optional<tripoint_bub_ms> &target,
+drop_locations game_menus::inv::pickup( const std::set<tripoint_bub_ms> &targets )
+{
+    return pickup( targets, {} );
+}
+
+drop_locations game_menus::inv::pickup( const std::set<tripoint_bub_ms> &targets,
                                         const std::vector<drop_location> &selection )
+{
+    Pickup::pick_info pickup_info = Pickup::pick_info();
+    return pickup( targets, selection, pickup_info );
+}
+
+drop_locations game_menus::inv::pickup( const std::set<tripoint_bub_ms> &targets,
+                                        const std::vector<drop_location> &selection,
+                                        Pickup::pick_info &info )
 {
     avatar &you = get_avatar();
     pickup_inventory_preset preset( you, /*skip_wield_check=*/true, /*ignore_liquidcont=*/true );
     preset.save_state = &pickup_ui_default_state;
 
-    pickup_selector pick_s( you, preset, _( "ITEMS TO PICK UP" ), target );
+    pickup_selector pick_s( you, preset, _( "ITEMS TO PICK UP" ), targets );
 
     // Add items from the selected tile, or from current and all surrounding tiles
-    if( target ) {
-        pick_s.add_vehicle_items( *target );
-        pick_s.add_map_items( *target );
+    if( !targets.empty() ) {
+        for( tripoint_bub_ms target : targets ) {
+            pick_s.add_vehicle_items( target );
+            pick_s.add_map_items( target );
+        }
     } else {
         pick_s.add_nearby_items();
     }
     pick_s.set_title( _( "Pickup" ) );
 
     if( pick_s.empty() ) {
-        if( target ) {
+        if( !targets.empty() ) {
             add_msg( _( "There is nothing to pick up." ) );
         } else {
             add_msg( _( "There is nothing to pick up nearby." ) );
@@ -2457,6 +2473,12 @@ drop_locations game_menus::inv::pickup( const std::optional<tripoint_bub_ms> &ta
         pick_s.apply_selection( selection );
     }
 
+    if( info.max_volume != -1_ml ) {
+        pick_s.overriden_volume = info.max_volume;
+    }
+    if( info.max_mass != -1_gram ) {
+        pick_s.overriden_mass = info.max_mass;
+    }
     return pick_s.execute();
 }
 

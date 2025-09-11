@@ -91,6 +91,11 @@ namespace catacurses
 {
 class window;
 }  // namespace catacurses
+namespace Pickup
+{
+struct pick_info;
+} // namespace Pickup
+
 enum action_id : int;
 enum class proficiency_bonus_type : int;
 enum class recipe_filter_flags : int;
@@ -2455,6 +2460,7 @@ class Character : public Creature, public visitable
          *  Requires sufficient storage; items cannot be wielded or worn from this activity.
          */
         void pick_up( const drop_locations &what );
+        void pick_up( const drop_locations &what, Pickup::pick_info &info );
 
         bool is_wielding( const item &target ) const;
 

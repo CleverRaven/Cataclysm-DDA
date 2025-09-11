@@ -873,6 +873,7 @@ void emit( const spell &sp, Creature &caster, const tripoint_bub_ms &target );
 void fungalize( const spell &sp, Creature &caster, const tripoint_bub_ms &target );
 void remove_field( const spell &sp, Creature &caster, const tripoint_bub_ms &center );
 void effect_on_condition( const spell &sp, Creature &caster, const tripoint_bub_ms &target );
+void pickup( const spell &sp, Creature &caster, const tripoint_bub_ms &target );
 void none( const spell &sp, Creature &, const tripoint_bub_ms &target );
 void slime_split_on_death( const spell &sp, Creature &, const tripoint_bub_ms &target );
 
@@ -924,6 +925,7 @@ effect_map{
     { "fungalize", spell_effect::fungalize },
     { "remove_field", spell_effect::remove_field },
     { "effect_on_condition", spell_effect::effect_on_condition },
+    { "pickup", spell_effect::pickup },
     { "slime_split", spell_effect::slime_split_on_death },
     { "none", spell_effect::none }
 };

@@ -206,6 +206,7 @@ Effect                 | Description
 `noise`                | Causes damage() amount of noise at the target.  Note: the noise can be described further with `sound_type`, `sound_description`, `sound_ambient`, `sound_id` and `sound_variant`.
 `pain_split`           | Evens out all of your limbs' damage.
 `pull_target`          | Attempts to pull the target towards the caster in a straight line.  If the path is blocked by impassable furniture or terrain, the effect fails.
+`pickup`               | Opens up the pickup menu at the target(s), allowing characters to pick up items at the area.  For every 1 damage in the spell's definition, each item takes 1 extra move to pick up.
 `recharge_vehicle`     | Increases or decreases the battery charge of a vehicle or battery-connected power grid. Damage is equal to the charge (negative decreases).
 `recover_energy`       | Recovers an energy source equal to damage of the spell and may be one of `BIONIC`, `SLEEPINESS`, `PAIN`, `MANA` or `STAMINA`. Alternative notation can be used for spell consuming vitamins, see example below
 `remove_effect`        | Removes `effect_str` effects from all creatures in the aoe.

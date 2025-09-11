@@ -6485,7 +6485,7 @@ void game::pickup()
         return;
     }
     // Pick up items only from the selected tile
-    u.pick_up( game_menus::inv::pickup( where_ ) );
+    u.pick_up( game_menus::inv::pickup( {where_.value()} ) );
 }
 
 void game::pickup_all()
@@ -6505,7 +6505,7 @@ void game::pickup( const tripoint_bub_ms &p )
     add_draw_callback( hilite_cb );
 
     // Pick up items only from the selected tile
-    u.pick_up( game_menus::inv::pickup( p ) );
+    u.pick_up( game_menus::inv::pickup( {p} ) );
 }
 
 //Shift player by one tile, look_around(), then restore previous position.

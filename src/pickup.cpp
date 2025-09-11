@@ -186,6 +186,7 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
                          Pickup::pick_info &info )
 {
     Character &player_character = get_player_character();
+    const map &here = get_map();
     bool picked_up = false;
     bool crushed = false;
     Pickup::pick_info pre_info( info );
@@ -221,6 +222,12 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
         if( newit.charges > quantity ) {
             newit.charges = quantity;
         }
+    }
+
+    if( ( info.max_volume != -1_ml && newit.volume() + info.picked_up_volume > info.max_volume ) ||
+        ( info.max_mass != -1_gram && newit.weight() + info.picked_up_mass > info.max_mass ) ) {
+        stash_successful = false;
+        return false;
     }
 
     bool did_prompt = false;
@@ -319,13 +326,18 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
     if( picked_up ) {
         info.set_src( loc );
         info.total_bulk_volume += loc->volume( false, false, quantity );
+        int distance = square_dist( player_character.pos_bub(), loc.pos_bub( here ) );
+        info.picked_up_volume += newit.volume();
+        info.picked_up_mass += newit.weight();
         if( !is_bulk_load( pre_info, info ) ) {
             // Cost to take an item from a container or map
-            player_character.mod_moves( -loc.obtain_cost( player_character, quantity ) );
+            player_character.mod_moves( -( loc.obtain_cost( player_character,
+                                           quantity ) + ( distance * info.extra_moves_per_distance ) ) );
         } else {
             // Pure cost to handling item excluding overhead.
-            player_character.mod_moves( -std::max( player_character.item_handling_cost( *loc, true, 0, quantity,
-                                                   true ), 1 ) );
+            player_character.mod_moves( ( -std::max( player_character.item_handling_cost( *loc, true, 0,
+                                          quantity,
+                                          true ), 1 ) + ( distance * info.extra_moves_per_distance ) ) );
         }
         contents_change_handler handler;
         handler.unseal_pocket_containing( loc );
@@ -494,6 +506,11 @@ void Pickup::pick_info::serialize( JsonOut &jsout ) const
     jsout.member( "src_pos", src_pos );
     jsout.member( "src_container", src_container );
     jsout.member( "dst", dst );
+    jsout.member( "extra_moves_per_distance", extra_moves_per_distance );
+    jsout.member( "picked_up_volume", picked_up_volume );
+    jsout.member( "max_volume", max_volume );
+    jsout.member( "picked_up_mass", picked_up_mass );
+    jsout.member( "max_mass", max_mass );
     jsout.end_object();
 }
 
@@ -506,6 +523,11 @@ void Pickup::pick_info::deserialize( const JsonObject &jsobj )
     jsobj.read( "src_pos", src_pos );
     jsobj.read( "src_container", src_container );
     jsobj.read( "dst", dst );
+    jsobj.read( "extra_moves_per_distance", extra_moves_per_distance );
+    jsobj.read( "picked_up_volume", picked_up_volume );
+    jsobj.read( "max_volume", max_volume );
+    jsobj.read( "picked_up_mass", picked_up_mass );
+    jsobj.read( "max_mass", max_mass );
 }
 
 void Pickup::pick_info::set_src( const item_location &src_ )

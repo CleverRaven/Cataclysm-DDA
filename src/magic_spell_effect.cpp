@@ -32,6 +32,7 @@
 #include "effect_on_condition.h"
 #include "enums.h"
 #include "explosion.h"
+#include "game_inventory.h"
 #include "field.h"
 #include "field_type.h"
 #include "fungal_effects.h"
@@ -54,6 +55,7 @@
 #include "mtype.h"
 #include "npc.h"
 #include "overmapbuffer.h"
+#include "pickup.h"
 #include "pimpl.h"
 #include "point.h"
 #include "projectile.h"
@@ -1903,6 +1905,29 @@ void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint
         mon->death_drops = false;
         mon->die( &here, &caster );
     }
+}
+
+void spell_effect::pickup( const spell &sp, Creature &caster,
+                           const tripoint_bub_ms &target )
+{
+    Character *c = caster.as_character();
+    if( !c ) {
+        // Only characters can loot items.
+        return;
+    }
+    const std::set<tripoint_bub_ms> area = spell_effect_area( sp, target, caster );
+    std::set<tripoint_bub_ms> valid_targets = {};
+    for( const tripoint_bub_ms &potential_target : area ) {
+        if( sp.is_valid_target( caster, potential_target ) ) {
+            valid_targets.emplace( potential_target );
+        }
+    }
+
+    int extra_moves_per_pickup = sp.damage( caster );
+    Pickup::pick_info pickup_info = Pickup::pick_info( extra_moves_per_pickup >= 0 ?
+                                    extra_moves_per_pickup : 0, -1_ml, -1_gram );
+    ( *c ).pick_up( game_menus::inv::pickup( valid_targets, {}, pickup_info ), pickup_info );
+
 }
 
 void spell_effect::effect_on_condition( const spell &sp, Creature &caster,

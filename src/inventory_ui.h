@@ -11,6 +11,7 @@
 #include <list>
 #include <memory>
 #include <optional>
+#include <set>
 #include <string>
 #include <string_view>
 #include <utility>
@@ -28,7 +29,7 @@
 #include "pocket_type.h"
 #include "point.h"
 #include "translations.h"
-#include "units_fwd.h"
+#include "units.h"
 
 class Character;
 class JsonObject;
@@ -1086,9 +1087,12 @@ class pickup_selector : public inventory_multiselector
     public:
         explicit pickup_selector( Character &p, const inventory_selector_preset &preset = default_preset,
                                   const std::string &selection_column_title = _( "ITEMS TO PICK UP" ),
-                                  const std::optional<tripoint_bub_ms> &where = std::nullopt );
+                                  const std::set<tripoint_bub_ms> &where = {} );
         drop_locations execute();
         void apply_selection( std::vector<drop_location> selection );
+
+        std::optional<units::volume> overriden_volume;
+        std::optional<units::mass> overriden_mass;
     protected:
         stats get_raw_stats() const override;
         void reassign_custom_invlets() override;
@@ -1097,7 +1101,7 @@ class pickup_selector : public inventory_multiselector
         bool wear();
         void remove_from_to_use( item_location &it );
         void reopen_menu();
-        const std::optional<tripoint_bub_ms> where;
+        const std::set<tripoint_bub_ms> where;
 };
 
 class unload_selector : public inventory_pick_selector
