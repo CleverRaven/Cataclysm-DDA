@@ -223,10 +223,10 @@ struct widget_clause {
 
 // A specified variable object or math expression for use with "var": "custom".
 struct widget_custom_var {
-    dbl_or_var_part value;
-    dbl_or_var_part min;
-    dbl_or_var_part max;
-    std::pair<dbl_or_var_part, dbl_or_var_part> norm;
+    dbl_or_var::part_t value;
+    dbl_or_var::part_t min;
+    dbl_or_var::part_t max;
+    std::pair<dbl_or_var::part_t, dbl_or_var::part_t> norm;
 
     void deserialize( const JsonObject &jo );
     void set_widget_var_range( const avatar &ava, widget &wgt ) const;

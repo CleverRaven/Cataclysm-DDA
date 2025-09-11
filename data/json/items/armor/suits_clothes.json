@@ -362,7 +362,8 @@
         "id": "robofac",
         "name": { "str": "Hub 01 jumpsuit" },
         "description": "A brown jumpsuit worn by the staff of Hub 01.",
-        "color": "brown"
+        "color": "brown",
+        "weight": 0
       }
     ]
   },

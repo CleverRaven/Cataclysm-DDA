@@ -827,6 +827,7 @@
         "run_eocs": [
           "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_CONCENTRATION",
           "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_SHIELD",
+          "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_MESMERIZE",
           "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_MORALE",
           "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_MIND_SENSE",
           "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_BLAST",
@@ -847,6 +848,12 @@
     "id": "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_CONCENTRATION",
     "condition": { "and": [ { "u_has_trait": "TELEPATH" }, { "math": [ "u_spell_level('telepathic_concentration') >= 0" ] } ] },
     "effect": [ { "u_learn_recipe": "practice_telepathic_concentration" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_MESMERIZE",
+    "condition": { "and": [ { "u_has_trait": "TELEPATH" }, { "math": [ "u_spell_level('telepathic_mesmerize') >= 0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telepathic_mesmerize" } ]
   },
   {
     "type": "effect_on_condition",

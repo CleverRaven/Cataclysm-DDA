@@ -318,6 +318,7 @@ Flag                       | Description
 `RANDOM_DURATION`          | Picks random number between (min + increment) * level and max instead of normal behavior.
 `RANDOM_TARGET`            | Forces the spell to choose a random valid target within range instead of the caster choosing the target.  This also affects `extra_effects`. 
 `RECHARM`                  | charm_monster spell stacks its duration onto existing charm effect.
+`CHARM_PET`                | charm_monster spell also makes the monster a pet, as though petfood had been used.
 `SILENT`                   | Spell makes no noise at target.
 `SOMATIC`                  | Arm encumbrance affects fail % and casting time (slightly).
 `SPAWN_GROUP`              | Spawn or summon from an `item_group` or `monstergroup`, instead of the specific IDs.

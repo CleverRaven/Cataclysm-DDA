@@ -2701,5 +2701,15 @@
     "type": "MIGRATION",
     "id": "crude_bronze_nail",
     "replace": "bronze_nail"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "chips2",
+    "replace": "chips"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "chips3",
+    "replace": "chips"
   }
 ]

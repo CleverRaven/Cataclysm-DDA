@@ -170,6 +170,7 @@
 #include "past_achievements_info.h"
 #include "path_info.h"
 #include "pathfinding.h"
+#include "perf.h"
 #include "pickup.h"
 #include "player_activity.h"
 #include "popup.h"
@@ -3427,8 +3428,10 @@ void game::load_packs( const std::string &msg, const std::vector<mod_id> &packs 
         if( mod.str() == "test_data" ) {
             check_plural = check_plural_t::none;
         }
+        cata_timer pack_timer( string_format( "%s pack load time:", mod->name() ) );
         load_mod_data_from_dir( mod->path, mod.str() );
     }
+    cata_timer::print_stats();
 
     for( const auto &mod : packs ) {
         if( !mod.is_valid() ) {
@@ -8225,6 +8228,8 @@ look_around_result game::look_around(
             result.peek_action = PA_BLIND_THROW;
         } else if( action == "throw_blind_wielded" ) {
             result.peek_action = PA_BLIND_THROW_WIELDED;
+        } else if( action == "CONFIRM" && peeking ) {
+            result.peek_action = PA_MOVE;
         } else if( action == "zoom_in" ) {
             center.xy() = lp.xy();
             zoom_in();

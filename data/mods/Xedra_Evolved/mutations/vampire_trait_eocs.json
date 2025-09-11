@@ -242,27 +242,50 @@
     },
     "effect": [
       {
-        "if": { "and": [ "u_is_npc", { "not": { "u_has_trait": "FAE_CREATURE" } } ] },
+        "if": {
+          "and": [
+            "u_is_npc",
+            { "not": { "u_has_trait": "FAE_CREATURE" } },
+            { "not": { "u_has_trait": "VAMPIRE" } },
+            { "not": { "u_has_trait": "BLOOD_OF_SAINTS" } }
+          ]
+        },
         "then": [
           { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN_IN_COMBAT", "alpha_talker": "npc", "time_in_future": 2 },
           { "math": [ "u_vitamin('blood') -= 750  + rand(450)" ] },
           { "math": [ "u_vitamin('redcells') -= 750 + rand(450)" ] },
+          { "math": [ "u_npc_value() -= 2 + rand(2)" ] },
+          { "math": [ "u_npc_trust() -= 2 + rand(2)" ] },
+          { "math": [ "u_npc_fear() += 2 + rand(2)" ] },
+          { "math": [ "u_npc_anger() += 2 + rand(2)" ] },
           { "u_add_effect": "effect_vampire_blood_drinking_target", "duration": { "math": [ "rng(3,4)" ] } },
           { "u_add_effect": "dazed", "duration": { "math": [ "rng(3,4)" ] } },
           { "npc_add_effect": "effect_vampire_blood_drinking", "duration": 4 },
           { "npc_assign_activity": "ACT_VAMPIRE_DRINKING_BLOOD", "duration": "3 seconds" },
-          { "message": "You are drinking from an NPC.", "type": "debug" }
+          { "message": "You are drinking from an NPC.", "type": "debug" },
+          {
+            "if": { "or": [ { "math": [ "u_vitamin('blood') <= -40000" ] }, { "math": [ "u_vitamin('redcells') <= -40000" ] } ] },
+            "then": "u_die"
+          }
         ],
         "else": [
           {
             "if": {
-              "or": [
-                { "and": [ { "u_has_species": "HUMAN" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
-                { "u_has_species": "FERAL" },
-                { "u_has_species": "RENFIELD" },
-                { "and": [ { "u_has_species": "CHANGELING" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
-                { "u_has_species": "HOMULLUS" },
-                { "u_has_trait": "FAE_CREATURE" }
+              "and": [
+                { "not": { "u_has_trait": "VAMPIRE" } },
+                { "not": { "u_has_trait": "BLOOD_OF_SAINTS" } },
+                {
+                  "or": [
+                    {
+                      "and": [ { "u_has_species": "HUMAN" }, { "not": { "u_has_species": "ZOMBIE" } }, { "not": { "u_has_species": "VAMPIRE" } } ]
+                    },
+                    { "u_has_species": "FERAL" },
+                    { "u_has_species": "RENFIELD" },
+                    { "and": [ { "u_has_species": "CHANGELING" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+                    { "u_has_species": "HOMULLUS" },
+                    { "u_has_trait": "FAE_CREATURE" }
+                  ]
+                }
               ]
             },
             "then": [
@@ -322,6 +345,22 @@
                       { "math": [ "n_vitamin('bad_food') += rng(10,15)" ] }
                     ]
                   }
+                ],
+                "else": [
+                  {
+                    "if": { "u_has_trait": "VAMPIRE" },
+                    "then": {
+                      "npc_message": "The vampire's blood refuses to leave its veins, no matter how hard you try to drain it.",
+                      "type": "bad"
+                    }
+                  },
+                  {
+                    "if": { "u_has_trait": "BLOOD_OF_SAINTS" },
+                    "then": [
+                      { "npc_message": "This blood is the foulest thing you ever tasted!", "type": "bad" },
+                      { "math": [ "n_vitamin('bad_food') += rng(20,25)" ] }
+                    ]
+                  }
                 ]
               }
             ]
@@ -335,7 +374,10 @@
     "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_DRINK_FROM_HUMAN_IN_COMBAT",
     "condition": { "u_has_effect": "effect_vampire_blood_drinking" },
-    "effect": [ { "run_eocs": [ "EOC_VAMPIRE_GAIN_BLOOD_VITAMIN", "EOC_DHAMPIR_GAIN_CALORIES_FROM_NON_BAGGED_BLOOD" ] } ]
+    "effect": [
+      { "run_eocs": [ "EOC_VAMPIRE_GAIN_BLOOD_VITAMIN", "EOC_DHAMPIR_GAIN_CALORIES_FROM_NON_BAGGED_BLOOD" ] },
+      { "u_message": "You drink some blood.", "type": "good" }
+    ]
   },
   {
     "id": "EOC_VAMPIRE_DRINK_BLOOD_INTERRUPTED_CHECK",
@@ -1302,7 +1344,7 @@
         "run_eocs": [
           {
             "id": "EOC_VAMPIRE_FEAR_GAZE_activated_2",
-            "condition": { "not": { "u_has_effect": "effect_vampire_fear_gazed" } },
+            "condition": { "and": [ { "not": { "u_has_effect": "effect_vampire_fear_gazed" } }, { "not": { "u_has_trait": "VAMPIRE" } } ] },
             "effect": [
               {
                 "run_eocs": [
@@ -1449,7 +1491,13 @@
             "id": "EOC_HYPNOTIC_GAZE_activated_2",
             "effect": [
               {
-                "if": { "and": [ { "not": { "u_has_effect": "blind" } }, { "not": { "u_has_flag": "BLIND" } } ] },
+                "if": {
+                  "and": [
+                    { "not": { "u_has_trait": "VAMPIRE" } },
+                    { "not": { "u_has_effect": "blind" } },
+                    { "not": { "u_has_flag": "BLIND" } }
+                  ]
+                },
                 "then": [
                   { "u_add_effect": "effect_vampire_hypnotism", "duration": { "math": [ "u_vampire_hypnotic_gaze_power_level" ] } },
                   { "u_add_effect": "dazed", "duration": { "math": [ "u_vampire_hypnotic_gaze_power_level" ] } }

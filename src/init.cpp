@@ -119,6 +119,7 @@
 #include "vehicle_group.h"
 #include "vitamin.h"
 #include "weakpoint.h"
+#include "weather_gen.h"
 #include "weather_type.h"
 #include "widget.h"
 #include "worldfactory.h"
@@ -275,6 +276,7 @@ void DynamicDataLoader::initialize()
     add( "field_type", &field_types::load );
     add( "field_type_migration", &field_type_migrations::load );
     add( "weather_type", &weather_types::load );
+    add( "weather_generator", &weather_generator::load_weather_generator );
     add( "ammo_effect", &ammo_effects::load );
     add( "emit", &emit::load_emit );
     add( "help", &help::load );
@@ -335,7 +337,7 @@ void DynamicDataLoader::initialize()
     } );
 
     add( "vehicle_part",  &vehicles::parts::load );
-    add( "vehicle_part_category",  &vpart_category::load );
+    add( "vehicle_part_category",  &vpart_category::load_all );
     add( "vehicle_part_migration", &vpart_migration::load );
     add( "vehicle", &vehicles::load_prototype );
     add( "vehicle_group",  &VehicleGroup::load );
@@ -715,6 +717,7 @@ void DynamicDataLoader::unload_data()
     vpart_category::reset();
     vpart_migration::reset();
     weakpoints::reset();
+    weather_generator::reset();
     weather_types::reset();
     widget::reset();
     zone_type::reset();
@@ -779,7 +782,7 @@ void DynamicDataLoader::finalize_loaded_data()
                     requirement_data::finalize();
                 }
             },
-            { _( "Vehicle part categories" ), &vpart_category::finalize },
+            { _( "Vehicle part categories" ), &vpart_category::finalize_all },
             { _( "Vehicle parts" ), &vehicles::parts::finalize },
             { _( "Traps" ), &trap::finalize_all },
             { _( "Terrain" ), &set_ter_ids },

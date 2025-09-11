@@ -494,7 +494,15 @@
     "id": "effect_nether_silent_one_resistances",
     "name": [ "" ],
     "desc": [ "" ],
-    "enchantments": [ { "incoming_damage_mod": [ { "type": "head", "multiply": -0.8 }, { "type": "electric", "multiply": -0.95 } ] } ]
+    "enchantments": [
+      {
+        "incoming_damage_mod": [
+          { "type": "head", "multiply": -0.45 },
+          { "type": "electric", "multiply": -0.95 },
+          { "type": "psi_telepathic_damage", "multiply": -0.5 }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",

@@ -122,8 +122,8 @@
               { "u_teleport": { "global_val": "OM_HQ_origin_npc" }, "force": true },
               {
                 "location_variable_adjust": { "global_val": "OM_HQ_origin_npc" },
-                "x_adjust": [ -2, -1, 1, 2 ],
-                "y_adjust": [ -2, -1, 1, 2 ]
+                "x_adjust": [ -2, 2 ],
+                "y_adjust": [ -2, 2 ]
               }
             ]
           }

@@ -124,25 +124,6 @@
   {
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
-    "id": "chips2",
-    "name": { "str_sp": "potato chips" },
-    "copy-from": "chips",
-    "description": "A handful of plain, salted potato chips.",
-    "fun": 3
-  },
-  {
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
-    "id": "chips3",
-    "name": { "str_sp": "potato chips" },
-    "copy-from": "chips",
-    "description": "Oh man, you love these chips!  Score!",
-    "//": "Favorite flavor varies.",
-    "fun": 12
-  },
-  {
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
     "id": "pretzels",
     "name": { "str_sp": "pretzels" },
     "weight": "62 g",
@@ -846,25 +827,82 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
     "id": "chips",
-    "name": { "str_sp": "potato chips" },
-    "weight": "28 g",
-    "color": "yellow",
-    "spoils_in": "30 days",
-    "container": "bag_plastic_small",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
+    "name": { "str_sp": "chips" },
+    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "groundnut_prepared", "name": { "str_sp": "ground nut chips" } } ],
+    "description": "Deep-fried, thin slices of tubers.",
+    "color": "yellow",
     "symbol": "%",
-    "quench": -2,
-    "calories": 149,
-    "description": "Betcha can't eat just one.",
     "price": "60 cent",
     "price_postapoc": "66 cent",
+    "spoils_in": "30 days",
     "material": [ "junk" ],
-    "volume": "83 ml",
+    "weight": "100 g",
+    "volume": "200 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "vitC", 7 ], [ "calcium", 1 ], [ "iron", 2 ], [ "junk_allergen", 1 ] ],
-    "fun": 6
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 7 ], [ "junk_allergen", 1 ] ],
+    "quench": -2,
+    "calories": 532,
+    "fun": 6,
+    "variants": [
+      {
+        "id": "plain",
+        "name": { "str_sp": "plain chips" },
+        "description": "Plain chips, slightly salty and very crunchy.  It really doesn't get better than that.",
+        "weight": 33
+      },
+      {
+        "id": "barbecue",
+        "name": { "str_sp": "barbecue-flavored chips" },
+        "expand_snippets": true,
+        "description": "Barbecue-flavored <shaped_chips>, spicy, sweet and tangy, taste of paprika and garlic.",
+        "weight": 21
+      },
+      {
+        "id": "onion",
+        "name": { "str_sp": "sour cream & onion-flavored chips" },
+        "expand_snippets": true,
+        "description": "Sour cream and onion-flavored <shaped_chips>, sour and tangy, the onion flavor is subtle.",
+        "weight": 12
+      },
+      {
+        "id": "cheddar",
+        "name": { "str_sp": "sour cream & cheddar-flavored chips" },
+        "expand_snippets": true,
+        "description": "Sour cream and cheddar-flavored <shaped_chips>, sour and tangy, the cheddar comes through surprisingly well.",
+        "weight": 10
+      },
+      {
+        "id": "vinegar",
+        "name": { "str_sp": "salt & vinegar-flavored chips" },
+        "expand_snippets": true,
+        "description": "Salt and vinegar-flavored <shaped_chips>, the vinegar brings a surprisingly nice, acidic taste.",
+        "weight": 9
+      },
+      {
+        "id": "paprika",
+        "name": { "str_sp": "paprika-flavored chips" },
+        "expand_snippets": true,
+        "description": "Paprika-flavored <shaped_chips>, a classic snack to pair with a bottle of 'Spezi'.",
+        "weight": 6
+      },
+      {
+        "id": "alldressed",
+        "name": { "str_sp": "all-dressed-flavored chips" },
+        "expand_snippets": true,
+        "description": "'All-dressed' <shaped_chips>, a uniquely Canadian combination of ketchup, BBQ, sour cream & onion, and salt & vinegar flavors.  Better than it sounds.",
+        "weight": 6
+      },
+      {
+        "id": "mixed",
+        "name": { "str_sp": "mixed chips" },
+        "expand_snippets": true,
+        "description": "<mixed_chips_flavor>",
+        "weight": 5
+      }
+    ]
   },
   {
     "type": "ITEM",

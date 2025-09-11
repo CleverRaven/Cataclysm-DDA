@@ -1437,11 +1437,14 @@ shared_ptr_fast<npc> overmapbuffer::find_npc_by_unique_id( const std::string &un
 
 std::optional<basecamp *> overmapbuffer::find_camp( const point_abs_omt &p )
 {
-    const overmap_with_local_coords om_loc = get_existing_om_global( p );
-    if( !!om_loc.om ) {
-        std::optional<basecamp *> camp = om_loc.om->find_camp( p );
-        if( !!camp ) {
-            return camp;
+    for( auto &it : overmaps ) {
+        const point_abs_omt p2( p );
+        for( int x2 = p2.x() - 3; x2 < p2.x() + 3; x2++ ) {
+            for( int y2 = p2.y() - 3; y2 < p2.y() + 3; y2++ ) {
+                if( std::optional<basecamp *> camp = it.second->find_camp( point_abs_omt( x2, y2 ) ) ) {
+                    return camp;
+                }
+            }
         }
     }
     return std::nullopt;

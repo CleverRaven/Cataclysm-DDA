@@ -40,6 +40,8 @@
 class quantity;
 
 template <typename E> class enum_bitset;
+template<typename T> struct weighted_int_list;
+template <typename T, typename W> struct weighted_list;
 
 /**
 A generic class to store objects identified by a `string_id`.
@@ -1253,6 +1255,78 @@ struct handler<std::vector<T>> {
     static constexpr bool is_container = true;
 };
 
+template<typename T>
+struct handler<weighted_int_list<T>> {
+    void clear( weighted_int_list<T> &container ) const {
+        container.clear();
+    }
+    bool insert( weighted_int_list<T> &container, const std::pair<T, int> &data ) const {
+        container.add( data );
+        return true;
+    }
+    bool relative( weighted_int_list<T> &, const std::pair<T, int> & ) const {
+        return false;
+    }
+    template<typename E>
+    bool erase( weighted_int_list<T> &container, const E &data ) const {
+        const auto pred = [&data]( const std::pair<T, int> &e ) {
+            return e.first == data.first;
+        };
+        if( !erase_if( container, pred ) ) {
+            debugmsg( "Did not remove %s in delete", data_string( data ) );
+            return false;
+        }
+        return true;
+    }
+    template<typename P>
+    bool erase_if( weighted_int_list<T> &container, P &predicate ) const {
+        const auto iter = std::find_if( container.begin(), container.end(), predicate );
+        if( iter != container.end() ) {
+            container.remove( iter->first );
+        } else {
+            return false;
+        }
+        return true;
+    }
+    static constexpr bool is_container = true;
+};
+
+template<typename T, typename W>
+struct handler<weighted_list<T, W>> {
+    void clear( weighted_list<T, W> &container ) const {
+        container.clear();
+    }
+    bool insert( weighted_list<T, W> &container, const std::pair<T, W> &data ) const {
+        container.add( data );
+        return true;
+    }
+    bool relative( weighted_list<T, W> &, const std::pair<T, W> & ) const {
+        return false;
+    }
+    template<typename E>
+    bool erase( weighted_list<T, W> &container, const E &data ) const {
+        const auto pred = [&data]( const T & e ) {
+            return e == data;
+        };
+        if( !erase_if( container, pred ) ) {
+            debugmsg( "Did not remove %s in delete", data_string( data ) );
+            return false;
+        }
+        return true;
+    }
+    template<typename P>
+    bool erase_if( weighted_list<T, W> &container, P &predicate ) const {
+        const auto iter = std::find_if( container.begin(), container.end(), predicate );
+        if( iter != container.end() ) {
+            container.remove( *iter.obj );
+        } else {
+            return false;
+        }
+        return true;
+    }
+    static constexpr bool is_container = true;
+};
+
 template<typename Key, typename Val>
 struct handler<std::map<Key, Val>> {
     void clear( std::map<Key, Val> &container ) const {
@@ -1389,9 +1463,10 @@ struct T_has_do_delete<T, std::void_t<decltype( &T::do_delete )>> : std::true_ty
 template<typename Derived>
 class generic_typed_reader
 {
+public:
     static constexpr bool read_objects = false;
     static constexpr bool check_extend_delete_copy_from = true;
-public:
+
     template<typename C, typename Fn>
     // I tried using a member function pointer and couldn't work it out
     void apply_all_values( JsonValue &jv, C &container, Fn apply ) const {
@@ -1659,6 +1734,8 @@ template<typename T>
 class json_read_reader : public generic_typed_reader<json_read_reader<T>>
 {
 public:
+    static constexpr bool read_objects = true;
+
     T get_next( const JsonValue &jv ) const {
         T ret;
         if( !jv.read( ret ) ) {
@@ -2129,17 +2206,6 @@ class activity_level_reader : public generic_typed_reader<activity_level_reader>
 {
     public:
         float get_next( const JsonValue &jv ) const;
-};
-
-struct dbl_or_var;
-
-class dbl_or_var_reader : public generic_typed_reader<dbl_or_var_reader>
-{
-    public:
-        bool operator()( const JsonObject &jo, std::string_view member_name,
-                         dbl_or_var &member, bool /*was_loaded*/ ) const;
-    private:
-        dbl_or_var get_next( const JsonValue &jv ) const;
 };
 
 #endif // CATA_SRC_GENERIC_FACTORY_H

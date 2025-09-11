@@ -871,15 +871,45 @@ rl_vec2d convert_wind_to_coord( const int angle )
     return rl_vec2d( 0, 0 );
 }
 
-bool warm_enough_to_plant( const tripoint_bub_ms &pos )
+bool warm_enough_to_plant( const tripoint_bub_ms &pos, const itype_id &it )
 {
-    // semi-appropriate temperature for most plants
-    return get_weather().get_temperature( pos ) >= units::from_fahrenheit( 50 );
+    const tripoint_abs_ms abs = get_map().get_abs( pos );
+    const tripoint_abs_omt target_omt = project_to<coords::omt>( abs );
+    return warm_enough_to_plant( target_omt, it );
 }
 
-bool warm_enough_to_plant( const tripoint_abs_omt &pos )
+bool warm_enough_to_plant( const tripoint_abs_omt &pos, const itype_id &it )
 {
-    return get_weather().get_temperature( pos ) >= units::from_fahrenheit( 50 );
+    std::map<time_point, units::temperature> planting_times;
+    // initialize the first...
+    time_point check_date = calendar::turn;
+    planting_times[check_date] = get_weather().get_temperature( pos );
+    bool okay_to_plant = true;
+    const int num_epochs = 3; // FIXME. Should be stored on the seed ptr and read from there!
+    // and now iterate a copy of the weather into the future to see if they'll be plantable then as well.
+    time_duration one_growth_cycle = item( it ).get_plant_epoch( num_epochs );
+    const weather_generator weather_gen = get_weather().get_cur_weather_gen();
+    for( int i = 0; i < num_epochs; i++ ) {
+        // TODO: Replace epoch checks with data from a farmer's almanac
+        check_date = check_date + one_growth_cycle;
+        const w_point &w = weather_gen.get_weather( project_to<coords::ms>( pos ), check_date,
+                           g->get_seed() );
+        planting_times[check_date] = w.temperature;
+    }
+    for( const std::pair<const time_point, units::temperature> &pair : planting_times ) {
+        // This absolutely needs to be a time point.
+        add_msg_debug( debugmode::DF_MAP,
+                       "Checking plant time %s, temperature %s F…",
+                       //NOLINTNEXTLINE(cata-translations-in-debug-messages)
+                       to_string( pair.first ), units::to_fahrenheit( pair.second ) );
+        // semi-appropriate temperature for most plants
+        if( pair.second < units::from_fahrenheit( 50 ) ) {
+            add_msg_debug( debugmode::DF_MAP, "Planting failure!" );
+            okay_to_plant = false;
+            break;
+        }
+    }
+    return okay_to_plant;
 }
 
 weather_manager::weather_manager()

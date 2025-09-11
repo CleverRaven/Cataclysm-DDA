@@ -681,6 +681,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_XE_VAMPIRE_MONSTER_FEAR_GAZE",
+    "condition": {
+      "and": [
+        { "not": { "u_has_species": "VAMPIRE" } },
+        { "not": { "u_has_species": "VAMPIRE_ANATHEMA" } },
+        { "not": { "u_has_trait": "VAMPIRE" } }
+      ]
+    },
     "effect": [
       { "u_add_effect": "effect_vampire_fear_gazed", "duration": 300 },
       {
