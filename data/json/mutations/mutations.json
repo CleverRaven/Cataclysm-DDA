@@ -10269,6 +10269,7 @@
     "types": [ "HUMAN_EMPATHY" ],
     "category": [ "MEDICAL" ],
     "threshreq": [ "THRESH_MEDICAL" ],
+    "purifiable": false,
     "flags": [ "NUMB" ]
   },
   {
