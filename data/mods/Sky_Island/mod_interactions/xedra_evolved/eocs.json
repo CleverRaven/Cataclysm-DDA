@@ -91,6 +91,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SKY_ISLAND_VAMPIRE_TIER_4",
+    "condition": { "u_has_trait": "VAMPIRE3" },
     "effect": [
       { "u_remove_item_with": "upgradekey_vampire4" },
       { "u_forget_recipe": "upgradekey_vampire4" },
@@ -98,6 +99,13 @@
       { "run_eocs": "EOC_REMOVE_DREAM_MAGIC" },
       { "u_add_effect": "vampire_virus_ascendant", "intensity": 1, "duration": "PERMANENT" },
       { "u_message": "Your eyes redden even more as you pass a point of no return.", "type": "mixed" }
+    ],
+    "false_effect": [
+      {
+        "if": { "u_has_effect": "vampire_virus" },
+        "then": { "u_message": "You lack the vampiric potency to use this.", "type": "bad" },
+        "else": { "u_message": "You cannot empower your vampirism without being a vampire.", "type": "bad" }
+      }
     ]
   },
   {
