@@ -15,6 +15,7 @@
 #include <utility>
 #include <vector>
 
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -660,6 +661,7 @@ static void damage_targets( const spell &sp, Creature &caster,
     }
 }
 
+// Attempts to pulp a corpse with a spell.  Returns if, after processing, the corpse is still pulpable.
 static bool pulp_corpse( item &corpse, int spell_bash_damage, tripoint_bub_ms pos, map &here )
 {
     if( spell_bash_damage <= 0 || !corpse.can_revive() ) {
@@ -675,6 +677,7 @@ static bool pulp_corpse( item &corpse, int spell_bash_damage, tripoint_bub_ms po
     float proportion_to_damage = static_cast<float>( spell_bash_damage ) / static_cast<float>( m_health );
     // Item max HP is 4000.  Not sure of a good non-magic number source for this.
     int corpse_damage = proportion_to_damage * 4000;
+    add_msg("pulp_corpse: spell_damage=%d, corpse_damage=%d", spell_bash_damage, corpse_damage);
     corpse.mod_damage( corpse_damage );
 
     const int radius = 1 + std::min(2.0f, proportion_to_damage / 2);
@@ -683,10 +686,11 @@ static bool pulp_corpse( item &corpse, int spell_bash_damage, tripoint_bub_ms po
                                          corpse.get_mtype()->bloodType();
     here.add_splash( type_blood, pos, radius, 2 );
 
-    return !corpse.can_revive();
+
+    return corpse.can_revive();
 }
 
-static void spell_bash_area( const spell &sp, Creature &caster, const std::set<tripoint_bub_ms> area, double damage_modifier = 1.0 )
+static void spell_bash_area( const spell &sp, Creature &caster, const std::set<tripoint_bub_ms> area, const tripoint_bub_ms &epicenter, double damage_modifier = 1.0 )
 {
     ::map &here = get_map();
     for( const tripoint_bub_ms &potential_target : area ) {
@@ -697,11 +701,21 @@ static void spell_bash_area( const spell &sp, Creature &caster, const std::set<t
         // the bash already makes noise, so no need for spell::make_sound()
         here.bash( potential_target, spell_bash_damage,
                    sp.has_flag( spell_flag::SILENT ) );
-            
+        
+        bool unpulped_corpses_remaining = false;
         for( item &potential_corpse : here.i_at( potential_target ) ) {
-            if( potential_corpse.can_revive() ) {
-                pulp_corpse( potential_corpse, spell_bash_damage, potential_target, here );
+            if( potential_corpse.can_revive() && pulp_corpse( potential_corpse, spell_bash_damage, potential_target, here )) {
+                add_msg("spell_bash_area: unpulped_corpses_remaining = true");
+                unpulped_corpses_remaining = true;
             }
+        }
+        // Add query here before starting activity
+        avatar *av = caster.as_avatar();
+        if( av != nullptr && unpulped_corpses_remaining ) {
+            add_msg("spell_bash_area: starting activity");
+            spell non_const_spell = av->magic->get_spell( sp.id() );
+            add_msg("spell=%s", non_const_spell.id().c_str() );
+            av->assign_activity( assisted_pulp_activity_actor( epicenter, &non_const_spell ) );
         }
     }
 }
@@ -715,7 +729,7 @@ void spell_effect::attack( const spell &sp, Creature &caster, const tripoint_bub
     }
     const double bash_scaling = sp.bash_scaling( caster );
     if( bash_scaling > 0 ) {
-        spell_bash_area( sp, caster, area, bash_scaling );
+        spell_bash_area( sp, caster, area, epicenter, bash_scaling );
     }
 }
 
@@ -1800,7 +1814,7 @@ void spell_effect::mutate( const spell &sp, Creature &caster, const tripoint_bub
 
 void spell_effect::bash( const spell &sp, Creature &caster, const tripoint_bub_ms &target )
 {
-    spell_bash_area( sp, caster, spell_effect_area( sp, target, caster ), 1.0 );
+    spell_bash_area( sp, caster, spell_effect_area( sp, target, caster ), target, 1.0 );
 }
 
 void spell_effect::dash( const spell &sp, Creature &caster, const tripoint_bub_ms &target )
