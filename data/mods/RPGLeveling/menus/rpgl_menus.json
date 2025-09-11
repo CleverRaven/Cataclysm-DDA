@@ -86,7 +86,7 @@
         "text": "Disable",
         "effect": { "math": [ "u_rpgl_max_level = -1" ] },
         "condition": { "math": [ "u_rpgl_max_level >= 0" ] },
-        "failure_explanation": "Max level aready disabled",
+        "failure_explanation": "Max level already disabled",
         "failure_topic": "TALK_RPGL_MENU_MAX_LEVEL",
         "topic": "TALK_RPGL_MENU_MAX_LEVEL"
       },
