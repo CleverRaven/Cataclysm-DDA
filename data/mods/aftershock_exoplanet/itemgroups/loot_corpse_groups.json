@@ -36,7 +36,7 @@
           }
         ]
       },
-      { "group": "dead_colonist_tatters", "prob": 90 },
+      { "item": "afs_tattered_garment", "prob": 90 },
       { "item": "afs_glass_AR_device", "prob": 5 }
     ]
   },
