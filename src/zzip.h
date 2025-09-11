@@ -55,6 +55,9 @@ class zzip
     public:
         ~zzip() noexcept;
 
+        zzip( zzip && ) noexcept /* = default */;
+        zzip &operator=( zzip && ) noexcept /* = default */;
+
         /**
          * Create a zzip at the given path, using the given dictionary to de/compress files in the zzip.
          * The same dictionary must be used every time the zzip is loaded.
@@ -62,8 +65,8 @@ class zzip
          * See https://github.com/facebook/zstd/blob/dev/programs/README.md#dictionary-builder-in-command-line-interface
          * for more details.
          */
-        static std::shared_ptr<zzip> load( std::filesystem::path const &path,
-                                           std::filesystem::path const &dictionary = {} );
+        static std::optional<zzip> load( std::filesystem::path const &path,
+                                         std::filesystem::path const &dictionary = {} );
 
         /**
          * Writes the given file contents under the given file path into the zzip.
@@ -77,7 +80,7 @@ class zzip
          * preserved.
          */
         bool copy_files( std::vector<std::filesystem::path> const &zzip_relative_paths,
-                         std::shared_ptr<zzip> const &from );
+                         zzip const &from );
 
         /**
          * Returns true if the zzip contains the given path. Paths are checked through exact string
@@ -162,11 +165,11 @@ class zzip
          * The files in the zzip are indexed based on their relative path inside the folder.
          * See zzip::load for documentation about dictionaries.
          */
-        static std::shared_ptr<zzip> create_from_folder( std::filesystem::path const &path,
+        static std::optional<zzip> create_from_folder( std::filesystem::path const &path,
                 std::filesystem::path const &folder,
                 std::filesystem::path const &dictionary = {} );
 
-        static std::shared_ptr<zzip> create_from_folder_with_files( std::filesystem::path const &path,
+        static std::optional<zzip> create_from_folder_with_files( std::filesystem::path const &path,
                 std::filesystem::path const &folder,
                 const std::vector<std::filesystem::path> &files,
                 uint64_t total_file_size,
