@@ -7624,18 +7624,20 @@ talk_effect_fun_t::func f_trigger_event( const JsonObject &jo, std::string_view 
     JsonArray const &jargs = jo.get_array( "args" );
 
     event_type type = io::string_to_enum<event_type>( type_str );
-    std::vector<str_or_var> args;
+    std::vector<diag_value_or_var> args;
     args.reserve( jargs.size() );
     for( JsonValue const &jv : jargs ) {
-        args.emplace_back( get_str_or_var( jv, "args" ) );
+        diag_value_or_var vov;
+        vov.deserialize( jv );
+        args.emplace_back( vov );
     }
 
     return [type, args]( dialogue & d ) {
         std::vector<std::string> args_str;
         args_str.reserve( args.size() );
         std::transform( args.cbegin(), args.cend(),
-        std::back_inserter( args_str ), [&d]( str_or_var const & sov ) {
-            return sov.evaluate( d );
+        std::back_inserter( args_str ), [&d]( diag_value_or_var const & sov ) {
+            return sov.evaluate( d ).to_string();
         } );
         get_event_bus().send( cata::event::make_dyn( type, args_str ) );
     };
