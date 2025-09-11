@@ -4,38 +4,23 @@
     "id": "goblin_tame_warg_spell",
     "name": "Warg-Friend",
     "description": "Goblins and wargs have had an innate bond from time immemorial, and even wild wargs will easily heel when a goblin calls…as long as the goblin has some raw meat to feed them with.",
-    "message": "You take control of the animal's mind!",
+    "message": "You feed some meat to the warg and it seems friendly.",
     "teachable": false,
-    "valid_targets": [ "self" ],
-    "flags": [ "NON_MAGICAL", "NO_FAIL", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "valid_targets": [ "hostile", "ally" ],
+    "flags": [ "NON_MAGICAL", "NO_FAIL", "CHARM_PET", "RECHARM", "RANDOM_DURATION", "SILENT", "NO_HANDS", "NO_LEGS" ],
     "max_level": 1,
     "spell_class": "GOBLIN_BUILD",
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_GOBLIN_WARG_TAMING",
+    "effect": "charm_monster",
+    "min_damage": 500,
+    "max_damage": 500,
     "components": "spell_components_goblin_warg_taming",
     "shape": "blast",
-    "base_casting_time": 10
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_GOBLIN_WARG_TAMING",
-    "condition": "u_is_avatar",
-    "effect": [
-      { "u_spawn_item": "warg_food", "suppress_message": true },
-      { "run_eocs": "EOC_GOBLIN_WARG_TAMING_01" },
-      { "u_remove_item_with": "warg_food" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_GOBLIN_WARG_TAMING_01",
-    "effect": [
-      {
-        "u_run_inv_eocs": "random",
-        "search_data": [ { "id": "warg_food" } ],
-        "true_eocs": [ { "id": "EOC_GOBLIN_WARG_TAMING_01_ACTIVATE", "effect": { "u_activate": "PETFOOD" } } ]
-      }
-    ]
+    "min_duration": 120960000,
+    "max_duration": 967680000,
+    "min_range": 1,
+    "max_range": 1,
+    "base_casting_time": 10,
+    "targeted_monster_species": [ "WARG" ]
   },
   {
     "id": "spell_components_goblin_warg_taming",

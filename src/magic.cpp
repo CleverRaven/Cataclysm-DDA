@@ -184,6 +184,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::NON_MAGICAL: return "NON_MAGICAL";
         case spell_flag::PSIONIC: return "PSIONIC";
         case spell_flag::RECHARM: return "RECHARM";
+        case spell_flag::CHARM_PET: return "CHARM_PET";
         case spell_flag::EVOCATION_SPELL: return "EVOCATION_SPELL";
         case spell_flag::CHANNELING_SPELL: return "CHANNELING_SPELL";
         case spell_flag::CONJURATION_SPELL: return "CONJURATION_SPELL";

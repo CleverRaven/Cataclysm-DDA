@@ -84,6 +84,7 @@ enum class spell_flag : int {
     NON_MAGICAL, // ignores spell resistance
     PSIONIC, // psychic powers instead of traditional magic
     RECHARM, // charm_monster spell adds to duration of existing charm_monster effect
+    CHARM_PET, // Applies the pet friendliness adjustment to a monster when charming them
     EVOCATION_SPELL, // Evocation spell category, used for Magiclysm proficiencies
     CHANNELING_SPELL, // Channeling spell category, used for Magiclysm proficiencies
     CONJURATION_SPELL, // Conjuration spell category, used for Magiclysm proficiencies
