@@ -7,6 +7,7 @@
 #include <cstddef>
 #include <filesystem>
 #include <memory>
+#include <optional>
 #include <string_view>
 #include <unordered_set>
 #include <vector>
@@ -183,7 +184,8 @@ class zzip
     private:
         JsonObject copy_footer() const;
         size_t ensure_capacity_for( size_t bytes );
-        size_t write_file_at( std::string_view filename, std::string_view content, size_t offset );
+        size_t write_file_at( std::string_view filename, std::string_view content, size_t offset,
+                              std::optional<uint64_t> force_checksum = std::nullopt );
 
         bool update_footer( JsonObject const &original_footer, size_t content_end,
                             const std::vector<compressed_entry> &entries, bool shrink_to_fit = false );

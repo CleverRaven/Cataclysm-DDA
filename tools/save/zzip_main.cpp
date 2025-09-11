@@ -4,6 +4,7 @@
 #include <fstream>
 #include <iostream>
 #include <optional>
+#include <map>
 #include <string>
 #include <string_view>
 #include <thread>
@@ -32,6 +33,7 @@ constexpr unsigned int kEntryChecksumMagic = 1;
 constexpr unsigned int kFooterChecksumMagic = 15;
 
 constexpr uint64_t kCheckumSeed = 0x1337C0DE;
+constexpr uint64_t kDeletedChecksumTombstone = 0xDE1337ED;
 
 struct IDK : public std::runtime_error {
     IDK( std::filesystem::path file ) : runtime_error{ "Don't know what to do with " + file.generic_u8string() } {}
@@ -285,7 +287,8 @@ struct ZzipStream {
                 }
 
                 uint64_t computed_checksum = XXH64( base, frame_size, kCheckumSeed );
-                if( checksum != computed_checksum ) {
+                if( checksum != computed_checksum && !( checksum == kDeletedChecksumTombstone &&
+                                                        ZSTD_findDecompressedSize( base, frame_size ) == 0 ) ) {
                     RETURN_ERROR( ZzipError( zzip_path, offset, filename + ": compressed frame corrupted." ) );
                 }
 
@@ -355,12 +358,26 @@ static int decompress_to( std::filesystem::path const &zzip_path,
         }
     }
 
-    // Iterate through the zstd frames extracting each file as we get to it.
+    // Iterate through the zstd frames indexing each file as we get to it.
+
+    std::map<std::string, ZzipEntry> entry_map;
+
     ZzipStream zs( zzip_path, zzip_contents );
     while( std::optional<ZzipEntry> entry = zs.next_entry() ) {
         const std::string &filename = entry->path;
-        const char *entry_base = entry->base;
-        size_t frame_size = entry->size;
+        size_t checksum = entry->checksum;
+
+        if( checksum == kDeletedChecksumTombstone ) {
+            entry_map.erase( filename );
+        }
+
+        entry_map[filename] = std::move( *entry );
+    }
+
+    for( const std::pair<std::string, ZzipEntry> &entry : entry_map ) {
+        const std::string &filename = entry.second.path;
+        const char *entry_base = entry.second.base;
+        size_t frame_size = entry.second.size;
 
         std::cout << zzip_path_string << ": " << filename << " -> " << ( output_folder /
                   filename ).generic_u8string() <<
