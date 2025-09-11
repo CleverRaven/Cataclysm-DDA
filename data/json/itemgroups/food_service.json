@@ -385,7 +385,7 @@
       { "item": "bottle_glass", "prob": 5 },
       { "item": "ceramic_cup", "prob": 15 },
       { "item": "ceramic_plate", "prob": 15 },
-      { "prob": 75, "group": "bag_chips_full" },
+      { "prob": 75, "group": "bag_chips" },
       { "prob": 50, "group": "choco_coffee_beans_bag_plastic_5" },
       { "prob": 50, "group": "coffee_raw_bag_plastic_20" },
       { "item": "coffee_syrup", "prob": 15 },

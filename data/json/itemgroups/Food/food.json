@@ -519,7 +519,7 @@
     "id": "salty_snacks",
     "subtype": "distribution",
     "entries": [
-      { "prob": 195, "group": "bag_chips_full" },
+      { "prob": 195, "group": "bag_chips" },
       { "prob": 55, "group": "pretzels_bag_plastic_3" },
       { "item": "jerky", "prob": 55 },
       { "prob": 55, "group": "porkstick_bag_plastic_4" },
@@ -852,7 +852,7 @@
       { "prob": 20, "group": "pie_meat_box_small_8" },
       { "prob": 20, "group": "pie_veggy_box_small_8" },
       { "prob": 10, "group": "pie_maple_box_small_8" },
-      { "prob": 65, "group": "bag_chips_full" },
+      { "prob": 65, "group": "bag_chips" },
       { "prob": 25, "group": "fried_seeds_bag_plastic_4" },
       { "prob": 60, "group": "cookies_box_snack_4" },
       { "item": "mayonnaise", "prob": 60 },
@@ -1532,7 +1532,7 @@
   },
   {
     "type": "item_group",
-    "id": "bag_chips_full",
+    "id": "bag_chips",
     "subtype": "distribution",
     "entries": [
       { "item": "chips", "variant": "plain", "entry-wrapper": "bag_chips_small", "count": 1, "prob": 33 },
