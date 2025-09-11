@@ -897,7 +897,7 @@
       },
       {
         "id": "mixed",
-        "name": { "str_sp": "mixed chips" },
+        "name": { "str_sp": "all-mixed chips" },
         "expand_snippets": true,
         "description": "<mixed_chips_flavor>",
         "weight": 5
