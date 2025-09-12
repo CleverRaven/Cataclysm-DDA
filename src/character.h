@@ -581,9 +581,8 @@ class Character : public Creature, public visitable
         int ppen_per;
         int ppen_spd;
 
+        // Legacy value, used by several mods via eoc.
         int kill_xp = 0;
-        // Level-up points spent on Stats through Kills
-        int spent_upgrade_points = 0;
 
         float cached_organic_size;
 
