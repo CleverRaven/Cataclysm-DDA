@@ -5,7 +5,7 @@
     "looks_like": "glock_17",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "M1911A1" },
+    "name": { "str": "M1911A1 service pistol" },
     "description": "The M1911A1 is an extremely popular pistol known for its reliability.  This one is chambered for .38 Super.",
     "weight": "1157 g",
     "volume": "462 ml",
