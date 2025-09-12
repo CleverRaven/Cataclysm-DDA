@@ -17,7 +17,7 @@
       "type": "place_trap",
       "allow_underwater": true,
       "bury_question": "Bury the beartrap?",
-      "bury": { "trap": "tr_beartrap_buried", "moves": 275, "practice": 7, "done_message": "You bury the beartrap." },
+      "bury": { "trap": "tr_beartrap_buried", "moves": 36000, "practice": 7, "done_message": "You bury the beartrap." },
       "trap": "tr_beartrap",
       "moves": 200,
       "practice": 4,
@@ -45,7 +45,7 @@
     "use_action": {
       "type": "place_trap",
       "trap": "tr_light_snare",
-      "moves": 150,
+      "moves": 2500,
       "practice": 2,
       "done_message": "You set the snare trap."
     }
@@ -97,7 +97,7 @@
       "type": "place_trap",
       "allow_underwater": true,
       "trap": "tr_nailboard",
-      "moves": 150,
+      "moves": 400,
       "practice": 2,
       "done_message": "You set the board trap on the %s, nails facing up."
     },
@@ -121,7 +121,8 @@
     "use_action": {
       "type": "place_trap",
       "trap": "tr_boobytrap",
-      "moves": 200,
+      "//COMMENT": "This has to be rigged in place, so it takes a while to set up.",
+      "moves": 6000,
       "practice": 4,
       "done_message": "You set the booby trap up and activate the grenade."
     },
@@ -169,6 +170,7 @@
     "use_action": {
       "type": "place_trap",
       "trap": "tr_caltrops",
+      "//COMMENT": "Caltrops are meant to be scatterable in such a way that one point always sticks up, so this can just be done blindly and very quickly.",
       "moves": 150,
       "practice": 2,
       "done_message": "You scatter the caltrops on the %s."
@@ -194,6 +196,7 @@
     "use_action": {
       "type": "place_trap",
       "trap": "tr_caltrops_glass",
+      "//COMMENT": "Caltrops are meant to be scatterable in such a way that one point always sticks up, so this can just be done blindly and very quickly.",
       "moves": 150,
       "practice": 2,
       "done_message": "You scatter the glass caltrops on the %s."
@@ -218,7 +221,7 @@
     "use_action": {
       "type": "place_trap",
       "trap": "tr_crossbow",
-      "moves": 200,
+      "moves": 6000,
       "practice": 4,
       "done_message": "You set the crossbow trap."
     },
@@ -243,7 +246,7 @@
     "use_action": {
       "type": "place_trap",
       "bury_question": "Bury the land mine?",
-      "bury": { "trap": "tr_landmine_buried", "moves": 275, "practice": 7, "done_message": "You bury the land mine." },
+      "bury": { "trap": "tr_landmine_buried", "moves": 36000, "practice": 7, "done_message": "You bury the land mine." },
       "trap": "tr_landmine",
       "moves": 200,
       "practice": 4,
@@ -269,7 +272,7 @@
     "use_action": {
       "type": "place_trap",
       "trap": "tr_shotgun_2",
-      "moves": 225,
+      "moves": 6000,
       "practice": 5,
       "done_message": "You set the shotgun trap."
     },
@@ -295,7 +298,7 @@
       "type": "place_trap",
       "needs_solid_neighbor": true,
       "trap": "tr_tripwire",
-      "moves": 175,
+      "moves": 6000,
       "practice": 3,
       "done_message": "You string up the tripwire."
     },
@@ -319,6 +322,7 @@
     "use_action": {
       "type": "place_trap",
       "trap": "tr_caltrops_teeth",
+      "//COMMENT": "Caltrops are meant to be scatterable in such a way that one point always sticks up, so this can just be done blindly and very quickly.",
       "moves": 150,
       "practice": 2,
       "done_message": "You scatter the teeth caltrops on the %s."

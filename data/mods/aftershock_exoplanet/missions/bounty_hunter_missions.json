@@ -3,7 +3,7 @@
     "id": "MISSION_LAST_DANCE",
     "type": "mission_definition",
     "name": { "str": "The bounty is on Salus IV" },
-    "description": "You've chased your bounty all the way to the ass end of the galaxy here in the Salus system.  A place of so little value to UICA that it's left to pirates and hermits.  While you don't know where exactly your bounty is in this desolate wasteland you do have a lead on one of his associates.  Maybe he'll be able to tell you where to go.",
+    "description": "You've chased your bounty all the way to the ass end of the galaxy here in the Salus system; a place of so little value to UICA that it's left to pirates and hermits.  While you don't know where exactly your bounty is in this desolate wasteland, you do have a lead on one of his associates.  Maybe he'll be able to tell you where to go.",
     "goal": "MGOAL_KILL_MONSTER",
     "difficulty": 4,
     "start": {

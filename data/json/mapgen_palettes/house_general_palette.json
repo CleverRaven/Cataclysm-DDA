@@ -199,7 +199,7 @@
       "Ø": "f_pinball_machine",
       "Æ": "f_arcade_machine",
       "ʭ": "f_ladder",
-      "é": "f_freezer"
+      "ɱ": "f_console_broken"
     },
     "terrain": {
       "Ŧ": { "param": "house_fence_type", "fallback": "t_fence" },
@@ -295,7 +295,7 @@
         { "item": "home_display_case", "chance": 30 },
         { "item": "harddrugs_residential", "chance": 10, "repeat": [ 1, 2 ] },
         { "item": "maps", "chance": 2 },
-        { "item": "guns_pistol_common", "chance": 25, "ammo": 90, "magazine": 100 },
+        { "item": "guns_pistol_common", "chance": 25 },
         { "item": "gemstones", "chance": 30, "repeat": [ 1, 2 ] }
       ],
       "w": [
@@ -314,7 +314,7 @@
         }
       ],
       "F": { "item": "SUS_fridge", "chance": 100 },
-      "I": [ { "item": "SUS_desks_bedroom_unisex", "chance": 5 }, { "item": "office", "chance": 25 } ],
+      "I": [ { "item": "SUS_desks_bedroom_unisex", "chance": 5 }, { "item": "SUS_office_desk", "chance": 25 } ],
       "J": { "item": "kitchen_counters", "chance": 5 },
       "L": { "item": "unisex_coat_rack", "chance": 30, "repeat": [ 1, 4 ] },
       "M": { "item": "home_display_case", "chance": 70 },
@@ -330,7 +330,7 @@
         { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
         { "item": "bed", "chance": 30, "repeat": [ 1, 2 ] }
       ],
-      "R": [ { "item": "homebooks", "chance": 40, "repeat": [ 1, 4 ] }, { "item": "games", "chance": 20, "repeat": [ 1, 2 ] } ],
+      "R": [ { "item": "SUS_domestic_bookshelf" }, { "item": "games", "chance": 20, "repeat": [ 1, 2 ] } ],
       "S": [ { "item": "SUS_bathroom_sink", "chance": 80 }, { "item": "SUS_bathroom_medicine", "chance": 60 } ],
       "U": [
         { "item": "home_hw", "chance": 20, "repeat": [ 1, 2 ] },
@@ -338,7 +338,7 @@
         { "item": "camping", "chance": 5, "repeat": [ 1, 2 ] }
       ],
       "V": { "item": "home_display_case", "chance": 50 },
-      "Y": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 4 ] },
+      "Y": { "item": "SUS_trash_trashcan", "chance": 30 },
       "1": [ { "item": "SUS_dishes", "chance": 100 }, { "item": "SUS_silverware", "chance": 100 } ],
       "2": { "item": "SUS_cookware", "chance": 100 },
       "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
@@ -374,7 +374,8 @@
         { "item": "allsporting", "chance": 5 }
       ]
     },
-    "mapping": { "÷": { "item": { "item": "doormat", "chance": 55 } } }
+    "mapping": { "÷": { "item": { "item": "doormat", "chance": 55 } } },
+    "nested": { "é": { "chunks": [ [ "domestic_freezer_nest", 1 ], [ "null", 1 ] ] } }
   },
   {
     "type": "palette",
@@ -814,7 +815,7 @@
       "H": { "item": "laundry", "chance": 20 },
       "I": [
         { "item": "SUS_desks_bedroom_unisex", "chance": 5 },
-        { "item": "office", "chance": 25, "repear": [ 1, 2 ] },
+        { "item": "SUS_office_desk", "chance": 25, "repeat": [ 1, 2 ] },
         { "item": "art_all", "chance": 10 },
         { "item": "mail", "chance": 28, "repeat": [ 1, 2 ] },
         { "item": "dining", "chance": 15, "repeat": [ 1, 2 ] },
@@ -846,7 +847,7 @@
         { "item": "shower", "chance": 50, "repeat": [ 2, 3 ] }
       ],
       "W": { "item": "laundry", "chance": 75, "repeat": [ 2, 3 ] },
-      "Y": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 3, 5 ] },
+      "Y": { "item": "SUS_trash_trashcan", "chance": 80 },
       "1": [
         { "item": "SUS_dishes", "chance": 100 },
         { "item": "SUS_silverware", "chance": 100 },
@@ -933,7 +934,7 @@
       "H": { "item": "laundry", "chance": 20, "repeat": [ 1, 3 ] },
       "I": [
         { "item": "SUS_desks_bedroom_unisex", "chance": 5 },
-        { "item": "office", "chance": 25, "repear": [ 1, 2 ] },
+        { "item": "SUS_office_desk", "chance": 25, "repeat": [ 1, 2 ] },
         { "item": "mail", "chance": 28, "repeat": [ 1, 2 ] },
         { "item": "dining", "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "novels", "chance": 25, "repeat": [ 2, 3 ] }
@@ -964,7 +965,7 @@
         { "item": "shower", "chance": 50, "repeat": [ 2, 3 ] }
       ],
       "W": { "item": "laundry", "chance": 75, "repeat": [ 2, 3 ] },
-      "Y": { "item": "SUS_trash_trashcan", "chance": 90, "repeat": [ 4, 6 ] },
+      "Y": { "item": "SUS_trash_trashcan", "chance": 90 },
       "1": [
         { "item": "SUS_dishes", "chance": 100 },
         { "item": "SUS_silverware", "chance": 100 },

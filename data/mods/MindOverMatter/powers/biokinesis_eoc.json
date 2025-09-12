@@ -161,7 +161,7 @@
     "id": "EOC_BIOKIN_VITAMINOSIS_ONGOING_NETHER_ATTUNEMENT",
     "condition": { "u_has_effect": "effect_biokin_vitaminosis" },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(4)" ] },
+      { "math": [ "u_vitamin('vitamin_psionic_drain') += rand(4)" ] },
       {
         "run_eocs": "EOC_BIOKIN_VITAMINOSIS_ONGOING_NETHER_ATTUNEMENT",
         "time_in_future": [
@@ -188,8 +188,8 @@
       ]
     },
     "effect": [
-      { "if": { "math": [ "u_val('focus') >= 25" ] }, "then": { "math": [ "u_val('focus')", "-=", "rand(10) + 5" ] } },
-      { "math": [ "u_spell_exp('biokin_vitaminosis')", "+=", "psionic_power_experience_formula()" ] },
+      { "if": { "math": [ "u_val('focus') >= 25" ] }, "then": { "math": [ "u_val('focus') -= rand(10) + 5" ] } },
+      { "math": [ "u_spell_exp('biokin_vitaminosis') += psionic_power_experience_formula()" ] },
       {
         "run_eocs": "EOC_BIOKIN_VITAMINOSIS_EXPERIENCE",
         "time_in_future": [

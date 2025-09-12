@@ -26,7 +26,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "mine_balrog_west", "mine_balrog_central", "mine_balrog_east" ] ],
     "object": {
       "fill_ter": "t_rock_floor",
@@ -69,7 +68,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "mine_balrog_-1_west", "mine_balrog_-1_central", "mine_balrog_-1_east" ] ],
     "object": {
       "fill_ter": "t_rock_floor",
@@ -132,7 +130,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "mine_balrog_finale_nw", "mine_balrog_finale_n", "mine_balrog_finale_ne" ],
       [ "mine_balrog_finale_sw", "mine_balrog_finale_s", "mine_balrog_finale_se" ]
@@ -206,7 +203,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mine_balrog_bottomless_pit" ],
     "object": {
       "rows": [
@@ -240,7 +236,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "mine_balrog_lava" ],
     "object": {
       "rows": [

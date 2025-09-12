@@ -345,7 +345,13 @@
         "terrain_furniture": { "t_water_murky": { "chance": 2, "clear_furniture": false, "furniture": { "f_region_water_plant": 1 } } }
       }
     },
-    "river_scale": 1.0,
+    "overmap_river_settings": {
+      "river_scale": 1.0,
+      "river_frequency": 1.5,
+      "river_branch_chance": 64.0,
+      "river_branch_remerge_chance": 2.0,
+      "river_branch_scale_decrease": 1.0
+    },
     "forest_trail_settings": {
       "chance": 20,
       "border_point_chance": 2,

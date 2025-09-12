@@ -273,6 +273,7 @@ enum class object_type : int {
     FIELD,     // field.h; field_entry
     TERRAIN,   // Not a real object
     FURNITURE, // Not a real object
+    FURNITURE_ON_VEHICLE, // least real
     NUM_OBJECT_TYPES,
 };
 

@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_generic_edge_room_connector" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [

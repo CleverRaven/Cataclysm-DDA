@@ -64,6 +64,7 @@ enum safe_mode_type {
     SAFE_MODE_STOP = 2, // New monsters spotted, no movement allowed
 };
 
+class JsonObject;
 class JsonValue;
 class achievements_tracker;
 class avatar;
@@ -107,6 +108,7 @@ using item_location_filter = std::function<bool ( const item_location & )>;
 enum peek_act : int {
     PA_BLIND_THROW,
     PA_BLIND_THROW_WIELDED,
+    PA_MOVE,
     // obvious future additional value is PA_BLIND_FIRE
 };
 
@@ -236,10 +238,14 @@ class game
     public:
         void setup();
         /** Saving and loading functions. */
-        void serialize( std::ostream &fout ); // for save
+        void serialize_json( std::ostream &fout ); // for save
         void unserialize( std::istream &fin, const cata_path &path ); // for load
+        void unserialize( std::string fin ); // for load
         void unserialize_master( const cata_path &file_name, std::istream &fin ); // for load
         void unserialize_master( const JsonValue &jv ); // for load
+    private:
+        void unserialize_impl( const JsonObject &data );
+    public:
 
         /** Returns false if saving failed. */
         bool save();
@@ -848,7 +854,6 @@ class game
                                  bool hilite );
         void draw_vpart_override( const tripoint_bub_ms &p, const vpart_id &id, int part_mod,
                                   const units::angle &veh_dir, bool hilite, const point_rel_ms &mount );
-        void draw_below_override( const tripoint_bub_ms &p, bool draw );
         void draw_monster_override( const tripoint_bub_ms &p, const mtype_id &id, int count,
                                     bool more, Creature::Attitude att );
 
@@ -1076,17 +1081,15 @@ class game
         void display_faction_epilogues();
         void disp_NPC_epilogues();  // Display NPC endings
 
+    public:
         /* Debug functions */
         // currently displayed overlay (none is displayed if empty)
         std::optional<action_id> displaying_overlays; // NOLINT(cata-serialize)
         void display_scent();   // Displays the scent map
-        void display_temperature();    // Displays temperature map
-        void display_vehicle_ai(); // Displays vehicle autopilot AI overlay
         void display_visibility(); // Displays visibility map
         void display_lighting(); // Displays lighting conditions heat map
-        void display_radiation(); // Displays radiation map
-        void display_transparency(); // Displays transparency map
 
+    private:
         // prints the IRL time in ms of the last full in-game hour
         class debug_hour_timer
         {

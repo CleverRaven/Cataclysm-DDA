@@ -12,7 +12,6 @@
 #include "character.h"
 #include "construction.h"
 #include "creature.h"
-#include "debug.h"
 #include "dialogue.h"
 #include "effect_on_condition.h"
 #include "event.h"
@@ -307,11 +306,7 @@ void player_activity::do_turn( Character &you )
     if( !type->do_turn_EOC.is_null() ) {
         // if we have an EOC defined in json do that
         dialogue d( get_talker_for( you ), nullptr );
-        if( type->do_turn_EOC->type == eoc_type::ACTIVATION ) {
-            type->do_turn_EOC->activate( d );
-        } else {
-            debugmsg( "Must use an activation eoc for player activities.  Otherwise, create a non-recurring effect_on_condition for this with its condition and effects, then have a recurring one queue it." );
-        }
+        type->do_turn_EOC->activate_activation_only( d, "player activities" );
         // We may have canceled this via a message interrupt.
         if( type.is_null() ) {
             activity_handlers::clean_may_activity_occupancy_items_var_if_is_avatar_and_no_activity_now( you );
@@ -385,11 +380,7 @@ void player_activity::do_turn( Character &you )
         if( !type->completion_EOC.is_null() ) {
             // if we have an EOC defined in json do that
             dialogue d( get_talker_for( you ), nullptr );
-            if( type->completion_EOC->type == eoc_type::ACTIVATION ) {
-                type->completion_EOC->activate( d );
-            } else {
-                debugmsg( "Must use an activation eoc for player activities.  Otherwise, create a non-recurring effect_on_condition for this with its condition and effects, then have a recurring one queue it." );
-            }
+            type->completion_EOC->activate_activation_only( d, "player activities" );
         }
         get_event_bus().send<event_type::character_finished_activity>( you.getID(), type, false );
         g->wait_popup_reset();

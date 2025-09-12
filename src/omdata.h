@@ -14,7 +14,6 @@
 #include <utility>
 #include <vector>
 
-#include "assign.h"
 #include "color.h"
 #include "common_types.h"
 #include "coordinates.h"
@@ -140,7 +139,7 @@ class overmap_land_use_code
 
         // Used by generic_factory
         bool was_loaded = false;
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         void finalize();
         void check() const;
 };
@@ -201,6 +200,7 @@ enum class oter_flags : int {
     ravine,
     ravine_edge,
     pp_generate_riot_damage,
+    pp_generate_ruined,
     generic_loot,
     risk_extreme,
     risk_high,
@@ -238,6 +238,7 @@ struct enum_traits<oter_flags> {
 enum class oter_travel_cost_type : int {
     other,
     impassable,
+    highway,
     road,
     field,
     dirt_road,
@@ -247,6 +248,10 @@ enum class oter_travel_cost_type : int {
     swamp,
     water,
     air,
+    structure,
+    roof,
+    basement,
+    tunnel,
     last
 };
 
@@ -277,6 +282,7 @@ class oter_vision
         const level *viewed( om_vision_level ) const;
 
         static void load_oter_vision( const JsonObject &jo, const std::string &src );
+        static void finalize_all();
         static void reset();
         static void check_oter_vision();
         static const std::vector<oter_vision> &get_all();
@@ -363,7 +369,7 @@ struct oter_type_t {
             flags.set( flag, value );
         }
 
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         void check() const;
         void finalize();
 
@@ -543,6 +549,22 @@ struct oter_t {
             return type->uniform_terrain;
         }
 
+        bool is_road() const {
+            return type->has_flag( oter_flags::road );
+        }
+
+        bool is_highway() const {
+            return type->has_flag( oter_flags::highway );
+        }
+
+        bool is_highway_reserved() const {
+            return type->has_flag( oter_flags::highway_reserved );
+        }
+
+        bool is_highway_special() const {
+            return type->has_flag( oter_flags::highway_special );
+        }
+
     private:
         om_direction::type dir = om_direction::type::none;
         uint32_t symbol;
@@ -613,14 +635,7 @@ struct overmap_special_connection {
     string_id<overmap_connection> connection;
     bool existing = false;
 
-    void deserialize( const JsonValue &jsin ) {
-        JsonObject jo = jsin.get_object();
-        jo.read( "point", p );
-        jo.read( "terrain", terrain );
-        jo.read( "existing", existing );
-        jo.read( "connection", connection );
-        assign( jo, "from", from );
-    }
+    void deserialize( const JsonObject &jo );
 };
 
 struct overmap_special_placement_constraints {
@@ -678,6 +693,8 @@ class overmap_special
             return priority_;
         }
         int longest_side() const;
+        //NOTE: only useful for fixed overmap special
+        std::vector<overmap_special_terrain> get_terrains() const;
         std::vector<overmap_special_terrain> preview_terrains() const;
         std::vector<overmap_special_locations> required_locations() const;
         int score_rotation_at( const overmap &om, const tripoint_om_omt &p,
@@ -705,7 +722,7 @@ class overmap_special
 
         // Used by generic_factory
         bool was_loaded = false;
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         void finalize();
         void finalize_mapgen_parameters();
         void check() const;
@@ -728,6 +745,7 @@ class overmap_special
 struct overmap_special_migration {
     public:
         static void load_migrations( const JsonObject &jo, const std::string &src );
+        static void finalize_all();
         static void reset();
         void load( const JsonObject &jo, std::string_view src );
         static void check();

@@ -64,11 +64,7 @@ void anatomy::reset()
 
 void anatomy::finalize_all()
 {
-    // For some weird reason, generic_factory::finalize doesn't call finalize
     anatomy_factory.finalize();
-    for( const anatomy &an : anatomy_factory.get_all() ) {
-        const_cast<anatomy &>( an ).finalize();
-    }
 }
 
 void anatomy::finalize()
@@ -241,8 +237,8 @@ bodypart_id anatomy::select_body_part( int min_hit, int max_hit, bool can_attack
     }
 
     // Debug for seeing weights.
-    for( const weighted_object<double, bodypart_id> &pr : hit_weights ) {
-        add_msg_debug( debugmode::DF_ANATOMY_BP, "%s = %.3f", pr.obj.obj().name, pr.weight );
+    for( const std::pair<bodypart_id, double> &pr : hit_weights ) {
+        add_msg_debug( debugmode::DF_ANATOMY_BP, "%s = %.3f", pr.first.obj().name, pr.second );
     }
 
     const bodypart_id *ret = hit_weights.pick();
@@ -307,8 +303,8 @@ bodypart_id anatomy::select_blocking_part( const Creature *blocker, bool arm, bo
     }
 
     // Debug for seeing weights.
-    for( const weighted_object<double, bodypart_id> &pr : block_scores ) {
-        add_msg_debug( debugmode::DF_MELEE, "%s = %.3f", pr.obj.obj().name, pr.weight );
+    for( const std::pair<bodypart_id, double > &pr : block_scores ) {
+        add_msg_debug( debugmode::DF_MELEE, "%s = %.3f", pr.first.obj().name, pr.second );
     }
 
     const bodypart_id *ret = block_scores.pick();

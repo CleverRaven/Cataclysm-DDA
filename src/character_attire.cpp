@@ -33,7 +33,6 @@
 #include "itype.h"
 #include "json.h"
 #include "line.h"
-#include "make_static.h"
 #include "map.h"
 #include "melee.h"
 #include "messages.h"
@@ -48,6 +47,8 @@
 #include "translations.h"
 #include "value_ptr.h"
 #include "viewer.h"
+
+static const damage_type_id damage_heat( "heat" );
 
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_heating_bionic( "heating_bionic" );
@@ -352,27 +353,29 @@ std::optional<std::list<item>::iterator> outfit::wear_item( Character &guy, cons
         }
         guy.mod_moves( -guy.item_wear_cost( to_wear ) );
 
-        for( const bodypart_id &bp : guy.get_all_body_parts() ) {
-            if( to_wear.covers( bp ) && guy.encumb( bp ) >= 40 && !quiet ) {
+        if( !quiet ) {
+            for( const bodypart_id &bp : guy.get_all_body_parts() ) {
+                if( to_wear.covers( bp ) && guy.encumb( bp ) >= 40 ) {
+                    guy.add_msg_if_player( m_warning,
+                                           bp == body_part_eyes ?
+                                           _( "Your %s are very encumbered!  %s" ) : _( "Your %s is very encumbered!  %s" ),
+                                           body_part_name( bp ), encumb_text( bp ) );
+                }
+            }
+            if( !was_deaf && guy.is_deaf() ) {
+                guy.add_msg_if_player( m_info, _( "You're deafened!" ) );
+            }
+            if( supertinymouse && !to_wear.has_flag( flag_UNDERSIZE ) ) {
                 guy.add_msg_if_player( m_warning,
-                                       bp == body_part_eyes ?
-                                       _( "Your %s are very encumbered!  %s" ) : _( "Your %s is very encumbered!  %s" ),
-                                       body_part_name( bp ), encumb_text( bp ) );
+                                       _( "This %s is too big to wear comfortably!  Maybe it could be refitted." ),
+                                       to_wear.tname() );
+            } else if( !supertinymouse && to_wear.has_flag( flag_UNDERSIZE ) ) {
+                guy.add_msg_if_player( m_warning,
+                                       _( "This %s is too small to wear comfortably!  Maybe it could be refitted." ),
+                                       to_wear.tname() );
             }
         }
-        if( !was_deaf && guy.is_deaf() && !quiet ) {
-            guy.add_msg_if_player( m_info, _( "You're deafened!" ) );
-        }
-        if( supertinymouse && !to_wear.has_flag( flag_UNDERSIZE ) && !quiet ) {
-            guy.add_msg_if_player( m_warning,
-                                   _( "This %s is too big to wear comfortably!  Maybe it could be refitted." ),
-                                   to_wear.tname() );
-        } else if( !supertinymouse && to_wear.has_flag( flag_UNDERSIZE ) && !quiet ) {
-            guy.add_msg_if_player( m_warning,
-                                   _( "This %s is too small to wear comfortably!  Maybe it could be refitted." ),
-                                   to_wear.tname() );
-        }
-    } else if( guy.is_npc() && get_player_view().sees( here, guy ) && !quiet ) {
+    } else if( !quiet && guy.is_npc() && get_player_view().sees( here, guy ) ) {
         guy.add_msg_if_npc( _( "<npcname> puts on their %s." ), to_wear.tname() );
     }
 
@@ -434,7 +437,7 @@ void outfit::recalc_ablative_blocking( const Character *guy )
 }
 
 std::optional<std::list<item>::iterator> Character::wear_item( const item &to_wear,
-        bool interactive, bool do_calc_encumbrance )
+        bool interactive, bool do_calc_encumbrance, bool do_sort_items, bool quiet )
 {
     invalidate_inventory_validity_cache();
     invalidate_leak_level_cache();
@@ -446,7 +449,7 @@ std::optional<std::list<item>::iterator> Character::wear_item( const item &to_we
         return std::nullopt;
     }
 
-    return worn.wear_item( *this, to_wear, interactive, do_calc_encumbrance );
+    return worn.wear_item( *this, to_wear, interactive, do_calc_encumbrance, do_sort_items, quiet );
 }
 
 int Character::amount_worn( const itype_id &id ) const
@@ -1916,7 +1919,7 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
         // Heat damage can set armor on fire
         // Even though it doesn't cause direct physical damage to it
         // FIXME: Hardcoded damage type
-        if( outermost && elem.type == STATIC( damage_type_id( "heat" ) ) && elem.amount >= 1.0f ) {
+        if( outermost && elem.type == damage_heat && elem.amount >= 1.0f ) {
             // TODO: Different fire intensity values based on damage
             fire_data frd{ 2 };
             destroy = !armor.has_flag( flag_INTEGRATED ) && armor.burn( frd );
@@ -2589,7 +2592,7 @@ int outfit::clatter_sound() const
     return std::round( max_volume );
 }
 
-float outfit::clothing_wetness_mult( const bodypart_id &bp ) const
+float outfit::clothing_wetness_mult( const bodypart_id &bp, bool permeability_check ) const
 {
     float clothing_mult = 1.0;
     for( const item &i : worn ) {
@@ -2604,9 +2607,13 @@ float outfit::clothing_wetness_mult( const bodypart_id &bp ) const
         }
     }
 
-    // always some evaporation even if completely covered
-    // doesn't handle things that would be "air tight"
-    clothing_mult = std::max( clothing_mult, .1f );
+    // Skip this part if we're checking for permeability
+    // and not dealing with sweat
+    if( !permeability_check ) {
+        // always some evaporation even if completely covered
+        // doesn't handle things that would be "air tight"
+        clothing_mult = std::max( clothing_mult, .1f );
+    }
     return clothing_mult;
 }
 

@@ -9,12 +9,13 @@
 #include "character_attire.h"
 #include "debug.h"
 #include "item.h"
-#include "make_static.h"
 #include "map_helpers.h"
 #include "player_activity.h"
 #include "player_helpers.h"
 #include "stomach.h"
 #include "string_formatter.h"
+
+static const efftype_id effect_sleep( "sleep" );
 
 static const itype_id itype_atomic_lamp( "atomic_lamp" );
 static const itype_id itype_duffelbag( "duffelbag" );
@@ -78,7 +79,7 @@ void sleep_schedule::setup( avatar &guy ) const
 
 void sleep_schedule::do_turn( avatar &guy ) const
 {
-    if( !guy.has_effect( STATIC( efftype_id( "sleep" ) ) ) ) {
+    if( !guy.has_effect( effect_sleep ) ) {
         debugmsg( "Woke up!" );
     }
 }

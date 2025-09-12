@@ -18,7 +18,6 @@
 
 #include "action.h"
 #include "activity_actor_definitions.h"
-#include "assign.h"
 #include "avatar.h"
 #include "avatar_action.h"
 #include "ballistics.h"
@@ -55,7 +54,6 @@
 #include "itype.h"
 #include "json.h"
 #include "magic_enchantment.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -121,6 +119,8 @@ static const bionic_id bio_teleport( "bio_teleport" );
 static const bionic_id bio_torsionratchet( "bio_torsionratchet" );
 static const bionic_id bio_water_extractor( "bio_water_extractor" );
 
+static const damage_type_id damage_bash( "bash" );
+
 static const efftype_id effect_assisted( "assisted" );
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_bleed( "bleed" );
@@ -138,8 +138,9 @@ static const itype_id itype_radiocontrol( "radiocontrol" );
 static const itype_id itype_remotevehcontrol( "remotevehcontrol" );
 static const itype_id itype_water_clean( "water_clean" );
 
+static const json_character_flag json_flag_BIONIC_ARMOR_INTERFACE( "BIONIC_ARMOR_INTERFACE" );
+static const json_character_flag json_flag_BIONIC_FAULTY( "BIONIC_FAULTY" );
 static const json_character_flag json_flag_BIONIC_GUN( "BIONIC_GUN" );
-static const json_character_flag json_flag_BIONIC_NPC_USABLE( "BIONIC_NPC_USABLE" );
 static const json_character_flag json_flag_BIONIC_POWER_SOURCE( "BIONIC_POWER_SOURCE" );
 static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 static const json_character_flag json_flag_BIONIC_WEAPON( "BIONIC_WEAPON" );
@@ -161,8 +162,6 @@ static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
 
 static const morale_type morale_feeling_good( "morale_feeling_good" );
-static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
-static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
 
 static const requirement_id requirement_data_anesthetic( "anesthetic" );
 
@@ -177,7 +176,6 @@ static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_NONE( "NONE" );
 static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
 static const trait_id trait_PROF_MED( "PROF_MED" );
-static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_THRESH_MEDICAL( "THRESH_MEDICAL" );
 
 struct Character::bionic_fuels {
@@ -311,12 +309,15 @@ void bionic_data::load( const JsonObject &jsobj, std::string_view src )
     mandatory( jsobj, was_loaded, "description", description );
 
     optional( jsobj, was_loaded, "cant_remove_reason", cant_remove_reason );
-    // uses assign because optional doesn't handle loading units as strings
-    assign( jsobj, "react_cost", power_over_time, false, 0_kJ );
-    assign( jsobj, "capacity", capacity, false );
-    assign( jsobj, "act_cost", power_activate, false, 0_kJ );
-    assign( jsobj, "deact_cost", power_deactivate, false, 0_kJ );
-    assign( jsobj, "trigger_cost", power_trigger, false, 0_kJ );
+    optional( jsobj, was_loaded, "react_cost", power_over_time,
+              units_bound_reader<units::energy>( 0_kJ ), 0_kJ );
+    optional( jsobj, was_loaded, "capacity", capacity, 0_kJ );
+    optional( jsobj, was_loaded, "act_cost", power_activate,
+              units_bound_reader<units::energy>( 0_kJ ), 0_kJ );
+    optional( jsobj, was_loaded, "deact_cost", power_deactivate,
+              units_bound_reader<units::energy>( 0_kJ ), 0_kJ );
+    optional( jsobj, was_loaded, "trigger_cost", power_trigger,
+              units_bound_reader<units::energy>( 0_kJ ), 0_kJ );
 
     optional( jsobj, was_loaded, "time", charge_time, 0_turns );
 
@@ -417,13 +418,13 @@ void bionic_data::load( const JsonObject &jsobj, std::string_view src )
         social_mods = load_bionic_social_mods( sm );
     }
 
-    activated = has_flag( STATIC( json_character_flag( json_flag_BIONIC_TOGGLED ) ) ) ||
+    activated = has_flag( json_flag_BIONIC_TOGGLED ) ||
                 has_flag( json_flag_BIONIC_GUN ) ||
                 power_activate > 0_kJ ||
                 spell_on_activate ||
                 charge_time > 0_turns;
 
-    if( has_flag( STATIC( json_character_flag( "BIONIC_FAULTY" ) ) ) ) {
+    if( has_flag( json_flag_BIONIC_FAULTY ) ) {
         faulty_bionics.push_back( id );
     }
 
@@ -681,9 +682,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
             return;
         }
 
-        const int cbm_ammo = free_power / cbm_weapon.get_gun_energy_drain();
-
-        if( weapon_value( weap, ammo_count ) < weapon_value( cbm_weapon, cbm_ammo ) ) {
+        if( evaluate_weapon( weap ) < evaluate_weapon( cbm_weapon ) ) {
             if( real_weapon.is_null() ) {
                 // Prevent replacing real weapon when migrating saves
                 real_weapon = weap;
@@ -703,7 +702,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
 
         const item cbm_weapon = bio.get_weapon();
 
-        if( weapon_value( weap, ammo_count ) < weapon_value( cbm_weapon, 0 ) ) {
+        if( evaluate_weapon( weap ) < evaluate_weapon( cbm_weapon ) ) {
             if( is_armed() ) {
                 stow_item( *weapon );
             }
@@ -782,11 +781,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         dialogue d( get_talker_for( *this ), nullptr );
         write_var_value( var_type::context, "act_cost", &d,
                          units::to_millijoule( bio.info().power_activate ) );
-        if( eoc->type == eoc_type::ACTIVATION ) {
-            eoc->activate( d );
-        } else {
-            debugmsg( "Must use an activation eoc for a bionic activation.  If you don't want the effect_on_condition to happen on its own (without the bionic being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this bionic with its condition and effects, then have a recurring one queue it." );
-        }
+        eoc->activate_activation_only( d, "a bionic activation", "bionic being activated", "bionic" );
     }
 
     item tmp_item;
@@ -928,10 +923,8 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         if( pnt && here.is_flammable( *pnt ) && !here.get_field( *pnt, fd_fire ) ) {
             add_msg_activate();
             here.add_field( *pnt, fd_fire, 1 );
-            if( has_trait( trait_PYROMANIA ) ) {
-                add_morale( morale_pyromania_startfire, 5, 10, 3_hours, 2_hours );
-                rem_morale( morale_pyromania_nofire );
-                add_msg_if_player( m_good, _( "You happily light a fire." ) );
+            if( has_unfulfilled_pyromania() ) {
+                fulfill_pyromania_msg( _( "You happily light a fire." ), 5, 10, 3_hours, 2_hours );
             }
             mod_moves( -100 );
         } else {
@@ -1018,7 +1011,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             proj.speed  = 50;
             proj.impact = damage_instance();
             // FIXME: Hardcoded damage type
-            proj.impact.add_damage( STATIC( damage_type_id( "bash" ) ), pr.first.weight() / 250_gram );
+            proj.impact.add_damage( damage_bash, pr.first.weight() / 250_gram );
             // make the projectile stop one tile short to prevent hitting the player
             proj.range = rl_dist( pr.second, pos_bub() ) - 1;
             proj.proj_effects = {{ ammo_effect_NO_ITEM_DAMAGE, ammo_effect_DRAW_AS_LINE, ammo_effect_NO_DAMAGE_SCALING, ammo_effect_JET }};
@@ -1237,11 +1230,7 @@ bool Character::deactivate_bionic( bionic &bio, bool eff_only )
 
     for( const effect_on_condition_id &eoc : bio.id->deactivated_eocs ) {
         dialogue d( get_talker_for( *this ), nullptr );
-        if( eoc->type == eoc_type::ACTIVATION ) {
-            eoc->activate( d );
-        } else {
-            debugmsg( "Must use an activation eoc for a bionic deactivation.  If you don't want the effect_on_condition to happen on its own (without the bionic being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this bionic with its condition and effects, then have a recurring one queue it." );
-        }
+        eoc->activate_activation_only( d, "a bionic deactivation", "bionic being activated", "bionic" );
     }
 
     if( bio.info().has_flag( json_flag_BIONIC_WEAPON ) ) {
@@ -1544,7 +1533,7 @@ static bool attempt_recharge( Character &p, bionic &bio, units::energy &amount )
     bool recharged = false;
 
     if( power_cost > 0_kJ ) {
-        if( info.has_flag( STATIC( json_character_flag( "BIONIC_ARMOR_INTERFACE" ) ) ) ) {
+        if( info.has_flag( json_flag_BIONIC_ARMOR_INTERFACE ) ) {
             // Don't spend any power on armor interfacing unless we're wearing active powered armor.
             if( !p.worn.is_wearing_active_power_armor() ) {
                 const units::energy armor_power_cost = 1_kJ;
@@ -1621,11 +1610,7 @@ void Character::process_bionic( bionic &bio )
 
     for( const effect_on_condition_id &eoc : bio.id->processed_eocs ) {
         dialogue d( get_talker_for( *this ), nullptr );
-        if( eoc->type == eoc_type::ACTIVATION ) {
-            eoc->activate( d );
-        } else {
-            debugmsg( "Must use an activation eoc for a bionic process.  If you don't want the effect_on_condition to happen on its own (without the bionic being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this bionic with its condition and effects, then have a recurring one queue it." );
-        }
+        eoc->activate_activation_only( d, "a bionic process", "bionic being activated", "bionic" );
     }
 
     // Bionic effects on every turn they are active go here.
@@ -2334,8 +2319,6 @@ ret_val<void> Character::is_installable( const item *it, const bool by_autodoc )
     return has_bionic( b );
     } ) ) {
         return ret_val<void>::make_failure( _( "Superior version installed." ) );
-    } else if( is_npc() && !bid->has_flag( json_flag_BIONIC_NPC_USABLE ) ) {
-        return ret_val<void>::make_failure( _( "CBM not compatible with patient." ) );
     }
 
     return ret_val<void>::make_success( std::string() );

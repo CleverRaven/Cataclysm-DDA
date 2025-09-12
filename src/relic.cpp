@@ -105,6 +105,11 @@ void relic_procgen_data::load_relic_procgen_data( const JsonObject &jo, const st
     relic_procgen_data_factory.load( jo, src );
 }
 
+void relic_procgen_data::finalize_all()
+{
+    relic_procgen_data_factory.finalize();
+}
+
 relic::~relic() = default;
 
 void relic::add_active_effect( const fake_spell &sp )
@@ -604,20 +609,20 @@ int relic_procgen_data::power_level( const enchant_cache &ench ) const
 {
     int power = 0;
 
-    for( const weighted_object<int, relic_procgen_data::enchantment_value_passive<int>>
+    for( const std::pair<relic_procgen_data::enchantment_value_passive<int>, int>
          &add_val_passive : passive_add_procgen_values ) {
-        int val = ench.get_value_add( add_val_passive.obj.type );
+        int val = ench.get_value_add( add_val_passive.first.type );
         if( val != 0 ) {
-            power += static_cast<float>( add_val_passive.obj.power_per_increment ) /
-                     static_cast<float>( add_val_passive.obj.increment ) * val;
+            power += static_cast<float>( add_val_passive.first.power_per_increment ) /
+                     static_cast<float>( add_val_passive.first.increment ) * val;
         }
     }
 
-    for( const weighted_object<int, relic_procgen_data::enchantment_value_passive<float>>
+    for( const std::pair<relic_procgen_data::enchantment_value_passive<float>, int>
          &mult_val_passive : passive_mult_procgen_values ) {
-        float val = ench.get_value_multiply( mult_val_passive.obj.type );
+        float val = ench.get_value_multiply( mult_val_passive.first.type );
         if( val != 0.0f ) {
-            power += mult_val_passive.obj.power_per_increment / mult_val_passive.obj.increment * val;
+            power += mult_val_passive.first.power_per_increment / mult_val_passive.first.increment * val;
         }
     }
 
@@ -626,10 +631,10 @@ int relic_procgen_data::power_level( const enchant_cache &ench ) const
 
 int relic_procgen_data::power_level( const fake_spell &sp ) const
 {
-    for( const weighted_object<int, relic_procgen_data::enchantment_active> &vals :
+    for( const std::pair<relic_procgen_data::enchantment_active, int> &vals :
          active_procgen_values ) {
-        if( vals.obj.activated_spell == sp.id ) {
-            return vals.obj.calc_power( sp.level );
+        if( vals.first.activated_spell == sp.id ) {
+            return vals.first.calc_power( sp.level );
         }
     }
     return 0;

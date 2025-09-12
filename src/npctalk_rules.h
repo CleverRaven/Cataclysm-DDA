@@ -51,7 +51,7 @@ class follower_rules_ui_impl : public cataimgui::window
         // makes a checkbox for the rule
         template<typename T>
         void checkbox( int rule_number, const T &this_rule, input_event &assigned_hotkey,
-                       const input_event &pressed_key );
+                       const input_event &pressed_key, bool confirm_toggle );
 
         // makes one radio button per option in the map
         template<typename T>

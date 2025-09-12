@@ -206,11 +206,11 @@
       },
       {
         "u_add_effect": "blind_clair_overload",
-        "duration": { "math": [ "time(' 15 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
+        "duration": { "math": [ "time(' 2 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
       },
       {
         "u_add_effect": "deaf_clair_overload",
-        "duration": { "math": [ "time(' 15 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
+        "duration": { "math": [ "time(' 2 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
       }
     ]
   },
@@ -554,7 +554,7 @@
     "type": "effect_on_condition",
     "id": "EOC_POWER_MAINTENANCE_PLUS_ONE",
     "effect": [
-      { "math": [ "u_vitamin('vitamin_maintained_powers')", "+=", "1" ] },
+      { "math": [ "u_vitamin('vitamin_maintained_powers') += 1" ] },
       { "run_eocs": "EOC_CONCENTRATION_VS_LIMIT_CALCULATIONS" }
     ]
   },
@@ -562,7 +562,57 @@
     "type": "effect_on_condition",
     "id": "EOC_POWER_MAINTENANCE_MINUS_ONE",
     "effect": [
-      { "math": [ "u_vitamin('vitamin_maintained_powers')", "-=", "1" ] },
+      { "math": [ "u_vitamin('vitamin_maintained_powers') -= 1" ] },
+      { "run_eocs": "EOC_CONCENTRATION_VS_LIMIT_CALCULATIONS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONCENTRATION_LIMIT_INSTANT_UPDATER",
+    "//": "This allows live reporting if any conditions, such as being slimed or being dazed etc., change your concentration limit",
+    "recurrence": 1,
+    "condition": {
+      "and": [
+        {
+          "u_has_any_trait": [
+            "BIOKINETIC",
+            "CLAIRSENTIENT",
+            "ELECTROKINETIC",
+            "PHOTOKINETIC",
+            "PYROKINETIC",
+            "TELEKINETIC",
+            "TELEPATH",
+            "TELEPORTER",
+            "VITAKINETIC",
+            "PSYCHIC_KNACK"
+          ]
+        },
+        { "math": [ "u_vitamin('vitamin_maintained_powers') >= 1" ] }
+      ]
+    },
+    "deactivate_condition": {
+      "not": {
+        "u_has_any_trait": [
+          "BIOKINETIC",
+          "CLAIRSENTIENT",
+          "ELECTROKINETIC",
+          "PHOTOKINETIC",
+          "PYROKINETIC",
+          "TELEKINETIC",
+          "TELEPATH",
+          "TELEPORTER",
+          "VITAKINETIC",
+          "PSYCHIC_KNACK"
+        ]
+      }
+    },
+    "effect": [
+      { "math": [ "_debug_maintained_powers = u_vitamin('vitamin_maintained_powers')" ] },
+      { "math": [ "_debug_concentration_calculations = concentration_calculations()" ] },
+      {
+        "u_message": "You are concentrating on <context_val:debug_maintained_powers> / <context_val:debug_concentration_calculations> powers (current/limit).",
+        "type": "debug"
+      },
       { "run_eocs": "EOC_CONCENTRATION_VS_LIMIT_CALCULATIONS" }
     ]
   },
@@ -581,7 +631,7 @@
       {
         "if": { "u_has_effect": "effect_psi_intense_concentration" },
         "then": [
-          { "u_message": "As you stop concentrating, your mind clears a bit.  It's easier to think now.", "type": "good" },
+          { "u_message": "The pressure on your mind lightens.  It's easier to concentrate now.", "type": "good" },
           { "u_lose_effect": "effect_psi_intense_concentration" }
         ]
       }
@@ -591,6 +641,8 @@
     "type": "effect_on_condition",
     "id": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK",
     "//": "x-in_y event prevents divide-by-0 but makes concentration breaking much more likely the more negative your concentration limit is",
+    "//2": "This controls gaining metaphysics XP on concentration success or failure.  Gaining metaphysics XP for general channeling of powers is in eoc_misc",
+    "//3": "There is a small chance for your concentration breaking if you are at your exact limit.  This is deliberate",
     "condition": {
       "and": [
         { "math": [ "u_vitamin('vitamin_maintained_powers') >= concentration_calculations()" ] },
@@ -609,6 +661,7 @@
     "effect": [
       { "u_message": "Your concentration breaks!", "type": "bad" },
       { "run_eocs": [ "EOC_END_PSI_POWERS_MAINTAINED", "EOC_CONCENTRATION_FAILURE_REDUCE_FOCUS" ] },
+      "u_cancel_activity",
       {
         "math": [
           "u_vitamin('vitamin_psionic_drain')",
@@ -616,9 +669,7 @@
           "rng( 3,8 ) * (u_vitamin('vitamin_maintained_powers')) / concentration_calculations()"
         ]
       },
-      {
-        "math": [ "u_skill_exp('metaphysics', 'format': 'raw')", "+=", "(15 * u_latest_channeled_power_difficulty)" ]
-      },
+      { "math": [ "u_skill_exp('metaphysics', 'format': 'raw') += (15 * u_latest_channeled_power_difficulty)" ] },
       { "run_eocs": "EOC_CONCENTRATION_CHECK_FOR_NETHER_ATTUNEMENT_BACKLASH" }
     ],
     "false_effect": [
@@ -632,9 +683,7 @@
           "EOC_CONCENTRATION_VS_LIMIT_CALCULATIONS"
         ]
       },
-      {
-        "math": [ "u_skill_exp('metaphysics', 'format': 'raw')", "+=", "(75 * u_latest_channeled_power_difficulty)" ]
-      }
+      { "math": [ "u_skill_exp('metaphysics', 'format': 'raw') += (75 * u_latest_channeled_power_difficulty)" ] }
     ]
   },
   {
@@ -646,7 +695,7 @@
         { "math": [ "u_vitamin('vitamin_maintained_powers') > 0" ] }
       ]
     },
-    "effect": [ { "math": [ "u_proficiency('prof_concentration_basic', 'format': 'percent')", "+=", "rand(4) / 24" ] } ],
+    "effect": [ { "math": [ "u_proficiency('prof_concentration_basic', 'format': 'percent') += rand(4) / 24" ] } ],
     "//": "adds 0% - 0.16% experience per run",
     "false_effect": {
       "run_eocs": [
@@ -658,7 +707,7 @@
               { "math": [ "u_vitamin('vitamin_maintained_powers') > 0" ] }
             ]
           },
-          "effect": [ { "math": [ "u_proficiency('prof_concentration_intermediate', 'format': 'percent')", "+=", "rand(4) / 48" ] } ],
+          "effect": [ { "math": [ "u_proficiency('prof_concentration_intermediate', 'format': 'percent') += rand(4) / 48" ] } ],
           "false_effect": {
             "run_eocs": [
               {
@@ -669,7 +718,7 @@
                     { "math": [ "u_vitamin('vitamin_maintained_powers') > 0" ] }
                   ]
                 },
-                "effect": [ { "math": [ "u_proficiency('prof_concentration_master', 'format': 'percent')", "+=", "rand(4) / 96" ] } ]
+                "effect": [ { "math": [ "u_proficiency('prof_concentration_master', 'format': 'percent') += rand(4) / 96" ] } ]
               }
             ]
           }
@@ -681,13 +730,13 @@
     "type": "effect_on_condition",
     "id": "EOC_CONCENTRATION_SUCCESS_REDUCE_FOCUS",
     "condition": { "and": [ { "math": [ "u_vitamin('vitamin_maintained_powers') > 0" ] }, { "math": [ "u_val('focus') >= 15" ] } ] },
-    "effect": [ { "math": [ "u_val('focus')", "-=", "1" ] } ]
+    "effect": [ { "math": [ "u_val('focus') -= 1" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_CONCENTRATION_FAILURE_REDUCE_FOCUS",
     "condition": { "and": [ { "math": [ "u_vitamin('vitamin_maintained_powers') > 0" ] }, { "math": [ "u_val('focus') >= 20" ] } ] },
-    "effect": [ { "math": [ "u_val('focus')", "-=", "5" ] } ]
+    "effect": [ { "math": [ "u_val('focus') -= 5" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -726,7 +775,7 @@
     "condition": {
       "and": [ { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" }, { "math": [ "u_val('focus') >= 15" ] } ]
     },
-    "effect": [ { "math": [ "u_val('focus')", "-=", "1" ] } ]
+    "effect": [ { "math": [ "u_val('focus') -= 1" ] } ]
   },
   {
     "type": "effect_on_condition",

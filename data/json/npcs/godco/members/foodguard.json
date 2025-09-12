@@ -179,14 +179,14 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_guard_food_bribe_fail",
     "dynamic_line": [ "Nope, it couldn't.  Don't try and fuckin' bribe me again." ],
-    "speaker_effect": [ { "effect": { "math": [ "n_npc_anger()", "+=", "1" ] } } ],
+    "speaker_effect": [ { "effect": { "math": [ "n_npc_anger() += 1" ] } } ],
     "responses": [ { "text": "Geez, I'm leaving.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_guard_food_intimidate_sucess",
     "dynamic_line": [ "Alright, alright.  Here's some food and water, <name_b>.  Get out of my sight." ],
-    "speaker_effect": [ { "effect": { "math": [ "n_npc_anger()", "+=", "2" ] } } ],
+    "speaker_effect": [ { "effect": { "math": [ "n_npc_anger() += 2" ] } } ],
     "responses": [
       {
         "text": "Keep that in mind.",

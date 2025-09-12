@@ -29,7 +29,7 @@
     "copy-from": "cattail_rhizome",
     "weight": "160 g",
     "volume": "220 ml",
-    "color": "black",
+    "color": "dark_gray",
     "calories": 280,
     "spoils_in": "5 days",
     "description": "A roasted root from a cattail plant.  Its fibrous outer core is charred black, so you can remove it and chew on the dry inside.",
@@ -1034,6 +1034,8 @@
     "color": "green",
     "spoils_in": "30 days",
     "quench": 5,
+    "weight": "54 g",
+    "volume": "50 ml",
     "description": "A small pickled cucumber.  Rather sour, but tastes good and lasts for a long time.",
     "price": "13 cent",
     "price_postapoc": "20 cent",
@@ -1782,7 +1784,6 @@
     "description": "Boiled potatoes mashed together with salt & oil.",
     "price": "50 cent",
     "price_postapoc": "30 cent",
-    "sealed": true,
-    "delete": { "flags": [ "RAW" ] }
+    "sealed": true
   }
 ]

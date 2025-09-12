@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "bar" ],
     "object": {
       "fill_ter": "t_floor",
@@ -71,8 +70,8 @@
       "toilets": { "t": {  } },
       "items": {
         "x": { "item": "pool_table", "chance": 30, "repeat": [ 1, 2 ] },
-        "T": { "item": "SUS_trash_trashcan", "chance": 50, "repeat": [ 1, 2 ] },
-        "r": { "item": "SUS_trash_trashcan", "chance": 50, "repeat": [ 1, 2 ] },
+        "T": { "item": "SUS_trash_trashcan_public", "chance": 50 },
+        "r": { "item": "SUS_trash_trashcan_public", "chance": 50 },
         "d": { "item": "SUS_trash_dumpster", "chance": 70, "repeat": [ 2, 4 ] },
         "t": { "item": "bar_bathroom", "chance": 30, "repeat": [ 1, 2 ] },
         "#": [
@@ -92,7 +91,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "bar_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -136,7 +134,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "bar_1" ],
     "object": {
       "fill_ter": "t_floor",
@@ -226,7 +223,7 @@
         "u": { "item": "bar_alcohol", "chance": 30, "repeat": [ 1, 2 ] },
         "{": { "item": "bar_alcohol", "chance": 75, "repeat": [ 1, 8 ] },
         "$": { "item": "bar_fridge", "chance": 70, "repeat": [ 1, 8 ] },
-        "&": { "item": "fridgesnacks", "chance": 40, "repeat": [ 1, 2 ] },
+        "&": { "item": "SUS_fridge_snacks", "chance": 40, "repeat": [ 1, 2 ] },
         "x": { "item": "pool_table", "chance": 30, "repeat": [ 1, 2 ] }
       },
       "place_loot": [ { "group": "cash_register_random", "x": 21, "y": 13 } ]
@@ -234,7 +231,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "bar_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",

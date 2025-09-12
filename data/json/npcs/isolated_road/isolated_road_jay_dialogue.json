@@ -97,7 +97,7 @@
   {
     "id": "TALK_GUNSMITH_RESTOCK",
     "type": "talk_topic",
-    "dynamic_line": "Next series of currency gotta be ready in around <interval>, fresh off the print!",
+    "dynamic_line": "Next series of currency gotta be ready around <restock_time_point>, fresh off the print!",
     "responses": [ { "text": "I'll make sure to take a look.  <end_talking_bye>", "topic": "TALK_DONE" } ]
   },
   {

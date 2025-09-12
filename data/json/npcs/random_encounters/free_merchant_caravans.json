@@ -281,7 +281,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CARAVAN_GUARD_B",
-    "dynamic_line": "*tips their hat down from their eyes and looks at you blearily.  \"Huh?  Hey, I'm tryin'a sleep here.  I was on night watch.",
+    "dynamic_line": "*tips their hat down from their eyes and looks at you blearily.  \"Huh?  Hey, I'm tryin'a sleep here.  I was on night watch.\"",
     "responses": [ { "text": "Oh, uh, sorry.", "topic": "TALK_DONE" } ]
   }
 ]

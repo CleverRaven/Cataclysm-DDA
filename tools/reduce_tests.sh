@@ -25,12 +25,6 @@ then
     exit 1
 fi
 
-if [ ! -x tests/cata_test ]
-then
-    printf "Please build cata_test and run this script from the top-level directory" >&2
-    exit 1
-fi
-
 export rng_seed=$1
 
 shift

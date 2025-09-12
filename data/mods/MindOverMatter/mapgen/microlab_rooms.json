@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "weight": 333,
     "nested_mapgen_id": "microlab_distorted_chunk",
     "//": "This is a Physics lab tile with guaranteed matrix crystal",
@@ -30,7 +29,6 @@
     "nested_mapgen_id": "microlab_generic_tile",
     "//": "Project PHAVIAN / COLD BELOW research",
     "weight": 750,
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -93,7 +91,6 @@
     "nested_mapgen_id": "microlab_generic_tile",
     "//": "Project PHAVIAN teleportation research",
     "weight": 750,
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -172,7 +169,6 @@
     "nested_mapgen_id": "microlab_generic_tile",
     "//": "Project PHAVIAN teleportation Osiris Chamber",
     "weight": 500,
-    "method": "json",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -222,7 +218,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "microlab_teleporter_osiris_chamber",
     "object": {
       "mapgensize": [ 3, 3 ],

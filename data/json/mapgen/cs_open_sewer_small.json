@@ -38,6 +38,7 @@
       [ "well_pump", 10 ],
       { "group": "tools_toolbox", "prob": 5 },
       [ "wrench", 15 ],
+      [ "wrench_48", 30 ],
       [ "bag_canvas", 40 ],
       [ "jumper_cable", 40 ],
       [ "jumper_cable_heavy", 20 ],
@@ -50,7 +51,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cs_open_sewer" ],
     "object": {
       "fill_ter": "t_region_soil",
@@ -117,7 +117,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cs_open_sewer_roof" ],
     "object": {
       "fill_ter": "t_open_air",
@@ -152,7 +151,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "cs_open_sewer_undergound",
     "object": {
       "rows": [
@@ -186,7 +184,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "sewer_connector",
     "object": {
       "rows": [

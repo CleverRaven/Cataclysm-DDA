@@ -261,7 +261,7 @@
     "color": "light_gray",
     "techniques": [ "SPIN", "WRAP" ],
     "qualities": [ [ "COOK", 1 ], [ "ROPE", 2 ] ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
+    "extend": { "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ] },
     "use_action": { "type": "deploy_furn", "furn_type": "f_rope_up" },
     "melee_damage": { "bash": 12, "cut": 6 }
   },
@@ -544,7 +544,7 @@
       "type": "place_trap",
       "allow_under_player": true,
       "trap": "tr_rollmat",
-      "moves": 100,
+      "moves": 1000,
       "practice": 0,
       "done_message": "You unroll the mat and lay it on the ground."
     },
@@ -1088,9 +1088,10 @@
     "price": "10 USD",
     "price_postapoc": "10 cent",
     "material": [ "epoxy", "nylon" ],
-    "flags": [ "REACH_ATTACK", "REACH3" ],
+    "flags": [ "REACH_ATTACK", "REACH3", "WHIP" ],
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "neutral" },
-    "melee_damage": { "cut": 1 }
+    "melee_damage": { "cut": 1 },
+    "weapon_category": [ "WHIPS" ]
   },
   {
     "id": "riding_crop",
@@ -1124,7 +1125,7 @@
     "use_action": {
       "type": "place_trap",
       "trap": "tr_teeth",
-      "moves": 150,
+      "moves": 3000,
       "practice": 2,
       "done_message": "You carefully place the teeth on the ground, ready to be walked on by something passing by."
     },

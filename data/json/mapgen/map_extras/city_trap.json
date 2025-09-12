@@ -1,13 +1,11 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_city_trap",
     "object": { "place_nested": [ { "chunks": [ "3x3_city_trap" ], "x": [ 4, 17 ], "y": [ 4, 17 ] } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "3x3_city_trap",
     "object": {
       "mapgensize": [ 3, 3 ],

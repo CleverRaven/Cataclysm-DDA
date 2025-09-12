@@ -49,13 +49,12 @@ env:
   VCPKG_OVERLAY_TRIPLETS: ${{ github.workspace }}\.github\vcpkg_triplets
   # Also conveniently disable ccache internal compression
   CCACHE_HARDLINK: true
-  # vcpkg with object_creator deps totals ~500MB at this compression level
   ZSTD_CLEVEL: 17
 
 jobs:
   build_catatclysm:
     name: Build
-    runs-on: windows-2019
+    runs-on: windows-2022
     if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
 
     steps:
@@ -140,7 +139,7 @@ jobs:
 
     - name: Build
       run: |
-          msbuild -m -p:Configuration=Release -p:Platform=x64 "-target:Cataclysm-vcpkg-static;Cataclysm-test-vcpkg-static;JsonFormatter-vcpkg-static" msvc-full-features/Cataclysm-vcpkg-static.sln
+          msbuild -m -p:Configuration=Release -p:Platform=x64 "-target:Cataclysm-vcpkg-static;Cataclysm-test-vcpkg-static;JsonFormatter-vcpkg-static;zzip" msvc-full-features/Cataclysm-vcpkg-static.sln
 
     - name: Get ccache cache age cutoff
       id: get-cache-age

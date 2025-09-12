@@ -239,6 +239,7 @@
     "description": "This undead cougar's eyes ooze with dark, oily fluid, and its fur is torn, revealing deep, festering wounds.  Its claws and teeth are unnaturally long, and sharpened into dangerous looking spikes.",
     "hp": 200,
     "speed": 190,
+    "move_skills": { "climb": 9 },
     "attack_cost": 190,
     "color": "brown",
     "melee_dice": 6,
@@ -257,7 +258,7 @@
       }
     ],
     "upgrades": false,
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "CLIMBS", "PUSH_MON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
   {
     "id": "mon_zombear_skeleton",

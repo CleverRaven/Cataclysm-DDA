@@ -93,10 +93,10 @@
         { "item": "xed_notes", "chance": 20 }
       ],
       "e": [
-        { "item": "fridge", "chance": 70, "repeat": [ 1, 3 ] },
-        { "item": "fridgesnacks", "chance": 70, "repeat": [ 1, 10 ] }
+        { "item": "SUS_fridge", "chance": 70, "repeat": [ 1, 3 ] },
+        { "item": "SUS_fridge_breakroom", "chance": 70, "repeat": [ 1, 3 ] }
       ],
-      "o": { "item": "oven", "chance": 70 },
+      "o": { "item": "SUS_oven", "chance": 70 },
       "r": [ { "item": "SUS_office_supplies", "chance": 65, "repeat": [ 1, 4 ] } ],
       "g": [ { "item": "xe_border_patrol_evidence", "chance": 65 } ],
       "y": { "item": "cleaning", "chance": 60, "repeat": [ 1, 2 ] },

@@ -185,7 +185,7 @@
       [ [ "scrap", 4 ] ],
       [ [ "plastic_chunk", 2 ] ],
       [ [ "motor_micro", 1 ] ],
-      [ [ "super_glue", 2 ] ],
+      [ [ "glue_strong", 2 ] ],
       [ [ "element", 2 ], [ "crude_heating_element", 2 ] ],
       [ [ "hose", 1 ], [ "makeshift_hose", 1 ] ],
       [ [ "power_supply", 1 ] ]

@@ -132,6 +132,11 @@ void clothing_mods::load( const JsonObject &jo, const std::string &src )
     all_clothing_mods.load( jo, src );
 }
 
+void clothing_mod::finalize_all()
+{
+    all_clothing_mods.finalize();
+}
+
 void clothing_mods::reset()
 {
     all_clothing_mods.reset();

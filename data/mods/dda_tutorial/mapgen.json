@@ -25,7 +25,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "tutorial",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -148,7 +147,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "tutorial_roof",
     "object": {
       "rows": [
@@ -182,7 +180,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "tutorial_underground",
     "object": {
       "fill_ter": "t_thconc_floor",

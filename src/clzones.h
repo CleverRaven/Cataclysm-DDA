@@ -60,6 +60,7 @@ class zone_type
         bool hidden = false;
 
         static void load_zones( const JsonObject &jo, const std::string &src );
+        static void finalize_all();
         static void reset();
         void load( const JsonObject &jo, std::string_view );
         /**
@@ -383,7 +384,6 @@ class zone_data
 
         zone_data( const std::string &_name, const zone_type_id &_type, const faction_id &_faction,
                    bool _invert, const bool _enabled,
-                   const tripoint_abs_ms &_start, const tripoint_abs_ms &_end,
                    const shared_ptr_fast<zone_options> &_options = nullptr,
                    bool _is_displayed = false ) {
             name = _name;
@@ -392,9 +392,6 @@ class zone_data
             invert = _invert;
             enabled = _enabled;
             is_vehicle = false;
-            is_personal = false;
-            start = _start;
-            end = _end;
             is_displayed = _is_displayed;
 
             // ensure that supplied options is of correct class
@@ -407,26 +404,24 @@ class zone_data
 
         zone_data( const std::string &_name, const zone_type_id &_type, const faction_id &_faction,
                    bool _invert, const bool _enabled,
+                   const tripoint_abs_ms &_start, const tripoint_abs_ms &_end,
+                   const shared_ptr_fast<zone_options> &_options = nullptr,
+                   bool _is_displayed = false )
+            : zone_data( _name, _type, _faction, _invert, _enabled, _options, _is_displayed ) {
+            is_personal = false;
+            start = _start;
+            end = _end;
+        }
+
+        zone_data( const std::string &_name, const zone_type_id &_type, const faction_id &_faction,
+                   bool _invert, const bool _enabled,
                    const tripoint_rel_ms &_start, const tripoint_rel_ms &_end,
                    const shared_ptr_fast<zone_options> &_options = nullptr,
-                   bool _is_displayed = false ) {
-            name = _name;
-            type = _type;
-            faction = _faction;
-            invert = _invert;
-            enabled = _enabled;
-            is_vehicle = false;
+                   bool _is_displayed = false )
+            : zone_data( _name, _type, _faction, _invert, _enabled, _options, _is_displayed ) {
             is_personal = true;
             personal_start = _start;
             personal_end = _end;
-            is_displayed = _is_displayed;
-
-            // ensure that supplied options is of correct class
-            if( _options == nullptr || !zone_options::is_valid( type, *_options ) ) {
-                options = zone_options::create( type );
-            } else {
-                options = _options;
-            }
         }
 
         // returns true if name is changed

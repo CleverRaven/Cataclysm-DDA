@@ -1182,7 +1182,7 @@
                   "u_message": "As you nearly complete the spell, you stop in your tracks.  There's something odd about the ground below you, and sinking into it would be too dangerous.",
                   "type": "mixed"
                 },
-                { "math": [ "u_val('mana')", "+=", "(800 * (1 / enhancement_proficiency_modifier() ) )" ] }
+                { "math": [ "u_val('mana') += (800 * (1 / enhancement_proficiency_modifier() ) )" ] }
               ]
             }
           ],

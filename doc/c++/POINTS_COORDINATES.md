@@ -1,3 +1,22 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Points, tripoints, and coordinate systems](#points-tripoints-and-coordinate-systems)
+  - [Axes](#axes)
+  - [Coordinate systems](#coordinate-systems)
+  - [Vertical coordinates](#vertical-coordinates)
+  - [Vehicle coordinates](#vehicle-coordinates)
+  - [Point types](#point-types)
+  - [Raw point types](#raw-point-types)
+  - [Point Constants](#point-constants)
+  - [Converting between point types](#converting-between-point-types)
+    - [Changing scale](#changing-scale)
+    - [Changing origin](#changing-origin)
+  - [Point operations](#point-operations)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Points, tripoints, and coordinate systems
 
 ## Axes

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_underground_innawood" ],
     "weight": 300,
     "object": {

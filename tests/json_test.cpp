@@ -114,40 +114,40 @@ TEST_CASE( "spell_type_handles_all_members", "[json]" )
         CHECK( test_spell.spell_tags.test( spell_flag::CONCENTRATE ) );
         CHECK( test_spell.field );
         CHECK( test_spell.field->id() == field_test_field );
-        CHECK( test_spell.field_chance.min.dbl_val.value() == 2 );
-        CHECK( test_spell.max_field_intensity.min.dbl_val.value() == 2 );
-        CHECK( test_spell.min_field_intensity.min.dbl_val.value() == 2 );
-        CHECK( test_spell.field_intensity_increment.min.dbl_val.value() == 1 );
-        CHECK( test_spell.field_intensity_variance.min.dbl_val.value() == 1 );
-        CHECK( test_spell.min_damage.min.dbl_val.value() == 1 );
-        CHECK( test_spell.max_damage.min.dbl_val.value() == 1 );
-        CHECK( test_spell.damage_increment.min.dbl_val.value() == 1.0f );
-        CHECK( test_spell.min_range.min.dbl_val.value() == 1 );
-        CHECK( test_spell.max_range.min.dbl_val.value() == 1 );
-        CHECK( test_spell.range_increment.min.dbl_val.value() == 1.0f );
-        CHECK( test_spell.min_aoe.min.dbl_val.value() == 1 );
-        CHECK( test_spell.max_aoe.min.dbl_val.value() == 1 );
-        CHECK( test_spell.aoe_increment.min.dbl_val.value() == 1.0f );
-        CHECK( test_spell.min_dot.min.dbl_val.value() == 1 );
-        CHECK( test_spell.max_dot.min.dbl_val.value() == 1 );
-        CHECK( test_spell.dot_increment.min.dbl_val.value() == 1.0f );
-        CHECK( test_spell.min_duration.min.dbl_val.value() == 1 );
-        CHECK( test_spell.max_duration.min.dbl_val.value() == 1 );
-        CHECK( test_spell.duration_increment.min.dbl_val.value() == 1 );
-        CHECK( test_spell.min_pierce.min.dbl_val.value() == 1 );
-        CHECK( test_spell.max_pierce.min.dbl_val.value() == 1 );
-        CHECK( test_spell.pierce_increment.min.dbl_val.value() == 1.0f );
-        CHECK( test_spell.base_energy_cost.min.dbl_val.value() == 1 );
-        CHECK( test_spell.final_energy_cost.min.dbl_val.value() == 2 );
-        CHECK( test_spell.energy_increment.min.dbl_val.value() == 1.0f );
+        CHECK( test_spell.field_chance.constant() == 2 );
+        CHECK( test_spell.max_field_intensity.constant() == 2 );
+        CHECK( test_spell.min_field_intensity.constant() == 2 );
+        CHECK( test_spell.field_intensity_increment.constant() == 1 );
+        CHECK( test_spell.field_intensity_variance.constant() == 1 );
+        CHECK( test_spell.min_damage.constant() == 1 );
+        CHECK( test_spell.max_damage.constant() == 1 );
+        CHECK( test_spell.damage_increment.constant() == 1.0f );
+        CHECK( test_spell.min_range.constant() == 1 );
+        CHECK( test_spell.max_range.constant() == 1 );
+        CHECK( test_spell.range_increment.constant() == 1.0f );
+        CHECK( test_spell.min_aoe.constant() == 1 );
+        CHECK( test_spell.max_aoe.constant() == 1 );
+        CHECK( test_spell.aoe_increment.constant() == 1.0f );
+        CHECK( test_spell.min_dot.constant() == 1 );
+        CHECK( test_spell.max_dot.constant() == 1 );
+        CHECK( test_spell.dot_increment.constant() == 1.0f );
+        CHECK( test_spell.min_duration.constant() == 1 );
+        CHECK( test_spell.max_duration.constant() == 1 );
+        CHECK( test_spell.duration_increment.constant() == 1 );
+        CHECK( test_spell.min_pierce.constant() == 1 );
+        CHECK( test_spell.max_pierce.constant() == 1 );
+        CHECK( test_spell.pierce_increment.constant() == 1.0f );
+        CHECK( test_spell.base_energy_cost.constant() == 1 );
+        CHECK( test_spell.final_energy_cost.constant() == 2 );
+        CHECK( test_spell.energy_increment.constant() == 1.0f );
         CHECK( test_spell.spell_class == trait_test_trait );
         CHECK( test_spell.get_energy_source() == magic_energy_type::mana );
         CHECK( test_spell.dmg_type == damage_pure );
-        CHECK( test_spell.difficulty.min.dbl_val.value() == 1 );
-        CHECK( test_spell.max_level.min.dbl_val.value() == 1 );
-        CHECK( test_spell.base_casting_time.min.dbl_val.value() == 1 );
-        CHECK( test_spell.final_casting_time.min.dbl_val.value() == 2 );
-        CHECK( test_spell.casting_time_increment.min.dbl_val.value() == 1.0f );
+        CHECK( test_spell.difficulty.constant() == 1 );
+        CHECK( test_spell.max_level.constant() == 1 );
+        CHECK( test_spell.base_casting_time.constant() == 1 );
+        CHECK( test_spell.final_casting_time.constant() == 2 );
+        CHECK( test_spell.casting_time_increment.constant() == 1.0f );
         CHECK( test_spell.learn_spells == test_learn_spell );
     }
 }
@@ -959,6 +959,30 @@ TEST_CASE( "item_colony_ser_deser", "[json][item]" )
             INFO( "item type was read correctly" );
             CHECK( read_val.begin()->typeId() == itype_test_rag );
         }
+    }
+}
+
+TEST_CASE( "serialize_map_with_point_key", "[json]" )
+{
+    SECTION( "empty map" ) {
+        std::map<tripoint, int> empty;
+        test_serialization( empty, "{}" );
+    }
+    SECTION( "map with one element" ) {
+        std::map<tripoint, int> one_element;
+        one_element.emplace( tripoint( 4, 3, 2 ), 7 );
+        test_serialization( one_element, "{\"(4,3,2)\":7}" );
+    }
+    SECTION( "map with two elements" ) {
+        std::map<tripoint, int> two_element;
+        two_element.emplace( tripoint( 1, 2, 3 ), 4 );
+        two_element.emplace( tripoint( 8, 7, 6 ), 5 );
+        test_serialization( two_element, "{\"(1,2,3)\":4,\"(8,7,6)\":5}" );
+    }
+    SECTION( "map with typed tripoint" ) {
+        std::map<tripoint_abs_omt, float> typed;
+        typed.emplace( tripoint_abs_omt( 8, 8, 0 ), 2.5f );
+        test_serialization( typed, "{\"(8,8,0)\":2.500000}" );
     }
 }
 

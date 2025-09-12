@@ -55,6 +55,11 @@ void character_modifier::load_character_modifiers( const JsonObject &jo, const s
     character_modifier_factory.load( jo, src );
 }
 
+void character_modifier::finalize_all()
+{
+    character_modifier_factory.finalize();
+}
+
 void character_modifier::reset()
 {
     character_modifier_factory.reset();

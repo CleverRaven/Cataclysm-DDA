@@ -6,7 +6,7 @@
     "required_event": "character_wakes_up",
     "condition": { "u_has_effect": "effect_lilin_ruach_drain_side_effects" },
     "effect": [
-      { "math": [ "u_val('sleepiness')", "+=", "40 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') * 20)" ] },
+      { "math": [ "u_val('sleepiness') += 40 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') * 20)" ] },
       {
         "u_add_effect": "effect_lilin_health_effects_of_draining",
         "duration": { "math": [ "10 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') * rng(10,20) )" ] }
@@ -113,11 +113,9 @@
     "id": "EOC_LILIN_SPEND_RUACH_FOR_POWERS",
     "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 240" ] },
     "effect": [
-      { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "240" ] },
-      { "math": [ "u_lilin_amount_of_ruach_spent_for_powers_increaser", "+=", "0.75" ] },
-      {
-        "math": [ "u_lilin_amount_of_ruach_spent_for_powers", "+=", "u_lilin_amount_of_ruach_spent_for_powers_increaser" ]
-      }
+      { "math": [ "u_vitamin('lilin_ruach_vitamin') -= 240" ] },
+      { "math": [ "u_lilin_amount_of_ruach_spent_for_powers_increaser += 0.75" ] },
+      { "math": [ "u_lilin_amount_of_ruach_spent_for_powers += u_lilin_amount_of_ruach_spent_for_powers_increaser" ] }
     ],
     "false_effect": [ { "u_message": "You don't have enough ruach to dedicate any to increasing your powers!", "type": "bad" } ]
   },
@@ -149,11 +147,11 @@
             "u_message": "Under the light of the moon, you realize a new way to use your stolen ruach to empower yourself.",
             "type": "good"
           },
-          { "math": [ "u_vitamin('mutagen_lilin')", "+=", "2500" ] },
-          { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
+          { "math": [ "u_vitamin('mutagen_lilin') += 2500" ] },
+          { "math": [ "u_vitamin('mutagen') += 1000" ] },
           { "u_mutate": 0 },
-          { "math": [ "u_vitamin('mutagen_lilin')", "-=", "2500" ] },
-          { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] },
+          { "math": [ "u_vitamin('mutagen_lilin') -= 2500" ] },
+          { "math": [ "u_vitamin('mutagen') -= 1000" ] },
           {
             "math": [
               "u_lilin_new_power_delay_timer",

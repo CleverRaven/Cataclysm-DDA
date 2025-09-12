@@ -140,7 +140,7 @@
     "valid_targets": [ "ground" ],
     "flags": [ "RANDOM_AOE", "RANDOM_DURATION", "HOSTILE_SUMMON" ],
     "effect": "summon",
-    "effect_str": "mon_tanglevine",
+    "effect_str": "mon_tanglevine_triffid",
     "shape": "blast",
     "max_level": 15,
     "min_damage": 1,

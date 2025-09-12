@@ -15,6 +15,7 @@
     "flags": [ "MATRIX_CRYSTAL_BIOKINESIS" ],
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "description": "The pink glow calls to you.",
       "effect_on_conditions": [ "EOC_BIOKIN_MATRIX_AWAKENING" ]
     }
@@ -54,6 +55,7 @@
     "flags": [ "MATRIX_CRYSTAL_CLAIRSENTIENCE" ],
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "description": "The gray glow calls to you.",
       "effect_on_conditions": [ "EOC_CLAIR_MATRIX_AWAKENING" ]
     }
@@ -85,6 +87,7 @@
     "flags": [ "MATRIX_CRYSTAL_ELECTROKINESIS" ],
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "description": "The cyan glow calls to you.",
       "effect_on_conditions": [ "EOC_ELECTRO_MATRIX_AWAKENING" ]
     }
@@ -116,6 +119,7 @@
     "flags": [ "MATRIX_CRYSTAL_PHOTOKINESIS" ],
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "description": "The golden glow calls to you.",
       "effect_on_conditions": [ "EOC_PHOTOKIN_MATRIX_AWAKENING" ]
     }
@@ -147,6 +151,7 @@
     "flags": [ "MATRIX_CRYSTAL_PYROKINESIS" ],
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "description": "The red glow calls to you.",
       "effect_on_conditions": [ "EOC_PYROKIN_MATRIX_AWAKENING" ]
     }
@@ -178,6 +183,7 @@
     "flags": [ "MATRIX_CRYSTAL_TELEKINESIS" ],
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "description": "The yellow glow calls to you.",
       "effect_on_conditions": [ "EOC_TELEKIN_MATRIX_AWAKENING" ]
     }
@@ -209,6 +215,7 @@
     "flags": [ "MATRIX_CRYSTAL_TELEPATHY" ],
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "description": "The white glow calls to you.",
       "effect_on_conditions": [ "EOC_TEEP_MATRIX_AWAKENING" ]
     }
@@ -240,6 +247,7 @@
     "flags": [ "MATRIX_CRYSTAL_TELEPORTATION" ],
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "description": "The blue glow calls to you.",
       "effect_on_conditions": [ "EOC_TELEPORT_MATRIX_AWAKENING" ]
     }
@@ -271,6 +279,7 @@
     "flags": [ "MATRIX_CRYSTAL_VITAKINESIS" ],
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "description": "The green glow calls to you.",
       "effect_on_conditions": [ "EOC_VITAKIN_MATRIX_AWAKENING" ]
     }
@@ -297,7 +306,7 @@
     "id": "matrix_crystal_drained",
     "name": { "str_sp": "strange crystal, black" },
     "description": "A strange-looking, surprisingly-heavy crystal.  In total darkness, there is a faint light visible in its depths.",
-    "color": "black",
+    "color": "dark_gray",
     "symbol": "+",
     "volume": "10 ml",
     "weight": "150 g",
@@ -306,6 +315,7 @@
     "looks_like": "art_crystal",
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "description": "The faint light calls to you.",
       "effect_on_conditions": [ "EOC_DRAINED_MATRIX" ]
     }
@@ -316,7 +326,7 @@
     "name": { "str_sp": "crystalline dust, black" },
     "copy-from": "matrix_crystal_biokin_dust",
     "description": "A bit of crystalline dust that seems to absorb light.",
-    "color": "black"
+    "color": "dark_gray"
   },
   {
     "type": "ITEM",
@@ -324,7 +334,7 @@
     "name": { "str_sp": "refined matrix crystal powder, black" },
     "description": "Concentrated matrix crystal dust.  It seems to completely absorb any light that falls on it.",
     "copy-from": "matrix_crystal_biokin_dust_refined",
-    "color": "black"
+    "color": "dark_gray"
   },
   {
     "type": "ITEM",
@@ -337,6 +347,7 @@
     "flags": [ "MATRIX_CRYSTAL_CORUSCATING" ],
     "use_action": {
       "type": "effect_on_conditions",
+      "consume": true,
       "description": "The coruscating light calls to you.",
       "effect_on_conditions": [ "EOC_CORUSCATING_MATRIX" ]
     }

@@ -1,6 +1,5 @@
 [
   {
-    "method": "json",
     "om_terrain": [ "lab_2x2_MUT_tier_2_NW_final_flr" ],
     "//": "variant for a 6 floor lab (removed stairs down)",
     "type": "mapgen",
@@ -67,7 +66,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ "lab_2x2_MUT_tier_2_NE" ],
     "type": "mapgen",
     "object": {
@@ -134,7 +132,6 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ "lab_2x2_MUT_tier_2_SW" ],
     "type": "mapgen",
     "object": {
@@ -218,14 +215,12 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "light_on_res_8_SW_2",
-    "method": "json",
     "object": {
       "place_terrain": [ { "ter": "t_strconc_floor_olight", "x": 9, "y": 3 } ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
   {
-    "method": "json",
     "om_terrain": [ "lab_2x2_MUT_tier_2_SE" ],
     "type": "mapgen",
     "object": {
@@ -309,7 +304,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "light_on_res_8_SW_2",
-    "method": "json",
     "object": {
       "place_terrain": [ { "ter": "t_strconc_floor_olight", "x": 14, "y": 3 } ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]

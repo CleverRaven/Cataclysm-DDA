@@ -95,7 +95,13 @@
   {
     "type": "item_group",
     "id": "cop_other_clothes",
-    "items": [ [ "armguard_cut_resistant", 2 ], [ "balaclava_cut_resistant", 2 ], [ "legpouch_large", 5 ], [ "whistle", 5 ] ]
+    "items": [
+      [ "armguard_cut_resistant", 2 ],
+      [ "balaclava_cut_resistant", 2 ],
+      [ "throat_guard_cut_resistant", 1 ],
+      [ "legpouch_large", 5 ],
+      [ "whistle", 5 ]
+    ]
   },
   {
     "id": "cop_gloves",

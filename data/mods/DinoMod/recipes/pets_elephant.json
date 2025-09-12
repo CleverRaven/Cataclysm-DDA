@@ -282,6 +282,7 @@
       { "proficiency": "prof_closures", "time_multiplier": 1.1 },
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_redsmithing_adv" },
       { "proficiency": "prof_articulation" }
     ]
   },

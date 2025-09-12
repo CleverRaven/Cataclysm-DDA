@@ -62,6 +62,11 @@
   },
   {
     "type": "SPECIES",
+    "id": "THORNBEAST",
+    "description": "A magickally-animated mass of thorns, born to kill vampires"
+  },
+  {
+    "type": "SPECIES",
     "id": "RENFIELD",
     "description": "a variety of creatures that have partaken of the unholy blood of the vampyr",
     "fear_triggers": [ "FIRE" ]
@@ -90,5 +95,10 @@
     "id": "GRACKEN",
     "description": "Grackens from the nether",
     "fear_triggers": [ "HURT" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "SHAPESHIFTER",
+    "description": "A creature that can take more than one form at will"
   }
 ]

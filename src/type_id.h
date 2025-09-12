@@ -321,6 +321,9 @@ using vpart_id = string_id<vpart_info>;
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
 
+class weather_generator;
+using weather_generator_id = string_id<weather_generator>;
+
 struct weather_type;
 using weather_type_id = string_id<weather_type>;
 
@@ -347,6 +350,9 @@ using widget_id = string_id<widget>;
 
 struct weakpoints;
 using weakpoints_id = string_id<weakpoints>;
+
+class wound_type;
+using wound_type_id = string_id<wound_type>;
 
 struct connect_group;
 using connect_group_id = string_id<connect_group>;

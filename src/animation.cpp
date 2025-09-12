@@ -31,7 +31,6 @@
 #include "output.h"
 #include "point.h"
 #include "popup.h"
-#include "string_formatter.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
@@ -1032,19 +1031,6 @@ void game::draw_vpart_override(
 #else
 void game::draw_vpart_override( const tripoint_bub_ms &, const vpart_id &, const int,
                                 const units::angle &, const bool, const point_rel_ms & )
-{
-}
-#endif
-
-#if defined(TILES)
-void game::draw_below_override( const tripoint_bub_ms &p, const bool draw )
-{
-    if( use_tiles ) {
-        tilecontext->init_draw_below_override( p, draw );
-    }
-}
-#else
-void game::draw_below_override( const tripoint_bub_ms &, const bool )
 {
 }
 #endif

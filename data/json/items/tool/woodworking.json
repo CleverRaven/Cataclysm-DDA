@@ -115,9 +115,9 @@
           "effect": {
             "run_eocs": "EOC_toolweapon_running",
             "variables": {
-              "sound_chance": "15",
+              "sound_chance": 15,
               "sound_message": { "i18n": true, "str": "Your chainsaw rumbles." },
-              "volume": "12",
+              "volume": 12,
               "revert_to": "chainsaw_off"
             }
           }
@@ -125,7 +125,7 @@
       ]
     },
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE" ],
-    "melee_damage": { "bash": 4, "cut": 70 }
+    "melee_damage": { "bash": 4, "cut": 18 }
   },
   {
     "id": "polesaw_off",
@@ -155,10 +155,10 @@
           "effect": {
             "run_eocs": "EOC_toolweapon_activate",
             "variables": {
-              "turn_cost": "0.8",
+              "turn_cost": 0.8,
               "transform_target": "polesaw_on",
               "success_message": { "i18n": true, "str": "With a roar, the pole saw screams to life!" },
-              "volume": "15",
+              "volume": 15,
               "failure_message": { "i18n": true, "str": "You yank the cord, but nothing happens." }
             }
           }
@@ -201,9 +201,9 @@
           "effect": {
             "run_eocs": "EOC_toolweapon_running",
             "variables": {
-              "sound_chance": "15",
+              "sound_chance": 15,
               "sound_message": { "i18n": true, "str": "Your pole saw rumbles." },
-              "volume": "12",
+              "volume": 12,
               "revert_to": "polesaw_off"
             }
           }
@@ -211,7 +211,7 @@
       ]
     },
     "flags": [ "MESSY", "POLEARM", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE", "REACH_ATTACK" ],
-    "melee_damage": { "bash": 4, "cut": 35 }
+    "melee_damage": { "bash": 4, "cut": 11 }
   },
   {
     "id": "circsaw_off",
@@ -238,10 +238,10 @@
           "effect": {
             "run_eocs": "EOC_toolweapon_activate",
             "variables": {
-              "turn_cost": "0.6",
+              "turn_cost": 0.6,
               "transform_target": "circsaw_on",
               "success_message": { "i18n": true, "str": "With a loud buzz, the <npc_name> roars to life!" },
-              "volume": "15",
+              "volume": 15,
               "failure_message": { "i18n": true, "str": "You flip the switch, but nothing happens." }
             }
           }
@@ -286,9 +286,9 @@
           "effect": {
             "run_eocs": "EOC_toolweapon_running",
             "variables": {
-              "sound_chance": "15",
+              "sound_chance": 15,
               "sound_message": { "i18n": true, "str": "Your circular saw buzzes." },
-              "volume": "7",
+              "volume": 7,
               "revert_to": "circsaw_off"
             }
           }
@@ -296,7 +296,7 @@
       ]
     },
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
-    "melee_damage": { "bash": 2, "cut": 50 }
+    "melee_damage": { "bash": 2, "cut": 10 }
   },
   {
     "id": "copper_ax",
@@ -406,10 +406,10 @@
           "effect": {
             "run_eocs": "EOC_toolweapon_activate",
             "variables": {
-              "turn_cost": "0.6",
+              "turn_cost": 0.6,
               "transform_target": "elec_chainsaw_on",
               "success_message": { "i18n": true, "str": "With a roar, the electric chainsaw screams to life!" },
-              "volume": "20",
+              "volume": 20,
               "failure_message": { "i18n": true, "str": "You flip the switch, but nothing happens." }
             }
           },
@@ -455,9 +455,9 @@
           "effect": {
             "run_eocs": "EOC_toolweapon_running",
             "variables": {
-              "sound_chance": "5",
+              "sound_chance": 5,
               "sound_message": { "i18n": true, "str": "Your electric chainsaw rumbles." },
-              "volume": "12",
+              "volume": 12,
               "revert_to": "elec_chainsaw_off"
             }
           }
@@ -465,7 +465,7 @@
       ]
     },
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE" ],
-    "melee_damage": { "bash": 4, "cut": 70 }
+    "melee_damage": { "bash": 4, "cut": 16 }
   },
   {
     "id": "elec_chainsaw_cord_off",
@@ -487,10 +487,10 @@
             "effect": {
               "run_eocs": "EOC_toolweapon_activate",
               "variables": {
-                "turn_cost": "0.6",
+                "turn_cost": 0.6,
                 "transform_target": "elec_chainsaw_cord_on",
                 "success_message": { "i18n": true, "str": "With a roar, the corded electric chainsaw screams to life!" },
-                "volume": "20",
+                "volume": 20,
                 "failure_message": { "i18n": true, "str": "You flip the switch, but nothing happens." }
               }
             },
@@ -531,9 +531,9 @@
           "effect": {
             "run_eocs": "EOC_toolweapon_running",
             "variables": {
-              "sound_chance": "5",
+              "sound_chance": 5,
               "sound_message": { "i18n": true, "str": "Your corded electric chainsaw rumbles." },
-              "volume": "12",
+              "volume": 12,
               "revert_to": "elec_chainsaw_cord_off"
             }
           }

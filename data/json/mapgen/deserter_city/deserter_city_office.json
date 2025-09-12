@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "deserter_city_office_1f",
     "object": {
       "fill_ter": "t_linoleum_gray",
@@ -37,7 +36,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "deserter_city_office_2f",
     "object": {
       "fill_ter": "t_linoleum_gray",
@@ -78,7 +76,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "deserter_city_office_3f",
     "object": {
       "fill_ter": "t_linoleum_gray",
@@ -125,7 +122,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "deserter_city_office_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -160,7 +156,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "deserter_city_office_1fb",
     "object": {
       "fill_ter": "t_linoleum_gray",
@@ -196,7 +191,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "deserter_city_office_2fb",
     "object": {
       "fill_ter": "t_linoleum_gray",
@@ -231,7 +225,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "deserter_city_office_3fb",
     "object": {
       "fill_ter": "t_linoleum_gray",
@@ -266,7 +259,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "deserter_city_office_roofb",
     "object": {
       "fill_ter": "t_flat_roof",

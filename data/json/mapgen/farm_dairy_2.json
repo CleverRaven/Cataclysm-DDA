@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "farm_dairy_twd_1", "farm_dairy_twd_2", "null", "null" ],
       [ "farm_dairy_twd_5", "farm_dairy_twd_6", "farm_dairy_twd_7", "farm_dairy_twd_8" ],
@@ -199,7 +198,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "farm_dairy_twd_3", "farm_dairy_twd_4" ] ],
     "object": {
       "fill_ter": "t_floor",
@@ -254,7 +252,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "farm_dairy_twd_second_floor_3", "farm_dairy_twd_second_floor_4" ] ],
     "object": {
       "fill_ter": "t_floor",
@@ -301,7 +298,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "farm_dairy_twd_second_floor_5", "farm_dairy_twd_second_floor_6", "null", "null" ],
       [ "null", "null", "null", "farm_dairy_twd_second_floor_12" ]
@@ -363,7 +359,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "farm_dairy_twd_3_roof", "farm_dairy_twd_4_roof" ] ],
     "object": {
       "fill_ter": "t_shingle_flat_roof",

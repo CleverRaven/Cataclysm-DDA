@@ -9,6 +9,14 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_GAIN_POWER_TRAIT_UPDATE",
+    "eoc_type": "EVENT",
+    "required_event": "game_load",
+    "condition": { "u_has_trait": "WEREWOLF_ANIMAL_FORM" },
+    "effect": [ { "u_add_trait": "WEREWOLF_SPELLS" }, { "u_add_trait": "WEREWOLF_MANA_TRAIT" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_GIVE_CHANGELINGS_THEIR_DREAMSPARKS_OBS",
     "eoc_type": "EVENT",
     "required_event": "game_load",
@@ -94,10 +102,40 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_XP_UPDATE",
+    "eoc_type": "EVENT",
+    "required_event": "game_load",
+    "condition": { "and": [ { "u_has_trait": "WEREWOLF_ANIMAL_FORM" }, { "math": [ "u_werewolf_give_xp_value != 1" ] } ] },
+    "effect": [ { "math": [ "u_werewolf_xp_threshold = 100" ] }, { "math": [ "u_werewolf_give_xp_value = 1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_XP_UPDATER_UPDATE",
+    "eoc_type": "EVENT",
+    "required_event": "game_load",
+    "condition": { "and": [ { "u_has_trait": "WEREWOLF_ANIMAL_FORM" }, { "math": [ "u_werewolf_give_xp_updater_value != 1" ] } ] },
+    "effect": [ { "math": [ "u_werewolf_xp_threshold_updater = 250" ] }, { "math": [ "u_werewolf_give_xp_updater_value = 1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_POWER_TRAIT_UPDATE_GAME_BEGIN",
     "eoc_type": "EVENT",
     "required_event": "game_begin",
     "condition": { "or": [ { "u_has_any_trait": [ "VAMPIRE", "DHAMPIR_TRAIT" ] }, { "u_has_effect": "vampire_virus" } ] },
     "effect": [ { "u_add_trait": "VAMPIRE_BLOOD_ARTS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REMOVE_OLD_CHANGELING_IRON_STEEL_EFFECTS",
+    "eoc_type": "EVENT",
+    "required_event": "game_load",
+    "effect": [
+      { "u_lose_effect": "effect_arvore_sylph_undine_wearing_iron" },
+      { "u_lose_effect": "effect_arvore_sylph_undine_wearing_steel" },
+      { "u_lose_effect": "effect_ierde_salamander_wearing_iron" },
+      { "u_lose_effect": "effect_ierde_salamander_wearing_steel" },
+      { "u_lose_effect": "effect_changeling_wearing_iron" },
+      { "u_lose_effect": "effect_changeling_wearing_steel" }
+    ]
   }
 ]

@@ -54,9 +54,7 @@
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
-#include "magic.h"
 #include "magic_teleporter_list.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
@@ -108,6 +106,8 @@ static const activity_id ACT_HARVEST( "ACT_HARVEST" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
 
+static const addiction_id addiction_opiate( "opiate" );
+
 static const ammotype ammo_money( "money" );
 
 static const bionic_id bio_lighter( "bio_lighter" );
@@ -117,6 +117,8 @@ static const bionic_id bio_painkiller( "bio_painkiller" );
 static const character_modifier_id character_modifier_obstacle_climb_mod( "obstacle_climb_mod" );
 
 static const climbing_aid_id climbing_aid_furn_CLIMBABLE( "furn_CLIMBABLE" );
+
+static const damage_type_id damage_bash( "bash" );
 
 static const efftype_id effect_antibiotic( "antibiotic" );
 static const efftype_id effect_bite( "bite" );
@@ -208,11 +210,12 @@ static const itype_id itype_unfinished_cac2( "unfinished_cac2" );
 static const itype_id itype_unfinished_charcoal( "unfinished_charcoal" );
 static const itype_id itype_withered( "withered" );
 
-static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
 static const json_character_flag json_flag_GLIDE( "GLIDE" );
 static const json_character_flag json_flag_LEVITATION( "LEVITATION" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_SAFECRACK_NO_TOOL( "SAFECRACK_NO_TOOL" );
+static const json_character_flag
+json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS( "TEMPORARY_SHAPESHIFT_NO_HANDS" );
 static const json_character_flag json_flag_WING_ARM( "WING_ARM" );
 static const json_character_flag json_flag_WING_GLIDE( "WING_GLIDE" );
 
@@ -234,6 +237,7 @@ static const mtype_id mon_prototype_cyborg( "mon_prototype_cyborg" );
 
 static const mutation_category_id mutation_category_CHIMERA( "CHIMERA" );
 
+static const npc_class_id NC_BALTHAZAR_INTERCOM( "NC_BALTHAZAR_INTERCOM" );
 static const npc_class_id NC_ROBOFAC_INTERCOM( "NC_ROBOFAC_INTERCOM" );
 
 static const proficiency_id proficiency_prof_disarming( "prof_disarming" );
@@ -305,6 +309,8 @@ static const trait_id trait_BEAK_HUM( "BEAK_HUM" );
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const trait_id trait_ESPER_ADVANCEMENT_OKAY( "ESPER_ADVANCEMENT_OKAY" );
+static const trait_id trait_ESPER_STARTER_ADVANCEMENT_OKAY( "ESPER_STARTER_ADVANCEMENT_OKAY" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
 static const trait_id trait_M_DEFENDER( "M_DEFENDER" );
@@ -558,6 +564,14 @@ void iexamine::genemill( Character &you, const tripoint_bub_ms & )
         } while( !you.has_permanent_trait( treatment ) && rc < 10 );
     }
 
+    // Remove esper potential
+    if( you.has_permanent_trait( trait_ESPER_ADVANCEMENT_OKAY ) ) {
+        you.remove_mutation( trait_ESPER_ADVANCEMENT_OKAY );
+    }
+    if( you.has_permanent_trait( trait_ESPER_STARTER_ADVANCEMENT_OKAY ) ) {
+        you.remove_mutation( trait_ESPER_STARTER_ADVANCEMENT_OKAY );
+    }
+
     //Handle Thesholds changing/removal.
     auto highest_id = std::max_element( you.mutation_category_level.begin(),
                                         you.mutation_category_level.end(),
@@ -754,101 +768,6 @@ void iexamine::gaspump( Character &you, const tripoint_bub_ms &examp )
         }
     }
     add_msg( m_info, _( "Out of order." ) );
-}
-
-static bool has_attunement_spell_prereqs( Character &you, const trait_id &attunement )
-{
-    // for each prereq we need to check that the player has 2 level 15 spells
-    for( const trait_id &prereq : attunement->prereqs ) {
-        int spells_known = 0;
-        for( const spell &sp : you.spells_known_of_class( prereq ) ) {
-            if( sp.get_level() >= 15 ) {
-                spells_known++;
-            }
-        }
-        if( spells_known < 2 ) {
-            return false;
-        }
-    }
-    return true;
-}
-
-void iexamine::attunement_altar( Character &you, const tripoint_bub_ms & )
-{
-    std::set<trait_id> attunements;
-    for( const mutation_branch &mut : mutation_branch::get_all() ) {
-        if( mut.flags.count( json_flag_ATTUNEMENT ) ) {
-            attunements.emplace( mut.id );
-        }
-    }
-    // remove the attunements the player does not have prereqs for
-    for( auto iter = attunements.begin(); iter != attunements.end(); ) {
-        bool has_prereq = true;
-        // the normal usage of prereqs only needs one, but attunements put all their prereqs into the same array
-        // each prereqs is required for it as well
-        for( const trait_id &prereq : ( *iter )->prereqs ) {
-            if( !you.has_trait( prereq ) ) {
-                has_prereq = false;
-                break;
-            }
-        }
-        if( has_prereq ) {
-            ++iter;
-        } else {
-            iter = attunements.erase( iter );
-        }
-    }
-    if( attunements.empty() ) {
-        // the player doesn't have at least two base classes
-        you.add_msg_if_player( _( "This altar gives you the creeps." ) );
-        return;
-    }
-    // remove the attunements the player has conflicts for
-    for( auto iter = attunements.begin(); iter != attunements.end(); ) {
-        if( !you.has_opposite_trait( *iter ) && you.mutation_ok( *iter, true, true, true ) ) {
-            ++iter;
-        } else {
-            iter = attunements.erase( iter );
-        }
-    }
-    if( attunements.empty() ) {
-        you.add_msg_if_player( _( "You've attained what you can for now." ) );
-        return;
-    }
-    for( auto iter = attunements.begin(); iter != attunements.end(); ) {
-        if( has_attunement_spell_prereqs( you, *iter ) ) {
-            ++iter;
-        } else {
-            iter = attunements.erase( iter );
-        }
-    }
-    if( attunements.empty() ) {
-        you.add_msg_if_player( _( "You feel that the altar does not deem you worthy, yet." ) );
-        return;
-    }
-    uilist attunement_list;
-    attunement_list.title = _( "Pick an Attunement to show the world your Worth." );
-    for( const trait_id &attunement : attunements ) {
-        // There's no way for you to have this mutation, so a variant is pointless
-        attunement_list.addentry( attunement->name() );
-    }
-    attunement_list.query();
-    if( attunement_list.ret == UILIST_CANCEL ) {
-        you.add_msg_if_player( _( "Maybe later." ) );
-        return;
-    }
-    auto attunement_iter = attunements.begin();
-    std::advance( attunement_iter, attunement_list.ret );
-    const trait_id &attunement = *attunement_iter;
-    // There's no way for you to have this mutation, so a variant is pointless
-    if( query_yn( string_format( _( "Are you sure you want to pick %s?  This selection is permanent." ),
-                                 attunement->name() ) ) ) {
-        you.toggle_trait( attunement );
-        // There's no way for you to have this mutation, so a variant is pointless
-        you.add_msg_if_player( m_info, you.mutation_desc( attunement ) );
-    } else {
-        you.add_msg_if_player( _( "Maybe later." ) );
-    }
 }
 
 void iexamine::translocator( Character &you, const tripoint_bub_ms &examp )
@@ -1726,6 +1645,19 @@ void iexamine::cardreader_foodplace( Character &you, const tripoint_bub_ms &exam
     }
 }
 
+void iexamine::intercom_balthazar( Character &you, const tripoint_bub_ms &examp )
+{
+    const std::vector<npc *> intercom_npcs = g->get_npcs_if( [examp]( const npc & guy ) {
+        return guy.myclass == NC_BALTHAZAR_INTERCOM && rl_dist( guy.pos_bub(), examp ) < 10;
+    } );
+    if( intercom_npcs.empty() ) {
+        you.add_msg_if_player( m_info, _( "No one responds." ) );
+    } else {
+        // TODO: This needs to be converted a talker_console or something
+        get_avatar().talk_to( get_talker_for( *intercom_npcs.front() ), false );
+    }
+}
+
 void iexamine::intercom( Character &you, const tripoint_bub_ms &examp )
 {
     const std::vector<npc *> intercom_npcs = g->get_npcs_if( [examp]( const npc & guy ) {
@@ -2547,7 +2479,7 @@ void iexamine::flower_poppy( Character &you, const tripoint_bub_ms &examp )
         you.add_effect( effect_pkill2, 7_minutes );
         // Please drink poppy nectar responsibly.
         if( one_in( 20 ) ) {
-            you.add_addiction( STATIC( addiction_id( "opiate" ) ), 1 );
+            you.add_addiction( addiction_opiate, 1 );
         }
     }
     if( !query_yn( _( "Pick %s?" ), here.furnname( examp ) ) ) {
@@ -2840,11 +2772,6 @@ void iexamine::plant_seed( Character &you, const tripoint_bub_ms &examp, const i
  */
 void iexamine::dirtmound( Character &you, const tripoint_bub_ms &examp )
 {
-
-    if( !warm_enough_to_plant( get_player_character().pos_bub() ) ) {
-        add_msg( m_info, _( "It is too cold to plant anything now." ) );
-        return;
-    }
     map &here = get_map();
     /* ambient_light_at() not working?
     if (here.ambient_light_at(examp) < LIGHT_AMBIENT_LOW) {
@@ -2870,7 +2797,12 @@ void iexamine::dirtmound( Character &you, const tripoint_bub_ms &examp )
         add_msg( _( "You saved your seeds for later." ) );
         return;
     }
-    const auto &seed_id = std::get<0>( seed_entries[seed_index] );
+    const itype_id &seed_id = std::get<0>( seed_entries[seed_index] );
+
+    if( !warm_enough_to_plant( you.pos_bub(), seed_id ) ) {
+        you.add_msg_if_player( m_info, _( "It is too cold to plant that now." ) );
+        return;
+    }
 
     if( !here.has_flag_ter_or_furn( seed_id->seed->required_terrain_flag, examp ) ) {
         add_msg( _( "This type of seed can not be planted in this location." ) );
@@ -3776,7 +3708,7 @@ void iexamine::fireplace( Character &you, const tripoint_bub_ms &examp )
         return it.has_flag( flag_FIRESTARTER ) || it.has_flag( flag_FIRE );
     };
     auto is_firequencher = []( const item & it ) {
-        return it.damage_melee( STATIC( damage_type_id( "bash" ) ) );
+        return it.damage_melee( damage_bash );
     };
 
     std::multimap<int, item *> firestarters;
@@ -4395,7 +4327,7 @@ void iexamine::compost_full( Character &you, const tripoint_bub_ms &examp )
 
     const std::string compost_name = compost_i.tname();
     item_location loc( map_cursor( examp ), &*items_here.begin() );
-    if( liquid_handler::handle_liquid( loc ) ) {
+    if( liquid_handler::handle_liquid( loc ) && loc->charges == 0 ) {
         compost_set_empty( examp );
         add_msg( _( "You squeeze the last drops of %s from the tank." ), compost_name );
     }
@@ -7620,12 +7552,15 @@ void iexamine::workbench_internal( Character &you, const tripoint_bub_ms &examp,
     const option choice = static_cast<option>( amenu.ret );
     bool in_shell = you.has_active_mutation( trait_SHELL2 ) ||
                     you.has_active_mutation( trait_SHELL3 );
+    bool shapeshift_handless = you.has_flag( json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS );
     switch( choice ) {
         case start_craft: {
             if( in_shell ) {
                 you.add_msg_if_player( m_info, _( "You can't craft while you're in your shell." ) );
             } else if( you.has_effect( effect_incorporeal ) ) {
                 add_msg( m_info, _( "You lack the substance to affect anything." ) );
+            } else if( shapeshift_handless ) {
+                add_msg( m_info, _( "You don't have proper hands to do that." ) );
             } else {
                 you.craft( examp );
             }
@@ -7636,6 +7571,8 @@ void iexamine::workbench_internal( Character &you, const tripoint_bub_ms &examp,
                 you.add_msg_if_player( m_info, _( "You can't craft while you're in your shell." ) );
             } else if( you.has_effect( effect_incorporeal ) ) {
                 add_msg( m_info, _( "You lack the substance to affect anything." ) );
+            } else if( shapeshift_handless ) {
+                add_msg( m_info, _( "You don't have proper hands to do that." ) );
             } else {
                 you.recraft( examp );
             }
@@ -7646,6 +7583,8 @@ void iexamine::workbench_internal( Character &you, const tripoint_bub_ms &examp,
                 you.add_msg_if_player( m_info, _( "You can't craft while you're in your shell." ) );
             } else if( you.has_effect( effect_incorporeal ) ) {
                 add_msg( m_info, _( "You lack the substance to affect anything." ) );
+            } else if( shapeshift_handless ) {
+                add_msg( m_info, _( "You don't have proper hands to do that." ) );
             } else {
                 you.long_craft( examp );
             }
@@ -7728,7 +7667,6 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
 {
     static const std::map<std::string, iexamine_examine_function> function_map = {{
             { "none", &iexamine::none },
-            { "attunement_altar", &iexamine::attunement_altar },
             { "deployed_furniture", &iexamine::deployed_furniture },
             { "cvdmachine", &iexamine::cvdmachine },
             { "change_appearance", &iexamine::change_appearance },
@@ -7742,6 +7680,7 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
             { "cardreader_robofac", &iexamine::cardreader_robofac },
             { "cardreader_fp", &iexamine::cardreader_foodplace },
             { "intercom", &iexamine::intercom },
+            { "intercom_balthazar", &iexamine::intercom_balthazar },
             { "rubble", &iexamine::rubble },
             { "chainfence", &iexamine::chainfence },
             { "bars", &iexamine::bars },

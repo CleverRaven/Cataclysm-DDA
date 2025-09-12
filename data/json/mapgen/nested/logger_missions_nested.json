@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "occupied_lum_wall_0_0",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -36,7 +35,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "occupied_lum_wall_0_1",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -71,7 +69,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "occupied_lum_wall_1_0",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -106,7 +103,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "occupied_lum_wall_1_1",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -141,7 +137,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "occupied_lum_hotel_1_1_roof",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -176,7 +171,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "occupied_lum_hotel_1_1",
     "object": {
       "mapgensize": [ 24, 24 ],

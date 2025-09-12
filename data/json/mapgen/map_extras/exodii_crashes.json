@@ -37,7 +37,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_exodii_crash_big_1",
     "object": {
       "rows": [
@@ -85,7 +84,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "mx_exodii_crash_big_2",
     "object": {
       "rows": [
@@ -133,7 +131,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nest_exodii_scouts",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -146,7 +143,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nest_exodii_zombies",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -155,7 +151,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nest_exodii_crash_6x6_roof",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -172,7 +167,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nest_exodii_crash_building_big_1",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -192,7 +186,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nest_exodii_crash_building_big_1",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -212,7 +205,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nest_exodii_crash_oval_roof",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -229,7 +221,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nest_exodii_crash_building_big_1",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -249,7 +240,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nest_exodii_crash_building_big_1",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -269,7 +259,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nest_exodii_crash_building_big_2",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -288,7 +277,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nest_exodii_crash_building_big_2",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -307,7 +295,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nest_exodii_crash_building_big_2",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -326,7 +313,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nest_exodii_crash_3x3_roof",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -340,7 +326,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nest_exodii_crash_building_small_1",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -357,7 +342,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nest_exodii_crash_building_small_1",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -374,7 +358,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nest_exodii_crash_building_smashed",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -395,7 +378,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "nest_exodii_crash_building_smashed",
     "object": {
       "mapgensize": [ 6, 6 ],

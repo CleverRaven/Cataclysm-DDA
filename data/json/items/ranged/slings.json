@@ -121,5 +121,32 @@
     "valid_mod_locations": [ [ "underbarrel mount", 1 ] ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pebble": 1 }, "open_container": true } ]
+  },
+  {
+    "id": "sling_long",
+    "looks_like": "slingshot",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "symbol": "(",
+    "color": "brown",
+    "name": { "ctxt": "weapon", "str": "long sling" },
+    "description": "A long sling, still easy to use and accurate.  It's length allows the user to launch pebbles with greate force and range",
+    "price": "1 USD 50 cent",
+    "//": "It's little more than a piece of slightly shaped leather",
+    "material": [ "leather" ],
+    "flags": [ "RELOAD_AND_SHOOT", "NEVER_JAMS", "PRIMITIVE_RANGED_WEAPON", "BELT_CLIP", "WATERPROOF_GUN" ],
+    "ammo_effects": [ "NEVER_MISFIRES", "NO_PENETRATE_OBSTACLES" ],
+    "skill": "throw",
+    "ammo": [ "pebble" ],
+    "weight": "90 g",
+    "volume": "100 ml",
+    "price_postapoc": "2 USD 50 cent",
+    "ranged_damage": { "damage_type": "bullet", "amount": 6 },
+    "range": 16,
+    "dispersion": 225,
+    "durability": 6,
+    "clip_size": 1,
+    "reload": 75,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pebble": 1 }, "open_container": true } ]
   }
 ]

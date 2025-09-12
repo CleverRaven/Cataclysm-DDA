@@ -3,8 +3,6 @@
 #define CATA_SRC_MAPGEN_H
 
 #include <cstddef>
-#include <cstdint>
-#include <limits>
 #include <map>
 #include <memory>
 #include <string>
@@ -14,7 +12,6 @@
 #include <utility>
 #include <vector>
 
-#include "cata_assert.h"
 #include "cata_variant.h"
 #include "coordinates.h"
 #include "dialogue_helpers.h"
@@ -22,6 +19,7 @@
 #include "flexbuffer_json.h"
 #include "jmapgen_flags.h"
 #include "mapgen_parameter.h"
+#include "mapgen_primitives.h"
 #include "memory_fast.h"
 #include "point.h"
 #include "ret_val.h"
@@ -84,32 +82,6 @@ class mapgen_function_builtin : public virtual mapgen_function
 
 /////////////////////////////////////////////////////////////////////////////////
 ///// json mapgen (and friends)
-/*
- * Actually a pair of integers that can rng, for numbers that will never exceed INT_MAX
- */
-struct jmapgen_int {
-    int16_t val;
-    int16_t valmax;
-    explicit jmapgen_int( int v ) : val( v ), valmax( v ) {
-        cata_assert( v <= std::numeric_limits<int16_t>::max() );
-    }
-    jmapgen_int( int v, int v2 ) : val( v ), valmax( v2 ) {
-        cata_assert( v <= std::numeric_limits<int16_t>::max() );
-        cata_assert( v2 <= std::numeric_limits<int16_t>::max() );
-    }
-    /**
-     * Throws as usually if the json is invalid or missing.
-     */
-    jmapgen_int( const JsonObject &jo, std::string_view tag );
-    /**
-     * Throws if the json is malformed (e.g. a string not an integer, but does not throw
-     * if the member is just missing (the default values are used instead).
-     */
-    jmapgen_int( const JsonObject &jo, std::string_view tag, const int &def_val,
-                 const int &def_valmax );
-
-    int get() const;
-};
 
 /** Mapgen pieces will be applied in order of phases.  The phases are as
  * follows: */
@@ -178,19 +150,14 @@ struct jmapgen_setmap {
     jmapgen_int val;
     int chance;
     jmapgen_int repeat;
-    int rotation;
-    int fuel;
-    int status;
     std::string string_val;
     jmapgen_setmap(
         jmapgen_int ix, jmapgen_int iy, jmapgen_int iz, jmapgen_int ix2, jmapgen_int iy2,
         jmapgen_setmap_op iop, jmapgen_int ival,
-        int ione_in = 1, jmapgen_int irepeat = jmapgen_int( 1, 1 ), int irotation = 0, int ifuel = -1,
-        int istatus = -1, std::string istring_val = ""
+        int ione_in = 1, jmapgen_int irepeat = jmapgen_int( 1, 1 ), std::string istring_val = ""
     ) :
         x( ix ), y( iy ), z( iz ), x2( ix2 ), y2( iy2 ), op( iop ), val( ival ), chance( ione_in ),
-        repeat( irepeat ), rotation( irotation ),
-        fuel( ifuel ), status( istatus ), string_val( std::move( istring_val ) ) {}
+        repeat( irepeat ), string_val( std::move( istring_val ) ) {}
 
     mapgen_phase phase() const;
 
@@ -201,11 +168,6 @@ struct jmapgen_setmap {
      * on the same map. Returns the name of the vehicle if a collision, and an empty string otherwise.
      **/
     ret_val<void> has_vehicle_collision( const mapgendata &dat, const tripoint_rel_ms &offset ) const;
-};
-
-struct spawn_data {
-    std::map<itype_id, jmapgen_int> ammo;
-    std::vector<point_rel_ms> patrol_points_rel_ms;
 };
 
 /**
@@ -483,7 +445,7 @@ class mapgen_function_json_base
     private:
         JsonObject jsobj;
     protected:
-        mapgen_function_json_base( const JsonObject &jsobj, const std::string &context );
+        mapgen_function_json_base( JsonObject &&jsobj, const std::string &context );
         virtual ~mapgen_function_json_base();
 
         void setup_common();
@@ -522,7 +484,7 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
         bool expects_predecessor() const override;
         void generate( mapgendata & ) override;
         mapgen_parameters get_mapgen_params( mapgen_parameter_scope ) const override;
-        mapgen_function_json( const JsonObject &jsobj, dbl_or_var w,
+        mapgen_function_json( JsonObject &&jsobj, dbl_or_var w,
                               const std::string &context,
                               const point_rel_omt &grid_offset, const point_rel_omt &grid_total );
         ~mapgen_function_json() override = default;
@@ -541,7 +503,7 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
 class update_mapgen_function_json : public mapgen_function_json_base
 {
     public:
-        update_mapgen_function_json( const JsonObject &jsobj, const std::string &context );
+        update_mapgen_function_json( JsonObject &&jsobj, const std::string &context );
         ~update_mapgen_function_json() override = default;
 
         void setup();
@@ -569,7 +531,7 @@ class mapgen_function_json_nested : public mapgen_function_json_base
         void setup();
         void finalize_parameters();
         void check() const;
-        mapgen_function_json_nested( const JsonObject &jsobj, const std::string &context );
+        mapgen_function_json_nested( JsonObject &&jsobj, const std::string &context );
         ~mapgen_function_json_nested() override = default;
 
         void nest( const mapgendata &md, const tripoint_rel_ms &offset,

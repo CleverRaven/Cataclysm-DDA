@@ -1,3 +1,70 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [MONSTERS](#monsters)
+  - [Monster properties](#monster-properties)
+  - ["name"](#name)
+  - ["description"](#description)
+  - ["categories"](#categories)
+  - ["species"](#species)
+  - ["volume"](#volume)
+  - ["weight"](#weight)
+  - ["scents_tracked"](#scents_tracked)
+  - ["scents_ignored"](#scents_ignored)
+  - ["symbol", "color"](#symbol-color)
+  - ["material"](#material)
+  - ["phase"](#phase)
+  - ["default_faction"](#default_faction)
+  - ["bodytype"](#bodytype)
+  - ["attack_cost"](#attack_cost)
+  - ["diff"](#diff)
+  - ["aggression"](#aggression)
+  - ["morale"](#morale)
+  - ["aggro_character"](#aggro_character)
+  - ["speed"](#speed)
+  - ["mountable_weight_ratio"](#mountable_weight_ratio)
+  - ["melee_skill"](#melee_skill)
+  - ["dodge"](#dodge)
+  - ["melee_damage"](#melee_damage)
+  - ["melee_dice", "melee_dice_sides"](#melee_dice-melee_dice_sides)
+  - ["hitsize_min", "hitsize_max"](#hitsize_min-hitsize_max)
+  - ["grab_strength"](#grab_strength)
+  - ["armor"](#armor)
+  - ["weakpoints"](#weakpoints)
+  - ["weakpoint_sets"](#weakpoint_sets)
+  - ["families"](#families)
+  - ["vision_day", "vision_night"](#vision_day-vision_night)
+  - ["luminance"](#luminance)
+  - ["hp"](#hp)
+  - ["bleed_rate"](#bleed_rate)
+  - ["death_drops"](#death_drops)
+  - ["death_function"](#death_function)
+  - ["emit_fields"](#emit_fields)
+  - ["regenerates"](#regenerates)
+  - ["regenerates_in_dark"](#regenerates_in_dark)
+  - ["regen_morale"](#regen_morale)
+  - ["flags"](#flags)
+  - ["fear_triggers", "anger_triggers", "placate_triggers"](#fear_triggers-anger_triggers-placate_triggers)
+  - ["chat_topics"](#chat_topics)
+  - ["revert_to_itype"](#revert_to_itype)
+  - ["starting_ammo"](#starting_ammo)
+  - ["upgrades"](#upgrades)
+  - ["reproduction"](#reproduction)
+  - ["zombify_into"](#zombify_into)
+  - ["revive_forms"](#revive_forms)
+  - ["baby_flags"](#baby_flags)
+  - ["shearing"](#shearing)
+  - ["speed_description"](#speed_description)
+  - ["petfood"](#petfood)
+  - ["special_when_hit"](#special_when_hit)
+  - ["attack_effs"](#attack_effs)
+  - ["path_settings"](#path_settings)
+  - ["move_skills"](#move_skills)
+  - ["special_attacks"](#special_attacks)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # MONSTERS
 
 Monsters include not just zombies, but fish, dogs, moose, Mi-gos, manhacks, and even stationary installations like turrets. They are defined in JSON objects with "type" set to "MONSTER":
@@ -428,7 +495,7 @@ Field              | Description
 ## "vision_day", "vision_night"
 (integer, optional)
 
-Vision range in full daylight and in total darkness.
+Vision range in full daylight and in total darkness.  Defaults to 40 tiles for day and 1 for night.
 
 ## "luminance"
 (integer, optional)
@@ -687,9 +754,9 @@ Field                | Description
 
 Field                | Description
 ---                  | ---
-`swim`               | (int, 0-10,optional) swimming monsters ignore SWIMMABLE terrain-cost. Instead it applies a flat movecost penalty inversly related to the skill.
-`dig`                | (int, 0-10, optional) swimming monsters ignore DIGGABLE terrain-cost. Instead it applies a flat movecost penalty inversly related to the skill.
-`climb`              | (int, 0-10, optional) climbing monsters can climb CLIMBABLE ter/furn and can use DIFFICULT_Z ter/furn (i.e. ladders). The ter/furn cost gets multiplied by the skill modifier
+`swim`               | (int or null, 0-10,optional) swimming monsters ignore SWIMMABLE terrain-cost. Instead it applies a flat movecost penalty inversly related to the skill.
+`dig`                | (int or null, 0-10, optional) swimming monsters ignore DIGGABLE terrain-cost. Instead it applies a flat movecost penalty inversly related to the skill.
+`climb`              | (int or null, 0-10, optional) climbing monsters can climb CLIMBABLE ter/furn and can use DIFFICULT_Z ter/furn (i.e. ladders). The ter/furn cost gets multiplied by the skill modifier
 
 
 ## "special_attacks"

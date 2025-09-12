@@ -70,7 +70,7 @@
     "vision_day": 10,
     "vision_night": 10,
     "upgrades": false,
-    "extend": { "weakpoint_sets": [ "wps_eyes_big" ], "flags": [ "CLIMBS" ], "special_attacks": [ [ "SHRIEK", 5 ] ] },
+    "extend": { "weakpoint_sets": [ "wps_eyes_big" ], "move_skills": { "climb": 8 }, "special_attacks": [ [ "SHRIEK", 5 ] ] },
     "//": "no GUILT_CHILD because it no longer looks enough like a child to evoke pity"
   },
   {
@@ -126,7 +126,7 @@
     "upgrades": false,
     "extend": {
       "weakpoint_sets": [ "wps_eyes_big" ],
-      "flags": [ "CLIMBS" ],
+      "move_skills": { "climb": 6 },
       "special_attacks": [ { "type": "leap", "cooldown": 10, "max_range": 5 } ]
     },
     "//": "no GUILT_CHILD because it no longer looks enough like a child to evoke pity"

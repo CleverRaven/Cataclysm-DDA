@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "14x14_office_crowded_sw",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -26,7 +25,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "14x14_office_generic_sw",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -51,7 +49,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "14x14_office_glass_sw",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -76,7 +73,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "14x14_office_cubicle_sw",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -101,7 +97,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "14x14_office_slide_sw",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -126,7 +121,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "14x14_office_generic_se",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -151,7 +145,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "14x14_office_glass_se",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -176,7 +169,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "14x14_office_slide_se",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -201,7 +193,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "14x14_office_cubicle_se",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -226,7 +217,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "14x14_office_crowded_se",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -251,7 +241,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "14x14_office_slide_nw",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -276,7 +265,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "14x14_office_crowded_nw",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -301,7 +289,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "14x14_office_generic_nw",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -326,7 +313,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "14x14_office_cubicle_nw",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -351,7 +337,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "14x14_office_glass_nw",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -376,7 +361,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "14x14_office_slide_ne",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -401,7 +385,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "14x14_office_crowded_ne",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -426,7 +409,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "14x14_office_generic_ne",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -451,7 +433,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "14x14_office_cubicle_ne",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -476,7 +457,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "14x14_office_glass_ne",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -501,7 +481,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_cabinet_office0_n",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -518,7 +497,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_cabinet_office1_n",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -534,7 +512,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_cabinet_sec_n",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -551,7 +528,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_cabinet_sofa_n",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -567,7 +543,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "6x6_cabinet_glass_ne",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -585,7 +560,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "6x6_cabinet_office_n",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -603,7 +577,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "6x6_cabinet_computer_ne",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -620,7 +593,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "6x6_cabinet_files_ne",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -637,7 +609,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_corridor_register_ne",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -654,7 +625,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_corridor_benches_ne",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -670,7 +640,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_corridor_sofa_ne",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -686,7 +655,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_corridor_office_ne",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -703,7 +671,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_corridor_office0_sw",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -719,7 +686,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_corridor_office1_sw",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -735,7 +701,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_corridor_sofas_sw",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -751,7 +716,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_corridor_office0_se",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -767,7 +731,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_corridor_office1_se",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -783,7 +746,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_corridor_sofas_se",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -799,7 +761,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_cabinet_toilet_l",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -815,7 +776,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_cabinet_storage0_l",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -831,7 +791,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_cabinet_storage1_l",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -847,7 +806,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_cabinet_storage2_l",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -863,7 +821,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_cabinet_cleaning0_l",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -879,7 +836,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_cabinet_cleaning1_l",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -895,7 +851,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_cabinet_toilet_r",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -911,7 +866,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_cabinet_storage0_r",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -927,7 +881,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_cabinet_storage1_r",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -943,7 +896,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_cabinet_storage2_r",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -959,7 +911,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_cabinet_cleaning0_r",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -975,7 +926,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "5x5_cabinet_cleaning1_r",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -991,7 +941,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "6x6_room_boss_l",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -1009,7 +958,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "6x6_room_breakroom_l",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -1027,7 +975,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "6x6_room_office_l",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -1044,7 +991,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "6x6_room_meeting_l",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -1061,7 +1007,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "6x6_room_office_r",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -1078,7 +1023,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "6x6_room_boss_r",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -1095,7 +1039,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "6x6_room_breakroom_r",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -1112,7 +1055,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "6x6_room_files_r",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -1129,7 +1071,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "3x3_desk_r_1",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -1143,7 +1084,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "3x3_desk_r_2",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -1157,7 +1097,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "3x3_desk_r_3",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -1171,7 +1110,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "3x3_desk_l_1",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -1185,7 +1123,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "3x3_desk_l_2",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -1199,7 +1136,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "3x3_desk_l_3",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -1213,7 +1149,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "8x8_meeting_room_l_1",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -1232,7 +1167,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "8x8_meeting_room_l_2",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -1251,7 +1185,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "8x8_meeting_room_l_3",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -1270,7 +1203,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "8x8_meeting_room_r_1",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -1289,7 +1221,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "8x8_meeting_room_r_2",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -1308,7 +1239,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "8x8_meeting_room_r_3",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -1327,7 +1257,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "8x8_meeting_room_r_4",
     "object": {
       "mapgensize": [ 8, 8 ],

@@ -43,6 +43,7 @@
 #include "item_pocket.h"
 #include "item_stack.h"
 #include "itype.h"
+#include "iuse.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
@@ -76,13 +77,10 @@
 #include "vpart_position.h"
 #include "weather.h"
 
-struct use_function;
-
 static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
 static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
 static const activity_id ACT_FISH( "ACT_FISH" );
-static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
@@ -95,15 +93,12 @@ static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
-static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 
 static const addiction_id addiction_alcohol( "alcohol" );
-
-static const efftype_id effect_incorporeal( "incorporeal" );
 
 static const flag_id json_flag_CUT_HARVEST( "CUT_HARVEST" );
 static const flag_id json_flag_MOP( "MOP" );
@@ -260,7 +255,8 @@ static std::vector<item_location> try_to_put_into_vehicle( Character &c, item_dr
                 result.emplace_back( c.get_wielded_item() );
             } else {
                 const std::string ter_name = here.name( where );
-                add_msg( _( "The %s falls to the %s." ), it.tname(), ter_name );
+                //~ %1$s - item name, %2$s - terrain name
+                add_msg( _( "The %1$s falls to the %2$s." ), it.tname(), ter_name );
                 result.push_back( here.add_item_or_charges_ret_loc( where, it ) );
             }
         }
@@ -295,24 +291,24 @@ static std::vector<item_location> try_to_put_into_vehicle( Character &c, item_dr
             case item_drop_reason::too_large:
                 c.add_msg_if_player(
                     n_gettext(
-                        "There's no room in your inventory for the %s, so you drop it into the %s's %s.",
-                        "There's no room in your inventory for the %s, so you drop them into the %s's %s.",
+                        "There's no room in your inventory for the %1$s, so you drop it into the %2$s's %3$s.",
+                        "There's no room in your inventory for the %1$s, so you drop them into the %2$s's %3$s.",
                         dropcount ),
                     it_name, veh.name, part_name
                 );
                 break;
             case item_drop_reason::too_heavy:
                 c.add_msg_if_player(
-                    n_gettext( "The %s is too heavy to carry, so you drop it into the %s's %s.",
-                               "The %s are too heavy to carry, so you drop them into the %s's %s.", dropcount ),
+                    n_gettext( "The %1$s is too heavy to carry, so you drop it into the %2$s's %3$s.",
+                               "The %1$s are too heavy to carry, so you drop them into the %2$s's %3$s.", dropcount ),
                     it_name, veh.name, part_name
                 );
                 break;
             case item_drop_reason::tumbling:
                 c.add_msg_if_player(
                     m_bad,
-                    n_gettext( "Your %s tumbles into the %s's %s.",
-                               "Your %s tumble into the %s's %s.", dropcount ),
+                    n_gettext( "Your %1$s tumbles into the %2$s's %3$s.",
+                               "Your %1$s tumble into the %2$s's %3$s.", dropcount ),
                     it_name, veh.name, part_name
                 );
                 break;
@@ -836,7 +832,7 @@ construction const *_find_prereq( tripoint_bub_ms const &loc, construction_id co
                ( idx->pre_terrain.find( it.post_terrain ) != idx->pre_terrain.end() )  &&
                // don't get stuck building and deconstructing the top level post_terrain
                ( it.pre_terrain.find( top_idx->post_terrain ) == it.pre_terrain.end() )  &&
-               ( it.pre_flags.empty() || !can_construct_furn_ter( it, f, t ) );
+               ( it.pre_flags.empty() || !has_pre_flags( it, f, t ) );
     } );
 
     for( construction const *gcon : cons ) {
@@ -1362,7 +1358,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
                 // If its a farm zone with no specified seed, and we've checked for tilling and harvesting.
                 // then it means no further work can be done here
             } else if( !seed.is_empty() &&
-                       warm_enough_to_plant( src_loc ) &&
+                       warm_enough_to_plant( src_loc, seed ) &&
                        here.has_flag_ter_or_furn( seed->seed->required_terrain_flag, src_loc ) ) {
                 if( here.has_items( src_loc ) ) {
                     return activity_reason_info::fail( do_activity_reason::BLOCKING_TILE );
@@ -2549,16 +2545,20 @@ static int chop_moves( Character &you, item &it )
 
 static bool mine_activity( Character &you, const tripoint_bub_ms &src_loc )
 {
-    std::vector<item *> mining_inv = you.items_with( [&you]( const item & itm ) {
-        return ( itm.has_flag( flag_DIG_TOOL ) && !itm.type->can_use( "JACKHAMMER" ) ) ||
-               ( itm.type->can_use( "JACKHAMMER" ) && itm.ammo_sufficient( &you ) );
-    } );
     map &here = get_map();
-    if( mining_inv.empty() || you.is_mounted() || you.is_underwater() || here.veh_at( src_loc ) ||
-        !here.has_flag( ter_furn_flag::TFLAG_MINEABLE, src_loc ) || you.has_effect( effect_incorporeal ) ||
-        here.impassable_field_at( src_loc ) ) {
+    // We pre-exclude jackhammers for wall mining here, just in case the character is carrying both a jackhammer and a pickaxe.
+    // If we don't then our iteration will preferentially select the (powered) jackhammer and always fail in subsequent calls to dig_tool(). Very troublesome!
+    const bool is_wall_mining = here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_WALL, src_loc );
+    std::vector<item *> mining_inv = you.items_with( [&you, is_wall_mining]( const item & itm ) {
+        return ( itm.has_flag( flag_DIG_TOOL ) && !itm.type->can_use( "JACKHAMMER" ) ) ||
+               ( !is_wall_mining && ( itm.type->can_use( "JACKHAMMER" ) && itm.ammo_sufficient( &you ) ) );
+    } );
+    // All other failure conditions are handled in subsequent calls to dig_tool() with specific messaging for the player. This is just an early short circuit.
+    if( mining_inv.empty() ) {
         return false;
     }
+
+
     item *chosen_item = nullptr;
     bool powered = false;
     // is it a pickaxe or jackhammer?
@@ -2580,20 +2580,14 @@ static bool mine_activity( Character &you, const tripoint_bub_ms &src_loc )
     if( chosen_item == nullptr ) {
         return false;
     }
-    int moves = to_moves<int>( powered ? 30_minutes : 20_minutes );
-    if( !powered ) {
-        moves += ( ( MAX_STAT + 4 ) - std::min( you.get_arm_str(),
-                                                MAX_STAT ) ) * to_moves<int>( 5_minutes );
+    std::optional<int> did_we_mine = std::nullopt;
+    if( powered ) {
+        did_we_mine = iuse::jackhammer( &you, chosen_item, src_loc );
+    } else {
+        did_we_mine = iuse::pickaxe( &you, chosen_item, src_loc );
     }
-    if( here.move_cost( src_loc ) == 2 ) {
-        // We're breaking up some flat surface like pavement, which is much easier
-        moves /= 2;
-    }
-    you.assign_activity( powered ? ACT_JACKHAMMER : ACT_PICKAXE, moves );
-    you.activity.targets.emplace_back( you, chosen_item );
-    you.activity.placement = here.get_abs( src_loc );
-    return true;
-
+    // Any value at all means that we succeeded and started the activity. Actual contained value will be 0 on success, for iuse's normal returns.
+    return did_we_mine.has_value();
 }
 
 // Not really an activity like the others; relies on zone activity alerting on enemies
@@ -3503,7 +3497,7 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
     if( !check_only && you.is_npc() ) {
         if( src_sorted.empty() ) {
             add_msg( m_neutral,
-                     _( "%1s failed to perform the %2$s activity because no suitable locations were found." ),
+                     _( "%1$s failed to perform the %2$s activity because no suitable locations were found." ),
                      you.disp_name(), activity_to_restore.c_str() );
         } else if( reason.no_path ) {
             add_msg( m_neutral,

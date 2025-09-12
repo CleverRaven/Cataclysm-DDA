@@ -105,7 +105,6 @@ static const efftype_id effect_assisted( "assisted" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
-static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_corroding( "corroding" );
 static const efftype_id effect_countdown( "countdown" );
@@ -117,7 +116,6 @@ static const efftype_id effect_dragging( "dragging" );
 static const efftype_id effect_eyebot_assisted( "eyebot_assisted" );
 static const efftype_id effect_eyebot_depleted( "eyebot_depleted" );
 static const efftype_id effect_fungus( "fungus" );
-static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_got_checked( "got_checked" );
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_grabbing( "grabbing" );
@@ -994,98 +992,6 @@ bool mattack::pull_metal_weapon( monster *z )
                 }
             }
         }
-    }
-
-    return true;
-}
-
-bool mattack::boomer( monster *z )
-{
-    map &here = get_map();
-
-    if( !z->can_act() ) {
-        return false;
-    }
-
-    Creature *target = z->attack_target();
-    if( target == nullptr || rl_dist( z->pos_abs(), target->pos_abs() ) > 3 ||
-        !z->sees( here, *target ) ) {
-        return false;
-    }
-
-    std::vector<tripoint_bub_ms> line = here.find_clear_path( z->pos_bub(), target->pos_bub() );
-    // It takes a while
-    z->mod_moves( -to_moves<int>( 1_seconds ) * 2.5 );
-    Character &player_character = get_player_character();
-    bool u_see = player_character.sees( here, *z );
-    if( u_see ) {
-        add_msg( m_warning, _( "The %s spews bile!" ), z->name() );
-    }
-    for( tripoint_bub_ms &i : line ) {
-        here.add_field( i, fd_bile, 1.0f );
-        // If bile hit a solid tile, return.
-        if( here.impassable( i ) ) {
-            here.add_field( i, fd_bile, 3 );
-            add_msg_if_player_sees( i,  _( "Bile splatters on the %s!" ), here.tername( i ) );
-            return true;
-        }
-    }
-
-    if( !target->dodge_check( z, 1.0f ) ) {
-        target->add_env_effect( effect_boomered, bodypart_id( "eyes" ), 3, 12_turns );
-    } else if( u_see ) {
-        target->add_msg_player_or_npc( _( "You dodge it!" ),
-                                       _( "<npcname> dodges it!" ) );
-    }
-    target->on_dodge( z, 5, 1 );
-
-    return true;
-}
-
-bool mattack::boomer_glow( monster *z )
-{
-    map &here = get_map();
-
-    if( !z->can_act() ) {
-        return false;
-    }
-
-    Creature *target = z->attack_target();
-    if( target == nullptr || rl_dist( z->pos_abs(), target->pos_abs() ) > 3 ||
-        !z->sees( here, *target ) ) {
-        return false;
-    }
-
-    std::vector<tripoint_bub_ms> line = here.find_clear_path( z->pos_bub(), target->pos_bub() );
-    // It takes a while
-    z->mod_moves( -to_moves<int>( 1_seconds ) * 2.5 );
-    Character &player_character = get_player_character();
-    bool u_see = player_character.sees( here,  *z );
-    if( u_see ) {
-        add_msg( m_warning, _( "The %s spews bile!" ), z->name() );
-    }
-    for( tripoint_bub_ms &i : line ) {
-        here.add_field( i, fd_bile, 1 );
-        if( here.impassable( i ) ) {
-            here.add_field( i, fd_bile, 3 );
-            add_msg_if_player_sees( i, _( "Bile splatters on the %s!" ), here.tername( i ) );
-            return true;
-        }
-    }
-
-    if( !target->dodge_check( z, 1.0f ) ) {
-        target->add_env_effect( effect_boomered, bodypart_id( "eyes" ), 5, 25_turns );
-        target->on_dodge( z, 5, 1.0f );
-        for( int i = 0; i < rng( 2, 4 ); i++ ) {
-            const bodypart_id &bp = target->random_body_part();
-            target->add_env_effect( effect_glowing, bp, 4, 4_minutes );
-            if( target->has_effect( effect_glowing ) ) {
-                break;
-            }
-        }
-    } else {
-        target->add_msg_player_or_npc( _( "You dodge it!" ),
-                                       _( "<npcname> dodges it!" ) );
     }
 
     return true;
@@ -2141,7 +2047,8 @@ static void poly_keep_speed( monster &mon, const mtype_id &id )
 
 static bool blobify( monster &blob, monster &target )
 {
-    add_msg_if_player_sees( target, m_warning, _( "%s is engulfed by %s!" ),
+    //~ %1$s and %2$s - monster names
+    add_msg_if_player_sees( target, m_warning, _( "%1$s is engulfed by %2$s!" ),
                             target.disp_name(), blob.disp_name() );
     switch( target.get_size() ) {
         case creature_size::tiny:

@@ -2365,20 +2365,6 @@
     "components": [ [ [ "strap_large", 2, "LIST" ] ] ]
   },
   {
-    "result": "long_duffelbag",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
-    "skill_used": "tailor",
-    "difficulty": 2,
-    "time": "10 h",
-    "autolearn": true,
-    "reversible": true,
-    "using": [ [ "tailoring_canvas_patchwork", 32 ], [ "fastener_large", 2 ], [ "waterproofing_plastic_sheets", 4 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
-  },
-  {
     "result": "rifle_case_soft",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -2614,5 +2600,47 @@
     "using": [ [ "strap_large", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_carving" } ],
     "components": [ [ [ "2x4", 4 ], [ "stick", 8 ] ] ]
+  },
+  {
+    "result": "bandolier_pipebomb",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "8 h",
+    "autolearn": true,
+    "using": [ [ "tailoring_nylon", 21 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" } ],
+    "components": [ [ [ "clasps", 7, "LIST" ] ] ]
+  },
+  {
+    "result": "bandolier_pipebomb_xs",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "6 h",
+    "autolearn": true,
+    "using": [ [ "tailoring_nylon", 16 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" } ],
+    "components": [ [ [ "clasps", 5, "LIST" ] ] ]
+  },
+  {
+    "result": "bandolier_pipebomb_xl",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "12 h",
+    "autolearn": true,
+    "using": [ [ "tailoring_nylon", 28 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" } ],
+    "components": [ [ [ "clasps", 9, "LIST" ] ] ]
   }
 ]

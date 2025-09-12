@@ -1,3 +1,20 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Colors](#colors)
+  - [Color string format](#color-string-format)
+  - [Examples of color strings](#examples-of-color-strings)
+  - [Color code](#color-code)
+  - [Possible colors](#possible-colors)
+  - [Color rules](#color-rules)
+  - [Color tags](#color-tags)
+- [User color customization](#user-color-customization)
+  - [Base colors](#base-colors)
+  - [GUI colors](#gui-colors)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Colors
 
 DDA is colorful game. You can use several foreground and background colors in various places:
@@ -157,7 +174,7 @@ The game provides a nice built-in color manager with several pre-defined color t
 
 
 ## GUI colors
-The UI *menus* do not (always) adhere to the base color customization, and can be customized separately, in the `config/imgui_style.json`. The default config is:
+The UI *menus* do not (always) adhere to the base color customization, and can be customized separately. The currently used style is saved in `config/imgui_style.json`. The file is only semi permanent as it is overwritten when you select a different style ingame. To save a custom style permanently, create a `custom_styles` subfolder in the `config` folder and put a copy of the style in it. The default config is:
 ```jsonc
 {
   "inherit_base_colors": false,

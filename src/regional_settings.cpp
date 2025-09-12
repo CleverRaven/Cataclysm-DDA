@@ -8,11 +8,13 @@
 #include <string>
 #include <string_view>
 #include <utility>
+#include <variant>
 
 #include "debug.h"
 #include "enum_conversions.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
+#include "mapdata.h"
 #include "map_extras.h"
 #include "options.h"
 #include "output.h"
@@ -22,8 +24,6 @@
 
 class mapgendata;
 
-ter_furn_id::ter_furn_id() : ter( ter_str_id::NULL_ID().id() ),
-    furn( furn_str_id::NULL_ID().id() ) { }
 
 template<typename T>
 void read_and_set_or_throw( const JsonObject &jo, const std::string &member, T &target,
@@ -411,6 +411,28 @@ static void load_overmap_lake_settings( const JsonObject &jo,
     }
 }
 
+static void load_overmap_river_settings( const JsonObject &jo,
+        overmap_river_settings &overmap_river_settings,
+        const bool strict, const bool overlay )
+{
+    if( !jo.has_object( "overmap_river_settings" ) ) {
+        if( strict ) {
+            jo.throw_error( "OVERMAP_PLACE_RIVERS set to true, but \"overmap_river_settings\" not defined in region_settings" );
+        }
+    } else {
+        JsonObject overmap_river_settings_jo = jo.get_object( "overmap_river_settings" );
+        read_and_set_or_throw<int>( overmap_river_settings_jo, "river_scale",
+                                    overmap_river_settings.river_scale, !overlay );
+        read_and_set_or_throw<double>( overmap_river_settings_jo, "river_frequency",
+                                       overmap_river_settings.river_frequency, false );
+        read_and_set_or_throw<double>( overmap_river_settings_jo, "river_branch_chance",
+                                       overmap_river_settings.river_branch_chance, false );
+        read_and_set_or_throw<double>( overmap_river_settings_jo, "river_branch_remerge_chance",
+                                       overmap_river_settings.river_branch_remerge_chance, false );
+        read_and_set_or_throw<double>( overmap_river_settings_jo, "river_branch_scale_decrease",
+                                       overmap_river_settings.river_branch_scale_decrease, false );
+    }
+}
 static void load_overmap_ocean_settings( const JsonObject &jo,
         overmap_ocean_settings &overmap_ocean_settings,
         const bool strict, const bool overlay )
@@ -437,6 +459,94 @@ static void load_overmap_ocean_settings( const JsonObject &jo,
                                     overmap_ocean_settings.ocean_start_south, !overlay );
         read_and_set_or_throw<int>( overmap_ocean_settings_jo, "sandy_beach_width",
                                     overmap_ocean_settings.sandy_beach_width, !overlay );
+    }
+}
+
+static void load_overmap_highway_settings( const JsonObject &jo,
+        overmap_highway_settings &overmap_highway_settings,
+        const bool strict, const bool overlay )
+{
+    if( !jo.has_object( "overmap_highway_settings" ) ) {
+        if( strict && get_option<bool>( "OVERMAP_PLACE_HIGHWAYS" ) ) {
+            jo.throw_error( "OVERMAP_PLACE_HIGHWAYS set to true, but \"overmap_highway_settings\" not defined in region_settings" );
+        }
+    } else {
+        JsonObject overmap_highway_settings_jo = jo.get_object( "overmap_highway_settings" );
+        read_and_set_or_throw<int>( overmap_highway_settings_jo, "grid_column_seperation",
+                                    overmap_highway_settings.grid_column_seperation, !overlay );
+        read_and_set_or_throw<int>( overmap_highway_settings_jo, "grid_row_seperation",
+                                    overmap_highway_settings.grid_row_seperation, !overlay );
+        read_and_set_or_throw<int>( overmap_highway_settings_jo, "intersection_max_radius",
+                                    overmap_highway_settings.intersection_max_radius, !overlay );
+        read_and_set_or_throw<int>( overmap_highway_settings_jo, "width_of_segments",
+                                    overmap_highway_settings.width_of_segments, !overlay );
+        read_and_set_or_throw<double>( overmap_highway_settings_jo, "straightness_chance",
+                                       overmap_highway_settings.straightness_chance, !overlay );
+        read_and_set_or_throw<oter_type_str_id>( overmap_highway_settings_jo, "reserved_terrain_id",
+                overmap_highway_settings.reserved_terrain_id, !overlay );
+        read_and_set_or_throw<oter_type_str_id>( overmap_highway_settings_jo, "reserved_terrain_water_id",
+                overmap_highway_settings.reserved_terrain_water_id, !overlay );
+        read_and_set_or_throw<overmap_special_id>( overmap_highway_settings_jo, "segment_flat_special",
+                overmap_highway_settings.segment_flat, !overlay );
+        read_and_set_or_throw<overmap_special_id>( overmap_highway_settings_jo, "segment_ramp_special",
+                overmap_highway_settings.segment_ramp, !overlay );
+        read_and_set_or_throw<overmap_special_id>( overmap_highway_settings_jo,
+                "segment_road_bridge_special",
+                overmap_highway_settings.segment_road_bridge, !overlay );
+        read_and_set_or_throw<overmap_special_id>( overmap_highway_settings_jo, "segment_bridge_special",
+                overmap_highway_settings.segment_bridge, !overlay );
+        read_and_set_or_throw<overmap_special_id>( overmap_highway_settings_jo, "fallback_onramp_special",
+                overmap_highway_settings.fallback_onramp, !overlay );
+        read_and_set_or_throw<overmap_special_id>( overmap_highway_settings_jo,
+                "segment_bridge_supports_special",
+                overmap_highway_settings.segment_bridge_supports, !overlay );
+        read_and_set_or_throw<overmap_special_id>( overmap_highway_settings_jo, "segment_overpass_special",
+                overmap_highway_settings.segment_overpass, !overlay );
+        read_and_set_or_throw<overmap_special_id>( overmap_highway_settings_jo, "fallback_bend_special",
+                overmap_highway_settings.fallback_bend, !overlay );
+        read_and_set_or_throw<overmap_special_id>( overmap_highway_settings_jo, "clockwise_slant_special",
+                overmap_highway_settings.clockwise_slant, !overlay );
+        read_and_set_or_throw<overmap_special_id>( overmap_highway_settings_jo,
+                "counterclockwise_slant_special",
+                overmap_highway_settings.counterclockwise_slant, !overlay );
+        read_and_set_or_throw<overmap_special_id>( overmap_highway_settings_jo,
+                "fallback_three_way_intersection_special",
+                overmap_highway_settings.fallback_three_way_intersection, !overlay );
+        read_and_set_or_throw<overmap_special_id>( overmap_highway_settings_jo,
+                "fallback_four_way_intersection_special",
+                overmap_highway_settings.fallback_four_way_intersection, !overlay );
+        read_and_set_or_throw<oter_type_str_id>( overmap_highway_settings_jo,
+                "fallback_supports",
+                overmap_highway_settings.fallback_supports, !overlay );
+        const auto load_highway_special_types = [&jo, &overmap_highway_settings_jo,
+             strict]( const std::string & type, building_bin & dest ) {
+            if( !overmap_highway_settings_jo.has_object( type ) && strict ) {
+                jo.throw_error( "Highway: \"" + type + "\": { … } required for default" );
+            } else {
+                for( const JsonMember member : overmap_highway_settings_jo.get_object( type ) ) {
+                    if( member.is_comment() ) {
+                        continue;
+                    }
+                    dest.add( overmap_special_id( member.name() ), member.get_int() );
+                }
+            }
+        };
+        load_highway_special_types( "four_way_intersections",
+                                    overmap_highway_settings.four_way_intersections );
+        load_highway_special_types( "three_way_intersections",
+                                    overmap_highway_settings.three_way_intersections );
+        load_highway_special_types( "bends", overmap_highway_settings.bends );
+        load_highway_special_types( "road_connections", overmap_highway_settings.road_connections );
+        load_highway_special_types( "interchanges",
+                                    overmap_highway_settings.interchanges );
+
+        if( overmap_highway_settings.intersection_max_radius >=
+            overmap_highway_settings.grid_column_seperation / 2 ||
+            overmap_highway_settings.intersection_max_radius >= overmap_highway_settings.grid_row_seperation /
+            2 ) {
+            jo.throw_error( "highway intersection radius too large" );
+        }
+        overmap_highway_settings.needs_finalize = true;
     }
 }
 
@@ -503,9 +613,6 @@ void load_region_settings( const JsonObject &jo )
     mandatory( jo, false, "default_oter", new_region.default_oter );
     // So the data definition goes from z = OVERMAP_HEIGHT to z = OVERMAP_DEPTH
     std::reverse( new_region.default_oter.begin(), new_region.default_oter.end() );
-    if( !jo.read( "river_scale", new_region.river_scale ) && strict ) {
-        jo.throw_error( "river_scale required for default" );
-    }
     if( jo.has_array( "default_groundcover" ) ) {
         new_region.default_groundcover_str.reset( new weighted_int_list<ter_str_id> );
         for( JsonArray inner : jo.get_array( "default_groundcover" ) ) {
@@ -596,16 +703,20 @@ void load_region_settings( const JsonObject &jo )
         jo.throw_error( "\"weather\": { … } required for default" );
     } else {
         JsonObject wjo = jo.get_object( "weather" );
-        new_region.weather.load( wjo, false );
+        new_region.weather.load( wjo, "dda" );
     }
 
     load_overmap_feature_flag_settings( jo, new_region.overmap_feature_flag, strict, false );
 
     load_overmap_forest_settings( jo, new_region.overmap_forest, strict, false );
 
+    load_overmap_river_settings( jo, new_region.overmap_river, strict, false );
+
     load_overmap_lake_settings( jo, new_region.overmap_lake, strict, false );
 
     load_overmap_ocean_settings( jo, new_region.overmap_ocean, strict, false );
+
+    load_overmap_highway_settings( jo, new_region.overmap_highway, strict, false );
 
     load_overmap_ravine_settings( jo, new_region.overmap_ravine, strict, false );
 
@@ -637,8 +748,8 @@ void check_region_settings()
                 } else {
                     std::string list_of_values =
                         enumerate_as_string( values,
-                    []( const weighted_object<int, map_extra_id> &w ) {
-                        return '"' + w.obj.str() + '"';
+                    []( const std::pair<map_extra_id, int> &w ) {
+                        return '"' + w.first.str() + '"';
                     } );
                     debugmsg( "Invalid map extras for region \"%s\", extras \"%s\".  "
                               "Extras %s are listed, but all have zero weight.",
@@ -689,7 +800,6 @@ void load_region_overlay( const JsonObject &jo )
 void apply_region_overlay( const JsonObject &jo, regional_settings &region )
 {
     jo.read( "default_oter", region.default_oter );
-    jo.read( "river_scale", region.river_scale );
     if( jo.has_array( "default_groundcover" ) ) {
         region.default_groundcover_str.reset( new weighted_int_list<ter_str_id> );
         for( JsonArray inner : jo.get_array( "default_groundcover" ) ) {
@@ -752,16 +862,20 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
 
     if( jo.has_object( "weather" ) ) {
         JsonObject wjo = jo.get_object( "weather" );
-        region.weather.load( wjo, true );
+        region.weather.load( wjo, "dda" );
     }
 
     load_overmap_feature_flag_settings( jo, region.overmap_feature_flag, false, true );
 
     load_overmap_forest_settings( jo, region.overmap_forest, false, true );
 
+    load_overmap_river_settings( jo, region.overmap_river, false, true );
+
     load_overmap_lake_settings( jo, region.overmap_lake, false, true );
 
     load_overmap_ocean_settings( jo, region.overmap_ocean, false, true );
+
+    load_overmap_highway_settings( jo, region.overmap_highway, false, true );
 
     load_overmap_ravine_settings( jo, region.overmap_ravine, false, true );
 
@@ -780,18 +894,14 @@ void groundcover_extra::finalize()   // FIXME: return bool for failure
 
     for( std::map<std::string, double>::const_iterator it = percent_str.begin();
          it != percent_str.end(); ++it ) {
-        tf_id.ter = ter_str_id::NULL_ID().id();
-        tf_id.furn = furn_str_id::NULL_ID();
+        tf_id = ter_furn_id();
         if( it->second < 0.0001 ) {
             continue;
         }
-        const ter_str_id tid( it->first );
-        const furn_str_id fid( it->first );
-        if( tid.is_valid() ) {
-            tf_id.ter = tid.id();
-        } else if( fid.is_valid() ) {
-            tf_id.furn = fid.id();
-        } else {
+
+        bool resolved = tf_id.resolve( it->first );
+
+        if( !resolved ) {
             debugmsg( "No clue what '%s' is!  No such terrain or furniture", it->first.c_str() );
             continue;
         }
@@ -801,19 +911,15 @@ void groundcover_extra::finalize()   // FIXME: return bool for failure
 
     for( std::map<std::string, double>::const_iterator it = boosted_percent_str.begin();
          it != boosted_percent_str.end(); ++it ) {
-        tf_id.ter = ter_str_id::NULL_ID().id();
-        tf_id.furn = furn_str_id::NULL_ID();
+        tf_id = ter_furn_id();
         if( it->second < 0.0001 ) {
             continue;
         }
         const ter_str_id tid( it->first );
         const furn_str_id fid( it->first );
 
-        if( tid.is_valid() ) {
-            tf_id.ter = tid.id();
-        } else if( fid.is_valid() ) {
-            tf_id.furn = fid.id();
-        } else {
+        bool resolved = tf_id.resolve( it->first );
+        if( !resolved ) {
             debugmsg( "No clue what '%s' is!  No such terrain or furniture", it->first.c_str() );
             continue;
         }
@@ -842,8 +948,7 @@ void groundcover_extra::finalize()   // FIXME: return bool for failure
         debugmsg( "boosted plant coverage total (%s=%de-4) exceeds 100%%", ss.str(), btotal );
     }
 
-    tf_id.furn = furn_str_id::NULL_ID();
-    tf_id.ter = default_ter;
+    tf_id.ter_furn = default_ter;
     weightlist[ 1000000 ] = tf_id;
     boosted_weightlist[ 1000000 ] = tf_id;
 
@@ -863,15 +968,8 @@ void forest_biome_component::finalize()
 {
     for( const std::pair<const std::string, int> &pr : unfinalized_types ) {
         ter_furn_id tf_id;
-        tf_id.ter = ter_str_id::NULL_ID().id();
-        tf_id.furn = furn_str_id::NULL_ID();
-        const ter_str_id tid( pr.first );
-        const furn_str_id fid( pr.first );
-        if( tid.is_valid() ) {
-            tf_id.ter = tid.id();
-        } else if( fid.is_valid() ) {
-            tf_id.furn = fid.id();
-        } else {
+        bool resolved = tf_id.resolve( pr.first );
+        if( !resolved ) {
             continue;
         }
         types.add( tf_id, pr.second );
@@ -973,13 +1071,42 @@ void overmap_lake_settings::finalize()
     }
 }
 
+void overmap_highway_settings::finalize()
+{
+    //finds longest special in a building collection
+    auto find_longest_special = []( const building_bin & b ) {
+        int longest_length = 0;
+        for( const auto &weighted_pair : b.get_all_buildings() ) {
+            const overmap_special_id &special = weighted_pair.first;
+            int spec_length = special.obj().longest_side();
+            if( spec_length > longest_length ) {
+                longest_length = spec_length;
+            }
+        }
+        return longest_length;
+    };
+
+    if( needs_finalize ) {
+        four_way_intersections.finalize();
+        three_way_intersections.finalize();
+        bends.finalize();
+        road_connections.finalize();
+        interchanges.finalize();
+
+        longest_bend_length = find_longest_special( bends );
+        longest_slant_length = std::max( clockwise_slant->longest_side(),
+                                         counterclockwise_slant->longest_side() );
+        HIGHWAY_MAX_DEVIANCE = ( longest_bend_length + 1 ) * 2;
+    }
+}
+
 map_extras map_extras::filtered_by( const mapgendata &dat ) const
 {
     map_extras result( chance );
-    for( const weighted_object<int, map_extra_id> &obj : values ) {
-        const map_extra_id &extra_id = obj.obj;
+    for( const std::pair<map_extra_id, int> &obj : values ) {
+        const map_extra_id &extra_id = obj.first;
         if( extra_id->is_valid_for( dat ) ) {
-            result.values.add( extra_id, obj.weight );
+            result.values.add( extra_id, obj.second );
         }
     }
     if( !values.empty() && result.values.empty() ) {
@@ -1054,13 +1181,14 @@ void regional_settings::finalize()
 {
     if( default_groundcover_str != nullptr ) {
         for( const auto &pr : *default_groundcover_str ) {
-            default_groundcover.add( pr.obj.id(), pr.weight );
+            default_groundcover.add( pr.first.id(), pr.second );
         }
 
         default_groundcover_str.reset();
         city_spec.finalize();
         forest_composition.finalize();
         forest_trail.finalize();
+        overmap_highway.finalize();
         overmap_lake.finalize();
         region_terrain_and_furniture.finalize();
         get_options().add_value( "DEFAULT_REGION", id, no_translation( id ) );

@@ -41,7 +41,8 @@ vpart_display::vpart_display()
 
 vpart_display::vpart_display( const vehicle_part &vp )
     : id( vp.info().id )
-    , variant( vp.info().variants.at( vp.variant ) ) {}
+    , variant( vp.info().variants.at( vp.variant ) )
+    , carried_furn( vp.get_base().get_var( "tied_down_furniture" ) ) {}
 
 std::string vpart_display::get_tileset_id() const
 {
@@ -292,6 +293,12 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
                                            vp.carried_name() );
             new_lines += 1;
         }
+        if( vp.degradation() > 0 && vp.damage() == vp.degradation() ) {
+            // Some untranslated padding and a linebreak for formatting here, but we re-use the same string from item::repair_info()
+            possible_msg += string_format( "   %s\n",
+                                           _( "<color_c_red>Degraded and cannot be repaired beyond the current level.</color>" ) );
+            new_lines += 1;
+        }
 
         possible_msg += "</color>\n";
         if( lines + new_lines <= max_y ) {
@@ -486,23 +493,24 @@ void vehicle::print_speed_gauge( map &here, const catacurses::window &win, const
                        ( strain <= 0.2 ? c_yellow :
                          ( strain <= 0.4 ? c_light_red : c_red ) );
     // Get cruising (target) velocity, and current (actual) velocity
-    int t_speed = static_cast<int>( convert_velocity( cruise_velocity, VU_VEHICLE ) );
-    int c_speed = static_cast<int>( convert_velocity( velocity, VU_VEHICLE ) );
-    auto ndigits = []( int value ) {
-        return value == 0 ? 1 :
-               ( value > 0 ?
-                 static_cast<int>( std::log10( static_cast<double>( std::abs( value ) ) ) ) + 1 :
-                 static_cast<int>( std::log10( static_cast<double>( std::abs( value ) ) ) ) + 2 );
+    const double t_speed = convert_velocity( cruise_velocity, VU_VEHICLE );
+    const double c_speed = convert_velocity( velocity, VU_VEHICLE );
+    auto ndigits = []( double value ) {
+        return ( value < 0 ? 1 : 0 ) +
+               ( value == 0 ? 1 :
+                 ( ( value < 1000 && value > -1000 ) ? 3 :
+                   static_cast<int>( std::log10( static_cast<double>( std::abs( value ) ) ) ) + 1 ) );
     };
     const std::string type = get_option<std::string> ( "USE_METRIC_SPEEDS" );
     int t_offset = ndigits( t_speed );
     int c_offset = ndigits( c_speed );
 
     // Target cruising velocity in green
-    mvwprintz( win, p, c_light_green, "%d", t_speed );
+    mvwprintz( win, p, c_light_green, "%s", three_digit_display( t_speed ) );
     mvwprintz( win, p + point( t_offset + spacing, 0 ), c_light_gray, "<" );
     // Current velocity in color indicating engine strain
-    mvwprintz( win, p + point( t_offset + 1 + 2 * spacing, 0 ), col_vel, "%d", c_speed );
+    mvwprintz( win, p + point( t_offset + 1 + 2 * spacing, 0 ), col_vel, "%s",
+               three_digit_display( c_speed ) );
     // Units of speed (mph, km/h, t/t)
     mvwprintz( win, p + point( t_offset  + c_offset + 1 + 3 * spacing, 0 ), c_light_gray, type );
 }

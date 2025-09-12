@@ -81,12 +81,6 @@ struct city_settings {
     void finalize();
 };
 
-struct ter_furn_id {
-    ter_id ter;
-    furn_id furn;
-    ter_furn_id();
-};
-
 /*
  * template for random bushes and such.
  * supports occasional boost to a single ter/furn type (clustered blueberry bushes for example)
@@ -201,6 +195,16 @@ struct shore_extendable_overmap_terrain_alias {
     oter_str_id alias;
 };
 
+struct overmap_river_settings {
+    int river_scale = 1;
+    double river_frequency = 1.5;
+    double river_branch_chance = 64;
+    double river_branch_remerge_chance = 4;
+    double river_branch_scale_decrease = 1;
+
+    overmap_river_settings() = default;
+};
+
 struct overmap_lake_settings {
     double noise_threshold_lake = 0.25;
     int lake_size_min = 20;
@@ -247,6 +251,45 @@ struct overmap_connection_settings {
     overmap_connection_settings() = default;
 };
 
+struct overmap_highway_settings {
+    int grid_column_seperation = 10;
+    int grid_row_seperation = 8;
+    int width_of_segments = 2;
+    int intersection_max_radius = 3;
+    double straightness_chance = 0.6;
+    oter_type_str_id reserved_terrain_id;
+    oter_type_str_id reserved_terrain_water_id;
+    oter_type_str_id symbolic_ramp_up_id;
+    oter_type_str_id symbolic_ramp_down_id;
+    oter_type_str_id symbolic_overpass_road_id;
+    overmap_special_id segment_flat;
+    overmap_special_id segment_ramp;
+    overmap_special_id segment_road_bridge;
+    overmap_special_id segment_bridge;
+    overmap_special_id segment_bridge_supports;
+    overmap_special_id segment_overpass;
+    overmap_special_id clockwise_slant;
+    overmap_special_id counterclockwise_slant;
+    overmap_special_id fallback_onramp;
+    overmap_special_id fallback_bend;
+    overmap_special_id fallback_three_way_intersection;
+    overmap_special_id fallback_four_way_intersection;
+    oter_type_str_id fallback_supports;
+    building_bin four_way_intersections;
+    building_bin three_way_intersections;
+    building_bin bends;
+    building_bin interchanges;
+    building_bin road_connections;
+
+    int longest_slant_length = 0;
+    int longest_bend_length = 0;
+    int HIGHWAY_MAX_DEVIANCE = 0;
+
+    bool needs_finalize = false;
+    void finalize();
+    overmap_highway_settings() = default;
+};
+
 struct map_extras {
     unsigned int chance;
     weighted_int_list<map_extra_id> values;
@@ -276,7 +319,6 @@ struct region_terrain_and_furniture_settings {
 struct regional_settings {
     std::string id;           //
     std::array<oter_str_id, OVERMAP_LAYERS> default_oter;
-    double river_scale = 1;
     weighted_int_list<ter_id> default_groundcover; // i.e., 'grass_or_dirt'
     shared_ptr_fast<weighted_int_list<ter_str_id>> default_groundcover_str;
 
@@ -286,8 +328,10 @@ struct regional_settings {
     weather_generator weather;
     overmap_feature_flag_settings overmap_feature_flag;
     overmap_forest_settings overmap_forest;
+    overmap_river_settings overmap_river;
     overmap_lake_settings overmap_lake;
     overmap_ocean_settings overmap_ocean;
+    overmap_highway_settings overmap_highway;
     overmap_ravine_settings overmap_ravine;
     overmap_connection_settings overmap_connection;
     region_terrain_and_furniture_settings region_terrain_and_furniture;

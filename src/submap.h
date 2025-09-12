@@ -26,7 +26,7 @@
 #include "item.h"
 #include "map_scale_constants.h"
 #include "mapdata.h"
-#include "mapgen.h"
+#include "mapgen_primitives.h"
 #include "mdarray.h"
 #include "point.h"
 #include "trap.h"

@@ -226,7 +226,7 @@
     "price_postapoc": "7 USD 50 cent",
     "material": [ "plastic" ],
     "symbol": "/",
-    "color": "black",
+    "color": "dark_gray",
     "qualities": [ [ "FISHING_ROD", 1 ] ],
     "melee_damage": { "bash": 4 }
   },

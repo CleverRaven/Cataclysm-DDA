@@ -34,7 +34,6 @@
     "bleed_rate": 0,
     "vision_day": 5,
     "vision_night": 85,
-    "melee_training_cap": 0,
     "path_settings": {
       "max_dist": 45,
       "allow_open_doors": true,
@@ -416,7 +415,7 @@
       ]
     },
     "effect": [
-      { "math": [ "Anathema_Warnings", "+=", "1" ] },
+      { "math": [ "Anathema_Warnings += 1" ] },
       {
         "if": { "math": [ "Anathema_Warnings < 2" ] },
         "then": { "u_message": "Anathema_Warnings_Snippets", "snippet": true, "popup": true },

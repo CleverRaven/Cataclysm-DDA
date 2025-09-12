@@ -1609,7 +1609,6 @@ class map
                        bool need_validate = true );
         void remove_submap_camp( const tripoint_bub_ms & );
         basecamp hoist_submap_camp( const tripoint_bub_ms &p );
-        bool point_within_camp( const tripoint_abs_ms &point_check ) const;
         // Graffiti
         bool has_graffiti_at( const tripoint_bub_ms &p ) const;
         const std::string &graffiti_at( const tripoint_bub_ms &p ) const;
@@ -2076,6 +2075,10 @@ class map
         ter_str_id get_roof( const tripoint_bub_ms &p, bool allow_air ) const;
 
     public:
+
+        // handles all the bash results of specific terrain or furniture
+        void drop_bash_results( const map_data_common_t &ter_furn, const tripoint_bub_ms &p );
+
         void process_items();
         // All active items connected to the power_grid with their connection points.
         std::vector<item_reference> item_network_connections( vehicle *power_grid );

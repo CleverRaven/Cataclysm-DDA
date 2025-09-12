@@ -387,6 +387,7 @@
     "weight": "81500 g",
     "hp": 40,
     "speed": 60,
+    "move_skills": { "climb": 4 },
     "material": [ "veggy" ],
     "symbol": "a",
     "color": "light_gray",
@@ -405,7 +406,7 @@
     "harvest": "arachnid",
     "special_attacks": [ [ "FUNGUS", 200 ] ],
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
-    "flags": [ "SEES", "SMELLS", "POISON", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
+    "flags": [ "SEES", "SMELLS", "POISON", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
     "armor": { "bash": 1, "cut": 1, "bullet": 1, "electric": 2 }
   },
   {
@@ -421,6 +422,7 @@
     "weight": "81500 g",
     "hp": 20,
     "speed": 60,
+    "move_skills": { "climb": 8 },
     "material": [ "iflesh" ],
     "symbol": "s",
     "color": "light_gray",
@@ -439,7 +441,7 @@
     "harvest": "arachnid",
     "special_attacks": [ [ "FUNGAL_TRAIL", 3 ] ],
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
-    "flags": [ "SEES", "SMELLS", "VENOM", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE", "INSECTICIDEPROOF" ],
+    "flags": [ "SEES", "SMELLS", "VENOM", "WEBWALK", "PATH_AVOID_FIRE", "INSECTICIDEPROOF" ],
     "armor": { "bash": 2, "cut": 6, "bullet": 5, "electric": 2 }
   },
   {

@@ -1,0 +1,25 @@
+[
+  {
+    "id": "bio_psi_range_increaser",
+    "type": "bionic",
+    "name": { "str": "Noetic Range Booster CBM" },
+    "description": "Taken from another reality, this CBM enables much more distant channeling of psionic powers at the cost of occasional crippling headaches.",
+    "occupied_bodyparts": [ [ "head", 5 ], [ "eyes", 2 ] ],
+    "enchantments": [ "ench_bio_psi_range_increaser" ],
+    "act_cost": "30 J",
+    "react_cost": "12 J",
+    "time": "1 s",
+    "flags": [ "BIONIC_TOGGLED" ]
+  },
+  {
+    "id": "bio_psi_range_increaser",
+    "copy-from": "bionic_general",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Noetic Range Booster CBM" },
+    "description": "Taken from another reality, this CBM enables much more distant channeling of psionic powers at the cost of occasional crippling headaches.",
+    "price": "7 kUSD 500 USD",
+    "weight": "500 g",
+    "difficulty": 9
+  }
+]

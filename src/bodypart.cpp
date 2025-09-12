@@ -8,8 +8,8 @@
 #include <utility>
 #include <vector>
 
-#include "assign.h"
 #include "body_part_set.h"
+#include "calendar.h"
 #include "creature.h"
 #include "debug.h"
 #include "enum_conversions.h"
@@ -21,6 +21,8 @@
 #include "pimpl.h"
 #include "rng.h"
 #include "subbodypart.h"
+#include "type_id.h"
+#include "wound.h"
 
 const bodypart_str_id body_part_arm_l( "arm_l" );
 const bodypart_str_id body_part_arm_r( "arm_r" );
@@ -146,6 +148,11 @@ bool string_id<limb_score>::is_valid() const
 void limb_score::load_limb_scores( const JsonObject &jo, const std::string &src )
 {
     limb_score_factory.load( jo, src );
+}
+
+void limb_score::finalize_all()
+{
+    limb_score_factory.finalize();
 }
 
 void limb_score::reset()
@@ -284,6 +291,21 @@ const std::vector<body_part_type> &body_part_type::get_all()
 {
     return body_part_factory.get_all();
 }
+
+class encumbrance_per_weight_reader : public generic_typed_reader<encumbrance_per_weight_reader>
+{
+    public:
+        std::pair<units::mass, int> get_next( const JsonValue &jv ) const {
+            std::pair<units::mass, int> ret;
+            if( !jv.test_object() ) {
+                jv.throw_error( "Invalid format" );
+            }
+            JsonObject entry = jv.get_object();
+            entry.read( "weight", ret.first, true );
+            entry.read( "encumbrance", ret.second, true );
+            return ret;
+        }
+};
 
 void body_part_type::load( const JsonObject &jo, std::string_view )
 {
@@ -459,18 +481,8 @@ void body_part_type::load( const JsonObject &jo, std::string_view )
 
     mandatory( jo, was_loaded, "sub_parts", sub_parts );
 
-    if( jo.has_array( "encumbrance_per_weight" ) ) {
-        const JsonArray &jarr = jo.get_array( "encumbrance_per_weight" );
-        for( const JsonObject jval : jarr ) {
-            units::mass weight = 0_gram;
-            int encumbrance = 0;
-
-            assign( jval, "weight", weight, true );
-            mandatory( jval, was_loaded, "encumbrance", encumbrance );
-
-            encumbrance_per_weight.insert( std::pair<units::mass, int>( weight, encumbrance ) );
-        }
-    }
+    optional( jo, was_loaded, "encumbrance_per_weight", encumbrance_per_weight,
+              encumbrance_per_weight_reader{} );
 }
 
 void bp_onhit_effect::load( const JsonObject &jo )
@@ -505,6 +517,14 @@ void body_part_type::finalize()
     if( !damage.empty() ) {
         unarmed_bonus = true;
     }
+
+    for( const wound_type &wd : wound_type::get_all() ) {
+        if( wd.allowed_on_bodypart( id ) ) {
+            const bp_wounds bpw = { wd.id, wd.damage_types, wd.damage_required };
+            potential_wounds.add( bpw, wd.weight );
+        }
+    }
+
     finalize_damage_map( armor.resist_vals );
 }
 
@@ -1022,6 +1042,28 @@ float bodypart::get_limb_score_max( const limb_score_id &score ) const
     return id->get_limb_score_max( score );
 }
 
+std::vector<wound> bodypart::get_wounds() const
+{
+    return wounds;
+}
+
+void bodypart::add_wound( wound &wd )
+{
+    wounds.push_back( wd );
+}
+
+void bodypart::add_wound( wound_type_id wd )
+{
+    wounds.emplace_back( wd );
+}
+
+void bodypart::update_wounds( time_duration time_passed )
+{
+    wounds.erase( std::remove_if( wounds.begin(), wounds.end(), [time_passed]( wound & wd ) {
+        return wd.update_wound( time_passed );
+    } ), wounds.end() );
+}
+
 int bodypart::get_hp_cur() const
 {
     return hp_cur;
@@ -1215,6 +1257,8 @@ void bodypart::serialize( JsonOut &json ) const
     json.member( "temp_conv", units::to_legacy_bodypart_temp( temp_conv ) );
     json.member( "frostbite_timer", frostbite_timer );
 
+    json.member( "wounds", wounds );
+
     json.end_object();
 }
 
@@ -1235,6 +1279,8 @@ void bodypart::deserialize( const JsonObject &jo )
         temp_conv = units::from_legacy_bodypart_temp( legacy_temp_conv );
     }
     jo.read( "frostbite_timer", frostbite_timer, true );
+
+    jo.read( "wounds", wounds );
 
 }
 

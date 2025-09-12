@@ -138,8 +138,12 @@ static const efftype_id effect_weakened_gravity( "weakened_gravity" );
 static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
 
 static const flag_id json_flag_AVATAR_ONLY( "AVATAR_ONLY" );
+static const flag_id json_flag_DIGGABLE( "DIGGABLE" );
+static const flag_id json_flag_EASY_DECONSTRUCT( "EASY_DECONSTRUCT" );
+static const flag_id json_flag_FLAT( "FLAT" );
 static const flag_id json_flag_JETPACK( "JETPACK" );
 static const flag_id json_flag_LEVITATION( "LEVITATION" );
+static const flag_id json_flag_PLOWABLE( "PLOWABLE" );
 static const flag_id json_flag_PRESERVE_SPAWN_LOC( "PRESERVE_SPAWN_LOC" );
 static const flag_id json_flag_PROXIMITY( "PROXIMITY" );
 static const flag_id json_flag_UNDODGEABLE( "UNDODGEABLE" );
@@ -149,6 +153,7 @@ static const furn_str_id furn_f_rubble( "f_rubble" );
 static const furn_str_id furn_f_rubble_rock( "f_rubble_rock" );
 static const furn_str_id furn_f_wreckage( "f_wreckage" );
 
+static const item_group_id Item_spawn_data_EMPTY_GROUP( "EMPTY_GROUP" );
 static const item_group_id Item_spawn_data_default_zombie_clothes( "default_zombie_clothes" );
 static const item_group_id Item_spawn_data_default_zombie_items( "default_zombie_items" );
 
@@ -163,6 +168,8 @@ static const itype_id itype_steel_chunk( "steel_chunk" );
 static const itype_id itype_wire( "wire" );
 
 static const json_character_flag json_flag_ONE_STORY_FALL( "ONE_STORY_FALL" );
+static const json_character_flag
+json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS( "TEMPORARY_SHAPESHIFT_NO_HANDS" );
 static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
 
 static const material_id material_glass( "glass" );
@@ -219,8 +226,6 @@ static const ter_str_id ter_t_window( "t_window" );
 static const ter_str_id ter_t_window_alarm( "t_window_alarm" );
 static const ter_str_id ter_t_window_empty( "t_window_empty" );
 static const ter_str_id ter_t_window_no_curtains( "t_window_no_curtains" );
-
-static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
@@ -714,6 +719,8 @@ void map::vehmove()
         vehs.emplace( connected_veh, false ); // add with 'false' if does not exist (off map)
     }
     for( const std::pair<vehicle *const, bool> &veh_pair : vehs ) {
+        veh_pair.first->process_effects();
+        veh_pair.first->recalculate_enchantment_cache();
         veh_pair.first->idle( *this, /* on_map = */ veh_pair.second );
     }
 
@@ -1270,6 +1277,10 @@ std::set<tripoint_bub_ms> map::get_moving_vehicle_targets( const Creature &z, in
         if( !v.v->is_moving() ) {
             continue;
         }
+        if( v.v->get_driver( *this ) != nullptr &&
+            z.attitude_to( *v.v->get_driver( *this ) ) != Creature::Attitude::HOSTILE ) {
+            continue;
+        }
         if( std::abs( v.pos.z() - zpos.z() ) > fov_3d_z_range ) {
             continue;
         }
@@ -1395,8 +1406,9 @@ void map::board_vehicle( const tripoint_bub_ms &pos, Character *p )
     }
     if( vp->part().has_flag( vp_flag::passenger_flag ) ) {
         Character *psg = vp->vehicle().get_passenger( vp->part_index() );
-        debugmsg( "map::board_vehicle: passenger (%s) is already there",
-                  psg ? psg->get_name() : "<null>" );
+        debugmsg( "map::board_vehicle: %s failed to board passenger (%s) is already there",
+                  p ? p->get_name() : "<null_boarder>",
+                  psg ? psg->get_name() : "<null_passenger>" );
         unboard_vehicle( pos );
     }
     vp->part().set_flag( vp_flag::passenger_flag );
@@ -2141,40 +2153,20 @@ uint8_t map::get_known_rotates_to_f( const tripoint_bub_ms &p,
  */
 const harvest_id &map::get_harvest( const tripoint_bub_ms &pos ) const
 {
-    const furn_id &furn_here = furn( pos );
-    if( !furn_here->has_flag( ter_furn_flag::TFLAG_HARVESTED ) ) {
-        const harvest_id &harvest = furn_here->get_harvest();
-        if( !harvest.is_null() ) {
-            return harvest;
-        }
+    const harvest_id &furn_harvest = furn( pos )->get_harvest();
+    if( !furn_harvest.is_null() ) {
+        return furn_harvest;
     }
-
-    const ter_id &ter_here = ter( pos );
-    if( ter_here->has_flag( ter_furn_flag::TFLAG_HARVESTED ) ) {
-        return harvest_id::NULL_ID();
-    }
-
-    return ter_here->get_harvest();
+    return ter( pos )->get_harvest();
 }
 
 const std::set<std::string> &map::get_harvest_names( const tripoint_bub_ms &pos ) const
 {
-    static const std::set<std::string> null_harvest_names = {};
     const furn_id &furn_here = furn( pos );
     if( furn_here->can_examine( pos ) ) {
-        if( furn_here->has_flag( ter_furn_flag::TFLAG_HARVESTED ) ) {
-            return null_harvest_names;
-        }
-
         return furn_here->get_harvest_names();
     }
-
-    const ter_id &ter_here = ter( pos );
-    if( ter_here->has_flag( ter_furn_flag::TFLAG_HARVESTED ) ) {
-        return null_harvest_names;
-    }
-
-    return ter_here->get_harvest_names();
+    return ter( pos )->get_harvest_names();
 }
 
 /*
@@ -2327,13 +2319,14 @@ std::string map::features( const tripoint_bub_ms &p ) const
     // to take up one line.  So, make sure it does that.
     // FIXME: can't control length of localized text.
     add_if( is_bashable( p ), _( "Smashable." ) );
-    add_if( has_flag( ter_furn_flag::TFLAG_DIGGABLE, p ), _( "Diggable." ) );
-    add_if( has_flag( ter_furn_flag::TFLAG_PLOWABLE, p ), _( "Plowable." ) );
+    add_if( has_flag( ter_furn_flag::TFLAG_DIGGABLE, p ), json_flag_DIGGABLE->name() );
+    add_if( has_flag( ter_furn_flag::TFLAG_PLOWABLE, p ), json_flag_PLOWABLE->name() );
     add_if( has_flag( ter_furn_flag::TFLAG_ROUGH, p ), _( "Rough." ) );
     add_if( has_flag( ter_furn_flag::TFLAG_UNSTABLE, p ), _( "Unstable." ) );
     add_if( has_flag( ter_furn_flag::TFLAG_SHARP, p ), _( "Sharp." ) );
-    add_if( has_flag( ter_furn_flag::TFLAG_FLAT, p ), _( "Flat." ) );
-    add_if( has_flag( ter_furn_flag::TFLAG_EASY_DECONSTRUCT, p ), _( "Simple." ) );
+    add_if( has_flag( ter_furn_flag::TFLAG_FLAT, p ), json_flag_FLAT->name() );
+    add_if( has_flag( ter_furn_flag::TFLAG_EASY_DECONSTRUCT, p ),
+            json_flag_EASY_DECONSTRUCT->name() );
     add_if( has_flag( ter_furn_flag::TFLAG_MOUNTABLE, p ), _( "Mountable." ) );
     add_if( has_flag( ter_furn_flag::TFLAG_FLAMMABLE, p ) ||
             has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH, p ) ||
@@ -3586,7 +3579,7 @@ bool map::terrain_moppable( const tripoint_bub_ms &p )
 
     // Moppable fields ( blood )
     for( const std::pair<const field_type_id, field_entry> &pr : field_at( p ) ) {
-        if( pr.second.get_field_type().obj().phase == phase_id::LIQUID ) {
+        if( pr.first->phase == phase_id::LIQUID || pr.first->moppable ) {
             return true;
         }
     }
@@ -3631,7 +3624,7 @@ bool map::mop_spills( const tripoint_bub_ms &p )
 
     field &fld = field_at( p );
     for( const auto &it : fld ) {
-        if( it.first->phase == phase_id::LIQUID ) {
+        if( it.first->phase == phase_id::LIQUID || it.first->moppable ) {
             remove_field( p, it.first );
             retval = true;
         }
@@ -4081,6 +4074,11 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params, bool rep
                            "smash_fail", soundfxvariant );
         }
 
+        // add here because early return, otherwise they're added at the end
+        if( !bash->hit_field.first.is_null() ) {
+            add_field( p, bash->hit_field.first, bash->hit_field.second );
+        }
+
         return;
     }
 
@@ -4142,6 +4140,11 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params, bool rep
         // Didn't find any tent center, wreck the current tile
         if( !tentp ) {
             if( bash ) {
+                if( smash_ter ) {
+                    drop_bash_results( terid, p );
+                } else {
+                    drop_bash_results( furnid, p );
+                }
                 spawn_items( p, item_group::items_from( bash->drop_group, calendar::turn ) );
                 furn_set( p, furn_bash.furn_set );
             }
@@ -4212,7 +4215,11 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params, bool rep
     }
 
     if( !tent ) {
-        spawn_items( p, item_group::items_from( bash->drop_group, calendar::turn ) );
+        if( smash_ter ) {
+            drop_bash_results( terid, p );
+        } else {
+            drop_bash_results( furnid, p );
+        }
     }
     //regenerates roofs for tiles that should be walkable from above
     if( zlevels && smash_ter && !set_to_air && ter( p )->has_flag( "EMPTY_SPACE" ) &&
@@ -4227,6 +4234,13 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params, bool rep
 
     if( will_collapse && !has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p ) ) {
         collapse_at( tripoint_bub_ms( p ), params.silent, true, bash->explosive > 0 );
+    }
+
+    if( !bash->hit_field.first.is_null() ) {
+        add_field( p, bash->hit_field.first, bash->hit_field.second );
+    }
+    if( !bash->destroyed_field.first.is_null() ) {
+        add_field( p, bash->destroyed_field.first, bash->destroyed_field.second );
     }
 
     params.did_bash = true;
@@ -4340,6 +4354,94 @@ void map::bash_field( const tripoint_bub_ms &p, bash_params &params )
     }
 }
 
+void map::drop_bash_results( const map_data_common_t &ter_furn, const tripoint_bub_ms &p )
+{
+    auto spawn_items_or_charges = []( map & here, const tripoint_bub_ms & p, const itype_id it,
+    const int qty ) {
+        // there seems to be some way to replace it with add_item_or_charges()
+        // but it results in charges spawned in dumb ways, so i dropped it
+        if( it->count_by_charges() ) {
+            here.spawn_item( p, it, 1, qty );
+        } else {
+            here.spawn_item( p, it, qty );
+        }
+    };
+
+    auto drop_components_or_subcomponents = [spawn_items_or_charges](
+    const std::vector<std::pair<itype_id, int>> &it_qty_v, const tripoint_bub_ms & p )->void {
+
+        map &here = get_map();
+
+        if( it_qty_v.empty() )
+        {
+            return;
+        }
+
+        add_msg_debug( debugmode::DF_MAP, "drop_bash_results():" );
+
+        for( const std::pair<itype_id, int> &it_qty : it_qty_v )
+        {
+            const std::vector<item_comp> sub_uncraft_components = item( it_qty.first ).get_uncraft_components();
+
+            if( sub_uncraft_components.empty() ) {
+                // if no subcomponents, just straight drop 100% of item count
+                spawn_items_or_charges( here, p, it_qty.first->id, it_qty.second );
+                add_msg_debug( debugmode::DF_MAP, "type 1, plain item: %s, %s pcs.",
+                               it_qty.first->id.c_str(), it_qty.second );
+            } else {
+                // if subcomponents, drop a bit of subcomponents and a bit of components
+                const float broken_qty = rng_float( 0.1f, 0.4f );
+                for( const item_comp &sub_comp : sub_uncraft_components ) {
+                    const int qty_or_charges_comp =  sub_comp.count * std::round( it_qty.second * broken_qty );
+                    spawn_items_or_charges( here, p, sub_comp.type, qty_or_charges_comp );
+                    add_msg_debug( debugmode::DF_MAP, "type 2, subcomponent: %s, %s pcs.",
+                                   sub_comp.type->id.c_str(), qty_or_charges_comp );
+                }
+                const int qty_or_charges = std::round( it_qty.second * ( 1 - broken_qty ) );
+                spawn_items_or_charges( here, p, it_qty.first->id, qty_or_charges );
+                add_msg_debug( debugmode::DF_MAP, "type 3, component: %s, %s pcs.",
+                               it_qty.first->id.c_str(), qty_or_charges ) ;
+            }
+        }
+    };
+
+    // todo: do the same component recursive loop for generic salvaging
+    if( !ter_furn.base_item.is_null() ) {
+        // if has underlying item, take it's uncraft components as bash result
+
+        std::vector<std::pair<itype_id, int>> it_qty_v;
+        it_qty_v.reserve( ter_furn.get_uncraft_components().size() );
+        for( const item_comp &comp : ter_furn.get_uncraft_components() ) {
+            it_qty_v.emplace_back( comp.type, comp.count );
+        }
+        drop_components_or_subcomponents( it_qty_v, p );
+    } else {
+        if( ter_furn.bash_info().has_value() ) {
+            if( ter_furn.bash_info().value().drop_group == Item_spawn_data_EMPTY_GROUP
+                && ter_furn.deconstruct_info().has_value()
+                && ter_furn.deconstruct_info().value().drop_group != Item_spawn_data_EMPTY_GROUP ) {
+                // if drop_group is not defined manually, and we have deconstruct group
+                // then pick deconstruct group as a base, break it a bit, and then drop it.
+
+                const std::map<const itype *, std::pair<int, int>> every_item = item_group::spawn_data_from_group(
+                            ter_furn.deconstruct_info().value().drop_group )->every_item_min_max();
+                std::vector<std::pair<itype_id, int>> it_qty_v;
+
+                it_qty_v.reserve( every_item.size() );
+                for( const std::pair<const itype *, std::pair<int, int>> item_instance : every_item ) {
+                    it_qty_v.emplace_back( item_instance.first->id, rng( item_instance.second.first,
+                                           item_instance.second.second ) );
+                }
+                drop_components_or_subcomponents( it_qty_v, p );
+            } else {
+                map &here = get_map();
+                here.spawn_items( p, item_group::items_from( ter_furn.bash_info().value().drop_group,
+                                  calendar::turn ) );
+            }
+        }
+    }
+}
+
 void map::destroy( const tripoint_bub_ms &p, const bool silent )
 {
     // Break if it takes more than 25 destructions to remove to prevent infinite loops
@@ -4444,6 +4546,10 @@ void map::crush( const tripoint_bub_ms &p )
 }
 double map::shoot( const tripoint_bub_ms &p, projectile &proj, const bool hit_items )
 {
+    if( !inbounds( p ) ) {
+        debugmsg( "Called map::shoot on out-of-bounds tile %s", p.to_string() );
+        return 0;
+    }
     // TODO: make bashing better a destroying, worse at penetrating
     std::map<damage_type_id, float> dmg_by_type {};
     damage_instance &impact = proj.multishot ? proj.shot_impact : proj.impact;
@@ -4654,9 +4760,11 @@ bool map::hit_with_fire( const tripoint_bub_ms &p )
 bool map::open_door( Creature const &u, const tripoint_bub_ms &p, const bool inside,
                      const bool check_only )
 {
-    if( u.has_effect( effect_incorporeal ) || impassable_field_at( p ) ) {
+    if( u.has_effect( effect_incorporeal ) || impassable_field_at( p ) ||
+        u.has_flag( json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS ) ) {
         return false;
     }
+
     const ter_t &ter = this->ter( p ).obj();
     const furn_t &furn = this->furn( p ).obj();
     if( ter.open ) {
@@ -4669,8 +4777,8 @@ bool map::open_door( Creature const &u, const tripoint_bub_ms &p, const bool ins
                            "open_door", ter.id.str() );
             ter_set( p, ter.open );
 
-            if( u.has_trait( trait_SCHIZOPHRENIC ) && u.is_avatar() &&
-                one_in( 50 ) && !ter.has_flag( ter_furn_flag::TFLAG_TRANSPARENT ) ) {
+            if( u.is_avatar() && u.as_avatar()->schizo_symptoms( 50 ) &&
+                !ter.has_flag( ter_furn_flag::TFLAG_TRANSPARENT ) ) {
                 tripoint_bub_ms mp = p + point_rel_ms( -2 * u.pos_bub().xy().raw() ) + tripoint_rel_ms{ 2 * p.x(), 2 * p.y(), p.z() };
                 g->spawn_hallucination( mp );
             }
@@ -6674,20 +6782,6 @@ computer *map::computer_at( const tripoint_bub_ms &p )
     return sm->get_computer( l );
 }
 
-bool map::point_within_camp( const tripoint_abs_ms &point_check ) const
-{
-    const tripoint_abs_omt omt_check( coords::project_to<coords::omt>( point_check ) );
-    const point_abs_omt p = omt_check.xy();
-    for( int x2 = -2; x2 < 2; x2++ ) {
-        for( int y2 = -2; y2 < 2; y2++ ) {
-            if( std::optional<basecamp *> bcp = overmap_buffer.find_camp( p + point( x2, y2 ) ) ) {
-                return ( *bcp )->point_within_camp( omt_check );
-            }
-        }
-    }
-    return false;
-}
-
 void map::remove_submap_camp( const tripoint_bub_ms &p )
 {
     submap *const current_submap = get_submap_at( p );
@@ -7125,7 +7219,7 @@ bool map::draw_maptile( const catacurses::window &w, const tripoint_bub_ms &p,
             // (that are visible to the player!), we always set the symbol.
             // If there are items and the field does not hide them,
             // the code handling items will override it.
-            draw_item_sym = ( field_symbol == "'%" );
+            draw_item_sym = ( field_symbol == "%" );
             // If field display_priority is > 1, and the field is set to hide items,
             //draw the field as it obscures what's under it.
             if( ( field_symbol != "%" && fid.obj().priority > 1 ) || ( field_symbol != "%" &&
@@ -7175,6 +7269,11 @@ bool map::draw_maptile( const catacurses::window &w, const tripoint_bub_ms &p,
                   && veh->get_points().count( ( player_character.pos_abs() +
                                                 player_character.grab_point ) ) ) ) {
             memory_sym = sym;
+        }
+        if( !vd.carried_furn.empty() ) {
+            furn_str_id furn( vd.carried_furn );
+            sym = furn->symbol();
+            tercol = furn->color();
         }
     }
 
@@ -8543,9 +8642,38 @@ void map::cut_down_tree( tripoint_bub_ms p, point_rel_ms dir )
 
     // TODO: make line_to type aware.
     std::vector<tripoint_bub_ms> tree = line_to( p, to, rng( 1, 8 ) );
+    bool shattered_tree = false;
+    const int bash_strength = 79; // arbitrary bash strength, not enough to ever destroy concrete wall
+    const int bash_attempts = 1;
     for( tripoint_bub_ms &elem : tree ) {
-        batter( elem, 300, 5 );
-        ter_set( elem, ter_t_trunk );
+        const ter_id original_terrain_at = ter( elem.xy() );
+        bool did_bash_this_loop = false;
+        if( !shattered_tree ) {
+            // if this terrain is open, it's fine if we don't bash it.
+            const bool open_ground = has_flag( ter_furn_flag::TFLAG_FLAT, elem );
+            did_bash_this_loop = true;
+            batter( elem, bash_strength, bash_attempts );
+            const bool smashed_thru = ter( elem.xy() ) != original_terrain_at;
+            if( ( open_ground || smashed_thru ) && passable( elem.xy() ) ) {
+                ter_set( elem, ter_t_trunk ); // effectively continues, no further execution this loop.
+                continue;                     // but just to be sure :)
+            } else {
+                shattered_tree = true;
+            }
+        }
+        // completely new if block, instead of if-else. In case we set shattered_tree in this same pass through the for-loop.
+        if( shattered_tree ) {
+            // Then we do some shuffling to "simulate" the trunk being destroyed.
+            // We bash the terrain normally once, and we pretend the trunk itself was bashed by spawning its bash results.
+            // But we never set the trunk terrain, because a lower part of the trunk was destroyed.
+            if( !did_bash_this_loop ) {
+                batter( elem, bash_strength, bash_attempts );
+            }
+            // safety: trunk might not have bash data! It does right now, but maybe we remove that in the future(??)
+            if( ter_t_trunk->bash ) {
+                spawn_items( elem, item_group::items_from( ter_t_trunk->bash->drop_group, calendar::turn ) );
+            }
+        }
     }
     ter_set( p, ter_t_stump );
 }
@@ -8771,7 +8899,7 @@ void map::spawn_monsters_submap_group( const tripoint_rel_sm &gp, mongroup &grou
         ignore_sight = true;
     }
 
-    static const auto allow_on_terrain = [&]( const tripoint_bub_ms & p ) {
+    const auto allow_on_terrain = [&]( const tripoint_bub_ms & p ) {
         // TODO: flying creatures should be allowed to spawn without a floor,
         // but the new creature is created *after* determining the terrain, so
         // we can't check for it here.

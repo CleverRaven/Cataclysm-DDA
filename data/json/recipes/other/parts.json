@@ -314,10 +314,36 @@
     "difficulty": 5,
     "time": "180 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "lc_steel_chunk", 1 ] ] ]
+  },
+  {
+    "result": "mc_sheet_metal_small",
+    "type": "recipe",
+    "copy-from": "sheet_metal_small",
+    "components": [ [ [ "mc_steel_chunk", 1 ] ] ]
+  },
+  {
+    "result": "hc_sheet_metal_small",
+    "type": "recipe",
+    "copy-from": "sheet_metal_small",
+    "components": [ [ [ "hc_steel_chunk", 1 ] ] ]
+  },
+  {
+    "result": "ch_sheet_metal_small",
+    "type": "recipe",
+    "copy-from": "sheet_metal_small",
+    "extend": { "using": [ [ "carbon", 1 ] ] },
+    "components": [ [ [ "lc_steel_chunk", 1 ] ] ]
+  },
+  {
+    "result": "qt_sheet_metal_small",
+    "type": "recipe",
+    "copy-from": "sheet_metal_small",
+    "extend": { "proficiencies": [ { "proficiency": "prof_quenching" } ] },
+    "components": [ [ [ "mc_steel_chunk", 1 ] ] ],
+    "tools": [ [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ]
   },
   {
     "result": "xlframe",

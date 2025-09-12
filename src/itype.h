@@ -724,6 +724,11 @@ struct itype_variant_data {
 
     int weight = 1;
 
+    // this is only needed for delete in generic_factory, so only compares id!
+    // Not safe for general use!
+    bool operator==( const itype_variant_data &rhs ) const {
+        return id == rhs.id;
+    }
     void deserialize( const JsonObject &jo );
     void load( const JsonObject &jo );
 };
@@ -921,6 +926,9 @@ struct islot_gunmod : common_ranged_data {
 
     /** Multiplies base loudness as provided by the currently loaded ammo */
     float loudness_multiplier = 1;
+
+    /** Alters the gun to_hit */
+    int to_hit_mod = 0;
 
     /** How much time does this gunmod take to install? */
     time_duration install_time = 0_seconds;
@@ -1592,7 +1600,7 @@ struct itype {
         std::string nname( unsigned int quantity ) const;
 
         // Allow direct access to the type id for the few cases that need it.
-        itype_id get_id() const {
+        const itype_id &get_id() const {
             return id;
         }
 

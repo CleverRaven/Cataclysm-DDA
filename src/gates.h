@@ -17,6 +17,7 @@ namespace gates
 {
 
 void load( const JsonObject &jo, const std::string &src );
+void finalize();
 void check();
 void reset();
 
@@ -29,6 +30,12 @@ void open_gate( const tripoint_bub_ms &pos );
 
 namespace doors
 {
+
+/**
+ * Checks whether a monster is blocking a position, which will prevent a door from closing.
+ * Prints a message if the check is on behalf of the player.
+*/
+bool check_mon_blocking_door( const Creature &who, const tripoint_abs_ms &p );
 
 /**
  * Handles deducting moves, printing messages (only non-NPCs cause messages), actually closing it,

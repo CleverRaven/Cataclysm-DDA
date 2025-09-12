@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "railroad_end",
     "object": {
       "rows": [
@@ -40,7 +39,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "railroad_straight",
     "object": {
       "fallback_predecessor_mapgen": "field",
@@ -80,7 +78,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "railroad_curved",
     "object": {
       "rows": [
@@ -115,7 +112,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "railroad_tee",
     "object": {
       "fallback_predecessor_mapgen": "field",
@@ -151,7 +147,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "railroad_four_way",
     "object": {
       "rows": [

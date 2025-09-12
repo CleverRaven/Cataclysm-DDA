@@ -164,7 +164,7 @@
     "copy-from": "arrow_druid_crafted",
     "//": "I'd like this to cause massive knockback but I'm limited by the available ammo flags.",
     "name": { "str": "gravity arrow" },
-    "color": "black",
+    "color": "dark_gray",
     "recovery_chance": 86,
     "description": "An arrow with a fragment of a magus rune in the arrowhead.  It reverses flight briefly after striking its target and then hits another one.",
     "effects": [ "BOUNCE" ]

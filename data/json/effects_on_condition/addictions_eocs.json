@@ -98,7 +98,7 @@
           ]
         },
         "then": [
-          { "math": [ "u_val('focus')", "-=", "u_addiction_intensity('mutagen')" ] },
+          { "math": [ "u_val('focus') -= u_addiction_intensity('mutagen')" ] },
           {
             "u_message": "You daydream what it'd be like if you were *different*.  Different is good.",
             "type": "warning"
