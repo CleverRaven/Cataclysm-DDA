@@ -62,6 +62,7 @@ int diary::set_opened_page( int pagenum )
         desc_map.clear();
     }
     if( pages.empty() ) {
+        debugmsg( "Diary lacks summary page?" );
         opened_page = - 1;
     } else if( pagenum < 0 ) {
         opened_page = pages.size() - 1;
@@ -579,7 +580,7 @@ std::vector<std::string> diary::get_change_list()
     if( !change_list.empty() ) {
         return change_list;
     }
-    if( !pages.empty() ) {
+    if( pages.size() > 1 ) {
         stat_changes();
         skill_changes();
         prof_changes();
@@ -588,6 +589,8 @@ std::vector<std::string> diary::get_change_list()
         spell_changes();
         mission_changes();
         kill_changes();
+    } else if( change_list.empty() ) {
+        open_summary_page();
     }
     return change_list;
 }
