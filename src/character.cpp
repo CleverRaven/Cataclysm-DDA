@@ -8402,15 +8402,14 @@ void Character::apply_random_wound( bodypart_id bp, const damage_instance &d )
     }
 
     weighted_int_list<wound_type_id> possible_wounds;
-    for( const weighted_object<int, bp_wounds> &wd : bp->potential_wounds ) {
+    for( const std::pair<bp_wounds, int> &wd : bp->potential_wounds ) {
         for( const damage_unit &du : d.damage_units ) {
-            const bool damage_within_limits =
-                du.amount >= wd.obj.damage_required.first &&
-                du.amount <= wd.obj.damage_required.second;
-            const bool damage_type_matches = std::find( wd.obj.damage_type.begin(), wd.obj.damage_type.end(),
-                                             du.type ) != wd.obj.damage_type.end();
+            const bool damage_within_limits = du.amount >= wd.first.damage_required.first &&
+                                              du.amount <= wd.first.damage_required.second;
+            const bool damage_type_matches = std::find( wd.first.damage_type.begin(),
+                                             wd.first.damage_type.end(), du.type ) != wd.first.damage_type.end();
             if( damage_within_limits && damage_type_matches ) {
-                possible_wounds.add( wd.obj.id, wd.weight );
+                possible_wounds.add( wd.first.id, wd.second );
             }
         }
     }

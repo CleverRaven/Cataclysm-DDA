@@ -520,10 +520,10 @@ static medical_column draw_health_summary( const int column_count, Character &yo
 
         if( debug_mode ) {
             detail_str += "All potential wounds:\n";
-            for( const weighted_object<int, bp_wounds> &wd : bp->get_id()->potential_wounds ) {
+            for( const std::pair<bp_wounds, int> &wd : bp->get_id()->potential_wounds ) {
                 std::string damage_types;
 
-                for( const damage_type_id dt : wd.obj.damage_type ) {
+                for( const damage_type_id dt : wd.first.damage_type ) {
                     damage_types += dt.c_str();
                     damage_types += ", ";
                 }
@@ -531,8 +531,8 @@ static medical_column draw_health_summary( const int column_count, Character &yo
                 damage_types.pop_back();
                 detail_str +=
                     string_format( "%s:\nweight: %s\ndamage types required: %s\ndamage required: [ %s - %s ]\n",
-                                   colorize( wd.obj.id.c_str(), c_yellow ), wd.weight, damage_types, wd.obj.damage_required.first,
-                                   wd.obj.damage_required.second );
+                                   colorize( wd.first.id.c_str(), c_yellow ), wd.second, damage_types, wd.first.damage_required.first,
+                                   wd.first.damage_required.second );
             }
         }
 
