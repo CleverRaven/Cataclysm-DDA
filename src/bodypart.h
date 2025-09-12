@@ -20,10 +20,13 @@
 #include "type_id.h"
 #include "units.h"
 #include "weather.h"
+#include "weighted_list.h"
+#include "wound.h"
 
 class Creature;
 class JsonObject;
 class JsonOut;
+class time_duration;
 struct body_part_type;
 struct localized_comparator;
 template <typename E> struct enum_traits;
@@ -133,6 +136,14 @@ struct limb_score {
 struct bp_limb_score {
     float score = 0.0f;
     float max = 0.0f;
+};
+
+struct bp_wounds {
+    wound_type_id id;
+    // damage type that can apply this specific wound
+    std::vector<damage_type_id> damage_type;
+    // how much damage one need to deal to apply this wound, min and max
+    std::pair<int, int> damage_required;
 };
 
 struct bp_onhit_effect {
@@ -317,6 +328,8 @@ struct body_part_type {
         // TODO: Coverage/Encumbrance multiplier
         std::vector<bodypart_str_id> similar_bodyparts;
 
+        weighted_int_list<bp_wounds> potential_wounds;
+
     private:
         int bionic_slots_ = 0;
         body_part_type::type _primary_limb_type = body_part_type::type::num_types;
@@ -456,6 +469,8 @@ class bodypart
 
         std::array<int, NUM_WATER_TOLERANCE> mut_drench; // NOLINT(cata-serialize)
 
+        std::vector<wound> wounds;
+
         // adjust any limb "value" based on how wounded the limb is. scaled to 0-75%
         float wound_adjusted_limb_value( float val ) const;
         // Same idea as for wounds, though not all scores get this applied. Should be applied after wounds.
@@ -499,6 +514,12 @@ class bodypart
                               int override_encumb = -1,
                               int override_wounds = -1 ) const;
         float get_limb_score_max( const limb_score_id &score ) const;
+
+        std::vector<wound> get_wounds() const;
+
+        void add_wound( wound &wd );
+        void add_wound( wound_type_id wd );
+        void update_wounds( time_duration time_passed );
 
         int get_hp_cur() const;
         int get_hp_max() const;

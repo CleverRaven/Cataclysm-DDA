@@ -277,6 +277,9 @@ class effect
             eff_type( peff_type ), duration( dur ), bp( part ),
             permanent( perm ), intensity( nintensity ), start_time( nstart_time ),
             source( source ) {
+            clamp_duration();
+            apply_int_dur_factor();
+            clamp_intensity();
         }
         effect( const effect & ) = default;
         effect &operator=( const effect & ) = default;
@@ -318,6 +321,8 @@ class effect
         void mod_duration( const time_duration &dur, bool alert = false );
         /** Multiplies the duration, capping at max_duration. */
         void mult_duration( double dur, bool alert = false );
+        /** Caps duration at max_duration. */
+        void clamp_duration();
 
         std::vector<vitamin_applied_effect> vit_effects( bool reduced ) const;
 
@@ -354,12 +359,24 @@ class effect
         int set_intensity( int val, bool alert = false );
 
         /**
+         * Clamps intensity of effect to range [1..max_intensity]
+         * @return new clamped intensity of the effect
+         */
+        int clamp_intensity();
+
+        /**
          * Modify intensity of effect capped by range [1..max_intensity]
          * @param mod Amount to increase current intensity by
          * @param alert whether decay messages should be displayed
          * @return new intensity of the effect after modification and capping
          */
         int mod_intensity( int mod, bool alert = false );
+
+        /**
+         * Set intensity of effect if it is duration based
+         * @return potentially updated intensity of the effect
+         */
+        int apply_int_dur_factor( bool alert = false );
 
         /** Returns the string id of the resist trait to be used in has_trait("id"). */
         const std::vector<trait_id> &get_resist_traits() const;

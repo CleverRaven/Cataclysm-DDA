@@ -31,7 +31,6 @@
 #include "output.h"
 #include "point.h"
 #include "popup.h"
-#include "string_formatter.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"

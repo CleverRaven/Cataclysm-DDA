@@ -9,6 +9,7 @@
 #include <optional>
 #include <set>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
@@ -98,7 +99,7 @@ class recipe
         float exertion = 0.0f;
 
     public:
-        recipe();
+        recipe() = default;
 
         bool is_null() const {
             return id.is_null();
@@ -269,7 +270,7 @@ class recipe
             return reversible;
         }
 
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         void finalize();
 
         /** Returns a non-empty string describing an inconsistency (if any) in the recipe. */

@@ -107,6 +107,7 @@
 #include "output.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
+#include "pickup.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "pocket_type.h"
@@ -182,6 +183,9 @@ static std::map<std::string, json_talk_topic> json_talk_topics;
 
 using item_menu = std::function<item_location( const item_location_filter & )>;
 using item_menu_mul = std::function<drop_locations( const item_location_filter & )>;
+
+extern template struct value_or_var<diag_value, eoc_math, string_mutator<translation>>;
+using diag_value_or_var = value_or_var<diag_value, eoc_math, string_mutator<translation>>;
 
 struct sub_effect_parser {
     using f_t = talk_effect_fun_t::func( * )( const JsonObject &, std::string_view,
@@ -6202,13 +6206,13 @@ talk_effect_fun_t::func f_run_eocs( const JsonObject &jo, std::string_view membe
         random_time = jo.get_bool( "randomize_time_in_future", false );
     }
 
-    std::unordered_map<std::string, str_translation_or_var> context;
+    std::unordered_map<std::string, diag_value_or_var> context;
     if( jo.has_object( "variables" ) ) {
         const JsonObject &variables = jo.get_object( "variables" );
         for( const JsonMember &jv : variables ) {
-            str_translation_or_var stov;
-            stov.deserialize( jv );
-            context[jv.name()] = stov;
+            diag_value_or_var vov;
+            mandatory( variables, false, jv.name(), vov );
+            context[jv.name()] = vov;
         }
     }
 
@@ -6245,8 +6249,7 @@ talk_effect_fun_t::func f_run_eocs( const JsonObject &jo, std::string_view membe
                             d.get_context() };
 
         for( const auto &val : context ) {
-            // FXIXME: typed variables
-            newDialog.set_value( val.first, diag_value::legacy_value{ val.second.evaluate( d, true ) } );
+            newDialog.set_value( val.first, val.second.evaluate( d ) );
         }
 
         if( dov_time ) {
@@ -6304,15 +6307,15 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
         jo.throw_error( "Invalid input for run_eoc_selector, size of eocs and keys needs to be identical, or keys need to be empty." );
     }
 
-    std::vector<std::unordered_map<std::string, str_translation_or_var>> context;
+    std::vector<std::unordered_map<std::string, diag_value_or_var>> context;
     if( jo.has_array( "variables" ) ) {
         for( const JsonValue &member : jo.get_array( "variables" ) ) {
             const JsonObject &variables = member.get_object();
-            std::unordered_map<std::string, str_translation_or_var> temp_context;
+            std::unordered_map<std::string, diag_value_or_var> temp_context;
             for( const JsonMember &jv : variables ) {
-                str_translation_or_var stov;
-                stov.deserialize( jv );
-                temp_context[jv.name()] = stov;
+                diag_value_or_var vov;
+                mandatory( variables, false, jv.name(), vov );
+                temp_context[jv.name()] = vov;
             }
             context.emplace_back( temp_context );
         }
@@ -6407,8 +6410,7 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
         }
         if( !context.empty() ) {
             for( const auto &val : context[contextIndex] ) {
-                // FIXME: typed variables
-                newDialog.set_value( val.first, diag_value::legacy_value{ val.second.evaluate( d, true ) } );
+                newDialog.set_value( val.first, val.second.evaluate( d ) );
             }
         }
 
@@ -7136,11 +7138,13 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
     dbl_or_var dov_max_radius = get_dbl_or_var( jo, "max_radius", false, 10 );
     bool summoner_is_alpha = jo.get_bool( "summoner_is_alpha", false );
     bool summoner_is_beta = jo.get_bool( "summoner_is_beta", false );
-    std::unordered_map<std::string, str_or_var> set_mon_var;
+    std::unordered_map<std::string, diag_value_or_var> set_mon_var;
     if( jo.has_object( "mon_variables" ) ) {
         const JsonObject &variables = jo.get_object( "mon_variables" );
         for( const JsonMember &jv : variables ) {
-            set_mon_var[jv.name()] = get_str_or_var( jv, jv.name(), true );
+            diag_value_or_var vov;
+            mandatory( variables, false, jv.name(), vov );
+            set_mon_var[jv.name()] = vov;
         }
     }
 
@@ -7292,8 +7296,7 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
                     }
                     if( !set_mon_var.empty() ) {
                         for( const auto &val : set_mon_var ) {
-                            // FIXME: typed variables
-                            spawned->set_value( val.first, diag_value::legacy_value{ val.second.evaluate( d ) } );
+                            spawned->set_value( val.first, val.second.evaluate( d ) );
                         }
                     }
                     spawns++;
@@ -7557,6 +7560,33 @@ talk_effect_fun_t::func f_closest_city( const JsonObject &jo, std::string_view m
     };
 }
 
+talk_effect_fun_t::func f_pickup_items( const JsonObject &jo, std::string_view member,
+                                        std::string_view, bool is_npc )
+{
+    var_info target_var = read_var_info( jo.get_object( member ) );
+    int extra_moves_per_item = 0;
+    units::volume max_volume = -1_ml;
+    units::mass max_mass = -1_gram;
+    if( jo.has_int( "extra_moves_per_item" ) ) {
+        extra_moves_per_item = jo.get_int( "extra_moves_per_item" );
+    }
+    if( jo.has_float( "max_volume" ) ) {
+        max_volume =  units::from_liter( jo.get_float( "max_volume" ) );
+    }
+    if( jo.has_float( "max_mass" ) ) {
+        max_mass = units::from_gram( jo.has_float( "max_mass" ) );
+    }
+    return [is_npc, target_var, extra_moves_per_item, max_volume, max_mass]( dialogue const & d ) {
+        tripoint_abs_ms target_pos_abs = read_var_value( target_var, d ).tripoint();
+        tripoint_bub_ms target_pos = get_map().get_bub( target_pos_abs );
+        Character *c = d.actor( is_npc )->get_character();
+        Pickup::pick_info info = Pickup::pick_info( extra_moves_per_item, max_volume, max_mass );
+        if( c ) {
+            ( *c ).pick_up( game_menus::inv::pickup( {target_pos}, {}, info ) );
+        }
+    };
+}
+
 talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view member,
                                     std::string_view, bool is_npc )
 {
@@ -7622,18 +7652,20 @@ talk_effect_fun_t::func f_trigger_event( const JsonObject &jo, std::string_view 
     JsonArray const &jargs = jo.get_array( "args" );
 
     event_type type = io::string_to_enum<event_type>( type_str );
-    std::vector<str_or_var> args;
+    std::vector<diag_value_or_var> args;
     args.reserve( jargs.size() );
     for( JsonValue const &jv : jargs ) {
-        args.emplace_back( get_str_or_var( jv, "args" ) );
+        diag_value_or_var vov;
+        vov.deserialize( jv );
+        args.emplace_back( vov );
     }
 
     return [type, args]( dialogue & d ) {
         std::vector<std::string> args_str;
         args_str.reserve( args.size() );
         std::transform( args.cbegin(), args.cend(),
-        std::back_inserter( args_str ), [&d]( str_or_var const & sov ) {
-            return sov.evaluate( d );
+        std::back_inserter( args_str ), [&d]( diag_value_or_var const & sov ) {
+            return sov.evaluate( d ).to_string();
         } );
         get_event_bus().send( cata::event::make_dyn( type, args_str ) );
     };
@@ -7798,6 +7830,7 @@ parsers = {
     { "u_cast_spell", "npc_cast_spell", jarg::member, &talk_effect_fun::f_cast_spell },
     { "u_map_run_eocs", "npc_map_run_eocs", jarg::member, &talk_effect_fun::f_map_run_eocs },
     { "u_map_run_item_eocs", "npc_map_run_item_eocs", jarg::member, &talk_effect_fun::f_map_run_item_eocs },
+    { "u_pickup_items", "npc_pickup_items", jarg::object, &talk_effect_fun::f_pickup_items },
     { "companion_mission", jarg::string, &talk_effect_fun::f_companion_mission },
     { "copy_var", jarg::member, &talk_effect_fun::f_copy_var },
     { "reveal_map", jarg::object, &talk_effect_fun::f_reveal_map },

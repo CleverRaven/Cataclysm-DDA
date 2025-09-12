@@ -32,6 +32,7 @@
 #include "effect_on_condition.h"
 #include "enums.h"
 #include "explosion.h"
+#include "game_inventory.h"
 #include "field.h"
 #include "field_type.h"
 #include "fungal_effects.h"
@@ -54,6 +55,7 @@
 #include "mtype.h"
 #include "npc.h"
 #include "overmapbuffer.h"
+#include "pickup.h"
 #include "pimpl.h"
 #include "point.h"
 #include "projectile.h"
@@ -72,6 +74,7 @@
 
 class translation;
 
+static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_teleglow( "teleglow" );
 
 static const flag_id json_flag_FIT( "FIT" );
@@ -92,6 +95,7 @@ static const mtype_id mon_generator( "mon_generator" );
 static const species_id species_HALLUCINATION( "HALLUCINATION" );
 static const species_id species_SLIME( "SLIME" );
 
+static const trait_id trait_NUMB( "NUMB" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 
@@ -1537,6 +1541,10 @@ void spell_effect::charm_monster( const spell &sp, Creature &caster, const tripo
             mon->get_hp() <= sp.damage( caster ) ) {
             mon->unset_dest();
             mon->friendly += sp.duration( caster ) / 100;
+            if( mon->friendly != -1 && sp.has_flag( spell_flag::CHARM_PET ) ) {
+                mon->friendly = -1;
+                mon->add_effect( effect_pet, 1_turns, true );
+            }
         }
     }
 }
@@ -1638,7 +1646,7 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint_bub_
         guilt_thresholds[max_kills] = _( "You feel uneasy about killing %s." );
 
         Character &guy = *guilt_target;
-        if( guy.has_trait( trait_PSYCHOPATH ) ||
+        if( guy.has_trait( trait_NUMB ) || guy.has_trait( trait_PSYCHOPATH ) ||
             guy.has_flag( json_flag_PRED3 ) || guy.has_flag( json_flag_PRED4 ) ) {
             // specially immune.
             return;
@@ -1898,6 +1906,29 @@ void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint
         mon->death_drops = false;
         mon->die( &here, &caster );
     }
+}
+
+void spell_effect::pickup( const spell &sp, Creature &caster,
+                           const tripoint_bub_ms &target )
+{
+    Character *c = caster.as_character();
+    if( !c ) {
+        // Only characters can loot items.
+        return;
+    }
+    const std::set<tripoint_bub_ms> area = spell_effect_area( sp, target, caster );
+    std::set<tripoint_bub_ms> valid_targets = {};
+    for( const tripoint_bub_ms &potential_target : area ) {
+        if( sp.is_valid_target( caster, potential_target ) ) {
+            valid_targets.emplace( potential_target );
+        }
+    }
+
+    int extra_moves_per_pickup = sp.damage( caster );
+    Pickup::pick_info pickup_info = Pickup::pick_info( extra_moves_per_pickup >= 0 ?
+                                    extra_moves_per_pickup : 0, -1_ml, -1_gram );
+    ( *c ).pick_up( game_menus::inv::pickup( valid_targets, {}, pickup_info ), pickup_info );
+
 }
 
 void spell_effect::effect_on_condition( const spell &sp, Creature &caster,

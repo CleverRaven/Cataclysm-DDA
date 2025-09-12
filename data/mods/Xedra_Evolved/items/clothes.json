@@ -348,7 +348,8 @@
         "moves": 80
       }
     ],
-    "armor": [ { "encumbrance": [ 5, 7 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": [ 5, 7 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ],
+    "variants": [  ]
   },
   {
     "id": "pants_no_pocket_gossamer",
@@ -361,7 +362,8 @@
     "color": "white",
     "material": [ "fae_cotton" ],
     "pocket_data": [  ],
-    "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ],
+    "variants": [  ]
   },
   {
     "id": "skirt_gossamer",
@@ -373,7 +375,8 @@
     "proportional": { "weight": 0.6666, "price": 2 },
     "color": "white",
     "material": [ "fae_cotton" ],
-    "pocket_data": [  ]
+    "pocket_data": [  ],
+    "variants": [  ]
   },
   {
     "id": "skirt_long_gossamer",
@@ -415,7 +418,8 @@
         "encumbrance": 3
       },
       { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 60 }
-    ]
+    ],
+    "variants": [  ]
   },
   {
     "id": "slippers_gossamer",

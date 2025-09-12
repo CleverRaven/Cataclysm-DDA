@@ -119,9 +119,11 @@
 #include "vehicle_group.h"
 #include "vitamin.h"
 #include "weakpoint.h"
+#include "weather_gen.h"
 #include "weather_type.h"
 #include "widget.h"
 #include "worldfactory.h"
+#include "wound.h"
 
 #if defined(TILES)
 #include "sdltiles.h"
@@ -275,6 +277,7 @@ void DynamicDataLoader::initialize()
     add( "field_type", &field_types::load );
     add( "field_type_migration", &field_type_migrations::load );
     add( "weather_type", &weather_types::load );
+    add( "weather_generator", &weather_generator::load_weather_generator );
     add( "ammo_effect", &ammo_effects::load );
     add( "emit", &emit::load_emit );
     add( "help", &help::load );
@@ -335,7 +338,7 @@ void DynamicDataLoader::initialize()
     } );
 
     add( "vehicle_part",  &vehicles::parts::load );
-    add( "vehicle_part_category",  &vpart_category::load );
+    add( "vehicle_part_category",  &vpart_category::load_all );
     add( "vehicle_part_migration", &vpart_migration::load );
     add( "vehicle", &vehicles::load_prototype );
     add( "vehicle_group",  &VehicleGroup::load );
@@ -463,6 +466,7 @@ void DynamicDataLoader::initialize()
     add( "weakpoint_set", &weakpoints::load_weakpoint_sets );
     add( "damage_type", &damage_type::load_damage_types );
     add( "damage_info_order", &damage_info_order::load_damage_info_orders );
+    add( "wound", &wound_type::load_wounds );
     add( "mod_migration", &mod_migrations::load );
 #if defined(TILES)
     add( "mod_tileset", &load_mod_tileset );
@@ -715,6 +719,7 @@ void DynamicDataLoader::unload_data()
     vpart_category::reset();
     vpart_migration::reset();
     weakpoints::reset();
+    weather_generator::reset();
     weather_types::reset();
     widget::reset();
     zone_type::reset();
@@ -779,7 +784,7 @@ void DynamicDataLoader::finalize_loaded_data()
                     requirement_data::finalize();
                 }
             },
-            { _( "Vehicle part categories" ), &vpart_category::finalize },
+            { _( "Vehicle part categories" ), &vpart_category::finalize_all },
             { _( "Vehicle parts" ), &vehicles::parts::finalize },
             { _( "Traps" ), &trap::finalize_all },
             { _( "Terrain" ), &set_ter_ids },
@@ -847,6 +852,7 @@ void DynamicDataLoader::finalize_loaded_data()
             { _( "Widgets" ), &widget::finalize_all },
             { _( "Weakpoint Families" ), &weakpoints::finalize_all },
             { _( "Weapon Categories" ), &weapon_category::finalize_all },
+            { _( "Wounds" ), &wound_type::finalize_all },
             { _( "Zone Types" ), &zone_type::finalize_all },
 #if defined(TILES)
             { _( "Tileset" ), &load_tileset },
@@ -953,7 +959,8 @@ void DynamicDataLoader::check_consistency()
             { _( "Achievements" ), &achievement::check_consistency },
             { _( "Disease types" ), &disease_type::check_disease_consistency },
             { _( "Factions" ), &faction_template::check_consistency },
-            { _( "Damage types" ), &damage_type::check }
+            { _( "Damage types" ), &damage_type::check },
+            { _( "Wounds" ), &wound_type::check_consistency }
         }
     };
 

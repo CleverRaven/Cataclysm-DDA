@@ -4638,9 +4638,14 @@
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_FABRICATION",
     "name": "lathe turning",
-    "description": "Recipes for practicing with a manual lathe.",
+    "description": "Recipes for practicing with a manual lathe/mill.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "prac_machining_lathe_aluminum", "prac_machining_lathe_steel" ],
+    "nested_category_data": [
+      "prac_machining_lathe_aluminum",
+      "prac_machining_lathe_steel",
+      "prac_machining_mill_aluminum",
+      "prac_machining_mill_steel"
+    ],
     "difficulty": 1
   },
   {

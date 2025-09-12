@@ -81,12 +81,6 @@ struct city_settings {
     void finalize();
 };
 
-struct ter_furn_id {
-    ter_id ter;
-    furn_id furn;
-    ter_furn_id();
-};
-
 /*
  * template for random bushes and such.
  * supports occasional boost to a single ter/furn type (clustered blueberry bushes for example)

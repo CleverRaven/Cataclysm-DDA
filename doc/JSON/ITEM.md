@@ -1546,7 +1546,7 @@ Example:
     "variables": { "browsed": "false" }
 ```
 ```jsonc
-    "variables": { "water_per_tablet": "4" }
+    "variables": { "water_per_tablet": 4 }
 ```
 
 This will make any item instantiated from that prototype get assigned this variable, once

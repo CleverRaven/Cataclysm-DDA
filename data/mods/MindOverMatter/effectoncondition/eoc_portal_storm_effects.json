@@ -43,14 +43,25 @@
     "id": "EOC_PORTAL_TEMPORARY_TEARS_IN_REALITY",
     "condition": { "one_in_chance": 10 },
     "effect": [
-      { "u_location_variable": { "context_val": "loc" }, "min_radius": 2, "max_radius": 8 },
+      {
+        "u_location_variable": { "context_val": "loc" },
+        "min_radius": 2,
+        "max_radius": 8,
+        "outdoor_only": true,
+        "true_eocs": [
+          {
+            "id": "EOC_PORTAL_TEMPORARY_TEARS_IN_REALITY_MESSAGE",
+            "effect": [ { "message": "The nearby air cracks.", "type": "bad" } ]
+          }
+        ]
+      },
       {
         "u_set_field": "fd_tear_in_reality_temporary",
         "radius": 0,
         "intensity": 3,
+        "outdoor_only": true,
         "target_var": { "context_val": "loc" }
       },
-      { "message": "The nearby air cracks.", "type": "bad" },
       { "math": [ "u_ire -= 5" ] }
     ]
   }

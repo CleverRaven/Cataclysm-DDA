@@ -1420,6 +1420,22 @@ shared_ptr_fast<npc> overmapbuffer::find_npc( character_id id )
     return nullptr;
 }
 
+void overmapbuffer::populate_followers_vec( std::vector<npc *> &followers,
+        bool only_following, bool ignore_hallu ) const
+{
+    followers.clear();
+    for( const character_id &elem : g->get_follower_list() ) {
+        shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
+        if( !npc_to_get ||
+            ( only_following && !npc_to_get->is_following() ) ||
+            ( ignore_hallu && npc_to_get->is_hallucination() ) ) {
+            continue;
+        }
+        npc *npc_to_add = npc_to_get.get();
+        followers.push_back( npc_to_add );
+    }
+}
+
 void overmapbuffer::foreach_npc( const std::function<void( npc & )> &callback )
 {
     for( auto &it : overmaps ) {
@@ -1437,11 +1453,14 @@ shared_ptr_fast<npc> overmapbuffer::find_npc_by_unique_id( const std::string &un
 
 std::optional<basecamp *> overmapbuffer::find_camp( const point_abs_omt &p )
 {
-    const overmap_with_local_coords om_loc = get_existing_om_global( p );
-    if( !!om_loc.om ) {
-        std::optional<basecamp *> camp = om_loc.om->find_camp( p );
-        if( !!camp ) {
-            return camp;
+    for( auto &it : overmaps ) {
+        const point_abs_omt p2( p );
+        for( int x2 = p2.x() - 3; x2 < p2.x() + 3; x2++ ) {
+            for( int y2 = p2.y() - 3; y2 < p2.y() + 3; y2++ ) {
+                if( std::optional<basecamp *> camp = it.second->find_camp( point_abs_omt( x2, y2 ) ) ) {
+                    return camp;
+                }
+            }
         }
     }
     return std::nullopt;
@@ -1485,7 +1504,8 @@ std::vector<overmap *> overmapbuffer::get_overmaps_near( const tripoint_abs_sm &
     return get_overmaps_near( location.xy(), radius );
 }
 
-std::vector<overmap *> overmapbuffer::get_overmaps_near( const point_abs_sm &p, const int radius )
+std::vector<overmap *> overmapbuffer::get_overmaps_near( const point_abs_sm &p,
+        const int radius )
 {
     // Grab the corners of a square around the target location at distance radius.
     // Convert to overmap coordinates and iterate from the minimum to the maximum.

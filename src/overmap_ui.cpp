@@ -23,14 +23,12 @@
 #include "calendar.h"
 #include "cata_assert.h"
 #include "cata_variant.h"
-#include "character_id.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "input_enums.h"
 #include "mapdata.h"
 #include "mapgen_parameter.h"
 #include "mapgendata.h"
-#include "memory_fast.h"
 #include "monster.h"
 #include "simple_pathfinding.h"
 #include "translation.h"
@@ -90,6 +88,8 @@
 enum class cube_direction : int;
 
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
+
+static const flag_id json_flag_LEVITATION( "LEVITATION" );
 
 static const mongroup_id GROUP_FOREST( "GROUP_FOREST" );
 static const mongroup_id GROUP_NEMESIS( "GROUP_NEMESIS" );
@@ -698,15 +698,7 @@ static void draw_ascii( const catacurses::window &w, overmap_draw_data_t &data )
             }
         }
         std::vector<npc *> followers;
-        // get friendly followers
-        for( const character_id &elem : g->get_follower_list() ) {
-            shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
-            if( !npc_to_get ) {
-                continue;
-            }
-            npc *npc_to_add = npc_to_get.get();
-            followers.push_back( npc_to_add );
-        }
+        overmap_buffer.populate_followers_vec( followers );
         if( !display_path.empty() ) {
             for( const tripoint_abs_omt &elem : display_path ) {
                 npc_path_route.insert( elem );
@@ -1905,6 +1897,9 @@ static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt
         if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, player_character.pos_bub() ) ||
             is_water_body( dest_ter ) ) {
             params.set_cost( oter_travel_cost_type::water, 100 );
+        }
+        if( player_character.has_flag( json_flag_LEVITATION ) ) {
+            params.set_cost( oter_travel_cost_type::air, 8 );
         }
     }
     // literal "edge" case: the vehicle may be in a different OMT than the player

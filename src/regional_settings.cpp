@@ -8,11 +8,13 @@
 #include <string>
 #include <string_view>
 #include <utility>
+#include <variant>
 
 #include "debug.h"
 #include "enum_conversions.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
+#include "mapdata.h"
 #include "map_extras.h"
 #include "options.h"
 #include "output.h"
@@ -22,8 +24,6 @@
 
 class mapgendata;
 
-ter_furn_id::ter_furn_id() : ter( ter_str_id::NULL_ID().id() ),
-    furn( furn_str_id::NULL_ID().id() ) { }
 
 template<typename T>
 void read_and_set_or_throw( const JsonObject &jo, const std::string &member, T &target,
@@ -703,7 +703,7 @@ void load_region_settings( const JsonObject &jo )
         jo.throw_error( "\"weather\": { … } required for default" );
     } else {
         JsonObject wjo = jo.get_object( "weather" );
-        new_region.weather.load( wjo, false );
+        new_region.weather.load( wjo, "dda" );
     }
 
     load_overmap_feature_flag_settings( jo, new_region.overmap_feature_flag, strict, false );
@@ -748,8 +748,8 @@ void check_region_settings()
                 } else {
                     std::string list_of_values =
                         enumerate_as_string( values,
-                    []( const weighted_object<int, map_extra_id> &w ) {
-                        return '"' + w.obj.str() + '"';
+                    []( const std::pair<map_extra_id, int> &w ) {
+                        return '"' + w.first.str() + '"';
                     } );
                     debugmsg( "Invalid map extras for region \"%s\", extras \"%s\".  "
                               "Extras %s are listed, but all have zero weight.",
@@ -862,7 +862,7 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
 
     if( jo.has_object( "weather" ) ) {
         JsonObject wjo = jo.get_object( "weather" );
-        region.weather.load( wjo, true );
+        region.weather.load( wjo, "dda" );
     }
 
     load_overmap_feature_flag_settings( jo, region.overmap_feature_flag, false, true );
@@ -894,18 +894,14 @@ void groundcover_extra::finalize()   // FIXME: return bool for failure
 
     for( std::map<std::string, double>::const_iterator it = percent_str.begin();
          it != percent_str.end(); ++it ) {
-        tf_id.ter = ter_str_id::NULL_ID().id();
-        tf_id.furn = furn_str_id::NULL_ID();
+        tf_id = ter_furn_id();
         if( it->second < 0.0001 ) {
             continue;
         }
-        const ter_str_id tid( it->first );
-        const furn_str_id fid( it->first );
-        if( tid.is_valid() ) {
-            tf_id.ter = tid.id();
-        } else if( fid.is_valid() ) {
-            tf_id.furn = fid.id();
-        } else {
+
+        bool resolved = tf_id.resolve( it->first );
+
+        if( !resolved ) {
             debugmsg( "No clue what '%s' is!  No such terrain or furniture", it->first.c_str() );
             continue;
         }
@@ -915,19 +911,15 @@ void groundcover_extra::finalize()   // FIXME: return bool for failure
 
     for( std::map<std::string, double>::const_iterator it = boosted_percent_str.begin();
          it != boosted_percent_str.end(); ++it ) {
-        tf_id.ter = ter_str_id::NULL_ID().id();
-        tf_id.furn = furn_str_id::NULL_ID();
+        tf_id = ter_furn_id();
         if( it->second < 0.0001 ) {
             continue;
         }
         const ter_str_id tid( it->first );
         const furn_str_id fid( it->first );
 
-        if( tid.is_valid() ) {
-            tf_id.ter = tid.id();
-        } else if( fid.is_valid() ) {
-            tf_id.furn = fid.id();
-        } else {
+        bool resolved = tf_id.resolve( it->first );
+        if( !resolved ) {
             debugmsg( "No clue what '%s' is!  No such terrain or furniture", it->first.c_str() );
             continue;
         }
@@ -956,8 +948,7 @@ void groundcover_extra::finalize()   // FIXME: return bool for failure
         debugmsg( "boosted plant coverage total (%s=%de-4) exceeds 100%%", ss.str(), btotal );
     }
 
-    tf_id.furn = furn_str_id::NULL_ID();
-    tf_id.ter = default_ter;
+    tf_id.ter_furn = default_ter;
     weightlist[ 1000000 ] = tf_id;
     boosted_weightlist[ 1000000 ] = tf_id;
 
@@ -977,15 +968,8 @@ void forest_biome_component::finalize()
 {
     for( const std::pair<const std::string, int> &pr : unfinalized_types ) {
         ter_furn_id tf_id;
-        tf_id.ter = ter_str_id::NULL_ID().id();
-        tf_id.furn = furn_str_id::NULL_ID();
-        const ter_str_id tid( pr.first );
-        const furn_str_id fid( pr.first );
-        if( tid.is_valid() ) {
-            tf_id.ter = tid.id();
-        } else if( fid.is_valid() ) {
-            tf_id.furn = fid.id();
-        } else {
+        bool resolved = tf_id.resolve( pr.first );
+        if( !resolved ) {
             continue;
         }
         types.add( tf_id, pr.second );
@@ -1093,7 +1077,7 @@ void overmap_highway_settings::finalize()
     auto find_longest_special = []( const building_bin & b ) {
         int longest_length = 0;
         for( const auto &weighted_pair : b.get_all_buildings() ) {
-            const overmap_special_id &special = weighted_pair.obj;
+            const overmap_special_id &special = weighted_pair.first;
             int spec_length = special.obj().longest_side();
             if( spec_length > longest_length ) {
                 longest_length = spec_length;
@@ -1119,10 +1103,10 @@ void overmap_highway_settings::finalize()
 map_extras map_extras::filtered_by( const mapgendata &dat ) const
 {
     map_extras result( chance );
-    for( const weighted_object<int, map_extra_id> &obj : values ) {
-        const map_extra_id &extra_id = obj.obj;
+    for( const std::pair<map_extra_id, int> &obj : values ) {
+        const map_extra_id &extra_id = obj.first;
         if( extra_id->is_valid_for( dat ) ) {
-            result.values.add( extra_id, obj.weight );
+            result.values.add( extra_id, obj.second );
         }
     }
     if( !values.empty() && result.values.empty() ) {
@@ -1197,7 +1181,7 @@ void regional_settings::finalize()
 {
     if( default_groundcover_str != nullptr ) {
         for( const auto &pr : *default_groundcover_str ) {
-            default_groundcover.add( pr.obj.id(), pr.weight );
+            default_groundcover.add( pr.first.id(), pr.second );
         }
 
         default_groundcover_str.reset();

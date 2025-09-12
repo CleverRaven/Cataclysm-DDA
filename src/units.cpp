@@ -80,6 +80,17 @@ void temperature::deserialize( const JsonValue &jv )
 }
 
 template<>
+void temperature_delta::deserialize( const JsonValue &jv )
+{
+    if( jv.test_int() ) {
+        *this = from_legacy_bodypart_temp_delta( jv.get_int() );
+    } else {
+        // super gross
+        *this = from_kelvin_delta( std::stof( jv.get_string() ) );
+    }
+}
+
+template<>
 void energy::serialize( JsonOut &jsout ) const
 {
     if( value_ % 1000000 == 0 ) {

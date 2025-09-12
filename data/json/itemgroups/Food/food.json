@@ -519,9 +519,7 @@
     "id": "salty_snacks",
     "subtype": "distribution",
     "entries": [
-      { "prob": 65, "group": "chips_bag_plastic_3" },
-      { "prob": 65, "group": "chips2_bag_plastic_3" },
-      { "prob": 65, "group": "chips3_bag_plastic_3" },
+      { "prob": 195, "group": "bag_chips" },
       { "prob": 55, "group": "pretzels_bag_plastic_3" },
       { "item": "jerky", "prob": 55 },
       { "prob": 55, "group": "porkstick_bag_plastic_4" },
@@ -854,7 +852,7 @@
       { "prob": 20, "group": "pie_meat_box_small_8" },
       { "prob": 20, "group": "pie_veggy_box_small_8" },
       { "prob": 10, "group": "pie_maple_box_small_8" },
-      { "prob": 65, "group": "chips_bag_plastic_3" },
+      { "prob": 65, "group": "bag_chips" },
       { "prob": 25, "group": "fried_seeds_bag_plastic_4" },
       { "prob": 60, "group": "cookies_box_snack_4" },
       { "item": "mayonnaise", "prob": 60 },
@@ -1531,5 +1529,36 @@
     "id": "instant_gravy",
     "subtype": "collection",
     "entries": [ { "group": "instant_gravy_tub", "prob": 5 }, { "group": "instant_gravy_packets", "count": [ 1, 12 ], "prob": 60 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "bag_chips",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "chips", "variant": "plain", "entry-wrapper": "bag_chips_small", "count": 1, "prob": 33 },
+      { "item": "chips", "variant": "plain", "entry-wrapper": "bag_chips_medium", "count": 2, "prob": 33 },
+      { "item": "chips", "variant": "plain", "entry-wrapper": "bag_chips_large", "count": 3, "prob": 33 },
+      { "item": "chips", "variant": "barbecue", "entry-wrapper": "bag_chips_small", "count": 1, "prob": 21 },
+      { "item": "chips", "variant": "barbecue", "entry-wrapper": "bag_chips_medium", "count": 2, "prob": 21 },
+      { "item": "chips", "variant": "barbecue", "entry-wrapper": "bag_chips_large", "count": 3, "prob": 21 },
+      { "item": "chips", "variant": "onion", "entry-wrapper": "bag_chips_small", "count": 1, "prob": 12 },
+      { "item": "chips", "variant": "onion", "entry-wrapper": "bag_chips_medium", "count": 2, "prob": 12 },
+      { "item": "chips", "variant": "onion", "entry-wrapper": "bag_chips_large", "count": 3, "prob": 12 },
+      { "item": "chips", "variant": "cheddar", "entry-wrapper": "bag_chips_small", "count": 1, "prob": 10 },
+      { "item": "chips", "variant": "cheddar", "entry-wrapper": "bag_chips_medium", "count": 2, "prob": 10 },
+      { "item": "chips", "variant": "cheddar", "entry-wrapper": "bag_chips_large", "count": 3, "prob": 10 },
+      { "item": "chips", "variant": "vinegar", "entry-wrapper": "bag_chips_small", "count": 1, "prob": 9 },
+      { "item": "chips", "variant": "vinegar", "entry-wrapper": "bag_chips_medium", "count": 2, "prob": 9 },
+      { "item": "chips", "variant": "vinegar", "entry-wrapper": "bag_chips_large", "count": 3, "prob": 9 },
+      { "item": "chips", "variant": "paprika", "entry-wrapper": "bag_chips_small", "count": 1, "prob": 6 },
+      { "item": "chips", "variant": "paprika", "entry-wrapper": "bag_chips_medium", "count": 2, "prob": 6 },
+      { "item": "chips", "variant": "paprika", "entry-wrapper": "bag_chips_large", "count": 3, "prob": 6 },
+      { "item": "chips", "variant": "alldressed", "entry-wrapper": "bag_chips_small", "count": 1, "prob": 6 },
+      { "item": "chips", "variant": "alldressed", "entry-wrapper": "bag_chips_medium", "count": 2, "prob": 6 },
+      { "item": "chips", "variant": "alldressed", "entry-wrapper": "bag_chips_large", "count": 3, "prob": 6 },
+      { "item": "chips", "variant": "mixed", "entry-wrapper": "bag_chips_small", "count": 1, "prob": 5 },
+      { "item": "chips", "variant": "mixed", "entry-wrapper": "bag_chips_medium", "count": 2, "prob": 5 },
+      { "item": "chips", "variant": "mixed", "entry-wrapper": "bag_chips_large", "count": 3, "prob": 5 }
+    ]
   }
 ]

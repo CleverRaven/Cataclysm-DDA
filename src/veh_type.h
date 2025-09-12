@@ -210,8 +210,9 @@ class vpart_category
     public:
         static const std::vector<vpart_category> &all();
 
-        static void load( const JsonObject &jo );
-        static void finalize();
+        static void load_all( const JsonObject &jo );
+        static void finalize_all();
+        void load( const JsonObject &jo );
         static void reset();
 
         std::string get_id() const {
@@ -272,7 +273,7 @@ class vpart_info
     public:
         vpart_id id;
 
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         void check() const;
         void finalize();
         void handle_inheritance( const vpart_info &copy_from,
@@ -506,10 +507,11 @@ struct vehicle_item_spawn {
     int with_ammo = 0;
     /** Chance [0-100%] for items to spawn with their default magazine (if any) */
     int with_magazine = 0;
-    std::vector<itype_id> item_ids;
-    // item_ids, but for items with variants specified
-    std::vector<std::pair<itype_id, std::string>> variant_ids;
+    // item_ids, with variants specified (empty is ignored)
+    std::vector<std::pair<itype_id, std::string>> item_ids;
     std::vector<item_group_id> item_groups;
+
+    void deserialize( const JsonObject &jo );
 };
 
 /**
@@ -527,6 +529,12 @@ struct vehicle_prototype {
             std::pair<int, int> ammo_qty = { -1, -1 };
             itype_id fuel = itype_id::NULL_ID();
             std::vector<itype_id> tools;
+
+            bool operator==( const part_def &other ) const {
+                return pos == other.pos && part == other.part && variant == other.variant &&
+                       with_ammo == other.with_ammo && ammo_types == other.ammo_types && ammo_qty == other.ammo_qty &&
+                       fuel == other.fuel && tools == other.tools;
+            }
         };
 
         struct zone_def {
@@ -534,6 +542,11 @@ struct vehicle_prototype {
             std::string name;
             std::string filter;
             point_rel_ms pt;
+
+            void deserialize( const JsonObject &jo );
+            bool operator==( const zone_def &other ) const {
+                return zone_type == other.zone_type && name == other.name && filter == other.name && pt == other.pt;
+            }
         };
 
         vproto_id id;
