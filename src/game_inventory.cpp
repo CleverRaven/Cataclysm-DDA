@@ -563,10 +563,11 @@ class pickup_inventory_preset : public inventory_selector_preset
                                     item_copy, nullptr, false );
 
                         item_pocket *ip = pocke.second;
-                        if( ip == nullptr || ( ip &&
-                                               ( !ip->can_contain( item_copy ).success() ||
-                                                 !ip->front().can_combine( item_copy ) ||
-                                                 item_copy.typeId() != ip->front().typeId() ) ) ) {
+                        if( ip == nullptr ||
+                            !ip->can_contain( item_copy ).success() ||
+                            ( !ip->empty() &&
+                              ( !ip->front().can_combine( item_copy ) ||
+                                item_copy.typeId() != ip->front().typeId() ) ) ) {
                             return _( "Does not have any pocket for frozen liquids!" );
                         } else {
                             return std::string();
