@@ -677,6 +677,13 @@
     ],
     "variants": [
       {
+        "id": "white",
+        "name": { "str": "white dress", "str_pl": "white dresses" },
+        "append": true,
+        "description": "This one is white.",
+        "color": "white"
+      },
+      {
         "id": "black",
         "name": { "str": "black dress", "str_pl": "black dresses" },
         "append": true,
@@ -697,12 +704,18 @@
     "variant_type": "generic",
     "variants": [
       {
+        "id": "white",
+        "name": { "str": "long white dress", "str_pl": "long white dresses" },
+        "append": true,
+        "description": "This one is white.",
+        "color": "white"
+      },
+      {
         "id": "black",
         "name": { "str": "long black dress", "str_pl": "long black dresses" },
         "append": true,
         "description": "This one is black.",
-        "color": "dark_gray",
-        "weight": 4
+        "color": "dark_gray"
       }
     ]
   },
@@ -720,6 +733,14 @@
     ],
     "variant_type": "generic",
     "variants": [
+      {
+        "id": "white",
+        "name": { "str": "short white dress", "str_pl": "short white dresses" },
+        "append": true,
+        "description": "This one is white.",
+        "color": "white",
+        "weight": 50
+      },
       {
         "id": "black",
         "name": { "str": "short black dress", "str_pl": "short black dresses" },
@@ -751,6 +772,14 @@
     ],
     "variant_type": "generic",
     "variants": [
+      {
+        "id": "white",
+        "name": { "str": "white dress with sleeves", "str_pl": "white dresses with sleeves" },
+        "append": true,
+        "description": "This one is white.",
+        "color": "white",
+        "weight": 200
+      },
       {
         "id": "black",
         "name": { "str": "black dress with sleeves", "str_pl": "black dresses with sleeves" },
@@ -796,6 +825,14 @@
     ],
     "variant_type": "generic",
     "variants": [
+      {
+        "id": "white",
+        "name": { "str": "long white dress with sleeves", "str_pl": "long white dresses with sleeves" },
+        "append": true,
+        "description": "This one is white.",
+        "color": "white",
+        "weight": 225
+      },
       {
         "id": "black",
         "name": { "str": "long black dress with sleeves", "str_pl": "long black dresses with sleeves" },
@@ -845,6 +882,14 @@
     ],
     "variant_type": "generic",
     "variants": [
+      {
+        "id": "white",
+        "name": { "str": "short white dress with sleeves", "str_pl": "short white dresses with sleeves" },
+        "append": true,
+        "description": "This one is white.",
+        "color": "white",
+        "weight": 200
+      },
       {
         "id": "black",
         "name": { "str": "short black dress with sleeves", "str_pl": "short black dresses with sleeves" },
